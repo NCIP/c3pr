@@ -32,9 +32,9 @@
 		<!-- project artifacts -->
 		<!-- ================= -->
 
-		<artifact track="main" type="jars" id="gui.jars">
-			<antcall target="build-gui" />
-			<fileset dir="${projects.dir}/gui/build/jars">
+		<artifact track="main" type="jars" id="web.jars">
+			<antcall target="build-web" />
+			<fileset dir="${projects.dir}/web/build/jars">
 				<include name="*.jar" />
 				<exclude name="*test*.jar" />
 			</fileset>
