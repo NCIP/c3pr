@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN"
+    "http://java.sun.com/j2ee/dtds/web-app_2_2.dtd">
+
+<web-app>
+    <servlet>
+        <servlet-name>DummyServlet</servlet-name>
+        <servlet-class>edu.duke.cabig.c3prv2.web.DummyServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>DummyServlet</servlet-name>
+        <url-pattern>/DummyServlet</url-pattern>
+    </servlet-mapping>
+</web-app>
