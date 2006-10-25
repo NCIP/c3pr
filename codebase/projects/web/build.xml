@@ -20,6 +20,8 @@
 	<property name="lib.dir" value="${basedir}/web/WEB-INF/lib" />
 	<property name="ext.lib.dir" value="${basedir}/ext/lib" />
 	<property name="ext.test.lib.dir" location="${basedir}/ext/test/lib" />
+	<property name="web.dir" location="${basedir}/web" />
+	<property name="war.file" location="${build.dir}/c3prv2.war" />
 
 	<!-- testing stuff -->
 	<property name="test.dir" location="${basedir}/test" />
@@ -45,6 +47,9 @@
 		<fileset dir="${ext.lib.dir}">
 			<include name="**/*.jar" />
 		</fileset>
+		<fileset dir="${env.CATALINA_HOME}/common/lib">
+			<include name="**/*.jar" />
+		</fileset>
 	</path>
 
 	<!-- =============================================================== -->
@@ -59,6 +64,9 @@
 			<include name="**/*.jar" />
 		</fileset>
 		<fileset dir="${ext.lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${env.CATALINA_HOME}/common/lib">
 			<include name="**/*.jar" />
 		</fileset>
 	</path>
@@ -83,6 +91,9 @@
 			<include name="**/*.jar" />
 		</fileset>
 		<fileset dir="${ext.test.lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${env.CATALINA_HOME}/common/lib">
 			<include name="**/*.jar" />
 		</fileset>
 	</path>
@@ -148,6 +159,37 @@
 				<attribute name="Built-By" value="${user.name}" />
 			</manifest>
 		</jar>
+	</target>
+
+	<!-- ============================================================== -->
+	<!-- Creates the war file                                           -->
+	<!-- ============================================================== -->
+	<target name="war" depends="jar" description="Builds the war files">
+		<mkdir dir="${build.dir}" />
+		<war destfile="${war.file}" webxml="${web.dir}/WEB-INF/web.xml">
+			<webinf dir="${web.dir}/WEB-INF">
+					<include name="**/*"/>
+					<exclude name="web.xml"/>
+					<exclude name="lib"/>
+			</webinf>
+
+			<fileset dir="${web.dir}">
+				<include name="**/*"/>
+				<exclude name="WEB-INF/**"/>
+			</fileset>
+
+			<lib file="${project.jarfile}"/>
+			<lib dir="${ext.lib.dir}">
+					<include name="**/*.jar"/>
+			</lib>
+			<lib dir="${web.dir}/WEB-INF/lib">
+					<include name="**/*.jar"/>
+			</lib>
+
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+			</manifest>
+		</war>
 	</target>
 
 	<!-- ============================================================== -->
