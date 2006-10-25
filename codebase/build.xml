@@ -28,9 +28,6 @@
 	<import file="${antfiles.dir}/build-artifacts.xml" />
 	<import file="${antfiles.dir}/build-test.xml" />
 	<import file="${antfiles.dir}/build-reports.xml" />
-	<import file="${antfiles.dir}/build-deploy.xml" />
-	<import file="${antfiles.dir}/build-demo.xml" />
-	<import file="${antfiles.dir}/build-docs.xml" />
 
 	<!-- define global properties -->
 	<property name="cobertura.home" location="${basedir}/share/cobertura-1.8"/>
@@ -46,13 +43,13 @@
 	<!--                          DEFINE THE SUB PROJECTS                                 -->
 	<!-- ================================================================================ -->
 	<!-- The name should be the path relative from projects.dir.  Its strongly encouraged you use a flat layout caTissueCAEDataService, caTissueCoreDataService,  -->
-	<property name="projects.list" value="" />
+	<property name="projects.list" value="web" />
 
 	<!-- ================================================================================ -->
 	<!--                  DEFINE THE SUB PROJECTS THAT SUPPORT TESTING                    -->
 	<!-- ================================================================================ -->
 	<!-- This should be a subset of the projects above -->
-	<property name="testable.projects.list" value="" />
+	<property name="testable.projects.list" value="web" />
 
 	<!-- ======================================================================================= -->
 	<!--                  DEFINE THE SUB PROJECTS THAT SUPPORT SYSTEM TESTING                    -->
@@ -64,7 +61,7 @@
 	<!--                  DEFINE THE SUB PROJECTS THAT SUPPORT REPORTING                  -->
 	<!-- ================================================================================ -->
 	<!-- This should be a subset of the projects above -->
-	<property name="reportable.projects.list" value="" />
+	<property name="reportable.projects.list" value="web" />
 
 
 	<!-- =============================================================== -->
@@ -104,13 +101,13 @@
 	</target>
 
 	<!-- =============================================================== -->
-	<!-- GUI                                                             -->
+	<!-- WEB                                                             -->
 	<!-- =============================================================== -->
-	<target name="build-gui" depends="prepare" description="Builds the gui project">
-		<resolveDependencies extdir="${projects.dir}/gui/ext">
+	<target name="build-web" depends="prepare" description="Builds the web project">
+		<resolveDependencies extdir="${projects.dir}/web/ext">
 			<artifact refid="common.test.jars" />
 		</resolveDependencies>
-		<ant dir="${projects.dir}/gui" inheritAll="false" antfile="build.xml" target="all" />
+		<ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="all" />
 	</target>
 
 	<!-- ============================================================== -->
