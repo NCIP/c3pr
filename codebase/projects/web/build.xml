@@ -29,7 +29,7 @@
 	<property name="test.classes.dir" location="${build.dir}/classes-test" />
 	<property name="test.lib.dir" location="${test.dir}/lib" />
 	<property name="test.logs.dir" location="${test.dir}/logs" />
-	<property name="test.project.jar" location="${jar.dir}/catrip-${project.name}-tests-${project.version}.jar" />
+	<property name="test.project.jar" location="${jar.dir}/c3pr-2.0-${project.name}-tests-${project.version}.jar" />
 
 	<!-- Load common util path -->
 	<import file="antfiles/build-test.xml" />
