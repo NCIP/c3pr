@@ -11,6 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * A test servlet that should be deleted.
+ * @author Patrick McConnell
+ */
 public class DummyServlet extends HttpServlet
 {
 	public DummyServlet()
