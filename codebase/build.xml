@@ -43,25 +43,25 @@
 	<!--                          DEFINE THE SUB PROJECTS                                 -->
 	<!-- ================================================================================ -->
 	<!-- The name should be the path relative from projects.dir.  Its strongly encouraged you use a flat layout caTissueCAEDataService, caTissueCoreDataService,  -->
-	<property name="projects.list" value="web" />
+	<property name="projects.list" value="web, dataload, test-system" />
 
 	<!-- ================================================================================ -->
 	<!--                  DEFINE THE SUB PROJECTS THAT SUPPORT TESTING                    -->
 	<!-- ================================================================================ -->
 	<!-- This should be a subset of the projects above -->
-	<property name="testable.projects.list" value="web" />
+	<property name="testable.projects.list" value="web, dataload" />
 
 	<!-- ======================================================================================= -->
 	<!--                  DEFINE THE SUB PROJECTS THAT SUPPORT SYSTEM TESTING                    -->
 	<!-- ======================================================================================= -->
 	<!-- This should be a subset of the projects above -->
-	<property name="system.testable.projects.list" value="" />
+	<property name="system.testable.projects.list" value="test-system" />
 
 	<!-- ================================================================================ -->
 	<!--                  DEFINE THE SUB PROJECTS THAT SUPPORT REPORTING                  -->
 	<!-- ================================================================================ -->
 	<!-- This should be a subset of the projects above -->
-	<property name="reportable.projects.list" value="web" />
+	<property name="reportable.projects.list" value="web, dataload" />
 
 
 	<!-- =============================================================== -->
@@ -108,6 +108,29 @@
 			<artifact refid="common.test.jars" />
 		</resolveDependencies>
 		<ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="all" />
+	</target>
+
+	<!-- =============================================================== -->
+	<!-- DATALOAD                                                        -->
+	<!-- =============================================================== -->
+	<target name="build-dataload" depends="prepare" description="Builds the dataload project">
+		<resolveDependencies extdir="${projects.dir}/dataload/ext">
+			<artifact refid="common.test.jars" />
+		</resolveDependencies>
+		<ant dir="${projects.dir}/dataload" inheritAll="false" antfile="build.xml" target="all" />
+	</target>
+
+	<!-- =============================================================== -->
+	<!-- TEST-SYSTEM                                                     -->
+	<!-- =============================================================== -->
+	<target name="build-test-system" depends="prepare" description="Builds the test-system project">
+		<resolveDependencies extdir="${projects.dir}/test-system/ext">
+			<artifact refid="common.test.jars" />
+
+			<artifact refid="web.jars" />
+			<artifact refid="dataload.jars" />
+		</resolveDependencies>
+		<ant dir="${projects.dir}/test-system" inheritAll="false" antfile="build.xml" target="all" />
 	</target>
 
 	<!-- ============================================================== -->
