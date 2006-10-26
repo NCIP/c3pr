@@ -97,21 +97,20 @@
 			jvmargs="-Xmx512m"
 		>
 			<auxClasspath>
+<!--
 				<fileset dir="${projects.dir}/${project}/lib">
 					<include name="**/*.jar"/>
 				</fileset>
+-->
 				<fileset dir="${projects.dir}/${project}/ext/lib">
 					<include name="**/*.jar"/>
 				</fileset>
 				<fileset dir="${projects.dir}/${project}/ext/test/lib">
 					<include name="**/*.jar"/>
 				</fileset>
-				<fileset dir="${env.GLOBUS_LOCATION}">
-					<include name="**/*.jar"/>
-				</fileset>
 			</auxClasspath>
 			<sourcePath path="${projects.dir}/${project}/src/java" />
-			<class location="${projects.dir}/${project}/build/jars/c3pr-${project}-2.0.jar" />
+			<class location="${projects.dir}/${project}/build/jars/c3pr-2.0-${project}-1.0.jar" />
 		</findbugs>
 
 		<xslt in="${findbugs.dir}/${project}.xml" out="${findbugs.dir}/${project}.html" 
@@ -173,10 +172,17 @@
 	<target name="reports-cvs" depends="prepare" description="Report on CVS activity.">
 		<property name="statcvs.home" location="${basedir}/share/statcvs-0.2.2"/>
 		<property name="cvs.dir" location="${reports.dir}/statcvs"/>
+		<property name="cvs.method" value="ext"/>
+		<property name="cvs.user" value="anonymous"/>
+		<property name="cvs.password" value="anonymous"/>
+		<property name="cvs.path" value="/share/content/gforge/c3prv2"/>
+		<property name="cvs.server" value="cbiocvs2.nci.nih.gov"/>
 
 		<delete dir="${cvs.dir}"/>
 		<mkdir dir="${cvs.dir}"/>
 
+		<echo>-d:${cvs.method}:${cvs.user}@${cvs.server}:${cvs.path} log</echo>
+		<echo>${cvs.dir}/cvs.log</echo>
 		<cvs 
 			command="-d:${cvs.method}:${cvs.user}@${cvs.server}:${cvs.path} log"
 			output="${cvs.dir}/cvs.log"
@@ -253,7 +259,7 @@
 		<!-- junitdocreport -->
 		<taskdef name="junitDocReport" classname="edu.duke.cabig.catrip.test.report.ant.JUnitDocReport">
 			<classpath>
-				<fileset dir="${projects.dir}/test-report/build/jars">
+				<fileset dir="${share.dir}/junit-docreport">
 					<include name="*.jar"/>
 				</fileset>
 			</classpath>
@@ -266,7 +272,11 @@
 				</fileset>
 			</junitResults>
 			<junitDocs>
-				<fileset dir="${projects.dir}/gui">
+				<fileset dir="${projects.dir}/web">
+					<include name="src/java"/>
+					<include name="test/src/java"/>
+				</fileset>
+				<fileset dir="${projects.dir}/dataload">
 					<include name="src/java"/>
 					<include name="test/src/java"/>
 				</fileset>
