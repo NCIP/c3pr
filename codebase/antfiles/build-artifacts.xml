@@ -40,6 +40,23 @@
 			</fileset>
 		</artifact>
 
+		<artifact track="main" type="jars" id="dataload.jars">
+			<antcall target="build-dataload" />
+			<fileset dir="${projects.dir}/dataload/build/jars">
+				<include name="*.jar" />
+				<exclude name="*test*.jar" />
+			</fileset>
+		</artifact>
+
+
+		<artifact track="main" type="jars" id="test-system.jars">
+			<antcall target="build-test-system" />
+			<fileset dir="${projects.dir}/test-system/build/jars">
+				<include name="*.jar" />
+				<exclude name="*test*.jar" />
+			</fileset>
+		</artifact>
+
 	</target>
 
 </project>
