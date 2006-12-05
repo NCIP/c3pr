@@ -1,62 +1,69 @@
 <!-- =============================================================== -->
-<!-- Define the build artifacts (created/used by projects) here      -->
-<!--                                                                 -->
-<!-- NOTE:  These should be all of the files necessary to "depend" on-->
-<!-- the project (not just the built files).  Make a separate        -->
-<!-- artifact for groups of files that will probably be copied to    -->
-<!-- separate directoris (e.g. jars and conf files)                  -->
-<!-- =============================================================== -->
+        <!-- Define the build artifacts (created/used by projects) here      -->
+        <!--                                                                 -->
+        <!-- NOTE:  These should be all of the files necessary to "depend" on-->
+        <!-- the project (not just the built files).  Make a separate        -->
+        <!-- artifact for groups of files that will probably be copied to    -->
+        <!-- separate directoris (e.g. jars and conf files)                  -->
+        <!-- =============================================================== -->
 <project name="c3pr-2.0-artifacts" basedir=".">
 
-	<target name="defineArtifacts" depends="prepare" description="Defines artifacts that can be imported into projects.">
+    <target name="defineArtifacts" depends="prepare"
+            description="Defines artifacts that can be imported into projects.">
 
-		<!-- =============== -->
-		<!-- share artifacts -->
-		<!-- =============== -->
+        <!-- =============== -->
+        <!-- share artifacts -->
+        <!-- =============== -->
 
-		<artifact track="test" type="jars" id="common.test.jars">
-			<fileset dir="${junit.dir}">
-				<include name="jdepend*.jar" />
-				<include name="junit*.jar" />
-				<include name="xmlunit*.jar" />
-			</fileset>
-		</artifact>
+        <artifact track="test" type="jars" id="common.test.jars">
+            <fileset dir="${junit.dir}">
+                <include name="jdepend*.jar"/>
+                <include name="junit*.jar"/>
+                <include name="xmlunit*.jar"/>
+            </fileset>
+        </artifact>
 
-		<artifact track="main" type="jars" id="ant-contrib.jars">
-			<fileset dir="${share.dir}/ant-contrib">
-				<include name="*.jar" />
-			</fileset>
-		</artifact>
+        <artifact track="main" type="jars" id="ant-contrib.jars">
+            <fileset dir="${share.dir}/ant-contrib">
+                <include name="*.jar"/>
+            </fileset>
+        </artifact>
 
-		<!-- ================= -->
-		<!-- project artifacts -->
-		<!-- ================= -->
+        <artifact track="main" type="jars" id="cagrid.jars">
+            <fileset dir="${share.dir}/cagrid">
+                <include name="*.jar"/>
+            </fileset>
+        </artifact>
 
-		<artifact track="main" type="jars" id="web.jars">
-			<antcall target="build-web" />
-			<fileset dir="${projects.dir}/web/build/jars">
-				<include name="*.jar" />
-				<exclude name="*test*.jar" />
-			</fileset>
-		</artifact>
+        <!-- ================= -->
+        <!-- project artifacts -->
+        <!-- ================= -->
 
-		<artifact track="main" type="jars" id="dataload.jars">
-			<antcall target="build-dataload" />
-			<fileset dir="${projects.dir}/dataload/build/jars">
-				<include name="*.jar" />
-				<exclude name="*test*.jar" />
-			</fileset>
-		</artifact>
+        <artifact track="main" type="jars" id="web.jars">
+            <antcall target="build-web"/>
+            <fileset dir="${projects.dir}/web/build/jars">
+                <include name="*.jar"/>
+                <exclude name="*test*.jar"/>
+            </fileset>
+        </artifact>
+
+        <artifact track="main" type="jars" id="dataload.jars">
+            <antcall target="build-dataload"/>
+            <fileset dir="${projects.dir}/dataload/build/jars">
+                <include name="*.jar"/>
+                <exclude name="*test*.jar"/>
+            </fileset>
+        </artifact>
 
 
-		<artifact track="main" type="jars" id="test-system.jars">
-			<antcall target="build-test-system" />
-			<fileset dir="${projects.dir}/test-system/build/jars">
-				<include name="*.jar" />
-				<exclude name="*test*.jar" />
-			</fileset>
-		</artifact>
+        <artifact track="main" type="jars" id="test-system.jars">
+            <antcall target="build-test-system"/>
+            <fileset dir="${projects.dir}/test-system/build/jars">
+                <include name="*.jar"/>
+                <exclude name="*test*.jar"/>
+            </fileset>
+        </artifact>
 
-	</target>
+    </target>
 
 </project>

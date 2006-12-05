@@ -4,171 +4,184 @@
 <!-- C3PR master build file                                          -->
 <!-- ================================================================= -->
 <project name="c3pr-2.0" default="all" basedir=".">
-	<!-- Give user the chance to override properties -->
-	<property environment="env" />
-	<property file="build.properties" />
+    <!-- Give user the chance to override properties -->
+    <property environment="env"/>
+    <property file="build.properties"/>
 
-	<!-- layout info -->
-	<property name="antfiles.dir" location="${basedir}/antfiles" />
-	<property name="management.dir" location="${antfiles.dir}/management" />
-	<property name="projects.dir" location="${basedir}/projects" />
-	<property name="reports.dir" location="${basedir}/reports" />
-	<property name="share.dir" location="${basedir}/share" />
-	<property name="test.dir" location="${basedir}/test" />
-	<property name="junit.dir" location="${share.dir}/junit" />
-	<property name="cagrid.dir" location="${share.dir}/cagrid" />
-	<property name="xmlbeans.dir" location="${share.dir}/xmlbeans"/>
-	<property name="junit.results.dir" location="${test.dir}/logs"/>
-	
-
-	<!-- import testing properties -->
-	<property file="${antfiles.dir}/test.properties" />
-
-	<!-- import other ant scripts -->
-	<import file="${antfiles.dir}/build-artifacts.xml" />
-	<import file="${antfiles.dir}/build-test.xml" />
-	<import file="${antfiles.dir}/build-reports.xml" />
-
-	<!-- define global properties -->
-	<property name="cobertura.home" location="${basedir}/share/cobertura-1.8"/>
-	<path id="cobertura.classpath">
-	    <fileset dir="${cobertura.home}">
-	        <include name="cobertura.jar" />
-	        <include name="lib/**/*.jar" />
-	    </fileset>
-	</path>
+    <!-- layout info -->
+    <property name="antfiles.dir" location="${basedir}/antfiles"/>
+    <property name="management.dir" location="${antfiles.dir}/management"/>
+    <property name="projects.dir" location="${basedir}/projects"/>
+    <property name="reports.dir" location="${basedir}/reports"/>
+    <property name="share.dir" location="${basedir}/share"/>
+    <property name="test.dir" location="${basedir}/test"/>
+    <property name="junit.dir" location="${share.dir}/junit"/>
+    <property name="cagrid.dir" location="${share.dir}/cagrid"/>
+    <property name="xmlbeans.dir" location="${share.dir}/xmlbeans"/>
+    <property name="junit.results.dir" location="${test.dir}/logs"/>
 
 
-	<!-- ================================================================================ -->
-	<!--                          DEFINE THE SUB PROJECTS                                 -->
-	<!-- ================================================================================ -->
-	<!-- The name should be the path relative from projects.dir.  Its strongly encouraged you use a flat layout caTissueCAEDataService, caTissueCoreDataService,  -->
-	<property name="projects.list" value="web, dataload, test-system" />
+    <!-- import testing properties -->
+    <property file="${antfiles.dir}/test.properties"/>
 
-	<!-- ================================================================================ -->
-	<!--                  DEFINE THE SUB PROJECTS THAT SUPPORT TESTING                    -->
-	<!-- ================================================================================ -->
-	<!-- This should be a subset of the projects above -->
-	<property name="testable.projects.list" value="web, dataload" />
+    <!-- import other ant scripts -->
+    <import file="${antfiles.dir}/build-artifacts.xml"/>
+    <import file="${antfiles.dir}/build-test.xml"/>
+    <import file="${antfiles.dir}/build-reports.xml"/>
 
-	<!-- ======================================================================================= -->
-	<!--                  DEFINE THE SUB PROJECTS THAT SUPPORT SYSTEM TESTING                    -->
-	<!-- ======================================================================================= -->
-	<!-- This should be a subset of the projects above -->
-	<property name="system.testable.projects.list" value="test-system" />
-
-	<!-- ================================================================================ -->
-	<!--                  DEFINE THE SUB PROJECTS THAT SUPPORT REPORTING                  -->
-	<!-- ================================================================================ -->
-	<!-- This should be a subset of the projects above -->
-	<property name="reportable.projects.list" value="web, dataload" />
+    <!-- define global properties -->
+    <property name="cobertura.home" location="${basedir}/share/cobertura-1.8"/>
+    <path id="cobertura.classpath">
+        <fileset dir="${cobertura.home}">
+            <include name="cobertura.jar"/>
+            <include name="lib/**/*.jar"/>
+        </fileset>
+    </path>
 
 
-	<!-- =============================================================== -->
-	<!-- Bootstrap the build by setting up the structure and building    -->
-	<!-- our custom ant tasks.                                           -->
-	<!-- =============================================================== -->
-	<target name="prepare">
-		<tstamp />
-		<mkdir dir="${management.dir}/build" />
-		<javac srcdir="${management.dir}/src" destdir="${management.dir}/build" debug="on" deprecation="off" optimize="off">
-			<classpath>
-				<fileset dir="${ant.library.dir}">
-					<include name="ant.jar" />
-				</fileset>
-				<path refid="cobertura.classpath"/>
-			</classpath>
-		</javac>
+    <!-- ================================================================================ -->
+    <!--                          DEFINE THE SUB PROJECTS                                 -->
+    <!-- ================================================================================ -->
+    <!-- The name should be the path relative from projects.dir.  Its strongly encouraged you use a flat layout caTissueCAEDataService, caTissueCoreDataService,  -->
+    <property name="projects.list" value="web, gridnode,dataload, test-system"/>
 
-		<typedef name="artifact" classname="gov.nih.nci.cagrid.ant.Artifact" loaderref="artifact">
-			<classpath>
-				<pathelement location="${management.dir}/build" />
-				<path refid="cobertura.classpath"/>
-			</classpath>
-		</typedef>
-		<taskdef name="resolveDependencies" classname="gov.nih.nci.cagrid.ant.ResolveDependencies" loaderref="artifact">
-			<classpath>
-				<pathelement location="${management.dir}/build" />
-				<path refid="cobertura.classpath"/>
-			</classpath>
-		</taskdef>
+    <!-- ================================================================================ -->
+    <!--                  DEFINE THE SUB PROJECTS THAT SUPPORT TESTING                    -->
+    <!-- ================================================================================ -->
+    <!-- This should be a subset of the projects above -->
+    <property name="testable.projects.list" value="web, dataload"/>
 
-		<taskdef resource="net/sf/antcontrib/antlib.xml">
-			<classpath>
-				<pathelement location="${share.dir}/ant-contrib/ant-contrib.jar" />
-			</classpath>
-		</taskdef>
-	</target>
+    <!-- ======================================================================================= -->
+    <!--                  DEFINE THE SUB PROJECTS THAT SUPPORT SYSTEM TESTING                    -->
+    <!-- ======================================================================================= -->
+    <!-- This should be a subset of the projects above -->
+    <property name="system.testable.projects.list" value="test-system"/>
 
-	<!-- =============================================================== -->
-	<!-- WEB                                                             -->
-	<!-- =============================================================== -->
-	<target name="build-web" depends="prepare" description="Builds the web project">
-		<resolveDependencies extdir="${projects.dir}/web/ext">
-			<artifact refid="common.test.jars" />
-		</resolveDependencies>
-		<ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="all" />
-	</target>
+    <!-- ================================================================================ -->
+    <!--                  DEFINE THE SUB PROJECTS THAT SUPPORT REPORTING                  -->
+    <!-- ================================================================================ -->
+    <!-- This should be a subset of the projects above -->
+    <property name="reportable.projects.list" value="web, dataload"/>
 
-	<!-- =============================================================== -->
-	<!-- DATALOAD                                                        -->
-	<!-- =============================================================== -->
-	<target name="build-dataload" depends="prepare" description="Builds the dataload project">
-		<resolveDependencies extdir="${projects.dir}/dataload/ext">
-			<artifact refid="common.test.jars" />
-		</resolveDependencies>
-		<ant dir="${projects.dir}/dataload" inheritAll="false" antfile="build.xml" target="all" />
-	</target>
 
-	<!-- =============================================================== -->
-	<!-- TEST-SYSTEM                                                     -->
-	<!-- =============================================================== -->
-	<target name="build-test-system" depends="prepare" description="Builds the test-system project">
-		<resolveDependencies extdir="${projects.dir}/test-system/ext">
-			<artifact refid="common.test.jars" />
+    <!-- =============================================================== -->
+    <!-- Bootstrap the build by setting up the structure and building    -->
+    <!-- our custom ant tasks.                                           -->
+    <!-- =============================================================== -->
+    <target name="prepare">
+        <tstamp/>
+        <mkdir dir="${management.dir}/build"/>
+        <javac srcdir="${management.dir}/src" destdir="${management.dir}/build" debug="on" deprecation="off"
+               optimize="off">
+            <classpath>
+                <fileset dir="${ant.library.dir}">
+                    <include name="ant.jar"/>
+                </fileset>
+                <path refid="cobertura.classpath"/>
+            </classpath>
+        </javac>
 
-			<artifact refid="web.jars" />
-			<artifact refid="dataload.jars" />
-		</resolveDependencies>
-		<ant dir="${projects.dir}/test-system" inheritAll="false" antfile="build.xml" target="all" />
-	</target>
+        <typedef name="artifact" classname="gov.nih.nci.cagrid.ant.Artifact" loaderref="artifact">
+            <classpath>
+                <pathelement location="${management.dir}/build"/>
+                <path refid="cobertura.classpath"/>
+            </classpath>
+        </typedef>
+        <taskdef name="resolveDependencies" classname="gov.nih.nci.cagrid.ant.ResolveDependencies" loaderref="artifact">
+            <classpath>
+                <pathelement location="${management.dir}/build"/>
+                <path refid="cobertura.classpath"/>
+            </classpath>
+        </taskdef>
 
-	<!-- ============================================================== -->
-	<!-- Cleans up generated stuff                                      -->
-	<!-- ============================================================== -->
-	<target name="clean" depends="prepare" description="Cleans all projects.">
-		<for list="${projects.list}" parallel="true" param="project.name" trim="true">
-			<sequential>
-				<echo message="Cleaning project @{project.name}." />
-				<delete dir="${projects.dir}/@{project.name}/ext" />
-				<ant dir="${projects.dir}/@{project.name}" inheritAll="false" antfile="build.xml" target="clean" />
-			</sequential>
-		</for>
+        <taskdef resource="net/sf/antcontrib/antlib.xml">
+            <classpath>
+                <pathelement location="${share.dir}/ant-contrib/ant-contrib.jar"/>
+            </classpath>
+        </taskdef>
+    </target>
 
-		<delete failonerror="false">
-			<fileset dir="${junit.results.dir}">
-				<include name="*" />
-			</fileset>
-		</delete>
-	</target>
+    <!-- =============================================================== -->
+    <!-- WEB                                                             -->
+    <!-- =============================================================== -->
+    <target name="build-web" depends="prepare" description="Builds the web project">
+        <resolveDependencies extdir="${projects.dir}/web/ext">
+            <artifact refid="common.test.jars"/>
+        </resolveDependencies>
+        <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="all"/>
+    </target>
 
-	<!-- ============================================================== -->
-	<!-- Builds the projects                                            -->
-	<!-- ============================================================== -->
-	<target name="build" depends="prepare" description="Builds all projects.">
-		<for list="${projects.list}" parallel="false" param="project.name" trim="true">
-			<sequential>
-				<echo message="Building project @{project.name}." />
-				<runtarget target="build-@{project.name}" />
-				<echo message="Built project @{project.name}." />
-			</sequential>
-		</for>
-	</target>
+    <!-- =============================================================== -->
+    <!-- c3pr Protocol Ingestion Grid Service                                                        -->
+    <!-- =============================================================== -->
+    <target name="build-gridnode" depends="prepare" description="Builds the c3p3 Protocol Ingestion grid node">
+        <resolveDependencies extdir="${projects.dir}/gridnode/ext">
+            <artifact refid="ant-contrib.jars"/>
+            <artifact refid="cagrid.jars"/>
+        </resolveDependencies>
+        <ant dir="${projects.dir}/gridnode" inheritAll="false" antfile="build.xml" target="all"/>
+    </target>
 
-	<!-- ============================================================== -->
-	<!-- Builds caTRIP from scratch                                     -->
-	<!-- ============================================================== -->
-	<target name="all" depends="clean, build" description="Cleans and builds all the projects."/>
+
+    <!-- =============================================================== -->
+    <!-- DATALOAD                                                        -->
+    <!-- =============================================================== -->
+    <target name="build-dataload" depends="prepare" description="Builds the dataload project">
+        <resolveDependencies extdir="${projects.dir}/dataload/ext">
+            <artifact refid="common.test.jars"/>
+        </resolveDependencies>
+        <ant dir="${projects.dir}/dataload" inheritAll="false" antfile="build.xml" target="all"/>
+    </target>
+
+    <!-- =============================================================== -->
+    <!-- TEST-SYSTEM                                                     -->
+    <!-- =============================================================== -->
+    <target name="build-test-system" depends="prepare" description="Builds the test-system project">
+        <resolveDependencies extdir="${projects.dir}/test-system/ext">
+            <artifact refid="common.test.jars"/>
+
+            <artifact refid="web.jars"/>
+            <artifact refid="dataload.jars"/>
+        </resolveDependencies>
+        <ant dir="${projects.dir}/test-system" inheritAll="false" antfile="build.xml" target="all"/>
+    </target>
+
+    <!-- ============================================================== -->
+    <!-- Cleans up generated stuff                                      -->
+    <!-- ============================================================== -->
+    <target name="clean" depends="prepare" description="Cleans all projects.">
+        <for list="${projects.list}" parallel="true" param="project.name" trim="true">
+            <sequential>
+                <echo message="Cleaning project @{project.name}."/>
+                <delete dir="${projects.dir}/@{project.name}/ext"/>
+                <ant dir="${projects.dir}/@{project.name}" inheritAll="false" antfile="build.xml" target="clean"/>
+            </sequential>
+        </for>
+
+        <delete failonerror="false">
+            <fileset dir="${junit.results.dir}">
+                <include name="*"/>
+            </fileset>
+        </delete>
+    </target>
+
+    <!-- ============================================================== -->
+    <!-- Builds the projects                                            -->
+    <!-- ============================================================== -->
+    <target name="build" depends="prepare" description="Builds all projects.">
+        <for list="${projects.list}" parallel="false" param="project.name" trim="true">
+            <sequential>
+                <echo message="Building project @{project.name}."/>
+                <runtarget target="build-@{project.name}"/>
+                <echo message="Built project @{project.name}."/>
+            </sequential>
+        </for>
+    </target>
+
+    <!-- ============================================================== -->
+    <!-- Builds caTRIP from scratch                                     -->
+    <!-- ============================================================== -->
+    <target name="all" depends="clean, build" description="Cleans and builds all the projects."/>
 
 </project>
 
