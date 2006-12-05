@@ -30,7 +30,7 @@
         </artifact>
 
         <artifact track="main" type="jars" id="cagrid.jars">
-            <fileset dir="${share.dir}/cagrid">
+            <fileset dir="${share.dir}/cagrid/lib">
                 <include name="*.jar"/>
             </fileset>
         </artifact>
