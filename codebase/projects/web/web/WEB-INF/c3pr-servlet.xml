@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<!--
+  - Application context definition for "springapp" DispatcherServlet.
+  -->
+<beans>
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName">
+            <value>oracle.jdbc.driver.OracleDriver</value>
+        </property>
+        <property name="url">
+            <value>jdbc:oracle:thin:@localhost:1521:C3PR</value>
+        </property>
+        <property name="username">
+            <value>scott</value>
+        </property>
+        <property name="password">
+            <value>tiger</value>
+        </property>
+    </bean>
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename">
+            <value>messages</value>
+        </property>
+    </bean>
+    <bean id="urlMapping" class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>
+
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass">
+            <value>org.springframework.web.servlet.view.JstlView</value>
+        </property>
+        <property name="prefix">
+            <value>/WEB-INF/views/</value>
+        </property>
+        <property name="suffix">
+            <value>.jsp</value>
+        </property>
+    </bean>
+    <bean id="createProtocolController" lazy-init="true" class="edu.duke.cabig.c3pr.web.CreateProtocolController" autowire="byType">
+	    <property name="formView" value="createprotocol"/>
+	    <property name="successView" value="hello"/>
+	    <property name="commandClass" value="edu.duke.cabig.c3pr.domain.Protocol"/>
+    </bean>
+    
+</beans>
