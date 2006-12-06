@@ -23,7 +23,7 @@
 			<sequential>
 				<echo message="Testing project @{project.name}." />
 				<instrument tempDir="${instrumentation.temp.dir}" datafile="${testcoverage.dir}/@{project.name}.ser">
-					<artifact refid="@{project.name}.jars" />
+					<artifact refid="c3pr.@{project.name}.jars" />
 				</instrument>
 				<ant inheritall="false" dir="${projects.dir}/@{project.name}" antfile="build.xml" target="test">
 					<property name="junit.results.dir" value="${junit.results.dir}" />
@@ -31,7 +31,7 @@
 					<property name="cobertura.home" location="${cobertura.home}"/>
 				</ant>
 				<deinstrument tempDir="${instrumentation.temp.dir}">
-					<artifact refid="@{project.name}.jars" />
+					<artifact refid="c3pr.@{project.name}.jars" />
 				</deinstrument>
 			</sequential>
 		</for>
