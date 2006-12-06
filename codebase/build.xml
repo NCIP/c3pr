@@ -101,27 +101,27 @@
         </taskdef>
     </target>
 
-	<!-- =============================================================== -->
-	<!-- CORE                                                             -->
-	<!-- =============================================================== -->
+    <!-- =============================================================== -->
+    <!-- CORE                                                             -->
+    <!-- =============================================================== -->
     <target name="build-core" depends="prepare" description="Builds the core project (Services, dao, domain">
         <resolveDependencies extdir="${projects.dir}/core/ext">
-            <artifact refid="common.test.jars" />
-            <artifact refid="spring.jars" />
+            <artifact refid="common.test.jars"/>
+            <artifact refid="spring.jars"/>
         </resolveDependencies>
-        <ant dir="${projects.dir}/core" inheritAll="false" antfile="build.xml" target="all" />
+        <ant dir="${projects.dir}/core" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
 
-	<!-- =============================================================== -->
-	<!-- WEB                                                             -->
-	<!-- =============================================================== -->
+    <!-- =============================================================== -->
+    <!-- WEB                                                             -->
+    <!-- =============================================================== -->
     <target name="build-web" depends="prepare" description="Builds the web project">
         <resolveDependencies extdir="${projects.dir}/web/ext">
-            <artifact refid="common.test.jars" />
-            <artifact refid="spring.jars" />
-            <artifact refid="c3pr.core.jars" />
+            <artifact refid="common.test.jars"/>
+            <artifact refid="spring.jars"/>
+            <artifact refid="c3pr.core.jars"/>
         </resolveDependencies>
-        <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="all" />
+        <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
 
     <!-- =============================================================== -->
@@ -131,6 +131,7 @@
         <resolveDependencies extdir="${projects.dir}/gridnode/ext">
             <artifact refid="ant-contrib.jars"/>
             <artifact refid="cagrid.jars"/>
+            <artifact refid="globus.jars"/>
         </resolveDependencies>
         <ant dir="${projects.dir}/gridnode" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
