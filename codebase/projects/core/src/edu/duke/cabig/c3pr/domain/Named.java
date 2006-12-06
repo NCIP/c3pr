@@ -1,4 +1,4 @@
-package edu.northwestern.bioinformatics.studycalendar.domain;
+package edu.duke.cabig.c3pr.domain;
 
 /**
  * @author Rhett Sutphin
