@@ -43,7 +43,7 @@
     <!--                          DEFINE THE SUB PROJECTS                                 -->
     <!-- ================================================================================ -->
     <!-- The name should be the path relative from projects.dir.  Its strongly encouraged you use a flat layout caTissueCAEDataService, caTissueCoreDataService,  -->
-    <property name="projects.list" value="web, gridnode, jbi, dataload, test-system"/>
+    <property name="projects.list" value="core, web, gridnode, jbi, dataload, test-system"/>
 
     <!-- ================================================================================ -->
     <!--                  DEFINE THE SUB PROJECTS THAT SUPPORT TESTING                    -->
@@ -101,14 +101,27 @@
         </taskdef>
     </target>
 
-    <!-- =============================================================== -->
-    <!-- WEB                                                             -->
-    <!-- =============================================================== -->
+	<!-- =============================================================== -->
+	<!-- CORE                                                             -->
+	<!-- =============================================================== -->
+    <target name="build-core" depends="prepare" description="Builds the core project (Services, dao, domain">
+        <resolveDependencies extdir="${projects.dir}/core/ext">
+            <artifact refid="common.test.jars" />
+            <artifact refid="spring.jars" />
+        </resolveDependencies>
+        <ant dir="${projects.dir}/core" inheritAll="false" antfile="build.xml" target="all" />
+    </target>
+
+	<!-- =============================================================== -->
+	<!-- WEB                                                             -->
+	<!-- =============================================================== -->
     <target name="build-web" depends="prepare" description="Builds the web project">
         <resolveDependencies extdir="${projects.dir}/web/ext">
-            <artifact refid="common.test.jars"/>
+            <artifact refid="common.test.jars" />
+            <artifact refid="spring.jars" />
+            <artifact refid="c3pr.core.jars" />
         </resolveDependencies>
-        <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="all"/>
+        <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="all" />
     </target>
 
     <!-- =============================================================== -->
@@ -152,7 +165,6 @@
     <target name="build-test-system" depends="prepare" description="Builds the test-system project">
         <resolveDependencies extdir="${projects.dir}/test-system/ext">
             <artifact refid="common.test.jars"/>
-
             <artifact refid="web.jars"/>
             <artifact refid="dataload.jars"/>
         </resolveDependencies>
