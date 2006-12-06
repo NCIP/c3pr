@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/activation-1.0.2.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/antlr-2.7.6.jar"/>
@@ -33,7 +32,7 @@
 	<classpathentry kind="lib" path="web/WEB-INF/lib/mail-1.3.2.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/mysql-connector-java-3.1.11-bin.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/sitemesh-2.2.1.jar"/>
-	<classpathentry kind="lib" path="web/WEB-INF/lib/spring.jar" sourcepath="D:/projects/spring2"/>
+	<classpathentry sourcepath="D:/projects/spring2" kind="lib" path="web/WEB-INF/lib/spring.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/standard.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/xml-apis.jar"/>
 	<classpathentry kind="lib" path="web/WEB-INF/lib/javax.servlet.jar"/>
