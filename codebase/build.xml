@@ -107,6 +107,9 @@
     <target name="build-core" depends="prepare" description="Builds the core project (Services, dao, domain">
         <resolveDependencies extdir="${projects.dir}/core/ext">
             <artifact refid="common.test.jars"/>
+            <artifact refid="ant-contrib.jars"/>
+            <artifact refid="cagrid.jars"/>
+            <artifact refid="globus.jars"/>
             <artifact refid="spring.jars"/>
         </resolveDependencies>
         <ant dir="${projects.dir}/core" inheritAll="false" antfile="build.xml" target="all"/>
