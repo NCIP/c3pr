@@ -166,7 +166,7 @@
     <target name="build-test-system" depends="prepare" description="Builds the test-system project">
         <resolveDependencies extdir="${projects.dir}/test-system/ext">
             <artifact refid="common.test.jars"/>
-            <artifact refid="web.jars"/>
+            <artifact refid="c3pr.web.jars"/>
             <artifact refid="dataload.jars"/>
         </resolveDependencies>
         <ant dir="${projects.dir}/test-system" inheritAll="false" antfile="build.xml" target="all"/>
