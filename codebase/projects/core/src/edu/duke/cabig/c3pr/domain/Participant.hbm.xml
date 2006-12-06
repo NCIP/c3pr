@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+                            "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                            "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<!-- DO NOT EDIT: This is a generated file that is synchronized -->
+<!-- by MyEclipse Hibernate tool integration.                   -->
+<!-- Created Thu Apr 20 17:45:39 EDT 2006                         -->
+<hibernate-mapping package="edu.duke.cabig.c3pr.domain">
+
+    <class name="Participant" table="PERSON" lazy="false">
+
+		<id name="id" column="PERSON_ID" type="java.lang.Integer">
+			<generator class="native">
+				<param name="sequence">C3PR_GENERAL_SEQ</param>
+			</generator>
+		</id> 
+        <property name="firstName" column="FIRST_NAME" type="java.lang.String"  not-null="true" />
+        <property name="lastName" column="LAST_NAME" type="java.lang.String"  not-null="true" />
+        <property name="middleName" column="MIDDLE_NAME" type="java.lang.String" />
+        <property name="birthDate" column="BIRTH_DATE" type="java.util.Date" />
+        <property name="deathDate" column="DEATH_DATE" type="java.util.Date" />
+        <property name="ssn" column="SSN" type="java.lang.String" />
+        <property name="dateFirstSeen" column="DATE_FIRST_SEEN" type="java.util.Date" />
+        <property name="status" column="STATUS" type="java.lang.String" />
+        <property name="createdBy" column="CREATED_BY" type="java.lang.String" />
+        <property name="creationDate" column="CREATION_DATE" type="java.util.Date" />
+        <property name="modificationType" column="MODIFICATION_TYPE" type="java.lang.String" />
+        <property name="modificationDate" column="MODIFICATION_DATE" type="java.util.Date" />
+        <property name="modificationBy" column="MODIFICATION_BY" type="java.lang.String" />
+        <property name="activeInactiveFlag" column="ACTIVE_INACTIVE_FLAG" type="java.lang.String" />        
+
+        <many-to-one name="title" column="TITLE" class="Title" cascade="none" lazy="false"/>
+        <many-to-one name="suffix" column="SUFFIX" class="Suffix" cascade="none" lazy="false"/>
+        <many-to-one name="gender" column="GENDER" class="Gender" cascade="none" lazy="false"/>
+        <many-to-one name="ethnicity" column="ETHNICITY" class="Ethnicity" cascade="none" lazy="false"/>
+        
+		<set name="specialtyCollection" table="PERSON_SPECIALTY" cascade="all" lazy="false">
+			<key column="PERSON_ID" not-null="true"/>
+			<many-to-many column="SPECIALTY_CODE" class="Specialty"/>
+		</set>
+
+		<set name="diseaseSiteCollection" table="PARTICIPANT_DISEASE_SITE" cascade="all" lazy="false">
+			<key column="PARTICIPANT_ID" not-null="true"/>
+			<many-to-many column="DISEASE_SITE_CODE" class="edu.duke.cabig.c3pr.domain.DiseaseSite"/>
+		</set>
+
+		<set name="diseaseCollection" table="PERSON_DISEASE" cascade="all" lazy="false">
+			<key column="PERSON_ID" not-null="true"/>
+			<many-to-many column="DISEASE_CODE" class="edu.duke.cabig.c3pr.domain.Disease"/>
+		</set>
+
+		<set name="participantRoleCollection" table="PARTICIPANT_ROLE_ASSOCIATION" cascade="all" lazy="false">
+			<key column="PARTICIPANT_ID" not-null="true"/>
+			<many-to-many column="PARTICIPANT_ROLE_CODE" class="ParticipantRole"/>
+		</set>
+
+		<set name="raceCollection" table="PERSON_RACE" cascade="all" lazy="false">
+			<key column="PERSON_ID" not-null="true"/>
+			<many-to-many column="RACE_CODE" class="Race"/>
+		</set>
+
+		<set name="registrationParticipantRoleCollection" table="REGISTRATION_PARTICIPANT_ROLE" cascade="all" inverse="true" lazy="false">
+			<key column="PARTICIPANT_ID" not-null="true"/>
+			<one-to-many class="edu.duke.cabig.c3pr.domain.RegistrationParticipantRole"/>
+		</set>
+
+		<set name="participantAddressCollection" cascade="all,delete-orphan" lazy="false">
+			<key column="PERSON_ID" not-null="true"/>
+			<one-to-many class="ParticipantAddress"/>
+		</set>
+
+		<set name="participantContactCollection" cascade="all,delete-orphan" lazy="false">
+			<key column="PERSON_ID" not-null="true"/>
+			<one-to-many class="ParticipantContact"/>
+		</set>
+
+		<set name="participantIdentifierCollection" cascade="all,delete-orphan" lazy="false" inverse="false">
+			<key column="PERSON_ID" not-null="true"/>
+			<one-to-many class="ParticipantIdentifier"/>
+		</set>
+
+ 		<set name="relatedParticipantCollection" cascade="all,delete-orphan" lazy="false" inverse="true">
+			<key column="PERSON_ID" not-null="true"/>
+			<one-to-many class="RelatedParticipant"/>
+		</set>
+
+    </class>
+    
+</hibernate-mapping>

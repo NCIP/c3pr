@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+                            "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                            "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<!-- DO NOT EDIT: This is a generated file that is synchronized -->
+<!-- by MyEclipse Hibernate tool integration.                   -->
+<!-- Created Thu Apr 20 17:45:40 EDT 2006                         -->
+<hibernate-mapping package="edu.duke.cabig.c3pr.domain">
+
+    <class name="EligibilityDefinition" table="ELIGIBILITY_DEFINTIONS" lazy="false">
+ 
+ 		<id name="id" column="ID" type="java.lang.Integer">
+			<generator class="native">
+				<param name="sequence">C3PR_GENERAL_SEQ</param>
+			</generator>
+		</id>         
+        <many-to-one name="status" column="ELIGIBILITY_STATUS_CD" class="EligibilityStatus" not-null="true" insert="false" update="false" cascade="none" lazy="false"/>
+        <many-to-one name="amendment" column="PROTOCOL_AMEND_ID" class="Amendment"  not-null="true" insert="false" update="false" lazy="false"/>
+        <property name="crfId" column="CRF_ID" type="java.lang.String"/>
+        
+    </class>
+    
+</hibernate-mapping>

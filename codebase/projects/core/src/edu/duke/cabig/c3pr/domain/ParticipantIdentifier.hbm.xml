@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+                            "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                            "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<!-- DO NOT EDIT: This is a generated file that is synchronized -->
+<!-- by MyEclipse Hibernate tool integration.                   -->
+<!-- Created Thu Apr 20 17:45:39 EDT 2006                         -->
+<hibernate-mapping package="edu.duke.cabig.c3pr.domain">
+
+    <class name="ParticipantIdentifier" table="PERSON_ORG" lazy="false">
+ 		<id name="id" column="ID" type="java.lang.Integer">
+			<generator class="native">
+				<param name="sequence">C3PR_GENERAL_SEQ</param>
+			</generator>
+		</id> 
+
+        <property name="identifierCode" column="PERSON_IDENTIFIER_CODE" type="java.lang.String" />
+        <property name="primaryIDFlag" column="PRIMARY_ID_FLAG" type="java.lang.String" />
+        <property name="personId" column="PERSON_ID" type="java.lang.Integer" insert="false" update="false"/>
+        
+
+        <many-to-one name="institution" class="edu.duke.cabig.c3pr.domain.Institution" column="ORG_ID" cascade="none" not-null="true" lazy="false"/>
+ 
+    </class>
+    
+</hibernate-mapping>

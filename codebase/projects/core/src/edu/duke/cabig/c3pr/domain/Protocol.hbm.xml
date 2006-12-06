@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+                            "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                            "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<!-- DO NOT EDIT: This is a generated file that is synchronized -->
+<!-- by MyEclipse Hibernate tool integration.                   -->
+<!-- Created Thu Apr 20 17:45:39 EDT 2006                         -->
+<hibernate-mapping package="edu.duke.cabig.c3pr.domain">
+
+    <class name="Protocol" table="PROTOCOL" lazy="false">
+ 		<id name="id" column="PROTOCOL_ID" type="java.lang.Integer">
+			<generator class="native">
+				<param name="sequence">C3PR_GENERAL_SEQ</param>
+			</generator>
+		</id>         
+ 
+        <many-to-one name="protocolPhase" column="PROT_PHASE_CODE" class="ProtocolPhase"  not-null="true" lazy="false"/>
+        <many-to-one name="protocolType" column="PROT_TYPE_CODE" class="ProtocolType"  not-null="true" lazy="false"/>
+        <one-to-one name="clinicalStudy" class="ClinicalStudy" lazy="false"  cascade="all"  property-ref="protocol"/>
+
+        <property name="multiInstitutionalFlag" column="MULTI_INSTITUTIONAL" type="java.lang.String" />
+        <property name="modificationBy" column="MODIFICATION_BY" type="java.lang.String" />
+        <property name="modificationType" column="MODIFICATION_TYPE" type="java.lang.String" />
+        <property name="modificationDate" column="MODIFICATION_DATE" type="java.util.Date" />
+        <property name="creationDate" column="ORIGINAL_DATE" type="java.util.Date" />
+        <property name="createdBy" column="ORIGINAL_USER" type="java.lang.String" />
+        <property name="systemIdentifier" column="SYSTEM_IDENTIFIER" type="java.lang.String" />        
+        
+
+		<set name="diseaseSiteCollection" table="PROTOCOL_DISEASE_SITE" cascade="all" lazy="false">
+			<key column="PROTOCOL_ID" not-null="true"/>
+			<many-to-many column="DISEASE_SITE_CODE" class="edu.duke.cabig.c3pr.domain.DiseaseSite"/>
+		</set>
+
+		<set name="diseaseCollection" table="PROTOCOL_DISEASE" cascade="all" lazy="false">
+			<key column="PROTOCOL_ID" not-null="true"/>
+			<many-to-many column="DISEASE_CODE" class="edu.duke.cabig.c3pr.domain.Disease"/>
+		</set>
+
+ 		<set name="protocolParticipantRoleCollection" table="PROTOCOL_PARTICIPANT_ROLE" cascade="all,delete-orphan" inverse="true" lazy="false">
+			<key column="PROTOCOL_ID" not-null="true"/>
+			<one-to-many class="ProtocolParticipantRole"/>
+		</set>
+
+		<set name="amendmentCollection" cascade="all,delete-orphan" lazy="false">
+			<key column="PROTOCOL_ID" not-null="true"/>
+			<one-to-many class="Amendment"/>
+		</set>
+
+		<set name="protocolArmCollection" cascade="all,delete-orphan" lazy="false">
+			<key column="PROTOCOL_ID" not-null="true"/>
+			<one-to-many class="ProtocolArm"/>
+		</set>
+
+		<set name="protocolStatusCollection" cascade="all,delete-orphan" lazy="false">
+			<key column="PROTOCOL_ID" not-null="true"/>
+			<one-to-many class="ProtocolStatus"/>
+		</set>
+
+		<set name="protocolInstitutionCollection" cascade="all,delete-orphan" lazy="false">
+			<key column="PROTOCOL_ID" not-null="true"/>
+			<one-to-many class="ProtocolInstitution"/>
+		</set>
+
+    </class>
+    
+</hibernate-mapping>

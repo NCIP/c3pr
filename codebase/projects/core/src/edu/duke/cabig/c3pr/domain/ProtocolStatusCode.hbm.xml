@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+                            "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                            "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<!-- DO NOT EDIT: This is a generated file that is synchronized -->
+<!-- by MyEclipse Hibernate tool integration.                   -->
+<!-- Created Thu Apr 20 17:45:31 EDT 2006                         -->
+<hibernate-mapping package="edu.duke.cabig.c3pr.domain">
+
+    <class name="ProtocolStatusCode" table="CODE_PROT_STATUS" mutable="false" lazy="false">
+    	<id name="id" type="java.lang.String" column="PROT_STATUS_CODE"></id>
+        <property name="code" column="PROT_STATUS_CODE" type="java.lang.String"  not-null="true" insert="false" update="false"/>
+        <property name="description" column="PROT_STATUS_DESC" type="java.lang.String" />
+    </class>
+    
+</hibernate-mapping>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+                            "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                            "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<!-- DO NOT EDIT: This is a generated file that is synchronized -->
+<!-- by MyEclipse Hibernate tool integration.                   -->
+<!-- Created Thu Apr 20 17:45:40 EDT 2006                         -->
+<hibernate-mapping package="edu.duke.cabig.c3pr.domain">
+
+    <class name="Amendment" table="PROTOCOL_AMENDMENT" lazy="false">
+  		<id name="id" column="PROTOCOL_AMEND_ID" type="java.lang.Integer">
+			<generator class="native">
+				<param name="sequence">C3PR_GENERAL_SEQ</param>
+			</generator>
+		</id>         
+ 
+        <property name="amendment" column="AMENDMENT" type="java.lang.String" />
+        <property name="date" column="AMENDMENT_DATE" type="java.util.Date" />
+        <property name="accrualCeiling" column="ACCRUAL_CEILING" type="java.lang.Integer" />
+        <property name="longTitle" column="LONG_TITLE" type="java.lang.String" />
+        <property name="shortTitle" column="SHORT_TITLE" type="java.lang.String" />
+        <property name="blinded" column="BLINDED" type="java.lang.String" />
+        <property name="nciCoordinated" column="NCI_COORDINATED" type="java.lang.String" />
+        <property name="lastAudit" column="LAST_AUDIT" type="java.util.Date" />
+        <property name="registrationTracked" column="REGISTRATION_TRACKED" type="java.lang.String" />
+        <property name="description" column="DESCRIPTION" type="java.lang.String" />
+        <property name="precis" column="PRECIS" type="java.lang.String" />
+        <property name="randomized" column="RANDOMIZED" type="java.lang.String" />
+        <property name="design" column="DESIGN" type="java.lang.String" />
+        <property name="eligibilityChecklistRequiredFlag" column="EC_REQUIRED" type="java.lang.String" />
+        <property name="modificationBy" column="MODIFICATION_BY" type="java.lang.String" />
+        <property name="modificationType" column="MODIFICATION_TYPE" type="java.lang.String"/>
+        <property name="modificationDate" column="MODIFICATION_DATE" type="java.util.Date" />
+        <property name="createdBy" column="ORIGINAL_USER" type="java.lang.String" />
+        <property name="creationDate" column="ORIGINAL_DATE" type="java.util.Date" />
+
+        <many-to-one name="protocol" column="PROTOCOL_ID" class="Protocol"  not-null="true" insert="false" update="false"/>
+        <one-to-one name="eligibilityDefinition" class="EligibilityDefinition" lazy="false"  cascade="all" property-ref="amendment"/>
+
+    </class>
+    
+</hibernate-mapping>
