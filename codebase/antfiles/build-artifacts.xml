@@ -29,6 +29,13 @@
             </fileset>
         </artifact>
 
+
+        <artifact track="main" type="jars" id="globus.jars">
+            <fileset dir="${share.dir}/globus/lib">
+                <include name="*.jar"/>
+            </fileset>
+        </artifact>
+
         <artifact track="main" type="jars" id="cagrid.jars">
             <fileset dir="${share.dir}/cagrid/lib">
                 <include name="*.jar"/>
@@ -38,6 +45,15 @@
         <!-- ================= -->
         <!-- project artifacts -->
         <!-- ================= -->
+
+        <artifact track="main" type="jars" id="c3pr.gridnode.client.jars">
+            <antcall target="build-gridnode"/>
+            <fileset dir="${projects.dir}/gridnode/build/lib">
+                <include name="*.jar"/>
+                <exclude name="*-test*.jar"/>
+                  <exclude name="*-service*.jar"/>
+            </fileset>
+        </artifact>
 
         <artifact track="main" type="jars" id="web.jars">
             <antcall target="build-web"/>
