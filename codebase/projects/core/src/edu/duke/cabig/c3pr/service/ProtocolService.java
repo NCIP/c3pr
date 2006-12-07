@@ -4,6 +4,7 @@ import java.util.List;
 
 import edu.duke.cabig.c3pr.domain.Amendment;
 import edu.duke.cabig.c3pr.domain.Protocol;
+import edu.duke.cabig.c3pr.domain.Study;
 
 /**
  * @author priyatam
@@ -14,6 +15,8 @@ public interface ProtocolService
 
     public List<Protocol> getAllProtocols() throws Exception;	
 	
+    public void saveStudy(Study study) throws Exception;
+    
     public void saveProtocol(Protocol protocol) throws Exception;
 
 	/**

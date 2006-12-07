@@ -11,6 +11,7 @@ import edu.duke.cabig.c3pr.dao.ProtocolDao;
 import edu.duke.cabig.c3pr.domain.Amendment;
 import edu.duke.cabig.c3pr.domain.Protocol;
 import edu.duke.cabig.c3pr.domain.ProtocolArm;
+import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.service.ProtocolService;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.SystemManager;
@@ -30,6 +31,13 @@ public class ProtocolServiceImpl implements ProtocolService {
     	return protocolDao.getAll();
     }
 	
+	/**
+	  Saves a Study	
+	*/
+	public void saveStudy(Study study) throws Exception {
+		protocolDao.saveStudy(study);		
+	}
+
 	/* (non-Javadoc)
 	 * @see edu.duke.cabig.c3pr.service.ProtocolService#createProtocol(edu.duke.cabig.c3pr.domain.Protocol)
 	 */
