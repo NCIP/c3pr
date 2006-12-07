@@ -170,7 +170,7 @@
         <resolveDependencies extdir="${projects.dir}/test-system/ext">
             <artifact refid="common.test.jars"/>
             <artifact refid="c3pr.web.jars"/>
-            <artifact refid="dataload.jars"/>
+            <artifact refid="c3pr.dataload.jars"/>
         </resolveDependencies>
         <ant dir="${projects.dir}/test-system" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
@@ -184,7 +184,7 @@
                 <echo message="Cleaning project @{project.name}."/>
                 <delete dir="${projects.dir}/@{project.name}/ext"/>
                 <ant dir="${projects.dir}/@{project.name}" inheritAll="false" antfile="build.xml" target="clean"/>
-            </sequential>
+            </saequential>
         </for>
 
         <delete failonerror="false">
