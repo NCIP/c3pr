@@ -184,7 +184,7 @@
                 <echo message="Cleaning project @{project.name}."/>
                 <delete dir="${projects.dir}/@{project.name}/ext"/>
                 <ant dir="${projects.dir}/@{project.name}" inheritAll="false" antfile="build.xml" target="clean"/>
-            </saequential>
+            </sequential>
         </for>
 
         <delete failonerror="false">
