@@ -224,4 +224,8 @@
       	<copy file="${conf.dir}\log4j.properties" todir="${deploy.path}/${webapp.name}/WEB-INF/"/>	    	
     </target>
 	
+	<target name="undeploy-web" description="Cleans the web folder.">
+		<delete dir="${deploy.path}/${webapp.name}" failonerror="true"/>
+   	</target>
+	
 </project>
