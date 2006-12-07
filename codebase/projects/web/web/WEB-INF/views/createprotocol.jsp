@@ -75,23 +75,11 @@
 											alt="Skip Menu" width="1" height="1" border="0" /></a></td>
 
 										<td class="mainMenuSpacer">&nbsp;</td>
-										<td height="20" class="mainMenuItem"><a
-											class="mainMenuLink" href="Home.html">Home</a></td>
-
 										<td class="mainMenuSpacer">&nbsp;</td>
 										<td height="20" class="mainMenuItemOn"><a
-											class="mainMenuLink" href="ProtocolsMain.html">Protocols</a>
+											class="mainMenuLink" href="/createprotocol.do">Protocols</a>
 										</td>
-										<td class="mainMenuSpacer">&nbsp;</td>
-										<td height="20" class="mainMenuItem"><a
-											class="mainMenuLink" href="Links.html">Links</a></td>
 
-										<td class="mainMenuSpacer">&nbsp;</td>
-										<td height="20" class="mainMenuItem"><a
-											class="mainMenuLink" href="Help.html">Help</a></td>
-										<td class="mainMenuSpacer">&nbsp;</td>
-										<td height="20" class="mainMenuItem"><a
-											class="mainMenuLink" href="Login.html">Logout</a></td>
 
 										<td width="99%" class="mainMenuSpacer">&nbsp;</td>
 									</tr>
@@ -114,7 +102,7 @@
 					<!--_____ menu ends _____-->
 
 					<!--_____ main content begins _____-->
-					<c:url value="/createprotocol.do" var="formAction"/>
+					<c:url value="/createprotocol.do" var="formAction" />
 					<form:form method="post" action="${formAction}">
 
 						<tr>
@@ -127,59 +115,207 @@
 									<table cellpadding="3" cellspacing="0" border="0"
 										class="contentBegins" align="center">
 										<tr>
+											<td class="formTitle" height="2" colspan="5"><form:errors path="*"/>    
+										</tr>
+										<tr>
+											<td class="formTitle" height="2" colspan="5"><form:label path="*"/>    
+										</tr>
+										<tr>
 											<td class="contentTitle">Create Protocol</td>
 										</tr>
 										<tr>
 											<td>
 											<table summary="" cellpadding="0" cellspacing="0" border="0"
 												align="center" class="dataTableBorderOnly" width="750">
+
 												<tr>
-													<td class="formMessage" colspan="5">&nbsp;
-													  <label>Enter atleast Protocol ID</label>
-													</td>
+													<td class="formTitle" height="2" colspan="5"></td>
 												</tr>
 												<tr>
-													<td class="formTitle" height="20" colspan="5">Create
-													Protocol</td>
-												</tr>
-												<tr>
-													<td class="formRequiredNoticeWithoutBorder" width="5">&nbsp;</td>
-													<td class="formLabelWithoutBorder"><form:label path="id">Protocol
-													ID:</form:label></td>
-													<td class="formLabelWithoutBorder"><form:label path="protocolPhase">Protocol
-													Phase Code:</form:label></td>
-													<td class="formLabelWithoutBorder"><form:label path="protocolType">Protocol
-													Type Code:</form:label></td>
-													<td class="formLabelWithoutBorder"><form:label path="multiInstitutionalFlag">Multi-Institutional:</form:label></td>
-													<td class="formRequiredNoticeWithoutBorder" width="5">&nbsp;</td>
-												</tr>
-												<tr>
-													<td class="formRequiredNoticeWithoutBorder" width="5">&nbsp;</td>
-													<td class="formFieldWithoutBorder"><form:input path="id"/></td>
-													<td class="formFieldWithoutBorder"><form:input path="protocolPhase"/></td>
+													<td class="formLabelWithoutBorder" width="10">
+														<form:label	path="shortTitleText">Short Title Text</form:label></td>
+													<td class="formRequiredNoticeWithoutBorder" width="50">&nbsp;</td>
 													<td class="formFieldWithoutBorder">
-													<form:select path="protocolType">
-										            	<form:options items="${protocoltypecode}" itemLabel="description" itemValue="id"/>
-										            </form:select></td>
-										            													<td class="formFieldWithoutBorder">
-													<form:select path="multiInstitutionalFlag">
-										            	<form:options items="${multiInstitutional}" itemLabel="str" itemValue="str"/>
-										            </form:select></td>
-													<td class="formRequiredNoticeWithoutBorder" width="5">&nbsp;
-													</td>
+													<form:textarea path="shortTitleText" rows="2" cols="15" /></td>
 												</tr>
-											
+												<tr>
+													<td class="formTitle" height="2" colspan="5"></td>
+												</tr>
+												<tr>
+													<td class="formLabelWithoutBorder" width="10">
+														<form:label path="descriptionText">Description Text</form:label></td>
+													<td class="formRequiredNoticeWithoutBorder" width="50">&nbsp;</td>
+													<td class="formFieldWithoutBorder"><form:textarea path="descriptionText" rows="3" cols="20" /></td></td>
+												</tr>
+												<tr>
+													<td class="formTitle" height="2" colspan="5"></td>
+												</tr>
+												<tr>
+													<td class="formLabelWithoutBorder" width="10">
+													<form:label path="sponsorCode">Sponsor Code</form:label></td>
+													<td class="formRequiredNoticeWithoutBorder" width="50">&nbsp;</td>													
+													<td class="formFieldWithoutBorder">
+													<form:select path="sponsorCode">
+														<form:options items="${sponsorCode}" itemLabel="desc" itemValue="code" />
+													</form:select></td>
+												</tr>
+												<tr>
+													<td class="formTitle" height="2" colspan="5"></td>
+												</tr>
+												<tr>
+													<td class="formLabelWithoutBorder" width="10">
+													<form:label path="status">Status</form:label></td>
+													<td class="formRequiredNoticeWithoutBorder" width="50">&nbsp;</td>	
+													<td class="formFieldWithoutBorder">
+													<form:select path="status">
+														<form:options items="${status}" itemLabel="desc" itemValue="code" />
+													</form:select></td>
+												</tr>
+												<tr>
+													<td class="formTitle" height="2" colspan="5"></td>
+												</tr>
+												<tr>													
+													<td class="formLabelWithoutBorder" width="10"><form:label
+														path="diseaseCode">Disease Code</form:label></td>
+													<td class="formRequiredNoticeWithoutBorder" width="50">&nbsp;</td>	
+													<td class="formFieldWithoutBorder">
+													<form:select path="diseaseCode">
+														<form:options items="${diseaseCode}" itemLabel="desc" itemValue="code" />
+													</form:select></td>
+												</tr>
+												<tr>
+													<td class="formTitle" height="2" colspan="5"></td>
+												</tr>
+												<tr>
+													<td class="formLabelWithoutBorder" width="10">
+													<form:label path="monitorCode">Monitor Code</form:label></td>
+													<td class="formRequiredNoticeWithoutBorder" width="50">&nbsp;</td>
+													<td class="formFieldWithoutBorder">
+													<form:select path="monitorCode">
+														<form:options items="${monitorCode}" itemLabel="desc" itemValue="code" />
+													</form:select></td>
+												</tr>
+												<tr>
+													<td class="formTitle" height="2" colspan="5"></td>
+												</tr>
+												<tr>
+													<td class="formLabelWithoutBorder" width="10"><form:label
+														path="phaseCode">Phase Code</form:label></td>
+													<td class="formRequiredNoticeWithoutBorder" width="50">&nbsp;</td>
+													<td class="formFieldWithoutBorder">
+													<form:select path="phaseCode">
+														<form:options items="${phaseCode}" itemLabel="desc" itemValue="code" />
+													</form:select></td>
+												</tr>
+												<tr>
+													<td class="formTitle" height="2" colspan="5"></td>
+												</tr>
+												<tr>													
+													<td class="formLabelWithoutBorder" width="10">
+														<form:label path="type">Type</form:label></td>
+													<td class="formRequiredNoticeWithoutBorder" width="50">&nbsp;</td>
+													<td class="formFieldWithoutBorder">
+													<form:select path="type">
+														<form:options items="${type}" itemLabel="desc" itemValue="code" />
+													</form:select></td>
+												</tr>
+												<tr>
+													<td class="formTitle" height="2" colspan="5"></td>
+												</tr>
+												
+												<tr>													
+													<td class="formLabelWithoutBorder" width="10">
+														<form:label path="nciIdentifier">NCI Identifier</form:label></td>
+													<td class="formRequiredNoticeWithoutBorder" width="50">&nbsp;</td>
+													<td class="formFieldWithoutBorder">
+													<form:select path="nciIdentifier">
+														<form:options items="${nciIdentifier}" itemLabel="str" itemValue="str" />
+													</form:select></td>
+												</tr>
+												<tr>
+													<td class="formTitle" height="2" colspan="5" width="10"></td>
+												</tr>
+												
+												<tr>													
+													<td class="formLabelWithoutBorder">
+														<form:label path="randomizedIndicator">Randomized Indicator</form:label></td>
+													<td class="formRequiredNoticeWithoutBorder" width="50">&nbsp;</td>
+													<td class="formFieldWithoutBorder">
+													<form:select path="randomizedIndicator">
+														<form:options items="${randomizedIndicator}" itemLabel="str" itemValue="str" />
+													</form:select></td>
+												</tr>
+												<tr>
+													<td class="formTitle" height="2" colspan="5" width="10"></td>
+												</tr>
+												<tr>													
+													<td class="formLabelWithoutBorder">
+														<form:label path="multiInstitutionIndicator">Multi Institution</form:label></td>
+													<td class="formRequiredNoticeWithoutBorder" width="50">&nbsp;</td>
+													<td class="formFieldWithoutBorder">
+													<form:select path="multiInstitutionIndicator">
+														<form:options items="${multiInstitutionIndicator}" itemLabel="str" itemValue="str" />
+													</form:select></td>												
+												</tr>
+												<tr>
+													<td class="formTitle" height="2" colspan="5"></td>
+												</tr>
+												
+												<tr>													
+													<td class="formLabelWithoutBorder" width="10">
+														<form:label path="blindedIndicator">Blinded Indicator</form:label></td>
+													<td class="formRequiredNoticeWithoutBorder" width="50">&nbsp;</td>
+													<td class="formFieldWithoutBorder">
+													<form:select path="blindedIndicator">
+														<form:options items="${blindedIndicator}" itemLabel="str" itemValue="str" />
+													</form:select></td>
+												</tr>
+												<tr>
+													<td class="formTitle" height="2" colspan="5"></td>
+												</tr>
+												
+												<tr>													
+													<td class="formLabelWithoutBorder" width="10">
+														<form:label path="precisText">Precis Text</form:label></td>
+													<td class="formRequiredNoticeWithoutBorder" width="50">&nbsp;</td>
+													<td class="formFieldWithoutBorder">
+													<form:textarea path="precisText" rows="2" cols="15" /></td>
+												</tr>
+												<tr>
+													<td class="formTitle" height="2" colspan="5"></td>
+												</tr>
+												
+												<tr>													
+													<td class="formLabelWithoutBorder" width="10">
+														<form:label path="longTitleText">Long Title Text</form:label></td>
+													<td class="formRequiredNoticeWithoutBorder" width="50">&nbsp;</td>
+													<td class="formFieldWithoutBorder">
+													<form:textarea path="longTitleText" rows="5" cols="40" /></td>
+												</tr>
+												<tr>
+													<td class="formTitle" height="2" colspan="5"></td>
+												</tr>
+												
+												<tr>													
+												<td class="formLabelWithoutBorder" width="10">
+														<form:label path="targetAccrualNumber">targetAccrualNumber</form:label></td>
+													<td class="formRequiredNoticeWithoutBorder" width="50">&nbsp;</td>
+													<td class="formFieldWithoutBorder">
+													<form:input path="targetAccrualNumber" /></td>
+												</tr>
+												<tr>
+													<td class="formTitle" height="2" colspan="5"></td>
+												</tr>																														
 
 											</table>
 											</td>
 										</tr>
 										<tr>
-											<td align="left" colspan="3"><!-- action buttons begins -->
+											<td align="center" colspan="3"><!-- action buttons begins -->
 											<table cellpadding="4" cellspacing="0" border="0">
 												<tr>
-													<td>
-													  <input class="actionButton" type="submit" value="Create Protocol" id="assign-button">
-            										 </td>
+													<td><input class="actionButton" type="submit"
+														value="Create Protocol" id="assign-button"></td>
 												</tr>
 											</table>
 											<!-- action buttons end --></td>
