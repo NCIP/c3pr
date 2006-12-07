@@ -56,27 +56,27 @@
         <!-- ================= -->
         <!-- project artifacts -->
         <!-- ================= -->
-		
- 	<artifact track="main" type="jars" id="c3pr.gridnode.client.jars">
+
+        <artifact track="main" type="jars" id="c3pr.gridnode.client.jars">
             <antcall target="build-gridnode"/>
             <fileset dir="${projects.dir}/gridnode/build/lib">
                 <include name="*.jar"/>
                 <exclude name="*-test*.jar"/>
-                  <exclude name="*-service*.jar"/>
+                <exclude name="*-service*.jar"/>
             </fileset>
         </artifact>
-	
-    	<artifact track="main" type="jars" id="c3pr.core.jars">
+
+        <artifact track="main" type="jars" id="c3pr.core.jars">
             <antcall target="build-core"/>
             <fileset dir="${projects.dir}/core/build/jars">
-               	<include name="*.jar"/>
-	        <exclude name="*test*.jar"/>
-	    </fileset>
- 	    <fileset dir="${projects.dir}/core/lib">
-                <include name="*.jar"/>              
+                <include name="*.jar"/>
+                <exclude name="*test*.jar"/>
+            </fileset>
+            <fileset dir="${projects.dir}/core/lib">
+                <include name="*.jar"/>
             </fileset>
         </artifact>
-    	
+
         <artifact track="main" type="jars" id="c3pr.web.jars">
             <antcall target="build-web"/>
             <fileset dir="${projects.dir}/web/build/jars">
@@ -84,6 +84,15 @@
                 <exclude name="*test*.jar"/>
             </fileset>
         </artifact>
+
+        <artifact track="main" type="jars" id="c3pr.xml-marshaller.jars">
+            <antcall target="build-xml-marshaller"/>
+            <fileset dir="${projects.dir}/xml-marshaller/build/jars">
+                <include name="*.jar"/>
+                <exclude name="*test*.jar"/>
+            </fileset>
+        </artifact>
+
 
         <artifact track="main" type="jars" id="c3pr.dataload.jars">
             <antcall target="build-dataload"/>

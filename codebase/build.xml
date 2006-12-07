@@ -49,7 +49,7 @@
     <!--                  DEFINE THE SUB PROJECTS THAT SUPPORT TESTING                    -->
     <!-- ================================================================================ -->
     <!-- This should be a subset of the projects above -->
-    <property name="testable.projects.list" value="web, dataload"/>
+    <property name="testable.projects.list" value="web, xml-marshaller, dataload"/>
 
     <!-- ======================================================================================= -->
     <!--                  DEFINE THE SUB PROJECTS THAT SUPPORT SYSTEM TESTING                    -->
@@ -129,14 +129,15 @@
     </target>
 
     <!-- =============================================================== -->
-        <!-- c3pr XML Marshaller project                                                     -->
-        <!-- =============================================================== -->
-        <target name="build-xml-marshaller" depends="prepare" description="Builds the c3p3 xml marshalling library">
-            <resolveDependencies extdir="${projects.dir}/xml-marshaller/ext">
-                <artifact refid="cacore.jars"/>
-            </resolveDependencies>
-            <ant dir="${projects.dir}/xml-marshaller" inheritAll="false" antfile="build.xml" target="all"/>
-        </target>
+    <!-- c3pr XML Marshaller project                                                     -->
+    <!-- =============================================================== -->
+    <target name="build-xml-marshaller" depends="prepare" description="Builds the c3p3 xml marshalling library">
+        <resolveDependencies extdir="${projects.dir}/xml-marshaller/ext">
+            <artifact refid="cacore.jars"/>
+            <artifact refid="common.test.jars"/>
+        </resolveDependencies>
+        <ant dir="${projects.dir}/xml-marshaller" inheritAll="false" antfile="build.xml" target="all"/>
+    </target>
 
     <!-- =============================================================== -->
     <!-- c3pr Protocol Ingestion Grid Service                                                        -->
