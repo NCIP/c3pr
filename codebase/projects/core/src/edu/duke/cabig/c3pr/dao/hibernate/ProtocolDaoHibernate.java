@@ -18,6 +18,7 @@ import edu.duke.cabig.c3pr.domain.ProtocolInstitution;
 import edu.duke.cabig.c3pr.domain.ProtocolParticipantRole;
 import edu.duke.cabig.c3pr.domain.ProtocolRole;
 import edu.duke.cabig.c3pr.domain.ProtocolStatus;
+import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.UserCredentials;
 import edu.duke.cabig.c3pr.dto.ProtocolSearchCriteria;
 import edu.duke.cabig.c3pr.utils.Constants;
@@ -30,7 +31,11 @@ import edu.duke.cabig.c3pr.utils.StringUtils;
 public class ProtocolDaoHibernate extends AbstractBaseDao<Protocol> implements ProtocolDao 
 {
 	
-	 public Class<Protocol> domainClass() {
+	 public void saveStudy(Study study) throws Exception {
+		 getHibernateTemplate().saveOrUpdate(study);		
+	}
+
+	public Class<Protocol> domainClass() {
 	        return Protocol.class;
 	 }
 

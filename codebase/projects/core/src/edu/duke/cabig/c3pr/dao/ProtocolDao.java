@@ -14,6 +14,7 @@ import edu.duke.cabig.c3pr.domain.ProtocolInstitution;
 import edu.duke.cabig.c3pr.domain.ProtocolParticipantRole;
 import edu.duke.cabig.c3pr.domain.ProtocolRole;
 import edu.duke.cabig.c3pr.domain.ProtocolStatus;
+import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.UserCredentials;
 import edu.duke.cabig.c3pr.dto.ProtocolSearchCriteria;
 
@@ -32,6 +33,13 @@ import edu.duke.cabig.c3pr.dto.ProtocolSearchCriteria;
  */
 public interface ProtocolDao extends BaseDao
 {
+	
+	/**
+	 * Add a new Study to the data source 
+	 * @param study
+	 * @throws Exception
+	 */
+	public void saveStudy(Study study) throws Exception;
 	
 	/**
 	 * saveProtocol:  Add new protocol to the data store.
