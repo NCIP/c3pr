@@ -43,7 +43,7 @@
     <!--                          DEFINE THE SUB PROJECTS                                 -->
     <!-- ================================================================================ -->
     <!-- The name should be the path relative from projects.dir.  Its strongly encouraged you use a flat layout caTissueCAEDataService, caTissueCoreDataService,  -->
-    <property name="projects.list" value="core, web, gridnode, jbi, dataload, test-system"/>
+    <property name="projects.list" value="core, web, gridnode, xml-marshaller, jbi, dataload, test-system"/>
 
     <!-- ================================================================================ -->
     <!--                  DEFINE THE SUB PROJECTS THAT SUPPORT TESTING                    -->
@@ -109,6 +109,7 @@
             <artifact refid="common.test.jars"/>
             <artifact refid="ant-contrib.jars"/>
             <artifact refid="cagrid.jars"/>
+            <artifact refid="cacore.jars"/>
             <artifact refid="globus.jars"/>
             <artifact refid="spring.jars"/>
         </resolveDependencies>
@@ -126,6 +127,16 @@
         </resolveDependencies>
         <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
+
+    <!-- =============================================================== -->
+        <!-- c3pr XML Marshaller project                                                     -->
+        <!-- =============================================================== -->
+        <target name="build-xml-marshaller" depends="prepare" description="Builds the c3p3 xml marshalling library">
+            <resolveDependencies extdir="${projects.dir}/xml-marshaller/ext">
+                <artifact refid="cacore.jars"/>
+            </resolveDependencies>
+            <ant dir="${projects.dir}/xml-marshaller" inheritAll="false" antfile="build.xml" target="all"/>
+        </target>
 
     <!-- =============================================================== -->
     <!-- c3pr Protocol Ingestion Grid Service                                                        -->
