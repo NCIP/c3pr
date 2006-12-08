@@ -151,6 +151,10 @@
             <artifact refid="cacore.jars"/>
             <artifact refid="common.test.jars"/>
             <artifact refid="c3pr.core.jars"/>
+
+            <artifact refid="xerces.jars"/>
+            <artifact refid="xercesImpl.jars"/>
+
         </resolveDependencies>
         <ant dir="${projects.dir}/xml-marshaller" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
