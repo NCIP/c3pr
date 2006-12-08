@@ -223,7 +223,7 @@
                 <include name="*.jar"/>
                 <exclude name="*test*.jar"/>
             </fileset>
-        	<fileset dir="${projects.dir}/web/lib/jars">
+        	<fileset dir="${projects.dir}/web/lib">
                 <include name="*.jar"/>
              </fileset>
         </artifact>
