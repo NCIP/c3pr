@@ -15,7 +15,7 @@
     <property name="reports.dir" location="${basedir}/reports"/>
     <property name="share.dir" location="${basedir}/share"/>
     <property name="test.dir" location="${basedir}/test"/>
-    <property name="junit.dir" location="${share.dir}/junit"/>
+    <property name="junit.dir" location="${share.dir}/junit-3.8.1"/>
     <property name="cagrid.dir" location="${share.dir}/cagrid"/>
     <property name="xmlbeans.dir" location="${share.dir}/xmlbeans"/>
     <property name="junit.results.dir" location="${test.dir}/logs"/>
@@ -111,8 +111,15 @@
             <artifact refid="cagrid.jars"/>
             <artifact refid="cacore.jars"/>
             <artifact refid="globus.jars"/>
-            <artifact refid="spring.jars"/>
-        </resolveDependencies>
+			<artifact refid="csm.jars"/>				
+				
+	 		<!-- get third party shared jars -->
+			<artifact refid="jboss-j2ee.jars"/>
+			<artifact refid="spring.jars"/>
+			<artifact refid="hibernate.jars"/>
+			<artifact refid="log4j.jars"/>		
+			<artifact refid="commons-logging.jars"/>
+		</resolveDependencies>
         <ant dir="${projects.dir}/core" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
 
@@ -124,6 +131,14 @@
             <artifact refid="common.test.jars"/>
             <artifact refid="spring.jars"/>
             <artifact refid="c3pr.core.jars"/>
+			<artifact refid="jdom.jars"/>
+			<artifact refid="dom4j.jars"/>
+			<artifact refid="xerces.jars"/>
+			<artifact refid="xercesImpl.jars"/>
+			<artifact refid="core-commons.jars"/>
+			<artifact refid="commons-dbcp.jars"/>
+			<artifact refid="commons-pool.jars"/>
+        	<artifact refid="commons-logging.jars"/>
         </resolveDependencies>
         <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
