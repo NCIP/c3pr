@@ -43,7 +43,7 @@
     <!--                          DEFINE THE SUB PROJECTS                                 -->
     <!-- ================================================================================ -->
     <!-- The name should be the path relative from projects.dir.  Its strongly encouraged you use a flat layout caTissueCAEDataService, caTissueCoreDataService,  -->
-    <property name="projects.list" value="core, web, gridnode, xml-marshaller, jbi, dataload, test-system"/>
+    <property name="projects.list" value="core, web, gridnode, xml-marshaller, esb-client, jbi, dataload, test-system"/>
 
     <!-- ================================================================================ -->
     <!--                  DEFINE THE SUB PROJECTS THAT SUPPORT TESTING                    -->
@@ -129,7 +129,7 @@
     </target>
 
     <!-- =============================================================== -->
-    <!-- c3pr XML Marshaller project                                                     -->
+    <!-- c3pr XML Marshaller project                                     -->
     <!-- =============================================================== -->
     <target name="build-xml-marshaller" depends="prepare" description="Builds the c3p3 xml marshalling library">
         <resolveDependencies extdir="${projects.dir}/xml-marshaller/ext">
@@ -141,7 +141,18 @@
     </target>
 
     <!-- =============================================================== -->
-    <!-- c3pr Protocol Ingestion Grid Service                                                        -->
+    <!-- c3pr ESB client service                                         -->
+    <!-- =============================================================== -->
+    <target name="build-esb-client" depends="prepare" description="Builds the esb-client">
+        <resolveDependencies extdir="${projects.dir}/esb-client/ext">
+            <artifact refid="c3pr.core.jars"/>
+        </resolveDependencies>
+        <ant dir="${projects.dir}/esb-client" inheritAll="false" antfile="build.xml" target="all"/>
+    </target>
+
+
+    <!-- =============================================================== -->
+    <!-- c3pr Protocol Ingestion Grid Service                            -->
     <!-- =============================================================== -->
     <target name="build-gridnode" depends="prepare" description="Builds the c3p3 Protocol Ingestion grid node">
         <resolveDependencies extdir="${projects.dir}/gridnode/ext">
@@ -163,7 +174,7 @@
             <artifact refid="globus.jars"/>
             <artifact refid="c3pr.gridnode.client.jars"/>
         </resolveDependencies>
-        <ant dir="${projects.dir}/jbi" inheritAll="false" antfile="build.xml" target="all"/>
+        <ant dir="${projects.dir}/jbi" inheritAll="true" antfile="build.xml" target="all"/>
     </target>
 
     <!-- =============================================================== -->
