@@ -132,9 +132,9 @@
         </zip>
     </target>
 
-    <target name="build-sa" depends="build-su" description="Build the service assembly">
+        <target name="build-sa" depends="build-su" description="Build the service assembly">
         <copy file="${sa.dir}/jbi.xml" todir="${comp.build.dir}/META-INF"/>
-        <zip destfile="${c3pr.sa.build.dir}}/${c3pr.sa.archive}">
+        <zip destfile="${c3pr.sa.build.dir}/${c3pr.sa.archive}">
             <fileset dir="${comp.build.dir}">
                 <include name="*.zip"/>
                 <include name="*META-INF*"/>
