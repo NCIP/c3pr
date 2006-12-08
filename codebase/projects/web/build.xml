@@ -17,7 +17,7 @@
     <property name="classes.dir" value="${build.dir}/classes" />
     <property name="jar.dir" value="${build.dir}/jars" />
     <property name="project.jarfile" value="${jar.dir}/c3pr-2.0-${project.name}-${project.version}.jar" />
-    <property name="lib.dir" value="${basedir}/web/WEB-INF/lib" />
+    <property name="lib.dir" value="${basedir}/lib" />
 	<property name="conf.dir" value="${basedir}/conf" />
     <property name="ext.lib.dir" value="${basedir}/ext/lib" />
     <property name="ext.test.lib.dir" location="${basedir}/ext/test/lib" />
@@ -211,6 +211,9 @@
         </copy>   
 		<copy todir="${deploy.path}/${webapp.name}/WEB-INF/lib" preservelastmodified="true">
             <fileset dir="${ext.lib.dir}">
+				<include name="**/*.jar" />
+            </fileset>
+			<fileset dir="${lib.dir}">
 				<include name="**/*.jar" />
             </fileset>
 			<fileset dir="${jar.dir}">
