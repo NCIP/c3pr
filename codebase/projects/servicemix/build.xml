@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!-- ================================================================= -->
+<!-- C3PR 2.0 Servicemix project. Build and deploys c3prv2             -->
+<!--  extensions into servicemix deployment                             -->
+<!--                                                                   -->
+<!-- ================================================================= -->
+
+
+<project name="c3pr-servicemix" default="all" basedir=".">
+
+
+    <property name="ext.dir" value="${basedir}/ext"/>
+    <property name="ext.lib.dir" value="${ext.dir}/lib"/>
+
+
+    <!--Sub projects-->
+    <property name="sub.projects.list" value="c3pr-bridge"/>
+
+    <!-- =============================================================== -->
+    <!-- Bootstrap the build by setting up the structure and building    -->
+    <!-- our custom ant tasks.                                           -->
+    <!-- =============================================================== -->
+    <target name="prepare">
+        <taskdef resource="net/sf/antcontrib/antlib.xml">
+            <classpath>
+                <pathelement location="${ext.lib.dir}/ant-contrib.jar"/>
+            </classpath>
+        </taskdef>
+    </target>
+
+
+    <target name="clean" depends="prepare" description="Clean the project">
+        <for list="${sub.projects.list}" parallel="true" param="sub.project.name" trim="true">
+            <sequential>
+                <echo message="Cleaning project @{sub.project.name}."/>
+                <delete dir="${basedir}/@{sub.project.name}/ext"/>
+                <ant dir="${basedir}/@{sub.project.name}" inheritAll="false" antfile="build.xml" target="clean"/>
+            </sequential>
+        </for>
+  </target>
+
+    <target name="all" depends="prepare" description="Default target to build all sub projects within JBI">
+             <for list="${sub.projects.list}" parallel="true" param="sub.project.name" trim="true">
+            <sequential>
+                <echo message="Building sub-project @{sub.project.name}."/>
+                <ant dir="${basedir}/@{sub.project.name}" inheritAll="false" antfile="build.xml" target="all"/>
+            </sequential>
+        </for>
+    </target>
+
+</project>
