@@ -272,13 +272,9 @@
 				</fileset>
 			</junitResults>
 			<junitDocs>
-				<fileset dir="${projects.dir}/web">
-					<include name="src/java"/>
-					<include name="test/src/java"/>
-				</fileset>
-				<fileset dir="${projects.dir}/dataload">
-					<include name="src/java"/>
-					<include name="test/src/java"/>
+				<fileset dir="${projects.dir}/xml-marshaller">
+					<include name="src"/>
+					<include name="test/src"/>
 				</fileset>
 				<fileset dir="${projects.dir}/test-system">
 					<include name="src/java"/>
