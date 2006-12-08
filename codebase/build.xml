@@ -135,6 +135,7 @@
         <resolveDependencies extdir="${projects.dir}/xml-marshaller/ext">
             <artifact refid="cacore.jars"/>
             <artifact refid="common.test.jars"/>
+            <artifact refid="c3pr.core.jars"/>
         </resolveDependencies>
         <ant dir="${projects.dir}/xml-marshaller" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
