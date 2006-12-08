@@ -223,9 +223,11 @@
                 <include name="*.jar"/>
                 <exclude name="*test*.jar"/>
             </fileset>
+<!--
         	<fileset dir="${projects.dir}/web/lib">
                 <include name="*.jar"/>
              </fileset>
+-->
         </artifact>
     	 	
         <artifact track="main" type="jars" id="c3pr.xml-marshaller.jars">
