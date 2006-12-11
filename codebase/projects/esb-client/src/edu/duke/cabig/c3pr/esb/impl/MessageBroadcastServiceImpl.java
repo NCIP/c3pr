@@ -7,23 +7,28 @@ import javax.jms.Session;
 import javax.jms.TextMessage;
 
 import edu.duke.cabig.c3pr.esb.AbstractJmsService;
-import edu.duke.cabig.c3pr.esb.ProtocolBroadcastService;
+import edu.duke.cabig.c3pr.esb.MessageBroadcastService;
+import edu.duke.cabig.c3pr.esb.BroadcastException;
 
 
-public class ProtocolBroadcastServiceImpl extends AbstractJmsService implements ProtocolBroadcastService{
+public class MessageBroadcastServiceImpl extends AbstractJmsService implements MessageBroadcastService {
 
-	public void broadcast(String message) {
+	public void broadcast(String message) throws BroadcastException {
 		// TODO Auto-generated method stub
 		System.out.println("calling sendJms method...");
-		sendJms(message);
-	}
+        try {
+            sendJms(message);
+        } catch (JMSException e) {
+            throw new BroadcastException(e);
+        }
+    }
 
 	public void getBroadcastStatus() {
 		// TODO Auto-generated method stub
 		
 	}
 
-	public void sendJms(String xml) {
+	public void sendJms(String xml) throws JMSException{
 		Connection connection = null;
         Session session = null;
         MessageProducer producer = null;
@@ -50,11 +55,7 @@ public class ProtocolBroadcastServiceImpl extends AbstractJmsService implements 
 			System.out.println("sending jms....");
             producer.send(message);
             System.out.println("jms sent....");
-        }
-        catch (JMSException e) {
-            System.out.println("Exception occurred: " + e);
-        }catch (Exception e) {
-            System.out.println("Exception occurred: " + e);
+
         }
         finally {
             if (connection != null) {
@@ -62,6 +63,7 @@ public class ProtocolBroadcastServiceImpl extends AbstractJmsService implements 
                     connection.close();
                 }
                 catch (JMSException e) {
+                    //exception in finally block will not be passed to client
                 }
             }
         }

@@ -163,9 +163,7 @@
     <!-- c3pr ESB client service                                         -->
     <!-- =============================================================== -->
     <target name="build-esb-client" depends="prepare" description="Builds the esb-client">
-        <resolveDependencies extdir="${projects.dir}/esb-client/ext">
-            <artifact refid="c3pr.core.jars"/>
-        </resolveDependencies>
+        <!--no dependencies-->
         <ant dir="${projects.dir}/esb-client" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
 
