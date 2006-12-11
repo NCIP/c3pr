@@ -6,19 +6,16 @@ import javax.jms.MessageProducer;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 
-import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.esb.AbstractJmsService;
 import edu.duke.cabig.c3pr.esb.ProtocolBroadcastService;
-import edu.duke.cabig.c3pr.util.XMLBuilder;
+
 
 public class ProtocolBroadcastServiceImpl extends AbstractJmsService implements ProtocolBroadcastService{
 
-	public void broadcast(Study study) {
+	public void broadcast(String message) {
 		// TODO Auto-generated method stub
-		System.out.println("calling xml builder util...");
-		String xml=new XMLBuilder().buildCreateProtocolXML(study);
-		System.out.println("calling sendJms method...");		
-		sendJms(xml);
+		System.out.println("calling sendJms method...");
+		sendJms(message);
 	}
 
 	public void getBroadcastStatus() {
