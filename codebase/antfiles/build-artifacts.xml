@@ -21,7 +21,7 @@
                 <include name="xmlunit*.jar"/>
             </fileset>
         </artifact>
-       
+
         <artifact track="main" type="jars" id="cacore.jars">
             <fileset dir="${share.dir}/cacore">
                 <include name="*.jar"/>
@@ -40,146 +40,146 @@
             </fileset>
         </artifact>
 
-	    <artifact track="main" type="jars" id="csm.jars">
+        <artifact track="main" type="jars" id="csm.jars">
             <fileset dir="${share.dir}/csm">
                 <include name="*.jar"/>
             </fileset>
-	    </artifact>
+        </artifact>
 
-   	 	<artifact track="main" type="jars" id="ant-contrib.jars">
+        <artifact track="main" type="jars" id="ant-contrib.jars">
             <fileset dir="${share.dir}/ant-contrib">
                 <include name="*.jar"/>
             </fileset>
         </artifact>
-    	
+
         <artifact track="main" type="jars" id="spring.jars">
             <fileset dir="${share.dir}/spring-2.0">
                 <include name="*.jar"/>
             </fileset>
         </artifact>
-	
-	    <artifact track="main" type="jars" id="hibernate.jars">
+
+        <artifact track="main" type="jars" id="hibernate.jars">
             <fileset dir="${share.dir}/hibernate-3.2.1">
                 <include name="*.jar"/>
             </fileset>
-	    </artifact>
-  
-	    <artifact track="main" type="jars" id="junit.jars">
+        </artifact>
+
+        <artifact track="main" type="jars" id="junit.jars">
             <fileset dir="${share.dir}/junit-3.8.1">
                 <include name="*.jar"/>
             </fileset>
-	    </artifact>
-  
-	    <artifact track="main" type="jars" id="log4j.jars">
+        </artifact>
+
+        <artifact track="main" type="jars" id="log4j.jars">
             <fileset dir="${share.dir}/log4j-1.2.13">
                 <include name="*.jar"/>
             </fileset>
-	    </artifact>
-  		
-	    <artifact track="main" type="jars" id="commons-beanutils.jars">
+        </artifact>
+
+        <artifact track="main" type="jars" id="commons-beanutils.jars">
             <fileset dir="${share.dir}/commons-beanutils-1.7.0">
                 <include name="*.jar"/>
             </fileset>
-	    </artifact>
- 
-	    <artifact track="main" type="jars" id="commons-codec.jars">
+        </artifact>
+
+        <artifact track="main" type="jars" id="commons-codec.jars">
             <fileset dir="${share.dir}/commons-codec-1.3">
                 <include name="*.jar"/>
             </fileset>
-	    </artifact>
- 
-	    <artifact track="main" type="jars" id="commons-collections.jars">
+        </artifact>
+
+        <artifact track="main" type="jars" id="commons-collections.jars">
             <fileset dir="${share.dir}/commons-collections-3.2">
                 <include name="*.jar"/>
             </fileset>
-	    </artifact>
- 
-	    <artifact track="main" type="jars" id="commons-dbcp.jars">
+        </artifact>
+
+        <artifact track="main" type="jars" id="commons-dbcp.jars">
             <fileset dir="${share.dir}/commons-dbcp-1.2.1">
                 <include name="*.jar"/>
             </fileset>
-	    </artifact>
- 
-	    <artifact track="main" type="jars" id="commons-digester.jars">
+        </artifact>
+
+        <artifact track="main" type="jars" id="commons-digester.jars">
             <fileset dir="${share.dir}/commons-digester">
                 <include name="*.jar"/>
             </fileset>
-	    </artifact>
+        </artifact>
 
-	    <artifact track="main" type="jars" id="commons-discovery.jars">
+        <artifact track="main" type="jars" id="commons-discovery.jars">
             <fileset dir="${share.dir}/commons-discovery">
                 <include name="*.jar"/>
             </fileset>
-	    </artifact>
- 
-		    <artifact track="main" type="jars" id="commons-lang-2.1.jars">
-	            <fileset dir="${share.dir}/commons-lang-2.1">
-	                <include name="*.jar"/>
-	            </fileset>
-		    </artifact>
-	    <artifact track="main" type="jars" id="commons-logging.jars">
+        </artifact>
+
+        <artifact track="main" type="jars" id="commons-lang-2.1.jars">
+            <fileset dir="${share.dir}/commons-lang-2.1">
+                <include name="*.jar"/>
+            </fileset>
+        </artifact>
+        <artifact track="main" type="jars" id="commons-logging.jars">
             <fileset dir="${share.dir}/commons-logging">
                 <include name="*.jar"/>
             </fileset>
-	    </artifact>
- 
-	    <artifact track="main" type="jars" id="commons-pool.jars">
+        </artifact>
+
+        <artifact track="main" type="jars" id="commons-pool.jars">
             <fileset dir="${share.dir}/commons-pool-1.2">
                 <include name="*.jar"/>
             </fileset>
-	    </artifact>
- 
-	    <artifact track="main" type="jars" id="commons-validator.jars">
+        </artifact>
+
+        <artifact track="main" type="jars" id="commons-validator.jars">
             <fileset dir="${share.dir}/commons-validator">
                 <include name="*.jar"/>
             </fileset>
-	    </artifact>
+        </artifact>
 
-	    <artifact track="main" type="jars" id="core-commons.jars">
+        <artifact track="main" type="jars" id="core-commons.jars">
             <fileset dir="${share.dir}/core-commons">
                 <include name="*.jar"/>
             </fileset>
-	    </artifact>
+        </artifact>
 
-	    <artifact track="main" type="jars" id="antlr.jars">
+        <artifact track="main" type="jars" id="antlr.jars">
             <fileset dir="${share.dir}/antlr-2.7.6">
                 <include name="*.jar"/>
             </fileset>
-	    </artifact>
+        </artifact>
 
-	    <artifact track="main" type="jars" id="dom4j.jars">
+        <artifact track="main" type="jars" id="dom4j.jars">
             <fileset dir="${share.dir}/dom4j-1.6.1">
                 <include name="*.jar"/>
             </fileset>
-	    </artifact>
+        </artifact>
 
-	    <artifact track="main" type="jars" id="jdom.jars">
+        <artifact track="main" type="jars" id="jdom.jars">
             <fileset dir="${share.dir}/jdom">
                 <include name="*.jar"/>
             </fileset>
-	    </artifact>
- 
+        </artifact>
 
-	    <artifact track="main" type="jars" id="xerces.jars">
+
+        <artifact track="main" type="jars" id="xerces.jars">
             <fileset dir="${share.dir}/xerces-2.6.2">
                 <include name="*.jar"/>
             </fileset>
-	    </artifact>
+        </artifact>
 
 
-	    <artifact track="main" type="jars" id="xercesImpl.jars">
+        <artifact track="main" type="jars" id="xercesImpl.jars">
             <fileset dir="${share.dir}/xercesImpl-2.2.1">
                 <include name="*.jar"/>
             </fileset>
-	    </artifact>
-    	
-	    <artifact track="main" type="jars" id="jboss-j2ee.jars">
+        </artifact>
+
+        <artifact track="main" type="jars" id="jboss-j2ee.jars">
             <fileset dir="${share.dir}/jboss-j2ee-4.0.5">
                 <include name="*.jar"/>
             </fileset>
-	    </artifact>
-    	
-    	<!-- ================= -->
+        </artifact>
+
+        <!-- ================= -->
         <!-- project artifacts -->
         <!-- ================= -->
 
@@ -202,7 +202,7 @@
                 <include name="*.jar"/>
             </fileset>
         </artifact>
-		
+
         <artifact track="main" type="jars" id="c3pr.core.jars">
             <antcall target="build-core"/>
             <fileset dir="${projects.dir}/core/build/jars">
@@ -212,24 +212,33 @@
             <fileset dir="${projects.dir}/core/lib">
                 <include name="*.jar"/>
             </fileset>
-        	<fileset dir="${projects.dir}/core/ext/lib">
+            <fileset dir="${projects.dir}/core/ext/lib">
                 <include name="*.jar"/>
             </fileset>
         </artifact>
-    	
+
         <artifact track="main" type="jars" id="c3pr.web.jars">
             <antcall target="build-web"/>
             <fileset dir="${projects.dir}/web/build/jars">
                 <include name="*.jar"/>
                 <exclude name="*test*.jar"/>
             </fileset>
-<!--
-        	<fileset dir="${projects.dir}/web/lib">
-                <include name="*.jar"/>
-             </fileset>
--->
+            <!--
+                        <fileset dir="${projects.dir}/web/lib">
+                            <include name="*.jar"/>
+                         </fileset>
+            -->
         </artifact>
-    	 	
+
+        <artifact track="main" type="jars" id="c3pr.esb-client.jars">
+            <antcall target="build-esb-client"/>
+            <fileset dir="${projects.dir}/esb-client/build/jars">
+                <include name="*.jar"/>
+                <exclude name="*test*.jar"/>
+            </fileset>
+        </artifact>
+
+
         <artifact track="main" type="jars" id="c3pr.xml-marshaller.jars">
             <antcall target="build-xml-marshaller"/>
             <fileset dir="${projects.dir}/xml-marshaller/build/jars">
