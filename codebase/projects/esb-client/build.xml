@@ -19,12 +19,16 @@
 -->
 <project name="esb-client" default="all" basedir=".">
 
+    <property name="project.name" value="esb-client"/>
+    <property name="project.version" value="1.0"/>
+
     <property name="build.dir" value="build"/>
     <property name="src.dir" value="src"/>
     <property name="build.classes.dir" value="${build.dir}/classes"/>
     <property name="build.jar.dir" value="${build.dir}/jars"/>
-
     <property name="lib.dir" value="${basedir}/lib"/>
+
+    <property name="project.jar.name" value="${project.name}-${project.version}.jar"/>
 
 
     <!--set the classpath-->
@@ -51,7 +55,7 @@
 
 
     <target name="jar" depends="compile">
-        <jar destfile="${build.dir}/{project.jar.name}" basedir="${build.classes.dir}"/>
+        <jar destfile="${build.jar.dir}/{project.jar.name}" basedir="${build.classes.dir}"/>
     </target>
 
     <target name="clean">
