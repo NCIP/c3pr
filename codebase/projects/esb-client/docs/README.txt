@@ -8,11 +8,14 @@ TABLE OF CONTENTS
     USAGE SPRING
     EXAMPLE CONFIGURATION SNIPPETS
 
+
 INSTALLATION:
 ------------
 To Install ESB-CLIENT, run the build.xml default target  i.e 'all' which will compile the code
 and generate a jar file called esb-client.jar and put it in the build/jars directory. Copy this
 jar and other dependency jars from lib/ to your project classpath and its done.
+
+
 
 USAGE STANDALONE:
 ----------------
