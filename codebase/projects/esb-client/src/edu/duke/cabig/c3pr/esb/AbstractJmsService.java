@@ -6,7 +6,7 @@ public abstract class AbstractJmsService {
     public ConnectionFactory connectionFactory = null;
     public Destination destination = null;
     
-    public void sendJms(String xml) throws JMSException {
+	public void sendJms(String xml) throws JMSException {
 
     }
 }

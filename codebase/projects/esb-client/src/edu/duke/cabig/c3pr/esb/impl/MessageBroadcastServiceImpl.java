@@ -1,6 +1,8 @@
 package edu.duke.cabig.c3pr.esb.impl;
 
 import javax.jms.Connection;
+import javax.jms.ConnectionFactory;
+import javax.jms.Destination;
 import javax.jms.JMSException;
 import javax.jms.MessageProducer;
 import javax.jms.Session;
@@ -68,4 +70,12 @@ public class MessageBroadcastServiceImpl extends AbstractJmsService implements M
             }
         }
 	}
+    public void setConnectionFactory(ConnectionFactory connectionFactory) {
+		this.connectionFactory = connectionFactory;
+	}
+
+	public void setDestination(Destination destination) {
+		this.destination = destination;
+	}
+	
 }
