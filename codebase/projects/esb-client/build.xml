@@ -55,7 +55,7 @@
 
 
     <target name="jar" depends="compile">
-        <jar destfile="${build.jar.dir}/{project.jar.name}" basedir="${build.classes.dir}"/>
+        <jar destfile="${build.jar.dir}/${project.jar.name}" basedir="${build.classes.dir}"/>
     </target>
 
     <target name="clean">
