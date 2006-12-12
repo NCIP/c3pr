@@ -22,13 +22,17 @@ public class MessageBroadcastServiceImpl extends JmsService implements MessageBr
 
 	public void broadcast(String message) throws BroadcastException {
 		// TODO Auto-generated method stub
-		System.out.println("calling sendJms method...");
-        sendJms(message);
+		if(!isProvider()){
+			System.out.println("no send queue provided ");
+		}else{
+			System.out.println("calling sendJms method...");
+	        sendJms(message);
+		}
     }
 	
 	public Vector getBroadcastStatus() {
 		// TODO Auto-generated method stub
-		if(getConsumer()==null){
+		if(!isConsumer()){
 			System.out.println("no recieve queue provided ");
 		}
 		return messages;

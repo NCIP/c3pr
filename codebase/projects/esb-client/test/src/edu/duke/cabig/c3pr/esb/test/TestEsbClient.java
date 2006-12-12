@@ -21,7 +21,7 @@ public class TestEsbClient {
 		MessageBroadcastServiceImpl esbClient=new MessageBroadcastServiceImpl();
 		try {
 			esbClient.setConnectionFactory(new ActiveMQConnectionFactory(brokerUrl));
-			esbClient.setSendQueue(new ActiveMQQueue(sendQueue));
+//			esbClient.setSendQueue(new ActiveMQQueue(sendQueue));
 			esbClient.setRecvQueue(new ActiveMQQueue(recvQueue));
 			esbClient.initialize();
             String fileName="resources/create-protocol.xml";

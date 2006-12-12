@@ -65,14 +65,15 @@ public class JmsService implements MessageListener{
 		if(connectionFactory==null){
 			throw new BroadcastException("JMS Connection Factory not provided..");
 		}
-		if(sendQueue==null){
-			throw new BroadcastException("JMS Sending Destination not provided..");
-		}
         try {
             System.out.println("creating connection and session....");
             connection = connectionFactory.createConnection();
             session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-            producer = session.createProducer(sendQueue);
+            if(sendQueue!=null){
+            	producer = session.createProducer(sendQueue);
+            }else{
+                System.out.println("no send queue provided....");
+            }
             if(recvQueue!=null){
                 consumer = session.createConsumer(recvQueue);
                 consumer.setMessageListener(this);
@@ -89,8 +90,17 @@ public class JmsService implements MessageListener{
         	throw new BroadcastException("Exception occurred while registering: " ,e);
         }
 	}
-	public MessageConsumer getConsumer() {
-		return consumer;
+	public boolean isConsumer() {
+		if(consumer==null){
+			return false;
+		}
+		return true;
+	}
+	public boolean isProvider() {
+		if(producer==null){
+			return false;
+		}
+		return true;
 	}
 
 }
