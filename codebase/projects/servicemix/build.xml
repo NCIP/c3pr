@@ -14,7 +14,7 @@
 
 
     <!--Sub projects-->
-    <property name="sub.projects.list" value="c3pr-bridge, servicemix-toolkit"/>
+    <property name="sub.projects.list" value="c3pr-bridge, servicemix-toolkit, servicemix-wsrf"/>
 
     <!-- =============================================================== -->
     <!-- Bootstrap the build by setting up the structure and building    -->
