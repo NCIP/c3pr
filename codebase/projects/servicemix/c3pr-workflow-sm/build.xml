@@ -25,6 +25,7 @@
     <property name="data.dir" value="${basedir}/data"/>
     <property name="build.dir" value="${basedir}/build"/>
     <property name="comp.build.dir" value="${build.dir}/components"/>
+    <property name="su.build.dir" value="${build.dir}/serviceunits"/>
     <property name="http.comp.build.dir" value="${comp.build.dir}/http"/>
     <property name="eip.comp.build.dir" value="${comp.build.dir}/eip"/>
     <property name="xslt.comp.build.dir" value="${comp.build.dir}/xslt"/>
@@ -68,21 +69,22 @@
         <mkdir dir="${jms.comp.build.dir}"/>
         <mkdir dir="${xslt.comp.build.dir}/lib"/>
         <mkdir dir="${grid.comp.build.dir}/lib"/>
-        <mkdir dir="${jms.comp.build.dir}/META-INF"/>
+        <mkdir dir="${su.build.dir}/META-INF"/>
+
     </target>
 
     <target name="build-su" depends="init" description="Build the service unit">
         <copy todir="${eip.comp.build.dir}">
             <fileset dir="bridge-eip-su/${src.dir}" includes="*.*"/>
         </copy>
-        <zip destfile="${comp.build.dir}/bridge-eip-su-3.0-incubating.zip">
+        <zip destfile="${su.build.dir}/bridge-eip-su-3.0-incubating.zip">
             <fileset dir="${eip.comp.build.dir}"/>
         </zip>
 
         <copy todir="${http.comp.build.dir}">
             <fileset dir="bridge-http-su/${src.dir}" includes="*.*"/>
         </copy>
-        <zip destfile="${comp.build.dir}/bridge-http-su-3.0-incubating.zip">
+        <zip destfile="${su.build.dir}/bridge-http-su-3.0-incubating.zip">
             <fileset dir="${http.comp.build.dir}"/>
         </zip>
 
@@ -92,37 +94,31 @@
         <copy todir="${xslt.comp.build.dir}/lib">
             <fileset dir="bridge-xslt-su/lib" includes="*.*"/>
         </copy>
-        <zip destfile="${comp.build.dir}/bridge-xslt-su-3.0-incubating.zip">
+        <zip destfile="${su.build.dir}/bridge-xslt-su-3.0-incubating.zip">
             <fileset dir="${xslt.comp.build.dir}"/>
         </zip>
 
         <copy todir="${grid.comp.build.dir}">
             <fileset dir="bridge-grid-su/${src.dir}" includes="*.*"/>
         </copy>
-        <zip destfile="${comp.build.dir}/bridge-grid-su-3.0-incubating.zip">
+        <zip destfile="${su.build.dir}/bridge-grid-su-3.0-incubating.zip">
             <fileset dir="${grid.comp.build.dir}"/>
         </zip>
 
         <copy todir="${jms.comp.build.dir}">
             <fileset dir="bridge-jms-su/${src.dir}"/>
         </copy>
-        <zip destfile="${comp.build.dir}/bridge-jms-su-3.0-incubating.zip">
+        <zip destfile="${su.build.dir}/bridge-jms-su-3.0-incubating.zip">
             <fileset dir="${jms.comp.build.dir}"/>
         </zip>
     </target>
 
     <target name="build-sa" depends="build-su" description="Build the service assembly">
-	    <copy file="${sa.dir}/jbi.xml" todir="${comp.build.dir}/META-INF"/>
-	    <zip destfile="${c3pr.sa.build.dir}/${c3pr.sa.archive}">
-	        <fileset dir="${comp.build.dir}">
-	            <include name="*.zip"/>
-	            <include name="*META-INF*"/>
-	        </fileset>
-	    </zip>
-	</target>
-
-    <target name="all" depends="build-sa" description="Main target to build the project">
-
+        <copy file="${sa.dir}/jbi.xml" todir="${su.build.dir}/META-INF"/>
+        <zip destfile="${c3pr.sa.build.dir}/${c3pr.sa.archive}" basedir="${su.build.dir}">
+        </zip>
     </target>
 
+    <target name="all" depends="build-sa" description="Main target to build the project">
+    </target>
 </project>
