@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!-- ================================================================= -->
+<!-- C3PR 2.0 Servicemix project.                                      -->
+<!--  Custom Servicemix Binding Component for caGrid WSRF servicees    -->
+<!--                                                                   -->
+<!-- ================================================================= -->
+
+
+<project name="servicemix-wsrf" default="all" basedir=".">
+
+    <property environment="env"/>
+
+    <property name="antfiles.dir" value="${basedir}/antfiles"/>
+    <property name="src.dir" value="${basedir}/src"/>
+
+    <property name="ext.dir" value="${basedir}/ext"/>
+    <property name="ext.lib.dir" value="${ext.dir}/lib"/>
+
+    <property name="maven.target.dir" value="${basedir}/target"/>
+    <property name="maven.project.file" value="pom.xml"/>
+
+
+    <!--check if maven home is set-->
+    <condition property="maven.home" value="${env.MAVEN_HOME}">
+        <isset property="env.MAVEN_HOME"></isset>
+    </condition>
+    <fail unless="maven.home" message="Apache Maven must be installed and MAVEN_HOME set."></fail>
+
+
+    <target name="prepare" description="prepares the build"/>
+
+    <target name="clean" description="clean the project">
+        <delete dir="${maven.target.dir}"/>
+
+        <!--Delete the maven project file-->
+        <delete file="${basedir}/${maven.project.file}"/>
+         </target>
+
+    
+    <target name="all" depends="prepare" description="builds the project">
+
+        <!--create new maven project file-->
+        <copy file="${basedir}/pom.xml.in" tofile="${basedir}/pom.xml"
+              filtering="true"
+              overwrite="true">
+            <filterset>
+                <filter token="lib.path" value="${ext.lib.dir}"/>
+            </filterset>
+        </copy>
+
+        <!--todo call maven project build from here-->
+
+    </target>
+
+</project>
