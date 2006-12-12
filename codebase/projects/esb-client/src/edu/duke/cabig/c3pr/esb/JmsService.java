@@ -1,0 +1,96 @@
+package edu.duke.cabig.c3pr.esb;
+
+import java.util.Vector;
+
+import javax.jms.*;
+
+
+public class JmsService implements MessageListener{
+    public ConnectionFactory connectionFactory = null;
+    public Destination sendQueue = null;
+    public Destination recvQueue = null;    
+	private Connection connection = null;
+    private Session session = null;
+	public Vector messages=new Vector();
+    private MessageConsumer consumer = null;
+    private MessageProducer producer = null;
+
+    public void sendJms(String xml) throws BroadcastException{
+        /*
+         * Create sender and text message.
+         */
+        try {
+            TextMessage message = session.createTextMessage();
+            System.out.println("XML Payload....");
+			message.setText(xml);
+            /*
+             * Send a non-text control message indicating end of messages.
+             */
+			System.out.println("sending jms....");
+            producer.send(message);
+            System.out.println("jms sent....");
+        }catch(Exception e){
+        	throw new BroadcastException(e.getMessage(),e);
+        }
+	}
+	public void close() throws BroadcastException{
+		try {
+			connection.close();
+		} catch (JMSException e) {
+			// TODO Auto-generated catch block
+        	throw new BroadcastException(e.getMessage(),e);
+		}
+	}
+	public void onMessage(Message msg){
+		// TODO Auto-generated method stub
+		System.out.println("jms recieved..");
+		TextMessage message=null;
+        if (msg instanceof TextMessage) {
+			message = (TextMessage) msg;
+	        System.out.println("XML Payload....");
+	        try {
+				System.out.println(message.getText());
+				messages.add(message.getText());
+			} catch (JMSException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else{
+			System.out.println("not a kind of text message..");
+		}
+	}
+	
+	public void initialize() throws BroadcastException{
+        System.out.println("initializing esb jms client....");
+		if(connectionFactory==null){
+			throw new BroadcastException("JMS Connection Factory not provided..");
+		}
+		if(sendQueue==null){
+			throw new BroadcastException("JMS Sending Destination not provided..");
+		}
+        try {
+            System.out.println("creating connection and session....");
+            connection = connectionFactory.createConnection();
+            session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+            producer = session.createProducer(sendQueue);
+            if(recvQueue!=null){
+                consumer = session.createConsumer(recvQueue);
+                consumer.setMessageListener(this);
+                System.out.println("starting connection....");
+                connection.start();
+                System.out.println("connection started and subscriber registered....");
+            }else{
+                System.out.println("no recieve queue provided....");
+            }
+        }
+        catch (JMSException e) {
+            throw new BroadcastException("Exception occurred while registering: " ,e);
+        }catch (Exception e) {
+        	throw new BroadcastException("Exception occurred while registering: " ,e);
+        }
+	}
+	public MessageConsumer getConsumer() {
+		return consumer;
+	}
+
+}
