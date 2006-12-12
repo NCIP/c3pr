@@ -14,7 +14,7 @@
 
 
     <!--Sub projects-->
-    <property name="sub.projects.list" value="c3pr-bridge, servicemix-toolkit, servicemix-wsrf"/>
+    <property name="sub.projects.list" value="c3pr-bridge, ce servicemix-toolkit, servicemix-wsrf"/>
 
     <!-- =============================================================== -->
     <!-- Bootstrap the build by setting up the structure and building    -->
@@ -43,6 +43,15 @@
              <for list="${sub.projects.list}" parallel="true" param="sub.project.name" trim="true">
             <sequential>
                 <echo message="Building sub-project @{sub.project.name}."/>
+                <!--copy ext.libs to all the sub projects-->
+                <copy todir="${basedir}/@{sub.project.name}/ext/lib">
+                    <fileset dir="${ext.lib.dir}">
+                        <include name="*.jar"/>
+                    </fileset>
+                </copy>
+                 
+
+                <!--build the sub project-->
                 <ant dir="${basedir}/@{sub.project.name}" inheritAll="false" antfile="build.xml" target="all"/>
             </sequential>
         </for>

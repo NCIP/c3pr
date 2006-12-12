@@ -19,14 +19,8 @@
     <property name="maven.target.dir" value="${basedir}/target"/>
     <property name="maven.project.file" value="pom.xml"/>
 
-
-    <!--check if maven home is set-->
-    <condition property="maven.home" value="${env.MAVEN_HOME}">
-        <isset property="env.MAVEN_HOME"></isset>
-    </condition>
-    <fail unless="maven.home" message="Apache Maven must be installed and MAVEN_HOME set."></fail>
-
-
+    <property name="maven.home" value="${env.MAVEN_HOME}"/>
+    
     <target name="prepare" description="prepares the build"/>
 
     <target name="clean" description="clean the project">
