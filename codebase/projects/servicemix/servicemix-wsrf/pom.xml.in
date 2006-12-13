@@ -12,6 +12,38 @@
     <name>WSRF custom BC</name>
     <version>1.0-SNAPSHOT</version>
     <url>http://www.semanticbits.com</url>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>apache.snapshots</id>
+            <name>Maven Central Plugins Development Repository</name>
+            <url>http://people.apache.org/repo/m2-incubating-repository</url>
+        </pluginRepository>
+    </pluginRepositories>
+      <repositories>
+        <!-- keep the central repo so that it is first tried -->
+        <repository>
+            <id>central</id>
+            <url>http://www.ibiblio.org/maven2</url>
+        </repository>
+        <!-- Dependencies not on central repo -->
+        <repository>
+            <id>servicemix-m2-repo</id>
+            <name>Servicemix Maven2 Repository</name>
+            <url>http://servicemix.org/m2-repo</url>
+        </repository>
+        <!-- Alternate Repository -->
+        <repository>
+            <id>apache.snapshot</id>
+            <name>Maven incuabting</name>
+            <url>http://people.apache.org/repo/m2-incubating-repository</url>
+        </repository>
+    </repositories>
+
+    <properties>
+        <servicemix-version>3.0-incubating</servicemix-version>
+        <xbean-version>2.6</xbean-version>
+    </properties>
+
     <build>
         <pluginManagement>
             <plugins>
@@ -54,28 +86,7 @@
             </plugin>
         </plugins>
     </build>
-    <repositories>
-        <repository>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots/>
-            <id>apache.snapshots</id>
-            <name>Maven Central Plugins Development Repository</name>
-            <url>http://cvs.apache.org/maven-snapshot-repository</url>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots/>
-            <id>apache.snapshots</id>
-            <name>Maven Central Plugins Development Repository</name>
-            <url>http://cvs.apache.org/maven-snapshot-repository</url>
-        </pluginRepository>
-    </pluginRepositories>
+
     <dependencies>
         <!--Globus LIB dependencies. Installed from Local maven repos-->
         <dependency>
@@ -146,7 +157,7 @@
             <artifactId>commons-cli.jar</artifactId>
             <version>4.0</version>
             <scope>system</scope>
-            <systemPath>@lib.path@/commons-cli.jar</systemPath>
+            <systemPath>@lib.path@/commons-cli-2.0.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>globus.jars</groupId>
@@ -160,14 +171,14 @@
             <artifactId>commons.collections.jar</artifactId>
             <version>4.0</version>
             <scope>system</scope>
-            <systemPath>@lib.path@/commons.collections-3.0.jar</systemPath>
+            <systemPath>@lib.path@/commons-collections-3.0.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>globus.jars</groupId>
             <artifactId>commons-digester.jar</artifactId>
             <version>4.0</version>
             <scope>system</scope>
-            <systemPath>@lib.path@/commons-digestor.jar</systemPath>
+            <systemPath>@lib.path@/commons-digester.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>globus.jars</groupId>
@@ -321,8 +332,5 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <properties>
-        <servicemix-version>3.0-incubating</servicemix-version>
-        <xbean-version>2.6</xbean-version>
-    </properties>
+
 </project>
