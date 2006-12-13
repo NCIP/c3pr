@@ -43,7 +43,7 @@
 
         <!--set the maven command name-->
         <condition property="maven.command.name" value="mvn.bat" else="mvn">
-            <os name="Windows"/>
+            <os family="windows"/>
         </condition>
 
     </target>
