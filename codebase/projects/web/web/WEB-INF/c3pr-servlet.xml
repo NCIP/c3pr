@@ -23,11 +23,14 @@
             <value>messages</value>
         </property>
     </bean>
-    
+    <!--   
     <bean id="connectionFactoryBean" class="org.apache.activemq.ActiveMQConnectionFactory">
-       <constructor-arg> 
-       	   <value>tcp://10.1.1.181</value>
-         </constructor-arg>
+       <property name="brokerURL">           
+       	   <value>tcp://10.1.10.181:61616</value>
+        </property> 
+       <property name="basename">
+            <value>messages</value>
+        </property>       
     </bean>
     
      <bean id="destinationQueue" class="org.apache.activemq.command.ActiveMQQueue">
@@ -35,7 +38,7 @@
        	   <value>bridge.output.async</value>
         </constructor-arg>
     </bean>
-    
+   
     <bean id="esbCreateProtocol" class="edu.duke.cabig.c3pr.service.impl.ProtocolBroadcastServiceImpl">
         <property name="connectionFactory">
             <ref local="connectionFactoryBean" />
@@ -44,7 +47,7 @@
             <ref local="destinationQueue" />
         </property>   
     </bean>
-    
+     --> 
     <bean id="urlMapping" class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>
 
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -58,8 +61,8 @@
             <value>.jsp</value>
         </property>
     </bean>
-    <bean id="createProtocolController" lazy-init="true" class="edu.duke.cabig.c3pr.web.CreateProtocolController" autowire="byType">
-	    <property name="formView" value="createprotocol"/>
+    <bean id="createStudyController" lazy-init="true" class="edu.duke.cabig.c3pr.web.CreateStudyController" autowire="byType">
+	    <property name="formView" value="createstudy"/>
 	    <property name="successView" value="success"/>
 	    <property name="commandClass" value="edu.duke.cabig.c3pr.domain.Study"/>
     </bean>
