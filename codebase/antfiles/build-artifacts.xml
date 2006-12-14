@@ -238,15 +238,6 @@
             </fileset>
         </artifact>
 
-
-        <artifact track="main" type="jars" id="c3pr.xml-marshaller.jars">
-            <antcall target="build-xml-marshaller"/>
-            <fileset dir="${projects.dir}/xml-marshaller/build/jars">
-                <include name="*.jar"/>
-                <exclude name="*test*.jar"/>
-            </fileset>
-        </artifact>
-
         <artifact track="main" type="jars" id="c3pr.test-system.jars">
             <antcall target="build-test-system"/>
             <fileset dir="${projects.dir}/test-system/build/jars">

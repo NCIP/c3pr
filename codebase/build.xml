@@ -43,13 +43,13 @@
     <!--                          DEFINE THE SUB PROJECTS                                 -->
     <!-- ================================================================================ -->
     <!-- The name should be the path relative from projects.dir.  Its strongly encouraged you use a flat layout caTissueCAEDataService, caTissueCoreDataService,  -->
-    <property name="projects.list" value="core, web, gridnode, xml-marshaller, esb-client, servicemix, test-system"/>
+    <property name="projects.list" value="core, web, gridnode, esb-client, servicemix, test-system"/>
 
     <!-- ================================================================================ -->
     <!--                  DEFINE THE SUB PROJECTS THAT SUPPORT TESTING                    -->
     <!-- ================================================================================ -->
     <!-- This should be a subset of the projects above -->
-    <property name="testable.projects.list" value="web, xml-marshaller"/>
+    <property name="testable.projects.list" value="web"/>
 
     <!-- ======================================================================================= -->
     <!--                  DEFINE THE SUB PROJECTS THAT SUPPORT SYSTEM TESTING                    -->
@@ -141,22 +141,6 @@
         	<artifact refid="commons-logging.jars"/>
         </resolveDependencies>
         <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="all"/>
-    </target>
-
-    <!-- =============================================================== -->
-    <!-- c3pr XML Marshaller project                                     -->
-    <!-- =============================================================== -->
-    <target name="build-xml-marshaller" depends="prepare" description="Builds the c3p3 xml marshalling library">
-        <resolveDependencies extdir="${projects.dir}/xml-marshaller/ext">
-            <artifact refid="cacore.jars"/>
-            <artifact refid="common.test.jars"/>
-            <artifact refid="c3pr.core.jars"/>
-
-            <artifact refid="xerces.jars"/>
-            <artifact refid="xercesImpl.jars"/>
-
-        </resolveDependencies>
-        <ant dir="${projects.dir}/xml-marshaller" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
 
     <!-- =============================================================== -->
