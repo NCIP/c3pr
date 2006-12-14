@@ -50,14 +50,14 @@ instead if this were running inside of a J2EE container -->
         </property>
     </bean>
 <!-- Hibernate SessionFactory -->
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
         <property name="dataSource">
             <ref local="dataSource" />
         </property>
-<!-- Must references all OR mapping files. -->
-        <property name="mappingJarLocations">
+<!-- Must reference all OR mapping files. -->
+        <property name="annotatedClasses">
 	        <list>
-	           <value>WEB-INF/lib/c3pr-2.0-core-1.0.jar</value>
+	           <value>edu.duke.cabig.c3pr.domain.Study</value>
 	         </list>
 	        </property>
         <property name="hibernateProperties">
@@ -83,12 +83,9 @@ instead if this were running inside of a J2EE container -->
             <ref local="hibernateTemplate" />
         </property>
     </bean>
-    <bean id="protocolDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.hibernate.ProtocolDaoHibernate" autowire="byType"></bean>
-    <bean id="protocolService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.ProtocolServiceImpl">
-        <property name="protocolDao">
-            <ref local="protocolDao" />
-        </property>
-    </bean>
+    <bean id="studyDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.hibernate.StudyDaoHibernate" autowire="byType"></bean>
+    
+    <bean id="studyService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudyServiceImpl" autowire="byType"></bean>           
 
     <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager" autowire="byType" />
 </beans>
