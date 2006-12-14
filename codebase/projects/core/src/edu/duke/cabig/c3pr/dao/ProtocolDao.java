@@ -32,15 +32,7 @@ import edu.duke.cabig.c3pr.dto.ProtocolSearchCriteria;
 
  */
 public interface ProtocolDao extends BaseDao
-{
-	
-	/**
-	 * Add a new Study to the data source 
-	 * @param study
-	 * @throws Exception
-	 */
-	public void saveStudy(Study study) throws Exception;
-	
+{	
 	/**
 	 * saveProtocol:  Add new protocol to the data store.
 	 * @param cmprotocol
