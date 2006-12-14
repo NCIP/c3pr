@@ -1,5 +1,14 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 /**
  * A systematic evaluation of an observation or an
  * intervention (for example, treatment, drug, device, procedure or system) in one
@@ -9,26 +18,64 @@ package edu.duke.cabig.c3pr.domain;
  * more correlative studies. A correlative study extends the objectives or
  * observations of a primary study, enrolling the same, or a subset of the same,
  * subjects as the primary study. A Clinical Trial is a Study with type=
- * "intervention" with subjects of type="human". [BRIDG] [End Documentation]
+ * "intervention" with subjects of type="human". 
+ * 
+ * @author priyatam
  * @version 1.0
- * @created 06-Dec-2006 12:19:55 AM
  */
-public class Study {
-	private int id;
+
+@Entity
+@Table (name = "STUDIES")
+@GenericGenerator(name="id-generator", strategy = "native",
+    parameters = {
+        @Parameter(name="sequence", value="C3PR_GENERAL_SEQ")
+    }
+)
+public class Study extends AbstractDomainObject implements Comparable<Study>, Serializable{
+	
+	@Column(name = "BLINDED_INDICATOR", length = 4, nullable = false)	  
 	private String blindedIndicator;
+	
+	@Column(name = "DESCRIPTION_TEXT", length = 50, nullable = false)	   
 	private java.lang.String descriptionText;
+	
+	@Column(name = "DISEASE_CODE", length = 20, nullable = false)	   
 	private java.lang.String diseaseCode;	
+
+	@Column(name = "DISEASE_CODE_LONG_TITLE_TEXT", length = 50, nullable = false)	   
 	private java.lang.String longTitleText;	
+	
+	@Column(name = "MONITOR_CODE", length = 20, nullable = false)	   
 	private java.lang.String monitorCode;
+	
+	@Column(name = "MULTI_INSTITUTION_INDICATOR", length = 4, nullable = false)	   
 	private String multiInstitutionIndicator;
+	
+	@Column(name = "NCI_IDENTIFIER", length = 4, nullable = false)	   
 	private java.lang.String nciIdentifier;
+	
+	@Column(name = "PHASE_CODE", length = 20, nullable = false)	   	
 	private java.lang.String phaseCode;
+	
+	@Column(name = "PRECIS_TEXT", length = 30, nullable = false)	   			
 	private java.lang.String precisText;
+	
+	@Column(name = "RANDOMIZED_INDICATOR", length = 20, nullable = false)	   	
 	private String randomizedIndicator;
+	
+	@Column(name = "SHORT_TITLE_TEXT", length = 30, nullable = false)	   	
 	private java.lang.String shortTitleText;
+	
+	@Column(name = "SPONSOR_CODE", length = 20, nullable = false)			
 	private java.lang.String sponsorCode;
+	
+	@Column(name = "STATUS_CODE", length = 20, nullable = false)	   		
 	private java.lang.String status;
+	
+	@Column(name = "TARGET_ACCRUAL_NUMBER", length = 10, nullable = false)	   		
 	private int targetAccrualNumber;
+	
+	@Column(name = "TYPE_CODE", length = 20, nullable = false)	   		
 	private java.lang.String type;
 //	public EligibilityCriteria eligibilityCriteriaCollection;
 //	public StudyInvestigator studyInvestigatorCollection;
@@ -39,7 +86,11 @@ public class Study {
 	public Study(){
 
 	}
-
+	
+    public int compareTo(Study o) {
+     //TODO
+    	return 1;
+    }
 //	public Amendment getAmendmentCollection() {
 //		return amendmentCollection;
 //	}
@@ -81,13 +132,7 @@ public class Study {
 //		this.eligibilityCriteriaCollection = eligibilityCriteriaCollection;
 //	}
 
-	public int getId() {
-		return id;
-	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public java.lang.String getLongTitleText() {
 		return longTitleText;
