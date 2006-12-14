@@ -11,8 +11,8 @@ import junit.textui.TestRunner;
 
 import com.atomicobject.haste.framework.Story;
 
-import edu.duke.cabig.c3prv2.test.system.steps.WebCheckStep;
-import edu.duke.cabig.c3prv2.test.system.steps.WebCreateStep;
+import edu.duke.cabig.c3pr.test.system.steps.WebCheckStep;
+import edu.duke.cabig.c3pr.test.system.steps.WebCreateStep;
 
 /**
  * This class validates the functionality of the Web Dummy class.
