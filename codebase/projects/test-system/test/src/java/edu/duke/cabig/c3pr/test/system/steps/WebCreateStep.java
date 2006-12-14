@@ -1,11 +1,10 @@
 /*
  * Created on Oct 25, 2006
  */
-package edu.duke.cabig.c3prv2.test.system.steps;
+package edu.duke.cabig.c3pr.test.system.steps;
 
 import com.atomicobject.haste.framework.Step;
 
-import edu.duke.cabig.c3prv2.web.Dummy;
 
 /**
  * This step creates a new Dummy object.
@@ -14,7 +13,7 @@ import edu.duke.cabig.c3prv2.web.Dummy;
 public class WebCreateStep
 	extends Step
 {
-	private Dummy dummy;
+	//private Dummy dummy;
 
 	public WebCreateStep()
 	{
@@ -23,11 +22,11 @@ public class WebCreateStep
 	
 	public void runStep()
 	{
-		this.dummy = new Dummy();
+		//this.dummy = new Dummy();
 	}
 	
-	public Dummy getDummy()
-	{
-		return dummy;
-	}
+//	public Dummy getDummy()
+//	{
+//		return dummy;
+//	}
 }

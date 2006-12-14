@@ -1,7 +1,7 @@
 /*
  * Created on Oct 25, 2006
  */
-package edu.duke.cabig.c3prv2.test.system;
+package edu.duke.cabig.c3pr.test.system;
 
 import java.util.Vector;
 

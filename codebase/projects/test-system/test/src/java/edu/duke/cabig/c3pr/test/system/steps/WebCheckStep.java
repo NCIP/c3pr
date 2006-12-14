@@ -1,7 +1,7 @@
 /*
  * Created on Oct 25, 2006
  */
-package edu.duke.cabig.c3prv2.test.system.steps;
+package edu.duke.cabig.c3pr.test.system.steps;
 
 import com.atomicobject.haste.framework.Step;
 
