@@ -15,7 +15,7 @@ import edu.duke.cabig.c3prv2.test.system.steps.WebCheckStep;
 import edu.duke.cabig.c3prv2.test.system.steps.WebCreateStep;
 
 /**
- * This is just a test class that ensures that the integration testing framework is working properly.
+ * This class validates the functionality of the Web Dummy class.
  * @testType integration
  * @steps WebCreateStep, WebCheckStep
  * @author Patrick McConnell

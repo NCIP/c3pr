@@ -23,6 +23,6 @@ public class WebCheckStep
 	
 	public void runStep()
 	{
-		assertEquals("dummy", createStep.getDummy());
+		assertEquals("please delete me", createStep.getDummy().dummy());
 	}
 }
