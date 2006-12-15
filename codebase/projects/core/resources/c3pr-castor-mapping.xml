@@ -4,7 +4,7 @@ http://www.castor.org/mapping.dtd">
 
 <mapping>
     <class name="edu.duke.cabig.c3pr.domain.Study">
-        <map-to xml="Protocol" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
+        <map-to xml="Study" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.grid"/>
 
         <field name="id" type="int">
             <bind-xml name="id" node="element"/>

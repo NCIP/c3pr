@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema 
+    xmlns:c3pr="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.grid"
+    targetNamespace="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.grid"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xs:element name="Study">
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element name="id" type="xs:string"></xs:element>
+            <xs:element name="blindedIndicator" type="xs:string"></xs:element>
+            <xs:element name="descriptionText" type="xs:string"></xs:element>
+            <xs:element name="diseaseCode" type="xs:date"></xs:element>
+            <xs:element name="longTitleText" type="xs:string"></xs:element>
+            <xs:element name="monitorCode" type="xs:string"></xs:element>
+            <xs:element name="multiInstitutionIndicator" type="xs:string"></xs:element>
+            <xs:element name="nciIdentifier" type="xs:string"></xs:element>
+            <xs:element name="phaseCode" type="xs:string"></xs:element>
+            <xs:element name="precisText" type="xs:string"></xs:element>
+            <xs:element name="randomizedIndicator" type="xs:string"></xs:element>
+            <xs:element name="shortTitleText" type="xs:string"></xs:element>
+            <xs:element name="sponsorCode" type="xs:string"></xs:element>
+            <xs:element name="status" type="xs:string"></xs:element>
+            <xs:element name="targetAccrualNumber" type="xs:string"></xs:element>
+            <xs:element name="type" type="xs:string"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+
+</xs:schema>
