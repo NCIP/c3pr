@@ -29,11 +29,10 @@ import org.apache.servicemix.common.Endpoint;
 import org.apache.servicemix.common.ExchangeProcessor;
 import org.apache.servicemix.jbi.messaging.FaultImpl;
 import org.apache.servicemix.jbi.jaxp.SourceTransformer;
-import protocol.Protocol;
-import com.sb.cabig.c3pr.client.ProtocolIngestorClient;
-
+import
 import java.rmi.RemoteException;
 import java.io.ByteArrayInputStream;
+
 
 /**
  * @org.apache.xbean.XBean element="endpoint"
@@ -120,12 +119,18 @@ public class WSRFEndpoint extends Endpoint implements ExchangeProcessor {
                 // else, you have to create an Out message and populate it
                 System.out.println("WSRF Component received a message " + new SourceTransformer().contentToString(in));
 
-                ProtocolIngestorClient client = new ProtocolIngestorClient(getEpr());
-                Protocol protocol = new Protocol();
-                protocol.setId("Test protocol");
+                //should just forward the xml message to the consuming
+                //service using a generic caGrid client
+                //for now send a test message
+                edu.duke.cabig.c3pr.gridnode.client.StudyIngestorClient client = new edu.duke.cabig.c3pr.gridnode.client.StudyIngestorClient(getEpr());
+
+                edu.duke.cabig.c3pr.grid.Study dummyStudy = new edu.duke.cabig.c3pr.grid.Study();
+                dummyStudy.setId(1);
+                dummyStudy.setDescriptionText("Test Study");
 
                 try {
-                    client.createProtocol(protocol);
+
+                    client.createStudy(dummyStudy);
 
                 } catch (RemoteException e) {
                     System.out.println("Problem communicated with grid service. Check your EPR");
