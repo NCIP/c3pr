@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="gme://caCORE.cabig/3.0/edu.duke.cabig.c3pr.domain" targetNamespace="gme://caCORE.cabig/3.0/edu.duke.cabig.c3pr.domain" elementFormDefault="qualified">
+  <xs:element name="Participant" type="Participant" />
+  <xs:complexType name="Participant">
+    <xs:complexContent>
+      <xs:extension base="Person">
+        <xs:sequence>
+          <xs:element name="healthcareSiteParticipantCollection" type="HealthcareSiteParticipant" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="studyParticipantAssignmentCollection" type="StudyParticipantAssignment" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="confidentialityIndicator" type="xs:boolean" />
+        <xs:attribute name="initials" type="xs:char" />
+        <xs:attribute name="paymentMethodCode" type="xs:char" />
+        <xs:attribute name="zipCode" type="xs:string" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="StudyParticipantEligibilty" type="StudyParticipantEligibilty" />
+  <xs:complexType name="StudyParticipantEligibilty">
+    <xs:sequence>
+      <xs:element name="study" type="Study" minOccurs="0" maxOccurs="1" />
+      <xs:element name="participant" type="Participant" minOccurs="0" maxOccurs="1" />
+    </xs:sequence>
+    <xs:attribute name="eligibileIndicator" type="xs:boolean" />
+    <xs:attribute name="eligibilityWaiverReasonText" type="xs:string" />
+    <xs:attribute name="id" type="xs:int" />
+    <xs:attribute name="ineligibilityReasonText" type="xs:string" />
+  </xs:complexType>
+  <xs:element name="Amendment" type="Amendment" />
+  <xs:complexType name="Amendment">
+    <xs:sequence />
+    <xs:attribute name="id" type="xs:int" />
+    <xs:attribute name="identifier" type="xs:int" />
+    <xs:attribute name="irbApprovalDate" type="xs:dateTime" />
+  </xs:complexType>
+  <xs:element name="HealthcareSite" type="HealthcareSite" />
+  <xs:complexType name="HealthcareSite">
+    <xs:complexContent>
+      <xs:extension base="Organization">
+        <xs:sequence>
+          <xs:element name="studySiteCollection" type="StudySite" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="healthcareSiteParticipant" type="HealthcareSiteParticipant" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="nciInstituteCode" type="xs:string" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="StudyInvestigator" type="StudyInvestigator" />
+  <xs:complexType name="StudyInvestigator">
+    <xs:sequence>
+      <xs:element name="study" type="Study" minOccurs="0" maxOccurs="1" />
+      <xs:element name="investigator" type="Investigator" minOccurs="0" maxOccurs="1" />
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:int" />
+    <xs:attribute name="responsibilityRoleCode" type="xs:string" />
+    <xs:attribute name="signatureIndicator" type="xs:boolean" />
+    <xs:attribute name="signatureText" type="xs:string" />
+    <xs:attribute name="startDate" type="xs:dateTime" />
+    <xs:attribute name="statusCode" type="xs:string" />
+    <xs:attribute name="stopDate" type="xs:dateTime" />
+  </xs:complexType>
+  <xs:element name="Exclusion" type="Exclusion" />
+  <xs:complexType name="Exclusion">
+    <xs:complexContent>
+      <xs:extension base="EligibilityCriteria">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="Study" type="Study" />
+  <xs:complexType name="Study">
+    <xs:sequence>
+      <xs:element name="study" type="Study" minOccurs="0" maxOccurs="1" />
+      <xs:element name="amendmentCollection" type="Amendment" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="studyInvestigatorCollection" type="StudyInvestigator" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="studySiteCollection" type="StudySite" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="eligibilityCriteriaCollection" type="EligibilityCriteria" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+    <xs:attribute name="blindedIndicator" type="xs:boolean" />
+    <xs:attribute name="descriptionText" type="xs:string" />
+    <xs:attribute name="diseaseCode" type="xs:string" />
+    <xs:attribute name="id" type="xs:int" />
+    <xs:attribute name="longTitleText" type="xs:string" />
+    <xs:attribute name="monitorCode" type="xs:string" />
+    <xs:attribute name="multiInstitutionIndicator" type="xs:boolean" />
+    <xs:attribute name="nciIdentifier" type="xs:string" />
+    <xs:attribute name="phaseCode" type="xs:string" />
+    <xs:attribute name="precisText" type="xs:string" />
+    <xs:attribute name="randomizedIndicator" type="xs:boolean" />
+    <xs:attribute name="shortTitleText" type="xs:string" />
+    <xs:attribute name="sponsorCode" type="xs:string" />
+    <xs:attribute name="status" type="xs:string" />
+    <xs:attribute name="targetAccrualNumber" type="xs:int" />
+    <xs:attribute name="type" type="xs:string" />
+  </xs:complexType>
+  <xs:element name="Investigator" type="Investigator" />
+  <xs:complexType name="Investigator">
+    <xs:complexContent>
+      <xs:extension base="Person">
+        <xs:sequence>
+          <xs:element name="studyInvestigatorCollection" type="StudyInvestigator" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="healthcareSiteInvestigator" type="HealthcareSiteInvestigator" minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+        <xs:attribute name="nciIdentifier" type="xs:string" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="StudySite" type="StudySite" />
+  <xs:complexType name="StudySite">
+    <xs:sequence>
+      <xs:element name="study" type="Study" minOccurs="0" maxOccurs="1" />
+      <xs:element name="studyParticipantCollection" type="StudyParticipantAssignment" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:int" />
+    <xs:attribute name="irbApprovalDate" type="xs:dateTime" />
+    <xs:attribute name="roleCode" type="xs:string" />
+    <xs:attribute name="startDate" type="xs:dateTime" />
+    <xs:attribute name="statusCode" type="xs:string" />
+    <xs:attribute name="stopDate" type="xs:dateTime" />
+    <xs:attribute name="targetAccrualNumber" type="xs:int" />
+  </xs:complexType>
+  <xs:element name="Person" type="Person" />
+  <xs:complexType name="Person">
+    <xs:sequence />
+    <xs:attribute name="administrativeGenderCode" type="xs:string" />
+    <xs:attribute name="birthDate" type="xs:dateTime" />
+    <xs:attribute name="countryCode" type="xs:string" />
+    <xs:attribute name="educationLevelCode" type="xs:string" />
+    <xs:attribute name="employmentStatusCode" type="xs:string" />
+    <xs:attribute name="employmentStatusOtherText" type="xs:string" />
+    <xs:attribute name="ethnicGroupCode" type="xs:string" />
+    <xs:attribute name="firstName" type="xs:string" />
+    <xs:attribute name="householdIncomeCode" type="xs:string" />
+    <xs:attribute name="id" type="xs:int" />
+    <xs:attribute name="lastName" type="xs:string" />
+    <xs:attribute name="maritalStatusCode" type="xs:string" />
+    <xs:attribute name="raceCode" type="xs:string" />
+    <xs:attribute name="telecomAddress" type="xs:string" />
+  </xs:complexType>
+  <xs:element name="HealthcareSiteParticipantRole" type="HealthcareSiteParticipantRole" />
+  <xs:complexType name="HealthcareSiteParticipantRole">
+    <xs:sequence />
+    <xs:attribute name="id" type="xs:int" />
+    <xs:attribute name="roleCode" type="xs:string" />
+  </xs:complexType>
+  <xs:element name="HealthcareSiteParticipant" type="HealthcareSiteParticipant" />
+  <xs:complexType name="HealthcareSiteParticipant">
+    <xs:sequence>
+      <xs:element name="healthcareSiteRoleCollection" type="HealthcareSiteParticipantRole" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:int" />
+    <xs:attribute name="participantIdentifier" type="xs:string" />
+  </xs:complexType>
+  <xs:element name="HealthcareSiteInvestigator" type="HealthcareSiteInvestigator" />
+  <xs:complexType name="HealthcareSiteInvestigator">
+    <xs:sequence>
+      <xs:element name="healthCareSite" type="HealthcareSite" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:int" />
+    <xs:attribute name="statusCode" type="xs:string" />
+    <xs:attribute name="statusDate" type="xs:dateTime" />
+  </xs:complexType>
+  <xs:element name="StudyParticipantAssignment" type="StudyParticipantAssignment" />
+  <xs:complexType name="StudyParticipantAssignment">
+    <xs:sequence>
+      <xs:element name="participant" type="Participant" minOccurs="0" maxOccurs="1" />
+    </xs:sequence>
+    <xs:attribute name="armIdentifier" type="xs:string" />
+    <xs:attribute name="eligibilityWaiverReasonText" type="xs:string" />
+    <xs:attribute name="enrollmentAge" type="xs:int" />
+    <xs:attribute name="id" type="xs:int" />
+    <xs:attribute name="informedConsentFormSignedDate" type="xs:dateTime" />
+    <xs:attribute name="offStudyDate" type="xs:dateTime" />
+    <xs:attribute name="offStudyReasonCode" type="xs:string" />
+    <xs:attribute name="offStudyReasonOtherText" type="xs:string" />
+    <xs:attribute name="studyParticipantIdentifier" type="xs:string" />
+    <xs:attribute name="subgroupCode" type="xs:string" />
+  </xs:complexType>
+  <xs:element name="FundingSponsor" type="FundingSponsor" />
+  <xs:complexType name="FundingSponsor">
+    <xs:complexContent>
+      <xs:extension base="Organization">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="ParticipantEligibilityAnswer" type="ParticipantEligibilityAnswer" />
+  <xs:complexType name="ParticipantEligibilityAnswer">
+    <xs:sequence>
+      <xs:element name="eligibilityCriteria" type="EligibilityCriteria" minOccurs="0" maxOccurs="1" />
+      <xs:element name="participant" type="Participant" minOccurs="0" maxOccurs="1" />
+    </xs:sequence>
+    <xs:attribute name="answerText" type="xs:string" />
+    <xs:attribute name="id" type="xs:int" />
+  </xs:complexType>
+  <xs:element name="Inclusion" type="Inclusion" />
+  <xs:complexType name="Inclusion">
+    <xs:complexContent>
+      <xs:extension base="EligibilityCriteria">
+        <xs:sequence />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:element name="EligibilityCriteria" type="EligibilityCriteria" />
+  <xs:complexType name="EligibilityCriteria">
+    <xs:sequence>
+      <xs:element name="participantEligibilityAnswerCollection" type="ParticipantEligibilityAnswer" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="studyCollection" type="Study" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+    <xs:attribute name="expectedAnswerIndicator" type="xs:boolean" />
+    <xs:attribute name="id" type="xs:int" />
+    <xs:attribute name="questionNumber" type="xs:int" />
+    <xs:attribute name="questionText" type="xs:string" />
+  </xs:complexType>
+  <xs:element name="Organization" type="Organization" />
+  <xs:complexType name="Organization">
+    <xs:sequence />
+    <xs:attribute name="city" type="xs:string" />
+    <xs:attribute name="countryCode" type="xs:string" />
+    <xs:attribute name="descriptionText" type="xs:string" />
+    <xs:attribute name="id" type="xs:int" />
+    <xs:attribute name="name" type="xs:string" />
+    <xs:attribute name="postalCode" type="xs:string" />
+    <xs:attribute name="stateCode" type="xs:string" />
+    <xs:attribute name="statusCode" type="xs:string" />
+    <xs:attribute name="statusDate" type="xs:dateTime" />
+    <xs:attribute name="streetAddress" type="xs:string" />
+    <xs:attribute name="telecomAddress" type="xs:string" />
+  </xs:complexType>
+</xs:schema>
+

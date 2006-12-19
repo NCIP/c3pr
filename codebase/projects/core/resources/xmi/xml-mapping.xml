@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Object Mapping DTD Version 1.0//EN" "http://www.castor.org/mapping.dtd">
+
+<mapping>
+  <class name="edu.duke.cabig.c3pr.domain.Participant" extends="edu.duke.cabig.c3pr.domain.Person">
+    <map-to xml="Participant" ns-uri="gme://caCORE.cabig/3.0/edu.duke.cabig.c3pr.domain" />
+    <field name="confidentialityIndicator" type="boolean">
+      <bind-xml name="confidentialityIndicator" node="attribute" />
+    </field>
+    <field name="initials" type="char">
+      <bind-xml name="initials" node="attribute" />
+    </field>
+    <field name="paymentMethodCode" type="char">
+      <bind-xml name="paymentMethodCode" node="attribute" />
+    </field>
+    <field name="zipCode" type="string">
+      <bind-xml name="zipCode" node="attribute" />
+    </field>
+  </class>
+  <class name="edu.duke.cabig.c3pr.domain.StudyParticipantEligibilty">
+    <map-to xml="StudyParticipantEligibilty" ns-uri="gme://caCORE.cabig/3.0/edu.duke.cabig.c3pr.domain" />
+    <field name="eligibileIndicator" type="boolean">
+      <bind-xml name="eligibileIndicator" node="attribute" />
+    </field>
+    <field name="eligibilityWaiverReasonText" type="string">
+      <bind-xml name="eligibilityWaiverReasonText" node="attribute" />
+    </field>
+    <field name="id" type="int">
+      <bind-xml name="id" node="attribute" />
+    </field>
+    <field name="ineligibilityReasonText" type="string">
+      <bind-xml name="ineligibilityReasonText" node="attribute" />
+    </field>
+  </class>
+  <class name="edu.duke.cabig.c3pr.domain.Amendment">
+    <map-to xml="Amendment" ns-uri="gme://caCORE.cabig/3.0/edu.duke.cabig.c3pr.domain" />
+    <field name="id" type="int">
+      <bind-xml name="id" node="attribute" />
+    </field>
+    <field name="identifier" type="int">
+      <bind-xml name="identifier" node="attribute" />
+    </field>
+    <field name="irbApprovalDate" type="date">
+      <bind-xml name="irbApprovalDate" node="attribute" />
+    </field>
+  </class>
+  <class name="edu.duke.cabig.c3pr.domain.HealthcareSite" extends="edu.duke.cabig.c3pr.domain.Organization">
+    <map-to xml="HealthcareSite" ns-uri="gme://caCORE.cabig/3.0/edu.duke.cabig.c3pr.domain" />
+    <field name="nciInstituteCode" type="string">
+      <bind-xml name="nciInstituteCode" node="attribute" />
+    </field>
+  </class>
+  <class name="edu.duke.cabig.c3pr.domain.StudyInvestigator">
+    <map-to xml="StudyInvestigator" ns-uri="gme://caCORE.cabig/3.0/edu.duke.cabig.c3pr.domain" />
+    <field name="id" type="int">
+      <bind-xml name="id" node="attribute" />
+    </field>
+    <field name="responsibilityRoleCode" type="string">
+      <bind-xml name="responsibilityRoleCode" node="attribute" />
+    </field>
+    <field name="signatureIndicator" type="boolean">
+      <bind-xml name="signatureIndicator" node="attribute" />
+    </field>
+    <field name="signatureText" type="string">
+      <bind-xml name="signatureText" node="attribute" />
+    </field>
+    <field name="startDate" type="date">
+      <bind-xml name="startDate" node="attribute" />
+    </field>
+    <field name="statusCode" type="string">
+      <bind-xml name="statusCode" node="attribute" />
+    </field>
+    <field name="stopDate" type="date">
+      <bind-xml name="stopDate" node="attribute" />
+    </field>
+  </class>
+  <class name="edu.duke.cabig.c3pr.domain.Exclusion" extends="edu.duke.cabig.c3pr.domain.EligibilityCriteria">
+    <map-to xml="Exclusion" ns-uri="gme://caCORE.cabig/3.0/edu.duke.cabig.c3pr.domain" />
+  </class>
+  <class name="edu.duke.cabig.c3pr.domain.Study">
+    <map-to xml="Study" ns-uri="gme://caCORE.cabig/3.0/edu.duke.cabig.c3pr.domain" />
+    <field name="blindedIndicator" type="boolean">
+      <bind-xml name="blindedIndicator" node="attribute" />
+    </field>
+    <field name="descriptionText" type="string">
+      <bind-xml name="descriptionText" node="attribute" />
+    </field>
+    <field name="diseaseCode" type="string">
+      <bind-xml name="diseaseCode" node="attribute" />
+    </field>
+    <field name="id" type="int">
+      <bind-xml name="id" node="attribute" />
+    </field>
+    <field name="longTitleText" type="string">
+      <bind-xml name="longTitleText" node="attribute" />
+    </field>
+    <field name="monitorCode" type="string">
+      <bind-xml name="monitorCode" node="attribute" />
+    </field>
+    <field name="multiInstitutionIndicator" type="boolean">
+      <bind-xml name="multiInstitutionIndicator" node="attribute" />
+    </field>
+    <field name="nciIdentifier" type="string">
+      <bind-xml name="nciIdentifier" node="attribute" />
+    </field>
+    <field name="phaseCode" type="string">
+      <bind-xml name="phaseCode" node="attribute" />
+    </field>
+    <field name="precisText" type="string">
+      <bind-xml name="precisText" node="attribute" />
+    </field>
+    <field name="randomizedIndicator" type="boolean">
+      <bind-xml name="randomizedIndicator" node="attribute" />
+    </field>
+    <field name="shortTitleText" type="string">
+      <bind-xml name="shortTitleText" node="attribute" />
+    </field>
+    <field name="sponsorCode" type="string">
+      <bind-xml name="sponsorCode" node="attribute" />
+    </field>
+    <field name="status" type="string">
+      <bind-xml name="status" node="attribute" />
+    </field>
+    <field name="targetAccrualNumber" type="int">
+      <bind-xml name="targetAccrualNumber" node="attribute" />
+    </field>
+    <field name="type" type="string">
+      <bind-xml name="type" node="attribute" />
+    </field>
+  </class>
+  <class name="edu.duke.cabig.c3pr.domain.Investigator" extends="edu.duke.cabig.c3pr.domain.Person">
+    <map-to xml="Investigator" ns-uri="gme://caCORE.cabig/3.0/edu.duke.cabig.c3pr.domain" />
+    <field name="nciIdentifier" type="string">
+      <bind-xml name="nciIdentifier" node="attribute" />
+    </field>
+  </class>
+  <class name="edu.duke.cabig.c3pr.domain.StudySite">
+    <map-to xml="StudySite" ns-uri="gme://caCORE.cabig/3.0/edu.duke.cabig.c3pr.domain" />
+    <field name="id" type="int">
+      <bind-xml name="id" node="attribute" />
+    </field>
+    <field name="irbApprovalDate" type="date">
+      <bind-xml name="irbApprovalDate" node="attribute" />
+    </field>
+    <field name="roleCode" type="string">
+      <bind-xml name="roleCode" node="attribute" />
+    </field>
+    <field name="startDate" type="date">
+      <bind-xml name="startDate" node="attribute" />
+    </field>
+    <field name="statusCode" type="string">
+      <bind-xml name="statusCode" node="attribute" />
+    </field>
+    <field name="stopDate" type="date">
+      <bind-xml name="stopDate" node="attribute" />
+    </field>
+    <field name="targetAccrualNumber" type="int">
+      <bind-xml name="targetAccrualNumber" node="attribute" />
+    </field>
+  </class>
+  <class name="edu.duke.cabig.c3pr.domain.Person">
+    <map-to xml="Person" ns-uri="gme://caCORE.cabig/3.0/edu.duke.cabig.c3pr.domain" />
+    <field name="administrativeGenderCode" type="string">
+      <bind-xml name="administrativeGenderCode" node="attribute" />
+    </field>
+    <field name="birthDate" type="date">
+      <bind-xml name="birthDate" node="attribute" />
+    </field>
+    <field name="countryCode" type="string">
+      <bind-xml name="countryCode" node="attribute" />
+    </field>
+    <field name="educationLevelCode" type="string">
+      <bind-xml name="educationLevelCode" node="attribute" />
+    </field>
+    <field name="employmentStatusCode" type="string">
+      <bind-xml name="employmentStatusCode" node="attribute" />
+    </field>
+    <field name="employmentStatusOtherText" type="string">
+      <bind-xml name="employmentStatusOtherText" node="attribute" />
+    </field>
+    <field name="ethnicGroupCode" type="string">
+      <bind-xml name="ethnicGroupCode" node="attribute" />
+    </field>
+    <field name="firstName" type="string">
+      <bind-xml name="firstName" node="attribute" />
+    </field>
+    <field name="householdIncomeCode" type="string">
+      <bind-xml name="householdIncomeCode" node="attribute" />
+    </field>
+    <field name="id" type="int">
+      <bind-xml name="id" node="attribute" />
+    </field>
+    <field name="lastName" type="string">
+      <bind-xml name="lastName" node="attribute" />
+    </field>
+    <field name="maritalStatusCode" type="string">
+      <bind-xml name="maritalStatusCode" node="attribute" />
+    </field>
+    <field name="raceCode" type="string">
+      <bind-xml name="raceCode" node="attribute" />
+    </field>
+    <field name="telecomAddress" type="string">
+      <bind-xml name="telecomAddress" node="attribute" />
+    </field>
+  </class>
+  <class name="edu.duke.cabig.c3pr.domain.HealthcareSiteParticipantRole">
+    <map-to xml="HealthcareSiteParticipantRole" ns-uri="gme://caCORE.cabig/3.0/edu.duke.cabig.c3pr.domain" />
+    <field name="id" type="int">
+      <bind-xml name="id" node="attribute" />
+    </field>
+    <field name="roleCode" type="string">
+      <bind-xml name="roleCode" node="attribute" />
+    </field>
+  </class>
+  <class name="edu.duke.cabig.c3pr.domain.HealthcareSiteParticipant">
+    <map-to xml="HealthcareSiteParticipant" ns-uri="gme://caCORE.cabig/3.0/edu.duke.cabig.c3pr.domain" />
+    <field name="id" type="int">
+      <bind-xml name="id" node="attribute" />
+    </field>
+    <field name="participantIdentifier" type="string">
+      <bind-xml name="participantIdentifier" node="attribute" />
+    </field>
+  </class>
+  <class name="edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator">
+    <map-to xml="HealthcareSiteInvestigator" ns-uri="gme://caCORE.cabig/3.0/edu.duke.cabig.c3pr.domain" />
+    <field name="id" type="int">
+      <bind-xml name="id" node="attribute" />
+    </field>
+    <field name="statusCode" type="string">
+      <bind-xml name="statusCode" node="attribute" />
+    </field>
+    <field name="statusDate" type="date">
+      <bind-xml name="statusDate" node="attribute" />
+    </field>
+  </class>
+  <class name="edu.duke.cabig.c3pr.domain.StudyParticipantAssignment">
+    <map-to xml="StudyParticipantAssignment" ns-uri="gme://caCORE.cabig/3.0/edu.duke.cabig.c3pr.domain" />
+    <field name="armIdentifier" type="string">
+      <bind-xml name="armIdentifier" node="attribute" />
+    </field>
+    <field name="eligibilityWaiverReasonText" type="string">
+      <bind-xml name="eligibilityWaiverReasonText" node="attribute" />
+    </field>
+    <field name="enrollmentAge" type="int">
+      <bind-xml name="enrollmentAge" node="attribute" />
+    </field>
+    <field name="id" type="int">
+      <bind-xml name="id" node="attribute" />
+    </field>
+    <field name="informedConsentFormSignedDate" type="date">
+      <bind-xml name="informedConsentFormSignedDate" node="attribute" />
+    </field>
+    <field name="offStudyDate" type="date">
+      <bind-xml name="offStudyDate" node="attribute" />
+    </field>
+    <field name="offStudyReasonCode" type="string">
+      <bind-xml name="offStudyReasonCode" node="attribute" />
+    </field>
+    <field name="offStudyReasonOtherText" type="string">
+      <bind-xml name="offStudyReasonOtherText" node="attribute" />
+    </field>
+    <field name="studyParticipantIdentifier" type="string">
+      <bind-xml name="studyParticipantIdentifier" node="attribute" />
+    </field>
+    <field name="subgroupCode" type="string">
+      <bind-xml name="subgroupCode" node="attribute" />
+    </field>
+  </class>
+  <class name="edu.duke.cabig.c3pr.domain.FundingSponsor" extends="edu.duke.cabig.c3pr.domain.Organization">
+    <map-to xml="FundingSponsor" ns-uri="gme://caCORE.cabig/3.0/edu.duke.cabig.c3pr.domain" />
+  </class>
+  <class name="edu.duke.cabig.c3pr.domain.ParticipantEligibilityAnswer">
+    <map-to xml="ParticipantEligibilityAnswer" ns-uri="gme://caCORE.cabig/3.0/edu.duke.cabig.c3pr.domain" />
+    <field name="answerText" type="string">
+      <bind-xml name="answerText" node="attribute" />
+    </field>
+    <field name="id" type="int">
+      <bind-xml name="id" node="attribute" />
+    </field>
+  </class>
+  <class name="edu.duke.cabig.c3pr.domain.Inclusion" extends="edu.duke.cabig.c3pr.domain.EligibilityCriteria">
+    <map-to xml="Inclusion" ns-uri="gme://caCORE.cabig/3.0/edu.duke.cabig.c3pr.domain" />
+  </class>
+  <class name="edu.duke.cabig.c3pr.domain.EligibilityCriteria">
+    <map-to xml="EligibilityCriteria" ns-uri="gme://caCORE.cabig/3.0/edu.duke.cabig.c3pr.domain" />
+    <field name="expectedAnswerIndicator" type="boolean">
+      <bind-xml name="expectedAnswerIndicator" node="attribute" />
+    </field>
+    <field name="id" type="int">
+      <bind-xml name="id" node="attribute" />
+    </field>
+    <field name="questionNumber" type="int">
+      <bind-xml name="questionNumber" node="attribute" />
+    </field>
+    <field name="questionText" type="string">
+      <bind-xml name="questionText" node="attribute" />
+    </field>
+  </class>
+  <class name="edu.duke.cabig.c3pr.domain.Organization">
+    <map-to xml="Organization" ns-uri="gme://caCORE.cabig/3.0/edu.duke.cabig.c3pr.domain" />
+    <field name="city" type="string">
+      <bind-xml name="city" node="attribute" />
+    </field>
+    <field name="countryCode" type="string">
+      <bind-xml name="countryCode" node="attribute" />
+    </field>
+    <field name="descriptionText" type="string">
+      <bind-xml name="descriptionText" node="attribute" />
+    </field>
+    <field name="id" type="int">
+      <bind-xml name="id" node="attribute" />
+    </field>
+    <field name="name" type="string">
+      <bind-xml name="name" node="attribute" />
+    </field>
+    <field name="postalCode" type="string">
+      <bind-xml name="postalCode" node="attribute" />
+    </field>
+    <field name="stateCode" type="string">
+      <bind-xml name="stateCode" node="attribute" />
+    </field>
+    <field name="statusCode" type="string">
+      <bind-xml name="statusCode" node="attribute" />
+    </field>
+    <field name="statusDate" type="date">
+      <bind-xml name="statusDate" node="attribute" />
+    </field>
+    <field name="streetAddress" type="string">
+      <bind-xml name="streetAddress" node="attribute" />
+    </field>
+    <field name="telecomAddress" type="string">
+      <bind-xml name="telecomAddress" node="attribute" />
+    </field>
+  </class>
+</mapping>
+
