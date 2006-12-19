@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="src/java"/>
+	<classpathentry kind="src" path="test/src/java"/>
 	<classpathentry kind="lib" path="ext/test/lib/junit.jar"/>
 	<classpathentry kind="var" path="CATALINA_HOME/common/lib/ant.jar"/>
 	<classpathentry kind="var" path="CATALINA_HOME/common/lib/ant-launcher.jar"/>
@@ -32,87 +33,5 @@
 	<classpathentry kind="var" path="CATALINA_HOME/common/lib/tools.jar"/>
 	<classpathentry kind="var" path="CATALINA_HOME/common/lib/xalan.jar"/>
 	<classpathentry kind="var" path="CATALINA_HOME/common/lib/xmlParserAPIs.jar"/>
-	<classpathentry kind="lib" path="ext/lib/activation-1.0.2.jar"/>
-	<classpathentry kind="lib" path="ext/lib/antlr-2.7.6.jar"/>
-	<classpathentry kind="lib" path="ext/lib/asm.jar"/>
-	<classpathentry kind="lib" path="ext/lib/asm-attrs.jar"/>
-	<classpathentry kind="lib" path="ext/lib/avalon-framework-cvs-20020806.jar"/>
-	<classpathentry kind="lib" path="ext/lib/axis.jar"/>
-	<classpathentry kind="lib" path="ext/lib/axis-ant.jar"/>
-	<classpathentry kind="lib" path="ext/lib/axis-jaxrpc-1.2.1.jar"/>
-	<classpathentry kind="lib" path="ext/lib/axis-saaj-1.2.1.jar"/>
-	<classpathentry kind="lib" path="ext/lib/axis-schema.jar"/>
-	<classpathentry kind="lib" path="ext/lib/batik.jar"/>
-	<classpathentry kind="lib" path="ext/lib/bcprov-jdk14-129.jar"/>
-	<classpathentry kind="lib" path="ext/lib/c3p0-0.8.5.2.jar"/>
-	<classpathentry kind="lib" path="ext/lib/c3pr-2.0-core-1.0.jar"/>
-	<classpathentry kind="lib" path="ext/lib/castor-0.9.9.jar"/>
-	<classpathentry kind="lib" path="ext/lib/cglib-2.1.3.jar"/>
-	<classpathentry kind="lib" path="ext/lib/client.jar"/>
-	<classpathentry kind="lib" path="ext/lib/clm.jar"/>
-	<classpathentry kind="lib" path="ext/lib/commons-beanutils-1.7.0.jar"/>
-	<classpathentry kind="lib" path="ext/lib/commons-codec-1.3.jar"/>
-	<classpathentry kind="lib" path="ext/lib/commons-collections-3.2.jar"/>
-	<classpathentry kind="lib" path="ext/lib/commons-dbcp-1.2.1.jar"/>
-	<classpathentry kind="lib" path="ext/lib/commons-digester.jar"/>
-	<classpathentry kind="lib" path="ext/lib/commons-discovery.jar"/>
-	<classpathentry kind="lib" path="ext/lib/commons-fileupload.jar"/>
-	<classpathentry kind="lib" path="ext/lib/commons-httpclient-3.0-rc2.jar"/>
-	<classpathentry kind="lib" path="ext/lib/commons-lang-2.1.jar"/>
-	<classpathentry kind="lib" path="ext/lib/commons-logging.jar"/>
-	<classpathentry kind="lib" path="ext/lib/commons-pool-1.2.jar"/>
-	<classpathentry kind="lib" path="ext/lib/commons-validator.jar"/>
-	<classpathentry kind="lib" path="ext/lib/concurrent-1.3.2.jar"/>
-	<classpathentry kind="lib" path="ext/lib/connector.jar"/>
-	<classpathentry kind="lib" path="ext/lib/core-commons.jar"/>
-	<classpathentry kind="lib" path="ext/lib/csmapi.jar"/>
-	<classpathentry kind="lib" path="ext/lib/db-ojb-1.0.4.jar"/>
-	<classpathentry kind="lib" path="ext/lib/displaytag-1.1.jar"/>
-	<classpathentry kind="lib" path="ext/lib/dom4j-1.6.1.jar"/>
-	<classpathentry kind="lib" path="ext/lib/ehcache-1.2.jar"/>
-	<classpathentry kind="lib" path="ext/lib/fop.jar"/>
-	<classpathentry kind="lib" path="ext/lib/freemarker.jar"/>
-	<classpathentry kind="lib" path="ext/lib/hibernate3.jar"/>
-	<classpathentry kind="lib" path="ext/lib/hibernate-annotations.jar"/>
-	<classpathentry kind="lib" path="ext/lib/jaas.jar"/>
-	<classpathentry kind="lib" path="ext/lib/jacc-1_0-fr.jar"/>
-	<classpathentry kind="lib" path="ext/lib/jakarta-oro.jar"/>
-	<classpathentry kind="lib" path="ext/lib/javax.servlet.jar"/>
-	<classpathentry kind="lib" path="ext/lib/javax.servlet.jsp.jar"/>
-	<classpathentry kind="lib" path="ext/lib/jaxen-1.1-beta-4.jar"/>
-	<classpathentry kind="lib" path="ext/lib/jaxp.jar"/>
-	<classpathentry kind="lib" path="ext/lib/jaxrpc.jar"/>
-	<classpathentry kind="lib" path="ext/lib/jcs-1.0-dev.jar"/>
-	<classpathentry kind="lib" path="ext/lib/jdbc2_0-stdext.jar"/>
-	<classpathentry kind="lib" path="ext/lib/jdom.jar"/>
-	<classpathentry kind="lib" path="ext/lib/jgroups-2.2.7.jar"/>
-	<classpathentry kind="lib" path="ext/lib/jms.jar"/>
-	<classpathentry kind="lib" path="ext/lib/jndi.jar"/>
-	<classpathentry kind="lib" path="ext/lib/jstl.jar"/>
-	<classpathentry kind="lib" path="ext/lib/jta.jar"/>
-	<classpathentry kind="lib" path="ext/lib/junit-3.8.1.jar"/>
-	<classpathentry kind="lib" path="ext/lib/log4j-1.2.13.jar"/>
-	<classpathentry kind="lib" path="ext/lib/mail-1.3.2.jar"/>
-	<classpathentry kind="lib" path="ext/lib/mysql-connector-java-3.1.11-bin.jar"/>
-	<classpathentry kind="lib" path="ext/lib/namespace.jar"/>
-	<classpathentry kind="lib" path="ext/lib/nls_charset12.jar"/>
-	<classpathentry kind="lib" path="ext/lib/odmg-3.0.jar"/>
-	<classpathentry kind="lib" path="ext/lib/ojdbc14.jar"/>
-	<classpathentry kind="lib" path="ext/lib/opensaml-1.1.jar"/>
-	<classpathentry kind="lib" path="ext/lib/oscache-2.1.jar"/>
-	<classpathentry kind="lib" path="ext/lib/poi-2.5-final-20040302.jar"/>
-	<classpathentry kind="lib" path="ext/lib/proxool-0.8.3.jar"/>
-	<classpathentry kind="lib" path="ext/lib/saaj.jar"/>
-	<classpathentry kind="lib" path="ext/lib/sitemesh-2.2.1.jar"/>
-	<classpathentry kind="lib" path="ext/lib/spring.jar"/>
-	<classpathentry kind="lib" path="ext/lib/standard.jar"/>
-	<classpathentry kind="lib" path="ext/lib/swarmcache-1.0rc2.jar"/>
-	<classpathentry kind="lib" path="ext/lib/wsdl4j-1.5.1.jar"/>
-	<classpathentry kind="lib" path="ext/lib/wss4j.jar"/>
-	<classpathentry kind="lib" path="ext/lib/xalan-2.6.0.jar"/>
-	<classpathentry kind="lib" path="ext/lib/xerces-2.6.2.jar"/>
-	<classpathentry kind="lib" path="ext/lib/xercesImpl-2.2.1.jar"/>
-	<classpathentry kind="lib" path="ext/lib/xml-apis.jar"/>
-	<classpathentry kind="lib" path="ext/lib/xmlsec-1.2.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
