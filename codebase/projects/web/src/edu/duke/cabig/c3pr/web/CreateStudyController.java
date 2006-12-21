@@ -32,7 +32,7 @@ public class CreateStudyController extends SimpleFormController {
 	private StudyDao studyDao;
 	
     public CreateStudyController() {
-        setCommandClass(CreateStudyController.class);
+        setCommandClass(Study.class);
     }
   
     protected Map<String, Object> referenceData(HttpServletRequest httpServletRequest) throws Exception {
@@ -55,7 +55,7 @@ public class CreateStudyController extends SimpleFormController {
 
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object oCommand, BindException errors) throws Exception {
     	Study study = (Study) oCommand;
-    	studyService.saveStudy(study);   
+    	studyService.save(study);   
     	ModelAndView modelAndView= new ModelAndView(getSuccessView());
     	modelAndView.addAllObjects(errors.getModel());
     	return modelAndView;
@@ -160,28 +160,28 @@ public class CreateStudyController extends SimpleFormController {
 	
 	private List<StringBean> getMultinstitutionList(){
 		List<StringBean> col = new ArrayList<StringBean>();		
-    	col.add(new StringBean("Y"));
-    	col.add(new StringBean("N"));
+    	col.add(new StringBean("YES"));
+    	col.add(new StringBean("NO"));
     	return col;
 	}
 	private List<StringBean> getRandomizedList(){
 		List<StringBean> col = new ArrayList<StringBean>();		
-    	col.add(new StringBean("Y"));
-    	col.add(new StringBean("N"));
+    	col.add(new StringBean("YES"));
+    	col.add(new StringBean("NO"));
     	return col;
 	}
 	
 	private List<StringBean> getBlindedIndicator(){
 		List<StringBean> col = new ArrayList<StringBean>();		
-    	col.add(new StringBean("Y"));
-    	col.add(new StringBean("N"));
+    	col.add(new StringBean("YES"));
+    	col.add(new StringBean("NO"));
     	return col;
 	}
 	
 	private List<StringBean> getNciIdentifier(){
 		List<StringBean> col = new ArrayList<StringBean>();		
-    	col.add(new StringBean("Y"));
-    	col.add(new StringBean("N"));
+    	col.add(new StringBean("YES"));
+    	col.add(new StringBean("NO"));
     	return col;
 	}	
 	
