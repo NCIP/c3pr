@@ -23,9 +23,6 @@ public abstract class Person extends AbstractDomainObject implements Serializabl
 	@Column(name = "BIRTH_DATE", nullable = false)
 	private Date birthDate;
 	
-	@Column(name = "SSN", length = 20)
-	private String ssn;
-	
 	@Column(name = "ADMINISTRITATIVE_GENDER_CODE", length = 1)
 	private String administritativeGenderCode;
 	
@@ -81,14 +78,6 @@ public abstract class Person extends AbstractDomainObject implements Serializabl
 
 	public void setRaceCode(String raceCode) {
 		this.raceCode = raceCode;
-	}
-
-	public String getSsn() {
-		return ssn;
-	}
-
-	public void setSsn(String ssn) {
-		this.ssn = ssn;
 	}
 			
 }
