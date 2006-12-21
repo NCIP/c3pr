@@ -1,12 +1,27 @@
 package edu.duke.cabig.c3pr.service;
 
+import java.util.List;
+
 import edu.duke.cabig.c3pr.domain.Study;
 
 /**
+ * Interface for Services on Study related domain object
  * @author priyatam
- * @version 1.0
  */
 public interface StudyService {
 
-	  public void saveStudy(Study study) throws Exception;
+	/**
+	 * Saves a study object
+	 * @param study the study object
+  	 * @throws Exception runtime exception object
+  	 */
+	public void save(Study study) throws Exception;
+	  
+	/**
+	 * Search using a sample populate Study object
+	 * @param study the study object
+	 * @return List of Study objects based on the sample study object
+	 * @throws Exception runtime exception object
+	 */
+	public List <Study> search (Study study) throws Exception;
 }
