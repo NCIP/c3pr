@@ -58,6 +58,7 @@ instead if this were running inside of a J2EE container -->
         <property name="annotatedClasses">
 	        <list>
 	           <value>edu.duke.cabig.c3pr.domain.Study</value>
+	           <value>edu.duke.cabig.c3pr.domain.Participant</value>
 	         </list>
 	        </property>
         <property name="hibernateProperties">
@@ -83,9 +84,10 @@ instead if this were running inside of a J2EE container -->
             <ref local="hibernateTemplate" />
         </property>
     </bean>
-    <bean id="studyDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.hibernate.StudyDaoHibernate" autowire="byType"></bean>
+    <bean id="studyDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.hibernate.StudyDaoHibernate" autowire="byType"></bean>         
     
     <bean id="studyService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudyServiceImpl" autowire="byType"></bean>           
+    <bean id="ParticipantService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.ParticipantServiceImpl" autowire="byType"></bean>           
 
     <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager" autowire="byType" />
 </beans>
