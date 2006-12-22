@@ -85,9 +85,9 @@ instead if this were running inside of a J2EE container -->
         </property>
     </bean>
     <bean id="studyDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.hibernate.StudyDaoHibernate" autowire="byType"></bean>         
-    
+    <bean id="participantDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.hibernate.ParticipantDaoHibernate" autowire="byType"></bean>             
     <bean id="studyService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudyServiceImpl" autowire="byType"></bean>           
-    <bean id="ParticipantService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.ParticipantServiceImpl" autowire="byType"></bean>           
+    <bean id="participantService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.ParticipantServiceImpl" autowire="byType"></bean>           
 
     <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager" autowire="byType" />
 </beans>
