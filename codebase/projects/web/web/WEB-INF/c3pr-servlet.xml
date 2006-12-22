@@ -64,12 +64,14 @@
     <bean id="createStudyController" lazy-init="true" class="edu.duke.cabig.c3pr.web.CreateStudyController" autowire="byType">
 	    <property name="formView" value="createstudy"/>
 	    <property name="successView" value="success"/>
-	    <property name="commandClass" value="edu.duke.cabig.c3pr.domain.Study"/>
-    </bean>
-    <bean id="createParticipantController" lazy-init="true" class="edu.duke.cabig.c3pr.web.CreateParticipantController" autowire="byType">
+  	</bean>
+    <bean id="searchStudyController" lazy-init="true" class="edu.duke.cabig.c3pr.web.SearchStudyController" autowire="byType">
+	    <property name="formView" value="searchstudy"/>
+	    <property name="successView" value="viewstudy"/>
+  	</bean>
+ 	<bean id="createParticipantController" lazy-init="true" class="edu.duke.cabig.c3pr.web.CreateParticipantController" autowire="byType">
 	    <property name="formView" value="createParticipant"/>
 	    <property name="successView" value="success"/>
 	    <property name="commandClass" value="edu.duke.cabig.c3pr.domain.Participant"/>
-    </bean>
-      
+    </bean>	
 </beans>
