@@ -66,5 +66,10 @@
 	    <property name="successView" value="success"/>
 	    <property name="commandClass" value="edu.duke.cabig.c3pr.domain.Study"/>
     </bean>
-    
+    <bean id="createParticipantController" lazy-init="true" class="edu.duke.cabig.c3pr.web.CreateParticipantController" autowire="byType">
+	    <property name="formView" value="createParticipant"/>
+	    <property name="successView" value="success"/>
+	    <property name="commandClass" value="edu.duke.cabig.c3pr.domain.Participant"/>
+    </bean>
+      
 </beans>
