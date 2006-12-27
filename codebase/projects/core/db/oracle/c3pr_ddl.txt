@@ -1,8 +1,0 @@
-CREATE TABLE addresses ( 
-	id NUMBER(10) NOT NULL,
-	street_Address VARCHAR2(200),
-	city VARCHAR2(200),
-	state_Code VARCHAR2(200),
-	postal_Code VARCHAR2(200),
-	country_Code VARCHAR2(200)	
-);
