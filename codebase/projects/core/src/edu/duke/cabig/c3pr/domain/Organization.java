@@ -1,21 +1,9 @@
 package edu.duke.cabig.c3pr.domain;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-import org.hibernate.annotations.Sort;
-import org.hibernate.annotations.SortType;
-
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.Column;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 
 
 /**
@@ -24,9 +12,17 @@ import javax.persistence.Transient;
 
 @MappedSuperclass
 public abstract class Organization extends AbstractDomainObject {
+	
+	@Column(name = "NAME", length = 20, nullable = false)
     private String name;
+	
+	@Column(name = "DESCRIPTION_TEXT", length = 50, nullable = false)
     private String descriptionText;
+
+	@OneToOne(optional=false)
+    @JoinColumn(name="ADDRESS_ID")
     private Address address;
+	
     public Organization() {
     }
 
@@ -50,9 +46,7 @@ public abstract class Organization extends AbstractDomainObject {
     public void setAddress(Address address) {
         this.address = address;
     }
-
-    @OneToOne(optional=false)
-    @JoinColumn(name="address_id")
+    
     public Address getAddress() {
         return address;
     }
