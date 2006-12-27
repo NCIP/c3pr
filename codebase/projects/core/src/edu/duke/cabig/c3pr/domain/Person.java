@@ -23,7 +23,7 @@ public abstract class Person extends AbstractDomainObject implements Serializabl
 	@Column(name = "BIRTH_DATE", nullable = false)
 	private Date birthDate;
 	
-	@Column(name = "ADMINISTRITATIVE_GENDER_CODE", length = 1)
+	@Column(name = "ADMINISTRITATIVE_GENDER_CODE", length = 20)
 	private String administritativeGenderCode;
 	
 	@Column(name = "ETHNIC_GROUP_CODE", length = 20)
