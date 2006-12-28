@@ -31,13 +31,14 @@ public class ParticipantIdentifier extends AbstractDomainObject implements Seria
 	
 	private Participant participant;
 	
-	private HealthcareSite healthcareSite;
+	//private HealthcareSite healthcareSite;
 	
 	public ParticipantIdentifier()
     {
     	
     }    
     
+	/*
     @ManyToOne( cascade = {CascadeType.ALL} )
 	@JoinColumn(name = "HCS_ID", insertable=false, updatable=false)			
 	public HealthcareSite getHealthcareSite() {
@@ -46,7 +47,7 @@ public class ParticipantIdentifier extends AbstractDomainObject implements Seria
 
 	public void setHealthcareSite(HealthcareSite healthcareSite) {
 		this.healthcareSite = healthcareSite;
-	}
+	}*/
 
 	@Column(name = "MEDICAL_RECORD_NUMBER", length = 20, nullable = false)
 	public String getMedicalRecordNumber() {
