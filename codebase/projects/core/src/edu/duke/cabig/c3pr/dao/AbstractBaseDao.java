@@ -32,7 +32,7 @@ public abstract class AbstractBaseDao<T extends DomainObject> extends HibernateD
      * Saves a domain object
      * @param domainObject the domain object to save
      */
-	public void save(DomainObject domainObject) throws DataAccessException {
+	public void save(DomainObject domainObject) {
 		 getHibernateTemplate().saveOrUpdate(domainObject);		
 	}
 }

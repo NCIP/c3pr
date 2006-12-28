@@ -25,7 +25,7 @@ public class ArmDaoHibernate extends AbstractBaseDao<Arm> implements ArmDao{
 	 * (non-Javadoc)
 	 * @see edu.duke.cabig.c3pr.dao.Arm#getAll()
 	 */
-	 public List<Arm> getAll() throws DataAccessException{
+	 public List<Arm> getAll(){
 		 return getHibernateTemplate().find("from Arm");
 	 }
 }

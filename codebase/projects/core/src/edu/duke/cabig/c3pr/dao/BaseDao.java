@@ -30,6 +30,6 @@ public interface BaseDao<T extends DomainObject> {
       * @param domainObject the domain object
       * @throws DataAccessException runtime exception
       */
-     public void save(DomainObject domainObject) throws DataAccessException;    		
+     public void save(DomainObject domainObject);    		
 
 }

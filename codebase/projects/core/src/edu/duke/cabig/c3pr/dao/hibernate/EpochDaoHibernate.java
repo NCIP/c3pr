@@ -25,7 +25,7 @@ public class EpochDaoHibernate extends AbstractBaseDao<Epoch> implements EpochDa
 	 * (non-Javadoc)
 	 * @see edu.duke.cabig.c3pr.dao.Epoch#getAll()
 	 */
-	 public List<Epoch> getAll() throws DataAccessException{
+	 public List<Epoch> getAll(){
 		 return getHibernateTemplate().find("from Epoch");
 	 }
 }

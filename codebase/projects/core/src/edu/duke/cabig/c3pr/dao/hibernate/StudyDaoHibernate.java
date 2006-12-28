@@ -52,7 +52,7 @@ public class StudyDaoHibernate extends AbstractBaseDao<Study> implements StudyDa
 	/* (non-Javadoc)
 	 * @see edu.duke.cabig.c3pr.dao.StudyDao#getArmsForStudy(java.lang.Integer)
 	 */
-	public List<Arm> getArmsForStudy(Integer studyId) throws DataAccessException {
+	public List<Arm> getArmsForStudy(Integer studyId) {
 	     return getHibernateTemplate().find("select a from Arm a" +
 	     		"inner join a.epoch ep where ep.study.id = ?", studyId);	     
 	}
@@ -60,7 +60,7 @@ public class StudyDaoHibernate extends AbstractBaseDao<Study> implements StudyDa
 	/* (non-Javadoc)
 	 * @see edu.duke.cabig.c3pr.dao.StudyDao#getEpochsForStudy(java.lang.Integer)
 	 */
-	public List<Epoch> getEpochsForStudy(Integer studyId) throws DataAccessException {
+	public List<Epoch> getEpochsForStudy(Integer studyId) {
 		//TODO
 		
 		return null;

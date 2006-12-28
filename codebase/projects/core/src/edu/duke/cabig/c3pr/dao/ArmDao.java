@@ -19,5 +19,5 @@ import edu.duke.cabig.c3pr.domain.Arm;
  */
 public interface ArmDao extends BaseDao {
 
-	public List<Arm> getAll() throws DataAccessException; 
+	public List<Arm> getAll(); 
 }

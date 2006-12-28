@@ -26,7 +26,7 @@ public interface StudyDao extends BaseDao{
 	 * @param study
 	 * @throws DataAccessException
 	 */	
-	public List<Study> getAll() throws DataAccessException; 
+	public List<Study> getAll(); 
 	 
 	/**
 	 * Searches based on an example object.	
@@ -42,7 +42,7 @@ public interface StudyDao extends BaseDao{
 	 * @return
 	 * @throws DataAccessException
 	 */
-	public List<Epoch> getEpochsForStudy(Integer studyId) throws DataAccessException;
+	public List<Epoch> getEpochsForStudy(Integer studyId);
 	
 	/**
 	 * 
@@ -50,7 +50,7 @@ public interface StudyDao extends BaseDao{
 	 * @return
 	 * @throws DataAccessException
 	 */
-	public List<Arm> getArmsForStudy(Integer studyId) throws DataAccessException;
+	public List<Arm> getArmsForStudy(Integer studyId);
 	
 	
 }

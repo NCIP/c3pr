@@ -25,7 +25,7 @@ public class StudySiteDaoHibernate extends AbstractBaseDao<StudySite> implements
 	 * (non-Javadoc)
 	 * @see edu.duke.cabig.c3pr.dao.StudySite#getAll()
 	 */
-	 public List<StudySite> getAll() throws DataAccessException {
+	 public List<StudySite> getAll() {
 		 return getHibernateTemplate().find("from StudySite");
 	 }
 }

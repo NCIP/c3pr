@@ -19,5 +19,5 @@ import edu.duke.cabig.c3pr.domain.Epoch;
  */
 public interface EpochDao extends BaseDao {
 
-	public List<Epoch> getAll() throws DataAccessException; 
+	public List<Epoch> getAll(); 
 }
