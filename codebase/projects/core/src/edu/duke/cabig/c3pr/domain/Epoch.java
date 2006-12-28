@@ -1,39 +1,55 @@
 package edu.duke.cabig.c3pr.domain;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.IndexColumn;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.ManyToOne;
-import javax.persistence.JoinColumn;
-import javax.persistence.Transient;
-import javax.persistence.OneToMany;
 import javax.persistence.FetchType;
-import java.util.List;
-import java.util.ArrayList;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.IndexColumn;
+import org.hibernate.annotations.Parameter;
 
 
 /**
- * @author Ram Chilukuri
+ * @author Ram Chilukuri, Priyatam
  */
 @Entity
 @Table (name = "epochs")
 @GenericGenerator(name="id-generator", strategy = "native",
     parameters = {
-        @Parameter(name="sequence", value="seq_epochs_id")
+        @Parameter(name="sequence", value="EPOCHS_ID_SEQ")
     }
 )
-public class Epoch extends AbstractDomainObject {
+public class Epoch extends AbstractDomainObject implements Comparable<Epoch>, Serializable{
     
     private List<Arm> arms = new ArrayList<Arm>();
     private String name;
 
-    ////// FACTORY
+	/* (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+	public int compareTo(Epoch o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
+	private Study study;
 
+    /**
+     * Factory method
+     * @param epochName
+     * @param armNames
+     * @return
+     */
     public static Epoch create(String epochName, String... armNames) {
         Epoch epoch = new Epoch();
         epoch.setName(epochName);
@@ -53,8 +69,6 @@ public class Epoch extends AbstractDomainObject {
         addArm(arm);
     }
 
-    ////// LOGIC
-
     public void addArm(Arm arm) {
         arms.add(arm);
         arm.setEpoch(this);
@@ -65,12 +79,10 @@ public class Epoch extends AbstractDomainObject {
         return getArms().size() > 1;
     }
 
-    ////// BEAN PROPERTIES
-
     // This is annotated this way so that the IndexColumn will work with
-    // the bidirectional mapping.  See section 2.4.6.2.3 of the hibernate annotations docs.
+    // the bidirectional mapping. 
     @OneToMany
-    @JoinColumn(name="epoch_id", nullable=false)
+    @JoinColumn(name="study_id", nullable=false)
     @IndexColumn(name="list_index")
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})
     public List<Arm> getArms() {
@@ -88,4 +100,65 @@ public class Epoch extends AbstractDomainObject {
     public void setName(String name) {
         this.name = name;
     }
+
+	/**
+	 * @return the study
+	 */
+    @ManyToOne (fetch = FetchType.LAZY)
+	@JoinColumn(insertable=false, updatable=false, nullable=false)	  	
+	public Study getStudy() {
+		return study;
+	}
+
+	/**
+	 * @param study the study to set
+	 */
+	public void setStudy(Study study) {
+		this.study = study;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = super.hashCode();
+		result = PRIME * result + ((arms == null) ? 0 : arms.hashCode());
+		result = PRIME * result + ((name == null) ? 0 : name.hashCode());
+		result = PRIME * result + ((study == null) ? 0 : study.hashCode());
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final Epoch other = (Epoch) obj;
+		if (arms == null) {
+			if (other.arms != null)
+				return false;
+		} else if (!arms.equals(other.arms))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (study == null) {
+			if (other.study != null)
+				return false;
+		} else if (!study.equals(other.study))
+			return false;
+		return true;
+	}
+	
+	
 }
