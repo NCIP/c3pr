@@ -62,6 +62,8 @@ public class StudyDaoHibernate extends AbstractBaseDao<Study> implements StudyDa
 	 */
 	public List<Epoch> getEpochsForStudy(Integer studyId) throws DataAccessException {
 		//TODO
+		
+		return null;
 	}
 
 }
