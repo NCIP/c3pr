@@ -18,7 +18,7 @@ public abstract class Organization extends AbstractDomainObject {
 		
     private String descriptionText;
 
-    private Address address;
+    //private Address address;
 	
     public Organization() {
     }
@@ -40,7 +40,7 @@ public abstract class Organization extends AbstractDomainObject {
     public void setDescriptionText(String descriptionText) {
         this.descriptionText = descriptionText;
     }
-
+/*
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="ADDRESS_ID")
     public Address getAddress() {
@@ -49,5 +49,5 @@ public abstract class Organization extends AbstractDomainObject {
     
     public void setAddress(Address address) {
         this.address = address;
-    }
+    } */
 }
