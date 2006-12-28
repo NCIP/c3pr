@@ -2,6 +2,8 @@ package edu.duke.cabig.c3pr.dao;
 
 import java.util.List;
 
+import org.springframework.dao.DataAccessException;
+
 import edu.duke.cabig.c3pr.domain.Arm;
 
 /**
@@ -17,5 +19,5 @@ import edu.duke.cabig.c3pr.domain.Arm;
  */
 public interface ArmDao extends BaseDao {
 
-	public List<Arm> getAll(); 
+	public List<Arm> getAll() throws DataAccessException; 
 }

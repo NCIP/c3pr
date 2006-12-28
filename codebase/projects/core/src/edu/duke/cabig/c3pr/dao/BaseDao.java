@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.dao;
 
+import org.springframework.dao.DataAccessException;
+
 import edu.duke.cabig.c3pr.domain.DomainObject;
 
 /**
@@ -26,8 +28,8 @@ public interface BaseDao<T extends DomainObject> {
      /**
       * Interface to save a domain object
       * @param domainObject the domain object
-      * @throws Exception runtime exception
+      * @throws DataAccessException runtime exception
       */
-     public void save(DomainObject domainObject) throws Exception;    		
+     public void save(DomainObject domainObject) throws DataAccessException;    		
 
 }
