@@ -1,41 +1,42 @@
 package edu.duke.cabig.c3pr.domain;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-import org.hibernate.annotations.Sort;
-import org.hibernate.annotations.SortType;
+import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import java.util.SortedSet;
-import java.util.TreeSet;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 
 /**
- * @author Ram Chilukuri
+ * @author Ram Chilukuri, priyatam
  */
 @Entity
 @Table (name = "arms")
 @GenericGenerator(name="id-generator", strategy = "native",
     parameters = {
-        @Parameter(name="sequence", value="seq_arms_id")
+        @Parameter(name="sequence", value="ARMS_ID_SEQ")
     }
 )
-public class Arm extends AbstractDomainObject  {
-    private Epoch epoch;
+public class Arm extends AbstractDomainObject implements Comparable<Arm>, Serializable {
+    /* (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+	public int compareTo(Arm o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	private Epoch epoch;
     private String name;
     private int targetAccrualNumber;
     
-
     // business methods
-
     
     @Transient
     public String getQualifiedName() {
@@ -77,4 +78,46 @@ public class Arm extends AbstractDomainObject  {
     public int getTargetAccrualNumber() {
         return targetAccrualNumber;
     }
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = super.hashCode();
+		result = PRIME * result + ((epoch == null) ? 0 : epoch.hashCode());
+		result = PRIME * result + ((name == null) ? 0 : name.hashCode());
+		result = PRIME * result + targetAccrualNumber;
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final Arm other = (Arm) obj;
+		if (epoch == null) {
+			if (other.epoch != null)
+				return false;
+		} else if (!epoch.equals(other.epoch))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (targetAccrualNumber != other.targetAccrualNumber)
+			return false;
+		return true;
+	}
+    
+    
 }
