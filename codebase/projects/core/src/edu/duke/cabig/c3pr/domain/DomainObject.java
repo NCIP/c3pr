@@ -14,6 +14,9 @@ public interface DomainObject {
     void setId(Integer id);
     void setVersion(Integer version);
     
+    String getName();
+    void setName(String name);
+    
     class ById<T extends DomainObject> implements Comparator<T> {
     	 public int compare(T o1, T o2) {
              return ComparisonUtils.nullSafeCompare(o1.getId(), o2.getId());

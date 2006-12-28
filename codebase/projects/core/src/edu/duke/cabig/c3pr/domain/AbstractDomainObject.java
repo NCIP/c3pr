@@ -17,6 +17,7 @@ public abstract class AbstractDomainObject implements DomainObject {
     
 	private Integer id;	
 	private Integer version;
+	private String name;
 
 	@Id @GeneratedValue(generator = "id-generator")	   	
     public Integer getId() {
@@ -51,6 +52,22 @@ public abstract class AbstractDomainObject implements DomainObject {
                 : t1.getId().equals(t2.getId());
         }
     }
+    
+    
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.domain.DomainObject#getName()
+	 */
+	public String getName() {		
+		return name;
+	}
+
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.domain.DomainObject#setName(java.lang.String)
+	 */
+	public void setName(String name) {
+		this.name=name;
+		
+	}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
