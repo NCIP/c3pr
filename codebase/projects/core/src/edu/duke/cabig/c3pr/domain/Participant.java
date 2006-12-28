@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.domain;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -32,7 +33,7 @@ public class Participant extends Person implements Serializable
     	
     }
 
-	@OneToMany
+	@OneToMany (cascade = CascadeType.ALL)
 	@JoinColumn(name="PRT_ID")
 	public List<ParticipantIdentifier> getParticipantIdentifiers() {
 		return participantIdentifiers;
