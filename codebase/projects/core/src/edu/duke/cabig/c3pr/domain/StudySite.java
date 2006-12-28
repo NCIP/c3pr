@@ -1,9 +1,9 @@
 package edu.duke.cabig.c3pr.domain;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -11,22 +11,24 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 /**
- * @author Ram Chilukuri
+ * @author Ram Chilukuri, priyatam
  * 
  */
 @Entity
 @Table (name = "study_sites")
 @GenericGenerator(name="id-generator", strategy = "native",
     parameters = {
-        @Parameter(name="sequence", value="seq_study_sites_id")
+        @Parameter(name="sequence", value="STUDY_SITES_ID_SEQ")
     }
 )
-public class StudySite extends AbstractDomainObject {
+public class StudySite extends AbstractDomainObject implements Comparable<StudySite>, Serializable{
     private HealthcareSite site;
     private Study study;
     private List<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();
@@ -36,7 +38,15 @@ public class StudySite extends AbstractDomainObject {
 
     ////// LOGIC
 
-    /** Are there any assignments using this relationship? */
+    /* (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(java.lang.Object)
+	 */
+	public int compareTo(StudySite o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	/** Are there any assignments using this relationship? */
     @Transient
     public boolean isUsed() {
         return getStudyParticipantAssignments().size() > 0;
