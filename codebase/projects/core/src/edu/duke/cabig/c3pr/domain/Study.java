@@ -42,47 +42,33 @@ public class Study extends AbstractDomainObject implements Comparable<Study>, Se
 	 
 	private String blindedIndicator;
 	
-	@Column(name = "DESCRIPTION_TEXT", length = 50, nullable = false)	   
 	private String descriptionText;
 	
-	@Column(name = "DISEASE_CODE", length = 20, nullable = false)	   
 	private String diseaseCode;	
 
-	@Column(name = "DISEASE_CODE_LONG_TITLE_TEXT", length = 50, nullable = false)	   
 	private String longTitleText;	
 	
-	@Column(name = "MONITOR_CODE", length = 20, nullable = false)	   
 	private String monitorCode;
 	
-	@Column(name = "MULTI_INSTITUTION_INDICATOR", length = 4, nullable = false)	   
 	private String multiInstitutionIndicator;
 	
-	@Column(name = "NCI_IDENTIFIER", length = 4, nullable = false)	   
 	private String nciIdentifier;
 	
-	@Column(name = "PHASE_CODE", length = 20, nullable = false)	   	
 	private String phaseCode;
 	
-	@Column(name = "PRECIS_TEXT", length = 30, nullable = false)	   			
 	private String precisText;
 	
-	@Column(name = "RANDOMIZED_INDICATOR", length = 20, nullable = false)	   	
 	private String randomizedIndicator;	
 	
 	// A name or abbreviated title by which the document is known
-	@Column(name = "SHORT_TITLE_TEXT", length = 30, nullable = false)	   	
 	private String shortTitleText;
 	
-	@Column(name = "SPONSOR_CODE", length = 20, nullable = false)			
 	private String sponsorCode;
 	
-	@Column(name = "STATUS_CODE", length = 20, nullable = false)	   		
 	private String status;
 	
-	@Column(name = "TARGET_ACCRUAL_NUMBER", length = 10, nullable = false)	   		
 	private int targetAccrualNumber;
 	
-	@Column(name = "TYPE_CODE", length = 20, nullable = false)	   		
 	private String type;
 	
 	//private List<EligibilityCriteria> eligibilityCriteria;
