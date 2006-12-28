@@ -22,7 +22,7 @@ import org.hibernate.annotations.Parameter;
 @Table (name = "PARTICIPANT_IDENTIFIERS")
 @GenericGenerator (name="id-generator", strategy = "native",
 		parameters = {
-			@Parameter(name="sequence", value="C3PR_GENERAL_SEQ")
+			@Parameter(name="sequence", value="seq_participant_identifiers_id")
 		}
 )
 public class ParticipantIdentifier extends AbstractDomainObject implements Serializable
