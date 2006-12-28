@@ -1,8 +1,11 @@
 package edu.duke.cabig.c3pr.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -14,19 +17,30 @@ import org.hibernate.annotations.Parameter;
  * 
  */
 @Entity 
-@Table (name = "PARTICIPANT")
+@Table (name = "participants")
 @GenericGenerator (name="id-generator", strategy = "native",
 		parameters = {
-			@Parameter(name="sequence", value="C3PR_GENERAL_SEQ")
+			@Parameter(name="sequence", value="seq_participants_id")
 		}
 )
 public class Participant extends Person implements Serializable
-{
-	/**
-     * Simple constructor of Participant instances.
-     */
+{	
+	private List<ParticipantIdentifier> participantIdentifiers;
+	
     public Participant()
     {
-    }    
+    	
+    }
+
+	@OneToMany
+	@JoinColumn(name="PRT_ID")
+	public List<ParticipantIdentifier> getParticipantIdentifiers() {
+		return participantIdentifiers;
+	}
+
+	public void setParticipantIdentifiers(
+			List<ParticipantIdentifier> participantIdentifiers) {
+		this.participantIdentifiers = participantIdentifiers;
+	}  	 
 }
 
