@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans>
+<beans
+ 	xmlns="http://www.springframework.org/schema/beans"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
+    >
 
    <bean id="mainPropertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="location"><value>classpath:datasource.properties</value></property>
@@ -11,7 +17,10 @@
 <!-- Hibernate SessionFactory -->
     <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
         <property name="dataSource">
-            <ref local="dataSource" />
+            <ref bean="dataSource" />
+        </property>
+          <property name="namingStrategy">
+            <bean class="org.hibernate.cfg.ImprovedNamingStrategy" />
         </property>
 <!-- Must reference all OR mapping files. -->
         <property name="annotatedClasses">
@@ -37,7 +46,7 @@
     </bean>
     <bean id="daoTemplate" abstract="true">
         <property name="hibernateTemplate">
-            <ref local="hibernateTemplate" />
+            <ref bean="hibernateTemplate" />
         </property>
     </bean>
     <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager" autowire="byType" />
