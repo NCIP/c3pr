@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -14,7 +16,7 @@ import javax.persistence.Version;
  */
 
 @MappedSuperclass
-public abstract class AbstractDomainObject implements DomainObject {
+public abstract class AbstractDomainObject implements DomainObject, Serializable {
     
 	private Integer id;	
 	private Integer version;
