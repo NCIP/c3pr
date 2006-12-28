@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.dao.DataAccessException;
 
+import edu.duke.cabig.c3pr.domain.Arm;
+import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Study;
 
 /**
@@ -22,16 +24,33 @@ public interface StudyDao extends BaseDao{
 	/**
 	 * Add a new Study to the data source 
 	 * @param study
-	 * @throws Exception
+	 * @throws DataAccessException
 	 */	
-	public List<Study> getAll(); 
+	public List<Study> getAll() throws DataAccessException; 
 	 
 	/**
 	 * Searches based on an example object.	
 	 * @param study
 	 * @return 
-	 * @throws Exception
+	 * @throws DataAccessException
 	 */
 	public List<Study> searchByExample(Study study) throws DataAccessException;
+	
+	/**
+	 * 
+	 * @param studyId
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public List<Epoch> getEpochsForStudy(Integer studyId) throws DataAccessException;
+	
+	/**
+	 * 
+	 * @param studyId
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public List<Arm> getArmsForStudy(Integer studyId) throws DataAccessException;
+	
 	
 }

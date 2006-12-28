@@ -7,18 +7,13 @@ import org.hibernate.criterion.Example;
 import org.springframework.dao.DataAccessException;
 import edu.duke.cabig.c3pr.dao.AbstractBaseDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.domain.Arm;
+import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Study;
 
 
 /**
- *  Interface defining methods by which the C3PR Application will access the data store.  All data
- *  pertaiing to the Study data aggregate should be accessed via an implementation of this
- *  interface.
- *
- *  These methods throw org.springframework.dao.DataAccessException which is a Run-time Exception
- *  that should be handled in one of the calling classes.  See the Spring Framework API for a
- *  hierarchy of the DataAccessException.
- * 
+ * Hibernate implementation of StudyDao
  * @author Priyatam
  */
 public class StudyDaoHibernate extends AbstractBaseDao<Study> implements StudyDao {
@@ -50,8 +45,23 @@ public class StudyDaoHibernate extends AbstractBaseDao<Study> implements StudyDa
 	 * (non-Javadoc)
 	 * @see edu.duke.cabig.c3pr.dao.StudyDao#getAll()
 	 */
-	 public List<Study> getAll() {
+	 public List<Study> getAll() throws DataAccessException{
 		 return getHibernateTemplate().find("from Study");
 	 }
+
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.dao.StudyDao#getArmsForStudy(java.lang.Integer)
+	 */
+	public List<Arm> getArmsForStudy(Integer studyId) throws DataAccessException {
+	     return getHibernateTemplate().find("select a from Arm a" +
+	     		"inner join a.epoch ep where ep.study.id = ?", studyId);	     
+	}
+
+	/* (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.dao.StudyDao#getEpochsForStudy(java.lang.Integer)
+	 */
+	public List<Epoch> getEpochsForStudy(Integer studyId) throws DataAccessException {
+		//TODO
+	}
 
 }
