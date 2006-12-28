@@ -221,8 +221,6 @@
 				<exclude name="*test*.jar"/>					
 	        </fileset>
         </copy>   
-		<!-- copy appcontext -->
-	    <copy file="${src.dir}\applicationContext.xml" todir="${deploy.path}/${webapp.name}/WEB-INF/"/>	    	
 		<!-- copy log4j -->
       	<copy file="${conf.dir}\log4j.properties" todir="${deploy.path}/${webapp.name}/WEB-INF/"/>	    	
     </target>
