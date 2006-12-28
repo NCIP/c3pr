@@ -1,25 +1,20 @@
 package edu.duke.cabig.c3pr.service.impl;
 
+import java.util.List;
+
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.service.ParticipantService;
 
 /**
- * @author Kulasekaran
+ * @author Kulasekaran, Ramakrishna
  * @version 1.0
  *
  */
 public class ParticipantServiceImpl implements ParticipantService {
 
 	ParticipantDao participantDao;
-
-	/**
-	  Saves a Participant
-	*/
-	public void saveParticipant(Participant participant) throws Exception {
-		participantDao.saveParticipant(participant);		
-	}
-
+	
 	public ParticipantDao getParticipantDao() {
 		return participantDao;
 	}
@@ -27,5 +22,22 @@ public class ParticipantServiceImpl implements ParticipantService {
 
 	public void setParticipantDao(ParticipantDao participantDao) {
 		this.participantDao = participantDao;
+	}
+
+	/**
+	  Saves a Participant
+	*/
+	public void saveParticipant(Participant participant) throws Exception {
+		participantDao.saveParticipant(participant);		
+	}
+	
+	/**
+	 * Search using a sample. Populate a Participant object
+	 * @param  Participant object
+	 * @return List of Participant objects based on the sample participant object
+	 * @throws Runtime exception 
+	 */
+	public List<Participant> search(Participant participant) throws Exception {		
+		return participantDao.searchByExample(participant);
 	}
 }
