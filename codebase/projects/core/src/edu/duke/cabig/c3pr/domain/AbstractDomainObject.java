@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 
 /**
@@ -57,6 +58,7 @@ public abstract class AbstractDomainObject implements DomainObject {
 	/* (non-Javadoc)
 	 * @see edu.duke.cabig.c3pr.domain.DomainObject#getName()
 	 */
+    @Transient
 	public String getName() {		
 		return name;
 	}
