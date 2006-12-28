@@ -21,7 +21,7 @@ import org.hibernate.annotations.Parameter;
 @Table (name = "participants")
 @GenericGenerator (name="id-generator", strategy = "native",
 		parameters = {
-			@Parameter(name="sequence", value="seq_participants_id")
+			@Parameter(name="sequence", value="participants_id_seq")
 		}
 )
 public class Participant extends Person implements Serializable

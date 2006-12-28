@@ -17,7 +17,7 @@ import org.hibernate.annotations.Parameter;
  @Table (name = "healthcare_sites")
  @GenericGenerator(name="id-generator", strategy = "native",
      parameters = {
-         @Parameter(name="sequence", value="seq_sites_id")
+         @Parameter(name="sequence", value="sites_id_seq")
      }
  )
 public class HealthcareSite extends Organization {

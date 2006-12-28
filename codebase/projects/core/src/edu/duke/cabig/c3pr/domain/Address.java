@@ -24,10 +24,9 @@ import javax.persistence.Transient;
  @Table (name = "addresses")
  @GenericGenerator(name="id-generator", strategy = "native",
      parameters = {
-         @Parameter(name="sequence", value="seq_addresses_id")
+         @Parameter(name="sequence", value="addresses_id_seq")
      }
  )
-
 public class Address extends AbstractDomainObject {
     private String streetAddress;
     private String city;
@@ -38,7 +37,6 @@ public class Address extends AbstractDomainObject {
     public Address() {
     }
 
-    // Bean Methods
     public void setStreetAddress(String streetAddress) {
         this.streetAddress = streetAddress;
     }
