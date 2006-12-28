@@ -119,7 +119,10 @@
 			<artifact refid="hibernate.jars"/>
 			<artifact refid="log4j.jars"/>		
 			<artifact refid="commons-logging.jars"/>
-		</resolveDependencies>
+        	<artifact refid="commons-dbcp.jars"/>
+			<artifact refid="commons-pool.jars"/>
+			<artifact refid="dom4j.jars"/>	
+			</resolveDependencies>
         <ant dir="${projects.dir}/core" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
 
