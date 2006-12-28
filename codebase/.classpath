@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="projects/core/src"/>
-	<classpathentry kind="src" path="projects/core/test/unit"/>
+	<classpathentry kind="src" path="projects/core/test"/>
 	<classpathentry kind="src" path="projects/web/src"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="projects/core/lib/activation-1.0.2.jar"/>
@@ -67,7 +67,6 @@
 	<classpathentry exported="true" kind="lib" path="share/hibernate-3.2.1/hibernate-annotations.jar"/>
 	<classpathentry exported="true" kind="lib" path="share/csm/clm.jar"/>
 	<classpathentry exported="true" kind="lib" path="share/csm/csmapi.jar"/>
-	<classpathentry exported="true" kind="lib" path="share/junit-3.8.1/junit-3.8.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/core/test/lib/core-commons-testing.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/core/test/lib/dbunit-2.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/core/test/lib/easymock.jar"/>
@@ -79,5 +78,30 @@
 	<classpathentry exported="true" kind="lib" path="share/commons-logging/commons-logging.jar"/>
 	<classpathentry exported="true" kind="lib" path="share/log4j-1.2.13/log4j-1.2.13.jar"/>
 	<classpathentry exported="true" kind="lib" path="share/cacore/client.jar"/>
+	<classpathentry exported="true" kind="lib" path="projects/core/test/lib/junit.jar"/>
+	<classpathentry exported="true" kind="lib" path="share/commons-dbcp-1.2.1/commons-dbcp-1.2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="share/commons-pool-1.2/commons-pool-1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="share/cobertura-1.8/cobertura.jar"/>
+	<classpathentry exported="true" kind="lib" path="projects/core/lib/activeio-core-3.0-beta4.jar"/>
+	<classpathentry exported="true" kind="lib" path="projects/core/lib/activemq-core-4.0.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="projects/core/lib/backport-util-concurrent-2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="projects/core/lib/client.jar"/>
+	<classpathentry exported="true" kind="lib" path="projects/core/test/lib/catrip-test-report-1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="projects/core/test/lib/emma_ant.jar"/>
+	<classpathentry exported="true" kind="lib" path="projects/core/test/lib/emma.jar"/>
+	<classpathentry exported="true" kind="lib" path="projects/core/test/lib/selenium-server-0.8.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="projects/core/test/lib/servlet-api.jar"/>
+	<classpathentry exported="true" kind="lib" path="share/commons-lang-2.1/commons-lang-2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="share/commons-digester/commons-digester.jar"/>
+	<classpathentry exported="true" kind="lib" path="share/dom4j-1.6.1/dom4j-1.6.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="share/commons-collections-3.2/commons-collections-3.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="share/commons-codec-1.3/commons-codec-1.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="share/commons-validator/commons-validator.jar"/>
+	<classpathentry exported="true" kind="lib" path="share/core-commons/core-commons.jar"/>
+	<classpathentry exported="true" kind="lib" path="share/jdom/jdom.jar"/>
+	<classpathentry kind="lib" path="projects/core/build/jars/c3pr-2.0-core-1.0.jar"/>
+	<classpathentry kind="lib" path="projects/web/build/jars/c3pr-2.0-web-1.0.jar"/>
+	<classpathentry kind="lib" path="projects/core/build/jars/c3pr-2.0-core-tests-1.0.jar"/>
+	<classpathentry kind="lib" path="projects/web/build/jars/c3pr-2.0-web-tests-1.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
