@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.dao;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import edu.duke.cabig.c3pr.domain.DomainObject;
@@ -31,7 +32,7 @@ public abstract class AbstractBaseDao<T extends DomainObject> extends HibernateD
      * Saves a domain object
      * @param domainObject the domain object to save
      */
-	public void save(DomainObject domainObject) throws Exception {
+	public void save(DomainObject domainObject) throws DataAccessException {
 		 getHibernateTemplate().saveOrUpdate(domainObject);		
 	}
 }
