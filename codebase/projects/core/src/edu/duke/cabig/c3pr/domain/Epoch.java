@@ -33,6 +33,7 @@ public class Epoch extends AbstractDomainObject implements Comparable<Epoch>, Se
     
     private List<Arm> arms = new ArrayList<Arm>();
     private String name;
+    private String descriptionText;
 
 	/* (non-Javadoc)
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
@@ -82,8 +83,8 @@ public class Epoch extends AbstractDomainObject implements Comparable<Epoch>, Se
     // This is annotated this way so that the IndexColumn will work with
     // the bidirectional mapping. 
     @OneToMany
-    @JoinColumn(name="study_id", nullable=false)
-    @IndexColumn(name="list_index")
+    @JoinColumn(name="eph_id", nullable=false)
+    //@IndexColumn(name="list_index")
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})
     public List<Arm> getArms() {
         return arms;
@@ -116,6 +117,14 @@ public class Epoch extends AbstractDomainObject implements Comparable<Epoch>, Se
 	public void setStudy(Study study) {
 		this.study = study;
 	}
+        
+    public void setDescriptionText(String descriptionText) {
+        this.descriptionText = descriptionText;
+    }
+
+    public String getDescriptionText() {
+        return descriptionText;
+    }
 
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
@@ -159,6 +168,7 @@ public class Epoch extends AbstractDomainObject implements Comparable<Epoch>, Se
 			return false;
 		return true;
 	}
-	
-	
+
+
+    
 }
