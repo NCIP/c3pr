@@ -27,7 +27,6 @@ public class HealthcareSite extends Organization {
     public HealthcareSite() {
     }
 
-    @Column(name = "NCI_IDENTIFIER", length = 20, nullable = false)
     public String getNciIdentifier() {
         return nciIdentifier;
     }
