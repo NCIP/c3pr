@@ -96,7 +96,7 @@ public class Study extends AbstractDomainObject implements Comparable<Study>, Se
 	 * @return the epochs
 	 */
 	@OneToMany
-    @JoinColumn(name="study_id", nullable=false)
+    @JoinColumn(name="stu_id", nullable=false)
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})	   
 	public List<Epoch> getEpochs() {
 		return epochs;
