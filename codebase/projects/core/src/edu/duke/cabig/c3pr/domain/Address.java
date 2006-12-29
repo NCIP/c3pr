@@ -12,6 +12,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -22,11 +23,12 @@ import javax.persistence.Transient;
  
  @Entity
  @Table (name = "addresses")
- @GenericGenerator(name="id-generator", strategy = "native",
+ @SequenceGenerator(name="id-generator",sequenceName="addresses_id_seq")
+ /*@GenericGenerator(name="id-generator", strategy = "native",
      parameters = {
          @Parameter(name="sequence", value="addresses_id_seq")
      }
- )
+ )*/
 public class Address extends AbstractDomainObject {
     private String streetAddress;
     private String city;
