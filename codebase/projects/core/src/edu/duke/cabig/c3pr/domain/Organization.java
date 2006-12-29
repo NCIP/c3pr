@@ -1,12 +1,13 @@
 package edu.duke.cabig.c3pr.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
+
+
 
 
 /**
@@ -43,9 +44,8 @@ public abstract class Organization extends AbstractDomainObject {
         this.descriptionText = descriptionText;
     }
 
-    @OneToOne
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})
-    @JoinColumn(name="ADDRESS_ID")
+    @OneToOne(cascade={CascadeType.ALL}, optional=false)
+    @JoinColumn(name="ADDRESS_ID" ,nullable=false)
     public Address getAddress() {
         return address;
     }
