@@ -73,25 +73,24 @@ public class Study extends AbstractDomainObject implements Comparable<Study>, Se
 	
 	//private List<EligibilityCriteria> eligibilityCriteria;
 	private List<Epoch> epochs;
-	private List<Amendment> amendments;
+//	private List<Amendment> amendments;
 	private List<StudySite> studySites;
-	private List<Study> studies;
 	
 	/**
 	 * @return the amendments
 	 */
-	@OneToMany (mappedBy = "study", fetch=FetchType.EAGER )
-	@Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })	
-	public List<Amendment> getAmendments() {
-		return amendments;
-	}
+//	@OneToMany (mappedBy = "study", fetch=FetchType.EAGER )
+//	@Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })	
+//	public List<Amendment> getAmendments() {
+//		return amendments;
+//	}
 
-	/**
-	 * @param amendments the amendments to set
-	 */
-	public void setAmendments(List<Amendment> amendments) {
-		this.amendments = amendments;
-	}
+//	/**
+//	 * @param amendments the amendments to set
+//	 */
+//	public void setAmendments(List<Amendment> amendments) {
+//		this.amendments = amendments;
+//	}
 
 	/**
 	 * @return the epochs
@@ -110,21 +109,6 @@ public class Study extends AbstractDomainObject implements Comparable<Study>, Se
 		this.epochs = epochs;
 	}
 
-	/**
-	 * @return the studies
-	 */
-	@OneToMany
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})	   
-	public List<Study> getStudies() {
-		return studies;
-	}
-
-	/**
-	 * @param studies the studies to set
-	 */
-	public void setStudies(List<Study> studies) {
-		this.studies = studies;
-	}
 
 	/**
 	 * @return the studySites
@@ -155,7 +139,7 @@ public class Study extends AbstractDomainObject implements Comparable<Study>, Se
 	public void setBlindedIndicator(String blindedIndicator) {
 		this.blindedIndicator = blindedIndicator;
 	}
-
+	
 	public String getDescriptionText() {
 		return descriptionText;
 	}
@@ -275,7 +259,6 @@ public class Study extends AbstractDomainObject implements Comparable<Study>, Se
 	public int hashCode() {
 		final int PRIME = 31;
 		int result = super.hashCode();
-		result = PRIME * result + ((amendments == null) ? 0 : amendments.hashCode());
 		result = PRIME * result + ((blindedIndicator == null) ? 0 : blindedIndicator.hashCode());
 		result = PRIME * result + ((descriptionText == null) ? 0 : descriptionText.hashCode());
 		result = PRIME * result + ((diseaseCode == null) ? 0 : diseaseCode.hashCode());
@@ -290,7 +273,6 @@ public class Study extends AbstractDomainObject implements Comparable<Study>, Se
 		result = PRIME * result + ((shortTitleText == null) ? 0 : shortTitleText.hashCode());
 		result = PRIME * result + ((sponsorCode == null) ? 0 : sponsorCode.hashCode());
 		result = PRIME * result + ((status == null) ? 0 : status.hashCode());
-		result = PRIME * result + ((studies == null) ? 0 : studies.hashCode());
 		result = PRIME * result + ((studySites == null) ? 0 : studySites.hashCode());
 		result = PRIME * result + targetAccrualNumber;
 		result = PRIME * result + ((type == null) ? 0 : type.hashCode());
@@ -309,11 +291,6 @@ public class Study extends AbstractDomainObject implements Comparable<Study>, Se
 		if (getClass() != obj.getClass())
 			return false;
 		final Study other = (Study) obj;
-		if (amendments == null) {
-			if (other.amendments != null)
-				return false;
-		} else if (!amendments.equals(other.amendments))
-			return false;
 		if (blindedIndicator == null) {
 			if (other.blindedIndicator != null)
 				return false;
@@ -383,12 +360,7 @@ public class Study extends AbstractDomainObject implements Comparable<Study>, Se
 			if (other.status != null)
 				return false;
 		} else if (!status.equals(other.status))
-			return false;
-		if (studies == null) {
-			if (other.studies != null)
-				return false;
-		} else if (!studies.equals(other.studies))
-			return false;
+			return false;		
 		if (studySites == null) {
 			if (other.studySites != null)
 				return false;
@@ -404,12 +376,4 @@ public class Study extends AbstractDomainObject implements Comparable<Study>, Se
 		return true;
 	}
 	
-	// logic
-	
-	/**
-	 * 
-	 */
-	public void addStudy(Study study){
-		getStudies().add(study);	       
-	}
 }
