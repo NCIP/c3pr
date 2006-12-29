@@ -3,7 +3,6 @@ package edu.duke.cabig.c3pr.dao;
 import java.util.List;
 
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.Participant;
 
 /**
  * 

@@ -5,7 +5,6 @@ import java.util.List;
 import edu.duke.cabig.c3pr.dao.AbstractBaseDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.Participant;
 
 /**
  * @author Ramakrishna
