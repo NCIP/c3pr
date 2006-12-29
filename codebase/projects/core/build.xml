@@ -28,8 +28,9 @@
     <!-- Load common util path -->
     <import file="antfiles/build-test.xml"/>
     <!-- build properties -->
+	<property name="config.database" value="${basedir}/db/oracle"/>		    	
 	<property name="config.database.file" value="${basedir}/db/oracle/oracle.properties"/>		    	
-	
+		
     <property name="debug" value="on"/>
     <!-- =============================================================== -->
     <!-- The Build Classpath                                             -->
@@ -150,14 +151,17 @@
         <delete dir="${build.dir}"/>
     </target>
     <!-- ============================================================== -->
-    <!-- Creates the test jar files                                     -->
+    <!-- Creates the jar files                                     -->
     <!-- ============================================================== -->
     <target name="jar" depends="compile" description="Builds the Jar Files">
         <mkdir dir="${jar.dir}"/>
         <jar jarfile="${project.jarfile}" basedir="${classes.dir}">
             <fileset dir="${src.dir}">
-                <include name="**/*.xml"/>
+                <include name="**/*.xml"/>				
             </fileset>
+	 		<fileset dir="${build.dir}">
+	            <include name="**/*.properties"/>				
+	        </fileset>
             <manifest>
                 <attribute name="Built-By" value="${user.name}"/>
                 <attribute name="Main-Class" value="${main.class}"/>
