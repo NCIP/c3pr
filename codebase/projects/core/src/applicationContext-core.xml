@@ -26,10 +26,15 @@
         <property name="annotatedClasses">
             <list>
                 <value>edu.duke.cabig.c3pr.domain.Study</value>
-                <value>edu.duke.cabig.c3pr.domain.Participant</value>
-                <value>edu.duke.cabig.c3pr.domain.StudySite</value>
                 <value>edu.duke.cabig.c3pr.domain.Epoch</value>
                 <value>edu.duke.cabig.c3pr.domain.Arm</value>
+                <value>edu.duke.cabig.c3pr.domain.StudySite</value>               
+                <value>edu.duke.cabig.c3pr.domain.HealthcareSite</value>
+                <value>edu.duke.cabig.c3pr.domain.Organization</value>
+                <value>edu.duke.cabig.c3pr.domain.Address</value>                 
+                <value>edu.duke.cabig.c3pr.domain.ParticipantIdentifier</value>
+                <value>edu.duke.cabig.c3pr.domain.StudyParticipantAssignment</value>    
+                <value>edu.duke.cabig.c3pr.domain.Participant</value>                                   
             </list>
         </property>
         <property name="hibernateProperties">
