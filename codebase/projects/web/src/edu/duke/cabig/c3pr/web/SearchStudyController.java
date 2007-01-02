@@ -21,11 +21,6 @@ public class SearchStudyController  extends SimpleFormController{
 
 	private static Log log = LogFactory.getLog(SearchStudyController.class);
 	
-	public SearchStudyController()
-	{
-		setCommandClass(SearchStudyForm.class);
-	}
-	
 	private StudyService studyService;
    
     public StudyService getStudyService() {
@@ -37,27 +32,34 @@ public class SearchStudyController  extends SimpleFormController{
 	}
 
 	protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object oCommand, BindException errors) throws Exception {
-    	SearchStudyForm searchStudyForm = (SearchStudyForm) oCommand;
+    	SearchStudyCommand searchStudyCommand = (SearchStudyCommand) oCommand;
     	Study study = new Study();
-    	String text = searchStudyForm.getSearchText();
-    	String type = searchStudyForm.getSearchType();
+    	String id  = searchStudyCommand.getStudyid();
+    	String type = searchStudyCommand.getSearchType();
+    	String searchtext = searchStudyCommand.getSearchTypeText();
+    	String shortTitleText = searchStudyCommand.getShortTitleText();
     	
-    	log.debug("search string = " +text+"; type = "+type);
+    	log.debug("search string = " +searchtext+"; type = "+type);
+    	
+    	if (id != null && !("").equals(id))
+    		study.setId(new Integer(id));
+    	if (shortTitleText != null && !("").equals(shortTitleText))
+    		study.setShortTitleText(shortTitleText);    	
     	    	
     	if ("status".equals(type))
-    		study.setStatus(text);
+    		study.setStatus(searchtext);
     	else if ("T".equals(type))
-    		study.setType(text);
+    		study.setType(searchtext);
     	else if ("P".equals(type))
-    		study.setPhaseCode(text);
+    		study.setPhaseCode(searchtext);
     	else if ("S".equals(type))
-    		study.setStatus(text);
+    		study.setStatus(searchtext);
     	else if ("SP".equals(type))
-    		study.setSponsorCode(text);
+    		study.setSponsorCode(searchtext);
     	else if ("M".equals(type))
-    		study.setMonitorCode(text);
+    		study.setMonitorCode(searchtext);
     	else if ("D".equals(type))
-    		study.setDiseaseCode(text);
+    		study.setDiseaseCode(searchtext);
     		
     	List<Study> studies = studyService.search(study);   
     	log.debug("Search results size " +studies.size());
