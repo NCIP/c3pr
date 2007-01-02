@@ -56,11 +56,11 @@
     </bean>
     <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager" autowire="byType" />
 <!-- Daos -->
-    <bean id="studyDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.hibernate.StudyDaoHibernate" autowire="byType"></bean>
-    <bean id="studySiteDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.hibernate.StudySiteDaoHibernate" autowire="byType"></bean>
-    <bean id="epochDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.hibernate.EpochDaoHibernate" autowire="byType"></bean>
-    <bean id="armDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.hibernate.ArmDaoHibernate" autowire="byType"></bean>
-    <bean id="participantDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.hibernate.ParticipantDaoHibernate" autowire="byType"></bean>
+    <bean id="studyDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyDao" autowire="byType"></bean>
+    <bean id="studySiteDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudySiteDao" autowire="byType"></bean>
+    <bean id="epochDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.EpochDao" autowire="byType"></bean>
+    <bean id="armDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ArmDao" autowire="byType"></bean>
+    <bean id="participantDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ParticipantDao" autowire="byType"></bean>
 <!-- Services -->
     <bean id="studyService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudyServiceImpl" autowire="byType"></bean>
     <bean id="participantService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.ParticipantServiceImpl" autowire="byType"></bean>
