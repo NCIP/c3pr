@@ -1,23 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <!--
-  - Application context definition for "springapp" DispatcherServlet.
+  - Application context definition for "c3pr" DispatcherServlet.
   -->
-<beans>
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName">
-            <value>oracle.jdbc.driver.OracleDriver</value>
-        </property>
-        <property name="url">
-            <value>jdbc:oracle:thin:@localhost:1521:C3PR</value>
-        </property>
-        <property name="username">
-            <value>scott</value>
-        </property>
-        <property name="password">
-            <value>tiger</value>
-        </property>
-    </bean>
+<beans>   
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basename">
             <value>messages</value>
@@ -61,13 +47,22 @@
             <value>.jsp</value>
         </property>
     </bean>
+
     <bean id="createStudyController" lazy-init="true" class="edu.duke.cabig.c3pr.web.CreateStudyController" autowire="byType">
-	    <property name="formView" value="createstudy"/>
-	    <property name="successView" value="success"/>
+	    <property name="commandClass" value="edu.duke.cabig.c3pr.web.StudyDesignCommand"></property>
+	    <property name="pages">
+	    <list>
+		    <value>study_studysite</value>
+		    <value>study_details</value>
+		    <value>study_design</value>
+		    <value>study_summary</value>
+	    </list>
+	    </property>
   	</bean>
     <bean id="searchStudyController" lazy-init="true" class="edu.duke.cabig.c3pr.web.SearchStudyController" autowire="byType">
-	    <property name="formView" value="searchstudy"/>
-	    <property name="successView" value="viewstudy"/>
+	    <property name="commandClass" value="edu.duke.cabig.c3pr.web.SearchStudyCommand"></property>	   
+	    <property name="formView" value="study_search"/>
+	    <property name="successView" value="study_searchresults"/>
   	</bean>
  	<bean id="createParticipantController" lazy-init="true" class="edu.duke.cabig.c3pr.web.CreateParticipantController" autowire="byType">
 	    <property name="formView" value="createParticipant"/>
