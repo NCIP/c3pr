@@ -5,24 +5,24 @@ import java.util.List;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 
 /**
- * 
  * @author Ramakrishna
  * @version 1.0
  */
-
-public interface HealthcareSiteDao extends BaseDao{
-
-	/** From the BaseDao
-	 * Add a new HealthcareSite to the data source 
-	 * @param HealthcareSite
-	 * 	 * @throws Exception
+public class HealthcareSiteDao extends AbstractBaseDao<HealthcareSite> {
+	
+	public Class<HealthcareSite> domainClass() {
+	        return HealthcareSite.class;
+	 }
+	
+	/*
+	 * Returns all HealthcarSite objects
+	 * (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.dao.HealthcareSiteDao#getAll()
 	 */
-	
-	
-	/**
-	 * Lists all HealthcareSite objects
-	 */
-	
-	public List<HealthcareSite> getAll(); 
-
+	 public List<HealthcareSite> getAll() {
+		 return getHibernateTemplate().find("from HealthcareSite");
+	 }
+	 
 }
+
+

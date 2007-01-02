@@ -4,20 +4,28 @@ import java.util.List;
 
 import org.springframework.dao.DataAccessException;
 
+import edu.duke.cabig.c3pr.dao.AbstractBaseDao;
+import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.domain.StudySite;
 
 /**
- *  Interface defining methods by which the C3PR Application will access the 
- *  data store.  All data pertaiing to the StudySite data aggregate should be 
- *  accessed via an implementation of this interface.
- *
- *  These methods throw org.springframework.dao.DataAccessException which is 
- *  a Run-time Exception that should be handled in one of the calling classes.  
- *  See the Spring Framework API for a hierarchy of the DataAccessException.
- *  
- *  @author Priyatam
+ * Hibernate implementation of StudySiteDao
+ * @see edu.duke.cabig.c3pr.dao.StudySiteDao
+ * @author Priyatam
  */
-public interface StudySiteDao extends BaseDao {
+public class StudySiteDao extends AbstractBaseDao<StudySite> {
 
-	public List<StudySite> getAll() throws DataAccessException; 
+	@Override
+	public Class<StudySite> domainClass() {
+		return StudySite.class;
+	 }
+	
+	/*
+	 * Returns all StudySite objects
+	 * (non-Javadoc)
+	 * @see edu.duke.cabig.c3pr.dao.StudySite#getAll()
+	 */
+	 public List<StudySite> getAll() {
+		 return getHibernateTemplate().find("from StudySite");
+	 }
 }
