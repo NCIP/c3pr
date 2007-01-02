@@ -1,66 +1,86 @@
-/**
- * 
- */
 package edu.duke.cabig.c3pr.web;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.validation.BindException;
+import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.SimpleFormController;
+import org.springframework.web.servlet.mvc.AbstractWizardFormController;
 
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.service.StudyService;
+import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 
 /**
  * @author Priyatam
  *
  */
-public class CreateStudyController extends SimpleFormController {
+public class CreateStudyController extends AbstractWizardFormController {
     private static Log log = LogFactory.getLog(CreateStudyController.class);
-
 	private StudyService studyService;
 	private StudyDao studyDao;
 	
-    public CreateStudyController() {
-        setCommandClass(Study.class);
+	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
+        super.initBinder(request, binder);
+        binder.registerCustomEditor(Date.class, ControllerTools.getDateEditor(true));
+    //    ControllerTools.registerDomainObjectEditor(binder, "study", studyDao);
     }
-  
-    protected Map<String, Object> referenceData(HttpServletRequest httpServletRequest) throws Exception {
-    	// Currently the static data is a hack, once DB design is approved for an LOV this will be
-    	// replaced with LOVDao to get the static data from individual tables
-    	Map<String, Object> refdata = new HashMap<String, Object>();
-    	
-    	refdata.put("diseaseCode", getDiseaseCodeList());
-        refdata.put("monitorCode", getMonitorCodeList());
-        refdata.put("phaseCode", getDiseaseCodeList());
-        refdata.put("sponsorCode", getSponsorCodeList() );
-        refdata.put("status", getStatusList());
-        refdata.put("type", getTypeList() );
-        refdata.put("multiInstitutionIndicator", getMultinstitutionList());
-        refdata.put("randomizedIndicator", getRandomizedList());
-        refdata.put("blindedIndicator", getBlindedIndicator());
-        refdata.put("nciIdentifier", getNciIdentifier());
-        return refdata;
-    }
-
-    protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object oCommand, BindException errors) throws Exception {
-    	Study study = (Study) oCommand;
+	
+	/**
+	 * This is run before the form is created
+	 * @param request - HttpServletRequest
+	 * @throws ServletException
+	 */
+	protected Object formBackingObject(HttpServletRequest request) throws ServletException {
+	
+	// TODO
+		return null;
+	}
+ 
+	protected Map<String, Object> referenceData(HttpServletRequest httpServletRequest) 
+  	throws Exception {
+  	// Currently the static data is a hack for an LOV this will be replaced with 
+  	// LOVDao to get the static data from individual tables
+  	Map<String, Object> refdata = new HashMap<String, Object>();
+  	
+  	refdata.put("diseaseCode", getDiseaseCodeList());
+      refdata.put("monitorCode", getMonitorCodeList());
+      refdata.put("phaseCode", getDiseaseCodeList());
+      refdata.put("sponsorCode", getSponsorCodeList() );
+      refdata.put("status", getStatusList());
+      refdata.put("type", getTypeList() );
+      refdata.put("multiInstitutionIndicator", getMultinstitutionList());
+      refdata.put("randomizedIndicator", getRandomizedList());
+      refdata.put("blindedIndicator", getBlindedIndicator());
+      refdata.put("nciIdentifier", getNciIdentifier());
+      return refdata;
+  }
+	/* (non-Javadoc)
+	 * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#processFinish
+	 * (javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, 
+	 * java.lang.Object, org.springframework.validation.BindException)
+	 */
+	@Override
+	protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, 
+			Object command, BindException errors) throws Exception {
+		Study study = (Study) command;
     	studyService.save(study);   
-    	ModelAndView modelAndView= new ModelAndView(getSuccessView());
+    	ModelAndView modelAndView= new ModelAndView("study_search");
     	modelAndView.addAllObjects(errors.getModel());
     	return modelAndView;
-    }
-  
+	}
+ 
 	private List<LOV> getDiseaseCodeList(){
 		List<LOV> col = new ArrayList<LOV>();
 		LOV lov1 = new LOV("10028534", "Myelodysplastic syndrome NOS");
@@ -247,8 +267,6 @@ public class CreateStudyController extends SimpleFormController {
 
 	public void setStudyService(StudyService studyService) {
 		this.studyService = studyService;
-	}
-
-	
+	}	
 	
 }
