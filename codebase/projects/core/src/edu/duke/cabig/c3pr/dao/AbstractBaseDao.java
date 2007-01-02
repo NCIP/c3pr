@@ -1,6 +1,5 @@
 package edu.duke.cabig.c3pr.dao;
 
-import org.springframework.dao.DataAccessException;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import edu.duke.cabig.c3pr.domain.DomainObject;
