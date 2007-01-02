@@ -1,25 +1,44 @@
 package edu.duke.cabig.c3pr.domain;
 
-import java.util.Comparator;
-import edu.nwu.bioinformatics.commons.ComparisonUtils;
 
 /**
  * Generic Interface for every domain object in C3PR. 
  * @author Priyatam
  */
 public interface DomainObject {
+	
+	/**
+     * @return the internal database identifier for this object
+     */
     Integer getId();
+    /**
+     * Set the internal database identifier for this object.  In practice this should not be
+     * called by application code -- just the persistence mechanism.
+     * @param id
+     */
+    void setId(Integer id);
+    
+    /**
+     * @return the optimistic locking version value for this object.
+     */
     Integer getVersion();
     
-    void setId(Integer id);
+    /**
+     * Set the optimistic locking version value for this object.  In practice this should not be
+     * called by application code -- just the persistence mechanism.
+     * @param version
+     */
     void setVersion(Integer version);
     
+    /**
+     * Set name for domain object
+     * @return the domain object name
+     */
     String getName();
-    void setName(String name);
     
-    class ById<T extends DomainObject> implements Comparator<T> {
-    	 public int compare(T o1, T o2) {
-             return ComparisonUtils.nullSafeCompare(o1.getId(), o2.getId());
-         }
-    }
+    /**
+     * Useful to instantiate a domain object by name 
+     * @param name name of the domain object
+     */
+    void setName(String name);  
 }
