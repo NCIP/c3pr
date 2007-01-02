@@ -28,7 +28,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 	  Saves a Participant
 	*/
 	public void saveParticipant(Participant participant) throws Exception {
-		participantDao.saveParticipant(participant);		
+		participantDao.save(participant);		
 	}
 	
 	/**
