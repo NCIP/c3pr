@@ -112,7 +112,7 @@
             </fileset>
         </artifact>
 
-        <artifact track="main" type="jars" id="commons-lang-2.1.jars">
+        <artifact track="main" type="jars" id="commons-lang.jars">
             <fileset dir="${share.dir}/commons-lang-2.1">
                 <include name="*.jar"/>
             </fileset>
