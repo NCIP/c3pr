@@ -117,10 +117,12 @@
 			<artifact refid="jboss-j2ee.jars"/>
 			<artifact refid="spring.jars"/>
 			<artifact refid="hibernate.jars"/>
-			<artifact refid="log4j.jars"/>		
+			<artifact refid="log4j.jars"/>	
 			<artifact refid="commons-logging.jars"/>
+        	<artifact refid="commons-lang.jars"/>
         	<artifact refid="commons-dbcp.jars"/>
 			<artifact refid="commons-pool.jars"/>
+			<artifact refid="commons-beanutils.jars"/>
 			<artifact refid="dom4j.jars"/>	
 			</resolveDependencies>
         <ant dir="${projects.dir}/core" inheritAll="false" antfile="build.xml" target="all"/>
