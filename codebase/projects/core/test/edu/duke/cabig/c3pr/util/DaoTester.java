@@ -1,6 +1,8 @@
-package edu.duke.cabig.c3pr.utils;
+package edu.duke.cabig.c3pr.util;
+
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.context.ApplicationContext;
@@ -14,7 +16,6 @@ import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
-import edu.duke.cabig.c3pr.util.ContextTools;
 
 public class DaoTester {
     private StudyDao dao;
@@ -103,12 +104,17 @@ public class DaoTester {
     }
     
     private void testSaveStudySite(){
-        Study stu = (Study)dao.getById(5);
-        HealthcareSite site = (HealthcareSite)siteDao.getById(5);
+        Study study = (Study)dao.getById(0);
+        HealthcareSite site = (HealthcareSite)siteDao.getById(10);
         
         StudySite stuSite = new StudySite();
         stuSite.setSite(site);
-        
+        stuSite.setStudy(study);
+        stuSite.setIrbApprovalDate(new Date());
+//        stuSite.setTargetAccrualNumber(20);
+        stuSite.setRoleCode("Test");
+        stuSite.setStatusCode("Done");
+        stuSite.setStartDate(new Date());
         studySiteDao.save(stuSite);
     }
 
@@ -118,8 +124,8 @@ public class DaoTester {
          //studyDaoTest.testGetStudyById(1);
          
         //studyDaoTest.testCreateStudyWithDefaultDesign();
-        studyDaoTest.testSaveHealthcareSite();
+//        studyDaoTest.testSaveHealthcareSite();
         
-         //studyDaoTest.testSaveStudySite();
+         studyDaoTest.testSaveStudySite();
     }
 }

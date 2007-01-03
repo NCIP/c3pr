@@ -33,12 +33,30 @@ public class StudySite extends AbstractDomainObject implements Comparable<StudyS
     private Study study;
     private List<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();
     private Date irbApprovalDate;
-    private int targetAccrualNumber;
+    private String roleCode;
+    private String statusCode;
+    private Date startDate;
      
 
     ////// LOGIC
 
-    /* (non-Javadoc)
+    public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getStatusCode() {
+		return statusCode;
+	}
+
+	public void setStatusCode(String statusCode) {
+		this.statusCode = statusCode;
+	}
+
+	/* (non-Javadoc)
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	public int compareTo(StudySite o) {
@@ -59,7 +77,7 @@ public class StudySite extends AbstractDomainObject implements Comparable<StudyS
     }
 
     @ManyToOne
-    @JoinColumn(name = "site_id")
+    @JoinColumn(name = "hcs_id")
     public HealthcareSite getSite() {
         return site;
     }
@@ -83,6 +101,14 @@ public class StudySite extends AbstractDomainObject implements Comparable<StudyS
     public List<StudyParticipantAssignment> getStudyParticipantAssignments() {
         return studyParticipantAssignments;
     }
+    
+    public void addStudyParticipantAssignment(StudyParticipantAssignment studyParticipantAssignment){
+    	studyParticipantAssignments.add(studyParticipantAssignment);
+    }
+
+    public void removeStudyParticipantAssignment(StudyParticipantAssignment studyParticipantAssignment){
+    	studyParticipantAssignments.remove(studyParticipantAssignment);
+    }
 
     public void setIrbApprovalDate(Date irbApprovalDate) {
         this.irbApprovalDate = irbApprovalDate;
@@ -92,14 +118,6 @@ public class StudySite extends AbstractDomainObject implements Comparable<StudyS
         return irbApprovalDate;
     }
 
-    public void setTargetAccrualNumber(int targetAccrualNumber) {
-        this.targetAccrualNumber = targetAccrualNumber;
-    }
-
-    public int getTargetAccrualNumber() {
-        return targetAccrualNumber;
-    }
-    
     ////// OBJECT METHODS
 
     public boolean equals(Object obj) {
@@ -120,5 +138,13 @@ public class StudySite extends AbstractDomainObject implements Comparable<StudyS
         result = 29 * result + (studyParticipantAssignments != null ? studyParticipantAssignments.hashCode() : 0);
         return result;
     }
+
+	public String getRoleCode() {
+		return roleCode;
+	}
+
+	public void setRoleCode(String roleCode) {
+		this.roleCode = roleCode;
+	}
   
 }
