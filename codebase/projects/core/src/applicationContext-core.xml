@@ -35,6 +35,7 @@
                 <value>edu.duke.cabig.c3pr.domain.ParticipantIdentifier</value>
                 <value>edu.duke.cabig.c3pr.domain.StudyParticipantAssignment</value>    
                 <value>edu.duke.cabig.c3pr.domain.Participant</value>                                   
+                <value>edu.duke.cabig.c3pr.domain.ScheduledArm</value>                                   
             </list>
         </property>
         <property name="hibernateProperties">
@@ -61,7 +62,7 @@
     <bean id="epochDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.EpochDao" autowire="byType"></bean>
     <bean id="armDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ArmDao" autowire="byType"></bean>
     <bean id="participantDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ParticipantDao" autowire="byType"></bean>
-    <bean id="healthcareSiteDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.HealthcareSiteDao" autowire="byType"></bean>    
+    <bean id="healthcareSiteDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.HealthcareSiteDao" autowire="byType"></bean>
 <!-- Services -->
     <bean id="studyService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudyServiceImpl" autowire="byType"></bean>
     <bean id="participantService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.ParticipantServiceImpl" autowire="byType"></bean>
