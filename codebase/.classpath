@@ -5,50 +5,38 @@
 	<classpathentry kind="src" path="projects/web/src"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="projects/core/lib/activation-1.0.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="projects/core/lib/activemq-core-4.0.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/core/lib/asm.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/core/lib/asm-attrs.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/core/lib/avalon-framework-cvs-20020806.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/lib/batik.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/lib/bcprov-jdk14-129.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/core/lib/c3p0-0.8.5.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/core/lib/castor-0.9.9.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/core/lib/cglib-2.1.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/lib/concurrent-1.3.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/lib/connector.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/lib/db-ojb-1.0.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="projects/core/lib/commons-beanutils-1.7.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="projects/core/lib/commons-collections-3.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="projects/core/lib/commons-dbcp-1.2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="projects/core/lib/commons-lang-2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="projects/core/lib/commons-pool-1.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/core/lib/displaytag-1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/core/lib/ehcache-1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="projects/core/lib/ejb3-persistence.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/core/lib/fop.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/lib/jacc-1_0-fr.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/lib/jakarta-oro.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/lib/jaxen-1.1-beta-4.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/lib/jaxp.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/lib/jaxrpc.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/lib/jcs-1.0-dev.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/lib/jdbc2_0-stdext.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/lib/jgroups-2.2.7.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/lib/jndi.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/core/lib/jstl.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/core/lib/jta.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/core/lib/mail-1.3.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/core/lib/mysql-connector-java-3.1.11-bin.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/lib/namespace.jar"/>
+	<classpathentry exported="true" kind="lib" path="projects/core/lib/northwestern-core-commons.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/core/lib/odmg-3.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/core/lib/ojdbc14.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/lib/opensaml-1.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/lib/oscache-2.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/lib/poi-2.5-final-20040302.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/lib/proxool-0.8.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/lib/saaj.jar"/>
+	<classpathentry exported="true" kind="lib" path="projects/core/lib/postgresql-8.1-407.jdbc3.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/core/lib/standard.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/lib/swarmcache-1.0rc2.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/lib/wsdl4j-1.5.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/lib/wss4j.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/lib/xalan-2.6.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/lib/xml-apis.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/lib/xmlsec-1.2.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="share/spring-2.0/spring.jar" sourcepath="D:/projects/spring2"/>
-	<classpathentry exported="true" kind="lib" path="share/jboss-j2ee-4.0.5/jboss-j2ee-4.0.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="projects/core/lib/xbean-spring-2.7.jar"/>
+	<classpathentry exported="true" kind="lib" path="share/antlr-2.7.6/antlr-2.7.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="share/spring-2.0/spring.jar"/>
+	<classpathentry exported="true" kind="lib" path="share/hibernate-3.2.1/hibernate3.2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="share/hibernate-3.2.1/hibernate-annotations.jar"/>
+	<classpathentry exported="true" kind="lib" path="projects/core/build/jars/c3pr-2.0-core-1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="projects/core/build/jars/c3pr-2.0-core-tests-1.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/web/lib/axis.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/web/lib/axis-ant.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/web/lib/axis-jaxrpc-1.2.1.jar"/>
@@ -62,46 +50,9 @@
 	<classpathentry exported="true" kind="lib" path="projects/web/lib/javax.servlet.jsp.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/web/lib/nls_charset12.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/web/lib/sitemesh-2.2.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/lib/ejb3-persistence.jar"/>
-	<classpathentry exported="true" kind="lib" path="share/hibernate-3.2.1/hibernate3.2.1.jar" sourcepath="C:/devtools/hibernate-3.2/src"/>
-	<classpathentry exported="true" kind="lib" path="share/hibernate-3.2.1/hibernate-annotations.jar"/>
-	<classpathentry exported="true" kind="lib" path="share/csm/clm.jar"/>
-	<classpathentry exported="true" kind="lib" path="share/csm/csmapi.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/test/lib/core-commons-testing.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/test/lib/dbunit-2.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/test/lib/easymock.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/test/lib/easymockclassextension.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/test/lib/hsqldb.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/test/lib/spring-mock.jar"/>
-	<classpathentry exported="true" kind="lib" path="share/commons-beanutils-1.7.0/commons-beanutils-1.7.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/lib/northwestern-core-commons.jar"/>
-	<classpathentry exported="true" kind="lib" path="share/commons-logging/commons-logging.jar"/>
-	<classpathentry exported="true" kind="lib" path="share/log4j-1.2.13/log4j-1.2.13.jar"/>
-	<classpathentry exported="true" kind="lib" path="share/cacore/client.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/test/lib/junit.jar"/>
-	<classpathentry exported="true" kind="lib" path="share/commons-dbcp-1.2.1/commons-dbcp-1.2.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="share/commons-pool-1.2/commons-pool-1.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="share/cobertura-1.8/cobertura.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/lib/activeio-core-3.0-beta4.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/lib/activemq-core-4.0.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/lib/backport-util-concurrent-2.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/lib/client.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/test/lib/catrip-test-report-1.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/test/lib/emma_ant.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/test/lib/emma.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/test/lib/selenium-server-0.8.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/test/lib/servlet-api.jar"/>
-	<classpathentry exported="true" kind="lib" path="share/commons-lang-2.1/commons-lang-2.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="share/commons-digester/commons-digester.jar"/>
+	<classpathentry exported="true" kind="lib" path="projects/web/lib/taglibs-datagrid.jar"/>
 	<classpathentry exported="true" kind="lib" path="share/dom4j-1.6.1/dom4j-1.6.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="share/commons-collections-3.2/commons-collections-3.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="share/commons-codec-1.3/commons-codec-1.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="share/commons-validator/commons-validator.jar"/>
-	<classpathentry exported="true" kind="lib" path="share/core-commons/core-commons.jar"/>
-	<classpathentry exported="true" kind="lib" path="share/jdom/jdom.jar"/>
-	<classpathentry kind="lib" path="projects/core/build/jars/c3pr-2.0-core-1.0.jar"/>
-	<classpathentry kind="lib" path="projects/web/build/jars/c3pr-2.0-web-1.0.jar"/>
-	<classpathentry kind="lib" path="projects/core/build/jars/c3pr-2.0-core-tests-1.0.jar"/>
-	<classpathentry kind="lib" path="projects/web/build/jars/c3pr-2.0-web-tests-1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="share/commons-logging/commons-logging.jar"/>
+	<classpathentry exported="true" kind="lib" path="share/ant-contrib/ant-contrib.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
