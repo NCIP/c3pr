@@ -1,13 +1,9 @@
 package edu.duke.cabig.c3pr.domain;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
-
-
-
 
 
 /**
@@ -25,8 +21,11 @@ public abstract class Organization extends AbstractDomainObject {
 	
     public Organization() {
     }
-
-    @Column(name = "NAME", length = 20, nullable = false)
+    
+    public Organization(boolean initialise) {
+    	address = new Address();
+    }       
+    
     public String getName() {
         return name;
     }
