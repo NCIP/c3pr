@@ -1,11 +1,11 @@
 package edu.duke.cabig.c3pr.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -13,7 +13,6 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.IndexColumn;
 import org.hibernate.annotations.Parameter;
 
 /**
@@ -27,7 +26,7 @@ import org.hibernate.annotations.Parameter;
  * subjects as the primary study. A Clinical Trial is a Study with type=
  * "intervention" with subjects of type="human". 
  * 
- * @author priyatam
+ * @author Priyatam
  */
 
 @Entity
@@ -38,8 +37,7 @@ import org.hibernate.annotations.Parameter;
     }
 )
 public class Study extends AbstractDomainObject implements Comparable<Study>, Serializable{
-	
-	 
+		 
 	private String blindedIndicator;
 	
 	private String descriptionText;
@@ -71,30 +69,28 @@ public class Study extends AbstractDomainObject implements Comparable<Study>, Se
 	
 	private String type;
 	
-	//private List<EligibilityCriteria> eligibilityCriteria;
 	private List<Epoch> epochs;
-//	private List<Amendment> amendments;
-	private List<StudySite> studySites;
 	
-	/**
-	 * @return the amendments
-	 */
-//	@OneToMany (mappedBy = "study", fetch=FetchType.EAGER )
-//	@Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })	
-//	public List<Amendment> getAmendments() {
-//		return amendments;
-//	}
-
-//	/**
-//	 * @param amendments the amendments to set
-//	 */
-//	public void setAmendments(List<Amendment> amendments) {
-//		this.amendments = amendments;
-//	}
-
-	/**
-	 * @return the epochs
-	 */
+//	private List<Amendment> amendments;
+//	private List<EligibilityCriteria> eligibilityCriteria;
+	
+	private List<StudySite> studySites;		
+	
+	public Study()
+	{}
+	
+	public Study(boolean initialise)
+	{
+		if (true)// Prefill collection objects
+		{
+			studySites = new ArrayList<StudySite>();
+			studySites.add(new StudySite(true));
+			epochs = new ArrayList<Epoch>();
+			epochs.add(new Epoch(true));	
+		}
+				
+	}
+	
 	@OneToMany
     @JoinColumn(name="stu_id", nullable=false)
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})	   
@@ -102,27 +98,17 @@ public class Study extends AbstractDomainObject implements Comparable<Study>, Se
 		return epochs;
 	}
 
-	/**
-	 * @param epochs the epochs to set
-	 */
 	public void setEpochs(List<Epoch> epochs) {
 		this.epochs = epochs;
 	}
 
-
-	/**
-	 * @return the studySites
-	 */
 	@OneToMany
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})	   	
 	public List<StudySite> getStudySites() {
 		return studySites;
 	}
 
-	/**
-	 * @param studySites the studySites to set
-	 */
-	public void setStudySites(List<StudySite> studySites) {
+		public void setStudySites(List<StudySite> studySites) {
 		this.studySites = studySites;
 	}
 
