@@ -73,10 +73,10 @@ function navRollOver(obj, state) {
 					<tr>
 						<td width="100%" id="tabDisplay"><span class="tab"><img
 							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle">
-							<a href="protocol_add.htm">1.study details</a> <img
+						<a href="protocol_add.htm">1.study details</a> <img
 							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"></span>
-							<span class="current"><img src="images/tabWhiteL.gif" width="3"
-							height="16" align="absmiddle"> 2.study site <img
+						<span class="current"><img src="images/tabWhiteL.gif"
+							width="3" height="16" align="absmiddle"> 2.study site <img
 							src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"></span><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
@@ -103,8 +103,7 @@ function navRollOver(obj, state) {
 					var="formAction" /> <form:form method="post"
 					action="${formAction}">
 
-					<div><input type="hidden" name="_page" value="1"> 
-					<!-- input type = "hidden" name="_target1" value="1"-->
+					<div><input type="hidden" name="_page" value="1"> <!-- input type = "hidden" name="_target1" value="1"-->
 					</div>
 					<strong>Step 2. Study Site </strong> (<span class="red">*</span>
 					<em>Required Information </em>)<br>
@@ -131,27 +130,32 @@ function navRollOver(obj, state) {
 								class="heightControl"></td>
 						</tr>
 						<tr>
-							<td class="label"><span class="red">*</span><em></em>Street Address:	</td>
-							<td><form:input path="studySites[0].site.address.streetAddress" /></td>
+							<td class="label"><span class="red">*</span><em></em>Street
+							Address:</td>
+							<td><form:input
+								path="studySites[0].site.address.streetAddress" /></td>
 						</tr>
 						<tr>
-							<td class="label"><span class="red">*</span><em></em>City:	</td>
+							<td class="label"><span class="red">*</span><em></em>City:</td>
 							<td><form:input path="studySites[0].site.address.city" /></td>
 						</tr>
 						<tr>
-							<td class="label"><span class="red">*</span><em></em>State Code:</td>
+							<td class="label"><span class="red">*</span><em></em>State
+							Code:</td>
 							<td><form:input path="studySites[0].site.address.stateCode" /></td>
 						</tr>
 						</tr>
-							<td class="label"><span class="red">*</span><em></em>Postal Code:</td>
+							<td class="label"><span class="red">*</span><em></em>Postal
+							Code:</td>
 							<td><form:input path="studySites[0].site.address.postalCode" /></td>
-						</tr>
 							</tr>
-							<td class="label"><span class="red">*</span><em></em>Country Code:</td>
-							<td><form:input path="studySites[0].site.address.country.Code" /></td>
 						</tr>
-					
-						
+							<td class="label"><span class="red">*</span><em></em>Country
+							Code:</td>
+							<td><form:input path="studySites[0].site.address.countryCode" /></td>
+						</tr>
+
+
 						<tr>
 							<td class="label" align="right"><span class="red">&nbsp;&nbsp;&nbsp;*</span><em></em>IRB
 							Approval Date:</td>
@@ -161,7 +165,7 @@ function navRollOver(obj, state) {
 								src="images/b-calendar.gif" alt="Calendar" width="17"
 								height="16" border="0" align="absmiddle"></a></td>
 						</tr>
-						
+
 						<tr>
 							<td align="center" colspan="3"><!-- action buttons begins -->
 							<table cellpadding="4" cellspacing="0" border="0">
