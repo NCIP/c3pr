@@ -102,6 +102,14 @@ public class Study extends AbstractDomainObject implements Comparable<Study>, Se
 		this.epochs = epochs;
 	}
 
+	public void addEpoch(Epoch epoch){
+		epochs.add(epoch);
+	}
+	
+	public void removeEpoch(Epoch epoch){
+		epochs.remove(epoch);
+	}
+	
 	@OneToMany
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})	   	
 	public List<StudySite> getStudySites() {
