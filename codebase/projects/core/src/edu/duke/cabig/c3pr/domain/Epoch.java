@@ -93,8 +93,8 @@ public class Epoch extends AbstractDomainObject implements Comparable<Epoch>, Se
 
     // This is annotated this way so that the IndexColumn will work with
     // the bidirectional mapping. 
-    @OneToMany
-    @JoinColumn(name="eph_id", nullable=false)
+    @OneToMany(mappedBy="epoch")
+    // @JoinColumn(name="eph_id", nullable=false)
     //@IndexColumn(name="list_index")
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})
     public List<Arm> getArms() {
@@ -117,7 +117,7 @@ public class Epoch extends AbstractDomainObject implements Comparable<Epoch>, Se
 	 * @return the study
 	 */
     @ManyToOne (fetch = FetchType.LAZY)
-	@JoinColumn(insertable=false, updatable=false, nullable=false)	  	
+    @JoinColumn(name="stu_id", nullable=false)
 	public Study getStudy() {
 		return study;
 	}
