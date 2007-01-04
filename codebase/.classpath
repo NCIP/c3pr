@@ -16,7 +16,6 @@
 	<classpathentry exported="true" kind="lib" path="projects/core/lib/commons-dbcp-1.2.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/core/lib/commons-lang-2.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/core/lib/commons-pool-1.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/devtools/eclipse/workspace/c3pr/projects/web/lib/displaytag-1.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/core/lib/ehcache-1.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/core/lib/ejb3-persistence.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/core/lib/fop.jar"/>
@@ -59,5 +58,6 @@
 	<classpathentry exported="true" kind="lib" path="projects/core/test/lib/servlet-api.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/core/test/lib/spring-mock.jar"/>
 	<classpathentry exported="true" kind="lib" path="share/junit-3.8.1/junit-3.8.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="projects/web/lib/displaytag-1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
