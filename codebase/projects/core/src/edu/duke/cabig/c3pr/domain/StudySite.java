@@ -36,25 +36,21 @@ public class StudySite extends AbstractDomainObject implements Comparable<StudyS
     private String roleCode;
     private String statusCode;
     private Date startDate;
+    private Date endDate;
      
+    public StudySite()
+    {}
+    
+    public StudySite(boolean initialise)
+    {
+    	if (true)
+    	{
+    		site = new HealthcareSite(true);
+    		studyParticipantAssignments.add(new StudyParticipantAssignment());
+    	}    	
+    }
 
     ////// LOGIC
-
-    public Date getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-
-	public String getStatusCode() {
-		return statusCode;
-	}
-
-	public void setStatusCode(String statusCode) {
-		this.statusCode = statusCode;
-	}
 
 	/* (non-Javadoc)
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
@@ -76,8 +72,9 @@ public class StudySite extends AbstractDomainObject implements Comparable<StudyS
         this.site = site;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "hcs_id")
+    @ManyToOne 
+    @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })    
+    @JoinColumn(name = "hcs_id")    
     public HealthcareSite getSite() {
         return site;
     }
@@ -87,6 +84,7 @@ public class StudySite extends AbstractDomainObject implements Comparable<StudyS
     }
 
     @ManyToOne
+    @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })        
     @JoinColumn(name = "study_id")
     public Study getStudy() {
         return study;
@@ -117,6 +115,40 @@ public class StudySite extends AbstractDomainObject implements Comparable<StudyS
     public Date getIrbApprovalDate() {
         return irbApprovalDate;
     }
+    
+
+    public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getStatusCode() {
+		return statusCode;
+	}
+
+	public void setStatusCode(String statusCode) {
+		this.statusCode = statusCode;
+	}
+	
+
+	public String getRoleCode() {
+		return roleCode;
+	}
+
+	public void setRoleCode(String roleCode) {
+		this.roleCode = roleCode;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
 
     ////// OBJECT METHODS
 
@@ -139,12 +171,5 @@ public class StudySite extends AbstractDomainObject implements Comparable<StudyS
         return result;
     }
 
-	public String getRoleCode() {
-		return roleCode;
-	}
-
-	public void setRoleCode(String roleCode) {
-		this.roleCode = roleCode;
-	}
   
 }
