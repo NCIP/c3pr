@@ -76,67 +76,14 @@
             </fileset>
         </artifact>
 
-        <artifact track="main" type="jars" id="commons-beanutils.jars">
-            <fileset dir="${share.dir}/commons-beanutils-1.7.0">
-                <include name="*.jar"/>
-            </fileset>
-        </artifact>
-
-        <artifact track="main" type="jars" id="commons-codec.jars">
-            <fileset dir="${share.dir}/commons-codec-1.3">
-                <include name="*.jar"/>
-            </fileset>
-        </artifact>
-
-        <artifact track="main" type="jars" id="commons-collections.jars">
-            <fileset dir="${share.dir}/commons-collections-3.2">
-                <include name="*.jar"/>
-            </fileset>
-        </artifact>
-
-        <artifact track="main" type="jars" id="commons-dbcp.jars">
-            <fileset dir="${share.dir}/commons-dbcp-1.2.1">
-                <include name="*.jar"/>
-            </fileset>
-        </artifact>
-
-        <artifact track="main" type="jars" id="commons-digester.jars">
-            <fileset dir="${share.dir}/commons-digester">
-                <include name="*.jar"/>
-            </fileset>
-        </artifact>
-
-        <artifact track="main" type="jars" id="commons-discovery.jars">
-            <fileset dir="${share.dir}/commons-discovery">
-                <include name="*.jar"/>
-            </fileset>
-        </artifact>
-
-        <artifact track="main" type="jars" id="commons-lang.jars">
-            <fileset dir="${share.dir}/commons-lang-2.1">
-                <include name="*.jar"/>
-            </fileset>
-        </artifact>
         <artifact track="main" type="jars" id="commons-logging.jars">
             <fileset dir="${share.dir}/commons-logging">
                 <include name="*.jar"/>
             </fileset>
         </artifact>
 
-        <artifact track="main" type="jars" id="commons-pool.jars">
-            <fileset dir="${share.dir}/commons-pool-1.2">
-                <include name="*.jar"/>
-            </fileset>
-        </artifact>
-
         <artifact track="main" type="jars" id="commons-validator.jars">
             <fileset dir="${share.dir}/commons-validator">
-                <include name="*.jar"/>
-            </fileset>
-        </artifact>
-
-        <artifact track="main" type="jars" id="core-commons.jars">
-            <fileset dir="${share.dir}/core-commons">
                 <include name="*.jar"/>
             </fileset>
         </artifact>
