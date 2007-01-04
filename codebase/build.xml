@@ -7,8 +7,8 @@
     <!-- Give user the chance to override properties -->
     <property environment="env"/>
     <property file="build.properties"/>
-
-    <!-- layout info -->
+	
+	<!-- layout info -->
     <property name="antfiles.dir" location="${basedir}/antfiles"/>
     <property name="management.dir" location="${antfiles.dir}/management"/>
     <property name="projects.dir" location="${basedir}/projects"/>
@@ -20,7 +20,11 @@
     <property name="xmlbeans.dir" location="${share.dir}/xmlbeans"/>
     <property name="junit.results.dir" location="${test.dir}/logs"/>
 
-
+	<!-- Warning, your environment variable for tomcat should be set in your OS (Windows/Linux),
+ 	 else it wont deploy -->	
+	<property name="deploy.path" value="${env.CATALINA_HOME}/webapps" />
+	<property name="webapp.name" value="c3pr" />
+	  
     <!-- import testing properties -->
     <property file="${antfiles.dir}/test.properties"/>
 
@@ -108,22 +112,15 @@
         <resolveDependencies extdir="${projects.dir}/core/ext">
             <artifact refid="common.test.jars"/>
             <artifact refid="ant-contrib.jars"/>
-            <artifact refid="cagrid.jars"/>
             <artifact refid="cacore.jars"/>
-            <artifact refid="globus.jars"/>
-			<artifact refid="csm.jars"/>				
-				
+           	
 	 		<!-- get third party shared jars -->
 			<artifact refid="jboss-j2ee.jars"/>
 			<artifact refid="spring.jars"/>
 			<artifact refid="hibernate.jars"/>
 			<artifact refid="log4j.jars"/>	
 			<artifact refid="commons-logging.jars"/>
-        	<artifact refid="commons-lang.jars"/>
-        	<artifact refid="commons-dbcp.jars"/>
-			<artifact refid="commons-pool.jars"/>
-			<artifact refid="commons-beanutils.jars"/>
-			<artifact refid="dom4j.jars"/>	
+        	<artifact refid="dom4j.jars"/>	
 			</resolveDependencies>
         <ant dir="${projects.dir}/core" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
@@ -140,10 +137,7 @@
 			<artifact refid="dom4j.jars"/>
 			<artifact refid="xerces.jars"/>
 			<artifact refid="xercesImpl.jars"/>
-			<artifact refid="core-commons.jars"/>
-			<artifact refid="commons-dbcp.jars"/>
-			<artifact refid="commons-pool.jars"/>
-        	<artifact refid="commons-logging.jars"/>
+			<artifact refid="commons-logging.jars"/>
         </resolveDependencies>
         <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
@@ -221,9 +215,22 @@
             </sequential>
         </for>
     </target>
-
+	
+	<!-- ====================================================================== -->
+	<!-- Deploys the webapp (note:- only web + core projects )in Catalina_home  -->
+	<!-- ====================================================================== -->
+    <target name="deploy-webapp" depends="build-core, build-web" description="Deploy web application to tomcat">
+    <!-- just copy the applicationContext files -->   	
+	<copy todir="${deploy.path}/${webapp.name}/WEB-INF/" preservelastmodified="true">
+            <fileset dir="${projects.dir}/core/src">
+				<include name="**/*.xml" />
+            </fileset>		
+        </copy>   
+    <ant dir="${projects.dir}/web" inheritAll="true" antfile="build.xml" target="deploy"/> 	    	
+    </target>
+		
     <!-- ============================================================== -->
-    <!-- Builds caTRIP from scratch                                     -->
+    <!-- Builds C3PR  from scratch                                     -->
     <!-- ============================================================== -->
     <target name="all" depends="clean, build" description="Cleans and builds all the projects."/>
 
