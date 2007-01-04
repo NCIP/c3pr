@@ -16,6 +16,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractWizardFormController;
+import org.springframework.web.servlet.view.RedirectView;
 
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -34,7 +35,7 @@ public class CreateStudyController extends AbstractWizardFormController {
 	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
         super.initBinder(request, binder);
         binder.registerCustomEditor(Date.class, ControllerTools.getDateEditor(true));
-    //    ControllerTools.registerDomainObjectEditor(binder, "study", studyDao);
+        ControllerTools.registerDomainObjectEditor(binder, "study", studyDao);
     }
 	
 	/**
@@ -43,29 +44,60 @@ public class CreateStudyController extends AbstractWizardFormController {
 	 * @throws ServletException
 	 */
 	protected Object formBackingObject(HttpServletRequest request) throws ServletException {
-	
-	// TODO
-		return null;
+		Study study = new Study(true);		
+		return study;
 	}
- 
-	protected Map<String, Object> referenceData(HttpServletRequest httpServletRequest) 
-  	throws Exception {
+	
+	/**
+	* Method for custom validation logic for individual pages
+	* @param command - form object with the current wizard state
+	* @param errors - validation errors holder
+	* @param page - number of page to validate
+	*/
+//	protected void validatePage(Object command, Errors errors, int page) {
+//		StudyDesignCommand StudyDesignCommand = (StudyDesignCommand) command;
+//		StudyDesignCommand StudyDesignValidator = (StudyDesignCommand) getValidator();
+//		switch (page) {
+//		case 0:
+//		//	StudyDesignValidator.validateExclusiveOrShared(addJob, errors);
+//		break;
+//		}
+//	}
+	
+//	protected int getTargetPage(HttpServletRequest request, Object command, Errors errors,
+//			int currentPage) {
+//		if (request.getParameter(PARAM_TARGET) != null) {
+//			return new Integer(request.getParameter(PARAM_TARGET)).intValue();
+//		}
+//		if (currentPage == 0) {
+//			return 1;
+//		}
+//		else {
+//			return 2;
+//		}
+//	}
+
+	protected Map<String, Object> referenceData(HttpServletRequest httpServletRequest, int page) 
+  		throws Exception {
   	// Currently the static data is a hack for an LOV this will be replaced with 
   	// LOVDao to get the static data from individual tables
-  	Map<String, Object> refdata = new HashMap<String, Object>();
-  	
-  	refdata.put("diseaseCode", getDiseaseCodeList());
-      refdata.put("monitorCode", getMonitorCodeList());
-      refdata.put("phaseCode", getDiseaseCodeList());
-      refdata.put("sponsorCode", getSponsorCodeList() );
-      refdata.put("status", getStatusList());
-      refdata.put("type", getTypeList() );
-      refdata.put("multiInstitutionIndicator", getMultinstitutionList());
-      refdata.put("randomizedIndicator", getRandomizedList());
-      refdata.put("blindedIndicator", getBlindedIndicator());
-      refdata.put("nciIdentifier", getNciIdentifier());
-      return refdata;
-  }
+		Map<String, Object> refdata = new HashMap<String, Object>();
+	  	if (page == 0) {
+	  		refdata.put("diseaseCode", getDiseaseCodeList());
+	  		refdata.put("monitorCode", getMonitorCodeList());
+	  		refdata.put("phaseCode", getDiseaseCodeList());
+	  		refdata.put("sponsorCode", getSponsorCodeList() );
+	  		refdata.put("status", getStatusList());
+	  		refdata.put("type", getTypeList() );
+	  		refdata.put("multiInstitutionIndicator", getMultinstitutionList());
+	  		refdata.put("randomizedIndicator", getRandomizedList());
+	  		refdata.put("blindedIndicator", getBlindedIndicator());
+	  		refdata.put("nciIdentifier", getNciIdentifier());
+	  		return refdata;
+	  	}
+	  	
+	  	return refdata;
+	}
 	/* (non-Javadoc)
 	 * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#processFinish
 	 * (javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, 
@@ -75,9 +107,9 @@ public class CreateStudyController extends AbstractWizardFormController {
 	protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, 
 			Object command, BindException errors) throws Exception {
 		Study study = (Study) command;
-    	studyService.save(study);   
-    	ModelAndView modelAndView= new ModelAndView("study_search");
-    	modelAndView.addAllObjects(errors.getModel());
+		studyService.save(study);   
+    	ModelAndView modelAndView= new ModelAndView(new RedirectView("searchstudy.do"));
+    	//modelAndView.addAllObjects(errors.getModel());
     	return modelAndView;
 	}
  
