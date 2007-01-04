@@ -59,5 +59,7 @@
 	<classpathentry exported="true" kind="lib" path="projects/core/test/lib/spring-mock.jar"/>
 	<classpathentry exported="true" kind="lib" path="share/junit-3.8.1/junit-3.8.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/web/lib/displaytag-1.1.jar"/>
+	<classpathentry kind="lib" path="share/log4j-1.2.13/log4j-1.2.13.jar"/>
+	<classpathentry kind="lib" path="share/cacore/client.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
