@@ -20,13 +20,12 @@ public abstract class Person extends AbstractDomainObject implements Serializabl
 		
 	private Date birthDate;
 		
-	private String administritativeGenderCode;
+	private String administrativeGenderCode;
 	
 	private String ethnicGroupCode;
 		
 	private String raceCode;
 
-	@Column(name = "FIRST_NAME", length = 20, nullable = false)
 	public String getFirstName() {
 		return firstName;
 	}
@@ -35,7 +34,6 @@ public abstract class Person extends AbstractDomainObject implements Serializabl
 		this.firstName = firstName;
 	}
 
-	@Column(name = "LAST_NAME", length = 20, nullable = false)
 	public String getLastName() {
 		return lastName;
 	}
@@ -44,7 +42,6 @@ public abstract class Person extends AbstractDomainObject implements Serializabl
 		this.lastName = lastName;
 	}
 
-	@Column(name = "BIRTH_DATE", nullable = false)
 	public Date getBirthDate() {
 		return birthDate;
 	}
@@ -53,16 +50,14 @@ public abstract class Person extends AbstractDomainObject implements Serializabl
 		this.birthDate = birthDate;
 	}
 
-	@Column(name = "ADMINISTRITATIVE_GENDER_CODE", length = 20)
-	public String getAdministritativeGenderCode() {
-		return administritativeGenderCode;
+	public String getAdministrativeGenderCode() {
+		return administrativeGenderCode;
 	}
 
-	public void setAdministritativeGenderCode(String administritativeGenderCode) {
-		this.administritativeGenderCode = administritativeGenderCode;
+	public void setAdministrativeGenderCode(String administritativeGenderCode) {
+		this.administrativeGenderCode = administritativeGenderCode;
 	}
 
-	@Column(name = "ETHNIC_GROUP_CODE", length = 20)
 	public String getEthnicGroupCode() {
 		return ethnicGroupCode;
 	}
@@ -71,7 +66,6 @@ public abstract class Person extends AbstractDomainObject implements Serializabl
 		this.ethnicGroupCode = ethnicGroupCode;
 	}
 	
-	@Column(name = "RACE_CODE", length = 20)
 	public String getRaceCode() {
 		return raceCode;
 	}
