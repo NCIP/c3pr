@@ -15,7 +15,6 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.IndexColumn;
 import org.hibernate.annotations.Parameter;
 
 
@@ -44,7 +43,19 @@ public class Epoch extends AbstractDomainObject implements Comparable<Epoch>, Se
 	}
 	
 	private Study study;
-
+	
+	public Epoch()
+	{}	
+	
+	public Epoch(boolean initialise)
+	{
+		// prefill with default initializers
+		if (true)
+		{
+			arms.add(new Arm());
+		}
+	}
+	
     /**
      * Factory method
      * @param epochName

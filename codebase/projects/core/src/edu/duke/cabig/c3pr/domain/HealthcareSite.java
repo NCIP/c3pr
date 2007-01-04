@@ -1,12 +1,8 @@
 package edu.duke.cabig.c3pr.domain;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
 
 
 /**
@@ -26,7 +22,11 @@ public class HealthcareSite extends Organization {
 		 
     private String nciIdentifier;
 	
-    public HealthcareSite() {
+    public HealthcareSite() 
+    {}
+    
+    public HealthcareSite(boolean initialise) {
+    	super(true);
     }
 
     public String getNciIdentifier() {
