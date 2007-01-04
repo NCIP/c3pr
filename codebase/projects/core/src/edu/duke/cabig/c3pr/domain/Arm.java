@@ -14,7 +14,7 @@ import org.hibernate.annotations.Parameter;
 
 
 /**
- * @author Ram Chilukuri, priyatam
+ * @author Ram Chilukuri, Priyatam
  */
 @Entity
 @Table (name = "arms")
@@ -61,7 +61,7 @@ public class Arm extends AbstractDomainObject implements Comparable<Arm>, Serial
     // This is annotated this way so that the IndexColumn in the parent
     // will work with the bidirectional mapping
     @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn(insertable=false, updatable=false, nullable=false)
+    @JoinColumn(name="eph_id", nullable=false)
     public Epoch getEpoch() {
         return epoch;
     }
@@ -117,7 +117,5 @@ public class Arm extends AbstractDomainObject implements Comparable<Arm>, Serial
 		if (targetAccrualNumber != other.targetAccrualNumber)
 			return false;
 		return true;
-	}
-    
-    
+	}   
 }
