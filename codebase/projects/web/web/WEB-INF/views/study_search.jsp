@@ -24,9 +24,7 @@ function navRollOver(obj, state) {
 	<tr>
 
 		<td width="99%"><img src="images/C3PRLogo.gif" alt="C3Pr V2"
-			width="181" height="36" class="gelogo"></td>
-		<td align="right"><img src="images/t-drivers.gif" alt="Protocol"
-			width="200" height="79"></td>
+			width="181" height="36" class="gelogo"></td>		
 	</tr>
 </table>
 <!-- TOP LOGOS END HERE -->
@@ -39,7 +37,7 @@ function navRollOver(obj, state) {
 			src="images/topNavL.gif" width="2" height="20" align="absmiddle"
 			class="currentL"><span class="current"><img
 			src="images/topNavArrowDown.gif" width="5" height="20"
-			align="absmiddle"> Protocol </span><img src="images/topNavR.gif"
+			align="absmiddle"> Study </span><img src="images/topNavR.gif"
 			width="2" height="20" align="absmiddle" class="currentR"><a
 			href="participant.htm">Participant</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
@@ -53,19 +51,7 @@ function navRollOver(obj, state) {
 	</tr>
 </table>
 <!-- TOP NAVIGATION ENDS HERE -->
-<!-- SUB NAV STARTS HERE -->
-<table width="100%" border="0" cellspacing="0" cellpadding="0"
-	id="subNav">
 
-	<tr>
-		<td width="99%" valign="middle"><img src="images/arrowRight.gif"
-			width="3" height="5" align="absmiddle"> Protocol Management <img
-			src="images/spacer.gif" width="1" height="20" align="absmiddle"
-			class="spacer"><a href="protocol_add.htm">Add Protocol</a></td>
-		<td valign="middle" class="right"><a href="help">Help</a></td>
-	</tr>
-</table>
-<!-- SUB NAV ENDS HERE -->
 <!-- MAIN BODY STARTS HERE -->
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -83,12 +69,10 @@ function navRollOver(obj, state) {
 				<td>
 				<table width="100%" border="0" cellspacing="0" cellpadding="0"
 					class="tabs">
-
 					<tr>
-
 						<td width="100%" id="tabDisplay"><span class="current"><img
 							src="images/tabWhiteL.gif" width="3" height="16"
-							align="absmiddle"> Protocol Search <img
+							align="absmiddle"> Study Search <img
 							src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"></span></td>
 						<td><img src="images/spacer.gif" width="7" height="1"></td>
@@ -117,8 +101,7 @@ function navRollOver(obj, state) {
 						<td><img src="images/Protocol.gif" alt="Protocol Search"
 							width="100" height="100" align="absmiddle\"></td>
 						<td width="99%">
-						<h3>Study Search (select any)</h3>
-						<br>
+							<br>
 							<table border="0" cellspacing="0" cellpadding="0" id="search">
 								<tr>
 									<td align="left" class="labels">Search String</td>

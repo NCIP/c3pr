@@ -22,7 +22,7 @@ function navRollOver(obj, state) {
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
 		<td width="99%"><img src="images/C3PRLogo.gif" alt="C3Pr V2"
-			width="181" height="36" class="gelogo"></td>		
+			width="181" height="36" class="gelogo"></td>
 	</tr>
 </table>
 <!-- TOP LOGOS END HERE -->
@@ -71,19 +71,19 @@ function navRollOver(obj, state) {
 				<table width="100%" border="0" cellspacing="0" cellpadding="0"
 					class="tabs">
 					<tr>
-						<td width="100%" id="tabDisplay"><span class="current"><img
-							src="images/tabWhiteL.gif" width="3" height="16"
-							align="absmiddle"> 1. Study Site <img
+						<td width="100%" id="tabDisplay"><span class="tab"><img
+							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle">
+							<a href="protocol_add.htm">1.study details</a> <img
+							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"></span>
+							<span class="current"><img src="images/tabWhiteL.gif" width="3"
+							height="16" align="absmiddle"> 2.study site <img
 							src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"></span><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						2. Study Details <img src="images/tabGrayR.gif" width="3"
+						3. study design <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						3. Study Design<img src="images/tabGrayR.gif" width="3"
-							height="16" align="absmiddle"><img
-							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						4. Review and Submit <img src="images/tabGrayR.gif" width="3"
+						4. review and submit <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"></span></td>
 						<td><img src="images/spacer.gif" width="7" height="1"></td>
 					</tr>
@@ -99,15 +99,14 @@ function navRollOver(obj, state) {
 				<!-- LEFT CONTENT STARTS HERE -->
 
 				<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
-				<!-- RIGHT CONTENT STARTS HERE --> 
-				<c:url value="/createstudy.do" var="formAction" />
-				<form:form method="post" action="${formAction}">
+				<!-- RIGHT CONTENT STARTS HERE --> <c:url value="/createstudy.do"
+					var="formAction" /> <form:form method="post"
+					action="${formAction}">
 
-				<div>
-					<input type = "hidden" name="_page" value="0">
-					<input type = "hidden" name="_target1" value="true">				
-				</div>
-					<strong>Step 1. Study Site Information </strong> (<span class="red">*</span>
+					<div><input type="hidden" name="_page" value="1"> 
+					<!-- input type = "hidden" name="_target1" value="1"-->
+					</div>
+					<strong>Step 2. Study Site </strong> (<span class="red">*</span>
 					<em>Required Information </em>)<br>
 
 					<br>
@@ -116,10 +115,10 @@ function navRollOver(obj, state) {
 						<tr>
 							<td class="label"><span class="red">*</span><em></em>Site
 							ID:</td>
-							<td><input name="driverfield1" type="text" size="32"></td>
+							<td><form:input path="studySites[0].site.nciIdentifier" /></td>
 							<td class="label"><span class="red">*</span><em></em>Target
 							Accrual Number:</td>
-							<td><form:input path="studySite.targetAccrualNumber"/></td>
+							<td><form:input path="studySites[0].statusCode" /></td>
 						</tr>
 						<tr>
 							<td><img src="images/spacer.gif" width="1" height="1"
@@ -131,28 +130,53 @@ function navRollOver(obj, state) {
 							<td><img src="images/spacer.gif" width="1" height="1"
 								class="heightControl"></td>
 						</tr>
-
+						<tr>
+							<td class="label"><span class="red">*</span><em></em>Street Address:	</td>
+							<td><form:input path="studySites[0].site.address.streetAddress" /></td>
+						</tr>
+						<tr>
+							<td class="label"><span class="red">*</span><em></em>City:	</td>
+							<td><form:input path="studySites[0].site.address.city" /></td>
+						</tr>
+						<tr>
+							<td class="label"><span class="red">*</span><em></em>State Code:</td>
+							<td><form:input path="studySites[0].site.address.stateCode" /></td>
+						</tr>
+						</tr>
+							<td class="label"><span class="red">*</span><em></em>Postal Code:</td>
+							<td><form:input path="studySites[0].site.address.postalCode" /></td>
+						</tr>
+							</tr>
+							<td class="label"><span class="red">*</span><em></em>Country Code:</td>
+							<td><form:input path="studySites[0].site.address.country.Code" /></td>
+						</tr>
+					
+						
 						<tr>
 							<td class="label" align="right"><span class="red">&nbsp;&nbsp;&nbsp;*</span><em></em>IRB
 							Approval Date:</td>
-							<td valign="top" align="left"><form:input path="studySite.irbApprovalDate"/>&nbsp;<a href="#"
+							<td valign="top" align="left"><form:input
+								path="studySites[0].irbApprovalDate" />&nbsp;<a href="#"
 								onClick="parent.OpenWins('calendar.htm','calendar',200,236);return false;"><img
 								src="images/b-calendar.gif" alt="Calendar" width="17"
 								height="16" border="0" align="absmiddle"></a></td>
 						</tr>
+						
 						<tr>
 							<td align="center" colspan="3"><!-- action buttons begins -->
 							<table cellpadding="4" cellspacing="0" border="0">
 								<tr>
 									<td><input class="actionButton" type="submit"
-										name="_target1" value="Next"></td>
+										name="_target0" value="Prev"></td>
+									<td><input class="actionButton" type="submit"
+										name="_target2" value="Next"></td>
 								</tr>
 							</table>
 							</td>
 						</tr>
 					</table>
 				</form:form></td>
-			</tr>			
+			</tr>
 		</table>
 		<br>
 		</td>

@@ -17,6 +17,14 @@ function navRollOver(obj, state) {
 }
 </script>
 <script language="javascript">
+function program(){
+var action = confirm ("Protocol Added Successfully!\r\rWould you like to register patients at this time?")
+if (action){
+	parent.window.location="reg_enroll_patient.htm";
+}else {
+	parent.window.location="protocol_details.htm";
+}}
+
 function add(){
 var action = confirm ("You have not completed adding this protocol.\r\rStarting over will lose current protocol data?")
 if (action){
@@ -29,7 +37,7 @@ if (action){
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
 		<td width="99%"><img src="images/C3PRLogo.gif" alt="C3Pr V2"
-			width="181" height="36" class="gelogo"></td>		
+			width="181" height="36" class="gelogo"></td>
 	</tr>
 </table>
 <!-- TOP LOGOS END HERE -->
@@ -41,7 +49,7 @@ if (action){
 			src="images/topNavL.gif" width="2" height="20" align="absmiddle"
 			class="currentL"><span class="current"><img
 			src="images/topNavArrowDown.gif" width="5" height="20"
-			align="absmiddle"> Study </span><img src="images/topNavR.gif"
+			align="absmiddle"> Protocol </span><img src="images/topNavR.gif"
 			width="2" height="20" align="absmiddle" class="currentR"><a
 			href="participant.htm">Participant</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
@@ -56,7 +64,14 @@ if (action){
 </table>
 <!-- TOP NAVIGATION ENDS HERE -->
 <!-- SUB NAV STARTS HERE -->
-
+<table width="100%" border="0" cellspacing="0" cellpadding="0"
+	id="subNav">
+	<tr>
+		<td width="99%" valign="middle" class="welcome">Welcome, User
+		Name</td>
+		<td valign="middle" class="right"><a href="help">Help</a></td>
+	</tr>
+</table>
 <!-- SUB NAV ENDS HERE -->
 <!-- MAIN BODY STARTS HERE -->
 <div class="workArea">
@@ -64,7 +79,8 @@ if (action){
 	class="titleArea">
 	<tr>
 		<!-- TITLE STARTS HERE -->
-		<td width="99%" height="43" valign="middle" id="title">Add Study</td>
+		<td width="99%" height="43" valign="middle" id="title">Add
+		Study</td>
 	</tr>
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -77,21 +93,22 @@ if (action){
 				<td>
 				<table width="100%" border="0" cellspacing="0" cellpadding="0"
 					class="tabs">
-				<tr>
+					<tr>
 						<td width="100%" id="tabDisplay"><span class="tab"><img
+							src="images/tabWhiteL.gif" width="3" height="16"
+							align="absmiddle"> 1. <a href="protocol_add.htm">Study
+						Site </a> <img src="images/tabWhiteR.gif" width="3"
+							height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						1. <a href="protocol_add.htm">study details</a> <img
+						2. <a href="protocol_add2.htm">Study Details</a> <img
 							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						2. <a href="protocol_add2.htm">study site</a> <img
+						3. <a href="protocol_add3.htm">Study Design</a> <img
 							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"></span><span
-							class="current"><img src="images/tabwhiteL.gif" width="3"
-							height="16" align="absmiddle"> 3. study design <img
+							class="current"><img src="images/tabWhiteL.gif" width="3"
+							height="16" align="absmiddle"> 4. Review and Submit <img
 							src="images/tabWhiteR.gif" width="3" height="16"
-							align="absmiddle"></span><span class="tab"><img
-							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						4. review and submit <img src="images/tabGrayR.gif" width="3"
-							height="16" align="absmiddle"></span></td>
+							align="absmiddle"></span></td>
 						<td><img src="images/spacer.gif" width="7" height="1"></td>
 					</tr>
 					<tr>
@@ -110,65 +127,42 @@ if (action){
 				<c:url value="/createstudy.do" var="formAction" />
 				<form:form method="post" action="${formAction}">
 				<div>
-					<input type = "hidden" name="_page" value="2">
-				</div>	
+					<input type ="hidden" name="_page" value="3">
+				</div>
 
-					<br>
-					<strong>Step 3. Study Design - Epochs & Arms </strong>
-					<br>
-					<br>
-					<table width="700" border="0" cellspacing="0" cellpadding="0"
-						id="table1">
+
+				<table width="550" border="0" cellspacing="0" cellpadding="0">
+					<tr>
+					<td align="center"><span class="data"><a href="#"
+							onClick="program();return false;"><img
+							src="images/b-submit.gif" alt="Add This Driver" width="60"
+							height="16" border="0"></a> <a href="protocol_add.htm"
+							onClick="add();return false;"><img
+							src="images/b-startOver.gif" alt="Start Over" width="67"
+							height="16" border="0"></a></span></td>
+					</tr>
+					<table cellpadding="4" cellspacing="0" border="0">
 						<tr>
-						<td class="label"> --- Epochs --- </td>
+							<td><input class="actionButton" type="submit"
+								name="_target2" value="Prev"></td>
+							<td><input class="actionButton" type="submit"
+								name="_finish" value="Save Study"></td>
 						</tr>
-						<tr>
-							<td class="label"><span class="red">*</span><em></em>Epoch
-							Name:</td>
-							<td><form:input path="epochs[0].name" /></td>
-							<td class="label"><span class="red">*</span><em></em>Description:</td>
-							<td><form:input path="epochs[0].descriptionText" /></td>
-						</tr>
-						<tr>
-							<td><img src="images/spacer.gif" width="1" height="1"
-								class="heightControl"></td>
-							<td><img src="images/spacer.gif" width="1" height="1"
-								class="heightControl"></td>
-						</tr>
-						<tr>
-						<td class="label"> --- Arms --- </td>
-						<tr>
-							<td class="label"><span class="red">*</span><em></em>Arm Name
-							Name:</td>
-							<td><form:input path="epochs[0].arms[0].name" /></td>
-							<td class="label"><span class="red">*</span><em></em>Target Accrual Number:</td>
-							<td><form:input path="epochs[0].arms[0].targetAccrualNumber" /></td>
-						</tr>
-						<tr>
-						<tr align="center">
-							<td colspan="4"><br>
-							<br>
-							<tr>
-							<td align="center" colspan="3"><!-- action buttons begins -->
-							<table cellpadding="4" cellspacing="0" border="0">
-								<tr>
-									<td><input class="actionButton" type="submit"
-										name="_target1" value="Prev"></td>
-									<td><input class="actionButton" type="submit"
-										name="_target3" value="Next"></td>
-								</tr>
-							</table>
-							</td>
-						</tr>						
-					</table>
-				</form:form></td>
+					</table>					
+				</table>
+				</form:form>
+				</td>
 				<!-- LEFT CONTENT ENDS HERE -->
+			</tr>
+			<tr>
+				<td valign="top" class="additionals2">&nbsp;</td>
 			</tr>
 		</table>
 		</td>
 	</tr>
 </table>
-<div id="copyright">&copy; 2006 SemanticBits. All Rights Reserved</div>
+<div id="copyright">&copy; 2006 SemanticBits Company. All Rights
+Reserved</div>
 </div>
 <!-- MAIN BODY ENDS HERE -->
 </body>

@@ -49,15 +49,16 @@
     </bean>
 
     <bean id="createStudyController" lazy-init="true" class="edu.duke.cabig.c3pr.web.CreateStudyController" autowire="byType">
-	    <property name="commandClass" value="edu.duke.cabig.c3pr.web.StudyDesignCommand"></property>
+	    <property name="commandClass" value="edu.duke.cabig.c3pr.domain.Study"></property>
 	    <property name="pages">
 	    <list>
-		    <value>study_studysite</value>
 		    <value>study_details</value>
+		    <value>study_studysite</value>		    
 		    <value>study_design</value>
-		    <value>study_summary</value>
+		    <value>study_reviewsummary</value>
 	    </list>
 	    </property>
+	    <property name="pageAttribute" value="currentPage"></property>
   	</bean>
     <bean id="searchStudyController" lazy-init="true" class="edu.duke.cabig.c3pr.web.SearchStudyController" autowire="byType">
 	    <property name="commandClass" value="edu.duke.cabig.c3pr.web.SearchStudyCommand"></property>	   

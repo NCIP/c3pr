@@ -24,7 +24,6 @@ function navRollOver(obj, state) {
 <tr>
 
 <td width="99%"><img src="images/C3PRLogo.gif" alt="C3PR" width="181" height="36" class="gelogo"></td>
-<td align="right"><img src="images/t-drivers.gif" alt="Protocol" width="200" height="79"></td>
 </tr>
 </table>
 <!-- TOP LOGOS END HERE -->
@@ -48,7 +47,6 @@ function navRollOver(obj, state) {
 
 <td id="current">Study Search Results </td>
 	<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
-  </tr>
   <tr>
 
 <td class="display">
@@ -61,22 +59,21 @@ function navRollOver(obj, state) {
 
 <td valign="top" class="additionals">
 
+<c:out value="${study}"/>
 <!-- LEFT FORM STARTS HERE -->
-
+<br>
 <tr>
-	<td>
-	 <display:table id="study" name="${study}" >
-		<display:column property="descriptionText"  class="formFieldWithoutBorder"/>
-		<display:column property="status" sortable="true" class="formFieldWithoutBorder"/>
-		<display:column property="type" sortable="true" class="formFieldWithoutBorder"/>
-		<display:column property="sponsorCode" sortable="true" class="formFieldWithoutBorder"/>
-		<display:column property="phaseCode" sortable="true" class="formFieldWithoutBorder"/>
+	 <display:table name="${study}" >
+		<display:column property="descriptionText"  />
+		<display:column property="status" sortable="true" />
+		<display:column property="type" sortable="true" />
+		<display:column property="sponsorCode" sortable="true" />
+		<display:column property="phaseCode" sortable="true" />
 	 </display:table>
-	 </td>
+	
 </tr>
 
 <div id="copyright">&copy; 2006 SemanticBits. All Rights Reserved</div>
-</div>
 <!-- MAIN BODY ENDS HERE -->
 </body>
 </html>
