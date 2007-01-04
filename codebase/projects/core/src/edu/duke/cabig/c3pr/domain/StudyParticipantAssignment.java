@@ -8,12 +8,9 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 
 /**
@@ -24,7 +21,7 @@ import org.hibernate.annotations.CascadeType;
 @Table (name = "participant_assignments")
 @GenericGenerator(name="id-generator", strategy = "native",
     parameters = {
-        @Parameter(name="sequence", value="seq_participant_assignments_id")
+        @Parameter(name="sequence", value="STUDY_PARTICIPANT_ASSIG_ID_SEQ")
     }
 )
 public class StudyParticipantAssignment extends AbstractDomainObject {
