@@ -69,12 +69,13 @@ public class Study extends AbstractDomainObject implements Comparable<Study>, Se
 	
 	private String type;
 	
-	private List<Epoch> epochs;
+	private List<Epoch> epochs = new ArrayList<Epoch>();	  
 	
 //	private List<Amendment> amendments;
 //	private List<EligibilityCriteria> eligibilityCriteria;
 	
-	private List<StudySite> studySites;		
+	private List<StudySite> studySites = new ArrayList<StudySite>();;		
+	   
 	
 	public Study()
 	{}
@@ -91,8 +92,8 @@ public class Study extends AbstractDomainObject implements Comparable<Study>, Se
 				
 	}
 	
-	@OneToMany
-    @JoinColumn(name="stu_id", nullable=false)
+	@OneToMany(mappedBy="study")
+   // @JoinColumn(name="stu_id", nullable=false)	
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})	   
 	public List<Epoch> getEpochs() {
 		return epochs;
@@ -100,6 +101,17 @@ public class Study extends AbstractDomainObject implements Comparable<Study>, Se
 
 	public void setEpochs(List<Epoch> epochs) {
 		this.epochs = epochs;
+	}
+
+	@OneToMany(mappedBy="study")
+	//@JoinColumn(name="stu_id", nullable=false)	   
+    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})	   	
+	public List<StudySite> getStudySites() {
+		return studySites;
+	}
+
+		public void setStudySites(List<StudySite> studySites) {
+		this.studySites = studySites;
 	}
 
 	public void addEpoch(Epoch epoch){
@@ -110,16 +122,6 @@ public class Study extends AbstractDomainObject implements Comparable<Study>, Se
 		epochs.remove(epoch);
 	}
 	
-	@OneToMany
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})	   	
-	public List<StudySite> getStudySites() {
-		return studySites;
-	}
-
-		public void setStudySites(List<StudySite> studySites) {
-		this.studySites = studySites;
-	}
-
 	public int compareTo(Study o) {
      //TODO
     	return 1;
