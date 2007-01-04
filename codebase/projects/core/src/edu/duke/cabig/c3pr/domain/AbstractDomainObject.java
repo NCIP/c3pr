@@ -2,10 +2,12 @@ package edu.duke.cabig.c3pr.domain;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 
 /**
  * Abstract Domain class implementing Domain object
@@ -29,6 +31,8 @@ public abstract class AbstractDomainObject implements DomainObject, Serializable
         this.id = id;
     }
     
+    @Version
+	@Column(name = "VERSION")	
     public Integer getVersion() {
         return version;
     }
