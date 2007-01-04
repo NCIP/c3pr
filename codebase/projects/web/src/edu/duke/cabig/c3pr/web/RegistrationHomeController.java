@@ -15,18 +15,19 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.validation.BindException;
+import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractWizardFormController;
 
+import edu.duke.cabig.c3pr.dao.ArmDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.domain.Arm;
-import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
-import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 
 /**
  * @author Kruttik
@@ -39,13 +40,28 @@ public class RegistrationHomeController extends AbstractWizardFormController {
     private final String[] viewNames={"checkEligibilityView","stratifyView","randomizeView","reviewAndSubmitView"};
 	private ParticipantDao participantDao;
 	private StudySiteDao studySiteDao;
-	
-	
-	
+	private ArmDao armDao;
+
 	public RegistrationHomeController() {
 		setPages(pages);
 	}
+	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
+        super.initBinder(request, binder);
+        binder.registerCustomEditor(Date.class, ControllerTools.getDateEditor(true));
+        ControllerTools.registerDomainObjectEditor(binder, "arm",armDao);
+    }
 
+	@Override
+	protected boolean isFinishRequest(HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		if(request.getParameter("nextView")==null||request.getParameter("nextView").equals(""))
+			return false;
+		String viewName=request.getParameter("nextView");
+		if(viewName.equalsIgnoreCase("processFinish"))
+			return true;
+		return false;
+	}
+	
 	public StudySiteDao getStudySiteDao() {
 		return studySiteDao;
 	}
@@ -57,13 +73,10 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 	@Override
 	protected int getTargetPage(HttpServletRequest request, int no) {
 		System.out.println("getTargetPage() function called....");
-/*		if(no!=null){
-			System.out.println("Spring's page number is : "+ no);
-		}
-*/		String viewName=request.getParameter("nextView");
-		System.out.println("ViewName in request is : "+ viewName);
+		String viewName=request.getParameter("nextView");
 		for(int i=0 ;i< viewNames.length ; i++){
 			if(viewNames[i].equals(viewName)){
+				System.out.println("ViewName in request is : "+ viewName+"at index "+i);
 				return i;
 			}
 		}
@@ -75,27 +88,9 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 	@Override
 	protected Object formBackingObject(HttpServletRequest request) throws Exception {
 		// TODO Auto-generated method stub
-		boolean test=false;
-		if(test){
-			StudyParticipantAssignment studyParticipantAssignment= new StudyParticipantAssignment();
-			StudySite studySite=new StudySite();
-			Study study= new Study();
-			Epoch epoch=new Epoch();
-			Arm arm1 = new Arm();
-			arm1.setName("A");
-			Arm arm2 = new Arm();
-			arm2.setName("B");
-			epoch.addArm(arm1);
-			epoch.addArm(arm2);
-			study.addEpoch(epoch);
-			studySite.setStudy(study);
-			ScheduledArm scheduledArm=new ScheduledArm();
-			studyParticipantAssignment.setStudySite(studySite);
-			studyParticipantAssignment.addScheduledArm(scheduledArm);
-			return studyParticipantAssignment;
-		}
-			
 		StudyParticipantAssignment studyParticipantAssignment= new StudyParticipantAssignment();
+		studyParticipantAssignment.setStudyParticipantIdentifier("TESTID");
+		studyParticipantAssignment.setStartDate(new Date());
 		StudySite studySite=null;
 		Participant participant=null;
 		if(request.getParameter("studySiteId")!=null && request.getParameter("participantId")!=null){
@@ -118,9 +113,21 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 		ScheduledArm scheduledArm=new ScheduledArm();
 		scheduledArm.setEligibilityIndicator("true");
 		scheduledArm.setStartDate(new Date());
+		scheduledArm.setArm(new Arm());
 		scheduledArm.setStudyParticipantAssignment(studyParticipantAssignment);
 		studyParticipantAssignment.addScheduledArm(scheduledArm);
-		studyParticipantAssignment.getStudySite().getStudy().getEpochs().get(0).getArms();
+		Arm arm1 = new Arm();
+		arm1.setId(11);
+		arm1.setName("A");
+		Arm arm2 = new Arm();
+		arm2.setName("B");
+		arm2.setId(22);
+		ArrayList<Arm> arms=new ArrayList<Arm>();
+		arms.add(arm1);
+		arms.add(arm2);
+//		studyParticipantAssignment.getStudySite().getStudy().getEpochs().get(0).addArm(arm1);
+//		studyParticipantAssignment.getStudySite().getStudy().getEpochs().get(0).addArm(arm2);
+		studyParticipantAssignment.getStudySite().getStudy().getEpochs().get(0).setArms(arms);
 		return studyParticipantAssignment;
 	}
 	
@@ -188,8 +195,19 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 	}
 
 	@Override
-	protected ModelAndView processFinish(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2, BindException arg3) throws Exception {
+	protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException arg3) throws Exception {
 		// TODO Auto-generated method stub
+		System.out.println("In process Finish...");
+		StudyParticipantAssignment studyParticipantAssignment=(StudyParticipantAssignment)command;
+		ArrayList<StudyParticipantAssignment> stArrayList=new ArrayList<StudyParticipantAssignment>();
+		stArrayList.add(studyParticipantAssignment);
+		studyParticipantAssignment.getParticipant().setStudyParticipantAssignments(stArrayList);
+		studyParticipantAssignment.getStudySite().setStudyParticipantAssignments(stArrayList);
+		int armId=studyParticipantAssignment.getScheduledArms().get(0).getArm().getId();
+		Arm arm=armDao.getById(armId);
+		studyParticipantAssignment.getScheduledArms().get(0).setArm(arm);
+		participantDao.save(studyParticipantAssignment.getParticipant());
+		response.sendRedirect("http://www.google.com");
 		return null;
 	}
 
@@ -201,5 +219,11 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 
 	public void setParticipantDao(ParticipantDao participantDao) {
 		this.participantDao = participantDao;
+	}
+	public ArmDao getArmDao() {
+		return armDao;
+	}
+	public void setArmDao(ArmDao armDao) {
+		this.armDao = armDao;
 	}
 }
