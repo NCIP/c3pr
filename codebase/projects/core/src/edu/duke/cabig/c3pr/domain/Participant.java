@@ -1,14 +1,17 @@
 package edu.duke.cabig.c3pr.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -27,8 +30,28 @@ import org.hibernate.annotations.Parameter;
 public class Participant extends Person implements Serializable
 {	
 	private List<ParticipantIdentifier> participantIdentifiers;
+	private List<StudyParticipantAssignment> studyParticipantAssignments= new ArrayList<StudyParticipantAssignment>();
 	
-    public Participant()
+    @OneToMany (mappedBy="participant", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	public List<StudyParticipantAssignment> getStudyParticipantAssignments() {
+		return studyParticipantAssignments;
+	}
+
+	public void setStudyParticipantAssignments(
+			List<StudyParticipantAssignment> studyParticipantAssignments) {
+		this.studyParticipantAssignments = studyParticipantAssignments;
+	}
+
+    public void addStudyParticipantAssignment(StudyParticipantAssignment studyParticipantAssignment){
+    	studyParticipantAssignments.add(studyParticipantAssignment);
+    }
+
+    public void removeStudyParticipantAssignment(StudyParticipantAssignment studyParticipantAssignment){
+    	studyParticipantAssignments.remove(studyParticipantAssignment);
+    }
+
+	
+	public Participant()
     {
     	
     }
