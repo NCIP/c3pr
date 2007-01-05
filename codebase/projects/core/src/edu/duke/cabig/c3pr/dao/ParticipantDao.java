@@ -10,7 +10,6 @@ import edu.duke.cabig.c3pr.domain.Participant;
 
 /**
  * @author kulasekaran,Ramakrishna
- * @version 1.0
  */
 public class ParticipantDao extends AbstractBaseDao<Participant> {
 	
@@ -23,7 +22,7 @@ public class ParticipantDao extends AbstractBaseDao<Participant> {
 	 */
 	public List<Participant> searchByExample(Participant participant) throws DataAccessException{
 			Session session = getHibernateTemplate().getSessionFactory().openSession();		
-			Example searchCriteria = Example.create(participant);
+			Example searchCriteria = Example.create(participant).excludeZeroes();;
 			return session.createCriteria(Participant.class).add(searchCriteria).list();
 	  }
 		
