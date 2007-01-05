@@ -118,20 +118,45 @@ function navRollOver(obj, state) {
 							<td class="label"><span class="red">*</span><em></em>Site
 							Name:</td>
 							<td><form:input path="studySites[0].site.name" /></td>
+							
 							<td class="label"><span class="red">*</span><em></em>Status
-							Code:</td>
+							Code:</td>							
 							<td><form:input path="studySites[0].statusCode" /></td>
+							<td class="label"><span class="red">*</span><em></em>Role
+							Code:</td>
+							<td><form:input path="studySites[0].roleCode" /></td>
 						</tr>
+						
 						<tr>
-							<td><img src="images/spacer.gif" width="1" height="1"
+							<td><img src="images/spacer.gif" width="1" height="3"
 								class="heightControl"></td>
-							<td><img src="images/spacer.gif" width="1" height="1"
+							</tr>
+						
+						<tr>
+							<td class="label"><span class="red">*</span><em></em>Start Date:</td>
+							<td valign="top" align="left"><form:input
+								path="studySites[0].startDate" />&nbsp;<a href="#"
+								onClick="parent.OpenWins('calendar.htm','calendar',200,236);return false;"><img
+								src="images/b-calendar.gif" alt="Calendar" width="17"
+								height="16" border="0" align="absmiddle"></a></td>
+							<td class="label"><span class="red">*</span><em></em>End Date:</td>
+							<td valign="top" align="left"><form:input
+								path="studySites[0].endDate" />&nbsp;<a href="#"
+								onClick="parent.OpenWins('calendar.htm','calendar',200,236);return false;"><img
+								src="images/b-calendar.gif" alt="Calendar" width="17"
+								height="16" border="0" align="absmiddle"></a></td>		
+								<td class="label" align="right"><span class="red">&nbsp;&nbsp;&nbsp;*</span><em></em>IRB
+								Approval Date:</td>
+							<td valign="top" align="left"><form:input
+								path="studySites[0].irbApprovalDate" />&nbsp;<a href="#"
+								onClick="parent.OpenWins('calendar.htm','calendar',200,236);return false;"><img
+								src="images/b-calendar.gif" alt="Calendar" width="17"
+								height="16" border="0" align="absmiddle"></a></td>			
+						</tr>					
+						<tr>
+							<td><img src="images/spacer.gif" width="1" height="3"
 								class="heightControl"></td>
-							<td><img src="images/spacer.gif" width="1" height="1"
-								class="heightControl"></td>
-							<td><img src="images/spacer.gif" width="1" height="1"
-								class="heightControl"></td>
-						</tr>
+						</tr>						
 						<tr>
 							<td class="label"><span class="red">*</span><em></em>Street
 							Address:</td>
@@ -139,13 +164,25 @@ function navRollOver(obj, state) {
 								path="studySites[0].site.address.streetAddress" /></td>
 						</tr>
 						<tr>
+							<td><img src="images/spacer.gif" width="1" height="3"
+								class="heightControl"></td>
+						</tr>
+						<tr>
 							<td class="label"><span class="red">*</span><em></em>City:</td>
 							<td><form:input path="studySites[0].site.address.city" /></td>
+						</tr>
+						<tr>
+							<td><img src="images/spacer.gif" width="1" height="3"
+								class="heightControl"></td>
 						</tr>
 						<tr>
 							<td class="label"><span class="red">*</span><em></em>State
 							Code:</td>
 							<td><form:input path="studySites[0].site.address.stateCode" /></td>
+						</tr>
+						<tr>
+							<td><img src="images/spacer.gif" width="1" height="3"
+								class="heightControl"></td>
 						</tr>	
 						<tr>					
 							<td class="label"><span class="red">*</span><em></em>Postal
@@ -153,20 +190,19 @@ function navRollOver(obj, state) {
 							<td><form:input path="studySites[0].site.address.postalCode" /></td>							
 						</tr>
 						<tr>
+							<td><img src="images/spacer.gif" width="1" height="3"
+								class="heightControl"></td>
+						</tr>
+						<tr>
 							<td class="label"><span class="red">*</span><em></em>Country
 							Code:</td>
 							<td><form:input path="studySites[0].site.address.countryCode" /></td>
 						</tr>
 						<tr>
-							<td class="label" align="right"><span class="red">&nbsp;&nbsp;&nbsp;*</span><em></em>IRB
-							Approval Date:</td>
-							<td valign="top" align="left"><form:input
-								path="studySites[0].irbApprovalDate" />&nbsp;<a href="#"
-								onClick="parent.OpenWins('calendar.htm','calendar',200,236);return false;"><img
-								src="images/b-calendar.gif" alt="Calendar" width="17"
-								height="16" border="0" align="absmiddle"></a></td>
-						</tr>
-
+							<td><img src="images/spacer.gif" width="1" height="3"
+								class="heightControl"></td>
+						</tr>						
+						
 						<tr>
 							<td align="center" colspan="3"><!-- action buttons begins -->
 							<table cellpadding="4" cellspacing="0" border="0">
