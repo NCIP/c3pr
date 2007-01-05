@@ -1,3 +1,4 @@
+
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -6,277 +7,257 @@
 
 <html>
 <head>
-<title>Home</title>
-<link rel="stylesheet" type="text/css" href="css/stylesheet.css" />
-<script src="js/script.js" type="text/javascript"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>C3Pr V2</title>
+<link href="css/styles.css" rel="stylesheet" type="text/css">
+<link href="css/search.css" rel="stylesheet" type="text/css">
+<script>
+function navRollOver(obj, state) {
+  document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
+}
+function getPage(s){
+	parent.window.location="reg_patient_search.htm";
+}
+</script>
 </head>
 <body>
-<table summary="" cellpadding="0" cellspacing="0" border="0"
-	width="100%" height="100%">
-
-	<!-- nci hdr begins -->
+<!-- TOP LOGOS START HERE -->
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
-		<td>
-		<table width="100%" border="0" cellspacing="0" cellpadding="0"
-			class="hdrBG">
-			<tr>
-				<td width="283" height="37" align="left"><a
-					href="http://www.cancer.gov"><img
-					alt="National Cancer Institute" src="images/logotype.gif"
-					width="283" height="37" border="0"></a></td>
-				<td>&nbsp;</td>
-				<td width="295" height="37" align="right"><a
-					href="http://www.cancer.gov"><img
-					alt="U.S. National Institutes of Health | www.cancer.gov"
-					src="images/tagline.gif" width="295" height="37" border="0"></a></td>
-			</tr>
-		</table>
-		</td>
-	</tr>
-	<!-- nci hdr ends -->
-
-	<tr>
-		<td height="100%" align="center" valign="top">
-		<table summary="" cellpadding="0" cellspacing="0" border="0"
-			height="100%" width="771">
-
-			<!-- application hdr begins -->
-			<tr>
-				<td height="50">
-				<table width="100%" height="50" border="0" cellspacing="0"
-					cellpadding="0" class="subhdrBG">
-					<tr>
-						<td height="50" align="left"><a href="#"><img
-							src="images/c3prLogo.jpg" alt="Application Logo" height="35"
-							hspace="10" border="0"></a></td>
-					</tr>
-				</table>
-				</td>
-			</tr>
-			<!-- application hdr ends -->
-
-			<tr>
-				<td valign="top">
-				<table summary="" cellpadding="0" cellspacing="0" border="0"
-					height="100%" width="100%">
-
-					<!--_____ menu begins _____-->
-					<tr>
-						<td height="20" width="100%" class="mainMenu"><!-- main menu begins -->
-						<table summary="" cellpadding="0" cellspacing="0" border="0"
-							height="35" width="100%">
-							<tr>
-								<td height="30" valign="bottom"><!-- tabs begins -->
-								<table summary="" cellpadding="0" cellspacing="0" border="0"
-									width="100%">
-									<tr>
-										<td width="1"><!-- anchor to skip main menu --><a
-											href="#content"><img src="images/shim.gif"
-											alt="Skip Menu" width="1" height="1" border="0" /></a></td>
-
-										<td class="mainMenuSpacer">&nbsp;</td>
-										<td class="mainMenuSpacer">&nbsp;</td>
-										<td height="20" class="mainMenuItemOn"><a
-											class="mainMenuLink" href="createParticipant.do">Participant</a>
-										</td>
-
-
-										<td width="99%" class="mainMenuSpacer">&nbsp;</td>
-									</tr>
-								</table>
-								<!-- tabs ends --></td>
-							</tr>
-							<tr>
-								<td height="5" class="mainMenuSub"><!-- sub-items begin -->
-								<table summary="" cellpadding="0" cellspacing="0" border="0"
-									height="100%">
-									<tr>
-										<td class="mainMenuSubItems">&nbsp;&nbsp;</td>
-									</tr>
-								</table>
-								<!-- sub-items end --></td>
-							</tr>
-						</table>
-						<!-- main menu ends --></td>
-					</tr>
-					<!--_____ menu ends _____-->
-
-					<!--_____ main content begins _____-->
-					<c:url value="/createParticipant.do" var="formAction" />
-					<form:form method="post" action="${formAction}">
-
-						<tr>
-							<td valign="top"><!-- target of anchor to skip menus --><a
-								name="content" />
-							<table summary="" cellpadding="0" cellspacing="0" border="0"
-								class="contentPage" width="100%" height="100%">
-								<tr>
-									<td valign="top">
-									<table cellpadding="3" cellspacing="0" border="0"
-										class="contentBegins" align="center">
-										<tr>
-											<td class="formTitle" height="2" colspan="5"><form:errors path="*"/>    
-										</tr>
-										<tr>
-											<td class="formTitle" height="2" colspan="5"><form:label path="*"/>    
-										</tr>
-										<tr>
-											<td class="contentTitle">Create Participant</td>
-										</tr>
-										<tr>
-											<td>
-											<table summary="" cellpadding="0" cellspacing="0" border="0"
-												align="center" class="dataTableBorderOnly" width="750">
-
-												<tr>
-													<td class="formTitle" height="2" colspan="5"></td>
-												</tr>
-												<tr>
-													<td class="formLabelWithoutBorder" width="10">
-														<form:label	path="firstName">First Name</form:label></td>
-													<td class="formRequiredNoticeWithoutBorder" width="50">&nbsp;</td>
-													<td class="formFieldWithoutBorder">
-													<form:textarea path="firstName" rows="1" cols="20" /></td>
-												</tr>
-												<tr>
-													<td class="formTitle" height="2" colspan="5"></td>
-												</tr>
-												<tr>
-													<td class="formLabelWithoutBorder" width="10">
-														<form:label path="lastName">Last Name</form:label></td>
-													<td class="formRequiredNoticeWithoutBorder" width="50">&nbsp;</td>
-													<td class="formFieldWithoutBorder"><form:textarea path="lastName" rows="1" cols="20" /></td></td>
-												</tr>
-												<tr>
-													<td class="formTitle" height="2" colspan="5"></td>
-												</tr>
-												<tr>
-													<td class="formLabelWithoutBorder" width="10">
-													    <form:label path="administritativeGenderCode">Administritative Gender Code</form:label></td>
-													<td class="formRequiredNoticeWithoutBorder" width="50">&nbsp;</td>													
-													<td class="formFieldWithoutBorder">
-													<form:textarea path="administrativeGenderCode" rows="1" cols="20"/>														
-													</td>
-												</tr>
-												<tr>
-													<td class="formTitle" height="2" colspan="5"></td>
-												</tr>
-												<tr>
-													<td class="formLabelWithoutBorder" width="10">
-													<form:label path="birthDate">BIRTH DATE</form:label></td>
-													<td class="formRequiredNoticeWithoutBorder" width="50">&nbsp;</td>	
-													<td class="formFieldWithoutBorder">
-    												<form:textarea path="birthDate" rows="1" cols="20"/>																												
-													</td>
-												</tr>
-												<tr>
-													<td class="formTitle" height="2" colspan="5"></td>
-												</tr>
-												<tr>													
-													<td class="formLabelWithoutBorder" width="10"><form:label
-														path="ethnicGroupCode">ETHNIC GROUP CODE</form:label></td>
-													<td class="formRequiredNoticeWithoutBorder" width="50">&nbsp;</td>	
-													<td class="formFieldWithoutBorder">
-													<form:textarea path="ethnicGroupCode" rows="1" cols="20"/> </td>
-											    </tr>
-												<tr>
-													<td class="formTitle" height="2" colspan="5"></td>
-												</tr>
-												<tr>
-													<td class="formLabelWithoutBorder" width="10">
-													<form:label path="raceCode">Race Code</form:label></td>
-													<td class="formRequiredNoticeWithoutBorder" width="50">&nbsp;</td>
-													<td class="formFieldWithoutBorder">
-													<form:textarea path="raceCode" rows="1" cols="20"/> </td>
-													</td>
-												</tr>
-												<tr>
-													<td class="formTitle" height="2" colspan="5"></td>
-												</tr>
-											</table>
-											</td>
-										</tr>
-										<tr>
-											<td align="center" colspan="3"><!-- action buttons begins -->
-											<table cellpadding="4" cellspacing="0" border="0">
-												<tr>
-													<td><input class="actionButton" type="submit"
-														value="Create Study" id="assign-button"></td>
-												</tr>
-											</table>
-											<!-- action buttons end --></td>
-										</tr>
-									</table>
-									</td>
-								</tr>
-							</table></td>
-						</tr>
-
-					</form:form>
-
-
-					<!--_____ main content ends _____-->
-
-					<tr>
-						<td height="20" class="footerMenu"><!-- application ftr begins -->
-						<table summary="" cellpadding="0" cellspacing="0" border="0"
-							width="100%">
-							<tr>
-								<td align="center" height="20" class="footerMenuItem"<a
-									class="footerMenuLink" href="contactUS.html">CONTACT US</a>&nbsp;&nbsp;
-								</td>
-								<td><img src="images/ftrMenuSeparator.gif" width="1"
-									height="16" alt="" /></td>
-								<td align="center" height="20" class="footerMenuItem"<a
-									class="footerMenuLink" href="PrivacyNotice.html">PRIVACY
-								NOTICE</a>&nbsp;&nbsp;</td>
-								<td><img src="images/ftrMenuSeparator.gif" width="1"
-									height="16" alt="" /></td>
-								<td align="center" height="20" class="footerMenuItem"<a
-									class="footerMenuLink" href="Disclaimer.html">DISCLAIMER</a>&nbsp;&nbsp;
-								</td>
-								<td><img src="images/ftrMenuSeparator.gif" width="1"
-									height="16" alt="" /></td>
-								<td align="center" height="20" class="footerMenuItem"<a
-									class="footerMenuLink" href="Accessibility.html">ACCESSIBILITY</a>&nbsp;&nbsp;
-								</td>
-								<td><img src="images/ftrMenuSeparator.gif" width="1"
-									height="16" alt="" /></td>
-								<td align="center" height="20" class="footerMenuItem"<a
-									class="footerMenuLink" href="ApplicationSupport.html">APPLICATION
-								SUPPORT</a>&nbsp;&nbsp;</td>
-							</tr>
-						</table>
-						<!-- application ftr ends --></td>
-					</tr>
-				</table>
-				</td>
-			</tr>
-		</table>
-		</td>
-	</tr>
-	<tr>
-		<td><!-- footer begins -->
-		<table width="100%" border="0" cellspacing="0" cellpadding="0"
-			class="ftrTable">
-			<tr>
-				<td valign="top">
-				<div align="center"><a href="http://www.cancer.gov/"><img
-					src="images/footer_nci.gif" width="63" height="31"
-					alt="National Cancer Institute" border="0"></a> <a
-					href="http://www.dhhs.gov/"><img src="images/footer_hhs.gif"
-					width="39" height="31"
-					alt="Department of Health and Human Services" border="0"></a> <a
-					href="http://www.nih.gov/"><img src="images/footer_nih.gif"
-					width="46" height="31" alt="National Institutes of Health"
-					border="0"></a> <a href="http://www.firstgov.gov/"><img
-					src="images/footer_firstgov.gif" width="91" height="31"
-					alt="FirstGov.gov" border="0"></a></div>
-				</td>
-			</tr>
-		</table>
-		<!-- footer ends --></td>
+		<td width="99%"><img src="images/C3PRLogo.gif" alt="C3PR"
+			width="181" height="36" class="gelogo"></td>
+		<td align="right"><img src="images/t-drivers.gif" alt="Protocol"
+			width="200" height="79"></td>
 	</tr>
 </table>
+<!-- TOP LOGOS END HERE -->
+<!-- TOP NAVIGATION STARTS HERE -->
+<table width="100%" border="0" cellspacing="0" cellpadding="0"
+	id="topNav">
+
+	<tr valign="middle">
+		<td width="99%" class="left"><a href="home.htm">Registration</a><img
+			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
+			class="divider"><a href="protocol.htm">Protocol</a><img
+			src="images/topNavL.gif" width="2" height="20" align="absmiddle"
+			class="currentL"><span class="current"><img
+			src="images/topNavArrowDown.gif" width="5" height="20"
+			align="absmiddle"> Participant </span><img src="images/topNavR.gif"
+			width="2" height="20" align="absmiddle" class="currentR"><a
+			href="analysis">Reports</a><img src="images/topDivider.gif" width="2"
+			height="20" align="absmiddle" class="divider"></td>
+		<td class="right"><img src="images/topDivider.gif" width="2"
+			height="20" align="absmiddle" class="divider"><a href="logOff">Log
+		Off</a></td>
+	</tr>
+</table>
+<!-- TOP NAVIGATION ENDS HERE -->
+<!-- SUB NAV STARTS HERE -->
+<table width="100%" border="0" cellspacing="0" cellpadding="0"
+	id="subNav">
+	<tr>
+		<td width="99%" valign="middle" class="welcome">Welcome, User
+		Name</td>
+		<td valign="middle" class="right"><a href="help">Help</a></td>
+	</tr>
+</table>
+<!-- SUB NAV ENDS HERE -->
+<div class="workArea">
+<table width="100%" border="0" cellspacing="0" cellpadding="0"
+	class="titleArea">
+	<tr>
+		<!-- TITLE STARTS HERE -->
+		<td width="99%" height="43" valign="middle" id="title">Add
+		Participant</td>
+	</tr>
+</table>
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+	<tr>
+		<td>
+
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+			<tr>
+				<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
+
+				<td id="current">Create Participant</td>
+				<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
+			</tr>
+			<tr>
+
+				<td class="display"><!-- TABS LEFT START HERE -->
+				<table width="100%" border="0" cellpadding="0" cellspacing="0">
+					<tr>
+						<td>
+						<table width="100%" border="0" cellspacing="0" cellpadding="0"
+							class="tabs">
+							<tr>
+								<td width="100%" id="tabDisplay"><span class="current"><img
+									src="images/tabGrayL.gif" width="3" height="16"
+									align="absmiddle"> 1. Patient Information <img
+									src="images/tabGrayR.gif" width="3" height="16"
+									align="absmiddle"></span><span class="tab"><img
+									src="images/tabGrayL.gif" width="3" height="16"
+									align="absmiddle"> 2. Address Information <img
+									src="images/tabGrayR.gif" width="3" height="16"
+									align="absmiddle"><img src="images/tabGrayL.gif"
+									width="3" height="16" align="absmiddle"> 3. Review and
+								Submit <img src="images/tabGrayR.gif" width="3" height="16"
+									align="absmiddle"></span></td>
+								<td><img src="images/spacer.gif" width="7" height="1"></td>
+							</tr>
+							<tr>
+								<td colspan="2" class="tabBotL"><img
+									src="images/spacer.gif" width="1" height="7"></td>
+							</tr>
+						</table>
+						</td>
+					</tr>
+					<tr>
+
+						<!-- LEFT CONTENT STARTS HERE -->
+						<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
+						<!-- RIGHT CONTENT STARTS HERE -->
+
+						<form:form method="post" action="createparticipant.do">
+							<strong>Step 1. Patient Information </strong> 
+							(<span class="red">*</span><em>Required Information </em>)<br> <br>
+						<div class="review"><strong>Current Information:</strong><br>
+						<br>
+						<table width="700" border="0" cellspacing="0" cellpadding="0"
+							id="details">
+							<tr>
+								<td width="50%" valign="top">
+								<table width="308" border="0" cellspacing="0" cellpadding="0"
+									id="table1">
+									<tr>
+										<td>
+											<img src="images/spacer.gif" width="1" height="1"
+												class="heightControl">
+										</td>
+										<td width="65%">
+											<img src="images/spacer.gif" width="1"
+												height="1" class="heightControl">
+										</td>
+									</tr>
+									<tr>
+										<td class="label">
+											<span class="red">*</span><em></em>
+											First Name
+										</td>
+										<td>
+											<form:input path="firstName"/>
+										</td>
+									</tr>
+									<tr>
+										<td class="label">
+											<span class="red">*</span><em></em>
+											Last Name
+										</td>
+										<td>
+											<form:input path="lastName"/>
+										</td>
+									</tr>
+									<tr>
+										<td class="label">
+											<span class="red">*</span> <em></em>
+											Administritative Gender Code
+										</td>
+										<td>
+											<form:select path="administritativeGenderCode">
+												<form:options items="${administritativeGenderCode}" itemLabel="desc" itemValue="code" />
+											</form:select>
+										</td>										
+									</tr>
+								</table>
+								</td>
+								<td width="50%" valign="top" class="contentAreaR"><strong><strong><strong></strong></strong></strong>
+								<table width="308" border="0" cellspacing="0" cellpadding="0"
+									id="table1">
+									<tr>
+										<td class="label"><span class="red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</span><em></em>Birth Date</td>
+										<td valign="top"><form:input path="birthDate"/>&nbsp;<a href="#"
+											onClick="parent.OpenWins('calendar.htm','calendar',200,236);return false;"><img
+											src="images/b-calendar.gif" alt="Calendar" width="17"
+											height="16" border="0" align="absmiddle"></a></td>
+									</tr>
+									<tr>
+										<td class="label"><span class="red">*</span><em></em>Ethnic Group Code</td>
+										<td>
+											<form:select path="ethnicGroupCode">
+												<form:options items="${ethnicGroupCode}" itemLabel="desc" itemValue="code"/>
+											</form:select>										
+										</td>
+									</tr>
+									<tr>
+										<td class="label"><span class="red">*</span><em></em>Race Code</td>
+										<td>
+											<form:select path="raceCode">
+												<form:options items="${raceCode}" itemLabel="desc" itemValue="code"/>
+											</form:select>										
+										</td>
+									</tr>
+									
+								</table>
+								</td>
+							</tr>
+						</table>
+						
+						<hr align="left" width="95%">
+						<table width="700" border="0" cellspacing="0" cellpadding="0"
+							id="table1">					
+							<tr>
+								<td align="center"><span class="red">*</span><em></em><B>Other
+								ID:</td>
+								<td align="center"><span class="red">*</span><em></em><B>Other
+								Source:</td>
+							</tr>
+							<tr>
+								<td>
+								<c:forEach items="${participant.participantIdentifiers}" varStatus="status" var="participantIdentifier">
+									<form:input path="participantIdentifiers[${status.index}].healthcareSite"/> 
+								</c:forEach>
+								</td>
+								<td></td>																
+							</tr>
+
+						</table>
+
+						<hr align="left" width="95%">
+						<table width="700" border="0" cellspacing="0" cellpadding="0"
+							id="details">
+							<tr>
+								<td align="center" colspan="2" valign="top"><br>
+								<br>
+								<input class="actionButton" type="submit"
+														value="Create Partcipant" id="assign-button">
+								<a href="createParticipant.do"><img
+									src="images/b-continue.gif" alt="Continue" width="59"
+									height="16" border="0"></a> <a href="home.htm"
+									onClick="add();return false;"><img
+									src="images/b-startOver.gif" alt="Start Over" width="67"
+									height="16" border="0"></a></td>
+							</tr>
+						</table>
+						</div>
+						</form:form>
+						</td>
+
+						<!-- LEFT CONTENT ENDS HERE -->
+					</tr>
+				</table>
+				</td>
+			</tr>
+		</table>
+		<br>
+		</form>
+		</td>
+		<!-- LEFT CONTENT ENDS HERE -->
+	</tr>
+</table>
+
+<div id="copyright">&copy; 2006 SemanticBits Company. All Rights
+Reserved</div>
+</div>
+<!-- MAIN BODY ENDS HERE -->
 </body>
 </html>
