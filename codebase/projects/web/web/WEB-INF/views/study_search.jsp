@@ -108,9 +108,6 @@ function navRollOver(obj, state) {
 									<td align="left" class="labels"  colspan="10"></td>
 									<td align="left" class="labels">Search Studies by: </td>
 									<td align="left" class="labels"></td>
-									<td align="left" class="labels">Study Id:</td>
-									<td align="left" class="labels" ></td>
-									<td align="left" class="labels" >Short Title Text</td>														
 								</tr>
 								<tr>
 									<td><form:input path="searchTypeText" /></td>
@@ -119,10 +116,6 @@ function navRollOver(obj, state) {
 									<form:select path="searchType">
 										<form:options items="${searchType}" itemLabel="desc" itemValue="code" />
 									</form:select></td>
-									<td align="left" class="labels">									
-									<td><form:input path="studyid" /></td>
-									<td align="left" class="labels">
-									<td><form:input path="shortTitleText" /></td>																		
 								</tr>
 								<tr>
 									<td align="left" class="labels"  colspan="10">^ Minimum two characters</td><br>

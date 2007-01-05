@@ -58,12 +58,14 @@ public class SearchStudyController  extends SimpleFormController{
     		study.setSponsorCode(searchtext);
     	else if ("M".equals(type))
     		study.setMonitorCode(searchtext);
-    	else if ("D".equals(type))
-    		study.setDiseaseCode(searchtext);
+    	else if ("id".equals(type))
+    		study.setId(new Integer(searchtext));
+    	else if ("shortTitle".equals(type))
+    		study.setShortTitleText(searchtext);
     		
     	List<Study> studies = studyService.search(study);   
     	log.debug("Search results size " +studies.size());
-    	Map map =errors.getModel();
+    	Map map = errors.getModel();
     	map.put("study", studies);
     	ModelAndView modelAndView= new ModelAndView(getSuccessView(), map);
     	return modelAndView;
@@ -77,13 +79,16 @@ public class SearchStudyController  extends SimpleFormController{
     }
     
 	private List<LOV> getSearchType(){
-		List<LOV> col = new ArrayList<LOV>();
-		LOV lov1 = new LOV("T", "Type");
-		LOV lov2 = new LOV("S", "Status");
-		LOV lov3 = new LOV("P", "Phase");
-		LOV lov4 = new LOV("D", "Disease");
-		LOV lov5 = new LOV("M", "Monitor");
-		LOV lov6 = new LOV("SP", "Sponsor");
+		List col = new ArrayList<LOV>();
+		LOV lov1 = new LOV("T", "type");
+		LOV lov2 = new LOV("S", "status");
+		LOV lov3 = new LOV("P", "phase");
+		LOV lov4 = new LOV("D", "disease");
+		LOV lov5 = new LOV("M", "monitor");
+		LOV lov6 = new LOV("SP", "sponsor");
+		LOV lov7 = new LOV("id", "id");
+		LOV lov8 = new LOV("shortTitle", "short title");
+		
 		
 		col.add(lov1);
     	col.add(lov2);
@@ -91,6 +96,8 @@ public class SearchStudyController  extends SimpleFormController{
     	col.add(lov4);
     	col.add(lov5);
     	col.add(lov6);
+    	col.add(lov7);
+    	col.add(lov8);
     	
     	return col;
 	}
