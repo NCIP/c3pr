@@ -56,9 +56,8 @@ public class Participant extends Person implements Serializable
     	
     }
 
-	@OneToMany (cascade = CascadeType.ALL)
-	@JoinColumn(name="PRT_ID")
-	public List<ParticipantIdentifier> getParticipantIdentifiers() {
+    @OneToMany (mappedBy="participant", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    public List<ParticipantIdentifier> getParticipantIdentifiers() {
 		return participantIdentifiers;
 	}
 

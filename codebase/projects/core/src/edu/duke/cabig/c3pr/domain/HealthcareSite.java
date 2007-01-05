@@ -1,8 +1,12 @@
 package edu.duke.cabig.c3pr.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -22,6 +26,7 @@ import javax.persistence.Table;
 public class HealthcareSite extends Organization implements Comparable<HealthcareSite>, Serializable{
 		 
 	private String nciInstituteCode;
+	private List<ParticipantIdentifier> participantIdentifiers; 
 
 	public HealthcareSite() {}
 	
@@ -37,6 +42,15 @@ public class HealthcareSite extends Organization implements Comparable<Healthcar
 		this.nciInstituteCode = nciInstituteCode;
 	}
 		
+    @OneToMany (mappedBy="healthcareSite", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    public List<ParticipantIdentifier> getParticipantIdentifiers() {
+		return participantIdentifiers;
+	}
+
+	public void setParticipantIdentifiers(
+			List<ParticipantIdentifier> participantIdentifiers) {
+		this.participantIdentifiers = participantIdentifiers;
+	}  	 	
 	@Override
 	public int hashCode() {
 		final int PRIME = 31;

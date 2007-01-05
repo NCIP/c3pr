@@ -27,39 +27,55 @@ import org.hibernate.annotations.Parameter;
 )
 public class ParticipantIdentifier extends AbstractDomainObject implements Serializable
 {			
-	private String medicalRecordNumber;
+//	private String medicalRecordNumber;
 	
 	private Participant participant;
+	private String value;
+	private String typeCode;
 	
-	//private HealthcareSite healthcareSite;
+	private HealthcareSite healthcareSite;
 	
+	public String getTypeCode() {
+		return typeCode;
+	}
+
+	public void setTypeCode(String typeCode) {
+		this.typeCode = typeCode;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
 	public ParticipantIdentifier()
     {
     	
     }    
     
-	/*
-    @ManyToOne( cascade = {CascadeType.ALL} )
-	@JoinColumn(name = "HCS_ID", insertable=false, updatable=false)			
+	@ManyToOne( cascade = {CascadeType.ALL} )
+	@JoinColumn(name = "HCS_ID")		
 	public HealthcareSite getHealthcareSite() {
 		return healthcareSite;
 	}
 
 	public void setHealthcareSite(HealthcareSite healthcareSite) {
 		this.healthcareSite = healthcareSite;
-	}*/
-
-	@Column(name = "MEDICAL_RECORD_NUMBER", length = 20, nullable = false)
-	public String getMedicalRecordNumber() {
-		return medicalRecordNumber;
 	}
 
-	public void setMedicalRecordNumber(String medicalRecordNumber) {
-		this.medicalRecordNumber = medicalRecordNumber;
-	}
+//	public String getMedicalRecordNumber() {
+//		return medicalRecordNumber;
+//	}
+//
+//	public void setMedicalRecordNumber(String medicalRecordNumber) {
+//		this.medicalRecordNumber = medicalRecordNumber;
+//	}
 	
 	@ManyToOne( cascade = {CascadeType.ALL} )
-	@JoinColumn(name = "PRT_ID", insertable=false, updatable=false)		
+	@JoinColumn(name = "PRT_ID")		
 	public Participant getParticipant() {
 		return participant;
 	}
