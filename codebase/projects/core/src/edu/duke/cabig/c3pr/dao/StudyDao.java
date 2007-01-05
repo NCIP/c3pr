@@ -5,8 +5,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.criterion.Example;
 import org.springframework.dao.DataAccessException;
-import edu.duke.cabig.c3pr.dao.AbstractBaseDao;
-import edu.duke.cabig.c3pr.dao.StudyDao;
+
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -34,9 +33,9 @@ public class StudyDao extends AbstractBaseDao<Study> {
 	 * (non-Javadoc)
 	 * @see edu.duke.cabig.c3pr.dao.StudyDao#searchByExample(edu.duke.cabig.c3pr.domain.Study)
 	 */
-	public List<Study> searchByExample(Study study) throws DataAccessException{
+	public List<Study> searchByExample(Study study) {
 		Session session = getHibernateTemplate().getSessionFactory().openSession();		
-		Example searchCriteria = Example.create(study);
+		Example searchCriteria = Example.create(study).excludeZeroes();
 		return session.createCriteria(Study.class).add(searchCriteria).list();
 	}
 	
