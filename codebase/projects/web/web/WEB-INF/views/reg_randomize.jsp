@@ -26,7 +26,7 @@ function validatePage(){
 function updateTargetPage(s){
 	if(validatePage()){
 		document.getElementById("nextView").value=s;
-		document.stratifyForm.submit();
+		document.randomizeForm.submit();
 	}
 }
 
@@ -181,7 +181,7 @@ function updateTargetPage(s){
 								<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
 								<!-- RIGHT CONTENT STARTS HERE -->
 								<form:form name="randomizeForm" method="post">
-								<input type=hidden name="_target3" value="next">
+								<input type=hidden name="nextView" value="next">
 								<table width="700" border="0" cellspacing="0" cellpadding="0"
 									id="details">
 									<tr>
@@ -198,13 +198,8 @@ function updateTargetPage(s){
 											<tr>
 												<td class="label"><span class="red">*</span><em></em>Select Arm:
 												</td>
-<!-- 												<td><select name="select" class="field1">
-													<option selected>--</option>
-													<option>A</option>
-													<option>B</option>
-													<option>C</option>
-												</select></td> -->
-												<td><form:select path="scheduledArms[0].arm" items="${studySite.study.epochs[0].arms}">
+												<td><form:select path="scheduledArms[0].arm.id">
+													<form:options  items="${command.studySite.study.epochs[0].arms}" itemValue="id" itemLabel="name"/>
 												</form:select></td>												
 											</tr>
 											</tr>
@@ -218,7 +213,7 @@ function updateTargetPage(s){
 									<tr align="center">
 										<td colspan=2 valign="top"><br>
 										<br>
-										<a href="reg_enroll_patient_submit.htm" onClick="addPatient();return false;"><img src="images/b-submit.gif"
+										<a href="" onClick="updateTargetPage('reviewAndSubmitView');return false;"><img src="images/b-submit.gif"
 											alt="Continue" width="59" height="16" border="0"></a> <a
 											href="home.jsp" onClick="add();return false;"><img
 											src="images/b-startOver.gif" alt="Start Over" width="67"

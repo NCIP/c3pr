@@ -73,6 +73,7 @@
 
      <bean id="regiatrationController" lazy-init="true" class="edu.duke.cabig.c3pr.web.RegistrationHomeController" autowire="byType">
 	    <property name="commandClass" value="edu.duke.cabig.c3pr.domain.StudyParticipantAssignment"/>
+	    <property name="commandName" value="command"/>
 	    <property name="pages">
 	    <list>
 		    <value>reg_check_eligibility</value>

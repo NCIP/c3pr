@@ -23,11 +23,8 @@ function validatePage(){
 	return true;
 }
 function updateTargetPage(s){
-	alert("javascript called...");
 	if(validatePage()){
-		alert(s);
 		document.getElementById("nextView").value=s;
-		alert("submitting form..")
 		document.getElementById("stratifyForm").submit();
 	}
 }

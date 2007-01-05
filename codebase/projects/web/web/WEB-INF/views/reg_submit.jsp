@@ -1,5 +1,9 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-"http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%><html>
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -18,8 +22,14 @@ var action = confirm ("You have not completed adding this protocol.\r\rStarting 
 if (action){
 	parent.window.location="reg_enroll_patient.htm";
 }}
-function addPatient(){
-	parent.window.location="reg_randomize.htm";
+function validatePage(){
+	return true;
+}
+function updateTargetPage(s){
+	if(validatePage()){
+		document.getElementById("nextView").value=s;
+		document.reviewForm.submit();
+	}
 }
 </script>
 </head>
@@ -172,7 +182,9 @@ function addPatient(){
 								<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
 								<!-- RIGHT CONTENT STARTS HERE -->
 
-									<form id="form1"><strong>Step 1. Patient
+									<form:form name="reviewForm" method="post">
+									<input type="hidden" name="nextView">
+									<strong>Step 1. Patient
 								Information </strong><br>
 								<table width="700" border="0" cellspacing="0" cellpadding="0"
 									id="details">
@@ -359,16 +371,15 @@ function addPatient(){
 									<tr align="center">
 										<td colspan=2 valign="top"><br>
 										<br>
-										<a href="reg_enroll_patient_submit.htm" onClick="addPatient();return false;"><img src="images/b-submit.gif"
+										<a href="" onClick="updateTargetPage('processFinish');return false;"><img src="images/b-submit.gif"
 											alt="Continue" width="59" height="16" border="0"></a> <a
 											href="home.jsp" onClick="add();return false;"><img
 											src="images/b-startOver.gif" alt="Start Over" width="67"
 											height="16" border="0"></a></td>
 									</tr>
 								</table>
-
+								</form:form>
 								</div>
-								</form>
 								</td>
 
 								<!-- LEFT CONTENT ENDS HERE -->
