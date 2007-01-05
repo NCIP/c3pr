@@ -61,7 +61,7 @@ public class Arm extends AbstractDomainObject implements Comparable<Arm>, Serial
     // This is annotated this way so that the IndexColumn in the parent
     // will work with the bidirectional mapping
     @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name="eph_id", nullable=false)
+    @JoinColumn(name="eph_id", insertable=false, updatable=false, nullable=false)   
     public Epoch getEpoch() {
         return epoch;
     }
@@ -86,7 +86,6 @@ public class Arm extends AbstractDomainObject implements Comparable<Arm>, Serial
 	public int hashCode() {
 		final int PRIME = 31;
 		int result = super.hashCode();
-		result = PRIME * result + ((epoch == null) ? 0 : epoch.hashCode());
 		result = PRIME * result + ((name == null) ? 0 : name.hashCode());
 		result = PRIME * result + targetAccrualNumber;
 		return result;
@@ -103,12 +102,7 @@ public class Arm extends AbstractDomainObject implements Comparable<Arm>, Serial
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final Arm other = (Arm) obj;
-		if (epoch == null) {
-			if (other.epoch != null)
-				return false;
-		} else if (!epoch.equals(other.epoch))
-			return false;
+		final Arm other = (Arm) obj;		
 		if (name == null) {
 			if (other.name != null)
 				return false;
