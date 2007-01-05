@@ -143,6 +143,11 @@
         <javac srcdir="${test.src.dir}" destdir="${test.classes.dir}" debug="${debug}" deprecation="off" optimize="off">
             <classpath refid="test.classpath"/>
         </javac>
+		<copy todir="${test.classes.dir}">
+			<fileset dir="${test.src.dir}">
+	        	<include name="**/*.xml"/>				
+	        </fileset>
+	     </copy>	
     </target>
     <!-- ============================================================== -->
     <!-- Cleans up generated stuff                                      -->
@@ -173,7 +178,7 @@
     <!-- ============================================================== -->
     <target name="jar-tests" depends="compile-tests" description="Builds the Jar Files">
         <mkdir dir="${jar.dir}"/>
-        <jar jarfile="${test.project.jar}" basedir="${test.classes.dir}">
+        <jar jarfile="${test.project.jar}" basedir="${test.classes.dir}">			
             <manifest>
                 <attribute name="Built-By" value="${user.name}"/>
             </manifest>
