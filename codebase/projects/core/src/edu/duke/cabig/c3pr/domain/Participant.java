@@ -29,7 +29,7 @@ import org.hibernate.annotations.Parameter;
 )
 public class Participant extends Person implements Serializable
 {	
-	private List<ParticipantIdentifier> participantIdentifiers;
+	private List<ParticipantIdentifier> participantIdentifiers = new ArrayList<ParticipantIdentifier>();
 	private List<StudyParticipantAssignment> studyParticipantAssignments= new ArrayList<StudyParticipantAssignment>();
 	
     @OneToMany (mappedBy="participant", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
@@ -64,6 +64,13 @@ public class Participant extends Person implements Serializable
 	public void setParticipantIdentifiers(
 			List<ParticipantIdentifier> participantIdentifiers) {
 		this.participantIdentifiers = participantIdentifiers;
-	}  	 
+	}
+	
+	public void addParticipantIdentifier(ParticipantIdentifier partId)
+	{
+		partId.setParticipant(this);
+		participantIdentifiers.add(partId);
+	}
+	
 }
 
