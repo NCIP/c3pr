@@ -48,7 +48,7 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
         super.initBinder(request, binder);
         binder.registerCustomEditor(Date.class, ControllerTools.getDateEditor(true));
-        ControllerTools.registerDomainObjectEditor(binder, "arm",armDao);
+        ControllerTools.registerDomainObjectEditor(binder, armDao);
     }
 
 	@Override
