@@ -1,7 +1,7 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html>
 <head>
@@ -14,55 +14,10 @@ function navRollOver(obj, state) {
   document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
 }
 function search(s){
-	
+
 }
-function changeFeilds(s){
-	selectedIndex=window.document.protForm.selectProtocol.selectedIndex;
-	innerHtml='<table border="0" cellspacing="0" cellpadding="0" id="search">';
-	if(s=='protocol'){
-		if(window.document.protForm.selectProtocol.options[selectedIndex].text=='Short Title'){
-			innerHtml+='<tr><td align="left" class="labels">';
-			innerHtml+='Short Title';
-			innerHtml+=':</td></tr>';
-			innerHtml+='<tr><td><input name="'+'shortTitle'+'" type="text" size="25"></td></td>';
-		}
-		if(window.document.protForm.selectProtocol.options[selectedIndex].text=='Site Protocol Identifier'){
-			innerHtml+='<tr><td align="left" class="labels">';
-			innerHtml+='Site Protocol Identifier';
-			innerHtml+=':</td></tr>';
-			innerHtml+='<tr><td><input name="'+'siteProtId'+'" type="text" size="25"></td></tr>';
-		}
-		if(window.document.protForm.selectProtocol.options[selectedIndex].text=='Primary Sponsor Identifier'){
-			innerHtml+='<tr><td align="left" class="labels">';
-			innerHtml+='Primary Sponsor Identifier';
-			innerHtml+=':</td></tr>';
-			innerHtml+='<tr><td><input name="'+'sponsorId'+'" type="text" size="25"></td></td>';
-		}
-		innerHtml+='</table>';
-		document.getElementById("protocol_search_feilds").innerHTML=innerHtml;
-	}
-	if(s=='participant'){
-		if(window.document.protForm.selectProtocol.options[selectedIndex].text=='Name'){
-			innerHtml+='<tr><td align="left" class="labels">';
-			innerHtml+='Short Title';
-			innerHtml+=':</td></tr>';
-			innerHtml+='<tr><td><input name="'+'shortTitle'+'" type="text" size="25"></td></td>';
-		}
-		if(window.document.protForm.selectProtocol.options[selectedIndex].text=='Site Protocol Identifier'){
-			innerHtml+='<tr><td align="left" class="labels">';
-			innerHtml+='Site Protocol Identifier';
-			innerHtml+=':</td></tr>';
-			innerHtml+='<tr><td><input name="'+'siteProtId'+'" type="text" size="25"></td></tr>';
-		}
-		if(window.document.protForm.selectProtocol.options[selectedIndex].text=='Primary Sponsor Identifier'){
-			innerHtml+='<tr><td align="left" class="labels">';
-			innerHtml+='Primary Sponsor Identifier';
-			innerHtml+=':</td></tr>';
-			innerHtml+='<tr><td><input name="'+'sponsorId'+'" type="text" size="25"></td></td>';
-		}
-		innerHtml+='</table>';
-		document.getElementById("protocol_search_feilds").innerHTML=innerHtml;
-	}
+function submitPage(){
+	document.getElementById("searchForm").submit();
 }
 </script>
 </head>
@@ -85,9 +40,9 @@ function changeFeilds(s){
 			src="images/topNavArrowDown.gif" width="5" height="20"
 			align="absmiddle"> Registration </span><img src="images/topNavR.gif"
 			width="2" height="20" align="absmiddle" class="currentR"><a
-			href="/c3pr/searchstudy.do">Protocol</a><img src="images/topDivider.gif"
-			width="2" height="20" align="absmiddle" class="divider"><a
-			href="/c3pr/searchparticipant.do">Participant</a><img
+			href="/c3pr/searchstudy.do">Protocol</a><img
+			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
+			class="divider"><a href="/c3pr/searchparticipant.do">Participant</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
 			class="divider"><a href="analysis">Reports</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
@@ -176,7 +131,7 @@ function changeFeilds(s){
 				<!-- TABS RIGHT END HERE --></td>
 			</tr>
 			<tr>
-				<form:form name="searchForm" method="post">
+				<form:form id="searchForm" name="searchForm" method="post">
 					<!-- LEFT CONTENT STARTS HERE -->
 					<td valign="top" class="searchL"><!-- LEFT FORM STARTS HERE -->
 					<table width="100%" border="0" cellpadding="0" cellspacing="0">
@@ -221,8 +176,10 @@ function changeFeilds(s){
 								</tr>
 								<td align="center" colspan="20"><!-- action buttons begins -->
 								<tr>
-									<td><input class="actionButton" type="submit"
-										value="search study"></td>
+									<td><a href=""
+										onClick="submitPage();return false;"><img
+										src="images/b-submit.gif" alt="Continue" width="59"
+										height="16" border="0"></a> </td>
 								</tr>
 							</table>
 							<!-- LEFT FORM ENDS HERE --></td>

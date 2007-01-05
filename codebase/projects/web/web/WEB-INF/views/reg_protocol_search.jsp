@@ -23,7 +23,7 @@ function doNothing(){
 <!-- TOP LOGOS START HERE -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
-		<td width="99%"><img src="images/c3PrLogo.gif" alt="C3PR"
+		<td width="99%"><img src="images/c3prLogo.gif" alt="C3PR"
 			width="181" height="36" class="gelogo"></td>
 		<td align="right"><img src="images/t-drivers.gif" alt="Study"
 			width="200" height="79"></td>
@@ -39,7 +39,7 @@ function doNothing(){
 			width="2" height="20" align="absmiddle" class="currentL"><span
 			class="current"><img src="images/topNavArrowDown.gif"
 			width="5" height="20" align="absmiddle"> Registration</span><a
-			href="/c3pr/searchstudy.do">Study</a><img src="images/topNavR.gif"
+			href="/c3pr/searchstudy.do"> Study </a><img src="images/topNavR.gif"
 			width="2" height="20" align="absmiddle" class="currentR"><a
 			href="participant.jsp" onClick="doNothing();">Participant</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
