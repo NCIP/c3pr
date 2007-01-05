@@ -68,6 +68,21 @@
     <property name="reportable.projects.list" value="web"/>
 
 
+    <target name="checkMaven" depends="setMaven">
+        <condition property="maven.not.found">
+            <or>
+                <not><isset property="ext.maven.dir"/></not>
+                <equals arg1="${ext.maven.dir}" arg2=""/>
+            </or>
+        </condition>
+        <fail message="Maven directory is not set in either MAVEN_HOME or ext.maven.dir" if="maven.not.found"/>
+        <echo message="Maven: ${ext.maven.dir}"/>
+    </target>
+    <target name="setMaven" if="env.MAVEN_HOME">
+        <property name="ext.maven.dir" value="${env.MAVEN_HOME}"/>
+    </target>
+
+
     <!-- =============================================================== -->
     <!-- Bootstrap the build by setting up the structure and building    -->
     <!-- our custom ant tasks.                                           -->
@@ -232,7 +247,7 @@
     <!-- ============================================================== -->
     <!-- Builds C3PR  from scratch                                     -->
     <!-- ============================================================== -->
-    <target name="all" depends="clean, build" description="Cleans and builds all the projects."/>
+    <target name="all" depends="checkMaven, clean, build" description="Cleans and builds all the projects."/>
 
 </project>
 
