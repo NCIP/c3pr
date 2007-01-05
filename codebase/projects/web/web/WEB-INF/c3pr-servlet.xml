@@ -74,9 +74,13 @@
 	    <property name="formView" value="createParticipant"/>
 	    <property name="successView" value="success"/>
 	    <property name="commandClass" value="edu.duke.cabig.c3pr.domain.Participant"/>
+    </bean>
+    <bean id="searchParticipantController" lazy-init="true" class="edu.duke.cabig.c3pr.web.SearchParticipantController" autowire="byType">
+	    <property name="formView" value="participant_search"/>
+	    <property name="successView" value="participant_search_results"/>
+	    <property name="commandClass" value="edu.duke.cabig.c3pr.web.SearchParticipantCommand"/>
     </bean>	
-
-     <bean id="registrationController" lazy-init="true" class="edu.duke.cabig.c3pr.web.RegistrationHomeController" autowire="byType">
+    <bean id="registrationController" lazy-init="true" class="edu.duke.cabig.c3pr.web.RegistrationHomeController" autowire="byType">
 	    <property name="commandClass" value="edu.duke.cabig.c3pr.domain.StudyParticipantAssignment"/>
 	    <property name="commandName" value="command"/>
 	    <property name="pages">
