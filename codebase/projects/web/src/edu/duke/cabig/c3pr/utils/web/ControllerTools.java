@@ -33,6 +33,10 @@ public class ControllerTools {
         binder.registerCustomEditor(dao.domainClass(), field, new CustomDaoEditor(dao));
     }
 
+    public static void registerDomainObjectEditor(ServletRequestDataBinder binder, BaseDao dao) {
+        binder.registerCustomEditor(dao.domainClass(), new CustomDaoEditor(dao));
+    }
+    
     public static boolean isAjaxRequest(HttpServletRequest request) {
         String header = request.getHeader("X-Requested-With");
         return header != null && "XMLHttpRequest".equals(header);
