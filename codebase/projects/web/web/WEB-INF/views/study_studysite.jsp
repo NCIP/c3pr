@@ -114,9 +114,12 @@ function navRollOver(obj, state) {
 						<tr>
 							<td class="label"><span class="red">*</span><em></em>Site
 							ID:</td>
-							<td><form:input path="studySites[0].site.nciIdentifier" /></td>
-							<td class="label"><span class="red">*</span><em></em>Target
-							Accrual Number:</td>
+							<td><form:input path="studySites[0].site.nciInstituteCode" /></td>
+							<td class="label"><span class="red">*</span><em></em>Site
+							Name:</td>
+							<td><form:input path="studySites[0].site.name" /></td>
+							<td class="label"><span class="red">*</span><em></em>Status
+							Code:</td>
 							<td><form:input path="studySites[0].statusCode" /></td>
 						</tr>
 						<tr>
@@ -143,19 +146,17 @@ function navRollOver(obj, state) {
 							<td class="label"><span class="red">*</span><em></em>State
 							Code:</td>
 							<td><form:input path="studySites[0].site.address.stateCode" /></td>
-						</tr>
-						</tr>
+						</tr>	
+						<tr>					
 							<td class="label"><span class="red">*</span><em></em>Postal
 							Code:</td>
-							<td><form:input path="studySites[0].site.address.postalCode" /></td>
-							</tr>
+							<td><form:input path="studySites[0].site.address.postalCode" /></td>							
 						</tr>
+						<tr>
 							<td class="label"><span class="red">*</span><em></em>Country
 							Code:</td>
 							<td><form:input path="studySites[0].site.address.countryCode" /></td>
 						</tr>
-
-
 						<tr>
 							<td class="label" align="right"><span class="red">&nbsp;&nbsp;&nbsp;*</span><em></em>IRB
 							Approval Date:</td>
