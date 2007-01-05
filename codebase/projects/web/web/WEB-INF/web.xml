@@ -24,7 +24,7 @@
     
     <filter>
         <filter-name>OpenSessionInViewInterceptorFilter</filter-name>
-        <filter-class> edu.duke.cabig.c3pr.web.utils.OpenSessionInViewInterceptorFilter</filter-class>
+        <filter-class> edu.duke.cabig.c3pr.utils.web.OpenSessionInViewInterceptorFilter</filter-class>
         <init-param>
             <param-name>interceptorBeanName</param-name>
             <param-value>openSessionInViewInterceptor</param-value>
