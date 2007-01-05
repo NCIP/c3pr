@@ -65,13 +65,18 @@
 	    <property name="formView" value="study_search"/>
 	    <property name="successView" value="study_searchresults"/>
   	</bean>
+    <bean id="searchRegisterController" lazy-init="true" class="edu.duke.cabig.c3pr.web.SearchAndRegisterController" autowire="byType">
+	    <property name="commandClass" value="edu.duke.cabig.c3pr.web.SearchRegisterCommand"></property>	   
+	    <property name="formView" value="home"/>
+	    <property name="successView" value="reg_protocol_search"/>
+  	</bean>
  	<bean id="createParticipantController" lazy-init="true" class="edu.duke.cabig.c3pr.web.CreateParticipantController" autowire="byType">
 	    <property name="formView" value="createParticipant"/>
 	    <property name="successView" value="success"/>
 	    <property name="commandClass" value="edu.duke.cabig.c3pr.domain.Participant"/>
     </bean>	
 
-     <bean id="regiatrationController" lazy-init="true" class="edu.duke.cabig.c3pr.web.RegistrationHomeController" autowire="byType">
+     <bean id="registrationController" lazy-init="true" class="edu.duke.cabig.c3pr.web.RegistrationHomeController" autowire="byType">
 	    <property name="commandClass" value="edu.duke.cabig.c3pr.domain.StudyParticipantAssignment"/>
 	    <property name="commandName" value="command"/>
 	    <property name="pages">
@@ -87,7 +92,8 @@
     <bean id="urlMappingName" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="mappings">
             <props>
-                 <prop key="/register.do">regiatrationController</prop>
+                 <prop key="/register.do">registrationController</prop>
+                 <prop key="/SearchAndRegister.do">searchRegisterController</prop>
             </props>
         </property>
         <property name="order" value="1"/>        
