@@ -116,7 +116,7 @@ public class Epoch extends AbstractDomainObject implements Comparable<Epoch>, Se
 	 * @return the study
 	 */
     @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn(insertable=false, updatable=false, nullable=false)
+    @JoinColumn(name="stu_id", insertable=false, updatable=false, nullable=false)
     public Study getStudy() {
 		return study;
 	}
