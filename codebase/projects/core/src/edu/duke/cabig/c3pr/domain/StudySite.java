@@ -18,7 +18,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 /**
- * @author Ram Chilukuri, priyatam
+ * @author Ram Chilukuri, Priyatam
  * 
  */
 @Entity
@@ -74,7 +74,7 @@ public class StudySite extends AbstractDomainObject implements Comparable<StudyS
 
     @ManyToOne 
     @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })    
-    @JoinColumn(name = "hcs_id")    
+    @JoinColumn(name = "hcs_id", nullable=false)    
     public HealthcareSite getSite() {
         return site;
     }
@@ -85,7 +85,7 @@ public class StudySite extends AbstractDomainObject implements Comparable<StudyS
 
     @ManyToOne
     @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })        
-    @JoinColumn(name = "study_id")
+    @JoinColumn(name = "study_id",insertable=false, updatable=false, nullable=false)    
     public Study getStudy() {
         return study;
     }
@@ -158,7 +158,6 @@ public class StudySite extends AbstractDomainObject implements Comparable<StudyS
         final StudySite studySite = (StudySite) obj;
         Study study = studySite.getStudy();
         HealthcareSite site = studySite.getSite();
-        if (!getStudy().equals(study)) return false;
         if (!getSite().equals(site)) return false;
         return true;
     }
@@ -166,7 +165,6 @@ public class StudySite extends AbstractDomainObject implements Comparable<StudyS
     public int hashCode() {
         int result;
         result = (site != null ? site.hashCode() : 0);
-        result = 29 * result + (study != null ? study.hashCode() : 0);
         result = 29 * result + (studyParticipantAssignments != null ? studyParticipantAssignments.hashCode() : 0);
         return result;
     }
