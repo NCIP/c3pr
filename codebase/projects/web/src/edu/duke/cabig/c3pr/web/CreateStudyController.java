@@ -19,7 +19,12 @@ import org.springframework.web.servlet.mvc.AbstractWizardFormController;
 import org.springframework.web.servlet.view.RedirectView;
 
 import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.domain.Address;
+import edu.duke.cabig.c3pr.domain.Arm;
+import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 
@@ -44,8 +49,32 @@ public class CreateStudyController extends AbstractWizardFormController {
 	 * @throws ServletException
 	 */
 	protected Object formBackingObject(HttpServletRequest request) throws ServletException {
-		Study study = new Study(true);		
-		return study;
+		Study newStudy = new Study();       
+        List <Epoch> defaultEpochs = new ArrayList <Epoch>();
+        newStudy.setEpochs(defaultEpochs);
+        Epoch firstEpoch = new Epoch ();
+        defaultEpochs.add(firstEpoch);        
+        List <Arm> firstEpochArms = new ArrayList <Arm>();
+        Arm noArm = new Arm();
+        firstEpochArms.add(noArm);
+        firstEpoch.setArms(firstEpochArms);
+        
+        List <StudySite> defaultStudySites = new ArrayList <StudySite>();
+        newStudy.setStudySites(defaultStudySites);
+        
+        StudySite studySite = new StudySite();
+        studySite.setStudy(newStudy);
+        
+        HealthcareSite site = new HealthcareSite();
+        studySite.setSite(site);  
+        Address address = new Address();
+        site.setAddress(address);
+        
+        defaultStudySites.add(studySite);
+        
+		return newStudy;
+		
+           
 	}
 	
 	/**
