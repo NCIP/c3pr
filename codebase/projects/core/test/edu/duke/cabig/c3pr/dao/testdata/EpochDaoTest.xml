@@ -1,26 +1,43 @@
 <dataset>
-    <STUDIES id="-2" name="Protocol"/>
+    <STUDIES 
+    	id="-1" 
+    	version="1"
+    	long_title_text="longtitle"
+    	multi_institution_indicator="Yes"
+    	phase_code="Ph"
+    	monitor_code="mo"
+    	sponsor_code="sp"
+    	type="ty"
+    	status="st"    	
+    	/>
     <EPOCHS
         id="-1"
-        planned_calendar_id="-2"
+        version="1"
+        stu_id="-1"
         name="Treatment"
         />
+     <EPOCHS
+        id="-2"
+        version="1"
+        stu_id="-1"
+        name="Cancer"
+        />   
     <ARMS
-        id="-10"
-        epoch_id="-1"
-        list_index="1"
-        name="B"
-        />
-    <ARMS
-        id="-11"
-        epoch_id="-1"
-        list_index="0"
+        id="-100"
+        version="1"       
+        eph_id="-1"
         name="A"
         />
     <ARMS
-        id="-12"
-        epoch_id="-1"
-        list_index="2"
+        id="-101"
+        version="1"       
+        eph_id="-1"
+        name="B"
+        />
+    <ARMS
+        id="-102"
+        version="1"        
+        eph_id="-2"
         name="C"
         />
 </dataset>
