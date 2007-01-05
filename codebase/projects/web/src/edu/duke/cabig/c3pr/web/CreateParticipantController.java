@@ -21,7 +21,8 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.ParticipantIdentifier;
 import edu.duke.cabig.c3pr.service.ParticipantService;
-import edu.duke.cabig.c3pr.utils.editors.DaoBasedEditor;
+import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
+
 
 /**
  * @author Kulasekaran
@@ -66,7 +67,7 @@ public class CreateParticipantController extends SimpleFormController {
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(
 				new SimpleDateFormat("MM-dd-yyyy"), true));
 		// binder.registerCustomEditor(ParticipantIdentifier.class, new ParticipantIdentifierEditor());
-		binder.registerCustomEditor(HealthcareSite.class, new DaoBasedEditor(healthcareSiteDao));
+		binder.registerCustomEditor(HealthcareSite.class, new CustomDaoEditor(healthcareSiteDao));
 	}
 
 	@Override
