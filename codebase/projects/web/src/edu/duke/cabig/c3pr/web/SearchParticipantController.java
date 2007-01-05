@@ -61,12 +61,7 @@ private static Log log = LogFactory.getLog(SearchParticipantController.class);
     	
     	Iterator<Participant> participantIter = participants.iterator(); 
         while(participantIter.hasNext()){
-        	participant = participantIter.next();
-        	System.out.println("Id for participant is "+participant.getId());
-        	System.out.println("LastName of participant is "+participant.getLastName());
-        	System.out.println("FirstName of participant is "+participant.getFirstName());
-        //	System.out.println(" D.O.B of participant is " + participant.getBirthDate());
-        	
+        	participant = participantIter.next();        	
         }
     	
     	log.debug("Search results size " +participants.size());
