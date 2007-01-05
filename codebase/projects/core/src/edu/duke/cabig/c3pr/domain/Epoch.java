@@ -28,8 +28,8 @@ import org.hibernate.annotations.Parameter;
         @Parameter(name="sequence", value="EPOCHS_ID_SEQ")
     }
 )
-public class Epoch extends AbstractDomainObject implements Comparable<Epoch>, Serializable{
-    
+public class Epoch extends AbstractDomainObject implements Comparable<Epoch>, Serializable{  
+  
     private List<Arm> arms = new ArrayList<Arm>();
     private String name;
     private String descriptionText;
@@ -93,10 +93,9 @@ public class Epoch extends AbstractDomainObject implements Comparable<Epoch>, Se
 
     // This is annotated this way so that the IndexColumn will work with
     // the bidirectional mapping. 
-    @OneToMany(mappedBy="epoch")
-    // @JoinColumn(name="eph_id", nullable=false)
-    //@IndexColumn(name="list_index")
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+    @OneToMany
+    @JoinColumn(name="eph_id", nullable=false)
+    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})   
     public List<Arm> getArms() {
         return arms;
     }
@@ -117,8 +116,8 @@ public class Epoch extends AbstractDomainObject implements Comparable<Epoch>, Se
 	 * @return the study
 	 */
     @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name="stu_id", nullable=false)
-	public Study getStudy() {
+    @JoinColumn(insertable=false, updatable=false, nullable=false)
+    public Study getStudy() {
 		return study;
 	}
 
@@ -146,7 +145,6 @@ public class Epoch extends AbstractDomainObject implements Comparable<Epoch>, Se
 		int result = super.hashCode();
 		result = PRIME * result + ((arms == null) ? 0 : arms.hashCode());
 		result = PRIME * result + ((name == null) ? 0 : name.hashCode());
-		result = PRIME * result + ((study == null) ? 0 : study.hashCode());
 		return result;
 	}
 
@@ -171,12 +169,7 @@ public class Epoch extends AbstractDomainObject implements Comparable<Epoch>, Se
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
-			return false;
-		if (study == null) {
-			if (other.study != null)
-				return false;
-		} else if (!study.equals(other.study))
-			return false;
+			return false;	
 		return true;
 	}
 
