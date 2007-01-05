@@ -1,13 +1,14 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 
 /**
- * @author Ram Chilukuri
- *         Kulasekaran
+ * @author Priyatam
  */
  
  @Entity
@@ -18,22 +19,53 @@ import javax.persistence.Table;
          @Parameter(name="sequence", value="healthcare_sites_id_seq")
      }
  )*/
-public class HealthcareSite extends Organization {
+public class HealthcareSite extends Organization implements Comparable<HealthcareSite>, Serializable{
 		 
-    private String nciIdentifier;
+	private String nciInstituteCode;
+
+	public HealthcareSite() {}
 	
-    public HealthcareSite() 
-    {}
-    
-    public HealthcareSite(boolean initialise) {
+	public HealthcareSite(boolean initialise) {
     	super(true);
     }
+	
+	public String getNciInstituteCode() {
+		return nciInstituteCode;
+	}
 
-    public String getNciIdentifier() {
-        return nciIdentifier;
-    }
-    
-    public void setNciIdentifier(String nciIdentifier) {
-        this.nciIdentifier = nciIdentifier;
-    }    
+	public void setNciInstituteCode(String nciInstituteCode) {
+		this.nciInstituteCode = nciInstituteCode;
+	}
+		
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = super.hashCode();
+		result = PRIME * result + ((nciInstituteCode == null) ? 0 : nciInstituteCode.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final HealthcareSite other = (HealthcareSite) obj;
+		if (nciInstituteCode == null) {
+			if (other.nciInstituteCode != null)
+				return false;
+		} else if (!nciInstituteCode.equals(other.nciInstituteCode))
+			return false;
+		return true;
+	}
+
+	public int compareTo(HealthcareSite o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
 }
