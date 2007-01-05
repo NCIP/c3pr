@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+
+<!-- ================================================================= -->
+<!-- caTRIP Master codedrop build file                                 -->
+<!-- ================================================================= -->
+
+<project name="catrip-1.0-codedrop" default="test" basedir=".">
+	<target name="codedrop" depends="prepare">
+		<property name="cvs.rsh" location="c:/putty/ssh_cagrid.bat"/>
+		<property name="temp.dir" location="../temp"/>
+		<property name="app.name" value="c3prv2"/>
+
+		<tempfile property="temp.dir" suffix="dir"/>
+		<delete file="${temp.dir}"/>
+		<mkdir dir="${temp.dir}"/>
+
+		<tstamp><format property="tstamp" pattern="yyyyMMdd"/></tstamp>
+		<cvs failonerror="true" dest="${temp.dir}" cvsRsh="${cvs.rsh}" 
+			command="-d:ext:anonymous@cbiocvs2.nci.nih.gov:/share/content/gforge/${app.name} export -r HEAD ${app.name}/codebase"
+		/>
+
+		
+		<zip basedir="${temp.dir}/${app.name}/codebase" destfile="../${app.name}_codebase_${tstamp}.zip"/>
+		<delete dir="${temp.dir}"/>
+	</target>
+</project>
