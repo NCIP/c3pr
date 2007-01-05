@@ -70,7 +70,7 @@ function changeFeilds(s){
 <!-- TOP LOGOS START HERE -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
-		<td><img src="images/C3PRLogo.gif" alt="C3PR" width="181"
+		<td><img src="images/c3prLogo.gif" alt="C3PR" width="181"
 			height="36" class="gelogo"></td>
 		<td>&nbsp;</td>
 	</tr>
@@ -85,9 +85,9 @@ function changeFeilds(s){
 			src="images/topNavArrowDown.gif" width="5" height="20"
 			align="absmiddle"> Registration </span><img src="images/topNavR.gif"
 			width="2" height="20" align="absmiddle" class="currentR"><a
-			href="protocol.jsp">Protocol</a><img src="images/topDivider.gif"
+			href="/c3pr/searchstudy.do">Protocol</a><img src="images/topDivider.gif"
 			width="2" height="20" align="absmiddle" class="divider"><a
-			href="participant.jsp">Participant</a><img
+			href="/c3pr/searchparticipant.do">Participant</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
 			class="divider"><a href="analysis">Reports</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
@@ -176,42 +176,61 @@ function changeFeilds(s){
 				<!-- TABS RIGHT END HERE --></td>
 			</tr>
 			<tr>
-			<form:form name="searchForm" method="post">
-				<!-- LEFT CONTENT STARTS HERE -->
-				<td valign="top" class="searchL"><!-- LEFT FORM STARTS HERE -->
-				<table width="100%" border="0" cellpadding="0" cellspacing="0">
-					<tr valign="top">
-						<td><img src="images/Protocol.gif" alt="Protocol Search"
-							width="100" height="100" align="absmiddle"></td>
-						<td width="99%">
-						<h3>Protocol Search</h3>
-						<strong>1. Search Protocols by:</strong> 
-						<form:select path="searchTypeProtocol">
-							<form:options items="${protocolList}" itemLabel="desc" itemValue="code" />
-						</form:select> <br>
-						<br>
-						<strong>2. Fill in the Fields:</strong><br>
-						<br>
-						<div id="protocol_search_feilds">
-						<table border="0" cellspacing="0" cellpadding="0" id="search">
-							<tr>
-								<td align="left" class="labels">Short Title:</td>
-							</tr>
-							<tr>
-								<td><form:input path="searchValueProtocol" /></td>
-
-							</tr>
-						</table>
-						</div>
-						^ Minimum two characters search.<br>
-						<br>
-						<a href="reg_protocol_search.jsp"><img
-							src="images/SerachProtocols.gif" alt="Search Drivers" width="100"
-							height="16" border="0" onClick="search('byProt');"></a></td>
-					</tr>
-				</table>
-
-				<!-- LEFT FORM ENDS HERE --></td>
+				<form:form name="searchForm" method="post">
+					<!-- LEFT CONTENT STARTS HERE -->
+					<td valign="top" class="searchL"><!-- LEFT FORM STARTS HERE -->
+					<table width="100%" border="0" cellpadding="0" cellspacing="0">
+						<tr valign="top">
+							<td><img src="images/Protocol.gif" alt="Protocol Search"
+								width="100" height="100" align="absmiddle\"></td>
+							<td width="99%"><br>
+							<table border="0" cellspacing="0" cellpadding="0" id="search">
+								<tr>
+									<td align="left" class="labels">Search String</td>
+									<td align="left" class="labels" colspan="10"></td>
+									<td align="left" class="labels">Search Studies by:</td>
+									<td align="left" class="labels"></td>
+									<td align="left" class="labels">Study Id:</td>
+									<td align="left" class="labels"></td>
+									<td align="left" class="labels">Short Title Text</td>
+								</tr>
+								<tr>
+									<td><form:input path="searchTypeText" /></td>
+									<td align="left" class="labels" colspan="10"></td>
+									<td align="left" class="labels"><form:select
+										path="searchType">
+										<form:options items="${searchType}" itemLabel="desc"
+											itemValue="code" />
+									</form:select></td>
+									<td align="left" class="labels">
+									<td><form:input path="studyid" /></td>
+									<td align="left" class="labels">
+									<td><form:input path="shortTitleText" /></td>
+								</tr>
+								<tr>
+									<td align="left" class="labels" colspan="10">^ Minimum two
+									characters</td>
+									<br>
+								</tr>
+							</table>
+							<table border="0" cellspacing="0" cellpadding="0" id="search">
+								<tr>
+								<tr>
+									<td align="left" class="labels" colspan="10"></td>
+									<br>
+								</tr>
+								<td align="center" colspan="20"><!-- action buttons begins -->
+								<tr>
+									<td><input class="actionButton" type="submit"
+										value="search study"></td>
+								</tr>
+							</table>
+							<!-- LEFT FORM ENDS HERE --></td>
+						</tr>
+					</table>
+				</form:form>
+				<!-- LEFT FORM ENDS HERE -->
+				</td>
 				<!-- LEFT CONTENT ENDS HERE -->
 				<td><img src="images/spacer.gif" width="2" height="1"></td>
 				<td valign="top" class="searchR">
@@ -221,35 +240,31 @@ function changeFeilds(s){
 							width="100" height="100" align="absmiddle"></td>
 						<td width="99%">
 						<h3>Participant Search</h3>
-						<strong>1. Search Participant by:</strong>
-						<form:select path="searchTypePart">
-							<form:options items="${participantList}" itemLabel="desc" itemValue="code" />
-						</form:select> <br>
+						<strong>1. Search Participant by:</strong> <select name="select">
+							<option selected>Name</option>
+							<option>Participant Reg Number</option>
+						</select> <br>
 						<br>
 
 						<strong>2. Fill in the Fields:</strong><br>
 						<br>
-						<div id="participant_search_feilds">						
 						<table border="0" cellspacing="0" cellpadding="0" id="search">
 							<tr>
 								<td align="left" class="labels">Last Name:</td>
 								<td align="left" class="labels">First Name:</td>
 							</tr>
 							<tr>
-								<td><input name="textield1" type="text" size="25"></td>
+								<td><input name="textfield2" type="text" size="25"></td>
 								<td><input name="textfield2" type="text" size="25"></td>
 							</tr>
 						</table>
-						</div>
 
-						<p><a href="#"><img
-							src="images/SerachPatients.gif" alt="Search Vehicles" width="100"
-							height="16" border="0"></a></p>
+						<p><a href="#"><img src="images/SerachPatients.gif"
+							alt="Search Vehicles" width="100" height="16" border="0"></a></p>
 						</td>
 					</tr>
 				</table>
 				</td>
-				</form:form>
 			</tr>
 		</table>
 		</td>
