@@ -4,13 +4,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import junit.framework.TestCase;
+
 import org.springframework.context.ApplicationContext;
 
-import edu.duke.cabig.c3pr.dao.ArmDao;
-import edu.duke.cabig.c3pr.dao.EpochDao;
-import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
-import edu.duke.cabig.c3pr.dao.StudyDao;
-import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.Epoch;
@@ -21,70 +18,29 @@ import edu.duke.cabig.c3pr.util.ContextTools;
 
 /**
  * Handy Test Class for Daos
- * @author Ram Chilukuri, Priyatam
+ * @author Priyatam
  *
  */
-public class StudyDaoMainTest {
-    private static StudyDao dao;
-    private HealthcareSiteDao siteDao;
-    private ApplicationContext context;
-    private StudySiteDao studySiteDao;
-    private EpochDao epochDao;
-    private ArmDao armDao;
-    
+public class StudyDaoMainTest extends TestCase{
+    StudyDao dao;
+    HealthcareSiteDao siteDao;
+    ApplicationContext context;
+    StudySiteDao studySiteDao;
+    EpochDao epochDao;
+    ArmDao armDao;
+    static Study newStudy = new Study();
 
     public StudyDaoMainTest() {
         context = ContextTools.createDeployedApplicationContext();
-        init();        
+        setup();        
     }
     
-    private void init(){
+    private void setup(){
         dao = (StudyDao)context.getBean("studyDao");
         siteDao = (HealthcareSiteDao)context.getBean("healthcareSiteDao");
         studySiteDao = (StudySiteDao)context.getBean("studySiteDao");
         epochDao = (EpochDao)context.getBean("epochDao");
         armDao = (ArmDao) context.getBean("armDao");
-    }
-
-    public void testSaveStudy() {
-        Integer savedId;
-        Study newStudy = new Study();
-        newStudy.setShortTitleText("Short Title Inserted");
-        newStudy.setLongTitleText("Long Title Inserted");
-        newStudy.setPhaseCode("Phase 3");
-        newStudy.setSponsorCode("CALGB");
-        newStudy.setStatus("Active");
-        newStudy.setTargetAccrualNumber(150);
-        newStudy.setType("Treatment");
-        newStudy.setMultiInstitutionIndicator("No");
-        dao.save(newStudy);
-
-        savedId = newStudy.getId();
-        System.out.println("Id for saved study is: "+savedId);
-    }
-    
-    public void testGetStudyById(int studyId){
-        Study obj = (Study)dao.getById(studyId);
-        System.out.println("Retrieved Object "+obj);
-    }
-    
-    public void testGetStudySiteById(int studysiteId){
-    	StudySite obj = (StudySite)studySiteDao.getById(studysiteId);
-    	System.out.println("Retrieved Object "+obj);
-    }
-    
-    public void testGetEpochById(int epochId){
-    	Epoch obj = (Epoch) epochDao.getById(epochId);
-    	System.out.println("Retrieved Object "+obj);;
-    }
-    
-    public void testGetArmById(int ArmId){
-    	Arm retrievedStudy = (Arm)armDao.getById(ArmId);
-    	System.out.println("Short Title for retrieved study is "+retrievedStudy.getId());
-    }
-    
-    public Study testCreateStudyWithDefaultDesign(){
-        Study newStudy = new Study();
         
         newStudy.setShortTitleText("Priyatam-Study");
         newStudy.setLongTitleText("D Long Title");
@@ -131,13 +87,28 @@ public class StudyDaoMainTest {
         address.setStreetAddress("12359 Sunrise Valley drive");        
         site.setAddress(address);
         
-        defaultStudySites.add(studySite);
-               
-        dao.save(newStudy);
+        defaultStudySites.add(studySite);     
         
-        return newStudy;
+    }
+
+    public void test_SaveStudy() {
+        dao.save(newStudy);
+        Integer savedId = newStudy.getId();
+        assertNotNull(savedId);
     }
     
+    public void testGetStudyById(){
+    	System.out.println(" 232432 "+newStudy.getId());
+    	Study obj = (Study)dao.getById(newStudy.getId());
+    	assertNotNull(newStudy.getId());
+    }
+    
+    public void testGetStudySiteById(){
+    	int id = (newStudy.getStudySites().get(0)).getId();
+    	StudySite obj = (StudySite)studySiteDao.getById(id);
+    	assertNotNull(id);    
+    } 
+   
     public void testSaveHealthcareSite(){
         HealthcareSite site = new HealthcareSite();
         Address add = new Address();
@@ -151,6 +122,7 @@ public class StudyDaoMainTest {
         site.setAddress(add);
         
         siteDao.save(site);
+        
     }
     
     private void testSaveStudySite(){
@@ -165,6 +137,7 @@ public class StudyDaoMainTest {
         stuSite.setStatusCode("Done");
         stuSite.setStartDate(new Date());
         studySiteDao.save(stuSite);
+        assertNotNull(stuSite.getId());
     }
     
     public void testSearchStudy()
@@ -173,23 +146,12 @@ public class StudyDaoMainTest {
           study.setShortTitleText("Priyatam-Study");
           study.setType("Treatment");
           List<Study> results = dao.searchByExample(study);
-          System.out.println(results.size());
-          for (Study study2 : results) {
-    		System.out.println(study2.getShortTitleText());
-    	}    	
+          assertNotNull(results.size());         
+          assertEquals("Priyatam-Study", results.get(0).getShortTitleText());
+          assertEquals("Priyatam-Treatment", results.get(0).getType());          
     }
     
     public static void main(String[] args) {
        StudyDaoMainTest studyDaoTest = new StudyDaoMainTest();
-       Study newStudy = studyDaoTest.testCreateStudyWithDefaultDesign();
-       
-       System.out.println("getting te;stGetStudyById - ");
-       studyDaoTest.testGetStudyById(newStudy.getId());       
-       System.out.println("getting testGetStudySiteById - ");       
-       studyDaoTest.testGetStudySiteById((newStudy.getStudySites().get(0)).getId());
-       StudySite studySite = newStudy.getStudySites().get(0);
-       System.out.println("Arms " +studySite.getStudy().getEpochs().get(0).getArms()); 
-      
-       studyDaoTest.testSearchStudy();       
-    }
+   }
 }
