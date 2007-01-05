@@ -1,5 +1,10 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -16,8 +21,8 @@ function navRollOver(obj, state) {
 <!-- TOP LOGOS START HERE -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
-		<td width="99%"><img src="images/C3PRLogo.gif" alt="C3PR" width="181"
-			height="36" class="gelogo"></td>
+		<td width="99%"><img src="images/C3PRLogo.gif" alt="C3PR"
+			width="181" height="36" class="gelogo"></td>
 		<td align="right"><img src="images/t-drivers.gif" alt="Protocol"
 			width="200" height="79"></td>
 	</tr>
@@ -74,8 +79,8 @@ function navRollOver(obj, state) {
 						2. Enroll Patient <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						3. Check Eligibility <img src="images/tabGrayR.gif" width="3" height="16"
-							align="absmiddle"><img
+						3. Check Eligibility <img src="images/tabGrayR.gif" width="3"
+							height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						4. Stratify <img src="images/tabGrayR.gif" width="3" height="16"
 							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
@@ -115,9 +120,9 @@ function navRollOver(obj, state) {
 									class="field1">
 									<option>Protocol</option>
 								</select> by <select name="select" class="field1">
-								  <option selected>Short Title</option>
-								  <option>Site Protocol Identifier</option>
-								  <option>Primary Sponsor Identifier</option>  
+									<option selected>Short Title</option>
+									<option>Site Protocol Identifier</option>
+									<option>Primary Sponsor Identifier</option>
 								</select></td>
 							</tr>
 						</table>
@@ -185,8 +190,7 @@ function navRollOver(obj, state) {
 									id="additionalList">
 									<tr align="center" class="label">
 										<td>Short Title</td>
-										<td>Primary Sponsor<br>
-										Identifier</td>
+										<td>Status</td>
 										<td>Primary Sponsor<br>
 										Code</td>
 										<td>Multi Institution <br>
@@ -196,138 +200,20 @@ function navRollOver(obj, state) {
 										<td>Current Accrual<br>
 										Number</td>
 									</tr>
-									<a href="reg_enroll_patient.jsp"
-										onMouseOver="navRollOver('row1', 'on')"
-										onMouseOut="navRollOver('row1', 'off')">
-									<tr align="center" id="row1" class="results">
-										<td>CALGB XYZ</td>
-										<td>123456</td>
-										<td>calgb_xyz_sponsor_code</td>
-										<td>Yes</td>
-										<td>50</td>
-										<td>50</td>
-									</tr>
-									</a>
-									<a href="reg_enroll_patient.jsp"
-										onMouseOver="navRollOver('row2', 'on')"
-										onMouseOut="navRollOver('row2', 'off')">
-									<tr align="center" id="row2" class="results">
-										<td>CALGB XYZ</td>
-										<td>123456</td>
-										<td>calgb_xyz_sponsor_code</td>
-										<td>Yes</td>
-										<td>50</td>
-										<td>50</td>
-									</tr>
-									</a>
-									<a href="reg_enroll_patient.jsp"
-										onMouseOver="navRollOver('row3', 'on')"
-										onMouseOut="navRollOver('row3', 'off')">
-									<tr align="center" id="row3" class="results">
-										<td>CALGB XYZ</td>
-										<td>123456</td>
-										<td>calgb_xyz_sponsor_code</td>
-										<td>Yes</td>
-										<td>50</td>
-										<td>50</td>
-									</tr>
-									</a>
-									<a href="reg_enroll_patient.jsp"
-										onMouseOver="navRollOver('row4', 'on')"
-										onMouseOut="navRollOver('row4', 'off')">
-									<tr align="center" id="row4" class="results">
-										<td>CALGB XYZ</td>
-										<td>123456</td>
-										<td>calgb_xyz_sponsor_code</td>
-										<td>Yes</td>
-										<td>50</td>
-										<td>50</td>
-									</tr>
-									</a>
-									<a href="reg_enroll_patient.jsp"
-										onMouseOver="navRollOver('row5', 'on')"
-										onMouseOut="navRollOver('row5', 'off')">
-									<tr align="center" id="row5" class="results">
-										<td>CALGB XYZ</td>
-										<td>123456</td>
-										<td>calgb_xyz_sponsor_code</td>
-										<td>Yes</td>
-										<td>50</td>
-										<td>50</td>
-									</tr>
-									</a>
-									<a href="reg_enroll_patient.jsp"
-										onMouseOver="navRollOver('row6', 'on')"
-										onMouseOut="navRollOver('row6', 'off')">
-									<tr align="center" id="row6" class="results">
-										<td>CALGB XYZ</td>
-										<td>123456</td>
-										<td>calgb_xyz_sponsor_code</td>
-										<td>Yes</td>
-										<td>50</td>
-										<td>50</td>
-									</tr>
-									</a>
-									<a href="reg_enroll_patient.jsp"
-										onMouseOver="navRollOver('row7', 'on')"
-										onMouseOut="navRollOver('row7', 'off')">
-									<tr align="center" id="row7" class="results">
-										<td>CALGB XYZ</td>
-										<td>123456</td>
-										<td>calgb_xyz_sponsor_code</td>
-										<td>Yes</td>
-										<td>50</td>
-										<td>50</td>
-									</tr>
-									</a>
-									<a href="reg_enroll_patient.jsp"
-										onMouseOver="navRollOver('row8', 'on')"
-										onMouseOut="navRollOver('row8', 'off')">
-									<tr align="center" id="row8" class="results">
-										<td>CALGB XYZ</td>
-										<td>123456</td>
-										<td>calgb_xyz_sponsor_code</td>
-										<td>Yes</td>
-										<td>50</td>
-										<td>50</td>
-									</tr>
-									</a>
-									<a href="reg_enroll_patient.jsp"
-										onMouseOver="navRollOver('row9', 'on')"
-										onMouseOut="navRollOver('row9', 'off')">
-									<tr align="center" id="row9" class="results">
-										<td>CALGB XYZ</td>
-										<td>123456</td>
-										<td>calgb_xyz_sponsor_code</td>
-										<td>Yes</td>
-										<td>50</td>
-										<td>50</td>
-									</tr>
-									</a>
-									<a href="reg_enroll_patient.jsp"
-										onMouseOver="navRollOver('row12', 'on')"
-										onMouseOut="navRollOver('row12', 'off')">
-									<tr align="center" id="row12" class="results">
-										<td>CALGB XYZ</td>
-										<td>123456</td>
-										<td>calgb_xyz_sponsor_code</td>
-										<td>Yes</td>
-										<td>50</td>
-										<td>50</td>
-									</tr>
-									</a>
-									<a href="reg_enroll_patient.jsp"
-										onMouseOver="navRollOver('row13', 'on')"
-										onMouseOut="navRollOver('row13', 'off')">
-									<tr align="center" id="row13" class="results">
-										<td>CALGB XYZ</td>
-										<td>123456</td>
-										<td>calgb_xyz_sponsor_code</td>
-										<td>Yes</td>
-										<td>50</td>
-										<td>50</td>
-									</tr>
-									</a>
+									<c:forEach var="study" items="${studies}">
+										<a href="createparticipant.do?studySiteId=${study.id}"
+											onMouseOver="navRollOver('row1', 'on')"
+											onMouseOut="navRollOver('row1', 'off')">
+										<tr align="center" id="row1" class="results">
+											<td>${study.shortTitleText}</td>
+											<td>${study.status}</td>
+											<td>${study.sponsorCode}</td>
+											<td>${study.multiInstitutionIndicator}</td>
+											<td>${study.targetAccrualNumber}</td>
+											<td>50</td>
+										</tr>
+										</a>
+									</c:forEach>
 								</table>
 								<br>
 								<table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -353,7 +239,7 @@ function navRollOver(obj, state) {
 						</td>
 					</tr>
 				</table>
-			</td>
+				</td>
 			</tr>
 		</table>
 		</td>
