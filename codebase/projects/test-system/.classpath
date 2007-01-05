@@ -9,8 +9,7 @@
 	<classpathentry kind="lib" path="test/lib/gnu-regexp-110.jar"/>
 	<classpathentry kind="lib" path="test/lib/shaste-1.0.jar"/>
 	<classpathentry kind="lib" path="test/lib/uispec4j-0.15.jar"/>
-	<classpathentry kind="lib" path="ext/test/lib/junit.jar"/>
-	<classpathentry kind="lib" path="ext/lib/c3pr-2.0-dataload-1.0.jar"/>
 	<classpathentry kind="lib" path="ext/lib/c3pr-2.0-web-1.0.jar"/>
+	<classpathentry kind="lib" path="ext/test/lib/junit-3.8.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
