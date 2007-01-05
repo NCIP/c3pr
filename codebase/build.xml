@@ -32,6 +32,7 @@
     <import file="${antfiles.dir}/build-artifacts.xml"/>
     <import file="${antfiles.dir}/build-test.xml"/>
     <import file="${antfiles.dir}/build-reports.xml"/>
+    <import file="${antfiles.dir}/build-codedrop.xml"/>
 
     <!-- define global properties -->
     <property name="cobertura.home" location="${basedir}/share/cobertura-1.8"/>
