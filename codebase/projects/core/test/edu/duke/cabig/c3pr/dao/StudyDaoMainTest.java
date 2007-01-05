@@ -17,7 +17,7 @@ import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.util.ContextTools;
 
 /**
- * Handy Test Class for Daos
+ * Handy Test Class for Study Dao
  * @author Priyatam
  *
  */
@@ -30,12 +30,13 @@ public class StudyDaoMainTest extends TestCase{
     ArmDao armDao;
     static Study newStudy = new Study();
 
-    public StudyDaoMainTest() {
+    public StudyDaoMainTest(String name) {
+    	super(name);
         context = ContextTools.createDeployedApplicationContext();
         setup();        
     }
     
-    private void setup(){
+    public void setup(){
         dao = (StudyDao)context.getBean("studyDao");
         siteDao = (HealthcareSiteDao)context.getBean("healthcareSiteDao");
         studySiteDao = (StudySiteDao)context.getBean("studySiteDao");
@@ -91,7 +92,7 @@ public class StudyDaoMainTest extends TestCase{
         
     }
 
-    public void test_SaveStudy() {
+    public void testSaveStudy() {
         dao.save(newStudy);
         Integer savedId = newStudy.getId();
         assertNotNull(savedId);
@@ -122,10 +123,10 @@ public class StudyDaoMainTest extends TestCase{
         site.setAddress(add);
         
         siteDao.save(site);
-        
+        assertNotNull(site.getId());
     }
     
-    private void testSaveStudySite(){
+    public void testSaveStudySite(){
         Study study = (Study)dao.getById(0);
         HealthcareSite site = (HealthcareSite)siteDao.getById(10);
         
@@ -152,6 +153,6 @@ public class StudyDaoMainTest extends TestCase{
     }
     
     public static void main(String[] args) {
-       StudyDaoMainTest studyDaoTest = new StudyDaoMainTest();
+       StudyDaoMainTest studyDaoTest = new StudyDaoMainTest("c3pr-study");
    }
 }
