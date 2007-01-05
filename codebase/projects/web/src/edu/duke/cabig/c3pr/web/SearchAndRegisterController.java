@@ -84,6 +84,14 @@ public class SearchAndRegisterController extends SimpleFormController{
     	}else
     		System.out.println("----------------------studies is not null----------------------");
     	log.debug("Search results size " +studies.size());
+    	for(int i=0 ; i<studies.size() ; i++){
+    		if(studies.get(i).getStudySites()==null || studies.get(i).getStudySites().size()==0){
+    			System.out.println("removing study["+i+"] from studies");
+    			studies.remove(i);
+    			i--;
+    		}
+    	}
+    	log.debug("Search results size after filtering " +studies.size());
     	System.out.println("Search results size " +studies.size());
     	Map map =errors.getModel();
     	map.put("studies", studies);

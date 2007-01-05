@@ -15,15 +15,17 @@
 function navRollOver(obj, state) {
   document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
 }
+function doNothing(){
+}
 </script>
 </head>
 <body>
 <!-- TOP LOGOS START HERE -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
-		<td width="99%"><img src="images/C3PRLogo.gif" alt="C3PR"
+		<td width="99%"><img src="images/c3PrLogo.gif" alt="C3PR"
 			width="181" height="36" class="gelogo"></td>
-		<td align="right"><img src="images/t-drivers.gif" alt="Protocol"
+		<td align="right"><img src="images/t-drivers.gif" alt="Study"
 			width="200" height="79"></td>
 	</tr>
 </table>
@@ -37,11 +39,11 @@ function navRollOver(obj, state) {
 			width="2" height="20" align="absmiddle" class="currentL"><span
 			class="current"><img src="images/topNavArrowDown.gif"
 			width="5" height="20" align="absmiddle"> Registration</span><a
-			href="protocol.jsp"> Protocol </a><img src="images/topNavR.gif"
+			href="/c3pr/searchstudy.do">Study</a><img src="images/topNavR.gif"
 			width="2" height="20" align="absmiddle" class="currentR"><a
-			href="participant.jsp">Participant</a><img
+			href="participant.jsp" onClick="doNothing();">Participant</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
-			class="divider"><a href="analysis">Reports</a><img
+			class="divider"><a href="analysis" onClick="doNothing();">Reports</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
 			class="divider"></td>
 
@@ -72,7 +74,7 @@ function navRollOver(obj, state) {
 					<tr>
 						<td width="100%" id="tabDisplay"><span class="current">
 						<img src="images/tabWhiteL.gif" width="3" height="16"
-							align="absmiddle"> 1. Select Protocol <img
+							align="absmiddle"> 1. Select Study <img
 							src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"> </span><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
@@ -106,7 +108,7 @@ function navRollOver(obj, state) {
 					class="titleArea">
 					<tr>
 						<!-- TITLE STARTS HERE -->
-						<td width="99%" height="43" valign="middle" id="title">Potocol
+						<td width="99%" height="43" valign="middle" id="title">Study
 						Search</td>
 						<td valign="top">
 						<form method="post" action="" name="searchMeth" class="search">
@@ -118,7 +120,7 @@ function navRollOver(obj, state) {
 							<tr>
 								<td class="searchType">Search <select name="select"
 									class="field1">
-									<option>Protocol</option>
+									<option>Study</option>
 								</select> by <select name="select" class="field1">
 									<option selected>Short Title</option>
 									<option>Site Protocol Identifier</option>
@@ -142,7 +144,7 @@ function navRollOver(obj, state) {
 								<td><input name="textfield3" type="text" class="field1"
 									size="25"></td>
 								<td><input name="imageField" type="image" class="button"
-									onClick="getPage('search.jsp')" src="images/b-go.gif" alt="GO"
+									onClick="doNothing();" src="images/b-go.gif" alt="GO"
 									align="middle" width="22" height="10" border="0"></td>
 							</tr>
 						</table>
@@ -154,7 +156,7 @@ function navRollOver(obj, state) {
 					<tr>
 						<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
 
-						<td id="current">Protocol Search Results</td>
+						<td id="current">Study Search Results</td>
 						<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 					</tr>
 					<tr>
@@ -171,16 +173,24 @@ function navRollOver(obj, state) {
 								<br>
 								<table width="100%" border="0" cellspacing="0" cellpadding="0">
 									<tr>
-										<td width="30%" align="right"><a href="#"><img
-											src="images/b-prev.gif" alt="Previous" width="41" height="16"
-											border="0" align="absmiddle"></a></td>
+										<td width="30%" align="right"><a href="#"
+											onClick="doNothing();"><img src="images/b-prev.gif"
+											alt="Previous" width="41" height="16" border="0"
+											align="absmiddle"></a></td>
 										<td width="40%" align="center"><strong>Showing
-										1-20 of 100</strong> | Page&nbsp;&nbsp; <a href="#">&laquo;</a>&nbsp;&nbsp;<strong>1</strong>-<a
-											href="#">2</a>-<a href="#">3</a>-<a href="#">4</a>-<a
-											href="#">5</a>-<a href="#">6</a>-<a href="#">7</a>-<a
-											href="#">8</a>-<a href="#">9</a>-<a href="#">10</a>&nbsp;&nbsp;&nbsp;<a
-											href="#">&raquo;</a></td>
-										<td width="30%"><a href="#"><img
+										1-20 of 100</strong> | Page&nbsp;&nbsp; <a href="#"
+											onClick="doNothing();">&laquo;</a>&nbsp;&nbsp;<strong>1</strong>-<a
+											href="#" onClick="doNothing();">2</a>-<a href="#"
+											onClick="doNothing();">3</a>-<a href="#"
+											onClick="doNothing();">4</a>-<a href="#"
+											onClick="doNothing();">5</a>-<a href="#"
+											onClick="doNothing();">6</a>-<a href="#"
+											onClick="doNothing();">7</a>-<a href="#"
+											onClick="doNothing();">8</a>-<a href="#"
+											onClick="doNothing();">9</a>-<a href="#"
+											onClick="doNothing();">10</a>&nbsp;&nbsp;&nbsp;<a href="#"
+											onClick="doNothing();">&raquo;</a></td>
+										<td width="30%"><a href="#" onClick="doNothing();"><img
 											src="images/b-next.gif" alt="Next" width="41" height="16"
 											border="0" align="absmiddle"></a></td>
 									</tr>
@@ -200,11 +210,15 @@ function navRollOver(obj, state) {
 										<td>Current Accrual<br>
 										Number</td>
 									</tr>
+									<%
+									int i = 1;
+									%>
 									<c:forEach var="study" items="${studies}">
-										<a href="createparticipant.do?studySiteId=${study.id}"
-											onMouseOver="navRollOver('row1', 'on')"
-											onMouseOut="navRollOver('row1', 'off')">
-										<tr align="center" id="row1" class="results">
+										<a
+											href="createparticipant.do?studySiteId=${study.studySites[0].id}"
+											onMouseOver="navRollOver('row<%= i %>', 'on')"
+											onMouseOut="navRollOver('row<%= i %>', 'off')">
+										<tr align="center" id="row<%= i++ %>" class="results">
 											<td>${study.shortTitleText}</td>
 											<td>${study.status}</td>
 											<td>${study.sponsorCode}</td>
@@ -218,16 +232,24 @@ function navRollOver(obj, state) {
 								<br>
 								<table width="100%" border="0" cellspacing="0" cellpadding="0">
 									<tr>
-										<td width="30%" align="right"><a href="#"><img
-											src="images/b-prev.gif" alt="Previous" width="41" height="16"
-											border="0" align="absmiddle"></a></td>
+										<td width="30%" align="right"><a href="#"
+											onClick="doNothing();"><img src="images/b-prev.gif"
+											alt="Previous" width="41" height="16" border="0"
+											align="absmiddle"></a></td>
 										<td width="40%" align="center"><strong>Showing
-										1-20 of 100</strong> | Page&nbsp;&nbsp; <a href="#">&laquo;</a>&nbsp;&nbsp;<strong>1</strong>-<a
-											href="#">2</a>-<a href="#">3</a>-<a href="#">4</a>-<a
-											href="#">5</a>-<a href="#">6</a>-<a href="#">7</a>-<a
-											href="#">8</a>-<a href="#">9</a>-<a href="#">10</a>&nbsp;&nbsp;&nbsp;<a
-											href="#">&raquo;</a></td>
-										<td width="30%"><a href="#"><img
+										1-20 of 100</strong> | Page&nbsp;&nbsp; <a href="#"
+											onClick="doNothing();">&laquo;</a>&nbsp;&nbsp;<strong>1</strong>-<a
+											href="#" onClick="doNothing();">2</a>-<a href="#"
+											onClick="doNothing();">3</a>-<a href="#"
+											onClick="doNothing();">4</a>-<a href="#"
+											onClick="doNothing();">5</a>-<a href="#"
+											onClick="doNothing();">6</a>-<a href="#"
+											onClick="doNothing();">7</a>-<a href="#"
+											onClick="doNothing();">8</a>-<a href="#"
+											onClick="doNothing();">9</a>-<a href="#"
+											onClick="doNothing();">10</a>&nbsp;&nbsp;&nbsp;<a href="#"
+											onClick="doNothing();">&raquo;</a></td>
+										<td width="30%"><a href="#" onClick="doNothing();"><img
 											src="images/b-next.gif" alt="Next" width="41" height="16"
 											border="0" align="absmiddle"></a></td>
 									</tr>

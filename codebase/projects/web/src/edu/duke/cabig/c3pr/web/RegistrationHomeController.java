@@ -89,7 +89,7 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 	protected Object formBackingObject(HttpServletRequest request) throws Exception {
 		// TODO Auto-generated method stub
 		StudyParticipantAssignment studyParticipantAssignment= new StudyParticipantAssignment();
-		studyParticipantAssignment.setStudyParticipantIdentifier("TESTID");
+		studyParticipantAssignment.setStudyParticipantIdentifier("TESTID_Kruttik_BIG");
 		studyParticipantAssignment.setStartDate(new Date());
 		StudySite studySite=null;
 		Participant participant=null;
@@ -107,26 +107,39 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 			}
 			else
 				System.out.println("participantDao is null");
+			int size=participant.getStudyParticipantAssignments().size();
+			System.out.println("-------------participant.getStudyParticipantAssignments().size() is "+size+"---------------");
+			int size1=studySite.getStudyParticipantAssignments().size();
+			System.out.println("-------------studySite.getStudyParticipantAssignments().size() is "+size1+"---------------");
+			
+//			studySite.addStudyParticipantAssignment(studyParticipantAssignment);
 			studyParticipantAssignment.setStudySite(studySite);
+//			participant.addStudyParticipantAssignment(studyParticipantAssignment);
 			studyParticipantAssignment.setParticipant(participant);
 		}
+		
 		ScheduledArm scheduledArm=new ScheduledArm();
 		scheduledArm.setEligibilityIndicator("true");
 		scheduledArm.setStartDate(new Date());
-		scheduledArm.setArm(new Arm());
-		scheduledArm.setStudyParticipantAssignment(studyParticipantAssignment);
+		Arm arm=new Arm();
+		arm.setEpoch(studyParticipantAssignment.getStudySite().getStudy().getEpochs().get(0));
+		scheduledArm.setArm(arm);
 		studyParticipantAssignment.addScheduledArm(scheduledArm);
+		scheduledArm.setStudyParticipantAssignment(studyParticipantAssignment);
+		if(studyParticipantAssignment.getStudySite().getStudy().getEpochs().get(0).getArms().size()!=0){
+			System.out.println("--------------------------------------Arms available-----------------------------------------");
+			return studyParticipantAssignment;
+		}
+		System.out.println("--------------------------------------Arms not available-----------------------------------------");		
 		Arm arm1 = new Arm();
 		arm1.setId(11);
-		arm1.setName("A");
+		arm1.setName("A_MOCK");
 		Arm arm2 = new Arm();
-		arm2.setName("B");
+		arm2.setName("B_MOCK");
 		arm2.setId(22);
 		ArrayList<Arm> arms=new ArrayList<Arm>();
 		arms.add(arm1);
 		arms.add(arm2);
-//		studyParticipantAssignment.getStudySite().getStudy().getEpochs().get(0).addArm(arm1);
-//		studyParticipantAssignment.getStudySite().getStudy().getEpochs().get(0).addArm(arm2);
 		studyParticipantAssignment.getStudySite().getStudy().getEpochs().get(0).setArms(arms);
 		return studyParticipantAssignment;
 	}
@@ -198,16 +211,34 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 	protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException arg3) throws Exception {
 		// TODO Auto-generated method stub
 		System.out.println("In process Finish...");
+		
 		StudyParticipantAssignment studyParticipantAssignment=(StudyParticipantAssignment)command;
-		ArrayList<StudyParticipantAssignment> stArrayList=new ArrayList<StudyParticipantAssignment>();
-		stArrayList.add(studyParticipantAssignment);
-		studyParticipantAssignment.getParticipant().setStudyParticipantAssignments(stArrayList);
-		studyParticipantAssignment.getStudySite().setStudyParticipantAssignments(stArrayList);
-		int armId=studyParticipantAssignment.getScheduledArms().get(0).getArm().getId();
-		Arm arm=armDao.getById(armId);
-		studyParticipantAssignment.getScheduledArms().get(0).setArm(arm);
+		int size=studyParticipantAssignment.getParticipant().getStudyParticipantAssignments().size();
+		System.out.println("-------------participant.getStudyParticipantAssignments().size() is "+size+"---------------");
+		int size1=studyParticipantAssignment.getStudySite().getStudyParticipantAssignments().size();
+		System.out.println("-------------studySite.getStudyParticipantAssignments().size() is "+size1+"---------------");
+		studyParticipantAssignment.getParticipant().addStudyParticipantAssignment(studyParticipantAssignment);
+		int scheduledArmsSize=studyParticipantAssignment.getScheduledArms().size();
+//		System.out.println("------------------------ScheduledArmSize is "+scheduledArmsSize+"-------------------------");
+		int armId=studyParticipantAssignment.getScheduledArms().get(scheduledArmsSize-1).getArm().getId();
+		Arm arm=null;
+		List<Arm> arms=(List<Arm>)(studyParticipantAssignment.getStudySite().getStudy().getEpochs().get(0).getArms());
+		boolean flag=true;
+		for(int i=0 ; i<arms.size() ; i++){
+			if(arms.get(i).getId()==armId){
+				arm=arms.get(i);
+				flag=false;
+			}
+		}
+		if(flag)
+			arm=armDao.getById(armId);
+		studyParticipantAssignment.getScheduledArms().get(scheduledArmsSize-1).setArm(arm);
+//		ArrayList<StudyParticipantAssignment> stArrayList=new ArrayList<StudyParticipantAssignment>();
+//		stArrayList.add(studyParticipantAssignment);
+//		studyParticipantAssignment.getParticipant().setStudyParticipantAssignments(stArrayList);
+//		studyParticipantAssignment.getStudySite().setStudyParticipantAssignments(stArrayList);
 		participantDao.save(studyParticipantAssignment.getParticipant());
-		response.sendRedirect("http://www.google.com");
+		response.sendRedirect("/c3pr");
 		return null;
 	}
 
