@@ -92,9 +92,9 @@ public class Study extends AbstractDomainObject implements Comparable<Study>, Se
 				
 	}
 	
-	@OneToMany(mappedBy="study")
-   // @JoinColumn(name="stu_id", nullable=false)	
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})	   
+	@OneToMany
+    @JoinColumn(name="stu_id", nullable=false)
+    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})
 	public List<Epoch> getEpochs() {
 		return epochs;
 	}
@@ -103,9 +103,9 @@ public class Study extends AbstractDomainObject implements Comparable<Study>, Se
 		this.epochs = epochs;
 	}
 
-	@OneToMany(mappedBy="study")
-	//@JoinColumn(name="stu_id", nullable=false)	   
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})	   	
+	@OneToMany
+    @JoinColumn(name="study_id", nullable=false)
+    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})	
 	public List<StudySite> getStudySites() {
 		return studySites;
 	}
