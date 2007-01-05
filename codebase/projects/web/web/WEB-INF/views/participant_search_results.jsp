@@ -25,8 +25,6 @@ function navRollOver(obj, state) {
 
 		<td width="99%"><img src="images/C3PRLogo.gif" alt="C3PR" width="181"
 			height="36" class="gelogo"></td>
-		<td align="right"><img src="images/t-drivers.gif" alt="Protocol"
-			width="200" height="79"></td>
 	</tr>
 </table>
 <!-- TOP LOGOS END HERE -->
