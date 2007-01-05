@@ -1,9 +1,9 @@
-<%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="display" uri="http://displaytag.sf.net/el"%>
+
 
 <html>
 <head>
@@ -40,13 +40,21 @@ function navRollOver(obj, state) {
 <!-- SUB NAV STARTS HERE -->
 <table width="100%"  border="0" cellspacing="0" cellpadding="0" id="subNav">
 
+<tr>
+  <td width="99%" valign="middle"><img src="images/arrowRight.gif" width="3" height="5" align="absmiddle"> Study Management <img src="images/spacer.gif" width="1" height="20" align="absmiddle" class="spacer"><a href="/createstudy.do">Add Study</a></td>
+ </tr>
 </table>
 <!-- SUB NAV ENDS HERE -->
 <!-- MAIN BODY STARTS HERE -->
+<div class="workArea">
 
+  <table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+	<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
 
 <td id="current">Study Search Results </td>
 	<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
+  </tr>
   <tr>
 
 <td class="display">
@@ -59,21 +67,57 @@ function navRollOver(obj, state) {
 
 <td valign="top" class="additionals">
 
-<c:out value="${study}"/>
 <!-- LEFT FORM STARTS HERE -->
-<br>
-<tr>
-	 <display:table name="${study}" >
-		<display:column property="descriptionText"  />
-		<display:column property="status" sortable="true" />
-		<display:column property="type" sortable="true" />
-		<display:column property="sponsorCode" sortable="true" />
-		<display:column property="phaseCode" sortable="true" />
-	 </display:table>
-	
+
+
+  <br>
+  <table width="100%"  border="0" cellspacing="0" cellpadding="0">
+
+  </table>
+  <br>
+<table width="100%"  border="0" cellspacing="0" cellpadding="0" id="additionalList">
+  <tr align="center" class="label">
+    <td>id </td>    
+    <td>Short Title </td>
+    <td>Target Accrual Number</td>        
+    <td>Sponsor Code</td>
+    <td>StatusCode</td>
+    <td>Monitor Code</td>
+    <td>Disease Code</td> 
+    <td>Phase Code </td>
+    <td>Type </td>  
+   </tr>
+
+<a href="protocol_details.htm" onMouseOver="navRollOver('row13', 'on')" onMouseOut="navRollOver('row13', 'off')">
+  <tr align="center">
+    <c:forEach items="${study}" var="study">
+        <tr align="center"> 
+            <td> <a href="<c:url value=""/>"> ${study.id} </a></td>            
+            <td> ${study.shortTitleText}</td>
+            <td> ${study.targetAccrualNumber}</td>       
+            <td> ${study.sponsorCode}</td>
+            <td> ${study.status} </td>           
+            <td> ${study.monitorCode}</td>    
+            <td> ${study.phaseCode}</td>
+            <td> ${study.type}</td>                              
+        </tr>
+    </c:forEach>
 </tr>
 
+</table>
+<br>
+  <table width="100%"  border="0" cellspacing="0" cellpadding="0">
+
+  </table>
+  <!-- LEFT FORM ENDS HERE --></td>
+<!-- LEFT CONTENT ENDS HERE -->
+          </tr>
+</table>
+    </td>
+</tr>
+</table>
 <div id="copyright">&copy; 2006 SemanticBits. All Rights Reserved</div>
+</div>
 <!-- MAIN BODY ENDS HERE -->
 </body>
 </html>
