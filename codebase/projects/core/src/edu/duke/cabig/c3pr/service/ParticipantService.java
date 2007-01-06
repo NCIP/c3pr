@@ -8,9 +8,7 @@ import edu.duke.cabig.c3pr.domain.Participant;
  * @author Kulasekaran,Ramakrishna
  * @version 1.0
  */
-public interface ParticipantService {
-
-	  public void saveParticipant(Participant participant) throws Exception;
+public interface ParticipantService {	  
 	  
 	  /**
 		 * Search using a sample. Populate a Participant object

@@ -23,13 +23,6 @@ public class ParticipantServiceImpl implements ParticipantService {
 	public void setParticipantDao(ParticipantDao participantDao) {
 		this.participantDao = participantDao;
 	}
-
-	/**
-	  Saves a Participant
-	*/
-	public void saveParticipant(Participant participant) throws Exception {
-		participantDao.save(participant);		
-	}
 	
 	/**
 	 * Search using a sample. Populate a Participant object
