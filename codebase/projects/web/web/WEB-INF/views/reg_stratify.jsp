@@ -1,6 +1,10 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
-
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -75,143 +79,102 @@ function updateTargetPage(s){
 </table>
 <!-- SUB NAV ENDS HERE -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
-	<tr>
-		<td class="display">
-		<table width="100%" border="0" cellpadding="0" cellspacing="0">
-			<tr>
-				<td>
-				<table width="100%" border="0" cellspacing="0" cellpadding="0"
-					class="tabs">
-					<tr>
-						<td width="100%" id="tabDisplay"><span class="tab"> <img
-							src="images/tabWhiteL.gif" width="3" height="16"
-							align="absmiddle"> 1. <a href="reg_protocol_search.htm">Select
-						Protocol </a><img src="images/tabWhiteR.gif" width="3" height="16"
-							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
-							height="16" align="absmiddle"> 2. Enroll Patient <img
-							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"><img
-							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						3. <a href=""
-							onclick="updateTargetPage('checkEligibilityView');">Check
-						Eligibility</a> <img src="images/tabGrayR.gif" width="3" height="16"
-							align="absmiddle"></span><span class="current"><img
-							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						4. Stratify <img src="images/tabGrayR.gif" width="3" height="16"
-							align="absmiddle"></span><span class="tab"><img
-							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						3. Randomize <img src="images/tabGrayR.gif" width="3" height="16"
-							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
-							height="16" align="absmiddle"> 5. Review and Submit <img
-							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"></span></td>
-						<td><img src="images/spacer.gif" width="7" height="1"></td>
-					</tr>
-					<tr>
-						<td colspan="2" class="tabBotL"><img src="images/spacer.gif"
-							width="1" height="7"></td>
-					</tr>
-				</table>
-				</td>
-			</tr>
-			<!-- MAIN BODY STARTS HERE -->
-			<tr>
-				<td>
-				<div class="workArea">
-				<table width="100%" border="0" cellspacing="0" cellpadding="0"
-					class="titleArea">
-					<tr>
-						<!-- TITLE STARTS HERE -->
-						<td width="99%" height="43" valign="middle" id="title">Patient
-						Search</td>
-						<td valign="top">
-						<form method="post" action="" name="searchMeth" class="search">
-						<table width="100%" border="0" cellspacing="0" cellpadding="0"
-							id="search">
-							<tr>
-								<td class="labels">&nbsp;</td>
-							</tr>
-							<tr>
-								<td class="searchType">Search <select name="select"
-									class="field1">
-									<option selected>Patient</option>
-								</select> by <select name="select" class="field1">
-									<option selected>Patient Name</option>
-									<option>Patient Registration#</option>
-								</select></td>
-							</tr>
-						</table>
-						</form>
-						<span class="notation">&nbsp;</span></td>
-						<td valign="top">
-						<table width="100%" border="0" cellspacing="0" cellpadding="0"
-							id="search">
-							<tr>
-								<td align="left" class="labels">Last Name:</td>
-								<td align="left" class="labels">First Name:</td>
-								<td class="labels">&nbsp;</td>
-							</tr>
-							<tr>
-								<td><input name="textfield2" type="text" class="field1"
-									size="25"></td>
-								<td><input name="textfield3" type="text" class="field1"
-									size="25"></td>
-								<td><input name="imageField" type="image" class="button"
-									onClick="getPage('search.htm')" src="images/b-go.gif" alt="GO"
-									align="middle" width="22" height="10" border="0"></td>
-							</tr>
-						</table>
-						<span class="notation">^ Minimum two characters for Last
-						Name search.</span></td>
-					</tr>
-				</table>
-				<table width="100%" border="0" cellspacing="0" cellpadding="0">
-					<tr>
-						<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
+	<form:form name="stratifyForm" method="post">
+		<tr>
+			<td class="display">
+			<table width="100%" border="0" cellpadding="0" cellspacing="0">
+				<tr>
+					<td>
+					<table width="100%" border="0" cellspacing="0" cellpadding="0"
+						class="tabs">
+						<tr>
+							<td width="100%" id="tabDisplay"><span class="tab"> <img
+								src="images/tabWhiteL.gif" width="3" height="16"
+								align="absmiddle"> 1. Select
+							Protocol <img src="images/tabWhiteR.gif" width="3" height="16"
+								align="absmiddle"><img src="images/tabGrayL.gif" width="3"
+								height="16" align="absmiddle"> 2. Select Patient <img
+								src="images/tabGrayR.gif" width="3" height="16"
+								align="absmiddle"><img src="images/tabGrayL.gif" width="3"
+								height="16" align="absmiddle"> 3. <a
+								href="javascript:updateTargetPage('checkEligibilityView');">Check
+							Eligibility</a> <img src="images/tabGrayR.gif" width="3" height="16"
+								align="absmiddle"></span><span class="current"><img
+								src="images/tabGrayL.gif" width="3" height="16"
+								align="absmiddle"> 4. Stratify <img
+								src="images/tabGrayR.gif" width="3" height="16"
+								align="absmiddle"></span><span class="tab"><img
+								src="images/tabGrayL.gif" width="3" height="16"
+								align="absmiddle"> 3. Randomize <img
+								src="images/tabGrayR.gif" width="3" height="16"
+								align="absmiddle"><img src="images/tabGrayL.gif" width="3"
+								height="16" align="absmiddle"> 5. Review and Submit <img
+								src="images/tabGrayR.gif" width="3" height="16"
+								align="absmiddle"></span></td>
+							<td><img src="images/spacer.gif" width="7" height="1"></td>
+						</tr>
+						<tr>
+							<td colspan="2" class="tabBotL"><img src="images/spacer.gif"
+								width="1" height="7"></td>
+						</tr>
+					</table>
+					</td>
+				</tr>
+				<!-- MAIN BODY STARTS HERE -->
+				<tr>
+					<td>
+					<div class="workArea"><img src="images/tabWhiteL.gif"
+						width="3" height="16" align="absmiddle"> <img
+						src="images/tabWhiteL.gif" width="3" height="16" align="absmiddle">
 
-						<td id="current">Startification for patient - John Smith</td>
-						<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
-					</tr>
-					<tr>
+					<table width="100%" border="0" cellspacing="0" cellpadding="0">
+						<tr>
+							<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
 
-						<td class="display"><!-- TABS LEFT START HERE -->
-						<table width="100%" border="0" cellpadding="0" cellspacing="0">
-							<tr>
+							<td id="current">Startification for patient -
+							${command.participant.firstName} ${command.participant.lastName}</td>
+							<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
+						</tr>
+						<tr>
 
-								<!-- LEFT CONTENT STARTS HERE -->
-								<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
-								<!-- RIGHT CONTENT STARTS HERE -->
+							<td class="display"><!-- TABS LEFT START HERE -->
+							<table width="100%" border="0" cellpadding="0" cellspacing="0">
+								<tr>
 
-								<form name="stratifyForm" method="post"><input
-									type="hidden" name="nextView">
-								<table width="700" border="0" cellspacing="0" cellpadding="0"
-									id="details">
-									<tr align="center">
-										<td colspan=2 valign="top"><br>
-										<br>
-										<a href=""
-											onClick="updateTargetPage('randomizeView');return false;"><img
-											src="images/b-submit.gif" alt="Continue" width="59"
-											height="16" border="0"></a> <a href="home.jsp"
-											onClick="add();return false;"><img
-											src="images/b-startOver.gif" alt="Start Over" width="67"
-											height="16" border="0"></a></td>
-									</tr>
-								</table>
+									<!-- LEFT CONTENT STARTS HERE -->
+									<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
+									<!-- RIGHT CONTENT STARTS HERE --> <input type="hidden"
+										name="nextView">
+									<table width="700" border="0" cellspacing="0" cellpadding="0"
+										id="details">
+										<tr align="center">
+											<td colspan=2 valign="top"><br>
+											<br>
+											<a href=""
+												onClick="updateTargetPage('randomizeView');return false;"><img
+												src="images/b-continue.gif" alt="Continue" width="59"
+												height="16" border="0"></a> <a href=""><img
+												src="images/b-startOver.gif" alt="Start Over" width="67"
+												height="16" border="0"></a></td>
+										</tr>
+									</table>
 
-								</div>
-								</form>
-								</td>
+									</div>
+									</td>
 
-								<!-- LEFT CONTENT ENDS HERE -->
-							</tr>
-						</table>
-						</td>
-					</tr>
-				</table>
-				</td>
-			</tr>
-		</table>
-		</td>
-	</tr>
+									<!-- LEFT CONTENT ENDS HERE -->
+								</tr>
+							</table>
+							</td>
+						</tr>
+
+					</table>
+					</td>
+				</tr>
+			</table>
+			</td>
+		</tr>
+	</form:form>
 </table>
 <div id="copyright">&copy; 2006 SemanticBits Company. All Rights
 Reserved</div>

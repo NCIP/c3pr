@@ -131,63 +131,46 @@ function submitPage(){
 				<!-- TABS RIGHT END HERE --></td>
 			</tr>
 			<tr>
+
+				<!-- LEFT CONTENT STARTS HERE -->
+				<td valign="top" class="searchL"><!-- LEFT FORM STARTS HERE -->
 				<form:form id="searchForm" name="searchForm" method="post">
-					<!-- LEFT CONTENT STARTS HERE -->
-					<td valign="top" class="searchL"><!-- LEFT FORM STARTS HERE -->
 					<table width="100%" border="0" cellpadding="0" cellspacing="0">
 						<tr valign="top">
 							<td><img src="images/Protocol.gif" alt="Protocol Search"
-								width="100" height="100" align="absmiddle\"></td>
-							<td width="99%"><br>
+								width="100" height="100" align="absmiddle"></td>
+							<td width="99%">
+							<h3>Study Search</h3>
+							<strong>1. Search Study by:</strong> <form:select
+								path="searchType">
+								<form:options items="${searchType}" itemLabel="desc"
+									itemValue="code" />
+							</form:select> <br>
+							<br>
+							<strong>2. Fill in the Fields:</strong><br>
+							<br>
 							<table border="0" cellspacing="0" cellpadding="0" id="search">
+								<div id="foo">
 								<tr>
-									<td align="left" class="labels">Search String</td>
-									<td align="left" class="labels" colspan="10"></td>
-									<td align="left" class="labels">Search Studies by:</td>
-									<td align="left" class="labels"></td>
-									<td align="left" class="labels">Study Id:</td>
-									<td align="left" class="labels"></td>
-									<td align="left" class="labels">Short Title Text</td>
+
+
+									<td align="left" class="labels">Search String:</td>
 								</tr>
 								<tr>
-									<td><form:input path="searchTypeText" /></td>
-									<td align="left" class="labels" colspan="10"></td>
-									<td align="left" class="labels"><form:select
-										path="searchType">
-										<form:options items="${searchType}" itemLabel="desc"
-											itemValue="code" />
-									</form:select></td>
-									<td align="left" class="labels">
-									<td><form:input path="studyid" /></td>
-									<td align="left" class="labels">
-									<td><form:input path="shortTitleText" /></td>
+									<td><form:input path="searchTypeText" size="25" /></td>
+
 								</tr>
-								<tr>
-									<td align="left" class="labels" colspan="10">^ Minimum two
-									characters</td>
-									<br>
-								</tr>
+								</div>
 							</table>
-							<table border="0" cellspacing="0" cellpadding="0" id="search">
-								<tr>
-								<tr>
-									<td align="left" class="labels" colspan="10"></td>
-									<br>
-								</tr>
-								<td align="center" colspan="20"><!-- action buttons begins -->
-								<tr>
-									<td><a href=""
-										onClick="submitPage();return false;"><img
-										src="images/b-submit.gif" alt="Continue" width="59"
-										height="16" border="0"></a> </td>
-								</tr>
-							</table>
-							<!-- LEFT FORM ENDS HERE --></td>
+
+							^ Minimum two characters for Protocol Name search.<br>
+							<br>
+							<a href="" onClick="submitPage();return false;"><img
+								src="images/SerachProtocols.gif" alt="Search Drivers"
+								width="100" height="16" border="0"></a></td>
 						</tr>
 					</table>
-				</form:form>
-				<!-- LEFT FORM ENDS HERE -->
-				</td>
+				</form:form> <!-- LEFT FORM ENDS HERE --></td>
 				<!-- LEFT CONTENT ENDS HERE -->
 				<td><img src="images/spacer.gif" width="2" height="1"></td>
 				<td valign="top" class="searchR">

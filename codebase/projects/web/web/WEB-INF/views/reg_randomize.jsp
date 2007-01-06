@@ -4,7 +4,8 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%><html>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <title>C3Pr V2</title>
@@ -38,8 +39,8 @@ function updateTargetPage(s){
 <!-- TOP LOGOS START HERE -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
-		<td width="99%"><img src="images/C3PRLogo.gif" alt="C3PR" width="181"
-			height="36" class="gelogo"></td>
+		<td width="99%"><img src="images/C3PRLogo.gif" alt="C3PR"
+			width="181" height="36" class="gelogo"></td>
 		<td align="right"><img src="images/t-drivers.gif" alt="Protocol"
 			width="200" height="79"></td>
 	</tr>
@@ -89,20 +90,22 @@ function updateTargetPage(s){
 					<tr>
 						<td width="100%" id="tabDisplay"><span class="tab"> <img
 							src="images/tabWhiteL.gif" width="3" height="16"
-							align="absmiddle"> 1. <a href="reg_protocol_search.htm">Select
-						Protocol </a><img src="images/tabWhiteR.gif" width="3" height="16"
-							align="absmiddle"><img
+							align="absmiddle"> 1. Select
+						Protocol <img src="images/tabWhiteR.gif" width="3" height="16"
+							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
+							height="16" align="absmiddle"> 2. Select Patient <img
+							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						2. Enroll Patient <img src="images/tabGrayR.gif" width="3"
-							height="16" align="absmiddle"><img
+						3. <a href="javascript:updateTargetPage('checkEligibilityView');">Check
+						Eligibility</a> <img src="images/tabGrayR.gif" width="3" height="16"
+							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
+							height="16" align="absmiddle"> 4. <a
+							href="javascript:updateTargetPage('stratifyView');">Stratify</a>
+						<img src="images/tabGrayR.gif" width="3" height="16"
+							align="absmiddle"></span><span class="current"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						3. <a href="reg_check_eligibility.htm">Check Eligibility</a> <img src="images/tabGrayR.gif" width="3" height="16"
-							align="absmiddle"><img
-							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						4. <a href="reg_stratify.htm">Stratify</a> <img src="images/tabGrayR.gif" width="3" height="16"
-							align="absmiddle"></span><span class="current"><img src="images/tabGrayL.gif" width="3"
-							height="16" align="absmiddle"> 3. Randomize <img
-							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"></span><span class="tab"><img
+						3. Randomize <img src="images/tabGrayR.gif" width="3" height="16"
+							align="absmiddle"></span><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						5. Review and Submit <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"></span></td>
@@ -118,120 +121,81 @@ function updateTargetPage(s){
 			<!-- MAIN BODY STARTS HERE -->
 			<tr>
 				<td>
-				<div class="workArea">
-				<table width="100%" border="0" cellspacing="0" cellpadding="0"
-					class="titleArea">
-					<tr>
-						<!-- TITLE STARTS HERE -->
-						<td width="99%" height="43" valign="middle" id="title">Patient
-						Search</td>
-						<td valign="top">
-						<form method="post" action="" name="searchMeth" class="search">
-						<table width="100%" border="0" cellspacing="0" cellpadding="0"
-							id="search">
-							<tr>
-								<td class="labels">&nbsp;</td>
-							</tr>
-							<tr>
-								<td class="searchType">Search <select name="select"
-									class="field1">
-									<option selected>Patient</option>
-								</select> by <select name="select" class="field1">
-									<option selected>Patient Name</option>
-									<option>Patient Registration#</option>
-								</select></td>
-							</tr>
-						</table>
-						</form>
-						<span class="notation">&nbsp;</span></td>
-						<td valign="top">
-						<table width="100%" border="0" cellspacing="0" cellpadding="0"
-							id="search">
-							<tr>
-								<td align="left" class="labels">Last Name:</td>
-								<td align="left" class="labels">First Name:</td>
-								<td class="labels">&nbsp;</td>
-							</tr>
-							<tr>
-								<td><input name="textfield2" type="text" class="field1"
-									size="25"></td>
-								<td><input name="textfield3" type="text" class="field1"
-									size="25"></td>
-								<td><input name="imageField" type="image" class="button"
-									onClick="getPage('search.htm')" src="images/b-go.gif" alt="GO"
-									align="middle" width="22" height="10" border="0"></td>
-							</tr>
-						</table>
-						<span class="notation">^ Minimum two characters for Last
-						Name search.</span></td>
-					</tr>
-				</table>
+				<div class="workArea"><img src="images/tabWhiteL.gif"
+					width="3" height="16" align="absmiddle"> <img
+					src="images/tabWhiteL.gif" width="3" height="16" align="absmiddle">
 				<table width="100%" border="0" cellspacing="0" cellpadding="0">
-					<tr>
-						<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
+					<form:form name="randomizeForm" method="post">
+						<tr>
+							<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
 
-						<td id="current">Randomization for patient - John Smith</td>
-						<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
-					</tr>
-					<tr>
+							<td id="current">Randomization for patient -
+							${command.participant.firstName} ${command.participant.lastName}</td>
+							<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
+						</tr>
+						<tr>
 
-						<td class="display"><!-- TABS LEFT START HERE -->
-						<table width="100%" border="0" cellpadding="0" cellspacing="0">
-							<tr>
+							<td class="display"><!-- TABS LEFT START HERE -->
+							<table width="100%" border="0" cellpadding="0" cellspacing="0">
+								<tr>
 
-								<!-- LEFT CONTENT STARTS HERE -->
-								<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
-								<!-- RIGHT CONTENT STARTS HERE -->
-								<form:form name="randomizeForm" method="post">
-								<input type=hidden name="nextView" value="next">
-								<table width="700" border="0" cellspacing="0" cellpadding="0"
-									id="details">
-									<tr>
-										<td width="50%" valign="top">
-										<table width="308" border="0" cellspacing="0" cellpadding="0"
-											id="table1">
-											<tr>
-												<td><img src="images/spacer.gif" width="1" height="1"
-													class="heightControl"></td>
-												<td><img src="images/spacer.gif" width="1"
-													height="1" class="heightControl"></td>
-											</tr>
-											<tr>
-											<tr>
-												<td class="label"><span class="red">*</span><em></em>Select Arm:
-												</td>
-												<td><form:select path="scheduledArms[0].arm.id">
-													<form:options  items="${command.studySite.study.epochs[0].arms}" itemValue="id" itemLabel="name"/>
-												</form:select></td>												
-											</tr>
-											</tr>
-										</table>
-										</td>
-									</tr>
-								</table>
+									<!-- LEFT CONTENT STARTS HERE -->
+									<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
+									<!-- RIGHT CONTENT STARTS HERE --> <input type=hidden
+										name="nextView" value="next">
+									<table width="700" border="0" cellspacing="0" cellpadding="0"
+										id="details">
+										<tr>
+											<td width="50%" valign="top">
+											<table width="308" border="0" cellspacing="0" cellpadding="0"
+												id="table1">
+												<tr>
+													<td><img src="images/spacer.gif" width="1" height="1"
+														class="heightControl"></td>
+													<td><img src="images/spacer.gif" width="1" height="1"
+														class="heightControl"></td>
+												</tr>
+												<tr>
+												<tr>
+													<td class="label"><span class="red">*</span><em></em>Select
+													Arm:</td>
+													<td><form:select path="scheduledArms[0].arm.id">
+														<form:options
+															items="${command.studySite.study.epochs[0].arms}"
+															itemValue="id" itemLabel="name" />
+													</form:select></td>
+												</tr>
+												</tr>
+											</table>
+											</td>
+										</tr>
+									</table>
 
-								<table width="700" border="0" cellspacing="0" cellpadding="0"
-									id="details">
-									<tr align="center">
-										<td colspan=2 valign="top"><br>
-										<br>
-										<a href="" onClick="updateTargetPage('reviewAndSubmitView');return false;"><img src="images/b-submit.gif"
-											alt="Continue" width="59" height="16" border="0"></a> <a
-											href="home.jsp" onClick="add();return false;"><img
-											src="images/b-startOver.gif" alt="Start Over" width="67"
-											height="16" border="0"></a></td>
-									</tr>
-								</table>
-								</form:form>
-								</div>
+									<table width="700" border="0" cellspacing="0" cellpadding="0"
+										id="details">
+										<tr align="center">
+											<td colspan=2 valign="top"><br>
+											<br>
+											<a href=""
+												onClick="updateTargetPage('reviewAndSubmitView');return false;"><img
+												src="images/b-continue.gif" alt="Continue" width="59"
+												height="16" border="0"></a> <a href=""><img
+												src="images/b-startOver.gif" alt="Start Over" width="67"
+												height="16" border="0"></a></td>
+										</tr>
+									</table>
 
-								</td>
+									</div>
 
-								<!-- LEFT CONTENT ENDS HERE -->
-							</tr>
-						</table>
-						</td>
-					</tr>
+									</td>
+
+									<!-- LEFT CONTENT ENDS HERE -->
+								</tr>
+							</table>
+							</td>
+
+						</tr>
+					</form:form>
 				</table>
 				</td>
 			</tr>

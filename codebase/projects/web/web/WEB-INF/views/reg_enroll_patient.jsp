@@ -82,7 +82,7 @@ function submitPage(){
 						Protocol </a><img src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"></span><span class="current"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						2. Enroll Patient <img src="images/tabGrayR.gif" width="3"
+						2. Select Patient <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"></span><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						3. Check Eligibility <img src="images/tabGrayR.gif" width="3"
@@ -115,7 +115,8 @@ function submitPage(){
 						<td width="99%" height="43" valign="middle" id="title">Patient
 						Search</td>
 
-						<form:form id="searchParticipant" name="searchParticipant" method="post">
+						<form:form id="searchParticipant" name="searchParticipant"
+							method="post">
 							<td valign="top">
 							<table width="100%" border="0" cellspacing="0" cellpadding="0"
 								id="search">
@@ -123,10 +124,8 @@ function submitPage(){
 									<td class="labels">&nbsp;</td>
 								</tr>
 								<tr>
-									<td class="searchType">Search <select name="select"
-										class="field1">
-										<option selected>Patient</option>
-									</select> by <form:select path="searchType">
+									<td class="searchType">Search Patient by <form:select
+										path="searchType">
 										<form:options items="${searchType}" itemLabel="desc"
 											itemValue="code" />
 									</form:select></td>
@@ -142,7 +141,7 @@ function submitPage(){
 									<td class="labels">&nbsp;</td>
 								</tr>
 								<tr>
-									<td><form:input path="searchText"/></td>
+									<td><form:input path="searchText" /></td>
 									<td><input name="imageField" type="image" class="button"
 										onClick="submitPage()" src="images/b-go.gif" alt="GO"
 										align="middle" width="22" height="10" border="0"></td>
@@ -194,10 +193,8 @@ function submitPage(){
 
 								<!-- LEFT CONTENT STARTS HERE -->
 								<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
-								<!-- RIGHT CONTENT STARTS HERE -->
-
-								<strong>Step 1. Patient
-								Information </strong> (<span class="red">*</span><em>Required
+								<!-- RIGHT CONTENT STARTS HERE --> <strong>Step 1.
+								Patient Information </strong> (<span class="red">*</span><em>Required
 								Information </em>)<br>
 								<br>
 								<div class="review"><strong>Current Information:</strong><br>

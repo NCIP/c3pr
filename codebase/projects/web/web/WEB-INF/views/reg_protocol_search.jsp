@@ -12,6 +12,9 @@
 <link href="resources/styles.css" rel="stylesheet" type="text/css">
 <link href="resources/search.css" rel="stylesheet" type="text/css">
 <script>
+function submitPage(){
+	document.getElementById("searchForm").submit();
+}
 function navRollOver(obj, state) {
   document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
 }
@@ -78,7 +81,7 @@ function doNothing(){
 							src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"> </span><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						2. Enroll Patient <img src="images/tabGrayR.gif" width="3"
+						2. Select Patient <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						3. Check Eligibility <img src="images/tabGrayR.gif" width="3"
@@ -106,51 +109,44 @@ function doNothing(){
 				<div class="workArea">
 				<table width="100%" border="0" cellspacing="0" cellpadding="0"
 					class="titleArea">
-					<tr>
-						<!-- TITLE STARTS HERE -->
-						<td width="99%" height="43" valign="middle" id="title">Study
-						Search</td>
-						<td valign="top">
-						<form method="post" action="" name="searchMeth" class="search">
-						<table width="100%" border="0" cellspacing="0" cellpadding="0"
-							id="search">
-							<tr>
-								<td class="labels">&nbsp;</td>
-							</tr>
-							<tr>
-								<td class="searchType">Search <select name="select"
-									class="field1">
-									<option>Study</option>
-								</select> by <select name="select" class="field1">
-									<option selected>Short Title</option>
-									<option>Site Protocol Identifier</option>
-									<option>Primary Sponsor Identifier</option>
-								</select></td>
-							</tr>
-						</table>
-						</form>
-						<span class="notation">&nbsp;</span></td>
-						<td valign="top">
-						<table width="100%" border="0" cellspacing="0" cellpadding="0"
-							id="search">
-							<tr>
-								<td align="left" class="labels">Last Name:</td>
-								<td align="left" class="labels">First Name:</td>
-								<td class="labels">&nbsp;</td>
-							</tr>
-							<tr>
-								<td><input name="textfield2" type="text" class="field1"
-									size="25"></td>
-								<td><input name="textfield3" type="text" class="field1"
-									size="25"></td>
-								<td><input name="imageField" type="image" class="button"
-									onClick="doNothing();" src="images/b-go.gif" alt="GO"
-									align="middle" width="22" height="10" border="0"></td>
-							</tr>
-						</table>
-						<span class="notation">^ Minimum two characters for Last
-						Name search.</span></td>
-					</tr>
+					<form:form id="searchForm" name="searchForm" method="post">
+						<tr>
+							<!-- TITLE STARTS HERE -->
+							<td width="99%" height="43" valign="middle" id="title">Study
+							Search</td>
+							<td valign="top">
+							<table width="100%" border="0" cellspacing="0" cellpadding="0"
+								id="search">
+								<tr>
+									<td class="labels">&nbsp;</td>
+								</tr>
+								<tr>
+									<td class="searchType">Search Study by <form:select
+										path="searchType">
+										<form:options items="${searchType}" itemLabel="desc"
+											itemValue="code" />
+									</form:select></td>
+								</tr>
+							</table>
+							<span class="notation">&nbsp;</span></td>
+							<td valign="top">
+							<table width="100%" border="0" cellspacing="0" cellpadding="0"
+								id="search">
+								<tr>
+									<td align="left" class="labels">Search String:</td>
+									<td class="labels">&nbsp;</td>
+								</tr>
+								<tr>
+									<td><form:input path="searchTypeText" size="25" /></td>
+									<td><input name="imageField" type="image" class="button"
+										onClick="submitPage();return false;" src="images/b-go.gif"
+										alt="GO" align="middle" width="22" height="10" border="0"></td>
+								</tr>
+							</table>
+							<span class="notation">^ Minimum two characters for
+							search.</span></td>
+						</tr>
+					</form:form>
 				</table>
 				<table width="100%" border="0" cellspacing="0" cellpadding="0">
 					<tr>
@@ -170,31 +166,6 @@ function doNothing(){
 								<td valign="top" class="additionals"><!-- LEFT FORM STARTS HERE -->
 
 
-								<br>
-								<table width="100%" border="0" cellspacing="0" cellpadding="0">
-									<tr>
-										<td width="30%" align="right"><a href="#"
-											onClick="doNothing();"><img src="images/b-prev.gif"
-											alt="Previous" width="41" height="16" border="0"
-											align="absmiddle"></a></td>
-										<td width="40%" align="center"><strong>Showing
-										1-20 of 100</strong> | Page&nbsp;&nbsp; <a href="#"
-											onClick="doNothing();">&laquo;</a>&nbsp;&nbsp;<strong>1</strong>-<a
-											href="#" onClick="doNothing();">2</a>-<a href="#"
-											onClick="doNothing();">3</a>-<a href="#"
-											onClick="doNothing();">4</a>-<a href="#"
-											onClick="doNothing();">5</a>-<a href="#"
-											onClick="doNothing();">6</a>-<a href="#"
-											onClick="doNothing();">7</a>-<a href="#"
-											onClick="doNothing();">8</a>-<a href="#"
-											onClick="doNothing();">9</a>-<a href="#"
-											onClick="doNothing();">10</a>&nbsp;&nbsp;&nbsp;<a href="#"
-											onClick="doNothing();">&raquo;</a></td>
-										<td width="30%"><a href="#" onClick="doNothing();"><img
-											src="images/b-next.gif" alt="Next" width="41" height="16"
-											border="0" align="absmiddle"></a></td>
-									</tr>
-								</table>
 								<br>
 								<table width="100%" border="0" cellspacing="0" cellpadding="0"
 									id="additionalList">
@@ -230,30 +201,6 @@ function doNothing(){
 									</c:forEach>
 								</table>
 								<br>
-								<table width="100%" border="0" cellspacing="0" cellpadding="0">
-									<tr>
-										<td width="30%" align="right"><a href="#"
-											onClick="doNothing();"><img src="images/b-prev.gif"
-											alt="Previous" width="41" height="16" border="0"
-											align="absmiddle"></a></td>
-										<td width="40%" align="center"><strong>Showing
-										1-20 of 100</strong> | Page&nbsp;&nbsp; <a href="#"
-											onClick="doNothing();">&laquo;</a>&nbsp;&nbsp;<strong>1</strong>-<a
-											href="#" onClick="doNothing();">2</a>-<a href="#"
-											onClick="doNothing();">3</a>-<a href="#"
-											onClick="doNothing();">4</a>-<a href="#"
-											onClick="doNothing();">5</a>-<a href="#"
-											onClick="doNothing();">6</a>-<a href="#"
-											onClick="doNothing();">7</a>-<a href="#"
-											onClick="doNothing();">8</a>-<a href="#"
-											onClick="doNothing();">9</a>-<a href="#"
-											onClick="doNothing();">10</a>&nbsp;&nbsp;&nbsp;<a href="#"
-											onClick="doNothing();">&raquo;</a></td>
-										<td width="30%"><a href="#" onClick="doNothing();"><img
-											src="images/b-next.gif" alt="Next" width="41" height="16"
-											border="0" align="absmiddle"></a></td>
-									</tr>
-								</table>
 								<!-- LEFT FORM ENDS HERE --></td>
 								<!-- LEFT CONTENT ENDS HERE -->
 							</tr>

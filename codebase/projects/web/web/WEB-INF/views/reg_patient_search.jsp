@@ -72,19 +72,22 @@ function navRollOver(obj, state) {
 					<tr>
 						<td width="100%" id="tabDisplay"><span class="tab"> <img
 							src="images/tabWhiteL.gif" width="3" height="16"
-							align="absmiddle"> 1. <a href="reg_protocol_search.htm">Select
+							align="absmiddle"> 1. <a href="reg_protocol_search.jsp">Select
 						Protocol </a><img src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"></span><span class="current"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						2. Enroll Patient <img src="images/tabGrayR.gif" width="3"
+						2. Select Patient <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"></span><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						3. Stratify <img src="images/tabGrayR.gif" width="3" height="16"
+						3. Check Eligibility <img src="images/tabGrayR.gif" width="3"
+							height="16" align="absmiddle"><img
+							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
+						4. Stratify <img src="images/tabGrayR.gif" width="3" height="16"
 							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
 							height="16" align="absmiddle"> 3. Randomize <img
 							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						4. Review and Submit <img src="images/tabGrayR.gif" width="3"
+						5. Review and Submit <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"></span></td>
 						<td><img src="images/spacer.gif" width="7" height="1"></td>
 					</tr>
@@ -101,50 +104,46 @@ function navRollOver(obj, state) {
 				<div class="workArea">
 				<table width="100%" border="0" cellspacing="0" cellpadding="0"
 					class="titleArea">
-					<tr>
-						<!-- TITLE STARTS HERE -->
-						<td width="99%" height="43" valign="middle" id="title">Patient
-						Search</td>
-						<td valign="top">
-						<form method="post" action="" name="searchMeth" class="search">
-						<table width="100%" border="0" cellspacing="0" cellpadding="0"
-							id="search">
-							<tr>
-								<td class="labels">&nbsp;</td>
-							</tr>
-							<tr>
-								<td class="searchType">Search <select name="select"
-									class="field1">
-									<option selected>Patient</option>
-								</select> by <select name="select" class="field1">
-									<option selected>Patient Name</option>
-									<option>Patient Registration#</option>
-								</select></td>
-							</tr>
-						</table>
-						</form>
-						<span class="notation">&nbsp;</span></td>
-						<td valign="top">
-						<table width="100%" border="0" cellspacing="0" cellpadding="0"
-							id="search">
-							<tr>
-								<td align="left" class="labels">Last Name:</td>
-								<td align="left" class="labels">First Name:</td>
-								<td class="labels">&nbsp;</td>
-							</tr>
-							<tr>
-								<td><input name="textfield2" type="text" class="field1"
-									size="25"></td>
-								<td><input name="textfield3" type="text" class="field1"
-									size="25"></td>
-								<td><input name="imageField" type="image" class="button"
-									onClick="getPage('search.htm')" src="images/b-go.gif" alt="GO"
-									align="middle" width="22" height="10" border="0"></td>
-							</tr>
-						</table>
-						<span class="notation">^ Minimum two characters for Last
-						Name search.</span></td>
-					</tr>
+					<form:form id="searchParticipant" name="searchParticipant"
+						method="post">
+
+						<tr>
+							<!-- TITLE STARTS HERE -->
+							<td width="99%" height="43" valign="middle" id="title">Patient
+							Search</td>
+							<td valign="top">
+							<table width="100%" border="0" cellspacing="0" cellpadding="0"
+								id="search">
+								<tr>
+									<td class="labels">&nbsp;</td>
+								</tr>
+								<tr>
+									<td class="searchType">Search Patient by <form:select
+										path="searchType">
+										<form:options items="${searchType}" itemLabel="desc"
+											itemValue="code" />
+									</form:select></td>
+								</tr>
+							</table>
+							<span class="notation">&nbsp;</span></td>
+							<td valign="top">
+							<table width="100%" border="0" cellspacing="0" cellpadding="0"
+								id="search">
+								<tr>
+									<td align="left" class="labels">First Name:</td>
+									<td class="labels">&nbsp;</td>
+								</tr>
+								<tr>
+									<td><form:input path="searchText" /></td>
+									<td><input name="imageField" type="image" class="button"
+										onClick="submitPage()" src="images/b-go.gif" alt="GO"
+										align="middle" width="22" height="10" border="0"></td>
+								</tr>
+							</table>
+							<span class="notation">^ Minimum two characters for
+							search.</span></td>
+						</tr>
+					</form:form>
 				</table>
 				<table width="100%" border="0" cellspacing="0" cellpadding="0">
 					<tr>
@@ -164,23 +163,6 @@ function navRollOver(obj, state) {
 								<td valign="top" class="additionals"><!-- LEFT FORM STARTS HERE -->
 
 
-								<br>
-								<table width="100%" border="0" cellspacing="0" cellpadding="0">
-									<tr>
-										<td width="30%" align="right"><a href="#"><img
-											src="images/b-prev.gif" alt="Previous" width="41" height="16"
-											border="0" align="absmiddle"></a></td>
-										<td width="40%" align="center"><strong>Showing
-										1-20 of 100</strong> | Page&nbsp;&nbsp; <a href="#">&laquo;</a>&nbsp;&nbsp;<strong>1</strong>-<a
-											href="#">2</a>-<a href="#">3</a>-<a href="#">4</a>-<a
-											href="#">5</a>-<a href="#">6</a>-<a href="#">7</a>-<a
-											href="#">8</a>-<a href="#">9</a>-<a href="#">10</a>&nbsp;&nbsp;&nbsp;<a
-											href="#">&raquo;</a></td>
-										<td width="30%"><a href="#"><img
-											src="images/b-next.gif" alt="Next" width="41" height="16"
-											border="0" align="absmiddle"></a></td>
-									</tr>
-								</table>
 								<br>
 								<table width="100%" border="0" cellspacing="0" cellpadding="0"
 									id="additionalList">
@@ -212,22 +194,6 @@ function navRollOver(obj, state) {
 									</c:forEach>
 								</table>
 								<br>
-								<table width="100%" border="0" cellspacing="0" cellpadding="0">
-									<tr>
-										<td width="30%" align="right"><a href="#"><img
-											src="images/b-prev.gif" alt="Previous" width="41" height="16"
-											border="0" align="absmiddle"></a></td>
-										<td width="40%" align="center"><strong>Showing
-										1-20 of 100</strong> | Page&nbsp;&nbsp; <a href="#">&laquo;</a>&nbsp;&nbsp;<strong>1</strong>-<a
-											href="#">2</a>-<a href="#">3</a>-<a href="#">4</a>-<a
-											href="#">5</a>-<a href="#">6</a>-<a href="#">7</a>-<a
-											href="#">8</a>-<a href="#">9</a>-<a href="#">10</a>&nbsp;&nbsp;&nbsp;<a
-											href="#">&raquo;</a></td>
-										<td width="30%"><a href="#"><img
-											src="images/b-next.gif" alt="Next" width="41" height="16"
-											border="0" align="absmiddle"></a></td>
-									</tr>
-								</table>
 								<!-- LEFT FORM ENDS HERE --></td>
 								<!-- LEFT CONTENT ENDS HERE -->
 							</tr>
@@ -235,6 +201,7 @@ function navRollOver(obj, state) {
 						</td>
 					</tr>
 				</table>
+				</div>
 				</td>
 			</tr>
 		</table>
