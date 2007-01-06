@@ -4,20 +4,17 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.OneToOne;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 
 /**
@@ -42,7 +39,7 @@ public class StudyParticipantAssignment extends AbstractDomainObject {
     private Date informedConsentSignedDate;
 
     
-    ////// BEAN PROPERTIES
+    /// BEAN PROPERTIES
 
     public void setStudySite(StudySite studySite) {
         this.studySite = studySite;
@@ -83,7 +80,6 @@ public class StudyParticipantAssignment extends AbstractDomainObject {
 		scheduledArms.remove(scheduledArm);
 	}
 
-
     public void setStudyParticipantIdentifier(String studyParticipantIdentifier) {
         this.studyParticipantIdentifier = studyParticipantIdentifier;
     }
@@ -99,9 +95,6 @@ public class StudyParticipantAssignment extends AbstractDomainObject {
     public String getEligibilityWaiverReasonText() {
         return eligibilityWaiverReasonText;
     }
-
-
-    ////// OBJECT METHODS
 
     public Date getInformedConsentSignedDate() {
 		return informedConsentSignedDate;
@@ -119,6 +112,7 @@ public class StudyParticipantAssignment extends AbstractDomainObject {
 		this.startDate = startDate;
 	}
 
+	@Override
 	public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -135,6 +129,7 @@ public class StudyParticipantAssignment extends AbstractDomainObject {
         return true;
     }
 
+	@Override
     public int hashCode() {
         int result;
         result = (studySite != null ? studySite.hashCode() : 0);
