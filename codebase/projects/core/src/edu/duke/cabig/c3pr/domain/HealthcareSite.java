@@ -1,58 +1,33 @@
 package edu.duke.cabig.c3pr.domain;
 
-import java.io.Serializable;
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
 
 /**
  * @author Priyatam
+ * @author Kulasekaran
  */
  @Entity
  @Table (name = "healthcare_sites")
- @SequenceGenerator(name="id-generator",sequenceName="healthcare_sites_id_seq")
- /*@GenericGenerator(name="id-generator", strategy = "native",
+ @GenericGenerator(name="id-generator", strategy = "native",
      parameters = {
          @Parameter(name="sequence", value="healthcare_sites_id_seq")
      }
- )*/
-public class HealthcareSite extends Organization implements Comparable<HealthcareSite>, Serializable{
+ )
+public class HealthcareSite extends Organization implements Comparable<HealthcareSite> {
 		 
-	private String nciInstituteCode;
-	private List<ParticipantIdentifier> participantIdentifiers; 
-
-	/// LOGIC
-	 
-	public void addParticipantIdentifier(ParticipantIdentifier participantIdentifier)
-	{
-		participantIdentifiers.add(participantIdentifier);
-		participantIdentifier.setHealthcareSite(this);		
-	}	 
-	
-	/// BEAN PROPERTIES
-	
+	private String nciInstituteCode;	 		 
+		
 	public String getNciInstituteCode() {
 		return nciInstituteCode;
 	}
 
 	public void setNciInstituteCode(String nciInstituteCode) {
 		this.nciInstituteCode = nciInstituteCode;
-	}
-		
-    @OneToMany (mappedBy="healthcareSite", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-    public List<ParticipantIdentifier> getParticipantIdentifiers() {
-		return participantIdentifiers;
-	}
-
-	public void setParticipantIdentifiers(
-			List<ParticipantIdentifier> participantIdentifiers) {
-		this.participantIdentifiers = participantIdentifiers;
 	}  
 	
 	public int compareTo(HealthcareSite o) {
@@ -84,5 +59,4 @@ public class HealthcareSite extends Organization implements Comparable<Healthcar
 			return false;
 		return true;
 	}
-
 }
