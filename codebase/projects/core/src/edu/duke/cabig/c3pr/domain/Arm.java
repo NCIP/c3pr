@@ -26,6 +26,7 @@ public class Arm extends AbstractDomainObject implements Comparable<Arm>, Serial
 
 	private Epoch epoch;
     private String name;
+    private String descriptionText;
     private int targetAccrualNumber;
     
     /// LOGIC
@@ -49,6 +50,15 @@ public class Arm extends AbstractDomainObject implements Comparable<Arm>, Serial
     public void setName(String name) {
         this.name = name;
     }
+    
+
+	public String getDescriptionText() {
+		return descriptionText;
+	}
+
+	public void setDescriptionText(String descriptionText) {
+		this.descriptionText = descriptionText;
+	}   	
 
     // This is annotated this way so that the IndexColumn in the parent
     // will work with the bidirectional mapping
@@ -102,6 +112,5 @@ public class Arm extends AbstractDomainObject implements Comparable<Arm>, Serial
 		if (targetAccrualNumber != other.targetAccrualNumber)
 			return false;
 		return true;
-	}   
-	
+	}
 }
