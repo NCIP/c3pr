@@ -44,37 +44,24 @@ public class CreateStudyController extends AbstractWizardFormController {
     }
 	
 	/**
-	 * This is run before the form is created
+	 * Create a nested object graph that Create Study Design needs 
 	 * @param request - HttpServletRequest
 	 * @throws ServletException
 	 */
 	protected Object formBackingObject(HttpServletRequest request) throws ServletException {
-		Study newStudy = new Study();       
-        List <Epoch> defaultEpochs = new ArrayList <Epoch>();
-        newStudy.setEpochs(defaultEpochs);
-        Epoch firstEpoch = new Epoch ();
-        defaultEpochs.add(firstEpoch);        
-        List <Arm> firstEpochArms = new ArrayList <Arm>();
-        Arm noArm = new Arm();
-        firstEpochArms.add(noArm);
-        firstEpoch.setArms(firstEpochArms);
-        
-        List <StudySite> defaultStudySites = new ArrayList <StudySite>();
-        newStudy.setStudySites(defaultStudySites);
-        
-        StudySite studySite = new StudySite();
-        studySite.setStudy(newStudy);
-        
-        HealthcareSite site = new HealthcareSite();
-        studySite.setSite(site);  
-        Address address = new Address();
-        site.setAddress(address);
-        
-        defaultStudySites.add(studySite);
-        
-		return newStudy;
+		Study study = new Study(); 
+		Epoch epoch = new Epoch();
+		epoch.addArm(new Arm());
+		study.addEpoch(epoch);
+			
+		StudySite studySite = new StudySite();
+		study.addStudySite(studySite);
 		
-           
+		HealthcareSite healthCaresite = new HealthcareSite();		
+		healthCaresite.setAddress(new Address());		
+		studySite.setSite(healthCaresite);
+		
+		return study;		          
 	}
 	
 	/**
