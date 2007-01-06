@@ -1,7 +1,7 @@
 <!-- ======================================================================= -->
 <!-- C3PR web-test                                                           -->
 <!-- ======================================================================= -->
-<project name="c3pr-2.0-web-test" basedir=".">
+<project name="c3pr-2.0-core-test" basedir=".">
 
 	<property name="test.dir" location="${basedir}/test"/>
 	<property name="test.logs.dir" location="${test.dir}/logs"/>
@@ -13,7 +13,7 @@
 		<property name="testcoverage.datafile" location="${test.logs.dir}/queryengine.ser"/>
 		
 		<mkdir dir="${junit.results.dir}"/>
-		<junit dir="${basedir}" printsummary="yes" haltonfailure="true" showoutput="true" fork="yes">
+		<junit dir="${basedir}" printsummary="yes" haltonfailure="false" showoutput="true" fork="yes">
 			<classpath refid="test.classpath"/>
 			<classpath>
 			    <fileset dir="${cobertura.home}">
@@ -32,6 +32,10 @@
 				<fileset dir="${test.src.dir}">
 					<include name="**/*TestCase.java"/>
 					<include name="**/*Test.java"/>
+					<exclude name="**/DaoTestCase.java"/>
+					<exclude name="**/ContextDaoTestCase.java"/>
+					<exclude name="**/ApplicationTestCase.java"/>
+						
 				</fileset>
 			</batchtest>
 		</junit>
