@@ -7,11 +7,9 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -27,10 +25,20 @@ import org.hibernate.annotations.Parameter;
 			@Parameter(name="sequence", value="participants_id_seq")
 		}
 )
-public class Participant extends Person implements Serializable
+public class Participant extends Person implements Comparable<Participant>, Serializable
 {	
 	private List<ParticipantIdentifier> participantIdentifiers = new ArrayList<ParticipantIdentifier>();
 	private List<StudyParticipantAssignment> studyParticipantAssignments= new ArrayList<StudyParticipantAssignment>();
+	
+	/// LOGIC
+	
+	public void addParticipantIdentifier(ParticipantIdentifier partId)
+	{		
+		participantIdentifiers.add(partId);
+		partId.setParticipant(this);
+	}
+	
+	/// BEAN PROPERTIES
 	
     @OneToMany (mappedBy="participant", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	public List<StudyParticipantAssignment> getStudyParticipantAssignments() {
@@ -50,12 +58,6 @@ public class Participant extends Person implements Serializable
     	studyParticipantAssignments.remove(studyParticipantAssignment);
     }
 
-	
-	public Participant()
-    {
-    	
-    }
-
     @OneToMany (mappedBy="participant", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
     public List<ParticipantIdentifier> getParticipantIdentifiers() {
 		return participantIdentifiers;
@@ -66,11 +68,40 @@ public class Participant extends Person implements Serializable
 		this.participantIdentifiers = participantIdentifiers;
 	}
 	
-	public void addParticipantIdentifier(ParticipantIdentifier partId)
-	{
-		partId.setParticipant(this);
-		participantIdentifiers.add(partId);
+	public int compareTo(Participant o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = super.hashCode();
+		result = PRIME * result + ((participantIdentifiers == null) ? 0 : participantIdentifiers.hashCode());
+		result = PRIME * result + ((studyParticipantAssignments == null) ? 0 : studyParticipantAssignments.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final Participant other = (Participant) obj;
+		if (participantIdentifiers == null) {
+			if (other.participantIdentifiers != null)
+				return false;
+		} else if (!participantIdentifiers.equals(other.participantIdentifiers))
+			return false;
+		if (studyParticipantAssignments == null) {
+			if (other.studyParticipantAssignments != null)
+				return false;
+		} else if (!studyParticipantAssignments.equals(other.studyParticipantAssignments))
+			return false;
+		return true;
 	}
 	
 }
-
