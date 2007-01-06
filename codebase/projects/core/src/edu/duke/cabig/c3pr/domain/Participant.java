@@ -30,7 +30,7 @@ public class Participant extends Person implements Comparable<Participant>
 	private List<ParticipantIdentifier> participantIdentifiers = new ArrayList<ParticipantIdentifier>();
 	private List<StudyParticipantAssignment> studyParticipantAssignments= new ArrayList<StudyParticipantAssignment>();
 	
-    @OneToMany (mappedBy="participant", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    @OneToMany (mappedBy="participant", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
     public List<ParticipantIdentifier> getParticipantIdentifiers() {
 		return participantIdentifiers;
 	}
