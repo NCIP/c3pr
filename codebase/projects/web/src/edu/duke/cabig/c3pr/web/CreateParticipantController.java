@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.ParticipantIdentifier;
@@ -30,7 +31,7 @@ import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
  */
 public class CreateParticipantController extends SimpleFormController {
 
-	private ParticipantService participantService;
+	private ParticipantDao participantDao;
 	private HealthcareSiteDao healthcareSiteDao;
 	
 	public CreateParticipantController() {
@@ -77,19 +78,11 @@ public class CreateParticipantController extends SimpleFormController {
 		Participant command = (Participant) oCommand;
 	
 				
-		participantService.saveParticipant(command);
+		participantDao.save(command);
 
 		ModelAndView modelAndView = new ModelAndView(getSuccessView());
 		modelAndView.addAllObjects(errors.getModel());
 		return modelAndView;
-	}
-		
-	public ParticipantService getParticipantService() {
-		return participantService;
-	}
-
-	public void setParticipantService(ParticipantService participantService) {
-		this.participantService = participantService;
 	}	
 	
 	public class LOV {
@@ -166,5 +159,13 @@ public class CreateParticipantController extends SimpleFormController {
 
 	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
 		this.healthcareSiteDao = healthcareSiteDao;
+	}
+
+	public ParticipantDao getParticipantDao() {
+		return participantDao;
+	}
+
+	public void setParticipantDao(ParticipantDao participantDao) {
+		this.participantDao = participantDao;
 	}
 }
