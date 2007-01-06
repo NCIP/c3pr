@@ -30,7 +30,15 @@ public class Participant extends Person implements Comparable<Participant>, Seri
 	private List<ParticipantIdentifier> participantIdentifiers = new ArrayList<ParticipantIdentifier>();
 	private List<StudyParticipantAssignment> studyParticipantAssignments= new ArrayList<StudyParticipantAssignment>();
 	
-	/// LOGIC
+    @OneToMany (mappedBy="participant", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+    public List<ParticipantIdentifier> getParticipantIdentifiers() {
+		return participantIdentifiers;
+	}
+
+	public void setParticipantIdentifiers(
+			List<ParticipantIdentifier> participantIdentifiers) {
+		this.participantIdentifiers = participantIdentifiers;
+	}
 	
 	public void addParticipantIdentifier(ParticipantIdentifier partId)
 	{		
@@ -38,7 +46,10 @@ public class Participant extends Person implements Comparable<Participant>, Seri
 		partId.setParticipant(this);
 	}
 	
-	/// BEAN PROPERTIES
+	public void removeParticipantIdentifier(ParticipantIdentifier partId)
+	{
+		participantIdentifiers.remove(partId);
+	}
 	
     @OneToMany (mappedBy="participant", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
 	public List<StudyParticipantAssignment> getStudyParticipantAssignments() {
@@ -57,16 +68,6 @@ public class Participant extends Person implements Comparable<Participant>, Seri
     public void removeStudyParticipantAssignment(StudyParticipantAssignment studyParticipantAssignment){
     	studyParticipantAssignments.remove(studyParticipantAssignment);
     }
-
-    @OneToMany (mappedBy="participant", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
-    public List<ParticipantIdentifier> getParticipantIdentifiers() {
-		return participantIdentifiers;
-	}
-
-	public void setParticipantIdentifiers(
-			List<ParticipantIdentifier> participantIdentifiers) {
-		this.participantIdentifiers = participantIdentifiers;
-	}
 	
 	public int compareTo(Participant o) {
 		// TODO Auto-generated method stub
@@ -103,5 +104,4 @@ public class Participant extends Person implements Comparable<Participant>, Seri
 			return false;
 		return true;
 	}
-	
 }
