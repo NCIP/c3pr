@@ -160,11 +160,11 @@ function getPage(s){
 									<tr>
 										<td class="label">
 											<span class="red">*</span> <em></em>
-											Administritative Gender Code
+											Administrative Gender Code
 										</td>
 										<td>
-											<form:select path="administritativeGenderCode">
-												<form:options items="${administritativeGenderCode}" itemLabel="desc" itemValue="code" />
+											<form:select path="administrativeGenderCode">
+												<form:options items="${administrativeGenderCode}" itemLabel="desc" itemValue="code" />
 											</form:select>
 										</td>										
 									</tr>
@@ -211,14 +211,22 @@ function getPage(s){
 								<td align="center"><span class="red">*</span><em></em><B>Other
 								Source:</td>
 							</tr>
-							<tr>
-								<td>
-								<c:forEach items="${participant.participantIdentifiers}" varStatus="status" var="participantIdentifier">
+							
+							<c:forEach var="index" begin="0" end="4">
+								<tr>
+									<td>
+									    <form:input path="participantIdentifiers[${index}].medicalRecordNumber"/>
+									</td>
+									<td>
+										<form:select path="participantIdentifiers[${index}].healthcareSite">
+											<form:options items="${healthcareSite}" itemLabel="name" itemValue="id"/>
+										</form:select>
+									</td>
+								</tr>	
+							</c:forEach>
+								<%-- <c:forEach items="${participant.participantIdentifiers}" varStatus="status" var="participantIdentifier">
 									<form:input path="participantIdentifiers[${status.index}].healthcareSite"/> 
-								</c:forEach>
-								</td>
-								<td></td>																
-							</tr>
+								</c:forEach> --%>								
 
 						</table>
 
