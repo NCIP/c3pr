@@ -112,9 +112,7 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 			int size1=studySite.getStudyParticipantAssignments().size();
 			System.out.println("-------------studySite.getStudyParticipantAssignments().size() is "+size1+"---------------");
 			
-//			studySite.addStudyParticipantAssignment(studyParticipantAssignment);
 			studyParticipantAssignment.setStudySite(studySite);
-//			participant.addStudyParticipantAssignment(studyParticipantAssignment);
 			studyParticipantAssignment.setParticipant(participant);
 		}
 		
@@ -122,7 +120,7 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 		scheduledArm.setEligibilityIndicator("true");
 		scheduledArm.setStartDate(new Date());
 		Arm arm=new Arm();
-		arm.setEpoch(studyParticipantAssignment.getStudySite().getStudy().getEpochs().get(0));
+//		arm.setEpoch(studyParticipantAssignment.getStudySite().getStudy().getEpochs().get(0));
 		scheduledArm.setArm(arm);
 		studyParticipantAssignment.addScheduledArm(scheduledArm);
 		scheduledArm.setStudyParticipantAssignment(studyParticipantAssignment);
