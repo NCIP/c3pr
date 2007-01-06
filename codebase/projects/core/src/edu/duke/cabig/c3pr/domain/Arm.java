@@ -12,7 +12,6 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-
 /**
  * @author Ram Chilukuri, Priyatam
  */
@@ -24,19 +23,12 @@ import org.hibernate.annotations.Parameter;
     }
 )
 public class Arm extends AbstractDomainObject implements Comparable<Arm>, Serializable {
-    /* (non-Javadoc)
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 */
-	public int compareTo(Arm o) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 	private Epoch epoch;
     private String name;
     private int targetAccrualNumber;
     
-    // business methods
+    /// LOGIC
     
     @Transient
     public String getQualifiedName() {
@@ -48,7 +40,7 @@ public class Arm extends AbstractDomainObject implements Comparable<Arm>, Serial
         return sb.toString();
     }
 
-    // bean methods
+    /// BEAN PROPERTIES
 
     public String getName() {
         return name;
@@ -78,10 +70,12 @@ public class Arm extends AbstractDomainObject implements Comparable<Arm>, Serial
     public int getTargetAccrualNumber() {
         return targetAccrualNumber;
     }
+    
+	public int compareTo(Arm o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		final int PRIME = 31;
@@ -91,9 +85,6 @@ public class Arm extends AbstractDomainObject implements Comparable<Arm>, Serial
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -112,4 +103,5 @@ public class Arm extends AbstractDomainObject implements Comparable<Arm>, Serial
 			return false;
 		return true;
 	}   
+	
 }
