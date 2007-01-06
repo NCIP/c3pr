@@ -2,7 +2,10 @@ package edu.duke.cabig.c3pr.domain;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
+import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToOne;
 
 /**
  * @author Kulasekaran
@@ -24,6 +27,18 @@ public abstract class Person extends AbstractDomainObject
 		
 	private String raceCode;
 
+	private Address address;
+	
+	@OneToOne(cascade={CascadeType.ALL}, optional=false)
+    @JoinColumn(name="ADD_ID" ,nullable=false)
+    public Address getAddress() {
+        return address;
+    }
+    
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+    
 	public String getFirstName() {
 		return firstName;
 	}
