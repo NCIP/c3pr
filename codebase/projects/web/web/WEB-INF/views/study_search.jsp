@@ -15,6 +15,9 @@
 function navRollOver(obj, state) {
   document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
 }
+function submitPage(){
+	document.getElementById("searchForm").submit();
+}
 </script>
 </head>
 <body>
@@ -24,7 +27,7 @@ function navRollOver(obj, state) {
 	<tr>
 
 		<td width="99%"><img src="images/C3PRLogo.gif" alt="C3Pr V2"
-			width="181" height="36" class="gelogo"></td>		
+			width="181" height="36" class="gelogo"></td>
 	</tr>
 </table>
 <!-- TOP LOGOS END HERE -->
@@ -33,15 +36,15 @@ function navRollOver(obj, state) {
 	id="topNav">
 
 	<tr valign="middle">
-		<td width="99%" class="left"><a href="home.htm">Registration</a><img
+		<td width="99%" class="left"><a href="/c3pr/SearchAndRegister.do">Registration</a><img
 			src="images/topNavL.gif" width="2" height="20" align="absmiddle"
 			class="currentL"><span class="current"><img
 			src="images/topNavArrowDown.gif" width="5" height="20"
 			align="absmiddle"> Study </span><img src="images/topNavR.gif"
 			width="2" height="20" align="absmiddle" class="currentR"><a
-			href="participant.htm">Participant</a><img
+			href="/c3pr/searchparticipant.do">Participant</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
-			class="divider"><a href="analysis">Reports</a><img
+			class="divider"><a href="">Reports</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
 			class="divider"></td>
 
@@ -53,7 +56,18 @@ function navRollOver(obj, state) {
 <!-- TOP NAVIGATION ENDS HERE -->
 
 <!-- MAIN BODY STARTS HERE -->
+<!-- SUB NAV STARTS HERE -->
+<table width="100%" border="0" cellspacing="0" cellpadding="0"
+	id="subNav">
 
+	<tr>
+		<td width="99%" valign="middle"><a href="/c3pr/createstudy.do">Add Study</a><img
+			src="images/spacer.gif" width="1" height="20" align="absmiddle"
+			class="spacer"></td>
+		<td valign="middle" class="right"><a href="">Help</a></td>
+	</tr>
+</table>
+<!-- SUB NAV ENDS HERE -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
 		<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
@@ -94,7 +108,7 @@ function navRollOver(obj, state) {
 				<td valign="top" class="additionals">
 
 				<!-- LEFT FORM STARTS HERE -->
-				<form:form method="post">
+				<form:form id="searchForm" name="searchForm" method="post">
 
 				<table width="100%" border="0" cellpadding="0" cellspacing="0">
 					<tr valign="top">
@@ -121,22 +135,24 @@ function navRollOver(obj, state) {
 									<td align="left" class="labels"  colspan="10">^ Minimum two characters</td><br>
 								</tr>
 							</table>
-						<table border="0" cellspacing="0" cellpadding="0" id="search">
+							<table border="0" cellspacing="0" cellpadding="0" id="search">
 							<tr>
 								<tr>
 									<td align="left" class="labels"  colspan="10"></td><br>
 								</tr>
 								<td align="center" colspan="20"><!-- action buttons begins -->
 								<tr>
-									<td><input class="actionButton" type="submit"
-										value="search study"></td>
-								</tr>						
+									<td><a href=""
+										onClick="submitPage();return false;"><img
+										src="images/b-submit.gif" alt="Continue" width="59"
+										height="16" border="0"></a> </td>
+								</tr>
 						</table>
 				<!-- LEFT FORM ENDS HERE --></td>
 			</tr>
 		</table>
 		</form:form>
-				
+
 		</td>
 	</tr>
 </table>

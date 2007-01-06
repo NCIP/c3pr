@@ -31,7 +31,8 @@ function navRollOver(obj, state) {
 <table width="100%"  border="0" cellspacing="0" cellpadding="0" id="topNav">
 
 <tr valign="middle">
-<td width="99%" class="left"><a href="home.htm">Registration</a><img src="images/topNavL.gif" width="2" height="20" align="absmiddle" class="currentL"><span class="current"><img src="images/topNavArrowDown.gif" width="5" height="20" align="absmiddle"> Study </span><img src="images/topNavR.gif" width="2" height="20" align="absmiddle" class="currentR"><a href="participant.htm">Participant</a><img src="images/topDivider.gif" width="2" height="20" align="absmiddle" class="divider"><a href="analysis">Reports</a><img src="images/topDivider.gif" width="2" height="20" align="absmiddle" class="divider"></td>
+<td width="99%" class="left"><a href="/c3pr/SearchAndRegister.do">Registration</a><img src="images/topNavL.gif" width="2" height="20" align="absmiddle" class="currentL"><span class="current"><img src="images/topNavArrowDown.gif" width="5" height="20" align="absmiddle"> Study </span><img src="images/topNavR.gif" width="2" height="20" align="absmiddle" class="currentR"><a href="/c3pr/searchparticipant.do">Participant</a><img src="images/topDivider.gif" width="2" height="20" align="absmiddle" class="divider">
+<a href="">Reports</a><img src="images/topDivider.gif" width="2" height="20" align="absmiddle" class="divider"></td>
 
 <td class="right"><img src="images/topDivider.gif" width="2" height="20" align="absmiddle" class="divider"><a href="logOff">Log Off</a> </td>
 </tr>
@@ -41,7 +42,7 @@ function navRollOver(obj, state) {
 <table width="100%"  border="0" cellspacing="0" cellpadding="0" id="subNav">
 
 <tr>
-  <td width="99%" valign="middle"><img src="images/arrowRight.gif" width="3" height="5" align="absmiddle"> Study Management <img src="images/spacer.gif" width="1" height="20" align="absmiddle" class="spacer"><a href="/createstudy.do">Add Study</a></td>
+  <td width="99%" valign="middle"><img src="images/spacer.gif" width="1" height="20" align="absmiddle" class="spacer"><a href="/c3pr/createstudy.do">Add Study</a></td>
  </tr>
 </table>
 <!-- SUB NAV ENDS HERE -->
@@ -77,29 +78,29 @@ function navRollOver(obj, state) {
   <br>
 <table width="100%"  border="0" cellspacing="0" cellpadding="0" id="additionalList">
   <tr align="center" class="label">
-    <td>id </td>    
+    <td>id </td>
     <td>Short Title </td>
-    <td>Target Accrual Number</td>        
+    <td>Target Accrual Number</td>
     <td>Sponsor Code</td>
     <td>StatusCode</td>
     <td>Monitor Code</td>
-    <td>Disease Code</td> 
+    <td>Disease Code</td>
     <td>Phase Code </td>
-    <td>Type </td>  
+    <td>Type </td>
    </tr>
 
 <a href="protocol_details.htm" onMouseOver="navRollOver('row13', 'on')" onMouseOut="navRollOver('row13', 'off')">
   <tr align="center">
     <c:forEach items="${study}" var="study">
-        <tr align="center"> 
-            <td> <a href="<c:url value=""/>"> ${study.id} </a></td>            
+        <tr align="center">
+            <td> <a href="<c:url value=""/>"> ${study.id} </a></td>
             <td> ${study.shortTitleText}</td>
-            <td> ${study.targetAccrualNumber}</td>       
+            <td> ${study.targetAccrualNumber}</td>
             <td> ${study.sponsorCode}</td>
-            <td> ${study.status} </td>           
-            <td> ${study.monitorCode}</td>    
+            <td> ${study.status} </td>
+            <td> ${study.monitorCode}</td>
             <td> ${study.phaseCode}</td>
-            <td> ${study.type}</td>                              
+            <td> ${study.type}</td>
         </tr>
     </c:forEach>
 </tr>

@@ -17,18 +17,17 @@ function navRollOver(obj, state) {
 }
 </script>
 <script language="JavaScript" type="text/JavaScript">
-function OpenWins(target,name,width,height,scrolling){
-	// I've used a var to refer to the opened window
-	features = 'location=no,width='+width +',height='+height+',left=300,top=260,scrollbars='+scrolling;
-	myWin = window.open(target,name,features);
+
+function validatePage(){
+	return true;
 }
-</script>
-<script language="javascript" type="text/JavaScript">
-function add(){
-var action = confirm ("You have not completed adding this protocol.\r\rStarting over will lose current protocol data?")
-if (action){
-	parent.window.location="protocol_add.htm";
-}}
+function updateTargetPage(s){
+	if(validatePage()){
+		document.getElementById("_page").value=s;
+		document.searchDetailsForm.submit();
+	}
+}
+
 </script>
 </head>
 <body>
@@ -44,15 +43,15 @@ if (action){
 <table width="100%" border="0" cellspacing="0" cellpadding="0"
 	id="topNav">
 	<tr valign="middle">
-		<td width="99%" class="left"><a href="home.htm">Registration</a><img
+		<td width="99%" class="left"><a href="/c3pr/SearchAndRegister.do">Registration</a><img
 			src="images/topNavL.gif" width="2" height="20" align="absmiddle"
 			class="currentL"><span class="current"><img
 			src="images/topNavArrowDown.gif" width="5" height="20"
 			align="absmiddle"> Study </span><img src="images/topNavR.gif"
 			width="2" height="20" align="absmiddle" class="currentR"><a
-			href="participant.htm">Participant</a><img
+			href="/c3pr/searchparticipant.do">Participant</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
-			class="divider"><a href="analysis">Reports</a><img
+			class="divider"><a href="">Reports</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
 			class="divider"></td>
 
@@ -65,6 +64,11 @@ if (action){
 <!-- SUB NAV STARTS HERE -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0"
 	id="subNav">
+	<tr>
+			<td width="99%" valign="middle" class="welcome">Welcome, User
+			Name</td>
+			<td valign="middle" class="right"><a href="">Help</a></td>
+	</tr>
 
 </table>
 <!-- SUB NAV ENDS HERE -->
@@ -74,10 +78,18 @@ if (action){
 	class="titleArea">
 	<tr>
 		<!-- TITLE STARTS HERE -->
-		<td width="99%" height="43" valign="middle" id="title">Add Study</td>
+		<td width="99%" height="43" valign="middle" id="title">Add
+		Study</td>
+
 	</tr>
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+	<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
+
+	<td id="current">Site Name-Id: ${sites[0].site.name}</td>
+	<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
+	</tr>
 	<tr>
 		<td class="display"><!-- TABS LEFT START HERE -->
 		<table width="100%" border="0" cellpadding="0" cellspacing="0">
@@ -114,11 +126,9 @@ if (action){
 				<!-- LEFT CONTENT STARTS HERE -->
 
 				<td valign="top" class="additionals2"><!-- RIGHT CONTENT STARTS HERE -->
-				<c:url value="/createstudy.do" var="formAction" /> <form:form
-					method="post" action="${formAction}">
-
-					<div><input type="hidden" name="_page" value="0"> 
-					<!-- input type = "hidden" name="_target" value="1"-->
+				<c:url value="/createstudy.do" var="formAction" />
+				<form:form name="searchDetailsForm" method="post">
+					<div><input type="hidden" name="_page" value="0">
 					</div>
 
 					<br>
@@ -242,7 +252,7 @@ if (action){
 									<td><form:select path="type">
 										<form:options items="${type}" itemLabel="desc"
 											itemValue="code" />
-									</form:select></td>								
+									</form:select></td>
 							</table>
 							</td>
 
@@ -295,7 +305,7 @@ if (action){
 							<td align="center" colspan="3"><!-- action buttons begins -->
 							<table cellpadding="4" cellspacing="0" border="0">
 								<tr>
-										<td><input class="actionButton" type="submit"
+									<td><input class="actionButton" type="submit"
 										name="_target1" value="Next"></td>
 								</tr>
 							</table>

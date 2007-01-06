@@ -29,7 +29,7 @@ if (action){
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
 		<td width="99%"><img src="images/C3PRLogo.gif" alt="C3Pr V2"
-			width="181" height="36" class="gelogo"></td>		
+			width="181" height="36" class="gelogo"></td>
 	</tr>
 </table>
 <!-- TOP LOGOS END HERE -->
@@ -37,15 +37,15 @@ if (action){
 <table width="100%" border="0" cellspacing="0" cellpadding="0"
 	id="topNav">
 	<tr valign="middle">
-		<td width="99%" class="left"><a href="home.htm">Registration</a><img
+		<td width="99%" class="left"><a href="/c3pr/SearchAndRegister.do">Registration</a><img
 			src="images/topNavL.gif" width="2" height="20" align="absmiddle"
 			class="currentL"><span class="current"><img
 			src="images/topNavArrowDown.gif" width="5" height="20"
 			align="absmiddle"> Study </span><img src="images/topNavR.gif"
 			width="2" height="20" align="absmiddle" class="currentR"><a
-			href="participant.htm">Participant</a><img
+			href="/c3pr/searchparticipant.do">Participant</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
-			class="divider"><a href="analysis">Reports</a><img
+			class="divider"><a href="">Reports</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
 			class="divider"></td>
 
@@ -56,7 +56,15 @@ if (action){
 </table>
 <!-- TOP NAVIGATION ENDS HERE -->
 <!-- SUB NAV STARTS HERE -->
+<table width="100%" border="0" cellspacing="0" cellpadding="0"
+	id="subNav">
+	<tr>
+			<td width="99%" valign="middle" class="welcome">Welcome, User
+			Name</td>
+			<td valign="middle" class="right"><a href="">Help</a></td>
+	</tr>
 
+</table>
 <!-- SUB NAV ENDS HERE -->
 <!-- MAIN BODY STARTS HERE -->
 <div class="workArea">
@@ -64,11 +72,18 @@ if (action){
 	class="titleArea">
 	<tr>
 		<!-- TITLE STARTS HERE -->
-		<td width="99%" height="43" valign="middle" id="title">Add Study</td>
+		<td width="99%" height="43" valign="middle" id="title">Add
+		Study</td>
+
 	</tr>
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+	<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
 
+	<td id="current">Site Name-Id: ${sites[0].site.name}</td>
+	<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
+	</tr>
 	<tr>
 
 		<td class="display"><!-- TABS LEFT START HERE -->
@@ -111,7 +126,7 @@ if (action){
 				<form:form method="post" action="${formAction}">
 				<div>
 					<input type = "hidden" name="_page" value="2">
-				</div>	
+				</div>
 
 					<br>
 					<strong>Step 3. Study Design - Epochs & Arms </strong>
@@ -159,7 +174,7 @@ if (action){
 								</tr>
 							</table>
 							</td>
-						</tr>						
+						</tr>
 					</table>
 				</form:form></td>
 				<!-- LEFT CONTENT ENDS HERE -->

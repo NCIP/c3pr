@@ -45,15 +45,15 @@ if (action){
 <table width="100%" border="0" cellspacing="0" cellpadding="0"
 	id="topNav">
 	<tr valign="middle">
-		<td width="99%" class="left"><a href="home.htm">Registration</a><img
+		<td width="99%" class="left"><a href="/c3pr/SearchAndRegister.do">Registration</a><img
 			src="images/topNavL.gif" width="2" height="20" align="absmiddle"
 			class="currentL"><span class="current"><img
 			src="images/topNavArrowDown.gif" width="5" height="20"
 			align="absmiddle"> Protocol </span><img src="images/topNavR.gif"
 			width="2" height="20" align="absmiddle" class="currentR"><a
-			href="participant.htm">Participant</a><img
+			href="/c3pr/searchparticipant.do">Participant</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
-			class="divider"><a href="analysis">Reports</a><img
+			class="divider"><a href="">Reports</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
 			class="divider"></td>
 
@@ -67,10 +67,11 @@ if (action){
 <table width="100%" border="0" cellspacing="0" cellpadding="0"
 	id="subNav">
 	<tr>
-		<td width="99%" valign="middle" class="welcome">Welcome, User
-		Name</td>
-		<td valign="middle" class="right"><a href="help">Help</a></td>
+			<td width="99%" valign="middle" class="welcome">Welcome, User
+			Name</td>
+			<td valign="middle" class="right"><a href="">Help</a></td>
 	</tr>
+
 </table>
 <!-- SUB NAV ENDS HERE -->
 <!-- MAIN BODY STARTS HERE -->
@@ -81,10 +82,16 @@ if (action){
 		<!-- TITLE STARTS HERE -->
 		<td width="99%" height="43" valign="middle" id="title">Add
 		Study</td>
+
 	</tr>
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<tr>
+	<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
 
+	<td id="current">Site Name-Id: ${sites[0].site.name}</td>
+	<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
+	</tr>
 	<tr>
 
 		<td class="display"><!-- TABS LEFT START HERE -->
@@ -132,15 +139,6 @@ if (action){
 
 
 				<table width="550" border="0" cellspacing="0" cellpadding="0">
-					<tr>
-					<td align="center"><span class="data"><a href="#"
-							onClick="program();return false;"><img
-							src="images/b-submit.gif" alt="Add This Driver" width="60"
-							height="16" border="0"></a> <a href="protocol_add.htm"
-							onClick="add();return false;"><img
-							src="images/b-startOver.gif" alt="Start Over" width="67"
-							height="16" border="0"></a></span></td>
-					</tr>
 					<table cellpadding="4" cellspacing="0" border="0">
 						<tr>
 							<td><input class="actionButton" type="submit"
@@ -148,7 +146,7 @@ if (action){
 							<td><input class="actionButton" type="submit"
 								name="_finish" value="Save Study"></td>
 						</tr>
-					</table>					
+					</table>
 				</table>
 				</form:form>
 				</td>
