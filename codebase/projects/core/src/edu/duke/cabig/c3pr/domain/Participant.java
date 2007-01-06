@@ -25,7 +25,7 @@ import org.hibernate.annotations.Parameter;
 			@Parameter(name="sequence", value="participants_id_seq")
 		}
 )
-public class Participant extends Person implements Comparable<Participant>, Serializable
+public class Participant extends Person implements Comparable<Participant>
 {	
 	private List<ParticipantIdentifier> participantIdentifiers = new ArrayList<ParticipantIdentifier>();
 	private List<StudyParticipantAssignment> studyParticipantAssignments= new ArrayList<StudyParticipantAssignment>();
