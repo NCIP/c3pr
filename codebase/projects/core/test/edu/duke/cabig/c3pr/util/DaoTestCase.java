@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.util;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,12 +23,13 @@ import org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 
+import edu.duke.cabig.c3pr.domain.DomainObject;
 import edu.nwu.bioinformatics.commons.StringUtils;
 import edu.nwu.bioinformatics.commons.testing.DbTestCase;
 
 /**
  * Base Dao Test Case for all dao level test cases
- * @author Priyatam
+ * @author Rhett Sutphin, Priyatam
  */
 public abstract class DaoTestCase extends DbTestCase {
     protected final Log log = LogFactory.getLog(getClass());
@@ -143,5 +145,13 @@ public abstract class DaoTestCase extends DbTestCase {
         dump.append("  ").append(rows.size()).append(" row").append(rows.size() != 1 ? "s\n" : "\n");
 
         System.out.print(dump);
+    }
+    
+    public List<Integer> collectIds(List<? extends DomainObject> actual) {
+        List<Integer> ids = new ArrayList<Integer>(actual.size());
+        for (DomainObject object : actual) {
+            ids.add(object.getId());
+        }
+        return ids;
     }
 }
