@@ -59,9 +59,9 @@ if (action){
 <table width="100%" border="0" cellspacing="0" cellpadding="0"
 	id="subNav">
 	<tr>
-			<td width="99%" valign="middle" class="welcome">Welcome, User
-			Name</td>
-			<td valign="middle" class="right"><a href="">Help</a></td>
+		<td width="99%" valign="middle" class="welcome">Welcome, User
+		Name</td>
+		<td valign="middle" class="right"><a href="">Help</a></td>
 	</tr>
 
 </table>
@@ -72,17 +72,16 @@ if (action){
 	class="titleArea">
 	<tr>
 		<!-- TITLE STARTS HERE -->
-		<td width="99%" height="43" valign="middle" id="title">Add
-		Study</td>
+		<td width="99%" height="43" valign="middle" id="title">Add Study</td>
 
 	</tr>
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
-	<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
+		<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
 
-	<td id="current">Site Name-Id: ${sites[0].site.name}</td>
-	<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
+		<td id="current">Site Name-Id: ${sites[0].site.name}</td>
+		<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 	</tr>
 	<tr>
 
@@ -92,7 +91,7 @@ if (action){
 				<td>
 				<table width="100%" border="0" cellspacing="0" cellpadding="0"
 					class="tabs">
-				<tr>
+					<tr>
 						<td width="100%" id="tabDisplay"><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						1. <a href="protocol_add.htm">study details</a> <img
@@ -117,74 +116,119 @@ if (action){
 				</td>
 			</tr>
 			<tr>
-
-				<!-- LEFT CONTENT STARTS HERE -->
-
-				<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
-				<!-- RIGHT CONTENT STARTS HERE -->
+			<tr>
 				<c:url value="/createstudy.do" var="formAction" />
-				<form:form method="post" action="${formAction}">
-				<div>
-					<input type = "hidden" name="_page" value="2">
-				</div>
-
-					<br>
-					<strong>Step 3. Study Design - Epochs & Arms </strong>
-					<br>
-					<br>
-					<table width="700" border="0" cellspacing="0" cellpadding="0"
-						id="table1">
-						<tr>
-						<td class="label"> --- Epochs --- </td>
-						</tr>
-						<tr>
-							<td class="label"><span class="red">*</span><em></em>Epoch
-							Name:</td>
-							<td><form:input path="epochs[0].name" /></td>
-							<td class="label"><span class="red">*</span><em></em>Description:</td>
-							<td><form:input path="epochs[0].descriptionText" /></td>
-						</tr>
-						<tr>
-							<td><img src="images/spacer.gif" width="1" height="1"
-								class="heightControl"></td>
-							<td><img src="images/spacer.gif" width="1" height="1"
-								class="heightControl"></td>
-						</tr>
-						<tr>
-						<td class="label"> --- Arms --- </td>
-						<tr>
-							<td class="label"><span class="red">*</span><em></em>Arm Name
-							Name:</td>
-							<td><form:input path="epochs[0].arms[0].name" /></td>
-							<td class="label"><span class="red">*</span><em></em>Target Accrual Number:</td>
-							<td><form:input path="epochs[0].arms[0].targetAccrualNumber" /></td>
-						</tr>
-						<tr>
-						<tr align="center">
-							<td colspan="4"><br>
-							<br>
+				<form:form name="searchDetailsForm" method="post">
+				<div><input type="hidden" name="_page" value="1">
+				<td class="display"><!-- TABS LEFT START HERE -->
+				<table width="100%" border="0" cellspacing="0" cellpadding="0">
+					<tr>
+						<td width="40%">
+						<table width="100%" border="0" cellspacing="0" cellpadding="0"
+							class="tabs">
 							<tr>
-							<td align="center" colspan="3"><!-- action buttons begins -->
-							<table cellpadding="4" cellspacing="0" border="0">
+								<td width="100%" id="tabDisplay"><span class="current"><img
+									src="images/tabWhiteL.gif" width="3" height="16"
+									align="absmiddle"> Epochs <img src="images/tabWhiteR.gif"
+									width="3" height="16" align="absmiddle"></span></td>
+
+							</tr>
+							<tr>
+								<td colspan="2" class="tabBotL"><img
+									src="images/spacer.gif" width="1" height="7"></td>
+							</tr>
+						</table>
+						<!-- TABS LEFT END HERE --></td>
+						<td><img src="images/spacer.gif" width="2" height="1"></td>
+						<td width="70%"><!-- TABS RIGHT START HERE -->
+						<table width="100%" border="0" cellspacing="0" cellpadding="0"
+							class="tabs">
+							<tr>
+								<td width="100%" id="tabDisplay"><span class="current"><img
+									src="images/tabWhiteL.gif" width="3" height="16"
+									align="absmiddle"> Epoch 1 - Arms <img
+									src="images/tabWhiteR.gif" width="3" height="16"
+									align="absmiddle"></span><span class="tab"><img
+									src="images/tabGrayL.gif" width="3" height="16"
+									align="absmiddle">
+								<td><img src="images/spacer.gif" width="7" height="1"></td>
+							</tr>
+							<tr>
+								<td colspan="2" class="tabBotR"><img
+									src="images/spacer.gif" width="1" height="7"></td>
+							</tr>
+						</table>
+						<!-- TABS RIGHT END HERE --></td>
+					</tr>
+					<tr>
+
+
+							<td valign="top" class="contentL"><!-- LEFT CONTENT STARTS HERE -->
+
+							<table width="100%"  border="0" cellspacing="0" cellpadding="0" id="additionalList">
 								<tr>
-									<td><input class="actionButton" type="submit"
-										name="_target1" value="Prev"></td>
-									<td><input class="actionButton" type="submit"
-										name="_target3" value="Next"></td>
+									<td class="label"><span class="red">*</span><em></em>select:</td>
+									<td class="label"><span class="red">*</span><em></em>Epoch Name:</td>
+									<td class="label"><span class="red">*</span><em></em>Description:</td>
 								</tr>
+								<tr>
+									<td><form:checkbox path="epochs[0].id" value="id"/></td>
+									<td><form:input path="epochs[0].name" /></td>
+									<td><form:input path="epochs[0].descriptionText" /></td>
+								</tr>
+								<tr>
+									<td><form:checkbox path="epochs[0].id" value="id"/></td>
+									<td><form:input path="epochs[1].name" /></td>
+									<td><form:input path="epochs[1].descriptionText" /></td>
+								</tr>
+								<tr>
+									<td><form:checkbox path="epochs[0].id" value="id"/></td>
+									<td><form:input path="epochs[2].name" /></td>
+									<td><form:input path="epochs[2].descriptionText" /></td>
+								</tr>
+
 							</table>
-							</td>
+						<br>
+
+
+							<!-- LEFT CONTENT ENDS HERE --></td>
+							<td><img src="images/spacer.gif" width="2" height="1"></td>
+							<!-- RIGHT CONTENT STARTS HERE -->
+							<td valign="top" class="contentR">
+
+							<table width="100%"  border="0" cellspacing="0" cellpadding="0" id="additionalList">
+								<tr>
+									<td class="label"><span class="red">*</span><em></em>Arm Name
+									Name:</td>
+									<td class="label"><span class="red">*</span><em></em>Target Accrual Number:</td>
+								</tr>
+								<tr>
+									<td><form:input path="epochs[0].arms[0].name" /></td>
+									<td><form:input path="epochs[0].arms[0].targetAccrualNumber" /></td>
+								</tr>
+
+							</table>
+
+				</table>
+				<tr align="center">
+					<tr>
+					<td align="center" colspan="3"><!-- action buttons begins -->
+					<table cellpadding="4" cellspacing="0" border="0">
+						<tr>
+							<td><input class="actionButton" type="submit"
+								name="_target1" value="Prev"></td>
+							<td><input class="actionButton" type="submit"
+								name="_target3" value="Next"></td>
 						</tr>
 					</table>
-				</form:form></td>
-				<!-- LEFT CONTENT ENDS HERE -->
-			</tr>
+						</form:form>
+					</td>
+				</tr>
 		</table>
-		</td>
-	</tr>
-</table>
-<div id="copyright">&copy; 2006 SemanticBits. All Rights Reserved</div>
-</div>
-<!-- MAIN BODY ENDS HERE -->
+
+		<div id="copyright">&copy; 2006 SemanticBits. All Rights
+		Reserved</div>
+
+		<!-- MAIN BODY ENDS HERE -->
 </body>
 </html>
