@@ -48,20 +48,8 @@ public class CreateStudyController extends AbstractWizardFormController {
 	 * @param request - HttpServletRequest
 	 * @throws ServletException
 	 */
-	protected Object formBackingObject(HttpServletRequest request) throws ServletException {
-		Study study = new Study(); 
-		Epoch epoch = new Epoch();
-		epoch.addArm(new Arm());
-		study.addEpoch(epoch);
-			
-		StudySite studySite = new StudySite();
-		study.addStudySite(studySite);
-		
-		HealthcareSite healthCaresite = new HealthcareSite();		
-		healthCaresite.setAddress(new Address());		
-		studySite.setSite(healthCaresite);
-		
-		return study;		          
+	protected Object formBackingObject(HttpServletRequest request) throws ServletException {	
+		return createDefaultStudyWithDesign();		         
 	}
 	
 	/**
@@ -128,7 +116,30 @@ public class CreateStudyController extends AbstractWizardFormController {
     	//modelAndView.addAllObjects(errors.getModel());
     	return modelAndView;
 	}
- 
+	
+	/**
+	 * Need to create a default study with 3 epochs and associated arms
+	 * this is shown to the User for the first time
+	 * @return Study the default study
+	 */
+	private Study createDefaultStudyWithDesign()
+	{
+		Study study = new Study(); 
+	
+		study.addEpoch(Epoch.create("Screening"));
+		study.addEpoch(Epoch.create("Treatment", "Arm A", "Arm B", "Arm C"));
+		study.addEpoch(Epoch.create("Follow up"));
+          
+		StudySite studySite = new StudySite();
+		study.addStudySite(studySite);
+		
+		HealthcareSite healthCaresite = new HealthcareSite();		
+		healthCaresite.setAddress(new Address());		
+		studySite.setSite(healthCaresite);
+		
+		return study;
+	}
+	
 	private List<LOV> getDiseaseCodeList(){
 		List<LOV> col = new ArrayList<LOV>();
 		LOV lov1 = new LOV("10028534", "Myelodysplastic syndrome NOS");
