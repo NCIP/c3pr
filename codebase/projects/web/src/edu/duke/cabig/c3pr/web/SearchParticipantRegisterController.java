@@ -71,6 +71,7 @@ private static Log log = LogFactory.getLog(SearchParticipantRegisterController.c
     	Map map =errors.getModel();
     	map.put("participants", participants);
     	map.put("studySiteId", request.getParameter("studySiteId"));
+    	map.put("searchType", getSearchType());
     	ModelAndView modelAndView= new ModelAndView(getSuccessView(), map);
     	return modelAndView;
     }
