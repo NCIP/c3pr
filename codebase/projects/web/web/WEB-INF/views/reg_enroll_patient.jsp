@@ -1,5 +1,10 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
+<%@taglib prefix="tags" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -13,14 +18,17 @@ function navRollOver(obj, state) {
 function getPage(s){
 	parent.window.location="reg_patient_search.htm";
 }
+function submitPage(){
+	document.getElementById("searchParticipant").submit();
+}
 </script>
 </head>
 <body>
 <!-- TOP LOGOS START HERE -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
-		<td width="99%"><img src="images/C3PRLogo.gif" alt="C3PR" width="181"
-			height="36" class="gelogo"></td>
+		<td width="99%"><img src="images/C3PRLogo.gif" alt="C3PR"
+			width="181" height="36" class="gelogo"></td>
 		<td align="right"><img src="images/t-drivers.gif" alt="Protocol"
 			width="200" height="79"></td>
 	</tr>
@@ -70,15 +78,15 @@ function getPage(s){
 					<tr>
 						<td width="100%" id="tabDisplay"><span class="tab"> <img
 							src="images/tabWhiteL.gif" width="3" height="16"
-							align="absmiddle"> 1. <a href="reg_protocol_search.jsp">Select
+							align="absmiddle"> 1. <a href="reg_protocol_search.htm">Select
 						Protocol </a><img src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"></span><span class="current"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						2. Enroll Patient <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"></span><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						3. Check Eligibility <img src="images/tabGrayR.gif" width="3" height="16"
-							align="absmiddle"><img
+						3. Check Eligibility <img src="images/tabGrayR.gif" width="3"
+							height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						4. Stratify <img src="images/tabGrayR.gif" width="3" height="16"
 							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
@@ -106,45 +114,43 @@ function getPage(s){
 						<!-- TITLE STARTS HERE -->
 						<td width="99%" height="43" valign="middle" id="title">Patient
 						Search</td>
-						<td valign="top">
-						<form method="post" action="" name="searchMeth" class="search">
-						<table width="100%" border="0" cellspacing="0" cellpadding="0"
-							id="search">
-							<tr>
-								<td class="labels">&nbsp;</td>
-							</tr>
-							<tr>
-								<td class="searchType">Search <select name="select"
-									class="field1">
-									<option selected>Patient</option>
-								</select> by <select name="select" class="field1">
-									<option selected>Patient Name</option>
-									<option>Patient Registration#</option>
-								</select></td>
-							</tr>
-						</table>
-						</form>
-						<span class="notation">&nbsp;</span></td>
-						<td valign="top">
-						<table width="100%" border="0" cellspacing="0" cellpadding="0"
-							id="search">
-							<tr>
-								<td align="left" class="labels">Last Name:</td>
-								<td align="left" class="labels">First Name:</td>
-								<td class="labels">&nbsp;</td>
-							</tr>
-							<tr>
-								<td><input name="textfield2" type="text" class="field1"
-									size="25"></td>
-								<td><input name="textfield3" type="text" class="field1"
-									size="25"></td>
-								<td><input name="imageField" type="image" class="button"
-									onClick="getPage('search.htm')" src="images/b-go.gif" alt="GO"
-									align="middle" width="22" height="10" border="0"></td>
-							</tr>
-						</table>
-						<span class="notation">^ Minimum two characters for Last
-						Name search.</span></td>
+
+						<form:form id="searchParticipant" name="searchParticipant" method="post">
+							<td valign="top">
+							<table width="100%" border="0" cellspacing="0" cellpadding="0"
+								id="search">
+								<tr>
+									<td class="labels">&nbsp;</td>
+								</tr>
+								<tr>
+									<td class="searchType">Search <select name="select"
+										class="field1">
+										<option selected>Patient</option>
+									</select> by <form:select path="searchType">
+										<form:options items="${searchType}" itemLabel="desc"
+											itemValue="code" />
+									</form:select></td>
+									</td>
+								</tr>
+							</table>
+							<span class="notation">&nbsp;</span></td>
+							<td valign="top">
+							<table width="100%" border="0" cellspacing="0" cellpadding="0"
+								id="search">
+								<tr>
+									<td align="left" class="labels">Search String:</td>
+									<td class="labels">&nbsp;</td>
+								</tr>
+								<tr>
+									<td><form:input path="searchText"/></td>
+									<td><input name="imageField" type="image" class="button"
+										onClick="submitPage()" src="images/b-go.gif" alt="GO"
+										align="middle" width="22" height="10" border="0"></td>
+								</tr>
+							</table>
+							<span class="notation">^ Minimum two characters for
+							search.</span></td>
+						</form:form>
 					</tr>
 				</table>
 				<table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -190,7 +196,7 @@ function getPage(s){
 								<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
 								<!-- RIGHT CONTENT STARTS HERE -->
 
-								<form id="form1"><strong>Step 1. Patient
+								<strong>Step 1. Patient
 								Information </strong> (<span class="red">*</span><em>Required
 								Information </em>)<br>
 								<br>
@@ -857,15 +863,15 @@ function getPage(s){
 									<tr>
 										<td align="center" colspan="2" valign="top"><br>
 										<br>
-										<a href="reg_enroll_patient_address.htm"><img src="images/b-continue.gif"
-											alt="Continue" width="59" height="16" border="0"></a> <a
-											href="home.jsp" onClick="add();return false;"><img
+										<a href="reg_enroll_patient_address.htm"><img
+											src="images/b-continue.gif" alt="Continue" width="59"
+											height="16" border="0"></a> <a href="home.htm"
+											onClick="add();return false;"><img
 											src="images/b-startOver.gif" alt="Start Over" width="67"
 											height="16" border="0"></a></td>
 									</tr>
 								</table>
 								</div>
-								</form>
 								</td>
 
 								<!-- LEFT CONTENT ENDS HERE -->

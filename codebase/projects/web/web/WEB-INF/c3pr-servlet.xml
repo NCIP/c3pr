@@ -80,6 +80,11 @@
 	    <property name="successView" value="participant_search_results"/>
 	    <property name="commandClass" value="edu.duke.cabig.c3pr.web.SearchParticipantCommand"/>
     </bean>	
+    <bean id="searchParticipantRegController" lazy-init="true" class="edu.duke.cabig.c3pr.web.SearchParticipantRegisterController" autowire="byType">
+	    <property name="formView" value="reg_enroll_patient"/>
+	    <property name="successView" value="reg_patient_search"/>
+	    <property name="commandClass" value="edu.duke.cabig.c3pr.web.SearchParticipantCommand"/>
+    </bean>	
     <bean id="registrationController" lazy-init="true" class="edu.duke.cabig.c3pr.web.RegistrationHomeController" autowire="byType">
 	    <property name="commandClass" value="edu.duke.cabig.c3pr.domain.StudyParticipantAssignment"/>
 	    <property name="commandName" value="command"/>
@@ -98,6 +103,7 @@
             <props>
                  <prop key="/register.do">registrationController</prop>
                  <prop key="/SearchAndRegister.do">searchRegisterController</prop>
+                 <prop key="/SearchRegisterPatient.do">searchParticipantRegController</prop>
             </props>
         </property>
         <property name="order" value="1"/>        

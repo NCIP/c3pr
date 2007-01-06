@@ -1,5 +1,10 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -16,8 +21,8 @@ function navRollOver(obj, state) {
 <!-- TOP LOGOS START HERE -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
-		<td width="99%"><img src="images/C3PRLogo.gif" alt="C3PR" width="181"
-			height="36" class="gelogo"></td>
+		<td width="99%"><img src="images/C3PRLogo.gif" alt="C3PR"
+			width="181" height="36" class="gelogo"></td>
 		<td align="right"><img src="images/t-drivers.gif" alt="Protocol"
 			width="200" height="79"></td>
 	</tr>
@@ -67,7 +72,7 @@ function navRollOver(obj, state) {
 					<tr>
 						<td width="100%" id="tabDisplay"><span class="tab"> <img
 							src="images/tabWhiteL.gif" width="3" height="16"
-							align="absmiddle"> 1. <a href="reg_protocol_search.jsp">Select
+							align="absmiddle"> 1. <a href="reg_protocol_search.htm">Select
 						Protocol </a><img src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"></span><span class="current"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
@@ -184,108 +189,27 @@ function navRollOver(obj, state) {
 										<td>Primary Id</td>
 										<td>Gender</td>
 										<td>Brith Date</td>
-										<td>First Visit<br>Date</td>										
+										<td>First Visit<br>
+										Date</td>
 										<td></td>
 									</tr>
-									<a href="reg_patient_search_result.htm"
-										onMouseOver="navRollOver('row1', 'on')"
-										onMouseOut="navRollOver('row1', 'off')">
-									<tr align="center" id="row1" class="results">
-										<td>Smith, John A</td>
-										<td>123456</td>
-										<td>Male</td>
-										<td>01/02/1981</td>
-										<td>03/25/2005</td>
-									</tr>
-									</a>
-									<a href="reg_patient_search_result.htm"
-										onMouseOver="navRollOver('row2', 'on')"
-										onMouseOut="navRollOver('row2', 'off')">
-									<tr align="center" id="row2" class="results">
-										<td>Smith, John A</td>
-										<td>123456</td>
-										<td>Male</td>
-										<td>01/02/1981</td>
-										<td>03/25/2005</td>
-									</tr>
-									</a>
-									<a href="reg_patient_search_result.htm"
-										onMouseOver="navRollOver('row3', 'on')"
-										onMouseOut="navRollOver('row3', 'off')">
-									<tr align="center" id="row3" class="results">
-										<td>Smith, John A</td>
-										<td>123456</td>
-										<td>Male</td>
-										<td>01/02/1981</td>
-										<td>03/25/2005</td>
-									</tr>
-									</a>
-									<a href="reg_patient_search_result.htm"
-										onMouseOver="navRollOver('row4', 'on')"
-										onMouseOut="navRollOver('row4', 'off')">
-									<tr align="center" id="row4" class="results">
-										<td>Smith, John A</td>
-										<td>123456</td>
-										<td>Male</td>
-										<td>01/02/1981</td>
-										<td>03/25/2005</td>
-									</tr>
-									</a>
-									<a href="reg_patient_search_result.htm"
-										onMouseOver="navRollOver('row5', 'on')"
-										onMouseOut="navRollOver('row5', 'off')">
-									<tr align="center" id="row5" class="results">
-										<td>Smith, John A</td>
-										<td>123456</td>
-										<td>Male</td>
-										<td>01/02/1981</td>
-										<td>03/25/2005</td>
-									</tr>
-									</a>
-									<a href="reg_patient_search_result.htm"
-										onMouseOver="navRollOver('row6', 'on')"
-										onMouseOut="navRollOver('row6', 'off')">
-									<tr align="center" id="row6" class="results">
-										<td>Smith, John A</td>
-										<td>123456</td>
-										<td>Male</td>
-										<td>01/02/1981</td>
-										<td>03/25/2005</td>
-									</tr>
-									</a>
-									<a href="reg_patient_search_result.htm"
-										onMouseOver="navRollOver('row7', 'on')"
-										onMouseOut="navRollOver('row7', 'off')">
-									<tr align="center" id="row7" class="results">
-										<td>Smith, John A</td>
-										<td>123456</td>
-										<td>Male</td>
-										<td>01/02/1981</td>
-										<td>03/25/2005</td>
-									</tr>
-									</a>
-									<a href="reg_patient_search_result.htm"
-										onMouseOver="navRollOver('row8', 'on')"
-										onMouseOut="navRollOver('row8', 'off')">
-									<tr align="center" id="row8" class="results">
-										<td>Smith, John A</td>
-										<td>123456</td>
-										<td>Male</td>
-										<td>01/02/1981</td>
-										<td>03/25/2005</td>
-									</tr>
-									</a>
-									<a href="reg_patient_search_result.htm"
-										onMouseOver="navRollOver('row9', 'on')"
-										onMouseOut="navRollOver('row9', 'off')">
-									<tr align="center" id="row9" class="results">
-										<td>Smith, John A</td>
-										<td>123456</td>
-										<td>Male</td>
-										<td>01/02/1981</td>
-										<td>03/25/2005</td>
-									</tr>
-									</a>
+									<%
+									int i = 1;
+									%>
+									<c:forEach var="participant" items="${participants}">
+										<a
+											href="register.do?participantId=${participant.id}&studySiteId=${studySiteId}"
+											onMouseOver="navRollOver('row<%= i %>', 'on')"
+											onMouseOut="navRollOver('row<%= i %>', 'off')">
+										<tr align="center" id="row<%= i++ %>" class="results">
+											<td>${participant.lastName},${participant.firstName}</td>
+											<td>${participant.id}</td>
+											<td>${participant.administrativeGenderCode}</td>
+											<td>${participant.raceCode}</td>
+											<td>${participant.birthDate}</td>
+										</tr>
+										</a>
+									</c:forEach>
 								</table>
 								<br>
 								<table width="100%" border="0" cellspacing="0" cellpadding="0">
