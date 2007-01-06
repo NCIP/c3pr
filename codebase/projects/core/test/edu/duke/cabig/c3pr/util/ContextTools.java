@@ -9,10 +9,10 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class ContextTools {
     public static ApplicationContext createDeployedApplicationContext() {
+    	   
     	  return new ClassPathXmlApplicationContext (new String[] {
-			    "classpath:/applicationContext.xml",
-	            "classpath*:/applicationContext-*.xml"
-    }); 
+    			 "classpath*:applicationContext.xml","classpath*:applicationContext-core.xml"	          
+    	  }); 
      }
 
     private ContextTools() { }
