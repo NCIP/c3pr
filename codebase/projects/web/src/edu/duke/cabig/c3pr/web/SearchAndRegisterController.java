@@ -19,7 +19,7 @@ import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.web.SearchStudyController.LOV;
 
 public class SearchAndRegisterController extends SimpleFormController{
-	private static Log log = LogFactory.getLog(SearchStudyController.class);
+	private static Log log = LogFactory.getLog(SearchAndRegisterController.class);
 	
 	private StudyService studyService;
    
@@ -33,12 +33,16 @@ public class SearchAndRegisterController extends SimpleFormController{
 
 	protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object oCommand, BindException errors) throws Exception {
     	SearchRegisterCommand searchRegisterCommand = (SearchRegisterCommand) oCommand;
+    	
     	Study study = new Study();
     	String id  = searchRegisterCommand.getStudyid();
     	String type = searchRegisterCommand.getSearchType();
     	String searchtext = searchRegisterCommand.getSearchTypeText();
     	String shortTitleText = searchRegisterCommand.getShortTitleText();
-    	
+    	System.out.println("-----------------------------------------------------------------------");
+    	System.out.println("type: "+type);
+    	System.out.println("searchText: "+searchtext);
+    	System.out.println("-----------------------------------------------------------------------");    	
     	log.debug("search string = " +searchtext+"; type = "+type);
     	
     	if (id != null && !("").equals(id))
@@ -95,6 +99,7 @@ public class SearchAndRegisterController extends SimpleFormController{
     	System.out.println("Search results size " +studies.size());
     	Map map =errors.getModel();
     	map.put("studies", studies);
+    	map.put("searchType", getSearchType());
     	ModelAndView modelAndView= new ModelAndView(getSuccessView(), map);
     	return modelAndView;
     }
