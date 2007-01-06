@@ -9,7 +9,8 @@ import org.springframework.dao.DataAccessException;
 import edu.duke.cabig.c3pr.domain.Participant;
 
 /**
- * @author kulasekaran,Ramakrishna
+ * @author kulasekaran
+ * @author Ramakrishna
  */
 public class ParticipantDao extends AbstractBaseDao<Participant> {
 	
