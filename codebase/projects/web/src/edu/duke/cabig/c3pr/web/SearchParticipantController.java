@@ -80,7 +80,7 @@ private static Log log = LogFactory.getLog(SearchParticipantController.class);
 	 
 	 private List<LOV> getSearchType(){
 			List<LOV> col = new ArrayList<LOV>();
-			LOV lov1 = new LOV("N", "LastName");
+			LOV lov1 = new LOV("N", "Last Name");
 						
 			col.add(lov1);
 	    	    	
