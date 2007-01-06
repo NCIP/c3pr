@@ -137,6 +137,7 @@
 			<artifact refid="log4j.jars"/>	
 			<artifact refid="commons-logging.jars"/>
         	<artifact refid="dom4j.jars"/>	
+        	<artifact refid="antlr.jars"/>	
 			</resolveDependencies>
         <ant dir="${projects.dir}/core" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
