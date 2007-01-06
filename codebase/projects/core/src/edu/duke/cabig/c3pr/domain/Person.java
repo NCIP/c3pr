@@ -1,9 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
-import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
 /**
@@ -12,7 +10,7 @@ import javax.persistence.MappedSuperclass;
  */
 
 @MappedSuperclass
-public abstract class Person extends AbstractDomainObject implements Serializable
+public abstract class Person extends AbstractDomainObject
 {			
 	private String firstName;
 	
