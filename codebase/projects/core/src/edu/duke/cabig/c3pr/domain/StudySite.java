@@ -36,37 +36,23 @@ public class StudySite extends AbstractDomainObject implements Comparable<StudyS
     private String roleCode;
     private String statusCode;
     private Date startDate;
-    private Date endDate;
-     
-    public StudySite()
-    {}
-    
-    public StudySite(boolean initialise)
+    private Date endDate;   
+
+    /// LOGIC
+
+    public void addstudyParticipantAssignment(StudyParticipantAssignment spAssignments)
     {
-    	if (true)
-    	{
-    		site = new HealthcareSite(true);
-    		studyParticipantAssignments.add(new StudyParticipantAssignment());
-    	}    	
+    	studyParticipantAssignments.add(spAssignments);
+    	spAssignments.setStudySite(this);
     }
-
-    ////// LOGIC
-
-	/* (non-Javadoc)
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 */
-	public int compareTo(StudySite o) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
+    
 	/** Are there any assignments using this relationship? */
     @Transient
     public boolean isUsed() {
         return getStudyParticipantAssignments().size() > 0;
     }
 
-    ////// BEAN PROPERTIES
+    /// BEAN PROPERTIES
 
     public void setSite(HealthcareSite site) {
         this.site = site;
@@ -100,10 +86,6 @@ public class StudySite extends AbstractDomainObject implements Comparable<StudyS
         return studyParticipantAssignments;
     }
     
-    public void addStudyParticipantAssignment(StudyParticipantAssignment studyParticipantAssignment){
-    	studyParticipantAssignments.add(studyParticipantAssignment);
-    }
-
     public void removeStudyParticipantAssignment(StudyParticipantAssignment studyParticipantAssignment){
     	studyParticipantAssignments.remove(studyParticipantAssignment);
     }
@@ -115,7 +97,6 @@ public class StudySite extends AbstractDomainObject implements Comparable<StudyS
     public Date getIrbApprovalDate() {
         return irbApprovalDate;
     }
-    
 
     public Date getStartDate() {
 		return startDate;
@@ -132,7 +113,6 @@ public class StudySite extends AbstractDomainObject implements Comparable<StudyS
 	public void setStatusCode(String statusCode) {
 		this.statusCode = statusCode;
 	}
-	
 
 	public String getRoleCode() {
 		return roleCode;
@@ -150,7 +130,10 @@ public class StudySite extends AbstractDomainObject implements Comparable<StudyS
 		this.endDate = endDate;
 	}
 
-    ////// OBJECT METHODS
+	public int compareTo(StudySite o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -168,6 +151,5 @@ public class StudySite extends AbstractDomainObject implements Comparable<StudyS
         result = 29 * result + (studyParticipantAssignments != null ? studyParticipantAssignments.hashCode() : 0);
         return result;
     }
-
-  
+    
 }

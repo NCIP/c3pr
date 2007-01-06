@@ -32,29 +32,8 @@ public class Epoch extends AbstractDomainObject implements Comparable<Epoch>, Se
   
     private List<Arm> arms = new ArrayList<Arm>();
     private String name;
-    private String descriptionText;
-
-	/* (non-Javadoc)
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 */
-	public int compareTo(Epoch o) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-	
+    private String descriptionText;	
 	private Study study;
-	
-	public Epoch()
-	{}	
-	
-	public Epoch(boolean initialise)
-	{
-		// prefill with default initializers
-		if (true)
-		{
-			arms.add(new Arm());
-		}
-	}
 	
     /**
      * Factory method
@@ -75,6 +54,8 @@ public class Epoch extends AbstractDomainObject implements Comparable<Epoch>, Se
         return epoch;
     }
 
+    /// LOGIC
+    
     private void addNewArm(String armName) {
         Arm arm = new Arm();
         arm.setName(armName);
@@ -90,6 +71,8 @@ public class Epoch extends AbstractDomainObject implements Comparable<Epoch>, Se
     public boolean isMultipleArms() {
         return getArms().size() > 1;
     }
+    
+    /// BEAN PROPERTIES
 
     // This is annotated this way so that the IndexColumn will work with
     // the bidirectional mapping. 
@@ -112,19 +95,13 @@ public class Epoch extends AbstractDomainObject implements Comparable<Epoch>, Se
         this.name = name;
     }
 
-	/**
-	 * @return the study
-	 */
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name="stu_id", insertable=false, updatable=false, nullable=false)
     public Study getStudy() {
 		return study;
 	}
 
-	/**
-	 * @param study the study to set
-	 */
-	public void setStudy(Study study) {
+    public void setStudy(Study study) {
 		this.study = study;
 	}
         
@@ -136,9 +113,11 @@ public class Epoch extends AbstractDomainObject implements Comparable<Epoch>, Se
         return descriptionText;
     }
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
+	public int compareTo(Epoch o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+		
 	@Override
 	public int hashCode() {
 		final int PRIME = 31;
@@ -148,9 +127,6 @@ public class Epoch extends AbstractDomainObject implements Comparable<Epoch>, Se
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -172,7 +148,5 @@ public class Epoch extends AbstractDomainObject implements Comparable<Epoch>, Se
 			return false;	
 		return true;
 	}
-
-
-    
+	
 }

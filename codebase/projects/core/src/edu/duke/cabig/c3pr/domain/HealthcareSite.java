@@ -14,7 +14,6 @@ import javax.persistence.Table;
 /**
  * @author Priyatam
  */
- 
  @Entity
  @Table (name = "healthcare_sites")
  @SequenceGenerator(name="id-generator",sequenceName="healthcare_sites_id_seq")
@@ -28,11 +27,15 @@ public class HealthcareSite extends Organization implements Comparable<Healthcar
 	private String nciInstituteCode;
 	private List<ParticipantIdentifier> participantIdentifiers; 
 
-	public HealthcareSite() {}
+	/// LOGIC
+	 
+	public void addParticipantIdentifier(ParticipantIdentifier participantIdentifier)
+	{
+		participantIdentifiers.add(participantIdentifier);
+		participantIdentifier.setHealthcareSite(this);		
+	}	 
 	
-	public HealthcareSite(boolean initialise) {
-    	super(true);
-    }
+	/// BEAN PROPERTIES
 	
 	public String getNciInstituteCode() {
 		return nciInstituteCode;
@@ -50,7 +53,13 @@ public class HealthcareSite extends Organization implements Comparable<Healthcar
 	public void setParticipantIdentifiers(
 			List<ParticipantIdentifier> participantIdentifiers) {
 		this.participantIdentifiers = participantIdentifiers;
-	}  	 	
+	}  
+	
+	public int compareTo(HealthcareSite o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int PRIME = 31;
@@ -75,11 +84,5 @@ public class HealthcareSite extends Organization implements Comparable<Healthcar
 			return false;
 		return true;
 	}
-
-	public int compareTo(HealthcareSite o) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 
 }

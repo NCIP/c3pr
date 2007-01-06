@@ -71,26 +71,22 @@ public class Study extends AbstractDomainObject implements Comparable<Study>, Se
 	
 	private List<Epoch> epochs = new ArrayList<Epoch>();	  
 	
-//	private List<Amendment> amendments;
-//	private List<EligibilityCriteria> eligibilityCriteria;
+	private List<StudySite> studySites = new ArrayList<StudySite>();;			  
 	
-	private List<StudySite> studySites = new ArrayList<StudySite>();;		
-	   
+	/// LOGIC
 	
-	public Study()
-	{}
-	
-	public Study(boolean initialise)
-	{
-		if (true)// Prefill collection objects
-		{
-			studySites = new ArrayList<StudySite>();
-			studySites.add(new StudySite(true));
-			epochs = new ArrayList<Epoch>();
-			epochs.add(new Epoch(true));	
-		}
-				
+	public void addEpoch(Epoch epoch){
+		epochs.add(epoch);
+		epoch.setStudy(this);
 	}
+	
+	public void addStudySite(StudySite studySite)
+	{
+		studySites.add(studySite);
+		studySite.setStudy(this);
+	}
+	
+	/// BEAN PROPERTIES
 	
 	@OneToMany
     @JoinColumn(name="stu_id", nullable=false)
@@ -110,22 +106,9 @@ public class Study extends AbstractDomainObject implements Comparable<Study>, Se
 		return studySites;
 	}
 
-		public void setStudySites(List<StudySite> studySites) {
+	public void setStudySites(List<StudySite> studySites) {
 		this.studySites = studySites;
 	}
-
-	public void addEpoch(Epoch epoch){
-		epochs.add(epoch);
-	}
-	
-	public void removeEpoch(Epoch epoch){
-		epochs.remove(epoch);
-	}
-	
-	public int compareTo(Study o) {
-     //TODO
-    	return 1;
-    }
 
 	@Column(name = "BLINDED_INDICATOR")	 
 	public String getBlindedIndicator() {
@@ -247,10 +230,12 @@ public class Study extends AbstractDomainObject implements Comparable<Study>, Se
 	public void setType(String type) {
 		this.type = type;
 	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
+	
+	public int compareTo(Study o) {
+     //TODO
+    	return 1;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int PRIME = 31;
@@ -275,9 +260,6 @@ public class Study extends AbstractDomainObject implements Comparable<Study>, Se
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
