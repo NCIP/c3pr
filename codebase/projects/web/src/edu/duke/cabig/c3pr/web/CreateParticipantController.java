@@ -43,7 +43,7 @@ public class CreateParticipantController extends SimpleFormController {
     	// replaced with LOVDao to get the static data from individual tables
     	Map<String, Object> refdata = new HashMap<String, Object>();
     	
-    	refdata.put("administritativeGenderCode", getAdministritativeGenderCodeList());
+    	refdata.put("administrativeGenderCode", getAdministrativeGenderCodeList());
         refdata.put("ethnicGroupCode", getEthnicGroupCodeList());
         refdata.put("raceCode", getRaceCodeList());
         refdata.put("healthcareSite", healthcareSiteDao.getAll());
@@ -75,8 +75,7 @@ public class CreateParticipantController extends SimpleFormController {
 			HttpServletResponse response, Object oCommand, BindException errors)
 			throws Exception {
 		Participant command = (Participant) oCommand;
-	
-				
+					
 		participantDao.save(command);
 
 		ModelAndView modelAndView = new ModelAndView(getSuccessView());
@@ -139,7 +138,7 @@ public class CreateParticipantController extends SimpleFormController {
 		return col;
 	}
 	
-	private List<LOV> getAdministritativeGenderCodeList() 
+	private List<LOV> getAdministrativeGenderCodeList() 
 	{
 		List<LOV> col = new ArrayList<LOV>();
 		
