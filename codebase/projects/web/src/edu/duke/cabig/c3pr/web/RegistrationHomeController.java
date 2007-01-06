@@ -91,6 +91,7 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 		StudyParticipantAssignment studyParticipantAssignment= new StudyParticipantAssignment();
 		studyParticipantAssignment.setStudyParticipantIdentifier("TESTID_Kruttik_BIG");
 		studyParticipantAssignment.setStartDate(new Date());
+		studyParticipantAssignment.setEligibilityIndicator(false);
 		StudySite studySite=null;
 		Participant participant=null;
 		if(request.getParameter("studySiteId")!=null && request.getParameter("participantId")!=null){
