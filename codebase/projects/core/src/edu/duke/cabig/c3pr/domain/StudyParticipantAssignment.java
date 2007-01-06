@@ -37,11 +37,20 @@ public class StudyParticipantAssignment extends AbstractDomainObject {
     private String studyParticipantIdentifier;
     private String eligibilityWaiverReasonText;
     private Date informedConsentSignedDate;
+    private boolean eligibilityIndicator;
 
     
     /// BEAN PROPERTIES
 
-    public void setStudySite(StudySite studySite) {
+    public boolean isEligibilityIndicator() {
+		return eligibilityIndicator;
+	}
+
+	public void setEligibilityIndicator(boolean eligibilityIndicator) {
+		this.eligibilityIndicator = eligibilityIndicator;
+	}
+
+	public void setStudySite(StudySite studySite) {
         this.studySite = studySite;
     }
 
