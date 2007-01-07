@@ -18,9 +18,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractWizardFormController;
 import org.springframework.web.servlet.view.RedirectView;
 
+import edu.duke.cabig.c3pr.dao.CaDSRDataDao;
+import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Address;
-import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -36,11 +37,12 @@ public class CreateStudyController extends AbstractWizardFormController {
     private static Log log = LogFactory.getLog(CreateStudyController.class);
 	private StudyService studyService;
 	private StudyDao studyDao;
+	private HealthcareSiteDao healthcareSiteDao;
 	
 	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
         super.initBinder(request, binder);
         binder.registerCustomEditor(Date.class, ControllerTools.getDateEditor(true));
-        ControllerTools.registerDomainObjectEditor(binder, "study", studyDao);
+        ControllerTools.registerDomainObjectEditor(binder, healthcareSiteDao);
     }
 	
 	/**
@@ -58,6 +60,7 @@ public class CreateStudyController extends AbstractWizardFormController {
 	* @param errors - validation errors holder
 	* @param page - number of page to validate
 	*/
+	
 //	protected void validatePage(Object command, Errors errors, int page) {
 //		StudyDesignCommand StudyDesignCommand = (StudyDesignCommand) command;
 //		StudyDesignCommand StudyDesignValidator = (StudyDesignCommand) getValidator();
@@ -67,36 +70,24 @@ public class CreateStudyController extends AbstractWizardFormController {
 //		break;
 //		}
 //	}
-	
-//	protected int getTargetPage(HttpServletRequest request, Object command, Errors errors,
-//			int currentPage) {
-//		if (request.getParameter(PARAM_TARGET) != null) {
-//			return new Integer(request.getParameter(PARAM_TARGET)).intValue();
-//		}
-//		if (currentPage == 0) {
-//			return 1;
-//		}
-//		else {
-//			return 2;
-//		}
-//	}
 
 	protected Map<String, Object> referenceData(HttpServletRequest httpServletRequest, int page) 
   		throws Exception {
+		CaDSRDataDao caDsr = new CaDSRDataDao();
   	// Currently the static data is a hack for an LOV this will be replaced with 
   	// LOVDao to get the static data from individual tables
 		Map<String, Object> refdata = new HashMap<String, Object>();
 	  	if (page == 0) {
-	  		refdata.put("diseaseCode", getDiseaseCodeList());
-	  		refdata.put("monitorCode", getMonitorCodeList());
-	  		refdata.put("phaseCode", getDiseaseCodeList());
-	  		refdata.put("sponsorCode", getSponsorCodeList() );
-	  		refdata.put("status", getStatusList());
-	  		refdata.put("type", getTypeList() );
-	  		refdata.put("multiInstitutionIndicator", getMultinstitutionList());
-	  		refdata.put("randomizedIndicator", getRandomizedList());
-	  		refdata.put("blindedIndicator", getBlindedIndicator());
-	  		refdata.put("nciIdentifier", getNciIdentifier());
+	  		refdata.put("diseaseCode", caDsr.getCADsrData("diseaseCode"));
+	  		refdata.put("monitorCode", caDsr.getCADsrData("monitorCode"));
+	  		refdata.put("phaseCode", caDsr.getCADsrData("monitorCode"));
+	  		refdata.put("sponsorCode", caDsr.getCADsrData("sponsorCode"));
+	  		refdata.put("status", caDsr.getCADsrData("status"));
+	  		refdata.put("type", caDsr.getCADsrData("type"));
+	  		refdata.put("multiInstitutionIndicator", getBooleanList());
+	  		refdata.put("randomizedIndicator", getBooleanList());
+	  		refdata.put("blindedIndicator", getBooleanList());
+	  		refdata.put("nciIdentifier", getBooleanList());
 	  		return refdata;
 	  	}
 	  	
@@ -138,163 +129,43 @@ public class CreateStudyController extends AbstractWizardFormController {
 		studySite.setSite(healthCaresite);
 		
 		return study;
-	}
-	
-	private List<LOV> getDiseaseCodeList(){
-		List<LOV> col = new ArrayList<LOV>();
-		LOV lov1 = new LOV("10028534", "Myelodysplastic syndrome NOS");
-		LOV lov2 = new LOV("10038272", "Refractory anemia with ringed sideroblasts");
-		LOV lov3 = new LOV("10024536", "Lip and/or oral cavity cancer stage 0");
-		LOV lov4 = new LOV("10031098", "Oropharyngeal cancer recurrent");
-		
-		col.add(lov1);
-    	col.add(lov2);
-    	col.add(lov3);
-    	col.add(lov4);
-    	
-    	return col;
-	}
-	
-	private List<LOV> getMonitorCodeList(){
-		List<LOV> col = new ArrayList<LOV>();
-		LOV lov1 = new LOV("10028534", "Monitor Code 1");
-		LOV lov2 = new LOV("10038272", "Monitor Code 2");
-		LOV lov3 = new LOV("10024536", "Monitor Code 3");
-		LOV lov4 = new LOV("10031098", "Monitor Code List 4");
-		
-		col.add(lov1);
-    	col.add(lov2);
-    	col.add(lov3);
-    	col.add(lov4);
-    	
-    	return col;
-	}
-	
-	private List<LOV> getPhaseCodeList(){
-		List<LOV> col = new ArrayList<LOV>();
-		LOV lov1 = new LOV("100", "Phase I");
-		LOV lov2 = new LOV("101", "Phase I/II");
-		LOV lov3 = new LOV("102", "Phase III");
-		LOV lov4 = new LOV("103", "NOT APPLICABLE");
-		
-		col.add(lov1);
-    	col.add(lov2);
-    	col.add(lov3);
-    	col.add(lov4);
-    	
-    	return col;
-	}
-	
-	
-	private List<LOV> getSponsorCodeList(){
-		List<LOV> col = new ArrayList<LOV>();
-		LOV lov1 = new LOV("200", "Sponsor 1 - Duke");
-		LOV lov2 = new LOV("201", "Sponsor 2 - Nci");
-		LOV lov3 = new LOV("202", "Sponsor 3 - FDA");
-		
-		col.add(lov1);
-    	col.add(lov2);
-    	col.add(lov3);
-    		
-    	return col;
-	}
-	
-	private List<LOV> getStatusList(){
-		List<LOV> col = new ArrayList<LOV>();
-		LOV lov1 = new LOV("C", "Closed");
-		LOV lov2 = new LOV("O", "Open");
-		LOV lov3 = new LOV("S", "Suspended");
-		LOV lov4 = new LOV("T", "Terminated");
-		LOV lov5 = new LOV("I", "IRB Approved");
-		
-		col.add(lov1);
-    	col.add(lov2);
-    	col.add(lov3);
-    	col.add(lov4);
-    	col.add(lov5);
-    	
-    	return col;
+	}	
+
+	public StudyDao getStudyDao() {
+		return studyDao;
 	}
 
-	private List<LOV> getTypeList(){
-		List<LOV> col = new ArrayList<LOV>();
-		LOV lov1 = new LOV("C", "Diagnostic");
-		LOV lov2 = new LOV("GN", "Genetic Non-therapeutic");
-		LOV lov3 = new LOV("GT", "Genetic Non-therapeutic");
-		LOV lov4 = new LOV("N", "Non-therapeutic");
-		LOV lov5 = new LOV("P", "Primary Treatment");
-		LOV lov6 = new LOV("S", "Supportive");
-		LOV lov7 = new LOV("P", "Preventive'");
-		
-		col.add(lov1);
-    	col.add(lov2);
-    	col.add(lov3);
-    	col.add(lov4);
-    	col.add(lov5);
-    	col.add(lov6);
-    	col.add(lov7);
-    	
-    	return col;
+	public void setStudyDao(StudyDao studyDao) {
+		this.studyDao = studyDao;
 	}
 	
-	private List<StringBean> getMultinstitutionList(){
-		List<StringBean> col = new ArrayList<StringBean>();		
-    	col.add(new StringBean("YES"));
-    	col.add(new StringBean("NO"));
-    	return col;
-	}
-	private List<StringBean> getRandomizedList(){
-		List<StringBean> col = new ArrayList<StringBean>();		
-    	col.add(new StringBean("YES"));
-    	col.add(new StringBean("NO"));
-    	return col;
-	}
 	
-	private List<StringBean> getBlindedIndicator(){
-		List<StringBean> col = new ArrayList<StringBean>();		
-    	col.add(new StringBean("YES"));
-    	col.add(new StringBean("NO"));
-    	return col;
+	public HealthcareSiteDao getHealthcareSiteDao() {
+		return healthcareSiteDao;
 	}
-	
-	private List<StringBean> getNciIdentifier(){
-		List<StringBean> col = new ArrayList<StringBean>();		
-    	col.add(new StringBean("YES"));
-    	col.add(new StringBean("NO"));
-    	return col;
+
+	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
+		this.healthcareSiteDao = healthcareSiteDao;
+	}
+
+	public StudyService getStudyService() {
+		return studyService;
+	}
+
+	public void setStudyService(StudyService studyService) {
+		this.studyService = studyService;
 	}	
 	
-	public class LOV {
-		
-		private String code;
-		private String desc;
-		
-		LOV(String code, String desc)
-		{
-			this.code=code;
-			this.desc=desc;
-			
-		}
-		
-		public String getCode() {
-			return code;
-		}
 
-		public void setCode(String code) {
-			this.code = code;
-		}
-		
-		public String getDesc(){
-			return desc;
-		}
-			
-		public void setDesc(String desc){
-			this.desc=desc;
-		}
+	private List<StringBean> getBooleanList(){
+		List<StringBean> col = new ArrayList<StringBean>();		
+    	col.add(new StringBean("YES"));
+    	col.add(new StringBean("NO"));
+    	return col;
 	}
 	
 	public class StringBean {
-	
+		
 		String str;
 		
 		StringBean(String str)
@@ -311,21 +182,4 @@ public class CreateStudyController extends AbstractWizardFormController {
 		}
 		
 	}
-
-	public StudyDao getStudyDao() {
-		return studyDao;
-	}
-
-	public void setStudyDao(StudyDao studyDao) {
-		this.studyDao = studyDao;
-	}
-
-	public StudyService getStudyService() {
-		return studyService;
-	}
-
-	public void setStudyService(StudyService studyService) {
-		this.studyService = studyService;
-	}	
-	
 }
