@@ -37,18 +37,11 @@ public class StudyParticipantAssignment extends AbstractDomainObject {
     private String studyParticipantIdentifier;
     private String eligibilityWaiverReasonText;
     private Date informedConsentSignedDate;
-    private boolean eligibilityIndicator;
+    private Boolean eligibilityIndicator;
 
     
     /// BEAN PROPERTIES
 
-    public boolean isEligibilityIndicator() {
-		return eligibilityIndicator;
-	}
-
-	public void setEligibilityIndicator(boolean eligibilityIndicator) {
-		this.eligibilityIndicator = eligibilityIndicator;
-	}
 
 	public void setStudySite(StudySite studySite) {
         this.studySite = studySite;
@@ -146,5 +139,13 @@ public class StudyParticipantAssignment extends AbstractDomainObject {
         result = 29 * result + (startDate != null ? startDate.hashCode() : 0);
         return result;
     }
+
+	public Boolean getEligibilityIndicator() {
+		return eligibilityIndicator;
+	}
+
+	public void setEligibilityIndicator(Boolean eligibilityIndicator) {
+		this.eligibilityIndicator = eligibilityIndicator;
+	}
 
 }
