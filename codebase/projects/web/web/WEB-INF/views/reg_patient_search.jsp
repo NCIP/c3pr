@@ -15,6 +15,9 @@
 function navRollOver(obj, state) {
   document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
 }
+function submitPage(){
+	document.getElementById("searchParticipant").submit();
+}
 </script>
 </head>
 <body>
@@ -130,7 +133,7 @@ function navRollOver(obj, state) {
 							<table width="100%" border="0" cellspacing="0" cellpadding="0"
 								id="search">
 								<tr>
-									<td align="left" class="labels">First Name:</td>
+									<td align="left" class="labels">Search String:</td>
 									<td class="labels">&nbsp;</td>
 								</tr>
 								<tr>
