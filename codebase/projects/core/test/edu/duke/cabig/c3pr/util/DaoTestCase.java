@@ -101,7 +101,7 @@ public abstract class DaoTestCase extends DbTestCase {
     }
     
     protected DatabaseOperation getTearDownOperation() throws Exception {
-        return DatabaseOperation.DELETE_ALL;
+        return DatabaseOperation.DELETE;
     }
     
     public static ApplicationContext getApplicationContext() {
