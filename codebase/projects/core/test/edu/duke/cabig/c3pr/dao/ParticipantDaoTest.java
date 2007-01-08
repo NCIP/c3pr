@@ -9,6 +9,7 @@ import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.ParticipantIdentifier;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
+import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.util.DaoTestCase;
@@ -92,7 +93,14 @@ public class ParticipantDaoTest extends DaoTestCase {
     	  searchCriteria.setLastName("Clooney");
           List<Participant> results = dao.searchByExample(searchCriteria);
           assertEquals("Wrong number of Participants", 1, results.size());
-          assertEquals("Clooney", results.get(0).getLastName());
+     }
+    
+    public void ttestSearchParticipantSimpleByWildCards()
+    {    
+    	Participant searchCriteria = new Participant();
+  	  searchCriteria.setLastName("Clooney");
+        List<Participant> results = dao.searchByExample(searchCriteria, true);
+        assertEquals("Wrong number of Participants", 1, results.size());
     }
 
 }
