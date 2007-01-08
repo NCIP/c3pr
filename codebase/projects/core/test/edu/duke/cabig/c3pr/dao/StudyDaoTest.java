@@ -2,11 +2,9 @@ package edu.duke.cabig.c3pr.dao;
 
 import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import edu.duke.cabig.c3pr.domain.Arm;
-import edu.duke.cabig.c3pr.domain.DomainObject;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.util.DaoTestCase;
@@ -70,20 +68,17 @@ public class StudyDaoTest extends DaoTestCase {
     }
 
     public void testGetArms() throws Exception {
-//        List<Arm> actual = dao.getArmsForStudy(1000);
-//        assertEquals("Wrong number of assigments", 8, actual.size());
-//        List<Integer> ids = collectIds(actual);
-//
-//        assertContains("Missing expected Arm", ids, 1000);
-//        assertContains("Missing expected Arm", ids, 1001);
-//        assertContains("Missing expected Arm", ids, 1002);
-//        assertContains("Missing expected Arm", ids, 1003);
-//        assertContains("Missing expected Arm", ids, 1004);
-//        assertContains("Missing expected Arm", ids, 1005);
-//        assertContains("Missing expected Arm", ids, 1006);
-//        assertContains("Missing expected Arm", ids, 1007);
+        List<Arm> actual = dao.getArmsForStudy(1000);
+       
+        assertEquals("Wrong number of assigments", 4, actual.size());
+        List<Integer> ids = collectIds(actual);
+
+        assertContains("Missing expected Arm", ids, 1000);
+        assertContains("Missing expected Arm", ids, 1001);
+        assertContains("Missing expected Arm", ids, 1002);
+        assertContains("Missing expected Arm", ids, 1003);
+      
     }
-    
     
     public void testSearchStudySimple()
     {    
@@ -97,12 +92,9 @@ public class StudyDaoTest extends DaoTestCase {
    
     public void testSearchStudyByWildCards()
     {    
-//    	  Study studySearchCriteria = new Study();
-//    	  studySearchCriteria.setShortTitleText("*_title_*");
-//          List<Study> results = dao.searchByExample(studySearchCriteria);
-//          assertEquals("Wrong number of Studies", 3, results.size());
-//          assertEquals("short_title_text", results.get(0).getShortTitleText());
-//          assertEquals("short_title_text2", results.get(1).getShortTitleText());   
-//          assertEquals("short_title_text", results.get(1).getShortTitleText());
+    	  Study studySearchCriteria = new Study();
+    	  studySearchCriteria.setShortTitleText("ti%e");
+          List<Study> results = dao.searchByExample(studySearchCriteria, true);
+          assertEquals("Wrong number of Studies", 3, results.size());          
     }
 }
