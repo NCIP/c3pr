@@ -16,9 +16,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
     public void testGetById() throws Exception {
         Epoch loaded = getDao().getById(1000);
         assertEquals("Wrong name", "Treatment", loaded.getName());
-        assertEquals("Wrong number of arms", 2, loaded.getArms().size());
-        assertEquals("Wrong 0th arm", "Arm 1000", loaded.getArms().get(0).getName());
-        assertEquals("Wrong 1st arm", "Arm 1001", loaded.getArms().get(1).getName());
+        assertEquals("Wrong number of arms", 2, loaded.getArms().size());     
     }
     
     public void testGetAll() throws Exception {
