@@ -9,8 +9,6 @@ public class SearchStudyCommand {
 	
 	private String searchTypeText;
 	private String searchType;
-	private String studyid;
-	private String shortTitleText;
 	
 	/**
 	 * @return the searchType
@@ -36,31 +34,6 @@ public class SearchStudyCommand {
 	public void setSearchTypeText(String searchTypeText) {
 		this.searchTypeText = searchTypeText;
 	}
-	/**
-	 * @return the studyid
-	 */
-	public String getStudyid() {
-		return studyid;
-	}
-	/**
-	 * @param studyid the studyid to set
-	 */
-	public void setStudyid(String studyid) {
-		this.studyid = studyid;
-	}
-	/**
-	 * @return the shortTitleText
-	 */
-	public String getShortTitleText() {
-		return shortTitleText;
-	}
-	/**
-	 * @param shortTitleText the shortTitleText to set
-	 */
-	public void setShortTitleText(String shortTitleText) {
-		this.shortTitleText = shortTitleText;
-	}
-	
 	
 
 }

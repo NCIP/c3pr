@@ -34,18 +34,11 @@ public class SearchStudyController  extends SimpleFormController{
 	protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object oCommand, BindException errors) throws Exception {
     	SearchStudyCommand searchStudyCommand = (SearchStudyCommand) oCommand;
     	Study study = new Study();
-    	String id  = searchStudyCommand.getStudyid();
     	String type = searchStudyCommand.getSearchType();
     	String searchtext = searchStudyCommand.getSearchTypeText();
-    	String shortTitleText = searchStudyCommand.getShortTitleText();
     	
     	log.debug("search string = " +searchtext+"; type = "+type);
-    	
-    	if (id != null && !("").equals(id))
-    		study.setId(new Integer(id));
-    	if (shortTitleText != null && !("").equals(shortTitleText))
-    		study.setShortTitleText(shortTitleText);    	
-    	    	
+    	    	   
     	if ("status".equals(type))
     		study.setStatus(searchtext);
     	else if ("T".equals(type))
