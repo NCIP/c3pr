@@ -4,13 +4,14 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.criterion.Example;
+import org.hibernate.criterion.MatchMode;
 import org.springframework.dao.DataAccessException;
 
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.Study;
 
 /**
- * @author kulasekaran
- * @author Ramakrishna
+ * @author Priyatam, kulasekaran
  */
 public class ParticipantDao extends AbstractBaseDao<Participant> {
 	
@@ -18,20 +19,42 @@ public class ParticipantDao extends AbstractBaseDao<Participant> {
 	        return Participant.class;
 	 }	
 	
-	/*
-	 * Lists all Participant objects
+	/**
+	 /*
+	 * Searches based on an example object. Typical usage from your service class: -
+	 * If you want to search based on diseaseCode, monitorCode,
+	 * <li><code>Participant participant = new Participant();</li></code>
+	 * <li>code>participant.setLastName("last_namee");</li></code>
+	 * <li>code>participantDao.searchByExample(study)</li></code>
+	 * @return list of matching participant objects based on your sample participant object
+	 * @param participant
+	 * @return
 	 */
-	public List<Participant> searchByExample(Participant participant) throws DataAccessException{
+	public List<Participant> searchByExample(Participant participant, boolean isWildCard){
 			Session session = getHibernateTemplate().getSessionFactory().openSession();		
-			Example searchCriteria = Example.create(participant).excludeZeroes();;
+			Example searchCriteria = Example.create(participant).excludeZeroes();
+			if (isWildCard)
+			{
+				searchCriteria.enableLike(MatchMode.ANYWHERE);
+			}
 			return session.createCriteria(Participant.class).add(searchCriteria).list();
 	  }
 		
-		/*
-		 * Returns all Participant objects
-		 * (non-Javadoc)
-		 * @see edu.duke.cabig.c3pr.dao.ParticipantDao#getAll()
-		 */
+	/**
+	 * Default Search without a Wildchar
+	 * @see edu.duke.cabig.c3pr.dao.searchByExample(Participant participant, boolean isWildCard)
+	 * @param participant
+	 * @return Search results
+	 */
+	public List<Participant> searchByExample(Participant participant) {
+		return searchByExample(participant, false);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @throws DataAccessException
+	 */
 	 public List<Participant> getAll() throws DataAccessException{
 			 return getHibernateTemplate().find("from Participant");
 		 }
