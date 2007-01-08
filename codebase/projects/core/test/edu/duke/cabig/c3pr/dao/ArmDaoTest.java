@@ -15,7 +15,7 @@ public class ArmDaoTest extends ContextDaoTestCase<ArmDao> {
 	 public void testGetById() throws Exception {
 	        Arm arm = getDao().getById(1000);
 	        assertEquals("Arm 1000", arm.getName());
-	        assertEquals("Wrong Target Accrual Number", "Arm 1 desc", arm.getDescriptionText());	      
+	        assertEquals("Wrong Target Accrual Number", "Arm 1000 desc", arm.getDescriptionText());	      
 	    }
 	    
 	    public void testGetAll() throws Exception {
