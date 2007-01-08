@@ -112,8 +112,9 @@ function submitPage(){
 
 						<tr>
 							<!-- TITLE STARTS HERE -->
-							<td width="99%" height="43" valign="middle" id="title">Patient
-							Search</td>
+							<td width="99%" height="43" valign="middle" id="title"><a
+								href="createparticipant.do?url=register.do&studySiteId=${studySiteId }">Create
+							Patient</td>
 							<td valign="top">
 							<table width="100%" border="0" cellspacing="0" cellpadding="0"
 								id="search">

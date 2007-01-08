@@ -80,6 +80,7 @@ private static Log log = LogFactory.getLog(SearchParticipantRegisterController.c
  		Map<String, Object> refdata = new HashMap<String, Object>();
  	
  	refdata.put("searchType", getSearchType());
+ 	refdata.put("studySiteId", httpServletRequest.getParameter("studySiteId"));
      return refdata;
  }
 	 

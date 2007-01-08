@@ -1,10 +1,11 @@
 package edu.duke.cabig.c3pr.web;
 
 public class SearchRegisterCommand {
+	private String searchCategory;
 	private String searchTypeText;
+	private String searchTypeTextPart;
+	private String searchTypePart;
 	private String searchType;
-	private String studyid;
-	private String shortTitleText;
 	public String getSearchType() {
 		return searchType;
 	}
@@ -17,18 +18,23 @@ public class SearchRegisterCommand {
 	public void setSearchTypeText(String searchTypeText) {
 		this.searchTypeText = searchTypeText;
 	}
-	public String getShortTitleText() {
-		return shortTitleText;
+	public String getSearchCategory() {
+		return searchCategory;
 	}
-	public void setShortTitleText(String shortTitleText) {
-		this.shortTitleText = shortTitleText;
+	public void setSearchCategory(String searchCategory) {
+		this.searchCategory = searchCategory;
 	}
-	public String getStudyid() {
-		return studyid;
+	public String getSearchTypePart() {
+		return searchTypePart;
 	}
-	public void setStudyid(String studyid) {
-		this.studyid = studyid;
+	public void setSearchTypePart(String searchTypePart) {
+		this.searchTypePart = searchTypePart;
+	}
+	public String getSearchTypeTextPart() {
+		return searchTypeTextPart;
+	}
+	public void setSearchTypeTextPart(String searchTypeTextPart) {
+		this.searchTypeTextPart = searchTypeTextPart;
 	}
 
-	
 }

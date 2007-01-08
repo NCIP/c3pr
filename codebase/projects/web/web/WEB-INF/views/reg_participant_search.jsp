@@ -78,11 +78,11 @@ function doNothing(){
 					<tr>
 						<td width="100%" id="tabDisplay"><span class="current">
 						<img src="images/tabWhiteL.gif" width="3" height="16"
-							align="absmiddle"> 1. Select Study <img
+							align="absmiddle"> 1. Select Patient <img
 							src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"> </span><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						2. Select Patient <img src="images/tabGrayR.gif" width="3"
+						2. Select Study <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						3. Check Eligibility <img src="images/tabGrayR.gif" width="3"
@@ -111,10 +111,12 @@ function doNothing(){
 				<table width="100%" border="0" cellspacing="0" cellpadding="0"
 					class="titleArea">
 					<form:form id="searchForm" name="searchForm" method="post">
+						<form:hidden path="searchCategory" />
 						<tr>
 							<!-- TITLE STARTS HERE -->
-							<td width="99%" height="43" valign="middle" id="title">Study
-							Search</td>
+							<td width="99%" height="43" valign="middle" id="title"><a
+								href="createparticipant.do?url=SearchRegisterStudy.do">Create
+							Participant</a></td>
 							<td valign="top">
 							<table width="100%" border="0" cellspacing="0" cellpadding="0"
 								id="search">
@@ -122,10 +124,10 @@ function doNothing(){
 									<td class="labels">&nbsp;</td>
 								</tr>
 								<tr>
-									<td class="searchType">Search Study by <form:select
-										path="searchType">
-										<form:options items="${searchType}" itemLabel="desc"
-											itemValue="code" />
+									<td class="searchType">Search Patient by <form:select
+										path="searchTypePart">
+										<form:options items="${searchTypeParticipant}"
+											itemLabel="desc" itemValue="code" />
 									</form:select></td>
 								</tr>
 							</table>
@@ -138,10 +140,11 @@ function doNothing(){
 									<td class="labels">&nbsp;</td>
 								</tr>
 								<tr>
-									<td><form:input path="searchTypeText" size="25" /></td>
+									<td><form:input path="searchTypeTextPart" size="25" /></td>
 									<td><input name="imageField" type="image" class="button"
-										onClick="submitPage('protocol');return false;" src="images/b-go.gif"
-										alt="GO" align="middle" width="22" height="10" border="0"></td>
+										onClick="submitPage('participant');return false;"
+										src="images/b-go.gif" alt="GO" align="middle" width="22"
+										height="10" border="0"></td>
 								</tr>
 							</table>
 							<span class="notation">^ Minimum two characters for
@@ -153,7 +156,7 @@ function doNothing(){
 					<tr>
 						<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
 
-						<td id="current">Study Search Results</td>
+						<td id="current">Patient Search Results</td>
 						<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 					</tr>
 					<tr>
@@ -171,32 +174,27 @@ function doNothing(){
 								<table width="100%" border="0" cellspacing="0" cellpadding="0"
 									id="additionalList">
 									<tr align="center" class="label">
-										<td>Short Title</td>
-										<td>Status</td>
-										<td>Primary Sponsor<br>
-										Code</td>
-										<td>Multi Institution <br>
-										Indicator</td>
-										<td>Target Accrual<br>
-										Number</td>
-										<td>Current Accrual<br>
-										Number</td>
+										<td>Last Name, First MI</td>
+										<td>Primary Id</td>
+										<td>Gender</td>
+										<td>Brith Date</td>
+										<td>First Visit<br>
+										Date</td>
+										<td></td>
 									</tr>
 									<%
 									int i = 1;
 									%>
-									<c:forEach var="study" items="${studies}">
-										<a
-											href="SearchRegisterPatient.do?studySiteId=${study.studySites[0].id}"
+									<c:forEach var="part" items="${participants}">
+										<a href="SearchRegisterStudy.do?participantId=${part.id}"
 											onMouseOver="navRollOver('row<%= i %>', 'on')"
 											onMouseOut="navRollOver('row<%= i %>', 'off')">
 										<tr align="center" id="row<%= i++ %>" class="results">
-											<td>${study.shortTitleText}</td>
-											<td>${study.status}</td>
-											<td>${study.sponsorCode}</td>
-											<td>${study.multiInstitutionIndicator}</td>
-											<td>${study.targetAccrualNumber}</td>
-											<td>50</td>
+											<td>${part.lastName},${part.firstName}</td>
+											<td>${part.id}</td>
+											<td>${part.administrativeGenderCode}</td>
+											<td>${part.raceCode}</td>
+											<td>${part.birthDate}</td>
 										</tr>
 										</a>
 									</c:forEach>

@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
-<%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
@@ -12,14 +12,14 @@
 <link href="resources/styles.css" rel="stylesheet" type="text/css">
 <link href="resources/search.css" rel="stylesheet" type="text/css">
 <script>
-function submitPage(s){
-	document.getElementById("searchCategory").value=s;
-	document.getElementById("searchForm").submit();
-}
 function navRollOver(obj, state) {
   document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
 }
-function doNothing(){
+function getPage(s){
+	parent.window.location="reg_patient_search.htm";
+}
+function submitPage(){
+	document.getElementById("searchStudy").submit();
 }
 </script>
 </head>
@@ -27,9 +27,9 @@ function doNothing(){
 <!-- TOP LOGOS START HERE -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
-		<td width="99%"><img src="images/c3prLogo.gif" alt="C3PR"
+		<td width="99%"><img src="images/C3PRLogo.gif" alt="C3PR"
 			width="181" height="36" class="gelogo"></td>
-		<td align="right"><img src="images/t-drivers.gif" alt="Study"
+		<td align="right"><img src="images/t-drivers.gif" alt="Protocol"
 			width="200" height="79"></td>
 	</tr>
 </table>
@@ -43,11 +43,11 @@ function doNothing(){
 			width="2" height="20" align="absmiddle" class="currentL"><span
 			class="current"><img src="images/topNavArrowDown.gif"
 			width="5" height="20" align="absmiddle"> Registration</span><a
-			href="/c3pr/searchstudy.do"> Study </a><img src="images/topNavR.gif"
+			href="protocol.htm"> Protocol </a><img src="images/topNavR.gif"
 			width="2" height="20" align="absmiddle" class="currentR"><a
-			href="participant.jsp" onClick="doNothing();">Participant</a><img
+			href="participant.htm">Participant</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
-			class="divider"><a href="analysis" onClick="doNothing();">Reports</a><img
+			class="divider"><a href="analysis">Reports</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
 			class="divider"></td>
 
@@ -76,14 +76,14 @@ function doNothing(){
 				<table width="100%" border="0" cellspacing="0" cellpadding="0"
 					class="tabs">
 					<tr>
-						<td width="100%" id="tabDisplay"><span class="current">
-						<img src="images/tabWhiteL.gif" width="3" height="16"
-							align="absmiddle"> 1. Select Study <img
-							src="images/tabWhiteR.gif" width="3" height="16"
-							align="absmiddle"> </span><span class="tab"><img
+						<td width="100%" id="tabDisplay"><span class="tab"> <img
+							src="images/tabWhiteL.gif" width="3" height="16"
+							align="absmiddle"> 1. <a href="reg_protocol_search.htm">Select
+						Patient </a><img src="images/tabWhiteR.gif" width="3" height="16"
+							align="absmiddle"></span><span class="current"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						2. Select Patient <img src="images/tabGrayR.gif" width="3"
-							height="16" align="absmiddle"><img
+						2. Select Study <img src="images/tabGrayR.gif" width="3"
+							height="16" align="absmiddle"></span><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						3. Check Eligibility <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"><img
@@ -110,11 +110,13 @@ function doNothing(){
 				<div class="workArea">
 				<table width="100%" border="0" cellspacing="0" cellpadding="0"
 					class="titleArea">
-					<form:form id="searchForm" name="searchForm" method="post">
-						<tr>
-							<!-- TITLE STARTS HERE -->
-							<td width="99%" height="43" valign="middle" id="title">Study
-							Search</td>
+					<tr>
+						<!-- TITLE STARTS HERE -->
+						<td width="99%" height="43" valign="middle" id="title">Study
+						Search</td>
+
+						<form:form id="searchStudy" name="searchParticipant"
+							method="post">
 							<td valign="top">
 							<table width="100%" border="0" cellspacing="0" cellpadding="0"
 								id="search">
@@ -127,6 +129,7 @@ function doNothing(){
 										<form:options items="${searchType}" itemLabel="desc"
 											itemValue="code" />
 									</form:select></td>
+									</td>
 								</tr>
 							</table>
 							<span class="notation">&nbsp;</span></td>
@@ -138,75 +141,15 @@ function doNothing(){
 									<td class="labels">&nbsp;</td>
 								</tr>
 								<tr>
-									<td><form:input path="searchTypeText" size="25" /></td>
+									<td><form:input path="searchTypeText" /></td>
 									<td><input name="imageField" type="image" class="button"
-										onClick="submitPage('protocol');return false;" src="images/b-go.gif"
-										alt="GO" align="middle" width="22" height="10" border="0"></td>
+										onClick="submitPage()" src="images/b-go.gif" alt="GO"
+										align="middle" width="22" height="10" border="0"></td>
 								</tr>
 							</table>
 							<span class="notation">^ Minimum two characters for
 							search.</span></td>
-						</tr>
-					</form:form>
-				</table>
-				<table width="100%" border="0" cellspacing="0" cellpadding="0">
-					<tr>
-						<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
-
-						<td id="current">Study Search Results</td>
-						<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
-					</tr>
-					<tr>
-
-						<td class="display"><!-- TABS LEFT START HERE -->
-						<table width="100%" border="0" cellpadding="0" cellspacing="0">
-							<tr>
-
-								<!-- LEFT CONTENT STARTS HERE -->
-
-								<td valign="top" class="additionals"><!-- LEFT FORM STARTS HERE -->
-
-
-								<br>
-								<table width="100%" border="0" cellspacing="0" cellpadding="0"
-									id="additionalList">
-									<tr align="center" class="label">
-										<td>Short Title</td>
-										<td>Status</td>
-										<td>Primary Sponsor<br>
-										Code</td>
-										<td>Multi Institution <br>
-										Indicator</td>
-										<td>Target Accrual<br>
-										Number</td>
-										<td>Current Accrual<br>
-										Number</td>
-									</tr>
-									<%
-									int i = 1;
-									%>
-									<c:forEach var="study" items="${studies}">
-										<a
-											href="SearchRegisterPatient.do?studySiteId=${study.studySites[0].id}"
-											onMouseOver="navRollOver('row<%= i %>', 'on')"
-											onMouseOut="navRollOver('row<%= i %>', 'off')">
-										<tr align="center" id="row<%= i++ %>" class="results">
-											<td>${study.shortTitleText}</td>
-											<td>${study.status}</td>
-											<td>${study.sponsorCode}</td>
-											<td>${study.multiInstitutionIndicator}</td>
-											<td>${study.targetAccrualNumber}</td>
-											<td>50</td>
-										</tr>
-										</a>
-									</c:forEach>
-								</table>
-								<br>
-								<!-- LEFT FORM ENDS HERE --></td>
-								<!-- LEFT CONTENT ENDS HERE -->
-							</tr>
-						</table>
-						</td>
+						</form:form>
 					</tr>
 				</table>
 				</td>
