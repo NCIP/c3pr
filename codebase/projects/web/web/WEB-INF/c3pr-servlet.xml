@@ -71,10 +71,18 @@
 	    <property name="successView" value="reg_protocol_search"/>
   	</bean>
  	<bean id="createParticipantController" lazy-init="true" class="edu.duke.cabig.c3pr.web.CreateParticipantController" autowire="byType">
-	    <property name="formView" value="createParticipant"/>
-	    <property name="successView" value="success"/>
-	    <property name="commandClass" value="edu.duke.cabig.c3pr.domain.Participant"/>
+	    <property name="commandClass" value="edu.duke.cabig.c3pr.domain.Participant"/>	    
+	    <property name="commandName" value="command"/>
+	    <property name="pages">
+	    <list>
+		    <value>participant</value>
+		    <value>participant_address</value>		    
+		    <value>participant_submit</value>
+	    </list>
+	    </property>
+	    <property name="pageAttribute" value="currentPage"></property>	    	    
     </bean>
+    
     <bean id="searchParticipantController" lazy-init="true" class="edu.duke.cabig.c3pr.web.SearchParticipantController" autowire="byType">
 	    <property name="formView" value="participant_search"/>
 	    <property name="successView" value="participant_search_results"/>
