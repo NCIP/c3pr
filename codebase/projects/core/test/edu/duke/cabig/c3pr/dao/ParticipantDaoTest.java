@@ -17,6 +17,7 @@ import edu.duke.cabig.c3pr.util.DaoTestCase;
 /**
  * JUnit Tests for ParticipantDao
  * @author Priyatam
+ * @testType unit
  */
 public class ParticipantDaoTest extends DaoTestCase {
     private ParticipantDao dao = (ParticipantDao) getApplicationContext().getBean("participantDao");

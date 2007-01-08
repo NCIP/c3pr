@@ -8,8 +8,8 @@ import org.springframework.web.context.support.XmlWebApplicationContext;
 /**
  * These tests are intended to verify that the various application contexts will
  * all load when the application is deployed.
- *
  * @author Priyatam
+ * @testType unit
  */
 public class ApplicationContextInitializationTest extends ApplicationTestCase {
 

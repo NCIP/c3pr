@@ -10,6 +10,7 @@ import edu.duke.cabig.c3pr.util.ContextDaoTestCase;
 /**
  * JUnit Tests for ArmDao
  * @author Priyatam
+ * @testType unit
  */
 public class ArmDaoTest extends ContextDaoTestCase<ArmDao> {
 

@@ -11,12 +11,14 @@ import edu.duke.cabig.c3pr.util.ContextDaoTestCase;
 /**
  * JUnit Tests for EpochDao
  * @author Priyatam
+ * @testType unit
  */
 public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
 
 	/**
 	 * Test for loading an Epoch by Id 
 	 * @throws Exception
+	 * @testType unit
 	 */
     public void testGetById() throws Exception {
         Epoch loaded = getDao().getById(1000);

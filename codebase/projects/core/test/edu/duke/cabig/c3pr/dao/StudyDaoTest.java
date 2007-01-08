@@ -10,8 +10,9 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.util.DaoTestCase;
 
 /**
- * 
+ * JUnit Tests for StudyDao
  * @author Priyatam
+ * @testType unit
  */
 public class StudyDaoTest extends DaoTestCase {
     private StudyDao dao = (StudyDao) getApplicationContext().getBean("studyDao");

@@ -2,8 +2,11 @@ package edu.duke.cabig.c3pr.domain;
 
 import edu.duke.cabig.c3pr.util.ApplicationTestCase;
 
+
 /**
+ * JUnit Tests for AbstractDomainObject
  * @author Priyatam
+ * @testType unit
  */
 public class AbstractDomainObjectTest extends ApplicationTestCase {
 	private AbstractDomainObject o1, o2;
