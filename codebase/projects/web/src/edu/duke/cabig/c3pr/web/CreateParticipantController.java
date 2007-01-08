@@ -14,10 +14,12 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.SimpleFormController;
+import org.springframework.web.servlet.mvc.AbstractWizardFormController;
+import org.springframework.web.servlet.view.RedirectView;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
+import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.ParticipantIdentifier;
@@ -28,7 +30,7 @@ import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
  * @author Kulasekaran
  * 
  */
-public class CreateParticipantController extends SimpleFormController {
+public class CreateParticipantController extends AbstractWizardFormController {
 
 	private ParticipantDao participantDao;
 	private HealthcareSiteDao healthcareSiteDao;
@@ -38,26 +40,29 @@ public class CreateParticipantController extends SimpleFormController {
 	}
 
 	@Override
-	protected Map<String, Object> referenceData(HttpServletRequest httpServletRequest) throws Exception {
+	protected Map<String, Object> referenceData(HttpServletRequest httpServletRequest, int page) throws Exception {
     	// Currently the static data is a hack, once DB design is approved for an LOV this will be
     	// replaced with LOVDao to get the static data from individual tables
     	Map<String, Object> refdata = new HashMap<String, Object>();
     	
-    	refdata.put("administrativeGenderCode", getAdministrativeGenderCodeList());
-        refdata.put("ethnicGroupCode", getEthnicGroupCodeList());
-        refdata.put("raceCode", getRaceCodeList());
-        refdata.put("healthcareSite", healthcareSiteDao.getAll());
-        
+    	if(page==0)
+    	{
+    		refdata.put("administrativeGenderCode", getAdministrativeGenderCodeList());
+    		refdata.put("ethnicGroupCode", getEthnicGroupCodeList());
+    		refdata.put("raceCode", getRaceCodeList());
+    		refdata.put("healthcareSite", healthcareSiteDao.getAll());
+    	}
+    	
         return refdata;
     }
-
+	
 	@Override
 	protected Object formBackingObject(HttpServletRequest request) throws Exception {		
 		Participant participant = (Participant) super.formBackingObject(request);
 		for (int i = 0; i < 5; i++) {
 			participant.addParticipantIdentifier(new ParticipantIdentifier());
 		}
-		
+		participant.setAddress(new Address());
 		return participant;
 	}
 	
@@ -71,14 +76,14 @@ public class CreateParticipantController extends SimpleFormController {
 	}
 
 	@Override
-	protected ModelAndView onSubmit(HttpServletRequest request,
+	protected ModelAndView processFinish(HttpServletRequest request,
 			HttpServletResponse response, Object oCommand, BindException errors)
 			throws Exception {
 		Participant command = (Participant) oCommand;
 					
 		participantDao.save(command);
 
-		ModelAndView modelAndView = new ModelAndView(getSuccessView());
+		ModelAndView modelAndView = new ModelAndView(new RedirectView("success.jsp"));
 		modelAndView.addAllObjects(errors.getModel());
 		return modelAndView;
 	}	
