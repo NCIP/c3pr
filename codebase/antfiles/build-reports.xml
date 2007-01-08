@@ -274,7 +274,7 @@
 			<junitDocs>
 				<fileset dir="${projects.dir}/core">
 					<include name="src"/>
-					<include name="test/src"/>
+					<include name="test"/>
 				</fileset>
 				<fileset dir="${projects.dir}/test-system">
 					<include name="src/java"/>
