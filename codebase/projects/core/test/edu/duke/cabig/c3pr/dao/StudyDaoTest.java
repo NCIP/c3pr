@@ -16,12 +16,20 @@ import edu.duke.cabig.c3pr.util.DaoTestCase;
 public class StudyDaoTest extends DaoTestCase {
     private StudyDao dao = (StudyDao) getApplicationContext().getBean("studyDao");
 
+    /**
+	 * Test for loading a Study by Id 
+	 * @throws Exception
+	 */
     public void testGetById() throws Exception {
         Study study = dao.getById(1000);
         assertNotNull("Study 1 not found", study);
         assertEquals("Wrong name", "precis_text", study.getPrecisText());
     }
 
+    /**
+	 * Test for loading all Studies 
+	 * @throws Exception
+	 */
     public void testGetAll() throws Exception {
         List<Study> actual = dao.getAll();
         assertEquals(3, actual.size());
@@ -31,6 +39,10 @@ public class StudyDaoTest extends DaoTestCase {
         assertContains("Wrong study found", ids, 1002);
     }
 
+    /**
+     * Test Saving of a Study with all associations present
+     * @throws Exception
+     */
     public void testSaveNewStudy() throws Exception {
         Integer savedId;
         {
@@ -57,6 +69,10 @@ public class StudyDaoTest extends DaoTestCase {
         }
     }
     
+    /**
+     * Test for retrieving all Epochs associated with this Study 
+     * @throws Exception
+     */
     public void testGetEpochs() throws Exception {
     	Study study = dao.getById(1000);
     	List<Epoch> epochs = study.getEpochs();
@@ -67,6 +83,10 @@ public class StudyDaoTest extends DaoTestCase {
         assertContains("Missing expected Epoch", ids, 1001);        
     }
 
+    /**
+     * Test for retrieving all Arms associated with this Studies' epochs 
+     * @throws Exception
+     */
     public void testGetArms() throws Exception {
         List<Arm> actual = dao.getArmsForStudy(1000);
        
@@ -80,6 +100,10 @@ public class StudyDaoTest extends DaoTestCase {
       
     }
     
+    /**
+     * Test for searching Studies without wildcards 
+     * @throws Exception
+     */
     public void testSearchStudySimple()
     {    
     	  Study studySearchCriteria = new Study();
@@ -89,8 +113,12 @@ public class StudyDaoTest extends DaoTestCase {
           assertEquals("short_title_text", results.get(0).getShortTitleText());
           assertEquals("short_title_text", results.get(1).getShortTitleText());      
     }
-   
-    public void testSearchStudyByWildCards()
+    
+    /**
+     * Test for searching Studies using wildcards 
+     * @throws Exception
+     */   
+    public void testSearchStudyByWildCards() throws Exception
     {    
     	  Study studySearchCriteria = new Study();
     	  studySearchCriteria.setShortTitleText("ti%e");

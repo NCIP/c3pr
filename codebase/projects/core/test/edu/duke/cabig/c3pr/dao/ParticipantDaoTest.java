@@ -15,19 +15,27 @@ import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.util.DaoTestCase;
 
 /**
- * 
+ * JUnit Tests for ParticipantDao
  * @author Priyatam
  */
 public class ParticipantDaoTest extends DaoTestCase {
     private ParticipantDao dao = (ParticipantDao) getApplicationContext().getBean("participantDao");
     private StudySiteDao studySiteDao = (StudySiteDao) getApplicationContext().getBean("studySiteDao");
 
+    /**
+	 * Test for loading a Participant by Id 
+	 * @throws Exception
+	 */
     public void testGetById() throws Exception {
     	Participant participant = dao.getById(1000);
         assertNotNull("Participant 1 not found", participant);    
         assertEquals("Wrong last name", "Clooney", participant.getLastName());
     }
-
+    
+    /**
+	  * Test for loading all Participants
+	  * @throws Exception
+	  */
     public void testGetAll() throws Exception {
         List<Participant> actual = dao.getAll();
         assertEquals(3, actual.size());
@@ -36,7 +44,11 @@ public class ParticipantDaoTest extends DaoTestCase {
         assertContains("Wrong Participant found", ids, 1001);
         assertContains("Wrong Participant found", ids, 1002);
     }
-
+    
+    /**
+     * Test Saving of a Participant with all associations present
+     * @throws Exception
+     */
     public void testSaveNewParticipantWithAllAssociations() throws Exception {
         Integer savedId;
         {
@@ -67,7 +79,11 @@ public class ParticipantDaoTest extends DaoTestCase {
             assertNotNull("Could not reload study with id " + savedId, loaded);         
         }
     }
-       
+    
+    /**
+     * Test for retrieving all participant identifiers associated with this Participant
+     * @throws Exception
+     */
     public void testGetParticipantIdentifiers() throws Exception {
     	Participant participant = dao.getById(1000);
     	List<ParticipantIdentifier> partIds = participant.getParticipantIdentifiers();
@@ -77,6 +93,10 @@ public class ParticipantDaoTest extends DaoTestCase {
         assertContains("Missing expected ParticipantIdentifier", ids, 1000);
      }  
     
+    /**
+     * Test for retrieving all Participant Assignments associated with this Participant 
+     * @throws Exception
+     */
     public void testGetStudyParticipantAssignments() throws Exception {
     	Participant participant = dao.getById(1000);
     	List<StudyParticipantAssignment> studyPartIds = participant.getStudyParticipantAssignments();
@@ -87,7 +107,11 @@ public class ParticipantDaoTest extends DaoTestCase {
         assertContains("Missing expected Study Participant Identifier", ids, 1001);        
     }  
     
-    public void testSearchParticipantSimple()
+    /**
+     * Test for searching Participants without a wildcard 
+     * @throws Exception
+     */
+    public void testSearchParticipantSimple() throws Exception
     {    
     	  Participant searchCriteria = new Participant();
     	  searchCriteria.setLastName("Clooney");
@@ -95,10 +119,14 @@ public class ParticipantDaoTest extends DaoTestCase {
           assertEquals("Wrong number of Participants", 1, results.size());
      }
     
-    public void ttestSearchParticipantSimpleByWildCards()
+    /**
+     * Test for searching Participants using wildcards 
+     * @throws Exception
+     */
+    public void testSearchParticipantSimpleByWildCards() throws Exception
     {    
     	Participant searchCriteria = new Participant();
-  	  searchCriteria.setLastName("Clooney");
+  	  searchCriteria.setLastName("Clo%ey");
         List<Participant> results = dao.searchByExample(searchCriteria, true);
         assertEquals("Wrong number of Participants", 1, results.size());
     }

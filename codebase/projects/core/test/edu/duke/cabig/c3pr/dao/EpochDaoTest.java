@@ -9,16 +9,25 @@ import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.util.ContextDaoTestCase;
 
 /**
+ * JUnit Tests for EpochDao
  * @author Priyatam
  */
 public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
 
+	/**
+	 * Test for loading an Epoch by Id 
+	 * @throws Exception
+	 */
     public void testGetById() throws Exception {
         Epoch loaded = getDao().getById(1000);
         assertEquals("Wrong name", "Treatment", loaded.getName());
         assertEquals("Wrong number of arms", 2, loaded.getArms().size());     
     }
     
+    /**
+	  * Test for loading all Epochs
+	  * @throws Exception
+	  */
     public void testGetAll() throws Exception {
         List<Epoch> actual = getDao().getAll();
         assertEquals(4, actual.size());
@@ -29,6 +38,10 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
         assertContains("Wrong epoch found", ids, 1003);
     }
     
+    /**
+     * Test for loading all the Arms associated with this Epoch
+     * @throws Exception
+     */
     public void testGetArms() throws Exception {
     	Epoch epoch = getDao().getById(1000);
     	List<Arm> arms = epoch.getArms();

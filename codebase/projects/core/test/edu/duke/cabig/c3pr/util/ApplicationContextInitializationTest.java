@@ -19,7 +19,11 @@ public class ApplicationContextInitializationTest extends ApplicationTestCase {
         super.setUp();
         servletContext = new MockServletContext("web", new FileSystemResourceLoader());
     }
-
+    
+    /**
+     * Test for checking  Application Context file configurations
+     * @throws Exception
+     */
     public void testApplicationContextItself() throws Exception {
         getDeployedApplicationContext();
         // no exceptions
