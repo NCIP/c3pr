@@ -272,7 +272,7 @@
 				</fileset>
 			</junitResults>
 			<junitDocs>
-				<fileset dir="${projects.dir}/xml-marshaller">
+				<fileset dir="${projects.dir}/core">
 					<include name="src"/>
 					<include name="test/src"/>
 				</fileset>
