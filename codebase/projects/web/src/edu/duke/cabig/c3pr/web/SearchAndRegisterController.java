@@ -20,7 +20,7 @@ import edu.duke.cabig.c3pr.domain.ParticipantIdentifier;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.service.ParticipantService;
 import edu.duke.cabig.c3pr.service.StudyService;
-import edu.duke.cabig.c3pr.web.SearchStudyController.LOV;
+
 
 public class SearchAndRegisterController extends SimpleFormController {
 	private static Log log = LogFactory
