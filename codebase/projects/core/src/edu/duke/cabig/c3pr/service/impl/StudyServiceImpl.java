@@ -24,7 +24,7 @@ public class StudyServiceImpl implements StudyService {
 	 * @throws Exception runtime exception object
 	 */
 	public List<Study> search(Study study) throws Exception {		
-		return studyDao.searchByExample(study);
+		return studyDao.searchByExample(study, true);
 	}
 
 	/**
