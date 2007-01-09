@@ -15,7 +15,6 @@ import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractWizardFormController;
-import org.springframework.web.servlet.view.RedirectView;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
@@ -57,7 +56,11 @@ public class CreateParticipantController extends AbstractWizardFormController {
     }
 	
 	@Override
-	protected Object formBackingObject(HttpServletRequest request) throws Exception {		
+	protected Object formBackingObject(HttpServletRequest request) throws Exception {
+		
+		//FIXME: small hack
+		request.getSession().setAttribute("url", request.getParameter("url"));		
+		
 		Participant participant = (Participant) super.formBackingObject(request);
 		for (int i = 0; i < 5; i++) {
 			participant.addParticipantIdentifier(new ParticipantIdentifier());
@@ -79,11 +82,19 @@ public class CreateParticipantController extends AbstractWizardFormController {
 	protected ModelAndView processFinish(HttpServletRequest request,
 			HttpServletResponse response, Object oCommand, BindException errors)
 			throws Exception {
-		Participant command = (Participant) oCommand;
-					
+		Participant command = (Participant) oCommand;				
 		participantDao.save(command);
-
-		ModelAndView modelAndView = new ModelAndView(new RedirectView("success.jsp"));
+		
+		ModelAndView modelAndView = null;
+		//FIXME: small hack
+		String url = null;
+		if((url = (String) request.getSession().getAttribute("url")) != null)
+		{
+			response.sendRedirect(url + "?participantId=" + Integer.toString(command.getId()));
+			return null;
+		}
+		
+		modelAndView = new ModelAndView("success");		 
 		modelAndView.addAllObjects(errors.getModel());
 		return modelAndView;
 	}	
