@@ -79,7 +79,7 @@ function getPage(s){
 			<tr>
 				<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
 
-				<td id="current">Create Participant - John Smith</td>
+				<td id="current">Create Participant -  ${command.firstName} ${command.lastName}</td>
 				<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 			</tr>
 			<tr>
@@ -146,8 +146,8 @@ function getPage(s){
 									<tr>
 										<td class="label"><span class="data"><span
 											class="red">*</span><em></em> State:</span></td>
-										<td><form:input path="address.stateCode"/>
-										<span class="red">*</span><em></em><strong>Zip:</strong> 
+										<td><form:input path="address.stateCode"/> </td> 
+                                        <td><span class="red">*</span><em></em><strong>Zip:</strong> 
 										<form:input path="address.postalCode"/>
 										<a href="#"
 											onClick="parent.OpenWins('searchZip.htm','searchZip',420,206,1);return false;"><img
