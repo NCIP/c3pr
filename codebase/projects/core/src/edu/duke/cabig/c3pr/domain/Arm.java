@@ -63,7 +63,7 @@ public class Arm extends AbstractDomainObject implements Comparable<Arm>, Serial
     // This is annotated this way so that the IndexColumn in the parent
     // will work with the bidirectional mapping
     @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name="eph_id", insertable=false, updatable=false, nullable=false)   
+    @JoinColumn(name="eph_id", nullable=false)   
     public Epoch getEpoch() {
         return epoch;
     }
