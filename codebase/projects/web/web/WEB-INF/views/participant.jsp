@@ -9,8 +9,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <title>C3Pr V2</title>
-<link href="css/styles.css" rel="stylesheet" type="text/css">
-<link href="css/search.css" rel="stylesheet" type="text/css">
+<link href="resources/styles.css" rel="stylesheet" type="text/css">
+<link href="resources/search.css" rel="stylesheet" type="text/css">
 <script>
 function navRollOver(obj, state) {
   document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
