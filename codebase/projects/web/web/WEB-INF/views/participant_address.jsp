@@ -157,7 +157,7 @@ function getPage(s){
 											height="11" border="0" align="absmiddle"></a></td>
 									</tr>
 									<tr>
-										<td class="label"><em></em><em></em> County:</td>
+										<td class="label"><em></em><em></em> Country:</td>
 										<td><form:input path="address.countryCode"/></td>
 									</tr>
 								</table>
