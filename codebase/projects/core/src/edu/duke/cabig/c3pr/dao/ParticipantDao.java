@@ -2,9 +2,11 @@ package edu.duke.cabig.c3pr.dao;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
 
 import edu.duke.cabig.c3pr.domain.Participant;
@@ -33,28 +35,30 @@ public class ParticipantDao extends AbstractBaseDao<Participant> {
 	 * @param participant
 	 * @return
 	 */
-	public List<Participant> searchByExample(Participant participant, boolean isWildCard){
-			Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();		
-			Example searchCriteria = Example.create(participant).excludeZeroes();
-			if (isWildCard)
-			{
-				Example example 
-		        = Example.create(participant)
-		                 .ignoreCase()
-		                 .excludeZeroes()
-		                 .excludeProperty("doNotUse") 
-		                 .enableLike(MatchMode.ANYWHERE);
-
-					return getSession()
-			      .createCriteria(Participant.class)
-			      .add(example).list();
-
-//				searchCriteria.enableLike(MatchMode.ANYWHERE);
-//				session.createCriteria()
+	public List<Participant> searchByExample(Participant participant,
+			boolean isWildCard) {
+		Example example = Example.create(participant).excludeZeroes();
+		Criteria participantCriteria = getSession().createCriteria(
+				Participant.class);
+		if (isWildCard) {
+			example.ignoreCase().excludeProperty("doNotUse").enableLike(
+					MatchMode.ANYWHERE);
+			participantCriteria.add(example);
+			if (participant.getParticipantIdentifiers().size() > 0) {
+				participantCriteria.createCriteria("participantIdentifiers")
+						.add(
+								Restrictions.like("medicalRecordNumber",
+										participant.getParticipantIdentifiers()
+												.get(0)
+												.getMedicalRecordNumber()
+												+ "%"));
 			}
-			return session.createCriteria(Participant.class).add(searchCriteria).list();
-									
-	  }
+			return participantCriteria.list();
+
+		}
+		return participantCriteria.add(example).list();
+
+	}
 
 	/**
 	 * Default Search without a Wildchar
