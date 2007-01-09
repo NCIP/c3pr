@@ -1,6 +1,5 @@
 package edu.duke.cabig.c3pr.web;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +13,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 
+import edu.duke.cabig.c3pr.domain.Lov;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.service.StudyService;
 
@@ -71,56 +71,17 @@ public class SearchStudyController  extends SimpleFormController{
         return refdata;
     }
     
-	private List<LOV> getSearchType(){
-		List col = new ArrayList<LOV>();
-		LOV lov1 = new LOV("T", "type");
-		LOV lov2 = new LOV("S", "status");
-		LOV lov3 = new LOV("P", "phase");
-		LOV lov4 = new LOV("D", "disease");
-		LOV lov5 = new LOV("M", "monitor");
-		LOV lov6 = new LOV("SP", "sponsor");
-		LOV lov7 = new LOV("id", "id");
-		LOV lov8 = new LOV("shortTitle", "short title");
-		
-		
-		col.add(lov1);
-    	col.add(lov2);
-    	col.add(lov3);
-    	col.add(lov4);
-    	col.add(lov5);
-    	col.add(lov6);
-    	col.add(lov7);
-    	col.add(lov8);
-    	
-    	return col;
-	}
-	
-	public class LOV {
-		
-		private String code;
-		private String desc;
-		
-		LOV(String code, String desc)
-		{
-			this.code=code;
-			this.desc=desc;
+	private List<Lov> getSearchType(){
+		Lov col = new Lov();
+		col.addData("T", "type");
+		col.addData("S", "status");
+		col.addData("P", "phase");
+		col.addData("D", "disease");
+		col.addData("M", "monitor");
+		col.addData("SP", "sponsor");
+		col.addData("id", "id");
+		col.addData("shortTitle", "short title");
 			
-		}
-		
-		public String getCode() {
-			return code;
-		}
-
-		public void setCode(String code) {
-			this.code = code;
-		}
-		
-		public String getDesc(){
-			return desc;
-		}
-			
-		public void setDesc(String desc){
-			this.desc=desc;
-		}
-	}
+    	return col.getData();
+	}	
 }
