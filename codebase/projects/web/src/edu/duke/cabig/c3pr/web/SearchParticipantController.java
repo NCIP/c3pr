@@ -57,13 +57,8 @@ private static Log log = LogFactory.getLog(SearchParticipantController.class);
     		participant.setLastName(text);
     	}
     	    		
-    	List<Participant> participants = participantService.search(participant); 
-    	
-    	Iterator<Participant> participantIter = participants.iterator(); 
-        while(participantIter.hasNext()){
-        	participant = participantIter.next();        	
-        }
-    	
+    	List<Participant> participants = participantService.search(participant);     	
+     
     	log.debug("Search results size " +participants.size());
     	Map map =errors.getModel();
     	map.put("participants", participants);
