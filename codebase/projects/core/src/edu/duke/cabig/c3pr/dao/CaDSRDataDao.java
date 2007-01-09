@@ -3,7 +3,7 @@ package edu.duke.cabig.c3pr.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.duke.cabig.c3pr.domain.CaDSRData;
+import edu.duke.cabig.c3pr.domain.Lov;
 
 /**
  * Temporary domain object to hold values of static data loaded from CADsr
@@ -21,27 +21,24 @@ public class CaDSRDataDao {
 	 */
 	public List getCADsrData(String id)
 	{
-		List list = new ArrayList();
-		if (("disease").equals(id))
-			list = getDiseaseCodeList();
-		if (("monitor").equals(id))
-			list = getMonitorCodeList();
-		if (("phase").equals(id))
-			list = getPhaseCodeList();
-		if (("sponsor").equals(id))
-			list = getSponsorCodeList();
+		if (("diseaseCode").equals(id))
+			return getDiseaseCodeList();
+		if (("monitorCode").equals(id))
+			return getMonitorCodeList();
+		if (("phaseCode").equals(id))
+			return getPhaseCodeList();
+		if (("sponsorCode").equals(id))
+			return getSponsorCodeList();
 		if (("status").equals(id))
-			list = getStatusList();
+			return getStatusList();
 		if (("type").equals(id))
-			list = getTypeCodeList();
+			return getTypeCodeList();
 		else		
-			list = createDefaultList();
-		return list;
-		
+			return createDefaultList();			
 	}
 	
-	private List<CaDSRData> getDiseaseCodeList(){
-		CaDSRData dataCol = new CaDSRData();
+	private List<Lov> getDiseaseCodeList(){
+		Lov dataCol = new Lov();
 		
 		dataCol.addData("A", "AIDS");
 		dataCol.addData("B", "Benign");
@@ -50,8 +47,8 @@ public class CaDSRDataDao {
     	return dataCol.getData();
 	}
 
-	private List<CaDSRData> getMonitorCodeList(){
-		CaDSRData dataCol = new CaDSRData();
+	private List<Lov> getMonitorCodeList(){
+		Lov dataCol = new Lov();
 		
 		dataCol.addData("CTEP", "Cancer Therapy Evaluation Program");
 		dataCol.addData("Pharma", "Genetic Non-therapeutic");
@@ -62,8 +59,8 @@ public class CaDSRDataDao {
     	return dataCol.getData();
 	}		
 	
-	private List<CaDSRData> getTypeCodeList(){		
-		CaDSRData dataCol = new CaDSRData();
+	private List<Lov> getTypeCodeList(){		
+		Lov dataCol = new Lov();
 		
 		dataCol.addData("D", "Diagnostic");
 		dataCol.addData("GN", "Genetic Non-therapeutic");
@@ -75,8 +72,8 @@ public class CaDSRDataDao {
     	return dataCol.getData();
 	}
 	
-	private List<CaDSRData> getMonitorList(){
-		CaDSRData dataCol = new CaDSRData();
+	private List<Lov> getMonitorList(){
+		Lov dataCol = new Lov();
 		
 		dataCol.addData("I", "Phase I Trial");
 		dataCol.addData("I/II", "Phase I/II Trial");
@@ -87,8 +84,8 @@ public class CaDSRDataDao {
     	return dataCol.getData();
 	}
 	
-	private List<CaDSRData> getPhaseCodeList(){
-		CaDSRData dataCol = new CaDSRData();
+	private List<Lov> getPhaseCodeList(){
+		Lov dataCol = new Lov();
 		
 		dataCol.addData("I", "Phase I Trial");
 		dataCol.addData("I/II", "Phase I/II Trial");
@@ -99,8 +96,8 @@ public class CaDSRDataDao {
     	return dataCol.getData();
 	}
 	
-	private List<CaDSRData> getSponsorCodeList(){
-		CaDSRData dataCol = new CaDSRData();
+	private List<Lov> getSponsorCodeList(){
+		Lov dataCol = new Lov();
 		
 		dataCol.addData("AB", "Abbott Labs");
 		dataCol.addData("AL", "Alkermes, Inc.");
@@ -116,8 +113,8 @@ public class CaDSRDataDao {
     	return dataCol.getData();
 	}
 	
-	private List<CaDSRData> getStatusList(){
-		CaDSRData dataCol = new CaDSRData();
+	private List<Lov> getStatusList(){
+		Lov dataCol = new Lov();
 		
 		dataCol.addData("AC", "Active - Trial is open to accrual");
 		dataCol.addData("AD", "Administratively Complete");
@@ -130,9 +127,9 @@ public class CaDSRDataDao {
     	return dataCol.getData();
 	}
 
-	private List<CaDSRData> createDefaultList(){
-		List<CaDSRData> col = new ArrayList<CaDSRData>();
-		CaDSRData CaDSRData1 = new CaDSRData("D", "Default-List");
+	private List<Lov> createDefaultList(){
+		List<Lov> col = new ArrayList<Lov>();
+		Lov CaDSRData1 = new Lov("D", "Default-List");
 		col.add(CaDSRData1);
     	return col;		
 	}
