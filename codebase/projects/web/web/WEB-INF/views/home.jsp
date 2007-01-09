@@ -41,7 +41,7 @@ function submitPage(s){
 			src="images/topNavArrowDown.gif" width="5" height="20"
 			align="absmiddle"> Registration </span><img src="images/topNavR.gif"
 			width="2" height="20" align="absmiddle" class="currentR"><a
-			href="/c3pr/searchstudy.do">Protocol</a><img
+			href="/c3pr/searchstudy.do">Study</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
 			class="divider"><a href="/c3pr/searchparticipant.do">Participant</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
@@ -102,7 +102,7 @@ function submitPage(s){
 
 							<td width="100%" id="tabDisplay"><span class="current"><img
 								src="images/tabWhiteL.gif" width="3" height="16"
-								align="absmiddle"> Protocol Search <img
+								align="absmiddle"> Study Search <img
 								src="images/tabWhiteR.gif" width="3" height="16"
 								align="absmiddle"></span></td>
 							<td><img src="images/spacer.gif" width="7" height="1"></td>
@@ -138,7 +138,7 @@ function submitPage(s){
 					<td valign="top" class="searchL"><!-- LEFT FORM STARTS HERE -->
 					<table width="100%" border="0" cellpadding="0" cellspacing="0">
 						<tr valign="top">
-							<td><img src="images/Protocol.gif" alt="Protocol Search"
+							<td><img src="images/Protocol.gif" alt="Study Search"
 								width="100" height="100" align="absmiddle"></td>
 							<td width="99%">
 							<h3>Study Search</h3>
@@ -164,7 +164,7 @@ function submitPage(s){
 								</div>
 							</table>
 
-							^ Minimum two characters for Protocol Name search.<br>
+							^ Minimum two characters for Study Name search.<br>
 							<br>
 							<a href="" onClick="submitPage('study');return false;"><img
 								src="images/SerachProtocols.gif" alt="Search Drivers"

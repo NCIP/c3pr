@@ -18,7 +18,7 @@ function navRollOver(obj, state) {
 </script>
 <script language="javascript">
 function program(){
-var action = confirm ("Protocol Added Successfully!\r\rWould you like to register patients at this time?")
+var action = confirm ("Study Added Successfully!\r\rWould you like to register patients at this time?")
 if (action){
 	parent.window.location="reg_enroll_patient.htm";
 }else {
@@ -36,7 +36,7 @@ if (action){
 <!-- TOP LOGOS START HERE -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
-		<td width="99%"><img src="images/C3PRLogo.gif" alt="C3Pr V2"
+		<td width="99%"><img src="images/c3prLogo.gif" alt="C3Pr V2"
 			width="181" height="36" class="gelogo"></td>
 	</tr>
 </table>
@@ -49,7 +49,7 @@ if (action){
 			src="images/topNavL.gif" width="2" height="20" align="absmiddle"
 			class="currentL"><span class="current"><img
 			src="images/topNavArrowDown.gif" width="5" height="20"
-			align="absmiddle"> Protocol </span><img src="images/topNavR.gif"
+			align="absmiddle"> Study </span><img src="images/topNavR.gif"
 			width="2" height="20" align="absmiddle" class="currentR"><a
 			href="/c3pr/searchparticipant.do">Participant</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"

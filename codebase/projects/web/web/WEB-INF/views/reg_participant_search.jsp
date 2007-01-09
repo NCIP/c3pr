@@ -45,7 +45,7 @@ function doNothing(){
 			width="5" height="20" align="absmiddle"> Registration</span><a
 			href="/c3pr/searchstudy.do"> Study </a><img src="images/topNavR.gif"
 			width="2" height="20" align="absmiddle" class="currentR"><a
-			href="participant.jsp" onClick="doNothing();">Participant</a><img
+			href="/c3pr/searchparticipant.do" onClick="doNothing();">Participant</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
 			class="divider"><a href="analysis" onClick="doNothing();">Reports</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"

@@ -26,7 +26,7 @@ function submitPage(){
 
 	<tr>
 
-		<td width="99%"><img src="images/C3PRLogo.gif" alt="C3Pr V2"
+		<td width="99%"><img src="images/c3prLogo.gif" alt="C3Pr V2"
 			width="181" height="36" class="gelogo"></td>
 	</tr>
 </table>
@@ -112,7 +112,7 @@ function submitPage(){
 
 				<table width="100%" border="0" cellpadding="0" cellspacing="0">
 					<tr valign="top">
-						<td><img src="images/Protocol.gif" alt="Protocol Search"
+						<td><img src="images/Study.gif" alt="Study Search"
 							width="100" height="100" align="absmiddle\"></td>
 						<td width="99%">
 							<br>

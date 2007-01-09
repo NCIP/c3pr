@@ -23,7 +23,7 @@ function navRollOver(obj, state) {
 
 	<tr>
 
-		<td width="99%"><img src="images/C3PRLogo.gif" alt="C3PR" width="181"
+		<td width="99%"><img src="images/c3prLogo.gif" alt="C3PR" width="181"
 			height="36" class="gelogo"></td>
 	</tr>
 </table>
@@ -35,7 +35,7 @@ function navRollOver(obj, state) {
 	<tr valign="middle">
 		<td width="99%" class="left"><a href="home.htm">Registration</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
-			class="divider"><a href="protocol.htm">Protocol</a><img
+			class="divider"><a href="protocol.htm">Study</a><img
 			src="images/topNavL.gif" width="2" height="20" align="absmiddle"
 			class="currentL"><span class="current"><img
 			src="images/topNavArrowDown.gif" width="5" height="20"

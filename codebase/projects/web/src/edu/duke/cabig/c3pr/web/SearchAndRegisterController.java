@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.ParticipantIdentifier;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.service.ParticipantService;
 import edu.duke.cabig.c3pr.service.StudyService;
@@ -48,6 +49,11 @@ public class SearchAndRegisterController extends SimpleFormController {
 			Participant participant=new Participant();
 			if ("N".equals(searchType)) {
 				participant.setLastName(searchTextPart);
+			}
+	    	if ("MRN".equals(searchType)) {
+				ParticipantIdentifier participantIdentifier = new ParticipantIdentifier();
+				participantIdentifier.setMedicalRecordNumber(searchTextPart);
+				participant.addParticipantIdentifier(participantIdentifier);
 			}
 			if(participantService==null){
 				System.out.println("---------------------participantService is null------------------------");
@@ -160,9 +166,9 @@ public class SearchAndRegisterController extends SimpleFormController {
 	 private List<LOV> getSearchTypeParticipant(){
 			List<LOV> col = new ArrayList<LOV>();
 			LOV lov1 = new LOV("N", "LastName");
-						
+			LOV lov2 = new LOV("MRN", "MRN");						
 			col.add(lov1);
-	    	    	
+	    	col.add(lov2);    	
 	    	return col;
 		}
 	private List<LOV> getSearchType() {

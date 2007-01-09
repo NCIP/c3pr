@@ -45,7 +45,7 @@ function updateTargetPage(s){
 	<tr>
 		<td width="99%"><img src="images/c3prLogo.gif" alt="C3PR"
 			width="181" height="36" class="gelogo"></td>
-		<td align="right"><img src="images/t-drivers.gif" alt="Protocol"
+		<td align="right"><img src="images/t-drivers.gif" alt="Study"
 			width="200" height="79"></td>
 	</tr>
 </table>
@@ -59,9 +59,9 @@ function updateTargetPage(s){
 			width="2" height="20" align="absmiddle" class="currentL"><span
 			class="current"><img src="images/topNavArrowDown.gif"
 			width="5" height="20" align="absmiddle"> Registration</span><a
-			href="protocol.htm"> Protocol </a><img src="images/topNavR.gif"
+			href="protocol.htm"> Study </a><img src="images/topNavR.gif"
 			width="2" height="20" align="absmiddle" class="currentR"><a
-			href="participant.htm">Participant</a><img
+			href="/c3pr/searchparticipant.do">Participant</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
 			class="divider"><a href="analysis">Reports</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
@@ -95,7 +95,7 @@ function updateTargetPage(s){
 						<td width="100%" id="tabDisplay"><span class="tab"> <img
 							src="images/tabWhiteL.gif" width="3" height="16"
 							align="absmiddle"> 1. Select
-						Protocol <img src="images/tabWhiteR.gif" width="3" height="16"
+						Study <img src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
 							height="16" align="absmiddle"> 2. Select Patient <img
 							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"></span><span
