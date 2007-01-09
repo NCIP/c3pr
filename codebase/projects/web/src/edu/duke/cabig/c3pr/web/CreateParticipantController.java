@@ -135,13 +135,13 @@ public class CreateParticipantController extends AbstractWizardFormController {
 		List<LOV> col = new ArrayList<LOV>();
 		
 		col.add(new LOV("-", "--"));
-		col.add(new LOV("A", "Asian"));
-		col.add(new LOV("W", "White"));
-		col.add(new LOV("B", "Black or African American"));
-		col.add(new LOV("Al", "American Indian or Alaska Native"));
-		col.add(new LOV("H", "Native Hawaiian or other Pacific Islander"));
-		col.add(new LOV("N", "Not Reported"));
-		col.add(new LOV("U", "Unknown"));
+		col.add(new LOV("Asian", "Asian"));
+		col.add(new LOV("White", "White"));
+		col.add(new LOV("Black or African American", "Black or African American"));
+		col.add(new LOV("American Indian or Alaska Native", "American Indian or Alaska Native"));
+		col.add(new LOV("Native Hawaiian or Pacific Islander", "Native Hawaiian or other Pacific Islander"));
+		col.add(new LOV("Not Reported", "Not Reported"));
+		col.add(new LOV("Unknown", "Unknown"));
 		
 		return col;
 	}
@@ -150,10 +150,10 @@ public class CreateParticipantController extends AbstractWizardFormController {
 		List<LOV> col = new ArrayList<LOV>();
 		
 		col.add(new LOV("-", "--"));
-		col.add(new LOV("H", "Hispanic or Latino"));
-		col.add(new LOV("NH", "Non Hispanic or Latino"));
-		col.add(new LOV("N", "Not Reported"));
-		col.add(new LOV("U", "Unknown"));
+		col.add(new LOV("Hispanic or Latino", "Hispanic or Latino"));
+		col.add(new LOV("Non Hispanic or Latino", "Non Hispanic or Latino"));
+		col.add(new LOV("Not Reported", "Not Reported"));
+		col.add(new LOV("Unknown", "Unknown"));
 		
 		return col;
 	}
@@ -163,10 +163,10 @@ public class CreateParticipantController extends AbstractWizardFormController {
 		List<LOV> col = new ArrayList<LOV>();
 		
 		col.add(new LOV("-", "--"));
-		col.add(new LOV("M", "Male"));
-		col.add(new LOV("F", "Female"));
-		col.add(new LOV("N", "Not Reported"));
-		col.add(new LOV("U", "Unknown"));
+		col.add(new LOV("Male", "Male"));
+		col.add(new LOV("Female", "Female"));
+		col.add(new LOV("Not Reported", "Not Reported"));
+		col.add(new LOV("Unknown", "Unknown"));
 		
 		return col;
 	}
