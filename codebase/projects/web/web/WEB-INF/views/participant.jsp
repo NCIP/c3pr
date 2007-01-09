@@ -125,8 +125,8 @@ function getPage(s){
 						</div>
 							<strong>Step 1. Patient Information </strong> 
 							(<span class="red">*</span><em>Required Information </em>)<br> <br>
-						<div class="review"><strong>Current Information:</strong><br>
-						<br>
+						<div class="review"><strong>Current Information:</strong>
+						
 						<table width="700" border="0" cellspacing="0" cellpadding="0"
 							id="details">
 							<tr>
@@ -174,9 +174,19 @@ function getPage(s){
 									</tr>
 								</table>
 								</td>
-								<td width="50%" valign="top" class="contentAreaR"><strong><strong><strong></strong></strong></strong>
+								<td width="50%" valign="top">
 								<table width="308" border="0" cellspacing="0" cellpadding="0"
-									id="table1">
+									id="table1"> 
+									<tr>
+										<td>
+											<img src="images/spacer.gif" width="1" height="1"
+												class="heightControl">
+										</td>
+										<td>
+											<img src="images/spacer.gif" width="1" height="1"
+												class="heightControl">
+										</td>
+									</tr>
 									<tr>
 										<td class="label"><span class="red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</span><em></em>Birth Date</td>
 										<td valign="top"><form:input path="birthDate"/>&nbsp;<a href="#"
@@ -214,24 +224,19 @@ function getPage(s){
 								ID:</td>
 								<td align="center"><span class="red">*</span><em></em><B>Other
 								Source:</td>
-							</tr>
-							
+							</tr>					
 							<c:forEach var="index" begin="0" end="4">
 								<tr>
-									<td>
+									<td align="center">
 									    <form:input path="participantIdentifiers[${index}].medicalRecordNumber"/>
 									</td>
-									<td>
+									<td align="center">
 										<form:select path="participantIdentifiers[${index}].healthcareSite">
 											<form:options items="${healthcareSite}" itemLabel="name" itemValue="id"/>
 										</form:select>
 									</td>
 								</tr>	
-							</c:forEach>
-								<%-- <c:forEach items="${participant.participantIdentifiers}" varStatus="status" var="participantIdentifier">
-									<form:input path="participantIdentifiers[${status.index}].healthcareSite"/> 
-								</c:forEach> --%>								
-
+							</c:forEach>																					
 						</table>
 
 						<hr align="left" width="95%">
