@@ -23,6 +23,7 @@ import edu.duke.cabig.c3pr.dao.ArmDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.domain.Arm;
+import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
 import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
@@ -125,11 +126,25 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 		scheduledArm.setArm(arm);
 		studyParticipantAssignment.addScheduledArm(scheduledArm);
 		scheduledArm.setStudyParticipantAssignment(studyParticipantAssignment);
-		if(studyParticipantAssignment.getStudySite().getStudy().getEpochs().get(0).getArms().size()!=0){
+		List<Epoch> list=studyParticipantAssignment.getStudySite().getStudy().getEpochs();
+		System.out.println(list.size());
+		for(int i=0 ; i<list.size() ; i++){
+			Epoch e=(Epoch)list.get(i);
+			System.out.println(e.getName());
+			if(e.getName().equals("Treatment")){
+				for(int j=0 ; j<e.getArms().size() ; j++){
+					System.out.println(e.getArms().get(j).getName());
+					System.out.println("--------------------------------------Arms available-----------------------------------------");				
+					
+				}
+				return studyParticipantAssignment;
+			}
+		}
+/*		if(studyParticipantAssignment.getStudySite().getStudy().getEpochs().get(0).getArms().size()!=0){
 			System.out.println("--------------------------------------Arms available-----------------------------------------");
 			return studyParticipantAssignment;
 		}
-		System.out.println("--------------------------------------Arms not available-----------------------------------------");		
+*/		System.out.println("--------------------------------------Arms not available-----------------------------------------");		
 		Arm arm1 = new Arm();
 		arm1.setId(11);
 		arm1.setName("A_MOCK");
@@ -221,7 +236,21 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 //		System.out.println("------------------------ScheduledArmSize is "+scheduledArmsSize+"-------------------------");
 		int armId=studyParticipantAssignment.getScheduledArms().get(scheduledArmsSize-1).getArm().getId();
 		Arm arm=null;
-		List<Arm> arms=(List<Arm>)(studyParticipantAssignment.getStudySite().getStudy().getEpochs().get(0).getArms());
+		List<Epoch> list=studyParticipantAssignment.getStudySite().getStudy().getEpochs();
+		System.out.println(list.size());
+		List<Arm> arms=null;		
+		for(int i=0 ; i<list.size() ; i++){
+			Epoch e=(Epoch)list.get(i);
+			System.out.println(e.getName());
+			if(e.getName().equals("Treatment")){
+				for(int j=0 ; j<e.getArms().size() ; j++){
+					System.out.println(e.getArms().get(j).getName());
+					System.out.println("--------------------------------------Arms available-----------------------------------------");				
+					
+				}
+				arms=(List<Arm>)(studyParticipantAssignment.getStudySite().getStudy().getEpochs().get(i).getArms());
+			}
+		}
 		boolean flag=true;
 		for(int i=0 ; i<arms.size() ; i++){
 			if(arms.get(i).getId()==armId){
