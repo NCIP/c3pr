@@ -35,9 +35,9 @@ function navRollOver(obj, state) {
 	id="topNav">
 
 	<tr valign="middle">
-		<td width="99%" class="left"><a href="home.htm">Registration</a><img
+		<td width="99%" class="left"><a href="/c3pr/SearchAndRegister.do">Registration</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
-			class="divider"><a href="protocol.htm">Protocol</a><img
+			class="divider"><a href="/c3pr/searchstudy.do">Protocol</a><img
 			src="images/topNavL.gif" width="2" height="20" align="absmiddle"
 			class="currentL"><span class="current"><img
 			src="images/topNavArrowDown.gif" width="5" height="20"
@@ -51,6 +51,20 @@ function navRollOver(obj, state) {
 	</tr>
 </table>
 <!-- TOP NAVIGATION ENDS HERE -->
+<!-- SUB NAV STARTS HERE -->
+<table width="100%" border="0" cellspacing="0" cellpadding="0"
+	id="subNav">
+
+	<tr>
+		<td width="99%" valign="middle"><img src="images/arrowRight.gif"
+			width="3" height="5" align="absmiddle"> Participant Management <img
+			src="images/spacer.gif" width="1" height="20" align="absmiddle"
+			class="spacer"><a href="createparticipant.do">Add Participant</a><img
+			src="images/spacer.gif" width="1" height="20" align="absmiddle"
+			class="spacer"><a href="#">Add Tab</a></td>
+		<td valign="middle" class="right"><a href="help">Help</a></td>
+	</tr>
+</table>
 
 <!-- MAIN BODY STARTS HERE -->
 
