@@ -50,6 +50,19 @@ function navRollOver(obj, state) {
 </table>
 <!-- TOP NAVIGATION ENDS HERE -->
 <!-- SUB NAV STARTS HERE -->
+<table width="100%" border="0" cellspacing="0" cellpadding="0"
+	id="subNav">
+
+	<tr>
+		<td width="99%" valign="middle"><img src="images/arrowRight.gif"
+			width="3" height="5" align="absmiddle"> Participant Management <img
+			src="images/spacer.gif" width="1" height="20" align="absmiddle"
+			class="spacer"><a href="createparticipant.do">Add Participant</a><img
+			src="images/spacer.gif" width="1" height="20" align="absmiddle"
+			class="spacer"><a href="#">Add Tab</a></td>
+		<td valign="middle" class="right"><a href="help">Help</a></td>
+	</tr>
+</table>
 <!-- SUB NAV ENDS HERE -->
 <!-- MAIN BODY STARTS HERE -->
 <div class="workArea">
