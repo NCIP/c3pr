@@ -6,7 +6,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -88,8 +88,7 @@ public class Study extends AbstractDomainObject implements Comparable<Study>, Se
 	
 	/// BEAN PROPERTIES
 	
-	@OneToMany
-    @JoinColumn(name="stu_id", nullable=false)
+	@OneToMany (mappedBy="study", fetch=FetchType.LAZY)
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})
 	public List<Epoch> getEpochs() {
 		return epochs;
@@ -99,8 +98,7 @@ public class Study extends AbstractDomainObject implements Comparable<Study>, Se
 		this.epochs = epochs;
 	}
 
-	@OneToMany
-    @JoinColumn(name="study_id", nullable=false)
+	@OneToMany (mappedBy="study", fetch=FetchType.LAZY)
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})	
 	public List<StudySite> getStudySites() {
 		return studySites;
