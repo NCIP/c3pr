@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.ParticipantIdentifier;
 import edu.duke.cabig.c3pr.service.ParticipantService;
 
 /**
@@ -56,9 +57,14 @@ private static Log log = LogFactory.getLog(SearchParticipantController.class);
     	if ("N".equals(type)){
     		participant.setLastName(text);
     	}
+    	if ("MRN".equals(type)) {
+			ParticipantIdentifier participantIdentifier = new ParticipantIdentifier();
+			participantIdentifier.setMedicalRecordNumber(text);
+			participant.addParticipantIdentifier(participantIdentifier);
+		}
     	    		
     	List<Participant> participants = participantService.search(participant);     	
-     
+    	Iterator<Participant> participantIter = participants.iterator();
     	log.debug("Search results size " +participants.size());
     	Map map =errors.getModel();
     	map.put("participants", participants);
@@ -76,8 +82,10 @@ private static Log log = LogFactory.getLog(SearchParticipantController.class);
 	 private List<LOV> getSearchType(){
 			List<LOV> col = new ArrayList<LOV>();
 			LOV lov1 = new LOV("N", "Last Name");
+			LOV lov2 = new LOV("MRN", "MRN");
 						
 			col.add(lov1);
+			col.add(lov2);
 	    	    	
 	    	return col;
 		}
