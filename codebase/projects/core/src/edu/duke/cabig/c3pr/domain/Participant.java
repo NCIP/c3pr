@@ -1,15 +1,15 @@
 package edu.duke.cabig.c3pr.domain;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -30,7 +30,8 @@ public class Participant extends Person implements Comparable<Participant>
 	private List<ParticipantIdentifier> participantIdentifiers = new ArrayList<ParticipantIdentifier>();
 	private List<StudyParticipantAssignment> studyParticipantAssignments= new ArrayList<StudyParticipantAssignment>();
 	
-    @OneToMany (mappedBy="participant", cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    @OneToMany (mappedBy="participant")
+    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})
     public List<ParticipantIdentifier> getParticipantIdentifiers() {
 		return participantIdentifiers;
 	}
@@ -51,7 +52,8 @@ public class Participant extends Person implements Comparable<Participant>
 		participantIdentifiers.remove(partId);
 	}
 	
-    @OneToMany (mappedBy="participant", cascade=CascadeType.ALL, fetch=FetchType.LAZY)
+	@OneToMany (mappedBy="participant", fetch=FetchType.LAZY)
+    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})
 	public List<StudyParticipantAssignment> getStudyParticipantAssignments() {
 		return studyParticipantAssignments;
 	}
