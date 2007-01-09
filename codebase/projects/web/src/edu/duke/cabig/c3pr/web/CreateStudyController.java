@@ -28,6 +28,7 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
+import edu.duke.cabig.c3pr.utils.web.propertyeditors.HealthcareSiteEditor;
 
 /**
  * @author Priyatam
@@ -41,9 +42,13 @@ public class CreateStudyController extends AbstractWizardFormController {
 	
 	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
         super.initBinder(request, binder);
+        Study study = null;
         binder.registerCustomEditor(Date.class, ControllerTools.getDateEditor(true));
-        ControllerTools.registerDomainObjectEditor(binder, healthcareSiteDao);
-    }
+        
+        study = (Study) binder.getBindingResult().getTarget();
+        binder.registerCustomEditor(HealthcareSite.class, new HealthcareSiteEditor
+        	(healthcareSiteDao, study.getStudySites().get(0)));
+     }
 	
 	/**
 	 * Create a nested object graph that Create Study Design needs 
@@ -74,13 +79,13 @@ public class CreateStudyController extends AbstractWizardFormController {
 	protected Map<String, Object> referenceData(HttpServletRequest httpServletRequest, int page) 
   		throws Exception {
 		CaDSRDataDao caDsr = new CaDSRDataDao();
-  	// Currently the static data is a hack for an LOV this will be replaced with 
-  	// LOVDao to get the static data from individual tables
+		// Currently the static data is a hack for an LOV this will be replaced with 
+		// LOVDao to get the static data from individual tables
 		Map<String, Object> refdata = new HashMap<String, Object>();
 	  	if (page == 0) {
 	  		refdata.put("diseaseCode", caDsr.getCADsrData("diseaseCode"));
 	  		refdata.put("monitorCode", caDsr.getCADsrData("monitorCode"));
-	  		refdata.put("phaseCode", caDsr.getCADsrData("monitorCode"));
+	  		refdata.put("phaseCode", caDsr.getCADsrData("phaseCode"));
 	  		refdata.put("sponsorCode", caDsr.getCADsrData("sponsorCode"));
 	  		refdata.put("status", caDsr.getCADsrData("status"));
 	  		refdata.put("type", caDsr.getCADsrData("type"));
@@ -88,6 +93,10 @@ public class CreateStudyController extends AbstractWizardFormController {
 	  		refdata.put("randomizedIndicator", getBooleanList());
 	  		refdata.put("blindedIndicator", getBooleanList());
 	  		refdata.put("nciIdentifier", getBooleanList());
+	  		return refdata;
+	  	}
+	  	if (page == 1) {
+	  		refdata.put("healthCareSitesRefData", getHealthcareSites());	  			  	
 	  		return refdata;
 	  	}
 	  	
@@ -125,9 +134,11 @@ public class CreateStudyController extends AbstractWizardFormController {
 		study.addStudySite(studySite);
 		
 		HealthcareSite healthCaresite = new HealthcareSite();		
-		healthCaresite.setAddress(new Address());		
-		studySite.setSite(healthCaresite);
-		
+			
+		List<HealthcareSite> healthcareSite = getHealthcareSites();
+		for (HealthcareSite site : healthcareSite) {
+			studySite.setSite(site);
+		}
 		return study;
 	}	
 
@@ -156,7 +167,11 @@ public class CreateStudyController extends AbstractWizardFormController {
 		this.studyService = studyService;
 	}	
 	
-
+	private List<HealthcareSite> getHealthcareSites()
+	{
+  		return healthcareSiteDao.getAll();  	
+	}
+	
 	private List<StringBean> getBooleanList(){
 		List<StringBean> col = new ArrayList<StringBean>();		
     	col.add(new StringBean("YES"));
