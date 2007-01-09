@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -83,7 +84,18 @@ public class CreateParticipantController extends AbstractWizardFormController {
 	protected ModelAndView processFinish(HttpServletRequest request,
 			HttpServletResponse response, Object oCommand, BindException errors)
 			throws Exception {
-		Participant command = (Participant) oCommand;				
+		Participant command = (Participant) oCommand;
+		
+		Iterator<ParticipantIdentifier> iterator = command.getParticipantIdentifiers().iterator();
+
+		while(iterator.hasNext())
+		{
+			if(iterator.next().getMedicalRecordNumber().trim() == "")
+			{
+				iterator.remove();
+			}
+		}
+			
 		participantDao.save(command);
 		
 		ModelAndView modelAndView = null;
@@ -185,5 +197,5 @@ public class CreateParticipantController extends AbstractWizardFormController {
 
 	public void setParticipantDao(ParticipantDao participantDao) {
 		this.participantDao = participantDao;
-	}
+	}	
 }
