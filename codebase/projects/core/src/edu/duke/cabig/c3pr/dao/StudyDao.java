@@ -32,7 +32,7 @@ public class StudyDao extends AbstractBaseDao<Study> {
 	 */
 	public List<Study> searchByExample(Study study, boolean isWildCard) {
 		Session session = getHibernateTemplate().getSessionFactory().openSession();		
-		Example searchCriteria = Example.create(study).excludeZeroes();
+		Example searchCriteria = Example.create(study).excludeZeroes().ignoreCase();
 		if (isWildCard)
 		{
 			searchCriteria.enableLike(MatchMode.ANYWHERE);
