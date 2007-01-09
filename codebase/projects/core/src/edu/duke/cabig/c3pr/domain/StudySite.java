@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -71,7 +72,7 @@ public class StudySite extends AbstractDomainObject implements Comparable<StudyS
 
     @ManyToOne
     @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })        
-    @JoinColumn(name = "study_id",insertable=false, updatable=false, nullable=false)    
+    @JoinColumn(name = "study_id", nullable=false)    
     public Study getStudy() {
         return study;
     }
@@ -80,7 +81,7 @@ public class StudySite extends AbstractDomainObject implements Comparable<StudyS
         this.studyParticipantAssignments = studyParticipantAssignments;
     }
 
-    @OneToMany (mappedBy = "studySite")
+    @OneToMany (mappedBy = "studySite", fetch=FetchType.LAZY)
     @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     public List<StudyParticipantAssignment> getStudyParticipantAssignments() {
         return studyParticipantAssignments;
