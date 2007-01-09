@@ -95,12 +95,12 @@ function navRollOver(obj, state) {
 						<td>Race</td>
 						<td>Brith Date</td>
 						<td></td>
-					</tr>
+					</tr><%int i=0; %>
 					<c:forEach var="participant" items="${participants}">
 						<a href="participantresults.do?participantId=${participant.id}"
-							onMouseOver="navRollOver('row1', 'on')"
-							onMouseOut="navRollOver('row1', 'off')">
-						<tr align="center" id="row1" class="results">
+							onMouseOver="navRollOver('row<%= i %>', 'on')"
+							onMouseOut="navRollOver('row<%= i %>', 'off')">
+						<tr align="center" id="row<%= i++ %>" class="results">
 							<td>${participant.lastName},${participant.firstName}</td>
 							<td>${participant.id}</td>
 							<td>${participant.administrativeGenderCode}</td>
