@@ -34,7 +34,7 @@ function updateTargetPage(s){
 <!-- TOP LOGOS START HERE -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
-		<td width="99%"><img src="images/c3prLogo.gif" alt="C3Pr V2"
+		<td width="99%"><img src="images/C3PRLogo.gif" alt="C3Pr V2"
 			width="181" height="36" class="gelogo"></td>
 	</tr>
 </table>
@@ -65,9 +65,9 @@ function updateTargetPage(s){
 <table width="100%" border="0" cellspacing="0" cellpadding="0"
 	id="subNav">
 	<tr>
-			<td width="99%" valign="middle" class="welcome">Welcome, User
-			Name</td>
-			<td valign="middle" class="right"><a href="">Help</a></td>
+		<td width="99%" valign="middle" class="welcome">Welcome, User
+		Name</td>
+		<td valign="middle" class="right"><a href="">Help</a></td>
 	</tr>
 
 </table>
@@ -78,17 +78,16 @@ function updateTargetPage(s){
 	class="titleArea">
 	<tr>
 		<!-- TITLE STARTS HERE -->
-		<td width="99%" height="43" valign="middle" id="title">Add
-		Study</td>
+		<td width="99%" height="43" valign="middle" id="title">Add Study</td>
 
 	</tr>
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
-	<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
+		<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
 
-	<td id="current">Site Name-Id: ${sites[0].site.name}</td>
-	<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
+		<td id="current">Site Name-Id: ${sites[0].site.name}</td>
+		<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 	</tr>
 	<tr>
 		<td class="display"><!-- TABS LEFT START HERE -->
@@ -99,12 +98,12 @@ function updateTargetPage(s){
 					class="tabs">
 					<tr>
 						<td width="100%" id="tabDisplay"><span class="current"><img
-							src="images/tabWhiteL.gif" width="3" height="16" align="absmiddle">
-							<a href="protocol_add.htm">1.study details</a> <img
-							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"></span>
-							<span class="tab"><img src="images/tabGrayR.gif" width="3"
-							height="16" align="absmiddle"> 2.study site <img
-							src="images/tabWhiteR.gif" width="3" height="16"
+							src="images/tabWhiteL.gif" width="3" height="16"
+							align="absmiddle"> <a href="protocol_add.htm">1.study
+						details</a> <img src="images/tabGrayR.gif" width="3" height="16"
+							align="absmiddle"></span> <span class="tab"><img
+							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle">
+						2.study site <img src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"></span><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						3. study design <img src="images/tabGrayR.gif" width="3"
@@ -126,10 +125,9 @@ function updateTargetPage(s){
 				<!-- LEFT CONTENT STARTS HERE -->
 
 				<td valign="top" class="additionals2"><!-- RIGHT CONTENT STARTS HERE -->
-				<c:url value="/createstudy.do" var="formAction" />
-				<form:form name="searchDetailsForm" method="post">
-					<div><input type="hidden" name="_page" value="0">
-					</div>
+				<c:url value="/createstudy.do" var="formAction" /> <form:form
+					name="searchDetailsForm" method="post">
+					<div><input type="hidden" name="_page" value="0"></div>
 
 					<br>
 					<strong>Step 1. Study Details </strong> (<span class="red">*</span>
@@ -140,8 +138,59 @@ function updateTargetPage(s){
 						id="details">
 						<tr>
 							<td width="50%" valign="top">
+
 							<table width="308" border="0" cellspacing="0" cellpadding="0"
 								id="table1">
+								<tr>
+									<td class="label">Short Title:</td>
+									<td><form:textarea path="shortTitleText" rows="2"
+										cols="50" /></td>
+								</tr>
+								<tr>
+									<td class="label">Long Title:</td>
+									<td><form:textarea path="longTitleText" rows="5" cols="50" /></td>
+								</tr>
+								<tr>
+									<td class="label">Precis Text:</td>
+									<td><form:textarea path="precisText" rows="2" cols="50" /></td>
+								</tr>
+								<tr>
+									<td><img src="images/spacer.gif" width="1" height="1"
+										class="heightControl"></td>
+								</tr>								
+								<tr>
+									<td><img src="images/spacer.gif" width="1" height="1"
+										class="heightControl"></td>
+								</tr>
+								<tr>
+									<td class="label">Description Text:</td>
+									<td><form:textarea path="descriptionText" rows="3"
+										cols="50" /></td>
+								</tr>
+								<tr>
+									<td><img src="images/spacer.gif" width="1" height="1"
+										class="heightControl"></td>
+								</tr>
+								
+							</table>
+							</td>
+
+							<td width="50%" valign="top" class="contentAreaR"><strong><strong><strong></strong></strong></strong>
+							<table width="308" border="0" cellspacing="0" cellpadding="0"
+								id="table1">
+								<tr>
+									<td width="46%" class="label">NCI Identifier:</td>
+									<td width="54%"><form:input path="nciIdentifier" size="34" /></td>
+								</tr>
+								<tr>
+									<td><img src="images/spacer.gif" width="1" height="1"
+										class="heightControl"></td>
+								</tr>
+								<tr>
+									<td width="46%" class="label">Target Accrual Number:</td>
+									<td width="54%"><form:input path="targetAccrualNumber"
+										size="34" /></td>
+								</tr>
 								<tr>
 									<td class="label"><span class="red">*</span><em></em>Status:</td>
 									<td><form:select path="status">
@@ -166,8 +215,7 @@ function updateTargetPage(s){
 										class="heightControl"></td>
 								</tr>
 								<tr>
-									<td class="label"><em></em><span class="red">*</span><em></em>Monitor
-									Code:</td>
+									<td class="label"><em></em>Monitor Code:</td>
 									<td><form:select path="monitorCode">
 										<form:options items="${monitorCode}" itemLabel="desc"
 											itemValue="code" />
@@ -201,12 +249,7 @@ function updateTargetPage(s){
 									<td><img src="images/spacer.gif" width="1" height="1"
 										class="heightControl"></td>
 								</tr>
-								<tr>
-									<td width="46%" class="label"><span class="red">*</span><em></em>NCI
-									Identifier:</td>
-									<td width="54%"><form:input path="nciIdentifier"
-										size="34" /></td>
-								</tr>
+								
 								<tr>
 									<td><img src="images/spacer.gif" width="1" height="1"
 										class="heightControl"></td>
@@ -236,8 +279,7 @@ function updateTargetPage(s){
 										class="heightControl"></td>
 								</tr>
 								<tr>
-									<td class="label"><span class="red">*</span><em></em>Blinded
-									Indicator:</td>
+									<td class="label">Blinded Indicator:</td>
 									<td><form:select path="blindedIndicator">
 										<form:options items="${blindedIndicator}" itemLabel="str"
 											itemValue="str" />
@@ -247,54 +289,19 @@ function updateTargetPage(s){
 									<td><img src="images/spacer.gif" width="1" height="1"
 										class="heightControl"></td>
 								</tr>
-									<td class="label"><span class="red">*</span><em></em>Sponsor
+								<tr>
+									<td class="label"><span class="red">*</span><em></em>Type
 									Code:</td>
 									<td><form:select path="type">
 										<form:options items="${type}" itemLabel="desc"
 											itemValue="code" />
 									</form:select></td>
-							</table>
-							</td>
-
-							<td width="50%" valign="top" class="contentAreaR"><strong><strong><strong></strong></strong></strong>
-							<table width="308" border="0" cellspacing="0" cellpadding="0"
-								id="table1">
-								<tr>
-									<td class="label"><span class="red">*</span><em></em>Precis
-									Text:</td>
-									<td><form:textarea path="precisText" rows="2"
-										cols="50" /></td>
 								</tr>
 								<tr>
 									<td><img src="images/spacer.gif" width="1" height="1"
 										class="heightControl"></td>
 								</tr>
-								<tr>
-									<td class="label"><span class="red">*</span><em></em>Short
-									Title:</td>
-									<td><form:textarea path="shortTitleText" rows="2"
-										cols="50" /></td>
-								</tr>
-								<tr>
-									<td><img src="images/spacer.gif" width="1" height="1"
-										class="heightControl"></td>
-								</tr>
-								<tr>
-									<td class="label"><span class="red">*</span><em></em>Description
-									Text:</td>
-									<td><form:textarea path="descriptionText" rows="3"
-										cols="50" /></td>
-								</tr>
-								<tr>
-									<td><img src="images/spacer.gif" width="1" height="1"
-										class="heightControl"></td>
-								</tr>
-								<tr>
-									<td class="label"><span class="red">*</span><em></em>Long
-									Title:</td>
-									<td><form:textarea path="longTitleText" rows="5"
-										cols="50" /></td>
-								</tr>
+							
 							</table>
 							</td>
 						<tr>

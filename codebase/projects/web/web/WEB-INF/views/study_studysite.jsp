@@ -21,7 +21,7 @@ function navRollOver(obj, state) {
 <!-- TOP LOGOS START HERE -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
-		<td width="99%"><img src="images/c3prLogo.gif" alt="C3Pr V2"
+		<td width="99%"><img src="images/C3PRLogo.gif" alt="C3Pr V2"
 			width="181" height="36" class="gelogo"></td>
 	</tr>
 </table>
@@ -77,7 +77,7 @@ function navRollOver(obj, state) {
 			<td id="current">Site Name-Id: ${sites[0].site.name}</td>
 			<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 	</tr>
-	</tr>
+
 	<tr>
 
 		<td class="display"><!-- TABS LEFT START HERE -->
@@ -128,26 +128,38 @@ function navRollOver(obj, state) {
 					<table width="600" border="0" cellspacing="0" cellpadding="0"
 						id="table1">
 						<tr>
-							<td class="label"><span class="red">*</span><em></em>Site
-							ID:</td>
-							<td><form:input path="studySites[0].site.nciInstituteCode" /></td>
-							<td class="label"><span class="red">*</span><em></em>Site
-							Name:</td>
-							<td><form:input path="studySites[0].site.name" /></td>
-
+							<td class="label"><span class="red">*</span><em></em>Choose HealthCare Site:</td>
+							<td><form:select path="studySites[0].site">
+								<form:options items="${healthCareSitesRefData}" itemLabel="name" itemValue="id" />
+								</form:select></td>
+						</tr>
+						<tr>
+							<td><img src="images/spacer.gif" width="1" height="3"
+								class="heightControl"></td>
+						</tr>						
+						
+						<tr>
+							<td><img src="images/spacer.gif" width="1" height="3"
+								class="heightControl"></td>
+						</tr>
+						<tr>
 							<td class="label"><span class="red">*</span><em></em>Status
 							Code:</td>
 							<td><form:input path="studySites[0].statusCode" /></td>
+						</tr>
+							<tr>
+							<td><img src="images/spacer.gif" width="1" height="3"
+								class="heightControl"></td>
+						</tr>
+						<tr>
 							<td class="label"><span class="red">*</span><em></em>Role
 							Code:</td>
 							<td><form:input path="studySites[0].roleCode" /></td>
 						</tr>
-
 						<tr>
 							<td><img src="images/spacer.gif" width="1" height="3"
 								class="heightControl"></td>
-							</tr>
-
+						</tr>
 						<tr>
 							<td class="label"><span class="red">*</span><em></em>Start Date:</td>
 							<td valign="top" align="left"><form:input
@@ -155,13 +167,17 @@ function navRollOver(obj, state) {
 								onClick="parent.OpenWins('calendar.htm','calendar',200,236);return false;"><img
 								src="images/b-calendar.gif" alt="Calendar" width="17"
 								height="16" border="0" align="absmiddle"></a></td>
+						</tr>
+						<tr>
 							<td class="label"><span class="red">*</span><em></em>End Date:</td>
 							<td valign="top" align="left"><form:input
 								path="studySites[0].endDate" />&nbsp;<a href="#"
 								onClick="parent.OpenWins('calendar.htm','calendar',200,236);return false;"><img
 								src="images/b-calendar.gif" alt="Calendar" width="17"
 								height="16" border="0" align="absmiddle"></a></td>
-								<td class="label" align="right"><span class="red">&nbsp;&nbsp;&nbsp;*</span><em></em>IRB
+						<tr>
+						<tr>
+							<td class="label" align="right"><span class="red">&nbsp;&nbsp;&nbsp;*</span><em></em>IRB
 								Approval Date:</td>
 							<td valign="top" align="left"><form:input
 								path="studySites[0].irbApprovalDate" />&nbsp;<a href="#"
@@ -173,52 +189,6 @@ function navRollOver(obj, state) {
 							<td><img src="images/spacer.gif" width="1" height="3"
 								class="heightControl"></td>
 						</tr>
-						<tr>
-							<td class="label"><span class="red">*</span><em></em>Street
-							Address:</td>
-							<td><form:input
-								path="studySites[0].site.address.streetAddress" /></td>
-						</tr>
-						<tr>
-							<td><img src="images/spacer.gif" width="1" height="3"
-								class="heightControl"></td>
-						</tr>
-						<tr>
-							<td class="label"><span class="red">*</span><em></em>City:</td>
-							<td><form:input path="studySites[0].site.address.city" /></td>
-						</tr>
-						<tr>
-							<td><img src="images/spacer.gif" width="1" height="3"
-								class="heightControl"></td>
-						</tr>
-						<tr>
-							<td class="label"><span class="red">*</span><em></em>State
-							Code:</td>
-							<td><form:input path="studySites[0].site.address.stateCode" /></td>
-						</tr>
-						<tr>
-							<td><img src="images/spacer.gif" width="1" height="3"
-								class="heightControl"></td>
-						</tr>
-						<tr>
-							<td class="label"><span class="red">*</span><em></em>Postal
-							Code:</td>
-							<td><form:input path="studySites[0].site.address.postalCode" /></td>
-						</tr>
-						<tr>
-							<td><img src="images/spacer.gif" width="1" height="3"
-								class="heightControl"></td>
-						</tr>
-						<tr>
-							<td class="label"><span class="red">*</span><em></em>Country
-							Code:</td>
-							<td><form:input path="studySites[0].site.address.countryCode" /></td>
-						</tr>
-						<tr>
-							<td><img src="images/spacer.gif" width="1" height="3"
-								class="heightControl"></td>
-						</tr>
-
 						<tr>
 							<td align="center" colspan="3"><!-- action buttons begins -->
 							<table cellpadding="4" cellspacing="0" border="0">
@@ -240,8 +210,7 @@ function navRollOver(obj, state) {
 		<!-- LEFT CONTENT ENDS HERE -->
 	</tr>
 </table>
-<div id="copyright">&copy; 2006 SemanticBits Company. All Rights
-Reserved</div>
+<div id="copyright">&copy; 2006 SemanticBits. All Rights Reserved</div>
 </div>
 <!-- MAIN BODY ENDS HERE -->
 </body>
