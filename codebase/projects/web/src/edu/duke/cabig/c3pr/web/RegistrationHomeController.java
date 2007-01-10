@@ -3,6 +3,8 @@
  */
 package edu.duke.cabig.c3pr.web;
 
+import org.apache.log4j.Logger;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -36,6 +38,11 @@ import edu.duke.cabig.c3pr.utils.web.ControllerTools;
  * 
  */
 public class RegistrationHomeController extends AbstractWizardFormController {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(RegistrationHomeController.class);
+
 	private static Log log = LogFactory
 			.getLog(RegistrationHomeController.class);
 
@@ -82,12 +89,15 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 
 	@Override
 	protected int getTargetPage(HttpServletRequest request, int no) {
-		System.out.println("getTargetPage() function called....");
+		if (logger.isDebugEnabled()) {
+			logger.debug("getTargetPage(HttpServletRequest, int) - getTargetPage() function called...."); //$NON-NLS-1$
+		}
 		String viewName = request.getParameter("nextView");
 		for (int i = 0; i < viewNames.length; i++) {
 			if (viewNames[i].equals(viewName)) {
-				System.out.println("ViewName in request is : " + viewName
-						+ " at index " + i);
+				if (logger.isDebugEnabled()) {
+					logger.debug("getTargetPage(HttpServletRequest, int) - ViewName in request is : " + viewName + " at index " + i); //$NON-NLS-1$ //$NON-NLS-2$
+				}
 				return i;
 			}
 		}
@@ -109,30 +119,35 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 		Participant participant = null;
 		if (request.getParameter("studySiteId") != null
 				&& request.getParameter("participantId") != null) {
-			System.out.println("Parameters found as.."
-					+ request.getParameter("studySiteId") + "  and "
-					+ request.getParameter("participantId"));
+			if (logger.isDebugEnabled()) {
+				logger.debug("formBackingObject(HttpServletRequest) - Parameters found as.." + request.getParameter("studySiteId") + "  and " + request.getParameter("participantId")); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			}
 			if (studySiteDao != null) {
 				studySite = studySiteDao.getById(Integer.parseInt(request
 						.getParameter("studySiteId")));
-				System.out.println("RoleCode = " + studySite.getRoleCode());
-			} else
-				System.out.println("studySiteDao is null");
+				if (logger.isDebugEnabled()) {
+					logger.debug("formBackingObject(HttpServletRequest) - RoleCode = " + studySite.getRoleCode()); //$NON-NLS-1$
+				}
+			} else if (logger.isDebugEnabled()) {
+				logger.debug("formBackingObject(HttpServletRequest) - studySiteDao is null"); //$NON-NLS-1$
+			}
 			if (participantDao != null) {
 				participant = participantDao.getById(Integer.parseInt(request
 						.getParameter("participantId")));
-				System.out
-						.println("First Name = " + participant.getFirstName());
-			} else
-				System.out.println("participantDao is null");
+				if (logger.isDebugEnabled()) {
+					logger.debug("formBackingObject(HttpServletRequest) - First Name = " + participant.getFirstName()); //$NON-NLS-1$
+				}
+			} else if (logger.isDebugEnabled()) {
+				logger.debug("formBackingObject(HttpServletRequest) - participantDao is null"); //$NON-NLS-1$
+			}
 			int size = participant.getStudyParticipantAssignments().size();
-			System.out
-					.println("-------------participant.getStudyParticipantAssignments().size() is "
-							+ size + "---------------");
+			if (logger.isDebugEnabled()) {
+				logger.debug("formBackingObject(HttpServletRequest) - -------------participant.getStudyParticipantAssignments().size() is " + size + "---------------"); //$NON-NLS-1$ //$NON-NLS-2$
+			}
 			int size1 = studySite.getStudyParticipantAssignments().size();
-			System.out
-					.println("-------------studySite.getStudyParticipantAssignments().size() is "
-							+ size1 + "---------------");
+			if (logger.isDebugEnabled()) {
+				logger.debug("formBackingObject(HttpServletRequest) - -------------studySite.getStudyParticipantAssignments().size() is " + size1 + "---------------"); //$NON-NLS-1$ //$NON-NLS-2$
+			}
 
 			studyParticipantAssignment.setStudySite(studySite);
 			studyParticipantAssignment.setParticipant(participant);
@@ -148,15 +163,22 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 		scheduledArm.setStudyParticipantAssignment(studyParticipantAssignment);
 		List<Epoch> list = studyParticipantAssignment.getStudySite().getStudy()
 				.getEpochs();
-		System.out.println(list.size());
+		if (logger.isDebugEnabled()) {
+			logger.debug("formBackingObject(HttpServletRequest) - " + list.size()); //$NON-NLS-1$
+		}
 		for (int i = 0; i < list.size(); i++) {
 			Epoch e = (Epoch) list.get(i);
-			System.out.println(e.getName());
+			if (logger.isDebugEnabled()) {
+				logger.debug("formBackingObject(HttpServletRequest) - " + e.getName()); //$NON-NLS-1$
+			}
 			if (e.getName().equals("Treatment")) {
 				for (int j = 0; j < e.getArms().size(); j++) {
-					System.out.println(e.getArms().get(j).getName());
-					System.out
-							.println("--------------------------------------Arms available-----------------------------------------");
+					if (logger.isDebugEnabled()) {
+						logger.debug("formBackingObject(HttpServletRequest) - " + e.getArms().get(j).getName()); //$NON-NLS-1$
+					}
+					if (logger.isDebugEnabled()) {
+						logger.debug("formBackingObject(HttpServletRequest) - --------------------------------------Arms available-----------------------------------------"); //$NON-NLS-1$
+					}
 
 				}
 				return studyParticipantAssignment;
@@ -167,8 +189,9 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 		 * System.out.println("--------------------------------------Arms
 		 * available-----------------------------------------"); return
 		 * studyParticipantAssignment; }
-		 */System.out
-				.println("--------------------------------------Arms not available-----------------------------------------");
+		 */if (logger.isDebugEnabled()) {
+			logger.debug("formBackingObject(HttpServletRequest) - --------------------------------------Arms not available-----------------------------------------"); //$NON-NLS-1$
+		}
 		Arm arm1 = new Arm();
 		arm1.setId(11);
 		arm1.setName("A_MOCK");
@@ -250,20 +273,26 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 		// TODO Auto-generated method stub
 		String viewName = request.getParameter("nextView");
 		if(viewName.equalsIgnoreCase("confirmationView")){
-			System.out.println("In postProcessPage()...");
-			System.out.println("no of registered pages: "+getPages().length);
-			System.out.println(viewName);
+			if (logger.isDebugEnabled()) {
+				logger.debug("postProcessPage(HttpServletRequest, Object, Errors, int) - In postProcessPage()..."); //$NON-NLS-1$
+			}
+			if (logger.isDebugEnabled()) {
+				logger.debug("postProcessPage(HttpServletRequest, Object, Errors, int) - no of registered pages: " + getPages().length); //$NON-NLS-1$
+			}
+			if (logger.isDebugEnabled()) {
+				logger.debug("postProcessPage(HttpServletRequest, Object, Errors, int) - " + viewName); //$NON-NLS-1$
+			}
 			StudyParticipantAssignment studyParticipantAssignment = (StudyParticipantAssignment) command;
 			int size = studyParticipantAssignment.getParticipant()
 					.getStudyParticipantAssignments().size();
-			System.out
-					.println("-------------postProcessPage() participant.getStudyParticipantAssignments().size() is "
-							+ size + "---------------");
+			if (logger.isDebugEnabled()) {
+				logger.debug("postProcessPage(HttpServletRequest, Object, Errors, int) - -------------postProcessPage() participant.getStudyParticipantAssignments().size() is " + size + "---------------"); //$NON-NLS-1$ //$NON-NLS-2$
+			}
 			int size1 = studyParticipantAssignment.getStudySite()
 					.getStudyParticipantAssignments().size();
-			System.out
-					.println("-------------postProcessPage() studySite.getStudyParticipantAssignments().size() is "
-							+ size1 + "---------------");
+			if (logger.isDebugEnabled()) {
+				logger.debug("postProcessPage(HttpServletRequest, Object, Errors, int) - -------------postProcessPage() studySite.getStudyParticipantAssignments().size() is " + size1 + "---------------"); //$NON-NLS-1$ //$NON-NLS-2$
+			}
 			studyParticipantAssignment.getParticipant()
 					.addStudyParticipantAssignment(studyParticipantAssignment);
 			int scheduledArmsSize = studyParticipantAssignment.getScheduledArms()
@@ -275,16 +304,23 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 			Arm arm = null;
 			List<Epoch> list = studyParticipantAssignment.getStudySite().getStudy()
 					.getEpochs();
-			System.out.println(list.size());
+			if (logger.isDebugEnabled()) {
+				logger.debug("postProcessPage(HttpServletRequest, Object, Errors, int) - " + list.size()); //$NON-NLS-1$
+			}
 			List<Arm> arms = null;
 			for (int i = 0; i < list.size(); i++) {
 				Epoch e = (Epoch) list.get(i);
-				System.out.println(e.getName());
+				if (logger.isDebugEnabled()) {
+					logger.debug("postProcessPage(HttpServletRequest, Object, Errors, int) - " + e.getName()); //$NON-NLS-1$
+				}
 				if (e.getName().equals("Treatment")) {
 					for (int j = 0; j < e.getArms().size(); j++) {
-						System.out.println(e.getArms().get(j).getName());
-						System.out
-								.println("--------------------------------------postProcessPage() Arms available-----------------------------------------");
+						if (logger.isDebugEnabled()) {
+							logger.debug("postProcessPage(HttpServletRequest, Object, Errors, int) - " + e.getArms().get(j).getName()); //$NON-NLS-1$
+						}
+						if (logger.isDebugEnabled()) {
+							logger.debug("postProcessPage(HttpServletRequest, Object, Errors, int) - --------------------------------------postProcessPage() Arms available-----------------------------------------"); //$NON-NLS-1$
+						}
 
 					}
 					arms = (List<Arm>) (studyParticipantAssignment.getStudySite()

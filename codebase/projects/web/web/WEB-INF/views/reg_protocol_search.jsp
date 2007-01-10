@@ -187,7 +187,7 @@ function doNothing(){
 									%>
 									<c:forEach var="study" items="${studies}">
 										<a
-											href="SearchRegisterPatient.do?studySiteId=${study.studySites[0].id}"
+											href="createparticipant.do?studySiteId=${study.studySites[0].id}&url=register.do"
 											onMouseOver="navRollOver('row<%= i %>', 'on')"
 											onMouseOut="navRollOver('row<%= i %>', 'off')">
 										<tr align="center" id="row<%= i++ %>" class="results">

@@ -20,6 +20,10 @@ function doNothing(){
 function getPage(s){
 	parent.window.location="reg_patient_search.htm";
 }
+function submitPage(s){
+	document.getElementById("searchCategory").value=s;
+	document.getElementById("searchForm").submit();
+}
 </script>
 </head>
 <body>
@@ -74,8 +78,8 @@ function getPage(s){
 				<table width="100%" border="0" cellspacing="0" cellpadding="0"
 					class="tabs">
 					<tr>
-						<td width="100%" id="tabDisplay"><span class="current"> <img
-							src="images/tabWhiteL.gif" width="3" height="16"
+						<td width="100%" id="tabDisplay"><span class="current">
+						<img src="images/tabWhiteL.gif" width="3" height="16"
 							align="absmiddle"> 1. <a href="reg_protocol_search.htm">Select
 						Subject </a><img src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"></span><span class="tab"><img
@@ -103,6 +107,55 @@ function getPage(s){
 				</td>
 			</tr>
 			<!-- MAIN BODY STARTS HERE -->
+			<tr>
+				<td>
+				<div class="workArea"><img src="images/tabWhiteL.gif"
+					width="3" height="16" align="absmiddle"> <img
+					src="images/tabWhiteL.gif" width="3" height="16" align="absmiddle">
+				<form id="searchForm" name="searchForm" method="post"
+					action="/c3pr/SearchAndRegister.do">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0">
+					<tr>
+						<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
+
+						<td id="current">Search Subject</td>
+						<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
+					</tr>
+					<tr>
+						<td class="display"><!-- TABS LEFT START HERE -->
+						<table width="100%" border="0" cellspacing="0" cellpadding="0"
+							id="search">
+							<tr>
+								<td>&nbsp;</td>
+							</tr>
+							<tr>
+								<td width="5%">&nbsp;</td>
+								<td class="searchType">Search Subject by <select
+									name="searchTypePart">
+									<c:forEach var="opt" items="${searchType}">
+										<option value="${opt.code }">${opt.desc }</option>
+									</c:forEach>
+								</select></td>
+								<td align="left" class="labels">Search String:</td>
+								<td><input type="text" name="searchTypeTextPart" /> <input
+									type=hidden name="searchCategory" /></td>
+								<td><input name="imageField" type="image" class="button"
+									onClick="submitPage('participant');"
+									src="images/b-go.gif" alt="GO" align="middle" width="22"
+									height="10" border="0"></td>
+								<td width=65%>&nbsp;</td>
+							</tr>
+							<tr>
+								<td>&nbsp;</td>
+							</tr>
+						</table>
+						</td>
+					</tr>
+				</table>
+				</form>
+				</td>
+			</tr>
+
 			<tr>
 				<td>
 				<div class="workArea"><img src="images/tabWhiteL.gif"
@@ -153,8 +206,8 @@ function getPage(s){
 									action="createparticipant.do">
 									<div><input type="hidden" name="_page" value="0">
 									</div>
-									<strong>Step 1. Subject Information </strong> 
-							(<span class="red">*</span>
+									<strong>Step 1. Subject Information </strong>
+									<span class="red">*</span>
 									<em>Required Information </em>)<br>
 									<br>
 									<div class="review"><strong>Current Information:</strong>

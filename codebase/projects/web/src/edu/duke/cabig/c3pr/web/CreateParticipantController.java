@@ -24,6 +24,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.ParticipantIdentifier;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
+import edu.duke.cabig.c3pr.web.SearchParticipantRegisterController.LOV;
 
 
 /**
@@ -51,6 +52,7 @@ public class CreateParticipantController extends AbstractWizardFormController {
     		refdata.put("ethnicGroupCode", getEthnicGroupCodeList());
     		refdata.put("raceCode", getRaceCodeList());
     		refdata.put("healthcareSite", healthcareSiteDao.getAll());
+    		refdata.put("searchType", getSearchType());
     	}
     	
         return refdata;
@@ -153,6 +155,16 @@ public class CreateParticipantController extends AbstractWizardFormController {
 			this.desc=desc;
 		}
 	}
+	
+	 private List<LOV> getSearchType(){
+			List<LOV> col = new ArrayList<LOV>();
+			LOV lov1 = new LOV("N", "LastName");
+			LOV lov2 = new LOV("MRN", "MRN");
+			
+			col.add(lov1);
+			col.add(lov2);	    	    	
+	    	return col;
+		}
 	
 	private List<LOV> getRaceCodeList() {
 		List<LOV> col = new ArrayList<LOV>();
