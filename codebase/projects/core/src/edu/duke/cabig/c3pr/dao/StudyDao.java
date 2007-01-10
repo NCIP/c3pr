@@ -31,7 +31,7 @@ public class StudyDao extends AbstractBaseDao<Study> {
 	 * @return list of matching study objects based on your sample study object
 	 */
 	public List<Study> searchByExample(Study study, boolean isWildCard) {
-		Session session = getHibernateTemplate().getSessionFactory().openSession();		
+		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();		
 		Example searchCriteria = Example.create(study).excludeZeroes().ignoreCase();
 		if (isWildCard)
 		{
