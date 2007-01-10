@@ -79,7 +79,7 @@ function getPage(s){
 						Study </a><img src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"></span><span class="current"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						2. Select Patient <img src="images/tabGrayR.gif" width="3"
+						2. Select Subject <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"></span><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						3. Check Eligibility <img src="images/tabGrayR.gif" width="3"
@@ -112,7 +112,7 @@ function getPage(s){
 
 						<tr>
 							<!-- TITLE STARTS HERE -->
-							<td width="99%" height="43" valign="middle" id="title">Patient
+							<td width="99%" height="43" valign="middle" id="title">Subject
 							Search</td>
 							<td valign="top">
 							<table width="100%" border="0" cellspacing="0" cellpadding="0"
@@ -121,7 +121,7 @@ function getPage(s){
 									<td class="labels">&nbsp;</td>
 								</tr>
 								<tr>
-									<td class="searchType">Search Patient by <form:select
+									<td class="searchType">Search Subject by <form:select
 										path="searchType">
 										<form:options items="${searchType}" itemLabel="desc"
 											itemValue="code" />
@@ -152,7 +152,7 @@ function getPage(s){
 					<tr>
 						<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
 
-						<td id="current">Create Patient</td>
+						<td id="current">Create Subject</td>
 						<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 					</tr>
 					<tr>
@@ -166,7 +166,7 @@ function getPage(s){
 									<tr>
 										<td width="100%" id="tabDisplay"><span class="current"><img
 											src="images/tabGrayL.gif" width="3" height="16"
-											align="absmiddle"> 2. Patient Information <img
+											align="absmiddle"> 2. Subject Information <img
 											src="images/tabGrayR.gif" width="3" height="16"
 											align="absmiddle"></span><span class="tab"><img
 											src="images/tabGrayL.gif" width="3" height="16"
@@ -203,7 +203,7 @@ function getPage(s){
 								</table>
 								<hr>
 								<br>
-								<strong>Step 2. Patient Information </strong> (<span class="red">*</span><em>Required
+								<strong>Step 2. Subject Information </strong> (<span class="red">*</span><em>Required
 								Information </em>)<br>
 								<br>
 								<div class="review"><strong>Current Information:</strong><br>

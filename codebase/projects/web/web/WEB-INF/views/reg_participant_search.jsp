@@ -78,7 +78,7 @@ function doNothing(){
 					<tr>
 						<td width="100%" id="tabDisplay"><span class="current">
 						<img src="images/tabWhiteL.gif" width="3" height="16"
-							align="absmiddle"> 1. Select Patient <img
+							align="absmiddle"> 1. Select Subject <img
 							src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"> </span><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
@@ -116,7 +116,7 @@ function doNothing(){
 							<!-- TITLE STARTS HERE -->
 							<td width="99%" height="43" valign="middle" id="title"><a
 								href="createparticipant.do?url=SearchRegisterStudy.do">Create
-							Subject</a></td>
+							new Subject for Registration</a> or select a subject from below.</td>
 							<td valign="top">
 							<table width="100%" border="0" cellspacing="0" cellpadding="0"
 								id="search">
@@ -124,7 +124,7 @@ function doNothing(){
 									<td class="labels">&nbsp;</td>
 								</tr>
 								<tr>
-									<td class="searchType">Search Patient by <form:select
+									<td class="searchType">Search Subject by <form:select
 										path="searchTypePart">
 										<form:options items="${searchTypeParticipant}"
 											itemLabel="desc" itemValue="code" />
@@ -156,7 +156,7 @@ function doNothing(){
 					<tr>
 						<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
 
-						<td id="current">Patient Search Results</td>
+						<td id="current">Subject Search Results</td>
 						<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 					</tr>
 					<tr>

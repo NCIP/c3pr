@@ -94,7 +94,7 @@ function getPage(s){
 							<tr>
 								<td width="100%" id="tabDisplay"><span class="current"><img
 									src="images/tabGrayL.gif" width="3" height="16"
-									align="absmiddle"> 1. Patient Information <img
+									align="absmiddle"> 1. Subject Information <img
 									src="images/tabGrayR.gif" width="3" height="16"
 									align="absmiddle"></span><span class="tab"><img
 									src="images/tabGrayL.gif" width="3" height="16"
@@ -123,7 +123,7 @@ function getPage(s){
 						<div>
 							<input type ="hidden" name="_page" value="0">
 						</div>
-							<strong>Step 1. Patient Information </strong> 
+							<strong>Step 1. Subject Information </strong> 
 							(<span class="red">*</span><em>Required Information </em>)<br> <br>
 						<div class="review"><strong>Current Information:</strong>
 						

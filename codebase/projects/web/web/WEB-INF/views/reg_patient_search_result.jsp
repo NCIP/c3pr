@@ -79,7 +79,7 @@ function getPage(s){
 						Study </a><img src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"></span><span class="current"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						2. Enroll Patient <img src="images/tabGrayR.gif" width="3"
+						2. Select Subject <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"></span><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						3. Check Eligibility <img src="images/tabGrayR.gif" width="3"
@@ -121,10 +121,10 @@ function getPage(s){
 							<tr>
 								<td class="searchType">Search <select name="select"
 									class="field1">
-									<option selected>Patient</option>
+									<option selected>Subject</option>
 								</select> by <select name="select" class="field1">
-									<option selected>Patient Name</option>
-									<option>Patient Registration#</option>
+									<option selected>Subject Name</option>
+									<option>Subject Registration#</option>
 								</select></td>
 							</tr>
 						</table>
@@ -168,7 +168,7 @@ function getPage(s){
 									<tr>
 										<td width="100%" id="tabDisplay"><span class="current"><img
 											src="images/tabWhiteL.gif" width="3" height="16"
-											align="absmiddle"> Patient Summary <img
+											align="absmiddle"> Subject Summary <img
 											src="images/tabWhiteR.gif" width="3" height="16"
 											align="absmiddle"></span></td>
 										<td><img src="images/spacer.gif" width="7" height="1"></td>
@@ -290,7 +290,7 @@ function getPage(s){
 								<table width="100%" border="0" cellspacing="0" cellpadding="0"
 									id="details">
 									<tr>
-										<td width="50%" valign="top" class="contentAreaL"><strong>Patient
+										<td width="50%" valign="top" class="contentAreaL"><strong>Subject
 										Details </strong>(<span class="red">*</span><em>Required
 										Information </em>)<br>
 										<br>

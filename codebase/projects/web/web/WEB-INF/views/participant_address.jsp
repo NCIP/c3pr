@@ -79,7 +79,8 @@ function getPage(s){
 			<tr>
 				<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
 
-				<td id="current">Create Subject -  ${command.firstName} ${command.lastName}</td>
+				<td id="current">Create Subject - ${command.firstName}
+				${command.lastName}</td>
 				<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 			</tr>
 			<tr>
@@ -93,7 +94,7 @@ function getPage(s){
 							<tr>
 								<td width="100%" id="tabDisplay"><span class="tab"><img
 									src="images/tabGrayL.gif" width="3" height="16"
-									align="absmiddle"> 1. <a href="participant_add.htm">Patient
+									align="absmiddle"> 1. <a href="participant_add.htm">Subject
 								Information </a><img src="images/tabGrayR.gif" width="3" height="16"
 									align="absmiddle"></span><span class="current"><img
 									src="images/tabGrayL.gif" width="3" height="16"
@@ -117,82 +118,78 @@ function getPage(s){
 
 						<!-- LEFT CONTENT STARTS HERE -->
 						<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
-						<!-- RIGHT CONTENT STARTS HERE -->
-
-						<form:form method="post" action="createparticipant.do">						
-							<div>
-								<input type ="hidden" name="_page" value="1">
-							</div>
+						<!-- RIGHT CONTENT STARTS HERE --> <form:form method="post"
+							action="createparticipant.do">
+							<div><input type="hidden" name="_page" value="1"></div>
 							<strong>Step 2. Address Information </strong> 
-							(<span class="red">*</span><em>Required Information </em>)<br> <br>
-						<div class="review"><strong>Home Address:</strong><br>
-						<br>
-						<table width="700" border="0" cellspacing="0" cellpadding="0"
-							id="details">
-							<tr>
-								<td width="50%" valign="top">
-								<table width="308" border="0" cellspacing="0" cellpadding="0"
-									id="table1">
-									<tr>
-										<td class="label"><span class="red">*</span><em></em>
-										Address:</td>
-										<td><form:input path="address.streetAddress"/></td>
-									</tr>									
-									<tr>
-										<td class="label"><span class="red">*</span><em></em>
-										City:</td>
-										<td><form:input path="address.city"/></td>
-									</tr>
-									<tr>
-										<td class="label"><span class="data"><span
-											class="red">*</span><em></em> State:</span></td>
-										<td><form:input path="address.stateCode"/> </td> 
-                                        <td><span class="red">*</span><em></em><strong>Zip:</strong> 
-										<form:input path="address.postalCode"/>
-										<a href="#"
-											onClick="parent.OpenWins('searchZip.htm','searchZip',420,206,1);return false;"><img
-											src="images/b-searchZip.gif" alt="Search Zip" width="48"
-											height="11" border="0" align="absmiddle"></a> <a href="#"><img
-											src="images/b-questionL.gif" alt="What's This?" width="15"
-											height="11" border="0" align="absmiddle"></a></td>
-									</tr>
-									<tr>
-										<td class="label"><em></em><em></em> Country:</td>
-										<td><form:input path="address.countryCode"/></td>
-									</tr>
-								</table>
-								</td>
-							</tr>
-						</table>						
-						<hr align="left" width="95%">
-						<table width="700" border="0" cellspacing="0" cellpadding="0"
-							id="details">
-							<tr>
-							<td align="center" colspan="3">
-							<!-- action buttons begins -->
-							<table cellpadding="4" cellspacing="0" border="0">
+							(<span class="red">*</span>
+							<em>Required Information </em>)<br>
+							<br>
+							<div class="review"><strong>Home Address:</strong><br>
+							<br>
+							<table width="700" border="0" cellspacing="0" cellpadding="0"
+								id="details">
 								<tr>
-									<td><input class="actionButton" type="submit"
-										name="_target0" value="Prev"></td>
-									<td><input class="actionButton" type="submit"
-										name="_target2" value="Next"></td>
+									<td width="50%" valign="top">
+									<table width="308" border="0" cellspacing="0" cellpadding="0"
+										id="table1">
+										<tr>
+											<td class="label"><span class="red">*</span><em></em>
+											Address:</td>
+											<td><form:input path="address.streetAddress" /></td>
+										</tr>
+										<tr>
+											<td class="label"><span class="red">*</span><em></em>
+											City:</td>
+											<td><form:input path="address.city" /></td>
+										</tr>
+										<tr>
+											<td class="label"><span class="data"><span
+												class="red">*</span><em></em> State:</span></td>
+											<td><form:input path="address.stateCode" /></td>
+											<td><span class="red">*</span><em></em><strong>Zip:</strong>
+											<form:input path="address.postalCode" /> <a href="#"
+												onClick="parent.OpenWins('searchZip.htm','searchZip',420,206,1);return false;"><img
+												src="images/b-searchZip.gif" alt="Search Zip" width="48"
+												height="11" border="0" align="absmiddle"></a> <a href="#"><img
+												src="images/b-questionL.gif" alt="What's This?" width="15"
+												height="11" border="0" align="absmiddle"></a></td>
+										</tr>
+										<tr>
+											<td class="label"><em></em><em></em> Country:</td>
+											<td><form:input path="address.countryCode" /></td>
+										</tr>
+									</table>
+									</td>
 								</tr>
 							</table>
-							</td>
-						</tr>
-						</table>
-						</div>
-						</form:form>
-						</td>
-		<!-- LEFT CONTENT ENDS HERE -->
-	</tr>
-</table>
-</td>
-</tr>
-</table>
-<div id="copyright">&copy; 2006 SemanticBits Company. All Rights
-Reserved</div>
-</div>
-<!-- MAIN BODY ENDS HERE -->
+							<hr align="left" width="95%">
+							<table width="700" border="0" cellspacing="0" cellpadding="0"
+								id="details">
+								<tr>
+									<td align="center" colspan="3"><!-- action buttons begins -->
+									<table cellpadding="4" cellspacing="0" border="0">
+										<tr>
+											<td><input class="actionButton" type="submit"
+												name="_target0" value="Prev"></td>
+											<td><input class="actionButton" type="submit"
+												name="_target2" value="Next"></td>
+										</tr>
+									</table>
+									</td>
+								</tr>
+							</table>
+							</div>
+						</form:form></td>
+						<!-- LEFT CONTENT ENDS HERE -->
+					</tr>
+				</table>
+				</td>
+			</tr>
+		</table>
+		<div id="copyright">&copy; 2006 SemanticBits Company. All Rights
+		Reserved</div>
+		</div>
+		<!-- MAIN BODY ENDS HERE -->
 </body>
 </html>

@@ -76,7 +76,7 @@ function submitPage(){
 						<td width="100%" id="tabDisplay"><span class="tab"> <img
 							src="images/tabWhiteL.gif" width="3" height="16"
 							align="absmiddle"> 1. <a href="reg_protocol_search.jsp">Select
-						Patient </a><img src="images/tabWhiteR.gif" width="3" height="16"
+						Subject </a><img src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"></span><span class="current"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						2. Select Study <img src="images/tabGrayR.gif" width="3"

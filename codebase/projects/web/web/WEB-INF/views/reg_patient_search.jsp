@@ -79,7 +79,7 @@ function submitPage(){
 						Study </a><img src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"></span><span class="current"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						2. Select Patient <img src="images/tabGrayR.gif" width="3"
+						2. Select Subject <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"></span><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						3. Check Eligibility <img src="images/tabGrayR.gif" width="3"
@@ -114,7 +114,7 @@ function submitPage(){
 							<!-- TITLE STARTS HERE -->
 							<td width="99%" height="43" valign="middle" id="title"><a
 								href="createparticipant.do?url=register.do&studySiteId=${studySiteId }">Create
-							Patient</td>
+							new Subject For Registration</a> or select a subject from below.</td>
 							<td valign="top">
 							<table width="100%" border="0" cellspacing="0" cellpadding="0"
 								id="search">
@@ -122,7 +122,7 @@ function submitPage(){
 									<td class="labels">&nbsp;</td>
 								</tr>
 								<tr>
-									<td class="searchType">Search Patient by <form:select
+									<td class="searchType">Search Subject by <form:select
 										path="searchType">
 										<form:options items="${searchType}" itemLabel="desc"
 											itemValue="code" />
@@ -153,7 +153,7 @@ function submitPage(){
 					<tr>
 						<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
 
-						<td id="current">Patient Search Results</td>
+						<td id="current">Subject Search Results</td>
 						<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 					</tr>
 					<tr>

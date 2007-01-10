@@ -74,7 +74,7 @@ function getPage(s){
 						Study </a><img src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"></span><span class="current"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						2. Enroll Patient <img src="images/tabGrayR.gif" width="3"
+						2. Select Subject <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"></span><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						3. Check Eligibility <img src="images/tabGrayR.gif" width="3" height="16"
@@ -104,7 +104,7 @@ function getPage(s){
 					class="titleArea">
 					<tr>
 						<!-- TITLE STARTS HERE -->
-						<td width="99%" height="43" valign="middle" id="title">Patient
+						<td width="99%" height="43" valign="middle" id="title">Subject
 						Search</td>
 						<td valign="top">
 						<form method="post" action="" name="searchMeth" class="search">
@@ -116,10 +116,10 @@ function getPage(s){
 							<tr>
 								<td class="searchType">Search <select name="select"
 									class="field1">
-									<option selected>Patient</option>
+									<option selected>Subject</option>
 								</select> by <select name="select" class="field1">
-									<option selected>Patient Name</option>
-									<option>Patient Registration#</option>
+									<option selected>Subject Name</option>
+									<option>Subject Registration#</option>
 								</select></td>
 							</tr>
 						</table>
@@ -151,7 +151,7 @@ function getPage(s){
 					<tr>
 						<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
 
-						<td id="current">Create Patient - John Smith</td>
+						<td id="current">Create Subject - John Smith</td>
 						<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 					</tr>
 					<tr>
@@ -165,7 +165,7 @@ function getPage(s){
 									<tr>
 										<td width="100%" id="tabDisplay"><span class="tab"><img
 											src="images/tabGrayL.gif" width="3" height="16"
-											align="absmiddle"> 1. <a href="reg_enroll_patient.htm">Patient
+											align="absmiddle"> 1. <a href="reg_enroll_patient.htm">Subject
 										Information </a><img src="images/tabGrayR.gif" width="3"
 											height="16" align="absmiddle"></span><span class="current"><img
 											src="images/tabGrayL.gif" width="3" height="16"

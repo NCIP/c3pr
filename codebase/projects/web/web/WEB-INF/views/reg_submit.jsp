@@ -95,7 +95,7 @@ function updateTargetPage(s){
 							align="absmiddle"> 1. Select Study <img
 							src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
-							height="16" align="absmiddle"> 2. Select Patient <img
+							height="16" align="absmiddle"> 2. Select Subject <img
 							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						3. <a href="javascript:updateTargetPage('checkEligibilityView');">Check
@@ -144,7 +144,7 @@ function updateTargetPage(s){
 									<!-- LEFT CONTENT STARTS HERE -->
 									<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
 									<!-- RIGHT CONTENT STARTS HERE --> <input type="hidden"
-										name="nextView"> <strong>Step 1. Patient
+										name="nextView"> <strong>Step 1. Subject
 									Information </strong><br>
 									<table width="700" border="0" cellspacing="0" cellpadding="0"
 										id="details">

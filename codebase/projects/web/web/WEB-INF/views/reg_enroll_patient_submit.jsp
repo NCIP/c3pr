@@ -21,7 +21,7 @@ if (action){
 function addPatient(){
 var action = confirm ("Are you sure you want to create this patient?")
 if (action){
-	alert("Patient successfully created.");
+	alert("Subject successfully created.");
 	parent.window.location="reg_enroll_patient.htm";
 }}
 </script>
@@ -85,7 +85,7 @@ if (action){
 						Study </a><img src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"></span><span class="current"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						2. Enroll Patient <img src="images/tabGrayR.gif" width="3"
+						2. Select Subject <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"></span><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						3. Check Eligibility <img src="images/tabGrayR.gif" width="3" height="16"
@@ -115,7 +115,7 @@ if (action){
 					class="titleArea">
 					<tr>
 						<!-- TITLE STARTS HERE -->
-						<td width="99%" height="43" valign="middle" id="title">Patient
+						<td width="99%" height="43" valign="middle" id="title">Subject
 						Search</td>
 						<td valign="top">
 						<form method="post" action="" name="searchMeth" class="search">
@@ -127,10 +127,10 @@ if (action){
 							<tr>
 								<td class="searchType">Search <select name="select"
 									class="field1">
-									<option selected>Patient</option>
+									<option selected>Subject</option>
 								</select> by <select name="select" class="field1">
-									<option selected>Patient Name</option>
-									<option>Patient Registration#</option>
+									<option selected>Subject Name</option>
+									<option>Subject Registration#</option>
 								</select></td>
 							</tr>
 						</table>
@@ -162,7 +162,7 @@ if (action){
 					<tr>
 						<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
 
-						<td id="current">Confirm Patient - John Smith</td>
+						<td id="current">Confirm Subject - John Smith</td>
 						<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 					</tr>
 					<tr>
@@ -176,7 +176,7 @@ if (action){
 									<tr>
 										<td width="100%" id="tabDisplay"><span class="tab"><img
 											src="images/tabGrayL.gif" width="3" height="16"
-											align="absmiddle"> 1. <a href="reg_enroll_patient.htm">Patient
+											align="absmiddle"> 1. <a href="reg_enroll_patient.htm">Subject
 										Information </a><img src="images/tabGrayR.gif" width="3"
 											height="16" align="absmiddle"><img
 											src="images/tabGrayL.gif" width="3" height="16"
@@ -202,7 +202,7 @@ if (action){
 								<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
 								<!-- RIGHT CONTENT STARTS HERE -->
 
-								<form id="form1"><strong>Step 1. Patient
+								<form id="form1"><strong>Step 1. Subject
 								Information </strong><br>
 								<table width="700" border="0" cellspacing="0" cellpadding="0"
 									id="details">

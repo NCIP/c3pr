@@ -82,7 +82,7 @@ function submitPage(){
 						Study </a><img src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"></span><span class="current"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						2. Select Patient <img src="images/tabGrayR.gif" width="3"
+						2. Select Subject <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"></span><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						3. Check Eligibility <img src="images/tabGrayR.gif" width="3"
@@ -114,7 +114,7 @@ function submitPage(){
 						<!-- TITLE STARTS HERE -->
 						<td width="99%" height="43" valign="middle" id="title"><a
 							href="createparticipant.do?url=register.do&studySiteId=${studySiteId }">Create
-						Patient</a></td>
+						new Subject for Registration</a> or search for an existing subject.</td>
 
 						<form:form id="searchParticipant" name="searchParticipant"
 							method="post">
@@ -125,7 +125,7 @@ function submitPage(){
 									<td class="labels">&nbsp;</td>
 								</tr>
 								<tr>
-									<td class="searchType">Search Patient by <form:select
+									<td class="searchType">Search Subject by <form:select
 										path="searchType">
 										<form:options items="${searchType}" itemLabel="desc"
 											itemValue="code" />

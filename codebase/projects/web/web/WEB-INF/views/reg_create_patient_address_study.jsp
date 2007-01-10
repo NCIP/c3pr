@@ -1,5 +1,10 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -10,14 +15,19 @@
 function navRollOver(obj, state) {
   document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
 }
+function doNothing(){
+}
+function getPage(s){
+	parent.window.location="reg_patient_search.htm";
+}
 </script>
 </head>
 <body>
 <!-- TOP LOGOS START HERE -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
-		<td width="99%"><img src="images/c3prLogo.gif" alt="C3PR" width="181"
-			height="36" class="gelogo"></td>
+		<td width="99%"><img src="images/C3PRLogo.gif" alt="C3PR"
+			width="181" height="36" class="gelogo"></td>
 		<td align="right"><img src="images/t-drivers.gif" alt="Study"
 			width="200" height="79"></td>
 	</tr>
@@ -32,14 +42,13 @@ function navRollOver(obj, state) {
 			width="2" height="20" align="absmiddle" class="currentL"><span
 			class="current"><img src="images/topNavArrowDown.gif"
 			width="5" height="20" align="absmiddle"> Registration</span><a
-			href="protocol.htm"> Study </a><img src="images/topNavR.gif"
+			href="/c3pr/searchstudy.do"> Study </a><img src="images/topNavR.gif"
 			width="2" height="20" align="absmiddle" class="currentR"><a
-			href="/c3pr/searchparticipant.do">Subject</a><img
+			href="searchparticipant.do">Subject</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
-			class="divider"><a href="analysis">Reports</a><img
+			class="divider"><a href="javascript:doNothing();">Reports</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
 			class="divider"></td>
-
 		<td class="right"><img src="images/topDivider.gif" width="2"
 			height="20" align="absmiddle" class="divider"><a href="logOff">Log
 		Off</a></td>
@@ -67,19 +76,22 @@ function navRollOver(obj, state) {
 					<tr>
 						<td width="100%" id="tabDisplay"><span class="tab"> <img
 							src="images/tabWhiteL.gif" width="3" height="16"
-							align="absmiddle"> 1. <a href="reg_protocol_search.jsp">Select
+							align="absmiddle"> 1. <a href="reg_protocol_search.htm">Select
 						Study </a><img src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"></span><span class="current"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						2. Select Subject <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"></span><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						3. Stratify <img src="images/tabGrayR.gif" width="3" height="16"
+						3. Check Eligibility <img src="images/tabGrayR.gif" width="3"
+							height="16" align="absmiddle"><img
+							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
+						4. Stratify <img src="images/tabGrayR.gif" width="3" height="16"
 							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
 							height="16" align="absmiddle"> 5. Randomize <img
 							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						4. Review and Submit <img src="images/tabGrayR.gif" width="3"
+						6. Review and Submit <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"></span></td>
 						<td><img src="images/spacer.gif" width="7" height="1"></td>
 					</tr>
@@ -94,58 +106,12 @@ function navRollOver(obj, state) {
 			<tr>
 				<td>
 				<div class="workArea">
-				<table width="100%" border="0" cellspacing="0" cellpadding="0"
-					class="titleArea">
-					<tr>
-						<!-- TITLE STARTS HERE -->
-						<td width="99%" height="43" valign="middle" id="title">Subject
-						Search</td>
-						<td valign="top">
-						<form method="post" action="" name="searchMeth" class="search">
-						<table width="100%" border="0" cellspacing="0" cellpadding="0"
-							id="search">
-							<tr>
-								<td class="labels">&nbsp;</td>
-							</tr>
-							<tr>
-								<td class="searchType">Search <select name="select"
-									class="field1">
-									<option selected>Subject</option>
-								</select> by <select name="select" class="field1">
-									<option selected>Subject Name</option>
-									<option>Subject Registration#</option>
-								</select></td>
-							</tr>
-						</table>
-						</form>
-						<span class="notation">&nbsp;</span></td>
-						<td valign="top">
-						<table width="100%" border="0" cellspacing="0" cellpadding="0"
-							id="search">
-							<tr>
-								<td align="left" class="labels">Last Name:</td>
-								<td align="left" class="labels">First Name:</td>
-								<td class="labels">&nbsp;</td>
-							</tr>
-							<tr>
-								<td><input name="textfield2" type="text" class="field1"
-									size="25"></td>
-								<td><input name="textfield3" type="text" class="field1"
-									size="25"></td>
-								<td><input name="imageField" type="image" class="button"
-									onClick="getPage('search.htm')" src="images/b-go.gif" alt="GO"
-									align="middle" width="22" height="10" border="0"></td>
-							</tr>
-						</table>
-						<span class="notation">^ Minimum two characters for Last
-						Name search.</span></td>
-					</tr>
-				</table>
 				<table width="100%" border="0" cellspacing="0" cellpadding="0">
 					<tr>
 						<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
 
-						<td id="current">Create Subject</td>
+						<td id="current">Create Subject - ${command.firstName}
+						${command.lastName}</td>
 						<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 					</tr>
 					<tr>
@@ -157,20 +123,17 @@ function navRollOver(obj, state) {
 								<table width="100%" border="0" cellspacing="0" cellpadding="0"
 									class="tabs">
 									<tr>
-										<td width="100%" id="tabDisplay"><span class="current"><img
-											src="images/tabWhiteL.gif" width="3" height="16"
-											align="absmiddle"> 1. Assign Subject Id <img
-											src="images/tabWhiteR.gif" width="3" height="16"
+										<td width="100%" id="tabDisplay"><span class="tab"><img
+											src="images/tabGrayL.gif" width="3" height="16"
+											align="absmiddle"> 1. <a href="participant_add.htm">Subject
+										Information </a><img src="images/tabGrayR.gif" width="3"
+											height="16" align="absmiddle"></span><span class="current"><img
+											src="images/tabGrayL.gif" width="3" height="16"
+											align="absmiddle"> 2. Address Information <img
+											src="images/tabGrayR.gif" width="3" height="16"
 											align="absmiddle"></span><span class="tab"><img
 											src="images/tabGrayL.gif" width="3" height="16"
-											align="absmiddle"> 2. Subject Information <img
-											src="images/tabGrayR.gif" width="3" height="16"
-											align="absmiddle"><img src="images/tabGrayL.gif"
-											width="3" height="16" align="absmiddle"> 3. Internal
-										Contact Information <img src="images/tabGrayR.gif" width="3"
-											height="16" align="absmiddle"><img
-											src="images/tabGrayL.gif" width="3" height="16"
-											align="absmiddle"> 4. Review and Submit <img
+											align="absmiddle"> 3. Review and Submit <img
 											src="images/tabGrayR.gif" width="3" height="16"
 											align="absmiddle"></span></td>
 										<td><img src="images/spacer.gif" width="7" height="1"></td>
@@ -185,42 +148,71 @@ function navRollOver(obj, state) {
 							<tr>
 
 								<!-- LEFT CONTENT STARTS HERE -->
-
 								<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
-								<!-- RIGHT CONTENT STARTS HERE --> <strong>Step 1.
-								Assign Subject Id </strong> (<span class="red">*</span><em>Required
-								Information </em>)<br>
-								<br>
-								<form name="form1" method="post" action="" id="form1">
-								<table width="550" border="0" cellspacing="0" cellpadding="0"
-									id="table1">
-									<tr>
-										<td width="103" class="label"><strong>&nbsp;<SPAN
-											class=red>*</SPAN></strong>Fleet:</td>
-										<td width="84"><strong> <input name="first"
-											type="text" size="8"> </strong></td>
-										<td width="77" class="label"><strong>&nbsp;<SPAN
-											class=red>*</SPAN></strong>Sub:</td>
-										<td width="286"><strong> <select name="select">
-											<option>Sub List Values Go Here</option>
-										</select> </strong></td>
-									</tr>
-									<tr>
-										<td class="label">&nbsp;</td>
-										<td>&nbsp;</td>
-										<td class="label">&nbsp;</td>
-										<td>&nbsp;</td>
-									</tr>
-									<tr>
-										<td class="label">&nbsp;</td>
-										<td colspan="3"><a href="patient_add2.htm"><img
-											src="images/b-continue.gif" alt="Continue" width="59"
-											height="16" border="0"></a></td>
-									</tr>
-								</table>
-								<br>
-								</form>
-								</td>
+								<!-- RIGHT CONTENT STARTS HERE --> <form:form method="post"
+									action="createparticipant.do">
+									<div><input type="hidden" name="_page" value="1"></div>
+									<strong>Step 2. Address Information </strong> 
+							(<span class="red">*</span>
+									<em>Required Information </em>)<br>
+									<br>
+									<div class="review"><strong>Home Address:</strong><br>
+									<br>
+									<table width="700" border="0" cellspacing="0" cellpadding="0"
+										id="details">
+										<tr>
+											<td width="50%" valign="top">
+											<table width="308" border="0" cellspacing="0" cellpadding="0"
+												id="table1">
+												<tr>
+													<td class="label"><span class="red">*</span><em></em>
+													Address:</td>
+													<td><form:input path="address.streetAddress" /></td>
+												</tr>
+												<tr>
+													<td class="label"><span class="red">*</span><em></em>
+													City:</td>
+													<td><form:input path="address.city" /></td>
+												</tr>
+												<tr>
+													<td class="label"><span class="data"><span
+														class="red">*</span><em></em> State:</span></td>
+													<td><form:input path="address.stateCode" /></td>
+													<td><span class="red">*</span><em></em><strong>Zip:</strong>
+													<form:input path="address.postalCode" /> <a href="#"
+														onClick="parent.OpenWins('searchZip.htm','searchZip',420,206,1);return false;"><img
+														src="images/b-searchZip.gif" alt="Search Zip" width="48"
+														height="11" border="0" align="absmiddle"></a> <a
+														href="#"><img src="images/b-questionL.gif"
+														alt="What's This?" width="15" height="11" border="0"
+														align="absmiddle"></a></td>
+												</tr>
+												<tr>
+													<td class="label"><em></em><em></em> Country:</td>
+													<td><form:input path="address.countryCode" /></td>
+												</tr>
+											</table>
+											</td>
+										</tr>
+									</table>
+									<hr align="left" width="95%">
+									<table width="700" border="0" cellspacing="0" cellpadding="0"
+										id="details">
+										<tr>
+											<td align="center" colspan="3"><!-- action buttons begins -->
+											<table cellpadding="4" cellspacing="0" border="0">
+												<tr>
+													<td><input class="actionButton" type="submit"
+														name="_target0" value="Prev"></td>
+													<td><input class="actionButton" type="submit"
+														name="_target2" value="Next"></td>
+												</tr>
+											</table>
+											</td>
+										</tr>
+									</table>
+									</div>
+								</form:form></td>
 								<!-- LEFT CONTENT ENDS HERE -->
 							</tr>
 						</table>
