@@ -60,8 +60,19 @@ public class CreateParticipantController extends AbstractWizardFormController {
 	protected Object formBackingObject(HttpServletRequest request) throws Exception {
 		
 		//FIXME: small hack
-		request.getSession().setAttribute("url", request.getParameter("url"));	
-		request.getSession().setAttribute("studySiteId", request.getParameter("studySiteId"));
+		if(request.getParameter("url")!=null){
+			if(request.getParameter("studySiteId")!=null){
+				setPages(new String[]{"reg_create_patient_study","reg_create_patient_address_study","reg_create_patient_submit_study"});
+			}else{
+				setPages(new String[]{"reg_create_patient","reg_create_patient_address","reg_create_patient_submit"});
+			}
+			request.getSession().setAttribute("url", request.getParameter("url"));
+			request.getSession().setAttribute("studySiteId", request.getParameter("studySiteId"));
+		}else{
+			setPages(new String[]{"participant","participant_address","participant_submit"});
+			request.getSession().removeAttribute("url");	
+			request.getSession().removeAttribute("studySiteId");
+		}
 		
 		Participant participant = (Participant) super.formBackingObject(request);
 		for (int i = 0; i < 5; i++) {
