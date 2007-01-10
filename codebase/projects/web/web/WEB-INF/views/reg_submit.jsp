@@ -31,7 +31,6 @@ function doNothing(){
 }
 function updateTargetPage(s){
 	if(validatePage()){
-		alert("In");
 		document.getElementById("nextView").value=s;
 		document.reviewForm.submit();
 	}
@@ -415,7 +414,7 @@ function updateTargetPage(s){
 										<tr align="center">
 											<td colspan=2 valign="top"><br>
 											<br>
-											<a href="javascript:updateTargetPage('processFinish')"><img
+											<a href="javascript:updateTargetPage('confirmationView')"><img
 												src="images/b-submit.gif" alt="Continue" width="59"
 												height="16" border="0"></a> <a href="/c3pr/"
 												onClick="add();return false;"><img
