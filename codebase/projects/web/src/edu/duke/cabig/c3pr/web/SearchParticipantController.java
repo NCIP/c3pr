@@ -68,6 +68,7 @@ private static Log log = LogFactory.getLog(SearchParticipantController.class);
     	log.debug("Search results size " +participants.size());
     	Map map =errors.getModel();
     	map.put("participants", participants);
+    	map.put("searchType",getSearchType() );
     	ModelAndView modelAndView= new ModelAndView(getSuccessView(), map);
     	return modelAndView;
     }
