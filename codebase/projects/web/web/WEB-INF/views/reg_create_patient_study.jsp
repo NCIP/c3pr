@@ -26,7 +26,7 @@ function getPage(s){
 <!-- TOP LOGOS START HERE -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
-		<td width="99%"><img src="images/C3PRLogo.gif" alt="C3PR"
+		<td width="99%"><img src="images/c3prLogo.gif" alt="C3PR"
 			width="181" height="36" class="gelogo"></td>
 		<td align="right"><img src="images/t-drivers.gif" alt="Study"
 			width="200" height="79"></td>
@@ -104,7 +104,9 @@ function getPage(s){
 			<!-- MAIN BODY STARTS HERE -->
 			<tr>
 				<td>
-				<div class="workArea">
+				<div class="workArea"><img src="images/tabWhiteL.gif"
+					width="3" height="16" align="absmiddle"> <img
+					src="images/tabWhiteL.gif" width="3" height="16" align="absmiddle">
 				<table width="100%" border="0" cellspacing="0" cellpadding="0">
 					<tr>
 						<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
