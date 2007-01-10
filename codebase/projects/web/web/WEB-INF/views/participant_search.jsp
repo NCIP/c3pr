@@ -26,7 +26,7 @@ function navRollOver(obj, state) {
 	<tr>
 
 		<td width="99%"><img src="images/c3prLogo.gif" alt="C3Pr V2"
-			width="181" height="36" class="gelogo"></td>		
+			width="181" height="36" class="gelogo"></td>
 	</tr>
 </table>
 <!-- TOP LOGOS END HERE -->
@@ -86,9 +86,8 @@ function navRollOver(obj, state) {
 					<tr>
 						<td width="100%" id="tabDisplay"><span class="current"><img
 							src="images/tabWhiteL.gif" width="3" height="16"
-							align="absmiddle"> Subject Search <img
-							src="images/tabWhiteR.gif" width="3" height="16"
-							align="absmiddle"></span></td>
+							align="absmiddle"> Subject Search <img src="images/tabWhiteR.gif"
+							width="3" height="16" align="absmiddle"></span></td>
 						<td><img src="images/spacer.gif" width="7" height="1"></td>
 					</tr>
 
@@ -105,57 +104,57 @@ function navRollOver(obj, state) {
 
 				<!-- LEFT CONTENT STARTS HERE -->
 
-				<td valign="top" class="additionals">
-
-				<!-- LEFT FORM STARTS HERE -->
+				<td valign="top" class="additionals"><!-- LEFT FORM STARTS HERE -->
 				<form:form method="post">
 
-				<table width="100%" border="0" cellpadding="0" cellspacing="0">
-					<tr valign="top">
-						<td><img src="images/Patient.gif" alt="Study Search"
-							width="100" height="100" align="absmiddle\"></td>
-						<td width="99%">
-							<br>
+					<table width="100%" border="0" cellpadding="0" cellspacing="0">
+						<tr valign="top">
+							<td><img src="images/Patient.gif" alt="Study Search" width="100"
+								height="100" align="absmiddle\"></td>
+							<td width="99%"><br>
 							<table border="0" cellspacing="0" cellpadding="0" id="search">
 								<tr>
 									<td align="left" class="labels">Search String</td>
-									<td align="left" class="labels"  colspan="10"></td>
-									<td align="left" class="labels">Search Subjects by: </td>
-									<td align="left" class="labels"></td>									
+									<td align="left" class="labels" colspan="10"></td>
+									<td align="left" class="labels">Search Subjects by:</td>
+									<td align="left" class="labels"></td>
 								</tr>
 								<tr>
 									<td><form:input path="searchText" /></td>
-									<td align="left" class="labels"  colspan="10"></td>
-									<td align="left" class="labels">
-									<form:select path="searchType">
-										<form:options items="${searchType}" itemLabel="desc" itemValue="code" />
-									</form:select></td>																			
+									<td align="left" class="labels" colspan="10"></td>
+									<td align="left" class="labels"><form:select path="searchType">
+										<form:options items="${searchType}" itemLabel="desc"
+											itemValue="code" />
+									</form:select></td>
 								</tr>
 								<tr>
-									<td align="left" class="labels"  colspan="10">^ Minimum two characters</td><br>
+									<td align="left" class="labels" colspan="10">^ Minimum two
+									characters</td>
+									<br>
 								</tr>
 							</table>
-						<table border="0" cellspacing="0" cellpadding="0" id="search">
-							<tr>
+							<table border="0" cellspacing="0" cellpadding="0" id="search">
 								<tr>
-									<td align="left" class="labels"  colspan="10"></td><br>
+								<tr>
+								<tr>
+									<td align="right" class="labels" colspan="10"></td>
+									<br>
 								</tr>
 								<td align="center" colspan="20"><!-- action buttons begins -->
 								<tr>
-									<td><input class="actionButton" type="submit"
-										value="search participant"></td>
-								</tr>						
-						</table>
-				<!-- LEFT FORM ENDS HERE --></td>
+									<td><input name="imageField" type="image" class="button"
+										onClick="submitPage('participant');return false;"
+										src="images/SerachPatients.gif" alt="GO" align="middle"
+										width="100" height="20" border="0"></td>
+								</tr>
+							</table>
+							<!-- LEFT FORM ENDS HERE --></td>
+						</tr>
+					</table>
+				</form:form></td>
 			</tr>
 		</table>
-		</form:form>
-				
-		</td>
-	</tr>
-</table>
-<div id="copyright">&copy; 2006 Semanticbits.com. All Rights
-Reserved</div>
-<!-- MAIN BODY ENDS HERE -->
+		<div id="copyright">&copy; 2006 Semanticbits.com. All Rights Reserved</div>
+		<!-- MAIN BODY ENDS HERE -->
 </body>
 </html>

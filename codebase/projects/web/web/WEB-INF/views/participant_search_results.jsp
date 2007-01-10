@@ -23,7 +23,7 @@ function navRollOver(obj, state) {
 
 	<tr>
 
-		<td width="99%"><img src="images/c3prLogo.gif" alt="C3PR" width="181"
+		<td width="99%"><img src="images/c3prLogo.gif" alt="C3Pr V2" width="181"
 			height="36" class="gelogo"></td>
 	</tr>
 </table>
@@ -33,9 +33,9 @@ function navRollOver(obj, state) {
 	id="topNav">
 
 	<tr valign="middle">
-		<td width="99%" class="left"><a href="home.htm">Registration</a><img
+		<td width="99%" class="left"><a href="/c3pr/SearchAndRegister.do">Registration</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
-			class="divider"><a href="protocol.htm">Study</a><img
+			class="divider"><a href="/c3pr/searchstudy.do">Study</a><img
 			src="images/topNavL.gif" width="2" height="20" align="absmiddle"
 			class="currentL"><span class="current"><img
 			src="images/topNavArrowDown.gif" width="5" height="20"
@@ -57,7 +57,7 @@ function navRollOver(obj, state) {
 		<td width="99%" valign="middle"><img src="images/arrowRight.gif"
 			width="3" height="5" align="absmiddle"> Subject Management <img
 			src="images/spacer.gif" width="1" height="20" align="absmiddle"
-			class="spacer"><a href="createparticipant.do">Add Participant</a><img
+			class="spacer"><a href="createparticipant.do">Add Subject</a><img
 			src="images/spacer.gif" width="1" height="20" align="absmiddle"
 			class="spacer"><a href="#">Add Tab</a></td>
 		<td valign="middle" class="right"><a href="help">Help</a></td>
@@ -66,6 +66,47 @@ function navRollOver(obj, state) {
 <!-- SUB NAV ENDS HERE -->
 <!-- MAIN BODY STARTS HERE -->
 <div class="workArea">
+<table width="100%" border="0" cellspacing="0" cellpadding="0"
+	class="titleArea">
+	<form:form id="searchForm" name="searchForm" method="post">
+		<tr>
+			<!-- TITLE STARTS HERE -->
+
+			<td width="99%" height="43" valign="middle" id="title"></td>
+			<td valign="top">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0"
+				id="search">
+				<tr>
+					<td class="labels">&nbsp;</td>
+				</tr>
+				<tr>
+					<td class="searchType">Search Subject by <form:select
+						path="searchType">
+						<form:options items="${searchType}" itemLabel="desc"
+							itemValue="code" />
+					</form:select></td>
+				</tr>
+			</table>
+			<span class="notation">&nbsp;</span></td>
+			<td valign="top">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0"
+				id="search">
+				<tr>
+					<td align="left" class="labels">Search String:</td>
+					<td class="labels">&nbsp;</td>
+				</tr>
+				<tr>
+					<td><form:input path="searchText" size="25" /></td>
+					<td><input name="imageField" type="image" class="button"
+						onClick="submitPage('participant');return false;"
+						src="images/b-go.gif" alt="GO" align="middle" width="22"
+						height="10" border="0"></td>
+				</tr>
+			</table>
+			<span class="notation">^ Minimum two characters for search.</span></td>
+		</tr>
+	</form:form>
+</table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
 		<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
@@ -95,7 +136,8 @@ function navRollOver(obj, state) {
 						<td>Race</td>
 						<td>Brith Date</td>
 						<td></td>
-					</tr><%int i=0; %>
+					</tr>
+					<%int i=0; %>
 					<c:forEach var="participant" items="${participants}">
 						<a href="participantresults.do?participantId=${participant.id}"
 							onMouseOver="navRollOver('row<%= i %>', 'on')"
@@ -107,7 +149,7 @@ function navRollOver(obj, state) {
 							<td>${participant.raceCode}</td>
 							<td>${participant.birthDate}</td>
 						</tr>
-						
+
 					</c:forEach>
 				</table>
 				<br>
