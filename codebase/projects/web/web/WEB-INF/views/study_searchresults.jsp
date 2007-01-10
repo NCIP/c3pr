@@ -31,7 +31,7 @@ function navRollOver(obj, state) {
 <table width="100%"  border="0" cellspacing="0" cellpadding="0" id="topNav">
 
 <tr valign="middle">
-<td width="99%" class="left"><a href="/c3pr/SearchAndRegister.do">Registration</a><img src="images/topNavL.gif" width="2" height="20" align="absmiddle" class="currentL"><span class="current"><img src="images/topNavArrowDown.gif" width="5" height="20" align="absmiddle"> Study </span><img src="images/topNavR.gif" width="2" height="20" align="absmiddle" class="currentR"><a href="/c3pr/searchparticipant.do">Participant</a><img src="images/topDivider.gif" width="2" height="20" align="absmiddle" class="divider">
+<td width="99%" class="left"><a href="/c3pr/SearchAndRegister.do">Registration</a><img src="images/topNavL.gif" width="2" height="20" align="absmiddle" class="currentL"><span class="current"><img src="images/topNavArrowDown.gif" width="5" height="20" align="absmiddle"> Study </span><img src="images/topNavR.gif" width="2" height="20" align="absmiddle" class="currentR"><a href="/c3pr/searchparticipant.do">Subject</a><img src="images/topDivider.gif" width="2" height="20" align="absmiddle" class="divider">
 <a href="">Reports</a><img src="images/topDivider.gif" width="2" height="20" align="absmiddle" class="divider"></td>
 
 <td class="right"><img src="images/topDivider.gif" width="2" height="20" align="absmiddle" class="divider"><a href="logOff">Log Off</a> </td>

@@ -51,7 +51,7 @@ if (action){
 			src="images/topNavArrowDown.gif" width="5" height="20"
 			align="absmiddle"> Study </span><img src="images/topNavR.gif"
 			width="2" height="20" align="absmiddle" class="currentR"><a
-			href="/c3pr/searchparticipant.do">Participant</a><img
+			href="/c3pr/searchparticipant.do">Subject</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
 			class="divider"><a href="">Reports</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"

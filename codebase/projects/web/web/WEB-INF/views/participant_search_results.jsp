@@ -39,7 +39,7 @@ function navRollOver(obj, state) {
 			src="images/topNavL.gif" width="2" height="20" align="absmiddle"
 			class="currentL"><span class="current"><img
 			src="images/topNavArrowDown.gif" width="5" height="20"
-			align="absmiddle"> Participant </span><img src="images/topNavR.gif"
+			align="absmiddle"> Subject </span><img src="images/topNavR.gif"
 			width="2" height="20" align="absmiddle" class="currentR"><a
 			href="analysis">Reports</a><img src="images/topDivider.gif" width="2"
 			height="20" align="absmiddle" class="divider"></td>
@@ -55,7 +55,7 @@ function navRollOver(obj, state) {
 
 	<tr>
 		<td width="99%" valign="middle"><img src="images/arrowRight.gif"
-			width="3" height="5" align="absmiddle"> Participant Management <img
+			width="3" height="5" align="absmiddle"> Subject Management <img
 			src="images/spacer.gif" width="1" height="20" align="absmiddle"
 			class="spacer"><a href="createparticipant.do">Add Participant</a><img
 			src="images/spacer.gif" width="1" height="20" align="absmiddle"
@@ -70,7 +70,7 @@ function navRollOver(obj, state) {
 	<tr>
 		<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
 
-		<td id="current">Participant Search Results</td>
+		<td id="current">Subject Search Results</td>
 		<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 	</tr>
 	<tr>

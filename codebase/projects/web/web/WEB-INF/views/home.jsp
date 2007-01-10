@@ -43,7 +43,7 @@ function submitPage(s){
 			width="2" height="20" align="absmiddle" class="currentR"><a
 			href="/c3pr/searchstudy.do">Study</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
-			class="divider"><a href="/c3pr/searchparticipant.do">Participant</a><img
+			class="divider"><a href="/c3pr/searchparticipant.do">Subject</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
 			class="divider"><a href="analysis">Reports</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
@@ -86,10 +86,10 @@ function submitPage(s){
 	<form:form id="searchForm" name="searchForm" method="post">
 		<form:hidden path="searchCategory" />	
 		<tr>
-			<!-- CURRENT PROTOCOL/Participant TITLE STARTS HERE -->
+			<!-- CURRENT PROTOCOL/Subject TITLE STARTS HERE -->
 
 			<td id="current">Search</td>
-			<!-- CURRENT PROTOCOL/Participant TITLE ENDS HERE -->
+			<!-- CURRENT PROTOCOL/Subject TITLE ENDS HERE -->
 		</tr>
 		<tr>
 			<td class="display"><!-- TABS LEFT START HERE -->
@@ -121,7 +121,7 @@ function submitPage(s){
 
 							<td width="100%" id="tabDisplay"><span class="current"><img
 								src="images/tabWhiteL.gif" width="3" height="16"
-								align="absmiddle"> Participant Search <img
+								align="absmiddle"> Subject Search <img
 								src="images/tabWhiteR.gif" width="3" height="16"
 								align="absmiddle"></span></td>
 							<td><img src="images/spacer.gif" width="7" height="1"></td>
@@ -177,11 +177,11 @@ function submitPage(s){
 					<td valign="top" class="searchR">
 					<table width="100%" border="0" cellpadding="0" cellspacing="0">
 						<tr valign="top">
-							<td><img src="images/Patient.gif" alt="Participant Search"
+							<td><img src="images/Patient.gif" alt="Subject Search"
 								width="100" height="100" align="absmiddle"></td>
 							<td width="99%">
-							<h3>Participant Search</h3>
-							<strong>1. Search Participant by:</strong> <form:select
+							<h3>Subject Search</h3>
+							<strong>1. Search Subject by:</strong> <form:select
 								path="searchTypePart">
 								<form:options items="${searchTypePart}" itemLabel="desc"
 									itemValue="code" />

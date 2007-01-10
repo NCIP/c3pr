@@ -60,7 +60,7 @@ function updateTargetPage(s){
 			width="5" height="20" align="absmiddle"> Registration</span><a
 			href="protocol.htm"> Study </a><img src="images/topNavR.gif"
 			width="2" height="20" align="absmiddle" class="currentR"><a
-			href="/c3pr/searchparticipant.do">Participant</a><img
+			href="/c3pr/searchparticipant.do">Subject</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
 			class="divider"><a href="analysis">Reports</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
@@ -111,7 +111,7 @@ function updateTargetPage(s){
 						<img src="images/tabGrayR.gif" width="3" height="16"
 							align="absmiddle"></span><span class="current"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						5. Review and Submit <img src="images/tabGrayR.gif" width="3"
+						6. Review and Submit <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"></span></td>
 						<td><img src="images/spacer.gif" width="7" height="1"></td>
 					</tr>
@@ -131,8 +131,9 @@ function updateTargetPage(s){
 						<tr>
 							<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
 
-							<td id="current">Confirm Registration for patient -
-							${command.participant.firstName} ${command.participant.lastName}</td>
+							<td id="current">Confirm Registration for 
+							${command.participant.firstName} ${command.participant.lastName} on
+							${command.studySite.study.shortTitleText}</td>
 							<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 						</tr>
 						<tr>
@@ -256,9 +257,8 @@ function updateTargetPage(s){
 											</td>
 										</tr>
 									</table>
-
-									<strong>Study Site Information:<br>
-									</strong>
+									<br>
+									<strong>Study Site Information:</strong><br>
 									<table width="700" border="0" cellspacing="0" cellpadding="0"
 										id="details">
 										<tr>
@@ -274,14 +274,14 @@ function updateTargetPage(s){
 													<td>${command.studySite.site.nciInstituteCode}</td>
 												</tr>
 												<tr>
-													<td class="label"><em></em> Description Text:</span></td>
+													<td class="label">Address:</td>
 													<td>${command.studySite.site.address.streetAddress},
 													${command.studySite.site.address.city},
 													${command.studySite.site.address.stateCode},
 													${command.studySite.site.address.postalCode}</td>
 												</tr>
 												<tr>
-													<td>IRB Approval Date:</td>
+													<td class="label">IRB Approval Date:</td>
 													<td>${command.studySite.irbApprovalDate}</td>
 												</tr>
 												<tr>
@@ -297,6 +297,117 @@ function updateTargetPage(s){
 											</td>
 										</tr>
 									</table>
+									<hr align="left" width="95%">
+									<br>
+									<strong>Step 3. Check Eligibility </strong><br>
+									<table width="700" border="0" cellspacing="0" cellpadding="0"
+										id="details">
+										<tr>
+											<td width="50%" valign="top">
+											<table width="308" border="0" cellspacing="0" cellpadding="0"
+												id="table1">
+												<tr>
+													<td><img src="images/spacer.gif" width="1" height="1"
+														class="heightControl"></td>
+													<td><img src="images/spacer.gif" width="1" height="1"
+														class="heightControl"></td>
+												</tr>
+												<tr>
+													<td class="label"><span class="red">*</span><em></em>Is
+													Eligible:</td>
+													<td>Yes</td>
+												</tr>
+											</table>
+											</td>
+										</tr>
+									</table>
+									<a href="javascript:updateTargetPage('checkEligibilityView');"><img
+										src="images/b-edit.gif" alt="Edit" width="39" height="16"
+										border="0"></a>
+
+									<hr align="left" width="95%">
+									<br>
+									<strong>Step 4. Stratification Information </strong><br>
+									<table width="700" border="0" cellspacing="0" cellpadding="0"
+										id="details">
+										<tr>
+											<td width="50%" valign="top">
+											<table width="308" border="0" cellspacing="0" cellpadding="0"
+												id="table1">
+												<tr>
+													<td><img src="images/spacer.gif" width="1" height="1"
+														class="heightControl"></td>
+													<td><img src="images/spacer.gif" width="1" height="1"
+														class="heightControl"></td>
+												</tr>
+											</table>
+											</td>
+										</tr>
+									</table>
+									<a href="javascript:updateTargetPage('stratifyView');"><img
+										src="images/b-edit.gif" alt="Edit" width="39" height="16"
+										border="0"></a>
+
+									<hr align="left" width="95%">
+									<br>
+									<strong>Step 5. Randomization Information </strong><br>
+									<table width="700" border="0" cellspacing="0" cellpadding="0"
+										id="details">
+										<tr>
+											<td width="50%" valign="top">
+											<table width="308" border="0" cellspacing="0" cellpadding="0"
+												id="table1">
+												<tr>
+													<td><img src="images/spacer.gif" width="1" height="1"
+														class="heightControl"></td>
+													<td><img src="images/spacer.gif" width="1" height="1"
+														class="heightControl"></td>
+												</tr>
+												<c:forEach var="epoch"
+													items="${command.studySite.study.epochs}">
+													<c:choose>
+														<c:when test="${epoch.name=='Treatment'}">
+															<tr>
+																<td class="label"><em></em> Epoch Name:</td>
+																<td>${epoch.name}</td>
+															</tr>
+															<tr>
+																<td class="label"><em></em> Epoch Description:</td>
+																<td>${epoch.descriptionText}</td>
+															</tr>
+															<c:forEach var="arm" items="${epoch.arms}">
+																<c:choose>
+																	<c:when
+																		test="${arm.id==command.scheduledArms[0].arm.id}">
+																		<tr>
+																			<td class="label">Arm:</td>
+																			<td>${arm.name}</td>
+																		</tr>
+																		<tr>
+																			<td class="label">Arm Descripstion:</td>
+																			<td>${arm.descriptionText}</td>
+																		</tr>
+																		<tr>
+																			<td class="label">Arm Target Accrual Number:</td>
+																			<td>${arm.targetAccrualNumber}</td>
+																		</tr>
+
+																	</c:when>
+																</c:choose>
+															</c:forEach>
+														</c:when>
+													</c:choose>
+												</c:forEach>
+
+											</table>
+											</td>
+										</tr>
+									</table>
+									<a href="javascript:updateTargetPage('randomizeView');"><img
+										src="images/b-edit.gif" alt="Edit" width="39" height="16"
+										border="0"></a>
+
+									<hr align="left" width="95%">
 									<br>
 
 									<table width="700" border="0" cellspacing="0" cellpadding="0"

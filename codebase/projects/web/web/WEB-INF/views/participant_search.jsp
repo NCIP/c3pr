@@ -41,7 +41,7 @@ function navRollOver(obj, state) {
 			src="images/topNavL.gif" width="2" height="20" align="absmiddle"
 			class="currentL"><span class="current"><img
 			src="images/topNavArrowDown.gif" width="5" height="20"
-			align="absmiddle"> Participant </span><img src="images/topNavR.gif"
+			align="absmiddle"> Subject </span><img src="images/topNavR.gif"
 			width="2" height="20" align="absmiddle" class="currentR"><a
 			href="analysis">Reports</a><img src="images/topDivider.gif" width="2"
 			height="20" align="absmiddle" class="divider"></td>
@@ -57,9 +57,9 @@ function navRollOver(obj, state) {
 
 	<tr>
 		<td width="99%" valign="middle"><img src="images/arrowRight.gif"
-			width="3" height="5" align="absmiddle"> Participant Management <img
+			width="3" height="5" align="absmiddle"> Subject Management <img
 			src="images/spacer.gif" width="1" height="20" align="absmiddle"
-			class="spacer"><a href="createparticipant.do">Add Participant</a><img
+			class="spacer"><a href="createparticipant.do">Add Subject</a><img
 			src="images/spacer.gif" width="1" height="20" align="absmiddle"
 			class="spacer"><a href="#">Add Tab</a></td>
 		<td valign="middle" class="right"><a href="help">Help</a></td>
@@ -86,7 +86,7 @@ function navRollOver(obj, state) {
 					<tr>
 						<td width="100%" id="tabDisplay"><span class="current"><img
 							src="images/tabWhiteL.gif" width="3" height="16"
-							align="absmiddle"> Participant Search <img
+							align="absmiddle"> Subject Search <img
 							src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"></span></td>
 						<td><img src="images/spacer.gif" width="7" height="1"></td>
@@ -120,7 +120,7 @@ function navRollOver(obj, state) {
 								<tr>
 									<td align="left" class="labels">Search String</td>
 									<td align="left" class="labels"  colspan="10"></td>
-									<td align="left" class="labels">Search Participants by: </td>
+									<td align="left" class="labels">Search Subjects by: </td>
 									<td align="left" class="labels"></td>									
 								</tr>
 								<tr>

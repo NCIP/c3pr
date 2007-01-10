@@ -27,7 +27,7 @@ if (action){
 function addPatient(){
 var action = confirm ("Are you sure you want to create this participant?")
 if (action){
-	alert("Participant successfully created.");
+	alert("Subject successfully created.");
 	parent.window.location="participant_details.htm";
 }}
 </script>
@@ -54,7 +54,7 @@ if (action){
 			src="images/topNavL.gif" width="2" height="20" align="absmiddle"
 			class="currentL"><span class="current"><img
 			src="images/topNavArrowDown.gif" width="5" height="20"
-			align="absmiddle"> Participant </span><img src="images/topNavR.gif"
+			align="absmiddle"> Subject </span><img src="images/topNavR.gif"
 			width="2" height="20" align="absmiddle" class="currentR"><a
 			href="analysis">Reports</a><img src="images/topDivider.gif" width="2"
 			height="20" align="absmiddle" class="divider"></td>
@@ -80,7 +80,7 @@ if (action){
 	<tr>
 		<!-- TITLE STARTS HERE -->
 		<td width="99%" height="43" valign="middle" id="title">Add
-		Participant</td>
+		Subject</td>
 	</tr>
 </table>
 		<table width="100%" border="0" cellpadding="0" cellspacing="0">
@@ -90,7 +90,7 @@ if (action){
 					<tr>
 						<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
 
-						<td id="current">Confirm Participant -  ${command.firstName} ${command.lastName} </td>
+						<td id="current">Confirm Subject -  ${command.firstName} ${command.lastName} </td>
 						<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 					</tr>
 					<tr>
@@ -233,7 +233,7 @@ if (action){
 											<table cellpadding="4" cellspacing="0" border="0">
 											<tr>
 											<td><input class="actionButton" type="submit"
-												name="_finish" value="Save Participant"></td>
+												name="_finish" value="Save Subject"></td>
 											</tr>
 											</table>
 										</td>

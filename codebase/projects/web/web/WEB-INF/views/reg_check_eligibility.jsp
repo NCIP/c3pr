@@ -61,7 +61,7 @@ function updateTargetPage(s){
 			width="5" height="20" align="absmiddle"> Registration</span><a
 			href="protocol.htm"> Study </a><img src="images/topNavR.gif"
 			width="2" height="20" align="absmiddle" class="currentR"><a
-			href="/c3pr/searchparticipant.do">Participant</a><img
+			href="/c3pr/searchparticipant.do">Subject</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
 			class="divider"><a href="analysis">Reports</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
@@ -106,9 +106,9 @@ function updateTargetPage(s){
 							height="16" align="absmiddle"> 4. Stratify <img
 							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						3. Randomize <img src="images/tabGrayR.gif" width="3" height="16"
+						5. Randomize <img src="images/tabGrayR.gif" width="3" height="16"
 							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
-							height="16" align="absmiddle"> 5. Review and Submit <img
+							height="16" align="absmiddle"> 6. Review and Submit <img
 							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"></span></td>
 						<td><img src="images/spacer.gif" width="7" height="1"></td>
 					</tr>
@@ -131,8 +131,9 @@ function updateTargetPage(s){
 						<tr>
 							<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
 
-							<td id="current">Check Eligibility for patient -
-							${command.participant.firstName} ${command.participant.lastName}</td>
+							<td id="current">Check Eligibility for 
+							${command.participant.firstName} ${command.participant.lastName} on
+							${command.studySite.study.shortTitleText}</td>
 							<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 						</tr>
 						<tr>

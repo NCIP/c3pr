@@ -11,6 +11,6 @@
 <title>Success</title>
 </head>
 <body>
-	<h1> Participant Created Successfully </h1>
+	<h1> Subject Created Successfully </h1>
 </body>
 </html>

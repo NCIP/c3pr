@@ -43,7 +43,7 @@ function getPage(s){
 			src="images/topNavL.gif" width="2" height="20" align="absmiddle"
 			class="currentL"><span class="current"><img
 			src="images/topNavArrowDown.gif" width="5" height="20"
-			align="absmiddle"> Participant </span><img src="images/topNavR.gif"
+			align="absmiddle"> Subject </span><img src="images/topNavR.gif"
 			width="2" height="20" align="absmiddle" class="currentR"><a
 			href="analysis">Reports</a><img src="images/topDivider.gif" width="2"
 			height="20" align="absmiddle" class="divider"></td>
@@ -69,7 +69,7 @@ function getPage(s){
 	<tr>
 		<!-- TITLE STARTS HERE -->
 		<td width="99%" height="43" valign="middle" id="title">Add
-		Participant</td>
+		Subject</td>
 	</tr>
 </table>
 <table width="100%" border="0" cellpadding="0" cellspacing="0">
@@ -80,7 +80,7 @@ function getPage(s){
 			<tr>
 				<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
 
-				<td id="current">Create Participant</td>
+				<td id="current">Create Subject</td>
 				<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 			</tr>
 			<tr>
