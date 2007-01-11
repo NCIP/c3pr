@@ -2,11 +2,17 @@ package edu.duke.cabig.c3pr.dao;
 
 import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 
 /**
@@ -16,6 +22,9 @@ import edu.duke.cabig.c3pr.utils.DaoTestCase;
  */
 public class StudyDaoTest extends DaoTestCase {
     private StudyDao dao = (StudyDao) getApplicationContext().getBean("studyDao");
+    private HealthcareSiteDao healthcareSitedao = (HealthcareSiteDao) getApplicationContext()
+    	.getBean("healthcareSiteDao");
+
 
     /**
 	 * Test for loading a Study by Id 
@@ -57,10 +66,46 @@ public class StudyDaoTest extends DaoTestCase {
             study.setStatus("Status");
             study.setTargetAccrualNumber(150);
             study.setType("Type");
-            study.setMultiInstitutionIndicator("No");
+            study.setMultiInstitutionIndicator(new Boolean(true));
             dao.save(study);
             savedId = study.getId();
             assertNotNull("The saved study didn't get an id", savedId);
+            
+        }
+
+        interruptSession();
+        {
+            Study loaded = dao.getById(savedId);
+            assertNotNull("Could not reload study with id " + savedId, loaded);
+            assertEquals("Wrong name", "New study", loaded.getPrecisText());
+        }
+    }
+    
+
+    /**
+     * Test Saving of a Study with all associations present
+     * @throws Exception
+     */
+    public void testSaveNewStudyWithAssociations() throws Exception {
+        Integer savedId;
+        {
+            Study study = new Study();
+            study.setPrecisText("New study");            
+            study.setShortTitleText("ShortTitleText");
+            study.setLongTitleText("LongTitleText");
+            study.setPhaseCode("PhaseCode");
+            study.setSponsorCode("SponsorCode");
+            study.setStatus("Status");
+            study.setTargetAccrualNumber(150);
+            study.setType("Type");
+            study.setMultiInstitutionIndicator(new Boolean(true));
+            
+            createDefaultStudyWithDesign(study);
+            
+            dao.save(study);
+            savedId = study.getId();
+            assertNotNull("The saved study didn't get an id", savedId);
+            
         }
 
         interruptSession();
@@ -127,4 +172,48 @@ public class StudyDaoTest extends DaoTestCase {
           List<Study> results = dao.searchByExample(studySearchCriteria, true);
           assertEquals("Wrong number of Studies", 3, results.size());          
     }
+    
+    private Study createDefaultStudyWithDesign(Study study)
+	{
+		study.addEpoch(Epoch.create("Screening"));
+		study.addEpoch(Epoch.create("Treatment", "Arm A", "Arm B", "Arm C"));
+		study.addEpoch(Epoch.create("Follow up"));
+          
+		StudySite studySite = new StudySite();
+		study.addStudySite(studySite);
+		
+		HealthcareSite healthcaresite = new HealthcareSite();
+		Address address = new Address();
+		address.setCity("Reston");
+		address.setCountryCode("USA");
+		address.setPostalCode("20191");
+		address.setStateCode("VA");
+		address.setStreetAddress("12359 Sunrise Valley Dr");
+		healthcaresite.setAddress(address);	
+		healthcaresite.setName("duke healthcare");	
+		healthcaresite.setDescriptionText("duke healthcare");
+		healthcaresite.setNciInstituteCode("Nci duke");
+		
+		studySite.setSite(healthcaresite);
+		studySite.setStartDate(new Date());
+		studySite.setIrbApprovalDate(new Date());
+		studySite.setRoleCode("role");
+		studySite.setStatusCode("active");
+			   
+		List<Identifier> identifiers = new ArrayList<Identifier>();
+		Identifier id = new Identifier();
+		id.setPrimaryIndicator(true);
+		id.setSource("nci");
+		id.setValue("123456");
+		id.setType("local");		
+		identifiers.add(id);
+				
+		study.setIdentifiers(identifiers);
+		return study;
+	}	
+   
+    private List<HealthcareSite> getHealthcareSites()
+	{
+    	return healthcareSitedao.getAll();  	
+	}
 }
