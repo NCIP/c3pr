@@ -68,7 +68,7 @@ public class SearchStudyRegisterController extends SimpleFormController {
 			studies = new ArrayList<Study>();
 			Study temp = new Study();
 			temp.setId(0);
-			temp.setMultiInstitutionIndicator("true");
+			temp.setMultiInstitutionIndicator(new Boolean(true));
 			temp.setShortTitleText("CALGB_TEST_MOCK");
 			temp.setSponsorCode("C_1_XYZ_MOCK");
 			temp.setTargetAccrualNumber(23);
@@ -76,7 +76,7 @@ public class SearchStudyRegisterController extends SimpleFormController {
 			studies.add(temp);
 			Study temp1 = new Study();
 			temp1.setId(0);
-			temp1.setMultiInstitutionIndicator("true");
+			temp1.setMultiInstitutionIndicator(new Boolean(true));
 			temp1.setShortTitleText("DUKE_TEST_MOCK");
 			temp1.setSponsorCode("C_1_ABC_MOCK");
 			temp1.setTargetAccrualNumber(55);
