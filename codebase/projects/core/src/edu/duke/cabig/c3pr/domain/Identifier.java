@@ -7,16 +7,15 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 /**
- * @author Kulasekaran
- * @version 1.0 
  * 
+ * @author Priyatam
  */
 
 @Entity 
-@Table (name = "identifiers")
+@Table (name = "IDENTIFIERS")
 @GenericGenerator (name="id-generator", strategy = "native",
 		parameters = {
-			@Parameter(name="sequence", value="identifiers_id_seq")
+			@Parameter(name="sequence", value="IDENTIFIERS_ID_SEQ")
 		}
 )
 public class Identifier extends AbstractDomainObject
@@ -24,13 +23,8 @@ public class Identifier extends AbstractDomainObject
 	private String source;
 	private String type;
 	private String value;
-	private Boolean isPrimary;
-	
-	public Identifier()
-    {
-    	
-    }
-
+	private Boolean primaryIndicator;
+				
 	public String getSource() {
 		return source;
 	}
@@ -55,11 +49,13 @@ public class Identifier extends AbstractDomainObject
 		this.value = value;
 	}
 
-	public Boolean getIsPrimary() {
-		return isPrimary;
+	public Boolean getPrimaryIndicator() {
+		return primaryIndicator;
 	}
 
-	public void setIsPrimary(Boolean isPrimary) {
-		this.isPrimary = isPrimary;
-	}    
+	public void setPrimaryIndicator(Boolean primaryIndicator) {
+		this.primaryIndicator = primaryIndicator;
+	}
+	
+	
 }
