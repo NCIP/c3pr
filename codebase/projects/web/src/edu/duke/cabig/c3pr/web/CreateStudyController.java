@@ -13,20 +13,22 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.validation.BindException;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractWizardFormController;
 import org.springframework.web.servlet.view.RedirectView;
 
-import edu.duke.cabig.c3pr.dao.CaDSRDataDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
-import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.service.StudyService;
+import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
+import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.HealthcareSiteEditor;
 
@@ -39,7 +41,9 @@ public class CreateStudyController extends AbstractWizardFormController {
 	private StudyService studyService;
 	private StudyDao studyDao;
 	private HealthcareSiteDao healthcareSiteDao;
-	
+	StudyValidator studyValidator;
+	ConfigurationProperty configurationProperty;
+
 	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
         super.initBinder(request, binder);
         Study study = null;
@@ -66,42 +70,53 @@ public class CreateStudyController extends AbstractWizardFormController {
 	* @param page - number of page to validate
 	*/
 	
-//	protected void validatePage(Object command, Errors errors, int page) {
-//		StudyDesignCommand StudyDesignCommand = (StudyDesignCommand) command;
-//		StudyDesignCommand StudyDesignValidator = (StudyDesignCommand) getValidator();
-//		switch (page) {
-//		case 0:
-//		//	StudyDesignValidator.validateExclusiveOrShared(addJob, errors);
-//		break;
-//		}
-//	}
+	protected void validatePage(Object command, Errors errors, int page) {
+		Study study = (Study) command;
+		StudyValidator validator = (StudyValidator) getValidator();
+		switch (page) {
+		case 0:
+			validator.validatePage0(study, errors);
+		break;
+		}
+	}
 
 	protected Map<String, Object> referenceData(HttpServletRequest httpServletRequest, int page) 
   		throws Exception {
-		CaDSRDataDao caDsr = new CaDSRDataDao();
 		// Currently the static data is a hack for an LOV this will be replaced with 
 		// LOVDao to get the static data from individual tables
 		Map<String, Object> refdata = new HashMap<String, Object>();
+		Map <String, List<Lov>> configMap = configurationProperty.getMap();
+		
 	  	if (page == 0) {
-	  		refdata.put("diseaseCode", caDsr.getCADsrData("diseaseCode"));
-	  		refdata.put("monitorCode", caDsr.getCADsrData("monitorCode"));
-	  		refdata.put("phaseCode", caDsr.getCADsrData("phaseCode"));
-	  		refdata.put("sponsorCode", caDsr.getCADsrData("sponsorCode"));
-	  		refdata.put("status", caDsr.getCADsrData("status"));
-	  		refdata.put("type", caDsr.getCADsrData("type"));
+	  		refdata.put("diseaseCodeRefData", configMap.get("diseaseCodeRefData"));
+	  		refdata.put("monitorCodeRefData",  configMap.get("monitorCodeRefData"));
+	  		refdata.put("phaseCodeRefData",  configMap.get("phaseCodeRefData"));
+	  		refdata.put("sponsorCodeRefData",  configMap.get("sponsorCodeRefData"));
+	  		refdata.put("statusRefData",  configMap.get("statusRefData"));;
+	  		refdata.put("typeRefData",  configMap.get("typeRefData"));
 	  		refdata.put("multiInstitutionIndicator", getBooleanList());
 	  		refdata.put("randomizedIndicator", getBooleanList());
 	  		refdata.put("blindedIndicator", getBooleanList());
 	  		refdata.put("nciIdentifier", getBooleanList());
 	  		return refdata;
 	  	}
-	  	if (page == 1) {
+	  	if (page == 2) {
 	  		refdata.put("healthCareSitesRefData", getHealthcareSites());	  			  	
 	  		return refdata;
 	  	}
 	  	
 	  	return refdata;
 	}
+	
+	
+//	private void printLovs(String name, List<Lov> list)
+//	{
+//		System.out.println(name);
+//		for (Lov lov : list) {
+//			System.out.println("code - "+lov.getCode()+"\t"+"desc - "+lov.getDesc());
+//		}
+//	}
+	
 	/* (non-Javadoc)
 	 * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#processFinish
 	 * (javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, 
@@ -194,7 +209,23 @@ public class CreateStudyController extends AbstractWizardFormController {
 		
 		public String getStr(){
 			return str;
-		}
-		
+		}	
+	}
+
+	public StudyValidator getStudyValidator() {
+		return studyValidator;
+	}
+
+	public void setStudyValidator(StudyValidator studyValidator) {
+		this.studyValidator = studyValidator;
+	}
+	
+	
+	public ConfigurationProperty getConfig() {
+		return configurationProperty;
+	}
+
+	public void setConfig(ConfigurationProperty configurationProperty) {
+		this.configurationProperty = configurationProperty;
 	}
 }
