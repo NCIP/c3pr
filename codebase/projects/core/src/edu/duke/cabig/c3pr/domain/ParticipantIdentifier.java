@@ -27,7 +27,7 @@ import org.hibernate.annotations.Parameter;
 public class ParticipantIdentifier extends AbstractDomainObject
 {			
 	private String medicalRecordNumber;	
-	private Participant participant;	
+	//private Participant participant;	
 	private HealthcareSite healthcareSite;
 		
 	public ParticipantIdentifier()
@@ -53,7 +53,7 @@ public class ParticipantIdentifier extends AbstractDomainObject
 		this.healthcareSite = healthcareSite;
 	}
 	
-	@ManyToOne( cascade = {CascadeType.ALL} )
+	/*@ManyToOne( cascade = {CascadeType.ALL}, optional = true )
 	@JoinColumn(name = "PRT_ID")		
 	public Participant getParticipant() {
 		return participant;
@@ -61,5 +61,5 @@ public class ParticipantIdentifier extends AbstractDomainObject
 
 	public void setParticipant(Participant participant) {
 		this.participant = participant;
-	}    
+	}    */
 }
