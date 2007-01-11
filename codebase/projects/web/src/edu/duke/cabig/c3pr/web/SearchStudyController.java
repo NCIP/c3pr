@@ -13,9 +13,9 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 
-import edu.duke.cabig.c3pr.domain.Lov;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.service.StudyService;
+import edu.duke.cabig.c3pr.utils.Lov;
 
 public class SearchStudyController  extends SimpleFormController{
 

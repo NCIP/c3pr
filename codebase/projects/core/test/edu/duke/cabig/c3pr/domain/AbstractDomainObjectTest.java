@@ -1,6 +1,6 @@
 package edu.duke.cabig.c3pr.domain;
 
-import edu.duke.cabig.c3pr.util.ApplicationTestCase;
+import edu.duke.cabig.c3pr.utils.ApplicationTestCase;
 
 
 /**

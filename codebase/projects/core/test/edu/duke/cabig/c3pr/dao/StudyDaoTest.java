@@ -7,7 +7,7 @@ import java.util.List;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.util.DaoTestCase;
+import edu.duke.cabig.c3pr.utils.DaoTestCase;
 
 /**
  * JUnit Tests for StudyDao
@@ -22,7 +22,8 @@ public class StudyDaoTest extends DaoTestCase {
 	 * @throws Exception
 	 */
     public void testGetById() throws Exception {
-        Study study = dao.getById(1000);
+        System.out.println("***********************1231312");
+    	Study study = dao.getById(1000);
         assertNotNull("Study 1 not found", study);
         assertEquals("Wrong name", "precis_text", study.getPrecisText());
     }
@@ -75,13 +76,13 @@ public class StudyDaoTest extends DaoTestCase {
      * @throws Exception
      */
     public void testGetEpochs() throws Exception {
-    	Study study = dao.getById(1000);
+    	Study study = dao.getById(210);
     	List<Epoch> epochs = study.getEpochs();
         assertEquals("Wrong number of Epochs", 2, epochs.size());
         List<Integer> ids = collectIds(epochs);
 
-        assertContains("Missing expected Epoch", ids, 1000);
-        assertContains("Missing expected Epoch", ids, 1001);        
+        assertContains("Missing expected Epoch", ids, 204);
+        assertContains("Missing expected Epoch", ids, 205);        
     }
 
     /**
@@ -108,7 +109,7 @@ public class StudyDaoTest extends DaoTestCase {
     public void testSearchStudySimple()
     {    
     	  Study studySearchCriteria = new Study();
-    	  studySearchCriteria.setShortTitleText("short_title_text");
+    	  studySearchCriteria.setShortTitleText("short_TITLE_text");
           List<Study> results = dao.searchByExample(studySearchCriteria);
           assertEquals("Wrong number of Studies", 2, results.size());
           assertEquals("short_title_text", results.get(0).getShortTitleText());

@@ -6,7 +6,7 @@ import java.util.List;
 
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.Epoch;
-import edu.duke.cabig.c3pr.util.ContextDaoTestCase;
+import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
 
 /**
  * JUnit Tests for EpochDao
