@@ -53,9 +53,11 @@
 	    <property name="pages">
 	    <list>
 		    <value>study_details</value>
+		    <value>study_identifiers</value>	
 		    <value>study_studysite</value>		    
 		    <value>study_design</value>
 		    <value>study_reviewsummary</value>
+		    <value>study_confirmation</value>	
 	    </list>
 	    </property>
 	    <property name="pageAttribute" value="currentPage"></property>
@@ -80,8 +82,7 @@
 		    <value>participant_submit</value>
 	    </list>
 	    </property>
-	    <property name="pageAttribute" value="currentPage"></property>	    	    
-    </bean>
+	  </bean>
     
     <bean id="searchParticipantController" lazy-init="true" class="edu.duke.cabig.c3pr.web.SearchParticipantController" autowire="byType">
 	    <property name="formView" value="participant_search"/>
