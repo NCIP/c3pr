@@ -64,7 +64,7 @@
     <bean id="studyValidator" class="edu.duke.cabig.c3pr.domain.validator.StudyValidator" autowire="byType"/>           
     <bean id="studySiteValidator" class="edu.duke.cabig.c3pr.domain.validator.StudySiteValidator" autowire="byType"/>           
     <bean id="epochValidator" class="edu.duke.cabig.c3pr.domain.validator.EpochValidator" autowire="byType"/>           
-    <bean id="armValidator" class="edu.duke.cabig.c3pr.domain.validator.ArmValidator">               
+    <bean id="armValidator" class="edu.duke.cabig.c3pr.domain.validator.ArmValidator"/>               
 <!-- Daos -->
     <bean id="studyDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyDao" autowire="byType"></bean>
     <bean id="studySiteDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudySiteDao" autowire="byType"></bean>
