@@ -59,7 +59,8 @@ private static Log log = LogFactory.getLog(SearchParticipantRegisterController.c
     	if ("MRN".equals(type)) {
 			ParticipantIdentifier participantIdentifier = new ParticipantIdentifier();
 			participantIdentifier.setMedicalRecordNumber(text);
-			participant.addParticipantIdentifier(participantIdentifier);
+			//FIXME:
+			//participant.addParticipantIdentifier(participantIdentifier);
 		}    	
     	    		
     	List<Participant> participants = participantService.search(participant); 

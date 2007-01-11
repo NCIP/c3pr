@@ -53,7 +53,8 @@ public class SearchAndRegisterController extends SimpleFormController {
 	    	if ("MRN".equals(searchType)) {
 				ParticipantIdentifier participantIdentifier = new ParticipantIdentifier();
 				participantIdentifier.setMedicalRecordNumber(searchTextPart);
-				participant.addParticipantIdentifier(participantIdentifier);
+				//FIXME:
+				// participant.addParticipantIdentifier(participantIdentifier);
 			}
 			if(participantService==null){
 				System.out.println("---------------------participantService is null------------------------");

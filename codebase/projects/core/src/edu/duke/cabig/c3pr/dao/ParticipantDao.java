@@ -44,7 +44,8 @@ public class ParticipantDao extends AbstractBaseDao<Participant> {
 			example.ignoreCase().excludeProperty("doNotUse").enableLike(
 					MatchMode.ANYWHERE);
 			participantCriteria.add(example);
-			if (participant.getParticipantIdentifiers().size() > 0) {
+			FIXME:
+		/*	if (participant.getParticipantIdentifiers().size() > 0) {
 				participantCriteria.createCriteria("participantIdentifiers")
 						.add(
 								Restrictions.like("medicalRecordNumber",
@@ -52,7 +53,7 @@ public class ParticipantDao extends AbstractBaseDao<Participant> {
 												.get(0)
 												.getMedicalRecordNumber()
 												+ "%"));
-			}
+			} */
 			return participantCriteria.list();
 
 		}
