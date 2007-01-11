@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -36,42 +36,30 @@ import org.hibernate.annotations.Parameter;
         @Parameter(name="sequence", value="STUDIES_ID_SEQ")
     }
 )
-public class Study extends AbstractDomainObject implements Comparable<Study>, Serializable{
+public class Study extends AbstractDomainObject implements Comparable<Study>{
 		 
-	private String blindedIndicator;
-	
-	private String descriptionText;
-	
-	private String diseaseCode;	
-
-	private String longTitleText;	
-	
-	private String monitorCode;
-	
-	private String multiInstitutionIndicator;
-	
-	private String nciIdentifier;
-	
-	private String phaseCode;
-	
-	private String precisText;
-	
-	private String randomizedIndicator;	
+	private Boolean blindedIndicator;
+	private Boolean multiInstitutionIndicator;
+	private Boolean randomizedIndicator;	
 	
 	// A name or abbreviated title by which the document is known
 	private String shortTitleText;
+	private String longTitleText;	
+	private String descriptionText;
+	private String precisText;
 	
-	private String sponsorCode;
-	
+	private String diseaseCode;		
+	private String monitorCode;		
+	private String phaseCode;					
+	private String sponsorCode;	
 	private String status;
-	
-	private int targetAccrualNumber;
-	
 	private String type;
 	
-	private List<Epoch> epochs = new ArrayList<Epoch>();	  
-	
+	private int targetAccrualNumber;
+		
+	private List<Epoch> epochs = new ArrayList<Epoch>();	  	
 	private List<StudySite> studySites = new ArrayList<StudySite>();;			  
+	private List<Identifier> identifiers = new ArrayList<Identifier>();
 	
 	/// LOGIC
 	
@@ -84,6 +72,11 @@ public class Study extends AbstractDomainObject implements Comparable<Study>, Se
 	{
 		studySites.add(studySite);
 		studySite.setStudy(this);
+	}
+	
+	public void addIdentifier(Identifier identifier)
+	{
+		identifiers.add(identifier);
 	}
 	
 	/// BEAN PROPERTIES
@@ -103,20 +96,46 @@ public class Study extends AbstractDomainObject implements Comparable<Study>, Se
 	public List<StudySite> getStudySites() {
 		return studySites;
 	}
+	
+	@OneToMany
+    @Cascade({CascadeType.ALL,CascadeType.DELETE_ORPHAN})
+    @JoinColumn(name = "STU_ID")	 
+	public List<Identifier> getIdentifiers() {
+		return identifiers;
+	}
+
+	public void setIdentifiers(List<Identifier> identifiers) {
+		this.identifiers = identifiers;
+	}
 
 	public void setStudySites(List<StudySite> studySites) {
 		this.studySites = studySites;
-	}
-
-	@Column(name = "BLINDED_INDICATOR")	 
-	public String getBlindedIndicator() {
+	}	
+	
+	public Boolean getBlindedIndicator() {
 		return blindedIndicator;
 	}
 
-	public void setBlindedIndicator(String blindedIndicator) {
+	public void setBlindedIndicator(Boolean blindedIndicator) {
 		this.blindedIndicator = blindedIndicator;
 	}
 	
+	public Boolean getMultiInstitutionIndicator() {
+		return multiInstitutionIndicator;
+	}
+
+	public void setMultiInstitutionIndicator(Boolean multiInstitutionIndicator) {
+		this.multiInstitutionIndicator = multiInstitutionIndicator;
+	}
+	
+	public Boolean getRandomizedIndicator() {
+		return randomizedIndicator;
+	}
+
+	public void setRandomizedIndicator(Boolean randomizedIndicator) {
+		this.randomizedIndicator = randomizedIndicator;
+	}
+
 	public String getDescriptionText() {
 		return descriptionText;
 	}
@@ -149,22 +168,6 @@ public class Study extends AbstractDomainObject implements Comparable<Study>, Se
 		this.monitorCode = monitorCode;
 	}
 
-	public String getMultiInstitutionIndicator() {
-		return multiInstitutionIndicator;
-	}
-
-	public void setMultiInstitutionIndicator(String multiInstitutionIndicator) {
-		this.multiInstitutionIndicator = multiInstitutionIndicator;
-	}
-
-	public String getNciIdentifier() {
-		return nciIdentifier;
-	}
-
-	public void setNciIdentifier(String nciIdentifier) {
-		this.nciIdentifier = nciIdentifier;
-	}
-
 	public String getPhaseCode() {
 		return phaseCode;
 	}
@@ -179,14 +182,6 @@ public class Study extends AbstractDomainObject implements Comparable<Study>, Se
 
 	public void setPrecisText(String precisText) {
 		this.precisText = precisText;
-	}
-
-	public String getRandomizedIndicator() {
-		return randomizedIndicator;
-	}
-
-	public void setRandomizedIndicator(String randomizedIndicator) {
-		this.randomizedIndicator = randomizedIndicator;
 	}
 
 	public String getShortTitleText() {
@@ -228,28 +223,22 @@ public class Study extends AbstractDomainObject implements Comparable<Study>, Se
 	public void setType(String type) {
 		this.type = type;
 	}
-	
+
 	public int compareTo(Study o) {
      //TODO
     	return 1;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int PRIME = 31;
 		int result = super.hashCode();
-		result = PRIME * result + ((blindedIndicator == null) ? 0 : blindedIndicator.hashCode());
-		result = PRIME * result + ((descriptionText == null) ? 0 : descriptionText.hashCode());
 		result = PRIME * result + ((diseaseCode == null) ? 0 : diseaseCode.hashCode());
 		result = PRIME * result + ((epochs == null) ? 0 : epochs.hashCode());
+		result = PRIME * result + ((identifiers == null) ? 0 : identifiers.hashCode());
 		result = PRIME * result + ((longTitleText == null) ? 0 : longTitleText.hashCode());
 		result = PRIME * result + ((monitorCode == null) ? 0 : monitorCode.hashCode());
-		result = PRIME * result + ((multiInstitutionIndicator == null) ? 0 : multiInstitutionIndicator.hashCode());
-		result = PRIME * result + ((nciIdentifier == null) ? 0 : nciIdentifier.hashCode());
 		result = PRIME * result + ((phaseCode == null) ? 0 : phaseCode.hashCode());
-		result = PRIME * result + ((precisText == null) ? 0 : precisText.hashCode());
-		result = PRIME * result + ((randomizedIndicator == null) ? 0 : randomizedIndicator.hashCode());
-		result = PRIME * result + ((shortTitleText == null) ? 0 : shortTitleText.hashCode());
 		result = PRIME * result + ((sponsorCode == null) ? 0 : sponsorCode.hashCode());
 		result = PRIME * result + ((status == null) ? 0 : status.hashCode());
 		result = PRIME * result + ((studySites == null) ? 0 : studySites.hashCode());
@@ -267,16 +256,6 @@ public class Study extends AbstractDomainObject implements Comparable<Study>, Se
 		if (getClass() != obj.getClass())
 			return false;
 		final Study other = (Study) obj;
-		if (blindedIndicator == null) {
-			if (other.blindedIndicator != null)
-				return false;
-		} else if (!blindedIndicator.equals(other.blindedIndicator))
-			return false;
-		if (descriptionText == null) {
-			if (other.descriptionText != null)
-				return false;
-		} else if (!descriptionText.equals(other.descriptionText))
-			return false;
 		if (diseaseCode == null) {
 			if (other.diseaseCode != null)
 				return false;
@@ -286,6 +265,11 @@ public class Study extends AbstractDomainObject implements Comparable<Study>, Se
 			if (other.epochs != null)
 				return false;
 		} else if (!epochs.equals(other.epochs))
+			return false;
+		if (identifiers == null) {
+			if (other.identifiers != null)
+				return false;
+		} else if (!identifiers.equals(other.identifiers))
 			return false;
 		if (longTitleText == null) {
 			if (other.longTitleText != null)
@@ -297,35 +281,10 @@ public class Study extends AbstractDomainObject implements Comparable<Study>, Se
 				return false;
 		} else if (!monitorCode.equals(other.monitorCode))
 			return false;
-		if (multiInstitutionIndicator == null) {
-			if (other.multiInstitutionIndicator != null)
-				return false;
-		} else if (!multiInstitutionIndicator.equals(other.multiInstitutionIndicator))
-			return false;
-		if (nciIdentifier == null) {
-			if (other.nciIdentifier != null)
-				return false;
-		} else if (!nciIdentifier.equals(other.nciIdentifier))
-			return false;
 		if (phaseCode == null) {
 			if (other.phaseCode != null)
 				return false;
 		} else if (!phaseCode.equals(other.phaseCode))
-			return false;
-		if (precisText == null) {
-			if (other.precisText != null)
-				return false;
-		} else if (!precisText.equals(other.precisText))
-			return false;
-		if (randomizedIndicator == null) {
-			if (other.randomizedIndicator != null)
-				return false;
-		} else if (!randomizedIndicator.equals(other.randomizedIndicator))
-			return false;
-		if (shortTitleText == null) {
-			if (other.shortTitleText != null)
-				return false;
-		} else if (!shortTitleText.equals(other.shortTitleText))
 			return false;
 		if (sponsorCode == null) {
 			if (other.sponsorCode != null)
@@ -336,7 +295,7 @@ public class Study extends AbstractDomainObject implements Comparable<Study>, Se
 			if (other.status != null)
 				return false;
 		} else if (!status.equals(other.status))
-			return false;		
+			return false;
 		if (studySites == null) {
 			if (other.studySites != null)
 				return false;
