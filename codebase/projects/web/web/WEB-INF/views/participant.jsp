@@ -220,23 +220,33 @@ function getPage(s){
 						<table width="700" border="0" cellspacing="0" cellpadding="0"
 							id="table1">					
 							<tr>
-								<td align="center"><span class="red">*</span><em></em><B>Other
-								ID:</td>
-								<td align="center"><span class="red">*</span><em></em><B>Other
-								Source:</td>
+								<td align="center"><span class="red">*</span><em></em><B>Other Type:</td>
+								<td align="center"><span class="red">*</span><em></em><B>Other Value:</td>
+								<td align="center"><span class="red">*</span><em></em><B>Other Source:</td>
+								<td align="center"> <B>Is Primary:</td>
 							</tr>					
+
 							<c:forEach var="index" begin="0" end="4">
 								<tr>
 									<td align="center">
-									    <form:input path="participantIdentifiers[${index}].medicalRecordNumber"/>
+									    <form:input path="identifiers[${index}].type"/>
 									</td>
 									<td align="center">
-										<form:select path="participantIdentifiers[${index}].healthcareSite">
-											<form:options items="${healthcareSite}" itemLabel="name" itemValue="id"/>
+									    <form:input path="identifiers[${index}].value"/>
+									</td>									
+									<td align="center">
+										<form:select path="identifiers[${index}].source">
+											<form:options items="${source}" itemLabel="desc" itemValue="code"/>
 										</form:select>
+									</td>									
+
+									<td align="center">
+										<form:radiobutton  path="identifiers[${index}].isPrimary"/>										
 									</td>
-								</tr>	
-							</c:forEach>																					
+								</tr>			
+																					
+							</c:forEach>
+																				
 						</table>
 
 						<hr align="left" width="95%">
