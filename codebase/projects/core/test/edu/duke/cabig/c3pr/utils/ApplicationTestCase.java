@@ -1,4 +1,4 @@
-package edu.duke.cabig.c3pr.util;
+package edu.duke.cabig.c3pr.utils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

@@ -1,4 +1,4 @@
-package edu.duke.cabig.c3pr.util;
+package edu.duke.cabig.c3pr.utils;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -99,6 +99,11 @@ public abstract class DaoTestCase extends DbTestCase {
     {
     	return "C3PR";
     }
+    
+    protected DatabaseOperation getSetUpOperation() throws Exception
+	{
+	    return DatabaseOperation.DELETE;
+	}
     
     protected DatabaseOperation getTearDownOperation() throws Exception {
         return DatabaseOperation.DELETE;

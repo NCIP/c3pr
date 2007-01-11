@@ -1,4 +1,4 @@
-package edu.duke.cabig.c3pr.util;
+package edu.duke.cabig.c3pr.utils;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.FileSystemResourceLoader;
