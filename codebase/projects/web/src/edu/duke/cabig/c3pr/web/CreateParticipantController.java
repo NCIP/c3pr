@@ -21,6 +21,7 @@ import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.ParticipantIdentifier;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
@@ -33,8 +34,7 @@ import edu.duke.cabig.c3pr.web.SearchParticipantRegisterController.LOV;
  */
 public class CreateParticipantController extends AbstractWizardFormController {
 
-	private ParticipantDao participantDao;
-	private HealthcareSiteDao healthcareSiteDao;
+	private ParticipantDao participantDao;	
 	
 	public CreateParticipantController() {
 		setCommandClass(Participant.class);
@@ -51,7 +51,7 @@ public class CreateParticipantController extends AbstractWizardFormController {
     		refdata.put("administrativeGenderCode", getAdministrativeGenderCodeList());
     		refdata.put("ethnicGroupCode", getEthnicGroupCodeList());
     		refdata.put("raceCode", getRaceCodeList());
-    		refdata.put("healthcareSite", healthcareSiteDao.getAll());
+    	    refdata.put("source", getSourceList());
     		refdata.put("searchType", getSearchType());
     	}
     	
@@ -78,7 +78,7 @@ public class CreateParticipantController extends AbstractWizardFormController {
 		
 		Participant participant = (Participant) super.formBackingObject(request);
 		for (int i = 0; i < 5; i++) {
-			participant.addParticipantIdentifier(new ParticipantIdentifier());
+			participant.addIdentifier(new Identifier());
 		}
 		participant.setAddress(new Address());
 		return participant;
@@ -88,9 +88,7 @@ public class CreateParticipantController extends AbstractWizardFormController {
 	protected void initBinder(HttpServletRequest req,
 			ServletRequestDataBinder binder) throws Exception {
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(
-				new SimpleDateFormat("MM-dd-yyyy"), true));
-		// binder.registerCustomEditor(ParticipantIdentifier.class, new ParticipantIdentifierEditor());
-		binder.registerCustomEditor(HealthcareSite.class, new CustomDaoEditor(healthcareSiteDao));
+				new SimpleDateFormat("MM-dd-yyyy"), true));		
 	}
 
 	@Override
@@ -99,11 +97,11 @@ public class CreateParticipantController extends AbstractWizardFormController {
 			throws Exception {
 		Participant command = (Participant) oCommand;
 		
-		Iterator<ParticipantIdentifier> iterator = command.getParticipantIdentifiers().iterator();
+		Iterator<Identifier> iterator = command.getIdentifiers().iterator();
 
 		while(iterator.hasNext())
 		{
-			if(iterator.next().getMedicalRecordNumber().trim() == "")
+			if(iterator.next().getType().trim() == "" || iterator.next().getType().trim() == "")
 			{
 				iterator.remove();
 			}
@@ -206,14 +204,16 @@ public class CreateParticipantController extends AbstractWizardFormController {
 		return col;
 	}
 
-	public HealthcareSiteDao getHealthcareSiteDao() {
-		return healthcareSiteDao;
+	private List<LOV> getSourceList() 
+	{
+		List<LOV> col = new ArrayList<LOV>();
+		
+		col.add(new LOV("Duke", "Duke"));
+		col.add(new LOV("Northwestern", "Northwestern"));
+		
+		return col;
 	}
-
-	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
-		this.healthcareSiteDao = healthcareSiteDao;
-	}
-
+	
 	public ParticipantDao getParticipantDao() {
 		return participantDao;
 	}
