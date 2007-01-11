@@ -10,8 +10,8 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
 
 public class StudyValidator implements Validator{	
-	StudySiteValidator studySiteValidator;
-	EpochValidator epochValidator;
+//	StudySiteValidator studySiteValidator;
+//	EpochValidator epochValidator;
 	
 	public boolean supports(Class clazz) {
 		return Study.class.isAssignableFrom(clazz);
@@ -33,17 +33,17 @@ public class StudyValidator implements Validator{
 	
 	//StudySite
 	public void validatePage2(Object target, Errors errors) {
-		 Study study = (Study) target;
-	      try {
-	          errors.pushNestedPath("studySite");
-	          List<StudySite> studySites = study.getStudySites();
-	          for (StudySite studySite : studySites) {
-	        	 ValidationUtils.invokeValidator(this.studySiteValidator, 
-	        	 studySite, errors);
-			}	         
-	      } finally {
-	          errors.popNestedPath();
-	      }	
+//		 Study study = (Study) target;
+//	      try {
+//	          errors.pushNestedPath("studySite");
+//	          List<StudySite> studySites = study.getStudySites();
+//	          for (StudySite studySite : studySites) {
+//	        	 ValidationUtils.invokeValidator(this.studySiteValidator, 
+//	        	 studySite, errors);
+//			}	         
+//	      } finally {
+//	          errors.popNestedPath();
+//	      }	
 	}
 	
 	//TODO Epoch Validator
@@ -51,20 +51,20 @@ public class StudyValidator implements Validator{
 	
 	}
 	
-	public EpochValidator getEpochValidator() {
-		return epochValidator;
-	}
-
-	public void setEpochValidator(EpochValidator epochValidator) {
-		this.epochValidator = epochValidator;
-	}
-
-	public StudySiteValidator getStudySiteValidator() {
-		return studySiteValidator;
-	}
-
-	public void setStudySiteValidator(StudySiteValidator studySiteValidator) {
-		this.studySiteValidator = studySiteValidator;
-	}	
-	
+//	public EpochValidator getEpochValidator() {
+//		return epochValidator;
+//	}
+//
+//	public void setEpochValidator(EpochValidator epochValidator) {
+//		this.epochValidator = epochValidator;
+//	}
+//
+//	public StudySiteValidator getStudySiteValidator() {
+//		return studySiteValidator;
+//	}
+//
+//	public void setStudySiteValidator(StudySiteValidator studySiteValidator) {
+//		this.studySiteValidator = studySiteValidator;
+//	}	
+//	
 }
