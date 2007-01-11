@@ -1,12 +1,13 @@
 <dataset>
-    <STUDIES id="1000" version="1" blinded_indicator="yes" disease_code="dis" long_title_text="long_title_text" monitor_code="mon" multi_institution_indicator="Yes"
-    nci_identifier="nci" phase_code="Ph" randomized_indicator="yes" short_title_text="short_title_text" sponsor_code="sp" target_accrual_number="123" type="ty"
+	
+    <STUDIES id="1000" version="1" blinded_indicator="true" disease_code="dis" long_title_text="long_title_text" monitor_code="mon" multi_institution_indicator="true"
+   	phase_code="Ph" randomized_indicator="true" short_title_text="short_title_text" sponsor_code="sp" target_accrual_number="123" type="ty"
     description_text="description" precis_text="precis_text" status="st" />
-    <STUDIES id="1001" version="1" blinded_indicator="no" disease_code="dis2" long_title_text="long_title_text2" monitor_code="mon" multi_institution_indicator="Yes"
-    nci_identifier="nci2" phase_code="Ph2" randomized_indicator="yes" short_title_text="short_title_text2" sponsor_code="sp2" target_accrual_number="123" type="ty"
+    <STUDIES id="1001" version="1" blinded_indicator="false" disease_code="dis2" long_title_text="long_title_text2" monitor_code="mon" multi_institution_indicator="true"
+   	phase_code="Ph2" randomized_indicator="true" short_title_text="short_title_text2" sponsor_code="sp2" target_accrual_number="123" type="ty"
     description_text="description2" precis_text="precis_text2" status="st2" />
-    <STUDIES id="1002" version="1" blinded_indicator="yes" disease_code="dis" long_title_text="long_title_text" monitor_code="mon" multi_institution_indicator="Yes"
-    nci_identifier="nci" phase_code="Ph" randomized_indicator="yes" short_title_text="short_title_text" sponsor_code="sp" target_accrual_number="123" type="ty"
+    <STUDIES id="1002" version="1" blinded_indicator="false" disease_code="dis" long_title_text="long_title_text" monitor_code="mon" multi_institution_indicator="true"
+   	phase_code="Ph" randomized_indicator="true" short_title_text="short_title_text" sponsor_code="sp" target_accrual_number="123" type="ty"
     description_text="description" precis_text="precis_text" status="st" />
     
     <ADDRESSES id="1000" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA" />
@@ -23,6 +24,9 @@
     hcs_id="1000" />
     <STUDY_SITES id="1003" version="1" irb_approval_date="01-01-2000" role_code="role2" status_code="inactive" start_date="01-01-2001" end_date="01-01-2002" study_id="1001"
     hcs_id="1001" />
+    
+    <IDENTIFIERS id="1000" version="1" value="nci" type="local" stu_id="1000" />
+    <IDENTIFIERS id="1001" version="1" value="grid" type="local" stu_id="1000" />    
     
     <EPOCHS id="1000" version="1" name="Treatment" description_text="treatement desc" stu_id="1000" />
     <EPOCHS id="1001" version="1" name="Cancer" description_text="cancer desc" stu_id="1000" />
