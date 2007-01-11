@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -27,29 +29,29 @@ import org.hibernate.annotations.Parameter;
 )
 public class Participant extends Person implements Comparable<Participant>
 {	
-	private List<ParticipantIdentifier> participantIdentifiers = new ArrayList<ParticipantIdentifier>();
+	private List<Identifier> identifiers = new ArrayList<Identifier>();
 	private List<StudyParticipantAssignment> studyParticipantAssignments= new ArrayList<StudyParticipantAssignment>();
-	
-    @OneToMany (mappedBy="participant")
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})
-    public List<ParticipantIdentifier> getParticipantIdentifiers() {
-		return participantIdentifiers;
+		 
+    @OneToMany
+    @Cascade({CascadeType.ALL,CascadeType.DELETE_ORPHAN})
+    @JoinColumn(name = "PRT_ID")
+    public List<Identifier> getIdentifiers() {
+		return identifiers;
 	}
 
-	public void setParticipantIdentifiers(
-			List<ParticipantIdentifier> participantIdentifiers) {
-		this.participantIdentifiers = participantIdentifiers;
+	public void setIdentifiers(
+			List<Identifier> identifiers) {
+		this.identifiers = identifiers;
 	}
 	
-	public void addParticipantIdentifier(ParticipantIdentifier partId)
+	public void addIdentifier(Identifier identifier)
 	{		
-		participantIdentifiers.add(partId);
-		partId.setParticipant(this);
+		identifiers.add(identifier);		
 	}
 	
-	public void removeParticipantIdentifier(ParticipantIdentifier partId)
+	public void removeIdentifier(Identifier identifier)
 	{
-		participantIdentifiers.remove(partId);
+		identifiers.remove(identifier);
 	}
 	
 	@OneToMany (mappedBy="participant", fetch=FetchType.LAZY)
@@ -80,7 +82,7 @@ public class Participant extends Person implements Comparable<Participant>
 	public int hashCode() {
 		final int PRIME = 31;
 		int result = super.hashCode();
-		result = PRIME * result + ((participantIdentifiers == null) ? 0 : participantIdentifiers.hashCode());
+		result = PRIME * result + ((identifiers == null) ? 0 : identifiers.hashCode());
 		result = PRIME * result + ((studyParticipantAssignments == null) ? 0 : studyParticipantAssignments.hashCode());
 		return result;
 	}
@@ -94,10 +96,10 @@ public class Participant extends Person implements Comparable<Participant>
 		if (getClass() != obj.getClass())
 			return false;
 		final Participant other = (Participant) obj;
-		if (participantIdentifiers == null) {
-			if (other.participantIdentifiers != null)
+		if (identifiers == null) {
+			if (other.identifiers != null)
 				return false;
-		} else if (!participantIdentifiers.equals(other.participantIdentifiers))
+		} else if (!identifiers.equals(other.identifiers))
 			return false;
 		if (studyParticipantAssignments == null) {
 			if (other.studyParticipantAssignments != null)
