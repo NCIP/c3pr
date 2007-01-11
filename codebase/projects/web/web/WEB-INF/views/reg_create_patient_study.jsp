@@ -287,22 +287,32 @@ function submitPage(){
 										id="table1">
 										<tr>
 											<td align="center"><span class="red">*</span><em></em><B>Other
-											ID:</td>
+											Type:</td>
+											<td align="center"><span class="red">*</span><em></em><B>Other
+											Value:</td>
 											<td align="center"><span class="red">*</span><em></em><B>Other
 											Source:</td>
+											<td align="center"><B>Is Primary:</td>
 										</tr>
+
 										<c:forEach var="index" begin="0" end="4">
 											<tr>
 												<td align="center"><form:input
-													path="participantIdentifiers[${index}].medicalRecordNumber" />
-												</td>
+													path="identifiers[${index}].type" /></td>
+												<td align="center"><form:input
+													path="identifiers[${index}].value" /></td>
 												<td align="center"><form:select
-													path="participantIdentifiers[${index}].healthcareSite">
-													<form:options items="${healthcareSite}" itemLabel="name"
-														itemValue="id" />
+													path="identifiers[${index}].source">
+													<form:options items="${source}" itemLabel="desc"
+														itemValue="code" />
 												</form:select></td>
+
+												<td align="center"><form:radiobutton
+													path="identifiers[${index}].primaryIndicator" /></td>
 											</tr>
+
 										</c:forEach>
+
 									</table>
 
 									<hr align="left" width="95%">

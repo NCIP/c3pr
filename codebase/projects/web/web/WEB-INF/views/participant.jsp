@@ -241,7 +241,7 @@ function getPage(s){
 									</td>									
 
 									<td align="center">
-										<form:radiobutton  path="identifiers[${index}].isPrimary"/>										
+										<form:radiobutton  path="identifiers[${index}].primaryIndicator"/>										
 									</td>
 								</tr>			
 																					

@@ -78,7 +78,9 @@ public class CreateParticipantController extends AbstractWizardFormController {
 		
 		Participant participant = (Participant) super.formBackingObject(request);
 		for (int i = 0; i < 5; i++) {
-			participant.addIdentifier(new Identifier());
+			Identifier temp=new Identifier();
+			temp.setPrimaryIndicator(false);
+			participant.addIdentifier(temp);
 		}
 		participant.setAddress(new Address());
 		return participant;
