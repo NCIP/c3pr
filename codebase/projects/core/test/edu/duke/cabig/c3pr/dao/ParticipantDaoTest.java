@@ -65,6 +65,7 @@ public class ParticipantDaoTest extends DaoTestCase {
             studyParticipantAssignment.setStudySite(studySite);
             studyParticipantAssignment.setStudyParticipantIdentifier("1000");
             studyParticipantAssignment.setStartDate(new Date());
+            studyParticipantAssignment.setEligibilityIndicator(true);
             participant.addStudyParticipantAssignment(studyParticipantAssignment);            
             studyParticipantAssignment.setParticipant(participant);
             dao.save(participant);
