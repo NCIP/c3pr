@@ -35,7 +35,8 @@
                 <value>edu.duke.cabig.c3pr.domain.ParticipantIdentifier</value>
                 <value>edu.duke.cabig.c3pr.domain.StudyParticipantAssignment</value>    
                 <value>edu.duke.cabig.c3pr.domain.Participant</value>                                   
-                <value>edu.duke.cabig.c3pr.domain.ScheduledArm</value>                                   
+                <value>edu.duke.cabig.c3pr.domain.ScheduledArm</value>     
+                <value>edu.duke.cabig.c3pr.domain.Identifier</value>                                
             </list>
         </property>
         <property name="hibernateProperties">
@@ -60,11 +61,12 @@
         <property name="singleSession"><value>true</value></property>
         <property name="flushModeName"><value>FLUSH_AUTO</value></property>
     </bean>    
-<!-- validators for domain objects -->
-    <bean id="studyValidator" class="edu.duke.cabig.c3pr.domain.validator.StudyValidator" autowire="byType"/>           
-    <bean id="studySiteValidator" class="edu.duke.cabig.c3pr.domain.validator.StudySiteValidator" autowire="byType"/>           
-    <bean id="epochValidator" class="edu.duke.cabig.c3pr.domain.validator.EpochValidator" autowire="byType"/>           
+<!-- validators for domain objects 
+    <bean id="studyValidator" class="edu.duke.cabig.c3pr.domain.validator.StudyValidator" autowire="byName"/>           
+    <bean id="studySiteValidator" class="edu.duke.cabig.c3pr.domain.validator.StudySiteValidator" autowire="byName"/>           
+    <bean id="epochValidator" class="edu.duke.cabig.c3pr.domain.validator.EpochValidator" autowire="byName"/>           
     <bean id="armValidator" class="edu.duke.cabig.c3pr.domain.validator.ArmValidator"/>               
+-->
 <!-- Daos -->
     <bean id="studyDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyDao" autowire="byType"></bean>
     <bean id="studySiteDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudySiteDao" autowire="byType"></bean>
