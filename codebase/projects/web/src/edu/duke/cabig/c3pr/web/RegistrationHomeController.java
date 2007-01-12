@@ -5,6 +5,7 @@ package edu.duke.cabig.c3pr.web;
 
 import org.apache.log4j.Logger;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -46,10 +48,10 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 	private static Log log = LogFactory
 			.getLog(RegistrationHomeController.class);
 
-	private final String[] pages = { "reg_check_eligibility", "reg_stratify",
+	private final String[] pages = { "reg_registration_details", "reg_check_eligibility", "reg_stratify",
 			"reg_randomize", "reg_submit", "reg_confirm_reg" };
 
-	private final String[] viewNames = { "checkEligibilityView",
+	private final String[] viewNames = { "enrollView", "checkEligibilityView",
 			"stratifyView", "randomizeView", "reviewAndSubmitView",
 			"confirmationView" };
 
@@ -62,9 +64,8 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 	protected void initBinder(HttpServletRequest request,
 			ServletRequestDataBinder binder) throws Exception {
 		super.initBinder(request, binder);
-		binder.registerCustomEditor(Date.class, ControllerTools
-				.getDateEditor(true));
-		ControllerTools.registerDomainObjectEditor(binder, armDao);
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(
+				new SimpleDateFormat("MM-dd-yyyy"), true));		
 	}
 
 	@Override
@@ -111,10 +112,10 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 			throws Exception {
 		// TODO Auto-generated method stub
 		StudyParticipantAssignment studyParticipantAssignment = new StudyParticipantAssignment();
-		studyParticipantAssignment
+/*		studyParticipantAssignment
 				.setStudyParticipantIdentifier("TESTID_Kruttik_BIG");
 		studyParticipantAssignment.setStartDate(new Date());
-		studyParticipantAssignment.setEligibilityIndicator(new Boolean(false));
+*/		studyParticipantAssignment.setEligibilityIndicator(new Boolean(false));
 		StudySite studySite = null;
 		Participant participant = null;
 		if (request.getParameter("studySiteId") != null
