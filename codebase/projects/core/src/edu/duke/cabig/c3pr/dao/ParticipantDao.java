@@ -44,16 +44,16 @@ public class ParticipantDao extends AbstractBaseDao<Participant> {
 			example.ignoreCase().excludeProperty("doNotUse").enableLike(
 					MatchMode.ANYWHERE);
 			participantCriteria.add(example);
-			FIXME:
-		/*	if (participant.getParticipantIdentifiers().size() > 0) {
-				participantCriteria.createCriteria("participantIdentifiers")
+	//		FIXME:
+			if (participant.getIdentifiers().size() > 0) {
+				participantCriteria.createCriteria("identifiers")
 						.add(
-								Restrictions.like("medicalRecordNumber",
-										participant.getParticipantIdentifiers()
+								Restrictions.like("value",
+										participant.getIdentifiers()
 												.get(0)
-												.getMedicalRecordNumber()
+												.getValue()
 												+ "%"));
-			} */
+			} 
 			return participantCriteria.list();
 
 		}
