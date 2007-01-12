@@ -137,7 +137,7 @@ function navRollOver(obj, state) {
 					</tr>
 					<%int i=0; %>
 					<c:forEach var="participant" items="${participants}">
-						<a href="participantresults.do?participantId=${participant.id}"
+						<a href="editparticipant.do?participantId=${participant.id}"
 							onMouseOver="navRollOver('row<%= i %>', 'on')"
 							onMouseOut="navRollOver('row<%= i %>', 'off')">
 						<tr align="center" id="row<%= i++ %>" class="results">
