@@ -114,6 +114,7 @@
 	    <property name="commandName" value="command"/>
 	    <property name="pages">
 	    <list>
+		    <value>reg_registration_details</value>
 		    <value>reg_check_eligibility</value>
 		    <value>reg_stratify</value>
 		    <value>reg_randomize</value>
