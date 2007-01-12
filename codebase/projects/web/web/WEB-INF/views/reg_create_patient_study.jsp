@@ -118,7 +118,7 @@ function submitPage(){
 						<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 					</tr>
 					<form:form id="searchParticipant" name="searchParticipant"
-						action="/c3pr/SearchRegisterPatient.do?studySiteId=58"
+						action="/c3pr/SearchRegisterPatient.do?studySiteId=${studySiteId}"
 						method="post">
 
 						<tr>
