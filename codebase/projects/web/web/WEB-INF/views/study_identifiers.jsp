@@ -96,13 +96,13 @@ function validatePage(){
 				<table width="100%" border="0" cellspacing="0" cellpadding="0"
 					class="tabs">
 					<tr>
-						<td width="100%" id="tabDisplay"><span class="current"><img
-							src="images/tabWhiteL.gif" width="3" height="16"
+						<td width="100%" id="tabDisplay"><span class="tab"><img
+							src="images/tabGrayL.gif" width="3" height="16"
 							align="absmiddle">
-						1.study details <img src="images/tabWhiteR.gif" width="3" height="16"
-							align="absmiddle"></span> <span class="tab"><img
-							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						2.identifiers <img src="images/tabGrayR.gif" width="3" height="16"
+						1.study details <img src="images/tabGrayR.gif" width="3" height="16"
+							align="absmiddle"></span> <span class="current"><img
+							src="images/tabWhiteL.gif" width="3" height="16" align="absmiddle">
+						2.identifiers <img src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"></span><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						3.study site <img src="images/tabGrayR.gif" width="3" height="16"
@@ -131,173 +131,57 @@ function validatePage(){
 
 				<td valign="top" class="additionals2"><!-- RIGHT CONTENT STARTS HERE -->
 				<form:form name="searchDetailsForm" method="post">
-					<div><input type="hidden" name="_page" value="0"></div>
+					<div><input type="hidden" name="_page" value="1"></div>
 					
 					<br>
-					<strong>Step 1. Study Details </strong> (<span class="red">*</span>
+					<strong>Step 2. Identifiers : Add Identifiers associated with the Study </strong> (<span class="red">*</span>
 					<em>Required Information </em>)<br>
 					<br>
 
 					<table width="700" border="0" cellspacing="0" cellpadding="0"
 						id="details">
-						<tr>
-							<td width="50%" valign="top">
-
-							<table width="308" border="0" cellspacing="0" cellpadding="0"
-								id="table1">
+						<tr>											
+							<td width="50%" valign="top">							
+								<table width="308" border="0" cellspacing="0" cellpadding="0"
+									id="table1">
+									
 								<tr>
-									<td class="label">Short Title:</td>
-									<td><form:textarea path="shortTitleText" rows="2"
-										cols="50" /></td>
-								</tr>
-								<tr>
-									<td class="label"><span class="red">*</span><em></em>Long Title:</td>
-									<td><form:textarea path="longTitleText" rows="5" cols="50" /></td>
-									 <td><form:errors path="longTitleText" /></td>
-								</tr>
-								<tr>
-									<td class="label">Precis Text:</td>
-									<td><form:textarea path="precisText" rows="2" cols="50" /></td>
+									<td class="label">Primary Indicator:</td>
+									<td><form:checkbox path="identifiers[0].primaryIndicator"/></td>
 								</tr>
 								<tr>
 									<td><img src="images/spacer.gif" width="1" height="1"
 										class="heightControl"></td>
+								</tr>
+								<tr>
+									<td><img src="images/spacer.gif" width="1" height="1"
+										class="heightControl"></td>
+								</tr>
+								<tr>
+									<td class="label">Source:</td>
+									<td><form:input path="identifiers[0].source"/></td>
+								</tr>
+								<tr>
+									<td><img src="images/spacer.gif" width="1" height="1"
+										class="heightControl"></td>
+								</tr>
+								<tr>
+									<td class="label"><span class="red">*</span><em></em>Type:</td>
+									<td><form:input path="identifiers[0].type"/></td>
+									<td><form:errors path="identifiers[0].type" /></td>
+								</tr>
+									<tr>
+									<td><img src="images/spacer.gif" width="1" height="1"
+										class="heightControl"></td>
+								</tr>
+								<tr>
+									<td class="label">Value:</td>
+									<td><form:input path="identifiers[0].value"/></td>
 								</tr>								
-								<tr>
-									<td><img src="images/spacer.gif" width="1" height="1"
-										class="heightControl"></td>
-								</tr>
-								<tr>
-									<td class="label">Description Text:</td>
-									<td><form:textarea path="descriptionText" rows="3"
-										cols="50" /></td>
-								</tr>
-								<tr>
-									<td><img src="images/spacer.gif" width="1" height="1"
-										class="heightControl"></td>
-								</tr>
-								
-							</table>
+								</table>
 							</td>
-							<td width="20%" valign="top">
 							
-							<td width="50%" valign="top" class="contentAreaR"><strong><strong><strong></strong></strong></strong>
-							<table width="308" border="0" cellspacing="0" cellpadding="0"
-								id="table1">
-								
-								<tr>
-									<td><img src="images/spacer.gif" width="1" height="1"
-										class="heightControl"></td>
-								</tr>
-								<tr>
-									<td width="46%" class="label">Target Accrual Number:</td>
-									<td width="54%"><form:input path="targetAccrualNumber"
-										size="34" /></td>
-								</tr>
-								<tr>
-									<td class="label"><span class="red">*</span><em></em>Status:</td>
-									<td><form:select path="status">
-										<form:options items="${statusRefData}" itemLabel="desc"
-											itemValue="code" />
-									</form:select></td>
-								</tr>
-								<tr>
-									<td><img src="images/spacer.gif" width="1" height="1"
-										class="heightControl"></td>
-								</tr>
-								<tr>
-									<td class="label"><span class="red">*</span><em></em><strong>Disease
-									Code:</strong>
-									<td><form:select path="diseaseCode">
-										<form:options items="${diseaseCodeRefData}" itemLabel="desc"
-											itemValue="code" />
-									</form:select></td>
-								</tr>
-								<tr>
-									<td><img src="images/spacer.gif" width="1" height="1"
-										class="heightControl"></td>
-								</tr>
-								<tr>
-									<td class="label"><em></em>Monitor Code:</td>
-									<td><form:select path="monitorCode">
-										<form:options items="${monitorCodeRefData}" itemLabel="desc"
-											itemValue="code" />
-									</form:select></td>
-								</tr>
-								<tr>
-									<td><img src="images/spacer.gif" width="1" height="1"
-										class="heightControl"></td>
-								</tr>
-								<tr>
-									<td class="label"><span class="red">*</span><em></em>Phase
-									Code:</td>
-									<td><form:select path="phaseCode">
-										<form:options items="${phaseCodeRefData}" itemLabel="desc"
-											itemValue="code" />
-									</form:select></td>
-								</tr>
-								<tr>
-									<td><img src="images/spacer.gif" width="1" height="1"
-										class="heightControl"></td>
-								</tr>
-								<tr>
-									<td class="label"><span class="red">*</span><em></em>Sponsor
-									Code:</td>
-									<td><form:select path="sponsorCode">
-										<form:options items="${sponsorCodeRefData}" itemLabel="desc"
-											itemValue="code" />
-									</form:select></td>
-								</tr>
-								<tr>
-									<td><img src="images/spacer.gif" width="1" height="1"
-										class="heightControl"></td>
-								</tr>
-								
-								<tr>
-									<td><img src="images/spacer.gif" width="1" height="1"
-										class="heightControl"></td>
-								</tr>
-								<tr>
-									<td class="label"><span class="red">*</span><em></em>Randomized
-									Indicator</td>
-									<td><form:checkbox path="randomizedIndicator"/></td>
-								</tr>
-								<tr>
-									<td><img src="images/spacer.gif" width="1" height="1"
-										class="heightControl"></td>
-								</tr>
-								<tr>
-									<td class="label"><span class="red">*</span><em></em>Multi
-									Institution:</td>
-									<td><form:checkbox path="multiInstitutionIndicator"/></td>
-								</tr>
-								<tr>
-									<td><img src="images/spacer.gif" width="1" height="1"
-										class="heightControl"></td>
-								</tr>
-								<tr>
-									<td class="label">Blinded Indicator:</td>
-									<td><form:checkbox path="blindedIndicator"/></td>
-								</tr>
-								<tr>
-									<td><img src="images/spacer.gif" width="1" height="1"
-										class="heightControl"></td>
-								</tr>
-								<tr>
-									<td class="label"><span class="red">*</span><em></em>Type
-									Code:</td>
-									<td><form:select path="type">
-										<form:options items="${typeRefData}" itemLabel="desc"
-											itemValue="code" />
-									</form:select></td>
-								</tr>
-								<tr>
-									<td><img src="images/spacer.gif" width="1" height="1"
-										class="heightControl"></td>
-								</tr>
-							
-							</table>
-							</td>
+							<td width="20%" valign="top">														
 						<tr>
 							<td><img src="images/spacer.gif" width="1" height="1"
 								class="heightControl"></td>
@@ -306,10 +190,15 @@ function validatePage(){
 							<td align="center" colspan="3"><!-- action buttons begins -->
 							<table cellpadding="4" cellspacing="0" border="0">
 								<tr>
-								<td colspan=2 valign="top"><br>
-									<br>
-									<input type="image" name="_target1" src="images/b-continue.gif" border="0"
-										alt="continue to next page">								
+									<td colspan=2 valign="top"><br>
+										<br>
+										<input type="image" name="_target0" src="images/b-prev.gif" border="0"
+											alt="goto previous page">									
+										<input type="image" name="_target2" src="images/b-continue.gif" border="0"
+											alt="continue to next page">
+										<input type="image" name="_target0" src="images/b-startOver.gif" border="0"
+											alt="start over from start page">	
+									</td>						
 								</tr>
 							</table>
 							</td>

@@ -1,3 +1,5 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -14,6 +16,9 @@
 <script>
 function navRollOver(obj, state) {
   document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
+}
+function validatePage(){
+	return true;
 }
 </script>
 </head>
@@ -88,19 +93,25 @@ function navRollOver(obj, state) {
 					class="tabs">
 					<tr>
 						<td width="100%" id="tabDisplay"><span class="tab"><img
-							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle">
-						<a href="protocol_add.htm">1.study details</a> <img
-							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"></span>
-						<span class="current"><img src="images/tabWhiteL.gif"
-							width="3" height="16" align="absmiddle"> 2.study site <img
-							src="images/tabWhiteR.gif" width="3" height="16"
+							src="images/tabGrayL.gif" width="3" height="16"
+							align="absmiddle">
+						1.study details <img src="images/tabGrayR.gif" width="3" height="16"
+							align="absmiddle"></span> <span class="tab"><img
+							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
+						2.identifiers <img src="images/tabGrayR.gif" width="3" height="16"
+							align="absmiddle"></span><span class="current"><img
+							src="images/tabWhiteL.gif" width="3" height="16" align="absmiddle">
+						3.study site <img src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"></span><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						3. study design <img src="images/tabGrayR.gif" width="3"
-							height="16" align="absmiddle"><img
+						4. study design <img src="images/tabGrayR.gif" width="3"
+							height="16" align="absmiddle"></span><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						4. review and submit <img src="images/tabGrayR.gif" width="3"
-							height="16" align="absmiddle"></span></td>
+						5. review and submit <img src="images/tabGrayR.gif" width="3"
+							height="16" align="absmiddle"></span><span class="tab"><img
+							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
+						6. confirmation <img src="images/tabGrayR.gif" width="3"
+							height="16" align="absmiddle">	</span></td>
 						<td><img src="images/spacer.gif" width="7" height="1"></td>
 					</tr>
 					<tr>
@@ -115,12 +126,9 @@ function navRollOver(obj, state) {
 				<!-- LEFT CONTENT STARTS HERE -->
 
 				<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
-				<!-- RIGHT CONTENT STARTS HERE --> <c:url value="/createstudy.do"
-					var="formAction" /> <form:form method="post"
-					action="${formAction}">
-
-					<div><input type="hidden" name="_page" value="1"> <!-- input type = "hidden" name="_target1" value="1"-->
-					</div>
+				<!-- RIGHT CONTENT STARTS HERE --> 
+				<form:form method="post">
+				<div><input type="hidden" name="_page" value="2"></div>
 					<strong>Step 2. Study Site </strong> (<span class="red">*</span>
 					<em>Required Information </em>)<br>
 
@@ -169,7 +177,7 @@ function navRollOver(obj, state) {
 								height="16" border="0" align="absmiddle"></a></td>
 						</tr>
 						<tr>
-							<td class="label"><span class="red">*</span><em></em>End Date:</td>
+							<td class="label">End Date:</td>
 							<td valign="top" align="left"><form:input
 								path="studySites[0].endDate" />&nbsp;<a href="#"
 								onClick="parent.OpenWins('calendar.htm','calendar',200,236);return false;"><img
@@ -193,10 +201,15 @@ function navRollOver(obj, state) {
 							<td align="center" colspan="3"><!-- action buttons begins -->
 							<table cellpadding="4" cellspacing="0" border="0">
 								<tr>
-									<td><input class="actionButton" type="submit"
-										name="_target0" value="Prev"></td>
-									<td><input class="actionButton" type="submit"
-										name="_target2" value="Next"></td>
+									<td colspan=2 valign="top"><br>
+										<br>
+										<input type="image" name="_target1" src="images/b-prev.gif" border="0"
+											alt="goto previous page">									
+										<input type="image" name="_target3" src="images/b-continue.gif" border="0"
+											alt="continue to next page">
+										<input type="image" name="_target0" src="images/b-startOver.gif" border="0"
+											alt="start over from start page">	
+									</td>						
 								</tr>
 							</table>
 							</td>

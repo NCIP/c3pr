@@ -1,3 +1,5 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -93,19 +95,25 @@ if (action){
 					class="tabs">
 					<tr>
 						<td width="100%" id="tabDisplay"><span class="tab"><img
+							src="images/tabGrayL.gif" width="3" height="16"
+							align="absmiddle">
+						1.study details <img src="images/tabGrayR.gif" width="3" height="16"
+							align="absmiddle"></span> <span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						1. <a href="protocol_add.htm">study details</a> <img
-							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"><img
-							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						2. <a href="protocol_add2.htm">study site</a> <img
-							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"></span><span
-							class="current"><img src="images/tabwhiteL.gif" width="3"
-							height="16" align="absmiddle"> 3. study design <img
-							src="images/tabWhiteR.gif" width="3" height="16"
+						2.identifiers <img src="images/tabGrayR.gif" width="3" height="16"
 							align="absmiddle"></span><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						4. review and submit <img src="images/tabGrayR.gif" width="3"
-							height="16" align="absmiddle"></span></td>
+						3.study site <img src="images/tabGrayR.gif" width="3" height="16"
+							align="absmiddle"></span><span class="current"><img
+							src="images/tabWhiteL.gif" width="3" height="16" align="absmiddle">
+						4. study design <img src="images/tabWhiteR.gif" width="3"
+							height="16" align="absmiddle"></span><span class="tab"><img
+							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
+						5. review and submit <img src="images/tabGrayR.gif" width="3"
+							height="16" align="absmiddle"></span><span class="tab"><img
+							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
+						6. confirmation <img src="images/tabGrayR.gif" width="3"
+							height="16" align="absmiddle">	</span></td>
 						<td><img src="images/spacer.gif" width="7" height="1"></td>
 					</tr>
 					<tr>
@@ -118,8 +126,8 @@ if (action){
 			<tr>
 			<tr>
 				<c:url value="/createstudy.do" var="formAction" />
-				<form:form name="searchDetailsForm" method="post">
-					<div><input type="hidden" name="_page" value="2">
+				<form:form name="study_design_form" method="post">
+					<div><input type="hidden" name="_page" value="3">
 					<td class="display"><!-- TABS LEFT START HERE -->
 					<table width="100%" border="0" cellspacing="0" cellpadding="0">
 						<tr>
@@ -216,10 +224,15 @@ if (action){
 							<td align="center" colspan="3"><!-- action buttons begins -->
 							<table cellpadding="4" cellspacing="0" border="0">
 								<tr>
-									<td><input class="actionButton" type="submit"
-										name="_target1" value="Prev"></td>
-									<td><input class="actionButton" type="submit"
-										name="_target3" value="Next"></td>
+									<td colspan=2 valign="top"><br>
+										<br>
+										<input type="image" name="_target2" src="images/b-prev.gif" border="0"
+											alt="goto previous page">									
+										<input type="image" name="_target4" src="images/b-continue.gif" border="0"
+											alt="continue to next page">
+										<input type="image" name="_target0" src="images/b-startOver.gif" border="0"
+											alt="start over from start page">	
+									</td>						
 								</tr>
 							</table>
 						</tr>
