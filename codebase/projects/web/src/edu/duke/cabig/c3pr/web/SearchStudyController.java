@@ -13,6 +13,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 
+import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.utils.Lov;
@@ -41,25 +42,22 @@ public class SearchStudyController  extends SimpleFormController{
     	    	   
     	if ("status".equals(type))
     		study.setStatus(searchtext);
-    	else if ("T".equals(type))
-    		study.setType(searchtext);
-    	else if ("P".equals(type))
-    		study.setPhaseCode(searchtext);
-    	else if ("S".equals(type))
-    		study.setStatus(searchtext);
-    	else if ("SP".equals(type))
-    		study.setSponsorCode(searchtext);
-    	else if ("M".equals(type))
-    		study.setMonitorCode(searchtext);
     	else if ("id".equals(type))
-    		study.setId(new Integer(searchtext));
+    	{
+    		Identifier id = new Identifier();
+    		id.setValue(searchtext);
+    		study.addIdentifier(id);
+    	}
     	else if ("shortTitle".equals(type))
     		study.setShortTitleText(searchtext);
-    		
+    	else if ("longTitle".equals(type))
+    		study.setShortTitleText(searchtext);
+    	
     	List<Study> studies = studyService.search(study);   
     	log.debug("Search results size " +studies.size());
     	Map map = errors.getModel();
     	map.put("study", studies);
+    	map.put("searchType",getSearchType() );    	
     	ModelAndView modelAndView= new ModelAndView(getSuccessView(), map);
     	return modelAndView;
     }
@@ -73,14 +71,10 @@ public class SearchStudyController  extends SimpleFormController{
     
 	private List<Lov> getSearchType(){
 		Lov col = new Lov();
-		col.addData("T", "type");
-		col.addData("S", "status");
-		col.addData("P", "phase");
-		col.addData("D", "disease");
-		col.addData("M", "monitor");
-		col.addData("SP", "sponsor");
-		col.addData("id", "id");
-		col.addData("shortTitle", "short title");
+		col.addData("s", "Status");
+		col.addData("id", "Identifier");
+		col.addData("shortTitle", "Short Title");
+		col.addData("longTitle", "Long Title");
 			
     	return col.getData();
 	}	
