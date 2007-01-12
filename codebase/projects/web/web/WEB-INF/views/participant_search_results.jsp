@@ -23,8 +23,8 @@ function navRollOver(obj, state) {
 
 	<tr>
 
-		<td width="99%"><img src="images/c3prLogo.gif" alt="C3Pr V2" width="181"
-			height="36" class="gelogo"></td>
+		<td width="99%"><img src="images/c3prLogo.gif" alt="C3Pr V2"
+			width="181" height="36" class="gelogo"></td>
 	</tr>
 </table>
 <!-- TOP LOGOS END HERE -->
@@ -57,9 +57,7 @@ function navRollOver(obj, state) {
 		<td width="99%" valign="middle"><img src="images/arrowRight.gif"
 			width="3" height="5" align="absmiddle"> Subject Management <img
 			src="images/spacer.gif" width="1" height="20" align="absmiddle"
-			class="spacer"><a href="createparticipant.do">Add Subject</a><img
-			src="images/spacer.gif" width="1" height="20" align="absmiddle"
-			class="spacer"><a href="#">Add Tab</a></td>
+			class="spacer"><a href="createparticipant.do">Add Subject</a></td>
 		<td valign="middle" class="right"><a href="help">Help</a></td>
 	</tr>
 </table>
