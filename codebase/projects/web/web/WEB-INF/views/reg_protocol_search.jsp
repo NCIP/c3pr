@@ -29,8 +29,6 @@ function doNothing(){
 	<tr>
 		<td width="99%"><img src="images/c3prLogo.gif" alt="C3PR"
 			width="181" height="36" class="gelogo"></td>
-		<td align="right"><img src="images/t-drivers.gif" alt="Study"
-			width="200" height="79"></td>
 	</tr>
 </table>
 <!-- TOP LOGOS END HERE -->
@@ -85,15 +83,18 @@ function doNothing(){
 						2. Select Subject <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						3. Check Eligibility <img src="images/tabGrayR.gif" width="3"
+						3. Enroll Subject </a> <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						4. Stratify <img src="images/tabGrayR.gif" width="3" height="16"
+						4. Check Eligibility <img src="images/tabGrayR.gif" width="3"
+							height="16" align="absmiddle"><img
+							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
+						5. Stratify <img src="images/tabGrayR.gif" width="3" height="16"
 							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
-							height="16" align="absmiddle"> 5. Randomize <img
+							height="16" align="absmiddle"> 6. Randomize <img
 							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						6. Review and Submit <img src="images/tabGrayR.gif" width="3"
+						7. Review and Submit <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"></span></td>
 						<td><img src="images/spacer.gif" width="7" height="1"></td>
 					</tr>
@@ -111,6 +112,7 @@ function doNothing(){
 				<table width="100%" border="0" cellspacing="0" cellpadding="0"
 					class="titleArea">
 					<form:form id="searchForm" name="searchForm" method="post">
+						<form:hidden path="searchCategory" />
 						<tr>
 							<!-- TITLE STARTS HERE -->
 							<td width="99%" height="43" valign="middle" id="title">Study
@@ -140,12 +142,12 @@ function doNothing(){
 								<tr>
 									<td><form:input path="searchTypeText" size="25" /></td>
 									<td><input name="imageField" type="image" class="button"
-										onClick="submitPage('protocol');return false;" src="images/b-go.gif"
-										alt="GO" align="middle" width="22" height="10" border="0"></td>
+										onClick="submitPage('protocol');return false;"
+										src="images/b-go.gif" alt="GO" align="middle" width="22"
+										height="10" border="0"></td>
 								</tr>
 							</table>
-							<span class="notation">^ Minimum two characters for
-							search.</span></td>
+							</td>
 						</tr>
 					</form:form>
 				</table>
@@ -215,8 +217,7 @@ function doNothing(){
 		</td>
 	</tr>
 </table>
-<div id="copyright">&copy; 2006 SemanticBits Company. All Rights
-Reserved</div>
+<div id="copyright"></div>
 </div>
 <!-- MAIN BODY ENDS HERE -->
 </body>

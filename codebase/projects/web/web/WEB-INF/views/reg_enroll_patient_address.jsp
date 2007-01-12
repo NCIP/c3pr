@@ -19,10 +19,10 @@ function getPage(s){
 <!-- TOP LOGOS START HERE -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
-		<td width="99%"><img src="images/c3prLogo.gif" alt="C3PR" width="181"
-			height="36" class="gelogo"></td>
-		<td align="right"><img src="images/t-drivers.gif" alt="Study"
-			width="200" height="79"></td>
+		<td width="99%"><img src="images/c3prLogo.gif" alt="C3PR"
+			width="181" height="36" class="gelogo"></td>
+		
+			
 	</tr>
 </table>
 <!-- TOP LOGOS END HERE -->
@@ -77,15 +77,18 @@ function getPage(s){
 						2. Select Subject <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"></span><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						3. Check Eligibility <img src="images/tabGrayR.gif" width="3" height="16"
-							align="absmiddle"><img
+						3. Enroll Subject <img src="images/tabGrayR.gif" width="3"
+							height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						4. Stratify <img src="images/tabGrayR.gif" width="3" height="16"
+						4. Check Eligibility <img src="images/tabGrayR.gif" width="3"
+							height="16" align="absmiddle"><img
+							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
+						5. Stratify <img src="images/tabGrayR.gif" width="3" height="16"
 							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
-							height="16" align="absmiddle"> 5. Randomize <img
+							height="16" align="absmiddle"> 6. Randomize <img
 							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						6. Review and Submit <img src="images/tabGrayR.gif" width="3"
+						7. Review and Submit <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"></span></td>
 						<td><img src="images/spacer.gif" width="7" height="1"></td>
 					</tr>
@@ -191,8 +194,7 @@ function getPage(s){
 								<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
 								<!-- RIGHT CONTENT STARTS HERE -->
 
-								<form id="form1">
-								<strong>Step 2. Address
+								<form id="form1"><strong>Step 2. Address
 								Information </strong> (<span class="red">*</span><em>Required
 								Information </em>)<br>
 								<br>
@@ -232,8 +234,7 @@ function getPage(s){
 													height="11" border="0" align="absmiddle"></a></td>
 											</tr>
 											<tr>
-												<td class="label"><em></em><em></em>
-												County:</td>
+												<td class="label"><em></em><em></em> County:</td>
 												<td><input name="driverfield3" type="text" size="34"></td>
 											</tr>
 										</table>
@@ -242,14 +243,12 @@ function getPage(s){
 										<table width="308" border="0" cellspacing="0" cellpadding="0"
 											id="table1">
 											<tr>
-												<td class="label"><em></em>Email
-												Address:</td>
+												<td class="label"><em></em>Email Address:</td>
 												<td><input name="field7" type="text"
 													value="email@address.com" size="34"></td>
 											</tr>
 											<tr>
-												<td class="label"><em></em>Work
-												Phone:</td>
+												<td class="label"><em></em>Work Phone:</td>
 												<td><input name="field9" type="text"
 													value="(123) 456-7890" size="13"> ext <input
 													name="textfield" type="text" value="25" size="8"></td>
@@ -311,13 +310,11 @@ function getPage(s){
 													height="11" border="0" align="absmiddle"></a></td>
 											</tr>
 											<tr>
-												<td class="label"><em></em><em></em>
-												County:</td>
+												<td class="label"><em></em><em></em> County:</td>
 												<td><input name="driverfield3" type="text" size="34"></td>
 											</tr>
 											<tr>
-												<td class="label"><em></em><em></em>
-												Phone:</td>
+												<td class="label"><em></em><em></em> Phone:</td>
 												<td><input name="driverfield3" type="text" size="13"></td>
 											</tr>
 										</table>
@@ -329,7 +326,7 @@ function getPage(s){
 										</td>
 									</tr>
 								</table>
-								<hr align="left" width="95%">								
+								<hr align="left" width="95%">
 								<strong>Preffered Address:<br>
 								</strong><br>
 								<table width="700" border="0" cellspacing="0" cellpadding="0"
@@ -339,7 +336,8 @@ function getPage(s){
 										<table width="308" border="0" cellspacing="0" cellpadding="0"
 											id="table1">
 											<tr>
-												<td class="label"><input type=checkbox name="raceCode" value="NH"></td>
+												<td class="label"><input type=checkbox name="raceCode"
+													value="NH"></td>
 												<td>Home</td>
 											</tr>
 										</table>
@@ -348,7 +346,8 @@ function getPage(s){
 										<table width="308" border="0" cellspacing="0" cellpadding="0"
 											id="table1">
 											<tr>
-												<td class="label"><input type=checkbox name="raceCode" value="NH"></td>
+												<td class="label"><input type=checkbox name="raceCode"
+													value="NH"></td>
 												<td>Hospital</td>
 											</tr>
 										</table>
@@ -357,9 +356,10 @@ function getPage(s){
 									<tr align="center">
 										<td colspan=2 valign="top"><br>
 										<br>
-										<a href="reg_enroll_patient_submit.htm"><img src="images/b-continue.gif"
-											alt="Continue" width="59" height="16" border="0"></a> <a
-											href="/c3pr/" onClick="add();return false;"><img
+										<a href="reg_enroll_patient_submit.htm"><img
+											src="images/b-continue.gif" alt="Continue" width="59"
+											height="16" border="0"></a> <a href="/c3pr/"
+											onClick="add();return false;"><img
 											src="images/b-startOver.gif" alt="Start Over" width="67"
 											height="16" border="0"></a></td>
 									</tr>
@@ -381,8 +381,8 @@ function getPage(s){
 		</td>
 	</tr>
 </table>
-<div id="copyright">&copy; 2006 SemanticBits Company. All Rights
-Reserved</div>
+<div id="copyright">
+</div>
 </div>
 <!-- MAIN BODY ENDS HERE -->
 </body>

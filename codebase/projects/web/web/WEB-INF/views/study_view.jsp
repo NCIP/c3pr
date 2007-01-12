@@ -251,7 +251,7 @@ function OpenWins(target,name,width,height,scrolling){
 		</table>
 	</tr>
 </table>
-<div id="copyright">&copy; 2006 SemanticBits. All Rights Reserved</div>
+<div id="copyright">&copy; 2006 SemanticBits. All Rights </div>
 <!-- MAIN BODY ENDS HERE -->
 </body>
 </html>

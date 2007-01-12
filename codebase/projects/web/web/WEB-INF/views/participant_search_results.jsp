@@ -158,8 +158,8 @@ function navRollOver(obj, state) {
 		</td>
 	</tr>
 </table>
-<div id="copyright">&copy; 2006 SemanticBits Company. All Rights
-Reserved</div>
+<div id="copyright">
+</div>
 </div>
 <!-- MAIN BODY ENDS HERE -->
 </body>

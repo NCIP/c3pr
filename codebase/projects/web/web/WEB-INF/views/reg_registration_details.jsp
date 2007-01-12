@@ -29,7 +29,7 @@ function validatePage(){
 function updateTargetPage(s){
 	if(validatePage()){
 		document.getElementById("nextView").value=s;
-		document.randomizeForm.submit();
+		document.detailsForm.submit();
 	}
 }
 
@@ -41,8 +41,6 @@ function updateTargetPage(s){
 	<tr>
 		<td width="99%"><img src="images/c3prLogo.gif" alt="C3PR"
 			width="181" height="36" class="gelogo"></td>
-		
-			
 	</tr>
 </table>
 <!-- TOP LOGOS END HERE -->
@@ -94,11 +92,11 @@ function updateTargetPage(s){
 							src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
 							height="16" align="absmiddle"> 2. Select Subject <img
-							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"><img
-							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						3. <a href="javascript:updateTargetPage('enrollView');">Enroll
-						Subject </a> <img src="images/tabGrayR.gif" width="3" height="16"
-							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
+							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"></span><span
+							class="current"><img src="images/tabGrayL.gif" width="3"
+							height="16" align="absmiddle"> 3. Enroll Subject <img
+							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"></span><span
+							class="tab"><img src="images/tabGrayL.gif" width="3"
 							height="16" align="absmiddle"> 4. <a
 							href="javascript:updateTargetPage('checkEligibilityView');">Check
 						Eligibility</a> <img src="images/tabGrayR.gif" width="3" height="16"
@@ -106,10 +104,9 @@ function updateTargetPage(s){
 							height="16" align="absmiddle"> 5. <a
 							href="javascript:updateTargetPage('stratifyView');">Stratify</a>
 						<img src="images/tabGrayR.gif" width="3" height="16"
-							align="absmiddle"></span><span class="current"><img
-							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						6. Randomize <img src="images/tabGrayR.gif" width="3" height="16"
-							align="absmiddle"></span><span class="tab"><img
+							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
+							height="16" align="absmiddle"> 6. Randomize <img
+							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						7. Review and Submit <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"></span></td>
@@ -129,11 +126,11 @@ function updateTargetPage(s){
 					width="3" height="16" align="absmiddle"> <img
 					src="images/tabWhiteL.gif" width="3" height="16" align="absmiddle">
 				<table width="100%" border="0" cellspacing="0" cellpadding="0">
-					<form:form name="randomizeForm" method="post">
+					<form:form name="detailsForm" method="post">
 						<tr>
 							<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
 
-							<td id="current">Randomization for
+							<td id="current">Enrollment for
 							${command.participant.firstName} ${command.participant.lastName}
 							on ${command.studySite.study.shortTitleText}</td>
 							<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
@@ -151,8 +148,8 @@ function updateTargetPage(s){
 									<table width="700" border="0" cellspacing="0" cellpadding="0"
 										id="details">
 										<tr>
-											<td width="50%" valign="top">
-											<table width="308" border="0" cellspacing="0" cellpadding="0"
+											<td valign="top">
+											<table width="400" border="0" cellspacing="0" cellpadding="0"
 												id="table1">
 												<tr>
 													<td><img src="images/spacer.gif" width="1" height="1"
@@ -161,19 +158,19 @@ function updateTargetPage(s){
 														class="heightControl"></td>
 												</tr>
 												<tr>
-													<td class="label"><span class="red">*</span><em></em>Select
-													Arm:</td>
-													<c:forEach var="epoch"
-														items="${command.studySite.study.epochs}">
-														<c:choose>
-															<c:when test="${epoch.name=='Treatment'}">
-																<td><form:select path="scheduledArms[0].arm.id">
-																	<form:options items="${epoch.arms}" itemValue="id"
-																		itemLabel="name" />
-																</form:select></td>
-															</c:when>
-														</c:choose>
-													</c:forEach>
+													<td class="label"><span class="red">*</span><em></em>Study
+													Subject Identifier:</td>
+													<td><form:input path="studyParticipantIdentifier" /></td>
+												</tr>
+												<tr>
+													<td class="label"><span class="red">*</span><em></em>Start
+													Date:</td>
+													<td><form:input path="startDate" /><I>(mm-dd-yyyy)</I></td>
+												</tr>
+												<tr>
+													<td class="label"><span class="red">*</span><em></em>Informed
+													Consent Signed Date:</td>
+													<td><form:input path="informedConsentSignedDate" /><I>(mm-dd-yyyy)</I></td>
 												</tr>
 											</table>
 											</td>
@@ -186,7 +183,7 @@ function updateTargetPage(s){
 											<td colspan=2 valign="top"><br>
 											<br>
 											<a href=""
-												onClick="updateTargetPage('reviewAndSubmitView');return false;"><img
+												onClick="updateTargetPage('checkEligibilityView');return false;"><img
 												src="images/b-continue.gif" alt="Continue" width="59"
 												height="16" border="0"></a> <a href=""><img
 												src="images/b-startOver.gif" alt="Start Over" width="67"

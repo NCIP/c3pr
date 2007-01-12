@@ -44,8 +44,8 @@ function updateTargetPage(s){
 	<tr>
 		<td width="99%"><img src="images/c3prLogo.gif" alt="C3PR"
 			width="181" height="36" class="gelogo"></td>
-		<td align="right"><img src="images/t-drivers.gif" alt="Study"
-			width="200" height="79"></td>
+		
+			
 	</tr>
 </table>
 <!-- TOP LOGOS END HERE -->
@@ -99,18 +99,21 @@ function updateTargetPage(s){
 							height="16" align="absmiddle"> 2. Select Subject <img
 							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						3. Check Eligibility <img src="images/tabGrayR.gif" width="3"
-							height="16" align="absmiddle"><img
-							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						4. Stratify <img src="images/tabGrayR.gif" width="3" height="16"
+						3. <a href="javascript:updateTargetPage('enrollView');">Enroll
+						Subject </a> <img src="images/tabGrayR.gif" width="3" height="16"
 							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
-							height="16" align="absmiddle"> 5. Randomize <img
+							height="16" align="absmiddle"> 4. Check Eligibility <img
 							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						6. Review and Submit <img src="images/tabGrayR.gif" width="3"
+						5. Stratify <img src="images/tabGrayR.gif" width="3" height="16"
+							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
+							height="16" align="absmiddle"> 6. Randomize <img
+							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"><img
+							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
+						7. Review and Submit <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"></span><span class="current"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						7. Confirmation Message <img src="images/tabGrayR.gif" width="3"
+						8. Confirmation <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"></span></td>
 						<td><img src="images/spacer.gif" width="7" height="1"></td>
 					</tr>
@@ -130,9 +133,9 @@ function updateTargetPage(s){
 						<tr>
 							<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
 
-							<td id="current">Registeration Succesfull for ${command.participant.firstName}
-							${command.participant.lastName} on
-							${command.studySite.study.shortTitleText}</td>
+							<td id="current">Registeration Succesfull for
+							${command.participant.firstName} ${command.participant.lastName}
+							on ${command.studySite.study.shortTitleText}</td>
 							<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 						</tr>
 						<tr>
@@ -145,7 +148,8 @@ function updateTargetPage(s){
 									<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
 									<!-- RIGHT CONTENT STARTS HERE --> <input type="hidden"
 										name="nextView"> <strong>Subject registration
-									has been successfully completed. Please <a href="javascript:doNothing()">print</a> and save this
+									has been successfully completed. Please <a
+										href="javascript:doNothing()">print</a> and save this
 									confirmation in the subject study records </strong><br>
 									<table width="700" border="0" cellspacing="0" cellpadding="0"
 										id="details">
@@ -161,31 +165,29 @@ function updateTargetPage(s){
 												</tr>
 												<tr>
 													<td class="label">Registration Date/Time:</td>
-													<td><%= new java.util.Date() %></td>
+													<td><%=new java.util.Date()%></td>
 												</tr>
 												<tr>
 													<td class="label">Site:</td>
 													<td>${command.studySite.site.name}</td>
 												</tr>
 												<tr>
-													<td class="label">Investigator:
-													</td>
+													<td class="label">Investigator:</td>
 													<td></td>
 												</tr>
 												<tr>
-													<td class="label">Protocol Id:</td>
+													<td class="label">Study Id:</td>
 													<td valign="top">${command.studySite.study.shortTitleText}</td>
 												</tr>
 												<tr>
-													<td class="label">Subject Study Id:
-													</td>
-													<td>${command.id}</td>
+													<td class="label">Subject Study Id:</td>
+													<td>${command.studyParticipantIdentifier}</td>
 												</tr>
 												<tr>
 													<td class="label">Subject Registration Completed by:</td>
 													<td>username</td>
 												</tr>
-												
+
 											</table>
 											</td>
 										</tr>
@@ -223,8 +225,8 @@ function updateTargetPage(s){
 		</td>
 	</tr>
 </table>
-<div id="copyright">&copy; 2006 SemanticBits Company. All Rights
-Reserved</div>
+<div id="copyright">
+</div>
 </div>
 <!-- MAIN BODY ENDS HERE -->
 </body>

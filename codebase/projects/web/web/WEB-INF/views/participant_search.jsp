@@ -152,7 +152,7 @@ function navRollOver(obj, state) {
 				</form:form></td>
 			</tr>
 		</table>
-		<div id="copyright">&copy; 2006 Semanticbits.com. All Rights Reserved</div>
+		<div id="copyright">&copy; 2006 Semanticbits.com. All Rights </div>
 		<!-- MAIN BODY ENDS HERE -->
 </body>
 </html>
