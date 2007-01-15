@@ -164,9 +164,9 @@ function updateTargetPage(s){
 														class="heightControl"></td>
 												</tr>
 												<tr>
-													<td class="label"><span class="red">*</span><em></em><form:checkbox
+													<td class="label" align=left><span class="red">*</span><em></em>Eligibility Indicator</td>												
+													<td class="label"><form:checkbox
 														path="eligibilityIndicator" /></td>
-													<td class="label" align=left>Eligibility Indicator</td>
 												</tr>
 											</table>
 											</td>

@@ -43,8 +43,8 @@ function updateTargetPage(s){
 	<tr>
 		<td width="99%"><img src="images/c3prLogo.gif" alt="C3PR"
 			width="181" height="36" class="gelogo"></td>
-		
-			
+
+
 	</tr>
 </table>
 <!-- TOP LOGOS END HERE -->
@@ -98,18 +98,22 @@ function updateTargetPage(s){
 							height="16" align="absmiddle"> 2. Select Subject <img
 							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						3. <a href="javascript:updateTargetPage('checkEligibilityView');">Check
-						Eligibility</a> <img src="images/tabGrayR.gif" width="3" height="16"
+						3. <a href="javascript:updateTargetPage('enrollView');">Enroll
+						Subject </a> <img src="images/tabGrayR.gif" width="3" height="16"
 							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
 							height="16" align="absmiddle"> 4. <a
+							href="javascript:updateTargetPage('checkEligibilityView');">Check
+						Eligibility</a> <img src="images/tabGrayR.gif" width="3" height="16"
+							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
+							height="16" align="absmiddle"> 5. <a
 							href="javascript:updateTargetPage('enrollView');">Enroll
 						Subject </a> <img src="images/tabGrayR.gif" width="3" height="16"
 							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
-							height="16" align="absmiddle"> 5. <a
+							height="16" align="absmiddle"> 6. <a
 							href="javascript:updateTargetPage('stratifyView');">Stratify</a>
 						<img src="images/tabGrayR.gif" width="3" height="16"
 							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
-							height="16" align="absmiddle"> 6. <a
+							height="16" align="absmiddle"> 7. <a
 							href="javascript:updateTargetPage('randomizeView');">Randomize</a>
 						<img src="images/tabGrayR.gif" width="3" height="16"
 							align="absmiddle"></span><span class="current"><img
@@ -302,6 +306,40 @@ function updateTargetPage(s){
 									</table>
 									<hr align="left" width="95%">
 									<br>
+									<strong>Step 3. Enrollment Information </strong><br>
+									<table width="700" border="0" cellspacing="0" cellpadding="0"
+										id="details">
+										<tr>
+											<td width="50%" valign="top">
+											<table width="308" border="0" cellspacing="0" cellpadding="0"
+												id="table1">
+												<tr>
+													<td><img src="images/spacer.gif" width="1" height="1"
+														class="heightControl"></td>
+													<td><img src="images/spacer.gif" width="1" height="1"
+														class="heightControl"></td>
+												</tr>
+												<tr>
+													<td class="label"><span class="red">*</span><em></em>Study Subject Identifier:</td>
+													<td>${command.studyParticipantIdentifier }</td>
+												</tr>
+												<tr>
+													<td class="label"><span class="red">*</span><em></em>Start Date:</td>
+													<td>${command.startDate }</td>
+												</tr>
+												<tr>
+													<td class="label"><span class="red">*</span><em></em>Informed Consent Signed Date:</td>
+													<td>${command.informedConsentSignedDate }</td>
+												</tr>
+											</table>
+											</td>
+										</tr>
+									</table>
+									<a href="javascript:updateTargetPage('enrollView');"><img
+										src="images/b-edit.gif" alt="Edit" width="39" height="16"
+										border="0"></a>
+									<hr align="left" width="95%">
+									<br>
 									<strong>Step 4. Check Eligibility </strong><br>
 									<table width="700" border="0" cellspacing="0" cellpadding="0"
 										id="details">
@@ -330,7 +368,7 @@ function updateTargetPage(s){
 
 									<hr align="left" width="95%">
 									<br>
-									<strong>Step 4. Stratification Information </strong><br>
+									<strong>Step 5. Stratification Information </strong><br>
 									<table width="700" border="0" cellspacing="0" cellpadding="0"
 										id="details">
 										<tr>
@@ -353,7 +391,7 @@ function updateTargetPage(s){
 
 									<hr align="left" width="95%">
 									<br>
-									<strong>Step 5. Randomization Information </strong><br>
+									<strong>Step 6. Randomization Information </strong><br>
 									<table width="700" border="0" cellspacing="0" cellpadding="0"
 										id="details">
 										<tr>
@@ -442,8 +480,7 @@ function updateTargetPage(s){
 		</td>
 	</tr>
 </table>
-<div id="copyright">
-</div>
+<div id="copyright"></div>
 </div>
 <!-- MAIN BODY ENDS HERE -->
 </body>

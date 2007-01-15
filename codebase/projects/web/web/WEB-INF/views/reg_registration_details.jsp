@@ -94,7 +94,7 @@ function updateTargetPage(s){
 							height="16" align="absmiddle"> 2. Select Subject <img
 							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"></span><span
 							class="current"><img src="images/tabGrayL.gif" width="3"
-							height="16" align="absmiddle"> 3. Enroll Subject <img
+							height="16" align="absmiddle"> 3. Enrollment Details <img
 							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"></span><span
 							class="tab"><img src="images/tabGrayL.gif" width="3"
 							height="16" align="absmiddle"> 4. <a

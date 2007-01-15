@@ -86,7 +86,7 @@ function submitPage(){
 						2. Select Subject <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"></span><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						3. Enroll Subject <img src="images/tabGrayR.gif" width="3"
+						3. Enrollment Details <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						4. Check Eligibility <img src="images/tabGrayR.gif" width="3"

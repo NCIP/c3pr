@@ -40,8 +40,8 @@ function updateTargetPage(s){
 	<tr>
 		<td width="99%"><img src="images/c3prLogo.gif" alt="C3PR"
 			width="181" height="36" class="gelogo"></td>
-		
-			
+
+
 	</tr>
 </table>
 <!-- TOP LOGOS END HERE -->
@@ -152,6 +152,26 @@ function updateTargetPage(s){
 										name="nextView">
 									<table width="700" border="0" cellspacing="0" cellpadding="0"
 										id="details">
+										<tr>
+											<td width="50%" valign="top">
+
+											<table width="308" border="0" cellspacing="0" cellpadding="0"
+												id="table1">
+												<tr>
+													<td><img src="images/spacer.gif" width="1" height="1"
+														class="heightControl"></td>
+													<td><img src="images/spacer.gif" width="1" height="1"
+														class="heightControl"></td>
+												</tr>
+												<tr>
+													<td class="label" align=left><span class="red">* Not Implemented</span><em></em></td>
+												</tr>
+											</table>
+											</td>
+										</tr>
+									</table>
+									<table width="700" border="0" cellspacing="0" cellpadding="0"
+										id="details">
 										<tr align="center">
 											<td colspan=2 valign="top"><br>
 											<br>
@@ -181,8 +201,7 @@ function updateTargetPage(s){
 		</tr>
 	</form:form>
 </table>
-<div id="copyright">
-</div>
+<div id="copyright"></div>
 </div>
 <!-- MAIN BODY ENDS HERE -->
 </body>
