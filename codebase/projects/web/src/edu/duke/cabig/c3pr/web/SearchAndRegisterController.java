@@ -22,6 +22,7 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.service.ParticipantService;
 import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.utils.Lov;
+import edu.duke.cabig.c3pr.web.SearchParticipantRegisterController.LOV;
 
 
 public class SearchAndRegisterController extends SimpleFormController {
@@ -52,12 +53,12 @@ public class SearchAndRegisterController extends SimpleFormController {
 			if ("N".equals(searchType)) {
 				participant.setLastName(searchTextPart);
 			}
-	    	if ("MRN".equals(searchType)) {
-				ParticipantIdentifier participantIdentifier = new ParticipantIdentifier();
-				participantIdentifier.setMedicalRecordNumber(searchTextPart);
+			if ("Identifier".equals(searchType)) {
+	    		Identifier identifier = new Identifier();
+				identifier.setValue(searchTextPart);
 				//FIXME:
-				// participant.addParticipantIdentifier(participantIdentifier);
-			}
+				participant.addIdentifier(identifier);
+			} 
 			if(participantService==null){
 				System.out.println("---------------------participantService is null------------------------");
 			}
@@ -126,8 +127,8 @@ public class SearchAndRegisterController extends SimpleFormController {
 	}
 	 private List<LOV> getSearchTypeParticipant(){
 			List<LOV> col = new ArrayList<LOV>();
-			LOV lov1 = new LOV("N", "LastName");
-			LOV lov2 = new LOV("MRN", "MRN");						
+			LOV lov1 = new LOV("N", "Last Name");
+			LOV lov2 = new LOV("Identifier", "Identifier");						
 			col.add(lov1);
 	    	col.add(lov2);    	
 	    	return col;

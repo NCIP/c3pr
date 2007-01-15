@@ -17,6 +17,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 
+import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.ParticipantIdentifier;
 import edu.duke.cabig.c3pr.service.ParticipantService;
@@ -56,25 +57,17 @@ private static Log log = LogFactory.getLog(SearchParticipantRegisterController.c
     	if ("N".equals(type)){
     		participant.setLastName(text);
     	}
-    	if ("MRN".equals(type)) {
-			ParticipantIdentifier participantIdentifier = new ParticipantIdentifier();
-			participantIdentifier.setMedicalRecordNumber(text);
+    	if ("Identifier".equals(type)) {
+    		Identifier identifier = new Identifier();
+			identifier.setValue(text);
 			//FIXME:
-			//participant.addParticipantIdentifier(participantIdentifier);
+			participant.addIdentifier(identifier);
 		}    	
     	    		
     	List<Participant> participants = participantService.search(participant); 
     	
     	Iterator<Participant> participantIter = participants.iterator(); 
-        while(participantIter.hasNext()){
-        	participant = participantIter.next();
-        	System.out.println("Id for participant is "+participant.getId());
-        	System.out.println("LastName of participant is "+participant.getLastName());
-        	System.out.println("FirstName of participant is "+participant.getFirstName());
-        //	System.out.println(" D.O.B of participant is " + participant.getBirthDate());
-        	
-        }
-    	
+          	
     	log.debug("Search results size " +participants.size());
     	Map map =errors.getModel();
     	map.put("participants", participants);
@@ -94,8 +87,8 @@ private static Log log = LogFactory.getLog(SearchParticipantRegisterController.c
 	 
 	 private List<LOV> getSearchType(){
 			List<LOV> col = new ArrayList<LOV>();
-			LOV lov1 = new LOV("N", "LastName");
-			LOV lov2 = new LOV("MRN", "MRN");
+			LOV lov1 = new LOV("N", "Last Name");
+			LOV lov2 = new LOV("Identifier", "Identifier");
 			
 			col.add(lov1);
 			col.add(lov2);	    	    	
