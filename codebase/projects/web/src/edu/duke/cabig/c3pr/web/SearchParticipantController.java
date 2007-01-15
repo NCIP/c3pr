@@ -85,7 +85,7 @@ private static Log log = LogFactory.getLog(SearchParticipantController.class);
 	 private List<LOV> getSearchType(){
 			List<LOV> col = new ArrayList<LOV>();
 			LOV lov1 = new LOV("N", "Last Name");
-			LOV lov2 = new LOV("Identifier", "Subject Identifier");
+			LOV lov2 = new LOV("Identifier", "Identifier");
 						
 			col.add(lov1);
 			col.add(lov2);
