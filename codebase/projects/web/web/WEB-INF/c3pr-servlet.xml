@@ -9,31 +9,6 @@
             <value>messages</value>
         </property>
     </bean>
-    <!--   
-    <bean id="connectionFactoryBean" class="org.apache.activemq.ActiveMQConnectionFactory">
-       <property name="brokerURL">           
-       	   <value>tcp://10.1.10.181:61616</value>
-        </property> 
-       <property name="basename">
-            <value>messages</value>
-        </property>       
-    </bean>
-    
-     <bean id="destinationQueue" class="org.apache.activemq.command.ActiveMQQueue">
-       <constructor-arg> 
-       	   <value>bridge.output.async</value>
-        </constructor-arg>
-    </bean>
-   
-    <bean id="esbCreateProtocol" class="edu.duke.cabig.c3pr.service.impl.ProtocolBroadcastServiceImpl">
-        <property name="connectionFactory">
-            <ref local="connectionFactoryBean" />
-        </property>      
-          <property name="destination">
-            <ref local="destinationQueue" />
-        </property>   
-    </bean>
-     --> 
     <bean id="urlMapping" class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>
 
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
