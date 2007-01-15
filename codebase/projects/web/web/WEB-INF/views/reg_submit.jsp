@@ -98,8 +98,8 @@ function updateTargetPage(s){
 							height="16" align="absmiddle"> 2. Select Subject <img
 							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						3. <a href="javascript:updateTargetPage('enrollView');">Enroll
-						Subject </a> <img src="images/tabGrayR.gif" width="3" height="16"
+						3. <a href="javascript:updateTargetPage('enrollView');">Enrollment
+						Details </a> <img src="images/tabGrayR.gif" width="3" height="16"
 							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
 							height="16" align="absmiddle"> 4. <a
 							href="javascript:updateTargetPage('checkEligibilityView');">Check
