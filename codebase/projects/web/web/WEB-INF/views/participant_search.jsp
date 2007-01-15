@@ -143,7 +143,7 @@ function navRollOver(obj, state) {
 									<td><input name="imageField" type="image" class="button"
 										onClick="submitPage('participant');return false;"
 										src="images/SerachPatients.gif" alt="GO" align="middle"
-										width="100" height="20" border="0"></td>
+										width="100" height="16" border="0"></td>
 								</tr>
 							</table>
 							<!-- LEFT FORM ENDS HERE --></td>
