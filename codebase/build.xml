@@ -129,7 +129,8 @@
             <artifact refid="common.test.jars"/>
             <artifact refid="ant-contrib.jars"/>
             <artifact refid="cacore.jars"/>
-           	
+		    <artifact refid="c3pr.esb-client.jars"/> 	
+	
 	 		<!-- get third party shared jars -->
 			<artifact refid="jboss-j2ee.jars"/>
 			<artifact refid="spring.jars"/>
