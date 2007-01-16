@@ -127,14 +127,19 @@
 	<!-- =============================================================== -->
 	<!-- Compiles the test source code                                        -->
 	<!-- =============================================================== -->
-    <target name="compile-tests" depends="prepare" description="compiles.">
+    <target name="compile-tests" depends="prepare" description="compiles">
         <mkdir dir="${test.classes.dir}" />
         <mkdir dir="${ext.test.lib.dir}" />
         <javac srcdir="${test.src.dir}" destdir="${test.classes.dir}" debug="${debug}" deprecation="off" optimize="off">
             <classpath refid="test.classpath" />
         </javac>
+    	<copy todir="${test.classes.dir}">
+			<fileset dir="${test.src.dir}">
+	        	<include name="**/*.xml"/>				
+	        </fileset>
+    	 </copy>
     </target>
-	
+ 
 	<!-- ============================================================== -->
 	<!-- Cleans up generated stuff                                      -->
 	<!-- ============================================================== -->
