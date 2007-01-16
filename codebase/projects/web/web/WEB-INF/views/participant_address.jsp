@@ -170,10 +170,11 @@ function getPage(s){
 									<td align="center" colspan="3"><!-- action buttons begins -->
 									<table cellpadding="4" cellspacing="0" border="0">
 										<tr>
-											<td><input class="actionButton" type="submit"
-												name="_target0" value="Prev"></td>
-											<td><input class="actionButton" type="submit"
-												name="_target2" value="Next"></td>
+											<td><input type="image" name="_target0"
+												src="images/b-prev.gif" border="0" alt="goto previous page">
+											<input type="image" name="_target2"
+												src="images/b-continue.gif" border="0"
+												alt="continue to next page"></td>
 										</tr>
 									</table>
 									</td>
@@ -187,8 +188,7 @@ function getPage(s){
 				</td>
 			</tr>
 		</table>
-		<div id="copyright">
-		</div>
+		<div id="copyright"></div>
 		</div>
 		<!-- MAIN BODY ENDS HERE -->
 </body>

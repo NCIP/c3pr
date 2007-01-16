@@ -40,8 +40,8 @@ if (action){
 	<tr>
 		<td width="99%"><img src="images/c3prLogo.gif" alt="C3PR"
 			width="181" height="36" class="gelogo"></td>
-		
-			
+
+
 	</tr>
 </table>
 <!-- TOP LOGOS END HERE -->
@@ -269,8 +269,11 @@ if (action){
 											<td align="center" colspan="3"><!-- action buttons begins -->
 											<table cellpadding="4" cellspacing="0" border="0">
 												<tr>
-													<td><input class="actionButton" type="submit"
-														name="_finish" value="Save Subject"></td>
+													<td><input type="image" name="_target1"
+														src="images/b-prev.gif" border="0"
+														alt="goto previous page"> <input type="image"
+														name="_finish" src="images/b-done.gif" border="0"
+														alt="continue to next page"></td>
 												</tr>
 											</table>
 											</td>
@@ -292,8 +295,7 @@ if (action){
 		</td>
 	</tr>
 </table>
-<div id="copyright">
-</div>
+<div id="copyright"></div>
 </div>
 <!-- MAIN BODY ENDS HERE -->
 </body>

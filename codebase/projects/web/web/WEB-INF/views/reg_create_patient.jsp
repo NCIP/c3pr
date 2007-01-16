@@ -329,8 +329,9 @@ function submitPage(s){
 											<td align="center" colspan="3"><!-- action buttons begins -->
 											<table cellpadding="4" cellspacing="0" border="0">
 												<tr>
-													<td><input class="actionButton" type="submit"
-														name="_target1" value="Next"></td>
+													<td><input type="image" name="_target1"
+														src="images/b-continue.gif" border="0"
+														alt="continue to next page"></td>
 												</tr>
 											</table>
 											</td>

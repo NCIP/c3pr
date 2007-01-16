@@ -117,158 +117,140 @@ function getPage(s){
 
 						<!-- LEFT CONTENT STARTS HERE -->
 						<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
-						<!-- RIGHT CONTENT STARTS HERE -->
-
-						<form:form method="post" action="createparticipant.do">						
-						<div>
-							<input type ="hidden" name="_page" value="0">
-						</div>
+						<!-- RIGHT CONTENT STARTS HERE --> <form:form method="post"
+							action="createparticipant.do">
+							<div><input type="hidden" name="_page" value="0"></div>
 							<strong>Step 1. Subject Information </strong> 
-							(<span class="red">*</span><em>Required Information </em>)<br> <br>
-						<div class="review"><strong>Current Information:</strong>
-						
-						<table width="700" border="0" cellspacing="0" cellpadding="0"
-							id="details">
-							<tr>
-								<td width="50%" valign="top">
-								<table width="308" border="0" cellspacing="0" cellpadding="0"
-									id="table1">
-									<tr>
-										<td>
-											<img src="images/spacer.gif" width="1" height="1"
-												class="heightControl">
-										</td>
-										<td width="65%">
-											<img src="images/spacer.gif" width="1"
-												height="1" class="heightControl">
-										</td>
-									</tr>
-									<tr>
-										<td class="label">
-											<span class="red">*</span><em></em>
-											First Name
-										</td>
-										<td>
-											<form:input path="firstName"/>
-										</td>
-									</tr>
-									<tr>
-										<td class="label">
-											<span class="red">*</span><em></em>
-											Last Name
-										</td>
-										<td>
-											<form:input path="lastName"/>
-										</td>
-									</tr>
-									<tr>
-										<td class="label">
-											<span class="red">*</span> <em></em>
-											Administrative Gender Code
-										</td>
-										<td>
-											<form:select path="administrativeGenderCode">
-												<form:options items="${administrativeGenderCode}" itemLabel="desc" itemValue="code" />
-											</form:select>
-										</td>										
-									</tr>
-								</table>
-								</td>
-								<td width="50%" valign="top">
-								<table width="308" border="0" cellspacing="0" cellpadding="0"
-									id="table1"> 
-									<tr>
-										<td>
-											<img src="images/spacer.gif" width="1" height="1"
-												class="heightControl">
-										</td>
-										<td>
-											<img src="images/spacer.gif" width="1" height="1"
-												class="heightControl">
-										</td>
-									</tr>
-									<tr>
-										<td class="label"><span class="red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</span><em></em>Birth Date</td>
-										<td valign="top"><form:input path="birthDate"/>&nbsp;<a href="#"
-											onClick="parent.OpenWins('calendar.htm','calendar',200,236);return false;"><img
-											src="images/b-calendar.gif" alt="Calendar" width="17"
-											height="16" border="0" align="absmiddle"></a></td>
-									</tr>
-									<tr>
-										<td class="label"><span class="red">*</span><em></em>Ethnic Group Code</td>
-										<td>
-											<form:select path="ethnicGroupCode">
-												<form:options items="${ethnicGroupCode}" itemLabel="desc" itemValue="code"/>
-											</form:select>										
-										</td>
-									</tr>
-									<tr>
-										<td class="label"><span class="red">*</span><em></em>Race Code</td>
-										<td>
-											<form:select path="raceCode">
-												<form:options items="${raceCode}" itemLabel="desc" itemValue="code"/>
-											</form:select>										
-										</td>
-									</tr>
-									
-								</table>
-								</td>
-							</tr>
-						</table>
-						
-						<hr align="left" width="95%">
-						<table width="700" border="0" cellspacing="0" cellpadding="0"
-							id="table1">					
-							<tr>
-								<td align="center"><span class="red">*</span><em></em><B>Other Type:</td>
-								<td align="center"><span class="red">*</span><em></em><B>Other Value:</td>
-								<td align="center"><span class="red">*</span><em></em><B>Other Source:</td>
-								<td align="center"> <B>Is Primary:</td>
-							</tr>					
-
-							<c:forEach var="index" begin="0" end="4">
-								<tr>
-									<td align="center">
-									    <form:input path="identifiers[${index}].type"/>
-									</td>
-									<td align="center">
-									    <form:input path="identifiers[${index}].value"/>
-									</td>									
-									<td align="center">
-										<form:select path="identifiers[${index}].source">
-											<form:options items="${source}" itemLabel="desc" itemValue="code"/>
-										</form:select>
-									</td>									
-
-									<td align="center">
-										<form:radiobutton  path="identifiers[${index}].primaryIndicator"/>										
-									</td>
-								</tr>			
-																					
-							</c:forEach>
-																				
-						</table>
-
-						<hr align="left" width="95%">
-						<table width="700" border="0" cellspacing="0" cellpadding="0"
-							id="details">
-							<tr align="center">
-							<td colspan="4"><br>
+							(<span class="red">*</span>
+							<em>Required Information </em>)<br>
 							<br>
-							<tr>
-							<td align="center" colspan="3"><!-- action buttons begins -->
-							<table cellpadding="4" cellspacing="0" border="0">
+							<div class="review"><strong>Current Information:</strong>
+
+							<table width="700" border="0" cellspacing="0" cellpadding="0"
+								id="details">
 								<tr>
-									<td><input class="actionButton" type="submit"
-										name="_target1" value="Next"></td>
+									<td width="50%" valign="top">
+									<table width="308" border="0" cellspacing="0" cellpadding="0"
+										id="table1">
+										<tr>
+											<td><img src="images/spacer.gif" width="1" height="1"
+												class="heightControl"></td>
+											<td width="65%"><img src="images/spacer.gif" width="1"
+												height="1" class="heightControl"></td>
+										</tr>
+										<tr>
+											<td class="label"><span class="red">*</span><em></em>
+											First Name</td>
+											<td><form:input path="firstName" /></td>
+										</tr>
+										<tr>
+											<td class="label"><span class="red">*</span><em></em>
+											Last Name</td>
+											<td><form:input path="lastName" /></td>
+										</tr>
+										<tr>
+											<td class="label"><span class="red">*</span> <em></em>
+											Administrative Gender Code</td>
+											<td><form:select path="administrativeGenderCode">
+												<form:options items="${administrativeGenderCode}"
+													itemLabel="desc" itemValue="code" />
+											</form:select></td>
+										</tr>
+									</table>
+									</td>
+									<td width="50%" valign="top">
+									<table width="308" border="0" cellspacing="0" cellpadding="0"
+										id="table1">
+										<tr>
+											<td><img src="images/spacer.gif" width="1" height="1"
+												class="heightControl"></td>
+											<td><img src="images/spacer.gif" width="1" height="1"
+												class="heightControl"></td>
+										</tr>
+										<tr>
+											<td class="label"><span class="red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</span><em></em>Birth
+											Date</td>
+											<td valign="top"><form:input path="birthDate" />&nbsp;<a
+												href="#"
+												onClick="parent.OpenWins('calendar.htm','calendar',200,236);return false;"><img
+												src="images/b-calendar.gif" alt="Calendar" width="17"
+												height="16" border="0" align="absmiddle"></a></td>
+										</tr>
+										<tr>
+											<td class="label"><span class="red">*</span><em></em>Ethnic
+											Group Code</td>
+											<td><form:select path="ethnicGroupCode">
+												<form:options items="${ethnicGroupCode}" itemLabel="desc"
+													itemValue="code" />
+											</form:select></td>
+										</tr>
+										<tr>
+											<td class="label"><span class="red">*</span><em></em>Race
+											Code</td>
+											<td><form:select path="raceCode">
+												<form:options items="${raceCode}" itemLabel="desc"
+													itemValue="code" />
+											</form:select></td>
+										</tr>
+
+									</table>
+									</td>
 								</tr>
 							</table>
-							</td>
-						</tr>
-						</table>
-						</div>
-						</form:form>
-						</td>
+
+							<hr align="left" width="95%">
+							<table width="700" border="0" cellspacing="0" cellpadding="0"
+								id="table1">
+								<tr>
+									<td align="center"><span class="red">*</span><em></em><B>Other
+									Type:</td>
+									<td align="center"><span class="red">*</span><em></em><B>Other
+									Value:</td>
+									<td align="center"><span class="red">*</span><em></em><B>Other
+									Source:</td>
+									<td align="center"><B>Is Primary:</td>
+								</tr>
+
+								<c:forEach var="index" begin="0" end="4">
+									<tr>
+										<td align="center"><form:input
+											path="identifiers[${index}].type" /></td>
+										<td align="center"><form:input
+											path="identifiers[${index}].value" /></td>
+										<td align="center"><form:select
+											path="identifiers[${index}].source">
+											<form:options items="${source}" itemLabel="desc"
+												itemValue="code" />
+										</form:select></td>
+
+										<td align="center"><form:radiobutton
+											path="identifiers[${index}].primaryIndicator" /></td>
+									</tr>
+
+								</c:forEach>
+
+							</table>
+
+							<hr align="left" width="95%">
+							<table width="700" border="0" cellspacing="0" cellpadding="0"
+								id="details">
+								<tr align="center">
+									<td colspan="4"><br>
+									<br>
+								<tr>
+									<td align="center" colspan="3"><!-- action buttons begins -->
+									<table cellpadding="4" cellspacing="0" border="0">
+										<tr>
+											<td><input type="image" name="_target1"
+												src="images/b-continue.gif" border="0"
+												alt="continue to next page"></td>
+										</tr>
+									</table>
+									</td>
+								</tr>
+							</table>
+							</div>
+						</form:form></td>
 
 						<!-- LEFT CONTENT ENDS HERE -->
 					</tr>
@@ -283,8 +265,7 @@ function getPage(s){
 	</tr>
 </table>
 
-<div id="copyright">
-</div>
+<div id="copyright"></div>
 </div>
 <!-- MAIN BODY ENDS HERE -->
 </body>

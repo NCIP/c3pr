@@ -176,11 +176,11 @@ function updateTargetPage(s){
 													<td></td>
 												</tr>
 												<tr>
-													<td class="label">Study Id:</td>
+													<td class="label">Study Identifier:</td>
 													<td valign="top">${command.studySite.study.shortTitleText}</td>
 												</tr>
 												<tr>
-													<td class="label">Subject Study Id:</td>
+													<td class="label">Study Subject Identifier:</td>
 													<td>${command.studyParticipantIdentifier}</td>
 												</tr>
 												<tr>
