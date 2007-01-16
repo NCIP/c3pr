@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="projects/core/src"/>
+	<classpathentry kind="src" path="projects/web/test"/>
 	<classpathentry kind="src" path="projects/core/test"/>
 	<classpathentry kind="src" path="projects/web/src"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
@@ -29,11 +30,11 @@
 	<classpathentry exported="true" kind="lib" path="projects/core/lib/standard.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/core/lib/xbean-spring-2.7.jar"/>
 	<classpathentry exported="true" kind="lib" path="share/antlr-2.7.6/antlr-2.7.6.jar"/>
-	<classpathentry exported="true" kind="lib" path="share/spring-2.0/spring.jar"/>
-	<classpathentry exported="true" kind="lib" path="share/hibernate-3.2.1/hibernate3.2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="share/spring-2.0/spring.jar" sourcepath="D:/projects/spring2"/>
+	<classpathentry exported="true" kind="lib" path="share/hibernate-3.2.1/hibernate3.2.1.jar" sourcepath="C:/devtools/hibernate-3.2/src"/>
 	<classpathentry exported="true" kind="lib" path="share/hibernate-3.2.1/hibernate-annotations.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/core/build/jars/c3pr-2.0-core-1.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/build/jars/c3pr-2.0-core-tests-1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="projects/core/build/jars/c3pr-2.0-core-tests-1.0.jar" sourcepath="projects/core/test"/>
 	<classpathentry exported="true" kind="lib" path="projects/web/lib/axis.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/web/lib/axis-ant.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/web/lib/axis-jaxrpc-1.2.1.jar"/>
@@ -61,5 +62,6 @@
 	<classpathentry exported="true" kind="lib" path="projects/web/lib/displaytag-1.1.jar"/>
 	<classpathentry kind="lib" path="share/log4j-1.2.13/log4j-1.2.13.jar"/>
 	<classpathentry kind="lib" path="share/cacore/client.jar"/>
+	<classpathentry kind="lib" path="share/jdom/jdom.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
