@@ -28,7 +28,7 @@
     <property name="build.jar.dir" value="${build.dir}/jars"/>
     <property name="lib.dir" value="${basedir}/lib"/>
 
-    <property name="project.jar.name" value="${project.name}-${project.version}.jar"/>
+    <property name="project.jar.name" value="c3pr-2.0-${project.name}-${project.version}.jar" />
 
 
     <!--set the classpath-->
