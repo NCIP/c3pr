@@ -122,10 +122,8 @@ public class CreateParticipantController extends AbstractWizardFormController {
 			response.sendRedirect(url);
 			return null;
 		}
-		
-		modelAndView = new ModelAndView("success");		 
-		modelAndView.addAllObjects(errors.getModel());
-		return modelAndView;
+		response.sendRedirect("/c3pr");
+		return null;
 	}	
 	
 	public class LOV {
@@ -210,8 +208,8 @@ public class CreateParticipantController extends AbstractWizardFormController {
 	{
 		List<LOV> col = new ArrayList<LOV>();
 		
-		col.add(new LOV("Duke", "Duke"));
-		col.add(new LOV("Northwestern", "Northwestern"));
+		col.add(new LOV("Duke University Comprehensive Cancer Center", "Duke University Comprehensive Cancer Center"));
+		col.add(new LOV("Warren Grant Magnuson Clinical Center", "Warren Grant Magnuson Clinical Center"));
 		
 		return col;
 	}
