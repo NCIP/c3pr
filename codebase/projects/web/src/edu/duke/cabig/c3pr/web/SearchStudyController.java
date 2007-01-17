@@ -16,12 +16,13 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.service.StudyService;
+import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
 
 public class SearchStudyController  extends SimpleFormController{
 
 	private static Log log = LogFactory.getLog(SearchStudyController.class);
-	
+	private ConfigurationProperty configurationProperty;	
 	private StudyService studyService;
    
     public StudyService getStudyService() {
@@ -55,27 +56,29 @@ public class SearchStudyController  extends SimpleFormController{
     	
     	List<Study> studies = studyService.search(study);   
     	log.debug("Search results size " +studies.size());
+    	Map <String, List<Lov>> configMap = configurationProperty.getMap();
+    	
     	Map map = errors.getModel();
     	map.put("study", studies);
-    	map.put("searchType",getSearchType() );    	
+    	map.put("searchType",configMap.get("studySearchType"));    	
     	ModelAndView modelAndView= new ModelAndView(getSuccessView(), map);
     	return modelAndView;
     }
     
     protected Map<String, Object> referenceData(HttpServletRequest httpServletRequest) throws Exception {
-    		Map<String, Object> refdata = new HashMap<String, Object>();
-    	
-    	refdata.put("searchType", getSearchType());
+    	Map<String, Object> refdata = new HashMap<String, Object>();
+    	Map <String, List<Lov>> configMap = configurationProperty.getMap();    	
+    	refdata.put("studySearchTypeRefData", configMap.get("studySearchType"));
         return refdata;
     }
+
+	public ConfigurationProperty getConfigurationProperty() {
+		return configurationProperty;
+	}
+
+	public void setConfigurationProperty(ConfigurationProperty configurationProperty) {
+		this.configurationProperty = configurationProperty;
+	}  
     
-	private List<Lov> getSearchType(){
-		Lov col = new Lov();
-		col.addData("s", "Status");
-		col.addData("id", "Identifier");
-		col.addData("shortTitle", "Short Title");
-		col.addData("longTitle", "Long Title");
-			
-    	return col.getData();
-	}	
+    
 }
