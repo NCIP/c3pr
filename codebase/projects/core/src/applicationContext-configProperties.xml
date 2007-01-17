@@ -136,7 +136,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                     <list>
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="NCI" />
-                            <property name="desc" value="National Cancer Institute program" />  
+                            <property name="desc" value="National Cancer Institute" />  
                         </bean>
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="PF" />
@@ -174,12 +174,12 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                 <entry key="identifiersSource">
                     <list>
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="L" />
-                            <property name="desc" value="Local Site" />
+                            <property name="code" value="D" />
+                            <property name="desc" value="Duke University Comprehensive Cancer Center" />
                         </bean>
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="R" />
-                            <property name="desc" value="Remote Site" />
+                            <property name="code" value="N" />
+                            <property name="desc" value="NCI Clinical Trials Unit" />
  			           </bean>
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="C" />
@@ -216,30 +216,44 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="AC" />
                             <property name="desc" value="Active" />
-                        </bean>
-                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="AP" />
-                            <property name="desc" value="Approved" />
- 			           </bean>
+                        </bean>                       
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="CB" />
                             <property name="desc" value="Closed" />
                         </bean>                       
                     </list>
                 </entry>
-                 <entry key="studySiteRoleCodeRefData">
+                <entry key="studySiteRoleCodeRefData">
                     <list>
                       	<bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="A" />
-                            <property name="desc" value="Admin" />
+                            <property name="code" value="CO" />
+                            <property name="desc" value="Coordinating Center" />
                         </bean>
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="PI" />
-                            <property name="desc" value="Principal Investigator" />
+                            <property name="code" value="SI" />
+                            <property name="desc" value="Site" />
+                        </bean>                        
+                     </list>
+                </entry>    
+                
+                <!-- Search Criteria -->
+                <entry key="studySearchType">
+                    <list>
+                      	<bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="status" />
+                            <property name="desc" value="Status" />
                         </bean>
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="N" />
-                            <property name="desc" value="Nurse" />
+                            <property name="code" value="id" />
+                            <property name="desc" value="Identifier" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="shortTitle" />
+                            <property name="desc" value="Short Title" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="longTitle" />
+                            <property name="desc" value="Long Title" />
                         </bean>
                      </list>
                 </entry>    
