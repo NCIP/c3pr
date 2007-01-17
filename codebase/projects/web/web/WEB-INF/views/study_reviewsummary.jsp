@@ -296,7 +296,6 @@ function validatePage(){
 								alt="edit this page">	</td>
 								</tr>
 							</table>
-							</div>
 							</td>
 
 						</tr>
@@ -306,9 +305,9 @@ function validatePage(){
 								<tr>
 									<td colspan=2 valign="top"><br>
 										<br>
-										<input type="image" name="_target0" src="images/b-prev.gif" border="0"
+										<input type="image" name="_target3" src="images/b-prev.gif" border="0"
 											alt="goto previous page">									
-										<input type="image" name="_finish" src="images/b-done.gif" border="0"
+										<input type="image" name="_target5" src="images/b-done.gif" border="0"
 											alt="continue to next page">
 										<input type="image" name="_target0" src="images/b-startOver.gif" border="0"
 											alt="start over from start page">	

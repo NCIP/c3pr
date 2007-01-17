@@ -24,6 +24,15 @@ var action = confirm ("You have not completed adding this protocol.\r\rStarting 
 if (action){
 	parent.window.location="protocol_add.htm";
 }}
+function validatePage(){
+	return true;
+}
+function setActionAddEpoch(){
+	if(validatePage()){
+		document.studyDesignForm._addEpoch.value="true";
+		document.studyDesignForm.submit();
+	}
+}
 </script>
 </head>
 <body>
@@ -125,9 +134,10 @@ if (action){
 			</tr>
 			<tr>
 			<tr>
-				<c:url value="/createstudy.do" var="formAction" />
-				<form:form name="study_design_form" method="post">
+				<form:form name="studyDesignForm" method="post">
 					<div><input type="hidden" name="_page" value="3">
+					<input type="hidden" name="_addEpoch" value="false"></div>
+
 					<td class="display"><!-- TABS LEFT START HERE -->
 					<table width="100%" border="0" cellspacing="0" cellpadding="0">
 						<tr>
@@ -151,74 +161,40 @@ if (action){
 
 						</tr>
 						<tr>
-							<td valign="top" class="contentL"><!-- LEFT CONTENT STARTS HERE -->
 
-							<table width="60%" border="0" cellspacing="0" cellpadding="0"
-								id="additionalList">
-								<tr>
-									<td class="label"><span class="red">*</span><em></em>select:</td>
-									<td class="label"><span class="red">*</span><em></em>Epoch
-									Name:</td>
-									<td class="label"><span class="red">*</span><em></em>Description:</td>
-									<td class="label"><span class="red">*</span><em></em>Arms:</td>
-								</tr>
-								<tr>
-									<td><form:checkbox path="epochs[0].id" value="id" /></td>
-									<td><form:input path="epochs[0].name" /></td>
-									<td><form:input path="epochs[0].descriptionText" /></td>
-								</tr>
-								<tr>
-									<td class="label"></td>
-									<td class="label"></td>
-									<td class="label"></td>
-									<td><form:input path="epochs[0].arms[0].name" /></td>
-									<td><form:input
-										path="epochs[0].arms[0].targetAccrualNumber" /></td>
-								</tr>
-								<tr>
-									<td><form:checkbox path="epochs[1].id" value="id" /></td>
-									<td><form:input path="epochs[1].name" /></td>
-									<td><form:input path="epochs[1].descriptionText" /></td>
-								</tr>
-								<tr>
-									<td class="label"></td>
-									<td class="label"></td>
-									<td class="label"></td>
-									<td><form:input path="epochs[1].arms[0].name" /></td>
-									<td><form:input
-										path="epochs[1].arms[0].targetAccrualNumber" /></td>
-								</tr>
-								<tr>
-									<td class="label"></td>
-									<td class="label"></td>
-									<td class="label"></td>
-									<td><form:input path="epochs[1].arms[1].name" /></td>
-									<td><form:input
-										path="epochs[1].arms[1].targetAccrualNumber" /></td>
-								</tr>
+						<td width="100%" valign="top">
+							<table width="50%" border="0" cellspacing="10" cellpadding="0"
+								id="table1">
 
-								<tr>
-									<td class="label"></td>
-									<td class="label"></td>
-									<td class="label"></td>
-									<td><form:input path="epochs[1].arms[2].name" /></td>
-									<td><form:input
-										path="epochs[1].arms[2].targetAccrualNumber" /></td>
+							<tr align="center" class="label">
+								<td width="10%" align="center">*</td>
+								<td width="20%" align="center">Epoch</td>
+								<td width="20%" align="center">Description</td>
+								<td width="50%" align="center">Arms - name    Target Accrual Number</td>
+
+							</tr>
+							<c:forEach items="${command.epochs}" var="epoch" varStatus="status">
+								<tr align="center" class="results">
+									<td width="10%"><form:checkbox path="epochs[${status.index}].id" value="id"/></td>
+									<td width="20%"><form:input path="epochs[${status.index}].name" /></td>
+									<td width="20%"><form:input path="epochs[${status.index}].descriptionText" /></td>
+									<td width="50%" >
+										<table width="50%" border="0" cellspacing="5" cellpadding="0"
+											id="table1">
+											<c:forEach items="${epoch.arms}" var="arm" varStatus="statusArms">
+
+											<tr align="center" class="results">
+												<td ><form:input path="epochs[${status.index}].arms[${statusArms.index}].name" /></td>
+												<td ><form:input path="epochs[${status.index}].arms[${statusArms.index}].targetAccrualNumber" /></td>
+											</tr>
+											</c:forEach>
+										</table>
+
+									</td>
 								</tr>
-								<tr>
-									<td><form:checkbox path="epochs[2].id" value="id" /></td>
-									<td><form:input path="epochs[2].name" /></td>
-									<td><form:input path="epochs[2].descriptionText" /></td>
-								</tr>
-								<tr>
-									<td class="label">
-									<td class="label"></td>
-									<td class="label"></td>
-									<td><form:input path="epochs[2].arms[0].name" /></td>
-									<td><form:input
-										path="epochs[2].arms[0].targetAccrualNumber" /></td>
-								</tr>
+							</c:forEach>
 							</table>
+						</td>
 						<tr align="center">
 						<tr>
 							<td align="center" colspan="3"><!-- action buttons begins -->
@@ -226,13 +202,16 @@ if (action){
 								<tr>
 									<td colspan=2 valign="top"><br>
 										<br>
+										<a href="javascript:setActionAddEpoch();"><img
+												src="images/b-addLine.gif" width="59"
+												height="16" border="0"></a>
 										<input type="image" name="_target2" src="images/b-prev.gif" border="0"
-											alt="goto previous page">									
+											alt="goto previous page">
 										<input type="image" name="_target4" src="images/b-continue.gif" border="0"
 											alt="continue to next page">
 										<input type="image" name="_target0" src="images/b-startOver.gif" border="0"
-											alt="start over from start page">	
-									</td>						
+											alt="start over from start page">
+									</td>
 								</tr>
 							</table>
 						</tr>

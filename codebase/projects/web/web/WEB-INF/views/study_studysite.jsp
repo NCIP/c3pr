@@ -20,6 +20,12 @@ function navRollOver(obj, state) {
 function validatePage(){
 	return true;
 }
+function setActionAddStudySite(){
+	if(validatePage()){
+		document.studySiteForm._addStudySite.value="true";
+		document.studySiteForm.submit();
+	}
+}
 </script>
 </head>
 <body>
@@ -127,72 +133,63 @@ function validatePage(){
 
 				<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
 				<!-- RIGHT CONTENT STARTS HERE --> 
-				<form:form method="post">
-				<div><input type="hidden" name="_page" value="2"></div>
+				<form:form name="studySiteForm" method="post">
+				<div><input type="hidden" name="_page" value="2">
+				<input type="hidden" name="_addStudySite" value="false"></div>
 					<strong>Step 2. Study Site </strong> (<span class="red">*</span>
 					<em>Required Information </em>)<br>
 
 					<br>
-					<table width="600" border="0" cellspacing="0" cellpadding="0"
-						id="table1">
-						<tr>
-							<td class="label"><span class="red">*</span><em></em>Choose HealthCare Site:</td>
-							<td><form:select path="studySites[0].site">
-								<form:options items="${healthCareSitesRefData}" itemLabel="name" itemValue="id" />
-								</form:select></td>
-						</tr>
-						<tr>
-							<td><img src="images/spacer.gif" width="1" height="3"
-								class="heightControl"></td>
-						</tr>						
+					<table width="60%" border="0" cellspacing="0" cellpadding="0"
+						id="table1">												
 						
-						<tr>
-							<td><img src="images/spacer.gif" width="1" height="3"
-								class="heightControl"></td>
-						</tr>
-						<tr>
-							<td class="label"><span class="red">*</span><em></em>Status
-							Code:</td>
-							<td><form:input path="studySites[0].statusCode" /></td>
-						</tr>
-							<tr>
-							<td><img src="images/spacer.gif" width="1" height="3"
-								class="heightControl"></td>
-						</tr>
-						<tr>
-							<td class="label"><span class="red">*</span><em></em>Role
-							Code:</td>
-							<td><form:input path="studySites[0].roleCode" /></td>
-						</tr>
-						<tr>
-							<td><img src="images/spacer.gif" width="1" height="3"
-								class="heightControl"></td>
-						</tr>
-						<tr>
-							<td class="label"><span class="red">*</span><em></em>Start Date:</td>
-							<td valign="top" align="left"><form:input
-								path="studySites[0].startDate" />&nbsp;<a href="#"
-								onClick="parent.OpenWins('calendar.htm','calendar',200,236);return false;"><img
-								src="images/b-calendar.gif" alt="Calendar" width="17"
-								height="16" border="0" align="absmiddle"></a></td>
-						</tr>
-						<tr>
-							<td class="label">End Date:</td>
-							<td valign="top" align="left"><form:input
-								path="studySites[0].endDate" />&nbsp;<a href="#"
-								onClick="parent.OpenWins('calendar.htm','calendar',200,236);return false;"><img
-								src="images/b-calendar.gif" alt="Calendar" width="17"
-								height="16" border="0" align="absmiddle"></a></td>
-						<tr>
-						<tr>
-							<td class="label" align="right"><span class="red">&nbsp;&nbsp;&nbsp;*</span><em></em>IRB
-								Approval Date:</td>
-							<td valign="top" align="left"><form:input
-								path="studySites[0].irbApprovalDate" />&nbsp;<a href="#"
-								onClick="parent.OpenWins('calendar.htm','calendar',200,236);return false;"><img
-								src="images/b-calendar.gif" alt="Calendar" width="17"
-								height="16" border="0" align="absmiddle"></a></td>
-						</tr>
+						<td width="100%" valign="top">
+							<table width="100%" border="0" cellspacing="10" cellpadding="0"
+								id="table1">
+
+							<tr align="center" class="label">
+								<td width="5%" align="center">*</td>
+								<td width="12%" align="center">HealthCare Site<span class="red">*</span></td>																
+								<td width="12%" align="center">Status Code<span class="red">*</span></td>
+								<td width="12%" align="center">Role Code<span class="red">*</span></td>
+								<td width="17%" align="center">Start Date<span class="red">*</span> </td>
+								<td width="17%" align="center">End Date </td>
+								<td width="17%" align="center">IRB Approval Date<span class="red">*</span></td>
+							</tr>
+							<c:forEach items="${command.studySites}" varStatus="status">
+								<tr align="center" class="results">
+									<td width="5%"><form:checkbox path="studySites[${status.index}].id" value="id"/></td>
+									<td width="12%"><form:select path="studySites[${status.index}].site">
+										<form:options items="${healthCareSitesRefData}" itemLabel="name" itemValue="id" />
+										</form:select></td>
+									<td width="12%"><form:select path="studySites[${status.index}].statusCode">
+										<form:options items="${studySiteStatusRefData}" itemLabel="desc"
+											itemValue="code" />
+									</form:select></td>
+									<td width="12%"><form:select path="studySites[${status.index}].roleCode">
+										<form:options items="${studySiteRoleCodeRefData}" itemLabel="desc"
+											itemValue="code" />
+									</form:select></td>																		
+									<td width="17%"><form:input
+										path="studySites[${status.index}].startDate" />&nbsp;<a href="#"
+										onClick="parent.OpenWins('calendar.htm','calendar',200,236);return false;"><img
+										src="images/b-calendar.gif" alt="Calendar" 
+										height="16" border="0"></a></td>
+									<td width="17%"><form:input
+										path="studySites[${status.index}].endDate" />&nbsp;<a href="#"
+										onClick="parent.OpenWins('calendar.htm','calendar',200,236);return false;"><img
+										src="images/b-calendar.gif" alt="Calendar"
+										height="16" border="0"></a></td>
+									<td width="17%"><form:input
+										path="studySites[${status.index}].irbApprovalDate" />&nbsp;<a href="#"
+										onClick="parent.OpenWins('calendar.htm','calendar',200,236);return false;"><img
+										src="images/b-calendar.gif" alt="Calendar"
+										height="16" border="0"></a></td>
+								</tr>
+							</c:forEach>
+							</table>
+						</td>																	
+						
 						<tr>
 							<td><img src="images/spacer.gif" width="1" height="3"
 								class="heightControl"></td>
@@ -203,6 +200,9 @@ function validatePage(){
 								<tr>
 									<td colspan=2 valign="top"><br>
 										<br>
+										<a href="javascript:setActionAddStudySite();"><img
+												src="images/b-addLine.gif" width="59"
+												height="16" border="0"></a>											
 										<input type="image" name="_target1" src="images/b-prev.gif" border="0"
 											alt="goto previous page">									
 										<input type="image" name="_target3" src="images/b-continue.gif" border="0"

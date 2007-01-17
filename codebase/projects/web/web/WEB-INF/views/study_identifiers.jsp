@@ -21,12 +21,14 @@ function navRollOver(obj, state) {
 <script language="JavaScript" type="text/JavaScript">
 
 function validatePage(){
-	if(document.getElementById("longTitleText") != null)
-		return true;
-	else
-		return false;	
+	return true;
 }
-
+function setActionAddIdentifier(){
+	if(validatePage()){
+		document.studyIdentifiersForm._addIdentifier.value="true";
+		document.studyIdentifiersForm.submit();
+	}
+}
 </script>
 </head>
 <body>
@@ -130,77 +132,67 @@ function validatePage(){
 				<!-- LEFT CONTENT STARTS HERE -->
 
 				<td valign="top" class="additionals2"><!-- RIGHT CONTENT STARTS HERE -->
-				<form:form name="searchDetailsForm" method="post">
-					<div><input type="hidden" name="_page" value="1"></div>
-					
+				<form:form name="studyIdentifiersForm" method="post">
+					<div><input type="hidden" name="_page" value="1">
+					<input type="hidden" name="_addIdentifier" value="false"></div>
+
 					<br>
 					<strong>Step 2. Identifiers : Add Identifiers associated with the Study </strong> (<span class="red">*</span>
 					<em>Required Information </em>)<br>
-					<br>
+					<be>
 
-					<table width="700" border="0" cellspacing="0" cellpadding="0"
+					<table width="70%" border="0" cellspacing="0" cellpadding="0"
 						id="details">
-						<tr>											
-							<td width="50%" valign="top">							
-								<table width="308" border="0" cellspacing="0" cellpadding="0"
+						<tr>
+							<td width="100%" valign="top">
+								<table width="50%" border="0" cellspacing="10" cellpadding="0"
 									id="table1">
-									
-								<tr>
-									<td class="label">Primary Indicator:</td>
-									<td><form:checkbox path="identifiers[0].primaryIndicator"/></td>
+
+								<tr align="center" class="label">
+									<td width="10%" align="center">*</td>
+									<td width="20%" align="center">Source</td>
+									<td width="20%" align="center">Type</td>
+									<td width="20%" align="center">Value</td>
+									<td width="25%" align="center">Primary Indicator</td>
 								</tr>
-								<tr>
-									<td><img src="images/spacer.gif" width="1" height="1"
-										class="heightControl"></td>
-								</tr>
-								<tr>
-									<td><img src="images/spacer.gif" width="1" height="1"
-										class="heightControl"></td>
-								</tr>
-								<tr>
-									<td class="label">Source:</td>
-									<td><form:input path="identifiers[0].source"/></td>
-								</tr>
-								<tr>
-									<td><img src="images/spacer.gif" width="1" height="1"
-										class="heightControl"></td>
-								</tr>
-								<tr>
-									<td class="label"><span class="red">*</span><em></em>Type:</td>
-									<td><form:input path="identifiers[0].type"/></td>
-									<td><form:errors path="identifiers[0].type" /></td>
-								</tr>
-									<tr>
-									<td><img src="images/spacer.gif" width="1" height="1"
-										class="heightControl"></td>
-								</tr>
-								<tr>
-									<td class="label">Value:</td>
-									<td><form:input path="identifiers[0].value"/></td>
-								</tr>								
+								<c:forEach items="${command.identifiers}" varStatus="status">
+									<tr align="center" class="results">
+										<td width="10%"><form:checkbox path="identifiers[${status.index}].id" value="id"/></td>
+										<td width="20%"><form:select path="identifiers[${status.index}].source">
+											<form:options items="${identifiersSourceRefData}" itemLabel="desc"
+												itemValue="code" /></form:select></td>
+										<td width="20%"><form:select path="identifiers[${status.index}].type">
+											<form:options items="${identifiersTypeRefData}" itemLabel="desc"
+												itemValue="code" /></form:select></td>
+										<td width="20%"><form:input path="identifiers[${status.index}].value"/></td>
+										<td width="25%" aligh="center"><form:radiobutton path="identifiers[${status.index}].primaryIndicator"/></td>
+									</tr>
+								</c:forEach>
 								</table>
 							</td>
-							
-							<td width="20%" valign="top">														
-						<tr>
-							<td><img src="images/spacer.gif" width="1" height="1"
-								class="heightControl"></td>
-						</tr>
-						<tr>
-							<td align="center" colspan="3"><!-- action buttons begins -->
-							<table cellpadding="4" cellspacing="0" border="0">
-								<tr>
-									<td colspan=2 valign="top"><br>
-										<br>
-										<input type="image" name="_target0" src="images/b-prev.gif" border="0"
-											alt="goto previous page">									
-										<input type="image" name="_target2" src="images/b-continue.gif" border="0"
-											alt="continue to next page">
-										<input type="image" name="_target0" src="images/b-startOver.gif" border="0"
-											alt="start over from start page">	
-									</td>						
-								</tr>
-							</table>
+
+							<tr>
+								<td><img src="images/spacer.gif" width="1" height="1"
+									class="heightControl"></td>
+							</tr>
+							<tr>
+								<td align="center" colspan="3"><!-- action buttons begins -->
+								<table cellpadding="4" cellspacing="0" border="0">
+									<tr>
+										<td colspan=2 valign="top"><br>
+											<br>
+											<a href="javascript:setActionAddIdentifier();"><img
+												src="images/b-addLine.gif" width="59"
+												height="16" border="0"></a>
+											<input type="image" name="_target0" src="images/b-prev.gif" border="0"
+												alt="goto previous page">
+											<input type="image" name="_target2" src="images/b-continue.gif" border="0"
+												alt="continue to next page">
+											<input type="image" name="_target0" src="images/b-startOver.gif" border="0"
+												alt="start over from start page">
+										</td>
+									</tr>
+								</table>
 							</td>
 						</tr>
 					</table>

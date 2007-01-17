@@ -131,7 +131,7 @@ function validatePage(){
 
 				<td valign="top" class="additionals2"><!-- RIGHT CONTENT STARTS HERE -->
 				<form:form name="searchDetailsForm" method="post">
-					<div><input type="hidden" name="_page" value="1"></div>
+					<div><input type="hidden" name="_page" value="5"></div>
 					
 					<br>
 					<strong>Confirmation </strong><br>
@@ -172,7 +172,7 @@ function validatePage(){
 								<tr>
 									<td colspan=2 valign="top"><br>
 										<br>
-										<input type="image" name="_target0" src="images/b-search2.gif" border="0"
+										<input type="image" name="_finish" src="images/b-search2.gif" border="0"
 											alt="search">																			
 									</td>						
 								</tr>
