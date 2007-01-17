@@ -19,7 +19,6 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.ParticipantIdentifier;
 import edu.duke.cabig.c3pr.service.ParticipantService;
 
 /**

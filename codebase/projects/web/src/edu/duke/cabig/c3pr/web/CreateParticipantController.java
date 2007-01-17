@@ -17,15 +17,10 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractWizardFormController;
 
-import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.domain.Address;
-import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.ParticipantIdentifier;
-import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
-import edu.duke.cabig.c3pr.web.SearchParticipantRegisterController.LOV;
 
 
 /**
