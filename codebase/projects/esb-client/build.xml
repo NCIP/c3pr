@@ -28,13 +28,19 @@
     <property name="build.jar.dir" value="${build.dir}/jars"/>
     <property name="lib.dir" value="${basedir}/lib"/>
 
-    <property name="project.jar.name" value="c3pr-2.0-${project.name}-${project.version}.jar" />
+    <!--ext lib dir-->
+    <property name="ext.dir" value="${basedir}/ext"/>
+    <property name="ext.lib.dir" value="${ext.dir}/lib"/>
 
+    <property name="project.jar.name" value="c3pr-2.0-${project.name}-${project.version}.jar" />
 
     <!--set the classpath-->
     <path id="javac.classpath">
         <fileset dir="${lib.dir}">
             <include name="**/*.jar"/>
+        </fileset>
+        <fileset dir="${ext.lib.dir}">
+            <include name="*.jar"/>
         </fileset>
     </path>
 

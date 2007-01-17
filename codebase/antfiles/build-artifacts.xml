@@ -13,6 +13,11 @@
         <!-- =============== -->
         <!-- share artifacts -->
         <!-- =============== -->
+        <artifact track="main" type="jars" id="activemq.jars">
+            <fileset dir="${share.dir}/activemq">
+                <include name="*.jar"/>
+            </fileset>
+        </artifact>
 
         <artifact track="test" type="jars" id="common.test.jars">
             <fileset dir="${junit.dir}">
@@ -171,6 +176,9 @@
             <fileset dir="${projects.dir}/esb-client/build/jars">
                 <include name="*.jar"/>
                 <exclude name="*test*.jar"/>
+            </fileset>
+            <fileset dir="${projects.dir}/esb-client/ext/lib">
+                <include name="*.jar"/>
             </fileset>
         </artifact>
 
