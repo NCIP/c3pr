@@ -33,6 +33,9 @@ import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
 import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.esb.MessageBroadcastService;
+import edu.duke.cabig.c3pr.esb.impl.MessageBroadcastServiceImpl;
+import edu.duke.cabig.c3pr.utils.XMLUtils;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 
 /**
@@ -60,6 +63,17 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 	private StudySiteDao studySiteDao;
 
 	private ArmDao armDao;
+	
+	private MessageBroadcastServiceImpl messageBroadcaster;
+
+
+	public MessageBroadcastServiceImpl getMessageBroadcaster() {
+		return messageBroadcaster;
+	}
+
+	public void setMessageBroadcaster(MessageBroadcastServiceImpl messageBroadcaster) {
+		this.messageBroadcaster = messageBroadcaster;
+	}
 
 	protected void initBinder(HttpServletRequest request,
 			ServletRequestDataBinder binder) throws Exception {
@@ -345,6 +359,16 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 			// studyParticipantAssignment.getParticipant().setStudyParticipantAssignments(stArrayList);
 			// studyParticipantAssignment.getStudySite().setStudyParticipantAssignments(stArrayList);
 			participantDao.save(studyParticipantAssignment.getParticipant());
+			String xml="";
+			try {
+				xml=XMLUtils.toXml(studyParticipantAssignment);
+				System.out.println("--------------------XML for Registration--------------------");
+				System.out.println(xml);
+				messageBroadcaster.broadcast(xml);
+			} catch (RuntimeException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			// response.sendRedirect("/c3pr");
 			// return null;
 //			return new ModelAndView("reg_confrm_registration");
