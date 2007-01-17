@@ -23,7 +23,7 @@ public class Identifier extends AbstractDomainObject
 	private String source;
 	private String type;
 	private String value;
-	private Boolean primaryIndicator;
+	private Boolean primaryIndicator = false;
 				
 	public String getSource() {
 		return source;
