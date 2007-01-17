@@ -21,6 +21,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
@@ -47,10 +48,7 @@ public class CreateStudyController extends AbstractWizardFormController {
 
 	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
         super.initBinder(request, binder);
-        Study study = null;
         binder.registerCustomEditor(Date.class, ControllerTools.getDateEditor(true));
-        
-        study = (Study) binder.getBindingResult().getTarget();
         binder.registerCustomEditor(healthcareSiteDao.domainClass(),
         	new CustomDaoEditor(healthcareSiteDao));
      }
@@ -102,7 +100,7 @@ public class CreateStudyController extends AbstractWizardFormController {
 	  		return refdata;
 	  	}	  	
 	  	if (page == 1) {
-	  		refdata.put("identifiersSourceRefData", configMap.get("identifiersSource"));
+	  		refdata.put("identifiersSourceRefData", getHealthcareSites());
 	  		refdata.put("identifiersTypeRefData", configMap.get("identifiersType"));	  		
 	  		return refdata;	  		
 	  	}
@@ -120,47 +118,87 @@ public class CreateStudyController extends AbstractWizardFormController {
 	protected void postProcessPage(HttpServletRequest request, Object command,
 			Errors arg2, int pageNo) throws Exception {
 		
-		// If Identifiers Tab, check for Add/Delete Identifiers events 
-		if (pageNo == 1)
-		{		
-			if ("true".equals(request.getParameter("_addIdentifier")))
-			{	
-				log.debug("Requested Add Identifier Action");											
-				Study study = (Study) command;
-				study.addIdentifier(new Identifier());
-			}
-		}
-		
-		// If Identifiers Tab, check for Add/Delete StudySite events 
-		else if (pageNo == 2)
-		{		
-			if ("true".equals(request.getParameter("_addStudySite")))
-			{	
-				log.debug("Requested Add StudySite Action");																							
-				Study study = (Study) command;
-				createDefaultStudySite(study);
-			}
-		}
-		
-		// If Study Design Tab, check for Add/Delete Epochs events 
-		else if (pageNo == 3)
-		{		
-			if ("true".equals(request.getParameter("_addEpoch")))				
-			{	
-				log.debug("Requested Add Epoch Action");																														
-				Study study = (Study) command;
-				study.addEpoch(Epoch.create("New Epoch", "Arm A", "Arm B", "Arm C"));				
-			}
-		}
-		
-		// If review and submit Tab, save study and proceed to final page
-		else if (pageNo == 4)
+		switch (pageNo)
 		{
-			Study study = (Study) command;
-			studyService.save(study);   	    	
-		}	
+			case 1:
+				handleIdentifierAction((Study)command,
+				request.getParameter("_action"),
+				request.getParameter("_selected"));		
+				break;
+			case 2:
+				handleStudySiteAction((Study)command,
+					request.getParameter("_action"),
+					request.getParameter("_selected"));		
+				break;
+			case 3:			
+				handleStudyDesignAction((Study)command, 
+					request.getParameter("_action"),
+					request.getParameter("_selectedEpoch"),
+					request.getParameter("_selectedArm"));	
+				break;			
+			case 4://review and submit Tab, save study and proceed to final page				
+				Study study = (Study) command;
+				studyService.save(study);
+				break;
+			default:
+				//do nothing						
+		}		
 	}
 	
+	private void handleIdentifierAction(Study study, String action, String selected)
+	{
+		if ("addIdentifier".equals(action))
+		{	
+			log.debug("Requested Add Identifier");																														
+			study.addIdentifier(new Identifier());		
+		}
+		else if ("removeIdentifier".equals(action))
+		{
+			log.debug("Requested Remove Identifier");	
+			study.getIdentifiers().remove(Integer.parseInt(selected));
+		}		
+	}
+	
+	private void handleStudySiteAction(Study study, String action, String selected)
+	{
+		if ("addStudySite".equals(action))
+		{	
+			log.debug("Requested Add Study Site");																														
+			createDefaultStudySite(study);		
+		}
+		else if ("removeStudySite".equals(action))
+		{
+			log.debug("Requested Remove Study Site");		
+			study.getStudySites().remove(Integer.parseInt(selected));
+		}		
+	}
+	
+	private void handleStudyDesignAction(Study study, String action,
+		String selectedEpoch, String selectedArm)
+	{
+		if ("addEpoch".equals(action))
+		{	
+			log.debug("Requested Add Epoch");																														
+			study.addEpoch(Epoch.create("New Epoch", "Arm A", "Arm B", "Arm C"));				
+		}
+		else if ("addArm".equals(action))
+		{
+			log.debug("Requested Add Arm");																																		
+			Epoch epoch = study.getEpochs().get(Integer.parseInt(selectedEpoch));
+			epoch.addArm(new Arm());
+		}
+		else if ("removeEpoch".equals(action))				
+		{	
+			log.debug("Requested Remove Epoch");		
+			study.getEpochs().remove(Integer.parseInt(selectedEpoch));
+		}
+		else if ("removeArm".equals(action))
+		{
+			log.debug("Requested Remove Arm");																																		
+			Epoch epoch = study.getEpochs().get(Integer.parseInt(selectedEpoch));
+			epoch.getArms().remove(Integer.parseInt(selectedArm));			
+		}		
+	}
 	
 	/* (non-Javadoc)
 	 * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#processFinish
@@ -299,11 +337,12 @@ public class CreateStudyController extends AbstractWizardFormController {
 //	}
 //	
 //	
-	public ConfigurationProperty getConfig() {
+	public ConfigurationProperty getConfigurationProperty() {
 		return configurationProperty;
 	}
 
-	public void setConfig(ConfigurationProperty configurationProperty) {
+	public void setConfigurationProperty(ConfigurationProperty configurationProperty) {
 		this.configurationProperty = configurationProperty;
 	}
+	
 }
