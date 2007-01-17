@@ -23,14 +23,14 @@ import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
-import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
-import edu.duke.cabig.c3pr.utils.web.propertyeditors.HealthcareSiteEditor;
+import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 
 /**
  * @author Priyatam
@@ -41,8 +41,9 @@ public class CreateStudyController extends AbstractWizardFormController {
 	private StudyService studyService;
 	private StudyDao studyDao;
 	private HealthcareSiteDao healthcareSiteDao;
-	StudyValidator studyValidator;
-	ConfigurationProperty configurationProperty;
+//	private StudyValidator studyValidator;
+	private ConfigurationProperty configurationProperty;
+	private static List<HealthcareSite> healthcareSites;
 
 	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
         super.initBinder(request, binder);
@@ -50,8 +51,8 @@ public class CreateStudyController extends AbstractWizardFormController {
         binder.registerCustomEditor(Date.class, ControllerTools.getDateEditor(true));
         
         study = (Study) binder.getBindingResult().getTarget();
-        binder.registerCustomEditor(HealthcareSite.class, new HealthcareSiteEditor
-        	(healthcareSiteDao, study.getStudySites().get(0)));
+        binder.registerCustomEditor(healthcareSiteDao.domainClass(),
+        	new CustomDaoEditor(healthcareSiteDao));
      }
 	
 	/**
@@ -70,16 +71,16 @@ public class CreateStudyController extends AbstractWizardFormController {
 	* @param page - number of page to validate
 	*/
 	
-	protected void validatePage(Object command, Errors errors, int page) {
-		Study study = (Study) command;
-		StudyValidator validator = (StudyValidator) getValidator();
-		switch (page) {
-		case 0:
-			validator.validatePage0(study, errors);
-		break;
-		}
-	}
-
+//	protected void validatePage(Object command, Errors errors, int page) {
+//		Study study = (Study) command;
+//		StudyValidator validator = (StudyValidator) getValidator();
+//		switch (page) {
+//		case 0:
+//			validator.validatePage0(study, errors);
+//		break;
+//		}
+//	}
+	
 	protected Map<String, Object> referenceData(HttpServletRequest httpServletRequest, int page) 
   		throws Exception {
 		// Currently the static data is a hack for an LOV this will be replaced with 
@@ -99,23 +100,67 @@ public class CreateStudyController extends AbstractWizardFormController {
 	  		refdata.put("blindedIndicator", getBooleanList());
 	  		refdata.put("nciIdentifier", getBooleanList());
 	  		return refdata;
+	  	}	  	
+	  	if (page == 1) {
+	  		refdata.put("identifiersSourceRefData", configMap.get("identifiersSource"));
+	  		refdata.put("identifiersTypeRefData", configMap.get("identifiersType"));	  		
+	  		return refdata;	  		
 	  	}
 	  	if (page == 2) {
 	  		refdata.put("healthCareSitesRefData", getHealthcareSites());	  			  	
-	  		return refdata;
+	  		refdata.put("studySiteStatusRefData", configMap.get("studySiteStatusRefData"));
+	  		refdata.put("studySiteRoleCodeRefData", configMap.get("studySiteRoleCodeRefData"));	  		
+	  		return refdata;	  		
 	  	}
 	  	
 	  	return refdata;
 	}
 	
+	@Override
+	protected void postProcessPage(HttpServletRequest request, Object command,
+			Errors arg2, int pageNo) throws Exception {
+		
+		// If Identifiers Tab, check for Add/Delete Identifiers events 
+		if (pageNo == 1)
+		{		
+			if ("true".equals(request.getParameter("_addIdentifier")))
+			{	
+				log.debug("Requested Add Identifier Action");											
+				Study study = (Study) command;
+				study.addIdentifier(new Identifier());
+			}
+		}
+		
+		// If Identifiers Tab, check for Add/Delete StudySite events 
+		else if (pageNo == 2)
+		{		
+			if ("true".equals(request.getParameter("_addStudySite")))
+			{	
+				log.debug("Requested Add StudySite Action");																							
+				Study study = (Study) command;
+				createDefaultStudySite(study);
+			}
+		}
+		
+		// If Study Design Tab, check for Add/Delete Epochs events 
+		else if (pageNo == 3)
+		{		
+			if ("true".equals(request.getParameter("_addEpoch")))				
+			{	
+				log.debug("Requested Add Epoch Action");																														
+				Study study = (Study) command;
+				study.addEpoch(Epoch.create("New Epoch", "Arm A", "Arm B", "Arm C"));				
+			}
+		}
+		
+		// If review and submit Tab, save study and proceed to final page
+		else if (pageNo == 4)
+		{
+			Study study = (Study) command;
+			studyService.save(study);   	    	
+		}	
+	}
 	
-//	private void printLovs(String name, List<Lov> list)
-//	{
-//		System.out.println(name);
-//		for (Lov lov : list) {
-//			System.out.println("code - "+lov.getCode()+"\t"+"desc - "+lov.getDesc());
-//		}
-//	}
 	
 	/* (non-Javadoc)
 	 * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#processFinish
@@ -125,10 +170,8 @@ public class CreateStudyController extends AbstractWizardFormController {
 	@Override
 	protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, 
 			Object command, BindException errors) throws Exception {
-		Study study = (Study) command;
-		studyService.save(study);   
-    	ModelAndView modelAndView= new ModelAndView(new RedirectView("searchstudy.do"));
-    	//modelAndView.addAllObjects(errors.getModel());
+		// Redirect to Search page
+		ModelAndView modelAndView= new ModelAndView(new RedirectView("searchstudy.do"));
     	return modelAndView;
 	}
 	
@@ -141,21 +184,56 @@ public class CreateStudyController extends AbstractWizardFormController {
 	{
 		Study study = new Study(); 
 	
-		study.addEpoch(Epoch.create("Screening"));
-		study.addEpoch(Epoch.create("Treatment", "Arm A", "Arm B", "Arm C"));
-		study.addEpoch(Epoch.create("Follow up"));
-          
-		StudySite studySite = new StudySite();
-		study.addStudySite(studySite);
-		
-		HealthcareSite healthCaresite = new HealthcareSite();		
-			
-		List<HealthcareSite> healthcareSite = getHealthcareSites();
-		for (HealthcareSite site : healthcareSite) {
-			studySite.setSite(site);
-		}
+		createDefaultEpochs(study);
+		createDefaultStudySite(study);		
+		createDefaultIdentifiers(study);
+							
 		return study;
 	}	
+	
+	private void createDefaultEpochs(Study study)
+	{
+		study.addEpoch(Epoch.create("Screening"));
+		study.addEpoch(Epoch.create("Treatment", "Arm A", "Arm B", "Arm C"));
+		study.addEpoch(Epoch.create("Follow up"));          						
+	}
+	
+	private void createDefaultStudySite(Study study)
+	{
+		StudySite studySite = new StudySite();
+		createDefaultHealthcareSite(studySite);		
+		study.addStudySite(studySite);					
+	}
+	
+	private void createDefaultHealthcareSite(StudySite studySite)
+	{
+		healthcareSites = getHealthcareSites();
+		for (HealthcareSite site : healthcareSites) {
+			studySite.setSite(site);
+		}		
+	}
+	
+	private void createDefaultIdentifiers(Study study)
+	{
+		List<Identifier> identifiers = new ArrayList<Identifier>();
+		Identifier id1 = new Identifier();	
+		id1.setSource("source");
+		id1.setType("type");
+		id1.setValue("value");
+		id1.setPrimaryIndicator(true);
+		identifiers.add(id1);
+		Identifier id2 = new Identifier();	
+		id2.setSource("source2");
+		id2.setType("type2");
+		id2.setValue("value2");
+		identifiers.add(id2);
+		Identifier id3 = new Identifier();	
+		id3.setSource("source3");
+		id3.setType("type3");
+		id3.setValue("value3");
+		identifiers.add(id3);
+		study.setIdentifiers(identifiers);		
+	}
 
 	public StudyDao getStudyDao() {
 		return studyDao;
@@ -211,16 +289,16 @@ public class CreateStudyController extends AbstractWizardFormController {
 			return str;
 		}	
 	}
-
-	public StudyValidator getStudyValidator() {
-		return studyValidator;
-	}
-
-	public void setStudyValidator(StudyValidator studyValidator) {
-		this.studyValidator = studyValidator;
-	}
-	
-	
+//
+//	public StudyValidator getStudyValidator() {
+//		return studyValidator;
+//	}
+//
+//	public void setStudyValidator(StudyValidator studyValidator) {
+//		this.studyValidator = studyValidator;
+//	}
+//	
+//	
 	public ConfigurationProperty getConfig() {
 		return configurationProperty;
 	}
