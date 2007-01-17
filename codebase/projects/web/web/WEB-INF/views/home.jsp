@@ -41,9 +41,9 @@ function submitPage(s){
 			src="images/topNavArrowDown.gif" width="5" height="20"
 			align="absmiddle"> Registration </span><img src="images/topNavR.gif"
 			width="2" height="20" align="absmiddle" class="currentR"><a
-			href="/c3pr/searchstudy.do">Study</a><img
-			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
-			class="divider"><a href="/c3pr/searchparticipant.do">Subject</a><img
+			href="/c3pr/searchstudy.do">Study</a><img src="images/topDivider.gif"
+			width="2" height="20" align="absmiddle" class="divider"><a
+			href="/c3pr/searchparticipant.do">Subject</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
 			class="divider"><a href="analysis">Reports</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
@@ -84,7 +84,7 @@ function submitPage(s){
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<form:form id="searchForm" name="searchForm" method="post">
-		<form:hidden path="searchCategory" />	
+		<form:hidden path="searchCategory" />
 		<tr>
 			<!-- CURRENT PROTOCOL/Subject TITLE STARTS HERE -->
 
@@ -138,7 +138,7 @@ function submitPage(s){
 					<td valign="top" class="searchL"><!-- LEFT FORM STARTS HERE -->
 					<table width="100%" border="0" cellpadding="0" cellspacing="0">
 						<tr valign="top">
-							<td><img src="images/Protocol.gif" alt="Study Search"
+							<td><img src="images/Study.gif" alt="Study Search"
 								width="100" height="100" align="absmiddle"></td>
 							<td width="99%">
 							<h3>Study Search</h3>
@@ -164,11 +164,10 @@ function submitPage(s){
 								</div>
 							</table>
 
-							^ Minimum two characters for Study Name search.<br>
+							<br>
 							<br>
 							<a href="" onClick="submitPage('study');return false;"><img
-								src="images/SerachProtocols.gif" alt="Search Drivers"
-								width="100" height="16" border="0"></a></td>
+								src="images/b-search2.gif" alt="Search" border="0"></a></td>
 						</tr>
 					</table>
 					<!-- LEFT FORM ENDS HERE --></td>
@@ -200,8 +199,7 @@ function submitPage(s){
 							</table>
 							<br>
 							<a href="" onClick="submitPage('participant');return false;"><img
-								src="images/SerachPatients.gif" alt="Search Drivers" width="100"
-								height="16" border="0"></a></td>
+								src="images/b-search2.gif" alt="Search" border="0"></a></td>
 
 							</td>
 						</tr>
@@ -213,8 +211,7 @@ function submitPage(s){
 		</tr>
 	</form:form>
 </table>
-<div id="copyright">
-</div>
+<div id="copyright"></div>
 </div>
 <!-- MAIN BODY ENDS HERE -->
 </body>

@@ -11,6 +11,6 @@
 <title>Success</title>
 </head>
 <body>
-	<h1> Subject Created Successfully </h1>
+	<h1> Error Occurred. PL contact the C3PR developers</h1>
 </body>
 </html>

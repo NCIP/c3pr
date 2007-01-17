@@ -231,7 +231,7 @@ if (action){
 										<tr>
 											<td><input type="image" name="_target1"
 												src="images/b-prev.gif" border="0" alt="goto previous page">
-											<input type="image" name="_finish" src="images/b-done.gif"
+											<input type="image" name="_finish" src="images/b-submit.gif"
 												border="0" alt="continue to next page"></td>
 										</tr>
 									</table>

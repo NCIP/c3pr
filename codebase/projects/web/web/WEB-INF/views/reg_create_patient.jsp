@@ -290,13 +290,13 @@ function submitPage(s){
 									<table width="700" border="0" cellspacing="0" cellpadding="0"
 										id="table1">
 										<tr>
-											<td align="center"><span class="red">*</span><em></em><B>Other
+											<td align="center"><span class="red">*</span><em></em><B>
 											Type:</td>
-											<td align="center"><span class="red">*</span><em></em><B>Other
+											<td align="center"><span class="red">*</span><em></em><B>
 											Value:</td>
-											<td align="center"><span class="red">*</span><em></em><B>Other
+											<td align="center"><span class="red">*</span><em></em><B>
 											Source:</td>
-											<td align="center"><B>Is Primary:</td>
+											<td align="center"><B>Primary:</td>
 										</tr>
 
 										<c:forEach var="index" begin="0" end="4">
