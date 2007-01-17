@@ -22,7 +22,7 @@ import org.hibernate.annotations.Parameter;
         @Parameter(name="sequence", value="ARMS_ID_SEQ")
     }
 )
-public class Arm extends AbstractDomainObject implements Comparable<Arm>, Serializable {
+public class Arm extends AbstractDomainObject implements Comparable<Arm> {
 
 	private Epoch epoch;
     private String name;

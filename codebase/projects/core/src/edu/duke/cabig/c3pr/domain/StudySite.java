@@ -29,7 +29,7 @@ import org.hibernate.annotations.Parameter;
         @Parameter(name="sequence", value="STUDY_SITES_ID_SEQ")
     }
 )
-public class StudySite extends AbstractDomainObject implements Comparable<StudySite>, Serializable{
+public class StudySite extends AbstractDomainObject implements Comparable<StudySite>{
     private HealthcareSite site;
     private Study study;
     private List<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();
