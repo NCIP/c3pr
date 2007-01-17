@@ -21,10 +21,13 @@ function navRollOver(obj, state) {
 <script language="JavaScript" type="text/JavaScript">
 
 function validatePage(){
-	if(document.getElementById("longTitleText") != null)
-		return true;
-	else
-		return false;	
+	return true;	
+}
+function updateTargetPage(target){
+	if(validatePage()){
+		document.studyDesignForm._target0.value=s;
+		document.studyDesignForm.submit();
+	}	
 }
 
 </script>
@@ -85,9 +88,9 @@ function validatePage(){
 	<tr>
 		<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
 
-		<td id="current">Site Name-Id: ${sites[0].site.name}</td>
+		<td id="current">Short Title: ${command.shortTitleText}</td>
 		<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
-	</tr>
+	</tr>`
 	<tr>
 		<td class="display"><!-- TABS LEFT START HERE -->
 		<table width="100%" border="0" cellpadding="0" cellspacing="0">
@@ -110,12 +113,11 @@ function validatePage(){
 						4. study design <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"></span><span class="current"><img
 							src="images/tabWhiteL.gif" width="3" height="16"
-							align="absmiddle"> 5. review and submit <img
+							align="absmiddle"> 
+						5. review and submit <img
 							src="images/tabWhiteR.gif" width="3" height="16"
-							align="absmiddle"></span><span class="tab"><img
-							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						6. confirmation <img src="images/tabGrayR.gif" width="3"
-							height="16" align="absmiddle"> </span></td>
+							align="absmiddle"></span>
+						</td>
 						<td><img src="images/spacer.gif" width="7" height="1"></td>
 					</tr>
 					<tr>
@@ -139,11 +141,11 @@ function validatePage(){
 					<br>
 					<br>
 					<div class="review">
-					<table width="250" border="0" cellspacing="0" cellpadding="0"
+					<table width="35%" border="0" cellspacing="0" cellpadding="0"
 						id="table1">
 						<tr>
 							<td class="label">Short Title:</td>
-							<td class="label">${command.shortTitleText}</td>
+							<td>${command.shortTitleText}</td>
 						</tr>
 						<tr>
 							<td class="label">Target Accrual Number:</td>
@@ -171,11 +173,11 @@ function validatePage(){
 						</tr>
 						<tr>
 							<td class="label">Multi Institution:</td>
-							<td><form:checkbox path="multiInstitutionIndicator" /></td>
+							<td><form:checkbox path="multiInstitutionIndicator" disabled="true"/></td>
 							<td class="label">Blinded:</td>
-							<td><form:checkbox path="blindedIndicator" /></td>
+							<td><form:checkbox path="blindedIndicator" disabled="true"/></td>
 							<td class="label">Randomized:</td>
-							<td><form:checkbox path="randomizedIndicator" /></td>
+							<td><form:checkbox path="randomizedIndicator" disabled="true"/></td>
 						</tr>
 						<tr>
 					<td><br><br>
@@ -194,7 +196,7 @@ function validatePage(){
 					<div class="review">
 
 					<table width="250" border="0" cellspacing="0" cellpadding="0"
-						id="details">
+						id="table1">
 						<tr>
 							<td class="label">Source:</td>
 							<td>${command.identifiers[0].source}</td>
@@ -225,8 +227,12 @@ function validatePage(){
 					<br>
 					<div class="review">
 
-					<table width="250" border="0" cellspacing="0" cellpadding="0"
-						id="details">
+					<table width="35%" border="0" cellspacing="0" cellpadding="0"
+						id="table1">
+						<tr>
+							<td class="label">Study Site:</td>
+							<td>${command.studySites[0].site.name}</td>
+						</tr>
 						<tr>
 							<td class="label">Status:</td>
 							<td>${command.studySites[0].statusCode}</td>
@@ -260,21 +266,19 @@ function validatePage(){
 					<br>
 					<div class="review">
 
-					<table width="250" border="0" cellspacing="0" cellpadding="0"
-						id="details">
+					<table width="30%" border="0" cellspacing="10" cellpadding="0"
+						id="table1">
 						<tr>
 							<td valign="top">
 							<table width="50%" border="0" cellspacing="0" cellpadding="0"
 								id="table1">
 								<tr align="left" class="label">
-									<td width="20%">Name</td>
-									<td width="30%">Description Text</td>	
-									<td width="50%">Arms</td>								
+									<td width="50%" align="center">Epochs</td>
+									<td width="50%" align="center">Arms</td>								
 								</tr>
 								<c:forEach items="${command.epochs}" var="epoch">
 									<tr align="left" class="results">						
 										<td width="20%">${epoch.name}</td>
-										<td width="30%">${epoch.descriptionText}</td>
 										<td width="50%">
 											<table width="300" border="1" cellspacing="0" cellpadding="0"
 												id="table1">
@@ -307,7 +311,7 @@ function validatePage(){
 										<br>
 										<input type="image" name="_target3" src="images/b-prev.gif" border="0"
 											alt="goto previous page">									
-										<input type="image" name="_target5" src="images/b-done.gif" border="0"
+										<input type="image" name="_target5" src="images/b-submit.gif" border="0"
 											alt="continue to next page">
 										<input type="image" name="_target0" src="images/b-startOver.gif" border="0"
 											alt="start over from start page">	
@@ -324,7 +328,6 @@ function validatePage(){
 		</td>
 	</tr>
 </table>
-<div id="copyright">&copy; 2006 SemanticBits. All Rights Reserved</div>
 </div>
 <!-- MAIN BODY ENDS HERE -->
 </body>

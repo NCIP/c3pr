@@ -20,9 +20,10 @@ function navRollOver(obj, state) {
 function validatePage(){
 	return true;
 }
-function setActionAddStudySite(){
+function fireAction(action, selected){
 	if(validatePage()){
-		document.studySiteForm._addStudySite.value="true";
+		document.studySiteForm._action.value=action;
+		document.studySiteForm._selected.value=selected;		
 		document.studySiteForm.submit();
 	}
 }
@@ -85,7 +86,7 @@ function setActionAddStudySite(){
 	<tr>
 		<tr>
 			<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
-			<td id="current">Site Name-Id: ${sites[0].site.name}</td>
+			<td id="current">Short Title: ${command.shortTitleText}</td>
 			<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 	</tr>
 
@@ -116,8 +117,7 @@ function setActionAddStudySite(){
 						5. review and submit <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"></span><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						6. confirmation <img src="images/tabGrayR.gif" width="3"
-							height="16" align="absmiddle">	</span></td>
+						</td>
 						<td><img src="images/spacer.gif" width="7" height="1"></td>
 					</tr>
 					<tr>
@@ -135,12 +135,14 @@ function setActionAddStudySite(){
 				<!-- RIGHT CONTENT STARTS HERE --> 
 				<form:form name="studySiteForm" method="post">
 				<div><input type="hidden" name="_page" value="2">
-				<input type="hidden" name="_addStudySite" value="false"></div>
+					<input type="hidden" name="_action" value="">
+					<input type="hidden" name="_selected" value="">
+				</div>
 					<strong>Step 2. Study Site </strong> (<span class="red">*</span>
 					<em>Required Information </em>)<br>
 
 					<br>
-					<table width="60%" border="0" cellspacing="0" cellpadding="0"
+					<table width="70%" border="0" cellspacing="0" cellpadding="0"
 						id="table1">												
 						
 						<td width="100%" valign="top">
@@ -148,27 +150,29 @@ function setActionAddStudySite(){
 								id="table1">
 
 							<tr align="center" class="label">
-								<td width="5%" align="center">*</td>
-								<td width="12%" align="center">HealthCare Site<span class="red">*</span></td>																
-								<td width="12%" align="center">Status Code<span class="red">*</span></td>
-								<td width="12%" align="center">Role Code<span class="red">*</span></td>
-								<td width="17%" align="center">Start Date<span class="red">*</span> </td>
-								<td width="17%" align="center">End Date </td>
-								<td width="17%" align="center">IRB Approval Date<span class="red">*</span></td>
+								<td width="5%" align="center"><a href="javascript:fireAction('addStudySite','0');">
+									<img src="images/checkyes.gif" border="0" alt="Add Study Site"></a></td>
+								<td width="11%" align="center">HealthCare Site<span class="red">*</span></td>																
+								<td width="11%" align="center">Status Code<span class="red">*</span></td>
+								<td width="11%" align="center">Role Code<span class="red">*</span></td>
+								<td width="17%" align="center">Start Date (mm/dd/yyyy)<span class="red">*</span> </td>
+								<td width="17%" align="center">End Date (mm/dd/yyyy)</td>
+								<td width="17%" align="center">IRB Approval Date (mm/dd/yyyy)<span class="red">*</span></td>
 							</tr>
 							<c:forEach items="${command.studySites}" varStatus="status">
 								<tr align="center" class="results">
-									<td width="5%"><form:checkbox path="studySites[${status.index}].id" value="id"/></td>
-									<td width="12%"><form:select path="studySites[${status.index}].site">
+									<td width="5%"><a href="javascript:fireAction('removeStudySite',${status.index});"><img
+										src="images/checkno.gif" border="0"></a></td>
+									<td width="11%"><form:select path="studySites[${status.index}].site">
 										<form:options items="${healthCareSitesRefData}" itemLabel="name" itemValue="id" />
 										</form:select></td>
-									<td width="12%"><form:select path="studySites[${status.index}].statusCode">
+									<td width="11%"><form:select path="studySites[${status.index}].statusCode">
 										<form:options items="${studySiteStatusRefData}" itemLabel="desc"
-											itemValue="code" />
+											itemValue="desc" />
 									</form:select></td>
-									<td width="12%"><form:select path="studySites[${status.index}].roleCode">
+									<td width="11%"><form:select path="studySites[${status.index}].roleCode">
 										<form:options items="${studySiteRoleCodeRefData}" itemLabel="desc"
-											itemValue="code" />
+											itemValue="desc" />
 									</form:select></td>																		
 									<td width="17%"><form:input
 										path="studySites[${status.index}].startDate" />&nbsp;<a href="#"
@@ -200,9 +204,6 @@ function setActionAddStudySite(){
 								<tr>
 									<td colspan=2 valign="top"><br>
 										<br>
-										<a href="javascript:setActionAddStudySite();"><img
-												src="images/b-addLine.gif" width="59"
-												height="16" border="0"></a>											
 										<input type="image" name="_target1" src="images/b-prev.gif" border="0"
 											alt="goto previous page">									
 										<input type="image" name="_target3" src="images/b-continue.gif" border="0"
@@ -223,7 +224,6 @@ function setActionAddStudySite(){
 		<!-- LEFT CONTENT ENDS HERE -->
 	</tr>
 </table>
-<div id="copyright">&copy; 2006 SemanticBits. All Rights Reserved</div>
 </div>
 <!-- MAIN BODY ENDS HERE -->
 </body>

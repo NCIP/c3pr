@@ -85,7 +85,7 @@ function validatePage(){
 	<tr>
 		<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
 
-		<td id="current">Site Name-Id: ${sites[0].site.name}</td>
+		<td id="current">Short Title: ${command.shortTitleText}</td>
 		<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 	</tr>
 	<tr>
@@ -112,11 +112,8 @@ function validatePage(){
 							height="16" align="absmiddle"></span><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						5. review and submit <img src="images/tabGrayR.gif" width="3"
-							height="16" align="absmiddle"></span><span class="tab"><img
-							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						6. confirmation <img src="images/tabGrayR.gif" width="3"
-							height="16" align="absmiddle">	</span></td>
-						<td><img src="images/spacer.gif" width="7" height="1"></td>
+							height="16" align="absmiddle"></span>
+						</td>
 					</tr>
 					<tr>
 						<td colspan="2" class="tabBotL"><img src="images/spacer.gif"
@@ -151,18 +148,22 @@ function validatePage(){
 										cols="50" /></td>
 								</tr>
 								<tr>
+									<td><img src="images/spacer.gif" width="1" height="1"
+										class="heightControl"></td>
+								</tr>
+								<tr>
 									<td class="label"><span class="red">*</span><em></em>Long Title:</td>
 									<td><form:textarea path="longTitleText" rows="5" cols="50" /></td>
 									 <td><form:errors path="longTitleText" /></td>
 								</tr>
 								<tr>
+									<td><img src="images/spacer.gif" width="1" height="1"
+										class="heightControl"></td>
+								</tr>
+								<tr>
 									<td class="label">Precis Text:</td>
 									<td><form:textarea path="precisText" rows="2" cols="50" /></td>
 								</tr>
-								<tr>
-									<td><img src="images/spacer.gif" width="1" height="1"
-										class="heightControl"></td>
-								</tr>								
 								<tr>
 									<td><img src="images/spacer.gif" width="1" height="1"
 										class="heightControl"></td>
@@ -175,8 +176,7 @@ function validatePage(){
 								<tr>
 									<td><img src="images/spacer.gif" width="1" height="1"
 										class="heightControl"></td>
-								</tr>
-								
+								</tr>								
 							</table>
 							</td>
 							<td width="20%" valign="top">
@@ -195,10 +195,14 @@ function validatePage(){
 										size="34" /></td>
 								</tr>
 								<tr>
+									<td><img src="images/spacer.gif" width="1" height="1"
+										class="heightControl"></td>
+								</tr>
+								<tr>
 									<td class="label"><span class="red">*</span><em></em>Status:</td>
 									<td><form:select path="status">
 										<form:options items="${statusRefData}" itemLabel="desc"
-											itemValue="code" />
+											itemValue="desc" />
 									</form:select></td>
 								</tr>
 								<tr>
@@ -210,7 +214,7 @@ function validatePage(){
 									Code:</strong>
 									<td><form:select path="diseaseCode">
 										<form:options items="${diseaseCodeRefData}" itemLabel="desc"
-											itemValue="code" />
+											itemValue="desc" />
 									</form:select></td>
 								</tr>
 								<tr>
@@ -221,7 +225,7 @@ function validatePage(){
 									<td class="label"><em></em>Monitor Code:</td>
 									<td><form:select path="monitorCode">
 										<form:options items="${monitorCodeRefData}" itemLabel="desc"
-											itemValue="code" />
+											itemValue="desc" />
 									</form:select></td>
 								</tr>
 								<tr>
@@ -233,7 +237,7 @@ function validatePage(){
 									Code:</td>
 									<td><form:select path="phaseCode">
 										<form:options items="${phaseCodeRefData}" itemLabel="desc"
-											itemValue="code" />
+											itemValue="desc" />
 									</form:select></td>
 								</tr>
 								<tr>
@@ -245,14 +249,9 @@ function validatePage(){
 									Code:</td>
 									<td><form:select path="sponsorCode">
 										<form:options items="${sponsorCodeRefData}" itemLabel="desc"
-											itemValue="code" />
+											itemValue="desc" />
 									</form:select></td>
-								</tr>
-								<tr>
-									<td><img src="images/spacer.gif" width="1" height="1"
-										class="heightControl"></td>
-								</tr>
-								
+								</tr>								
 								<tr>
 									<td><img src="images/spacer.gif" width="1" height="1"
 										class="heightControl"></td>
@@ -288,7 +287,7 @@ function validatePage(){
 									Code:</td>
 									<td><form:select path="type">
 										<form:options items="${typeRefData}" itemLabel="desc"
-											itemValue="code" />
+											itemValue="desc" />
 									</form:select></td>
 								</tr>
 								<tr>
@@ -321,8 +320,6 @@ function validatePage(){
 		</td>
 	</tr>
 </table>
-<div id="copyright">&copy; 2006 SemanticBits Company. All Rights
-Reserved</div>
 </div>
 <!-- MAIN BODY ENDS HERE -->
 </body>

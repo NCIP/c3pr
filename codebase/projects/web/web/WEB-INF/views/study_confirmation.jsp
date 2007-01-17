@@ -19,7 +19,8 @@ function navRollOver(obj, state) {
 }
 </script>
 <script language="JavaScript" type="text/JavaScript">
-
+function doNothing(){
+}
 function validatePage(){
 	if(document.getElementById("longTitleText") != null)
 		return true;
@@ -85,7 +86,7 @@ function validatePage(){
 	<tr>
 		<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
 
-		<td id="current">Site Name-Id: ${sites[0].site.name}</td>
+		<td id="current"></td>
 		<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 	</tr>
 	<tr>
@@ -97,10 +98,9 @@ function validatePage(){
 					class="tabs">
 					<tr>
 						<td width="100%" id="tabDisplay"><span class="tab"><img
-							src="images/tabGrayL.gif" width="3" height="16"
-							align="absmiddle">
-						1.study details <img src="images/tabGrayR.gif" width="3" height="16"
-							align="absmiddle"></span> <span class="tab"><img
+							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
+						1.study details <img src="images/tabGrayR.gif" width="3"
+							height="16" align="absmiddle"></span> <span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						2.identifiers <img src="images/tabGrayR.gif" width="3" height="16"
 							align="absmiddle"></span><span class="tab"><img
@@ -113,15 +113,13 @@ function validatePage(){
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						5. review and submit <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"></span><span class="current"><img
-							src="images/tabWhiteL.gif" width="3" height="16" align="absmiddle">
-						6. confirmation <img src="images/tabWhiteR.gif" width="3"
-							height="16" align="absmiddle">	</span></td>
+							src="images/tabWhiteL.gif" width="3" height="16"
+							align="absmiddle"> 
+						6. confirmation <img
+							src="images/tabWhiteR.gif" width="3" height="16"
+							align="absmiddle"> </span></td>
 						<td><img src="images/spacer.gif" width="7" height="1"></td>
-					</tr>
-					<tr>
-						<td colspan="2" class="tabBotL"><img src="images/spacer.gif"
-							width="1" height="7"></td>
-					</tr>
+					</tr>					
 				</table>
 				</td>
 			</tr>
@@ -132,62 +130,85 @@ function validatePage(){
 				<td valign="top" class="additionals2"><!-- RIGHT CONTENT STARTS HERE -->
 				<form:form name="searchDetailsForm" method="post">
 					<div><input type="hidden" name="_page" value="5"></div>
-					
-					<br>
-					<strong>Confirmation </strong><br>
-					<br>
+					<tr>
+						<td id="current">Study Created Succesfully for Short Title :
+						${command.shortTitleText} on Study Site : ${command.studySites[0].site.name}</td>
+					</tr>
+					<tr>
 
-					<table width="700" border="0" cellspacing="0" cellpadding="0"
-						id="details">
-						<tr>											
-							<td width="50%" valign="top">							
-								<table width="308" border="0" cellspacing="0" cellpadding="0"
-									id="table1">
-									
-								<tr>
-									<td class="label">Study Created Successfully:</td>
-								</tr>
-								<tr>
-									<td class="label">You can now 1)search for a study:</td>
-								</tr>
-								<tr>
-									<td class="label">You can now 2)search for a study:</td>
-								</tr>
-								<tr>
-									<td><img src="images/spacer.gif" width="1" height="1"
-										class="heightControl"></td>
-								</tr>
-																						
+						<td class="display"><!-- TABS LEFT START HERE -->
+						<table width="100%" border="0" cellpadding="0" cellspacing="0">
+							<tr>
+
+								<!-- LEFT CONTENT STARTS HERE -->
+								<td valign="top" class="additionals2"><font color="Green"><!-- LEFT FORM STARTS HERE -->
+								<!-- RIGHT CONTENT STARTS HERE --> <input type="hidden"
+									name="nextView"> <strong>Please <a
+									href="javascript:doNothing()">print</a> and save this
+								confirmation in the study records </strong><br>
+								<table width="50%" border="0" cellspacing="0" cellpadding="0"
+									id="details">
+									<tr>
+										<td width="50%" valign="top">
+										<table width="100%" border="0" cellspacing="0" cellpadding="0"
+											id="table1">
+											<tr>
+												<td><img src="images/spacer.gif" width="1" height="1"
+													class="heightControl"></td>
+											</tr>
+											<tr>
+												<td class="label">Study Creation Date/Time:</td>
+												<td><%=new java.util.Date()%></td>
+											</tr>
+											<tr>
+												<td class="label">Site:</td>
+												<td>${command.studySites[0].site.name}</td>
+											</tr>
+											<tr>
+												<td class="label">Study Identifiers:</td>
+												<td valign="top"><c:forEach
+													items="${command.identifiers}" var="id">
+													<td class="label">${id.value},</td>
+												</c:forEach></td>
+											</tr>
+											<tr>
+												<td class="label">Subject Created by:</td>
+												<td>(username)</td>
+											</tr>
+
+										</table>
+										</td>
+									</tr>
 								</table>
-							</td>
-							
-							<td width="20%" valign="top">														
-						<tr>
-							<td><img src="images/spacer.gif" width="1" height="1"
-								class="heightControl"></td>
-						</tr>
-						<tr>
-							<td align="center" colspan="3"><!-- action buttons begins -->
-							<table cellpadding="4" cellspacing="0" border="0">
-								<tr>
-									<td colspan=2 valign="top"><br>
+								<hr align="left" width="95%">
+								<table width="700" border="0" cellspacing="0" cellpadding="0"
+									id="details">
+									<tr align="center">
+										<td colspan=2 valign="top"><br>
 										<br>
-										<input type="image" name="_finish" src="images/b-search2.gif" border="0"
-											alt="search">																			
-									</td>						
-								</tr>
-							</table>
-							</td>
-						</tr>
-					</table>
+										<a href="javascript:doNothing()">Go to Study Calender</a></td>
+									</tr>
+									<tr>
+										<td colspan=2 valign="top"><br>
+											<br>											
+											<input type="image" name="_finish" src="images/b-search2.gif" border="0"
+												alt="go back to search">											
+										</td>
+									</tr>
+								</table>
+								</font></td>
+
+								<!-- LEFT CONTENT ENDS HERE -->
+							</tr>
+						</table>
+						</td>
+					</tr>
 				</form:form> <!-- LEFT CONTENT ENDS HERE -->
 			</tr>
 		</table>
 		</td>
 	</tr>
 </table>
-<div id="copyright">&copy; 2006 SemanticBits Company. All Rights
-Reserved</div>
 </div>
 <!-- MAIN BODY ENDS HERE -->
 </body>

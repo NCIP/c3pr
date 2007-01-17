@@ -23,9 +23,10 @@ function navRollOver(obj, state) {
 function validatePage(){
 	return true;
 }
-function setActionAddIdentifier(){
+function fireAction(action, selected){
 	if(validatePage()){
-		document.studyIdentifiersForm._addIdentifier.value="true";
+		document.studyIdentifiersForm._action.value=action;
+		document.studyIdentifiersForm._selected.value=selected;		
 		document.studyIdentifiersForm.submit();
 	}
 }
@@ -87,7 +88,7 @@ function setActionAddIdentifier(){
 	<tr>
 		<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
 
-		<td id="current">Site Name-Id: ${sites[0].site.name}</td>
+		<td id="current">Short Title: ${command.shortTitleText}</td>
 		<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 	</tr>
 	<tr>
@@ -114,10 +115,8 @@ function setActionAddIdentifier(){
 							height="16" align="absmiddle"></span><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						5. review and submit <img src="images/tabGrayR.gif" width="3"
-							height="16" align="absmiddle"></span><span class="tab"><img
-							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						6. confirmation <img src="images/tabGrayR.gif" width="3"
-							height="16" align="absmiddle">	</span></td>
+							height="16" align="absmiddle"></span>
+						</td>
 						<td><img src="images/spacer.gif" width="7" height="1"></td>
 					</tr>
 					<tr>
@@ -134,8 +133,8 @@ function setActionAddIdentifier(){
 				<td valign="top" class="additionals2"><!-- RIGHT CONTENT STARTS HERE -->
 				<form:form name="studyIdentifiersForm" method="post">
 					<div><input type="hidden" name="_page" value="1">
-					<input type="hidden" name="_addIdentifier" value="false"></div>
-
+					<input type="hidden" name="_action" value="">
+					<input type="hidden" name="_selected" value=""></div>					
 					<br>
 					<strong>Step 2. Identifiers : Add Identifiers associated with the Study </strong> (<span class="red">*</span>
 					<em>Required Information </em>)<br>
@@ -149,21 +148,23 @@ function setActionAddIdentifier(){
 									id="table1">
 
 								<tr align="center" class="label">
-									<td width="10%" align="center">*</td>
+									<td width="10%" align="center"><a href="javascript:fireAction('addIdentifier','0');"><img
+										src="images/checkyes.gif" border="0" alt="Add another Identifier"></a></td>
 									<td width="20%" align="center">Source</td>
-									<td width="20%" align="center">Type</td>
-									<td width="20%" align="center">Value</td>
+									<td width="20%" align="center">Identifier Type</td>
+									<td width="20%" align="center">Identifier</td>
 									<td width="25%" align="center">Primary Indicator</td>
 								</tr>
 								<c:forEach items="${command.identifiers}" varStatus="status">
 									<tr align="center" class="results">
-										<td width="10%"><form:checkbox path="identifiers[${status.index}].id" value="id"/></td>
+										<td width="10%"><a href="javascript:fireAction('removeIdentifier',${status.index});"><img
+											src="images/checkno.gif" border="0"></a></td>
 										<td width="20%"><form:select path="identifiers[${status.index}].source">
-											<form:options items="${identifiersSourceRefData}" itemLabel="desc"
-												itemValue="code" /></form:select></td>
+											<form:options items="${identifiersSourceRefData}" itemLabel="name"
+												itemValue="name" /></form:select></td>
 										<td width="20%"><form:select path="identifiers[${status.index}].type">
 											<form:options items="${identifiersTypeRefData}" itemLabel="desc"
-												itemValue="code" /></form:select></td>
+												itemValue="desc" /></form:select></td>
 										<td width="20%"><form:input path="identifiers[${status.index}].value"/></td>
 										<td width="25%" aligh="center"><form:radiobutton path="identifiers[${status.index}].primaryIndicator"/></td>
 									</tr>
@@ -180,10 +181,7 @@ function setActionAddIdentifier(){
 								<table cellpadding="4" cellspacing="0" border="0">
 									<tr>
 										<td colspan=2 valign="top"><br>
-											<br>
-											<a href="javascript:setActionAddIdentifier();"><img
-												src="images/b-addLine.gif" width="59"
-												height="16" border="0"></a>
+											<br>											
 											<input type="image" name="_target0" src="images/b-prev.gif" border="0"
 												alt="goto previous page">
 											<input type="image" name="_target2" src="images/b-continue.gif" border="0"
@@ -202,8 +200,6 @@ function setActionAddIdentifier(){
 		</td>
 	</tr>
 </table>
-<div id="copyright">&copy; 2006 SemanticBits Company. All Rights
-Reserved</div>
 </div>
 <!-- MAIN BODY ENDS HERE -->
 </body>

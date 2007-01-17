@@ -130,7 +130,7 @@ function submitPage(){
 									<td align="left" class="labels"  colspan="10"></td>
 									<td align="left" class="labels">
 									<form:select path="searchType">
-										<form:options items="${searchType}" itemLabel="desc" itemValue="code" />
+										<form:options items="${studySearchTypeRefData}" itemLabel="desc" itemValue="code" />
 									</form:select></td>
 								</tr>
 								<tr>
@@ -146,7 +146,7 @@ function submitPage(){
 								<tr>
 									<td><a href=""
 										onClick="submitPage();return false;"><img
-										src="images/b-submit.gif" alt="Continue" width="59"
+										src="images/b-search2.gif" alt="Continue" width="59"
 										height="16" border="0"></a> </td>
 								</tr>
 						</table>
@@ -158,8 +158,6 @@ function submitPage(){
 		</td>
 	</tr>
 </table>
-<div id="copyright">&copy; 2006 Semanticbits.com. All Rights
-Reserved</div>
 <!-- MAIN BODY ENDS HERE -->
 </body>
 </html>
