@@ -1,7 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
-import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -33,11 +33,11 @@ public class StudySite extends AbstractDomainObject implements Comparable<StudyS
     private HealthcareSite site;
     private Study study;
     private List<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();
-    private Date irbApprovalDate;
+    private Date irbApprovalDate = Calendar.getInstance().getTime();
     private String roleCode;
     private String statusCode;
-    private Date startDate;
-    private Date endDate;   
+    private Date startDate = Calendar.getInstance().getTime();
+    private Date endDate = Calendar.getInstance().getTime();   
 
     /// LOGIC
 
