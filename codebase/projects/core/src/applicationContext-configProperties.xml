@@ -176,6 +176,81 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                         </bean>
                     </list>
                 </entry>
+                
+                  <!-- codes for Identifiers -->
+                
+                <entry key="identifiersSource">
+                    <list>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="L" />
+                            <property name="desc" value="Local Site" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="R" />
+                            <property name="desc" value="Remote Site" />
+ 			           </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="C" />
+                            <property name="desc" value="CalGB" />
+                        </bean>                       
+                    </list>
+                </entry>
+                    
+                <entry key="identifiersType">
+                    <list>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="PA" />
+                            <property name="desc" value="Protocol Authority" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="CC" />
+                            <property name="desc" value="Co-ordinating Center" />
+ 			           </bean>
+                       <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="S" />
+                            <property name="desc" value="Site" />
+                       </bean>
+                       <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="SI" />
+                            <property name="desc" value="Site IRB" />
+                       </bean>                        
+                    </list>
+                </entry>
+                
+                <!-- codes for Study Site -->
+                
+                <entry key="studySiteStatusRefData">
+                    <list>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="AC" />
+                            <property name="desc" value="Active" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="AP" />
+                            <property name="desc" value="Approved" />
+ 			           </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="CB" />
+                            <property name="desc" value="Closed" />
+                        </bean>                       
+                    </list>
+                </entry>
+                 <entry key="studySiteRoleCodeRefData">
+                    <list>
+                      	<bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="A" />
+                            <property name="desc" value="Admin" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="PI" />
+                            <property name="desc" value="Principal Investigator" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="N" />
+                            <property name="desc" value="Nurse" />
+                        </bean>
+                     </list>
+                </entry>    
             </map>
         </property>
         <!--set the schema to be connected, although Oracle's username connects to corresponding
