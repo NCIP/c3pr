@@ -97,13 +97,10 @@ function updateTargetPage(s){
 							height="16" align="absmiddle"> 3. Enrollment Details <img
 							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"></span><span
 							class="tab"><img src="images/tabGrayL.gif" width="3"
-							height="16" align="absmiddle"> 4. <a
-							href="javascript:updateTargetPage('checkEligibilityView');">Check
-						Eligibility</a> <img src="images/tabGrayR.gif" width="3" height="16"
-							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
-							height="16" align="absmiddle"> 5. <a
-							href="javascript:updateTargetPage('stratifyView');">Stratify</a>
-						<img src="images/tabGrayR.gif" width="3" height="16"
+							height="16" align="absmiddle"> 4. Check Eligibility <img
+							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"><img
+							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
+						5. Stratify <img src="images/tabGrayR.gif" width="3" height="16"
 							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
 							height="16" align="absmiddle"> 6. Randomize <img
 							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"><img
@@ -199,8 +196,7 @@ function updateTargetPage(s){
 		</td>
 	</tr>
 </table>
-<div id="copyright">
-</div>
+<div id="copyright"></div>
 </div>
 <!-- MAIN BODY ENDS HERE -->
 </body>
