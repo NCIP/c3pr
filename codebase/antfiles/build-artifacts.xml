@@ -130,7 +130,13 @@
                 <include name="*.jar"/>
             </fileset>
         </artifact>
-
+		
+        <artifact track="main" type="jars" id="net-handle.jars">
+            <fileset dir="${share.dir}/net-handle">
+                <include name="*.jar"/>
+            </fileset>
+        </artifact>
+    	
         <!-- ================= -->
         <!-- project artifacts -->
         <!-- ================= -->
