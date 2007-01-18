@@ -158,16 +158,6 @@ function updateTargetPage(s){
 														class="heightControl"></td>
 												</tr>
 												<tr>
-													<td class="label"><span class="red">*</span><em></em>Study
-													Subject Identifier:</td>
-													<td><form:input path="studyParticipantIdentifier" /></td>
-												</tr>
-												<tr>
-													<td class="label"><span class="red">*</span><em></em>Start
-													Date:</td>
-													<td><form:input path="startDate" /><I>(mm-dd-yyyy)</I></td>
-												</tr>
-												<tr>
 													<td class="label"><span class="red">*</span><em></em>Informed
 													Consent Signed Date:</td>
 													<td><form:input path="informedConsentSignedDate" /><I>(mm-dd-yyyy)</I></td>

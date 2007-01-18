@@ -168,6 +168,7 @@ function updateTargetPage(s){
 														<c:choose>
 															<c:when test="${epoch.name=='Treatment'}">
 																<td><form:select path="scheduledArms[0].arm.id">
+																	<option value="-10" selected>--Please Select--</option>
 																	<form:options items="${epoch.arms}" itemValue="id"
 																		itemLabel="name" />
 																</form:select></td>
