@@ -149,14 +149,14 @@
     <!-- =============================================================== -->
     <target name="build-web" depends="prepare" description="Builds the web project">
         <resolveDependencies extdir="${projects.dir}/web/ext">
-            <artifact refid="common.test.jars"/>
+    		<artifact refid="security.lib.jars"/>      
+			<artifact refid="common.test.jars"/>
             <artifact refid="spring.jars"/>
             <artifact refid="c3pr.core.jars"/>
             <artifact refid="jdom.jars"/>
             <artifact refid="dom4j.jars"/>
             <artifact refid="xerces.jars"/>
             <artifact refid="xercesImpl.jars"/>
-            <artifact refid="commons-logging.jars"/>
         </resolveDependencies>
         <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
@@ -249,6 +249,11 @@
         <copy todir="${deploy.path}/${webapp.name}/WEB-INF/" preservelastmodified="true">
             <fileset dir="${projects.dir}/core/src">
                 <include name="**/*.xml" />
+            </fileset>
+        </copy>
+    	<copy todir="${deploy.path}/${webapp.name}/WEB-INF/" preservelastmodified="true">
+            <fileset dir="${projects.dir}/core/conf">
+                <include name="**/*dct" />
             </fileset>
         </copy>
         <ant dir="${projects.dir}/web" inheritAll="true" antfile="build.xml" target="deploy"/>

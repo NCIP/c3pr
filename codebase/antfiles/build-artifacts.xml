@@ -137,6 +137,12 @@
             </fileset>
         </artifact>
     	
+    	<artifact track="main" type="jars" id="security.lib.jars">
+            <fileset dir="${share.dir}/security/lib">
+                <include name="*.jar"/>
+            </fileset>
+        </artifact>
+    	
         <!-- ================= -->
         <!-- project artifacts -->
         <!-- ================= -->
