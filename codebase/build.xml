@@ -253,6 +253,14 @@
         <ant dir="${projects.dir}/web" inheritAll="true" antfile="build.xml" target="deploy"/>
     </target>
 
+    <!-- ====================================================================== -->
+    <!-- UnDeploys the webapp (note:- only web + core projects )in Catalina_home  -->
+    <!-- ====================================================================== -->
+    <target name="undeploy-webapp" description="undeploys the c3pr webapp">
+        <ant dir="${projects.dir}/web" inheritAll="true" antfile="build.xml" target="undeploy-web"/>
+    </target>
+
+
     <!-- ============================================================== -->
     <!-- Builds C3PR  from scratch                                     -->
     <!-- ============================================================== -->
