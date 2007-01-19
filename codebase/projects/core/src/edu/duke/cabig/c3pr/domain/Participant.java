@@ -32,7 +32,7 @@ public class Participant extends Person implements Comparable<Participant>
 	private List<Identifier> identifiers = new ArrayList<Identifier>();
 	private List<StudyParticipantAssignment> studyParticipantAssignments= new ArrayList<StudyParticipantAssignment>();
 		 
-    @OneToMany
+    @OneToMany(fetch=FetchType.EAGER)
     @Cascade({CascadeType.ALL,CascadeType.DELETE_ORPHAN})
     @JoinColumn(name = "PRT_ID")
     public List<Identifier> getIdentifiers() {
