@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--servicemix toolkit-->
+
+<project name="servicemix-toolkit" default="all" basedir=".">
+
+    <property name="install.dir" value="${basedir}/install"/>
+
+    <property name="data.dir" value="${basedir}/data"/>
+    <property name="deploy.dir" value="${basedir}/deploy"/>
+    <property name="install.dir" value="${basedir}/install"/>
+
+    <property name="bin.dir" value="${basedir}/bin"/>
+    <property name="bin.data.dir" value="${bin.dir}/data"/>
+    <property name="bin.deploy.dir" value="${bin.dir}/deploy"/>
+    <property name="bin.install.dir" value="${bin.dir}/install"/>
+
+
+    <target name="init">
+        <mkdir dir="${install.dir}"/>
+        <!--other directories are created by the toolkit-->
+    </target>
+
+    <!--Clean all directories created by the servicemix toolkit-->
+    <target name="clean" description="Cleans the project">
+        <delete dir="${data.dir}"/>
+        <delete dir="${deploy.dir}"/>
+        <delete dir="${install.dir}"/>
+
+        <delete dir="${bin.data.dir}"/>
+        <delete dir="${bin.deploy.dir}"/>
+        <delete dir="${bin.install.dir}"/>
+
+    </target>
+
+    <target name="all" depends="init" description="Sets up the project before starting the toolkit"/>
+
+</project>
