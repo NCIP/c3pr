@@ -152,10 +152,10 @@ function fireAction(action, selectedEpoch, selectedArm){
 
 							<tr align="center" class="label">
 								<td width="5%" align="center"><a href="javascript:fireAction('addEpoch','0','0');"><img
-									src="images/checkyes.gif" border="0"></a>Epochs (add)</td>
-								<td width="20%" align="center">Epoch</td>
+									src="images/checkyes.gif" border="0"></a>(add)</td>
+								<td width="20%" align="center">Epoch <span class="red">*</span></td>
 								<td width="20%" align="center">Description</td>
-								<td width="3%" align="center">Arms (add)</td>
+								<td width="3%" align="center">(add arms)(<span class="red">*</span></td>
 								<td width="50%" align="center">[Name, Target Accrual Number]</td>
 
 							</tr>
