@@ -224,6 +224,7 @@ function validatePage(){
 								<tr>
 									<td class="label"><em></em>Monitor Code:</td>
 									<td><form:select path="monitorCode">
+										<option value="">--Please Select--									
 										<form:options items="${monitorCodeRefData}" itemLabel="desc"
 											itemValue="desc" />
 									</form:select></td>

@@ -150,9 +150,9 @@ function fireAction(action, selected){
 								<tr align="center" class="label">
 									<td width="10%" align="center"><a href="javascript:fireAction('addIdentifier','0');"><img
 										src="images/checkyes.gif" border="0" alt="Add another Identifier"></a></td>
-									<td width="20%" align="center">Source</td>
-									<td width="20%" align="center">Identifier Type</td>
-									<td width="20%" align="center">Identifier</td>
+									<td width="20%" align="center">Source<span class="red">*</span></td>
+									<td width="20%" align="center">Identifier Type<span class="red">*</span></td>
+									<td width="20%" align="center">Identifier<span class="red">*</span></td>
 									<td width="25%" align="center">Primary Indicator</td>
 								</tr>
 								<c:forEach items="${command.identifiers}" varStatus="status">
@@ -160,9 +160,11 @@ function fireAction(action, selected){
 										<td width="10%"><a href="javascript:fireAction('removeIdentifier',${status.index});"><img
 											src="images/checkno.gif" border="0"></a></td>
 										<td width="20%"><form:select path="identifiers[${status.index}].source">
+											<option value="">--Please Select--									
 											<form:options items="${identifiersSourceRefData}" itemLabel="name"
 												itemValue="name" /></form:select></td>
 										<td width="20%"><form:select path="identifiers[${status.index}].type">
+											<option value="">--Please Select--									
 											<form:options items="${identifiersTypeRefData}" itemLabel="desc"
 												itemValue="desc" /></form:select></td>
 										<td width="20%"><form:input path="identifiers[${status.index}].value"/></td>
