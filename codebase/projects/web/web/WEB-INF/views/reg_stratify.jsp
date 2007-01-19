@@ -164,7 +164,7 @@ function updateTargetPage(s){
 														class="heightControl"></td>
 												</tr>
 												<tr>
-													<td class="label" align=left><span class="red">* Not Implemented</span><em></em></td>
+													<td class="label" align=left><span class="red">* Under Contruction</span><em></em></td>
 												</tr>
 											</table>
 											</td>
