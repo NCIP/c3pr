@@ -10,6 +10,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.validation.BindException;
@@ -38,7 +39,7 @@ import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
  *
  */
 public class CreateStudyController extends AbstractWizardFormController {
-    private static Log log = LogFactory.getLog(CreateStudyController.class);
+    private static final Log log = LogFactory.getLog(CreateStudyController.class);
 	private StudyService studyService;
 	private StudyDao studyDao;
 	private HealthcareSiteDao healthcareSiteDao;
@@ -136,8 +137,21 @@ public class CreateStudyController extends AbstractWizardFormController {
 					request.getParameter("_selectedEpoch"),
 					request.getParameter("_selectedArm"));	
 				break;			
-			case 4://review and submit Tab, save study and proceed to final page				
+			case 4:
 				Study study = (Study) command;
+				
+				//cleanup identifiers page if user selected 'please select'
+				List<Identifier> newList = new ArrayList<Identifier>();			
+				for (Identifier identifier : study.getIdentifiers()) {
+					if(!StringUtils.isEmpty(identifier.getSource()) &&
+						!StringUtils.isEmpty(identifier.getType()) )
+					{
+						newList.add(identifier);
+					}	
+				}					
+				study.setIdentifiers(newList);
+				
+				//review and submit Tab, save study and proceed to final page					
 				studyService.save(study);
 				break;
 			default:
@@ -146,17 +160,19 @@ public class CreateStudyController extends AbstractWizardFormController {
 	}
 	
 	private void handleIdentifierAction(Study study, String action, String selected)
-	{
+	{				
 		if ("addIdentifier".equals(action))
 		{	
-			log.debug("Requested Add Identifier");																														
-			study.addIdentifier(new Identifier());		
+			log.debug("Requested Add Identifier");	
+			Identifier id = new Identifier();
+			id.setValue("<enter value>");
+			study.addIdentifier(id);		
 		}
 		else if ("removeIdentifier".equals(action))
 		{
 			log.debug("Requested Remove Identifier");	
 			study.getIdentifiers().remove(Integer.parseInt(selected));
-		}		
+		}					
 	}
 	
 	private void handleStudySiteAction(Study study, String action, String selected)
@@ -257,19 +273,15 @@ public class CreateStudyController extends AbstractWizardFormController {
 		Identifier id1 = new Identifier();	
 		id1.setSource("source");
 		id1.setType("type");
-		id1.setValue("value");
+		id1.setValue("<enter value>");
 		id1.setPrimaryIndicator(true);
 		identifiers.add(id1);
 		Identifier id2 = new Identifier();	
 		id2.setSource("source2");
 		id2.setType("type2");
-		id2.setValue("value2");
+		id2.setValue("<enter value>");
 		identifiers.add(id2);
-		Identifier id3 = new Identifier();	
-		id3.setSource("source3");
-		id3.setType("type3");
-		id3.setValue("value3");
-		identifiers.add(id3);
+		
 		study.setIdentifiers(identifiers);		
 	}
 
