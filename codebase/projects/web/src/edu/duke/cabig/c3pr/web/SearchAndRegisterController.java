@@ -15,6 +15,8 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 
+import com.semanticbits.security.grid.GridLoginContext;
+
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -118,7 +120,8 @@ public class SearchAndRegisterController extends SimpleFormController {
 	protected Map<String, Object> referenceData(
 			HttpServletRequest httpServletRequest) throws Exception {
 		Map<String, Object> refdata = new HashMap<String, Object>();
-
+		GridLoginContext gridLoginContext=(GridLoginContext)httpServletRequest.getSession().getAttribute("login-context");
+		refdata.put("user", gridLoginContext.getFirstName()+" "+gridLoginContext.getLastName());
 		refdata.put("searchType", getSearchType());
 		refdata.put("searchTypePart", getSearchTypeParticipant());
 		return refdata;

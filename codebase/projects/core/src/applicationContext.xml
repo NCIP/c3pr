@@ -65,4 +65,13 @@
             </props>
         </property>
     </bean>
+    <bean id="gridAuthenticationManager" class="com.semanticbits.security.grid.impl.GridAuthenticationManagerImpl">
+        <property name="idpUrl">
+            <value>https://10.10.10.2:8446/wsrf/services/cagrid/AuthenticationService</value>
+        </property>
+        <property name="ifsUrl">
+            <value>https://10.10.10.2:8443/wsrf/services/cagrid/Dorian</value>
+        </property>
+    </bean>
+    
 </beans>
