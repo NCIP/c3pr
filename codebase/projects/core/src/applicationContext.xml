@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
-<beans>
+<beans
+ 	xmlns="http://www.springframework.org/schema/beans"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
+    >
     <bean id="dataSourceTemplate" abstract="true" class="org.apache.commons.dbcp.BasicDataSource">
         <property name="driverClassName">
             <value>${datasource.driver}</value>
@@ -47,13 +53,6 @@
             <value>${datasource.password}</value>
         </property>
     </bean>
-<!--
-    <bean id="lobHandler" class="org.springframework.jdbc.support.lob.OracleLobHandler">
-        <property name="nativeJdbcExtractor">
-            <bean class="org.springframework.jdbc.support.nativejdbc.CommonsDbcpNativeJdbcExtractor"/>
-        </property>
-    </bean>
--->
     <bean id="hibernateProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="properties">
             <props>
