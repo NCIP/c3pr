@@ -1,6 +1,5 @@
 package edu.duke.cabig.c3pr.domain;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,6 +76,11 @@ public class Study extends AbstractDomainObject implements Comparable<Study>{
 	public void addIdentifier(Identifier identifier)
 	{
 		identifiers.add(identifier);
+	}
+	
+	public void removeIdentifier(Identifier identifier)
+	{
+		identifiers.remove(identifier);
 	}
 	
 	/// BEAN PROPERTIES
