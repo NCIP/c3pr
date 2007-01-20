@@ -34,18 +34,11 @@
 	<classpathentry exported="true" kind="lib" path="share/hibernate-3.2.1/hibernate-annotations.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/core/build/jars/c3pr-2.0-core-1.0.jar"/>
 	<classpathentry exported="true" sourcepath="projects/core/test" kind="lib" path="projects/core/build/jars/c3pr-2.0-core-tests-1.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/web/lib/axis-ant.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/web/lib/axis-saaj-1.2.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/web/lib/axis-schema.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/web/lib/commons-fileupload.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/web/lib/commons-httpclient-3.0-rc2.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/web/lib/freemarker.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/web/lib/jaas.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/web/lib/javax.servlet.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/web/lib/javax.servlet.jsp.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/web/lib/nls_charset12.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/web/lib/sitemesh-2.2.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/web/lib/taglibs-datagrid.jar"/>
 	<classpathentry exported="true" kind="lib" path="share/dom4j-1.6.1/dom4j-1.6.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="share/commons-logging/commons-logging.jar"/>
 	<classpathentry exported="true" kind="lib" path="share/ant-contrib/ant-contrib.jar"/>
@@ -56,15 +49,12 @@
 	<classpathentry exported="true" kind="lib" path="projects/core/test/lib/servlet-api.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/core/test/lib/spring-mock.jar"/>
 	<classpathentry exported="true" kind="lib" path="share/junit-3.8.1/junit-3.8.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/web/lib/displaytag-1.1.jar"/>
 	<classpathentry kind="lib" path="share/log4j-1.2.13/log4j-1.2.13.jar"/>
 	<classpathentry kind="lib" path="share/cacore/client.jar"/>
 	<classpathentry kind="lib" path="share/spring-2.0/spring2.0.2.jar"/>
 	<classpathentry kind="lib" path="share/jdom/jdom.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/esb-client_1.0"/>
 	<classpathentry kind="lib" path="share/security/lib/addressing-1.0.jar"/>
-	<classpathentry kind="lib" path="share/security/lib/axis.jar"/>
-	<classpathentry kind="lib" path="share/security/lib/axis-url.jar"/>
 	<classpathentry kind="lib" path="share/security/lib/bootstrap.jar"/>
 	<classpathentry kind="lib" path="share/security/lib/caGrid-1.0-authentication-service-client.jar"/>
 	<classpathentry kind="lib" path="share/security/lib/caGrid-1.0-authentication-service-common.jar"/>
