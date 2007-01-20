@@ -59,7 +59,7 @@ function submitPage(s){
 	id="subNav">
 	<tr>
 
-		<td width="99%" valign="middle">&nbsp;</td>
+		<td width="99%" valign="middle" class="left">&nbsp;</td>
 		<td valign="middle" class="right"><a href="help">Help</a></td>
 	</tr>
 </table>
@@ -74,7 +74,7 @@ function submitPage(s){
 		<!-- TITLE STARTS HERE -->
 
 		<td width="99%" height="43" valign="middle" id="title">Welcome
-		User</td>
+		${user }</td>
 		<!-- TITLE ENDS HERE -->
 
 		<!-- SEARCH STARTS HERE -->

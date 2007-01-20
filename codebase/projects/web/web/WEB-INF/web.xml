@@ -49,6 +49,15 @@
         <servlet-name>c3pr</servlet-name>
         <url-pattern>*.do</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>public</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>public</servlet-name>
+        <url-pattern>/public/*</url-pattern>
+    </servlet-mapping>    
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>

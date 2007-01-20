@@ -30,14 +30,12 @@
 	<classpathentry exported="true" kind="lib" path="projects/core/lib/standard.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/core/lib/xbean-spring-2.7.jar"/>
 	<classpathentry exported="true" kind="lib" path="share/antlr-2.7.6/antlr-2.7.6.jar"/>
-	<classpathentry exported="true" kind="lib" path="share/spring-2.0/spring.jar" sourcepath="D:/projects/spring2"/>
-	<classpathentry exported="true" kind="lib" path="share/hibernate-3.2.1/hibernate3.2.1.jar" sourcepath="C:/devtools/hibernate-3.2/src"/>
+	<classpathentry exported="true" sourcepath="D:/projects/spring2" kind="lib" path="share/spring-2.0/spring.jar"/>
+	<classpathentry exported="true" sourcepath="C:/devtools/hibernate-3.2/src" kind="lib" path="share/hibernate-3.2.1/hibernate3.2.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="share/hibernate-3.2.1/hibernate-annotations.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/core/build/jars/c3pr-2.0-core-1.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/core/build/jars/c3pr-2.0-core-tests-1.0.jar" sourcepath="projects/core/test"/>
-	<classpathentry exported="true" kind="lib" path="projects/web/lib/axis.jar"/>
+	<classpathentry exported="true" sourcepath="projects/core/test" kind="lib" path="projects/core/build/jars/c3pr-2.0-core-tests-1.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/web/lib/axis-ant.jar"/>
-	<classpathentry exported="true" kind="lib" path="projects/web/lib/axis-jaxrpc-1.2.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/web/lib/axis-saaj-1.2.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/web/lib/axis-schema.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/web/lib/commons-fileupload.jar"/>
@@ -62,6 +60,59 @@
 	<classpathentry exported="true" kind="lib" path="projects/web/lib/displaytag-1.1.jar"/>
 	<classpathentry kind="lib" path="share/log4j-1.2.13/log4j-1.2.13.jar"/>
 	<classpathentry kind="lib" path="share/cacore/client.jar"/>
-	<classpathentry kind="lib" path="share/jdom/jdom.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/esb-client_1.0"/>
+	<classpathentry kind="lib" path="share/security/lib/addressing-1.0.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/axis.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/axis-url.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/bootstrap.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/caGrid-1.0-authentication-service-client.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/caGrid-1.0-authentication-service-common.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/caGrid-1.0-authentication-service-stubs.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/caGrid-1.0-core.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/caGrid-1.0-dorian-client.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/caGrid-1.0-dorian-common.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/caGrid-1.0-dorian-stubs.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/caGrid-1.0-gridca.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/caGrid-1.0-metadata-common.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/caGrid-1.0-metadata-data.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/caGrid-1.0-metadata-security.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/caGrid-1.0-opensaml-1.1.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/caGrid-1.0-ServiceSecurityProvider-client.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/caGrid-1.0-ServiceSecurityProvider-common.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/caGrid-1.0-ServiceSecurityProvider-stubs.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/cog-axis.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/cog-jglobus.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/cog-tomcat.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/cog-url.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/commonj.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/commons-cli-2.0.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/commons-digester.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/commons-discovery.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/concurrent.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/cryptix.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/cryptix32.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/cryptix-asn1.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/globus_wsrf_mds_aggregator_stubs.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/globus_wsrf_mds_aggregator.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/globus_wsrf_servicegroup_stubs.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/globus_wsrf_servicegroup.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/grid-security-plugin-1.0.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/jaxrpc.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/jce-jdk13-125.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/jgss.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/mobius_common_client-1.1.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/mobius_factories-1.1.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/mobius_gme_client-1.1.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/mobius_mako_client-1.1.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/mobius_tools-1.1.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/naming-java.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/puretls.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/saaj.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/wsdl4j.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/wsrf_core_stubs.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/wsrf_core.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/wss4j.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/xmlsec.jar"/>
+	<classpathentry kind="lib" path="share/security/lib/jdom.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

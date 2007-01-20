@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+    
+   <bean id="loginViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass">
+            <value>org.springframework.web.servlet.view.InternalResourceView</value>
+        </property>
+        <property name="prefix">
+            <value>/WEB-INF/views/</value>
+        </property>
+        <property name="suffix">
+            <value>.jsp</value>
+        </property>
+    </bean>
+
+	<bean id="xmlViewResolver" class="org.springframework.web.servlet.view.XmlViewResolver">
+        <property name="location"><value>/WEB-INF/special-views.xml</value></property>
+    </bean>
+    
+    <bean id="urlMappingName" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <props>
+                 <prop key="/login.htm">loginController</prop>
+            </props>
+        </property>
+        <property name="order" value="1"/>        
+    </bean>    
+
+   
+    <bean id="loginController" autowire="byType"
+        class="edu.duke.cabig.c3pr.web.LoginController" lazy-init="true">
+	    <property name="commandClass" value="edu.duke.cabig.c3pr.web.LoginCommand"/>
+	    <property name="formView" value="login"/>
+    </bean>
+
+    <bean name="/welcome" id="welcomeController"
+        class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+        <property name="viewName"><value>internal-welcome</value></property>
+    </bean>    
+
+              
+</beans>

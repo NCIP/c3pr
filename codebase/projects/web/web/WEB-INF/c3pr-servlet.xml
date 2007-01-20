@@ -9,7 +9,13 @@
             <value>messages</value>
         </property>
     </bean>
-    <bean id="urlMapping" class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>
+    <bean id="urlMapping" class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping">
+        <property name="interceptors">
+            <list>
+                <ref bean="loginCheckInterceptor"/>
+            </list>
+        </property>
+	</bean>    
 
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass">
@@ -100,6 +106,11 @@
     </bean>
 
     <bean id="urlMappingName" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="interceptors">
+            <list>
+                <ref bean="loginCheckInterceptor"/>
+            </list>
+        </property>
         <property name="mappings">
             <props>
                  <prop key="/register.do">registrationController</prop>
@@ -110,4 +121,7 @@
         </property>
         <property name="order" value="1"/>        
     </bean>    
+    
+    <bean id="loginCheckInterceptor" class="edu.duke.cabig.c3pr.web.accesscontrol.LoginCheckInterceptor"/>
+    
 </beans>
