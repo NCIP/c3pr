@@ -24,10 +24,10 @@ function getPage(s){
 <!-- TOP LOGOS START HERE -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
-		<td width="99%"><img src="images/c3prLogo.gif" alt="C3PR" width="181"
-			height="36" class="gelogo"></td>
-		
-			
+		<td width="99%"><img src="images/c3prLogo.gif" alt="C3PR"
+			width="181" height="36" class="gelogo"></td>
+
+
 	</tr>
 </table>
 <!-- TOP LOGOS END HERE -->
@@ -90,11 +90,8 @@ function getPage(s){
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						5. Stratify <img src="images/tabGrayR.gif" width="3" height="16"
 							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
-							height="16" align="absmiddle"> 6. Randomize <img
-							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"><img
-							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						7. Review and Submit <img src="images/tabGrayR.gif" width="3"
-							height="16" align="absmiddle"></span></td>
+							height="16" align="absmiddle"> 6. Review and Submit <img
+							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"></span></td>
 						<td><img src="images/spacer.gif" width="7" height="1"></td>
 					</tr>
 					<tr>
@@ -505,14 +502,20 @@ function getPage(s){
 											<option>Filter2</option>
 										</select></td>
 										<td>Reg Id</td>
-										<td>Short<br>Title</td>
+										<td>Short<br>
+										Title</td>
 										<td>Status</td>
-										<td>Disease<br>Code</td>
-										<td>Amendment<br>Date</td>
-										<td>Stratification<br>Factor</td>
+										<td>Disease<br>
+										Code</td>
+										<td>Amendment<br>
+										Date</td>
+										<td>Stratification<br>
+										Factor</td>
 										<td>Randomization</td>
-										<td>Current Accrual<br>Number</td>
-										<td>Target Accrual<br>Number</td>
+										<td>Current Accrual<br>
+										Number</td>
+										<td>Target Accrual<br>
+										Number</td>
 									</tr>
 									<tr align="center" class="current">
 										<td><img src="images/currentView.gif"
@@ -557,8 +560,7 @@ function getPage(s){
 		</td>
 	</tr>
 </table>
-<div id="copyright">
-</div>
+<div id="copyright"></div>
 </div>
 <!-- MAIN BODY ENDS HERE -->
 </body>

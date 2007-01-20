@@ -107,12 +107,8 @@ function updateTargetPage(s){
 								src="images/tabGrayL.gif" width="3" height="16"
 								align="absmiddle"> 5. Stratify <img
 								src="images/tabGrayR.gif" width="3" height="16"
-								align="absmiddle"></span><span class="tab"><img
-								src="images/tabGrayL.gif" width="3" height="16"
-								align="absmiddle"> 6. Randomize <img
-								src="images/tabGrayR.gif" width="3" height="16"
-								align="absmiddle"><img src="images/tabGrayL.gif" width="3"
-								height="16" align="absmiddle"> 7. Review and Submit <img
+								align="absmiddle"></span><span class="tab"><img src="images/tabGrayL.gif" width="3"
+								height="16" align="absmiddle"> 6. Review and Submit <img
 								src="images/tabGrayR.gif" width="3" height="16"
 								align="absmiddle"></span></td>
 							<td><img src="images/spacer.gif" width="7" height="1"></td>
@@ -176,7 +172,7 @@ function updateTargetPage(s){
 											<td colspan=2 valign="top"><br>
 											<br>
 											<a href=""
-												onClick="updateTargetPage('randomizeView');return false;"><img
+												onClick="updateTargetPage('reviewAndSubmitView');return false;"><img
 												src="images/b-continue.gif" alt="Continue" width="59"
 												height="16" border="0"></a> <a href=""><img
 												src="images/b-startOver.gif" alt="Start Over" width="67"

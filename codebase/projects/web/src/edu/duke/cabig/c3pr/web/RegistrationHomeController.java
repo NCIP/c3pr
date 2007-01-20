@@ -130,11 +130,7 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 			throws Exception {
 		// TODO Auto-generated method stub
 		StudyParticipantAssignment studyParticipantAssignment = new StudyParticipantAssignment();
-		/*
-		 * studyParticipantAssignment
-		 * .setStudyParticipantIdentifier("TESTID_Kruttik_BIG");
-		 * studyParticipantAssignment.setStartDate(new Date());
-		 */studyParticipantAssignment
+		studyParticipantAssignment
 				.setEligibilityIndicator(new Boolean(false));
 		StudySite studySite = null;
 		Participant participant = null;
@@ -181,14 +177,6 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 			studyParticipantAssignment.setParticipant(participant);
 		}
 
-		ScheduledArm scheduledArm = new ScheduledArm();
-		scheduledArm.setEligibilityIndicator("true");
-		scheduledArm.setStartDate(new Date());
-		Arm arm = new Arm();
-		// arm.setEpoch(studyParticipantAssignment.getStudySite().getStudy().getEpochs().get(0));
-		scheduledArm.setArm(arm);
-		studyParticipantAssignment.addScheduledArm(scheduledArm);
-		scheduledArm.setStudyParticipantAssignment(studyParticipantAssignment);
 		List<Epoch> list = studyParticipantAssignment.getStudySite().getStudy()
 				.getEpochs();
 		if (logger.isDebugEnabled()) {
@@ -334,68 +322,10 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 			}
 			studyParticipantAssignment.getParticipant()
 					.addStudyParticipantAssignment(studyParticipantAssignment);
-			int scheduledArmsSize = studyParticipantAssignment
-					.getScheduledArms().size();
-			// System.out.println("------------------------ScheduledArmSize is
-			// "+scheduledArmsSize+"-------------------------");
-			int armId = studyParticipantAssignment.getScheduledArms().get(
-					scheduledArmsSize - 1).getArm().getId();
-			if (armId >= 0) {
-				System.out.println("------------------Randomization selected---------------------");
-				Arm arm = null;
-				List<Epoch> list = studyParticipantAssignment.getStudySite()
-						.getStudy().getEpochs();
-				if (logger.isDebugEnabled()) {
-					logger
-							.debug("postProcessPage(HttpServletRequest, Object, Errors, int) - " + list.size()); //$NON-NLS-1$
-				}
-				List<Arm> arms = null;
-				for (int i = 0; i < list.size(); i++) {
-					Epoch e = (Epoch) list.get(i);
-					if (logger.isDebugEnabled()) {
-						logger
-								.debug("postProcessPage(HttpServletRequest, Object, Errors, int) - " + e.getName()); //$NON-NLS-1$
-					}
-					if (e.getName().equals("Treatment")) {
-						for (int j = 0; j < e.getArms().size(); j++) {
-							if (logger.isDebugEnabled()) {
-								logger
-										.debug("postProcessPage(HttpServletRequest, Object, Errors, int) - " + e.getArms().get(j).getName()); //$NON-NLS-1$
-							}
-							if (logger.isDebugEnabled()) {
-								logger
-										.debug("postProcessPage(HttpServletRequest, Object, Errors, int) - --------------------------------------postProcessPage() Arms available-----------------------------------------"); //$NON-NLS-1$
-							}
-
-						}
-						arms = (List<Arm>) (studyParticipantAssignment
-								.getStudySite().getStudy().getEpochs().get(i)
-								.getArms());
-					}
-				}
-				boolean flag = true;
-				for (int i = 0; i < arms.size(); i++) {
-					if (arms.get(i).getId() == armId) {
-						arm = arms.get(i);
-						flag = false;
-					}
-				}
-				if (flag)
-					arm = armDao.getById(armId);
-				studyParticipantAssignment.getScheduledArms().get(
-						scheduledArmsSize - 1).setArm(arm);
-			}else{
-				System.out.println("------------------No Randomization done---------------------");
-				studyParticipantAssignment.getScheduledArms().remove(scheduledArmsSize-1);
-			}
-			// ArrayList<StudyParticipantAssignment> stArrayList=new
-			// ArrayList<StudyParticipantAssignment>();
-			// stArrayList.add(studyParticipantAssignment);
-			// studyParticipantAssignment.getParticipant().setStudyParticipantAssignments(stArrayList);
-			// studyParticipantAssignment.getStudySite().setStudyParticipantAssignments(stArrayList);
-			studyParticipantAssignment.setStudyParticipantIdentifier(studyParticipantAssignment.getId()+"");
 			studyParticipantAssignment.setStartDate(new Date());
+			studyParticipantAssignment.setStudyParticipantIdentifier("SYS_GEN1");
 			participantDao.save(studyParticipantAssignment.getParticipant());
+			studyParticipantAssignment.setStudyParticipantIdentifier(studyParticipantAssignment.getId()+"");
 			String xml = "";
 			try {
 				xml = XMLUtils.toXml(studyParticipantAssignment);
@@ -403,13 +333,20 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 						.println("--------------------XML for Registration--------------------");
 				System.out.println(xml);
 				messageBroadcaster.broadcast(xml);
-			} catch (RuntimeException e) {
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			// response.sendRedirect("/c3pr");
-			// return null;
-			// return new ModelAndView("reg_confrm_registration");
+		}
+		if (viewName.equalsIgnoreCase("randomizeView")) {
+			StudyParticipantAssignment studyParticipantAssignment = (StudyParticipantAssignment) command;
+			ScheduledArm scheduledArm = new ScheduledArm();
+			scheduledArm.setEligibilityIndicator("true");
+			scheduledArm.setStartDate(new Date());
+			Arm arm = new Arm();
+			scheduledArm.setArm(arm);
+			scheduledArm.setStudyParticipantAssignment(studyParticipantAssignment);
+			studyParticipantAssignment.addScheduledArm(scheduledArm);
 		}
 	}
 
@@ -430,10 +367,65 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 	}
 
 	@Override
-	protected ModelAndView processFinish(HttpServletRequest arg0,
-			HttpServletResponse arg1, Object arg2, BindException arg3)
+	protected ModelAndView processFinish(HttpServletRequest request,
+			HttpServletResponse response, Object command, BindException arg3)
 			throws Exception {
+		StudyParticipantAssignment studyParticipantAssignment=(StudyParticipantAssignment)command;
+		int scheduledArmsSize = studyParticipantAssignment
+		.getScheduledArms().size();
+		int armId = studyParticipantAssignment.getScheduledArms().get(
+				scheduledArmsSize - 1).getArm().getId();
+		if (armId >= 0) {
+			System.out.println("------------------Randomization selected---------------------");
+			Arm arm = null;
+			List<Epoch> list = studyParticipantAssignment.getStudySite()
+					.getStudy().getEpochs();
+			if (logger.isDebugEnabled()) {
+				logger
+						.debug("postProcessPage(HttpServletRequest, Object, Errors, int) - " + list.size()); //$NON-NLS-1$
+			}
+			List<Arm> arms = null;
+			for (int i = 0; i < list.size(); i++) {
+				Epoch e = (Epoch) list.get(i);
+				if (logger.isDebugEnabled()) {
+					logger
+							.debug("postProcessPage(HttpServletRequest, Object, Errors, int) - " + e.getName()); //$NON-NLS-1$
+				}
+				if (e.getName().equals("Treatment")) {
+					for (int j = 0; j < e.getArms().size(); j++) {
+						if (logger.isDebugEnabled()) {
+							logger
+									.debug("postProcessPage(HttpServletRequest, Object, Errors, int) - " + e.getArms().get(j).getName()); //$NON-NLS-1$
+						}
+						if (logger.isDebugEnabled()) {
+							logger
+									.debug("postProcessPage(HttpServletRequest, Object, Errors, int) - --------------------------------------postProcessPage() Arms available-----------------------------------------"); //$NON-NLS-1$
+						}
+
+					}
+					arms = (List<Arm>) (studyParticipantAssignment
+							.getStudySite().getStudy().getEpochs().get(i)
+							.getArms());
+				}
+			}
+			boolean flag = true;
+			for (int i = 0; i < arms.size(); i++) {
+				if (arms.get(i).getId() == armId) {
+					arm = arms.get(i);
+					flag = false;
+				}
+			}
+			if (flag)
+				arm = armDao.getById(armId);
+			studyParticipantAssignment.getScheduledArms().get(
+					scheduledArmsSize - 1).setArm(arm);
+		}else{
+			System.out.println("------------------No Randomization done---------------------");
+			studyParticipantAssignment.getScheduledArms().remove(scheduledArmsSize-1);
+		}
+		participantDao.save(studyParticipantAssignment.getParticipant());
 		// TODO Auto-generated method stub
+		response.sendRedirect("/c3pr/SearchAndRegister.do");
 		return null;
 	}
 }

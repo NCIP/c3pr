@@ -106,19 +106,11 @@ function updateTargetPage(s){
 						Eligibility</a> <img src="images/tabGrayR.gif" width="3" height="16"
 							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
 							height="16" align="absmiddle"> 5. <a
-							href="javascript:updateTargetPage('enrollView');">Enroll
-						Subject </a> <img src="images/tabGrayR.gif" width="3" height="16"
-							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
-							height="16" align="absmiddle"> 6. <a
 							href="javascript:updateTargetPage('stratifyView');">Stratify</a>
-						<img src="images/tabGrayR.gif" width="3" height="16"
-							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
-							height="16" align="absmiddle"> 7. <a
-							href="javascript:updateTargetPage('randomizeView');">Randomize</a>
 						<img src="images/tabGrayR.gif" width="3" height="16"
 							align="absmiddle"></span><span class="current"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						7. Review and Submit <img src="images/tabGrayR.gif" width="3"
+						6. Review and Submit <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"></span></td>
 						<td><img src="images/spacer.gif" width="7" height="1"></td>
 					</tr>
@@ -320,15 +312,18 @@ function updateTargetPage(s){
 														class="heightControl"></td>
 												</tr>
 												<tr>
-													<td class="label"><span class="red">*</span><em></em>Study Subject Identifier:</td>
+													<td class="label"><span class="red">*</span><em></em>Study
+													Subject Identifier:</td>
 													<td>${command.studyParticipantIdentifier }</td>
 												</tr>
 												<tr>
-													<td class="label"><span class="red">*</span><em></em>Start Date:</td>
+													<td class="label"><span class="red">*</span><em></em>Start
+													Date:</td>
 													<td>${command.startDate }</td>
 												</tr>
 												<tr>
-													<td class="label"><span class="red">*</span><em></em>Informed Consent Signed Date:</td>
+													<td class="label"><span class="red">*</span><em></em>Informed
+													Consent Signed Date:</td>
 													<td>${command.informedConsentSignedDate }</td>
 												</tr>
 											</table>

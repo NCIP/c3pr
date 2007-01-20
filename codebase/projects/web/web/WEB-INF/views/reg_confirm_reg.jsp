@@ -31,7 +31,6 @@ function doNothing(){
 }
 function updateTargetPage(s){
 	if(validatePage()){
-		alert("In");
 		document.getElementById("nextView").value=s;
 		document.reviewForm.submit();
 	}
@@ -99,22 +98,19 @@ function updateTargetPage(s){
 							height="16" align="absmiddle"> 2. Select Subject <img
 							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						3. <a href="javascript:updateTargetPage('enrollView');">Enrollment
-						Details </a> <img src="images/tabGrayR.gif" width="3" height="16"
-							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
-							height="16" align="absmiddle"> 4. Check Eligibility <img
-							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"><img
+						3. Enrollment Details <img src="images/tabGrayR.gif" width="3"
+							height="16" align="absmiddle"><img
+							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
+						4. Check Eligibility <img src="images/tabGrayR.gif" width="3"
+							height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						5. Stratify <img src="images/tabGrayR.gif" width="3" height="16"
 							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
-							height="16" align="absmiddle"> 6. Randomize <img
-							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"><img
-							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						7. Review and Submit <img src="images/tabGrayR.gif" width="3"
-							height="16" align="absmiddle"></span><span class="current"><img
-							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						8. Confirmation <img src="images/tabGrayR.gif" width="3"
-							height="16" align="absmiddle"></span></td>
+							height="16" align="absmiddle"> 6. Review and Submit <img
+							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"></span><span
+							class="current"><img src="images/tabGrayL.gif" width="3"
+							height="16" align="absmiddle"> 7. Confirmation <img
+							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"></span></td>
 						<td><img src="images/spacer.gif" width="7" height="1"></td>
 					</tr>
 					<tr>
@@ -150,7 +146,7 @@ function updateTargetPage(s){
 										name="nextView"> <strong>Subject registration
 									has been successfully completed. Please <a
 										href="javascript:doNothing()">print</a> and save this
-									confirmation in the subject study records </strong><br>
+									confirmation in the subject study records </strong></font><br>
 									<table width="700" border="0" cellspacing="0" cellpadding="0"
 										id="details">
 										<tr>
@@ -187,6 +183,17 @@ function updateTargetPage(s){
 													<td class="label">Subject Registration Completed by:</td>
 													<td>username</td>
 												</tr>
+												<tr>
+													<td><img src="images/spacer.gif" width="1" height="1"
+														class="heightControl"></td>
+													<td><img src="images/spacer.gif" width="1" height="1"
+														class="heightControl"></td>
+												</tr>
+												<tr>
+													<td class="label"><a
+														href="javascript:updateTargetPage('randomizeView');">Click Here</a>
+													to Assign Arms</td>
+												</tr>
 
 											</table>
 											</td>
@@ -210,7 +217,7 @@ function updateTargetPage(s){
 										</tr>
 									</table>
 									</div>
-									</font></td>
+									</td>
 
 									<!-- LEFT CONTENT ENDS HERE -->
 								</tr>

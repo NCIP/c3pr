@@ -30,10 +30,10 @@ if (action){
 <!-- TOP LOGOS START HERE -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
-		<td width="99%"><img src="images/c3prLogo.gif" alt="C3PR" width="181"
-			height="36" class="gelogo"></td>
-		
-			
+		<td width="99%"><img src="images/c3prLogo.gif" alt="C3PR"
+			width="181" height="36" class="gelogo"></td>
+
+
 	</tr>
 </table>
 <!-- TOP LOGOS END HERE -->
@@ -91,16 +91,13 @@ if (action){
 						3. Enrollment Details </a> <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						4. Check Eligibility <img src="images/tabGrayR.gif" width="3" height="16"
-							align="absmiddle"><img
+						4. Check Eligibility <img src="images/tabGrayR.gif" width="3"
+							height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						5. Stratify <img src="images/tabGrayR.gif" width="3" height="16"
 							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
-							height="16" align="absmiddle"> 6. Randomize <img
-							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"><img
-							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						7. Review and Submit <img src="images/tabGrayR.gif" width="3"
-							height="16" align="absmiddle"></span></td>
+							height="16" align="absmiddle"> 6. Review and Submit <img
+							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"></span></td>
 						<td><img src="images/spacer.gif" width="7" height="1"></td>
 					</tr>
 					<tr>
@@ -183,12 +180,13 @@ if (action){
 										Information </a><img src="images/tabGrayR.gif" width="3"
 											height="16" align="absmiddle"><img
 											src="images/tabGrayL.gif" width="3" height="16"
-											align="absmiddle"> 2. <a href="reg_enroll_patient_address.htm">Address Information</a> <img
-											src="images/tabGrayR.gif" width="3" height="16"
-											align="absmiddle"></span><span class="current"></span><span class="current"><img
-											src="images/tabGrayL.gif" width="3" height="16"
-											align="absmiddle"> 3. Review and Submit <img
-											src="images/tabGrayR.gif" width="3" height="16"
+											align="absmiddle"> 2. <a
+											href="reg_enroll_patient_address.htm">Address Information</a>
+										<img src="images/tabGrayR.gif" width="3" height="16"
+											align="absmiddle"></span><span class="current"></span><span
+											class="current"><img src="images/tabGrayL.gif"
+											width="3" height="16" align="absmiddle"> 3. Review and
+										Submit <img src="images/tabGrayR.gif" width="3" height="16"
 											align="absmiddle"></span></td>
 										<td><img src="images/spacer.gif" width="7" height="1"></td>
 									</tr>
@@ -216,8 +214,8 @@ if (action){
 											<tr>
 												<td><img src="images/spacer.gif" width="1" height="1"
 													class="heightControl"></td>
-												<td><img src="images/spacer.gif" width="1"
-													height="1" class="heightControl"></td>
+												<td><img src="images/spacer.gif" width="1" height="1"
+													class="heightControl"></td>
 											</tr>
 											<tr>
 												<td class="label"><span class="red">*</span><em></em>First
@@ -240,11 +238,13 @@ if (action){
 												<td>Not Reported</td>
 											</tr>
 											<tr>
-												<td width="46%" class="label"><span class="red">*</span><em></em>Primary Id:</td>
+												<td width="46%" class="label"><span class="red">*</span><em></em>Primary
+												Id:</td>
 												<td width="54%">1234567XYZ</td>
 											</tr>
 											<tr>
-												<td width="46%" class="label"><span class="red">*</span><em></em>Primary Id Source:</td>
+												<td width="46%" class="label"><span class="red">*</span><em></em>Primary
+												Id Source:</td>
 												<td width="54%">NCI-Frederick / MD066</td>
 											</tr>
 										</table>
@@ -275,17 +275,19 @@ if (action){
 											<tr>
 												<td class="label"><span class="red">*</span><em></em>Race(s):</td>
 												<td>Not Reported</td>
-											</tr>											
+											</tr>
 										</table>
 										</td>
 									</tr>
 								</table>
-								<a href="reg_enroll_patient.htm"><img src="images/b-edit.gif"
-									alt="Edit" width="39" height="16" border="0"></a>
-								
+								<a href="reg_enroll_patient.htm"><img
+									src="images/b-edit.gif" alt="Edit" width="39" height="16"
+									border="0"></a>
+
 								<hr align="left" width="95%">
-								<strong><br>Step 2. Address
-								Information </strong> <br><br>
+								<strong><br>
+								Step 2. Address Information </strong> <br>
+								<br>
 								<div class="review"><strong>Home Address:</strong><br>
 								<table width="700" border="0" cellspacing="0" cellpadding="0"
 									id="details">
@@ -294,13 +296,11 @@ if (action){
 										<table width="308" border="0" cellspacing="0" cellpadding="0"
 											id="table1">
 											<tr>
-												<td class="label"><em></em>
-												Address:</td>
+												<td class="label"><em></em> Address:</td>
 												<td>xyc, route 23, yyy</td>
 											</tr>
 											<tr>
-												<td class="label"><em></em>
-												City:</td>
+												<td class="label"><em></em> City:</td>
 												<td>XXYYZZ</td>
 											</tr>
 											<tr>
@@ -308,8 +308,7 @@ if (action){
 												<td>NY<em></em><strong>&nbsp;&nbsp;&nbsp;Zip:</strong>12345</td>
 											</tr>
 											<tr>
-												<td class="label"><em></em><em></em>
-												County:</td>
+												<td class="label"><em></em><em></em> County:</td>
 												<td>USA</td>
 											</tr>
 										</table>
@@ -318,13 +317,11 @@ if (action){
 										<table width="308" border="0" cellspacing="0" cellpadding="0"
 											id="table1">
 											<tr>
-												<td class="label"><em></em>Email
-												Address:</td>
+												<td class="label"><em></em>Email Address:</td>
 												<td>abc@xyz.com</td>
 											</tr>
 											<tr>
-												<td class="label"><em></em>Work
-												Phone:</td>
+												<td class="label"><em></em>Work Phone:</td>
 												<td>102-123-1111</td>
 											</tr>
 											<tr>
@@ -353,13 +350,11 @@ if (action){
 										<table width="308" border="0" cellspacing="0" cellpadding="0"
 											id="table1">
 											<tr>
-												<td class="label"><em></em>
-												Address:</td>
+												<td class="label"><em></em> Address:</td>
 												<td>xyc, route 23, yyy</td>
 											</tr>
 											<tr>
-												<td class="label"><em></em>
-												City:</td>
+												<td class="label"><em></em> City:</td>
 												<td>XXYYZZ</td>
 											</tr>
 											<tr>
@@ -367,13 +362,11 @@ if (action){
 												<td>NY<em></em><strong>&nbsp;&nbsp;&nbsp;Zip:</strong>12345</td>
 											</tr>
 											<tr>
-												<td class="label"><em></em><em></em>
-												County:</td>
+												<td class="label"><em></em><em></em> County:</td>
 												<td>USA</td>
 											</tr>
 											<tr>
-												<td class="label"><em></em><em></em>
-												Phone:</td>
+												<td class="label"><em></em><em></em> Phone:</td>
 												<td>123-456-7890</td>
 											</tr>
 										</table>
@@ -388,17 +381,20 @@ if (action){
 								<br>
 								<strong>Preffered Address: Home<br>
 								</strong><br>
-								<a href="reg_enroll_patient_address.htm"><img src="images/b-edit.gif"
-									alt="Edit" width="39" height="16" border="0"></a>
-								
+								<a href="reg_enroll_patient_address.htm"><img
+									src="images/b-edit.gif" alt="Edit" width="39" height="16"
+									border="0"></a>
+
 								<table width="700" border="0" cellspacing="0" cellpadding="0"
 									id="details">
 									<tr align="center">
 										<td colspan=2 valign="top"><br>
 										<br>
-										<a href="reg_enroll_patient_submit.htm" onClick="addPatient();return false;"><img src="images/b-submit.gif"
-											alt="Continue" width="59" height="16" border="0"></a> <a
-											href="/c3pr/" onClick="add();return false;"><img
+										<a href="reg_enroll_patient_submit.htm"
+											onClick="addPatient();return false;"><img
+											src="images/b-submit.gif" alt="Continue" width="59"
+											height="16" border="0"></a> <a href="/c3pr/"
+											onClick="add();return false;"><img
 											src="images/b-startOver.gif" alt="Start Over" width="67"
 											height="16" border="0"></a></td>
 									</tr>
@@ -420,8 +416,7 @@ if (action){
 		</td>
 	</tr>
 </table>
-<div id="copyright">
-</div>
+<div id="copyright"></div>
 </div>
 <!-- MAIN BODY ENDS HERE -->
 </body>

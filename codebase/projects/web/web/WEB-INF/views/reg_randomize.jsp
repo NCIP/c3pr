@@ -96,23 +96,22 @@ function updateTargetPage(s){
 							height="16" align="absmiddle"> 2. Select Subject <img
 							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						3. <a href="javascript:updateTargetPage('enrollView');">Enrollment
-						Details </a> <img src="images/tabGrayR.gif" width="3" height="16"
-							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
-							height="16" align="absmiddle"> 4. <a
-							href="javascript:updateTargetPage('checkEligibilityView');">Check
-						Eligibility</a> <img src="images/tabGrayR.gif" width="3" height="16"
-							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
-							height="16" align="absmiddle"> 5. <a
-							href="javascript:updateTargetPage('stratifyView');">Stratify</a>
-						<img src="images/tabGrayR.gif" width="3" height="16"
-							align="absmiddle"></span><span class="current"><img
+						3. Enrollment Details <img src="images/tabGrayR.gif" width="3"
+							height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						6. Randomize <img src="images/tabGrayR.gif" width="3" height="16"
-							align="absmiddle"></span><span class="tab"><img
+						4. Check Eligibility <img src="images/tabGrayR.gif" width="3"
+							height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						7. Review and Submit <img src="images/tabGrayR.gif" width="3"
-							height="16" align="absmiddle"></span></td>
+						5. Stratify <img src="images/tabGrayR.gif" width="3" height="16"
+							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
+							height="16" align="absmiddle"> 6. Review and Submit <img
+							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"><img
+							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
+						7. Confirmation <img src="images/tabGrayR.gif" width="3"
+							height="16" align="absmiddle"></span><span class="current"><img
+							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
+						8. Randomize <img src="images/tabGrayR.gif" width="3" height="16"
+							align="absmiddle"></span></td>
 						<td><img src="images/spacer.gif" width="7" height="1"></td>
 					</tr>
 					<tr>
@@ -187,10 +186,10 @@ function updateTargetPage(s){
 											<td colspan=2 valign="top"><br>
 											<br>
 											<a href=""
-												onClick="updateTargetPage('reviewAndSubmitView');return false;"><img
-												src="images/b-continue.gif" alt="Continue" width="59"
+												onClick="updateTargetPage('processFinish');return false;"><img
+												src="images/b-update.gif" alt="Continue" width="59"
 												height="16" border="0"></a> <a href=""><img
-												src="images/b-startOver.gif" alt="Start Over" width="67"
+												src="images/b-cancel.gif" alt="Start Over" width="67"
 												height="16" border="0"></a></td>
 										</tr>
 									</table>
