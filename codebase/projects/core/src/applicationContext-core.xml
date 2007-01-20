@@ -65,6 +65,11 @@
         <property name="singleSession"><value>true</value></property>
         <property name="flushModeName"><value>FLUSH_AUTO</value></property>
     </bean>    
+    
+    <bean id="gridIdentifierUtil" class="edu.duke.cabig.c3pr.utils.security.GridIdentifierUtil">
+        <property name="configDctFolderPath"><value>${grid.security.config.dct}</value></property>
+    </bean>
+    
 <!-- validators for domain objects 
     <bean id="studyValidator" class="edu.duke.cabig.c3pr.domain.validator.StudyValidator" autowire="byName"/>           
     <bean id="studySiteValidator" class="edu.duke.cabig.c3pr.domain.validator.StudySiteValidator" autowire="byName"/>           
