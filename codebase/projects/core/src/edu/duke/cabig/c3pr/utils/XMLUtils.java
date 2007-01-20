@@ -15,7 +15,7 @@ import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 
 public class XMLUtils {
 
-	public static String toXml(StudyParticipantAssignment studyParticipantAssignment){
+	public static String toXml(StudyParticipantAssignment studyParticipantAssignment)throws RuntimeException{
 		String ns="http://semanticbits.com/registration.xsd";
 		String xml="";
 		Element rootElement=new Element("registration","p1", ns);

@@ -60,6 +60,7 @@
 	<classpathentry kind="lib" path="share/log4j-1.2.13/log4j-1.2.13.jar"/>
 	<classpathentry kind="lib" path="share/cacore/client.jar"/>
 	<classpathentry kind="lib" path="share/spring-2.0/spring2.0.2.jar"/>
+	<classpathentry kind="lib" path="share/jdom/jdom.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/esb-client_1.0"/>
 	<classpathentry kind="lib" path="share/security/lib/addressing-1.0.jar"/>
 	<classpathentry kind="lib" path="share/security/lib/axis.jar"/>
@@ -113,6 +114,5 @@
 	<classpathentry kind="lib" path="share/security/lib/wsrf_core.jar"/>
 	<classpathentry kind="lib" path="share/security/lib/wss4j.jar"/>
 	<classpathentry kind="lib" path="share/security/lib/xmlsec.jar"/>
-	<classpathentry kind="lib" path="share/security/lib/jdom.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
