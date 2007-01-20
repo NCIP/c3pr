@@ -30,7 +30,6 @@
 	<classpathentry exported="true" kind="lib" path="projects/core/lib/standard.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/core/lib/xbean-spring-2.7.jar"/>
 	<classpathentry exported="true" kind="lib" path="share/antlr-2.7.6/antlr-2.7.6.jar"/>
-	<classpathentry exported="true" sourcepath="D:/projects/spring2" kind="lib" path="share/spring-2.0/spring.jar"/>
 	<classpathentry exported="true" sourcepath="C:/devtools/hibernate-3.2/src" kind="lib" path="share/hibernate-3.2.1/hibernate3.2.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="share/hibernate-3.2.1/hibernate-annotations.jar"/>
 	<classpathentry exported="true" kind="lib" path="projects/core/build/jars/c3pr-2.0-core-1.0.jar"/>
@@ -60,6 +59,7 @@
 	<classpathentry exported="true" kind="lib" path="projects/web/lib/displaytag-1.1.jar"/>
 	<classpathentry kind="lib" path="share/log4j-1.2.13/log4j-1.2.13.jar"/>
 	<classpathentry kind="lib" path="share/cacore/client.jar"/>
+	<classpathentry kind="lib" path="share/spring-2.0/spring2.0.2.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/esb-client_1.0"/>
 	<classpathentry kind="lib" path="share/security/lib/addressing-1.0.jar"/>
 	<classpathentry kind="lib" path="share/security/lib/axis.jar"/>
