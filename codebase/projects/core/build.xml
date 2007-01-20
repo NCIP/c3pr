@@ -30,7 +30,7 @@
     <!-- build properties -->
 	<property name="config.database.file" value="${basedir}/conf/oracle.properties"/>	
 	<property name="config.security.props" value="${basedir}/conf/grid-security.properties"/>		    	
-	<property name="config.security.conf" value="${basedir}/conf/grid-security-conf.dct"/>		    	
+	<property name="config.security.conf" value="${basedir}/conf/config.dct"/>		    	
 			
     <property name="debug" value="on"/>
     <!-- =============================================================== -->
@@ -112,7 +112,7 @@
 	 <target name="resources" description="Copy resources into classpath" depends="prepare">
         <copy file="${config.database.file}" tofile="${build.dir}/datasource.properties" overwrite="true"/>
 		<copy file="${config.security.props}" tofile="${build.dir}/grid-security.properties" overwrite="true"/>	        
-		<copy file="${config.security.conf}" tofile="${build.dir}/grid-security-conf.dct" overwrite="true"/>				
+		<copy file="${config.security.conf}" tofile="${build.dir}/config.dct" overwrite="true"/>				
 		<copy todir="${build.dir}">
             <fileset dir="${src.dir}">
                 <include name="**/*.xml"/>
@@ -165,15 +165,11 @@
         <mkdir dir="${jar.dir}"/>
         <jar jarfile="${project.jarfile}" basedir="${classes.dir}">
             <fileset dir="${src.dir}">
-                <include name="**/*.xml"/>				
+                <exclude name="**/*.xml"/>	
+                <exclude name="**/*.properties"/>
+                <exclude name="**/*.dct"/>				
             </fileset>
-	 		<fileset dir="${build.dir}">
-	            <include name="**/*.properties"/>				
-	        </fileset>
-			<fileset dir="${build.dir}">
-	            <include name="**/*dct"/>				
-	        </fileset>
-            <manifest>
+	 		<manifest>
                 <attribute name="Built-By" value="${user.name}"/>
                 <attribute name="Main-Class" value="${main.class}"/>
             </manifest>
