@@ -202,7 +202,7 @@ function updateTargetPage(target){
 								<tr>
 									<td width="20% align="left" class="label">Source</td>
 									<td width="20%" align="left" class="label">Type</td>			
-									<td width="20%" align="left" class="label">Value</td>								
+									<td width="20%" align="left" class="label">Identifier</td>								
 								</tr>
 								<c:forEach items="${command.identifiers}" var="identifier">
 								<tr class="results">						

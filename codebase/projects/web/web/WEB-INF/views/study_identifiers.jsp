@@ -30,6 +30,10 @@ function fireAction(action, selected){
 		document.studyIdentifiersForm.submit();
 	}
 }
+function clearField(field){
+field.value="";
+}
+
 </script>
 </head>
 <body>
@@ -167,7 +171,7 @@ function fireAction(action, selected){
 											<option value="">--Please Select--									
 											<form:options items="${identifiersTypeRefData}" itemLabel="desc"
 												itemValue="desc" /></form:select></td>
-										<td width="20%"><form:input path="identifiers[${status.index}].value"/></td>
+										<td width="20%"><form:input path="identifiers[${status.index}].value" onclick="javascript:clearField(this)();"/></td>
 										<td width="25%" aligh="center"><form:radiobutton path="identifiers[${status.index}].primaryIndicator"/></td>
 									</tr>
 								</c:forEach>

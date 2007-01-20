@@ -153,24 +153,25 @@ function validatePage(){
 										<table width="100%" border="0" cellspacing="0" cellpadding="0"
 											id="table1">
 											<tr>
-												<td><img src="images/spacer.gif" width="1" height="1"
+												<td width ="20%"><img src="images/spacer.gif" width="1" height="1"
 													class="heightControl"></td>
 											</tr>
 											<tr>
-												<td class="label">Study Creation Date/Time:</td>
+												<td width="20%" class="label">Study Creation Date/Time:</td>
 												<td><%=new java.util.Date()%></td>
 											</tr>
 											<tr>
-												<td class="label">Site:</td>
+												<td width="20%" class="label">Site:</td>
 												<td>${command.studySites[0].site.name}</td>
 											</tr>
-											<tr>
-												<td class="label">Study Identifiers:</td>
-												<td valign="top"><c:forEach
-													items="${command.identifiers}" var="id">
-													<td class="label">${id.value},</td>
-												</c:forEach></td>
+											
+											<tr>						
+												<td width="20%" class="label">Study Identifier</td>	
+												<td ><c:forEach items="${command.identifiers}" var="id">
+													${id.value},
+												</c:forEach></td>										
 											</tr>
+											
 											<tr>
 												<td class="label">Subject Created by:</td>
 												<td>(username)</td>
