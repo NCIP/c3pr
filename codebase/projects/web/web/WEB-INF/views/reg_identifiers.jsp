@@ -26,14 +26,18 @@ if (action){
 function validatePage(){
 	return true;
 }
-function updateTargetPage(s,action){
+function clearField(field){
+field.value="";
+}
+function updateTargetPage(action, selected,s){
 	if(validatePage()){
+		document.IdentifierForm._action.value=action;
+		document.IdentifierForm._selected.value=selected;		
 		document.getElementById("nextView").value=s;
-		document.getElementById("actionType").value=action;
-		document.randomizeForm.submit();
+		document.IdentifierForm.submit();
+
 	}
 }
-
 </script>
 </head>
 <body>
@@ -109,15 +113,13 @@ function updateTargetPage(s,action){
 							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						7. Confirmation <img src="images/tabGrayR.gif" width="3"
-							height="16" align="absmiddle"></span><span class="current"><img
+							height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						8. Randomize <img src="images/tabGrayR.gif" width="3" height="16"
-							align="absmiddle"></span><span class="tab"><img
-							src="images/tabWhiteL.gif" width="3" height="16"
-							align="absmiddle"> 1. <a
-							href="javascript:updateTargetPage('identifiersView','');">Identifiers</a>
-						<img src="images/tabWhiteR.gif" width="3" height="16"
-							align="absmiddle"></span></td>
+							align="absmiddle"><span class="current"><img
+							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
+						9. Identifiers <img src="images/tabGrayR.gif" width="3"
+							height="16" align="absmiddle"></span></td>
 						<td><img src="images/spacer.gif" width="7" height="1"></td>
 					</tr>
 					<tr>
@@ -134,11 +136,14 @@ function updateTargetPage(s,action){
 					width="3" height="16" align="absmiddle"> <img
 					src="images/tabWhiteL.gif" width="3" height="16" align="absmiddle">
 				<table width="100%" border="0" cellspacing="0" cellpadding="0">
-					<form:form name="randomizeForm" method="post">
+					<form:form name="IdentifierForm" method="post">
+						<input type="hidden" name="_action" value="">
+						<input type="hidden" name="_selected" value="">
+						<input type="hidden" name="nextView" value="">
 						<tr>
 							<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
 
-							<td id="current">Randomization for
+							<td id="current">Identifiers for
 							${command.participant.firstName} ${command.participant.lastName}
 							on ${command.studySite.study.shortTitleText}</td>
 							<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
@@ -146,68 +151,76 @@ function updateTargetPage(s,action){
 						<tr>
 
 							<td class="display"><!-- TABS LEFT START HERE -->
-							<table width="100%" border="0" cellpadding="0" cellspacing="0">
+							<table width="70%" border="0" cellspacing="0" cellpadding="0"
+								id="details">
 								<tr>
+									<td width="100%" valign="top">
+									<table width="50%" border="0" cellspacing="10" cellpadding="0"
+										id="table1">
 
-									<!-- LEFT CONTENT STARTS HERE -->
-									<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
-									<!-- RIGHT CONTENT STARTS HERE --> <input type=hidden
-										name="nextView" value="next"><input type=hidden
-										name="actionType" value="">
-									<table width="700" border="0" cellspacing="0" cellpadding="0"
-										id="details">
-										<tr>
-											<td width="50%" valign="top">
-											<table width="308" border="0" cellspacing="0" cellpadding="0"
-												id="table1">
-												<tr>
-													<td><img src="images/spacer.gif" width="1" height="1"
-														class="heightControl"></td>
-													<td><img src="images/spacer.gif" width="1" height="1"
-														class="heightControl"></td>
-												</tr>
-												<tr>
-													<td class="label"><span class="red">*</span><em></em>Select
-													Arm:</td>
-													<c:forEach var="epoch"
-														items="${command.studySite.study.epochs}">
-														<c:choose>
-															<c:when test="${epoch.name=='Treatment'}">
-																<td><form:select path="scheduledArms[0].arm.id">
-																	<option value="-10" selected>--Please Select--</option>
-																	<form:options items="${epoch.arms}" itemValue="id"
-																		itemLabel="name" />
-																</form:select></td>
-															</c:when>
-														</c:choose>
-													</c:forEach>
-												</tr>
-											</table>
-											</td>
+										<tr align="center" class="label">
+											<td width="20%" align="center">Source<span class="red">*</span></td>
+											<td width="20%" align="center">Identifier Type<span
+												class="red">*</span></td>
+											<td width="20%" align="center">Identifier<span
+												class="red">*</span></td>
+											<td width="25%" align="center">Primary Indicator</td>
+											<td>&nbsp;</td>
+										</tr>
+										<c:forEach items="${command.identifiers}" varStatus="status">
+											<tr align="center" class="results">
+												<td width="20%"><form:select
+													path="identifiers[${status.index}].source">
+													<option value="">--Please Select-- <form:options
+														items="${identifiersSourceRefData}" itemLabel="desc"
+														itemValue="code" />
+												</form:select></td>
+												<td width="20%"><form:select
+													path="identifiers[${status.index}].type">
+													<option value="">--Please Select-- <form:options
+														items="${identifiersTypeRefData}" itemLabel="desc"
+														itemValue="code" />
+												</form:select></td>
+												<td width="20%"><form:input
+													path="identifiers[${status.index}].value"
+													onclick="javascript:clearField(this)();" /></td>
+												<td width="25%" aligh="center"><form:radiobutton
+													path="identifiers[${status.index}].primaryIndicator" /></td>
+												<td width="10%"><a
+													href="javascript:updateTargetPage('removeIdentifier',${status.index},'identifiersView');"><img
+													src="images/b-delete.gif" border="0"></a></td>
+											</tr>
+										</c:forEach>
+										<tr align="center" class="label">
+											<td colspan='4' width="10%" align="center"><a
+												href="javascript:updateTargetPage('addIdentifier','0','identifiersView');"><img
+												src="images/b-addLine.gif" border="0"
+												alt="Add another Identifier"></a></td>
 										</tr>
 									</table>
-
-									<table width="700" border="0" cellspacing="0" cellpadding="0"
-										id="details">
-										<tr align="center">
+									</td>
+								<tr>
+									<td><img src="images/spacer.gif" width="1" height="1"
+										class="heightControl"></td>
+								</tr>
+								<tr>
+									<td align="center" colspan="3"><!-- action buttons begins -->
+									<table cellpadding="4" cellspacing="0" border="0">
+										<tr>
 											<td colspan=2 valign="top"><br>
 											<br>
 											<a href=""
-												onClick="updateTargetPage('identifiersView','save');return false;"><img
-												src="images/b-update.gif" alt="Continue" width="59"
-												height="16" border="0"></a> <a href=""><img
+												onClick="updateTargetPage('none','none','processFinish');return false;"><img
+												src="images/b-update.gif" alt="Save" width="59" height="16"
+												border="0"></a> <a href="/c3pr/SearchAndRegister.do"><img
 												src="images/b-cancel.gif" alt="Start Over" width="67"
 												height="16" border="0"></a></td>
 										</tr>
 									</table>
-
-									</div>
-
 									</td>
-
-									<!-- LEFT CONTENT ENDS HERE -->
 								</tr>
 							</table>
+
 							</td>
 
 						</tr>

@@ -33,6 +33,7 @@ public class StudyParticipantAssignment extends AbstractDomainObject {
     private StudySite studySite;
     private Participant participant;
     private List<ScheduledArm> scheduledArms = new ArrayList<ScheduledArm>();
+    private List<Identifier> identifiers = new ArrayList<Identifier>();
     private Date startDate;
     private String studyParticipantIdentifier;
     private String eligibilityWaiverReasonText;
@@ -146,6 +147,25 @@ public class StudyParticipantAssignment extends AbstractDomainObject {
 
 	public void setEligibilityIndicator(Boolean eligibilityIndicator) {
 		this.eligibilityIndicator = eligibilityIndicator;
+	}
+
+	@OneToMany
+    @Cascade({CascadeType.ALL,CascadeType.DELETE_ORPHAN})
+    @JoinColumn(name = "SPA_ID")	 
+	public List<Identifier> getIdentifiers() {
+		return identifiers;
+	}
+
+	public void setIdentifiers(List<Identifier> identifiers) {
+		this.identifiers = identifiers;
+	}
+	
+	public void addIdentifier(Identifier identifier){
+		identifiers.add(identifier);
+	}
+
+	public void removeIdentifier(Identifier identifier){
+		identifiers.remove(identifier);
 	}
 
 }

@@ -100,7 +100,8 @@
 		    <value>reg_stratify</value>
 		    <value>reg_randomize</value>
 		    <value>reg_submit</value>
-		    <value>reg_confirm_reg</value>		    
+		    <value>reg_confirm_reg</value>
+		    <value>reg_identifiers</value>		    
 	    </list>
 	    </property>
     </bean>
