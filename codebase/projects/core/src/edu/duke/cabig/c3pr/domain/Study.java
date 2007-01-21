@@ -35,7 +35,7 @@ import org.hibernate.annotations.Parameter;
         @Parameter(name="sequence", value="STUDIES_ID_SEQ")
     }
 )
-public class Study extends AbstractDomainObject implements Comparable<Study>{
+public class Study extends AbstractDomainObjectWithGridId implements Comparable<Study>{
 		 
 	private Boolean blindedIndicator;
 	private Boolean multiInstitutionIndicator;

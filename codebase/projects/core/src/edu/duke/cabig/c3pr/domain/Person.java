@@ -13,7 +13,7 @@ import javax.persistence.OneToOne;
  */
 
 @MappedSuperclass
-public abstract class Person extends AbstractDomainObject
+public abstract class Person extends AbstractDomainObjectWithGridId
 {			
 	private String firstName;
 	
