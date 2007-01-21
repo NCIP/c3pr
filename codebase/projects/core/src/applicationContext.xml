@@ -66,10 +66,10 @@
     </bean>
     <bean id="gridAuthenticationManager" class="com.semanticbits.security.grid.impl.GridAuthenticationManagerImpl">
         <property name="idpUrl">
-            <value>https://10.10.10.2:8446/wsrf/services/cagrid/AuthenticationService</value>
+            <value>${grid.security.idpUrl}</value>
         </property>
         <property name="ifsUrl">
-            <value>https://10.10.10.2:8443/wsrf/services/cagrid/Dorian</value>
+            <value>${grid.security.ifsUrl}</value>
         </property>
     </bean>
     
