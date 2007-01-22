@@ -29,7 +29,7 @@ import org.hibernate.annotations.Parameter;
         @Parameter(name="sequence", value="STUDY_SITES_ID_SEQ")
     }
 )
-public class StudySite extends AbstractDomainObjectWithGridId implements Comparable<StudySite>{
+public class StudySite extends AbstractGridIdentifiableDomainObject implements Comparable<StudySite>{
     private HealthcareSite site;
     private Study study;
     private List<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();

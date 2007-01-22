@@ -28,7 +28,7 @@ import org.hibernate.annotations.Parameter;
         @Parameter(name="sequence", value="EPOCHS_ID_SEQ")
     }
 )
-public class Epoch extends AbstractDomainObjectWithGridId implements Comparable<Epoch>{  
+public class Epoch extends AbstractGridIdentifiableDomainObject implements Comparable<Epoch>{  
   
     private List<Arm> arms = new ArrayList<Arm>();
     private String name;
