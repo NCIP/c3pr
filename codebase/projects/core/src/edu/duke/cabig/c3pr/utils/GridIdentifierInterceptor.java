@@ -6,9 +6,7 @@ import java.util.UUID;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
 
-import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
-
-import edu.duke.cabig.c3pr.domain.DomainObjectWithGridId;
+import edu.duke.cabig.c3pr.domain.GridIdentifiable;
 
 /**
  * Wrapper interceptor to add Grid Identifiers to objects which 
@@ -27,15 +25,13 @@ public class GridIdentifierInterceptor extends EmptyInterceptor {
      */
     public boolean onSave(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
         boolean localMod = false;
-        if (entity instanceof DomainObjectWithGridId) {	         
+        if (entity instanceof GridIdentifiable) {	         
 	     	int gridIdIdx = findGridId(propertyNames);
 	     	if (gridIdIdx < 0) throw new IllegalStateException("GridIdentifierInterceptor : " +
 	     		"Class doesn't have gridId property: " +entity.getClass().getName());  
-	        if (state[gridIdIdx] == null) {
-	        	String leng =
-	            gridIdentifierCreator.getGridIdentifier(entity.getClass().toString()+
-	            	UUID.randomUUID().toString());
-	             state[gridIdIdx] = leng;
+	        if (state[gridIdIdx] == null) {	        	
+	        	 state[gridIdIdx] = gridIdentifierCreator.getGridIdentifier(entity.getClass().toString()+
+	            	UUID.randomUUID().toString());	         
 	            localMod = true;
 	        }
         }
@@ -49,28 +45,7 @@ public class GridIdentifierInterceptor extends EmptyInterceptor {
         }
         return -1; // defer throwing exception so we can report class
     }
-
-    /**
-     * Generates a Unique Identifier for this instance across systems
-     * @param entity
-     * @param state
-     * @param propertyNames
-     * @return
-     */
-    private String getIdentifier(Object entity, Object[] state, String[] propertyNames) {    	   
-    String identifier = Base64.encode((entity.getClass().toString().getBytes())) + "/";
-	    for (int count = 0; count < state.length; count++) {
-	      Object attributeValue = state[count];
-	      if (attributeValue != null) {
-	        identifier = identifier
-	            + Base64.encode(propertyNames[count].getBytes()) + ":"
-	            + Base64.encode(attributeValue.toString().getBytes()) + ";";
-	      }
-	    }
-	    System.out.println("***************************** "+identifier.length());
-	    return identifier;
-    }
-    
+  
 	public GridIdentifierCreator getGridIdentifierCreator() {
 		return gridIdentifierCreator;
 	}
