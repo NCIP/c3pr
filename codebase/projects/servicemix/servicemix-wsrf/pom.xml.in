@@ -45,18 +45,6 @@
     </properties>
 
     <build>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <configuration>
-                        <skip>false</skip>
-                        <!-- this overrides ServiceMix' root POM and forces to execute the tests -->
-                    </configuration>
-                </plugin>
-            </plugins>
-        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.apache.servicemix.tooling</groupId>
@@ -268,6 +256,13 @@
         </dependency>
         <dependency>
             <groupId>cagrid.jars</groupId>
+            <artifactId>caGrid-1.0-metadata-common.jar</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>@lib.path@/caGrid-1.0-metadata-common.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>cagrid.jars</groupId>
             <artifactId>caGrid-1.0-metadata-security.jar</artifactId>
             <version>1.0</version>
             <scope>system</scope>
@@ -296,24 +291,24 @@
         </dependency>
         <dependency>
             <groupId>cagrid.jars</groupId>
-            <artifactId>ProtocolIngestor-client.jar</artifactId>
+            <artifactId>RegistrationConsumer-client.jar</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>@lib.path@/ProtocolIngestor-client.jar</systemPath>
+            <systemPath>@lib.path@/RegistrationConsumer-client.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>cagrid.jars</groupId>
-            <artifactId>ProtocolIngestor-common.jar</artifactId>
+            <artifactId>RegistrationConsumer-common.jar</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>@lib.path@/ProtocolIngestor-common.jar</systemPath>
+            <systemPath>@lib.path@/RegistrationConsumer-common.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>cagrid.jars</groupId>
-            <artifactId>ProtocolIngestor-stubs.jar</artifactId>
+            <artifactId>RegistrationConsumer-stubs.jar</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>@lib.path@/ProtocolIngestor-stubs.jar</systemPath>
+            <systemPath>@lib.path@/RegistrationConsumer-stubs.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.apache.servicemix</groupId>
