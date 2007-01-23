@@ -17,11 +17,11 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import com.semanticbits.security.grid.GridLoginContext;
 
+import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.service.ParticipantService;
-import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.utils.Lov;
 
 
@@ -29,16 +29,8 @@ public class SearchAndRegisterController extends SimpleFormController {
 	private static Log log = LogFactory
 			.getLog(SearchAndRegisterController.class);
 
-	private StudyService studyService;
+	private StudyDao studyDao;
 	private ParticipantService participantService;
-
-	public StudyService getStudyService() {
-		return studyService;
-	}
-
-	public void setStudyService(StudyService studyService) {
-		this.studyService = studyService;
-	}
 
 	protected ModelAndView onSubmit(HttpServletRequest request,
 			HttpServletResponse response, Object oCommand, BindException errors)
@@ -108,7 +100,7 @@ public class SearchAndRegisterController extends SimpleFormController {
     	else if ("longTitle".equals(type))
     		study.setShortTitleText(searchtext);
     	
-    	List<Study> studies = studyService.search(study);   
+    	List<Study> studies = studyDao.searchByExample(study, true);   
     	log.debug("Search results size " +studies.size());
     	Map map = errors.getModel();
     	map.put("studies", studies);
@@ -179,5 +171,13 @@ public class SearchAndRegisterController extends SimpleFormController {
 
 	public void setParticipantService(ParticipantService participantService) {
 		this.participantService = participantService;
+	}
+
+	public StudyDao getStudyDao() {
+		return studyDao;
+	}
+
+	public void setStudyDao(StudyDao studyDao) {
+		this.studyDao = studyDao;
 	}
 }
