@@ -8,7 +8,7 @@ import javax.persistence.MappedSuperclass;
  */
 @MappedSuperclass
 public class AbstractGridIdentifiableDomainObject extends AbstractDomainObject implements GridIdentifiable {
-    private String bigId;
+    private String gridId;
 
     /// LOGIC
 
@@ -19,10 +19,10 @@ public class AbstractGridIdentifiableDomainObject extends AbstractDomainObject i
     /// BEAN PROPERTIES
 
     public String getGridId() {
-        return bigId;
+        return gridId;
     }
 
     public void setGridId(String bigId) {
-        this.bigId = bigId;
+        this.gridId = gridId;
     }
 }
