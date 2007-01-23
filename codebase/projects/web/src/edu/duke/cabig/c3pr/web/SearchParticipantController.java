@@ -32,18 +32,11 @@ public class SearchParticipantController extends SimpleFormController{
 private static Log log = LogFactory.getLog(SearchParticipantController.class);
 	
 	private ParticipantService participantService;
+		
 	public SearchParticipantController(){
 		setCommandClass(SearchParticipantCommand.class);
 		this.setFormView("particpant_search");
 		this.setSuccessView("participant_search_results");
-	}
-	
-	public ParticipantService getParticipantService() {
-		return participantService;
-	}
-
-	public void setStudyService(ParticipantService participantService) {
-		this.participantService = participantService;
 	}
 	
 	protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object oCommand, BindException errors) throws Exception {
@@ -121,6 +114,13 @@ private static Log log = LogFactory.getLog(SearchParticipantController.class);
 			}
 		}
 	
-	
+	public ParticipantService getParticipantService() {
+		return participantService;
+	}
+
+	public void setParticipantService(ParticipantService participantService) {
+		this.participantService = participantService;
+	}
+
 
 }
