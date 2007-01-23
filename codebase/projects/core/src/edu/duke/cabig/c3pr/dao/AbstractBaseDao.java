@@ -4,6 +4,8 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import edu.duke.cabig.c3pr.domain.DomainObject;
 
+import edu.nwu.bioinformatics.commons.CollectionUtils;
+
 /**
  * Abstract BaseDao implementing BaseDao. Provides convenient methods for
  * saving a base Dao
@@ -40,5 +42,18 @@ public abstract class AbstractBaseDao<T extends DomainObject> extends HibernateD
 	 */
 	protected void postProcessSave(){
 		//default is empty implementation
-	}	
+	}
+        
+        @SuppressWarnings("unchecked")
+        public T getByGridId(T template) {
+            return (T) CollectionUtils.firstElement(getHibernateTemplate().findByExample(template));
+        }
+
+		 
+        public T getByGridId(String gridId) {
+            StringBuilder query = new StringBuilder("from ")
+              .append(domainClass().getName()).append(" o where gridId = ?");
+            Object[] params = {gridId};
+            return (T) CollectionUtils.firstElement(getHibernateTemplate().find(query.toString(), params));
+        }
 }
