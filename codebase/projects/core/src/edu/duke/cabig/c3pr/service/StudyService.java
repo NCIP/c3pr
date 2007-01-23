@@ -15,13 +15,5 @@ public interface StudyService {
 	 * @param study the study object
   	 * @throws Exception runtime exception object
   	 */
-	public void save(Study study) throws Exception;
-	  
-	/**
-	 * Search using a sample populate Study object
-	 * @param study the study object
-	 * @return List of Study objects based on the sample study object
-	 * @throws Exception runtime exception object
-	 */
-	public List <Study> search (Study study) throws Exception;
+	public void save(Study study) throws Exception;	
 }
