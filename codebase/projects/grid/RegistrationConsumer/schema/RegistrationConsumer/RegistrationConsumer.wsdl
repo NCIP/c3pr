@@ -15,12 +15,20 @@
       <import namespace="http://semanticbits.com/registration.xsd" schemaLocation="./registration.xsd" />
       <import namespace="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security" schemaLocation="./xsd/security.xsd" />
       <import namespace="http://ctms.cabig.nci.nih.gov/RegistrationConsumer/types" schemaLocation="./RegistrationConsumerTypes.xsd" />
-      <element name="NewMethodRequest">
+      <element name="RegisterRequest">
         <complexType>
-          <sequence />
+          <sequence>
+            <element name="registration">
+              <complexType>
+                <sequence>
+                  <element ref="ns0:registration" minOccurs="1" maxOccurs="1" />
+                </sequence>
+              </complexType>
+            </element>
+          </sequence>
         </complexType>
       </element>
-      <element name="NewMethodResponse">
+      <element name="RegisterResponse">
         <complexType>
           <sequence />
         </complexType>
@@ -35,11 +43,17 @@
     </schema>
   </types>
   <!--  place service messages here -->
-  <message name="NewMethodRequest">
-    <part name="parameters" element="tns:NewMethodRequest" />
+  <message name="RegisterRequest">
+    <part name="parameters" element="tns:RegisterRequest" />
   </message>
-  <message name="NewMethodResponse">
-    <part name="parameters" element="tns:NewMethodResponse" />
+  <message name="RegisterResponse">
+    <part name="parameters" element="tns:RegisterResponse" />
+  </message>
+  <message name="InvalidRegistrationFaultMessage">
+    <part name="fault" element="ns1:InvalidRegistration" />
+  </message>
+  <message name="RegistrationFailedFaultMessage">
+    <part name="fault" element="ns1:RegistrationFailed" />
   </message>
   <!--============================================================
 
@@ -47,9 +61,11 @@
                       
   ============================================================-->
   <portType name="RegistrationConsumerPortType" wsrp:ResourceProperties="tns:RegistrationConsumerResourceProperties">
-    <operation name="newMethod">
-      <input message="tns:NewMethodRequest" wsa:Action="http://ctms.cabig.nci.nih.gov/RegistrationConsumer/NewMethodRequest" />
-      <output message="tns:NewMethodResponse" wsa:Action="http://ctms.cabig.nci.nih.gov/RegistrationConsumer/NewMethodResponse" />
+    <operation name="register">
+      <input message="tns:RegisterRequest" wsa:Action="http://ctms.cabig.nci.nih.gov/RegistrationConsumer/RegisterRequest" />
+      <output message="tns:RegisterResponse" wsa:Action="http://ctms.cabig.nci.nih.gov/RegistrationConsumer/RegisterResponse" />
+      <fault name="InvalidRegistration" message="tns:InvalidRegistrationFaultMessage" wsa:Action="http://ctms.cabig.nci.nih.gov/RegistrationConsumer/InvalidRegistrationFaultMessage" />
+      <fault name="RegistrationFailed" message="tns:RegistrationFailedFaultMessage" wsa:Action="http://ctms.cabig.nci.nih.gov/RegistrationConsumer/RegistrationFailedFaultMessage" />
     </operation>
     <operation name="GetResourceProperty">
       <input name="GetResourcePropertyRequest" message="wsrpw:GetResourcePropertyRequest" wsa:Action="http://docs.oasis-open.org/wsrf/2004/06/wsrf-WS-ResourceProperties/GetResourceProperty" />

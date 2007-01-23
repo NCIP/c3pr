@@ -5,7 +5,7 @@
     <!-- Define the environment variable -->
     <property environment="env" />
 
-    <!-- 
+    <!--
 		Properties in these files will override the properties defined in this file.
     -->
     <property file="introduce.properties" />
