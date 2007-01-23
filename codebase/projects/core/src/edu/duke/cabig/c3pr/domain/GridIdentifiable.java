@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 /**
- * Extension Interface from DomainObject with a Grid Identifier
+ * Interface which identifies a Grid Identifier. Typically implemented
+ * by Domain Objects which need a Grid Identifier.
  * @author Priyatam
  */
 public interface GridIdentifiable {
