@@ -61,7 +61,7 @@
         </for>
     </target>
 
-    <target name="deploy" depends="all" description="Deploys and starts servicemix">
+    <target name="deploy" description="Deploys and starts servicemix">
 
         <!-- deploy the custom component -->
         <copy todir="${servicemix.toolkit.dir}/install">
