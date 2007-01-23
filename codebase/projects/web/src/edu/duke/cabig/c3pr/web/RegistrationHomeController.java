@@ -16,7 +16,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Logger;
+import org.hibernate.LockMode;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.orm.hibernate3.AbstractSessionFactoryBean;
+import org.springframework.orm.hibernate3.SessionFactoryUtils;
+import org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -36,6 +41,7 @@ import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.esb.impl.MessageBroadcastServiceImpl;
 import edu.duke.cabig.c3pr.utils.XMLUtils;
 import edu.duke.cabig.c3pr.web.SearchAndRegisterController.LOV;
+import gov.nih.nci.common.util.HibernateUtil;
 
 /**
  * @author Kruttik
@@ -66,6 +72,8 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 	private ArmDao armDao;
 
 	private MessageBroadcastServiceImpl messageBroadcaster;
+
+	private AnnotationSessionFactoryBean sessionFactory;
 
 	public MessageBroadcastServiceImpl getMessageBroadcaster() {
 		return messageBroadcaster;
@@ -360,66 +368,32 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 		}
 		if (viewName.equalsIgnoreCase("randomizeView")) {
 			StudyParticipantAssignment studyParticipantAssignment = (StudyParticipantAssignment) command;
-			ScheduledArm scheduledArm = new ScheduledArm();
-			scheduledArm.setEligibilityIndicator("true");
-			scheduledArm.setStartDate(new Date());
-			Arm arm = new Arm();
-			scheduledArm.setArm(arm);
-			scheduledArm
-					.setStudyParticipantAssignment(studyParticipantAssignment);
-			studyParticipantAssignment.addScheduledArm(scheduledArm);
-		}
-		if (viewName.equalsIgnoreCase("identifiersView")) {
-			System.out
-					.println("--------------------Recieved Idententifiers View---------------------------");
-			StudyParticipantAssignment studyParticipantAssignment = (StudyParticipantAssignment) command;
-			if (request.getParameter("_action") != null) {
-				System.out
-						.println("--------------------Recieved Idententifiers View with _action---------------------------");
-				if (request.getParameter("_action").equals("addIdentifier")) {
-					System.out
-							.println("--------------------Recieved Idententifiers View with _action as addIdentifier---------------------------");
-					studyParticipantAssignment.addIdentifier(new Identifier());
-					return;
-				} else if (request.getParameter("_action").equals(
-						"removeIdentifier")) {
-					System.out
-							.println("--------------------Recieved Idententifiers View with _action as removeIdentifier---------------------------");
-					studyParticipantAssignment.getIdentifiers()
-							.remove(
-									Integer.parseInt(request
-											.getParameter("_selected")));
-					return;
-				}
-			}
 			if (request.getParameter("actionType") == null) {
-				Identifier id1 = new Identifier();
-				Identifier id2 = new Identifier();
-				studyParticipantAssignment.addIdentifier(id1);
-				studyParticipantAssignment.addIdentifier(id2);
+				ScheduledArm scheduledArm = new ScheduledArm();
+				scheduledArm.setEligibilityIndicator("true");
+				scheduledArm.setStartDate(new Date());
+				Arm arm = new Arm();
+				scheduledArm.setArm(arm);
+				scheduledArm
+						.setStudyParticipantAssignment(studyParticipantAssignment);
+				studyParticipantAssignment.addScheduledArm(scheduledArm);
 				return;
 			}
 			if (!request.getParameter("actionType").equals("save")) {
 				System.out
-						.println("--------------------Recieved Idententifiers View with actionType not save---------------------------");
-				Identifier id1 = new Identifier();
-				Identifier id2 = new Identifier();
-				studyParticipantAssignment.addIdentifier(id1);
-				studyParticipantAssignment.addIdentifier(id2);
-				int scheduledArmsSize = studyParticipantAssignment
-						.getScheduledArms().size();
-				int armId = studyParticipantAssignment.getScheduledArms().get(
-						scheduledArmsSize - 1).getArm().getId();
-				if (armId < 0) {
-					System.out
-							.println("------------------No Randomization done---------------------");
-					studyParticipantAssignment.getScheduledArms().remove(
-							scheduledArmsSize - 1);
-				}
+						.println("--------------------Recieved randomizeView with actionType not save---------------------------");
+				ScheduledArm scheduledArm = new ScheduledArm();
+				scheduledArm.setEligibilityIndicator("true");
+				scheduledArm.setStartDate(new Date());
+				Arm arm = new Arm();
+				scheduledArm.setArm(arm);
+				scheduledArm
+						.setStudyParticipantAssignment(studyParticipantAssignment);
+				studyParticipantAssignment.addScheduledArm(scheduledArm);
 				return;
 			}
 			System.out
-					.println("--------------------Recieved Idententifiers View with actionType as save---------------------------");
+					.println("--------------------Recieved randomizeView with actionType as save---------------------------");
 			int scheduledArmsSize = studyParticipantAssignment
 					.getScheduledArms().size();
 			int armId = studyParticipantAssignment.getScheduledArms().get(
@@ -475,16 +449,40 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 						.save(studyParticipantAssignment.getParticipant());
 				System.out
 						.println("-----------------Saved scheduled arm------------");
-				Identifier id1 = new Identifier();
-				Identifier id2 = new Identifier();
-				studyParticipantAssignment.addIdentifier(id1);
-				studyParticipantAssignment.addIdentifier(id2);
 			} else {
 				System.out
 						.println("------------------No Randomization done---------------------");
 				studyParticipantAssignment.getScheduledArms().remove(
 						scheduledArmsSize - 1);
 			}
+
+		}
+		if (viewName.equalsIgnoreCase("identifiersView")) {
+			System.out
+					.println("--------------------Recieved Idententifiers View---------------------------");
+			StudyParticipantAssignment studyParticipantAssignment = (StudyParticipantAssignment) command;
+			if (request.getParameter("_action") != null) {
+				System.out
+						.println("--------------------Recieved Idententifiers View with _action---------------------------");
+				if (request.getParameter("_action").equals("addIdentifier")) {
+					System.out
+							.println("--------------------Recieved Idententifiers View with _action as addIdentifier---------------------------");
+					studyParticipantAssignment.addIdentifier(new Identifier());
+				} else if (request.getParameter("_action").equals(
+						"removeIdentifier")) {
+					System.out
+							.println("--------------------Recieved Idententifiers View with _action as removeIdentifier---------------------------");
+					studyParticipantAssignment.getIdentifiers()
+							.remove(
+									Integer.parseInt(request
+											.getParameter("_selected")));
+				}
+				return;
+			}
+			System.out
+			.println("--------------------Recieved Idententifiers View with _action as null---------------------------");
+			studyParticipantAssignment.addIdentifier(new Identifier());
+			studyParticipantAssignment.addIdentifier(new Identifier());
 		}
 	}
 
@@ -513,5 +511,13 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 		participantDao.save(studyParticipantAssignment.getParticipant());
 		response.sendRedirect("/c3pr/SearchAndRegister.do");
 		return null;
+	}
+
+	public AnnotationSessionFactoryBean getSessionFactory() {
+		return sessionFactory;
+	}
+
+	public void setSessionFactory(AnnotationSessionFactoryBean sessionFactory) {
+		this.sessionFactory = sessionFactory;
 	}
 }

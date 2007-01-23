@@ -122,7 +122,7 @@ public class CreateParticipantController extends AbstractWizardFormController {
 			response.sendRedirect(url);
 			return null;
 		}
-		response.sendRedirect("/c3pr");
+		response.sendRedirect("/c3pr/SearchAndRegister.do");
 		return null;
 	}	
 	

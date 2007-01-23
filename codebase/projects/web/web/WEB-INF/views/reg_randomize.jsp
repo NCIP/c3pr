@@ -114,7 +114,7 @@ function updateTargetPage(s,action){
 						8. Randomize <img src="images/tabGrayR.gif" width="3" height="16"
 							align="absmiddle"></span><span class="tab"><img
 							src="images/tabWhiteL.gif" width="3" height="16"
-							align="absmiddle"> 1. <a
+							align="absmiddle"> 9. <a
 							href="javascript:updateTargetPage('identifiersView','');">Identifiers</a>
 						<img src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"></span></td>
@@ -193,7 +193,7 @@ function updateTargetPage(s,action){
 											<td colspan=2 valign="top"><br>
 											<br>
 											<a href=""
-												onClick="updateTargetPage('identifiersView','save');return false;"><img
+												onClick="updateTargetPage('randomizeView','save');return false;"><img
 												src="images/b-update.gif" alt="Continue" width="59"
 												height="16" border="0"></a> <a href=""><img
 												src="images/b-cancel.gif" alt="Start Over" width="67"
