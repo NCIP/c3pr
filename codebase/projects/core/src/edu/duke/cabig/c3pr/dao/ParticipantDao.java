@@ -44,7 +44,6 @@ public class ParticipantDao extends AbstractBaseDao<Participant> {
 			example.ignoreCase().excludeProperty("doNotUse").enableLike(
 					MatchMode.ANYWHERE);
 			participantCriteria.add(example);
-	//		FIXME:
 			if (participant.getIdentifiers().size() > 0) {
 				participantCriteria.createCriteria("identifiers")
 						.add(
