@@ -11,6 +11,7 @@ import org.jdom.output.XMLOutputter;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 
 public class XMLUtils {
@@ -40,24 +41,25 @@ public class XMLUtils {
 		participant.addContent(new Element("lastName", "p1",ns).setText(stPart.getLastName()));
 		participant.addContent(new Element("maritalStatusCode", "p1",ns).setText(""));
 		participant.addContent(new Element("raceCode", "p1",ns).setText(stPart.getRaceCode()));
+		
 		List<Identifier> identifiers= stPart.getIdentifiers();
 		if(identifiers.size()==0){
-			System.out.println("Identifiers size is 0");
-			Element identifier=new Element("identifier", "p1",ns);
-			identifier.addContent(new Element("source", "p1",ns));
-			identifier.addContent(new Element("type", "p1",ns));
-			identifier.addContent(new Element("value", "p1",ns));
-			identifier.addContent(new Element("isprimary", "p1",ns));
-			participant.addContent(identifier);
-		}
+			System.out.println("Participant Identifiers size is 0");
+			Element idTemp=new Element("identifier", "p1",ns);
+			idTemp.addContent(new Element("source", "p1",ns));
+			idTemp.addContent(new Element("type", "p1",ns));
+			idTemp.addContent(new Element("value", "p1",ns));
+			idTemp.addContent(new Element("isprimary", "p1",ns));
+			participant.addContent(idTemp);
+		}		
 		for(int i=0 ; i<identifiers.size() ; i++){
 			Identifier id=identifiers.get(i);
-			Element identifier=new Element("identifier", "p1",ns);
-			identifier.addContent(new Element("source", "p1",ns).setText(id.getSource()));
-			identifier.addContent(new Element("type", "p1",ns).setText(id.getType()));
-			identifier.addContent(new Element("value", "p1",ns).setText(id.getValue()));
-			identifier.addContent(new Element("isprimary", "p1",ns).setText(id.getPrimaryIndicator()==null?"":id.getPrimaryIndicator().toString()));
-			participant.addContent(identifier);
+			Element idTemp=new Element("identifier", "p1",ns);
+			idTemp.addContent(new Element("source", "p1",ns).setText(id.getSource()));
+			idTemp.addContent(new Element("type", "p1",ns).setText(id.getType()));
+			idTemp.addContent(new Element("value", "p1",ns).setText(id.getValue()));
+			idTemp.addContent(new Element("isprimary", "p1",ns).setText(id.getPrimaryIndicator()==null?"":id.getPrimaryIndicator().toString()));
+			participant.addContent(idTemp);
 		}
 		Address add=stPart.getAddress();
 		Element address=new Element("address", "p1",ns);
@@ -67,8 +69,48 @@ public class XMLUtils {
 		address.addContent(new Element("stateCode", "p1",ns).setText(add.getStateCode()));
 		address.addContent(new Element("streetAddress", "p1",ns).setText(add.getStreetAddress()));
 		participant.addContent(address);
-		
 		rootElement.addContent(participant);
+		
+		Study st=studyParticipantAssignment.getStudySite().getStudy();
+		Element study=new Element("study", "p1",ns);
+		identifiers= st.getIdentifiers();
+		if(identifiers.size()==0){
+			System.out.println("Study Identifiers size is 0");
+			Element idTemp=new Element("identifier", "p1",ns);
+			idTemp.addContent(new Element("source", "p1",ns));
+			idTemp.addContent(new Element("type", "p1",ns));
+			idTemp.addContent(new Element("value", "p1",ns));
+			idTemp.addContent(new Element("isprimary", "p1",ns));
+			study.addContent(idTemp);
+		}
+		for(int i=0 ; i<identifiers.size() ; i++){
+			Identifier id=identifiers.get(i);
+			Element idTemp=new Element("identifier", "p1",ns);
+			idTemp.addContent(new Element("source", "p1",ns).setText(id.getSource()));
+			idTemp.addContent(new Element("type", "p1",ns).setText(id.getType()));
+			idTemp.addContent(new Element("value", "p1",ns).setText(id.getValue()));
+			idTemp.addContent(new Element("isprimary", "p1",ns).setText(id.getPrimaryIndicator()==null?"":id.getPrimaryIndicator().toString()));
+			study.addContent(idTemp);
+		}
+		rootElement.addContent(study);
+		
+		Element identifier=new Element("identifier", "p1",ns);
+		identifier.addContent(new Element("source", "p1",ns).setText("c3pr"));
+		identifier.addContent(new Element("type", "p1",ns).setText("GridId"));
+		identifier.addContent(new Element("value", "p1",ns).setText(studyParticipantAssignment.getGridId()));
+		identifier.addContent(new Element("isprimary", "p1",ns));
+		rootElement.addContent(identifier);
+		identifiers=studyParticipantAssignment.getIdentifiers();
+		for(int i=0 ; i<identifiers.size() ; i++){
+			Identifier id=identifiers.get(i);
+			Element idTemp=new Element("identifier", "p1",ns);
+			idTemp.addContent(new Element("source", "p1",ns).setText(id.getSource()));
+			idTemp.addContent(new Element("type", "p1",ns).setText(id.getType()));
+			idTemp.addContent(new Element("value", "p1",ns).setText(id.getValue()));
+			idTemp.addContent(new Element("isprimary", "p1",ns).setText(id.getPrimaryIndicator()==null?"":id.getPrimaryIndicator().toString()));
+			rootElement.addContent(idTemp);
+		}
+		
 		Document document= new Document(rootElement);
 		try {
 			xml=new XMLOutputter().outputString(document);

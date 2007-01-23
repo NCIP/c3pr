@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.FlushMode;
+import javax.persistence.FlushModeType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -13,6 +15,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
@@ -28,7 +32,7 @@ import org.hibernate.annotations.Parameter;
         @Parameter(name="sequence", value="STUDY_PARTICIPANT_ASSIG_ID_SEQ")
     }
 )
-public class StudyParticipantAssignment extends AbstractDomainObject {
+public class StudyParticipantAssignment extends AbstractGridIdentifiableDomainObject {
     
     private StudySite studySite;
     private Participant participant;
@@ -151,7 +155,7 @@ public class StudyParticipantAssignment extends AbstractDomainObject {
 
 	@OneToMany
     @Cascade({CascadeType.ALL,CascadeType.DELETE_ORPHAN})
-    @JoinColumn(name = "SPA_ID")	 
+    @JoinColumn(name = "SPA_ID")
 	public List<Identifier> getIdentifiers() {
 		return identifiers;
 	}
