@@ -148,8 +148,8 @@
         <!-- ================= -->
 
         <artifact track="main" type="jars" id="c3pr.gridnode.client.jars">
-            <antcall target="build-gridnode"/>
-            <fileset dir="${projects.dir}/gridnode/build/lib">
+            <antcall target="build-grid"/>
+            <fileset dir="${projects.dir}/grid/RegistrationConsumer/build/lib">
                 <include name="*.jar"/>
                 <exclude name="*-test*.jar"/>
                 <exclude name="*-service*.jar"/>

@@ -19,6 +19,7 @@ package com.sb.servicemix.wsrf.bc;
 import javax.jbi.messaging.ExchangeStatus;
 import javax.jbi.messaging.InOut;
 import javax.xml.namespace.QName;
+import javax.xml.transform.stream.StreamSource;
 
 import org.apache.servicemix.client.DefaultServiceMixClient;
 import org.apache.servicemix.jbi.jaxp.SourceTransformer;
@@ -27,13 +28,16 @@ import org.apache.servicemix.tck.SpringTestSupport;
 import org.apache.xbean.spring.context.ClassPathXmlApplicationContext;
 import org.springframework.context.support.AbstractXmlApplicationContext;
 
+import java.io.File;
+
 public class WSRFSpringComponentTest extends SpringTestSupport {
 
     public void test() throws Exception {
         DefaultServiceMixClient client = new DefaultServiceMixClient(jbi);
         InOut me = client.createInOutExchange();
         me.setService(new QName("urn:test", "service"));
-        me.getInMessage().setContent(new StringSource("<hello>world</hello>"));
+        me.getInMessage().setContent(new StreamSource(new File("src/test/resources/SampleRegistration.xml")));
+
         client.sendSync(me);
         if (me.getStatus() == ExchangeStatus.ERROR) {
             if (me.getFault() != null) {
@@ -48,9 +52,9 @@ public class WSRFSpringComponentTest extends SpringTestSupport {
         }
         client.done(me);
     }
-    
+
     protected AbstractXmlApplicationContext createBeanFactory() {
         return new ClassPathXmlApplicationContext("spring.xml");
     }
-    
+
 }

@@ -1,0 +1,22 @@
+<settings>
+  <profiles>
+    <profile>
+      <id>incubating</id>
+      <repositories>
+        <repository>
+          <id>apache-incubating</id>
+          <url>http://people.apache.org/repo/m2-incubating-repository</url>
+        </repository>
+      </repositories>
+      <pluginRepositories>
+        <pluginRepository>
+          <id>apache-incubating</id>
+          <url>http://people.apache.org/repo/m2-incubating-repository</url>
+        </pluginRepository>
+      </pluginRepositories>
+    </profile>
+  </profiles>
+  <activeProfiles>
+    <activeProfile>incubating</activeProfile>
+  </activeProfiles>
+</settings>

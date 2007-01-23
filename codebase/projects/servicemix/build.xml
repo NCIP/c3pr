@@ -12,6 +12,10 @@
     <property name="ext.dir" value="${basedir}/ext"/>
     <property name="ext.lib.dir" value="${ext.dir}/lib"/>
 
+    <property name="servicemix.toolkit.dir" value="${basedir}/servicemix-toolkit"/>
+    <property name="service.assembly.build.dir" value="${basedir}/c3pr-workflow-sm/build/assembly"/>
+
+    <property name="servicemix.wsrf.component.dir" value="${basedir}/servicemix-wsrf"/>
 
     <!--Sub projects-->
     <property name="sub.projects.list" value="c3pr-bridge, c3pr-workflow-sm, servicemix-toolkit, servicemix-wsrf"/>
@@ -55,6 +59,26 @@
                 <ant dir="${basedir}/@{sub.project.name}" inheritAll="false" antfile="build.xml" target="all"/>
             </sequential>
         </for>
+    </target>
+
+    <target name="deploy" depends="all" description="Deploys and starts servicemix">
+
+        <!-- deploy the custom component -->
+        <copy todir="${servicemix.toolkit.dir}/install">
+            <fileset dir="${servicemix.wsrf.component.dir}/target">
+                <include  name="*.zip"/>
+            </fileset>
+            <fileset dir="${servicemix.toolkit.dir}/components">
+                <include name="*.zip"/>
+            </fileset>
+        </copy>
+
+        <!-- install the service asswembly -->
+        <copy todir="${servicemix.toolkit.dir}/deploy">
+            <fileset dir="${service.assembly.build.dir}">
+                <include  name="*.zip"/>
+            </fileset>
+        </copy>
     </target>
 
 </project>

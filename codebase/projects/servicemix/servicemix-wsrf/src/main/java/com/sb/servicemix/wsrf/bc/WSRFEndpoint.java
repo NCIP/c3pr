@@ -16,22 +16,20 @@
  */
 package com.sb.servicemix.wsrf.bc;
 
-import javax.jbi.component.ComponentContext;
-import javax.jbi.management.DeploymentException;
-import javax.jbi.messaging.MessageExchange.Role;
-import javax.jbi.messaging.*;
-import javax.jbi.servicedesc.ServiceEndpoint;
-import javax.xml.transform.Source;
-import javax.xml.transform.stream.StreamSource;
-
 import org.apache.servicemix.common.BaseLifeCycle;
 import org.apache.servicemix.common.Endpoint;
 import org.apache.servicemix.common.ExchangeProcessor;
-import org.apache.servicemix.jbi.messaging.FaultImpl;
 import org.apache.servicemix.jbi.jaxp.SourceTransformer;
-import
-import java.rmi.RemoteException;
+
+import javax.jbi.component.ComponentContext;
+import javax.jbi.management.DeploymentException;
+import javax.jbi.messaging.*;
+import javax.jbi.messaging.MessageExchange.Role;
+import javax.jbi.servicedesc.ServiceEndpoint;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayInputStream;
+import java.rmi.RemoteException;
 
 
 /**
@@ -43,8 +41,11 @@ public class WSRFEndpoint extends Endpoint implements ExchangeProcessor {
     private DeliveryChannel channel;
     private MessageExchangeFactory exchangeFactory;
 
+
     // custom tags for the endpoint
     private String epr;
+    private MessageExchangeProcessor exchangeProcessor;
+
 
     /* (non-Javadoc)
     * @see org.apache.servicemix.common.Endpoint#getRole()
@@ -103,7 +104,7 @@ public class WSRFEndpoint extends Endpoint implements ExchangeProcessor {
     public void stop() {
     }
 
-        public void process(MessageExchange exchange) throws Exception {
+    public void process(MessageExchange exchange) throws Exception {
         // The component acts as a provider, this means that another component has requested our service
         // As this exchange is active, this is either an in or a fault (out are send by this component)
         if (exchange.getRole() == MessageExchange.Role.PROVIDER) {
@@ -113,40 +114,18 @@ public class WSRFEndpoint extends Endpoint implements ExchangeProcessor {
             }
             // In message
             if (exchange.getMessage("in") != null) {
-                NormalizedMessage in = exchange.getMessage("in");
 
-                // If the MEP is an InOnly, RobustInOnly, you have to set the exchange to DONE status
-                // else, you have to create an Out message and populate it
-                System.out.println("WSRF Component received a message " + new SourceTransformer().contentToString(in));
-
-                //should just forward the xml message to the consuming
-                //service using a generic caGrid client
-                //for now send a test message
-                edu.duke.cabig.c3pr.gridnode.client.StudyIngestorClient client = new edu.duke.cabig.c3pr.gridnode.client.StudyIngestorClient(getEpr());
-
-                edu.duke.cabig.c3pr.grid.Study dummyStudy = new edu.duke.cabig.c3pr.grid.Study();
-                dummyStudy.setId(1);
-                dummyStudy.setDescriptionText("Test Study");
-
-                try {
-
-                    client.createStudy(dummyStudy);
-
-                } catch (RemoteException e) {
-                    System.out.println("Problem communicated with grid service. Check your EPR");
-                   exchange.setError(e);
-                   channel.send(exchange);
+                //hand over exchange to an exchange processor
+                if (exchangeProcessor == null){
+                    throw new Exception("No valid ExchangeProcessor available");
                 }
 
-                NormalizedMessage out = exchange.createMessage();
-                out.setContent(createSource("<delivered/>"));
-                exchange.setMessage(out, "out");
-               // channel.send(exchange);
+                exchangeProcessor.process(exchange,channel,epr);
+
                 //
                 // Fault message
             } else if (exchange.getFault() != null) {
-              //handle fault
-                System.out.println(exchange.getFault().toString());
+                //handle fault
                 exchange.setStatus(ExchangeStatus.DONE);
                 channel.send(exchange);
                 // This is not compliant with the default MEPs
@@ -179,7 +158,7 @@ public class WSRFEndpoint extends Endpoint implements ExchangeProcessor {
                 } else {
                     throw new IllegalStateException("Consumer exchange is ACTIVE, but no out or fault is provided");
                 }
-            }       
+            }
             // Unknown role
         } else {
             throw new IllegalStateException("Unkown role: " + exchange.getRole());
@@ -190,6 +169,15 @@ public class WSRFEndpoint extends Endpoint implements ExchangeProcessor {
         return new StreamSource(new ByteArrayInputStream(msg.getBytes()));
     }
 
+
+    public MessageExchangeProcessor getExchangeProcessor() {
+        return exchangeProcessor;
+    }
+
+    public void setExchangeProcessor(MessageExchangeProcessor exchangeProcessor) {
+        this.exchangeProcessor = exchangeProcessor;
+    }
+
     public String getEpr() {
         return epr;
     }
@@ -197,4 +185,6 @@ public class WSRFEndpoint extends Endpoint implements ExchangeProcessor {
     public void setEpr(String epr) {
         this.epr = epr;
     }
+
+
 }

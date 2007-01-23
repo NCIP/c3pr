@@ -18,6 +18,8 @@
 
     <target name="init">
         <mkdir dir="${install.dir}"/>
+        <mkdir dir="${deploy.dir}"/>
+
         <!--other directories are created by the toolkit-->
     </target>
 

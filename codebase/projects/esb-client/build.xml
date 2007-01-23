@@ -22,11 +22,17 @@
     <property name="project.name" value="esb-client"/>
     <property name="project.version" value="1.0"/>
 
-    <property name="build.dir" value="build"/>
-    <property name="src.dir" value="src"/>
+    <property name="build.dir" value="${basedir}/build"/>
+    <property name="src.dir" value="${basedir}/src"/>
     <property name="build.classes.dir" value="${build.dir}/classes"/>
     <property name="build.jar.dir" value="${build.dir}/jars"/>
     <property name="lib.dir" value="${basedir}/lib"/>
+
+     <property name="test.dir" value="${basedir}/test"/>
+    <property name="test.src.dir" value="${test.dir}/src"/>
+
+    <property name="test.build.dir" value="${build.classes.dir}"/>
+
 
     <!--ext lib dir-->
     <property name="ext.dir" value="${basedir}/ext"/>
@@ -40,8 +46,12 @@
             <include name="**/*.jar"/>
         </fileset>
         <fileset dir="${ext.lib.dir}">
-            <include name="*.jar"/>
+            <include name="**/*.jar"/>
         </fileset>
+    </path>
+    <path id="test.classpath">
+        <path refid="javac.classpath"/>
+       <pathelement location="${build.classes.dir}"/>
     </path>
 
 
@@ -59,6 +69,11 @@
         </javac>
     </target>
 
+    <target name="compileTests" depends="compile">
+        <javac srcdir="${test.src.dir}" destdir="${test.build.dir}" debug="true">
+            <classpath refid="test.classpath"/>
+        </javac>
+    </target>
 
     <target name="jar" depends="compile">
         <jar destfile="${build.jar.dir}/${project.jar.name}" basedir="${build.classes.dir}"/>

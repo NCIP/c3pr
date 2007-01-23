@@ -48,7 +48,7 @@
     <!--                          DEFINE THE SUB PROJECTS                                 -->
     <!-- ================================================================================ -->
     <!-- The name should be the path relative from projects.dir.  Its strongly encouraged you use a flat layout caTissueCAEDataService, caTissueCoreDataService,  -->
-    <property name="projects.list" value="core, web, gridnode, esb-client, servicemix, test-system"/>
+    <property name="projects.list" value="core, web, grid, esb-client, servicemix, test-system"/>
 
     <!-- ================================================================================ -->
     <!--                  DEFINE THE SUB PROJECTS THAT SUPPORT TESTING                    -->
@@ -179,9 +179,9 @@
     <!-- =============================================================== -->
     <!-- c3pr Protocol Ingestion Grid Service                            -->
     <!-- =============================================================== -->
-    <target name="build-gridnode" depends="prepare" description="Builds the c3p3 Protocol Ingestion grid node">
+    <target name="build-grid" depends="prepare" description="Builds the c3p3 Registration Consumer grid node">
         <!--no dependencies needed-->
-        <ant dir="${projects.dir}/gridnode" inheritAll="false" antfile="build.xml" target="all"/>
+        <ant dir="${projects.dir}/grid/RegistrationConsumer" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
 
 
@@ -272,6 +272,11 @@
     </target>
 
 
+    <target name="deployESB" description="Will build and deploy and make ready the ctms esb engine (servicemix)">
+        <ant dir="${projects.dir}/servicemix" antfile="build.xml" target="deploy"/>
+
+        <echo message="Start servicemix by running ${projects.dir}/servicemix/bin/servicemix"/>
+    </target>
     <!-- ============================================================== -->
     <!-- Builds C3PR  from scratch                                     -->
     <!-- ============================================================== -->

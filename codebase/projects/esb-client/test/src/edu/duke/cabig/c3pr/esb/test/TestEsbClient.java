@@ -17,14 +17,23 @@ public class TestEsbClient {
 	public static String sendQueue="bridge.output.async";
 	public static String recvQueue="esb.output";
 	public static long sleep=1000;
-	public static void main(String args[]){
+
+    private static void usage(){
+        System.out.println("Usage : TestESBClient -file <path-to-message-file.xml>");
+    }
+
+    public static void main(String args[]){
 		MessageBroadcastServiceImpl esbClient=new MessageBroadcastServiceImpl();
 		try {
 			esbClient.setConnectionFactory(new ActiveMQConnectionFactory(brokerUrl));
-//			esbClient.setSendQueue(new ActiveMQQueue(sendQueue));
+    		esbClient.setSendQueue(new ActiveMQQueue(sendQueue));
 			esbClient.setRecvQueue(new ActiveMQQueue(recvQueue));
 			esbClient.initialize();
-            String fileName="resources/create-protocol.xml";
+            if(args.length < 1){
+                usage();
+                System.exit(0);
+            }
+            String fileName=args[1];
             System.out.println("XML Payload....");
             String xml="";
             File f= new File(fileName);
