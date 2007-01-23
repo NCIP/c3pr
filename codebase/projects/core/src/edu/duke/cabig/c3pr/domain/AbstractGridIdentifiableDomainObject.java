@@ -22,7 +22,7 @@ public class AbstractGridIdentifiableDomainObject extends AbstractDomainObject i
         return gridId;
     }
 
-    public void setGridId(String bigId) {
+    public void setGridId(String gridId) {
         this.gridId = gridId;
     }
 }

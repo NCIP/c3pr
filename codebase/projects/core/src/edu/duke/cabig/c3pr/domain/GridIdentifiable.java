@@ -12,7 +12,7 @@ public interface GridIdentifiable {
 
     /**
      * Specify the grid-scoped unique identifier for this object
-     * @param bigId
+     * @param gridId
      */
-    void setGridId(String bigId);
+    void setGridId(String gridId);
 }
