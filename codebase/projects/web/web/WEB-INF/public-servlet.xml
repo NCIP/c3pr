@@ -19,17 +19,7 @@
         <property name="location"><value>/WEB-INF/special-views.xml</value></property>
     </bean>
     
-    <bean id="urlMappingName" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-        <property name="mappings">
-            <props>
-                 <prop key="/login.htm">loginController</prop>
-            </props>
-        </property>
-        <property name="order" value="1"/>        
-    </bean>    
-
-   
-    <bean id="loginController" autowire="byType"
+    <bean id="loginController" autowire="byName"
         class="edu.duke.cabig.c3pr.web.LoginController" lazy-init="true">
 	    <property name="commandClass" value="edu.duke.cabig.c3pr.web.LoginCommand"/>
 	    <property name="formView" value="login"/>
