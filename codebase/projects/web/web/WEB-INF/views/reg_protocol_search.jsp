@@ -178,8 +178,6 @@ function doNothing(){
 										Indicator</td>
 										<td>Target Accrual<br>
 										Number</td>
-										<td>Current Accrual<br>
-										Number</td>
 									</tr>
 									<%
 									int i = 1;
@@ -195,7 +193,6 @@ function doNothing(){
 											<td>${study.sponsorCode}</td>
 											<td>${study.multiInstitutionIndicator}</td>
 											<td>${study.targetAccrualNumber}</td>
-											<td>50</td>
 										</tr>
 										</a>
 									</c:forEach>

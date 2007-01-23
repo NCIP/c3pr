@@ -386,65 +386,6 @@ function updateTargetPage(s){
 
 									<hr align="left" width="95%">
 									<br>
-									<strong>Step 6. Randomization Information </strong><br>
-									<table width="700" border="0" cellspacing="0" cellpadding="0"
-										id="details">
-										<tr>
-											<td width="50%" valign="top">
-											<table width="308" border="0" cellspacing="0" cellpadding="0"
-												id="table1">
-												<tr>
-													<td><img src="images/spacer.gif" width="1" height="1"
-														class="heightControl"></td>
-													<td><img src="images/spacer.gif" width="1" height="1"
-														class="heightControl"></td>
-												</tr>
-												<c:forEach var="epoch"
-													items="${command.studySite.study.epochs}">
-													<c:choose>
-														<c:when test="${epoch.name=='Treatment'}">
-															<tr>
-																<td class="label"><em></em> Epoch Name:</td>
-																<td>${epoch.name}</td>
-															</tr>
-															<tr>
-																<td class="label"><em></em> Epoch Description:</td>
-																<td>${epoch.descriptionText}</td>
-															</tr>
-															<c:forEach var="arm" items="${epoch.arms}">
-																<c:choose>
-																	<c:when
-																		test="${arm.id==command.scheduledArms[0].arm.id}">
-																		<tr>
-																			<td class="label">Arm:</td>
-																			<td>${arm.name}</td>
-																		</tr>
-																		<tr>
-																			<td class="label">Arm Descripstion:</td>
-																			<td>${arm.descriptionText}</td>
-																		</tr>
-																		<tr>
-																			<td class="label">Arm Target Accrual Number:</td>
-																			<td>${arm.targetAccrualNumber}</td>
-																		</tr>
-
-																	</c:when>
-																</c:choose>
-															</c:forEach>
-														</c:when>
-													</c:choose>
-												</c:forEach>
-
-											</table>
-											</td>
-										</tr>
-									</table>
-									<a href="javascript:updateTargetPage('randomizeView');"><img
-										src="images/b-edit.gif" alt="Edit" width="39" height="16"
-										border="0"></a>
-
-									<hr align="left" width="95%">
-									<br>
 
 									<table width="700" border="0" cellspacing="0" cellpadding="0"
 										id="details">
