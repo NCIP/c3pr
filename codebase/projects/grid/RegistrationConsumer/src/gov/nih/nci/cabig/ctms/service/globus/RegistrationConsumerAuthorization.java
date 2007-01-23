@@ -30,7 +30,7 @@ public class RegistrationConsumerAuthorization{
 	}
 	
 					
-	public static void authorizeNewMethod() throws RemoteException {
+	public static void authorizeRegister() throws RemoteException {
 		
 		
 	}

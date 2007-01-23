@@ -19,7 +19,7 @@ import org.globus.gsi.GlobusCredential;
 
 import gov.nih.nci.cabig.ctms.stubs.RegistrationConsumerPortType;
 import gov.nih.nci.cabig.ctms.stubs.service.RegistrationConsumerServiceAddressingLocator;
-import gov.nih.nci.cabig.ctms.common.RegistrationConsumerI;
+import gov.nih.nci.cabig.ctms.common.RegistrationConsumer;
 import gov.nih.nci.cagrid.introduce.security.client.ServiceSecurityClient;
 
 /**
@@ -33,7 +33,7 @@ import gov.nih.nci.cagrid.introduce.security.client.ServiceSecurityClient;
  * 
  * @created by Introduce Toolkit version 1.0
  */
-public class RegistrationConsumerClient extends ServiceSecurityClient implements RegistrationConsumerI {	
+public class RegistrationConsumerClient extends ServiceSecurityClient implements RegistrationConsumer {
 	protected RegistrationConsumerPortType portType;
 	private Object portTypeMutex;
 
@@ -111,11 +111,14 @@ public class RegistrationConsumerClient extends ServiceSecurityClient implements
 		}
 	}
 
-	public void newMethod() throws RemoteException {
+	public void register(gov.nih.nci.cabig.ctms.grid.RegistrationType registration) throws RemoteException, gov.nih.nci.cabig.ctms.stubs.types.InvalidRegistration, gov.nih.nci.cabig.ctms.stubs.types.RegistrationFailed {
       synchronized(portTypeMutex){
-        configureStubSecurity((Stub)portType,"newMethod");
-        gov.nih.nci.cabig.ctms.stubs.NewMethodRequest params = new gov.nih.nci.cabig.ctms.stubs.NewMethodRequest();
-        gov.nih.nci.cabig.ctms.stubs.NewMethodResponse boxedResult = portType.newMethod(params);
+        configureStubSecurity((Stub)portType,"register");
+        gov.nih.nci.cabig.ctms.stubs.RegisterRequest params = new gov.nih.nci.cabig.ctms.stubs.RegisterRequest();
+        gov.nih.nci.cabig.ctms.stubs.RegisterRequestRegistration registrationContainer = new gov.nih.nci.cabig.ctms.stubs.RegisterRequestRegistration();
+        registrationContainer.setRegistration(registration);
+        params.setRegistration(registrationContainer);
+        gov.nih.nci.cabig.ctms.stubs.RegisterResponse boxedResult = portType.register(params);
       }
     }
 	public gov.nih.nci.cagrid.metadata.security.ServiceSecurityMetadata getServiceSecurityMetadata() throws RemoteException {

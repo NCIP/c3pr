@@ -26,10 +26,10 @@ public class RegistrationConsumerProviderImpl{
 	}
 	
 
-	public gov.nih.nci.cabig.ctms.stubs.NewMethodResponse newMethod(gov.nih.nci.cabig.ctms.stubs.NewMethodRequest params) throws RemoteException {
-		RegistrationConsumerAuthorization.authorizeNewMethod();
-		gov.nih.nci.cabig.ctms.stubs.NewMethodResponse boxedResult = new gov.nih.nci.cabig.ctms.stubs.NewMethodResponse();
-		impl.newMethod();
+	public gov.nih.nci.cabig.ctms.stubs.RegisterResponse register(gov.nih.nci.cabig.ctms.stubs.RegisterRequest params) throws RemoteException, gov.nih.nci.cabig.ctms.stubs.types.InvalidRegistration, gov.nih.nci.cabig.ctms.stubs.types.RegistrationFailed {
+		RegistrationConsumerAuthorization.authorizeRegister();
+		gov.nih.nci.cabig.ctms.stubs.RegisterResponse boxedResult = new gov.nih.nci.cabig.ctms.stubs.RegisterResponse();
+		impl.register(params.getRegistration().getRegistration());
 		return boxedResult;
 	}
 
