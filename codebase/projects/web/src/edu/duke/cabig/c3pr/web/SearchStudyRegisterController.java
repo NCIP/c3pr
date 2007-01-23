@@ -1,6 +1,5 @@
 package edu.duke.cabig.c3pr.web;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,24 +13,16 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 
+import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.utils.Lov;
 
 public class SearchStudyRegisterController extends SimpleFormController {
 	private static Log log = LogFactory
 			.getLog(SearchStudyRegisterController.class);
 
-	private StudyService studyService;
-
-	public StudyService getStudyService() {
-		return studyService;
-	}
-
-	public void setStudyService(StudyService studyService) {
-		this.studyService = studyService;
-	}
+	private StudyDao studyDao;
 
 	protected ModelAndView onSubmit(HttpServletRequest request,
 			HttpServletResponse response, Object oCommand, BindException errors)
@@ -55,7 +46,7 @@ public class SearchStudyRegisterController extends SimpleFormController {
     	else if ("longTitle".equals(type))
     		study.setShortTitleText(searchtext);
     	
-    	List<Study> studies = studyService.search(study);   
+    	List<Study> studies = studyDao.searchByExample(study, true);   
     	log.debug("Search results size " +studies.size());
     	Map map = errors.getModel();
 		map.put("studies", studies);
@@ -110,5 +101,13 @@ public class SearchStudyRegisterController extends SimpleFormController {
 		public void setDesc(String desc) {
 			this.desc = desc;
 		}
+	}
+	
+	public StudyDao getStudyDao() {
+		return studyDao;
+	}
+
+	public void setStudyDao(StudyDao studyDao) {
+		this.studyDao = studyDao;
 	}
 }
