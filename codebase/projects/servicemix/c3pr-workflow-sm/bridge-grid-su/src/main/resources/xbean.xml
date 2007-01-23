@@ -18,7 +18,14 @@
 	
 -->
 <beans xmlns:wsrf="http://com.sb.servicemix.wsrf.bc/1.0"
-	xmlns:b="http://servicemix.apache.org/samples/bridge">
-	<wsrf:endpoint service="b:grid-service" endpoint="endpoint"
-		epr="http://192.168.1.118:8080/wsrf/services/sb/ProtocolIngestor" />
+       xmlns:b="http://servicemix.apache.org/samples/bridge">
+
+    <wsrf:endpoint service="b:grid-service" endpoint="endpoint"
+                   exchangeProcessor="#exchangeProcessor"
+                   epr="http://localhost:8080/wsrf/services/cagrid/RegistrationConsumer"/>
+
+    
+    <bean id="exchangeProcessor"
+          class="com.sb.servicemix.wsrf.bc.CTMSRegistrationProcessor"/>
+
 </beans>

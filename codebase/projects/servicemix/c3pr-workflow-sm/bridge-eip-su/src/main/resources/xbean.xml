@@ -20,35 +20,24 @@
 <beans xmlns:eip="http://servicemix.apache.org/eip/1.0"
        xmlns:b="http://servicemix.apache.org/samples/bridge">
 
-  <eip:static-routing-slip service="b:route-pipeline" endpoint="endpoint">
-	  <eip:targets>
-	    <eip:exchange-target service="b:xslt" />
-	    <eip:exchange-target service="b:http-local" />
-	  </eip:targets>
-  </eip:static-routing-slip>
-
-  <eip:pipeline service="b:route-pipeline-local" endpoint="endpoint">
-    <eip:transformer>
-      <eip:exchange-target service="b:xslt-local" />
-    </eip:transformer>
-    <eip:target>
-      <eip:exchange-target service="b:route-static" />
-    </eip:target>
-  </eip:pipeline>
--->
-<!--   <eip:static-routing-slip service="b:route-pipeline-local" endpoint="endpoint">
-	  <eip:targets>
-	    <eip:exchange-target service="b:xslt-local" />
-	    <eip:exchange-target service="b:http-local" />
-	  </eip:targets>
-  </eip:static-routing-slip>
--->
+  
 
 	<eip:static-recipient-list service="b:route-static" endpoint="endpoint">
 	  <eip:recipients>
-	    <eip:exchange-target service="b:http-local" />
+	    <eip:exchange-target service="b:grid-service" />
 	    <eip:exchange-target service="b:jms-out" />
 	  </eip:recipients>
 	</eip:static-recipient-list>
+
+    <eip:pipeline service="b:pipeline" endpoint="endpoint">
+      <eip:transformer>
+         <eip:exchange-target service="b:grid-service" />
+      </eip:transformer>
+      <eip:target>
+        <eip:exchange-target service="b:jms-out" />
+      </eip:target>
+    </eip:pipeline>
+
+
 
 </beans>
