@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!-- adopted from GTBS and modified -->
-<project default="help" name="Introduce Build File" basedir=".">
+<project default="help" name="CTMS Registration grid service" basedir=".">
 
     <!-- Define the environment variable -->
     <property environment="env" />
