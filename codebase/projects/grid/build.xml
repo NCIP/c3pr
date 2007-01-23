@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+
+<project name="grid" default="all" basedir=".">
+
+    <target name="all">
+        <ant dir="RegistrationConsumer" inheritall="false" antfile="build.xml" target="all"/>
+    </target>
+
+    <target name="clean">
+        <ant dir="RegistrationConsumer" inheritall="false" antfile="build.xml" target="clean"/>
+    </target>
+
+</project>
+
+
