@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <p1:registration xmlns:p1="http://semanticbits.com/registration.xsd"
-	healthCareSiteGridId="gridStudySite" studyGridId="gridStudy">
-	<p1:informedConsentFormSignedDate>
-		2004-01-02
-	</p1:informedConsentFormSignedDate>
+	healthCareSiteGridId="gridSite" studyGridId="gridStudy">
+	<p1:informedConsentFormSignedDate>2004-01-02</p1:informedConsentFormSignedDate>
 	<p1:enrollmentDate>2007-01-24</p1:enrollmentDate>
 	<p1:studyParticipantIdentifier>
 		101c2a1f-394c-4bd1-b3c3-f34b86985679
@@ -39,13 +37,13 @@
 			<p1:source />
 			<p1:type />
 			<p1:value />
-			<p1:isprimary />
+			<p1:isprimary>false</p1:isprimary>
 		</p1:identifier>
 	</p1:study>
 	<p1:identifier>
 		<p1:source>c3pr</p1:source>
 		<p1:type>Grid Identifier</p1:type>
 		<p1:value>101c2a1f-394c-4bd1-b3c3-f34b86985679</p1:value>
-		<p1:isprimary />
-	</p1:identifier>
+        <p1:isprimary>false</p1:isprimary>
+				</p1:identifier>
 </p1:registration>
