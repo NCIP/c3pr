@@ -26,6 +26,14 @@ public class StringUtils {
 	        return "";
 	     return str;
 	  }
+  public static String getBlankIfNull(Boolean bool){
+	     if(bool==null)
+	        return "true";
+	     if(bool.toString().equals(""))
+		        return "true";
+	     return bool.toString();
+	  }
+  
   public static String initString(String str){
      String test = "";
      if(str!=null){

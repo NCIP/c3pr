@@ -22,13 +22,16 @@ public class XMLUtils {
 		Element rootElement=new Element("registration","p1", ns);
 //		rootElement.setAttribute("healthCareSiteGridId", StringUtils.getBlankIfNull(studyParticipantAssignment.getStudySite().getGridId()));
 //		rootElement.setAttribute("studyGridId", StringUtils.getBlankIfNull(studyParticipantAssignment.getStudySite().getStudy().getGridId()));
-		rootElement.setAttribute("healthCareSiteGridId", "gridStudySite");
+//		String siteGridId=StringUtils.getBlankIfNull(studyParticipantAssignment.getStudySite().getGridId());
+//		String studyGridId=StringUtils.getBlankIfNull(studyParticipantAssignment.getStudySite().getStudy().getGridId());
+		
+		rootElement.setAttribute("healthCareSiteGridId", "gridSite");
 		rootElement.setAttribute("studyGridId", "gridStudy");
 		
 		rootElement.addContent(new Element("informedConsentFormSignedDate", "p1",ns).setText(new SimpleDateFormat("yyyy-MM-dd").format(studyParticipantAssignment.getInformedConsentSignedDate())));	
 		rootElement.addContent(new Element("enrollmentDate", "p1",ns).setText(new SimpleDateFormat("yyyy-MM-dd").format(studyParticipantAssignment.getStartDate())));		
-		rootElement.addContent(new Element("studyParticipantIdentifier", "p1",ns).setText(StringUtils.getBlankIfNull(studyParticipantAssignment.getStudyParticipantIdentifier())));
-		rootElement.addContent(new Element("eligibilityIndicator", "p1",ns).setText(StringUtils.getBlankIfNull(studyParticipantAssignment.getEligibilityIndicator().toString())));
+		rootElement.addContent(new Element("studyParticipantIdentifier", "p1",ns).setText(StringUtils.getBlankIfNull(studyParticipantAssignment.getGridId())));
+		rootElement.addContent(new Element("eligibilityIndicator", "p1",ns).setText(StringUtils.getBlankIfNull(studyParticipantAssignment.getEligibilityIndicator())));
 		
 		Participant stPart=studyParticipantAssignment.getParticipant();
 		Element participant=new Element("participant", "p1",ns);
@@ -44,10 +47,10 @@ public class XMLUtils {
 		if(identifiers.size()==0){
 			System.out.println("Participant Identifiers size is 0");
 			Element idTemp=new Element("identifier", "p1",ns);
-			idTemp.addContent(new Element("source", "p1",ns));
-			idTemp.addContent(new Element("type", "p1",ns));
-			idTemp.addContent(new Element("value", "p1",ns));
-			idTemp.addContent(new Element("isprimary", "p1",ns));
+			idTemp.addContent(new Element("source", "p1",ns).setText("NONE"));
+			idTemp.addContent(new Element("type", "p1",ns).setText("NONE"));
+			idTemp.addContent(new Element("value", "p1",ns).setText("NONE"));
+			idTemp.addContent(new Element("isprimary", "p1",ns).setText("true"));
 			participant.addContent(idTemp);
 		}		
 		for(int i=0 ; i<identifiers.size() ; i++){
@@ -56,7 +59,7 @@ public class XMLUtils {
 			idTemp.addContent(new Element("source", "p1",ns).setText(StringUtils.getBlankIfNull(id.getSource())));
 			idTemp.addContent(new Element("type", "p1",ns).setText(StringUtils.getBlankIfNull(id.getType())));
 			idTemp.addContent(new Element("value", "p1",ns).setText(StringUtils.getBlankIfNull(id.getValue())));
-			idTemp.addContent(new Element("isprimary", "p1",ns).setText(StringUtils.getBlankIfNull(id.getPrimaryIndicator().toString())));
+			idTemp.addContent(new Element("isprimary", "p1",ns).setText(StringUtils.getBlankIfNull(id.getPrimaryIndicator())));
 			participant.addContent(idTemp);
 		}
 		Address add=stPart.getAddress();
@@ -75,10 +78,10 @@ public class XMLUtils {
 		if(identifiers.size()==0){
 			System.out.println("Study Identifiers size is 0");
 			Element idTemp=new Element("identifier", "p1",ns);
-			idTemp.addContent(new Element("source", "p1",ns));
-			idTemp.addContent(new Element("type", "p1",ns));
-			idTemp.addContent(new Element("value", "p1",ns));
-			idTemp.addContent(new Element("isprimary", "p1",ns));
+			idTemp.addContent(new Element("source", "p1",ns).setText("NONE"));
+			idTemp.addContent(new Element("type", "p1",ns).setText("NONE"));
+			idTemp.addContent(new Element("value", "p1",ns).setText("NONE"));
+			idTemp.addContent(new Element("isprimary", "p1",ns).setText("true"));
 			study.addContent(idTemp);
 		}
 		for(int i=0 ; i<identifiers.size() ; i++){
@@ -87,14 +90,14 @@ public class XMLUtils {
 			idTemp.addContent(new Element("source", "p1",ns).setText(StringUtils.getBlankIfNull(id.getSource())));
 			idTemp.addContent(new Element("type", "p1",ns).setText(StringUtils.getBlankIfNull(id.getType())));
 			idTemp.addContent(new Element("value", "p1",ns).setText(StringUtils.getBlankIfNull(id.getValue())));
-			idTemp.addContent(new Element("isprimary", "p1",ns).setText(StringUtils.getBlankIfNull(id.getPrimaryIndicator().toString())));
+			idTemp.addContent(new Element("isprimary", "p1",ns).setText(StringUtils.getBlankIfNull(id.getPrimaryIndicator())));
 			study.addContent(idTemp);
 		}
 		rootElement.addContent(study);
 		
 		Element identifier=new Element("identifier", "p1",ns);
 		identifier.addContent(new Element("source", "p1",ns).setText("c3pr"));
-		identifier.addContent(new Element("type", "p1",ns).setText("GridId"));
+		identifier.addContent(new Element("type", "p1",ns).setText("Grid Identifier"));
 		identifier.addContent(new Element("value", "p1",ns).setText(StringUtils.getBlankIfNull(studyParticipantAssignment.getGridId())));
 		identifier.addContent(new Element("isprimary", "p1",ns));
 		rootElement.addContent(identifier);
@@ -105,7 +108,7 @@ public class XMLUtils {
 			idTemp.addContent(new Element("source", "p1",ns).setText(StringUtils.getBlankIfNull(id.getSource())));
 			idTemp.addContent(new Element("type", "p1",ns).setText(StringUtils.getBlankIfNull(id.getType())));
 			idTemp.addContent(new Element("value", "p1",ns).setText(StringUtils.getBlankIfNull(id.getValue())));
-			idTemp.addContent(new Element("isprimary", "p1",ns).setText(StringUtils.getBlankIfNull(id.getPrimaryIndicator().toString())));
+			idTemp.addContent(new Element("isprimary", "p1",ns).setText(StringUtils.getBlankIfNull(id.getPrimaryIndicator())));
 			rootElement.addContent(idTemp);
 		}
 		
