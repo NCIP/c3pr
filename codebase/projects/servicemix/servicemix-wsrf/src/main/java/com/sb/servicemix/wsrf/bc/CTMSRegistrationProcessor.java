@@ -10,9 +10,11 @@ import gov.nih.nci.cagrid.common.Utils;
 import gov.nih.nci.cabig.ctms.client.RegistrationConsumerClient;
 
 import java.io.StringReader;
+import java.rmi.RemoteException;
 
 import org.apache.servicemix.jbi.jaxp.SourceTransformer;
 import org.apache.servicemix.jbi.jaxp.StringSource;
+import org.apache.axis.types.URI;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,7 +23,7 @@ import org.apache.servicemix.jbi.jaxp.StringSource;
  * Time: 12:22:26 PM
  * To change this template use File | Settings | File Templates.
  */
-public class CTMSRegistrationProcessor implements MessageExchangeProcessor {
+public class    CTMSRegistrationProcessor implements Messag    eExchangeProcessor {
 
 
     public void process(MessageExchange exchange, DeliveryChannel channel,String epr) throws Exception{
@@ -37,14 +39,20 @@ public class CTMSRegistrationProcessor implements MessageExchangeProcessor {
 
         System.out.println("Registration received with Grid ID " + registration.getStudyGridId());
 
-        RegistrationConsumerClient client = new RegistrationConsumerClient(epr);
-        client.register(registration);
-        
+        String deliveryStatus=null;
+        try {
+            RegistrationConsumerClient client = new RegistrationConsumerClient(epr);
+            client.register(registration);
+            deliveryStatus = "delivered";
+        } catch (Exception e) {
+            deliveryStatus = "failed";
+
+          }
+
         NormalizedMessage confirmation = exchange.createMessage();
-        confirmation.setContent(new StringSource("<xml>delivered</xml>"));
+        confirmation.setContent(new StringSource("<status>" + deliveryStatus + "<registrationID>"+ registration.getStudyGridId()+"</registrationID></status>"));
         exchange.setMessage(confirmation, "out");
+        exchange.setStatus(ExchangeStatus.DONE);
         channel.send(exchange);
-
     }
-
 }
