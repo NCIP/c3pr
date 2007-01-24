@@ -5,7 +5,6 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="display" uri="http://displaytag.sf.net/el"%>
 
 <html>
 <head>
@@ -21,13 +20,13 @@ function navRollOver(obj, state) {
 <script language="JavaScript" type="text/JavaScript">
 
 function validatePage(){
-	return true;	
+	return true;
 }
 function updateTargetPage(target){
 	if(validatePage()){
 		document.studyDesignForm._target0.value=s;
 		document.studyDesignForm.submit();
-	}	
+	}
 }
 
 </script>
@@ -113,7 +112,7 @@ function updateTargetPage(target){
 						4. study design <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"></span><span class="current"><img
 							src="images/tabWhiteL.gif" width="3" height="16"
-							align="absmiddle"> 
+							align="absmiddle">
 						5. review and submit <img
 							src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"></span>
@@ -135,13 +134,13 @@ function updateTargetPage(target){
 
 					<strong>Step 5. Review and Submit</strong>
 					<br>
-					<hr>					
+					<hr>
 					<strong>Study Details </strong>
 					<br>
 					<div class="review">
 					<table width="50%" border="0" cellspacing="0" cellpadding="0"
 						id="table1">
-					
+
 						<tr>
 							<td width="20%" class="label">Short Title:</td>
 							<td>${command.shortTitleText}</td>
@@ -181,11 +180,11 @@ function updateTargetPage(target){
 						<input type="image" name="_target0" src="images/b-edit.gif" border="0"
 						alt="edit this page">
 						</tr>
-						
+
 					</table>
 					</div>
-					<br>					
-				
+					<br>
+
 					<hr>
 					<strong>Study Identifiers</strong>
 					<br>
@@ -194,36 +193,36 @@ function updateTargetPage(target){
 
 					<table width="50%" border="0" cellspacing="0" cellpadding="0"
 						id="table1">
-						
+
 						<tr>
 							<td valign="top">
 							<table width="100%" border="1" cellspacing="0" cellpadding="0"
 								id="table1">
 								<tr>
 									<td width="20% align="left" class="label">Source</td>
-									<td width="20%" align="left" class="label">Type</td>			
-									<td width="20%" align="left" class="label">Identifier</td>								
+									<td width="20%" align="left" class="label">Type</td>
+									<td width="20%" align="left" class="label">Identifier</td>
 								</tr>
 								<c:forEach items="${command.identifiers}" var="identifier">
-								<tr class="results">						
+								<tr class="results">
 									<td>${identifier.source}</td>
-									<td>${identifier.type}</td>										
-									<td>${identifier.value}</td>											
+									<td>${identifier.type}</td>
+									<td>${identifier.value}</td>
 								</tr>
 								</c:forEach>
-								
+
 							</table>
 							</td>
-						</tr>			
+						</tr>
 						<tr>
 							<td><br><br>
 								<input type="image" name="_target1" src="images/b-edit.gif" border="0"
 									alt="edit this page"></td>
-						</tr>								
+						</tr>
 					</table>
 					</div>
 					<br>
-					<br>								
+					<br>
 					<hr>
 					<strong>Study Site</strong>
 					<br>
@@ -231,38 +230,38 @@ function updateTargetPage(target){
 					<div class="review">
 
 					<table width="50%" border="0" cellspacing="0" cellpadding="0"
-						id="table1">												
+						id="table1">
 						<tr>
 							<td valign="top">
 							<table width="100%" border="1" cellspacing="0" cellpadding="0"
 								id="table1">
 								<tr>
 									<td width="20% align="left" class="label">Study Site</td>
-									<td width="20%" align="left" class="label">Status</td>			
+									<td width="20%" align="left" class="label">Status</td>
 									<td width="20%" align="left" class="label">Role</td>
-									<td width="20%" align="left" class="label">Start Date</td>			
-									<td width="20%" align="left" class="label">IRB Approval Date</td>								
+									<td width="20%" align="left" class="label">Start Date</td>
+									<td width="20%" align="left" class="label">IRB Approval Date</td>
 								</tr>
 								<c:forEach items="${command.studySites}" var="studySite">
-								<tr class="results">						
+								<tr class="results">
 									<td>${studySite.site.name}</td>
-									<td>${studySite.statusCode}</td>										
+									<td>${studySite.statusCode}</td>
 									<td>${studySite.roleCode}</td>
-									<td>${studySite.startDate}</td>		
-									<td>${studySite.irbApprovalDate}</td>												
+									<td>${studySite.startDate}</td>
+									<td>${studySite.irbApprovalDate}</td>
 								</tr>
-								</c:forEach>								
+								</c:forEach>
 							</table>
 							</td>
-						</tr>		
+						</tr>
 						<tr>
 						<td><br><br>
 							<input type="image" name="_target2" src="images/b-edit.gif" border="0"
 								alt="edit this page"></td>
-						</tr>												
+						</tr>
 					</table>
 					</div>
-					<br>					
+					<br>
 					<hr>
 					<strong>Study Design</strong>
 					<br>
@@ -277,28 +276,28 @@ function updateTargetPage(target){
 								id="table1">
 								<tr>
 									<td width="20% align="left" class="label">Epochs</td>
-									<td width="80%" align="left" class="label">Arms</td>								
+									<td width="80%" align="left" class="label">Arms</td>
 								</tr>
 								<c:forEach items="${command.epochs}" var="epoch">
-								<tr class="results">						
+								<tr class="results">
 									<td lclass="label">${epoch.name}</td>
 									<td >
 										<table width="100%" border="0" cellspacing="2" cellpadding="2"
 											id="table1">
 										<tr>
 											<c:forEach items="${epoch.arms}" var="arm">
-												<tr>						
+												<tr>
 													<td width="50%">${arm.name}</td>
-													<td width="50%">${arm.targetAccrualNumber}</td>																								
+													<td width="50%">${arm.targetAccrualNumber}</td>
 												</tr>
 											</c:forEach>
 										</tr>
 										</table>
-									</td>											
+									</td>
 								</tr>
-								</c:forEach>								
+								</c:forEach>
 							</table>
-							</td>						
+							</td>
 						</tr>
 						<tr>
 								<td><br><br>
@@ -313,12 +312,12 @@ function updateTargetPage(target){
 									<td colspan=2 valign="top"><br>
 										<br>
 										<input type="image" name="_target3" src="images/b-prev.gif" border="0"
-											alt="goto previous page">									
+											alt="goto previous page">
 										<input type="image" name="_target5" src="images/b-submit.gif" border="0"
 											alt="continue to next page">
 										<input type="image" name="_target0" src="images/b-startOver.gif" border="0"
-											alt="start over from start page">	
-									</td>						
+											alt="start over from start page">
+									</td>
 								</tr>
 							</table>
 							</td>

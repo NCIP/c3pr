@@ -5,7 +5,6 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="display" uri="http://displaytag.sf.net/el"%>
 
 <html>
 <head>
@@ -151,8 +150,7 @@ function fireAction(action, selectedEpoch, selectedArm){
 								id="table1">
 
 							<tr align="center" class="label">
-								<td width="5%" align="center"><a href="javascript:fireAction('addEpoch','0','0');"><img
-									src="images/checkyes.gif" border="0"></a>(add)</td>
+								<td width="5%" align="center"></td>
 								<td width="20%" align="center">Epoch <span class="red">*</span></td>
 								<td width="20%" align="center">Description</td>
 								<td width="3%" align="center">(add arms)(<span class="red">*</span></td>
@@ -162,12 +160,12 @@ function fireAction(action, selectedEpoch, selectedArm){
 							<c:forEach items="${command.epochs}" var="epoch" varStatus="status">
 								<tr align="center" class="results">
 									<td width="8%"><a href="javascript:fireAction('removeEpoch',${status.index},'0');"><img
-										src="images/checkno.gif" border="0"></a>
+										src="images/b-delete.gif" border="0"></a>
 									</td>
 									<td width="20%"><form:input path="epochs[${status.index}].name" /></td>
 									<td width="20%"><form:input path="epochs[${status.index}].descriptionText" /></td>
 									<td width="3%"><a href="javascript:fireAction('addArm',${status.index},'0');"><img
-										src="images/checkyes.gif" border="0"></a></td>
+										src="images/b-addLine.gif" border="0"></a></td>
 									<td width="50%" >
 										<table width="100%" border="1" cellspacing="0" cellpadding="0"
 											id="table1">
@@ -175,7 +173,7 @@ function fireAction(action, selectedEpoch, selectedArm){
 
 											<tr align="center" class="results">
 												<td width="8%"><a href="javascript:fireAction('removeArm',${status.index},${statusArms.index});"><img
-													src="images/checkno.gif" border="0"></a>
+													src="images/b-delete.gif" border="0"></a>
 												</td>
 												<td ><form:input path="epochs[${status.index}].arms[${statusArms.index}].name" /></td>
 												<td ><form:input path="epochs[${status.index}].arms[${statusArms.index}].targetAccrualNumber" /></td>
@@ -186,6 +184,15 @@ function fireAction(action, selectedEpoch, selectedArm){
 									</td>
 								</tr>
 							</c:forEach>
+								<tr>
+									<td><img src="images/spacer.gif" width="1" height="1"
+									class="heightControl"></td>
+								</tr>
+								<tr>
+									<td align="center"><a href="javascript:fireAction('addEpoch','0');"><img
+										src="images/b-addLine.gif" border="0" alt="Add another Epoch"></a>
+									</td></tr>
+								</table>
 							</table>
 						</td>
 

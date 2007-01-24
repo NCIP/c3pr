@@ -5,7 +5,6 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="display" uri="http://displaytag.sf.net/el"%>
 
 <html>
 <head>
@@ -25,7 +24,7 @@ function validatePage(){
 	if(document.getElementById("longTitleText") != null)
 		return true;
 	else
-		return false;	
+		return false;
 }
 
 </script>
@@ -114,12 +113,12 @@ function validatePage(){
 						5. review and submit <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"></span><span class="current"><img
 							src="images/tabWhiteL.gif" width="3" height="16"
-							align="absmiddle"> 
+							align="absmiddle">
 						6. confirmation <img
 							src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"> </span></td>
 						<td><img src="images/spacer.gif" width="7" height="1"></td>
-					</tr>					
+					</tr>
 				</table>
 				</td>
 			</tr>
@@ -164,14 +163,14 @@ function validatePage(){
 												<td width="20%" class="label">Site:</td>
 												<td>${command.studySites[0].site.name}</td>
 											</tr>
-											
-											<tr>						
-												<td width="20%" class="label">Study Identifier</td>	
+
+											<tr>
+												<td width="20%" class="label">Study Identifier</td>
 												<td ><c:forEach items="${command.identifiers}" var="id">
 													${id.value},
-												</c:forEach></td>										
+												</c:forEach></td>
 											</tr>
-											
+
 											<tr>
 												<td class="label">Subject Created by:</td>
 												<td>(username)</td>
@@ -191,9 +190,9 @@ function validatePage(){
 									</tr>
 									<tr>
 										<td colspan=2 valign="top"><br>
-											<br>											
+											<br>
 											<input type="image" name="_finish" src="images/b-search2.gif" border="0"
-												alt="go back to search">											
+												alt="go back to search">
 										</td>
 									</tr>
 								</table>

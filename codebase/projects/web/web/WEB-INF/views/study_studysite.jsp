@@ -5,14 +5,17 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="display" uri="http://displaytag.sf.net/el"%>
 
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
 <title>C3Pr V2</title>
-<link href="resources/styles.css" rel="stylesheet" type="text/css">
-<link href="resources/search.css" rel="stylesheet" type="text/css">
+<link href="resources/styles.css" rel="stylesheet" type="text/css"/>
+<link href="resources/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="/c3pr/js/CalendarPopup.js"></script>
+<script language="JavaScript" id="js1">
+	var cal1 = new CalendarPopup();
+</script>
 <script>
 function navRollOver(obj, state) {
   document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
@@ -23,7 +26,7 @@ function validatePage(){
 function fireAction(action, selected){
 	if(validatePage()){
 		document.studySiteForm._action.value=action;
-		document.studySiteForm._selected.value=selected;		
+		document.studySiteForm._selected.value=selected;
 		document.studySiteForm.submit();
 	}
 }
@@ -132,7 +135,7 @@ function fireAction(action, selected){
 				<!-- LEFT CONTENT STARTS HERE -->
 
 				<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
-				<!-- RIGHT CONTENT STARTS HERE --> 
+				<!-- RIGHT CONTENT STARTS HERE -->
 				<form:form name="studySiteForm" method="post">
 				<div><input type="hidden" name="_page" value="2">
 					<input type="hidden" name="_action" value="">
@@ -143,16 +146,15 @@ function fireAction(action, selected){
 
 					<br>
 					<table width="70%" border="0" cellspacing="0" cellpadding="0"
-						id="table1">												
-						
+						id="table1">
+
 						<td width="100%" valign="top">
 							<table width="100%" border="0" cellspacing="10" cellpadding="0"
 								id="table1">
 
 							<tr align="center" class="label">
-								<td width="5%" align="center"><a href="javascript:fireAction('addStudySite','0');">
-									<img src="images/checkyes.gif" border="0" alt="Add Study Site"></a></td>
-								<td width="11%" align="center">HealthCare Site<span class="red">*</span></td>																
+								<td width="5%" align="center"></td>
+								<td width="11%" align="center">HealthCare Site<span class="red">*</span></td>
 								<td width="11%" align="center">Status Code<span class="red">*</span></td>
 								<td width="11%" align="center">Role Code<span class="red">*</span></td>
 								<td width="17%" align="center">Start Date (mm/dd/yyyy)<span class="red">*</span> </td>
@@ -162,7 +164,7 @@ function fireAction(action, selected){
 							<c:forEach items="${command.studySites}" varStatus="status">
 								<tr align="center" class="results">
 									<td width="5%"><a href="javascript:fireAction('removeStudySite',${status.index});"><img
-										src="images/checkno.gif" border="0"></a></td>
+										src="images/b-delete.gif" border="0"></a></td>
 									<td width="11%"><form:select path="studySites[${status.index}].site">
 										<form:options items="${healthCareSitesRefData}" itemLabel="name" itemValue="id" />
 										</form:select></td>
@@ -173,27 +175,36 @@ function fireAction(action, selected){
 									<td width="11%"><form:select path="studySites[${status.index}].roleCode">
 										<form:options items="${studySiteRoleCodeRefData}" itemLabel="desc"
 											itemValue="desc" />
-									</form:select></td>																		
+									</form:select></td>
 									<td width="17%"><form:input
 										path="studySites[${status.index}].startDate" />&nbsp;<a href="#"
-										onClick="parent.OpenWins('calendar.htm','calendar',200,236);return false;"><img
-										src="images/b-calendar.gif" alt="Calendar" 
+											onClick="cal1.select(document.getElementById('studySites[${status.index}].startDate'),'anchor1','MM/dd/yyyy');return false;" name="anchor1" id="anchor1"><img
+										src="images/b-calendar.gif" alt="Calendar"
 										height="16" border="0"></a></td>
 									<td width="17%"><form:input
 										path="studySites[${status.index}].endDate" />&nbsp;<a href="#"
-										onClick="parent.OpenWins('calendar.htm','calendar',200,236);return false;"><img
+											onClick="cal1.select(document.getElementById('studySites[${status.index}].endDate'),'anchor1','MM/dd/yyyy');return false;" name="anchor1" id="anchor1"><img
 										src="images/b-calendar.gif" alt="Calendar"
 										height="16" border="0"></a></td>
 									<td width="17%"><form:input
 										path="studySites[${status.index}].irbApprovalDate" />&nbsp;<a href="#"
-										onClick="parent.OpenWins('calendar.htm','calendar',200,236);return false;"><img
+											onClick="cal1.select(document.getElementById('studySites[${status.index}].irbApprovalDate'),'anchor1','MM/dd/yyyy');return false;" name="anchor1" id="anchor1"><img
 										src="images/b-calendar.gif" alt="Calendar"
 										height="16" border="0"></a></td>
 								</tr>
 							</c:forEach>
+							<tr>
+								<td><img src="images/spacer.gif" width="1" height="1"
+								class="heightControl"></td>
+							</tr>
+							<tr>
+								<td align="center"><a href="javascript:fireAction('addStudySite','0');"><img
+									src="images/b-addLine.gif" border="0" alt="Add another Study Site"></a>
+								</td>
+							</tr>
 							</table>
-						</td>																	
-						
+						</td>
+
 						<tr>
 							<td><img src="images/spacer.gif" width="1" height="3"
 								class="heightControl"></td>
@@ -205,12 +216,12 @@ function fireAction(action, selected){
 									<td colspan=2 valign="top"><br>
 										<br>
 										<input type="image" name="_target1" src="images/b-prev.gif" border="0"
-											alt="goto previous page">									
+											alt="goto previous page">
 										<input type="image" name="_target3" src="images/b-continue.gif" border="0"
 											alt="continue to next page">
 										<input type="image" name="_target0" src="images/b-startOver.gif" border="0"
-											alt="start over from start page">	
-									</td>						
+											alt="start over from start page">
+									</td>
 								</tr>
 							</table>
 							</td>
@@ -219,7 +230,6 @@ function fireAction(action, selected){
 				</form:form></td>
 			</tr>
 		</table>
-		<br>
 		</td>
 		<!-- LEFT CONTENT ENDS HERE -->
 	</tr>
