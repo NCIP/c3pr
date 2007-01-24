@@ -18,11 +18,11 @@
 
 -->
 <beans xmlns:jms="http://servicemix.apache.org/jms/1.0"
-       xmlns:b="http://servicemix.apache.org/samples/bridge">
+       xmlns:ctms="http://semanticbits.com/esb/ctms">
        
-	<jms:endpoint service="b:jms-async"
+	<jms:endpoint service="ctms:jms-async"
               endpoint="endpoint"
-              targetService="b:route-static"
+              targetService="ctms:route-static"
               targetEndpoint="endpoint"
               role="consumer" 
               destinationStyle="queue"
@@ -30,7 +30,7 @@
               connectionFactory ="#jmsFactory"
               defaultMep="http://www.w3.org/2004/08/wsdl/in-only" />
 
-	<jms:endpoint service="b:jms-out"
+	<jms:endpoint service="ctms:jms-out"
               endpoint="endpoint"
               role="provider" 
               destinationStyle="queue"

@@ -20,13 +20,12 @@
 <beans xmlns:http="http://servicemix.apache.org/http/1.0"
        xmlns:b="http://servicemix.apache.org/samples/bridge">
 
-	<http:endpoint service="b:http-local"
+	<!--http:endpoint service="b:http-local"
 	                 defaultMep="http://www.w3.org/2004/08/wsdl/in-only"
 					 endpoint="endpoint" role="provider" soap="true" soapVersion="1.1"
 					 soapAction="XYZ"
 				  	 locationURI="http://localhost:8191/PersonService/"
-					 wsdlResource="http://localhost:8191/PersonService/main.wsdl"/>                     
-
+		-->
 <!-- 	<http:endpoint service="b:http"
 	                 defaultMep="http://www.w3.org/2004/08/wsdl/in-out"
 					 endpoint="endpoint" role="provider" soap="true" soapVersion="1.1"
