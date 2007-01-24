@@ -44,7 +44,7 @@
             </list>
         </property> 
         <property name="entityInterceptor">
-            <bean class="edu.duke.cabig.c3pr.utils.GridIdentifierInterceptor" autowire="byType"/>
+            <bean class="edu.duke.cabig.c3pr.utils.GridIdentifierInterceptor" autowire="byName"/>
         </property>
         <property name="hibernateProperties">
             <ref bean="hibernateProperties" />
@@ -68,15 +68,13 @@
         <property name="singleSession"><value>true</value></property>
         <property name="flushModeName"><value>FLUSH_AUTO</value></property>
     </bean>    
-    <bean id="gridIdentifierCreator" class="edu.duke.cabig.c3pr.utils.LocalGridIdentifierCreator">
-    </bean>
-       
-<!-- validators for domain objects 
+    <bean id="gridIdentifierCreator" class="edu.duke.cabig.c3pr.utils.LocalGridIdentifierCreator"/>
+<!--validators for domain objects   -->
     <bean id="studyValidator" class="edu.duke.cabig.c3pr.domain.validator.StudyValidator" autowire="byName"/>           
     <bean id="studySiteValidator" class="edu.duke.cabig.c3pr.domain.validator.StudySiteValidator" autowire="byName"/>           
     <bean id="epochValidator" class="edu.duke.cabig.c3pr.domain.validator.EpochValidator" autowire="byName"/>           
     <bean id="armValidator" class="edu.duke.cabig.c3pr.domain.validator.ArmValidator"/>               
--->
+    <bean id="identifierValidator" class="edu.duke.cabig.c3pr.domain.validator.IdentifierValidator" autowire="byName"/>                 
 <!-- Daos -->
     <bean id="studyDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyDao" autowire="byType"></bean>
     <bean id="studySiteDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudySiteDao" autowire="byType"></bean>
