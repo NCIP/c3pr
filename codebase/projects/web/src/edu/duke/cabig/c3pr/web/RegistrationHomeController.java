@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -360,6 +361,7 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 				System.out
 						.println("--------------------XML for Registration--------------------");
 				System.out.println(xml);
+				messageBroadcaster.initialize();
 				messageBroadcaster.broadcast(xml);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -368,6 +370,15 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 		}
 		if (viewName.equalsIgnoreCase("randomizeView")) {
 			StudyParticipantAssignment studyParticipantAssignment = (StudyParticipantAssignment) command;
+			Vector result = messageBroadcaster.getBroadcastStatus();
+			if(result!=null){
+				for(int i=0 ; i<result.size();i++){
+					String msg=(String)result.get(i);
+					System.out.println((i+1)+".");
+					System.out.println(msg);
+					System.out.println("--------");
+				}
+			}
 			if (request.getParameter("actionType") == null) {
 				ScheduledArm scheduledArm = new ScheduledArm();
 				scheduledArm.setEligibilityIndicator("true");

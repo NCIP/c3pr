@@ -20,6 +20,12 @@ public class StringUtils {
      }
      return test;
   }
+  public static String getBlankIfNull(String str){
+	     boolean test = false;
+	     if(str==null)
+	        return "";
+	     return str;
+	  }
   public static String initString(String str){
      String test = "";
      if(str!=null){

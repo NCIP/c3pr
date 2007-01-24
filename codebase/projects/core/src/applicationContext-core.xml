@@ -44,7 +44,7 @@
             </list>
         </property> 
         <property name="entityInterceptor">
-            <bean class="edu.duke.cabig.c3pr.utils.GridIdentifierInterceptor" autowire="byName"/>
+            <bean class="edu.duke.cabig.c3pr.utils.GridIdentifierInterceptor" autowire="byType"/>
         </property>
         <property name="hibernateProperties">
             <ref bean="hibernateProperties" />
@@ -68,8 +68,7 @@
         <property name="singleSession"><value>true</value></property>
         <property name="flushModeName"><value>FLUSH_AUTO</value></property>
     </bean>    
-    <bean id="gridIdentifierCreator" class="edu.duke.cabig.c3pr.utils.CaBigGridIdentifierCreator">
-        <property name="configDctFolderPath"><value>${grid.security.config.dct}</value></property>
+    <bean id="gridIdentifierCreator" class="edu.duke.cabig.c3pr.utils.LocalGridIdentifierCreator">
     </bean>
        
 <!-- validators for domain objects 

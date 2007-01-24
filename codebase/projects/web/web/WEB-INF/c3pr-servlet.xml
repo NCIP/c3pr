@@ -1,128 +1,202 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <!--
-  - Application context definition for "c3pr" DispatcherServlet.
-  -->
-<beans>   
-    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-        <property name="basename">
-            <value>messages</value>
-        </property>
-    </bean>
-    <bean id="urlMapping" class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping">
-        <property name="interceptors">
-            <list>
-                <ref bean="loginCheckInterceptor"/>
-            </list>
-        </property>
-	</bean>    
+	- Application context definition for "c3pr" DispatcherServlet.
+-->
+<beans>
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename">
+			<value>messages</value>
+		</property>
+	</bean>
+	<bean id="urlMapping"
+		class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping">
+		<property name="interceptors">
+			<list>
+				<ref bean="loginCheckInterceptor" />
+			</list>
+		</property>
+	</bean>
 
-    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="viewClass">
-            <value>org.springframework.web.servlet.view.JstlView</value>
-        </property>
-        <property name="prefix">
-            <value>/WEB-INF/views/</value>
-        </property>
-        <property name="suffix">
-            <value>.jsp</value>
-        </property>
-    </bean>
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass">
+			<value>org.springframework.web.servlet.view.JstlView</value>
+		</property>
+		<property name="prefix">
+			<value>/WEB-INF/views/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
 
-    <bean id="createStudyController" lazy-init="true" class="edu.duke.cabig.c3pr.web.CreateStudyController" autowire="byType">
-	    <property name="commandClass" value="edu.duke.cabig.c3pr.domain.Study"></property>
-	    <property name="pages">
-	    <list>
-		    <value>study_details</value>
-		    <value>study_identifiers</value>	
-		    <value>study_studysite</value>		    
-		    <value>study_design</value>
-		    <value>study_reviewsummary</value>
-		    <value>study_confirmation</value>	
-	    </list>
-	    </property>
-	    <property name="pageAttribute" value="currentPage"></property>
-  	</bean>
-    <bean id="searchStudyController" lazy-init="true" class="edu.duke.cabig.c3pr.web.SearchStudyController" autowire="byType">
-	    <property name="commandClass" value="edu.duke.cabig.c3pr.web.SearchStudyCommand"></property>	   
-	    <property name="formView" value="study_search"/>
-	    <property name="successView" value="study_searchresults"/>
-  	</bean>
-    <bean id="searchRegisterController" lazy-init="true" class="edu.duke.cabig.c3pr.web.SearchAndRegisterController" autowire="byType">
-	    <property name="commandClass" value="edu.duke.cabig.c3pr.web.SearchRegisterCommand"></property>	   
-	    <property name="formView" value="home"/>
-	    <property name="successView" value="reg_protocol_search"/>
-  	</bean>
- 	<bean id="createParticipantController" lazy-init="true" class="edu.duke.cabig.c3pr.web.CreateParticipantController" autowire="byType">
-	    <property name="commandClass" value="edu.duke.cabig.c3pr.domain.Participant"/>	    
-	    <property name="commandName" value="command"/>
-	    <property name="pages">
-	    <list>
-		    <value>participant</value>
-		    <value>participant_address</value>		    
-		    <value>participant_submit</value>
-	    </list>
-	    </property>
-	  </bean>
-    
-    <bean id="searchParticipantController" lazy-init="true" class="edu.duke.cabig.c3pr.web.SearchParticipantController" autowire="byType">
-	    <property name="formView" value="participant_search"/>
-	    <property name="successView" value="participant_search_results"/>
-	    <property name="commandClass" value="edu.duke.cabig.c3pr.web.SearchParticipantCommand"/>
-    </bean>	
-    <bean id="editParticipantController" lazy-init="true" class="edu.duke.cabig.c3pr.web.EditParticipantController" autowire="byType">
-	    <property name="commandClass" value="edu.duke.cabig.c3pr.domain.Participant"/>
-	    <property name="commandName" value="command"/>	    
-	    <property name="pages">
-	    <list>
-		    <value>participant_details</value>
-		    </list>
-	    </property>
-	    <property name="pageAttribute" value="currentPage"></property>	
-    </bean>
-    <bean id="searchParticipantRegController" lazy-init="true" class="edu.duke.cabig.c3pr.web.SearchParticipantRegisterController" autowire="byType">
-	    <property name="formView" value="reg_enroll_patient"/>
-	    <property name="successView" value="reg_patient_search"/>
-	    <property name="commandClass" value="edu.duke.cabig.c3pr.web.SearchParticipantCommand"/>
-    </bean>	
-    <bean id="searchStudyRegController" lazy-init="true" class="edu.duke.cabig.c3pr.web.SearchStudyRegisterController" autowire="byType">
-	    <property name="formView" value="reg_enroll_study"/>
-	    <property name="successView" value="reg_study_search"/>
-	    <property name="commandClass" value="edu.duke.cabig.c3pr.web.SearchStudyCommand"></property>	   
-    </bean>	    
-    <bean id="registrationController" lazy-init="true" class="edu.duke.cabig.c3pr.web.RegistrationHomeController" autowire="byType">
-	    <property name="commandClass" value="edu.duke.cabig.c3pr.domain.StudyParticipantAssignment"/>
-	    <property name="commandName" value="command"/>
-	    <property name="pages">
-	    <list>
-		    <value>reg_registration_details</value>
-		    <value>reg_check_eligibility</value>
-		    <value>reg_stratify</value>
-		    <value>reg_randomize</value>
-		    <value>reg_submit</value>
-		    <value>reg_confirm_reg</value>
-		    <value>reg_identifiers</value>		    
-	    </list>
-	    </property>
-    </bean>
+	<bean id="createStudyController" lazy-init="true"
+		class="edu.duke.cabig.c3pr.web.CreateStudyController"
+		autowire="byType">
+		<property name="commandClass"
+			value="edu.duke.cabig.c3pr.domain.Study">
+		</property>
+		<property name="pages">
+			<list>
+				<value>study_details</value>
+				<value>study_identifiers</value>
+				<value>study_studysite</value>
+				<value>study_design</value>
+				<value>study_reviewsummary</value>
+				<value>study_confirmation</value>
+			</list>
+		</property>
+		<property name="pageAttribute" value="currentPage"></property>
+	</bean>
+	<bean id="searchStudyController" lazy-init="true"
+		class="edu.duke.cabig.c3pr.web.SearchStudyController"
+		autowire="byType">
+		<property name="commandClass"
+			value="edu.duke.cabig.c3pr.web.SearchStudyCommand">
+		</property>
+		<property name="formView" value="study_search" />
+		<property name="successView" value="study_searchresults" />
+	</bean>
+	<bean id="searchRegisterController" lazy-init="true"
+		class="edu.duke.cabig.c3pr.web.SearchAndRegisterController"
+		autowire="byType">
+		<property name="commandClass"
+			value="edu.duke.cabig.c3pr.web.SearchRegisterCommand">
+		</property>
+		<property name="formView" value="home" />
+		<property name="successView" value="reg_protocol_search" />
+	</bean>
+	<bean id="createParticipantController" lazy-init="true"
+		class="edu.duke.cabig.c3pr.web.CreateParticipantController"
+		autowire="byType">
+		<property name="commandClass"
+			value="edu.duke.cabig.c3pr.domain.Participant" />
+		<property name="commandName" value="command" />
+		<property name="pages">
+			<list>
+				<value>participant</value>
+				<value>participant_address</value>
+				<value>participant_submit</value>
+			</list>
+		</property>
+	</bean>
 
-    <bean id="urlMappingName" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-        <property name="interceptors">
-            <list>
-                <ref bean="loginCheckInterceptor"/>
-            </list>
-        </property>
-        <property name="mappings">
-            <props>
-                 <prop key="/register.do">registrationController</prop>
-                 <prop key="/SearchAndRegister.do">searchRegisterController</prop>
-                 <prop key="/SearchRegisterPatient.do">searchParticipantRegController</prop>
-                 <prop key="/SearchRegisterStudy.do">searchStudyRegController</prop>                 
-            </props>
-        </property>
-        <property name="order" value="1"/>        
-    </bean>    
-    
-    <bean id="loginCheckInterceptor" class="edu.duke.cabig.c3pr.web.accesscontrol.LoginCheckInterceptor"/>
-    
+	<bean id="searchParticipantController" lazy-init="true"
+		class="edu.duke.cabig.c3pr.web.SearchParticipantController"
+		autowire="byType">
+		<property name="formView" value="participant_search" />
+		<property name="successView" value="participant_search_results" />
+		<property name="commandClass"
+			value="edu.duke.cabig.c3pr.web.SearchParticipantCommand" />
+	</bean>
+	<bean id="editParticipantController" lazy-init="true"
+		class="edu.duke.cabig.c3pr.web.EditParticipantController"
+		autowire="byType">
+		<property name="commandClass"
+			value="edu.duke.cabig.c3pr.domain.Participant" />
+		<property name="commandName" value="command" />
+		<property name="pages">
+			<list>
+				<value>participant_details</value>
+			</list>
+		</property>
+		<property name="pageAttribute" value="currentPage"></property>
+	</bean>
+	<bean id="searchParticipantRegController" lazy-init="true"
+		class="edu.duke.cabig.c3pr.web.SearchParticipantRegisterController"
+		autowire="byType">
+		<property name="formView" value="reg_enroll_patient" />
+		<property name="successView" value="reg_patient_search" />
+		<property name="commandClass"
+			value="edu.duke.cabig.c3pr.web.SearchParticipantCommand" />
+	</bean>
+	<bean id="searchStudyRegController" lazy-init="true"
+		class="edu.duke.cabig.c3pr.web.SearchStudyRegisterController"
+		autowire="byType">
+		<property name="formView" value="reg_enroll_study" />
+		<property name="successView" value="reg_study_search" />
+		<property name="commandClass"
+			value="edu.duke.cabig.c3pr.web.SearchStudyCommand">
+		</property>
+	</bean>
+	<bean id="registrationController" lazy-init="true"
+		class="edu.duke.cabig.c3pr.web.RegistrationHomeController"
+		autowire="byType">
+		<property name="commandClass"
+			value="edu.duke.cabig.c3pr.domain.StudyParticipantAssignment" />
+		<property name="commandName" value="command" />
+		<property name="pages">
+			<list>
+				<value>reg_registration_details</value>
+				<value>reg_check_eligibility</value>
+				<value>reg_stratify</value>
+				<value>reg_randomize</value>
+				<value>reg_submit</value>
+				<value>reg_confirm_reg</value>
+				<value>reg_identifiers</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="urlMappingName"
+		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="interceptors">
+			<list>
+				<ref bean="loginCheckInterceptor" />
+			</list>
+		</property>
+		<property name="mappings">
+			<props>
+				<prop key="/register.do">registrationController</prop>
+				<prop key="/SearchAndRegister.do">
+					searchRegisterController
+				</prop>
+				<prop key="/SearchRegisterPatient.do">
+					searchParticipantRegController
+				</prop>
+				<prop key="/SearchRegisterStudy.do">
+					searchStudyRegController
+				</prop>
+			</props>
+		</property>
+		<property name="order" value="1" />
+	</bean>
+
+	<bean id="loginCheckInterceptor"
+		class="edu.duke.cabig.c3pr.web.accesscontrol.LoginCheckInterceptor" />
+
+	<bean id="connectionFactory"
+		class="org.apache.activemq.ActiveMQConnectionFactory">
+		<property name="brokerURL" value="tcp://10.10.10.2:61616" />
+	</bean>
+
+	<bean id="sendQueueDestination"
+		class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg>
+			<value>bridge.output.async</value>
+		</constructor-arg>
+	</bean>
+
+	<bean id="recvQueueDestination"
+		class="org.apache.activemq.command.ActiveMQQueue">
+		<constructor-arg>
+			<value>esb.output</value>
+		</constructor-arg>
+	</bean>
+
+	<bean id="messageBroadcaster"
+		class="edu.duke.cabig.c3pr.esb.impl.MessageBroadcastServiceImpl">
+		<property name="connectionFactory">
+			<ref bean="connectionFactory" />
+		</property>
+		<property name="sendQueue">
+			<ref bean="sendQueueDestination" />
+		</property>
+		<property name="recvQueue">
+			<ref bean="recvQueueDestination" />
+		</property>
+	</bean>
+
 </beans>

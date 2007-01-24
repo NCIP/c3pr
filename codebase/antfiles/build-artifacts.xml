@@ -192,6 +192,9 @@
             <fileset dir="${projects.dir}/esb-client/ext/lib">
                 <include name="*.jar"/>
             </fileset>
+			<fileset dir="${projects.dir}/esb-client/lib">
+				<include name="*.jar" />
+			</fileset>
         </artifact>
 
         <artifact track="main" type="jars" id="c3pr.test-system.jars">
