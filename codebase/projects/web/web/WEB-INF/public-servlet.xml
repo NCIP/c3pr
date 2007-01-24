@@ -29,7 +29,7 @@
     </bean>    
 
    
-    <bean id="loginController" autowire="byType"
+    <bean id="loginController" autowire="byName"
         class="edu.duke.cabig.c3pr.web.LoginController" lazy-init="true">
 	    <property name="commandClass" value="edu.duke.cabig.c3pr.web.LoginCommand"/>
 	    <property name="formView" value="login"/>
