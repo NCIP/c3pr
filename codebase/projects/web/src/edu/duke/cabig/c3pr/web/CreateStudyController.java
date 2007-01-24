@@ -28,6 +28,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
@@ -35,15 +36,16 @@ import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 
 /**
+ * Controller class to handle the work flow in the Creation of a Study Design
+ * This uses AbstractWizardController to implement tabbed workflow
  * @author Priyatam
- *
  */
 public class CreateStudyController extends AbstractWizardFormController {
     private static final Log log = LogFactory.getLog(CreateStudyController.class);
 	private StudyService studyService;
 	private StudyDao studyDao;
 	private HealthcareSiteDao healthcareSiteDao;
-//	private StudyValidator studyValidator;
+	private StudyValidator studyValidator;
 	private ConfigurationProperty configurationProperty;
 	private static List<HealthcareSite> healthcareSites;
 
@@ -70,15 +72,23 @@ public class CreateStudyController extends AbstractWizardFormController {
 	* @param page - number of page to validate
 	*/
 	
-//	protected void validatePage(Object command, Errors errors, int page) {
-//		Study study = (Study) command;
-//		StudyValidator validator = (StudyValidator) getValidator();
-//		switch (page) {
-//		case 0:
-//			validator.validatePage0(study, errors);
-//		break;
-//		}
-//	}
+	protected void validatePage(Object command, Errors errors, int page) {
+		Study study = (Study) command;
+		switch (page) {
+		case 0:
+			studyValidator.validateStudy(study, errors);
+			break;
+		case 1:
+		//	studyValidator.validateIdentifiers(study, errors);
+			break;
+		case 2:
+		//	studyValidator.validateStudySites(study, errors);
+			break;
+		case 3:
+		//	studyValidator.validateStudyDesign(study, errors);
+			break;
+		}
+	}
 	
 	protected Map<String, Object> referenceData(HttpServletRequest httpServletRequest, int page) 
   		throws Exception {
@@ -92,12 +102,8 @@ public class CreateStudyController extends AbstractWizardFormController {
 	  		refdata.put("monitorCodeRefData",  configMap.get("monitorCodeRefData"));
 	  		refdata.put("phaseCodeRefData",  configMap.get("phaseCodeRefData"));
 	  		refdata.put("sponsorCodeRefData",  configMap.get("sponsorCodeRefData"));
-	  		refdata.put("statusRefData",  configMap.get("statusRefData"));;
+	  		refdata.put("statusRefData",  configMap.get("statusRefData"));
 	  		refdata.put("typeRefData",  configMap.get("typeRefData"));
-	  		refdata.put("multiInstitutionIndicator", getBooleanList());
-	  		refdata.put("randomizedIndicator", getBooleanList());
-	  		refdata.put("blindedIndicator", getBooleanList());
-	  		refdata.put("nciIdentifier", getBooleanList());
 	  		return refdata;
 	  	}	  	
 	  	if (page == 1) {
@@ -314,47 +320,21 @@ public class CreateStudyController extends AbstractWizardFormController {
 	{
   		return healthcareSiteDao.getAll();  	
 	}
-	
-	private List<StringBean> getBooleanList(){
-		List<StringBean> col = new ArrayList<StringBean>();		
-    	col.add(new StringBean("YES"));
-    	col.add(new StringBean("NO"));
-    	return col;
-	}
-	
-	public class StringBean {
-		
-		String str;
-		
-		StringBean(String str)
-		{
-			this.str=str;
-		}
-		
-		public void setStr(String str){
-			this.str=str;
-		}
-		
-		public String getStr(){
-			return str;
-		}	
-	}
-//
-//	public StudyValidator getStudyValidator() {
-//		return studyValidator;
-//	}
-//
-//	public void setStudyValidator(StudyValidator studyValidator) {
-//		this.studyValidator = studyValidator;
-//	}
-//	
-//	
+			
 	public ConfigurationProperty getConfigurationProperty() {
 		return configurationProperty;
 	}
 
 	public void setConfigurationProperty(ConfigurationProperty configurationProperty) {
 		this.configurationProperty = configurationProperty;
+	}
+
+	public StudyValidator getStudyValidator() {
+		return studyValidator;
+	}
+
+	public void setStudyValidator(StudyValidator studyValidator) {
+		this.studyValidator = studyValidator;
 	}
 	
 }
