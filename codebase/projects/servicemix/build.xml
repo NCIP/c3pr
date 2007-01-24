@@ -41,10 +41,10 @@
                 <ant dir="${basedir}/@{sub.project.name}" inheritAll="false" antfile="build.xml" target="clean"/>
             </sequential>
         </for>
-  </target>
+    </target>
 
     <target name="all" depends="prepare" description="Default target to build all sub projects within JBI">
-             <for list="${sub.projects.list}" parallel="true" param="sub.project.name" trim="true">
+        <for list="${sub.projects.list}" parallel="true" param="sub.project.name" trim="true">
             <sequential>
                 <echo message="Building sub-project @{sub.project.name}."/>
                 <!--copy ext.libs to all the sub projects-->
@@ -53,7 +53,7 @@
                         <include name="*.jar"/>
                     </fileset>
                 </copy>
-                 
+
 
                 <!--build the sub project-->
                 <ant dir="${basedir}/@{sub.project.name}" inheritAll="false" antfile="build.xml" target="all"/>
@@ -62,6 +62,8 @@
     </target>
 
     <target name="deploy" description="Deploys and starts servicemix">
+        <!--call clean on the toolkit-->
+        <ant dir="${servicemix.toolkit.dir}" antfile="build.xml" target="clean"/>
 
         <!-- deploy the custom component -->
         <copy todir="${servicemix.toolkit.dir}/install">
