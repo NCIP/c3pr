@@ -66,7 +66,7 @@ public class StudyDaoTest extends DaoTestCase {
             study.setStatus("Status");
             study.setTargetAccrualNumber(150);
             study.setType("Type");
-            study.setMultiInstitutionIndicator(new Boolean(true));
+            study.setMultiInstitutionIndicator(true);
             dao.save(study);
             savedId = study.getId();
             assertNotNull("The saved study didn't get an id", savedId);
@@ -76,6 +76,7 @@ public class StudyDaoTest extends DaoTestCase {
         interruptSession();
         {
             Study loaded = dao.getById(savedId);
+            assertNotNull("GridId not updated", loaded.getGridId());
             assertNotNull("Could not reload study with id " + savedId, loaded);
             assertEquals("Wrong name", "New study", loaded.getPrecisText());
         }
@@ -110,8 +111,9 @@ public class StudyDaoTest extends DaoTestCase {
 
         interruptSession();
         {
-            Study loaded = dao.getById(savedId);
+            Study loaded = dao.getById(savedId);            
             assertNotNull("Could not reload study with id " + savedId, loaded);
+            assertNotNull("GridId not updated", loaded.getGridId());            
             assertEquals("Wrong name", "New study", loaded.getPrecisText());
         }
     }
