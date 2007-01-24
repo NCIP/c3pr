@@ -48,7 +48,7 @@
 
 "case_sensitive" = "no"
 storage_type = "sql" 
-sql_settings = { sql_url = "jdbc:oracle:thin:@localhost:1521:c3pr" 
+sql_settings = { sql_url = "jdbc:oracle:thin:@10.10.10.2:1522:CAAERS" 
 			 sql_driver = "oracle.jdbc.driver.OracleDriver" 
 			 sql_login = "c3pr" 
              sql_passwd = "c3pr" 
