@@ -17,6 +17,9 @@
 function navRollOver(obj, state) {
   document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
 }
+function submitPage(){
+	document.getElementById("searchForm").submit();
+}
 </script>
 </head>
 <body>
@@ -103,7 +106,7 @@ function navRollOver(obj, state) {
 				<!-- LEFT CONTENT STARTS HERE -->
 
 				<td valign="top" class="additionals"><!-- LEFT FORM STARTS HERE -->
-				<form:form method="post">
+				<form:form id="searchForm" name="searchForm" method="post">
 
 					<table width="100%" border="0" cellpadding="0" cellspacing="0">
 						<tr valign="top">
@@ -140,10 +143,10 @@ function navRollOver(obj, state) {
 								</tr>
 								<td align="center" colspan="20"><!-- action buttons begins -->
 								<tr>
-									<td><input name="imageField" type="image" class="button"
-										onClick="submitPage('participant');return false;"
-										src="images/SerachPatients.gif" alt="GO" align="middle"
-										width="100" height="16" border="0"></td>
+									<td><a href=""
+										onClick="submitPage();return false;"><img
+										src="images/b-search2.gif" alt="Continue" width="59"
+										height="16" border="0"></a> </td>
 								</tr>
 							</table>
 							<!-- LEFT FORM ENDS HERE --></td>
@@ -152,7 +155,7 @@ function navRollOver(obj, state) {
 				</form:form></td>
 			</tr>
 		</table>
-		<div id="copyright">&copy; 2006 Semanticbits.com. All Rights </div>
+		
 		<!-- MAIN BODY ENDS HERE -->
 </body>
 </html>
