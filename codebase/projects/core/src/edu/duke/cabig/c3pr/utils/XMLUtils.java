@@ -99,7 +99,7 @@ public class XMLUtils {
 		identifier.addContent(new Element("source", "p1",ns).setText("c3pr"));
 		identifier.addContent(new Element("type", "p1",ns).setText("Grid Identifier"));
 		identifier.addContent(new Element("value", "p1",ns).setText(StringUtils.getBlankIfNull(studyParticipantAssignment.getGridId())));
-		identifier.addContent(new Element("isprimary", "p1",ns));
+		identifier.addContent(new Element("isprimary", "p1",ns).setText("false"));
 		rootElement.addContent(identifier);
 		identifiers=studyParticipantAssignment.getIdentifiers();
 		for(int i=0 ; i<identifiers.size() ; i++){
