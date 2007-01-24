@@ -23,7 +23,7 @@ import org.apache.axis.types.URI;
  * Time: 12:22:26 PM
  * To change this template use File | Settings | File Templates.
  */
-public class    CTMSRegistrationProcessor implements Messag    eExchangeProcessor {
+public class CTMSRegistrationProcessor implements MessageExchangeProcessor {
 
 
     public void process(MessageExchange exchange, DeliveryChannel channel,String epr) throws Exception{
