@@ -202,6 +202,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                             <property name="code" value="S" />
                             <property name="desc" value="Site" />
                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="NCI" />
+                            <property name="desc" value="ClinicalTrials.gov" />
+                       </bean>  
                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="SI" />
                             <property name="desc" value="Site IRB" />
