@@ -131,12 +131,11 @@ function submitPage(){
 								<tr>
 									<td align="left" class="labels" colspan="10">^ Minimum two
 									characters</td>
-									<br>
+									
 								</tr>
 							</table>
 							<table border="0" cellspacing="0" cellpadding="0" id="search">
-								<tr>
-								<tr>
+								
 								<tr>
 									<td align="right" class="labels" colspan="10"></td>
 									<br>
