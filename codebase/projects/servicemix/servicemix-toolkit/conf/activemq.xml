@@ -34,14 +34,14 @@
             <transportConnector uri="tcp://localhost:61616" discoveryUri="multicast://default"/>
         </transportConnectors>
 
-        <networkConnectors>
-            <!-- by default just auto discover the other brokers -->
+<!--         <networkConnectors>
+            
             <networkConnector uri="multicast://default"/>
-            <!--
-            <networkConnector uri="static://(tcp://host1:61616,tcp://host2:61616)"/>
-            -->
-        </networkConnectors>
 
+            <networkConnector uri="static://(tcp://host1:61616,tcp://host2:61616)"/>
+
+        </networkConnectors>
+            -->
     </broker>
 
     <!--  This xbean configuration file supports all the standard spring xml configuration options -->
