@@ -15,8 +15,11 @@ public class StudySiteValidator implements Validator{
 	public void validate(Object target, Errors errors) {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "irbApprovalDate", "required",
 			"required field");
-		ValidationUtils.rejectIfEmpty(errors, "roleCode", "required", "required field");
-		ValidationUtils.rejectIfEmpty(errors, "statusCode", "required", "required field");
+		ValidationUtils.rejectIfEmpty(errors, "site", "required", "required field");
 		ValidationUtils.rejectIfEmpty(errors, "startDate", "required", "required field");
+		ValidationUtils.rejectIfEmpty(errors, "endDate", "required", "required field");
+		ValidationUtils.rejectIfEmpty(errors, "irbApprovalDate", "required", "required field");		
+		ValidationUtils.rejectIfEmpty(errors, "statusCode", "required", "required field");
+		ValidationUtils.rejectIfEmpty(errors, "roleCode", "required", "required field");		
 	}	
 }
