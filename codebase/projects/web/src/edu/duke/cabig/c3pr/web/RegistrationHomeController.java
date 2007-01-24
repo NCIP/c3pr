@@ -74,8 +74,6 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 
 	private MessageBroadcastServiceImpl messageBroadcaster;
 
-	private AnnotationSessionFactoryBean sessionFactory;
-
 	public MessageBroadcastServiceImpl getMessageBroadcaster() {
 		return messageBroadcaster;
 	}
@@ -524,11 +522,4 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 		return null;
 	}
 
-	public AnnotationSessionFactoryBean getSessionFactory() {
-		return sessionFactory;
-	}
-
-	public void setSessionFactory(AnnotationSessionFactoryBean sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
 }
