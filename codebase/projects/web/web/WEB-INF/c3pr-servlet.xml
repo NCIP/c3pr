@@ -34,7 +34,7 @@
 
 	<bean id="createStudyController" lazy-init="true"
 		class="edu.duke.cabig.c3pr.web.CreateStudyController"
-		autowire="byType">
+		autowire="byName">
 		<property name="commandClass"
 			value="edu.duke.cabig.c3pr.domain.Study">
 		</property>
@@ -48,11 +48,10 @@
 				<value>study_confirmation</value>
 			</list>
 		</property>
-		<property name="pageAttribute" value="currentPage"></property>
 	</bean>
 	<bean id="searchStudyController" lazy-init="true"
 		class="edu.duke.cabig.c3pr.web.SearchStudyController"
-		autowire="byType">
+		autowire="byName">
 		<property name="commandClass"
 			value="edu.duke.cabig.c3pr.web.SearchStudyCommand">
 		</property>
@@ -61,7 +60,7 @@
 	</bean>
 	<bean id="searchRegisterController" lazy-init="true"
 		class="edu.duke.cabig.c3pr.web.SearchAndRegisterController"
-		autowire="byType">
+		autowire="byName">
 		<property name="commandClass"
 			value="edu.duke.cabig.c3pr.web.SearchRegisterCommand">
 		</property>
@@ -70,7 +69,7 @@
 	</bean>
 	<bean id="createParticipantController" lazy-init="true"
 		class="edu.duke.cabig.c3pr.web.CreateParticipantController"
-		autowire="byType">
+		autowire="byName">
 		<property name="commandClass"
 			value="edu.duke.cabig.c3pr.domain.Participant" />
 		<property name="commandName" value="command" />
@@ -85,7 +84,7 @@
 
 	<bean id="searchParticipantController" lazy-init="true"
 		class="edu.duke.cabig.c3pr.web.SearchParticipantController"
-		autowire="byType">
+		autowire="byName">
 		<property name="formView" value="participant_search" />
 		<property name="successView" value="participant_search_results" />
 		<property name="commandClass"
@@ -93,7 +92,7 @@
 	</bean>
 	<bean id="editParticipantController" lazy-init="true"
 		class="edu.duke.cabig.c3pr.web.EditParticipantController"
-		autowire="byType">
+		autowire="byName">
 		<property name="commandClass"
 			value="edu.duke.cabig.c3pr.domain.Participant" />
 		<property name="commandName" value="command" />
@@ -102,11 +101,10 @@
 				<value>participant_details</value>
 			</list>
 		</property>
-		<property name="pageAttribute" value="currentPage"></property>
 	</bean>
 	<bean id="searchParticipantRegController" lazy-init="true"
 		class="edu.duke.cabig.c3pr.web.SearchParticipantRegisterController"
-		autowire="byType">
+		autowire="byName">
 		<property name="formView" value="reg_enroll_patient" />
 		<property name="successView" value="reg_patient_search" />
 		<property name="commandClass"
@@ -114,7 +112,7 @@
 	</bean>
 	<bean id="searchStudyRegController" lazy-init="true"
 		class="edu.duke.cabig.c3pr.web.SearchStudyRegisterController"
-		autowire="byType">
+		autowire="byName">
 		<property name="formView" value="reg_enroll_study" />
 		<property name="successView" value="reg_study_search" />
 		<property name="commandClass"
@@ -123,7 +121,7 @@
 	</bean>
 	<bean id="registrationController" lazy-init="true"
 		class="edu.duke.cabig.c3pr.web.RegistrationHomeController"
-		autowire="byType">
+		autowire="byName">
 		<property name="commandClass"
 			value="edu.duke.cabig.c3pr.domain.StudyParticipantAssignment" />
 		<property name="commandName" value="command" />
