@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/core"/>
-	<classpathentry kind="lib" path="/share/spring-2.0/spring2.0.2.jar"/>
-	<classpathentry kind="lib" path="lib/commons-httpclient-3.0-rc2.jar"/>
-	<classpathentry kind="lib" path="lib/javax.servlet.jar"/>
-	<classpathentry kind="lib" path="lib/javax.servlet.jsp.jar"/>
-	<classpathentry kind="lib" path="lib/nls_charset12.jar"/>
-	<classpathentry kind="lib" path="lib/sitemesh-2.2.1.jar"/>
-	<classpathentry kind="lib" path="/share/commons-logging/commons-logging.jar"/>
-	<classpathentry kind="lib" path="/share/security/lib/grid-security-plugin-1.0.jar"/>
-	<classpathentry kind="lib" path="/share/cacore/client.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/esb-client"/>
-	<classpathentry kind="lib" path="/share/log4j-1.2.13/log4j-1.2.13.jar"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="lib" path="/share/spring-2.0/spring2.0.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-httpclient-3.0-rc2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/javax.servlet.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/javax.servlet.jsp.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/nls_charset12.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/sitemesh-2.2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="/share/commons-logging/commons-logging.jar"/>
+	<classpathentry exported="true" kind="lib" path="/share/security/lib/grid-security-plugin-1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="/share/cacore/client.jar"/>
+	<classpathentry exported="true" kind="lib" path="/share/log4j-1.2.13/log4j-1.2.13.jar"/>
+	<classpathentry exported="true" kind="lib" path="/core/lib/commons-lang-2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="/esb-client/build/jars/c3pr-2.0-esb-client-1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="/core/build/jars/c3pr-2.0-core-1.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

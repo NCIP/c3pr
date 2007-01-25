@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="cobertura-1.8/examples/basic/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="log4j-1.2.13/log4j-1.2.13.jar"/>
+	<classpathentry kind="lib" path="cobertura-1.8/lib/log4j-1.2.9.jar"/>
 	<classpathentry kind="lib" path="junit-3.8.1/junit-3.8.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
