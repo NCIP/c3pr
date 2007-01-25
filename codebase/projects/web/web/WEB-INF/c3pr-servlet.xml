@@ -98,7 +98,10 @@
 		<property name="commandName" value="command" />
 		<property name="pages">
 			<list>
-				<value>participant_details</value>
+				<value>participant_edit_details</value>
+				<value>participant_edit_identifiers</value>
+				<value>participant_edit_addresses</value>
+				<value>participant_edit_contactInfo</value>
 			</list>
 		</property>
 	</bean>
