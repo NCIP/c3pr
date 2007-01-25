@@ -31,7 +31,7 @@
                         <wsrf:endpoints>
                             <wsrf:endpoint service="test:service" endpoint="endpoint"
                                            exchangeProcessor="#exchangeProcessor"
-                                               epr="http://localhost:8080/wsrf/services/cagrid/RegistrationConsumer"/>
+                                               epr="http://10.10.10.2:8090/wsrf/services/caaers/CreateCandidateAdverseEventService"/>
                         </wsrf:endpoints>
                     </wsrf:component>
                 </sm:component>
@@ -40,7 +40,13 @@
         </sm:activationSpecs>
     </sm:container>
 
-    <bean id="exchangeProcessor"
+    <bean id="aeProcessor"
+                           class="com.sb.servicemix.wsrf.bc.CTMSAdverseEventProcessor"/>
+
+    <bean id="createCandidateProcessor"
+                           class="com.sb.servicemix.wsrf.bc.CTMSCreateCandidateAdverseEventProcessor"/>
+
+    <bean id="registrationProcessor"
 						class="com.sb.servicemix.wsrf.bc.CTMSRegistrationProcessor"/>
 
 </beans>

@@ -12,6 +12,7 @@
 
     <property name="antfiles.dir" value="${basedir}/antfiles"/>
     <property name="src.dir" value="${basedir}/src"/>
+    <property name="lib.dir" value="${basedir}/lib"/>
 
     <property name="ext.dir" value="${basedir}/ext"/>
     <property name="ext.lib.dir" value="${ext.dir}/lib"/>
@@ -55,7 +56,8 @@
               filtering="true"
               overwrite="true">
             <filterset>
-                <filter token="lib.path" value="${ext.lib.dir}"/>
+                <filter token="ext.lib.path" value="${ext.lib.dir}"/>
+                <filter token="local.lib.path" value="${lib.dir}"/>
             </filterset>
         </copy>
 

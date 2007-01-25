@@ -19,7 +19,6 @@ package com.sb.servicemix.wsrf.bc;
 import org.apache.servicemix.common.BaseLifeCycle;
 import org.apache.servicemix.common.Endpoint;
 import org.apache.servicemix.common.ExchangeProcessor;
-import org.apache.servicemix.jbi.jaxp.SourceTransformer;
 
 import javax.jbi.component.ComponentContext;
 import javax.jbi.management.DeploymentException;
@@ -29,7 +28,6 @@ import javax.jbi.servicedesc.ServiceEndpoint;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayInputStream;
-import java.rmi.RemoteException;
 
 
 /**

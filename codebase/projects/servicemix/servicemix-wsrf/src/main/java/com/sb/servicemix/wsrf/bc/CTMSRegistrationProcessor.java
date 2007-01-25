@@ -45,7 +45,7 @@ public class CTMSRegistrationProcessor implements MessageExchangeProcessor {
             client.register(registration);
             deliveryStatus = "delivered";
         } catch (Exception e) {
-            deliveryStatus = "failed";
+            deliveryStatus = "failed: " + e.getMessage();
 
           }
 
