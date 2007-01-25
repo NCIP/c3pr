@@ -20,6 +20,10 @@ function getPage(s){
 	parent.window.location="reg_patient_search.htm";
 }
 </script>
+<script type="text/javascript" src="/c3pr/js/CalendarPopup.js"></script>
+<script language="JavaScript" id="js1">
+								var cal1 = new CalendarPopup();
+							</script>
 </head>
 <body>
 <!-- TOP LOGOS START HERE -->
@@ -171,10 +175,10 @@ function getPage(s){
 											<td class="label"><span class="red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</span><em></em>Birth
 											Date</td>
 											<td valign="top"><form:input path="birthDate" />&nbsp;<a
-												href="#"
-												onClick="parent.OpenWins('calendar.htm','calendar',200,236);return false;"><img
-												src="images/b-calendar.gif" alt="Calendar" width="17"
-												height="16" border="0" align="absmiddle"></a></td>
+									href="#"
+									onClick="cal1.select(document.getElementById('birthDate'),'anchor1','MM/dd/yyyy');return false;" name="anchor1" id="anchor1"><img
+									src="images/b-calendar.gif" alt="Calendar" width="17"
+									height="16" border="0" align="absmiddle"></a></td>
 										</tr>
 										<tr>
 											<td class="label"><span class="red">*</span><em></em>Ethnic
