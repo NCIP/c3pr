@@ -1,0 +1,338 @@
+<?xml version="1.0"?>
+
+<!-- ================================================================= -->
+<!-- C3PR master build file                                          -->
+<!-- ================================================================= -->
+<project name="c3pr-2.0" default="all" basedir="..\">
+    <!-- Give user the chance to override properties -->
+    <property environment="env"/>
+    <property file="build.properties"/>
+
+    <!-- layout info -->
+    <property name="antfiles.dir" location="${basedir}/antfiles"/>
+    <property name="management.dir" location="${antfiles.dir}/management"/>
+    <property name="projects.dir" location="${basedir}/projects"/>
+    <property name="reports.dir" location="${basedir}/reports"/>
+    <property name="share.dir" location="${basedir}/share"/>
+    <property name="test.dir" location="${basedir}/test"/>
+    <property name="junit.dir" location="${share.dir}/junit-3.8.1"/>
+    <property name="cagrid.dir" location="${share.dir}/cagrid"/>
+    <property name="xmlbeans.dir" location="${share.dir}/xmlbeans"/>
+    <property name="junit.results.dir" location="${test.dir}/logs"/>
+
+    <!-- Warning, your environment variable for tomcat should be set in your OS (Windows/Linux),
+       else it wont deploy -->
+    <property name="deploy.path" value="${env.CATALINA_HOME}/webapps" />
+    <property name="webapp.name" value="c3pr" />
+
+    <!-- import testing properties -->
+    <property file="${antfiles.dir}/test.properties"/>
+
+    <!-- import other ant scripts -->
+    <import file="${antfiles.dir}/build-artifacts.xml"/>
+    <import file="${antfiles.dir}/build-test.xml"/>
+    <import file="${antfiles.dir}/build-reports.xml"/>
+    <import file="${antfiles.dir}/build-codedrop.xml"/>
+
+    <!-- define global properties -->
+    <property name="cobertura.home" location="${basedir}/share/cobertura-1.8"/>
+    <path id="cobertura.classpath">
+        <fileset dir="${cobertura.home}">
+            <include name="cobertura.jar"/>
+            <include name="lib/**/*.jar"/>
+        </fileset>
+    </path>
+
+
+    <!-- ================================================================================ -->
+    <!--                          DEFINE THE SUB PROJECTS                                 -->
+    <!-- ================================================================================ -->
+    <!-- The name should be the path relative from projects.dir.  Its strongly encouraged you use a flat layout caTissueCAEDataService, caTissueCoreDataService,  -->
+    <property name="projects.list" value="core, web, grid, esb-client, servicemix, test-system"/>
+
+    <!-- ================================================================================ -->
+    <!--                  DEFINE THE SUB PROJECTS THAT SUPPORT TESTING                    -->
+    <!-- ================================================================================ -->
+    <!-- This should be a subset of the projects above -->
+    <property name="testable.projects.list" value="web"/>
+
+    <!-- ======================================================================================= -->
+    <!--                  DEFINE THE SUB PROJECTS THAT SUPPORT SYSTEM TESTING                    -->
+    <!-- ======================================================================================= -->
+    <!-- This should be a subset of the projects above -->
+    <property name="system.testable.projects.list" value="test-system"/>
+
+    <!-- ================================================================================ -->
+    <!--                  DEFINE THE SUB PROJECTS THAT SUPPORT REPORTING                  -->
+    <!-- ================================================================================ -->
+    <!-- This should be a subset of the projects above -->
+    <property name="reportable.projects.list" value="web"/>
+
+
+    <target name="checkMaven" depends="setMaven">
+        <condition property="maven.not.found">
+            <or>
+                <not><isset property="ext.maven.dir"/></not>
+                <equals arg1="${ext.maven.dir}" arg2=""/>
+            </or>
+        </condition>
+        <fail message="Maven directory is not set in either MAVEN_HOME or ext.maven.dir" if="maven.not.found"/>
+        <echo message="Maven: ${ext.maven.dir}"/>
+    </target>
+    <target name="setMaven" if="env.MAVEN_HOME">
+        <property name="ext.maven.dir" value="${env.MAVEN_HOME}"/>
+    </target>
+
+    <!-- ============================================================== -->
+    <!-- Globus properties                                              -->
+    <!-- ============================================================== -->
+    <target name="checkGlobus" depends="setGlobus">
+        <condition property="globus.not.found">
+            <or>
+                <not>
+                    <isset property="ext.globus.dir" />
+                </not>
+                <equals arg1="${ext.globus.dir}" arg2="" />
+            </or>
+        </condition>
+        <fail message="Globus installation is not set in either GLOBUS_LOCATION or ext.globus.dir" if="globus.not.found" />
+        <echo message="Globus: ${ext.globus.dir}" />
+    </target>
+
+    <target name="setGlobus" if="env.GLOBUS_LOCATION">
+        <!-- GT4 build files and directories-->
+        <property name="ext.globus.dir" value="${env.GLOBUS_LOCATION}" />
+    </target>
+
+
+    <!-- =============================================================== -->
+    <!-- Bootstrap the build by setting up the structure and building    -->
+    <!-- our custom ant tasks.                                           -->
+    <!-- =============================================================== -->
+    <target name="prepare">
+        <tstamp/>
+        <mkdir dir="${management.dir}/build"/>
+        <javac srcdir="${management.dir}/src" destdir="${management.dir}/build" debug="on" deprecation="off"
+               optimize="off">
+            <classpath>
+                <fileset dir="${ant.library.dir}">
+                    <include name="ant.jar"/>
+                </fileset>
+                <path refid="cobertura.classpath"/>
+            </classpath>
+        </javac>
+
+        <typedef name="artifact" classname="gov.nih.nci.cagrid.ant.Artifact" loaderref="artifact">
+            <classpath>
+                <pathelement location="${management.dir}/build"/>
+                <path refid="cobertura.classpath"/>
+            </classpath>
+        </typedef>
+        <taskdef name="resolveDependencies" classname="gov.nih.nci.cagrid.ant.ResolveDependencies" loaderref="artifact">
+            <classpath>
+                <pathelement location="${management.dir}/build"/>
+                <path refid="cobertura.classpath"/>
+            </classpath>
+        </taskdef>
+
+        <taskdef resource="net/sf/antcontrib/antlib.xml">
+            <classpath>
+                <pathelement location="${share.dir}/ant-contrib/ant-contrib.jar"/>
+            </classpath>
+        </taskdef>
+    </target>
+
+    <!-- =============================================================== -->
+    <!-- CORE                                                             -->
+    <!-- =============================================================== -->
+    <target name="build-core" depends="prepare" description="Builds the core project (Services, dao, domain">
+        <resolveDependencies extdir="${projects.dir}/core/ext">
+            <artifact refid="common.test.jars"/>
+            <artifact refid="ant-contrib.jars"/>
+            <artifact refid="cacore.jars"/>
+            <artifact refid="c3pr.esb-client.jars"/>
+
+            <!-- get third party shared jars -->
+            <artifact refid="jboss-j2ee.jars"/>
+            <artifact refid="spring.jars"/>
+            <artifact refid="hibernate.jars"/>
+            <artifact refid="log4j.jars"/>
+            <artifact refid="commons-logging.jars"/>
+            <artifact refid="dom4j.jars"/>
+            <artifact refid="antlr.jars"/>
+            <artifact refid="net-handle.jars"/>
+        </resolveDependencies>
+        <ant dir="${projects.dir}/core" inheritAll="false" antfile="build.xml" target="all"/>
+    </target>
+
+    <!-- =============================================================== -->
+    <!-- WEB                                                             -->
+    <!-- =============================================================== -->
+    <target name="build-web" depends="prepare" description="Builds the web project">
+        <resolveDependencies extdir="${projects.dir}/web/ext">
+            <artifact refid="security.lib.jars"/>
+            <artifact refid="common.test.jars"/>
+            <artifact refid="spring.jars"/>
+            <artifact refid="c3pr.core.jars"/>
+            <artifact refid="jdom.jars"/>
+            <artifact refid="dom4j.jars"/>
+            <artifact refid="xerces.jars"/>
+            <artifact refid="xercesImpl.jars"/>
+        </resolveDependencies>
+        <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="all"/>
+    </target>
+
+    <!-- =============================================================== -->
+    <!-- c3pr ESB client service                                         -->
+    <!-- =============================================================== -->
+    <target name="build-esb-client" depends="prepare" description="Builds the esb-client">
+        <resolveDependencies extdir="${projects.dir}/esb-client/ext">
+            <artifact refid="activemq.jars"/>
+            <artifact refid="commons-logging.jars"/>
+            <artifact refid="jdom.jars"/>
+            <artifact refid="log4j.jars"/>
+            <artifact refid="jboss-j2ee.jars"/>
+        </resolveDependencies>
+        <ant dir="${projects.dir}/esb-client" inheritAll="false" antfile="build.xml" target="all"/>
+    </target>
+
+
+    <!-- =============================================================== -->
+    <!-- c3pr Protocol Ingestion Grid Service                            -->
+    <!-- =============================================================== -->
+    <target name="build-grid" depends="prepare" description="Builds the c3p3 Registration Consumer grid node">
+        <!--no dependencies needed-->
+        <ant dir="${projects.dir}/grid/RegistrationConsumer" inheritAll="false" antfile="build.xml" target="all"/>
+    </target>
+
+
+    <!-- =============================================================== -->
+    <!-- c3pr JBI Integration project                                    -->
+    <!-- =============================================================== -->
+    <target name="build-servicemix" depends="prepare" description="Builds servicemix with c3p3v2 extensions ">
+        <resolveDependencies extdir="${projects.dir}/servicemix/ext">
+            <artifact refid="ant-contrib.jars"/>
+            <artifact refid="cagrid.jars"/>
+            <artifact refid="globus.jars"/>
+            <artifact refid="c3pr.gridnode.client.jars"/>
+        </resolveDependencies>
+        <ant dir="${projects.dir}/servicemix" inheritAll="true" antfile="build.xml" target="all"/>
+    </target>
+
+    <!-- =============================================================== -->
+    <!-- TEST-SYSTEM                                                     -->
+    <!-- =============================================================== -->
+    <target name="build-test-system" depends="prepare" description="Builds the test-system project">
+        <resolveDependencies extdir="${projects.dir}/test-system/ext">
+            <artifact refid="common.test.jars"/>
+            <artifact refid="c3pr.web.jars"/>
+        </resolveDependencies>
+        <ant dir="${projects.dir}/test-system" inheritAll="false" antfile="build.xml" target="all"/>
+    </target>
+
+    <!-- ============================================================== -->
+    <!-- Cleans up generated stuff                                      -->
+    <!-- ============================================================== -->
+    <target name="clean" depends="prepare" description="Cleans all projects.">
+        <for list="${projects.list}" parallel="true" param="project.name" trim="true">
+            <sequential>
+                <echo message="Cleaning project @{project.name}."/>
+                <delete dir="${projects.dir}/@{project.name}/ext"/>
+                <ant dir="${projects.dir}/@{project.name}" inheritAll="false" antfile="build.xml" target="clean"/>
+            </sequential>
+        </for>
+
+        <delete failonerror="false">
+            <fileset dir="${junit.results.dir}">
+                <include name="*"/>
+            </fileset>
+        </delete>
+    </target>
+
+    <!-- ============================================================== -->
+    <!-- Builds the projects                                            -->
+    <!-- ============================================================== -->
+    <target name="build" depends="prepare" description="Builds all projects.">
+        <for list="${projects.list}" parallel="false" param="project.name" trim="true">
+            <sequential>
+                <echo message="Building project @{project.name}."/>
+                <runtarget target="build-@{project.name}"/>
+                <echo message="Built project @{project.name}."/>
+            </sequential>
+        </for>
+    </target>
+
+    <!-- ====================================================================== -->
+    <!-- Deploys the webapp (note:- only web + core projects )in Catalina_home  -->
+    <!-- ====================================================================== -->
+    <target name="deploy-webapp" depends="build-core, build-web" description="Deploy web application to tomcat">
+        <!-- copy the applicationContext files under WEB-INF-->
+        <copy todir="${deploy.path}/${webapp.name}/WEB-INF/" preservelastmodified="true">
+            <fileset dir="${projects.dir}/core/src">
+                <include name="**/*.xml" />
+            </fileset>
+        </copy>
+        <!-- copy the configuration files in root\classes folder. This should be manually edited for
+          individual deployements as it contains datasource properties, security settings-->
+        <copy todir="${deploy.path}/${webapp.name}/WEB-INF/classes" preservelastmodified="true">
+            <fileset dir="${projects.dir}/core/build">
+                <include name="**/*.properties"/>
+            </fileset>
+            <fileset dir="${projects.dir}/core/conf">
+                <include name="**/*dct"/>
+            </fileset>
+        </copy>
+        <ant dir="${projects.dir}/web" inheritAll="true" antfile="build.xml" target="deploy"/>
+    </target>
+
+    <!-- ====================================================================== -->
+    <!-- UnDeploys the webapp (note:- only web + core projects )in Catalina_home  -->
+    <!-- ====================================================================== -->
+    <target name="undeploy-webapp" description="undeploys the c3pr webapp">
+        <ant dir="${projects.dir}/web" inheritAll="true" antfile="build.xml" target="undeploy-web"/>
+    </target>
+
+    <!-- ====================================================================== -->
+    <!-- Will build the esb integration project  -->
+    <!-- ====================================================================== -->
+
+    <target name="deployESB" description="Will build and deploy and make ready the ctms esb engine (servicemix)">
+        <property name="servicemix.project.home" value="${projects.dir}/servicemix"/>
+        <property name="servicemix.toolkit.home" value="${servicemix.project.home}/servicemix-toolkit"/>
+
+        <!-- call the servicemix project deploy target -->
+        <ant dir="${servicemix.project.home}" antfile="build.xml" target="deploy"/>
+
+        <delete dir="${basedir}/scratch"/>
+
+        <copy overwrite="true" todir="${basedir}/scratch">
+            <fileset dir="${servicemix.toolkit.home}">
+                <include name="**"/>
+            </fileset>
+        </copy>
+
+
+        <echo message="-----------------------------------------------"/>
+        <echo message=""/>
+
+        <echo message="Do the following steps to start servicemix"/>
+        <echo message=""/>
+
+        <echo message="cd scratch"/>
+        <echo message=""/>
+
+        <echo message="RUN ./bin/servicemix {UNIX}"/>
+        <echo message="RUN ./bin/servicemix.bat {WINDOWS}"/>
+
+        <echo message=""/>
+        <echo message="-----------------------------------------------"/>
+        <echo message=""/>
+
+    </target>
+    <!-- ============================================================== -->
+    <!-- Builds C3PR  from scratch                                     -->
+    <!-- ============================================================== -->
+    <target name="all" depends="checkMaven, checkGlobus, clean, build" description="Cleans and builds all the projects."/>
+
+</project>
+
