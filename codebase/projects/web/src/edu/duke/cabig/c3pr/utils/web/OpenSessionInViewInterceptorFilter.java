@@ -13,7 +13,6 @@ import org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 
-import edu.duke.cabig.c3pr.utils.ContextRetainingFilterAdapter;
 
 /**
  * A filter which implements the Open Session In View pattern.  Different
