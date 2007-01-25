@@ -108,6 +108,7 @@ public class WSRFEndpoint extends Endpoint implements ExchangeProcessor {
         // The component acts as a provider, this means that another component has requested our service
         // As this exchange is active, this is either an in or a fault (out are send by this component)
         if (exchange.getRole() == MessageExchange.Role.PROVIDER) {
+        	System.out.print("Role as Provider...");
             // Check here if the mep is supported by this component
             if (exchange instanceof InOut == false) {
                 throw new UnsupportedOperationException("Unsupported MEP: " + exchange.getPattern());
@@ -119,14 +120,19 @@ public class WSRFEndpoint extends Endpoint implements ExchangeProcessor {
                 if (exchangeProcessor == null){
                     throw new Exception("No valid ExchangeProcessor available");
                 }
-
+                System.out.println("Calling exchangeProcessor()...");
                 exchangeProcessor.process(exchange,channel,epr);
+//                exchange.setStatus(ExchangeStatus.DONE);
+                System.out.println("Calling exchangeProcessor() over. Sending the exchange in channel with out message as +"+exchange.getMessage("out")+"...");
+                System.out.println("Status is :"+ exchange.getStatus().toString());
+                channel.send(exchange);
 
                 //
                 // Fault message
             } else if (exchange.getFault() != null) {
                 //handle fault
                 exchange.setStatus(ExchangeStatus.DONE);
+                System.out.print("Fault Detected.....");
                 channel.send(exchange);
                 // This is not compliant with the default MEPs
             } else {
@@ -137,6 +143,7 @@ public class WSRFEndpoint extends Endpoint implements ExchangeProcessor {
             // If this component does not create / send exchanges, you may just throw an UnsupportedOperationException
         } else if (exchange.getRole() == MessageExchange.Role.CONSUMER) {
             // Exchange is finished
+        	System.out.print("Role as Cosumer...");
             if (exchange.getStatus() == ExchangeStatus.DONE) {
                 return;
                 // Exchange has been aborted with an exception

@@ -14,8 +14,8 @@ import edu.duke.cabig.c3pr.esb.impl.MessageBroadcastServiceImpl;
 
 public class TestEsbClient {
 	public static String brokerUrl="tcp://localhost:61616";
-	public static String sendQueue="bridge.output.async";
-	public static String recvQueue="esb.output";
+	public static String sendQueue="registration-message.inputQueue";
+	public static String recvQueue="registration-message.outputQueue";
 	public static long sleep=1000;
 
     private static void usage(){

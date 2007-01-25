@@ -50,9 +50,9 @@ public class CTMSRegistrationProcessor implements MessageExchangeProcessor {
           }
 
         NormalizedMessage confirmation = exchange.createMessage();
-        confirmation.setContent(new StringSource("<status>" + deliveryStatus + "<registrationID>"+ registration.getStudyGridId()+"</registrationID></status>"));
+        confirmation.setContent(new StringSource("<status>" + deliveryStatus + " at "+epr +"<registrationID>"+ registration.getStudyGridId()+"</registrationID></status>"));
         exchange.setMessage(confirmation, "out");
-        exchange.setStatus(ExchangeStatus.DONE);
-        channel.send(exchange);
+////        exchange.setStatus(javax.jbi.messaging.ExchangeStatus.DONE);
+//        channel.send(exchange);
     }
 }
