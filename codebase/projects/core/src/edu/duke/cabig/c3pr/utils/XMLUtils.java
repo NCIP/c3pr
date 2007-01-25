@@ -20,13 +20,13 @@ public class XMLUtils {
 		String ns="http://semanticbits.com/registration.xsd";
 		String xml="";
 		Element rootElement=new Element("registration","p1", ns);
-//		rootElement.setAttribute("healthCareSiteGridId", StringUtils.getBlankIfNull(studyParticipantAssignment.getStudySite().getGridId()));
-//		rootElement.setAttribute("studyGridId", StringUtils.getBlankIfNull(studyParticipantAssignment.getStudySite().getStudy().getGridId()));
+		rootElement.setAttribute("healthCareSiteGridId", studyParticipantAssignment.getStudySite().getGridId());
+		rootElement.setAttribute("studyGridId", studyParticipantAssignment.getStudySite().getStudy().getGridId());
 //		String siteGridId=StringUtils.getBlankIfNull(studyParticipantAssignment.getStudySite().getGridId());
 //		String studyGridId=StringUtils.getBlankIfNull(studyParticipantAssignment.getStudySite().getStudy().getGridId());
 		
-		rootElement.setAttribute("healthCareSiteGridId", "gridSite");
-		rootElement.setAttribute("studyGridId", "gridStudy");
+//		rootElement.setAttribute("healthCareSiteGridId", "gridSite");
+//		rootElement.setAttribute("studyGridId", "gridStudy");
 		
 		rootElement.addContent(new Element("informedConsentFormSignedDate", "p1",ns).setText(new SimpleDateFormat("yyyy-MM-dd").format(studyParticipantAssignment.getInformedConsentSignedDate())));	
 		rootElement.addContent(new Element("enrollmentDate", "p1",ns).setText(new SimpleDateFormat("yyyy-MM-dd").format(studyParticipantAssignment.getStartDate())));		
