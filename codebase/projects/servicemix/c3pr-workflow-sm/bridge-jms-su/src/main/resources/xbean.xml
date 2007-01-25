@@ -22,11 +22,11 @@
        
 	<jms:endpoint service="ctms:jms-async"
               endpoint="endpoint"
-              targetService="ctms:route-static"
+              targetService="ctms:registeration-broadcaster"
               targetEndpoint="endpoint"
               role="consumer" 
               destinationStyle="queue"
-              jmsProviderDestinationName="bridge.output.async"
+              jmsProviderDestinationName="registration-message.inputQueue"
               connectionFactory ="#jmsFactory"
               defaultMep="http://www.w3.org/2004/08/wsdl/in-only" />
 
@@ -34,7 +34,25 @@
               endpoint="endpoint"
               role="provider" 
               destinationStyle="queue"
-              jmsProviderDestinationName="esb.output"
+              jmsProviderDestinationName="registration-message.outputQueue"
+              connectionFactory ="#jmsFactory"
+              defaultMep="http://www.w3.org/2004/08/wsdl/in-only" />
+
+	<jms:endpoint service="ctms:jms-CAAERS-AE-input"
+              endpoint="endpoint"
+              targetService="ctms:ae-broadcaster"
+              targetEndpoint="endpoint"
+              role="consumer" 
+              destinationStyle="queue"
+              jmsProviderDestinationName="ae-message.inputQueue"
+              connectionFactory ="#jmsFactory"
+              defaultMep="http://www.w3.org/2004/08/wsdl/in-only" />
+
+	<jms:endpoint service="ctms:jms-CAAERS-AE-output"
+              endpoint="endpoint"
+              role="provider" 
+              destinationStyle="queue"
+              jmsProviderDestinationName="ae-message.outputQueue"
               connectionFactory ="#jmsFactory"
               defaultMep="http://www.w3.org/2004/08/wsdl/in-only" />
               

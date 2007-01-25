@@ -22,9 +22,16 @@
 
     <wsrf:endpoint service="ctms:caaers-registration-grid-service" endpoint="endpoint"
                    exchangeProcessor="#exchangeProcessor"
-                   epr="http://localhost:8080/wsrf/services/cagrid/RegistrationConsumer"/>
+                   epr="http://10.10.10.2:8015/wsrf/services/cagrid/RegistrationConsumer"/>
 
-    
+    <wsrf:endpoint service="ctms:psc-registration-grid-service" endpoint="endpoint"
+                   exchangeProcessor="#exchangeProcessor"
+                   epr="http://10.10.10.2:9012/wsrf/services/cagrid/RegistrationConsumer"/>
+
+    <wsrf:endpoint service="ctms:psc-adverse-event-grid-service" endpoint="endpoint"
+                   exchangeProcessor="#exchangeProcessor"
+                   epr="http://10.10.10.2:9012/wsrf/services/cagrid/AdverseEventConsumer"/>
+
     <bean id="exchangeProcessor"
           class="com.sb.servicemix.wsrf.bc.CTMSRegistrationProcessor"/>
 
