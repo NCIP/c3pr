@@ -90,7 +90,7 @@ public class CreateParticipantController extends AbstractWizardFormController {
 	protected void initBinder(HttpServletRequest req,
 			ServletRequestDataBinder binder) throws Exception {
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(
-				new SimpleDateFormat("MM-dd-yyyy"), true));		
+				new SimpleDateFormat("MM/dd/yyyy"), true));		
 	}
 
 	@Override
