@@ -17,12 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Logger;
-import org.hibernate.LockMode;
-import org.hibernate.SessionFactory;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.orm.hibernate3.AbstractSessionFactoryBean;
-import org.springframework.orm.hibernate3.SessionFactoryUtils;
-import org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -41,8 +36,6 @@ import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.esb.impl.MessageBroadcastServiceImpl;
 import edu.duke.cabig.c3pr.utils.XMLUtils;
-import edu.duke.cabig.c3pr.web.SearchAndRegisterController.LOV;
-import gov.nih.nci.common.util.HibernateUtil;
 
 /**
  * @author Kruttik
