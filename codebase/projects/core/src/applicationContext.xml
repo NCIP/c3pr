@@ -64,13 +64,4 @@
             </props>
         </property>
     </bean>
-    <bean id="gridAuthenticationManager" class="com.semanticbits.security.grid.impl.GridAuthenticationManagerImpl">
-        <property name="idpUrl">
-            <value>${grid.security.idpUrl}</value>
-        </property>
-        <property name="ifsUrl">
-            <value>${grid.security.ifsUrl}</value>
-        </property>
-    </bean>
-    
 </beans>
