@@ -13,27 +13,23 @@ import edu.duke.cabig.c3pr.esb.BroadcastException;
 import edu.duke.cabig.c3pr.esb.impl.MessageBroadcastServiceImpl;
 
 public class TestEsbClient {
+//	public static String brokerUrl="tcp://10.10.10.2:61616";
 	public static String brokerUrl="tcp://localhost:61616";
 	public static String sendQueue="registration-message.inputQueue";
 	public static String recvQueue="registration-message.outputQueue";
-	public static long sleep=1000;
-
-    private static void usage(){
-        System.out.println("Usage : TestESBClient -file <path-to-message-file.xml>");
-    }
-
-    public static void main(String args[]){
+	public static long sleep=5000;
+	public static void main(String args[]){
 		MessageBroadcastServiceImpl esbClient=new MessageBroadcastServiceImpl();
 		try {
 			esbClient.setConnectionFactory(new ActiveMQConnectionFactory(brokerUrl));
-    		esbClient.setSendQueue(new ActiveMQQueue(sendQueue));
+			esbClient.setSendQueue(new ActiveMQQueue(sendQueue));
 			esbClient.setRecvQueue(new ActiveMQQueue(recvQueue));
 			esbClient.initialize();
-            if(args.length < 1){
-                usage();
-                System.exit(0);
-            }
-            String fileName=args[1];
+//            String fileName="resources/create-protocol.xml";
+//			String fileName="resources/person.xml";
+//			String fileName="C:\\SemanticBits\\registration.xml";
+//			String fileName="resources/SampleRegistration2.xml";
+			String fileName="resources/PSC_RegistrationMessage.xml";
             System.out.println("XML Payload....");
             String xml="";
             File f= new File(fileName);
