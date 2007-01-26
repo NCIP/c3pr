@@ -11,7 +11,7 @@ import javax.persistence.OneToOne;
  *         Kulasekaran
  */
 @MappedSuperclass
-public abstract class Organization extends AbstractDomainObject {
+public abstract class Organization extends AbstractGridIdentifiableDomainObject {
 		
     private String name;
 		
