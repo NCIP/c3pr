@@ -314,5 +314,21 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 			return false;
 		return true;
 	}
-	
+
+	/**
+	 *  Display the Short Title By default after trimming
+	 */
+	@Override	
+	public String toString()
+	{
+		String display = shortTitleText;
+		if (shortTitleText != null && shortTitleText.length() > 40)
+		{
+			display = shortTitleText.substring(0,39);
+			display += "...";
+		}
+		
+		return display;
+	}
+
 }
