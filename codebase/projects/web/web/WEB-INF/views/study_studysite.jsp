@@ -89,7 +89,7 @@ function fireAction(action, selected){
 	<tr>
 		<tr>
 			<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
-			<td id="current">Short Title: ${command.shortTitleText}</td>
+			<td id="current"><b>Short Title:</b> ${command}</td>
 			<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 	</tr>
 

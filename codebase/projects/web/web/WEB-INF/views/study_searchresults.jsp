@@ -9,10 +9,10 @@
 
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
 <title>C3Pr V2</title>
-<link href="resources/styles.css" rel="stylesheet" type="text/css">
-<link href="resources/search.css" rel="stylesheet" type="text/css">
+<link href="resources/styles.css" rel="stylesheet" type="text/css"/>
+<link href="resources/search.css" rel="stylesheet" type="text/css"/>
 <script>
 function navRollOver(obj, state) {
   document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
@@ -24,9 +24,8 @@ function navRollOver(obj, state) {
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 
 	<tr>
-
 		<td width="99%"><img src="images/c3prLogo.gif" alt="C3PR"
-			width="181" height="36" class="gelogo"></td>
+			width="181" height="36" class="gelogo"/></td>
 	</tr>
 </table>
 <!-- TOP LOGOS END HERE -->
@@ -145,9 +144,9 @@ function navRollOver(obj, state) {
 					<%int i=0; %>
 
 					<c:forEach items="${study}" var="study">
-						<a href="" onMouseOver="navRollOver('row<%= i %>', 'on')"
+						<a href="/c3pr/updatestudy.do?studyId=${study.id}" onMouseOver="navRollOver('row<%= i %>', 'on')"
 							onMouseOut="navRollOver('row<%= i %>', 'off')">
-						<tr align="center" id="row<%= i++ %>" class="results">						
+						<tr align="center" id="row<%= i++ %>" class="results">
 							<td>${study.shortTitleText}</td>
 							<td>${study.identifiers[0].value}</td>
 							<td>${study.status}</td>
@@ -155,7 +154,7 @@ function navRollOver(obj, state) {
 							<td>${study.multiInstitutionIndicator}</td>
 							<td>${study.targetAccrualNumber}</td>
 							<td>${study.longTitleText}</td>
-						</tr>
+						</tr></a>
 					</c:forEach>
 
 				</table>

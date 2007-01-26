@@ -32,7 +32,6 @@ function fireAction(action, selected){
 function clearField(field){
 field.value="";
 }
-
 </script>
 </head>
 <body>
@@ -90,8 +89,8 @@ field.value="";
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
 		<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
-
-		<td id="current">Short Title: ${command.shortTitleText}</td>
+		
+		<td id="current">Short Title: ${command}</td>
 		<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 	</tr>
 	<tr>
