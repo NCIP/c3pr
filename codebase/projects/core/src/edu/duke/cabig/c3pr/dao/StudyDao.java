@@ -2,11 +2,14 @@ package edu.duke.cabig.c3pr.dao;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Restrictions;
 
 import edu.duke.cabig.c3pr.domain.Arm;
+import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
 
 
@@ -31,13 +34,20 @@ public class StudyDao extends AbstractBaseDao<Study> {
 	 * @return list of matching study objects based on your sample study object
 	 */
 	public List<Study> searchByExample(Study study, boolean isWildCard) {
-		Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();		
-		Example searchCriteria = Example.create(study).excludeZeroes().ignoreCase();
+		Example example = Example.create(study).excludeZeroes();
+		Criteria studyCriteria = getSession().createCriteria(Study.class);
+	
 		if (isWildCard)
 		{
-			searchCriteria.enableLike(MatchMode.ANYWHERE);
+			example.excludeProperty("doNotUse").enableLike(MatchMode.ANYWHERE);
+			studyCriteria.add(example);
+			if (study.getIdentifiers().size() > 0) {
+				studyCriteria.createCriteria("identifiers")
+				.add(Restrictions.like("value", study.getIdentifiers().get(0).getValue()+ "%"));
+			} 
+			return studyCriteria.list();
 		}
-		return session.createCriteria(Study.class).add(searchCriteria).list();
+		return studyCriteria.add(example).list();
 	}
 	
 	/**
