@@ -14,14 +14,14 @@
 	<bean id="sendQueueDestination"
 		class="org.apache.activemq.command.ActiveMQQueue">
 		<constructor-arg>
-			<value>bridge.output.async</value>
+			<value>registration-message.inputQueue</value>
 		</constructor-arg>
 	</bean>
 
 	<bean id="recvQueueDestination"
 		class="org.apache.activemq.command.ActiveMQQueue">
 		<constructor-arg>
-			<value>esb.output</value>
+			<value>registration-message.outputQueue</value>
 		</constructor-arg>
 	</bean>
 
