@@ -46,7 +46,7 @@
 
     <build>
         <plugins>
-            <plugin>
+           <plugin>
                 <groupId>org.apache.servicemix.tooling</groupId>
                 <artifactId>jbi-maven-plugin</artifactId>
                 <version>${servicemix-version}</version>
@@ -252,6 +252,51 @@
             <scope>system</scope>
             <systemPath>@ext.lib.path@/wss4j.jar</systemPath>
         </dependency>
+
+        <!--Globus Security Jars -->
+        <dependency>
+           <groupId>globus.security.jars</groupId>
+           <artifactId>cryptix-asn1.jar</artifactId>
+           <version>4.0</version>
+           <scope>system</scope>
+           <systemPath>@ext.lib.path@/cryptix-asn1.jar</systemPath>
+        </dependency>
+        <dependency>
+           <groupId>globus.security.jars</groupId>
+           <artifactId>cryptix.jar</artifactId>
+           <version>4.0</version>
+           <scope>system</scope>
+           <systemPath>@ext.lib.path@/cryptix.jar</systemPath>
+        </dependency>
+        <dependency>
+           <groupId>globus.security.jars</groupId>
+           <artifactId>cryptix32.jar</artifactId>
+           <version>4.0</version>
+           <scope>system</scope>
+           <systemPath>@ext.lib.path@/cryptix32.jar</systemPath>
+        </dependency>
+        <dependency>
+           <groupId>globus.security.jars</groupId>
+           <artifactId>jgss.jar</artifactId>
+           <version>4.0</version>
+           <scope>system</scope>
+           <systemPath>@ext.lib.path@/jgss.jar</systemPath>
+        </dependency>
+        <dependency>
+           <groupId>globus.security.jars</groupId>
+           <artifactId>puretls.jar</artifactId>
+           <version>4.0</version>
+           <scope>system</scope>
+           <systemPath>@ext.lib.path@/puretls.jar</systemPath>
+        </dependency>
+        <dependency>
+           <groupId>globus.security.jars</groupId>
+           <artifactId>xmlsec.jar</artifactId>
+           <version>4.0</version>
+           <scope>system</scope>
+           <systemPath>@ext.lib.path@/xmlsec.jar</systemPath>
+        </dependency>
+
 
         <!--caGrid Library dependencies. Installed from local maven repos-->
         <dependency>

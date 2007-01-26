@@ -39,6 +39,12 @@
             </fileset>
         </artifact>
 
+         <artifact track="main" type="jars" id="globus.security.jars">
+            <fileset dir="${share.dir}/globus/security/lib">
+                <include name="*.jar"/>
+            </fileset>
+        </artifact>
+
         <artifact track="main" type="jars" id="cagrid.jars">
             <fileset dir="${share.dir}/cagrid/lib">
                 <include name="*.jar"/>

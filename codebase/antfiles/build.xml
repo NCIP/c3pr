@@ -25,6 +25,8 @@
     <property name="deploy.path" value="${env.CATALINA_HOME}/webapps" />
     <property name="webapp.name" value="c3pr" />
 
+     <property name="servicemix.project.home" value="${projects.dir}/servicemix"/>
+
     <!-- import testing properties -->
     <property file="${antfiles.dir}/test.properties"/>
 
@@ -214,6 +216,7 @@
             <artifact refid="ant-contrib.jars"/>
             <artifact refid="cagrid.jars"/>
             <artifact refid="globus.jars"/>
+            <artifact refid="globus.security.jars"/>
             <artifact refid="c3pr.gridnode.client.jars"/>
         </resolveDependencies>
         <ant dir="${projects.dir}/servicemix" inheritAll="true" antfile="build.xml" target="all"/>
@@ -295,9 +298,17 @@
     <!-- ====================================================================== -->
     <!-- Will build the esb integration project  -->
     <!-- ====================================================================== -->
+    <target name="buildESB" description="Will build the esb project">
 
-    <target name="deployESB" description="Will build and deploy and make ready the ctms esb engine (servicemix)">
-        <property name="servicemix.project.home" value="${projects.dir}/servicemix"/>
+        <!-- call the servicemix project deploy target -->
+        <ant dir="${servicemix.project.home}" antfile="build.xml" target="all"/>
+
+        <echo message="Built. Call deploESB"/>
+    </target>
+    
+
+    <target name="deployESB" description="Will deploy and make ready the ctms esb engine (servicemix)">
+
         <property name="servicemix.toolkit.home" value="${servicemix.project.home}/servicemix-toolkit"/>
 
         <!-- call the servicemix project deploy target -->
