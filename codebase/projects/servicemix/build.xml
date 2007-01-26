@@ -75,6 +75,13 @@
             </fileset>
         </copy>
 
+        <!-- copy jars required. Should be from artifact -->
+        <copy todir="${servicemix.toolkit.dir}/ext/lib">
+            <fileset dir="${servicemix.wsrf.component.dir}/lib">
+                <include name="*.jar"/>
+            </fileset>
+        </copy>
+
         <!-- install the service asswembly -->
         <copy todir="${servicemix.toolkit.dir}/deploy">
             <fileset dir="${service.assembly.build.dir}">
