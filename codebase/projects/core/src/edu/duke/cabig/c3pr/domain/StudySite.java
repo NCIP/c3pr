@@ -37,7 +37,7 @@ public class StudySite extends AbstractGridIdentifiableDomainObject implements C
     private String roleCode;
     private String statusCode;
     private Date startDate = Calendar.getInstance().getTime();
-    private Date endDate = Calendar.getInstance().getTime();   
+    private Date endDate;   
 
     /// LOGIC
 
