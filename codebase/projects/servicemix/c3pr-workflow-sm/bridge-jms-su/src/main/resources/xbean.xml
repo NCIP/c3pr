@@ -55,6 +55,24 @@
               jmsProviderDestinationName="ae-message.outputQueue"
               connectionFactory ="#jmsFactory"
               defaultMep="http://www.w3.org/2004/08/wsdl/in-only" />
+
+	<jms:endpoint service="ctms:jms-LabViewer-CAAERS-input"
+              endpoint="endpoint"
+              targetService="ctms:lab-view-ae-broadcaster"
+              targetEndpoint="endpoint"
+              role="consumer" 
+              destinationStyle="queue"
+              jmsProviderDestinationName="lab-viewer-message.inputQueue"
+              connectionFactory ="#jmsFactory"
+              defaultMep="http://www.w3.org/2004/08/wsdl/in-only" />
+
+	<jms:endpoint service="ctms:jms-LabViewer-CAAERS-output"
+              endpoint="endpoint"
+              role="provider" 
+              destinationStyle="queue"
+              jmsProviderDestinationName="lab-viewer-message.outputQueue"
+              connectionFactory ="#jmsFactory"
+              defaultMep="http://www.w3.org/2004/08/wsdl/in-only" />
               
 	<bean id="jmsFactory"
 		class="org.apache.activemq.pool.PooledConnectionFactory">

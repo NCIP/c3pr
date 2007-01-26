@@ -18,21 +18,36 @@
 	
 -->
 <beans xmlns:wsrf="http://com.sb.servicemix.wsrf.bc/1.0"
-       xmlns:ctms="http://semanticbits.com/esb/ctms">
+	xmlns:ctms="http://semanticbits.com/esb/ctms">
 
-    <wsrf:endpoint service="ctms:caaers-registration-grid-service" endpoint="endpoint"
-                   exchangeProcessor="#exchangeProcessor"
-                   epr="http://10.10.10.2:8015/wsrf/services/cagrid/RegistrationConsumer"/>
+	<classpath>
+	<location>./lib</location>
+	</classpath>
+	
+	<wsrf:endpoint service="ctms:caaers-registration-grid-service"
+		endpoint="endpoint" exchangeProcessor="#exchangeProcessor"
+		epr="http://10.10.10.2:8015/wsrf/services/cagrid/RegistrationConsumer" />
 
-    <wsrf:endpoint service="ctms:psc-registration-grid-service" endpoint="endpoint"
-                   exchangeProcessor="#exchangeProcessor"
-                   epr="http://10.10.10.2:9012/wsrf/services/cagrid/RegistrationConsumer"/>
+	<wsrf:endpoint service="ctms:psc-registration-grid-service"
+		endpoint="endpoint" exchangeProcessor="#exchangeProcessor"
+		epr="http://10.10.10.2:9012/wsrf/services/cagrid/RegistrationConsumer" />
 
-    <wsrf:endpoint service="ctms:psc-adverse-event-grid-service" endpoint="endpoint"
-                   exchangeProcessor="#exchangeProcessor"
-                   epr="http://10.10.10.2:9012/wsrf/services/cagrid/AdverseEventConsumer"/>
+	<wsrf:endpoint service="ctms:psc-adverse-event-grid-service"
+		endpoint="endpoint" exchangeProcessor="#aeProcessor"
+		epr="https://10.10.10.2:9018/wsrf/services/cagrid/AdverseEventConsumer" />
 
-    <bean id="exchangeProcessor"
-          class="com.sb.servicemix.wsrf.bc.CTMSRegistrationProcessor"/>
+	<wsrf:endpoint service="ctms:caaers-adverse-event-grid-service"
+		endpoint="endpoint" exchangeProcessor="#createCandidateProcessor"
+		epr="http://10.10.10.35:8090/wsrf/services/caaers/CreateCandidateAdverseEventService" />
+
+	<bean id="exchangeProcessor"
+		class="com.sb.servicemix.wsrf.bc.CTMSRegistrationProcessor" />
+
+    <bean id="aeProcessor"
+                           class="com.sb.servicemix.wsrf.bc.CTMSAdverseEventProcessor"/>
+
+    <bean id="createCandidateProcessor"
+                           class="com.sb.servicemix.wsrf.bc.CTMSCreateCandidateAdverseEventProcessor"/>
+		
 
 </beans>

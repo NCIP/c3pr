@@ -58,4 +58,14 @@
 		</eip:target>
 	</eip:pipeline>
 
+	<eip:pipeline service="ctms:lab-view-ae-broadcaster" endpoint="endpoint">
+		<eip:transformer>
+			<eip:exchange-target
+				service="ctms:caaers-adverse-event-grid-service" />
+		</eip:transformer>
+		<eip:target>
+			<eip:exchange-target service="ctms:jms-LabViewer-CAAERS-output" />
+		</eip:target>
+	</eip:pipeline>
+
 </beans>

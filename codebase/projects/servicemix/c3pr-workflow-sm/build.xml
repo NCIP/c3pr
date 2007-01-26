@@ -101,6 +101,9 @@
         <copy todir="${grid.comp.build.dir}">
             <fileset dir="bridge-grid-su/${src.dir}" includes="*.*"/>
         </copy>
+        <copy todir="${grid.comp.build.dir}/lib">
+            <fileset dir="bridge-grid-su/lib" includes="*.*"/>
+        </copy>
         <zip destfile="${su.build.dir}/bridge-grid-su-3.0-incubating.zip">
             <fileset dir="${grid.comp.build.dir}"/>
         </zip>
