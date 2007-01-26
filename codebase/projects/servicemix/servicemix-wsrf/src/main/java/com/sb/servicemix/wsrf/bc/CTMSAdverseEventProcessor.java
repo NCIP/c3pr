@@ -22,7 +22,7 @@ import org.globus.gsi.GlobusCredential;
  * Time: 12:53:54 PM
  * To change this template use File | Settings | File Templates.
  */
-public class CTMAdverseEventProcessor implements MessageExchangeProcessor {
+public class CTMSAdverseEventProcessor implements MessageExchangeProcessor {
 
 
     public void process(MessageExchange exchange, DeliveryChannel channel, String epr) throws Exception {
