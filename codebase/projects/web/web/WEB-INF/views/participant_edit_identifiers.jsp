@@ -87,7 +87,7 @@ field.value="";
 		<td width="99%" valign="middle"><img src="images/arrowRight.gif"
 			width="3" height="5" align="absmiddle"> Subject Management <img
 			src="images/spacer.gif" width="1" height="20" align="absmiddle"
-			class="spacer"><a href="createparticipant.do">Create New Subject</a></td>
+			class="spacer"><a href="createparticipant.do">Add Subject</a></td>
 		<td valign="middle" class="right"><a href="help">Help</a></td>
 	</tr>
 </table>
@@ -262,7 +262,7 @@ field.value="";
 							<td class="label"><span class="red">*</span><em></em>Race(s):</td>
 							<td>${command.raceCode }</td>
 						</tr>
-						
+
 					</table>
 					<!-- LEFT CONTENT ENDS HERE --></td>
 				<td><img src="images/spacer.gif" width="2" height="1"></td>
@@ -271,53 +271,56 @@ field.value="";
 				<table width="100%" border="0" cellspacing="0" cellpadding="0"
 					id="details">
 					<tr>
-						<td width="50%" valign="top" class="contentAreaL"><strong>Subject
-						Identifiers </strong>(<span class="red">*</span><em>Required
-						Information </em>)<br>
+						<td height="2" border="0"><b><span class="black">${updateMessageRefData.desc}</span></b></td>
+					</tr>
+					<tr>
+						<td width="50%" valign="top" class="contentAreaL">(<span
+							class="red">*</span><em>Required Information </em>)<br>
 						<br>
 						<form:form name="subjectIdentifiersForm" method="post">
 							<div><input type="hidden" name="_page" value="1"> <input
 								type="hidden" name="_action" value=""> <input type="hidden"
 								name="_selected" value=""></div>
-							<br>
-							<hr align="left" width="95%">
+
 							<table width="700" border="0" cellspacing="0" cellpadding="0"
 								id="table1">
-								<tr align="center" class="label">
-									<td width="10%" align="center"><a
-										href="javascript:fireAction('addIdentifier','0');"><img
-										src="images/checkyes.gif" border="0"
-										alt="Add another Identifier"></a></td>
-									<td width="20%" align="center">Source<span class="red">*</span></td>
-									<td width="20%" align="center">Identifier Type<span class="red">*</span></td>
-									<td width="15%" align="center">Identifier<span class="red">*</span></td>
-								
-									<td width="20%" align="center">Primary Indicator</td>
+								<tr class="label">
+									<td width="10%"border="1"></td>
+									<td width="20%"border="1" align="center">Source<span class="red">*</span></td>
+									<td width="20%"border="1" align="center">Identifier Type<span class="red">*</span></td>
+									<td width="15%"border="1" align="center">Identifier<span class="red">*</span></td>
+									<td width="10%"border="1" align="center">Primary Indicator</td>
 								</tr>
 
 								<c:forEach items="${command.identifiers}" varStatus="status">
 									<tr>
-										<!-- <td align="center">"${identifier.value}"</td>-->
-										<td width="10%"><a
+										<td width="10% border="1" align="center"><a
 											href="javascript:fireAction('removeIdentifier',${status.index});"><img
-											src="images/checkno.gif" border="0"></a></td>
-										<td width="20%"align="center"><form:select
+											src="images/b-delete.gif" border="0"></a></td>
+										<td width="20%"border="1" align="center"><form:select
 											path="identifiers[${status.index}].source">
 											<form:options items="${source}" itemLabel="desc"
-												itemValue="code" />   
+												itemValue="code" />
 										</form:select></td>
-										<td width="20%"align="center"><form:select
+										<td width="20%"border="1" align="center"><form:select
 											path="identifiers[${status.index}].type">
-											<form:options items="${identifiersTypeRefData}" itemLabel="desc"
-												itemValue="code" />   identifiersTypeRefData
+											<form:options items="${identifiersTypeRefData}"
+												itemLabel="desc" itemValue="code" />   identifiersTypeRefData
 										</form:select></td>
-										<td width="15%"><form:input path="identifiers[${status.index}].value" onclick="javascript:clearField(this)();"/></td>
+										<td width="15%"border="1"><form:input
+											path="identifiers[${status.index}].value"
+											onclick="javascript:clearField(this)();" /></td>
 
-										<td width="20%"align="center"><form:radiobutton
+										<td width="10%"border="1" align="center"><form:radiobutton
 											path="identifiers[${status.index}].primaryIndicator" /></td>
 									</tr>
 
 								</c:forEach>
+								<tr>
+									<td width="10%" align="center"><a
+										href="javascript:fireAction('addIdentifier','0');"><img
+										src="images/b-addLine.gif" border="0"></a></td>
+								</tr>
 
 								<tr>
 									<td align="center" colspan="3"><!-- action buttons begins -->
@@ -329,14 +332,13 @@ field.value="";
 									</table>
 									</td>
 								</tr>
-
-
 							</table>
 						</form:form></td>
 						<td width="50%" valign="top" class="contentAreaR"><strong><strong><strong><a
 							href="#additional"><img src="images/ViewregistrationHistory.gif"
-							alt="View Registration Information" width="140" height="16" border="0"
-							align="right"></a></strong></strong>Current Registration</strong><br>
+							alt="View Registration Information" width="140" height="16"
+							border="0" align="right"></a></strong></strong>Current
+						Registration</strong><br>
 						<br>
 						<table width="315" border="0" cellspacing="0" cellpadding="0"
 							id="table1">
@@ -352,16 +354,9 @@ field.value="";
 								}</td>
 							</tr>
 							<tr>
-								<td class="label"><span class="red">*</span><em></em>Short
-								Title:</td>
+								<td class="label"><span class="red">*</span><em></em>Status:</td>
 								<td width="75%" valign="top">${command.studyParticipantAssignments[0].studySite.study.status
 								}</td>
-							</tr>
-							<tr>
-								<td><img src="images/spacer.gif" width="1" height="1"
-									class="heightControl"></td>
-								<td><img src="images/spacer.gif" width="1" height="1"
-									class="heightControl"></td>
 							</tr>
 							<tr>
 								<td class="label"><span class="red">*</span><em></em>Disease

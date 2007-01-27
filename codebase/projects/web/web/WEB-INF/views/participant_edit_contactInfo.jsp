@@ -73,7 +73,7 @@ function updatePage(s){
 		<td width="99%" valign="middle"><img src="images/arrowRight.gif"
 			width="3" height="5" align="absmiddle"> Subject Management <img
 			src="images/spacer.gif" width="1" height="20" align="absmiddle"
-			class="spacer"><a href="createparticipant.do">Create New Subject</a></td>
+			class="spacer"><a href="createparticipant.do">Add Subject</a></td>
 		<td valign="middle" class="right"><a href="help">Help</a></td>
 	</tr>
 </table>
@@ -257,8 +257,10 @@ function updatePage(s){
 				<table width="100%" border="0" cellspacing="0" cellpadding="0"
 					id="details">
 					<tr>
-						<td width="50%" valign="top" class="contentAreaL"><strong>Contact
-						Information </strong>(<span class="red">*</span><em>Required
+						<td height="2" border="0"><b><span class="black">${updateMessageRefData.desc}</span></b></td>
+					</tr>
+					<tr>
+						<td width="50%" valign="top" class="contentAreaL">(<span class="red">*</span><em>Required
 						Information </em>)<br>
 						<br>
 						<form name="form2" method="post" action="" id="form1">
@@ -298,6 +300,7 @@ function updatePage(s){
 							</tr>
 
 						</table>
+
 						</form>
 
 						</td>
@@ -321,16 +324,9 @@ function updatePage(s){
 								}</td>
 							</tr>
 							<tr>
-								<td class="label"><span class="red">*</span><em></em>Short
-								Title:</td>
+								<td class="label"><span class="red">*</span><em></em>Status:</td>
 								<td width="75%" valign="top">${command.studyParticipantAssignments[0].studySite.study.status
 								}</td>
-							</tr>
-							<tr>
-								<td><img src="images/spacer.gif" width="1" height="1"
-									class="heightControl"></td>
-								<td><img src="images/spacer.gif" width="1" height="1"
-									class="heightControl"></td>
 							</tr>
 							<tr>
 								<td class="label"><span class="red">*</span><em></em>Disease

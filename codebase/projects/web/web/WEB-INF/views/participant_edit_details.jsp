@@ -79,7 +79,7 @@ function updatePage(s){
 		<td width="99%" valign="middle"><img src="images/arrowRight.gif"
 			width="3" height="5" align="absmiddle"> Subject Management <img
 			src="images/spacer.gif" width="1" height="20" align="absmiddle"
-			class="spacer"><a href="createparticipant.do">Create New Subject</a></td>
+			class="spacer"><a href="createparticipant.do">Add Subject</a></td>
 		<td valign="middle" class="right"><a href="help">Help</a></td>
 	</tr>
 </table>
@@ -262,29 +262,29 @@ function updatePage(s){
 				<table width="100%" border="0" cellspacing="0" cellpadding="0"
 					id="details">
 					<tr>
-						<td width="50%" valign="top" class="contentAreaL"><strong>Subject
-						Details </strong>(<span class="red">*</span><em>Required
-						Information </em>)<br>
+						<td height="2" border="0"><b><span class="black">${updateMessageRefData.desc}</span></b></td>
+					</tr>
+					<tr>
+						<td align="left" width="50%" border="1" valign="top" class="contentAreaL">(<span
+							class="red">*</span><em>Required Information </em>)<br>
 						<br>
 						<form name="form2" method="post" action="" id="form1">
 						<table width="700" border="0" cellspacing="0" cellpadding="0"
 							id="table1">
+
 							<tr>
-								<td><img src="images/spacer.gif" width="1" height="1"
-									class="heightControl"></td>
-								<td width="65%"><img src="images/spacer.gif" width="1"
-									height="1" class="heightControl"></td>
-							</tr>
-							<tr>
-								<td class="label"><span class="red">*</span><em></em> First Name</td>
+								<td width="15%" align="left" border="0" class="label"><span class="red">*</span><em></em>
+								First Name</td>
 								<td><form:input path="firstName" /></td>
 							</tr>
 							<tr>
-								<td class="label"><span class="red">*</span><em></em> Last Name</td>
+								<td align="left" class="label"><span class="red">*</span><em></em>
+								Last Name</td>
 								<td><form:input path="lastName" /></td>
 							</tr>
 							<tr>
-								<td class="label"><span class="red">*</span> <em></em> Gender</td>
+								<td align="left" class="label"><span class="red">*</span> <em></em>
+								Gender</td>
 								<td><form:select path="administrativeGenderCode">
 									<form:options items="${administrativeGenderCode}"
 										itemLabel="desc" itemValue="code" />
@@ -292,16 +292,17 @@ function updatePage(s){
 							</tr>
 
 							<tr>
-								<td class="label"><span class="red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</span><em></em>Birth
+								<td align="left" class="label"><span class="red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</span><em></em>Birth
 								Date</td>
 								<td valign="top"><form:input path="birthDate" />&nbsp;<a
 									href="#"
-									onClick="cal1.select(document.getElementById('birthDate'),'anchor1','MM/dd/yyyy');return false;" name="anchor1" id="anchor1"><img
-									src="images/b-calendar.gif" alt="Calendar" width="17"
-									height="16" border="0" align="absmiddle"></a></td>
+									onClick="cal1.select(document.getElementById('birthDate'),'anchor1','MM/dd/yyyy');return false;"
+									name="anchor1" id="anchor1"><img src="images/b-calendar.gif"
+									alt="Calendar" width="17" height="16" border="0"
+									align="absmiddle"></a></td>
 							</tr>
 							<tr>
-								<td class="label"><span class="red">*</span><em></em>Ethnic
+								<td align="left" class="label"><span class="red">*</span><em></em>Ethnic
 								Group Code</td>
 								<td><form:select path="ethnicGroupCode">
 									<form:options items="${ethnicGroupCode}" itemLabel="desc"
@@ -309,7 +310,8 @@ function updatePage(s){
 								</form:select></td>
 							</tr>
 							<tr>
-								<td class="label"><span class="red">*</span><em></em>Race Code</td>
+								<td align="left" class="label"><span class="red">*</span><em></em>Race
+								Code</td>
 								<td><form:select path="raceCode">
 									<form:options items="${raceCode}" itemLabel="desc"
 										itemValue="code" />
@@ -317,7 +319,7 @@ function updatePage(s){
 							</tr>
 
 							<tr>
-								<td class="label"><span class="red">*</span><em></em>Ethnicity</td>
+								<td align="left" class="label"><span class="red">*</span><em></em>Ethnicity</td>
 								<td><select name="select" class="field1">
 									<option selected>--</option>
 									<option>Hispanic or Latino</option>
@@ -366,16 +368,9 @@ function updatePage(s){
 								}</td>
 							</tr>
 							<tr>
-								<td class="label"><span class="red">*</span><em></em>Short
-								Title:</td>
+								<td class="label"><span class="red">*</span><em></em>Status:</td>
 								<td width="75%" valign="top">${command.studyParticipantAssignments[0].studySite.study.status
 								}</td>
-							</tr>
-							<tr>
-								<td><img src="images/spacer.gif" width="1" height="1"
-									class="heightControl"></td>
-								<td><img src="images/spacer.gif" width="1" height="1"
-									class="heightControl"></td>
 							</tr>
 							<tr>
 								<td class="label"><span class="red">*</span><em></em>Disease
