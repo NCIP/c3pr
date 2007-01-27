@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -23,15 +22,10 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
-import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.service.ParticipantService;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
-import edu.duke.cabig.c3pr.web.CreateParticipantController.LOV;
-import edu.duke.cabig.c3pr.utils.Lov;
 
 /**
  * @author Ramakrishna
@@ -40,8 +34,6 @@ import edu.duke.cabig.c3pr.utils.Lov;
 public class EditParticipantController extends AbstractWizardFormController {
 
 	private static Log log = LogFactory.getLog(EditParticipantController.class);
-
-	private ParticipantService participantService;
 
 	private ParticipantDao participantDao;
 
@@ -67,6 +59,21 @@ public class EditParticipantController extends AbstractWizardFormController {
 		refdata.put("healthcareSite", healthcareSiteDao.getAll());
 		refdata.put("searchType", getSearchType());
 		refdata.put("identifiersTypeRefData", getIdentifiersList());
+
+		refdata.put("updateMessageRefData", getUpdateMessageList().get(8));
+		if (("Update Subject").equals((httpServletRequest
+				.getParameter("_target0")))) {
+			refdata.put("updateMessageRefData", getUpdateMessageList().get(0));
+		} else if (("Update Identifiers").equals(httpServletRequest
+				.getParameter("_target1"))) {
+			refdata.put("updateMessageRefData", getUpdateMessageList().get(2));
+		} else if (("Update Addresses").equals(httpServletRequest
+				.getParameter("_target2"))) {
+			refdata.put("updateMessageRefData", getUpdateMessageList().get(4));
+		} else if (("Update Contact Information").equals(httpServletRequest
+				.getParameter("_target3"))) {
+			refdata.put("updateMessageRefData", getUpdateMessageList().get(6));
+		}
 
 		return refdata;
 	}
@@ -109,17 +116,21 @@ public class EditParticipantController extends AbstractWizardFormController {
 					request.getParameter("_action"), request
 							.getParameter("_selected"));
 		}
-
-		participantDao.save(participant);
+		try {
+			participantDao.save(participant);
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	protected ModelAndView processFinish(HttpServletRequest request,
 			HttpServletResponse response, Object oCommand, BindException errors)
 			throws Exception {
-		
-		ModelAndView modelAndView= new ModelAndView(new RedirectView("searchparticipant.do"));
-    	return modelAndView;
+
+		ModelAndView modelAndView = new ModelAndView(new RedirectView(
+				"searchparticipant.do"));
+		return modelAndView;
 	}
 
 	private void handleIdentifierAction(Participant participant, String action,
@@ -134,39 +145,6 @@ public class EditParticipantController extends AbstractWizardFormController {
 			log.debug("Requested Remove Identifier");
 			participant.getIdentifiers().remove(Integer.parseInt(selected));
 		}
-	}
-
-	protected ModelAndView onSubmit(HttpServletRequest request,
-			HttpServletResponse response, Object oCommand, BindException errors)
-			throws Exception {
-		SearchParticipantCommand searchParticipantCommand = (SearchParticipantCommand) oCommand;
-		Participant participant = new Participant();
-		String text = searchParticipantCommand.getSearchText();
-		String type = searchParticipantCommand.getSearchType();
-
-		log.debug("search string = " + text + "; type = " + type);
-
-		if ("N".equals(type)) {
-			participant.setLastName(text);
-		}
-		if ("Identifier".equals(type)) {
-			Identifier identifier = new Identifier();
-			identifier.setValue(text);
-			// FIXME:
-			participant.addIdentifier(identifier);
-		}
-
-		List<Participant> participants = participantService.search(participant);
-
-		Iterator<Participant> participantIter = participants.iterator();
-
-		log.debug("Search results size " + participants.size());
-		Map map = errors.getModel();
-		map.put("participants", participants);
-		map.put("searchType", getSearchType());
-		ModelAndView modelAndView = new ModelAndView(
-				"participant_search_details", map);
-		return modelAndView;
 	}
 
 	public class LOV {
@@ -265,6 +243,30 @@ public class EditParticipantController extends AbstractWizardFormController {
 		col.add(new LOV("Female", "Female"));
 		col.add(new LOV("Not Reported", "Not Reported"));
 		col.add(new LOV("Unknown", "Unknown"));
+
+		return col;
+	}
+
+	private List<LOV> getUpdateMessageList() {
+		List<LOV> col = new ArrayList<LOV>();
+
+		col.add(new LOV("UpdatedDetailsSuccessMessage",
+				"The Subject's Details are updated successfully"));
+		col.add(new LOV("UpdatedDetailsFailureMessage",
+						"Sorry, failed to update Subject's Details, Please Try Again!"));
+		col.add(new LOV("UpdatedIdentifiersSuccessMessage",
+				"The Subject's Identifiers are updated successfully"));
+		col.add(new LOV("UpdatedIdentifiersFailureMessage",
+						"Sorry, failed to update Subject's Identifiers, Please Try Again!"));
+		col.add(new LOV("UpdatedAddressSuccessMessage",
+				"The Subject's Address is updated successfully"));
+		col.add(new LOV("UpdatedAddressFailureMessage",
+						"Sorry, failed to update subject's Address, Please Try Again!"));
+		col.add(new LOV("UpdatedContactInfoSuccessMessage",
+				"The Subject's Contact Information is updated successfully"));
+		col.add(new LOV("UpdatedContactInfoFailureMessage",
+						"Sorry, failed to update Subject's Contact Information, Please Try Again!"));
+		col.add(new LOV("", ""));
 
 		return col;
 	}
