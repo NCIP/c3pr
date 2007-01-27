@@ -8,7 +8,7 @@
 
 	<bean id="connectionFactory"
 		class="org.apache.activemq.ActiveMQConnectionFactory">
-		<property name="brokerURL" value="tcp://10.10.10.2:61616" />
+		<property name="brokerURL" value="tcp://cbiovdev5032.nci.nih.gov" />
 	</bean>
 
 	<bean id="sendQueueDestination"
