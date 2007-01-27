@@ -234,7 +234,7 @@ function submitPage(){
 												</tr>
 												<tr>
 													<td class="label"><span class="red">*</span> <em></em>
-													Administrative Gender Code</td>
+													Gender</td>
 													<td><form:select path="administrativeGenderCode">
 														<form:options items="${administrativeGenderCode}"
 															itemLabel="desc" itemValue="code" />

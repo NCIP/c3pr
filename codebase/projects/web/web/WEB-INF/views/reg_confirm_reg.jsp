@@ -208,13 +208,9 @@ function updateTargetPage(s){
 										<tr align="center">
 											<td colspan=2 valign="top"><br>
 											<br>
-											<a href="javascript:doNothing()">go to Study Calender</a></td>
-										</tr>
-										<tr align="center">
-											<td colspan=2 valign="top"><br>
-											<br>
-											<a href="javascript:doNothing()">go to XYZ</a></td>
-										</tr>
+											<a href="javascript:doNothing()">Click here</a> to access
+											Study Calender</td>
+										</tr>										
 									</table>
 									</div>
 									</td>
