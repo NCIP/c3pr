@@ -509,11 +509,13 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 						xpath.addNamespace("ns",
 								"http://semanticbits.com/registration.xsd");
 						source = xpath.valueOf(document);
+						System.out.println("source:"+source);
 						if (source.equalsIgnoreCase("C3D")) {
 							System.out.println("Message from C3D recieved...");
 							xpath = XPath
 									.newInstance("/ns:registration/ns:identifier/ns:identifier/ns:value");
 							String value = xpath.valueOf(document);
+							System.out.println("value:"+value);
 							if (value.indexOf("-1") == 0) {
 								System.out
 										.println("Patient position not found by C3D");
@@ -521,6 +523,7 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 								xpath = XPath
 										.newInstance("/ns:registration/ns:identifier/ns:identifier/ns:type");
 								String type = xpath.valueOf(document);
+								System.out.println("type:"+type);
 								Identifier id = new Identifier();
 								id.setSource(source);
 								id.setType(type);
