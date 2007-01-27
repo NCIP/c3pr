@@ -8,6 +8,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -59,6 +60,8 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 	private List<Epoch> epochs = new ArrayList<Epoch>();	  	
 	private List<StudySite> studySites = new ArrayList<StudySite>();;			  
 	private List<Identifier> identifiers = new ArrayList<Identifier>();
+	
+	private String trimmedShortTitleText;
 	
 	/// LOGIC
 	
@@ -315,20 +318,18 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 		return true;
 	}
 
-	/**
-	 *  Display the Short Title By default after trimming
-	 */
-	@Override	
-	public String toString()
-	{
-		String display = shortTitleText;
+	@Transient
+	public String getTrimmedShortTitleText() {
+		String trim = shortTitleText;
 		if (shortTitleText != null && shortTitleText.length() > 40)
 		{
-			display = shortTitleText.substring(0,39);
-			display += "...";
-		}
-		
-		return display;
+			trim = shortTitleText.substring(0,39);
+			trim += "...";
+		}		
+		return trim;
 	}
 
+	public void setTrimmedShortTitleText(String trimmedShortTitleText) {
+		this.trimmedShortTitleText = trimmedShortTitleText;
+	}
 }
