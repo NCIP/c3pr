@@ -3,6 +3,8 @@
  */
 package edu.duke.cabig.c3pr.web;
 
+import java.io.IOException;
+import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,12 +19,18 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Logger;
+import org.jdom.Document;
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
+import org.jdom.xpath.XPath;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractWizardFormController;
+
+import com.semanticbits.security.grid.exception.GridLoginException;
 
 import edu.duke.cabig.c3pr.dao.ArmDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
@@ -362,10 +370,10 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 		if (viewName.equalsIgnoreCase("randomizeView")) {
 			StudyParticipantAssignment studyParticipantAssignment = (StudyParticipantAssignment) command;
 			Vector result = messageBroadcaster.getBroadcastStatus();
-			if(result!=null){
-				for(int i=0 ; i<result.size();i++){
-					String msg=(String)result.get(i);
-					System.out.println((i+1)+".");
+			if (result != null) {
+				for (int i = 0; i < result.size(); i++) {
+					String msg = (String) result.get(i);
+					System.out.println((i + 1) + ".");
 					System.out.println(msg);
 					System.out.println("--------");
 				}
@@ -482,9 +490,57 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 				return;
 			}
 			System.out
-			.println("--------------------Recieved Idententifiers View with _action as null---------------------------");
-			studyParticipantAssignment.addIdentifier(new Identifier());
-			studyParticipantAssignment.addIdentifier(new Identifier());
+					.println("--------------------Recieved Idententifiers View with _action as null---------------------------");
+			try {
+				Vector result = messageBroadcaster.getBroadcastStatus();
+				System.out.println("Messages from ESB.....");
+				if (result != null) {
+					for (int i = 0; i < result.size(); i++) {
+						String msg = (String) result.get(i);
+						System.out.println((i + 1) + ".");
+						System.out.println(msg);
+						Document document;
+						XPath xpath;
+						String source = "";
+						document = new SAXBuilder()
+								.build(new StringReader(msg));
+						xpath = XPath
+								.newInstance("/ns:registration/ns:identifier/ns:identifier/ns:source");
+						xpath.addNamespace("ns",
+								"http://semanticbits.com/registration.xsd");
+						source = xpath.valueOf(document);
+						if (source.equalsIgnoreCase("C3D")) {
+							System.out.println("Message from C3D recieved...");
+							xpath = XPath
+									.newInstance("/ns:registration/ns:identifier/ns:identifier/ns:value");
+							String value = xpath.valueOf(document);
+							if (value.indexOf("-1") == 0) {
+								System.out
+										.println("Patient position not found by C3D");
+							} else {
+								xpath = XPath
+										.newInstance("/ns:registration/ns:identifier/ns:identifier/ns:type");
+								String type = xpath.valueOf(document);
+								Identifier id = new Identifier();
+								id.setSource(source);
+								id.setType(type);
+								id.setValue(value);
+								studyParticipantAssignment.addIdentifier(id);
+								participantDao.save(studyParticipantAssignment.getParticipant());
+							}
+							System.out.println(msg);
+							System.out.println("--------");
+						}
+					}
+				} else {
+					System.out.println("no avalbale result..");
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if(studyParticipantAssignment.getIdentifiers().size()==0)
+				studyParticipantAssignment.addIdentifier(new Identifier());
 		}
 	}
 
