@@ -533,7 +533,7 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 						}
 					}
 				} else {
-					System.out.println("no avalbale result..");
+					System.out.println("no avalbale result from ESB..");
 				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
