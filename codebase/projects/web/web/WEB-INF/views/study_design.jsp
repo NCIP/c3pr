@@ -86,7 +86,7 @@ function fireAction(action, selectedEpoch, selectedArm){
 	<tr>
 		<tr>
 			<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
-			<td id="current">Short Title: ${command}</td>
+			<td id="current">Short Title: ${command.trimmedShortTitleText}</td>				
 			<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 	</tr>
 

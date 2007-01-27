@@ -88,9 +88,8 @@ field.value="";
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
-		<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
-		
-		<td id="current">Short Title: ${command}</td>
+		<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->		
+		<td id="current">Short Title: ${command.trimmedShortTitleText}</td>			
 		<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 	</tr>
 	<tr>

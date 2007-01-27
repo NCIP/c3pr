@@ -26,6 +26,15 @@ function validatePage(){
 		return false;
 }
 
+function trim(s) {
+   if (s.length >40)
+   {
+     s = s.substring(0,39);
+     s +="...";
+   }
+   return s;
+
+}
 </script>
 </head>
 <body>
@@ -81,10 +90,12 @@ function validatePage(){
 	</tr>
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<form:form name="searchDetailsForm" method="post" >
+					
 	<tr>
 		<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
-
-		<td id="current">Short Title: ${command}</td>
+		<td id="current">Short Title: ${command.trimmedShortTitleText}</td>
+		<td>	</td>
 		<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 	</tr>
 	<tr>
@@ -126,7 +137,6 @@ function validatePage(){
 				<!-- LEFT CONTENT STARTS HERE -->
 
 				<td valign="top" class="additionals2"><!-- RIGHT CONTENT STARTS HERE -->
-				<form:form name="searchDetailsForm" method="post">
 					<div><input type="hidden" name="_page" value="0"></div>
 
 					<br>

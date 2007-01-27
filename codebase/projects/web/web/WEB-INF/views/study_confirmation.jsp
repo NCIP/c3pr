@@ -131,7 +131,7 @@ function validatePage(){
 					<div><input type="hidden" name="_page" value="5"></div>
 					<tr>
 						<td id="current">Study Created Succesfully for Short Title :
-						${command} on Study Site : ${command.studySites[0].site.name}</td>
+						${command.trimmedShortTitleText} on Study Site : ${command.studySites[0].site.name}</td>
 					</tr>
 					<tr>
 
