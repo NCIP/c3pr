@@ -349,8 +349,8 @@ function updateTargetPage(s){
 														class="heightControl"></td>
 												</tr>
 												<tr>
-													<td class="label"><span class="red">*</span><em></em>Is
-													Eligible:</td>
+													<td class="label"><span class="red">*</span><em></em>Eligiblity
+													Indicator:</td>
 													<td>Yes</td>
 												</tr>
 											</table>
