@@ -144,10 +144,10 @@ function navRollOver(obj, state) {
 					<%int i=0; %>
 
 					<c:forEach items="${study}" var="study">
-						<a href="/c3pr/updatestudy.do?studyId=${study.id}" onMouseOver="navRollOver('row<%= i %>', 'on')"
+						<a href="/c3pr/editstudy.do?studyId=${study.id}" onMouseOver="navRollOver('row<%= i %>', 'on')"
 							onMouseOut="navRollOver('row<%= i %>', 'off')">
 						<tr align="center" id="row<%= i++ %>" class="results">
-							<td>${study.shortTitleText}</td>
+							<td>${study.trimmedShortTitleText}</td>
 							<td>${study.identifiers[0].value}</td>
 							<td>${study.status}</td>
 							<td>${study.sponsorCode}</td>
