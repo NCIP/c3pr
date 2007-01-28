@@ -505,25 +505,22 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 						document = new SAXBuilder()
 								.build(new StringReader(msg));
 						xpath = XPath
-								.newInstance("/ns:registration/ns:identifier/ns:identifier/ns:source");
+								.newInstance("/ns:registration/ns:identifier/ns:source");
 						xpath.addNamespace("ns",
 								"http://semanticbits.com/registration.xsd");
 						source = xpath.valueOf(document);
-						System.out.println("source:"+source);
 						if (source.equalsIgnoreCase("C3D")) {
 							System.out.println("Message from C3D recieved...");
 							xpath = XPath
-									.newInstance("/ns:registration/ns:identifier/ns:identifier/ns:value");
+									.newInstance("/ns:registration/ns:identifier/ns:value");
 							String value = xpath.valueOf(document);
-							System.out.println("value:"+value);
 							if (value.indexOf("-1") == 0) {
 								System.out
 										.println("Patient position not found by C3D");
 							} else {
 								xpath = XPath
-										.newInstance("/ns:registration/ns:identifier/ns:identifier/ns:type");
+										.newInstance("/ns:registration/ns:identifier/ns:type");
 								String type = xpath.valueOf(document);
-								System.out.println("type:"+type);
 								Identifier id = new Identifier();
 								id.setSource(source);
 								id.setType(type);
@@ -533,6 +530,8 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 							}
 							System.out.println(msg);
 							System.out.println("--------");
+						}else {
+							System.out.println("ESB message not from..");
 						}
 					}
 				} else {
