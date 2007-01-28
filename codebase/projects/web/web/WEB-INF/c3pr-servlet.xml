@@ -49,6 +49,21 @@
 			</list>
 		</property>
 	</bean>
+	<bean id="editStudyController" lazy-init="true"
+		class="edu.duke.cabig.c3pr.web.EditStudyController"
+		autowire="byName">
+		<property name="commandClass"
+			value="edu.duke.cabig.c3pr.domain.Study">
+		</property>
+		<property name="pages">
+			<list>
+				<value>study_edit_details</value>
+				<value>study_edit_identifiers</value>
+				<value>study_edit_studysites</value>
+				<value>study_edit_design</value>
+			</list>
+		</property>
+	</bean>
 	<bean id="searchStudyController" lazy-init="true"
 		class="edu.duke.cabig.c3pr.web.SearchStudyController"
 		autowire="byName">
