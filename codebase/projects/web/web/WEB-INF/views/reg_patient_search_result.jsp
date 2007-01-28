@@ -40,7 +40,7 @@ function getPage(s){
 			width="2" height="20" align="absmiddle" class="currentL"><span
 			class="current"><img src="images/topNavArrowDown.gif"
 			width="5" height="20" align="absmiddle"> Registration</span><a
-			href="protocol.htm"> Study </a><img src="images/topNavR.gif"
+			href="/c3pr/searchstudy.do"> Study </a><img src="images/topNavR.gif"
 			width="2" height="20" align="absmiddle" class="currentR"><a
 			href="/c3pr/searchparticipant.do">Subject</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
