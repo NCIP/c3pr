@@ -39,9 +39,9 @@ public class CTMSAdverseEventProcessor implements MessageExchangeProcessor {
 
         String deliveryStatus=null;
         try {
-            String proxyFile = "proxy.txt";
+            String proxyFile = "~/.globus/certificates/proxy.txt";
             GlobusCredential cred = new GlobusCredential(new FileInputStream(proxyFile));
-            AdverseEventConsumerClient client = new AdverseEventConsumerClient(epr, cred);
+            AdverseEventConsumerClient client = new AdverseEventConsumerClient(epr,cred);
             client.register(ae);
 
             deliveryStatus = "delivered Adverse Event";
