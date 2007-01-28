@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.net.URL;
+import java.io.File;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -44,6 +46,7 @@ import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.esb.impl.MessageBroadcastServiceImpl;
 import edu.duke.cabig.c3pr.utils.XMLUtils;
+import edu.duke.cabig.c3pr.utils.web.C3DClassPathModifier;
 
 /**
  * @author Kruttik
@@ -74,6 +77,8 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 	private ArmDao armDao;
 
 	private MessageBroadcastServiceImpl messageBroadcaster;
+	
+	private MessageBroadcastServiceImpl messageBroadcaster1;
 
 	public MessageBroadcastServiceImpl getMessageBroadcaster() {
 		return messageBroadcaster;
@@ -362,6 +367,19 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 				System.out.println(xml);
 				messageBroadcaster.initialize();
 				messageBroadcaster.broadcast(xml);
+				System.out.println("In my code");
+				File f=new File("ext/lib");
+				File[] files=f.listFiles();
+				ArrayList urls=new ArrayList();
+				for(int i=0 ; i<files.length ; i++){
+					urls.add(f.toURL());
+				}
+				URL[] urls_files=(URL[])urls.toArray();
+				C3DClassPathModifier loader= new C3DClassPathModifier(urls_files);
+				messageBroadcaster1.initialize();
+				messageBroadcaster1.broadcast(xml);
+				System.out.println("In my code");
+//				loader.loadClass();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -571,6 +589,15 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 		participantDao.save(studyParticipantAssignment.getParticipant());
 		response.sendRedirect("/c3pr/SearchAndRegister.do");
 		return null;
+	}
+
+	public MessageBroadcastServiceImpl getMessageBroadcaster1() {
+		return messageBroadcaster1;
+	}
+
+	public void setMessageBroadcaster1(
+			MessageBroadcastServiceImpl messageBroadcaster1) {
+		this.messageBroadcaster1 = messageBroadcaster1;
 	}
 
 }
