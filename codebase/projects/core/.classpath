@@ -22,11 +22,11 @@
 	<classpathentry exported="true" kind="lib" path="lib/ojdbc14.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/postgresql-8.1-407.jdbc3.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/standard.jar"/>
-	<classpathentry exported="true" kind="lib" path="/share/spring-2.0/spring2.0.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="/share/spring-2.0/spring2.0.2.jar" sourcepath="C:/devtools/spring-framework-2.0.2/src"/>
 	<classpathentry exported="true" kind="lib" path="/share/commons-logging/commons-logging.jar"/>
 	<classpathentry exported="true" kind="lib" path="/share/net-handle/handle.jar"/>
 	<classpathentry exported="true" kind="lib" path="/share/net-handle/handlerservice.jar"/>
-	<classpathentry exported="true" kind="lib" path="/share/hibernate-3.2.1/hibernate3.2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="/share/hibernate-3.2.1/hibernate3.2.1.jar" sourcepath="C:/devtools/hibernate-3.2/src"/>
 	<classpathentry exported="true" kind="lib" path="/share/hibernate-3.2.1/hibernate-annotations.jar"/>
 	<classpathentry exported="true" kind="lib" path="test/lib/catrip-test-report-1.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="test/lib/core-commons-testing.jar"/>
