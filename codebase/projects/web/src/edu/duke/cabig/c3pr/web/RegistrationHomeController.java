@@ -3,9 +3,7 @@
  */
 package edu.duke.cabig.c3pr.web;
 
-import java.io.IOException;
 import java.io.StringReader;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,17 +18,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Logger;
 import org.jdom.Document;
-import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 import org.jdom.xpath.XPath;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractWizardFormController;
-
-import com.semanticbits.security.grid.exception.GridLoginException;
 
 import edu.duke.cabig.c3pr.dao.ArmDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
@@ -44,6 +38,7 @@ import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.esb.impl.MessageBroadcastServiceImpl;
 import edu.duke.cabig.c3pr.utils.XMLUtils;
+import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 
 /**
  * @author Kruttik 
@@ -87,8 +82,7 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 	protected void initBinder(HttpServletRequest request,
 			ServletRequestDataBinder binder) throws Exception {
 		super.initBinder(request, binder);
-		binder.registerCustomEditor(Date.class, new CustomDateEditor(
-				new SimpleDateFormat("MM-dd-yyyy"), true));
+		binder.registerCustomEditor(Date.class, ControllerTools.getDateEditor(false));	
 	}
 
 	@Override
