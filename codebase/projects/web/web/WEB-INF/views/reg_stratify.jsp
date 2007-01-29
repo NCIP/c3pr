@@ -160,7 +160,7 @@ function updateTargetPage(s){
 														class="heightControl"></td>
 												</tr>
 												<tr>
-													<td class="label" align=left><span class="red">* Under Contruction</span><em></em></td>
+													<td class="label" align=left>This Study does not have Stratification Factors</td>
 												</tr>
 											</table>
 											</td>

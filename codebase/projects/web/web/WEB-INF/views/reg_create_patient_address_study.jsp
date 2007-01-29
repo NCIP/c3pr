@@ -76,8 +76,8 @@ function getPage(s){
 					<tr>
 						<td width="100%" id="tabDisplay"><span class="tab"> <img
 							src="images/tabWhiteL.gif" width="3" height="16"
-							align="absmiddle"> 1. <a href="reg_protocol_search.htm">Select
-						Study </a><img src="images/tabWhiteR.gif" width="3" height="16"
+							align="absmiddle"> 1. Select
+						Study <img src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"></span><span class="current"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						2. Select Subject <img src="images/tabGrayR.gif" width="3"
@@ -125,8 +125,8 @@ function getPage(s){
 									<tr>
 										<td width="100%" id="tabDisplay"><span class="tab"><img
 											src="images/tabGrayL.gif" width="3" height="16"
-											align="absmiddle"> 1. <a href="participant_add.htm">Subject
-										Information </a><img src="images/tabGrayR.gif" width="3"
+											align="absmiddle"> 1. Subject
+										Information <img src="images/tabGrayR.gif" width="3"
 											height="16" align="absmiddle"></span><span class="current"><img
 											src="images/tabGrayL.gif" width="3" height="16"
 											align="absmiddle"> 2. Address Information <img
@@ -152,7 +152,7 @@ function getPage(s){
 								<!-- RIGHT CONTENT STARTS HERE --> <form:form method="post"
 									action="createparticipant.do">
 									<div><input type="hidden" name="_page" value="1"></div>
-									<strong>Step 2. Address Information </strong> 
+									<strong>Step 2. Address Information </strong>
 							(<span class="red">*</span>
 									<em>Required Information </em>)<br>
 									<br>
@@ -178,17 +178,11 @@ function getPage(s){
 													<td class="label"><span class="data"><span
 														class="red">*</span><em></em> State:</span></td>
 													<td><form:input path="address.stateCode" /></td>
-													<td><span class="red">*</span><em></em><strong>Zip:</strong>
-													<form:input path="address.postalCode" /> <a href="#"
-														onClick="parent.OpenWins('searchZip.htm','searchZip',420,206,1);return false;"><img
-														src="images/b-searchZip.gif" alt="Search Zip" width="48"
-														height="11" border="0" align="absmiddle"></a> <a
-														href="#"><img src="images/b-questionL.gif"
-														alt="What's This?" width="15" height="11" border="0"
-														align="absmiddle"></a></td>
+													<td class="label"><span class="data"><em></em><strong>Zip:</strong>
+													<form:input path="address.postalCode" /></td>
 												</tr>
 												<tr>
-													<td class="label"><em></em><em></em> Country:</td>
+													<td class="label"><span class="red">*</span><em></em><strong>Country:</strong></td>
 													<td><form:input path="address.countryCode" /></td>
 												</tr>
 											</table>

@@ -11,6 +11,10 @@
 <title>C3Pr V2</title>
 <link href="resources/styles.css" rel="stylesheet" type="text/css">
 <link href="resources/search.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="/c3pr/js/CalendarPopup.js"></script>
+<script language="JavaScript" id="js1">
+	var cal1 = new CalendarPopup();
+</script>
 <script>
 function navRollOver(obj, state) {
   document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
@@ -139,11 +143,11 @@ function updateTargetPage(s){
 									<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
 									<!-- RIGHT CONTENT STARTS HERE --> <input type=hidden
 										name="nextView" value="next">
-									<table width="700" border="0" cellspacing="0" cellpadding="0"
+									<table width="50%" border="0" cellspacing="0" cellpadding="0"
 										id="details">
 										<tr>
 											<td valign="top">
-											<table width="400" border="0" cellspacing="0" cellpadding="0"
+											<table width="100%" border="0" cellspacing="0" cellpadding="0"
 												id="table1">
 												<tr>
 													<td><img src="images/spacer.gif" width="1" height="1"
@@ -154,14 +158,18 @@ function updateTargetPage(s){
 												<tr>
 													<td class="label"><span class="red">*</span><em></em>Informed
 													Consent Signed Date:</td>
-													<td><form:input path="informedConsentSignedDate" /><I>(mm-dd-yyyy)</I></td>
+													<td><form:input path="informedConsentSignedDate" />
+													<a href="#"
+														onClick="cal1.select(document.getElementById('informedConsentSignedDate'),'anchor1','MM/dd/yyyy');return false;" name="anchor1" id="anchor1"><img
+														src="images/b-calendar.gif" alt="Calendar" width="17"
+														height="16" border="0" align="absmiddle"></a></td>
 												</tr>
 											</table>
 											</td>
 										</tr>
 									</table>
 
-									<table width="700" border="0" cellspacing="0" cellpadding="0"
+									<table width="50%" border="0" cellspacing="0" cellpadding="0"
 										id="details">
 										<tr align="center">
 											<td colspan=2 valign="top"><br>

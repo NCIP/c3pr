@@ -170,11 +170,11 @@ if (action){
 									<div><input type="hidden" name="_page" value="1"></div>
 									<strong>Step 1. Subject Information </strong>
 									<br>
-									<table width="700" border="0" cellspacing="0" cellpadding="0"
+									<table width="35%" border="0" cellspacing="0" cellpadding="0"
 										id="details">
 										<tr>
 											<td width="50%" valign="top">
-											<table width="308" border="0" cellspacing="0" cellpadding="0"
+											<table width="100%" border="0" cellspacing="0" cellpadding="0"
 												id="table1">
 												<tr>
 													<td><img src="images/spacer.gif" width="1" height="1"
@@ -183,37 +183,37 @@ if (action){
 														class="heightControl"></td>
 												</tr>
 												<tr>
-													<td class="label"><span class="red">*</span><em></em>First
+													<td class="label"><em></em>First
 													Name:</td>
 													<td>${command.firstName}</td>
 												</tr>
 												<tr>
-													<td class="label"><span class="red">*</span><em></em>Last
+													<td class="label"><em></em>Last
 													Name:</td>
 													<td>${command.lastName}</td>
 												</tr>
 												<tr>
-													<td class="label"><span class="red">*</span><em></em>Gender:
+													<td class="label"><em></em>Gender:
 													</td>
 													<td>${command.administrativeGenderCode}</td>
 												</tr>
 											</table>
 											</td>
 											<td width="50%" valign="top" class="contentAreaR"><strong><strong><strong></strong></strong></strong>
-											<table width="308" border="0" cellspacing="0" cellpadding="0"
+											<table width="100%" border="0" cellspacing="0" cellpadding="0"
 												id="table1">
 												<tr>
-													<td class="label"><span class="red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</span><em></em>Birth
+													<td class="label"><em></em>Birth
 													Date:</td>
 													<td valign="top">${command.birthDate}</td>
 												</tr>
 												<tr>
-													<td class="label"><span class="red">*</span><em></em>Ethnicity:
+													<td class="label"><em></em>Ethnicity:
 													</td>
 													<td>${command.ethnicGroupCode}</td>
 												</tr>
 												<tr>
-													<td class="label"><span class="red">*</span><em></em>Race(s):</td>
+													<td class="label"><em></em>Race(s):</td>
 													<td>${command.raceCode}</td>
 												</tr>
 											</table>
@@ -229,15 +229,15 @@ if (action){
 									Step 2. Address Information </strong>
 									<br>
 									<br>
-									<div class="review"><strong>Home Address:</strong><br>
-									<table width="700" border="0" cellspacing="0" cellpadding="0"
+									<div class="review"><strong>Home Address</strong><br><br>
+									<table width="35%" border="0" cellspacing="0" cellpadding="0"
 										id="details">
 										<tr>
 											<td width="50%" valign="top">
-											<table width="308" border="0" cellspacing="0" cellpadding="0"
+											<table width="100%" border="0" cellspacing="0" cellpadding="0"
 												id="table1">
 												<tr>
-													<td class="label"><em></em> Address:</td>
+													<td width="20%" class="label"><em></em> Address:</td>
 													<td>${command.address.streetAddress}</td>
 												</tr>
 												<tr>
@@ -246,7 +246,11 @@ if (action){
 												</tr>
 												<tr>
 													<td class="label"><em></em> State:</span></td>
-													<td>${command.address.stateCode}<em></em><strong>&nbsp;&nbsp;&nbsp;Zip:</strong>${command.address.postalCode}</td>
+													<td>${command.address.stateCode}<em></em>
+												</tr>
+												<tr>
+													<td class="label"><em></em><em></em> Zip:</td>
+													<td>${command.address.postalCode}</td>
 												</tr>
 												<tr>
 													<td class="label"><em></em><em></em> County:</td>
@@ -260,7 +264,7 @@ if (action){
 										src="images/b-edit.gif" alt="Edit" width="39" height="16"
 										border="0"></a>
 
-									<table width="700" border="0" cellspacing="0" cellpadding="0"
+									<table width="35%" border="0" cellspacing="0" cellpadding="0"
 										id="details">
 										<tr>
 											<td align="center" colspan="3"><!-- action buttons begins -->

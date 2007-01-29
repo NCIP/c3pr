@@ -89,8 +89,8 @@ if (action){
 					<tr>
 						<td width="100%" id="tabDisplay"><span class="tab"> <img
 							src="images/tabWhiteL.gif" width="3" height="16"
-							align="absmiddle"> 1. <a href="reg_protocol_search.htm">Select
-						Study </a><img src="images/tabWhiteR.gif" width="3" height="16"
+							align="absmiddle"> 1. Select
+						Study <img src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"></span><span class="current"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						2. Select Subject <img src="images/tabGrayR.gif" width="3"
@@ -169,56 +169,53 @@ if (action){
 									<div><input type="hidden" name="_page" value="1"></div>
 									<strong>Step 1. Subject Information </strong>
 									<br>
-									<table width="700" border="0" cellspacing="0" cellpadding="0"
+									<br>
+									<div class="review">
+									<table width="35%" border="0" cellspacing="0" cellpadding="0"
 										id="details">
 										<tr>
-											<td width="50%" valign="top">
-											<table width="308" border="0" cellspacing="0" cellpadding="0"
+											<td width="20%" valign="top">
+											<table width="100%" border="0" cellspacing="0" cellpadding="0"
 												id="table1">
 												<tr>
-													<td><img src="images/spacer.gif" width="1" height="1"
-														class="heightControl"></td>
-													<td><img src="images/spacer.gif" width="1" height="1"
-														class="heightControl"></td>
-												</tr>
-												<tr>
-													<td class="label"><span class="red">*</span><em></em>First
+													<td class="label"><em></em>First
 													Name:</td>
 													<td>${command.firstName}</td>
 												</tr>
 												<tr>
-													<td class="label"><span class="red">*</span><em></em>Last
+													<td class="label"><em></em>Last
 													Name:</td>
 													<td>${command.lastName}</td>
 												</tr>
 												<tr>
-													<td class="label"><span class="red">*</span><em></em>Gender:
+													<td class="label"><em></em>Gender:
 													</td>
 													<td>${command.administrativeGenderCode}</td>
 												</tr>
 											</table>
 											</td>
-											<td width="50%" valign="top" class="contentAreaR"><strong><strong><strong></strong></strong></strong>
-											<table width="308" border="0" cellspacing="0" cellpadding="0"
+											<td width="80%" valign="top" class="contentAreaR"><strong><strong><strong></strong></strong></strong>
+											<table width="100%" border="0" cellspacing="0" cellpadding="0"
 												id="table1">
 												<tr>
-													<td class="label"><span class="red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</span><em></em>Birth
+													<td class="label"><span class="red">*</span><em></em>Birth
 													Date:</td>
 													<td valign="top">${command.birthDate}</td>
 												</tr>
 												<tr>
-													<td class="label"><span class="red">*</span><em></em>Ethnicity:
+													<td class="label"><em></em>Ethnicity:
 													</td>
 													<td>${command.ethnicGroupCode}</td>
 												</tr>
 												<tr>
-													<td class="label"><span class="red">*</span><em></em>Race(s):</td>
+													<td class="label"><em></em>Race(s):</td>
 													<td>${command.raceCode}</td>
 												</tr>
 											</table>
 											</td>
 										</tr>
 									</table>
+									</div>
 									<a href="reg_enroll_patient.htm"><img
 										src="images/b-edit.gif" alt="Edit" width="39" height="16"
 										border="0"></a>
@@ -229,14 +226,14 @@ if (action){
 									<br>
 									<br>
 									<div class="review"><strong>Home Address:</strong><br>
-									<table width="700" border="0" cellspacing="0" cellpadding="0"
+									<table width="35%" border="0" cellspacing="0" cellpadding="0"
 										id="details">
 										<tr>
-											<td width="50%" valign="top">
-											<table width="308" border="0" cellspacing="0" cellpadding="0"
+											<td width="20%" valign="top">
+											<table width="100%" border="0" cellspacing="0" cellpadding="0"
 												id="table1">
 												<tr>
-													<td class="label"><em></em> Address:</td>
+													<td width="20%" class="label"><em></em> Address:</td>
 													<td>${command.address.streetAddress}</td>
 												</tr>
 												<tr>
@@ -245,7 +242,11 @@ if (action){
 												</tr>
 												<tr>
 													<td class="label"><em></em> State:</span></td>
-													<td>${command.address.stateCode}<em></em><strong>&nbsp;&nbsp;&nbsp;Zip:</strong>${command.address.postalCode}</td>
+													<td>${command.address.stateCode}<em></em>
+												</tr>
+												<tr>
+													<td class="label"><em></em><em></em> Zip:</td>
+													<td>${command.address.postalCode}</td>
 												</tr>
 												<tr>
 													<td class="label"><em></em><em></em> County:</td>
@@ -259,7 +260,7 @@ if (action){
 										src="images/b-edit.gif" alt="Edit" width="39" height="16"
 										border="0"></a>
 
-									<table width="700" border="0" cellspacing="0" cellpadding="0"
+									<table width="35%" border="0" cellspacing="0" cellpadding="0"
 										id="details">
 										<tr>
 											<td align="center" colspan="3"><!-- action buttons begins -->

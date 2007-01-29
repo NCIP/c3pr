@@ -11,6 +11,10 @@
 <title>C3Pr V2</title>
 <link href="resources/styles.css" rel="stylesheet" type="text/css">
 <link href="resources/search.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="/c3pr/js/CalendarPopup.js"></script>
+<script language="JavaScript" id="js1">
+	var cal1 = new CalendarPopup();
+</script>
 <script>
 function navRollOver(obj, state) {
   document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
@@ -79,8 +83,8 @@ function submitPage(){
 					<tr>
 						<td width="100%" id="tabDisplay"><span class="tab"> <img
 							src="images/tabWhiteL.gif" width="3" height="16"
-							align="absmiddle"> 1. <a href="reg_protocol_search.htm">Select
-						Study </a><img src="images/tabWhiteR.gif" width="3" height="16"
+							align="absmiddle"> 1. Select
+						Study <img src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"></span><span class="current"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						2. Select Subject <img src="images/tabGrayR.gif" width="3"
@@ -204,7 +208,7 @@ function submitPage(){
 									action="createparticipant.do">
 									<div><input type="hidden" name="_page" value="0">
 									</div>
-									<strong>Step 1. Subject Information </strong> 
+									<strong>Step 1. Subject Information </strong>
 							(<span class="red">*</span>
 									<em>Required Information </em>)<br>
 									<br>
@@ -252,25 +256,24 @@ function submitPage(){
 														class="heightControl"></td>
 												</tr>
 												<tr>
-													<td class="label"><span class="red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</span><em></em>Birth
+													<td class="label"><em></em>Birth
 													Date</td>
-													<td valign="top"><form:input path="birthDate" />&nbsp;<a
-														href="#"
-														onClick="parent.OpenWins('calendar.htm','calendar',200,236);return false;"><img
+													<td valign="top"><form:input path="birthDate" />&nbsp;<a href="#"
+											onClick="cal1.select(document.getElementById('birthDate'),'anchor1','MM/dd/yyyy');return false;" name="anchor1" id="anchor1"><img
 														src="images/b-calendar.gif" alt="Calendar" width="17"
 														height="16" border="0" align="absmiddle"></a></td>
 												</tr>
 												<tr>
-													<td class="label"><span class="red">*</span><em></em>Ethnic
-													Group Code</td>
+													<td class="label">Ethnic
+													Group</td>
 													<td><form:select path="ethnicGroupCode">
 														<form:options items="${ethnicGroupCode}" itemLabel="desc"
 															itemValue="code" />
 													</form:select></td>
 												</tr>
 												<tr>
-													<td class="label"><span class="red">*</span><em></em>Race
-													Code</td>
+													<td class="label">Race
+													</td>
 													<td><form:select path="raceCode">
 														<form:options items="${raceCode}" itemLabel="desc"
 															itemValue="code" />
