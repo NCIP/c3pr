@@ -5,24 +5,24 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <title>C3Pr V2</title>
-<link href="resources/styles.css" rel="stylesheet" type="text/css" />
-<link href="resources/search.css" rel="stylesheet" type="text/css" />
+<link href="resources/styles.css" rel="stylesheet" type="text/css">
+<link href="resources/search.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="/c3pr/js/CalendarPopup.js"></script>
+<script language="JavaScript" id="js1">
+	var cal1 = new CalendarPopup();
+</script>
 <script language="JavaScript" type="text/JavaScript">
-function navRollOver(obj, state) {
-  document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
-}
 function submitSearchPage(){
 	document.getElementById("searchForm").submit();
 }
 function updatePage(s){
 	document.getElementById("_page").name=s;
 	document.getElementById("_page").value="next";
-	document.getElementById("form").submit();	
+	document.getElementById("form").submit();
 }
 function validatePage(){
 	return true;
@@ -38,12 +38,6 @@ function clearField(field){
 field.value="";
 }
 </script>
-<script language="JavaScript" type="text/JavaScript">
-function OpenWins(target,name,width,height,scrolling){
-	// I've used a var to refer to the opened window
-	features = 'location=no,width='+width +',height='+height+',left=300,top=260,scrollbars='+scrolling;
-	myWin = window.open(target,name,features);
-}
 </script>
 </head>
 <body>
@@ -53,7 +47,7 @@ function OpenWins(target,name,width,height,scrolling){
 	<tr>
 
 		<td width="99%"><img src="images/c3prLogo.gif" alt="C3Pr V2"
-			width="181" height="36" class="gelogo" /></td>
+			width="181" height="36" class="gelogo"></td>
 	</tr>
 </table>
 <!-- TOP LOGOS END HERE -->
@@ -62,19 +56,18 @@ function OpenWins(target,name,width,height,scrolling){
 	id="topNav">
 	<tr valign="middle">
 
-		<td width="100%" class="left"><a href="/c3pr/SearchAndRegister.do">Registration</a><img
+		<td width="99%" class="left"><a href="/c3pr/SearchAndRegister.do">Registration</a><img
+			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
+			class="divider"><a href="/c3pr/searchstudy.do">Study</a><img
 			src="images/topNavL.gif" width="2" height="20" align="absmiddle"
-			class="currentL" /><span class="current"><img
+			class="currentL"><span class="current"><img
 			src="images/topNavArrowDown.gif" width="5" height="20"
-			align="absmiddle" /> Study </span><img src="images/topNavR.gif" width="2"
-			height="20" align="absmiddle" class="currentR" /><a
-			href="/c3pr/searchparticipant.do">Subject</a><img
-			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
-			class="divider" /><a href="analysis">Reports</a><img
-			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
-			class="divider" /></td>
+			align="absmiddle"> Subject </span><img src="images/topNavR.gif"
+			width="2" height="20" align="absmiddle" class="currentR"><a
+			href="analysis">Reports</a><img src="images/topDivider.gif" width="2"
+			height="20" align="absmiddle" class="divider"></td>
 		<td class="right"><img src="images/topDivider.gif" width="2"
-			height="20" align="absmiddle" class="divider" /><a href="logOff">Log
+			height="20" align="absmiddle" class="divider"><a href="logOff">Log
 		Off</a></td>
 	</tr>
 </table>
@@ -84,13 +77,14 @@ function OpenWins(target,name,width,height,scrolling){
 	id="subNav">
 	<tr>
 		<td width="99%" valign="middle"><img src="images/arrowRight.gif"
-			width="3" height="5" align="absmiddle" /> Study Management <img
+			width="3" height="5" align="absmiddle"> Study Management <img
 			src="images/spacer.gif" width="1" height="20" align="absmiddle"
-			class="spacer" /><a href="/c3pr/createstudy.do">Add Study</a></td>
-		<td valign="middle" class="right"><a href="help">Help</a></td>
+			class="spacer"><a href="createparticipant.do">Add Study</a></td>
+		<td valign="middle" class="right"><a href="">Help</a></td>
 	</tr>
 </table>
 <!-- SUB NAV ENDS HERE -->
+<!-- MAIN BODY STARTS HERE -->
 <div class="workArea">
 <table width="100%" border="0" cellspacing="0" cellpadding="0"
 	class="titleArea">
@@ -133,17 +127,19 @@ function OpenWins(target,name,width,height,scrolling){
 </form:form>
 </table>
 <!-- MAIN BODY STARTS HERE -->
+
+
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
-		<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
 		<td id="current">Short Title: ${command.trimmedShortTitleText}</td>
 		<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 	</tr>
 	<tr>
-		<td class="display"><!-- TABS LEFT START HERE -->
+		<td class="display">
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 			<tr>
-				<td width="100%">
+				<!-- TABS LEFT START HERE -->
+				<td width="27%">
 				<table width="100%" border="0" cellspacing="0" cellpadding="0"
 					class="tabs">
 					<tr>
@@ -159,58 +155,76 @@ function OpenWins(target,name,width,height,scrolling){
 							width="1" height="7"></td>
 					</tr>
 				</table>
-				<!-- TABS LEFT END HERE --></td>
+				</td>
 				<td><img src="images/spacer.gif" width="2" height="1"></td>
-				<td width="100%"><!-- TABS RIGHT START HERE -->
+				<!-- TABS CENTER START HERE -->
+				<td width="45%">
 				<table width="100%" border="0" cellspacing="0" cellpadding="0"
 					class="tabs">
 					<tr>
 						<td width="100%" id="tabDisplay"><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16"
 							align="absmiddle">
-						<a href="javascript:updatePage('_target0');">1.study details </a><img src="images/tabGrayR.gif" width="3" height="16"
-							align="absmiddle"></span> <span class="tab"><img
+						<a href="javascript:updatePage('_target0');">Details</a> <img src="images/tabGrayR.gif"
+							width="3" height="16" align="absmiddle"></span><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						<a href="javascript:updatePage('_target1');">2.identifiers </a><img src="images/tabGrayR.gif" width="3" height="16"
-							align="absmiddle"></span><span class="current"><img
-							src="images/tabWhiteL.gif" width="3" height="16" align="absmiddle">
-						3.study sites <img src="images/tabWhiteR.gif" width="3" height="16"
-							align="absmiddle"></span><span class="tab"><img
+						<a href="javascript:updatePage('_target1');">Identifiers</a><img src="images/tabGrayR.gif"
+							width="3" height="16" align="absmiddle"></span> <span class="current">
+							<img src="images/tabWhiteL.gif" width="3" height="16" align="absmiddle">
+						Study Sites<img	src="images/tabWhiteR.gif" width="3" height="16" align="absmiddle"></span><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						<a href="javascript:updatePage('_target3');">4. study design </a><img src="images/tabGrayR.gif" width="3"
-							height="16" align="absmiddle"></span>
-						</td>
+						<a href="javascript:updatePage('_target3');">Study Design</a> <img
+							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"></span></td>
 						<td><img src="images/spacer.gif" width="7" height="1"></td>
 					</tr>
 					<tr>
 						<td colspan="2" class="tabBotR"><img src="images/spacer.gif"
 							width="1" height="7"></td>
 					</tr>
-				</table>			
-				<!-- TABS RIGHT END HERE --></td>
+				</table>
+				</td>
+				<td><img src="images/spacer.gif" width="2" height="1"></td>
+				<!-- TABS LEFT START HERE -->
+				<td width="27%">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0"
+					class="tabs">
+					<tr>
+						<td width="100%" id="tabDisplay"><span class="current"><img
+							src="images/tabWhiteL.gif" width="3" height="16"
+							align="absmiddle">Participant Assignments <img
+							src="images/tabWhiteR.gif" width="3" height="16"
+							align="absmiddle"></span></td>
+						<td><img src="images/spacer.gif" width="7" height="1"></td>
+					</tr>
+					<tr>
+						<td colspan="2" class="tabBotL"><img src="images/spacer.gif"
+							width="1" height="7"></td>
+					</tr>
+				</table>
+				</td>
 			</tr>
 			<tr>
-				<form:form name="form" method="post">
-					<div><input type="hidden" name="_page" value="2">
-					<input type="hidden" name="_action" value="">
-					<input type="hidden" name="_selected" value=""></div>		
-					<!-- LEFT CONTENT STARTS HERE -->
-					<td width="25%" valign="top" class="contentL">
-					<table width="100%" border="0" cellspacing="2" cellpadding="0"
+				<form:form name="form" id="form" method="post">
+				<div><input type="hidden" name="_page" value="2">
+				<input type="hidden" name="_action" value="">
+				<input type="hidden" name="_selected" value=""></div>
+				<td valign="top" class="contentL"><!-- LEFT CONTENT STARTS HERE -->
+						<table width="100%" border="0" cellspacing="2" cellpadding="0"
 						id="table1">
 						<tr valign="top">
 							<td><img src="images/spacer.gif" width="1" height="1"
 								class="heightControl" /></td>
+						</tr>
 						<tr>
 							<td class="label">Short Title:</td>
-							<td>${command.shortTitleText}</td>
+							<td>${command.trimmedShortTitleText}</td>
 						</tr>
 						<tr>
-							<td class="label">Long Title:</td>
-							<td>${command.longTitleText}</td>
+							<td class="label">Primary Identifier:</td>
+							<td>${command.primaryIdentifier}</td>
 						</tr>
 						<tr>
-							<td class="label">Target Accrual Number:</td>
+							<td class="label">Target Accrual No:</td>
 							<td>${command.targetAccrualNumber}</td>
 						</tr>
 						<tr>
@@ -225,13 +239,12 @@ function OpenWins(target,name,width,height,scrolling){
 							<td class="label">Type:</td>
 							<td>${command.type}</td>
 						</tr>
-						</tr>
 					</table>
-					<!-- LEFT CONTENT ENDS HERE --></td>
-					<td width=50%"></td>
-					<!-- RIGHT CONTENT STARTS HERE -->
-					<td width="%50%" valign="top" class="contentR">
-					<table width="70%" border="0" cellspacing="0" cellpadding="0"
+				<!-- LEFT CONTENT ENDS HERE --></td>
+				<td><img src="images/spacer.gif" width="2" height="1"></td>
+				<!-- CENTER CONTENT STARTS HERE -->
+				<td valign="top" class="contentL">
+				<table width="70%" border="0" cellspacing="0" cellpadding="0"
 						id="table1">
 
 						<td width="100%" valign="top">
@@ -243,9 +256,9 @@ function OpenWins(target,name,width,height,scrolling){
 								<td width="11%" align="center">HealthCare Site<span class="red">*</span></td>
 								<td width="11%" align="center">Status Code<span class="red">*</span></td>
 								<td width="11%" align="center">Role Code<span class="red">*</span></td>
-								<td width="17%" align="center">Start Date (mm/dd/yyyy)<span class="red">*</span> </td>
-								<td width="17%" align="center">End Date (mm/dd/yyyy)</td>
-								<td width="17%" align="center">IRB Approval Date (mm/dd/yyyy)<span class="red">*</span></td>
+								<td width="17%" align="center">Start Date <span class="red">*</span> </td>
+								<td width="17%" align="center">End Date </td>
+								<td width="17%" align="center">IRB Approval <br>Date<span class="red">*</span></td>
 							</tr>
 							<c:forEach items="${command.studySites}" varStatus="status">
 								<tr align="center" class="results">
@@ -301,99 +314,47 @@ function OpenWins(target,name,width,height,scrolling){
 								<tr>
 								<td colspan=2 valign="top"><br>
 									<br>
-									<input type="image" name="_target2" src="images/b-saveChanges.gif" border="0"
-										alt="Save the Changes">
+									<a href="javascript:fireAction('update','0');"><img
+										src="images/b-saveChanges.gif" border="0" alt="Save Changes"></a>
 								</tr>
 							</table>
 							</td>
 					    </tr>
-					</table>
-				
-					</td>
+					</table>	</td>
+				<td><img src="images/spacer.gif" width="2" height="1"></td>
+				<!-- RIGHT CONTENT STARTS HERE -->
+				<td width="29%" valign="top" class="contentR">
+				<strong>Participant Assigned to Study</strong><br>
+				<br>
+				<table width="100%" border="0" cellspacing="0" cellpadding="0"
+					id="table1">
+					<tr align="center" class="label">
+						<td width="35%" align="center">First Name</td>
+						<td width="35%" align="center">Start Date</td>
+						<td width="35%" align="center">Primary Id</td>
+					</tr>
+					<c:forEach items="${participantAssignments}" varStatus="partAssgn">
+						<tr align="center" class="results">
+						<td>${partAssgn.participant.lastName}</td>
+						<td>${partAssgn.startDate}</td>
+						<td>${partAssgn.participant.primaryIdentifier}</td>
+						</tr>
+					</c:forEach>
+					<tr>
+						<td><img src="images/spacer.gif" width="1" height="1"
+						class="heightControl"></td>
+					</tr>
+				</table>
+				</td>
+				<!-- LEFT CONTENT ENDS HERE --></td>
+			</form:form>
 			</tr>
 		</table>
 		</td>
-		<!-- RIGHT CONTENT ENDS HERE -->
-		</form:form>
 	</tr>
 </table>
-<!-- BOTTOM LIST STARTS HERE -->
-<a name="additional"></a>
-<table width="100%" border="0" cellspacing="0" cellpadding="0"
-	class="tabs">
-	<tr>
-		<td width="100%" id="tabDisplay"><span class="current"><img
-			src="images/tabWhiteL.gif" width="3" height="16" align="absmiddle">
-		Registration History <img src="images/tabWhiteR.gif" width="3"
-			height="16" align="absmiddle"></span></td>
-		<td width="7"><img src="images/spacer.gif" width="7" height="1"></td>
-	</tr>
-	<tr>
-		<td colspan="2" class="tabBotL"><img src="images/spacer.gif"
-			width="1" height="7"></td>
-	</tr>
-	<tr>
-		<td colspan="2" valign="top" class="additionals">
-		<table width="100%" border="0" cellspacing="0" cellpadding="0">
-			<tr>
-				<td width="40%" align="right"><a href="#"><img
-					src="images/b-prev.gif" alt="Previous" width="41" height="16"
-					border="0" align="absmiddle"></a></td>
-				<td width="20%" align="center"><strong>Showing 1-2 of
-				2 </strong></td>
-				<td width="40%"><a href="#"><img src="images/b-next.gif"
-					alt="Next" width="41" height="16" border="0" align="absmiddle"></a></td>
-			</tr>
-		</table>
-		<br>
-		<table width="100%" border="0" cellspacing="0" cellpadding="0"
-			id="additionalList">
-			<tr align="center" class="label">
-				<td width="11">&nbsp;</td>
-				<td>Status<br>
-				<select name="select">
-					<option>Filter</option>
-					<option>Status</option>
-					<option>Filter2</option>
-				</select></td>
-				<td>Reg Id</td>
-				<td>Short<br>
-				Title</td>
-				<td>Status</td>
-				<td>Disease<br>
-				Code</td>
-				<td>Amendment<br>
-				Date</td>
-				<td>Stratification<br>
-				Factor</td>
-				<td>Randomization</td>
-				<td>Current Accrual<br>
-				Number</td>
-				<td>Target Accrual<br>
-				Number</td>
-			</tr>
-			<tr align="center" class="current">
-				<td><img src="images/currentView.gif" alt="Currently Viewing"
-					width="11" height="11" /></td>
-				<td>Filter1</td>
-				<td>01-123456</td>
-				<td>CALGB_XYZ</td>
-				<td>Active</td>
-				<td>1234</td>
-				<td>02/05/2006</td>
-				<td>&nbsp;</td>
-				<td>&nbsp;</td>
-				<td>35</td>
-				<td>50</td>
-			</tr>		
-		</table>
-		</td>
-	</tr>
-</table>
-<!-- BOTTOM LIST ENDS HERE -->
-</td>
-</tr>
-</table>
+<div id="copyright"></div>
+</div>
 <!-- MAIN BODY ENDS HERE -->
 </body>
 </html>

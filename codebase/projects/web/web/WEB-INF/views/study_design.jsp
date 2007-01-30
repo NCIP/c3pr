@@ -108,7 +108,7 @@ function fireAction(action, selectedEpoch, selectedArm){
 						2.identifiers <img src="images/tabGrayR.gif" width="3" height="16"
 							align="absmiddle"></span><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						3.study site <img src="images/tabGrayR.gif" width="3" height="16"
+						3.study sites <img src="images/tabGrayR.gif" width="3" height="16"
 							align="absmiddle"></span><span class="current"><img
 							src="images/tabWhiteL.gif" width="3" height="16" align="absmiddle">
 						4. study design <img src="images/tabWhiteR.gif" width="3"
