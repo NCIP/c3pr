@@ -6,9 +6,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.StringTokenizer;
 
-public class StringUtils {
+import javax.persistence.Transient;
+
+public class StringUtils extends org.apache.commons.lang.StringUtils {
+	
   public StringUtils() {
   }
+  
   public static boolean isBlank(String str){
      boolean test = false;
      if(str==null){
@@ -235,4 +239,14 @@ public class StringUtils {
 	  return null;
 	  
   }
+
+	public static String getTrimmedText(String text, int trimLength) {
+		String trim = text;
+		if (text != null && text.length() > trimLength)
+		{
+			trim = text.substring(0,trimLength-1);
+			trim += "...";
+		}		
+		return trim;
+	}
 }
