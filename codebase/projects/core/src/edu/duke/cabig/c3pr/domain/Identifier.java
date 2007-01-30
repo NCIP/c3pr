@@ -54,8 +54,11 @@ public class Identifier extends AbstractDomainObject
 	}
 
 	public void setPrimaryIndicator(Boolean primaryIndicator) {
+		if (primaryIndicator == null)
+		{
+			primaryIndicator = false;
+		}
 		this.primaryIndicator = primaryIndicator;
 	}
-	
-	
+		
 }
