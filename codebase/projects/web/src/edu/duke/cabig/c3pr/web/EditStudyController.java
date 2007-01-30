@@ -15,6 +15,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.utils.Lov;
 
@@ -24,14 +25,50 @@ import edu.duke.cabig.c3pr.utils.Lov;
  * @author Priyatam
  */
 public class EditStudyController extends StudyController {
-   		
+	 		
 	protected static final Log log = LogFactory.getLog(EditStudyController.class);
-		
+	private StudySiteDao studySiteDao;
+
 	public EditStudyController()
 	{
 		setBindOnNewForm(true);
 	}
 	
+	
+	protected Map<String, Object> referenceData(HttpServletRequest httpServletRequest, int page) 
+		throws Exception {
+		// Currently the static data is a hack for an LOV this will be replaced with 
+		// LOVDao to get the static data from individual tables
+		Map<String, Object> refdata = new HashMap<String, Object>();
+		Map <String, List<Lov>> configMap = configurationProperty.getMap();
+		refdata.put("participantAssignments", studySiteDao.getStudyParticipantAssignmentsForStudy
+			(Integer.parseInt(httpServletRequest.getParameter("studyId"))));
+		refdata.put("studySearchTypeRefData", configMap.get("studySearchType"));	  	     
+  		
+	  	if (page == 0) {	  		
+	  		refdata.put("diseaseCodeRefData", configMap.get("diseaseCodeRefData"));
+	  		refdata.put("monitorCodeRefData",  configMap.get("monitorCodeRefData"));
+	  		refdata.put("phaseCodeRefData",  configMap.get("phaseCodeRefData"));
+	  		refdata.put("sponsorCodeRefData",  configMap.get("sponsorCodeRefData"));
+	  		refdata.put("statusRefData",  configMap.get("statusRefData"));
+	  		refdata.put("typeRefData",  configMap.get("typeRefData"));
+	  		return refdata;
+	  	}	  	
+		if (page == 1) {
+	  		refdata.put("identifiersSourceRefData", getHealthcareSites());
+	  		refdata.put("identifiersTypeRefData", configMap.get("identifiersType"));	  		
+	  		return refdata;	  		
+	  	}
+	  	if (page == 2) {
+	  		refdata.put("healthCareSitesRefData", getHealthcareSites());	  			  	
+	  		refdata.put("studySiteStatusRefData", configMap.get("studySiteStatusRefData"));
+	  		refdata.put("studySiteRoleCodeRefData", configMap.get("studySiteRoleCodeRefData"));	  		
+	  		return refdata;	  		
+	  	}	  	
+	  	
+	  	return refdata;
+	}
+
 	/**
 	 * Create a nested object graph that Create Study Design needs 
 	 * @param request - HttpServletRequest
@@ -50,30 +87,42 @@ public class EditStudyController extends StudyController {
 	protected void postProcessPage(HttpServletRequest request, Object oCommand,
 			Errors errors, int page) throws Exception {
 		Study study = (Study) oCommand;
+		
+		if (page ==0){
+			log.debug("Retrieving Identifiers for Study Id: "+study.getId());
+//			studyDao.getById(Integer.parseInt(request.getParameter("studyId")),
+//				true,"identifiers");		
+		}
 		if (page == 1) {
+			log.debug("Retrieving StudySites for Study Id: "+study.getId());			
+//			studyDao.getById(Integer.parseInt(request.getParameter("studyId")),
+//				true,"studySites");		
 			handleIdentifierAction(study, request.getParameter("_action"), request
 				.getParameter("_selected"));
 		}
-		if (page ==2) {
+		else if (page ==2) {
+			log.debug("Retrieving Epochs for Study Id: "+study.getId());
+			studyDao.getById(Integer.parseInt(request.getParameter("studyId")),
+				true,"epochs");		
 			handleStudySiteAction((Study)oCommand,
-				request.getParameter("_action"),
-				request.getParameter("_selected"));							
+			request.getParameter("_action"),
+			request.getParameter("_selected"));							
 		}
-		if (page ==3) {
+		else if (page ==3) {
 			handleStudyDesignAction((Study)oCommand, 
-				request.getParameter("_action"),
-				request.getParameter("_selectedEpoch"),
-				request.getParameter("_selectedArm"));	
+			request.getParameter("_action"),
+			request.getParameter("_selectedEpoch"),
+			request.getParameter("_selectedArm"));	
 		}		
-	
-		//update Study
-		try {
-			log.debug("Updating Study");
-			studyDao.save(study);
-		} catch (RuntimeException e) {
-			log.debug("Unable to update Study");
-			e.printStackTrace();
-		}
+		//if ("update".equals(request.getParameter("_action"))){
+			try {
+				log.debug("Updating Study");
+				studyDao.save(study);
+			} catch (RuntimeException e) {
+				log.debug("Unable to update Study");
+				e.printStackTrace();
+			}
+	//	}		
 	}
 	
 	/* (non-Javadoc)
@@ -87,5 +136,15 @@ public class EditStudyController extends StudyController {
 		// Redirect to Search page
 		ModelAndView modelAndView= new ModelAndView(new RedirectView("searchstudy.do"));
     	return modelAndView;
-	}	
+	}
+	
+	
+	public StudySiteDao getStudySiteDao() {
+		return studySiteDao;
+	}
+
+	public void setStudySiteDao(StudySiteDao studySiteDao) {
+		this.studySiteDao = studySiteDao;
+	}
+
 }
