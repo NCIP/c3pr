@@ -6,9 +6,9 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -16,7 +16,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 /**
- * @author Kulasekaran
+ * @author Kulasekaran, Priyatam
  * @version 1.0 
  * 
  */
@@ -31,7 +31,9 @@ public class Participant extends Person implements Comparable<Participant>
 {	
 	private List<Identifier> identifiers = new ArrayList<Identifier>();
 	private List<StudyParticipantAssignment> studyParticipantAssignments= new ArrayList<StudyParticipantAssignment>();
-		 
+		
+	private String primaryIdentifier;
+	
     @OneToMany(fetch=FetchType.LAZY)
     @Cascade({CascadeType.ALL,CascadeType.DELETE_ORPHAN})
     @JoinColumn(name = "PRT_ID")
@@ -107,5 +109,17 @@ public class Participant extends Person implements Comparable<Participant>
 		} else if (!studyParticipantAssignments.equals(other.studyParticipantAssignments))
 			return false;
 		return true;
+	}
+	
+	@Transient
+	public String getPrimaryIdentifier() {		
+		for (Identifier identifier : identifiers) {
+			if(identifier.getPrimaryIndicator().booleanValue() == true)
+			{
+				return identifier.getValue();
+			}
+		}
+			
+		return primaryIdentifier;		
 	}
 }

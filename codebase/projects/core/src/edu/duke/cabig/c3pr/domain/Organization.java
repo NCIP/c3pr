@@ -4,6 +4,9 @@ import javax.persistence.CascadeType;
 import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
+
+import edu.duke.cabig.c3pr.utils.StringUtils;
 
 
 /**
@@ -18,6 +21,8 @@ public abstract class Organization extends AbstractGridIdentifiableDomainObject 
     private String descriptionText;
 
     private Address address;
+    
+    private String trimmedName;
 	
     public Organization() {
     }
@@ -51,5 +56,11 @@ public abstract class Organization extends AbstractGridIdentifiableDomainObject 
     
     public void setAddress(Address address) {
         this.address = address;
-    } 
+    }
+
+    @Transient
+	public String getTrimmedName() {		
+		return StringUtils.getTrimmedText(name, 25);
+	}
+
 }

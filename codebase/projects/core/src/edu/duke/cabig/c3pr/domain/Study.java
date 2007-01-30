@@ -15,6 +15,8 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import edu.duke.cabig.c3pr.utils.StringUtils;
+
 /**
  * A systematic evaluation of an observation or an
  * intervention (for example, treatment, drug, device, procedure or system) in one
@@ -62,18 +64,29 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 	private List<Identifier> identifiers = new ArrayList<Identifier>();
 	
 	private String trimmedShortTitleText;
+	private String primaryIdentifier;
+	
 	
 	/// LOGIC
-	
+
 	public void addEpoch(Epoch epoch){
 		epochs.add(epoch);
 		epoch.setStudy(this);
+	}
+	
+	public void removeEpoch(Epoch epoch){
+		epochs.remove(epoch);
 	}
 	
 	public void addStudySite(StudySite studySite)
 	{
 		studySites.add(studySite);
 		studySite.setStudy(this);
+	}
+	
+	public void removeStudySite(StudySite studySite)
+	{
+		studySites.remove(studySite);
 	}
 	
 	public void addIdentifier(Identifier identifier)
@@ -319,17 +332,19 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 	}
 
 	@Transient
-	public String getTrimmedShortTitleText() {
-		String trim = shortTitleText;
-		if (shortTitleText != null && shortTitleText.length() > 40)
-		{
-			trim = shortTitleText.substring(0,39);
-			trim += "...";
-		}		
-		return trim;
+	public String getTrimmedShortTitleText() {		
+		return StringUtils.getTrimmedText(shortTitleText, 40);
 	}
-
-	public void setTrimmedShortTitleText(String trimmedShortTitleText) {
-		this.trimmedShortTitleText = trimmedShortTitleText;
+	
+	@Transient
+	public String getPrimaryIdentifier() {		
+		for (Identifier identifier : identifiers) {
+			if(identifier.getPrimaryIndicator().booleanValue() == true)
+			{
+				return identifier.getValue();
+			}
+		}
+			
+		return primaryIdentifier;		
 	}
 }
