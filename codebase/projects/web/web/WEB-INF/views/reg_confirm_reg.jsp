@@ -202,15 +202,19 @@ function updateTargetPage(s){
 									<br>
 									<hr align="left" width="95%">
 									<br>
-
+								</form:form>
+								<form name="temp" method="post" action="10.10.10.2:8030/">
+								<div><input type="hidden" name="_proxy" value="${proxy}"</div>
 									<table width="700" border="0" cellspacing="0" cellpadding="0"
 										id="details">
 										<tr align="center">
 											<td colspan=2 valign="top"><br>
 											<br>
-											<a href="javascript:doNothing()">Click here</a> to access
+											<a href="javascript:doNothing()">
+
+											Click here</a> to access
 											Study Calender</td>
-										</tr>										
+										</tr>
 									</table>
 									</div>
 									</td>
