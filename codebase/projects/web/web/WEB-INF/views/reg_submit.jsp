@@ -250,10 +250,6 @@ function updateTargetPage(s){
 													<td class="label">Multi Institution:</td>
 													<td>${command.studySite.study.multiInstitutionIndicator}</td>
 												</tr>
-												<tr>
-													<td class="label">Sponsor Code:</td>
-													<td>${command.studySite.study.type}</td>
-												</tr>
 											</table>
 											</td>
 										</tr>
@@ -266,7 +262,7 @@ function updateTargetPage(s){
 									<table width="50%" border="0" cellspacing="0" cellpadding="0"
 										id="details">
 										<tr>
-											<td width="50%" valign="top">
+											<td width="100%" valign="top">
 											<table width="100%" border="0" cellspacing="0" cellpadding="0"
 												id="table1">
 												<tr>
@@ -357,7 +353,7 @@ function updateTargetPage(s){
 														class="heightControl"></td>
 												</tr>
 												<tr>
-													<td width="25%" class="label"><em></em>Eligiblity
+													<td width="25%" class="label"><em></em>Eligibility
 													Indicator:</td>
 													<td>Yes</td>
 												</tr>

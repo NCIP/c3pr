@@ -170,7 +170,7 @@ if (action){
 									<div><input type="hidden" name="_page" value="1"></div>
 									<strong>Step 1. Subject Information </strong>
 									<br>
-									<table width="35%" border="0" cellspacing="0" cellpadding="0"
+									<table width="50%" border="0" cellspacing="0" cellpadding="0"
 										id="details">
 										<tr>
 											<td width="50%" valign="top">
@@ -230,7 +230,7 @@ if (action){
 									<br>
 									<br>
 									<div class="review"><strong>Home Address</strong><br><br>
-									<table width="35%" border="0" cellspacing="0" cellpadding="0"
+									<table width="50%" border="0" cellspacing="0" cellpadding="0"
 										id="details">
 										<tr>
 											<td width="50%" valign="top">
@@ -264,7 +264,7 @@ if (action){
 										src="images/b-edit.gif" alt="Edit" width="39" height="16"
 										border="0"></a>
 
-									<table width="35%" border="0" cellspacing="0" cellpadding="0"
+									<table width="50%" border="0" cellspacing="0" cellpadding="0"
 										id="details">
 										<tr>
 											<td align="center" colspan="3"><!-- action buttons begins -->

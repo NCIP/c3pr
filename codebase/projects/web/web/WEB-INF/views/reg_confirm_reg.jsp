@@ -35,6 +35,9 @@ function updateTargetPage(s){
 		document.reviewForm.submit();
 	}
 }
+function submitCAAERSPage(){
+	document.getElementById("caaersForm").submit();
+}
 </script>
 </head>
 <body>
@@ -129,7 +132,7 @@ function updateTargetPage(s){
 						<tr>
 							<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
 
-							<td id="current">Registeration Succesfull for
+							<td id="current">Registration Successfull for
 							${command.participant.firstName} ${command.participant.lastName}
 							on ${command.studySite.study.shortTitleText}</td>
 							<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
@@ -147,11 +150,11 @@ function updateTargetPage(s){
 									has been successfully completed. Please <a
 										href="javascript:doNothing()">print</a> and save this
 									confirmation in the subject study records </strong></font><br>
-									<table width="700" border="0" cellspacing="0" cellpadding="0"
+									<table width="60%" border="0" cellspacing="0" cellpadding="0"
 										id="details">
 										<tr>
-											<td width="50%" valign="top">
-											<table width="308" border="0" cellspacing="0" cellpadding="0"
+											<td width="100%" valign="top">
+											<table width="100%" border="0" cellspacing="0" cellpadding="0"
 												id="table1">
 												<tr>
 													<td><img src="images/spacer.gif" width="1" height="1"
@@ -180,7 +183,7 @@ function updateTargetPage(s){
 													<td>${command.studyParticipantIdentifier}</td>
 												</tr>
 												<tr>
-													<td class="label">Subject Registration Completed by:</td>
+													<td class="label">Subject Registration completed by:</td>
 													<td>username</td>
 												</tr>
 												<tr>
@@ -202,21 +205,6 @@ function updateTargetPage(s){
 									<br>
 									<hr align="left" width="95%">
 									<br>
-								</form:form>
-								<form name="temp" method="post" action="10.10.10.2:8030/">
-								<div><input type="hidden" name="_proxy" value="${proxy}"</div>
-									<table width="700" border="0" cellspacing="0" cellpadding="0"
-										id="details">
-										<tr align="center">
-											<td colspan=2 valign="top"><br>
-											<br>
-											<a href="javascript:doNothing()">
-
-											Click here</a> to access
-											Study Calender</td>
-										</tr>
-									</table>
-									</div>
 									</td>
 
 									<!-- LEFT CONTENT ENDS HERE -->
@@ -227,6 +215,25 @@ function updateTargetPage(s){
 					</form:form>
 				</table>
 				</td>
+			</tr>
+			<tr>
+			<td class="display">
+			<table>
+			<form name="caaersForm" method="post" action="https:10.10.10.2:8030/caaers">
+				<div><input type="hidden" name="gridProxy"
+					value="${proxy}"</div>
+				<table width="700" border="0" cellspacing="0" cellpadding="0"
+					id="details">
+					<tr align="center">
+						<td colspan=2 valign="top"><br>
+						<a href="javascript:submitCAAERSPage();"> Click here</a> to access
+						Study Calender</td>
+					</tr>
+				</table>
+				</div>
+				</form>
+			</table>
+			</td>
 			</tr>
 		</table>
 		</td>
