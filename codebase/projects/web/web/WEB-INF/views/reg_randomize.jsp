@@ -140,7 +140,7 @@ function updateTargetPage(s,action){
 
 							<td id="current">Randomization for
 							${command.participant.firstName} ${command.participant.lastName}
-							on ${command.studySite.study.shortTitleText}</td>
+							on ${command.studySite.study.trimmedShortTitleText}</td>
 							<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 						</tr>
 						<tr>

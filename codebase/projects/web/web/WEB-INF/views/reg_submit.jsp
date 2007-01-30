@@ -132,7 +132,7 @@ function updateTargetPage(s){
 
 							<td id="current">Confirm Registration for
 							${command.participant.firstName} ${command.participant.lastName}
-							on ${command.studySite.study.shortTitleText}</td>
+							on ${command.studySite.study.trimmedShortTitleText}</td>
 							<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 						</tr>
 						<tr>
@@ -180,7 +180,7 @@ function updateTargetPage(s){
 											<table width="100%" border="0" cellspacing="0" cellpadding="0"
 												id="table1">
 												<tr>
-													<td width="25%" class="label"><span class="red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</span><em></em>Birth
+													<td width="25%" class="label"><em></em>Birth
 													Date:</td>
 													<td valign="top">${command.participant.birthDate}</td>
 												</tr>
@@ -262,7 +262,7 @@ function updateTargetPage(s){
 									<table width="50%" border="0" cellspacing="0" cellpadding="0"
 										id="details">
 										<tr>
-											<td width="100%" valign="top">
+											<td width="0%" valign="top">
 											<table width="100%" border="0" cellspacing="0" cellpadding="0"
 												id="table1">
 												<tr>
@@ -288,11 +288,6 @@ function updateTargetPage(s){
 													<td class="label"><em></em><em></em> Status Code:</td>
 													<td>${command.studySite.statusCode}</td>
 												</tr>
-											</table>
-											</td>
-											<td width="50%" valign="top" class="contentAreaR"><strong><strong><strong></strong></strong></strong>
-											<table width="308" border="0" cellspacing="0" cellpadding="0"
-												id="table1">
 											</table>
 											</td>
 										</tr>

@@ -128,11 +128,11 @@ function navRollOver(obj, state) {
 				<table width="100%" border="0" cellspacing="0" cellpadding="0"
 					id="additionalList">
 					<tr align="center" class="label">
-						<td>Last Name, First MI</td>
-						<td>Primary Id</td>
+						<td>Last Name, First Name</td>
+						<td>Primary Identifier</td>
 						<td>Gender</td>
 						<td>Race</td>
-						<td>Brith Date</td>
+						<td>Birth Date</td>
 						<td></td>
 					</tr>
 					<%int i=0; %>

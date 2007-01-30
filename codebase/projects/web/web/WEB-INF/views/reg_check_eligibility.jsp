@@ -134,7 +134,7 @@ function updateTargetPage(s){
 
 							<td id="current">Check Eligibility for
 							${command.participant.firstName} ${command.participant.lastName}
-							on ${command.studySite.study.shortTitleText}</td>
+							on ${command.studySite.study.trimmedShortTitleText}</td>
 							<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 						</tr>
 						<tr>

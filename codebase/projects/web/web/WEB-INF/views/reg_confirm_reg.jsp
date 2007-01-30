@@ -35,7 +35,7 @@ function updateTargetPage(s){
 		document.reviewForm.submit();
 	}
 }
-function submitCAAERSPage(){
+function submitCaaersPage(){
 	document.getElementById("caaersForm").submit();
 }
 </script>
@@ -132,9 +132,9 @@ function submitCAAERSPage(){
 						<tr>
 							<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
 
-							<td id="current">Registration Successfull for
+							<td id="current">Registration Successful for
 							${command.participant.firstName} ${command.participant.lastName}
-							on ${command.studySite.study.shortTitleText}</td>
+							on ${command.studySite.study.trimmedShortTitleText}</td>
 							<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 						</tr>
 						<tr>
@@ -175,8 +175,8 @@ function submitCAAERSPage(){
 													<td></td>
 												</tr>
 												<tr>
-													<td class="label">Study Identifier:</td>
-													<td valign="top">${command.studySite.study.shortTitleText}</td>
+													<td class="label">Study Short Title:</td>
+													<td valign="top">${command.studySite.study.trimmedShortTitleText}</td>
 												</tr>
 												<tr>
 													<td class="label">Study Subject Identifier:</td>
@@ -219,14 +219,14 @@ function submitCAAERSPage(){
 			<tr>
 			<td class="display">
 			<table>
-			<form name="caaersForm" method="post" action="https:10.10.10.2:8030/caaers">
+			<form name="caaersForm" id="caaersForm" method="post" action="https:10.10.10.2:8030/caaers">
 				<div><input type="hidden" name="gridProxy"
 					value="${proxy}"</div>
 				<table width="700" border="0" cellspacing="0" cellpadding="0"
 					id="details">
 					<tr align="center">
 						<td colspan=2 valign="top"><br>
-						<a href="javascript:submitCAAERSPage();"> Click here</a> to access
+						<a href="javascript:doNothing();"> Click here</a> to access
 						Study Calender</td>
 					</tr>
 				</table>

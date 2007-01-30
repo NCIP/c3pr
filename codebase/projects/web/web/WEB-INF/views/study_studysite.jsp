@@ -118,8 +118,7 @@ function fireAction(action, selected){
 							height="16" align="absmiddle"></span><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						5. review and submit <img src="images/tabGrayR.gif" width="3"
-							height="16" align="absmiddle"></span><span class="tab"><img
-							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
+							height="16" align="absmiddle"></span>
 						</td>
 						<td><img src="images/spacer.gif" width="7" height="1"></td>
 					</tr>
