@@ -26,6 +26,8 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractWizardFormController;
 
+import com.semanticbits.security.grid.GridLoginContext;
+
 import edu.duke.cabig.c3pr.dao.ArmDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
@@ -236,6 +238,9 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 			refData.put("identifiersSourceRefData",
 					getIdentifiersSourceRefData());
 			refData.put("identifiersTypeRefData", getIdentifiersTypeRefData());
+		}
+		if (viewNames[page].equals("confirmationView")) {
+			refData.put("proxy", ((GridLoginContext)request.getAttribute("login-context")).getGridProxyAsString());
 		}
 		return refData;
 	}
