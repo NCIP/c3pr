@@ -78,7 +78,7 @@ public class EditStudyController extends StudyController {
 	 * @throws ServletException
 	 */
 	protected Object formBackingObject(HttpServletRequest request) throws ServletException {	
-		Study study = studyDao.getById(Integer.parseInt(request.getParameter("studyId")));
+		Study study = studyDao.getStudyDesignById(Integer.parseInt(request.getParameter("studyId")));
 		if (study !=null)
 		{
 			log.debug("Retrieving Study Details for Id: "+study.getId());
@@ -93,20 +93,14 @@ public class EditStudyController extends StudyController {
 		
 		if (page ==0){
 			log.debug("Retrieving Identifiers for Study Id: "+study.getId());
-//			studyDao.getById(Integer.parseInt(request.getParameter("studyId")),
-//				true,"identifiers");		
 		}
 		if (page == 1) {
 			log.debug("Retrieving StudySites for Study Id: "+study.getId());			
-//			studyDao.getById(Integer.parseInt(request.getParameter("studyId")),
-//				true,"studySites");		
 			handleIdentifierAction(study, request.getParameter("_action"), request
 				.getParameter("_selected"));
 		}
 		else if (page ==2) {
 			log.debug("Retrieving Epochs for Study Id: "+study.getId());
-			studyDao.getById(Integer.parseInt(request.getParameter("studyId")),
-				true,"epochs");		
 			handleStudySiteAction((Study)oCommand,
 			request.getParameter("_action"),
 			request.getParameter("_selected"));							
@@ -117,7 +111,7 @@ public class EditStudyController extends StudyController {
 			request.getParameter("_selectedEpoch"),
 			request.getParameter("_selectedArm"));	
 		}		
-		//if ("update".equals(request.getParameter("_action"))){
+		if ("update".equals(request.getParameter("_action"))){
 			try {
 				log.debug("Updating Study");
 				studyDao.save(study);
@@ -125,7 +119,7 @@ public class EditStudyController extends StudyController {
 				log.debug("Unable to update Study");
 				e.printStackTrace();
 			}
-	//	}		
+		}		
 	}
 	
 	/* (non-Javadoc)
