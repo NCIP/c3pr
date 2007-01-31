@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +13,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Session;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.orm.hibernate3.SessionFactoryUtils;
+import org.springframework.orm.hibernate3.SessionHolder;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -40,7 +45,7 @@ public class EditParticipantController extends AbstractWizardFormController {
 	private HealthcareSiteDao healthcareSiteDao;
 
 	public EditParticipantController() {
-		setCommandClass(Participant.class);
+		// setCommandClass(Participant.class);
 
 	}
 
@@ -92,9 +97,10 @@ public class EditParticipantController extends AbstractWizardFormController {
 			System.out.println(" Request URl  is:"
 					+ request.getRequestURL().toString());
 			participant = participantDao.getById(Integer.parseInt(request
-					.getParameter("participantId")));
+					.getParameter("participantId")),true);
 			System.out.println(" Participant's ID is:" + participant.getId());
 		}
+
 		return participant;
 	}
 
@@ -111,15 +117,21 @@ public class EditParticipantController extends AbstractWizardFormController {
 	protected void postProcessPage(HttpServletRequest request, Object oCommand,
 			Errors errors, int page) throws Exception {
 		Participant participant = (Participant) oCommand;
+
 		if (page == 1) {
 			handleIdentifierAction(participant,
 					request.getParameter("_action"), request
 							.getParameter("_selected"));
 		}
-		try {
+
+		if ((("Update Subject").equals((request.getParameter("target_0"))))
+				|| (("Update Identifiers").equals(request
+						.getParameter("_target1")))
+				|| (("Update Addresses").equals(request
+						.getParameter("_target2")))
+				|| (("Update Contact Information").equals(request
+						.getParameter("_target3")))) {
 			participantDao.save(participant);
-		} catch (RuntimeException e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -252,19 +264,23 @@ public class EditParticipantController extends AbstractWizardFormController {
 
 		col.add(new LOV("UpdatedDetailsSuccessMessage",
 				"The Subject's Details are updated successfully"));
-		col.add(new LOV("UpdatedDetailsFailureMessage",
+		col
+				.add(new LOV("UpdatedDetailsFailureMessage",
 						"Sorry, failed to update Subject's Details, Please Try Again!"));
 		col.add(new LOV("UpdatedIdentifiersSuccessMessage",
 				"The Subject's Identifiers are updated successfully"));
-		col.add(new LOV("UpdatedIdentifiersFailureMessage",
+		col
+				.add(new LOV("UpdatedIdentifiersFailureMessage",
 						"Sorry, failed to update Subject's Identifiers, Please Try Again!"));
 		col.add(new LOV("UpdatedAddressSuccessMessage",
 				"The Subject's Address is updated successfully"));
-		col.add(new LOV("UpdatedAddressFailureMessage",
+		col
+				.add(new LOV("UpdatedAddressFailureMessage",
 						"Sorry, failed to update subject's Address, Please Try Again!"));
 		col.add(new LOV("UpdatedContactInfoSuccessMessage",
 				"The Subject's Contact Information is updated successfully"));
-		col.add(new LOV("UpdatedContactInfoFailureMessage",
+		col
+				.add(new LOV("UpdatedContactInfoFailureMessage",
 						"Sorry, failed to update Subject's Contact Information, Please Try Again!"));
 		col.add(new LOV("", ""));
 
