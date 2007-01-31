@@ -217,7 +217,7 @@ function submitCaaersPage(){
 												</tr>
 												<tr>
 													<td class="label" align="left"><a
-														href="javascript:accessApp('http://10.10.10.35:8031','caaers/pages/ae/list?gridId=${command.gridId }','_caaers');">
+														href="javascript:accessApp('http://10.10.10.35:8031','caaers/pages/ae/list?assignment=${command.gridId }','_caaers');">
 													<b>Click here</a> to access CAAERS</b></td>
 												</tr>
 												<tr>
