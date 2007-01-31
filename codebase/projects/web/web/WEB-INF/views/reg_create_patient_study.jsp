@@ -33,8 +33,8 @@ function submitPage(){
 <!-- TOP LOGOS START HERE -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
-		<td width="99%"><img src="images/c3prLogo.gif" alt="C3PR"
-			width="181" height="36" class="gelogo"></td>
+		<td width="99%"><img src="images/c3prLogo.gif" alt="C3PR" width="181"
+			height="36" class="gelogo"></td>
 
 
 	</tr>
@@ -45,13 +45,12 @@ function submitPage(){
 	id="topNav">
 
 	<tr valign="middle">
-		<td width="99%" class="left"><img src="images/topNavL.gif"
-			width="2" height="20" align="absmiddle" class="currentL"><span
-			class="current"><img src="images/topNavArrowDown.gif"
-			width="5" height="20" align="absmiddle"> Registration</span><a
-			href="/c3pr/searchstudy.do"> Study </a><img src="images/topNavR.gif"
-			width="2" height="20" align="absmiddle" class="currentR"><a
-			href="searchparticipant.do">Subject</a><img
+		<td width="99%" class="left"><img src="images/topNavL.gif" width="2"
+			height="20" align="absmiddle" class="currentL"><span class="current"><img
+			src="images/topNavArrowDown.gif" width="5" height="20"
+			align="absmiddle"> Registration</span><a href="/c3pr/searchstudy.do">
+		Study </a><img src="images/topNavR.gif" width="2" height="20"
+			align="absmiddle" class="currentR"><a href="searchparticipant.do">Subject</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
 			class="divider"><a href="javascript:doNothing();">Reports</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
@@ -66,8 +65,7 @@ function submitPage(){
 <table width="100%" border="0" cellspacing="0" cellpadding="0"
 	id="subNav">
 	<tr>
-		<td width="99%" valign="middle" class="welcome">Welcome, User
-		Name</td>
+		<td width="99%" valign="middle" class="welcome">Welcome, User Name</td>
 		<td valign="middle" class="right"><a href="help">Help</a></td>
 	</tr>
 </table>
@@ -83,18 +81,17 @@ function submitPage(){
 					<tr>
 						<td width="100%" id="tabDisplay"><span class="tab"> <img
 							src="images/tabWhiteL.gif" width="3" height="16"
-							align="absmiddle"> 1. Select
-						Study <img src="images/tabWhiteR.gif" width="3" height="16"
+							align="absmiddle"> 1. Select Study <img
+							src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"></span><span class="current"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						2. Select Subject <img src="images/tabGrayR.gif" width="3"
 							height="16" align="absmiddle"></span><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						3. Enrollment Details <img src="images/tabGrayR.gif" width="3"
-							height="16" align="absmiddle"><img
-							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						4. Check Eligibility <img src="images/tabGrayR.gif" width="3"
-							height="16" align="absmiddle"><img
+							height="16" align="absmiddle"><img src="images/tabGrayL.gif"
+							width="3" height="16" align="absmiddle"> 4. Check Eligibility <img
+							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						5. Stratify <img src="images/tabGrayR.gif" width="3" height="16"
 							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
@@ -111,9 +108,9 @@ function submitPage(){
 			<!-- MAIN BODY STARTS HERE -->
 			<tr>
 				<td>
-				<div class="workArea"><img src="images/tabWhiteL.gif"
-					width="3" height="16" align="absmiddle"> <img
-					src="images/tabWhiteL.gif" width="3" height="16" align="absmiddle">
+				<div class="workArea"><img src="images/tabWhiteL.gif" width="3"
+					height="16" align="absmiddle"> <img src="images/tabWhiteL.gif"
+					width="3" height="16" align="absmiddle">
 				<table width="100%" border="0" cellspacing="0" cellpadding="0">
 					<tr>
 						<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
@@ -160,9 +157,9 @@ function submitPage(){
 
 			<tr>
 				<td>
-				<div class="workArea"><img src="images/tabWhiteL.gif"
-					width="3" height="16" align="absmiddle"> <img
-					src="images/tabWhiteL.gif" width="3" height="16" align="absmiddle">
+				<div class="workArea"><img src="images/tabWhiteL.gif" width="3"
+					height="16" align="absmiddle"> <img src="images/tabWhiteL.gif"
+					width="3" height="16" align="absmiddle">
 				<table width="100%" border="0" cellspacing="0" cellpadding="0">
 					<tr>
 						<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
@@ -187,15 +184,15 @@ function submitPage(){
 											src="images/tabGrayL.gif" width="3" height="16"
 											align="absmiddle"> 2. Address Information <img
 											src="images/tabGrayR.gif" width="3" height="16"
-											align="absmiddle"><img src="images/tabGrayL.gif"
-											width="3" height="16" align="absmiddle"> 3. Review and
-										Submit <img src="images/tabGrayR.gif" width="3" height="16"
+											align="absmiddle"><img src="images/tabGrayL.gif" width="3"
+											height="16" align="absmiddle"> 3. Review and Submit <img
+											src="images/tabGrayR.gif" width="3" height="16"
 											align="absmiddle"></span></td>
 										<td><img src="images/spacer.gif" width="7" height="1"></td>
 									</tr>
 									<tr>
-										<td colspan="2" class="tabBotL"><img
-											src="images/spacer.gif" width="1" height="7"></td>
+										<td colspan="2" class="tabBotL"><img src="images/spacer.gif"
+											width="1" height="7"></td>
 									</tr>
 								</table>
 								</td>
@@ -206,8 +203,7 @@ function submitPage(){
 								<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
 								<!-- RIGHT CONTENT STARTS HERE --> <form:form method="post"
 									action="createparticipant.do">
-									<div><input type="hidden" name="_page" value="0">
-									</div>
+									<div><input type="hidden" name="_page" value="0"></div>
 									<strong>Step 1. Subject Information </strong>
 							(<span class="red">*</span>
 									<em>Required Information </em>)<br>
@@ -227,22 +223,29 @@ function submitPage(){
 														height="1" class="heightControl"></td>
 												</tr>
 												<tr>
-													<td class="label"><span class="red">*</span><em></em>
-													First Name</td>
+													<td class="label"><span class="red">*</span><em></em> First
+													Name</td>
 													<td><form:input path="firstName" /></td>
+													<td width="10%"><span class="red"><form:errors
+														path="firstName" /><em></em></span></td>
 												</tr>
 												<tr>
-													<td class="label"><span class="red">*</span><em></em>
-													Last Name</td>
+													<td class="label"><span class="red">*</span><em></em> Last
+													Name</td>
 													<td><form:input path="lastName" /></td>
+													<td width="10%"><span class="red"><form:errors
+														path="lastName" /><em></em></span></td>
 												</tr>
 												<tr>
 													<td class="label"><span class="red">*</span> <em></em>
-													Gender</td>
+													Administrative Gender Code</td>
 													<td><form:select path="administrativeGenderCode">
-														<form:options items="${administrativeGenderCode}"
-															itemLabel="desc" itemValue="code" />
+														<option value="">--Please Select-- <form:options
+															items="${administrativeGenderCode}" itemLabel="desc"
+															itemValue="code" />
 													</form:select></td>
+													<td width="10%"><span class="red"><form:errors
+														path="administrativeGenderCode" /><em></em></span></td>
 												</tr>
 											</table>
 											</td>
@@ -256,24 +259,23 @@ function submitPage(){
 														class="heightControl"></td>
 												</tr>
 												<tr>
-													<td class="label"><em></em>Birth
-													Date</td>
-													<td valign="top"><form:input path="birthDate" />&nbsp;<a href="#"
-											onClick="cal1.select(document.getElementById('birthDate'),'anchor1','MM/dd/yyyy');return false;" name="anchor1" id="anchor1"><img
+													<td class="label"><em></em>Birth Date</td>
+													<td valign="top"><form:input path="birthDate" />&nbsp;<a
+														href="#"
+														onClick="cal1.select(document.getElementById('birthDate'),'anchor1','MM/dd/yyyy');return false;"
+														name="anchor1" id="anchor1"><img
 														src="images/b-calendar.gif" alt="Calendar" width="17"
 														height="16" border="0" align="absmiddle"></a></td>
 												</tr>
 												<tr>
-													<td class="label">Ethnic
-													Group</td>
+													<td class="label">Ethnic Group</td>
 													<td><form:select path="ethnicGroupCode">
 														<form:options items="${ethnicGroupCode}" itemLabel="desc"
 															itemValue="code" />
 													</form:select></td>
 												</tr>
 												<tr>
-													<td class="label">Race
-													</td>
+													<td class="label">Race</td>
 													<td><form:select path="raceCode">
 														<form:options items="${raceCode}" itemLabel="desc"
 															itemValue="code" />

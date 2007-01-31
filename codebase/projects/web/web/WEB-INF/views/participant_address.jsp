@@ -135,29 +135,28 @@ function getPage(s){
 										id="table1">
 										<tr>
 											<td class="label"><span class="red">*</span><em></em>
-											Address:</td>
+											Street Address:</td>
 											<td><form:input path="address.streetAddress" /></td>
+											<td width="15%"><span class="red"><form:errors path="address.streetAddress" /><em></em></span></td>
 										</tr>
 										<tr>
 											<td class="label"><span class="red">*</span><em></em>
 											City:</td>
 											<td><form:input path="address.city" /></td>
+											<td width="15%"><span class="red"><form:errors path="address.city" /><em></em></span></td>
 										</tr>
 										<tr>
 											<td class="label"><span class="data"><span
 												class="red">*</span><em></em> State:</span></td>
 											<td><form:input path="address.stateCode" /></td>
+											<td width="15%"><span class="red"><form:errors path="address.stateCode" /><em></em></span></td>
 											<td><span class="red">*</span><em></em><strong>Zip:</strong>
-											<form:input path="address.postalCode" /> <a href="#"
-												onClick="parent.OpenWins('searchZip.htm','searchZip',420,206,1);return false;"><img
-												src="images/b-searchZip.gif" alt="Search Zip" width="48"
-												height="11" border="0" align="absmiddle"></a> <a href="#"><img
-												src="images/b-questionL.gif" alt="What's This?" width="15"
-												height="11" border="0" align="absmiddle"></a></td>
+											<form:input path="address.postalCode" /></td>
 										</tr>
 										<tr>
 											<td class="label"><em></em><em></em> Country:</td>
 											<td><form:input path="address.countryCode" /></td>
+											<td width="15%"><span class="red"><form:errors path="address.countryCode" /><em></em></span></td>
 										</tr>
 									</table>
 									</td>

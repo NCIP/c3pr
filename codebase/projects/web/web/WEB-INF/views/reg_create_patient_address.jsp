@@ -26,8 +26,8 @@ function getPage(s){
 <!-- TOP LOGOS START HERE -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
-		<td width="99%"><img src="images/c3prLogo.gif" alt="C3PR"
-			width="181" height="36" class="gelogo"></td>
+		<td width="99%"><img src="images/c3prLogo.gif" alt="C3PR" width="181"
+			height="36" class="gelogo"></td>
 
 
 	</tr>
@@ -38,13 +38,12 @@ function getPage(s){
 	id="topNav">
 
 	<tr valign="middle">
-		<td width="99%" class="left"><img src="images/topNavL.gif"
-			width="2" height="20" align="absmiddle" class="currentL"><span
-			class="current"><img src="images/topNavArrowDown.gif"
-			width="5" height="20" align="absmiddle"> Registration</span><a
-			href="/c3pr/searchstudy.do"> Study </a><img src="images/topNavR.gif"
-			width="2" height="20" align="absmiddle" class="currentR"><a
-			href="searchparticipant.do">Subject</a><img
+		<td width="99%" class="left"><img src="images/topNavL.gif" width="2"
+			height="20" align="absmiddle" class="currentL"><span class="current"><img
+			src="images/topNavArrowDown.gif" width="5" height="20"
+			align="absmiddle"> Registration</span><a href="/c3pr/searchstudy.do">
+		Study </a><img src="images/topNavR.gif" width="2" height="20"
+			align="absmiddle" class="currentR"><a href="searchparticipant.do">Subject</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
 			class="divider"><a href="javascript:doNothing();">Reports</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
@@ -59,8 +58,7 @@ function getPage(s){
 <table width="100%" border="0" cellspacing="0" cellpadding="0"
 	id="subNav">
 	<tr>
-		<td width="99%" valign="middle" class="welcome">Welcome, User
-		Name</td>
+		<td width="99%" valign="middle" class="welcome">Welcome, User Name</td>
 		<td valign="middle" class="right"><a href="help">Help</a></td>
 	</tr>
 </table>
@@ -74,25 +72,24 @@ function getPage(s){
 				<table width="100%" border="0" cellspacing="0" cellpadding="0"
 					class="tabs">
 					<tr>
-						<td width="100%" id="tabDisplay"><span class="current">
-						<img src="images/tabWhiteL.gif" width="3" height="16"
+						<td width="100%" id="tabDisplay"><span class="current"> <img
+							src="images/tabWhiteL.gif" width="3" height="16"
 							align="absmiddle"> 1. <a href="reg_protocol_search.htm">Select
 						Subject </a><img src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"></span><span class="tab"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						2. Select Study <img src="images/tabGrayR.gif" width="3"
-							height="16" align="absmiddle"><img
-							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						3. Enrollment Details <img src="images/tabGrayR.gif" width="3"
-							height="16" align="absmiddle"><img
+							height="16" align="absmiddle"><img src="images/tabGrayL.gif"
+							width="3" height="16" align="absmiddle"> 3. Enrollment Details <img
+							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						4. Check Eligibility <img src="images/tabGrayR.gif" width="3"
-							height="16" align="absmiddle"><img
+							height="16" align="absmiddle"><img src="images/tabGrayL.gif"
+							width="3" height="16" align="absmiddle"> 5. Stratify <img
+							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
-						5. Stratify <img src="images/tabGrayR.gif" width="3" height="16"
-							align="absmiddle"><img src="images/tabGrayL.gif" width="3"
-							height="16" align="absmiddle"> 6. Review and Submit <img
-							src="images/tabGrayR.gif" width="3" height="16" align="absmiddle"></span></td>
+						6. Review and Submit <img src="images/tabGrayR.gif" width="3"
+							height="16" align="absmiddle"></span></td>
 						<td><img src="images/spacer.gif" width="7" height="1"></td>
 					</tr>
 					<tr>
@@ -105,9 +102,9 @@ function getPage(s){
 			<!-- MAIN BODY STARTS HERE -->
 			<tr>
 				<td>
-				<div class="workArea"><img src="images/tabWhiteL.gif"
-					width="3" height="16" align="absmiddle"> <img
-					src="images/tabWhiteL.gif" width="3" height="16" align="absmiddle">
+				<div class="workArea"><img src="images/tabWhiteL.gif" width="3"
+					height="16" align="absmiddle"> <img src="images/tabWhiteL.gif"
+					width="3" height="16" align="absmiddle">
 				<table width="100%" border="0" cellspacing="0" cellpadding="0">
 					<tr>
 						<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
@@ -141,8 +138,8 @@ function getPage(s){
 										<td><img src="images/spacer.gif" width="7" height="1"></td>
 									</tr>
 									<tr>
-										<td colspan="2" class="tabBotL"><img
-											src="images/spacer.gif" width="1" height="7"></td>
+										<td colspan="2" class="tabBotL"><img src="images/spacer.gif"
+											width="1" height="7"></td>
 									</tr>
 								</table>
 								</td>
@@ -168,24 +165,32 @@ function getPage(s){
 												id="table1">
 												<tr>
 													<td class="label"><span class="red">*</span><em></em>
-													Address:</td>
+													Street Address:</td>
 													<td><form:input path="address.streetAddress" /></td>
+													<td width="15%"><span class="red"><form:errors
+														path="address.streetAddress" /><em></em></span></td>
 												</tr>
 												<tr>
-													<td class="label"><span class="red">*</span><em></em>
-													City:</td>
+													<td class="label"><span class="red">*</span><em></em> City:</td>
 													<td><form:input path="address.city" /></td>
+													<td width="15%"><span class="red"><form:errors
+														path="address.city" /><em></em></span></td>
 												</tr>
 												<tr>
-													<td class="label"><span class="data"><span
-														class="red">*</span><em></em> State:</span></td>
+													<td class="label"><span class="data"><span class="red">*</span><em></em>
+													State:</span></td>
 													<td><form:input path="address.stateCode" /></td>
+													<td width="15%"><span class="red"><form:errors
+														path="address.stateCode" /><em></em></span></td>
 													<td class="label"><span class="data"><em></em><strong>Zip:</strong>
 													<form:input path="address.postalCode" /></td>
 												</tr>
 												<tr>
-													<td class="label"><span class="red">*</span><em></em><strong> Country:</strong></td>
+													<td class="label"><span class="red">*</span><em></em><strong>
+													Country:</strong></td>
 													<td><form:input path="address.countryCode" /></td>
+													<td width="15%"><span class="red"><form:errors
+														path="address.countryCode" /><em></em></span></td>
 												</tr>
 											</table>
 											</td>
