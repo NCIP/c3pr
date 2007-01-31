@@ -180,6 +180,7 @@
             <artifact refid="dom4j.jars"/>
             <artifact refid="xerces.jars"/>
             <artifact refid="xercesImpl.jars"/>
+        	<artifact refid="web-sso.jars"/>
         </resolveDependencies>
         <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="all"/>
     </target>

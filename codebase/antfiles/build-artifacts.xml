@@ -149,7 +149,13 @@
             </fileset>
         </artifact>
     	
-        <!-- ================= -->
+    	<artifact track="main" type="jars" id="web-sso.jars">
+            <fileset dir="${share.dir}/web-sso">
+                <include name="*.jar"/>
+            </fileset>
+        </artifact>
+
+    	<!-- ================= -->
         <!-- project artifacts -->
         <!-- ================= -->
 
