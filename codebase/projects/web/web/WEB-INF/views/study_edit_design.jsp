@@ -323,11 +323,11 @@ function fireAction(action, selectedEpoch, selectedArm){
 				<table width="100%" border="0" cellspacing="0" cellpadding="0"
 					id="table1">
 					<tr align="center" class="label">
-						<td width="35%" align="center">First Name</td>
+						<td width="35%" align="center">Last Name</td>
 						<td width="35%" align="center">Start Date</td>
 						<td width="35%" align="center">Primary Id</td>
 					</tr>
-					<c:forEach items="${participantAssignments}" varStatus="partAssgn">
+					<c:forEach items="${participantAssignments}" var="partAssgn">
 						<tr align="center" class="results">
 						<td>${partAssgn.participant.lastName}</td>
 						<td>${partAssgn.startDate}</td>
