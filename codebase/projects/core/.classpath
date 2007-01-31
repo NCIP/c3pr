@@ -48,7 +48,7 @@
 	<classpathentry exported="true" kind="lib" path="ext/lib/jboss-jsr77.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/jdom.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/log4j-1.2.13.jar"/>
-	<classpathentry exported="true" kind="lib" path="ext/lib/spring2.0.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="ext/lib/spring2.0.2.jar" sourcepath="C:/devtools/spring-framework-2.0.2/src"/>
 	<classpathentry exported="true" kind="lib" path="build"/>
 	<classpathentry exported="true" kind="lib" path="build/jars/c3pr-2.0-core-tests-1.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="/share/security/lib/grid-security-plugin-1.0.jar"/>
