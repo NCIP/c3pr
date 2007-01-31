@@ -203,7 +203,6 @@ public class CreateParticipantController extends AbstractWizardFormController {
 	private List<LOV> getRaceCodeList() {
 		List<LOV> col = new ArrayList<LOV>();
 
-		col.add(new LOV("-", "--"));
 		col.add(new LOV("Asian", "Asian"));
 		col.add(new LOV("White", "White"));
 		col.add(new LOV("Black or African American",
@@ -221,7 +220,6 @@ public class CreateParticipantController extends AbstractWizardFormController {
 	private List<LOV> getEthnicGroupCodeList() {
 		List<LOV> col = new ArrayList<LOV>();
 
-		col.add(new LOV("-", "--"));
 		col.add(new LOV("Hispanic or Latino", "Hispanic or Latino"));
 		col.add(new LOV("Non Hispanic or Latino", "Non Hispanic or Latino"));
 		col.add(new LOV("Not Reported", "Not Reported"));
@@ -233,7 +231,6 @@ public class CreateParticipantController extends AbstractWizardFormController {
 	private List<LOV> getAdministrativeGenderCodeList() {
 		List<LOV> col = new ArrayList<LOV>();
 
-		col.add(new LOV("-", "--"));
 		col.add(new LOV("Male", "Male"));
 		col.add(new LOV("Female", "Female"));
 		col.add(new LOV("Not Reported", "Not Reported"));

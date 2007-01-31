@@ -190,7 +190,8 @@ function getPage(s){
 											<td class="label"><span class="red">*</span><em></em>Ethnic
 											Group Code</td>
 											<td><form:select path="ethnicGroupCode">
-												<form:options items="${ethnicGroupCode}" itemLabel="desc"
+												<option value="">--Please Select-- <form:options
+													items="${ethnicGroupCode}" itemLabel="desc"
 													itemValue="code" />
 											</form:select></td>
 										</tr>
@@ -198,8 +199,8 @@ function getPage(s){
 											<td class="label"><span class="red">*</span><em></em>Race
 											Code</td>
 											<td><form:select path="raceCode">
-												<form:options items="${raceCode}" itemLabel="desc"
-													itemValue="code" />
+												<option value="">--Please Select-- <form:options
+													items="${raceCode}" itemLabel="desc" itemValue="code" />
 											</form:select></td>
 										</tr>
 
