@@ -7,16 +7,19 @@ import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
+import org.springframework.web.HttpSessionRequiredException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.duke.cabig.c3pr.utils.Lov;
 
 /**
@@ -27,22 +30,22 @@ import edu.duke.cabig.c3pr.utils.Lov;
 public class EditStudyController extends StudyController {
 	 		
 	protected static final Log log = LogFactory.getLog(EditStudyController.class);
-	private StudySiteDao studySiteDao;
-
+	
 	public EditStudyController()
 	{
 		setBindOnNewForm(true);
 	}
-	
-	
+		
 	protected Map<String, Object> referenceData(HttpServletRequest httpServletRequest, int page) 
 		throws Exception {
 		// Currently the static data is a hack for an LOV this will be replaced with 
 		// LOVDao to get the static data from individual tables
 		Map<String, Object> refdata = new HashMap<String, Object>();
 		Map <String, List<Lov>> configMap = configurationProperty.getMap();
-		refdata.put("participantAssignments", studySiteDao.getStudyParticipantAssignmentsForStudy
-			(Integer.parseInt(httpServletRequest.getParameter("studyId"))));
+		Study study = (Study)getCommandOnly(httpServletRequest);
+		List<StudyParticipantAssignment> list = studyDao.getStudyParticipantAssignmentsForStudy(
+			study.getId());		
+		refdata.put("participantAssignments", list);
 		refdata.put("studySearchTypeRefData", configMap.get("studySearchType"));	  	     
   		
 	  	if (page == 0) {	  		
@@ -138,13 +141,19 @@ public class EditStudyController extends StudyController {
     	return modelAndView;
 	}
 	
-	
-	public StudySiteDao getStudySiteDao() {
-		return studySiteDao;
-	}
+	protected final Object getCommandOnly(HttpServletRequest request) throws Exception {		
+		HttpSession session = request.getSession(false);
+		if (session == null) {
+			throw new HttpSessionRequiredException("Must have session when trying to bind (in session-form mode)");
+		}
+		String formAttrName = getFormSessionAttributeName(request);
+		Object sessionFormObject = session.getAttribute(formAttrName);
+		if (sessionFormObject == null) {
+			throw new HttpSessionRequiredException("Form object not found in session (in session-form mode)");
+		}
 
-	public void setStudySiteDao(StudySiteDao studySiteDao) {
-		this.studySiteDao = studySiteDao;
+		return currentFormObject(request, sessionFormObject);
 	}
+	
 
 }
