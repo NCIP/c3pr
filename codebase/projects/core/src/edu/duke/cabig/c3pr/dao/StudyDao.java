@@ -3,14 +3,13 @@ package edu.duke.cabig.c3pr.dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.Session;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 
 import edu.duke.cabig.c3pr.domain.Arm;
-import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 
 
 /**
@@ -52,7 +51,6 @@ public class StudyDao extends AbstractBaseDao<Study> {
 	
 	/**
 	 * Default Search without a Wildchar
-	 * @see edu.duke.cabig.c3pr.dao.searchByExample(Study study, boolean isWildCard)
 	 * @param study
 	 * @return Search Results
 	 */
@@ -77,4 +75,14 @@ public class StudyDao extends AbstractBaseDao<Study> {
 		return getHibernateTemplate().find("select a from Study s join s.epochs e join e.arms a " +
 		"where s.id = ?", studyId);
 	}
+	
+	/**
+	 * Get all Assignments associated with the given study 
+	 * @param studyId the study id
+	 * @return list of StudyParticipantAssignments 
+	 */
+	 public List<StudyParticipantAssignment> getStudyParticipantAssignmentsForStudy(Integer studyId) {
+		 return getHibernateTemplate().find("select a from Study s join s.studySites ss " +
+		 	"join ss.studyParticipantAssignments a where s.id = ?", studyId);
+	 }
 }
