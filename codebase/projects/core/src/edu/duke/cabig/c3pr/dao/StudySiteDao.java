@@ -25,14 +25,5 @@ public class StudySiteDao extends AbstractBaseDao<StudySite> {
 	 public List<StudySite> getAll() {
 		 return getHibernateTemplate().find("from StudySite");
 	 }
-	 	    
-	/**
-	 * Get all Assignments associated with the given study 
-	 * @param studyId the study id
-	 * @return list of StudyParticipantAssignments 
-	 */
-	 public List<StudyParticipantAssignment> getStudyParticipantAssignmentsForStudy(Integer studyId) {
-		 return getHibernateTemplate().find("select a from StudySite ss join ss.studyParticipantAssignments spa join spa.studySite a " +
-		 "where ss.id = ?", studyId);
-	 }
+	 	 	
 }
