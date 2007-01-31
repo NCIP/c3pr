@@ -24,12 +24,5 @@ public class StudySiteDaoTest extends DaoTestCase {
     public void testGetById() throws Exception {
     	StudySite studySite = dao.getById(1000);
         assertNotNull("StudySite 1000 not found", studySite);
-    }
-    
-    public void testGetStudyParticipantAssignmentsForStudy() throws Exception {
-    	List<StudyParticipantAssignment> spa = dao.getStudyParticipantAssignmentsForStudy(1000);
-    	assertEquals(2, spa.size());
-        List<Integer> ids = collectIds(spa);
-        assertContains("Wrong study found", ids, 1000);          	    
-    }
+    }   
 }
