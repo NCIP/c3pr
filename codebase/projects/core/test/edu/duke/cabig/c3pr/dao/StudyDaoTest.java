@@ -12,6 +12,7 @@ import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 
@@ -148,6 +149,12 @@ public class StudyDaoTest extends DaoTestCase {
       
     }
     
+    public void testGetStudyParticipantAssignmentsForStudy() throws Exception {
+    	List<StudyParticipantAssignment> spa = dao.getStudyParticipantAssignmentsForStudy(34);
+    	assertEquals(2, spa.size());
+        List<Integer> ids = collectIds(spa);
+        assertContains("Wrong study found", ids, 1000);          	    
+    }
     /**
      * Test for searching Studies without wildcards 
      * @throws Exception
