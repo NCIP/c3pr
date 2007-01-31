@@ -90,36 +90,37 @@ public abstract class StudyController extends AbstractWizardFormController {
 	}
 	
 	protected Map<String, Object> referenceData(HttpServletRequest httpServletRequest, int page) 
-	throws Exception {
-	// Currently the static data is a hack for an LOV this will be replaced with 
-	// LOVDao to get the static data from individual tables
-	Map<String, Object> refdata = new HashMap<String, Object>();
-	Map <String, List<Lov>> configMap = configurationProperty.getMap();
-	
-  	if (page == 0) {
-  		refdata.put("studySearchTypeRefData", configMap.get("studySearchType"));	  	     
-  		refdata.put("diseaseCodeRefData", configMap.get("diseaseCodeRefData"));
-  		refdata.put("monitorCodeRefData",  configMap.get("monitorCodeRefData"));
-  		refdata.put("phaseCodeRefData",  configMap.get("phaseCodeRefData"));
-  		refdata.put("sponsorCodeRefData",  configMap.get("sponsorCodeRefData"));
-  		refdata.put("statusRefData",  configMap.get("statusRefData"));
-  		refdata.put("typeRefData",  configMap.get("typeRefData"));
-  		return refdata;
-  	}	  	
-	if (page == 1) {
-  		refdata.put("identifiersSourceRefData", getHealthcareSites());
-  		refdata.put("identifiersTypeRefData", configMap.get("identifiersType"));	  		
-  		return refdata;	  		
-  	}
-  	if (page == 2) {
-  		refdata.put("healthCareSitesRefData", getHealthcareSites());	  			  	
-  		refdata.put("studySiteStatusRefData", configMap.get("studySiteStatusRefData"));
-  		refdata.put("studySiteRoleCodeRefData", configMap.get("studySiteRoleCodeRefData"));	  		
-  		return refdata;	  		
-  	}	  	
-  
-  	return refdata;
-}
+		throws Exception {
+		// Currently the static data is a hack for an LOV this will be replaced with 
+		// LOVDao to get the static data from individual tables
+		Map<String, Object> refdata = new HashMap<String, Object>();
+		Map <String, List<Lov>> configMap = configurationProperty.getMap();
+		
+	  	if (page == 0) {
+	  		refdata.put("studySearchTypeRefData", configMap.get("studySearchType"));	  	     
+	  		refdata.put("diseaseCodeRefData", configMap.get("diseaseCodeRefData"));
+	  		refdata.put("monitorCodeRefData",  configMap.get("monitorCodeRefData"));
+	  		refdata.put("phaseCodeRefData",  configMap.get("phaseCodeRefData"));
+	  		refdata.put("sponsorCodeRefData",  configMap.get("sponsorCodeRefData"));
+	  		refdata.put("statusRefData",  configMap.get("statusRefData"));
+	  		refdata.put("typeRefData",  configMap.get("typeRefData"));
+	  		return refdata;
+	  	}	  	
+		if (page == 1) {
+	  		refdata.put("identifiersSourceRefData", getHealthcareSites());
+	  		refdata.put("identifiersTypeRefData", configMap.get("identifiersType"));	  		
+	  		return refdata;	  		
+	  	}
+	  	if (page == 2) {
+	  		refdata.put("healthCareSitesRefData", getHealthcareSites());	  			  	
+	  		refdata.put("studySiteStatusRefData", configMap.get("studySiteStatusRefData"));
+	  		refdata.put("studySiteRoleCodeRefData", configMap.get("studySiteRoleCodeRefData"));	  		
+	  		return refdata;	  		
+	  	}	  	
+	  	
+	  	return refdata;
+	}
+
 	protected void handleIdentifierAction(Study study, String action, String selected)
 	{				
 		if ("addIdentifier".equals(action))
