@@ -68,21 +68,13 @@ function submitPage(s){
 <div class="workArea">
 <table width="100%" border="0" cellspacing="0" cellpadding="0"
 	class="titleArea">
-
 	<tr>
-
 		<!-- TITLE STARTS HERE -->
-
-		<td width="99%" height="43" valign="middle" id="title">Welcome
-		</td>
+		<td width="99%" height="25" valign="middle" id="title">Welcome</td>
 		<!-- TITLE ENDS HERE -->
-
-		<!-- SEARCH STARTS HERE -->
-
-		<!-- SEARCH ENDS HERE -->
 	</tr>
 </table>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" id="details">
 	<form:form id="searchForm" name="searchForm" method="post">
 		<form:hidden path="searchCategory" />
 		<tr>
@@ -135,72 +127,72 @@ function submitPage(s){
 				</tr>
 				<tr>
 					<!-- LEFT CONTENT STARTS HERE -->
-					<td valign="top" class="searchL"><!-- LEFT FORM STARTS HERE -->
-					<table width="100%" border="0" cellpadding="0" cellspacing="0">
+					<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
+					<table width="100%" border="0" cellpadding="0" cellspacing="0"  id="table1">
 						<tr valign="top">
 							<td><img src="images/Study.gif" alt="Study Search"
 								width="100" height="100" align="absmiddle"></td>
-							<td width="99%">
-							<h3>Study Search</h3>
-							<strong>1. Search Study by:</strong> <form:select
-								path="searchType">
-								<form:options items="${searchType}" itemLabel="desc"
-									itemValue="code" />
-							</form:select> <br>
-							<br>
-							<strong>2. Fill in the Fields:</strong><br>
-							<br>
-							<table border="0" cellspacing="0" cellpadding="0" id="search">
-								<div id="foo">
+							<td width="100%">
+							<table width="50%"  border="0" cellspacing="5" cellpadding="0" id="table1">
 								<tr>
-
-
-									<td align="left" class="labels">Search String:</td>
+									<td align="left" class="label">Search Studies By:</td>
+									<td align="left" >
+									<form:select path="searchType">
+										<form:options items="${searchType}" itemLabel="desc" itemValue="code" />
+									</form:select></td>
 								</tr>
 								<tr>
-									<td><form:input path="searchTypeText" size="25" /></td>
-
+									<td align="left" class="label">Search Criteria: </td>
+									<td align="left"><form:input path="searchTypeText" /></td>
 								</tr>
-								</div>
+								<tr>
+									<td align="left" class="label">&nbsp;</td>
+									<td align="left" class="label">&nbsp;</td>
+								</tr>
+								<tr>
+									<td></td>
+									<td align="center">
+									<a href="" onClick="submitPage('study');return false;"><img
+										src="images/b-search2.gif" alt="Search" border="0"></a>
+									</td>
+								</tr>
 							</table>
-
-							<br>
-							<br>
-							<a href="" onClick="submitPage('study');return false;"><img
-								src="images/b-search2.gif" alt="Search" border="0"></a></td>
+							</td>
 						</tr>
 					</table>
 					<!-- LEFT FORM ENDS HERE --></td>
 					<!-- LEFT CONTENT ENDS HERE -->
 					<td><img src="images/spacer.gif" width="2" height="1"></td>
-					<td valign="top" class="searchR">
+					<td valign="top" class="additionals2">
 					<table width="100%" border="0" cellpadding="0" cellspacing="0">
 						<tr valign="top">
 							<td><img src="images/Patient.gif" alt="Subject Search"
 								width="100" height="100" align="absmiddle"></td>
-							<td width="99%">
-							<h3>Subject Search</h3>
-							<strong>1. Search Subject by:</strong> <form:select
-								path="searchTypePart">
-								<form:options items="${searchTypePart}" itemLabel="desc"
-									itemValue="code" />
-							</form:select> <br>
-							<br>
-
-							<strong>2. Fill in the Fields:</strong><br>
-							<br>
-							<table border="0" cellspacing="0" cellpadding="0" id="search">
+							<td width="100%">
+							<table width="50%"  border="0" cellspacing="5" cellpadding="0" id="table1">
 								<tr>
-									<td align="left" class="labels">Search String:</td>
+									<td align="left" class="label">Search Subject By:</td>
+									<td align="left">
+									<form:select path="searchTypePart">
+										<form:options items="${searchTypePart}" itemLabel="desc" itemValue="code" />
+									</form:select></td>
 								</tr>
 								<tr>
-									<td><form:input path="searchTypeTextPart" size="25" /></td>
+									<td align="left" class="label">Search Criteria: </td>
+									<td align="left"><form:input path="searchTypeTextPart" /></td>
+								</tr>
+								<tr>
+									<td align="left" class="label">&nbsp;</td>
+									<td align="left" class="label">&nbsp;</td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td align="center">
+									<a href="" onClick="submitPage('study');return false;"><img
+										src="images/b-search2.gif" alt="Search" border="0"></a>
+									</td>
 								</tr>
 							</table>
-							<br>
-							<a href="" onClick="submitPage('participant');return false;"><img
-								src="images/b-search2.gif" alt="Search" border="0"></a></td>
-
 							</td>
 						</tr>
 					</table>

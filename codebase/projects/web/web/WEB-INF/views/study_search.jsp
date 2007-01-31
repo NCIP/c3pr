@@ -104,52 +104,43 @@ function submitPage(){
 				</td>
 			</tr>
 			<tr>
-
 				<!-- LEFT CONTENT STARTS HERE -->
-
 				<td valign="top" class="additionals">
-
-				<!-- LEFT FORM STARTS HERE -->
 				<form:form id="searchForm" name="searchForm" method="post">
 
-				<table width="100%" border="0" cellpadding="0" cellspacing="0">
+				<table width="50%" border="0" cellpadding="0" cellspacing="0"  id="table1">
 					<tr valign="top">
 						<td><img src="images/Study.gif" alt="Study Search"
-							width="100" height="100" align="absmiddle\"></td>
-						<td width="99%">
-							<br>
-							<table border="0" cellspacing="0" cellpadding="0" id="search">
-								<tr>
-									<td align="left" class="labels">Search String</td>
-									<td align="left" class="labels"  colspan="10"></td>
-									<td align="left" class="labels">Search Studies by: </td>
-									<td align="left" class="labels"></td>
-								</tr>
-								<tr>
-									<td><form:input path="searchTypeText" /></td>
-									<td align="left" class="labels"  colspan="10"></td>
-									<td align="left" class="labels">
-									<form:select path="searchType">
-										<form:options items="${studySearchTypeRefData}" itemLabel="desc" itemValue="code" />
-									</form:select></td>
-								</tr>
-								<tr>
-									<td align="left" class="labels"  colspan="10">^ Minimum two characters</td><br>
-								</tr>
-							</table>
-							<table border="0" cellspacing="0" cellpadding="0" id="search">
+							width="100" height="100" align="absmiddle"></td>
+						<td width="100%">
+						<table width="50%"  border="0" cellspacing="5" cellpadding="0" id="table1">
 							<tr>
-								<tr>
-									<td align="left" class="labels"  colspan="10"></td><br>
-								</tr>
-								<td align="center" colspan="20"><!-- action buttons begins -->
-								<tr>
-									<td><a href=""
-										onClick="submitPage();return false;"><img
-										src="images/b-search2.gif" alt="Continue" width="59"
-										height="16" border="0"></a> </td>
-								</tr>
+								<td align="left" class="label">Search Studies By:</td>
+								<td align="left" >
+								<form:select path="searchType">
+									<form:options items="${studySearchTypeRefData}" itemLabel="desc" itemValue="code" />
+								</form:select></td>
+							</tr>
+							<tr>
+								<td align="left" class="label">Search Criteria: </td>
+								<td align="left"><form:input path="searchTypeText" /></td>
+							</tr>
+							<tr>
+								<td align="left" class="label">&nbsp;</td>
+								<td align="left" class="label">&nbsp;</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td align="center">
+								<a href="" onClick="submitPage();return false;"><img
+									src="images/b-search2.gif" alt="Continue" width="59"
+									height="16" border="0"></a>
+								</td>
+							</tr>
 						</table>
+						</td>
+					</tr>
+				</table>
 				<!-- LEFT FORM ENDS HERE --></td>
 			</tr>
 		</table>
