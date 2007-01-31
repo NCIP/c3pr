@@ -8,6 +8,7 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 
 import edu.duke.cabig.c3pr.domain.Arm;
+import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 
@@ -22,7 +23,19 @@ public class StudyDao extends AbstractBaseDao<Study> {
 	public Class<Study> domainClass() {
 		return Study.class;
 	 }
-
+	
+	public Study getStudyDesignById(int id) {				
+        Study study =  (Study) getHibernateTemplate().get(domainClass(), id);
+        study.getIdentifiers().size();
+        study.getStudySites().size();
+        List<Epoch> epochs = study.getEpochs();
+        epochs.size();
+        for (Epoch epoch : epochs) {
+			epoch.getArms().size();
+		}
+        return study;
+    }
+	
 	/*
 	 * Searches based on an example object. Typical usage from your service class: -
 	 * If you want to search based on diseaseCode, monitorCode,
