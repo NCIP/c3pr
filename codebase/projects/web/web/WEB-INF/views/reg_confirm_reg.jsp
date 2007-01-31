@@ -19,6 +19,15 @@ function navRollOver(obj, state) {
 function getPage(s){
 	parent.window.location="reg_patient_search.htm";
 }
+function accessApp(url,app,targetWindow){
+//	alert("in");
+	if(url=="")
+		document.caaersForm.action="/"+app;
+	else
+		document.caaersForm.action=url+"/"+app;
+	document.caaersForm.target=targetWindow;
+	document.caaersForm.submit();
+}
 function add(){
 var action = confirm ("You have not completed adding this protocol.\r\rStarting over will lose current protocol data?")
 if (action){
@@ -154,8 +163,8 @@ function submitCaaersPage(){
 										id="details">
 										<tr>
 											<td width="100%" valign="top">
-											<table width="100%" border="0" cellspacing="0" cellpadding="0"
-												id="table1">
+											<table width="100%" border="0" cellspacing="0"
+												cellpadding="0" id="table1">
 												<tr>
 													<td><img src="images/spacer.gif" width="1" height="1"
 														class="heightControl"></td>
@@ -194,17 +203,33 @@ function submitCaaersPage(){
 												</tr>
 												<tr>
 													<td class="label"><a
-														href="javascript:updateTargetPage('randomizeView');">Click Here</a>
-													to Assign Arms</td>
+														href="javascript:updateTargetPage('randomizeView');">Click
+													Here</a> to Assign Arms</td>
 												</tr>
 
 											</table>
+											<br>
+											<hr align="left" width="95%">
+											<table width="60%" border="0" cellspacing="0" cellpadding="0"
+												id="details">
+												<tr>
+													<td>&nbsp;</td>
+												</tr>
+												<tr>
+													<td class="label" align="left"><a
+														href="javascript:accessApp('http://10.10.10.35:8031','caaers/pages/ae/list?gridId=${command.gridId }','_caaers');">
+													<b>Click here</a> to access CAAERS</b></td>
+												</tr>
+												<tr>
+													<td class="label" align="left"><a
+														href="javascript:accessApp('http://10.10.10.2:8041','studycalendar/pages/schedule?assignment=${command.gridId }','_psc');">
+													<b>Click here</a> to access Patient Study Calendar</b></td>
+												</tr>
+											</table>
+
 											</td>
 										</tr>
 									</table>
-									<br>
-									<hr align="left" width="95%">
-									<br>
 									</td>
 
 									<!-- LEFT CONTENT ENDS HERE -->
@@ -217,29 +242,17 @@ function submitCaaersPage(){
 				</td>
 			</tr>
 			<tr>
-			<td class="display">
-			<table>
-			<form name="caaersForm" id="caaersForm" method="post" action="https:10.10.10.2:8030/caaers">
-				<div><input type="hidden" name="gridProxy"
-					value="${proxy}"</div>
-				<table width="700" border="0" cellspacing="0" cellpadding="0"
-					id="details">
-					<tr align="center">
-						<td colspan=2 valign="top"><br>
-						<a href="javascript:doNothing();"> Click here</a> to access
-						Study Calender</td>
-					</tr>
-				</table>
-				</div>
-				</form>
-			</table>
-			</td>
+				<td class="display">
+
+				<form name="caaersForm" id="caaersForm" method="post"><input
+					type="hidden" name="gridProxy" value="${proxy}"></form>
+
+				</td>
 			</tr>
 		</table>
 		</td>
 	</tr>
 </table>
-<div id="copyright"></div>
 </div>
 <!-- MAIN BODY ENDS HERE -->
 </body>
