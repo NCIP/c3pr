@@ -271,14 +271,14 @@ function submitPage(s){
 												<tr>
 													<td class="label">Ethnic Group</td>
 													<td><form:select path="ethnicGroupCode">
-														<form:options items="${ethnicGroupCode}" itemLabel="desc"
+														<option value="">--Please Select--<form:options items="${ethnicGroupCode}" itemLabel="desc"
 															itemValue="code" />
 													</form:select></td>
 												</tr>
 												<tr>
 													<td class="label">Race</td>
 													<td><form:select path="raceCode">
-														<form:options items="${raceCode}" itemLabel="desc"
+														<option value="">--Please Select--<form:options items="${raceCode}" itemLabel="desc"
 															itemValue="code" />
 													</form:select></td>
 												</tr>
