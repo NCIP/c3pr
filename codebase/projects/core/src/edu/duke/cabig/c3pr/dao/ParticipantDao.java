@@ -3,14 +3,13 @@ package edu.duke.cabig.c3pr.dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
-import org.hibernate.Session;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
 
+import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.Study;
 
 /**
  * @author Priyatam, kulasekaran
@@ -45,14 +44,11 @@ public class ParticipantDao extends AbstractBaseDao<Participant> {
 					MatchMode.ANYWHERE);
 			participantCriteria.add(example);
 			if (participant.getIdentifiers().size() > 0) {
-				participantCriteria.createCriteria("identifiers")
-						.add(
-								Restrictions.like("value",
-										participant.getIdentifiers()
-												.get(0)
-												.getValue()
-												+ "%"));
-			} 
+				participantCriteria.createCriteria("identifiers").add(
+						Restrictions.like("value", participant.getIdentifiers()
+								.get(0).getValue()
+								+ "%"));
+			}
 			return participantCriteria.list();
 
 		}
@@ -79,5 +75,24 @@ public class ParticipantDao extends AbstractBaseDao<Participant> {
 	 */
 	public List<Participant> getAll() throws DataAccessException {
 		return getHibernateTemplate().find("from Participant");
+	}
+
+	/**
+	 * An overloaded method to return Participant Object along with
+	 * the collection of associated identifiers
+	 * @return Participant Object based on the id
+	 * @throws DataAccessException
+	 */
+	public Participant getById(int id, boolean withIdentifiers) {
+
+		Participant participant = (Participant) getHibernateTemplate().get(
+				domainClass(), id);
+		if (withIdentifiers) {
+			List<Identifier> identifiers = participant.getIdentifiers();
+			int size = identifiers.size();
+		}
+
+		return participant;
+
 	}
 }
