@@ -490,7 +490,7 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 			}
 			System.out
 					.println("--------------------Recieved Idententifiers View with _action as null---------------------------");
-			try {
+/*			try {
 				Vector result = messageBroadcaster.getBroadcastStatus();
 				System.out.println("Messages from ESB.....");
 				if (result != null) {
@@ -540,7 +540,7 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			if(studyParticipantAssignment.getIdentifiers().size()==0)
+*/			if(studyParticipantAssignment.getIdentifiers().size()==0)
 				studyParticipantAssignment.addIdentifier(new Identifier());
 		}
 	}
