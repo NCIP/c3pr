@@ -112,8 +112,8 @@ public class SearchAndRegisterController extends SimpleFormController {
 	protected Map<String, Object> referenceData(
 			HttpServletRequest httpServletRequest) throws Exception {
 		Map<String, Object> refdata = new HashMap<String, Object>();
-		GridLoginContext gridLoginContext=(GridLoginContext)httpServletRequest.getSession().getAttribute("login-context");
-		refdata.put("user", gridLoginContext.getFirstName()+" "+gridLoginContext.getLastName());
+//		GridLoginContext gridLoginContext=(GridLoginContext)httpServletRequest.getSession().getAttribute("login-context");
+//		refdata.put("user", gridLoginContext.getFirstName()+" "+gridLoginContext.getLastName());
 		refdata.put("searchType", getSearchType());
 		refdata.put("searchTypePart", getSearchTypeParticipant());
 		return refdata;
