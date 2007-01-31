@@ -74,7 +74,7 @@ function submitPage(s){
 		<!-- TITLE STARTS HERE -->
 
 		<td width="99%" height="43" valign="middle" id="title">Welcome
-		${user }</td>
+		</td>
 		<!-- TITLE ENDS HERE -->
 
 		<!-- SEARCH STARTS HERE -->

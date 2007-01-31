@@ -10,9 +10,17 @@
 			<value>messages</value>
 		</property>
 	</bean>
+	
+	<bean id="gridProxyRetrievalStrategy"
+		class="gov.nih.nci.cabig.ctms.web.sso.DefaultGridProxyRetrievalStrategy">
+		<property name="usernameParam" value="username" />
+		<property name="passwordParam" value="password" />
+		<property name="gridProxyParam" value="gridProxy" />				
+	</bean>
+	
 	<bean id="urlMapping"
 		class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping">
-		<property name="interceptors">
+ 		<property name="interceptors">
 			<list>
 				<ref bean="loginCheckInterceptor" />
 			</list>
@@ -158,7 +166,7 @@
 
 	<bean id="urlMappingName"
 		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-		<property name="interceptors">
+		 <property name="interceptors">
 			<list>
 				<ref bean="loginCheckInterceptor" />
 			</list>
