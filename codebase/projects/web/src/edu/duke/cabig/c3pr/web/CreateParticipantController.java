@@ -17,8 +17,10 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractWizardFormController;
 
+import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.domain.Address;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
@@ -35,7 +37,8 @@ public class CreateParticipantController extends AbstractWizardFormController {
 	private ParticipantDao participantDao;
 	protected ConfigurationProperty configurationProperty;
 	private ParticipantValidator participantValidator;
-
+	private HealthcareSiteDao healthcareSiteDao;
+	
 	public CreateParticipantController() {
 		setCommandClass(Participant.class);
 	}
@@ -52,7 +55,7 @@ public class CreateParticipantController extends AbstractWizardFormController {
     		refdata.put("administrativeGenderCode", configMap.get("administrativeGenderCode"));
     		refdata.put("ethnicGroupCode", configMap.get("ethnicGroupCode"));
     		refdata.put("raceCode", configMap.get("raceCode"));
-    	    refdata.put("source", configMap.get("identifiersSource"));
+    	    refdata.put("source", getHealthcareSites());
     		refdata.put("searchType", configMap.get("participantSearchType"));
     		if(httpServletRequest.getParameter("studySiteId")!=null){
     			if(!httpServletRequest.getParameter("studySiteId").equals("")){
@@ -153,6 +156,11 @@ public class CreateParticipantController extends AbstractWizardFormController {
 		}
 	}
 	
+	protected List<HealthcareSite> getHealthcareSites()
+	{
+  		return healthcareSiteDao.getAll();  	
+	}	
+	
 	public ConfigurationProperty getConfigurationProperty() {
 		return configurationProperty;
 	}
@@ -176,4 +184,13 @@ public class CreateParticipantController extends AbstractWizardFormController {
 	public void setParticipantValidator(ParticipantValidator participantValidator) {
 		this.participantValidator = participantValidator;
 	}
+	
+	public HealthcareSiteDao getHealthcareSiteDao() {
+		return healthcareSiteDao;
+	}
+
+	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
+		this.healthcareSiteDao = healthcareSiteDao;
+	}
+
 }
