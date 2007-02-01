@@ -240,7 +240,12 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 			refData.put("identifiersTypeRefData", getIdentifiersTypeRefData());
 		}
 		if (viewNames[page].equals("confirmationView")) {
-			refData.put("proxy", request.getSession().getAttribute("gridProxy"));
+			String defaultProxy ="-1";
+			if (request.getSession().getAttribute("gridProxy") != null)				
+			{
+				defaultProxy =request.getSession().getAttribute("gridProxy");
+			}
+			refData.put("proxy", defaultProxy);
 		}
 		return refData;
 	}
