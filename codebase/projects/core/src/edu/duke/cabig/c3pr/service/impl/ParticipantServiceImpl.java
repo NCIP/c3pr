@@ -31,6 +31,6 @@ public class ParticipantServiceImpl implements ParticipantService {
 	 * @throws Runtime exception 
 	 */
 	public List<Participant> search(Participant participant) throws Exception {		
-		return participantDao.searchByExample(participant);
+		return participantDao.searchByExample(participant, true);
 	}
 }
