@@ -61,9 +61,9 @@ function updatePage(s){
 			class="currentL"><span class="current"><img
 			src="images/topNavArrowDown.gif" width="5" height="20"
 			align="absmiddle"> Subject </span><img src="images/topNavR.gif"
-			width="2" height="20" align="absmiddle" class="currentR"><a
-			href="">Reports</a><img src="images/topDivider.gif" width="2"
-			height="20" align="absmiddle" class="divider"></td>
+			width="2" height="20" align="absmiddle" class="currentR"><a href="">Reports</a><img
+			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
+			class="divider"></td>
 		<td class="right"><img src="images/topDivider.gif" width="2"
 			height="20" align="absmiddle" class="divider"><a href="logOff">Log
 		Off</a></td>
@@ -261,16 +261,17 @@ function updatePage(s){
 						<td height="2" border="0"><b><span class="black">${updateMessageRefData.desc}</span></b></td>
 					</tr>
 					<tr>
-						<td align="left" width="50%" border="1" valign="top" class="contentAreaL">(<span
-							class="red">*</span><em>Required Information </em>)<br>
+						<td align="left" width="50%" border="1" valign="top"
+							class="contentAreaL">(<span class="red">*</span><em>Required
+						Information </em>)<br>
 						<br>
 						<form name="form2" method="post" action="" id="form1">
 						<table width="700" border="0" cellspacing="0" cellpadding="0"
 							id="table1">
 
 							<tr>
-								<td width="15%" align="left" border="0" class="label"><span class="red">*</span><em></em>
-								First Name</td>
+								<td width="15%" align="left" border="0" class="label"><span
+									class="red">*</span><em></em> First Name</td>
 								<td><form:input path="firstName" /></td>
 							</tr>
 							<tr>
@@ -314,15 +315,6 @@ function updatePage(s){
 								</form:select></td>
 							</tr>
 
-							<tr>
-								<td align="left" class="label"><span class="red">*</span><em></em>Ethnicity</td>
-								<td><select name="select" class="field1">
-									<option selected>--</option>
-									<option>Hispanic or Latino</option>
-									<option>Not Hispanic or Latino</option>
-									<option>Not Reported</option>
-									<option>Unknown</option>
-								</select></td>
 							<tr>
 								<td><img src="images/spacer.gif" width="1" height="1"
 									class="heightControl  style1"></td>
