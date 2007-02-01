@@ -44,7 +44,7 @@ function getPage(s){
 			width="2" height="20" align="absmiddle" class="currentR"><a
 			href="/c3pr/searchparticipant.do">Subject</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
-			class="divider"><a href="analysis">Reports</a><img
+			class="divider"><a href="">Reports</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
 			class="divider"></td>
 
@@ -75,8 +75,8 @@ function getPage(s){
 					<tr>
 						<td width="100%" id="tabDisplay"><span class="tab"> <img
 							src="images/tabWhiteL.gif" width="3" height="16"
-							align="absmiddle"> 1. <a href="reg_protocol_search.jsp">Select
-						Study </a><img src="images/tabWhiteR.gif" width="3" height="16"
+							align="absmiddle"> 1. Select
+						Study <img src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"></span><span class="current"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						2. Select Subject <img src="images/tabGrayR.gif" width="3"
@@ -146,8 +146,7 @@ function getPage(s){
 										align="middle" width="22" height="10" border="0"></td>
 								</tr>
 							</table>
-							<span class="notation">^ Minimum two characters for
-							search.</span></td>
+							</td>
 						</tr>
 					</form:form>
 				</table>

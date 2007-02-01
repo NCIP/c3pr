@@ -66,7 +66,7 @@ function fireAction(action){
 			src="images/topNavArrowDown.gif" width="5" height="20"
 			align="absmiddle"> Subject </span><img src="images/topNavR.gif"
 			width="2" height="20" align="absmiddle" class="currentR"><a
-			href="analysis">Reports</a><img src="images/topDivider.gif" width="2"
+			href="">Reports</a><img src="images/topDivider.gif" width="2"
 			height="20" align="absmiddle" class="divider"></td>
 		<td class="right"><img src="images/topDivider.gif" width="2"
 			height="20" align="absmiddle" class="divider"><a href="logOff">Log
@@ -81,7 +81,7 @@ function fireAction(action){
 		<td width="99%" valign="middle"><img src="images/arrowRight.gif"
 			width="3" height="5" align="absmiddle"> Study Management <img
 			src="images/spacer.gif" width="1" height="20" align="absmiddle"
-			class="spacer"><a href="createparticipant.do">Add Study</a></td>
+			class="spacer"><a href="createstudy.do">Add Study</a></td>
 		<td valign="middle" class="right"><a href="">Help</a></td>
 	</tr>
 </table>
@@ -114,7 +114,7 @@ function fireAction(action){
 		<table width="100%" border="0" cellspacing="0" cellpadding="0"
 			id="search">
 			<tr>
-				<td align="left" class="labels">Search String:</td>
+				<td align="left" class="labels">Search Criteria:</td>
 				<td class="labels">&nbsp;</td>
 			</tr>
 			<tr>
@@ -124,7 +124,7 @@ function fireAction(action){
 					alt="GO" align="middle" width="22" height="10" border="0"></td>
 			</tr>
 		</table>
-		<span class="notation">^ Minimum two characters for search.</span></td>
+		</td>
 	</tr>
 </form:form>
 </table>
@@ -207,7 +207,7 @@ function fireAction(action){
 			</tr>
 			<tr>
 				<form:form name="form" id="form" method="post">
-				<div><input type="hidden" name="_page" value="0">
+				<div><input type="hidden" name="_page" id="_page" value="0">
 				<input type="hidden" name="_action" value="0"></div>
 				<td valign="top" class="contentL"><!-- LEFT CONTENT STARTS HERE -->
 						<table width="100%" border="0" cellspacing="2" cellpadding="0"
@@ -251,13 +251,10 @@ function fireAction(action){
 						<td height="2" border="0"><b><span class="black"></span></b></td>
 					</tr>
 					<tr>
-						<td align="left" width="50%" border="0" valign="top" class="contentAreaL">(<span
-							class="red">*</span><em>Required Information </em>)<br>
-						<br>
+						<td align="left" width="50%" border="0" valign="top" class="contentAreaL">
 						<form name="form2" method="post" action="" id="form1">
 						<table width="700" border="0" cellspacing="0" cellpadding="0"
 							id="table1">
-
 							<td width="50%" valign="top" class="contentAreaL">
 								<br>
 								<table width="50%" border="0" cellspacing="0" cellpadding="0"

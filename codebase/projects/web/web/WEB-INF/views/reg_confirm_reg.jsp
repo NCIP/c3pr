@@ -149,17 +149,17 @@ function submitCaaersPage(){
 						<tr>
 
 							<td class="display"><!-- TABS LEFT START HERE -->
-							<table width="100%" border="0" cellpadding="0" cellspacing="0">
+							<table width="60%" border="0" cellpadding="0" cellspacing="0">
 								<tr>
 
 									<!-- LEFT CONTENT STARTS HERE -->
 									<td valign="top" class="additionals2"><font color="Green"><!-- LEFT FORM STARTS HERE -->
 									<!-- RIGHT CONTENT STARTS HERE --> <input type="hidden"
-										name="nextView"> <strong>Subject registration
+										name="nextView"> <strong>Subject Registration
 									has been successfully completed. Please <a
 										href="javascript:doNothing()">print</a> and save this
 									confirmation in the subject study records </strong></font><br>
-									<table width="60%" border="0" cellspacing="0" cellpadding="0"
+									<table width="100%" border="0" cellspacing="0" cellpadding="0"
 										id="details">
 										<tr>
 											<td width="100%" valign="top">
@@ -185,14 +185,14 @@ function submitCaaersPage(){
 												</tr>
 												<tr>
 													<td class="label">Study Short Title:</td>
-													<td valign="top">${command.studySite.study.trimmedShortTitleText}</td>
+													<td valign="top">${command.studySite.study.shortTitleText}</td>
 												</tr>
 												<tr>
 													<td class="label">Study Subject Identifier:</td>
 													<td>${command.studyParticipantIdentifier}</td>
 												</tr>
 												<tr>
-													<td class="label">Subject Registration completed by:</td>
+													<td class="label">Subject Registration Completed By:</td>
 													<td>username</td>
 												</tr>
 												<tr>
@@ -217,7 +217,7 @@ function submitCaaersPage(){
 												</tr>
 												<tr>
 													<td class="label" align="left"><a
-														href="javascript:accessApp('http://10.10.10.35:8031','caaers/pages/ae/list?assignment=${command.gridId }','_caaers');">
+														href="javascript:accessApp('http://10.10.10.2:8030','caaers/pages/ae/list?assignment=${command.gridId }','_caaers');">
 													<b>Click here</a> to access CAAERS</b></td>
 												</tr>
 												<tr>

@@ -89,7 +89,7 @@ function navRollOver(obj, state) {
 			<table width="100%" border="0" cellspacing="0" cellpadding="0"
 				id="search">
 				<tr>
-					<td align="left" class="labels">Search text:</td>
+					<td align="left" class="labels">Search Criteria:</td>
 					<td class="labels">&nbsp;</td>
 				</tr>
 				<tr>
@@ -100,7 +100,7 @@ function navRollOver(obj, state) {
 						height="10" border="0"></td>
 				</tr>
 			</table>
-			<span class="notation">^ Minimum two characters for search.</span></td>
+			</td>
 		</tr>
 	</form:form>
 </table>
@@ -144,9 +144,9 @@ function navRollOver(obj, state) {
 					<%int i=0; %>
 
 					<c:forEach items="${study}" var="study">
-						<a href="/c3pr/editstudy.do?studyId=${study.id}" onMouseOver="navRollOver('row<%= i %>', 'on')"
-							onMouseOut="navRollOver('row<%= i %>', 'off')">
-						<tr align="center" id="row<%= i++ %>" class="results">
+						<tr align="center" id="row<%= i++ %>" class="results" onMouseOver="navRollOver('row<%= i-1 %>', 'on')"
+							onMouseOut="navRollOver('row<%= i-1 %>', 'off')"
+							onClick="document.location='/c3pr/editstudy.do?studyId=${study.id}'">
 							<td>${study.trimmedShortTitleText}</td>
 							<td>${study.identifiers[0].value}</td>
 							<td>${study.status}</td>
@@ -154,7 +154,8 @@ function navRollOver(obj, state) {
 							<td>${study.multiInstitutionIndicator}</td>
 							<td>${study.targetAccrualNumber}</td>
 							<td>${study.longTitleText}</td>
-						</tr></a>
+						</a>
+						</tr>
 					</c:forEach>
 
 				</table>

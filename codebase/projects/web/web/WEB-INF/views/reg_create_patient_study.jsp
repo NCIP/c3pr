@@ -137,7 +137,7 @@ function submitPage(){
 											<option value="${opt.code }">${opt.desc }</option>
 										</c:forEach>
 									</select></td>
-									<td align="left" class="labels">Search String:</td>
+									<td align="left" class="labels">Search Criteria:</td>
 									<td><input type="text" name="searchText" /></td>
 									<td><input name="imageField" type="image" class="button"
 										onClick="submitPage()" src="images/b-go.gif" alt="GO"
@@ -203,13 +203,13 @@ function submitPage(){
 								<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
 								<!-- RIGHT CONTENT STARTS HERE --> <form:form method="post"
 									action="createparticipant.do">
-									<div><input type="hidden" name="_page" value="0"></div>
-									<strong>Step 1. Subject Information </strong>
+									<div><input type="hidden" name="_page" value="0">
+									</div>
+									<strong>Step 1 (a). Add Subject Details </strong>
 							(<span class="red">*</span>
 									<em>Required Information </em>)<br>
 									<br>
-									<div class="review"><strong>Current Information:</strong>
-
+									<div class="review">
 									<table width="700" border="0" cellspacing="0" cellpadding="0"
 										id="details">
 										<tr>
@@ -230,22 +230,34 @@ function submitPage(){
 														path="firstName" /><em></em></span></td>
 												</tr>
 												<tr>
-													<td class="label"><span class="red">*</span><em></em> Last
-													Name</td>
+													<td><img src="images/spacer.gif" width="1" height="1"
+														class="heightControl"></td>
+												</tr>
+												<tr>
+													<td class="label"><span class="red">*</span><em></em>
+													Last Name</td>
 													<td><form:input path="lastName" /></td>
 													<td width="10%"><span class="red"><form:errors
 														path="lastName" /><em></em></span></td>
 												</tr>
 												<tr>
+													<td><img src="images/spacer.gif" width="1" height="1"
+														class="heightControl"></td>
+												</tr>
+												<tr>
 													<td class="label"><span class="red">*</span> <em></em>
 													Administrative Gender Code</td>
 													<td><form:select path="administrativeGenderCode">
-														<option value="">--Please Select-- <form:options
-															items="${administrativeGenderCode}" itemLabel="desc"
-															itemValue="code" />
+														<option value="">--Please Select--
+														<form:options items="${administrativeGenderCode}"
+															itemLabel="desc" itemValue="code" />
 													</form:select></td>
 													<td width="10%"><span class="red"><form:errors
 														path="administrativeGenderCode" /><em></em></span></td>
+												</tr>
+												<tr>
+													<td><img src="images/spacer.gif" width="1" height="1"
+														class="heightControl"></td>
 												</tr>
 											</table>
 											</td>
@@ -265,29 +277,45 @@ function submitPage(){
 														onClick="cal1.select(document.getElementById('birthDate'),'anchor1','MM/dd/yyyy');return false;"
 														name="anchor1" id="anchor1"><img
 														src="images/b-calendar.gif" alt="Calendar" width="17"
-														height="16" border="0" align="absmiddle"></a></td>
+														height="16" border="0" align="absmiddle"></a><em>  (mm/dd/yyy)</em></td>
 												</tr>
 												<tr>
-													<td class="label">Ethnic Group</td>
+													<td><img src="images/spacer.gif" width="1" height="1"
+														class="heightControl"></td>
+												</tr>
+												<tr>
+													<td class="label">Ethnicity</td>
 													<td><form:select path="ethnicGroupCode">
-														<option value="">--Please Select--<form:options items="${ethnicGroupCode}" itemLabel="desc"
+														<option value="">--Please Select--
+														<form:options items="${ethnicGroupCode}" itemLabel="desc"
 															itemValue="code" />
 													</form:select></td>
 												</tr>
 												<tr>
-													<td class="label">Race</td>
+													<td><img src="images/spacer.gif" width="1" height="1"
+														class="heightControl"></td>
+												</tr>
+												<tr>
+													<td class="label">Race
+													</td>
 													<td><form:select path="raceCode">
-														<option value="">--Please Select--<form:options items="${raceCode}" itemLabel="desc"
+														<option value="">--Please Select--
+														<form:options items="${raceCode}" itemLabel="desc"
 															itemValue="code" />
 													</form:select></td>
+												</tr>
+												<tr>
+													<td><img src="images/spacer.gif" width="1" height="1"
+														class="heightControl"></td>
 												</tr>
 
 											</table>
 											</td>
 										</tr>
 									</table>
-
 									<hr align="left" width="95%">
+									<strong>Step 1 (b). Add Identifiers </strong>
+									<br><br>
 									<table width="700" border="0" cellspacing="0" cellpadding="0"
 										id="table1">
 										<tr>

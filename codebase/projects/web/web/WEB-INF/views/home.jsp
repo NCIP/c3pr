@@ -45,7 +45,7 @@ function submitPage(s){
 			width="2" height="20" align="absmiddle" class="divider"><a
 			href="/c3pr/searchparticipant.do">Subject</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
-			class="divider"><a href="analysis">Reports</a><img
+			class="divider"><a href="">Reports</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
 			class="divider"></td>
 		<td class="right"><img src="images/topDivider.gif" width="2"
@@ -188,7 +188,7 @@ function submitPage(s){
 								<tr>
 									<td>&nbsp;</td>
 									<td align="center">
-									<a href="" onClick="submitPage('study');return false;"><img
+									<a href="" onClick="submitPage('participant');return false;"><img
 										src="images/b-search2.gif" alt="Search" border="0"></a>
 									</td>
 								</tr>

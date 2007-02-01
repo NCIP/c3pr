@@ -56,7 +56,7 @@ if (action){
 			src="images/topNavArrowDown.gif" width="5" height="20"
 			align="absmiddle"> Subject </span><img src="images/topNavR.gif"
 			width="2" height="20" align="absmiddle" class="currentR"><a
-			href="analysis">Reports</a><img src="images/topDivider.gif" width="2"
+			href="">Reports</a><img src="images/topDivider.gif" width="2"
 			height="20" align="absmiddle" class="divider"></td>
 		<td class="right"><img src="images/topDivider.gif" width="2"
 			height="20" align="absmiddle" class="divider"><a href="logOff">Log

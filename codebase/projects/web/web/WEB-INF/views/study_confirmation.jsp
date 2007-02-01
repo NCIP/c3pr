@@ -185,11 +185,6 @@ function validatePage(){
 									id="details">
 									<tr align="center">
 										<td colspan=2 valign="top"><br>
-										<br>
-										<a href="javascript:doNothing()">Go to Study Calender</a></td>
-									</tr>
-									<tr>
-										<td colspan=2 valign="top"><br>
 											<br>
 											<input type="image" name="_finish" src="images/b-search2.gif" border="0"
 												alt="go back to search">

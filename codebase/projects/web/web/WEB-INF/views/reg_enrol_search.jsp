@@ -36,7 +36,7 @@ function navRollOver(obj, state) {
 			width="2" height="20" align="absmiddle" class="currentR"><a
 			href="/c3pr/searchparticipant.do">Subject</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
-			class="divider"><a href="analysis">Reports</a><img
+			class="divider"><a href="">Reports</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
 			class="divider"></td>
 
@@ -140,8 +140,7 @@ function navRollOver(obj, state) {
 									align="middle" width="22" height="10" border="0"></td>
 							</tr>
 						</table>
-						<span class="notation">^ Minimum two characters for Last
-						Name search.</span></td>
+						</td>
 					</tr>
 				</table>
 				<table width="100%" border="0" cellspacing="0" cellpadding="0">

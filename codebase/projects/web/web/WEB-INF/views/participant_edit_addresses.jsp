@@ -11,12 +11,12 @@
 <title>C3Pr V2</title>
 <link href="resources/styles.css" rel="stylesheet" type="text/css">
 <link href="resources/search.css" rel="stylesheet" type="text/css">
-<script language="JavaScript" type="text/JavaScript"> 
+<script language="JavaScript" type="text/JavaScript">
 function navRollOver(obj, state) {
   document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
 }
 </script>
-<script language="JavaScript" type="text/JavaScript"> 
+<script language="JavaScript" type="text/JavaScript">
 function OpenWins(target,name,width,height,scrolling){
 	// I've used a var to refer to the opened window
 	features = 'location=no,width='+width +',height='+height+',left=300,top=260,scrollbars='+scrolling;
@@ -26,10 +26,10 @@ function submitSearchPage(){
 	document.getElementById("searchForm").submit();
 }
 function updatePage(s){
-	
+
 	document.getElementById("_page").name=s;
 	document.getElementById("_page").value="next";
-	document.getElementById("command").submit();	
+	document.getElementById("command").submit();
 }
 
 function validatePage(){
@@ -38,7 +38,7 @@ function validatePage(){
 function fireAction(action, selected){
 	if(validatePage()){
 		document.getElementById("_action").value=action;
-		document.getElementById("_selected").value=selected;	
+		document.getElementById("_selected").value=selected;
 		document.getElementById("command").submit();
 	}
 }
@@ -53,7 +53,7 @@ field.value="";
 
 	<tr>
 
-		<td width="99%"><img src="images/C3PRLogo.gif" alt="C3Pr V2"
+		<td width="99%"><img src="images/c3prLogo.gif" alt="C3Pr V2"
 			width="181" height="36" class="gelogo"></td>
 		<td align="right"><img src="images/t-vehicles.gif" alt="Participant"
 			width="200" height="79"></td>
@@ -73,7 +73,7 @@ field.value="";
 			src="images/topNavArrowDown.gif" width="5" height="20"
 			align="absmiddle"> Subject </span><img src="images/topNavR.gif"
 			width="2" height="20" align="absmiddle" class="currentR"><a
-			href="analysis">Reports</a><img src="images/topDivider.gif" width="2"
+			href="">Reports</a><img src="images/topDivider.gif" width="2"
 			height="20" align="absmiddle" class="divider"></td>
 		<td class="right"><img src="images/topDivider.gif" width="2"
 			height="20" align="absmiddle" class="divider"><a href="logOff">Log
@@ -126,7 +126,7 @@ field.value="";
 		<table width="100%" border="0" cellspacing="0" cellpadding="0"
 			id="search">
 			<tr>
-				<td align="left" class="labels">Search String:</td>
+				<td align="left" class="labels">Search Criteria:</td>
 				<td class="labels">&nbsp;</td>
 			</tr>
 			<tr>
@@ -137,9 +137,7 @@ field.value="";
 			</tr>
 
 		</table>
-
-
-		<span class="notation">^ Minimum two characters for search.</span></form:form></td>
+		</form:form></td>
 
 	</tr>
 

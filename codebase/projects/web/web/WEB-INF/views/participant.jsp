@@ -29,8 +29,8 @@ function getPage(s){
 <!-- TOP LOGOS START HERE -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
-		<td width="99%"><img src="images/c3prLogo.gif" alt="C3PR" width="181"
-			height="36" class="gelogo"></td>
+		<td width="99%"><img src="images/c3prLogo.gif" alt="C3PR"
+			width="181" height="36" class="gelogo"></td>
 		<td align="right"><img src="images/t-drivers.gif" alt="Study"
 			width="200" height="79"></td>
 	</tr>
@@ -49,7 +49,7 @@ function getPage(s){
 			src="images/topNavArrowDown.gif" width="5" height="20"
 			align="absmiddle"> Subject </span><img src="images/topNavR.gif"
 			width="2" height="20" align="absmiddle" class="currentR"><a
-			href="analysis">Reports</a><img src="images/topDivider.gif" width="2"
+			href="">Reports</a><img src="images/topDivider.gif" width="2"
 			height="20" align="absmiddle" class="divider"></td>
 		<td class="right"><img src="images/topDivider.gif" width="2"
 			height="20" align="absmiddle" class="divider"><a href="logOff">Log
@@ -61,7 +61,8 @@ function getPage(s){
 <table width="100%" border="0" cellspacing="0" cellpadding="0"
 	id="subNav">
 	<tr>
-		<td width="99%" valign="middle" class="welcome">Welcome, User Name</td>
+		<td width="99%" valign="middle" class="welcome">Welcome, User
+		Name</td>
 		<td valign="middle" class="right"><a href="help">Help</a></td>
 	</tr>
 </table>
@@ -71,7 +72,8 @@ function getPage(s){
 	class="titleArea">
 	<tr>
 		<!-- TITLE STARTS HERE -->
-		<td width="99%" height="43" valign="middle" id="title">Add Subject</td>
+		<td width="99%" height="43" valign="middle" id="title">Add
+		Subject</td>
 	</tr>
 </table>
 <table width="100%" border="0" cellpadding="0" cellspacing="0">
@@ -102,15 +104,15 @@ function getPage(s){
 									src="images/tabGrayL.gif" width="3" height="16"
 									align="absmiddle"> 2. Address Information <img
 									src="images/tabGrayR.gif" width="3" height="16"
-									align="absmiddle"><img src="images/tabGrayL.gif" width="3"
-									height="16" align="absmiddle"> 3. Review and Submit <img
-									src="images/tabGrayR.gif" width="3" height="16"
+									align="absmiddle"><img src="images/tabGrayL.gif"
+									width="3" height="16" align="absmiddle"> 3. Review and
+								Submit <img src="images/tabGrayR.gif" width="3" height="16"
 									align="absmiddle"></span></td>
 								<td><img src="images/spacer.gif" width="7" height="1"></td>
 							</tr>
 							<tr>
-								<td colspan="2" class="tabBotL"><img src="images/spacer.gif"
-									width="1" height="7"></td>
+								<td colspan="2" class="tabBotL"><img
+									src="images/spacer.gif" width="1" height="7"></td>
 							</tr>
 						</table>
 						</td>
@@ -122,7 +124,7 @@ function getPage(s){
 						<!-- RIGHT CONTENT STARTS HERE --> <form:form method="post"
 							action="createparticipant.do">
 							<div><input type="hidden" name="_page" value="0"></div>
-							<strong>Step 1. Subject Information </strong> 
+							<strong>Step 1. Subject Information </strong>
 							(<span class="red">*</span>
 							<em>Required Information </em>)<br>
 							<br>
@@ -141,15 +143,15 @@ function getPage(s){
 												height="1" class="heightControl"></td>
 										</tr>
 										<tr>
-											<td class="label"><span class="red">*</span><em></em> First
-											Name</td>
+											<td class="label"><span class="red">*</span><em></em>
+											First Name</td>
 											<td><form:input path="firstName" /></td>
 											<td width="10%"><span class="red"><form:errors
 												path="firstName" /><em></em></span></td>
 										</tr>
 										<tr>
-											<td class="label"><span class="red">*</span><em></em> Last
-											Name</td>
+											<td class="label"><span class="red">*</span><em></em>
+											Last Name</td>
 											<td><form:input path="lastName" /></td>
 											<td width="10%"><span class="red"><form:errors
 												path="lastName" /><em></em></span></td>
@@ -158,9 +160,8 @@ function getPage(s){
 											<td class="label"><span class="red">*</span> <em></em>
 											Administrative Gender Code</td>
 											<td><form:select path="administrativeGenderCode">
-												<option value="">--Please Select-- <form:options
-													items="${administrativeGenderCode}" itemLabel="desc"
-													itemValue="code" />
+												<form:options items="${administrativeGenderCode}"
+													itemLabel="desc" itemValue="code" />
 											</form:select></td>
 											<td width="10%"><span class="red"><form:errors
 												path="administrativeGenderCode" /><em></em></span></td>
@@ -180,18 +181,16 @@ function getPage(s){
 											<td class="label"><span class="red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</span><em></em>Birth
 											Date</td>
 											<td valign="top"><form:input path="birthDate" />&nbsp;<a
-												href="#"
-												onClick="cal1.select(document.getElementById('birthDate'),'anchor1','MM/dd/yyyy');return false;"
-												name="anchor1" id="anchor1"><img src="images/b-calendar.gif"
-												alt="Calendar" width="17" height="16" border="0"
-												align="absmiddle"></a></td>
+									href="#"
+									onClick="cal1.select(document.getElementById('birthDate'),'anchor1','MM/dd/yyyy');return false;" name="anchor1" id="anchor1"><img
+									src="images/b-calendar.gif" alt="Calendar" width="17"
+									height="16" border="0" align="absmiddle"></a></td>
 										</tr>
 										<tr>
 											<td class="label"><span class="red">*</span><em></em>Ethnic
 											Group Code</td>
 											<td><form:select path="ethnicGroupCode">
-												<option value="">--Please Select-- <form:options
-													items="${ethnicGroupCode}" itemLabel="desc"
+												<form:options items="${ethnicGroupCode}" itemLabel="desc"
 													itemValue="code" />
 											</form:select></td>
 										</tr>
@@ -199,8 +198,8 @@ function getPage(s){
 											<td class="label"><span class="red">*</span><em></em>Race
 											Code</td>
 											<td><form:select path="raceCode">
-												<option value="">--Please Select-- <form:options
-													items="${raceCode}" itemLabel="desc" itemValue="code" />
+												<form:options items="${raceCode}" itemLabel="desc"
+													itemValue="code" />
 											</form:select></td>
 										</tr>
 
@@ -213,7 +212,8 @@ function getPage(s){
 							<table width="700" border="0" cellspacing="0" cellpadding="0"
 								id="table1">
 								<tr>
-									<td align="center"><span class="red">*</span><em></em><B> Type:</td>
+									<td align="center"><span class="red">*</span><em></em><B>
+									Type:</td>
 									<td align="center"><span class="red">*</span><em></em><B>
 									Value:</td>
 									<td align="center"><span class="red">*</span><em></em><B>

@@ -42,7 +42,7 @@ function submitPage(){
 			width="2" height="20" align="absmiddle" class="currentR"><a
 			href="/c3pr/searchparticipant.do">Subject</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
-			class="divider"><a href="analysis">Reports</a><img
+			class="divider"><a href="">Reports</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
 			class="divider"></td>
 
@@ -73,8 +73,8 @@ function submitPage(){
 					<tr>
 						<td width="100%" id="tabDisplay"><span class="tab"> <img
 							src="images/tabWhiteL.gif" width="3" height="16"
-							align="absmiddle"> 1. <a href="reg_protocol_search.jsp">Select
-						Subject </a><img src="images/tabWhiteR.gif" width="3" height="16"
+							align="absmiddle"> 1. Select
+						Subject <img src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"></span><span class="current"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						2. Select Study <img src="images/tabGrayR.gif" width="3"
@@ -131,7 +131,7 @@ function submitPage(){
 							<table width="100%" border="0" cellspacing="0" cellpadding="0"
 								id="search">
 								<tr>
-									<td align="left" class="labels">Search String:</td>
+									<td align="left" class="labels">Search Criteria:</td>
 									<td class="labels">&nbsp;</td>
 								</tr>
 								<tr>
@@ -158,12 +158,8 @@ function submitPage(){
 						<td class="display"><!-- TABS LEFT START HERE -->
 						<table width="100%" border="0" cellpadding="0" cellspacing="0">
 							<tr>
-
 								<!-- LEFT CONTENT STARTS HERE -->
-
 								<td valign="top" class="additionals"><!-- LEFT FORM STARTS HERE -->
-
-
 								<br>
 								<table width="100%" border="0" cellspacing="0" cellpadding="0"
 									id="additionalList">
@@ -178,22 +174,18 @@ function submitPage(){
 										<td>Target Accrual<br>
 										Number</td>
 									</tr>
-									<%
-									int i = 1;
-									%>
-									<c:forEach var="study" items="${studies}">
-										<a
-											href="register.do?studySiteId=${study.studySites[0].id}&participantId=${participantId}"
-											onMouseOver="navRollOver('row<%= i %>', 'on')"
-											onMouseOut="navRollOver('row<%= i %>', 'off')">
-										<tr align="center" id="row<%= i++ %>" class="results">
+									<% int i = 0; %>
+									<c:forEach items="${studies}" var="study">
+										<tr align="center" id="row<%= i++ %>" class="results" onMouseOver="navRollOver('row<%= i-1 %>', 'on')"
+											onMouseOut="navRollOver('row<%= i-1 %>', 'off')"
+											onClick="document.location='/c3pr/register.do?studySiteId=${study.studySites[0].id}&participantId=${participantId}'">
 											<td>${study.shortTitleText}</td>
 											<td>${study.status}</td>
 											<td>${study.sponsorCode}</td>
 											<td>${study.multiInstitutionIndicator}</td>
 											<td>${study.targetAccrualNumber}</td>
-										</tr>
 										</a>
+										</tr>
 									</c:forEach>
 								</table>
 								<br>

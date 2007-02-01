@@ -11,12 +11,12 @@
 <title>C3Pr V2</title>
 <link href="resources/styles.css" rel="stylesheet" type="text/css">
 <link href="resources/search.css" rel="stylesheet" type="text/css">
-<script language="JavaScript" type="text/JavaScript"> 
+<script language="JavaScript" type="text/JavaScript">
 function navRollOver(obj, state) {
   document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
 }
 </script>
-<script language="JavaScript" type="text/JavaScript"> 
+<script language="JavaScript" type="text/JavaScript">
 function OpenWins(target,name,width,height,scrolling){
 	// I've used a var to refer to the opened window
 	features = 'location=no,width='+width +',height='+height+',left=300,top=260,scrollbars='+scrolling;
@@ -50,7 +50,7 @@ function OpenWins(target,name,width,height,scrolling){
 			src="images/topNavArrowDown.gif" width="5" height="20"
 			align="absmiddle"> Subject </span><img src="images/topNavR.gif"
 			width="2" height="20" align="absmiddle" class="currentR"><a
-			href="analysis">Reports</a><img src="images/topDivider.gif" width="2"
+			href="">Reports</a><img src="images/topDivider.gif" width="2"
 			height="20" align="absmiddle" class="divider"></td>
 		<td class="right"><img src="images/topDivider.gif" width="2"
 			height="20" align="absmiddle" class="divider"><a href="logOff">Log
@@ -116,8 +116,7 @@ function OpenWins(target,name,width,height,scrolling){
 				</tr>
 			</table>
 			<span class="notation"><span class="labels">(<span class="red">*</span><em>Required
-			Information </em>)</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;^
-			Minimum two characters for Last Name search.</span></td>
+			Information </em>)</span></td>
 		</tr>
 	</table>
 	<!-- TITLE/QUICK SEARCH AREA ENDS HERE -->

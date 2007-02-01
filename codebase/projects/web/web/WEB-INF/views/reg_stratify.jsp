@@ -58,7 +58,7 @@ function updateTargetPage(s){
 			width="2" height="20" align="absmiddle" class="currentR"><a
 			href="/c3pr/searchparticipant.do">Subject</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
-			class="divider"><a href="analysis">Reports</a><img
+			class="divider"><a href="">Reports</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
 			class="divider"></td>
 
@@ -160,7 +160,7 @@ function updateTargetPage(s){
 														class="heightControl"></td>
 												</tr>
 												<tr>
-													<td class="label" align=left>This Study does not have Stratification Factors</td>
+													<td class="label" align=left>The Selected Study does not have Stratification Factors</td>
 												</tr>
 											</table>
 											</td>

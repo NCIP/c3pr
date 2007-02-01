@@ -64,7 +64,7 @@ field.value="";
 			src="images/topNavArrowDown.gif" width="5" height="20"
 			align="absmiddle"> Subject </span><img src="images/topNavR.gif"
 			width="2" height="20" align="absmiddle" class="currentR"><a
-			href="analysis">Reports</a><img src="images/topDivider.gif" width="2"
+			href="">Reports</a><img src="images/topDivider.gif" width="2"
 			height="20" align="absmiddle" class="divider"></td>
 		<td class="right"><img src="images/topDivider.gif" width="2"
 			height="20" align="absmiddle" class="divider"><a href="logOff">Log
@@ -79,7 +79,7 @@ field.value="";
 		<td width="99%" valign="middle"><img src="images/arrowRight.gif"
 			width="3" height="5" align="absmiddle"> Study Management <img
 			src="images/spacer.gif" width="1" height="20" align="absmiddle"
-			class="spacer"><a href="createparticipant.do">Add Study</a></td>
+			class="spacer"><a href="createstudy.do">Add Study</a></td>
 		<td valign="middle" class="right"><a href="">Help</a></td>
 	</tr>
 </table>
@@ -112,7 +112,7 @@ field.value="";
 		<table width="100%" border="0" cellspacing="0" cellpadding="0"
 			id="search">
 			<tr>
-				<td align="left" class="labels">Search String:</td>
+				<td align="left" class="labels">Search Criteria:</td>
 				<td class="labels">&nbsp;</td>
 			</tr>
 			<tr>
@@ -122,7 +122,7 @@ field.value="";
 					alt="GO" align="middle" width="22" height="10" border="0"></td>
 			</tr>
 		</table>
-		<span class="notation">^ Minimum two characters for search.</span></td>
+		</td>
 	</tr>
 </form:form>
 </table>
@@ -205,7 +205,7 @@ field.value="";
 			</tr>
 			<tr>
 				<form:form name="form" id="form" method="post">
-				<div><input type="hidden" name="_page" value="1">
+				<div><input type="hidden" name="_page" id="_page" value="1">
 				<input type="hidden" name="_action" value="">
 				<input type="hidden" name="_selected" value=""></div>
 				<td valign="top" class="contentL"><!-- LEFT CONTENT STARTS HERE -->

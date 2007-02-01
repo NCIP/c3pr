@@ -47,7 +47,7 @@ function doNothing(){
 			width="2" height="20" align="absmiddle" class="currentR"><a
 			href="/c3pr/searchparticipant.do" onClick="doNothing();">Subject</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
-			class="divider"><a href="analysis" onClick="doNothing();">Reports</a><img
+			class="divider"><a href="" onClick="doNothing();">Reports</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
 			class="divider"></td>
 
@@ -136,7 +136,7 @@ function doNothing(){
 							<table width="100%" border="0" cellspacing="0" cellpadding="0"
 								id="search">
 								<tr>
-									<td align="left" class="labels">Search String:</td>
+									<td align="left" class="labels">Search Criteria:</td>
 									<td class="labels">&nbsp;</td>
 								</tr>
 								<tr>
@@ -147,29 +147,22 @@ function doNothing(){
 										height="10" border="0"></td>
 								</tr>
 							</table>
-							<span class="notation">^ Minimum two characters for
-							search.</span></td>
+							</td>
 						</tr>
 					</form:form>
 				</table>
 				<table width="100%" border="0" cellspacing="0" cellpadding="0">
 					<tr>
 						<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
-
 						<td id="current">Subject Search Results</td>
 						<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 					</tr>
 					<tr>
-
 						<td class="display"><!-- TABS LEFT START HERE -->
 						<table width="100%" border="0" cellpadding="0" cellspacing="0">
 							<tr>
 
-								<!-- LEFT CONTENT STARTS HERE -->
-
-								<td valign="top" class="additionals"><!-- LEFT FORM STARTS HERE -->
-
-
+								<td valign="top" class="additionals">
 								<br>
 								<table width="100%" border="0" cellspacing="0" cellpadding="0"
 									id="additionalList">
@@ -182,20 +175,18 @@ function doNothing(){
 										<td></td>
 									</tr>
 									<%
-									int i = 1;
-									%>
-									<c:forEach var="part" items="${participants}">
-										<a href="SearchRegisterStudy.do?participantId=${part.id}"
-											onMouseOver="navRollOver('row<%= i %>', 'on')"
-											onMouseOut="navRollOver('row<%= i %>', 'off')">
-										<tr align="center" id="row<%= i++ %>" class="results">
+									int i = 0;%>
+									<c:forEach items="${participants}" var="part">
+										<tr align="center" id="row<%= i++ %>" class="results" onMouseOver="navRollOver('row<%= i-1 %>', 'on')"
+											onMouseOut="navRollOver('row<%= i-1 %>', 'off')"
+											onClick="document.location='/c3pr/SearchRegisterStudy.do?participantId=${part.id}'">
 											<td>${part.lastName},${part.firstName}</td>
 											<td>${part.id}</td>
 											<td>${part.administrativeGenderCode}</td>
 											<td>${part.raceCode}</td>
 											<td>${part.birthDate}</td>
-										</tr>
 										</a>
+										</tr>
 									</c:forEach>
 								</table>
 								<br>

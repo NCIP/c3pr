@@ -75,8 +75,8 @@ function submitPage(){
 					<tr>
 						<td width="100%" id="tabDisplay"><span class="tab"> <img
 							src="images/tabWhiteL.gif" width="3" height="16"
-							align="absmiddle"> 1. <a href="reg_protocol_search.jsp">Select
-						Study </a><img src="images/tabWhiteR.gif" width="3" height="16"
+							align="absmiddle"> 1. Select
+						Study <img src="images/tabWhiteR.gif" width="3" height="16"
 							align="absmiddle"></span><span class="current"><img
 							src="images/tabGrayL.gif" width="3" height="16" align="absmiddle">
 						2. Select Subject <img src="images/tabGrayR.gif" width="3"
@@ -161,40 +161,32 @@ function submitPage(){
 						<td class="display"><!-- TABS LEFT START HERE -->
 						<table width="100%" border="0" cellpadding="0" cellspacing="0">
 							<tr>
-
 								<!-- LEFT CONTENT STARTS HERE -->
-
 								<td valign="top" class="additionals"><!-- LEFT FORM STARTS HERE -->
-
-
 								<br>
 								<table width="100%" border="0" cellspacing="0" cellpadding="0"
 									id="additionalList">
 									<tr align="center" class="label">
-										<td>Last Name, First Name</td>
-										<td>Primary Identifier</td>
+										<td>Last Name, First MI</td>
+										<td>Primary Id</td>
 										<td>Gender</td>
 										<td>Brith Date</td>
 										<td>First Visit<br>
 										Date</td>
 										<td></td>
 									</tr>
-									<%
-									int i = 1;
-									%>
-									<c:forEach var="participant" items="${participants}">
-										<a
-											href="register.do?participantId=${participant.id}&studySiteId=${studySiteId}"
-											onMouseOver="navRollOver('row<%= i %>', 'on')"
-											onMouseOut="navRollOver('row<%= i %>', 'off')">
-										<tr align="center" id="row<%= i++ %>" class="results">
+									<%int i = 0;%>
+									<c:forEach items="${participants}" var="participant">
+										<tr align="center" id="row<%= i++ %>" class="results" onMouseOver="navRollOver('row<%= i-1 %>', 'on')"
+											onMouseOut="navRollOver('row<%= i-1 %>', 'off')"
+											onClick="document.location='/c3pr/register.do?participantId=${participant.id}&studySiteId=${studySiteId}'">
 											<td>${participant.lastName},${participant.firstName}</td>
-											<td>${participant.id}</td>
-											<td>${participant.administrativeGenderCode}</td>
-											<td>${participant.raceCode}</td>
+												<td>${participant.id}</td>
+												<td>${participant.administrativeGenderCode}</td>
+												<td>${participant.raceCode}</td>
 											<td>${participant.birthDate}</td>
-										</tr>
 										</a>
+										</tr>
 									</c:forEach>
 								</table>
 								<br>

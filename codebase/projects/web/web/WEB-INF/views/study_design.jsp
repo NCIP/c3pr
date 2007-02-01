@@ -86,7 +86,7 @@ function fireAction(action, selectedEpoch, selectedArm){
 	<tr>
 		<tr>
 			<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
-			<td id="current">Short Title: ${command.trimmedShortTitleText}</td>				
+			<td id="current">Short Title: ${command.trimmedShortTitleText}</td>
 			<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 	</tr>
 
@@ -226,7 +226,6 @@ function fireAction(action, selectedEpoch, selectedArm){
 		<!-- LEFT CONTENT ENDS HERE -->
 	</tr>
 </table>
-<div id="copyright">&copy; 2006 SemanticBits. All Rights Reserved</div>
 </div>
 <!-- MAIN BODY ENDS HERE -->
 </body>

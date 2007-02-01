@@ -47,7 +47,7 @@ function submitPage(){
 			width="2" height="20" align="absmiddle" class="currentR"><a
 			href="/c3pr/searchparticipant.do">Subject</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
-			class="divider"><a href="analysis">Reports</a><img
+			class="divider"><a href="">Reports</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
 			class="divider"></td>
 
@@ -136,7 +136,7 @@ function submitPage(){
 							<table width="100%" border="0" cellspacing="0" cellpadding="0"
 								id="search">
 								<tr>
-									<td align="left" class="labels">Search String:</td>
+									<td align="left" class="labels">Search Criteria:</td>
 									<td class="labels">&nbsp;</td>
 								</tr>
 								<tr>
@@ -146,8 +146,7 @@ function submitPage(){
 										align="middle" width="22" height="10" border="0"></td>
 								</tr>
 							</table>
-							<span class="notation">^ Minimum two characters for
-							search.</span></td>
+							</td>
 						</form:form>
 					</tr>
 				</table>

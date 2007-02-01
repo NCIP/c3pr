@@ -45,7 +45,7 @@ function doNothing(){
 			width="2" height="20" align="absmiddle" class="currentR"><a
 			href="/c3pr/searchparticipant.do">Subject</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
-			class="divider"><a href="analysis" onClick="doNothing();">Reports</a><img
+			class="divider"><a href="" onClick="doNothing();">Reports</a><img
 			src="images/topDivider.gif" width="2" height="20" align="absmiddle"
 			class="divider"></td>
 
@@ -133,7 +133,7 @@ function doNothing(){
 							<table width="100%" border="0" cellspacing="0" cellpadding="0"
 								id="search">
 								<tr>
-									<td align="left" class="labels">Search String:</td>
+									<td align="left" class="labels">Search Criteria:</td>
 									<td class="labels">&nbsp;</td>
 								</tr>
 								<tr>
@@ -179,22 +179,18 @@ function doNothing(){
 										<td>Target Accrual<br>
 										Number</td>
 									</tr>
-									<%
-									int i = 1;
-									%>
-									<c:forEach var="study" items="${studies}">
-										<a
-											href="createparticipant.do?studySiteId=${study.studySites[0].id}&url=register.do"
-											onMouseOver="navRollOver('row<%= i %>', 'on')"
-											onMouseOut="navRollOver('row<%= i %>', 'off')">
-										<tr align="center" id="row<%= i++ %>" class="results">
+									<% int i = 0;%>
+									<c:forEach items="${studies}" var="study">
+										<tr align="center" id="row<%= i++ %>" class="results" onMouseOver="navRollOver('row<%= i-1 %>', 'on')"
+											onMouseOut="navRollOver('row<%= i-1 %>', 'off')"
+											onClick="document.location='/c3pr/createparticipant.do?studySiteId=${study.studySites[0].id}&url=register.do'">
 											<td>${study.shortTitleText}</td>
 											<td>${study.status}</td>
 											<td>${study.sponsorCode}</td>
 											<td>${study.multiInstitutionIndicator}</td>
 											<td>${study.targetAccrualNumber}</td>
-										</tr>
 										</a>
+										</tr>
 									</c:forEach>
 								</table>
 								<br>

@@ -64,7 +64,7 @@ field.value="";
 			src="images/topNavArrowDown.gif" width="5" height="20"
 			align="absmiddle"> Subject </span><img src="images/topNavR.gif"
 			width="2" height="20" align="absmiddle" class="currentR"><a
-			href="analysis">Reports</a><img src="images/topDivider.gif" width="2"
+			href="">Reports</a><img src="images/topDivider.gif" width="2"
 			height="20" align="absmiddle" class="divider"></td>
 		<td class="right"><img src="images/topDivider.gif" width="2"
 			height="20" align="absmiddle" class="divider"><a href="logOff">Log
@@ -79,7 +79,7 @@ field.value="";
 		<td width="99%" valign="middle"><img src="images/arrowRight.gif"
 			width="3" height="5" align="absmiddle"> Study Management <img
 			src="images/spacer.gif" width="1" height="20" align="absmiddle"
-			class="spacer"><a href="createparticipant.do">Add Study</a></td>
+			class="spacer"><a href="createstudy.do">Add Study</a></td>
 		<td valign="middle" class="right"><a href="">Help</a></td>
 	</tr>
 </table>
@@ -112,7 +112,7 @@ field.value="";
 		<table width="100%" border="0" cellspacing="0" cellpadding="0"
 			id="search">
 			<tr>
-				<td align="left" class="labels">Search String:</td>
+				<td align="left" class="labels">Search Criteria:</td>
 				<td class="labels">&nbsp;</td>
 			</tr>
 			<tr>
@@ -122,7 +122,7 @@ field.value="";
 					alt="GO" align="middle" width="22" height="10" border="0"></td>
 			</tr>
 		</table>
-		<span class="notation">^ Minimum two characters for search.</span></td>
+		</td>
 	</tr>
 </form:form>
 </table>
@@ -135,7 +135,7 @@ field.value="";
 		<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 	</tr>
 	<tr>
-		<td class="display">
+		<td class="display" width="100%">
 		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 			<tr>
 				<!-- TABS LEFT START HERE -->
@@ -205,10 +205,10 @@ field.value="";
 			</tr>
 			<tr>
 				<form:form name="form" id="form" method="post">
-				<div><input type="hidden" name="_page" value="2">
+				<div><input type="hidden" name="_page" id="_page" value="2">
 				<input type="hidden" name="_action" value="">
 				<input type="hidden" name="_selected" value=""></div>
-				<td valign="top" class="contentL"><!-- LEFT CONTENT STARTS HERE -->
+				<td width="27%" valign="top" class="contentL"><!-- LEFT CONTENT STARTS HERE -->
 						<table width="100%" border="0" cellspacing="2" cellpadding="0"
 						id="table1">
 						<tr valign="top">
@@ -243,11 +243,11 @@ field.value="";
 				<!-- LEFT CONTENT ENDS HERE --></td>
 				<td><img src="images/spacer.gif" width="2" height="1"></td>
 				<!-- CENTER CONTENT STARTS HERE -->
-				<td valign="top" class="contentL">
-				<table width="70%" border="0" cellspacing="0" cellpadding="0"
+				<td width="47%" valign="top" class="contentL">
+				<table width="50%" border="0" cellspacing="0" cellpadding="0"
 						id="table1">
 
-						<td width="100%" valign="top">
+						<td width="70%" valign="top">
 							<table width="100%" border="0" cellspacing="10" cellpadding="0"
 								id="table1">
 
@@ -256,9 +256,9 @@ field.value="";
 								<td width="11%" align="center">HealthCare Site<span class="red">*</span></td>
 								<td width="11%" align="center">Status Code<span class="red">*</span></td>
 								<td width="11%" align="center">Role Code<span class="red">*</span></td>
-								<td width="17%" align="center">Start Date <span class="red">*</span> </td>
-								<td width="17%" align="center">End Date </td>
-								<td width="17%" align="center">IRB Approval <br>Date<span class="red">*</span></td>
+								<td width="17%" align="center">Start Date <br><em> (mm/dd/yyyy)</em><span class="red">*</span> </td>
+								<td width="17%" align="center">End Date <br><em> (mm/dd/yyyy)</em></td>
+								<td width="17%" align="center">IRB Approval<br>Date<em> (mm/dd/yyyy)</em><span class="red">*</span></td>
 							</tr>
 							<c:forEach items="${command.studySites}" varStatus="status">
 								<tr align="center" class="results">

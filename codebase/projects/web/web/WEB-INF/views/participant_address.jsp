@@ -45,7 +45,7 @@ function getPage(s){
 			src="images/topNavArrowDown.gif" width="5" height="20"
 			align="absmiddle"> Subject </span><img src="images/topNavR.gif"
 			width="2" height="20" align="absmiddle" class="currentR"><a
-			href="analysis">Reports</a><img src="images/topDivider.gif" width="2"
+			href="">Reports</a><img src="images/topDivider.gif" width="2"
 			height="20" align="absmiddle" class="divider"></td>
 		<td class="right"><img src="images/topDivider.gif" width="2"
 			height="20" align="absmiddle" class="divider"><a href="logOff">Log
@@ -121,7 +121,7 @@ function getPage(s){
 						<!-- RIGHT CONTENT STARTS HERE --> <form:form method="post"
 							action="createparticipant.do">
 							<div><input type="hidden" name="_page" value="1"></div>
-							<strong>Step 2. Address Information </strong> 
+							<strong>Step 2. Address Information </strong>
 							(<span class="red">*</span>
 							<em>Required Information </em>)<br>
 							<br>
@@ -149,9 +149,13 @@ function getPage(s){
 											<td class="label"><span class="data"><span
 												class="red">*</span><em></em> State:</span></td>
 											<td><form:input path="address.stateCode" /></td>
-											<td width="15%"><span class="red"><form:errors path="address.stateCode" /><em></em></span></td>
 											<td><span class="red">*</span><em></em><strong>Zip:</strong>
-											<form:input path="address.postalCode" /></td>
+											<form:input path="address.postalCode" /> <a href="#"
+												onClick="parent.OpenWins('searchZip.htm','searchZip',420,206,1);return false;"><img
+												src="images/b-searchZip.gif" alt="Search Zip" width="48"
+												height="11" border="0" align="absmiddle"></a> <a href="#"><img
+												src="images/b-questionL.gif" alt="What's This?" width="15"
+												height="11" border="0" align="absmiddle"></a></td>
 										</tr>
 										<tr>
 											<td class="label"><em></em><em></em> Country:</td>
