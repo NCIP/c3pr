@@ -243,7 +243,7 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 			String defaultProxy ="-1";
 			if (request.getSession().getAttribute("gridProxy") != null)				
 			{
-				defaultProxy =request.getSession().getAttribute("gridProxy");
+				defaultProxy =(String)request.getSession().getAttribute("gridProxy");
 			}
 			refData.put("proxy", defaultProxy);
 		}
