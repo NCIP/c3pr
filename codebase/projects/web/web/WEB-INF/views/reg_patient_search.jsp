@@ -134,7 +134,7 @@ function submitPage(){
 							<table width="100%" border="0" cellspacing="0" cellpadding="0"
 								id="search">
 								<tr>
-									<td align="left" class="labels">Search String:</td>
+									<td align="left" class="labels">(Use % for wild char search):</td>
 									<td class="labels">&nbsp;</td>
 								</tr>
 								<tr>
@@ -144,8 +144,7 @@ function submitPage(){
 										align="middle" width="22" height="10" border="0"></td>
 								</tr>
 							</table>
-							<span class="notation">^ Minimum two characters for
-							search.</span></td>
+							</td>
 						</tr>
 					</form:form>
 				</table>
@@ -167,12 +166,11 @@ function submitPage(){
 								<table width="100%" border="0" cellspacing="0" cellpadding="0"
 									id="additionalList">
 									<tr align="center" class="label">
-										<td>Last Name, First MI</td>
-										<td>Primary Id</td>
+										<td>Last Name, First Name</td>
+										<td>Primary Identifier</td>
 										<td>Gender</td>
-										<td>Brith Date</td>
-										<td>First Visit<br>
-										Date</td>
+										<td>Race</td>
+										<td>Birth Date</td>
 										<td></td>
 									</tr>
 									<%int i = 0;%>
