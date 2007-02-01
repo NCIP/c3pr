@@ -34,20 +34,17 @@ public class ParticipantDao extends AbstractBaseDao<Participant> {
 	 * @param participant
 	 * @return
 	 */
-	public List<Participant> searchByExample(Participant participant,
-			boolean isWildCard) {
-		Example example = Example.create(participant).excludeZeroes();
+	public List<Participant> searchByExample(Participant participant, boolean isWildCard) {
+		Example example = Example.create(participant).excludeZeroes().ignoreCase();
 		Criteria participantCriteria = getSession().createCriteria(
-				Participant.class);
+			Participant.class);
 		if (isWildCard) {
-			example.ignoreCase().excludeProperty("doNotUse").enableLike(
-					MatchMode.ANYWHERE);
+			example.excludeProperty("doNotUse").enableLike(MatchMode.ANYWHERE);
 			participantCriteria.add(example);
 			if (participant.getIdentifiers().size() > 0) {
 				participantCriteria.createCriteria("identifiers").add(
-						Restrictions.like("value", participant.getIdentifiers()
-								.get(0).getValue()
-								+ "%"));
+					Restrictions.like("value", participant.getIdentifiers()
+					.get(0).getValue()+ "%"));
 			}
 			return participantCriteria.list();
 
