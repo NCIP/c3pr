@@ -134,7 +134,7 @@ function submitPage(){
 							<table width="100%" border="0" cellspacing="0" cellpadding="0"
 								id="search">
 								<tr>
-									<td align="left" class="labels">(Use % for wild char search):</td>
+									<td align="left" class="labels">Search Criteria:</td>
 									<td class="labels">&nbsp;</td>
 								</tr>
 								<tr>
