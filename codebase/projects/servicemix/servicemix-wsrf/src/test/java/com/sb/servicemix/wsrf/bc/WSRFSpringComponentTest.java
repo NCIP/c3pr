@@ -36,7 +36,7 @@ public class WSRFSpringComponentTest extends SpringTestSupport {
         DefaultServiceMixClient client = new DefaultServiceMixClient(jbi);
         InOut me = client.createInOutExchange();
         me.setService(new QName("urn:test", "service"));
-        me.getInMessage().setContent(new StreamSource(new File("src/test/resources/SampleRegistration.xml")));
+        me.getInMessage().setContent(new StreamSource(new File("src/test/resources/PSCAdverseEvent.xml")));
 
         client.sendSync(me);
         if (me.getStatus() == ExchangeStatus.ERROR) {

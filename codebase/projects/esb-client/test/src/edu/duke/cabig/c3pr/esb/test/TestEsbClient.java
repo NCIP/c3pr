@@ -29,10 +29,10 @@ public class TestEsbClient {
 //			String fileName="resources/person.xml";
 //			String fileName="C:\\SemanticBits\\registration.xml";
 //			String fileName="resources/SampleRegistration2.xml";
-			String fileName="resources/PSC_RegistrationMessage.xml";
+			String fileName= args[1];
             System.out.println("XML Payload....");
             String xml="";
-            File f= new File(fileName);
+            File f= new File(args[1]);
             System.out.println(f.getAbsolutePath());
         	BufferedReader fr=new BufferedReader(new FileReader(f));
 			String temp="";

@@ -118,8 +118,12 @@ public class WSRFEndpoint extends Endpoint implements ExchangeProcessor {
                 if (exchangeProcessor == null){
                     throw new Exception("No valid ExchangeProcessor available");
                 }
-                System.out.println("Calling exchangeProcessor()...");
-                exchangeProcessor.process(exchange,channel,epr);
+
+                try {
+                    exchangeProcessor.process(exchange,channel,epr);
+                } catch (Exception e) {
+                    //do nothing as a failure message is already sent back
+                }
 //                exchange.setStatus(ExchangeStatus.DONE);
                 System.out.println("Calling exchangeProcessor() over. Sending the exchange in channel with out message as +"+exchange.getMessage("out")+"...");
                 System.out.println("Status is :"+ exchange.getStatus().toString());
