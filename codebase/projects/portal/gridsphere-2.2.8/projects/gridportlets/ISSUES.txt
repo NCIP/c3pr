@@ -1,0 +1,93 @@
+$Id: ISSUES.txt,v 1.1.1.1 2007-02-01 20:15:06 kherm Exp $
+
+===========================================================
+  Grid Portlets Known Issues
+
+  This file serves as a collection of known issues or
+  "gotchas". Please visit this file every so often and
+  monitor the gridsphere-dev and gridsphere-user mail
+  lists for other issues that may occur when using Grid
+  Portlets and the Grid technologies it depends upon.
+
+===========================================================
+
+4. WSRF-4.0.1 and GridFtp
+
+With WSRF-4.0.1, GridFtp get commands appear not to be
+working properly. In some cases timeout errors are thrown
+and in others, data is simply not transferred properly.
+
+OGSA-3.2.1 does not suffer this problem.
+
+3. WSRF-4.0.1 and logging
+
+It seems when WSRF 4.0.1 jars are deployed to:
+
+  ${CATALINA_HOME}/gridportlets/webapp/WEB-INF/lib
+
+Grid Portlets is unable to log.
+
+So now, by default, Grid Portlets will deploy WSRF 4.0.1
+jars to:
+
+  ${CATALINA_HOME}/gridportlets/webapp/WEB-INF/lib
+
+You can set which version of the Globus Toolkit core jars
+to deploy and where in the file:
+
+  config/build/globus.properties
+
+See the following properties:
+
+   - globus.version
+   - globus.deploy.core
+
+2. JFreeChart (MDS profile in the Resource Browser Portlet)
+
+On hosts with no X11 server running on them you will need
+to add java.awt.headless=true to the JAVA_OPTS environment
+variable in order to see information from MDS. For example,
+in a Unix / Linux c shell envionrment you might type:
+
+setenv JAVA_OPTS -Djava.awt.headless=true
+
+before starting Tomcat.
+
+1. MyProxy 0.6.1 and Globus 3.2
+
+There is a well known problem with using MyProxy 0.6.1 and
+Globus 3.2, where using Grid Ftp in the File Browser Portlet
+is known to fail with credentials retrieved from a MyProxy
+0.6.1 server. The resulting error looks like the following
+in $CATALINA_HOME/logs/catalina.out:
+
+org.globus.common.ChainedIOException: Authentication failed [Root error
+message: Failure unspecified at GSS-API level [Root error message:
+[Root error message: null]]].  Root exception is
+GSSException: Failure unspecified at GSS-API level [Root error message:
+[Root error message: null]].  Root exception is
+org.globus.common.ChainedCertificateException:  [Root error message:
+null].  Root exception is
+java.io.EOFException
+at
+org.bouncycastle.asn1.DERInputStream.readObject(DERInputStream.java:235)
+at
+org.globus.gsi.bc.BouncyCastleUtil.toDERObject(BouncyCastleUtil.java:79)
+
+If you are using Globus 3.2, we recommend you upgrade
+to MyProxy 0.6.2. Please visit the MyProxy Project Website
+at http://grid.ncsa.uiuc.edu/myproxy/ for more information.
+
+This problem was reported to the gridShere-dev mail list
+by Rene Salmon <rsalmon@tulane.edu>. See the mail entitled
+"Re: [Gridsphere-dev] unable to connect to grid ftp
+resource" dated 25 October 2004.
+
+
+
+
+Thanks for you interest in Grid Portlets!
+
+The GridSphere Team
+http://www.gridsphere.org
+

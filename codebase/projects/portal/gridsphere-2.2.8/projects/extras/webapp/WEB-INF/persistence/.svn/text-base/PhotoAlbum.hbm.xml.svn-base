@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 1.1//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+
+<hibernate-mapping>
+
+    <class
+        name="org.gridlab.gridsphere.extras.services.photoalbum.PhotoAlbum"
+        table="photo_album"
+        >
+
+        <id
+            name="oid"
+            column="oid"
+            type="java.lang.String"
+            length="32"
+            >
+            <generator class="uuid.hex"/>
+
+        </id>
+
+        <property name="title" type="string" column="title"/>
+
+        <property name="userId" type="string" column="userId"/>
+
+        <property name="publicPhotoAlbum" type="boolean" column="publicPhotoAlbum"/>
+
+        <list name="Photos"
+            table="photos">
+            <key column="photoKey"/>
+            <index column="photoindex"/>
+            <one-to-many
+                 class="org.gridlab.gridsphere.extras.services.photoalbum.Photo"/>
+
+        </list>
+
+    </class>
+
+
+    <class
+        name="org.gridlab.gridsphere.extras.services.photoalbum.Photo"
+        table="photo_url"
+        >
+
+        <id
+            name="oid"
+            column="oid"
+            type="java.lang.String"
+            length="32"
+            >
+            <generator class="uuid.hex"/>
+
+        </id>
+
+        <property name="Title" type="string" column="title"/>
+        <property name="Url" type="string" column="url"/>
+        <property name="Desc" type="string" column="descr"/>
+    </class>
+
+</hibernate-mapping>

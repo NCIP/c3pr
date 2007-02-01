@@ -1,0 +1,63 @@
+$Id: GLOBUS.txt,v 1.1.1.1 2007-02-01 20:15:05 kherm Exp $
+
+===========================================================
+  Grid Portlets Support For The Globus Toolkit
+
+  This file describes which versions of the Globus Toolkit
+  are supported by the GridSphere Project.
+
+===========================================================
+
+Support for GT2
+--------------------------------------
+
+By default, Grid Portlets supports Globus Toolkit 2.4
+services (such as Globus Gatekeeper, Grid Ftp, and Mds2),
+as well as provides support for hosting and using OGSA
+3.2.1 services.
+
+Support for OGSA
+--------------------------------------
+
+In fact, installing Grid Portlets means you don't have
+to install OGSA separately. However, if you do plan
+to install OGSA separately, then you should take a look
+at ./config/build/build-globus.properties. This file
+contains the properties for configuring whether or not
+Grid Portlets should install OGSA and where OGSA jars
+are located.
+
+  - Special note: Support for "HTTPG" -
+
+  If you intend to use services that require the OGSA
+  pre-webservice "httpg" protocol, please take a look
+  at ./config/build/build-globus.properties for how to
+  enable this support.
+
+Support for GT3
+--------------------------------------
+
+Support for GT3 is available in the "GT3 Portlets" project,
+available in the "gt3portlets" module in the GridSphere
+CVS. Please see our website for how to access this CVS.
+
+The GT3 Portlets project contains GT3 service
+implementations of the Grid Portlets Services API.
+Currently, only support for MMJFS has been developed.
+If you are interested in support for other GT3 services,
+please contact our gridsphere-dev mail list (see
+README.txt) and express your interest. We are currently
+looking for contributors!
+
+Support for GT4
+--------------------------------------
+
+Support for GT4 is coming soon. We are working with
+colleagues to develop a "GT4 Portlets" project. We will
+be making announcements in the very near future!
+
+
+Thanks for you interest in Grid Portlets!
+
+The GridSphere Team
+http://www.gridsphere.org

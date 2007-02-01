@@ -1,0 +1,124 @@
+===========================================================
+    Grid Portlets 1.3.2 Web Application Change Log
+===========================================================
+
+Changes to Grid Portlets since Grid Portlets 1.3.1
+==================================================
+
++ Fixed GridPortlets resource bundle utiliy so that it
+uses EN bundle if no bundle exists for the requested
+locale.
+
++ Fixed bug in how JobSpec file stage in and stage
+out parameters are saved. Was previoiusly not saving
+the correct file stage parameter type.
+
++ GridPortlets persistence manager no longer implements
+GridSphere's persistence manager interface.
+
++ Logging with an improved format in log4j.properties
+
++ Bundling log4j.properties with jars in shared/lib in
+proper location now (at some point, build.xml was modified
+to this in the wrong location)
+
+Changes to Grid Portlets since Grid Portlets 1.2.1
+==================================================
+
++ Credential Manager Portlet no longer provides options for
+specifying "Single Sign-On" and "Use Portal Credential".
+Single sign-on is now a default mechanism of the Credential
+Auth Module and settings for using portal credential to
+authenticate to MyProxy are specified with the
+<myproxy-resource> tag in the Resource Registry, with the
+"userPortalCredential" attribute.
+
++ Added the ability to set the "project" for a Job in the
+Job Spec interface. This is not currently a feature in the
+Job Submission Portlet howeve, and may be introduced in a
+future release.
+
++ Fixed a GridFtp get bug. GridFtp get was not able to
+retrieve directories to the localhost.
+
++ Fixed incompability with GS 2.1.4. Removed hack in
+GridSphere User Utility to create a new user if one does not
+exist.
+
++ A bunch of other minor improvements this developer can no
+longer recall. ;-)
+
+
+Changes to Grid Portlets since Grid Portlets 1.2.0
+==================================================
+
++ Fixed bug in File Activity Portet. Upload tasks were not
+displaying proper summary information.
+
++ Fixed bug in file stage parameter where staged files were
+being staged with query information attached. Thanks to
+Emir Imamagic for this fix!
+
++ Fixed bug in downloading of files from File Browser
+Portlet. This involved directing the user to a separate
+page that presents a link to the file. Apparently the
+download event supported by the GridSphere Portlet API
+Action Portlet is not supported by the GridSphere JSR
+168 compliant Action Portlet.
+
++ Fixed bug in transferring binary files with Grid Ftp.
+This involved setting the client mode to Session.IMAGE.
+It appears to work for both ASCII and binary files.
+
+Changes to Grid Portlets since Grid Portlets 1.1.2
+==================================================
+
++ Introduced ability to set authentication type and timeout
+  for all ldap resources (i.e. GRIS / GIIS resources).
+
+Changes to Grid Portlets since Grid Portlets 1.1.1
+==================================================
+
++ Fixed persistence bug.
+
++ Introduced ability to configure Credential Manager
+  Service to store credentials in files.
+
+Changes to Grid Portlets since Grid Portlets 1.0.3
+==================================================
+
++ Introduced org.gridlab.gridsphere.services.file.FileHandle
+  for reading/writing to files. This included some enhancements
+  to the org.gridlab.gridsphere.services.file.tasks.FileBrowser
+  as well, but most users will only need to use of
+  the FileHandle class.
+
++ org.gridlab.gridsphere.services.job.Job was enhanced to support
+  the abilty to obtain "stdout" and "stderr" locations from it
+  directly, (no need to obtain from this JobSpec after a job is
+   submitted). Part of the reason for this was that
+  a relative file location might be specified in JobSpec,
+  and only after the job is submitted will the full / correct
+  path be known. The Job interface will return the full
+  location once it is known.
+
++ org.gridlab.gridsphere.portlets.job.JobSubmissionPortlet
+  was fixed so that admins can override the default "Job Profile"
+  to include only their own custom job submission user interfaces.
+  This was the intended design, but it wasn't working quite right
+  before.
+
++ JobSubmissionPortlet was enhanced so that it doesn't display
+  a select box if only one JobProfile and/or JobType is
+  available.
+
++ Several database related enhancements were made to improve
+  the performance of GridPortlets. Most of these changes
+  should be transparent to users, though there is some chance
+  the "update-database" target will fail. Please forgive this,
+  the enhancements were necessary and critical.
+
++ Addressed all Javadoc warnings.
+
++ Removed OGSA-3.0.2 jars. It seems unnecessary to support that
+  version of OGSA anymore.

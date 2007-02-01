@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+    <display-name>gridportlets</display-name>
+
+    <context-param>
+        <param-name>log4j-selector</param-name>
+        <param-value>org.apache.log4j.selector.ContextJNDISelector</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>log4j-config</param-name>
+        <param-value>WEB-INF/classes/log4j.properties</param-value>
+    </context-param>
+
+    <listener>
+        <listener-class>org.apache.log4j.servlet.InitContextListener</listener-class>
+    </listener>
+
+    <!--  Commented out for ordered loading in GridSphere. Needs to be uncommented in other containers.
+    <listener>
+        <listener-class>org.gridlab.gridsphere.provider.portlet.jsr.PortletServlet</listener-class>
+    </listener>  -->
+
+    <servlet>
+        <servlet-name>PortletServlet</servlet-name>
+        <servlet-class>org.gridlab.gridsphere.provider.portlet.jsr.PortletServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+       <servlet-name>PortletServlet</servlet-name>
+       <url-pattern>/jsr/gridportlets</url-pattern>
+    </servlet-mapping>
+
+    <mime-mapping>
+      <extension>wbmp</extension>
+      <mime-type>image/vnd.wap.wbmp</mime-type>
+    </mime-mapping>
+
+    <mime-mapping>
+      <extension>wml</extension>
+      <mime-type>text/vnd.wap.wml</mime-type>
+    </mime-mapping>
+
+    <mime-mapping>
+      <extension>wmls</extension>
+      <mime-type>text/vnd.wap.wmlscript</mime-type>
+    </mime-mapping>
+
+    <taglib>
+          <taglib-uri>/oscache</taglib-uri>
+          <taglib-location>/WEB-INF/tlds/oscache.tld</taglib-location>
+    </taglib>
+
+    <env-entry>
+        <description>JNDI logging context for this app</description>
+        <env-entry-name>log4j/logging-context</env-entry-name>
+        <env-entry-value>gridportlets</env-entry-value>
+        <env-entry-type>java.lang.String</env-entry-type>
+    </env-entry>
+
+</web-app>

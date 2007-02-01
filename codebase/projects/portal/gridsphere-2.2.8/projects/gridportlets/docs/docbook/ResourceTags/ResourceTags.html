@@ -1,0 +1,185 @@
+<html><head><META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Grid Portlets Resource Tags Reference</title><link href="GridSphere.css" rel="stylesheet" type="text/css"><meta content="DocBook XSL Stylesheets V1.68.1" name="generator"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="article" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="N10005"></a>Grid Portlets Resource Tags Reference</h1></div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="#ResourceRegistry">Resource Registry</a></span></dt><dd><dl><dt><span class="sect2"><a href="#ResourceAttributes">Resource Attributes</a></span></dt></dl></dd><dt><span class="sect1"><a href="#HardwareResource">Hardware Resource</a></span></dt><dt><span class="sect1"><a href="#ServiceResource">Service Resources</a></span></dt><dd><dl><dt><span class="sect2"><a href="#GramResource">GRAM Resource (Globus Gatekeeper)</a></span></dt><dt><span class="sect2"><a href="#GramJobManager">Gram (Globus) Job Manager</a></span></dt><dt><span class="sect2"><a href="#GridFtpResource">Grid File Tranfer Protocol (Grid FTP) Resource</a></span></dt><dt><span class="sect2"><a href="#GrisResource">Grid Resource Information Service (GRIS) Resource</a></span></dt><dt><span class="sect2"><a href="#GiisResource">Grid Information Index Service (GIIS) Resource</a></span></dt><dt><span class="sect2"><a href="#MyProxyResource">MyProxy Resources</a></span></dt></dl></dd><dt><span class="sect1"><a href="#ResourceAccount">Resource Accounts</a></span></dt><dd><dl><dt><span class="sect2"><a href="#HardwareAccount">Hardware Accounts</a></span></dt></dl></dd><dt><span class="sect1"><a href="#SoftwareResource">Software Resource</a></span></dt></dl></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="ResourceRegistry"></a>Resource Registry</h2></div></div></div><p>
+            Resources are registered with Grid Portlets in the deployed
+            <code class="filename">$CATALINA_HOME/webapps/gridportlets/WEB-INF/Resources.xml</code>
+            file. <code class="filename">Resources.xml</code> looks like the following:
+        </p><pre class="screen">
+
+    &lt;resources&gt;
+        &lt;!-- Include hardware-resource entries here --&gt;
+    &lt;/resources&gt;
+
+        </pre><p>
+            At the top level, <code class="filename">Resources.xml</code> contains a list of
+            <a href="#HardwareResource" title="Hardware Resource">hardware resource</a>
+            entries specifying the computing hosts Grid Portlets will make accessible to users.
+            Inside these entries, other entries can be included to describe what resources those
+            hosts contain. The complete list of resource tags that are provided by Grid Portlets are
+            described here.
+        </p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td valign="top" align="center" rowspan="2" width="25"><img alt="[Note]" src="common-images/note.png"></td><th align="left">Note</th></tr><tr><td valign="top" align="left">
+            Third party applications may also provide their own resource tags,
+            in which case you should refer to their documentation.
+        </td></tr></table></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="ResourceAttributes"></a>Resource Attributes</h3></div></div></div><p>
+                All of the resource tags shown below can contain one or more "resource attribute"
+                entries, like so:
+                <pre class="screen">
+
+    &lt;resource-attribute name="&lt;attribute-name-1&gt;" value="&lt;attribute-value-1"/&gt;
+    &lt;resource-attribute name="&lt;attribute-name-2&gt;" value="&lt;attribute-value-2"/&gt;
+
+                </pre>
+            </p><p>
+                This provides a way to associate key-value pairs with resources,
+                to capture any info not provided by the resource tag mappings.
+            </p></div></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="HardwareResource"></a>Hardware Resource</h2></div></div></div><pre class="screen">
+
+    &lt;hardware-resource hostname="&lt;hostname&gt;"
+                       ipaddress="&lt;optional-ipaddress&gt;"
+                       label="&lt;label-to-display&gt;"
+                       description="&lt;short-description&gt;"
+                       image1url="&lt;url-to-image-of-resource&gt;"
+                       image1label="&lt;label-for-image&gt;"
+                       htmlurl="&lt;url-to-html-description-relative-to-gridportlets-context&gt;"&gt;
+        &lt;!-- Include the following types of entries here:
+                &lt;service-resource&gt;  - Any resource extending from service-resource
+                &lt;software-resource&gt; - Any resource extending from software-resource
+                &lt;gram-job-manager&gt;  - Any gram job managers (see note below)
+                &lt;hardware-account&gt;  - Hardware accounts
+          --&gt;
+    &lt;/hardware-resource&gt;
+
+        </pre><p>
+            Hardware resource entries contain the following entries:
+            <div class="itemizedlist"><ul type="disc"><li><a href="#ServiceResource" title="Service Resources">Service resource</a>
+                    - Describing what services are hosted by the hardware resource,
+                      such as <a href="#GridFtpResource" title="Grid File Tranfer Protocol (Grid FTP) Resource">grid ftp</a></li><li><a href="#SoftwareResource" title="Software Resource">Software resource</a>
+                    -  Describing libraries and applications are hosted by the
+                       hardware resource.
+                </li><li><a href="#GramJobManager" title="Gram (Globus) Job Manager">Gram job manager</a>
+                    - Describing what gram job managers are hosted by the hardware resource,
+                      such as the <a href="#">pbs-job-manager</a></li><li><a href="#HardwareAccount" title="Hardware Accounts">Hardware account</a>
+                    - Describing what accounts are hosted by the hardware resource.
+                </li></ul></div>
+        </p><p>
+            Hardware resource entries can contain attributes for specifying urls to an
+            image and an html description to display in the Resource Browser Portlet,
+            see the <a href="../UserGuide/UserGuide.html" target="_self">User's Guide</a> for
+            more information. The url for the image can be external to your web application
+            server. However, url for the html description is must be relative to the
+            Grid Portlets web application context. For example, you might deploy
+            your html description file for a particular hardware resource to
+            <code class="filename">$CATALINA_HOME/webapps/gridportlets/html/myresource.html</code> and then
+            specify that file url in your hardware resource entry as
+            <code class="filename">/html/myresource.html</code>. Here's an example
+            involving the Peyote computing cluster at the
+            <a href="http://portal.aei.mpg.de" target="_self">Albert Einstein Institute:</a>
+            <pre class="screen">
+    
+    &lt;hardware-resource label="Peyote"
+                       description="Front-end to the AEI Peyote Cluster"
+                       hostname="peyote.aei.mpg.de"
+                       image1url="http://numrel.aei.mpg.de/Research/Peyote/Hardware/peyote-cabinets.jpg"
+                       image1label="Peyote Cluster Cabinets"
+                       htmlurl="/html/peyote.aei.mpg.de.html"&gt;
+       &lt;!-- Other entries below... --&gt;
+    &lt;/hardware-resource&gt;
+    
+            </pre>
+        </p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="ServiceResource"></a>Service Resources</h2></div></div></div><p>
+            The following section describes the service resources that can be
+            specified under hardware resources in the resource registry.
+        </p><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="GramResource"></a>GRAM Resource (Globus Gatekeeper)</h3></div></div></div><pre class="screen">
+    
+        &lt;gram-resource port="&lt;optional port if not on standard port&gt;""/&gt;
+    
+            </pre><p>
+                Globus gatekeepers are job resources. Job resources extend from
+                service resources and provide the capability to submit jobs.
+            </p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="GramJobManager"></a>Gram (Globus) Job Manager</h3></div></div></div><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td valign="top" align="center" rowspan="2" width="25"><img alt="[Note]" src="common-images/note.png"></td><th align="left">Note</th></tr><tr><td valign="top" align="left">
+                For now, <code class="classname">gram-job-manager</code> is contained under
+                <code class="classname">hardware-resource</code> until
+                we are able to implement the appropriate model. The right model would
+                be to have a <code class="classname">job-scheduler</code> tag containded under
+                <code class="classname">hardware-resource</code>. Then
+                <code class="classname">gram-job-manager</code> would be contained under
+                <code class="classname">gram-resource</code> and considered a remote
+                interface to <code class="classname">job-scheduler</code>.
+            </td></tr></table></div><pre class="screen">
+    
+        &lt;gram-job-manager name="&lt;fork|pbs|lsf|condor&gt;"&gt;
+            &lt;!-- Include &lt;job-queue&gt; entries here --&gt;
+        &lt;/gram-job-manager&gt;
+    
+            </pre><div class="itemizedlist"><a name="GramJobManagers"></a><ul type="disc"><li><a name="GramForkJobManager"></a><span class="emphasis"><em>fork</em></span> job managers enable job submission with fork.
+                </li><li><a name="GramPbsJobManager"></a><span class="emphasis"><em>pbs</em></span> job managers enable job submission to PBS.
+                </li><li><a name="GramLsfJobManager"></a><span class="emphasis"><em>lsf</em></span> job managers enable job submission to LSF.
+                </li><li><a name="GramCondorJobManager"></a><span class="emphasis"><em>condor</em></span> job managers enable job submission to Condor.
+                </li></ul></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="JobQueue"></a>Job Queues</h4></div></div></div><pre class="screen">
+    
+            &lt;job-queue name="&lt;name of queue&gt;" nodes="&lt;number of nodes&gt;"/&gt;
+    
+            </pre><p>
+                    Job schedulers contain or more job queues, though the
+                    Fork Job Manager contains only one job queue (named
+                    "default"), and therefore does not take a job-queue
+                    entry. You may place job queue entries inside the PBS,
+                    LSF, or Condor job schedueler entries.
+                </p></div></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="GridFtpResource"></a>Grid File Tranfer Protocol (Grid FTP) Resource</h3></div></div></div><pre class="screen">
+    
+        &lt;gridftp-resource port="&lt;optional port if not on standard port&gt;""&gt;
+        &lt;/gridftp-resource&gt;
+    
+            </pre><p>
+                Grid Ftp resources are service resources that implement the Grid Ftp protocol
+                to provide remote access to files.
+            </p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="GrisResource"></a>Grid Resource Information Service (GRIS) Resource</h3></div></div></div><pre class="screen">
+    
+        &lt;gris-resource port="&lt;optional port if not on standard port&gt;""/&gt;
+    
+            </pre><p>
+                Gris resources are service resources that provide meta-information about
+                other resources via LDAP.
+            </p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="GiisResource"></a>Grid Information Index Service (GIIS) Resource</h3></div></div></div><pre class="screen">
+    
+        &lt;giis-resource port="&lt;optional port if not on standard port&gt;""/&gt;
+    
+            </pre><p>
+                Giis resources are service resources that act as index servers for gris resources.
+            </p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="MyProxyResource"></a>MyProxy Resources</h3></div></div></div><pre class="screen">
+    
+        &lt;myproxy-resource port="&lt;optional port if not on standard port&gt;"
+                          portalProxyFile="&lt;path to generated proxy file&gt;"
+                          portalCertFile="&lt;path to public certificate&gt;"
+                          portalKeyFile="&lt;path to private key&gt;"/&gt;
+    
+            </pre><p>
+                Myproxy resources are credential repositories. More information about how
+                to configure Grid Portlets for use with MyProxy can be found in the
+                <a href="../AdminGuide/AdminGuide.html" target="_self">Administrator's Guide</a>.
+            </p></div></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="ResourceAccount"></a>Resource Accounts</h2></div></div></div><p>
+            Grid Portlets defines the concept of a "resource account", which is itself a
+            resource. In principle, resource accounts could be defined for specific
+            service resources or "software resources", but only one mapping has been defined
+            so far in Grid Portlets. This is "hardware account" and its usage is shown below.
+        </p><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="HardwareAccount"></a>Hardware Accounts</h3></div></div></div><pre class="screen">
+        
+            &lt;hardware-account userid="&lt;userid on machine&gt;"
+                              homedir="&lt;homedir on machine&gt;"
+                              usershell="&lt;login shell&gt;"&gt;
+                &lt;!-- Optional userdn entries
+                    &lt;userdn&gt;/O=Grid/O=GridSphere/CN=Jane Doe&lt;/userdn&gt; --&gt;
+            &lt;/hardware-account&gt;
+        
+                </pre><p>
+                    Hardware accounts represent accounts on remote computers. They can be mapped
+                    to portal users through the use of <code class="classname">userdn</code> entries.
+                    The entries should correspend to the dn of a portal user's credential mapping.
+                </p></div></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="SoftwareResource"></a>Software Resource</h2></div></div></div><p>
+            Grid Portlets defines the concept of a "software resource" to allow administrators
+            and developers to  associate applications or libraries with particular hardware
+            resources. Its usage is shown below.
+        </p><pre class="screen">
+    
+        &lt;software-resource label="&lt;some label&gt;"
+                           path="&lt;full path to the application or library&gt;"/&gt;
+    
+            </pre></div></div></body></html>

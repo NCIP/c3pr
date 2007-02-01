@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<portlet-group>
+    <group-name>jsr samples</group-name>
+    <group-description>Sample Sun and IBM JSR 168 portlets</group-description>
+    <group-visibility>PUBLIC</group-visibility>
+    <portlet-role-info>
+        <portlet-class>jsrportlets#JSPPortlet</portlet-class>
+        <required-role>USER</required-role>
+    </portlet-role-info>
+    <portlet-role-info>
+        <portlet-class>jsrportlets#NotepadPortlet</portlet-class>
+        <required-role>USER</required-role>
+    </portlet-role-info>
+    <portlet-role-info>
+        <portlet-class>jsrportlets#BookmarkPortlet</portlet-class>
+        <required-role>USER</required-role>
+    </portlet-role-info>
+    <portlet-role-info>
+        <portlet-class>jsrportlets#WeatherPortlet</portlet-class>
+        <required-role>USER</required-role>
+    </portlet-role-info>
+    <portlet-role-info>
+        <portlet-class>jsrportlets#BookmarkPortlet_03</portlet-class>
+        <required-role>USER</required-role>
+    </portlet-role-info>
+</portlet-group>

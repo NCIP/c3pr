@@ -1,0 +1,32 @@
+# $Id$
+
+BANNER_TITLE=Tytu\u0142 do wy\u015bwietlenia:
+BANNER_FILE=Plik do wy\u015bwietlenia:
+BANNER_CONFIGURE=Ustawienia wy\u015bwietlania pliku zosta\u0142y zapisane
+BANNER_FAILURE=Nie mo\u017cna zapisa\u0107 ustawie\u0144 wy\u015bwietlania pliku!
+BANNER_NOFILES_START=Brak plik\u00f3w. Prosz\u0119 u\u017cy\u0107
+BANNER_NOFILES_END=aby za\u0142adowa\u0107 pliki
+BANNER_FILE_NOTFOUND=Nie mo\u017cna znale\u017a\u0107 pliku!
+BANNER_HELP=Pomoc do portletu plakat
+BANNER_EDIT=Edycja strony wy\u2248\u00f5wietlania
+
+COMMANDER_HELP=Tryb pomocy nie jest jeszcze zaimplementowany
+COMMANDER_ERROR_INIT=Secure directory service jest niedostepny
+COMMANDER_ERROR_UPLOAD_TO_BIG=Przes\u0142any plik jest za du\u017cy
+COMMANDER_ERROR_LOAD=Nie mo\u017cna wczyta\u0107 pliku
+COMMANDER_ERROR_DIR_READ=Nie mo\u017cna odczyta\u0107 katalogu
+COMMANDER_ERROR_DIR_BACK=przejd\u017a do katalogu g\u0142\u00f3wnego
+COMMANDER_RESOURCE=zas\u00f3b
+COMMANDER_SIZE=rozmiar
+COMMANDER_LAST_MODIFIED=ostatnia modyfikacja
+COMMANDER_FILE_NAME=Plik:
+COMMANDER_FILE_UPLOAD=Prze\u015blij plik
+COMMANDER_DIR_FILE_NAME=Nazwa (pliku/katalogu)
+COMMANDER_MKDIR=nowy katalog
+COMMANDER_TOUCH=nowy plik
+COMMANDER_COPY=Kopiuj
+COMMANDER_MOVE=Przenie\u015b
+COMMANDER_DELETE=Usu\u0144
+COMMANDER_CANCEL=Anuluj
+COMMANDER_SAVE=Zapisz
+COMMANDER_EDIT=edytuj

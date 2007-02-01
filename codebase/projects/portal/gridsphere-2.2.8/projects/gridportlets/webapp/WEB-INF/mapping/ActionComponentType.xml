@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+
+<!--
+
+-->
+
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Object Mapping DTD Version 1.0//EN" "http://castor.exolab.org/mapping.dtd">
+<mapping>
+
+    <class name="org.gridlab.gridsphere.services.ui.ActionComponentTypeRegistry">
+        <map-to xml="action-component-types"/>
+        <field name="componentTypeList" collection="arraylist" type="org.gridlab.gridsphere.services.ui.ActionComponentType">
+            <bind-xml name="action-component-type"/>
+        </field>
+    </class>
+
+    <class name="org.gridlab.gridsphere.services.ui.ActionComponentType">
+        <field name="ClassName" type="string">
+            <bind-xml name="classname" node="attribute"/>
+        </field>
+        <field name="HasServletContext" type="boolean">
+            <bind-xml name="servletcontext" node="attribute"/>
+        </field>
+        <field name="ExtendsClass" type="string">
+            <bind-xml name="extendsclass" node="attribute"/>
+        </field>
+        <field name="DefaultAction" type="string">
+            <bind-xml name="default-action" node="attribute"/>
+        </field>
+        <field name="RenderAction" type="string">
+            <bind-xml name="render-action" node="attribute"/>
+        </field>
+        <field name="DefaultJspPage" type="string">
+            <bind-xml name="default-jsp" node="attribute"/>
+        </field>
+    </class>
+
+</mapping>

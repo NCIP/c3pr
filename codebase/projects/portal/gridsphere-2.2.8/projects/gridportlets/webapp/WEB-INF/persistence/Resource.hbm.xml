@@ -1,0 +1,229 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+
+<hibernate-mapping>
+
+    <!-- Resource -->
+    <class name="org.gridlab.gridsphere.services.resource.impl.BaseResource" table="resource" discriminator-value="BaseResource">
+        <!-- Object id -->
+        <id name="oid" column="gsoid" type="string" length="32">
+            <generator class="uuid.hex"/>
+        </id>
+
+        <!-- Resource discriminator -->
+        <discriminator column="subclass" type="string"/>
+
+        <!-- Resource dn -->
+        <property name="Dn" column="dn" type="string"/>
+
+        <!-- Resource label -->
+        <property name="Label" column="label" type="string"/>
+
+        <!-- Resource description -->
+        <property name="Description" column="description" type="string"/>
+
+        <!-- Resource availability -->
+        <property name="Available" column="available" type="boolean"/>
+
+        <!-- Resource attributes -->
+        <map name="ResourceAttributeMap"
+              table="RESOURCE_ATTRIBUTES"
+              cascade="all-delete-orphan"
+              lazy="true" batch-size="10">
+            <key column="RESOURCE_OID"/>
+            <index type="string" column="ATTRIBUTE_INDEX"/>
+            <element column="RESOURCE_ATTRIBUTE"
+                     type="org.gridlab.gridsphere.services.resource.impl.ResourceAttributeUserType"/>
+        </map>
+
+        <!-- Parent resource -->
+        <many-to-one
+            name="ParentResource"
+            class="org.gridlab.gridsphere.services.resource.impl.BaseResource"
+            cascade="none"/>
+
+        <!-- Child resources -->
+        <list name="ChildResources"
+              cascade="all-delete-orphan"
+              lazy="true" batch-size="10">
+                 <key column="PARENT_OID"/>
+                 <index column="CHILD_NUM"/>
+                 <one-to-many
+                     class="org.gridlab.gridsphere.services.resource.impl.BaseResource"/>
+        </list>
+
+        <!-- Host resource -->
+        <subclass name="org.gridlab.gridsphere.services.resource.impl.BaseHostResource" discriminator-value="HostResource">
+
+            <!-- Host name -->
+            <property name="HostName" type="string"/>
+            <!-- Host inet address -->
+            <property name="InetAddress" type="string"/>
+
+            <!-- Hardware resource -->
+            <subclass name="org.gridlab.gridsphere.services.resource.impl.HardwareResourceImpl" discriminator-value="Hardware"/>
+
+            <!-- Cluster node -->
+            <subclass name="org.gridlab.gridsphere.services.computer.ClusterNode" discriminator-value="ClusterNode">
+                <!-- Hardware host name -->
+                <property name="Name" type="string"/>
+            </subclass>
+
+        </subclass>
+
+        <!-- Cluster resource -->
+        <subclass name="org.gridlab.gridsphere.services.computer.ClusterResource" discriminator-value="ClusterResource">
+            <!-- Name -->
+            <property name="Name" type="string"/>
+        </subclass>
+
+        <!-- Hard disk -->
+        <subclass name="org.gridlab.gridsphere.services.computer.HardDisk" discriminator-value="HardDisk">
+            <!-- Name -->
+            <property name="Name" type="string"/>
+        </subclass>
+
+        <!-- Hard disk partition -->
+        <subclass name="org.gridlab.gridsphere.services.computer.HardDiskPartition" discriminator-value="HardDiskPartition">
+            <!-- Name -->
+            <property name="Name" type="string"/>
+        </subclass>
+
+        <!-- Network interface -->
+        <subclass name="org.gridlab.gridsphere.services.computer.NetworkInterface" discriminator-value="NetworkInterface">
+            <!-- Name -->
+            <property name="Name" type="string"/>
+        </subclass>
+
+        <!-- Processor -->
+        <subclass name="org.gridlab.gridsphere.services.computer.Processor" discriminator-value="Processor"/>
+
+        <!-- Process -->
+        <subclass name="org.gridlab.gridsphere.services.computer.Process" discriminator-value="Process"/>
+
+        <!-- Service resource -->
+        <subclass name="org.gridlab.gridsphere.services.resource.impl.BaseServiceResource" discriminator-value="BaseService">
+            <property name="Port" type="string"/>
+            <property name="Protocol" type="string"/>
+            <property name="ServicePath" type="string"/>
+
+            <!-- Gram resource -->
+            <subclass name="org.gridlab.gridsphere.services.resources.gram.GramResource" discriminator-value="GramResource"/>
+
+            <!-- Grid ftp resource -->
+            <subclass name="org.gridlab.gridsphere.services.resources.gridftp.GridFtpResource" discriminator-value="GridFtpResource">
+                <property name="DataChannelAuth" column="dcau" type="boolean"/>
+            </subclass>
+
+            <!-- Grid ssh resource -->
+            <subclass name="org.gridlab.gridsphere.services.resources.gridssh.GridSshResource" discriminator-value="GridSshResource"/>
+
+            <!-- Ldap resource -->
+            <subclass name="org.gridlab.gridsphere.services.resources.ldap.LdapResource" discriminator-value="LdapResource">
+                <property name="BaseDN" column="basedn" type="string"/>
+
+                <!-- Mds2 resource -->
+                <subclass name="org.gridlab.gridsphere.services.resources.mds2.Mds2Resource" discriminator-value="Mds2Resource">
+
+                    <!-- GIIS resource -->
+                    <subclass name="org.gridlab.gridsphere.services.resources.mds2.GIISResource" discriminator-value="GIISResource"/>
+
+                    <!-- GRIS resource -->
+                    <subclass name="org.gridlab.gridsphere.services.resources.mds2.GRISResource" discriminator-value="GRISResource"/>
+
+                </subclass>
+
+            </subclass>
+
+            <!-- Local host resource -->
+            <subclass name="org.gridlab.gridsphere.services.resources.system.LocalHostResource" discriminator-value="LocalHostResource"/>
+
+            <!-- Map resource -->
+            <subclass name="org.gridlab.gridsphere.services.resources.map.MapResource" discriminator-value="MapResource"/>
+
+            <!-- MyProxy resource -->
+            <subclass name="org.gridlab.gridsphere.services.resources.myproxy.MyProxyResource" discriminator-value="MyProxyResource">
+                <property name="PortalProxyFile" column="proxyfile" type="string"/>
+                <property name="PortalCertificateFile" column="certfile" type="string"/>
+                <property name="PortalKeyFile" column="keyfile" type="string"/>
+		        <property name="UsePortalCredential" column="portalcred" type="boolean"/>
+            </subclass>
+
+            <!-- Web service resource -->
+            <subclass name="org.gridlab.gridsphere.services.resource.impl.BaseWebServiceResource" discriminator-value="WebService">
+
+                <!-- Httpg service resource -->
+                <subclass name="org.gridlab.gridsphere.services.security.gss.impl.BaseHttpgServiceResource" discriminator-value="HttpgServiceResource">
+                    <property name="Delegation" column="delegation" type="string"/>
+                    <property name="Authorization" column="gsauthorization" type="string"/>
+                    <property name="ServiceDn" column="servicedn" type="string"/>
+                    <property name="TimeOut" column="timeout" type="string"/>
+
+                </subclass>
+
+            </subclass>
+
+        </subclass>
+
+        <!-- Software resource -->
+        <subclass name="org.gridlab.gridsphere.services.resource.impl.BaseSoftwareResource" discriminator-value="SoftwareResource">
+
+            <!-- Job queue name -->
+            <property name="Path" type="string"/>
+
+        </subclass>
+
+        <!-- Job scheduler resource -->
+        <subclass name="org.gridlab.gridsphere.services.job.impl.BaseJobScheduler" discriminator-value="JobScheduler">
+            <!-- Job scheduler type -->
+            <property name="JobSchedulerTypeName" type="string" column="schedtype"/>
+
+            <!-- Gram job manager -->
+            <subclass name="org.gridlab.gridsphere.services.resources.gram.GramJobManager" discriminator-value="GramJobManager">
+                <!-- job manager name -->
+                <property name="Name" type="string"/>
+            </subclass>
+
+        </subclass>
+
+        <!-- Job queue -->
+        <subclass name="org.gridlab.gridsphere.services.job.impl.BaseJobQueue" discriminator-value="JobQueue">
+            <!-- Job queue name -->
+            <property name="Name" type="string"/>
+        </subclass>
+
+        <!-- Resource account -->
+        <subclass name="org.gridlab.gridsphere.services.resource.impl.BaseResourceAccount" discriminator-value="ResourceAccount">
+            <!-- Resource user id -->
+            <property name="UserId" type="string"/>
+
+            <!-- Hardware account -->
+            <subclass name="org.gridlab.gridsphere.services.resource.impl.HardwareAccountImpl" discriminator-value="HardwareAccount"/>
+
+        </subclass>
+
+    </class>
+
+    <!-- GASS resource -->
+    <class name="org.gridlab.gridsphere.services.resources.gass.impl.GassResourceImpl"
+           table="gassservers">
+        <!-- Object id -->
+        <id name="oid"
+            column="gsoid"
+            type="java.lang.String"
+            length="32"
+            >
+            <generator class="uuid.hex"/>
+
+        </id>
+        <!-- GASS DN -->
+        <property name="Dn" type="string" column="dn"/>
+        <!-- GASS Port -->
+        <property name="Port" type="int" column="port"/>
+
+   </class>
+
+</hibernate-mapping>

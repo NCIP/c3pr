@@ -1,0 +1,47 @@
+<portlet-tabbed-pane>
+    <portlet-tab title="JSR Portlets">
+        <portlet-tabbed-pane style="sub-menu">
+            <portlet-tab>
+                <title lang="en">Sun samples</title>
+                <table-layout>
+                    <row-layout>
+                        <column-layout width="50%">
+                            <portlet-frame label="jspportlet">
+                                <portlet-class>jsrportlets#JSPPortlet</portlet-class>
+                            </portlet-frame>
+                        </column-layout>
+                        <column-layout width="50%">
+                            <portlet-frame label="weather">
+                                <portlet-class>jsrportlets#WeatherPortlet</portlet-class>
+                            </portlet-frame>
+                        </column-layout>
+                    </row-layout>
+                    <row-layout>
+                        <column-layout width="50%">
+                            <portlet-frame label="notepad">
+                                <portlet-class>jsrportlets#NotepadPortlet</portlet-class>
+                            </portlet-frame>
+                        </column-layout>
+                        <column-layout width="50%">
+                            <portlet-frame label="bookmark">
+                                <portlet-class>jsrportlets#BookmarkPortlet</portlet-class>
+                            </portlet-frame>
+                        </column-layout>
+                    </row-layout>
+                </table-layout>
+            </portlet-tab>
+            <portlet-tab>
+                <title lang="en">IBM samples</title>
+                <table-layout>
+                    <row-layout>
+                        <column-layout width="50%">
+                            <portlet-frame label="ibmportlet">
+                                <portlet-class>jsrportlets#BookmarkPortlet_03</portlet-class>
+                            </portlet-frame>
+                        </column-layout>
+                    </row-layout>
+                </table-layout>
+            </portlet-tab>
+        </portlet-tabbed-pane>
+    </portlet-tab>
+</portlet-tabbed-pane>

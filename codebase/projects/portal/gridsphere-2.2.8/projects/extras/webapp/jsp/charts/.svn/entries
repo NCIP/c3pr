@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="19"
+   name=""
+   committed-date="2004-05-18T09:08:57.000000Z"
+   url="https://svn.gridsphere.org/extras/trunk/webapp/jsp/charts"
+   last-author="docentt"
+   kind="dir"
+   uuid="77c64a61-2e0f-0410-93dd-cb3defde2b95"
+   revision="124"/>
+<entry
+   committed-rev="19"
+   name="error.jsp"
+   text-time="2006-07-05T17:52:53.000000Z"
+   committed-date="2004-05-18T09:08:57.000000Z"
+   checksum="ee74b4b87326058e01ed7b2066cc9f24"
+   last-author="docentt"
+   kind="file"
+   prop-time="2006-07-05T17:52:53.000000Z"/>
+<entry
+   committed-rev="19"
+   name="view1.jsp"
+   text-time="2006-07-05T17:52:53.000000Z"
+   committed-date="2004-05-18T09:08:57.000000Z"
+   checksum="7e2a8fa38ec5fccbb145a1c9128de87e"
+   last-author="docentt"
+   kind="file"
+   prop-time="2006-07-05T17:52:53.000000Z"/>
+<entry
+   committed-rev="19"
+   name="view2.jsp"
+   text-time="2006-07-05T17:52:53.000000Z"
+   committed-date="2004-05-18T09:08:57.000000Z"
+   checksum="7f63eebefc5f1c5d42eb28cc4eb08a33"
+   last-author="docentt"
+   kind="file"
+   prop-time="2006-07-05T17:52:53.000000Z"/>
+<entry
+   committed-rev="19"
+   name="view3.jsp"
+   text-time="2006-07-05T17:52:53.000000Z"
+   committed-date="2004-05-18T09:08:57.000000Z"
+   checksum="965ac12d985a87fc3094604c30cc9c5a"
+   last-author="docentt"
+   kind="file"
+   prop-time="2006-07-05T17:52:53.000000Z"/>
+</wc-entries>

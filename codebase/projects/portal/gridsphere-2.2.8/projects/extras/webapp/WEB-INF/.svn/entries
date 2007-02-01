@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="117"
+   name=""
+   committed-date="2005-10-18T11:29:37.000000Z"
+   url="https://svn.gridsphere.org/extras/trunk/webapp/WEB-INF"
+   last-author="wehrens"
+   kind="dir"
+   uuid="77c64a61-2e0f-0410-93dd-cb3defde2b95"
+   revision="124"/>
+<entry
+   committed-rev="2"
+   name="gridsphere-portlet.xml"
+   text-time="2006-07-05T17:52:53.000000Z"
+   committed-date="2004-04-28T14:18:38.000000Z"
+   checksum="ce62b6ad15513d4f5e7bb24451d5a0a9"
+   last-author="wehrens"
+   kind="file"
+   prop-time="2006-07-05T17:52:52.000000Z"/>
+<entry
+   name="persistence"
+   kind="dir"/>
+<entry
+   committed-rev="117"
+   name="portlet.xml"
+   text-time="2006-07-05T17:52:53.000000Z"
+   committed-date="2005-10-18T11:29:37.000000Z"
+   checksum="38267971090f689920caa52dc944a22d"
+   last-author="wehrens"
+   kind="file"
+   prop-time="2006-07-05T17:52:52.000000Z"/>
+<entry
+   committed-rev="99"
+   name="PortletServices.xml"
+   text-time="2006-07-05T17:52:53.000000Z"
+   committed-date="2004-10-05T09:24:43.000000Z"
+   checksum="e3a472cbd82b360f60b2b199dd8319f2"
+   last-author="brango"
+   kind="file"
+   prop-time="2006-07-05T17:52:52.000000Z"/>
+<entry
+   committed-rev="112"
+   name="layout.xml"
+   text-time="2006-07-05T17:52:53.000000Z"
+   committed-date="2004-12-21T16:30:52.000000Z"
+   checksum="40540c5ac2866fe43dd9351341933012"
+   last-author="novotny"
+   kind="file"
+   prop-time="2006-07-05T17:52:52.000000Z"/>
+<entry
+   committed-rev="115"
+   name="web.xml"
+   text-time="2006-07-05T17:52:53.000000Z"
+   committed-date="2005-02-23T11:26:49.000000Z"
+   checksum="50e6b855f8c999e2e44836a2848f826a"
+   last-author="docentt"
+   kind="file"
+   prop-time="2006-07-05T17:52:52.000000Z"/>
+<entry
+   name="classes"
+   kind="dir"/>
+</wc-entries>

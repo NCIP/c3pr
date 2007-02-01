@@ -1,0 +1,79 @@
+<portlet-tabbed-pane>
+    <portlet-tab label="Grid">
+        <title lang="en">Grid</title>
+        <portlet-tabbed-pane style="sub-menu">
+            <portlet-tab required-role="ADMIN">
+                <title lang="en">Registry</title>
+                <title lang="hr">Postavke grida</title>
+                <table-layout>
+                    <row-layout>
+                        <column-layout>
+                            <portlet-frame label="ResourceRegistryPortlet">
+                                <portlet-class>gridportlets#ResourceRegistryPortlet</portlet-class>
+                            </portlet-frame>
+                        </column-layout>
+                    </row-layout>
+                </table-layout>
+            </portlet-tab>
+            <portlet-tab>
+                <title lang="en">Credentials</title>
+                <title lang="hr">Certifikati</title>
+                <table-layout>
+                    <row-layout>
+                        <column-layout>
+                            <portlet-frame label="CredentialManagerPortlet">
+                                <portlet-class>gridportlets#CredentialManagerPortlet</portlet-class>
+                            </portlet-frame>
+                        </column-layout>
+                    </row-layout>
+                </table-layout>
+            </portlet-tab>
+            <portlet-tab>
+                <title lang="en">Resources</title>
+                <title lang="hr">Resursi</title>
+                <table-layout>
+                    <row-layout>
+                        <column-layout>
+                            <portlet-frame label="ResourceBrowserPortlet">
+                                <portlet-class>gridportlets#ResourceBrowserPortlet</portlet-class>
+                            </portlet-frame>
+                        </column-layout>
+                    </row-layout>
+                </table-layout>
+            </portlet-tab>
+            <portlet-tab>
+                <title lang="en">Files</title>
+                <title lang="hr">Datoteke</title>
+                <table-layout>
+                    <row-layout>
+                        <column-layout>
+                            <portlet-frame label="FileBrowserPortlet">
+                                <portlet-class>gridportlets#FileBrowserPortlet</portlet-class>
+                            </portlet-frame>
+                        </column-layout>
+                    </row-layout>
+                    <row-layout>
+                        <column-layout>
+                            <portlet-frame label="FileActivityPortlet">
+                                <portlet-class>gridportlets#FileActivityPortlet</portlet-class>
+                            </portlet-frame>
+                        </column-layout>
+                    </row-layout>
+                </table-layout>
+            </portlet-tab>
+            <portlet-tab>
+                <title lang="en">Jobs</title>
+                <title lang="hr">Poslovi</title>
+                <table-layout>
+                    <row-layout>
+                        <column-layout>
+                            <portlet-frame label="JobSubmissionPortlet">
+                                <portlet-class>gridportlets#JobSubmissionPortlet</portlet-class>
+                            </portlet-frame>
+                        </column-layout>
+                    </row-layout>
+                </table-layout>
+            </portlet-tab>
+        </portlet-tabbed-pane>
+    </portlet-tab>
+</portlet-tabbed-pane>

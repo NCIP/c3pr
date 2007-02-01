@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<resource-profiles>
+
+<!-- Define a new resource profile like so...
+    <resource-profile
+        key="MyResourceProfile
+        description="My Resource Profile">
+        <resource-type>MyResourceClass</resource-type>
+        <resource-list-page>MyResourceListViewClass</resource-list-page>
+        <resource-view-page>MyResourceViewClass</resource-view-page>
+    </resource-profile>
+-->
+
+</resource-profiles>

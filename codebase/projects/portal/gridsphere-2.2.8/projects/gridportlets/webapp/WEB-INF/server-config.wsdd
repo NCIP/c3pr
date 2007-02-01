@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+ <globalConfiguration>
+  <parameter name="sendMultiRefs" value="true"/>
+  <parameter name="adminPassword" value="admin"/>
+  <parameter name="attachments.Directory" value="/opt/jakarta-tomcat-4.1.30/webapps/axis/WEB-INF/attachments"/>
+  <parameter name="sweeperThreads" value="3"/>
+  <parameter name="notificationFactory" value="ogsi/NotificationSubscriptionFactoryService"/>
+  <parameter name="handleResolver" value="ogsi/HandleResolverService"/>
+  <parameter name="containerThreads" value="5"/>
+  <parameter name="ogsiLocation" value="ogsa/services/"/>
+  <parameter name="httpg.notificationFactory" value="core/notification/httpg/NotificationSubscriptionFactoryService"/>
+  <parameter name="axis.sendMinimizedElements" value="true"/>
+  <parameter name="authenticationService" value="gsi/AuthenticationService"/>
+  <parameter name="sendXMLDeclaration" value="true"/>
+  <parameter name="queryEvaluators" value="org.globus.ogsa.impl.core.service.ServiceDataNameEvaluator org.globus.ogsa.impl.core.service.ServiceDataXPathEvaluator org.globus.ogsa.impl.core.service.ServiceDataNameDeleteEvaluator org.globus.ogsa.impl.core.service.ServiceDataNameSetEvaluator"/>
+  <parameter name="secureNotificationFactory" value="gsi/SecureNotificationSubscriptionFactoryService"/>
+  <parameter name="sendXsiTypes" value="true"/>
+  <parameter name="attachments.implementation" value="org.apache.axis.attachments.AttachmentsImpl"/>
+
+  <requestFlow>
+   
+   <handler type="java:org.globus.axis.handler.CredentialHandler"/>
+
+   <handler type="URLMapper"/>
+   <handler type="PersistentServiceHandler"/>
+   <handler type="java:org.globus.ogsa.handlers.ServiceLoaderHandler"/>
+   <handler type="HandleResolverHandler"/>
+   <handler type="AuthenticationServiceHandler"/>
+   <handler type="java:org.globus.ogsa.handlers.RoutingSecRequestHandler"/>
+   <handler type="java:org.globus.ogsa.utils.JAXRPCHandler">
+    <parameter name="className" value="org.globus.ogsa.impl.security.authentication.wssec.WSSecurityHandler"/>
+   </handler>
+   <handler type="java:org.globus.ogsa.impl.security.authentication.SecurityPolicyHandler"/>
+   <handler type="java:org.globus.ogsa.impl.security.authorization.AuthorizationHandler"/>
+   <handler type="java:org.globus.ogsa.impl.security.authentication.CredentialRefreshHandler"/>
+   <handler type="java:org.apache.axis.handlers.JWSHandler">
+    <parameter name="scope" value="session"/>
+   </handler>
+   <handler type="OnceInvocationHandler"/>
+   <handler type="RoutingRequestHandler"/>
+   <handler name="soapmonitor" type="java:org.apache.axis.handlers.SOAPMonitorHandler"/>
+  </requestFlow>
+  <responseFlow>
+   <handler type="RoutingResponseHandler"/>
+   <handler type="java:org.globus.ogsa.utils.JAXRPCHandler">
+    <parameter name="className" value="org.globus.ogsa.impl.security.authentication.X509SignHandler"/>
+   </handler>
+   <handler type="java:org.globus.ogsa.utils.JAXRPCHandler">
+    <parameter name="className" value="org.globus.ogsa.impl.security.authentication.GSSHandler"/>
+   </handler>
+   <handler name="soapmonitor" type="java:org.apache.axis.handlers.SOAPMonitorHandler"/>
+  </responseFlow>
+ </globalConfiguration>
+ 
+ 
+ <handler name="AuthenticationServiceHandler" type="java:org.globus.ogsa.impl.security.authentication.service.AuthenticationServiceHandler"/>
+ <handler name="OnceInvocationHandler" type="java:org.globus.ogsa.handlers.OnceInvocationHandler"/>
+ <handler name="PersistentServiceHandler" type="java:org.globus.ogsa.handlers.PersistentServiceHandler"/>
+ <handler name="HandleResolverHandler" type="java:org.globus.ogsa.handlers.HandleResolverHandler"/>
+ <handler name="RoutingRequestHandler" type="java:org.globus.ogsa.handlers.RoutingRequestHandler"/>
+ <handler name="LocalResponder" type="java:org.apache.axis.transport.local.LocalResponder"/>
+ <handler name="URLMapper" type="java:org.apache.axis.handlers.http.URLMapper"/>
+ <handler name="RPCDispatcher" type="java:org.apache.axis.providers.java.RPCProvider"/>
+ <handler name="logger" type="java:org.apache.axis.handlers.LogHandler"/>
+ <handler name="Authenticate" type="java:org.apache.axis.handlers.SimpleAuthenticationHandler"/>
+ <handler name="MsgDispatcher" type="java:org.apache.axis.providers.java.MsgProvider"/>
+ <handler name="RoutingResponseHandler" type="java:org.globus.ogsa.handlers.RoutingResponseHandler"/>
+
+ <transport name="http">
+  <requestFlow>
+   <handler type="URLMapper"/>
+   <handler type="java:org.apache.axis.handlers.http.HTTPAuthHandler"/>
+  </requestFlow>
+ </transport>
+ <transport name="local">
+  <responseFlow>
+   <handler type="java:org.apache.axis.transport.local.LocalResponder"/>
+  </responseFlow>
+ </transport>
+ <transport name="SimpleHTTP">
+  <requestFlow>
+   <handler type="URLMapper"/>
+  </requestFlow>
+ </transport>
+</deployment>

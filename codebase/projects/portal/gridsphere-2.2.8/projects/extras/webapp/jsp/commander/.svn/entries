@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="57"
+   name=""
+   committed-date="2004-08-19T10:25:42.000000Z"
+   url="https://svn.gridsphere.org/extras/trunk/webapp/jsp/commander"
+   last-author="docentt"
+   kind="dir"
+   uuid="77c64a61-2e0f-0410-93dd-cb3defde2b95"
+   revision="124"/>
+<entry
+   committed-rev="38"
+   name="editfile.jsp"
+   text-time="2006-07-05T17:52:53.000000Z"
+   committed-date="2004-06-20T18:38:15.000000Z"
+   checksum="5332996bf1122361bb48d02dd45b7dae"
+   last-author="docentt"
+   kind="file"
+   prop-time="2006-07-05T17:52:53.000000Z"/>
+<entry
+   committed-rev="38"
+   name="help.jsp"
+   text-time="2006-07-05T17:52:53.000000Z"
+   committed-date="2004-06-20T18:38:15.000000Z"
+   checksum="9cbf33ab77785e0a818c6b4677943edc"
+   last-author="docentt"
+   kind="file"
+   prop-time="2006-07-05T17:52:53.000000Z"/>
+<entry
+   committed-rev="57"
+   name="explorer.jsp"
+   text-time="2006-07-05T17:52:53.000000Z"
+   committed-date="2004-08-19T10:25:42.000000Z"
+   checksum="6c17ad98334f4a4a635595b9f131ba9f"
+   last-author="docentt"
+   kind="file"
+   prop-time="2006-07-05T17:52:53.000000Z"/>
+</wc-entries>

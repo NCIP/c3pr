@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="111"
+   name=""
+   committed-date="2004-12-21T16:22:45.000000Z"
+   url="https://svn.gridsphere.org/extras/trunk/webapp/WEB-INF/persistence"
+   last-author="novotny"
+   kind="dir"
+   uuid="77c64a61-2e0f-0410-93dd-cb3defde2b95"
+   revision="124"/>
+<entry
+   committed-rev="11"
+   name="wiki.hbm.xml"
+   text-time="2006-07-05T17:52:52.000000Z"
+   committed-date="2004-05-17T15:23:28.000000Z"
+   checksum="80f93e6cbe89815403812867c61204c9"
+   last-author="wehrens"
+   kind="file"
+   prop-time="2006-07-05T17:52:52.000000Z"/>
+<entry
+   committed-rev="78"
+   name="Poll.hbm.xml"
+   text-time="2006-07-05T17:52:52.000000Z"
+   committed-date="2004-10-04T10:47:25.000000Z"
+   checksum="00426a99fe0046b823732bf4a460c967"
+   last-author="brango"
+   kind="file"
+   prop-time="2006-07-05T17:52:52.000000Z"/>
+<entry
+   committed-rev="2"
+   name="hibernate.properties"
+   text-time="2006-07-05T17:52:52.000000Z"
+   committed-date="2004-04-28T14:18:38.000000Z"
+   checksum="910aae1328d99904c9ec39c750044ca4"
+   last-author="wehrens"
+   kind="file"
+   prop-time="2006-07-05T17:52:52.000000Z"/>
+<entry
+   committed-rev="111"
+   name="PhotoAlbum.hbm.xml"
+   text-time="2006-07-05T17:52:52.000000Z"
+   committed-date="2004-12-21T16:22:45.000000Z"
+   checksum="4d58c136e88a2bb084526f5b6cffe905"
+   last-author="novotny"
+   kind="file"
+   prop-time="2006-07-05T17:52:52.000000Z"/>
+</wc-entries>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="51"
+   name=""
+   committed-date="2004-07-19T09:16:56.000000Z"
+   url="https://svn.gridsphere.org/extras/trunk/webapp/jsp/rssreader"
+   last-author="wehrens"
+   kind="dir"
+   uuid="77c64a61-2e0f-0410-93dd-cb3defde2b95"
+   revision="124"/>
+<entry
+   committed-rev="32"
+   name="edit.jsp"
+   text-time="2006-07-05T17:52:53.000000Z"
+   committed-date="2004-05-27T12:04:23.000000Z"
+   checksum="cc35488084ad67d5c951ac757b39cd83"
+   last-author="wehrens"
+   kind="file"
+   prop-time="2006-07-05T17:52:53.000000Z"/>
+<entry
+   committed-rev="7"
+   name="help.jsp"
+   text-time="2006-07-05T17:52:53.000000Z"
+   committed-date="2004-05-17T08:58:32.000000Z"
+   checksum="024983693899d12ecfbac0f4e3913e08"
+   last-author="wehrens"
+   kind="file"
+   prop-time="2006-07-05T17:52:53.000000Z"/>
+<entry
+   committed-rev="51"
+   name="view.jsp"
+   text-time="2006-07-05T17:52:53.000000Z"
+   committed-date="2004-07-19T09:16:56.000000Z"
+   checksum="37a877a4a46197622d67ca0723ba32a7"
+   last-author="wehrens"
+   kind="file"
+   prop-time="2006-07-05T17:52:53.000000Z"/>
+</wc-entries>

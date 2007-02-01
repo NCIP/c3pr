@@ -1,0 +1,1 @@
+This is a simple RSS Feed reader. It supports RSS feeds in the 0.90, 0.91 and 1.0 versions.

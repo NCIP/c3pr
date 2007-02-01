@@ -1,0 +1,301 @@
+<html><head><META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Grid Portlets Administrator's Guide</title><link href="GridSphere.css" rel="stylesheet" type="text/css"><meta content="DocBook XSL Stylesheets V1.68.1" name="generator"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="article" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="N10005"></a>Grid Portlets Administrator's Guide</h1></div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="#N10009">Introduction</a></span></dt><dt><span class="sect1"><a href="#N10017">Installing Grid Portlets</a></span></dt><dd><dl><dt><span class="sect2"><a href="#N1001A">Prerequisites</a></span></dt><dt><span class="sect2"><a href="#N1001F">Step 1. Check build.properties</a></span></dt><dt><span class="sect2"><a href="#N10024">Step 2. Run "ant install"</a></span></dt><dt><span class="sect2"><a href="#N10029">Step 3. Start/restart Tomcat</a></span></dt><dt><span class="sect2"><a href="#N10047">Step 4. Make the Grid Portlets group a default group</a></span></dt></dl></dd><dt><span class="sect1"><a href="#N10053">Updating Grid Portlets</a></span></dt><dt><span class="sect1"><a href="#N10059">Java Commodity Grid (CoG) Kit</a></span></dt><dd><dl><dt><span class="sect2"><a href="#N1005E">Java CoG Versions</a></span></dt><dt><span class="sect2"><a href="#N10063">Java CoG Configuration</a></span></dt></dl></dd><dt><span class="sect1"><a href="#ResourceRegistry">Resource Registry</a></span></dt><dd><dl><dt><span class="sect2"><a href="#ResourceRegistryFile">Resource Registry File</a></span></dt><dt><span class="sect2"><a href="#ResourceRegistryPortlet">Resource Registry Portlet</a></span></dt></dl></dd><dt><span class="sect1"><a href="#ResourceMonitoring">Resource Monitoring and Discovery</a></span></dt><dd><dl><dt><span class="sect2"><a href="#N100EB">Other Information Services</a></span></dt></dl></dd><dt><span class="sect1"><a href="#SingleSigon">Single Sign-on</a></span></dt><dd><dl><dt><span class="sect2"><a href="#MyProxy.title">MyProxy Resource</a></span></dt></dl></dd></dl></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="N10009"></a>Introduction</h2></div></div></div><p>
+        The Grid Portlets Administrator's Guide describes how to install and configure the Grid Portlets
+        web application. Please consult the <a href="../UserGuide/UserGuide.html" target="_self">User's Guide</a>
+        for more information on how to use Grid Portlets for managing jobs and data on the Grid. Please consult
+        the <a href="../DeveloperGuide/DeveloperGuide.html" target="_self">Developer's Guide</a> for more
+        information on how to use Grid Portlets to develop custom Grid portal web applications.
+    </p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="N10017"></a>Installing Grid Portlets</h2></div></div></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="N1001A"></a>Prerequisites</h3></div></div></div><p>
+            Grid Portlets requires a deployed GridSphere version 2.1.4
+            or higher. Otherwise, Grid Portlets has the same initial
+            pre-requisites as GridSphere, so please consult GridSphere's
+            documentation if you have any questions.
+        </p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="N1001F"></a>Step 1. Check build.properties</h3></div></div></div><p>
+            The Ant build file, build.xml, uses the build.properties
+            file to obtain user-specific compilation options. You may
+            wish to edit build.properties appropriately for your needs.
+            The default values should be sufficient for installing
+        </p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="N10024"></a>Step 2. Run "ant install"</h3></div></div></div><p>
+            To install Grid Portlets for the first time, run "ant install".
+            This will compile and deploy the Grid Portlets web application
+            and documentation to Tomcat. However, before installing, you
+            should probably take the time to read TIPS.txt.
+        </p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="N10029"></a>Step 3. Start/restart Tomcat</h3></div></div></div><p>
+            Start/restart tomcat to see the results. To be sure, check
+            the logs in <code class="filename">$CATALINA_HOME/logs/catalina.out</code> that no strange
+            errors occur. If all looks fine, login to GridSphere as the
+            "root" user.
+        </p><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="N10032"></a>Join the Grid Portlets Group</h4></div></div></div><p>
+                When you login, go to the Profile Manager Portlet. You should see the
+                "gridportlets" group as an available group to add to your user profile.
+                <div class="figure"><a name="N10037"></a><p class="title"><b>Figure&nbsp;1.&nbsp;Grid Portlets Group</b></p><div><img src="media/GroupMembership.jpg" alt="Grid Portlets Group"></div></div>
+            </p><p>
+                Add the Grid Portlets group to the root user's profile to in the
+                Profile Manager Portlet. You should then see a "Grid" tab available
+                in your tab view.
+                <div class="figure"><a name="N10040"></a><p class="title"><b>Figure&nbsp;2.&nbsp;Grid Portlets Tab</b></p><div><img src="media/GridPortletsTab.jpg" alt="Grid Portlets Tab"></div></div>
+            </p></div></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="N10047"></a>Step 4. Make the Grid Portlets group a default group</h3></div></div></div><p>
+            As a root or an administrator of the portal, you may also make
+            Grid Portlets available to all users by default by making
+            the "gridportlets" group a default group in the Group Manager
+            Portlet.
+            <div class="figure"><a name="N1004C"></a><p class="title"><b>Figure&nbsp;3.&nbsp;Grid Portlets As a Default Group</b></p><div><img src="media/GridPortletsGroup.jpg" alt="Grid Portlets As a Default Group"></div></div>
+        </p></div></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="N10053"></a>Updating Grid Portlets</h2></div></div></div><p>
+        Whenever you update the Grid Portlets source code from a new
+        distribution or from CVS you just need to run "ant update".
+        This will deploy the latest Grid Portlets software and
+        documentation to Tomcat, as well as update your existing Grid
+        Portlets database.
+    </p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="N10059"></a>Java Commodity Grid (CoG) Kit</h2></div></div></div><p>
+        Grid Portlets makes use of the Java Commodity Grid (CoG)
+        Kit for performing many tasks on the Grid, including
+        retrieving credentials from MyProxy, submitting jobs to
+        Globus Gatekeepers, transferring files with Grid Ftp and
+        setting up GASS servers to collect job output. We recommend
+        you visit the Globus Cog Kits Website to learn more about
+        Java CoG.
+    </p><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="N1005E"></a>Java CoG Versions</h3></div></div></div><p>
+            If you have set the "ogsa.version" property in
+            build.properties to "ogsa-3.0.2", then Java Cog 1.1
+            will be used. If you have set the "ogsa.version"
+            property to "ogsa-3.2.1", then Java CoG 1.2 will
+            be used.
+        </p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="N10063"></a>Java CoG Configuration</h3></div></div></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="N10066"></a>${HOME}/.globus/cog.properties</h4></div></div></div><p>
+                Configuring Java CoG amounts to setting properties
+                in <code class="filename">${HOME}/.globus/cog.properties</code>.
+                That is, you should have a <code class="filename">.globus</code>
+                directory inside the home directory of the user under
+                which you are running your portal. For more information,
+                please consult the Java CoG manual.
+            </p><div class="example"><a name="N10073"></a><p class="title"><b>Example&nbsp;1.&nbsp;The "ip" property</b></p><pre class="screen">
+    ip=&lt;YOUR-IP-ADDRESS&gt;
+                </pre><p>
+                    This is a very handy property to set
+                    when you are developing on a laptop or host that gets
+                    its IP address from a DHCP server or some other
+                    means. Setting this property to the appropriate value
+                    will insure that you can collect job output when you
+                    are using the job submission portlet. You should not
+                    have to set this property, however, on hosts that
+                    have a permanent IP address _and_ that host is
+                    properly configured.
+                </p></div></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="N1007B"></a>${HOME}/.globus/certificates</h4></div></div></div><p>
+                You should also have a directory containing the
+                certificates of the Certificate Authorities
+                accepted by our portal and Grid. If you do not
+                understand what this means, please consult the
+                Java CoG manual.
+            </p></div></div></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="ResourceRegistry"></a>Resource Registry</h2></div></div></div><p>
+        It's easy to setup and administer the set of resources the Grid Portlets
+        web application makes available to users. Grid Portlets maintains a
+        <span class="emphasis"><em>Resource Registry</em></span> that contains information
+        about resources Grid Portlets should make available to users. The
+        Resource Registry can be used to describe hardware
+        resources, the services that run on them, available software
+        and user accounts.
+    </p><p>
+        The Resource Registry can be administered in one of two ways, by editing
+        <code class="filename">$CATALINA_HOME/webapps/gridportlets/WEB-INF/Resources.xml</code>
+        before startup or via the Resource Registry Portlet at runtime.
+    </p><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="ResourceRegistryFile"></a>Resource Registry File</h3></div></div></div><p>
+            Grid Portlets deploys the <code class="filename">./webapp/WEB-INF/Resources.xml</code>
+            file to its target web application directory when it is installed or
+            updated. This file contains a nested structure of hardware resource descriptions
+            that are imported into the database when the portal starts up.
+            You can edit this file, then redeploy the Grid Portlets web application with
+            "ant deploy" or "ant update" or replace it with another copy while the portal is
+            running and reload the file with the <a href="#ResourceRegistryPortlet" title="Resource Registry Portlet">Resource Registry Portlet</a>.
+        </p><p>
+            Below we include an example file configured to use resources in the GridLab
+            Project.
+        </p><p>
+            <div class="example"><a name="N100A4"></a><p class="title"><b>Example&nbsp;2.&nbsp;A sample Resources.xml</b></p><pre class="screen">
+                    <pre class="programlisting">
+    &lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+    &lt;grid-resources&gt;
+
+         &lt;hardware-resource label="GridLab MyProxy"
+                            description="Hosts The GridLab MyProxy"
+                            hostname="myproxy.gridlab.org"&gt;
+             &lt;myproxy-resource label="MyProxy"
+                                    description="Online Credential Repository"
+                                    portalProxyFile="/tmp/proxy.pem"
+                                    portalCertFile=""
+                                    portalKeyFile=""/&gt;
+         &lt;/hardware-resource&gt;
+
+        &lt;hardware-resource label="GridLab GIIS"
+                           description="Hosts The GridLab GIIS"
+                           hostname="mds.gridlab.org"&gt;
+            &lt;giis-resource label="GIIS"
+                           description="Grid Information Index Service"
+                           basedn="Mds-Vo-name=gridlab,o=grid"/&gt;
+        &lt;/hardware-resource&gt;
+
+        &lt;hardware-resource label="Peyote"
+                               description="AEI Peyote Cluster"
+                               hostname="peyote.aei.mpg.de"&gt;
+            &lt;gris-resource label="GRIS"
+                           description="Grid Resource Information Service"/&gt;
+            &lt;gram-resource label="Globus Gatekeeper"
+                           description="Globus Resource Management Service"/&gt;
+            &lt;gridftp-resource label="Grid Ftp"
+                           description="Grid Ftp Service"/&gt;
+        &lt;/hardware-resource&gt;
+
+        &lt;hardware-resource label="Helix"
+                               description="LSU Helix Cluster"
+                               hostname="helix.bcvc.lsu.edu"&gt;
+            &lt;gris-resource label="GRIS"
+                           description="Grid Resource Information Service"/&gt;
+            &lt;gram-resource label="Globus Gatekeeper"
+                           description="Globus Resource Management Service"/&gt;
+            &lt;gridftp-resource label="Grid Ftp"
+                           description="Grid Ftp Service"/&gt;
+        &lt;/hardware-resource&gt;
+
+        &lt;hardware-resource label="SuperMike"
+                               description="LSU SuperMike Cluster"
+                               hostname="mike4.lsu.edu"&gt;
+            &lt;gris-resource label="GRIS"
+                           description="Grid Resource Information Service"/&gt;
+            &lt;gram-resource label="Globus Gatekeeper"
+                           description="Globus Resource Management Service"/&gt;
+            &lt;gridftp-resource label="Grid Ftp"
+                           description="Grid Ftp Service"/&gt;
+        &lt;/hardware-resource&gt;
+
+    &lt;/grid-resources&gt;
+                    </pre>
+                </pre></div>
+        </p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td valign="top" align="center" rowspan="2" width="25"><img alt="[Note]" src="common-images/note.png"></td><th align="left">Note</th></tr><tr><td valign="top" align="left">
+            The complete list of resource tags that Grid Portlets offers are provided in the
+            <a href="../ResourceTags/ResourceTags.html" target="_self">Resource Tags Reference</a>.
+        </td></tr></table></div></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="ResourceRegistryPortlet"></a>Resource Registry Portlet</h3></div></div></div><p>
+            When you login as the portal administrator (or an admin of the gridportlets) you will see the
+            Grid=&gt;Registry tab containing the Resource Registry Portlet. Here you can edit the
+            the Resources.xml file deployed to <code class="filename">$CATALINA_HOME/gridportlets/WEB-INF</code>
+            directly from the portal.
+            <div class="figure"><a name="N100C0"></a><p class="title"><b>Figure&nbsp;4.&nbsp;The Resource Registry Portlet</b></p><div><img src="media/ResourceRegistryPortlet.jpg" alt="The Resource Registry Portlet"></div></div>
+        </p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td valign="top" align="center" rowspan="2" width="25"><img alt="[Note]" src="common-images/note.png"></td><th align="left">Note</th></tr><tr><td valign="top" align="left">
+            The complete list of resource tags that Grid Portlets offers are provided in the
+            <a href="../ResourceTags/ResourceTags.html" target="_self">Resource Tags Reference</a>.
+        </td></tr></table></div></div></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="ResourceMonitoring"></a>Resource Monitoring and Discovery</h2></div></div></div><p>
+        Grid Portlets can be configured to support monitoring of resources and resource discovery.
+        Grid Portlets offers an MDS2 <span class="emphasis"><em>Resource Provider Service</em></span> that supports
+        the ability to poll Grid Resource Information Service (GRIS) resources to monitor hardware
+        resources and to poll Grid Index Information Service (GIIS) resources to discover hardware
+        and other types of resources.
+    </p><p>
+        If MDS2 is installed on resources in your Grid, simply describe their location with the
+        <code class="classname">gris-resource</code> and <code class="classname">giis-resource</code> tags in
+        the Resource Registry. For example, in the GridLab project we would describe our
+        MDS2 resources as below:
+        <pre class="screen">
+            <pre class="programlisting">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+
+&lt;hardware-resource label="GridLab GIIS"
+                   description="Hosts The GridLab GIIS"
+                   hostname="mds.gridlab.org"&gt;
+    &lt;giis-resource label="GIIS"
+                   description="Grid Information Index Service"
+                   basedn="Mds-Vo-name=gridlab,o=grid"/&gt;
+&lt;/hardware-resource&gt;
+
+&lt;hardware-resource label="Peyote"
+                       description="AEI Peyote Cluster"
+                       hostname="peyote.aei.mpg.de"&gt;
+    &lt;gris-resource label="GRIS"
+                   description="Grid Resource Information Service"/&gt;
+    
+&lt;/hardware-resource&gt;
+            </pre>
+        </pre>
+    </p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td valign="top" align="center" rowspan="2" width="25"><img alt="[Note]" src="common-images/note.png"></td><th align="left">Note</th></tr><tr><td valign="top" align="left">
+        It was our experience that GIIS did not perform well enough to use it for discovering
+        hardware resources. In production, we simply made entries for all of the hardware resources
+        in the Resource Registry, since this list did not change that often, and then used
+        our GRIS resources to monitor the hardware resources for useful information.
+    </td></tr></table></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="N100EB"></a>Other Information Services</h3></div></div></div><p>
+            It is quite easy to utilize information services other than MDS2. Grid
+            Portlets can be extended by developing new Resource Provider Services.
+            This is described in more detail in the <a href="../DeveloperGuide/DeveloperGuide.html" target="_self">Developer's Guide</a>.
+        </p></div></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="SingleSigon"></a>Single Sign-on</h2></div></div></div><p>
+        In order to allow users to "sign-on" to the Grid with their GSI credentials,
+        the portal must be configured to allow users to retrieve credentials
+        from a "credential repository". Currently, the only credential repository
+        Grid Portlets supports is <span class="emphasis"><em>MyProxy</em></span>.
+    </p><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="MyProxy.title"></a>MyProxy Resource</h3></div></div></div><p>
+            In order to allow users to retrieve credentials from the portal, you must
+            have access to a MyProxy online credential repository. More information on MyProxy can be found at
+            <a href="http://grid.ncsa.uiuc.edu/myproxy/" target="_self">http://grid.ncsa.uiuc.edu/myproxy/</a>. Essentially,
+            MyProxy is used to store users credentials and provides command line tools to allow them to do this.
+            The portal can then allow users to retrieve their credentials from MyProxy at login time in order
+            to provide single sign-on access to remote resources.
+        </p><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="MyProxyConfigurations"></a>MyProxy Configurations</h4></div></div></div><p>
+                There are three ways to configure Grid Portlets to use a MyProxy online creedential repository.
+                The following examples illustrate how to specify a MyProxy resource in
+                <code class="filename">$GRIDSPHERE_HOME/projects/gridportlets/WEB-INF/Resources.xml</code>.
+            </p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td valign="top" align="center" rowspan="2" width="25"><img alt="[Note]" src="common-images/note.png"></td><th align="left">Note</th></tr><tr><td valign="top" align="left">
+                Be sure to specify your own MyProxy server if you decide to copy one of the examples below!
+            </td></tr></table></div><div class="orderedlist"><ol type="1"><li><span class="emphasis"><em>A MyProxy Resource contained within a Hardware Resource</em></span><p>
+                   If you are using a MyProxy server that does not require authentication for
+                   retrieving credentials, then you don't need a portal credential to retrieve
+                   credentials. Just specify the location of the MyProxy resource as in the
+                   example below:
+               </p><pre class="screen">
+                       <pre class="programlisting">
+    &lt;hardware-resource label="GridLab MyProxy"
+                      description="Hosts The GridLab MyProxy"
+                      hostname="myproxy.gridlab.org"&gt;
+       &lt;myproxy-resource label="MyProxy"
+                            description="Online Credential Repository"
+                            port="7512"/&gt;
+    &lt;/hardware-resource&gt;
+                           </pre>
+                       </pre></li><li><span class="emphasis"><em>A MyProxy Resource configured to use a host certifcate</em></span><p>
+                   Create a "host" certificate, that is a public cert / private key pair that
+                   does not require a password to generate a proxy. GT2.X certificates are
+                   created with the <span class="emphasis"><em>grid-cert-request</em></span> command.
+                   Java CoG provides some simplified
+                   tools as does our "Grid Login" system. You would then specify where the public
+                   cert and private key files are located on your system. For example, if you were
+                   if your host certificate were files located in <code class="filename">/etc/grid-security</code>
+                   (a common location for host certificates), you would then enter something like:
+                 </p><pre class="screen">
+                         <pre class="programlisting">
+    &lt;hardware-resource label="GridLab MyProxy"
+                    description="Hosts The GridLab MyProxy"
+                    hostname="myproxy.gridlab.org"&gt;
+     &lt;myproxy-resource label="MyProxy"
+                          description="Online Credential Repository"
+                          port="7512"
+                          portalCertFile="/etc/grid-security/hostcert.pem"
+                          portalKeyFile="/etc/grid-security/hostkey.pem"/&gt;
+    &lt;/hardware-resource&gt;
+                         </pre>
+                     </pre></li><li><span class="emphasis"><em>A MyProxy Resource configured to use a user certifcate</em></span><p>
+                   Create a "user" certificate, that is a public cert / private key pair that requires
+                   a password to generate a proxy. Often times, generated user proxies end up in a file
+                   named something like <code class="filename">/tmp/x509up_&lt;userid&gt;</code>, this depends
+                   on your how your system is configured. You would then specify where that proxy file is
+                   located (since, unlike example 2, the portal cannot automatically generate a proxy with
+                    the public cert / private key). Here's an example with a proxy portal file located
+                    at <code class="filename">/tmp/proxy.pem</code>:
+                </p><pre class="screen">
+                        <pre class="programlisting">
+    &lt;hardware-resource label="GridLab MyProxy"
+                       description="Hosts The GridLab MyProxy"
+                       hostname="myproxy.gridlab.org"&gt;
+        &lt;myproxy-resource label="MyProxy"
+                             description="Online Credential Repository"
+                             port="7512"
+                             portalProxyFile="/tmp/proxy.pem"/&gt;
+    &lt;/hardware-resource&gt;
+                        </pre>
+                    </pre></li></ol></div><p>
+                Example 2 is the best in terms of simplicity and security. You really should
+                configure your MyProxy server to be secure but you should use a host certificate to
+                eliminate the need to generate a proxy by hand.
+            </p></div></div></div></div></body></html>

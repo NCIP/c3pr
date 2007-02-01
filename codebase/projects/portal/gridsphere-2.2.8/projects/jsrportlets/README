@@ -1,0 +1,18 @@
+
+JSR 168 sample portlets
+=======================
+
+These portlets include Sun sample portlets from
+
+http://developers.sun.com/prodtech/portalserver/reference/techart/jsr168/portletsamples.war
+
+IBM Sample JSR portlets from
+
+http://www-106.ibm.com/developerworks/websphere/downloads/jsr168.html
+
+as well as open source portlets from the 
+POST site
+
+http://portlet-opensrc.sourceforge.net/
+
+Simply "ant install" as usual to deploy

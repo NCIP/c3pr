@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="45"
+   name=""
+   committed-date="2004-06-30T15:56:36.000000Z"
+   url="https://svn.gridsphere.org/extras/trunk/webapp/jsp/textmessaging"
+   last-author="wehrens"
+   kind="dir"
+   uuid="77c64a61-2e0f-0410-93dd-cb3defde2b95"
+   revision="124"/>
+<entry
+   committed-rev="45"
+   name="view.jsp"
+   text-time="2006-07-05T17:52:53.000000Z"
+   committed-date="2004-06-30T15:56:36.000000Z"
+   checksum="b1def98b0b372a91319755ea9a541719"
+   last-author="wehrens"
+   kind="file"
+   prop-time="2006-07-05T17:52:53.000000Z"/>
+</wc-entries>

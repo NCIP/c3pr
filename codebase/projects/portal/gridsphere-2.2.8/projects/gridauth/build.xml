@@ -1,0 +1,103 @@
+
+<project name="gridauth" default="default" basedir=".">
+
+    <!-- Environment properties -->
+    <property environment="env"/>
+
+    <!-- Configurable properties -->
+    <property file="build.properties"/>
+
+    <property name='env' value="environment"/>
+    <property name="tomcat.home" value="${env.CATALINA_HOME}"/>
+
+    <property name="globus.home" value="${env.GLOBUS_LOCATION}"/>
+    <property name="globus.lib.home" value="${globus.home}/lib"/>
+
+    <property name="src.dir" value="${basedir}/src"/>
+
+    <property name="build.home" value="${basedir}/build"/>
+    <property name="build.classes" value="${build.home}/classes"/>
+    <property name="build.jars" value="${build.home}/jars"/>
+
+    <property name="ext.dir" value="${basedir}/ext"/>
+    <property name="ext.lib.dir" value="${ext.dir}/lib"/>
+
+
+    <!-- =================================================================== -->
+    <!-- Sets the CLASSPATH                                                  -->
+    <!-- =================================================================== -->
+    <path id="build.cp">
+
+        <!-- Catalina common jars -->
+        <fileset dir="${tomcat.home}/common/lib">
+            <include name="*.jar"/>
+            <exclude name="${project.name}-*.jar"/>
+        </fileset>
+
+        <!-- Catalina endorsed jars -->
+        <fileset dir="${tomcat.home}/common/endorsed">
+            <include name="*.jar"/>
+            <exclude name="${project.name}-*.jar"/>
+        </fileset>
+
+        <!-- Catalina shared jars -->
+        <fileset dir="${tomcat.home}/shared/lib">
+            <include name="*.jar"/>
+            <exclude name="${project.name}-*.jar"/>
+            <exclude name="gridsphere*.jar"/>
+        </fileset>
+
+        <!-- GridSphere jars -->
+        <fileset dir="${gridsphere.build}/lib">
+            <include name="*.jar"/>
+        </fileset>
+
+        <!-- Globus jars -->
+        <fileset dir="${globus.lib.home}">
+            <include name="*.jar"/>
+        </fileset>
+
+        <fileset dir="${ext.lib.dir}">
+            <include name="*.jar"/>
+        </fileset>
+        <!-- Grid Portlets classes -->
+        <pathelement location="${build.classes}"/>
+
+    </path>
+
+    <target name="clean">
+        <delete dir="${build.home}"/>
+    </target>
+
+    <target name="prepare">
+        <mkdir dir="${build.home}"/>
+        <mkdir dir="${build.classes}"/>
+        <mkdir dir="${build.jars}"/>
+    </target>
+
+    <target name="compile" depends="prepare">
+        <javac srcdir="${src.dir}" destdir="${build.classes}" debug="on">
+            <classpath refid="build.cp"/>
+        </javac>
+    </target>
+
+    <target name="jar" depends="compile">
+        <jar basedir="${build.classes}" jarfile="${build.jars}/${project.name}.jar"/>
+    </target>
+
+    <target name="deploy" depends="jar">
+        <copy overwrite="true" todir="${tomcat.home}/shared/lib">
+            <fileset dir="${build.jars}">
+                <include name="*.jar"/>
+            </fileset>
+            <fileset dir="${ext.lib.dir}">
+            <include name="*.jar"/>
+        </fileset>
+    </copy>
+</target>
+
+
+<target name="default" description="Default Target">
+    <echo message="Not to be called directly. Should be called from main build"/>
+</target>
+        </project>

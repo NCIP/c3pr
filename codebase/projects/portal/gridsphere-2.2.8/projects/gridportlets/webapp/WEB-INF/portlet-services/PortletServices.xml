@@ -1,0 +1,187 @@
+<!--
+
+    Portlet Services XML Descriptor
+
+    Edit this file to add/modify Portlet Services
+
+    $Id: PortletServices.xml,v 1.1.1.1 2007-02-01 20:43:29 kherm Exp $
+-->
+
+<portlet-services>
+
+    <service>
+        <name>Action Component Factory</name>
+        <description>Creates Action Components</description>
+        <interface>org.gridlab.gridsphere.services.ui.ActionComponentFactory</interface>
+        <implementation>org.gridlab.gridsphere.services.ui.impl.ActionComponentBroker</implementation>
+    </service>
+
+    <service>
+        <name>Grid Portlets Action Component Factory</name>
+        <description>Creates Grid Portlets Action Components</description>
+        <interface>org.gridlab.gridsphere.services.ui.impl.GridPortletsComponentFactory</interface>
+        <implementation>org.gridlab.gridsphere.services.ui.impl.GridPortletsComponentFactory</implementation>
+        <load-on-startup>true</load-on-startup>
+    </service>
+
+    <service>
+        <name>Job Profile Registry</name>
+        <description>Registry for job profiles supported by job submission portlet</description>
+        <interface>org.gridlab.gridsphere.services.ui.job.JobProfileRegistryService</interface>
+        <implementation>org.gridlab.gridsphere.services.ui.job.impl.JobProfileRegistryImplService</implementation>
+    </service>
+
+    <service>
+        <name>Job Profile Provider Service</name>
+        <description>Registers job profiles types with the job profile registry</description>
+        <interface>org.gridlab.gridsphere.services.ui.job.JobProfileProvider</interface>
+        <implementation>org.gridlab.gridsphere.services.ui.job.JobProfileProvider</implementation>
+        <load-on-startup>true</load-on-startup>
+    </service>
+
+    <service>
+        <name>Resource Profile Registry</name>
+        <description>Registry for resource profiles</description>
+        <interface>org.gridlab.gridsphere.services.ui.resource.browser.ResourceProfileRegistryService</interface>
+        <implementation>org.gridlab.gridsphere.services.ui.resource.browser.ResourceProfileRegistryService</implementation>
+    </service>
+
+    <service>
+        <name>Resource Profile Provider</name>
+        <description>Registers resource profiles with the resource profile registry</description>
+        <interface>org.gridlab.gridsphere.services.ui.resource.browser.ResourceProfileProvider</interface>
+        <implementation>org.gridlab.gridsphere.services.ui.resource.browser.ResourceProfileProvider</implementation>
+        <load-on-startup>true</load-on-startup>
+    </service>
+
+    <service>
+         <name>Resource Registry Service</name>
+        <description>Provides a resource registry</description>
+        <interface>org.gridlab.gridsphere.services.resource.ResourceRegistryService</interface>
+        <implementation>org.gridlab.gridsphere.services.resource.impl.ResourceRegistryServiceImpl</implementation>
+    </service>
+
+    <service>
+        <name>Mds2 Resource Provider Service</name>
+        <description>Service For Registering Resources From Mds2</description>
+        <interface>org.gridlab.gridsphere.services.resources.mds2.Mds2ResourceProviderService</interface>
+        <implementation>org.gridlab.gridsphere.services.resources.mds2.Mds2ResourceProviderService</implementation>
+        <load-on-startup>true</load-on-startup>
+    </service>
+
+    <service>
+        <name>Mds2 Chart Service</name>
+        <description>Service For Generating Mds2 Charts</description>
+        <interface>org.gridlab.gridsphere.services.resources.mds2.Mds2ChartService</interface>
+        <implementation>org.gridlab.gridsphere.services.resources.mds2.Mds2ChartService</implementation>
+    </service>
+
+    <service>
+        <name>Active Service Registry Service</name>
+        <description>Provides an active service registry</description>
+        <interface>org.gridlab.gridsphere.services.registry.GridServiceRegistry</interface>
+        <implementation>org.gridlab.gridsphere.services.registry.impl.GridServiceRegistryImpl</implementation>
+    </service>
+
+    <service>
+        <name>GSS Credential Manager Service</name>
+        <description>Provides GSS Credential Management Capabilities to Portal Users</description>
+        <interface>org.gridlab.gridsphere.services.security.gss.CredentialManagerService</interface>
+        <implementation>org.gridlab.gridsphere.services.security.gss.impl.CredentialManagerServiceImpl</implementation>
+        <!--    Set below to false if you do not want to store active credentials on the file system. -->
+        <service-config>
+            <param-name>SaveCredentialsToFile</param-name>
+            <param-value>true</param-value>
+        </service-config>
+<!--    By default, credential manager service will use your localhost's temp file path.
+        <service-config>
+            <param-name>ActiveCredentialDir</param-name>
+            <param-value>PATH</param-value>
+        </service-config>
+-->
+    </service>
+
+    <service>
+        <name>GSS Credential Retrieval Service</name>
+        <description>Provides GSS Credential Retrieval Capabilities to Portal Users</description>
+        <interface>org.gridlab.gridsphere.services.security.gss.CredentialRetrievalService</interface>
+        <implementation>org.gridlab.gridsphere.services.security.gss.impl.CredentialRetrievalServiceImpl</implementation>
+    </service>
+
+    <service>
+        <name>GSS Credential Mapping Service</name>
+        <description>Maps GSS Credentials to GSS Enabled Resources</description>
+        <interface>org.gridlab.gridsphere.services.security.gss.CredentialMappingService</interface>
+        <implementation>org.gridlab.gridsphere.services.security.gss.impl.CredentialMappingServiceImpl</implementation>
+    </service>
+
+    <service>
+        <name>Task Type Registry</name>
+        <description>Serves as Registry for all Task Submission Services</description>
+        <interface>org.gridlab.gridsphere.services.task.TaskTypeRegistry</interface>
+        <implementation>org.gridlab.gridsphere.services.task.impl.BaseTaskTypeRegistry</implementation>
+    </service>
+
+    <service>
+        <name>Gram Job Submission Service</name>
+        <description>Submits Jobs to Globus Gatekeepers using (GRAM)</description>
+        <interface>org.gridlab.gridsphere.services.resources.gram.GramJobSubmissionService</interface>
+        <implementation>org.gridlab.gridsphere.services.resources.gram.GramJobSubmissionService</implementation>
+        <load-on-startup>true</load-on-startup>
+    </service>
+
+    <service>
+        <name>Job Submission Broker</name>
+        <description>Brokers All Job Submission Services</description>
+        <interface>org.gridlab.gridsphere.services.job.JobSubmissionService</interface>
+        <implementation>org.gridlab.gridsphere.services.job.impl.BaseJobSubmissionBroker</implementation>
+    </service>
+
+    <service>
+        <name>Job Migration Broker</name>
+        <description>Brokers All Job Migration Services</description>
+        <interface>org.gridlab.gridsphere.services.job.JobMigrationService</interface>
+        <implementation>org.gridlab.gridsphere.services.job.impl.BaseJobMigrationBroker</implementation>
+    </service>
+
+    <service>
+        <name>File Browser Service</name>
+        <description>Service For Browsing Files</description>
+        <interface>org.gridlab.gridsphere.services.file.tasks.FileBrowserService</interface>
+        <implementation>org.gridlab.gridsphere.services.file.tasks.impl.FileBrowserServiceImpl</implementation>
+    </service>
+
+    <service>
+        <name>Local Host Browser Service</name>
+        <description>Service For Browsing Files on the Local Filesystem</description>
+        <interface>org.gridlab.gridsphere.services.resources.system.LocalHostBrowserService</interface>
+        <implementation>org.gridlab.gridsphere.services.resources.system.LocalHostBrowserService</implementation>
+    </service>
+
+    <service>
+        <name>Grid Ftp Browser Service</name>
+        <description>Service For Browsing Files With Grid Ftp</description>
+        <interface>org.gridlab.gridsphere.services.resources.gridftp.GridFtpBrowserService</interface>
+        <implementation>org.gridlab.gridsphere.services.resources.gridftp.GridFtpBrowserService</implementation>
+        <load-on-startup>true</load-on-startup>
+    </service>
+
+    <service>
+        <name>Logical File Browser Service</name>
+        <description>Service For Browsing Logical Files</description>
+        <interface>org.gridlab.gridsphere.services.file.logical.LogicalFileBrowserService</interface>
+        <implementation>org.gridlab.gridsphere.services.file.logical.impl.LogicalFileBrowserServiceImpl</implementation>
+    </service>
+
+    <service>
+        <name>Gass Manager Service</name>
+        <description>Service For Managing Gass Resources</description>
+        <interface>org.gridlab.gridsphere.services.resources.gass.GassManagerService</interface>
+        <implementation>org.gridlab.gridsphere.services.resources.gass.impl.GassManagerServiceImpl</implementation>
+        <service-config>
+            <param-name>TcpPortRange</param-name>
+            <param-value>49000,49999</param-value>
+        </service-config>
+    </service>
+
+</portlet-services>

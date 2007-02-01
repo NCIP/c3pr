@@ -1,0 +1,10 @@
+# $Id$
+
+BANNER_TITLE=Titre \u00e0 afficher:
+BANNER_FILE=Fichier \u00e0 afficher:
+BANNER_CONFIGURE=Afficher le fichier de configuration sauvegard\u00e9
+BANNER_FAILURE=Incapable de sauvegarder le ficher de configuration!
+BANNER_NOFILES_START=Pas de fichiers en listes. S.V.P utiliser
+BANNER_NOFILES_END=a t\u00e9l\u00e9charger
+BANNER_FILE_NOTFOUND=Incapable de trouver le ficher!
+

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="95"
+   name=""
+   committed-date="2004-10-05T09:20:01.000000Z"
+   url="https://svn.gridsphere.org/extras/trunk/webapp/jsp/photoalbumviewer"
+   last-author="brango"
+   kind="dir"
+   uuid="77c64a61-2e0f-0410-93dd-cb3defde2b95"
+   revision="124"/>
+<entry
+   committed-rev="95"
+   name="viewalbumslist.jsp"
+   text-time="2006-07-05T17:52:53.000000Z"
+   committed-date="2004-10-05T09:20:01.000000Z"
+   checksum="bc142d6fca976ddf0c8ed3793af616d1"
+   last-author="brango"
+   kind="file"
+   prop-time="2006-07-05T17:52:53.000000Z"/>
+<entry
+   committed-rev="94"
+   name="viewalbum.jsp"
+   text-time="2006-07-05T17:52:53.000000Z"
+   committed-date="2004-10-05T09:19:14.000000Z"
+   checksum="490d40ef2a97951e00fa4ec2e77c96fb"
+   last-author="brango"
+   kind="file"
+   prop-time="2006-07-05T17:52:53.000000Z"/>
+<entry
+   committed-rev="93"
+   name="showpicture.jsp"
+   text-time="2006-07-05T17:52:53.000000Z"
+   committed-date="2004-10-05T09:18:19.000000Z"
+   checksum="1570d7b575db2f92b09ec0c9d5056072"
+   last-author="brango"
+   kind="file"
+   prop-time="2006-07-05T17:52:53.000000Z"/>
+</wc-entries>

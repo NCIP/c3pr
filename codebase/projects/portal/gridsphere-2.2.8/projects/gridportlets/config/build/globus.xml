@@ -1,0 +1,377 @@
+<project name="globus" default="install-globus" basedir=".">
+
+    <!-- Configurable properties -->
+    <property file="config/build/globus.properties"/>
+
+    <!-- Used in the main build.xml to include the necessary Globus jars -->
+    <property name="globus.classpath" value="${globus.lib}"/>
+
+    <!-- =================================================================== -->
+    <!-- Installs support for Globus                                           -->
+    <!-- =================================================================== -->
+    <target name="install-globus"
+            description="Installs support for Globus">
+
+        <!-- Check that the Globus version is set -->
+        <condition property="globus.version.exists">
+            <isset property="globus.version"/>
+        </condition>
+        <fail message="Please set the 'globus.version' property in ./config/build/globus.properties to &lt;versionnum&gt;.
+                       For example, ogsa-3.2.1"
+              unless="globus.version.exists"/>
+
+        <!-- Check that the Globus lib exists-->
+        <condition property="globus.lib.exists">
+            <isset property="globus.lib"/>
+        </condition>
+        <fail message="Please set the 'globus.lib' property in build.properties to the location of the Globus jars"
+              unless="globus.lib.exists"/>
+
+        <!-- Check that the Globus jar actually exists -->
+        <condition property="globus.jar.exists">
+           <or> 
+                <available file="${globus.lib}/ogsa.jar"/>
+                <available file="${globus.lib}/wsrf_core.jar"/>
+            </or> 
+        </condition>
+        <fail message="Unable to find required Globus jars."
+              unless="globus.jar.exists"/>
+
+        <!-- Check if we need to initialize ogsa properties -->
+        <condition property="globus.deploy">
+            <!-- True if globus.install has either not
+                 been set or has been set to false -->
+            <or>
+                <istrue value="${globus.install}"/>
+                <not>
+                    <isset property="globus.install"/>
+                </not>
+            </or>
+        </condition>
+
+        <antcall target="display-globus"/>
+
+        <antcall target="undeploy-globus"/>
+
+        <antcall target="deploy-globus"/>
+
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Undeploys Globus jars to a local server                             -->
+    <!-- =================================================================== -->
+    <target name="undeploy-globus" if="globus.deploy"
+            description="Undeploys Globus jars to the web server">
+
+        <!-- Globus Common Lib -->
+        <delete failonerror="false">
+            <fileset dir="${env.CATALINA_HOME}/common/lib">
+                <include name="${project.name}-${globus.version}-*"/>
+            </fileset>
+        </delete>
+
+        <!-- Globus Common Endorsed -->
+        <delete failonerror="false">
+            <fileset dir="${env.CATALINA_HOME}/common/endorsed">
+                <include name="${project.name}-${globus.version}-*"/>
+            </fileset>
+        </delete>
+
+        <!-- Globus Shared Lib -->
+        <delete failonerror="false">
+            <fileset dir="${env.CATALINA_HOME}/shared/lib">
+                <include name="${project.name}-${globus.version}-*"/>
+            </fileset>
+        </delete>
+
+        <!-- Globus Grid Portlets Webaap -->
+        <delete failonerror="false">
+            <fileset dir="${project.webapp}/WEB-INF/lib">
+                <include name="${project.name}-${globus.version}-*"/>
+            </fileset>
+        </delete>
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Display Globus configuration                                          -->
+    <!-- =================================================================== -->
+    <target name="display-globus" if="globus.deploy"
+            description="Display Globus configuration">
+
+        <echo message="--- Globus configuration ---" />
+        <echo message="Grid Portlets is configured to deploy ${globus.version}"/>
+        <echo message="Grid Portlets will deploy jars located in ${globus.lib}"/>
+
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Deploys Globus jars to a local server                                 -->
+    <!-- =================================================================== -->
+    <target name="deploy-globus" if="globus.deploy"
+            description="Deploys Globus jars to the web server">
+
+        <echo>Deploying Globus jars to Tomcat</echo>
+
+        <condition property="ogsa-3.2.1-deploy">
+            <equals arg1="${globus.version}" arg2="ogsa-3.2.1"/>
+        </condition>
+
+        <antcall target="deploy-ogsa-3.2.1"/>
+
+        <condition property="wsrf-4.0-deploy">
+            <or>
+                <equals arg1="${globus.version}" arg2="wsrf-4.0.1"/>
+                <equals arg1="${globus.version}" arg2="wsrf-4.0"/>
+                <equals arg1="${globus.version}" arg2="wsrf-4.0.0"/>
+            </or>
+        </condition>
+
+        <antcall target="deploy-wsrf-4.0"/>
+
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Deploys Globus jars to a local server                                 -->
+    <!-- =================================================================== -->
+    <target name="deploy-ogsa-3.2.1" if="ogsa-3.2.1-deploy"
+            description="Deploys Globus jars to the web server">
+
+        <echo message="Deploying ${globus.version} jars to ${env.CATALINA_HOME}..."/>
+
+        <!-- Globus Common Jars -->
+        <copy overwrite="true" todir="${env.CATALINA_HOME}/common/lib">
+            <fileset dir="${globus.lib}">
+                <include name="cog-jglobus.jar"/>
+                <include name="cryptix-asn1.jar"/>
+                <include name="cryptix.jar"/>
+                <include name="cryptix32.jar"/>
+                <include name="jce-jdk13-120.jar"/>
+                <include name="log4j-1.2.8.jar"/>
+                <include name="puretls.jar"/>
+                <include name="xmlParserAPIs.jar"/>
+            </fileset>
+            <mapper type="glob" from="*" to="${project.name}-${globus.version}-*"/>
+        </copy>
+
+        <!-- Globus Endorsed Jars -->
+        <copy overwrite="true" todir="${env.CATALINA_HOME}/common/endorsed">
+            <fileset dir="${globus.lib}">
+                <include name="xalan.jar"/>
+                <include name="xercesImpl.jar"/>
+                <include name="xmlParserAPIs.jar"/>
+            </fileset>
+            <mapper type="glob" from="*" to="${project.name}-${globus.version}-*"/>
+        </copy>
+
+        <!-- The rest go to Grid Portlets web app -->
+        <copy overwrite="true" todir="${globus.deploy.core}">
+            <fileset dir="${globus.lib}">
+
+                <include name="*.jar"/>
+                <!-- common lib -->
+                <exclude name="cog-jglobus.jar"/>
+                <exclude name="cryptix-asn1.jar"/>
+                <exclude name="cryptix.jar"/>
+                <exclude name="cryptix32.jar"/>
+                <exclude name="jce-jdk13-120.jar"/>
+                <exclude name="log4j-1.2.8.jar"/>
+                <exclude name="puretls.jar"/>
+                <exclude name="xmlParserAPIs.jar"/>
+                <!-- common endorsed -->
+                <exclude name="xalan.jar"/>
+                <exclude name="xercesImpl.jar"/>
+                <exclude name="xmlParserAPIs.jar"/>
+
+            </fileset>
+            <mapper type="glob" from="*" to="${project.name}-${globus.version}-*"/>
+        </copy>
+
+        <!-- Support httpg resources if required -->
+        <antcall target="httpgservice-resource-support"/>
+
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Deploys Globus jars to a local server                                 -->
+    <!-- =================================================================== -->
+    <target name="deploy-wsrf-4.0" if="wsrf-4.0-deploy"
+            description="Deploys Globus jars to the web server">
+
+        <echo message="Deploying ${globus.version} jars to ${env.CATALINA_HOME}..."/>
+
+        <!-- Globus Common Jars -->
+        <copy overwrite="true" todir="${env.CATALINA_HOME}/common/lib">
+            <fileset dir="${globus.lib}">
+                <include name="cog-jglobus.jar"/>
+                <include name="cryptix-asn1.jar"/>
+                <include name="cryptix.jar"/>
+                <include name="cryptix32.jar"/>
+                <include name="jce-jdk13-*.jar"/>
+                <include name="log4j-1.2.8.jar"/>
+                <include name="puretls.jar"/>
+                <include name="xml-apis.jar"/>
+            </fileset>
+            <mapper type="glob" from="*" to="${project.name}-${globus.version}-*"/>
+        </copy>
+
+        <!-- Globus Endorsed Jars -->
+        <copy overwrite="true" todir="${env.CATALINA_HOME}/common/endorsed">
+            <fileset dir="${globus.lib}">
+                <include name="xalan.jar"/>
+                <include name="xercesImpl.jar"/>
+                <include name="xmlParserAPIs.jar"/>
+            </fileset>
+            <mapper type="glob" from="*" to="${project.name}-${globus.version}-*"/>
+        </copy>
+
+        <!-- The rest go to Grid Portlets web app -->
+        <copy overwrite="true" todir="${globus.deploy.core}">
+            <fileset dir="${globus.lib}">
+
+                <include name="*.jar"/>
+                <!-- common lib -->
+                <exclude name="cog-jglobus.jar"/>
+                <exclude name="cryptix-asn1.jar"/>
+                <exclude name="cryptix.jar"/>
+                <exclude name="cryptix32.jar"/>
+                <exclude name="jce-jdk13-*.jar"/>
+                <exclude name="log4j-1.2.8.jar"/>
+                <exclude name="puretls.jar"/>
+                <exclude name="xml-apis.jar"/>
+                <!-- common endorsed  -->
+                <exclude name="xalan.jar"/>
+                <exclude name="xercesImpl.jar"/>
+                <exclude name="xmlParserAPIs.jar"/>
+
+            </fileset>
+            <mapper type="glob" from="*" to="${project.name}-${globus.version}-*"/>
+        </copy>
+
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Modifies the local server's classpath to support httpg resoruces    -->
+    <!-- =================================================================== -->
+    <target name="httpgservice-resource-support"
+            description="Checks whether support is required for httg service resources">
+
+        <!-- Support if property not provided or equals true -->
+        <condition property="httpgservice.resource.support.answer">
+            <and>
+                <istrue value="${httpgservice.resource.support}"/>
+                <or>
+                    <equals arg1="${globus.version}" arg2="ogsa-3.0.2"/>
+                    <equals arg1="${globus.version}" arg2="ogsa-3.2.1"/>
+                </or>
+            </and>
+        </condition>
+        <antcall target="httpgservice-resource-support-answer"/>
+
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Modifies the local server's classpath to support httpg clients      -->
+    <!-- =================================================================== -->
+    <target name="httpgservice-resource-support-answer" if="httpgservice.resource.support.answer"
+            description="Modifies Tomcat's classpath if 'httpgservice.resource.support' set to true">
+
+        <!-- Modify catalina classpath -->
+        <antcall target="catalina-modify-classpath"/>
+
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Modifies the local server's classpath to support httpg clients      -->
+    <!-- =================================================================== -->
+    <target name="catalina-modify-classpath"
+            description="Modifies the Tomcat's classpath to support httpg clients">
+
+        <echo message="Modifying Tomcat's classpath to support httpg clients"/>
+        <echo message="You can undo this action by running 'ant catalina-reset-classpath'"/>
+
+        <!-- Save original setclasspath files if this is first time deploy -->
+        <condition property="catalina.classpath.save">
+            <not>
+                <available file="${env.CATALINA_HOME}/bin/setclasspath-catalina.sh"/>
+            </not>
+        </condition>
+        <antcall target="catalina-save-classpath"/>
+
+        <!-- Deploy ogsa enabled catalina.sh -->
+        <echo message="Deploying ${globus.lib}/setclasspath.sh to ${env.CATALINA_HOME}"/>
+        <copy overwrite="true" file="${globus.lib}/setclasspath.sh"
+              tofile="${env.CATALINA_HOME}/bin/setclasspath.sh"/>
+        <chmod file="${env.CATALINA_HOME}/bin/setclasspath.sh" perm="ugo+rx"/>
+
+        <!-- Deploy ogsa versions of catalina.bat -->
+        <echo message="Deploying ${globus.lib}/setclasspath.bat to ${env.CATALINA_HOME}"/>
+        <copy overwrite="true" file="${globus.lib}/setclasspath.bat"
+              tofile="${env.CATALINA_HOME}/bin/setclasspath.bat"/>
+
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Saves the local server's original classpath files                   -->
+    <!-- =================================================================== -->
+    <target name="catalina-save-classpath" if="catalina.classpath.save"
+            description="Saves the local server's original classpath files">
+
+        <echo message="Saving Tomcat's original classpath files"/>
+
+        <!-- Rename Tomcat's setclasspath.sh to setclasspath-catalina.sh -->
+        <echo message="Moving ${env.CATALINA_HOME}/bin/setclasspath.sh to ${env.CATALINA_HOME}/bin/setclasspath-catalina.sh"/>
+        <move overwrite="true" file="${env.CATALINA_HOME}/bin/setclasspath.sh"
+              tofile="${env.CATALINA_HOME}/bin/setclasspath-catalina.sh"/>
+
+        <!-- Rename Tomcat's setclasspath.bat to setclasspath-catalina.bat -->
+        <echo message="Moving ${env.CATALINA_HOME}/bin/setclasspath.bat to ${env.CATALINA_HOME}/bin/setclasspath-catalina.bat"/>
+        <move overwrite="true" file="${env.CATALINA_HOME}/bin/setclasspath.bat"
+              tofile="${env.CATALINA_HOME}/bin/setclasspath-catalina.bat"/>
+
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Uninstalls remaining Globus items                                     -->
+    <!-- =================================================================== -->
+    <target name="uninstall-globus"
+            description="Uninstalls remaining Globus items">
+
+        <!-- Restore catalina paths if necessary -->
+        <antcall target="catalina-restore-classpath"/>
+
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Resets the local server's default classpath                         -->
+    <!-- =================================================================== -->
+    <target name="catalina-restore-classpath"
+            description="Restore the local server's default classpath">
+
+        <!-- Reset catalina's bootstap classpath -->
+        <condition property="catalina.classpath.reset">
+            <available file="${env.CATALINA_HOME}/bin/setclasspath-catalina.sh"/>
+        </condition>
+        <antcall target="catalina-reset-classpath"/>
+
+
+    </target>
+
+    <!-- =================================================================== -->
+    <!-- Resets the local server's default classpath                         -->
+    <!-- =================================================================== -->
+    <target name="catalina-reset-classpath" if="catalina.classpath.reset"
+            description="Resets the local server's default classpath">
+
+        <echo message="Resetting the local server's default classpath"/>
+
+        <!-- Rename Tomcat's setclasspath-catalina.sh to setclasspath.sh -->
+        <move overwrite="true" file="${env.CATALINA_HOME}/bin/setclasspath-catalina.sh"
+              tofile="${env.CATALINA_HOME}/bin/setclasspath.sh"/>
+
+        <!-- Rename Tomcat's setclasspath-catalina.bat to setclasspath.bat -->
+        <move overwrite="true" file="${env.CATALINA_HOME}/bin/setclasspath-catalina.bat"
+              tofile="${env.CATALINA_HOME}/bin/setclasspath.bat"/>
+
+    </target>
+
+</project>

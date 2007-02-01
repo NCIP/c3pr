@@ -1,0 +1,1103 @@
+<html><head><META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Grid Portlets Developer's Guide</title><link href="GridSphere.css" rel="stylesheet" type="text/css"><meta content="DocBook XSL Stylesheets V1.68.1" name="generator"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="article" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="N10005"></a>Grid Portlets Developer's Guide</h1></div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="#introductionchapter">Introduction</a></span></dt><dd><dl><dt><span class="sect2"><a href="#N1001A">Portlet Services</a></span></dt></dl></dd><dt><span class="sect1"><a href="#overview">Overview</a></span></dt><dd><dl><dt><span class="sect2"><a href="#basicconcepts">Basic Concepts</a></span></dt><dt><span class="sect2"><a href="#gridconcepts">Grid Concepts</a></span></dt></dl></dd><dt><span class="sect1"><a href="#N1006B">Java Commodity Grid (CoG) Kit</a></span></dt><dd><dl><dt><span class="sect2"><a href="#N10070">Java CoG Versions</a></span></dt><dt><span class="sect2"><a href="#N10075">Java CoG Configuration</a></span></dt></dl></dd><dt><span class="sect1"><a href="#resourceschapter">Managing Resources</a></span></dt><dd><dl><dt><span class="sect2"><a href="#resourcepackage">The Resource Package</a></span></dt></dl></dd><dt><span class="sect1"><a href="#fileschapter">Accessing Files</a></span></dt><dd><dl><dt><span class="sect2"><a href="#filepackage">The File Package</a></span></dt></dl></dd><dt><span class="sect1"><a href="#jobschapter">Submitting Jobs</a></span></dt><dd><dl><dt><span class="sect2"><a href="#jobpackage">The Job Package</a></span></dt></dl></dd><dt><span class="sect1"><a href="#gsschapter">GSS Credentials</a></span></dt><dd><dl><dt><span class="sect2"><a href="#gsspackage">The GSS Package</a></span></dt></dl></dd><dt><span class="sect1"><a href="#N1018E">Key Portlet Services</a></span></dt><dt><span class="sect1"><a href="#portletserviceexamples">Portlet Service Examples</a></span></dt><dd><dl><dt><span class="sect2"><a href="#resourceexamples">Resource Service Examples</a></span></dt><dt><span class="sect2"><a href="#fileexamples">File Service Examples</a></span></dt><dt><span class="sect2"><a href="#jobexamples">Job Service Examples</a></span></dt><dt><span class="sect2"><a href="#gssexamples">GSS Examples</a></span></dt></dl></dd></dl></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="introductionchapter"></a>Introduction</h2></div></div></div><p>
+        The Grid Portlets web application builds upon the core features in the GridSphere
+        portal framework to provide developers with a framework for developing Grid portals.
+        Grid Portlets offers developers a collection of "portlet services" for performing
+        tasks on the Grid. These portlet services can be used to easily Grid-enable any GridSphere
+        web application! While Grid Portlets is still "under construction", we are making it
+        available to the public to get early feedback and help in order to make Grid Portlets
+        as robust and user-friendly as possible.
+    </p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td valign="top" align="center" rowspan="2" width="25"><img alt="[Note]" src="common-images/note.png"></td><th align="left">Note</th></tr><tr><td valign="top" align="left"><p>
+            The Grid Portlets Developer's Guide describes how to how to use Grid Portlets to
+            develop custom Grid portal web applications. Please consult the
+            <a href="../AdminGuide/AdminGuide.html" target="_self">Administrator's Guide</a>
+            for how to install and configure the Grid Portlets
+            web application. Please consult the
+            <a href="../UserGuide/UserGuide.html" target="_self">Users's Guide</a> for more information
+            on how to use Grid Portlets for managing jobs and data on the Grid.
+        </p></td></tr></table></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="N1001A"></a>Portlet Services</h3></div></div></div><p>
+            Grid Portlets contains a collection of portlet services that offer a high-level API
+            and model of the Grid. The Grid Portlets API:
+            <div class="itemizedlist"><ul type="disc"><li>Abstracts developers from particular Grid technologies and infrastructure.</li><li>Can be supported with GT2, GT3, GT4 and other service-oriented technologies.</li><li>Provides support for persisting information about resources
+                          and tasks performed by users on the Grid.</li><li>Is extensible, builds upon simple concepts to provide more complex services,
+                          resources and tasks.</li></ul></div>
+        </p></div></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="overview"></a>Overview</h2></div></div></div><p>
+        Grid Portlets has a layered architecture, building upon simple concepts to more
+        complex concepts. Some of these concepts are briefly descrbied below. The main
+        idea behind Grid Portlets is to provide the base functionality required by all
+        Grid portals as well as to provide a model for extending that functionality to
+        meet the needs of any application.
+    </p><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="basicconcepts"></a>Basic Concepts</h3></div></div></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="userconcept"></a>Users</h4></div></div></div>
+            Users are central to all portals. A <code class="classname">User</code> represents the person
+            that logs in to the portal. Users should get a personalized view of the Grid. It
+            is important to be able to track user activity, for auditing and accounting
+            purposes as well as for security reasons.
+        </div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="resourceconcept"></a>Resources</h4></div></div></div>
+            Resources are what the Grid is all about. A <code class="classname">Resource</code> represents
+            anything that can be utilized on the Grid. Grid portals should make it easy to access
+            remote resources. We'll see several examples of resources later in this guide.
+        </div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="taskconcept"></a>Tasks</h4></div></div></div>
+            Many operations on the Grid are modeled quite nicely as tasks.
+        </div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="credentialconcept"></a>Credentials</h4></div></div></div></div></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="gridconcepts"></a>Grid Concepts</h3></div></div></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="informationconcept"></a>Information Resources</h4></div></div></div></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="fileconcept"></a>Files and File Resources</h4></div></div></div></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="jobconcept"></a>Jobs and Job Resources</h4></div></div></div></div></div></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="N1006B"></a>Java Commodity Grid (CoG) Kit</h2></div></div></div><p>
+        Grid Portlets makes use of the Java Commodity Grid (CoG)
+        Kit for performing many tasks on the Grid, including
+        retrieving credentials from MyProxy, submitting jobs to
+        Globus Gatekeepers, transferring files with Grid Ftp and
+        setting up GASS servers to collect job output. We recommend
+        you visit the Globus Cog Kits Website to learn more about
+        Java CoG.
+    </p><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="N10070"></a>Java CoG Versions</h3></div></div></div><p>
+            If you have set the "ogsa.version" property in
+            build.properties to "ogsa-3.0.2", then Java Cog 1.1
+            will be used. If you have set the "ogsa.version"
+            property to "ogsa-3.2.1", then Java CoG 1.2 will
+            be used.
+        </p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="N10075"></a>Java CoG Configuration</h3></div></div></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="N10078"></a>${HOME}/.globus/cog.properties</h4></div></div></div><p>
+                Configuring Java CoG amounts to setting properties
+                in <code class="filename">${HOME}/.globus/cog.properties</code>.
+                That is, you should have a <code class="filename">.globus</code>
+                directory inside the home directory of the user under
+                which you are running your portal. For more information,
+                please consult the Java CoG manual.
+            </p><div class="example"><a name="N10085"></a><p class="title"><b>Example&nbsp;1.&nbsp;The "ip" property</b></p><pre class="screen">
+    ip=&lt;YOUR-IP-ADDRESS&gt;
+                </pre><p>
+                    This is a very handy property to set
+                    when you are developing on a laptop or host that gets
+                    its IP address from a DHCP server or some other
+                    means. Setting this property to the appropriate value
+                    will insure that you can collect job output when you
+                    are using the job submission portlet. You should not
+                    have to set this property, however, on hosts that
+                    have a permanent IP address _and_ that host is
+                    properly configured.
+                </p></div></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="N1008D"></a>${HOME}/.globus/certificates</h4></div></div></div><p>
+                You should also have a directory containing the
+                certificates of the Certificate Authorities
+                accepted by our portal and Grid. If you do not
+                understand what this means, please consult the
+                Java CoG manual.
+            </p></div></div></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="resourceschapter"></a>Managing Resources</h2></div></div></div><p>
+        Grid Portlets offers portlet developers an API for accessing resources that
+        are found in the resource registry.
+    </p><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="resourcepackage"></a>The Resource Package</h3></div></div></div><p>
+            Grid Portlets contains high-level interfaces and classes that represent
+            resource related concepts in <code class="code">org.gridlab.gridsphere.services.resource</code>.
+        </p><p>
+            In Grid Portlets, a <span class="emphasis"><em>resource</em></span>, represented by the
+            <code class="classname">Resource</code> interface, is defined as "anything that can be
+            utilized".
+        </p><div class="mediaobject"><img src="media/ResourceModel.png"></div><p>
+            The resource concept is quite useful and easy to extend. Several key resource
+            concepts extend from the base definition and are listed as follows:
+        </p><div class="itemizedlist"><ul type="disc"><li><span class="bold"><strong><code class="classname">HardwareResource</code></strong></span> -
+              A <span class="emphasis"><em>hardware resource</em></span> represents a particular host on the
+              Grid and are utilized for running applications and storing data. Hardware
+              resources contain service resources, software resources and hardware accounts,
+              all of which are described below.
+            </li><li><span class="bold"><strong><code class="classname">ServiceResource</code></strong></span> -
+              A <span class="emphasis"><em>service resource</em></span> is a resource that represents a
+              "service" that is accessible over a network. All service resources have at
+              least "port" associated with them, through which they can be invoked by
+              clients.
+            </li><li><span class="bold"><strong><code class="classname">SoftwareResource</code></strong></span> -
+              A <span class="emphasis"><em>software resource</em></span> is a resource that represents a
+              "software". At minimum, a software resource has a "path" on a given hardware
+              resource.
+            </li><li><span class="bold"><strong><code class="classname">ResourceAccount</code></strong></span> -
+              A <span class="emphasis"><em>resource account</em></span> represents an "account" on a resource.
+            </li><li><span class="bold"><strong><code class="classname">HardwareAccount</code></strong></span> -
+              A <span class="emphasis"><em>hardware account</em></span> extends resource account to represents
+              an account on a particular hardware resource.
+            </li></ul></div><div class="mediaobject"><img src="media/HardwareResourceModel.png"><div class="caption"><p>
+                    Hardware resources contain service resources, while service resources
+                    make it possible to remotely access the other resources available on a
+                    particular hardware resource, including software resources and user accounts.
+                </p></div></div><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td valign="top" align="center" rowspan="2" width="25"><img alt="[Note]" src="common-images/note.png"></td><th align="left">Note</th></tr><tr><td valign="top" align="left">
+            For examples on how to use the resource package, see <a href="#resourceexamples" title="Resource Service Examples">Resource Service Examples</a>.
+        </td></tr></table></div></div></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="fileschapter"></a>Accessing Files</h2></div></div></div><p>
+        Grid Portlets offers portlet developers an API for managing files on remote file
+        systems. The Grid Portlets file package supports a wide variety of file tasks,
+        enabling portlet developers to add support to their applications for most
+        file-related needs.
+    </p><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="filepackage"></a>The File Package</h3></div></div></div><p>
+            Grid Portlets contains high-level interfaces and classes that represent
+            file related concepts in <code class="code">org.gridlab.gridsphere.services.file</code>.
+            In Grid Portlets, a service resource that makes it possible to access files
+            on a computing resource is called a <span class="emphasis"><em>file resource</em></span>, represented
+            by the <code class="classname">FileResource</code> interface. File resources are registered
+            with the <span class="emphasis"><em>resource registry</em></span> and can be accessed by developers in one of
+            two ways. Either, developers can invoke the <code class="code">getResource</code> methods
+            of the <code class="classname">ResourceRegistryService</code> or developers can invoke the
+            <code class="code">getFileResource</code> methods of the <code class="classname">FileBrowserService</code>.
+            The <code class="classname">FileBrowserService</code> provides methods for getting a list of
+            file resources that are available to a given portlet user, based on that user's
+            access privileges, and acts as a factory for creating a <span class="emphasis"><em>file browser</em></span>,
+            represented by the <code class="classname">FileBrowser</code> interface. A file browser maintains
+            a persistent connection to a file resource and provides various methods for manipulating
+            files made accessible by that file resource. Because Grid Portlets has a layered architecture,
+            there is usually more than one way to acheive a given a objective. Here we illustrate
+            the recommended approach for some of the most common file-related operations.
+        </p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td valign="top" align="center" rowspan="2" width="25"><img alt="[Note]" src="common-images/note.png"></td><th align="left">Note</th></tr><tr><td valign="top" align="left">
+            For examples on how to use the file package, see <a href="#fileexamples" title="File Service Examples">File Service Examples</a>.
+        </td></tr></table></div></div></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="jobschapter"></a>Submitting Jobs</h2></div></div></div><p>
+        Grid Portlets offers portlet developers an API for submitting to remote resources,
+        enabling portlet developers to add support to their applications for most
+        job-related needs.
+    </p><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="jobpackage"></a>The Job Package</h3></div></div></div><p>
+            Grid Portlets contains high-level interfaces and classes that represent
+            job related concepts in <code class="code">org.gridlab.gridsphere.services.job</code>.
+            In Grid Portlets, a service resource that makes it possible to submit jobs
+            to computing resource is called a <span class="emphasis"><em>job resource</em></span>,
+            represented by the <code class="classname">JobResource</code> interface.
+            Job resources are registered with the <span class="emphasis"><em>resource registry</em></span> and
+            can be accessed by developers in one of two ways. Either, developers can invoke
+            the <code class="code">getResource</code> methods of the <code class="classname">ResourceRegistryService</code>
+            or developers can invoke the <code class="code">getJobResource</code> methods of the
+            <code class="classname">JobSubmissionService</code>. The <code class="classname">JobSubmissionService</code>
+            provides methods for getting a list of job resources that are available to a given portlet user,
+            based on that user's access privileges, and acts as a factory for creating a
+            <span class="emphasis"><em>job specifications</em></span>, or <code class="classname">JobSpec</code>, and submitting
+            <span class="emphasis"><em>jobs</em></span>, represented by the <code class="classname">Job</code> interface.
+            Because Grid Portlets has a layered architecture, there is usually more than one way to acheive
+            a given a objective. Here we illustrate the recommended approach for some of the most common
+            job-related operations.
+        </p><div class="mediaobject"><img src="media/JobResourceModel.png"><div class="caption"><p>
+                   A job resource is a service resource for submitting jobs. Job resources contain
+                   job schedulers and job schedulers contain job queues.
+                </p></div></div><p>
+            The <code class="classname">JobSubmissionService</code> provides methods for getting a list of job
+            resources that are available to a given portlet user, based on that user's access privileges,
+            and acts as a factory for creating a <span class="emphasis"><em>job specifications</em></span>,
+            or <code class="classname">JobSpec</code>, and submitting <span class="emphasis"><em>jobs</em></span>, represented by
+            the <code class="classname">Job</code> interface.
+        </p><div class="mediaobject"><img src="media/JobModel.png"><div class="caption">Jobs are tasks for running applications on job resources</div></div><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td valign="top" align="center" rowspan="2" width="25"><img alt="[Note]" src="common-images/note.png"></td><th align="left">Note</th></tr><tr><td valign="top" align="left">
+            For examples on how to use the job package, see <a href="#jobexamples" title="Job Service Examples">Job Service Examples</a>.
+        </td></tr></table></div></div></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="gsschapter"></a>GSS Credentials</h2></div></div></div><p>
+        Grid Portlets offers portlet developers an API for managing GSS credentials
+        on behalf of portlet users.
+    </p><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="gsspackage"></a>The GSS Package</h3></div></div></div><p>
+            Grid Portlets contains high-level interfaces and classes that represent
+            GSS credential related concepts in <code class="code">org.gridlab.gridsphere.services.security.gss</code>.
+        </p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td valign="top" align="center" rowspan="2" width="25"><img alt="[Note]" src="common-images/note.png"></td><th align="left">Note</th></tr><tr><td valign="top" align="left">
+            For examples on how to use the gss package, see <a href="#gssexamples" title="GSS Examples">GSS Examples</a>.
+        </td></tr></table></div></div></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="N1018E"></a>Key Portlet Services</h2></div></div></div><p>
+        Here is a brief of summary of the most commonly used portlet services in Grid Portlets.
+    </p><div class="note" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Note"><tr><td valign="top" align="center" rowspan="2" width="25"><img alt="[Note]" src="common-images/note.png"></td><th align="left">Note</th></tr><tr><td valign="top" align="left">
+        For examples on how to use the services listed below, see <a href="#portletserviceexamples" title="Portlet Service Examples">Portlet Service Examples</a>.
+    </td></tr></table></div><div class="table"><a name="N10199"></a><p class="title"><b>Table&nbsp;1.&nbsp;The Job Submission Portlet provides navigation for the following pages</b></p><table summary="The Job Submission Portlet provides navigation for the following pages" border="1"><colgroup><col><col></colgroup><thead><tr><th>Portlet Service</th><th>Description</th></tr></thead><tbody><tr><td><code class="interfacename">CredentialManagerService</code></td><td>
+                        The CredentialManagerService provides methods for listing, adding, editing and
+                        deleting "credential contexts", represented by the CredentialContext interface,
+                        which describes a GSSCredential with a unique DN as belonging to one user only.
+                        The CredentialManagerService also provides methods for keeping track of the
+                        GSS credentials that are currently active for a given user. All portlets and
+                        portlet services that require active credentials for performing operations for
+                        a given portal user on the Grid should use this service for those credentials.
+                    </td></tr></tbody><tbody><tr><td><code class="interfacename">CredentialRetrievalService</code></td><td>
+                        The CredentialRetrievalService is an interface for retrieving credentials. It
+                        supports GSS credential retrieval from "credential repository resources"
+                        that implement the CredentialRepository interface. The CredentialRetrievalService
+                        provides methods for listing, adding, editing and deleting "credential retrieval
+                        contexts", represented by the CredentialRetrievalContext interface.
+                    </td></tr></tbody><tbody><tr><td><code class="interfacename">FileBrowserService</code></td><td>
+                        The FileBrowserService provides methods for creating "file browsers", represented
+                        by the FileBrowser interface, to remote "file resources", represented by the
+                        FileResource interface, and provides methods for submitting "file browser tasks",
+                        represented by the FileBrowserTask interface. A FileBrowser can maintain a "stateful"
+                        connection to a file resource and provides methods for listing files, changing directories,
+                        creating directories, and other basic file operations.
+                    </td></tr></tbody><tbody><tr><td><code class="interfacename">LogicalFileBrowserService</code></td><td>
+                        The LogicalFileBrowserService extends FileBrowserService for creating "logical file
+                        browsers", represented by the LogicalFileBrowser interface, to logical file resources,
+                        represented by the LogicalFileResource interface.
+                    </td></tr></tbody><tbody><tr><td><code class="interfacename">JobSubmissionService</code></td><td>
+                        The JobSubmissionService provides methods for creating job specifications, represented
+                        by the JobSpec interface, and submitting job specifications to generate jobs, represented
+                        by the Job interface. Additionally, JobSubmissionService includes methods for listing the
+                        job resources, represented by the JobResource interface, to which it supports job submission.
+                    </td></tr></tbody><tbody><tr><td><code class="interfacename">ResourceRegistryService</code></td><td>
+                        The ResourceRegistryService provides methods for listing, adding, editing and deleting
+                        resources, represented by the Resource interface. All portlets and portlet services that
+                        require handles to resources should use this service. The ResourceRegistryService can also
+                        use "resource provider services" (ResourceProviderService) to "discover" or "provide"
+                        resources automatically.
+                    </td></tr></tbody></table></div></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="portletserviceexamples"></a>Portlet Service Examples</h2></div></div></div><p>
+            The examples in this section illustrate how to use Grid Portlet Services.
+        </p><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="resourceexamples"></a>Resource Service Examples</h3></div></div></div><div class="important" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Important"><tr><td valign="top" align="center" rowspan="2" width="25"><img alt="[Important]" src="common-images/important.png"></td><th align="left">Important</th></tr><tr><td valign="top" align="left"><p>
+                All of the examples listed below can be found in
+                <code class="classname">org.gridlab.gridsphere.examples.services.resource.ResourceExamples</code>.
+                Please refer to this class and its javadocs wherever you have download Grid Portlets.
+                <code class="classname">ResourceExamples</code> contains two member variables for maintaining an
+                instance of <code class="classname">PortletLog</code> and a reference to an instance of
+                <code class="classname">ResourceRegisryService</code>, both of which are used in the examples that
+                follow. For your reference, here is a code snipet showing these two variable declarations
+                and the constructor for <code class="classname">ResourceExamples</code>.
+            </p><div class="example"><a name="N101F1"></a><p class="title"><b>Example&nbsp;2.&nbsp;Resource Examples Class</b></p><pre class="screen">
+
+public class ResourceExamples {
+
+    // Portlet log is very good for debugging, we make ample use of it here!
+    private PortletLog log = SportletLog.getInstance(JobExamples.class);
+    // The resource registry service is used in all the examples below
+    private ResourceRegistryService resourceRegistryService = null;
+
+    /**
+     * Constructs an instance of ResourceExamples.
+     * @throws PortletServiceUnavailableException If unable to get required portlet services.
+     */
+    public ResourceExamples() throws PortletServiceUnavailableException {
+        log.info("Creating JobExamples");
+        PortletServiceFactory factory = SportletServiceFactory.getInstance();
+        try {
+            resourceRegistryService = (ResourceRegistryService)
+                    factory.createPortletService(ResourceRegistryService.class, null, true);
+        } catch (PortletServiceNotFoundException e) {
+            log.error("Unable to initialize required portlet services", e);
+            throw new PortletServiceUnavailableException(e);
+        }
+    }
+
+    // See additional methods in the Java class file...
+}
+
+                </pre><p>
+                    The rest of the examples below make use of the two member variables above.
+                </p></div></td></tr></table></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="resourceexamplesbasic"></a>Some basic methods</h4></div></div></div><p>
+                    We start with some basic tasks that are useful to many applications.
+                </p><div class="example"><a name="N101FF"></a><p class="title"><b>Example&nbsp;3.&nbsp;Returns a list of all the hardware resources in the resource registry</b></p><pre class="screen">
+
+/**
+ * Returns all the resources of type &lt;code&gt;HardwareResourceType&lt;/code&gt; in the resource registry.
+ * @return The list of hardware resources in the resource registry
+ * @see HardwareResource
+ */
+public List getHardwareResources() {
+    return resourceRegistryService.getResources(HardwareResourceType.INSTANCE);
+}
+
+                    </pre></div><div class="example"><a name="N10205"></a><p class="title"><b>Example&nbsp;4.&nbsp;Returns a list of all the service resources in the resource registry</b></p><pre class="screen">
+
+/**
+ * Returns all the resources of type &lt;code&gt;ServiceResourceType&lt;/code&gt; in the resource registry.
+ * @return The list of service resources in the resource registry
+ * @see ServiceResource
+ */
+public List getServiceResources() {
+    return resourceRegistryService.getResources(ServiceResourceType.INSTANCE);
+}
+
+                    </pre></div><div class="example"><a name="N1020B"></a><p class="title"><b>Example&nbsp;5.&nbsp;Returns a list of all the software resources in the resource registry</b></p><pre class="screen">
+
+/**
+ * Returns all the resources of type &lt;code&gt;SoftwareResource&lt;/code&gt; in the resource registry.
+ * @return The list of software resources in the resource registry
+ * @see SoftwareResource
+ */
+public List getSoftwareResources() {
+    return resourceRegistryService.getResources(SoftwareResourceType.INSTANCE);
+}
+
+                    </pre></div><div class="example"><a name="N10211"></a><p class="title"><b>Example&nbsp;6.&nbsp;Returns a list of service resources on a given host</b></p><pre class="screen">
+
+/**
+ * Returns all the software resources on the hardware resource with the the given host.
+ * Returns an empty list if no hardware resource is found for the given host.
+ * @param host The hostname or internet address of the hardware resource
+ * @return The list of service resources on the given host
+ */
+public List getServiceResources(String host) {
+    HardwareResource resource = resourceRegistryService.getHardwareResourceByHost(host);
+    if (resource == null) return new ArrayList();
+    return resource.getServiceResources();
+}
+
+                    </pre></div><div class="example"><a name="N10217"></a><p class="title"><b>Example&nbsp;7.&nbsp;Returns a list of software resources on a given host</b></p><pre class="screen">
+
+/**
+ * Returns all the software resources on the hardware resource with the the given host.
+ * Returns an empty list if no hardware resource is found for the given host.
+ * @param host The hostname or internet address of the hardware resource
+ * @return The list of software resources
+ */
+public List getSoftwareResources(String host) {
+    HardwareResource resource = resourceRegistryService.getHardwareResourceByHost(host);
+    if (resource == null) return new ArrayList();
+    return resource.getSoftwareResources();
+}
+
+                    </pre></div><div class="example"><a name="N1021D"></a><p class="title"><b>Example&nbsp;8.&nbsp;Returns a list of hardware accounts on a given host</b></p><pre class="screen">
+
+/**
+ * Returns all the hardware accounts on the hardware resource with the the given host.
+ * Returns an empty list if no hardware resource is found for the given host.
+ * @param host The hostname or internet address of the hardware resource
+ * @return The list of software resources
+ */
+public List getHardwareAccounts(String host) {
+    HardwareResource resource = resourceRegistryService.getHardwareResourceByHost(host);
+    if (resource == null) return new ArrayList();
+    return resource.getHardwareAccounts();
+}
+
+                    </pre></div></div></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="fileexamples"></a>File Service Examples</h3></div></div></div><div class="important" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Important"><tr><td valign="top" align="center" rowspan="2" width="25"><img alt="[Important]" src="common-images/important.png"></td><th align="left">Important</th></tr><tr><td valign="top" align="left"><p>
+                All of the examples listed below can be found in
+                <code class="classname">org.gridlab.gridsphere.examples.file.FileExamples</code>.
+                Please refer to this class and its javadocs wherever you have download Grid Portlets.
+                <code class="classname">FileExamples</code> contains two member variables for maintaining an
+                instance of <code class="classname">PortletLog</code> and a reference to an instance of
+                <code class="classname">FileBrowserService</code>, both of which are used in the examples that
+                follow. For your reference, here is a code snipet showing these two variable declarations
+                and the constructor for <code class="classname">FileExamples</code>.
+            </p><div class="example"><a name="N1023B"></a><p class="title"><b>Example&nbsp;9.&nbsp;File Examples Class</b></p><pre class="screen">
+
+public class FileExamples {
+
+    // Portlet log is very good for debugging, we make ample use of it here!
+    private PortletLog log = SportletLog.getInstance(FileExamples.class);
+    // The file browser service is used in all the examples below
+    private FileBrowserService fileBrowserService  = null;
+
+    /**
+     * Constructs an instance of FileExamples.
+     * @throws PortletServiceUnavailableException If unable to get required portlet services.
+     */
+    public FileExamples() throws PortletServiceUnavailableException {
+        log.info("Creating JobExamples");
+        PortletServiceFactory factory = SportletServiceFactory.getInstance();
+        try {
+            fileBrowserService = (FileBrowserService)
+                    factory.createPortletService(FileBrowserService.class, null, true);
+        } catch (PortletServiceNotFoundException e) {
+            log.error("Unable to initialize required portlet services", e);
+            throw new PortletServiceUnavailableException(e);
+        }
+    }
+
+    // See additional methods in the Java class file...
+}
+
+                </pre><p>
+                    The rest of the examples below make use of the two member variables above.
+                </p></div></td></tr></table></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="filexamplesbasic"></a>Basic Examples</h4></div></div></div><p>
+                    We start with some basic tasks that are useful to many applications.
+                </p><div class="example"><a name="N10249"></a><p class="title"><b>Example&nbsp;10.&nbsp;Testing whether a file object exists at a given path</b></p><pre class="screen">
+
+    /**
+     * Returns whether there is a file on the given host at the given path.
+     * @param user The user
+     * @param host The host
+     * @param path The path (can be absolute or relative)
+     * @return True if a file object exists on the given host at the given path, false otherwise
+     * @throws FileException If there there is no file resource entry for the given host
+     */
+    public boolean exists(User user, String host, String path) throws FileException {
+        // Create a file browser on the given host.
+        // This will fail if there is no file resource entry for the given host.
+        FileBrowser fileBrowser = fileBrowserService.createFileBrowser(user, host);
+        return fileBrowser.exists(path);
+    }
+
+                    </pre></div><div class="example"><a name="N1024F"></a><p class="title"><b>Example&nbsp;11.&nbsp;Getting info for a file object at a given path</b></p><pre class="screen">
+
+    /**
+     * Returns a file location containg info about the associated
+     * file object if there exists a file object on the given host
+     * at the given path. If there is no file object at
+     * the given path, this method will throw an exception.
+     * @param user The user
+     * @param host The host
+     * @param path The path (can be absolute or relative)
+     * @return A file location containing info about the associated file object
+     * @throws FileException If there there is no file resource entry for the given host
+     */
+    public FileLocation info(User user, String host, String path) throws FileException {
+        // Create a file browser on the given host.
+        // This will fail if there is no file resource entry for the given host.
+        FileBrowser fileBrowser = fileBrowserService.createFileBrowser(user, host);
+        return fileBrowser.info(path);
+    }
+
+                    </pre></div><div class="example"><a name="N10255"></a><p class="title"><b>Example&nbsp;12.&nbsp;Getting a user's home directory on a given host</b></p><pre class="screen">
+
+    /**
+     * Returns the home directory of the given user on the given host.
+     * @param user The user
+     * @param host The host
+     * @return A list of &lt;code&gt;FileLocation&lt;/code&gt; objects
+     */
+    public String getHomeDirectory(User user, String host) throws FileException {
+        // Create a file browser on the given host.
+        // This will fail if there is no file resource entry for the given host.
+        FileBrowser fileBrowser = fileBrowserService.createFileBrowser(user, host);
+        // Simply return the home directory...
+        return fileBrowser.getHomeDirectory();
+    }
+
+                    </pre></div></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="filexampleslist"></a>Listing Files</h4></div></div></div><p>
+                    To list files on a given resource, open a file browser on a given host
+                    and invoke one of the <code class="code">list</code> methods provided.
+                </p><div class="example"><a name="N10264"></a><p class="title"><b>Example&nbsp;13.&nbsp;Listing files on a given host at a given path</b></p><pre class="screen">
+
+        /**
+         * Returns a list of file locations at at the given host and path.
+         * @param user The user
+         * @param host The host
+         * @param path The path (can be absolute or relative)
+         * @return A list of &lt;code&gt;FileLocation&lt;/code&gt; objects
+         * @see FileLocation
+         * @throws FileException If there there is no file resource entry for the given host
+         */
+        public List listFiles(User user, String host, String path) throws FileException {
+            // Create a file browser on the given host.
+            // This will fail if there is no file resource entry for the given host.
+            FileBrowser fileBrowser = fileBrowserService.createFileBrowser(user, host);
+            return fileBrowser.list(path);
+        }
+
+                    </pre></div><div class="example"><a name="N1026A"></a><p class="title"><b>Example&nbsp;14.&nbsp;Listing files in the home diectory of a user on a given host</b></p><pre class="screen">
+
+        /**
+         * Returns a list of file locations in the home directory of the given user on the given host.
+         * @param user The user
+         * @param host The host
+         * @return A list of &lt;code&gt;FileLocation&lt;/code&gt; objects
+         * @see FileLocation
+         * @throws FileException If there there is no file resource entry for the given host
+         */
+        public List listFilesInHomeDir(User user, String host) throws FileException {
+            // Create a file browser on the given host.
+            // This will fail if there is no file resource entry for the given host.
+            FileBrowser fileBrowser = fileBrowserService.createFileBrowser(user, host);
+            // If null or "" is given, then the user's home directory is assumed...
+            return fileBrowser.list("");
+        }
+
+                    </pre></div></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="filexamplestasks"></a>File Tasks</h4></div></div></div><p>
+                    Below we provide examples illustrating how to manipulate files. Note that
+                    in all the file tasks we illustrate here we block for completion of the
+                    task using the <code class="code">waitFor</code> method on the <code class="classname">Task</code>
+                    interface. Please refer to the task section for how to perform and monitor these
+                    and other tasks asynchronously.
+                </p><div class="example"><a name="N1027C"></a><p class="title"><b>Example&nbsp;15.&nbsp;Creating a directory</b></p><pre class="screen">
+
+    /**
+     * Creates a directory at the given path on the given host.
+     * @param user The user
+     * @param host The host
+     * @param path The path of the directory (can be absolute or relative)
+     * @throws FileException If there there is no file resource entry for the given host
+     * @throws TaskException If the make directory task fails
+     */
+    public void makeDirectory(User user, String host, String path)
+            throws FileException, TaskException {
+        // Create a file browser on the given host.
+        // This will fail if there is no file resource entry for the given host.
+        FileBrowser fileBrowser = fileBrowserService.createFileBrowser(user, host);
+        FileMakeDir fileMakeDir = fileBrowser.makeDirectory(path);
+        fileMakeDir.waitFor();
+        if (fileMakeDir.getTaskStatus().equals(TaskStatus.FAILED)) {
+            throw new TaskException("Failed to create directory with error " + fileMakeDir.getTaskStatusMessage());
+        }
+    }
+
+                    </pre></div><div class="example"><a name="N10282"></a><p class="title"><b>Example&nbsp;16.&nbsp;Renaming a file or directory</b></p><pre class="screen">
+
+    /**
+     * Renames the file or directory at the given path on the given host with the given name.
+     * @param user The user
+     * @param host The host
+     * @param path The path of the file to rename (can be absolute or relative)
+     * @param newName The new name for the file
+     * @throws MalformedURLException If the path results in an invalid url on the host
+     * @throws FileException If there there is no file resource entry for the given host
+     * @throws TaskException If the rename task fails
+     */
+    public void rename(User user, String host, String path, String newName)
+            throws MalformedURLException, FileException, TaskException {
+        // Create a file browser on the given host.
+        // This will fail if there is no file resource entry for the given host.
+        FileBrowser fileBrowser = fileBrowserService.createFileBrowser(user, host);
+        // Create a file location for the given path
+        FileLocation fileLocation = new FileLocation("file:///" + path);
+        FileNameChange fileNameChange = fileBrowser.rename(fileLocation, newName);
+        fileNameChange.waitFor();
+        if (fileNameChange.getTaskStatus().equals(TaskStatus.FAILED)) {
+            throw new TaskException("Failed to rename file with error " + fileNameChange.getTaskStatusMessage());
+        }
+    }
+
+                    </pre></div><div class="example"><a name="N10288"></a><p class="title"><b>Example&nbsp;17.&nbsp;Copying a set of files</b></p><pre class="screen">
+
+    /**
+     * Copies files at the source host and path to the destination host and path.
+     * @param user The user
+     * @param srcHost The source host
+     * @param srcPath The source path (can be absolute or relative)
+     * @param dstHost The destination host
+     * @param dstPath The destination path (can be absolute or relative)
+     * @throws FileException If there there is no file resource entry for the given host
+     * @throws TaskException If the copy task fails
+     */
+    public void copy(User user, String srcHost, String srcPath, String dstHost, String dstPath)
+            throws FileException, TaskException {
+        // Create a file browser on the given host.
+        // This will fail if there is no file resource entry for the given host.
+        FileBrowser srcBrowser = fileBrowserService.createFileBrowser(user, srcHost);
+        FileLocation srcLocation = srcBrowser.createFileLocation(srcPath);
+        FileBrowser dstBrowser = fileBrowserService.createFileBrowser(user, dstHost);
+        FileLocation dstLocation = dstBrowser.createFileLocation(dstPath);
+        FileCopy copy = srcBrowser.copy(srcLocation, dstLocation);
+        copy.waitFor();
+        if (copy.getTaskStatus().equals(TaskStatus.FAILED)) {
+            throw new TaskException("Failed to copy file with error " + copy.getTaskStatusMessage());
+        }
+    }
+
+                    </pre></div><div class="example"><a name="N1028E"></a><p class="title"><b>Example&nbsp;18.&nbsp;Moving a set of files</b></p><pre class="screen">
+
+    /**
+     * Moves files at the source host and path to the destination host and path.
+     * @param user The user
+     * @param srcHost The source host
+     * @param srcPaths A list of source paths (as strings, can be absolute or relative)
+     * @param dstHost The destination host
+     * @param dstPath The destination path (can be absolute or relative)
+     * @throws FileException If there there is no file resource entry for the given host
+     * @throws TaskException If the move task fails
+     */
+    public void move(User user, String srcHost, List srcPaths, String dstHost, String dstPath)
+            throws FileException, TaskException {
+        // Create a file browser on the given host.
+        // This will fail if there is no file resource entry for the given host.
+        FileBrowser srcBrowser = fileBrowserService.createFileBrowser(user, srcHost);
+        List srcLocations = new ArrayList();
+        for (int ii = 0; ii &lt; srcPaths.size(); ++ii) {
+            String srcPath = (String)srcPaths.get(ii);
+            FileLocation srcLocation = srcBrowser.createFileLocation(srcPath);
+            srcLocations.add(srcLocation);
+        }
+        FileSet srcFileSet = new FileLocationSet(srcLocations);
+        FileBrowser dstBrowser = fileBrowserService.createFileBrowser(user, dstHost);
+        FileLocation dstLocation = dstBrowser.createFileLocation(dstPath);
+        FileMove move = srcBrowser.move(srcFileSet, dstLocation);
+        move.waitFor();
+        if (move.getTaskStatus().equals(TaskStatus.FAILED)) {
+            throw new TaskException("Failed to move files with error " + move.getTaskStatusMessage());
+        }
+    }
+
+                    </pre></div><div class="example"><a name="N10294"></a><p class="title"><b>Example&nbsp;19.&nbsp;Deleting a file or directory</b></p><pre class="screen">
+
+    /**
+     * Deletes the file or directory at the given path on the given host.
+     * @param user The user
+     * @param host The host
+     * @param path The path of the directory (can be absolute or relative)
+     * @throws FileException If there there is no file resource entry for the given host
+     * @throws TaskException If the delete task fails
+     */
+    public void delete(User user, String host, String path)
+            throws FileException, TaskException {
+        // Create a file browser on the given host.
+        // This will fail if there is no file resource entry for the given host.
+        FileBrowser fileBrowser = fileBrowserService.createFileBrowser(user, host);
+        FileLocation fileLocation = fileBrowser.createFileLocation(path);
+        FileDeletion delete = fileBrowser.delete(fileLocation);
+        delete.waitFor();
+        if (delete.getTaskStatus().equals(TaskStatus.FAILED)) {
+            throw new TaskException("Failed to delete file with error " + delete.getTaskStatusMessage());
+        }
+    }
+
+                    </pre></div><div class="example"><a name="N1029A"></a><p class="title"><b>Example&nbsp;20.&nbsp;Uploading a file from the local filesystem to a given host</b></p><pre class="screen">
+
+/**
+ * Uploads the file at the given source path to the given destination host and path
+ * @param user The user
+ * @param srcPath The source path (can be absolute or relative)
+ * @param dstHost The destination host
+ * @param dstPath The destination path (can be absolute or relative)
+ * @throws FileException If there there is no file resource entry for the given host
+ * @throws TaskException If the upload task fails
+ */
+public void upload(User user, String srcPath, String dstHost, String dstPath)
+        throws FileException, TaskException {
+    // Create a file browser on the given host.
+    // This will fail if there is no file resource entry for the given host.
+    FileBrowser fileBrowser = fileBrowserService.createFileBrowser(user, dstHost);
+    FileLocation dstLocation = fileBrowser.createFileLocation(dstPath);
+    FileUpload upload = fileBrowser.upload(srcPath, dstLocation);
+    upload.waitFor();
+    if (upload.getTaskStatus().equals(TaskStatus.FAILED)) {
+        throw new TaskException("Failed to upload file with error " + upload.getTaskStatusMessage());
+    }
+}
+
+                    </pre></div><div class="example"><a name="N102A0"></a><p class="title"><b>Example&nbsp;21.&nbsp;Downloading a file from a given host to the local filesystem</b></p><pre class="screen">
+
+/**
+ * Downloads the file from the given source host and path to the given local path
+ * @param user The user
+ * @param srcHost The destination host
+ * @param srcPath The source path (can be absolute or relative)
+ * @param dstPath The destination path (can be absolute or relative)
+ * @throws FileException If there there is no file resource entry for the given host
+ * @throws TaskException If the download task fails
+ */
+public void download(User user, String srcHost, String srcPath, String dstPath)
+        throws FileException, TaskException {
+    // Create a file browser on the given host.
+    // This will fail if there is no file resource entry for the given host.
+    FileBrowser fileBrowser = fileBrowserService.createFileBrowser(user, srcHost);
+    FileLocation srcLocation = fileBrowser.createFileLocation(srcPath);
+    FileDownload download = fileBrowser.download(srcLocation, dstPath);
+    download.waitFor();
+    if (download.getTaskStatus().equals(TaskStatus.FAILED)) {
+        throw new TaskException("Failed to download file with error " + download.getTaskStatusMessage());
+    }
+}
+
+                    </pre></div></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="filexamplesadvanced"></a>Advanced Examples</h4></div></div></div><p>
+                    The Grid Portlets file package offers many features for managing files on a
+                    portal and on remote resources. Here are more examples illustrating the kinds
+                    of tasks that can be performed with Grid Portlets.
+                </p><div class="example"><a name="N102AC"></a><p class="title"><b>Example&nbsp;22.&nbsp;Copying a file from GridSphere's secure directory to a given host</b></p><pre class="screen">
+
+/**
+ * Copies from a remote resource to GridSphere's "secure directory". Note that the actual root
+ * path of GridSphere's secure directory lies somewhere in ${WEBSERVER_HOME}/gridsphere/WEB-INF!
+ * @param user The user
+ * @param srcHost The source host
+ * @param srcPath The source path (can be absolute or relative)
+ * @param dstPath The destination path in the secure directory (can be absolute or relative)
+ * @throws FileException If there there is no file resource entry for the given host
+ * @throws TaskException If the copy task fails
+ */
+public void copyToSecureDirectory(User user, String srcHost, String srcPath, String dstPath)
+        throws FileException, TaskException {
+    // Create a file browser on the given host.
+    // This will fail if there is no file resource entry for the given host.
+    FileBrowser srcBrowser = fileBrowserService.createFileBrowser(user, srcHost);
+    FileLocation srcLocation = srcBrowser.createFileLocation(srcPath);
+    // Create a file browser on the local host.
+    // The local host is represented by the &lt;localhost-resource&gt; entry in Resources.xml
+    // This will fail if there is no file resource entry for the given host.
+    FileBrowser dstBrowser = fileBrowserService.createFileBrowser(user, "localhost");
+    FileLocation dstLocation = dstBrowser.createFileLocation(dstPath);
+    FileCopy copy = srcBrowser.copy(srcLocation, dstLocation);
+    copy.waitFor();
+    if (copy.getTaskStatus().equals(TaskStatus.FAILED)) {
+        throw new TaskException("Failed to copy file with error " + copy.getTaskStatusMessage());
+    }
+}
+
+                    </pre></div></div></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="jobexamples"></a>Job Service Examples</h3></div></div></div><p>
+                Because Grid Portlets has a layered architecture, there is usually more than one way to acheive a
+                given a objective. Here we illustrate the recommended approach for some of the most common
+                job-related operations.
+            </p><div class="important" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Important"><tr><td valign="top" align="center" rowspan="2" width="25"><img alt="[Important]" src="common-images/important.png"></td><th align="left">Important</th></tr><tr><td valign="top" align="left"><p>
+                All of the examples listed below can be found in
+                <code class="classname">org.gridlab.gridsphere.examples.services.job.JobExamples</code>.
+                Please refer to this class and its javadocs wherever you have download Grid Portlets.
+                <code class="classname">JobExamples</code> contains two member variables for maintaining an
+                instance of <code class="classname">PortletLog</code> and a reference to an instance of
+                <code class="classname">JobSubmissionService</code>, both of which are used in the examples that
+                follow. For your reference, here is a code snipet showing these two variable declarations
+                and the constructor for <code class="classname">JobExamples</code>.
+            </p><div class="example"><a name="N102CC"></a><p class="title"><b>Example&nbsp;23.&nbsp;Job Examples Class</b></p><pre class="screen">
+
+public class JobExamples {
+
+    // Portlet log is very good for debugging, we make ample use of it here!
+    private PortletLog log = SportletLog.getInstance(JobExamples.class);
+    // The job submission service is used in all the examples below
+    private JobSubmissionService jobSubmissionService  = null;
+
+    /**
+     * Constructs an instance of JobExamples.
+     * @throws PortletServiceUnavailableException If unable to get required portlet services.
+     */
+    public JobExamples() throws PortletServiceUnavailableException {
+        log.info("Creating JobExamples");
+        PortletServiceFactory factory = SportletServiceFactory.getInstance();
+        try {
+            jobSubmissionService = (JobSubmissionService)
+                    factory.createPortletService(JobSubmissionService.class, null, true);
+        } catch (PortletServiceNotFoundException e) {
+            log.error("Unable to initialize required portlet services", e);
+            throw new PortletServiceUnavailableException(e);
+        }
+    }
+
+    // See additional methods in the Java class file...
+}
+
+                </pre><p>
+                    The rest of the examples below make use of the two member variables above.
+                </p></div></td></tr></table></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="jobexamplesbasic"></a>Basic Examples</h4></div></div></div><p>
+                    We start with some basic tasks that are useful to many applications.
+                </p><div class="example"><a name="N102DA"></a><p class="title"><b>Example&nbsp;24.&nbsp;Getting a list of all the jobs submitted for a given user</b></p><pre class="screen">
+
+/**
+ * Returns all the jobs submitted by the given user.
+ * @param user The user
+ * @return A list of &lt;code&gt;Job&lt;/code&gt; objects.
+ */
+public List getJobList(User user) {
+    // Note one could specify a particular job type if so desired
+    // so that this method only returned jobs of the given type.
+    return jobSubmissionService.getJobs(user, JobType.INSTANCE);
+}
+
+                    </pre></div><div class="example"><a name="N102E0"></a><p class="title"><b>Example&nbsp;25.&nbsp;Getting a list of active jobs for a given user</b></p><pre class="screen">
+
+/**
+ * Returns all the "active" jobs for the given user. Active jobs are jobs
+ * with a task status of "ACTIVE".
+ * @param user The user
+ * @return A list of &lt;code&gt;Job&lt;/code&gt; objects.
+ */
+public List getActiveJobList(User user) {
+    // Note one could specify a particular job type if so desired
+    // so that this method only returned jobs of the given type.
+    Iterator jobIterator = jobSubmissionService.getJobs(user, JobType.INSTANCE).iterator();
+    List activeJobList = new ArrayList();
+    while (jobIterator.hasNext()) {
+        Job job = (Job)jobIterator.next();
+        if (job.getTaskStatus().equals(TaskStatus.ACTIVE)) {
+            activeJobList.add(job);
+        }
+    }
+    return activeJobList;
+}
+
+                    </pre></div><div class="example"><a name="N102E6"></a><p class="title"><b>Example&nbsp;26.&nbsp;Getting a user's home directory on a given host</b></p><pre class="screen">
+
+    /**
+     * Returns the home directory of the given user on the given host.
+     * @param user The user
+     * @param host The host
+     * @return A list of &lt;code&gt;FileLocation&lt;/code&gt; objects
+     */
+    public String getHomeDirectory(User user, String host) throws FileException {
+        // Create a file browser on the given host.
+        // This will fail if there is no file resource entry for the given host.
+        FileBrowser fileBrowser = fileBrowserService.createFileBrowser(user, host);
+        // Simply return the home directory...
+        return fileBrowser.getHomeDirectory();
+    }
+
+                    </pre></div></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="jobexamplestasks"></a>Simple Job Examples</h4></div></div></div><p>
+                    The job package is best illustrated with specific examples. Below we provide
+                    just a few. The behavior of the job package relies ultimately on the job
+                    resources made available to Grid Portlets. In general, most job submission
+                    resources, including all based on Globus, should support the kind of examples
+                    shown here.
+                </p><p>
+                    Note that in all the file tasks we illustrate here we block for completion of the
+                    task using the <code class="code">waitFor</code> method on the <code class="classname">Task</code>
+                    interface. Please refer to the task section for how to perform and monitor these
+                    and other tasks asynchronously.
+                </p><p>
+                    Note, also, in order to get the output of a job, we use the
+                    <code class="classname">FileReaderUtil</code> in the <code class="code">file</code> package.
+                </p><div class="example"><a name="N10302"></a><p class="title"><b>Example&nbsp;27.&nbsp;Submitting a "/bin/date" job</b></p><pre class="screen">
+
+    /**
+     * Provides an example of submitting "/bin/date" for a given user to
+     * a given host. Illustrates how to do a simple job submission and
+     * get the job output as a string. Returns null if the job status
+     * is failed when the job ends.
+     * @param user The user
+     * @param host The host on which to run /bin/date
+     * @return Returns the value return by the job, null if the job failed.
+     * @throws PortletException If a exception occurs during job submission or getting job output.
+     */
+    public String doBinDate(User user, String host) throws PortletException {
+        String answer = null;
+        try {
+            // Create a job spec using the generic job type
+            // Note one could specify a particular job type if so desired
+            log.debug("Creating job spec for " + user.getUserName());
+            JobSpec jobSpec = jobSubmissionService.createJobSpec(JobType.INSTANCE);
+            jobSpec.setUser(user);
+            FileLocation executable = new FileLocation("/bin/date");
+            jobSpec.setExecutableLocation(executable);
+            jobSpec.setHostName(host);
+            log.debug("Submiting /bin/date to  " + host);
+            Job job = jobSubmissionService.submitJob(jobSpec);
+            job.waitFor();
+            if (job.getTaskStatus().equals(TaskStatus.FAILED)) {
+                log.error("Job failed with message " + job.getTaskStatusMessage());
+                return null;
+            }
+            FileLocation stdout = job.getStdoutLocation();
+            if (stdout != null) {
+                log.debug("Reading stdout from " + stdout.getUrl());
+                FileHandle fileHandle = new FileHandle(stdout);
+                answer = fileHandle.readContents(user);
+            }
+        } catch (JobException e) {
+            log.error("Unable to submit job", e);
+            throw new PortletException(e.getMessage());
+        } catch (MalformedURLException e) {
+            log.error("Unable to create file location", e);
+            throw new PortletException(e.getMessage());
+        } catch (IOException e) {
+            log.error("Unable to read stdout location", e);
+            throw new PortletException(e.getMessage());
+        }
+        log.debug("answer = " + answer);
+        return answer;
+    }
+
+                    </pre></div><div class="example"><a name="N10308"></a><p class="title"><b>Example&nbsp;28.&nbsp;Submitting a "/bin/ls" job, specifying the directory</b></p><pre class="screen">
+
+    /**
+     * Provides an example of submitting "/bin/ls" for a given user to
+     * a given host with a given directory. Illustrates how to set the
+     * directory in which to run a job and get the job output as a string.
+     * Returns null if the job status is failed when the job ends.
+     * @param user The user
+     * @param host The host on which to run /bin/ls
+     * @param directory The directory in which to run /bin/ls
+     * @return Returns the value return by the job, null if the job failed.
+     * @throws PortletException If a exception occurs during job submission or getting job output.
+     */
+    public String doBinLs(User user, String host, String directory) throws PortletException {
+        PortletLog log = SportletLog.getInstance(getClass());
+        String answer = null;
+        try {
+            // Create a job spec using the generic job type
+            // Note one could specify a particular job type if so desired
+            log.debug("Creating job spec for " + user.getUserName());
+            JobSpec jobSpec = jobSubmissionService.createJobSpec(JobType.INSTANCE);
+            jobSpec.setUser(user);
+            FileLocation executable = new FileLocation("/bin/ls");
+            jobSpec.setDirectory(directory);
+            jobSpec.setExecutableLocation(executable);
+            jobSpec.setHostName(host);
+            log.debug("Submiting /bin/ls to  " + host + " in " + directory);
+            Job job = jobSubmissionService.submitJob(jobSpec);
+            job.waitFor();
+            if (job.getTaskStatus().equals(TaskStatus.FAILED)) {
+                log.error("Job failed with message " + job.getTaskStatusMessage());
+                return null;
+            }
+            FileLocation stdout = job.getStdoutLocation();
+            if (stdout != null) {
+                log.debug("Reading stdout from " + stdout.getUrl());
+                FileHandle fileHandle = new FileHandle(stdout);
+                answer = fileHandle.readContents(user);
+            }
+        } catch (JobException e) {
+            log.error("Unable to submit job", e);
+            throw new PortletException(e.getMessage());
+        } catch (MalformedURLException e) {
+            log.error("Unable to create file location", e);
+            throw new PortletException(e.getMessage());
+        } catch (IOException e) {
+            log.error("Unable to read stdout location", e);
+            throw new PortletException(e.getMessage());
+        }
+        log.debug("answer = " + answer);
+        return answer;
+    }
+
+                    </pre></div><div class="example"><a name="N1030E"></a><p class="title"><b>Example&nbsp;29.&nbsp;Submitting a "/bin/echo" with a given argument</b></p><pre class="screen">
+
+    /**
+     * Provides an example of submitting "/bin/echo" for a given user to
+     * a given host with a given message. Illustrates how to pass an argument
+     * to a job and get the job output as a string. Returns null if
+     * the job status is failed when the job ends.
+     * @param user The user
+     * @param host The host on which to run /bin/ls
+     * @param message The message to echo
+     * @return Returns the value return by the job, null if the job failed.
+     * @throws PortletException If a exception occurs during job submission or getting job output.
+     */
+    public String doBinEcho(User user, String host, String message) throws PortletException {
+        PortletLog log = SportletLog.getInstance(getClass());
+        String answer = null;
+        try {
+            // Create a job spec using the generic job type
+            // Note one could specify a particular job type if so desired
+            log.debug("Creating job spec for " + user.getUserName());
+            JobSpec jobSpec = jobSubmissionService.createJobSpec(JobType.INSTANCE);
+            jobSpec.setUser(user);
+            FileLocation executable = new FileLocation("/bin/echo");
+            jobSpec.setExecutableLocation(executable);
+            jobSpec.addArgument(message);
+            jobSpec.setHostName(host);
+            log.debug("Submiting /bin/echo " + message + " to " + host);
+            Job job = jobSubmissionService.submitJob(jobSpec);
+            job.waitFor();
+            if (job.getTaskStatus().equals(TaskStatus.FAILED)) {
+                log.error("Task failed with message " + job.getTaskStatusMessage());
+                return null;
+            }
+            FileLocation stdout = job.getStdoutLocation();
+            if (stdout != null) {
+                log.debug("Reading stdout from " + stdout.getUrl());
+                FileHandle fileHandle = new FileHandle(stdout);
+                answer = fileHandle.readContents(user);
+            }
+        } catch (JobException e) {
+            log.error("Unable to submit job", e);
+            throw new PortletException(e.getMessage());
+        } catch (MalformedURLException e) {
+            log.error("Unable to create file location", e);
+            throw new PortletException(e.getMessage());
+        } catch (IOException e) {
+            log.error("Unable to read stdout location", e);
+            throw new PortletException(e.getMessage());
+        }
+        log.debug("answer = " + answer);
+        return answer;
+    }
+
+                    </pre></div><div class="example"><a name="N10314"></a><p class="title"><b>Example&nbsp;30.&nbsp;Submitting an mpi job for an executable and parameter file</b></p><pre class="screen">
+
+    /**
+     * Provides an example of submitting an mpi job to run a given executable
+     * and a given parameter file on a given number of cpus. In this case, we
+     * don't want to get job output. Instead we simply want to get a handle
+     * to the job that results.
+     * @param user The user
+     * @param host The host on which to run the executable
+     * @param numCpus The number of cpus
+     * @param executable The executable file location
+     * @param executable The parameter file location
+     * @return Returns the value return by the job, null if the job failed.
+     * @throws PortletException If a exception occurs during job submission or getting job output.
+     */
+    public Job submitMpiJob(User user,
+                            String host,
+                            int numCpus,
+                            FileLocation executable,
+                            FileLocation parameterFile) throws PortletException {
+        PortletLog log = SportletLog.getInstance(getClass());
+        Job job = null;
+        try {
+            // Create a job spec using the generic job type
+            // Note one could specify a particular job type if so desired
+            log.debug("Creating job spec for " + user.getUserName());
+            JobSpec jobSpec = jobSubmissionService.createJobSpec(JobType.INSTANCE);
+            jobSpec.setUser(user);
+            // Set the executable location
+            // The executable could be on the local host
+            // on the same host as job, or some other host
+            jobSpec.setExecutableLocation(executable);
+            // Add the parameter file name as an argument
+            jobSpec.addArgument(parameterFile.getFileName());
+            // Add the parameter file as a file stage parameter
+            // The parameter file will be staged to same directory
+            // in which job is run
+            jobSpec.addFileStageParameter(parameterFile);
+            // Set host name
+            jobSpec.setHostName(host);
+            // Set execution method to mpi
+            jobSpec.setExecutionMethod(ExecutionMethod.MPI);
+            // Set cpu count to given num of cpus
+            jobSpec.setCpuCount(new Integer(numCpus));
+            // Submit the job
+            log.debug("Executing " + executable.getUrl() + " on " + host);
+            job = jobSubmissionService.submitJob(jobSpec);
+        } catch (JobException e) {
+            log.error("Unable to submit job", e);
+            throw new PortletException(e.getMessage());
+        }
+        return job;
+    }
+
+                    </pre></div></div></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="gssexamples"></a>GSS Examples</h3></div></div></div><div class="important" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Important"><tr><td valign="top" align="center" rowspan="2" width="25"><img alt="[Important]" src="common-images/important.png"></td><th align="left">Important</th></tr><tr><td valign="top" align="left"><p>
+                All of the examples listed below can be found in
+                <code class="classname">org.gridlab.gridsphere.examples.services.security.gss.GssExamples</code>.
+                Please refer to this class and its javadocs wherever you have download Grid Portlets.
+                <code class="classname">ResourceExamples</code> contains two member variables for maintaining an
+                instance of <code class="classname">PortletLog</code>, a reference to
+                <code class="classname">CredentialManagerService</code> and a reference to an instance of
+                <code class="classname">ResourceRegisryService</code>, both of which are used in the examples that
+                follow. For your reference, here is a code snipet showing these threee variable declarations
+                and the constructor for <code class="classname">ResourceExamples</code>.
+            </p><div class="example"><a name="N10335"></a><p class="title"><b>Example&nbsp;31.&nbsp;Gss Examples Class</b></p><pre class="screen">
+
+public class GssExamples {
+
+    // Portlet log is very good for debugging, we make ample use of it here!
+    private PortletLog log = SportletLog.getInstance(GssExamples.class);
+    // The credential schedulerer service is used in all the examples below
+    private CredentialManagerService credentialManagerService = null;
+    // The resource registry service is used in all the examples below
+    private ResourceRegistryService resourceRegistryService = null;
+
+    /**
+     * Constructs an instance of GssExamples.
+     * @throws PortletServiceUnavailableException If unable to get required portlet services.
+     */
+    public GssExamples() throws PortletServiceUnavailableException {
+        log.info("Creating JobExamples");
+        PortletServiceFactory factory = SportletServiceFactory.getInstance();
+        try {
+            credentialManagerService = (CredentialManagerService)
+                    factory.createPortletService(CredentialManagerService.class, null, true);
+            resourceRegistryService = (ResourceRegistryService)
+                    factory.createPortletService(ResourceRegistryService.class, null, true);
+        } catch (PortletServiceNotFoundException e) {
+            log.error("Unable to initialize required portlet services", e);
+            throw new PortletServiceUnavailableException(e);
+        }
+    }
+
+    // See additional methods in the Java class file...
+}
+
+                </pre><p>
+                    The rest of the examples below make use of the three member variables above.
+                </p></div></td></tr></table></div><div class="sect3" lang="en"><div class="titlepage"><div><div><h4 class="title"><a name="gssexamplesbasic"></a>Some basic examples</h4></div></div></div><div class="example"><a name="N10341"></a><p class="title"><b>Example&nbsp;32.&nbsp;Returns the distinguished names of the resources to which the given credential is able to authenticate</b></p><pre class="screen">
+
+/**
+ * Returns the distinguished names of all the resources to which the given
+ * credential successfully authenticates. If there are no gss enabled
+ * resources in the resource registry, this method will return an empty list.
+ * @param credential The credential
+ * @return The list of resource of dns (strings)
+ */
+public List getValidGssEnabledResourceDns(GSSCredential credential) {
+    List validResourceList = new ArrayList();
+    Iterator gssResourceIter = resourceRegistryService.getResources(GssEnabledResourceType.INSTANCE).iterator();
+    while (gssResourceIter.hasNext()) {
+        GssEnabledResource gssResource = (GssEnabledResource)gssResourceIter.next();
+        String resourceDn = gssResource.getDn();
+        log.debug("Testing whether credential authenticates to " + resourceDn);
+        try {
+            gssResource.authenticates(credential);
+            validResourceList.add(resourceDn);
+        } catch (Exception e) {
+            log.debug("Credential failed to authenticate to resource " + resourceDn + " with error " + e.getMessage());
+        }
+    }
+    return validResourceList;
+}
+
+                    </pre></div><div class="example"><a name="N10347"></a><p class="title"><b>Example&nbsp;33.&nbsp;Returns the distinguished names of the resources to which the given user is able to authenticate</b></p><pre class="screen">
+
+/**
+ * Returns the distinguished names of all the resources to which the given user
+ * is able to authenticate with his/her active credentials. If the user
+ * has no active credentials or there are no gss enabled resources in
+ * the resource registry, this method will return an empty list.
+ * @param user The user
+ * @return The list of resource of dns (strings)
+ */
+public List getValidGssEnabledResourceDns(User user) {
+    List validResourceList = new ArrayList();
+    Iterator credentialIter = credentialManagerService.getActiveCredentials(user).iterator();
+    while (credentialIter.hasNext()) {
+        GSSCredential credential = (GSSCredential)credentialIter.next();
+        validResourceList.addAll(getValidGssEnabledResourceDns(credential));
+    }
+    return validResourceList;
+}
+
+                    </pre></div></div></div></div></div></body></html>

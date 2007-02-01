@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="121"
+   name=""
+   committed-date="2005-10-25T14:20:12.000000Z"
+   url="https://svn.gridsphere.org/extras/trunk/webapp/jsp/wiki"
+   last-author="wehrens"
+   kind="dir"
+   uuid="77c64a61-2e0f-0410-93dd-cb3defde2b95"
+   revision="124"/>
+<entry
+   committed-rev="121"
+   name="help.jsp"
+   text-time="2006-07-05T17:52:53.000000Z"
+   committed-date="2005-10-25T14:20:12.000000Z"
+   checksum="4bc25ecbba0065df7a79dfe670dc7e58"
+   last-author="wehrens"
+   kind="file"
+   prop-time="2006-07-05T17:52:53.000000Z"/>
+<entry
+   committed-rev="7"
+   name="showSnip.jsp"
+   text-time="2006-07-05T17:52:53.000000Z"
+   committed-date="2004-05-17T08:58:32.000000Z"
+   checksum="a3bbbbd8be5e3781fd9da37c9b382355"
+   last-author="wehrens"
+   kind="file"
+   prop-time="2006-07-05T17:52:53.000000Z"/>
+</wc-entries>

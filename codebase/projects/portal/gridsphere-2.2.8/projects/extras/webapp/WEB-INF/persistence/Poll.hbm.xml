@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 1.1//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-2.0.dtd">
+
+<hibernate-mapping>
+
+    <class
+        name="org.gridlab.gridsphere.extras.services.poll.Poll"
+        table="poll_title"
+        >
+
+        <id
+            name="oid"
+            column="oid"
+            type="java.lang.String"
+            length="32"
+            >
+            <generator class="uuid.hex"/>
+
+        </id>
+
+        <property name="title" type="string" column="title"/>
+        <property name="graphic" type="string" column="graphic"/>
+        <property name="Voices" type="long" column="voices"/>
+        <property name="fromDate" type="java.util.Calendar" column="fromDate"/>
+        <property name="untilDate" type="java.util.Calendar" column="untilDate"/>
+        <property name="multiple" type="boolean" column="multiple"/>
+        <property name="hiddenForGuest" type="boolean" column="hiddenForGuest"/>
+        <property name="hiddenForUser" type="boolean" column="hiddenForUser"/>
+        <property name="hiddenForSuper" type="boolean" column="hiddenForSuper"/>
+
+        <list name="Questions"
+            table="questions">
+            <key column="questionKey"/>
+            <index column="questionindex"/>
+            <one-to-many
+                 class="org.gridlab.gridsphere.extras.services.poll.Question"/>
+
+        </list>
+
+        <list name="UserId"
+            table="userId">
+            <key column="userIdKey"/>
+            <index column="userIdindex"/>
+            <one-to-many
+                 class="org.gridlab.gridsphere.extras.services.poll.PollUsers"/>
+
+        </list>
+
+    </class>
+
+
+    <class
+        name="org.gridlab.gridsphere.extras.services.poll.Question"
+        table="question_choice"
+        >
+
+        <id
+            name="oid"
+            column="oid"
+            type="java.lang.String"
+            length="32"
+            >
+            <generator class="uuid.hex"/>
+
+        </id>
+
+        <property name="Question" type="string" column="question"/>
+
+        <list name="Choices"
+            table="choices">
+            <key column="choiceKey"/>
+            <index column="choiceindex"/>
+            <one-to-many
+                 class="org.gridlab.gridsphere.extras.services.poll.Choice"/>
+
+        </list>
+    </class>
+
+     <class
+        name="org.gridlab.gridsphere.extras.services.poll.Choice"
+        table="choice"
+        >
+
+        <id
+            name="oid"
+            column="oid"
+            type="java.lang.String"
+            length="32"
+            >
+            <generator class="uuid.hex"/>
+
+        </id>
+
+        <property name="Choice" type="string" column="choice"/>
+        <property name="Voices" type="long" column="voices"/>
+
+
+    </class>
+
+     <class
+        name="org.gridlab.gridsphere.extras.services.poll.PollUsers"
+        table="polluser"
+        >
+
+        <id
+            name="oid"
+            column="oid"
+            type="java.lang.String"
+            length="32"
+            >
+            <generator class="uuid.hex"/>
+
+        </id>
+
+        <property name="UserId" type="string" column="userId"/>
+
+
+    </class>
+
+</hibernate-mapping>

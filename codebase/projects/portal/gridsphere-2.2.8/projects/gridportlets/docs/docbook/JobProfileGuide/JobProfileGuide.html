@@ -1,0 +1,195 @@
+<html><head><META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"><title>Job Profile Developer's Guide</title><link href="GridSphere.css" rel="stylesheet" type="text/css"><meta content="DocBook XSL Stylesheets V1.68.1" name="generator"></head><body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF"><div class="article" lang="en"><div class="titlepage"><div><div><h1 class="title"><a name="N10005"></a>Job Profile Developer's Guide</h1></div></div><hr></div><div class="toc"><p><b>Table of Contents</b></p><dl><dt><span class="sect1"><a href="#Introduction">Introduction</a></span></dt><dt><span class="sect1"><a href="#JobSubmissionPortlet">Job Submission Portlet</a></span></dt><dt><span class="sect1"><a href="#JobProfiles">Job Profiles</a></span></dt><dd><dl><dt><span class="sect2"><a href="#N100CA">How Job Profiles Are Used</a></span></dt><dt><span class="sect2"><a href="#N100DB">How Job Profiles Are Registered</a></span></dt><dt><span class="sect2"><a href="#GenericProfile">Generic Job Profile</a></span></dt><dt><span class="sect2"><a href="#CustomProfile">Developing a Custom Job Profile</a></span></dt></dl></dd><dt><span class="sect1"><a href="#Reference">Classes and Interfaces</a></span></dt><dd><dl><dt><span class="sect2"><a href="#N101D9">JobComponent</a></span></dt><dt><span class="sect2"><a href="#N101EA">JobProfile</a></span></dt><dt><span class="sect2"><a href="#N101F6">JobProfileProvider</a></span></dt><dt><span class="sect2"><a href="#N101FE">JobProfileRegistry</a></span></dt><dt><span class="sect2"><a href="#N1020A">JobProfileRegistryService</a></span></dt></dl></dd></dl></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Introduction"></a>Introduction</h2></div></div></div><p>
+            The <span class="emphasis"><em>Job Submission Portlet</em></span> provides a general navigation system for listing, specifying,
+            viewing and managing jobs (stopping, migrating, deleting, etc). It supports the ability to
+            plugin custom user interfaces for each of its main navigation page. These custom user
+            interfaces are described by a <span class="emphasis"><em>Job Profile</em></span>.
+            In this guide, we describe the design of the Job Submission Portlet and how to write and deploy
+            custom job profiles for use in the Job Submission Portlet.
+        </p></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="JobSubmissionPortlet"></a>Job Submission Portlet</h2></div></div></div><p>
+            Like all portlets in Grid Portlets, the <code class="classname">JobSubmissionPortlet</code> class
+            extends from the base class <code class="classname">ActionComponentPortlet</code>. Therefore, all
+            of the user interfaces in the JobSubmissionPortlet extend from <code class="classname">ActionComponent</code>.
+            For more information about action components, see the
+            <a href="../ActionComponentGuide/ActionComponentGuide.html" target="_self">Action Component Developer's Guide</a>.
+        </p><p>
+            The Job Submission Portlet displays job action components, action components that extend from
+            <code class="classname">JobComponent</code>, providing a navigation system for displaying the
+            following job action components:
+        </p><div class="table"><a name="N1002D"></a><p class="title"><b>Table&nbsp;1.&nbsp;The Job Submission Portlet provides navigation for the following pages</b></p><table summary="The Job Submission Portlet provides navigation for the following pages" border="1"><colgroup><col><col><col></colgroup><thead><tr><th>Java Interface</th><th>Page Title</th><th>Description</th></tr></thead><tbody><tr><td><code class="interfacename">JobListViewPage</code></td><td>Job List View Page</td><td>
+                            This is the first page that is loaded by the Job Submission Portlet. It displays the
+                            complete list of jobs that have been submitted by a user from Grid Portlets. This
+                            page is also displayed anytime the user clicks <span class="guibutton">&lt;&lt;List</span>.
+                        </td></tr></tbody><tbody><tr><td><code class="interfacename">DeletedJobListViewPage</code></td><td>Deleted Job List View Page</td><td>
+                            This page is displayed after a list of jobs have been deleted by a user.
+                        </td></tr></tbody><tbody><tr><td><code class="interfacename">JobViewPage</code></td><td>Job View Page</td><td>
+                            This page is loaded every time a job is viewed by a user.
+                        </td></tr></tbody><tbody><tr><td><code class="interfacename">SubmittedJobViewPage</code></td><td>Submitted Job View Page</td><td>
+                            This page is loaded every time a job has just been <span class="emphasis"><em>submitted</em></span> by a user.
+                        </td></tr></tbody><tbody><tr><td><code class="interfacename">CanceledJobViewPage</code></td><td>Canceled Job View Page</td><td>
+                            This page is loaded every time a job has just been <span class="emphasis"><em>canceled</em></span> by a user.
+                        </td></tr></tbody><tbody><tr><td><code class="interfacename">DeletedJobViewPage</code></td><td>Deleted Job View Page</td><td>
+                            This page is loaded every time a job has just been <span class="emphasis"><em>deleted</em></span> by a user.
+                        </td></tr></tbody><tbody><tr><td><code class="interfacename">JobTypeEditPage</code></td><td>Job Type Edit Page</td><td>
+                            This page is displayed when a user clicks <span class="guibutton">New Job</span> if:
+                            <div class="orderedlist"><ol type="1"><li>
+                                     more than one job profile is registered with
+                                    the Job rofile Registry Service.
+                                </li><li>
+                                    and/or more than job type is registered with the
+                                    Job Submission Service.
+                                </li></ol></div>
+                        </td></tr></tbody><tbody><tr><td><code class="interfacename">JobSpecEditPage</code></td><td>Job Specification Edit Page List</td><td>
+                            The Job Submission Portlet supports a simple job specification wizard whereby a job profile
+                            can describe a list of pages for editing a job specification. The job submission portlet
+                            will create a wizard if more than one page is provided by a job profile.
+                        </td></tr></tbody><tbody><tr><td><code class="interfacename">JobSpecViewPage</code></td><td>Job Specification View Page</td><td>
+                            This page is loaded every time a job specfication is viewed by a user.
+                        </td></tr></tbody><tbody><tr><td><code class="interfacename">MigratedJobViewPage</code></td><td>Migrated Job View Page</td><td>
+                            This page is loaded every time a job has just been <span class="emphasis"><em>migrated</em></span> by a user.
+                            The ability to migrate a job from the Job Submission Portlet depends on whether:
+                            <div class="orderedlist"><ol type="1"><li>
+                                    The current job profile provides a migrated job view page.
+                                </li><li>
+                                    The <span class="emphasis"><em>type of job</em></span> supports migration.
+                                </li></ol></div>
+                        </td></tr></tbody></table></div></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="JobProfiles"></a>Job Profiles</h2></div></div></div><p>
+            The Job Submission Portlet supports the ability to plugin custom pages with the concept of a
+            <span class="emphasis"><em>job profile</em></span>. A job profile contains a description and tels the Job
+            Submission Portlet which action component to display for each of the pages the Job Submission
+            Portlet defines for interacting with a job (specifying, viewing, deleting, etc).
+        </p><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="N100CA"></a>How Job Profiles Are Used</h3></div></div></div><p>
+                Job profiles get associated with jobs during the job specification process, i.e. when a user clicks
+                <span class="guibutton">New Job</span>. If there is only one job profile in the registry (which is
+                typically the &ldquo;<span class="quote">Generic Job Profile</span>&rdquo;), then only the job spec edit pages from that
+                profile will be loaded and the resulting job will have that job profile associated with it. If there,
+                is more than one job profile available, the user will be presented with a display for choosing one
+                of the available job profiles. Whenever subsequent pages for the resulting job are loaded, such as
+                the Job View Page or the Deleted Job View Page, then the Job Submission Portlet will load the action
+                components described by the associated job profile.
+            </p><p>
+                Otherwise, in the event that there is no job profile already associated with the job, say when
+                a user selects to view a job from the Job List View Page, or if the job profile
+                associated with the given job is not currently registered in the Job Profile Registry Service,
+                then the default job profile
+                (typically the &ldquo;<span class="quote">Generic Job Profile</span>&rdquo;) will be used for interacting with the job.
+            </p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="N100DB"></a>How Job Profiles Are Registered</h3></div></div></div><p>
+            The Job Submission Portlet supports the ability to plugin custom pages with the concept of a
+            <span class="emphasis"><em>job profile</em></span>.
+            A job profile is represented by a <code class="classname">job-profile</code>
+            entry in a file called <code class="filename">/WEB-INF/JobProfiles.xml</code>. Each Grid Portlet project that
+            provides job profiles must deploy this file to its target web application directory. The file looks like so:
+            <pre class="screen">
+    
+    &lt;job-profiles&gt;
+
+        &lt;job-profile
+            key="YourJobProfileKey"
+            description="YourJobProfileDescription"&gt;
+            &lt;!-- OPTIONAL PAGE ENTRIES
+                &lt;job-view-page&gt;YourJobViewPage&lt;/job-view-page&gt;
+                &lt;submitted-job-view-page&gt;YourSubmittedJobViewPage&lt;/submitted-job-view-page&gt;
+                &lt;canceled-job-view-page&gt;YourCanceledJobViewPage&lt;/canceled-job-view-page&gt;
+                &lt;deleted-job-view-page&gt;YourDeletedJobViewPage&lt;/deleted-job-view-page&gt;
+                &lt;job-spec-view-page&gt;YourJobSpecViewPage&lt;/job-spec-view-page&gt;
+                &lt;job-spec-edit-page&gt;YourJobSpecEditPage1&lt;/job-spec-edit-page&gt;
+                &lt;job-spec-edit-page&gt;YourJobSpecEditPage2&lt;/job-spec-edit-page&gt;
+                &lt;job-spec-edit-page&gt;YourJobSpecEditPageEtc...&lt;/job-spec-edit-page&gt;
+                &lt;migrated-job-view-page&gt;YourMigratedJobViewPage&lt;/migrated-job-view-page&gt;
+            --&gt;
+        &lt;/job-profile&gt;
+
+        &lt;!-- Specify as many job-profile entries as you want --&gt;
+
+    &lt;/job-profiles&gt;
+    
+            </pre>
+        </p><p>
+            Each <code class="classname">job-profile</code> entry gets marshaled to a <code class="classname">JobProfile</code>.
+            The important thing to keep in mind is that each page entry gets mapped to a specific method
+            of <code class="classname">JobProfile</code> and the <code class="classname">JobSubmissionPortlet</code> will call
+            these methods to determine which action components to load for a given job profile.
+            Thus, each page class entry must be an <code class="classname">ActionComponent</code> that
+            implements the interface expected by the <code class="classname">JobSubmissionPortlet</code>.
+            These mappings are described below.
+        </p><div class="table"><a name="N10102"></a><p class="title"><b>Table&nbsp;2.&nbsp;Page Entry to Job Page Interface Table</b></p><table summary="Page Entry to Job Page Interface Table" border="1"><colgroup><col><col><col></colgroup><thead><tr><th>Job Profile Page Entry</th><th>Job Profile Method</th><th>Java Interface</th></tr></thead><tbody><tr><td>&lt;job-view-page&gt;</td><td><code class="methodname">getJobViewPageClass()</code></td><td><code class="interfacename">JobViewPage</code></td></tr></tbody><tbody><tr><td>&lt;submitted-job-view-page&gt;</td><td><code class="methodname">getSubmittedJobViewPageClass()</code></td><td><code class="interfacename">SubmittedJobViewPage</code></td></tr></tbody><tbody><tr><td>&lt;canceled-job-view-page&gt;</td><td><code class="methodname">getCanceledJobViewPageClass()</code></td><td><code class="interfacename">CanceledJobViewPage</code></td></tr></tbody><tbody><tr><td>&lt;deleted-job-view-page&gt;</td><td><code class="methodname">getDeletedJobViewPageClass()</code></td><td><code class="interfacename">DeletedJobViewPage</code></td></tr></tbody><tbody><tr><td>&lt;job-spec-view-page&gt;</td><td><code class="methodname">getJobSpecViewPageClass()</code></td><td><code class="interfacename">JobSpecViewPage</code></td></tr></tbody><tbody><tr><td>&lt;job-spec-edit-page&gt;</td><td><code class="methodname">getJobViewPageClass()</code></td><td><code class="interfacename">JobSpecEditPage</code></td></tr></tbody><tbody><tr><td>&lt;migrated-job-view-page&gt;</td><td><code class="methodname">getMigratedJobViewPageClass()</code></td><td><code class="interfacename">MigratedJobViewPage</code></td></tr></tbody></table></div></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="GenericProfile"></a>Generic Job Profile</h3></div></div></div><p>
+                To illustrate this point, the Grid Portlets project describes the "Generic Application" job profile in
+                its own <code class="filename">/WEB-INF/JobProfiles.xml</code>.
+                    <pre class="screen">
+        
+            &lt;job-profile
+                key="org.gridlab.gridsphere.services.ui.job.generic"
+                description="Generic user interface for submitting jobs"&gt;
+                &lt;job-view-page&gt;org.gridlab.gridsphere.services.ui.job.generic.GenericJobSpecViewPage&lt;/job-view-page&gt;
+                &lt;job-spec-view-page&gt;org.gridlab.gridsphere.services.ui.job.generic.GenericJobSpecViewPage&lt;/job-spec-view-page&gt;
+                &lt;job-spec-edit-page&gt;org.gridlab.gridsphere.services.ui.job.generic.GenericApplicationSpecEditPage&lt;/job-spec-edit-page&gt;
+                &lt;job-spec-edit-page&gt;org.gridlab.gridsphere.services.ui.job.generic.GenericResourceSpecEditPage&lt;/job-spec-edit-page&gt;
+                &lt;job-spec-edit-page&gt;org.gridlab.gridsphere.services.ui.job.generic.GenericJobSpecConfirmPage&lt;/job-spec-edit-page&gt;
+            &lt;/job-profile&gt;
+        
+                    </pre>
+            </p><div class="tip" style="margin-left: 0.5in; margin-right: 0.5in;"><table border="0" summary="Tip"><tr><td valign="top" align="center" rowspan="2" width="25"><img alt="[Tip]" src="common-images/tip.png"></td><th align="left">Tip</th></tr><tr><td valign="top" align="left">
+                If you have defined your own job profile in a Grid portlet project, it is actually possible to remove the
+                Generic Job Profile from use in the Job Submission Portlet simply by commenting out the above entry
+                in <code class="filename">$CATALINA_HOME/webapps/gridportlets/WEB-INF/JobProfiles.xml</code>. This means you can
+                override Grid Portlets default job submission interfaces altogether, if so desired.
+            </td></tr></table></div></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="CustomProfile"></a>Developing a Custom Job Profile</h3></div></div></div><p>
+                Developing a custom job profile amounts to implementing the particular <span class="emphasis"><em>pages</em></span>
+                that you wish to overrride from the Generic Job Profile and then adding a <code class="classname">job-profile</code>
+                entry to your Grid portlet project <code class="filename">/WEB-INF/JobProfiles.xml</code>. The required steps are
+                summarized below:
+            </p><div class="orderedlist"><ol type="1"><li><p>
+                        Create a Grid portlet project. Grid Portlets offers two ant targets for doing so:
+                        <div class="orderedlist"><ol type="a"><li><p>
+                        To create a new project from scratch, run <span><strong class="command">ant new-project</strong></span> and
+                        follow its instructions. This is similar to the new-project target in GridSphere.
+                        It will create a new portlet project in the <code class="filename">projects</code> directory
+                        of GridSphere that includes support for developing new action components and job profiles.
+                                </p></li><li><p>
+                        To modify an existing portlet project to support development of action components and
+                        job profiles, run <span><strong class="command">ant update-project</strong></span> and
+                        follow its instructions. This is similar to the update-project target in GridSphere.
+                        It will update an existing portlet project in the <code class="filename">projects</code> directory
+                        of GridSphere with the latest project files from GridSpehre and Grid Portlets.
+                                </p></li></ol></div>
+                    </p></li><li><p>
+                        Implement the page interfaces you want to override from <code class="classname">GenericJobProfile</code>.
+                        For example, if you wish to override the "Job View Page", then write an
+                        <code class="classname">ActionComponent</code> that implements the <code class="classname">JobViewPage</code> interface.
+                    </p></li><li><p>
+                        In the <code class="classname">job-profile</code> entry, specify the <code class="methodname">key</code> attribute,
+                        which is used for displaying the localized title of your job profile in the Job Type Edit Page, and the
+                        <code class="methodname">description</code> (in case the localized key is not found). Then specify the page
+                        class entries you wish to override <code class="classname">GenericJobProfile</code>. For example, if you wish
+                        to override the "Job View Page", then specify your <code class="classname">JobViewPage</code> implementation
+                        in the <code class="classname">job-view-page</code>.
+                    </p></li><li><p>
+                        Make sure to specify the <code class="classname">ActionComponent</code> classes you developed in
+                        <code class="filename">/WEB-INF/ActionComponentTypes.xml</code>. Otherwise, the
+                        <code class="classname">JobSubmissionPortlet</code> will fail when attempting to create the
+                        action components you specified in your page entries.
+                    </p></li></ol></div></div></div><div class="sect1" lang="en"><div class="titlepage"><div><div><h2 class="title" style="clear: both"><a name="Reference"></a>Classes and Interfaces</h2></div></div></div><p>
+            The most important classes you should know about are <code class="classname">JobComponent</code>, which is a
+            convenient class to extend from, and <code class="classname">GenericJobProfile</code>, from which all custom
+            job profiles extend. You should also remember that any page entry you specify in your job profile
+            must implement the appropriate interface.
+        </p><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="N101D9"></a>JobComponent</h3></div></div></div><p>
+                The <code class="classname">JobComponent</code> class extends <code class="classname">ActionComponent</code>
+                to provide methods for getting job anb job specfication objects from portlet requests. It also
+                gets a handle to the <code class="classname">JobSubmissionService</code> and other useful services in
+                its <code class="methodname">onInit</code> method.
+            </p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="N101EA"></a>JobProfile</h3></div></div></div><p>
+                A <code class="classname">JobProfile</code> is marshaled from an xml entry in
+                <code class="filename">/WEB-INF/JobProfiles.xml</code> and specifies which action
+                components correspond to which of the Job Submission Portlet pages described above.
+            </p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="N101F6"></a>JobProfileProvider</h3></div></div></div><p>
+               Each Grid Portlet project deploys a <code class="classname">JobProfileProvider</code>,
+               which registers the job profiles that have been defined
+               in its own job profile registry to the Job Profile Registry Service.
+            </p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="N101FE"></a>JobProfileRegistry</h3></div></div></div><p>
+               <code class="classname">JobProfileRegistry</code> - A job profile registry marshals job
+               profiles defined in <code class="filename">/WEB-INF/JobProfiles.xml</code> to java objects.
+           </p></div><div class="sect2" lang="en"><div class="titlepage"><div><div><h3 class="title"><a name="N1020A"></a>JobProfileRegistryService</h3></div></div></div><p>
+                <code class="classname">JobProfileRegistryService</code> - All job profiles are registered with
+                this service. The Job Submission Portlet uses the Job Profile Registry Service to
+                discover what job profiles have been deployed to the portal.
+            </p></div></div></div></body></html>

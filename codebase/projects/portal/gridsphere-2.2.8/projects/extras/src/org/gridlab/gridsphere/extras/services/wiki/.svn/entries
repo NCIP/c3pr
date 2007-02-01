@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="119"
+   name=""
+   committed-date="2005-10-24T14:02:05.000000Z"
+   url="https://svn.gridsphere.org/extras/trunk/src/org/gridlab/gridsphere/extras/services/wiki"
+   last-author="wehrens"
+   kind="dir"
+   uuid="77c64a61-2e0f-0410-93dd-cb3defde2b95"
+   revision="124"/>
+<entry
+   committed-rev="7"
+   name="SnipStorageService.java"
+   text-time="2006-07-05T17:52:51.000000Z"
+   committed-date="2004-05-17T08:58:32.000000Z"
+   checksum="5bc214d4e107b9875d2ade9feaba0757"
+   last-author="wehrens"
+   kind="file"
+   prop-time="2006-07-05T17:52:51.000000Z"/>
+<entry
+   name="impl"
+   kind="dir"/>
+<entry
+   committed-rev="34"
+   name="PortletWikiRenderEngine.java"
+   text-time="2006-07-05T17:52:51.000000Z"
+   committed-date="2004-06-07T22:49:45.000000Z"
+   checksum="e869e41e1ea104080bc61e3417568ecc"
+   last-author="wehrens"
+   kind="file"
+   prop-time="2006-07-05T17:52:51.000000Z"/>
+<entry
+   committed-rev="33"
+   name="Snip.java"
+   text-time="2006-07-05T17:52:51.000000Z"
+   committed-date="2004-06-07T15:06:19.000000Z"
+   checksum="e8a71b37afc646b2055c333cedacac5f"
+   last-author="wehrens"
+   kind="file"
+   prop-time="2006-07-05T17:52:51.000000Z"/>
+</wc-entries>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="101"
+   name=""
+   committed-date="2004-10-05T09:38:31.000000Z"
+   url="https://svn.gridsphere.org/extras/trunk/src/org/gridlab/gridsphere/extras/services/photoalbum/impl"
+   last-author="brango"
+   kind="dir"
+   uuid="77c64a61-2e0f-0410-93dd-cb3defde2b95"
+   revision="124"/>
+<entry
+   committed-rev="101"
+   name="PhotoServiceImpl.java"
+   text-time="2006-07-05T17:52:51.000000Z"
+   committed-date="2004-10-05T09:38:31.000000Z"
+   checksum="04a7f77433104b2ee280185d469f3fa8"
+   last-author="brango"
+   kind="file"
+   prop-time="2006-07-05T17:52:51.000000Z"/>
+<entry
+   committed-rev="100"
+   name="PhotoAlbumServiceImpl.java"
+   text-time="2006-07-05T17:52:51.000000Z"
+   committed-date="2004-10-05T09:37:36.000000Z"
+   checksum="87e42acc22dfd68507fb38c263897bee"
+   last-author="brango"
+   kind="file"
+   prop-time="2006-07-05T17:52:51.000000Z"/>
+</wc-entries>

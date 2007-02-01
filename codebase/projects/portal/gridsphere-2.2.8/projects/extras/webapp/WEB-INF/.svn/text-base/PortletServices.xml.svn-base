@@ -1,0 +1,64 @@
+<!--
+
+    Portlet Services XML Descriptor
+
+    Edit this file to add/modify Portlet Services
+                                                              2
+    $Id$
+-->
+
+<portlet-services>
+
+    <service>
+        <name>Rss Reader Service</name>
+        <description>Provides Capabilities</description>
+        <interface>org.gridlab.gridsphere.extras.services.rssreader.RssReaderService</interface>
+        <implementation>org.gridlab.gridsphere.extras.services.rssreader.impl.RssReaderServiceImpl</implementation>
+    </service>
+
+    <service>
+        <name>WikiService</name>
+        <description>Provides a database storage for textnotes</description>
+        <interface>org.gridlab.gridsphere.extras.services.wiki.SnipStorageService</interface>
+        <implementation>org.gridlab.gridsphere.extras.services.wiki.impl.SnipStorageServiceImpl</implementation>
+    </service>
+
+    <service>
+         <name>PollService</name>
+         <description>an example poll service</description>
+         <interface>org.gridlab.gridsphere.extras.services.poll.PollService</interface>
+         <implementation>org.gridlab.gridsphere.extras.services.poll.impl.PollServiceImpl</implementation>
+    </service>
+        <service>
+         <name>QuestionService</name>
+         <description>an example photo service</description>
+         <interface>org.gridlab.gridsphere.extras.services.poll.QuestionService</interface>
+         <implementation>org.gridlab.gridsphere.extras.services.poll.impl.QuestionServiceImpl</implementation>
+    </service>
+    <service>
+        <name>AnswerService</name>
+         <description>an example choice service</description>
+         <interface>org.gridlab.gridsphere.extras.services.poll.ChoiceService</interface>
+         <implementation>org.gridlab.gridsphere.extras.services.poll.impl.ChoiceServiceImpl</implementation>
+    </service>
+    <service>
+        <name>PollUserService</name>
+         <description>an example polluser service</description>
+         <interface>org.gridlab.gridsphere.extras.services.poll.UsersService</interface>
+         <implementation>org.gridlab.gridsphere.extras.services.poll.impl.PollUserImpl</implementation>
+    </service>
+    <service>
+         <name>PhotoAlbumService</name>
+         <description>an example photoalbum service</description>
+         <interface>org.gridlab.gridsphere.extras.services.photoalbum.PhotoAlbumService</interface>
+         <implementation>org.gridlab.gridsphere.extras.services.photoalbum.impl.PhotoAlbumServiceImpl</implementation>
+    </service>
+        <service>
+         <name>PhotoService</name>
+         <description>an example photo service</description>
+         <interface>org.gridlab.gridsphere.extras.services.photoalbum.PhotoService</interface>
+         <implementation>org.gridlab.gridsphere.extras.services.photoalbum.impl.PhotoServiceImpl</implementation>
+    </service>
+
+</portlet-services>
+

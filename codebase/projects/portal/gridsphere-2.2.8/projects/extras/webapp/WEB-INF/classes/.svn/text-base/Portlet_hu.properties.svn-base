@@ -1,0 +1,12 @@
+# $Id$
+
+BANNER_TITLE=Megjelen\u00EDtend\u0151 c\u00EDm:
+BANNER_FILE=Megjelen\u00EDtend\u0151 file:
+BANNER_CONFIGURE=Megjeln\u00EDtend\u0151 file-ra vonatkoz\u00F3 be\u00E1ll\u00EDt\u00E1sok elmentve
+BANNER_FAILURE=Nem siker\u00FClt elmenteni megjeln\u00EDtend\u0151 file-ra vonatkoz\u00F3 be\u00E1ll\u00EDt\u00E1sokat!
+BANNER_NOFILES_START=\u00DCres file lista. K\u00E9rlek haszn\u00E1ld a
+BANNER_NOFILES_END=file-ok felt\u00F6lt\u00E9s\u00E9hez
+BANNER_FILE_NOTFOUND=Nem tal\u00E1lhat\u00F3 a file!
+BANNER_HELP=Banner Portlet Seg\u00edts\u00e9g
+BANNER_EDIT=Az oldal szerkeszt\u00e9se
+

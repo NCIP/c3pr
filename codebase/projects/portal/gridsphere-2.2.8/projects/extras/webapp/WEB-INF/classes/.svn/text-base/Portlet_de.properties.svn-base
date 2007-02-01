@@ -1,0 +1,12 @@
+# $Id$
+
+BANNER_TITLE=Anzuzeigener Titel:
+BANNER_FILE=Anzuzeigene Datei:
+BANNER_CONFIGURE=Dateieinstellungen wurde gespeichert!
+BANNER_FAILURE=Dateieinstellungen wurden nicht gespeichert!
+BANNER_NOFILES_START=Keine Dateien gefunden. Bitte
+BANNER_NOFILES_END=benuzten um Dateien hochzuladen!
+BANNER_FILE_NOTFOUND=Datei konnte nicht gefunden werden
+BANNER_HELP=Banner Portlet Hilfe
+BANNER_EDIT=Anzeigeseite editieren
+
