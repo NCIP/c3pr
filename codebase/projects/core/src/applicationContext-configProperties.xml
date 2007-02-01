@@ -348,20 +348,12 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                  <entry key="participantSearchType">
                     <list>
                       	<bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="Last Name" />
+                            <property name="code" value="N" />
                             <property name="desc" value="Last Name" />
-                        </bean>
+                        </bean>                       
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="MRN" />
-                            <property name="desc" value="MRN" />
-                        </bean>
-                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="shortTitle" />
-                            <property name="desc" value="Short Title" />
-                        </bean>
-                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="longTitle" />
-                            <property name="desc" value="Long Title" />
+                            <property name="code" value="Identifier" />
+                            <property name="desc" value="Identifier" />
                         </bean>
                      </list>
                 </entry>                
