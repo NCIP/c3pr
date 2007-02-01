@@ -46,7 +46,7 @@ public class StudyDao extends AbstractBaseDao<Study> {
 	 * @return list of matching study objects based on your sample study object
 	 */
 	public List<Study> searchByExample(Study study, boolean isWildCard) {
-		Example example = Example.create(study).excludeZeroes();
+		Example example = Example.create(study).excludeZeroes().ignoreCase();
 		Criteria studyCriteria = getSession().createCriteria(Study.class);
 	
 		if (isWildCard)
@@ -55,7 +55,8 @@ public class StudyDao extends AbstractBaseDao<Study> {
 			studyCriteria.add(example);
 			if (study.getIdentifiers().size() > 0) {
 				studyCriteria.createCriteria("identifiers")
-				.add(Restrictions.like("value", study.getIdentifiers().get(0).getValue()+ "%"));
+					.add(Restrictions.like("value", study.getIdentifiers().get(0)
+					.getValue()+ "%"));
 			} 
 			return studyCriteria.list();
 		}
