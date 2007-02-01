@@ -149,7 +149,7 @@ function submitCaaersPage(){
 						<tr>
 
 							<td class="display"><!-- TABS LEFT START HERE -->
-							<table width="60%" border="0" cellpadding="0" cellspacing="0">
+							<table width="100%" border="0" cellpadding="0" cellspacing="0">
 								<tr>
 
 									<!-- LEFT CONTENT STARTS HERE -->
@@ -159,14 +159,14 @@ function submitCaaersPage(){
 									has been successfully completed. Please <a
 										href="javascript:doNothing()">print</a> and save this
 									confirmation in the subject study records </strong></font><br>
-									<table width="100%" border="0" cellspacing="0" cellpadding="0"
+									<table width="50%" border="0" cellspacing="0" cellpadding="0"
 										id="details">
 										<tr>
 											<td width="100%" valign="top">
 											<table width="100%" border="0" cellspacing="0"
 												cellpadding="0" id="table1">
 												<tr>
-													<td><img src="images/spacer.gif" width="1" height="1"
+													<td width="20%"><img src="images/spacer.gif" width="1" height="1"
 														class="heightControl"></td>
 													<td><img src="images/spacer.gif" width="1" height="1"
 														class="heightControl"></td>
@@ -218,7 +218,7 @@ function submitCaaersPage(){
 												<tr>
 													<td class="label" align="left"><a
 														href="javascript:accessApp('http://10.10.10.2:8030','caaers/pages/ae/list?assignment=${command.gridId }','_caaers');">
-													<b>Click here</a> to access CAAERS</b></td>
+													<b>Click here</a> to access caAERS</b></td>
 												</tr>
 												<tr>
 													<td class="label" align="left"><a

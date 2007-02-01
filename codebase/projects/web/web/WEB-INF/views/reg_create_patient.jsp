@@ -341,8 +341,8 @@ function submitPage(s){
 													path="identifiers[${index}].value" /></td>
 												<td align="center"><form:select
 													path="identifiers[${index}].source">
-													<form:options items="${source}" itemLabel="desc"
-														itemValue="code" />
+													<form:options items="${source}" itemLabel="name"
+														itemValue="name" />
 												</form:select></td>
 
 												<td align="center"><form:radiobutton

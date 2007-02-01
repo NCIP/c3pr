@@ -246,7 +246,7 @@ function submitPage(){
 												</tr>
 												<tr>
 													<td class="label"><span class="red">*</span> <em></em>
-													Administrative Gender Code</td>
+													Gender</td>
 													<td><form:select path="administrativeGenderCode">
 														<option value="">--Please Select--
 														<form:options items="${administrativeGenderCode}"
@@ -336,8 +336,8 @@ function submitPage(){
 													path="identifiers[${index}].value" /></td>
 												<td align="center"><form:select
 													path="identifiers[${index}].source">
-													<form:options items="${source}" itemLabel="desc"
-														itemValue="code" />
+													<form:options items="${source}" itemLabel="name"
+														itemValue="name" />
 												</form:select></td>
 
 												<td align="center"><form:radiobutton

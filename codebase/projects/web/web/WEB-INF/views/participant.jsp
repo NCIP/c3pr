@@ -158,7 +158,7 @@ function getPage(s){
 										</tr>
 										<tr>
 											<td class="label"><span class="red">*</span> <em></em>
-											Administrative Gender Code</td>
+											Gender</td>
 											<td><form:select path="administrativeGenderCode">
 												<form:options items="${administrativeGenderCode}"
 													itemLabel="desc" itemValue="code" />
@@ -229,8 +229,8 @@ function getPage(s){
 											path="identifiers[${index}].value" /></td>
 										<td align="center"><form:select
 											path="identifiers[${index}].source">
-											<form:options items="${source}" itemLabel="desc"
-												itemValue="code" />
+											<form:options items="${source}" itemLabel="name"
+												itemValue="name" />
 										</form:select></td>
 
 										<td align="center"><form:radiobutton
