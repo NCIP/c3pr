@@ -251,11 +251,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                 
                 <!-- Search Criteria -->
                 <entry key="studySearchType">
-                    <list>
-                      	<bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="status" />
-                            <property name="desc" value="Status" />
-                        </bean>
+                    <list>                      	
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="id" />
                             <property name="desc" value="Identifier" />
@@ -267,6 +263,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="longTitle" />
                             <property name="desc" value="Long Title" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="status" />
+                            <property name="desc" value="Status" />
                         </bean>
                      </list>
                 </entry>     
