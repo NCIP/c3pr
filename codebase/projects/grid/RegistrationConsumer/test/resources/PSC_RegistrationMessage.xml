@@ -7,9 +7,9 @@
     >
     <informedConsentFormSignedDate>2006-05-04</informedConsentFormSignedDate>
     <enrollmentDate>2006-05-04</enrollmentDate>
-    <studyParticipantIdentifier>studyParticipantIdentifier0</studyParticipantIdentifier>
+    <studyParticipantIdentifier>studyParticipantIdentifier</studyParticipantIdentifier>
     <eligibilityIndicator>false</eligibilityIndicator>
-    <participant participantGridId="gridParticipant1">
+    <participant participantGridId="gridParticipant3">
         <administrativeGenderCode>administrativeGenderCode0</administrativeGenderCode>
         <birthDate>2006-05-04</birthDate>
         <ethnicGroupCode>ethnicGroupCode0</ethnicGroupCode>

@@ -2,7 +2,7 @@
 <registration xmlns="http://semanticbits.com/registration.xsd"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
  xsi:schemaLocation="http://semanticbits.com/registration.xsd file:/Users/joshua/dev/ew_caaers/c3prv2_codebase/projects/grid/RegistrationConsumer/schema/RegistrationConsumer/registration.xsd"
- healthCareSiteGridId="gridSite"
+ healthCareSiteGridId="gridSite"   
  studyGridId="gridStudy"
     >
     <informedConsentFormSignedDate>2006-05-04</informedConsentFormSignedDate>
@@ -19,7 +19,7 @@
         <raceCode>raceCode0</raceCode>
         <identifier>
             <source>source0</source>
-            <type>type0</type>
+            <type>MRN</type>
             <value>value0</value>
             <isprimary>false</isprimary>
         </identifier>

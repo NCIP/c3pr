@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<!-- adopted from GTBS and modified -->
-<project default="deploy" name="CTMS Registration grid service" basedir=".">
+
+<project default="deploySkeletonService" name="CTMS Registration grid service" basedir=".">
 
     <property name="project.name" value="RegistrationConsumer_Grid_Service"/>
 
@@ -9,7 +9,7 @@
     <property name="zip.filename" value="${project.name}.zip"/>
 
 
-    <target name="deploy">
+    <target name="deploySkeletonService">
 
         <!--override tomcat env variable to write out to temp location-->
         <property name="tomcat.dir" value="${build.dir}/tempTomcat"/>
