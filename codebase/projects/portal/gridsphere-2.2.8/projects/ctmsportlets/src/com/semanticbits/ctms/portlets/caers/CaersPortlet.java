@@ -18,8 +18,5 @@ import java.io.PrintWriter;
 public class CaersPortlet extends ActionPortlet {
 
 
-    public void doView(RenderRequest request, RenderResponse response) throws PortletException, IOException {
-         PrintWriter pw = response.getWriter();
-        pw.println("<h2>CAERS Portlet</h2>");
-    }
+    
 }

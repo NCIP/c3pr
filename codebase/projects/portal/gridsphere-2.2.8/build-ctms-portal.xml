@@ -8,7 +8,7 @@
 
     <property name="projects.dir" value="${basedir}/projects"/>
 
-    <property name="projects.list" value="gridauth,extras,gridportlets,jsrportlets"/>
+    <property name="projects.list" value="gridauth,ctmsportlets,extras,gridportlets,jsrportlets"/>
 
     <target name="prepare">
         <taskdef resource="net/sf/antcontrib/antlib.xml">
