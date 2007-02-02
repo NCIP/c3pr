@@ -1,0 +1,244 @@
+/* CSS Document */
+
+/* general style propertyies */
+body { margin: 0px 0px 10px 0px; padding: 0px; font-family: arial, verdana, sans-serif; font-size: 11px; color: #000000; background: #EEEEEE url(../images/bg-page.gif) repeat-x top; }
+table, tr, td, ul, ol, li, p { font-family: arial, verdana, sans-serif; font-size: 11px; }
+
+ul, ol { margin-top: 0px; }
+
+/* general link properties */
+a:link { color: #3B73B9; }
+a:visited { color: #3B73B9; }
+a:hover { color: #89ABD5; }
+a:active { color: #89ABD5; }
+
+/* general form object properties */
+select { font-family: arial, verdana, sans-serif; font-size: 11px; }
+input { background: #EBEFF5; font-family: arial, verdana, sans-serif; font-size: 10px; padding: 0px 3px 0px 3px; }
+
+/* ge logo left */
+.gelogo { margin: 21px 0px 22px 10px; }
+
+/* top nav */
+#topNav { color: #3B73B9; font-weight: bold; }
+#topNav .left { padding: 0px 0px 0px 22px; white-space: nowrap; }
+#topNav .right { padding: 0px 10px 0px 0px; text-align: right; white-space: nowrap; }
+#topNav .divider {margin: 0px 10px 0px 10px; }
+#topNav .current { height: 30px; background: #FFFFFF; padding: 2px 5px 4px 5px; }
+#topNav .currentL { height: 20px; background: #FFFFFF; margin: 0px 0px 0px 10px; }
+#topNav .currentR { height: 20px; background: #FFFFFF; margin: 0px 10px 0px 0px; }
+#topNav a:link { color: #FFFFFF; text-decoration: none; }
+#topNav a:visited { color: #FFFFFF; text-decoration: none; }
+#topNav a:hover { color: #FFFFFF; text-decoration: underline; }
+#topNav a:active { color: #FFFFFF; text-decoration: underline; }
+
+/* sub nav */
+#subNav { background: #FFFFFF; border-bottom: 2px solid #3B73B9; padding-left: 10px; color: #3B73B9; font-weight: bold; line-height: 20px; }
+#subNav .welcome { text-decoration: none; font-weight: normal; }
+#subNav .spacer { margin: 0px 12px 0px 12px; }
+#subNav .left { padding-right: 10px; white-space: nowrap; }
+#subNav .right { padding-right: 10px; white-space: nowrap; }
+#subNav a:link { text-decoration: none; font-weight: normal; }
+#subNav a:visited { text-decoration: none; font-weight: normal; }
+#subNav a:hover { text-decoration: underline; font-weight: normal; }
+#subNav a:active { text-decoration: underline; font-weight: normal; }
+
+/* title - left of search */
+.titleArea { margin: 10px 0px 10px 0px; }
+#title { white-space: nowrap; font-size: 12px; font-weight: bold; color: #3B73B9; }
+
+
+/* top page search */
+/*#search { white-space: nowrap; margin: 0px; padding: 0px; color: #3B73B9; font-weight: bold; }
+#search .field1 { border: 1px solid #CCCCCC; background: #FFFFFF; height: 18px; font-size: 11px; line-height: 18px; }*/
+
+/* main padding properties of the working area body */
+.workArea { padding: 0px 10px 0px 10px; }
+
+/* blue bar current title */
+#current { padding: 4px 0px 4px 8px; background: #3B73B9 url(../images/blueCorner.gif) no-repeat top right; white-space: nowrap; font-size: 14px; font-weight: bold; color: #FFFFFF; line-height: 17px; }
+#current .spacer { margin-right: 50px; }
+
+/* main dispaly table that holds all the content */
+.display { border-right: 1px solid #D0CFCF; border-bottom: 4px solid #D0CFCF; border-left: 1px solid #D0CFCF; background: #F7F7F7; }
+
+/* tab table */
+.tabs { margin-top: 4px; }
+
+/* tabs */
+#tabDisplay { background: url(../images/bg-tabs.gif) repeat-x bottom; padding-left: 7px; white-space: nowrap; color: #333333; }
+#tabDisplay a:link { color: #333333; text-decoration: none; }
+#tabDisplay a:visited { color: #333333; text-decoration: none; }
+#tabDisplay a:hover { color: #000000; text-decoration: underline; }
+#tabDisplay a:active { color: #000000; text-decoration: underline; }
+#tabDisplay .current { background: #FFFFFF url(../images/bg-tabs.gif) repeat-x top; font-weight: bold; color: #3B73B9; padding-bottom: 2px; }
+#tabDisplay .current a:link { color: #3B73B9; text-decoration: none; }
+#tabDisplay .current a:visited { color: #3B73B9; text-decoration: none; }
+#tabDisplay .current a:hover { color: #89ABD5; text-decoration: underline; }
+#tabDisplay .current a:active { color: #89ABD5; text-decoration: underline; }
+#tabDisplay .tab { background: #CCCCCC url(../images/bg-tabs.gif) repeat-x top; padding-bottom: 2px; }
+
+/* properties of the area directly under the tabs that has the angled graphic */
+.tabBotL { background: #FFFFFF url(../images/whiteCorner.gif) no-repeat top right; }
+.tabBotR { background: #FFFFFF url(../images/whiteCorner.gif) no-repeat top right; border-left: 1px solid #CCCCCC; }
+
+/* left area content */
+.contentL { background: #FFFFFF; border-right: 1px solid #CCCCCC; border-bottom: 4px solid #CCCCCC; padding: 10px 8px 12px 8px; }
+
+/* right area content */
+.contentR { background: #FFFFFF; border-left: 1px solid #CCCCCC; border-bottom: 4px solid #CCCCCC; padding: 10px 8px 12px 15px; }
+.contentR hr { height: 0px; border-bottom: 1px dashed #CCCCCC; }
+.contentR .solid { height: 0px; border-bottom: 1px solid #CCCCCC; }
+.contentR2 { background: #FFFFFF; border-left: 1px solid #CCCCCC; border-bottom: 4px solid #CCCCCC; padding: 0px 0px 6px 0px; }
+.contentR3 { margin: 10px 8px 12px 15px; }
+.contentR4 { background: #FFFFFF; border-left: 1px solid #CCCCCC; padding: 0px 0px 6px 0px; }
+
+/* general form 1 */
+#form1 { margin: 0px; padding: 0px; }
+#form1 input { border: 0px; border-top: 1px solid #CCCCCC; border-left: 1px solid #CCCCCC; height: 15px; background: #EBEFF5; margin: 0px; padding: 0px 3px 0px 3px; font-family: arial, verdana, sans-serif; font-size: 10px; font-weight: normal; line-height: 15px; }
+#form1 select { font-size: 10px; background: #EBEFF5; }
+#form1 .radio { background: none; border: 0px; }
+#form1 .mi { width: 10px; border: 0px; border-top: 1px solid #CCCCCC; border-left: 1px solid #CCCCCC; }
+#form1 .long { white-space: normal; }
+#form1 .reissue { background: #F5F5CE; }
+#form1 .cancel { background: #FCD09D; }
+#form1 .disabled { background: #EEEEEE; }
+#form1 .blank { background: none; border: 0px; }
+#form1 .state { padding-right: 8px; }
+
+#right { margin: 0px; padding: 0px; width: 550px; }
+
+.notesField { width: 538px; height: 100px; border: 0px; border-top: 1px solid #CCCCCC; border-left: 1px solid #CCCCCC; background: #EBEFF5; margin: 4px 0px 10px 0px; font-family: Arial, Verdana, Helvetica, serif; font-size: 11px; color: #000000; line-height: 14px; padding: 5px; }
+.commentsField { width: 538px; height: 50px; border: 0px; border-top: 1px solid #CCCCCC; border-left: 1px solid #CCCCCC; background: #EBEFF5; margin: 4px 0px 10px 0px; font-family: Arial, Verdana, Helvetica, serif; font-size: 11px; color: #000000; line-height: 14px; padding: 5px; }
+.commentsField2 { width: 300px; height: 50px; border: 0px; border-top: 1px solid #CCCCCC; border-left: 1px solid #CCCCCC; background: #EBEFF5; margin: 4px 0px 10px 0px; font-family: Arial, Verdana, Helvetica, serif; font-size: 11px; color: #000000; line-height: 14px; padding: 5px; }
+
+.red { color: #EE3324; }
+
+#details .contentAreaL { border-right: 1px dashed #CCCCCC; padding: 3px; }
+#details .contentAreaR { padding: 3px 3px 3px 16px; }
+#details h3 { margin-top: 5px; margin-bottom: 5px; }
+
+#table1 { margin: 0px; }
+#table1 td { padding-top: 1px; padding-bottom: 1px; }
+#table1 .label { font-weight: bold; text-align: right; padding-right: 4px; white-space: nowrap; }
+#table1 .label2 { border-bottom: 2px solid #CCCCCC; background: #EEEEEE; padding: 3px 5px 3px 5px; }
+#table1 .note { font-weight: normal; font-size: 9px; text-decoration: italic; }
+#table1 .holder { padding: 5px; padding-bottom: 10px; border-bottom: 1px dashed #CCCCCC; }
+#table1 .holder2 { padding: 5px; padding-bottom: 10px; }
+#table1 .dashed td { border-bottom: 1px dashed #CCCCCC; }
+#table1 .dashed tr { border-bottom: 1px dashed #CCCCCC; }
+
+#table2 { border-top: 1px solid #CCCCCC; border-left: 1px solid #CCCCCC; border-bottom: 2px solid #CCCCCC; margin: 0px; }
+#table2 td { border-bottom: 1px solid #CCCCCC; border-right: 1px solid #CCCCCC; text-align: center; padding: 2px 1px 2px 1px; }
+#table2 .label td { border-bottom: 2px solid #CCCCCC; background: #EEEEEE; padding: 3px 1px 3px 1px; }
+#table2 .label a:link { color: #000000; text-decoration: none; }
+#table2 .label a:visited { color: #000000; text-decoration: none; }
+#table2 .label a:hover { color: #000000; text-decoration: none; }
+#table2 .label a:active { color: #000000; text-decoration: none; }
+#table2 .direct { text-align: left; font-weight: bold; background: #EEEEEE; }
+#table2 .top td { border-top: 1px solid #CCCCCC; border-bottom: 1px dashed #CCCCCC; }
+#table2 .bottom td { border-bottom: 2px solid #CCCCCC; }
+#table2 .bottom .none { border-bottom: 2px solid #CCCCCC;; border-right: 1px dashed #CCCCCC; }
+
+#table3 { border-top: 1px solid #CCCCCC; border-left: 1px solid #CCCCCC; border-right: 1px solid #CCCCCC; border-bottom: 1px solid #CCCCCC; margin: 0px; }
+#table3 td { padding: 2px 1px 2px 1px; }
+#table3 .label td { border-bottom: 2px solid #CCCCCC; border-right: 1px solid #CCCCCC; background: #EEEEEE; padding: 3px 1px 3px 1px; font-weight: bold; text-align:center; }
+#table3 .label .last { border-right: none; }
+#table3 .label a:link { color: #000000; font-weight: bold; text-decoration: none; }
+#table3 .label a:visited { color: #000000; font-weight: bold; text-decoration: none; }
+#table3 .label a:hover { color: #000000; font-weight: bold; text-decoration: none; }
+#table3 .label a:active { color: #000000; font-weight: bold; text-decoration: none; }
+#table3 .row1 td { text-align: center; border-bottom: 1px dashed #CCCCCC; border-right: 1px dashed #CCCCCC; }
+#table3 .row1 .last { border-right: none; border-right: none; }
+#table3 .row1 .check { border-bottom: 2px solid #CCCCCC; }
+#table3 .row1 .blank { border-bottom: none; }
+#table3 .row2 td { border-bottom: 2px solid #CCCCCC; }
+#table3 .label2 { font-weight: bold; text-align: right; padding-right: 4px; border-right: none; }
+#table3 .direct { text-align: left; font-weight: bold; background: #EEEEEE; }
+#table3 .top td { border-top: 1px solid #CCCCCC; border-bottom: 1px dashed #CCCCCC; }
+#table3 .bottom td { border-bottom: 2px solid #CCCCCC; }
+#table3 .bottom .none { border-bottom: 2px solid #CCCCCC;; border-right: 1px dashed #CCCCCC; }
+
+.email { width: 165px; word-wrap: break-word; }
+
+.small { font-size: 10px; }
+
+.blank { background: none; }
+
+/* Controls the height between content in tables */
+.heightControl { height: 8px; }
+
+/* additional drivers/vehicles at the bottom of the page */
+.additionals { background: #FFFFFF; padding: 0px 8px 20px 8px; }
+.additionals hr { height: 0px; border-bottom: 1px dashed #CCCCCC; }
+
+.additionals2 { background: #FFFFFF; padding: 10px 10px 15px 15px; }
+.additionals2 hr { height: 0px; border-bottom: 1px dashed #CCCCCC; }
+
+.additionals3 { background: #FFFFFF; padding: 10px 10px 15px 15px; border-bottom: 3px solid #CCCCCC; }
+.additionals3 hr { height: 0px; border-bottom: 1px dashed #CCCCCC; }
+
+#additionalList { border-bottom: 1px solid #CCCCCC; }
+#additionalList td { padding: 3px 2px 3px 2px; white-space: nowrap; border-bottom: 1px solid #CCCCCC; }
+#additionalList select {font-size: 10px; }
+#additionalList .label td { font-weight: bold; border-bottom: 2px solid #CCCCCC; background: #EEEEEE; }
+#additionalList .current td { border-top: 1px solid #000000; border-bottom: 1px solid #000000; }
+#additionalList .results {  color: #3B73B9; background: #FFFFFF; }
+#additionalList .resultsOver { color: #3B73B9; background: #EBEFF5; cursor: hand; }
+
+/* sub menu under the tabs */
+#bottomTab { border-bottom: 1px dashed #CCCCCC; padding-left: 10px; color: #3B73B9; font-weight: bold; line-height: 20px; }
+#bottomTab .spacer { margin: 0px 12px 0px 12px; }
+#bottomTab a:link { color: #3B73B9; text-decoration: none; font-weight: normal; }
+#bottomTab a:visited { color: #3B73B9; text-decoration: none; font-weight: normal; }
+#bottomTab a:hover { color: #89ABD5; text-decoration: underline; font-weight: normal; }
+#bottomTab a:active { color: #89ABD5; text-decoration: underline; font-weight: normal; }
+
+#tableHistory { border-bottom: 1px solid #CCCCCC; }
+#tableHistory td { padding: 3px 4px 3px 4px; }
+#tableHistory .label1 td { border-bottom: 2px solid #CCCCCC; background: #EEEEEE; }
+#tableHistory .label1 a:link { color: #000000; text-decoration: none; }
+#tableHistory .label1 a:visited { color: #000000; text-decoration: none; }
+#tableHistory .label1 a:hover { color: #000000; text-decoration: none; }
+#tableHistory .label1 a:active { color: #000000; text-decoration: none; }
+#tableHistory .closed td { border-bottom: 1px solid #CCCCCC; }
+#tableHistory .closed2 { border-bottom: 1px solid #CCCCCC; border-top: 1px dashed #CCCCCC; }
+#tableHistory .closed3 { border-top: 1px dashed #CCCCCC; border-bottom: 1px solid #CCCCCC; padding: 0px; padding-bottom: 5px; }
+#tableHistory .amounts { border-bottom: 1px dashed #CCCCCC; }
+#tableHistory #details .label { text-align: right; font-weight: bold; }
+#tableHistory #details2 { border-bottom: 1px dashed #CCCCCC; }
+#tableHistory #details2 .label { text-align: right; font-weight: bold; }
+
+#tableHistory2 { border-bottom: 1px solid #CCCCCC; }
+#tableHistory2 .label1 td { border-bottom: 2px solid #CCCCCC; background: #EEEEEE; }
+#tableHistory2 .label1 a:link { color: #000000; text-decoration: none; }
+#tableHistory2 .label1 a:visited { color: #000000; text-decoration: none; }
+#tableHistory2 .label1 a:hover { color: #000000; text-decoration: none; }
+#tableHistory2 .label1 a:active { color: #000000; text-decoration: none; }
+#tableHistory2 td { border-bottom: 1px solid #CCCCCC; padding: 2px; }
+#tableHistory2 .new td { background: #FFFFDD; }
+
+#tableHistory3 { border-bottom: 1px solid #CCCCCC; }
+#tableHistory3 .label1 td { border-bottom: 2px solid #CCCCCC; background: #EEEEEE; }
+#tableHistory3 .label1 a:link { color: #000000; text-decoration: none; }
+#tableHistory3 .label1 a:visited { color: #000000; text-decoration: none; }
+#tableHistory3 .label1 a:hover { color: #000000; text-decoration: none; }
+#tableHistory3 .label1 a:active { color: #000000; text-decoration: none; }
+#tableHistory3 td { border-bottom: 1px dashed #CCCCCC; padding: 2px; }
+
+#amounts { border-top: 1px solid #CCCCCC; border-left: 1px solid #CCCCCC; margin-bottom: 10px; }
+#amounts td { border-right: 1px solid #CCCCCC; border-bottom: 1px solid #CCCCCC; padding: 1px; }
+#amounts .label td { white-space: nowrap; font-weight: bold; }
+
+#remarketing h4 { font-size: 14px; font-weight: bold; margin-bottom: 5px; }
+#remarketing .details { border: 1px solid #CCCCCC; width: 225px; padding: 3px; }
+
+#remarketing2 { border: 1px solid #CCCCCC; }
+#remarketing2 h4 { font-size: 14px; font-weight: bold; margin-bottom: 5px; }
+#remarketing2 .fleet { padding: 3px; }
+#remarketing2 .fleet2 { padding: 3px; border: 1px solid #CCCCCC; }
+
+.review { margin-left: 20px; }
+
+/* Copyright style */
+#copyright { margin-top: 10px; text-align: center; font-size: 10px; color: #999999; }
