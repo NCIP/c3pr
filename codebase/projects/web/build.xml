@@ -27,7 +27,7 @@
 
 	<!-- testing stuff -->
     <property name="test.dir" location="${basedir}/test" />
-    <property name="test.src.dir" location="${test.dir}" />
+    <property name="test.src.dir" location="${test.dir}/src" />
     <property name="test.classes.dir" location="${build.dir}/classes-test" />
     <property name="test.lib.dir" location="${test.dir}/lib" />
     <property name="test.logs.dir" location="${test.dir}/logs" />

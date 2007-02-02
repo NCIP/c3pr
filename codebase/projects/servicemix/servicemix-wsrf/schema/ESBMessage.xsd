@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+    targetNamespace="http://cabig.nci.nih.gov/esb"
+    xmlns="http://cabig.nci.nih.gov/esb"
+      elementFormDefault="qualified">
+    
+    <xs:element name="ESBMessage" type="ESBMessageType"/>
+       
+    <xs:complexType name="ESBMessageType">
+        <xs:sequence>
+            <xs:element minOccurs="0" name="gridProxy" type="xs:anyType"/>
+            <xs:element minOccurs="1" name="message"  type="xs:anyType"/>
+        </xs:sequence>
+    </xs:complexType>
+    
+</xs:schema>
