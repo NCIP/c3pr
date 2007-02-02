@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+    <bean id="configurationProperty" class="edu.duke.cabig.c3pr.utils.ConfigurationProperty">
+        <property name="map">
+            <map>       
+             <entry key="default">
+                    <list>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="DEF" />
+                            <property name="desc" value="default description" />
+                        </bean>
+                </list>
+              </entry>                         
+              <entry key="monitorCodeRefData">
+                    <list>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="CTEP" />
+                            <property name="desc" value="Cancer Therapy Evaluation Program" />
+                        </bean>                      
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                        	<property name="code" value="CTEP - CTMS" />
+                            <property name="desc" value="CTEP - Clinical Data Update System Complete" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                        	<property name="code" value="CTEP - CDUS Abbreviated" />
+                            <property name="desc" value="CTEP - Clinical Data Update System Abbreviated" />
+                        </bean>
+                        </list>
+                </entry>
+                <entry key="diseaseCodeRefData">
+                    <list>
+                      	<bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="A" />
+                            <property name="desc" value="AIDS" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="B" />
+                            <property name="desc" value="Benign" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="C" />
+                            <property name="desc" value="Cancer" />
+                        </bean>
+                     </list>
+                </entry>                 
+                <entry key="statusRefData">
+                    <list>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="AC" />
+                            <property name="desc" value="Active - Trial is open to accrual" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="AD" />
+                            <property name="desc" value="Administratively Complete" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="AP" />
+                            <property name="desc" value="Approved - Trial has official CTEP approval" />
+ 			           </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="CB" />
+                            <property name="desc" value="Closed to Accrual &amp; Treatment" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                         	 <property name="code" value="CL" />
+                             <property name="desc" value="Closed to Accrual" />
+                         </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                         	<property name="code" value="TB" />
+                            <property name="desc" value="Temporarily Closed to Accrual &amp; Treatment" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                         	<property name="code" value="TC" />
+                            <property name="desc" value="Temporarily Closed to Accrual" />
+                        </bean>
+                    </list>
+                </entry>
+                <entry key="phaseCodeRefData">
+                    <list>
+                   		<bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="I" />
+                            <property name="desc" value="Phase I Trial" />
+                        </bean>
+                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="I/II" />
+                            <property name="desc" value="Phase I/II Trial" />
+                        </bean>
+                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="II" />
+                            <property name="desc" value="Phase II Trial" />
+                        </bean>
+                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="III" />
+                            <property name="desc" value="Phase III Trial" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="IV" />
+                            <property name="desc" value="Phase IV Trial " />
+                        </bean> 
+                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="0" />
+                            <property name="desc" value="Phase 0 Trial " />
+                        </bean>                      
+                    </list>
+                </entry>
+                <entry key="typeRefData">
+                    <list>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="D" />
+                            <property name="desc" value="Diagnostic" />
+                         </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="GN" />
+                            <property name="desc" value="Genetic Non-therapeutic" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="GT" />
+                            <property name="desc" value="Genetic Therapeutic" />  
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="P" />
+                            <property name="desc" value="Primary Treatment" />  
+                         </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="S" />
+                            <property name="desc" value="Supportive" />  
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="T" />
+                            <property name="desc" value="Preventive" />  
+                        </bean>
+                    </list>
+                </entry>
+                <entry key="sponsorCodeRefData">
+                    <list>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="NCI" />
+                            <property name="desc" value="National Cancer Institute" />  
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="PF" />
+                            <property name="desc" value="Pfizer" />  
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="PG" />
+                            <property name="desc" value="Proctor &amp; Gamble" />  
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="GX" />
+                            <property name="desc" value="Glaxo" />  
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="SA" />
+                            <property name="desc" value="Sandoz" />  
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="US" />
+                            <property name="desc" value="US Biosciences" />  
+                         </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="MGI" />
+                            <property name="desc" value="MGI Pharma, Inc" />  
+                         </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="HLR" />
+                            <property name="desc" value="Hoffman LaRoche" />  
+                        </bean>
+                    </list>
+                </entry>
+                
+                  <!-- codes for Identifiers -->
+                
+                <entry key="identifiersSource">
+                    <list>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="D" />
+                            <property name="desc" value="Duke University Comprehensive Cancer Center" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="N" />
+                            <property name="desc" value="NCI Clinical Trials Unit" />
+ 			           </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="C" />
+                            <property name="desc" value="CalGB" />
+                        </bean>                       
+                    </list>
+                </entry>
+                    
+                <entry key="identifiersType">
+                    <list>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="PA" />
+                            <property name="desc" value="Protocol Authority Identifier" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="CC" />
+                            <property name="desc" value="Co-ordinating Center Identifier" />
+ 			           </bean>
+                       <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="S" />
+                            <property name="desc" value="Site Identifier" />
+                       </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="NCI" />
+                            <property name="desc" value="ClinicalTrials.gov Identifier" />
+                       </bean>  
+                       <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="SI" />
+                            <property name="desc" value="Site IRB Identifier" />
+                       </bean>   
+                       <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="GR" />
+                            <property name="desc" value="Grid Identifier" />
+                       </bean>                      
+                       <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="C3D" />
+                            <property name="desc" value="C3D Identifier" />
+                       </bean> 
+                    </list>
+                </entry>
+                
+                <!-- codes for Study Site -->
+                
+                <entry key="studySiteStatusRefData">
+                    <list>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="AC" />
+                            <property name="desc" value="Active" />
+                        </bean>                       
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="CB" />
+                            <property name="desc" value="Closed" />
+                        </bean>                       
+                    </list>
+                </entry>
+                <entry key="studySiteRoleCodeRefData">
+                    <list>
+                       <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="SI" />
+                            <property name="desc" value="Site" />
+                        </bean>    
+                      	<bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="CO" />
+                            <property name="desc" value="Coordinating Center" />
+                        </bean>                                           
+                     </list>
+                </entry>    
+                
+                <!-- Search Criteria -->
+                <entry key="studySearchType">
+                    <list>
+                      	<bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="status" />
+                            <property name="desc" value="Status" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="id" />
+                            <property name="desc" value="Identifier" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="shortTitle" />
+                            <property name="desc" value="Short Title" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="longTitle" />
+                            <property name="desc" value="Long Title" />
+                        </bean>
+                     </list>
+                </entry>    
+            </map>
+        </property>                      
+    </bean>
+</beans>
