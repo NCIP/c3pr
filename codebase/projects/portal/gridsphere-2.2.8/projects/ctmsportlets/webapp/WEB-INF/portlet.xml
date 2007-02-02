@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd"
+             version="1.0"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd">
+    <portlet>
+        <!-- place portlet description here -->
+        <description xml:lang="en">C3pr Portlet</description>
+        <!-- place unique portlet name here -->
+        <portlet-name>c3prdemo</portlet-name>
+        <display-name xml:lang="en">C3PR Portlet</display-name>
+        <!-- place your portlet class name here -->
+        <portlet-class>com.semanticbits.ctms.portlets.c3pr.C3prPortlet</portlet-class>
+        <expiration-cache>60</expiration-cache>
+        <!-- place supported modes here -->
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>config</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+        <supported-locale>en</supported-locale>
+        <portlet-info>
+            <title>C3pr Portlet</title>
+            <short-title>C3pr</short-title>
+            <keywords>c3pr portlet</keywords>
+        </portlet-info>
+        <!-- place portlet preferences here -->
+    </portlet>
+
+     <portlet>
+        <!-- place portlet description here -->
+        <description xml:lang="en">Caers Portlet</description>
+        <!-- place unique portlet name here -->
+        <portlet-name>caersdemo</portlet-name>
+        <display-name xml:lang="en">Caers Portlet</display-name>
+        <!-- place your portlet class name here -->
+        <portlet-class>com.semanticbits.ctms.portlets.caers.CaersPortlet</portlet-class>
+        <expiration-cache>60</expiration-cache>
+        <!-- place supported modes here -->
+        <supports>
+            <mime-type>text/html</mime-type>
+            <portlet-mode>config</portlet-mode>
+            <portlet-mode>edit</portlet-mode>
+            <portlet-mode>help</portlet-mode>
+        </supports>
+        <supported-locale>en</supported-locale>
+        <portlet-info>
+            <title>C3pr Portlet</title>
+            <short-title>C3pr</short-title>
+            <keywords>c3pr portlet</keywords>
+        </portlet-info>
+        <!-- place portlet preferences here -->
+    </portlet>
+
+    <custom-portlet-mode>
+        <description xml:lang="en">Pre-defined custom portlet mode CONFIGURE</description>
+        <portlet-mode>config</portlet-mode>
+    </custom-portlet-mode>
+    <user-attribute>
+        <description xml:lang="en">User Name</description>
+        <name>user.name</name>
+    </user-attribute>
+    <user-attribute>
+        <description xml:lang="en">User Id</description>
+        <name>user.id</name>
+    </user-attribute>
+    <user-attribute>
+        <description xml:lang="en">User Full Name</description>
+        <name>user.name.full</name>
+    </user-attribute>
+    <user-attribute>
+        <description xml:lang="en">User E-Mail</description>
+        <name>user.email</name>
+    </user-attribute>
+    <user-attribute>
+        <description xml:lang="en">Company Organization</description>
+        <name>user.organization</name>
+    </user-attribute>
+    <user-attribute>
+        <description xml:lang="en">Last Login Time</description>
+        <name>user.lastlogintime</name>
+    </user-attribute>
+    <user-attribute>
+        <description xml:lang="en">Timezone</description>
+        <name>user.timezone</name>
+    </user-attribute>
+    <user-attribute>
+        <description xml:lang="en">Preferred Locale</description>
+        <name>user.locale</name>
+    </user-attribute>
+    <user-attribute>
+        <description xml:lang="en">Preferred Theme</description>
+        <name>user.theme</name>
+    </user-attribute>
+    <!--
+        <security-constraint>
+            <portlet-collection>
+                <portlet-name>TimeZoneClock</portlet-name>
+            </portlet-collection>
+            <user-data-constraint>
+                <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+            </user-data-constraint>
+        </security-constraint>
+    -->
+</portlet-app>

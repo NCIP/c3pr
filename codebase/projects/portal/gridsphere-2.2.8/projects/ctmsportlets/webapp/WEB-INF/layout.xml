@@ -1,0 +1,33 @@
+<portlet-tabbed-pane>
+    <portlet-tab label="CTMS">
+        <title lang="en">CTMS</title>
+        <portlet-tabbed-pane style="sub-menu">
+            <portlet-tab label="c3pr">
+                <title lang="en">c3pr portlet</title>
+                <table-layout>
+                    <row-layout>
+                        <column-layout>
+                            <portlet-frame label="c3pr">
+                                <portlet-class>com.semanticbits.ctms.portlets.c3pr.C3prPortlet</portlet-class>
+                            </portlet-frame>
+                        </column-layout>
+                    </row-layout>
+                </table-layout>
+            </portlet-tab>
+
+            <portlet-tab label="caers">
+                <title lang="en">caers portlet</title>
+                <table-layout>
+                    <row-layout>
+                        <column-layout>
+                            <portlet-frame label="caers">
+                                <portlet-class>com.semanticbits.ctms.portlets.caers.CaersPortlet</portlet-class>
+                            </portlet-frame>
+                        </column-layout>
+                    </row-layout>
+                </table-layout>
+            </portlet-tab>
+        </portlet-tabbed-pane>
+    </portlet-tab>
+
+</portlet-tabbed-pane>
