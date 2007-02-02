@@ -190,11 +190,7 @@ function submitCaaersPage(){
 												<tr>
 													<td class="label">Study Subject Identifier:</td>
 													<td>${command.studyParticipantIdentifier}</td>
-												</tr>
-												<tr>
-													<td class="label">Subject Registration Completed By:</td>
-													<td>username</td>
-												</tr>
+												</tr>											
 												<tr>
 													<td><img src="images/spacer.gif" width="1" height="1"
 														class="heightControl"></td>
@@ -218,12 +214,12 @@ function submitCaaersPage(){
 												<tr>
 													<td class="label" align="left"><a
 														href="javascript:accessApp('http://10.10.10.2:8030','caaers/pages/ae/list?assignment=${command.gridId }','_caaers');">
-													<b>Click here</a> to access caAERS</b></td>
+													<b>Adverse Event Reporting</a> </b></td>
 												</tr>
 												<tr>
 													<td class="label" align="left"><a
 														href="javascript:accessApp('http://10.10.10.2:8041','studycalendar/pages/schedule?assignment=${command.gridId }','_psc');">
-													<b>Click here</a> to access Patient Study Calendar</b></td>
+													<b>Study Calendar</a></b></td>
 												</tr>
 											</table>
 
