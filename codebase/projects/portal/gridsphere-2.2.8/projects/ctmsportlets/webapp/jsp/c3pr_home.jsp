@@ -20,7 +20,7 @@ function navRollOver(obj, state) {
 	<table bgcolor='white' width="100%" border="0" cellpadding="0"
 		cellspacing="0">
 		<tr valign="top">
-			<td><img src="images/Protocol.gif" alt="Protocol Search"
+			<td><img src="images/Patient.gif" alt="Protocol Search"
 				width="100" height="100" align="absmiddle"></td>
 			<td width="99%">
 			<h3>Patient Search</h3>

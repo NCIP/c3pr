@@ -1,5 +1,5 @@
 
-<project name="gridauth" default="default" basedir=".">
+<project name="gridauth" default="install" basedir=".">
 
     <!-- Environment properties -->
     <property environment="env"/>
@@ -97,7 +97,7 @@
 </target>
 
 
-<target name="default" description="Default Target">
+<target name="install" depends="deploy" description="Default Target">
     <echo message="Not to be called directly. Should be called from main build"/>
 </target>
         </project>

@@ -44,4 +44,21 @@
         </for>
     </target>
 
+    <target name="install" depends="prepare" description="Will Install the project.">
+            <ant antfile="build.xml" target="install"/>
+
+            <for list="${projects.list}" parallel="false" param="project.name" trim="true">
+                <sequential>
+                    <echo message="Building project @{project.name}."/>
+                    <ant dir="${projects.dir}/@{project.name}" antfile="build.xml"
+                         target="install" inheritall="false"/>
+                    <echo message="Built project @{project.name}."/>
+                </sequential>
+            </for>
+        </target>
+
+    <target name="createDatabase" description="Will create database. Must be run the first time you deploy">
+       <ant antfile="build.xml" target="create-database"/>
+    </target>
+
 </project>

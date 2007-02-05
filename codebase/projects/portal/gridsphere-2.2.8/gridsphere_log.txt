@@ -1,0 +1,116 @@
+29388:DEBUG:(GridLoginServiceImpl.java:init:95)
+< in login service init >
+
+29443:DEBUG:(GridLoginServiceImpl.java:init:108)
+< Created a login module service: org.gridlab.gridsphere.services.core.user.UserManagerService >
+
+29679:INFO:(GridLoginServiceImpl.java:loadAuthModules:131)
+< loading auth modules: >
+
+29680:INFO:(GridLoginServiceImpl.java:loadAuthModules:134)
+< 
+auth module name: GridSphere caGrid
+auth module description: caGrid based authentication module
+auth module implementation: com.semanticbits.ctms.portal.GridAuthModule
+auth module priority: 1
+config properties: 	name: idpURL	value: https://cagrid-auth.nci.nih.gov:8443/wsrf/services/cagrid/AuthenticationService >
+
+29749:INFO:(GridLoginServiceImpl.java:loadAuthModules:134)
+< 
+auth module name: GridSphere Password
+auth module description: Hashed password based authentication using GridSphere database
+auth module implementation: org.gridlab.gridsphere.services.core.security.auth.modules.impl.PasswordAuthModule
+auth module priority: 100
+config properties: 	name: aname	value: avalue >
+
+29783:INFO:(GridLoginServiceImpl.java:loadAuthModules:134)
+< 
+auth module name: GridSphere JAAS
+auth module description: Use the Java Authentication and Authorization Framework
+auth module implementation: org.gridlab.gridsphere.services.core.security.auth.modules.impl.JaasAuthModule
+auth module priority: 40
+config properties: 	name: aname	value: avalue >
+
+48842:INFO:(GridLoginServiceImpl.java:loadAuthModules:131)
+< loading auth modules: >
+
+48844:INFO:(GridLoginServiceImpl.java:loadAuthModules:134)
+< 
+auth module name: Grid Credential
+auth module description: Credential authentication uses Myproxy server and user's credential to verify authentication
+auth module implementation: org.gridlab.gridsphere.services.security.gss.CredentialAuthModule
+auth module priority: 50
+config properties: 	name: CREATE_DEFAULT_MAPPING	value: true	name: CREATE_GS_PASSWORD	value: true >
+
+48877:INFO:(GridLoginServiceImpl.java:loadAuthModules:134)
+< 
+auth module name: LDAP Authentication Module
+auth module description: LDAP authentication uses LDAP server to verify authentication
+auth module implementation: org.gridlab.gridsphere.services.security.ldap.LDAPAuthModule
+auth module priority: 70
+config properties: 	name: LDAP_HOST	value: ldap://n0.iit.bme.hu:389	name: BASE_DN	value: ou=People, dc=ikpc, dc=iit, dc=bme, dc=hu >
+
+78628:DEBUG:(GridLoginServiceImpl.java:init:95)
+< in login service init >
+
+78637:DEBUG:(GridLoginServiceImpl.java:init:108)
+< Created a login module service: org.gridlab.gridsphere.services.core.user.UserManagerService >
+
+78789:INFO:(GridLoginServiceImpl.java:loadAuthModules:131)
+< loading auth modules: >
+
+78793:INFO:(GridLoginServiceImpl.java:loadAuthModules:134)
+< 
+auth module name: GridSphere caGrid
+auth module description: caGrid based authentication module
+auth module implementation: com.semanticbits.ctms.portal.GridAuthModule
+auth module priority: 1
+config properties: 	name: idpURL	value: https://cagrid-auth.nci.nih.gov:8443/wsrf/services/cagrid/AuthenticationService >
+
+78932:INFO:(GridLoginServiceImpl.java:loadAuthModules:134)
+< 
+auth module name: GridSphere Password
+auth module description: Hashed password based authentication using GridSphere database
+auth module implementation: org.gridlab.gridsphere.services.core.security.auth.modules.impl.PasswordAuthModule
+auth module priority: 100
+config properties: 	name: aname	value: avalue >
+
+79012:INFO:(GridLoginServiceImpl.java:loadAuthModules:134)
+< 
+auth module name: GridSphere JAAS
+auth module description: Use the Java Authentication and Authorization Framework
+auth module implementation: org.gridlab.gridsphere.services.core.security.auth.modules.impl.JaasAuthModule
+auth module priority: 40
+config properties: 	name: aname	value: avalue >
+
+111328:INFO:(GridLoginServiceImpl.java:loadAuthModules:131)
+< loading auth modules: >
+
+111330:INFO:(GridLoginServiceImpl.java:loadAuthModules:134)
+< 
+auth module name: Grid Credential
+auth module description: Credential authentication uses Myproxy server and user's credential to verify authentication
+auth module implementation: org.gridlab.gridsphere.services.security.gss.CredentialAuthModule
+auth module priority: 50
+config properties: 	name: CREATE_DEFAULT_MAPPING	value: true	name: CREATE_GS_PASSWORD	value: true >
+
+111409:INFO:(GridLoginServiceImpl.java:loadAuthModules:134)
+< 
+auth module name: LDAP Authentication Module
+auth module description: LDAP authentication uses LDAP server to verify authentication
+auth module implementation: org.gridlab.gridsphere.services.security.ldap.LDAPAuthModule
+auth module priority: 70
+config properties: 	name: LDAP_HOST	value: ldap://n0.iit.bme.hu:389	name: BASE_DN	value: ou=People, dc=ikpc, dc=iit, dc=bme, dc=hu >
+
+283414:DEBUG:(GridLoginServiceImpl.java:login:277)
+< in login: Active modules are:  >
+
+283473:DEBUG:(GridLoginServiceImpl.java:login:284)
+< GridSphere caGrid >
+
+315237:DEBUG:(GridLoginServiceImpl.java:login:284)
+< Grid Credential >
+
+315401:DEBUG:(GridLoginServiceImpl.java:login:284)
+< GridSphere Password >
+
