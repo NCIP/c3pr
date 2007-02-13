@@ -28,7 +28,7 @@
     <!-- Load common util path -->
     <import file="antfiles/build-test.xml"/>
     <!-- build properties -->
-	<property name="config.database.file" value="${basedir}/conf/oracle.properties"/>	
+	<property name="config.database.file" value="${basedir}/conf/database.properties"/>
 	<property name="config.security.props" value="${basedir}/conf/grid-security.properties"/>		    	
 	<property name="config.security.conf" value="${basedir}/conf/config.dct"/>		    	
 			
