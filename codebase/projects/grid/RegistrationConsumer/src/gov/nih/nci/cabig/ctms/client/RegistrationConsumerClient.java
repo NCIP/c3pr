@@ -1,9 +1,6 @@
 package gov.nih.nci.cabig.ctms.client;
 
 import java.io.InputStream;
-import java.io.FileInputStream;
-import java.io.File;
-import java.io.StringReader;
 import java.rmi.RemoteException;
 
 import javax.xml.namespace.QName;
@@ -23,7 +20,6 @@ import org.globus.gsi.GlobusCredential;
 import gov.nih.nci.cabig.ctms.stubs.RegistrationConsumerPortType;
 import gov.nih.nci.cabig.ctms.stubs.service.RegistrationConsumerServiceAddressingLocator;
 import gov.nih.nci.cabig.ctms.common.RegistrationConsumer;
-import gov.nih.nci.cabig.esb.*;
 import gov.nih.nci.cagrid.introduce.security.client.ServiceSecurityClient;
 import gov.nih.nci.cagrid.common.Utils;
 
@@ -101,11 +97,8 @@ public class RegistrationConsumerClient extends ServiceSecurityClient implements
                 if(args[0].equals("-url")){
                     RegistrationConsumerClient client = new RegistrationConsumerClient(args[1]);
                     if(args[2].equals("-message")){
-                        ESBMessageDocument doc = ESBMessageDocument.Factory.parse(new File(args[3]));
 
-                        StringReader messageReader = new StringReader(doc.getESBMessage().getMessage().toString());
-                        
-                        gov.nih.nci.cabig.ctms.grid.RegistrationType registrationMessage = (gov.nih.nci.cabig.ctms.grid.RegistrationType) Utils.deserializeObject(messageReader,gov.nih.nci.cabig.ctms.grid.RegistrationType.class);
+                        gov.nih.nci.cabig.ctms.grid.RegistrationType registrationMessage = (gov.nih.nci.cabig.ctms.grid.RegistrationType) Utils.deserializeDocument(args[3],gov.nih.nci.cabig.ctms.grid.RegistrationType.class);
                         System.out.println("Registering with gridID " + registrationMessage.getStudyGridId());
                         client.register(registrationMessage);
                     }
