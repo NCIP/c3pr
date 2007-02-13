@@ -1,8 +1,5 @@
-
 package edu.duke.cabig.c3pr.web;
 
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -20,19 +17,20 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.service.ParticipantService;
+import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
+import edu.duke.cabig.c3pr.utils.Lov;
 
 /**
- * @author Ramakrishna
- *
+ * 
+ * @author Ramakrishna, Priyatam
  */
-
-
 public class SearchParticipantController extends SimpleFormController{
 	
 private static Log log = LogFactory.getLog(SearchParticipantController.class);
 	
 	private ParticipantService participantService;
-		
+	private ConfigurationProperty configurationProperty;	
+
 	public SearchParticipantController(){
 		setCommandClass(SearchParticipantCommand.class);
 		this.setFormView("particpant_search");
@@ -44,6 +42,7 @@ private static Log log = LogFactory.getLog(SearchParticipantController.class);
     	Participant participant = new Participant();
     	String text = searchParticipantCommand.getSearchText();
     	String type = searchParticipantCommand.getSearchType();
+    	Map <String, List<Lov>> configMap = configurationProperty.getMap();		
     	
     	log.debug("search string = " +text+"; type = "+type);
     	    	
@@ -62,57 +61,18 @@ private static Log log = LogFactory.getLog(SearchParticipantController.class);
     	log.debug("Search results size " +participants.size());
     	Map map =errors.getModel();
     	map.put("participants", participants);
-    	map.put("searchType",getSearchType() );
+    	map.put("searchType",configMap.get("participantSearchType"));
     	ModelAndView modelAndView= new ModelAndView(getSuccessView(), map);
     	return modelAndView;
     }
 	
 	 protected Map<String, Object> referenceData(HttpServletRequest httpServletRequest) throws Exception {
  		Map<String, Object> refdata = new HashMap<String, Object>();
- 	
- 	refdata.put("searchType", getSearchType());
-     return refdata;
- }
-	 
-	 private List<LOV> getSearchType(){
-			List<LOV> col = new ArrayList<LOV>();
-			LOV lov1 = new LOV("N", "Last Name");
-			LOV lov2 = new LOV("Identifier", "Identifier");
-						
-			col.add(lov1);
-			col.add(lov2);
-	    	    	
-	    	return col;
-		}
-	 
-	 public class LOV {
-			
-			private String code;
-			private String desc;
-			
-			LOV(String code, String desc)
-			{
-				this.code=code;
-				this.desc=desc;
-				
-			}
-			
-			public String getCode() {
-				return code;
-			}
-
-			public void setCode(String code) {
-				this.code = code;
-			}
-			
-			public String getDesc(){
-				return desc;
-			}
-				
-			public void setDesc(String desc){
-				this.desc=desc;
-			}
-		}
+ 		Map <String, List<Lov>> configMap = configurationProperty.getMap();
+		
+ 		refdata.put("searchType", configMap.get("participantSearchType"));
+ 		return refdata;
+	 }	
 	
 	public ParticipantService getParticipantService() {
 		return participantService;
@@ -121,6 +81,13 @@ private static Log log = LogFactory.getLog(SearchParticipantController.class);
 	public void setParticipantService(ParticipantService participantService) {
 		this.participantService = participantService;
 	}
+	
+	public ConfigurationProperty getConfigurationProperty() {
+		return configurationProperty;
+	}
 
+	public void setConfigurationProperty(ConfigurationProperty configurationProperty) {
+		this.configurationProperty = configurationProperty;
+	}
 
 }
