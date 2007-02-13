@@ -30,7 +30,7 @@ function getPage(s){
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
 		<td width="99%"><img src="images/c3prLogo.gif" alt="C3PR"
-			width="181" height="36" class="gelogo"></td>
+			width="181" height="36" class="mainlogo"></td>
 		<td align="right"><img src="images/t-drivers.gif" alt="Study"
 			width="200" height="79"></td>
 	</tr>

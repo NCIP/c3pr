@@ -45,7 +45,7 @@ function updatePage(s){
 	<tr>
 
 		<td width="99%"><img src="images/c3prLogo.gif" alt="C3Pr V2"
-			width="181" height="36" class="gelogo"></td>
+			width="181" height="36" class="mainlogo"></td>
 	</tr>
 </table>
 <!-- TOP LOGOS END HERE -->

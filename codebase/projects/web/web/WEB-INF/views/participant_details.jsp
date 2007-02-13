@@ -31,7 +31,7 @@ function OpenWins(target,name,width,height,scrolling){
 	<tr>
 
 		<td width="99%"><img src="images/C3PRLogo.gif" alt="C3Pr V2"
-			width="181" height="36" class="gelogo"></td>
+			width="181" height="36" class="mainlogo"></td>
 		<td align="right"><img src="images/t-vehicles.gif" alt="Participant"
 			width="200" height="79"></td>
 	</tr>
