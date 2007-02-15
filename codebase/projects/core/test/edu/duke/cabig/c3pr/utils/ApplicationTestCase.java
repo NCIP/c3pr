@@ -28,6 +28,15 @@ public abstract class ApplicationTestCase extends CoreTestCase {
     private static ApplicationContext applicationContext = null;
     protected Set<Object> mocks = new HashSet<Object>();
 
+    public static ApplicationContext getDeployedCoreApplicationContext() {
+        synchronized (ApplicationTestCase.class) {
+            if (applicationContext == null) {
+                applicationContext = ContextTools.createDeployedCoreApplicationContext();
+            }
+            return applicationContext;
+        }
+    }
+    
     public static ApplicationContext getDeployedApplicationContext() {
         synchronized (ApplicationTestCase.class) {
             if (applicationContext == null) {
