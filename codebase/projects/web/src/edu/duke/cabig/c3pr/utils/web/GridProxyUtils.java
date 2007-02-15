@@ -1,11 +1,8 @@
 package edu.duke.cabig.c3pr.utils.web;
 
-import org.globus.gsi.GlobusCredential;
-
 import java.io.ByteArrayInputStream;
 
-import gov.nih.nci.cagrid.authentication.client.AuthenticationServiceClient;
-import gov.nih.nci.cagrid.dorian.client.DorianClient;
+import org.globus.gsi.GlobusCredential;
 
 /**
  * Utility class for a Grid Proxy
