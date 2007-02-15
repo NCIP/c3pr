@@ -28,10 +28,10 @@
     <!-- Load common util path -->
     <import file="antfiles/build-test.xml"/>
     <!-- build properties -->
-	<property name="config.database.file" value="${basedir}/conf/database.properties"/>
-	<property name="config.security.props" value="${basedir}/conf/grid-security.properties"/>		    	
-	<property name="config.security.conf" value="${basedir}/conf/config.dct"/>		    	
-			
+    <property name="config.database.file" value="${basedir}/conf/database.properties"/>
+    <property name="config.security.props" value="${basedir}/conf/grid-security.properties"/>
+    <property name="config.security.conf" value="${basedir}/conf/config.dct"/>
+
     <property name="debug" value="on"/>
     <!-- =============================================================== -->
     <!-- The Build Classpath                                             -->
@@ -78,12 +78,14 @@
         <fileset dir="${lib.dir}">
             <include name="**/*.jar"/>
         </fileset>
-    	<fileset dir="${build.dir}">
-            <include name="**/*.*"/>	
-		</fileset>
+        <fileset dir="${build.dir}">
+            <include name="**/*.jar"/>
+            <include name="**/*.xml"/>
+            <include name="**/*.properties"/>
+        </fileset>
         <fileset dir="${ext.lib.dir}">
             <include name="**/*.*"/>
-	    </fileset>
+        </fileset>
         <fileset dir="${test.lib.dir}">
             <include name="**/*.jar"/>
         </fileset>
@@ -93,7 +95,7 @@
         <fileset dir="${env.CATALINA_HOME}/common/lib">
             <include name="**/*.jar"/>
         </fileset>
-    	
+
     </path>
     <!-- =============================================================== -->
     <!-- Prepares the build directory                                    -->
@@ -102,33 +104,33 @@
         <tstamp/>
         <mkdir dir="${build.dir}"/>
         <mkdir dir="${test.lib.dir}"/>
-	
- 		<fail message="Database not configured (could not read ${config.database.file}.)">
-	        <condition>
-	            <not><available file="${config.database.file}"/></not>
-	        </condition>
-	    </fail>
-	    <property file="${config.database.file}"/>
-	    <echo>All database ops for this build will use ${datasource.url}</echo>
+
+        <fail message="Database not configured (could not read ${config.database.file}.)">
+            <condition>
+                <not><available file="${config.database.file}"/></not>
+            </condition>
+        </fail>
+        <property file="${config.database.file}"/>
+        <echo>All database ops for this build will use ${datasource.url}</echo>
     </target>
-	
-	 <target name="resources" description="Copy resources into classpath" depends="prepare">
+
+    <target name="resources" description="Copy resources into classpath" depends="prepare">
         <copy file="${config.database.file}" tofile="${build.dir}/datasource.properties" overwrite="true"/>
-		<copy file="${config.security.props}" tofile="${build.dir}/grid-security.properties" overwrite="true"/>	        
-		<copy file="${config.security.conf}" tofile="${build.dir}/config.dct" overwrite="true"/>				
-		<copy todir="${build.dir}">
+        <copy file="${config.security.props}" tofile="${build.dir}/grid-security.properties" overwrite="true"/>
+        <copy file="${config.security.conf}" tofile="${build.dir}/config.dct" overwrite="true"/>
+        <copy todir="${build.dir}">
             <fileset dir="${src.dir}">
                 <include name="**/*.xml"/>
                 <include name="**/*.properties"/>
-             </fileset>
+            </fileset>
         </copy>
         <copy todir="${test.dir}">
             <fileset dir="${test.src.dir}">
                 <include name="**/*.xml"/>
             </fileset>
         </copy>
-	 </target>
-	
+    </target>
+
     <!-- =============================================================== -->
     <!-- Compiles the source code                                        -->
     <!-- =============================================================== -->
@@ -149,11 +151,11 @@
         <javac srcdir="${test.src.dir}" destdir="${test.classes.dir}" debug="${debug}" deprecation="off" optimize="off">
             <classpath refid="test.classpath"/>
         </javac>
-		<copy todir="${test.classes.dir}">
-			<fileset dir="${test.src.dir}">
-	        	<include name="**/*.xml"/>				
-	        </fileset>
-	     </copy>	
+        <copy todir="${test.classes.dir}">
+            <fileset dir="${test.src.dir}">
+                <include name="**/*.xml"/>
+            </fileset>
+        </copy>
     </target>
     <!-- ============================================================== -->
     <!-- Cleans up generated stuff                                      -->
@@ -168,11 +170,11 @@
         <mkdir dir="${jar.dir}"/>
         <jar jarfile="${project.jarfile}" basedir="${classes.dir}">
             <fileset dir="${src.dir}">
-                <exclude name="**/*.xml"/>	
+                <exclude name="**/*.xml"/>
                 <exclude name="**/*.properties"/>
-                <exclude name="**/*.dct"/>				
+                <exclude name="**/*.dct"/>
             </fileset>
-	 		<manifest>
+            <manifest>
                 <attribute name="Built-By" value="${user.name}"/>
                 <attribute name="Main-Class" value="${main.class}"/>
             </manifest>
@@ -183,7 +185,7 @@
     <!-- ============================================================== -->
     <target name="jar-tests" depends="compile-tests" description="Builds the Jar Files">
         <mkdir dir="${jar.dir}"/>
-        <jar jarfile="${test.project.jar}" basedir="${test.classes.dir}">			
+        <jar jarfile="${test.project.jar}" basedir="${test.classes.dir}">
             <manifest>
                 <attribute name="Built-By" value="${user.name}"/>
             </manifest>
