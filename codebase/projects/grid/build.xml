@@ -2,12 +2,112 @@
 
 <project name="grid" default="all" basedir=".">
 
-    <target name="all">
-        <ant dir="RegistrationConsumer" inheritall="false" antfile="build.xml" target="all"/>
+    <property name="c3pr.dir" value="../../"/>
+    <property name="c3pr.antfiles.dir" value="${c3pr.dir}/antfiles"/>
+    <property name="projects.dir" value="${basedir}"/>
+    <property name="antfiles.dir" value="${basedir}/antfiles"/>
+    <property name="ext.lib.dir" value="${basedir}/ext"/>
+
+    <property name="project.name" value="RegistrationConsumer_Grid_Service"/>
+    <property name="build.dir" value="${basedir}/build"/>
+    <property name="zip.filename" value="${project.name}.zip"/>
+
+    <import file="${antfiles.dir}/artifacts.xml" />
+
+    <!-- projects-->
+    <property name="projects.list" value="RegistrationConsumer, RegistrationConsumerImpl"/>
+
+    <!-- =============================================================== -->
+    <!-- Bootstrap the build by setting up the structure and building    -->
+    <!-- our custom ant tasks.                                           -->
+    <!-- =============================================================== -->
+    <target name="prepare">
+        <mkdir dir="${build.dir}"/>
+
+        <typedef name="artifact" classname="gov.nih.nci.cagrid.ant.Artifact" loaderref="artifact">
+            <classpath>
+                <pathelement location="${c3pr.antfiles.dir}/management/build" />
+            </classpath>
+        </typedef>
+        <taskdef name="resolveDependencies" classname="gov.nih.nci.cagrid.ant.ResolveDependencies" loaderref="artifact">
+            <classpath>
+                <pathelement location="${c3pr.antfiles.dir}/management/build" />
+            </classpath>
+        </taskdef>
+
+        <taskdef resource="net/sf/antcontrib/antlib.xml">
+            <classpath>
+                <pathelement location="${ext.lib.dir}/ant-contrib.jar"/>
+            </classpath>
+        </taskdef>
+
     </target>
 
-    <target name="clean">
-        <ant dir="RegistrationConsumer" inheritall="false" antfile="build.xml" target="clean"/>
+    <target name="build-RegistrationConsumer" depends="prepare">
+        <ant dir="${projects.dir}/RegistrationConsumer" antfile="build.xml" target="all"/>
+    </target>
+
+    <target name="build-RegistrationConsumerImpl" depends="prepare">
+        <resolveDependencies extdir="${projects.dir}/RegistrationConsumerImpl/ext">
+            <artifact refid="registration.consumer.grid.service"/>
+        </resolveDependencies>
+
+        <ant dir="${projects.dir}/RegistrationConsumerImpl" antfile="build.xml" target="all"/>
+    </target>
+
+    <target name="clean" depends="prepare" description="Clean the project">
+         <delete dir="${build.dir}"/>
+
+        <for list="${projects.list}" parallel="true" param="project.name" trim="true">
+            <sequential>
+                <echo message="Cleaning project @{project.name}."/>
+                <delete dir="${basedir}/@{project.name}/ext"/>
+                <ant dir="${basedir}/@{project.name}" inheritAll="false" antfile="build.xml" target="clean"/>
+            </sequential>
+        </for>
+    </target>
+
+    <target name="all" depends="prepare" description="Default target to build all sub projects within JBI">
+        <for list="${projects.list}" parallel="true" param="project.name" trim="true">
+            <sequential>
+                <echo message="Building sub-project @{project.name}."/>
+                <!--copy ext dependencies-->
+                <copy todir="${projects.dir}/@{project.name}/ext/lib">
+                    <fileset dir="${ext.lib.dir}">
+                        <include name="*.jar"/>
+                        <exclude name="ant-contrib.jar"/>
+                    </fileset>
+                </copy>
+                <runtarget target="build-@{project.name}" />
+                <echo message="Built project @{project.name}." />
+            </sequential>
+        </for>
+    </target>
+
+
+    <target name="deploySkeletonRegistrationConsumerGridService" depends="prepare"
+            description="Builds the Registration Consumer Grid service">
+
+        <!--override tomcat env variable to write out to temp location-->
+        <ant antfile="${projects.dir}/RegistrationConsumer/build.xml" inheritall="false" target="deployTomcat"/>
+
+        <echo message="======================================"/>
+
+        <echo message="======Skeleton grid service deployed to CATALINA_LOCATION" />
+        
+         <echo message="======================================"/>
+    </target>
+
+    <target name="deployRegistrationConsumerGridService" depends="deploySkeletonRegistrationConsumerGridService"
+        description="Builds the c3pr Registration consumer grid service">
+        <ant antfile="${projects.dir}/RegistrationConsumerImpl/build.xml" inheritall="false" target="deploy"/>
+
+         <echo message="============================================================================="/>
+
+        <echo message="======Registration Consumer Grid service deployed to CATALINA_LOCATION" />
+
+         <echo message="============================================================================="/>
+
     </target>
 
 </project>
