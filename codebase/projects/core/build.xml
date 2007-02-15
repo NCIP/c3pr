@@ -80,11 +80,10 @@
         </fileset>
         <fileset dir="${build.dir}">
             <include name="**/*.jar"/>
-            <include name="**/*.xml"/>
-            <include name="**/*.properties"/>
         </fileset>
+        <fileset dir="${build.dir}"/>
         <fileset dir="${ext.lib.dir}">
-            <include name="**/*.*"/>
+            <include name="**/*.jar"/>
         </fileset>
         <fileset dir="${test.lib.dir}">
             <include name="**/*.jar"/>
