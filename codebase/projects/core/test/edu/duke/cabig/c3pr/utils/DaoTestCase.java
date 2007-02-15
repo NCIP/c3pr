@@ -110,7 +110,7 @@ public abstract class DaoTestCase extends DbTestCase {
     }
     
     public static ApplicationContext getApplicationContext() {
-        return ApplicationTestCase.getDeployedApplicationContext();
+        return ApplicationTestCase.getDeployedCoreApplicationContext();
     }
 
     protected final void dumpResults(String sql) {
