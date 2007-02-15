@@ -49,13 +49,13 @@
 	<classpathentry exported="true" kind="lib" path="ext/lib/jdom.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/log4j-1.2.13.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/spring2.0.2.jar" sourcepath="C:/devtools/spring-framework-2.0.2/src"/>
-	<classpathentry exported="true" kind="lib" path="build"/>
 	<classpathentry exported="true" kind="lib" path="build/jars/c3pr-2.0-core-tests-1.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="/share/security/lib/grid-security-plugin-1.0.jar"/>
-	<classpathentry kind="lib" path="/share/security/lib/caGrid-1.0-dorian-stubs.jar"/>
-	<classpathentry kind="lib" path="/share/security/lib/wsrf_core_stubs.jar"/>
-	<classpathentry kind="lib" path="/share/security/lib/wsrf_core.jar"/>
-	<classpathentry kind="lib" path="/web/ext/lib/axis.jar"/>
-	<classpathentry kind="lib" path="/web/ext/lib/axis-url.jar"/>
+	<classpathentry exported="true" kind="lib" path="/share/security/lib/caGrid-1.0-dorian-stubs.jar"/>
+	<classpathentry exported="true" kind="lib" path="/share/security/lib/wsrf_core_stubs.jar"/>
+	<classpathentry exported="true" kind="lib" path="/share/security/lib/wsrf_core.jar"/>
+	<classpathentry exported="true" kind="lib" path="/web/ext/lib/axis.jar"/>
+	<classpathentry exported="true" kind="lib" path="/web/ext/lib/axis-url.jar"/>
+	<classpathentry exported="true" kind="lib" path="build"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
