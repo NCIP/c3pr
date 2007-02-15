@@ -6,7 +6,8 @@
     <property name="c3pr.antfiles.dir" value="${c3pr.dir}/antfiles"/>
     <property name="projects.dir" value="${basedir}"/>
     <property name="antfiles.dir" value="${basedir}/antfiles"/>
-    <property name="ext.lib.dir" value="${basedir}/ext"/>
+    <property name="ext.dir" value="${basedir}/ext"/>
+    <property name="ext.lib.dir" value="${ext.dir}/lib"/>
 
     <property name="project.name" value="RegistrationConsumer_Grid_Service"/>
     <property name="build.dir" value="${basedir}/build"/>
@@ -56,7 +57,7 @@
     </target>
 
     <target name="clean" depends="prepare" description="Clean the project">
-         <delete dir="${build.dir}"/>
+        <delete dir="${build.dir}"/>
 
         <for list="${projects.list}" parallel="true" param="project.name" trim="true">
             <sequential>
@@ -94,19 +95,19 @@
         <echo message="======================================"/>
 
         <echo message="======Skeleton grid service deployed to CATALINA_LOCATION" />
-        
-         <echo message="======================================"/>
+
+        <echo message="======================================"/>
     </target>
 
     <target name="deployRegistrationConsumerGridService" depends="deploySkeletonRegistrationConsumerGridService"
-        description="Builds the c3pr Registration consumer grid service">
+            description="Builds the c3pr Registration consumer grid service">
         <ant antfile="${projects.dir}/RegistrationConsumerImpl/build.xml" inheritall="false" target="deploy"/>
 
-         <echo message="============================================================================="/>
+        <echo message="============================================================================="/>
 
         <echo message="======Registration Consumer Grid service deployed to CATALINA_LOCATION" />
 
-         <echo message="============================================================================="/>
+        <echo message="============================================================================="/>
 
     </target>
 
