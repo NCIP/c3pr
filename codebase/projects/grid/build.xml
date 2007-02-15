@@ -99,7 +99,7 @@
         <echo message="======================================"/>
     </target>
 
-    <target name="deployRegistrationConsumerGridService" depends="deploySkeletonRegistrationConsumerGridService"
+    <target name="deploy" depends="deploySkeletonRegistrationConsumerGridService"
             description="Builds the c3pr Registration consumer grid service">
         <ant antfile="${projects.dir}/RegistrationConsumerImpl/build.xml" inheritall="false" target="deploy"/>
 

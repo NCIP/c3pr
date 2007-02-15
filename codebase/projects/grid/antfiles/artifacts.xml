@@ -1,25 +1,26 @@
 <!-- ======================================================================= -->
-<!-- c3pr Artifacts build file                                             -->
-<!-- ======================================================================= -->
+        <!-- c3pr Artifacts build file                                             -->
+        <!-- ======================================================================= -->
 <project name="c3pr_grid_artifacts" basedir="." default="usage">
 
-	<!-- =============================================================== -->
-	<!-- Define the build artifacts (created/used by projects) here      -->
-	<!--                                                                 -->
-	<!-- NOTE:  These should be all of the files necessary to "depend" on-->
-	<!-- the project (not just the built files).  Make a separate        -->
-	<!-- artifact for groups of files that will probably be copied to    -->
-	<!-- separate directoris (e.g. jars and conf files)                  -->
-	<!-- =============================================================== -->
-	<target name="RegistrationConsumer" depends="prepare">
-		<artifact track="main" type="jars" id="registration.consumer.grid.service">
-			<antcall target="build-RegistrationConsumer"/> 
+    <!-- =============================================================== -->
+    <!-- Define the build artifacts (created/used by projects) here      -->
+    <!--                                                                 -->
+    <!-- NOTE:  These should be all of the files necessary to "depend" on-->
+    <!-- the project (not just the built files).  Make a separate        -->
+    <!-- artifact for groups of files that will probably be copied to    -->
+    <!-- separate directoris (e.g. jars and conf files)                  -->
+    <!-- =============================================================== -->
+    <target name="RegistrationConsumer" depends="prepare">
+        <artifact track="main" type="jars" id="registration.consumer.grid.service">
+            <antcall target="build-RegistrationConsumer"/>
             <fileset dir="${projects.dir}/RegistrationConsumer/build/lib">
-				<include name="*.jar" />
+                <include name="*.jar" />
             </fileset>
-		</artifact>
-
-
-	</target>
+            <fileset dir="${projects.dir}/RegistrationConsumer/lib">
+                <include name="*.jar" />
+            </fileset>
+        </artifact>
+    </target>
 
 </project>
