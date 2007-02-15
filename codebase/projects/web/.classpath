@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="test"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-httpclient-3.0-rc2.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/javax.servlet.jar"/>
@@ -16,5 +17,25 @@
 	<classpathentry exported="true" kind="lib" path="ext/lib/jdom.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/log4j-1.2.13.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/spring2.0.2.jar" sourcepath="C:/devtools/spring-framework-2.0.2/src"/>
+	<classpathentry exported="true" kind="lib" path="test/lib/core-commons-testing.jar"/>
+	<classpathentry exported="true" kind="lib" path="test/lib/easymockclassextension.jar"/>
+	<classpathentry exported="true" kind="lib" path="test/lib/junit.jar"/>
+	<classpathentry exported="true" kind="lib" path="test/lib/servlet-api.jar"/>
+	<classpathentry exported="true" kind="lib" path="test/lib/spring-mock.jar"/>
+	<classpathentry exported="true" kind="lib" path="test/lib/easymock.jar"/>
+	<classpathentry exported="true" kind="lib" path="ext/lib/globus_wsrf_mds_aggregator_stubs.jar"/>
+	<classpathentry exported="true" kind="lib" path="ext/lib/globus_wsrf_mds_aggregator.jar"/>
+	<classpathentry exported="true" kind="lib" path="ext/lib/globus_wsrf_servicegroup_stubs.jar"/>
+	<classpathentry exported="true" kind="lib" path="ext/lib/globus_wsrf_servicegroup.jar"/>
+	<classpathentry exported="true" kind="lib" path="ext/lib/c3pr-2.0-core-tests-1.0.jar" sourcepath="C:/devtools/eclipse/workspace/projects/core/test"/>
+	<classpathentry exported="true" kind="lib" path="ext/lib/caGrid-1.0-core.jar"/>
+	<classpathentry exported="true" kind="lib" path="ext/lib/cog-jglobus.jar"/>
+	<classpathentry exported="true" kind="lib" path="ext/lib/cglib-2.1.3.jar"/>
+	<classpathentry kind="lib" path="ext/lib/hibernate3.2.1.jar"/>
+	<classpathentry kind="lib" path="ext/lib/asm.jar"/>
+	<classpathentry kind="lib" path="ext/lib/asm-attrs.jar"/>
+	<classpathentry kind="lib" path="ext/lib/caGrid-1.0-gridca.jar"/>
+	<classpathentry kind="lib" path="ext/lib/ctms-web-sso.jar"/>
+	<classpathentry kind="lib" path="ext/lib/northwestern-core-commons.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
