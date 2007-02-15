@@ -45,7 +45,7 @@
     </target>
 
     <target name="build-RegistrationConsumer" depends="prepare">
-        <ant dir="${projects.dir}/RegistrationConsumer" antfile="build.xml" target="all"/>
+        <ant dir="${projects.dir}/RegistrationConsumer" inheritall="false" antfile="build.xml" target="all"/>
     </target>
 
     <target name="build-RegistrationConsumerImpl" depends="prepare">
@@ -53,7 +53,7 @@
             <artifact refid="registration.consumer.grid.service"/>
         </resolveDependencies>
 
-        <ant dir="${projects.dir}/RegistrationConsumerImpl" antfile="build.xml" target="all"/>
+        <ant dir="${projects.dir}/RegistrationConsumerImpl" inheritall="false" antfile="build.xml" target="all"/>
     </target>
 
     <target name="clean" depends="prepare" description="Clean the project">
