@@ -78,10 +78,7 @@
         <fileset dir="${lib.dir}">
             <include name="**/*.jar"/>
         </fileset>
-        <fileset dir="${build.dir}">
-            <include name="**/*.jar"/>
-        </fileset>
-        <pathelement location="${build.dir}"/>
+		<path location="${build.dir}"/>
         <fileset dir="${ext.lib.dir}">
             <include name="**/*.jar"/>
         </fileset>
