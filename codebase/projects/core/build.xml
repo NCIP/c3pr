@@ -81,7 +81,7 @@
         <fileset dir="${build.dir}">
             <include name="**/*.jar"/>
         </fileset>
-        <fileset dir="${build.dir}"/>
+        <pathelement location="${build.dir}"/>
         <fileset dir="${ext.lib.dir}">
             <include name="**/*.jar"/>
         </fileset>
