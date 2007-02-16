@@ -14,9 +14,9 @@
     <property name="test.lib.dir" value="${basedir}/test/${lib.dir}"/>
     <property name="test.report.dir" value="${basedir}/test/report"/>
     <property name="build.jar.dir" value="${build.dir}/jars"/>
-    <property name="jar.name" value="${build.jar.dir}/${project.name}.jar"/>
+    <property name="jar.name" value="${project.name}.jar"/>
 
-    <property name="deploy.lib.dir" value="${env.CATALINA_HOME}/webapps/wsrf/WEB-INF/lib"/>
+    <property name="tomcat.deploy.dir" value="${env.CATALINA_HOME}/webapps/wsrf/WEB-INF/lib"/>
 
 
     <target name="checkGlobus" depends="setGlobus">
@@ -95,11 +95,19 @@
 
     <target name="jar" depends="compile">
         <mkdir dir="${build.jar.dir}"/>
-        <jar basedir="${build.classes.dir}" destfile="${jar.name}"/>
+        <jar basedir="${build.classes.dir}" jarfile="${build.jar.dir}/${jar.name}"/>
     </target>
 
-    <target name="deploy" depends="jar">
-        <copy todir="${deploy.lib.dir}">
+    <target name="deployTomcat" depends="jar">
+        <copy todir="${tomcat.deploy.dir}">
+            <fileset dir="${build.jar.dir}">
+                <include name="${jar.name}"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="deployGlobus" depends="jar">
+        <copy todir="${ext.globus.dir}/lib">
             <fileset dir="${build.jar.dir}">
                 <include name="${jar.name}"/>
             </fileset>

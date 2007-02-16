@@ -45,7 +45,8 @@
     </target>
 
     <target name="build-RegistrationConsumer" depends="prepare">
-        <ant dir="${projects.dir}/RegistrationConsumer" inheritall="false" antfile="build.xml" target="all"/>
+        <ant dir="${projects.dir}/RegistrationConsumer" inheritall="false"
+             antfile="build.xml" target="all"/>
     </target>
 
     <target name="build-RegistrationConsumerImpl" depends="prepare">
@@ -53,7 +54,8 @@
             <artifact refid="registration.consumer.grid.service"/>
         </resolveDependencies>
 
-        <ant dir="${projects.dir}/RegistrationConsumerImpl" inheritall="false" antfile="build.xml" target="all"/>
+        <ant dir="${projects.dir}/RegistrationConsumerImpl" inheritall="false"
+             antfile="build.xml" target="all"/>
     </target>
 
     <target name="clean" depends="prepare" description="Clean the project">
@@ -69,7 +71,7 @@
     </target>
 
     <target name="all" depends="prepare" description="Default target to build all sub projects within JBI">
-        <for list="${projects.list}" parallel="true" param="project.name" trim="true">
+        <for list="${projects.list}" parallel="false" param="project.name" trim="true">
             <sequential>
                 <echo message="Building sub-project @{project.name}."/>
                 <!--copy ext dependencies-->
@@ -86,11 +88,12 @@
     </target>
 
 
-    <target name="deploySkeletonRegistrationConsumerGridService" depends="prepare"
-            description="Builds the Registration Consumer Grid service">
+    <target name="deploySkeletonRegistrationGridService" depends="prepare"
+            description="Deploys the Registration Consumer Grid service Skeleton">
 
         <!--override tomcat env variable to write out to temp location-->
-        <ant antfile="${projects.dir}/RegistrationConsumer/build.xml" inheritall="false" target="deployTomcat"/>
+        <ant antfile="${projects.dir}/RegistrationConsumer/build.xml"
+             inheritall="false" target="deployTomcat"/>
 
         <echo message="======================================"/>
 
@@ -99,9 +102,9 @@
         <echo message="======================================"/>
     </target>
 
-    <target name="deploy" depends="deploySkeletonRegistrationConsumerGridService"
-            description="Builds the c3pr Registration consumer grid service">
-        <ant antfile="${projects.dir}/RegistrationConsumerImpl/build.xml" inheritall="false" target="deploy"/>
+    <target name="deployTomcat" depends="deploySkeletonRegistrationGridService"
+            description="Deploys the c3pr Registration consumer grid service Implementation">
+        <ant antfile="${projects.dir}/RegistrationConsumerImpl/build.xml" inheritall="false" target="deployTomcat"/>
 
         <echo message="============================================================================="/>
 

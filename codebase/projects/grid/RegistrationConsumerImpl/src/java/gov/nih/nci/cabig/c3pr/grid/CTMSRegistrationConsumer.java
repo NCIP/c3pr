@@ -35,8 +35,8 @@ public class CTMSRegistrationConsumer implements RegistrationConsumer {
      */
     public void register(RegistrationType registration) throws RemoteException, InvalidRegistration, RegistrationFailed {
 
-
-        logger.debug("Received registration " + registration.getIdentifier  ());
+        System.out.println("Registration Received " + registration.getIdentifier());
+        logger.info("Received registration " + registration.getIdentifier  ());
     }
 
     public ServiceSecurityMetadata getServiceSecurityMetadata() throws RemoteException {

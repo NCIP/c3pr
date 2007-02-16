@@ -4,6 +4,6 @@
 
 <beans>
 
-	<bean id="registrationConsumer" class="gov.nih.nci.cabig.ctms.grid.CTMSRegistrationConsumer"/>
+	<bean id="registrationConsumer" class="gov.nih.nci.cabig.c3pr.grid.CTMSRegistrationConsumer"/>
 
 </beans>
