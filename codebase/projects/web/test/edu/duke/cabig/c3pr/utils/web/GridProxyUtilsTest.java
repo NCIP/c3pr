@@ -7,11 +7,8 @@ import java.io.File;
 import junit.framework.TestCase;
 
 /**
- * Created by IntelliJ IDEA.
- * User: kherm
- * Date: Jan 31, 2007
- * Time: 12:13:07 PM
- * To change this template use File | Settings | File Templates.
+ * This unit test validates the GridProxyUtils class by pulling a user name from a grid proxy.
+ * @testType unit
  */
 public class GridProxyUtilsTest extends TestCase {
 

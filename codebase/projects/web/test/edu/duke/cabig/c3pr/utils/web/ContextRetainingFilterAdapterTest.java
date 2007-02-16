@@ -13,6 +13,8 @@ import org.springframework.web.context.WebApplicationContext;
 import edu.duke.cabig.c3pr.web.WebTestCase;
 
 /**
+ * This unit test validates teh ContextRetainingFilterAdapter.
+ * @testType unit
  * @author Rhett Sutphin
  */
 /* TODO: much of this class is shared with PSC.  Refactor into a shared library. */

@@ -19,12 +19,9 @@ import java.util.Vector;
  * 3. Deploy Globus
  * 4. Start ESB and Globus
  * 5. Send a test message to the ESB
- * 
- * Created by IntelliJ IDEA.
- * User: kherm
- * Date: Feb 15, 2007
- * Time: 5:16:01 PM
- * To change this template use File | Settings | File Templates.
+ * @testType integration
+ * @steps ESBCreateStep,GlobusCreateStep,ESBStartStep,GlobusDeployServiceStep,RegistrationGridServiceConfigStep
+ * @steps GlobusStartStep,ESBSendMessageStep,ESBStopStep,ESBCleanupStep,GlobusCleanupStep
  */
 public class CTMISystemTest
         extends Story {

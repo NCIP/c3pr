@@ -24,6 +24,8 @@ import org.springframework.web.context.request.WebRequest;
 import edu.duke.cabig.c3pr.utils.web.OpenSessionInViewInterceptorFilter;
 
 /**
+ * This unit test validates the OpenSessionInViewInterceptorFilter
+ * @testType unit
  * @author Rhett Sutphin
  */
 public class OpenSessionInViewInterceptorFilterTest extends ControllerTestCase {
