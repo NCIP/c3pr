@@ -66,6 +66,7 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 
 	private ParticipantDao participantDao;
 
+	private String isBroadcastEnable="true";
 	private StudySiteDao studySiteDao;
 
 	private ArmDao armDao;
@@ -358,17 +359,19 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 					.setStudyParticipantIdentifier(studyParticipantAssignment
 							.getId()
 							+ "");
-			String xml = "";
-			try {
-				xml = XMLUtils.toXml(studyParticipantAssignment);
-				System.out
-						.println("--------------------XML for Registration--------------------");
-				System.out.println(xml);
-				messageBroadcaster.initialize();
-				messageBroadcaster.broadcast(xml);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if(isBroadcastEnable.equalsIgnoreCase("true")){
+				String xml = "";
+				try {
+					xml = XMLUtils.toXml(studyParticipantAssignment);
+					System.out
+							.println("--------------------XML for Registration--------------------");
+					System.out.println(xml);
+					messageBroadcaster.initialize();
+					messageBroadcaster.broadcast(xml);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 		if (viewName.equalsIgnoreCase("randomizeView")) {
@@ -576,5 +579,14 @@ public class RegistrationHomeController extends AbstractWizardFormController {
 		response.sendRedirect("/c3pr/SearchAndRegister.do");
 		return null;
 	}
+
+	public String getIsBroadcastEnable() {
+		return isBroadcastEnable;
+	}
+
+	public void setIsBroadcastEnable(String isBroadcastEnable) {
+		this.isBroadcastEnable = isBroadcastEnable;
+	}
+
 
 }
