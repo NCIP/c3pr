@@ -87,7 +87,10 @@
 		<fileset dir="${ext.test.lib.dir}">
 			<include name="**/*.jar" />
 		</fileset>
-	</path>
+        <fileset dir="${env.GLOBUS_LOCATION}">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
 
 	<!-- =============================================================== -->
 	<!-- Prepares the build directory                                    -->
