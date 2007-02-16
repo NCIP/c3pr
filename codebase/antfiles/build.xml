@@ -20,12 +20,15 @@
     <property name="xmlbeans.dir" location="${share.dir}/xmlbeans"/>
     <property name="junit.results.dir" location="${test.dir}/logs"/>
 
+    <!--ESB deploy directory. Defaults to scratch-->
+    <property name="esb.deploy.dir" location="${basedir}/scratch"/>
+
     <!-- Warning, your environment variable for tomcat should be set in your OS (Windows/Linux),
-       else it wont deploy -->
+else it wont deploy -->
     <property name="deploy.path" value="${env.CATALINA_HOME}/webapps" />
     <property name="webapp.name" value="c3pr" />
 
-     <property name="servicemix.project.home" value="${projects.dir}/servicemix"/>
+    <property name="servicemix.project.home" value="${projects.dir}/servicemix"/>
 
     <!-- import testing properties -->
     <property file="${antfiles.dir}/test.properties"/>
@@ -180,7 +183,7 @@
             <artifact refid="dom4j.jars"/>
             <artifact refid="xerces.jars"/>
             <artifact refid="xercesImpl.jars"/>
-        	<artifact refid="web-sso.jars"/>
+            <artifact refid="web-sso.jars"/>
         </resolveDependencies>
         <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
@@ -204,10 +207,10 @@
     <!-- c3pr Protocol Ingestion Grid Service                            -->
     <!-- =============================================================== -->
     <target name="build-grid" depends="prepare" description="Builds the c3p3 Registration Consumer grid node">
-         <resolveDependencies extdir="${projects.dir}/grid/ext">
-             <artifact refid="ant-contrib.jars"/>
-             <artifact refid="spring.jars"/>
-         </resolveDependencies>
+        <resolveDependencies extdir="${projects.dir}/grid/ext">
+            <artifact refid="ant-contrib.jars"/>
+            <artifact refid="spring.jars"/>
+        </resolveDependencies>
         <ant dir="${projects.dir}/grid" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
 
@@ -223,7 +226,7 @@
             <artifact refid="globus.security.jars"/>
             <artifact refid="c3pr.gridnode.client.jars"/>
         </resolveDependencies>
-        <ant dir="${projects.dir}/servicemix" inheritAll="true" antfile="build.xml" target="all"/>
+        <ant dir="${projects.dir}/servicemix" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
 
     <!-- =============================================================== -->
@@ -233,6 +236,7 @@
         <resolveDependencies extdir="${projects.dir}/test-system/ext">
             <artifact refid="common.test.jars"/>
             <artifact refid="c3pr.web.jars"/>
+            <artifact refid="c3pr.esb-client.jars"/>
         </resolveDependencies>
         <ant dir="${projects.dir}/test-system" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
@@ -302,25 +306,21 @@
     <!-- ====================================================================== -->
     <!-- Will build the esb integration project  -->
     <!-- ====================================================================== -->
-    <target name="buildESB" description="Will build the esb project">
-
-        <!-- call the servicemix project deploy target -->
-        <ant dir="${servicemix.project.home}" antfile="build.xml" target="all"/>
-
+    <target name="buildESB" depends="build-servicemix" description="Will build the esb project">
         <echo message="Built. Call deploESB"/>
     </target>
-    
+
 
     <target name="deployESB" description="Will deploy and make ready the ctms esb engine (servicemix)">
 
         <property name="servicemix.toolkit.home" value="${servicemix.project.home}/servicemix-toolkit"/>
 
         <!-- call the servicemix project deploy target -->
-        <ant dir="${servicemix.project.home}" antfile="build.xml" target="deploy"/>
+        <ant dir="${servicemix.project.home}" antfile="build.xml" inheritall="false" target="deploy"/>
 
-        <delete dir="${basedir}/scratch"/>
+        <delete dir="${esb.deploy.dir}"/>
 
-        <copy overwrite="true" todir="${basedir}/scratch">
+        <copy overwrite="true" todir="${esb.deploy.dir}">
             <fileset dir="${servicemix.toolkit.home}">
                 <include name="**"/>
             </fileset>
@@ -333,11 +333,11 @@
         <echo message="Do the following steps to start servicemix"/>
         <echo message=""/>
 
-        <echo message="cd scratch"/>
+        <echo message="cd ${esb.deploy.dir}"/>
         <echo message=""/>
 
-        <echo message="RUN ./bin/servicemix {UNIX}"/>
-        <echo message="RUN ./bin/servicemix.bat {WINDOWS}"/>
+        <echo message="RUN ./${esb.deploy.dir}/bin/servicemix {UNIX}"/>
+        <echo message="RUN ./${esb.deploy.dir}/bin/servicemix.bat {WINDOWS}"/>
 
         <echo message=""/>
         <echo message="-----------------------------------------------"/>

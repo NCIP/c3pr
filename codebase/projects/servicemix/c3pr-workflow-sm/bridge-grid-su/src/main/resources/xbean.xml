@@ -26,7 +26,7 @@
 	
 	<wsrf:endpoint service="ctms:caaers-registration-grid-service"
 		endpoint="endpoint" exchangeProcessor="#exchangeProcessor"
-		epr="http://10.10.10.2:8015/wsrf/services/cagrid/RegistrationConsumer" />
+		epr="http://127.0.0.1:8015/wsrf/services/cagrid/RegistrationConsumer" />
 
 	<wsrf:endpoint service="ctms:psc-registration-grid-service"
 		endpoint="endpoint" exchangeProcessor="#exchangeProcessor"
