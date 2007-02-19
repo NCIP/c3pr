@@ -100,7 +100,7 @@ public abstract class DaoTestCase extends DbTestCase {
     	return "C3PR";
     }
     
-    protected DatabaseOperation getSetUpOperation() throws Exception
+   /* protected DatabaseOperation getSetUpOperation() throws Exception
 	{
 	    return DatabaseOperation.DELETE;
 	}
@@ -108,7 +108,7 @@ public abstract class DaoTestCase extends DbTestCase {
     protected DatabaseOperation getTearDownOperation() throws Exception {
         return DatabaseOperation.DELETE;
     }
-    
+    */
     public static ApplicationContext getApplicationContext() {
         return ApplicationTestCase.getDeployedCoreApplicationContext();
     }
