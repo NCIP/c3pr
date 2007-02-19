@@ -27,8 +27,8 @@
     <PARTICIPANTS id="1001" version="1" first_name="Alfred" last_name="Douglas" birth_date="01-01-2000" administrative_gender_code="M" race_code="White" add_id="1001" />
     <PARTICIPANTS id="1002" version="1" first_name="Andrez" last_name="Gomez" birth_date="01-01-2000" administrative_gender_code="M" race_code="Hispanic" add_id="1001" /> 
        
-    <IDENTIFIERS id="1000" version="1" value="nci" type="local" stu_id="1000" prt_id="1000"/>
-    <IDENTIFIERS id="1001" version="1" value="grid" type="local" stu_id="1000" prt_id="1001"/>    
+    <IDENTIFIERS id="1000" version="1" value="nci" type="local" source="nci" stu_id="1000" prt_id="1000"/>
+    <IDENTIFIERS id="1001" version="1" value="grid" type="local" source="nci" stu_id="1000" prt_id="1001"/>    
     
     <STUDY_PARTICIPANT_ASSIGNMENTS id="1000" version="1" study_participant_identifier="partid" start_date="01-01-2000" eligibility_waiver_reason_text="reason" informed_consent_signed_date="01-01-2000" eligibility_indicator="1" prt_id="1000" sts_id="1000"/>
     <STUDY_PARTICIPANT_ASSIGNMENTS id="1001" version="1" study_participant_identifier="partid" start_date="01-01-2000" eligibility_waiver_reason_text="reason" informed_consent_signed_date="01-01-2000" eligibility_indicator="0" prt_id="1000" sts_id="1000"/>

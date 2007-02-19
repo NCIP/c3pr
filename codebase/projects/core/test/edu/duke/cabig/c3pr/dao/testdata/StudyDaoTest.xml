@@ -9,10 +9,13 @@
     <STUDIES id="1002" version="1" blinded_indicator="0" disease_code="dis" long_title_text="long_title_text" monitor_code="mon" multi_institution_indicator="1"
    	phase_code="Ph" randomized_indicator="1" short_title_text="short_title_text" sponsor_code="sp" target_accrual_number="123" type="ty"
     description_text="description" precis_text="precis_text" status="st" />
-    
+   
     <ADDRESSES id="1000" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA" />
     <ADDRESSES id="1001" version="1" street_address="Coppermine Dr" city="Herndon" state_code="VA" postal_code="20171" country_code="USA" />
-   
+  
+    <PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="M" race_code="White" add_id="1000" />
+ 
+ 
     <HEALTHCARE_SITES id="1000" version="1" name="duke healthcare" description_text="duke healthcare" address_id="1000" nci_institute_code="code" />
     <HEALTHCARE_SITES id="1001" version="1" name="duke healthcare" description_text="duke healthcare" address_id="1001" nci_institute_code="code" />   
     
@@ -28,8 +31,8 @@
     <IDENTIFIERS id="1000" version="1" value="nci" type="local" source="nci" stu_id="1000"/>
     <IDENTIFIERS id="1001" version="1" value="grid" type="local" source="calgb" stu_id="1000"/>    
     
-    <STUDY_PARTICIPANT_ASSIGNMENTS id="1000" version="1" study_participant_identifier="partid" start_date="01-01-2000" eligibility_waiver_reason_text="reason" informed_consent_signed_date="01-01-2000" eligibility_indicator="1" sts_id="1000"/>
-    <STUDY_PARTICIPANT_ASSIGNMENTS id="1001" version="1" study_participant_identifier="partid" start_date="01-01-2000" eligibility_waiver_reason_text="reason" informed_consent_signed_date="01-01-2000" eligibility_indicator="0" sts_id="1000"/>
+    <STUDY_PARTICIPANT_ASSIGNMENTS id="1000" version="1" study_participant_identifier="partid" start_date="01-01-2000" eligibility_waiver_reason_text="reason" informed_consent_signed_date="01-01-2000" eligibility_indicator="1" prt_id="1000" sts_id="1000"/>
+    <STUDY_PARTICIPANT_ASSIGNMENTS id="1001" version="1" study_participant_identifier="partid" start_date="01-01-2000" eligibility_waiver_reason_text="reason" informed_consent_signed_date="01-01-2000" eligibility_indicator="0" prt_id="1000" sts_id="1000"/>
       
     <EPOCHS id="1000" version="1" name="Treatment" description_text="treatement desc" stu_id="1000" />
     <EPOCHS id="1001" version="1" name="Cancer" description_text="cancer desc" stu_id="1000" />
