@@ -280,6 +280,10 @@
 					<include name="src/java"/>
 					<include name="test/src/java"/>
 				</fileset>
+				<fileset dir="${projects.dir}/web">
+					<include name="src/java"/>
+					<include name="test/src/java"/>
+				</fileset>
 			</junitDocs>
 		</junitDocReport>
 	</target>
