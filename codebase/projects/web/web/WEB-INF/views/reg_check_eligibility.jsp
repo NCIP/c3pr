@@ -176,10 +176,10 @@ function updateTargetPage(s){
 										<tr align="center">
 											<td colspan=2 valign="top"><br>
 											<br>
-											<a href="javascript:updateTargetPage('stratifyView');"><img
-												src="images/b-continue.gif" alt="Continue" width="59"
-												height="16" border="0"></a> <a href=""><img
+											<a href=""><img
 												src="images/b-startOver.gif" alt="Start Over" width="67"
+												height="16" border="0"></a><a href="javascript:updateTargetPage('stratifyView');"><img
+												src="images/b-continue.gif" alt="Continue" width="59"
 												height="16" border="0"></a></td>
 										</tr>
 									</table>

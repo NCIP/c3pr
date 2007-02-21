@@ -393,11 +393,11 @@ function updateTargetPage(s){
 										<tr align="center">
 											<td colspan=2 valign="top"><br>
 											<br>
-											<a href="javascript:updateTargetPage('confirmationView')"><img
-												src="images/b-submit.gif" alt="Continue" width="59"
-												height="16" border="0"></a> <a href="/c3pr/"
+											<a href="/c3pr/"
 												onClick="add();return false;"><img
 												src="images/b-startOver.gif" alt="Start Over" width="67"
+												height="16" border="0"></a><a href="javascript:updateTargetPage('confirmationView')"><img
+												src="images/b-submit.gif" alt="Continue" width="59"
 												height="16" border="0"></a></td>
 										</tr>
 									</table>
