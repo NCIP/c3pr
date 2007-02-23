@@ -271,7 +271,7 @@ field.value="";
 											<form:options items="${identifiersTypeRefData}" itemLabel="desc"
 												itemValue="desc" /></form:select></td>
 										<td width="20%"><form:input path="identifiers[${status.index}].value" onclick="javascript:clearField(this)();"/></td>
-										<td width="25%" aligh="center"><form:radiobutton path="identifiers[${status.index}].primaryIndicator"/></td>
+										<td width="25%" aligh="center"><form:radiobutton path="identifiers[${status.index}].primaryIndicator" value="true"/></td>
 										<td width="10%"><em><span class="red"><form:errors path="identifiers[${status.index}].source"/>
 											<form:errors path="identifiers[${status.index}].type"/>
 											<form:errors path="identifiers[${status.index}].value"/>

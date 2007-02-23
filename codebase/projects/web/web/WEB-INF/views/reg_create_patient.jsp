@@ -346,7 +346,7 @@ function submitPage(s){
 												</form:select></td>
 
 												<td align="center"><form:radiobutton
-													path="identifiers[${index}].primaryIndicator" /></td>
+													path="identifiers[${index}].primaryIndicator" value="true" /></td>
 											</tr>
 
 										</c:forEach>
