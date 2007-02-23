@@ -179,7 +179,7 @@ function submitPage(){
 											onMouseOut="navRollOver('row<%= i-1 %>', 'off')"
 											onClick="document.location='/c3pr/register.do?participantId=${participant.id}&studySiteId=${studySiteId}'">
 											<td>${participant.lastName},${participant.firstName}</td>
-												<td>${participant.id}</td>
+												<td>${participant.primaryIdentifier}</td>
 												<td>${participant.administrativeGenderCode}</td>
 												<td>${participant.raceCode}</td>
 											<td>${participant.birthDate}</td>

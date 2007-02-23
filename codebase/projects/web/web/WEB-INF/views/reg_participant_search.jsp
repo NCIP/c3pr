@@ -181,7 +181,7 @@ function doNothing(){
 											onMouseOut="navRollOver('row<%= i-1 %>', 'off')"
 											onClick="document.location='/c3pr/SearchRegisterStudy.do?participantId=${part.id}'">
 											<td>${part.lastName},${part.firstName}</td>
-											<td>${part.id}</td>
+											<td>${part.primaryIdentifier}</td>
 											<td>${part.administrativeGenderCode}</td>
 											<td>${part.raceCode}</td>
 											<td>${part.birthDate}</td>
