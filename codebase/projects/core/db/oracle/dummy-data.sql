@@ -80,4 +80,4 @@ INSERT INTO study_participant_assignments(version,id,study_participant_identifie
             eligibility_waiver_reason_text, informed_consent_signed_date, prt_id, sts_id, eligibility_indicator)
     VALUES (1,44,44,to_date('2003/07/09', 'yyyy/mm/dd'), 'Eligibility Waived', 
             to_date('2003/05/09', 'yyyy/mm/dd'), 
-            10001, 10001, 'yes');            
+            10001, 10001, 1);            
