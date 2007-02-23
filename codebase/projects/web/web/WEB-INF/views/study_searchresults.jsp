@@ -148,7 +148,7 @@ function navRollOver(obj, state) {
 							onMouseOut="navRollOver('row<%= i-1 %>', 'off')"
 							onClick="document.location='/c3pr/editstudy.do?studyId=${study.id}'">
 							<td>${study.trimmedShortTitleText}</td>
-							<td>${study.identifiers[0].value}</td>
+							<td>${study.primaryIdentifier}</td>
 							<td>${study.status}</td>
 							<td>${study.sponsorCode}</td>
 							<td>${study.multiInstitutionIndicator}</td>

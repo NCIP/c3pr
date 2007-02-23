@@ -142,7 +142,7 @@ function navRollOver(obj, state) {
 							onMouseOut="navRollOver('row<%= i %>', 'off')">
 						<tr align="center" id="row<%= i++ %>" class="results">
 							<td>${participant.lastName},${participant.firstName}</td>
-							<td>${participant.id}</td>
+							<td>${participant.primaryIdentifier}</td>
 							<td>${participant.administrativeGenderCode}</td>
 							<td>${participant.raceCode}</td>
 							<td>${participant.birthDate}</td>
