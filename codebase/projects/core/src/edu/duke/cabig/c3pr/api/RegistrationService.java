@@ -12,4 +12,5 @@ import edu.duke.cabig.c3pr.domain.Study;
 public interface RegistrationService {
     public void addStudySubjectIdentifier(String studySubjectGridIdentifier, Identifier newIdentifier);
     public void addStudySubjectIdentifier(Study study, Participant subject, HealthcareSite site, Identifier newIdentifier);
+    
 }
