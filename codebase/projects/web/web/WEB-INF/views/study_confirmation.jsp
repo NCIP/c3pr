@@ -156,24 +156,24 @@ function validatePage(){
 													class="heightControl"></td>
 											</tr>
 											<tr>
-												<td width="20%" class="label">Study Creation Date/Time:</td>
-												<td><%=new java.util.Date()%></td>
+												<td width="20%" class="label">Study Created on:</td>
+												<td><%= edu.duke.cabig.c3pr.utils.DateUtil.getCurrentDate("mm/dd/yyyy")%></td>
 											</tr>
 											<tr>
-												<td width="20%" class="label">Site:</td>
+												<td width="20%" class="label">Study Site:</td>
 												<td>${command.studySites[0].site.name}</td>
 											</tr>
 
 											<tr>
-												<td width="20%" class="label">Study Identifier</td>
+												<td width="20%" class="label">Study Identifiers</td>
 												<td ><c:forEach items="${command.identifiers}" var="id">
 													${id.value},
 												</c:forEach></td>
 											</tr>
 
 											<tr>
-												<td class="label">Subject Created by:</td>
-												<td>(username)</td>
+												<td class="label">Subject MRN Num:</td>
+												<td>${command.primaryIdentifier}</td>
 											</tr>
 
 										</table>

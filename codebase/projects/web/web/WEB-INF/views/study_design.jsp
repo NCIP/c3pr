@@ -208,10 +208,11 @@ function fireAction(action, selectedEpoch, selectedArm){
 										<br>
 										<input type="image" name="_target2" src="images/b-prev.gif" border="0"
 											alt="goto previous page">
-										<input type="image" name="_target4" src="images/b-continue.gif" border="0"
-											alt="continue to next page">
 										<input type="image" name="_target0" src="images/b-startOver.gif" border="0"
 											alt="start over from start page">
+										<input type="image" name="_target4" src="images/b-continue.gif" border="0"
+											alt="continue to next page">
+
 									</td>
 								</tr>
 							</table>

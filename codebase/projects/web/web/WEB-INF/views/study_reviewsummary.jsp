@@ -86,7 +86,7 @@ function updateTargetPage(target){
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
 		<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
-		<td id="current">Short Title: ${command.trimmedShortTitleText}</td>				
+		<td id="current">Short Title: ${command.trimmedShortTitleText}</td>
 		<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 	</tr>`
 	<tr>
@@ -312,10 +312,10 @@ function updateTargetPage(target){
 										<br>
 										<input type="image" name="_target3" src="images/b-prev.gif" border="0"
 											alt="goto previous page">
-										<input type="image" name="_target5" src="images/b-submit.gif" border="0"
-											alt="continue to next page">
 										<input type="image" name="_target0" src="images/b-startOver.gif" border="0"
 											alt="start over from start page">
+										<input type="image" name="_target5" src="images/b-submit.gif" border="0"
+											alt="continue to next page">
 									</td>
 								</tr>
 							</table>

@@ -91,7 +91,7 @@ function trim(s) {
 </table>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<form:form name="searchDetailsForm" method="post" >
-					
+
 	<tr>
 		<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
 		<td id="current">Short Title: ${command.trimmedShortTitleText}</td>
@@ -268,9 +268,13 @@ function trim(s) {
 								<tr>
 									<td class="label"><span class="red">*</span><em></em>Randomized
 									Indicator</td>
-									<td><form:checkbox path="randomizedIndicator"/></td>
+									<td><form:select path="randomizedIndicator">
+										<form:options items="${randomizedIndicatorRefData}" itemLabel="desc"
+											itemValue="code" />
+									</form:select></td>
 									<td width="10%"></td>
 								</tr>
+
 								<tr>
 									<td><img src="images/spacer.gif" width="1" height="1"
 										class="heightControl"></td>
@@ -278,7 +282,10 @@ function trim(s) {
 								<tr>
 									<td class="label"><span class="red">*</span><em></em>Multi
 									Institution:</td>
-									<td><form:checkbox path="multiInstitutionIndicator"/></td>
+									<td><form:select path="multiInstitutionIndicator">
+										<form:options items="${multiInstitutionIndicatorRefData}" itemLabel="desc"
+											itemValue="code" />
+									</form:select></td>
 									<td width="15%"></td>
 								</tr>
 								<tr>
@@ -287,7 +294,10 @@ function trim(s) {
 								</tr>
 								<tr>
 									<td class="label">Blinded Indicator:</td>
-									<td><form:checkbox path="blindedIndicator"/></td>
+									<td><form:select path="blindedIndicator">
+										<form:options items="${blindedIndicatorRefData}" itemLabel="desc"
+											itemValue="code" />
+									</form:select></td>
 									<td width="15%"></td>
 								</tr>
 								<tr>
@@ -299,7 +309,7 @@ function trim(s) {
 									<td><form:select path="type">
 										<option value="">--Please Select--
 										<form:options items="${typeRefData}" itemLabel="desc"
-											itemValue="desc" />
+											itemValue="code" />
 									</form:select></td>
 									<td width="15%"><em><span class="red"><form:errors path="type" /></em></span></td>
 								</tr>
