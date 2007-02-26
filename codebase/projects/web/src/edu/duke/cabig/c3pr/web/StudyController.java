@@ -104,6 +104,10 @@ public abstract class StudyController extends AbstractWizardFormController {
 	  		refdata.put("sponsorCodeRefData",  configMap.get("sponsorCodeRefData"));
 	  		refdata.put("statusRefData",  configMap.get("statusRefData"));
 	  		refdata.put("typeRefData",  configMap.get("typeRefData"));
+	  		refdata.put("randomizedIndicatorRefData", configMap.get("yesNo"));
+	  		refdata.put("multiInstitutionIndicatorRefData", configMap.get("yesNo"));
+	  		refdata.put("blindedIndicatorRefData", configMap.get("yesNo"));
+	  		
 	  		return refdata;
 	  	}	  	
 		if (page == 1) {
@@ -239,7 +243,7 @@ public abstract class StudyController extends AbstractWizardFormController {
 		
 		study.setIdentifiers(identifiers);		
 	}
-	
+		
 	protected List<HealthcareSite> getHealthcareSites()
 	{
   		return healthcareSiteDao.getAll();  	
@@ -286,4 +290,10 @@ public abstract class StudyController extends AbstractWizardFormController {
 		this.studyValidator = studyValidator;
 	}
 	
+//	private List getYesNo(){
+//		List list = new ArrayList();
+//		list.add(new StringBean("Yes"));
+//		list.add(new StringBean("No"));
+//		return list;
+//	}
 }
