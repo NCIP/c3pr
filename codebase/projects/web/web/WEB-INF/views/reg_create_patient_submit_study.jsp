@@ -200,7 +200,7 @@ if (action){
 												<tr>
 													<td class="label"><span class="red">*</span><em></em>Birth
 													Date:</td>
-													<td valign="top">${command.birthDate}</td>
+													<td valign="top">${command.birthDateStr}</td>
 												</tr>
 												<tr>
 													<td class="label"><em></em>Ethnicity:
