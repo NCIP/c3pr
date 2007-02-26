@@ -29,17 +29,17 @@ function updatePage(s){
 
 	document.getElementById("_page").name=s;
 	document.getElementById("_page").value="next";
-	document.getElementById("command").submit();
+	document.getElementById("form").submit();
 }
 
 function validatePage(){
 	return true;
 }
-function fireAction(action, selected){
+function updateAction(action){
+
 	if(validatePage()){
-		document.getElementById("_action").value=action;
-		document.getElementById("_selected").value=selected;
-		document.getElementById("command").submit();
+		document.getElementById("_action").value="action";
+		document.getElementById("form").submit();
 	}
 }
 function clearField(field){
@@ -206,8 +206,9 @@ field.value="";
 			</tr>
 			<tr>
 				<td valign="top" class="contentL"><!-- LEFT CONTENT STARTS HERE -->
-				<form:form method="post">
-					<div><input type="hidden" name="_page" value="2"></div>
+				<form:form name="form" id="form" method="post">
+					<div><input type="hidden" name="_page" value="2">
+					<input type="hidden" name="_action" value="0"></div>
 					<table width="200" border="0" cellspacing="0" cellpadding="0"
 						id="table1">
 						<tr valign="top">
@@ -217,15 +218,9 @@ field.value="";
 								class="heightControl"></td>
 						</tr>
 						<tr align="center" valign="top">
-							<td colspan="2"><strong>First:</strong> ${ command.firstName}
-							&nbsp;&nbsp;&nbsp;<strong>MI:</strong> -&nbsp;&nbsp;&nbsp;<strong>Last:</strong>
+							<td colspan="2"><strong>First Name:</strong> ${ command.firstName}
+							&nbsp;&nbsp;&nbsp;<strong>Last Name:</strong>
 							${command.lastName }</td>
-						</tr>
-						<tr valign="top">
-							<td><img src="images/spacer.gif" width="1" height="1"
-								class="heightControl"></td>
-							<td width="75%"><img src="images/spacer.gif" width="1" height="1"
-								class="heightControl"></td>
 						</tr>
 						<tr valign="top">
 							<td><img src="images/spacer.gif" width="1" height="1"
@@ -237,30 +232,22 @@ field.value="";
 							<td class="label"><span class="red">*</span><em></em>Gender:</td>
 							<td>${command.administrativeGenderCode }</td>
 						</tr>
-						<tr valign="top">
-							<td class="label"><span class="red">*</span><em></em>Primary Id:</td>
-							<td>${command.id }</td>
-						</tr>
-						<tr valign="top">
-							<td class="label"><span class="red">*</span><em></em> Id Source:</td>
-							<td>${command.id }</td>
-						</tr>
 						<tr>
-							<td class="label"><span class="red">*</span><em></em>Id:</td>
-							<td>${command.id }</td>
-						</tr>
-						<tr>
-							<td class="label"><span class="red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</span><em></em>Birth
+							<td class="label"><em></em>Birth
 							Date:</td>
-							<td>${command.birthDate }</td>
+							<td>${command.birthDateStr }</td>
 						</tr>
 						<tr>
-							<td class="label"><span class="red">*</span><em></em>Ethnicity:</td>
+							<td class="label"><em></em>Ethnicity:</td>
 							<td>${command.ethnicGroupCode }</td>
 						</tr>
 						<tr>
-							<td class="label"><span class="red">*</span><em></em>Race(s):</td>
+							<td class="label"><em></em>Race(s):</td>
 							<td>${command.raceCode }</td>
+						</tr>
+						<tr>
+							<td class="label"><span class="red">*</span><em></em>Primary Identifier:</td>
+							<td>${command.primaryIdentifier }</td>
 						</tr>
 					</table>
 					<!-- LEFT CONTENT ENDS HERE --></td>
@@ -270,21 +257,17 @@ field.value="";
 				<table width="100%" border="0" cellspacing="0" cellpadding="0"
 					id="details">
 					<tr>
-						<td height="2" border="0"><b><span class="black">${updateMessageRefData.desc}</span></b></td>
+						<td height="2" border="0"><b><span class="green">${updateMessageRefData.desc}</span></b></td>
 					</tr>
 					<tr>
-						<td width="50%" valign="top" class="contentAreaL">(<span
-							class="red">*</span><em>Required Information </em>)<br>
+						<td align="left" width="50%" border="1" valign="top"
+							class="contentAreaL"><br>
 						<br>
-						<form:form name="subjectIdentifiersForm" method="post">
-							<div><input type="hidden" name="_page" value="2"> <input
-								type="hidden" name="_action" value=""> <input type="hidden"
-								name="_selected" value=""></div>
+						<form name="form2" method="post" action="" id="form1">
+						<table width="700" border="0" cellspacing="0" cellpadding="0"
+							id="table1">
 
-							<table width="700" border="0" cellspacing="0" cellpadding="0"
-								id="table1">
-
-								<tr>
+							<tr>
 									<td width="20%" align="center"><span class="red">*</span><em></em><B>Street
 									Address:</td>
 									<td width="20%" align="center"><span class="red">*</span><em></em><B>City:</td>
@@ -305,20 +288,24 @@ field.value="";
 										path="address.countryCode" /></td>
 
 								</tr>
+							<tr>
+								<td align="center" colspan="3"><!-- action buttons begins -->
+								<table cellpadding="4" cellspacing="0" border="0">
+									<tr>
+										<td colspan=2 valign="top"><br>
+										<br>
+										<a href="javascript:updateAction('update');"><img
+											src="images/b-saveChanges.gif" border="0"
+											alt="Save the Changes"></a>
+									</tr>
+								</table>
+								</td>
+							</tr>
 
+						</table>
+						</form>
 
-								<tr>
-									<td align="center" colspan="3"><!-- action buttons begins -->
-									<table cellpadding="4" cellspacing="0" border="0">
-										<tr>
-											<td><input class="actionButton" type="submit" name="_target2"
-												value="Update Addresses"></td>
-										</tr>
-									</table>
-									</td>
-								</tr>
-							</table>
-						</form:form></td>
+						</td>
 						<td width="50%" valign="top" class="contentAreaR"><strong><strong><strong><a
 							href="#additional"><img src="images/ViewregistrationHistory.gif"
 							alt="View Registration Information" width="140" height="16"
