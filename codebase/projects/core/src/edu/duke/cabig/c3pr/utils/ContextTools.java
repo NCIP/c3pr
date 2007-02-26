@@ -11,7 +11,6 @@ public class ContextTools {
     			 "classpath*:/applicationContext.xml",
     			 "classpath*:/applicationContext-core.xml", 
     			 "classpath*:/applicationContext-configProperties.xml",
-    			 "classpath*:/applicationContext-gridSecurity.xml", 
     			 "classpath*:/applicationContext-esb.xml" 
     	  }); 
      }
