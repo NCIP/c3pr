@@ -1,13 +1,17 @@
 package edu.duke.cabig.c3pr.utils;
 
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.StringTokenizer;
-import java.util.*;
-import java.text.SimpleDateFormat;
 
-public class DateUtil {
+import edu.nwu.bioinformatics.commons.DateUtils;
+
+public class DateUtil extends DateUtils{
     // ========================= CLASS CONSTANTS ============================
 
     // constants to specify display formats for the dates.
@@ -273,12 +277,18 @@ public class DateUtil {
         Date currentDate = new Date();
         return formatter.format(currentDate);
     }
-     public static String getFormattedDate(String formatStr,Date d)
+    public static String getFormattedDate(String formatStr,Date d)
     {
-        
         SimpleDateFormat formatter   = new SimpleDateFormat (formatStr);
         Date currentDate = new Date();
         return formatter.format(d);
     }
+    
+    public static final String formatDate(Date date, String toFormat)
+    	throws ParseException
+    {   
+    	return new SimpleDateFormat(toFormat).format(date);
+    }
+    
     private static String[] months = {"Jan","Feb","March","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
 }
