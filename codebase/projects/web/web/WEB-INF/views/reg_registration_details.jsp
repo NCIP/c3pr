@@ -171,15 +171,16 @@ function updateTargetPage(s){
 
 									<table width="50%" border="0" cellspacing="0" cellpadding="0"
 										id="details">
-										<tr align="center">
+										<tr align="left">
 											<td colspan=2 valign="top"><br>
 											<br>
 											<a href=""><img
-												src="images/b-startOver.gif" alt="Start Over" width="67"
-												height="16" border="0"></a><a href=""
-												onClick="updateTargetPage('checkEligibilityView');return false;"><img
-												src="images/b-continue.gif" alt="Continue" width="59"
-												height="16" border="0"></a></td>
+												src="images/b-startOver.gif" alt="Start Over" border="0"></a></td>
+											<td colspan=2 valign="top"><br>
+											<br>
+											<a href="" onClick="updateTargetPage('checkEligibilityView');return false;"><img
+												src="images/b-continue.gif" alt="Continue" border="0"></a>
+											</td>
 										</tr>
 									</table>
 

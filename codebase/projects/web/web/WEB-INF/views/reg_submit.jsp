@@ -182,7 +182,7 @@ function updateTargetPage(s){
 												<tr>
 													<td width="25%" class="label"><em></em>Birth
 													Date:</td>
-													<td valign="top">${command.participant.birthDate}</td>
+													<td valign="top">${command.participant.birthDateStr}</td>
 												</tr>
 												<tr>
 													<td class="label"><em></em>Ethnicity:
@@ -282,7 +282,7 @@ function updateTargetPage(s){
 												</tr>
 												<tr>
 													<td class="label">IRB Approval Date:</td>
-													<td>${command.studySite.irbApprovalDate}</td>
+													<td>${command.studySite.irbApprovalDateStr}</td>
 												</tr>
 												<tr>
 													<td class="label"><em></em><em></em> Status Code:</td>
@@ -322,7 +322,7 @@ function updateTargetPage(s){
 												<tr>
 													<td class="label"><em></em>Informed
 													Consent Signed Date:</td>
-													<td>${command.informedConsentSignedDate }</td>
+													<td>${command.informedConsentSignedDateStr}</td>
 												</tr>
 											</table>
 											</td>
@@ -390,13 +390,16 @@ function updateTargetPage(s){
 
 									<table width="50%" border="0" cellspacing="0" cellpadding="0"
 										id="details">
-										<tr align="center">
+										<tr align="left">
 											<td colspan=2 valign="top"><br>
 											<br>
 											<a href="/c3pr/"
 												onClick="add();return false;"><img
 												src="images/b-startOver.gif" alt="Start Over" width="67"
-												height="16" border="0"></a><a href="javascript:updateTargetPage('confirmationView')"><img
+												height="16" border="0"></a></td>
+											<td colspan=2 valign="top"><br>
+											<br>
+												<a href="javascript:updateTargetPage('confirmationView')"><img
 												src="images/b-submit.gif" alt="Continue" width="59"
 												height="16" border="0"></a></td>
 										</tr>

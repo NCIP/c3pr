@@ -173,7 +173,7 @@ function submitCaaersPage(){
 												</tr>
 												<tr>
 													<td class="label">Registration Date/Time:</td>
-													<td><%=new java.util.Date()%></td>
+													<td><%= edu.duke.cabig.c3pr.utils.DateUtil.getCurrentDate("MM/dd/yyyy")%></td>
 												</tr>
 												<tr>
 													<td class="label">Site:</td>
@@ -190,7 +190,7 @@ function submitCaaersPage(){
 												<tr>
 													<td class="label">Study Subject Identifier:</td>
 													<td>${command.studyParticipantIdentifier}</td>
-												</tr>											
+												</tr>
 												<tr>
 													<td><img src="images/spacer.gif" width="1" height="1"
 														class="heightControl"></td>

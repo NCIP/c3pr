@@ -330,7 +330,7 @@ function fireAction(action, selectedEpoch, selectedArm){
 					<c:forEach items="${participantAssignments}" var="partAssgn">
 						<tr align="center" class="results">
 						<td>${partAssgn.participant.lastName}</td>
-						<td>${partAssgn.startDate}</td>
+						<td>${partAssgn.startDateStr}</td>
 						<td>${partAssgn.participant.primaryIdentifier}</td>
 						</tr>
 					</c:forEach>

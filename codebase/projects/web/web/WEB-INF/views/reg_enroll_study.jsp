@@ -112,7 +112,7 @@ function submitPage(){
 					class="titleArea">
 					<tr>
 						<!-- TITLE STARTS HERE -->
-						<td width="99%" height="43" valign="middle" id="title">Study
+						<td width="99%" height="30" valign="middle" id="search">Study
 						Search</td>
 
 						<form:form id="searchStudy" name="searchParticipant" method="post">
@@ -123,7 +123,7 @@ function submitPage(){
 									<td class="labels">&nbsp;</td>
 								</tr>
 								<tr>
-									<td class="searchType">Search Study by <form:select
+									<td class="searchType">Search Study By<form:select
 										path="searchType">
 										<form:options items="${searchType}" itemLabel="desc"
 											itemValue="code" />
