@@ -192,11 +192,13 @@ function updateTargetPage(s,action){
 										<tr align="center">
 											<td colspan=2 valign="top"><br>
 											<br>
-											<a href=""
-												onClick="updateTargetPage('randomizeView','save');return false;"><img
-												src="images/b-update.gif" alt="Continue" width="59"
-												height="16" border="0"></a> <a href=""><img
+											 <a href=""><img
 												src="images/b-cancel.gif" alt="Start Over" width="67"
+												height="16" border="0"></a></td>
+											<td colspan=2 valign="top"><br>
+											<br>
+											<a href="" onClick="updateTargetPage('randomizeView','save');return false;"><img
+												src="images/b-update.gif" alt="Continue" width="59"
 												height="16" border="0"></a></td>
 										</tr>
 									</table>
