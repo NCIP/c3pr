@@ -1,11 +1,15 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.text.ParseException;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
+
+import edu.duke.cabig.c3pr.utils.DateUtil;
 
 /**
  * @author Kulasekaran
@@ -20,6 +24,8 @@ public abstract class Person extends AbstractGridIdentifiableDomainObject
 	private String lastName;
 		
 	private Date birthDate;
+	
+	private String birthDateStr;
 		
 	private String administrativeGenderCode;
 	
@@ -85,5 +91,17 @@ public abstract class Person extends AbstractGridIdentifiableDomainObject
 	
 	public void setRaceCode(String raceCode) {
 		this.raceCode = raceCode;
-	}		
+	}	
+	
+	@Transient
+	public String getBirthDateStr() {
+		try {
+			return DateUtil.formatDate(birthDate, "MM/dd/yyyy");
+		}
+		catch(ParseException e){
+			//do nothing
+		}
+		return null;
+	}
+	
 }

@@ -1,24 +1,24 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.FlushMode;
-import javax.persistence.FlushModeType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+
+import edu.duke.cabig.c3pr.utils.DateUtil;
 
 
 /**
@@ -43,7 +43,9 @@ public class StudyParticipantAssignment extends AbstractGridIdentifiableDomainOb
     private String eligibilityWaiverReasonText;
     private Date informedConsentSignedDate;
     private Boolean eligibilityIndicator;
-
+    private String informedConsentSignedDateStr;
+    private String startDateStr;
+    
     
     /// BEAN PROPERTIES
 
@@ -152,7 +154,29 @@ public class StudyParticipantAssignment extends AbstractGridIdentifiableDomainOb
 	public void setEligibilityIndicator(Boolean eligibilityIndicator) {
 		this.eligibilityIndicator = eligibilityIndicator;
 	}
-
+	
+	@Transient
+	public String getInformedConsentSignedDateStr() {
+		try {
+			return DateUtil.formatDate(informedConsentSignedDate, "MM/dd/yyyy");
+		}
+		catch(ParseException e){
+			//do nothing
+		}
+		return null;
+	}
+	
+	@Transient
+	public String getStartDateStr() {
+		try {
+			return DateUtil.formatDate(startDate, "MM/dd/yyyy");
+		}
+		catch(ParseException e){
+			//do nothing
+		}
+		return null;
+	}
+	
 	@OneToMany
     @Cascade({CascadeType.ALL,CascadeType.DELETE_ORPHAN})
     @JoinColumn(name = "SPA_ID")

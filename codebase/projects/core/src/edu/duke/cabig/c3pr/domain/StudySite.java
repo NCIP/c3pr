@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -17,6 +18,8 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+
+import edu.duke.cabig.c3pr.utils.DateUtil;
 
 /**
  * @author Ram Chilukuri, Priyatam
@@ -38,6 +41,8 @@ public class StudySite extends AbstractGridIdentifiableDomainObject implements C
     private String statusCode;
     private Date startDate = Calendar.getInstance().getTime();
     private Date endDate;   
+    private String irbApprovalDateStr;
+    private String startDateStr;
 
     /// LOGIC
 
@@ -136,6 +141,28 @@ public class StudySite extends AbstractGridIdentifiableDomainObject implements C
 		return 0;
 	}
 
+	@Transient
+	public String getIrbApprovalDateStr() {
+		try {
+			return DateUtil.formatDate(irbApprovalDate, "MM/dd/yyyy");
+		}
+		catch(ParseException e){
+			//do nothing
+		}
+		return null;
+	}
+	
+	@Transient
+	public String getStartDateStr() {
+		try {
+			return DateUtil.formatDate(startDate, "MM/dd/yyyy");
+		}
+		catch(ParseException e){
+			//do nothing
+		}
+		return null;
+	}
+	
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (!(obj instanceof StudySite)) return false;
