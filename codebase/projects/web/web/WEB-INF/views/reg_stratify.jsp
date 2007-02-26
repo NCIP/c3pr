@@ -29,7 +29,7 @@ function validatePage(){
 function updateTargetPage(s){
 	if(validatePage()){
 		document.getElementById("nextView").value=s;
-		document.getElementById("stratifyForm").submit();
+		document.stratifyForm.submit();
 	}
 }
 </script>
@@ -79,7 +79,7 @@ function updateTargetPage(s){
 </table>
 <!-- SUB NAV ENDS HERE -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
-	<form:form name="stratifyForm" method="post">
+	<form:form name="stratifyForm"  method="post">
 		<tr>
 			<td class="display">
 			<table width="100%" border="0" cellpadding="0" cellspacing="0">
@@ -145,7 +145,7 @@ function updateTargetPage(s){
 									<!-- LEFT CONTENT STARTS HERE -->
 									<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
 									<!-- RIGHT CONTENT STARTS HERE --> <input type="hidden"
-										name="nextView">
+										name="nextView" id="nextView">
 									<table width="700" border="0" cellspacing="0" cellpadding="0"
 										id="details">
 										<tr>

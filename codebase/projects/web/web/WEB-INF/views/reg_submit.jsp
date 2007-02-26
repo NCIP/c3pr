@@ -144,7 +144,7 @@ function updateTargetPage(s){
 									<!-- LEFT CONTENT STARTS HERE -->
 									<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
 									<!-- RIGHT CONTENT STARTS HERE --> <input type="hidden"
-										name="nextView"> <strong>Step 1. Subject
+										name="nextView" id="nextView"> <strong>Step 1. Subject
 									Information </strong><br>
 									<div class="review">
 									<table width="50%" border="0" cellspacing="0" cellpadding="0"

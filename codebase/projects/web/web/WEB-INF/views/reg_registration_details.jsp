@@ -142,7 +142,7 @@ function updateTargetPage(s){
 									<!-- LEFT CONTENT STARTS HERE -->
 									<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
 									<!-- RIGHT CONTENT STARTS HERE --> <input type=hidden
-										name="nextView" value="next">
+										name="nextView" id="nextView" value="next">
 									<table width="50%" border="0" cellspacing="0" cellpadding="0"
 										id="details">
 										<tr>
@@ -178,7 +178,7 @@ function updateTargetPage(s){
 												src="images/b-startOver.gif" alt="Start Over" border="0"></a></td>
 											<td colspan=2 valign="top"><br>
 											<br>
-											<a href="" onClick="updateTargetPage('checkEligibilityView');return false;"><img
+											<a href="" onClick="updateTargetPage('checkEligibilityView'); return false;"><img
 												src="images/b-continue.gif" alt="Continue" border="0"></a>
 											</td>
 										</tr>

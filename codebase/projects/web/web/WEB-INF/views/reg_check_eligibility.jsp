@@ -164,7 +164,7 @@ function updateTargetPage(s){
 													<td class="label" align=left><span class="red">*</span><em></em>Eligibility
 													Indicator</td>
 													<td class="label"><form:checkbox
-														path="eligibilityIndicator" /></td>
+														path="eligibilityIndicator" id ="eligibilityIndicator"/></td>
 												</tr>
 											</table>
 											</td>
@@ -173,12 +173,15 @@ function updateTargetPage(s){
 
 									<table width="700" border="0" cellspacing="0" cellpadding="0"
 										id="details">
-										<tr align="center">
+										<tr align="left">
 											<td colspan=2 valign="top"><br>
 											<br>
 											<a href=""><img
 												src="images/b-startOver.gif" alt="Start Over" width="67"
-												height="16" border="0"></a><a href="javascript:updateTargetPage('stratifyView');"><img
+												height="16" border="0"></a></td>
+											<td colspan=2 valign="top"><br>
+											<br>
+											<a href="javascript:updateTargetPage('stratifyView');"><img
 												src="images/b-continue.gif" alt="Continue" width="59"
 												height="16" border="0"></a></td>
 										</tr>

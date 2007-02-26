@@ -152,7 +152,7 @@ function updateTargetPage(s,action){
 									<!-- LEFT CONTENT STARTS HERE -->
 									<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
 									<!-- RIGHT CONTENT STARTS HERE --> <input type=hidden
-										name="nextView" value="next"><input type=hidden
+										name="nextView" id="nextView" value="next"><input type=hidden
 										name="actionType" value="">
 									<table width="700" border="0" cellspacing="0" cellpadding="0"
 										id="details">
