@@ -187,16 +187,16 @@ function getPage(s){
 									height="16" border="0" align="absmiddle"></a></td>
 										</tr>
 										<tr>
-											<td class="label"><span class="red">*</span><em></em>Ethnic
-											Group Code</td>
+											<td class="label"><span class="red">*</span><em></em>Ethnicity
+											</td>
 											<td><form:select path="ethnicGroupCode">
 												<form:options items="${ethnicGroupCode}" itemLabel="desc"
 													itemValue="code" />
 											</form:select></td>
 										</tr>
 										<tr>
-											<td class="label"><span class="red">*</span><em></em>Race
-											Code</td>
+											<td class="label"><span class="red">*</span><em></em>Race(s)
+											</td>
 											<td><form:select path="raceCode">
 												<form:options items="${raceCode}" itemLabel="desc"
 													itemValue="code" />
