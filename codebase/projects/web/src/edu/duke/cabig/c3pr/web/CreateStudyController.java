@@ -88,7 +88,7 @@ public class CreateStudyController extends StudyController {
 	protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, 
 			Object command, BindException errors) throws Exception {
 		// Redirect to Search page
-		ModelAndView modelAndView= new ModelAndView(new RedirectView("searchstudy.do"));
+		ModelAndView modelAndView= new ModelAndView(new RedirectView("searchStudy"));
     	return modelAndView;
 	}	
 	
