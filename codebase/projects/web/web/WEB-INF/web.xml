@@ -47,10 +47,25 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>c3pr</servlet-name>
-        <url-pattern>*.do</url-pattern>
+        <url-pattern>/pages/*</url-pattern>
     </servlet-mapping>
     
-    <!--<servlet>
+    <!--  
+    <servlet>
+	  <servlet-name>dwr-invoker</servlet-name>
+	  <display-name>DWR Servlet</display-name>
+	  <servlet-class>uk.ltd.getahead.dwr.DWRServlet</servlet-class>
+	  <init-param>
+	     <param-name>debug</param-name>
+	     <param-value>true</param-value>
+	  </init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>dwr-invoker</servlet-name>
+		<url-pattern>/dwr/*</url-pattern>
+	</servlet-mapping>
+    -->
+   <servlet>
         <servlet-name>public</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
@@ -58,8 +73,7 @@
     <servlet-mapping>
         <servlet-name>public</servlet-name>
         <url-pattern>/public/*</url-pattern>
-    </servlet-mapping>    
-    -->
+    </servlet-mapping>        
     
     <!--
     Checks for presence of grid proxy. If not found, forwards to failureUrl.
@@ -69,11 +83,11 @@
         <filter-class>gov.nih.nci.cabig.ctms.web.sso.GridProxyFilter</filter-class>
         <init-param>
             <param-name>failureUrl</param-name>
-            <param-value>/InvalidLogin.htm</param-value>
+            <param-value>/invalidLogin.jsp</param-value>
         </init-param>
         <init-param>
             <param-name>ignoreUrlPattern</param-name>
-            <param-value>.*\/index.jsp|.*\/login.htm|.*\/InvalidLogin.htm</param-value>
+            <param-value>.*\/index.jsp|.*\/login.htm|.*\/invalidLogin.jsp</param-value>
         </init-param>
         <init-param>
             <param-name>gridProxyRetrievalStrategyBeanName</param-name>
@@ -87,8 +101,18 @@
     
     <filter-mapping>
         <filter-name>GridProxyFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/**</url-pattern>
     </filter-mapping>    
+    
+    <filter>
+        <filter-name>Sitemesh</filter-name>
+        <filter-class>com.opensymphony.module.sitemesh.filter.PageFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>Sitemesh</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
