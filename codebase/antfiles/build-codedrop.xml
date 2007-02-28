@@ -11,9 +11,9 @@
 		<property name="app.name" value="c3prv2"/>
 
 		<tempfile property="temp.dir" suffix="dir"/>
-		<delete file="${temp.dir}"/>
+		<delete dir="${temp.dir}"/>
 		<mkdir dir="${temp.dir}"/>
-
+		<echo>${temp.dir}</echo>
 		<tstamp><format property="tstamp" pattern="yyyyMMdd"/></tstamp>
 		<cvs failonerror="true" dest="${temp.dir}" cvsRsh="${cvs.rsh}" 
 			command="-d:ext:anonymous@cbiocvs2.nci.nih.gov:/share/content/gforge/${app.name} export -r HEAD ${app.name}/codebase"
