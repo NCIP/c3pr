@@ -101,7 +101,7 @@ public abstract class Person extends AbstractGridIdentifiableDomainObject
 		catch(ParseException e){
 			//do nothing
 		}
-		return null;
+		return "";
 	}
 	
 }

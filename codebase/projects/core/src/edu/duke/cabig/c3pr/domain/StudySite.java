@@ -160,7 +160,7 @@ public class StudySite extends AbstractGridIdentifiableDomainObject implements C
 		catch(ParseException e){
 			//do nothing
 		}
-		return null;
+		return "";
 	}
 	
     public boolean equals(Object obj) {

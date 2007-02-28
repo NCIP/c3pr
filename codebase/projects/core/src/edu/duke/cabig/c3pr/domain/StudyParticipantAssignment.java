@@ -174,7 +174,7 @@ public class StudyParticipantAssignment extends AbstractGridIdentifiableDomainOb
 		catch(ParseException e){
 			//do nothing
 		}
-		return null;
+		return "";
 	}
 	
 	@OneToMany
