@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -41,7 +40,8 @@ public class EditParticipantController extends AbstractWizardFormController {
 	private HealthcareSiteDao healthcareSiteDao;
 
 	public EditParticipantController() {
-		 setCommandClass(Participant.class);
+		// setCommandClass(Participant.class);
+
 	}
 
 	@Override
@@ -61,18 +61,17 @@ public class EditParticipantController extends AbstractWizardFormController {
 		refdata.put("identifiersTypeRefData", getIdentifiersList());
 
 		refdata.put("updateMessageRefData", getUpdateMessageList().get(8));
-		if (("action").equals((httpServletRequest
-				.getParameter("_a" +
-						"ction"))) && (page == 0)) {
+		if (("Update Subject").equals((httpServletRequest
+				.getParameter("_target0")))) {
 			refdata.put("updateMessageRefData", getUpdateMessageList().get(0));
-		} else if (("updateAction").equals(httpServletRequest
-				.getParameter("_updateAction")) && (page == 1)) {
+		} else if (("Update Identifiers").equals(httpServletRequest
+				.getParameter("_target1"))) {
 			refdata.put("updateMessageRefData", getUpdateMessageList().get(2));
-		} else if (("action").equals(httpServletRequest
-				.getParameter("_action")) && (page == 2)) {
+		} else if (("Update Addresses").equals(httpServletRequest
+				.getParameter("_target2"))) {
 			refdata.put("updateMessageRefData", getUpdateMessageList().get(4));
-		} else if (("action").equals(httpServletRequest
-				.getParameter("_action"))&& (page == 3)) {
+		} else if (("Update Contact Information").equals(httpServletRequest
+				.getParameter("_target3"))) {
 			refdata.put("updateMessageRefData", getUpdateMessageList().get(6));
 		}
 
@@ -119,14 +118,14 @@ public class EditParticipantController extends AbstractWizardFormController {
 					request.getParameter("_action"), request
 							.getParameter("_selected"));
 		}
-		
-		if ((("action").equals((request.getParameter("_action"))) && (page ==0))
-				|| (("updateAction").equals(request
-						.getParameter("_updateAction"))&& (page ==1))
-				|| (("action").equals(request
-						.getParameter("_action"))&& (page ==2))
-				|| (("action").equals(request
-						.getParameter("_action"))&& (page ==3))) {
+
+		if ((("Update Subject").equals((request.getParameter("target_0"))))
+				|| (("Update Identifiers").equals(request
+						.getParameter("_target1")))
+				|| (("Update Addresses").equals(request
+						.getParameter("_target2")))
+				|| (("Update Contact Information").equals(request
+						.getParameter("_target3")))) {
 			participantDao.save(participant);
 		}
 	}
