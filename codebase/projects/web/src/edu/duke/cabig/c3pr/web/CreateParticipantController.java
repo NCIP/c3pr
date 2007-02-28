@@ -73,14 +73,14 @@ public class CreateParticipantController extends AbstractWizardFormController {
 		//FIXME: small hack
 		if(request.getParameter("url")!=null){
 			if(request.getParameter("studySiteId")!=null){
-				setPages(new String[]{"reg_create_patient_study","reg_create_patient_address_study","reg_create_patient_submit_study"});
+				setPages(new String[]{"registration/reg_create_patient_study","registration/reg_create_patient_address_study","registration/reg_create_patient_submit_study"});
 			}else{
-				setPages(new String[]{"reg_create_patient","reg_create_patient_address","reg_create_patient_submit"});
+				setPages(new String[]{"registration/reg_create_patient","registration/reg_create_patient_address","registration/reg_create_patient_submit"});
 			}
 			request.getSession().setAttribute("url", request.getParameter("url"));
 			request.getSession().setAttribute("studySiteId", request.getParameter("studySiteId"));
 		}else{
-			setPages(new String[]{"participant","participant_address","participant_submit"});
+			setPages(new String[]{"participant/participant","participant/participant_address","participant/participant_submit"});
 			request.getSession().removeAttribute("url");	
 			request.getSession().removeAttribute("studySiteId");
 		}
@@ -132,7 +132,7 @@ public class CreateParticipantController extends AbstractWizardFormController {
 			response.sendRedirect(url);
 			return null;
 		}
-		response.sendRedirect("/c3pr/SearchAndRegister.do");
+		response.sendRedirect("searchParticipant");
 		return null;
 	}	
 	

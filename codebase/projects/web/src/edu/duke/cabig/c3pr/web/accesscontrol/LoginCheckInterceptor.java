@@ -40,7 +40,7 @@ public class LoginCheckInterceptor extends HandlerInterceptorAdapter {
 //        GridLoginContext gridLoginContext = (GridLoginContext)request.getSession().getAttribute("login-context");
     	String proxy = (String)request.getSession().getAttribute("gridProxy");
         if (proxy == null) {
-        	response.sendRedirect("/c3pr/InvalidLogin.htm");
+        	response.sendRedirect("/c3pr/invalidLogin.jsp");
         	return false;
         }
         return true;

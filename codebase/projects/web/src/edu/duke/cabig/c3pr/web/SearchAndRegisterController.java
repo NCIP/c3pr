@@ -78,7 +78,7 @@ public class SearchAndRegisterController extends SimpleFormController {
 			map.put("participants", participants);
 			map.put("studySiteId", request.getParameter("studySiteId"));
 			map.put("searchTypeParticipant", getSearchTypeParticipant());			
-			ModelAndView modelAndView = new ModelAndView("reg_participant_search", map);
+			ModelAndView modelAndView = new ModelAndView("registration/reg_participant_search", map);
 			return modelAndView;
 
 		}
