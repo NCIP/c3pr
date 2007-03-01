@@ -10,10 +10,14 @@
                 <c:forEach items="${sections}" var="section">
                     <c:choose>
                         <c:when test="${section == currentSection}">
-                            <span class="current">${section.displayName}</span><img src="<tags:imageUrl name="topNavR.gif"/>" width="2" height="20" align="absmiddle" class="currentR">
+                           <span class="current">
+                            <a href="<c:url value="${section.mainUrl}"/>">
+                            	${section.displayName}</a></span><img src="<tags:imageUrl name="topNavR.gif"/>" 
+                            	width="2" height="20" align="absmiddle" class="currentR">
                         </c:when>
                         <c:otherwise>
-                            <a href="<c:url value="${section.mainUrl}"/>">${section.displayName}</a><img src="<tags:imageUrl name="topDivider.gif"/>" width="2" height="20" align="absmiddle" class="divider">
+                            <a href="<c:url value="${section.mainUrl}"/>">${section.displayName}</a>
+                            <img src="<tags:imageUrl name="topDivider.gif"/>" width="2" height="20" align="absmiddle" class="divider">
                         </c:otherwise>
                     </c:choose>
                 </c:forEach>
@@ -27,10 +31,18 @@
     <table width="100%" border="0" cellspacing="0" cellpadding="0" id="subNav">
         <tr>
             <td width="99%" valign="middle">
-                <img src="<tags:imageUrl name="arrowRight.gif"/>" width="3" height="5" align="absmiddle">Tasks
+                Tasks
+                <img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="20" align="absmiddle" class="spacer">
                 <c:forEach items="${currentSection.tasks}" var="task">
-                    <img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="20" align="absmiddle" class="spacer">
-                    <a href="<c:url value="${task.url}"/>">${task.displayName}</a>
+                    <c:choose>
+                        <c:when test="${task == currentTask}">
+                            <img src="<tags:imageUrl name="arrowRight.gif"/>" width="3" height="5" align="absmiddle"><a href="<c:url value="${task.url}"/>">${task.displayName}</a>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="<c:url value="${task.url}"/>">${task.displayName}</a>
+                        </c:otherwise>
+                    </c:choose>                                                    
+                    <img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="20" align="absmiddle" class="spacer">               
                 </c:forEach>
             </td>
          </tr>
