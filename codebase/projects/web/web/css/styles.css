@@ -24,6 +24,11 @@ input { background: #EBEFF5; font-family: arial, verdana, sans-serif; font-size:
 #topNav .right { padding: 0px 10px 0px 0px; text-align: right; white-space: nowrap; }
 #topNav .divider {margin: 0px 10px 0px 10px; }
 #topNav .current { height: 30px; background: #FFFFFF; padding: 2px 5px 4px 5px; }
+#topNav .current a:link{ color: #3B73B9; height: 30px; background: #FFFFFF; padding: 2px 5px 4px 5px; }
+#topNav .current a:visited{ color: #3B73B9; height: 30px; background: #FFFFFF; padding: 2px 5px 4px 5px; }
+#topNav .current a:hover{ color: #3B73B9; height: 30px; background: #FFFFFF; padding: 2px 5px 4px 5px; }
+#topNav .current a:active{ color: #3B73B9; height: 30px; background: #FFFFFF; padding: 2px 5px 4px 5px; }
+
 #topNav .currentL { height: 20px; background: #FFFFFF; margin: 0px 0px 0px 10px; }
 #topNav .currentR { height: 20px; background: #FFFFFF; margin: 0px 10px 0px 0px; }
 #topNav a:link { color: #FFFFFF; text-decoration: none; }
