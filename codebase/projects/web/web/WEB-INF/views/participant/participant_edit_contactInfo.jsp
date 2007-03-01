@@ -24,10 +24,19 @@ function OpenWins(target,name,width,height,scrolling){
 function submitSearchPage(){
 	document.getElementById("searchForm").submit();
 }
+function validatePage(){
+	return true;
+}
 function updatePage(s){
 	document.getElementById("_page").name=s;
 	document.getElementById("_page").value="next";
 	document.getElementById("form").submit();
+}
+function updateAction(action){
+	if(validatePage()){
+		document.getElementById("_updateaction").value=action;
+		document.getElementById("form").submit();
+	}
 }
 </script>
 </head>
@@ -46,7 +55,7 @@ function updatePage(s){
 		<!-- <td width="99%" height="43" valign="middle" id="title"></td>  -->
 
 		<td valign="top"><form:form id="searchForm" name="searchForm"
-			method="post" action="/c3pr/participant/searchParticipant">
+			method="post" action="searchParticipant">
 
 			<table width="100%" border="0" cellspacing="0" cellpadding="0"
 				id="search">
@@ -146,60 +155,47 @@ function updatePage(s){
 			<tr>
 				<td valign="top" class="contentL"><!-- LEFT CONTENT STARTS HERE -->
 				<form:form method="post" name="form" id="form">
-					<div><input type="hidden" name="_page" id="_page" value="3"></div>
+					<div><input type="hidden" name="_page" id="_page" value="3"> <input
+								type="hidden" name="_updateaction" id="_updateaction" value=""></div>
 					<table width="200" border="0" cellspacing="0" cellpadding="0"
 						id="table1">
 						<tr valign="top">
-							<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
+							<td><img src="images/spacer.gif" width="1" height="1"
 								class="heightControl"></td>
-							<td width="75%"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
+							<td width="75%"><img src="images/spacer.gif" width="1" height="1"
 								class="heightControl"></td>
 						</tr>
 						<tr align="center" valign="top">
-							<td colspan="2"><strong>First:</strong> ${ command.firstName}
-							&nbsp;&nbsp;&nbsp;<strong>MI:</strong> -&nbsp;&nbsp;&nbsp;<strong>Last:</strong>
+							<td colspan="2"><strong>First Name :</strong> ${ command.firstName}
+							&nbsp;&nbsp;&nbsp;<strong>Last Name:</strong>
 							${command.lastName }</td>
 						</tr>
 						<tr valign="top">
-							<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
+							<td><img src="images/spacer.gif" width="1" height="1"
 								class="heightControl"></td>
-							<td width="75%"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
-								class="heightControl"></td>
-						</tr>
-						<tr valign="top">
-							<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
-								class="heightControl"></td>
-							<td width="75%"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
+							<td width="75%"><img src="images/spacer.gif" width="1" height="1"
 								class="heightControl"></td>
 						</tr>
 						<tr valign="top">
 							<td class="label"><span class="red">*</span><em></em>Gender:</td>
 							<td>${command.administrativeGenderCode }</td>
 						</tr>
-						<tr valign="top">
-							<td class="label"><span class="red">*</span><em></em>Primary Id:</td>
-							<td>${command.id }</td>
-						</tr>
-						<tr valign="top">
-							<td class="label"><span class="red">*</span><em></em> Id Source:</td>
-							<td>${command.id }</td>
-						</tr>
 						<tr>
-							<td class="label"><span class="red">*</span><em></em>Id:</td>
-							<td>${command.id }</td>
-						</tr>
-						<tr>
-							<td class="label"><span class="red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</span><em></em>Birth
+							<td class="label"><em></em>Birth
 							Date:</td>
-							<td>${command.birthDate }</td>
+							<td>${command.birthDateStr }</td>
 						</tr>
 						<tr>
-							<td class="label"><span class="red">*</span><em></em>Ethnicity:</td>
+							<td class="label"><em></em>Ethnicity:</td>
 							<td>${command.ethnicGroupCode }</td>
 						</tr>
 						<tr>
-							<td class="label"><span class="red">*</span><em></em>Race(s):</td>
+							<td class="label"><em></em>Race(s):</td>
 							<td>${command.raceCode }</td>
+						</tr>
+						<tr>
+							<td class="label"><span class="red">*</span><em></em>Primary Identifier:</td>
+							<td>${command.primaryIdentifier }</td>
 						</tr>
 					</table>
 					<!-- LEFT CONTENT ENDS HERE --></td>
@@ -212,8 +208,7 @@ function updatePage(s){
 						<td height="2" border="0"><b><span class="black">${updateMessageRefData.desc}</span></b></td>
 					</tr>
 					<tr>
-						<td width="50%" valign="top" class="contentAreaL">(<span class="red">*</span><em>Required
-						Information </em>)<br>
+						<td width="50%" valign="top" class="contentAreaL"><br>
 						<br>
 						<form name="form2" method="post" action="" id="form1">
 						<table width="700" border="0" cellspacing="0" cellpadding="0"
@@ -241,15 +236,18 @@ function updatePage(s){
 									height="1" class="heightControl"></td>
 							</tr>
 							<tr>
-								<td align="center" colspan="3"><!-- action buttons begins -->
-								<table cellpadding="4" cellspacing="0" border="0">
-									<tr>
-										<td><input class="actionButton" type="submit" name="_target3"
-											value="Update Contact Information"></td>
-									</tr>
-								</table>
-								</td>
-							</tr>
+									<td align="center" colspan="3"><!-- action buttons begins -->
+									<table cellpadding="4" cellspacing="0" border="0">
+										<tr>
+											<td colspan=2 valign="top"><br>
+											<br>
+											<a href="javascript:updateAction('update');"><img
+												src="<tags:imageUrl name="b-saveChanges.gif"/>" border="0"
+												alt="Save the Changes"></a>
+										</tr>
+									</table>
+									</td>
+								</tr>
 
 						</table>
 
@@ -265,7 +263,7 @@ function updatePage(s){
 						<table width="315" border="0" cellspacing="0" cellpadding="0"
 							id="table1">
 							<tr>
-								<td class="label"><span class="red">*</span><em></em>StudyParticipantEnrollmentID:</td>
+								<td class="label"><span class="red">*</span><em></em>Registration ID:</td>
 								<td width="75%" valign="top">${command.studyParticipantAssignments[0].id
 								}</td>
 							</tr>
