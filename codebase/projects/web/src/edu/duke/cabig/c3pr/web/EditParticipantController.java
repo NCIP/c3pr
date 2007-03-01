@@ -60,21 +60,27 @@ public class EditParticipantController extends AbstractWizardFormController {
 		refdata.put("searchType", getSearchType());
 		refdata.put("identifiersTypeRefData", getIdentifiersList());
 
-		refdata.put("updateMessageRefData", getUpdateMessageList().get(8));
-		if (("Update Subject").equals((httpServletRequest
-				.getParameter("_target0")))) {
+		if (("update").equals((httpServletRequest
+				.getParameter("_updateaction"))))
+		switch(page)
+		{
+		case 0:
 			refdata.put("updateMessageRefData", getUpdateMessageList().get(0));
-		} else if (("Update Identifiers").equals(httpServletRequest
-				.getParameter("_target1"))) {
+			break;
+		case 1:
+			refdata.put("updateMessageRefData", getUpdateMessageList().get(1));
+			break;
+		case 2:
 			refdata.put("updateMessageRefData", getUpdateMessageList().get(2));
-		} else if (("Update Addresses").equals(httpServletRequest
-				.getParameter("_target2"))) {
+			break;
+		case 3:
+			refdata.put("updateMessageRefData", getUpdateMessageList().get(3));
+			break;
+		default:
 			refdata.put("updateMessageRefData", getUpdateMessageList().get(4));
-		} else if (("Update Contact Information").equals(httpServletRequest
-				.getParameter("_target3"))) {
-			refdata.put("updateMessageRefData", getUpdateMessageList().get(6));
+				
 		}
-
+	
 		return refdata;
 	}
 
@@ -119,13 +125,8 @@ public class EditParticipantController extends AbstractWizardFormController {
 							.getParameter("_selected"));
 		}
 
-		if ((("Update Subject").equals((request.getParameter("target_0"))))
-				|| (("Update Identifiers").equals(request
-						.getParameter("_target1")))
-				|| (("Update Addresses").equals(request
-						.getParameter("_target2")))
-				|| (("Update Contact Information").equals(request
-						.getParameter("_target3")))) {
+		if (("update").equals(request
+						.getParameter("_updateaction"))) {
 			participantDao.save(participant);
 		}
 	}
@@ -258,27 +259,17 @@ public class EditParticipantController extends AbstractWizardFormController {
 		List<LOV> col = new ArrayList<LOV>();
 
 		col.add(new LOV("UpdatedDetailsSuccessMessage",
-				"The Subject's Details are updated successfully"));
-		col
-				.add(new LOV("UpdatedDetailsFailureMessage",
-						"Sorry, failed to update Subject's Details, Please Try Again!"));
+				"The Subject's Details are updated successfully!"));
 		col.add(new LOV("UpdatedIdentifiersSuccessMessage",
-				"The Subject's Identifiers are updated successfully"));
-		col
-				.add(new LOV("UpdatedIdentifiersFailureMessage",
-						"Sorry, failed to update Subject's Identifiers, Please Try Again!"));
+				"The Subject's Identifiers are updated successfully!"));
 		col.add(new LOV("UpdatedAddressSuccessMessage",
-				"The Subject's Address is updated successfully"));
-		col
-				.add(new LOV("UpdatedAddressFailureMessage",
-						"Sorry, failed to update subject's Address, Please Try Again!"));
+				"The Subject's Address is updated successfully!"));
 		col.add(new LOV("UpdatedContactInfoSuccessMessage",
-				"The Subject's Contact Information is updated successfully"));
+				"The Subject's Contact Information is updated successfully!"));
 		col
 				.add(new LOV("UpdatedContactInfoFailureMessage",
-						"Sorry, failed to update Subject's Contact Information, Please Try Again!"));
-		col.add(new LOV("", ""));
-
+						"Sorry, failed to save changes, please try again!"));
+		
 		return col;
 	}
 
