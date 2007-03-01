@@ -196,8 +196,8 @@ function updateTargetPage(target){
 									<td>${studySite.site.name}</td>
 									<td>${studySite.statusCode}</td>
 									<td>${studySite.roleCode}</td>
-									<td>${studySite.startDate}</td>
-									<td>${studySite.irbApprovalDate}</td>
+									<td>${studySite.startDateStr}</td>
+									<td>${studySite.irbApprovalDateStr}</td>
 								</tr>
 								</c:forEach>
 							</table>
