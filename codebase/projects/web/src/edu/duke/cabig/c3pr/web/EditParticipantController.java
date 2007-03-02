@@ -25,6 +25,8 @@ import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
+import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 
 /**
@@ -39,9 +41,10 @@ public class EditParticipantController extends AbstractWizardFormController {
 
 	private HealthcareSiteDao healthcareSiteDao;
 
-	public EditParticipantController() {
-		// setCommandClass(Participant.class);
+	protected ConfigurationProperty configurationProperty;
 
+	public EditParticipantController() {
+		setCommandClass(Participant.class);
 	}
 
 	@Override
@@ -51,36 +54,40 @@ public class EditParticipantController extends AbstractWizardFormController {
 		// an LOV this will be
 		// replaced with LOVDao to get the static data from individual tables
 		Map<String, Object> refdata = new HashMap<String, Object>();
-		refdata.put("source", getSourceList());
-		refdata.put("administrativeGenderCode",
-				getAdministrativeGenderCodeList());
-		refdata.put("ethnicGroupCode", getEthnicGroupCodeList());
-		refdata.put("raceCode", getRaceCodeList());
-		refdata.put("healthcareSite", healthcareSiteDao.getAll());
-		refdata.put("searchType", getSearchType());
-		refdata.put("identifiersTypeRefData", getIdentifiersList());
+		Map<String, List<Lov>> configMap = configurationProperty.getMap();
+		refdata.put("administrativeGenderCode", configMap
+				.get("administrativeGenderCode"));
+		refdata.put("ethnicGroupCode", configMap.get("ethnicGroupCode"));
+		refdata.put("raceCode", configMap.get("raceCode"));
+		refdata.put("source", healthcareSiteDao.getAll());
+		refdata.put("searchType", configMap.get("participantSearchType"));
+		refdata.put("identifiersTypeRefData", configMap.get("identifiersType"));
 
-		if (("update").equals((httpServletRequest
-				.getParameter("_updateaction"))))
-		switch(page)
-		{
-		case 0:
-			refdata.put("updateMessageRefData", getUpdateMessageList().get(0));
-			break;
-		case 1:
-			refdata.put("updateMessageRefData", getUpdateMessageList().get(1));
-			break;
-		case 2:
-			refdata.put("updateMessageRefData", getUpdateMessageList().get(2));
-			break;
-		case 3:
-			refdata.put("updateMessageRefData", getUpdateMessageList().get(3));
-			break;
-		default:
-			refdata.put("updateMessageRefData", getUpdateMessageList().get(4));
-				
-		}
-	
+		if (("update")
+				.equals((httpServletRequest.getParameter("_updateaction"))))
+			switch (page) {
+			case 0:
+				refdata.put("updateMessageRefData", configMap.get(
+						"editParticipantMessages").get(0));
+				break;
+			case 1:
+				refdata.put("updateMessageRefData", configMap.get(
+						"editParticipantMessages").get(1));
+				break;
+			case 2:
+				refdata.put("updateMessageRefData", configMap.get(
+						"editParticipantMessages").get(2));
+				break;
+			case 3:
+				refdata.put("updateMessageRefData", configMap.get(
+						"editParticipantMessages").get(3));
+				break;
+			default:
+				refdata.put("updateMessageRefData", configMap.get(
+						"editParticipantMessages").get(4));
+
+			}
+
 		return refdata;
 	}
 
@@ -98,7 +105,7 @@ public class EditParticipantController extends AbstractWizardFormController {
 			System.out.println(" Request URl  is:"
 					+ request.getRequestURL().toString());
 			participant = participantDao.getById(Integer.parseInt(request
-					.getParameter("participantId")),true);
+					.getParameter("participantId")), true);
 			System.out.println(" Participant's ID is:" + participant.getId());
 		}
 
@@ -125,8 +132,7 @@ public class EditParticipantController extends AbstractWizardFormController {
 							.getParameter("_selected"));
 		}
 
-		if (("update").equals(request
-						.getParameter("_updateaction"))) {
+		if (("update").equals(request.getParameter("_updateaction"))) {
 			participantDao.save(participant);
 		}
 	}
@@ -192,87 +198,6 @@ public class EditParticipantController extends AbstractWizardFormController {
 		return col;
 	}
 
-	private List<LOV> getIdentifiersList() {
-		List<LOV> col = new ArrayList<LOV>();
-
-		col.add(new LOV("Protocol Authority", "Protocol Authority Identifier"));
-		col.add(new LOV("Co-ordinating Center", "Co-ordinating Center"));
-		col.add(new LOV("Site", "Site"));
-		col.add(new LOV("Site IRB", "Site IRB"));
-
-		return col;
-	}
-
-	private List<LOV> getSearchType() {
-		List<LOV> col = new ArrayList<LOV>();
-		LOV lov1 = new LOV("N", "Last Name");
-		LOV lov2 = new LOV("Identifier", "Identifier");
-
-		col.add(lov1);
-		col.add(lov2);
-		return col;
-	}
-
-	private List<LOV> getRaceCodeList() {
-		List<LOV> col = new ArrayList<LOV>();
-
-		col.add(new LOV("-", "--"));
-		col.add(new LOV("Asian", "Asian"));
-		col.add(new LOV("White", "White"));
-		col.add(new LOV("Black or African American",
-				"Black or African American"));
-		col.add(new LOV("American Indian or Alaska Native",
-				"American Indian or Alaska Native"));
-		col.add(new LOV("Native Hawaiian or Pacific Islander",
-				"Native Hawaiian or other Pacific Islander"));
-		col.add(new LOV("Not Reported", "Not Reported"));
-		col.add(new LOV("Unknown", "Unknown"));
-
-		return col;
-	}
-
-	private List<LOV> getEthnicGroupCodeList() {
-		List<LOV> col = new ArrayList<LOV>();
-
-		col.add(new LOV("-", "--"));
-		col.add(new LOV("Hispanic or Latino", "Hispanic or Latino"));
-		col.add(new LOV("Non Hispanic or Latino", "Non Hispanic or Latino"));
-		col.add(new LOV("Not Reported", "Not Reported"));
-		col.add(new LOV("Unknown", "Unknown"));
-
-		return col;
-	}
-
-	private List<LOV> getAdministrativeGenderCodeList() {
-		List<LOV> col = new ArrayList<LOV>();
-
-		col.add(new LOV("-", "--"));
-		col.add(new LOV("Male", "Male"));
-		col.add(new LOV("Female", "Female"));
-		col.add(new LOV("Not Reported", "Not Reported"));
-		col.add(new LOV("Unknown", "Unknown"));
-
-		return col;
-	}
-
-	private List<LOV> getUpdateMessageList() {
-		List<LOV> col = new ArrayList<LOV>();
-
-		col.add(new LOV("UpdatedDetailsSuccessMessage",
-				"The Subject's Details are updated successfully!"));
-		col.add(new LOV("UpdatedIdentifiersSuccessMessage",
-				"The Subject's Identifiers are updated successfully!"));
-		col.add(new LOV("UpdatedAddressSuccessMessage",
-				"The Subject's Address is updated successfully!"));
-		col.add(new LOV("UpdatedContactInfoSuccessMessage",
-				"The Subject's Contact Information is updated successfully!"));
-		col
-				.add(new LOV("UpdatedContactInfoFailureMessage",
-						"Sorry, failed to save changes, please try again!"));
-		
-		return col;
-	}
-
 	public HealthcareSiteDao getHealthcareSiteDao() {
 		return healthcareSiteDao;
 	}
@@ -287,5 +212,14 @@ public class EditParticipantController extends AbstractWizardFormController {
 
 	public void setParticipantDao(ParticipantDao participantDao) {
 		this.participantDao = participantDao;
+	}
+
+	public ConfigurationProperty getConfigurationProperty() {
+		return configurationProperty;
+	}
+
+	public void setConfigurationProperty(
+			ConfigurationProperty configurationProperty) {
+		this.configurationProperty = configurationProperty;
 	}
 }
