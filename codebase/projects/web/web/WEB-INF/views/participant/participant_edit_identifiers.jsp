@@ -181,20 +181,20 @@ field.value="";
 					<table width="200" border="0" cellspacing="0" cellpadding="0"
 						id="table1">
 						<tr valign="top">
-							<td><img src="images/spacer.gif" width="1" height="1"
+							<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
 								class="heightControl"></td>
-							<td width="75%"><img src="images/spacer.gif" width="1" height="1"
+							<td width="75%"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
 								class="heightControl"></td>
 						</tr>
 						<tr align="center" valign="top">
-							<td colspan="2"><strong>First Name :</strong> ${
-							command.firstName} &nbsp;&nbsp;&nbsp;<strong>Last Name:</strong>
+							<td colspan="2"><strong>First Name :</strong> ${ command.firstName}
+							&nbsp;&nbsp;&nbsp;<strong>Last Name:</strong>
 							${command.lastName }</td>
 						</tr>
 						<tr valign="top">
-							<td><img src="images/spacer.gif" width="1" height="1"
+							<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
 								class="heightControl"></td>
-							<td width="75%"><img src="images/spacer.gif" width="1" height="1"
+							<td width="75%"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
 								class="heightControl"></td>
 						</tr>
 						<tr valign="top">
@@ -202,7 +202,8 @@ field.value="";
 							<td>${command.administrativeGenderCode }</td>
 						</tr>
 						<tr>
-							<td class="label"><em></em>Birth Date:</td>
+							<td class="label"><em></em>Birth
+							Date:</td>
 							<td>${command.birthDateStr }</td>
 						</tr>
 						<tr>
@@ -214,8 +215,7 @@ field.value="";
 							<td>${command.raceCode }</td>
 						</tr>
 						<tr>
-							<td class="label"><span class="red">*</span><em></em>Primary
-							Identifier:</td>
+							<td class="label"><span class="red">*</span><em></em>Primary Identifier:</td>
 							<td>${command.primaryIdentifier }</td>
 						</tr>
 					</table>

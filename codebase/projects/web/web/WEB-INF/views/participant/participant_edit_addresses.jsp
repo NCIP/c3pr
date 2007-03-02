@@ -172,9 +172,9 @@ field.value="";
 					<table width="200" border="0" cellspacing="0" cellpadding="0"
 						id="table1">
 						<tr valign="top">
-							<td><img src="images/spacer.gif" width="1" height="1"
+							<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
 								class="heightControl"></td>
-							<td width="75%"><img src="images/spacer.gif" width="1" height="1"
+							<td width="75%"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
 								class="heightControl"></td>
 						</tr>
 						<tr align="center" valign="top">
@@ -183,9 +183,9 @@ field.value="";
 							${command.lastName }</td>
 						</tr>
 						<tr valign="top">
-							<td><img src="images/spacer.gif" width="1" height="1"
+							<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
 								class="heightControl"></td>
-							<td width="75%"><img src="images/spacer.gif" width="1" height="1"
+							<td width="75%"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
 								class="heightControl"></td>
 						</tr>
 						<tr valign="top">
