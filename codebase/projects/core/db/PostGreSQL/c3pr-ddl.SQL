@@ -1,3 +1,32 @@
+drop table scheduled_arms;
+drop table epochs cascade;
+drop table study_participant_assignments cascade;
+drop table healthcare_sites cascade;
+drop table study_investigators cascade;
+drop table study_sites cascade;
+drop table studies cascade;
+drop table investigators cascade;
+drop table addresses cascade;
+drop table participants cascade;
+drop table hc_site_investigators cascade;
+drop table arms cascade;
+drop table identifiers cascade;
+
+drop SEQUENCE IDENTIFIERS_ID_seq ;
+drop SEQUENCE ARMS_ID_seq ;
+drop SEQUENCE STUDY_PARTICIPANT_ASSIG_ID_seq ;
+drop SEQUENCE ADDRESSES_ID_seq ;
+drop SEQUENCE EPOCHS_ID_seq ;
+drop SEQUENCE HC_SITE_INVESTIGATORS_ID_seq ;
+drop SEQUENCE HEALTHCARE_SITES_ID_seq ;
+drop SEQUENCE INVESTIGATORS_ID_seq ;
+drop SEQUENCE PARTICIPANTS_ID_seq ;
+drop SEQUENCE SCHEDULED_ARMS_ID_seq ;
+drop SEQUENCE STUDIES_ID_seq ;
+drop SEQUENCE STUDY_INVESTIGATORS_ID_seq ;
+drop SEQUENCE STUDY_SITES_ID_seq;
+
+
 CREATE SEQUENCE IDENTIFIERS_ID_seq INCREMENT 1 START 1 ;
 
 CREATE TABLE IDENTIFIERS ( 
@@ -124,7 +153,7 @@ CREATE TABLE STUDIES (
 	RANDOMIZED_INDICATOR boolean,
 	SHORT_TITLE_TEXT varchar(200),
 	SPONSOR_CODE varchar(200) NOT NULL,
-	TARGET_ACCRUAL_NUMBER decimal(4,2),
+	TARGET_ACCRUAL_NUMBER decimal(8,2),
 	TYPE varchar(50) NOT NULL,
 	DESCRIPTION_TEXT varchar(2000),
 	PRECIS_TEXT varchar(200),
