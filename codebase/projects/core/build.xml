@@ -164,11 +164,6 @@
     <target name="jar" depends="compile" description="Builds the Jar Files">
         <mkdir dir="${jar.dir}"/>
         <jar jarfile="${project.jarfile}" basedir="${classes.dir}">
-            <fileset dir="${src.dir}">
-                <exclude name="**/*.xml"/>
-                <exclude name="**/*.properties"/>
-                <exclude name="**/*.dct"/>
-            </fileset>
             <manifest>
                 <attribute name="Built-By" value="${user.name}"/>
                 <attribute name="Main-Class" value="${main.class}"/>
