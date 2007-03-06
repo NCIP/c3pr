@@ -3,26 +3,37 @@
 <!-- ======================================================================= -->
 <project name="c3pr-2.0-web-test" basedir=".">
 
-	<property name="test.dir" location="${basedir}/test"/>
-	<property name="test.logs.dir" location="${test.dir}/logs"/>
-	<property name="junit.results.dir" value="${test.logs.dir}/junit"/>
+	<property name="test.dir" location="${basedir}/test" />
+	<property name="test.logs.dir" location="${test.dir}/logs" />
+	<property name="junit.results.dir" value="${test.logs.dir}/junit" />
+	<property name="core.src.dir" value="../core/src/" />
+	<property name="test.classes.dir" location="${basedir}/build/classes-test" />
+
 
 	<!-- call the test target for each project and aggregates the log results  -->
-	<target name="test" description="Runs the tests">
-		<property name="cobertura.home" location="../../share/cobertura-1.8"/>
-		<property name="testcoverage.datafile" location="${test.logs.dir}/web.ser"/>
-		
-		<mkdir dir="${junit.results.dir}"/>
+	<target name="prepare-tests">
+		<tstamp />
+		<copy todir="${test.classes.dir}">
+			<fileset dir="${core.src.dir}">
+				<include name="applicationContext-configProperties.xml" />
+			</fileset>
+		</copy>
+	</target>
+	<target name="test" depends="prepare-tests" description="Runs the tests">
+		<property name="cobertura.home" location="../../share/cobertura-1.8" />
+		<property name="testcoverage.datafile" location="${test.logs.dir}/web.ser" />
+
+		<mkdir dir="${junit.results.dir}" />
 		<junit dir="${basedir}" printsummary="yes" haltonfailure="true" showoutput="true" fork="yes">
-			<classpath refid="test.classpath"/>
+			<classpath refid="test.classpath" />
 			<classpath>
-			    <fileset dir="${cobertura.home}">
-			        <include name="cobertura.jar" />
-			        <include name="lib/**/*.jar" />
-			    </fileset>
+				<fileset dir="${cobertura.home}">
+					<include name="cobertura.jar" />
+					<include name="lib/**/*.jar" />
+				</fileset>
 			</classpath>
 
-			<sysproperty key="basedir" value="${basedir}"/>
+			<sysproperty key="basedir" value="${basedir}" />
 			<sysproperty key="net.sourceforge.cobertura.datafile" value="${testcoverage.datafile}" />
 
 			<formatter type="xml" usefile="true" />
@@ -30,10 +41,10 @@
 
 			<batchtest fork="yes" todir="${junit.results.dir}">
 				<fileset dir="${test.src.dir}">
-					<include name="**/*TestCase.java"/>
-					<include name="**/*Test.java"/>
-					<exclude name="**/ControllerTestCase.java"/>
-					<exclude name="**/WebTestCase.java"/>
+					<include name="**/*TestCase.java" />
+					<include name="**/*Test.java" />
+					<exclude name="**/ControllerTestCase.java" />
+					<exclude name="**/WebTestCase.java" />
 				</fileset>
 			</batchtest>
 		</junit>
