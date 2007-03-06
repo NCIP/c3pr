@@ -20,7 +20,6 @@ import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.ContextTools;
 import edu.duke.cabig.c3pr.utils.Lov;
 
-
 /**
  * @author Ramakrishna
  */
@@ -75,7 +74,7 @@ public class CreateParticipantControllerTest extends ControllerTestCase {
 	public void testViewOnGet() throws Exception {
 		request.setMethod("GET");
 		ModelAndView mv = controller.handleRequest(request, response);
-		assertEquals("participant", mv.getViewName());
+		assertEquals("participant/participant", mv.getViewName());
 	}
 
 	public void testViewOnGoodSubmit() throws Exception {
@@ -88,7 +87,7 @@ public class CreateParticipantControllerTest extends ControllerTestCase {
 		request.setParameter("_target1", "");
 
 		ModelAndView mv = controller.handleRequest(request, response);
-		assertEquals("participant", mv.getViewName());
+		assertEquals("participant/participant", mv.getViewName());
 
 	}
 

@@ -15,8 +15,9 @@ import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.ContextTools;
-import edu.duke.cabig.c3pr.web.EditParticipantController.LOV;
+import edu.duke.cabig.c3pr.utils.Lov;
 import static org.easymock.classextension.EasyMock.expect;
 
 /**
@@ -31,6 +32,8 @@ public class EditParticipantControllerTest extends ControllerTestCase {
 
 	private HealthCareSiteDaoMock healthcareSiteDao;
 
+	private ConfigurationProperty configurationProperty;
+
 	private ApplicationContext context;
 
 	protected void setUp() throws Exception {
@@ -40,15 +43,20 @@ public class EditParticipantControllerTest extends ControllerTestCase {
 		controller.setParticipantDao(participantDao);
 		healthcareSiteDao = registerMockFor(HealthCareSiteDaoMock.class);
 		controller.setHealthcareSiteDao(healthcareSiteDao);
+		configurationProperty = registerMockFor(ConfigurationProperty.class);
+		controller.setConfigurationProperty(new ConfigurationProperty());
+		configurationProperty = (ConfigurationProperty) context
+				.getBean("configurationProperty");
 	}
 
 	public void testReferenceData() throws Exception {
+		controller.setConfigurationProperty(configurationProperty);
 		Map<String, Object> refdata = controller.referenceData(request, 2);
-		List<LOV> races = (List<LOV>) refdata.get("raceCode");
-		Iterator<LOV> genderIter = races.iterator();
-		LOV race;
-		while (genderIter.hasNext()) {
-			race = genderIter.next();
+		List<Lov> races = (List<Lov>) refdata.get("raceCode");
+		Iterator<Lov> racesIter = races.iterator();
+		Lov race;
+		while (racesIter.hasNext()) {
+			race = racesIter.next();
 			if (race.getCode() == "White") {
 				assertEquals("RaceCodes missing or wrong", "White", race
 						.getDesc());
