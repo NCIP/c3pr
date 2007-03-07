@@ -156,7 +156,7 @@ public class RegisterController extends AbstractWizardFormController {
 			}
 			if (participantDao != null) {
 				participant = participantDao.getById(Integer.parseInt(request
-						.getParameter("participantId")));
+						.getParameter("participantId")),true);
 				if (logger.isDebugEnabled()) {
 					logger
 							.debug("formBackingObject(HttpServletRequest) - First Name = " + participant.getFirstName()); //$NON-NLS-1$
