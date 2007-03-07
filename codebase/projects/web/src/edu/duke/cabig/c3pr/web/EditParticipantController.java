@@ -61,7 +61,7 @@ public class EditParticipantController extends AbstractWizardFormController {
 		refdata.put("raceCode", configMap.get("raceCode"));
 		refdata.put("source", healthcareSiteDao.getAll());
 		refdata.put("searchType", configMap.get("participantSearchType"));
-		refdata.put("identifiersTypeRefData", configMap.get("identifiersType"));
+		refdata.put("identifiersTypeRefData", configMap.get("participantIdentifiersType"));
 
 		if (("update")
 				.equals((httpServletRequest.getParameter("_updateaction"))))
