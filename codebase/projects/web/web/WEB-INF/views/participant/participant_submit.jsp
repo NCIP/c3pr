@@ -1,4 +1,5 @@
-<%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
+<%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator"
+	prefix="decorator"%>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -54,19 +55,21 @@ if (action){
 							class="tabs">
 							<tr>
 								<td width="100%" id="tabDisplay"><span class="tab"><img
-									src="<tags:imageUrl name="tabGrayL.gif"/>" width="3" height="16"
-									align="absmiddle"> 1. <a href="participant_add.htm">Subject
-								Information </a><img src="<tags:imageUrl name="tabGrayR.gif"/>" width="3" height="16"
-									align="absmiddle"><img src="<tags:imageUrl name="tabGrayL.gif"/>"
-									width="3" height="16" align="absmiddle"> 2. <a
+									src="<tags:imageUrl name="tabGrayL.gif"/>" width="3"
+									height="16" align="absmiddle"> 1. <a href="participant_add.htm">Subject
+								Information </a><img src="<tags:imageUrl name="tabGrayR.gif"/>"
+									width="3" height="16" align="absmiddle"><img
+									src="<tags:imageUrl name="tabGrayL.gif"/>" width="3"
+									height="16" align="absmiddle"> 2. <a
 									href="participant_address.htm">Address Information</a> <img
-									src="<tags:imageUrl name="tabGrayR.gif"/>" width="3" height="16"
-									align="absmiddle"></span><span class="current"></span><span
-									class="current"><img src="<tags:imageUrl name="tabGrayL.gif"/>" width="3"
-									height="16" align="absmiddle"> 3. Review and Submit <img
-									src="<tags:imageUrl name="tabGrayR.gif"/>" width="3" height="16"
-									align="absmiddle"></span></td>
-								<td><img src="<tags:imageUrl name="spacer.gif"/>" width="7" height="1"></td>
+									src="<tags:imageUrl name="tabGrayR.gif"/>" width="3"
+									height="16" align="absmiddle"></span><span class="current"></span><span
+									class="current"><img src="<tags:imageUrl name="tabGrayL.gif"/>"
+									width="3" height="16" align="absmiddle"> 3. Review and Submit <img
+									src="<tags:imageUrl name="tabGrayR.gif"/>" width="3"
+									height="16" align="absmiddle"></span></td>
+								<td><img src="<tags:imageUrl name="spacer.gif"/>" width="7"
+									height="1"></td>
 							</tr>
 							<tr>
 								<td colspan="2" class="tabBotL"><img
@@ -91,10 +94,10 @@ if (action){
 									<table width="308" border="0" cellspacing="0" cellpadding="0"
 										id="table1">
 										<tr>
-											<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
-												class="heightControl"></td>
-											<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
-												class="heightControl"></td>
+											<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+												height="1" class="heightControl"></td>
+											<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+												height="1" class="heightControl"></td>
 										</tr>
 										<tr>
 											<td class="label"><span class="red">*</span><em></em>First
@@ -110,6 +113,11 @@ if (action){
 											<td class="label"><span class="red">*</span><em></em>Gender:
 											</td>
 											<td>${command.administrativeGenderCode}</td>
+										</tr>
+										<tr>
+											<td class="label"><span class="red">*</span><em></em>Subject
+											MRN:</td>
+											<td>${command.primaryIdentifier }</td>
 										</tr>
 									</table>
 									</td>
@@ -134,8 +142,9 @@ if (action){
 									</td>
 								</tr>
 							</table>
-							<a href="reg_enroll_patient.htm"><img src="<tags:imageUrl name="b-edit.gif"/>"
-								alt="Edit" width="39" height="16" border="0"></a>
+							<a href="reg_enroll_patient.htm"><img
+								src="<tags:imageUrl name="b-edit.gif"/>" alt="Edit" width="39"
+								height="16" border="0"></a>
 
 							<hr align="left" width="95%">
 							<strong><br>
@@ -170,8 +179,8 @@ if (action){
 								</tr>
 							</table>
 							<a href="reg_enroll_patient_address.htm"><img
-								src="<tags:imageUrl name="b-edit.gif"/>" alt="Edit" width="39" height="16"
-								border="0"></a>
+								src="<tags:imageUrl name="b-edit.gif"/>" alt="Edit" width="39"
+								height="16" border="0"></a>
 
 							<table width="700" border="0" cellspacing="0" cellpadding="0"
 								id="details">
@@ -180,9 +189,10 @@ if (action){
 									<table cellpadding="4" cellspacing="0" border="0">
 										<tr>
 											<td><input type="image" name="_target1"
-												src="<tags:imageUrl name="b-prev.gif"/>" border="0" alt="goto previous page">
-											<input type="image" name="_finish" src="<tags:imageUrl name="b-submit.gif"/>"
-												border="0" alt="continue to next page"></td>
+												src="<tags:imageUrl name="b-prev.gif"/>" border="0"
+												alt="goto previous page"> <input type="image" name="_finish"
+												src="<tags:imageUrl name="b-submit.gif"/>" border="0"
+												alt="continue to next page"></td>
 										</tr>
 									</table>
 									</td>
