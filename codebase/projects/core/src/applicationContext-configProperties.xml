@@ -182,7 +182,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                     </list>
                 </entry>
                 
-                  <!-- codes for Identifiers -->
+                  <!-- codes for Study Identifiers -->
                 
                 <entry key="identifiersSource">
                     <list>
@@ -369,6 +369,36 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                         </bean>
                      </list>
                 </entry> 
+                 <!-- codes for Participant Identifiers -->
+                                               
+                <entry key="participantIdentifiersType">
+                    <list>
+                    	<bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="LocalIdentifier" />
+                            <property name="desc" value="MRN" />
+                       </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="PA" />
+                            <property name="desc" value="Protocol Authority Identifier" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="CC" />
+                            <property name="desc" value="Co-ordinating Center Identifier" />
+ 			           </bean>
+                       <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="NCI" />
+                            <property name="desc" value="ClinicalTrials.gov Identifier" />
+                       </bean>  
+                       <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="GR" />
+                            <property name="desc" value="Grid Identifier" />
+                       </bean>                      
+                       <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="C3D" />
+                            <property name="desc" value="C3D Identifier" />
+                       </bean> 
+                    </list>
+                </entry>
                 <entry key="editParticipantMessages">
                     <list>
                       	<bean class="edu.duke.cabig.c3pr.utils.Lov">
