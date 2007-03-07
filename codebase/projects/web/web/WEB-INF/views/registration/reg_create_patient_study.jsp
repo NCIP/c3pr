@@ -289,8 +289,11 @@ function submitPage(){
 
 										<c:forEach var="index" begin="0" end="4">
 											<tr>
-												<td align="center"><form:input
-													path="identifiers[${index}].type" /></td>
+												<td align="center"><form:select
+													path="identifiers[${index}].type">
+													<form:options items="${identifiersTypeRefData}"
+														itemLabel="desc" itemValue="code" />
+												</form:select></td>
 												<td align="center"><form:input
 													path="identifiers[${index}].value" /></td>
 												<td align="center"><form:select
