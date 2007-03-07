@@ -18,12 +18,8 @@ function navRollOver(obj, state) {
 function getPage(s){
 	parent.window.location="reg_patient_search.htm";
 }
-function accessApp(url,app,targetWindow){
-//	alert("in");
-	if(url=="")
-		document.caaersForm.action="/"+app;
-	else
-		document.caaersForm.action=url+"/"+app;
+function accessApp(url,targetWindow){
+	document.caaersForm.action=url;
 	document.caaersForm.target=targetWindow;
 	document.caaersForm.submit();
 }
@@ -128,7 +124,23 @@ function submitCaaersPage(){
 														class="heightControl"></td>
 												</tr>
 												<tr>
-													<td class="label">Registration Date/Time:</td>
+													<td class="label">Study Primary Identifier:</td>
+													<td>${command.studySite.site.primaryIdentifier}</td>
+												</tr>
+												<tr>
+													<td class="label">Study Short Title:</td>
+													<td valign="top">${command.studySite.study.shortTitleText}</td>
+												</tr>
+												<tr>
+													<td class="label">Subject MRN:</td>
+													<td>${command.participant.primaryIdentifier}</td>
+												</tr>
+												<tr>
+													<td class="label">Study Subject Identifier:</td>
+													<td>${command.studyParticipantIdentifier}</td>
+												</tr>
+												<tr>
+													<td class="label">Registration Date:</td>
 													<td><%= edu.duke.cabig.c3pr.utils.DateUtil.getCurrentDate("MM/dd/yyyy")%></td>
 												</tr>
 												<tr>
@@ -138,19 +150,7 @@ function submitCaaersPage(){
 												<tr>
 													<td class="label">Investigator:</td>
 													<td></td>
-												</tr>
-												<tr>
-													<td class="label">Study Short Title:</td>
-													<td valign="top">${command.studySite.study.shortTitleText}</td>
-												</tr>
-												<tr>
-													<td class="label">Study Subject Identifier:</td>
-													<td>${command.studyParticipantIdentifier}</td>
-												</tr>
-												<tr>
-													<td class="label">Subject MRN Num:</td>
-													<td>${command.studySite.study.primaryIdentifier}</td>
-												</tr>
+												</tr>																																				
 												<tr>
 													<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
 														class="heightControl"></td>
@@ -177,12 +177,29 @@ function submitCaaersPage(){
 													<b>Adverse Event Reporting</a> </b></td>
 												</tr>
 												<tr>
+													<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
+														class="heightControl"></td>
+													<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
+														class="heightControl"></td>
+												</tr>
+												<tr>
 													<td class="label" align="left"><a
 														href="javascript:accessApp('http://10.10.10.2:8041','studycalendar/pages/schedule?assignment=${command.gridId }','_psc');">
 													<b>Study Calendar</a></b></td>
 												</tr>
+												<tr>
+													<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
+														class="heightControl"></td>
+													<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
+														class="heightControl"></td>
+												</tr>
+												<tr>
+													<td class="label" align="left"><a
+														href="javascript:accessApp('https://octrials-train.nci.nih.gov','/opa45/rdclaunch.htm','_c3d');">
+													<b>Clinical Database</a></b></td>
+												</tr>
+												
 											</table>
-
 											</td>
 										</tr>
 									</table>
