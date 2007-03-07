@@ -1,4 +1,5 @@
-<%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
+<%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator"
+	prefix="decorator"%>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -42,18 +43,20 @@ function getPage(s){
 							class="tabs">
 							<tr>
 								<td width="100%" id="tabDisplay"><span class="current"><img
-									src="<tags:imageUrl name="tabGrayL.gif"/>" width="3" height="16"
-									align="absmiddle"> 1. Subject Information <img
-									src="<tags:imageUrl name="tabGrayR.gif"/>" width="3" height="16"
-									align="absmiddle"></span><span class="tab"><img
-									src="<tags:imageUrl name="tabGrayL.gif"/>" width="3" height="16"
-									align="absmiddle"> 2. Address Information <img
-									src="<tags:imageUrl name="tabGrayR.gif"/>" width="3" height="16"
-									align="absmiddle"><img src="<tags:imageUrl name="tabGrayL.gif"/>"
-									width="3" height="16" align="absmiddle"> 3. Review and
-								Submit <img src="<tags:imageUrl name="tabGrayR.gif"/>" width="3" height="16"
-									align="absmiddle"></span></td>
-								<td><img src="<tags:imageUrl name="spacer.gif"/>" width="7" height="1"></td>
+									src="<tags:imageUrl name="tabGrayL.gif"/>" width="3"
+									height="16" align="absmiddle"> 1. Subject Information <img
+									src="<tags:imageUrl name="tabGrayR.gif"/>" width="3"
+									height="16" align="absmiddle"></span><span class="tab"><img
+									src="<tags:imageUrl name="tabGrayL.gif"/>" width="3"
+									height="16" align="absmiddle"> 2. Address Information <img
+									src="<tags:imageUrl name="tabGrayR.gif"/>" width="3"
+									height="16" align="absmiddle"><img
+									src="<tags:imageUrl name="tabGrayL.gif"/>" width="3"
+									height="16" align="absmiddle"> 3. Review and Submit <img
+									src="<tags:imageUrl name="tabGrayR.gif"/>" width="3"
+									height="16" align="absmiddle"></span></td>
+								<td><img src="<tags:imageUrl name="spacer.gif"/>" width="7"
+									height="1"></td>
 							</tr>
 							<tr>
 								<td colspan="2" class="tabBotL"><img
@@ -82,28 +85,27 @@ function getPage(s){
 									<table width="308" border="0" cellspacing="0" cellpadding="0"
 										id="table1">
 										<tr>
-											<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
-												class="heightControl"></td>
-											<td width="65%"><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+											<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
 												height="1" class="heightControl"></td>
+											<td width="65%"><img src="<tags:imageUrl name="spacer.gif"/>"
+												width="1" height="1" class="heightControl"></td>
 										</tr>
 										<tr>
-											<td class="label"><span class="red">*</span><em></em>
-											First Name</td>
+											<td class="label"><span class="red">*</span><em></em> First
+											Name</td>
 											<td><form:input path="firstName" /></td>
 											<td width="10%"><span class="red"><form:errors
 												path="firstName" /><em></em></span></td>
 										</tr>
 										<tr>
-											<td class="label"><span class="red">*</span><em></em>
-											Last Name</td>
+											<td class="label"><span class="red">*</span><em></em> Last
+											Name</td>
 											<td><form:input path="lastName" /></td>
 											<td width="10%"><span class="red"><form:errors
 												path="lastName" /><em></em></span></td>
 										</tr>
 										<tr>
-											<td class="label"><span class="red">*</span> <em></em>
-											Gender</td>
+											<td class="label"><span class="red">*</span> <em></em> Gender</td>
 											<td><form:select path="administrativeGenderCode">
 												<form:options items="${administrativeGenderCode}"
 													itemLabel="desc" itemValue="code" />
@@ -117,19 +119,20 @@ function getPage(s){
 									<table width="308" border="0" cellspacing="0" cellpadding="0"
 										id="table1">
 										<tr>
-											<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
-												class="heightControl"></td>
-											<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
-												class="heightControl"></td>
+											<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+												height="1" class="heightControl"></td>
+											<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+												height="1" class="heightControl"></td>
 										</tr>
 										<tr>
 											<td class="label"><span class="red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</span><em></em>Birth
 											Date</td>
 											<td valign="top"><form:input path="birthDate" />&nbsp;<a
-									href="#"
-									onClick="cal1.select(document.getElementById('birthDate'),'anchor1','MM/dd/yyyy');return false;" name="anchor1" id="anchor1"><img
-									src="<tags:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17"
-									height="16" border="0" align="absmiddle"></a></td>
+												href="#"
+												onClick="cal1.select(document.getElementById('birthDate'),'anchor1','MM/dd/yyyy');return false;"
+												name="anchor1" id="anchor1"><img
+												src="<tags:imageUrl name="b-calendar.gif"/>" alt="Calendar"
+												width="17" height="16" border="0" align="absmiddle"></a></td>
 										</tr>
 										<tr>
 											<td class="label"><span class="red">*</span><em></em>Ethnic
@@ -157,8 +160,7 @@ function getPage(s){
 							<table width="700" border="0" cellspacing="0" cellpadding="0"
 								id="table1">
 								<tr>
-									<td align="center"><span class="red">*</span><em></em><B>
-									Type:</td>
+									<td align="center"><span class="red">*</span><em></em><B> Type:</td>
 									<td align="center"><span class="red">*</span><em></em><B>
 									Value:</td>
 									<td align="center"><span class="red">*</span><em></em><B>
@@ -168,8 +170,11 @@ function getPage(s){
 
 								<c:forEach var="index" begin="0" end="4">
 									<tr>
-										<td align="center"><form:input
-											path="identifiers[${index}].type" /></td>
+										<td align="center"><form:select
+											path="identifiers[${index}].type">
+											<form:options items="${identifiersTypeRefData}"
+												itemLabel="desc" itemValue="code" />
+										</form:select></td>
 										<td align="center"><form:input
 											path="identifiers[${index}].value" /></td>
 										<td align="center"><form:select
@@ -179,7 +184,7 @@ function getPage(s){
 										</form:select></td>
 
 										<td align="center"><form:radiobutton
-											path="identifiers[${index}].primaryIndicator" value="true"/></td>
+											path="identifiers[${index}].primaryIndicator" value="true" /></td>
 									</tr>
 
 								</c:forEach>
