@@ -71,7 +71,7 @@ function doNothing(){
 						<tr>
 							<!-- TITLE STARTS HERE -->
 							<td width="99%" height="43" valign="middle" id="title"><a
-								href="../participant/createParticipant?url=searchStudyInRegister">Create
+								href="../participant/createParticipant?url=/c3pr/pages/registration/searchStudyInRegister">Create
 							new Subject for Registration</a> or select a subject from below.</td>
 							<td valign="top">
 							<table width="100%" border="0" cellspacing="0" cellpadding="0"
