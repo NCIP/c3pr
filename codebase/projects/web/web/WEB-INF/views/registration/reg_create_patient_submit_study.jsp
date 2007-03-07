@@ -147,7 +147,12 @@ if (action){
 													<td class="label"><em></em>Gender:
 													</td>
 													<td>${command.administrativeGenderCode}</td>
+												</tr><tr>
+													<td class="label"><em></em>Subject
+													MRN:</td>
+													<td>${command.primaryIdentifier }</td>
 												</tr>
+												
 											</table>
 											</td>
 											<td width="80%" valign="top" class="contentAreaR"><strong><strong><strong></strong></strong></strong>

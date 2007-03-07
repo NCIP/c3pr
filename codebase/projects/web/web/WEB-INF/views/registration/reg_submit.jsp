@@ -1,4 +1,5 @@
-<%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
+<%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator"
+	prefix="decorator"%>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -50,29 +51,34 @@ function updateTargetPage(s){
 							src="<tags:imageUrl name="tabWhiteR.gif"/>" width="3" height="16"
 							align="absmiddle"> 1. Select Study <img
 							src="<tags:imageUrl name="tabWhiteR.gif"/>" width="3" height="16"
-							align="absmiddle"><img src="<tags:imageUrl name="tabGrayL.gif"/>" width="3"
-							height="16" align="absmiddle"> 2. Select Subject <img
-							src="<tags:imageUrl name="tabGrayR.gif"/>" width="3" height="16" align="absmiddle"><img
-							src="<tags:imageUrl name="tabGrayL.gif"/>" width="3" height="16" align="absmiddle">
-						3. <a href="javascript:updateTargetPage('enrollView');">Enrollment
-						Details </a> <img src="<tags:imageUrl name="tabGrayR.gif"/>" width="3" height="16"
-							align="absmiddle"><img src="<tags:imageUrl name="tabGrayL.gif"/>" width="3"
-							height="16" align="absmiddle"> 4. <a
+							align="absmiddle"><img src="<tags:imageUrl name="tabGrayL.gif"/>"
+							width="3" height="16" align="absmiddle"> 2. Select Subject <img
+							src="<tags:imageUrl name="tabGrayR.gif"/>" width="3" height="16"
+							align="absmiddle"><img src="<tags:imageUrl name="tabGrayL.gif"/>"
+							width="3" height="16" align="absmiddle"> 3. <a
+							href="javascript:updateTargetPage('enrollView');">Enrollment
+						Details </a> <img src="<tags:imageUrl name="tabGrayR.gif"/>"
+							width="3" height="16" align="absmiddle"><img
+							src="<tags:imageUrl name="tabGrayL.gif"/>" width="3" height="16"
+							align="absmiddle"> 4. <a
 							href="javascript:updateTargetPage('checkEligibilityView');">Check
-						Eligibility</a> <img src="<tags:imageUrl name="tabGrayR.gif"/>" width="3" height="16"
-							align="absmiddle"><img src="<tags:imageUrl name="tabGrayL.gif"/>" width="3"
-							height="16" align="absmiddle"> 5. <a
+						Eligibility</a> <img src="<tags:imageUrl name="tabGrayR.gif"/>"
+							width="3" height="16" align="absmiddle"><img
+							src="<tags:imageUrl name="tabGrayL.gif"/>" width="3" height="16"
+							align="absmiddle"> 5. <a
 							href="javascript:updateTargetPage('stratifyView');">Stratify</a>
-						<img src="<tags:imageUrl name="tabGrayR.gif"/>" width="3" height="16"
-							align="absmiddle"></span><span class="current"><img
-							src="<tags:imageUrl name="tabGrayL.gif"/>" width="3" height="16" align="absmiddle">
-						6. Review and Submit <img src="<tags:imageUrl name="tabGrayR.gif"/>" width="3"
-							height="16" align="absmiddle"></span></td>
-						<td><img src="<tags:imageUrl name="spacer.gif"/>" width="7" height="1"></td>
+						<img src="<tags:imageUrl name="tabGrayR.gif"/>" width="3"
+							height="16" align="absmiddle"></span><span class="current"><img
+							src="<tags:imageUrl name="tabGrayL.gif"/>" width="3" height="16"
+							align="absmiddle"> 6. Review and Submit <img
+							src="<tags:imageUrl name="tabGrayR.gif"/>" width="3" height="16"
+							align="absmiddle"></span></td>
+						<td><img src="<tags:imageUrl name="spacer.gif"/>" width="7"
+							height="1"></td>
 					</tr>
 					<tr>
-						<td colspan="2" class="tabBotL"><img src="<tags:imageUrl name="spacer.gif"/>"
-							width="1" height="7"></td>
+						<td colspan="2" class="tabBotL"><img
+							src="<tags:imageUrl name="spacer.gif"/>" width="1" height="7"></td>
 					</tr>
 				</table>
 				</td>
@@ -107,42 +113,42 @@ function updateTargetPage(s){
 										id="details">
 										<tr>
 											<td width="50%" valign="top">
-											<table width="100%" border="0" cellspacing="0" cellpadding="0"
-												id="table1">
+											<table width="100%" border="0" cellspacing="0"
+												cellpadding="0" id="table1">
 												<tr>
-													<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
-														class="heightControl"></td>
-													<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
-														class="heightControl"></td>
+													<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+														height="1" class="heightControl"></td>
+													<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+														height="1" class="heightControl"></td>
 												</tr>
 												<tr>
-													<td width="25%" class="label"><em></em>First
-													Name:</td>
+													<td width="25%" class="label"><em></em>First Name:</td>
 													<td>${command.participant.firstName}</td>
 												</tr>
 												<tr>
-													<td class="label"><em></em>Last
-													Name:</td>
+													<td class="label"><em></em>Last Name:</td>
 													<td>${command.participant.lastName}</td>
 												</tr>
 												<tr>
-													<td class="label"><em></em>Gender:
-													</td>
+													<td class="label"><em></em>Gender:</td>
 													<td>${command.participant.administrativeGenderCode}</td>
+												</tr>
+												<tr>
+													<td class="label"><em></em>Subject
+													MRN:</td>
+													<td>${command.participant.primaryIdentifier }</td>
 												</tr>
 											</table>
 											</td>
 											<td width="50%" valign="top" class="contentAreaR"><strong><strong><strong></strong></strong></strong>
-											<table width="100%" border="0" cellspacing="0" cellpadding="0"
-												id="table1">
+											<table width="100%" border="0" cellspacing="0"
+												cellpadding="0" id="table1">
 												<tr>
-													<td width="25%" class="label"><em></em>Birth
-													Date:</td>
+													<td width="25%" class="label"><em></em>Birth Date:</td>
 													<td valign="top">${command.participant.birthDateStr}</td>
 												</tr>
 												<tr>
-													<td class="label"><em></em>Ethnicity:
-													</td>
+													<td class="label"><em></em>Ethnicity:</td>
 													<td>${command.participant.ethnicGroupCode}</td>
 												</tr>
 												<tr>
@@ -155,8 +161,8 @@ function updateTargetPage(s){
 									</table>
 									</div>
 									<a href="javascript:doNothiong();"><img
-										src="<tags:imageUrl name="b-edit.gif"/>" alt="Edit" width="39" height="16"
-										border="0"></a>
+										src="<tags:imageUrl name="b-edit.gif"/>" alt="Edit" width="39"
+										height="16" border="0"></a>
 
 									<hr align="left" width="95%">
 									<strong><br>
@@ -167,8 +173,8 @@ function updateTargetPage(s){
 										id="details">
 										<tr>
 											<td width="50%" valign="top">
-											<table width="100%" border="0" cellspacing="0" cellpadding="0"
-												id="table1">
+											<table width="100%" border="0" cellspacing="0"
+												cellpadding="0" id="table1">
 												<tr>
 													<td width="25%" class="label">Short Title:</td>
 													<td>${command.studySite.study.shortTitleText}</td>
@@ -192,8 +198,8 @@ function updateTargetPage(s){
 											</table>
 											</td>
 											<td width="50%" valign="top" class="contentAreaR"><strong><strong><strong></strong></strong></strong>
-											<table width="100%" border="0" cellspacing="0" cellpadding="0"
-												id="table1">
+											<table width="100%" border="0" cellspacing="0"
+												cellpadding="0" id="table1">
 												<tr>
 													<td width="25%" class="label"><em></em>Sponsor Code:</td>
 													<td>${command.studySite.study.sponsorCode}</td>
@@ -211,7 +217,7 @@ function updateTargetPage(s){
 										</tr>
 									</table>
 									</div>
-										<hr align="left" width="95%">
+									<hr align="left" width="95%">
 									<br>
 									<strong>Study Site Information:</strong><br>
 									<div class="review">
@@ -219,8 +225,8 @@ function updateTargetPage(s){
 										id="details">
 										<tr>
 											<td width="0%" valign="top">
-											<table width="100%" border="0" cellspacing="0" cellpadding="0"
-												id="table1">
+											<table width="100%" border="0" cellspacing="0"
+												cellpadding="0" id="table1">
 												<tr>
 													<td width="25%" class="label"><em></em> Name:</td>
 													<td>${command.studySite.site.name}</td>
@@ -257,27 +263,25 @@ function updateTargetPage(s){
 										id="details">
 										<tr>
 											<td width="50%" valign="top">
-											<table width="100%" border="0" cellspacing="0" cellpadding="0"
-												id="table1">
+											<table width="100%" border="0" cellspacing="0"
+												cellpadding="0" id="table1">
 												<tr>
-													<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
-														class="heightControl"></td>
-													<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
-														class="heightControl"></td>
+													<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+														height="1" class="heightControl"></td>
+													<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+														height="1" class="heightControl"></td>
 												</tr>
 												<tr>
-													<td width="25%" class="label"><em></em>Study
-													Subject Identifier:</td>
+													<td width="25%" class="label"><em></em>Study Subject
+													Identifier:</td>
 													<td>${command.studyParticipantIdentifier }</td>
 												</tr>
 												<tr>
-													<td class="label"><em></em>Start
-													Date:</td>
+													<td class="label"><em></em>Start Date:</td>
 													<td>${command.startDate }</td>
 												</tr>
 												<tr>
-													<td class="label"><em></em>Informed
-													Consent Signed Date:</td>
+													<td class="label"><em></em>Informed Consent Signed Date:</td>
 													<td>${command.informedConsentSignedDateStr}</td>
 												</tr>
 											</table>
@@ -286,8 +290,8 @@ function updateTargetPage(s){
 									</table>
 									</div>
 									<a href="javascript:updateTargetPage('enrollView');"><img
-										src="<tags:imageUrl name="b-edit.gif"/>" alt="Edit" width="39" height="16"
-										border="0"></a>
+										src="<tags:imageUrl name="b-edit.gif"/>" alt="Edit" width="39"
+										height="16" border="0"></a>
 									<hr align="left" width="95%">
 									<br>
 									<strong>Step 4. Check Eligibility </strong><br>
@@ -295,13 +299,13 @@ function updateTargetPage(s){
 										id="details">
 										<tr>
 											<td width="50%" valign="top">
-											<table width="100%" border="0" cellspacing="0" cellpadding="0"
-												id="table1">
+											<table width="100%" border="0" cellspacing="0"
+												cellpadding="0" id="table1">
 												<tr>
-													<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
-														class="heightControl"></td>
-													<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
-														class="heightControl"></td>
+													<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+														height="1" class="heightControl"></td>
+													<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+														height="1" class="heightControl"></td>
 												</tr>
 												<tr>
 													<td width="25%" class="label"><em></em>Eligibility
@@ -313,24 +317,24 @@ function updateTargetPage(s){
 										</tr>
 									</table>
 									<a href="javascript:updateTargetPage('checkEligibilityView');"><img
-										src="<tags:imageUrl name="b-edit.gif"/>" alt="Edit" width="39" height="16"
-										border="0"></a>
+										src="<tags:imageUrl name="b-edit.gif"/>" alt="Edit" width="39"
+										height="16" border="0"></a>
 
 									<hr align="left" width="95%">
 									<br>
 									<strong>Step 5. Stratification Information </strong><br>
-										<div class="review">
+									<div class="review">
 									<table width="50%" border="0" cellspacing="0" cellpadding="0"
 										id="details">
 										<tr>
 											<td width="50%" valign="top">
-											<table width="100%" border="0" cellspacing="0" cellpadding="0"
-												id="table1">
+											<table width="100%" border="0" cellspacing="0"
+												cellpadding="0" id="table1">
 												<tr>
-													<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
-														class="heightControl"></td>
-													<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
-														class="heightControl"></td>
+													<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+														height="1" class="heightControl"></td>
+													<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+														height="1" class="heightControl"></td>
 												</tr>
 											</table>
 											</td>
@@ -338,8 +342,8 @@ function updateTargetPage(s){
 									</table>
 									</div>
 									<a href="javascript:updateTargetPage('stratifyView');"><img
-										src="<tags:imageUrl name="b-edit.gif"/>" alt="Edit" width="39" height="16"
-										border="0"></a>
+										src="<tags:imageUrl name="b-edit.gif"/>" alt="Edit" width="39"
+										height="16" border="0"></a>
 
 									<hr align="left" width="95%">
 									<br>
@@ -349,15 +353,14 @@ function updateTargetPage(s){
 										<tr align="left">
 											<td colspan=2 valign="top"><br>
 											<br>
-											<a href="/c3pr/"
-												onClick="add();return false;"><img
-												src="<tags:imageUrl name="b-startOver.gif"/>" alt="Start Over" width="67"
-												height="16" border="0"></a></td>
+											<a href="/c3pr/" onClick="add();return false;"><img
+												src="<tags:imageUrl name="b-startOver.gif"/>"
+												alt="Start Over" width="67" height="16" border="0"></a></td>
 											<td colspan=2 valign="top"><br>
 											<br>
-												<a href="javascript:updateTargetPage('confirmationView')"><img
-												src="<tags:imageUrl name="b-submit.gif"/>" alt="Continue" width="59"
-												height="16" border="0"></a></td>
+											<a href="javascript:updateTargetPage('confirmationView')"><img
+												src="<tags:imageUrl name="b-submit.gif"/>" alt="Continue"
+												width="59" height="16" border="0"></a></td>
 										</tr>
 									</table>
 									</div>
