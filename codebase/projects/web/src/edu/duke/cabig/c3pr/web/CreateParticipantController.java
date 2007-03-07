@@ -57,6 +57,7 @@ public class CreateParticipantController extends AbstractWizardFormController {
     		refdata.put("raceCode", configMap.get("raceCode"));
     	    refdata.put("source", getHealthcareSites());
     		refdata.put("searchType", configMap.get("participantSearchType"));
+    		refdata.put("identifiersTypeRefData", configMap.get("participantIdentifiersType"));
     		if(httpServletRequest.getParameter("studySiteId")!=null){
     			if(!httpServletRequest.getParameter("studySiteId").equals("")){
     				refdata.put("studySiteId", httpServletRequest.getParameter("studySiteId"));
