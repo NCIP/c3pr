@@ -6,9 +6,12 @@
 <project name="c3pr-2.0" default="all" basedir="..\">
     <!-- Give user the chance to override properties -->
     <property environment="env"/>
-    <property file="build.properties"/>
+	<!-- import master build properties -->
+	<property file="${antfiles.dir}/build.properties"/>
+	<property file="${user.home}/build.properties"/>
 
-    <!-- layout info -->
+    <!--property name="build.properties.file" value="${basedir}/build.properties"/-->
+  	<!-- layout info -->
     <property name="antfiles.dir" location="${basedir}/antfiles"/>
     <property name="management.dir" location="${antfiles.dir}/management"/>
     <property name="projects.dir" location="${basedir}/projects"/>
@@ -167,7 +170,7 @@ else it wont deploy -->
             <artifact refid="antlr.jars"/>
             <artifact refid="net-handle.jars"/>
         </resolveDependencies>
-        <ant dir="${projects.dir}/core" inheritAll="false" antfile="build.xml" target="all"/>
+        <ant dir="${projects.dir}/core" inheritAll="true" antfile="build.xml" target="all"/>			
     </target>
 
     <!-- =============================================================== -->
@@ -185,7 +188,7 @@ else it wont deploy -->
             <artifact refid="xercesImpl.jars"/>
             <artifact refid="web-sso.jars"/>
         </resolveDependencies>
-        <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="all"/>
+        <ant dir="${projects.dir}/web" inheritAll="true" antfile="build.xml" target="all"/>
     </target>
 
     <!-- =============================================================== -->
@@ -276,22 +279,16 @@ else it wont deploy -->
     <!-- ====================================================================== -->
     <!-- Deploys the webapp (note:- only web + core projects )in Catalina_home  -->
     <!-- ====================================================================== -->
-    <target name="deploy-webapp" depends="build-core, build-web" description="Deploy web application to tomcat">
-        <!-- copy the applicationContext files under WEB-INF-->
-        <copy todir="${deploy.path}/${webapp.name}/WEB-INF/" preservelastmodified="true">
-            <fileset dir="${projects.dir}/core/src">
-                <include name="**/*.xml" />
-            </fileset>
-        </copy>
+    <target name="deploy-webapp" depends="build-core, build-web" description="Deploy web application to tomcat">        
         <!-- copy the configuration files in root\classes folder. This should be manually edited for
-          individual deployements as it contains datasource properties, security settings-->
+          individual deployements as it contains core & web properties-->
         <copy todir="${deploy.path}/${webapp.name}/WEB-INF/classes" preservelastmodified="true">
             <fileset dir="${projects.dir}/core/build">
                 <include name="**/*.properties"/>
             </fileset>
-            <fileset dir="${projects.dir}/core/conf">
-                <include name="**/*dct"/>
-            </fileset>
+			<fileset dir="${projects.dir}/web/build">
+	            <include name="**/*.properties"/>
+	        </fileset>
         </copy>
         <ant dir="${projects.dir}/web" inheritAll="true" antfile="build.xml" target="deploy"/>
     </target>
