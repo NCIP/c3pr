@@ -33,6 +33,9 @@
 	<property name="test.logs.dir" location="${test.dir}/logs" />
 	<property name="test.project.jar" location="${jar.dir}/c3pr-2.0-${project.name}-tests-${project.version}.jar" />
 
+	<!-- core properties -->
+	<property name="config.web.file" value="${basedir}/conf/web.properties"/>
+	   
 	<!-- Load common util path -->
 	<import file="antfiles/build-test.xml" />
 
@@ -115,10 +118,36 @@
 		<mkdir dir="${test.lib.dir}" />
 	</target>
 
+	<target name="resources" description="Copy resources into classpath" depends="prepare">
+	    <copy file="${config.web.file}" 
+			tofile="${build.dir}/web.properties" 
+			overwrite="true"
+			filtering="true">
+	 		<filterset>
+	            <filter token="hotlinks.psc" value='${hotlinks.psc}'/>
+	            <filter token="hotlinks.caaers" value="${hotlinks.caaers}"/>
+	            <filter token="hotlinks.c3d" value="${hotlinks.c3d}"/>
+                <filter token="datasource.password" value="${datasource.password}"/>
+                <filter token="grid.idpUrl" value="${grid.idpUrl}"/>
+                <filter token="grid.ifsUrl" value="${grid.ifsUrl}"/>
+	        </filterset>
+		</copy>
+        <copy todir="${classes.dir}/context">
+            <fileset dir="${src.dir}">
+                <include name="**/*.xml"/>
+            </fileset>
+        </copy>
+        <copy todir="${test.dir}">
+            <fileset dir="${test.src.dir}">
+                <include name="**/*.xml"/>
+            </fileset>
+        </copy>
+    </target>
+	
 	<!-- =============================================================== -->
 	<!-- Compiles the source code                                        -->
 	<!-- =============================================================== -->
-	<target name="compile" depends="prepare" description="compiles.">
+	<target name="compile" depends="prepare, resources" description="compiles.">
 		<mkdir dir="${classes.dir}" />
 		<mkdir dir="${ext.lib.dir}" />
 		<javac srcdir="${src.dir}" destdir="${classes.dir}" debug="${debug}" deprecation="off" optimize="off">
@@ -229,7 +258,14 @@
 			</fileset>
 		</copy>
 		<!-- copy log4j -->
-		<copy file="${conf.dir}\log4j.properties" todir="${deploy.path}/${webapp.name}/WEB-INF/" />
+	 	<copy file="${conf.dir}\log4j.properties"
+				tofile="${deploy.path}/${webapp.name}/WEB-INF/log4j.properties"
+				overwrite="true"
+				filtering="true">
+				<filterset>
+			        <filter token="log4j.file" value='${log4j.file}'/>
+			    </filterset>
+		</copy>
 	</target>
 
 	<target name="undeploy-web" description="Cleans the web folder.">

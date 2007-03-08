@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <!-- ================================================================= -->
-<!-- C3PR 2.0 core build file                                 -->
 <!-- ================================================================= -->
 <project name="c3pr-2.0-core" default="all" basedir=".">
     <!-- Environment -->
@@ -27,10 +26,9 @@
     <property name="test.project.jar" location="${jar.dir}/c3pr-2.0-${project.name}-tests-${project.version}.jar"/>
     <!-- Load common util path -->
     <import file="antfiles/build-test.xml"/>
-    <!-- build properties -->
-    <property name="config.database.file" value="${basedir}/conf/database.properties"/>
-    <property name="config.security.conf" value="${basedir}/conf/config.dct"/>
-
+    <!-- core properties -->
+    <property name="config.core.file" value="${basedir}/conf/core.properties"/>
+   
     <property name="debug" value="on"/>
     <!-- =============================================================== -->
     <!-- The Build Classpath                                             -->
@@ -101,9 +99,9 @@
         <mkdir dir="${build.dir}"/>
         <mkdir dir="${test.lib.dir}"/>
 
-        <fail message="Database not configured (could not read ${config.database.file}.)">
+        <fail message="Database not configured (could not read ${config.core.file}.)">
             <condition>
-                <not><available file="${config.database.file}"/></not>
+                <not><available file="${config.core.file}"/></not>
             </condition>
         </fail>
         <property file="${config.database.file}"/>
@@ -111,12 +109,24 @@
     </target>
 
     <target name="resources" description="Copy resources into classpath" depends="prepare">
-        <copy file="${config.database.file}" tofile="${build.dir}/datasource.properties" overwrite="true"/>
-        <copy file="${config.security.conf}" tofile="${build.dir}/config.dct" overwrite="true"/>
-        <copy todir="${build.dir}">
+        <copy file="${config.core.file}" 
+			tofile="${build.dir}/core.properties" 
+			overwrite="true"
+	 		filtering="true">
+		 <filterset>
+	            <filter token="datasource.url" value='${datasource.url}'/>
+	            <filter token="datasource.username" value="${datasource.username}"/>
+	            <filter token="webapp.project.name" value="${project.name}"/>
+                <filter token="datasource.password" value="${datasource.password}"/>
+                <filter token="datasource.schema" value="${datasource.schema}"/>
+                <filter token="datasource.driver" value="${datasource.driver}"/>
+	            <filter token="datasource.dialect" value="${datasource.dialect}"/>
+                <filter token="esb.brokerUrl" value="${esb.brokerUrl}"/>
+         </filterset>
+		</copy>
+        <copy todir="${classes.dir}/context">
             <fileset dir="${src.dir}">
                 <include name="**/*.xml"/>
-                <include name="**/*.properties"/>
             </fileset>
         </copy>
         <copy todir="${test.dir}">
