@@ -6,6 +6,7 @@
 	<property name="test.dir" location="${basedir}/test"/>
 	<property name="test.logs.dir" location="${test.dir}/logs"/>
 	<property name="junit.results.dir" value="${test.logs.dir}/junit"/>
+	<property name="antfiles.dir" value="${basedir}/antfiles"/>
 
 	<!-- call the test target for each project and aggregates the log results  -->
 	<target name="test" description="Runs the tests">
@@ -19,6 +20,7 @@
 			    <fileset dir="${cobertura.home}">
 			        <include name="cobertura.jar" />
 			        <include name="lib/**/*.jar" />
+			    	<include name="${antfiles.dir}/build-test.properties" />
 			    </fileset>
 			</classpath>
 
