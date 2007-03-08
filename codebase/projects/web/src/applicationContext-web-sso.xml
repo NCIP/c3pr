@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+    <bean id="mainPropertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <bean id="mainPropertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location">
+        	<value>classpath:web.properties</value>
+        </property>
+    </bean>
+    </bean>
+   
+    <bean id="gridAuthenticationClient" class="gov.nih.nci.cabig.ctms.web.sso.GridBasicAuthenticationClientImpl">
+    	<property name="idpUrl" value="${grid.idpUrl}"/>
+		<property name="ifsUrl" value="${grid.ifsUrl}"/>
+		<property name="proxyLifetimeHours" value="12"/>
+		<property name="proxyLifetimeMinutes" value="0"/>
+		<property name="proxyLifetimeSeconds" value="0"/>
+		<property name="delegationPathLength" value="0"/>
+    </bean>
+    
+    <bean id="gridProxyValidator" class="gov.nih.nci.cabig.ctms.web.sso.GridProxyValidatorImpl"/>
+    
+    <bean id="gridProxyRetrievalStrategy" class="gov.nih.nci.cabig.ctms.web.sso.DefaultGridProxyRetrievalStrategy">
+    	<property name="authenticationClient" ref="gridAuthenticationClient"/>
+    	<property name="validator" ref="gridProxyValidator"/>
+    	<property name="usernameParam" value="username"/>
+    	<property name="passwordParam" value="password"/>
+    	<property name="gridProxyParam" value="gridProxy"/>
+    </bean>
+    
+</beans>
