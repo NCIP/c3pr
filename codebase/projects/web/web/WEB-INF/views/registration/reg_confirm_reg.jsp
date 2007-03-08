@@ -125,7 +125,7 @@ function submitCaaersPage(){
 												</tr>
 												<tr>
 													<td class="label">Study Primary Identifier:</td>
-													<td>${command.studySite.site.primaryIdentifier}</td>
+													<td>${command.studySite.study.primaryIdentifier}</td>
 												</tr>
 												<tr>
 													<td class="label">Study Short Title:</td>
