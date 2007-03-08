@@ -1,88 +1,194 @@
 <?xml version="1.0" encoding="utf-8"?>
-<beans
- 	xmlns="http://www.springframework.org/schema/beans"
-    xmlns:tx="http://www.springframework.org/schema/tx"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd"
-    >
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
 
-   <bean id="mainPropertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="locations">
-        <list>
-        	<value>classpath:datasource.properties</value>
-         </list>
-        </property>
-   </bean>
-    
-   <bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"/>
-        
-<!-- Hibernate SessionFactory -->
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
-        <property name="dataSource">
-            <ref bean="dataSource" />
-        </property>
-          <property name="namingStrategy">
-            <bean class="org.hibernate.cfg.ImprovedNamingStrategy" />
-        </property>
-<!-- Must reference all OR mapping files. -->
-        <property name="annotatedClasses">
-            <list>
-                <value>edu.duke.cabig.c3pr.domain.Study</value>
-                <value>edu.duke.cabig.c3pr.domain.Epoch</value>
-                <value>edu.duke.cabig.c3pr.domain.Arm</value>
-                <value>edu.duke.cabig.c3pr.domain.StudySite</value>               
-                <value>edu.duke.cabig.c3pr.domain.HealthcareSite</value>
-                <value>edu.duke.cabig.c3pr.domain.Organization</value>
-                <value>edu.duke.cabig.c3pr.domain.Address</value>                 
-                <value>edu.duke.cabig.c3pr.domain.StudyParticipantAssignment</value>    
-                <value>edu.duke.cabig.c3pr.domain.Participant</value>                                   
-                <value>edu.duke.cabig.c3pr.domain.ScheduledArm</value>     
-                <value>edu.duke.cabig.c3pr.domain.Identifier</value>                                
-            </list>
-        </property> 
-        <property name="entityInterceptor">
-            <bean class="edu.duke.cabig.c3pr.utils.GridIdentifierInterceptor" autowire="byName"/>
-        </property>
-        <property name="hibernateProperties">
-            <ref bean="hibernateProperties" />
-        </property>
-    </bean>
-    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
-        <property name="checkWriteOperations">
-            <value>true</value>
-        </property>
-        <property name="sessionFactory">
-            <ref bean="sessionFactory" />
-        </property>
-    </bean>
-    <bean id="daoTemplate" abstract="true">
-        <property name="hibernateTemplate">
-            <ref bean="hibernateTemplate" />
-        </property>
-    </bean>
-    <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager" autowire="byType" />  	
-    <bean id="openSessionInViewInterceptor" class="org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor" autowire="byName">
-        <property name="singleSession"><value>true</value></property>
-        <property name="flushModeName"><value>FLUSH_AUTO</value></property>
-    </bean>    
-    <bean id="gridIdentifierCreator" class="edu.duke.cabig.c3pr.utils.LocalGridIdentifierCreator"/>
-<!--validators for domain objects   -->
-    <bean id="studyValidator" class="edu.duke.cabig.c3pr.domain.validator.StudyValidator" autowire="byName"/>           
-    <bean id="studySiteValidator" class="edu.duke.cabig.c3pr.domain.validator.StudySiteValidator" autowire="byName"/>           
-    <bean id="epochValidator" class="edu.duke.cabig.c3pr.domain.validator.EpochValidator" autowire="byName"/>           
-    <bean id="armValidator" class="edu.duke.cabig.c3pr.domain.validator.ArmValidator"/>               
-    <bean id="identifierValidator" class="edu.duke.cabig.c3pr.domain.validator.IdentifierValidator" autowire="byName"/>
-    <bean id="participantValidator" class="edu.duke.cabig.c3pr.domain.validator.ParticipantValidator" autowire="byName"/>                 
-<!-- Daos -->
-    <bean id="studyDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyDao" autowire="byType"></bean>
-    <bean id="studySiteDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudySiteDao" autowire="byType"></bean>
-    <bean id="epochDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.EpochDao" autowire="byType"></bean>
-    <bean id="armDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ArmDao" autowire="byType"></bean>
-    <bean id="participantDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ParticipantDao" autowire="byType"></bean>
-    <bean id="healthcareSiteDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.HealthcareSiteDao" autowire="byType"></bean>
-<!-- Services -->
-    <bean id="studyService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudyServiceImpl" autowire="byType"></bean>
-    <bean id="participantService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.ParticipantServiceImpl" autowire="byType"></bean>
+	<bean id="dataSourceTemplate" abstract="true"
+		class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName">
+			<value>${datasource.driver}</value>
+		</property>
+		<property name="maxActive">
+			<value>5</value>
+		</property>
+		<property name="maxIdle">
+			<value>2</value>
+		</property>
+		<property name="maxWait">
+			<value>180000</value>
+		</property>
+		<property name="removeAbandoned">
+			<value>true</value>
+		</property>
+		<property name="removeAbandonedTimeout">
+			<value>300</value>
+		</property>
+		<property name="logAbandoned">
+			<value>true</value>
+		</property>
+		<property name="testWhileIdle">
+			<value>true</value>
+		</property>
+		<property name="testOnReturn">
+			<value>true</value>
+		</property>
+		<property name="timeBetweenEvictionRunsMillis">
+			<value>300000</value>
+		</property>
+		<property name="minEvictableIdleTimeMillis">
+			<value>600000</value>
+		</property>
+	</bean>
+	<bean id="dataSource" parent="dataSourceTemplate">
+		<property name="url">
+			<value>${datasource.url}</value>
+		</property>
+		<property name="username">
+			<value>${datasource.username}</value>
+		</property>
+		<property name="password">
+			<value>${datasource.password}</value>
+		</property>
+	</bean>
+	<bean id="hibernateProperties"
+		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="properties">
+			<props>
+				<prop key="hibernate.connection.pool_size">10</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.dialect">
+					${datasource.dialect}
+				</prop>
+				<prop key="hibernate.query.substitutions">
+					true 1, false 0, yes 'Y', no 'N'
+				</prop>
+				<prop key="hibernate.jdbc.batch_size">30</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="mainPropertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<value>classpath:core.properties</value>
+		</property>
+	</bean>
+
+	<bean
+		class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor" />
+
+	<!-- Hibernate SessionFactory -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="namingStrategy">
+			<bean class="org.hibernate.cfg.ImprovedNamingStrategy" />
+		</property>
+		<!-- Must reference all OR mapping files. -->
+		<property name="annotatedClasses">
+			<list>
+				<value>edu.duke.cabig.c3pr.domain.Study</value>
+				<value>edu.duke.cabig.c3pr.domain.Epoch</value>
+				<value>edu.duke.cabig.c3pr.domain.Arm</value>
+				<value>edu.duke.cabig.c3pr.domain.StudySite</value>
+				<value>edu.duke.cabig.c3pr.domain.HealthcareSite</value>
+				<value>edu.duke.cabig.c3pr.domain.Organization</value>
+				<value>edu.duke.cabig.c3pr.domain.Address</value>
+				<value>
+					edu.duke.cabig.c3pr.domain.StudyParticipantAssignment
+				</value>
+				<value>edu.duke.cabig.c3pr.domain.Participant</value>
+				<value>edu.duke.cabig.c3pr.domain.ScheduledArm</value>
+				<value>edu.duke.cabig.c3pr.domain.Identifier</value>
+			</list>
+		</property>
+		<property name="entityInterceptor">
+			<bean
+				class="edu.duke.cabig.c3pr.utils.GridIdentifierInterceptor"
+				autowire="byName" />
+		</property>
+		<property name="hibernateProperties">
+			<ref bean="hibernateProperties" />
+		</property>
+	</bean>
+	<bean id="hibernateTemplate"
+		class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="checkWriteOperations">
+			<value>true</value>
+		</property>
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="daoTemplate" abstract="true">
+		<property name="hibernateTemplate">
+			<ref bean="hibernateTemplate" />
+		</property>
+	</bean>
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager"
+		autowire="byType" />
+	<bean id="openSessionInViewInterceptor"
+		class="org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor"
+		autowire="byName">
+		<property name="singleSession">
+			<value>true</value>
+		</property>
+		<property name="flushModeName">
+			<value>FLUSH_AUTO</value>
+		</property>
+	</bean>
+	<bean id="gridIdentifierCreator"
+		class="edu.duke.cabig.c3pr.utils.LocalGridIdentifierCreator" />
+	<!--validators for domain objects   -->
+	<bean id="studyValidator"
+		class="edu.duke.cabig.c3pr.domain.validator.StudyValidator"
+		autowire="byName" />
+	<bean id="studySiteValidator"
+		class="edu.duke.cabig.c3pr.domain.validator.StudySiteValidator"
+		autowire="byName" />
+	<bean id="epochValidator"
+		class="edu.duke.cabig.c3pr.domain.validator.EpochValidator"
+		autowire="byName" />
+	<bean id="armValidator"
+		class="edu.duke.cabig.c3pr.domain.validator.ArmValidator" />
+	<bean id="identifierValidator"
+		class="edu.duke.cabig.c3pr.domain.validator.IdentifierValidator"
+		autowire="byName" />
+	<bean id="participantValidator"
+		class="edu.duke.cabig.c3pr.domain.validator.ParticipantValidator"
+		autowire="byName" />
+	<!-- Daos -->
+	<bean id="studyDao" parent="daoTemplate"
+		class="edu.duke.cabig.c3pr.dao.StudyDao" autowire="byType">
+	</bean>
+	<bean id="studySiteDao" parent="daoTemplate"
+		class="edu.duke.cabig.c3pr.dao.StudySiteDao" autowire="byType">
+	</bean>
+	<bean id="epochDao" parent="daoTemplate"
+		class="edu.duke.cabig.c3pr.dao.EpochDao" autowire="byType">
+	</bean>
+	<bean id="armDao" parent="daoTemplate"
+		class="edu.duke.cabig.c3pr.dao.ArmDao" autowire="byType">
+	</bean>
+	<bean id="participantDao" parent="daoTemplate"
+		class="edu.duke.cabig.c3pr.dao.ParticipantDao" autowire="byType">
+	</bean>
+	<bean id="healthcareSiteDao" parent="daoTemplate"
+		class="edu.duke.cabig.c3pr.dao.HealthcareSiteDao" autowire="byType">
+	</bean>
+	<!-- Services -->
+	<bean id="studyService" lazy-init="true"
+		class="edu.duke.cabig.c3pr.service.impl.StudyServiceImpl"
+		autowire="byType">
+	</bean>
+	<bean id="participantService" lazy-init="true"
+		class="edu.duke.cabig.c3pr.service.impl.ParticipantServiceImpl"
+		autowire="byType">
+	</bean>
 </beans>
