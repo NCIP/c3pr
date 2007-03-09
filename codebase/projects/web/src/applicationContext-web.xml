@@ -8,10 +8,10 @@
     >
     <bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"/>
 	
-	<bean id="mainPropertyConfigurer"
+	<bean id="webPropertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location">
-			<value>classpath:web.properties</value>
+			<value>classpath:context/web.properties</value>
 		</property>
 	</bean>
 	

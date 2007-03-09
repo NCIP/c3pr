@@ -70,10 +70,10 @@
 		</property>
 	</bean>
 	
-	<bean id="mainPropertyConfigurer"
+	<bean id="corePropertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location">
-			<value>classpath:core.properties</value>
+			<value>classpath:context/core.properties</value>
 		</property>
 	</bean>
 

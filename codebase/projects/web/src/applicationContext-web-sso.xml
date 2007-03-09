@@ -2,15 +2,7 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
     "http://www.springframework.org/dtd/spring-beans.dtd">
 
-<beans>
-    <bean id="mainPropertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <bean id="mainPropertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-        <property name="location">
-        	<value>classpath:web.properties</value>
-        </property>
-    </bean>
-    </bean>
-   
+<beans>   
     <bean id="gridAuthenticationClient" class="gov.nih.nci.cabig.ctms.web.sso.GridBasicAuthenticationClientImpl">
     	<property name="idpUrl" value="${grid.idpUrl}"/>
 		<property name="ifsUrl" value="${grid.ifsUrl}"/>
