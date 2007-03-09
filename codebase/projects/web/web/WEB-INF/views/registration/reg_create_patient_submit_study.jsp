@@ -152,7 +152,7 @@ if (action){
 													MRN:</td>
 													<td>${command.primaryIdentifier }</td>
 												</tr>
-												
+
 											</table>
 											</td>
 											<td width="80%" valign="top" class="contentAreaR"><strong><strong><strong></strong></strong></strong>
@@ -217,8 +217,42 @@ if (action){
 											</td>
 										</tr>
 									</table>
-									<a href="reg_enroll_patient_address.htm"><img
-										src="<tags:imageUrl name="b-edit.gif"/>" alt="Edit" width="39" height="16"
+									<a href=""><img src="<tags:imageUrl name="b-edit.gif"/>" alt="Edit" width="39" height="16"
+										border="0"></a>
+									<hr align="left" width="95%">
+									<strong><br>
+										Step 3. Identifiers Information </strong>
+										<br>
+										<br>
+										<div class="review"><br>
+										<table width="50%" border="0" cellspacing="0" cellpadding="0"
+											id="details">
+										<tr>
+											<td valign="top">
+											<table width="100%" border="1" cellspacing="0" cellpadding="0"
+												id="table1">
+												<tr>
+													<td width="20% align="left" class="label">Source</td>
+													<td width="20%" align="left" class="label">Type</td>
+													<td width="20%" align="left" class="label">Identifier</td>
+												</tr>
+												<c:forEach items="${command.identifiers}" var="identifier">
+												<c:if test="${identifier.type!=''}">
+													<tr class="results">
+														<td>${identifier.source}</td>
+														<td>${identifier.type}</td>
+														<td>${identifier.value}</td>
+													</tr>
+												</c:if>
+												</c:forEach>
+
+											</table>
+											</td>
+										</tr>
+										</table>
+										</div>
+										<br>
+										<a href=""><img src="<tags:imageUrl name="b-edit.gif"/>" alt="Edit" width="39" height="16"
 										border="0"></a>
 
 									<table width="50%" border="0" cellspacing="0" cellpadding="0"
