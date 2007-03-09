@@ -1,25 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
-    "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+    
+	<bean id="gridAuthenticationClient"
+		class="gov.nih.nci.cabig.ctms.web.sso.GridBasicAuthenticationClientImpl">
+		<property name="idpUrl">
+			<value>https://10.10.10.2:8446/wsrf/services/cagrid/AuthenticationService</value>
+		</property>
+		<property name="ifsUrl">
+			<value>https://10.10.10.2:8443/wsrf/services/cagrid/Dorian</value>
+		</property>
+		<property name="proxyLifetimeHours">
+			<value>12</value>
+		</property>
+		<property name="proxyLifetimeMinutes">
+			<value>0</value>
+		</property>
+		<property name="proxyLifetimeSeconds">
+			<value>0</value>
+		</property>
+		<property name="delegationPathLength">
+			<value>0</value>
+		</property>
+	</bean>
 
-<beans>   
-    <bean id="gridAuthenticationClient" class="gov.nih.nci.cabig.ctms.web.sso.GridBasicAuthenticationClientImpl">
-    	<property name="idpUrl" value="${grid.idpUrl}"/>
-		<property name="ifsUrl" value="${grid.ifsUrl}"/>
-		<property name="proxyLifetimeHours" value="12"/>
-		<property name="proxyLifetimeMinutes" value="0"/>
-		<property name="proxyLifetimeSeconds" value="0"/>
-		<property name="delegationPathLength" value="0"/>
-    </bean>
-    
-    <bean id="gridProxyValidator" class="gov.nih.nci.cabig.ctms.web.sso.GridProxyValidatorImpl"/>
-    
-    <bean id="gridProxyRetrievalStrategy" class="gov.nih.nci.cabig.ctms.web.sso.DefaultGridProxyRetrievalStrategy">
-    	<property name="authenticationClient" ref="gridAuthenticationClient"/>
-    	<property name="validator" ref="gridProxyValidator"/>
-    	<property name="usernameParam" value="username"/>
-    	<property name="passwordParam" value="password"/>
-    	<property name="gridProxyParam" value="gridProxy"/>
-    </bean>
-    
+	<bean id="gridProxyValidator"
+		class="gov.nih.nci.cabig.ctms.web.sso.GridProxyValidatorImpl" />
+
+	<bean id="gridProxyRetrievalStrategy"
+		class="gov.nih.nci.cabig.ctms.web.sso.DefaultGridProxyRetrievalStrategy">
+		<property name="authenticationClient"
+			ref="gridAuthenticationClient" />
+		<property name="validator" ref="gridProxyValidator" />
+		<property name="usernameParam" value="username" />
+		<property name="passwordParam" value="password" />
+		<property name="gridProxyParam" value="gridProxy" />
+	</bean>
+
 </beans>
