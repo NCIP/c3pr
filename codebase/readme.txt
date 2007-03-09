@@ -14,7 +14,7 @@ CATALINA_HOME on your env path
    Corresponding ddl for postgreSQL is present in 
    codebase\projects\core\db\PostGreSQL\c3pr_ddl.sql
   
-   The property file 'oracle.properties' has the db setup properties. By default this has sample 
+   The property file 'database.properties' has the db setup properties. By default this has sample 
    connection setup to Oracle's DB @SemanticBits. Change this to your local DB and the build-core
    ant task will copy these properties, place it into datasource.properties for Spring's
    applicationContext to pick up.
