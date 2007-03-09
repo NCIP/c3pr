@@ -34,7 +34,7 @@
 	<property name="test.project.jar" location="${jar.dir}/c3pr-2.0-${project.name}-tests-${project.version}.jar" />
 
 	<!-- core properties -->
-	<property name="config.web.file" value="${basedir}/conf/web.properties"/>
+	<property name="web.properties.file" value="${basedir}/conf/web.properties"/>
 	   
 	<!-- Load common util path -->
 	<import file="antfiles/build-test.xml" />
@@ -105,8 +105,6 @@
 		<fileset dir="${env.CATALINA_HOME}/common/lib">
 			<include name="**/*.jar" />
 		</fileset>
-		<path location="${classes.dir}" />
-		<path location="${test.classes.dir}" />
 	</path>
 
 	<!-- =============================================================== -->
@@ -119,15 +117,14 @@
 	</target>
 
 	<target name="resources" description="Copy resources into classpath" depends="prepare">
-	    <copy file="${config.web.file}" 
-			tofile="${build.dir}/web.properties" 
+	    <copy file="${web.properties.file}" 
+			tofile="${classes.dir}/context/web.properties" 
 			overwrite="true"
 			filtering="true">
 	 		<filterset>
 	            <filter token="hotlinks.psc" value='${hotlinks.psc}'/>
 	            <filter token="hotlinks.caaers" value="${hotlinks.caaers}"/>
 	            <filter token="hotlinks.c3d" value="${hotlinks.c3d}"/>
-                <filter token="datasource.password" value="${datasource.password}"/>
                 <filter token="grid.idpUrl" value="${grid.idpUrl}"/>
                 <filter token="grid.ifsUrl" value="${grid.ifsUrl}"/>
 	        </filterset>
