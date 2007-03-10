@@ -39,14 +39,7 @@
 			<formatter type="xml" usefile="true" />
 			<formatter type="plain" usefile="false" />
 
-			<batchtest fork="yes" todir="${junit.results.dir}">
-				<fileset dir="${test.src.dir}">
-					<include name="**/*TestCase.java" />
-					<include name="**/*Test.java" />
-					<exclude name="**/ControllerTestCase.java" />
-					<exclude name="**/WebTestCase.java" />
-				</fileset>
-			</batchtest>
+		
 		</junit>
 	</target>
 </project>
