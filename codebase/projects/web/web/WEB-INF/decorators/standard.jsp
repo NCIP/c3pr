@@ -9,14 +9,14 @@
 <html>
 <head>
     <link rel="shortcut icon" href="<tags:imageUrl name="favicon.ico"/>" type="image/x-icon">
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">    
     <title>C3PRV2</title>
-    <tags:include/>
-    <decorator:head />
+    <decorator:head/>
+    <tags:include/>   
 </head>
 <body>
 <layout:header/>
 <layout:navigation/>
-<br>
 <decorator:body/>
 <layout:footer />
 </body>
