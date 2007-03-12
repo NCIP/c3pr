@@ -6,18 +6,11 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<title>C3Pr V2</title>
-<link href="resources/styles.css" rel="stylesheet" type="text/css">
-<link href="resources/search.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="/c3pr/js/CalendarPopup.js"></script>
 <script language="JavaScript" id="js1">
 	var cal1 = new CalendarPopup();
 </script>
 <script language="JavaScript" type="text/JavaScript">
-function submitSearchPage(){
-	document.getElementById("searchForm").submit();
-}
 function updatePage(s){
 	document.getElementById("_page").name=s;
 	document.getElementById("_page").value="next";
@@ -42,48 +35,10 @@ field.value="";
 <body>
 
 <!-- MAIN BODY STARTS HERE -->
-<div class="workArea">
-<table width="100%" border="0" cellspacing="0" cellpadding="0"
-	class="titleArea">
-	<form:form id="searchForm" name="searchForm"
-			method="post" action="searchStudy">
-	<tr>
-	<td width="100%" valign="middle" id="title"></td>
-		<td valign="top">
-			<table width="100%" border="0" cellspacing="0" cellpadding="0"
-				id="search">
-				<tr>
-					<td class="labels">&nbsp;</td>
-				</tr>
-				<tr>
-					<td class="searchType">Search Study by <select name="searchType">
-						<c:forEach items="${studySearchTypeRefData}" var="opt">
-							<option value="${opt.code }">${opt.desc }</option>
-						</c:forEach></td>
-				</tr>
-			</table>
-			<span class="notation">&nbsp;</span></td>
-		<td valign="top">
-		<table width="100%" border="0" cellspacing="0" cellpadding="0"
-			id="search">
-			<tr>
-				<td align="left" class="labels">Search Criteria:</td>
-				<td class="labels">&nbsp;</td>
-			</tr>
-			<tr>
-				<td><input type=text name="searchText" size="25" /></td>
-				<td><input name="imageField" type="image" class="button"
-					onClick="submitSearchPage();return false;" src="<tags:imageUrl name="b-go.gif"/>"
-					alt="GO" align="middle" width="22" height="10" border="0"></td>
-			</tr>
-		</table>
-		</td>
-	</tr>
-</form:form>
-</table>
+
+<tags:search action="searchStudy"/>
+
 <!-- MAIN BODY STARTS HERE -->
-
-
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
 		<td id="current">Short Title: ${command.trimmedShortTitleText}</td>

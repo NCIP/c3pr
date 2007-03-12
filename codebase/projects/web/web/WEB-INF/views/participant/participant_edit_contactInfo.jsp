@@ -6,10 +6,6 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<title>C3Pr V2</title>
-<link href="resources/styles.css" rel="stylesheet" type="text/css">
-<link href="resources/search.css" rel="stylesheet" type="text/css">
 <script language="JavaScript" type="text/JavaScript">
 function navRollOver(obj, state) {
   document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
@@ -20,9 +16,6 @@ function OpenWins(target,name,width,height,scrolling){
 	// I've used a var to refer to the opened window
 	features = 'location=no,width='+width +',height='+height+',left=300,top=260,scrollbars='+scrolling;
 	myWin = window.open(target,name,features);
-}
-function submitSearchPage(){
-	document.getElementById("searchForm").submit();
 }
 function validatePage(){
 	return true;
@@ -43,55 +36,8 @@ function updateAction(action){
 <body>
 
 <!-- MAIN BODY STARTS HERE -->
-<div class="workArea">
-<table width="100%" border="0" cellspacing="0" cellpadding="0"
-	class="titleArea">
 
-	<tr>
-		<!-- TITLE STARTS HERE -->
-		<td width="100%" valign="middle" id="title"></td>
-		<!-- TITLE STARTS HERE -->
-
-		<!-- <td width="99%" height="43" valign="middle" id="title"></td>  -->
-
-		<td valign="top"><form:form id="searchForm" name="searchForm"
-			method="post" action="searchParticipant">
-
-			<table width="100%" border="0" cellspacing="0" cellpadding="0"
-				id="search">
-
-				<tr>
-					<td class="labels">&nbsp;</td>
-				</tr>
-				<tr>
-					<td class="searchType">Search Subject by <select name="searchType">
-						<c:forEach items="${searchType}" var="opt">
-							<option value="${opt.code }">${opt.desc }</option>
-						</c:forEach></td>
-				</tr>
-			</table>
-			<span class="notation">&nbsp;</span></td>
-		<td valign="top">
-		<table width="100%" border="0" cellspacing="0" cellpadding="0"
-			id="search">
-			<tr>
-				<td align="left" class="labels">Search Criteria:</td>
-				<td class="labels">&nbsp;</td>
-			</tr>
-			<tr>
-				<td><input type=text name="searchText" size="25" /></td>
-				<td><input name="imageField" type="image" class="button"
-					onClick="submitSearchPage();return false;" src="<tags:imageUrl name="b-go.gif"/>"
-					alt="GO" align="middle" width="22" height="10" border="0"></td>
-			</tr>
-
-		</table>
-		</form:form></td>
-	</tr>
-
-
-
-</table>
+<tags:search action="searchParticipant"/>
 
 <!-- TITLE/QUICK SEARCH AREA ENDS HERE --> <!-- CONTENT AREA STARTS HERE -->
 

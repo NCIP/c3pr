@@ -7,10 +7,6 @@
 
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<title>C3Pr V2</title>
-<link href="resources/styles.css" rel="stylesheet" type="text/css">
-<link href="resources/search.css" rel="stylesheet" type="text/css">
 <script>
 function navRollOver(obj, state) {
   document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
@@ -61,12 +57,12 @@ function submitPage(){
 								<td align="left" class="label">Search Studies By:</td>
 								<td align="left" >
 								<form:select path="searchType">
-									<form:options items="${studySearchTypeRefData}" itemLabel="desc" itemValue="code" />
+									<form:options items="${searchTypeRefData}" itemLabel="desc" itemValue="code" />
 								</form:select></td>
 							</tr>
 							<tr>
 								<td align="left" class="label">Search Criteria: </td>
-								<td align="left"><form:input path="searchTypeText" /></td>
+								<td align="left"><form:input path="searchText" /></td>
 							</tr>
 							<tr>
 								<td align="left" class="label">&nbsp;</td>

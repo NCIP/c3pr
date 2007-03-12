@@ -7,9 +7,6 @@
 
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
-<title>C3Pr V2</title>
-<link href="resources/styles.css" rel="stylesheet" type="text/css"/>
 <link href="resources/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="/c3pr/js/CalendarPopup.js"></script>
 <script language="JavaScript" id="js1">

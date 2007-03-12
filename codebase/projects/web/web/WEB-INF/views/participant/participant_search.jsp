@@ -5,13 +5,8 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
-
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<title>C3Pr V2</title>
-<link href="resources/styles.css" rel="stylesheet" type="text/css">
-<link href="resources/search.css" rel="stylesheet" type="text/css">
 <script>
 function navRollOver(obj, state) {
   document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
@@ -73,7 +68,7 @@ function submitPage(){
 								<td align="left" class="label">Search Subjects By:</td>
 								<td align="left" >
 								<form:select path="searchType">
-									<form:options items="${searchType}" itemLabel="desc" itemValue="code" />
+									<form:options items="${searchTypeRefData}" itemLabel="desc" itemValue="code" />
 								</form:select></td>
 							</tr>
 							<tr>
