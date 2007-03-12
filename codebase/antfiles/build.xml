@@ -282,14 +282,14 @@
     <!-- Deploys the webapp (note:- only web + core projects )in Catalina_home  -->
     <!-- ====================================================================== -->
     <target name="deploy-webapp" depends="build-core, build-web" description="Deploy web application to tomcat">
-        <ant dir="${projects.dir}/web" inheritAll="true" antfile="build.xml" target="deploy"/>
+        <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="deploy"/>
     </target>
 
     <!-- ====================================================================== -->
     <!-- UnDeploys the webapp (note:- only web + core projects )in Catalina_home  -->
     <!-- ====================================================================== -->
     <target name="undeploy-webapp" description="undeploys the c3pr webapp">
-        <ant dir="${projects.dir}/web" inheritAll="true" antfile="build.xml" target="undeploy-web"/>
+        <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="undeploy-web"/>
     </target>
 
     <!-- ====================================================================== -->
