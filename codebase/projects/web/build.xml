@@ -22,7 +22,7 @@
 	<property name="ext.lib.dir" value="${basedir}/ext/lib" />
 	<property name="ext.test.lib.dir" location="${basedir}/ext/test/lib" />
     <property name="ext.resources.dir" location="${basedir}/ext/resources"/>
-    
+
     <property name="web.dir" location="${basedir}/web" />
 	<property name="war.file" location="${build.dir}/c3prv2.war" />
 	<property name="webapp.name" value="c3pr" />
@@ -37,7 +37,7 @@
 
 	<!-- core properties -->
 	<property name="web.properties.file" value="${basedir}/conf/web.properties"/>
-	   
+
 	<!-- Load common util path -->
 	<import file="antfiles/build-test.xml" />
 
@@ -61,7 +61,6 @@
 		<fileset dir="${env.CATALINA_HOME}/common/lib">
 			<include name="**/*.jar" />
 		</fileset>
-        <pathelement location="${ext.resources.dir}"/>
     </path>
 
 	<!-- =============================================================== -->
@@ -120,8 +119,11 @@
 	</target>
 
 	<target name="resources" description="Copy resources into classpath" depends="prepare">
-	    <copy file="${web.properties.file}" 
-			tofile="${classes.dir}/context/web.properties" 
+	    <!--load ext property files-->
+        <property file="${ext.resources.dir}/build.properties"/>
+
+        <copy file="${web.properties.file}"
+			tofile="${classes.dir}/context/web.properties"
 			overwrite="true"
 			filtering="true">
 	 		<filterset>
@@ -143,7 +145,7 @@
             </fileset>
         </copy>
     </target>
-	
+
 	<!-- =============================================================== -->
 	<!-- Compiles the source code                                        -->
 	<!-- =============================================================== -->
