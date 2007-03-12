@@ -96,7 +96,7 @@
 		lazy-init="true" class="edu.duke.cabig.c3pr.web.SearchStudyController"
 		autowire="byName">
 		<property name="commandClass"
-			value="edu.duke.cabig.c3pr.web.SearchStudyCommand">
+			value="edu.duke.cabig.c3pr.web.SearchCommand">
 		</property>
 		<property name="formView" value="study/study_search" />
 		<property name="successView" value="study/study_searchresults" />
@@ -116,7 +116,7 @@
 		<property name="formView" value="participant/participant_search" />
 		<property name="successView" value="participant/participant_search_results" />
 		<property name="commandClass"
-			value="edu.duke.cabig.c3pr.web.SearchParticipantCommand" />
+			value="edu.duke.cabig.c3pr.web.SearchCommand" />
 	</bean>
 	<bean name="/participant/editParticipant"
 		id="editParticipantController" lazy-init="true"
@@ -151,7 +151,7 @@
 		<property name="formView" value="registration/reg_enroll_patient" />
 		<property name="successView" value="registration/reg_patient_search" />
 		<property name="commandClass"
-			value="edu.duke.cabig.c3pr.web.SearchParticipantCommand" />
+			value="edu.duke.cabig.c3pr.web.SearchCommand" />
 	</bean>
 	<bean name="/registration/searchStudyInRegister"
 		id="searchStudyInRegisterController" lazy-init="true"
@@ -160,7 +160,7 @@
 		<property name="formView" value="registration/reg_enroll_study" />
 		<property name="successView" value="registration/reg_study_search" />
 		<property name="commandClass"
-			value="edu.duke.cabig.c3pr.web.SearchStudyCommand">
+			value="edu.duke.cabig.c3pr.web.SearchCommand">
 		</property>
 	</bean>
 	<bean name="/registration/register" id="registerController"
