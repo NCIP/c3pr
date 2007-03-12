@@ -3,8 +3,6 @@
 <!-- ======================================================================= -->
 <project name="c3pr-2.0-web-test" basedir=".">
 
-	<property name="test.dir" location="${basedir}/test" />
-	<property name="test.logs.dir" location="${test.dir}/logs" />
 	<property name="junit.results.dir" value="${test.logs.dir}/junit" />
 	<property name="core.src.dir" value="../core/src/" />
 	<property name="test.classes.dir" location="${basedir}/build/classes-test" />
@@ -39,7 +37,14 @@
 			<formatter type="xml" usefile="true" />
 			<formatter type="plain" usefile="false" />
 
-		
+			<batchtest fork="yes" todir="${junit.results.dir}">
+				<fileset dir="${test.src.dir}">
+					<include name="**/*TestCase.java" />
+					<include name="**/*Test.java" />
+					<exclude name="**/ControllerTestCase.java" />
+					<exclude name="**/WebTestCase.java" />
+				</fileset>
+			</batchtest>
 		</junit>
 	</target>
 </project>

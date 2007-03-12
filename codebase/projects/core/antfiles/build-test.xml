@@ -3,8 +3,6 @@
 <!-- ======================================================================= -->
 <project name="c3pr-2.0-core-test" basedir=".">
 
-	<property name="test.dir" location="${basedir}/test"/>
-	<property name="test.logs.dir" location="${test.dir}/logs"/>
 	<property name="junit.results.dir" value="${test.logs.dir}/junit"/>
 	<property name="antfiles.dir" value="${basedir}/antfiles"/>
 

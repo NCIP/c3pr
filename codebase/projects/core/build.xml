@@ -9,17 +9,26 @@
     <!-- Information -->
     <property name="project.name" value="core"/>
     <property name="project.version" value="1.0"/>
+
+    <!--src dirs-->
     <property name="src.dir" value="${basedir}/src"/>
+    <property name="resources.dir" value="${basedir}/resources"/>
+    <property name="lib.dir" value="${basedir}/lib"/>
+
+    <!--build dirs-->
     <property name="build.dir" value="${basedir}/build"/>
     <property name="classes.dir" value="${build.dir}/classes"/>
     <property name="jar.dir" value="${build.dir}/jars"/>
     <property name="project.jarfile" value="${jar.dir}/c3pr-2.0-${project.name}-${project.version}.jar"/>
-    <property name="lib.dir" value="${basedir}/lib"/>
+
+    <!--ext dirs-->
     <property name="ext.lib.dir" value="${basedir}/ext/lib"/>
     <property name="ext.test.lib.dir" location="${basedir}/ext/test/lib"/>
+    <property name="ext.resources.dir" location="${basedir}/ext/resources"/>
+
     <!-- testing stuff -->
     <property name="test.dir" location="${basedir}/test"/>
-    <property name="test.src.dir" location="${test.dir}"/>
+    <property name="test.src.dir" location="${test.dir}/src"/>
     <property name="test.classes.dir" location="${build.dir}/classes-test"/>
     <property name="test.lib.dir" location="${test.dir}/lib"/>
     <property name="test.logs.dir" location="${test.dir}/logs"/>
@@ -42,6 +51,9 @@
         </fileset>
         <fileset dir="${env.CATALINA_HOME}/common/lib">
             <include name="**/*.jar"/>
+        </fileset>
+        <fileset dir="${ext.resources.dir}">
+            <include name="**/*.properties"/>
         </fileset>
     </path>
     <!-- =============================================================== -->
@@ -127,9 +139,15 @@
                 <include name="**/*.xml"/>
             </fileset>
         </copy>
-        <copy todir="${test.dir}">
+        <copy todir="${test.src.dir}">
             <fileset dir="${test.src.dir}">
                 <include name="**/*.xml"/>
+            </fileset>
+        </copy>
+        <!--copy the castor mapping file-->
+        <copy todir="${classes.dir}">
+            <fileset dir="${resources.dir}">
+                <include name="c3pr-castor-mapping.xml"/>
             </fileset>
         </copy>
     </target>
@@ -189,33 +207,7 @@
             </manifest>
         </jar>
     </target>
-    <!-- ============================================================== -->
-    <!-- Creates the war file                                           -->
-    <!-- ============================================================== -->
-    <target name="war" depends="jar" description="Builds the war files">
-        <mkdir dir="${build.dir}"/>
-        <war destfile="${war.file}" webxml="${web.dir}/WEB-INF/web.xml">
-            <webinf dir="${web.dir}/WEB-INF">
-                <include name="**/*"/>
-                <exclude name="web.xml"/>
-                <exclude name="lib"/>
-            </webinf>
-            <fileset dir="${web.dir}">
-                <include name="**/*"/>
-                <exclude name="WEB-INF/**"/>
-            </fileset>
-            <lib file="${project.jarfile}"/>
-            <lib dir="${ext.lib.dir}">
-                <include name="**/*.jar"/>
-            </lib>
-            <lib dir="${web.dir}/WEB-INF/lib">
-                <include name="**/*.jar"/>
-            </lib>
-            <manifest>
-                <attribute name="Built-By" value="${user.name}"/>
-            </manifest>
-        </war>
-    </target>
+
     <!-- ============================================================== -->
     <!-- Builds from scratch                                                -->
     <!-- ============================================================== -->

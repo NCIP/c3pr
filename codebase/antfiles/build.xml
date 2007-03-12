@@ -6,12 +6,12 @@
 <project name="c3pr-2.0" default="all" basedir="..\">
     <!-- Give user the chance to override properties -->
     <property environment="env"/>
-	<!-- import master build properties -->
-	<property file="${antfiles.dir}/build.properties"/>
-	<property file="${user.home}/build.properties"/>
+    <!-- import master build properties -->
+    <property file="${antfiles.dir}/build.properties"/>
+    <property file="${user.home}/build.properties"/>
 
     <!--property name="build.properties.file" value="${basedir}/build.properties"/-->
-  	<!-- layout info -->
+    <!-- layout info -->
     <property name="antfiles.dir" location="${basedir}/antfiles"/>
     <property name="management.dir" location="${antfiles.dir}/management"/>
     <property name="projects.dir" location="${basedir}/projects"/>
@@ -169,8 +169,11 @@
             <artifact refid="dom4j.jars"/>
             <artifact refid="antlr.jars"/>
             <artifact refid="net-handle.jars"/>
+            <artifact refid="xerces.jars"/>
+            <artifact refid="xercesImpl.jars"/>
+            <artifact refid="c3pr.build.properties"/>
         </resolveDependencies>
-        <ant dir="${projects.dir}/core" inheritAll="true" antfile="build.xml" target="all"/>			
+        <ant dir="${projects.dir}/core" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
 
     <!-- =============================================================== -->
@@ -184,11 +187,10 @@
             <artifact refid="c3pr.core.jars"/>
             <artifact refid="jdom.jars"/>
             <artifact refid="dom4j.jars"/>
-            <artifact refid="xerces.jars"/>
-            <artifact refid="xercesImpl.jars"/>
             <artifact refid="web-sso.jars"/>
+            <artifact refid="c3pr.build.properties"/>
         </resolveDependencies>
-        <ant dir="${projects.dir}/web" inheritAll="true" antfile="build.xml" target="all"/>
+        <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
 
     <!-- =============================================================== -->
@@ -279,7 +281,7 @@
     <!-- ====================================================================== -->
     <!-- Deploys the webapp (note:- only web + core projects )in Catalina_home  -->
     <!-- ====================================================================== -->
-    <target name="deploy-webapp" depends="build-core, build-web" description="Deploy web application to tomcat">               
+    <target name="deploy-webapp" depends="build-core, build-web" description="Deploy web application to tomcat">
         <ant dir="${projects.dir}/web" inheritAll="true" antfile="build.xml" target="deploy"/>
     </target>
 

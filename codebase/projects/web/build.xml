@@ -21,13 +21,15 @@
 	<property name="conf.dir" value="${basedir}/conf" />
 	<property name="ext.lib.dir" value="${basedir}/ext/lib" />
 	<property name="ext.test.lib.dir" location="${basedir}/ext/test/lib" />
-	<property name="web.dir" location="${basedir}/web" />
+    <property name="ext.resources.dir" location="${basedir}/ext/resources"/>
+    
+    <property name="web.dir" location="${basedir}/web" />
 	<property name="war.file" location="${build.dir}/c3prv2.war" />
 	<property name="webapp.name" value="c3pr" />
 
 	<!-- testing stuff -->
 	<property name="test.dir" location="${basedir}/test" />
-	<property name="test.src.dir" location="${test.dir}" />
+	<property name="test.src.dir" location="${test.dir}/src" />
 	<property name="test.classes.dir" location="${build.dir}/classes-test" />
 	<property name="test.lib.dir" location="${test.dir}/lib" />
 	<property name="test.logs.dir" location="${test.dir}/logs" />
@@ -59,7 +61,10 @@
 		<fileset dir="${env.CATALINA_HOME}/common/lib">
 			<include name="**/*.jar" />
 		</fileset>
-	</path>
+         <fileset dir="${ext.resources.dir}">
+            <include name="**/*.properties"/>
+        </fileset>
+    </path>
 
 	<!-- =============================================================== -->
 	<!-- The Run Classpath                                                   -->
@@ -134,7 +139,7 @@
                 <include name="**/*.xml"/>
             </fileset>
         </copy>
-        <copy todir="${test.dir}">
+        <copy todir="${test.src.dir}">
             <fileset dir="${test.src.dir}">
                 <include name="**/*.xml"/>
             </fileset>

@@ -216,6 +216,12 @@
             </fileset>
         </artifact>
 
+        <artifact track="main" type="resources" id="c3pr.build.properties">
+            <fileset dir="${antfiles.dir}">
+                <include name="build.properties"/>
+            </fileset>
+        </artifact>
+
     </target>
 
 </project>
