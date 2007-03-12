@@ -34,11 +34,11 @@ private static Log log = LogFactory.getLog(SearchSubjectInRegisterController.cla
 	private ParticipantService participantService;	
 
 	public SearchSubjectInRegisterController(){
-		setCommandClass(SearchParticipantCommand.class);
+		setCommandClass(SearchCommand.class);
 	}	
 	
 	protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object oCommand, BindException errors) throws Exception {
-    	SearchParticipantCommand searchParticipantCommand = (SearchParticipantCommand) oCommand;
+    	SearchCommand searchParticipantCommand = (SearchCommand) oCommand;
     	Participant participant = new Participant();
     	String text = searchParticipantCommand.getSearchText();
     	String type = searchParticipantCommand.getSearchType();
@@ -63,7 +63,7 @@ private static Log log = LogFactory.getLog(SearchSubjectInRegisterController.cla
     	Map map =errors.getModel();
     	map.put("participants", participants);
     	map.put("studySiteId", request.getParameter("studySiteId"));
-    	map.put("searchType", getSearchType());
+    	map.put("searchTypeRefData", getSearchType());
     	ModelAndView modelAndView= new ModelAndView(getSuccessView(), map);
     	return modelAndView;
     }

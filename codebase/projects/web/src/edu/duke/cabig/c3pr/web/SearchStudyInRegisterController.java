@@ -27,9 +27,9 @@ public class SearchStudyInRegisterController extends SimpleFormController {
 	protected ModelAndView onSubmit(HttpServletRequest request,
 			HttpServletResponse response, Object oCommand, BindException errors)
 			throws Exception {
-		SearchStudyCommand searchRegisterCommand = (SearchStudyCommand) oCommand;
+		SearchCommand searchRegisterCommand = (SearchCommand) oCommand;
 		String type=searchRegisterCommand.getSearchType();
-		String searchtext=searchRegisterCommand.getSearchTypeText();
+		String searchtext=searchRegisterCommand.getSearchText();
 		Study study = new Study();
     	log.debug("search string = " +searchtext+"; type = "+type);
  	   
@@ -50,7 +50,7 @@ public class SearchStudyInRegisterController extends SimpleFormController {
     	log.debug("Search results size " +studies.size());
     	Map map = errors.getModel();
 		map.put("studies", studies);
-		map.put("searchType", getSearchType());
+		map.put("searchTypeRefData", getSearchType());
     	map.put("participantId", request.getParameter("participantId"));		
 		ModelAndView modelAndView = new ModelAndView(getSuccessView(), map);
 		return modelAndView;

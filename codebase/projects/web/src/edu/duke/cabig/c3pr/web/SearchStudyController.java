@@ -26,10 +26,10 @@ public class SearchStudyController  extends SimpleFormController{
 	private StudyDao studyDao;   
 
 	protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object oCommand, BindException errors) throws Exception {
-    	SearchStudyCommand searchStudyCommand = (SearchStudyCommand) oCommand;
+    	SearchCommand searchStudyCommand = (SearchCommand) oCommand;
     	Study study = new Study();
     	String type = searchStudyCommand.getSearchType();
-    	String searchtext = searchStudyCommand.getSearchTypeText();
+    	String searchtext = searchStudyCommand.getSearchText();
     	
     	log.debug("search string = " +searchtext+"; type = "+type);
     	    	   
@@ -52,7 +52,7 @@ public class SearchStudyController  extends SimpleFormController{
     	
     	Map map = errors.getModel();
     	map.put("study", studies);
-    	map.put("searchType",configMap.get("studySearchType"));    	
+    	map.put("searchTypeRefData",configMap.get("studySearchType"));    	
     	ModelAndView modelAndView= new ModelAndView(getSuccessView(), map);
     	return modelAndView;
     }
@@ -60,7 +60,7 @@ public class SearchStudyController  extends SimpleFormController{
     protected Map<String, Object> referenceData(HttpServletRequest httpServletRequest) throws Exception {
     	Map<String, Object> refdata = new HashMap<String, Object>();
     	Map <String, List<Lov>> configMap = configurationProperty.getMap();    	
-    	refdata.put("studySearchTypeRefData", configMap.get("studySearchType"));
+    	refdata.put("searchTypeRefData", configMap.get("studySearchType"));
         return refdata;
     }
 

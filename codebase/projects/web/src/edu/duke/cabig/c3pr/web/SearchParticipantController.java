@@ -32,13 +32,13 @@ private static Log log = LogFactory.getLog(SearchParticipantController.class);
 	private ConfigurationProperty configurationProperty;	
 
 	public SearchParticipantController(){
-		setCommandClass(SearchParticipantCommand.class);
+		setCommandClass(SearchCommand.class);
 		this.setFormView("particpant_search");
 		this.setSuccessView("participant_search_results");
 	}
 	
 	protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object oCommand, BindException errors) throws Exception {
-    	SearchParticipantCommand searchParticipantCommand = (SearchParticipantCommand) oCommand;
+    	SearchCommand searchParticipantCommand = (SearchCommand) oCommand;
     	Participant participant = new Participant();
     	String text = searchParticipantCommand.getSearchText();
     	String type = searchParticipantCommand.getSearchType();
@@ -61,7 +61,7 @@ private static Log log = LogFactory.getLog(SearchParticipantController.class);
     	log.debug("Search results size " +participants.size());
     	Map map =errors.getModel();
     	map.put("participants", participants);
-    	map.put("searchType",configMap.get("participantSearchType"));
+    	map.put("searchTypeRefData",configMap.get("participantSearchType"));
     	ModelAndView modelAndView= new ModelAndView(getSuccessView(), map);
     	return modelAndView;
     }
@@ -70,7 +70,7 @@ private static Log log = LogFactory.getLog(SearchParticipantController.class);
  		Map<String, Object> refdata = new HashMap<String, Object>();
  		Map <String, List<Lov>> configMap = configurationProperty.getMap();
 		
- 		refdata.put("searchType", configMap.get("participantSearchType"));
+ 		refdata.put("searchTypeRefData", configMap.get("participantSearchType"));
  		return refdata;
 	 }	
 	

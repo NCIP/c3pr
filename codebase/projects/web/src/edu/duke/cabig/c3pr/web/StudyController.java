@@ -97,7 +97,7 @@ public abstract class StudyController extends AbstractWizardFormController {
 		Map <String, List<Lov>> configMap = configurationProperty.getMap();
 		
 	  	if (page == 0) {
-	  		refdata.put("studySearchTypeRefData", configMap.get("studySearchType"));	  	     
+	  		refdata.put("searchTypeRefData", configMap.get("studySearchType"));	  	     
 	  		refdata.put("diseaseCodeRefData", configMap.get("diseaseCodeRefData"));
 	  		refdata.put("monitorCodeRefData",  configMap.get("monitorCodeRefData"));
 	  		refdata.put("phaseCodeRefData",  configMap.get("phaseCodeRefData"));

@@ -59,16 +59,7 @@ public class SearchAndRegisterController extends SimpleFormController {
 
 			Iterator<Participant> participantIter = participants.iterator();
 			while (participantIter.hasNext()) {
-				participant = participantIter.next();
-				System.out.println("Id for participant is "
-						+ participant.getId());
-				System.out.println("LastName of participant is "
-						+ participant.getLastName());
-				System.out.println("FirstName of participant is "
-						+ participant.getFirstName());
-				// System.out.println(" D.O.B of participant is " +
-				// participant.getBirthDate());
-
+				participant = participantIter.next();				
 			}
 			String type = searchRegisterCommand.getSearchType();
 			String searchtext = searchRegisterCommand.getSearchTypeText();
@@ -104,7 +95,7 @@ public class SearchAndRegisterController extends SimpleFormController {
     	log.debug("Search results size " +studies.size());
     	Map map = errors.getModel();
     	map.put("studies", studies);
-    	map.put("searchType",getSearchType() );    	
+    	map.put("searchTypeRefData",getSearchType() );    	
 		ModelAndView modelAndView = new ModelAndView(getSuccessView(), map);
 		return modelAndView;
 	}

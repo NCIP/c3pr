@@ -46,7 +46,7 @@ public class EditStudyController extends StudyController {
 		List<StudyParticipantAssignment> list = studyDao.getStudyParticipantAssignmentsForStudy(
 			study.getId());		
 		refdata.put("participantAssignments", list);
-		refdata.put("studySearchTypeRefData", configMap.get("studySearchType"));	  	     
+		refdata.put("searchTypeRefData", configMap.get("studySearchType"));	  	     
   		
 	  	if (page == 0) {	  		
 	  		refdata.put("diseaseCodeRefData", configMap.get("diseaseCodeRefData"));
