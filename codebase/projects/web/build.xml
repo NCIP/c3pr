@@ -61,9 +61,7 @@
 		<fileset dir="${env.CATALINA_HOME}/common/lib">
 			<include name="**/*.jar" />
 		</fileset>
-         <fileset dir="${ext.resources.dir}">
-            <include name="**/*.properties"/>
-        </fileset>
+        <pathelement location="${ext.resources.dir}"/>
     </path>
 
 	<!-- =============================================================== -->
