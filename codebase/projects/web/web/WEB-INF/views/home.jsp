@@ -6,35 +6,20 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <title>C3PR V2</title>
-<link href="resources/styles.css" rel="stylesheet" type="text/css">
-<link href="resources/search.css" rel="stylesheet" type="text/css">
 <script>
 function navRollOver(obj, state) {
   document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
 }
-function search(s){
 
-}
-function submitPage(s){
-	document.getElementById("searchCategory").value=s;
-	document.getElementById("searchForm").submit();
-}
 </script>
 </head>
 <body>
 
 <!-- MAIN BODY STARTS HERE -->
-<div class="workArea">
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" id="details">
 	<form:form id="searchForm" name="searchForm" method="post">
-		<form:hidden path="searchCategory" />
-		<tr>
-			<!-- CURRENT PROTOCOL/Subject TITLE STARTS HERE -->
-
-			<td id="current">Search</td>
-			<!-- CURRENT PROTOCOL/Subject TITLE ENDS HERE -->
-		</tr>
+		<form:hidden path="searchCategory" />		
 		<tr>
 			<td class="display"><!-- TABS LEFT START HERE -->
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -155,8 +140,6 @@ function submitPage(s){
 		</tr>
 	</form:form>
 </table>
-<div id="copyright"></div>
-</div>
 <!-- MAIN BODY ENDS HERE -->
 </body>
 </html>
