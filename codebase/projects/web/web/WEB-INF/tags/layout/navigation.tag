@@ -2,8 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 
-<div id="navigation">
-    <!-- TOP NAVIGATION STARTS HERE -->
+<!-- TOP NAVIGATION STARTS HERE -->
     <table width="100%" border="0" cellspacing="0" cellpadding="0" id="topNav">
         <tr valign="middle">
             <td class="left">
@@ -14,6 +13,7 @@
                             <a href="<c:url value="${section.mainUrl}"/>">
                             	${section.displayName}</a></span><img src="<tags:imageUrl name="topNavR.gif"/>" 
                             	width="2" height="20" align="absmiddle" class="currentR">
+                            </span>
                         </c:when>
                         <c:otherwise>
                             <a href="<c:url value="${section.mainUrl}"/>">${section.displayName}</a>
@@ -47,5 +47,4 @@
             </td>
          </tr>
     </table>
-    <!-- SUB NAV ENDS HERE -->
-</div>
+<!-- SUB NAV ENDS HERE -->
