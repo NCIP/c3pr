@@ -96,7 +96,7 @@ function submitPage(){
 									<td class="labels">&nbsp;</td>
 								</tr>
 								<tr>
-									<td><form:input path="searchTypeText" /></td>
+									<td><form:input path="searchText" /></td>
 									<td><input name="imageField" type="image" class="button"
 										onClick="submitPage()" src="<tags:imageUrl name="b-go.gif"/>" alt="GO"
 										align="middle" width="22" height="10" border="0"></td>

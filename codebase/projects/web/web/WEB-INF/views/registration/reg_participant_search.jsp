@@ -82,7 +82,7 @@ function doNothing(){
 								<tr>
 									<td class="searchType">Search Subject by <form:select
 										path="searchTypePart">
-										<form:options items="${searchTypeParticipant}"
+										<form:options items="${partSearchTypeRefData}"
 											itemLabel="desc" itemValue="code" />
 									</form:select></td>
 								</tr>

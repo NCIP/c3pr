@@ -80,7 +80,7 @@ function submitPage(){
 								<tr>
 									<td class="searchType">Search Subject by <form:select
 										path="searchType">
-										<form:options items="${searchType}" itemLabel="desc"
+										<form:options items="${searchTypeRefData}" itemLabel="desc"
 											itemValue="code" />
 									</form:select></td>
 								</tr>

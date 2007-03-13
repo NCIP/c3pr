@@ -81,7 +81,7 @@ function doNothing(){
 								<tr>
 									<td class="searchType">Search Study By<form:select
 										path="searchType">
-										<form:options items="${searchType}" itemLabel="desc"
+										<form:options items="${studySearchTypeRefData}" itemLabel="desc"
 											itemValue="code" />
 									</form:select></td>
 								</tr>
@@ -120,10 +120,7 @@ function doNothing(){
 							<tr>
 
 								<!-- LEFT CONTENT STARTS HERE -->
-
 								<td valign="top" class="additionals"><!-- LEFT FORM STARTS HERE -->
-
-
 								<br>
 								<table width="100%" border="0" cellspacing="0" cellpadding="0"
 									id="additionalList">

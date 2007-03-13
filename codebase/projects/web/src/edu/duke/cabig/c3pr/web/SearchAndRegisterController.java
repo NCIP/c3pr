@@ -1,6 +1,5 @@
 package edu.duke.cabig.c3pr.web;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -15,15 +14,13 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 
-import com.semanticbits.security.grid.GridLoginContext;
-
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.service.ParticipantService;
+import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
-
 
 public class SearchAndRegisterController extends SimpleFormController {
 	private static Log log = LogFactory
@@ -31,12 +28,15 @@ public class SearchAndRegisterController extends SimpleFormController {
 
 	private StudyDao studyDao;
 	private ParticipantService participantService;
+	private ConfigurationProperty configurationProperty;	
 
 	protected ModelAndView onSubmit(HttpServletRequest request,
 			HttpServletResponse response, Object oCommand, BindException errors)
 			throws Exception {
 		SearchRegisterCommand searchRegisterCommand = (SearchRegisterCommand) oCommand;
 		String category = searchRegisterCommand.getSearchCategory();
+		Map <String, List<Lov>> configMap = configurationProperty.getMap();
+    	
 		if (category.equalsIgnoreCase("participant")) {
 			String searchTextPart=searchRegisterCommand.getSearchTypeTextPart();
 			String searchType=searchRegisterCommand.getSearchTypePart();
@@ -51,11 +51,8 @@ public class SearchAndRegisterController extends SimpleFormController {
 				//FIXME:
 				participant.addIdentifier(identifier);
 			} 
-			if(participantService==null){
-				System.out.println("---------------------participantService is null------------------------");
-			}
-			List<Participant> participants = participantService
-					.search(participant);
+			
+			List<Participant> participants = participantService.search(participant);
 
 			Iterator<Participant> participantIter = participants.iterator();
 			while (participantIter.hasNext()) {
@@ -68,7 +65,7 @@ public class SearchAndRegisterController extends SimpleFormController {
 			Map map = errors.getModel();
 			map.put("participants", participants);
 			map.put("studySiteId", request.getParameter("studySiteId"));
-			map.put("searchTypeParticipant", getSearchTypeParticipant());			
+			map.put("partSearchTypeRefData", configMap.get("participantSearchType"));			
 			ModelAndView modelAndView = new ModelAndView("registration/reg_participant_search", map);
 			return modelAndView;
 
@@ -92,10 +89,11 @@ public class SearchAndRegisterController extends SimpleFormController {
     		study.setShortTitleText(searchtext);
     	
     	List<Study> studies = studyDao.searchByExample(study, true);   
+    	
     	log.debug("Search results size " +studies.size());
     	Map map = errors.getModel();
     	map.put("studies", studies);
-    	map.put("searchTypeRefData",getSearchType() );    	
+    	map.put("studySearchTypeRefData",configMap.get("studySearchType"));    	
 		ModelAndView modelAndView = new ModelAndView(getSuccessView(), map);
 		return modelAndView;
 	}
@@ -103,58 +101,11 @@ public class SearchAndRegisterController extends SimpleFormController {
 	protected Map<String, Object> referenceData(
 			HttpServletRequest httpServletRequest) throws Exception {
 		Map<String, Object> refdata = new HashMap<String, Object>();
-//		GridLoginContext gridLoginContext=(GridLoginContext)httpServletRequest.getSession().getAttribute("login-context");
-//		refdata.put("user", gridLoginContext.getFirstName()+" "+gridLoginContext.getLastName());
-		refdata.put("searchType", getSearchType());
-		refdata.put("searchTypePart", getSearchTypeParticipant());
+		Map <String, List<Lov>> configMap = configurationProperty.getMap();    	
+		refdata.put("studySearchTypeRefData", configMap.get("studySearchType"));
+		refdata.put("partSearchTypeRefData", configMap.get("participantSearchType"));
 		return refdata;
-	}
-	 private List<LOV> getSearchTypeParticipant(){
-			List<LOV> col = new ArrayList<LOV>();
-			LOV lov1 = new LOV("N", "Last Name");
-			LOV lov2 = new LOV("Identifier", "Identifier");						
-			col.add(lov1);
-	    	col.add(lov2);    	
-	    	return col;
-		}
-		private List<Lov> getSearchType(){
-			Lov col = new Lov();
-			col.addData("s", "Status");
-			col.addData("id", "Identifier");
-			col.addData("shortTitle", "Short Title");
-			col.addData("longTitle", "Long Title");
-				
-	    	return col.getData();
-		}	
-
-	public class LOV {
-
-		private String code;
-
-		private String desc;
-
-		LOV(String code, String desc) {
-			this.code = code;
-			this.desc = desc;
-
-		}
-
-		public String getCode() {
-			return code;
-		}
-
-		public void setCode(String code) {
-			this.code = code;
-		}
-
-		public String getDesc() {
-			return desc;
-		}
-
-		public void setDesc(String desc) {
-			this.desc = desc;
-		}
-	}
+	}	 
 
 	public ParticipantService getParticipantService() {
 		return participantService;
@@ -171,4 +122,14 @@ public class SearchAndRegisterController extends SimpleFormController {
 	public void setStudyDao(StudyDao studyDao) {
 		this.studyDao = studyDao;
 	}
+
+	public ConfigurationProperty getConfigurationProperty() {
+		return configurationProperty;
+	}
+
+	public void setConfigurationProperty(ConfigurationProperty configurationProperty) {
+		this.configurationProperty = configurationProperty;
+	}	
+	
+	
 }

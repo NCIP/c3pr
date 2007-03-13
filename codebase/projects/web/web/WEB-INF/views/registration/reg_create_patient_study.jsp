@@ -67,58 +67,19 @@ function submitPage(){
 			<!-- MAIN BODY STARTS HERE -->
 			<tr>
 				<td>
-				<div class="workArea"><img src="<tags:imageUrl name="tabWhiteR.gif"/>" width="3"
-					height="16" align="absmiddle"> <img src="<tags:imageUrl name="tabWhiteR.gif"/>"
-					width="3" height="16" align="absmiddle">
 				<table width="100%" border="0" cellspacing="0" cellpadding="0">
 					<tr>
 						<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
-
 						<td id="current">Search Subject</td>
 						<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
 					</tr>
-					<form:form id="searchParticipant" name="searchParticipant"
-						action="/c3pr/pages/registration/searchSubjectInRegister?studySiteId=${studySiteId}"
-						method="post">
-
-						<tr>
-							<td class="display"><!-- TABS LEFT START HERE -->
-							<table width="100%" border="0" cellspacing="0" cellpadding="0"
-								id="search">
-								<tr>
-									<td>&nbsp;</td>
-								</tr>
-								<tr>
-									<td width="5%">&nbsp;</td>
-									<td class="searchType">Search Subject by <select
-										name="searchType">
-										<c:forEach var="opt" items="${searchType}">
-											<option value="${opt.code }">${opt.desc }</option>
-										</c:forEach>
-									</select></td>
-									<td align="left" class="labels">Search Criteria:</td>
-									<td><input type="text" name="searchText" /></td>
-									<td><input name="imageField" type="image" class="button"
-										onClick="submitPage()" src="<tags:imageUrl name="b-go.gif"/>" alt="GO"
-										align="middle" width="22" height="10" border="0"></td>
-									<td width=65%>&nbsp;</td>
-								</tr>
-								<tr>
-									<td>&nbsp;</td>
-								</tr>
-							</table>
-							</td>
-						</tr>
-					</form:form>
+					<tags:search action="/c3pr/pages/registration/searchSubjectInRegister?studySiteId=${studySiteId}"/>										
 				</table>
 				</td>
 			</tr>
 
 			<tr>
 				<td>
-				<div class="workArea"><img src="<tags:imageUrl name="tabWhiteR.gif"/>" width="3"
-					height="16" align="absmiddle"> <img src="<tags:imageUrl name="tabWhiteR.gif"/>"
-					width="3" height="16" align="absmiddle">
 				<table width="100%" border="0" cellspacing="0" cellpadding="0">
 					<tr>
 						<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->

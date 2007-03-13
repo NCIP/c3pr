@@ -79,7 +79,7 @@ function submitPage(){
 								<tr>
 									<td class="searchType">Search Study By<form:select
 										path="searchType">
-										<form:options items="${searchType}" itemLabel="desc"
+										<form:options items="${searchTypeRefData}" itemLabel="desc"
 											itemValue="code" />
 									</form:select></td>
 								</tr>
@@ -93,7 +93,7 @@ function submitPage(){
 									<td class="labels">&nbsp;</td>
 								</tr>
 								<tr>
-									<td><form:input path="searchTypeText" /></td>
+									<td><form:input path="searchText" /></td>
 									<td><input name="imageField" type="image" class="button"
 										onClick="submitPage()" src="<tags:imageUrl name="b-go.gif"/>" alt="GO"
 										align="middle" width="22" height="10" border="0"></td>
