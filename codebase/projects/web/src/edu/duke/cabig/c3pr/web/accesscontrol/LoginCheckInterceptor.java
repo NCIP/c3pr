@@ -18,6 +18,7 @@ import com.semanticbits.security.grid.GridLoginContext;
  */
 public class LoginCheckInterceptor extends HandlerInterceptorAdapter {
     private static Log log = LogFactory.getLog(LoginCheckInterceptor.class);
+    private String enableLogin = "true";
 
     public static final String REQUESTED_URL_ATTRIBUTE = LoginCheckInterceptor.class.getName() + ".REQUESTED_URL";
 
@@ -35,15 +36,18 @@ public class LoginCheckInterceptor extends HandlerInterceptorAdapter {
     }
 
     public boolean preHandle(
-        HttpServletRequest request, HttpServletResponse response, Object handler
-    ) throws Exception {
-//        GridLoginContext gridLoginContext = (GridLoginContext)request.getSession().getAttribute("login-context");
-    	String proxy = (String)request.getSession().getAttribute("gridProxy");
-        if (proxy == null) {
-        	response.sendRedirect("/c3pr/invalidLogin.jsp");
-        	return false;
-        }
-        return true;
+        HttpServletRequest request, HttpServletResponse response, Object handler) 
+    	throws Exception {
+    	if (enableLogin.equals("true")) {
+	    	// GridLoginContext gridLoginContext = (GridLoginContext)request.getSession().getAttribute("login-context");
+	    	String proxy = (String)request.getSession().getAttribute("gridProxy");
+	        if (proxy == null) {
+	        	response.sendRedirect("/c3pr/invalidLogin.jsp");
+	        	return false;
+	        }
+	        return true;
+	    }    
+    	return true;
     }
 
     private String getFullPath(HttpServletRequest request) {
@@ -51,4 +55,13 @@ public class LoginCheckInterceptor extends HandlerInterceptorAdapter {
         if (request.getQueryString() != null) fullPath.append('?').append(request.getQueryString());
         return fullPath.toString();
     }
+
+	public String getEnableLogin() {
+		return enableLogin;
+	}
+
+	public void setEnableLogin(String enableLogin) {
+		this.enableLogin = enableLogin;
+	}
+       
 }
