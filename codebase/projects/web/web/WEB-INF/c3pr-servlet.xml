@@ -7,27 +7,15 @@
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
 
-	<bean
-		class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor" />
+	<bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor" />
 
 	<bean id="messageSource"
 		class="org.springframework.context.support.ResourceBundleMessageSource">
-		<property name="basename">
-			<value>messages</value>
-		</property>
+		<property name="basename" value="messages"/>
 	</bean>
 
 	<bean id="noCacheTemplate" abstract="true">
-		<property name="cacheSeconds">
-			<value>0</value>
-		</property>
-	</bean>
-
-	<bean id="gridProxyRetrievalStrategy"
-		class="gov.nih.nci.cabig.ctms.web.sso.DefaultGridProxyRetrievalStrategy">
-		<property name="usernameParam" value="username" />
-		<property name="passwordParam" value="password" />
-		<property name="gridProxyParam" value="gridProxy" />
+		<property name="cacheSeconds" value="0"/>
 	</bean>
 
 	<bean id="urlMappingName"
@@ -42,30 +30,21 @@
 
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="viewClass">
-			<value>org.springframework.web.servlet.view.JstlView</value>
-		</property>
-		<property name="prefix">
-			<value>/WEB-INF/views/</value>
-		</property>
-		<property name="suffix">
-			<value>.jsp</value>
-		</property>
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+		<property name="prefix" value="/WEB-INF/views/"/>
+		<property name="suffix" value=".jsp"/>
 	</bean>
 
 	<bean id="urlResolver"
 		class="edu.duke.cabig.c3pr.utils.web.spring.BeanNameControllerUrlResolver">
-		<property name="servletName">
-			<value>pages</value>
-		</property>
+		<property name="servletName" value="pages"/>
 	</bean>
 
 	<bean name="/study/createStudy" id="createStudyController"
-		lazy-init="true" class="edu.duke.cabig.c3pr.web.CreateStudyController"
+		lazy-init="true" 
+		class="edu.duke.cabig.c3pr.web.CreateStudyController"
 		autowire="byName">
-		<property name="commandClass"
-			value="edu.duke.cabig.c3pr.domain.Study">
-		</property>
+		<property name="commandClass" value="edu.duke.cabig.c3pr.domain.Study"/>
 		<property name="pages">
 			<list>
 				<value>study/study_details</value>
@@ -80,9 +59,7 @@
 	<bean name="/study/editStudy" id="editStudyController"
 		lazy-init="true" class="edu.duke.cabig.c3pr.web.EditStudyController"
 		autowire="byName">
-		<property name="commandClass"
-			value="edu.duke.cabig.c3pr.domain.Study">
-		</property>
+		<property name="commandClass" value="edu.duke.cabig.c3pr.domain.Study"/>
 		<property name="pages">
 			<list>
 				<value>study/study_edit_details</value>
@@ -95,9 +72,7 @@
 	<bean name="/study/searchStudy" id="searchStudyController"
 		lazy-init="true" class="edu.duke.cabig.c3pr.web.SearchStudyController"
 		autowire="byName">
-		<property name="commandClass"
-			value="edu.duke.cabig.c3pr.web.SearchCommand">
-		</property>
+		<property name="commandClass" value="edu.duke.cabig.c3pr.web.SearchCommand"/>
 		<property name="formView" value="study/study_search" />
 		<property name="successView" value="study/study_searchresults" />
 	</bean>
@@ -105,8 +80,7 @@
 		id="createParticipantController" lazy-init="true"
 		class="edu.duke.cabig.c3pr.web.CreateParticipantController"
 		autowire="byName">
-		<property name="commandClass"
-			value="edu.duke.cabig.c3pr.domain.Participant" />
+		<property name="commandClass" value="edu.duke.cabig.c3pr.domain.Participant" />
 		<!-- Set the pages are in Controller -->
 	</bean>
 	<bean name="/participant/searchParticipant"
@@ -122,8 +96,7 @@
 		id="editParticipantController" lazy-init="true"
 		class="edu.duke.cabig.c3pr.web.EditParticipantController"
 		autowire="byName">
-		<property name="commandClass"
-			value="edu.duke.cabig.c3pr.domain.Participant" />
+		<property name="commandClass" value="edu.duke.cabig.c3pr.domain.Participant" />
 		<property name="commandName" value="command" />
 		<property name="pages">
 			<list>
@@ -138,9 +111,7 @@
 		id="searchAndRegisterController" lazy-init="true"
 		class="edu.duke.cabig.c3pr.web.SearchAndRegisterController"
 		autowire="byName">
-		<property name="commandClass"
-			value="edu.duke.cabig.c3pr.web.SearchRegisterCommand">
-		</property>
+		<property name="commandClass" value="edu.duke.cabig.c3pr.web.SearchRegisterCommand"/>
 		<property name="formView" value="home" />
 		<property name="successView" value="registration/reg_protocol_search" />
 	</bean>
@@ -150,8 +121,15 @@
 		autowire="byName">
 		<property name="formView" value="registration/reg_enroll_patient" />
 		<property name="successView" value="registration/reg_patient_search" />
-		<property name="commandClass"
-			value="edu.duke.cabig.c3pr.web.SearchCommand" />
+		<property name="commandClass" value="edu.duke.cabig.c3pr.web.SearchCommand" />
+	</bean>
+	<bean name="/registration/searchStudy"
+		id="searchParticipantController" lazy-init="true"
+		class="edu.duke.cabig.c3pr.web.SearchParticipantController"
+		autowire="byName">
+		<property name="formView" value="registration/reg_enroll_study" />
+		<property name="successView" value="registration/reg_study_search" />
+		<property name="commandClass" value="edu.duke.cabig.c3pr.web.SearchCommand"/>
 	</bean>
 	<bean name="/registration/searchStudyInRegister"
 		id="searchStudyInRegisterController" lazy-init="true"
@@ -159,9 +137,7 @@
 		autowire="byName">
 		<property name="formView" value="registration/reg_enroll_study" />
 		<property name="successView" value="registration/reg_study_search" />
-		<property name="commandClass"
-			value="edu.duke.cabig.c3pr.web.SearchCommand">
-		</property>
+		<property name="commandClass" value="edu.duke.cabig.c3pr.web.SearchCommand"/>
 	</bean>
 	<bean name="/registration/register" id="registerController"
 		lazy-init="true" class="edu.duke.cabig.c3pr.web.RegisterController"
@@ -191,17 +167,13 @@
 					class="edu.duke.cabig.c3pr.utils.web.navigation.Section"
 					autowire="byType" p:displayName="Registration"
 					p:mainController="searchAndRegisterController">
-					<property name="pathMapping">
-						<value>/registration/**</value>
-					</property>
+					<property name="pathMapping" value="/registration/**"/>
 				</bean>
 				<bean
 					class="edu.duke.cabig.c3pr.utils.web.navigation.Section"
 					autowire="byType" p:displayName="Studies"
 					p:mainController="searchStudyController">
-					<property name="pathMapping">
-						<value>/study/**</value>
-					</property>
+					<property name="pathMapping" value="/study/**"/>
 					<property name="tasks">
 						<list>
 							<bean
@@ -219,9 +191,7 @@
 					class="edu.duke.cabig.c3pr.utils.web.navigation.Section"
 					autowire="byType" p:displayName="Subjects"
 					p:mainController="searchParticipantController">
-					<property name="pathMapping">
-						<value>/participant/**</value>
-					</property>
+					<property name="pathMapping" value="/participant/**"/>
 					<property name="tasks">
 						<list>
 							<bean
@@ -240,5 +210,7 @@
 	</bean>
 
 	<bean id="loginCheckInterceptor"
-		class="edu.duke.cabig.c3pr.web.accesscontrol.LoginCheckInterceptor" />
+		class="edu.duke.cabig.c3pr.web.accesscontrol.LoginCheckInterceptor">
+		<property name="enableLogin" value="${enableLogin}"/>
+	</bean>	
 </beans>
