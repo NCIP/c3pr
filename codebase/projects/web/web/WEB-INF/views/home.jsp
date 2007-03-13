@@ -10,7 +10,10 @@
 function navRollOver(obj, state) {
   document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
 }
-
+function submitPage(s){
+	document.getElementById("searchCategory").value=s;
+	document.getElementById("searchForm").submit();
+}
 </script>
 </head>
 <body>
@@ -28,7 +31,6 @@ function navRollOver(obj, state) {
 					<table width="100%" border="0" cellspacing="0" cellpadding="0"
 						class="tabs">
 						<tr>
-
 							<td width="100%" id="tabDisplay"><span class="current"><img
 								src="<tags:imageUrl name="tabWhiteR.gif"/>" width="3" height="16"
 								align="absmiddle"> Study Search <img
@@ -75,7 +77,7 @@ function navRollOver(obj, state) {
 									<td align="left" class="label">Search Studies By:</td>
 									<td align="left" >
 									<form:select path="searchType">
-										<form:options items="${searchType}" itemLabel="desc" itemValue="code" />
+										<form:options items="${studySearchTypeRefData}" itemLabel="desc" itemValue="code" />
 									</form:select></td>
 								</tr>
 								<tr>
@@ -110,13 +112,13 @@ function navRollOver(obj, state) {
 								<tr>
 									<td align="left" class="label">Search Subject By:</td>
 									<td align="left">
-									<form:select path="searchTypePart">
-										<form:options items="${searchTypePart}" itemLabel="desc" itemValue="code" />
+									<form:select path="searchType">
+										<form:options items="${partSearchTypeRefData}" itemLabel="desc" itemValue="code" />
 									</form:select></td>
 								</tr>
 								<tr>
 									<td align="left" class="label">Search Criteria: </td>
-									<td align="left"><form:input path="searchTypeTextPart" /></td>
+									<td align="left"><form:input path="searchTypePart" /></td>
 								</tr>
 								<tr>
 									<td align="left" class="label">&nbsp;</td>
