@@ -51,7 +51,7 @@ public class SearchStudyController  extends SimpleFormController{
     	Map <String, List<Lov>> configMap = configurationProperty.getMap();
     	
     	Map map = errors.getModel();
-    	map.put("study", studies);
+    	map.put("studyResults", studies);
     	map.put("searchTypeRefData",configMap.get("studySearchType"));    	
     	ModelAndView modelAndView= new ModelAndView(getSuccessView(), map);
     	return modelAndView;
