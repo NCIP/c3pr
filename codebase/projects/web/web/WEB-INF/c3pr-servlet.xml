@@ -123,14 +123,6 @@
 		<property name="successView" value="registration/reg_patient_search" />
 		<property name="commandClass" value="edu.duke.cabig.c3pr.web.SearchCommand" />
 	</bean>
-	<bean name="/registration/searchStudy"
-		id="searchParticipantController" lazy-init="true"
-		class="edu.duke.cabig.c3pr.web.SearchParticipantController"
-		autowire="byName">
-		<property name="formView" value="registration/reg_enroll_study" />
-		<property name="successView" value="registration/reg_study_search" />
-		<property name="commandClass" value="edu.duke.cabig.c3pr.web.SearchCommand"/>
-	</bean>
 	<bean name="/registration/searchStudyInRegister"
 		id="searchStudyInRegisterController" lazy-init="true"
 		class="edu.duke.cabig.c3pr.web.SearchStudyInRegisterController"
