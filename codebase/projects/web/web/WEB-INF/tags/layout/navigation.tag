@@ -31,8 +31,7 @@
     <table width="100%" border="0" cellspacing="0" cellpadding="0" id="subNav">
         <tr>
             <td width="99%" valign="middle">
-                Tasks
-                <img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="20" align="absmiddle" class="spacer">
+                &nbsp;&nbsp;&nbsp;&nbsp;<img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="20" align="absmiddle" class="spacer">
                 <c:forEach items="${currentSection.tasks}" var="task">
                     <c:choose>
                         <c:when test="${task == currentTask}">
