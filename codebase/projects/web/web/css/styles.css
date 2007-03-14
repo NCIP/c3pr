@@ -1,15 +1,17 @@
 
 /* general style propertyies */
-body { margin: 0px 0px 10px 0px; padding: 0px; font-family: arial, verdana, sans-serif; font-size: 11px; color: #000000; background: #EEEEEE url(../images/bg-page.gif) repeat-x top; }
+body { margin: 0px 0px 10px 0px; padding: 0px; font-family: arial, verdana, sans-serif; font-size: 11px; color: #000000; background: #FFFFFF url(../images/bg-page.gif) repeat-x top; }
 table, tr, td, ul, ol, li, p { font-family: arial, verdana, sans-serif; font-size: 11px; }
 
 ul, ol { margin-top: 0px; }
 
 /* general link properties */
-a:link { color: #3B73B9; }
-a:visited { color: #3B73B9; }
-a:hover { color: #89ABD5; }
-a:active { color: #89ABD5; }
+a:link { color: #3B73B9; border:none;}
+a:visited { color: #3B73B9; border:none; }
+a:hover { color: #89ABD5; border:none;}
+a:active { color: #89ABD5; border:none; }
+
+a img{border:0px;}
 
 /* general form object properties */
 select { font-family: arial, verdana, sans-serif; font-size: 11px; }
