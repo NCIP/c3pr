@@ -1,6 +1,12 @@
 <decorators defaultdir="/WEB-INF/decorators">
 	<decorator name="standard" page="standard.jsp">
-		<pattern>/*</pattern>
-	</decorator>
+       <pattern>/*</pattern>
+    </decorator>
+   
+  	<excludes>
+        <pattern>/*/image/*</pattern>
+        <pattern>/*/js/*</pattern>
+    </excludes>
+	   
 </decorators>
 
