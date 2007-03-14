@@ -30,7 +30,7 @@ import edu.duke.cabig.c3pr.utils.Lov;
 
 /**
  * @author Kulasekaran, Priyatam
- * 
+ *
  */
 public class CreateParticipantController extends AbstractWizardFormController {
 
@@ -38,7 +38,7 @@ public class CreateParticipantController extends AbstractWizardFormController {
 	protected ConfigurationProperty configurationProperty;
 	private ParticipantValidator participantValidator;
 	private HealthcareSiteDao healthcareSiteDao;
-	
+
 	public CreateParticipantController() {
 		setCommandClass(Participant.class);
 	}
@@ -47,16 +47,16 @@ public class CreateParticipantController extends AbstractWizardFormController {
 	protected Map<String, Object> referenceData(HttpServletRequest httpServletRequest, int page) throws Exception {
     	// Currently the static data is a hack, once DB design is approved for an LOV this will be
     	// replaced with LOVDao to get the static data from individual tables
-    	Map<String, Object> refdata = new HashMap<String, Object>();    	
+    	Map<String, Object> refdata = new HashMap<String, Object>();
 		Map <String, List<Lov>> configMap = configurationProperty.getMap();
-		
+
     	if(page==0)
     	{
     		refdata.put("administrativeGenderCode", configMap.get("administrativeGenderCode"));
     		refdata.put("ethnicGroupCode", configMap.get("ethnicGroupCode"));
     		refdata.put("raceCode", configMap.get("raceCode"));
     	    refdata.put("source", getHealthcareSites());
-    		refdata.put("searchType", configMap.get("participantSearchType"));
+    		refdata.put("searchTypeRefData", configMap.get("participantSearchType"));
     		refdata.put("identifiersTypeRefData", configMap.get("participantIdentifiersType"));
     		if(httpServletRequest.getParameter("studySiteId")!=null){
     			if(!httpServletRequest.getParameter("studySiteId").equals("")){
@@ -64,13 +64,13 @@ public class CreateParticipantController extends AbstractWizardFormController {
     			}
     		}
     	}
-    	
+
         return refdata;
     }
-	
+
 	@Override
 	protected Object formBackingObject(HttpServletRequest request) throws Exception {
-		
+
 		//FIXME: small hack
 		if(request.getParameter("url")!=null){
 			if(request.getParameter("studySiteId")!=null){
@@ -82,10 +82,10 @@ public class CreateParticipantController extends AbstractWizardFormController {
 			request.getSession().setAttribute("studySiteId", request.getParameter("studySiteId"));
 		}else{
 			setPages(new String[]{"participant/participant","participant/participant_address","participant/participant_submit"});
-			request.getSession().removeAttribute("url");	
+			request.getSession().removeAttribute("url");
 			request.getSession().removeAttribute("studySiteId");
 		}
-		
+
 		Participant participant = (Participant) super.formBackingObject(request);
 		for (int i = 0; i < 5; i++) {
 			Identifier temp=new Identifier();
@@ -95,12 +95,12 @@ public class CreateParticipantController extends AbstractWizardFormController {
 		participant.setAddress(new Address());
 		return participant;
 	}
-	
+
 	@Override
 	protected void initBinder(HttpServletRequest req,
 			ServletRequestDataBinder binder) throws Exception {
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(
-				new SimpleDateFormat("MM/dd/yyyy"), true));		
+				new SimpleDateFormat("MM/dd/yyyy"), true));
 	}
 
 	@Override
@@ -108,7 +108,7 @@ public class CreateParticipantController extends AbstractWizardFormController {
 			HttpServletResponse response, Object oCommand, BindException errors)
 			throws Exception {
 		Participant command = (Participant) oCommand;
-		
+
 		Iterator<Identifier> iterator = command.getIdentifiers().iterator();
 
 		while(iterator.hasNext())
@@ -119,9 +119,9 @@ public class CreateParticipantController extends AbstractWizardFormController {
 				iterator.remove();
 			}
 		}
-			
+
 		participantDao.save(command);
-		
+
 		ModelAndView modelAndView = null;
 		//FIXME: small hack
 		String url = null;
@@ -135,8 +135,8 @@ public class CreateParticipantController extends AbstractWizardFormController {
 		}
 		response.sendRedirect("searchParticipant");
 		return null;
-	}	
-	
+	}
+
 	protected void validatePage(Object command, Errors errors, int page) {
 		Participant participant = (Participant) command;
 		switch (page) {
@@ -156,12 +156,12 @@ public class CreateParticipantController extends AbstractWizardFormController {
 
 		}
 	}
-	
+
 	protected List<HealthcareSite> getHealthcareSites()
 	{
-  		return healthcareSiteDao.getAll();  	
-	}	
-	
+  		return healthcareSiteDao.getAll();
+	}
+
 	public ConfigurationProperty getConfigurationProperty() {
 		return configurationProperty;
 	}
@@ -169,14 +169,14 @@ public class CreateParticipantController extends AbstractWizardFormController {
 	public void setConfigurationProperty(ConfigurationProperty configurationProperty) {
 		this.configurationProperty = configurationProperty;
 	}
-	
+
 	public ParticipantDao getParticipantDao() {
 		return participantDao;
 	}
 
 	public void setParticipantDao(ParticipantDao participantDao) {
 		this.participantDao = participantDao;
-	}		
+	}
 
 	public ParticipantValidator getParticipantValidator() {
 		return participantValidator;
@@ -185,7 +185,7 @@ public class CreateParticipantController extends AbstractWizardFormController {
 	public void setParticipantValidator(ParticipantValidator participantValidator) {
 		this.participantValidator = participantValidator;
 	}
-	
+
 	public HealthcareSiteDao getHealthcareSiteDao() {
 		return healthcareSiteDao;
 	}

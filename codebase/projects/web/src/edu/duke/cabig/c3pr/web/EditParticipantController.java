@@ -31,7 +31,7 @@ import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 
 /**
  * @author Ramakrishna
- * 
+ *
  */
 public class EditParticipantController extends AbstractWizardFormController {
 
@@ -60,7 +60,7 @@ public class EditParticipantController extends AbstractWizardFormController {
 		refdata.put("ethnicGroupCode", configMap.get("ethnicGroupCode"));
 		refdata.put("raceCode", configMap.get("raceCode"));
 		refdata.put("source", healthcareSiteDao.getAll());
-		refdata.put("searchType", configMap.get("participantSearchType"));
+		refdata.put("searchTypeRefData", configMap.get("participantSearchType"));
 		refdata.put("identifiersTypeRefData", configMap.get("participantIdentifiersType"));
 
 		if (("update")
@@ -93,7 +93,7 @@ public class EditParticipantController extends AbstractWizardFormController {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
 	 */
 	@Override
