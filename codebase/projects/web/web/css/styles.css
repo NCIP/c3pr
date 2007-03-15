@@ -1,7 +1,20 @@
 
 /* general style propertyies */
-body { margin: 0px 0px 10px 0px; padding: 0px; font-family: arial, verdana, sans-serif; font-size: 11px; color: #000000; background: #FFFFFF url(../images/bg-page.gif) repeat-x top; }
+html { height:100%;}
+body { height:100%; margin: 0px 0px 10px 0px; padding: 0px; font-family: arial, verdana, sans-serif; font-size: 11px; color: #000000; background: #FFFFFF url(../images/bg-page.gif) repeat-x top; }
 table, tr, td, ul, ol, li, p { font-family: arial, verdana, sans-serif; font-size: 11px; }
+
+#content {
+    min-height: 98%;
+    _height: 98%; /* ie < 7 hack */
+    margin: 0 0 -2em;
+    background: #FFFFFF;
+}
+
+#footer {
+    height: 2em;
+     background: #FFFFFF;
+}
 
 ul, ol { margin-top: 0px; }
 

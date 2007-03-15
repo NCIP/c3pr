@@ -1,10 +1,5 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags"%>
-
-<html>
-<head/>
-
-<body>
 <!-- Footer LOGOS START HERE -->
 &nbsp;
 <table width="100%"  align="center" border="0"
@@ -54,6 +49,4 @@
     </tr>
 </table>
 <!-- Footer LOGOS END HERE -->
-</body>
-</html>
 

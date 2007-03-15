@@ -9,15 +9,20 @@
 <html>
 <head>
     <link rel="shortcut icon" href="<tags:imageUrl name="favicon.ico"/>" type="image/x-icon">
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">    
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <title>C3PRV2</title>
     <decorator:head/>
-    <tags:include/>   
+    <tags:include/>
 </head>
 <body>
-<layout:header/>
-<layout:navigation/>
-<decorator:body/>
-<layout:footer />
+<div id="content">
+    <layout:header/>
+    <layout:navigation/>
+    <decorator:body/>
+</div>
+<!--footer should go at the the bottom-->
+<div id="footer">
+    <layout:footer />
+</div>
 </body>
 </html>
