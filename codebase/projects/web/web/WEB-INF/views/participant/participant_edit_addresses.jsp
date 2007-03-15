@@ -48,7 +48,7 @@ field.value="";
 </head>
 <body>
 
-<tags:search/>
+<tags:search action="searchParticipant"/>
 
 <!-- TITLE/QUICK SEARCH AREA ENDS HERE --> <!-- CONTENT AREA STARTS HERE -->
 
