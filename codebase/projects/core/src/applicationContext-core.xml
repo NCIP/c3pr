@@ -72,7 +72,8 @@
 	
 	<bean id="corePropertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location">
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="location">
 			<value>classpath:context/core.properties</value>
 		</property>
 	</bean>

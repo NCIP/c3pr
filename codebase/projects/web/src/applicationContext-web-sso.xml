@@ -5,7 +5,15 @@
 	xsi:schemaLocation="
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
-	
+
+    <bean id="webssoPropertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="location">
+			<value>classpath:context/web.properties</value>
+		</property>
+	</bean>
+
     <bean id="gridAuthenticationClient"
 		class="gov.nih.nci.cabig.ctms.web.sso.GridBasicAuthenticationClientImpl">
 		<property name="idpUrl" value="${grid.idpUrl}"/>
