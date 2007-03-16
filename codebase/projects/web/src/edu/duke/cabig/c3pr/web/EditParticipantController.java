@@ -31,7 +31,7 @@ import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 
 /**
  * @author Ramakrishna
- *
+ * 
  */
 public class EditParticipantController extends AbstractWizardFormController {
 
@@ -93,7 +93,7 @@ public class EditParticipantController extends AbstractWizardFormController {
 
 	/*
 	 * (non-Javadoc)
-	 *
+	 * 
 	 * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
 	 */
 	@Override
@@ -159,43 +159,6 @@ public class EditParticipantController extends AbstractWizardFormController {
 			log.debug("Requested Remove Identifier");
 			participant.getIdentifiers().remove(Integer.parseInt(selected));
 		}
-	}
-
-	public class LOV {
-
-		private String code;
-
-		private String desc;
-
-		LOV(String code, String desc) {
-			this.code = code;
-			this.desc = desc;
-		}
-
-		public String getCode() {
-			return code;
-		}
-
-		public void setCode(String code) {
-			this.code = code;
-		}
-
-		public String getDesc() {
-			return desc;
-		}
-
-		public void setDesc(String desc) {
-			this.desc = desc;
-		}
-	}
-
-	private List<LOV> getSourceList() {
-		List<LOV> col = new ArrayList<LOV>();
-
-		col.add(new LOV("Duke", "Duke"));
-		col.add(new LOV("Northwestern", "Northwestern"));
-
-		return col;
 	}
 
 	public HealthcareSiteDao getHealthcareSiteDao() {
