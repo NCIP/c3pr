@@ -25,6 +25,9 @@
                 <include name="junit*.jar"/>
                 <include name="xmlunit*.jar"/>
             </fileset>
+            <fileset dir="${share.dir}/spring-2.0/testing">
+                <include name="*.jar"/>
+            </fileset>
         </artifact>
 
         <artifact track="main" type="jars" id="cacore.jars">
