@@ -41,7 +41,7 @@ public class HealthcareSiteInvestigator extends AbstractDomainObject {
 		return investigator;
 	}
     
-    @OneToMany (mappedBy = "siteInvestigator", fetch = FetchType.LAZY)    
+    @OneToMany (mappedBy = "healthcareSiteInvestigator", fetch = FetchType.LAZY)    
     @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	public List<StudyInvestigator> getStudyInvestigators() {
 		return studyInvestigators;

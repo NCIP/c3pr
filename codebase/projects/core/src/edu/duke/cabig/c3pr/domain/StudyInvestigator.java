@@ -1,6 +1,5 @@
 package edu.duke.cabig.c3pr.domain;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -32,11 +31,16 @@ public class StudyInvestigator extends AbstractDomainObject {
 	public void setSignatureText(String signatureText) {
 		this.signatureText = signatureText;
 	}
-	
+		
 	@ManyToOne
     @JoinColumn(name = "site_investigators_id")
 	public HealthcareSiteInvestigator getHealthcareSiteInvestigator() {
 		return healthcareSiteInvestigator;
+	}
+	
+	public void setHealthcareSiteInvestigator(
+			HealthcareSiteInvestigator healthcareSiteInvestigator) {
+		this.healthcareSiteInvestigator = healthcareSiteInvestigator;
 	}
 	
 	public void setSiteInvestigator(HealthcareSiteInvestigator healthcareSiteInvestigator) {
@@ -52,4 +56,5 @@ public class StudyInvestigator extends AbstractDomainObject {
 	public void setStudySite(StudySite studySite) {
 		this.studySite = studySite;
 	}
+	
 }
