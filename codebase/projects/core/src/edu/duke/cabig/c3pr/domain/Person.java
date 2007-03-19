@@ -33,7 +33,9 @@ public abstract class Person extends AbstractGridIdentifiableDomainObject
 		
 	private String raceCode;
 
-	private Address address;
+    private String maritalStatusCode;
+
+    private Address address;
 	
 	@OneToOne(cascade={CascadeType.ALL}, optional=false)
     @JoinColumn(name="ADD_ID" ,nullable=false)
@@ -103,5 +105,12 @@ public abstract class Person extends AbstractGridIdentifiableDomainObject
 		}
 		return "";
 	}
-	
+
+    public String getMaritalStatusCode() {
+        return maritalStatusCode;
+    }
+
+    public void setMaritalStatusCode(String maritalStatusCode) {
+        this.maritalStatusCode = maritalStatusCode;
+    }
 }
