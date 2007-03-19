@@ -100,12 +100,16 @@
 				<value>edu.duke.cabig.c3pr.domain.HealthcareSite</value>
 				<value>edu.duke.cabig.c3pr.domain.Organization</value>
 				<value>edu.duke.cabig.c3pr.domain.Address</value>
-				<value>
-					edu.duke.cabig.c3pr.domain.StudyParticipantAssignment
-				</value>
+				<value>edu.duke.cabig.c3pr.domain.StudyParticipantAssignment</value>
+				<value>edu.duke.cabig.c3pr.domain.StudyInvestigator</value>
+				<value>edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator</value>
+				<value>edu.duke.cabig.c3pr.domain.StudyPersonnel</value>			
 				<value>edu.duke.cabig.c3pr.domain.Participant</value>
+				<value>edu.duke.cabig.c3pr.domain.ResearchStaff</value>
+				<value>edu.duke.cabig.c3pr.domain.Investigator</value>
 				<value>edu.duke.cabig.c3pr.domain.ScheduledArm</value>
 				<value>edu.duke.cabig.c3pr.domain.Identifier</value>
+			
 			</list>
 		</property>
 		<property name="entityInterceptor">
