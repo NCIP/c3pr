@@ -2,8 +2,8 @@
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <!-- Footer LOGOS START HERE -->
 &nbsp;
-<table width="100%"  align="center" border="0"
-       cellspacing="0" cellpadding="0">
+<table width="100%"  align="center" border="0" cellspacing="0" cellpadding="0" >
+    <hr>
     <tr>
         <td width="35%"/>
         <td width="30%">
@@ -29,23 +29,15 @@
                          <a href="http://www.usagov.gov" target="new">
                         <img src="<tags:imageUrl name="footer_usagov.gif"/>"/>
                          </a>
-                    </td>
+                    </td> 
+                    <td>
+         				&nbsp;
+       				</td>                
                 </tr>
             </table>
+        </td>       
+        <td width="35%">
         </td>
-        <td width="25%"/>
-        <td width="10%">
-            <table height="100%" width="100%"  align="center" border="0" cellspacing="0" cellpadding="0">
-                <tr>
-
-                    <td align="center">
-                        <img src="<tags:imageUrl name="SemanticBitsLogo.gif"/>"
-                             width="65" alt="Semantic Bits"/>
-                    </td>
-                </tr>
-            </table>
-        </td>
-
     </tr>
 </table>
 <!-- Footer LOGOS END HERE -->

@@ -2,9 +2,7 @@ package edu.duke.cabig.c3pr.web;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +14,6 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractWizardFormController;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
@@ -29,16 +26,23 @@ import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
-import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AbstractTabbedFlowFormController;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
+
+
+import edu.duke.cabig.c3pr.domain.StudyInvestigator;
+import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
+import edu.duke.cabig.c3pr.domain.StudyPersonnel;
+
 
 /**
  * Base Controller class to handle the basic work flow in the Creation / Updation of a Study Design
  * This uses AbstractWizardController to implement tabbed workflow
  * @author Priyatam
  */
-public abstract class StudyController extends AbstractWizardFormController {
+public abstract class StudyController extends AbstractTabbedFlowFormController<Study>{
     protected static final Log log = LogFactory.getLog(StudyController.class);
 	protected StudyService studyService;
 	protected StudyDao studyDao;
@@ -47,6 +51,21 @@ public abstract class StudyController extends AbstractWizardFormController {
 	protected ConfigurationProperty configurationProperty;
 	protected static List<HealthcareSite> healthcareSites;
 
+	public StudyController(ConfigurationProperty configurationProperty) {		
+		setCommandClass(Study.class);        	       
+		this.configurationProperty=configurationProperty;        
+        Flow<Study> flow = new Flow<Study>("Create Study");               
+        intializeFlows(flow);
+    }
+	
+	public StudyController() {		
+		setCommandClass(Study.class);        	       
+	    Flow<Study> flow = new Flow<Study>("Create Study");               
+        intializeFlows(flow);
+    }
+	
+	abstract protected void intializeFlows(Flow<Study> flow);
+	
 	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
         super.initBinder(request, binder);
         binder.registerCustomEditor(Date.class, ControllerTools.getDateEditor(false));
@@ -87,43 +106,7 @@ public abstract class StudyController extends AbstractWizardFormController {
 		//	studyValidator.validateStudyDesign(study, errors);
 			break;
 		}
-	}
-	
-	protected Map<String, Object> referenceData(HttpServletRequest httpServletRequest, int page) 
-		throws Exception {
-		// Currently the static data is a hack for an LOV this will be replaced with 
-		// LOVDao to get the static data from individual tables
-		Map<String, Object> refdata = new HashMap<String, Object>();
-		Map <String, List<Lov>> configMap = configurationProperty.getMap();
-		
-	  	if (page == 0) {
-	  		refdata.put("searchTypeRefData", configMap.get("studySearchType"));	  	     
-	  		refdata.put("diseaseCodeRefData", configMap.get("diseaseCodeRefData"));
-	  		refdata.put("monitorCodeRefData",  configMap.get("monitorCodeRefData"));
-	  		refdata.put("phaseCodeRefData",  configMap.get("phaseCodeRefData"));
-	  		refdata.put("sponsorCodeRefData",  configMap.get("sponsorCodeRefData"));
-	  		refdata.put("statusRefData",  configMap.get("statusRefData"));
-	  		refdata.put("typeRefData",  configMap.get("typeRefData"));
-	  		refdata.put("randomizedIndicatorRefData", configMap.get("yesNo"));
-	  		refdata.put("multiInstitutionIndicatorRefData", configMap.get("yesNo"));
-	  		refdata.put("blindedIndicatorRefData", configMap.get("yesNo"));
-	  		
-	  		return refdata;
-	  	}	  	
-		if (page == 1) {
-	  		refdata.put("identifiersSourceRefData", getHealthcareSites());
-	  		refdata.put("identifiersTypeRefData", configMap.get("identifiersType"));	  		
-	  		return refdata;	  		
-	  	}
-	  	if (page == 2) {
-	  		refdata.put("healthCareSitesRefData", getHealthcareSites());	  			  	
-	  		refdata.put("studySiteStatusRefData", configMap.get("studySiteStatusRefData"));
-	  		refdata.put("studySiteRoleCodeRefData", configMap.get("studySiteRoleCodeRefData"));	  		
-	  		return refdata;	  		
-	  	}	  	
-	  	
-	  	return refdata;
-	}
+	}	
 
 	protected void handleIdentifierAction(Study study, String action, String selected)
 	{				
@@ -181,6 +164,37 @@ public abstract class StudyController extends AbstractWizardFormController {
 			epoch.getArms().remove(Integer.parseInt(selectedArm));			
 		}		
 	}
+	
+	protected void handleStudyInvestigatorAction(Study study, String action, String selected, String studysiteindex)
+	{				
+		if ("addInv".equals(action))
+		{	
+			StudyInvestigator studyInvestigator = new StudyInvestigator();
+			studyInvestigator.setSiteInvestigator(new HealthcareSiteInvestigator());
+			StudySite studySite = study.getStudySites().get(Integer.parseInt(studysiteindex));
+			studySite.addStudyInvestigators(studyInvestigator);														
+		}
+		else if ("removeInv".equals(action))
+		{	
+			study.getStudySites().get(Integer.parseInt(studysiteindex)).getStudyInvestigators().remove(Integer.parseInt(selected));
+		}					
+					
+	}	
+	
+	protected void handleStudyPersonnelAction(Study study, String action, String selected, String studysiteindex)
+	{				
+		if ("addInv".equals(action))
+		{	
+			StudyPersonnel studyPersonnel = new StudyPersonnel();
+			StudySite studySite = study.getStudySites().get(Integer.parseInt(studysiteindex));
+			studySite.addStudyPersonnel(studyPersonnel);														
+		}
+		else if ("removeInv".equals(action))
+		{	
+			study.getStudySites().get(Integer.parseInt(studysiteindex)).getStudyPersonnels().remove(Integer.parseInt(selected));
+		}					
+					
+	}	
 	
 	protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, 
 			Object command, BindException errors) throws Exception {
@@ -273,7 +287,15 @@ public abstract class StudyController extends AbstractWizardFormController {
 	public void setStudyService(StudyService studyService) {
 		this.studyService = studyService;
 	}	
-	
+		
+	public StudyValidator getStudyValidator() {
+		return studyValidator;
+	}
+
+	public void setStudyValidator(StudyValidator studyValidator) {
+		this.studyValidator = studyValidator;
+	}
+
 	public ConfigurationProperty getConfigurationProperty() {
 		return configurationProperty;
 	}
@@ -282,18 +304,4 @@ public abstract class StudyController extends AbstractWizardFormController {
 		this.configurationProperty = configurationProperty;
 	}
 
-	public StudyValidator getStudyValidator() {
-		return studyValidator;
-	}
-
-	public void setStudyValidator(StudyValidator studyValidator) {
-		this.studyValidator = studyValidator;
-	}
-	
-//	private List getYesNo(){
-//		List list = new ArrayList();
-//		list.add(new StringBean("Yes"));
-//		list.add(new StringBean("No"));
-//		return list;
-//	}
 }

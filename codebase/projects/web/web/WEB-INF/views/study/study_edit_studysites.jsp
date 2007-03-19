@@ -30,15 +30,16 @@ function clearField(field){
 field.value="";
 }
 </script>
-</script>
 </head>
 <body>
 
 <tags:search action="searchStudy"/>
 
+<tabs:body title="${flow.name}: ${tab.longTitle} - Short Title: ${command.trimmedShortTitleText}">
+<form:form method="post" cssClass="standard">
+<tabs:tabFields tab="${tab}" />
+<div><tabs:division id="study-details">
 <!-- MAIN BODY STARTS HERE -->
-
-
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
 		<td id="current">Short Title: ${command.trimmedShortTitleText}</td>
@@ -266,5 +267,8 @@ field.value="";
 <div id="copyright"></div>
 </div>
 <!-- MAIN BODY ENDS HERE -->
-</body>
-</html>
+<tabs:body title="${flow.name}: ${tab.longTitle} - Short Title: ${command.trimmedShortTitleText}">
+<form:form method="post" cssClass="standard">
+<tabs:tabFields tab="${tab}" />
+<div><tabs:division id="study-details">
+

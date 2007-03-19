@@ -21,6 +21,8 @@ import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.duke.cabig.c3pr.utils.Lov;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Tab;
 
 /**
  * Controller class to handle the work flow in the Updation of a Study Design
@@ -35,42 +37,62 @@ public class EditStudyController extends StudyController {
 	{
 		setBindOnNewForm(true);
 	}
-		
-	protected Map<String, Object> referenceData(HttpServletRequest httpServletRequest, int page) 
-		throws Exception {
-		// Currently the static data is a hack for an LOV this will be replaced with 
-		// LOVDao to get the static data from individual tables
-		Map<String, Object> refdata = new HashMap<String, Object>();
-		Map <String, List<Lov>> configMap = configurationProperty.getMap();
-		Study study = (Study)getCommandOnly(httpServletRequest);
-		List<StudyParticipantAssignment> list = studyDao.getStudyParticipantAssignmentsForStudy(
-			study.getId());		
-		refdata.put("participantAssignments", list);
-		refdata.put("searchTypeRefData", configMap.get("studySearchType"));	  	     
-  		
-	  	if (page == 0) {	  		
-	  		refdata.put("diseaseCodeRefData", configMap.get("diseaseCodeRefData"));
-	  		refdata.put("monitorCodeRefData",  configMap.get("monitorCodeRefData"));
-	  		refdata.put("phaseCodeRefData",  configMap.get("phaseCodeRefData"));
-	  		refdata.put("sponsorCodeRefData",  configMap.get("sponsorCodeRefData"));
-	  		refdata.put("statusRefData",  configMap.get("statusRefData"));
-	  		refdata.put("typeRefData",  configMap.get("typeRefData"));
-	  		return refdata;
-	  	}	  	
-		if (page == 1) {
-	  		refdata.put("identifiersSourceRefData", getHealthcareSites());
-	  		refdata.put("identifiersTypeRefData", configMap.get("identifiersType"));	  		
-	  		return refdata;	  		
-	  	}
-	  	if (page == 2) {
-	  		refdata.put("healthCareSitesRefData", getHealthcareSites());	  			  	
-	  		refdata.put("studySiteStatusRefData", configMap.get("studySiteStatusRefData"));
-	  		refdata.put("studySiteRoleCodeRefData", configMap.get("studySiteRoleCodeRefData"));	  		
-	  		return refdata;	  		
-	  	}	  	
-	  	
-	  	return refdata;
-	}
+	
+	protected void intializeFlows(Flow<Study> flow)	
+	{	   
+		 flow.addTab(new Tab<Study>("Study Details", "Study Details", "study/study_details") {
+	            public Map<String, Object> referenceData() {
+	           	 	Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        
+	       	  
+	            	Map<String, Object> refdata = new HashMap<String, Object>();
+	        		  	            	
+	            	refdata.put("diseaseCodeRefData", configMap.get("diseaseCodeRefData"));
+	    	  		refdata.put("monitorCodeRefData",  configMap.get("monitorCodeRefData"));
+	    	  		refdata.put("phaseCodeRefData",  configMap.get("phaseCodeRefData"));
+	    	  		refdata.put("sponsorCodeRefData",  configMap.get("sponsorCodeRefData"));
+	    	  		refdata.put("statusRefData",  configMap.get("statusRefData"));
+	    	  		refdata.put("typeRefData",  configMap.get("typeRefData"));
+	    	  		return refdata;
+	             }        	
+	        });
+	        flow.addTab(new Tab<Study>("Study Identifiers", "Study Identifiers", "study/study_identifiers"){
+	            
+	        	public Map<String, Object> referenceData() {
+	        		Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        
+	  	       	  
+	        		Map<String, Object> refdata = new HashMap<String, Object>();
+	        		
+	        		refdata.put("identifiersSourceRefData", getHealthcareSites());
+	    	  		refdata.put("identifiersTypeRefData", configMap.get("identifiersType"));	
+	    	  		return refdata;
+	    	 	}
+	        });                 
+	        flow.addTab(new Tab<Study>("Study Sites", "Study Sites", "study/study_studysites") {
+	            
+	        	public Map<String, Object> referenceData() {
+	        		Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        
+	  	       	  
+	        		Map<String, Object> refdata = new HashMap<String, Object>();
+	        		
+	        		refdata.put("healthCareSitesRefData", getHealthcareSites());	  			  	
+	    	  		refdata.put("studySiteStatusRefData", configMap.get("studySiteStatusRefData"));
+	    	  		refdata.put("studySiteRoleCodeRefData", configMap.get("studySiteRoleCodeRefData"));	  		
+	    	  		return refdata;	  		
+	         	}        	
+	        });
+
+			flow.addTab(new Tab<Study>("Study Design", "Study Design", "study/study_design") {
+	            
+	        	public Map<String, Object> referenceData() {
+	        		
+	                Map<String, Object> refdata = super.referenceData();
+	                return refdata;
+	           
+	        	}        	
+	        });
+			
+		  setFlow(flow);       
+	}		
 
 	/**
 	 * Create a nested object graph that Create Study Design needs 

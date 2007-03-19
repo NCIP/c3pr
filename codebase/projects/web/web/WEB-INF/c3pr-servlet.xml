@@ -40,35 +40,10 @@
 		<property name="servletName" value="pages"/>
 	</bean>
 
-	<bean name="/study/createStudy" id="createStudyController"
-		lazy-init="true" 
-		class="edu.duke.cabig.c3pr.web.CreateStudyController"
-		autowire="byName">
-		<property name="commandClass" value="edu.duke.cabig.c3pr.domain.Study"/>
-		<property name="pages">
-			<list>
-				<value>study/study_details</value>
-				<value>study/study_identifiers</value>
-				<value>study/study_studysites</value>
-				<value>study/study_design</value>
-				<value>study/study_reviewsummary</value>
-				<value>study/study_confirmation</value>
-			</list>
-		</property>
-	</bean>
-	<bean name="/study/editStudy" id="editStudyController"
-		lazy-init="true" class="edu.duke.cabig.c3pr.web.EditStudyController"
-		autowire="byName">
-		<property name="commandClass" value="edu.duke.cabig.c3pr.domain.Study"/>
-		<property name="pages">
-			<list>
-				<value>study/study_edit_details</value>
-				<value>study/study_edit_identifiers</value>
-				<value>study/study_edit_studysites</value>
-				<value>study/study_edit_design</value>
-			</list>
-		</property>
-	</bean>
+	<bean name="/study/createStudy" id="createStudyController" class="edu.duke.cabig.c3pr.web.CreateStudyController" autowire="byName"/>
+	<bean name="/study/confirm" id="confirmStudyController" autowire="byType" class="edu.duke.cabig.c3pr.web.ConfirmStudyController" />
+    <bean name="/study/editStudy" id="editStudyController" class="edu.duke.cabig.c3pr.web.EditStudyController" autowire="byName"/>
+	    
 	<bean name="/study/searchStudy" id="searchStudyController"
 		lazy-init="true" class="edu.duke.cabig.c3pr.web.SearchStudyController"
 		autowire="byName">
@@ -81,7 +56,7 @@
 		class="edu.duke.cabig.c3pr.web.CreateParticipantController"
 		autowire="byName">
 		<property name="commandClass" value="edu.duke.cabig.c3pr.domain.Participant" />
-		<!-- Set the pages are in Controller -->
+		<!-- Set the pages in Controller -->
 	</bean>
 	<bean name="/participant/searchParticipant"
 		id="searchParticipantController" lazy-init="true"
