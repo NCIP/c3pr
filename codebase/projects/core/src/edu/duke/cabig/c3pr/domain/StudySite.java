@@ -35,7 +35,6 @@ import edu.duke.cabig.c3pr.utils.DateUtil;
 public class StudySite extends AbstractGridIdentifiableDomainObject implements Comparable<StudySite>{
     private HealthcareSite site;
     private Study study;
-    private List<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();
     private Date irbApprovalDate = Calendar.getInstance().getTime();
     private String roleCode;
     private String statusCode;
@@ -43,14 +42,35 @@ public class StudySite extends AbstractGridIdentifiableDomainObject implements C
     private Date endDate;   
     private String irbApprovalDateStr;
     private String startDateStr;
+    
+    private List<StudyParticipantAssignment> studyParticipantAssignments 
+    	= new ArrayList<StudyParticipantAssignment>();    
+    private List<StudyInvestigator> studyInvestigators = new ArrayList<StudyInvestigator>();
+    private List<StudyPersonnel> studyPersonnels = new ArrayList<StudyPersonnel>();
+  
 
     /// LOGIC
 
+    public void addStudyPersonnel(StudyPersonnel studyPersonnel) {
+        studyPersonnels.add(studyPersonnel);
+        studyPersonnel.setStudySite(this);
+    }
+    
+    public void addStudyInvestigators(StudyInvestigator studyInvestigator) {
+        getStudyInvestigators().add(studyInvestigator);
+        studyInvestigator.setStudySite(this);
+    }
+    
     public void addstudyParticipantAssignment(StudyParticipantAssignment spAssignments)
     {
     	studyParticipantAssignments.add(spAssignments);
     	spAssignments.setStudySite(this);
     }
+	
+    public void removeStudyParticipantAssignment(StudyParticipantAssignment studyParticipantAssignment){
+    	studyParticipantAssignments.remove(studyParticipantAssignment);
+    }
+
     
 	/** Are there any assignments using this relationship? */
     @Transient
@@ -92,9 +112,26 @@ public class StudySite extends AbstractGridIdentifiableDomainObject implements C
         return studyParticipantAssignments;
     }
     
-    public void removeStudyParticipantAssignment(StudyParticipantAssignment studyParticipantAssignment){
-    	studyParticipantAssignments.remove(studyParticipantAssignment);
-    }
+    @OneToMany (mappedBy = "studySite")
+    @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    public List<StudyInvestigator> getStudyInvestigators() {
+		return studyInvestigators;
+	}
+
+	public void setStudyInvestigators(List<StudyInvestigator> studyInvestigators) {
+		this.studyInvestigators = studyInvestigators;
+	}	
+	
+	@OneToMany (mappedBy = "studySite")
+    @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })    
+	public List<StudyPersonnel> getStudyPersonnels() {
+		return studyPersonnels;
+	}
+
+	public void setStudyPersonnels(List<StudyPersonnel> studyPersonnels) {
+		this.studyPersonnels = studyPersonnels;
+	}
+
 
     public void setIrbApprovalDate(Date irbApprovalDate) {
         this.irbApprovalDate = irbApprovalDate;
