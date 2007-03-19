@@ -192,4 +192,10 @@
 		class="edu.duke.cabig.c3pr.service.impl.ParticipantServiceImpl"
 		autowire="byType">
 	</bean>
+
+    <!--Utilities-->
+    <bean id="xmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
+        <property name="mapping-file" value="c3pr-castor-mapping.xml"/>
+    </bean>
+
 </beans>

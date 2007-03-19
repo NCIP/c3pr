@@ -1,0 +1,11 @@
+<ns1:registration healthCareSiteGridId="gridSite" studyGridId="gridStudy" xsi:type="ns1:RegistrationType" xmlns:ns1="http://semanticbits.com/registration.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+ <ns1:studyParticipantIdentifier xsi:type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema">studyParticipantIdentifier0</ns1:studyParticipantIdentifier>
+ <ns1:eligibilityIndicator xsi:type="xsd:boolean" xmlns:xsd="http://www.w3.org/2001/XMLSchema">false</ns1:eligibilityIndicator>
+ <ns1:participant participantGridId="gridParticipant" xsi:type="ns1:ParticipantType">
+  <ns1:administrativeGenderCode xsi:type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema">administrativeGenderCode0</ns1:administrativeGenderCode>
+  <ns1:ethnicGroupCode xsi:type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema">ethnicGroupCode0</ns1:ethnicGroupCode>
+  <ns1:firstName xsi:type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema">firstName0</ns1:firstName>
+  <ns1:lastName xsi:type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema">lastName0</ns1:lastName>
+  <ns1:raceCode xsi:type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema">raceCode0</ns1:raceCode>
+ </ns1:participant>
+ </ns1:registration>
