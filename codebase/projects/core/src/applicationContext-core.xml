@@ -195,7 +195,7 @@
 
     <!--Utilities-->
     <bean id="xmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
-        <property name="mapping-file" value="c3pr-castor-mapping.xml"/>
+        <property name="mappingFile" value="c3pr-castor-mapping.xml"/>
     </bean>
 
 </beans>
