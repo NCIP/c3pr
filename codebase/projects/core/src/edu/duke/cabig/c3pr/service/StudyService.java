@@ -3,6 +3,9 @@ package edu.duke.cabig.c3pr.service;
 import java.util.List;
 
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
 
 /**
  * Interface for Services on Study related domain object
@@ -15,5 +18,19 @@ public interface StudyService {
 	 * @param study the study object
   	 * @throws Exception runtime exception object
   	 */
-	public void save(Study study) throws Exception;	
+	public void save(Study study) throws Exception;
+
+
+    /**
+     * Assigns a Participant to a Study at a particular Site.
+     * The Study and Site must already exist and be associated.
+     *
+     * @param study
+     * @param participant
+     * @param site
+     * @return StudyParticipantAssignment for the Participant
+     */
+    StudyParticipantAssignment assignParticipant(Study study, Participant participant, HealthcareSite site, String registrationGridId);
+
+
 }

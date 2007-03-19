@@ -4,6 +4,9 @@ import java.util.List;
 
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
+import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.service.StudyService;
 
 /**
@@ -44,4 +47,18 @@ public class StudyServiceImpl implements StudyService {
 	public void setStudyDao(StudyDao studyDao) {
 		this.studyDao = studyDao;
 	}
+
+
+    /**
+     * Assigns a Participant to a Study at a particular Site.
+     * The Study and Site must already exist and be associated.
+     *
+     * @param study
+     * @param participant
+     * @param site
+     * @return StudyParticipantAssignment for the Participant
+     */
+    public StudyParticipantAssignment assignParticipant(Study study, Participant participant, HealthcareSite site, String registrationGridId) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }
