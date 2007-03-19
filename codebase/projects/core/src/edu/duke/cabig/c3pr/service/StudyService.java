@@ -9,28 +9,28 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 
 /**
  * Interface for Services on Study related domain object
+ *
  * @author priyatam
  */
 public interface StudyService {
 
-	/**
-	 * Saves a study object
-	 * @param study the study object
-  	 * @throws Exception runtime exception object
-  	 */
-	public void save(Study study) throws Exception;
+    /**
+     * Saves a study object
+     *
+     * @param study the study object
+     * @throws Exception runtime exception object
+     */
+    public void save(Study study) throws Exception;
 
 
     /**
-     * Assigns a Participant to a Study at a particular Site.
-     * The Study and Site must already exist and be associated.
-     *
      * @param study
      * @param participant
      * @param site
-     * @return StudyParticipantAssignment for the Participant
+     * @param registrationGridId
+     * @return StudyParticipantAssignment
      */
-    StudyParticipantAssignment assignParticipant(Study study, Participant participant, HealthcareSite site, String registrationGridId);
+    public StudyParticipantAssignment assignParticipant(Study study, Participant participant, HealthcareSite site, String registrationGridId);
 
 
 }
