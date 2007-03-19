@@ -1,8 +1,15 @@
 <decorators defaultdir="/WEB-INF/decorators">
 	<decorator name="standard" page="standard.jsp">
-       <pattern>/*</pattern>
+    	<pattern>/login.jsp</pattern>
+        <pattern>/pages/*</pattern>
+        <pattern>/public/*</pattern>
     </decorator>
    
+    <decorator name="tabbedflow" page="tabbedflow.jsp">
+        <pattern>/pages/study/createStudy</pattern>
+        <pattern>/pages/study/editStudy</pattern>
+    </decorator>
+    
   	<excludes>
         <pattern>/*/image/*</pattern>
         <pattern>/*/js/*</pattern>
