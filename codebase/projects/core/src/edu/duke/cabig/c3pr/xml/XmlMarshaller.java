@@ -5,24 +5,19 @@ import gov.nih.nci.common.util.Marshaller;
 import gov.nih.nci.common.util.Unmarshaller;
 import gov.nih.nci.common.util.caCOREMarshaller;
 import gov.nih.nci.common.util.caCOREUnmarshaller;
-
-import java.io.File;
-import java.io.InputStream;
-import java.io.Reader;
-import java.io.StringWriter;
-import java.io.Writer;
-
 import org.apache.log4j.Logger;
 import org.exolab.castor.mapping.Mapping;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 
+import java.io.*;
+
 /**
  * This is a utility class to
  * marshall and unmarshall domain objects.
- *
+ * <p/>
  * Implements caCORE Marshaller and UnMarshaller interface
- *
+ * <p/>
  * to/from XML
  * <p/>
  * Created by IntelliJ IDEA.
@@ -31,7 +26,7 @@ import org.xml.sax.InputSource;
  * Time: 11:52:37 AM
  * To change this template use File | Settings | File Templates.
  */
-public class XmlMarshaller implements Marshaller, Unmarshaller{
+public class XmlMarshaller implements Marshaller, Unmarshaller {
 
     private Logger log = Logger.getLogger(XmlMarshaller.class.getName());
     gov.nih.nci.common.util.caCOREMarshaller marshaller;
@@ -43,7 +38,7 @@ public class XmlMarshaller implements Marshaller, Unmarshaller{
 
     public XmlMarshaller() {
         marshaller = new caCOREMarshaller();
-        unmarshaller =   new caCOREUnmarshaller();
+        unmarshaller = new caCOREUnmarshaller();
     }
 
 
@@ -55,13 +50,14 @@ public class XmlMarshaller implements Marshaller, Unmarshaller{
     /**
      * Will serialize a c3prv2 domain object
      * into XML
+     *
      * @param beanObject c3prv2 Object to be serailzed
      * @return XML String
      * @throws XMLUtilityException
      */
     public String toXML(Object beanObject) throws XMLUtilityException {
         StringWriter sw = new StringWriter();
-        this.toXML(beanObject,sw);
+        this.toXML(beanObject, sw);
         return sw.toString();
     }
 
@@ -71,7 +67,7 @@ public class XmlMarshaller implements Marshaller, Unmarshaller{
      *
      * @param beanObject
      * @throws XMLUtilityException
-     * */
+     */
     public void toXML(Object beanObject, Writer stream) throws XMLUtilityException {
         //set mapping before marshalling
         getMarshaller().toXML(beanObject, stream);
@@ -95,12 +91,12 @@ public class XmlMarshaller implements Marshaller, Unmarshaller{
         return getUnmarshaller().fromXML(file);
     }
 
-    private Marshaller getMarshaller() throws XMLUtilityException{
+    private Marshaller getMarshaller() throws XMLUtilityException {
         marshaller.setMapping(getMapping());
         return marshaller;
     }
 
-    private Unmarshaller getUnmarshaller() throws XMLUtilityException{
+    private Unmarshaller getUnmarshaller() throws XMLUtilityException {
         unmarshaller.setMapping(getMapping());
         return unmarshaller;
     }
@@ -110,7 +106,6 @@ public class XmlMarshaller implements Marshaller, Unmarshaller{
     }
 
     /**
-     *
      * @return default mapping file being used for xml serialziation/deserialization
      * @throws XMLUtilityException
      */
@@ -139,7 +134,6 @@ public class XmlMarshaller implements Marshaller, Unmarshaller{
 
 
     /**
-     *
      * @return Underlying Castor marshaller
      * @throws XMLUtilityException
      */
@@ -149,7 +143,6 @@ public class XmlMarshaller implements Marshaller, Unmarshaller{
 
 
     /**
-     *
      * @return Underlying Castor Unmarshaller
      */
     public Object getBaseUnmarshaller() {

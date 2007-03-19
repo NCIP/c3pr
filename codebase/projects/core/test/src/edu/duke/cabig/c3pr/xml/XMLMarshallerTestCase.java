@@ -28,6 +28,8 @@ public class XMLMarshallerTestCase extends TestCase {
     String strValue;
     boolean boolValue;
     Date dateValue;
+    String studyGridId;
+    String siteGridId;
 
     StudyParticipantAssignment unmarshalledRegistration;
     String marshalledRegistration;
@@ -40,6 +42,8 @@ public class XMLMarshallerTestCase extends TestCase {
         strValue= "tempStr";
         boolValue = true;
         dateValue = sdf.parse("2009/01/20");
+        studyGridId = "studyGridId";
+        siteGridId = "siteGridId";
 
     }
 
@@ -50,14 +54,20 @@ public class XMLMarshallerTestCase extends TestCase {
         registration.setStudyParticipantIdentifier(strValue);
         registration.setInformedConsentSignedDate(dateValue);
         registration.setStartDate(dateValue);
-        registration.setGridId(strValue);
         registration.setEligibilityIndicator(boolValue);
+        registration.setIdentifiers(getIdentifiers());
+        
+        StudySite studySite = new StudySite();
 
-        StudySite site = new StudySite();
+        HealthcareSite site = new HealthcareSite();
+        site.setGridId(siteGridId);
+        studySite.setSite(site);
+        
         Study study = new Study();
+        study.setGridId(studyGridId);
         study.setIdentifiers(getIdentifiers());
-        site.setStudy(study);
-        registration.setStudySite(site);
+        studySite.setStudy(study);
+        registration.setStudySite(studySite);
 
         Participant patient = new Participant();
         patient.setAdministrativeGenderCode(strValue);
@@ -88,8 +98,12 @@ public class XMLMarshallerTestCase extends TestCase {
 
             unmarshalledRegistration = (StudyParticipantAssignment)marshaller.fromXML(new StringReader(marshalledRegistration));
             assertNotNull(unmarshalledRegistration);
-            assertEquals(registration.getGridId(),unmarshalledRegistration.getGridId());
+
             assertNotNull(unmarshalledRegistration.getParticipant());
+
+            assertEquals(unmarshalledRegistration.getStudySite().getSite().getGridId(),siteGridId);
+            assertEquals(unmarshalledRegistration.getStudySite().getStudy().getGridId(),studyGridId);
+
         } catch (XMLUtilityException e) {
             fail(e.getMessage());
         }

@@ -1,66 +1,58 @@
 package edu.duke.cabig.c3pr.xml;
 
-import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.ValidityException;
 
 /**
- * To handle the studysite field in StudyParticipantAssignment
- * object
- * <p/>
  * Created by IntelliJ IDEA.
  * User: kherm
- * Date: Mar 18, 2007
- * Time: 7:32:20 PM
+ * Date: Mar 19, 2007
+ * Time: 12:21:07 AM
  * To change this template use File | Settings | File Templates.
  */
-public class StudyFieldHandler implements FieldHandler {
-
-
-    public StudyFieldHandler() {
-        super();
-    }
+public class HealthCareSiteGridIdFieldHandler implements FieldHandler {
 
 
     public Object getValue(Object object) throws IllegalStateException {
         StudyParticipantAssignment registration = (StudyParticipantAssignment) object;
-        StudySite site = registration.getStudySite();
+        StudySite studySite = registration.getStudySite();
+        if (studySite == null) return null;
+        HealthcareSite site = studySite.getSite();
         if (site == null) return null;
-        Study study = site.getStudy();
-        if (study == null) return null;
-        return study;
+        return site.getGridId();
     }
 
     public void setValue(Object object, Object value) throws IllegalStateException, IllegalArgumentException {
         StudyParticipantAssignment registration = (StudyParticipantAssignment) object;
-        StudySite site = registration.getStudySite();
+        StudySite studySite = registration.getStudySite();
+        if (studySite == null) {
+            studySite = new StudySite();
+            registration.setStudySite(studySite);
+        }
+        HealthcareSite site = studySite.getSite();
         if (site == null) {
-            site = new StudySite();
-            registration.setStudySite(site);
+            site = new HealthcareSite();
+            studySite.setSite(site);
         }
-        //if already assigned study
-        if(site.getStudy()!=null){
-            ((Study)value).setGridId(site.getStudy().getGridId());
-        }
-        site.setStudy((Study) value);
+        site.setGridId((String) value);
     }
 
     public void resetValue(Object object) throws IllegalStateException, IllegalArgumentException {
         StudyParticipantAssignment registration = (StudyParticipantAssignment) object;
-        registration.getStudySite().setStudy(null);
+        registration.getStudySite().getSite().setGridId(null);
     }
-
-    public Object newInstance(Object object) throws IllegalStateException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
 
     /**
      * @deprecated
      */
     public void checkValidity(Object object) throws ValidityException, IllegalStateException {
-        //do nothing
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public Object newInstance(Object object) throws IllegalStateException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }
