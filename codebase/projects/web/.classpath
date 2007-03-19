@@ -8,7 +8,6 @@
 	<classpathentry exported="true" kind="lib" path="lib/javax.servlet.jsp.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/nls_charset12.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/sitemesh-2.2.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="ext/lib/c3pr-2.0-core-1.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/c3pr-2.0-esb-client-1.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/client.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/commons-lang-2.1.jar"/>
@@ -30,12 +29,12 @@
 	<classpathentry exported="true" kind="lib" path="ext/lib/caGrid-1.0-core.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/cog-jglobus.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/cglib-2.1.3.jar"/>
-	<classpathentry kind="lib" path="ext/lib/hibernate3.2.1.jar"/>
-	<classpathentry kind="lib" path="ext/lib/asm.jar"/>
-	<classpathentry kind="lib" path="ext/lib/asm-attrs.jar"/>
-	<classpathentry kind="lib" path="ext/lib/caGrid-1.0-gridca.jar"/>
-	<classpathentry kind="lib" path="ext/lib/ctms-web-sso.jar"/>
-	<classpathentry kind="lib" path="ext/lib/northwestern-core-commons.jar"/>
-	<classpathentry kind="lib" path="ext/lib/c3pr-2.0-core-tests-1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="ext/lib/asm.jar"/>
+	<classpathentry exported="true" kind="lib" path="ext/lib/asm-attrs.jar"/>
+	<classpathentry exported="true" kind="lib" path="ext/lib/caGrid-1.0-gridca.jar"/>
+	<classpathentry exported="true" kind="lib" path="ext/lib/ctms-web-sso.jar"/>
+	<classpathentry exported="true" kind="lib" path="ext/lib/northwestern-core-commons.jar"/>
+	<classpathentry exported="true" kind="lib" path="ext/lib/c3pr-2.0-core-tests-1.0.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/core"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
