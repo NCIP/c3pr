@@ -1,0 +1,104 @@
+body {
+    font-family: Verdana, sans-serif;
+    margin: 0; padding: 0;
+}
+
+#body {
+    margin: 0.5em 1em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: Trebuchet, sans-serif;
+}
+
+a {
+    color: #00c;
+}
+
+a:visited {
+    color: #006;
+}
+
+a:hover {
+    color: #33f;
+}
+
+a:active {
+    color: #f00;
+}
+
+.error {
+    color: #c03;
+}
+
+.odd {
+    background-color: #eee;
+}
+
+.tip {
+    font-size: 80%;
+}
+
+#sso-form { display: none; }
+
+/****** SPECIAL TYPES */
+
+/*
+    'row' is a class for label: value type rows.  The intent is
+    that eash row would contain 2-3 subdivs:  a label (float: left), an optional extra
+    (float: right), and the value (positioned naturally).  Pages which use these styles
+    should also set the width of div.label.
+ */
+div.row {
+    font-size: 10pt;
+    padding: 3px 2px 2px 2px;
+    margin-top: 1px;
+}
+/* Automatically clear after each row
+   Based on http://www.positioniseverything.net/easyclearing.html */
+div.row:after, .autoclear:after {
+    display: block ;
+    content: ' ';
+    clear: both ;
+    height: 0 ;
+    visibility: hidden ;
+}
+/* IE only */
+* html div.row, * html div.autoclear { height: 1% }
+div.row div.label, td.label { font-weight: bold; float: left; margin-left: 0.5em }
+div.row div.value { font-weight: normal; }
+
+
+/*
+    Styles for scriptaculous-generated autocompleters
+ */
+div.autocomplete {
+    position: absolute;
+    width: 250px;
+    background-color: white;
+    border: 1px solid #888;
+    border-top-width: 0; 
+    margin: 0;
+    padding: 0;
+}
+div.autocomplete ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+div.autocomplete ul li.selected { background-color: #ffb;}
+div.autocomplete ul li {
+    list-style-type: none;
+    display: block;
+    margin: 0;
+    padding: 2px;
+    border-style: solid; 
+    border-color: #888;
+    border-width: 1px 0 0 0;
+    cursor: pointer;
+}
+
+img.indicator {
+    visibility: hidden;
+}
+
