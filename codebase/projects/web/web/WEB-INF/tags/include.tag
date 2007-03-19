@@ -1,10 +1,16 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
-<tags:stylesheetLink name="styles"/>
+<tags:stylesheetLink name="common"/>
+<tags:stylesheetLink name="common-search"/>
+<tags:stylesheetLink name="debug"/>
+<tags:stylesheetLink name="extremecomponents"/>
 <tags:stylesheetLink name="search"/>
-<tags:stylesheetLink name="tabbedflow"/>
-<tags:stylesheetLink name="tabbedflow"/>
 <tags:parsedStylesheetLink name="common-styles"/>
 
-<tags:javascriptLink name="tabbedflow"/>  
+<tags:javascriptLink name="calendar"/>
+<tags:javascriptLink name="prototype"/>
+<tags:javascriptLink name="common"/>
 <tags:javascriptLink name="CalendarPopup"/>
+
+
+
 
