@@ -109,7 +109,7 @@
 	<bean name="/registration/register" id="registerController"
 		lazy-init="true" class="edu.duke.cabig.c3pr.web.RegisterController"
 		autowire="byName">
-		<property name="isBroadcastEnable" value="false" />
+		<property name="isBroadcastEnable" value="${broadcastEnable}" />
 		<property name="commandClass"
 			value="edu.duke.cabig.c3pr.domain.StudyParticipantAssignment" />
 		<property name="commandName" value="command" />
