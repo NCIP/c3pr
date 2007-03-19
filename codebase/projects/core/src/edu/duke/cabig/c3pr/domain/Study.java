@@ -66,6 +66,8 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 	private String trimmedShortTitleText;
 	private String primaryIdentifier;
 	
+	private List<InclusionEligibilityCriteria> inclusionEligibilityCriterias= new ArrayList<InclusionEligibilityCriteria>();
+	private List<ExclusionEligibilityCriteria> exclusionEligibilityCriterias= new ArrayList<ExclusionEligibilityCriteria>();
 	
 	/// LOGIC
 
@@ -346,5 +348,27 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 		}
 			
 		return primaryIdentifier;		
+	}
+
+	@OneToMany (mappedBy="study", fetch=FetchType.LAZY)
+    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})	
+	public List<ExclusionEligibilityCriteria> getExclusionEligibilityCriterias() {
+		return exclusionEligibilityCriterias;
+	}
+
+	public void setExclusionEligibilityCriterias(
+			List<ExclusionEligibilityCriteria> exclusionEligibilityCriterias) {
+		this.exclusionEligibilityCriterias = exclusionEligibilityCriterias;
+	}
+
+	@OneToMany (mappedBy="study", fetch=FetchType.LAZY)
+    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})	
+	public List<InclusionEligibilityCriteria> getInclusionEligibilityCriterias() {
+		return inclusionEligibilityCriterias;
+	}
+
+	public void setInclusionEligibilityCriterias(
+			List<InclusionEligibilityCriteria> inclusionEligibilityCriterias) {
+		this.inclusionEligibilityCriterias = inclusionEligibilityCriterias;
 	}
 }
