@@ -29,49 +29,23 @@ import org.hibernate.annotations.Parameter;
                 discriminatorType=DiscriminatorType.STRING, length=1)
  @GenericGenerator(name="id-generator", strategy = "native",
      parameters = {
-         @Parameter(name="sequence", value="eligibility_criteria_id_seq")
+         @Parameter(name="sequence", value="ELIGIBILITY_CRITERIAS_ID_SEQ")
      }
  )
 public abstract class EligibilityCriteria extends AbstractGridIdentifiableDomainObject
 {			
-	private String expectedAnswerIndicator;
+	private boolean notApplicableInidicator;
 	
 	private int questionNumber;
 	
 	private String questionText;
 	
-	private Study study;
-	
-	private List<ParticipantEligibilityAnswer> participantEligibilityAnswers=new ArrayList<ParticipantEligibilityAnswer>();
-
-	@OneToMany (mappedBy="eligibilityCriteria", fetch=FetchType.LAZY)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})
-	public List<ParticipantEligibilityAnswer> getParticipantEligibilityAnswers() {
-		return participantEligibilityAnswers;
+	public boolean isNotApplicableInidicator() {
+		return notApplicableInidicator;
 	}
 
-	public void setParticipantEligibilityAnswers(
-			List<ParticipantEligibilityAnswer> participantEligibilityAnswers) {
-		this.participantEligibilityAnswers = participantEligibilityAnswers;
-	}
-
-	@ManyToOne
-    @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })        
-    @JoinColumn(name = "study_id", nullable=false)    
-	public Study getStudy() {
-		return study;
-	}
-
-	public void setStudy(Study study) {
-		this.study = study;
-	}
-
-	public String getExpectedAnswerIndicator() {
-		return expectedAnswerIndicator;
-	}
-
-	public void setExpectedAnswerIndicator(String expectedAnswerIndicator) {
-		this.expectedAnswerIndicator = expectedAnswerIndicator;
+	public void setNotApplicableInidicator(boolean notApplicableInidicator) {
+		this.notApplicableInidicator = notApplicableInidicator;
 	}
 
 	public int getQuestionNumber() {

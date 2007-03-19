@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -350,8 +351,9 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 		return primaryIdentifier;		
 	}
 
-	@OneToMany (mappedBy="study", fetch=FetchType.LAZY)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})	
+	@OneToMany
+    @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })        
+    @JoinColumn(name = "stu_id", nullable=false)    
 	public List<ExclusionEligibilityCriteria> getExclusionEligibilityCriterias() {
 		return exclusionEligibilityCriterias;
 	}
@@ -361,8 +363,9 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 		this.exclusionEligibilityCriterias = exclusionEligibilityCriterias;
 	}
 
-	@OneToMany (mappedBy="study", fetch=FetchType.LAZY)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})	
+	@OneToMany
+    @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })        
+    @JoinColumn(name = "stu_id", nullable=false)    
 	public List<InclusionEligibilityCriteria> getInclusionEligibilityCriterias() {
 		return inclusionEligibilityCriterias;
 	}

@@ -18,7 +18,7 @@ import org.hibernate.annotations.Parameter;
  @Table (name = "participant_eligibility_answers")
  @GenericGenerator(name="id-generator", strategy = "native",
      parameters = {
-         @Parameter(name="sequence", value="participant_eligibility_ans_id_seq")
+         @Parameter(name="sequence", value="prt_eligibility_ans_id_seq")
      }
  )
 public class ParticipantEligibilityAnswer extends AbstractGridIdentifiableDomainObject

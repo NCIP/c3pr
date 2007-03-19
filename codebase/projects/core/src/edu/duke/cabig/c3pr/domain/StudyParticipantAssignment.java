@@ -43,12 +43,21 @@ public class StudyParticipantAssignment extends AbstractGridIdentifiableDomainOb
     private String eligibilityWaiverReasonText;
     private Date informedConsentSignedDate;
     private Boolean eligibilityIndicator;
-    private String informedConsentSignedDateStr;
-    private String startDateStr;
-    
+    private List<ParticipantEligibilityAnswer> participantEligibilityAnswers=new ArrayList<ParticipantEligibilityAnswer>();
     
     /// BEAN PROPERTIES
 
+	@OneToMany
+    @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })        
+    @JoinColumn(name = "SPA_ID", nullable=false)    
+	public List<ParticipantEligibilityAnswer> getParticipantEligibilityAnswers() {
+		return participantEligibilityAnswers;
+	}
+
+	public void setParticipantEligibilityAnswers(
+			List<ParticipantEligibilityAnswer> participantEligibilityAnswers) {
+		this.participantEligibilityAnswers = participantEligibilityAnswers;
+	}
 
 	public void setStudySite(StudySite studySite) {
         this.studySite = studySite;
