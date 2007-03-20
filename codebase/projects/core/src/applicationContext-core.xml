@@ -187,6 +187,9 @@
 	<bean id="healthcareSiteDao" parent="daoTemplate"
 		class="edu.duke.cabig.c3pr.dao.HealthcareSiteDao" autowire="byType">
 	</bean>
+	<bean id="registrationDao" parent="daoTemplate"
+		class="edu.duke.cabig.c3pr.dao.StudyParticipantAssignmentDao" autowire="byType">
+	</bean>
 	<!-- Services -->
 	<bean id="studyService" lazy-init="true"
 		class="edu.duke.cabig.c3pr.service.impl.StudyServiceImpl"
