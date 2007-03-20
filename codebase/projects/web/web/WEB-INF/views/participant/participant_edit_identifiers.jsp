@@ -68,7 +68,7 @@ field.value="";
 					class="tabs">
 					<tr>
 						<td width="100%" id="tabDisplay"><span class="current"><img
-							src="<tags:imageUrl name="tabWhiteR.gif"/>" width="3" height="16"
+							src="<tags:imageUrl name="tabWhiteL.gif"/>" width="3" height="16"
 							align="absmiddle"> Subject Summary <img
 							src="<tags:imageUrl name="tabWhiteR.gif"/>" width="3" height="16"
 							align="absmiddle"></span></td>
@@ -93,7 +93,7 @@ field.value="";
 							align="absmiddle"><a href="javascript:updatePage('_target0');">Details</a>
 						<img src="<tags:imageUrl name="tabGrayR.gif"/>" width="3"
 							height="16" align="absmiddle"></span><span class="current"><img
-							src="<tags:imageUrl name="tabWhiteR.gif"/>" width="3" height="16"
+							src="<tags:imageUrl name="tabWhiteL.gif"/>" width="3" height="16"
 							align="absmiddle"> Identifiers <img
 							src="<tags:imageUrl name="tabWhiteR.gif"/>" width="3" height="16"
 							align="absmiddle"></span><span class="tab"><img
@@ -142,7 +142,7 @@ field.value="";
 								class="heightControl"></td>
 						</tr>
 						<tr valign="top">
-							<td class="label"><span class="red">*</span><em></em>Gender:</td>
+							<td class="label"><em></em>Gender:</td>
 							<td>${command.administrativeGenderCode }</td>
 						</tr>
 						<tr>
@@ -159,7 +159,7 @@ field.value="";
 							<td>${command.raceCode }</td>
 						</tr>
 						<tr>
-							<td class="label"><span class="red">*</span><em></em>Primary Identifier:</td>
+							<td class="label"><em></em>Primary Identifier:</td>
 							<td>${command.primaryIdentifier }</td>
 						</tr>
 					</table>
@@ -246,40 +246,40 @@ field.value="";
 						<table width="315" border="0" cellspacing="0" cellpadding="0"
 							id="table1">
 							<tr>
-								<td class="label"><span class="red">*</span><em></em>Registration ID:</td>
+								<td class="label"><em></em>Registration ID:</td>
 								<td width="75%" valign="top">${command.studyParticipantAssignments[0].id
 								}</td>
 							</tr>
 							<tr>
-								<td class="label"><span class="red">*</span><em></em>Short
+								<td class="label"><em></em>Short
 								Title:</td>
 								<td width="75%" valign="top">${command.studyParticipantAssignments[0].studySite.study.shortTitleText
 								}</td>
 							</tr>
 							<tr>
-								<td class="label"><span class="red">*</span><em></em>Status:</td>
+								<td class="label"><em></em>Status:</td>
 								<td width="75%" valign="top">${command.studyParticipantAssignments[0].studySite.study.status
 								}</td>
 							</tr>
 							<tr>
-								<td class="label"><span class="red">*</span><em></em>Disease
+								<td class="label"><em></em>Disease
 								Code:</td>
 								<td width="75%" valign="top">${command.studyParticipantAssignments[0].studySite.study.diseaseCode
 								}</td>
 							</tr>
 							<tr>
-								<td class="label"><span class="red">*</span><em></em>Phase Code:</td>
+								<td class="label"><em></em>Phase Code:</td>
 								<td width="75%" valign="top">${command.studyParticipantAssignments[0].studySite.study.phaseCode
 								}</td>
 							</tr>
 							<tr>
-								<td class="label"><span class="red">*</span><em></em>Sponsor
+								<td class="label"><em></em>Sponsor
 								Code:</td>
 								<td width="75%" valign="top">${command.studyParticipantAssignments[0].studySite.study.sponsorCode
 								}</td>
 							</tr>
 							<tr>
-								<td class="label"><span class="red">*</span><em></em>Target
+								<td class="label"><em></em>Target
 								Accrual Number:</td>
 								<td width="75%" valign="top">${command.studyParticipantAssignments[0].studySite.study.targetAccrualNumber
 								}</td>
