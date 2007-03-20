@@ -12,7 +12,7 @@ import org.hibernate.annotations.Parameter;
  * @author Kruttik
  */
 @Entity
-@DiscriminatorValue(value="N") 
+@DiscriminatorValue(value="E") 
 public abstract class ExclusionEligibilityCriteria extends EligibilityCriteria
 {
 	 

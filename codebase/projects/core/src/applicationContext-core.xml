@@ -109,7 +109,10 @@
 				<value>edu.duke.cabig.c3pr.domain.Investigator</value>
 				<value>edu.duke.cabig.c3pr.domain.ScheduledArm</value>
 				<value>edu.duke.cabig.c3pr.domain.Identifier</value>
-			
+				<value>edu.duke.cabig.c3pr.domain.EligibilityCriteria</value>
+				<value>edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer</value>							
+				<value>edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria</value>							
+				<value>edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria</value>															
 			</list>
 		</property>
 		<property name="entityInterceptor">

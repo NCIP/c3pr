@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -47,10 +48,11 @@ public class StudyParticipantAssignment extends AbstractGridIdentifiableDomainOb
     
     /// BEAN PROPERTIES
 
-	@OneToMany
-    @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })        
-    @JoinColumn(name = "SPA_ID", nullable=false)    
-	public List<SubjectEligibilityAnswer> getsubjectEligibilityAnswers() {
+    @OneToMany
+    @JoinTable(
+            name="subject_eligibility_answers",
+            inverseJoinColumns = @JoinColumn( name="monkey_id")
+    )	public List<SubjectEligibilityAnswer> getsubjectEligibilityAnswers() {
 		return subjectEligibilityAnswers;
 	}
 

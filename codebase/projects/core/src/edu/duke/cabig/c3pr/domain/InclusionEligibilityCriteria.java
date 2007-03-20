@@ -7,7 +7,7 @@ import javax.persistence.Entity;
  * @author Kruttik
  */
 @Entity
-@DiscriminatorValue(value="Y") 
+@DiscriminatorValue(value="I") 
 public abstract class InclusionEligibilityCriteria extends EligibilityCriteria
 {
 	 

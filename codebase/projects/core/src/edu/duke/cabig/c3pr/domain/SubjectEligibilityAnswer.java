@@ -15,7 +15,7 @@ import org.hibernate.annotations.Parameter;
  * @author Kruttik
  */
  @Entity
- @Table (name = "participant_eligibility_answers")
+ @Table (name = "subject_eligibility_answers")
  @GenericGenerator(name="id-generator", strategy = "native",
      parameters = {
          @Parameter(name="sequence", value="prt_eligibility_ans_id_seq")
