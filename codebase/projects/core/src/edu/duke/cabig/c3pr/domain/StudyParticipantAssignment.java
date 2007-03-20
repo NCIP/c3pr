@@ -51,7 +51,7 @@ public class StudyParticipantAssignment extends AbstractGridIdentifiableDomainOb
     @OneToMany
     @JoinTable(
             name="subject_eligibility_answers",
-            inverseJoinColumns = @JoinColumn( name="monkey_id")
+            inverseJoinColumns = @JoinColumn( name="spa_id")
     )	public List<SubjectEligibilityAnswer> getsubjectEligibilityAnswers() {
 		return subjectEligibilityAnswers;
 	}
