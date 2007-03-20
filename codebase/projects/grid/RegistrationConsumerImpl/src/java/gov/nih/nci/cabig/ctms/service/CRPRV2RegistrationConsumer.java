@@ -4,7 +4,7 @@
 package gov.nih.nci.cabig.ctms.service;
 
 import edu.duke.cabig.c3pr.domain.*;
-import edu.duke.cabig.c3pr.utils.XmlMarshaller;
+import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 import edu.duke.cabig.c3pr.service.StudyService;
 import gov.nih.nci.cabig.ctms.common.RegistrationConsumer;
 import gov.nih.nci.cabig.ctms.grid.RegistrationType;
