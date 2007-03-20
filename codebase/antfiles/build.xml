@@ -215,6 +215,8 @@
         <resolveDependencies extdir="${projects.dir}/grid/ext">
             <artifact refid="ant-contrib.jars"/>
             <artifact refid="spring.jars"/>
+            <artifact refid="c3pr.core.jars"/>
+            <artifact refid="common.test.jars"/>
         </resolveDependencies>
         <ant dir="${projects.dir}/grid" inheritAll="false" antfile="build.xml" target="all"/>
     </target>

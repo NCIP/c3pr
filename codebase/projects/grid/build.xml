@@ -8,6 +8,8 @@
     <property name="antfiles.dir" value="${basedir}/antfiles"/>
     <property name="ext.dir" value="${basedir}/ext"/>
     <property name="ext.lib.dir" value="${ext.dir}/lib"/>
+    <property name="ext.test.dir" value="${ext.dir}/test"/>
+    <property name="ext.test.lib.dir" value="${ext.test.dir}/lib"/>
 
     <property name="project.name" value="RegistrationConsumer_Grid_Service"/>
     <property name="build.dir" value="${basedir}/build"/>
@@ -17,6 +19,21 @@
 
     <!-- projects-->
     <property name="projects.list" value="RegistrationConsumer, RegistrationConsumerImpl"/>
+
+    <!--tomcat dirs-->
+    <property name="tomcat.home" value="${env.CATALINA_HOME}"/>
+    <property name="tomcat.webapps.home" value="${tomcat.home}/webapps"/>
+    <property name="tomcat.wsrf.home" value="${tomcat.webapps.home}/wsrf"/>
+
+    <fileset dir="${ext.lib.dir}" id="ext.lib.jars">
+        <include name="*.jar"/>
+        <exclude name="ant-contrib.jar"/>
+    </fileset>
+
+    <fileset dir="${ext.test.lib.dir}" id="ext.test.lib.jars">
+        <include name="*.jar"/>
+    </fileset>
+
 
     <!-- =============================================================== -->
     <!-- Bootstrap the build by setting up the structure and building    -->
@@ -74,12 +91,13 @@
         <for list="${projects.list}" parallel="false" param="project.name" trim="true">
             <sequential>
                 <echo message="Building sub-project @{project.name}."/>
-                <!--copy ext dependencies-->
+                <!--copy ext lib dependencies-->
                 <copy todir="${projects.dir}/@{project.name}/ext/lib">
-                    <fileset dir="${ext.lib.dir}">
-                        <include name="*.jar"/>
-                        <exclude name="ant-contrib.jar"/>
-                    </fileset>
+                    <fileset refid="ext.lib.jars"/>
+                </copy>
+                <!--copy ext test dependencies-->
+                <copy todir="${projects.dir}/@{project.name}/ext/test/lib">
+                    <fileset refid="ext.test.lib.jars"/>
                 </copy>
                 <runtarget target="build-@{project.name}" />
                 <echo message="Built project @{project.name}." />
@@ -88,7 +106,11 @@
     </target>
 
 
-    <target name="deploySkeletonRegistrationGridService" depends="prepare"
+    <!-- Will build and deploy the RegistrationConsumer Skeleton
+         grid service. Skeleton service is implemented by individual
+         ctmsi applications.
+    -->
+    <target name="deploySkeletonRegistrationGridService" depends="all"
             description="Deploys the Registration Consumer Grid service Skeleton">
 
         <!--override tomcat env variable to write out to temp location-->
@@ -96,20 +118,24 @@
              inheritall="false" target="deployTomcat"/>
 
         <echo message="======================================"/>
-
-        <echo message="======Skeleton grid service deployed to CATALINA_LOCATION" />
-
+        <echo message="======Skeleton grid service deployed to ${tomcat.home}" />
         <echo message="======================================"/>
     </target>
 
+    <!--will deploy the RegistrationConsumer grid service
+        for c3prv2 application
+     -->
     <target name="deployTomcat" depends="deploySkeletonRegistrationGridService"
             description="Deploys the c3pr Registration consumer grid service Implementation">
+
         <ant antfile="${projects.dir}/RegistrationConsumerImpl/build.xml" inheritall="false" target="deployTomcat"/>
+        <!--copy the ext folder-->
+        <copy todir="${tomcat.wsrf.home}/WEB-INF/lib">
+            <fileset refid="ext.jars"/>
+        </copy>
 
         <echo message="============================================================================="/>
-
-        <echo message="======Registration Consumer Grid service deployed to CATALINA_LOCATION" />
-
+        <echo message="======Registration Consumer Grid service deployed to ${tomcat.home}" />
         <echo message="============================================================================="/>
 
     </target>

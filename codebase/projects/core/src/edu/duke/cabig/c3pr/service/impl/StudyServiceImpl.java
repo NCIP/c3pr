@@ -58,7 +58,7 @@ public class StudyServiceImpl implements StudyService {
      * @param site
      * @return StudyParticipantAssignment for the Participant
      */
-    public StudyParticipantAssignment assignParticipant(Study study, Participant participant, HealthcareSite site, String registrationGridId) {
+    public StudyParticipantAssignment assignParticipant(Study study, Participant participant, HealthcareSite site) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

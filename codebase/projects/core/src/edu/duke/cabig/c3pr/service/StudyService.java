@@ -27,10 +27,9 @@ public interface StudyService {
      * @param study
      * @param participant
      * @param site
-     * @param registrationGridId
      * @return StudyParticipantAssignment
      */
-    public StudyParticipantAssignment assignParticipant(Study study, Participant participant, HealthcareSite site, String registrationGridId);
+    public StudyParticipantAssignment assignParticipant(Study study, Participant participant, HealthcareSite site);
 
 
 }
