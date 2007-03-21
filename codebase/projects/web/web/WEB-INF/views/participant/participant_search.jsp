@@ -17,16 +17,7 @@ function submitPage(){
 </script>
 </head>
 <body>
-
-<!-- MAIN BODY STARTS HERE -->
-
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
-	<tr>
-		<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
-
-		<td id="current">Search</td>
-		<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
-	</tr>
 	<tr>
 
 		<td class="display"><!-- TABS LEFT START HERE -->
@@ -37,7 +28,7 @@ function submitPage(){
 					class="tabs">
 					<tr>
 						<td width="100%" id="tabDisplay"><span class="current"><img
-							src="<tags:imageUrl name="tabWhiteR.gif"/>" width="3" height="16"
+							src="<tags:imageUrl name="tabWhiteL.gif"/>" width="3" height="16"
 							align="absmiddle"> Subject Search <img src="<tags:imageUrl name="tabWhiteR.gif"/>"
 							width="3" height="16" align="absmiddle"></span></td>
 						<td><img src="<tags:imageUrl name="spacer.gif"/>" width="7" height="1"></td>
@@ -53,11 +44,10 @@ function submitPage(){
 				</td>
 			</tr>
 			<tr>
+				<!-- LEFT CONTENT STARTS HERE -->
+				<td valign="top" class="additionals">
+				<form:form id="searchForm" name="searchForm" method="post">
 
-			<!-- LEFT CONTENT STARTS HERE -->
-
-			<td valign="top" class="additionals"><!-- LEFT FORM STARTS HERE -->
-			<form:form id="searchForm" name="searchForm" method="post">
 				<table width="50%" border="0" cellpadding="0" cellspacing="0"  id="table1">
 					<tr valign="top">
 						<td><img src="<tags:imageUrl name="Patient.gif"/>" alt="Subject Search"
@@ -88,13 +78,18 @@ function submitPage(){
 								</td>
 							</tr>
 						</table>
+						<!-- LEFT FORM ENDS HERE -->
 						</td>
 					</tr>
-			</table>
-			</form:form></td>
+				</table>
+				</td>
 			</tr>
 		</table>
+		</form:form>
 
-		<!-- MAIN BODY ENDS HERE -->
+		</td>
+	</tr>
+</table>
+<!-- MAIN BODY ENDS HERE -->
 </body>
 </html>
