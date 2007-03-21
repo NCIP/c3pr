@@ -238,7 +238,8 @@ field.value="";
 							</table>
 						</form:form></td>
 						<td width="50%" valign="top" class="contentAreaR"><strong><strong><strong><a
-							href=""><img src="<tags:imageUrl name="viewRegistrationHistory.gif"/>"
+							href="../registration/registrationDetails?registrationId=${command.studyParticipantAssignments[0].id}"><img
+							src="<tags:imageUrl name="viewRegistrationHistory.gif"/>"
 							alt="View Registration Information" width="140" height="16"
 							border="0" align="right"></a></strong></strong>Current
 						Registration</strong><br>
