@@ -19,9 +19,10 @@
     <property name="project.jarfile" value="${jar.dir}/${project.name}-${project.version}.jar" />
     <property name="lib.dir" value="${basedir}/lib" />
     <property name="conf.dir" value="${basedir}/conf" />
-    <property name="ext.lib.dir" value="${basedir}/ext/lib" />
-    <property name="ext.test.lib.dir" location="${basedir}/ext/test/lib" />
-    <property name="ext.resources.dir" location="${basedir}/ext/resources"/>
+    <property name="ext.dir" value="${basedir}/ext"/>
+    <property name="ext.lib.dir" value="${ext.dir}/lib" />
+    <property name="ext.test.lib.dir" location="${ext.dir}/test/lib" />
+    <property name="ext.resources.dir" location="${ext.dir}/resources"/>
 
     <property name="web.dir" location="${basedir}/web" />
     <property name="webinf.dir" value="${web.dir}/WEB-INF"/>
@@ -154,7 +155,7 @@
     <!-- =============================================================== -->
     <target name="compile-tests" depends="prepare">
         <mkdir dir="${test.classes.dir}" />
-        <mkdir dir="${ext.test.lib.dir}" />
+
         <javac srcdir="${test.src.dir}" destdir="${test.classes.dir}" debug="${debug}" deprecation="off" optimize="off">
             <classpath refid="test.classpath" />
         </javac>

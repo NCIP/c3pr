@@ -185,6 +185,7 @@
             <artifact refid="common.test.jars"/>
             <artifact refid="spring.jars"/>
             <artifact refid="c3pr.core.jars"/>
+            <artifact refid="c3pr.core.test.jars"/>
             <artifact refid="jdom.jars"/>
             <artifact refid="dom4j.jars"/>
             <artifact refid="web-sso.jars"/>
@@ -216,6 +217,7 @@
             <artifact refid="ant-contrib.jars"/>
             <artifact refid="spring.jars"/>
             <artifact refid="c3pr.core.jars"/>
+            <artifact refid="c3pr.core.test.jars"/>
             <artifact refid="common.test.jars"/>
         </resolveDependencies>
         <ant dir="${projects.dir}/grid" inheritAll="false" antfile="build.xml" target="all"/>

@@ -42,7 +42,7 @@
             </fileset>
         </artifact>
 
-         <artifact track="main" type="jars" id="globus.security.jars">
+        <artifact track="main" type="jars" id="globus.security.jars">
             <fileset dir="${share.dir}/globus/security/lib">
                 <include name="*.jar"/>
             </fileset>
@@ -139,26 +139,26 @@
                 <include name="*.jar"/>
             </fileset>
         </artifact>
-		
+
         <artifact track="main" type="jars" id="net-handle.jars">
             <fileset dir="${share.dir}/net-handle">
                 <include name="*.jar"/>
             </fileset>
         </artifact>
-    	
-    	<artifact track="main" type="jars" id="security.lib.jars">
+
+        <artifact track="main" type="jars" id="security.lib.jars">
             <fileset dir="${share.dir}/security/lib">
                 <include name="*.jar"/>
             </fileset>
         </artifact>
-    	
-    	<artifact track="main" type="jars" id="web-sso.jars">
+
+        <artifact track="main" type="jars" id="web-sso.jars">
             <fileset dir="${share.dir}/web-sso">
                 <include name="*.jar"/>
             </fileset>
         </artifact>
 
-    	<!-- ================= -->
+        <!-- ================= -->
         <!-- project artifacts -->
         <!-- ================= -->
 
@@ -174,7 +174,8 @@
         <artifact track="main" type="jars" id="c3pr.core.jars">
             <antcall target="build-core"/>
             <fileset dir="${projects.dir}/core/build/jars">
-                <include name="*.jar"/>               
+                <include name="*.jar"/>
+                <exclude name="*-tests*.jar"/>
             </fileset>
             <fileset dir="${projects.dir}/core/lib">
                 <include name="*.jar"/>
@@ -183,7 +184,17 @@
                 <include name="*.jar"/>
             </fileset>
         </artifact>
-    	
+
+        <artifact track="test" type="jars" id="c3pr.core.test.jars">
+            <antcall target="build-core"/>
+            <fileset dir="${projects.dir}/core/build/jars">
+                <include name="*-tests*.jar"/>
+            </fileset>
+            <fileset dir="${projects.dir}/core/test/lib">
+                <include name="*.jar"/>
+            </fileset>
+        </artifact>
+
         <artifact track="main" type="jars" id="c3pr.web.jars">
             <antcall target="build-web"/>
             <fileset dir="${projects.dir}/web/build/jars">
@@ -206,9 +217,9 @@
             <fileset dir="${projects.dir}/esb-client/ext/lib">
                 <include name="*.jar"/>
             </fileset>
-			<fileset dir="${projects.dir}/esb-client/lib">
-				<include name="*.jar" />
-			</fileset>
+            <fileset dir="${projects.dir}/esb-client/lib">
+                <include name="*.jar"/>
+            </fileset>
         </artifact>
 
         <artifact track="main" type="jars" id="c3pr.test-system.jars">
