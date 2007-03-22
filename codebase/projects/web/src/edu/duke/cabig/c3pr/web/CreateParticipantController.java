@@ -26,13 +26,16 @@ import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AbstractTabbedFlowFormController;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Tab;
 
 
 /**
  * @author Kulasekaran, Priyatam
  *
  */
-public class CreateParticipantController extends AbstractWizardFormController {
+public class CreateParticipantController extends AbstractTabbedFlowFormController<Participant> {
 
 	private ParticipantDao participantDao;
 	protected ConfigurationProperty configurationProperty;
@@ -41,7 +44,31 @@ public class CreateParticipantController extends AbstractWizardFormController {
 
 	public CreateParticipantController() {
 		setCommandClass(Participant.class);
+		Flow<Participant> flow = new Flow<Participant>("Create Participant");               
+        intializeFlows(flow);
 	}
+	protected void intializeFlows(Flow<Participant> flow)
+	{	   
+		 flow.addTab(new Tab<Participant>(" Subject Information", "Subject Information", "participant/participant") {
+	            public Map<String, Object> referenceData() {
+	           	 	Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        
+	       	  
+	            	Map<String, Object> refdata = new HashMap<String, Object>();
+	        		  	            	
+	            	refdata.put("administrativeGenderCode", configMap.get("administrativeGenderCode"));
+	        		refdata.put("ethnicGroupCode", configMap.get("ethnicGroupCode"));
+	        		refdata.put("raceCode", configMap.get("raceCode"));
+	        	    refdata.put("source", getHealthcareSites());
+	        		refdata.put("searchTypeRefData", configMap.get("participantSearchType"));
+	        		refdata.put("identifiersTypeRefData", configMap.get("participantIdentifiersType"));
+	        		    	  		
+	    	  		return refdata;
+	            }        	
+	        });
+	        flow.addTab(new Tab<Participant>("Address Information", "Address Information", "participant/participant_address"));                 
+	        flow.addTab(new Tab<Participant>("Review and Submit ", "Review and Submit ", "participant/participant_submit"));
+	        setFlow(flow);      
+	       	}
 
 	@Override
 	protected Map<String, Object> referenceData(HttpServletRequest httpServletRequest, int page) throws Exception {
@@ -51,13 +78,7 @@ public class CreateParticipantController extends AbstractWizardFormController {
 		Map <String, List<Lov>> configMap = configurationProperty.getMap();
 
     	if(page==0)
-    	{
-    		refdata.put("administrativeGenderCode", configMap.get("administrativeGenderCode"));
-    		refdata.put("ethnicGroupCode", configMap.get("ethnicGroupCode"));
-    		refdata.put("raceCode", configMap.get("raceCode"));
-    	    refdata.put("source", getHealthcareSites());
-    		refdata.put("searchTypeRefData", configMap.get("participantSearchType"));
-    		refdata.put("identifiersTypeRefData", configMap.get("participantIdentifiersType"));
+    	{    		
     		if(httpServletRequest.getParameter("studySiteId")!=null){
     			if(!httpServletRequest.getParameter("studySiteId").equals("")){
     				refdata.put("studySiteId", httpServletRequest.getParameter("studySiteId"));
@@ -91,7 +112,7 @@ public class CreateParticipantController extends AbstractWizardFormController {
 			Identifier temp=new Identifier();
 			temp.setPrimaryIndicator(false);
 			participant.addIdentifier(temp);
-		}
+			}
 		participant.setAddress(new Address());
 		return participant;
 	}
@@ -137,7 +158,7 @@ public class CreateParticipantController extends AbstractWizardFormController {
 		return null;
 	}
 
-	protected void validatePage(Object command, Errors errors, int page) {
+	protected void validatePage(Object command, Errors errors, int page, boolean finish) {
 		Participant participant = (Participant) command;
 		switch (page) {
 		case 0: {
