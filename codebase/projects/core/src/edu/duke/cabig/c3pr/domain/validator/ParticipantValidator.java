@@ -22,9 +22,8 @@ public class ParticipantValidator implements Validator {
 				"required field");
 		ValidationUtils.rejectIfEmpty(errors, "lastName", "required",
 				"required field");
-		ValidationUtils.rejectIfEmpty(errors, "administrativeGenderCode",
-				"required", "required field");
-
+		ValidationUtils.rejectIfEmpty(errors, "birthDate", "required",
+				"required field");
 	}
 
 	public void validateParticipantAddress(Object arg0, Errors errors) {
