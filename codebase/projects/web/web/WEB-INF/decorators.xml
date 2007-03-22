@@ -8,6 +8,8 @@
     <decorator name="tabbedflow" page="tabbedflow.jsp">
         <pattern>/pages/study/createStudy</pattern>
         <pattern>/pages/study/editStudy</pattern>
+        <pattern>/pages/participant/createParticipant</pattern>
+        <pattern>/pages/participant/editParticipant</pattern>
     </decorator>
     
   	<excludes>
