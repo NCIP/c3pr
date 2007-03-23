@@ -8,50 +8,22 @@
 
 	<bean id="dataSourceTemplate" abstract="true"
 		class="org.apache.commons.dbcp.BasicDataSource">
-		<property name="driverClassName">
-			<value>${datasource.driver}</value>
-		</property>
-		<property name="maxActive">
-			<value>5</value>
-		</property>
-		<property name="maxIdle">
-			<value>2</value>
-		</property>
-		<property name="maxWait">
-			<value>180000</value>
-		</property>
-		<property name="removeAbandoned">
-			<value>true</value>
-		</property>
-		<property name="removeAbandonedTimeout">
-			<value>300</value>
-		</property>
-		<property name="logAbandoned">
-			<value>true</value>
-		</property>
-		<property name="testWhileIdle">
-			<value>true</value>
-		</property>
-		<property name="testOnReturn">
-			<value>true</value>
-		</property>
-		<property name="timeBetweenEvictionRunsMillis">
-			<value>300000</value>
-		</property>
-		<property name="minEvictableIdleTimeMillis">
-			<value>600000</value>
-		</property>
+		<property name="driverClassName" value="${datasource.driver}"/>
+		<property name="maxActive" value="5"/>
+		<property name="maxIdle" value="2"/>
+		<property name="maxWait" value="180000"/>		
+		<property name="removeAbandoned" value="true"/>		
+		<property name="removeAbandonedTimeout" value="300"/>		
+		<property name="logAbandoned" value="true"/>
+		<property name="testWhileIdle" value="true"/>
+		<property name="testOnReturn" value="true"/>
+		<property name="timeBetweenEvictionRunsMillis" value="300000"/>
+		<property name="minEvictableIdleTimeMillis" value="600000"/>			
 	</bean>
 	<bean id="dataSource" parent="dataSourceTemplate">
-		<property name="url">
-			<value>${datasource.url}</value>
-		</property>
-		<property name="username">
-			<value>${datasource.username}</value>
-		</property>
-		<property name="password">
-			<value>${datasource.password}</value>
-		</property>
+		<property name="url" value="${datasource.url}"/>			
+		<property name="username" value="${datasource.username}"/>			
+		<property name="password" value="${datasource.password}"/>			
 	</bean>
 	<bean id="hibernateProperties"
 		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
@@ -73,9 +45,7 @@
 	<bean id="corePropertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="ignoreUnresolvablePlaceholders" value="true"/>
-        <property name="location">
-			<value>classpath:context/core.properties</value>
-		</property>
+        <property name="location" value="classpath:context/core.properties"/>
 	</bean>
 
 	<bean
@@ -126,9 +96,7 @@
 	</bean>
 	<bean id="hibernateTemplate"
 		class="org.springframework.orm.hibernate3.HibernateTemplate">
-		<property name="checkWriteOperations">
-			<value>true</value>
-		</property>
+		<property name="checkWriteOperations" value="true"/>
 		<property name="sessionFactory">
 			<ref bean="sessionFactory" />
 		</property>
@@ -144,65 +112,34 @@
 	<bean id="openSessionInViewInterceptor"
 		class="org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor"
 		autowire="byName">
-		<property name="singleSession">
-			<value>true</value>
-		</property>
-		<property name="flushModeName">
-			<value>FLUSH_AUTO</value>
-		</property>
+		<property name="singleSession" value="true"/>
+		<property name="flushModeName" value="FLUSH_AUTO"/>
 	</bean>
-	<bean id="gridIdentifierCreator"
-		class="edu.duke.cabig.c3pr.utils.LocalGridIdentifierCreator" />
+	
+	<bean id="gridIdentifierCreator" class="edu.duke.cabig.c3pr.utils.LocalGridIdentifierCreator" />
+	
 	<!--validators for domain objects   -->
-	<bean id="studyValidator"
-		class="edu.duke.cabig.c3pr.domain.validator.StudyValidator"
-		autowire="byName" />
-	<bean id="studySiteValidator"
-		class="edu.duke.cabig.c3pr.domain.validator.StudySiteValidator"
-		autowire="byName" />
-	<bean id="epochValidator"
-		class="edu.duke.cabig.c3pr.domain.validator.EpochValidator"
-		autowire="byName" />
-	<bean id="armValidator"
-		class="edu.duke.cabig.c3pr.domain.validator.ArmValidator" />
-	<bean id="identifierValidator"
-		class="edu.duke.cabig.c3pr.domain.validator.IdentifierValidator"
-		autowire="byName" />
-	<bean id="participantValidator"
-		class="edu.duke.cabig.c3pr.domain.validator.ParticipantValidator"
-		autowire="byName" />
+	<bean id="studyValidator" class="edu.duke.cabig.c3pr.domain.validator.StudyValidator" autowire="byName" />
+	<bean id="studySiteValidator" class="edu.duke.cabig.c3pr.domain.validator.StudySiteValidator" autowire="byName" />
+	<bean id="epochValidator" class="edu.duke.cabig.c3pr.domain.validator.EpochValidator" autowire="byName" />
+	<bean id="armValidator" class="edu.duke.cabig.c3pr.domain.validator.ArmValidator" /> 
+	<bean id="identifierValidator" class="edu.duke.cabig.c3pr.domain.validator.IdentifierValidator" autowire="byName" />
+	<bean id="participantValidator" class="edu.duke.cabig.c3pr.domain.validator.ParticipantValidator" autowire="byName" />
+		
 	<!-- Daos -->
-	<bean id="studyDao" parent="daoTemplate"
-		class="edu.duke.cabig.c3pr.dao.StudyDao" autowire="byType">
-	</bean>
-	<bean id="studySiteDao" parent="daoTemplate"
-		class="edu.duke.cabig.c3pr.dao.StudySiteDao" autowire="byType">
-	</bean>
-	<bean id="epochDao" parent="daoTemplate"
-		class="edu.duke.cabig.c3pr.dao.EpochDao" autowire="byType">
-	</bean>
-	<bean id="armDao" parent="daoTemplate"
-		class="edu.duke.cabig.c3pr.dao.ArmDao" autowire="byType">
-	</bean>
-	<bean id="participantDao" parent="daoTemplate"
-		class="edu.duke.cabig.c3pr.dao.ParticipantDao" autowire="byType">
-	</bean>
-	<bean id="healthcareSiteDao" parent="daoTemplate"
-		class="edu.duke.cabig.c3pr.dao.HealthcareSiteDao" autowire="byType">
-	</bean>
-	<bean id="registrationDao" parent="daoTemplate"
-		class="edu.duke.cabig.c3pr.dao.StudyParticipantAssignmentDao" autowire="byType">
-	</bean>
+	<bean id="studyDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyDao" autowire="byType"/>
+	<bean id="studySiteDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudySiteDao" autowire="byType"/>
+	<bean id="epochDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.EpochDao" autowire="byType"/>
+	<bean id="armDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ArmDao" autowire="byType"/>
+	<bean id="participantDao" parent="daoTemplate"	class="edu.duke.cabig.c3pr.dao.ParticipantDao" autowire="byType"/>
+	<bean id="healthcareSiteDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.HealthcareSiteDao" autowire="byType"/>
+	<bean id="registrationDao" parent="daoTemplate"	class="edu.duke.cabig.c3pr.dao.StudyParticipantAssignmentDao" autowire="byType"/>
+	<bean id="healthcareSiteInvestigatorDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao" autowire="byType"/>
+	
 	<!-- Services -->
-	<bean id="studyService" lazy-init="true"
-		class="edu.duke.cabig.c3pr.service.impl.StudyServiceImpl"
-		autowire="byType">
-	</bean>
-	<bean id="participantService" lazy-init="true"
-		class="edu.duke.cabig.c3pr.service.impl.ParticipantServiceImpl"
-		autowire="byType">
-	</bean>
-
+	<bean id="studyService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudyServiceImpl" autowire="byType"/>
+	<bean id="participantService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.ParticipantServiceImpl" autowire="byType"/>
+	
     <!--Utilities-->
     <bean id="xmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
         <property name="mappingFile" value="c3pr-castor-mapping.xml"/>
