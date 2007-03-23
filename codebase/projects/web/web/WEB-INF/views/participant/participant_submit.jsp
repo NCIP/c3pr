@@ -30,8 +30,7 @@ if (action){
 </script>
 </head>
 <body>
-<tabs:body title="${flow.name}: Create Subject - ${command.firstName}
-							${command.lastName} ">
+<tabs:body title="${flow.name} ">
 <form:form method="post">
 <input type="hidden" name="_finish" value="true"/>		
 <div><tabs:division id="subject-review-submit">
@@ -53,7 +52,7 @@ if (action){
 									<!-- RIGHT CONTENT STARTS HERE --> <form:form method="post"
 										action="createParticipant">
 										<div><input type="hidden" name="_page" value="1"></div>
-										<strong>Step 1. Subject Information </strong>
+										<strong>Details </strong>
 										<br>
 										<table width="700" border="0" cellspacing="0" cellpadding="0"
 											id="details">
@@ -68,20 +67,20 @@ if (action){
 															width="1" height="1" class="heightControl"></td>
 													</tr>
 													<tr>
-														<td class="label"><em></em>First Name:</td>
-														<td>${command.firstName}</td>
+														<td align="right" class="label"><em></em>First Name:&nbsp;</td>
+														<td align="left">${command.firstName}</td>
 													</tr>
 													<tr>
-														<td class="label"><em></em>Last Name:</td>
-														<td>${command.lastName}</td>
+														<td align="right" class="label"><em></em>Last Name:&nbsp;</td>
+														<td align="left">${command.lastName}</td>
 													</tr>
 													<tr>
-														<td class="label"><em></em>Gender:</td>
-														<td>${command.administrativeGenderCode}</td>
+														<td align="right" class="label"><em></em>Gender:&nbsp; </td>
+														<td align="left">${command.administrativeGenderCode}</td>
 													</tr>
 													<tr>
-														<td class="label"><em></em>Subject MRN:</td>
-														<td>${command.primaryIdentifier }</td>
+														<td align="right" class="label"><em></em>Subject MRN:&nbsp;</td>
+														<td align="left">${command.primaryIdentifier }</td>
 													</tr>
 												</table>
 												</td>
@@ -89,16 +88,22 @@ if (action){
 												<table width="308" border="0" cellspacing="0"
 													cellpadding="0" id="table1">
 													<tr>
-														<td class="label"><em></em>Birth Date:</td>
-														<td valign="top">${command.birthDateStr}</td>
+														<td><img src="<tags:imageUrl name="spacer.gif"/>"
+															width="1" height="1" class="heightControl"></td>
+														<td><img src="<tags:imageUrl name="spacer.gif"/>"
+															width="1" height="1" class="heightControl"></td>
 													</tr>
 													<tr>
-														<td class="label"><em></em>Ethnicity:</td>
-														<td>${command.ethnicGroupCode}</td>
+														<td align="right" class="label"><em></em>Birth Date:&nbsp;</td>
+														<td align="left"valign="top">${command.birthDateStr}</td>
 													</tr>
 													<tr>
-														<td class="label"><em></em>Race(s):</td>
-														<td>${command.raceCode}</td>
+														<td align="right" class="label"><em></em>Ethnicity:&nbsp;</td>
+														<td align="left">${command.ethnicGroupCode}</td>
+													</tr>
+													<tr>
+														<td align="right" class="label"><em></em>Race(s):&nbsp;</td>
+														<td align="left">${command.raceCode}</td>
 													</tr>
 												</table>
 												</td>
@@ -110,10 +115,9 @@ if (action){
 
 										<hr align="left" width="95%">
 										<strong><br>
-										Step 2. Address Information </strong>
+										Address</strong>
 										<br>
 										<br>
-										<div class="review"><strong>Home Address:</strong><br>
 										<table width="700" border="0" cellspacing="0" cellpadding="0"
 											id="details">
 											<tr>
@@ -121,20 +125,20 @@ if (action){
 												<table width="308" border="0" cellspacing="0"
 													cellpadding="0" id="table1">
 													<tr>
-														<td class="label"><em></em> Address:</td>
-														<td>${command.address.streetAddress}</td>
+														<td align="right" class="label"><em></em> Street Address:&nbsp;</td>
+														<td align="left" >${command.address.streetAddress}</td>
 													</tr>
 													<tr>
-														<td class="label"><em></em> City:</td>
-														<td>${command.address.city}</td>
+														<td align="right" class="label"><em></em> City:&nbsp;</td>
+														<td align="left">${command.address.city}</td>
 													</tr>
 													<tr>
-														<td class="label"><em></em> State:</td>
-														<td>${command.address.stateCode}<em></em><strong>&nbsp;&nbsp;&nbsp;Zip:</strong>${command.address.postalCode}</td>
+														<td align="right" class="label"><em></em> State:&nbsp;</td>
+														<td align="left">${command.address.stateCode}<em></em><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Zip:&nbsp;</strong>${command.address.postalCode}</td>
 													</tr>
 													<tr>
-														<td class="label"><em></em><em></em> County:</td>
-														<td>${command.address.countryCode}</td>
+														<td align="right" class="label"><em></em><em></em> Country:&nbsp;</td>
+														<td align="left">${command.address.countryCode}</td>
 													</tr>
 												</table>
 												</td>
@@ -145,7 +149,7 @@ if (action){
 											alt="Edit" width="39" height="16" border="0"></a>
 										<hr align="left" width="95%">
 										<strong><br>
-										Step 3. Identifiers Information </strong>
+										Identifiers</strong>
 										<br>
 										<br>
 										<div class="review"><br>
@@ -156,16 +160,16 @@ if (action){
 												<table width="100%" border="1" cellspacing="0"
 													cellpadding="0" id="table1">
 													<tr>
-														<td width="20% align=" left" class="label">Source</td>
-														<td width="20%" align="left" class="label">Type</td>
-														<td width="20%" align="left" class="label">Identifier</td>
+														<td align="center" width="40%" class="label">Source</td>
+														<td align="center" width="30%" class="label">Type</td>
+														<td align="center" width="30%" class="label">Identifier</td>
 													</tr>
 													<c:forEach items="${command.identifiers}" var="identifier">
 														<c:if test="${identifier.type!=''}">
 															<tr class="results">
-																<td>${identifier.source}</td>
-																<td>${identifier.type}</td>
-																<td>${identifier.value}</td>
+																<td align="center">${identifier.source}</td>
+																<td align="center">${identifier.type}</td>
+																<td align="center">${identifier.value}</td>
 															</tr>
 														</c:if>
 													</c:forEach>

@@ -22,7 +22,7 @@ function getPage(s){
 </script>
 </head>
 <body>
-<tabs:body title="${flow.name}: ${tab.longTitle} ">
+<tabs:body title="${flow.name} ">
 	<form:form method="post" cssClass="standard">
 		<tabs:tabFields tab="${tab}" />
 		<div><tabs:division id="subject-details">
@@ -43,16 +43,11 @@ function getPage(s){
 									<!-- RIGHT CONTENT STARTS HERE --> <form:form method="post"
 										action="createParticipant">
 										<div><input type="hidden" name="_page" value="0"></div>
-										<strong>Step 1. Subject Information </strong>
-							(<span class="red">*</span>
-										<em>Required Information </em>)<br>
-										<br>
-										<div class="review"><strong>Current Information:</strong>
 
 										<table width="700" border="0" cellspacing="0" cellpadding="0"
 											id="details">
 											<tr>
-												<td width="50%" valign="top">
+												<td width="200" valign="top">
 												<table width="308" border="0" cellspacing="0"
 													cellpadding="0" id="table1">
 													<tr>
@@ -63,30 +58,31 @@ function getPage(s){
 															height="1" class="heightControl"></td>
 													</tr>
 													<tr>
-														<td class="label"><span class="red">*</span><em></em>
-														First Name</td>
-														<td><form:input path="firstName" /></td>
-														<td width="10%"><span class="red"><form:errors
-															path="firstName" /><em></em></span></td>
+														<td align="right" class="label"><span class="red">*</span><em></em>
+														First Name: &nbsp;</td>
+														<td align="left"><form:input path="firstName" /><span
+															class="red">&nbsp;&nbsp;&nbsp;<form:errors
+															path="firstName" /></span><em></em></td>
 													</tr>
 													<tr>
-														<td class="label"><span class="red">*</span><em></em> Last
-														Name</td>
-														<td><form:input path="lastName" /></td>
-														<td width="10%"><span class="red"><form:errors
-															path="lastName" /><em></em></span></td>
+														<td align="right" class="label"><span class="red">*</span><em></em>
+														Last Name:&nbsp;</td>
+														<td align="left"><form:input path="lastName" /><span
+															class="red">&nbsp;&nbsp;&nbsp;<form:errors
+															path="lastName" /></span><em></em></td>
 													</tr>
 													<tr>
-														<td class="label"><span class="red">*</span> <em></em>
-														Gender</td>
-														<td><form:select path="administrativeGenderCode">
+														<td align="right" class="label"><span class="red">*</span>
+														<em></em> Gender: &nbsp;</td>
+														<td align="left"><form:select
+															path="administrativeGenderCode">
 															<form:options items="${administrativeGenderCode}"
 																itemLabel="desc" itemValue="code" />
 														</form:select></td>
 													</tr>
 												</table>
 												</td>
-												<td width="50%" valign="top">
+												<td width="200" valign="top">
 												<table width="308" border="0" cellspacing="0"
 													cellpadding="0" id="table1">
 													<tr>
@@ -96,30 +92,29 @@ function getPage(s){
 															width="1" height="1" class="heightControl"></td>
 													</tr>
 													<tr>
-														<td class="label"><span class="red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</span><em></em>Birth
-														Date</td>
-														<td valign="top"><form:input path="birthDate" />&nbsp;<a
+														<td align="right" class="label"><span class="red">&nbsp;&nbsp;&nbsp;*</span><em></em>Birth
+														Date &nbsp;</td>
+														<td align="left" valign="top"><form:input path="birthDate" />&nbsp;<a
 															href="#"
 															onClick="cal1.select(document.getElementById('birthDate'),'anchor1','MM/dd/yyyy');return false;"
 															name="anchor1" id="anchor1"><img
 															src="<tags:imageUrl name="b-calendar.gif"/>"
 															alt="Calendar" width="17" height="16" border="0"
-															align="absmiddle"></a></td>
-														<td width="10%"><span class="red"><form:errors
+															align="absmiddle"></a>&nbsp;&nbsp;&nbsp;<span class="red"><form:errors
 															path="birthDate" /><em></em></span></td>
-													</tr>
+														</tr>
 													<tr>
-														<td class="label"><span class="red">*</span><em></em>Ethnic
-														Group Code</td>
-														<td><form:select path="ethnicGroupCode">
+														<td align="right" class="label"><span class="red">*</span><em></em>Ethnicity:
+														&nbsp;</td>
+														<td align="left"><form:select path="ethnicGroupCode">
 															<form:options items="${ethnicGroupCode}" itemLabel="desc"
 																itemValue="code" />
 														</form:select></td>
 													</tr>
 													<tr>
-														<td class="label"><span class="red">*</span><em></em>Race
-														Code</td>
-														<td><form:select path="raceCode">
+														<td align="right" class="label"><span class="red">*</span><em></em>Race(s): &nbsp;
+														</td>
+														<td align="left"><form:select path="raceCode">
 															<form:options items="${raceCode}" itemLabel="desc"
 																itemValue="code" />
 														</form:select></td>
@@ -137,9 +132,9 @@ function getPage(s){
 												<td align="center"><span class="red">*</span><em></em><B>
 												Type:</td>
 												<td align="center"><span class="red">*</span><em></em><B>
-												Value:</td>
-												<td align="center"><span class="red">*</span><em></em><B>
 												Source:</td>
+												<td align="center"><span class="red">*</span><em></em><B>
+												Value:</td>
 												<td align="center"><B>Primary:</td>
 											</tr>
 
@@ -150,13 +145,13 @@ function getPage(s){
 														<form:options items="${identifiersTypeRefData}"
 															itemLabel="desc" itemValue="code" />
 													</form:select></td>
-													<td align="center"><form:input
-														path="identifiers[${index}].value" /></td>
 													<td align="center"><form:select
 														path="identifiers[${index}].source">
 														<form:options items="${source}" itemLabel="name"
 															itemValue="name" />
 													</form:select></td>
+													<td align="center"><form:input
+														path="identifiers[${index}].value" /></td>
 
 													<td align="center"><form:radiobutton
 														path="identifiers[${index}].primaryIndicator" value="true" /></td>
@@ -167,7 +162,6 @@ function getPage(s){
 										</table>
 
 
-										</div>
 									</form:form></td>
 
 									<!-- LEFT CONTENT ENDS HERE -->

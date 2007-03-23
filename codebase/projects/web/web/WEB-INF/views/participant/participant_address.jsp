@@ -18,9 +18,7 @@ function getPage(s){
 </script>
 </head>
 <body>
-<tabs:body
-	title="${flow.name}: Create Subject - ${command.firstName}
-							${command.lastName} ">
+<tabs:body title="${flow.name} ">
 	<form:form method="post" cssClass="standard">
 		<tabs:tabFields tab="${tab}" />
 		<div><tabs:division id="subject-details">
@@ -40,57 +38,46 @@ function getPage(s){
 									<!-- RIGHT CONTENT STARTS HERE --> <form:form method="post"
 										action="createParticipant">
 										<div><input type="hidden" name="_page" value="1"></div>
-										<strong>Step 2. Address Information </strong>
-							(<span class="red">*</span>
-										<em>Required Information </em>)<br>
+
 										<br>
-										<div class="review"><strong>Home Address:</strong><br>
 										<br>
 										<table width="700" border="0" cellspacing="0" cellpadding="0"
 											id="details">
 											<tr>
-												<td width="50%" valign="top">
-												<table width="308" border="0" cellspacing="0"
+
+												<table width="700" border="0" cellspacing="0"
 													cellpadding="0" id="table1">
 													<tr>
-														<td class="label"><span class="red">*</span><em></em>
-														Street Address:</td>
-														<td><form:input path="address.streetAddress" /></td>
-														<td width="15%"><span class="red"><form:errors
-															path="address.streetAddress" /><em></em></span></td>
+														<td width="150" align="right" class="label"><span
+															class="red">*</span><em></em> Street Address:&nbsp;</td>
+														<td align="left"><form:input path="address.streetAddress" />&nbsp;&nbsp;&nbsp;<span
+															class="red"><form:errors path="address.streetAddress" /><em></em></span></td>
 													</tr>
 													<tr>
-														<td class="label"><span class="red">*</span><em></em>
-														City:</td>
-														<td><form:input path="address.city" /></td>
-														<td width="15%"><span class="red"><form:errors
-															path="address.city" /><em></em></span></td>
+														<td width="150" align="right" class="label"><span
+															class="red">*</span><em></em> City:&nbsp;</td>
+														<td align="left"><form:input path="address.city" />&nbsp;&nbsp;&nbsp;<span
+															class="red"><form:errors path="address.city" /><em></em></span></td>
 													</tr>
 													<tr>
-														<td class="label"><span class="data"><span class="red">*</span><em></em>
-														State:</span></td>
-														<td><form:input path="address.stateCode" /></td>
-														<td width="15%"><span class="red"><form:errors
-															path="address.stateCode" /><em></em></span></td>
-														<td><span class="red">*</span><em></em><strong>Zip:</strong>
-														<form:input path="address.postalCode" /> <a href="#"
-															onClick="parent.OpenWins('searchZip.htm','searchZip',420,206,1);return false;"><img
-															src="images/b-searchZip.gif" alt="Search Zip" width="48"
-															height="11" border="0" align="absmiddle"></a> <a href="#"><img
-															src="images/b-questionL.gif" alt="What's This?"
-															width="15" height="11" border="0" align="absmiddle"></a></td>
+														<td width="150" align="right" class="label"><span
+															class="data"><span class="red">*</span><em></em>
+														State:&nbsp;</span></td>
+														<td align="left"><form:input path="address.stateCode" />&nbsp;&nbsp;&nbsp;<span
+															class="red"><form:errors path="address.stateCode" /><em></em></span>&nbsp;&nbsp;
+														<strong>Zip:&nbsp;</strong><form:input
+															path="address.postalCode" /></td>
 													</tr>
 													<tr>
-														<td class="label"><em></em><em></em> Country:</td>
-														<td><form:input path="address.countryCode" /></td>
-														<td width="15%"><span class="red"><form:errors
-															path="address.countryCode" /><em></em></span></td>
+														<td width="150" align="right" class="label"><em></em><em></em>
+														Country:&nbsp;</td>
+														<td align="left"><form:input path="address.countryCode" />&nbsp;&nbsp;&nbsp;<span
+															class="red"><form:errors path="address.countryCode" /><em></em></span></td>
 													</tr>
 												</table>
-												</td>
+
 											</tr>
 										</table>
-										</div>
 									</form:form></td>
 									<!-- LEFT CONTENT ENDS HERE -->
 								</tr>
