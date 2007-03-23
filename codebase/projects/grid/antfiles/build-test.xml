@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<project name="grid-test" default="test" basedir=".">
+
+    <!--call the test target for individual projects-->
+    <target name="test" depends="prepare">
+        <for list="${testable.projects.list}" parallel="true" param="project.name" trim="true">
+            <sequential>
+                <echo message="Testing project @{project.name}." />
+
+                <ant inheritall="false" dir="${projects.dir}/@{project.name}"
+                     antfile="build.xml" target="test">
+                    <property name="test.logs.dir" value="${test.logs.dir}"/>
+                </ant>
+            </sequential>
+        </for>
+    </target>
+
+</project>
