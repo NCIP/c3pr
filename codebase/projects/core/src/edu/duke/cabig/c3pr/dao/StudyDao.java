@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.dao;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -9,8 +10,11 @@ import org.hibernate.criterion.Restrictions;
 
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
+import edu.emory.mathcs.backport.java.util.Collections;
+import edu.nwu.bioinformatics.commons.CollectionUtils;
 
 
 /**
@@ -19,6 +23,12 @@ import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
  */
 public class StudyDao extends AbstractBaseDao<Study> {
 	
+	private static final List<String> SUBSTRING_MATCH_PROPERTIES
+    	= Arrays.asList("shortTitleText");
+	private static final List<String> EXACT_MATCH_PROPERTIES
+    	= Collections.emptyList();
+
+ 
 	@Override
 	public Class<Study> domainClass() {
 		return Study.class;
@@ -36,6 +46,35 @@ public class StudyDao extends AbstractBaseDao<Study> {
         return study;
     }
 	
+	@SuppressWarnings("unchecked")
+    public Study getByIdentifier(Identifier identifier) {
+    	Criteria criteria = getSession().createCriteria(domainClass());
+    	criteria = criteria.createCriteria("identifiers");
+    	
+    	if(identifier.getType() != null) {
+    		criteria.add(Restrictions.eq("type", identifier.getType()));
+    	}
+    	
+    	if(identifier.getSource() != null) {
+    		criteria.add(Restrictions.eq("source", identifier.getSource()));
+    	}
+    	
+    	if(identifier.getValue() != null) {
+    		criteria.add(Restrictions.eq("value", identifier.getValue()));
+    	}    			
+    	return (Study) CollectionUtils.firstElement(criteria.list());
+	}
+	
+	public void merge(Study study) {
+    	getHibernateTemplate().merge(study);    	
+    } 
+	
+ 	public List<Study> getBySubnames(String[] subnames) {
+        return findBySubname(subnames,
+            SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
+    }
+
+	 
 	/*
 	 * Searches based on an example object. Typical usage from your service class: -
 	 * If you want to search based on diseaseCode, monitorCode,
