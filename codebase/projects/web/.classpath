@@ -18,9 +18,7 @@
 	<classpathentry exported="true" kind="lib" path="ext/lib/spring2.0.2.jar" sourcepath="C:/devtools/spring-framework-2.0.2/src"/>
 	<classpathentry exported="true" kind="lib" path="test/lib/core-commons-testing.jar"/>
 	<classpathentry exported="true" kind="lib" path="test/lib/easymockclassextension.jar"/>
-	<classpathentry exported="true" kind="lib" path="test/lib/junit.jar"/>
 	<classpathentry exported="true" kind="lib" path="test/lib/servlet-api.jar"/>
-	<classpathentry exported="true" kind="lib" path="test/lib/spring-mock.jar"/>
 	<classpathentry exported="true" kind="lib" path="test/lib/easymock.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/globus_wsrf_mds_aggregator_stubs.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/globus_wsrf_mds_aggregator.jar"/>
