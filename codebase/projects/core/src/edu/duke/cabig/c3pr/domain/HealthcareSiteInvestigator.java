@@ -36,7 +36,7 @@ public class HealthcareSiteInvestigator extends AbstractDomainObject {
     private List<StudyInvestigator> studyInvestigators = new ArrayList<StudyInvestigator>();
     
     @ManyToOne
-    @JoinColumn(name = "investigator_id")
+    @JoinColumn(name = "inv_id")
 	public Investigator getInvestigator() {
 		return investigator;
 	}
@@ -80,4 +80,8 @@ public class HealthcareSiteInvestigator extends AbstractDomainObject {
 	public void setStatusDate(Date statusDate) {
 		this.statusDate = statusDate;
 	}        
+	
+	public String toString(){
+		return investigator.getFullName();
+	}
 }
