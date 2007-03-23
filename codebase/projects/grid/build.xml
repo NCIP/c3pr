@@ -11,14 +11,21 @@
     <property name="ext.test.dir" value="${ext.dir}/test"/>
     <property name="ext.test.lib.dir" value="${ext.test.dir}/lib"/>
 
+    <property name="test.dir" value="${basedir}/test"/>
+    <property name="test.logs.dir" value="${test.dir}/logs"/>
+
     <property name="project.name" value="RegistrationConsumer_Grid_Service"/>
     <property name="build.dir" value="${basedir}/build"/>
     <property name="zip.filename" value="${project.name}.zip"/>
 
-    <import file="${antfiles.dir}/artifacts.xml" />
+     <import file="${antfiles.dir}/build-test.xml" />
+     <import file="${antfiles.dir}/artifacts.xml" />
+
 
     <!-- projects-->
     <property name="projects.list" value="RegistrationConsumer, RegistrationConsumerImpl"/>
+
+    <property name="testable.projects.list" value="RegistrationConsumerImpl"/>
 
     <!--tomcat dirs-->
     <property name="tomcat.home" value="${env.CATALINA_HOME}"/>
@@ -77,6 +84,7 @@
 
     <target name="clean" depends="prepare" description="Clean the project">
         <delete dir="${build.dir}"/>
+        <delete dir="${test.dir}"/>
 
         <for list="${projects.list}" parallel="true" param="project.name" trim="true">
             <sequential>
@@ -92,11 +100,11 @@
             <sequential>
                 <echo message="Building sub-project @{project.name}."/>
                 <!--copy ext lib dependencies-->
-                <copy todir="${projects.dir}/@{project.name}/ext/lib">
+                <copy todir="${projects.dir}/@{project.name}/ext/lib" overwrite="true">
                     <fileset refid="ext.lib.jars"/>
                 </copy>
                 <!--copy ext test dependencies-->
-                <copy todir="${projects.dir}/@{project.name}/ext/test/lib">
+                <copy todir="${projects.dir}/@{project.name}/ext/test/lib" overwrite="true">
                     <fileset refid="ext.test.lib.jars"/>
                 </copy>
                 <runtarget target="build-@{project.name}" />
