@@ -1,4 +1,4 @@
-// Namespace for caC3PRRS-specific shared functions and classes
+// Namespace for C3PR-specific shared functions and classes
 var C3PR = { }
 
 C3PR.INDICATOR_REF_COUNTS = { };

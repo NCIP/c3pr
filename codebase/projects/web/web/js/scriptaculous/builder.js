@@ -1,4 +1,4 @@
-// script.aculo.us builder.js v1.7.0, Fri Jan 19 19:16:36 CET 2007
+// script.aculo.us builder.js v1.6.5, Wed Nov 08 14:17:49 CET 2006
 
 // Copyright (c) 2005, 2006 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
 //
@@ -36,7 +36,7 @@ var Builder = {
     var element = parentElement.firstChild || null;
       
     // see if browser added wrapping tags
-    if(element && (element.tagName.toUpperCase() != elementName))
+    if(element && (element.tagName != elementName))
       element = element.getElementsByTagName(elementName)[0];
     
     // fallback to createElement approach
@@ -64,7 +64,7 @@ var Builder = {
               for(attr in arguments[1]) 
                 element[attr == 'class' ? 'className' : attr] = arguments[1][attr];
             }
-            if(element.tagName.toUpperCase() != elementName)
+            if(element.tagName != elementName)
               element = parentElement.getElementsByTagName(elementName)[0];
             }
         } 

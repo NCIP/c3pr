@@ -1,4 +1,4 @@
-// script.aculo.us controls.js v1.7.0, Fri Jan 19 19:16:36 CET 2007
+// script.aculo.us controls.js v1.6.5, Wed Nov 08 14:17:49 CET 2006
 
 // Copyright (c) 2005, 2006 Thomas Fuchs (http://script.aculo.us, http://mir.aculo.us)
 //           (c) 2005, 2006 Ivan Krstic (http://blogs.law.harvard.edu/ivan)
@@ -475,7 +475,6 @@ Ajax.InPlaceEditor.prototype = {
     this.element = $(element);
 
     this.options = Object.extend({
-      paramName: "value",
       okButton: true,
       okText: "ok",
       cancelLink: true,
@@ -607,7 +606,7 @@ Ajax.InPlaceEditor.prototype = {
       var textField = document.createElement("input");
       textField.obj = this;
       textField.type = "text";
-      textField.name = this.options.paramName;
+      textField.name = "value";
       textField.value = text;
       textField.style.backgroundColor = this.options.highlightcolor;
       textField.className = 'editor_field';
@@ -620,7 +619,7 @@ Ajax.InPlaceEditor.prototype = {
       this.options.textarea = true;
       var textArea = document.createElement("textarea");
       textArea.obj = this;
-      textArea.name = this.options.paramName;
+      textArea.name = "value";
       textArea.value = this.convertHTMLLineBreaks(text);
       textArea.rows = this.options.rows;
       textArea.cols = this.options.cols || 40;
