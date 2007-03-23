@@ -15,7 +15,5 @@
             <value>classpath:context/web.properties</value>
         </property>
     </bean>
-
-    <!--  bean id="createAeAjaxFacade" autowire="byType" 
-    class="gov.nih.nci.cabig.caaers.web.ae.CreateAdverseEventAjaxFacade"/-->
+    
 </beans>
