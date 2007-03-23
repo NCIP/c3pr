@@ -46,13 +46,13 @@ public class CreateParticipantController extends
 
 	public CreateParticipantController() {
 		setCommandClass(Participant.class);
-		Flow<Participant> flow = new Flow<Participant>("Create Participant");
+		Flow<Participant> flow = new Flow<Participant>("Create Subject");
 		intializeFlows(flow);
 	}
 
 	protected void intializeFlows(Flow<Participant> flow) {
-		flow.addTab(new Tab<Participant>("Subject Information",
-				"Subject Information", "participant/participant") {
+		flow.addTab(new Tab<Participant>("Details",
+				"Details", "participant/participant") {
 			public Map<String, Object> referenceData() {
 				Map<String, List<Lov>> configMap = configurationProperty
 						.getMap();
@@ -74,8 +74,8 @@ public class CreateParticipantController extends
 				return refdata;
 			}
 		});
-		flow.addTab(new Tab<Participant>("Address Information",
-				"Address Information", "participant/participant_address"));
+		flow.addTab(new Tab<Participant>("Address",
+				"Address", "participant/participant_address"));
 		flow.addTab(new Tab<Participant>("Review and Submit ",
 				"Review and Submit ", "participant/participant_submit"));
 		setFlow(flow);
