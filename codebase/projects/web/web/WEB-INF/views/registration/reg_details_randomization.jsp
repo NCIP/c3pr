@@ -347,13 +347,7 @@ function updateAction(action){
 					id="additionalList">
 					<tr align="center" class="label">
 						<td width="11">&nbsp;</td>
-						<td>Status<br>
-						<select name="select">
-							<option>Filter</option>
-							<option>Status</option>
-							<option>Filter2</option>
-						</select></td>
-						<td>Reg Id</td>
+						<td>Registration<br> Id</td>
 						<td>Short<br>
 						Title</td>
 						<td>Status</td>

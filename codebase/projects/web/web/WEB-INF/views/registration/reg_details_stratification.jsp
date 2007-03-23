@@ -323,13 +323,7 @@ function updateAction(action){
 					id="additionalList">
 					<tr align="center" class="label">
 						<td width="11">&nbsp;</td>
-						<td>Status<br>
-						<select name="select">
-							<option>Filter</option>
-							<option>Status</option>
-							<option>Filter2</option>
-						</select></td>
-						<td>Reg Id</td>
+						<td>Registration<br> Id</td>
 						<td>Short<br>
 						Title</td>
 						<td>Status</td>
@@ -347,7 +341,6 @@ function updateAction(action){
 					<tr align="center" class="current">
 						<td><img src="<tags:imageUrl name="currentView.gif"/>" alt="Currently Viewing"
 							width="11" height="11"></td>
-						<td>Filter1</td>
 						<td>01-123456</td>
 						<td>CALGB_XYZ</td>
 						<td>Active</td>
@@ -361,7 +354,6 @@ function updateAction(action){
 						onMouseOut="navRollOver('row1', 'off')">
 					<tr align="center" id="row1" class="results">
 						<td>&nbsp;</td>
-						<td>Filter2</td>
 						<td>08-34987</td>
 						<td>DUKE_AAA</td>
 						<td>Inactive</td>
