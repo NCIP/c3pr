@@ -11,7 +11,7 @@
 
 <script language="JavaScript" type="text/JavaScript">
 function fireAction(action, selected){
-	document.getElementsByName('_target2')[0].name='_target1';		
+	document.getElementsByName('_target2')[0].name='_target1';
 	document.studyIdentifiersForm._action.value=action;
 	document.studyIdentifiersForm._selected.value=selected;
 	document.studyIdentifiersForm.submit();
@@ -59,7 +59,7 @@ function clearField(field){
 					<c:forEach items="${command.identifiers}" varStatus="status">
 						<tr align="center" class="results">
 							<td width="10%"><a href="javascript:fireAction('removeIdentifier',${status.index});"><img
-								src="<tags:imageUrl name="b-delete.gif"/>" border="0"></a></td>
+								src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 							<td width="20%"><form:select path="identifiers[${status.index}].source">
 								<option value="">--Please Select--
 								<form:options items="${identifiersSourceRefData}" itemLabel="name"
@@ -82,7 +82,7 @@ function clearField(field){
 					</tr>
 					<tr>
 						<td align="center"><a href="javascript:fireAction('addIdentifier','0');"><img
-							src="<tags:imageUrl name="b-addLine.gif"/>" border="0" alt="Add another Identifier"></a>
+							src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add another Identifier"></a>
 						</td>
 					</tr>
 					</table>

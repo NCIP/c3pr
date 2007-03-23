@@ -14,7 +14,7 @@
 </script>
 <script>
 function fireAction(action, selected){
-	document.getElementsByName('_target3')[0].name='_target2';		
+	document.getElementsByName('_target3')[0].name='_target2';
 	document.studySiteForm._action.value=action;
 	document.studySiteForm._selected.value=selected;
 	document.studySiteForm.submit();
@@ -48,16 +48,15 @@ function fireAction(action, selected){
 					<tr align="center" class="label">
 						<td width="5%" align="center"></td>
 						<td width="11%" align="center">HealthCare Site<span class="red">*</span></td>
-						<td width="11%" align="center">Status Code<span class="red">*</span></td>
-						<td width="11%" align="center">Role Code<span class="red">*</span></td>
+						<td width="11%" align="center">Status<span class="red">*</span></td>
+						<td width="11%" align="center">Role<span class="red">*</span></td>
 						<td width="17%" align="center">Start Date (mm/dd/yyyy)<span class="red">*</span> </td>
-						<td width="17%" align="center">End Date (mm/dd/yyyy)</td>
 						<td width="17%" align="center">IRB Approval Date (mm/dd/yyyy)<span class="red">*</span></td>
 					</tr>
 					<c:forEach items="${command.studySites}" varStatus="status">
 						<tr align="center" class="results">
 							<td width="5%"><a href="javascript:fireAction('removeStudySite',${status.index});"><img
-								src="<tags:imageUrl name="b-delete.gif"/>" border="0"></a></td>
+								src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 							<td width="11%"><form:select path="studySites[${status.index}].site">
 								<form:options items="${healthCareSitesRefData}" itemLabel="name" itemValue="id" />
 								</form:select></td>
@@ -75,11 +74,6 @@ function fireAction(action, selected){
 								src="<tags:imageUrl name="b-calendar.gif"/>" alt="Calendar"
 								height="16" border="0"></a></td>
 							<td width="17%"><form:input
-								path="studySites[${status.index}].endDate" />&nbsp;<a href="#"
-									onClick="cal1.select(document.getElementById('studySites[${status.index}].endDate'),'anchor1','MM/dd/yyyy');return false;" name="anchor1" id="anchor1"><img
-								src="<tags:imageUrl name="b-calendar.gif"/>" alt="Calendar"
-								height="16" border="0"></a></td>
-							<td width="17%"><form:input
 								path="studySites[${status.index}].irbApprovalDate" />&nbsp;<a href="#"
 									onClick="cal1.select(document.getElementById('studySites[${status.index}].irbApprovalDate'),'anchor1','MM/dd/yyyy');return false;" name="anchor1" id="anchor1"><img
 								src="<tags:imageUrl name="b-calendar.gif"/>" alt="Calendar"
@@ -92,7 +86,7 @@ function fireAction(action, selected){
 					</tr>
 					<tr>
 						<td align="center"><a href="javascript:fireAction('addStudySite','0');"><img
-							src="<tags:imageUrl name="b-addLine.gif"/>" border="0" alt="Add another Study Site"></a>
+							src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add another Study Site"></a>
 						</td>
 					</tr>
 					</table>

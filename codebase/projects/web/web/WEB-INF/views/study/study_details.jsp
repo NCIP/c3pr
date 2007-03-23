@@ -17,7 +17,7 @@ prefix="decorator"%>
 <tabs:tabFields tab="${tab}" />
 <div><tabs:division id="study-details">
 <!-- MAIN BODY STARTS HERE -->
-<table width="75%" border="0" cellspacing="0" cellpadding="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<td width="50%" valign="top">
 
@@ -141,8 +141,7 @@ prefix="decorator"%>
 				width="1" height="1" class="heightControl"></td>
 		</tr>
 		<tr>
-			<td class="label"><span class="red">*</span><em></em>Randomized
-			Indicator</td>
+			<td class="label"><span class="red">*</span><em></em>Randomized</td>
 			<td><form:select path="randomizedIndicator">
 				<form:options items="${randomizedIndicatorRefData}"
 					itemLabel="desc" itemValue="code" />
@@ -168,7 +167,7 @@ prefix="decorator"%>
 				width="1" height="1" class="heightControl"></td>
 		</tr>
 		<tr>
-			<td class="label">Blinded Indicator:</td>
+			<td class="label">Blinded</td>
 			<td><form:select path="blindedIndicator">
 				<form:options items="${blindedIndicatorRefData}"
 					itemLabel="desc" itemValue="code" />

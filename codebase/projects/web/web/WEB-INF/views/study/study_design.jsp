@@ -10,6 +10,7 @@
 <head>
 <script>
 function fireAction(action, selectedEpoch, selectedArm){
+	document.getElementsByName('_target7')[0].name='_target6';
 	document.studyDesignForm._action.value=action;
 	document.studyDesignForm._selectedEpoch.value=selectedEpoch;
 	document.studyDesignForm._selectedArm.value=selectedArm;
@@ -50,12 +51,12 @@ function fireAction(action, selectedEpoch, selectedArm){
 						<c:forEach items="${command.epochs}" var="epoch" varStatus="status">
 						<tr align="center" class="results">
 							<td width="8%"><a href="javascript:fireAction('removeEpoch',${status.index},'0');"><img
-								src="<tags:imageUrl name="b-delete.gif"/>" border="0"></a>
+								src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
 							</td>
 							<td width="20%"><form:input path="epochs[${status.index}].name" /></td>
 							<td width="20%"><form:input path="epochs[${status.index}].descriptionText" /></td>
 							<td width="3%"><a href="javascript:fireAction('addArm',${status.index},'0');"><img
-								src="<tags:imageUrl name="b-addLine.gif"/>" border="0"></a></td>
+								src="<tags:imageUrl name="checkyes.gif"/>" border="0"></a></td>
 							<td width="50%" >
 								<table width="100%" border="1" cellspacing="0" cellpadding="0"
 									id="table1">
@@ -63,7 +64,7 @@ function fireAction(action, selectedEpoch, selectedArm){
 
 									<tr align="center" class="results">
 										<td width="8%"><a href="javascript:fireAction('removeArm',${status.index},${statusArms.index});"><img
-											src="<tags:imageUrl name="b-delete.gif"/>" border="0"></a>
+											src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
 										</td>
 										<td ><form:input path="epochs[${status.index}].arms[${statusArms.index}].name" /></td>
 										<td ><form:input path="epochs[${status.index}].arms[${statusArms.index}].targetAccrualNumber" /></td>
@@ -80,7 +81,7 @@ function fireAction(action, selectedEpoch, selectedArm){
 						</tr>
 						<tr>
 							<td align="center"><a href="javascript:fireAction('addEpoch','0');"><img
-								src="<tags:imageUrl name="b-addLine.gif"/>" border="0" alt="Add another Epoch"></a>
+								src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add another Epoch"></a>
 							</td></tr>
 						</table>
 					</table>
