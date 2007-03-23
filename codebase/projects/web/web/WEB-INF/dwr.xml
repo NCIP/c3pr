@@ -1,0 +1,15 @@
+<!DOCTYPE dwr
+    PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 2.0//EN"
+    "http://www.getahead.ltd.uk/dwr/dwr20.dtd">
+<dwr>
+    <allow>
+        <create creator="spring" javascript="createStudy">
+            <param name="beanName" value="studyAjaxFacade"/>
+        </create>
+              
+        <create creator="new" javascript="date">
+            <param name="class" value="java.util.Date"/>
+        </create>
+        <convert converter="bean" match="edu.duke.cabig.c3pr.domain.*"/>
+    </allow>
+</dwr>
