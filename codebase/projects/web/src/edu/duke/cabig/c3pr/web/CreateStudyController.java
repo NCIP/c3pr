@@ -22,7 +22,6 @@ import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Tab;
 
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
-import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudyPersonnel;
@@ -37,7 +36,7 @@ public class CreateStudyController extends StudyController {
   
 	protected void intializeFlows(Flow<Study> flow)
 	{	   
-		 flow.addTab(new Tab<Study>("Study Details", "Study Details", "study/study_details") {
+		 flow.addTab(new Tab<Study>("Study Details", "Details", "study/study_details") {
 	            public Map<String, Object> referenceData() {
 	           	 	Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        
 	       	  
@@ -57,7 +56,7 @@ public class CreateStudyController extends StudyController {
 	    	  		return refdata;
 	            }        	
 	        });
-	        flow.addTab(new Tab<Study>("Study Identifiers", "Study Identifiers", "study/study_identifiers"){
+	        flow.addTab(new Tab<Study>("Study Identifiers", "Identifiers", "study/study_identifiers"){
 	            
 	        	public Map<String, Object> referenceData() {
 	        		Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        
@@ -69,7 +68,7 @@ public class CreateStudyController extends StudyController {
 	    	  		return refdata;
 	        	}
 	        });                 
-	        flow.addTab(new Tab<Study>("Study Sites", "Study Sites", "study/study_studysites") {
+	        flow.addTab(new Tab<Study>("Study Sites", "Sites", "study/study_studysites") {
 	            
 	        	public Map<String, Object> referenceData() {
 	        		Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        
@@ -83,18 +82,9 @@ public class CreateStudyController extends StudyController {
 	        	}        	
 	        });
 	        
-	        flow.addTab(new Tab<Study>("Study Investigators", "Study Investigators", "study/study_investigators") {
-	            
-	        	public Map<String, Object> referenceData() {
-	                Map<String, Object> refdata = super.referenceData();  
-	                //List<StudySite> studySites = new ArrayList<StudySite>();
-	                refdata.put("siteInvestigatorRefData", getSiteInvestigator());
-	                
-	                return refdata;           
-	        	}        	
-	        });
+	        flow.addTab(new Tab<Study>("Study Investigators", "Investigators", "study/study_investigators")); 
 	        
-	        flow.addTab(new Tab<Study>("Study Personnel", "Study Personnel", "study/study_personnels") {
+	        flow.addTab(new Tab<Study>("Study Personnel", "Personnel", "study/study_personnels") {
 	            
 	        	public Map<String, Object> referenceData() {
 	                Map<String, Object> refdata = super.referenceData();  
@@ -105,8 +95,17 @@ public class CreateStudyController extends StudyController {
 	        	}        	
 	        });
 
+	        flow.addTab(new Tab<Study>("Study Eligibility Checklist", "Eligibility Checklist", 
+	        		"study/study_eligibility_checklist") {
+	            
+	        	public Map<String, Object> referenceData() {
+	                Map<String, Object> refdata = super.referenceData();  
+	                 
+	                return refdata;           
+	        	}        	
+	        });
 
-			flow.addTab(new Tab<Study>("Study Design", "Study Design", "study/study_design") {
+			flow.addTab(new Tab<Study>("Epochs & Arms", "Epochs & Arms", "study/study_design") {
 	            
 	        	public Map<String, Object> referenceData() {
 	        		
@@ -116,10 +115,10 @@ public class CreateStudyController extends StudyController {
 	        	}        	
 	        });
 			
-			flow.addTab(new Tab<Study>("Review and Submit ", "Review and Submit", "study/study_reviewsummary"));
+			flow.addTab(new Tab<Study>("Review and Submit ", "Review & Submit", "study/study_reviewsummary"));
                
 	        setFlow(flow);       
-	}
+	}	
 	
 	private List<ResearchStaff> getResearchStaff()
 	{
@@ -127,40 +126,17 @@ public class CreateStudyController extends StudyController {
 		
 		ResearchStaff researchStaff1 = new ResearchStaff();
 		researchStaff1.setId(1);
-		researchStaff1.setFirstName("staff1");
+		researchStaff1.setFirstName("Research Staff 1");
 		researchStaffs.add(researchStaff1);
 		
 		ResearchStaff researchStaff2 = new ResearchStaff();
 		researchStaff2.setId(2);
-		researchStaff2.setFirstName("staff2");
+		researchStaff2.setFirstName("Research Staff 2");
 		researchStaffs.add(researchStaff2);
 		
 		return researchStaffs;  	
 	}
-	
-	private List<HealthcareSiteInvestigator> getSiteInvestigator()
-	{
-		List<HealthcareSiteInvestigator> siteInvestigators = new ArrayList<HealthcareSiteInvestigator>();
 		
-		HealthcareSiteInvestigator siteInvestigator1 = new HealthcareSiteInvestigator();
-		Investigator inv1 = new Investigator();
-		inv1.setId(1);
-		inv1.setFirstName("investigator1");
-		siteInvestigator1.setId(1);
-		siteInvestigator1.setInvestigator(inv1);		
-		siteInvestigators.add(siteInvestigator1);
-		
-		HealthcareSiteInvestigator siteInvestigator2 = new HealthcareSiteInvestigator();
-		Investigator inv2 = new Investigator();
-		inv2.setId(2);
-		inv2.setFirstName("investigator2");
-		siteInvestigator2.setId(2);
-		siteInvestigator2.setInvestigator(inv2);		
-		siteInvestigators.add(siteInvestigator2);
-				
-		return siteInvestigators;  	
-	}
-	
 	
 	/**
 	 * Create a nested object graph that Create Study Design needs 
@@ -187,17 +163,10 @@ public class CreateStudyController extends StudyController {
 					request.getParameter("_action"),
 					request.getParameter("_selected"));		
 				break;
-			case 3:			
-				handleStudyDesignAction((Study)command, 
-					request.getParameter("_action"),
-					request.getParameter("_selectedEpoch"),
-					request.getParameter("_selectedArm"));	
-				break;			
-			case 4:				
+			case 3:				
 				if("siteChange".equals(request.getParameter("_action")))
 				{
 					request.getSession().setAttribute("site_id", request.getParameter("_selected"));
-					//Study st = (Study)command;										
 					StudySite studySite = ((Study)command).getStudySites().get(Integer.parseInt(request.getParameter("_selected")));
 					if(studySite.getStudyInvestigators().size() == 0 )
 					{						
@@ -212,7 +181,7 @@ public class CreateStudyController extends StudyController {
 				}					
 				
 				break;				
-			case 5:				
+			case 4:				
 				if("siteChange".equals(request.getParameter("_action")))
 				{
 					request.getSession().setAttribute("site_id_for_per", request.getParameter("_selected"));
@@ -231,7 +200,17 @@ public class CreateStudyController extends StudyController {
 				
 				break;				
 							
-			
+			case 5:			
+				
+				break;	
+				
+			case 6:			
+				handleStudyDesignAction((Study)command, 
+					request.getParameter("_action"),
+					request.getParameter("_selectedEpoch"),
+					request.getParameter("_selectedArm"));	
+				break;	
+		
 			default:
 				//do nothing						
 		}		

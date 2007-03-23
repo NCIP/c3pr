@@ -21,6 +21,7 @@ import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
@@ -90,7 +91,7 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 	* @param page - number of page to validate
 	*/
 	
-	protected void validatePage(Object command, Errors errors, int page) {
+	protected void validatePage(Object command, Errors errors, int page, boolean finish) {
 		Study study = (Study) command;
 		switch (page) {
 		case 0:
@@ -177,8 +178,7 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 		else if ("removeInv".equals(action))
 		{	
 			study.getStudySites().get(Integer.parseInt(studysiteindex)).getStudyInvestigators().remove(Integer.parseInt(selected));
-		}					
-					
+		}										
 	}	
 	
 	protected void handleStudyPersonnelAction(Study study, String action, String selected, String studysiteindex)
@@ -228,8 +228,19 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 	protected void createDefaultStudySite(Study study)
 	{
 		StudySite studySite = new StudySite();
-		createDefaultHealthcareSite(studySite);		
+		createDefaultHealthcareSite(studySite);	
+		createDefaultStudyInvestigators(studySite);
+		
 		study.addStudySite(studySite);					
+	}
+	
+	protected void createDefaultStudyInvestigators(StudySite studySite)
+	{
+		StudyInvestigator studyInvestigator = new StudyInvestigator();
+		HealthcareSiteInvestigator hc = new HealthcareSiteInvestigator();
+		hc.setInvestigator(new Investigator());
+		studyInvestigator.setHealthcareSiteInvestigator(hc);
+		studySite.addStudyInvestigators(studyInvestigator);
 	}
 	
 	protected void createDefaultHealthcareSite(StudySite studySite)
@@ -244,17 +255,10 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 	{
 		List<Identifier> identifiers = new ArrayList<Identifier>();
 		Identifier id1 = new Identifier();	
-		id1.setSource("source");
-		id1.setType("type");
-		id1.setValue("<enter value>");
 		id1.setPrimaryIndicator(true);
 		identifiers.add(id1);
 		Identifier id2 = new Identifier();	
-		id2.setSource("source2");
-		id2.setType("type2");
-		id2.setValue("<enter value>");
-		identifiers.add(id2);
-		
+		identifiers.add(id2);		
 		study.setIdentifiers(identifiers);		
 	}
 		

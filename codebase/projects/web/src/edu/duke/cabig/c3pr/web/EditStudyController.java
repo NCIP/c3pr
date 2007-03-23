@@ -40,7 +40,7 @@ public class EditStudyController extends StudyController {
 	
 	protected void intializeFlows(Flow<Study> flow)	
 	{	   
-		 flow.addTab(new Tab<Study>("Study Details", "Study Details", "study/study_details") {
+		 flow.addTab(new Tab<Study>("Study Details", "Study Details", "study/study_edit_details") {
 	            public Map<String, Object> referenceData() {
 	           	 	Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        
 	       	  
@@ -52,10 +52,14 @@ public class EditStudyController extends StudyController {
 	    	  		refdata.put("sponsorCodeRefData",  configMap.get("sponsorCodeRefData"));
 	    	  		refdata.put("statusRefData",  configMap.get("statusRefData"));
 	    	  		refdata.put("typeRefData",  configMap.get("typeRefData"));
+	    	  		refdata.put("randomizedIndicatorRefData", configMap.get("yesNo"));
+	    	  		refdata.put("multiInstitutionIndicatorRefData", configMap.get("yesNo"));
+	    	  		refdata.put("blindedIndicatorRefData", configMap.get("yesNo"));
+	    	  	
 	    	  		return refdata;
 	             }        	
 	        });
-	        flow.addTab(new Tab<Study>("Study Identifiers", "Study Identifiers", "study/study_identifiers"){
+	        flow.addTab(new Tab<Study>("Study Identifiers", "Study Identifiers", "study/study_edit_identifiers"){
 	            
 	        	public Map<String, Object> referenceData() {
 	        		Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        
@@ -67,7 +71,7 @@ public class EditStudyController extends StudyController {
 	    	  		return refdata;
 	    	 	}
 	        });                 
-	        flow.addTab(new Tab<Study>("Study Sites", "Study Sites", "study/study_studysites") {
+	        flow.addTab(new Tab<Study>("Study Sites", "Study Sites", "study/study_edit_studysites") {
 	            
 	        	public Map<String, Object> referenceData() {
 	        		Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        
@@ -81,7 +85,7 @@ public class EditStudyController extends StudyController {
 	         	}        	
 	        });
 
-			flow.addTab(new Tab<Study>("Study Design", "Study Design", "study/study_design") {
+			flow.addTab(new Tab<Study>("Epochs & Arms", "Epochs & Arms", "study/study_edit_design") {
 	            
 	        	public Map<String, Object> referenceData() {
 	        		
