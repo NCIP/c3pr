@@ -13,10 +13,10 @@
     <link rel="shortcut icon" href="<tags:imageUrl name="favicon.ico"/>" type="image/x-icon">
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">    
     <title>C3PRV2</title>
-    <decorator:head/>
     <tags:include/>   
     <tags:stylesheetLink name="tabbedflow"/>
-    <tags:javascriptLink name="tabbedflow"/>   
+    <tags:javascriptLink name="tabbedflow"/>  
+    <decorator:head/>    
 </head>
 <body>
 <layout:header/>
