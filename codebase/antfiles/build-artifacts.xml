@@ -162,7 +162,7 @@
         <!-- project artifacts -->
         <!-- ================= -->
 
-        <artifact track="main" type="jars" id="c3pr.gridnode.client.jars">
+        <artifact track="main" type="jars" id="c3pr.grid.jars">
             <antcall target="build-grid"/>
             <fileset dir="${projects.dir}/grid/RegistrationConsumer/build/lib">
                 <include name="*.jar"/>

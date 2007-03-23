@@ -233,7 +233,7 @@
             <artifact refid="cagrid.jars"/>
             <artifact refid="globus.jars"/>
             <artifact refid="globus.security.jars"/>
-            <artifact refid="c3pr.gridnode.client.jars"/>
+            <artifact refid="c3pr.grid.jars"/>
         </resolveDependencies>
         <ant dir="${projects.dir}/servicemix" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
