@@ -93,7 +93,7 @@ function getPage(s){
 													</tr>
 													<tr>
 														<td align="right" class="label"><span class="red">&nbsp;&nbsp;&nbsp;*</span><em></em>Birth
-														Date &nbsp;</td>
+														Date: &nbsp;</td>
 														<td align="left" valign="top"><form:input path="birthDate" />&nbsp;<a
 															href="#"
 															onClick="cal1.select(document.getElementById('birthDate'),'anchor1','MM/dd/yyyy');return false;"
