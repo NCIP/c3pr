@@ -157,7 +157,7 @@ public class CreateStudyController extends StudyController {
 				handleIdentifierAction((Study)command,
 					request.getParameter("_action"),
 					request.getParameter("_selected"));		
-				break;
+				break;	
 			case 2:
 				handleStudySiteAction((Study)command,
 					request.getParameter("_action"),
@@ -176,8 +176,7 @@ public class CreateStudyController extends StudyController {
 					}
 				}
 				else {
-					handleStudyInvestigatorAction((Study)command, request.getParameter("_action"),
-							request.getParameter("_selected"), request.getParameter("_studysiteindex"));
+					handleStudyInvestigatorAction((Study)command, request);
 				}					
 				
 				break;				
