@@ -28,12 +28,16 @@ import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AbstractTabbedFlowFormController;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Tab;
 
 /**
  * @author Ramakrishna
  * 
  */
-public class EditParticipantController extends AbstractWizardFormController {
+public class EditParticipantController extends
+		AbstractTabbedFlowFormController<Participant> {
 
 	private static Log log = LogFactory.getLog(EditParticipantController.class);
 
@@ -45,6 +49,86 @@ public class EditParticipantController extends AbstractWizardFormController {
 
 	public EditParticipantController() {
 		setCommandClass(Participant.class);
+		Flow<Participant> flow = new Flow<Participant>("Edit Participant");
+		intializeFlows(flow);
+	}
+
+	protected void intializeFlows(Flow<Participant> flow) {
+		flow.addTab(new Tab<Participant>("Details", "Details",
+				"participant/participant_edit_details") {
+			public Map<String, Object> referenceData() {
+				Map<String, List<Lov>> configMap = configurationProperty
+						.getMap();
+
+				Map<String, Object> refdata = new HashMap<String, Object>();
+
+				refdata.put("administrativeGenderCode", configMap
+						.get("administrativeGenderCode"));
+				refdata
+						.put("ethnicGroupCode", configMap
+								.get("ethnicGroupCode"));
+				refdata.put("raceCode", configMap.get("raceCode"));
+				refdata.put("source", healthcareSiteDao.getAll());
+				refdata.put("searchTypeRefData", configMap
+						.get("participantSearchType"));
+				refdata.put("identifiersTypeRefData", configMap
+						.get("participantIdentifiersType"));
+				;
+
+				return refdata;
+			}
+		});
+		flow.addTab(new Tab<Participant>("Identifiers", "Identifiers",
+				"participant/participant_edit_identifiers") {
+			public Map<String, Object> referenceData() {
+				Map<String, List<Lov>> configMap = configurationProperty
+						.getMap();
+
+				Map<String, Object> refdata = new HashMap<String, Object>();
+
+				refdata.put("administrativeGenderCode", configMap
+						.get("administrativeGenderCode"));
+				refdata
+						.put("ethnicGroupCode", configMap
+								.get("ethnicGroupCode"));
+				refdata.put("raceCode", configMap.get("raceCode"));
+				refdata.put("source", healthcareSiteDao.getAll());
+				refdata.put("searchTypeRefData", configMap
+						.get("participantSearchType"));
+				refdata.put("identifiersTypeRefData", configMap
+						.get("participantIdentifiersType"));
+				;
+
+				return refdata;
+			}
+		});
+		flow.addTab(new Tab<Participant>("Address", "Address",
+				"participant/participant_edit_addresses") {
+			public Map<String, Object> referenceData() {
+				Map<String, List<Lov>> configMap = configurationProperty
+						.getMap();
+
+				Map<String, Object> refdata = new HashMap<String, Object>();
+				refdata.put("searchTypeRefData", configMap
+						.get("participantSearchType"));
+
+				return refdata;
+			}
+		});
+		flow.addTab(new Tab<Participant>("Contact Info", "Contact Info",
+				"participant/participant_edit_contactInfo") {
+			public Map<String, Object> referenceData() {
+				Map<String, List<Lov>> configMap = configurationProperty
+						.getMap();
+
+				Map<String, Object> refdata = new HashMap<String, Object>();
+				refdata.put("searchTypeRefData", configMap
+						.get("participantSearchType"));
+
+				return refdata;
+			}
+		});
+		setFlow(flow);
 	}
 
 	@Override
@@ -55,14 +139,6 @@ public class EditParticipantController extends AbstractWizardFormController {
 		// replaced with LOVDao to get the static data from individual tables
 		Map<String, Object> refdata = new HashMap<String, Object>();
 		Map<String, List<Lov>> configMap = configurationProperty.getMap();
-		refdata.put("administrativeGenderCode", configMap
-				.get("administrativeGenderCode"));
-		refdata.put("ethnicGroupCode", configMap.get("ethnicGroupCode"));
-		refdata.put("raceCode", configMap.get("raceCode"));
-		refdata.put("source", healthcareSiteDao.getAll());
-		refdata.put("searchTypeRefData", configMap.get("participantSearchType"));
-		refdata.put("identifiersTypeRefData", configMap.get("participantIdentifiersType"));
-
 		if (("update")
 				.equals((httpServletRequest.getParameter("_updateaction"))))
 			switch (page) {
@@ -125,14 +201,13 @@ public class EditParticipantController extends AbstractWizardFormController {
 	protected void postProcessPage(HttpServletRequest request, Object oCommand,
 			Errors errors, int page) throws Exception {
 		Participant participant = (Participant) oCommand;
-
 		if (page == 1) {
 			handleIdentifierAction(participant,
 					request.getParameter("_action"), request
 							.getParameter("_selected"));
 		}
 
-		if (("update").equals(request.getParameter("_updateaction"))) {
+		if (("update").equals(request.getParameter("_update"))) {
 			participantDao.save(participant);
 		}
 	}
@@ -141,7 +216,6 @@ public class EditParticipantController extends AbstractWizardFormController {
 	protected ModelAndView processFinish(HttpServletRequest request,
 			HttpServletResponse response, Object oCommand, BindException errors)
 			throws Exception {
-
 		ModelAndView modelAndView = new ModelAndView(new RedirectView(
 				"searchparticipant.do"));
 		return modelAndView;
