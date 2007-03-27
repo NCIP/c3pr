@@ -16,6 +16,7 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.Epoch;
@@ -29,6 +30,7 @@ import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
+import edu.duke.cabig.c3pr.utils.web.propertyeditors.NullIdDaoBasedEditor;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AbstractTabbedFlowFormController;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
 
@@ -48,6 +50,7 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 	protected StudyService studyService;
 	protected StudyDao studyDao;
 	protected HealthcareSiteDao healthcareSiteDao;
+	protected HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;	
 	protected StudyValidator studyValidator;
 	protected ConfigurationProperty configurationProperty;
 	protected static List<HealthcareSite> healthcareSites;
@@ -72,6 +75,8 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
         binder.registerCustomEditor(Date.class, ControllerTools.getDateEditor(false));
         binder.registerCustomEditor(healthcareSiteDao.domainClass(),
         	new CustomDaoEditor(healthcareSiteDao));
+        binder.registerCustomEditor(healthcareSiteInvestigatorDao.domainClass(),
+            new NullIdDaoBasedEditor(healthcareSiteInvestigatorDao));         
      }
 	
 	/**
@@ -166,18 +171,23 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 		}		
 	}
 	
-	protected void handleStudyInvestigatorAction(Study study, String action, String selected, String studysiteindex)
+	protected void handleStudyInvestigatorAction(Study study, HttpServletRequest request)
 	{				
+		String action =request.getParameter("_action");
+		String selectedSite = request.getParameter("_selected"); 
+		String studysiteindex = request.getParameter("_studysiteindex");
+		
 		if ("addInv".equals(action))
-		{	
+		{				
+			//List<StudyInvestigator> sinv = studySite.getStudyInvestigators();
 			StudyInvestigator studyInvestigator = new StudyInvestigator();
 			studyInvestigator.setSiteInvestigator(new HealthcareSiteInvestigator());
-			StudySite studySite = study.getStudySites().get(Integer.parseInt(studysiteindex));
+			StudySite studySite = study.getStudySites().get(Integer.parseInt(selectedSite));
 			studySite.addStudyInvestigators(studyInvestigator);														
 		}
 		else if ("removeInv".equals(action))
 		{	
-			study.getStudySites().get(Integer.parseInt(studysiteindex)).getStudyInvestigators().remove(Integer.parseInt(selected));
+			study.getStudySites().get(Integer.parseInt(studysiteindex)).getStudyInvestigators().remove(Integer.parseInt(selectedSite));
 		}										
 	}	
 	
@@ -306,6 +316,15 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 
 	public void setConfigurationProperty(ConfigurationProperty configurationProperty) {
 		this.configurationProperty = configurationProperty;
+	}
+
+	public HealthcareSiteInvestigatorDao getHealthcareSiteInvestigatorDao() {
+		return healthcareSiteInvestigatorDao;
+	}
+
+	public void setHealthcareSiteInvestigatorDao(
+			HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao) {
+		this.healthcareSiteInvestigatorDao = healthcareSiteInvestigatorDao;
 	}
 
 }
