@@ -73,14 +73,6 @@
 		autowire="byName">
 		<property name="commandClass" value="edu.duke.cabig.c3pr.domain.Participant" />
 		<property name="commandName" value="command" />
-		<property name="pages">
-			<list>
-				<value>participant/participant_edit_details</value>
-				<value>participant/participant_edit_identifiers</value>
-				<value>participant/participant_edit_addresses</value>
-				<value>participant/participant_edit_contactInfo</value>
-			</list>
-		</property>
 	</bean>
 	<bean name="/registration/searchAndRegister"
 		id="searchAndRegisterController" lazy-init="true"
