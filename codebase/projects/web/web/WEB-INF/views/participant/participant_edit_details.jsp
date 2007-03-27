@@ -62,12 +62,12 @@ field.value="";
 
 								<tr>
 									<td align="right" class="label"><span class="red">*</span><em></em>
-									First Name:</td>
+									First Name:&nbsp;</td>
 									<td align="left"><form:input path="firstName" /></td>
 								</tr>
 								<tr>
 									<td align="right" class="label"><span class="red">*</span><em></em>
-									Last Name:</td>
+									Last Name:&nbsp;</td>
 									<td align="left"><form:input path="lastName" /></td>
 								</tr>
 								<tr>
