@@ -6,6 +6,8 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
+<%@ taglib prefix="studyTags" tagdir="/WEB-INF/tags/study"%>
+
 
 <html>
 <head>
@@ -24,9 +26,6 @@ function fireAction(action, selected){
 	document.form._selected.value=selected;
 	document.form.submit();
 
-}
-function clearField(field){
-field.value="";
 }
 
 function chooseSites(){
@@ -49,7 +48,15 @@ function fireAction1(action, selected, studysiteindex){
 	document.form._selected.value=selected;
 	document.form._studysiteindex.value=studysiteindex;
 	document.form.submit();
+	fireListeners(selected);
 
+}
+
+function dothis()
+{
+	alert(document.getElementById('investigator0').value);
+	alert(document.getElementById('investigator1').value);
+	alert(document.getElementById('investigator2').value);
 }
 
 /// AJAX
@@ -57,20 +64,17 @@ function fireAction1(action, selected, studysiteindex){
 var investigatorAutocompleterProps = {
 	basename: "investigator",
     populator: function(autocompleter, text) {
-   createStudy.matchSiteInvestigators(text,'10001', function(values) {
+    createStudy.matchSiteInvestigators(text,document.getElementById('site').value, function(values) {
 	    autocompleter.setChoices(values)
 	})
     },
     valueSelector: function(obj) {
-	return obj.investigator.firstName+" "+obj.investigator.lastName
+	return obj.investigator.fullName
     }
 }
 
 function acPostSelect(mode, selectedChoice) {
-    Element.update(mode.basename + "-selected-name", mode.valueSelector(selectedChoice))
-    $(mode.basename).value = selectedChoice.id;
-    $(mode.basename + '-selected').show()
-    new Effect.Highlight(mode.basename + "-selected")
+	$(mode.basename).value = selectedChoice.id;
 }
 
 function updateSelectedDisplay(mode) {
@@ -91,17 +95,44 @@ function acCreate(mode) {
 	indicator: mode.basename + "-indicator"
     })
     Event.observe(mode.basename + "-clear", "click", function() {
-	$(mode.basename + "-selected").hide()
+	//$(mode.basename + "-selected").hide()
 	$(mode.basename).value = ""
 	$(mode.basename + "-input").value = ""
     })
 }
 
+function fireListeners(count)
+{
+	index = 0;
+	autoCompleteId = 'investigator' + index ;
+	for (i=0;i<count;i++)
+	{
+	 // change the basename property to agent0 ,agent1 ...
+	 investigatorAutocompleterProps.basename=autoCompleteId
+	 acCreate(investigatorAutocompleterProps)
+	 index++
+	 autoCompleteId= 'investigator' + index  ;
+	}
+
+	investigatorAutocompleterProps.basename='investigator' + count ;
+	acCreate(investigatorAutocompleterProps);
+}
+
 Event.observe(window, "load", function() {
-    acCreate(investigatorAutocompleterProps)
-    updateSelectedDisplay(investigatorAutocompleterProps)
-   // Element.update("flow-next", "Continue &raquo;")
+	index = 0;
+	autoCompleteId = 'investigator' + index ;
+	while( $(autoCompleteId)  )
+	{
+	 // change the basename property to investigator0 ,investigator1 ...
+	 investigatorAutocompleterProps.basename=autoCompleteId
+	 acCreate(investigatorAutocompleterProps)
+	 index++
+	 autoCompleteId= 'investigator' + index  ;
+	}
+	//Element.update("flow-next", "Continue &raquo;")
 })
+
+
 
 </script>
 </head>
@@ -113,41 +144,11 @@ Event.observe(window, "load", function() {
 
 	<table border="0" id="table1" cellspacing="10" width="100%">
 		<tr>
-		 <td valign="top" width="25%">
-			<tabs:division id="Summary" title="Summary">
-			<font size="2"><b> Study Sites </b> </font>
-			<br><br>
-			<table border="0" id="table1" cellspacing="0" cellpadding="0" width="100%">
-			<c:forEach var="studySite" varStatus="status" items="${command.studySites}">
-				<tr>
-					<td>
-						<a onclick="javascript:chooseSitesfromSummary(${status.index});" title="click here to edit investigator assigned to study"> <font size="2"> <b> ${studySite.site.name} </b> </font> </a>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						Investigators Assigned: <b> ${fn:length(studySite.studyInvestigators)} </b>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<br>
-					</td>
-				</tr>
-			</c:forEach>
-			<c:forEach begin="1" end="15">
-
-			<tr>
-				<td>
-					<br>
-				</td>
-			</tr>
-			</c:forEach>
-			</table>
-			</tabs:division>
+		<td valign="top" width="25%">
+			<studyTags:studySummary />
 		</td>
-		<td width="75%" valign="top">
-		<tabs:division id="study-details">
+		<td valign="top" width="50%" >
+		<tabs:division id="study-details" title="Study Investigators">
 		<tabs:tabFields tab="${tab}"/>
 		<div>
 			<input type="hidden" name="_action" value="">
@@ -187,9 +188,9 @@ Event.observe(window, "load", function() {
 				<c:set var="index" value="${site_id}"/>
 			</c:if>
 
-			<table border="0" id="table1" cellspacing="10" width="75%">
+			<table border="0" id="table1" cellspacing="10" width="100%">
 				<tr>
-					<td align="center"> <b> <span class="red">*</span><em></em>Name:</b> </td>
+					<td align="center"> <b> <span class="red">*</span><em></em>Investigator:</b> </td>
 					<td align="center"> <b> <span class="red">*</span><em></em>Role:</b> </td>
 					<td align="center"> <b> <span class="red">*</span><em></em>Status:</b> </td>
 					<td align="center">
@@ -201,23 +202,23 @@ Event.observe(window, "load", function() {
 				<c:forEach varStatus="status" items="${command.studySites[index].studyInvestigators}">
 					<tr>
 					    <td align="center" width="50%">
-					        <input type="hidden" id="investigator"/>
-						    <form:input id="investigator-input" size="40" path="studySites[${index}].studyInvestigators[${status.index}].healthcareSiteInvestigator"/>
-							<input type="button" id="investigator-clear" value="Clear"/>
-		                    <tags:indicator id="investigator-indicator"/>
-        					<div id="investigator-choices" class="autocomplete"></div>
+					        <form:hidden id="investigator${status.index}" path="studySites[${index}].studyInvestigators[${status.index}].healthcareSiteInvestigator"/>
+						    <input type="text" id="investigator${status.index}-input" size="30" value="${command.studySites[index].studyInvestigators[status.index].healthcareSiteInvestigator.investigator.fullName}"/>
+						    <input type="button" id="investigator${status.index}-clear" value="Clear"/>
+		                    <tags:indicator id="investigator${status.index}-indicator"/>
+        					<div id="investigator${status.index}-choices" class="autocomplete"></div>
 		         		</td>
 						<td align="center" width="20%">
 							<select id="x1" name="x2">
-								<option value=" ">role1</option>
-								<option value=" ">role2</option>
+								<option value=" ">Principal Investigator</option>
+								<option value=" ">Co-Investigator</option>
 							</select>
 						</td>
 
 						<td align="center" width="20%">
 							<select id="x1" name="x2">
-								<option value=" ">active</option>
-								<option value=" ">closed</option>
+								<option value=" ">Active</option>
+								<option value=" ">Inactive</option>
 							</select>
 						</td>
 
@@ -235,9 +236,40 @@ Event.observe(window, "load", function() {
 				</td>
 				</tr>
 			</table>
-
 		  </tabs:division>
 		  </td>
+		  <td valign="top" width="25%">
+			<tabs:division id="Summary" title="Investigators Summary">
+			<font size="2"><b> Study Sites </b> </font>
+			<br><br>
+			<table border="0" id="table1" cellspacing="0" cellpadding="0" width="100%">
+			<c:forEach var="studySite" varStatus="status" items="${command.studySites}">
+				<tr>
+					<td>
+						<a onclick="javascript:chooseSitesfromSummary(${status.index});" title="click here to edit investigator assigned to study"> <font size="2"> <b> ${studySite.site.name} </b> </font> </a>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Investigators Assigned: <b> ${fn:length(studySite.studyInvestigators)} </b>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<br>
+					</td>
+				</tr>
+			</c:forEach>
+			<c:forEach begin="1" end="15">
+			<tr>
+				<td>
+					<br>
+				</td>
+			</tr>
+			</c:forEach>
+			</table>
+			</tabs:division>
+		</td>
 		  </tr>
 		</table>
 	</form:form>

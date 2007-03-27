@@ -6,193 +6,266 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
+<%@ taglib prefix="studyTags" tagdir="/WEB-INF/tags/study"%>
+
 
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<tags:includeScriptaculous/>
+<tags:dwrJavascriptLink objects="createStudy"/>
+
 <title>${tab.longTitle}</title>
 <style type="text/css">
         .label { width: 12em; text-align: right; padding: 4px; }
 </style>
 <script language="JavaScript" type="text/JavaScript">
 
-function validatePage(){
-	return true;
-}
 function fireAction(action, selected){
-	if(validatePage()){
-		document.getElementsByName('_target5')[0].name='_target4';
-		document.studySiteForm._action.value=action;
-		document.studySiteForm._selected.value=selected;
-		document.studySiteForm.submit();
-	}
-}
-function clearField(field){
-field.value="";
+	document.getElementsByName('_target5')[0].name='_target4';
+	document.form._action.value=action;
+	document.form._selected.value=selected;
+	document.form.submit();
+
 }
 
 function chooseSites(){
-		//alert("inside choose sites");
-		document.getElementsByName('_target5')[0].name='_target4';
-		document.studySiteForm._action.value="siteChange";
-		document.studySiteForm._selected.value=document.getElementById('site').value;
-		document.studySiteForm.submit();
+	document.getElementsByName('_target5')[0].name='_target4';
+	document.form._action.value="siteChange";
+	document.form._selected.value=document.getElementById('site').value;
+	document.form.submit();
 }
 
 function chooseSitesfromSummary(selected){
-		//alert("inside chooseSitesfromSummary");
-		//alert(selected);
-		document.getElementsByName('_target5')[0].name='_target4';
-		document.studySiteForm._action.value="siteChange";
-		document.studySiteForm._selected.value=selected;
-		document.studySiteForm.submit();
+	document.getElementsByName('_target5')[0].name='_target4';
+	document.form._action.value="siteChange";
+	document.form._selected.value=selected;
+	document.form.submit();
 }
 
 function fireAction1(action, selected, studysiteindex){
+	document.getElementsByName('_target5')[0].name='_target4';
+	document.form._action.value=action;
+	document.form._selected.value=selected;
+	document.form._studysiteindex.value=studysiteindex;
+	document.form.submit();
+	fireListeners(selected);
 
-	//alert("inside fireAction1");
-	//alert(selected);
-	//alert(studysiteindex);
-	if(validatePage()){
-		document.getElementsByName('_target5')[0].name='_target4';
-		document.studySiteForm._action.value=action;
-		document.studySiteForm._selected.value=selected;
-		document.studySiteForm._studysiteindex.value=studysiteindex;
-		document.studySiteForm.submit();
-	}
 }
+
+/// AJAX
+
+var personnelAutocompleterProps = {
+	basename: "personnel",
+    populator: function(autocompleter, text) {
+    createStudy.matchStudyPersonnels(text,document.getElementById('site').value, function(values) {
+	    autocompleter.setChoices(values)
+	})
+    },
+    valueSelector: function(obj) {
+	return obj.fullName
+    }
+}
+
+function acPostSelect(mode, selectedChoice) {
+	$(mode.basename).value = selectedChoice.id;
+}
+
+function updateSelectedDisplay(mode) {
+
+    if ($(mode.basename).value) {
+	Element.update(mode.basename + "-selected-name", $(mode.basename + "-input").value)
+	$(mode.basename + '-selected').show()
+    }
+}
+
+function acCreate(mode) {
+    new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
+	mode.populator, {
+	valueSelector: mode.valueSelector,
+	afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+	    acPostSelect(mode, selectedChoice)
+	},
+	indicator: mode.basename + "-indicator"
+    })
+    Event.observe(mode.basename + "-clear", "click", function() {
+	//$(mode.basename + "-selected").hide()
+	$(mode.basename).value = ""
+	$(mode.basename + "-input").value = ""
+    })
+}
+
+function fireListeners(count)
+{
+	index = 0;
+	autoCompleteId = 'personnel' + index ;
+	for (i=0;i<count;i++)
+	{
+	 // change the basename property to agent0 ,agent1 ...
+	 personnelAutocompleterProps.basename=autoCompleteId
+	 acCreate(personnelAutocompleterProps)
+	 index++
+	 autoCompleteId= 'personnel' + index  ;
+	}
+
+	personnelAutocompleterProps.basename='personnel' + count ;
+	acCreate(personnelAutocompleterProps);
+}
+
+Event.observe(window, "load", function() {
+	index = 0;
+	autoCompleteId = 'personnel' + index ;
+	while( $(autoCompleteId)  )
+	{
+	 // change the basename property to personnel0 ,personnel1 ...
+	 personnelAutocompleterProps.basename=autoCompleteId
+	 acCreate(personnelAutocompleterProps)
+	 index++
+	 autoCompleteId= 'personnel' + index  ;
+	}
+	//Element.update("flow-next", "Continue &raquo;")
+})
+
+
+
 </script>
 </head>
 <body>
 <!-- MAIN BODY STARTS HERE -->
 
 <tabs:body title="${flow.name}: ${tab.longTitle}">
-	<form:form method="post" name="studySiteForm">
+	<form:form method="post" name="form">
 
-<table border="0" id="table1" cellspacing="10" width="100%">
+	<table border="0" id="table1" cellspacing="10" width="100%">
 		<tr>
-
 		<td valign="top" width="25%">
-							<tabs:division id="Summary" title="Summary">
-		<font size="2"><b> Study Sites </b> </font>
-		<br><br>
-		<table border="0" id="table1" cellspacing="0" cellpadding="0" width="100%">
-		<c:forEach var="studySite" varStatus="status" items="${command.studySites}">
-			<tr>
+			<studyTags:studySummary />
+		</td>
+		<td valign="top" width="50%" >
+		<tabs:division id="study-details" title="Study Personnels">
+		<tabs:tabFields tab="${tab}"/>
+		<div>
+			<input type="hidden" name="_action" value="">
+			<input type="hidden" name="_selected" value="">
+			<input type="hidden" name="_studysiteindex" value="">
+		</div>
+		<p id="instructions">
+			Please choose a study site and link personnels to that study site
+		</p>
+
+			<c:set var="selectedSite" value="0"/>
+			<c:if test="${not empty site_id}">
+				<c:set var="selectedSite" value="${site_id}"/>
+			</c:if>
+
+			<table border="0" id="table1" cellspacing="10" width="30%">
+
+			   <tr>
+					<td align="right"> <b> <span class="red">*</span><em></em>Site:</b> </td>
+					<td align="left">
+						<select id="site" name="site" onchange="javascript:chooseSites();">
+							<c:forEach  items="${command.studySites}" var="studySite" varStatus="status">
+								<c:if test="${selectedSite == status.index }">
+									<option selected="true" value=${status.index}>${studySite.site.name}</option>
+								</c:if>
+								<c:if test="${selectedSite != status.index }">
+									<option value=${status.index}>${studySite.site.name}</option>
+								</c:if>
+							</c:forEach>
+						</select>
+					</td>
+			   </tr>
+			</table>
+
+			<c:set var="index" value="0"/>
+			<c:if test="${!empty site_id}">
+				<c:set var="index" value="${site_id}"/>
+			</c:if>
+
+			<table border="0" id="table1" cellspacing="10" width="100%">
+				<tr>
+					<td align="center"> <b> <span class="red">*</span><em></em>Personnel:</b> </td>
+					<td align="center"> <b> <span class="red">*</span><em></em>Role:</b> </td>
+					<td align="center"> <b> <span class="red">*</span><em></em>Status:</b> </td>
+					<td align="center">
+						<b><a href="javascript:fireAction1('addInv','0', ${index});"><img
+							src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a></b>
+					</td>
+				</tr>
+
+				<c:forEach varStatus="status" items="${command.studySites[index].studyPersonnels}">
+					<tr>
+					    <td align="center" width="50%">
+					        <form:hidden id="personnel${status.index}" path="studySites[${index}].studyPersonnels[${status.index}].researchStaff"/>
+						    <input type="text" id="personnel${status.index}-input" size="30" value="${command.studySites[index].studyPersonnels[status.index].researchStaff.fullName}"/>
+						    <input type="button" id="personnel${status.index}-clear" value="Clear"/>
+		                    <tags:indicator id="personnel${status.index}-indicator"/>
+        					<div id="personnel${status.index}-choices" class="autocomplete"></div>
+		         		</td>
+						<td align="center" width="20%">
+							<select id="x1" name="x2">
+								<option value=" ">Research Personnel</option>
+								<option value=" ">Study Personnel 1</option>
+								<option value=" ">Study Personnel 2</option>
+							</select>
+						</td>
+
+						<td align="center" width="20%">
+							<select id="x1" name="x2">
+								<option value=" ">Active</option>
+								<option value=" ">Inactive</option>
+							</select>
+						</td>
+
+						<td align="center" width="20%">
+							<a href="javascript:fireAction1('removeInv',${status.index}, ${index});"><img
+								src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a>
+						</td>
+					</tr>
+				</c:forEach>
+				<tr>
 				<td>
-					<a onclick="javascript:chooseSitesfromSummary(${status.index});" title="click here to edit person assigned to a study"> <font size="2"> <b> ${studySite.site.name} </b> </font> </a>
+				<p id="personnel-selected" style="display: none">
+					You've selected the study personnel <span id="personnel-selected-name"></span>.
+				</p>
 				</td>
-			</tr>
-			<tr>
-				<td>
-					Personnel Assigned: <b> ${fn:length(studySite.studyPersonnels)} </b>
-				</td>
-			</tr>
+				</tr>
+			</table>
+		  </tabs:division>
+		  </td>
+		  <td valign="top" width="25%">
+			<tabs:division id="Summary" title="Personnels Summary">
+			<font size="2"><b> Study Sites </b> </font>
+			<br><br>
+			<table border="0" id="table1" cellspacing="0" cellpadding="0" width="100%">
+			<c:forEach var="studySite" varStatus="status" items="${command.studySites}">
+				<tr>
+					<td>
+						<a onclick="javascript:chooseSitesfromSummary(${status.index});" title="click here to edit personnel assigned to study"> <font size="2"> <b> ${studySite.site.name} </b> </font> </a>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						Personnels Assigned: <b> ${fn:length(studySite.studyPersonnels)} </b>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<br>
+					</td>
+				</tr>
+			</c:forEach>
+			<c:forEach begin="1" end="15">
 			<tr>
 				<td>
 					<br>
 				</td>
 			</tr>
-		</c:forEach>
-		<c:forEach begin="1" end="15">
-
-		<tr>
-			<td>
-				<br>
-			</td>
-		</tr>
-		</c:forEach>
-		</table>
-		</tabs:division>
-		</td>
-
-		<td width="75%" valign="top">
-	<tabs:division id="study-details">
-	<tabs:tabFields tab="${tab}"/>
-	<div>
-		<input type="hidden" name="_action" value="">
-		<input type="hidden" name="_selected" value="">
-		<input type="hidden" name="_studysiteindex" value="">
-	</div>
-	<p id="instructions">
-		Please choose a study site and link Research staff to that study site
-	</p>
-		<c:set var="index1" value="0"/>
-		<c:if test="${!empty site_id_for_per}">
-			<c:set var="index1" value="${site_id_for_per}"/>
-		</c:if>
-
-		<table border="0" id="table1" cellspacing="10" width="30%">
-
-		   <tr>
-				<td align="right"> <b> <span class="red">*</span><em></em>Site:</b> </td>
-				<td align="left">
-					<select id="site" name="site" onchange="javascript:chooseSites();">
-						<c:forEach var="studySite" varStatus="status" items="${command.studySites}">
-							<c:if test="${index1 == status.index }">
-								<option selected="true" value=${status.index}>${studySite.site.name}</option>
-							</c:if>
-							<c:if test="${index1 != status.index }">
-								<option value=${status.index}>${studySite.site.name}</option>
-							</c:if>
-						</c:forEach>
-					</select>
-				</td>
-		   </tr>
-		</table>
-
-		<c:set var="index" value="0"/>
-		<c:if test="${!empty site_id_for_per}">
-			<c:set var="index" value="${site_id_for_per}"/>
-		</c:if>
-
-		<table border="0" id="table1" cellspacing="10" width="50%">
-			<tr>
-				<td align="center"> <b> <span class="red">*</span><em></em>Name:</b> </td>
-				<td align="center"> <b> <span class="red">*</span><em></em>Role:</b> </td>
-				<td align="center"> <b> <span class="red">*</span><em></em>Status:</b> </td>
-				<td align="center">
-					<b><a href="javascript:fireAction1('addInv','0', ${index});"><img
-						src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a></b>
-				</td>
-			</tr>
-
-
-			<c:forEach varStatus="status" items="${command.studySites[index].studyPersonnels}">
-				<tr>
-					<td align="center" width="40%">
-						<form:select path="studySites[${index}].studyPersonnels[${status.index}].researchStaff">
-							<form:options items="${researchStaffRefData}" itemLabel="firstName"
-									itemValue="id" />
-						</form:select>
-					</td>
-
-					<td align="center" width="20%">
-						<select id="x1" name="x2">
-							<option value=" ">role1</option>
-							<option value=" ">role2</option>
-						</select>
-					</td>
-
-					<td align="center" width="20%">
-						<select id="x1" name="x2">
-							<option value=" ">active</option>
-							<option value=" ">closed</option>
-						</select>
-					</td>
-
-					<td align="center" width="20%">
-						<a href="javascript:fireAction1('removeInv',${status.index}, ${index});"><img
-								src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a>
-					</td>
-				</tr>
 			</c:forEach>
-
+			</table>
+			</tabs:division>
+		</td>
+		  </tr>
 		</table>
-	</tabs:division>
-	</td>
-	</tr>
-	</table>
 	</form:form>
 <!-- MAIN BODY ENDS HERE -->
 </tabs:body>

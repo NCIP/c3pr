@@ -6,6 +6,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
+<%@ taglib prefix="studyTags" tagdir="/WEB-INF/tags/study"%>
 
 <html>
 <head>
@@ -20,54 +21,37 @@
 
 function fireAction(action, selected){
 	document.getElementsByName('_target4')[0].name='_target3';
-	document.studySiteForm._action.value=action;
-	document.studySiteForm._selected.value=selected;
-	document.studySiteForm.submit();
+	document.form._action.value=action;
+	document.form._selected.value=selected;
+	document.form.submit();
 
 }
 function clearField(field){
 field.value="";
 }
 
-function chooseSites(){
-	document.getElementsByName('_target4')[0].name='_target3';
-	document.studySiteForm._action.value="siteChange";
-	document.studySiteForm._selected.value=document.getElementById('site').value;
-	document.studySiteForm.submit();
+function add(count, area)
+{
+	var str = createRow(count);
+		document.getElementById(area).innerHTML = document.getElementById(area).innerHTML + str;
+		document.getElementById('bex-' + count).style.display = 'none';
+		Effect.Appear('bex-' + count);
 }
 
-function chooseSitesfromSummary(selected){
-	document.getElementsByName('_target4')[0].name='_target3';
-	document.studySiteForm._action.value="siteChange";
-	document.studySiteForm._selected.value=selected;
-	document.studySiteForm.submit();
+function remove(count, area)
+{
+	document.getElementById('bex-' + count).innerHTML = ' ';
 }
 
-function fireAction1(action, selected, studysiteindex){
-	document.getElementsByName('_target4')[0].name='_target3';
-	document.studySiteForm._action.value=action;
-	document.studySiteForm._selected.value=selected;
-	document.studySiteForm._studysiteindex.value=studysiteindex;
-	document.studySiteForm.submit();
-
+function createRow(count)
+{
+	var str =  '<tr><td width="100%">If suffering from cancer A, is the'+
+				'criteria B met?</td><td><input type="checkbox" name="group1" value="Milk">NA</td>'
+	return str;
 }
 
 /// AJAX
 
-function getPage(s){
-	parent.window.location="reg_patient_search.htm";
-}
-function add(){
-var action = confirm ("You have not completed adding this protocol.\r\rStarting over will lose current protocol data?")
-if (action){
-	parent.window.location="reg_enroll_patient.htm";
-}}
-function addPatient(){
-	parent.window.location="reg_stratify.htm";
-}
-function manageCriterias(){
-
-}
 Effect.OpenUp = function(element) {
      element = $(element);
      new Effect.BlindDown(element, arguments[1] || {});
@@ -84,7 +68,7 @@ Effect.OpenUp = function(element) {
      if(element.style.display == "none") {
           new Effect.OpenUp(element, arguments[1] || {});
           document.getElementById(imageStr).src="images/b-minus.gif";
-          new Effect.Grow(document.getElementById(title));
+      //    new Effect.Grow(document.getElementById(title));
      }else {
           new Effect.CloseDown(element, arguments[1] || {});
           document.getElementById(imageStr).src="images/b-plus.gif";
@@ -102,130 +86,81 @@ function hideTextArea(a,b){
 </head>
 <body>
 <!-- MAIN BODY STARTS HERE -->
-
 <tabs:body title="${flow.name}: ${tab.longTitle}">
-	<form:form method="post" name="studySiteForm">
-
+	<form:form method="post" name="form">
 	<table border="0" id="table1" cellspacing="10" width="100%">
 		<tr>
-		 <td valign="top" width="50%">
-			<tabs:division id="Summary" title="Inclusion Criteria">
-			<!-- RIGHT CONTENT STARTS HERE -->
-			<table width="100%" border="0" cellspacing="0" cellpadding="0"
-				id="details">
-				<tr>
-					<td width="50%" valign="top">
+		  	<td valign="top" width="30%">
+				<studyTags:studySummary />
+		  	</td>
+			<td valign="top" width="70%">
+			 <table border="0" id="table1" cellspacing="10" width="100%">
+				 <tr>
+				 <td valign="top">
+					<tabs:divisionEffects effectsArea="InclusionTable" id="Summary" title="Inclusion Criteria">
 					<table width="100%" border="0" cellspacing="0" cellpadding="0"
-						id="table1">
-						<tr BGCOLOR=#EEEEEE
-							onClick()="Effect.Combo('InclusionTable','expandIncl','InclusionTitle')">
-							<td width="100%">
-							<div id="InclusionTitle">&nbsp;<img id="expandIncl"
-								src="images/b-plus.gif"> <img
-								src="<tags:imageUrl name="arrowDown.gif"/>" border="0" alt="expand"></div>
-							</td>
-						</tr>
-						<tr>
-							<td>
-							<div id="InclusionTable" style="display: none;">
-							<table width="100%">
-								<tr>
-									<td width="100%">If suffering from cancer A, is the
-									criteria B met?</td>
-									<td><input type="checkbox" name="group1" value="Milk">
-									NA</td>
-								</tr>
-								<tr>
-									<td width="100%">If suffering from cancer A, is the
-									criteria B met?</td>
-									<td><input type="checkbox" name="group1" value="Milk">
-									NA</td>
-								</tr>
-								<tr>
-									<td width="100%">If suffering from cancer A, is the
-									criteria B met?</td>
-									<td><input type="checkbox" name="group1" value="Milk">
-									NA</td>
-								</tr>
-							</table>
-							</div>
-							</td>
-						</tr>
-					</table>
-					</td>
-				</tr>
-				</table>
-			</tabs:division>
-		</td>
-		<td width="50%" valign="top">
-		<tabs:division id="study-details"  title="Exclusion Criteria">
-		<table width="100%" border="0" cellspacing="0" cellpadding="0" id="details">
-			<tr>
-				<td width="100%" valign="top">
-				<table width="100%" border="0" cellspacing="0" cellpadding="0"
-					id="table1">
-
-					<tr BGCOLOR=#EEEEEE
-						onClick()="Effect.Combo('ExclusionTable','expandExcl','ExclusionTitle')">
-						<td width="100%">
-						<div id="ExclusionTitle">&nbsp;<img id="expandExcl"
-							src="images/b-plus.gif"> <img
-								src="<tags:imageUrl name="arrowDown.gif"/>" border="0" alt="expand"></div>
-						</td>
-					</tr>
+					id="details">
 					<tr>
-						<td>
-						<div id="ExclusionTable" style="display: none;">
-						<table width="100%">
-							<tr>
-								<td width="100%">If suffering from cancer A, is the
-								criteria B met?</td>
-								<td><input type="checkbox" name="group1" value="Milk">
-								NA</td>
-							</tr>
-							<tr>
-								<td width="100%">If suffering from cancer A, is the
-								criteria B met?</td>
-								<td><input type="checkbox" name="group1" value="Milk">
-								NA</td>
-							</tr>
-							<tr>
-								<td width="100%">If suffering from cancer A, is the
-								criteria B met?</td>
-									<td><input type="checkbox" name="group1" value="Milk">
-								NA</td>
+						<td valign="top">
+						<table id="" width="100%" border="0" cellspacing="0" cellpadding="0"
+							id="table1">
+							<tr id="bex-1">
+								<td>
+								<div id="InclusionTable" style="display: none;">
+								<table width="100%" id="table_ic">
+								<tr>
+									<td align="center">
+									<div id="addLine">
+										<b><a href="javascript:add(1,'table_ic')"><img
+											src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a></b>
+										 </div>
+									</td>
+								</tr>
+								</table>
+								</div>
+								</td>
 							</tr>
 						</table>
-						</div>
+						</td>
+					</tr>
+					</table>
+					</tabs:divisionEffects>
+				</td>
+				</tr>
+				<tr>
+				<td valign="top" width="70%">
+				<tabs:divisionEffects effectsArea="ExclusionTable" id="study-details"  title="Exclusion Criteria">
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" id="details">
+					<tr>
+						<td width="100%" valign="top">
+						<table width="100%" border="0" cellspacing="0" cellpadding="0"
+							id="table1">
+							<tr id="bex-2">
+								<td>
+								<div id="ExclusionTable" style="display: none;">
+								<table width="100%" id="table_ec">
+									<tr>
+										<td align="center">
+										<div id="addLine">
+											<b><a href="javascript:add(2,'table_ec')"><img
+												src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a></b>
+											 </div>
+										</td>
+									</tr>
+								</table>
+								</div>
+								</td>
+							</tr>
+						</table>
 						</td>
 					</tr>
 				</table>
-				</td>
+			</tabs:divisionEffects>
+			</td>
 			</tr>
-			<tr><td>&nbsp;</td></tr>
-				</table>
-
-		  </tabs:division>
-		  </td>
-		  <tr>
-		  <td width="50%" valign="top">
-		  <table width="100%" border="0" cellspacing="0" cellpadding="0">
-				<tr>
-					<td width="5%"><input type="checkbox" id='eligibilityIndicator' onClick="hideTextArea('eligibilityIndicator','WaiveEligibility')" />
-					</td>
-					<td align="left"><b>Waive Eligibility</td>
-					</tr>
-					<tr>
-					<td colspan=2>
-						<div id="WaiveEligibility" style="display:none;">
-						<textarea rows="5" cols="50"> Type Eligibility Waiver Reason. </textarea>
-						</div>
-					</td>
-				</tr>
-			</table>
-		</td>
+		   </table>
+			</td>
 		</tr>
-	  </tr>
 	</table>
 </form:form>
 <!-- MAIN BODY ENDS HERE -->
