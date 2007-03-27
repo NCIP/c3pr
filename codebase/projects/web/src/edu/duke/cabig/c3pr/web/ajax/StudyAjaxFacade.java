@@ -2,19 +2,23 @@ package edu.duke.cabig.c3pr.web.ajax;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Iterator;
 import java.util.Arrays;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
+import org.springframework.web.HttpSessionRequiredException;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.dao.StudyPersonnelDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
-import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
+import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.StudySite;
 
 /**
@@ -23,7 +27,8 @@ import edu.duke.cabig.c3pr.domain.StudySite;
 public class StudyAjaxFacade {
     private StudyDao studyDao;       
     private HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
-
+    private StudyPersonnelDao studyPersonnelDao;
+    
     @SuppressWarnings("unchecked")
     private <T> T buildReduced(T src, List<String> properties) {
         T dst = null;
@@ -56,11 +61,13 @@ public class StudyAjaxFacade {
             );
         }
         return reducedStudies;    	        
-    }
-    
+    }   
 
-    public List<HealthcareSiteInvestigator> matchSiteInvestigators(String text, int siteId) {
-        List<HealthcareSiteInvestigator> inv = healthcareSiteInvestigatorDao
+    public List<HealthcareSiteInvestigator> matchSiteInvestigators(String text, int siteIndex, 
+    		HttpServletRequest request) throws Exception{
+    	Study study = (Study) getCommandOnly(request);
+    	int siteId = study.getStudySites().get(siteIndex).getSite().getId();
+    	 List<HealthcareSiteInvestigator> inv = healthcareSiteInvestigatorDao
         	.getBySubnames(extractSubnames(text), siteId);
         List<HealthcareSiteInvestigator> reducedInv = new ArrayList<HealthcareSiteInvestigator>(inv.size());
         for (HealthcareSiteInvestigator hcInv : inv) {
@@ -69,6 +76,20 @@ public class StudyAjaxFacade {
         }
         
         return reducedInv;
+    }
+    
+    public List<StudyPersonnel> matchStudyPersonnels(String text, int siteIndex, 
+    		HttpServletRequest request) throws Exception{
+    	Study study = (Study) getCommandOnly(request);
+    	int siteId = study.getStudySites().get(siteIndex).getSite().getId();
+    	List<StudyPersonnel> personnel = studyPersonnelDao.getBySubnames(extractSubnames(text), siteId);
+        List<StudyPersonnel> reducedPersonnel = new ArrayList<StudyPersonnel>(personnel.size());
+        for (StudyPersonnel hcInv : personnel) {
+        	reducedPersonnel.add(buildReduced(hcInv, Arrays.asList("id", "researchStaff"))
+            );
+        }
+        
+        return reducedPersonnel;
     }
 
     private boolean onStudy(Study study, Integer studyId) {
@@ -84,7 +105,23 @@ public class StudyAjaxFacade {
         return onStudy;
     }
 
-   
+    private final Object getCommandOnly(HttpServletRequest request) throws Exception {		
+		HttpSession session = request.getSession(false);
+		if (session == null) {
+			throw new HttpSessionRequiredException("Must have session when trying to bind (in session-form mode)");
+		}
+		String formAttrName = getFormSessionAttributeName();
+		Object sessionFormObject = session.getAttribute(formAttrName);
+		if (sessionFormObject == null) {
+			throw new HttpSessionRequiredException("Form object not found in session (in session-form mode)");
+		}
+
+		return sessionFormObject;
+	}
+    
+    private String getFormSessionAttributeName() {
+		return "edu.duke.cabig.c3pr.web.CreateStudyController.FORM.command";
+	}
     private String[] extractSubnames(String text) {
         return text.split("\\s+");
     } 
@@ -107,6 +144,14 @@ public class StudyAjaxFacade {
 	public void setHealthcareSiteInvestigatorDao(
 			HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao) {
 		this.healthcareSiteInvestigatorDao = healthcareSiteInvestigatorDao;
+	}
+
+	public StudyPersonnelDao getStudyPersonnelDao() {
+		return studyPersonnelDao;
+	}
+
+	public void setStudyPersonnelDao(StudyPersonnelDao studyPersonnelDao) {
+		this.studyPersonnelDao = studyPersonnelDao;
 	}
     
      
