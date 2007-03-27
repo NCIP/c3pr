@@ -21,6 +21,7 @@
     <property name="test.classes.dir" value="${test.build.dir}/classes"/>
     <property name="test.lib.dir" value="${test.dir}/lib"/>
     <property name="test.logs.dir" location="${test.dir}/logs"/>
+    <property name="test.resources.dir" location="${test.dir}/resources"/>
     <property name="test.report.dir" value="${test.dir}/report"/>
     <property name="test.jar.dir" value="${test.build.dir}/jars"/>
     <property name="test.jar.name" value="${project.name}-test.jar"/>
@@ -42,7 +43,6 @@
     </path>
 
     <path id="test.compile.cp">
-        <pathelement location="test/resources"/>
         <path refid="compile.cp"/>
         <fileset dir="${test.lib.dir}">
             <include name="*.jar"/>
@@ -58,7 +58,8 @@
 
     <path id="test.run.cp">
         <path refid="test.compile.cp"/>
-        <pathelement location="${test.build.dir}"/>
+        <pathelement location="${test.resources.dir}"/>
+        <pathelement location="${test.classes.dir}"/>
     </path>
 
 

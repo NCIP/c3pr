@@ -4,13 +4,17 @@ import junit.framework.TestCase;
 import gov.nih.nci.cabig.ctms.service.CRPRV2RegistrationConsumer;
 import gov.nih.nci.cagrid.common.Utils;
 
-import java.io.StringReader;
+import java.io.*;
 
 import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
 import edu.duke.cabig.c3pr.utils.ApplicationTestCase;
 import edu.duke.cabig.c3pr.service.StudyService;
 
 /**
+ * Tests the grid service impl for c3prv2
+ *
+ * @testType unit
+ *
  * Created by IntelliJ IDEA.
  * User: kherm
  * Date: Mar 14, 2007
@@ -29,14 +33,15 @@ public class C3PRV2RegistrationConsumerTest extends ApplicationTestCase {
         gridService.setStudyService(studyService);
 
     }
-
+   
     public void testRegister(){
         try {
+            InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(sampleMessage);
+            InputStreamReader reader = new InputStreamReader(is);
+
             gov.nih.nci.cabig.ctms.grid.RegistrationType registrationMessage =
                     (gov.nih.nci.cabig.ctms.grid.RegistrationType)
-                            Utils.deserializeDocument(sampleMessage,gov.nih.nci.cabig.ctms.grid.RegistrationType.class);
-
-
+                            Utils.deserializeObject(reader,gov.nih.nci.cabig.ctms.grid.RegistrationType.class);
             gridService.register(registrationMessage);
         } catch (Exception e) {
             fail(e.getMessage());
