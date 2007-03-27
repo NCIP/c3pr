@@ -20,7 +20,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 /**
- * @author Kruttik
+ * @author Kruttik, Priyatam
  */
  @Entity
  @Table (name = "eligibility_criterias")
@@ -34,18 +34,18 @@ import org.hibernate.annotations.Parameter;
  )
 public abstract class EligibilityCriteria extends AbstractGridIdentifiableDomainObject
 {			
-	private boolean notApplicableInidicator;
+	private Boolean notApplicableIndicator;
 	
 	private int questionNumber;
 	
 	private String questionText;
 	
-	public boolean isNotApplicableInidicator() {
-		return notApplicableInidicator;
+	public Boolean getNotApplicableIndicator() {
+		return notApplicableIndicator;
 	}
 
-	public void setNotApplicableInidicator(boolean notApplicableInidicator) {
-		this.notApplicableInidicator = notApplicableInidicator;
+	public void setNotApplicableIndicator(Boolean notApplicableInidicator) {
+		this.notApplicableIndicator = notApplicableInidicator;
 	}
 
 	public int getQuestionNumber() {

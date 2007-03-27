@@ -20,20 +20,20 @@ import org.hibernate.annotations.Parameter;
 )
 public class StudyInvestigator extends AbstractDomainObject {
 	
-	private String signatureText;
+	//private String signatureText;
 	private HealthcareSiteInvestigator healthcareSiteInvestigator;
 	private StudySite studySite;
 	
-	public String getSignatureText() {
-		return signatureText;
-	}
-	
-	public void setSignatureText(String signatureText) {
-		this.signatureText = signatureText;
-	}
+//	public String getSignatureText() {
+//		return signatureText;
+//	}
+//	
+//	public void setSignatureText(String signatureText) {
+//		this.signatureText = signatureText;
+//	}
 		
 	@ManyToOne
-    @JoinColumn(name = "site_investigators_id")
+    @JoinColumn(name = "hsi_id")
 	public HealthcareSiteInvestigator getHealthcareSiteInvestigator() {
 		return healthcareSiteInvestigator;
 	}
@@ -48,7 +48,7 @@ public class StudyInvestigator extends AbstractDomainObject {
 	}
 		
 	@ManyToOne
-    @JoinColumn(name = "study_sites_id")    	
+    @JoinColumn(name = "sts_id")    	
 	public StudySite getStudySite() {
 		return studySite;
 	}
