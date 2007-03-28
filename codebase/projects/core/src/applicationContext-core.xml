@@ -136,6 +136,7 @@
 	<bean id="registrationDao" parent="daoTemplate"	class="edu.duke.cabig.c3pr.dao.StudyParticipantAssignmentDao" autowire="byType"/>
 	<bean id="healthcareSiteInvestigatorDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao" autowire="byType"/>
 	<bean id="studyPersonnelDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyPersonnelDao" autowire="byType"/>
+	<bean id="researchStaffDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ResearchStaffDao" autowire="byType"/>
 	
 	<!-- Services -->
 	<bean id="studyService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudyServiceImpl" autowire="byType"/>
