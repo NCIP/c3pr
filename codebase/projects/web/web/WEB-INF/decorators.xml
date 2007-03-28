@@ -12,7 +12,8 @@
     </decorator>
     <decorator name="tabbedflow_edit" page="tabbedflow_edit.jsp">
         <pattern>/pages/study/editStudy</pattern>
-   		<pattern>/pages/participant/editParticipant</pattern>    
+   		<pattern>/pages/participant/editParticipant</pattern>
+   		<pattern>/pages/registration/registrationDetails</pattern>    
     </decorator>
   	<excludes>
         <pattern>/*/image/*</pattern>
