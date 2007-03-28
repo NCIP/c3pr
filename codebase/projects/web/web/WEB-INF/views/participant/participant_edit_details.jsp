@@ -39,83 +39,83 @@ field.value="";
 <tabs:body
 	title="Edit Subject : ${command.firstName}  ${command.lastName}">
 	<form:form method="post" name="form" id="form">
-	<div><input type="hidden" name="_page" id="_page" value="0"> <input
+		<div><input type="hidden" name="_page" id="_page" value="0"> <input
 			type="hidden" name="_action" id="_action" value=""> <input
 			type="hidden" name="_selected" id="_selected" value=""> <input
 			type="hidden" name="_updateaction" id="_updateaction" value=""></div>
-	<table border="0" id="table1" cellspacing="10" width="100%">
-
 		<table border="0" id="table1" cellspacing="10" width="100%">
-			<tr>
-				<td valign="top" width="20%"><participantTags:participantSummary />
-				</td>
-				<td width="50%" valign="top"><tabs:levelTwoTabs tab="${tab}"
-					flow="${flow}" /> <tabs:division id="Editing">
-					<table width="100%" border="0" cellspacing="0" cellpadding="0"
-						id="details">
-						<tr>
-							<td align="left" width="50%" border="0" valign="top"
-								class="contentAreaL">
-							<form name="form2" method="post" action="" id="form1">
-							<table width="700" border="0" cellspacing="0" cellpadding="0"
-								id="table1">
 
-								<tr>
-									<td align="right" class="label"><span class="red">*</span><em></em>
-									First Name:&nbsp;</td>
-									<td align="left"><form:input path="firstName" /></td>
-								</tr>
-								<tr>
-									<td align="right" class="label"><span class="red">*</span><em></em>
-									Last Name:&nbsp;</td>
-									<td align="left"><form:input path="lastName" /></td>
-								</tr>
-								<tr>
-									<td align="right" class="label"><span class="red">*</span> <em></em>
-									Gender:&nbsp;</td>
-									<td align="left"><form:select path="administrativeGenderCode">
-										<form:options items="${administrativeGenderCode}"
-											itemLabel="desc" itemValue="code" />
-									</form:select></td>
-								</tr>
-								<tr>
-									<td align="right" class="label"><span class="red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</span><em></em>Birth
-									Date:&nbsp;</td>
-									<td align="left" valign="top"><form:input path="birthDate" />&nbsp;<a
-										href="#"
-										onClick="cal1.select(document.getElementById('birthDate'),'anchor1','MM/dd/yyyy');return false;"
-										name="anchor1" id="anchor1"><img
-										src="<tags:imageUrl name="b-calendar.gif"/>" alt="Calendar"
-										width="17" height="16" border="0" align="absmiddle"></a>&nbsp;&nbsp;&nbsp;<span
-										class="red"><form:errors path="birthDate" /><em></em></span></td>
-								</tr>
-								<tr>
-									<td align="right" class="label"><em></em>Ethnicity:&nbsp;</td>
-									<td align="left"><form:select path="ethnicGroupCode">
-										<form:options items="${ethnicGroupCode}" itemLabel="desc"
-											itemValue="code" />
-									</form:select></td>
-								</tr>
-								<tr>
-									<td align="right" class="label"><em></em>Race(s):&nbsp;</td>
-									<td align="left"><form:select path="raceCode">
-										<form:options items="${raceCode}" itemLabel="desc"
-											itemValue="code" />
-									</form:select></td>
-								</tr>
-							</table>
-							</form>
-						</tr>
-					</table>
-				</tabs:division>
-				</td>
+			<table border="0" id="table1" cellspacing="10" width="100%">
+				<tr>
+					<td valign="top" width="20%"><participantTags:participantSummary />
+					</td>
+					<td width="50%" valign="top"><tabs:levelTwoTabs tab="${tab}"
+						flow="${flow}" /> <tabs:division id="Editing">
+						<table width="100%" border="0" cellspacing="0" cellpadding="0"
+							id="details">
+							<tr>
+								<td align="left" width="50%" border="0" valign="top"
+									class="contentAreaL">
+								<form name="form2" method="post" action="" id="form1">
+								<table width="700" border="0" cellspacing="0" cellpadding="0"
+									id="table1">
+									
+									<tr>
+										<td width="150" align="right" class="label"><span class="red">*</span><em></em>
+										First Name:&nbsp;</td>
+										<td align="left"><form:input path="firstName" /></td>
+									</tr>
+									<tr>
+										<td width="150" align="right" class="label"><span class="red">*</span><em></em>
+										Last Name:&nbsp;</td>
+										<td align="left"><form:input path="lastName" /></td>
+									</tr>
+									<tr>
+										<td width="150" align="right" class="label"><span class="red">*</span> <em></em>
+										Gender:&nbsp;</td>
+										<td align="left"><form:select path="administrativeGenderCode">
+											<form:options items="${administrativeGenderCode}"
+												itemLabel="desc" itemValue="code" />
+										</form:select></td>
+									</tr>
+									<tr>
+										<td width="150" align="right" class="label"><span class="red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*</span><em></em>Birth
+										Date:&nbsp;</td>
+										<td align="left" valign="top"><form:input path="birthDate" />&nbsp;<a
+											href="#"
+											onClick="cal1.select(document.getElementById('birthDate'),'anchor1','MM/dd/yyyy');return false;"
+											name="anchor1" id="anchor1"><img
+											src="<tags:imageUrl name="b-calendar.gif"/>" alt="Calendar"
+											width="17" height="16" border="0" align="absmiddle"></a>&nbsp;&nbsp;&nbsp;<span
+											class="red"><form:errors path="birthDate" /><em></em></span></td>
+									</tr>
+									<tr>
+										<td width="150" align="right" class="label"><em></em>Ethnicity:&nbsp;</td>
+										<td align="left"><form:select path="ethnicGroupCode">
+											<form:options items="${ethnicGroupCode}" itemLabel="desc"
+												itemValue="code" />
+										</form:select></td>
+									</tr>
+									<tr>
+										<td width="150" align="right" class="label"><em></em>Race(s):&nbsp;</td>
+										<td align="left"><form:select path="raceCode">
+											<form:options items="${raceCode}" itemLabel="desc"
+												itemValue="code" />
+										</form:select></td>
+									</tr>
+									
+								</table>
+								</form>
+							</tr>
+						</table>
+					</tabs:division></td>
 
-				<td valign="top" width="30%"><participantTags:registrationSummary />
-				</td>
-			</tr>
-		</table>
-	</form:form>
-</tabs:body>
-<!-- MAIN BODY ENDS HERE -->
+					<td valign="top" width="30%"><participantTags:registrationSummary />
+					</td>
+				</tr>
+			</table>
+			</form:form>
+			</tabs:body>
+			<!-- MAIN BODY ENDS HERE -->
 </body>
 </html>
