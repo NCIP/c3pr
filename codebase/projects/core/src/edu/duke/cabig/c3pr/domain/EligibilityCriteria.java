@@ -25,8 +25,6 @@ import org.hibernate.annotations.Parameter;
  @Entity
  @Table (name = "eligibility_criterias")
  @Inheritance(strategy=InheritanceType.SINGLE_TABLE) 
- @DiscriminatorColumn(name="expected_answer_indicator",
-                discriminatorType=DiscriminatorType.STRING, length=1)
  @GenericGenerator(name="id-generator", strategy = "native",
      parameters = {
          @Parameter(name="sequence", value="ELIGIBILITY_CRITERIAS_ID_SEQ")
