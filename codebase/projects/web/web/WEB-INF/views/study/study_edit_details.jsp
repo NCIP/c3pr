@@ -32,7 +32,7 @@ function fireAction(action){
 <body>
 <!-- MAIN BODY STARTS HERE -->
 
-<tags:searchStudy action="searchStudy"/>
+<studyTags:searchStudy action="searchStudy"/>
 
 <tabs:body title="Edit Study : ${command.trimmedShortTitleText}">
 <form:form method="post" name="studyForm">
@@ -54,7 +54,7 @@ function fireAction(action){
 							<td width="50%" valign="top" class="contentAreaL">
 								<br>
 								<table width="50%" border="0" cellspacing="0" cellpadding="0"
-									id="table1">
+									id="tableF1">
 									<tr>
 										<td class="label">Short Title:</td>
 										<td><form:textarea path="shortTitleText" rows="2"
@@ -77,7 +77,7 @@ function fireAction(action){
 											class="heightControl"></td>
 									</tr>
 									<tr>
-										<td class="label">Precis Text:</td>
+										<td class="label">Precis:</td>
 										<td><form:textarea path="precisText" rows="2" cols="30" /></td>
 										<td width="15%"></td>
 									</tr>
@@ -86,7 +86,7 @@ function fireAction(action){
 											class="heightControl"></td>
 									</tr>
 									<tr>
-										<td class="label">Description Text:</td>
+										<td class="label">Description:</td>
 										<td><form:textarea path="descriptionText" rows="2"
 											cols="30" /></td>
 										<td width="15%"></td>
@@ -96,7 +96,7 @@ function fireAction(action){
 								<table width="50%" border="0" cellspacing="0" cellpadding="0"
 									id="table1">
 									<tr>
-										<td class="label">Target Accrual Number:</td>
+										<td class="label">Target Accrual:</td>
 										<td><form:input path="targetAccrualNumber" size="34" /></td>
 										<td width="10%"></td>
 									</tr>
