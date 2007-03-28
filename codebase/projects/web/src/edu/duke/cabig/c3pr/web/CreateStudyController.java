@@ -179,28 +179,45 @@ public class CreateStudyController extends StudyController {
 					handleStudyInvestigatorAction((Study)command, request);
 				}					
 				
+//				// 	cleanup identifiers page if user selected 'please select'
+//				List<Identifier> newList = new ArrayList<Identifier>();			
+//				for (Identifier identifier : ((Study)command).getIdentifiers()) {
+//					if(!StringUtils.isEmpty(identifier.getSource()) &&
+//						!StringUtils.isEmpty(identifier.getType()) )
+//					{
+//						newList.add(identifier);
+//					}	
+//				}					
+//				((Study)command).setIdentifiers(newList);
+//				
+//				studyService.save(((Study)command));
+				
+				
 				break;				
 			case 4:				
 				if("siteChange".equals(request.getParameter("_action")))
 				{
-					request.getSession().setAttribute("site_id_for_per", request.getParameter("_selected"));
+					request.getSession().setAttribute("site_id", request.getParameter("_selected"));
 					
 					StudySite studySite = ((Study)command).getStudySites().get(Integer.parseInt(request.getParameter("_selected")));
 					if(studySite.getStudyPersonnels().size() == 0 )
 					{						
-						StudyPersonnel studyPersonnel = new StudyPersonnel();						
+						StudyPersonnel studyPersonnel = new StudyPersonnel();
+						studyPersonnel.setStudySite(studySite);								
 						studySite.addStudyPersonnel(studyPersonnel);
 					}										
 				}
 				else {
 					handleStudyPersonnelAction((Study)command, request.getParameter("_action"),
-							request.getParameter("_selected"), request.getParameter("_studysiteindex"));
+						request.getParameter("_selected"), request.getParameter("_studysiteindex"));
 				}					
-				
+											
 				break;				
 							
 			case 5:			
-				
+				handleEligibilityChecklist((Study)command, 
+						request.getParameter("_action"),
+						request.getParameter("_selected"));								
 				break;	
 				
 			case 6:			

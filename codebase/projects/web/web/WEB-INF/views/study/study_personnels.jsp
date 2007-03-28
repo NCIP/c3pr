@@ -8,7 +8,6 @@
 <%@ taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
 <%@ taglib prefix="studyTags" tagdir="/WEB-INF/tags/study"%>
 
-
 <html>
 <head>
 <tags:includeScriptaculous/>
@@ -57,7 +56,7 @@ function fireAction1(action, selected, studysiteindex){
 var personnelAutocompleterProps = {
 	basename: "personnel",
     populator: function(autocompleter, text) {
-    createStudy.matchStudyPersonnels(text,document.getElementById('site').value, function(values) {
+    createStudy.matchResearchStaffs(text, function(values) {
 	    autocompleter.setChoices(values)
 	})
     },
@@ -65,6 +64,7 @@ var personnelAutocompleterProps = {
 	return obj.fullName
     }
 }
+
 
 function acPostSelect(mode, selectedChoice) {
 	$(mode.basename).value = selectedChoice.id;
@@ -187,7 +187,7 @@ Event.observe(window, "load", function() {
 					<td align="center"> <b> <span class="red">*</span><em></em>Role:</b> </td>
 					<td align="center"> <b> <span class="red">*</span><em></em>Status:</b> </td>
 					<td align="center">
-						<b><a href="javascript:fireAction1('addInv','0', ${index});"><img
+						<b><a href="javascript:fireAction1('addStudyPersonnel','0', ${index});"><img
 							src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a></b>
 					</td>
 				</tr>
@@ -217,7 +217,7 @@ Event.observe(window, "load", function() {
 						</td>
 
 						<td align="center" width="20%">
-							<a href="javascript:fireAction1('removeInv',${status.index}, ${index});"><img
+							<a href="javascript:fireAction1('removeStudyPersonnel',${status.index}, ${index});"><img
 								src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a>
 						</td>
 					</tr>

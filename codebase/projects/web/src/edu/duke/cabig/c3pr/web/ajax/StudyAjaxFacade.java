@@ -1,21 +1,23 @@
 package edu.duke.cabig.c3pr.web.ajax;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.HttpSessionRequiredException;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
+import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudyPersonnelDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
+import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.duke.cabig.c3pr.domain.StudyPersonnel;
@@ -28,6 +30,7 @@ public class StudyAjaxFacade {
     private StudyDao studyDao;       
     private HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
     private StudyPersonnelDao studyPersonnelDao;
+    private ResearchStaffDao researchStaffDao;
     
     @SuppressWarnings("unchecked")
     private <T> T buildReduced(T src, List<String> properties) {
@@ -92,6 +95,17 @@ public class StudyAjaxFacade {
         return reducedPersonnel;
     }
 
+    public List<ResearchStaff> matchResearchStaffs(String text, 
+    		HttpServletRequest request) throws Exception{
+    	List<ResearchStaff> staffCol = researchStaffDao.getBySubnames(extractSubnames(text));
+        List<ResearchStaff> reducedStaffCol = new ArrayList<ResearchStaff>(staffCol.size());
+        for (ResearchStaff staff : staffCol) {
+        	reducedStaffCol.add(buildReduced(staff, Arrays.asList("id", "firstName","lastName"))
+            );
+        }
+        
+        return reducedStaffCol;
+    }
     private boolean onStudy(Study study, Integer studyId) {
         boolean onStudy = false;
         for (StudySite studySite : study.getStudySites()) {
@@ -152,6 +166,14 @@ public class StudyAjaxFacade {
 
 	public void setStudyPersonnelDao(StudyPersonnelDao studyPersonnelDao) {
 		this.studyPersonnelDao = studyPersonnelDao;
+	}
+
+	public ResearchStaffDao getResearchStaffDao() {
+		return researchStaffDao;
+	}
+
+	public void setResearchStaffDao(ResearchStaffDao researchStaffDao) {
+		this.researchStaffDao = researchStaffDao;
 	}
     
      

@@ -40,7 +40,7 @@ public class EditStudyController extends StudyController {
 	
 	protected void intializeFlows(Flow<Study> flow)	
 	{	   
-		 flow.addTab(new Tab<Study>("Study Details", "Study Details", "study/study_edit_details") {
+		 flow.addTab(new Tab<Study>("Study Details", "Details", "study/study_edit_details") {
 	            public Map<String, Object> referenceData() {
 	           	 	Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        
 	       	  
@@ -59,7 +59,7 @@ public class EditStudyController extends StudyController {
 	    	  		return refdata;
 	             }        	
 	        });
-	        flow.addTab(new Tab<Study>("Study Identifiers", "Study Identifiers", "study/study_edit_identifiers"){
+	        flow.addTab(new Tab<Study>("Study Identifiers", "Identifiers", "study/study_edit_identifiers"){
 	            
 	        	public Map<String, Object> referenceData() {
 	        		Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        
@@ -71,7 +71,7 @@ public class EditStudyController extends StudyController {
 	    	  		return refdata;
 	    	 	}
 	        });                 
-	        flow.addTab(new Tab<Study>("Study Sites", "Study Sites", "study/study_edit_studysites") {
+	        flow.addTab(new Tab<Study>("Study Sites", "Sites", "study/study_edit_studysites") {
 	            
 	        	public Map<String, Object> referenceData() {
 	        		Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        

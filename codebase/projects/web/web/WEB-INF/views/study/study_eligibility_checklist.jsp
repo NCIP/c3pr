@@ -20,35 +20,81 @@
 <script language="JavaScript" type="text/JavaScript">
 
 function fireAction(action, selected){
-	document.getElementsByName('_target4')[0].name='_target3';
+	document.getElementsByName('_target6')[0].name='_target5';
 	document.form._action.value=action;
 	document.form._selected.value=selected;
 	document.form.submit();
-
-}
-function clearField(field){
-field.value="";
 }
 
-function add(count, area)
+count=0; // to keep the count of the rows
+
+function add(area)
 {
-	var str = createRow(count);
-		document.getElementById(area).innerHTML = document.getElementById(area).innerHTML + str;
-		document.getElementById('bex-' + count).style.display = 'none';
-		Effect.Appear('bex-' + count);
+	if (area == 'InclusionTable')
+		var str = createInclusionRow(count);
+	else
+		var str = createExclusionRow(count);
+
+	document.getElementById(area).innerHTML = document.getElementById(area).innerHTML + str;
+	document.getElementById('bex-' + count).style.display = 'none';
+	Effect.Appear('bex-' + count);
+	count++;
+	new Ajax.Request('createStudy', {method:'post', postBody:'_target5=5&_page5=5&_action=addInclusionCriteria&_selectedQuestion=', onSuccess:handlerFunc, onFailure:errFunc});
+}
+var handlerFunc = function(t) {
+//alert(t.responseText);
 }
 
+var errFunc = function(t) {
+    alert('Error ' + t.status + ' -- ' + t.statusText);
+}
 function remove(count, area)
 {
 	document.getElementById('bex-' + count).innerHTML = ' ';
 }
 
-function createRow(count)
+function createInclusionRow(count)
 {
-	var str =  '<tr><td width="100%">If suffering from cancer A, is the'+
-				'criteria B met?</td><td><input type="checkbox" name="group1" value="Milk">NA</td>'
+	var str = '<tr id="bex-' + count + '">'+
+	'<td width="1%">'+
+	'<input type="hidden" name=command.inclusionEligibilityCriterias[' + count + '].questionNumber value='+count+'/>'+
+	count+'</td>'+
+	'<td width="78%">'+
+	'<input type="text" name=command.inclusionEligibilityCriterias[' + count + '].questionText value=command.inclusionEligibilityCriterias[' + count + '].questionText size="150" "'+
+	'</td>'+
+	'<td width=10%>'+
+	'	<input type="checkbox" name=command.inclusionEligibilityCriterias[' + count + '].notApplicableIndicator value=command.inclusionEligibilityCriterias[' + count + '].notApplicableIndicator>NA'+
+	'</td>'+
+	'<td width=5%>'+
+	'	<a href="javascript:remove(count,InclusionTable);"><img'+
+	'		 src="<tags:imageUrl name="checkno.gif"/>" border="0">'+
+	'	</a>'+
+	'</td>'
+
 	return str;
 }
+
+function createExclusionRow(count)
+{
+	var str = '<tr id="bex-' + count + '">'+
+	'<td width="1%">'+
+	'<input type="hidden" name=command.inclusionEligibilityCriterias[' + count + '].questionNumber value='+count+'/>'+
+	count+'</td>'+
+	'<td width="78%">'+
+	'<input type="text" name=command.inclusionEligibilityCriterias[' + count + '].questionText value=command.inclusionEligibilityCriterias[' + count + '].questionText size="150" "'+
+	'</td>'+
+	'<td width=10%>'+
+	'	<input type="checkbox" name=command.inclusionEligibilityCriterias[' + count + '].notApplicableIndicator value=command.inclusionEligibilityCriterias[' + count + '].notApplicableIndicator>NA'+
+	'</td>'+
+	'<td width=5%>'+
+	'	<a href="javascript:remove(count,InclusionTable);"><img'+
+	'		 src="<tags:imageUrl name="checkno.gif"/>" border="0">'+
+	'	</a>'+
+	'</td>'
+
+	return str;
+}
+
 
 /// AJAX
 
@@ -63,15 +109,22 @@ Effect.OpenUp = function(element) {
      new Effect.BlindUp(element, arguments[1] || {});
  }
 
+ Effect.ComboCheck = function(element) {
+     element = $(element);
+     if(element.style.display == "none") {
+          new Effect.OpenUp(element, arguments[1] || {});
+      }
+ }
+
  Effect.Combo = function(element,imageStr,title) {
      element = $(element);
      if(element.style.display == "none") {
           new Effect.OpenUp(element, arguments[1] || {});
-          document.getElementById(imageStr).src="images/b-minus.gif";
+        //  document.getElementById(imageStr).src="images/b-minus.gif";
       //    new Effect.Grow(document.getElementById(title));
      }else {
           new Effect.CloseDown(element, arguments[1] || {});
-          document.getElementById(imageStr).src="images/b-plus.gif";
+       //   document.getElementById(imageStr).src="images/b-plus.gif";
      }
  }
 function hideTextArea(a,b){
@@ -85,9 +138,13 @@ function hideTextArea(a,b){
 </script>
 </head>
 <body>
+<form:form method="post" name="form">
+<div>
+	<input type="hidden" name="_action" value="">
+	<input type="hidden" name="_selected" value=""></div>
+</div>
 <!-- MAIN BODY STARTS HERE -->
 <tabs:body title="${flow.name}: ${tab.longTitle}">
-	<form:form method="post" name="form">
 	<table border="0" id="table1" cellspacing="10" width="100%">
 		<tr>
 		  	<td valign="top" width="30%">
@@ -95,27 +152,29 @@ function hideTextArea(a,b){
 		  	</td>
 			<td valign="top" width="70%">
 			 <table border="0" id="table1" cellspacing="10" width="100%">
-				 <tr>
+			 	 <tr>
 				 <td valign="top">
 					<tabs:divisionEffects effectsArea="InclusionTable" id="Summary" title="Inclusion Criteria">
 					<table width="100%" border="0" cellspacing="0" cellpadding="0"
 					id="details">
 					<tr>
+						<p id="instructions">
+							*NA - Allow Not Applicable answer
+						</p>
+						<c:set var="counter" scope="session" value="${counter + 1}" />
+						<p>
+			 				<b><a href="javascript:add('table_ic');javascript:Effect.ComboCheck('InclusionTable');"><img
+								src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a>Add a Criteria</b>
+							</p>
+			 		</tr>
+					<tr>
 						<td valign="top">
 						<table id="" width="100%" border="0" cellspacing="0" cellpadding="0"
 							id="table1">
-							<tr id="bex-1">
+							<tr>
 								<td>
 								<div id="InclusionTable" style="display: none;">
 								<table width="100%" id="table_ic">
-								<tr>
-									<td align="center">
-									<div id="addLine">
-										<b><a href="javascript:add(1,'table_ic')"><img
-											src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a></b>
-										 </div>
-									</td>
-								</tr>
 								</table>
 								</div>
 								</td>
@@ -135,20 +194,28 @@ function hideTextArea(a,b){
 						<td width="100%" valign="top">
 						<table width="100%" border="0" cellspacing="0" cellpadding="0"
 							id="table1">
-							<tr id="bex-2">
-								<td>
-								<div id="ExclusionTable" style="display: none;">
-								<table width="100%" id="table_ec">
+							<tr>
+								<p id="instructions">
+									*NA - Allow Not Applicable answer
+								</p>
+								<p>
+									<b><a href="javascript:add('table_ec');javascript:Effect.ComboCheck('ExclusionTable');"><img
+										src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a>Add a Criteria</b>
+									</p>
+							</tr>
+							<tr>
+								<td valign="top">
+								<table id="" width="100%" border="0" cellspacing="0" cellpadding="0"
+									id="table1">
 									<tr>
-										<td align="center">
-										<div id="addLine">
-											<b><a href="javascript:add(2,'table_ec')"><img
-												src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a></b>
-											 </div>
+										<td>
+										<div id="ExclusionTable" style="display: none;">
+										<table width="100%" id="table_ec">
+										</table>
+										</div>
 										</td>
 									</tr>
 								</table>
-								</div>
 								</td>
 							</tr>
 						</table>
@@ -162,8 +229,9 @@ function hideTextArea(a,b){
 			</td>
 		</tr>
 	</table>
-</form:form>
 <!-- MAIN BODY ENDS HERE -->
 </tabs:body>
+</form:form>
+
 </body>
 </html>

@@ -17,12 +17,17 @@ import org.springframework.web.servlet.ModelAndView;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
+import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.dao.StudyPersonnelDao;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
@@ -50,7 +55,9 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 	protected StudyService studyService;
 	protected StudyDao studyDao;
 	protected HealthcareSiteDao healthcareSiteDao;
-	protected HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;	
+	protected HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
+	protected ResearchStaffDao researchStaffDao;	
+	
 	protected StudyValidator studyValidator;
 	protected ConfigurationProperty configurationProperty;
 	protected static List<HealthcareSite> healthcareSites;
@@ -76,7 +83,9 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
         binder.registerCustomEditor(healthcareSiteDao.domainClass(),
         	new CustomDaoEditor(healthcareSiteDao));
         binder.registerCustomEditor(healthcareSiteInvestigatorDao.domainClass(),
-            new NullIdDaoBasedEditor(healthcareSiteInvestigatorDao));         
+            new NullIdDaoBasedEditor(healthcareSiteInvestigatorDao));       
+        binder.registerCustomEditor(researchStaffDao.domainClass(),
+            new NullIdDaoBasedEditor(researchStaffDao));           
      }
 	
 	/**
@@ -179,7 +188,6 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 		
 		if ("addInv".equals(action))
 		{				
-			//List<StudyInvestigator> sinv = studySite.getStudyInvestigators();
 			StudyInvestigator studyInvestigator = new StudyInvestigator();
 			studyInvestigator.setSiteInvestigator(new HealthcareSiteInvestigator());
 			StudySite studySite = study.getStudySites().get(Integer.parseInt(selectedSite));
@@ -193,18 +201,44 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 	
 	protected void handleStudyPersonnelAction(Study study, String action, String selected, String studysiteindex)
 	{				
-		if ("addInv".equals(action))
+		if ("addStudyPersonnel".equals(action))
 		{	
 			StudyPersonnel studyPersonnel = new StudyPersonnel();
-			StudySite studySite = study.getStudySites().get(Integer.parseInt(studysiteindex));
+			studyPersonnel.setResearchStaff(new ResearchStaff());
+			StudySite studySite = study.getStudySites().get(Integer.parseInt(selected));
+			studyPersonnel.setStudySite(studySite);		
 			studySite.addStudyPersonnel(studyPersonnel);														
 		}
-		else if ("removeInv".equals(action))
+		else if ("removeStudyPersonnel".equals(action))
 		{	
 			study.getStudySites().get(Integer.parseInt(studysiteindex)).getStudyPersonnels().remove(Integer.parseInt(selected));
 		}					
 					
 	}	
+	
+	protected void handleEligibilityChecklist(Study study, String action, String selected)
+	{
+		if ("addInclusionCriteria".equals(action))
+		{	
+			log.debug("Requested - Add a Inclusion Eligibility Criteria");																														
+			createDefaultInclusion(study);		
+		}
+		else if ("removeInclusionCriteria".equals(action))
+		{
+			log.debug("Requested - Remove an Inclusion Eligibility Criteria");		
+			study.getInclusionEligibilityCriterias().remove(Integer.parseInt(selected));
+		}	
+		if ("addExclusionCriteria".equals(action))
+		{	
+			log.debug("Requested - Add an Exclusion Eligibility Criteria");																														
+			createDefaultExclusion(study);		
+		}
+		else if ("removeExclusionCriteria".equals(action))
+		{
+			log.debug("Requested - Remove an Exclusion Eligibility Criteria");		
+			study.getExclusionEligibilityCriterias().remove(Integer.parseInt(selected));
+		}	
+	}
 	
 	protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, 
 			Object command, BindException errors) throws Exception {
@@ -271,6 +305,18 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 		identifiers.add(id2);		
 		study.setIdentifiers(identifiers);		
 	}
+	
+	protected void createDefaultExclusion(Study study)
+	{
+		ExclusionEligibilityCriteria ex = new ExclusionEligibilityCriteria();			
+		study.getExclusionEligibilityCriterias().add(ex);			
+	}
+	
+	protected void createDefaultInclusion(Study study)
+	{
+		InclusionEligibilityCriteria in = new InclusionEligibilityCriteria();			
+		study.getInclusionEligibilityCriterias().add(in);			
+	}
 		
 	protected List<HealthcareSite> getHealthcareSites()
 	{
@@ -325,6 +371,14 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 	public void setHealthcareSiteInvestigatorDao(
 			HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao) {
 		this.healthcareSiteInvestigatorDao = healthcareSiteInvestigatorDao;
+	}
+
+	public ResearchStaffDao getResearchStaffDao() {
+		return researchStaffDao;
+	}
+
+	public void setResearchStaffDao(ResearchStaffDao researchStaffDao) {
+		this.researchStaffDao = researchStaffDao;
 	}
 
 }
