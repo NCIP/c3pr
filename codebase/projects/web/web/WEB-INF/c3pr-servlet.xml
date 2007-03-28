@@ -123,16 +123,6 @@
 		<property name="commandClass"
 			value="edu.duke.cabig.c3pr.domain.StudyParticipantAssignment" />
 		<property name="commandName" value="command" />
-		<property name="pages">
-			<list>
-				<value>registration/reg_details_study_participant</value>
-				<value>registration/reg_details_identifiers</value>
-				<value>registration/reg_details_eligibility</value>
-				<value>registration/reg_details_stratification</value>
-				<value>registration/reg_details_randomization</value>
-				<value>registration/reg_details_status</value>
-			</list>
-		</property>
 	</bean>
 
 	<bean id="sectionInterceptor"
