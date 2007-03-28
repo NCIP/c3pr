@@ -38,27 +38,12 @@ import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Tab;
  * 
  */
 
-public class RegistrationDetailsController extends
-		AbstractTabbedFlowFormController {
+public class RegistrationDetailsController extends RegistrationController {
 
-	private static Log log = LogFactory
-			.getLog(RegistrationDetailsController.class);
-
-	private ParticipantDao participantDao;
-
-	private StudyParticipantAssignmentDao registrationDao;
-
-	private HealthcareSiteDao healthcareSiteDao;
-
-	private StudySiteDao studySiteDao;
-
-	protected ConfigurationProperty configurationProperty;
-
+	private static Log log = LogFactory.getLog(RegistrationDetailsController.class);
+	
 	public RegistrationDetailsController() {
-		setCommandClass(StudyParticipantAssignment.class);
-		Flow<StudyParticipantAssignment> flow = new Flow<StudyParticipantAssignment>(
-				"Registration Management");
-		intializeFlows(flow);
+		super("Registration Management");
 	}
 
 	protected void intializeFlows(Flow<StudyParticipantAssignment> flow) {
@@ -227,29 +212,6 @@ public class RegistrationDetailsController extends
 	 * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
 	 */
 	@Override
-	protected Object formBackingObject(HttpServletRequest request)
-			throws Exception {
-		StudyParticipantAssignment registration = null;
-		System.out.println(" registration...id is "
-				+ request.getParameter("registrationId"));
-		if ((request.getParameter("registrationId") != null)
-				&& (request.getParameter("registrationId") != "")) {
-			System.out.println(" Request URl  is:"
-					+ request.getRequestURL().toString());
-			System.out.println(" RegistrationId is: "
-					+ Integer.parseInt(request.getParameter("registrationId")));
-			System.out.println(" registration Dao is :"
-					+ registrationDao.toString());
-			registration = registrationDao.getById(Integer.parseInt(request
-					.getParameter("registrationId")), true);
-			System.out.println(" Registration ID is:" + registration.getId());
-		}
-
-		else
-			return new StudyParticipantAssignment();
-		return registration;
-	}
-	@Override
 	protected void postProcessPage(HttpServletRequest request, Object oCommand,
 			Errors errors, int page) throws Exception {
 		StudyParticipantAssignment registration = (StudyParticipantAssignment) oCommand;
@@ -263,85 +225,4 @@ public class RegistrationDetailsController extends
 			registrationDao.save(registration);
 		}
 	}
-	private void handleIdentifierAction(StudyParticipantAssignment registration, String action,
-			String selected) {
-		if ("addIdentifier".equals(action)) {
-			log.debug("Requested Add Identifier");
-			Identifier id = new Identifier();
-			id.setSource("Duke");
-			id.setValue("<enter value>");
-			registration.addIdentifier(id);
-		} else if ("removeIdentifier".equals(action)) {
-			log.debug("Requested Remove Identifier");
-			registration.getIdentifiers().remove(Integer.parseInt(selected));
-		}
-	}
-	@Override
-	protected Map<String, Object> referenceData(
-			HttpServletRequest httpServletRequest, int page) throws Exception {
-		// Currently the static data is a hack, once DB design is approved for
-		// an LOV this will be
-		// replaced with LOVDao to get the static data from individual tables
-		Map<String, Object> refdata = new HashMap<String, Object>();
-		Map<String, List<Lov>> configMap = configurationProperty.getMap();
-		refdata.put("source", healthcareSiteDao.getAll());
-		refdata
-				.put("searchTypeRefData", configMap
-						.get("participantSearchType"));
-		refdata.put("identifiersTypeRefData", configMap
-				.get("participantIdentifiersType"));
-
-		return refdata;
-	}
-
-	@Override
-	protected void initBinder(HttpServletRequest req,
-			ServletRequestDataBinder binder) throws Exception {
-		binder.registerCustomEditor(Date.class, new CustomDateEditor(
-				new SimpleDateFormat("MM/dd/yyyy"), true));
-		binder.registerCustomEditor(HealthcareSite.class, new CustomDaoEditor(
-				healthcareSiteDao));
-	}
-
-	public ConfigurationProperty getConfigurationProperty() {
-		return configurationProperty;
-	}
-
-	public void setConfigurationProperty(
-			ConfigurationProperty configurationProperty) {
-		this.configurationProperty = configurationProperty;
-	}
-
-	public HealthcareSiteDao getHealthcareSiteDao() {
-		return healthcareSiteDao;
-	}
-
-	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
-		this.healthcareSiteDao = healthcareSiteDao;
-	}
-
-	public ParticipantDao getParticipantDao() {
-		return participantDao;
-	}
-
-	public void setParticipantDao(ParticipantDao participantDao) {
-		this.participantDao = participantDao;
-	}
-
-	public StudyParticipantAssignmentDao getRegistrationDao() {
-		return registrationDao;
-	}
-
-	public void setRegistrationDao(StudyParticipantAssignmentDao registrationDao) {
-		this.registrationDao = registrationDao;
-	}
-
-	public StudySiteDao getStudySiteDao() {
-		return studySiteDao;
-	}
-
-	public void setStudySiteDao(StudySiteDao studySiteDao) {
-		this.studySiteDao = studySiteDao;
-	}
-
 }
