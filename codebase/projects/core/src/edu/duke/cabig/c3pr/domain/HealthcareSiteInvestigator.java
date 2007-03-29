@@ -46,7 +46,7 @@ public class HealthcareSiteInvestigator extends AbstractDomainObject {
     	studyInvestigators.remove(si);
 	}
     
-    @ManyToOne (fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "inv_id")
 	public Investigator getInvestigator() {
 		return investigator;
@@ -66,7 +66,7 @@ public class HealthcareSiteInvestigator extends AbstractDomainObject {
 		this.investigator = investigator;
 	}
 	
-	@ManyToOne (fetch = FetchType.LAZY)
+	@ManyToOne
     @JoinColumn(name = "hcs_id")
 	public HealthcareSite getHealthcareSite() {
 		return healthcareSite;
