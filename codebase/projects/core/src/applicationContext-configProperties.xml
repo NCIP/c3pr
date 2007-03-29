@@ -243,8 +243,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                             <property name="desc" value="Active" />
                         </bean>                       
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="CB" />
-                            <property name="desc" value="Closed" />
+                            <property name="code" value="IN" />
+                            <property name="desc" value="Inactive" />
                         </bean>                       
                     </list>
                 </entry>
@@ -252,11 +252,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                     <list>
                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="SI" />
-                            <property name="desc" value="Site" />
+                            <property name="desc" value="Affiliate Site" />
                         </bean>    
                       	<bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="CO" />
-                            <property name="desc" value="Coordinating Center" />
+                            <property name="desc" value="Coordinating Site" />
                         </bean>                                           
                      </list>
                 </entry>    
@@ -423,6 +423,58 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                         </bean>
                      </list>
                 </entry>     
+                
+                <!-- Study Investigators -->
+                 <entry key="studyInvestigatorRole">
+                    <list>
+                      	<bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="PI" />
+                            <property name="desc" value="Principal Investigator" />
+                        </bean>   
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="COI" />
+                            <property name="desc" value="Co Investigator" />
+                        </bean>                      
+               		</list>
+               	</entry>
+               	<entry key="studyInvestigatorStatus">
+                    <list>
+                      	<bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="ACT" />
+                            <property name="desc" value="Active" />
+                        </bean>   
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="INA" />
+                            <property name="desc" value="Inactive" />
+                        </bean>                      
+               		</list>
+               	</entry>
+               	
+               	<!-- Study Investigators -->
+                 <entry key="studyPersonnelRole">
+                    <list>
+                      	<bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="CRA" />
+                            <property name="desc" value="Clinical Research Associate" />
+                        </bean>   
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="SE" />
+                            <property name="desc" value="Study Coordinator" />
+                        </bean>                      
+               		</list>
+               	</entry>
+               	<entry key="studyPersonnelStatus">
+                    <list>
+                      	<bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="ACT" />
+                            <property name="desc" value="Active" />
+                        </bean>   
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="INA" />
+                            <property name="desc" value="Inactive" />
+                        </bean>                      
+               		</list>
+               	</entry>
                 
             </map>
         </property>                      
