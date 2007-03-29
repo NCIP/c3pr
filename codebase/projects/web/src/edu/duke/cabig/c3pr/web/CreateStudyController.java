@@ -38,10 +38,8 @@ public class CreateStudyController extends StudyController {
 	{	   
 		 flow.addTab(new Tab<Study>("Study Details", "Details", "study/study_details") {
 	            public Map<String, Object> referenceData() {
-	           	 	Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        
-	       	  
-	            	Map<String, Object> refdata = new HashMap<String, Object>();
-	        		  	            	
+	           	 	Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        	       	  
+	            	Map<String, Object> refdata = new HashMap<String, Object>();	        		  	            	
 	            	refdata.put("searchTypeRefData", configMap.get("studySearchType"));	  	     
 	    	  		refdata.put("diseaseCodeRefData", configMap.get("diseaseCodeRefData"));
 	    	  		refdata.put("monitorCodeRefData",  configMap.get("monitorCodeRefData"));
@@ -51,18 +49,14 @@ public class CreateStudyController extends StudyController {
 	    	  		refdata.put("typeRefData",  configMap.get("typeRefData"));
 	    	  		refdata.put("randomizedIndicatorRefData", configMap.get("yesNo"));
 	    	  		refdata.put("multiInstitutionIndicatorRefData", configMap.get("yesNo"));
-	    	  		refdata.put("blindedIndicatorRefData", configMap.get("yesNo"));
-	    	  		
+	    	  		refdata.put("blindedIndicatorRefData", configMap.get("yesNo"));	    	  		
 	    	  		return refdata;
 	            }        	
 	        });
-	        flow.addTab(new Tab<Study>("Study Identifiers", "Identifiers", "study/study_identifiers"){
-	            
+	        flow.addTab(new Tab<Study>("Study Identifiers", "Identifiers", "study/study_identifiers"){	            
 	        	public Map<String, Object> referenceData() {
-	        		Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        
-	  	       	  
-	        		Map<String, Object> refdata = new HashMap<String, Object>();
-	        		
+	        		Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        	  	       	  
+	        		Map<String, Object> refdata = new HashMap<String, Object>();	        		
 	                refdata.put("identifiersSourceRefData", getHealthcareSites());
 	    	  		refdata.put("identifiersTypeRefData", configMap.get("identifiersType"));	  		
 	    	  		return refdata;
@@ -71,72 +65,51 @@ public class CreateStudyController extends StudyController {
 	        flow.addTab(new Tab<Study>("Study Sites", "Sites", "study/study_studysites") {
 	            
 	        	public Map<String, Object> referenceData() {
-	        		Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        
-	  	       	  
-	        		Map<String, Object> refdata = new HashMap<String, Object>();
-	        		
-	        		refdata.put("healthCareSitesRefData", getHealthcareSites());	  			  	
-	    	  		refdata.put("studySiteStatusRefData", configMap.get("studySiteStatusRefData"));
-	    	  		refdata.put("studySiteRoleCodeRefData", configMap.get("studySiteRoleCodeRefData"));	  		
+	        		Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        	  	       	  
+	        		Map<String, Object> refdata = new HashMap<String, Object>();	        		
+	        		refdata.put("healthCareSitesRefData", getHealthcareSites());	
+	        		refdata.put("studySiteStatusRefData", configMap.get("studySiteStatusRefData"));
+	    	  		refdata.put("studySiteRoleCodeRefData", configMap.get("studySiteRoleCodeRefData"));	  			    	  	
 	    	  		return refdata;	           
 	        	}        	
 	        });
 	        
-	        flow.addTab(new Tab<Study>("Study Investigators", "Investigators", "study/study_investigators")); 
-	        
-	        flow.addTab(new Tab<Study>("Study Personnel", "Personnel", "study/study_personnels") {
-	            
+	        flow.addTab(new Tab<Study>("Study Investigators", "Investigators", 
+	        	"study/study_investigators") {	            
 	        	public Map<String, Object> referenceData() {
+	        		Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        	  	       	  
+	        		Map<String, Object> refdata = new HashMap<String, Object>();
+	        		refdata.put("studyInvestigatorRoleRefData", configMap.get("studyInvestigatorRole"));
+		            refdata.put("studyInvestigatorStatusRefData", configMap.get("studyInvestigatorStatus"));		            
+	        		return refdata;	           
+	        	}        	
+	        });
+	        
+	        flow.addTab(new Tab<Study>("Study Personnel", "Personnel", "study/study_personnels") {	            
+	        	public Map<String, Object> referenceData() {
+	        		Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        		  	       	  
 	                Map<String, Object> refdata = super.referenceData();  
-	                //List<StudySite> studySites = new ArrayList<StudySite>();
-	                refdata.put("researchStaffRefData", getResearchStaff());
-	                
+	                refdata.put("studyPersonnelRoleRefData", configMap.get("studyPersonnelRole"));
+	                refdata.put("studyPersonnelStatusRefData", configMap.get("studyPersonnelStatus"));	                          
 	                return refdata;           
 	        	}        	
 	        });
 
 	        flow.addTab(new Tab<Study>("Study Eligibility Checklist", "Eligibility Checklist", 
-	        		"study/study_eligibility_checklist") {
-	            
-	        	public Map<String, Object> referenceData() {
-	                Map<String, Object> refdata = super.referenceData();  
-	                 
-	                return refdata;           
-	        	}        	
-	        });
+	        		"study/study_eligibility_checklist")); 
 
-			flow.addTab(new Tab<Study>("Epochs & Arms", "Epochs & Arms", "study/study_design") {
-	            
-	        	public Map<String, Object> referenceData() {
-	        		
+			flow.addTab(new Tab<Study>("Epochs & Arms", "Epochs & Arms", "study/study_design") {	            
+	        	public Map<String, Object> referenceData() {	        		
 	                Map<String, Object> refdata = super.referenceData();
-	                return refdata;
-	           
+	                return refdata;	           
 	        	}        	
 	        });
 			
-			flow.addTab(new Tab<Study>("Review and Submit ", "Review & Submit", "study/study_reviewsummary"));
+			flow.addTab(new Tab<Study>("Review and Submit ", "Review & Submit", 
+				"study/study_reviewsummary"));
                
 	        setFlow(flow);       
 	}	
-	
-	private List<ResearchStaff> getResearchStaff()
-	{
-		List<ResearchStaff> researchStaffs = new ArrayList<ResearchStaff>();
-		
-		ResearchStaff researchStaff1 = new ResearchStaff();
-		researchStaff1.setId(1);
-		researchStaff1.setFirstName("Research Staff 1");
-		researchStaffs.add(researchStaff1);
-		
-		ResearchStaff researchStaff2 = new ResearchStaff();
-		researchStaff2.setId(2);
-		researchStaff2.setFirstName("Research Staff 2");
-		researchStaffs.add(researchStaff2);
-		
-		return researchStaffs;  	
-	}
-		
 	
 	/**
 	 * Create a nested object graph that Create Study Design needs 
@@ -172,26 +145,12 @@ public class CreateStudyController extends StudyController {
 					{						
 						StudyInvestigator studyInvestigator = new StudyInvestigator();	
 						studyInvestigator.setSiteInvestigator(new HealthcareSiteInvestigator());
-						studySite.addStudyInvestigators(studyInvestigator);
+						studySite.addStudyInvestigator(studyInvestigator);
 					}
 				}
 				else {
 					handleStudyInvestigatorAction((Study)command, request);
 				}					
-				
-//				// 	cleanup identifiers page if user selected 'please select'
-//				List<Identifier> newList = new ArrayList<Identifier>();			
-//				for (Identifier identifier : ((Study)command).getIdentifiers()) {
-//					if(!StringUtils.isEmpty(identifier.getSource()) &&
-//						!StringUtils.isEmpty(identifier.getType()) )
-//					{
-//						newList.add(identifier);
-//					}	
-//				}					
-//				((Study)command).setIdentifiers(newList);
-//				
-//				studyService.save(((Study)command));
-				
 				
 				break;				
 			case 4:				

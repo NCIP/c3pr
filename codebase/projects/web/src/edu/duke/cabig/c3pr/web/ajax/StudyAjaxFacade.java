@@ -70,7 +70,7 @@ public class StudyAjaxFacade {
     		HttpServletRequest request) throws Exception{
     	Study study = (Study) getCommandOnly(request);
     	int siteId = study.getStudySites().get(siteIndex).getSite().getId();
-    	 List<HealthcareSiteInvestigator> inv = healthcareSiteInvestigatorDao
+    	List<HealthcareSiteInvestigator> inv = healthcareSiteInvestigatorDao
         	.getBySubnames(extractSubnames(text), siteId);
         List<HealthcareSiteInvestigator> reducedInv = new ArrayList<HealthcareSiteInvestigator>(inv.size());
         for (HealthcareSiteInvestigator hcInv : inv) {

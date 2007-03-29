@@ -189,9 +189,8 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 		if ("addInv".equals(action))
 		{				
 			StudyInvestigator studyInvestigator = new StudyInvestigator();
-			studyInvestigator.setSiteInvestigator(new HealthcareSiteInvestigator());
-			StudySite studySite = study.getStudySites().get(Integer.parseInt(selectedSite));
-			studySite.addStudyInvestigators(studyInvestigator);														
+			StudySite studySite = study.getStudySites().get(Integer.parseInt(selectedSite));			
+			studySite.addStudyInvestigator(studyInvestigator);														
 		}
 		else if ("removeInv".equals(action))
 		{	
@@ -226,7 +225,7 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 		else if ("removeInclusionCriteria".equals(action))
 		{
 			log.debug("Requested - Remove an Inclusion Eligibility Criteria");		
-			study.getInclusionEligibilityCriterias().remove(Integer.parseInt(selected));
+			study.getIncCriterias().remove(Integer.parseInt(selected));
 		}	
 		if ("addExclusionCriteria".equals(action))
 		{	
@@ -236,10 +235,10 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 		else if ("removeExclusionCriteria".equals(action))
 		{
 			log.debug("Requested - Remove an Exclusion Eligibility Criteria");		
-			study.getExclusionEligibilityCriterias().remove(Integer.parseInt(selected));
+			study.getExcCriterias().remove(Integer.parseInt(selected));
 		}	
 	}
-	
+		
 	protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, 
 			Object command, BindException errors) throws Exception {
 		// implement in subclass
@@ -273,7 +272,7 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 	{
 		StudySite studySite = new StudySite();
 		createDefaultHealthcareSite(studySite);	
-		createDefaultStudyInvestigators(studySite);
+		//createDefaultStudyInvestigators(studySite);
 		
 		study.addStudySite(studySite);					
 	}
@@ -281,10 +280,7 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 	protected void createDefaultStudyInvestigators(StudySite studySite)
 	{
 		StudyInvestigator studyInvestigator = new StudyInvestigator();
-		HealthcareSiteInvestigator hc = new HealthcareSiteInvestigator();
-		hc.setInvestigator(new Investigator());
-		studyInvestigator.setHealthcareSiteInvestigator(hc);
-		studySite.addStudyInvestigators(studyInvestigator);
+		studySite.addStudyInvestigator(studyInvestigator);
 	}
 	
 	protected void createDefaultHealthcareSite(StudySite studySite)
@@ -308,14 +304,14 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 	
 	protected void createDefaultExclusion(Study study)
 	{
-		ExclusionEligibilityCriteria ex = new ExclusionEligibilityCriteria();			
-		study.getExclusionEligibilityCriterias().add(ex);			
+		ExclusionEligibilityCriteria exc = new ExclusionEligibilityCriteria();			
+		study.addExclusionEligibilityCriteria(exc);			
 	}
 	
 	protected void createDefaultInclusion(Study study)
 	{
-		InclusionEligibilityCriteria in = new InclusionEligibilityCriteria();			
-		study.getInclusionEligibilityCriterias().add(in);			
+		InclusionEligibilityCriteria inc = new InclusionEligibilityCriteria();			
+		study.addInclusionEligibilityCriteria(inc);			
 	}
 		
 	protected List<HealthcareSite> getHealthcareSites()

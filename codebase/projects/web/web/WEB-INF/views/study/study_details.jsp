@@ -34,7 +34,7 @@ prefix="decorator"%>
 				width="1" height="1" class="heightControl"></td>
 		</tr>
 		<tr>
-			<td class="label"><span class="red">*</span><em></em>Long
+			<td class="label" valign=""><span class="red">*</span><em></em>Long
 			Title:</td>
 			<td><form:textarea path="longTitleText" rows="5" cols="50" /></td>
 			<td width="15%"><em><span class="red"><form:errors
@@ -45,7 +45,7 @@ prefix="decorator"%>
 				width="1" height="1" class="heightControl"></td>
 		</tr>
 		<tr>
-			<td class="label">Precis Text:</td>
+			<td class="label">Precis:</td>
 			<td><form:textarea path="precisText" rows="2" cols="50" /></td>
 			<td width="15%"></td>
 		</tr>
@@ -54,7 +54,7 @@ prefix="decorator"%>
 				width="1" height="1" class="heightControl"></td>
 		</tr>
 		<tr>
-			<td class="label">Description Text:</td>
+			<td class="label">Description:</td>
 			<td><form:textarea path="descriptionText" rows="3"
 				cols="50" /></td>
 			<td width="15%"></td>
@@ -65,7 +65,7 @@ prefix="decorator"%>
 	<table width="80%" border="0" cellspacing="0" cellpadding="0"
 		id="table1">
 		<tr>
-			<td class="label">Target Accrual Number:</td>
+			<td class="label">Target Accrual:</td>
 			<td><form:input path="targetAccrualNumber" size="34" /></td>
 			<td width="10%"></td>
 		</tr>
@@ -182,7 +182,7 @@ prefix="decorator"%>
 			<td class="label"><span class="red">*</span><em></em>Type:</td>
 			<td><form:select path="type">
 				<option value="">--Please Select-- <form:options
-					items="${typeRefData}" itemLabel="desc" itemValue="code" />
+					items="${typeRefData}" itemLabel="desc" itemValue="desc" />
 			</form:select></td>
 			<td width="15%"><em><span class="red"><form:errors
 				path="type" /></em></span></td>
