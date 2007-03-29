@@ -32,6 +32,7 @@ public class ResearchStaff extends AbstractDomainObject {
     private String lastName;
     private List<StudyPersonnel> studyPersonnels = new ArrayList<StudyPersonnel>();
     
+    private String fullName;
     
     /// LOGIC ~
     	   	    
@@ -62,7 +63,7 @@ public class ResearchStaff extends AbstractDomainObject {
         }
         return name.toString();
     }
-        
+       
     public void addStudyPersonnel(StudyPersonnel studyPersonnel) {
         getStudyPersonnels().add(studyPersonnel);        
     }
@@ -70,7 +71,7 @@ public class ResearchStaff extends AbstractDomainObject {
     
     /// BEAN METHODS    
     
-    @OneToMany (mappedBy = "researchStaff", fetch = FetchType.LAZY)    
+    @OneToMany (mappedBy = "researchStaff")    
     @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })	
 	public List<StudyPersonnel> getStudyPersonnels() {
 		return studyPersonnels;

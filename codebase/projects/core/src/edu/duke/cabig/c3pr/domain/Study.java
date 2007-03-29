@@ -6,7 +6,6 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -67,8 +66,8 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 	private String trimmedShortTitleText;
 	private String primaryIdentifier;
 	
-	private List<InclusionEligibilityCriteria> inclusionEligibilityCriterias= new ArrayList<InclusionEligibilityCriteria>();
-	private List<ExclusionEligibilityCriteria> exclusionEligibilityCriterias= new ArrayList<ExclusionEligibilityCriteria>();
+	private List<InclusionEligibilityCriteria> incCriterias= new ArrayList<InclusionEligibilityCriteria>();
+	private List<ExclusionEligibilityCriteria> excCriterias= new ArrayList<ExclusionEligibilityCriteria>();
 	
 	/// LOGIC
 
@@ -91,6 +90,26 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 	{
 		studySites.remove(studySite);
 	}
+	
+	public void addInclusionEligibilityCriteria(InclusionEligibilityCriteria inc)
+	{
+		incCriterias.add(inc);		
+	}
+	
+	public void removeInclusionEligibilityCriteria(InclusionEligibilityCriteria inc)
+	{
+		incCriterias.remove(inc);		
+	}
+	
+	public void addExclusionEligibilityCriteria(ExclusionEligibilityCriteria exc)
+	{
+		excCriterias.add(exc);		
+	}
+	
+	public void removeExcclusionEligibilityCriteria(ExclusionEligibilityCriteria exc)
+	{
+		excCriterias.remove(exc);		
+	}	
 	
 	public void addIdentifier(Identifier identifier)
 	{
@@ -354,24 +373,22 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 	@OneToMany
     @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })        
     @JoinColumn(name = "stu_id", nullable=false)    
-	public List<ExclusionEligibilityCriteria> getExclusionEligibilityCriterias() {
-		return exclusionEligibilityCriterias;
+	public List<ExclusionEligibilityCriteria> getExcCriterias() {
+		return excCriterias;
 	}
 
-	public void setExclusionEligibilityCriterias(
-			List<ExclusionEligibilityCriteria> exclusionEligibilityCriterias) {
-		this.exclusionEligibilityCriterias = exclusionEligibilityCriterias;
+	public void setExcCriterias(List<ExclusionEligibilityCriteria> excCriterias) {
+		this.excCriterias = excCriterias;
 	}
 
 	@OneToMany
     @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })        
     @JoinColumn(name = "stu_id", nullable=false)    
-	public List<InclusionEligibilityCriteria> getInclusionEligibilityCriterias() {
-		return inclusionEligibilityCriterias;
+	public List<InclusionEligibilityCriteria> getIncCriterias() {
+		return incCriterias;
 	}
 
-	public void setInclusionEligibilityCriterias(
-			List<InclusionEligibilityCriteria> inclusionEligibilityCriterias) {
-		this.inclusionEligibilityCriterias = inclusionEligibilityCriterias;
+	public void setIncCriterias(List<InclusionEligibilityCriteria> incCriterias) {
+		this.incCriterias = incCriterias;
 	}
 }

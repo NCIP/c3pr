@@ -29,7 +29,10 @@ public class Investigator extends AbstractDomainObject {
 	private String firstName;
     private String lastName;
     private String nciIdentifier;
-    private List<HealthcareSiteInvestigator> healthcareSiteInvestigators = new ArrayList<HealthcareSiteInvestigator>(); 
+    private List<HealthcareSiteInvestigator> healthcareSiteInvestigators 
+    	= new ArrayList<HealthcareSiteInvestigator>(); 
+    
+    private String fullName;
     
     // business methods
     	   	    
@@ -61,12 +64,12 @@ public class Investigator extends AbstractDomainObject {
         return name.toString();
     }
     
-    public void addHealthcareSiteInvestigator(HealthcareSiteInvestigator 
-    	healthcareSiteInvestigator) {
-        getHealthcareSiteInvestigators().add(healthcareSiteInvestigator);        
+    public void addHealthcareSiteInvestigator(HealthcareSiteInvestigator hcsi) {
+    	healthcareSiteInvestigators.add(hcsi);    
+        hcsi.setInvestigator(this);
     }    
     	
-	@OneToMany (mappedBy = "investigator", fetch = FetchType.LAZY)    
+	@OneToMany (mappedBy = "investigator")    
     @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	public List<HealthcareSiteInvestigator> getHealthcareSiteInvestigators() {
 		return healthcareSiteInvestigators;

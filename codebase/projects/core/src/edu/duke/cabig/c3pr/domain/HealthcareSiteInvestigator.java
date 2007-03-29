@@ -35,7 +35,18 @@ public class HealthcareSiteInvestigator extends AbstractDomainObject {
     private Date statusDate;
     private List<StudyInvestigator> studyInvestigators = new ArrayList<StudyInvestigator>();
     
-    @ManyToOne
+    public void addStudyInvestigator(StudyInvestigator si)
+	{
+    	studyInvestigators.add(si);
+		si.setSiteInvestigator(this);
+	}
+	
+    public void removeStudyInvestigator(StudyInvestigator si)
+	{
+    	studyInvestigators.remove(si);
+	}
+    
+    @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name = "inv_id")
 	public Investigator getInvestigator() {
 		return investigator;
@@ -55,7 +66,7 @@ public class HealthcareSiteInvestigator extends AbstractDomainObject {
 		this.investigator = investigator;
 	}
 	
-	@ManyToOne
+	@ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name = "hcs_id")
 	public HealthcareSite getHealthcareSite() {
 		return healthcareSite;

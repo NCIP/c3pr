@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,18 +22,45 @@ import org.hibernate.annotations.Parameter;
 )
 public class StudyInvestigator extends AbstractDomainObject {
 	
-	//private String signatureText;
 	private HealthcareSiteInvestigator healthcareSiteInvestigator;
 	private StudySite studySite;
-	
-//	public String getSignatureText() {
-//		return signatureText;
-//	}
-//	
-//	public void setSignatureText(String signatureText) {
-//		this.signatureText = signatureText;
-//	}
+	private String roleCode;
+	private String statusCode;
+	private Date startDate;
+	private Date endDate;
 		
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	public String getRoleCode() {
+		return roleCode;
+	}
+
+	public void setRoleCode(String roleCode) {
+		this.roleCode = roleCode;
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getStatusCode() {
+		return statusCode;
+	}
+
+	public void setStatusCode(String statusCode) {
+		this.statusCode = statusCode;
+	}
+
 	@ManyToOne
     @JoinColumn(name = "hsi_id")
 	public HealthcareSiteInvestigator getHealthcareSiteInvestigator() {

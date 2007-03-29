@@ -56,7 +56,7 @@ public class StudySite extends AbstractGridIdentifiableDomainObject implements C
         studyPersonnel.setStudySite(this);
     }
     
-    public void addStudyInvestigators(StudyInvestigator studyInvestigator) {
+    public void addStudyInvestigator(StudyInvestigator studyInvestigator) {
         getStudyInvestigators().add(studyInvestigator);
         studyInvestigator.setStudySite(this);
     }
