@@ -47,4 +47,34 @@
 			</batchtest>
 		</junit>
 	</target>
+	<!-- call the test target for each project and aggregates the log results  -->
+	<!-- Add the testCase file you need to test below at the <fileset dir> -->		
+	<target name="test-single-x" description="Runs the tests for x">
+		<property name="cobertura.home" location="../../share/cobertura-1.8"/>
+		<property name="testcoverage.datafile" location="${test.logs.dir}/queryengine.ser"/>
+		
+		<mkdir dir="${junit.results.dir}"/>
+		<junit dir="${basedir}" printsummary="yes" haltonfailure="false" showoutput="true" fork="yes">
+			<classpath refid="test.classpath"/>
+			<classpath>
+			    <fileset dir="${cobertura.home}">
+			        <include name="cobertura.jar" />
+			        <include name="lib/**/*.jar" />
+			    	<include name="${antfiles.dir}/build-test.properties" />
+			    </fileset>
+			</classpath>
+
+			<sysproperty key="basedir" value="${basedir}"/>
+			<sysproperty key="net.sourceforge.cobertura.datafile" value="${testcoverage.datafile}" />
+
+			<formatter type="xml" usefile="true" />
+			<formatter type="plain" usefile="false" />
+
+			<batchtest fork="yes" todir="${junit.results.dir}">
+				<fileset dir="${test.src.dir}">
+					<include name="**/StudyDaoTest.java"/>
+				</fileset>
+			</batchtest>
+		</junit>
+	</target>
 </project>
