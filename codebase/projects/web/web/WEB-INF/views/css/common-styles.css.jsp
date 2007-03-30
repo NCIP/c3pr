@@ -21,9 +21,9 @@ input { background: #EBEFF5; font-family: arial, verdana, sans-serif; font-size:
 #topNav { color: #E6E6E6; font-weight: bold; background-color: #5C5C5C; }
 #topNav .left { padding: 0 0 0 8px; white-space: nowrap; }
 #topNav .right { padding: 0; text-align: right; white-space: nowrap; }
-#topNav .divider { width: 6px; }
+#topNav .divider { height:18px; width: 6px; margin-left:-3px; vertical-align:bottom;}
 #topNav .current { color: #3E3F6B; height: 18px; background-color:#FFFFFF; padding: 3px 24px 0 10px; vertical-align: bottom; }
-#topNav .currentR { height: 20px; width: 6px; }
+#topNav .currentR { height: 18px; width: 6px; vertical-align:bottom; }
 #topNav a {
     text-decoration: none; background-color:#747474;
     border: solid #D6D6D6; border-width: 1px 0 0 1px;
