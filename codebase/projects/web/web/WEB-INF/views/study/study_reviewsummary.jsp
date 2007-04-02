@@ -8,6 +8,9 @@
 
 <html>
 <head>
+<style type="text/css">
+        .label { width: 12em; text-align: right; padding: 4px; }
+</style>
 <script language="JavaScript" type="text/JavaScript">
 
 function updateTargetPage(target){
@@ -20,7 +23,7 @@ function updateTargetPage(target){
 <body>
 <tabs:body title="${flow.name}: ${tab.longTitle} - Short Title: ${command.trimmedShortTitleText}">
 <form:form method="post">
-<input type="hidden" name="_finish" value="true"/>		
+<input type="hidden" name="_finish" value="true"/>
 <div><tabs:division id="study-studysites">
 <!-- MAIN BODY STARTS HERE -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0">

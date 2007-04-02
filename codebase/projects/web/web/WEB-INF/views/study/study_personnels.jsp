@@ -10,6 +10,9 @@
 
 <html>
 <head>
+<style type="text/css">
+        .label { width: 12em; text-align: right; padding: 4px; }
+</style>
 <tags:includeScriptaculous/>
 <tags:dwrJavascriptLink objects="createStudy"/>
 
@@ -137,10 +140,10 @@ Event.observe(window, "load", function() {
 
 	<table border="0" id="table1" cellspacing="10" width="100%">
 		<tr>
-		<td valign="top" width="25%">
+		<td valign="top" width="20%">
 			<studyTags:studySummary />
 		</td>
-		<td valign="top" width="50%" >
+		<td valign="top" width="55%" >
 		<tabs:division id="study-details" title="Study Personnels">
 		<tabs:tabFields tab="${tab}"/>
 		<div>
@@ -194,29 +197,26 @@ Event.observe(window, "load", function() {
 
 				<c:forEach varStatus="status" items="${command.studySites[index].studyPersonnels}">
 					<tr>
-					    <td align="center" width="50%">
+					    <td align="center" width="45%">
 					        <form:hidden id="personnel${status.index}" path="studySites[${index}].studyPersonnels[${status.index}].researchStaff"/>
 						    <input type="text" id="personnel${status.index}-input" size="30" value="${command.studySites[index].studyPersonnels[status.index].researchStaff.fullName}"/>
 						    <input type="button" id="personnel${status.index}-clear" value="Clear"/>
 		                    <tags:indicator id="personnel${status.index}-indicator"/>
         					<div id="personnel${status.index}-choices" class="autocomplete"></div>
 		         		</td>
-						<td align="center" width="20%">
-							<select id="x1" name="x2">
-								<option value=" ">Research Personnel</option>
-								<option value=" ">Study Personnel 1</option>
-								<option value=" ">Study Personnel 2</option>
-							</select>
+						<td width="20%">
+							<form:select path="studySites[${index}].studyPersonnels[${status.index}].roleCode">
+								<option value="">--Please Select--
+								<form:options items="${studyPersonnelRoleRefData}" itemLabel="desc" itemValue="desc"/>
+							</form:select>
 						</td>
-
-						<td align="center" width="20%">
-							<select id="x1" name="x2">
-								<option value=" ">Active</option>
-								<option value=" ">Inactive</option>
-							</select>
+						<td align="center" width="23%">
+							<form:select path="studySites[${index}].studyPersonnels[${status.index}].statusCode">
+								<option value="">--Please Select--
+								<form:options items="${studyPersonnelStatusRefData}" itemLabel="desc" itemValue="desc" />
+							</form:select>
 						</td>
-
-						<td align="center" width="20%">
+						<td align="center" width="5%">
 							<a href="javascript:fireAction1('removeStudyPersonnel',${status.index}, ${index});"><img
 								src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a>
 						</td>

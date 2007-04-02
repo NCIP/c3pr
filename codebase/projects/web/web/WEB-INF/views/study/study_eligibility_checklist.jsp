@@ -19,27 +19,26 @@
 </style>
 <script language="JavaScript" type="text/JavaScript">
 
-function fireAction(action, selected){
+function fireAction(action, selected, area){
+
 	document.getElementsByName('_target6')[0].name='_target5';
 	document.form._action.value=action;
 	document.form._selected.value=selected;
 	document.form.submit();
 }
 
-count=0; // to keep the count of the rows
-
-function add(area)
+function add(area, count)
 {
-	if (area == 'InclusionTable')
-		var str = createInclusionRow(count);
-	else
-		var str = createExclusionRow(count);
 
+	//if (area == 'InclusionTable')
+		var str = createInclusionRow(count);
+	//else
+	//	var str = createExclusionRow(count);
 	document.getElementById(area).innerHTML = document.getElementById(area).innerHTML + str;
 	document.getElementById('bex-' + count).style.display = 'none';
 	Effect.Appear('bex-' + count);
 	count++;
-	new Ajax.Request('createStudy', {method:'post', postBody:'_target5=5&_page5=5&_action=addInclusionCriteria&_selectedQuestion=', onSuccess:handlerFunc, onFailure:errFunc});
+	new Ajax.Request('createStudy', {method:'post', postBody:'_target5=5&_page5=5&_action=addInclusionCriteria&_selected=', onSuccess:handlerFunc, onFailure:errFunc});
 }
 var handlerFunc = function(t) {
 //alert(t.responseText);
@@ -57,13 +56,13 @@ function createInclusionRow(count)
 {
 	var str = '<tr id="bex-' + count + '">'+
 	'<td width="1%">'+
-	'<input type="hidden" name=command.inclusionEligibilityCriterias[' + count + '].questionNumber value='+count+'/>'+
+	'<input type="hidden" name=command.incCriterias[' + count + '].questionNumber value='+count+'/>'+
 	count+'</td>'+
 	'<td width="78%">'+
-	'<input type="text" name=command.inclusionEligibilityCriterias[' + count + '].questionText value=command.inclusionEligibilityCriterias[' + count + '].questionText size="150" "'+
+	'<input type="text" name=command.incCriterias[' + count + '].questionText value=command.inclusionEligibilityCriterias[' + count + '].questionText size="150" "'+
 	'</td>'+
 	'<td width=10%>'+
-	'	<input type="checkbox" name=command.inclusionEligibilityCriterias[' + count + '].notApplicableIndicator value=command.inclusionEligibilityCriterias[' + count + '].notApplicableIndicator>NA'+
+	'	<input type="checkbox" name=command.incCriterias[' + count + '].notApplicableIndicator value=command.inclusionEligibilityCriterias[' + count + '].notApplicableIndicator>NA'+
 	'</td>'+
 	'<td width=5%>'+
 	'	<a href="javascript:remove(count,InclusionTable);"><img'+
@@ -78,16 +77,16 @@ function createExclusionRow(count)
 {
 	var str = '<tr id="bex-' + count + '">'+
 	'<td width="1%">'+
-	'<input type="hidden" name=command.inclusionEligibilityCriterias[' + count + '].questionNumber value='+count+'/>'+
+	'<input type="hidden" name=command.excCriterias[' + count + '].questionNumber value='+count+'/>'+
 	count+'</td>'+
 	'<td width="78%">'+
-	'<input type="text" name=command.inclusionEligibilityCriterias[' + count + '].questionText value=command.inclusionEligibilityCriterias[' + count + '].questionText size="150" "'+
+	'<input type="text" name=command.excCriterias[' + count + '].questionText value=command.inclusionEligibilityCriterias[' + count + '].questionText size="150" "'+
 	'</td>'+
 	'<td width=10%>'+
-	'	<input type="checkbox" name=command.inclusionEligibilityCriterias[' + count + '].notApplicableIndicator value=command.inclusionEligibilityCriterias[' + count + '].notApplicableIndicator>NA'+
+	'	<input type="checkbox" name=command.excCriterias[' + count + '].notApplicableIndicator value=command.inclusionEligibilityCriterias[' + count + '].notApplicableIndicator>NA'+
 	'</td>'+
 	'<td width=5%>'+
-	'	<a href="javascript:remove(count,InclusionTable);"><img'+
+	'	<a href="javascript:remove(count,ExclusionTable);"><img'+
 	'		 src="<tags:imageUrl name="checkno.gif"/>" border="0">'+
 	'	</a>'+
 	'</td>'
@@ -105,6 +104,7 @@ Effect.OpenUp = function(element) {
  }
 
  Effect.CloseDown = function(element) {
+
      element = $(element);
      new Effect.BlindUp(element, arguments[1] || {});
  }
@@ -117,14 +117,14 @@ Effect.OpenUp = function(element) {
  }
 
  Effect.Combo = function(element,imageStr,title) {
-     element = $(element);
+      element = $(element);
      if(element.style.display == "none") {
           new Effect.OpenUp(element, arguments[1] || {});
         //  document.getElementById(imageStr).src="images/b-minus.gif";
       //    new Effect.Grow(document.getElementById(title));
      }else {
           new Effect.CloseDown(element, arguments[1] || {});
-       //   document.getElementById(imageStr).src="images/b-plus.gif";
+        //   document.getElementById(imageStr).src="images/b-plus.gif";
      }
  }
 function hideTextArea(a,b){
@@ -137,7 +137,7 @@ function hideTextArea(a,b){
 
 </script>
 </head>
-<body>
+<body onload="Effect.Combo('InclusionCriteria','expandIncl','tabdivisionEffect'),Effect.Combo('ExclusionCriteria','expandIncl','tabdivisionEffect');">
 <form:form method="post" name="form">
 <div>
 	<input type="hidden" name="_action" value="">
@@ -147,34 +147,55 @@ function hideTextArea(a,b){
 <tabs:body title="${flow.name}: ${tab.longTitle}">
 	<table border="0" id="table1" cellspacing="10" width="100%">
 		<tr>
-		  	<td valign="top" width="30%">
+		  	<td valign="top" width="25%">
 				<studyTags:studySummary />
 		  	</td>
-			<td valign="top" width="70%">
-			 <table border="0" id="table1" cellspacing="10" width="100%">
+			<td valign="top" width="75%">
+			 <table border="0" id="table1" cellspacing="0" width="100%">
 			 	 <tr>
 				 <td valign="top">
 					<tabs:divisionEffects effectsArea="InclusionTable" id="Summary" title="Inclusion Criteria">
-					<table width="100%" border="0" cellspacing="0" cellpadding="0"
-					id="details">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0" id="details">
 					<tr>
 						<p id="instructions">
-							*NA - Allow Not Applicable answer
+							*NA - Allow Not Applicable answer.  Yes and No are permissible answers
+							for both types of Criterias
 						</p>
-						<c:set var="counter" scope="session" value="${counter + 1}" />
 						<p>
-			 				<b><a href="javascript:add('table_ic');javascript:Effect.ComboCheck('InclusionTable');"><img
-								src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a>Add a Criteria</b>
-							</p>
-			 		</tr>
+			 				<b><a href="javascript:fireAction('addInclusionCriteria',0,'InclusionTable');"><img
+								src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a>Add an Inclusion Criteria</b>
+						</p>
+					</tr>
 					<tr>
 						<td valign="top">
-						<table id="" width="100%" border="0" cellspacing="0" cellpadding="0"
-							id="table1">
+						<table id="" width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
 							<tr>
 								<td>
 								<div id="InclusionTable" style="display: none;">
-								<table width="100%" id="table_ic">
+								<table width="100%" border="0" id="table_ic">
+								<tr>
+									<td align="left"><b>No</b></td>
+									<td align="left"><b>Question<span class="red">*</span></b></td>
+									<td align="left"><b>NA</b></td>
+									<td align="left"></td></b>
+								</tr>
+								<c:forEach varStatus="status" items="${command.incCriterias}">
+								<tr id="bex-${status.index}">
+									<td width="2%">
+									<form:hidden path="incCriterias[${status.index}].questionNumber"/>${status.index}
+									</td>
+									<td width="88%">
+									<form:textarea path="incCriterias[${status.index}].questionText" rows="1" cols="90"/>
+									</td>
+									<td width="5%">
+										<form:checkbox path="incCriterias[${status.index}].notApplicableIndicator"/>
+									</td>
+									<td width="5%">
+										<a href="javascript:fireAction('removeInclusionCriteria',${status.index},'InclusionTable');">
+										<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
+									</td>
+								</tr>
+								</c:forEach>
 								</table>
 								</div>
 								</td>
@@ -187,30 +208,52 @@ function hideTextArea(a,b){
 				</td>
 				</tr>
 				<tr>
-				<td valign="top" width="70%">
-				<tabs:divisionEffects effectsArea="ExclusionTable" id="study-details"  title="Exclusion Criteria">
+				<td valign="top" width="75%">
 				<table width="100%" border="0" cellspacing="0" cellpadding="0" id="details">
 					<tr>
-						<td width="100%" valign="top">
-						<table width="100%" border="0" cellspacing="0" cellpadding="0"
-							id="table1">
+						<td valign="top">
+						<tabs:divisionEffects effectsArea="ExclusionTable" id="Summary" title="Exclusion Criteria">
+						<table width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
 							<tr>
 								<p id="instructions">
-									*NA - Allow Not Applicable answer
+									*NA - Allow Not Applicable answer. Yes and No are permissible answers
+									for both types of Criterias
 								</p>
 								<p>
-									<b><a href="javascript:add('table_ec');javascript:Effect.ComboCheck('ExclusionTable');"><img
-										src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a>Add a Criteria</b>
-									</p>
+									<b><a href="javascript:fireAction('addExclusionCriteria',0,'ExclusionTable');"><img
+										src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a>Add an Exclusion Criteria</b>
+								</p>
 							</tr>
 							<tr>
 								<td valign="top">
-								<table id="" width="100%" border="0" cellspacing="0" cellpadding="0"
-									id="table1">
+								<table id="" width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
 									<tr>
 										<td>
 										<div id="ExclusionTable" style="display: none;">
-										<table width="100%" id="table_ec">
+										<table width="100%" border="0" id="table_ec">
+										<tr>
+											<td align="left"><b>No</b></td>
+											<td align="left"><b>Question<span class="red">*</span></b></td>
+											<td align="left"><b>NA</b></td>
+											<td align="left"></td></b>
+										</tr>
+										<c:forEach varStatus="status" items="${command.excCriterias}">
+										<tr id="bex-${status.index}">
+											<td width="2%">
+											<form:hidden path="excCriterias[${status.index}].questionNumber"/>${status.index}
+											</td>
+											<td width="88%">
+											<form:textarea path="excCriterias[${status.index}].questionText" rows="1" cols="90"/>
+											</td>
+											<td width="5%">
+												<form:checkbox path="excCriterias[${status.index}].notApplicableIndicator"/>
+											</td>
+											<td width="5%">
+												<a href="javascript:fireAction('removeExclusionCriteria',${status.index},'ExclusionTable');">
+												<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
+											</td>
+										</tr>
+										</c:forEach>
 										</table>
 										</div>
 										</td>
@@ -219,10 +262,10 @@ function hideTextArea(a,b){
 								</td>
 							</tr>
 						</table>
+						</tabs:divisionEffects>
 						</td>
 					</tr>
 				</table>
-			</tabs:divisionEffects>
 			</td>
 			</tr>
 		   </table>

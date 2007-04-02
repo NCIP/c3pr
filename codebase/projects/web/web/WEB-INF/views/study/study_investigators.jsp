@@ -11,6 +11,9 @@
 
 <html>
 <head>
+<style type="text/css">
+        .label { width: 12em; text-align: right; padding: 4px; }
+</style>
 <tags:includeScriptaculous/>
 <tags:dwrJavascriptLink objects="createStudy"/>
 
@@ -144,10 +147,10 @@ Event.observe(window, "load", function() {
 
 	<table border="0" id="table1" cellspacing="10" width="100%">
 		<tr>
-		<td valign="top" width="25%">
+		<td valign="top" width="20%">
 			<studyTags:studySummary />
 		</td>
-		<td valign="top" width="50%" >
+		<td valign="top" width="55%" >
 		<tabs:division id="study-details" title="Study Investigators">
 		<tabs:tabFields tab="${tab}"/>
 		<div>
@@ -188,7 +191,7 @@ Event.observe(window, "load", function() {
 				<c:set var="index" value="${site_id}"/>
 			</c:if>
 
-			<table border="0" id="table1" cellspacing="10" width="100%">
+			<table border="0" id="table1" cellspacing="0" width="100%">
 				<tr>
 					<td align="center"> <b> <span class="red">*</span><em></em>Investigator:</b> </td>
 					<td align="center"> <b> <span class="red">*</span><em></em>Role:</b> </td>
@@ -201,28 +204,26 @@ Event.observe(window, "load", function() {
 
 				<c:forEach varStatus="status" items="${command.studySites[index].studyInvestigators}">
 					<tr>
-					    <td align="center" width="50%">
+					    <td align="center" width="45%">
 					        <form:hidden id="investigator${status.index}" path="studySites[${index}].studyInvestigators[${status.index}].healthcareSiteInvestigator"/>
-						    <input type="text" id="investigator${status.index}-input" size="30" value="${command.studySites[index].studyInvestigators[status.index].healthcareSiteInvestigator.investigator.fullName}"/>
+						    <input type="text" id="investigator${status.index}-input" size="40" value="${command.studySites[index].studyInvestigators[status.index].healthcareSiteInvestigator.investigator.fullName}"/>
 						    <input type="button" id="investigator${status.index}-clear" value="Clear"/>
 		                    <tags:indicator id="investigator${status.index}-indicator"/>
         					<div id="investigator${status.index}-choices" class="autocomplete"></div>
 		         		</td>
-						<td align="center" width="20%">
-							<select id="x1" name="x2">
-								<option value=" ">Principal Investigator</option>
-								<option value=" ">Co-Investigator</option>
-							</select>
+						<td width="23%">
+							<form:select path="studySites[${index}].studyInvestigators[${status.index}].roleCode">
+								<option value="">--Please Select--
+								<form:options items="${studyInvestigatorRoleRefData}" itemLabel="desc" itemValue="desc"/>
+							</form:select>
 						</td>
-
-						<td align="center" width="20%">
-							<select id="x1" name="x2">
-								<option value=" ">Active</option>
-								<option value=" ">Inactive</option>
-							</select>
+						<td align="center" width="22%">
+							<form:select path="studySites[${index}].studyInvestigators[${status.index}].statusCode">
+								<option value="">--Please Select--
+								<form:options items="${studyInvestigatorStatusRefData}" itemLabel="desc" itemValue="desc" />
+							</form:select>
 						</td>
-
-						<td align="center" width="20%">
+						<td align="center" width="5%">
 							<a href="javascript:fireAction1('removeInv',${status.index}, ${index});"><img
 								src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a>
 						</td>

@@ -8,6 +8,9 @@
 
 <html>
 <head>
+<style type="text/css">
+     td .label { width: 12em; text-align: left; padding: 4px;}
+</style>
 
 <script language="JavaScript" type="text/JavaScript">
 function fireAction(action, selected){
@@ -37,54 +40,44 @@ function clearField(field){
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<td valign="top">
-		<br>
 		<strong>Add Identifiers associated with the Study </strong> (<span class="red">*</span>
 		<em>Required Information </em>)<br>
-		<be>
+		<br>
 
-		<table width="70%" border="0" cellspacing="0" cellpadding="0"
-			id="details">
+		<table width="65%" border="0" cellspacing="0" cellpadding="0">
 			<tr>
-				<td width="100%" valign="top">
-					<table width="50%" border="0" cellspacing="10" cellpadding="0"
-						id="table1">
-					<tr align="center" class="label">
-						<td width="10%" align="center"></td>
-						<td width="15%" align="center">Source<span class="red">*</span></td>
-						<td width="15%" align="center">Type<span class="red">*</span></td>
-						<td width="15%" align="center">Identifier<span class="red">*</span></td>
-						<td width="15%" align="center">Primary Indicator</td>
-						<td width="15%" align="center"></td>
+				<td width="100%" >
+					<table width="100%" border="0" cellspacing="10" cellpadding="0">
+					<tr>
+						<td ><a href="javascript:fireAction('addIdentifier','0');"><img
+							src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add another Identifier"></a>
+						</td>
+						<td align="left"><b>Assigning Authority<span class="red">*</span></b></td>
+						<td align="left"><b>Identifier Type<span class="red">*</span></b></td>
+						<td align="left"><b>Identifier<span class="red">*</span></b></td>
+						<td align="left"><b>Primary Indicator</b></td>
+						<td align="left"></td></b>
 					</tr>
 					<c:forEach items="${command.identifiers}" varStatus="status">
-						<tr align="center" class="results">
-							<td width="10%"><a href="javascript:fireAction('removeIdentifier',${status.index});"><img
+						<tr>
+							<td><a href="javascript:fireAction('removeIdentifier',${status.index});"><img
 								src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
-							<td width="20%"><form:select path="identifiers[${status.index}].source">
+							<td><form:select path="identifiers[${status.index}].source">
 								<option value="">--Please Select--
 								<form:options items="${identifiersSourceRefData}" itemLabel="name"
 									itemValue="name" /></form:select></td>
-							<td width="20%"><form:select path="identifiers[${status.index}].type">
+							<td><form:select path="identifiers[${status.index}].type">
 								<option value="">--Please Select--
 								<form:options items="${identifiersTypeRefData}" itemLabel="desc"
 									itemValue="desc" /></form:select></td>
-							<td width="20%"><form:input path="identifiers[${status.index}].value" onclick="javascript:clearField(this)();"/></td>
-							<td width="25%" aligh="center"><form:radiobutton path="identifiers[${status.index}].primaryIndicator" value="true"/></td>
-							<td width="10%"><em><span class="red"><form:errors path="identifiers[${status.index}].source"/>
+							<td><form:input path="identifiers[${status.index}].value" onclick="javascript:clearField(this)();"/></td>
+							<td><form:radiobutton path="identifiers[${status.index}].primaryIndicator" value="true"/></td>
+							<td><em><span class="red"><form:errors path="identifiers[${status.index}].source"/>
 								<form:errors path="identifiers[${status.index}].type"/>
 								<form:errors path="identifiers[${status.index}].value"/>
 								</em></span></td>
 						</tr>
 					</c:forEach>
-					<tr>
-						<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
-						class="heightControl"></td>
-					</tr>
-					<tr>
-						<td align="center"><a href="javascript:fireAction('addIdentifier','0');"><img
-							src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add another Identifier"></a>
-						</td>
-					</tr>
 					</table>
 				</td>
 		</table>

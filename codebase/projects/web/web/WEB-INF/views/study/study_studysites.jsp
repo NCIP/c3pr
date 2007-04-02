@@ -38,7 +38,7 @@ function fireAction(action, selected){
 			(<span class="red">*</span>
 			<em>Required Information </em>)<br>
 			<br>
-			<table width="70%" border="0" cellspacing="0" cellpadding="0"
+			<table width="80%" border="0" cellspacing="0" cellpadding="0"
 				id="table1">
 
 				<td width="100%" valign="top">
@@ -46,11 +46,13 @@ function fireAction(action, selected){
 						id="table1">
 
 					<tr align="center" class="label">
-						<td width="5%" align="center"></td>
+						<td width="5%" align="center"><a href="javascript:fireAction('addStudySite','0');"><img
+							src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add another Study Site"></a>
+						</td>
 						<td width="11%" align="center">HealthCare Site<span class="red">*</span></td>
 						<td width="11%" align="center">Status<span class="red">*</span></td>
 						<td width="11%" align="center">Role<span class="red">*</span></td>
-						<td width="17%" align="center">Start Date (mm/dd/yyyy)<span class="red">*</span> </td>
+						<td width="17%" align="center">Activation Date (mm/dd/yyyy)<span class="red">*</span> </td>
 						<td width="17%" align="center">IRB Approval Date (mm/dd/yyyy)<span class="red">*</span></td>
 					</tr>
 					<c:forEach items="${command.studySites}" varStatus="status">
@@ -80,15 +82,6 @@ function fireAction(action, selected){
 								height="16" border="0"></a></td>
 						</tr>
 					</c:forEach>
-					<tr>
-						<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
-						class="heightControl"></td>
-					</tr>
-					<tr>
-						<td align="center"><a href="javascript:fireAction('addStudySite','0');"><img
-							src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add another Study Site"></a>
-						</td>
-					</tr>
 					</table>
 				</td>
 			</table>

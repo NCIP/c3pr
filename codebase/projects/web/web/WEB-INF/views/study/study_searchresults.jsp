@@ -16,7 +16,7 @@ function navRollOver(obj, state) {
 </head>
 <body>
 
-<tags:searchStudy action="searchStudy"/>
+<tags:search action="searchStudy"/>
 <studyTags:searchResults url="editStudy" />
 </body>
 </html>

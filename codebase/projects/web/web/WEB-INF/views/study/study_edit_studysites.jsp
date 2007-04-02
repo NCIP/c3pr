@@ -36,7 +36,7 @@ function clearField(field){
 <body>
 <!-- MAIN BODY STARTS HERE -->
 
-<tags:searchStudy action="searchStudy"/>
+<tags:search action="searchStudy"/>
 
 <tabs:body title="Edit Study">
 <form:form method="post" id="form" name="form">

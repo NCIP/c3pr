@@ -8,6 +8,9 @@
 
 <html>
 <head>
+<style type="text/css">
+        .label { width: 12em; text-align: right; padding: 4px; }
+</style>
 <script>
 function fireAction(action, selectedEpoch, selectedArm){
 	document.getElementsByName('_target7')[0].name='_target6';

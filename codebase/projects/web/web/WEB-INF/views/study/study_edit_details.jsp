@@ -32,7 +32,7 @@ function fireAction(action){
 <body>
 <!-- MAIN BODY STARTS HERE -->
 
-<studyTags:searchStudy action="searchStudy"/>
+<tags:search action="searchStudy"/>
 
 <tabs:body title="Edit Study : ${command.trimmedShortTitleText}">
 <form:form method="post" name="studyForm">

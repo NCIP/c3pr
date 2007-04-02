@@ -9,24 +9,24 @@ prefix="decorator"%>
 
 <html>
 <head>
-
+<style type="text/css">
+        .label { width: 12em; text-align: right; padding: 4px; }
+</style>
 </head>
 <body>
 <tabs:body title="${flow.name}: ${tab.longTitle} - Short Title: ${command.trimmedShortTitleText}">
-<form:form method="post" cssClass="standard">
+<form:form method="post">
 <tabs:tabFields tab="${tab}" />
-<div><tabs:division id="study-details">
+<div><tabs:division id="study-details" title="Basic Details">
 <!-- MAIN BODY STARTS HERE -->
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<table width="60%" border="0" cellspacing="0" cellpadding="0">
 <tr>
-	<td width="50%" valign="top">
-
+	<td valign="top">
 	<table width="100%" border="0" cellspacing="0" cellpadding="0"
 		id="table1">
 		<tr>
 			<td class="label">Short Title:</td>
-			<td><form:textarea path="shortTitleText" rows="2"
-				cols="50" /></td>
+			<td><form:textarea path="shortTitleText" rows="2" cols="30" /></td>
 			<td width="15%"></td>
 		</tr>
 		<tr>
@@ -36,7 +36,7 @@ prefix="decorator"%>
 		<tr>
 			<td class="label" valign=""><span class="red">*</span><em></em>Long
 			Title:</td>
-			<td><form:textarea path="longTitleText" rows="5" cols="50" /></td>
+			<td><form:textarea path="longTitleText" rows="4" cols="30" /></td>
 			<td width="15%"><em><span class="red"><form:errors
 				path="longTitleText" /></em></span></td>
 		</tr>
@@ -46,7 +46,7 @@ prefix="decorator"%>
 		</tr>
 		<tr>
 			<td class="label">Precis:</td>
-			<td><form:textarea path="precisText" rows="2" cols="50" /></td>
+			<td><form:textarea path="precisText" rows="2" cols="30" /></td>
 			<td width="15%"></td>
 		</tr>
 		<tr>
@@ -55,8 +55,7 @@ prefix="decorator"%>
 		</tr>
 		<tr>
 			<td class="label">Description:</td>
-			<td><form:textarea path="descriptionText" rows="3"
-				cols="50" /></td>
+			<td><form:textarea path="descriptionText" rows="3" cols="30" /></td>
 			<td width="15%"></td>
 		</tr>
 	</table>
@@ -193,6 +192,7 @@ prefix="decorator"%>
 </table>
 <!-- MAIN BODY ENDS HERE -->
 </tabs:division>
+
 </form:form>
 </tabs:body>
 </table>
