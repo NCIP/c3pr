@@ -130,11 +130,11 @@ function getPage(s){
 											id="table1">
 											<tr>
 												<td align="center"><span class="red">*</span><em></em><B>
-												Type:</td>
+												Identifier Type:</td>
 												<td align="center"><span class="red">*</span><em></em><B>
-												Source:</td>
+												Assigning Authority:</td>
 												<td align="center"><span class="red">*</span><em></em><B>
-												Value:</td>
+												Identifier:</td>
 												<td align="center"><B>Primary:</td>
 											</tr>
 
