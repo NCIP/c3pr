@@ -37,10 +37,13 @@ public class CreateParticipantControllerTest extends ControllerTestCase {
 	private ConfigurationProperty configurationProperty;
 
 	private ApplicationContext context;
+	
+	private Participant participant;
 
 	protected void setUp() throws Exception {
 		super.setUp();
 		context = ContextTools.createDeployedApplicationContext();
+		participant = registerMockFor(Participant.class);
 		participantDao = registerMockFor(ParticipantDao.class);
 		controller.setParticipantDao(participantDao);
 		healthcareSiteDao = registerMockFor(HealthCareSiteDaoMock.class);
@@ -55,9 +58,11 @@ public class CreateParticipantControllerTest extends ControllerTestCase {
 	}
 
 	public void testReferenceData() throws Exception {
-		/*controller.setConfigurationProperty(configurationProperty);
-		Map<String, Object> refdata = controller.referenceData(request, 0);
+		
+		controller.setConfigurationProperty(configurationProperty);
+		Map<String, Object> refdata = controller.getFlow().getTab(0).referenceData(participant);
 		List<Lov> genders = (List<Lov>) refdata.get("administrativeGenderCode");
+		System.out.println(" Size of ref data : " + refdata.size());
 		Iterator<Lov> genderIter = genders.iterator();
 		Lov gender;
 		while (genderIter.hasNext()) {
@@ -67,7 +72,7 @@ public class CreateParticipantControllerTest extends ControllerTestCase {
 						.getDesc());
 
 			}
-		}*/
+		}
 
 	}
 

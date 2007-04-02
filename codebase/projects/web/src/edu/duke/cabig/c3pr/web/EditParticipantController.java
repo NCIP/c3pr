@@ -184,7 +184,6 @@ public class EditParticipantController extends
 					.getParameter("participantId")), true);
 			System.out.println(" Participant's ID is:" + participant.getId());
 		}
-
 		return participant;
 	}
 
