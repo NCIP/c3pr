@@ -3,11 +3,24 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
 
+<script>
+function accessApp(url,app,targetWindow){
+//	alert("in");
+	if(url=="")
+		document.caaersForm.action="/"+app;
+	else
+		document.caaersForm.action=url+"/"+app;
+	document.caaersForm.target=targetWindow;
+	document.caaersForm.submit();
+}
+function submitlinksPage(){
+	document.getElementById("form").submit();
+}
+</script>
 <tabs:division id="Summary" title="Subject Summary">
-
-<table width="100%" height="100%" border="0" cellspacing="2"
+	<form name="form" id="form">
+	<table width="100%" height="100%" border="0" cellspacing="0"
 		cellpadding="0" id="table1">
-
 		<tr>
 			<td valign="top" width="35%" align="right"><b>First Name:&nbsp;</b></td>
 			<td valign="bottom" align="left">${command.participant.firstName}</td>
@@ -29,14 +42,37 @@
 			<td valign="bottom" align="left">${command.participant.raceCode}</td>
 		</tr>
 		<tr>
-			<td valign="top" width="35%" align="right"><b>Primary Identifier:&nbsp;</b></td>
-			<td valign="bottom" align="left">${command.participant.primaryIdentifier }</td>
+			<td valign="top" width="35%" align="right"><b>Primary
+			Identifier:&nbsp;</b></td>
+			<td valign="bottom" align="left">${command.participant.primaryIdentifier
+			}</td>
 		</tr>
-		<c:forEach begin="1" end="22">
-			<tr>
-				<td>&nbsp;</td>
-			</tr>
-		</c:forEach>
+		<tr>
+			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+				height="1" class="heightControl"></td>
+			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+				height="1" class="heightControl"></td>
+		</tr>
+		<tr>
+			<td class="label" align="left" colspan="2"><a
+				href="javascript:accessApp('http://10.10.10.2:8030','caaers/pages/ae/list?assignment=${command.participant.gridId }','_caaers');">
+			<b>Adverse Event Reporting</b></a></td>
+		</tr>
+
+		<tr>
+			<td class="label" align="left" colspan="2"><a
+				href="javascript:accessApp('http://10.10.10.2:8041','studycalendar/pages/schedule?assignment=${command.participant.gridId }','_psc');">
+			<b>Study Calendar</b></a></td>
+		</tr>
+
+		<tr>
+			<td class="label" align="left" colspan="2"><a
+				href="javascript:accessApp('https://octrials-train.nci.nih.gov','/opa45/rdclaunch.htm','_c3d');">
+			<b>Clinical Database</b></a></td>
+		</tr>
 
 	</table>
+
+	</form>
+
 </tabs:division>
