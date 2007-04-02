@@ -18,8 +18,12 @@ function navRollOver(obj, state) {
 function getPage(s){
 	parent.window.location="reg_patient_search.htm";
 }
-function accessApp(url,targetWindow){
-	document.caaersForm.action=url;
+function accessApp(url,app,targetWindow){
+//	alert("in");
+	if(url=="")
+		document.caaersForm.action="/"+app;
+	else
+		document.caaersForm.action=url+"/"+app;
 	document.caaersForm.target=targetWindow;
 	document.caaersForm.submit();
 }
