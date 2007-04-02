@@ -55,6 +55,7 @@ public class EditStudyController extends StudyController {
 	    	  		refdata.put("randomizedIndicatorRefData", configMap.get("yesNo"));
 	    	  		refdata.put("multiInstitutionIndicatorRefData", configMap.get("yesNo"));
 	    	  		refdata.put("blindedIndicatorRefData", configMap.get("yesNo"));
+	    	  		refdata.put("searchTypeRefData", configMap.get("studySearchType"));	  	     	    	  		
 	    	  	
 	    	  		return refdata;
 	             }        	
