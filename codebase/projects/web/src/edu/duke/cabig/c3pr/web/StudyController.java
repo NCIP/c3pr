@@ -19,16 +19,16 @@ import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
-import edu.duke.cabig.c3pr.dao.StudyPersonnelDao;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
-import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyInvestigator;
+import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.service.StudyService;
@@ -38,11 +38,6 @@ import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.NullIdDaoBasedEditor;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AbstractTabbedFlowFormController;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
-
-
-import edu.duke.cabig.c3pr.domain.StudyInvestigator;
-import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
-import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 
 
 /**
@@ -304,13 +299,18 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 	
 	protected void createDefaultExclusion(Study study)
 	{
-		ExclusionEligibilityCriteria exc = new ExclusionEligibilityCriteria();			
+		ExclusionEligibilityCriteria exc = new ExclusionEligibilityCriteria();	
+		exc.setQuestionNumber(study.getExcCriterias().size()+1);
+		exc.setQuestionText("");
+	
 		study.addExclusionEligibilityCriteria(exc);			
 	}
 	
 	protected void createDefaultInclusion(Study study)
 	{
-		InclusionEligibilityCriteria inc = new InclusionEligibilityCriteria();			
+		InclusionEligibilityCriteria inc = new InclusionEligibilityCriteria();	
+		inc.setQuestionNumber(study.getIncCriterias().size()+1);
+		inc.setQuestionText("");
 		study.addInclusionEligibilityCriteria(inc);			
 	}
 		

@@ -15,17 +15,15 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.utils.Lov;
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Tab;
-
-import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.utils.Lov;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Tab;
 
 /**
  * Controller class to handle the work flow in the Creation of a Study Design
