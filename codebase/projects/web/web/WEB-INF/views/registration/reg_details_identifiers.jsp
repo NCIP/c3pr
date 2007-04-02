@@ -39,94 +39,85 @@ field.value="";
 <body>
 <!-- MAIN BODY STARTS HERE -->
 
-<tags:search action="searchParticipant" />
-
 <tabs:body
 	title="Registration Details : ${command.participant.firstName}  ${command.participant.lastName}">
 	<form:form method="post" name="form" id="form">
-	<div><input type="hidden" name="_page" id="_page" value="1"> <input
+		<div><input type="hidden" name="_page" id="_page" value="1"> <input
 			type="hidden" name="_action" id="_action" value=""> <input
 			type="hidden" name="_selected" id="_selected" value=""> <input
 			type="hidden" name="_updateaction" id="_updateaction" value=""></div>
-	<table border="0" id="table1" cellspacing="10" width="100%">
-
 		<table border="0" id="table1" cellspacing="10" width="100%">
-			<tr>
-				<td valign="top" width="20%"><registrationTags:participantSummary />
-				</td>
-				<td width="50%" valign="top"><tabs:levelTwoTabs tab="${tab}"
-					flow="${flow}" /> <tabs:division id="Editing">
-					<table width="100%" border="0" cellspacing="0" cellpadding="0"
-						id="details">
-						<tr>
-							<td align="left" width="50%" border="0" valign="top"
-								class="contentAreaL">
-							<form name="form2" method="post" action="" id="form1">
-							<table width="700" border="0" cellspacing="10" cellpadding="0"
-								id="table1">
-								<tr align="center" class="label">
-									<td width="10%" align="center" class="label"></td>
-									<td width="15%" align="center" class="label">Source<span class="red">*</span></td>
-									<td width="15%" align="center" class="label">Type<span class="red">*</span></td>
-									<td width="15%" align="center" class="label">Identifier<span class="red">*</span></td>
-									<td width="15%" align="center" class="label">Primary Indicator</td>
-									<td width="15%" align="center" class="label"></td>
-								</tr>
-								<c:forEach items="${command.identifiers}" varStatus="status">
-									<tr align="center" class="results">
-										<td width="10%"><a
-											href="javascript:fireAction('removeIdentifier',${status.index});"><img
-											src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
-										<td width="20%"><form:select
-											path="identifiers[${status.index}].source">
-											<option value="">--Please Select-- <form:options
-												items="${source}" itemLabel="name" itemValue="name" />
-										</form:select></td>
-										<td width="20%"><form:select
-											path="identifiers[${status.index}].type">
-											<option value="">--Please Select-- <form:options
-												items="${identifiersTypeRefData}" itemLabel="desc"
-												itemValue="desc" />
-										</form:select></td>
-										<td width="20%"><form:input
-											path="identifiers[${status.index}].value"
-											onclick="javascript:clearField(this)();" /></td>
-										<td width="25%" aligh="center"><form:radiobutton
-											path="identifiers[${status.index}].primaryIndicator"
-											value="true" /></td>
-										<td width="10%"><em><span class="red"><form:errors
-											path="identifiers[${status.index}].source" /> <form:errors
-											path="identifiers[${status.index}].type" /> <form:errors
-											path="identifiers[${status.index}].value" /> <em></em></span></td>
-									</tr>
-								</c:forEach>
-								<tr>
-									<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-										height="1" class="heightControl"></td>
-								</tr>
-								<tr>
-									<td align="center"><a
-										href="javascript:fireAction('addIdentifier','0');"><img
-										src="<tags:imageUrl name="checkyes.gif"/>" border="0"
-										alt="Add another Identifier"></a></td>
-								</tr>
-							</table>
-							</form>
-						</tr>
-					</table>
-				</tabs:division>
-				</td>
 
-				<td valign="top" width="30%"><registrationTags:studySummary />
-				</td>
-			</tr>
-			<registrationTags:registrationHistory />
-			<tr>
-			
-			</tr>
-		</table>
-	</form:form>
-</tabs:body>
-<!-- MAIN BODY ENDS HERE -->
+			<table border="0" id="table1" cellspacing="10" width="100%">
+				<tr>
+					<td valign="top" width="30%"><registrationTags:participantSummary />
+					</td>
+					<td width="40%" valign="top"><tabs:levelTwoTabs tab="${tab}"
+						flow="${flow}" /> <tabs:division id="Editing">
+						<table width="100%" border="0" cellspacing="0" cellpadding="0"
+							id="details">
+							<tr>
+								<td align="left" width="50%" border="0" valign="top"
+									class="contentAreaL">
+								<form name="form2" method="post" action="" id="form1">
+								<table width="700" border="0" cellspacing="10" cellpadding="0"
+									id="table1">
+									<tr align="center" class="label">
+										<td width="10%" align="left" class="label"></td>
+										<td width="15%" align="left" class="label"><span class="red">*</span>Assigning
+										Authority</td>
+										<td width="15%" align="left" class="label"><span class="red">*</span>
+										Identifier Type</td>
+										<td width="15%" align="left" class="label"><span class="red">*</span>Identifier</td>
+										<td width="15%" align="left" class="label">Primary Indicator</td>
+										<td width="15%" align="left" class="label"></td>
+									</tr>
+									<c:forEach items="${command.identifiers}" varStatus="status">
+										<tr align="center" class="results">
+											<td width="10%"><a
+												href="javascript:fireAction('removeIdentifier',${status.index});"><img
+												src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+											<td width="20%"><form:input
+												path="identifiers[${status.index}].source" /></td>
+											<td width="20%"><form:input
+												path="identifiers[${status.index}].type" /></td>
+											<td width="20%"><form:input
+												path="identifiers[${status.index}].value"
+												onclick="javascript:clearField(this)();" /></td>
+											<td width="25%" align="center"><form:radiobutton
+												path="identifiers[${status.index}].primaryIndicator"
+												value="true" /></td>
+											<td width="10%"><em><span class="red"><form:errors
+												path="identifiers[${status.index}].type" /> <form:errors
+												path="identifiers[${status.index}].source" /> <form:errors
+												path="identifiers[${status.index}].value" /> <em></em></span></td>
+										</tr>
+									</c:forEach>
+									<tr>
+										<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+											height="1" class="heightControl"></td>
+									</tr>
+									<tr>
+										<td align="center"><a
+											href="javascript:fireAction('addIdentifier','0');"><img
+											src="<tags:imageUrl name="checkyes.gif"/>" border="0"
+											alt="Add another Identifier"></a></td>
+									</tr>
+								</table>
+								</form>
+							</tr>
+						</table>
+					</tabs:division></td>
+
+					<td valign="top" width="30%"><registrationTags:studySummary /></td>
+				</tr>
+				<registrationTags:registrationHistory />
+				<tr>
+
+				</tr>
+			</table>
+			</form:form>
+			</tabs:body>
+			<!-- MAIN BODY ENDS HERE -->
 </body>
 </html>

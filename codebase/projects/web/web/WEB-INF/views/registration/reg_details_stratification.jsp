@@ -34,8 +34,6 @@ field.value="";
 <body>
 <!-- MAIN BODY STARTS HERE -->
 
-<tags:search action="searchParticipant" />
-
 <tabs:body
 	title="Registration Details : ${command.participant.firstName}  ${command.participant.lastName}">
 	<form:form method="post" name="form" id="form">
@@ -47,9 +45,9 @@ field.value="";
 
 			<table border="0" id="table1" cellspacing="10" width="100%">
 				<tr>
-					<td valign="top" width="20%"><registrationTags:participantSummary />
+					<td valign="top" width="30%"><registrationTags:participantSummary />
 					</td>
-					<td width="50%" valign="top"><tabs:levelTwoTabs tab="${tab}"
+					<td width="40%" valign="top"><tabs:levelTwoTabs tab="${tab}"
 						flow="${flow}" /> <tabs:division id="Editing">
 						<table width="100%" border="0" cellspacing="0" cellpadding="0"
 							id="details">

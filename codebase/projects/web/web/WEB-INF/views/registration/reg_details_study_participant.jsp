@@ -34,8 +34,6 @@ field.value="";
 <body>
 <!-- MAIN BODY STARTS HERE -->
 
-<tags:search action="searchParticipant" />
-
 <tabs:body
 	title="Registration Details : ${command.participant.firstName}  ${command.participant.lastName}">
 	<form:form method="post" name="form" id="form">
@@ -47,9 +45,9 @@ field.value="";
 
 			<table border="0" id="table1" cellspacing="10" width="100%">
 				<tr>
-					<td valign="top" width="20%"><registrationTags:participantSummary />
+					<td valign="top" width="30%"><registrationTags:participantSummary />
 					</td>
-					<td width="50%" valign="top"><tabs:levelTwoTabs tab="${tab}"
+					<td width="40%" valign="top"><tabs:levelTwoTabs tab="${tab}"
 						flow="${flow}" /> <tabs:division id="Editing">
 						<table width="100%" border="0" cellspacing="0" cellpadding="0"
 							id="details">
@@ -59,12 +57,6 @@ field.value="";
 								<form name="form2" method="post" action="" id="form1">
 								<table width="700" border="0" cellspacing="0" cellpadding="0"
 									id="table1">
-									<tr>
-										<td width="200" align="right" class="label"><em></em> Treating
-										Physician:&nbsp;</td>
-										<td align="left">${command.studySite.studyInvestigators[0].healthcareSiteInvestigator.investigator.firstName}&nbsp;
-										${command.studySite.studyInvestigators[0].healthcareSiteInvestigator.investigator.lastName}</td>
-									</tr>
 									<tr>
 										<td width="200" align="right" class="label"><em></em> Primary
 										Identifier:&nbsp;</td>
@@ -78,12 +70,13 @@ field.value="";
 									<tr>
 										<td width="200" align="right" class="label"><em></em>Informed
 										Consent Signed Date:&nbsp;</td>
-										<td align="left" valign="top"><form:input
-											path="informedConsentSignedDate" />&nbsp;<a href="#"
-											onClick="cal1.select(document.getElementById('informedConsentSignedDate'),'anchor1','MM/dd/yyyy');return false;"
-											name="anchor1" id="anchor1"><img
-											src="<tags:imageUrl name="b-calendar.gif"/>" alt="Calendar"
-											width="17" height="16" border="0" align="absmiddle"></a>&nbsp;&nbsp;&nbsp;</td>
+										<td align="left" valign="top">${command.informedConsentSignedDate}</td>
+									</tr>
+									<tr>
+										<td width="200" align="right" class="label"><em></em> Treating
+										Physician:&nbsp;</td>
+										<td align="left">${command.studySite.studyInvestigators[0].healthcareSiteInvestigator.investigator.firstName}&nbsp;
+										${command.studySite.studyInvestigators[0].healthcareSiteInvestigator.investigator.lastName}</td>
 									</tr>
 								</table>
 								</form>

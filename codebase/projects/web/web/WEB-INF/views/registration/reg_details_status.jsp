@@ -34,8 +34,6 @@ field.value="";
 <body>
 <!-- MAIN BODY STARTS HERE -->
 
-<tags:search action="searchParticipant" />
-
 <tabs:body
 	title="Registration Details : ${command.participant.firstName}  ${command.participant.lastName}">
 	<form:form method="post" name="form" id="form">
@@ -47,9 +45,9 @@ field.value="";
 
 			<table border="0" id="table1" cellspacing="10" width="100%">
 				<tr>
-					<td valign="top" width="20%"><registrationTags:participantSummary />
+					<td valign="top" width="30%"><registrationTags:participantSummary />
 					</td>
-					<td width="50%" valign="top"><tabs:levelTwoTabs tab="${tab}"
+					<td width="40%" valign="top"><tabs:levelTwoTabs tab="${tab}"
 						flow="${flow}" /> <tabs:division id="Editing">
 						<table width="100%" border="0" cellspacing="0" cellpadding="0"
 							id="details">
@@ -58,51 +56,49 @@ field.value="";
 									class="contentAreaL">
 								<form name="form2" method="post" action="" id="form1">
 								<table width="700" border="0" cellspacing="0" cellpadding="0"
-									id="table1">
-									<tr valign="top">
-										<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-											height="1" class="heightControl"></td>
-										<td width="75%"><img src="<tags:imageUrl name="spacer.gif"/>"
-											width="1" height="1" class="heightControl"></td>
-									</tr>
-
+									id="details">
 									<tr>
-										<td width="200" align="right" class="label"><span class="red">*</span><em></em>Status:&nbsp;</td>
+										<td width="200" valign="top">
+										<table width="308" border="0" cellspacing="0" cellpadding="0"
+											id="table1">
+											<tr valign="top">
+												<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+													height="1" class="heightControl"></td>
+												<td width="50%"><img
+													src="<tags:imageUrl name="spacer.gif"/>" width="1"
+													height="1" class="heightControl"></td>
+											</tr>
 
-										<td alignt="left"><select name="select" class="field1">
-											<option selected>Registered</option>
-											<option>Pending</option>
-											<option>Closed-Not Counted</option>
-										</select></td>
-									</tr>
-									<tr valign="top">
-										<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-											height="1" class="heightControl"></td>
-										<td width="75%"><img src="<tags:imageUrl name="spacer.gif"/>"
-											width="1" height="1" class="heightControl"></td>
-									</tr>
+											<tr>
+												<td width="200" align="right" class="label"><span
+													class="red">*</span><em></em>Current Status:&nbsp;</td>
 
-									<tr valign="top">
-										<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-											height="1" class="heightControl"></td>
-										<td width="75%"><img src="<tags:imageUrl name="spacer.gif"/>"
-											width="1" height="1" class="heightControl"></td>
-									</tr>
-									<tr>
-									<tr>
-										<td align="right" class="label"><span class="red">*</span><em></em>${command.participant.firstName}
-										${command.participant.lastName} is:&nbsp;</td>
+												<td alignt="left"><select name="select" class="field1">
+													<option selected>Registered</option>
+													<option>Pending</option>
+													<option>Closed-Not Counted</option>
+												</select></td>
+											</tr>
+										</table>
+										</td>
+										<td width="200" valign="top">
+										<table width="308" border="0" cellspacing="0" cellpadding="0"
+											id="table1">
+											<tr valign="top">
+												<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+													height="1" class="heightControl"></td>
+												<td width="50%"><img
+													src="<tags:imageUrl name="spacer.gif"/>" width="1"
+													height="1" class="heightControl"></td>
+											</tr>
 
-										<td align="left"><select name="select" class="field1">
-											<option selected>On-Study</option>
-											<option>Off-Study</option>
-										</select></td>
-									</tr>
-									<tr valign="top">
-										<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-											height="1" class="heightControl"></td>
-										<td width="75%"><img src="<tags:imageUrl name="spacer.gif"/>"
-											width="1" height="1" class="heightControl"></td>
+											<tr>
+												<td width="200" align="right" class="label"><span
+													class="red">*</span><em></em>Effective Date:&nbsp;</td>
+												<td align="left" valign="top">${command.informedConsentSignedDate}</td>
+											</tr>
+										</table>
+										</td>
 									</tr>
 								</table>
 								</form>
