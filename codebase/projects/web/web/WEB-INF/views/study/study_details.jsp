@@ -192,7 +192,6 @@ prefix="decorator"%>
 </table>
 <!-- MAIN BODY ENDS HERE -->
 </tabs:division>
-
 </form:form>
 </tabs:body>
 </table>

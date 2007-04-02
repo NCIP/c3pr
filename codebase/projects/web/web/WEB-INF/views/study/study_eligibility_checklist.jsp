@@ -120,11 +120,11 @@ Effect.OpenUp = function(element) {
       element = $(element);
      if(element.style.display == "none") {
           new Effect.OpenUp(element, arguments[1] || {});
-        //  document.getElementById(imageStr).src="images/b-minus.gif";
-      //    new Effect.Grow(document.getElementById(title));
+          document.getElementById(imageStr).src="<tags:imageUrl name="b-minus.gif"/>";
+         // new Effect.Grow(document.getElementById(title));
      }else {
           new Effect.CloseDown(element, arguments[1] || {});
-        //   document.getElementById(imageStr).src="images/b-plus.gif";
+           document.getElementById(imageStr).src="<tags:imageUrl name="b-plus.gif"/>";
      }
  }
 function hideTextArea(a,b){
@@ -137,7 +137,7 @@ function hideTextArea(a,b){
 
 </script>
 </head>
-<body onload="Effect.Combo('InclusionCriteria','expandIncl','tabdivisionEffect'),Effect.Combo('ExclusionCriteria','expandIncl','tabdivisionEffect');">
+<body>
 <form:form method="post" name="form">
 <div>
 	<input type="hidden" name="_action" value="">
@@ -154,7 +154,9 @@ function hideTextArea(a,b){
 			 <table border="0" id="table1" cellspacing="0" width="100%">
 			 	 <tr>
 				 <td valign="top">
-					<tabs:divisionEffects effectsArea="InclusionTable" id="Summary" title="Inclusion Criteria">
+					<tabs:divisionEffects effectsArea="InclusionTable" imgExpandArea="expandIncl" id="Summary" title="Inclusion Criteria">
+					current operation - ${currentOperation}
+					<div id="InclusionTable" <c:if test="${currentOperation eq 'exclusion'}">style ="display: none;" </c:if>
 					<table width="100%" border="0" cellspacing="0" cellpadding="0" id="details">
 					<tr>
 						<p id="instructions">
@@ -171,7 +173,6 @@ function hideTextArea(a,b){
 						<table id="" width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
 							<tr>
 								<td>
-								<div id="InclusionTable" style="display: none;">
 								<table width="100%" border="0" id="table_ic">
 								<tr>
 									<td align="left"><b>No</b></td>
@@ -182,7 +183,7 @@ function hideTextArea(a,b){
 								<c:forEach varStatus="status" items="${command.incCriterias}">
 								<tr id="bex-${status.index}">
 									<td width="2%">
-									<form:hidden path="incCriterias[${status.index}].questionNumber"/>${status.index}
+									<form:hidden path="incCriterias[${status.index}].questionNumber"/>${status.index+1}
 									</td>
 									<td width="88%">
 									<form:textarea path="incCriterias[${status.index}].questionText" rows="1" cols="90"/>
@@ -197,13 +198,13 @@ function hideTextArea(a,b){
 								</tr>
 								</c:forEach>
 								</table>
-								</div>
-								</td>
+									</td>
 							</tr>
 						</table>
 						</td>
 					</tr>
 					</table>
+					</div>
 					</tabs:divisionEffects>
 				</td>
 				</tr>
@@ -212,7 +213,10 @@ function hideTextArea(a,b){
 				<table width="100%" border="0" cellspacing="0" cellpadding="0" id="details">
 					<tr>
 						<td valign="top">
-						<tabs:divisionEffects effectsArea="ExclusionTable" id="Summary" title="Exclusion Criteria">
+						current operation - ${currentOperation}
+
+						<tabs:divisionEffects effectsArea="ExclusionTable" imgExpandArea="expandExcl" id="Summary" title="Exclusion Criteria">
+						<div id="ExclusionTable" <c:if test="${currentOperation eq 'inclusion'}">display: none;" </c:if>>
 						<table width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
 							<tr>
 								<p id="instructions">
@@ -229,7 +233,6 @@ function hideTextArea(a,b){
 								<table id="" width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
 									<tr>
 										<td>
-										<div id="ExclusionTable" style="display: none;">
 										<table width="100%" border="0" id="table_ec">
 										<tr>
 											<td align="left"><b>No</b></td>
@@ -240,7 +243,7 @@ function hideTextArea(a,b){
 										<c:forEach varStatus="status" items="${command.excCriterias}">
 										<tr id="bex-${status.index}">
 											<td width="2%">
-											<form:hidden path="excCriterias[${status.index}].questionNumber"/>${status.index}
+											<form:hidden path="excCriterias[${status.index}].questionNumber"/>${status.index+1}
 											</td>
 											<td width="88%">
 											<form:textarea path="excCriterias[${status.index}].questionText" rows="1" cols="90"/>
@@ -255,13 +258,13 @@ function hideTextArea(a,b){
 										</tr>
 										</c:forEach>
 										</table>
-										</div>
 										</td>
 									</tr>
 								</table>
 								</td>
 							</tr>
 						</table>
+						</div>
 						</tabs:divisionEffects>
 						</td>
 					</tr>
