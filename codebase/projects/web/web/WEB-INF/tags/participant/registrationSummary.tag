@@ -6,6 +6,12 @@
 <tabs:division id="Summary" title="Current Registration">
 	<table width="100%" border="0" cellspacing="0" cellpadding="0"
 		id="table1">
+		<tr>
+			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+				height="1" class="heightControl"></td>
+			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+				height="1" class="heightControl"></td>
+		</tr>
 		<tr align="center" class="label">
 			<a
 				href="../registration/registrationDetails?registrationId=${command.studyParticipantAssignments[0].id}"><img
