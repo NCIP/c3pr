@@ -21,71 +21,61 @@ function getPage(s){
 <tabs:body title="${flow.name} ">
 	<form:form method="post" cssClass="standard">
 		<tabs:tabFields tab="${tab}" />
-		<div><tabs:division id="subject-details">
+		<tabs:division id="subject-details">
 
 			<table width="100%" border="0" cellpadding="0" cellspacing="0">
 				<tr>
 					<td>
-					<table width="100%" border="0" cellspacing="0" cellpadding="0">
+					<td><!-- TABS LEFT START HERE -->
+					<table width="100%" border="0" cellpadding="0" cellspacing="0">
 						<tr>
 
-							<td><!-- TABS LEFT START HERE -->
-							<table width="100%" border="0" cellpadding="0" cellspacing="0">
-								<tr>
+							<!-- LEFT CONTENT STARTS HERE -->
+							<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
+							<!-- RIGHT CONTENT STARTS HERE --> <form:form method="post"
+								action="createParticipant">
+								<div><input type="hidden" name="_page" value="1"></div>
+								<td>
 
-									<!-- LEFT CONTENT STARTS HERE -->
-									<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
-									<!-- RIGHT CONTENT STARTS HERE --> <form:form method="post"
-										action="createParticipant">
-										<div><input type="hidden" name="_page" value="1"></div>
-
-										<br>
-										<br>
-										<table width="700" border="0" cellspacing="0" cellpadding="0"
-											id="details">
-											<tr>
-
-												<table width="700" border="0" cellspacing="0"
-													cellpadding="0" id="table1">
-													<tr>
-														<td width="150" align="right" class="label"><span
-															class="red">*</span><em></em> Street Address:&nbsp;</td>
-														<td align="left"><form:input path="address.streetAddress" />&nbsp;&nbsp;&nbsp;<span
-															class="red"><form:errors path="address.streetAddress" /><em></em></span></td>
-													</tr>
-													<tr>
-														<td width="150" align="right" class="label"><span
-															class="red">*</span><em></em> City:&nbsp;</td>
-														<td align="left"><form:input path="address.city" />&nbsp;&nbsp;&nbsp;<span
-															class="red"><form:errors path="address.city" /><em></em></span></td>
-													</tr>
-													<tr>
-														<td width="150" align="right" class="label"><span
-															class="data"><span class="red">*</span><em></em>
-														State:&nbsp;</span></td>
-														<td align="left"><form:input path="address.stateCode" />&nbsp;&nbsp;&nbsp;<span
-															class="red"><form:errors path="address.stateCode" /><em></em></span>&nbsp;&nbsp;
-														<strong>Zip:&nbsp;</strong><form:input
-															path="address.postalCode" /></td>
-													</tr>
-													<tr>
-														<td width="150" align="right" class="label"><em></em><em></em>
-														Country:&nbsp;</td>
-														<td align="left"><form:input path="address.countryCode" />&nbsp;&nbsp;&nbsp;<span
-															class="red"><form:errors path="address.countryCode" /><em></em></span></td>
-													</tr>
-												</table>
-
-											</tr>
-										</table>
-									</form:form></td>
-									<!-- LEFT CONTENT ENDS HERE -->
-								</tr>
-							</table>
-							</td>
+								<table width="700" border="0" cellspacing="0" cellpadding="0"
+									id="table1">
+									<tr>
+										<td width="150" align="right" class="label"><span class="red">*</span><em></em>
+										Street Address:&nbsp;</td>
+										<td width align="left"><form:input size="58"
+											path="address.streetAddress" />&nbsp;&nbsp;&nbsp;<span
+											class="red"><form:errors path="address.streetAddress" /><em></em></span></td>
+									</tr>
+									<tr>
+										<td width="150" align="right" class="label"><span class="red">*</span><em></em>
+										City:&nbsp;</td>
+										<td align="left"><form:input path="address.city" />&nbsp;&nbsp;&nbsp;<span
+											class="red"><form:errors path="address.city" /><em></em></span></td>
+									</tr>
+									<tr>
+										<td width="150" align="right" class="label"><span class="data"><span
+											class="red">*</span><em></em> State:&nbsp;</span></td>
+										<td align="left"><form:input path="address.stateCode" />&nbsp;&nbsp;&nbsp;<span
+											class="red"><form:errors path="address.stateCode" /><em></em></span>&nbsp;&nbsp;
+										<strong>Zip:&nbsp;</strong><form:input
+											path="address.postalCode" /></td>
+									</tr>
+									<tr>
+										<td width="150" align="right" class="label"><em></em><em></em>
+										Country:&nbsp;</td>
+										<td align="left"><form:input path="address.countryCode" />&nbsp;&nbsp;&nbsp;<span
+											class="red"><form:errors path="address.countryCode" /><em></em></span></td>
+									</tr>
+								</table>
+							</form:form></td>
+							<!-- LEFT CONTENT ENDS HERE -->
 						</tr>
 					</table>
-					<div id="copyright"></div>
-					<!-- MAIN BODY ENDS HERE --> </tabs:division> </form:form> </tabs:body>
+				</tr>
+			</table>
+			<!-- MAIN BODY ENDS HERE -->
+		</tabs:division>
+	</form:form>
+</tabs:body>
 </body>
 </html>
