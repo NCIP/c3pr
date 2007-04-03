@@ -53,16 +53,16 @@ function submitPage(){
 						<td><img src="<tags:imageUrl name="Patient.gif"/>" alt="Subject Search"
 							width="100" height="100" align="absmiddle"></td>
 						<td width="100%">
-						<table width="50%"  border="0" cellspacing="5" cellpadding="0" id="table1">
+						<table width="65%"  border="0" cellspacing="5" cellpadding="0" id="table1">
 							<tr>
-								<td align="left" class="label">Search Subjects By:</td>
+								<td align="right"><b>Search Subjects By:&nbsp;</b></td>
 								<td align="left" >
 								<form:select path="searchType">
 									<form:options items="${searchTypeRefData}" itemLabel="desc" itemValue="code" />
 								</form:select></td>
 							</tr>
 							<tr>
-								<td align="left" class="label">Search Criteria: </td>
+								<td align="right"><b>Search Criteria:&nbsp;</b></td>
 								<td align="left"><form:input path="searchText" /></td>
 							</tr>
 							<tr>
