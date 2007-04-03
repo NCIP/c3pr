@@ -47,9 +47,9 @@ field.value="";
 
 			<table border="0" id="table1" cellspacing="10" width="100%">
 				<tr>
-					<td valign="top" width="20%"><participantTags:participantSummary />
+					<td valign="top" width="30%"><participantTags:participantSummary />
 					</td>
-					<td width="50%" valign="top"><tabs:levelTwoTabs tab="${tab}"
+					<td width="40%" valign="top"><tabs:levelTwoTabs tab="${tab}"
 						flow="${flow}" /> <tabs:division id="Editing">
 						<table width="100%" border="0" cellspacing="0" cellpadding="0"
 							id="details">
@@ -90,6 +90,9 @@ field.value="";
 
 					<td valign="top" width="30%"><participantTags:registrationSummary />
 					</td>
+				</tr>
+				<tr>
+					<participantTags:registrationHistory />
 				</tr>
 			</table>
 			</form:form>
