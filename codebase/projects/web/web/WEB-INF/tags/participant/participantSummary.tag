@@ -6,11 +6,11 @@
 function accessApp(url,app,targetWindow){
 //	alert("in");
 	if(url=="")
-		document.caaersForm.action="/"+app;
+		document.getElementById("form").action="/"+app;
 	else
-		document.caaersForm.action=url+"/"+app;
-	document.caaersForm.target=targetWindow;
-	document.caaersForm.submit();
+		document.getElementById("form").action=url+"/"+app;
+	document.getElementById("form").target=targetWindow;
+	document.getElementById("form").submit();
 }
 function submitlinksPage(){
 	document.getElementById("form").submit();
