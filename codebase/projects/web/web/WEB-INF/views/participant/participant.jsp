@@ -129,26 +129,26 @@ function getPage(s){
 										<table width="700" border="0" cellspacing="0" cellpadding="0"
 											id="table1">
 											<tr>
-												<td align="center"><span class="red">*</span><em></em><B>
-												Identifier Type:</td>
-												<td align="center"><span class="red">*</span><em></em><B>
+												<td align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="red">*</span><em></em><B>
 												Assigning Authority:</td>
-												<td align="center"><span class="red">*</span><em></em><B>
+											    <td align="left"> &nbsp;&nbsp;&nbsp;&nbsp;<span class="red">*</span><em></em><B>
+											    Identifier Type:</td>
+												<td align="left">&nbsp;&nbsp;<span class="red">*</span><em></em><B>
 												Identifier:</td>
-												<td align="center"><B>Primary:</td>
+												<td align="left"><B>Primary:</td>
 											</tr>
 
 											<c:forEach var="index" begin="0" end="4">
 												<tr>
 													<td align="center"><form:select
-														path="identifiers[${index}].type">
-														<form:options items="${identifiersTypeRefData}"
-															itemLabel="desc" itemValue="code" />
-													</form:select></td>
-													<td align="center"><form:select
 														path="identifiers[${index}].source">
 														<form:options items="${source}" itemLabel="name"
 															itemValue="name" />
+													</form:select></td>
+													<td align="center"><form:select
+														path="identifiers[${index}].type">
+														<form:options items="${identifiersTypeRefData}"
+															itemLabel="desc" itemValue="code" />
 													</form:select></td>
 													<td align="center"><form:input
 														path="identifiers[${index}].value" /></td>
