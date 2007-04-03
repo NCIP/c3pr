@@ -90,9 +90,8 @@ field.value="";
 
 					<td valign="top" width="30%"><registrationTags:studySummary /></td>
 				</tr>
-				<registrationTags:registrationHistory />
 				<tr>
-
+					<registrationTags:registrationHistory />
 				</tr>
 			</table>
 			</form:form>

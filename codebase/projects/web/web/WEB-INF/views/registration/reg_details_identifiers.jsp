@@ -87,10 +87,10 @@ field.value="";
 											<td width="25%" align="center"><form:radiobutton
 												path="identifiers[${status.index}].primaryIndicator"
 												value="true" /></td>
-											<td width="10%"><em><span class="red"><form:errors
+											<td width="10%"><em></em><span class="red"><form:errors
 												path="identifiers[${status.index}].type" /> <form:errors
 												path="identifiers[${status.index}].source" /> <form:errors
-												path="identifiers[${status.index}].value" /> <em></em></span></td>
+												path="identifiers[${status.index}].value" /><em></em></span></td>
 										</tr>
 									</c:forEach>
 									<tr>
@@ -111,9 +111,8 @@ field.value="";
 
 					<td valign="top" width="30%"><registrationTags:studySummary /></td>
 				</tr>
-				<registrationTags:registrationHistory />
 				<tr>
-
+					<registrationTags:registrationHistory />
 				</tr>
 			</table>
 			</form:form>

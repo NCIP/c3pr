@@ -37,90 +37,89 @@ field.value="";
 <tabs:body
 	title="Registration Details : ${command.participant.firstName}  ${command.participant.lastName}">
 	<form:form method="post" name="form" id="form">
-	<div><input type="hidden" name="_page" id="_page" value="4"> <input
+		<div><input type="hidden" name="_page" id="_page" value="4"> <input
 			type="hidden" name="_action" id="_action" value=""> <input
 			type="hidden" name="_selected" id="_selected" value=""> <input
 			type="hidden" name="_updateaction" id="_updateaction" value=""></div>
-	<table border="0" id="table1" cellspacing="10" width="100%">
-
 		<table border="0" id="table1" cellspacing="10" width="100%">
-			<tr>
-				<td valign="top" width="30%"><registrationTags:participantSummary />
-				</td>
-				<td width="40%" valign="top"><tabs:levelTwoTabs tab="${tab}"
-					flow="${flow}" /> <tabs:division id="Editing">
-					<table width="100%" border="0" cellspacing="0" cellpadding="0"
-						id="details">
-						<tr>
-							<td align="left" width="50%" border="0" valign="top"
-								class="contentAreaL">
-							<form name="form2" method="post" action="" id="form1">
-							<table width="700" border="0" cellspacing="0" cellpadding="0"
-							id="table1">
 
-							<tr valign="top">
-								<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-									height="1" class="heightControl"></td>
-								<td width="75%"><img src="<tags:imageUrl name="spacer.gif"/>"
-									width="1" height="1" class="heightControl"></td>
-							</tr>
-
+			<table border="0" id="table1" cellspacing="10" width="100%">
+				<tr>
+					<td valign="top" width="30%"><registrationTags:participantSummary />
+					</td>
+					<td width="40%" valign="top"><tabs:levelTwoTabs tab="${tab}"
+						flow="${flow}" /> <tabs:division id="Editing">
+						<table width="100%" border="0" cellspacing="0" cellpadding="0"
+							id="details">
 							<tr>
-								<td align="right" class="label"><span class="red">*</span><em></em>Randomization Type:&nbsp;</td>
-								<td align="left"><select name="select" class="field1">
-									<option selected>Book</option>
-									<option>Call-Out</option>
-									<option>Hub</option>
-								</select></td>
-							</tr>
-							
-							<tr valign="top">
-								<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-									height="1" class="heightControl"></td>
-								<td width="75%"><img src="<tags:imageUrl name="spacer.gif"/>"
-									width="1" height="1" class="heightControl"></td>
-							</tr>
-								
-							<tr valign="top">
-								<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-									height="1" class="heightControl"></td>
-								<td width="75%"><img src="<tags:imageUrl name="spacer.gif"/>"
-									width="1" height="1" class="heightControl"></td>
-							</tr>
+								<td align="left" width="50%" border="0" valign="top"
+									class="contentAreaL">
+								<form name="form2" method="post" action="" id="form1">
+								<table width="700" border="0" cellspacing="0" cellpadding="0"
+									id="table1">
 
-												
-							<tr>
-								<td align="right" class="label"><span class="red">*</span><em></em>Treatment Arm:&nbsp; </td>
-								<td align="left"><select name="select" class="field1">
-									<option selected>Arm A</option>
-									<option>Arm B</option>
-									<option>Arm C</option>
-								</select></td>
-							</tr>
+									<tr valign="top">
+										<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+											height="1" class="heightControl"></td>
+										<td width="75%"><img src="<tags:imageUrl name="spacer.gif"/>"
+											width="1" height="1" class="heightControl"></td>
+									</tr>
 
-							<tr valign="top">
-								<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-									height="1" class="heightControl"></td>
-								<td width="75%"><img src="<tags:imageUrl name="spacer.gif"/>"
-									width="1" height="1" class="heightControl"></td>
+									<tr>
+										<td align="right" class="label"><span class="red">*</span><em></em>Randomization
+										Type:&nbsp;</td>
+										<td align="left"><select name="select" class="field1">
+											<option selected>Book</option>
+											<option>Call-Out</option>
+											<option>Hub</option>
+										</select></td>
+									</tr>
+
+									<tr valign="top">
+										<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+											height="1" class="heightControl"></td>
+										<td width="75%"><img src="<tags:imageUrl name="spacer.gif"/>"
+											width="1" height="1" class="heightControl"></td>
+									</tr>
+
+									<tr valign="top">
+										<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+											height="1" class="heightControl"></td>
+										<td width="75%"><img src="<tags:imageUrl name="spacer.gif"/>"
+											width="1" height="1" class="heightControl"></td>
+									</tr>
+
+
+									<tr>
+										<td align="right" class="label"><span class="red">*</span><em></em>Treatment
+										Arm:&nbsp;</td>
+										<td align="left"><select name="select" class="field1">
+											<option selected>Arm A</option>
+											<option>Arm B</option>
+											<option>Arm C</option>
+										</select></td>
+									</tr>
+
+									<tr valign="top">
+										<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+											height="1" class="heightControl"></td>
+										<td width="75%"><img src="<tags:imageUrl name="spacer.gif"/>"
+											width="1" height="1" class="heightControl"></td>
+									</tr>
+								</table>
+								</form>
 							</tr>
 						</table>
-							</form>
-						</tr>
-					</table>
-				</tabs:division>
-				</td>
+					</tabs:division></td>
 
-				<td valign="top" width="30%"><registrationTags:studySummary />
-				</td>
-			</tr>
-			<registrationTags:registrationHistory />
-			<tr>
-			
-			</tr>
-		</table>
-	</form:form>
-</tabs:body>
-<!-- MAIN BODY ENDS HERE -->
+					<td valign="top" width="30%"><registrationTags:studySummary /></td>
+				</tr>
+				<tr>
+					<registrationTags:registrationHistory />
+				</tr>
+			</table>
+			</form:form>
+			</tabs:body>
+			<!-- MAIN BODY ENDS HERE -->
 </body>
 </html>

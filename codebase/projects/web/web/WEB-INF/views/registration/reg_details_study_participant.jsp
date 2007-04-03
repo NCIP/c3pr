@@ -41,7 +41,7 @@ field.value="";
 			type="hidden" name="_action" id="_action" value=""> <input
 			type="hidden" name="_selected" id="_selected" value=""> <input
 			type="hidden" name="_updateaction" id="_updateaction" value=""></div>
-		<table border="0" id="table1" cellspacing="10" width="100%">
+		<table border="10" id="table1" cellspacing="10" width="100%">
 
 			<table border="0" id="table1" cellspacing="10" width="100%">
 				<tr>
@@ -86,10 +86,11 @@ field.value="";
 
 					<td valign="top" width="30%"><registrationTags:studySummary /></td>
 				</tr>
-				<registrationTags:registrationHistory />
 				<tr>
-
+					<registrationTags:registrationHistory />
 				</tr>
+
+
 			</table>
 			</form:form>
 			</tabs:body>

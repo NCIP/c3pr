@@ -93,8 +93,7 @@ field.value="";
 											</tr>
 
 											<tr>
-												<td width="200" align="right" class="label"><span
-													class="red">*</span><em></em>Effective Date:&nbsp;</td>
+												<td width="200" align="right" class="label">	<em></em>Effective Date:&nbsp;</td>
 												<td align="left" valign="top">${command.informedConsentSignedDate}</td>
 											</tr>
 										</table>
@@ -108,9 +107,8 @@ field.value="";
 
 					<td valign="top" width="30%"><registrationTags:studySummary /></td>
 				</tr>
-				<registrationTags:registrationHistory />
 				<tr>
-
+					<registrationTags:registrationHistory />
 				</tr>
 			</table>
 			</form:form>
