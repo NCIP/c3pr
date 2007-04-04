@@ -42,7 +42,8 @@ field.value="";
 
 <tags:search action="searchParticipant" />
 
-<tabs:body title="Edit Subject : ${command.firstName}  ${command.lastName}">
+<tabs:body
+	title="Edit Subject : ${command.firstName}  ${command.lastName}">
 	<form:form method="post" name="form" id="form">
 		<div><input type="hidden" name="_page" id="_page" value="1"> <input
 			type="hidden" name="_action" id="_action" value=""> <input
@@ -50,7 +51,7 @@ field.value="";
 			type="hidden" name="_updateaction" id="_updateaction" value=""></div>
 		<table border="0" id="table1" cellspacing="10" width="100%">
 
-			<table height="100%" border="0" id="table1" cellspacing="10"
+			<table height="100%" border="0" id="table1" cellspacing="0"
 				width="100%">
 				<tr height="100%">
 					<td height="100%" valign="top" width="30%"><participantTags:participantSummary />
@@ -63,51 +64,58 @@ field.value="";
 								<td align="left" width="40%" border="0" valign="top"
 									class="contentAreaL">
 								<form name="form2" method="post" action="" id="form1">
-								<table width="700" border="0" cellspacing="10" cellpadding="0"
+								<table width="670" border="0" cellspacing="10" cellpadding="0"
 									id="table1">
 									<tr align="center" class="label">
-										<td width="10%" align="left" class="label"></td>
-										<td width="15%" align="left" class="label"><span class="red">*</span>Assigning
-										Authority</td>
-										<td width="15%" align="left" class="label"><span class="red">*</span>Identifier
-										Type</td>
-										<td width="15%" align="left" class="label"><span class="red">*</span>Identifier</td>
-										<td width="15%" align="left" class="label">Primary Indicator</td>
-										<td width="15%" align="left" class="label"></td>
+										<th width="5%" align="left" ></th>
+										<th width="35%" align="left" ><span class="red">*</span>Assigning
+										Authority:</th>
+										<th width="25%" align="left" ><span class="red">*</span>Identifier
+										Type:</th>
+										<th width="15%" align="left" ><span class="red">*</span>Identifier:</th>
+										<th width="15%" align="left" >Primary Indicator:</th>
+										<th width="5%" align="left" ></th>
 									</tr>
 									<c:forEach items="${command.identifiers}" varStatus="status">
 										<tr align="center" class="results">
-											<td width="10%"><a
+											<td width="5%"><a
 												href="javascript:fireAction('removeIdentifier',${status.index});"><img
 												src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
-											<td width="20%"><form:select
+											<td width="35%"><form:select
 												path="identifiers[${status.index}].source">
 												<option value="">--Please Select-- <form:options
 													items="${source}" itemLabel="name" itemValue="name" />
 											</form:select></td>
-											<td width="20%"><form:select
+											<td width="25%"><form:select
 												path="identifiers[${status.index}].type">
 												<option value="">--Please Select-- <form:options
 													items="${identifiersTypeRefData}" itemLabel="desc"
 													itemValue="desc" />
 											</form:select></td>
-											<td width="20%"><form:input
+											<td width="15%"><form:input
 												path="identifiers[${status.index}].value"
 												onclick="javascript:clearField(this)();" /></td>
-											<td width="25%" align="center"><form:radiobutton
+											<td width="15%" align="center"><form:radiobutton
 												path="identifiers[${status.index}].primaryIndicator"
 												value="true" /></td>
-											<td width="10%"><em><span class="red"><form:errors
-												path="identifiers[${status.index}].type" /> <form:errors
-												path="identifiers[${status.index}].source" /> <form:errors
-												path="identifiers[${status.index}].value" /> <em></em></span></td>
+											<td width="5%" align="left"></td>
 										</tr>
+										<td width="5%" align="left"></td>
+										<td width="35%" align="center"><em><span class="red"><form:errors
+											path="identifiers[${status.index}].type" /><em></em></span></td>
+										<td width="25%" align="center"><em><span class="red"><form:errors
+											path="identifiers[${status.index}].source" /><em></em></span></td>
+										<td width="15%" align="center"><em><span class="red"><form:errors
+											path="identifiers[${status.index}].value" /><em></em></span></td>
+										<tr>
+											<c:catch></c:catch>
 									</c:forEach>
 									<tr>
 										<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
 											height="1" class="heightControl"></td>
 									</tr>
 									<tr>
+
 										<td align="center"><a
 											href="javascript:fireAction('addIdentifier','0');"><img
 											src="<tags:imageUrl name="checkyes.gif"/>" border="0"

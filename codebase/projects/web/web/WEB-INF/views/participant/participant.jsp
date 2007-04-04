@@ -44,11 +44,11 @@ function getPage(s){
 										action="createParticipant">
 										<div><input type="hidden" name="_page" value="0"></div>
 
-										<table width="700" border="0" cellspacing="0" cellpadding="0"
+										<table width="60%" border="0" cellspacing="0" cellpadding="0"
 											id="details">
 											<tr>
-												<td width="200" valign="top">
-												<table width="308" border="0" cellspacing="0"
+												<td width="30%" valign="top">
+												<table width="100%" border="0" cellspacing="0"
 													cellpadding="0" id="table1">
 													<tr>
 														<td><img src="<tags:imageUrl name="spacer.gif"/>"
@@ -58,22 +58,22 @@ function getPage(s){
 															height="1" class="heightControl"></td>
 													</tr>
 													<tr>
-														<td align="right" class="label"><span class="red">*</span><em></em>
-														First Name: &nbsp;</td>
+														<td align="right" ><span class="red">*</span><em></em>
+														<b>First Name: &nbsp;</b></td>
 														<td align="left"><form:input path="firstName" /><span
 															class="red">&nbsp;&nbsp;&nbsp;<form:errors
 															path="firstName" /></span><em></em></td>
 													</tr>
 													<tr>
-														<td align="right" class="label"><span class="red">*</span><em></em>
-														Last Name:&nbsp;</td>
+														<td align="right" ><span class="red">*</span><em></em>
+														<b>Last Name:</b>&nbsp;</td>
 														<td align="left"><form:input path="lastName" /><span
 															class="red">&nbsp;&nbsp;&nbsp;<form:errors
 															path="lastName" /></span><em></em></td>
 													</tr>
 													<tr>
-														<td align="right" class="label"><span class="red">*</span>
-														<em></em> Gender: &nbsp;</td>
+														<td align="right"><span class="red">*</span>
+														<em></em> <b>Gender:</b> &nbsp;</td>
 														<td align="left"><form:select
 															path="administrativeGenderCode">
 															<form:options items="${administrativeGenderCode}"
@@ -82,8 +82,8 @@ function getPage(s){
 													</tr>
 												</table>
 												</td>
-												<td width="200" valign="top">
-												<table width="308" border="0" cellspacing="0"
+												<td width="30%" valign="top">
+												<table width="100%" border="0" cellspacing="0"
 													cellpadding="0" id="table1">
 													<tr>
 														<td><img src="<tags:imageUrl name="spacer.gif"/>"
@@ -92,8 +92,8 @@ function getPage(s){
 															width="1" height="1" class="heightControl"></td>
 													</tr>
 													<tr>
-														<td align="right" class="label"><span class="red">&nbsp;&nbsp;&nbsp;*</span><em></em>Birth
-														Date: &nbsp;</td>
+														<td align="right"><span class="red">&nbsp;&nbsp;&nbsp;*</span><em></em><b>Birth
+														Date: </b>&nbsp;</td>
 														<td align="left" valign="top"><form:input path="birthDate" />&nbsp;<a
 															href="#"
 															onClick="cal1.select(document.getElementById('birthDate'),'anchor1','MM/dd/yyyy');return false;"
@@ -104,7 +104,7 @@ function getPage(s){
 															path="birthDate" /><em></em></span></td>
 														</tr>
 													<tr>
-														<td align="right" class="label"><span class="red">*</span><em></em>Ethnicity:
+														<td align="right"><em></em><b>Ethnicity:</b>
 														&nbsp;</td>
 														<td align="left"><form:select path="ethnicGroupCode">
 															<form:options items="${ethnicGroupCode}" itemLabel="desc"
@@ -112,7 +112,7 @@ function getPage(s){
 														</form:select></td>
 													</tr>
 													<tr>
-														<td align="right" class="label"><span class="red">*</span><em></em>Race(s): &nbsp;
+														<td align="right"><em></em><b>Race(s):</b> &nbsp;
 														</td>
 														<td align="left"><form:select path="raceCode">
 															<form:options items="${raceCode}" itemLabel="desc"
@@ -126,16 +126,16 @@ function getPage(s){
 										</table>
 
 										<hr align="left" width="95%">
-										<table width="700" border="0" cellspacing="0" cellpadding="0"
+										<table width="60%" border="0" cellspacing="0" cellpadding="0"
 											id="table1">
 											<tr>
-												<td align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="red">*</span><em></em><B>
-												Assigning Authority:</td>
-											    <td align="left"> &nbsp;&nbsp;&nbsp;&nbsp;<span class="red">*</span><em></em><B>
-											    Identifier Type:</td>
-												<td align="left">&nbsp;&nbsp;<span class="red">*</span><em></em><B>
-												Identifier:</td>
-												<td align="left"><B>Primary:</td>
+												<th align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="red">*</span><em></em><B>
+												Assigning Authority:</th>
+											    <th align="left"> &nbsp;&nbsp;&nbsp;&nbsp;<span class="red">*</span><em></em><B>
+											    Identifier Type:</th>
+												<th align="left">&nbsp;&nbsp;<span class="red">*</span><em></em><B>
+												Identifier:</th>
+												<th align="left"><B>Primary Indicator:</th>
 											</tr>
 
 											<c:forEach var="index" begin="0" end="4">

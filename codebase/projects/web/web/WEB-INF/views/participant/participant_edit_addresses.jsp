@@ -57,31 +57,31 @@ field.value="";
 								<td align="left" width="50%" border="0" valign="top"
 									class="contentAreaL">
 								<form name="form2" method="post" action="" id="form1">
-								<table width="700" border="0" cellspacing="0" cellpadding="0"
+								<table width="670" border="0" cellspacing="0" cellpadding="0"
 									id="table1">
 									<tr>
-										<td width="150" align="right" class="label"><span class="red">*</span><em></em>
-										Street Address:&nbsp;</td>
+										<td width="150" align="right" ><span class="red">*</span><em></em>
+										<b>Street Address:</b>&nbsp;</td>
 										<td align="left"><form:input size="58" path="address.streetAddress" />&nbsp;&nbsp;&nbsp;<span
 											class="red"><form:errors path="address.streetAddress" /><em></em></span></td>
 									</tr>
 									<tr>
-										<td width="150" align="right" class="label"><span class="red">*</span><em></em>
-										City:&nbsp;</td>
+										<td width="150" align="right"><span class="red">*</span><em></em>
+										<b>City:</b>&nbsp;</td>
 										<td align="left"><form:input path="address.city" />&nbsp;&nbsp;&nbsp;<span
 											class="red"><form:errors path="address.city" /><em></em></span></td>
 									</tr>
 									<tr>
-										<td width="150" align="right" class="label"><span class="data"><span
-											class="red">*</span><em></em> State:&nbsp;</span></td>
+										<td width="150" align="right" ><span class="data"><span
+											class="red">*</span><em></em><b>State:</b>&nbsp;</span></td>
 										<td align="left"><form:input path="address.stateCode" />&nbsp;&nbsp;&nbsp;<span
 											class="red"><form:errors path="address.stateCode" /><em></em></span>&nbsp;&nbsp;
-										<strong>Zip:&nbsp;</strong><form:input
+										<strong><b>Zip:</b>&nbsp;</strong><form:input
 											path="address.postalCode" /></td>
 									</tr>
 									<tr>
-										<td width="150" align="right" class="label"><em></em><em></em>
-										Country:&nbsp;</td>
+										<td width="150" align="right"><em></em><em></em>
+										<b>Country:</b>&nbsp;</td>
 										<td align="left"><form:input path="address.countryCode" />&nbsp;&nbsp;&nbsp;<span
 											class="red"><form:errors path="address.countryCode" /><em></em></span></td>
 									</tr>

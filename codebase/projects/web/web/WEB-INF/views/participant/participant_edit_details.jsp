@@ -43,9 +43,9 @@ field.value="";
 			type="hidden" name="_action" id="_action" value=""> <input
 			type="hidden" name="_selected" id="_selected" value=""> <input
 			type="hidden" name="_updateaction" id="_updateaction" value=""></div>
-		<table border="0" id="table1" cellspacing="10" width="100%">
+		<table border="0" id="table1" cellspacing="0" width="100%">
 
-			<table border="0" id="table1" cellspacing="10" width="100%">
+			<table border="0" id="table1" cellspacing="0" width="100%">
 				<tr>
 					<td valign="top" width="30%"><participantTags:participantSummary />
 					</td>
@@ -54,37 +54,28 @@ field.value="";
 						<table width="100%" border="0" cellspacing="0" cellpadding="0"
 							id="details">
 							<tr>
-								<td align="left" width="50%" border="0" valign="top"
+								<td align="left" width="40%" border="0" valign="top"
 									class="contentAreaL">
 								<form name="form2" method="post" action="" id="form1">
-								<table width="700" border="0" cellspacing="0" cellpadding="0"
+								<table width="670" border="0" cellspacing="0" cellpadding="0"
 									id="details">
 									<tr>
-										<td width="200" valign="top">
-										<table width="308" border="0" cellspacing="0" cellpadding="0"
+										<td width="50%" valign="top">
+										<table width="100%" border="0" cellspacing="0" cellpadding="0"
 											id="table1">
 											<tr>
-												<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-													height="1" class="heightControl"></td>
-												<td width="65%"><img
-													src="<tags:imageUrl name="spacer.gif"/>" width="1"
-													height="1" class="heightControl"></td>
+												<td align="right"><span class="red">*</span><em></em>
+												<b>First Name:</b>&nbsp;</td>
+												<td align="left"><form:input path="firstName" /><em></em></td>
 											</tr>
 											<tr>
-												<td align="right" class="label"><span class="red">*</span><em></em>
-												First Name: &nbsp;</td>
-												<td align="left"><form:input path="firstName" /><span
-													class="red">&nbsp;&nbsp;&nbsp;<form:errors path="firstName" /></span><em></em></td>
+												<td align="right"><span class="red">*</span><em></em>
+												<b>Last Name:</b>&nbsp;</td>
+												<td align="left"><form:input path="lastName" /><em></em></td>
 											</tr>
 											<tr>
-												<td align="right" class="label"><span class="red">*</span><em></em>
-												Last Name:&nbsp;</td>
-												<td align="left"><form:input path="lastName" /><span
-													class="red">&nbsp;&nbsp;&nbsp;<form:errors path="lastName" /></span><em></em></td>
-											</tr>
-											<tr>
-												<td align="right" class="label"><span class="red">*</span> <em></em>
-												Gender: &nbsp;</td>
+												<td align="right"><span class="red">*</span> <em></em>
+												<b>Gender:</b>&nbsp;</td>
 												<td align="left"><form:select
 													path="administrativeGenderCode">
 													<form:options items="${administrativeGenderCode}"
@@ -93,19 +84,14 @@ field.value="";
 											</tr>
 										</table>
 										</td>
-										<td width="200" valign="top">
-										<table width="308" border="0" cellspacing="0" cellpadding="0"
+										<td width="50%" valign="top">
+										<table width="100%" border="0" cellspacing="0" cellpadding="0"
 											id="table1">
 											<tr>
-												<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-													height="1" class="heightControl"></td>
-												<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-													height="1" class="heightControl"></td>
-											</tr>
-											<tr>
-												<td align="right" class="label"><span class="red">&nbsp;&nbsp;&nbsp;*</span><em></em>Birth
-												Date: &nbsp;</td>
-												<td align="left" valign="top"><form:input path="birthDate" />&nbsp;<a
+												<td align="right"><span
+													class="red">&nbsp;&nbsp;&nbsp;*</span><em></em><b>Birth Date:</b>
+												&nbsp;</td>
+												<td align="left"><form:input path="birthDate" />&nbsp;<a
 													href="#"
 													onClick="cal1.select(document.getElementById('birthDate'),'anchor1','MM/dd/yyyy');return false;"
 													name="anchor1" id="anchor1"><img
@@ -114,14 +100,14 @@ field.value="";
 													class="red"><form:errors path="birthDate" /><em></em></span></td>
 											</tr>
 											<tr>
-												<td align="right" class="label"><em></em>Ethnicity: &nbsp;</td>
+												<td align="right"><em></em><b>Ethnicity:</b>&nbsp;</td>
 												<td align="left"><form:select path="ethnicGroupCode">
 													<form:options items="${ethnicGroupCode}" itemLabel="desc"
 														itemValue="code" />
 												</form:select></td>
 											</tr>
 											<tr>
-												<td align="right" class="label"><em></em>Race(s): &nbsp;</td>
+												<td align="right"><em></em><b>Race(s):</b>&nbsp;</td>
 												<td align="left"><form:select path="raceCode">
 													<form:options items="${raceCode}" itemLabel="desc"
 														itemValue="code" />

@@ -57,7 +57,7 @@ field.value="";
 								<td align="left" width="50%" border="0" valign="top"
 									class="contentAreaL">
 								<form name="form2" method="post" action="" id="form1">
-								<table width="700" border="0" cellspacing="0" cellpadding="0"
+								<table width="670" border="0" cellspacing="0" cellpadding="0"
 									id="table1">
 									<tr>
 										<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
@@ -67,8 +67,8 @@ field.value="";
 									</tr>
 
 									<tr>
-										<td class="label">${command.firstName} ${command.lastName} has
-										no Contact Information</td>
+										<td><b>${command.firstName} ${command.lastName} has
+										no Contact Information </b></td>
 									<tr>
 										<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
 											height="1" class="heightControl  style1"></td>
