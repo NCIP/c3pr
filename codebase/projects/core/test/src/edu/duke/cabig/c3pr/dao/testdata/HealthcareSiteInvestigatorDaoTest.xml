@@ -1,0 +1,21 @@
+<dataset>	
+    <STUDIES id="1000" version="1" blinded_indicator="1" disease_code="dis" long_title_text="long_title_text" monitor_code="mon" multi_institution_indicator="1"
+   	phase_code="Ph" randomized_indicator="1" short_title_text="short_title_text" sponsor_code="sp" target_accrual_number="123" type="ty"
+    description_text="description" precis_text="precis_text" status="st" />
+    
+    <ADDRESSES id="1000" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA" />
+   
+    <HEALTHCARE_SITES id="1000" version="1" name="duke healthcare" description_text="duke healthcare" address_id="1000" nci_institute_code="code" />
+    <HEALTHCARE_SITES id="1001" version="1" name="duke healthcare" description_text="duke healthcare" address_id="1000" nci_institute_code="code" />   
+        
+    <INVESTIGATORS id="1000" version="1" first_name="Investigator Bill" last_name="Staff1"/>
+    <INVESTIGATORS id="1001" version="1" first_name="Investigator George" last_name="Staff2"/>
+    <INVESTIGATORS id="1002" version="1" first_name="Investigator Benjamin" last_name="Staff3"/>
+    <INVESTIGATORS id="1003" version="1" first_name="Investigator JFK" last_name="Staff4"/>
+    
+    <HC_SITE_INVESTIGATORS id="1000" version="1" status_code="ACTIVE" status_date="01-01-2000" inv_id="1000" hcs_id="1000"/>
+    <HC_SITE_INVESTIGATORS id="1001" version="1" status_code="ACTIVE" status_date="01-01-2000" inv_id="1001" hcs_id="1000"/>
+    <HC_SITE_INVESTIGATORS id="1002" version="1" status_code="ACTIVE" status_date="01-01-2000" inv_id="1002" hcs_id="1001"/>
+    <HC_SITE_INVESTIGATORS id="1003" version="1" status_code="INACTIVE" status_date="01-01-2000" inv_id="1003" hcs_id="1001"/>
+  
+</dataset>
