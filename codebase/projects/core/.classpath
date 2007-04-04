@@ -26,9 +26,7 @@
 	<classpathentry exported="true" kind="lib" path="test/lib/dbunit-2.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="test/lib/easymock.jar"/>
 	<classpathentry exported="true" kind="lib" path="test/lib/easymockclassextension.jar"/>
-	<classpathentry exported="true" kind="lib" path="test/lib/junit.jar"/>
 	<classpathentry exported="true" kind="lib" path="test/lib/servlet-api.jar"/>
-	<classpathentry exported="true" kind="lib" path="test/lib/spring-mock.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/ejb3-persistence.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/avalon-framework-cvs-20020806.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/activation-1.0.2.jar"/>
@@ -42,7 +40,7 @@
 	<classpathentry exported="true" kind="lib" path="ext/lib/dom4j-1.6.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/handle.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/handlerservice.jar"/>
-	<classpathentry exported="true" kind="lib" path="ext/lib/hibernate3.2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="ext/lib/hibernate3.2.1.jar" sourcepath="C:/devtools/hibernate-3.2/src"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/hibernate-annotations.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/jboss-j2ee-4.0.5.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/jboss-jsr77.jar"/>
@@ -53,5 +51,7 @@
 	<classpathentry exported="true" kind="lib" path="/web/ext/lib/axis-url.jar"/>
 	<classpathentry exported="true" kind="lib" path="build"/>
 	<classpathentry exported="true" kind="lib" path="build/jars/c3pr-2.0-core-tests-1.0.jar"/>
+	<classpathentry kind="lib" path="/share/junit-3.8.1/junit-3.8.1.jar"/>
+	<classpathentry kind="lib" path="/share/spring-2.0/testing/spring-mock.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
