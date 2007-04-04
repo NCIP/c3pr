@@ -145,10 +145,7 @@ function hideTextArea(a,b){
 <!-- MAIN BODY STARTS HERE -->
 <table border="0" id="table1" cellspacing="10" width="100%">
 	<tr>
-		<td valign="top" width="25%">
-			<studyTags:studySummary />
-		</td>
-		<td valign="top" width="75%">
+		<td valign="top" width="100%">
 		 <table border="0" id="table1" cellspacing="0" width="100%">
 			 <tr>
 			 <td valign="top">
@@ -157,7 +154,8 @@ function hideTextArea(a,b){
 				<table width="100%" border="0" cellspacing="0" cellpadding="0" id="details">
 				<tr>
 					<p id="instructions">
-						*NA - Allow Not Applicable answer.  Yes and No are permissible answers
+						*NA - Allow Not Applicable answer<br>
+						Yes and No are permissible answers
 						for both types of Criterias
 					</p>
 					<p>
@@ -216,8 +214,8 @@ function hideTextArea(a,b){
 					<table width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
 						<tr>
 							<p id="instructions">
-								*NA - Allow Not Applicable answer. Yes and No are permissible answers
-								for both types of Criterias
+								*NA - Allow Not Applicable answer <br> 
+								Yes and No are permissible answersfor both types of Criterias
 							</p>
 							<p>
 								<b><a href="javascript:fireAction('addExclusionCriteria',0,'ExclusionTable');"><img
@@ -231,7 +229,7 @@ function hideTextArea(a,b){
 									<td>
 									<table width="100%" border="0" id="table_ec">
 									<tr>
-										<td align="left"><b>No</b></td>
+										<td align="left"><b>Number</b></td>
 										<td align="left"><b>Question<span class="red">*</span></b></td>
 										<td align="left"><b>NA</b></td>
 										<td align="left"></td></b>

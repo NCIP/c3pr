@@ -245,7 +245,7 @@ function updateTargetPage(target){
 							id="table1">
 							<tr><strong>Inclusion Eligibility Criteria</strong></tr>
 							<tr>
-								<td width="33%" align="left"><b>No</b></td>
+								<td width="33%" align="left"><b>Number</b></td>
 								<td width="33%" align="left"><b>Question</td>
 								<td width="33%" align="left"><b>N/A</b></td>
 							</tr>

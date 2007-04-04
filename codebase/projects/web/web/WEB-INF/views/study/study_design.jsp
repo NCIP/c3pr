@@ -34,13 +34,14 @@ function fireAction(action, selectedEpoch, selectedArm){
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
 		<td valign="top">
-		<span class="red">*</span>
-			<em>Required Information </em>)<br>
+		<p id="instructions">
+			Add Epochs & Arms associated with the Study (<span class="red">*</span><em>Required Information </em>)<br>
+		</p>
 			<br>
-			<table width="60%" border="0" cellspacing="0" cellpadding="0"
+			<table width="80%" border="0" cellspacing="0" cellpadding="0"
 				id="table1">
 				<td width="100%" valign="top">
-					<table width="70%" border="0" cellspacing="10" cellpadding="0"
+					<table width="80%" border="0" cellspacing="10" cellpadding="0"
 						id="table1">
 					<tr align="center" class="label">
 						<td width="5%" align="center"><a href="javascript:fireAction('addEpoch','0');"><img
@@ -48,7 +49,7 @@ function fireAction(action, selectedEpoch, selectedArm){
 						</td>
 						<td width="20%" align="left"><b>Epoch <span class="red">*</span></b></td>
 						<td width="20%" align="left"><b>Description</b></td>
-						<td width="3%" align="left"><b>(add arms)(<span class="red">*</span></b></td>
+						<td width="3%" align="left"><b>(add arms)<span class="red">*</span></b></td>
 						<td width="50%" align="left"><b>[Name, Target Accrual Number]</b></td>
 
 					</tr>
