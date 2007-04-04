@@ -25,11 +25,9 @@ public class ResearchStaffDao extends AbstractBaseDao<ResearchStaff> {
 	 }
 	
 	/*
-	 * Returns all StudySite objects
-	 * (non-Javadoc)
-	 * @see edu.duke.cabig.c3pr.dao.StudySite#getAll()
+	 * Returns all ResearchStaff objects
 	 */
-	 public List<StudySite> getAll() {
+	 public List<ResearchStaff> getAll() {
 		 return getHibernateTemplate().find("from ResearchStaff");
 	 }
 	 	 	
