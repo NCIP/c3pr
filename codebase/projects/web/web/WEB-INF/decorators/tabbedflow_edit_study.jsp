@@ -5,6 +5,7 @@
           prefix="decorator"%>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
+<%@ taglib prefix="studyTags" tagdir="/WEB-INF/tags/study"%>
 <%@taglib prefix="layout" tagdir="/WEB-INF/tags/layout"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -22,16 +23,32 @@
 <layout:header/>
 <layout:navigation/>
 <div class="tabpane">
+	<tabs:levelTwoTabs tab="${tab}" flow="${flow}"/>   
+	<tabs:body title="${tab.longTitle} - Short Title: ${command.trimmedShortTitleText}">       
     <div class="tabcontent workArea">
-        <div class="body">
+    <table border="0" id="table1" cellspacing="10" width="100%">
+		<tr>
+		<td valign="top" width="20%">
+			<studyTags:studySummary />
+		</td>		
+		<td width="40%" valign="top">
+		<div class="body">
             <decorator:body/>
         </div>
-  		<div class="tabcontrols autoclear">    		
+        <div class="tabcontrols autoclear">    		
             <a href="javascript:fireAction('update','0');" id="flow-next">
                 Save   				
 			</a>    		
 		</div>
-	   </div>
+		</td>			
+    	</tr>  
+    	<tr>
+    	<td valign="top" width="20%">	
+		    <studyTags:subjectAssignments/>					     
+	    </td>
+    	</tr>   
+    </tabs:body>  	
+    </table>
 </div>
 <form:form id="flowredirect">
     <input type="hidden" name="_target${tab.targetNumber}" id="flowredirect-target"/>
