@@ -43,15 +43,17 @@ function fireAction(action, selectedEpoch, selectedArm){
 					<table width="70%" border="0" cellspacing="10" cellpadding="0"
 						id="table1">
 					<tr align="center" class="label">
-						<td width="5%" align="center"></td>
-						<td width="20%" align="center">Epoch <span class="red">*</span></td>
-						<td width="20%" align="center">Description</td>
-						<td width="3%" align="center">(add arms)(<span class="red">*</span></td>
-						<td width="50%" align="center">[Name, Target Accrual Number]</td>
+						<td width="5%" align="center"><a href="javascript:fireAction('addEpoch','0');"><img
+								src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add another Epoch"></a>
+						</td>
+						<td width="20%" align="left"><b>Epoch <span class="red">*</span></b></td>
+						<td width="20%" align="left"><b>Description</b></td>
+						<td width="3%" align="left"><b>(add arms)(<span class="red">*</span></b></td>
+						<td width="50%" align="left"><b>[Name, Target Accrual Number]</b></td>
 
 					</tr>
 						<c:forEach items="${command.epochs}" var="epoch" varStatus="status">
-						<tr align="center" class="results">
+						<tr align="left" class="results">
 							<td width="8%"><a href="javascript:fireAction('removeEpoch',${status.index},'0');"><img
 								src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
 							</td>
@@ -81,10 +83,6 @@ function fireAction(action, selectedEpoch, selectedArm){
 							<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
 							class="heightControl"></td>
 						</tr>
-						<tr>
-							<td align="center"><a href="javascript:fireAction('addEpoch','0');"><img
-								src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add another Epoch"></a>
-							</td></tr>
 						</table>
 					</table>
 				</td>
