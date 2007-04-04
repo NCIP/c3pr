@@ -64,18 +64,17 @@ field.value="";
 										<table width="100%" border="0" cellspacing="0" cellpadding="0"
 											id="table1">
 											<tr>
-												<td align="right"><span class="red">*</span><em></em>
-												<b>First Name:</b>&nbsp;</td>
+												<td align="right"><span class="red">*</span><em></em> <b>First
+												Name:</b>&nbsp;</td>
 												<td align="left"><form:input path="firstName" /><em></em></td>
 											</tr>
 											<tr>
-												<td align="right"><span class="red">*</span><em></em>
-												<b>Last Name:</b>&nbsp;</td>
+												<td align="right"><span class="red">*</span><em></em> <b>Last
+												Name:</b>&nbsp;</td>
 												<td align="left"><form:input path="lastName" /><em></em></td>
 											</tr>
 											<tr>
-												<td align="right"><span class="red">*</span> <em></em>
-												<b>Gender:</b>&nbsp;</td>
+												<td align="right"><span class="red">*</span> <em></em> <b>Gender:</b>&nbsp;</td>
 												<td align="left"><form:select
 													path="administrativeGenderCode">
 													<form:options items="${administrativeGenderCode}"
@@ -88,9 +87,8 @@ field.value="";
 										<table width="100%" border="0" cellspacing="0" cellpadding="0"
 											id="table1">
 											<tr>
-												<td align="right"><span
-													class="red">&nbsp;&nbsp;&nbsp;*</span><em></em><b>Birth Date:</b>
-												&nbsp;</td>
+												<td align="right"><span class="red">&nbsp;&nbsp;&nbsp;*</span><em></em><b>Birth
+												Date:</b> &nbsp;</td>
 												<td align="left"><form:input path="birthDate" />&nbsp;<a
 													href="#"
 													onClick="cal1.select(document.getElementById('birthDate'),'anchor1','MM/dd/yyyy');return false;"
@@ -120,6 +118,12 @@ field.value="";
 								</table>
 								</form>
 							</tr>
+							<c:forEach begin="1" end="13">
+								<tr>
+									<td><br>
+									</td>
+								</tr>
+							</c:forEach>
 						</table>
 					</tabs:division></td>
 

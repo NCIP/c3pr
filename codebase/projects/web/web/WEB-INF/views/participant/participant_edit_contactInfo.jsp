@@ -67,8 +67,8 @@ field.value="";
 									</tr>
 
 									<tr>
-										<td><b>${command.firstName} ${command.lastName} has
-										no Contact Information </b></td>
+										<td><b>${command.firstName} ${command.lastName} has no Contact
+										Information </b></td>
 									<tr>
 										<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
 											height="1" class="heightControl  style1"></td>
@@ -85,7 +85,14 @@ field.value="";
 
 								</form>
 							</tr>
+							<c:forEach begin="1" end="14">
+								<tr>
+									<td><br>
+									</td>
+								</tr>
+							</c:forEach>
 						</table>
+
 					</tabs:division></td>
 
 					<td valign="top" width="30%"><participantTags:registrationSummary />

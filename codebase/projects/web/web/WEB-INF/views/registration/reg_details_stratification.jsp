@@ -66,8 +66,8 @@ field.value="";
 									</tr>
 
 									<tr>
-										<td align="right"><em></em><b> The Study does not
-										have Stratification Factors</b></td>
+										<td align="right"><em></em><b> The Study does not have
+										Stratification Factors</b></td>
 
 									</tr>
 									<tr>
@@ -85,6 +85,12 @@ field.value="";
 								</table>
 								</form>
 							</tr>
+							<c:forEach begin="1" end="9">
+								<tr>
+									<td><br>
+									</td>
+								</tr>
+							</c:forEach>
 						</table>
 					</tabs:division></td>
 

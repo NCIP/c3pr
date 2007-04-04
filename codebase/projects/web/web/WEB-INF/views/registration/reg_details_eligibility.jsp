@@ -82,9 +82,9 @@ field.value="";
 									</tr>
 
 									<tr>
-										<td width="200" align="right" ><em></em><b>Eligibility Waiver Reason:</b>&nbsp;</td>
-										<td align="left">${command.eligibilityWaiverReasonText}
-										</td>
+										<td width="200" align="right"><em></em><b>Eligibility Waiver
+										Reason:</b>&nbsp;</td>
+										<td align="left">${command.eligibilityWaiverReasonText}</td>
 
 									</tr>
 
@@ -92,6 +92,12 @@ field.value="";
 								</table>
 								</form>
 							</tr>
+							<c:forEach begin="1" end="8">
+								<tr>
+									<td><br>
+									</td>
+								</tr>
+							</c:forEach>
 						</table>
 					</tabs:division></td>
 

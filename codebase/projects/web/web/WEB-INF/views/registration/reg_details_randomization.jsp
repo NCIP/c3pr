@@ -66,7 +66,7 @@ field.value="";
 									</tr>
 
 									<tr>
-										<td align="right" ><span class="red">*</span><em></em><b>Randomization
+										<td align="right"><span class="red">*</span><em></em><b>Randomization
 										Type:</b>&nbsp;</td>
 										<td align="left"><select name="select" class="field1">
 											<option selected>Book</option>
@@ -109,6 +109,12 @@ field.value="";
 								</table>
 								</form>
 							</tr>
+							<c:forEach begin="1" end="6">
+								<tr>
+									<td><br>
+									</td>
+								</tr>
+							</c:forEach>
 						</table>
 					</tabs:division></td>
 

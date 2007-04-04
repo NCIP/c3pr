@@ -2,6 +2,8 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <tabs:division id="Summary" title="Current Registration">
 	<table width="100%" border="0" cellspacing="0" cellpadding="0"
@@ -58,5 +60,7 @@
 			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
 				height="1" class="heightControl"></td>
 		</tr>
+		
 	</table>
+	
 </tabs:division>

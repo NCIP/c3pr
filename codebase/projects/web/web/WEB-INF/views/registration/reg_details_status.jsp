@@ -70,8 +70,8 @@ field.value="";
 											</tr>
 
 											<tr>
-												<td width="200" align="right"><span
-													class="red">*</span><em></em><b>Current Status:</b>&nbsp;</td>
+												<td width="200" align="right"><span class="red">*</span><em></em><b>Current
+												Status:</b>&nbsp;</td>
 
 												<td alignt="left"><select name="select" class="field1">
 													<option selected>Registered</option>
@@ -93,7 +93,7 @@ field.value="";
 											</tr>
 
 											<tr>
-												<td width="200" align="right">	<em></em><b>Effective Date:</b>&nbsp;</td>
+												<td width="200" align="right"><em></em><b>Effective Date:</b>&nbsp;</td>
 												<td align="left" valign="top">${command.informedConsentSignedDate}</td>
 											</tr>
 										</table>
@@ -102,6 +102,12 @@ field.value="";
 								</table>
 								</form>
 							</tr>
+							<c:forEach begin="1" end="9">
+								<tr>
+									<td><br>
+									</td>
+								</tr>
+							</c:forEach>
 						</table>
 					</tabs:division></td>
 

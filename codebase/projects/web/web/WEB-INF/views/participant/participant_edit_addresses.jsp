@@ -60,9 +60,10 @@ field.value="";
 								<table width="670" border="0" cellspacing="0" cellpadding="0"
 									id="table1">
 									<tr>
-										<td width="150" align="right" ><span class="red">*</span><em></em>
+										<td width="150" align="right"><span class="red">*</span><em></em>
 										<b>Street Address:</b>&nbsp;</td>
-										<td align="left"><form:input size="58" path="address.streetAddress" />&nbsp;&nbsp;&nbsp;<span
+										<td align="left"><form:input size="58"
+											path="address.streetAddress" />&nbsp;&nbsp;&nbsp;<span
 											class="red"><form:errors path="address.streetAddress" /><em></em></span></td>
 									</tr>
 									<tr>
@@ -72,7 +73,7 @@ field.value="";
 											class="red"><form:errors path="address.city" /><em></em></span></td>
 									</tr>
 									<tr>
-										<td width="150" align="right" ><span class="data"><span
+										<td width="150" align="right"><span class="data"><span
 											class="red">*</span><em></em><b>State:</b>&nbsp;</span></td>
 										<td align="left"><form:input path="address.stateCode" />&nbsp;&nbsp;&nbsp;<span
 											class="red"><form:errors path="address.stateCode" /><em></em></span>&nbsp;&nbsp;
@@ -80,14 +81,19 @@ field.value="";
 											path="address.postalCode" /></td>
 									</tr>
 									<tr>
-										<td width="150" align="right"><em></em><em></em>
-										<b>Country:</b>&nbsp;</td>
+										<td width="150" align="right"><em></em><em></em> <b>Country:</b>&nbsp;</td>
 										<td align="left"><form:input path="address.countryCode" />&nbsp;&nbsp;&nbsp;<span
 											class="red"><form:errors path="address.countryCode" /><em></em></span></td>
 									</tr>
 								</table>
 								</form>
 							</tr>
+							<c:forEach begin="1" end="12">
+								<tr>
+									<td><br>
+									</td>
+								</tr>
+							</c:forEach>
 						</table>
 					</tabs:division></td>
 

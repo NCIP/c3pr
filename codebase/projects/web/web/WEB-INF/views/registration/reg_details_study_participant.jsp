@@ -58,29 +58,33 @@ field.value="";
 								<table width="650" border="0" cellspacing="0" cellpadding="0"
 									id="table1">
 									<tr>
-										<td width="200" align="right"><em></em><b> Primary
-										Identifier:<b>&nbsp;</td>
+										<td width="200" align="right"><em></em><b> Primary Identifier:<b>&nbsp;</td>
 										<td align="left">${command.studySite.studyInvestigators[0].healthcareSiteInvestigator.investigator.nciIdentifier}</td>
 									</tr>
 									<tr>
-										<td width="200" align="right"><em></em><b>Informed
-										Consent Version:<b>&nbsp;</td>
+										<td width="200" align="right"><em></em><b>Informed Consent
+										Version:<b>&nbsp;</td>
 										<td align="left">1.0</td>
 									</tr>
 									<tr>
-										<td width="200" align="right"><em></em><b>Informed
-										Consent Signed Date:<b>&nbsp;</td>
+										<td width="200" align="right"><em></em><b>Informed Consent
+										Signed Date:<b>&nbsp;</td>
 										<td align="left" valign="top">${command.informedConsentSignedDate}</td>
 									</tr>
 									<tr>
-										<td width="200" align="right"><em></em><b> Treating
-										Physician:<b>&nbsp;</td>
+										<td width="200" align="right"><em></em><b> Treating Physician:<b>&nbsp;</td>
 										<td align="left">${command.studySite.studyInvestigators[0].healthcareSiteInvestigator.investigator.firstName}&nbsp;
 										${command.studySite.studyInvestigators[0].healthcareSiteInvestigator.investigator.lastName}</td>
 									</tr>
 								</table>
 								</form>
 							</tr>
+							<c:forEach begin="1" end="7">
+								<tr>
+									<td><br>
+									</td>
+								</tr>
+							</c:forEach>
 						</table>
 					</tabs:division></td>
 

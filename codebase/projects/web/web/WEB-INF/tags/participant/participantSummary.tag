@@ -2,6 +2,8 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <script>
 function accessApp(url,app,targetWindow){
 //	alert("in");
@@ -65,10 +67,16 @@ function submitlinksPage(){
 		</tr>
 
 		<tr>
-			<td  align="left" colspan="2"><a
+			<td align="left" colspan="2"><a
 				href="javascript:accessApp('https://octrials-train.nci.nih.gov','/opa45/rdclaunch.htm','_c3d');">
 			<b>Clinical Database</b></a></td>
 		</tr>
+		<c:forEach begin="1" end="10">
+			<tr>
+				<td><br>
+				</td>
+			</tr>
+		</c:forEach>
 
 	</table>
 
