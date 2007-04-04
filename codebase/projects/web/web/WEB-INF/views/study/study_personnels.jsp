@@ -155,7 +155,7 @@ Event.observe(window, "load", function() {
 
 		<table border="0" id="table1" cellspacing="10" width="70%">
 		   <tr>
-				<td align="right"> <b> <span class="red">*</span><em></em>Site:</b> </td>
+				<td align="left"> <b> <span class="red">*</span><em></em>Site:</b> </td>
 				<td align="left">
 					<select id="site" name="site" onchange="javascript:chooseSites();">
 						<c:forEach  items="${command.studySites}" var="studySite" varStatus="status">
@@ -176,7 +176,7 @@ Event.observe(window, "load", function() {
 			<c:set var="index" value="${site_id}"/>
 		</c:if>
 
-		<table border="0" id="table1" cellspacing="10" width="80%">
+		<table border="0" id="table1" cellspacing="10" width="100%">
 			<tr>
 				<td align="left"> <b> <span class="red">*</span><em></em>Personnel:</b> </td>
 				<td align="left"> <b> <span class="red">*</span><em></em>Role:</b> </td>
