@@ -58,9 +58,8 @@ public class CreateStudyController extends StudyController {
 		//save study and proceed to final page					
 		studyService.save(study);
 		
-		ModelAndView modelAndView= new ModelAndView("study_confirmation");
-    	modelAndView.addAllObjects(errors.getModel());
-    	RequestDispatcher rd = request.getRequestDispatcher("confirm?type=confirm");
+		RequestDispatcher rd = request.getRequestDispatcher("confirm?type=confirm");
+		request.setAttribute("command", command);
     	rd.forward(request, response);
     	return null;
 	}	
