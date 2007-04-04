@@ -27,7 +27,7 @@
 		</tr>
 		<tr>
 			<td valign="top" width="35%" align="right"><b>Phase:&nbsp;</b></td>
-			<td valign="bottom" align="left">${command.studySite.study.primaryIdentifier}</td>
+			<td valign="bottom" align="left">${command.studySite.study.phaseCode}</td>
 		</tr>
 		<tr>
 			<td valign="top" width="35%" align="right"><b>Status:&nbsp;</b></td>

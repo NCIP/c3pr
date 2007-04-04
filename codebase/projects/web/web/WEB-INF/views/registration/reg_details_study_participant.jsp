@@ -35,7 +35,7 @@ field.value="";
 <!-- MAIN BODY STARTS HERE -->
 
 <tabs:body
-	title="Registration Details : ${command.participant.firstName}  ${command.participant.lastName}">
+	title="Edit Registration: ${command.participant.firstName}  ${command.participant.lastName}">
 	<form:form method="post" name="form" id="form">
 		<div><input type="hidden" name="_page" id="_page" value="0"> <input
 			type="hidden" name="_action" id="_action" value=""> <input
@@ -48,7 +48,7 @@ field.value="";
 					<td valign="top" width="30%"><registrationTags:participantSummary />
 					</td>
 					<td width="40%" valign="top"><tabs:levelTwoTabs tab="${tab}"
-						flow="${flow}" /> <tabs:division id="Editing">
+						flow="${flow}" showNumber="false"/> <tabs:division id="Editing">
 						<table width="100%" border="0" cellspacing="0" cellpadding="0"
 							id="details">
 							<tr>
@@ -64,17 +64,16 @@ field.value="";
 									<tr>
 										<td width="200" align="right"><em></em><b>Informed Consent
 										Version:<b>&nbsp;</td>
-										<td align="left">1.0</td>
+										<td align="left">${command.informedConsentVersion}</td>
 									</tr>
 									<tr>
 										<td width="200" align="right"><em></em><b>Informed Consent
 										Signed Date:<b>&nbsp;</td>
-										<td align="left" valign="top">${command.informedConsentSignedDate}</td>
+										<td align="left" valign="top">${command.informedConsentSignedDateStr}</td>
 									</tr>
 									<tr>
 										<td width="200" align="right"><em></em><b> Treating Physician:<b>&nbsp;</td>
-										<td align="left">${command.studySite.studyInvestigators[0].healthcareSiteInvestigator.investigator.firstName}&nbsp;
-										${command.studySite.studyInvestigators[0].healthcareSiteInvestigator.investigator.lastName}</td>
+										<td align="left">${command.treatingPhysician}</td>
 									</tr>
 								</table>
 								</form>

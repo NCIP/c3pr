@@ -15,16 +15,12 @@
 				height="1" class="heightControl"></td>
 		</tr>
 		<tr>
-			<td valign="top" width="35%" align="right"><b>Registration ID:&nbsp;</b></td>
-			<td valign="bottom" align="left">${command.studyParticipantAssignments[0].id }</td>
-		</tr>
-		<tr>
 			<td valign="top" width="35%" align="right"><b>Registration Identifier:&nbsp;</b></td>
-			<td valign="bottom" align="left">${command.studyParticipantAssignments[0].id}</td>
+			<td valign="bottom" align="left">${command.studyParticipantAssignments[0].primaryIdentifier}</td>
 		</tr>
 		<tr>
 			<td valign="top" width="35%" align="right"><b>Short Title:&nbsp;</b></td>
-			<td valign="bottom" align="left">${command.studyParticipantAssignments[0].studySite.study.shortTitleText
+			<td valign="bottom" align="left">${command.studyParticipantAssignments[0].studySite.study.trimmedShortTitleText
 			}</td>
 		</tr>
 		<tr>
@@ -53,7 +49,7 @@
 		</tr>
 		<tr>
 			<td valign="top" width="35%" align="right"><b>Treating Physician:&nbsp;</b></td>
-			<td valign="bottom" align="left">Dr Baker
+			<td valign="bottom" align="left">${command.studyParticipantAssignments[0].treatingPhysician}
 			</td>
 		</tr>
 		<tr>

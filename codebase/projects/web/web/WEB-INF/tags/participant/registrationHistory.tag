@@ -14,8 +14,6 @@ function navRollOver(obj, state) {
 		id="additionalList">
 		<tr align="center" class="label">
 			<td width="11">&nbsp;</td>
-			<td>Registration Id<br>
-			</td>
 			<td>Registration Identifier</td>
 			<td>Short Title</td>
 			<td>Study Identifier</td>
@@ -32,14 +30,13 @@ function navRollOver(obj, state) {
 				onMouseOut="navRollOver('row${i}', 'off')"
 				onClick="document.location='../registration/registrationDetails?registrationId=${registration.id}'">
 				<td width="11">&nbsp;</td>
-				<td>${registration.id}</td>
-				<td>8787879789</td>
+				<td>${registration.primaryIdentifier}</td>
 				<td>${registration.studySite.study.trimmedShortTitleText}</td>
 				<td>${registration.studySite.study.primaryIdentifier}</td>
 				<td>${registration.studySite.site.name}</td>
 				<td>Registered</td>
-				<td>${registration.informedConsentSignedDate}</td>
-				<td>Dr Baker</td>
+				<td>${registration.informedConsentSignedDateStr}</td>
+				<td>${registration.treatingPhysician}</td>
 				</a>
 			</tr>
 		</c:forEach>

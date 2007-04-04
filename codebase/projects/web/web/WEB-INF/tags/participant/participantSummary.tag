@@ -55,9 +55,21 @@ function submitlinksPage(){
 				height="1" class="heightControl"></td>
 		</tr>
 		<tr>
+			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+				height="1" class="heightControl"></td>
+			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+				height="1" class="heightControl"></td>
+		</tr>
+		<tr>
 			<td align="left" colspan="2"><a
 				href="javascript:accessApp('http://10.10.10.2:8030','caaers/pages/ae/list?assignment=${command.gridId }','_caaers');">
 			<b>Adverse Event Reporting</b></a></td>
+		</tr>
+		<tr>
+			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+				height="1" class="heightControl"></td>
+			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+				height="1" class="heightControl"></td>
 		</tr>
 
 		<tr>
@@ -65,13 +77,19 @@ function submitlinksPage(){
 				href="javascript:accessApp('http://10.10.10.2:8041','studycalendar/pages/schedule?assignment=${command.gridId }','_psc');">
 			<b>Study Calendar</b></a></td>
 		</tr>
+		<tr>
+			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+				height="1" class="heightControl"></td>
+			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+				height="1" class="heightControl"></td>
+		</tr>
 
 		<tr>
 			<td align="left" colspan="2"><a
 				href="javascript:accessApp('https://octrials-train.nci.nih.gov','/opa45/rdclaunch.htm','_c3d');">
 			<b>Clinical Database</b></a></td>
 		</tr>
-		<c:forEach begin="1" end="10">
+		<c:forEach begin="1" end="7">
 			<tr>
 				<td><br>
 				</td>
