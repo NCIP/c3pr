@@ -9,19 +9,19 @@
 
 <table width="100%" border="0" cellspacing="2" cellpadding="0" id="table1">
 <tr>
-	<td><b>Short Title:</b></td>
-</tr>
-<tr>
-	<td>${command.trimmedShortTitleText}</td>
-</tr>
-<tr>
 	<td><b>Primary Identifier:</b></td>
 </tr>
 <tr>
 	<td>${command.primaryIdentifier}</td>
 </tr>
 <tr>
-	<td><b>Target Accrual No:</b></td>
+	<td><b>Short Title:</b></td>
+</tr>
+<tr>
+	<td>${command.trimmedShortTitleText}</td>
+</tr>
+<tr>
+	<td><b>Target Accrual:</b></td>
 </tr>
 <tr>
 	<td>${command.targetAccrualNumber}</td>
@@ -39,12 +39,18 @@
 	<td>${command.sponsorCode}</td>
 </tr>
 <tr>
+	<td><b>Phase:</b></td>
+</tr>
+<tr>
+	<td>${command.phaseCode}</td>
+</tr>
+<tr>
 	<td><b>Type:</b></td>
 </tr>
 <tr>
 	<td>${command.type}</td>
 </tr>
-<c:forEach begin="1" end="7">
+<c:forEach begin="1" end="6">
 <tr>
 	<td>
 		<br>
