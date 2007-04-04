@@ -1,26 +1,18 @@
 package edu.duke.cabig.c3pr.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 /**
- * @author Kruttik, Priyatam
+ * @author Priyatam
  */
  @Entity
  @Table (name = "eligibility_criterias")
@@ -38,6 +30,18 @@ public abstract class EligibilityCriteria extends AbstractGridIdentifiableDomain
 	
 	private String questionText;
 	
+	private Study study;
+	
+	@ManyToOne (fetch = FetchType.LAZY)
+	@JoinColumn(name="stu_id", updatable = false, insertable = false)  
+	public Study getStudy() {
+		return study;
+	}
+
+	public void setStudy(Study study) {
+		this.study = study;
+	}
+
 	public Boolean getNotApplicableIndicator() {
 		return notApplicableIndicator;
 	}

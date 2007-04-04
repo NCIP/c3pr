@@ -372,7 +372,10 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 
 	@OneToMany
     @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })        
-    @JoinColumn(name = "stu_id", nullable=false)    
+    @JoinColumn(name = "stu_id", nullable=false) 
+    //@OneToMany (mappedBy="study", fetch=FetchType.LAZY)
+    //@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})	
+	
 	public List<ExclusionEligibilityCriteria> getExcCriterias() {
 		return excCriterias;
 	}
@@ -383,7 +386,9 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 
 	@OneToMany
     @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })        
-    @JoinColumn(name = "stu_id", nullable=false)    
+    @JoinColumn(name = "stu_id", nullable=false)        
+	//@OneToMany (mappedBy="study", fetch=FetchType.LAZY)
+    //@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})	
 	public List<InclusionEligibilityCriteria> getIncCriterias() {
 		return incCriterias;
 	}
