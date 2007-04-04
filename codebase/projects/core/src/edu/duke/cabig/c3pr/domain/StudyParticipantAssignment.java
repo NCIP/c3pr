@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -13,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.Version;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -44,6 +46,9 @@ public class StudyParticipantAssignment extends AbstractGridIdentifiableDomainOb
     private String eligibilityWaiverReasonText;
     private Date informedConsentSignedDate;
     private Boolean eligibilityIndicator;
+    private Integer informedConsentVersion;
+    private String primaryIdentifier;
+    private String treatingPhysician;
     private List<SubjectEligibilityAnswer> subjectEligibilityAnswers=new ArrayList<SubjectEligibilityAnswer>();
     
     /// BEAN PROPERTIES
@@ -115,8 +120,8 @@ public class StudyParticipantAssignment extends AbstractGridIdentifiableDomainOb
     public String getEligibilityWaiverReasonText() {
         return eligibilityWaiverReasonText;
     }
-
-    public Date getInformedConsentSignedDate() {
+    
+	public Date getInformedConsentSignedDate() {
 		return informedConsentSignedDate;
 	}
 
@@ -205,6 +210,35 @@ public class StudyParticipantAssignment extends AbstractGridIdentifiableDomainOb
 
 	public void removeIdentifier(Identifier identifier){
 		identifiers.remove(identifier);
+	}
+	
+	@Transient
+	public String getPrimaryIdentifier() {		
+		for (Identifier identifier : identifiers) {
+			if(identifier.getPrimaryIndicator().booleanValue() == true)
+			{
+				return identifier.getValue();
+			}
+		}
+			
+		return primaryIdentifier;		
+	}
+	@Column(name= "informedConsentVersion" , nullable = true)
+	public Integer getInformedConsentVersion() {
+		return informedConsentVersion;
+	}
+
+	public void setInformedConsentVersion(Integer informedConsentVersion) {
+		this.informedConsentVersion = informedConsentVersion;
+	}
+
+	@Column(name= "treatingPhysician" , nullable = true)
+	public String getTreatingPhysician() {
+		return treatingPhysician;
+	}
+
+	public void setTreatingPhysician(String treatingPhysician) {
+		this.treatingPhysician = treatingPhysician;
 	}
 
 }
