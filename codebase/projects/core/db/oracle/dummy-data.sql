@@ -85,7 +85,7 @@ INSERT INTO participants(version,id,first_name, last_name, birth_date, administr
             10006);
             
 INSERT INTO study_participant_assignments(version,id,study_participant_identifier, start_date, 
-            eligibility_waiver_reason_text, informed_consent_signed_date, prt_id, sts_id, eligibility_indicator)
+            eligibility_waiver_reason_text, informed_consent_signed_date, prt_id, sts_id, eligibility_indicator,informed_consent_version,treating_physician)
     VALUES (1,44,44,to_date('2003/07/09', 'yyyy/mm/dd'), 'Eligibility Waived', 
             to_date('2003/05/09', 'yyyy/mm/dd'), 
-            10001, 10001, 1);            
+            10001, 10001, 1,1,'Dr Baker');            
