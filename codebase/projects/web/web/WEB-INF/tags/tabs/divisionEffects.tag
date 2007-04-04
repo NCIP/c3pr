@@ -1,4 +1,5 @@
 <%@attribute name="effectsArea" required="true"%>
+<%@attribute name="imgExpandArea" required="true"%>
 
 <%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags"%>
@@ -13,7 +14,7 @@
         <td>
         <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabs">
             <div id="tabdivisionEffect">
-            <tr onClick()="Effect.Combo('${effectsArea}','expandIncl','tabdivisionEffect')">
+            <tr onClick()="Effect.Combo('${effectsArea}','${imgExpandArea}','tabdivisionEffect')">
                 <td width="100%" class="tabDisplay">
                     <c:if test="${not empty title}">
                         <img src="<tags:imageUrl name="tab3_h_L.gif"/>" width="1" height="16" align="absmiddle"><span class="current">

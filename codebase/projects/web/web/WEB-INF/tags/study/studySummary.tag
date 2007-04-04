@@ -9,42 +9,42 @@
 
 <table width="100%" border="0" cellspacing="2" cellpadding="0" id="table1">
 <tr>
-	<td><font size="2" color="blue"><b>Short Title:</b></font></td>
+	<td><b>Short Title:</b></td>
 </tr>
 <tr>
 	<td>${command.trimmedShortTitleText}</td>
 </tr>
 <tr>
-	<td><font size="2" color="blue"><b>Primary Identifier:</b></font></td>
+	<td><b>Primary Identifier:</b></td>
 </tr>
 <tr>
 	<td>${command.primaryIdentifier}</td>
 </tr>
 <tr>
-	<td><font size="2" color="blue"><b>Target Accrual No:</b></font></td>
+	<td><b>Target Accrual No:</b></td>
 </tr>
 <tr>
 	<td>${command.targetAccrualNumber}</td>
 </tr>
 <tr>
-	<td><font size="2" color="blue"><b>Status:</b></font></td>
+	<td><b>Status:</b></td>
 </tr>
 <tr>
 	<td>${command.status}</td>
 </tr>
 <tr>
-	<td><font size="2" color="blue"><b>Sponsor:</b></font></td>
+	<td><b>Sponsor:</b></td>
 </tr>
 <tr>
 	<td>${command.sponsorCode}</td>
 </tr>
 <tr>
-	<td><font size="2" color="blue"><b>Type:</b></font></td>
+	<td><b>Type:</b></td>
 </tr>
 <tr>
 	<td>${command.type}</td>
 </tr>
-<c:forEach begin="1" end="10">
+<c:forEach begin="1" end="7">
 <tr>
 	<td>
 		<br>

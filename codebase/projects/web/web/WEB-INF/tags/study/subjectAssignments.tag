@@ -4,15 +4,21 @@
 <%@ taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
 
 <tabs:division id="Summary" title="Subjects Assigned">
-<table width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
+<table width="80%" border="0" cellspacing="0" cellpadding="0" id="table1">
 	<tr align="center" class="label">
-		<td width="35%" align="center">Last Name</td>
-		<td width="35%" align="center">Primary Id</td>
+		<td width="20%" align="left"><b>Study Site</b></td>
+		<td width="20%" align="left"><b>Start Date</b></td>	
+		<td width="20%" align="left"><b>Informed Consent Signed Date</b></td>		
+		<td width="20%" align="left"><b>Subject</b></td>
+		<td width="20%" align="left"><b>Primary Id</b></td>
 	</tr>
 	<c:forEach items="${participantAssignments}" var="partAssgn">
 		<tr align="center" class="results">
+		<td>${partAssgn.studySite}</td>
+		<td>${partAssgn.participant.startDate}</td>
+		<td>${partAssgn.participant.informedConsentSignedDate}</td>
 		<td>${partAssgn.participant.lastName}</td>
-		<td>${partAssgn.participant.primaryIdentifier}</td>
+		<td>${partAssgn.participant.primaryIdentifier}</td>		
 		</tr>
 	</c:forEach>
 	<tr>
