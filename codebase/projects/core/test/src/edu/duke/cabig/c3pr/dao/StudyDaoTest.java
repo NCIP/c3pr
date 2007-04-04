@@ -10,8 +10,11 @@ import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
@@ -25,6 +28,10 @@ public class StudyDaoTest extends DaoTestCase {
     private StudyDao dao = (StudyDao) getApplicationContext().getBean("studyDao");
     private HealthcareSiteDao healthcareSitedao = (HealthcareSiteDao) getApplicationContext()
     	.getBean("healthcareSiteDao");
+    private HealthcareSiteInvestigatorDao hcsidao = (HealthcareSiteInvestigatorDao) getApplicationContext()
+		.getBean("healthcareSiteInvestigatorDao");
+    private InvestigatorDao investigatorDao = (InvestigatorDao) getApplicationContext()
+		.getBean("investigatorDao");
 
 
     /**
@@ -69,8 +76,7 @@ public class StudyDaoTest extends DaoTestCase {
             study.setMultiInstitutionIndicator(true);
             dao.save(study);
             savedId = study.getId();
-            assertNotNull("The saved study didn't get an id", savedId);
-            
+            assertNotNull("The saved study didn't get an id", savedId);            
         }
 
         interruptSession();
@@ -105,8 +111,7 @@ public class StudyDaoTest extends DaoTestCase {
             
             dao.save(study);
             savedId = study.getId();
-            assertNotNull("The saved study didn't get an id", savedId);
-            
+            assertNotNull("The saved study didn't get an id", savedId);            
         }
 
         interruptSession();
@@ -145,10 +150,13 @@ public class StudyDaoTest extends DaoTestCase {
         assertContains("Missing expected Arm", ids, 1000);
         assertContains("Missing expected Arm", ids, 1001);
         assertContains("Missing expected Arm", ids, 1002);
-        assertContains("Missing expected Arm", ids, 1003);
-      
+        assertContains("Missing expected Arm", ids, 1003);      
     }
     
+    /**
+     * Test for Study Paticipant Assignments for a given Study 
+     * @throws Exception
+     */
     public void testGetStudyParticipantAssignmentsForStudy() throws Exception {
     	List<StudyParticipantAssignment> spa = dao.getStudyParticipantAssignmentsForStudy(34);
     	assertEquals(2, spa.size());
@@ -183,13 +191,24 @@ public class StudyDaoTest extends DaoTestCase {
     
     private Study createDefaultStudyWithDesign(Study study)
 	{
+    	// Investigators
+		Investigator inv = new Investigator();
+		inv.setFirstName("Investigator first name");
+		    	
+    	investigatorDao.save(inv);
+    	
+    	 interruptSession();
+        {
+    	   System.out.println("id *****************"+inv.getId());
+           Investigator loaded = investigatorDao.getById(inv.getId());
+           assertNotNull("Could not reload study with id " + inv.getId(), loaded);
+        }
+    	
 		study.addEpoch(Epoch.create("Screening"));
 		study.addEpoch(Epoch.create("Treatment", "Arm A", "Arm B", "Arm C"));
 		study.addEpoch(Epoch.create("Follow up"));
-          
-		StudySite studySite = new StudySite();
-		study.addStudySite(studySite);
-		
+          		
+		// healthcare site
 		HealthcareSite healthcaresite = new HealthcareSite();
 		Address address = new Address();
 		address.setCity("Reston");
@@ -202,21 +221,43 @@ public class StudyDaoTest extends DaoTestCase {
 		healthcaresite.setDescriptionText("duke healthcare");
 		healthcaresite.setNciInstituteCode("Nci duke");
 		
-		studySite.setSite(healthcaresite);
+		healthcareSitedao.save(healthcaresite);
+		System.out.println("hc site id ************"+healthcaresite.getId());
+		
+		//Study Site
+		StudySite studySite = new StudySite();
+		study.addStudySite(studySite);		
+		studySite.setSite(healthcaresite); //
 		studySite.setStartDate(new Date());
 		studySite.setIrbApprovalDate(new Date());
 		studySite.setRoleCode("role");
 		studySite.setStatusCode("active");
-			   
+					
+		// HCSI
+		HealthcareSiteInvestigator hcsi = new HealthcareSiteInvestigator();			
+		inv.addHealthcareSiteInvestigator(hcsi);		
+		healthcaresite.addHealthcareSiteInvestigator(hcsi);		
+		hcsidao.save(hcsi);		
+		System.out.println("hcsi id ************"+hcsi.getId());			
+				
+		// Study Investigator
+		StudyInvestigator studyInvestigator = new StudyInvestigator();
+		studyInvestigator.setRoleCode("role");
+		studyInvestigator.setStartDate(new Date());		
+		studySite.addStudyInvestigator(studyInvestigator);						
+			
+		hcsi.addStudyInvestigator(studyInvestigator);						
+		
+		//Identifiers
 		List<Identifier> identifiers = new ArrayList<Identifier>();
 		Identifier id = new Identifier();
 		id.setPrimaryIndicator(true);
 		id.setSource("nci");
 		id.setValue("123456");
 		id.setType("local");		
-		identifiers.add(id);
-				
+		identifiers.add(id);			
 		study.setIdentifiers(identifiers);
+		
 		return study;
 	}	
    
@@ -224,4 +265,5 @@ public class StudyDaoTest extends DaoTestCase {
 	{
     	return healthcareSitedao.getAll();  	
 	}
+       
 }
