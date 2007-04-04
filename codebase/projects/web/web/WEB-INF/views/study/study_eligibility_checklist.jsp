@@ -20,7 +20,6 @@
 <script language="JavaScript" type="text/JavaScript">
 
 function fireAction(action, selected, area){
-
 	document.getElementsByName('_target6')[0].name='_target5';
 	document.form._action.value=action;
 	document.form._selected.value=selected;
@@ -144,139 +143,135 @@ function hideTextArea(a,b){
 	<input type="hidden" name="_selected" value=""></div>
 </div>
 <!-- MAIN BODY STARTS HERE -->
-<tabs:body title="${flow.name}: ${tab.longTitle}">
-	<table border="0" id="table1" cellspacing="10" width="100%">
-		<tr>
-		  	<td valign="top" width="25%">
-				<studyTags:studySummary />
-		  	</td>
-			<td valign="top" width="75%">
-			 <table border="0" id="table1" cellspacing="0" width="100%">
-			 	 <tr>
-				 <td valign="top">
-					<tabs:divisionEffects effectsArea="InclusionTable" imgExpandArea="expandIncl" id="Summary" title="Inclusion Criteria">
-					current operation - ${currentOperation}
-					<div id="InclusionTable" <c:if test="${currentOperation eq 'exclusion'}">style ="display: none;" </c:if>
-					<table width="100%" border="0" cellspacing="0" cellpadding="0" id="details">
-					<tr>
-						<p id="instructions">
-							*NA - Allow Not Applicable answer.  Yes and No are permissible answers
-							for both types of Criterias
-						</p>
-						<p>
-			 				<b><a href="javascript:fireAction('addInclusionCriteria',0,'InclusionTable');"><img
-								src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a>Add an Inclusion Criteria</b>
-						</p>
-					</tr>
-					<tr>
-						<td valign="top">
-						<table id="" width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
+<table border="0" id="table1" cellspacing="10" width="100%">
+	<tr>
+		<td valign="top" width="25%">
+			<studyTags:studySummary />
+		</td>
+		<td valign="top" width="75%">
+		 <table border="0" id="table1" cellspacing="0" width="100%">
+			 <tr>
+			 <td valign="top">
+				<tabs:divisionEffects effectsArea="InclusionTable" imgExpandArea="expandIncl" id="Summary" title="Inclusion Criteria">
+				<div id="InclusionTable" <c:if test="${currentOperation eq 'exclusion'}">style ="display: none;" </c:if>
+				<table width="100%" border="0" cellspacing="0" cellpadding="0" id="details">
+				<tr>
+					<p id="instructions">
+						*NA - Allow Not Applicable answer.  Yes and No are permissible answers
+						for both types of Criterias
+					</p>
+					<p>
+						<b><a href="javascript:fireAction('addInclusionCriteria',0,'InclusionTable');"><img
+							src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a>Add an Inclusion Criteria</b>
+					</p>
+				</tr>
+				<tr>
+					<td valign="top">
+					<table id="" width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
+						<tr>
+							<td>
+							<table width="100%" border="0" id="table_ic">
 							<tr>
-								<td>
-								<table width="100%" border="0" id="table_ic">
-								<tr>
-									<td align="left"><b>No</b></td>
-									<td align="left"><b>Question<span class="red">*</span></b></td>
-									<td align="left"><b>NA</b></td>
-									<td align="left"></td></b>
-								</tr>
-								<c:forEach varStatus="status" items="${command.incCriterias}">
-								<tr id="bex-${status.index}">
-									<td width="2%">
-									<form:hidden path="incCriterias[${status.index}].questionNumber"/>${status.index+1}
-									</td>
-									<td width="88%">
-									<form:textarea path="incCriterias[${status.index}].questionText" rows="1" cols="90"/>
-									</td>
-									<td width="5%">
-										<form:checkbox path="incCriterias[${status.index}].notApplicableIndicator"/>
-									</td>
-									<td width="5%">
-										<a href="javascript:fireAction('removeInclusionCriteria',${status.index},'InclusionTable');">
-										<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
-									</td>
-								</tr>
-								</c:forEach>
-								</table>
-									</td>
+								<td align="left"><b>No</b></td>
+								<td align="left"><b>Question<span class="red">*</span></b></td>
+								<td align="left"><b>NA</b></td>
+								<td align="left"></td></b>
 							</tr>
-						</table>
-						</td>
-					</tr>
+							<c:forEach varStatus="status" items="${command.incCriterias}">
+							<tr id="bex-${status.index}">
+								<td width="2%">
+								<form:hidden path="incCriterias[${status.index}].questionNumber"/>${status.index+1}
+								</td>
+								<td width="88%">
+								<form:textarea path="incCriterias[${status.index}].questionText" rows="1" cols="90"/>
+								</td>
+								<td width="5%">
+									<form:checkbox path="incCriterias[${status.index}].notApplicableIndicator"/>
+								</td>
+								<td width="5%">
+									<a href="javascript:fireAction('removeInclusionCriteria',${status.index},'InclusionTable');">
+									<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
+								</td>
+							</tr>
+							</c:forEach>
+							</table>
+								</td>
+						</tr>
+					</table>
+					</td>
+				</tr>
+				</table>
+				</div>
+				</tabs:divisionEffects>
+			</td>
+			</tr>
+			<tr>
+			<td valign="top" width="75%">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" id="details">
+				<tr>
+					<td valign="top">
+
+					<tabs:divisionEffects effectsArea="ExclusionTable" imgExpandArea="expandExcl" id="Summary" title="Exclusion Criteria">
+					<div id="ExclusionTable" <c:if test="${currentOperation eq 'inclusion'}">display: none;" </c:if>>
+					<table width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
+						<tr>
+							<p id="instructions">
+								*NA - Allow Not Applicable answer. Yes and No are permissible answers
+								for both types of Criterias
+							</p>
+							<p>
+								<b><a href="javascript:fireAction('addExclusionCriteria',0,'ExclusionTable');"><img
+									src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a>Add an Exclusion Criteria</b>
+							</p>
+						</tr>
+						<tr>
+							<td valign="top">
+							<table id="" width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
+								<tr>
+									<td>
+									<table width="100%" border="0" id="table_ec">
+									<tr>
+										<td align="left"><b>No</b></td>
+										<td align="left"><b>Question<span class="red">*</span></b></td>
+										<td align="left"><b>NA</b></td>
+										<td align="left"></td></b>
+									</tr>
+									<c:forEach varStatus="status" items="${command.excCriterias}">
+									<tr id="bex-${status.index}">
+										<td width="2%">
+										<form:hidden path="excCriterias[${status.index}].questionNumber"/>${status.index+1}
+										</td>
+										<td width="88%">
+										<form:textarea path="excCriterias[${status.index}].questionText" rows="1" cols="90"/>
+										</td>
+										<td width="5%">
+											<form:checkbox path="excCriterias[${status.index}].notApplicableIndicator"/>
+										</td>
+										<td width="5%">
+											<a href="javascript:fireAction('removeExclusionCriteria',${status.index},'ExclusionTable');">
+											<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
+										</td>
+									</tr>
+									</c:forEach>
+									</table>
+									</td>
+								</tr>
+							</table>
+							</td>
+						</tr>
 					</table>
 					</div>
 					</tabs:divisionEffects>
-				</td>
+					</td>
 				</tr>
-				<tr>
-				<td valign="top" width="75%">
-				<table width="100%" border="0" cellspacing="0" cellpadding="0" id="details">
-					<tr>
-						<td valign="top">
-						current operation - ${currentOperation}
-
-						<tabs:divisionEffects effectsArea="ExclusionTable" imgExpandArea="expandExcl" id="Summary" title="Exclusion Criteria">
-						<div id="ExclusionTable" <c:if test="${currentOperation eq 'inclusion'}">display: none;" </c:if>>
-						<table width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
-							<tr>
-								<p id="instructions">
-									*NA - Allow Not Applicable answer. Yes and No are permissible answers
-									for both types of Criterias
-								</p>
-								<p>
-									<b><a href="javascript:fireAction('addExclusionCriteria',0,'ExclusionTable');"><img
-										src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a>Add an Exclusion Criteria</b>
-								</p>
-							</tr>
-							<tr>
-								<td valign="top">
-								<table id="" width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
-									<tr>
-										<td>
-										<table width="100%" border="0" id="table_ec">
-										<tr>
-											<td align="left"><b>No</b></td>
-											<td align="left"><b>Question<span class="red">*</span></b></td>
-											<td align="left"><b>NA</b></td>
-											<td align="left"></td></b>
-										</tr>
-										<c:forEach varStatus="status" items="${command.excCriterias}">
-										<tr id="bex-${status.index}">
-											<td width="2%">
-											<form:hidden path="excCriterias[${status.index}].questionNumber"/>${status.index+1}
-											</td>
-											<td width="88%">
-											<form:textarea path="excCriterias[${status.index}].questionText" rows="1" cols="90"/>
-											</td>
-											<td width="5%">
-												<form:checkbox path="excCriterias[${status.index}].notApplicableIndicator"/>
-											</td>
-											<td width="5%">
-												<a href="javascript:fireAction('removeExclusionCriteria',${status.index},'ExclusionTable');">
-												<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
-											</td>
-										</tr>
-										</c:forEach>
-										</table>
-										</td>
-									</tr>
-								</table>
-								</td>
-							</tr>
-						</table>
-						</div>
-						</tabs:divisionEffects>
-						</td>
-					</tr>
-				</table>
-			</td>
-			</tr>
-		   </table>
-			</td>
+			</table>
+		</td>
 		</tr>
-	</table>
+	   </table>
+		</td>
+	</tr>
+</table>
 <!-- MAIN BODY ENDS HERE -->
-</tabs:body>
 </form:form>
 
 </body>

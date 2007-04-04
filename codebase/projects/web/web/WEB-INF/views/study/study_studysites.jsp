@@ -22,7 +22,6 @@ function fireAction(action, selected){
 </script>
 </head>
 <body>
-<tabs:body title="${flow.name}: ${tab.longTitle} - Short Title: ${command.trimmedShortTitleText}">
 <form:form name="studySiteForm" method="post">
 <div>
 	<input type="hidden" name="_action" value="">
@@ -35,28 +34,29 @@ function fireAction(action, selected){
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
 		<td valign="top">
-			(<span class="red">*</span>
-			<em>Required Information </em>)<br>
+			<p id="instructions">
+				Add StudySites associated with the Study (<span class="red">*</span><em>Required Information </em>)<br>
+			</p>
 			<br>
-			<table width="80%" border="0" cellspacing="0" cellpadding="0"
+			<table width="100%" border="0" cellspacing="0" cellpadding="0"
 				id="table1">
 
 				<td width="100%" valign="top">
-					<table width="100%" border="0" cellspacing="10" cellpadding="0"
+					<table width="100%" border="0" cellspacing="5" cellpadding="0"
 						id="table1">
 
-					<tr align="center" class="label">
-						<td width="5%" align="center"><a href="javascript:fireAction('addStudySite','0');"><img
+					<tr align="left" class="label">
+						<td width="5%" align="left"><a href="javascript:fireAction('addStudySite','0');"><img
 							src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add another Study Site"></a>
 						</td>
-						<td width="11%" align="center">HealthCare Site<span class="red">*</span></td>
-						<td width="11%" align="center">Status<span class="red">*</span></td>
-						<td width="11%" align="center">Role<span class="red">*</span></td>
-						<td width="17%" align="center">Activation Date (mm/dd/yyyy)<span class="red">*</span> </td>
-						<td width="17%" align="center">IRB Approval Date (mm/dd/yyyy)<span class="red">*</span></td>
+						<td width="11%" align="left"><b>HealthCare Site</b><span class="red">*</span></td>
+						<td width="11%" align="left"><b>Status<span class="red">*</span></td>
+						<td width="11%" align="left"><b>Role<span class="red">*</span></td>
+						<td width="17%" align="left"><b>Activation Date</b> (mm/dd/yyyy)<span class="red">*</span> </td>
+						<td width="17%" align="left"><b>IRB Approval Date</b> (mm/dd/yyyy)<span class="red">*</span></td>
 					</tr>
 					<c:forEach items="${command.studySites}" varStatus="status">
-						<tr align="center" class="results">
+						<tr class="results">
 							<td width="5%"><a href="javascript:fireAction('removeStudySite',${status.index});"><img
 								src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 							<td width="11%"><form:select path="studySites[${status.index}].site">
@@ -91,7 +91,6 @@ function fireAction(action, selected){
 <!-- MAIN CONTENT ENDS HERE -->
 </tabs:division>
 </form:form>
-</tabs:body>
 </table>
 </div>
 </body>

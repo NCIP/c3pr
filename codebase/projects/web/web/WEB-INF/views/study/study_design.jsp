@@ -22,7 +22,6 @@ function fireAction(action, selectedEpoch, selectedArm){
 </script>
 </head>
 <body>
-<tabs:body title="${flow.name}: ${tab.longTitle} - Short Title: ${command.trimmedShortTitleText}">
 <form:form name="studyDesignForm" method="post" cssClass="standard">
 <div>
 	<input type="hidden" name="_action" value="">
@@ -96,7 +95,6 @@ function fireAction(action, selectedEpoch, selectedArm){
 <!-- MAIN CONTENT ENDS HERE -->
 </tabs:division>
 </form:form>
-</tabs:body>
 </table>
 </div>
 </body>

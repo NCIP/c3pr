@@ -27,7 +27,6 @@ function clearField(field){
 </head>
 
 <body>
-<tabs:body title="${flow.name}: ${tab.longTitle} - Short Title: ${command.trimmedShortTitleText}">
 <form:form name="studyIdentifiersForm" method="post">
 <div>
 	<input type="hidden" name="_action" value="">
@@ -37,19 +36,19 @@ function clearField(field){
 <div><tabs:division id="study-identifiers">
 <!-- MAIN BODY STARTS HERE -->
 <div class="workArea">
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<table width="100%" height="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<td valign="top">
-		<strong>Add Identifiers associated with the Study </strong> (<span class="red">*</span>
-		<em>Required Information </em>)<br>
-		<br>
+		<p id="instructions">
+			Add Identifiers associated with the Study (<span class="red">*</span><em>Required Information </em>)<br>
+		</p>
 
 		<table width="65%" border="0" cellspacing="0" cellpadding="0">
 			<tr>
 				<td width="100%" >
-					<table width="100%" border="0" cellspacing="10" cellpadding="0">
+					<table width="100%" border="0" cellspacing="5" cellpadding="0">
 					<tr>
-						<td ><a href="javascript:fireAction('addIdentifier','0');"><img
+						<td align="left"><a href="javascript:fireAction('addIdentifier','0');"><img
 							src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add another Identifier"></a>
 						</td>
 						<td align="left"><b>Assigning Authority<span class="red">*</span></b></td>
@@ -86,7 +85,6 @@ function clearField(field){
 </table>
 </tabs:division>
 </form:form>
-</tabs:body>
 </table>
 </div>
 </body>

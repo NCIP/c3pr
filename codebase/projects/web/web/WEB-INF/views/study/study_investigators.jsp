@@ -11,9 +11,6 @@
 
 <html>
 <head>
-<style type="text/css">
-        .label { width: 12em; text-align: right; padding: 4px; }
-</style>
 <tags:includeScriptaculous/>
 <tags:dwrJavascriptLink objects="createStudy"/>
 
@@ -135,146 +132,139 @@ Event.observe(window, "load", function() {
 	//Element.update("flow-next", "Continue &raquo;")
 })
 
-
-
 </script>
 </head>
-<body>
+
 <!-- MAIN BODY STARTS HERE -->
+<body>
+<form:form method="post" name="form">
+<table border="0" id="table1" cellspacing="10" width="100%">
+	<tr>
+	<td valign="top" width="70%" >
+	<tabs:division id="study-details" title="Study Investigators">
+	<tabs:tabFields tab="${tab}"/>
+	<div>
+		<input type="hidden" name="_action" value="">
+		<input type="hidden" name="_selected" value="">
+		<input type="hidden" name="_studysiteindex" value="">
+	</div>
+	<p id="instructions">
+		Please choose a study site and link investigators to that study site
+	</p>
 
-<tabs:body title="${flow.name}: ${tab.longTitle}">
-	<form:form method="post" name="form">
+		<c:set var="selectedSite" value="0"/>
+		<c:if test="${not empty site_id}">
+			<c:set var="selectedSite" value="${site_id}"/>
+		</c:if>
 
-	<table border="0" id="table1" cellspacing="10" width="100%">
-		<tr>
-		<td valign="top" width="20%">
-			<studyTags:studySummary />
-		</td>
-		<td valign="top" width="55%" >
-		<tabs:division id="study-details" title="Study Investigators">
-		<tabs:tabFields tab="${tab}"/>
-		<div>
-			<input type="hidden" name="_action" value="">
-			<input type="hidden" name="_selected" value="">
-			<input type="hidden" name="_studysiteindex" value="">
-		</div>
-		<p id="instructions">
-			Please choose a study site and link investigators to that study site
-		</p>
+		<table border="0" id="table1" cellspacing="10" width="30%">
 
-			<c:set var="selectedSite" value="0"/>
-			<c:if test="${not empty site_id}">
-				<c:set var="selectedSite" value="${site_id}"/>
-			</c:if>
-
-			<table border="0" id="table1" cellspacing="10" width="30%">
-
-			   <tr>
-					<td align="right"> <b> <span class="red">*</span><em></em>Site:</b> </td>
-					<td align="left">
-						<select id="site" name="site" onchange="javascript:chooseSites();">
-							<c:forEach  items="${command.studySites}" var="studySite" varStatus="status">
-								<c:if test="${selectedSite == status.index }">
-									<option selected="true" value=${status.index}>${studySite.site.name}</option>
-								</c:if>
-								<c:if test="${selectedSite != status.index }">
-									<option value=${status.index}>${studySite.site.name}</option>
-								</c:if>
-							</c:forEach>
-						</select>
-					</td>
-			   </tr>
-			</table>
-
-			<c:set var="index" value="0"/>
-			<c:if test="${!empty site_id}">
-				<c:set var="index" value="${site_id}"/>
-			</c:if>
-
-			<table border="0" id="table1" cellspacing="0" width="100%">
-				<tr>
-					<td align="center"> <b> <span class="red">*</span><em></em>Investigator:</b> </td>
-					<td align="center"> <b> <span class="red">*</span><em></em>Role:</b> </td>
-					<td align="center"> <b> <span class="red">*</span><em></em>Status:</b> </td>
-					<td align="center">
-						<b><a href="javascript:fireAction1('addInv','0', ${index});"><img
-							src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a></b>
-					</td>
-				</tr>
-
-				<c:forEach varStatus="status" items="${command.studySites[index].studyInvestigators}">
-					<tr>
-					    <td align="center" width="45%">
-					        <form:hidden id="investigator${status.index}" path="studySites[${index}].studyInvestigators[${status.index}].healthcareSiteInvestigator"/>
-						    <input type="text" id="investigator${status.index}-input" size="40" value="${command.studySites[index].studyInvestigators[status.index].healthcareSiteInvestigator.investigator.fullName}"/>
-						    <input type="button" id="investigator${status.index}-clear" value="Clear"/>
-		                    <tags:indicator id="investigator${status.index}-indicator"/>
-        					<div id="investigator${status.index}-choices" class="autocomplete"></div>
-		         		</td>
-						<td width="23%">
-							<form:select path="studySites[${index}].studyInvestigators[${status.index}].roleCode">
-								<option value="">--Please Select--
-								<form:options items="${studyInvestigatorRoleRefData}" itemLabel="desc" itemValue="desc"/>
-							</form:select>
-						</td>
-						<td align="center" width="22%">
-							<form:select path="studySites[${index}].studyInvestigators[${status.index}].statusCode">
-								<option value="">--Please Select--
-								<form:options items="${studyInvestigatorStatusRefData}" itemLabel="desc" itemValue="desc" />
-							</form:select>
-						</td>
-						<td align="center" width="5%">
-							<a href="javascript:fireAction1('removeInv',${status.index}, ${index});"><img
-								src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a>
-						</td>
-					</tr>
-				</c:forEach>
-				<tr>
-				<td>
-				<p id="investigator-selected" style="display: none">
-					You've selected the participant <span id="investigator-selected-name"></span>.
-				</p>
+		   <tr>
+				<td align="right"> <b> <span class="red">*</span><em></em>Site:</b> </td>
+				<td align="left">
+					<select id="site" name="site" onchange="javascript:chooseSites();">
+						<c:forEach  items="${command.studySites}" var="studySite" varStatus="status">
+							<c:if test="${selectedSite == status.index }">
+								<option selected="true" value=${status.index}>${studySite.site.name}</option>
+							</c:if>
+							<c:if test="${selectedSite != status.index }">
+								<option value=${status.index}>${studySite.site.name}</option>
+							</c:if>
+						</c:forEach>
+					</select>
 				</td>
-				</tr>
-			</table>
-		  </tabs:division>
-		  </td>
-		  <td valign="top" width="25%">
-			<tabs:division id="Summary" title="Investigators Summary">
-			<font size="2"><b> Study Sites </b> </font>
-			<br><br>
-			<table border="0" id="table1" cellspacing="0" cellpadding="0" width="100%">
-			<c:forEach var="studySite" varStatus="status" items="${command.studySites}">
-				<tr>
-					<td>
-						<a onclick="javascript:chooseSitesfromSummary(${status.index});" title="click here to edit investigator assigned to study"> <font size="2"> <b> ${studySite.site.name} </b> </font> </a>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						Investigators Assigned: <b> ${fn:length(studySite.studyInvestigators)} </b>
-					</td>
-				</tr>
-				<tr>
-					<td>
-						<br>
-					</td>
-				</tr>
-			</c:forEach>
-			<c:forEach begin="1" end="15">
+		   </tr>
+		</table>
+
+		<c:set var="index" value="0"/>
+		<c:if test="${!empty site_id}">
+			<c:set var="index" value="${site_id}"/>
+		</c:if>
+
+		<table border="0" id="table1" cellspacing="10" width="70%">
 			<tr>
-				<td>
-					<br>
+				<td align="left"> <b> <span class="red">*</span><em></em>Investigator:</b> </td>
+				<td align="left"> <b> <span class="red">*</span><em></em>Role:</b> </td>
+				<td align="left"> <b> <span class="red">*</span><em></em>Status:</b> </td>
+				<td align="left">
+					<b><a href="javascript:fireAction1('addInv','0', ${index});"><img
+						src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a></b>
 				</td>
 			</tr>
+
+			<c:forEach varStatus="status" items="${command.studySites[index].studyInvestigators}">
+				<tr>
+					<td align="left" width="50%">
+						<form:hidden id="investigator${status.index}" path="studySites[${index}].studyInvestigators[${status.index}].healthcareSiteInvestigator"/>
+						<input type="text" id="investigator${status.index}-input" size="30" value="${command.studySites[index].studyInvestigators[status.index].healthcareSiteInvestigator.investigator.fullName}"/>
+						<input type="button" id="investigator${status.index}-clear" value="Clear"/>
+						<tags:indicator id="investigator${status.index}-indicator"/>
+						<div id="investigator${status.index}-choices" class="autocomplete"></div>
+					</td>
+					<td width="20%">
+						<form:select path="studySites[${index}].studyInvestigators[${status.index}].roleCode">
+							<option value="">--Please Select--
+							<form:options items="${studyInvestigatorRoleRefData}" itemLabel="desc" itemValue="desc"/>
+						</form:select>
+					</td>
+					<td align="center" width="23%">
+						<form:select path="studySites[${index}].studyInvestigators[${status.index}].statusCode">
+							<option value="">--Please Select--
+							<form:options items="${studyInvestigatorStatusRefData}" itemLabel="desc" itemValue="desc" />
+						</form:select>
+					</td>
+
+					<td align="center" width="20%">
+						<a href="javascript:fireAction1('removeInv',${status.index}, ${index});"><img
+							src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a>
+					</td>
+				</tr>
 			</c:forEach>
-			</table>
-			</tabs:division>
-		</td>
-		  </tr>
+			<tr>
+			<td>
+			<p id="investigator-selected" style="display: none">
+				You've selected the participant <span id="investigator-selected-name"></span>.
+			</p>
+			</td>
+			</tr>
 		</table>
-	</form:form>
+	  </tabs:division>
+	  </td>
+	   <td valign="top" width="30%">
+	  	<tabs:division id="Summary" title="Investigators Summary">
+	  	<font size="2"><b> Study Sites </b> </font>
+	  	<br><br>
+	  	<table border="0" id="table1" cellspacing="0" cellpadding="0" width="100%">
+	  	<c:forEach var="studySite" varStatus="status" items="${command.studySites}">
+	  		<tr>
+	  			<td>
+	  				<a onclick="javascript:chooseSitesfromSummary(${status.index});" title="click here to edit investigator assigned to study"> <font size="2"> <b> ${studySite.site.name} </b> </font> </a>
+	  			</td>
+	  		</tr>
+	  		<tr>
+	  			<td>
+	  				Investigators Assigned: <b> ${fn:length(studySite.studyInvestigators)} </b>
+	  			</td>
+	  		</tr>
+	  		<tr>
+	  			<td>
+	  				<br>
+	  			</td>
+	  		</tr>
+	  	</c:forEach>
+	  	<c:forEach begin="1" end="12">
+	  	<tr>
+	  		<td>
+	  			<br>
+	  		</td>
+	  	</tr>
+	  	</c:forEach>
+	  	</table>
+	  	</tabs:division>
+	</td>
+	  </tr>
+	</table>
+</form:form>
 <!-- MAIN BODY ENDS HERE -->
-</tabs:body>
 </body>
 </html>

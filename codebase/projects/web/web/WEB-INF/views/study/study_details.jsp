@@ -14,15 +14,14 @@ prefix="decorator"%>
 </style>
 </head>
 <body>
-<tabs:body title="${flow.name}: ${tab.longTitle} - Short Title: ${command.trimmedShortTitleText}">
 <form:form method="post">
 <tabs:tabFields tab="${tab}" />
 <div><tabs:division id="study-details" title="Basic Details">
 <!-- MAIN BODY STARTS HERE -->
-<table width="60%" border="0" cellspacing="0" cellpadding="0">
+<table width="40%" border="0" cellspacing="0" cellpadding="0">
 <tr>
 	<td valign="top">
-	<table width="100%" border="0" cellspacing="0" cellpadding="0"
+	<table width="50%" border="0" cellspacing="0" cellpadding="0"
 		id="table1">
 		<tr>
 			<td class="label">Short Title:</td>
@@ -60,8 +59,8 @@ prefix="decorator"%>
 		</tr>
 	</table>
 	</td>
-	<td width="100%" valign="top" class="contentAreaR"><strong><strong><strong></strong></strong></strong>
-	<table width="80%" border="0" cellspacing="0" cellpadding="0"
+	<td width="40%" valign="top" class="contentAreaR"><strong><strong><strong></strong></strong></strong>
+	<table width="50%" border="0" cellspacing="0" cellpadding="0"
 		id="table1">
 		<tr>
 			<td class="label">Target Accrual:</td>
@@ -193,7 +192,6 @@ prefix="decorator"%>
 <!-- MAIN BODY ENDS HERE -->
 </tabs:division>
 </form:form>
-</tabs:body>
 </table>
 </body>
 </html>
