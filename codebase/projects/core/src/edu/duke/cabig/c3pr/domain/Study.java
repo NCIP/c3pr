@@ -14,6 +14,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Where;
 
 import edu.duke.cabig.c3pr.utils.StringUtils;
 
@@ -373,9 +374,7 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 	@OneToMany
     @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })        
     @JoinColumn(name = "stu_id", nullable=false) 
-    //@OneToMany (mappedBy="study", fetch=FetchType.LAZY)
-    //@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})	
-	
+    @Where(clause = "DTYPE = 'E'") // it is pretty lame that this is necessary    
 	public List<ExclusionEligibilityCriteria> getExcCriterias() {
 		return excCriterias;
 	}
@@ -386,9 +385,8 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 
 	@OneToMany
     @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })        
-    @JoinColumn(name = "stu_id", nullable=false)        
-	//@OneToMany (mappedBy="study", fetch=FetchType.LAZY)
-    //@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})	
+    @JoinColumn(name = "stu_id", nullable=false)   
+    @Where(clause = "DTYPE = 'I'") // it is pretty lame that this is necessary   		
 	public List<InclusionEligibilityCriteria> getIncCriterias() {
 		return incCriterias;
 	}
