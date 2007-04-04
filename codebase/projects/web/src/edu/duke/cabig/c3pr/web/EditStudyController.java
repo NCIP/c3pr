@@ -1,9 +1,5 @@
 package edu.duke.cabig.c3pr.web;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,12 +13,7 @@ import org.springframework.web.HttpSessionRequiredException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
-import edu.duke.cabig.c3pr.utils.Lov;
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Tab;
 
 /**
  * Controller class to handle the work flow in the Updation of a Study Design
@@ -36,68 +27,8 @@ public class EditStudyController extends StudyController {
 	public EditStudyController()
 	{
 		setBindOnNewForm(true);
-	}
+	}	
 	
-	protected void intializeFlows(Flow<Study> flow)	
-	{	   
-		 flow.addTab(new Tab<Study>("Study Details", "Details", "study/study_edit_details") {
-	            public Map<String, Object> referenceData() {
-	           	 	Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        
-	       	  
-	            	Map<String, Object> refdata = new HashMap<String, Object>();
-	        		  	            	
-	            	refdata.put("diseaseCodeRefData", configMap.get("diseaseCodeRefData"));
-	    	  		refdata.put("monitorCodeRefData",  configMap.get("monitorCodeRefData"));
-	    	  		refdata.put("phaseCodeRefData",  configMap.get("phaseCodeRefData"));
-	    	  		refdata.put("sponsorCodeRefData",  configMap.get("sponsorCodeRefData"));
-	    	  		refdata.put("statusRefData",  configMap.get("statusRefData"));
-	    	  		refdata.put("typeRefData",  configMap.get("typeRefData"));
-	    	  		refdata.put("randomizedIndicatorRefData", configMap.get("yesNo"));
-	    	  		refdata.put("multiInstitutionIndicatorRefData", configMap.get("yesNo"));
-	    	  		refdata.put("blindedIndicatorRefData", configMap.get("yesNo"));
-	    	  		refdata.put("searchTypeRefData", configMap.get("studySearchType"));	  	     	    	  		
-	    	  	
-	    	  		return refdata;
-	             }        	
-	        });
-	        flow.addTab(new Tab<Study>("Study Identifiers", "Identifiers", "study/study_edit_identifiers"){
-	            
-	        	public Map<String, Object> referenceData() {
-	        		Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        
-	  	       	  
-	        		Map<String, Object> refdata = new HashMap<String, Object>();
-	        		
-	        		refdata.put("identifiersSourceRefData", getHealthcareSites());
-	    	  		refdata.put("identifiersTypeRefData", configMap.get("identifiersType"));	
-	    	  		return refdata;
-	    	 	}
-	        });                 
-	        flow.addTab(new Tab<Study>("Study Sites", "Sites", "study/study_edit_studysites") {
-	            
-	        	public Map<String, Object> referenceData() {
-	        		Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        
-	  	       	  
-	        		Map<String, Object> refdata = new HashMap<String, Object>();
-	        		
-	        		refdata.put("healthCareSitesRefData", getHealthcareSites());	  			  	
-	    	  		refdata.put("studySiteStatusRefData", configMap.get("studySiteStatusRefData"));
-	    	  		refdata.put("studySiteRoleCodeRefData", configMap.get("studySiteRoleCodeRefData"));	  		
-	    	  		return refdata;	  		
-	         	}        	
-	        });
-
-			flow.addTab(new Tab<Study>("Epochs & Arms", "Epochs & Arms", "study/study_edit_design") {
-	            
-	        	public Map<String, Object> referenceData() {
-	        		
-	                Map<String, Object> refdata = super.referenceData();
-	                return refdata;
-	           
-	        	}        	
-	        });
-			
-		  setFlow(flow);       
-	}		
 
 	/**
 	 * Create a nested object graph that Create Study Design needs 
@@ -112,32 +43,20 @@ public class EditStudyController extends StudyController {
 		}
 		return study;
 	}
-				
-	@Override
-	protected void postProcessPage(HttpServletRequest request, Object oCommand,
-			Errors errors, int page) throws Exception {
-		Study study = (Study) oCommand;
+	
+	/**
+	 * Overriden here to perform futher processing
+	 * @param request
+	 * @param command
+	 * @param arg2
+	 * @param pageNo
+	 * @throws Exception
+	 */
+	protected void postPostProcessPage(HttpServletRequest request, Object command,
+			Errors arg2, int pageNo) throws Exception{
 		
-		if (page ==0){
-			log.debug("Retrieving Identifiers for Study Id: "+study.getId());
-		}
-		if (page == 1) {
-			log.debug("Retrieving StudySites for Study Id: "+study.getId());			
-			handleIdentifierAction(study, request.getParameter("_action"), request
-				.getParameter("_selected"));
-		}
-		else if (page ==2) {
-			log.debug("Retrieving Epochs for Study Id: "+study.getId());
-			handleStudySiteAction((Study)oCommand,
-			request.getParameter("_action"),
-			request.getParameter("_selected"));							
-		}
-		else if (page ==3) {
-			handleStudyDesignAction((Study)oCommand, 
-			request.getParameter("_action"),
-			request.getParameter("_selectedEpoch"),
-			request.getParameter("_selectedArm"));	
-		}		
+		Study study = (Study) command;
+		
 		if ("update".equals(request.getParameter("_action"))){
 			try {
 				log.debug("Updating Study");
@@ -146,7 +65,7 @@ public class EditStudyController extends StudyController {
 				log.debug("Unable to update Study");
 				e.printStackTrace();
 			}
-		}		
+		}	
 	}
 	
 	/* (non-Javadoc)
