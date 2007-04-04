@@ -23,12 +23,14 @@
 <layout:navigation/>
 <div class="tabpane">
     <tabs:levelTwoTabs tab="${tab}" flow="${flow}"/>
+    <tabs:body title="${flow.name}: ${tab.longTitle} - Short Title: ${command.trimmedShortTitleText}">    
     <div class="tabcontent workArea">
         <div class="body">
             <decorator:body/>
         </div>
         <tabs:tabControls tabNumber="${tab.number}" isLast="${tab.number < flow.tabCount - 1}"/>
     </div>
+    </tabs:body>    
 </div>
 <form:form id="flowredirect">
     <input type="hidden" name="_target${tab.targetNumber}" id="flowredirect-target"/>
