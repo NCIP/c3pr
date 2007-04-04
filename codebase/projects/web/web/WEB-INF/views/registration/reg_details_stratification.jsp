@@ -55,7 +55,7 @@ field.value="";
 								<td align="left" width="50%" border="0" valign="top"
 									class="contentAreaL">
 								<form name="form2" method="post" action="" id="form1">
-								<table width="700" border="0" cellspacing="0" cellpadding="0"
+								<table width="650" border="0" cellspacing="0" cellpadding="0"
 									id="table1">
 
 									<tr valign="top">
@@ -66,8 +66,8 @@ field.value="";
 									</tr>
 
 									<tr>
-										<td align="right" class="label"><em></em> The Study does not
-										have Stratification Factors</td>
+										<td align="right"><em></em><b> The Study does not
+										have Stratification Factors</b></td>
 
 									</tr>
 									<tr>

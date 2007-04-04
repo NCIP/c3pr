@@ -55,7 +55,7 @@ field.value="";
 								<td align="left" width="50%" border="0" valign="top"
 									class="contentAreaL">
 								<form name="form2" method="post" action="" id="form1">
-								<table width="700" border="0" cellspacing="0" cellpadding="0"
+								<table width="650" border="0" cellspacing="0" cellpadding="0"
 									id="table1">
 
 									<tr valign="top">
@@ -65,8 +65,8 @@ field.value="";
 											width="1" height="1" class="heightControl"></td>
 									</tr>
 									<tr>
-										<td width="200" align="right" class="label"><span class="red">*</span><em></em>Eligibility
-										:&nbsp;</td>
+										<td width="200" align="right"><span class="red">*</span><em></em><b>Eligibility
+										:</b>&nbsp;</td>
 										<td align="left"><select name="select" class="field1">
 											<option selected>Eligible</option>
 											<option>Ineligible</option>
@@ -82,7 +82,7 @@ field.value="";
 									</tr>
 
 									<tr>
-										<td width="200" align="right" class="label"><em></em>Eligibility Waiver Reason:&nbsp;</td>
+										<td width="200" align="right" ><em></em><b>Eligibility Waiver Reason:</b>&nbsp;</td>
 										<td align="left">${command.eligibilityWaiverReasonText}
 										</td>
 

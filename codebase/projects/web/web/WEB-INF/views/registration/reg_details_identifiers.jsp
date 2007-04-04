@@ -60,17 +60,17 @@ field.value="";
 								<td align="left" width="50%" border="0" valign="top"
 									class="contentAreaL">
 								<form name="form2" method="post" action="" id="form1">
-								<table width="700" border="0" cellspacing="10" cellpadding="0"
+								<table width="650" border="0" cellspacing="10" cellpadding="0"
 									id="table1">
 									<tr align="center" class="label">
-										<td width="10%" align="left" class="label"></td>
-										<td width="15%" align="left" class="label"><span class="red">*</span>Assigning
-										Authority</td>
-										<td width="15%" align="left" class="label"><span class="red">*</span>
-										Identifier Type</td>
-										<td width="15%" align="left" class="label"><span class="red">*</span>Identifier</td>
-										<td width="15%" align="left" class="label">Primary Indicator</td>
-										<td width="15%" align="left" class="label"></td>
+										<th width="10%" align="left" class="label"></th>
+										<th width="15%" align="left" class="label"><span class="red">*</span>Assigning
+										Authority</th>
+										<th width="15%" align="left" class="label"><span class="red">*</span>
+										Identifier Type</th>
+										<th width="15%" align="left" class="label"><span class="red">*</span>Identifier</th>
+										<th width="15%" align="left" class="label">Primary Indicator</th>
+										<th width="15%" align="left" class="label"></th>
 									</tr>
 									<c:forEach items="${command.identifiers}" varStatus="status">
 										<tr align="center" class="results">

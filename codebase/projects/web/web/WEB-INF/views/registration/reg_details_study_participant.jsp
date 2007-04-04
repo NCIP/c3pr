@@ -55,26 +55,26 @@ field.value="";
 								<td align="left" width="50%" border="0" valign="top"
 									class="contentAreaL">
 								<form name="form2" method="post" action="" id="form1">
-								<table width="700" border="0" cellspacing="0" cellpadding="0"
+								<table width="650" border="0" cellspacing="0" cellpadding="0"
 									id="table1">
 									<tr>
-										<td width="200" align="right" class="label"><em></em> Primary
-										Identifier:&nbsp;</td>
+										<td width="200" align="right"><em></em><b> Primary
+										Identifier:<b>&nbsp;</td>
 										<td align="left">${command.studySite.studyInvestigators[0].healthcareSiteInvestigator.investigator.nciIdentifier}</td>
 									</tr>
 									<tr>
-										<td width="200" align="right" class="label"><em></em>Informed
-										Consent Version:&nbsp;</td>
+										<td width="200" align="right"><em></em><b>Informed
+										Consent Version:<b>&nbsp;</td>
 										<td align="left">1.0</td>
 									</tr>
 									<tr>
-										<td width="200" align="right" class="label"><em></em>Informed
-										Consent Signed Date:&nbsp;</td>
+										<td width="200" align="right"><em></em><b>Informed
+										Consent Signed Date:<b>&nbsp;</td>
 										<td align="left" valign="top">${command.informedConsentSignedDate}</td>
 									</tr>
 									<tr>
-										<td width="200" align="right" class="label"><em></em> Treating
-										Physician:&nbsp;</td>
+										<td width="200" align="right"><em></em><b> Treating
+										Physician:<b>&nbsp;</td>
 										<td align="left">${command.studySite.studyInvestigators[0].healthcareSiteInvestigator.investigator.firstName}&nbsp;
 										${command.studySite.studyInvestigators[0].healthcareSiteInvestigator.investigator.lastName}</td>
 									</tr>

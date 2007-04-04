@@ -55,7 +55,7 @@ field.value="";
 								<td align="left" width="50%" border="0" valign="top"
 									class="contentAreaL">
 								<form name="form2" method="post" action="" id="form1">
-								<table width="700" border="0" cellspacing="0" cellpadding="0"
+								<table width="650" border="0" cellspacing="0" cellpadding="0"
 									id="table1">
 
 									<tr valign="top">
@@ -66,8 +66,8 @@ field.value="";
 									</tr>
 
 									<tr>
-										<td align="right" class="label"><span class="red">*</span><em></em>Randomization
-										Type:&nbsp;</td>
+										<td align="right" ><span class="red">*</span><em></em><b>Randomization
+										Type:</b>&nbsp;</td>
 										<td align="left"><select name="select" class="field1">
 											<option selected>Book</option>
 											<option>Call-Out</option>
@@ -91,8 +91,8 @@ field.value="";
 
 
 									<tr>
-										<td align="right" class="label"><span class="red">*</span><em></em>Treatment
-										Arm:&nbsp;</td>
+										<td align="right"><span class="red">*</span><em></em><b>Treatment
+										Arm:</b>&nbsp;</td>
 										<td align="left"><select name="select" class="field1">
 											<option selected>Arm A</option>
 											<option>Arm B</option>
