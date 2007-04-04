@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
@@ -10,6 +12,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Where;
 
 /**
  * @author Priyatam
@@ -32,8 +35,8 @@ public abstract class EligibilityCriteria extends AbstractGridIdentifiableDomain
 	
 	private Study study;
 	
-	@ManyToOne (fetch = FetchType.LAZY)
-	@JoinColumn(name="stu_id", updatable = false, insertable = false)  
+	@ManyToOne
+	@JoinColumn(name="stu_id", updatable = false, insertable = false) 
 	public Study getStudy() {
 		return study;
 	}
