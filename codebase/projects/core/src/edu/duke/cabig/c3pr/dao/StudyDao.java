@@ -13,6 +13,7 @@ import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
+import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.emory.mathcs.backport.java.util.Collections;
 import edu.nwu.bioinformatics.commons.CollectionUtils;
 
@@ -34,10 +35,25 @@ public class StudyDao extends AbstractBaseDao<Study> {
 		return Study.class;
 	 }
 	
+	/**
+	 * This is a hack to load all collection objects in memory. Useful
+	 * for editing a Study when you know you will be needing all collections
+	 * To avoid Lazy loading Exception by Hibernate, a call to .size() is done
+	 * for each collection
+	 * @param id
+	 * @return
+	 */
 	public Study getStudyDesignById(int id) {				
         Study study =  (Study) getHibernateTemplate().get(domainClass(), id);
         study.getIdentifiers().size();
         study.getStudySites().size();
+        for (StudySite studySite : study.getStudySites()) {
+			studySite.getStudyInvestigators().size();
+			studySite.getStudyPersonnels().size();		
+		}
+        study.getExcCriterias().size();
+        study.getIncCriterias().size();
+        
         List<Epoch> epochs = study.getEpochs();
         epochs.size();
         for (Epoch epoch : epochs) {
