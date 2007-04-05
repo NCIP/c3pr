@@ -18,7 +18,6 @@ function getPage(s){
 </script>
 </head>
 <body>
-<tabs:body title="${flow.name} ">
 	<form:form method="post" cssClass="standard">
 		<tabs:tabFields tab="${tab}" />
 		<tabs:division id="subject-details">
@@ -76,6 +75,5 @@ function getPage(s){
 			<!-- MAIN BODY ENDS HERE -->
 		</tabs:division>
 	</form:form>
-</tabs:body>
 </body>
 </html>

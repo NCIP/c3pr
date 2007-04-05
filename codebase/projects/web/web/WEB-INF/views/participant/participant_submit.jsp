@@ -30,7 +30,6 @@ if (action){
 </script>
 </head>
 <body>
-<tabs:body title="${flow.name} ">
 <form:form method="post">
 <input type="hidden" name="_finish" value="true"/>		
 <div><tabs:division id="subject-review-submit">
@@ -54,11 +53,11 @@ if (action){
 										<div><input type="hidden" name="_page" value="1"></div>
 										<strong>Details </strong>
 										<br>
-										<table width="700" border="0" cellspacing="0" cellpadding="0"
+										<table width="50%" border="0" cellspacing="0" cellpadding="0"
 											id="details">
 											<tr>
 												<td width="50%" valign="top">
-												<table width="308" border="0" cellspacing="0"
+												<table width="100%" border="0" cellspacing="0"
 													cellpadding="0" id="table1">
 													<tr>
 														<td><img src="<tags:imageUrl name="spacer.gif"/>"
@@ -67,25 +66,25 @@ if (action){
 															width="1" height="1" class="heightControl"></td>
 													</tr>
 													<tr>
-														<td align="right" class="label"><em></em>First Name:&nbsp;</td>
+														<td width="50%" align="right"><em></em><b>First Name:</b>&nbsp;</td>
 														<td align="left">${command.firstName}</td>
 													</tr>
 													<tr>
-														<td align="right" class="label"><em></em>Last Name:&nbsp;</td>
+														<td width="50%" align="right"><em></em><b>Last Name:</b>&nbsp;</td>
 														<td align="left">${command.lastName}</td>
 													</tr>
 													<tr>
-														<td align="right" class="label"><em></em>Gender:&nbsp; </td>
+														<td width="50%" align="right" ><em></em><b>Gender:</b>&nbsp; </td>
 														<td align="left">${command.administrativeGenderCode}</td>
 													</tr>
 													<tr>
-														<td align="right" class="label"><em></em>Subject MRN:&nbsp;</td>
+														<td width="50%" align="right"><em></em><b>Subject MRN:</b>&nbsp;</td>
 														<td align="left">${command.primaryIdentifier }</td>
 													</tr>
 												</table>
 												</td>
 												<td width="50%" valign="top" class="contentAreaR"><strong><strong><strong></strong></strong></strong>
-												<table width="308" border="0" cellspacing="0"
+												<table width="100%" border="0" cellspacing="0"
 													cellpadding="0" id="table1">
 													<tr>
 														<td><img src="<tags:imageUrl name="spacer.gif"/>"
@@ -94,15 +93,15 @@ if (action){
 															width="1" height="1" class="heightControl"></td>
 													</tr>
 													<tr>
-														<td align="right" class="label"><em></em>Birth Date:&nbsp;</td>
+														<td align="right" ><em></em><b>Birth Date:</b>&nbsp;</td>
 														<td align="left"valign="top">${command.birthDateStr}</td>
 													</tr>
 													<tr>
-														<td align="right" class="label"><em></em>Ethnicity:&nbsp;</td>
+														<td align="right"><em></em><b>Ethnicity:</b>&nbsp;</td>
 														<td align="left">${command.ethnicGroupCode}</td>
 													</tr>
 													<tr>
-														<td align="right" class="label"><em></em>Race(s):&nbsp;</td>
+														<td align="right"><em></em><b>Race(s):</b>&nbsp;</td>
 														<td align="left">${command.raceCode}</td>
 													</tr>
 												</table>
@@ -118,26 +117,26 @@ if (action){
 										Address</strong>
 										<br>
 										<br>
-										<table width="700" border="0" cellspacing="0" cellpadding="0"
+										<table width="50%" border="0" cellspacing="0" cellpadding="0"
 											id="details">
 											<tr>
 												<td width="50%" valign="top">
-												<table width="308" border="0" cellspacing="0"
+												<table width="50%" border="0" cellspacing="0"
 													cellpadding="0" id="table1">
 													<tr>
-														<td align="right" class="label"><em></em> Street Address:&nbsp;</td>
+														<td width="50%" align="right"><em></em><b> Street Address:</b>&nbsp;</td>
 														<td align="left" >${command.address.streetAddress}</td>
 													</tr>
 													<tr>
-														<td align="right" class="label"><em></em> City:&nbsp;</td>
+														<td width="50%" align="right"><em></em><b> City:</b>&nbsp;</td>
 														<td align="left">${command.address.city}</td>
 													</tr>
 													<tr>
-														<td align="right" class="label"><em></em> State:&nbsp;</td>
+														<td width="50%" align="right" ><em></em><b> State:</b>&nbsp;</td>
 														<td align="left">${command.address.stateCode}<em></em><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Zip:&nbsp;</strong>${command.address.postalCode}</td>
 													</tr>
 													<tr>
-														<td align="right" class="label"><em></em><em></em> Country:&nbsp;</td>
+														<td width="50%" align="right" ><em></em><em></em><b> Country:</b>&nbsp;</td>
 														<td align="left">${command.address.countryCode}</td>
 													</tr>
 												</table>
@@ -160,9 +159,9 @@ if (action){
 												<table width="100%" border="1" cellspacing="0"
 													cellpadding="0" id="table1">
 													<tr>
-														<th align="left" width="40%" class="label">&nbsp;Assigning Authority:</th>
-														<th align="left" width="30%" class="label">&nbsp;Identifier Type:</th>
-														<th align="left" width="30%" class="label">&nbsp;Identifier:</th>
+														<th align="left" width="40%" >&nbsp;<b>Assigning Authority:</b></th>
+														<th align="left" width="30%" >&nbsp;<b>Identifier Type:</b></th>
+														<th align="left" width="30%" >&nbsp;<b>Identifier:</b></th>
 													</tr>
 													<c:forEach items="${command.identifiers}" var="identifier">
 														<c:if test="${identifier.type!=''}">
@@ -197,6 +196,5 @@ if (action){
 			<!-- MAIN BODY ENDS HERE -->
 		</tabs:division>
 	</form:form>
-</tabs:body>
 </body>
 </html>
