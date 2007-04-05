@@ -209,7 +209,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                         </bean>
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="CC" />
-                            <property name="desc" value="Co-ordinating Center Identifier" />
+                            <property name="desc" value="Coordinating Site Identifier" />
  			           </bean>
                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="S" />
