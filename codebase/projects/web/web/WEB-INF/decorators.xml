@@ -5,8 +5,10 @@
         <pattern>/public/*</pattern>
     </decorator>   
     <decorator name="tabbedflow" page="tabbedflow.jsp">
-        <pattern>/pages/study/createStudy</pattern>
-		<pattern>/pages/participant/createParticipant</pattern>       
+        <pattern>/pages/study/createStudy</pattern>	   
+    </decorator>
+    <decorator name="tabbedflow_participant" page="tabbedflow_participant.jsp">
+        <pattern>/pages/participant/createParticipant</pattern>       
     </decorator>
     <decorator name="tabbedflow_edit" page="tabbedflow_edit.jsp">
       	<pattern>/pages/participant/editParticipant</pattern>
