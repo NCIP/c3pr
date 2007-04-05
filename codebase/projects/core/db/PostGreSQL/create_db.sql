@@ -11,3 +11,6 @@ CREATE DATABASE c3pr_dev
        TABLESPACE = pg_default;
 GRANT ALL ON DATABASE c3pr_dev TO public;
 GRANT ALL ON DATABASE c3pr_dev TO pg;
+
+For more info follow this tutorial
+http://www.cyberciti.biz/faq/howto-add-postgresql-user-account/
