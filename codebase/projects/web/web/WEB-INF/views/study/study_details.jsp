@@ -141,7 +141,7 @@ prefix="decorator"%>
 		<tr>
 			<td class="label"><span class="red">*</span><em></em>Randomized</td>
 			<td><form:select path="randomizedIndicator">
-				<form:options items="${randomizedIndicatorRefData}"
+				<option value="">--Please Select-- <form:options items="${randomizedIndicatorRefData}"
 					itemLabel="desc" itemValue="code" />
 			</form:select></td>
 			<td width="10%"></td>
@@ -155,7 +155,7 @@ prefix="decorator"%>
 			<td class="label"><span class="red">*</span><em></em>Multi
 			Institution:</td>
 			<td><form:select path="multiInstitutionIndicator">
-				<form:options items="${multiInstitutionIndicatorRefData}"
+				<option value="">--Please Select-- <form:options items="${multiInstitutionIndicatorRefData}"
 					itemLabel="desc" itemValue="code" />
 			</form:select></td>
 			<td width="15%"></td>
@@ -167,7 +167,7 @@ prefix="decorator"%>
 		<tr>
 			<td class="label">Blinded</td>
 			<td><form:select path="blindedIndicator">
-				<form:options items="${blindedIndicatorRefData}"
+				<option value="">--Please Select-- <form:options items="${blindedIndicatorRefData}"
 					itemLabel="desc" itemValue="code" />
 			</form:select></td>
 			<td width="15%"></td>

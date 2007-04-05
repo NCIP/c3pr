@@ -149,7 +149,7 @@ Event.observe(window, "load", function() {
 		<input type="hidden" name="_studysiteindex" value="">
 	</div>
 	<p id="instructions">
-		Please choose a study site and link investigators to that study site
+		Please choose a study site and add investigators to that study site
 	</p>
 
 		<c:set var="selectedSite" value="0"/>

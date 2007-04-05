@@ -50,7 +50,7 @@ function updateTargetPage(target){
 					<td>${command.status}</td>
 				</tr>
 				<tr>
-					<td width="20%" class="labelR"><b>Disease Code:</b></td>
+					<td width="20%" class="labelR"><b>Disease:</b></td>
 					<td>${command.diseaseCode}</td>
 				</tr>
 				<tr>
@@ -58,11 +58,11 @@ function updateTargetPage(target){
 					<td>${command.type}</td>
 				</tr>
 				<tr>
-					<td width="20%" class="labelR"><b>Monitor Code:</b></td>
+					<td width="20%" class="labelR"><b>Monitor:</b></td>
 					<td>${command.monitorCode}</td>
 				</tr>
 				<tr>
-					<td width="20%" class="labelR"><b>Phase Code:<b></td>
+					<td width="20%" class="labelR"><b>Phase:<b></td>
 					<td>${command.phaseCode}</td>
 				</tr>
 				<tr>
@@ -206,7 +206,7 @@ function updateTargetPage(target){
 					<table width="100%" border="0" cellspacing="0" cellpadding="0"
 						id="table1">
 						<tr>
-							<td width="20% align="left"><b>Study Personnel</b></td>
+							<td width="20% align="left"><b>Name</b></td>
 							<td width="20%" align="left"><b>Role</b></td>
 							<td width="20%" align="left"><b>Status</b></td>
 						</tr>

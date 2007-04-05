@@ -60,14 +60,14 @@ function fireAction(action, selected){
 							<td width="5%"><a href="javascript:fireAction('removeStudySite',${status.index});"><img
 								src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 							<td width="11%"><form:select path="studySites[${status.index}].site">
-								<form:options items="${healthCareSitesRefData}" itemLabel="name" itemValue="id" />
+								<option value="">--Please Select--<form:options items="${healthCareSitesRefData}" itemLabel="name" itemValue="id" />
 								</form:select></td>
 							<td width="11%"><form:select path="studySites[${status.index}].statusCode">
-								<form:options items="${studySiteStatusRefData}" itemLabel="desc"
+								<option value="">--Please Select--<form:options items="${studySiteStatusRefData}" itemLabel="desc"
 									itemValue="desc" />
 							</form:select></td>
 							<td width="11%"><form:select path="studySites[${status.index}].roleCode">
-								<form:options items="${studySiteRoleCodeRefData}" itemLabel="desc"
+								<option value="">--Please Select--<form:options items="${studySiteRoleCodeRefData}" itemLabel="desc"
 									itemValue="desc" />
 							</form:select></td>
 							<td width="17%"><form:input

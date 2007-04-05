@@ -143,7 +143,7 @@ function hideTextArea(a,b){
 	<input type="hidden" name="_selected" value=""></div>
 </div>
 <!-- MAIN BODY STARTS HERE -->
-<table border="0" id="table1" cellspacing="10" width="100%">
+<table border="0" id="table1" cellspacing="10" width="60%">
 	<tr>
 		<td valign="top" width="100%">
 		 <table border="0" id="table1" cellspacing="0" width="100%">
@@ -156,8 +156,7 @@ function hideTextArea(a,b){
 					<p id="instructions">
 						*NA - Allow Not Applicable answer<br>
 						Yes and No are permissible answers
-						for both types of Criterias
-					</p>
+						</p>
 					<p>
 						<b><a href="javascript:fireAction('addInclusionCriteria',0,'InclusionTable');"><img
 							src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a>Add an Inclusion Criteria</b>
@@ -170,18 +169,15 @@ function hideTextArea(a,b){
 							<td>
 							<table width="100%" border="0" id="table_ic">
 							<tr>
-								<td align="left"><b>No</b></td>
 								<td align="left"><b>Question<span class="red">*</span></b></td>
 								<td align="left"><b>NA</b></td>
 								<td align="left"></td></b>
 							</tr>
 							<c:forEach varStatus="status" items="${command.incCriterias}">
 							<tr id="bex-${status.index}">
-								<td width="2%">
-								<form:hidden path="incCriterias[${status.index}].questionNumber"/>${status.index+1}
-								</td>
-								<td width="88%">
-								<form:textarea path="incCriterias[${status.index}].questionText" rows="1" cols="90"/>
+								<td width="90%">
+									<form:hidden path="incCriterias[${status.index}].questionNumber"/>
+									<form:textarea path="incCriterias[${status.index}].questionText" rows="1" cols="90"/>
 								</td>
 								<td width="5%">
 									<form:checkbox path="incCriterias[${status.index}].notApplicableIndicator"/>
@@ -214,8 +210,8 @@ function hideTextArea(a,b){
 					<table width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
 						<tr>
 							<p id="instructions">
-								*NA - Allow Not Applicable answer <br> 
-								Yes and No are permissible answersfor both types of Criterias
+								*NA - Allow Not Applicable answer <br>
+								Yes and No are permissible answers
 							</p>
 							<p>
 								<b><a href="javascript:fireAction('addExclusionCriteria',0,'ExclusionTable');"><img
@@ -224,23 +220,20 @@ function hideTextArea(a,b){
 						</tr>
 						<tr>
 							<td valign="top">
-							<table id="" width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
+							<table id="" width="50%" border="0" cellspacing="0" cellpadding="0" id="table1">
 								<tr>
 									<td>
 									<table width="100%" border="0" id="table_ec">
 									<tr>
-										<td align="left"><b>Number</b></td>
 										<td align="left"><b>Question<span class="red">*</span></b></td>
-										<td align="left"><b>NA</b></td>
+										<td align="left"><b>*NA</b></td>
 										<td align="left"></td></b>
 									</tr>
 									<c:forEach varStatus="status" items="${command.excCriterias}">
 									<tr id="bex-${status.index}">
-										<td width="2%">
-										<form:hidden path="excCriterias[${status.index}].questionNumber"/>${status.index+1}
-										</td>
 										<td width="88%">
-										<form:textarea path="excCriterias[${status.index}].questionText" rows="1" cols="90"/>
+											<form:hidden path="excCriterias[${status.index}].questionNumber"/>
+											<form:textarea path="excCriterias[${status.index}].questionText" rows="1" cols="90"/>
 										</td>
 										<td width="5%">
 											<form:checkbox path="excCriterias[${status.index}].notApplicableIndicator"/>

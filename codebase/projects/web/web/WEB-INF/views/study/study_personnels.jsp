@@ -137,7 +137,7 @@ Event.observe(window, "load", function() {
 <table border="0" id="table1" cellspacing="10" width="100%">
 	<tr>
 	<td valign="top" width="55%" >
-	<tabs:division id="study-details" title="Study Personnels">
+	<tabs:division id="study-details" title="Study Personnel">
 	<tabs:tabFields tab="${tab}"/>
 	<div>
 		<input type="hidden" name="_action" value="">
@@ -145,7 +145,7 @@ Event.observe(window, "load", function() {
 		<input type="hidden" name="_studysiteindex" value="">
 	</div>
 	<p id="instructions">
-		Please choose a study site and link personnels to that study site
+		Please choose a study site and add personnel to that study site
 	</p>
 
 		<c:set var="selectedSite" value="0"/>
@@ -178,7 +178,7 @@ Event.observe(window, "load", function() {
 
 		<table border="0" id="table1" cellspacing="10" width="100%">
 			<tr>
-				<td align="left"> <b> <span class="red">*</span><em></em>Personnel:</b> </td>
+				<td align="left"> <b> <span class="red">*</span><em></em>Name:</b> </td>
 				<td align="left"> <b> <span class="red">*</span><em></em>Role:</b> </td>
 				<td align="left"> <b> <span class="red">*</span><em></em>Status:</b> </td>
 				<td align="left">

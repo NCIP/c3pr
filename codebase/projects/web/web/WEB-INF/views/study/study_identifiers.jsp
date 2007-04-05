@@ -23,7 +23,9 @@ function clearField(field){
 	field.value="";
 }
 </script>
-
+<title>
+${command.trimmedShortTitleText} - ${command.primaryIdentifier}
+</title>
 </head>
 
 <body>
