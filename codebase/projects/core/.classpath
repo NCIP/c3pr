@@ -31,15 +31,7 @@
 	<classpathentry exported="true" kind="lib" path="lib/avalon-framework-cvs-20020806.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/activation-1.0.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/xbean-spring-2.7.jar"/>
-	<classpathentry exported="true" kind="lib" path="ext/lib/ant-contrib.jar"/>
-	<classpathentry exported="true" kind="lib" path="ext/lib/antlr-2.7.6.jar"/>
-	<classpathentry exported="true" kind="lib" path="ext/lib/backport-util-concurrent-2.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="ext/lib/c3pr-2.0-esb-client-1.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="ext/lib/client.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/commons-logging.jar"/>
-	<classpathentry exported="true" kind="lib" path="ext/lib/dom4j-1.6.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="ext/lib/handle.jar"/>
-	<classpathentry exported="true" kind="lib" path="ext/lib/handlerservice.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/hibernate3.2.1.jar" sourcepath="C:/devtools/hibernate-3.2/src"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/hibernate-annotations.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/jboss-j2ee-4.0.5.jar"/>
@@ -47,11 +39,11 @@
 	<classpathentry exported="true" kind="lib" path="ext/lib/jdom.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/log4j-1.2.13.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/spring2.0.2.jar" sourcepath="C:/devtools/spring-framework-2.0.2/src"/>
-	<classpathentry exported="true" kind="lib" path="/web/ext/lib/axis.jar"/>
-	<classpathentry exported="true" kind="lib" path="/web/ext/lib/axis-url.jar"/>
-	<classpathentry exported="true" kind="lib" path="build"/>
-	<classpathentry exported="true" kind="lib" path="build/jars/c3pr-2.0-core-tests-1.0.jar"/>
-	<classpathentry kind="lib" path="/share/junit-3.8.1/junit-3.8.1.jar"/>
-	<classpathentry kind="lib" path="/share/spring-2.0/testing/spring-mock.jar"/>
+	<classpathentry exported="true" kind="lib" path="/share/junit-3.8.1/junit-3.8.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="/share/spring-2.0/testing/spring-mock.jar"/>
+	<classpathentry exported="true" kind="lib" path="ext/lib/backport-util-concurrent-2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="ext/lib/client.jar"/>
+	<classpathentry exported="true" kind="lib" path="ext/lib/handlerservice.jar"/>
+	<classpathentry exported="true" kind="lib" path="ext/lib/handle.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
