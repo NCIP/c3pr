@@ -1,10 +1,20 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags"%>
-<!-- Footer LOGOS START HERE -->
 
-&nbsp;&nbsp;
+&nbsp;
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+        <td id="current"><img src="<tags:imageUrl name="caBIG_logo.gif"/>"
+                              align="right" alt="caBIG cancer Biomedical Informatics Grid"
+                ></td>
+    </tr>
+</table>
+
+&nbsp;
+
+<!-- Footer LOGOS START HERE -->
 <table width="100%" height="100%" align="center" border="0" cellspacing="0" cellpadding="0" >
-  <hr>
     <tr>
         <td width="35%"/>
         <td width="30%">

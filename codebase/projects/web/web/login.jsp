@@ -1,4 +1,6 @@
 <html>
+<meta name="navigationBarVisibility" content="hidden">
+
 <head>
 <script>
 function navRollOver(obj, state) {
@@ -42,7 +44,7 @@ function navRollOver(obj, state) {
 		</tr>
 
 	</table>
-</form:form>
+</form>
 <!-- MAIN BODY ENDS HERE -->
 </body>
 </html>
