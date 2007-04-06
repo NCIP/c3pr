@@ -22,3 +22,7 @@
 #flow-prev {
     float: left;
 }
+
+#flow-update {
+    float: right;
+}
