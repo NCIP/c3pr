@@ -14,6 +14,11 @@ Event.observe(window, "load", function() {
     if ($("flow-prev")) Event.observe("flow-prev", "click", C3PR.tabbedFlowSelectPage)
     if ($("flow-next")) Event.observe("flow-next", "click", function(click) {
         Event.stop(click)
+        $("command").submit();
+    })
+    if ($("flow-update")) Event.observe("flow-update", "click", function(click) {
+        Event.stop(click);
+        $("command")._action.value='update';
         $("command").submit(); // command is the default ID for a form created with form:form
     })
 })
