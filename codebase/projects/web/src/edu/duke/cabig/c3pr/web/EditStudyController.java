@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.web;
 
+import java.util.HashMap;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Tab;
 
 /**
  * Controller class to handle the work flow in the Updation of a Study Design
@@ -44,6 +48,18 @@ public class EditStudyController extends StudyController {
 		return study;
 	}
 	
+	protected void layoutTabs(Flow flow, HashMap tabsMap){
+		flow.addTab((Tab<Study>)tabsMap.get("summary"));
+		flow.addTab((Tab<Study>)tabsMap.get("details"));
+		flow.addTab((Tab<Study>)tabsMap.get("identifiers"));
+		flow.addTab((Tab<Study>)tabsMap.get("studysites"));
+		flow.addTab((Tab<Study>)tabsMap.get("investigators"));
+		flow.addTab((Tab<Study>)tabsMap.get("personnel"));
+		flow.addTab((Tab<Study>)tabsMap.get("eligibilityChecklist"));
+		flow.addTab((Tab<Study>)tabsMap.get("epochsArms"));
+		
+	}
+	
 	/**
 	 * Overriden here to perform futher processing
 	 * @param request
@@ -56,7 +72,7 @@ public class EditStudyController extends StudyController {
 			Errors arg2, int pageNo) throws Exception{
 		
 		Study study = (Study) command;
-		
+		System.out.println("request.getParameter(action) - "+request.getParameter("_action"));
 		if ("update".equals(request.getParameter("_action"))){
 			try {
 				log.debug("Updating Study");

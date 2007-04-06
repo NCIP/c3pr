@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.web;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -14,6 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Tab;
 
 /**
  * Controller class to handle the work flow in the Creation of a Study Design
@@ -33,6 +36,16 @@ public class CreateStudyController extends StudyController {
 	}	
 	
 		
+	protected void layoutTabs(Flow flow, HashMap tabsMap){
+		flow.addTab((Tab<Study>)tabsMap.get("details"));
+		flow.addTab((Tab<Study>)tabsMap.get("identifiers"));
+		flow.addTab((Tab<Study>)tabsMap.get("studysites"));
+		flow.addTab((Tab<Study>)tabsMap.get("investigators"));
+		flow.addTab((Tab<Study>)tabsMap.get("personnel"));
+		flow.addTab((Tab<Study>)tabsMap.get("eligibilityChecklist"));
+		flow.addTab((Tab<Study>)tabsMap.get("epochsArms"));
+		flow.addTab((Tab<Study>)tabsMap.get("summary"));				
+	}
 	
 	/* (non-Javadoc)
 	 * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#processFinish

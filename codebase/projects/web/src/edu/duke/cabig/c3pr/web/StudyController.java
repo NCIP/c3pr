@@ -61,102 +61,115 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 	protected StudyValidator studyValidator;
 	protected ConfigurationProperty configurationProperty;
 	protected static List<HealthcareSite> healthcareSites;
-
-	public StudyController(ConfigurationProperty configurationProperty) {		
-		setCommandClass(Study.class);        	       
-		this.configurationProperty=configurationProperty;        
-        Flow<Study> flow = new Flow<Study>("Create Study");               
-        intializeFlows(flow);
-    }
 	
 	public StudyController() {		
 		setCommandClass(Study.class);        	       
-	    Flow<Study> flow = new Flow<Study>("Create Study");               
-        intializeFlows(flow);
+	    Flow<Study> flow = new Flow<Study>("Create Study");    
+        intializeTabs(flow);
     }
 	
-	protected void intializeFlows(Flow<Study> flow)
+	protected void intializeTabs(Flow<Study> flow)
 	{	   
-		 flow.addTab(new Tab<Study>("Study Details", "Details", "study/study_details") {
-	            public Map<String, Object> referenceData() {
-	           	 	Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        	       	  
-	            	Map<String, Object> refdata = new HashMap<String, Object>();	        		  	            	
-	            	refdata.put("searchTypeRefData", configMap.get("studySearchType"));	  	     
-	    	  		refdata.put("diseaseCodeRefData", configMap.get("diseaseCodeRefData"));
-	    	  		refdata.put("monitorCodeRefData",  configMap.get("monitorCodeRefData"));
-	    	  		refdata.put("phaseCodeRefData",  configMap.get("phaseCodeRefData"));
-	    	  		refdata.put("sponsorCodeRefData",  configMap.get("sponsorCodeRefData"));
-	    	  		refdata.put("statusRefData",  configMap.get("statusRefData"));
-	    	  		refdata.put("typeRefData",  configMap.get("typeRefData"));
-	    	  		refdata.put("randomizedIndicatorRefData", configMap.get("yesNo"));
-	    	  		refdata.put("multiInstitutionIndicatorRefData", configMap.get("yesNo"));
-	    	  		refdata.put("blindedIndicatorRefData", configMap.get("yesNo"));	    	  		
-	    	  		return refdata;
-	            }        	
-	        });
-	        flow.addTab(new Tab<Study>("Study Identifiers", "Identifiers", "study/study_identifiers"){	            
-	        	public Map<String, Object> referenceData() {
-	        		Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        	  	       	  
-	        		Map<String, Object> refdata = new HashMap<String, Object>();	        		
-	                refdata.put("identifiersSourceRefData", getHealthcareSites());
-	    	  		refdata.put("identifiersTypeRefData", configMap.get("identifiersType"));	  		
-	    	  		return refdata;
-	        	}
-	        });                 
-	        flow.addTab(new Tab<Study>("Study Sites", "Sites", "study/study_studysites") {
-	            
-	        	public Map<String, Object> referenceData() {
-	        		Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        	  	       	  
-	        		Map<String, Object> refdata = new HashMap<String, Object>();	        		
-	        		refdata.put("healthCareSitesRefData", getHealthcareSites());	
-	        		refdata.put("studySiteStatusRefData", configMap.get("studySiteStatusRefData"));
-	    	  		refdata.put("studySiteRoleCodeRefData", configMap.get("studySiteRoleCodeRefData"));	  			    	  	
-	    	  		return refdata;	           
-	        	}        	
-	        });
-	        
-	        flow.addTab(new Tab<Study>("Study Investigators", "Investigators", 
-	        	"study/study_investigators") {	            
-	        	public Map<String, Object> referenceData() {
-	        		Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        	  	       	  
-	        		Map<String, Object> refdata = new HashMap<String, Object>();
-	        		refdata.put("studyInvestigatorRoleRefData", configMap.get("studyInvestigatorRole"));
-		            refdata.put("studyInvestigatorStatusRefData", configMap.get("studyInvestigatorStatus"));		            
-	        		return refdata;	           
-	        	}        	
-	        });
-	        
-	        flow.addTab(new Tab<Study>("Study Personnel", "Personnel", "study/study_personnels") {	            
-	        	public Map<String, Object> referenceData() {
-	        		Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        		  	       	  
-	                Map<String, Object> refdata = super.referenceData();  
-	                refdata.put("studyPersonnelRoleRefData", configMap.get("studyPersonnelRole"));
-	                refdata.put("studyPersonnelStatusRefData", configMap.get("studyPersonnelStatus"));	                          
-	                return refdata;           
-	        	}        	
-	        });
-
-	        flow.addTab(new Tab<Study>("Study Eligibility Checklist", "Eligibility Checklist", 
-	        		"study/study_eligibility_checklist"){	            
-	        	public Map<String, Object> referenceData() {	        		
-	                Map<String, Object> refdata = super.referenceData();
-	                return refdata;	           
-	        	}        	
-	        });
-
-			flow.addTab(new Tab<Study>("Epochs & Arms", "Epochs & Arms", "study/study_design") {	            
-	        	public Map<String, Object> referenceData() {	        		
-	        		Map<String, Object> refdata = super.referenceData();  
-		            refdata.put("currentOperation", "inclusion");		               
-	                return refdata;	           
-	        	}        	
-	        });
+		Tab details = new Tab<Study>("Study Details", "Details", "study/study_details") {
+            public Map<String, Object> referenceData() {
+           	 	Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        	       	  
+            	Map<String, Object> refdata = new HashMap<String, Object>();	        		  	            	
+            	refdata.put("searchTypeRefData", configMap.get("studySearchType"));	  	     
+    	  		refdata.put("diseaseCodeRefData", configMap.get("diseaseCodeRefData"));
+    	  		refdata.put("monitorCodeRefData",  configMap.get("monitorCodeRefData"));
+    	  		refdata.put("phaseCodeRefData",  configMap.get("phaseCodeRefData"));
+    	  		refdata.put("sponsorCodeRefData",  configMap.get("sponsorCodeRefData"));
+    	  		refdata.put("statusRefData",  configMap.get("statusRefData"));
+    	  		refdata.put("typeRefData",  configMap.get("typeRefData"));
+    	  		refdata.put("randomizedIndicatorRefData", configMap.get("yesNo"));
+    	  		refdata.put("multiInstitutionIndicatorRefData", configMap.get("yesNo"));
+    	  		refdata.put("blindedIndicatorRefData", configMap.get("yesNo"));	    	  		
+    	  		return refdata;
+            }        	
+		};
 			
-			flow.addTab(new Tab<Study>("Review and Submit ", "Review & Submit", 
-				"study/study_reviewsummary"));
-               
-	        setFlow(flow);       
+		Tab identifiers = new Tab<Study>("Study Identifiers", "Identifiers", "study/study_identifiers"){	            
+        	public Map<String, Object> referenceData() {
+        		Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        	  	       	  
+        		Map<String, Object> refdata = new HashMap<String, Object>();	        		
+                refdata.put("identifiersSourceRefData", getHealthcareSites());
+    	  		refdata.put("identifiersTypeRefData", configMap.get("identifiersType"));	  		
+    	  		return refdata;
+        	}
+        };	
+			
+			
+	   Tab studySites = new Tab<Study>("Study Sites", "Sites", "study/study_studysites") {
+           
+       	public Map<String, Object> referenceData() {
+       		Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        	  	       	  
+       		Map<String, Object> refdata = new HashMap<String, Object>();	        		
+       		refdata.put("healthCareSitesRefData", getHealthcareSites());	
+       		refdata.put("studySiteStatusRefData", configMap.get("studySiteStatusRefData"));
+   	  		refdata.put("studySiteRoleCodeRefData", configMap.get("studySiteRoleCodeRefData"));	  			    	  	
+   	  		return refdata;	           
+       	}        	
+       };              
+	      
+       Tab investigators = new Tab<Study>("Study Investigators", "Investigators", "study/study_investigators") {	            
+       	public Map<String, Object> referenceData() {
+       		Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        	  	       	  
+       		Map<String, Object> refdata = new HashMap<String, Object>();
+       		refdata.put("studyInvestigatorRoleRefData", configMap.get("studyInvestigatorRole"));
+	            refdata.put("studyInvestigatorStatusRefData", configMap.get("studyInvestigatorStatus"));		            
+       		return refdata;	           
+       	}        	
+       };
+	      
+       Tab personnel = new Tab<Study>("Study Personnel", "Personnel", "study/study_personnels") {	            
+       	public Map<String, Object> referenceData() {
+    		Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        		  	       	  
+            Map<String, Object> refdata = super.referenceData();  
+            refdata.put("studyPersonnelRoleRefData", configMap.get("studyPersonnelRole"));
+            refdata.put("studyPersonnelStatusRefData", configMap.get("studyPersonnelStatus"));	                          
+            return refdata;           
+    	}        	
+       };
+	      
+       Tab eligibilityChecklist = new Tab<Study>("Study Eligibility Checklist", "Eligibility Checklist", 
+		"study/study_eligibility_checklist"){	            
+       	public Map<String, Object> referenceData() {	        		
+               Map<String, Object> refdata = super.referenceData();
+               return refdata;	           
+       	}        	
+       };
+
+	   Tab epochsArms = new Tab<Study>("Epochs & Arms", "Epochs & Arms", "study/study_design") {	            
+        	public Map<String, Object> referenceData() {	        		
+        		Map<String, Object> refdata = super.referenceData();  
+	            refdata.put("currentOperation", "inclusion");		               
+                return refdata;	           
+        	}        	
+        };
+			
+		Tab summary = new Tab<Study>("Overview", "Overview", 
+				"study/study_reviewsummary");
+       
+		HashMap<String, Tab> tabsMap = new HashMap<String, Tab>();
+		tabsMap.put("details", details);
+		tabsMap.put("identifiers", identifiers);
+		tabsMap.put("studysites", studySites);
+		tabsMap.put("investigators", investigators);
+		tabsMap.put("personnel", personnel);
+		tabsMap.put("eligibilityChecklist", eligibilityChecklist);
+		tabsMap.put("epochsArms", epochsArms);
+		tabsMap.put("summary", summary);
+		
+		layoutTabs(flow, tabsMap);
+		
+		setFlow(flow);       
 	}	
+	
+	/**
+	 * Template method to let the subclass decide the order of tabs
+	 *
+	 */
+	protected abstract void layoutTabs(Flow flow, HashMap tabsMap);
 	
 	@Override
 	protected void postProcessPage(HttpServletRequest request, Object command,
