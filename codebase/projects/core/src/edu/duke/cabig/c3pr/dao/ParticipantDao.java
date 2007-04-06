@@ -92,4 +92,13 @@ public class ParticipantDao extends AbstractBaseDao<Participant> {
 		return participant;
 
 	}
+	
+	@Override
+	public Participant getById(int id) {
+		// TODO Auto-generated method stub
+		Participant participant= super.getById(id);
+		participant.getStudyParticipantAssignments().size();
+		return participant;
+	}
+	
 }
