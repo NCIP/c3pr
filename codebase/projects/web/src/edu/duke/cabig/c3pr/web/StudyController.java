@@ -171,79 +171,10 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 	 */
 	protected abstract void layoutTabs(Flow flow, HashMap tabsMap);
 	
-	@Override
-	protected void postProcessPage(HttpServletRequest request, Object command,
-			Errors arg2, int pageNo) throws Exception {
-		
-		switch (pageNo)
-		{
-			case 1:
-				handleIdentifierAction((Study)command,
-					request.getParameter("_action"),
-					request.getParameter("_selected"));		
-				break;	
-			case 2:
-				handleStudySiteAction((Study)command,
-					request.getParameter("_action"),
-					request.getParameter("_selected"));		
-				break;
-			case 3:				
-				if("siteChange".equals(request.getParameter("_action")))
-				{
-					request.getSession().setAttribute("site_id", request.getParameter("_selected"));
-					StudySite studySite = ((Study)command).getStudySites().get(Integer.parseInt(request.getParameter("_selected")));
-					if(studySite.getStudyInvestigators().size() == 0 )
-					{						
-						StudyInvestigator studyInvestigator = new StudyInvestigator();	
-						studyInvestigator.setSiteInvestigator(new HealthcareSiteInvestigator());
-						studySite.addStudyInvestigator(studyInvestigator);
-					}
-				}
-				else {
-					handleStudyInvestigatorAction((Study)command, request);
-				}					
-				
-				break;				
-			case 4:				
-				if("siteChange".equals(request.getParameter("_action")))
-				{
-					request.getSession().setAttribute("site_id", request.getParameter("_selected"));
-					
-					StudySite studySite = ((Study)command).getStudySites().get(Integer.parseInt(request.getParameter("_selected")));
-					if(studySite.getStudyPersonnels().size() == 0 )
-					{						
-						StudyPersonnel studyPersonnel = new StudyPersonnel();
-						studyPersonnel.setStudySite(studySite);								
-						studySite.addStudyPersonnel(studyPersonnel);
-					}										
-				}
-				else {
-					handleStudyPersonnelAction((Study)command, request.getParameter("_action"),
-						request.getParameter("_selected"), request.getParameter("_studysiteindex"));
-				}					
-											
-				break;				
-							
-			case 5:			
-				handleEligibilityChecklist((Study)command, request);								
-				break;	
-				
-			case 6:			
-				handleStudyDesignAction((Study)command, 
-					request.getParameter("_action"),
-					request.getParameter("_selectedEpoch"),
-					request.getParameter("_selectedArm"));	
-				break;	
-		
-			default:
-				//do nothing						
-		}		
-		
-		postPostProcessPage(request, command, arg2,pageNo);
-	}
+	
 	
 	/**
-	 * Override this in Edit Study Controller to perform futher processing
+	 * Template method to perform futher processing in postProcessPage
 	 * @param request
 	 * @param command
 	 * @param arg2
