@@ -26,10 +26,6 @@ function clearField(field){
 field.value="";
 }
 </script>
-<script type="text/javascript" src="/c3pr/js/CalendarPopup.js"></script>
-<script language="JavaScript" id="js1">
-	var cal1 = new CalendarPopup();
-</script>
 </head>
 <body>
 <!-- MAIN BODY STARTS HERE -->
@@ -87,16 +83,11 @@ field.value="";
 										<table width="100%" border="0" cellspacing="0" cellpadding="0"
 											id="table1">
 											<tr>
-												<td align="right"><span class="red">&nbsp;&nbsp;&nbsp;*</span><em></em><b>Birth
-												Date:</b> &nbsp;</td>
-												<td align="left"><form:input path="birthDate" />&nbsp;<a
-													href="#"
-													onClick="cal1.select(document.getElementById('birthDate'),'anchor1','MM/dd/yyyy');return false;"
-													name="anchor1" id="anchor1"><img
-													src="<tags:imageUrl name="b-calendar.gif"/>" alt="Calendar"
-													width="17" height="16" border="0" align="absmiddle"></a>&nbsp;&nbsp;&nbsp;<span
-													class="red"><form:errors path="birthDate" /><em></em></span></td>
-											</tr>
+													<td align="right"><span class="red">&nbsp;&nbsp;&nbsp;*</span><em></em><b>Birth
+													Date: </b>&nbsp;</td>
+													<td><tags:dateInput path="birthDate" />&nbsp;&nbsp;&nbsp;<span
+														class="red"><form:errors path="birthDate" /><em></em></span></td>
+												</tr>
 											<tr>
 												<td align="right"><em></em><b>Ethnicity:</b>&nbsp;</td>
 												<td align="left"><form:select path="ethnicGroupCode">
