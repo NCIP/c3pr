@@ -9,11 +9,13 @@ import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
+import org.springframework.web.HttpSessionRequiredException;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -31,6 +33,7 @@ import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
+import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
@@ -116,7 +119,7 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
        		Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        	  	       	  
        		Map<String, Object> refdata = new HashMap<String, Object>();
        		refdata.put("studyInvestigatorRoleRefData", configMap.get("studyInvestigatorRole"));
-	            refdata.put("studyInvestigatorStatusRefData", configMap.get("studyInvestigatorStatus"));		            
+	        refdata.put("studyInvestigatorStatusRefData", configMap.get("studyInvestigatorStatus"));		            
        		return refdata;	           
        	}        	
        };
@@ -146,6 +149,15 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
                 return refdata;	           
         	}        	
         };
+        
+		
+		Tab registrations = new Tab<Study>("Registrations", "Registrations","study/study_registrations"){	            
+			public Map<String, Object> referenceData(Study study) {
+				Map<String, Object> refdata = super.referenceData();  
+				refdata.put("participantAssignments", getParticipantAssignments(study));		               
+                return refdata;	           
+        	}          	
+        };
 			
 		Tab summary = new Tab<Study>("Overview", "Overview", 
 				"study/study_reviewsummary");
@@ -159,6 +171,7 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 		tabsMap.put("eligibilityChecklist", eligibilityChecklist);
 		tabsMap.put("epochsArms", epochsArms);
 		tabsMap.put("summary", summary);
+		tabsMap.put("registrations", registrations);
 		
 		layoutTabs(flow, tabsMap);
 		
@@ -363,6 +376,20 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 		 return null;
 	}
 	
+	protected final Object getCommandOnly(HttpServletRequest request) throws Exception {		
+		HttpSession session = request.getSession(false);
+		if (session == null) {
+			throw new HttpSessionRequiredException("Must have session when trying to bind (in session-form mode)");
+		}
+		String formAttrName = getFormSessionAttributeName(request);
+		Object sessionFormObject = session.getAttribute(formAttrName);
+		if (sessionFormObject == null) {
+			throw new HttpSessionRequiredException("Form object not found in session (in session-form mode)");
+		}
+
+		return currentFormObject(request, sessionFormObject);
+	}
+	
 	/**
 	 * Need to create a default study with 3 epochs and associated arms
 	 * this is shown to the User for the first time
@@ -446,6 +473,11 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 	{
   		return healthcareSiteDao.getAll();  	
 	}	
+	
+	protected final List<StudyParticipantAssignment> getParticipantAssignments(Study study)
+	{
+  		return studyDao.getStudyParticipantAssignmentsForStudy(study.getId());		
+	}
 
 	public StudyDao getStudyDao() {
 		return studyDao;
