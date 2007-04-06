@@ -5,6 +5,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
+<%@ taglib prefix="studyTags" tagdir="/WEB-INF/tags/study"%>
 
 <html>
 <head>
@@ -54,6 +55,7 @@ function submitPage(){
 							height="16" border="0"></a>
 						</td>
 					</tr>
+					
 				</table>
 				</td>
 				</tr>
@@ -61,6 +63,11 @@ function submitPage(){
 		</td>
 	</tr>
 </table>
+<br>
+<br>
+<br>
+<studyTags:searchResults url="editStudy" />
+
 <!-- MAIN BODY ENDS HERE -->
 </tabs:division>
 </form:form>
