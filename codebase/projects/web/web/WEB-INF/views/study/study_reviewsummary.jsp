@@ -31,7 +31,6 @@ function updateTargetPage(target){
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
 		<td valign="top">
-			<hr>
 			<strong>Study Details </strong>
 			<br>
 			<div class="review">
@@ -243,7 +242,8 @@ function updateTargetPage(target){
 						<td valign="top">
 						<table width="100%" border="0" cellspacing="0" cellpadding="0"
 							id="table1">
-							<tr><strong>Inclusion Eligibility Criteria</strong></tr>
+							<tr><strong>-- Inclusion Criteria --</strong></tr>
+							<tr><td>&nbsp;</td></tr>
 							<tr>
 								<td width="33%" align="left"><b>Number</b></td>
 								<td width="33%" align="left"><b>Question</td>
@@ -259,16 +259,19 @@ function updateTargetPage(target){
 						</table>
 						</td>
 					</tr>
+					<tr><td>&nbsp;</td></tr>
 					<tr>
 						<td valign="top">
 						<table width="100%" border="0" cellspacing="0" cellpadding="0"
 							id="table1">
-							<tr><strong>Exclusion Eligibility Criteria</strong></tr>
+							<tr><strong>-- Exclusion Criteria --</strong></tr>
+							<tr><td>&nbsp;</td></tr>
 							<tr>
 								<td width="33%" align="left"><b>No</b></td>
 								<td width="33%" align="left"><b>Question</b></td>
 								<td width="33%" align="left"><b>N/A</b></td>
 							</tr>
+							
 							<c:forEach items="${command.excCriterias}" var="exc">
 							<tr class="results">
 								<td>${exc.questionNumber}</td>
@@ -327,6 +330,11 @@ function updateTargetPage(target){
 					</table>
 					</td>
 				</tr>
+					<tr>
+					<td><br><br>
+						<input type="image" name="_target7" src="<tags:imageUrl name="b-edit.gif"/>" border="0"
+							alt="edit this page"></td>
+					</tr>
 			</table>
 		</td>
 	</tr>
