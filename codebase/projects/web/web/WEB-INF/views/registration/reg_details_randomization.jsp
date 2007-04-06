@@ -65,23 +65,6 @@ field.value="";
 											width="1" height="1" class="heightControl"></td>
 									</tr>
 
-									<tr>
-										<td align="right"><span class="red">*</span><em></em><b>Randomization
-										Type:</b>&nbsp;</td>
-										<td align="left"><select name="select" class="field1">
-											<option selected>Book</option>
-											<option>Call-Out</option>
-											<option>Hub</option>
-										</select></td>
-									</tr>
-
-									<tr valign="top">
-										<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-											height="1" class="heightControl"></td>
-										<td width="75%"><img src="<tags:imageUrl name="spacer.gif"/>"
-											width="1" height="1" class="heightControl"></td>
-									</tr>
-
 									<tr valign="top">
 										<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
 											height="1" class="heightControl"></td>
@@ -94,7 +77,8 @@ field.value="";
 										<td align="right"><span class="red">*</span><em></em><b>Treatment
 										Arm:</b>&nbsp;</td>
 										<td align="left"><select name="select" class="field1">
-											<option selected>Arm A</option>
+											<option selected>  </option>
+											<option >Arm A</option>
 											<option>Arm B</option>
 											<option>Arm C</option>
 										</select></td>
