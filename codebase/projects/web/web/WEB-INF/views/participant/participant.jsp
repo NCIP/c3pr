@@ -18,10 +18,6 @@ function getPage(s){
 	parent.window.location="reg_patient_search.htm";
 }
 </script>
-<script type="text/javascript" src="/c3pr/js/CalendarPopup.js"></script>
-<script language="JavaScript" id="js1">
-	var cal1 = new CalendarPopup();
-</script>
 </head>
 <body>
 <form:form method="post" cssClass="standard">
