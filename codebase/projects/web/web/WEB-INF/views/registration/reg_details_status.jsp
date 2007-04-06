@@ -114,7 +114,7 @@ field.value="";
 					<td valign="top" width="30%"><registrationTags:studySummary /></td>
 				</tr>
 				<tr>
-					<registrationTags:registrationHistory />
+					<registrationTags:registrationHistory url="../registration/registrationDetails" registrations="${command.participant.studyParticipantAssignments}"/>
 				</tr>
 			</table>
 			</form:form>

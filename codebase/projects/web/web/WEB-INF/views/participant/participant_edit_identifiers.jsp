@@ -1,7 +1,7 @@
 <%@taglib uri="http://www.opensymphony.com/sitemesh/decorator"
 	prefix="decorator"%>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
-<%@ taglib prefix="participantTags" tagdir="/WEB-INF/tags/participant"%>
+<%@ taglib prefix="registrationTags" tagdir="/WEB-INF/tags/registration"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
@@ -131,7 +131,7 @@ field.value="";
 					</td>
 				</tr>
 				<tr>
-					<participantTags:registrationHistory />
+					<registrationTags:registrationHistory url="../registration/registrationDetails" registrations="${command.participant.studyParticipantAssignments}"/>
 				</tr>
 			</table>
 			</form:form>
