@@ -1,3 +1,6 @@
+<%@tag%><%@attribute name="registrations" required="true" type="java.util.Collection" %>
+<%@tag%><%@attribute name="url" required="true"%>
+
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -9,7 +12,6 @@ function navRollOver(obj, state) {
   document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
 }
 </script>
-<tabs:division id="Summary" title="Registration History">
 	<table width="100%" border="0" cellspacing="0" cellpadding="0"
 		id="additionalList">
 		<tr align="center" class="label">
@@ -22,31 +24,22 @@ function navRollOver(obj, state) {
 			<td>Registration Date</td>
 			<td>Treating Physician</td>
 		</tr>
+			
 		<c:set var="i" value="0"/>
-		<c:forEach items="${command.participant.studyParticipantAssignments}" var="registration">
+		<c:forEach items="${participantAssignments}" var="registration">
 			<tr align="center" id="row${i}" class="results"
 				onMouseOver="navRollOver('row${i}', 'on')"
 				onMouseOut="navRollOver('row${i}', 'off')"
-				onClick="document.location='../registration/registrationDetails?registrationId=${registration.id}'">
+				onClick="document.location='${url}?registrationId=${registration.id}'">
 				<td width="11">&nbsp;</td>
 				<td>${registration.primaryIdentifier}</td>
 				<td>${registration.studySite.study.trimmedShortTitleText}</td>
 				<td>${registration.studySite.study.primaryIdentifier}</td>
 				<td>${registration.studySite.site.name}</td>
-				<td></td>
+				<td> </td>
 				<td>${registration.informedConsentSignedDateStr}</td>
 				<td>${registration.treatingPhysician}</td>
-
+				</a>
 			</tr>
-
-
-
 		</c:forEach>
-
-
-
-
-
-
 	</table>
-</tabs:division>
