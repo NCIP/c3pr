@@ -24,11 +24,11 @@
 <layout:navigation/>
 <div class="tabpane">
 	<tabs:levelTwoTabsNoNumbers tab="${tab}" flow="${flow}"/>   
-	<tabs:body title="${command.trimmedShortTitleText} ${command.primaryIdentifier} ">       
+	<tabs:body title="${command.trimmedShortTitleText} - ${command.primaryIdentifier} ">       
     <div class="tabcontent workArea">
     <table border="0" id="table1" cellspacing="10" width="100%">
 		<tr>
-		<c:if test="${tab.viewName != 'study/study_reviewsummary'}">
+		<c:if test="${tab.viewName != 'study/study_reviewsummary' and tab.viewName != 'study/study_registrations'}">
 		<td valign="top" width="20%">
 			<studyTags:studySummary />
 		</td>		
@@ -37,11 +37,9 @@
 		<div class="body">
             <decorator:body/>
         </div>
-        <div class="tabcontrols autoclear">    		
-            <a href="javascript:fireAction('update');" id="flow-next">
-                Save   				
-			</a>    		
-		</div>
+        <c:if test="${tab.viewName != 'study/study_reviewsummary' and tab.viewName != 'study/study_registrations'}">
+         	<tabs:tabControls tabNumber="${tab.number}" isLast="${tab.number < flow.tabCount - 1}" isUpdate="true"/>
+		</c:if>
 		</td>			
     	</tr>  
     	
