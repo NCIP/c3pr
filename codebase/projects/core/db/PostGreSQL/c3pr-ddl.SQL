@@ -179,7 +179,7 @@ CREATE TABLE STUDY_INVESTIGATORS (
 	STS_ID decimal(10,2) NOT NULL,
 	HSI_ID decimal(10,2) NOT NULL,
 	ROLE_CODE varchar(50) NOT NULL,
-	START_DATE timestamp NOT NULL,
+	START_DATE timestamp,
 	END_DATE timestamp,
 	STATUS_CODE varchar(50)
 ) ;
