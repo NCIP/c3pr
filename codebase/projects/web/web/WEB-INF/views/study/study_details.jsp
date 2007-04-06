@@ -14,11 +14,14 @@ prefix="decorator"%>
 </style>
 </head>
 <body>
-<form:form method="post">
+<form:form name="form" method="post">
 <tabs:tabFields tab="${tab}" />
-<div><tabs:division id="study-details" title="Basic Details">
+<div><tabs:division id="study-details">
 <!-- MAIN BODY STARTS HERE -->
 <table width="40%" border="0" cellspacing="0" cellpadding="0">
+<div>
+		<input type="hidden" name="_action" value="">
+</div>
 <tr>
 	<td valign="top">
 	<table width="50%" border="0" cellspacing="0" cellpadding="0"
@@ -141,7 +144,7 @@ prefix="decorator"%>
 		<tr>
 			<td class="label"><span class="red">*</span><em></em>Randomized</td>
 			<td><form:select path="randomizedIndicator">
-				<option value="">--Please Select-- <form:options items="${randomizedIndicatorRefData}"
+				<form:options items="${randomizedIndicatorRefData}"
 					itemLabel="desc" itemValue="code" />
 			</form:select></td>
 			<td width="10%"></td>
@@ -155,7 +158,7 @@ prefix="decorator"%>
 			<td class="label"><span class="red">*</span><em></em>Multi
 			Institution:</td>
 			<td><form:select path="multiInstitutionIndicator">
-				<option value="">--Please Select-- <form:options items="${multiInstitutionIndicatorRefData}"
+				<form:options items="${multiInstitutionIndicatorRefData}"
 					itemLabel="desc" itemValue="code" />
 			</form:select></td>
 			<td width="15%"></td>
@@ -167,7 +170,7 @@ prefix="decorator"%>
 		<tr>
 			<td class="label">Blinded</td>
 			<td><form:select path="blindedIndicator">
-				<option value="">--Please Select-- <form:options items="${blindedIndicatorRefData}"
+				 <form:options items="${blindedIndicatorRefData}"
 					itemLabel="desc" itemValue="code" />
 			</form:select></td>
 			<td width="15%"></td>
