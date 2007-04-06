@@ -57,7 +57,7 @@ field.value="";
 					<td height="100%" valign="top" width="30%"><participantTags:participantSummary />
 					</td>
 					<td width="40%" valign="top"><tabs:levelTwoTabs tab="${tab}"
-						flow="${flow}" /> <tabs:division id="Editing">
+						flow="${flow}" showNumber="false"/> <tabs:division id="Editing">
 						<table width="100%" border="0" cellspacing="0" cellpadding="0"
 							id="details">
 							<tr>
