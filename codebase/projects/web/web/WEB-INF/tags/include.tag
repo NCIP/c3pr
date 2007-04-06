@@ -4,8 +4,8 @@
 <tags:stylesheetLink name="debug"/>
 <tags:stylesheetLink name="extremecomponents"/>
 <tags:stylesheetLink name="search"/>
+<tags:stylesheetLink name="calendar-blue"/>
 <tags:parsedStylesheetLink name="common-styles"/>
-
 <tags:javascriptLink name="calendar"/>
 <tags:javascriptLink name="prototype"/>
 <tags:javascriptLink name="common"/>
