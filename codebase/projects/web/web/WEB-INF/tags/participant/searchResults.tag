@@ -12,29 +12,31 @@
 <tr>
 	<td>			
 		<table width="100%" border="0" cellspacing="0" cellpadding="0"
-					id="additionalList">
-					<tr align="center" class="label">
-						<td>Last Name, First Name</td>
-						<td>Primary Identifier</td>
-						<td>Gender</td>
-						<td>Race</td>
-						<td>Birth Date</td>
-						<td></td>
-					</tr>
-					<%int i=0; %>
-					<c:forEach items="${participants}" var="participant">
-						<tr align="center" id="row<%= i++ %>" class="results" onMouseOver="navRollOver('row<%= i-1 %>', 'on')"
-							onMouseOut="navRollOver('row<%= i-1 %>', 'off')"
-							onClick="document.location='editParticipant?participantId=${participant.id}'">
-							<td>${participant.lastName},${participant.firstName}</td>
-							<td>${participant.primaryIdentifier}</td>
-							<td>${participant.administrativeGenderCode}</td>
-							<td>${participant.raceCode}</td>
-							<td>${participant.birthDateStr}</td>
-						</a>
-						</tr>
-					</c:forEach>
-				</table>
+			id="additionalList">
+			<c:if test="${fn:length(participants) > 0}">
+			<tr align="center" class="label">
+				<td>Last Name, First Name</td>
+				<td>Primary Identifier</td>
+				<td>Gender</td>
+				<td>Race</td>
+				<td>Birth Date</td>
+				<td></td>
+			</tr>
+			</c:if>
+			<%int i=0; %>
+			<c:forEach items="${participants}" var="participant">
+				<tr align="center" id="row<%= i++ %>" class="results" onMouseOver="navRollOver('row<%= i-1 %>', 'on')"
+					onMouseOut="navRollOver('row<%= i-1 %>', 'off')"
+					onClick="document.location='editParticipant?participantId=${participant.id}'">
+					<td>${participant.lastName},${participant.firstName}</td>
+					<td>${participant.primaryIdentifier}</td>
+					<td>${participant.administrativeGenderCode}</td>
+					<td>${participant.raceCode}</td>
+					<td>${participant.birthDateStr}</td>
+				</a>
+				</tr>
+			</c:forEach>
+		</table>
 	</td>
 </tr>
 </table>

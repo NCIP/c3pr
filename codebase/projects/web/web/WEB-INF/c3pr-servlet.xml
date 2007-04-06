@@ -49,7 +49,7 @@
 		autowire="byName">
 		<property name="commandClass" value="edu.duke.cabig.c3pr.web.SearchCommand"/>
 		<property name="formView" value="study/study_search" />
-		<property name="successView" value="study/study_searchresults" />
+		<property name="successView" value="study/study_search" />
 	</bean>
 	<bean name="/participant/createParticipant"
 		id="createParticipantController" lazy-init="true"
@@ -63,7 +63,7 @@
 		class="edu.duke.cabig.c3pr.web.SearchParticipantController"
 		autowire="byName">
 		<property name="formView" value="participant/participant_search" />
-		<property name="successView" value="participant/participant_search_results" />
+		<property name="successView" value="participant/participant_search" />
 		<property name="commandClass"
 			value="edu.duke.cabig.c3pr.web.SearchCommand" />
 	</bean>

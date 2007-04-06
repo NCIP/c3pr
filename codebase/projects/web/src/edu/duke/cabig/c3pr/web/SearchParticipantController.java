@@ -33,8 +33,6 @@ private static Log log = LogFactory.getLog(SearchParticipantController.class);
 
 	public SearchParticipantController(){
 		setCommandClass(SearchCommand.class);
-		this.setFormView("particpant_search");
-		this.setSuccessView("participant_search_results");
 	}
 	
 	protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object oCommand, BindException errors) throws Exception {
