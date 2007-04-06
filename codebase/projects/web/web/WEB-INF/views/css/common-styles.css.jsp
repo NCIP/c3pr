@@ -2,7 +2,20 @@
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
 /* general style propertyies */
-body { margin: 0 0 0 0; padding: 0; font-family: arial, verdana, sans-serif; font-size: 11px; color: #000000; background: #F4F4F5; }
+html { height:100%;}
+body { height:100%; margin: 0 0 0 0; padding: 0; font-family: arial, verdana, sans-serif; font-size: 11px; color: #000000; background: #F4F4F5; }
+
+#content {
+    min-height: 90%;
+    _height: 98%; /* ie < 7 hack */
+    margin: 0 0 -3  em;
+    background: #FFFFFF;
+}
+
+#footer {
+    height: 3em;
+    background: #FFFFFF;
+}
 
 ul, ol { margin-top: 0; }
 
@@ -63,7 +76,7 @@ input { background: #EBEFF5; font-family: arial, verdana, sans-serif; font-size:
 
 /* blue bar current title */
 #current {
-    padding: 4px 0 4px 8px; background: #6E81A6 url(<tags:imageUrl name="blueCorner.gif"/>) no-repeat top right;
+    padding: 0px 0 4px 0px; background: repeat-x top url(<tags:imageUrl name="header_BG.gif"/>);
     white-space: nowrap; font-size: 14px; font-weight: bold;
     color: #FFFFFF; line-height: 17px;
 }
@@ -311,5 +324,6 @@ form.standard .state { padding-right: 8px; }
 /* Copyright style */
 #copyright { margin-top: 10px; text-align: center; font-size: 10px; color: #999999; }
 
-/* caBIG footer */
-#cabig-logo { background: #475B82; border-top: solid #3E3F6B 4px; margin-top: 48px; text-align: right; }
+/*footer */
+.footerMenuItem { border:0;}
+.footerMenuItem img {border:0;}

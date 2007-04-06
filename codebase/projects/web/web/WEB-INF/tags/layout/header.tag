@@ -3,9 +3,8 @@
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="header">
 <tr>
-	<td><img src="<tags:imageUrl name=""/>" alt=""></td>
-    <td align="right">
-        <img src="<tags:imageUrl name="caBIG_logo.gif"/>" alt="caBIG cancer Biomedical Informatics Grid"/>
+    <td align="left">
+        <img src="<tags:imageUrl name="c3pr.gif"/>" alt="caBIG cancer Biomedical Informatics Grid"/>
     </td>
 </tr>
 </table>
