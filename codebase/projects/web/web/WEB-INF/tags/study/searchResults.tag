@@ -11,6 +11,7 @@
 <tr>
 	<td>			
 		<table width="100%" border="0" cellspacing="0" cellpadding="0" id="additionalList">
+			<c:if test="${fn:length(studyResults) > 0}">
 			<tr align="center" class="label">
 				<td>Primary Identifier</td>				
 				<td>Short Title</td>
@@ -19,6 +20,8 @@
 				<td>Phase</td>			
 				<td>Target Accrual</td>
 			</tr>
+			</c:if>
+			
 			<%int i=0; %>
 			<c:forEach items="${studyResults}" var="study">
 			<tr align="center" id="row<%= i++ %>" class="results" onMouseOver="navRollOver('row<%= i-1 %>', 'on')"
