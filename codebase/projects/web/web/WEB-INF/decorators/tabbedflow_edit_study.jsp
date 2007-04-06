@@ -28,21 +28,20 @@
     <div class="tabcontent workArea">
     <table border="0" id="table1" cellspacing="10" width="100%">
 		<tr>
-		<c:if test="${tab.viewName != 'study/study_reviewsummary' and tab.viewName != 'study/study_registrations'}">
-		<td valign="top" width="20%">
-			<studyTags:studySummary />
-		</td>		
-		</c:if>
-		<td width="75%" valign="top">
-		<div class="body">
-            <decorator:body/>
-        </div>
-        <c:if test="${tab.viewName != 'study/study_reviewsummary' and tab.viewName != 'study/study_registrations'}">
-         	<tabs:tabControls tabNumber="${tab.number}" isLast="${tab.number < flow.tabCount - 1}" isUpdate="true"/>
-		</c:if>
-		</td>			
+			<c:if test="${tab.viewName != 'study/study_reviewsummary' and tab.viewName != 'study/study_registrations'}">
+			<td valign="top" width="20%">
+				<studyTags:studySummary />
+			</td>		
+			</c:if>
+			<td width="75%" valign="top">
+			<div class="body">
+	            <decorator:body/>
+	        </div>
+	        <c:if test="${tab.viewName != 'study/study_reviewsummary' and tab.viewName != 'study/study_registrations'}">
+	         	<tabs:tabControls tabNumber="${tab.number}" isLast="${tab.number < flow.tabCount - 1}" isUpdate="true"/>
+			</c:if>
+			</td>			
     	</tr>  
-    	
     </tabs:body>  	
     </table>
 </div>
