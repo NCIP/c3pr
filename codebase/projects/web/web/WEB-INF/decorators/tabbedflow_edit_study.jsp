@@ -23,35 +23,33 @@
 <layout:header/>
 <layout:navigation/>
 <div class="tabpane">
-	<tabs:levelTwoTabs tab="${tab}" flow="${flow}"/>   
-	<tabs:body title="${tab.longTitle} - Short Title: ${command.trimmedShortTitleText}">       
+	<tabs:levelTwoTabsNoNumbers tab="${tab}" flow="${flow}"/>   
+	<tabs:body title="${command.trimmedShortTitleText} ${command.primaryIdentifier} ">       
     <div class="tabcontent workArea">
     <table border="0" id="table1" cellspacing="10" width="100%">
 		<tr>
+		<c:if test="${tab.viewName != 'study/study_reviewsummary'}">
 		<td valign="top" width="20%">
 			<studyTags:studySummary />
 		</td>		
-		<td width="40%" valign="top">
+		</c:if>
+		<td width="75%" valign="top">
 		<div class="body">
             <decorator:body/>
         </div>
         <div class="tabcontrols autoclear">    		
-            <a href="javascript:fireAction('update','0');" id="flow-next">
+            <a href="javascript:fireAction('update');" id="flow-next">
                 Save   				
 			</a>    		
 		</div>
 		</td>			
     	</tr>  
-    	<tr>
-    	<td valign="top" width="20%">	
-		    <studyTags:subjectAssignments/>					     
-	    </td>
-    	</tr>   
+    	
     </tabs:body>  	
     </table>
 </div>
 <form:form id="flowredirect">
-    <input type="hidden" name="_target${tab.targetNumber}" id="flowredirect-target"/>
+    <input type="hidden" name="_target${tab.number}" id="flowredirect-target"/>
     <input type="hidden" name="_page${tab.number}"/>
 </form:form>
 <layout:footer />
