@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.web;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +16,11 @@ import org.springframework.web.HttpSessionRequiredException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyInvestigator;
+import edu.duke.cabig.c3pr.domain.StudyPersonnel;
+import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Tab;
 
@@ -49,7 +54,16 @@ public class EditStudyController extends StudyController {
 	}
 	
 	protected void layoutTabs(Flow flow, HashMap tabsMap){
+		
+		Tab registrations = new Tab<Study>("Registrations", "Registrations","study/study_registrations"){	            
+       	public Map<String, Object> referenceData() {	        		
+               Map<String, Object> refdata = super.referenceData();
+               return refdata;	           
+       	}        	
+        };
+		
 		flow.addTab((Tab<Study>)tabsMap.get("summary"));
+		flow.addTab(registrations);
 		flow.addTab((Tab<Study>)tabsMap.get("details"));
 		flow.addTab((Tab<Study>)tabsMap.get("identifiers"));
 		flow.addTab((Tab<Study>)tabsMap.get("studysites"));
@@ -58,6 +72,77 @@ public class EditStudyController extends StudyController {
 		flow.addTab((Tab<Study>)tabsMap.get("eligibilityChecklist"));
 		flow.addTab((Tab<Study>)tabsMap.get("epochsArms"));
 		
+	}
+	
+	@Override
+	protected void postProcessPage(HttpServletRequest request, Object command,
+			Errors arg2, int pageNo) throws Exception {
+		
+		switch (pageNo)
+		{
+			case 2:
+				handleIdentifierAction((Study)command,
+					request.getParameter("_action"),
+					request.getParameter("_selected"));		
+				break;	
+			case 3:
+				handleStudySiteAction((Study)command,
+					request.getParameter("_action"),
+					request.getParameter("_selected"));		
+				break;
+			case 4:				
+				if("siteChange".equals(request.getParameter("_action")))
+				{
+					request.getSession().setAttribute("site_id", request.getParameter("_selected"));
+					StudySite studySite = ((Study)command).getStudySites().get(Integer.parseInt(request.getParameter("_selected")));
+					if(studySite.getStudyInvestigators().size() == 0 )
+					{						
+						StudyInvestigator studyInvestigator = new StudyInvestigator();	
+						studyInvestigator.setSiteInvestigator(new HealthcareSiteInvestigator());
+						studySite.addStudyInvestigator(studyInvestigator);
+					}
+				}
+				else {
+					handleStudyInvestigatorAction((Study)command, request);
+				}					
+				
+				break;				
+			case 5:				
+				if("siteChange".equals(request.getParameter("_action")))
+				{
+					request.getSession().setAttribute("site_id", request.getParameter("_selected"));
+					
+					StudySite studySite = ((Study)command).getStudySites().get(Integer.parseInt(request.getParameter("_selected")));
+					if(studySite.getStudyPersonnels().size() == 0 )
+					{						
+						StudyPersonnel studyPersonnel = new StudyPersonnel();
+						studyPersonnel.setStudySite(studySite);								
+						studySite.addStudyPersonnel(studyPersonnel);
+					}										
+				}
+				else {
+					handleStudyPersonnelAction((Study)command, request.getParameter("_action"),
+						request.getParameter("_selected"), request.getParameter("_studysiteindex"));
+				}					
+											
+				break;				
+							
+			case 6:			
+				handleEligibilityChecklist((Study)command, request);								
+				break;	
+				
+			case 7:			
+				handleStudyDesignAction((Study)command, 
+					request.getParameter("_action"),
+					request.getParameter("_selectedEpoch"),
+					request.getParameter("_selectedArm"));	
+				break;	
+		
+			default:
+				//do nothing						
+		}		
+		
+		postPostProcessPage(request, command, arg2,pageNo);
 	}
 	
 	/**
