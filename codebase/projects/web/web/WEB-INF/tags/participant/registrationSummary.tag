@@ -45,7 +45,7 @@
 		</tr>
 		<tr>
 			<td valign="top" width="35%" align="right"><b>Registration Status:&nbsp;</b></td>
-			<td valign="bottom" align="left">Registered</td>
+			<td valign="bottom" align="left"></td>
 		</tr>
 		<tr>
 			<td valign="top" width="35%" align="right"><b>Treating Physician:&nbsp;</b></td>
@@ -56,6 +56,12 @@
 			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
 				height="1" class="heightControl"></td>
 		</tr>
+		<c:forEach begin="1" end="3">
+			<tr>
+				<td><br>
+				</td>
+			</tr>
+		</c:forEach>
 		
 	</table>
 	
