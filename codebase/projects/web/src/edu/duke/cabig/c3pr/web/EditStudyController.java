@@ -55,15 +55,8 @@ public class EditStudyController extends StudyController {
 	
 	protected void layoutTabs(Flow flow, HashMap tabsMap){
 		
-		Tab registrations = new Tab<Study>("Registrations", "Registrations","study/study_registrations"){	            
-       	public Map<String, Object> referenceData() {	        		
-               Map<String, Object> refdata = super.referenceData();
-               return refdata;	           
-       	}        	
-        };
-		
 		flow.addTab((Tab<Study>)tabsMap.get("summary"));
-		flow.addTab(registrations);
+		flow.addTab((Tab<Study>)tabsMap.get("registrations"));
 		flow.addTab((Tab<Study>)tabsMap.get("details"));
 		flow.addTab((Tab<Study>)tabsMap.get("identifiers"));
 		flow.addTab((Tab<Study>)tabsMap.get("studysites"));
@@ -181,20 +174,5 @@ public class EditStudyController extends StudyController {
 		ModelAndView modelAndView= new ModelAndView(new RedirectView("searchstudy.do"));
     	return modelAndView;
 	}
-	
-	protected final Object getCommandOnly(HttpServletRequest request) throws Exception {		
-		HttpSession session = request.getSession(false);
-		if (session == null) {
-			throw new HttpSessionRequiredException("Must have session when trying to bind (in session-form mode)");
-		}
-		String formAttrName = getFormSessionAttributeName(request);
-		Object sessionFormObject = session.getAttribute(formAttrName);
-		if (sessionFormObject == null) {
-			throw new HttpSessionRequiredException("Form object not found in session (in session-form mode)");
-		}
-
-		return currentFormObject(request, sessionFormObject);
-	}
-	
 
 }
