@@ -28,6 +28,24 @@
 		</property>
 	</bean>
 
+	<bean id="simpleUrlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="interceptors">
+			<list>
+				<ref bean="loginCheckInterceptor"/>
+				<ref bean="sectionInterceptor" />
+			</list>
+		</property>
+        <property name="mappings">
+            <props>
+                <prop key="/registration/searchStudy">searchStudyController</prop>
+                <prop key="/study/searchStudy">searchStudyController</prop>                
+                <prop key="/registration/createParticipant">createParticipantController</prop>
+                <prop key="/participant/createParticipant">createParticipantController</prop>
+                <prop key="/registration/searchParticipant">searchParticipantController</prop>
+                <prop key="/participant/searchParticipant">searchParticipantController</prop>
+            </props>
+        </property>
+    </bean>
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
@@ -74,49 +92,6 @@
 		<property name="commandClass" value="edu.duke.cabig.c3pr.domain.Participant" />
 		<property name="commandName" value="command" />
 	</bean>
-	<bean name="/registration/searchAndRegister"
-		id="searchAndRegisterController" lazy-init="true"
-		class="edu.duke.cabig.c3pr.web.SearchAndRegisterController"
-		autowire="byName">
-		<property name="commandClass" value="edu.duke.cabig.c3pr.web.SearchRegisterCommand"/>
-		<property name="formView" value="home" />
-		<property name="successView" value="registration/reg_protocol_search" />
-	</bean>
-	<bean name="/registration/searchSubjectInRegister"
-		id="searchSubjectInRegisterController" lazy-init="true"
-		class="edu.duke.cabig.c3pr.web.SearchSubjectInRegisterController"
-		autowire="byName">
-		<property name="formView" value="registration/reg_enroll_patient" />
-		<property name="successView" value="registration/reg_patient_search" />
-		<property name="commandClass" value="edu.duke.cabig.c3pr.web.SearchCommand" />
-	</bean>
-	<bean name="/registration/searchStudyInRegister"
-		id="searchStudyInRegisterController" lazy-init="true"
-		class="edu.duke.cabig.c3pr.web.SearchStudyInRegisterController"
-		autowire="byName">
-		<property name="formView" value="registration/reg_enroll_study" />
-		<property name="successView" value="registration/reg_study_search" />
-		<property name="commandClass" value="edu.duke.cabig.c3pr.web.SearchCommand"/>
-	</bean>
-	<bean name="/registration/register" id="registerController"
-		lazy-init="true" class="edu.duke.cabig.c3pr.web.RegisterController"
-		autowire="byName">
-		<property name="isBroadcastEnable" value="${broadcastEnable}" />
-		<property name="commandClass"
-			value="edu.duke.cabig.c3pr.domain.StudyParticipantAssignment" />
-		<property name="commandName" value="command" />
-		<property name="pages">
-			<list>
-				<value>registration/reg_registration_details</value>
-				<value>registration/reg_check_eligibility</value>
-				<value>registration/reg_stratify</value>
-				<value>registration/reg_randomize</value>
-				<value>registration/reg_submit</value>
-				<value>registration/reg_confirm_reg</value>
-				<value>registration/reg_identifiers</value>
-			</list>
-		</property>
-	</bean>
 	<bean name="/registration/registrationDetails" id="registrationDetailsController"
 		lazy-init="true" class="edu.duke.cabig.c3pr.web.RegistrationDetailsController"
 		autowire="byName">
@@ -125,6 +100,18 @@
 		<property name="commandName" value="command" />
 	</bean>
 
+	<bean name="/registration/createRegistration" id="createRegistrationController"
+		lazy-init="true" class="edu.duke.cabig.c3pr.web.CreateRegistrationController"
+		autowire="byName">
+		<property name="isBroadcastEnable" value="${broadcastEnable}" />
+		<property name="commandClass"
+			value="edu.duke.cabig.c3pr.domain.StudyParticipantAssignment" />
+		<property name="commandName" value="command" />
+		<property name="sessionForm" value="true" />
+	</bean>
+	<bean name="/registration/confirm" id="confirmRegistrationController" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+		<property name="viewName" value="/registration/reg_confirm_reg"/>	
+	</bean>
 	<bean id="sectionInterceptor"
 		class="edu.duke.cabig.c3pr.utils.web.navigation.SectionInterceptor">
 		<property name="sections">
@@ -132,8 +119,16 @@
 				<bean
 					class="edu.duke.cabig.c3pr.utils.web.navigation.Section"
 					autowire="byType" p:displayName="Registration"
-					p:mainController="searchAndRegisterController">
+					p:mainController="createRegistrationController">
 					<property name="pathMapping" value="/registration/**"/>
+					<property name="tasks">
+						<list>
+							<bean
+								class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+								autowire="byType" p:displayName="Create Registration"
+								p:linkName="createRegistrationController" />
+						</list>
+					</property>
 				</bean>
 				<bean
 					class="edu.duke.cabig.c3pr.utils.web.navigation.Section"

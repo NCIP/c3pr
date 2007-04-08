@@ -87,6 +87,7 @@ public class CreateParticipantController extends
 		// Currently the static data is a hack, once DB design is approved for
 		// an LOV this will be
 		// replaced with LOVDao to get the static data from individual tables
+		System.out.println("------------Create Reference Data-------------");
 		Map<String, Object> refdata = new HashMap<String, Object>();
 		Map<String, List<Lov>> configMap = configurationProperty.getMap();
 
@@ -99,6 +100,9 @@ public class CreateParticipantController extends
 			}
 		}
 
+		if(isSubFlow(httpServletRequest)){
+			processSubFlow(httpServletRequest, refdata);
+		}
 		return refdata;
 	}
 
@@ -168,19 +172,35 @@ public class CreateParticipantController extends
 
 		ModelAndView modelAndView = null;
 		// FIXME: small hack
-		String url = null;
-		if ((url = (String) request.getSession().getAttribute("url")) != null) {
-			url += "?participantId=" + Integer.toString(command.getId());
-			if (request.getSession().getAttribute("studySiteId") != null)
-				url += "&studySiteId="
-						+ (String) request.getSession().getAttribute(
-								"studySiteId");
+		if (isSubFlow(request)) {
+			String url = "";
+			if (request.getParameter("studySiteId") != null){
+				url = "createRegistration?resumeFlow=true&_page=1&_target3=3";
+				url += "&participant=" + Integer.toString(command.getId());
+				url += "&studySite="+ request.getParameter("studySiteId");
+			}else{
+				url = "searchStudy";
+				url += "?inRegistration=true&subjectId=" + Integer.toString(command.getId());
+			}
 			response.sendRedirect(url);
 			return null;
 		}
 		response.sendRedirect("searchParticipant");
 		return null;
 	}
+	private boolean isSubFlow(HttpServletRequest request){
+    	if(request.getParameter("inRegistration")!=null||request.getParameter("studySiteId")!=null)
+    		return true;
+    	return false;
+    }
+    private void processSubFlow(HttpServletRequest request, Map map){
+    	map.put("registrationTab", getRegistrationFlow(request).getTab(2));
+    	map.put("inRegistration", "true");
+    	map.put("actionReturnType", "CreateParticipant");
+    }
+    private Flow getRegistrationFlow(HttpServletRequest request){
+    	return (Flow)request.getSession().getAttribute("registrationFlow");
+    }
 
 	protected void validatePage(Object command, Errors errors, int page,
 			boolean finish) {

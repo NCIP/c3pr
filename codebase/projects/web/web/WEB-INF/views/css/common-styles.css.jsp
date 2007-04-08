@@ -120,6 +120,32 @@ input { background: #EBEFF5; font-family: arial, verdana, sans-serif; font-size:
 #level2 .tab.current a:link, #level2 .current a:visited { color: #6E81A6; text-decoration: none; }
 #level2 .tab.current a:hover, #level2 .current a:active { color: #89ABD5; text-decoration: underline; }
 
+/* Level 2 tabs inSubflow*/
+#level2SubFlow {
+    padding: 9px 0 0 7px; margin: 0;
+    white-space: nowrap; 
+}
+#level2SubFlow li.tab {
+    display: inline;
+    margin: 0;
+}
+#level2SubFlow a { background-color: transparent; border: none; }
+#level2SubFlow a:link, #level2SubFlow a:visited { color: #333333; text-decoration: none; }
+#level2SubFlow a:hover, #level2SubFlow a:active { color: #000000; text-decoration: underline; }
+#level2SubFlow .tab a {
+    background: #E9E9EB url(<tags:imageUrl name="tab2_BG.gif"/>) repeat-x top;
+    padding: 2px 10px 0 8px; vertical-align: bottom;
+}
+#level2SubFlow .tab.current a {
+    background-image: url(<tags:imageUrl name="tab2_h_BG.gif"/>);
+    font-weight: bold; color: #3E3F6B;
+}
+#level2SubFlow .tab.current a {
+    background-color: transparent; border: none; padding: 2px 10px 0 8px;
+}
+#level2SubFlow .tab.current a:link, #level2SubFlow .current a:visited { color: #6E81A6; text-decoration: none; }
+#level2SubFlow .tab.current a:hover, #level2SubFlow .current a:active { color: #89ABD5; text-decoration: underline; }
+
 /* properties of the area directly under the tabs that has the angled graphic */
 #level2-spacer { background: #E9E9EB; border: none; height: 8px; }
 

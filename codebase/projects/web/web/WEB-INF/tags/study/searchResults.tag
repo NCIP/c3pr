@@ -26,7 +26,19 @@
 			<c:forEach items="${studyResults}" var="study">
 			<tr align="center" id="row<%= i++ %>" class="results" onMouseOver="navRollOver('row<%= i-1 %>', 'on')"
 				onMouseOut="navRollOver('row<%= i-1 %>', 'off')"
-				onClick="document.location='${url}?studyId=${study.id}'">
+				onClick="
+					<c:choose>
+						<c:when test="${!empty subjectId}">
+							document.location='${url}?studySite=${study.studySites[0].id}&participant=${subjectId }&resumeFlow=true&_page=1&_target3=3'
+						</c:when>
+						<c:when test="${!empty inRegistration}">
+							document.location='${url}?studySiteId=${study.studySites[0].id}'
+						</c:when>
+						<c:otherwise>
+							document.location='${url}?studyId=${study.id}'
+						</c:otherwise>
+					</c:choose>
+				">
 				<td>${study.primaryIdentifier}</td>
 				<td>${study.trimmedShortTitleText}</td>
 				<td>${study.status}</td>

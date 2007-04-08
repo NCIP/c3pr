@@ -43,4 +43,15 @@ public class Flow<C> {
             .append('[').append(getName()).append(']')
             .toString();
     }
+    public Flow createAlternateFlow(List order){
+    	Flow ret=new Flow(name);
+    	for(int i=0 ; i<order.size() ; i++){
+    		for(int j=0 ; j<getTabs().size() ; j++){
+    			if(((String)order.get(i)).equalsIgnoreCase(getTab(j).getShortTitle())){
+    				ret.addTab(getTab(j));
+    			}
+    		}
+    	}
+    	return ret;
+    }
 }

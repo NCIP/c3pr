@@ -3,7 +3,9 @@
     	<pattern>/login.jsp</pattern>
         <pattern>/pages/*</pattern>
         <pattern>/public/*</pattern>
-    </decorator>   
+        <pattern>/pages/registration/searchAndRegister</pattern>
+    </decorator>
+   
     <decorator name="tabbedflow" page="tabbedflow.jsp">
         <pattern>/pages/study/createStudy</pattern>	   
     </decorator>
@@ -16,7 +18,10 @@
     </decorator>
     <decorator name="tabbedflow_edit_study" page="tabbedflow_edit_study.jsp">    
         <pattern>/pages/study/editStudy</pattern>
-   	  </decorator>
+    </decorator>
+	<decorator name="registration" page="registrationflow.jsp">
+   		<pattern>/pages/registration/*</pattern>    
+    </decorator>
   	<excludes>
         <pattern>/*/image/*</pattern>
         <pattern>/*/js/*</pattern>

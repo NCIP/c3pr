@@ -18,12 +18,21 @@ import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
 
 public class SearchStudyController  extends SimpleFormController{
 
 	private static Log log = LogFactory.getLog(SearchStudyController.class);
 	private ConfigurationProperty configurationProperty;	
 	private StudyDao studyDao;   
+	
+	@Override
+	protected boolean isFormSubmission(HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		if(request.getParameter("test")!=null)
+			return true;
+		return super.isFormSubmission(request);
+	}
 
 	protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object oCommand, BindException errors) throws Exception {
     	SearchCommand searchStudyCommand = (SearchCommand) oCommand;
@@ -52,22 +61,49 @@ public class SearchStudyController  extends SimpleFormController{
     	
     	Map map = errors.getModel();
     	map.put("studyResults", studies);
-    	map.put("searchTypeRefData",configMap.get("studySearchType"));    	
+    	map.put("searchTypeRefData",configMap.get("studySearchType"));  
+    	if(isSubFlow(request)){
+    		processSubFlow(request,map);
+    		map.put("actionReturnType", "SearchResults");
+    	}
     	ModelAndView modelAndView= new ModelAndView(getSuccessView(), map);
     	return modelAndView;
     }
     
-    protected Map<String, Object> referenceData(HttpServletRequest httpServletRequest) throws Exception {
+    protected Map<String, Object> referenceData(HttpServletRequest request) throws Exception {
     	Map<String, Object> refdata = new HashMap<String, Object>();
     	Map <String, List<Lov>> configMap = configurationProperty.getMap();    	
     	refdata.put("searchTypeRefData", configMap.get("studySearchType"));
+    	if(isSubFlow(request)){
+ 			processSubFlow(request, refdata);
+    	}
         return refdata;
     }
 
+    private boolean isSubFlow(HttpServletRequest request){
+    	if(request.getParameter("inRegistration")!=null||request.getParameter("subjectId")!=null)
+    		return true;
+    	return false;
+    }
+    private void processSubFlow(HttpServletRequest request, Map map){
+    	if(request.getParameter("subjectId")!=null){
+    		map.put("subjectId", request.getParameter("subjectId"));
+    		getAlternateDisplayOrder(request).getTab(2).setShowSummary("true");
+    	}else{
+    		getRegistrationFlow(request).getTab(1).setShowSummary("false");
+    	}
+    	map.put("registrationTab", getRegistrationFlow(request).getTab(1));
+    	map.put("inRegistration", "true");
+    }
+    private Flow getRegistrationFlow(HttpServletRequest request){
+    	return (Flow)request.getSession().getAttribute("registrationFlow");
+    }
 	public ConfigurationProperty getConfigurationProperty() {
 		return configurationProperty;
 	}
-
+	private Flow getAlternateDisplayOrder(HttpServletRequest request){
+		return (Flow)request.getSession().getAttribute("registrationAltFlow");
+	}
 	public void setConfigurationProperty(ConfigurationProperty configurationProperty) {
 		this.configurationProperty = configurationProperty;
 	}      

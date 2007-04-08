@@ -13,10 +13,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.BindException;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractWizardFormController;
 
 import edu.duke.cabig.c3pr.dao.ArmDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
@@ -26,14 +24,13 @@ import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
+import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AbstractTabbedFlowFormController;
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Tab;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
 
 /**
  * @author Ramakrishna
@@ -95,7 +92,8 @@ public abstract class RegistrationController extends AbstractTabbedFlowFormContr
 					.getParameter("registrationId")), true);
 			System.out.println(" Registration ID is:" + registration.getId());
 		}else{
-			return new StudyParticipantAssignment();
+			registration= new StudyParticipantAssignment();
+			System.out.println("------------Command set to new Command------------------");
 		}
 		return registration;
 	}
@@ -124,7 +122,6 @@ public abstract class RegistrationController extends AbstractTabbedFlowFormContr
 		// replaced with LOVDao to get the static data from individual tables
 		Map<String, Object> refdata = new HashMap<String, Object>();
 		Map<String, List<Lov>> configMap = configurationProperty.getMap();
-		refdata.put("source", healthcareSiteDao.getAll());
 		refdata
 				.put("searchTypeRefData", configMap
 						.get("participantSearchType"));
@@ -141,6 +138,11 @@ public abstract class RegistrationController extends AbstractTabbedFlowFormContr
 				new SimpleDateFormat("MM/dd/yyyy"), true));
 		binder.registerCustomEditor(HealthcareSite.class, new CustomDaoEditor(
 				healthcareSiteDao));
+		binder.registerCustomEditor(StudySite.class, new CustomDaoEditor(
+				studySiteDao));
+		binder.registerCustomEditor(Participant.class, new CustomDaoEditor(
+				participantDao));
+
 	}
 
 	public ConfigurationProperty getConfigurationProperty() {

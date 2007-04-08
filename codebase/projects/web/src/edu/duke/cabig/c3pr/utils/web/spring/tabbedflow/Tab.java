@@ -13,11 +13,36 @@ public class Tab<C> {
     private String longTitle;
     private String shortTitle;
     private String viewName;
+    private String display="true";
+    private String showSummary="true";
+    private String subFlow="false";
 
-    public Tab(String longTitle, String shortTitle, String viewName) {
+    public String getSubFlow() {
+		return subFlow;
+	}
+	public void setSubFlow(String subFlow) {
+		this.subFlow = subFlow;
+	}
+	public Tab(String longTitle, String shortTitle, String viewName) {
         this.longTitle = longTitle;
         this.shortTitle = shortTitle;
         this.viewName = viewName;
+    }
+    public Tab(String longTitle, String shortTitle) {
+        this.longTitle = longTitle;
+        this.shortTitle = shortTitle;
+    }
+    public String getShowSummary() {
+		return showSummary;
+	}
+	public void setShowSummary(String showSummary) {
+		this.showSummary = showSummary;
+	}
+	public Tab(String longTitle, String shortTitle, String viewName,String display) {
+        this.longTitle = longTitle;
+        this.shortTitle = shortTitle;
+        this.viewName = viewName;
+        this.display=display;
     }
 
     ////// TEMPLATE METHODS
@@ -78,4 +103,10 @@ public class Tab<C> {
     public void setViewName(String viewName) {
         this.viewName = viewName;
     }
+	public String getDisplay() {
+		return display;
+	}
+	public void setDisplay(String display) {
+		this.display = display;
+	}
 }

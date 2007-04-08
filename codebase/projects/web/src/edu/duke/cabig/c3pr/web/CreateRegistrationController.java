@@ -1,42 +1,31 @@
 package edu.duke.cabig.c3pr.web;
 
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractWizardFormController;
 
-import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
-import edu.duke.cabig.c3pr.dao.ParticipantDao;
-import edu.duke.cabig.c3pr.dao.StudyParticipantAssignmentDao;
-import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.Epoch;
-import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
-import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
 import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.duke.cabig.c3pr.esb.impl.MessageBroadcastServiceImpl;
-import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.XMLUtils;
-import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AbstractTabbedFlowFormController;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Tab;
 
 /**
@@ -73,166 +62,80 @@ public class CreateRegistrationController extends RegistrationController {
 	}
 
 	protected void intializeFlows(Flow<StudyParticipantAssignment> flow) {
-		flow.addTab(new Tab<StudyParticipantAssignment>("Details", "Details",
-				"registration/reg_details_study_participant") {
+		flow.addTab(new Tab<StudyParticipantAssignment>("Search Subject or Study", "SearchSubjectStudy","registration/home","false"){
 			public Map<String, Object> referenceData() {
-				Map<String, List<Lov>> configMap = configurationProperty
-						.getMap();
-
+				Map<String, List<Lov>> configMap = configurationProperty.getMap();
 				Map<String, Object> refdata = new HashMap<String, Object>();
-
-				refdata.put("administrativeGenderCode", configMap
-						.get("administrativeGenderCode"));
-				refdata
-						.put("ethnicGroupCode", configMap
-								.get("ethnicGroupCode"));
-				refdata.put("raceCode", configMap.get("raceCode"));
-				refdata.put("source", healthcareSiteDao.getAll());
-				refdata.put("searchTypeRefData", configMap
-						.get("participantSearchType"));
-				refdata.put("identifiersTypeRefData", configMap
-						.get("participantIdentifiersType"));
-				;
-
+				refdata.put("searchTypeRefDataStudy", configMap.get("studySearchType"));
+				refdata.put("searchTypeRefDataPrt", configMap.get("participantSearchType"));
 				return refdata;
 			}
 		});
-		flow.addTab(new Tab<StudyParticipantAssignment>("Identifiers",
-				"Identifiers", "registration/reg_details_identifiers") {
-			public Map<String, Object> referenceData() {
-				Map<String, List<Lov>> configMap = configurationProperty
-				.getMap();
-
-		Map<String, Object> refdata = new HashMap<String, Object>();
-
-		refdata.put("administrativeGenderCode", configMap
-				.get("administrativeGenderCode"));
-		refdata
-				.put("ethnicGroupCode", configMap
-						.get("ethnicGroupCode"));
-		refdata.put("raceCode", configMap.get("raceCode"));
-		refdata.put("source", healthcareSiteDao.getAll());
-		refdata.put("searchTypeRefData", configMap
-				.get("participantSearchType"));
-		refdata.put("identifiersTypeRefData", configMap
-				.get("participantIdentifiersType"));
-		;
-
-				return refdata;
-			}
-		});
-		flow.addTab(new Tab<StudyParticipantAssignment>("Eligibility",
-				"Eligibility", "registration/reg_details_eligibility") {
-			public Map<String, Object> referenceData() {
-				Map<String, List<Lov>> configMap = configurationProperty
-				.getMap();
-
-		Map<String, Object> refdata = new HashMap<String, Object>();
-
-		refdata.put("administrativeGenderCode", configMap
-				.get("administrativeGenderCode"));
-		refdata
-				.put("ethnicGroupCode", configMap
-						.get("ethnicGroupCode"));
-		refdata.put("raceCode", configMap.get("raceCode"));
-		refdata.put("source", healthcareSiteDao.getAll());
-		refdata.put("searchTypeRefData", configMap
-				.get("participantSearchType"));
-		refdata.put("identifiersTypeRefData", configMap
-				.get("participantIdentifiersType"));
-		;
-
-				return refdata;
-			}
-		});
-		flow.addTab(new Tab<StudyParticipantAssignment>("Stratification",
-				"Stratification", "registration/reg_details_stratification") {
-			public Map<String, Object> referenceData() {
-				Map<String, List<Lov>> configMap = configurationProperty
-				.getMap();
-
-		Map<String, Object> refdata = new HashMap<String, Object>();
-
-		refdata.put("administrativeGenderCode", configMap
-				.get("administrativeGenderCode"));
-		refdata
-				.put("ethnicGroupCode", configMap
-						.get("ethnicGroupCode"));
-		refdata.put("raceCode", configMap.get("raceCode"));
-		refdata.put("source", healthcareSiteDao.getAll());
-		refdata.put("searchTypeRefData", configMap
-				.get("participantSearchType"));
-		refdata.put("identifiersTypeRefData", configMap
-				.get("participantIdentifiersType"));
-		;
-
-				return refdata;
-			}
-
-		});
-		flow.addTab(new Tab<StudyParticipantAssignment>("Randomization",
-				"Randomization", "registration/reg_details_randomization") {
-			public Map<String, Object> referenceData() {
-				Map<String, List<Lov>> configMap = configurationProperty
-				.getMap();
-
-		Map<String, Object> refdata = new HashMap<String, Object>();
-
-		refdata.put("administrativeGenderCode", configMap
-				.get("administrativeGenderCode"));
-		refdata
-				.put("ethnicGroupCode", configMap
-						.get("ethnicGroupCode"));
-		refdata.put("raceCode", configMap.get("raceCode"));
-		refdata.put("source", healthcareSiteDao.getAll());
-		refdata.put("searchTypeRefData", configMap
-				.get("participantSearchType"));
-		refdata.put("identifiersTypeRefData", configMap
-				.get("participantIdentifiersType"));
-		;
-
-				return refdata;
-			}
-
-		});
-		flow.addTab(new Tab<StudyParticipantAssignment>("Status", "Status",
-				"registration/reg_details_status") {
-			public Map<String, Object> referenceData() {
-				Map<String, List<Lov>> configMap = configurationProperty
-				.getMap();
-
-		Map<String, Object> refdata = new HashMap<String, Object>();
-
-		refdata.put("administrativeGenderCode", configMap
-				.get("administrativeGenderCode"));
-		refdata
-				.put("ethnicGroupCode", configMap
-						.get("ethnicGroupCode"));
-		refdata.put("raceCode", configMap.get("raceCode"));
-		refdata.put("source", healthcareSiteDao.getAll());
-		refdata.put("searchTypeRefData", configMap
-				.get("participantSearchType"));
-		refdata.put("identifiersTypeRefData", configMap
-				.get("participantIdentifiersType"));
-		;
-
-				return refdata;
-			}
-
-		});
+		flow.addTab(new Tab<StudyParticipantAssignment>("Select Study", "Select Study"));
+		flow.addTab(new Tab<StudyParticipantAssignment>("Select Subject", "Select Subject"));
+		flow.addTab(new Tab<StudyParticipantAssignment>("Enrollment Details", "Enrollment Details","registration/reg_registration_details"));
+		flow.addTab(new Tab<StudyParticipantAssignment>("Check Eligibility", "Check Eligibility","registration/reg_check_eligibility"));
+		flow.addTab(new Tab<StudyParticipantAssignment>("Stratify", "Stratify","registration/reg_stratify"));
+		flow.addTab(new Tab<StudyParticipantAssignment>("Review & Submit", "Review & Submit","registration/reg_submit"));
+		flow.getTab(0).setShowSummary("false");
+		flow.getTab(1).setShowSummary("true");
+		flow.getTab(2).setShowSummary("true");
+		flow.getTab(6).setShowSummary("false");
+		flow.getTab(0).setSubFlow("true");
+		flow.getTab(1).setSubFlow("true");
+		flow.getTab(2).setSubFlow("true");
 		setFlow(flow);
 	}
 
+	@Override
+	protected boolean isFormSubmission(HttpServletRequest request) {
+		return super.isFormSubmission(request) || isResumeFlow(request);
+	}
+	
+	@Override
+	protected Object formBackingObject(HttpServletRequest request) throws Exception {
+		// TODO Auto-generated method stub
+		StudyParticipantAssignment studyParticipantAssignment=new StudyParticipantAssignment();
+		studyParticipantAssignment.setStartDate(new Date());
+		removeAlternateDisplayFlow(request);
+		request.getSession().setAttribute("registrationFlow", getFlow());
+		request.getSession().setAttribute("studyParticipantAssignments", studyParticipantAssignment);
+		System.out.println("------------------------registration flow set------------------");			
+		return studyParticipantAssignment;
+	}
+	@Override
+	protected Map<String, Object> referenceData(HttpServletRequest httpServletRequest, int page) throws Exception {
+		// TODO Auto-generated method stub
+		Map<String, Object> refdata = new HashMap<String, Object>();
+		refdata.put("registrationTab", getFlow().getTab(page));
+		return refdata;
+	}
+	
+	@Override
+	protected void postProcessPage(HttpServletRequest request, Object command, Errors errors, String tabShortTitle) throws Exception {
+		// TODO Auto-generated method stub
+		StudyParticipantAssignment studyParticipantAssignment=(StudyParticipantAssignment)command;
+		if(isResumeFlow(request)){
+			System.out.println("---------ResumeFlow---------------------");
+			studyParticipantAssignment.getParticipant().getIdentifiers();
+			studyParticipantAssignment.getStudySite().getStudy().getIdentifiers();
+			studyParticipantAssignment.setStartDate(new Date());
+			studyParticipantAssignment.setStudyParticipantIdentifier("SYS_GEN1");
+			System.out.println("studyParticipantAssignment.getParticipant().getPrimaryIdentifier()"+studyParticipantAssignment.getParticipant().getPrimaryIdentifier());
+		}
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
 	 */
-	@Override
-	protected void postProcessPage(HttpServletRequest request, Object command,
-			Errors arg2, int pageNo) throws Exception {
+/*	@Override
+	protected void postProcessPage(HttpServletRequest request, Object command, Errors errors, String tabShortTitle) throws Exception {
 		// TODO Auto-generated method stub
+		System.out.println("Inside postProcessPage.......tabShortTitle is:"+tabShortTitle);
 		String viewName = request.getParameter("nextView");
+		if(tabShortTitle.equalsIgnoreCase("SearchSubjectStudy")){
+		}
 		if (viewName.equalsIgnoreCase("confirmationView")) {
 			if (logger.isDebugEnabled()) {
 				logger
@@ -408,7 +311,7 @@ public class CreateRegistrationController extends RegistrationController {
 			}
 			System.out
 					.println("--------------------Recieved Idententifiers View with _action as null---------------------------");
-/*			try {
+			try {
 				Vector result = messageBroadcaster.getBroadcastStatus();
 				System.out.println("Messages from ESB.....");
 				if (result != null) {
@@ -458,19 +361,55 @@ public class CreateRegistrationController extends RegistrationController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-*/			if(studyParticipantAssignment.getIdentifiers().size()==0)
+			if(studyParticipantAssignment.getIdentifiers().size()==0)
 				studyParticipantAssignment.addIdentifier(new Identifier());
 		}
 	}
+*/	
 	@Override
 	protected ModelAndView processFinish(HttpServletRequest request,
 			HttpServletResponse response, Object command, BindException arg3)
 			throws Exception {
 		// TODO Auto-generated method stub
 		StudyParticipantAssignment studyParticipantAssignment = (StudyParticipantAssignment) command;
+		System.out.println("----------------in process finish--------------");
+		studyParticipantAssignment.getParticipant().getStudyParticipantAssignments().size();
+		studyParticipantAssignment.getParticipant().addStudyParticipantAssignment(studyParticipantAssignment);
 		participantDao.save(studyParticipantAssignment.getParticipant());
-		response.sendRedirect("searchAndRegister");
-		return null;
+		studyParticipantAssignment.setStudyParticipantIdentifier(studyParticipantAssignment.getId()+ "");
+		if(isBroadcastEnable.equalsIgnoreCase("true")){
+			String xml = "";
+			try {
+				xml = XMLUtils.toXml(studyParticipantAssignment);
+				System.out
+						.println("--------------------XML for Registration--------------------");
+				System.out.println(xml);
+				messageBroadcaster.initialize();
+				messageBroadcaster.broadcast(xml);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		removeAlternateDisplayFlow(request);
+		request.getSession().removeAttribute("registrationFlow");
+		request.setAttribute("command", command);
+		RequestDispatcher rd = request.getRequestDispatcher("confirm?type=confirm");
+    	rd.forward(request, response);
+    	return null;
+
 	}
 
+	private void setAlternateDisplayOrder(HttpServletRequest request, List order){
+		request.getSession().setAttribute("registrationAltOrder", order);
+	}
+	private void removeAlternateDisplayFlow(HttpServletRequest request){
+		request.getSession().removeAttribute("registrationAltFlow");
+	}
+	private boolean isResumeFlow(HttpServletRequest request){
+		if(request.getParameter("resumeFlow")!=null)
+			return true;
+		return false;
+	}
 }
+

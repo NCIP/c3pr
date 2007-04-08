@@ -23,12 +23,16 @@ public abstract class AbstractTabbedFlowFormController<C> extends AbstractWizard
 
     @Override
     @SuppressWarnings("unchecked")
-    protected Map<?, ?> referenceData(HttpServletRequest request, Object command, Errors errors, int page) throws Exception {
+    protected final Map<?, ?> referenceData(HttpServletRequest request, Object command, Errors errors, int page) throws Exception {
         Map<String, Object> refdata = new HashMap<String, Object>();
         Tab<C> current = getFlow().getTab(page);
         refdata.put("tab", current);
         refdata.put("flow", getFlow());
         refdata.putAll(current.referenceData((C) command));
+        Map refDataCall=referenceData(request, page);
+        if(refDataCall!=null){
+        	refdata.putAll(refDataCall);
+        }
         return refdata;
     }
 
@@ -53,4 +57,15 @@ public abstract class AbstractTabbedFlowFormController<C> extends AbstractWizard
 
         tab.validate(command, errors);
     }
+    
+    @Override
+    protected void postProcessPage(HttpServletRequest request, Object command, Errors errors, int page) throws Exception {
+    	// TODO Auto-generated method stub
+    	postProcessPage(request, command, errors, getFlow().getTab(page).getShortTitle());
+    }
+    
+    protected void postProcessPage(HttpServletRequest request, Object command, Errors errors, String tabShortTitle) throws Exception {
+    	
+    }
+
 }
