@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="4" relativePaths="true" type="JAVA_MODULE">
+  <component name="ModuleRootManager" />
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/codebase/antfiles/management/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/core/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/core/test/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/esb-client/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/esb-client/test/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/grid/RegistrationConsumer/build/classes" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/grid/RegistrationConsumer/build/stubs-RegistrationConsumer/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/grid/RegistrationConsumer/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/grid/RegistrationConsumerImpl/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/grid/RegistrationConsumerImpl/test/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/portal/gridsphere-2.2.8/projects/gridauth/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/portal/gridsphere-2.2.8/projects/gridportlets/config/project/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/portal/jboss-portal/api/src/main" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/portal/jboss-portal/bridge/src/main" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/portal/jboss-portal/build/ide/intellij/idea50/config/fileTemplates" isTestSource="false" packagePrefix="$" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/portal/jboss-portal/cms/src/main" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/portal/jboss-portal/common/src/main" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/portal/jboss-portal/core/src/main" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/portal/jboss-portal/faces/src/main" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/portal/jboss-portal/federation/src/main" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/portal/jboss-portal/format/output/gen/classes" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/portal/jboss-portal/format/src/main" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/portal/jboss-portal/identity/src/main" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/portal/jboss-portal/jems/src/main" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/portal/jboss-portal/migration/src/main" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/portal/jboss-portal/portlet/src/main" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/portal/jboss-portal/samples/src/main" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/portal/jboss-portal/security/src/main" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/portal/jboss-portal/server/src/main" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/portal/jboss-portal/test/src/main" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/portal/jboss-portal/theme/src/main" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/portal/jboss-portal/wsrp/src/generated" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/portal/jboss-portal/wsrp/src/main" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/servicemix/c3pr-bridge" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/servicemix/servicemix-toolkit/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/servicemix/servicemix-wsrf/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/servicemix/servicemix-wsrf/src/test/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/test-system/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/test-system/test/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/web/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/web/test/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/web/web/WEB-INF/decorators" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/web/web/WEB-INF/tags/layout" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/share/cobertura-1.8/examples/basic/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/documentation/releases/construction_iteration1/codebase/antfiles/management/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/documentation/releases/construction_iteration1/codebase/projects/core/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/documentation/releases/construction_iteration1/codebase/projects/core/test/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/documentation/releases/construction_iteration1/codebase/projects/esb-client/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/documentation/releases/construction_iteration1/codebase/projects/esb-client/test/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/documentation/releases/construction_iteration1/codebase/projects/grid/RegistrationConsumer/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/documentation/releases/construction_iteration1/codebase/projects/grid/RegistrationConsumerImpl/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/documentation/releases/construction_iteration1/codebase/projects/grid/RegistrationConsumerImpl/test/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/documentation/releases/construction_iteration1/codebase/projects/servicemix/c3pr-bridge" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/documentation/releases/construction_iteration1/codebase/projects/servicemix/servicemix-toolkit/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/documentation/releases/construction_iteration1/codebase/projects/servicemix/servicemix-wsrf/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/documentation/releases/construction_iteration1/codebase/projects/servicemix/servicemix-wsrf/src/test/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/documentation/releases/construction_iteration1/codebase/projects/test-system/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/documentation/releases/construction_iteration1/codebase/projects/test-system/test/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/documentation/releases/construction_iteration1/codebase/projects/web/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/documentation/releases/construction_iteration1/codebase/projects/web/test/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/documentation/releases/construction_iteration1/codebase/projects/web/web/WEB-INF/decorators" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/documentation/releases/construction_iteration1/codebase/projects/web/web/WEB-INF/tags/layout" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/documentation/releases/construction_iteration1/codebase/share/cobertura-1.8/examples/basic/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/adopters" />
+      <excludeFolder url="file://$MODULE_DIR$/classes" />
+      <excludeFolder url="file://$MODULE_DIR$/codebase/docs" />
+      <excludeFolder url="file://$MODULE_DIR$/codebase/projects/portal" />
+      <excludeFolder url="file://$MODULE_DIR$/codebase/scratch" />
+      <excludeFolder url="file://$MODULE_DIR$/codebase/temp" />
+      <excludeFolder url="file://$MODULE_DIR$/deliverables" />
+      <excludeFolder url="file://$MODULE_DIR$/deliverables/construction_iteration1" />
+      <excludeFolder url="file://$MODULE_DIR$/deliverables/construction_iteration1/codebase" />
+      <excludeFolder url="file://$MODULE_DIR$/deliverables/construction_iteration1/documentation" />
+      <excludeFolder url="file://$MODULE_DIR$/deliverables/construction_iteration1/reports" />
+      <excludeFolder url="file://$MODULE_DIR$/meetings" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntryProperties />
+  </component>
+</module>
+

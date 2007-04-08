@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="4" relativePaths="true" type="JAVA_MODULE">
+  <component name="ModuleRootManager" />
+  <component name="NewModuleRootManager" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/codebase/projects/core/build/classes" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/codebase">
+      <sourceFolder url="file://$MODULE_DIR$/codebase/antfiles/management/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/core/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/core/test/src" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/dataload/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/esb-client/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/esb-client/test/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/grid/RegistrationConsumer/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/grid/RegistrationConsumerImpl/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/gridnode/build/classes" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/gridnode/build/stubs-ProtocolIngestor/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/gridnode/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/gridnode/test/src" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/servicemix/c3pr-bridge" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/servicemix/c3pr-bridge/build/components/jms" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/servicemix/servicemix-wsrf/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/servicemix/servicemix-wsrf/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/servicemix/servicemix-wsrf/src/test/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/test-system/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/test-system/test/src" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/test-system/test/src/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/web/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/xml-marshaller/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/projects/xml-marshaller/test/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/share/cobertura-1.8/examples/basic/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/codebase/test" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/codebase/docs" />
+      <excludeFolder url="file://$MODULE_DIR$/codebase/projects/core/build" />
+      <excludeFolder url="file://$MODULE_DIR$/codebase/projects/core/ext" />
+      <excludeFolder url="file://$MODULE_DIR$/codebase/projects/dataload/ext" />
+      <excludeFolder url="file://$MODULE_DIR$/codebase/projects/esb-client/build" />
+      <excludeFolder url="file://$MODULE_DIR$/codebase/projects/gridnode/ext" />
+      <excludeFolder url="file://$MODULE_DIR$/codebase/projects/servicemix/c3pr-workflow-sm/build" />
+      <excludeFolder url="file://$MODULE_DIR$/codebase/projects/servicemix/ext" />
+      <excludeFolder url="file://$MODULE_DIR$/codebase/projects/servicemix/servicemix-toolkit/ext" />
+      <excludeFolder url="file://$MODULE_DIR$/codebase/projects/servicemix/servicemix-wsrf/build" />
+      <excludeFolder url="file://$MODULE_DIR$/codebase/projects/servicemix/servicemix-wsrf/ext" />
+      <excludeFolder url="file://$MODULE_DIR$/codebase/projects/test-system/ext" />
+      <excludeFolder url="file://$MODULE_DIR$/codebase/projects/web/build" />
+      <excludeFolder url="file://$MODULE_DIR$/codebase/projects/web/ext" />
+      <excludeFolder url="file://$MODULE_DIR$/codebase/projects/xml-marshaller/ext" />
+      <excludeFolder url="file://$MODULE_DIR$/codebase/reports" />
+      <excludeFolder url="file://$MODULE_DIR$/codebase/scratch" />
+      <excludeFolder url="file://$MODULE_DIR$/codebase/temp" />
+    </content>
+    <content url="file://$MODULE_DIR$/documentation" />
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntryProperties />
+  </component>
+</module>
+

@@ -8,13 +8,15 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/test/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ext/lib" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/ext/lib/activeio-core-3.0-beta4.jar!/" />
+          <root url="file://$MODULE_DIR$/build/classes" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -86,15 +88,6 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/build/classes" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/commons-collections-3.1.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -104,7 +97,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/build/jars/c3pr-2.0-esb-client-1.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../share/activemq/activemq-core-4.0.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -113,7 +106,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../share/activeMQ_V4.1/activemq-core-4.1.0-incubator.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../share/activemq/activeio-core-3.0-beta4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

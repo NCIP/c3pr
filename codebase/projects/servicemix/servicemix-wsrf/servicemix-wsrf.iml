@@ -3,18 +3,20 @@
   <component name="ModuleRootManager" />
   <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
-    <exclude-output />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src/main" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/mobius_common_client-1.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -23,7 +25,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/concurrent.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer.zip!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -32,7 +34,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/cog-tomcat.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/wstx-asl-3.0.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -41,7 +43,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/caGrid-1.0-ServiceSecurityProvider-common.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/geronimo-security-1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -50,7 +52,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/wsdl4j.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/geronimo-j2ee-1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -59,7 +61,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/globus_wsrf_mds_aggregator_stubs.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/howl-logger-0.1.11.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -68,7 +70,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/caGrid-1.0-metadata-common.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/regexp-1.3.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -77,7 +79,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/mobius_mako_client-1.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/commons-collections-3.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -86,7 +88,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/globus_wsrf_mds_aggregator.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/stax-api-1.0.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -95,7 +97,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/mobius_gme_client-1.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/jencks-1.3.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -104,7 +106,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/naming-java.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/xml-resolver-1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -113,7 +115,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/caGrid-1.0-ServiceSecurityProvider-stubs.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/lingo-1.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -122,7 +124,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/RegistrationConsumer-common.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/commons-lang-2.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -131,7 +133,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/RegistrationConsumer-client.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/geronimo-j2ee-jacc_1.0_spec-1.0.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -140,7 +142,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/commonj.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/geronimo-j2ee-connector_1.5_spec-1.0.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -149,7 +151,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/wsrf_core.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/commons-beanutils-core-1.7.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -158,7 +160,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/commons-cli-2.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/concurrent-1.3.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -167,7 +169,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/axis-url.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/geronimo-servlet_2.4_spec-1.0.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -176,7 +178,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/commons-discovery.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/xbean-classloader-2.6.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -185,7 +187,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/globus_wsrf_servicegroup_stubs.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/geronimo-deployment-1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -194,7 +196,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/caGrid-1.0-ServiceSecurityProvider-service.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/activeio-core-3.0-beta4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -203,7 +205,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/mobius_factories-1.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/velocity-dep-1.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -212,7 +214,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/cog-axis.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/spring-2.0-rc3.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -221,7 +223,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/RegistrationConsumer-stubs.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/aopalliance-1.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -230,7 +232,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/cog-jglobus.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/geronimo-system-1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -239,7 +241,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/commons-collections-3.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/commons-dbcp-1.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -248,7 +250,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/commons-beanutils.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/velocity-1.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -257,7 +259,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/ant-contrib.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/commons-jelly-tags-velocity-1.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -266,7 +268,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/saaj.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/activeio-2.0-r118.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -275,7 +277,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/castor-0.9.9.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/xstream-1.1.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -284,7 +286,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/commons-digester.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/geronimo-naming-1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -293,7 +295,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/caGrid-1.0-core.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/xapool-without-pool-1.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -302,7 +304,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/wsrf_core_stubs.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/geronimo-j2ee-deployment_1.1_spec-1.0.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -311,7 +313,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/mobius_tools-1.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/geronimo-connector-1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -320,7 +322,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/axis.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/xbean-server-2.6.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -329,7 +331,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/jaxrpc.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/geronimo-activation_1.0.2_spec-1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -338,7 +340,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/wss4j.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/servicemix-wsrf-1.0-SNAPSHOT.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -347,7 +349,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/bootstrap.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/backport-util-concurrent-2.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -356,7 +358,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/cog-url.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/xalan-2.7.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -365,7 +367,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/caGrid-1.0-ServiceSecurityProvider-client.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/geronimo-qname_1.1_spec-1.0.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -374,7 +376,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/addressing-1.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/commons-pool-1.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -383,7 +385,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/caGrid-1.0-metadata-security.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/geronimo-util-1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -392,7 +394,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/caGrid-1.0-metadataUtils.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/geronimo-common-1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -401,7 +403,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/caGrid-1.0-metadata-data.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/mx4j-3.0.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -410,7 +412,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/ext/lib/globus_wsrf_servicegroup.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/jaxen-1.1-beta-9.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -419,7 +421,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/concurrent-1.3.4.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/xbean-spring-2.6.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -428,7 +430,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/servicemix-core-3.0-incubating.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/hsqldb-1.7.3.3.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -437,7 +439,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/geronimo-activation_1.0.2_spec-1.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/cglib-nodep-2.1_3.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -446,7 +448,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/xalan-2.7.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/geronimo-jta_1.0.1B_spec-1.0.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -455,7 +457,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/stax-api-1.0.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/servicemix-core-3.0-incubating.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -464,7 +466,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/geronimo-system-1.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/xercesImpl-2.7.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -473,7 +475,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/xbean-server-2.6.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/geronimo-ejb_2.1_spec-1.0.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -482,7 +484,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/xbean-classloader-2.6.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/geronimo-core-1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -491,7 +493,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/geronimo-j2ee-connector_1.5_spec-1.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/mx4j-remote-3.0.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -500,7 +502,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/wsdl4j-1.5.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/xml-apis-1.3.02.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -509,7 +511,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/activemq-core-4.0.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/xbean-kernel-2.6.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -518,7 +520,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/mx4j-3.0.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/xbean-2.1.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -527,7 +529,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/jencks-1.3.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/xpp3-1.1.3.3.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -536,7 +538,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/spring-2.0-rc3.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/geronimo-transaction-1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -545,7 +547,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/howl-1.0.1-1.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/geronimo-jms_1.1_spec-1.0.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -554,7 +556,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/geronimo-jta_1.0.1B_spec-1.0.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/servicemix-services-3.0-incubating.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -563,7 +565,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/geronimo-ejb_2.1_spec-1.0.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/wsdl4j-1.5.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -572,7 +574,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/wstx-asl-3.0.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/geronimo-j2ee-management_1.0_spec-1.0.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -581,7 +583,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/classworlds-1.0.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/commons-logging-1.0.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -590,7 +592,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/geronimo-connector-1.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/geronimo-kernel-1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -599,7 +601,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/xbean-spring-2.6.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/activemq-core-4.0.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -608,7 +610,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/xstream-1.1.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/geronimo-management-1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -617,7 +619,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/xercesImpl-2.6.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/servicemix-jbi-3.0-incubating.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -626,7 +628,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/geronimo-j2ee-management_1.0_spec-1.0.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/log4j-1.2.8.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -635,7 +637,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/servicemix-services-3.0-incubating.jar!/" />
+          <root url="jar://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib/xmlpublic-2.1.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -644,241 +646,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/commons-logging-1.0.4.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/commons-beanutils-core-1.7.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/xml-apis-1.3.02.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/geronimo-javamail_1.3.1_spec-1.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/geronimo-servlet_2.4_spec-1.0.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/geronimo-jms_1.1_spec-1.0.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/geronimo-core-1.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/activemq-ra-4.0.2.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/servicemix-jbi-3.0-incubating.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/geronimo-j2ee-jacc_1.0_spec-1.0.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/derby-10.1.1.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/activeio-core-3.0-beta4.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/log4j-1.2.12.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/geronimo-transaction-1.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/backport-util-concurrent-2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/xbean-kernel-2.6.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/mx4j-remote-3.0.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/optional/commons-pool-1.2.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/optional/commons-collections-3.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/optional/lingo-1.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../servicemix-toolkit/lib/optional/servicemix-components-3.0-incubating.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/AdverseEventConsumer-client.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/AdverseEventConsumer-stubs.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/AdverseEventConsumer-common.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/CreateCandidateAdverseEventService-stubs.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/CreateCandidateAdverseEventService-common.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/CreateCandidateAdverseEventService-client.jar!/" />
+          <root url="file://$MODULE_DIR$/target/servicemix-wsrf-1.0-SNAPSHOT-installer/lib" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
