@@ -118,12 +118,12 @@ function getPage(s){
 										id="table1">
 										<tr>
 											<th align="left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
-												class="red">*</span><em></em><B> Assigning Authority:</th>
+												class="red">*</span><em></em><B> Assigning Authority</th>
 											<th align="left">&nbsp;&nbsp;&nbsp;&nbsp;<span class="red">*</span><em></em><B>
-											Identifier Type:</th>
+											Identifier Type</th>
 											<th align="left">&nbsp;&nbsp;<span class="red">*</span><em></em><B>
-											Identifier:</th>
-											<th align="left"><B>Primary Indicator:</th>
+											Identifier</th>
+											<th align="left"><B>Primary Indicator</th>
 										</tr>
 
 										<c:forEach var="index" begin="0" end="4">

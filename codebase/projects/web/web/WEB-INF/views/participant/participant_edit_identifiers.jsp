@@ -69,11 +69,11 @@ field.value="";
 									<tr align="center" class="label">
 										<th width="5%" align="left" ></th>
 										<th width="35%" align="left" ><span class="red">*</span>Assigning
-										Authority:</th>
+										Authority</th>
 										<th width="25%" align="left" ><span class="red">*</span>Identifier
-										Type:</th>
-										<th width="15%" align="left" ><span class="red">*</span>Identifier:</th>
-										<th width="15%" align="left" >Primary Indicator:</th>
+										Type</th>
+										<th width="15%" align="left" ><span class="red">*</span>Identifier</th>
+										<th width="15%" align="left" >Primary Indicator</th>
 										<th width="5%" align="left" ></th>
 									</tr>
 									<c:forEach items="${command.identifiers}" varStatus="status">

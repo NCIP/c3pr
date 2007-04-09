@@ -159,9 +159,9 @@ if (action){
 												<table width="100%" border="1" cellspacing="0"
 													cellpadding="0" id="table1">
 													<tr>
-														<th align="left" width="40%" >&nbsp;<b>Assigning Authority:</b></th>
-														<th align="left" width="30%" >&nbsp;<b>Identifier Type:</b></th>
-														<th align="left" width="30%" >&nbsp;<b>Identifier:</b></th>
+														<th align="left" width="40%" >&nbsp;<b>Assigning Authority</b></th>
+														<th align="left" width="30%" >&nbsp;<b>Identifier Type</b></th>
+														<th align="left" width="30%" >&nbsp;<b>Identifier</b></th>
 													</tr>
 													<c:forEach items="${command.identifiers}" var="identifier">
 														<c:if test="${identifier.type!=''}">
