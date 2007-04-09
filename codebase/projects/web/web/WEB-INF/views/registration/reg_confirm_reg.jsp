@@ -99,7 +99,7 @@ function accessApp(url,app,targetWindow){
 							</tr>
 							<tr>
 								<td class="label"><a
-									href="javascript:updateTargetPage('randomizeView');">Click
+									href="registrationDetails?registrationId=${command.id }">Click
 								Here</a> to Assign Arms</td>
 							</tr>
 

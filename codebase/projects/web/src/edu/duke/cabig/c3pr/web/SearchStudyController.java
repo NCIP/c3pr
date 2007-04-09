@@ -88,9 +88,9 @@ public class SearchStudyController  extends SimpleFormController{
     private void processSubFlow(HttpServletRequest request, Map map){
     	if(request.getParameter("subjectId")!=null){
     		map.put("subjectId", request.getParameter("subjectId"));
-    		getAlternateDisplayOrder(request).getTab(2).setShowSummary("true");
+//    		getAlternateDisplayOrder(request).getTab(2).setShowSummary("true");
     	}else{
-    		getRegistrationFlow(request).getTab(1).setShowSummary("false");
+//    		getRegistrationFlow(request).getTab(1).setShowSummary("false");
     	}
     	map.put("registrationTab", getRegistrationFlow(request).getTab(1));
     	map.put("inRegistration", "true");

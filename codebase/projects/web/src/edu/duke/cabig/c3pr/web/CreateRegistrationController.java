@@ -78,8 +78,8 @@ public class CreateRegistrationController extends RegistrationController {
 		flow.addTab(new Tab<StudyParticipantAssignment>("Stratify", "Stratify","registration/reg_stratify"));
 		flow.addTab(new Tab<StudyParticipantAssignment>("Review & Submit", "Review & Submit","registration/reg_submit"));
 		flow.getTab(0).setShowSummary("false");
-		flow.getTab(1).setShowSummary("true");
-		flow.getTab(2).setShowSummary("true");
+		flow.getTab(1).setShowSummary("false");
+		flow.getTab(2).setShowSummary("false");
 		flow.getTab(6).setShowSummary("false");
 		flow.getTab(0).setSubFlow("true");
 		flow.getTab(1).setSubFlow("true");

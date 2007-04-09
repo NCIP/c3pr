@@ -91,7 +91,7 @@ private static Log log = LogFactory.getLog(SearchParticipantController.class);
     private void processSubFlow(HttpServletRequest request, Map map){
     	if(request.getParameter("studySiteId")!=null){
     		map.put("studySiteId", request.getParameter("studySiteId"));
-    		getRegistrationFlow(request).getTab(2).setShowSummary("true");
+//    		getRegistrationFlow(request).getTab(2).setShowSummary("true");
     	}else{
     		List dispOrder=new ArrayList();
 			dispOrder.add("SearchSubjectStudy");
@@ -102,7 +102,7 @@ private static Log log = LogFactory.getLog(SearchParticipantController.class);
 			dispOrder.add("Stratify");
 			dispOrder.add("Review & Submit");
 			setAlternateDisplayOrder(request,getRegistrationFlow(request).createAlternateFlow(dispOrder));
-			getAlternateDisplayOrder(request).getTab(1).setShowSummary("false");
+//			getAlternateDisplayOrder(request).getTab(1).setShowSummary("false");
     	}
     	map.put("registrationTab", getRegistrationFlow(request).getTab(2));
     	map.put("inRegistration", "true");
