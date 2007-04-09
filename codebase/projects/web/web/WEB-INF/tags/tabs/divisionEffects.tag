@@ -14,12 +14,12 @@
         <td>
         <table width="100%" border="0" cellspacing="0" cellpadding="0" class="tabs">
             <div id="tabdivisionEffect">
-            <tr onClick()="Effect.Combo('${effectsArea}','${imgExpandArea}','tabdivisionEffect')">
+            <tr onClick="Effect.Combo('${effectsArea}','${imgExpandArea}','tabdivisionEffect')">
                 <td width="100%" class="tabDisplay">
                     <c:if test="${not empty title}">
                         <img src="<tags:imageUrl name="tab3_h_L.gif"/>" width="1" height="16" align="absmiddle"><span class="current">
-                        <img id="expandIncl"
-					src="images/b-plus.gif">${title}
+                        <img id="${imgExpandArea}"
+					src="images/b-plus.gif"> ${title}
                         </span><img src="<tags:imageUrl name="tab3_h_R.gif"/>" width="7" height="16" align="absmiddle">
                     </c:if>
                     <img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="16" align="absmiddle">
