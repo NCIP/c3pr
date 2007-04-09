@@ -99,10 +99,6 @@ field.value="";
 										</tr>
 									</c:forEach>
 									<tr>
-										<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-											height="1" class="heightControl"></td>
-									</tr>
-									<tr>
 										<td align="center"><a
 											href="javascript:fireAction('addIdentifier','0');"><img
 											src="<tags:imageUrl name="checkyes.gif"/>" border="0"

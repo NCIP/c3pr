@@ -117,10 +117,7 @@ field.value="";
 										<tr>
 											<c:catch></c:catch>
 									</c:forEach>
-									<tr>
-										<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-											height="1" class="heightControl"></td>
-									</tr>
+									
 									<tr>
 
 										<td align="center"><a
