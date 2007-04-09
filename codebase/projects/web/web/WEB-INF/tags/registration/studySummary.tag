@@ -41,7 +41,7 @@
 			<td valign="top" width="35%" align="right"><b>Type:&nbsp;</b></td>
 			<td valign="bottom" align="left">${command.studySite.study.type}</td>
 		</tr>
-		<c:forEach begin="1" end="4">
+		<c:forEach begin="1" end="10">
 			<tr>
 				<td><br>
 				</td>
