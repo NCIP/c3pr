@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<jbi xmlns="http://java.sun.com/xml/ns/jbi" version="1.0">
-    <services xmlns:b="http://servicemix.apache.org/samples/bridge">
-        <provides service-name="b:pipeline" endpoint-name="endpoint"/>
-        <consumes service-name="b:http"/>
-        <consumes service-name="b:xslt"/>
-        <consumes service-name="b:grid-service"/>
-    </services>
-</jbi>
