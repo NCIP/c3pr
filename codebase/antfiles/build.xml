@@ -288,7 +288,7 @@
     <target name="deploy-webapp" depends="build-core, build-web" description="Deploy web application to tomcat">
         <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="deploy"/>
     </target>
-
+	
     <!-- ====================================================================== -->
     <!-- UnDeploys the webapp (note:- only web + core projects )in Catalina_home  -->
     <!-- ====================================================================== -->
