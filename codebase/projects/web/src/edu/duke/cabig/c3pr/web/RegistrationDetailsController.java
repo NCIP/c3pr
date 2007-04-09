@@ -40,8 +40,9 @@ import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Tab;
 
 public class RegistrationDetailsController extends RegistrationController {
 
-	private static Log log = LogFactory.getLog(RegistrationDetailsController.class);
-	
+	private static Log log = LogFactory
+			.getLog(RegistrationDetailsController.class);
+
 	public RegistrationDetailsController() {
 		super("Registration Management");
 	}
@@ -75,22 +76,22 @@ public class RegistrationDetailsController extends RegistrationController {
 				"Identifiers", "registration/reg_details_identifiers") {
 			public Map<String, Object> referenceData() {
 				Map<String, List<Lov>> configMap = configurationProperty
-				.getMap();
+						.getMap();
 
-		Map<String, Object> refdata = new HashMap<String, Object>();
+				Map<String, Object> refdata = new HashMap<String, Object>();
 
-		refdata.put("administrativeGenderCode", configMap
-				.get("administrativeGenderCode"));
-		refdata
-				.put("ethnicGroupCode", configMap
-						.get("ethnicGroupCode"));
-		refdata.put("raceCode", configMap.get("raceCode"));
-		refdata.put("source", healthcareSiteDao.getAll());
-		refdata.put("searchTypeRefData", configMap
-				.get("participantSearchType"));
-		refdata.put("identifiersTypeRefData", configMap
-				.get("participantIdentifiersType"));
-		;
+				refdata.put("administrativeGenderCode", configMap
+						.get("administrativeGenderCode"));
+				refdata
+						.put("ethnicGroupCode", configMap
+								.get("ethnicGroupCode"));
+				refdata.put("raceCode", configMap.get("raceCode"));
+				refdata.put("source", healthcareSiteDao.getAll());
+				refdata.put("searchTypeRefData", configMap
+						.get("participantSearchType"));
+				refdata.put("identifiersTypeRefData", configMap
+						.get("participantIdentifiersType"));
+				;
 
 				return refdata;
 			}
@@ -99,22 +100,22 @@ public class RegistrationDetailsController extends RegistrationController {
 				"Eligibility", "registration/reg_details_eligibility") {
 			public Map<String, Object> referenceData() {
 				Map<String, List<Lov>> configMap = configurationProperty
-				.getMap();
+						.getMap();
 
-		Map<String, Object> refdata = new HashMap<String, Object>();
+				Map<String, Object> refdata = new HashMap<String, Object>();
 
-		refdata.put("administrativeGenderCode", configMap
-				.get("administrativeGenderCode"));
-		refdata
-				.put("ethnicGroupCode", configMap
-						.get("ethnicGroupCode"));
-		refdata.put("raceCode", configMap.get("raceCode"));
-		refdata.put("source", healthcareSiteDao.getAll());
-		refdata.put("searchTypeRefData", configMap
-				.get("participantSearchType"));
-		refdata.put("identifiersTypeRefData", configMap
-				.get("participantIdentifiersType"));
-		;
+				refdata.put("administrativeGenderCode", configMap
+						.get("administrativeGenderCode"));
+				refdata
+						.put("ethnicGroupCode", configMap
+								.get("ethnicGroupCode"));
+				refdata.put("raceCode", configMap.get("raceCode"));
+				refdata.put("source", healthcareSiteDao.getAll());
+				refdata.put("searchTypeRefData", configMap
+						.get("participantSearchType"));
+				refdata.put("identifiersTypeRefData", configMap
+						.get("participantIdentifiersType"));
+				;
 
 				return refdata;
 			}
@@ -123,22 +124,22 @@ public class RegistrationDetailsController extends RegistrationController {
 				"Stratification", "registration/reg_details_stratification") {
 			public Map<String, Object> referenceData() {
 				Map<String, List<Lov>> configMap = configurationProperty
-				.getMap();
+						.getMap();
 
-		Map<String, Object> refdata = new HashMap<String, Object>();
+				Map<String, Object> refdata = new HashMap<String, Object>();
 
-		refdata.put("administrativeGenderCode", configMap
-				.get("administrativeGenderCode"));
-		refdata
-				.put("ethnicGroupCode", configMap
-						.get("ethnicGroupCode"));
-		refdata.put("raceCode", configMap.get("raceCode"));
-		refdata.put("source", healthcareSiteDao.getAll());
-		refdata.put("searchTypeRefData", configMap
-				.get("participantSearchType"));
-		refdata.put("identifiersTypeRefData", configMap
-				.get("participantIdentifiersType"));
-		;
+				refdata.put("administrativeGenderCode", configMap
+						.get("administrativeGenderCode"));
+				refdata
+						.put("ethnicGroupCode", configMap
+								.get("ethnicGroupCode"));
+				refdata.put("raceCode", configMap.get("raceCode"));
+				refdata.put("source", healthcareSiteDao.getAll());
+				refdata.put("searchTypeRefData", configMap
+						.get("participantSearchType"));
+				refdata.put("identifiersTypeRefData", configMap
+						.get("participantIdentifiersType"));
+				;
 
 				return refdata;
 			}
@@ -148,22 +149,22 @@ public class RegistrationDetailsController extends RegistrationController {
 				"Randomization", "registration/reg_details_randomization") {
 			public Map<String, Object> referenceData() {
 				Map<String, List<Lov>> configMap = configurationProperty
-				.getMap();
+						.getMap();
 
-		Map<String, Object> refdata = new HashMap<String, Object>();
+				Map<String, Object> refdata = new HashMap<String, Object>();
 
-		refdata.put("administrativeGenderCode", configMap
-				.get("administrativeGenderCode"));
-		refdata
-				.put("ethnicGroupCode", configMap
-						.get("ethnicGroupCode"));
-		refdata.put("raceCode", configMap.get("raceCode"));
-		refdata.put("source", healthcareSiteDao.getAll());
-		refdata.put("searchTypeRefData", configMap
-				.get("participantSearchType"));
-		refdata.put("identifiersTypeRefData", configMap
-				.get("participantIdentifiersType"));
-		;
+				refdata.put("administrativeGenderCode", configMap
+						.get("administrativeGenderCode"));
+				refdata
+						.put("ethnicGroupCode", configMap
+								.get("ethnicGroupCode"));
+				refdata.put("raceCode", configMap.get("raceCode"));
+				refdata.put("source", healthcareSiteDao.getAll());
+				refdata.put("searchTypeRefData", configMap
+						.get("participantSearchType"));
+				refdata.put("identifiersTypeRefData", configMap
+						.get("participantIdentifiersType"));
+				;
 
 				return refdata;
 			}
@@ -173,22 +174,22 @@ public class RegistrationDetailsController extends RegistrationController {
 				"registration/reg_details_status") {
 			public Map<String, Object> referenceData() {
 				Map<String, List<Lov>> configMap = configurationProperty
-				.getMap();
+						.getMap();
 
-		Map<String, Object> refdata = new HashMap<String, Object>();
+				Map<String, Object> refdata = new HashMap<String, Object>();
 
-		refdata.put("administrativeGenderCode", configMap
-				.get("administrativeGenderCode"));
-		refdata
-				.put("ethnicGroupCode", configMap
-						.get("ethnicGroupCode"));
-		refdata.put("raceCode", configMap.get("raceCode"));
-		refdata.put("source", healthcareSiteDao.getAll());
-		refdata.put("searchTypeRefData", configMap
-				.get("participantSearchType"));
-		refdata.put("identifiersTypeRefData", configMap
-				.get("participantIdentifiersType"));
-		;
+				refdata.put("administrativeGenderCode", configMap
+						.get("administrativeGenderCode"));
+				refdata
+						.put("ethnicGroupCode", configMap
+								.get("ethnicGroupCode"));
+				refdata.put("raceCode", configMap.get("raceCode"));
+				refdata.put("source", healthcareSiteDao.getAll());
+				refdata.put("searchTypeRefData", configMap
+						.get("participantSearchType"));
+				refdata.put("identifiersTypeRefData", configMap
+						.get("participantIdentifiersType"));
+				;
 
 				return refdata;
 			}
@@ -201,7 +202,7 @@ public class RegistrationDetailsController extends RegistrationController {
 	protected ModelAndView processFinish(HttpServletRequest arg0,
 			HttpServletResponse arg1, Object arg2, BindException arg3)
 			throws Exception {
-		
+
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -216,13 +217,21 @@ public class RegistrationDetailsController extends RegistrationController {
 			Errors errors, int page) throws Exception {
 		StudyParticipantAssignment registration = (StudyParticipantAssignment) oCommand;
 		if (page == 1) {
-			handleIdentifierAction(registration,
-					request.getParameter("_action"), request
-							.getParameter("_selected"));
+			handleIdentifierAction(registration, request
+					.getParameter("_action"), request.getParameter("_selected"));
 		}
 
-		if (("update").equals(request.getParameter("_update"))) {
-			registrationDao.save(registration);
+		if (("update").equals(request.getParameter("_updateaction"))) {
+
+			try {
+				log.debug("Updating Registration");
+				registrationDao.save(registration);
+			} catch (RuntimeException e) {
+				log.debug("Unable to update Registration");
+				e.printStackTrace();
+			}
+
 		}
+
 	}
 }
