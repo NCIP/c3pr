@@ -13,7 +13,7 @@
 </style>
 <script>
 function fireAction(action, selectedEpoch, selectedArm){
-	document.getElementsByName('_target7')[0].name='_target6';
+	document.getElementById('command').targetPage.name='_noname';
 	document.studyDesignForm._action.value=action;
 	document.studyDesignForm._selectedEpoch.value=selectedEpoch;
 	document.studyDesignForm._selectedArm.value=selectedArm;

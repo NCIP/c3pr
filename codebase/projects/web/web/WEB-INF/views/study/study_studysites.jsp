@@ -8,13 +8,14 @@
 
 <html>
 <head>
+<link href="calendar-blue.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="/c3pr/js/CalendarPopup.js"></script>
 <script language="JavaScript" id="js1">
 	var cal1 = new CalendarPopup();
 </script>
 <script>
 function fireAction(action, selected){
-	document.getElementsByName('_target3')[0].name='_target2';
+	document.getElementById('command').targetPage.name='_noname';
 	document.studySiteForm._action.value=action;
 	document.studySiteForm._selected.value=selected;
 	document.studySiteForm.submit();
@@ -36,9 +37,10 @@ function fireAction(action, selected){
 		<td valign="top">
 			<p id="instructions">
 				Add StudySites associated with the Study (<span class="red">*</span><em>Required Information </em>)<br>
+				Use Date format as (mm/dd/yyyy)
 			</p>
 			<br>
-			<table width="100%" border="0" cellspacing="0" cellpadding="0"
+			<table width="90%" border="0" cellspacing="0" cellpadding="0"
 				id="table1">
 
 				<td width="100%" valign="top">
@@ -52,34 +54,30 @@ function fireAction(action, selected){
 						<td width="11%" align="left"><b>HealthCare Site</b><span class="red">*</span></td>
 						<td width="11%" align="left"><b>Status<span class="red">*</span></td>
 						<td width="11%" align="left"><b>Role<span class="red">*</span></td>
-						<td width="17%" align="left"><b>Activation Date</b> (mm/dd/yyyy)<span class="red">*</span> </td>
-						<td width="17%" align="left"><b>IRB Approval Date</b> (mm/dd/yyyy)<span class="red">*</span></td>
+						<td width="17%" align="left"><b>Activation Date</b><span class="red">*</span> </td>
+						<td width="17%" align="left"><b>IRB Approval Date</b><span class="red">*</span></td>
 					</tr>
 					<c:forEach items="${command.studySites}" varStatus="status">
 						<tr class="results">
 							<td width="5%"><a href="javascript:fireAction('removeStudySite',${status.index});"><img
 								src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 							<td width="11%"><form:select path="studySites[${status.index}].site">
-								<option value="">--Please Select--<form:options items="${healthCareSitesRefData}" itemLabel="name" itemValue="id" />
+								<option value="" selected>--Please Select--<form:options items="${healthCareSitesRefData}" itemLabel="name" itemValue="id" />
 								</form:select></td>
 							<td width="11%"><form:select path="studySites[${status.index}].statusCode">
-								<option value="">--Please Select--<form:options items="${studySiteStatusRefData}" itemLabel="desc"
+								<option value="" selected>--Please Select--<form:options items="${studySiteStatusRefData}" itemLabel="desc"
 									itemValue="desc" />
 							</form:select></td>
 							<td width="11%"><form:select path="studySites[${status.index}].roleCode">
-								<option value="">--Please Select--<form:options items="${studySiteRoleCodeRefData}" itemLabel="desc"
+								<option value="" selected>--Please Select--<form:options items="${studySiteRoleCodeRefData}" itemLabel="desc"
 									itemValue="desc" />
 							</form:select></td>
-							<td width="17%"><form:input
-								path="studySites[${status.index}].startDate" />&nbsp;<a href="#"
-									onClick="cal1.select(document.getElementById('studySites[${status.index}].startDate'),'anchor1','MM/dd/yyyy');return false;" name="anchor1" id="anchor1"><img
-								src="<tags:imageUrl name="b-calendar.gif"/>" alt="Calendar"
-								height="16" border="0"></a></td>
-							<td width="17%"><form:input
-								path="studySites[${status.index}].irbApprovalDate" />&nbsp;<a href="#"
-									onClick="cal1.select(document.getElementById('studySites[${status.index}].irbApprovalDate'),'anchor1','MM/dd/yyyy');return false;" name="anchor1" id="anchor1"><img
-								src="<tags:imageUrl name="b-calendar.gif"/>" alt="Calendar"
-								height="16" border="0"></a></td>
+							<td width="17%">
+								<tags:dateInput path="studySites[${status.index}].startDate" />&nbsp;&nbsp;&nbsp;<span
+									class="red"><em></em></span></td>
+							<td width="17%">
+								<tags:dateInput path="studySites[${status.index}].irbApprovalDate" />&nbsp;&nbsp;&nbsp;<span
+									class="red"><em></em></span></td>
 						</tr>
 					</c:forEach>
 					</table>

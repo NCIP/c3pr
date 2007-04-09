@@ -21,7 +21,7 @@
 <script language="JavaScript" type="text/JavaScript">
 
 function fireAction(action, selected){
-	document.getElementsByName('_target4')[0].name='_target3';
+	document.getElementById('command').targetPage.name='_noname';
 	document.form._action.value=action;
 	document.form._selected.value=selected;
 	document.form.submit();
@@ -29,21 +29,21 @@ function fireAction(action, selected){
 }
 
 function chooseSites(){
-	document.getElementsByName('_target4')[0].name='_target3';
+	document.getElementById('command').targetPage.name='_noname';	
 	document.form._action.value="siteChange";
 	document.form._selected.value=document.getElementById('site').value;
 	document.form.submit();
 }
 
 function chooseSitesfromSummary(selected){
-	document.getElementsByName('_target4')[0].name='_target3';
+	document.getElementById('command').targetPage.name='_noname';
 	document.form._action.value="siteChange";
 	document.form._selected.value=selected;
 	document.form.submit();
 }
 
 function fireAction1(action, selected, studysiteindex){
-	document.getElementsByName('_target4')[0].name='_target3';
+	document.getElementById('command').targetPage.name='_noname';
 	document.form._action.value=action;
 	document.form._selected.value=selected;
 	document.form._studysiteindex.value=studysiteindex;
@@ -207,14 +207,14 @@ Event.observe(window, "load", function() {
 							<form:options items="${studyInvestigatorRoleRefData}" itemLabel="desc" itemValue="desc"/>
 						</form:select>
 					</td>
-					<td align="center" width="23%">
+					<td align="left" width="20%">
 						<form:select path="studySites[${index}].studyInvestigators[${status.index}].statusCode">
 							<option value="">--Please Select--
 							<form:options items="${studyInvestigatorStatusRefData}" itemLabel="desc" itemValue="desc" />
 						</form:select>
 					</td>
 
-					<td align="center" width="20%">
+					<td align="left" width="10%">
 						<a href="javascript:fireAction1('removeInv',${status.index}, ${index});"><img
 							src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a>
 					</td>

@@ -14,7 +14,7 @@
 
 <script language="JavaScript" type="text/JavaScript">
 function fireAction(action, selected){
-	document.getElementsByName('_target2')[0].name='_target1';
+	document.getElementById('command').targetPage.name='_noname';
 	document.studyIdentifiersForm._action.value=action;
 	document.studyIdentifiersForm._selected.value=selected;
 	document.studyIdentifiersForm.submit();

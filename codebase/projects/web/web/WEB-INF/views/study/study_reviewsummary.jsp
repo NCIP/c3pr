@@ -267,7 +267,7 @@ function updateTargetPage(target){
 							<tr><strong>-- Exclusion Criteria --</strong></tr>
 							<tr><td>&nbsp;</td></tr>
 							<tr>
-								<td width="33%" align="left"><b>No</b></td>
+								<td width="33%" align="left"><b>Number</b></td>
 								<td width="33%" align="left"><b>Question</b></td>
 								<td width="33%" align="left"><b>N/A</b></td>
 							</tr>

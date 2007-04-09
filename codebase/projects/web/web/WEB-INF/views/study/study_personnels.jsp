@@ -23,7 +23,7 @@
 <script language="JavaScript" type="text/JavaScript">
 
 function fireAction(action, selected){
-	document.getElementsByName('_target5')[0].name='_target4';
+	document.getElementById('command').targetPage.name='_noname';
 	document.form._action.value=action;
 	document.form._selected.value=selected;
 	document.form.submit();
@@ -31,21 +31,21 @@ function fireAction(action, selected){
 }
 
 function chooseSites(){
-	document.getElementsByName('_target5')[0].name='_target4';
+	document.getElementById('command').targetPage.name='_noname';
 	document.form._action.value="siteChange";
 	document.form._selected.value=document.getElementById('site').value;
 	document.form.submit();
 }
 
 function chooseSitesfromSummary(selected){
-	document.getElementsByName('_target5')[0].name='_target4';
+	document.getElementById('command').targetPage.name='_noname';
 	document.form._action.value="siteChange";
 	document.form._selected.value=selected;
 	document.form.submit();
 }
 
 function fireAction1(action, selected, studysiteindex){
-	document.getElementsByName('_target5')[0].name='_target4';
+	document.getElementById('command').targetPage.name='_noname';
 	document.form._action.value=action;
 	document.form._selected.value=selected;
 	document.form._studysiteindex.value=studysiteindex;
@@ -189,7 +189,7 @@ Event.observe(window, "load", function() {
 
 			<c:forEach varStatus="status" items="${command.studySites[index].studyPersonnels}">
 				<tr>
-					<td align="left" width="45%">
+					<td align="left" width="40%">
 						<form:hidden id="personnel${status.index}" path="studySites[${index}].studyPersonnels[${status.index}].researchStaff"/>
 						<input type="text" id="personnel${status.index}-input" size="30" value="${command.studySites[index].studyPersonnels[status.index].researchStaff.fullName}"/>
 						<input type="button" id="personnel${status.index}-clear" value="Clear"/>
@@ -202,13 +202,13 @@ Event.observe(window, "load", function() {
 							<form:options items="${studyPersonnelRoleRefData}" itemLabel="desc" itemValue="desc"/>
 						</form:select>
 					</td>
-					<td align="center" width="23%">
+					<td align="left" width="20%">
 						<form:select path="studySites[${index}].studyPersonnels[${status.index}].statusCode">
 							<option value="">--Please Select--
 							<form:options items="${studyPersonnelStatusRefData}" itemLabel="desc" itemValue="desc" />
 						</form:select>
 					</td>
-					<td align="center" width="5%">
+					<td align="left" width="5%">
 						<a href="javascript:fireAction1('removeStudyPersonnel',${status.index}, ${index});"><img
 							src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a>
 					</td>

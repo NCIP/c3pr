@@ -20,7 +20,7 @@
 <script language="JavaScript" type="text/JavaScript">
 
 function fireAction(action, selected, area){
-	document.getElementsByName('_target6')[0].name='_target5';
+	document.getElementById('command').targetPage.name='_noname';
 	document.form._action.value=action;
 	document.form._selected.value=selected;
 	document.form.submit();
@@ -142,6 +142,7 @@ function hideTextArea(a,b){
 	<input type="hidden" name="_action" value="">
 	<input type="hidden" name="_selected" value=""></div>
 </div>
+<tabs:tabFields tab="${tab}" />
 <!-- MAIN BODY STARTS HERE -->
 <table border="0" id="table1" cellspacing="10" width="60%">
 	<tr>
@@ -189,7 +190,7 @@ function hideTextArea(a,b){
 							</tr>
 							</c:forEach>
 							</table>
-								</td>
+						</td>
 						</tr>
 					</table>
 					</td>
