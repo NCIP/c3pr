@@ -42,8 +42,9 @@
 			</c:if>
 			</td>			
     	</tr>  
+ 	</table>
+    </div>
     </tabs:body>  	
-    </table>
 </div>
 <form:form id="flowredirect">
     <input type="hidden" name="_target${tab.number}" id="flowredirect-target"/>
