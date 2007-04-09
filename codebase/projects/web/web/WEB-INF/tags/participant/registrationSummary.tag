@@ -56,7 +56,7 @@
 			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
 				height="1" class="heightControl"></td>
 		</tr>
-		<c:forEach begin="1" end="3">
+		<c:forEach begin="1" end="2">
 			<tr>
 				<td><br>
 				</td>

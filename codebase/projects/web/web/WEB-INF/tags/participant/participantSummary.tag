@@ -89,7 +89,7 @@ function submitlinksPage(){
 				href="javascript:accessApp('https://octrials-train.nci.nih.gov','/opa45/rdclaunch.htm','_c3d');">
 			<b>Clinical Database</b></a></td>
 		</tr>
-		<c:forEach begin="1" end="7">
+		<c:forEach begin="1" end="6">
 			<tr>
 				<td><br>
 				</td>

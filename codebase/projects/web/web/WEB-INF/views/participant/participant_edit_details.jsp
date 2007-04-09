@@ -128,7 +128,7 @@ field.value="";
 								</table>
 								</form>
 							</tr>
-							<c:forEach begin="1" end="9">
+							<c:forEach begin="1" end="7">
 								<tr>
 									<td><br>
 									</td>
