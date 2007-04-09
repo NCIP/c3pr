@@ -480,8 +480,8 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 	{
 		StudySite studySite = new StudySite();
 		createDefaultHealthcareSite(studySite);	
-		createDefaultStudyInvestigators(studySite);
-		createDefaultStudyPersonnel(studySite);
+		//createDefaultStudyInvestigators(studySite);
+		//createDefaultStudyPersonnel(studySite);
 		study.addStudySite(studySite);					
 	}	
 	
