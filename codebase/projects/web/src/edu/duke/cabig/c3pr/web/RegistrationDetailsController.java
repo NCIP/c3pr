@@ -197,6 +197,31 @@ public class RegistrationDetailsController extends RegistrationController {
 		});
 		setFlow(flow);
 	}
+	@Override
+	protected Object formBackingObject(HttpServletRequest request)
+			throws Exception {
+		StudyParticipantAssignment registration = null;
+		if ((request.getParameter("registrationId") != null)
+				&& (request.getParameter("registrationId") != "")) {
+			System.out.println(" Request URl  is:"
+					+ request.getRequestURL().toString());
+			System.out.println(" RegistrationId is: "
+					+ Integer.parseInt(request.getParameter("registrationId")));
+			System.out.println(" registration Dao is :"
+					+ registrationDao.toString());
+			registration = registrationDao.getById(Integer.parseInt(request
+					.getParameter("registrationId")), true);
+			System.out.println(" Registration ID is:" + registration.getId());
+		}else{
+			registration= new StudyParticipantAssignment();
+			System.out.println("------------Command set to new Command------------------");
+		}
+
+		Identifier temp = new Identifier();
+		temp.setPrimaryIndicator(false);
+		registration.addIdentifier(temp);
+		return registration;
+	}
 
 	@Override
 	protected ModelAndView processFinish(HttpServletRequest arg0,
@@ -235,3 +260,5 @@ public class RegistrationDetailsController extends RegistrationController {
 
 	}
 }
+
+

@@ -184,6 +184,12 @@ public class EditParticipantController extends
 					.getParameter("participantId")), true);
 			System.out.println(" Participant's ID is:" + participant.getId());
 		}
+		
+			Identifier temp = new Identifier();
+			temp.setPrimaryIndicator(false);
+			participant.addIdentifier(temp);
+		
+		
 		return participant;
 	}
 
