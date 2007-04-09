@@ -200,14 +200,23 @@ public class EditParticipantController extends
 	protected void postProcessPage(HttpServletRequest request, Object oCommand,
 			Errors errors, int page) throws Exception {
 		Participant participant = (Participant) oCommand;
+		
 		if (page == 1) {
 			handleIdentifierAction(participant,
 					request.getParameter("_action"), request
 							.getParameter("_selected"));
 		}
-
-		if (("update").equals(request.getParameter("_update"))) {
-			participantDao.save(participant);
+			
+		if (("update").equals(request.getParameter("_updateaction"))) {
+			
+			try {
+				log.debug("Updating Participant");
+				participantDao.save(participant);
+			} catch (RuntimeException e) {
+				log.debug("Unable to update Participant");
+				e.printStackTrace();
+			}
+									
 		}
 	}
 

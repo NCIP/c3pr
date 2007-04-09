@@ -22,6 +22,10 @@ function updatePage(s){
 	document.getElementById("_page").value="next";
 	document.getElementById("form").submit();
 }
+function updateAction(action){
+		document.getElementById("_updateaction").value=action;
+		document.getElementById("form1").submit();
+}
 function clearField(field){
 field.value="";
 }
@@ -35,10 +39,7 @@ field.value="";
 <tabs:body
 	title="Edit Subject : ${command.firstName}  ${command.lastName}">
 	<form:form method="post" name="form" id="form">
-		<div><input type="hidden" name="_page" id="_page" value="0"> <input
-			type="hidden" name="_action" id="_action" value=""> <input
-			type="hidden" name="_selected" id="_selected" value=""> <input
-			type="hidden" name="_updateaction" id="_updateaction" value=""></div>
+		
 		<table border="0" id="table1" cellspacing="0" width="100%">
 
 			<table border="0" id="table1" cellspacing="0" width="100%">
@@ -53,6 +54,10 @@ field.value="";
 								<td align="left" width="40%" border="0" valign="top"
 									class="contentAreaL">
 								<form name="form2" method="post" action="" id="form1">
+								<div><input type="hidden" name="_page" id="_page" value="0"> <input
+									type="hidden" name="_action" id="_action" value=""> <input
+									type="hidden" name="_selected" id="_selected" value=""> <input
+									type="hidden" name="_updateaction" id="_updateaction" value=""></div>
 								<table width="670" border="0" cellspacing="0" cellpadding="0"
 									id="details">
 									<tr>
@@ -83,11 +88,11 @@ field.value="";
 										<table width="100%" border="0" cellspacing="0" cellpadding="0"
 											id="table1">
 											<tr>
-													<td align="right"><span class="red">&nbsp;&nbsp;&nbsp;*</span><em></em><b>Birth
-													Date: </b>&nbsp;</td>
-													<td><tags:dateInput path="birthDate" />&nbsp;&nbsp;&nbsp;<span
-														class="red"><form:errors path="birthDate" /><em></em></span></td>
-												</tr>
+												<td align="right"><span class="red">&nbsp;&nbsp;&nbsp;*</span><em></em><b>Birth
+												Date: </b>&nbsp;</td>
+												<td><tags:dateInput path="birthDate" />&nbsp;&nbsp;&nbsp;<span
+													class="red"><form:errors path="birthDate" /><em></em></span></td>
+											</tr>
 											<tr>
 												<td align="right"><em></em><b>Ethnicity:</b>&nbsp;</td>
 												<td align="left"><form:select path="ethnicGroupCode">
@@ -103,13 +108,27 @@ field.value="";
 												</form:select></td>
 											</tr>
 
+
+										</table>
+										</td>
+									</tr>
+									<tr>
+										<td align="center" colspan="3"><!-- action buttons begins -->
+										<table cellpadding="4" cellspacing="0" border="0">
+											<tr>
+												<td colspan=2 valign="top"><br>
+												<br>
+												<a href="javascript:updateAction('update');"><img
+													src="<tags:imageUrl name="b-saveChanges.gif"/>" border="0"
+													alt="Save the Changes"></a>
+											</tr>
 										</table>
 										</td>
 									</tr>
 								</table>
 								</form>
 							</tr>
-							<c:forEach begin="1" end="13">
+							<c:forEach begin="1" end="9">
 								<tr>
 									<td><br>
 									</td>

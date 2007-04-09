@@ -1,12 +1,13 @@
 <%@taglib uri="http://www.opensymphony.com/sitemesh/decorator"
 	prefix="decorator"%>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
-<%@ taglib prefix="registrationTags" tagdir="/WEB-INF/tags/registration"%>
+<%@ taglib prefix="participantTags" tagdir="/WEB-INF/tags/participant"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
+
 
 <html>
 <head>
@@ -28,6 +29,10 @@ function fireAction(action, selected){
 	document.form._selected.value=selected;
 	document.form.submit();
 }
+function updateAction(action){
+		document.getElementById("_updateaction").value=action;
+		document.getElementById("form1").submit();
+}
 function clearField(field){
 field.value="";
 }
@@ -46,9 +51,9 @@ field.value="";
 	title="Edit Subject : ${command.firstName}  ${command.lastName}">
 	<form:form method="post" name="form" id="form">
 		<div><input type="hidden" name="_page" id="_page" value="1"> <input
-			type="hidden" name="_action" id="_action" value=""> <input
-			type="hidden" name="_selected" id="_selected" value=""> <input
-			type="hidden" name="_updateaction" id="_updateaction" value=""></div>
+			type="hidden" name="_action" id="_action" value="">
+			<input type="hidden" name="_selected" id="_selected"
+									value=""></div>
 		<table border="0" id="table1" cellspacing="10" width="100%">
 
 			<table height="100%" border="0" id="table1" cellspacing="0"
@@ -57,24 +62,26 @@ field.value="";
 					<td height="100%" valign="top" width="30%"><participantTags:participantSummary />
 					</td>
 					<td width="40%" valign="top"><tabs:levelTwoTabs tab="${tab}"
-						flow="${flow}" showNumber="false"/> <tabs:division id="Editing">
+						flow="${flow}" showNumber="false" /> <tabs:division id="Editing">
 						<table width="100%" border="0" cellspacing="0" cellpadding="0"
 							id="details">
 							<tr>
 								<td align="left" width="40%" border="0" valign="top"
 									class="contentAreaL">
 								<form name="form2" method="post" action="" id="form1">
+								<div> <input type="hidden" name="_updateaction"
+									id="_updateaction" value=""></div>
 								<table width="670" border="0" cellspacing="10" cellpadding="0"
 									id="table1">
 									<tr align="center" class="label">
-										<th width="5%" align="left" ></th>
-										<th width="35%" align="left" ><span class="red">*</span>Assigning
+										<th width="5%" align="left"></th>
+										<th width="35%" align="left"><span class="red">*</span>Assigning
 										Authority</th>
-										<th width="25%" align="left" ><span class="red">*</span>Identifier
+										<th width="25%" align="left"><span class="red">*</span>Identifier
 										Type</th>
-										<th width="15%" align="left" ><span class="red">*</span>Identifier</th>
-										<th width="15%" align="left" >Primary Indicator</th>
-										<th width="5%" align="left" ></th>
+										<th width="15%" align="left"><span class="red">*</span>Identifier</th>
+										<th width="15%" align="left">Primary Indicator</th>
+										<th width="5%" align="left"></th>
 									</tr>
 									<c:forEach items="${command.identifiers}" varStatus="status">
 										<tr align="center" class="results">
@@ -124,6 +131,19 @@ field.value="";
 								</table>
 								</form>
 							</tr>
+							<tr>
+								<td align="center" colspan="3"><!-- action buttons begins -->
+								<table cellpadding="4" cellspacing="0" border="0">
+									<tr>
+										<td colspan=2 valign="top"><br>
+										<br>
+										<a href="javascript:updateAction('update');"><img
+											src="<tags:imageUrl name="b-saveChanges.gif"/>" border="0"
+											alt="Save the Changes"></a>
+									</tr>
+								</table>
+								</td>
+							</tr>
 						</table>
 					</tabs:division></td>
 
@@ -131,7 +151,7 @@ field.value="";
 					</td>
 				</tr>
 				<tr>
-					<registrationTags:registrationHistory url="../registration/registrationDetails" registrations="${command.participant.studyParticipantAssignments}"/>
+					<participantTags:registrationHistory />
 				</tr>
 			</table>
 			</form:form>
