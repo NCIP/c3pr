@@ -63,7 +63,7 @@ function navRollOver(obj, state) {
 								</tr>
 							</table>
 							</td>
-							<td width="50%" valign="top" class="contentAreaR"><strong><strong><strong></strong></strong></strong>
+							<td valign="top" class="contentAreaR"><strong><strong><strong></strong></strong></strong>
 							<table width="100%" border="0" cellspacing="0" cellpadding="0"
 								id="table1">
 								<tr>
@@ -89,7 +89,7 @@ function navRollOver(obj, state) {
 					Step 2. Study Information </strong> <br>
 					<br>
 					<div class="review"><strong>Study Details:</strong><br>
-					<table width="50%" border="0" cellspacing="0" cellpadding="0"
+					<table width="100%" border="0" cellspacing="0" cellpadding="0"
 						id="details">
 						<tr>
 							<td width="50%" valign="top">

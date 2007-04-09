@@ -33,11 +33,8 @@ function navRollOver(obj, state) {
 			<tr>
 				<td class="label"><span class="red">*</span><em></em>Informed
 				Consent Signed Date:</td>
-				<td><form:input path="informedConsentSignedDate" />
-				<a href="#"
-					onClick="cal1.select(document.getElementById('informedConsentSignedDate'),'anchor1','MM/dd/yyyy');return false;" name="anchor1" id="anchor1"><img
-					src="<tags:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17"
-					height="16" border="0" align="absmiddle"></a><em> (mm/dd/yyyy)</em></td>
+				<td>
+				<tags:dateInput path="informedConsentSignedDate" /><em> (mm/dd/yyyy)</em></td>
 			</tr>
 		</table>
 		</form:form>
