@@ -159,25 +159,86 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
         	}          	
         };
 			
-		Tab summary = new Tab<Study>("Overview", "Overview", 
+		Tab overview = new Tab<Study>("Overview", "Overview", 
 				"study/study_reviewsummary");
        
 		HashMap<String, Tab> tabsMap = new HashMap<String, Tab>();
-		tabsMap.put("details", details);
-		tabsMap.put("identifiers", identifiers);
-		tabsMap.put("studysites", studySites);
-		tabsMap.put("investigators", investigators);
-		tabsMap.put("personnel", personnel);
-		tabsMap.put("eligibilityChecklist", eligibilityChecklist);
-		tabsMap.put("epochsArms", epochsArms);
-		tabsMap.put("summary", summary);
-		tabsMap.put("registrations", registrations);
+		tabsMap.put("Details", details);
+		tabsMap.put("Identifiers", identifiers);
+		tabsMap.put("Sites", studySites);
+		tabsMap.put("Investigators", investigators);
+		tabsMap.put("Personnel", personnel);
+		tabsMap.put("Eligibility Checklist", eligibilityChecklist);
+		tabsMap.put("Epochs & Arms", epochsArms);
+		tabsMap.put("Overview", overview);
+		tabsMap.put("Registrations", registrations);
 		
 		layoutTabs(flow, tabsMap);
 		
 		setFlow(flow);       
 	}	
 	
+	protected void postProcessPage(HttpServletRequest request, Object command,
+			Errors arg2, String tabShortTitle) throws Exception {
+		
+		if ("Identifiers".equals(tabShortTitle)){
+			handleIdentifierAction((Study)command,
+				request.getParameter("_action"),
+				request.getParameter("_selected"));			
+		}
+		else if ("Sites".equals(tabShortTitle)){
+			handleStudySiteAction((Study)command,
+				request.getParameter("_action"),
+				request.getParameter("_selected"));		
+		}
+		else if ("Investigators".equals(tabShortTitle)){
+				if("siteChange".equals(request.getParameter("_action")))
+				{
+					request.getSession().setAttribute("site_id", request.getParameter("_selected"));
+					StudySite studySite = ((Study)command).getStudySites().get(Integer.parseInt(request.getParameter("_selected")));
+					if(studySite.getStudyInvestigators().size() == 0 )
+					{						
+						StudyInvestigator studyInvestigator = new StudyInvestigator();	
+						studyInvestigator.setSiteInvestigator(new HealthcareSiteInvestigator());
+						studySite.addStudyInvestigator(studyInvestigator);
+					}
+				}
+				else {
+					handleStudyInvestigatorAction((Study)command, request);
+				}							
+		}
+		else if ("Personnel".equals(tabShortTitle)){
+			if("siteChange".equals(request.getParameter("_action")))
+			{
+				request.getSession().setAttribute("site_id", request.getParameter("_selected"));
+				
+				StudySite studySite = ((Study)command).getStudySites().get(Integer.parseInt(request.getParameter("_selected")));
+				if(studySite.getStudyPersonnels().size() == 0 )
+				{						
+					StudyPersonnel studyPersonnel = new StudyPersonnel();
+					studyPersonnel.setStudySite(studySite);								
+					studySite.addStudyPersonnel(studyPersonnel);
+				}										
+			}
+			else {
+				handleStudyPersonnelAction((Study)command, request.getParameter("_action"),
+					request.getParameter("_selected"), request.getParameter("_studysiteindex"));
+			}		
+		}			
+							
+		else if ("Eligibility Checklist".equals(tabShortTitle)){		
+				handleEligibilityChecklist((Study)command, request);								
+		}
+				
+		else if ("Epochs & Arms".equals(tabShortTitle)){			
+				handleStudyDesignAction((Study)command, 
+					request.getParameter("_action"),
+					request.getParameter("_selectedEpoch"),
+					request.getParameter("_selectedArm"));	
+		}
+		
+		postPostProcessPage(request, command, arg2, tabShortTitle);
+	}
 	/**
 	 * Template method to let the subclass decide the order of tabs
 	 *
@@ -195,7 +256,7 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 	 * @throws Exception
 	 */
 	protected void postPostProcessPage(HttpServletRequest request, Object command,
-			Errors arg2, int pageNo) throws Exception{
+			Errors arg2, String tabShortTitle) throws Exception{
 		//empty default implementation
 	}
 	
@@ -402,6 +463,8 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 		createDefaultEpochs(study);
 		createDefaultStudySite(study);		
 		createDefaultIdentifiers(study);
+		createDefaultExclusion(study);
+		createDefaultInclusion(study);
 							
 		return study;
 	}	
@@ -417,8 +480,8 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 	{
 		StudySite studySite = new StudySite();
 		createDefaultHealthcareSite(studySite);	
-		//createDefaultStudyInvestigators(studySite);
-		//createDefaultStudyPersonnel(studySite);
+		createDefaultStudyInvestigators(studySite);
+		createDefaultStudyPersonnel(studySite);
 		study.addStudySite(studySite);					
 	}	
 	
