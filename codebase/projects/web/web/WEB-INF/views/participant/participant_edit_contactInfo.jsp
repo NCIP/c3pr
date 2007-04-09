@@ -66,13 +66,12 @@ field.value="";
 									<tr>
 										<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
 											height="1" class="heightControl"></td>
-										<td width="65%"><img src="<tags:imageUrl name="spacer.gif"/>"
+										<td width="50%"><img src="<tags:imageUrl name="spacer.gif"/>"
 											width="1" height="1" class="heightControl"></td>
 									</tr>
 
 									<tr>
-										<td><b>${command.firstName} ${command.lastName} has no Contact
-										Information </b></td>
+										<td><b>${command.firstName} ${command.lastName} has no Contact Information </b></td>
 									<tr>
 										<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
 											height="1" class="heightControl  style1"></td>
@@ -82,7 +81,7 @@ field.value="";
 									<tr>
 										<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
 											height="2" class="heightControl"></td>
-										<td width="65%"><img src="<tags:imageUrl name="spacer.gif"/>"
+										<td width="50%"><img src="<tags:imageUrl name="spacer.gif"/>"
 											width="1" height="1" class="heightControl"></td>
 									</tr>
 								</table>
