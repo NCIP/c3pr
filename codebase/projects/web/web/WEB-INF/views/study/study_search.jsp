@@ -33,7 +33,7 @@ function submitPage(){
 				<td width="90%">
 				<table width="70%"  border="0" cellspacing="5" cellpadding="0" id="table1">
 					<tr>
-						<td width="20%" align="left" class="label">Search Studies By:</td>
+						<td width="25%" align="left" class="label">Search Studies By:</td>
 						<td align="left" >
 						<form:select path="searchType">
 							<form:options items="${searchTypeRefData}" itemLabel="desc" itemValue="code" />
@@ -49,7 +49,7 @@ function submitPage(){
 					</tr>
 					<tr>
 						<td></td>
-						<td align="center">
+						<td align="left">
 						<a href="" onClick="submitPage();return false;"><img
 							src="<tags:imageUrl name="b-search2.gif"/>" alt="Continue" width="59"
 							height="16" border="0"></a>

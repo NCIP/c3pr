@@ -29,11 +29,11 @@ function submitPage(){
 					<table width="50%" border="0" cellpadding="0" cellspacing="0"
 						id="table1">
 						<tr valign="top">
-							<td width="10%"><img
+							<td width="15%"><img
 								src="<tags:imageUrl name="Patient.gif"/>" alt="Subject Search"
 								width="100" height="100" align="absmiddle"></td>
-							<td width="90%">
-							<table width="70%" border="0" cellspacing="5" cellpadding="0"
+							<td width="85%">
+							<table width="100%" border="0" cellspacing="5" cellpadding="0"
 								id="table1">
 								<tr>
 									<td width="20%" align="left" class="label">Search Subjects
@@ -53,7 +53,7 @@ function submitPage(){
 								</tr>
 								<tr>
 									<td></td>
-									<td align="center"><a href=""
+									<td align="left"><a href=""
 										onClick="submitPage();return false;"><img
 										src="<tags:imageUrl name="b-search2.gif"/>" alt="Continue"
 										width="59" height="16" border="0"></a></td>

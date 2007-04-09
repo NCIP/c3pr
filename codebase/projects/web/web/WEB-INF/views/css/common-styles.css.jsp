@@ -76,7 +76,7 @@ input { background: #EBEFF5; font-family: arial, verdana, sans-serif; font-size:
 
 /* blue bar current title */
 #current {
-    padding: 0px 0 4px 0px; background: repeat-x top url(<tags:imageUrl name="header_BG.gif"/>);
+    padding: 4px 0 4px 4px; background: repeat-x top url(<tags:imageUrl name="header_BG.gif"/>);
     white-space: nowrap; font-size: 14px; font-weight: bold;
     color: #FFFFFF; line-height: 17px;
 }

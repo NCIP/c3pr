@@ -1,7 +1,7 @@
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 
 <%@attribute name="title"%>
-<table width="100%" border="0" cellspacing="0" cellpadding="0" class="body">
+<table width="99%" align="center" border="0" cellspacing="0" cellpadding="0" class="body">
     <tr>
         <td id="current">${title}</td>
     </tr>
