@@ -127,7 +127,9 @@ public class StudyAjaxFacade {
 		String formAttrName = getFormSessionAttributeName();
 		Object sessionFormObject = session.getAttribute(formAttrName);
 		if (sessionFormObject == null) {
-			throw new HttpSessionRequiredException("Form object not found in session (in session-form mode)");
+			formAttrName = getFormSessionAttributeNameAgain();
+			sessionFormObject = session.getAttribute(formAttrName);
+			return sessionFormObject;	
 		}
 
 		return sessionFormObject;
@@ -135,6 +137,9 @@ public class StudyAjaxFacade {
     
     private String getFormSessionAttributeName() {
 		return "edu.duke.cabig.c3pr.web.CreateStudyController.FORM.command";
+	}
+    private String getFormSessionAttributeNameAgain() {
+		return "edu.duke.cabig.c3pr.web.EditStudyController.FORM.command";
 	}
     private String[] extractSubnames(String text) {
         return text.split("\\s+");
