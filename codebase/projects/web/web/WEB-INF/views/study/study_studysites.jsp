@@ -40,7 +40,7 @@ function fireAction(action, selected){
 				Use Date format as (mm/dd/yyyy)
 			</p>
 			<br>
-			<table width="90%" border="0" cellspacing="0" cellpadding="0"
+			<table width="100%" border="0" cellspacing="0" cellpadding="0"
 				id="table1">
 
 				<td width="100%" valign="top">
