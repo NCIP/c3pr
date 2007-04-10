@@ -257,7 +257,8 @@ public class EditParticipantController extends
 		if ("addIdentifier".equals(action)) {
 			log.debug("Requested Add Identifier");
 			Identifier id = new Identifier();
-			id.setSource("Duke");
+			id.setSource("<enter value>");
+			id.setType("<enter value>");
 			id.setValue("<enter value>");
 			participant.addIdentifier(id);
 		} else if ("removeIdentifier".equals(action)) {
