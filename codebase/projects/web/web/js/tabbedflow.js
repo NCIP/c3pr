@@ -19,7 +19,8 @@ Event.observe(window, "load", function() {
     if ($("flow-update")) Event.observe("flow-update", "click", function(click) {
         Event.stop(click);
         $("command")._action.value='update';
-        document.getElementById('command').targetPage.name='_noname';
+        // $("targetPage").name='_noname';
+        document.getElementById('targetPage').name='_noname';
         $("command").submit(); // command is the default ID for a form created with form:form
     })
 })
