@@ -70,11 +70,7 @@ function updateTargetPage(target){
 					Blinded: <form:checkbox path="blindedIndicator" disabled="true"/>
 					Randomized: <form:checkbox path="randomizedIndicator" disabled="true"/></td>
 				</tr>
-				<tr>
-			<td><br><br>
-				<input type="image" name="_target0" src="<tags:imageUrl name="b-edit.gif"/>" border="0"
-				alt="edit this page">
-				</tr>
+				
 			</table>
 			</div>
 			<br>
@@ -106,12 +102,7 @@ function updateTargetPage(target){
 					</table>
 					</td>
 				</tr>
-				<tr>
-					<td><br><br>
-						<input type="image" name="_target1" src="<tags:imageUrl name="b-edit.gif"/>" border="0"
-							alt="edit this page">
-					</td>
-				</tr>
+				
 			</table>
 			</div>
 			<br>
@@ -146,11 +137,7 @@ function updateTargetPage(target){
 					</table>
 					</td>
 				</tr>
-				<tr>
-				<td><br><br>
-					<input type="image" name="_target2" src="<tags:imageUrl name="b-edit.gif"/>" border="0"
-						alt="edit this page"></td>
-				</tr>
+				
 			</table>
 			</div>
 			<br>
@@ -183,11 +170,7 @@ function updateTargetPage(target){
 					</table>
 					</td>
 				</tr>
-				<tr>
-				<td><br><br>
-					<input type="image" name="_target2" src="<tags:imageUrl name="b-edit.gif"/>" border="0"
-						alt="edit this page"></td>
-				</tr>
+				
 			</table>
 			</div>
 			<br>
@@ -221,11 +204,7 @@ function updateTargetPage(target){
 					</table>
 					</td>
 				</tr>
-				<tr>
-				<td><br><br>
-					<input type="image" name="_target2" src="<tags:imageUrl name="b-edit.gif"/>" border="0"
-						alt="edit this page"></td>
-				</tr>
+				
 			</table>
 			</div>
 			<br>
@@ -282,11 +261,7 @@ function updateTargetPage(target){
 						</table>
 						</td>
 					</tr>
-					<tr>
-					<td><br><br>
-						<input type="image" name="_target2" src="<tags:imageUrl name="b-edit.gif"/>" border="0"
-							alt="edit this page"></td>
-					</tr>
+					
 				</table>
 			</div>
 
@@ -330,11 +305,7 @@ function updateTargetPage(target){
 					</table>
 					</td>
 				</tr>
-					<tr>
-					<td><br><br>
-						<input type="image" name="_target7" src="<tags:imageUrl name="b-edit.gif"/>" border="0"
-							alt="edit this page"></td>
-					</tr>
+					
 			</table>
 		</td>
 	</tr>
