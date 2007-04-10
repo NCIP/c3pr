@@ -29,7 +29,7 @@
     <layout:navigation/>
 
     <div class="tabpane">
-        <tabs:levelTwoTabsNoNumbers tab="${tab}" flow="${flow}"/>
+        <tabs:levelTwoTabs tab="${tab}" flow="${flow}" showNumber="true" />
         <tabs:body title="${command.trimmedShortTitleText} - ${command.primaryIdentifier} ">
 
             <div class="tabcontent workArea">
