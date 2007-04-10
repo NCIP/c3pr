@@ -89,13 +89,13 @@ function submitPage(s){
 							id="table1">
 							<tr valign="top">
 								<td width="10%"><img
-									src="<tags:imageUrl name="Study.gif"/>" alt="Study Search"
+									src="<tags:imageUrl name="Patient.gif"/>" alt="Study Search"
 									width="100" height="100" align="absmiddle"></td>
 								<td width="90%">
 								<table width="70%" border="0" cellspacing="5" cellpadding="0"
 									id="table1">
 									<tr>
-										<td width="20%" align="left" class="label">Search Studies
+										<td width="20%" align="left" class="label">Search Subjects
 										By:</td>
 										<td align="left"><select id="searchType"
 											name="searchType">
