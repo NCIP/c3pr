@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -69,13 +68,10 @@ public class CreateStudyController extends StudyController {
 		}					
 		study.setIdentifiers(newList);
 		
-		//save study and proceed to final page					
+		//save study and proceed to final page
 		studyService.save(study);
-		
-		RequestDispatcher rd = request.getRequestDispatcher("confirm?type=confirm");
-		request.setAttribute("command", command);
-    	rd.forward(request, response);
-    	return null;
+	
+		return new ModelAndView("forward:confirm?type=confirm", errors.getModel());
 	}	
 	
 }
