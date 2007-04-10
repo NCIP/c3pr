@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -184,12 +185,16 @@ public class EditParticipantController extends
 					.getParameter("participantId")), true);
 			System.out.println(" Participant's ID is:" + participant.getId());
 		}
-		
+
+		if (participant.getIdentifiers().size() == 0) {
 			Identifier temp = new Identifier();
+			temp.setSource("<enter value>");
+			temp.setType("<enter value>");
+			temp.setValue("<enter value>");
 			temp.setPrimaryIndicator(false);
 			participant.addIdentifier(temp);
-		
-		
+		}
+
 		return participant;
 	}
 
@@ -206,15 +211,27 @@ public class EditParticipantController extends
 	protected void postProcessPage(HttpServletRequest request, Object oCommand,
 			Errors errors, int page) throws Exception {
 		Participant participant = (Participant) oCommand;
-		
+
 		if (page == 1) {
 			handleIdentifierAction(participant,
 					request.getParameter("_action"), request
 							.getParameter("_selected"));
 		}
-			
+
 		if (("update").equals(request.getParameter("_updateaction"))) {
-			
+
+			Iterator<Identifier> iterator = participant.getIdentifiers()
+					.iterator();
+
+			while (iterator.hasNext()) {
+				Identifier identifier = iterator.next();
+				if (identifier.getSource().trim().equals("<enter value>")
+						|| identifier.getType().trim().equals("<enter value>")
+						|| identifier.getValue().equals("<enter value>")) {
+					iterator.remove();
+				}
+			}
+
 			try {
 				log.debug("Updating Participant");
 				participantDao.save(participant);
@@ -222,7 +239,7 @@ public class EditParticipantController extends
 				log.debug("Unable to update Participant");
 				e.printStackTrace();
 			}
-									
+
 		}
 	}
 

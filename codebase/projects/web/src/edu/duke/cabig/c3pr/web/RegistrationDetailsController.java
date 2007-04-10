@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.web;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -197,6 +198,7 @@ public class RegistrationDetailsController extends RegistrationController {
 		});
 		setFlow(flow);
 	}
+
 	@Override
 	protected Object formBackingObject(HttpServletRequest request)
 			throws Exception {
@@ -212,14 +214,20 @@ public class RegistrationDetailsController extends RegistrationController {
 			registration = registrationDao.getById(Integer.parseInt(request
 					.getParameter("registrationId")), true);
 			System.out.println(" Registration ID is:" + registration.getId());
-		}else{
-			registration= new StudyParticipantAssignment();
-			System.out.println("------------Command set to new Command------------------");
+		} else {
+			registration = new StudyParticipantAssignment();
+			System.out
+					.println("------------Command set to new Command------------------");
 		}
 
-		Identifier temp = new Identifier();
-		temp.setPrimaryIndicator(false);
-		registration.addIdentifier(temp);
+		if (registration.getIdentifiers().size() == 0) {
+			Identifier temp = new Identifier();
+			temp.setSource("<enter value>");
+			temp.setType("<enter value>");
+			temp.setValue("<enter value>");
+			temp.setPrimaryIndicator(false);
+			registration.addIdentifier(temp);
+		}
 		return registration;
 	}
 
@@ -248,6 +256,18 @@ public class RegistrationDetailsController extends RegistrationController {
 
 		if (("update").equals(request.getParameter("_updateaction"))) {
 
+			Iterator<Identifier> iterator = registration.getIdentifiers()
+					.iterator();
+
+			while (iterator.hasNext()) {
+				Identifier identifier = iterator.next();
+				if (identifier.getSource().trim().equals("<enter value>")
+						|| identifier.getType().trim().equals("<enter value>")
+						|| identifier.getValue().equals("<enter value>")) {
+					iterator.remove();
+				}
+			}
+
 			try {
 				log.debug("Updating Registration");
 				registrationDao.save(registration);
@@ -260,5 +280,3 @@ public class RegistrationDetailsController extends RegistrationController {
 
 	}
 }
-
-
