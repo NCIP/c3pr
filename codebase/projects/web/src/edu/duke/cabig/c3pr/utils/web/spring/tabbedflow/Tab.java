@@ -15,6 +15,7 @@ public class Tab<C> {
     private String viewName;
     private String display="true";
     private String showSummary="true";
+    private String showLink="true";
     private String subFlow="false";
 
     public String getSubFlow() {
@@ -108,5 +109,11 @@ public class Tab<C> {
 	}
 	public void setDisplay(String display) {
 		this.display = display;
+	}
+	public String getShowLink() {
+		return showLink;
+	}
+	public void setShowLink(String showLink) {
+		this.showLink = showLink;
 	}
 }
