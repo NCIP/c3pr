@@ -103,6 +103,10 @@ input { background: #EBEFF5; font-family: arial, verdana, sans-serif; font-size:
     display: inline;
     margin: 0;
 }
+#level2 li1.tab {
+    display: inline;
+    margin: 0;
+}
 #level2 a { background-color: transparent; border: none; }
 #level2 a:link, #level2 a:visited { color: #333333; text-decoration: none; }
 #level2 a:hover, #level2 a:active { color: #000000; text-decoration: underline; }

@@ -81,6 +81,10 @@ public class CreateRegistrationController extends RegistrationController {
 		flow.getTab(1).setShowSummary("false");
 		flow.getTab(2).setShowSummary("false");
 		flow.getTab(6).setShowSummary("false");
+		flow.getTab(0).setShowLink("false");
+		flow.getTab(1).setShowLink("false");
+		flow.getTab(2).setShowLink("false");
+		flow.getTab(6).setShowLink("false");
 		flow.getTab(0).setSubFlow("true");
 		flow.getTab(1).setSubFlow("true");
 		flow.getTab(2).setSubFlow("true");
