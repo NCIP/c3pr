@@ -225,7 +225,7 @@ Event.observe(window, "load", function() {
 	  </tabs:division>
 	  </td>
 	   <td valign="top" width="25%">
-		<tabs:division id="Summary" title="Personnels Summary">
+		<tabs:division id="Summary" title="Personnel Summary">
 		<font size="2"><b> Study Sites </b> </font>
 		<br><br>
 		<table border="0" id="table1" cellspacing="0" cellpadding="0" width="100%">
@@ -237,7 +237,7 @@ Event.observe(window, "load", function() {
 			</tr>
 			<tr>
 				<td>
-					Personnels Assigned: <b> ${fn:length(studySite.studyPersonnels)} </b>
+					Personnel Assigned: <b> ${fn:length(studySite.studyPersonnels)} </b>
 				</td>
 			</tr>
 			<tr>
