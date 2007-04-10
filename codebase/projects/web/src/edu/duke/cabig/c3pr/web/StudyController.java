@@ -50,7 +50,7 @@ import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Tab;
 
 /**
  * Base Controller class to handle the basic work flow in the Creation / Updation of a Study Design
- * This uses AbstractWizardController to implement tabbed workflow
+ * This uses AbstractTabbedFlowFormController to implement tabbed workflow
  * @author Priyatam
  */
 public abstract class StudyController extends AbstractTabbedFlowFormController<Study>{
@@ -124,7 +124,7 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
        	}        	
        };
 	      
-       Tab personnel = new Tab<Study>("Study Personnel", "Personnel", "study/study_personnels") {	            
+       Tab personnel = new Tab<Study>("Study Personnel", "Personnel", "study/study_personnel") {	            
        	public Map<String, Object> referenceData() {
     		Map <String, List<Lov>> configMap = configurationProperty.getMap();        		        		  	       	  
             Map<String, Object> refdata = super.referenceData();  
@@ -159,8 +159,15 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
         	}          	
         };
 			
-		Tab overview = new Tab<Study>("Overview", "Overview", 
-				"study/study_reviewsummary");
+    	Tab overview =new Tab<Study>("Overview", "Overview", "study/study_reviewsummary"){	            
+			public Map<String, Object> referenceData(Study study) {
+				return super.referenceData();  
+		           
+        	}          	
+			 public boolean isAllowDirtyForward() {
+				 return false;
+			 }
+        };
        
 		HashMap<String, Tab> tabsMap = new HashMap<String, Tab>();
 		tabsMap.put("Details", details);
