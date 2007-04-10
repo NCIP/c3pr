@@ -64,7 +64,7 @@ field.value="";
 									id="table1">
 									<tr>
 										<td width="200" align="right"><em></em><b> Primary Identifier:<b>&nbsp;</td>
-										<td align="left">${command.studySite.studyInvestigators[0].healthcareSiteInvestigator.investigator.nciIdentifier}</td>
+										<td align="left">${command.primaryIdentifier}</td>
 									</tr>
 									<tr>
 										<td width="200" align="right"><em></em><b>Informed Consent
