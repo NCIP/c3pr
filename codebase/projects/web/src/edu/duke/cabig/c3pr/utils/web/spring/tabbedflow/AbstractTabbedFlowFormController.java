@@ -13,7 +13,19 @@ import java.util.HashMap;
 public abstract class AbstractTabbedFlowFormController<C> extends AbstractWizardFormController {
     private Flow<C> flow;
 
-    public Flow<C> getFlow() {
+    public String getFlowAttributeName() {
+    	return getClass().getName() + ".FLOW." + getFlow().getName();
+	}
+
+	public boolean isUseAlternateFlow(HttpServletRequest request) {
+		return request.getSession().getAttribute(getClass().getName() + ".FLOW." + getFlow().getName()+".ALT_FLOW")!=null?true:false;
+	}
+
+	public void useAlternateFlow(HttpServletRequest request) {
+		request.getSession().setAttribute(getClass().getName() + ".FLOW." + getFlow().getName()+".ALT_FLOW","true");
+	}
+
+	public Flow<C> getFlow() {
         return flow;
     }
 
@@ -25,14 +37,22 @@ public abstract class AbstractTabbedFlowFormController<C> extends AbstractWizard
     @SuppressWarnings("unchecked")
     protected final Map<?, ?> referenceData(HttpServletRequest request, Object command, Errors errors, int page) throws Exception {
         Map<String, Object> refdata = new HashMap<String, Object>();
-        Tab<C> current = getFlow().getTab(page);
-        refdata.put("tab", current);
-        refdata.put("flow", getFlow());
-        refdata.putAll(current.referenceData((C) command));
         Map refDataCall=referenceData(request, page);
         if(refDataCall!=null){
         	refdata.putAll(refDataCall);
         }
+        Tab<C> current = getFlow().getTab(page);
+        refdata.put("tab", current);
+        if(isUseAlternateFlow(request)){
+        	Flow altFlow=(Flow)request.getSession().getAttribute(getFlowAttributeName());
+        	if(altFlow!=null)
+        		refdata.put("flow", altFlow);
+        	else
+        		refdata.put("flow", getFlow());
+        }else{
+        	refdata.put("flow", getFlow());
+        }
+        refdata.putAll(current.referenceData((C) command));
         return refdata;
     }
 
