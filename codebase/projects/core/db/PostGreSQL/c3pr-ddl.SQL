@@ -287,15 +287,15 @@ CREATE SEQUENCE DISEASE_CATEGORIES_ID_seq INCREMENT 1 START 1 ;
 CREATE TABLE disease_categories (
 	id BIGINT DEFAULT nextval('DISEASE_CATEGORIES_ID_seq'::regclass) NOT NULL,
 	parent_id BIGINT,
-	name BIGINT,
+	name varchar(200),
 	version BIGINT DEFAULT 0 NOT NULL
 );
 
 CREATE SEQUENCE DISEASE_TERMS_ID_seq INCREMENT 1 START 1 ;
 CREATE TABLE disease_terms (
 	id BIGINT DEFAULT nextval('DISEASE_TERMS_ID_seq'::regclass) NOT NULL,
-	term BIGINT,
-	ctep_term BIGINT,
+	term varchar(200),
+	ctep_term varchar(200),
 	category_id BIGINT NOT NULL,
 	medra_code BIGINT,
 	version BIGINT DEFAULT 0 NOT NULL
