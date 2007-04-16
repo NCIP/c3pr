@@ -1,6 +1,8 @@
 package edu.duke.cabig.c3pr.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -53,7 +55,8 @@ public class DiseaseTerm extends AbstractDomainObject {
         this.medraCode = medraCode;
     }
 
-    @ManyToOne
+    @ManyToOne (fetch = FetchType.LAZY)
+    @JoinColumn(name="category_id", nullable=false)   
     public DiseaseCategory getCategory() {
         return category;
     }
