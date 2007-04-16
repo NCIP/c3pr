@@ -297,6 +297,16 @@ form.standard .state { padding-right: 8px; }
 #additionalList .results {  color: #6E81A6; background: #FFFFFF; }
 #additionalList .resultsOver { color: #6E81A6; background: #EBEFF5; cursor: pointer; }
 
+#additionalList1 { border-bottom: 1px solid #CCCCCC; }
+#additionalList1 td { padding: 3px 2px 3px 2px; white-space: nowrap; border-top: 1px solid #CCCCCC; }
+#additionalList1 select {font-size: 10px; }
+#additionalList1 .label td { font-weight: bold; border-top: 2px solid #CCCCCC; background: #EEEEEE; }
+#additionalList1 .current td { border-top: 1px solid #000000; border-top: 1px solid #000000; }
+#additionalList1 .results {  color: #6E81A6; background: #FFFFFF; }
+#additionalList1 .details {  color: #6E81A6; background: #FFFFFF; }
+#additionalList1 .details td{  padding: 3px 2px 3px 2px; white-space: nowrap; border-top: 0px }
+#additionalList1 .resultsOver { color: #6E81A6; background: #EBEFF5; cursor: pointer; }
+
 /* sub menu under the tabs */
 #bottomTab { border-bottom: 1px dashed #CCCCCC; padding-left: 10px; color: #6E81A6; font-weight: bold; line-height: 20px; }
 #bottomTab .spacer { margin: 0 12px 0 12px; }
@@ -313,12 +323,34 @@ form.standard .state { padding-right: 8px; }
 #tableHistory .label1 a:hover { color: #000000; text-decoration: none; }
 #tableHistory .label1 a:active { color: #000000; text-decoration: none; }
 #tableHistory .closed td { border-bottom: 1px solid #CCCCCC; }
+#tableHistory .header1 { border-bottom: 1px dashed #CCCCCC; }
 #tableHistory .closed2 { border-bottom: 1px solid #CCCCCC; border-top: 1px dashed #CCCCCC; }
 #tableHistory .closed3 { border-top: 1px dashed #CCCCCC; border-bottom: 1px solid #CCCCCC; padding: 0; padding-bottom: 5px; }
 #tableHistory .amounts { border-bottom: 1px dashed #CCCCCC; }
 #tableHistory #details .label { text-align: right; font-weight: bold; }
 #tableHistory #details2 { border-bottom: 1px dashed #CCCCCC; }
 #tableHistory #details2 .label { text-align: right; font-weight: bold; }
+#tableHistory .results {  color: #6E81A6; background: #FFFFFF; }
+#tableHistory .resultsOver { color: #6E81A6; background: #EBEFF5; cursor: pointer; }
+
+#tableHistory1 { border-bottom: 1px dashed #CCCCCC; }
+#tableHistory1 td { padding: 3px 4px 3px 4px; }
+#tableHistory1 .label1 td { border-bottom: 2px solid #CCCCCC; background: #EEEEEE; }
+#tableHistory1 .label1 a:link { color: #000000; text-decoration: none; }
+#tableHistory1 .label1 a:visited { color: #000000; text-decoration: none; }
+#tableHistory1 .label1 a:hover { color: #000000; text-decoration: none; }
+#tableHistory1 .label1 a:active { color: #000000; text-decoration: none; }
+#tableHistory1 .closed td { border-bottom: 1px solid #CCCCCC; }
+#tableHistory1 .header td { text-align: center;color: #FFFFFF; }
+#tableHistory1 .closed2 { border-bottom: 1px solid #CCCCCC; border-top: 1px dashed #CCCCCC; }
+#tableHistory1 .closed3 { border-top: 1px dashed #CCCCCC; border-bottom: 1px solid #CCCCCC; padding: 0; padding-bottom: 5px; }
+#tableHistory1 .amounts { border-bottom: 1px dashed #CCCCCC; }
+#tableHistory1 #details .label { text-align: right; font-weight: bold; }
+#tableHistory1 #details2 { border-bottom: 1px dashed #CCCCCC; }
+#tableHistory1 #details2 .label { text-align: right; font-weight: bold; }
+#tableHistory1 .results {  color: #6E81A6; background: #FFFFFF; }
+#tableHistory1 .results td{ border-top: 1px dashed #CCCCCC; }
+#tableHistory1 .resultsOver { color: #6E81A6; background: #EBEFF5; cursor: pointer; }
 
 #tableHistory2 { border-bottom: 1px solid #CCCCCC; }
 #tableHistory2 .label1 td { border-bottom: 2px solid #CCCCCC; background: #EEEEEE; }
