@@ -1,5 +1,6 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="studyTags" tagdir="/WEB-INF/tags/study"%>
+<%@ taglib prefix="registrationTags" tagdir="/WEB-INF/tags/registration"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="body">
     <tr>
@@ -16,10 +17,12 @@
 	        <c:if test="${actionReturnType=='SearchResults' }">
 		        <c:choose>
 					<c:when test="${!empty subjectId}">
-						<studyTags:searchResults url="createRegistration"/>
+						<%-- <studyTags:searchResults url="createRegistration"/>--%>
+						<registrationTags:searchStudyResults url="createRegistration"/>						
 					</c:when>
 					<c:otherwise>
-						<studyTags:searchResults url="searchParticipant" />
+						<%--<studyTags:searchResults url="searchParticipant" />--%>
+						<registrationTags:searchStudyResults url="searchParticipant"/>						
 					</c:otherwise>
 				</c:choose>
 			</c:if>

@@ -12,8 +12,13 @@
     <link rel="shortcut icon" href="<tags:imageUrl name="favicon.ico"/>" type="image/x-icon">
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <title>C3PRV2</title>
+    <tags:include/>
+    <tags:stylesheetLink name="tabbedflow"/>
+    <tags:includeScriptaculous/>
+    <tags:javascriptLink name="tabbedflow"/>
+    <decorator:head/>
 
-    <script>
+<script>
         Effect.OpenUp = function(element) {
             element = $(element);
             new Effect.BlindDown(element, arguments[1] || {});
@@ -32,13 +37,26 @@
                 new Effect.CloseDown(element, arguments[1] || {});
             }
         }
-    </script>
+        function PanelCombo(element) {
+		    panelDiv = $(element);
+		    imageId= element+'-image';
+		    imageSource=document.getElementById(imageId).src;
+		    if (panelDiv.style.display == 'none') {
+		        new Effect.OpenUp(panelDiv, arguments[1] || {});
+		        document.getElementById(imageId).src=imageSource.replace('minimize','maximize');
+		    } else {
+		        new Effect.CloseDown(panelDiv, arguments[1] || {});
+		        document.getElementById(imageId).src=imageSource.replace('maximize','minimize');
+		    }
+		}
+		function displayDiv(id,flag){
+			if(flag=='true'){
+				document.getElementById(id).style.display='block';
+			}else
+				document.getElementById(id).style.display='none';	
+		}
+</script>
 
-    <tags:include/>
-    <tags:stylesheetLink name="tabbedflow"/>
-    <tags:includeScriptaculous/>
-    <tags:javascriptLink name="tabbedflow"/>
-    <decorator:head/>
 </head>
 
 <body>
