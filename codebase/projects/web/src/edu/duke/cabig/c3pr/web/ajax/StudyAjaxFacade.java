@@ -12,16 +12,18 @@ import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.HttpSessionRequiredException;
 
+import edu.duke.cabig.c3pr.dao.DiseaseCategoryDao;
+import edu.duke.cabig.c3pr.dao.DiseaseTermDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudyPersonnelDao;
+import edu.duke.cabig.c3pr.domain.DiseaseCategory;
+import edu.duke.cabig.c3pr.domain.DiseaseTerm;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.duke.cabig.c3pr.domain.StudyPersonnel;
-import edu.duke.cabig.c3pr.domain.StudySite;
 
 /**
  * @author Priyatam
@@ -31,8 +33,11 @@ public class StudyAjaxFacade {
     private HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
     private StudyPersonnelDao studyPersonnelDao;
     private ResearchStaffDao researchStaffDao;
+    private DiseaseCategoryDao diseaseCategoryDao;
+    private DiseaseTermDao diseaseTermDao;
     
-    @SuppressWarnings("unchecked")
+
+	@SuppressWarnings("unchecked")
     private <T> T buildReduced(T src, List<String> properties) {
         T dst = null;
         try {
@@ -106,19 +111,22 @@ public class StudyAjaxFacade {
         
         return reducedStaffCol;
     }
-    private boolean onStudy(Study study, Integer studyId) {
-        boolean onStudy = false;
-        for (StudySite studySite : study.getStudySites()) {
-            for (StudyParticipantAssignment assignment : studySite.getStudyParticipantAssignments()) {
-                if (assignment.getParticipant().getId().equals(studyId)) {
-                    onStudy = true;
-                    break;
-                }
-            }
-        }
-        return onStudy;
-    }
 
+    public List<DiseaseCategory> matchDiseaseCategories(String text, Integer categoryId ) {
+        List<DiseaseCategory> diseaseCategories = diseaseCategoryDao.getBySubname(extractSubnames(text), categoryId);
+        return diseaseCategories;
+    }
+    
+    public List<DiseaseCategory> matchDiseaseCategoriesByParentId(Integer parentCategoryId ) {
+        List<DiseaseCategory> diseaseCategories = diseaseCategoryDao.getByParentId(parentCategoryId);
+        return diseaseCategories;
+    }
+    
+    public List<DiseaseTerm> matchDiseaseTermsByCategoryId(Integer categoryId ) {
+        List<DiseaseTerm> diseaseTerms = diseaseTermDao.getByCategoryId(categoryId);
+        return diseaseTerms;
+    }
+    
     private final Object getCommandOnly(HttpServletRequest request) throws Exception {		
 		HttpSession session = request.getSession(false);
 		if (session == null) {
@@ -179,6 +187,22 @@ public class StudyAjaxFacade {
 
 	public void setResearchStaffDao(ResearchStaffDao researchStaffDao) {
 		this.researchStaffDao = researchStaffDao;
+	}
+	
+	public DiseaseCategoryDao getDiseaseCategoryDao() {
+		return diseaseCategoryDao;
+	}
+
+	public void setDiseaseCategoryDao(DiseaseCategoryDao diseaseCategoryDao) {
+		this.diseaseCategoryDao = diseaseCategoryDao;
+	}
+
+	public DiseaseTermDao getDiseaseTermDao() {
+		return diseaseTermDao;
+	}
+
+	public void setDiseaseTermDao(DiseaseTermDao diseaseTermDao) {
+		this.diseaseTermDao = diseaseTermDao;
 	}
     
      
