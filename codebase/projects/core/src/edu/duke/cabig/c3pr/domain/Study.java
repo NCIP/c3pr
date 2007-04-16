@@ -69,6 +69,12 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 	
 	private List<InclusionEligibilityCriteria> incCriterias= new ArrayList<InclusionEligibilityCriteria>();
 	private List<ExclusionEligibilityCriteria> excCriterias= new ArrayList<ExclusionEligibilityCriteria>();
+	private List<StudyDisease> studyDiseases = new ArrayList<StudyDisease>();
+
+	//TODO move into Command Object
+    private String[] diseaseTermIds;
+    private String   diseaseCategoryAsText;
+  
 	
 	/// LOGIC
 
@@ -86,6 +92,7 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 		studySites.add(studySite);
 		studySite.setStudy(this);
 	}
+	
 	
 	public void removeStudySite(StudySite studySite)
 	{
@@ -122,8 +129,33 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 		identifiers.remove(identifier);
 	}
 	
+	public void addStudyDisease(StudyDisease studyDisease) {
+        studyDisease.setStudy(this);
+        studyDiseases.add(studyDisease);
+    }
+	
 	/// BEAN PROPERTIES
 	
+	 // TODO: this stuff should really, really not be in here.  It's web-view/entry specific.
+
+    @Transient
+    public String[] getDiseaseTermIds() {
+        return diseaseTermIds;
+    }
+
+    public void setDiseaseTermIds(String[] diseaseTermIds) {
+        this.diseaseTermIds = diseaseTermIds;
+    }
+
+    @Transient
+    public String getDiseaseCategoryAsText() {
+        return diseaseCategoryAsText;
+    }
+
+    public void setDiseaseCategoryAsText(String diseaseCategoryAsText) {
+        this.diseaseCategoryAsText = diseaseCategoryAsText;
+    }
+    
 	@OneToMany (mappedBy="study", fetch=FetchType.LAZY)
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})
 	public List<Epoch> getEpochs() {
@@ -394,4 +426,14 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 	public void setIncCriterias(List<InclusionEligibilityCriteria> incCriterias) {
 		this.incCriterias = incCriterias;
 	}
+	
+    @OneToMany (mappedBy="study", fetch=FetchType.LAZY)
+    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+    public List<StudyDisease> getStudyDiseases() {
+        return studyDiseases;
+    }
+
+    public void setStudyDiseases(List<StudyDisease> studyDiseases) {
+        this.studyDiseases = studyDiseases;
+    }
 }

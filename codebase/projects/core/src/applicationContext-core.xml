@@ -82,7 +82,10 @@
 				<value>edu.duke.cabig.c3pr.domain.EligibilityCriteria</value>
 				<value>edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer</value>							
 				<value>edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria</value>							
-				<value>edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria</value>															
+				<value>edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria</value>		
+				<value>edu.duke.cabig.c3pr.domain.StudyDisease</value>		
+				<value>edu.duke.cabig.c3pr.domain.DiseaseCategory</value>
+				<value>edu.duke.cabig.c3pr.domain.DiseaseTerm</value>															
 			</list>
 		</property>
 		<property name="entityInterceptor">
@@ -138,6 +141,8 @@
 	<bean id="studyPersonnelDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyPersonnelDao" autowire="byType"/>
 	<bean id="researchStaffDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ResearchStaffDao" autowire="byType"/>
 	<bean id="investigatorDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.InvestigatorDao" autowire="byType"/>
+	<bean id="diseaseCategoryDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.DiseaseCategoryDao" autowire="byType"/>
+	<bean id="diseaseTermDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.DiseaseTermDao" autowire="byType"/>
 	
 	<!-- Services -->
 	<bean id="studyService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudyServiceImpl" autowire="byType"/>
