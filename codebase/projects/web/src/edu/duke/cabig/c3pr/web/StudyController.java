@@ -19,6 +19,7 @@ import org.springframework.web.HttpSessionRequiredException;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.duke.cabig.c3pr.dao.DiseaseTermDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
@@ -32,6 +33,7 @@ import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.duke.cabig.c3pr.domain.StudyPersonnel;
@@ -59,7 +61,8 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 	protected StudyDao studyDao;
 	protected HealthcareSiteDao healthcareSiteDao;
 	protected HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
-	protected ResearchStaffDao researchStaffDao;	
+	protected ResearchStaffDao researchStaffDao;
+	private DiseaseTermDao diseaseTermDao;
 	
 	protected StudyValidator studyValidator;
 	protected ConfigurationProperty configurationProperty;
@@ -141,6 +144,13 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
                return refdata;	           
        	}        	
        };
+       
+       Tab diseases = new Tab<Study>("Diseases", "Diseases", "study/study_diseases") {
+       	public Map<String, Object> referenceData() {
+               Map<String, Object> refdata = super.referenceData();
+               return refdata;
+       	}        	
+       };
 
 	   Tab epochsArms = new Tab<Study>("Epochs & Arms", "Epochs & Arms", "study/study_design") {	            
         	public Map<String, Object> referenceData() {	        		
@@ -176,6 +186,7 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 		tabsMap.put("Investigators", investigators);
 		tabsMap.put("Personnel", personnel);
 		tabsMap.put("Eligibility Checklist", eligibilityChecklist);
+		tabsMap.put("Diseases", diseases);
 		tabsMap.put("Epochs & Arms", epochsArms);
 		tabsMap.put("Overview", overview);
 		tabsMap.put("Registrations", registrations);
@@ -235,6 +246,10 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 							
 		else if ("Eligibility Checklist".equals(tabShortTitle)){		
 				handleEligibilityChecklist((Study)command, request);								
+		}
+		else if ("Diseases".equals(tabShortTitle)){		
+			handleDiseasesAction((Study)command, request.getParameter("_action"),
+					request.getParameter("_selected"));							
 		}
 				
 		else if ("Epochs & Arms".equals(tabShortTitle)){			
@@ -437,7 +452,26 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 			study.getExcCriterias().remove(Integer.parseInt(selected));
 		}	
 	}
-		
+	
+	private void handleDiseasesAction(Study study, String action, String selected)
+	{				
+		if ("addStudyDisease".equals(action))
+		{
+			String[] diseases = study.getDiseaseTermIds();
+			log.debug("Study Diseases Size : " + study.getStudyDiseases().size());
+			for (String diseaseId : diseases){
+				log.debug("Disease Id : " + diseaseId);
+				StudyDisease studyDisease = new StudyDisease();
+				studyDisease.setDiseaseTerm(diseaseTermDao.getById(Integer.parseInt(diseaseId)));
+				study.addStudyDisease(studyDisease);
+				
+			}
+		}
+		else if ("removeStudyDisease".equals(action))
+		{				
+			study.getStudyDiseases().remove(Integer.parseInt(selected));
+		}					
+	}
 	protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, 
 			Object command, BindException errors) throws Exception {
 		// implement in subclass
