@@ -244,68 +244,67 @@
 </head>
 <body>
 <!-- MAIN BODY STARTS HERE -->
-  <form:form method="post" name="studyDiseasesForm" cssClass="standard">
-      <%--<tabs:division id="study-details"> --%>
-          <tabs:tabFields tab="${tab}" />
-
-          <div>
-               <input type="hidden" name="_action" value="">
-               <input type="hidden" name="_selected" value="">
-          </div>
-          <tabs:division title="Disease" id="disease">
-                  Search for a Disease Category<br>
-                  <input:hidden id="disease" />
-                  <form:input size="45" id="disease-input"  path="diseaseCategoryAsText" />
-                  <tags:indicator id="disease-indicator" />
-                  <div id="disease-choices" class="autocomplete"></div>
-                  <input type="button" id="disease-clear" value="Clear" />
-                  <p id="disease-selected" style="display: none"></p>
-                  <br><br>Select a Sub Category<br>
-                  <select multiple size="1" onmouseover="javascript:hover()" style="width:400px" id="disease-sub-category">
-                      <option value="">Please select a Category first</option>
-                  </select>
-                  <br><br>Diseases<br>
-                  <select multiple size="1" style="width:400px" id="disease-term">
-                      <option value="">Please select a Category first</option>
-                  </select> <span id="disease-selected-name"></span> <a
-                      href="javascript:fireAction('addStudyDisease','0');"><img
-                      src="/caaers/images/checkyess.gif" border="0" alt="Add"></a> <br>
-                  <select multiple size="10" id="disease-sel">
-                      <option value="">No Selected Diseases</option>
-                  </select> <form:select id="disease-sel-hidden" size="1"
-                      path="diseaseTermIds">
-                  </form:select>
-          </tabs:division>
-          <tabs:division title="Selected Disease - ${fn:length(command.studyDiseases)} " id="diseases">
-          <c:if test="${fn:length(command.studyDiseases) == 0}" >
- 			No Diseases Selected
-		  </c:if>
-          <c:forEach items="${command.studyDiseases}" begin="0" end="0" var="studyDisease" varStatus="status">
-           <div STYLE="  font-size: 12px; overflow: auto;">
-                  <TABLE border="0"  width="100%" id="studyDetails">
-                      <tr>
-                          <td >Disease Term</td>
-                          <td style="width:55px;" >Primary</td>
-                      </tr>
-                  </TABLE>
-                  </div>
-                  </c:forEach>
-                  <div STYLE=" height: 400px;  font-size: 12px; overflow: auto;">
-                  <table border="1" width="96%" id="studyDetails">
-                      <c:forEach items="${command.studyDiseases}" var="studyDisease"
-                          varStatus="status">
-                          <tr>
-                              <td ><a href="javascript:fireAction('removeStudyDisease',${status.index});">X</a>&nbsp;
-                                   ${studyDisease.diseaseTerm.ctepTerm}</td>
-                              <td style="width:35px;">
-                              <form:checkbox  path="studyDiseases[${status.index}].leadDisease" /></td>
-                              </td>
-                          </tr>
-                      </c:forEach>
-                  </table>
-                  </div>
-          </tabs:division>
-  </form:form>
+<form:form method="post" name="studyDiseasesForm" cssClass="standard">
+    <tabs:tabFields tab="${tab}" />
+    <div>
+         <input type="hidden" name="_action" value="">
+         <input type="hidden" name="_selected" value="">
+    </div>
+    <tabs:division title="Disease" id="disease">
+            Search for a Disease Category<br>
+            <input:hidden id="disease" />
+            <form:input size="45" id="disease-input"  path="diseaseCategoryAsText" />
+            <tags:indicator id="disease-indicator" />
+            <div id="disease-choices" class="autocomplete"></div>
+            <input type="button" id="disease-clear" value="Clear" />
+            <p id="disease-selected" style="display: none"></p>
+            <br><br>Select a Sub Category<br>
+            <select multiple size="1" onmouseover="javascript:hover()" style="width:400px" id="disease-sub-category">
+                <option value="">Please select a Category first</option>
+            </select>
+            <br><br>Diseases<br>
+            <select multiple size="1" style="width:400px" id="disease-term">
+                <option value="">Please select a Category first</option>
+            </select> <span id="disease-selected-name"></span> <a
+                href="javascript:fireAction('addStudyDisease','0');"><img
+                src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a> <br>
+            <select multiple size="10" id="disease-sel">
+                <option value="">No Selected Diseases</option>
+            </select> <form:select id="disease-sel-hidden" size="1"
+                path="diseaseTermIds">
+            </form:select>
+    </tabs:division>
+    <tabs:division title="Selected Disease - ${fn:length(command.studyDiseases)} " id="diseases">
+    <c:if test="${fn:length(command.studyDiseases) == 0}" >
+		No Diseases Selected
+	</c:if>
+    <c:forEach items="${command.studyDiseases}" begin="0" end="0" var="studyDisease" varStatus="status">
+     <div STYLE="  font-size: 12px; overflow: auto;">
+            <TABLE border="0"  width="100%" id="studyDetails">
+                <tr>
+                    <td >Disease Term</td>
+                    <td style="width:55px;" >Primary</td>
+                </tr>
+            </TABLE>
+            </div>
+            </c:forEach>
+            <div STYLE=" height: 400px;  font-size: 12px; overflow: auto;">
+            <table border="0" width="96%" id="studyDetails">
+                <c:forEach items="${command.studyDiseases}" var="studyDisease"
+                    varStatus="status">
+                    <tr>
+                        <td ><a href="javascript:fireAction('removeStudyDisease',${status.index});">
+                        <img src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="remove"></a>&nbsp;
+                             ${studyDisease.diseaseTerm.ctepTerm}</td>
+                        <td style="width:35px;">
+                        <form:checkbox  path="studyDiseases[${status.index}].leadDisease" /></td>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </table>
+            </div>
+    </tabs:division>
+</form:form>
 <!-- MAIN BODY ENDS HERE -->
 </body>
 </html>
