@@ -641,4 +641,12 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 		this.researchStaffDao = researchStaffDao;
 	}
 
+	public DiseaseTermDao getDiseaseTermDao() {
+		return diseaseTermDao;
+	}
+
+	public void setDiseaseTermDao(DiseaseTermDao diseaseTermDao) {
+		this.diseaseTermDao = diseaseTermDao;
+	}
+
 }
