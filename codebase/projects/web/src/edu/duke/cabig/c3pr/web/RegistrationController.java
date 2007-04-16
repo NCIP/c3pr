@@ -21,6 +21,7 @@ import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudyParticipantAssignmentDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
+import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
@@ -140,6 +141,8 @@ public abstract class RegistrationController extends AbstractTabbedFlowFormContr
 		binder.registerCustomEditor(HealthcareSite.class, new CustomDaoEditor(
 				healthcareSiteDao));
 		binder.registerCustomEditor(StudySite.class, new CustomDaoEditor(
+				studySiteDao));
+		binder.registerCustomEditor(EligibilityCriteria.class, new CustomDaoEditor(
 				studySiteDao));
 		binder.registerCustomEditor(Participant.class, new CustomDaoEditor(
 				participantDao));

@@ -18,10 +18,12 @@ import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.duke.cabig.c3pr.domain.Arm;
+import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
 import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
+import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
 import edu.duke.cabig.c3pr.esb.impl.MessageBroadcastServiceImpl;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.XMLUtils;
@@ -101,6 +103,8 @@ public class CreateRegistrationController extends RegistrationController {
 		// TODO Auto-generated method stub
 		StudyParticipantAssignment studyParticipantAssignment=new StudyParticipantAssignment();
 		studyParticipantAssignment.setStartDate(new Date());
+		studyParticipantAssignment.setEligibilityIndicator(true);
+		studyParticipantAssignment.setEligibilityWaiverReasonText("Type Eligibility Waiver Reason.");
 		removeAlternateDisplayFlow(request);
 		request.getSession().setAttribute("registrationFlow", getFlow());
 		request.getSession().setAttribute("studyParticipantAssignments", studyParticipantAssignment);
@@ -121,11 +125,34 @@ public class CreateRegistrationController extends RegistrationController {
 		StudyParticipantAssignment studyParticipantAssignment=(StudyParticipantAssignment)command;
 		if(isResumeFlow(request)){
 			System.out.println("---------ResumeFlow---------------------");
-			studyParticipantAssignment.getParticipant().getIdentifiers();
-			studyParticipantAssignment.getStudySite().getStudy().getIdentifiers();
+			System.out.println("building the command object..");
+			System.out.println("extracting eligibility criteria from study...");
+			List criterias=studyParticipantAssignment.getStudySite().getStudy().getIncCriterias();
+			for(int i=0 ; i<criterias.size() ; i++){
+				SubjectEligibilityAnswer subjectEligibilityAnswer=new SubjectEligibilityAnswer();
+				subjectEligibilityAnswer.setEligibilityCriteria((EligibilityCriteria)criterias.get(i));
+				studyParticipantAssignment.addSubjectEligibilityAnswers(subjectEligibilityAnswer);
+			}
+			criterias=studyParticipantAssignment.getStudySite().getStudy().getExcCriterias();
+			for(int i=0 ; i<criterias.size() ; i++){
+				SubjectEligibilityAnswer subjectEligibilityAnswer=new SubjectEligibilityAnswer();
+				subjectEligibilityAnswer.setEligibilityCriteria((EligibilityCriteria)criterias.get(i));
+				studyParticipantAssignment.addSubjectEligibilityAnswers(subjectEligibilityAnswer);
+			}
+//			studyParticipantAssignment.getParticipant().getIdentifiers();
+//			studyParticipantAssignment.getStudySite().getStudy().getIdentifiers();
 			studyParticipantAssignment.setStartDate(new Date());
 			studyParticipantAssignment.setStudyParticipantIdentifier("SYS_GEN1");
 			System.out.println("studyParticipantAssignment.getParticipant().getPrimaryIdentifier()"+studyParticipantAssignment.getParticipant().getPrimaryIdentifier());
+		}
+		if(tabShortTitle.equalsIgnoreCase("Enrollment Details")){
+			System.out.println("-------In Enrollment Details post process-----------");
+			System.out.println("---------studyParticipantAssignment.getEligibilityIndicator():"+studyParticipantAssignment.getEligibilityIndicator()+"---------");
+		}
+		if(tabShortTitle.equalsIgnoreCase("Check Eligibility")){
+			System.out.println("-------In CheckEligibility post process-----------");
+			System.out.println("---------studyParticipantAssignment.getEligibilityIndicator():"+studyParticipantAssignment.getEligibilityIndicator()+"---------");
+//			studyParticipantAssignment.setEligibilityIndicator(!studyParticipantAssignment.getEligibilityIndicator());
 		}
 	}
 	/*
@@ -379,6 +406,7 @@ public class CreateRegistrationController extends RegistrationController {
 		System.out.println("----------------in process finish--------------");
 		studyParticipantAssignment.getParticipant().getStudyParticipantAssignments().size();
 		studyParticipantAssignment.getParticipant().addStudyParticipantAssignment(studyParticipantAssignment);
+		studyParticipantAssignment.setRegistrationStatus(evaluateStatus(studyParticipantAssignment));
 		participantDao.save(studyParticipantAssignment.getParticipant());
 		studyParticipantAssignment.setStudyParticipantIdentifier(studyParticipantAssignment.getId()+ "");
 		if(isBroadcastEnable.equalsIgnoreCase("true")){
@@ -404,6 +432,34 @@ public class CreateRegistrationController extends RegistrationController {
 
 	}
 
+	private String evaluateStatus(StudyParticipantAssignment studyParticipantAssignment){
+		String status="Complete";
+		if(studyParticipantAssignment.getInformedConsentSignedDateStr().equals("")){
+			return "Incomplete";
+		}else if(studyParticipantAssignment.getTreatingPhysician()==null){
+			return "Incomplete";
+		}else if(studyParticipantAssignment.getTreatingPhysician().equals("")){
+			return "Incomplete";
+		}else if(studyParticipantAssignment.getEligibilityIndicator()){
+			List<SubjectEligibilityAnswer> criterias=studyParticipantAssignment.getSubjectEligibilityAnswers();
+			System.out.println("studyParticipantAssignment.getEligibilityIndicator():"+studyParticipantAssignment.getEligibilityIndicator());
+			studyParticipantAssignment.setEligibilityWaiverReasonText("");
+			System.out.println("printing answers.....");
+			for(int i=0 ; i<criterias.size() ; i++){
+				System.out.print("question : "+criterias.get(i).getEligibilityCriteria().getQuestionText());
+				System.out.println("----- answer : "+criterias.get(i).getAnswerText());
+				if(criterias.get(i).getAnswerText()==null){
+					if(criterias.get(i).getAnswerText().equals("")){
+						return "Incomplete";
+					}
+				}
+			}
+		}else if(!studyParticipantAssignment.getEligibilityIndicator()&&studyParticipantAssignment.getEligibilityWaiverReasonText()!=null){
+			if(studyParticipantAssignment.getEligibilityWaiverReasonText().equals(""))
+			return "Incomplete";
+		}
+		return status;
+	}
 	private void setAlternateDisplayOrder(HttpServletRequest request, List order){
 		request.getSession().setAttribute("registrationAltOrder", order);
 	}
