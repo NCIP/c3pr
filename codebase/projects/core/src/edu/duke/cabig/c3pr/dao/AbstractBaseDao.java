@@ -24,7 +24,7 @@ import edu.nwu.bioinformatics.commons.CollectionUtils;
 public abstract class AbstractBaseDao<T extends DomainObject> extends HibernateDaoSupport
 	implements BaseDao{   
 	
-	private static Log log = LogFactory.getLog(HealthcareSiteInvestigatorDao.class);
+	private static Log log = LogFactory.getLog(AbstractBaseDao.class);
 	
 		  
 	/**
@@ -131,8 +131,7 @@ public abstract class AbstractBaseDao<T extends DomainObject> extends HibernateD
 
     protected void buildSubnameQuery(
         String subname, StringBuilder query, List<Object> params,
-        List<String> substringMatchProperties, List<String> exactMatchProperties
-    ) {
+        List<String> substringMatchProperties, List<String> exactMatchProperties) {
         query.append('(');
         if (hasAny(substringMatchProperties)) {
             for (Iterator<String> it = substringMatchProperties.iterator(); it.hasNext();) {
