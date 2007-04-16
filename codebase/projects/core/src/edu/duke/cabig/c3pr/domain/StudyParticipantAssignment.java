@@ -49,23 +49,31 @@ public class StudyParticipantAssignment extends AbstractGridIdentifiableDomainOb
     private Integer informedConsentVersion;
     private String primaryIdentifier;
     private String treatingPhysician;
+    private String registrationStatus;
     private List<SubjectEligibilityAnswer> subjectEligibilityAnswers=new ArrayList<SubjectEligibilityAnswer>();
     
     /// BEAN PROPERTIES
 
-    @OneToMany
-    @JoinTable(
-            name="subject_eligibility_answers",
-            inverseJoinColumns = @JoinColumn( name="spa_id")
-    )	public List<SubjectEligibilityAnswer> getsubjectEligibilityAnswers() {
+	@OneToMany
+    @Cascade({CascadeType.ALL,CascadeType.DELETE_ORPHAN})
+    @JoinColumn(name = "SPA_ID")
+    public List<SubjectEligibilityAnswer> getSubjectEligibilityAnswers() {
 		return subjectEligibilityAnswers;
 	}
 
-	public void setsubjectEligibilityAnswers(
+	public void setSubjectEligibilityAnswers(
 			List<SubjectEligibilityAnswer> subjectEligibilityAnswers) {
 		this.subjectEligibilityAnswers = subjectEligibilityAnswers;
 	}
+	
+	public void addSubjectEligibilityAnswers(SubjectEligibilityAnswer subjectEligibilityAnswer){
+		subjectEligibilityAnswers.add(subjectEligibilityAnswer);
+	}
 
+	public void removeSubjectEligibilityAnswers(SubjectEligibilityAnswer subjectEligibilityAnswer){
+		subjectEligibilityAnswers.remove(subjectEligibilityAnswer);
+	}
+	
 	public void setStudySite(StudySite studySite) {
         this.studySite = studySite;
     }
@@ -173,6 +181,11 @@ public class StudyParticipantAssignment extends AbstractGridIdentifiableDomainOb
 	
 	@Transient
 	public String getInformedConsentSignedDateStr() {
+		if(informedConsentSignedDate==null){
+			return "";
+		}else if(informedConsentSignedDate.equals("")){
+			return "";
+		}
 		try {
 			return DateUtil.formatDate(informedConsentSignedDate, "MM/dd/yyyy");
 		}
@@ -184,6 +197,11 @@ public class StudyParticipantAssignment extends AbstractGridIdentifiableDomainOb
 	
 	@Transient
 	public String getStartDateStr() {
+		if(startDate==null){
+			return "";
+		}else if(startDate.equals("")){
+			return "";
+		}
 		try {
 			return DateUtil.formatDate(startDate, "MM/dd/yyyy");
 		}
@@ -239,6 +257,14 @@ public class StudyParticipantAssignment extends AbstractGridIdentifiableDomainOb
 
 	public void setTreatingPhysician(String treatingPhysician) {
 		this.treatingPhysician = treatingPhysician;
+	}
+
+	public String getRegistrationStatus() {
+		return registrationStatus;
+	}
+
+	public void setRegistrationStatus(String registrationStatus) {
+		this.registrationStatus = registrationStatus;
 	}
 
 }

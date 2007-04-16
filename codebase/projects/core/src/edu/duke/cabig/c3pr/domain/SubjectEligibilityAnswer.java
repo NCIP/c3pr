@@ -23,19 +23,19 @@ import org.hibernate.annotations.Parameter;
  )
 public class SubjectEligibilityAnswer extends AbstractGridIdentifiableDomainObject
 {			
-	private boolean answerText;
+	private String answerText;
 	private EligibilityCriteria eligibilityCriteria;
 	
-	public boolean isAnswerText() {
+	public String getAnswerText() {
 		return answerText;
 	}
-	public void setAnswerText(boolean answerText) {
+	public void setAnswerText(String answerText) {
 		this.answerText = answerText;
 	}
 
 	@ManyToOne
-    @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })        
-    @JoinColumn(name = "study_id", nullable=false)    
+    @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN, CascadeType.SAVE_UPDATE, CascadeType.PERSIST })        
+    @JoinColumn(name = "elgct_id", nullable=false)    
 	public EligibilityCriteria getEligibilityCriteria() {
 		return eligibilityCriteria;
 	}
