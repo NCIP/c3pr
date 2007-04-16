@@ -32,7 +32,7 @@
 	<classpathentry exported="true" kind="lib" path="ext/lib/caGrid-1.0-gridca.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/ctms-web-sso.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/northwestern-core-commons.jar"/>
-	<classpathentry exported="true" kind="lib" path="ext/lib/c3pr-2.0-core-1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="ext/lib/c3pr-2.0-core-1.0.jar" sourcepath="/core/src"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/core"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
