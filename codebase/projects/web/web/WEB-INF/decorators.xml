@@ -4,7 +4,7 @@
     	<pattern>/error.jsp</pattern>    	
         <pattern>/pages/*</pattern>
         <pattern>/public/*</pattern>
-        <pattern>/pages/registration/searchAndRegister</pattern>
+        <pattern>/pages/registration/searchRegistration</pattern>
     </decorator>
    
     <decorator name="tabbedflow" page="tabbedflow.jsp">
