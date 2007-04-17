@@ -45,5 +45,9 @@
 	<classpathentry exported="true" kind="lib" path="ext/lib/client.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/handlerservice.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/handle.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/classes"/>
+	<classpathentry exported="true" kind="lib" path="/web/build/classes"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/esb-client"/>
+	<classpathentry exported="true" kind="lib" path="/share/dom4j-1.6.1/dom4j-1.6.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
