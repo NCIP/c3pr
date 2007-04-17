@@ -9,12 +9,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.persistence.Version;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -48,7 +47,7 @@ public class StudyParticipantAssignment extends AbstractGridIdentifiableDomainOb
     private Boolean eligibilityIndicator;
     private Integer informedConsentVersion;
     private String primaryIdentifier;
-    private String treatingPhysician;
+    private StudyInvestigator treatingPhysician;
     private String registrationStatus;
     private List<SubjectEligibilityAnswer> subjectEligibilityAnswers=new ArrayList<SubjectEligibilityAnswer>();
     
@@ -250,21 +249,23 @@ public class StudyParticipantAssignment extends AbstractGridIdentifiableDomainOb
 		this.informedConsentVersion = informedConsentVersion;
 	}
 
-	@Column(name= "treatingPhysician" , nullable = true)
-	public String getTreatingPhysician() {
-		return treatingPhysician;
-	}
-
-	public void setTreatingPhysician(String treatingPhysician) {
-		this.treatingPhysician = treatingPhysician;
-	}
-
 	public String getRegistrationStatus() {
 		return registrationStatus;
 	}
 
 	public void setRegistrationStatus(String registrationStatus) {
 		this.registrationStatus = registrationStatus;
+	}
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "STI_ID")
+    @Cascade (value={CascadeType.ALL})
+	public StudyInvestigator getTreatingPhysician() {
+		return treatingPhysician;
+	}
+
+	public void setTreatingPhysician(StudyInvestigator treatingPhysician) {
+		this.treatingPhysician = treatingPhysician;
 	}
 
 }

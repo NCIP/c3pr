@@ -7,6 +7,9 @@
 <%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
 <html>
 <head>
+<style type="text/css">
+        .label { width: 20em; text-align: right; padding: 2px; }
+</style>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script type="text/javascript" src="/c3pr/js/CalendarPopup.js"></script>
 <script language="JavaScript" id="js1">
@@ -19,30 +22,54 @@ function navRollOver(obj, state) {
 </script>
 </head>
 <body>
-<div><tabs:division id="enrollment-details">
+<tabs:division id="enrollment-details">
 <!-- MAIN BODY STARTS HERE -->
-<div class="workArea">
-<table width="60%" border="0" cellspacing="0" cellpadding="0">
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
 		<td valign="top">
 		<form:form method="post" action="createRegistration">
 		<tabs:tabFields tab="${tab}" />
-		<table width="100%" border="0" cellspacing="0" cellpadding="0"
-			id="table1">
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
 			<tr>
-				<td class="label"><span class="red">*</span><em></em>Informed
-				Consent Signed Date:</td>
 				<td>
-				<tags:dateInput path="informedConsentSignedDate" /><em> (mm/dd/yyyy)</em></td>
+					<strong>Step 1. Informed Consent Details </strong><br>
+					<table width="60%" border="0" cellspacing="0" cellpadding="0" id="table1">
+						<tr><td>&nbsp;</td></tr>
+						<tr>
+							<td class="label" width="80%"><span class="red">*</span>Informed Consent Signed Date:</td>
+							<td><tags:dateInput path="informedConsentSignedDate" /><em> (mm/dd/yyyy)</em></td>
+						</tr>
+						<tr>
+							<td class="label">Informed Consent Version:</td>
+							<td><form:input path="informedConsentVersion"/></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<hr align="left" width="95%">
+					<strong>Step 2. Treating Physician Details </strong><br>
+					<table width="60%" border="0" cellspacing="0" cellpadding="0" id="table1">
+						<tr><td colspan='2'>&nbsp;</td></tr>
+						<tr>
+							<td class="label" width="60%"><span class="red">*</span><em></em>Treating Physician:</td>
+							<td>
+								<form:select path="treatingPhysician">
+									<option value="">--Please Select--</options><form:options
+										items="${command.studySite.studyInvestigators}" itemLabel="healthcareSiteInvestigator.investigator.fullName" itemValue="id" />
+								</form:select>
+							</td>
+						</tr>
+					</table>
+				</td>
 			</tr>
 		</table>
 		</form:form>
 		</td>
 	</tr>
 </table>
-</div>
 </tabs:division>
-</div>
 <!-- MAIN BODY ENDS HERE -->
 </body>
 </html>

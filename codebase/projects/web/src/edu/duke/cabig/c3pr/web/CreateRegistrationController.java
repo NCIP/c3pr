@@ -1,11 +1,9 @@
 package edu.duke.cabig.c3pr.web;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Vector;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
@@ -13,15 +11,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
-import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
-import edu.duke.cabig.c3pr.domain.Epoch;
-import edu.duke.cabig.c3pr.domain.Identifier;
-import edu.duke.cabig.c3pr.domain.ScheduledArm;
 import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
 import edu.duke.cabig.c3pr.esb.impl.MessageBroadcastServiceImpl;
@@ -36,6 +31,10 @@ import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Tab;
  */
 
 public class CreateRegistrationController extends RegistrationController {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(CreateRegistrationController.class);
 
 	private static Log log = LogFactory.getLog(CreateRegistrationController.class);
 	
@@ -108,7 +107,9 @@ public class CreateRegistrationController extends RegistrationController {
 		removeAlternateDisplayFlow(request);
 		request.getSession().setAttribute("registrationFlow", getFlow());
 		request.getSession().setAttribute("studyParticipantAssignments", studyParticipantAssignment);
-		System.out.println("------------------------registration flow set------------------");			
+		if (logger.isDebugEnabled()) {
+			logger.debug("formBackingObject(HttpServletRequest) - ------------------------registration flow set------------------"); //$NON-NLS-1$
+		}			
 		return studyParticipantAssignment;
 	}
 	@Override
@@ -124,9 +125,15 @@ public class CreateRegistrationController extends RegistrationController {
 		// TODO Auto-generated method stub
 		StudyParticipantAssignment studyParticipantAssignment=(StudyParticipantAssignment)command;
 		if(isResumeFlow(request)){
-			System.out.println("---------ResumeFlow---------------------");
-			System.out.println("building the command object..");
-			System.out.println("extracting eligibility criteria from study...");
+			if (logger.isDebugEnabled()) {
+				logger.debug("postProcessPage(HttpServletRequest, Object, Errors, String) - ResumeFlow"); //$NON-NLS-1$
+			}
+			if (logger.isDebugEnabled()) {
+				logger.debug("postProcessPage(HttpServletRequest, Object, Errors, String) - building the command object.."); //$NON-NLS-1$
+			}
+			if (logger.isDebugEnabled()) {
+				logger.debug("postProcessPage(HttpServletRequest, Object, Errors, String) - extracting eligibility criteria from study..."); //$NON-NLS-1$
+			}
 			List criterias=studyParticipantAssignment.getStudySite().getStudy().getIncCriterias();
 			for(int i=0 ; i<criterias.size() ; i++){
 				SubjectEligibilityAnswer subjectEligibilityAnswer=new SubjectEligibilityAnswer();
@@ -139,20 +146,38 @@ public class CreateRegistrationController extends RegistrationController {
 				subjectEligibilityAnswer.setEligibilityCriteria((EligibilityCriteria)criterias.get(i));
 				studyParticipantAssignment.addSubjectEligibilityAnswers(subjectEligibilityAnswer);
 			}
-//			studyParticipantAssignment.getParticipant().getIdentifiers();
-//			studyParticipantAssignment.getStudySite().getStudy().getIdentifiers();
 			studyParticipantAssignment.setStartDate(new Date());
 			studyParticipantAssignment.setStudyParticipantIdentifier("SYS_GEN1");
-			System.out.println("studyParticipantAssignment.getParticipant().getPrimaryIdentifier()"+studyParticipantAssignment.getParticipant().getPrimaryIdentifier());
+			if (logger.isDebugEnabled()) {
+				logger.debug("postProcessPage(HttpServletRequest, Object, Errors, String) - studyParticipantAssignment.getParticipant().getPrimaryIdentifier()" + studyParticipantAssignment.getParticipant().getPrimaryIdentifier()); //$NON-NLS-1$
+			}
 		}
 		if(tabShortTitle.equalsIgnoreCase("Enrollment Details")){
-			System.out.println("-------In Enrollment Details post process-----------");
-			System.out.println("---------studyParticipantAssignment.getEligibilityIndicator():"+studyParticipantAssignment.getEligibilityIndicator()+"---------");
+			if (logger.isDebugEnabled()) {
+				logger.debug("postProcessPage(HttpServletRequest, Object, Errors, String) - In Enrollment Details post process"); //$NON-NLS-1$
+			}
+			if (logger.isDebugEnabled()) {
+				logger.debug("postProcessPage(HttpServletRequest, Object, Errors, String) - studyParticipantAssignment.getEligibilityIndicator():" + studyParticipantAssignment.getEligibilityIndicator()); //$NON-NLS-1$ //$NON-NLS-2$
+			}
+			String id=request.getParameter("treatingPhysician");
+			if (logger.isDebugEnabled()) {
+				logger.debug("postProcessPage(HttpServletRequest, Object, Errors, String) - ---id" + id + "--------"); //$NON-NLS-1$ //$NON-NLS-2$
+			}
+			if(id!=null){
+				for(int i=0 ; i<studyParticipantAssignment.getStudySite().getStudyInvestigators().size() ; i++){
+					if (logger.isDebugEnabled()) {
+						logger.debug("postProcessPage(HttpServletRequest, Object, Errors, String) - ---iterated id(" + i + "):" + studyParticipantAssignment.getStudySite().getStudyInvestigators().get(i).getId() + "--------"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+					}
+					if(studyParticipantAssignment.getStudySite().getStudyInvestigators().get(i).getId()==Integer.parseInt(id)){
+						studyParticipantAssignment.setTreatingPhysician(studyParticipantAssignment.getStudySite().getStudyInvestigators().get(i));
+					}
+				}
+			}
 		}
 		if(tabShortTitle.equalsIgnoreCase("Check Eligibility")){
-			System.out.println("-------In CheckEligibility post process-----------");
-			System.out.println("---------studyParticipantAssignment.getEligibilityIndicator():"+studyParticipantAssignment.getEligibilityIndicator()+"---------");
-//			studyParticipantAssignment.setEligibilityIndicator(!studyParticipantAssignment.getEligibilityIndicator());
+			if (logger.isDebugEnabled()) {
+				logger.debug("postProcessPage(HttpServletRequest, Object, Errors, String) - -------In CheckEligibility post process-----------"); //$NON-NLS-1$
+			}
 		}
 	}
 	/*
@@ -403,7 +428,9 @@ public class CreateRegistrationController extends RegistrationController {
 			throws Exception {
 		// TODO Auto-generated method stub
 		StudyParticipantAssignment studyParticipantAssignment = (StudyParticipantAssignment) command;
-		System.out.println("----------------in process finish--------------");
+		if (logger.isDebugEnabled()) {
+			logger.debug("processFinish(HttpServletRequest, HttpServletResponse, Object, BindException) - in process finish"); //$NON-NLS-1$
+		}
 		studyParticipantAssignment.getParticipant().getStudyParticipantAssignments().size();
 		studyParticipantAssignment.getParticipant().addStudyParticipantAssignment(studyParticipantAssignment);
 		studyParticipantAssignment.setRegistrationStatus(evaluateStatus(studyParticipantAssignment));
@@ -413,14 +440,17 @@ public class CreateRegistrationController extends RegistrationController {
 			String xml = "";
 			try {
 				xml = XMLUtils.toXml(studyParticipantAssignment);
-				System.out
-						.println("--------------------XML for Registration--------------------");
-				System.out.println(xml);
+				if (logger.isDebugEnabled()) {
+					logger.debug("processFinish(HttpServletRequest, HttpServletResponse, Object, BindException) - XML for Registration"); //$NON-NLS-1$
+				}
+				if (logger.isDebugEnabled()) {
+					logger.debug("processFinish(HttpServletRequest, HttpServletResponse, Object, BindException) - " + xml); //$NON-NLS-1$
+				}
 				messageBroadcaster.initialize();
 				messageBroadcaster.broadcast(xml);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				logger.error("processFinish(HttpServletRequest, HttpServletResponse, Object, BindException)", e); //$NON-NLS-1$
 			}
 		}
 		removeAlternateDisplayFlow(request);
@@ -442,12 +472,20 @@ public class CreateRegistrationController extends RegistrationController {
 			return "Incomplete";
 		}else if(studyParticipantAssignment.getEligibilityIndicator()){
 			List<SubjectEligibilityAnswer> criterias=studyParticipantAssignment.getSubjectEligibilityAnswers();
-			System.out.println("studyParticipantAssignment.getEligibilityIndicator():"+studyParticipantAssignment.getEligibilityIndicator());
+			if (logger.isDebugEnabled()) {
+				logger.debug("evaluateStatus(StudyParticipantAssignment) - studyParticipantAssignment.getEligibilityIndicator():" + studyParticipantAssignment.getEligibilityIndicator()); //$NON-NLS-1$
+			}
 			studyParticipantAssignment.setEligibilityWaiverReasonText("");
-			System.out.println("printing answers.....");
+			if (logger.isDebugEnabled()) {
+				logger.debug("evaluateStatus(StudyParticipantAssignment) - printing answers....."); //$NON-NLS-1$
+			}
 			for(int i=0 ; i<criterias.size() ; i++){
-				System.out.print("question : "+criterias.get(i).getEligibilityCriteria().getQuestionText());
-				System.out.println("----- answer : "+criterias.get(i).getAnswerText());
+				if (logger.isDebugEnabled()) {
+					logger.debug("evaluateStatus(StudyParticipantAssignment) - question : " + criterias.get(i).getEligibilityCriteria().getQuestionText()); //$NON-NLS-1$
+				}
+				if (logger.isDebugEnabled()) {
+					logger.debug("evaluateStatus(StudyParticipantAssignment) - ----- answer : " + criterias.get(i).getAnswerText()); //$NON-NLS-1$
+				}
 				if(criterias.get(i).getAnswerText()==null){
 					if(criterias.get(i).getAnswerText().equals("")){
 						return "Incomplete";

@@ -19,12 +19,14 @@ import org.springframework.web.servlet.ModelAndView;
 import edu.duke.cabig.c3pr.dao.ArmDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
+import edu.duke.cabig.c3pr.dao.StudyInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.StudyParticipantAssignmentDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
@@ -52,6 +54,8 @@ public abstract class RegistrationController extends AbstractTabbedFlowFormContr
 	protected StudySiteDao studySiteDao;
 	
 	protected ArmDao armDao;
+	
+	protected StudyInvestigatorDao studyInvestigatorDao;
 
 	protected ConfigurationProperty configurationProperty;
 
@@ -146,8 +150,9 @@ public abstract class RegistrationController extends AbstractTabbedFlowFormContr
 				studySiteDao));
 		binder.registerCustomEditor(Participant.class, new CustomDaoEditor(
 				participantDao));
-
-	}
+/*		binder.registerCustomEditor(StudyInvestigator.class, new CustomDaoEditor(
+				studyInvestigatorDao));
+*/	}
 
 	public ConfigurationProperty getConfigurationProperty() {
 		return configurationProperty;
@@ -196,6 +201,14 @@ public abstract class RegistrationController extends AbstractTabbedFlowFormContr
 
 	public void setArmDao(ArmDao armDao) {
 		this.armDao = armDao;
+	}
+
+	public StudyInvestigatorDao getStudyInvestigatorDao() {
+		return studyInvestigatorDao;
+	}
+
+	public void setStudyInvestigatorDao(StudyInvestigatorDao studyInvestigatorDao) {
+		this.studyInvestigatorDao = studyInvestigatorDao;
 	}
 
 }
