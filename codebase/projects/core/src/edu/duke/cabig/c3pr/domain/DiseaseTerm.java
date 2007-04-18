@@ -23,7 +23,7 @@ public class DiseaseTerm extends AbstractDomainObject {
     private String term;
     //private String select;
     private String ctepTerm;
-    private String medraCode;
+    private long medraCode;
     private DiseaseCategory category;
     //private boolean otherRequired;
 
@@ -31,7 +31,16 @@ public class DiseaseTerm extends AbstractDomainObject {
 
     ////// BEAN PROPERTIES
 
-    public String getTerm() {
+    public void setMedraCode(long medraCode) {
+		this.medraCode = medraCode;
+	}
+
+    public long getMedraCode() {
+        return medraCode;
+    }
+
+
+	public String getTerm() {
         return term;
     }
 
@@ -45,14 +54,6 @@ public class DiseaseTerm extends AbstractDomainObject {
 
     public void setCtepTerm(String ctepTerm) {
         this.ctepTerm = ctepTerm;
-    }
-
-    public String getMedraCode() {
-        return medraCode;
-    }
-
-    public void setMedraCode(String medraCode) {
-        this.medraCode = medraCode;
     }
 
     @ManyToOne (fetch = FetchType.LAZY)
@@ -76,19 +77,13 @@ public class DiseaseTerm extends AbstractDomainObject {
 		if (ctepTerm != null ? !ctepTerm.equals(that.ctepTerm)
 				: that.ctepTerm != null)
 			return false;
-		if (medraCode != null ? !medraCode.equals(that.medraCode)
-				: that.medraCode != null)
-			return false;
-
 		return true;
 	}
 
 	public int hashCode() {
 		int result;
 		result = (ctepTerm != null ? ctepTerm.hashCode() : 0);
-		result = 29 * result + (medraCode != null ? medraCode.hashCode() : 0);
 		return result;
 	}
     
-
 }
