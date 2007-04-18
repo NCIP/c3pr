@@ -282,7 +282,7 @@ CREATE TABLE study_diseases (
 	disease_term_id BIGINT NOT NULL,
 	version BIGINT DEFAULT 0 NOT NULL,
 	grid_id BIGINT,
-	lead_disease BIGINT
+	lead_disease boolean
 );
 	
 CREATE SEQUENCE DISEASE_CATEGORIES_ID_seq INCREMENT 1 START 1 ;
