@@ -53,6 +53,7 @@ public class StudyDao extends AbstractBaseDao<Study> {
 		}
         study.getExcCriterias().size();
         study.getIncCriterias().size();
+        study.getStudyDiseases().size();
         
         List<Epoch> epochs = study.getEpochs();
         epochs.size();
