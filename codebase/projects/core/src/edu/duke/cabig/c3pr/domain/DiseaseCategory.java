@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -27,10 +28,17 @@ import org.hibernate.annotations.Parameter;
 )
 public class DiseaseCategory extends AbstractDomainObject {
     private String name;
-    private List<DiseaseTerm> terms;
+    private List<DiseaseTerm> terms = new ArrayList<DiseaseTerm>();
     private DiseaseCategory parentCategory;
-    private List<DiseaseCategory> childCategories;
+    private List<DiseaseCategory> childCategories = new ArrayList<DiseaseCategory>();
 
+    /// LOGIC
+    
+    public void addTerm(DiseaseTerm term) {
+    	terms.add(term);
+    	term.setCategory(this);
+    }
+    
     ////// BEAN PROPERTIES
 
     public String getName() {
