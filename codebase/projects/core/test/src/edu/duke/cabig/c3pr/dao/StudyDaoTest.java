@@ -8,12 +8,15 @@ import java.util.List;
 
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.Arm;
+import edu.duke.cabig.c3pr.domain.DiseaseCategory;
+import edu.duke.cabig.c3pr.domain.DiseaseTerm;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.duke.cabig.c3pr.domain.StudySite;
@@ -32,6 +35,11 @@ public class StudyDaoTest extends DaoTestCase {
 		.getBean("healthcareSiteInvestigatorDao");
     private InvestigatorDao investigatorDao = (InvestigatorDao) getApplicationContext()
 		.getBean("investigatorDao");
+    private DiseaseTermDao diseaseTermDao = (DiseaseTermDao) getApplicationContext()
+		.getBean("diseaseTermDao");
+    private DiseaseCategoryDao diseaseCategoryDao = (DiseaseCategoryDao) getApplicationContext()
+		.getBean("diseaseCategoryDao");
+
 
 
     /**
@@ -108,8 +116,7 @@ public class StudyDaoTest extends DaoTestCase {
             study.setMultiInstitutionIndicator(new Boolean(true));
             
             createDefaultStudyWithDesign(study);
-            
-            dao.save(study);
+            	dao.save(study);
             savedId = study.getId();
             assertNotNull("The saved study didn't get an id", savedId);            
         }
@@ -196,13 +203,7 @@ public class StudyDaoTest extends DaoTestCase {
 		inv.setFirstName("Investigator first name");
 		    	
     	investigatorDao.save(inv);
-    	
-    	 interruptSession();
-        {
-    	   System.out.println("id *****************"+inv.getId());
-           Investigator loaded = investigatorDao.getById(inv.getId());
-           assertNotNull("Could not reload study with id " + inv.getId(), loaded);
-        }
+    
     	
 		study.addEpoch(Epoch.create("Screening"));
 		study.addEpoch(Epoch.create("Treatment", "Arm A", "Arm B", "Arm C"));
@@ -257,6 +258,34 @@ public class StudyDaoTest extends DaoTestCase {
 		id.setType("local");		
 		identifiers.add(id);			
 		study.setIdentifiers(identifiers);
+		
+		//Diseases
+		DiseaseCategory disCat = new DiseaseCategory();
+		disCat.setName("AIDS-related Human Papillomavirus");
+		diseaseCategoryDao.save(disCat);
+		System.out.println("disease disCat id ************"+disCat.getId());	
+		
+		DiseaseTerm term1 = new DiseaseTerm();
+		term1.setTerm("AIDS-related anal cancer");
+		term1.setCtepTerm("AIDS-related anal cancer");
+		term1.setMedraCode(1033333);
+		term1.setCategory(disCat);
+		DiseaseTerm term2 = new DiseaseTerm();
+		term2.setTerm("AIDS-related cervical cancer");
+		term2.setCtepTerm("AIDS-related cervical cancer");
+		term2.setMedraCode(10322);
+		term2.setCategory(disCat);
+		diseaseTermDao.save(term1);
+		System.out.println("disease term1 id ************"+term1.getId());	
+		diseaseTermDao.save(term2);
+		System.out.println("disease term2 id ************"+term2.getId());
+		
+		StudyDisease studyDisease = new StudyDisease();
+		studyDisease.setDiseaseTerm(term1);
+		studyDisease.setDiseaseTerm(term2);
+		studyDisease.setStudy(study);
+		
+		study.addStudyDisease(studyDisease);
 		
 		return study;
 	}	
