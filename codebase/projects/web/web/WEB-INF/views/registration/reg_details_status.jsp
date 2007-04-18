@@ -78,7 +78,7 @@ field.value="";
 												<td width="200" align="right"><span class="red">*</span><em></em><b>Current
 												Status:</b>&nbsp;</td>
 
-												<td alignt="left"><select name="select" class="field1">
+												<td align="left"><select name="select" class="field1">
 													<option selected>Registered</option>
 													<option>Pending</option>
 													<option>Closed-Not Counted</option>
