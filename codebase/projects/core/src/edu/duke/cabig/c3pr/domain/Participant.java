@@ -1,6 +1,8 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -15,9 +17,10 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import edu.duke.cabig.c3pr.utils.DateUtil;
+
 /**
- * @author Kulasekaran, Priyatam
- * @version 1.0 
+ * @author Priyatam
  * 
  */
 @Entity 
@@ -29,10 +32,26 @@ import org.hibernate.annotations.Parameter;
 )
 public class Participant extends Person implements Comparable<Participant>
 {	
-	private List<Identifier> identifiers = new ArrayList<Identifier>();
-	private List<StudyParticipantAssignment> studyParticipantAssignments= new ArrayList<StudyParticipantAssignment>();
-		
-	private String primaryIdentifier;
+	private Date birthDate;	
+	private String birthDateStr;
+	private String administrativeGenderCode;
+	private String ethnicGroupCode;
+	private String raceCode;
+    private String maritalStatusCode;
+     private String primaryIdentifier;
+    private List<Identifier> identifiers = new ArrayList<Identifier>();
+    
+    private List<StudyParticipantAssignment> studyParticipantAssignments= new ArrayList<StudyParticipantAssignment>();
+	    
+    public void addIdentifier(Identifier identifier)
+	{		
+		identifiers.add(identifier);		
+	}
+	
+	public void removeIdentifier(Identifier identifier)
+	{
+		identifiers.remove(identifier);
+	}
 	
     @OneToMany(fetch=FetchType.LAZY)
     @Cascade({CascadeType.ALL,CascadeType.DELETE_ORPHAN})
@@ -46,22 +65,63 @@ public class Participant extends Person implements Comparable<Participant>
 		this.identifiers = identifiers;
 	}
 	
-	public void addIdentifier(Identifier identifier)
-	{		
-		identifiers.add(identifier);		
-	}
-	
-	public void removeIdentifier(Identifier identifier)
-	{
-		identifiers.remove(identifier);
-	}
-	
 	@OneToMany (mappedBy="participant", fetch=FetchType.LAZY)
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})
 	public List<StudyParticipantAssignment> getStudyParticipantAssignments() {
 		return studyParticipantAssignments;
 	}
 
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	public String getAdministrativeGenderCode() {
+		return administrativeGenderCode;
+	}
+
+	public void setAdministrativeGenderCode(String administritativeGenderCode) {
+		this.administrativeGenderCode = administritativeGenderCode;
+	}
+
+	public String getEthnicGroupCode() {
+		return ethnicGroupCode;
+	}
+
+	public void setEthnicGroupCode(String ethnicGroupCode) {
+		this.ethnicGroupCode = ethnicGroupCode;
+	}
+	
+	public String getRaceCode() {
+		return raceCode;
+	}
+	
+	public void setRaceCode(String raceCode) {
+		this.raceCode = raceCode;
+	}	
+	
+	@Transient
+	public String getBirthDateStr() {
+		try {
+			return DateUtil.formatDate(birthDate, "MM/dd/yyyy");
+		}
+		catch(ParseException e){
+			//do nothing
+		}
+		return "";
+	}
+
+    public String getMaritalStatusCode() {
+        return maritalStatusCode;
+    }
+
+    public void setMaritalStatusCode(String maritalStatusCode) {
+        this.maritalStatusCode = maritalStatusCode;
+    }
+    
 	public void setStudyParticipantAssignments(
 			List<StudyParticipantAssignment> studyParticipantAssignments) {
 		this.studyParticipantAssignments = studyParticipantAssignments;

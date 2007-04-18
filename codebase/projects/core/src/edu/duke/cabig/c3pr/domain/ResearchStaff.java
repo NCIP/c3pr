@@ -1,12 +1,9 @@
 package edu.duke.cabig.c3pr.domain;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -26,10 +23,8 @@ import org.hibernate.annotations.Parameter;
         @Parameter(name="sequence", value="research_staffs_id_seq")
     }
 )
-public class ResearchStaff extends AbstractDomainObject {
+public class ResearchStaff extends Person {
 	
-	private String firstName;
-    private String lastName;
     private List<StudyPersonnel> studyPersonnels = new ArrayList<StudyPersonnel>();
     
     private String fullName;
@@ -80,20 +75,5 @@ public class ResearchStaff extends AbstractDomainObject {
 	public void setStudyPersonnels(List<StudyPersonnel> studyPersonnels) {
 		this.studyPersonnels = studyPersonnels;
 	}
-	public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-    
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
 			
 }

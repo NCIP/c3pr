@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -24,10 +23,7 @@ import org.hibernate.annotations.Parameter;
         @Parameter(name="sequence", value="investigators_id_seq")
     }
 )
-public class Investigator extends AbstractDomainObject {
-	
-	private String firstName;
-    private String lastName;
+public class Investigator extends Person {
     private String nciIdentifier;
     private List<HealthcareSiteInvestigator> healthcareSiteInvestigators 
     	= new ArrayList<HealthcareSiteInvestigator>(); 
@@ -80,31 +76,12 @@ public class Investigator extends AbstractDomainObject {
 		this.healthcareSiteInvestigators = healthcareSiteInvestigators;
 	}
 
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
 	public String getNciIdentifier() {
 		return nciIdentifier;
 	}
 
 	public void setNciIdentifier(String nciIdentifier) {
 		this.nciIdentifier = nciIdentifier;
-	}
-	       
-	
-	
+	}	
    
 }
