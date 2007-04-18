@@ -38,7 +38,7 @@
 	<classpathentry exported="true" kind="lib" path="ext/lib/jboss-jsr77.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/jdom.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/log4j-1.2.13.jar"/>
-	<classpathentry exported="true" kind="lib" path="ext/lib/spring2.0.2.jar" sourcepath="C:/devtools/spring-framework-2.0.2/src"/>
+	<classpathentry exported="true" kind="lib" path="ext/lib/spring2.0.2.jar" sourcepath="/Users/priyatam/dev/spring-framework-2.0.4/src"/>
 	<classpathentry exported="true" kind="lib" path="/share/junit-3.8.1/junit-3.8.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="/share/spring-2.0/testing/spring-mock.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/backport-util-concurrent-2.1.jar"/>
