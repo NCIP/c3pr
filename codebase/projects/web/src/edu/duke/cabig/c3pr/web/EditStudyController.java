@@ -56,6 +56,7 @@ public class EditStudyController extends StudyController {
 		flow.addTab((Tab<Study>)tabsMap.get("Investigators"));
 		flow.addTab((Tab<Study>)tabsMap.get("Personnel"));
 		flow.addTab((Tab<Study>)tabsMap.get("Eligibility Checklist"));
+		flow.addTab((Tab<Study>)tabsMap.get("Diseases"));
 		flow.addTab((Tab<Study>)tabsMap.get("Epochs & Arms"));
 		
 	}
