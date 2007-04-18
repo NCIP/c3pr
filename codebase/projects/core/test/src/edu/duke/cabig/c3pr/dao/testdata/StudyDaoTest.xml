@@ -65,5 +65,11 @@
     <STUDY_INVESTIGATORS id="1000" version="1" hsi_id="1000" sts_id="1000" start_date="01-01-2000" end_date="01-01-2000" role_code="role1" status_code="Active"/>
     <STUDY_INVESTIGATORS id="1001" version="1" hsi_id="1001" sts_id="1000" start_date="01-01-2000" end_date="01-01-2000" role_code="role2" status_code="Active"/>
     
+    <DISEASE_CATEGORIES id="1000" version="1" name="AIDS-related Human Papillomavirus"/>
     
+    <DISEASE_TERMS id="1000" version="1" term="AIDS-related anal cancer" ctep_term="AIDS-related anal cancer" category_id="1" medra_code="10065860"/>
+    <DISEASE_TERMS id="1001" version="1" term="AIDS-related cervical cancer" ctep_term="AIDS-related cervical cancer" category_id="1" medra_code="10008229"/>
+   
+    <STUDY_DISEASES id="1000" version="1" study_id="1000" disease_term_id="1000" lead_disease="1"/>
+   
 </dataset>
