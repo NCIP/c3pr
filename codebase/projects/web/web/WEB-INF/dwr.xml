@@ -6,6 +6,9 @@
         <create creator="spring" javascript="createStudy">
             <param name="beanName" value="studyAjaxFacade"/>
         </create>
+        <create creator="spring" javascript="registrationDetails">
+            <param name="beanName" value="registrationAjaxFacade"/>
+        </create>
               
         <create creator="new" javascript="date">
             <param name="class" value="java.util.Date"/>
