@@ -9,9 +9,9 @@
 	<bean id="dataSourceTemplate" abstract="true"
 		class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="${datasource.driver}"/>
-		<property name="maxActive" value="5"/>
-		<property name="maxIdle" value="2"/>
-		<property name="maxWait" value="180000"/>		
+		<property name="maxActive" value="50"/>
+        <property name="initialSize" value="5"/>
+        <property name="maxWait" value="180000"/>
 		<property name="removeAbandoned" value="true"/>		
 		<property name="removeAbandonedTimeout" value="300"/>		
 		<property name="logAbandoned" value="true"/>

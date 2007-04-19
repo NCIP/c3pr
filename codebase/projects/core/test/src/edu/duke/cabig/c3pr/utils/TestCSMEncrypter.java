@@ -1,0 +1,43 @@
+package edu.duke.cabig.c3pr.utils;
+
+import junit.framework.TestCase;
+import gov.nih.nci.security.util.StringEncrypter;
+import gov.nih.nci.security.util.StringUtilities;
+import gov.nih.nci.security.util.StringEncrypter.EncryptionException;
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: kherm
+ * Date: Apr 16, 2007
+ * Time: 1:22:39 PM
+ * To change this template use File | Settings | File Templates.
+ */
+public class TestCSMEncrypter extends TestCase {
+
+    private String Password = "c3pr_admin";
+    private String EncryptedPassword = "Ie0InPvp8oOgmHldOE8ejA==";
+
+    public void testEncryption(){
+        try {
+            StringEncrypter stringEncrypter = new StringEncrypter();
+
+            String encryptedPassword =
+            stringEncrypter.encrypt(Password);
+
+            String password = stringEncrypter.decrypt(EncryptedPassword);
+            
+            System.out.println(password);
+            assertEquals(password,Password);
+
+            System.out.println(encryptedPassword);
+           assertEquals(EncryptedPassword,encryptedPassword);
+
+
+
+
+        } catch (StringEncrypter.EncryptionException e) {
+            fail(e.getMessage());
+        }
+
+    }
+}

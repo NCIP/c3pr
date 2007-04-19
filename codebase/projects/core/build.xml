@@ -6,6 +6,8 @@
     <property environment="env"/>
     <property file="${basedir}/build.properties"/>
     <property file="${user.dir}/build.properties"/>
+    <property name="catalina.home" value="${env.CATALINA_HOME}"/>
+
     <!-- Information -->
     <property name="project.name" value="core"/>
     <property name="project.version" value="1.0"/>
@@ -35,8 +37,13 @@
     <property name="test.project.jar" location="${jar.dir}/c3pr-2.0-${project.name}-tests-${project.version}.jar"/>
     <!-- Load common util path -->
     <import file="antfiles/build-test.xml"/>
+
+    <property name="conf.dir" value="${basedir}/conf/"/>
     <!-- core properties -->
-    <property name="core.properties.file" value="${basedir}/conf/core.properties"/>
+    <property name="core.properties.file" value="${conf.dir}/core.properties"/>
+
+    <property name="csm.conf.dir" value="${conf.dir}/csm"/>
+
 
     <property name="debug" value="on"/>
     <!-- =============================================================== -->
@@ -70,7 +77,9 @@
         <fileset dir="${env.CATALINA_HOME}/common/lib">
             <include name="**/*.jar"/>
         </fileset>
+        <fileset dir="${classes.dir}/context"/>
     </path>
+
     <!-- =============================================================== -->
     <!-- The Test Classpath                                                   -->
     <!-- =============================================================== -->
@@ -143,15 +152,8 @@
             </fileset>
         </copy>
 
-
-        <fail message="Database not configured (could not read ${core.properties.file}.)">
-            <condition>
-                <not><available file="${core.properties.file}"/></not>
-            </condition>
-        </fail>
-        <property file="${config.database.file}"/>
         <echo>All database ops for this build will use ${datasource.url}</echo>
-           
+
     </target>
 
     <!-- =============================================================== -->
@@ -168,9 +170,9 @@
     <!-- =============================================================== -->
     <!-- Compiles the test source code                                        -->
     <!-- =============================================================== -->
-    <target name="compile-tests" depends="prepare" description="compiles.">
+    <target name="compile-tests" depends="prepare, resources" description="compiles.">
         <mkdir dir="${test.classes.dir}"/>
-        <mkdir dir="${ext.test.lib.dir}"/>
+
         <javac srcdir="${test.src.dir}" destdir="${test.classes.dir}" debug="${debug}" deprecation="off" optimize="off">
             <classpath refid="test.classpath"/>
         </javac>
@@ -208,6 +210,57 @@
                 <attribute name="Built-By" value="${user.name}"/>
             </manifest>
         </jar>
+    </target>
+
+
+    <target name="tomcat.security" description="Automatically copies global (CSM/UPT) configuration files to Tomcat.">
+        <fail message="Could not locate Tomcat.  Please set the catalina.home property (-Dcatalina.home=/path/to/tomcat).">
+            <condition>
+                <not><isset property="catalina.home"/></not>
+            </condition>
+        </fail>
+
+        <property name="catalina.home" value="PLEASE SET catalina.home EXTERNALLY"/>
+        <echo>Configuring CSM and UPT for the Tomcat instance in ${catalina.home}</echo>
+        <property name="tomcat.security.dir" value="${catalina.home}/conf/cabig"/>
+
+        <!-- default UPT dialect to same as SC's, if not already set -->
+        <property name="datasource.dialect.upt" value="${datasource.dialect}"/>
+        <mkdir dir="${tomcat.security.dir}"/>
+        <copy todir="${tomcat.security.dir}" overwrite="true">
+            <filterset>
+                <filter token="tomcat.security.dir" value="${tomcat.security.dir}"/>
+                <filter token="datasource.username" value="${datasource.username}"/>
+                <filter token="datasource.password" value="${datasource.password}"/>
+                <filter token="datasource.url" value='${datasource.url}'/>
+                <filter token="datasource.driver" value="${datasource.driver}"/>
+                <filter token="datasource.dialect.upt" value="${datasource.dialect}"/>
+                <filter token="csm.context.name" value="${csm.context.name}"/>
+            </filterset>
+            <fileset dir="${csm.conf.dir}">
+                <include name="ApplicationSecurityConfig.xml"/>
+                <include name="hibernate.cfg.xml"/>
+                <include name="csm_jaas.config"/>
+            </fileset>
+        </copy>
+
+        <copy file="${tomcat.security.dir}/hibernate.cfg.xml" tofile="${tomcat.security.dir}/${csm.context.name}.hibernate.cfg.xml" />
+        <delete file="${tomcat.security.dir}/hibernate.cfg.xml" />
+
+        <echo taskname="todo">
+            ===== MANUAL STEPS =====
+            ========================
+            The automatic portion of the security setup is complete.  If you have not
+            done so already, please perform the following manual actions.
+
+            * In ${catalina.home}/conf/catalina.properties, add two lines:
+            gov.nih.nci.security.configFile=${tomcat.security.dir}/ApplicationSecurityConfig.xml
+            java.security.auth.login.config=${tomcat.security.dir}/csm_jaas.config
+
+            * Execute ${basedir}/tools/csm/DataLoadPostgresCSMUser.sql
+            against your target database (${datasource.url}).
+            ========= END ==========
+            ===== MANUAL STEPS =====</echo>
     </target>
 
     <!-- ============================================================== -->
