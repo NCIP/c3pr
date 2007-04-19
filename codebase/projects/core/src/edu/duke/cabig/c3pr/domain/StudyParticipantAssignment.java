@@ -45,7 +45,7 @@ public class StudyParticipantAssignment extends AbstractGridIdentifiableDomainOb
     private String eligibilityWaiverReasonText;
     private Date informedConsentSignedDate;
     private Boolean eligibilityIndicator;
-    private Integer informedConsentVersion;
+    private String informedConsentVersion;
     private String primaryIdentifier;
     private StudyInvestigator treatingPhysician;
     private String registrationStatus;
@@ -241,11 +241,11 @@ public class StudyParticipantAssignment extends AbstractGridIdentifiableDomainOb
 		return primaryIdentifier;		
 	}
 	@Column(name= "informedConsentVersion" , nullable = true)
-	public Integer getInformedConsentVersion() {
+	public String getInformedConsentVersion() {
 		return informedConsentVersion;
 	}
 
-	public void setInformedConsentVersion(Integer informedConsentVersion) {
+	public void setInformedConsentVersion(String informedConsentVersion) {
 		this.informedConsentVersion = informedConsentVersion;
 	}
 
