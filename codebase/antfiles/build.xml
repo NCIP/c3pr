@@ -172,6 +172,11 @@
             <artifact refid="xerces.jars"/>
             <artifact refid="xercesImpl.jars"/>
             <artifact refid="c3pr.build.properties"/>
+
+            <!--security jars-->
+            <artifact refid="acegi.jars"/>
+            <artifact refid="acegi-csm.jars"/>
+            <artifact refid="csm.jars"/>
         </resolveDependencies>
         <ant dir="${projects.dir}/core" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
