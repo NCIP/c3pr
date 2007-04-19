@@ -107,9 +107,6 @@ public class CreateRegistrationController extends RegistrationController {
 		removeAlternateDisplayFlow(request);
 		request.getSession().setAttribute("registrationFlow", getFlow());
 		request.getSession().setAttribute("studyParticipantAssignments", studyParticipantAssignment);
-		if (logger.isDebugEnabled()) {
-			logger.debug("formBackingObject(HttpServletRequest) - ------------------------registration flow set------------------"); //$NON-NLS-1$
-		}			
 		return studyParticipantAssignment;
 	}
 	@Override
@@ -127,9 +124,6 @@ public class CreateRegistrationController extends RegistrationController {
 		if(isResumeFlow(request)){
 			if (logger.isDebugEnabled()) {
 				logger.debug("postProcessPage(HttpServletRequest, Object, Errors, String) - ResumeFlow"); //$NON-NLS-1$
-			}
-			if (logger.isDebugEnabled()) {
-				logger.debug("postProcessPage(HttpServletRequest, Object, Errors, String) - building the command object.."); //$NON-NLS-1$
 			}
 			if (logger.isDebugEnabled()) {
 				logger.debug("postProcessPage(HttpServletRequest, Object, Errors, String) - extracting eligibility criteria from study..."); //$NON-NLS-1$
@@ -154,29 +148,7 @@ public class CreateRegistrationController extends RegistrationController {
 		}
 		if(tabShortTitle.equalsIgnoreCase("Enrollment Details")){
 			if (logger.isDebugEnabled()) {
-				logger.debug("postProcessPage(HttpServletRequest, Object, Errors, String) - In Enrollment Details post process"); //$NON-NLS-1$
-			}
-			if (logger.isDebugEnabled()) {
-				logger.debug("postProcessPage(HttpServletRequest, Object, Errors, String) - studyParticipantAssignment.getEligibilityIndicator():" + studyParticipantAssignment.getEligibilityIndicator()); //$NON-NLS-1$ //$NON-NLS-2$
-			}
-			String id=request.getParameter("treatingPhysician");
-			if (logger.isDebugEnabled()) {
-				logger.debug("postProcessPage(HttpServletRequest, Object, Errors, String) - ---id" + id + "--------"); //$NON-NLS-1$ //$NON-NLS-2$
-			}
-			if(id!=null){
-				for(int i=0 ; i<studyParticipantAssignment.getStudySite().getStudyInvestigators().size() ; i++){
-					if (logger.isDebugEnabled()) {
-						logger.debug("postProcessPage(HttpServletRequest, Object, Errors, String) - ---iterated id(" + i + "):" + studyParticipantAssignment.getStudySite().getStudyInvestigators().get(i).getId() + "--------"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-					}
-					if(studyParticipantAssignment.getStudySite().getStudyInvestigators().get(i).getId()==Integer.parseInt(id)){
-						studyParticipantAssignment.setTreatingPhysician(studyParticipantAssignment.getStudySite().getStudyInvestigators().get(i));
-					}
-				}
-			}
-		}
-		if(tabShortTitle.equalsIgnoreCase("Check Eligibility")){
-			if (logger.isDebugEnabled()) {
-				logger.debug("postProcessPage(HttpServletRequest, Object, Errors, String) - -------In CheckEligibility post process-----------"); //$NON-NLS-1$
+				logger.debug("postProcessPage(HttpServletRequest, Object, Errors, String) - treating physician is:" + studyParticipantAssignment.getTreatingPhysician().getHealthcareSiteInvestigator().getInvestigator().getFullName()); //$NON-NLS-1$
 			}
 		}
 	}

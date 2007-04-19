@@ -31,6 +31,8 @@ import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
+import edu.duke.cabig.c3pr.utils.web.CustomMethodInvocater;
+import edu.duke.cabig.c3pr.utils.web.propertyeditors.ObjectGraphBasedEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AbstractTabbedFlowFormController;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
@@ -138,7 +140,7 @@ public abstract class RegistrationController extends AbstractTabbedFlowFormContr
 	}
 
 	@Override
-	protected void initBinder(HttpServletRequest req,
+	protected void initBinder(HttpServletRequest request,
 			ServletRequestDataBinder binder) throws Exception {
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(
 				new SimpleDateFormat("MM/dd/yyyy"), true));
@@ -150,9 +152,10 @@ public abstract class RegistrationController extends AbstractTabbedFlowFormContr
 				studySiteDao));
 		binder.registerCustomEditor(Participant.class, new CustomDaoEditor(
 				participantDao));
-/*		binder.registerCustomEditor(StudyInvestigator.class, new CustomDaoEditor(
-				studyInvestigatorDao));
-*/	}
+		Object command=binder.getTarget();
+		binder.registerCustomEditor(StudyInvestigator.class, new ObjectGraphBasedEditor(
+				command,"studySite.studyInvestigators"));
+	}
 
 	public ConfigurationProperty getConfigurationProperty() {
 		return configurationProperty;
