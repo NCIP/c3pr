@@ -15,6 +15,14 @@
     cursor: pointer; /* don't know why this is necessary */
 }
 
+.tabcontrolsbuttons a {
+    background-color: #6E81A6;
+    color: #fff;
+    padding: 4px;
+    text-decoration: none;
+    cursor: pointer; /* don't know why this is necessary */
+}
+
 #flow-next {
     float: right;
 }
@@ -22,7 +30,9 @@
 #flow-prev {
     float: left;
 }
-
+#flow-left {
+    float: left;
+}
 #flow-update {
     float: right;
 }
