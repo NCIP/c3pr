@@ -101,7 +101,6 @@ public class CreateRegistrationController extends RegistrationController {
 		// TODO Auto-generated method stub
 		StudyParticipantAssignment studyParticipantAssignment=new StudyParticipantAssignment();
 		studyParticipantAssignment.setStartDate(new Date());
-		studyParticipantAssignment.setEligibilityIndicator(true);
 		studyParticipantAssignment.setEligibilityWaiverReasonText("Type Eligibility Waiver Reason.");
 		removeAlternateDisplayFlow(request);
 		request.getSession().setAttribute("registrationFlow", getFlow());
@@ -145,10 +144,25 @@ public class CreateRegistrationController extends RegistrationController {
 				logger.debug("postProcessPage(HttpServletRequest, Object, Errors, String) - studyParticipantAssignment.getParticipant().getPrimaryIdentifier()" + studyParticipantAssignment.getParticipant().getPrimaryIdentifier()); //$NON-NLS-1$
 			}
 		}
-		if(tabShortTitle.equalsIgnoreCase("Enrollment Details")){
-			/*if (logger.isDebugEnabled()) {
-				logger.debug("postProcessPage(HttpServletRequest, Object, Errors, String) - treating physician is:" + studyParticipantAssignment.getTreatingPhysician().getHealthcareSiteInvestigator().getInvestigator().getFullName()); //$NON-NLS-1$
-			}*/
+		if(tabShortTitle.equalsIgnoreCase("Check Eligibility")){
+			boolean flag=true;
+			List<SubjectEligibilityAnswer> answers=studyParticipantAssignment.getInclusionEligibilityAnswers();
+			for(SubjectEligibilityAnswer subjectEligibilityAnswer:answers){
+				if(!subjectEligibilityAnswer.getAnswerText().equalsIgnoreCase("Yes")&&!subjectEligibilityAnswer.getAnswerText().equalsIgnoreCase("NA")){
+					flag=false;
+					break;
+				}
+			}
+			if(flag){
+				answers=studyParticipantAssignment.getExclusionEligibilityAnswers();
+				for(SubjectEligibilityAnswer subjectEligibilityAnswer:answers){
+					if(!subjectEligibilityAnswer.getAnswerText().equalsIgnoreCase("No")&&!subjectEligibilityAnswer.getAnswerText().equalsIgnoreCase("NA")){
+						flag=false;
+						break;
+					}
+				}
+			}
+			studyParticipantAssignment.setEligibilityIndicator(flag);
 		}
 	}
 	/*
