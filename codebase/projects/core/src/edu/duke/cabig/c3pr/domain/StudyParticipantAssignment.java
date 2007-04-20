@@ -268,4 +268,24 @@ public class StudyParticipantAssignment extends AbstractGridIdentifiableDomainOb
 		this.treatingPhysician = treatingPhysician;
 	}
 
+	@Transient
+	public List getInclusionEligibilityAnswers(){
+		List inclusionCriteriaAnswers=new ArrayList();
+		for(int i=0 ; i<subjectEligibilityAnswers.size() ; i++){
+			if(subjectEligibilityAnswers.get(i).getEligibilityCriteria() instanceof InclusionEligibilityCriteria){
+				inclusionCriteriaAnswers.add(subjectEligibilityAnswers.get(i));
+			}
+		}
+		return inclusionCriteriaAnswers;
+	}
+	@Transient
+	public List getExclusionEligibilityAnswers(){
+		List exclusionCriteriaAnswers=new ArrayList();
+		for(int i=0 ; i<subjectEligibilityAnswers.size() ; i++){
+			if(subjectEligibilityAnswers.get(i).getEligibilityCriteria() instanceof ExclusionEligibilityCriteria){
+				exclusionCriteriaAnswers.add(subjectEligibilityAnswers.get(i));
+			}
+		}
+		return exclusionCriteriaAnswers;
+	}
 }
