@@ -177,6 +177,7 @@
             <artifact refid="acegi.jars"/>
             <artifact refid="acegi-csm.jars"/>
             <artifact refid="csm.jars"/>
+            <artifact refid="ehcache.jars"/>
         </resolveDependencies>
         <ant dir="${projects.dir}/core" inheritAll="false" antfile="build.xml" target="all"/>
     </target>

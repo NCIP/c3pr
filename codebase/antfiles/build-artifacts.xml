@@ -79,6 +79,12 @@
             </fileset>
         </artifact>
 
+        <artifact track="main" type="jars" id="ehcache.jars">
+            <fileset dir="${share.dir}/ehcache">
+                <include name="*.jar"/>
+            </fileset>
+        </artifact>
+
         <artifact track="main" type="jars" id="spring.jars">
             <fileset dir="${share.dir}/spring-2.0">
                 <include name="*.jar"/>
