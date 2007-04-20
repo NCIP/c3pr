@@ -18,13 +18,15 @@ function navRollOver(obj, state) {
 			<c:if test="${fn:length(registrations) > 0}">
 				<tr align="center">
 					<td width="11">&nbsp;</td>
-					<td><b>Registration Identifier</b></td>
-					<td><b>Short Title</b></td>
-					<td><b>Study Identifier</b></td>
+					<td><b>Registration <br>Identifier</b></td>
+					<td><b>Study <br>Short Title</b></td>
+					<td><b>Study <br>Identifier</b></td>
+					<td><b>Subject <br>Last Name</b></td>
+					<td><b>Subject MRN</b></td>
 					<td><b>Site</b></td>
-					<td><b>Registration Status</b></td>
-					<td><b>Registration Date</b></td>
-					<td><b>Treating Physician</b></td>
+					<td><b>Registration <br>Status</b></td>
+					<td><b>Registration <br>Date</b></td>
+					<td><b>Treating <br>Physician</b></td>
 				</tr>
 			</c:if>
 			<c:set var="i" value="0" />
@@ -37,6 +39,8 @@ function navRollOver(obj, state) {
 					<td>${registration.primaryIdentifier}</td>
 					<td>${registration.studySite.study.trimmedShortTitleText}</td>
 					<td>${registration.studySite.study.primaryIdentifier}</td>
+					<td>${registration.participant.lastName}</td>
+					<td>${registration.participant.primaryIdentifier}</td>
 					<td>${registration.studySite.site.name}</td>
 					<td></td>
 					<td>${registration.informedConsentSignedDateStr}</td>
