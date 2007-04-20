@@ -76,6 +76,7 @@
         </c:otherwise>
     </c:choose>
     <c:set var="rTab" value="${registrationTab}"/>
+    <c:set var="studyParticipantAssignment" value="${studyParticipantAssignments}" scope="request"/>
     <form:form id="flowredirect">
         <input type="hidden" name="_target${rTab.targetNumber}" id="flowredirect-target"/>
         <input type="hidden" name="_page${rTab.number}"/>
