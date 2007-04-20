@@ -11,39 +11,41 @@ function navRollOver(obj, state) {
 </script>
 <!-- SUBJECT SEARCH RESULTS START HERE -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
-<tr>
-	<td>			
+	<tr>
+		<td>
 		<table width="100%" border="0" cellspacing="0" cellpadding="0"
 			id="additionalList">
 			<c:if test="${fn:length(registrations) > 0}">
-			<tr align="center" class="label">
-				<td>Registration Identifier</td>
-			<td>Short Title</td>
-			<td>Study Identifier</td>
-			<td>Site</td>
-			<td>Registration Status</td>
-			<td>Registration Date</td>
-			<td>Treating Physician</td>
-			</tr>
+				<tr align="center">
+					<td width="11">&nbsp;</td>
+					<td><b>Registration Identifier</b></td>
+					<td><b>Short Title</b></td>
+					<td><b>Study Identifier</b></td>
+					<td><b>Site</b></td>
+					<td><b>Registration Status</b></td>
+					<td><b>Registration Date</b></td>
+					<td><b>Treating Physician</b></td>
+				</tr>
 			</c:if>
-			<c:set var="i" value="0"/>
-		<c:forEach items="${registrations}" var="registration">
-			<tr align="center" id="row${i}" class="results"
-				onMouseOver="navRollOver('row${i}', 'on')"
-				onMouseOut="navRollOver('row${i}', 'off')"
-				onClick="document.location='../registration/registrationDetails?registrationId=${registration.id}'">
+			<c:set var="i" value="0" />
+			<c:forEach items="${registrations}" var="registration">
+				<tr align="center" id="row${i}" class="results"
+					onMouseOver="navRollOver('row${i}', 'on')"
+					onMouseOut="navRollOver('row${i}', 'off')"
+					onClick="document.location='../registration/registrationDetails?registrationId=${registration.id}'">
+					<td width="11">&nbsp;</td>
 					<td>${registration.primaryIdentifier}</td>
-				<td>${registration.studySite.study.trimmedShortTitleText}</td>
-				<td>${registration.studySite.study.primaryIdentifier}</td>
-				<td>${registration.studySite.site.name}</td>
-				<td></td>
-				<td>${registration.informedConsentSignedDateStr}</td>
-				<td></td>
-				</a>
+					<td>${registration.studySite.study.trimmedShortTitleText}</td>
+					<td>${registration.studySite.study.primaryIdentifier}</td>
+					<td>${registration.studySite.site.name}</td>
+					<td></td>
+					<td>${registration.informedConsentSignedDateStr}</td>
+					<td></td>
+					</a>
 				</tr>
 			</c:forEach>
 		</table>
-	</td>
-</tr>
+		</td>
+	</tr>
 </table>
 <!-- SUBJECT SEARCH RESULTS END HERE -->
