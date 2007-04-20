@@ -59,12 +59,12 @@ function markAsAnswered(id){
 												${criteria.questionText}
 											</td>
 											<td width="15%">
-												<select id="subjectEligibilityAnswers[${index}].answerText" name="subjectEligibilityAnswers[${index}].answerText" onchange="markAsAnswered('${index }')">
+												<form:select id="subjectEligibilityAnswers[${index}].answerText" path="subjectEligibilityAnswers[${index}].answerText" onchange="markAsAnswered('${index }')">
 													<option value="">--Please Select---</option>
-													<option value="Yes" ${command.subjectEligibilityAnswers[index].answerText=='Yes'?'selected':'' }>Yes</option>
-													<option value="No" ${command.subjectEligibilityAnswers[index].answerText=='No'?'selected':'' }>No</option>
-													<c:if test="${criteria.notApplicableIndicator}"><option value="NA" ${command.subjectEligibilityAnswers[index].answerText=='NA'?'selected':'' }>NA</option></c:if>
-												</select>
+													<form:option value="Yes" />
+													<form:option value="No" />
+													<c:if test="${criteria.notApplicableIndicator}"><form:option value="NA"/></c:if>
+												</form:select>
 											</td>
 										</tr>
 										<c:set var="index" value="${index+1}"/>
@@ -86,7 +86,7 @@ function markAsAnswered(id){
 									<c:forEach var="criteria" varStatus="status" items="${command.studySite.study.excCriterias}">
 										<tr>
 											<td width="5%">
-												<div id="tick-${index }" <c:if test="${command.subjectEligibilityAnswers[index].answerText==null }">style="display:none;"</c:if>>
+												<div id="tick-${index }" <c:if test="${command.subjectEligibilityAnswers[index].answerText==null||command.subjectEligibilityAnswers[index].answerText=='' }">style="display:none;"</c:if>>
 													<img src="<tags:imageUrl name="checkbox.gif"/>" border="0" alt="answered" height="20" width="20">												
 												</div>
 											</td>
@@ -94,12 +94,12 @@ function markAsAnswered(id){
 												${criteria.questionText}
 											</td>
 											<td width="15%">
-												<select id="subjectEligibilityAnswers[${index}].answerText" name="subjectEligibilityAnswers[${index}].answerText" onchange="markAsAnswered('${index }')">
+												<form:select id="subjectEligibilityAnswers[${index}].answerText" path="subjectEligibilityAnswers[${index}].answerText" onchange="markAsAnswered('${index }')">
 													<option value="">--Please Select---</option>
-													<option value="Yes" ${command.subjectEligibilityAnswers[index].answerText=='Yes'?'selected':'' }>Yes</option>
-													<option value="No" ${command.subjectEligibilityAnswers[index].answerText=='No'?'selected':'' }>No</option>
-													<c:if test="${criteria.notApplicableIndicator}"><option value="NA" ${command.subjectEligibilityAnswers[index].answerText=='NA'?'selected':'' }>NA</option></c:if>
-												</select>
+													<form:option value="Yes" />
+													<form:option value="No" />
+													<c:if test="${criteria.notApplicableIndicator}"><form:option value="NA"/></c:if>
+												</form:select>
 											</td>
 										</tr>
 										<c:set var="index" value="${index+1}"/>										
