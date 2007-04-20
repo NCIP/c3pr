@@ -49,7 +49,7 @@
 		</tr>
 		<tr>
 			<td valign="top" width="35%" align="right"><b>Treating Physician:&nbsp;</b></td>
-			<td valign="bottom" align="left">${command.studyParticipantAssignments[0].treatingPhysician}
+			<td valign="bottom" align="left">
 			</td>
 		</tr>
 		<tr>
