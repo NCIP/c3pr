@@ -20,7 +20,7 @@ public class StudyParticipantAssignmentDao extends
 		AbstractBaseDao<StudyParticipantAssignment> {
 
 	private static final List<String> SUBSTRING_MATCH_PROPERTIES = Arrays
-			.asList("treatingPhysician");
+			.asList("registrationStatus");
 
 	private static final List<String> EXACT_MATCH_PROPERTIES = Collections
 			.emptyList();
