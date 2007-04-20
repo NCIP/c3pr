@@ -50,7 +50,7 @@ public class RegistrationAjaxFacade {
 		for (StudyParticipantAssignment registration : registrations) {
 						
 			reducedRegistrations.add(buildReduced(registration, Arrays.asList(
-					"id", "treatingPhysician")));
+					"id", "registrationStatus")));
 		}
 		return reducedRegistrations;
 	}
