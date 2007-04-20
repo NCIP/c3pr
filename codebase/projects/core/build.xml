@@ -220,6 +220,8 @@
             </condition>
         </fail>
 
+          <property file="${ext.resources.dir}/build.properties"/>
+        
         <property name="catalina.home" value="PLEASE SET catalina.home EXTERNALLY"/>
         <echo>Configuring CSM and UPT for the Tomcat instance in ${catalina.home}</echo>
         <property name="tomcat.security.dir" value="${catalina.home}/conf/cabig"/>
