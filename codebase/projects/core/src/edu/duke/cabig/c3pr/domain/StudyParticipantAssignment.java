@@ -269,8 +269,8 @@ public class StudyParticipantAssignment extends AbstractGridIdentifiableDomainOb
 	}
 
 	@Transient
-	public List getInclusionEligibilityAnswers(){
-		List inclusionCriteriaAnswers=new ArrayList();
+	public List<SubjectEligibilityAnswer> getInclusionEligibilityAnswers(){
+		List<SubjectEligibilityAnswer> inclusionCriteriaAnswers=new ArrayList<SubjectEligibilityAnswer>();
 		for(int i=0 ; i<subjectEligibilityAnswers.size() ; i++){
 			if(subjectEligibilityAnswers.get(i).getEligibilityCriteria() instanceof InclusionEligibilityCriteria){
 				inclusionCriteriaAnswers.add(subjectEligibilityAnswers.get(i));
@@ -279,8 +279,8 @@ public class StudyParticipantAssignment extends AbstractGridIdentifiableDomainOb
 		return inclusionCriteriaAnswers;
 	}
 	@Transient
-	public List getExclusionEligibilityAnswers(){
-		List exclusionCriteriaAnswers=new ArrayList();
+	public List<SubjectEligibilityAnswer> getExclusionEligibilityAnswers(){
+		List<SubjectEligibilityAnswer> exclusionCriteriaAnswers=new ArrayList<SubjectEligibilityAnswer>();
 		for(int i=0 ; i<subjectEligibilityAnswers.size() ; i++){
 			if(subjectEligibilityAnswers.get(i).getEligibilityCriteria() instanceof ExclusionEligibilityCriteria){
 				exclusionCriteriaAnswers.add(subjectEligibilityAnswers.get(i));
