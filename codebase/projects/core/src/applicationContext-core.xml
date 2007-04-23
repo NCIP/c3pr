@@ -147,7 +147,9 @@
 	
 	<!-- Services -->
 	<bean id="studyService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudyServiceImpl" autowire="byType"/>
-	<bean id="participantService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.ParticipantServiceImpl" autowire="byType"/>
+	<bean id="participantService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.ParticipantServiceImpl" autowire="byType">
+		<property name="isBroadcastEnable" value="${broadcastEnable}" />
+	</bean>
 	
     <!--Utilities-->
     <bean id="xmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">

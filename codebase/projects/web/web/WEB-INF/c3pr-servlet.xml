@@ -151,7 +151,6 @@
 		id="createRegistrationController" lazy-init="true"
 		class="edu.duke.cabig.c3pr.web.CreateRegistrationController"
 		autowire="byName">
-		<property name="isBroadcastEnable" value="${broadcastEnable}" />
 		<property name="commandClass"
 			value="edu.duke.cabig.c3pr.domain.StudyParticipantAssignment" />
 		<property name="commandName" value="command" />

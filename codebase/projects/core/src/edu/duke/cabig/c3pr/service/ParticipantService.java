@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.service;
 import java.util.List;
 
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 
 /**
  * @author Kulasekaran,Ramakrishna
@@ -17,5 +18,7 @@ public interface ParticipantService {
 		 * @throws Runtime exception 
 		 */
 	  public List <Participant> search (Participant participant) throws Exception;
+	  
+	  public void createRegistration (StudyParticipantAssignment studyParticipantAssignment);
 }
 
