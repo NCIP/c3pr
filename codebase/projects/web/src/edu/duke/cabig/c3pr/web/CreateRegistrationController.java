@@ -19,9 +19,8 @@ import org.springframework.web.servlet.ModelAndView;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
-import edu.duke.cabig.c3pr.esb.impl.MessageBroadcastServiceImpl;
+import edu.duke.cabig.c3pr.service.ParticipantService;
 import edu.duke.cabig.c3pr.utils.Lov;
-import edu.duke.cabig.c3pr.utils.XMLUtils;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Tab;
 
@@ -38,24 +37,10 @@ public class CreateRegistrationController extends RegistrationController {
 
 	private static Log log = LogFactory.getLog(CreateRegistrationController.class);
 	
-	private String isBroadcastEnable="true";
-	private MessageBroadcastServiceImpl messageBroadcaster;
-
-	public MessageBroadcastServiceImpl getMessageBroadcaster() {
-		return messageBroadcaster;
-	}
-
-	public void setMessageBroadcaster(
-			MessageBroadcastServiceImpl messageBroadcaster) {
-		this.messageBroadcaster = messageBroadcaster;
-	}
-
-	public String getIsBroadcastEnable() {
-		return isBroadcastEnable;
-	}
-
-	public void setIsBroadcastEnable(String isBroadcastEnable) {
-		this.isBroadcastEnable = isBroadcastEnable;
+	private ParticipantService participantService;
+	
+	public void setParticipantService(ParticipantService participantService) {
+		this.participantService = participantService;
 	}
 
 	public CreateRegistrationController() {
@@ -419,25 +404,9 @@ public class CreateRegistrationController extends RegistrationController {
 		studyParticipantAssignment.getParticipant().getStudyParticipantAssignments().size();
 		studyParticipantAssignment.getParticipant().addStudyParticipantAssignment(studyParticipantAssignment);
 		studyParticipantAssignment.setRegistrationStatus(evaluateStatus(studyParticipantAssignment));
-		participantDao.save(studyParticipantAssignment.getParticipant());
-		studyParticipantAssignment.setStudyParticipantIdentifier(studyParticipantAssignment.getId()+ "");
-		if(isBroadcastEnable.equalsIgnoreCase("true")){
-			String xml = "";
-			try {
-				xml = XMLUtils.toXml(studyParticipantAssignment);
-				if (logger.isDebugEnabled()) {
-					logger.debug("processFinish(HttpServletRequest, HttpServletResponse, Object, BindException) - XML for Registration"); //$NON-NLS-1$
-				}
-				if (logger.isDebugEnabled()) {
-					logger.debug("processFinish(HttpServletRequest, HttpServletResponse, Object, BindException) - " + xml); //$NON-NLS-1$
-				}
-				messageBroadcaster.initialize();
-				messageBroadcaster.broadcast(xml);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				logger.error("processFinish(HttpServletRequest, HttpServletResponse, Object, BindException)", e); //$NON-NLS-1$
-			}
-		}
+		System.out.println("Calling participant service");
+		participantService.createRegistration(studyParticipantAssignment);
+		System.out.println("participant service call over");
 		removeAlternateDisplayFlow(request);
 		request.getSession().removeAttribute("registrationFlow");
 		request.setAttribute("command", command);
