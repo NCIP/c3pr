@@ -162,6 +162,27 @@
 		class="org.springframework.web.servlet.mvc.ParameterizableViewController">
 		<property name="viewName" value="/registration/reg_confirm_reg" />
 	</bean>
+	<bean name="/admin/createInvestigator"
+		id="createInvestigatorController" lazy-init="true"
+		class="edu.duke.cabig.c3pr.web.admin.CreateInvestigatorController"
+		autowire="byName">
+		<property name="commandClass"
+			value="edu.duke.cabig.c3pr.domain.Investigator" />
+	</bean>
+	<bean name="/admin/createResearchStaff"
+		id="createResearchStaffController" lazy-init="true"
+		class="edu.duke.cabig.c3pr.web.admin.CreateResearchStaffController"
+		autowire="byName">
+		<property name="commandClass"
+			value="edu.duke.cabig.c3pr.domain.ResearchStaff" />
+	</bean>
+		<bean name="/admin/viewInvestigator" id="viewInvestigatorController" autowire="byType"
+    	  class="edu.duke.cabig.c3pr.web.admin.ViewInvestigatorController" >
+    </bean>
+        
+	<bean name="/admin/viewResearchStaff" id="viewResearchStaffController" autowire="byType"
+    	  class="edu.duke.cabig.c3pr.web.admin.ViewResearchStaffController" >
+    </bean>
 	<bean id="sectionInterceptor"
 		class="edu.duke.cabig.c3pr.utils.web.navigation.SectionInterceptor">
 		<property name="sections">
@@ -219,6 +240,24 @@
 								class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
 								autowire="byType" p:displayName="Create Subject"
 								p:linkName="createParticipantController" />
+						</list>
+					</property>
+				</bean>
+				<bean
+					class="edu.duke.cabig.c3pr.utils.web.navigation.Section"
+					autowire="byType" p:displayName="Administration"
+					p:mainController="createInvestigatorController">
+					<property name="pathMapping" value="/admin/**" />
+					<property name="tasks">
+						<list>
+							<bean
+								class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+								autowire="byType" p:displayName="Create Investigator"
+								p:linkName="createInvestigatorController" />
+							<bean
+								class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+								autowire="byType" p:displayName="Create Research Staff"
+								p:linkName="createResearchStaffController" />
 						</list>
 					</property>
 				</bean>
