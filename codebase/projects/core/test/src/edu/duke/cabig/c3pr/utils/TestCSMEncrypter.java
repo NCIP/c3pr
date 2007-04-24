@@ -17,6 +17,22 @@ public class TestCSMEncrypter extends TestCase {
     private String Password = "c3pr_admin";
     private String EncryptedPassword = "Ie0InPvp8oOgmHldOE8ejA==";
 
+      public void encryptionUtility(){
+        try {
+            StringEncrypter stringEncrypter = new StringEncrypter();
+
+            String encryptedPassword =
+                    stringEncrypter.encrypt(Password);
+
+            System.out.println(encryptedPassword);
+
+        } catch (StringEncrypter.EncryptionException e) {
+            fail(e.getMessage());
+        }
+
+
+    }
+    
     public void testEncryption(){
         try {
             StringEncrypter stringEncrypter = new StringEncrypter();

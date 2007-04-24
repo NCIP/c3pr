@@ -12,7 +12,7 @@ values (2, 'csmupt','UPT Super Admin Application',0,0,sysdate);
 select CSM_APPLICATI_APPLICATION__SEQ.nextval from dual;
 
 insert into csm_user (USER_ID, LOGIN_NAME,FIRST_NAME,LAST_NAME,PASSWORD,UPDATE_DATE)
-values (1, 'admin','c3pr','admin','H/2qIBdj9TQ=',sysdate);
+values (1, 'admin','csm','admin','H/2qIBdj9TQ=',sysdate);
 select CSM_USER_USER_ID_SEQ.nextval from dual;
  
 insert into csm_protection_element(PROTECTION_ELEMENT_ID, PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
@@ -38,16 +38,8 @@ select CSM_PROTECTIO_PROTECTION_E_SEQ.nextval from dual;
 insert into csm_group(GROUP_ID,GROUP_NAME,APPLICATION_ID,UPDATE_DATE)
 values(1,'c3pr_admin',1,sysdate);
 
-insert into csm_group(GROUP_ID,GROUP_NAME,APPLICATION_ID,UPDATE_DATE)
-values(2,'c3pr_user',1,sysdate);
-
-insert into csm_group(GROUP_ID,GROUP_NAME,APPLICATION_ID,UPDATE_DATE)
-values(3,'registrar',1,sysdate);
-
-insert into csm_group(GROUP_ID,GROUP_NAME,APPLICATION_ID,UPDATE_DATE)
-values(4,'study_investigator',1,sysdate);
-
-
+insert into CSM_USER_GROUP(USER_GROUP_ID, USER_ID,GROUP_ID)
+values(1,1,1);
 
 #
 # The following entries are Common Set of Privileges

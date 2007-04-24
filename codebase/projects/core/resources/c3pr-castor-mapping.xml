@@ -5,24 +5,24 @@
 <mapping>
     <class name="edu.duke.cabig.c3pr.domain.Address">
         <map-to xml="address" ns-uri="http://semanticbits.com/registration.xsd"/>
-        <field name="streetAddress" type="string">
-            <bind-xml name="streetAddress" node="element"
-                xmlns="http://semanticbits.com/registration.xsd"/>
-        </field>
         <field name="city" type="string">
             <bind-xml name="city" node="element" xmlns="http://semanticbits.com/registration.xsd"/>
         </field>
-        <field name="stateCode" type="string">
-            <bind-xml name="stateCode" node="element"
-                xmlns="http://semanticbits.com/registration.xsd"/>
+        <field name="countryCode" type="string">
+            <bind-xml name="countryCode" node="element"
+                      xmlns="http://semanticbits.com/registration.xsd"/>
         </field>
         <field name="postalCode" type="string">
             <bind-xml name="postalCode" node="element"
-                xmlns="http://semanticbits.com/registration.xsd"/>
+                      xmlns="http://semanticbits.com/registration.xsd"/>
         </field>
-        <field name="countryCode" type="string">
-            <bind-xml name="countryCode" node="element"
-                xmlns="http://semanticbits.com/registration.xsd"/>
+        <field name="stateCode" type="string">
+            <bind-xml name="stateCode" node="element"
+                      xmlns="http://semanticbits.com/registration.xsd"/>
+        </field>
+        <field name="streetAddress" type="string">
+            <bind-xml name="streetAddress" node="element"
+                      xmlns="http://semanticbits.com/registration.xsd"/>
         </field>
     </class>
 
@@ -30,7 +30,7 @@
         <map-to xml="identifer" ns-uri="http://semanticbits.com/registration.xsd"/>
         <field name="source" type="string">
             <bind-xml name="source" node="element" xmlns="http://semanticbits.com/registration.xsd"
-            />
+                    />
         </field>
         <field name="type" type="string">
             <bind-xml name="type" node="element" xmlns="http://semanticbits.com/registration.xsd"/>
@@ -40,7 +40,7 @@
         </field>
         <field name="primaryIndicator" type="boolean">
             <bind-xml name="isprimary" node="element"
-                xmlns="http://semanticbits.com/registration.xsd"/>
+                      xmlns="http://semanticbits.com/registration.xsd"/>
         </field>
     </class>
 
@@ -49,39 +49,39 @@
         <map-to xml="person" ns-uri="http://semanticbits.com/registration.xsd"/>
         <field name="gridId" type="string">
             <bind-xml name="participantGridId" node="element"
-                xmlns="http://semanticbits.com/registration.xsd"/>
+                      xmlns="http://semanticbits.com/registration.xsd"/>
         </field>
         <field name="administrativeGenderCode" type="string">
             <bind-xml name="administrativeGenderCode" node="element"
-                xmlns="http://semanticbits.com/registration.xsd"/>
+                      xmlns="http://semanticbits.com/registration.xsd"/>
         </field>
         <field name="birthDate" type="string" handler="edu.duke.cabig.c3pr.xml.DateFieldHandler">
             <bind-xml name="birthDate" node="element"
-                xmlns="http://semanticbits.com/registration.xsd"/>
+                      xmlns="http://semanticbits.com/registration.xsd"/>
         </field>
         <field name="ethnicGroupCode" type="string">
             <bind-xml name="ethnicGroupCode" node="element"
-                xmlns="http://semanticbits.com/registration.xsd"/>
+                      xmlns="http://semanticbits.com/registration.xsd"/>
         </field>
         <field name="firstName" type="string">
             <bind-xml name="firstName" node="element"
-                xmlns="http://semanticbits.com/registration.xsd"/>
+                      xmlns="http://semanticbits.com/registration.xsd"/>
         </field>
         <field name="lastName" type="string">
             <bind-xml name="lastName" node="element"
-                xmlns="http://semanticbits.com/registration.xsd"/>
+                      xmlns="http://semanticbits.com/registration.xsd"/>
         </field>
         <field name="maritalStatusCode" type="string">
             <bind-xml name="maritalStatusCode" node="element"
-                xmlns="http://semanticbits.com/registration.xsd"/>
+                      xmlns="http://semanticbits.com/registration.xsd"/>
         </field>
         <field name="raceCode" type="string">
             <bind-xml name="raceCode" node="element"
-                xmlns="http://semanticbits.com/registration.xsd"/>
+                      xmlns="http://semanticbits.com/registration.xsd"/>
         </field>
         <field name="address" type="edu.duke.cabig.c3pr.domain.Address">
             <bind-xml name="address" node="element" xmlns="http://semanticbits.com/registration.xsd"
-            />
+                    />
         </field>
 
     </class>
@@ -90,12 +90,12 @@
         <map-to xml="participant" ns-uri="http://semanticbits.com/registration.xsd"/>
         <field name="gridId" type="string">
             <bind-xml name="participantGridId" node="attribute"
-                xmlns="http://semanticbits.com/registration.xsd"/>
+                      xmlns="http://semanticbits.com/registration.xsd"/>
         </field>
         <field name="identifiers" type="edu.duke.cabig.c3pr.domain.Identifier"
-            collection="collection">
+               collection="collection">
             <bind-xml name="identifier" node="element"
-                xmlns="http://semanticbits.com/registration.xsd"/>
+                      xmlns="http://semanticbits.com/registration.xsd"/>
         </field>
     </class>
 
@@ -116,36 +116,32 @@
                handler="edu.duke.cabig.c3pr.xml.HealthCareSiteGridIdFieldHandler">
             <bind-xml name="healthCareSiteGridId" node="attribute"/>
         </field>
-         <field name="studyGridId" type="string" required="true"
+        <field name="studyGridId" type="string" required="true"
                handler="edu.duke.cabig.c3pr.xml.StudyGridIdFieldHandler">
             <bind-xml name="studyGridId" node="attribute"/>
+        </field>
+        <field name="informedConsentSignedDate" type="string"
+               handler="edu.duke.cabig.c3pr.xml.DateFieldHandler">
+            <bind-xml name="informedConsentFormSignedDate" node="element"
+                      xmlns="http://semanticbits.com/registration.xsd"/>
         </field>
         <field name="startDate" type="string"
                handler="edu.duke.cabig.c3pr.xml.DateFieldHandler">
             <bind-xml name="enrollmentDate" node="element"
-                xmlns="http://semanticbits.com/registration.xsd"/>
+                      xmlns="http://semanticbits.com/registration.xsd"/>
         </field>
         <field name="studyParticipantIdentifier" type="string">
             <bind-xml name="studyParticipantIdentifier" node="element"
-                xmlns="http://semanticbits.com/registration.xsd"/>
-        </field>
-        <field name="eligibilityWaiverReasonText" type="string">
-            <bind-xml name="eligibilityWaiverReasonText" node="element"
-                xmlns="http://semanticbits.com/registration.xsd"/>
-        </field>
-        <field name="informedConsentSignedDate" type="string"
-            handler="edu.duke.cabig.c3pr.xml.DateFieldHandler">
-            <bind-xml name="informedConsentFormSignedDate" node="element"
-                xmlns="http://semanticbits.com/registration.xsd"/>
+                      xmlns="http://semanticbits.com/registration.xsd"/>
         </field>
         <field name="eligibilityIndicator" type="boolean">
             <bind-xml name="eligibilityIndicator" node="element"
-                xmlns="http://semanticbits.com/registration.xsd"/>
+                      xmlns="http://semanticbits.com/registration.xsd"/>
         </field>
         <!--Mapping to Participant-->
         <field name="participant" type="edu.duke.cabig.c3pr.domain.Participant">
             <bind-xml name="participant" node="element"
-                xmlns="http://semanticbits.com/registration.xsd"/>
+                      xmlns="http://semanticbits.com/registration.xsd"/>
         </field>
         <field name="study" type="edu.duke.cabig.c3pr.domain.Study"
                handler="edu.duke.cabig.c3pr.xml.StudyFieldHandler">
@@ -155,7 +151,7 @@
         <field name="identifiers" type="edu.duke.cabig.c3pr.domain.Identifier"
                collection="collection">
             <bind-xml name="identifier" node="element"
-                xmlns="http://semanticbits.com/registration.xsd"/>
+                      xmlns="http://semanticbits.com/registration.xsd"/>
         </field>
     </class>
 
