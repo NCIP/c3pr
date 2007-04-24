@@ -173,14 +173,14 @@ function manageSearchTypeMessage(message){
 
 								<td align="left">
 								<div name="SubjectSearch" id="SubjectSearch" style="display:none;"><select
-									id="SubjectOption">
+									name="SubjectOption" id="SubjectOption">
 									<option selected>--Please Select--</option>
 									<c:forEach items="${searchTypeRefDataPrt}" var="option">
 										<option value="${option.code }">${option.desc }</option>
 									</c:forEach>
 								</select></div>
 								<div name="StudySearch" id="StudySearch" style="display:none;"><select
-									id="StudyOption">
+									name="StudyOption" id="StudyOption">
 									<option selected>--Please Select--</option>
 									<c:forEach items="${searchTypeRefDataStudy}" var="option">
 										<option value="${option.code }">${option.desc }</option>
@@ -221,9 +221,6 @@ function manageSearchTypeMessage(message){
 					</table></td>
 			</tr>
 		</table>
-		<br>
-		<br>
-		<br>
 		<registrationTags:searchResults />
 
 		<!-- MAIN BODY ENDS HERE -->
