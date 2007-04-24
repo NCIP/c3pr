@@ -42,10 +42,10 @@
 			<td valign="top" width="35%" align="right"><b>Phase Code:&nbsp;</b></td>
 			<td valign="bottom" align="left">${command.studyParticipantAssignments[0].studySite.study.phaseCode
 			}</td>
-		</tr>
+		</tr>  
 		<tr>
 			<td valign="top" width="35%" align="right"><b>Registration Status:&nbsp;</b></td>
-			<td valign="bottom" align="left"></td>
+			<td valign="bottom" align="left">${command.studyParticipantAssignments[0].registrationStatus}</td>
 		</tr>
 		<tr>
 			<td valign="top" width="35%" align="right"><b>Treating Physician:&nbsp;</b></td>

@@ -42,7 +42,7 @@ function navRollOver(obj, state) {
 					<td>${registration.participant.lastName}</td>
 					<td>${registration.participant.primaryIdentifier}</td>
 					<td>${registration.studySite.site.name}</td>
-					<td></td>
+					<td>${registration.registrationStatus}</td>
 					<td>${registration.informedConsentSignedDateStr}</td>
 					<td>${registration.treatingPhysician.healthcareSiteInvestigator.investigator.fullName}</td>
 					</a>
