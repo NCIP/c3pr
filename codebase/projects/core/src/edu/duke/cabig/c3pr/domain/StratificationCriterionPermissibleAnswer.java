@@ -22,7 +22,7 @@ import edu.duke.cabig.c3pr.utils.StringUtils;
 @Table (name = "stratification_cri_per_ans")
 @GenericGenerator(name="id-generator", strategy = "native",
     parameters = {
-        @Parameter(name="sequence", value="STRATIFICATION_CRI_PER_ANS_ID_SEQ")
+        @Parameter(name="sequence", value="STRATIFICATION_CRI_ANS_ID_SEQ")
     }
 )
 public class StratificationCriterionPermissibleAnswer extends AbstractDomainObject implements Comparable<StratificationCriterionPermissibleAnswer> {

@@ -25,7 +25,7 @@ import edu.duke.cabig.c3pr.utils.StringUtils;
 @Table (name = "stratification_criterion")
 @GenericGenerator(name="id-generator", strategy = "native",
     parameters = {
-        @Parameter(name="sequence", value="STRATIFICATION_CRITERION_ID_SEQ")
+        @Parameter(name="sequence", value="STRATIFICATION_CRI_ID_SEQ")
     }
 )
 public class StratificationCriterion extends AbstractDomainObject implements Comparable<StratificationCriterion> {
