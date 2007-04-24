@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+    <util:map id="taskObjectPrivilegeMap">
+        <entry key="/pages/registration/searchRegistration" value="edu.duke.cabig.c3pr.domain.Registration:READ"/>
+        <entry key="/pages/registration/createRegistration" value="edu.duke.cabig.c3pr.domain.Registration:CREATE"/>
+
+        <entry key="/pages/study/searchStudy" value="edu.duke.cabig.c3pr.domain.Study:READ"/>
+        <entry key="/pages/study/createStudy" value="edu.duke.cabig.c3pr.domain.Study:CREATE"/>
+
+        <entry key="/pages/participant/searchParticipant" value="edu.duke.cabig.c3pr.domain.Participant:READ"/>
+        <entry key="/pages/participant/createParticipant" value="edu.duke.cabig.c3pr.domain.Participant:CREATE"/>
+
+        <entry key="/pages/admin/createInvestigator" value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
+        <entry key="/pages/admin/createResearchStaff" value="edu.duke.cabig.c3pr.domain.ResearchStaff:CREATE"/>
+
+    </util:map>
+
+
+    <bean id="taskPrivilegeAndObjectIdGenerator"
+          class="edu.duke.cabig.c3pr.web.security.TaskPrivilegeAndObjectIdGenerator">
+        <property name="objectPrivilegeMap"
+                  ref="taskObjectPrivilegeMap" />
+    </bean>
+
+    <bean id="taskAuthorizationCheck"
+          class="gov.nih.nci.security.acegi.csm.authorization.DelegatingObjectPrivilegeCSMAuthorizationCheck">
+
+        <property name="authorizationSwitch" ref="authorizationSwitch"/>
+
+        <property name="csmAuthorizationCheck">
+            <!--
+               <bean class="gov.nih.nci.cabig.caaers.web.security.RoleCheck"/>
+            -->
+            <bean
+                    class="gov.nih.nci.security.acegi.csm.authorization.CSMGroupAuthorizationCheck">
+                <property name="csmUserProvisioningManager" ref="csmUserProvisioningManager" />
+                <property name="authorizationSwitch" ref="authorizationSwitch"/>
+            </bean>
+
+        </property>
+        <property name="objectIdGenerator"
+                  ref="taskPrivilegeAndObjectIdGenerator" />
+        <property name="privilegeGenerator"
+                  ref="taskPrivilegeAndObjectIdGenerator" />
+    </bean>
+
+    <util:map id="sectionObjectPrivilegeMap">
+        <entry key="/pages/registration/searchRegistration" value="edu.duke.cabig.c3pr.domain.Registration:READ"/>
+        <entry key="/pages/study/searchStudy" value="edu.duke.cabig.c3pr.domain.Study:READ"/>
+        <entry key="/pages/participant/searchParticipant" value="edu.duke.cabig.c3pr.domain.Participant:READ"/>
+        <entry key="/pages/admin/createInvestigator" value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
+    </util:map>
+
+    <bean id="sectionPrivilegeAndObjectIdGenerator"
+          class="edu.duke.cabig.c3pr.web.security.SectionPrivilegeAndObjectIdGenerator">
+        <property name="objectPrivilegeMap"
+                  ref="sectionObjectPrivilegeMap" />
+    </bean>
+
+    <bean id="sectionAuthorizationCheck"
+          class="gov.nih.nci.security.acegi.csm.authorization.DelegatingObjectPrivilegeCSMAuthorizationCheck">
+
+        <property name="authorizationSwitch" ref="authorizationSwitch"/>
+
+        <property name="csmAuthorizationCheck">
+            <bean class="gov.nih.nci.security.acegi.csm.authorization.CSMGroupAuthorizationCheck">
+                <property name="csmUserProvisioningManager"
+                          ref="csmUserProvisioningManager" />
+                <property name="authorizationSwitch" ref="authorizationSwitch"/>
+            </bean>
+
+        </property>
+        <property name="objectIdGenerator"
+                  ref="sectionPrivilegeAndObjectIdGenerator" />
+        <property name="privilegeGenerator"
+                  ref="sectionPrivilegeAndObjectIdGenerator" />
+    </bean>
+
+</beans>
