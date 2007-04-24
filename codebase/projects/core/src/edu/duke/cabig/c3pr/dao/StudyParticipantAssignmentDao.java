@@ -19,11 +19,10 @@ import edu.emory.mathcs.backport.java.util.Collections;
 public class StudyParticipantAssignmentDao extends
 		AbstractBaseDao<StudyParticipantAssignment> {
 
-	private static final List<String> SUBSTRING_MATCH_PROPERTIES = Arrays
-			.asList("registrationStatus");
+	private List<String> SUBSTRING_MATCH_PROPERTIES = Arrays
+			.asList("studySite.study.shortTitleText");
 
-	private static final List<String> EXACT_MATCH_PROPERTIES = Collections
-			.emptyList();
+	private List<String> EXACT_MATCH_PROPERTIES = Collections.emptyList();
 
 	public StudyParticipantAssignmentDao() {
 	}
@@ -34,17 +33,21 @@ public class StudyParticipantAssignmentDao extends
 	}
 
 	/**
-	 *  * @return list of matching registration objects based on your sample
+	 * *
+	 * 
+	 * @return list of matching registration objects based on your sample
 	 *         registration object
 	 * @param registration
 	 * @return
 	 */
 	public List<StudyParticipantAssignment> searchByExample(
 			StudyParticipantAssignment registration, boolean isWildCard) {
-		
+
 		Example example = Example.create(registration).excludeZeroes()
 				.ignoreCase();
-		Criteria registrationCriteria = getHibernateTemplate().getSessionFactory().getCurrentSession().createCriteria(StudyParticipantAssignment.class);
+		Criteria registrationCriteria = getHibernateTemplate()
+				.getSessionFactory().getCurrentSession().createCriteria(
+						StudyParticipantAssignment.class);
 		if (isWildCard) {
 			example.excludeProperty("doNotUse").enableLike(MatchMode.ANYWHERE);
 			registrationCriteria.add(example);
@@ -53,29 +56,32 @@ public class StudyParticipantAssignmentDao extends
 						Restrictions.like("value", registration
 								.getIdentifiers().get(0).getValue()
 								+ "%"));
-			}else
-				if (registration.getParticipant()!=null) {
-						registrationCriteria.createCriteria("participant").add(
-							Restrictions.like("lastName", registration.getParticipant().getLastName()+ "%"));
-																
-				}
-				else
-					if (registration.getStudySite()!=null) {
-						registrationCriteria.createCriteria("studySite.study").add(
-								Restrictions.like("shortTitleText", registration.getStudySite().getStudy().getShortTitleText()+ "%"));
-																	
-					}
+			} else if (registration.getParticipant() != null) {
+				registrationCriteria.createCriteria("participant").add(
+						Restrictions.like("lastName", registration
+								.getParticipant().getLastName()
+								+ "%"));
+
+			} else if (registration.getStudySite() != null) {
+				registrationCriteria.createCriteria("studySite.study").add(
+						Restrictions.like("shortTitleText", registration
+								.getStudySite().getStudy().getShortTitleText()
+								+ "%"));
+
+			}
 			return registrationCriteria.list();
 
 		}
 		return registrationCriteria.add(example).list();
 
 	}
-		
-		public List<StudyParticipantAssignment> getAll() throws DataAccessException {
-			return getHibernateTemplate().find("from StudyParticipantAssignmet");
-		}
-	public List<StudyParticipantAssignment> searchByExample(StudyParticipantAssignment registration) {
+
+	public List<StudyParticipantAssignment> getAll() throws DataAccessException {
+		return getHibernateTemplate().find("from StudyParticipantAssignmet");
+	}
+
+	public List<StudyParticipantAssignment> searchByExample(
+			StudyParticipantAssignment registration) {
 		return searchByExample(registration, true);
 	}
 
@@ -91,7 +97,34 @@ public class StudyParticipantAssignmentDao extends
 
 	}
 
-	public List<StudyParticipantAssignment> getBySubnames(String[] subnames) {
+	public List<StudyParticipantAssignment> getBySubnames(String[] subnames,
+			int criterionSelector) {
+
+		switch (criterionSelector) {
+		case 0:
+			SUBSTRING_MATCH_PROPERTIES = Arrays.asList("participant.lastName");
+			break;
+		case 1:
+			SUBSTRING_MATCH_PROPERTIES = Arrays.asList("participant.lastName");
+			break;
+		case 2:
+			SUBSTRING_MATCH_PROPERTIES = Arrays
+					.asList("studySite.study.shortTitleText");
+			break;
+		case 3:
+			SUBSTRING_MATCH_PROPERTIES = Arrays
+					.asList("studySite.study.longTitleText");
+			break;
+		case 4:
+			SUBSTRING_MATCH_PROPERTIES = Arrays
+					.asList("studySite.study.status");
+		default:
+			SUBSTRING_MATCH_PROPERTIES = Arrays
+			.asList("studySite.study.status");
+		
+		break;
+		}
+
 		return findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES,
 				EXACT_MATCH_PROPERTIES);
 	}
