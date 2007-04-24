@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.web.ajax;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,6 +15,7 @@ import org.springframework.web.HttpSessionRequiredException;
 
 import edu.duke.cabig.c3pr.dao.StudyParticipantAssignmentDao;
 import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
+import edu.duke.cabig.c3pr.utils.Lov;
 
 public class RegistrationAjaxFacade {
 	private StudyParticipantAssignmentDao registrationDao;
@@ -41,16 +43,42 @@ public class RegistrationAjaxFacade {
 		return dst;
 	}
 
-	public List<StudyParticipantAssignment> matchRegistrations(String text) {
+	public List<StudyParticipantAssignment> matchRegistrations(String text,
+			int criterionSelector) {
+
 		List<StudyParticipantAssignment> registrations = registrationDao
-				.getBySubnames(extractSubnames(text));
+				.getBySubnames(extractSubnames(text), criterionSelector);
 		// cut down objects for serialization
 		List<StudyParticipantAssignment> reducedRegistrations = new ArrayList<StudyParticipantAssignment>(
 				registrations.size());
 		for (StudyParticipantAssignment registration : registrations) {
-						
-			reducedRegistrations.add(buildReduced(registration, Arrays.asList(
-					"id", "registrationStatus")));
+
+			switch (criterionSelector) {
+			case 0:
+				reducedRegistrations.add(buildReduced(registration, Arrays
+						.asList("id", "participant")));
+				break;
+			case 1:
+				reducedRegistrations.add(buildReduced(registration, Arrays
+						.asList("id", "participant")));
+				break;
+			case 2:
+				reducedRegistrations.add(buildReduced(registration, Arrays
+						.asList("id", "studySite")));
+				break;
+			case 3:
+				reducedRegistrations.add(buildReduced(registration, Arrays
+						.asList("id", "studySite")));
+				break;
+			case 4:
+				reducedRegistrations.add(buildReduced(registration, Arrays
+						.asList("id", "studySite")));
+			default:
+				reducedRegistrations.add(buildReduced(registration, Arrays
+						.asList("id", "studySite")));
+				break;
+			}
+
 		}
 		return reducedRegistrations;
 	}
