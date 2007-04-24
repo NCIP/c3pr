@@ -66,38 +66,48 @@ function fireAction(action, selectedStratification, selectedAnswer){
                 <td align="right" width="20%"> <b> <span class="red">*</span><em></em>Criterion: (${selected_stratification+1})</b></td>
                 <td align="left" width="80%">
                     <form:hidden path="stratificationCriteria[${selected_stratification}].questionNumber"/>
-                    <form:textarea path="stratificationCriteria[${selected_stratification}].questionText" rows="1" cols="60"/>
+                    <form:textarea path="stratificationCriteria[${selected_stratification}].questionText" rows="1" cols="50"/>
                 </td>
            </tr>
+           <br>
+           <br>
            <tr>
-              <td align="right" width="20%"> <b> <span class="red">*</span><em></em>Permissible Answer: (${selected_answer+1})</b> </td>
+          	   <td align="right" width="20%"> </td>   
+               <td align="center">
+                     <a href="javascript:fireAction('addPermissibleAnswer',${selected_stratification},'${statusAns.index}');"><img
+                    src="<tags:imageUrl name="checkyes.gif"/>" border="0"></a><b>Add a Permissible Answer</b>
+	            </td>
+           </tr>
+           <tr>
+              <td align="right" width="20%"> <b> <span class="red">*</span><em></em>Answer: </b> </td>
               <td align="left" width="80%">
               <table border="0" id="table1" cellspacing="5">
+              <c:forEach var="answer" varStatus="statusAns" items="${command.stratificationCriteria[selected_stratification].permissibleAnswers}">                 
               <tr>
-              	<td>              
-	                  <form:input path="stratificationCriteria[${selected_stratification}].permissibleAnswers[${selected_answer}].permissibleAnswer"/>
-	                   <td align="left" width="10%">
-	                     <a href="javascript:fireAction('addPermissibleAnswer',${selected_stratification},'${selected_answer}');"><img
-	                    src="<tags:imageUrl name="checkyes.gif"/>" border="0"></a>
-		              </td>     
-		               <td align="left" width="90%">
-		                  <select name="answers" multiple>
-		                  	<c:forEach var="answer" varStatus="statusAns" items="${command.stratificationCriteria[selected_stratification].permissibleAnswers}">                   
-		                  		<option value="" >${answer.permissibleAnswer}</option>
-		                  	</c:forEach>
-		                  </select>
-		              </td>  
-	              </td>
-	             </tr>
-	           </table>
+              	<td align=";eft">(${statusAns.index+1})</td>
+              	<td align"left>              
+                  <form:input path="stratificationCriteria[${selected_stratification}].permissibleAnswers[${statusAns.index}].permissibleAnswer" size="40"/>
+                </td>
+	            <td>
+	             <a href="javascript:fireAction('removePermissibleAnswer',${selected_stratification},${statusAns.index});">
+                     <img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
+	            </td>   
+	           </tr>
+	          </c:forEach>
+	          </table>
               </td>                      
            </tr>
+           <tr align="center">
+           <td></td>
+           <td width="20%">
+		      <a href="javascript:fireAction('addStratificationQuestion','${selected_stratification}','${selected_answer}');"><img
+		         src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a><b>Add a Criterion</b>&nbsp;&nbsp;
+		  	 <a href="javascript:fireAction('removeStratificationQuestion','${selected_stratification}','${selected_answer}');">
+                <img src="<tags:imageUrl name="checkno.gif"/>"border="0" alt="Add"></a><b>Delete a Criterion</b>
+		   </td>
+			</tr>
         </table>
       </tabs:division>
-      </td>
-      <td>
-      <a href="javascript:fireAction('addStratificationQuestion','${selected_stratification}','${selected_answer}');"><img
-                 src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a>
       </td>
        <td valign="top" width="40%">
       <c:set var="i" value="0" scope="page"/>
@@ -112,12 +122,8 @@ function fireAction(action, selectedStratification, selectedAnswer){
         </c:if>
          <c:forEach var="strat" varStatus="status" items="${command.stratificationCriteria}">
           <c:if test="${strat.questionText != null and strat.questionText != ''}">                   
-            <tr align="center" id="row${i}" class="results" onMouseOver="navRollOver('row${i-1}', 'on')"
-				onMouseOut="navRollOver('row${i-1}', 'off')"  onclick="javascript:fireAction('displayStratification','${status.index}','0');">
+            <tr align="center" class="results">
                 <td align="left" width="65%">
-                   
-                     <a href="javascript:fireAction('removeStratificationQuestion','${selected_stratification}','${selected_answer}');">
-                     <img src="<tags:imageUrl name="checkno.gif"/>" height="10" border="0" alt="Add"></a>
                       <a onclick="javascript:fireAction('displayStratification','${status.index}','0');" title="click here to edit stratification Criterion"> 
                        ${strat.trimmedQuestionText}</a>
                 </td>
@@ -127,15 +133,13 @@ function fireAction(action, selectedStratification, selectedAnswer){
                    <c:if test="${answer.permissibleAnswer != null and answer.permissibleAnswer != ''}">
                     <tr>
                     	  <td>
-                              <a href="javascript:fireAction('removePermissibleAnswer',${selected_stratification},${selected_answer});">
-                              <img src="<tags:imageUrl name="checkno.gif"/>" height="10" border="0"></a>
                          	<a onclick="javascript:fireAction('displayAnswer','${status.index}','${statusAnswer.index}');" title="click here to edit the permissible answer">
                          ${answer.trimmedPermissibleAnswer}	 </a>
                         </td>
                      </tr>
                      </c:if>
                     </c:forEach>
-                     </table>
+                  </table>
                 </td>
             </tr>
            </c:if>
