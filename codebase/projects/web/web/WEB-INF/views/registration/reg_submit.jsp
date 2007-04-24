@@ -104,14 +104,6 @@ function navRollOver(obj, state) {
 							<td width="25%" class="labelR">Short Title:</td>
 							<td>${command.studySite.study.shortTitleText}</td>
 						</tr>
-						<tr>
-							<td class="labelR"> Disease Code:</td>
-							<td>${command.studySite.study.diseaseCode}</td>
-						</tr>
-						<tr>
-							<td class="labelR"> Monitor Code:</span></td>
-							<td>${command.studySite.study.monitorCode}</td>
-						</tr>
 					</table>
 					</td>
 					<td width="50%" valign="top">
