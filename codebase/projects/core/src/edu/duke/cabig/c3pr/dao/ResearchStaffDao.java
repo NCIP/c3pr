@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
-import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.emory.mathcs.backport.java.util.Collections;
 
 /**

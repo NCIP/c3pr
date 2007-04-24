@@ -49,18 +49,6 @@ function updateTargetPage(target){
 					<td>${command.status}</td>
 				</tr>
 				<tr>
-					<td width="20%" class="labelR"><b>Disease:</b></td>
-					<td>${command.diseaseCode}</td>
-				</tr>
-				<tr>
-					<td width="20%" class="labelR"><b>Disease Type:</b></td>
-					<td>${command.type}</td>
-				</tr>
-				<tr>
-					<td width="20%" class="labelR"><b>Monitor:</b></td>
-					<td>${command.monitorCode}</td>
-				</tr>
-				<tr>
 					<td width="20%" class="labelR"><b>Phase:<b></td>
 					<td>${command.phaseCode}</td>
 				</tr>

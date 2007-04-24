@@ -15,6 +15,8 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.domain.StratificationCriterion;
+import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
@@ -286,6 +288,23 @@ public class StudyDaoTest extends DaoTestCase {
 		studyDisease.setStudy(study);
 		
 		study.addStudyDisease(studyDisease);
+		
+		// Stratifications
+		StratificationCriterionPermissibleAnswer ans = new StratificationCriterionPermissibleAnswer();
+		ans.setPermissibleAnswer("it is valid");
+		StratificationCriterionPermissibleAnswer ans2 = new StratificationCriterionPermissibleAnswer();
+		ans.setPermissibleAnswer("it is valid");
+		StratificationCriterion cri = new StratificationCriterion();
+		cri.setQuestionNumber(1);
+		cri.setQuestionText("is criterion valid");
+		cri.addPermissibleAnswer(ans);
+		StratificationCriterion cri2 = new StratificationCriterion();
+		cri.setQuestionNumber(2);
+		cri.setQuestionText("is criterion valid 2");
+		cri.addPermissibleAnswer(ans2);
+		
+		study.addStratificationCriteria(cri);
+		study.addStratificationCriteria(cri2);
 		
 		return study;
 	}	

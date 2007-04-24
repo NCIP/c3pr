@@ -50,26 +50,20 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 	private String longTitleText;	
 	private String descriptionText;
 	private String precisText;
-	
-	private String diseaseCode;		
-	private String monitorCode;		
 	private String phaseCode;					
 	private String sponsorCode;	
 	private String status;
 	private String type;
-	
+	private String primaryIdentifier;
 	private int targetAccrualNumber;
 		
 	private List<Epoch> epochs = new ArrayList<Epoch>();	  	
 	private List<StudySite> studySites = new ArrayList<StudySite>();;			  
 	private List<Identifier> identifiers = new ArrayList<Identifier>();
-	
-	private String trimmedShortTitleText;
-	private String primaryIdentifier;
-	
 	private List<InclusionEligibilityCriteria> incCriterias= new ArrayList<InclusionEligibilityCriteria>();
 	private List<ExclusionEligibilityCriteria> excCriterias= new ArrayList<ExclusionEligibilityCriteria>();
 	private List<StudyDisease> studyDiseases = new ArrayList<StudyDisease>();
+	private List<StratificationCriterion> stratificationCriteria = new ArrayList<StratificationCriterion>();
 
 	//TODO move into Command Object
     private String[] diseaseTermIds;
@@ -134,6 +128,11 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
         studyDiseases.add(studyDisease);
     }
 	
+	public void addStratificationCriteria(StratificationCriterion strat) {
+		strat.setStudy(this);
+		stratificationCriteria.add(strat);
+    }
+	
 	/// BEAN PROPERTIES
 	
 	 // TODO: this stuff should really, really not be in here.  It's web-view/entry specific.
@@ -179,6 +178,50 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 		return identifiers;
 	}
 
+	@OneToMany
+    @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })        
+    @JoinColumn(name = "stu_id", nullable=false) 
+    @Where(clause = "DTYPE = 'E'") // it is pretty lame that this is necessary    
+	public List<ExclusionEligibilityCriteria> getExcCriterias() {
+		return excCriterias;
+	}
+
+	public void setExcCriterias(List<ExclusionEligibilityCriteria> excCriterias) {
+		this.excCriterias = excCriterias;
+	}
+
+	@OneToMany
+    @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })        
+    @JoinColumn(name = "stu_id", nullable=false)   
+    @Where(clause = "DTYPE = 'I'") // it is pretty lame that this is necessary   		
+	public List<InclusionEligibilityCriteria> getIncCriterias() {
+		return incCriterias;
+	}
+
+	public void setIncCriterias(List<InclusionEligibilityCriteria> incCriterias) {
+		this.incCriterias = incCriterias;
+	}
+	
+    @OneToMany (mappedBy="study", fetch=FetchType.LAZY)
+    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+    public List<StudyDisease> getStudyDiseases() {
+        return studyDiseases;
+    }
+
+    public void setStudyDiseases(List<StudyDisease> studyDiseases) {
+        this.studyDiseases = studyDiseases;
+    }
+    
+    @OneToMany (mappedBy="study", fetch=FetchType.LAZY)
+    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+    public List<StratificationCriterion> getStratificationCriteria() {
+        return stratificationCriteria;
+    }
+
+    public void setStratificationCriteria(List<StratificationCriterion> stratificationCriteria) {
+        this.stratificationCriteria = stratificationCriteria;
+    }
+    
 	public void setIdentifiers(List<Identifier> identifiers) {
 		this.identifiers = identifiers;
 	}
@@ -219,28 +262,12 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 		this.descriptionText = descriptionText;
 	}
 
-	public String getDiseaseCode() {
-		return diseaseCode;
-	}
-
-	public void setDiseaseCode(String diseaseCode) {
-		this.diseaseCode = diseaseCode;
-	}
-
 	public String getLongTitleText() {
 		return longTitleText;
 	}
 
 	public void setLongTitleText(String longTitleText) {
 		this.longTitleText = longTitleText;
-	}
-
-	public String getMonitorCode() {
-		return monitorCode;
-	}
-
-	public void setMonitorCode(String monitorCode) {
-		this.monitorCode = monitorCode;
 	}
 
 	public String getPhaseCode() {
@@ -308,11 +335,9 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 	public int hashCode() {
 		final int PRIME = 31;
 		int result = super.hashCode();
-		result = PRIME * result + ((diseaseCode == null) ? 0 : diseaseCode.hashCode());
 		result = PRIME * result + ((epochs == null) ? 0 : epochs.hashCode());
 		result = PRIME * result + ((identifiers == null) ? 0 : identifiers.hashCode());
 		result = PRIME * result + ((longTitleText == null) ? 0 : longTitleText.hashCode());
-		result = PRIME * result + ((monitorCode == null) ? 0 : monitorCode.hashCode());
 		result = PRIME * result + ((phaseCode == null) ? 0 : phaseCode.hashCode());
 		result = PRIME * result + ((sponsorCode == null) ? 0 : sponsorCode.hashCode());
 		result = PRIME * result + ((status == null) ? 0 : status.hashCode());
@@ -331,11 +356,6 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 		if (getClass() != obj.getClass())
 			return false;
 		final Study other = (Study) obj;
-		if (diseaseCode == null) {
-			if (other.diseaseCode != null)
-				return false;
-		} else if (!diseaseCode.equals(other.diseaseCode))
-			return false;
 		if (epochs == null) {
 			if (other.epochs != null)
 				return false;
@@ -350,11 +370,6 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 			if (other.longTitleText != null)
 				return false;
 		} else if (!longTitleText.equals(other.longTitleText))
-			return false;
-		if (monitorCode == null) {
-			if (other.monitorCode != null)
-				return false;
-		} else if (!monitorCode.equals(other.monitorCode))
 			return false;
 		if (phaseCode == null) {
 			if (other.phaseCode != null)
@@ -402,38 +417,5 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 			
 		return primaryIdentifier;		
 	}
-
-	@OneToMany
-    @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })        
-    @JoinColumn(name = "stu_id", nullable=false) 
-    @Where(clause = "DTYPE = 'E'") // it is pretty lame that this is necessary    
-	public List<ExclusionEligibilityCriteria> getExcCriterias() {
-		return excCriterias;
-	}
-
-	public void setExcCriterias(List<ExclusionEligibilityCriteria> excCriterias) {
-		this.excCriterias = excCriterias;
-	}
-
-	@OneToMany
-    @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })        
-    @JoinColumn(name = "stu_id", nullable=false)   
-    @Where(clause = "DTYPE = 'I'") // it is pretty lame that this is necessary   		
-	public List<InclusionEligibilityCriteria> getIncCriterias() {
-		return incCriterias;
-	}
-
-	public void setIncCriterias(List<InclusionEligibilityCriteria> incCriterias) {
-		this.incCriterias = incCriterias;
-	}
 	
-    @OneToMany (mappedBy="study", fetch=FetchType.LAZY)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})
-    public List<StudyDisease> getStudyDiseases() {
-        return studyDiseases;
-    }
-
-    public void setStudyDiseases(List<StudyDisease> studyDiseases) {
-        this.studyDiseases = studyDiseases;
-    }
 }

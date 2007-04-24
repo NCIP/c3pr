@@ -10,8 +10,8 @@
 		class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="${datasource.driver}"/>
 		<property name="maxActive" value="50"/>
-        <property name="initialSize" value="5"/>
-        <property name="maxWait" value="180000"/>
+		<property name="maxIdle" value="2"/>
+		<property name="maxWait" value="180000"/>		
 		<property name="removeAbandoned" value="true"/>		
 		<property name="removeAbandonedTimeout" value="300"/>		
 		<property name="logAbandoned" value="true"/>
@@ -85,7 +85,9 @@
 				<value>edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria</value>		
 				<value>edu.duke.cabig.c3pr.domain.StudyDisease</value>		
 				<value>edu.duke.cabig.c3pr.domain.DiseaseCategory</value>
-				<value>edu.duke.cabig.c3pr.domain.DiseaseTerm</value>															
+				<value>edu.duke.cabig.c3pr.domain.DiseaseTerm</value>			
+				<value>edu.duke.cabig.c3pr.domain.StratificationCriterion</value>
+				<value>edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer</value>													
 			</list>
 		</property>
 		<property name="entityInterceptor">
@@ -144,12 +146,11 @@
 	<bean id="diseaseCategoryDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.DiseaseCategoryDao" autowire="byType"/>
 	<bean id="diseaseTermDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.DiseaseTermDao" autowire="byType"/>
 	<bean id="studyInvestigatorDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyInvestigatorDao" autowire="byType"/>	
+	<bean id="StratificationCriterionDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StratificationCriterionDao" autowire="byType"/>	
 	
 	<!-- Services -->
 	<bean id="studyService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudyServiceImpl" autowire="byType"/>
-	<bean id="participantService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.ParticipantServiceImpl" autowire="byType">
-		<property name="isBroadcastEnable" value="${broadcastEnable}" />
-	</bean>
+	<bean id="participantService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.ParticipantServiceImpl" autowire="byType"/>
 	
     <!--Utilities-->
     <bean id="xmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">

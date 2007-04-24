@@ -11,6 +11,7 @@ import org.hibernate.criterion.Restrictions;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.duke.cabig.c3pr.domain.StudySite;
@@ -54,6 +55,10 @@ public class StudyDao extends AbstractBaseDao<Study> {
         study.getExcCriterias().size();
         study.getIncCriterias().size();
         study.getStudyDiseases().size();
+        study.getStratificationCriteria().size();
+        for (StratificationCriterion criterion : study.getStratificationCriteria()) {
+        	criterion.getPermissibleAnswers().size();
+		}
         
         List<Epoch> epochs = study.getEpochs();
         epochs.size();

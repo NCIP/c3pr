@@ -88,29 +88,6 @@ prefix="decorator"%>
 				width="1" height="1" class="heightControl"></td>
 		</tr>
 		<tr>
-			<td class="label"><span class="red">*</span><em></em><strong>Disease:</strong>
-			<td><form:select path="diseaseCode">
-				<option value="">--Please Select-- <form:options
-					items="${diseaseCodeRefData}" itemLabel="desc"
-					itemValue="desc" />
-			</form:select></td>
-			<td width="10%"><em><span class="red"><form:errors
-				path="diseaseCode" /></em></span></td>
-		</tr>
-		<tr>
-			<td><img src="<tags:imageUrl name="spacer.gif"/>"
-				width="1" height="1" class="heightControl"></td>
-		</tr>
-		<tr>
-			<td class="label"><em></em>Monitor:</td>
-			<td><form:select path="monitorCode">
-				<option value="">--Please Select-- <form:options
-					items="${monitorCodeRefData}" itemLabel="desc"
-					itemValue="desc" />
-			</form:select></td>
-			<td width="10%"></td>
-		</tr>
-		<tr>
 			<td><img src="<tags:imageUrl name="spacer.gif"/>"
 				width="1" height="1" class="heightControl"></td>
 		</tr>

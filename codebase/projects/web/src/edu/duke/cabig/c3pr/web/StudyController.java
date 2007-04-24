@@ -32,6 +32,8 @@ import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.StratificationCriterion;
+import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
@@ -42,6 +44,7 @@ import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.NullIdDaoBasedEditor;
@@ -151,6 +154,13 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
                return refdata;
        	}        	
        };
+       
+       Tab stratifications = new Tab<Study>("Stratifications", "Stratifications", "study/study_stratifications") {
+      	public Map<String, Object> referenceData() {
+              Map<String, Object> refdata = super.referenceData();
+              return refdata;
+      	}        	
+       };
 
 	   Tab epochsArms = new Tab<Study>("Epochs & Arms", "Epochs & Arms", "study/study_design") {	            
         	public Map<String, Object> referenceData() {	        		
@@ -187,6 +197,7 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 		tabsMap.put("Personnel", personnel);
 		tabsMap.put("Eligibility Checklist", eligibilityChecklist);
 		tabsMap.put("Diseases", diseases);
+		tabsMap.put("Stratifications", stratifications);
 		tabsMap.put("Epochs & Arms", epochsArms);
 		tabsMap.put("Overview", overview);
 		tabsMap.put("Registrations", registrations);
@@ -246,6 +257,20 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 							
 		else if ("Eligibility Checklist".equals(tabShortTitle)){		
 				handleEligibilityChecklist((Study)command, request);								
+		}
+		else if ("Stratifications".equals(tabShortTitle)){	
+			String selected = request.getParameter("_selected");
+			
+			if("displayStratification".equals(request.getParameter("_action"))) {
+				request.getSession().setAttribute("selectedStratification", request.getParameter("_selectedStratification"));
+				request.getSession().setAttribute("selectedAnswer", 0);
+			}
+			else if("displayAnswer".equals(request.getParameter("_action"))) {
+				request.getSession().setAttribute("selectedStratification", request.getParameter("_selectedStratification"));
+				request.getSession().setAttribute("selectedAnswer", request.getParameter("_selectedAnswer"));
+			}
+			else				
+				handleStratificationAction((Study)command, request);							
 		}
 		else if ("Diseases".equals(tabShortTitle)){		
 			handleDiseasesAction((Study)command, request.getParameter("_action"),
@@ -425,7 +450,6 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 	{
 		String action =request.getParameter("_action");
 		String selected = request.getParameter("_selected"); 
-		String target = request.getParameter("_target6"); 
 		
 		if ("addInclusionCriteria".equals(action))
 		{	
@@ -453,18 +477,67 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 		}	
 	}
 	
+	protected void handleStratificationAction(Study study, HttpServletRequest request)
+	{
+		String action =request.getParameter("_action");
+		int selectedStratification= 0;
+		int selectedAnswer = 0;
+		
+		if (StringUtils.isNotEmpty(request.getParameter("_selectedStratification")))
+		{
+			selectedStratification = Integer.parseInt(request.getParameter("_selectedStratification")); 
+		}
+		if (StringUtils.isNotEmpty(request.getParameter("_selectedAnswer")))
+		{
+			selectedAnswer = Integer.parseInt(request.getParameter("_selectedAnswer"));
+		}
+		if ("addStratificationQuestion".equals(action))
+		{	
+			log.debug("Requested - Add a Stratication Question");	
+			createDefaultStratification(study);		
+			request.getSession().setAttribute("selectedStratification", selectedStratification+1);
+			request.getSession().setAttribute("selectedAnswer",0);
+		}
+		else if ("removeStratificationQuestion".equals(action))
+		{
+			log.debug("Requested - Remove a Stratication Question");		
+			study.getStratificationCriteria().remove(selectedStratification);
+			selectedStratification = (selectedStratification != 0) ? selectedStratification : 1;
+			request.getSession().setAttribute("selectedStratification", selectedStratification-1);
+		}
+		else if ("addPermissibleAnswer".equals(action))
+		{
+			log.debug("Requested - Add a Permissible Answer");
+			StratificationCriterion cri = study.getStratificationCriteria().get(selectedStratification);
+			cri.addPermissibleAnswer(new StratificationCriterionPermissibleAnswer());
+			request.getSession().setAttribute("selectedAnswer",selectedAnswer+1);
+		}
+		else if ("removePermissibleAnswer".equals(action))
+		{
+			log.debug("Requested - Remove a Permissible Answer");																																		
+			StratificationCriterion cri = study.getStratificationCriteria().get(selectedStratification);
+			cri.getPermissibleAnswers().remove(selectedAnswer);
+			selectedAnswer = (selectedAnswer != 0) ? selectedAnswer : 1;
+			request.getSession().setAttribute("selectedAnswer",selectedAnswer-1);
+		}		
+		else
+		{
+			request.getSession().setAttribute("selectedStratification", 0);
+			request.getSession().setAttribute("selectedAnswer",0);
+		}
+	}
+	
 	private void handleDiseasesAction(Study study, String action, String selected)
 	{				
 		if ("addStudyDisease".equals(action))
 		{
 			String[] diseases = study.getDiseaseTermIds();
 			log.debug("Study Diseases Size : " + study.getStudyDiseases().size());
-			for (String diseaseId : diseases){
+			for (String diseaseId : diseases) {
 				log.debug("Disease Id : " + diseaseId);
 				StudyDisease studyDisease = new StudyDisease();
 				studyDisease.setDiseaseTerm(diseaseTermDao.getById(Integer.parseInt(diseaseId)));
 				study.addStudyDisease(studyDisease);
-				
 			}
 		}
 		else if ("removeStudyDisease".equals(action))
@@ -493,7 +566,7 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 	}
 	
 	/**
-	 * Need to create a default study with 3 epochs and associated arms
+	 * Need to create a default study with default associated Collection objects
 	 * this is shown to the User for the first time
 	 * @return Study the default study
 	 */
@@ -506,7 +579,8 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 		createDefaultIdentifiers(study);
 		createDefaultExclusion(study);
 		createDefaultInclusion(study);
-							
+		createDefaultStratification(study);
+		
 		return study;
 	}	
 	
@@ -563,6 +637,15 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 		exc.setQuestionText("");
 	
 		study.addExclusionEligibilityCriteria(exc);			
+	}
+	
+	protected void createDefaultStratification(Study study)
+	{
+		StratificationCriterionPermissibleAnswer ans = new StratificationCriterionPermissibleAnswer();
+		StratificationCriterion cri = new StratificationCriterion();
+		cri.addPermissibleAnswer(ans);
+		cri.setQuestionNumber(study.getStratificationCriteria().size()+1);
+		study.addStratificationCriteria(cri);
 	}
 	
 	protected void createDefaultInclusion(Study study)

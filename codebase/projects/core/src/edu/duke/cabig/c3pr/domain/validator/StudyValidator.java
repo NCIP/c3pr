@@ -32,8 +32,6 @@ public class StudyValidator implements Validator{
 			"required", "required field");
 		ValidationUtils.rejectIfEmpty(errors, "sponsorCode", 
 			"required", "required field");
-		ValidationUtils.rejectIfEmpty(errors, "diseaseCode", 
-			"required", "required field");
 		ValidationUtils.rejectIfEmpty(errors, "phaseCode", 
 			"required", "required field");
 		ValidationUtils.rejectIfEmpty(errors, "type", 
