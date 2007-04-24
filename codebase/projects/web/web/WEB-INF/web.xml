@@ -7,6 +7,13 @@
 
     <display-name>C3PR v2</display-name>
 
+    <jsp-config>
+        <taglib>
+            <taglib-uri>http://csm.ncicb.nci.nih.gov/authz</taglib-uri>
+            <taglib-location>/WEB-INF/csmauthz.tld</taglib-location>
+        </taglib>
+    </jsp-config>
+
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
@@ -133,17 +140,26 @@
     <filter-mapping>
         <filter-name>Sitemesh</filter-name>
         <url-pattern>/*</url-pattern>
+        <dispatcher>ERROR</dispatcher>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
     </filter-mapping>
 
-     <security-constraint>
-		<web-resource-collection>
-			<web-resource-name>Secure URLs</web-resource-name>
-			<url-pattern>/pages/*</url-pattern>
-		</web-resource-collection>
-		<user-data-constraint>
-			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
-		</user-data-constraint>
-	</security-constraint>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Secure URLs</web-resource-name>
+            <url-pattern>/pages/*</url-pattern>
+        </web-resource-collection>
+        <user-data-constraint>
+            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
+
+    <!--error page-->
+    <error-page>
+        <error-code>500</error-code>
+        <location>/error.jsp</location>
+    </error-page>
 
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>

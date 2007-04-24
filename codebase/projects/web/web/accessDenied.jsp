@@ -4,8 +4,8 @@
 
 <h1>Sorry, access is denied</h1>
 
+<span id="error"
 
-<p>
 <%= request.getAttribute(AccessDeniedHandlerImpl.ACEGI_SECURITY_ACCESS_DENIED_EXCEPTION_KEY)%>
 
 <p>
@@ -14,3 +14,5 @@
 		if (auth != null) { %>
 			Authentication object as a String: <%= auth.toString() %><BR><BR>
 <%      } %>
+    </p>
+</span>

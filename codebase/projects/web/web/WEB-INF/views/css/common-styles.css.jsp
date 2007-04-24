@@ -386,6 +386,15 @@ form.standard .state { padding-right: 8px; }
 /* Copyright style */
 #copyright { margin-top: 10px; text-align: center; font-size: 10px; color: #999999; }
 
+#errorText { white-space: nowrap; font-size: 12px; font-weight: bold; color: #EE3324; }
+
+
 /*footer */
+.footerMenu { width:100%; background-color:#ffffff;}
 .footerMenuItem { border:0;}
 .footerMenuItem img {border:0;}
+#footerBanner {
+    padding: 0 4px 0px 4px; background: repeat-x top url(<tags:imageUrl name="header_BG.gif"/>);
+    white-space: nowrap; font-size: 14px; font-weight: bold;
+    color: #FFFFFF; line-height: 17px;
+}

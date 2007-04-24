@@ -254,7 +254,7 @@
               overwrite="true"
               filtering="true">
             <filterset>
-                <filter token="log4j.file" value='${log4j.file}'/>
+                <filter token="log4j.file" value='${env.CATALINA_HOME}/logs/${log4j.filename}'/>
             </filterset>
         </copy>
     </target>

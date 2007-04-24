@@ -3,18 +3,18 @@
 
 &nbsp;
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<table class="footerMenu" border="0" cellspacing="0" cellpadding="0">
     <tr>
-        <td id="current" ><img src="<tags:imageUrl name="caBIG_logo.gif"/>"
+        <td id="footerBanner" ><img src="<tags:imageUrl name="caBIG_logo.gif"/>"
                               align="right" alt="caBIG cancer Biomedical Informatics Grid"
                 ></td>
     </tr>
 </table>
 
-&nbsp;
+ 
 
 <!-- Footer LOGOS START HERE -->
-<table width="100%" align="center" border="0" cellspacing="0" cellpadding="0" >
+<table class="footerMenu" align="center" border="0" cellspacing="0" cellpadding="0" >
     <tr>
         <td width="35%"/>
         <td width="30%">
