@@ -176,6 +176,11 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <entry key="/pages/registration/search.*"
                value="edu.duke.cabig.c3pr.domain.Registration:READ" />
 
+        <entry key="/pages/admin/createInvestigator"
+               value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
+        <entry key="/pages/admin/createResearchStaff"
+               value="edu.duke.cabig.c3pr.domain.ResearchStaff:CREATE"/>
+
          
     </util:map>
 
