@@ -18,15 +18,62 @@
 
 <script>
 /// AJAX
+function getCriteriaNumber(){
+	if(document.getElementById("select").value=='Subject')
+		return subjectCriteriaNumber();
+	else if(document.getElementById("select").value=='Study')
+		return studyCriteriaNumber();
+	else if(document.getElementById("select").value=='Id')
+		return 5;
+	
+}
+function subjectCriteriaNumber(){
+	if(document.getElementById("SubjectOption").value=='N')
+		return 0
+	else if(document.getElementById("SubjectOption").value=='Identifier')
+		return 1
+	}
+	
+function studyCriteriaNumber(){
+	if(document.getElementById("StudyOption").value=='shortTitle')
+		return 2
+	else if(document.getElementById("StudyOption").value=='longTitle')
+		return 3
+	else if(document.getElementById("StudyOption").value=='status')
+	{return 4}
+	else return 2
+	}
+	
+
+
+
 var registrationAutocompleterProps = {
     basename: "registration",
     populator: function(autocompleter, text) {
-	registrationDetails.matchRegistrations(text, function(values) {
+	registrationDetails.matchRegistrations(text,getCriteriaNumber(),function(values) {
 	    autocompleter.setChoices(values)
 	})
     },
     valueSelector: function(obj) {
-    return obj.registrationStatus
+    if(document.getElementById("select").value=='Subject')
+    { 
+    	return obj.participant.lastName;
+    
+    }else if (document.getElementById("select").value=='Study')
+    {
+    	if (document.getElementById("StudyOption").value=='shortTitle')
+    	return obj.studySite.study.shortTitleText
+    	else if (document.getElementById("StudyOption").value=='longTitle')
+    	return obj.studySite.study.longTitleText
+    	else if (document.getElementById("StudyOption").value=='status')
+    	return obj.studySite.study.status
+    	else return obj.studySite.study.shortTitleText
+    	
+    }else if (document.getElementById("select").value=='Id') 
+    {
+     return obj.studySite.study.status
+    }
+    
     }
 }
 
@@ -53,7 +100,7 @@ function acCreate(mode) {
 	},
 	indicator: mode.basename + "-indicator"
     })
-    Event.observe(mode.basename + "-clear", "click", function() {
+      Event.observe(mode.basename + "-clear", "click", function() {
 	$(mode.basename + "-selected").hide()
 	$(mode.basename).value = ""
 	$(mode.basename + "-input").value = ""
@@ -65,10 +112,9 @@ Event.observe(window, "load", function() {
     updateSelectedDisplay(registrationAutocompleterProps)
    // Element.update("flow-next", "Continue &raquo;")
 })
-function getValue()
-{
-alert(document.getElementById("select").value);
-return (document.getElementById("select").value)
+function updateAction(action){
+		document.getElementById("_updateaction").value=action;
+		document.getElementById("form1").submit();
 }
 function manageSelectBox(box){
 	if(box.value=='Subject'){
@@ -126,15 +172,15 @@ function manageSearchTypeMessage(message){
 								</select></td>
 
 								<td align="left">
-								<div id="SubjectSearch" style="display:none;"><select
-									id="subjectOption">
+								<div name="SubjectSearch" id="SubjectSearch" style="display:none;"><select
+									id="SubjectOption">
 									<option selected>--Please Select--</option>
 									<c:forEach items="${searchTypeRefDataPrt}" var="option">
 										<option value="${option.code }">${option.desc }</option>
 									</c:forEach>
 								</select></div>
-								<div id="StudySearch" style="display:none;"><select
-									id="studyOption">
+								<div name="StudySearch" id="StudySearch" style="display:none;"><select
+									id="StudyOption">
 									<option selected>--Please Select--</option>
 									<c:forEach items="${searchTypeRefDataStudy}" var="option">
 										<option value="${option.code }">${option.desc }</option>
