@@ -35,7 +35,7 @@ function navRollOver(obj, state) {
 				<td>${registration.studySite.site.name}</td>
 				<td></td>
 				<td>${registration.informedConsentSignedDateStr}</td>
-				<td></td>
+				<td>${registration.treatingPhysician.healthcareSiteInvestigator.investigator.fullName}</td>
 
 			</tr>
 		</c:forEach>

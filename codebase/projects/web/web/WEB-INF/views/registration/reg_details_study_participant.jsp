@@ -78,7 +78,7 @@ field.value="";
 									</tr>
 									<tr>
 										<td width="200" align="right"><em></em><b> Treating Physician:<b>&nbsp;</td>
-										<td align="left"></td>
+										<td align="left">${command.treatingPhysician.healthcareSiteInvestigator.investigator.fullName}</td>
 									</tr>
 								</table>
 								</form>
