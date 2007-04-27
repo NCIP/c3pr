@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<!--
+
+This Ant script is used to package parts of the c3prvw app to create an installer
+
+run with ...
+
+ant -buildfile build-c3prv2.xml
+
+-->
+<project name="Create C3PRV2 Installer Build"  default="build-installer"  basedir=".">
+
+    <property name="ext.dir" value="${basedir}/ext"/>
+
+     <property name="c3prv2.installer.dir" value="${basedir}/c3prv2-installer"/>
+    <property name="c3prv2.installer.artifact" value="c3prv2-installer.jar"/>
+
+    <property name="build.dir" value="${basedir}/build"/>
+
+    <property name="ant.lib.version" value=""/>
+
+    <path id="taskdef.cp">
+        <fileset dir="${basedir}/lib">
+            <include name="ant-installer-ext.jar"/>
+            <include name="ant-installer.jar"/>
+        </fileset>
+    </path>
+
+    <target name="prepare">
+        <mkdir dir="${build.dir}"/>
+    </target>
+
+
+    <target name="build-installer"
+            depends="prepare"
+            description="Builds c3prv2 self extracting installer">
+
+        <taskdef
+                name="installer"
+                classname="org.tp23.antinstaller.taskdefs.Installer"
+                classpathref="taskdef.cp"/>
+        <installer file="${build.dir}/${c3prv2.installer.artifact}" compress="true"
+                   extractType="SelfExtractor"
+                   installConfig="${c3prv2.installer.dir}/antinstall-config.xml"
+                   buildFile="${c3prv2.installer.dir}/build.xml"
+                   antInstallLib="${basedir}/lib"
+                   antLib="${basedir}/antlib${ant.lib.version}"
+                   validateConfig="true"
+                   failOnError="true"
+                   icons="eclipse">
+            <fileset dir="${basedir}" includes="ext/${project.archive}"/>
+            <fileset dir="${basedir}" includes="resources/*"/>
+        </installer>
+
+    </target>
+
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+
+    <target name="all"/>
+
+</project>

@@ -1,0 +1,168 @@
+<?xml version="1.0"?>
+<!DOCTYPE installer PUBLIC "-//tp23 //DTD Ant Installer Config//EN" "http://antinstaller.sf.net/dtd/antinstall-config-0.7.dtd">
+<!--
+
+This is the install config for c3prv2 installer
+-->
+
+<installer
+        ui="swing,text"
+        verbose="false"
+        lookAndFeel="jgoodies"
+        name="C3PRV2 Installer"
+        windowIcon="/resources/c3prv2_installer_icon-32.gif"
+        defaultImageResource="/resources/installer_banner.gif"
+        antialiased="true"
+        minJavaVersion="1.5">
+
+    <!--Introduction Screen-->
+    <page
+            type="input"
+            name="intro"
+            displayText="Welcome to the C3PRV2 installer program">
+        <comment
+                displayText="This will help you Install/Uninstall C3PRV2 Application"
+                />
+
+    </page>
+
+
+    <!--License-->
+    <page
+            type="license"
+            name="License"
+            displayText="License Agreement"
+            resource="/resources/c3prv2_license.txt"/>
+    <page
+            type="input"
+            name="DeployDir"
+            displayText="Installation directory">
+        <directory
+                property="installDir"
+                defaultValue="/tmp/c3prv2"
+                defaultValueWin="${env.ProgramFiles}\c3prv2"
+                displayText="Select an installation directory"
+                create="true"/>
+    </page>
+
+
+    <!--Select what to install-->
+    <page
+            type="input"
+            name="selectComponents"
+            displayText="Components to install">
+        <comment
+                displayText="Choose the components you want to install"
+                bold="true"/>
+        <target
+                displayText="C3PRV2 Web Application"
+                target="deploy-webapp"
+                defaultValue="true"
+                />
+    </page>
+
+
+    <!--Select Tomcat-->
+    <page
+            type="input"
+            name="selectTomcat"
+            displayText="Select Tomcat Directory"
+            ifTarget="deploy-webapp">
+        <directory
+                property="tomcat.home"
+                displayText="Tomcat Directory"
+                defaultValue="${env.CATALINA_HOME}"
+                checkExists="true"/>
+    </page>
+
+
+    <!--Database properties-->
+    <page
+            type="input"
+            name="selectDatabase"
+            displayText="Select Database"
+            ifTarget="deploy-webapp">
+        <select
+                property="database.type"
+                displayText="Select your Database type"
+                defaultValue="oracle">
+            <option text="Oracle" value="oracle"/>
+            <option text="PostgreSQL" value="postgres"/>
+        </select>
+    </page>
+
+
+    <page
+            type="input"
+            name="oracleProperties"
+            displayText="Oracle Properties"
+            ifProperty="${database.type}=oracle">
+        <text
+                property="datasource.url"
+                displayText="Database URL"
+                defaultValue="jdbc:oracle:thin:@10.10.10.2:1522:CAAERS"
+                />
+        <text
+                property="datasource.username"
+                displayText="Database Username"
+                defaultValue="c3pr_dev"
+                regex="*"/>
+        <text
+                property="datasource.password"
+                displayText="Database Password"
+                defaultValue="c3pr_dev"
+                />
+        <text
+                property="datasource.schema"
+                displayText="Database Schema"
+                defaultValue="c3pr_dev"
+                />
+        <hidden
+                property="datasource.driver"
+                value="oracle.jdbc.OracleDriver"
+                />
+        <hidden
+                property="datasource.dialect"
+                value="org.hibernate.dialect.Oracle9Dialect"
+                />
+    </page>
+
+
+    <page
+            name="postgresProperties"
+            type="input"
+            displayText="PostgreSQL Properties"
+            ifProperty="${database.type}=postgres">
+        <text
+                property="datasource.url"
+                displayText="Database URL"
+                defaultValue="jdbc:postgresql://10.10.10.2:5432/c3pr_dev"
+                />
+
+        <text
+                property="datasource.username"
+                displayText="Database Username"
+                defaultValue="pg"
+                />
+        <text
+                property="datasource.password"
+                displayText="Database Password"
+                defaultValue="pguser"
+                />
+        <hidden
+                property="datasource.driver"
+                value="org.postgresql.Driver"/>
+        <hidden
+                property="datasource.dialect"
+                value="org.hibernate.dialect.PostgreSQLDialect"/>
+    </page>
+
+    <page
+            type="progress"
+            name="progress"
+            showTargets="true"
+            displayText="C3PRV2 Installation progress"
+            target="cleanUp">
+    </page>
+
+</installer>
