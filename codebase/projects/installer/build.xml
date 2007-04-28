@@ -40,7 +40,7 @@ ant -buildfile build-c3prv2.xml
                 classname="org.tp23.antinstaller.taskdefs.Installer"
                 classpathref="taskdef.cp"/>
         <installer file="${build.dir}/${c3prv2.installer.artifact}" compress="true"
-                   extractType="SelfExtractor"
+                   extractType="NonExtractor"
                    installConfig="${c3prv2.installer.dir}/antinstall-config.xml"
                    buildFile="${c3prv2.installer.dir}/build.xml"
                    antInstallLib="${basedir}/lib"
@@ -48,7 +48,7 @@ ant -buildfile build-c3prv2.xml
                    validateConfig="true"
                    failOnError="true"
                    icons="eclipse">
-            <fileset dir="${basedir}" includes="ext/${project.archive}"/>
+            <fileset dir="${ext.dir}" includes="${project.archive}"/>
             <fileset dir="${basedir}" includes="resources/*"/>
         </installer>
 

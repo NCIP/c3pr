@@ -10,7 +10,6 @@
     <property file="${antfiles.dir}/build.properties"/>
     <property file="${user.home}/build.properties"/>
 
-    <!--property name="build.properties.file" value="${basedir}/build.properties"/-->
     <!-- layout info -->
     <property name="antfiles.dir" location="${basedir}/antfiles"/>
     <property name="management.dir" location="${antfiles.dir}/management"/>
@@ -28,7 +27,8 @@
 
     <!-- Warning, your environment variable for tomcat should be set in your OS (Windows/Linux),
 	else it wont deploy -->
-    <property name="deploy.path" value="${env.CATALINA_HOME}/webapps" />
+    <property name="catalina.home" value="${env.CATALINA_HOME}"/>
+    <property name="deploy.path" value="${catalina.home}/webapps" />
     <property name="webapp.name" value="c3pr" />
 
     <property name="servicemix.project.home" value="${projects.dir}/servicemix"/>
@@ -56,7 +56,7 @@
     <!--                          DEFINE THE SUB PROJECTS                                 -->
     <!-- ================================================================================ -->
     <!-- The name should be the path relative from projects.dir.  Its strongly encouraged you use a flat layout caTissueCAEDataService, caTissueCoreDataService,  -->
-    <property name="projects.list" value="core, web, grid, esb-client, servicemix, test-system"/>
+    <property name="projects.list" value="core, web, grid, esb-client, installer, servicemix, test-system"/>
 
     <!-- ================================================================================ -->
     <!--                  DEFINE THE SUB PROJECTS THAT SUPPORT TESTING                    -->
@@ -229,6 +229,12 @@
         <ant dir="${projects.dir}/grid" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
 
+    <!-- =============================================================== -->
+    <!-- c3pr Installer  project                                    -->
+    <!-- =============================================================== -->
+    <target name="build-installer" depends="prepare">
+        <ant dir="${projects.dir}/installer" inheritAll="false" target="all"/>
+    </target>
 
     <!-- =============================================================== -->
     <!-- c3pr JBI Integration project                                    -->
@@ -275,6 +281,21 @@
         </delete>
     </target>
 
+
+    <target name="create-installer" depends="prepare" description="Builds the installer for the project">
+        <property name="project.archive" value="c3prv2-installpack.zip"/>
+        <mkdir dir="${projects.dir}/installer/ext"/>
+        <zip destfile="${projects.dir}/installer/ext/${project.archive}">
+            <zipfileset dir="${antfiles.dir}" prefix="antfiles"/>
+            <zipfileset dir="${projects.dir}/core" prefix="projects/core"/>
+            <zipfileset dir="${projects.dir}/web" prefix="projects/web"/>
+            <zipfileset dir="${projects.dir}/esb-client" prefix="projects/esb-client"/>
+             <zipfileset dir="${share.dir}" prefix="share"/>
+        </zip>
+
+        <ant dir="${projects.dir}/installer" target="build-installer"/>
+    </target>
+
     <!-- ============================================================== -->
     <!-- Builds the projects                                            -->
     <!-- ============================================================== -->
@@ -288,13 +309,19 @@
         </for>
     </target>
 
+    <target name="tomcat.security" depends="build-core" description="Configure CSM">
+        <ant dir="${projects.dir}/core" inheritall="false" target="tomcat.security">
+            <property name="catalina.home" value="${catalina.home}"/>
+        </ant>
+    </target>
+
     <!-- ====================================================================== -->
     <!-- Deploys the webapp (note:- only web + core projects )in Catalina_home  -->
     <!-- ====================================================================== -->
-    <target name="deploy-webapp" depends="build-core, build-web" description="Deploy web application to tomcat">
+    <target name="deploy-webapp" depends="build-web" description="Deploy web application to tomcat">
         <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="deploy"/>
     </target>
-	
+
     <!-- ====================================================================== -->
     <!-- UnDeploys the webapp (note:- only web + core projects )in Catalina_home  -->
     <!-- ====================================================================== -->

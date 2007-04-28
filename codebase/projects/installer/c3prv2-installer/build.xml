@@ -37,18 +37,25 @@ input in the page to choose components to install
     <property file="${basedir}/ant.install.properties"/>
 
 
-    <target name="deploy-webapp">   
+    <target name="deploy-webapp">
 
-        <unzip src="${ext.dir}/${c3prv2.install.artifact}"
+        <unzip src="${antinstaller.jar}" dest="${basedir}"
+               overwrite="true">
+            <patternset>
+                <include name="${c3prv2.install.artifact}"/>
+            </patternset>
+        </unzip>
+
+        <unzip src="${basedir}/${c3prv2.install.artifact}"
                dest="${install.codebase.dir}"
-                overwrite="true"/>
+               overwrite="true"/>
 
         <!--override build.properties with installers-->
-         <copy file="${basedir}/ant.install.properties"
-                 tofile="${install.codebase.dir}/antfiles/build.properties"
-                 />
-        
-        <ant dir="${install.codebase.dir}" antfile="antfiles/build.xml" 
+        <copy file="${basedir}/ant.install.properties"
+              tofile="${install.codebase.dir}/antfiles/build.properties"
+                />
+
+        <ant dir="${install.codebase.dir}" antfile="antfiles/build.xml"
              inheritall="false" target="deploy-webapp">
             <property name="deploy.path" value="${tomcat.webapp.dir}"/>
             <property name="basedir" value="${install.codebase.dir}"/>
@@ -56,7 +63,16 @@ input in the page to choose components to install
 
     </target>
 
-    
+    <!--will only be run if deploy-webapp has been run-->
+    <target name="tomcat.security">
+        <ant dir="${install.codebase.dir}"
+             antfile="antfiles/build.xml"
+             inheritall="false" target="tomcat.security">
+            <property name="catalina.home" value="${tomcat.home}"/>
+        </ant>
+    </target>
+
+
     <target name="cleanUp">
         <delete dir="${install.dir}"/>
     </target>

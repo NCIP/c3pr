@@ -61,7 +61,6 @@ This is the install config for c3prv2 installer
                 />
     </page>
 
-
     <!--Select Tomcat-->
     <page
             type="input"
@@ -73,6 +72,46 @@ This is the install config for c3prv2 installer
                 displayText="Tomcat Directory"
                 defaultValue="${env.CATALINA_HOME}"
                 checkExists="true"/>
+    </page>
+
+    <page
+            type="input"
+            name="selectLogFilename"
+            displayText="Select Log File name"
+            ifTarget="deploy-webapp">
+        <text
+                property="log4j.filename"
+                displayText="Log Filename"
+                defaultValue="c3pr.log"/>
+
+        <comment/>
+
+        <comment
+                displayText="Note: Logs will be created in ${tomcat.home}"
+                bold="true"/>
+    </page>
+
+    <!--CSM configure-->
+    <page
+            type="input"
+            name="configureCSM"
+            displayText="Configure CSM"
+            ifTarget="deploy-webapp">
+
+        <target
+                displayText="Configure CSM"
+                target="tomcat.security"
+                defaultValue="false"
+                />
+        <comment/>
+        <comment
+                displayText="Note:Configure CSM only ONCE."
+                bold="true"/>
+        <comment
+                displayText="If you have done this before then its not necessary to run this again."
+                bold="true"/>
+        <!--set this property anyway-->
+        <hidden property="csm.context.name" value="c3pr"/>
     </page>
 
 
@@ -96,7 +135,7 @@ This is the install config for c3prv2 installer
             type="input"
             name="oracleProperties"
             displayText="Oracle Properties"
-            ifProperty="${database.type}=oracle">
+            ifProperty="${database.type}==oracle">
         <text
                 property="datasource.url"
                 displayText="Database URL"
@@ -132,7 +171,7 @@ This is the install config for c3prv2 installer
             name="postgresProperties"
             type="input"
             displayText="PostgreSQL Properties"
-            ifProperty="${database.type}=postgres">
+            ifProperty="${database.type}==postgres">
         <text
                 property="datasource.url"
                 displayText="Database URL"
@@ -149,12 +188,65 @@ This is the install config for c3prv2 installer
                 displayText="Database Password"
                 defaultValue="pguser"
                 />
+
         <hidden
                 property="datasource.driver"
                 value="org.postgresql.Driver"/>
+
         <hidden
                 property="datasource.dialect"
                 value="org.hibernate.dialect.PostgreSQLDialect"/>
+    </page>
+
+    <page
+            type="input"
+            name="hotlinks"
+            displayText="CTMSi Hot Links">
+        <text property="hotlinks.psc"
+              displayText="PSC Hotlink"
+              defaultValue="http://10.10.10.2:8041/studycalendar/pages/schedule"/>
+        <text property="hotlinks.caaers"
+              displayText="CAAERS Hotlink"
+              defaultValue="http://10.10.10.2:8030/caaers/pages/ae/list"/>
+        <text property="hotlinks.c3d"
+              displayText="C3D Hotlink"
+              defaultValue="https://octrials-train.nci.nih.gov/opa45/rdclaunch.htm"/>
+    </page>
+
+    <page
+            type="input"
+            name="ESB"
+            displayText="ESB configuration">
+        <select defaultValue="false"
+                displayText="Enable ESB"
+                property="broadcastEnable">
+            <option text="true" value="true"/>
+            <option text="false" value="false"/>
+        </select>
+    </page>
+
+    <page
+            type="input"
+            ifProperty="broadcastEnable==true">
+        <text property="esb.brokerUrl"
+              defaultValue="tcp://localhost:61616"
+              displayText="ESB url"/>
+    </page>
+
+    <page
+            type="input"
+            name="Grid"
+            displayText="Grid Infrastructure">
+        <text property="grid.idpUrl"
+              displayText="IDP url"
+              defaultValue="https://10.10.10.2:8446/wsrf/services/cagrid/AuthenticationService"
+                />
+        <text property="grid.ifsUrl"
+              displayText="IFS url"
+              defaultValue="https://10.10.10.2:8443/wsrf/services/cagrid/Dorian"
+                />
+        <!--no need for this-->
+        <hidden property="enableLogin" value="false"/>
     </page>
 
     <page
