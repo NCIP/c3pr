@@ -32,7 +32,7 @@
 	<classpathentry exported="true" kind="lib" path="lib/activation-1.0.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/xbean-spring-2.7.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/commons-logging.jar"/>
-	<classpathentry exported="true" kind="lib" path="ext/lib/hibernate3.2.1.jar" sourcepath="C:/devtools/hibernate-3.2/src"/>
+	<classpathentry exported="true" kind="lib" path="ext/lib/hibernate3.2.1.jar" sourcepath="/Users/priyatam/dev/hibernate-3.2/src"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/hibernate-annotations.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/jboss-j2ee-4.0.5.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/jboss-jsr77.jar"/>
