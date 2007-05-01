@@ -44,10 +44,8 @@
     <property name="db.scripts.dir" value="${basedir}/db"/>
     <property name="oracle.db.script.dir" value="${db.scripts.dir}/oracle"/>
     <property name="postgresql.db.script.dir" value="${db.scripts.dir}/PostGreSQL"/>
-    <property name="csm.db.scripts.dir" value="${db.scripts.dir}/csm"/>
-    <property name="oracle.csm.db.scripts.dir" value="${csm.db.scripts.dir}/oracle"/>
-    <property name="postgresql.csm.db.scripts.dir" value="${csm.db.scripts.dir}/PostGreSQL"/>
-
+    <property name="oracle.csm.db.scripts.dir" value="${oracle.db.script.dir}/csm/oracle"/>
+    <property name="postgresql.csm.db.scripts.dir" value="${postgresql.db.script.dir}/csm/PostGreSQL"/>
 
     <!-- core properties -->
     <property name="core.properties.file" value="${conf.dir}/core.properties"/>
@@ -222,8 +220,6 @@
 
         <property name="oracle.keyword" value="Oracle"/>
         <property name="postgresql.keyword" value="PostgreSQL"/>
-
-
         <property file="${ext.resources.dir}/build.properties"/>
 
         <condition property="db.type" value="${oracle.keyword}">
@@ -232,44 +228,36 @@
         <condition property="db.type" value="${postgresql.keyword}">
             <contains string="${datasource.dialect}" substring="${postgresql.keyword}"/>
         </condition>
+		<condition property="fileset.dir" value="${oracle.db.script.dir}">
+			<contains string="${datasource.dialect}" substring="${oracle.keyword}"/>
+    	</condition>
+    	<condition property="fileset.dir" value="${postgresql.db.script.dir}">
+			<contains string="${datasource.dialect}" substring="${postgresql.keyword}"/>
+    	</condition>
+		<condition property="fileset-csm.dir" value="${oracle.csm.db.scripts.dir}">
+			<contains string="${datasource.dialect}" substring="${oracle.keyword}"/>
+	    </condition>
+	    <condition property="fileset-csm.dir" value="${postgresql.csm.db.scripts.dir}">
+    		<contains string="${datasource.dialect}" substring="${postgresql.keyword}"/>
+	    </condition>
 
-        <echo message="${db.type}"/>
+        <echo message="Database is ${db.type}"/>
+  
+        <fileset id="db.scripts" dir="${fileset.dir}">
+        <include name="c3pr_ddl.SQL"/>
+		<include name="static-data.SQL"/>
+        </fileset>
+        <fileset id="csm.db.scripts" dir="${fileset-csm.dir}">
+            <include name="1_AuthSchema.sql"/>
+            <include name="2_DataPriming.sql"/>
+            <include name="3_C3PRAuthorizationData.sql"/>
+            <include name="4_C3PRAuthorizationData_Users.sql"/>
+        </fileset>
 
-        <if>
-            <equals arg1="${db.type}" arg2="${oracle.keyword}"/>
-            <then>
-                <echo message="Database is ${oracle.keyword}"/>
-                <fileset id="db.scripts" dir="${oracle.csm.db.scripts.dir}">
-                    <include name="c3pr_ddl.SQL"/>
-                </fileset>
-                <fileset id="csm.db.scripts" dir="${oracle.csm.db.scripts.dir}">
-                    <include name="1_AuthSchemaOracle.sql"/>
-                    <include name="2_DataPrimingOracle.sql"/>
-                    <include name="3_C3PRAuthorizationData.sql"/>
-                    <include name="4_C3PRAuthorizationData_Users.sql"/>
-                </fileset>
-
-                <!--sort them-->
-                <sort refid="db.scripts" id="sorted.db.scripts"/>
-                <sort refid="csm.db.scripts" id="sorted.csm.scripts"/>
-            </then>
-
-            <elseif>
-                <equals arg1="${db.type}" arg2="${postgresql.keyword}"/>
-                <then>
-                    <echo message="Database is ${postgresql.keyword}"/>
-                    <fileset id="db.scripts" dir="${postgresql.db.script.dir}">
-                        <include name="c3pr-ddl.SQL"/>
-                    </fileset>
-                    <fileset id="csm.db.scripts" dir="${postgresql.csm.db.scripts.dir}">
-                        <!--//do not exist-->
-                    </fileset>
-                </then>
-            </elseif>
-
-        </if>
+        <!--sort them-->
+        <sort refid="db.scripts" id="sorted.db.scripts"/>
+        <sort refid="csm.db.scripts" id="sorted.csm.scripts"/>
     </target>
-
 
     <target name="create-database" depends="setDatabaseScripts"
             description="Will run the c3prv2 database scripts">
