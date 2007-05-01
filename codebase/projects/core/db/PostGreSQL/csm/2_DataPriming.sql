@@ -13,8 +13,8 @@
 	
 	INSERT INTO CSM_USER(
              LOGIN_NAME, FIRST_NAME, LAST_NAME, PASSWORD,UPDATE_DATE)
-    VALUES ( 'admin', 'admin', 'admin','H/2qIBdj9TQ=',current_date);
-	
+    VALUES ( 'c3pr_admin', 'admin', 'admin','Ie0InPvp8oOgmHldOE8ejA==',current_date);
+		
 	INSERT INTO CSM_PROTECTION_ELEMENT(
              PROTECTION_ELEMENT_NAME, PROTECTION_ELEMENT_DESCRIPTION, OBJECT_ID, APPLICATION_ID,UPDATE_DATE)
     VALUES ( 'csmupt','CSM UPT Super Admin Application Protection Element','csmupt',1,current_date);
