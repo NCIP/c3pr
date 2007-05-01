@@ -125,7 +125,6 @@
                 <filter token="hotlinks.c3d" value="${hotlinks.c3d}"/>
                 <filter token="grid.idpUrl" value="${grid.idpUrl}"/>
                 <filter token="grid.ifsUrl" value="${grid.ifsUrl}"/>
-                <filter token="enableLogin" value="${enableLogin}"/>
                 <filter token="broadcastEnable" value="${broadcastEnable}"/>
             </filterset>
         </copy>

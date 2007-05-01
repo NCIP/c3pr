@@ -200,6 +200,12 @@
         <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
 
+    <!--Does a local build. For Developers use only -->
+    <target name="build-web-local" depends="build-web">
+        <ant dir="${projects.dir}/web" inheritall="false" target="deployLocal"/>
+    </target>
+
+    
     <!-- =============================================================== -->
     <!-- c3pr ESB client service                                         -->
     <!-- =============================================================== -->

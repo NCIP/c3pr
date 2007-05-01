@@ -9,7 +9,9 @@
 
     <bean id="authorizationSwitch"
           class="gov.nih.nci.security.acegi.csm.authorization.AuthorizationSwitch">
-        <property name="on" value="true" />
+        <property name="on">
+        <value>${authorizationSwitch}</value>
+        </property>
     </bean>
 
 

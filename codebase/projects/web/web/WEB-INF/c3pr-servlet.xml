@@ -23,7 +23,6 @@
 		class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">
 		<property name="interceptors">
 			<list>
-				<ref bean="loginCheckInterceptor" />
 				<ref bean="sectionInterceptor" />
 			</list>
 		</property>
@@ -33,7 +32,6 @@
 		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
 		<property name="interceptors">
 			<list>
-				<ref bean="loginCheckInterceptor" />
 				<ref bean="sectionInterceptor" />
 			</list>
 		</property>
@@ -262,11 +260,6 @@
 				</bean>
 			</list>
 		</property>
-	</bean>
-
-	<bean id="loginCheckInterceptor"
-		class="edu.duke.cabig.c3pr.web.accesscontrol.LoginCheckInterceptor">
-		<property name="enableLogin" value="${enableLogin}" />
 	</bean>
 
 	<bean id="exceptionResolver"
