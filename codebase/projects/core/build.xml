@@ -44,8 +44,8 @@
     <property name="db.scripts.dir" value="${basedir}/db"/>
     <property name="oracle.db.script.dir" value="${db.scripts.dir}/oracle"/>
     <property name="postgresql.db.script.dir" value="${db.scripts.dir}/PostGreSQL"/>
-    <property name="oracle.csm.db.scripts.dir" value="${oracle.db.script.dir}/csm/oracle"/>
-    <property name="postgresql.csm.db.scripts.dir" value="${postgresql.db.script.dir}/csm/PostGreSQL"/>
+    <property name="oracle.csm.db.scripts.dir" value="${oracle.db.script.dir}/csm"/>
+    <property name="postgresql.csm.db.scripts.dir" value="${postgresql.db.script.dir}/csm"/>
 
     <!-- core properties -->
     <property name="core.properties.file" value="${conf.dir}/core.properties"/>
@@ -216,7 +216,8 @@
         </jar>
     </target>
 
-    <target name="setDatabaseScripts">
+       <target name="create-database"  
+            description="Will run the c3prv2 database scripts">
 
         <property name="oracle.keyword" value="Oracle"/>
         <property name="postgresql.keyword" value="PostgreSQL"/>
@@ -257,21 +258,15 @@
         <!--sort them-->
         <sort refid="db.scripts" id="sorted.db.scripts"/>
         <sort refid="csm.db.scripts" id="sorted.csm.scripts"/>
-    </target>
-
-    <target name="create-database" depends="setDatabaseScripts"
-            description="Will run the c3prv2 database scripts">
-
-        <property file="${ext.resources.dir}/build.properties"/>
 
         <sql driver="${datasource.driver}"
              url="${datasource.url}"
              userid="${datasource.username}"
              password="${datasource.password}"
              classpathref="run.classpath">
-            <transaction src="${postgresql.db.script.dir}/c3pr-ddl.SQL">
-
-            </transaction>
+           
+            <fileset refid="db.scripts"/>
+            <fileset refid="csm.db.scripts"/>
         </sql>
     </target>
 
