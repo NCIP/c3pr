@@ -18,49 +18,66 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/documentation/presentations/caBIG_New_Template.ppt" afterPath="$PROJECT_DIR$/documentation/presentations/caBIG_New_Template.ppt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-toolkit/build.xml" afterPath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-toolkit/build.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/codebase/share/xmlbeans/jsr173_1.0_api.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/c3prv2.ipr" afterPath="$PROJECT_DIR$/c3prv2.ipr" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/codebase/share/cagrid/dorian/lib/caGrid-1.0-dorian-client.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/codebase/share/cagrid/authentication-service/lib/caGrid-1.0-authentication-service-client.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/c3prv2.iws" afterPath="$PROJECT_DIR$/c3prv2.iws" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/codebase/share/xmlbeans/resolver.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/codebase/share/xmlbeans/xmlpublic.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/codebase/projects/core/db/csm/PostGreSQL/3_C3PRAuthorizationData.sql" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/codebase/share/cagrid/gridgrouper/caGrid-1.0-gridgrouper-client.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/codebase/share/xmlbeans/xbean.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/portal/gridsphere-2.2.8/projects/ctmsportlets/webapp/jsp/searchResults.jsp" afterPath="$PROJECT_DIR$/codebase/projects/portal/gridsphere-2.2.8/projects/ctmsportlets/webapp/jsp/searchResults.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/codebase/share/share.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-toolkit/conf/servicemix.xml" afterPath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-toolkit/conf/servicemix.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/esb-client/test/src/edu/duke/cabig/c3pr/esb/test/TestEsbClient.java" afterPath="$PROJECT_DIR$/codebase/projects/esb-client/test/src/edu/duke/cabig/c3pr/esb/test/TestEsbClient.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/core/db/PostGreSQL/c3pr-ddl.SQL" afterPath="$PROJECT_DIR$/codebase/projects/core/db/PostGreSQL/c3pr-ddl.SQL" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/codebase/share/cagrid/authentication-service/lib/caGrid-1.0-authentication-service-stubs.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/codebase/share/cagrid/gridgrouper/caGrid-1.0-gridgrouper-common.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/core/src/applicationContext-core.xml" afterPath="$PROJECT_DIR$/codebase/projects/core/src/applicationContext-core.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/core/db/csm/oracle/2_DataPrimingOracle.sql" afterPath="$PROJECT_DIR$/codebase/projects/core/db/csm/oracle/2_DataPrimingOracle.sql" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/codebase/projects/core/db/csm/PostGreSQL/2_DataPrimingPostgres.sql" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/codebase/projects/core/db/csm/PostGreSQL/4_C3PRAuthorizationData_Users.sql" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/codebase/share/cagrid/metadata/caGrid-1.0-metadata-security.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/codebase/share/cagrid/dorian/lib/caGrid-1.0-dorian-stubs.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/c3prv2.iml" afterPath="$PROJECT_DIR$/c3prv2.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/codebase/share/xmlbeans/xbean_xpath.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/codebase/share/cagrid/gridca/lib/caGrid-1.0-gridca.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/grid/RegistrationConsumer/test/resources/SampleXMLBeansTest.xml" afterPath="$PROJECT_DIR$/codebase/projects/grid/RegistrationConsumer/test/resources/SampleXMLBeansTest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/core/src/edu/duke/cabig/c3pr/service/impl/StudyServiceImpl.java" afterPath="$PROJECT_DIR$/codebase/projects/core/src/edu/duke/cabig/c3pr/service/impl/StudyServiceImpl.java" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/codebase/projects/core/test/resources/registration.xsd" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/src/test/resources/spring.xml" afterPath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/src/test/resources/spring.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-toolkit/build.xml" afterPath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-toolkit/build.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/codebase/share/xmlbeans/jsr173_1.0_api.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix.iml" afterPath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/codebase/share/cagrid/gridgrouper/caGrid-1.0-gridgrouper-resources.jar" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/lib/ESBMessages-xmltypes.jar" afterPath="" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/codebase/projects/grid/RegistrationConsumer/test/resources/test_data.xml" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/grid/RegistrationConsumerImpl/test/resources/SampleRegistrationMessage.xml" afterPath="$PROJECT_DIR$/codebase/projects/grid/RegistrationConsumerImpl/test/resources/SampleRegistrationMessage.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/esb-client/build.xml" afterPath="$PROJECT_DIR$/codebase/projects/esb-client/build.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/documentation/requirements/Portal_framework_srs.doc" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/core/core.iml" afterPath="$PROJECT_DIR$/codebase/projects/core/core.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/servicemix-wsrf.iml" afterPath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/servicemix-wsrf.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/c3prv2.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/codebase/share/xmlbeans/resolver.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/codebase/share/xmlbeans/xmlpublic.jar" />
       <change type="MODIFICATION" beforePath="/Users/kherm/dev/cvsroot/cagrid-1-0/tests/projects/coretests/test/src/java/gov/nci/nih/cagrid/tests/core/steps/GlobusCreateStep.java" afterPath="/Users/kherm/dev/cvsroot/cagrid-1-0/tests/projects/coretests/test/src/java/gov/nci/nih/cagrid/tests/core/steps/GlobusCreateStep.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/core/resources/c3pr-castor-mapping.xml" afterPath="$PROJECT_DIR$/codebase/projects/core/resources/c3pr-castor-mapping.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/codebase/share/cagrid/gridgrouper/caGrid-1.0-gridgrouper-stubs.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/servicemix/c3pr-workflow-sm/bridge-jms-su/src/main/resources/xbean.xml" afterPath="$PROJECT_DIR$/codebase/projects/servicemix/c3pr-workflow-sm/bridge-jms-su/src/main/resources/xbean.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/codebase.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/share/cacore/client.jar" afterPath="$PROJECT_DIR$/codebase/share/cacore/client.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/mvn-install-globus-libs.sh" afterPath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/mvn-install-globus-libs.sh" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/antfiles/build.properties" afterPath="$PROJECT_DIR$/codebase/antfiles/build.properties" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/codebase/share/cagrid/metadata/caGrid-1.0-metadata-common.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/src/test/java/com/sb/servicemix/wsrf/bc/WSRFSpringComponentTest.java" afterPath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/src/test/java/com/sb/servicemix/wsrf/bc/WSRFSpringComponentTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/esb-client/esb-client.iml" afterPath="$PROJECT_DIR$/codebase/projects/esb-client/esb-client.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/codebase/share/cagrid/authz/caGrid-1.0-authz-common.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/src/main/java/com/sb/servicemix/wsrf/bc/WSRFEndpoint.java" afterPath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/src/main/java/com/sb/servicemix/wsrf/bc/WSRFEndpoint.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/grid/RegistrationConsumerImpl/src/java/gov/nih/nci/cabig/ctms/service/CRPRV2RegistrationConsumer.java" afterPath="$PROJECT_DIR$/codebase/projects/grid/RegistrationConsumerImpl/src/java/gov/nih/nci/cabig/ctms/service/CRPRV2RegistrationConsumer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-toolkit/conf/jmx.xml" afterPath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-toolkit/conf/jmx.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/codebase/share/xmlbeans/xbean.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/codebase/share/cagrid/authentication-service/lib/caGrid-1.0-authentication-service-common.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/core/build.xml" afterPath="$PROJECT_DIR$/codebase/projects/core/build.xml" />
       <change type="NEW" beforePath="" afterPath="/Users/kherm/dev/cvsroot/cacoresdk/cacoresdk.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/c3prv2.iws" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-toolkit/conf/log4j.xml" afterPath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-toolkit/conf/log4j.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-toolkit/conf/servicemix.xml" afterPath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-toolkit/conf/servicemix.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/esb-client/test/src/edu/duke/cabig/c3pr/esb/test/TestEsbClient.java" afterPath="$PROJECT_DIR$/codebase/projects/esb-client/test/src/edu/duke/cabig/c3pr/esb/test/TestEsbClient.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/src/main/java/com/sb/servicemix/wsrf/bc/CTMSAdverseEventProcessor.java" afterPath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/src/main/java/com/sb/servicemix/wsrf/bc/CTMSAdverseEventProcessor.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/core/test/src/edu/duke/cabig/c3pr/xml/XMLMarshallerTestCase.java" afterPath="$PROJECT_DIR$/codebase/projects/core/test/src/edu/duke/cabig/c3pr/xml/XMLMarshallerTestCase.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/c3prv2.ipr" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/codebase/share/cagrid/dorian/lib/caGrid-1.0-dorian-common.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/build.xml" afterPath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/build.xml" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/codebase/projects/grid/RegistrationConsumer/test/resources/PSC_Sample_Data.xml" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-toolkit/.cvsignore" afterPath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-toolkit/.cvsignore" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/codebase/projects/core/db/csm/PostGreSQL/1_AuthSchemaPostgres.sql" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/core/src/edu/duke/cabig/c3pr/service/StudyService.java" afterPath="$PROJECT_DIR$/codebase/projects/core/src/edu/duke/cabig/c3pr/service/StudyService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/codebase/share/xmlbeans/xbean_xpath.jar" />
     </list>
     <list name="Failed commit: Default" comment="added jars for globus security" />
     <list name="later" comment="" />
@@ -219,7 +236,98 @@
     <option name="myCurrentFavoritesList" value="c3prv2" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="c3pr-ddl.SQL" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/codebase/projects/core/db/PostGreSQL/c3pr-ddl.SQL">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="9" column="18" selection-start="216" selection-end="216" vertical-scroll-proportion="0.018518519">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="3_C3PRAuthorizationData.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/codebase/projects/core/db/csm/oracle/3_C3PRAuthorizationData.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="5" column="31" selection-start="230" selection-end="230" vertical-scroll-proportion="0.018518519">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="3_C3PRAuthorizationData.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/codebase/projects/core/db/csm/PostGreSQL/3_C3PRAuthorizationData.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="323" column="11" selection-start="7794" selection-end="12357" vertical-scroll-proportion="1.0200617">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="2_DataPrimingPostgres.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/codebase/projects/core/db/csm/PostGreSQL/2_DataPrimingPostgres.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="13" column="24" selection-start="609" selection-end="617" vertical-scroll-proportion="0.018518519">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="2_DataPrimingOracle.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/codebase/projects/core/db/csm/oracle/2_DataPrimingOracle.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="41" column="23" selection-start="1842" selection-end="2021" vertical-scroll-proportion="0.35493827">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="welcome.jsp" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/codebase/projects/web/web/includes/welcome.jsp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="build-artifacts.xml" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/codebase/antfiles/build-artifacts.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="51" column="50" selection-start="2205" selection-end="2205" vertical-scroll-proportion="0.36882716">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="1_AuthSchemaPostgres.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/codebase/projects/core/db/csm/PostGreSQL/1_AuthSchemaPostgres.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="84" column="16" selection-start="2180" selection-end="2190" vertical-scroll-proportion="0.018518519">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="4_C3PRAuthorizationData_Users.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/codebase/projects/core/db/csm/PostGreSQL/4_C3PRAuthorizationData_Users.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="21" column="18" selection-start="745" selection-end="746" vertical-scroll-proportion="0.018518519">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="4_C3PRAuthorizationData_Users.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/codebase/projects/core/db/csm/oracle/4_C3PRAuthorizationData_Users.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="33" column="33" selection-start="0" selection-end="2946" vertical-scroll-proportion="0.038580246">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -308,7 +416,7 @@
     <option name="SERVER_TIMEOUT" value="20000" />
   </component>
   <component name="ProjectLevelVcsManager">
-    <OptionsSetting value="true" id="Add" />
+    <OptionsSetting value="false" id="Add" />
     <OptionsSetting value="true" id="Remove" />
     <OptionsSetting value="true" id="Checkin" />
     <OptionsSetting value="false" id="Checkout" />
@@ -328,8 +436,14 @@
           <option name="myItemId" value="c3prv2.ipr" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
         </PATH_ELEMENT>
+      </PATH>
+      <PATH>
         <PATH_ELEMENT>
-          <option name="myItemId" value="web" />
+          <option name="myItemId" value="c3prv2.ipr" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="installer" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -339,11 +453,11 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="web" />
+          <option name="myItemId" value="installer" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/codebase/projects/web" />
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/codebase/projects/installer" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -351,6 +465,126 @@
         <PATH_ELEMENT>
           <option name="myItemId" value="c3prv2.ipr" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="installer" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/codebase/projects/installer" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/codebase/projects/installer/c3prv2-installer" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="c3prv2.ipr" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="installer" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/codebase/projects/installer" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/codebase/projects/installer/build" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="c3prv2.ipr" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="c3prv2" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="c3prv2.ipr" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="c3prv2" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="c3prv2.ipr" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="c3prv2" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/codebase" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="c3prv2.ipr" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="c3prv2" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/codebase" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/codebase/share" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="c3prv2.ipr" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="c3prv2" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/codebase" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/codebase/share" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/codebase/share/cacore" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
       <PATH>
@@ -361,6 +595,20 @@
         <PATH_ELEMENT>
           <option name="myItemId" value="antfiles" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="c3prv2.ipr" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="antfiles" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/codebase/antfiles" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
     </subPane>
@@ -376,7 +624,7 @@
       <showLibraryContents />
       <hideEmptyPackages J2EEPane="false" ProjectPane="false" />
       <abbreviatePackageNames />
-      <showStructure Favorites="false" ProjectPane="false" Scope="false" J2EEPane="false" PackagesPane="false" />
+      <showStructure Scope="false" ProjectPane="false" J2EEPane="false" PackagesPane="false" Favorites="false" />
       <autoscrollToSource />
       <autoscrollFromSource />
       <sortByType ProjectPane="false" />
@@ -385,47 +633,47 @@
   <component name="PropertiesComponent">
     <property name="GoToClass.includeJavaFiles" value="false" />
     <property name="MemberChooser.copyJavadoc" value="false" />
-    <property name="cvs_file_history_treeWidth0" value="48" />
+    <property name="cvs_file_history_treeWidth0" value="35" />
     <property name="cvs_file_history_treeOrder4" value="4" />
-    <property name="cvs_file_history_flatWidth2" value="48" />
+    <property name="cvs_file_history_flatWidth2" value="34" />
     <property name="cvs_file_history_flatOrder4" value="4" />
     <property name="cvs_file_history_treeOrder1" value="1" />
     <property name="Web Module Deployment Descriptor Default Version" value="2.4" />
     <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="cvs_file_history_flatOrder1" value="1" />
     <property name="GenerateAntBuildDialog.forceTargetJdk" value="false" />
-    <property name="cvs_file_history_flatWidth1" value="47" />
-    <property name="cvs_file_history_treeWidth1" value="47" />
+    <property name="cvs_file_history_flatWidth1" value="34" />
+    <property name="cvs_file_history_treeWidth1" value="35" />
     <property name="TEMP_MODULE_EXPLODED_DIR_FOR_wsb4028478801" value="/private/tmp/webExplodedDir4981tmp" />
     <property name="cvs_file_history_treeOrder6" value="6" />
     <property name="GoToClass.includeLibraries" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="cvs_file_history_flatOrder2" value="2" />
-    <property name="cvs_file_history_flatWidth4" value="36" />
-    <property name="cvs_file_history_treeWidth2" value="48" />
+    <property name="cvs_file_history_flatWidth4" value="40" />
+    <property name="cvs_file_history_treeWidth2" value="35" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="cvs_file_history_flatOrder3" value="3" />
     <property name="RunManagerConfig.showSettingsBeforeRunnig" value="false" />
     <property name="cvs_file_history_treeOrder5" value="5" />
     <property name="MemberChooser.sorted" value="false" />
-    <property name="cvs_file_history_flatWidth6" value="35" />
     <property name="RunManagerConfig.compileBeforeRunning" value="false" />
+    <property name="cvs_file_history_flatWidth6" value="23" />
     <property name="cvs_file_history_flatOrder0" value="0" />
+    <property name="cvs_file_history_treeWidth4" value="28" />
     <property name="cvs_file_history_treeOrder3" value="3" />
-    <property name="cvs_file_history_treeWidth4" value="36" />
-    <property name="cvs_file_history_treeWidth6" value="35" />
+    <property name="cvs_file_history_treeWidth6" value="28" />
     <property name="GenerateAntBuildDialog.enableUiFormCompile" value="false" />
     <property name="cvs_file_history_flatOrder5" value="5" />
-    <property name="cvs_file_history_flatWidth5" value="36" />
     <property name="GenerateAntBuildDialog.backupFiles" value="true" />
+    <property name="cvs_file_history_flatWidth5" value="24" />
+    <property name="cvs_file_history_treeWidth3" value="35" />
     <property name="cvs_file_history_treeOrder2" value="2" />
-    <property name="cvs_file_history_treeWidth3" value="48" />
     <property name="GenerateAntBuildDialog.generateSingleFile" value="true" />
-    <property name="cvs_file_history_treeWidth5" value="36" />
+    <property name="cvs_file_history_treeWidth5" value="28" />
     <property name="cvs_file_history_flatOrder6" value="6" />
-    <property name="cvs_file_history_flatWidth0" value="48" />
     <property name="Additional Resource Default Version" value="" />
-    <property name="cvs_file_history_flatWidth3" value="48" />
+    <property name="cvs_file_history_flatWidth0" value="34" />
+    <property name="cvs_file_history_flatWidth3" value="35" />
     <property name="TEMP_MODULE_EXPLODED_DIR_FOR_web" value="/private/tmp/webExplodedDir61174tmp" />
     <property name="cvs_file_history_treeOrder0" value="0" />
   </component>
@@ -444,7 +692,132 @@
       <recent name="edu.duke.cabig.c3pr.test.system" />
     </key>
   </component>
-  <component name="RestoreUpdateTree" />
+  <component name="RestoreUpdateTree">
+    <UpdateInfo date="4/30/07 11:14 PM" ActionInfo="_Update">
+      <UpdatedFiles>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Updated from server" />
+          <option name="myStatusName" value="Changed on server" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="CHANGED_ON_SERVER" />
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Updated" />
+            <option name="myStatusName" value="Changed" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="false" />
+            <option name="myId" value="UPDATED" />
+          </FILE-GROUP>
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Created" />
+            <option name="myStatusName" value="Created" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="false" />
+            <option name="myId" value="CREATED" />
+          </FILE-GROUP>
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Deleted" />
+            <option name="myStatusName" value="Deleted" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="true" />
+            <option name="myId" value="REMOVED_FROM_REPOSITORY" />
+          </FILE-GROUP>
+          <FILE-GROUP>
+            <option name="myUpdateName" value="Restored" />
+            <option name="myStatusName" value="Will be restored" />
+            <option name="mySupportsDeletion" value="false" />
+            <option name="myCanBeAbsent" value="false" />
+            <option name="myId" value="RESTORED" />
+          </FILE-GROUP>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Modified" />
+          <option name="myStatusName" value="Modified" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MODIFIED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Skipped" />
+          <option name="myStatusName" value="Skipped" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="SKIPPED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Merged with conflicts" />
+          <option name="myStatusName" value="Will be merged with conflicts" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MERGED_WITH_CONFLICTS" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Merged" />
+          <option name="myStatusName" value="Will be merged" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MERGED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Not in repository" />
+          <option name="myStatusName" value="Not in repository" />
+          <option name="mySupportsDeletion" value="true" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="UNKNOWN" />
+          <PATH>$PROJECT_DIR$/codebase/share/cacore/csm/.DS_Store</PATH>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Locally added" />
+          <option name="myStatusName" value="Locally added" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="LOCALLY_ADDED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Locally removed" />
+          <option name="myStatusName" value="Locally removed" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="LOCALLY_REMOVED" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Unknown" />
+          <option name="myStatusName" value="Unknown" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="UNKNOWN_TYPE" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Locally modified removed from server" />
+          <option name="myStatusName" value="Locally modified removed from server" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="MOD_REMOVED_FROM_SERVER" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Locally removed modified on server" />
+          <option name="myStatusName" value="Locally removed modified on server" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="LOCALLY_REMOVED_MODIFIED_ON_SERVER" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Created by second party" />
+          <option name="myStatusName" value="Created by second party" />
+          <option name="mySupportsDeletion" value="true" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="CREATED_BY_SECOND_PARTY" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Binary file has to be merged" />
+          <option name="myStatusName" value="Binary file has to be merged" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="BINARY_MERGED" />
+        </FILE-GROUP>
+      </UpdatedFiles>
+    </UpdateInfo>
+  </component>
   <component name="RunManager" selected="JUnit.C3PRV2RegistrationConsumerTest">
     <tempConfiguration default="false" name="TestJMXClient" type="Application" factoryName="Application" enabled="false" merge="false">
       <option name="MAIN_CLASS_NAME" value="edu.duke.cabig.c3pr.esb.TestJMXClient" />
@@ -461,6 +834,31 @@
         <option name="Make" value="true" />
       </method>
     </tempConfiguration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application" enabled="false" merge="false">
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <module name="" />
+      <method>
+        <option name="Make" value="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local">
       <option name="WORKING_DIRECTORY" />
       <option name="HOST" value="localhost" />
@@ -477,13 +875,6 @@
       <option name="DEPLOY_TOMCAT_MANAGER" value="false" />
       <option name="BASE_DIRECTORY_NAME" value="" />
       <predefined_log_file id="TOMCAT_LOCALHOST_LOG_ID" enabled="true" />
-    </configuration>
-    <configuration default="true" type="Remote" factoryName="Remote">
-      <option name="USE_SOCKET_TRANSPORT" value="true" />
-      <option name="SERVER_MODE" value="false" />
-      <option name="SHMEM_ADDRESS" value="javadebug" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="5005" />
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit" enabled="false" merge="false">
       <module name="" />
@@ -504,30 +895,12 @@
         <option name="Make" value="true" />
       </method>
     </configuration>
-    <configuration default="true" type="Application" factoryName="Application" enabled="false" merge="false">
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <module name="" />
-      <method>
-        <option name="Make" value="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
     </configuration>
     <configuration default="false" name="RegistrationConsumerClient" type="Application" factoryName="Application" enabled="false" merge="false">
       <option name="MAIN_CLASS_NAME" value="gov.nih.nci.cabig.ctms.client.RegistrationConsumerClient" />
@@ -614,7 +987,7 @@
       </method>
     </configuration>
     <configuration default="false" name="CTMISystemTest" type="JUnit" factoryName="JUnit" enabled="false" merge="false">
-      <module name="test-system" />
+      <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
       <option name="PACKAGE_NAME" value="edu.duke.cabig.c3pr.test.system" />
@@ -673,7 +1046,7 @@
       </method>
     </configuration>
     <configuration default="false" name="C3PRV2RegistrationConsumerTest" type="JUnit" factoryName="JUnit" enabled="false" merge="false">
-      <module name="RegistrationConsumerImpl" />
+      <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" value="" />
       <option name="PACKAGE_NAME" value="gov.nih.nci.cabig.c3pr.grid.test" />
@@ -939,34 +1312,35 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="79" y="22" width="1202" height="746" extended-state="0" />
+    <frame x="43" y="22" width="1397" height="878" extended-state="0" />
     <editor active="false" />
     <layout>
-      <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31791046" order="9" />
+      <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.317757" order="9" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="4" />
-      <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32402235" order="19" />
+      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32931036" order="3" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32637855" order="7" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28917748" order="0" />
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="6" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.1837037" order="1" />
+      <window_info id="IntelliTail" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3283582" order="12" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39385474" order="3" />
+      <window_info id="TCPMON" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3288889" order="4" />
+      <window_info id="Version Control" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2362963" order="9" />
+      <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32299742" order="19" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2874074" order="0" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31152648" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24848485" order="1" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3271028" order="16" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" order="6" />
-      <window_info id="Module Dependencies" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3255814" order="16" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="17" />
-      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="6" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.18441558" order="1" />
-      <window_info id="Changes" active="true" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31601733" order="10" />
+      <window_info id="Module Dependencies" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
+      <window_info id="Changes" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3148148" order="10" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.43575418" order="2" />
-      <window_info id="IntelliTail" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3283582" order="12" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="2" />
       <window_info id="File View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="7" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.399287" order="0" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39385474" order="3" />
-      <window_info id="TCPMON" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32931036" order="4" />
       <window_info id="JarSpy" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.325419" order="20" />
-      <window_info id="Version Control" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3004329" order="9" />
+      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="18" />
       <window_info id="SVN Repositories" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32935917" order="13" />
-      <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32931036" order="3" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="4" />
       <window_info id="Log4jMonitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32985073" order="11" />
       <window_info id="IdeaSpring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32985073" order="10" />
@@ -978,7 +1352,6 @@
       <window_info id="EJB" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="5" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="8" />
       <window_info id="Maven" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32986626" order="0" />
-      <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="18" />
     </layout>
   </component>
   <component name="VCS.FileViewConfiguration">
@@ -995,7 +1368,7 @@
     <option name="PERFORM_COMMIT_IN_BACKGROUND" value="false" />
     <option name="PUT_FOCUS_INTO_COMMENT" value="false" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="release notes formatting" />
+    <option name="LAST_COMMIT_MESSAGE" value="patched CSM jars" />
     <option name="SAVE_LAST_COMMIT_MESSAGE" value="true" />
     <option name="CHECKIN_DIALOG_SPLITTER_PROPORTION" value="0.8" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
@@ -1008,9 +1381,6 @@
     <option name="UPDATE_GROUP_BY_PACKAGES" value="true" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="add" />
-    <MESSAGE value="code sync and multi site" />
-    <MESSAGE value="testing added to grid project" />
     <MESSAGE value="First draft of Admin guide" />
     <MESSAGE value="portal presentation and SRS" />
     <MESSAGE value="fixed top tab alignment issue" />
@@ -1018,6 +1388,9 @@
     <MESSAGE value="deliverable" />
     <MESSAGE value="naviation tag made optional in decorator" />
     <MESSAGE value="release notes formatting" />
+    <MESSAGE value="acegi-csm" />
+    <MESSAGE value="moved db file" />
+    <MESSAGE value="patched CSM jars" />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
@@ -1078,20 +1451,26 @@
     <buildFile url="file://$PROJECT_DIR$/codebase/projects/core/build.xml">
       <antCommandLine value="" />
       <runInBackground value="false" />
-      <targetFilters />
+      <targetFilters>
+        <filter targetName="all" isVisible="true" />
+        <filter targetName="clean" isVisible="true" />
+        <filter targetName="compile" isVisible="true" />
+        <filter targetName="compile-tests" isVisible="true" />
+        <filter targetName="create-database" isVisible="true" />
+        <filter targetName="jar" isVisible="true" />
+        <filter targetName="jar-tests" isVisible="true" />
+        <filter targetName="prepare" isVisible="false" />
+        <filter targetName="resources" isVisible="true" />
+        <filter targetName="setDatabaseScripts" isVisible="false" />
+        <filter targetName="test" isVisible="true" />
+        <filter targetName="test-single-x" isVisible="true" />
+        <filter targetName="tomcat.security" isVisible="true" />
+      </targetFilters>
       <treeView value="true" />
       <verbose value="true" />
       <viewClosedWhenNoErrors value="false" />
     </buildFile>
     <buildFile url="file://$PROJECT_DIR$/codebase/projects/grid/RegistrationConsumer/build.xml">
-      <antCommandLine value="" />
-      <runInBackground value="false" />
-      <targetFilters />
-      <treeView value="true" />
-      <verbose value="true" />
-      <viewClosedWhenNoErrors value="false" />
-    </buildFile>
-    <buildFile url="file://$PROJECT_DIR$/codebase/projects/grid/RegistrationConsumerImpl/build.xml">
       <antCommandLine value="" />
       <runInBackground value="false" />
       <targetFilters />
@@ -1134,14 +1513,6 @@
       <verbose value="true" />
       <viewClosedWhenNoErrors value="false" />
     </buildFile>
-    <buildFile url="file://$PROJECT_DIR$/codebase/projects/grid/RegistrationConsumerImpl/antfiles/build-test.xml">
-      <antCommandLine value="" />
-      <runInBackground value="false" />
-      <targetFilters />
-      <treeView value="true" />
-      <verbose value="true" />
-      <viewClosedWhenNoErrors value="false" />
-    </buildFile>
     <buildFile url="file://$PROJECT_DIR$/codebase/projects/grid/build.xml">
       <antCommandLine value="" />
       <runInBackground value="false" />
@@ -1154,115 +1525,115 @@
   <component name="com.intellij.ide.util.scopeChooser.ScopeChooserConfigurable" proportions="0.1" version="1">
     <option name="myLastEditedConfigurable" value="Local Scopes" />
   </component>
-  <component name="com.intellij.openapi.roots.ui.configuration.projectRoot.ProjectRootMasterDetailsConfigurable" proportions="0.36724564" version="1">
+  <component name="com.intellij.openapi.roots.ui.configuration.projectRoot.ProjectRootMasterDetailsConfigurable" proportions="0.36724564,0.5" version="1">
     <option name="myPlainMode" value="false" />
-    <option name="myLastEditedConfigurable" value="servicemix" />
+    <option name="myLastEditedConfigurable" value="c3prv2" />
   </component>
   <component name="com.intellij.profile.ui.ErrorOptionsConfigurable" proportions="0.1,0.50285715" version="1">
     <option name="myLastEditedConfigurable" value="c3pr defaults" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/documentation/releases/c3prv2_construction_1_release_notes.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="71" column="4" selection-start="2479" selection-end="2479" vertical-scroll-proportion="-0.6602452">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/decorators.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="4" selection-start="47" selection-end="47" vertical-scroll-proportion="0.022304833">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/tags/include.tag">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="20" selection-start="188" selection-end="188" vertical-scroll-proportion="0.08743169">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/codebase/antfiles/build.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/decorators/tabbedflow.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="48" selection-start="927" selection-end="927" vertical-scroll-proportion="0.3857143">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/views/registration/reg_check_eligibility.jsp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/codebase/projects/web/build.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="51" selection-start="213" selection-end="213" vertical-scroll-proportion="0.05106383">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/tags/layout/header.tag">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="8" selection-start="194" selection-end="194" vertical-scroll-proportion="0.29268292">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/codebase/projects/web/web/css/styles.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="140" column="64" selection-start="7642" selection-end="7642" vertical-scroll-proportion="0.8425532">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/tags/layout/footer.tag">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="0" selection-start="396" selection-end="396" vertical-scroll-proportion="0.5365854">
+        <state line="14" column="65" selection-start="417" selection-end="417" vertical-scroll-proportion="0.27096775">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/views/study/study_details.jsp">
+    <entry file="file://$PROJECT_DIR$/codebase/antfiles/build-test.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="0" selection-start="470" selection-end="471" vertical-scroll-proportion="0.5106383">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/decorators/standard.jsp">
+    <entry file="file://$PROJECT_DIR$/codebase/antfiles/build.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="26" column="13" selection-start="793" selection-end="959" vertical-scroll-proportion="0.45957446">
+        <state line="11" column="42" selection-start="359" selection-end="359" vertical-scroll-proportion="0.1938326">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/views/css/common-styles.css.jsp">
+    <entry file="file://$PROJECT_DIR$/codebase/projects/core/db/csm/oracle/1_AuthSchemaOracle.sql">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="202" column="10" selection-start="8967" selection-end="8976" vertical-scroll-proportion="0.35744682">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/views/study/study_identifiers.jsp">
+    <entry file="file://$PROJECT_DIR$/codebase/projects/core/build.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="51" column="42" selection-start="1666" selection-end="1666" vertical-scroll-proportion="0.010309278">
+        <state line="260" column="44" selection-start="11387" selection-end="11387" vertical-scroll-proportion="0.019169329">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/decorators/tabbedflow_edit_study.jsp">
+    <entry file="file://$PROJECT_DIR$/codebase/projects/core/db/PostGreSQL/c3pr-ddl.SQL">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="37" selection-start="1580" selection-end="1580" vertical-scroll-proportion="0.34020618">
+        <state line="9" column="18" selection-start="216" selection-end="216" vertical-scroll-proportion="0.018518519">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/codebase/projects/core/db/csm/oracle/3_C3PRAuthorizationData.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="5" column="31" selection-start="230" selection-end="230" vertical-scroll-proportion="0.018518519">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/codebase/projects/core/db/csm/PostGreSQL/3_C3PRAuthorizationData.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="323" column="11" selection-start="7794" selection-end="12357" vertical-scroll-proportion="1.0200617">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/codebase/projects/core/db/csm/PostGreSQL/2_DataPrimingPostgres.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="13" column="24" selection-start="609" selection-end="617" vertical-scroll-proportion="0.018518519">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/codebase/projects/core/db/csm/PostGreSQL/1_AuthSchemaPostgres.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="84" column="16" selection-start="2180" selection-end="2190" vertical-scroll-proportion="0.018518519">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/codebase/projects/core/db/csm/PostGreSQL/4_C3PRAuthorizationData_Users.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="18" selection-start="745" selection-end="746" vertical-scroll-proportion="0.018518519">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/codebase/projects/core/db/csm/oracle/4_C3PRAuthorizationData_Users.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="33" selection-start="0" selection-end="2946" vertical-scroll-proportion="0.038580246">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/codebase/projects/core/db/csm/oracle/2_DataPrimingOracle.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="23" selection-start="1842" selection-end="2021" vertical-scroll-proportion="0.35493827">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/codebase/projects/web/web/includes/welcome.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/codebase/antfiles/build-artifacts.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="50" selection-start="2205" selection-end="2205" vertical-scroll-proportion="0.36882716">
           <folding />
         </state>
       </provider>

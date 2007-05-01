@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4" relativePaths="false">
   <component name="AntConfiguration">
-    <defaultAnt name="Mac System Ant version 1.6.5" />
+    <defaultAnt bundledAnt="true" />
     <buildFile url="file://$PROJECT_DIR$/codebase/projects/esb-client/build.xml">
       <additionalClassPath />
       <antReference projectDefault="true" />
@@ -30,13 +30,6 @@
       <maximumHeapSize value="128" />
       <properties />
     </buildFile>
-    <buildFile url="file://$PROJECT_DIR$/codebase/projects/grid/RegistrationConsumerImpl/build.xml">
-      <additionalClassPath />
-      <antReference projectDefault="true" />
-      <customJdkName value="" />
-      <maximumHeapSize value="128" />
-      <properties />
-    </buildFile>
     <buildFile url="file://$PROJECT_DIR$/codebase/antfiles/build.xml">
       <additionalClassPath />
       <antReference projectDefault="true" />
@@ -45,13 +38,6 @@
       <properties />
     </buildFile>
     <buildFile url="file://$PROJECT_DIR$/codebase/projects/servicemix/servicemix-toolkit/build.xml">
-      <additionalClassPath />
-      <antReference projectDefault="true" />
-      <customJdkName value="" />
-      <maximumHeapSize value="128" />
-      <properties />
-    </buildFile>
-    <buildFile url="file://$PROJECT_DIR$/codebase/projects/grid/RegistrationConsumerImpl/antfiles/build-test.xml">
       <additionalClassPath />
       <antReference projectDefault="true" />
       <customJdkName value="" />
@@ -1386,15 +1372,15 @@
   </component>
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/codebase/projects/grid/RegistrationConsumerImpl/RegistrationConsumerImpl.iml" filepath="$PROJECT_DIR$/codebase/projects/grid/RegistrationConsumerImpl/RegistrationConsumerImpl.iml" />
+      <module fileurl="file:///Users/kherm/dev/AntInstaller/AntInstaller.iml" filepath="/Users/kherm/dev/AntInstaller/AntInstaller.iml" />
       <module fileurl="file://$PROJECT_DIR$/codebase/antfiles/antfiles.iml" filepath="$PROJECT_DIR$/codebase/antfiles/antfiles.iml" />
       <module fileurl="file://$PROJECT_DIR$/c3prv2.iml" filepath="$PROJECT_DIR$/c3prv2.iml" />
       <module fileurl="file://$PROJECT_DIR$/codebase/projects/core/core.iml" filepath="$PROJECT_DIR$/codebase/projects/core/core.iml" />
       <module fileurl="file://$PROJECT_DIR$/codebase/projects/esb-client/esb-client.iml" filepath="$PROJECT_DIR$/codebase/projects/esb-client/esb-client.iml" />
       <module fileurl="file://$PROJECT_DIR$/codebase/projects/grid/grid.iml" filepath="$PROJECT_DIR$/codebase/projects/grid/grid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/codebase/projects/installer/installer.iml" filepath="$PROJECT_DIR$/codebase/projects/installer/installer.iml" />
       <module fileurl="file://$PROJECT_DIR$/codebase/projects/servicemix/servicemix.iml" filepath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix.iml" />
       <module fileurl="file://$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/servicemix-wsrf.iml" filepath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/servicemix-wsrf.iml" />
-      <module fileurl="file://$PROJECT_DIR$/codebase/projects/test-system/test-system.iml" filepath="$PROJECT_DIR$/codebase/projects/test-system/test-system.iml" />
       <module fileurl="file://$PROJECT_DIR$/codebase/projects/web/web.iml" filepath="$PROJECT_DIR$/codebase/projects/web/web.iml" />
     </modules>
   </component>

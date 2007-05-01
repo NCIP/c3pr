@@ -70,7 +70,6 @@
       <excludeFolder url="file://$MODULE_DIR$/adopters" />
       <excludeFolder url="file://$MODULE_DIR$/classes" />
       <excludeFolder url="file://$MODULE_DIR$/codebase/docs" />
-      <excludeFolder url="file://$MODULE_DIR$/codebase/projects/portal" />
       <excludeFolder url="file://$MODULE_DIR$/codebase/scratch" />
       <excludeFolder url="file://$MODULE_DIR$/codebase/temp" />
       <excludeFolder url="file://$MODULE_DIR$/deliverables" />
@@ -78,6 +77,7 @@
       <excludeFolder url="file://$MODULE_DIR$/deliverables/construction_iteration1/codebase" />
       <excludeFolder url="file://$MODULE_DIR$/deliverables/construction_iteration1/documentation" />
       <excludeFolder url="file://$MODULE_DIR$/deliverables/construction_iteration1/reports" />
+      <excludeFolder url="file://$MODULE_DIR$/documentation" />
       <excludeFolder url="file://$MODULE_DIR$/meetings" />
     </content>
     <orderEntry type="inheritedJdk" />
