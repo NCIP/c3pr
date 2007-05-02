@@ -223,8 +223,9 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 		else if ("Investigators".equals(tabShortTitle)){
 				if("siteChange".equals(request.getParameter("_action")))
 				{
-					request.getSession().setAttribute("site_id", request.getParameter("_selected"));
-					StudySite studySite = ((Study)command).getStudySites().get(Integer.parseInt(request.getParameter("_selected")));
+					request.getSession().setAttribute("selectedSite", request.getParameter("_selectedSite"));
+					
+					StudySite studySite = ((Study)command).getStudySites().get(Integer.parseInt(request.getParameter("_selectedSite")));
 					if(studySite.getStudyInvestigators().size() == 0 )
 					{						
 						StudyInvestigator studyInvestigator = new StudyInvestigator();	
@@ -239,9 +240,9 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 		else if ("Personnel".equals(tabShortTitle)){
 			if("siteChange".equals(request.getParameter("_action")))
 			{
-				request.getSession().setAttribute("site_id", request.getParameter("_selected"));
+				request.getSession().setAttribute("selectedSite", request.getParameter("_selectedSite"));
 				
-				StudySite studySite = ((Study)command).getStudySites().get(Integer.parseInt(request.getParameter("_selected")));
+				StudySite studySite = ((Study)command).getStudySites().get(Integer.parseInt(request.getParameter("_selectedSite")));
 				if(studySite.getStudyPersonnels().size() == 0 )
 				{						
 					StudyPersonnel studyPersonnel = new StudyPersonnel();
@@ -250,8 +251,7 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 				}										
 			}
 			else {
-				handleStudyPersonnelAction((Study)command, request.getParameter("_action"),
-					request.getParameter("_selected"), request.getParameter("_studysiteindex"));
+				handleStudyPersonnelAction((Study)command, request);
 			}		
 		}			
 							
@@ -342,15 +342,6 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 		case 0:
 			studyValidator.validateStudy(study, errors);
 			break;
-		case 1:
-		//	studyValidator.validateIdentifiers(study, errors);
-			break;
-		case 2:
-		//	studyValidator.validateStudySites(study, errors);
-			break;
-		case 3:
-		//	studyValidator.validateStudyDesign(study, errors);
-			break;
 		}
 	}	
 
@@ -414,8 +405,8 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 	protected void handleStudyInvestigatorAction(Study study, HttpServletRequest request)
 	{				
 		String action =request.getParameter("_action");
-		String selectedSite = request.getParameter("_selected"); 
-		String studysiteindex = request.getParameter("_studysiteindex");
+		String selectedSite = request.getParameter("_selectedSite"); 
+		String selectedInvestigator = request.getParameter("_selectedInvestigator");
 		
 		if ("addInv".equals(action))
 		{				
@@ -425,23 +416,29 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 		}
 		else if ("removeInv".equals(action))
 		{	
-			study.getStudySites().get(Integer.parseInt(studysiteindex)).getStudyInvestigators().remove(Integer.parseInt(selectedSite));
+			study.getStudySites().get(Integer.parseInt(selectedSite)).getStudyInvestigators()
+				.remove(Integer.parseInt(selectedInvestigator));
 		}										
 	}	
 	
-	protected void handleStudyPersonnelAction(Study study, String action, String selected, String studysiteindex)
-	{				
+	protected void handleStudyPersonnelAction(Study study, HttpServletRequest request)
+	{			
+		String action =request.getParameter("_action");
+		String selectedSite = request.getParameter("_selectedSite"); 
+		String selectedPersonnel = request.getParameter("_selectedPersonnel");
+		
 		if ("addStudyPersonnel".equals(action))
 		{	
 			StudyPersonnel studyPersonnel = new StudyPersonnel();
 			studyPersonnel.setResearchStaff(new ResearchStaff());
-			StudySite studySite = study.getStudySites().get(Integer.parseInt(selected));
+			StudySite studySite = study.getStudySites().get(Integer.parseInt(selectedSite));
 			studyPersonnel.setStudySite(studySite);		
 			studySite.addStudyPersonnel(studyPersonnel);														
 		}
 		else if ("removeStudyPersonnel".equals(action))
 		{	
-			study.getStudySites().get(Integer.parseInt(studysiteindex)).getStudyPersonnels().remove(Integer.parseInt(selected));
+			study.getStudySites().get(Integer.parseInt(selectedSite)).getStudyPersonnels()
+				.remove(Integer.parseInt(selectedPersonnel));
 		}					
 					
 	}	

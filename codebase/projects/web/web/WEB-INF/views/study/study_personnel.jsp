@@ -22,36 +22,27 @@
 </style>
 <script language="JavaScript" type="text/JavaScript">
 
-function fireAction(action, selected){
+function fireAction(action, selectedSite, selectedPersonnel){
 	document.getElementById('command').targetPage.name='_noname';
 	document.form._action.value=action;
-	document.form._selected.value=selected;
+	document.form._selectedSite.value=selectedSite;
+	document.form._selectedPersonnel.value=selectedPersonnel;
 	document.form.submit();
-
+	fireListeners(selected);
 }
 
 function chooseSites(){
 	document.getElementById('command').targetPage.name='_noname';
 	document.form._action.value="siteChange";
-	document.form._selected.value=document.getElementById('site').value;
+	document.form._selectedSite.value=document.getElementById('site').value;
 	document.form.submit();
 }
 
-function chooseSitesfromSummary(selected){
+function chooseSitesfromSummary(_selectedSite){
 	document.getElementById('command').targetPage.name='_noname';
 	document.form._action.value="siteChange";
-	document.form._selected.value=selected;
+	document.form._selectedSite.value=_selectedSite;
 	document.form.submit();
-}
-
-function fireAction1(action, selected, studysiteindex){
-	document.getElementById('command').targetPage.name='_noname';
-	document.form._action.value=action;
-	document.form._selected.value=selected;
-	document.form._studysiteindex.value=studysiteindex;
-	document.form.submit();
-	fireListeners(selected);
-
 }
 
 /// AJAX
@@ -141,16 +132,16 @@ Event.observe(window, "load", function() {
 	<tabs:tabFields tab="${tab}"/>
 	<div>
 		<input type="hidden" name="_action" value="">
-		<input type="hidden" name="_selected" value="">
-		<input type="hidden" name="_studysiteindex" value="">
+		<input type="hidden" name="_selectedSite" value="">
+		<input type="hidden" name="_selectedPersonnel" value="">
 	</div>
 	<p id="instructions">
 		Please choose a study site and add personnel to that study site
 	</p>
 
-		<c:set var="selectedSite" value="0"/>
-		<c:if test="${not empty site_id}">
-			<c:set var="selectedSite" value="${site_id}"/>
+		<c:set var="selected_site" value="0"/>
+		<c:if test="${not empty selectedSite}">
+			<c:set var="selected_site" value="${selectedSite}"/>
 		</c:if>
 
 		<table border="0" id="table1" cellspacing="10" width="70%">
@@ -159,10 +150,10 @@ Event.observe(window, "load", function() {
 				<td align="left">
 					<select id="site" name="site" onchange="javascript:chooseSites();">
 						<c:forEach  items="${command.studySites}" var="studySite" varStatus="status">
-							<c:if test="${selectedSite == status.index }">
+							<c:if test="${selected_site == status.index }">
 								<option selected="true" value=${status.index}>${studySite.site.name}</option>
 							</c:if>
-							<c:if test="${selectedSite != status.index }">
+							<c:if test="${selected_site != status.index }">
 								<option value=${status.index}>${studySite.site.name}</option>
 							</c:if>
 						</c:forEach>
@@ -171,45 +162,40 @@ Event.observe(window, "load", function() {
 		   </tr>
 		</table>
 
-		<c:set var="index" value="0"/>
-		<c:if test="${!empty site_id}">
-			<c:set var="index" value="${site_id}"/>
-		</c:if>
-
 		<table border="0" id="table1" cellspacing="10" width="100%">
 			<tr>
 				<td align="left"> <b> <span class="red">*</span><em></em>Name:</b> </td>
 				<td align="left"> <b> <span class="red">*</span><em></em>Role:</b> </td>
 				<td align="left"> <b> <span class="red">*</span><em></em>Status:</b> </td>
 				<td align="left">
-					<b><a href="javascript:fireAction1('addStudyPersonnel','0', ${index});"><img
+					<b><a href="javascript:fireAction('addStudyPersonnel',${selected_site}, '0');"><img
 						src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a></b>
 				</td>
 			</tr>
 
-			<c:forEach varStatus="status" items="${command.studySites[index].studyPersonnels}">
+			<c:forEach varStatus="status" items="${command.studySites[selected_site].studyPersonnels}">
 				<tr>
 					<td align="left" width="40%">
-						<form:hidden id="personnel${status.index}" path="studySites[${index}].studyPersonnels[${status.index}].researchStaff"/>
-						<input type="text" id="personnel${status.index}-input" size="30" value="${command.studySites[index].studyPersonnels[status.index].researchStaff.fullName}"/>
+						<form:hidden id="personnel${status.index}" path="studySites[${selected_site}].studyPersonnels[${status.index}].researchStaff"/>
+						<input type="text" id="personnel${status.index}-input" size="30" value="${command.studySites[selected_site].studyPersonnels[status.index].researchStaff.fullName}"/>
 						<input type="button" id="personnel${status.index}-clear" value="Clear"/>
 						<tags:indicator id="personnel${status.index}-indicator"/>
 						<div id="personnel${status.index}-choices" class="autocomplete"></div>
 					</td>
 					<td width="20%">
-						<form:select path="studySites[${index}].studyPersonnels[${status.index}].roleCode">
-							<option value="">--Please Select--
+						<form:select path="studySites[${selected_site}].studyPersonnels[${status.index}].roleCode">
+							<option value="">--Please Select--</option>
 							<form:options items="${studyPersonnelRoleRefData}" itemLabel="desc" itemValue="desc"/>
 						</form:select>
 					</td>
 					<td align="left" width="20%">
-						<form:select path="studySites[${index}].studyPersonnels[${status.index}].statusCode">
-							<option value="">--Please Select--
+						<form:select path="studySites[${selected_site}].studyPersonnels[${status.index}].statusCode">
+							<option value="">--Please Select--</option>
 							<form:options items="${studyPersonnelStatusRefData}" itemLabel="desc" itemValue="desc" />
 						</form:select>
 					</td>
 					<td align="left" width="5%">
-						<a href="javascript:fireAction1('removeStudyPersonnel',${status.index}, ${index});"><img
+						<a href="javascript:fireAction('removeStudyPersonnel',${selected_site}, ${status.index});"><img
 							src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a>
 					</td>
 				</tr>
