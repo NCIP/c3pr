@@ -29,6 +29,7 @@ input { background: #EBEFF5; font-family: arial, verdana, sans-serif; font-size:
 
 /* header bar */
 .header { background: repeat-x top url(<tags:imageUrl name="header_BG.gif"/>); }
+.header img{border:0;}
 
 /* top nav */
 #topNav { color: #E6E6E6; font-weight: bold; background-color: #5C5C5C; }
