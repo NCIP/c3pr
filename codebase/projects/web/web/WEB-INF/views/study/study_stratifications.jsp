@@ -20,10 +20,6 @@
 </style>
 <script language="JavaScript" type="text/JavaScript">
 
-function navRollOver(obj, state) {
-  document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
-}
-
 function fireAction(action, selectedStratification, selectedAnswer){
 	document.getElementById('command').targetPage.name='_noname';
 	document.form._action.value=action;
