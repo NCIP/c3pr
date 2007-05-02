@@ -216,57 +216,34 @@
         </jar>
     </target>
 
-       <target name="create-database"  
+    <target name="create-database"
             description="Will run the c3prv2 database scripts">
 
-        <property name="oracle.keyword" value="Oracle"/>
-        <property name="postgresql.keyword" value="PostgreSQL"/>
         <property file="${ext.resources.dir}/build.properties"/>
-
-        <condition property="db.type" value="${oracle.keyword}">
-            <contains string="${datasource.dialect}" substring="${oracle.keyword}"/>
-        </condition>
-        <condition property="db.type" value="${postgresql.keyword}">
-            <contains string="${datasource.dialect}" substring="${postgresql.keyword}"/>
-        </condition>
-		<condition property="fileset.dir" value="${oracle.db.script.dir}">
-			<contains string="${datasource.dialect}" substring="${oracle.keyword}"/>
-    	</condition>
-    	<condition property="fileset.dir" value="${postgresql.db.script.dir}">
-			<contains string="${datasource.dialect}" substring="${postgresql.keyword}"/>
-    	</condition>
-		<condition property="fileset-csm.dir" value="${oracle.csm.db.scripts.dir}">
-			<contains string="${datasource.dialect}" substring="${oracle.keyword}"/>
-	    </condition>
-	    <condition property="fileset-csm.dir" value="${postgresql.csm.db.scripts.dir}">
-    		<contains string="${datasource.dialect}" substring="${postgresql.keyword}"/>
-	    </condition>
-
-        <echo message="Database is ${db.type}"/>
-  
-        <fileset id="db.scripts" dir="${fileset.dir}">
-        <include name="c3pr_ddl.SQL"/>
-		<include name="static-data.SQL"/>
-        </fileset>
-        <fileset id="csm.db.scripts" dir="${fileset-csm.dir}">
-            <include name="1_AuthSchema.sql"/>
-            <include name="2_DataPriming.sql"/>
-            <include name="3_C3PRAuthorizationData.sql"/>
-            <include name="4_C3PRAuthorizationData_Users.sql"/>
-        </fileset>
-
-        <!--sort them-->
-        <sort refid="db.scripts" id="sorted.db.scripts"/>
-        <sort refid="csm.db.scripts" id="sorted.csm.scripts"/>
 
         <sql driver="${datasource.driver}"
              url="${datasource.url}"
              userid="${datasource.username}"
              password="${datasource.password}"
-             classpathref="run.classpath">
-           
-            <fileset refid="db.scripts"/>
-            <fileset refid="csm.db.scripts"/>
+             classpathref="run.classpath"
+             rdbms="oracle">
+            <transaction src="${oracle.db.script.dir}/c3pr-ddl.SQL"/>
+            <transaction src="${oracle.db.script.dir}/static-data.sql"/>
+            <!--ToDo put csm scripts here also-->
+        </sql>
+
+        <sql driver="${datasource.driver}"
+             url="${datasource.url}"
+             userid="${datasource.username}"
+             password="${datasource.password}"
+             classpathref="run.classpath"
+             rdbms="postgres">
+            <transaction src="${postgresql.db.script.dir}/c3pr-ddl.SQL"/>
+            <transaction src="${postgresql.db.script.dir}/static-data.sql"/>
+            <transaction>
+                create language plpgsql;
+            </transaction>
+            <!--ToDo put csm scripts here also-->
         </sql>
     </target>
 
