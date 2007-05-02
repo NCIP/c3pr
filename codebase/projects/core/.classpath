@@ -13,7 +13,6 @@
 	<classpathentry exported="true" kind="lib" path="lib/commons-dbcp-1.2.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-lang-2.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-pool-1.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/ehcache-1.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/fop.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jstl.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jta.jar"/>
@@ -49,5 +48,6 @@
 	<classpathentry exported="true" kind="lib" path="/web/build/classes" sourcepath="/web/src"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/esb-client"/>
 	<classpathentry exported="true" kind="lib" path="/share/dom4j-1.6.1/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="ext/lib/antlr-2.7.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
