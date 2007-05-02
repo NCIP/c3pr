@@ -133,7 +133,8 @@ public class CreateRegistrationController extends RegistrationController {
 			boolean flag=true;
 			List<SubjectEligibilityAnswer> answers=studyParticipantAssignment.getInclusionEligibilityAnswers();
 			for(SubjectEligibilityAnswer subjectEligibilityAnswer:answers){
-				if(!subjectEligibilityAnswer.getAnswerText().equalsIgnoreCase("Yes")&&!subjectEligibilityAnswer.getAnswerText().equalsIgnoreCase("NA")){
+				String answerText=subjectEligibilityAnswer.getAnswerText();
+				if(answerText==null||answerText.equalsIgnoreCase("")||(!answerText.equalsIgnoreCase("Yes")&&!answerText.equalsIgnoreCase("NA"))){
 					flag=false;
 					break;
 				}
@@ -141,7 +142,8 @@ public class CreateRegistrationController extends RegistrationController {
 			if(flag){
 				answers=studyParticipantAssignment.getExclusionEligibilityAnswers();
 				for(SubjectEligibilityAnswer subjectEligibilityAnswer:answers){
-					if(!subjectEligibilityAnswer.getAnswerText().equalsIgnoreCase("No")&&!subjectEligibilityAnswer.getAnswerText().equalsIgnoreCase("NA")){
+					String answerText=subjectEligibilityAnswer.getAnswerText();
+					if(answerText==null||answerText.equalsIgnoreCase("")||(!answerText.equalsIgnoreCase("No")&&!answerText.equalsIgnoreCase("NA"))){
 						flag=false;
 						break;
 					}
