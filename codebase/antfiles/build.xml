@@ -62,7 +62,7 @@
     <!--                  DEFINE THE SUB PROJECTS THAT SUPPORT TESTING                    -->
     <!-- ================================================================================ -->
     <!-- This should be a subset of the projects above -->
-    <property name="testable.projects.list" value="grid,web"/>
+    <property name="testable.projects.list" value="grid,installer,web"/>
 
     <!-- ======================================================================================= -->
     <!--                  DEFINE THE SUB PROJECTS THAT SUPPORT SYSTEM TESTING                    -->
@@ -205,7 +205,7 @@
         <ant dir="${projects.dir}/web" inheritall="false" target="deployLocal"/>
     </target>
 
-    
+
     <!-- =============================================================== -->
     <!-- c3pr ESB client service                                         -->
     <!-- =============================================================== -->
@@ -296,11 +296,16 @@
             <zipfileset dir="${projects.dir}/core" prefix="projects/core"/>
             <zipfileset dir="${projects.dir}/web" prefix="projects/web"/>
             <zipfileset dir="${projects.dir}/esb-client" prefix="projects/esb-client"/>
-             <zipfileset dir="${share.dir}" prefix="share"/>
+            <zipfileset dir="${share.dir}" prefix="share"/>
         </zip>
 
         <ant dir="${projects.dir}/installer" target="build-installer"/>
     </target>
+
+    <target name="run-installer" description="Runs a previously built installer">
+        <ant dir="${projects.dir}/installer" target="run-installer"/>
+    </target>
+
 
     <!-- ============================================================== -->
     <!-- Builds the projects                                            -->

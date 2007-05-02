@@ -33,40 +33,50 @@ This is the install config for c3prv2 installer
             name="License"
             displayText="License Agreement"
             resource="/resources/c3prv2_license.txt"/>
+
     <page
             type="input"
             name="DeployDir"
             displayText="Installation directory">
         <directory
-                property="installDir"
+                property="install.dir"
                 defaultValue="/tmp/c3prv2"
                 defaultValueWin="${env.ProgramFiles}\c3prv2"
                 displayText="Select an installation directory"
                 create="true"/>
     </page>
 
-
-    <!--Select what to install-->
     <page
             type="input"
-            name="selectComponents"
-            displayText="Components to install">
-        <comment
-                displayText="Choose the components you want to install"
-                bold="true"/>
-        <target
-                displayText="C3PRV2 Web Application"
-                target="deploy-webapp"
-                defaultValue="true"
+            displayText="Install Tomcat"
+            name="installTomcat">
+        <target-select displayText="Select" property="install.new.tomcat"
+                       defaultValue="dummyTarget">
+            <option text="Install new Tomcat" value="installNewTomcat"/>
+            <option text="Choose Existing" value="dummyTarget"/>
+        </target-select>
+    </page>
+
+    <page
+            type="input"
+            name="selectTomcatInstallDir"
+            displayText="Select Directory to install Tomcat"
+            ifTarget="installNewTomcat">
+        <directory
+                property="tomcat.home"
+                displayText="Tomcat Directory"
+                defaultValue="${install.dir}/apache-tomcat-5.5.23"
+                checkExists="true"
+                create="true"
                 />
     </page>
 
-    <!--Select Tomcat-->
+      <!--Select Tomcat-->
     <page
             type="input"
-            name="selectTomcat"
+            name="selectExistingTomcat"
             displayText="Select Tomcat Directory"
-            ifTarget="deploy-webapp">
+            ifTarget="dummyTarget">
         <directory
                 property="tomcat.home"
                 displayText="Tomcat Directory"
@@ -87,9 +97,33 @@ This is the install config for c3prv2 installer
         <comment/>
 
         <comment
-                displayText="Note: Logs will be created in ${tomcat.home}"
+                displayText="Note: Logs will be created in ${tomcat.home}/logs"
                 bold="true"/>
     </page>
+
+    <!--Select what to install-->
+    <page
+            type="input"
+            name="selectComponents"
+            displayText="Components to install">
+        <comment
+                displayText="Choose the components you want to install"
+                bold="true"/>
+        <target
+                displayText="C3PRV2 Web Application"
+                target="deploy-webapp"
+                defaultValue="true"
+                force="true"
+                />
+        <target
+                displayText="C3PRV2 Source Code"
+                target="dummyTarget"
+                defaultValue="true"
+                />
+        <comment displayText="Note:Source code will be installed in ${install.dir}/codebase"/>
+
+    </page>
+  
 
     <!--CSM configure-->
     <page

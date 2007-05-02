@@ -12,12 +12,14 @@ ant -buildfile build-c3prv2.xml
 
     <property name="ext.dir" value="${basedir}/ext"/>
 
-     <property name="c3prv2.installer.dir" value="${basedir}/c3prv2-installer"/>
+    <property name="c3prv2.installer.dir" value="${basedir}/c3prv2-installer"/>
     <property name="c3prv2.installer.artifact" value="c3prv2-installer.jar"/>
+    <property name="resources.dir" value="${basedir}/resources"/>
+    <property name="software.dir" value="${resources.dir}/software"/>
 
     <property name="build.dir" value="${basedir}/build"/>
-
     <property name="ant.lib.version" value=""/>
+
 
     <path id="taskdef.cp">
         <fileset dir="${basedir}/lib">
@@ -25,6 +27,11 @@ ant -buildfile build-c3prv2.xml
             <include name="ant-installer.jar"/>
         </fileset>
     </path>
+
+     <taskdef
+            name="installer"
+            classname="org.tp23.antinstaller.taskdefs.Installer"
+            classpathref="taskdef.cp"/>
 
     <target name="prepare">
         <mkdir dir="${build.dir}"/>
@@ -35,10 +42,7 @@ ant -buildfile build-c3prv2.xml
             depends="prepare"
             description="Builds c3prv2 self extracting installer">
 
-        <taskdef
-                name="installer"
-                classname="org.tp23.antinstaller.taskdefs.Installer"
-                classpathref="taskdef.cp"/>
+
         <installer file="${build.dir}/${c3prv2.installer.artifact}" compress="true"
                    extractType="NonExtractor"
                    installConfig="${c3prv2.installer.dir}/antinstall-config.xml"
@@ -50,14 +54,29 @@ ant -buildfile build-c3prv2.xml
                    icons="eclipse">
             <fileset dir="${ext.dir}" includes="${project.archive}"/>
             <fileset dir="${basedir}" includes="resources/*"/>
+            <!--include bundled software -->
+            <fileset dir="${software.dir}" includes="*"/>
+
         </installer>
 
     </target>
+
+    <!--runs the installer-->
+    <target name="run-installer" description="Will run a previously built installer">
+        <java jar="${build.dir}/${c3prv2.installer.artifact}" fork="true"/>
+    </target>
+
 
     <target name="clean">
         <delete dir="${build.dir}"/>
     </target>
 
-    <target name="all"/>
+    <target name="test" description="Test the installer project">
+      <!-- ToDo validate the installer config-->
+    </target>
+
+    <target name="all">
+        <!--dummy target for main build-->
+    </target>
 
 </project>

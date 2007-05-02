@@ -27,9 +27,10 @@ input in the page to choose components to install
 
     <property name="c3prv2.install.artifact" value="c3prv2-installpack.zip"/>
     <property name="ext.dir" value="${basedir}/ext"/>
+    <!--ToDo should come from a property file-->
+    <property name="tomcat.artifact" value="apache-tomcat-5.5.23.zip"/>
 
     <!--properties from the GUI installer-->
-    <property name="install.dir" value="${installDir}"/>
     <property name="tomcat.webapp.dir" value="${tomcat.home}/webapps"/>
     <property name="install.codebase.dir" value="${install.dir}/codebase"/>
 
@@ -65,15 +66,32 @@ input in the page to choose components to install
 
     <!--will only be run if deploy-webapp has been run-->
     <target name="tomcat.security">
-        <ant dir="${install.codebase.dir}"
-             antfile="antfiles/build.xml"
-             inheritall="false" target="tomcat.security">
+        <ant dir="${install.codebase.dir}/projects/core"
+             inheritall="false"
+             target="tomcat.security">
             <property name="catalina.home" value="${tomcat.home}"/>
         </ant>
     </target>
 
+   <target name="installNewTomcat">
+
+       <unzip src="${antinstaller.jar}" dest="${basedir}"
+              overwrite="true">
+           <patternset>
+               <include name="${tomcat.artifact}"/>
+           </patternset>
+       </unzip>
+
+       <unzip src="${basedir}/${tomcat.artifact}" 
+              dest="${tomcat.home}" 
+              overwrite="true"/>
+   </target>
+
+    <target name="dummyTarget">
+        <!--does nothing-->
+    </target>
 
     <target name="cleanUp">
-        <delete dir="${install.dir}"/>
     </target>
+    
 </project>
