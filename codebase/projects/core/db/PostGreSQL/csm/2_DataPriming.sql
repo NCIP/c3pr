@@ -9,30 +9,28 @@
 
 	INSERT INTO CSM_APPLICATION(
              APPLICATION_NAME, APPLICATION_DESCRIPTION, DECLARATIVE_FLAG, ACTIVE_FLAG,UPDATE_DATE)
+	VALUES ('c3pr','Application Description','0','0',current_date);
+
+	INSERT INTO CSM_APPLICATION(
+             APPLICATION_NAME, APPLICATION_DESCRIPTION, DECLARATIVE_FLAG, ACTIVE_FLAG,UPDATE_DATE)
     VALUES ( 'csmupt', 'CSM UPT Super Admin Application', '0','0',current_date);
 	
 	INSERT INTO CSM_USER(
              LOGIN_NAME, FIRST_NAME, LAST_NAME, PASSWORD,UPDATE_DATE)
     VALUES ( 'c3pr_admin', 'admin', 'admin','Ie0InPvp8oOgmHldOE8ejA==',current_date);
-		
+
 	INSERT INTO CSM_PROTECTION_ELEMENT(
              PROTECTION_ELEMENT_NAME, PROTECTION_ELEMENT_DESCRIPTION, OBJECT_ID, APPLICATION_ID,UPDATE_DATE)
-    VALUES ( 'csmupt','CSM UPT Super Admin Application Protection Element','csmupt',1,current_date);
+    VALUES ( 'csmupt','CSM UPT Super Admin Application Protection Element','csmupt',2,current_date);
 
 	INSERT INTO CSM_USER_PE(
              PROTECTION_ELEMENT_ID, USER_ID, UPDATE_DATE)
     VALUES ( 1,1,current_date);
 
 COMMIT;
---  
---  The following entry is for your application. 
---  Replace <<application_context_name>> with your application name.
--- 
-
-
-	INSERT INTO CSM_APPLICATION(
-             APPLICATION_NAME, APPLICATION_DESCRIPTION, DECLARATIVE_FLAG, ACTIVE_FLAG,UPDATE_DATE)
-	VALUES ('c3pr','Application Description','0','0',current_date);
+--
+--  The following entry is for your application.
+--
 
 	INSERT INTO CSM_PROTECTION_ELEMENT(
              PROTECTION_ELEMENT_NAME, PROTECTION_ELEMENT_DESCRIPTION, OBJECT_ID, APPLICATION_ID,UPDATE_DATE)
@@ -44,7 +42,7 @@ COMMIT;
     insert into CSM_USER_GROUP(USER_GROUP_ID, USER_ID,GROUP_ID)
     values(1,1,1);
 COMMIT;
--- 
+--
 --  The following entries are Common Set of Privileges
 -- 
 
