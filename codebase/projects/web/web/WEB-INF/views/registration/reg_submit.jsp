@@ -294,6 +294,25 @@ function navRollOver(obj, state) {
 							<td><img src="<tags:imageUrl name="spacer.gif"/>"
 								width="1" height="1" class="heightControl"></td>
 						</tr>
+						<c:choose>
+						<c:when test="${fn:length(command.subjectStratificationAnswers) == 0}">
+							<tr>
+								<td class="label" align=left>The Selected Study does not have Stratification Factors</td>
+							</tr>
+						</c:when>
+						<c:otherwise>
+							<tr>
+								<td class="label">Strata</td>
+								<td><b>Answer</td>
+							</tr>
+							<c:forEach items="${command.subjectStratificationAnswers}" var="criteria">
+								<tr>
+									<td width="85%" class="label">${criteria.stratificationCriterion.questionText}</td>
+									<td>${criteria.stratificationCriterionAnswer.permissibleAnswer==''?'<span class="red"><b>Unanswered</span>':criteria.stratificationCriterionAnswer.permissibleAnswer }</td>
+								</tr>
+							</c:forEach>
+						</c:otherwise>
+						</c:choose>
 					</table>
 					</td>
 				</tr>

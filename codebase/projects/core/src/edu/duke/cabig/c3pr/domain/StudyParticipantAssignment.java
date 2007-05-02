@@ -50,6 +50,7 @@ public class StudyParticipantAssignment extends AbstractGridIdentifiableDomainOb
     private StudyInvestigator treatingPhysician;
     private String registrationStatus;
     private List<SubjectEligibilityAnswer> subjectEligibilityAnswers=new ArrayList<SubjectEligibilityAnswer>();
+    private List<SubjectStratificationAnswer> subjectStratificationAnswers=new ArrayList<SubjectStratificationAnswer>();
     
     /// BEAN PROPERTIES
 
@@ -68,9 +69,29 @@ public class StudyParticipantAssignment extends AbstractGridIdentifiableDomainOb
 	public void addSubjectEligibilityAnswers(SubjectEligibilityAnswer subjectEligibilityAnswer){
 		subjectEligibilityAnswers.add(subjectEligibilityAnswer);
 	}
-
+	
 	public void removeSubjectEligibilityAnswers(SubjectEligibilityAnswer subjectEligibilityAnswer){
 		subjectEligibilityAnswers.remove(subjectEligibilityAnswer);
+	}
+	
+	@OneToMany
+    @Cascade({CascadeType.ALL,CascadeType.DELETE_ORPHAN})
+    @JoinColumn(name = "SPA_ID")
+	public List<SubjectStratificationAnswer> getSubjectStratificationAnswers() {
+		return subjectStratificationAnswers;
+	}
+
+	public void setSubjectStratificationAnswers(
+			List<SubjectStratificationAnswer> subjectStratificationAnswers) {
+		this.subjectStratificationAnswers = subjectStratificationAnswers;
+	}
+
+	public void addSubjectStratificationAnswers(SubjectStratificationAnswer subjectStratificationAnswer){
+		subjectStratificationAnswers.add(subjectStratificationAnswer);
+	}
+	
+	public void removeSubjectStratificationAnswers(SubjectStratificationAnswer subjectStratificationAnswer){
+		subjectStratificationAnswers.remove(subjectStratificationAnswer);
 	}
 	
 	public void setStudySite(StudySite studySite) {
@@ -288,4 +309,6 @@ public class StudyParticipantAssignment extends AbstractGridIdentifiableDomainOb
 		}
 		return exclusionCriteriaAnswers;
 	}
+
+
 }

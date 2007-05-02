@@ -26,6 +26,7 @@ import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.duke.cabig.c3pr.domain.StudySite;
@@ -155,6 +156,8 @@ public abstract class RegistrationController extends AbstractTabbedFlowFormContr
 		Object command=binder.getTarget();
 		binder.registerCustomEditor(StudyInvestigator.class, new ObjectGraphBasedEditor(
 				command,"studySite.studyInvestigators"));
+//		binder.registerCustomEditor(StratificationCriterionPermissibleAnswer.class, new ObjectGraphBasedEditor(
+//				command,"subjectStratificationAnswers.stratificationCriterion.permissibleAnswers"));
 	}
 
 	public ConfigurationProperty getConfigurationProperty() {

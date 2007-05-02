@@ -17,8 +17,11 @@ import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.StratificationCriterion;
+import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
+import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
 import edu.duke.cabig.c3pr.service.ParticipantService;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
@@ -105,295 +108,19 @@ public class CreateRegistrationController extends RegistrationController {
 		// TODO Auto-generated method stub
 		StudyParticipantAssignment studyParticipantAssignment=(StudyParticipantAssignment)command;
 		if(isResumeFlow(request)){
-			if (logger.isDebugEnabled()) {
-				logger.debug("postProcessPage(HttpServletRequest, Object, Errors, String) - ResumeFlow"); //$NON-NLS-1$
-			}
-			if (logger.isDebugEnabled()) {
-				logger.debug("postProcessPage(HttpServletRequest, Object, Errors, String) - extracting eligibility criteria from study..."); //$NON-NLS-1$
-			}
-			List criterias=studyParticipantAssignment.getStudySite().getStudy().getIncCriterias();
-			for(int i=0 ; i<criterias.size() ; i++){
-				SubjectEligibilityAnswer subjectEligibilityAnswer=new SubjectEligibilityAnswer();
-				subjectEligibilityAnswer.setEligibilityCriteria((EligibilityCriteria)criterias.get(i));
-				studyParticipantAssignment.addSubjectEligibilityAnswers(subjectEligibilityAnswer);
-			}
-			criterias=studyParticipantAssignment.getStudySite().getStudy().getExcCriterias();
-			for(int i=0 ; i<criterias.size() ; i++){
-				SubjectEligibilityAnswer subjectEligibilityAnswer=new SubjectEligibilityAnswer();
-				subjectEligibilityAnswer.setEligibilityCriteria((EligibilityCriteria)criterias.get(i));
-				studyParticipantAssignment.addSubjectEligibilityAnswers(subjectEligibilityAnswer);
-			}
-			studyParticipantAssignment.setStartDate(new Date());
-			studyParticipantAssignment.setStudyParticipantIdentifier("SYS_GEN1");
-			if (logger.isDebugEnabled()) {
-				logger.debug("postProcessPage(HttpServletRequest, Object, Errors, String) - studyParticipantAssignment.getParticipant().getPrimaryIdentifier()" + studyParticipantAssignment.getParticipant().getPrimaryIdentifier()); //$NON-NLS-1$
-			}
+			buildCommandObject(studyParticipantAssignment);
 		}
 		if(tabShortTitle.equalsIgnoreCase("Check Eligibility")){
-			boolean flag=true;
-			List<SubjectEligibilityAnswer> answers=studyParticipantAssignment.getInclusionEligibilityAnswers();
-			for(SubjectEligibilityAnswer subjectEligibilityAnswer:answers){
-				String answerText=subjectEligibilityAnswer.getAnswerText();
-				if(answerText==null||answerText.equalsIgnoreCase("")||(!answerText.equalsIgnoreCase("Yes")&&!answerText.equalsIgnoreCase("NA"))){
-					flag=false;
-					break;
-				}
+			
+			studyParticipantAssignment.setEligibilityIndicator(evaluateEligibilityIndicator(studyParticipantAssignment));
+		}
+		if(tabShortTitle.equalsIgnoreCase("Stratify")){
+			handleStratification(request,studyParticipantAssignment);
+			for(SubjectStratificationAnswer subjectStratificationAnswer : studyParticipantAssignment.getSubjectStratificationAnswers()){
+				System.out.println(subjectStratificationAnswer.getStratificationCriterion().getQuestionText()+" : "+subjectStratificationAnswer.getStratificationCriterionAnswer()!=null?subjectStratificationAnswer.getStratificationCriterionAnswer().getPermissibleAnswer():"Unanswered");
 			}
-			if(flag){
-				answers=studyParticipantAssignment.getExclusionEligibilityAnswers();
-				for(SubjectEligibilityAnswer subjectEligibilityAnswer:answers){
-					String answerText=subjectEligibilityAnswer.getAnswerText();
-					if(answerText==null||answerText.equalsIgnoreCase("")||(!answerText.equalsIgnoreCase("No")&&!answerText.equalsIgnoreCase("NA"))){
-						flag=false;
-						break;
-					}
-				}
-			}
-			studyParticipantAssignment.setEligibilityIndicator(flag);
 		}
 	}
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
-	 */
-/*	@Override
-	protected void postProcessPage(HttpServletRequest request, Object command, Errors errors, String tabShortTitle) throws Exception {
-		// TODO Auto-generated method stub
-		System.out.println("Inside postProcessPage.......tabShortTitle is:"+tabShortTitle);
-		String viewName = request.getParameter("nextView");
-		if(tabShortTitle.equalsIgnoreCase("SearchSubjectStudy")){
-		}
-		if (viewName.equalsIgnoreCase("confirmationView")) {
-			if (logger.isDebugEnabled()) {
-				logger
-						.debug("postProcessPage(HttpServletRequest, Object, Errors, int) - In postProcessPage()..."); //$NON-NLS-1$
-			}
-			if (logger.isDebugEnabled()) {
-				logger
-						.debug("postProcessPage(HttpServletRequest, Object, Errors, int) - no of registered pages: " + getPages().length); //$NON-NLS-1$
-			}
-			if (logger.isDebugEnabled()) {
-				logger
-						.debug("postProcessPage(HttpServletRequest, Object, Errors, int) - " + viewName); //$NON-NLS-1$
-			}
-			StudyParticipantAssignment studyParticipantAssignment = (StudyParticipantAssignment) command;
-			int size = studyParticipantAssignment.getParticipant()
-					.getStudyParticipantAssignments().size();
-			if (logger.isDebugEnabled()) {
-				logger
-						.debug("postProcessPage(HttpServletRequest, Object, Errors, int) - -------------postProcessPage() participant.getStudyParticipantAssignments().size() is " + size + "---------------"); //$NON-NLS-1$ //$NON-NLS-2$
-			}
-			int size1 = studyParticipantAssignment.getStudySite()
-					.getStudyParticipantAssignments().size();
-			if (logger.isDebugEnabled()) {
-				logger
-						.debug("postProcessPage(HttpServletRequest, Object, Errors, int) - -------------postProcessPage() studySite.getStudyParticipantAssignments().size() is " + size1 + "---------------"); //$NON-NLS-1$ //$NON-NLS-2$
-			}
-			studyParticipantAssignment.getParticipant()
-					.addStudyParticipantAssignment(studyParticipantAssignment);
-			studyParticipantAssignment.setStartDate(new Date());
-			studyParticipantAssignment
-					.setStudyParticipantIdentifier("SYS_GEN1");
-			participantDao.save(studyParticipantAssignment.getParticipant());
-			studyParticipantAssignment
-					.setStudyParticipantIdentifier(studyParticipantAssignment
-							.getId()
-							+ "");
-			if(isBroadcastEnable.equalsIgnoreCase("true")){
-				String xml = "";
-				try {
-					xml = XMLUtils.toXml(studyParticipantAssignment);
-					System.out
-							.println("--------------------XML for Registration--------------------");
-					System.out.println(xml);
-					messageBroadcaster.initialize();
-					messageBroadcaster.broadcast(xml);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-		if (viewName.equalsIgnoreCase("randomizeView")) {
-			StudyParticipantAssignment studyParticipantAssignment = (StudyParticipantAssignment) command;
-			Vector result = messageBroadcaster.getBroadcastStatus();
-			if (result != null) {
-				for (int i = 0; i < result.size(); i++) {
-					String msg = (String) result.get(i);
-					System.out.println((i + 1) + ".");
-					System.out.println(msg);
-					System.out.println("--------");
-				}
-			}
-			if (request.getParameter("actionType") == null) {
-				ScheduledArm scheduledArm = new ScheduledArm();
-				scheduledArm.setEligibilityIndicator("true");
-				scheduledArm.setStartDate(new Date());
-				Arm arm = new Arm();
-				scheduledArm.setArm(arm);
-				scheduledArm
-						.setStudyParticipantAssignment(studyParticipantAssignment);
-				studyParticipantAssignment.addScheduledArm(scheduledArm);
-				return;
-			}
-			if (!request.getParameter("actionType").equals("save")) {
-				System.out
-						.println("--------------------Recieved randomizeView with actionType not save---------------------------");
-				ScheduledArm scheduledArm = new ScheduledArm();
-				scheduledArm.setEligibilityIndicator("true");
-				scheduledArm.setStartDate(new Date());
-				Arm arm = new Arm();
-				scheduledArm.setArm(arm);
-				scheduledArm
-						.setStudyParticipantAssignment(studyParticipantAssignment);
-				studyParticipantAssignment.addScheduledArm(scheduledArm);
-				return;
-			}
-			System.out
-					.println("--------------------Recieved randomizeView with actionType as save---------------------------");
-			int scheduledArmsSize = studyParticipantAssignment
-					.getScheduledArms().size();
-			int armId = studyParticipantAssignment.getScheduledArms().get(
-					scheduledArmsSize - 1).getArm().getId();
-			if (armId >= 0) {
-				System.out
-						.println("------------------Randomization selected---------------------");
-				Arm arm = null;
-				List<Epoch> list = studyParticipantAssignment.getStudySite()
-						.getStudy().getEpochs();
-				if (logger.isDebugEnabled()) {
-					logger
-							.debug("postProcessPage(HttpServletRequest, Object, Errors, int) - " + list.size()); //$NON-NLS-1$
-				}
-				List<Arm> arms = null;
-				for (int i = 0; i < list.size(); i++) {
-					Epoch e = (Epoch) list.get(i);
-					if (logger.isDebugEnabled()) {
-						logger
-								.debug("postProcessPage(HttpServletRequest, Object, Errors, int) - " + e.getName()); //$NON-NLS-1$
-					}
-					if (e.getName().equals("Treatment")) {
-						for (int j = 0; j < e.getArms().size(); j++) {
-							if (logger.isDebugEnabled()) {
-								logger
-										.debug("postProcessPage(HttpServletRequest, Object, Errors, int) - " + e.getArms().get(j).getName()); //$NON-NLS-1$
-							}
-							if (logger.isDebugEnabled()) {
-								logger
-										.debug("postProcessPage(HttpServletRequest, Object, Errors, int) - --------------------------------------postProcessPage() Arms available-----------------------------------------"); //$NON-NLS-1$
-							}
-
-						}
-						arms = (List<Arm>) (studyParticipantAssignment
-								.getStudySite().getStudy().getEpochs().get(i)
-								.getArms());
-					}
-				}
-				boolean flag = true;
-				for (int i = 0; i < arms.size(); i++) {
-					if (arms.get(i).getId() == armId) {
-						arm = arms.get(i);
-						flag = false;
-					}
-				}
-				if (flag)
-					arm = armDao.getById(armId);
-				studyParticipantAssignment.getScheduledArms().get(
-						scheduledArmsSize - 1).setArm(arm);
-				System.out
-						.println("-----------------Saving scheduled arm------------");
-				participantDao
-						.save(studyParticipantAssignment.getParticipant());
-				System.out
-						.println("-----------------Saved scheduled arm------------");
-			} else {
-				System.out
-						.println("------------------No Randomization done---------------------");
-				studyParticipantAssignment.getScheduledArms().remove(
-						scheduledArmsSize - 1);
-			}
-
-		}
-		if (viewName.equalsIgnoreCase("identifiersView")) {
-			System.out
-					.println("--------------------Recieved Idententifiers View---------------------------");
-			StudyParticipantAssignment studyParticipantAssignment = (StudyParticipantAssignment) command;
-			if (request.getParameter("_action") != null) {
-				System.out
-						.println("--------------------Recieved Idententifiers View with _action---------------------------");
-				if (request.getParameter("_action").equals("addIdentifier")) {
-					System.out
-							.println("--------------------Recieved Idententifiers View with _action as addIdentifier---------------------------");
-					studyParticipantAssignment.addIdentifier(new Identifier());
-				} else if (request.getParameter("_action").equals(
-						"removeIdentifier")) {
-					System.out
-							.println("--------------------Recieved Idententifiers View with _action as removeIdentifier---------------------------");
-					studyParticipantAssignment.getIdentifiers()
-							.remove(
-									Integer.parseInt(request
-											.getParameter("_selected")));
-				}
-				return;
-			}
-			System.out
-					.println("--------------------Recieved Idententifiers View with _action as null---------------------------");
-			try {
-				Vector result = messageBroadcaster.getBroadcastStatus();
-				System.out.println("Messages from ESB.....");
-				if (result != null) {
-					for (int i = 0; i < result.size(); i++) {
-						String msg = (String) result.get(i);
-						System.out.println((i + 1) + ".");
-						System.out.println(msg);
-						Document document;
-						XPath xpath;
-						String source = "";
-						document = new SAXBuilder()
-								.build(new StringReader(msg));
-						xpath = XPath
-								.newInstance("/ns:registration/ns:identifier/ns:source");
-						xpath.addNamespace("ns",
-								"http://semanticbits.com/registration.xsd");
-						source = xpath.valueOf(document);
-						if (source.equalsIgnoreCase("C3D")) {
-							System.out.println("Message from C3D recieved...");
-							xpath = XPath
-									.newInstance("/ns:registration/ns:identifier/ns:value");
-							String value = xpath.valueOf(document);
-							if (value.indexOf("-1") == 0) {
-								System.out
-										.println("Patient position not found by C3D");
-							} else {
-								xpath = XPath
-										.newInstance("/ns:registration/ns:identifier/ns:type");
-								String type = xpath.valueOf(document);
-								Identifier id = new Identifier();
-								id.setSource(source);
-								id.setType(type);
-								id.setValue(value);
-								studyParticipantAssignment.addIdentifier(id);
-								participantDao.save(studyParticipantAssignment.getParticipant());
-							}
-							System.out.println(msg);
-							System.out.println("--------");
-						}else {
-							System.out.println("ESB message not from..");
-						}
-					}
-				} else {
-					System.out.println("no avalbale result from ESB..");
-				}
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			if(studyParticipantAssignment.getIdentifiers().size()==0)
-				studyParticipantAssignment.addIdentifier(new Identifier());
-		}
-	}
-*/	
 	@Override
 	protected ModelAndView processFinish(HttpServletRequest request,
 			HttpServletResponse response, Object command, BindException arg3)
@@ -464,6 +191,72 @@ public class CreateRegistrationController extends RegistrationController {
 		if(request.getParameter("resumeFlow")!=null)
 			return true;
 		return false;
+	}
+	
+	private void buildCommandObject(StudyParticipantAssignment studyParticipantAssignment){
+		if (logger.isDebugEnabled()) {
+			logger.debug("buildCommandObject(StudyParticipantAssignment studyParticipantAssignment) - ResumeFlow"); //$NON-NLS-1$
+		}
+		if (logger.isDebugEnabled()) {
+			logger.debug("buildCommandObject(StudyParticipantAssignment studyParticipantAssignment) - extracting eligibility criteria from study..."); //$NON-NLS-1$
+		}
+		List criterias=studyParticipantAssignment.getStudySite().getStudy().getIncCriterias();
+		for(int i=0 ; i<criterias.size() ; i++){
+			SubjectEligibilityAnswer subjectEligibilityAnswer=new SubjectEligibilityAnswer();
+			subjectEligibilityAnswer.setEligibilityCriteria((EligibilityCriteria)criterias.get(i));
+			studyParticipantAssignment.addSubjectEligibilityAnswers(subjectEligibilityAnswer);
+		}
+		criterias=studyParticipantAssignment.getStudySite().getStudy().getExcCriterias();
+		for(int i=0 ; i<criterias.size() ; i++){
+			SubjectEligibilityAnswer subjectEligibilityAnswer=new SubjectEligibilityAnswer();
+			subjectEligibilityAnswer.setEligibilityCriteria((EligibilityCriteria)criterias.get(i));
+			studyParticipantAssignment.addSubjectEligibilityAnswers(subjectEligibilityAnswer);
+		}
+		studyParticipantAssignment.setStartDate(new Date());
+		studyParticipantAssignment.setStudyParticipantIdentifier("SYS_GEN1");
+		if (logger.isDebugEnabled()) {
+			logger.debug("buildCommandObject(StudyParticipantAssignment studyParticipantAssignment) - studyParticipantAssignment.getParticipant().getPrimaryIdentifier()" + studyParticipantAssignment.getParticipant().getPrimaryIdentifier()); //$NON-NLS-1$
+		}
+		List<StratificationCriterion> stratifications=studyParticipantAssignment.getStudySite().getStudy().getStratificationCriteria();
+		for(StratificationCriterion stratificationCriterion : stratifications){
+			stratificationCriterion.getPermissibleAnswers().size();
+			SubjectStratificationAnswer subjectStratificationAnswer=new SubjectStratificationAnswer();
+			subjectStratificationAnswer.setStratificationCriterion(stratificationCriterion);
+			studyParticipantAssignment.addSubjectStratificationAnswers(subjectStratificationAnswer);
+		}
+	}
+	
+	private boolean evaluateEligibilityIndicator(StudyParticipantAssignment studyParticipantAssignment){
+		boolean flag=true;
+		List<SubjectEligibilityAnswer> answers=studyParticipantAssignment.getInclusionEligibilityAnswers();
+		for(SubjectEligibilityAnswer subjectEligibilityAnswer:answers){
+			String answerText=subjectEligibilityAnswer.getAnswerText();
+			if(answerText==null||answerText.equalsIgnoreCase("")||(!answerText.equalsIgnoreCase("Yes")&&!answerText.equalsIgnoreCase("NA"))){
+				flag=false;
+				break;
+			}
+		}
+		if(flag){
+			answers=studyParticipantAssignment.getExclusionEligibilityAnswers();
+			for(SubjectEligibilityAnswer subjectEligibilityAnswer:answers){
+				String answerText=subjectEligibilityAnswer.getAnswerText();
+				if(answerText==null||answerText.equalsIgnoreCase("")||(!answerText.equalsIgnoreCase("No")&&!answerText.equalsIgnoreCase("NA"))){
+					flag=false;
+					break;
+				}
+			}
+		}
+		return flag;
+	}
+	private void handleStratification(HttpServletRequest request, StudyParticipantAssignment studyParticipantAssignment){
+		for(int i=0 ; i<studyParticipantAssignment.getSubjectStratificationAnswers().size() ; i++){
+			String id=request.getParameter("subjectStratificationAnswers["+i+"].stratificationCriterionAnswer");
+			int tempId=Integer.parseInt(id);
+			for(StratificationCriterionPermissibleAnswer answer : studyParticipantAssignment.getSubjectStratificationAnswers().get(i).getStratificationCriterion().getPermissibleAnswers()){
+				if(answer.getId()==tempId)
+					studyParticipantAssignment.getSubjectStratificationAnswers().get(i).setStratificationCriterionAnswer(answer);
+			}
+		}
 	}
 }
 

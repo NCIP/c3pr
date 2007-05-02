@@ -89,6 +89,7 @@
 				<value>edu.duke.cabig.c3pr.domain.DiseaseTerm</value>			
 				<value>edu.duke.cabig.c3pr.domain.StratificationCriterion</value>
 				<value>edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer</value>													
+				<value>edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer</value>			
 			</list>
 		</property>
 		<property name="entityInterceptor">
