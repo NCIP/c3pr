@@ -148,6 +148,7 @@
                 <filter token="datasource.dialect" value="${datasource.dialect}"/>
                 <filter token="esb.brokerUrl" value="${esb.brokerUrl}"/>
                 <filter token="authorizationSwitch" value="${authorizationSwitch}"/>
+                <filter token="csm.context.name" value="${csm.context.name}"/>
             </filterset>
         </copy>
         <copy todir="${classes.dir}/context">

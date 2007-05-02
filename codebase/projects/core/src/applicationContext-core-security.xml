@@ -9,14 +9,17 @@
 
     <bean id="authorizationSwitch"
           class="gov.nih.nci.security.acegi.csm.authorization.AuthorizationSwitch">
-        <property name="on">
-        <value>${authorizationSwitch}</value>
+        <property name="on" ref="booleanFromString">
         </property>
     </bean>
 
+    <bean id="booleanFromString"
+          class="java.lang.Boolean">
+        <constructor-arg  value="${authorizationSwitch}"/>
+    </bean>
 
     <bean id="csmApplicationContextName" class="java.lang.String">
-        <constructor-arg value="c3pr" />
+        <constructor-arg value="${csm.context.name}" />
     </bean>
 
 
@@ -87,6 +90,6 @@
           factory-method="getAuthenticationManager">
         <constructor-arg ref="csmApplicationContextName" />
     </bean>
-    
+
 
 </beans>
