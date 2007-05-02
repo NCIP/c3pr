@@ -55,7 +55,7 @@ function navRollOver(obj, state) {
 						<tr>
 							<td class="label" width="60%"><span class="red">*</span><em></em>Treating Physician:</td>
 							<td>
-								<form:select path="treatingPhysician">
+								<form:select path="treatingPhysician" cssClass="validate-notEmpty">
 									<option value="">--Please Select--</options><form:options
 										items="${command.studySite.studyInvestigators}" itemLabel="healthcareSiteInvestigator.investigator.fullName" itemValue="id" />
 								</form:select>
