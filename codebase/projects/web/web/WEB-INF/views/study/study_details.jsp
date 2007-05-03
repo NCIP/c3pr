@@ -10,7 +10,7 @@ prefix="decorator"%>
 <html>
 <head>
 <style type="text/css">
-        .label { width: 12em; text-align: right; padding: 4px; }
+        .label { width: 10em; text-align: right; padding: 4px; }
 </style>
 </head>
 <body>
@@ -18,29 +18,25 @@ prefix="decorator"%>
 <tabs:tabFields tab="${tab}" />
 <div><tabs:division id="study-details">
 <!-- MAIN BODY STARTS HERE -->
-<table width="40%" border="0" cellspacing="0" cellpadding="0">
+<table border="0" cellspacing="0" cellpadding="0">
 <div>
 		<input type="hidden" name="_action" value="">
 </div>
+<tags:hasErrorsMessage/>
 <tr>
-	<td valign="top">
-	<table width="50%" border="0" cellspacing="0" cellpadding="0"
-		id="table1">
+	<td>
+	<table border="0" cellspacing="0" cellpadding="0" id="table1">
 		<tr>
 			<td class="label">Short Title:</td>
-			<td><form:textarea path="shortTitleText" rows="2" cols="30" /></td>
-			<td width="15%"></td>
+			<td><form:input path="shortTitleText" size="40" maxlength="30"/></td>
 		</tr>
 		<tr>
 			<td><img src="<tags:imageUrl name="spacer.gif"/>"
 				width="1" height="1" class="heightControl"></td>
 		</tr>
 		<tr>
-			<td class="label" valign=""><span class="red">*</span><em></em>Long
-			Title:</td>
-			<td><form:textarea path="longTitleText" rows="4" cols="30" /></td>
-			<td width="15%"><em><span class="red"><form:errors
-				path="longTitleText" /></em></span></td>
+			<td class="label"><span class="red">*</span><em></em>Long Title:</td>
+			<td><form:textarea path="longTitleText" rows="4" cols="40" cssClass="validate-notEmpty&&maxlength200" /></td>
 		</tr>
 		<tr>
 			<td><img src="<tags:imageUrl name="spacer.gif"/>"
@@ -48,8 +44,7 @@ prefix="decorator"%>
 		</tr>
 		<tr>
 			<td class="label">Precis:</td>
-			<td><form:textarea path="precisText" rows="2" cols="30" /></td>
-			<td width="15%"></td>
+			<td><form:textarea path="precisText" rows="2" cols="40" cssClass="validate-maxlength200" /></td>
 		</tr>
 		<tr>
 			<td><img src="<tags:imageUrl name="spacer.gif"/>"
@@ -57,18 +52,16 @@ prefix="decorator"%>
 		</tr>
 		<tr>
 			<td class="label">Description:</td>
-			<td><form:textarea path="descriptionText" rows="3" cols="30" /></td>
-			<td width="15%"></td>
+			<td><form:textarea path="descriptionText" rows="3" cols="40" cssClass="validate-maxlength200" /></td>
 		</tr>
 	</table>
 	</td>
-	<td width="40%" valign="top" class="contentAreaR"><strong><strong><strong></strong></strong></strong>
-	<table width="50%" border="0" cellspacing="0" cellpadding="0"
+	<td class="contentAreaR"><strong><strong><strong></strong></strong></strong>
+	<table  border="0" cellspacing="0" cellpadding="0"
 		id="table1">
 		<tr>
 			<td class="label">Target Accrual:</td>
-			<td><form:input path="targetAccrualNumber" size="34" /></td>
-			<td width="10%"></td>
+			<td><form:input path="targetAccrualNumber" size="10" cssClass="validate-numeric"/></td>
 		</tr>
 		<tr>
 			<td><img src="<tags:imageUrl name="spacer.gif"/>"
@@ -76,12 +69,11 @@ prefix="decorator"%>
 		</tr>
 		<tr>
 			<td class="label"><span class="red">*</span><em></em>Status:</td>
-			<td><form:select path="status">
-				<option value="">--Please Select-- <form:options
+			<td><form:select path="status" cssClass="validate-notEmpty">
+				<option value="">--Please Select-- </option>
+				<form:options
 					items="${statusRefData}" itemLabel="desc" itemValue="desc" />
 			</form:select></td>
-			<td width="10%"><em><span class="red"><form:errors
-				path="status" /></em></span></td>
 		</tr>
 		<tr>
 			<td><img src="<tags:imageUrl name="spacer.gif"/>"
@@ -93,12 +85,11 @@ prefix="decorator"%>
 		</tr>
 		<tr>
 			<td class="label"><span class="red">*</span><em></em>Phase:</td>
-			<td><form:select path="phaseCode">
-				<option value="">--Please Select-- <form:options
+			<td><form:select path="phaseCode"  cssClass="validate-notEmpty">
+				<option value="">--Please Select-- </option>
+				<form:options
 					items="${phaseCodeRefData}" itemLabel="desc" itemValue="desc" />
 			</form:select></td>
-			<td width="10%"><em><span class="red"><form:errors
-				path="phaseCode" /></em></span></td>
 		</tr>
 		<tr>
 			<td><img src="<tags:imageUrl name="spacer.gif"/>"
@@ -106,13 +97,12 @@ prefix="decorator"%>
 		</tr>
 		<tr>
 			<td class="label"><span class="red">*</span><em></em>Sponsor:</td>
-			<td><form:select path="sponsorCode">
-				<option value="">--Please Select-- <form:options
+			<td><form:select path="sponsorCode" cssClass="validate-notEmpty">
+				<option value="">--Please Select-- </option>
+				<form:options
 					items="${sponsorCodeRefData}" itemLabel="desc"
 					itemValue="desc" />
 			</form:select></td>
-			<td width="10%"><em><span class="red"><form:errors
-				path="sponsorCode" /></em></span></td>
 		</tr>
 		<tr>
 			<td><img src="<tags:imageUrl name="spacer.gif"/>"
@@ -124,7 +114,6 @@ prefix="decorator"%>
 				<form:options items="${randomizedIndicatorRefData}"
 					itemLabel="desc" itemValue="code" />
 			</form:select></td>
-			<td width="10%"></td>
 		</tr>
 
 		<tr>
@@ -138,7 +127,6 @@ prefix="decorator"%>
 				<form:options items="${multiInstitutionIndicatorRefData}"
 					itemLabel="desc" itemValue="code" />
 			</form:select></td>
-			<td width="15%"></td>
 		</tr>
 		<tr>
 			<td><img src="<tags:imageUrl name="spacer.gif"/>"
@@ -150,7 +138,6 @@ prefix="decorator"%>
 				 <form:options items="${blindedIndicatorRefData}"
 					itemLabel="desc" itemValue="code" />
 			</form:select></td>
-			<td width="15%"></td>
 		</tr>
 		<tr>
 			<td><img src="<tags:imageUrl name="spacer.gif"/>"
@@ -158,12 +145,11 @@ prefix="decorator"%>
 		</tr>
 		<tr>
 			<td class="label"><span class="red">*</span><em></em>Type:</td>
-			<td><form:select path="type">
-				<option value="">--Please Select-- <form:options
+			<td><form:select path="type" cssClass="validate-notEmpty">
+				<option value="">--Please Select--</option>
+				<form:options
 					items="${typeRefData}" itemLabel="desc" itemValue="desc" />
 			</form:select></td>
-			<td width="15%"><em><span class="red"><form:errors
-				path="type" /></em></span></td>
 		</tr>
 	</table>
 	</td>

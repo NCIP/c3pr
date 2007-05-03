@@ -18,6 +18,17 @@ function fireAction(action, selected){
 	document.getElementById('command').targetPage.name='_noname';
 	document.studySiteForm._action.value=action;
 	document.studySiteForm._selected.value=selected;
+	
+	// need to disable validations while submitting
+	name = 'studySites['+selected+'].site';
+	$(name).className='none';
+	status = 'studySites['+selected+'].statusCode';
+	$(status).className='none';
+	role = 'studySites['+selected+'].roleCode';
+	$(role).className='none';
+	date = 'studySites['+selected+'].irbApprovalDate';
+	$(date).className='none';
+	
 	document.studySiteForm.submit();
 }
 </script>
@@ -32,56 +43,48 @@ function fireAction(action, selected){
 <div><tabs:division id="study-studysites">
 
 <!-- MAIN BODY STARTS HERE -->
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<table border="0" cellspacing="0" cellpadding="0">
 	<tr>
-		<td valign="top">
-			<p id="instructions">
-				Add StudySites associated with the Study (<span class="red">*</span><em>Required Information </em>)<br>
-				Use Date format as (mm/dd/yyyy)
-			</p>
-			<br>
-			<table width="100%" border="0" cellspacing="0" cellpadding="0"
-				id="table1">
-
-				<td width="100%" valign="top">
-					<table width="100%" border="0" cellspacing="5" cellpadding="0"
-						id="table1">
-
-					<tr align="left" class="label">
-						<td width="5%" align="left"><a href="javascript:fireAction('addStudySite','0');"><img
-							src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add another Study Site"></a>
-						</td>
-						<td width="11%" align="left"><b>HealthCare Site</b><span class="red">*</span></td>
-						<td width="11%" align="left"><b>Status<span class="red">*</span></td>
-						<td width="11%" align="left"><b>Role<span class="red">*</span></td>
-						<td width="17%" align="left"><b>Activation Date</b><span class="red">*</span> </td>
-						<td width="17%" align="left"><b>IRB Approval Date</b><span class="red">*</span></td>
-					</tr>
-					<c:forEach items="${command.studySites}" varStatus="status">
-						<tr class="results">
-							<td width="5%"><a href="javascript:fireAction('removeStudySite',${status.index});"><img
-								src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
-							<td width="11%"><form:select path="studySites[${status.index}].site">
-								<option value="" selected>--Please Select--<form:options items="${healthCareSitesRefData}" itemLabel="name" itemValue="id" />
-								</form:select></td>
-							<td width="11%"><form:select path="studySites[${status.index}].statusCode">
-								<option value="" selected>--Please Select--<form:options items="${studySiteStatusRefData}" itemLabel="desc"
-									itemValue="desc" />
-							</form:select></td>
-							<td width="11%"><form:select path="studySites[${status.index}].roleCode">
-								<option value="" selected>--Please Select--<form:options items="${studySiteRoleCodeRefData}" itemLabel="desc"
-									itemValue="desc" />
-							</form:select></td>
-							<td width="17%">
-								<tags:dateInput path="studySites[${status.index}].startDate" />&nbsp;&nbsp;&nbsp;<span
-									class="red"><em></em></span></td>
-							<td width="17%">
-								<tags:dateInput path="studySites[${status.index}].irbApprovalDate" />&nbsp;&nbsp;&nbsp;<span
-									class="red"><em></em></span></td>
-						</tr>
-					</c:forEach>
-					</table>
-				</td>
+		<td>
+		<p id="instructions">
+			Add StudySites associated with the Study (<span class="red">*</span><em>Required Information </em>)<br>
+			Use Date format as (mm/dd/yyyy)
+		</p>
+		<br>
+			<table id="mytable" border="0" cellspacing="0" cellpadding="0">
+			<tr align="left" class="label">
+				<th scope="col" class="nobg"lign="left"><a href="javascript:fireAction('addStudySite','0');"><img
+					src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add another Study Site"></a></th>
+				<th scope="col" align="left"><b>HealthCare Site</b><span class="red">*</span></th>
+				<th scope="col" align="left"><b>Status<span class="red">*</span></th>
+				<th scope="col" align="left"><b>Role<span class="red">*</span></th>
+				<th scope="col" align="left"><b>Activation&nbsp;Date</b><span class="red">*</span> </th>
+				<th scope="col" align="left"><b>IRB&nbsp;Approval&nbsp;Date</b><span class="red">*</span></th>
+			</tr>
+			<c:forEach items="${command.studySites}" varStatus="status">
+				<tr>
+					<th scope="row" class="specalt"><a href="javascript:fireAction('removeStudySite',${status.index});"><img
+						src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></th>
+					<td class="alt"><form:select path="studySites[${status.index}].site" cssClass="validate-notEmpty">
+						<option value="">--Please Select--</option>
+						<form:options items="${healthCareSitesRefData}" itemLabel="name" itemValue="id" />
+						</form:select></td>
+					<td class="alt"><form:select path="studySites[${status.index}].statusCode" cssClass="validate-notEmpty">
+						<option value="">--Please Select--</option>
+						<form:options items="${studySiteStatusRefData}" itemLabel="desc"
+							itemValue="desc" />
+					</form:select></td>
+					<td class="alt"><form:select path="studySites[${status.index}].roleCode" cssClass="validate-notEmpty">
+						<option value="">--Please Select--</option>
+						<form:options items="${studySiteRoleCodeRefData}" itemLabel="desc"
+							itemValue="desc" />
+					</form:select></td>
+					<td class="alt"><tags:dateInput path="studySites[${status.index}].startDate" />&nbsp;&nbsp;&nbsp;<span
+						class="red"><em></em></span></td>
+					<td class="alt"><tags:dateInput path="studySites[${status.index}].irbApprovalDate" />&nbsp;&nbsp;&nbsp;<span
+						class="red"><em></em></span></td>
+				</tr>
+			</c:forEach>
 			</table>
 		</td>
 	</tr>
