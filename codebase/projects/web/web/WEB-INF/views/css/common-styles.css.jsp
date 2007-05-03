@@ -3,7 +3,7 @@
 
 /* general style propertyies */
 html { height:100%;}
-body { height:100%; margin: 0 0 0 0; padding: 0; font-family: arial, verdana, sans-serif; font-size: 11px; color: #000000; background: #F4F4F5; }
+body { height:100%; margin: 0 0 0 0; padding: 0; font-family: "Trebuchet MS", arial, verdana, sans-serif; font-size: 11px; color: #000000; background: #F4F4F5; }
 
 #content {
     min-height: 90%;
@@ -24,15 +24,16 @@ a:link, a:visited { color: #6E81A6; }
 a:hover, a:active { color: #89ABD5; }
 
 /* general form object properties */
-select { font-family: arial, verdana, sans-serif; font-size: 11px; }
-input { background: #EBEFF5; font-family: arial, verdana, sans-serif; font-size: 10px; padding: 0 3px 0 3px; }
+select { font-family: "Trebuchet MS", arial, verdana, sans-serif; font-size: 11px; }
+input { background: #EBEFF5; font-family: "Trebuchet MS", arial, verdana, sans-serif; font-size: 11px; padding: 0 3px 0 3px; }
+textarea { background: #EBEFF5; font-family: "Trebuchet MS", arial, verdana, sans-serif; font-size: 11px; padding: 0 3px 0 3px; }
 
 /* header bar */
 .header { background: repeat-x top url(<tags:imageUrl name="header_BG.gif"/>); }
 .header img{border:0;}
 
 /* top nav */
-#topNav { color: #E6E6E6; font-weight: bold; background-color: #5C5C5C; }
+#topNav { color: #E6E6E6; font-weight: bold; background-color: #5C5C5C; font-size:11px; }
 #topNav .left { padding: 0 0 0 8px; white-space: nowrap; }
 #topNav .right { padding: 0; text-align: right; white-space: nowrap; }
 #topNav .divider { height:18px; width: 6px; margin-left:-3px; vertical-align:bottom;}
@@ -205,7 +206,7 @@ form.standard input {
     height: 15px;
     background: #EBEFF5; 
     margin: 0; padding: 0 3px;
-    font-family: arial, verdana, sans-serif; font-size: 10px; font-weight: normal;
+    font-family: "Trebuchet MS", arial, verdana, sans-serif; font-size: 11px; font-weight: normal;
     line-height: 15px;
 }
 form.standard select { font-size: 10px; background: #EBEFF5; }
@@ -220,9 +221,9 @@ form.standard .state { padding-right: 8px; }
 
 #right { margin: 0; padding: 0; width: 550px; }
 
-.notesField { width: 538px; height: 100px; border: 0; border-top: 1px solid #CCCCCC; border-left: 1px solid #CCCCCC; background: #EBEFF5; margin: 4px 0 10px 0; font-family: Arial, Verdana, Helvetica, serif; font-size: 11px; color: #000000; line-height: 14px; padding: 5px; }
-.commentsField { width: 538px; height: 50px; border: 0; border-top: 1px solid #CCCCCC; border-left: 1px solid #CCCCCC; background: #EBEFF5; margin: 4px 0 10px 0; font-family: Arial, Verdana, Helvetica, serif; font-size: 11px; color: #000000; line-height: 14px; padding: 5px; }
-.commentsField2 { width: 300px; height: 50px; border: 0; border-top: 1px solid #CCCCCC; border-left: 1px solid #CCCCCC; background: #EBEFF5; margin: 4px 0 10px 0; font-family: Arial, Verdana, Helvetica, serif; font-size: 11px; color: #000000; line-height: 14px; padding: 5px; }
+.notesField { width: 538px; height: 100px; border: 0; border-top: 1px solid #CCCCCC; border-left: 1px solid #CCCCCC; background: #EBEFF5; margin: 4px 0 10px 0; font-family: "Trebuchet MS", Arial, Verdana, Helvetica, serif; font-size: 11px; color: #000000; line-height: 14px; padding: 5px; }
+.commentsField { width: 538px; height: 50px; border: 0; border-top: 1px solid #CCCCCC; border-left: 1px solid #CCCCCC; background: #EBEFF5; margin: 4px 0 10px 0; font-family: "Trebuchet MS", Arial, Verdana, Helvetica, serif; font-size: 11px; color: #000000; line-height: 14px; padding: 5px; }
+.commentsField2 { width: 300px; height: 50px; border: 0; border-top: 1px solid #CCCCCC; border-left: 1px solid #CCCCCC; background: #EBEFF5; margin: 4px 0 10px 0; font-family:"Trebuchet MS", Arial, Verdana, Helvetica, serif; font-size: 11px; color: #000000; line-height: 14px; padding: 5px; }
 
 .red { color: #EE3324; }
 
