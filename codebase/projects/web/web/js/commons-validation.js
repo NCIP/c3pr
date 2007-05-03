@@ -1,12 +1,13 @@
-// Form Validation Functions  v1.0
+// Form Validation Functions  v2.0
+// http://www.dithered.com/javascript/form_validation/index.html
+// code by Chris Nott (chris@dithered.com)
+// modified by Kruttik Aggarwal
 
 function validateFields(formFields) {
    validForm=true;
    // loop thru all form elements
-   //alert("12");
    for (var elementIndex = 0; elementIndex < formFields.length; elementIndex++) {
       var element = formFields[elementIndex];
-      //alert("12.1"+element.name);
    	  removeError(element);
       // text and textarea types
       if (element.type == "text" || element.type == "textarea") {
@@ -14,7 +15,6 @@ function validateFields(formFields) {
          
          // required element
          if (element.required  && element.value == '') {
-         	//alert("12.2");
             showError(element,element.requiredError);
             validForm=false;
             continue;
@@ -39,10 +39,10 @@ function validateFields(formFields) {
          if (element.pattern) {
             if ( ( (element.pattern.toLowerCase() == 'visa' || element.pattern.toLowerCase() == 'mastercard' || element.pattern.toLowerCase() == 'american express' || element.pattern.toLowerCase() == 'diners club' || element.pattern.toLowerCase() == 'discover' || element.pattern.toLowerCase() == 'enroute' || element.pattern.toLowerCase() == 'jcb' || element.pattern.toLowerCase() == 'credit card') && isValidCreditCard(element.value, element.pattern) == false) ||
                   (element.pattern.toLowerCase() == 'email' && isValidEmailStrict(element.value) == false) ||
-                  (element.pattern.toLowerCase() == 'zip or postal code' && isValidZipcode(element.value) == false && isValidPostalcode(element.value) == false) ||
+                  (element.pattern.toLowerCase() == 'zip_postal_code' && isValidZipcode(element.value) == false && isValidPostalcode(element.value) == false) ||
                   (element.pattern.toLowerCase() == 'zipcode' && isValidZipcode(element.value) == false) ||
                   (element.pattern.toLowerCase() == 'postal code' && isValidPostalcode(element.value) == false) ||
-                  (element.pattern.toLowerCase() == 'us phone number' && 
+                  (element.pattern.toLowerCase() == 'us_phone_no' && 
                      ( (element.prefix && element.suffix && isValidUSPhoneNumber(element.value, form[element.prefix].value, form[element.suffix].value) == false) || 
                         (!element.prefix && !element.suffix && isValidUSPhoneNumber(element.value) == false) ) ) ||
                   (element.pattern.toLowerCase() == 'alphanumeric' && isAlphanumeric(element.value, true) == false) ||
