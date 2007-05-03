@@ -8,11 +8,11 @@ function checkDate(field,format){
 	removeError(field);
 	format = (format==null||format=='')?DEFAULT_FORMAT:format;
 	if(isDate(field.value,format)==false){
-		showError(field,'invalid format')
+		showError(field,'invalid format(mm/dd/yyyy')
 	}
 }
 </script>
-<form:input path="${path}" cssClass="date" onchange="checkDate(this,'${format }');"/>
+<form:input path="${path}" cssClass="date" size="12" onchange="checkDate(this,'${format }');"/>
 <a href="#" id="${path}-calbutton">
-    <img src="<tags:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
+    <img src="<tags:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0"/>
 </a>
