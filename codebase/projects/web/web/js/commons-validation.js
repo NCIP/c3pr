@@ -7,9 +7,7 @@ function validateFields(formFields) {
    for (var elementIndex = 0; elementIndex < formFields.length; elementIndex++) {
       var element = formFields[elementIndex];
       //alert("12.1"+element.name);
-      //alert("hiding");
-   	  msgId=element.name+"-msg";
-   	  $(msgId)!=null?new Element.remove(msgId):null
+   	  removeError(element);
       // text and textarea types
       if (element.type == "text" || element.type == "textarea") {
          element.value = trimWhitespace(element.value)
@@ -49,7 +47,8 @@ function validateFields(formFields) {
                         (!element.prefix && !element.suffix && isValidUSPhoneNumber(element.value) == false) ) ) ||
                   (element.pattern.toLowerCase() == 'alphanumeric' && isAlphanumeric(element.value, true) == false) ||
                   (element.pattern.toLowerCase() == 'numeric' && isNumeric(element.value, true) == false) ||
-                  (element.pattern.toLowerCase() == 'alphabetic' && isAlphabetic(element.value, true) == false) ) {
+                  (element.pattern.toLowerCase() == 'alphabetic' && isAlphabetic(element.value, true) == false) ||
+                  (element.pattern.toLowerCase().indexOf('date') == 0 && isCorrectDate(element.value) == false)) {
                showError(element,element.patternError);
                validForm=false;
                continue;
@@ -270,6 +269,20 @@ function isNumeric(string, ignoreWhiteSpace) {
       if ((ignoreWhiteSpace && string.search(/[^\d\s]/) != -1) || (!ignoreWhiteSpace && string.search(/\D/) != -1)) return false;
    }
    return true;
+}
+
+// Check that a string contains only numbers
+function isCorrectDate(string) {
+   DEFAULT_DATE_FORMAT="mm/dd/yyyy";
+   string=trimWhitespace(string);
+   if(string.indexOf("(")>0 && string.indexOf(")")>string.lastIndexOf("(")){
+   	   format=string.substring(string.indexOf("(")+1,tring.lastIndexOf("(")-1);
+   	   date=string.substring(0,string.indexOf("(")-1);
+   }else{
+   	   format=DEFAULT_DATE_FORMAT;
+   	   date=string;
+   }
+   return isDate(date,format)	
 }
 
 // Remove characters that might cause security problems from a string 

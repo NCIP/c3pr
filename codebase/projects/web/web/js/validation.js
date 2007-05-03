@@ -35,7 +35,7 @@ validateForm=function(submit){
 }
 prepareField=function(element){
 	ERROR_MSG_REQUIRED="required"
-	ERROR_MSG_EMAIL="The email address entered is not valid"
+	ERROR_MSG_PATTERN="Incorrect fromat"
 	ERROR_MSG_MINLENGTH="too short"
 	ERROR_MSG_MAXLENGTH="too long"	
 	ERROR_MSG_PHONE="The second phone number is not valid"	
@@ -54,25 +54,28 @@ prepareField=function(element){
 			//alert("5.")
 			element.required = true
 			element.requiredError = ERROR_MSG_REQUIRED
-		}
-		if(validationType.toUpperCase().indexOf('EMAIL')==0){
-			//alert("6.")
-			element.pattern = 'email'
-			element.patternError = ERROR_MSG_EMAIL
-		}
-		if(validationType.toUpperCase().indexOf('MINLENGTH')==0){
+		}else if(validationType.toUpperCase().indexOf('MINLENGTH')==0){
 			//alert("7.length="+parseInt(validationType.substr(9)))
 			element.minlength = parseInt(validationType.substr(9))
 			element.minlengthError = ERROR_MSG_MINLENGTH
-		}
-		if(validationType.toUpperCase().indexOf('MAXLENGTH')==0){
+		}else if(validationType.toUpperCase().indexOf('MAXLENGTH')==0){
 			//alert("8.length="+parseInt(validationType.substr(9)))
 			element.maxlength = parseInt(validationType.substr(9))
-			element.patternError = ERROR_MSG_MAXLENGTH
+			element.maxlengthError = ERROR_MSG_MAXLENGTH
+									
+		}else {
+			//alert("6.")
+			element.pattern = validationType
+			element.patternError = ERROR_MSG_PATTERN
 		}
 	}
 }
 function showError(element,msg){
 	//alert("9")
 	new Insertion.After(element, " <span id='"+element.name+"-msg'class='red'>*"+msg+"</span>")
+}
+function removeError(element){
+	//alert("hiding")
+	msgId=element.name+"-msg"
+   	$(msgId)!=null?new Element.remove(msgId):null
 }

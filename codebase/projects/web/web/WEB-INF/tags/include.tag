@@ -12,6 +12,7 @@
 <tags:javascriptLink name="CalendarPopup"/>
 <tags:javascriptLink name="validation"/>
 <tags:javascriptLink name="commons-validation"/>
+<tags:javascriptLink name="date"/>
 
 
 
