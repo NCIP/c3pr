@@ -1,29 +1,9 @@
 <?xml version="1.0"?>
-<!--
-
-This is the build.xml run by AntInstaller for the c3prv2 app
-
-It is a normal Ant build script, but remember that it is run in a similar
-way to running
-> ant -buildfile build.xml default,tgdoc,tgsrc
-
-this is targets selected in the selector page have dependencies those
-dependencies may be run once for each target selected
-e.g. if tgdoc had depends="default" and the installer passed
-default,tgdoc  ant would run default then default again then tgdoc
-
-To avoid this problem targets can be forced in the gui using the following
-input in the page to choose components to install
-		<input
-			type="target"
-			displayText="Core components"
-			target="default"
-			defaultValue="true"
-			force="true"/>
-
--->
 
 <project name="Installation Build"  basedir=".">
+
+    <!-- this is required to pick up the properties generated during the install pages -->
+    <property file="${basedir}/ant.install.properties"/>
 
     <property name="c3prv2.install.artifact" value="c3prv2-installpack.zip"/>
     <property name="ext.dir" value="${basedir}/ext"/>
@@ -32,14 +12,25 @@ input in the page to choose components to install
 
     <!--properties from the GUI installer-->
     <property name="tomcat.webapp.dir" value="${tomcat.home}/webapps"/>
+    <property name="base.codebase.dir" value="${basedir}/codebase"/>
     <property name="install.codebase.dir" value="${install.dir}/codebase"/>
+    <property name="tomcat.conf.dir" value="${tomcat.home}/conf"/>
 
-    <!-- this is required to pick up the properties generated during the install pages -->
-    <property file="${basedir}/ant.install.properties"/>
 
+    <target name="installNewTomcat">
+        <unzip src="${antinstaller.jar}" dest="${basedir}"
+               overwrite="true">
+            <patternset>
+                <include name="${tomcat.artifact}"/>
+            </patternset>
+        </unzip>
+
+        <unzip src="${basedir}/${tomcat.artifact}"
+               dest="${tomcat.home}"
+               overwrite="true"/>
+    </target>
 
     <target name="deploy-webapp">
-
         <unzip src="${antinstaller.jar}" dest="${basedir}"
                overwrite="true">
             <patternset>
@@ -48,44 +39,55 @@ input in the page to choose components to install
         </unzip>
 
         <unzip src="${basedir}/${c3prv2.install.artifact}"
-               dest="${install.codebase.dir}"
+               dest="${base.codebase.dir}"
                overwrite="true"/>
 
         <!--override build.properties with installers-->
         <copy file="${basedir}/ant.install.properties"
-              tofile="${install.codebase.dir}/antfiles/build.properties"
+              tofile="${base.codebase.dir}/antfiles/build.properties"
                 />
 
-        <ant dir="${install.codebase.dir}" antfile="antfiles/build.xml"
+        <ant dir="${base.codebase.dir}" antfile="antfiles/build.xml"
              inheritall="false" target="deploy-webapp">
             <property name="deploy.path" value="${tomcat.webapp.dir}"/>
-            <property name="basedir" value="${install.codebase.dir}"/>
+            <property name="basedir" value="${base.codebase.dir}"/>
         </ant>
 
     </target>
 
     <!--will only be run if deploy-webapp has been run-->
-    <target name="tomcat.security">
-        <ant dir="${install.codebase.dir}/projects/core"
+    <target name="tomcat.security" depends="modifyTomcatConf">
+        <ant dir="${base.codebase.dir}/projects/core"
              inheritall="false"
              target="tomcat.security">
             <property name="catalina.home" value="${tomcat.home}"/>
         </ant>
+
+
     </target>
 
-   <target name="installNewTomcat">
+    <!--only do this if a new tomcat is being installed-->
+    <target name="modifyTomcatConf" if="new.tomcat.used">
+        <echo message="Modifying tomcat conf"/>
+        <!--todo refactor into core build.xml-->
+        <copy file="${tomcat.conf.dir}/catalina.properties.template"
+              tofile="${tomcat.conf.dir}/catalina.properties"
+              overwrite="true"
+              filtering="true"
+              verbose="true">
+            <filterset>
+                <filter token="csm.config" value="gov.nih.nci.security.configFile=${tomcat.conf.dir}/cabig/ApplicationSecurityConfig.xml"/>
+                <filter token="jaas.config" value="java.security.auth.login.config=${tomcat.conf.dir}/cabig/csm_jaas.config"/>
+            </filterset>
+        </copy>
+    </target>
 
-       <unzip src="${antinstaller.jar}" dest="${basedir}"
-              overwrite="true">
-           <patternset>
-               <include name="${tomcat.artifact}"/>
-           </patternset>
-       </unzip>
 
-       <unzip src="${basedir}/${tomcat.artifact}" 
-              dest="${tomcat.home}" 
-              overwrite="true"/>
-   </target>
+    <target name="deploy-codebase">
+        <copy todir="${install.codebase.dir}">
+            <fileset dir="${base.codebase.dir}"/>
+        </copy>
+    </target>
 
     <target name="dummyTarget">
         <!--does nothing-->
@@ -93,5 +95,5 @@ input in the page to choose components to install
 
     <target name="cleanUp">
     </target>
-    
+
 </project>

@@ -51,10 +51,13 @@ This is the install config for c3prv2 installer
             displayText="Install Tomcat"
             name="installTomcat">
         <target-select displayText="Select" property="install.new.tomcat"
-                       defaultValue="dummyTarget">
+                       defaultValue="installNewTomcat">
             <option text="Install new Tomcat" value="installNewTomcat"/>
             <option text="Choose Existing" value="dummyTarget"/>
         </target-select>
+        <conditional ifProperty="${install.new.tomcat}==installNewTarget">
+            <hidden property="new.tomcat.used" value="doesNotMatter"/>
+        </conditional>
     </page>
 
     <page
@@ -71,7 +74,7 @@ This is the install config for c3prv2 installer
                 />
     </page>
 
-      <!--Select Tomcat-->
+    <!--Select Tomcat-->
     <page
             type="input"
             name="selectExistingTomcat"
@@ -117,13 +120,13 @@ This is the install config for c3prv2 installer
                 />
         <target
                 displayText="C3PRV2 Source Code"
-                target="dummyTarget"
+                target="deploy-codebase"
                 defaultValue="true"
                 />
         <comment displayText="Note:Source code will be installed in ${install.dir}/codebase"/>
 
     </page>
-  
+
 
     <!--CSM configure-->
     <page
@@ -135,17 +138,25 @@ This is the install config for c3prv2 installer
         <target
                 displayText="Configure CSM"
                 target="tomcat.security"
-                defaultValue="false"
+                defaultValue="true"
                 />
         <comment/>
         <comment
-                displayText="Note:Configure CSM only ONCE."
-                bold="true"/>
-        <comment
-                displayText="If you have done this before then its not necessary to run this again."
+                displayText="Note: Unselect only if you know what you are doing."
                 bold="true"/>
         <!--set this property anyway-->
         <hidden property="csm.context.name" value="c3pr"/>
+    </page>
+
+    <page
+            type="input"
+            name="selectAuthorizationSwitch"
+            displayText="Enable/Disable Authorization"
+            ifTarget="tomcat.security">
+        <select property="authorizationSwitch" displayText="Select Option" defaultValue="true">
+            <option text="Enable Authorization" value="true"/>
+            <option text="Disable Authorization" value="false"/>
+        </select>
     </page>
 
 
