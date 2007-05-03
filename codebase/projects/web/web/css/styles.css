@@ -1,8 +1,8 @@
 
 /* general style propertyies */
 html { height:100%;}
-body { height:100%; margin: 0px 0px 10px 0px; padding: 0px; font-family: arial, verdana, sans-serif; font-size: 11px; color: #000000; background: #FFFFFF url(../images/bg-page.gif) repeat-x top; }
-table, tr, td, ul, ol, li, p { font-family: arial, verdana, sans-serif; font-size: 11px; }
+body { height:100%; margin: 0px 0px 10px 0px; padding: 0px; font-family: "Trebuchet MS", arial, verdana, sans-serif; font-size: 11px; color: #000000; background: #FFFFFF url(../images/bg-page.gif) repeat-x top; }
+table, tr, td, ul, ol, li, p { font-family: "Trebuchet MS",arial, verdana, sans-serif; font-size: 11px; }
 
 #content {
     min-height: 98%;
@@ -27,8 +27,8 @@ a:active { color: #89ABD5; border:none; }
 a img{border:0px;}
 
 /* general form object properties */
-select { font-family: arial, verdana, sans-serif; font-size: 11px; }
-input { background: #EBEFF5; font-family: arial, verdana, sans-serif; font-size: 10px; padding: 0px 3px 0px 3px; }
+select { font-family: "Trebuchet MS",arial, verdana, sans-serif; font-size: 11px; }
+input { background: #EBEFF5; font-family: "Trebuchet MS",arial, verdana, sans-serif; font-size: 11px; padding: 0px 3px 0px 3px; }
 
 /*Logo styles*/
 .mainlogo { margin: 21px 0px 22px 10px; }
@@ -114,7 +114,7 @@ input { background: #EBEFF5; font-family: arial, verdana, sans-serif; font-size:
 
 /* general form 1 */
 #form1 { margin: 0px; padding: 0px; }
-#form1 input { border: 0px; border-top: 1px solid #CCCCCC; border-left: 1px solid #CCCCCC; height: 15px; background: #EBEFF5; margin: 0px; padding: 0px 3px 0px 3px; font-family: arial, verdana, sans-serif; font-size: 10px; font-weight: normal; line-height: 15px; }
+#form1 input { border: 0px; border-top: 1px solid #CCCCCC; border-left: 1px solid #CCCCCC; height: 15px; background: #EBEFF5; margin: 0px; padding: 0px 3px 0px 3px; font-family:"Trebuchet MS", arial, verdana, sans-serif; font-size: 11px; font-weight: normal; line-height: 15px; }
 #form1 select { font-size: 10px; background: #EBEFF5; }
 #form1 .radio { background: none; border: 0px; }
 #form1 .mi { width: 10px; border: 0px; border-top: 1px solid #CCCCCC; border-left: 1px solid #CCCCCC; }
@@ -127,9 +127,9 @@ input { background: #EBEFF5; font-family: arial, verdana, sans-serif; font-size:
 
 #right { margin: 0px; padding: 0px; width: 550px; }
 
-.notesField { width: 538px; height: 100px; border: 0px; border-top: 1px solid #CCCCCC; border-left: 1px solid #CCCCCC; background: #EBEFF5; margin: 4px 0px 10px 0px; font-family: Arial, Verdana, Helvetica, serif; font-size: 11px; color: #000000; line-height: 14px; padding: 5px; }
-.commentsField { width: 538px; height: 50px; border: 0px; border-top: 1px solid #CCCCCC; border-left: 1px solid #CCCCCC; background: #EBEFF5; margin: 4px 0px 10px 0px; font-family: Arial, Verdana, Helvetica, serif; font-size: 11px; color: #000000; line-height: 14px; padding: 5px; }
-.commentsField2 { width: 300px; height: 50px; border: 0px; border-top: 1px solid #CCCCCC; border-left: 1px solid #CCCCCC; background: #EBEFF5; margin: 4px 0px 10px 0px; font-family: Arial, Verdana, Helvetica, serif; font-size: 11px; color: #000000; line-height: 14px; padding: 5px; }
+.notesField { width: 538px; height: 100px; border: 0px; border-top: 1px solid #CCCCCC; border-left: 1px solid #CCCCCC; background: #EBEFF5; margin: 4px 0px 10px 0px; font-family: "Trebuchet MS", Arial, Verdana, Helvetica, serif; font-size: 11px; color: #000000; line-height: 14px; padding: 5px; }
+.commentsField { width: 538px; height: 50px; border: 0px; border-top: 1px solid #CCCCCC; border-left: 1px solid #CCCCCC; background: #EBEFF5; margin: 4px 0px 10px 0px; font-family: "Trebuchet MS", Arial, Verdana, Helvetica, serif; font-size: 11px; color: #000000; line-height: 14px; padding: 5px; }
+.commentsField2 { width: 300px; height: 50px; border: 0px; border-top: 1px solid #CCCCCC; border-left: 1px solid #CCCCCC; background: #EBEFF5; margin: 4px 0px 10px 0px; font-family: "Trebuchet MS", Arial, Verdana, Helvetica, serif; font-size: 11px; color: #000000; line-height: 14px; padding: 5px; }
 
 .red { color: #EE3324; }
 
