@@ -201,7 +201,7 @@
     </target>
 
     <!--Does a local build. For Developers use only -->
-    <target name="build-web-local" depends="build-web">
+    <target name="deploy-webapp-local" depends="build-web" description="Deploys webapp on your web/web local">
         <ant dir="${projects.dir}/web" inheritall="false" target="deployLocal"/>
     </target>
 
