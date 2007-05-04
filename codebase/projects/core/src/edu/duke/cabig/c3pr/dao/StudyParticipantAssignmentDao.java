@@ -56,19 +56,7 @@ public class StudyParticipantAssignmentDao extends
 						Restrictions.like("value", registration
 								.getIdentifiers().get(0).getValue()
 								+ "%"));
-			} else if (registration.getParticipant() != null) {
-				registrationCriteria.createCriteria("participant").add(
-						Restrictions.like("lastName", registration
-								.getParticipant().getLastName()
-								+ "%"));
-
-			} else if (registration.getStudySite() != null) {
-				registrationCriteria.createCriteria("studySite.study").add(
-						Restrictions.like("shortTitleText", registration
-								.getStudySite().getStudy().getShortTitleText()
-								+ "%"));
-
-			}
+			} 
 			return registrationCriteria.list();
 
 		}
@@ -120,9 +108,9 @@ public class StudyParticipantAssignmentDao extends
 					.asList("studySite.study.status");
 		default:
 			SUBSTRING_MATCH_PROPERTIES = Arrays
-			.asList("studySite.study.status");
-		
-		break;
+					.asList("studySite.study.status");
+
+			break;
 		}
 
 		return findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES,
