@@ -32,6 +32,7 @@ public class CreateResearchStaffController extends
 		AbstractTabbedFlowFormController<ResearchStaff> {
 
 	private ResearchStaffDao researchStaffDao;
+
 	private HealthcareSiteDao healthcareSiteDao;
 
 	private ConfigurationProperty configurationProperty;
@@ -53,22 +54,6 @@ public class CreateResearchStaffController extends
 				refdata.put("healthcareSite", getHealthcareSites());
 				refdata.put("action", "New");
 				return refdata;
-			}
-
-			@Override
-			public void validate(ResearchStaff command, Errors errors) {
-				boolean firstName = command.getFirstName() == null
-						|| command.getFirstName().equals("");
-				boolean lastName = command.getLastName() == null
-						|| command.getLastName().equals("");
-		
-				if (firstName)
-					errors.rejectValue("firstName", "REQUIRED",
-							"Missing First Name");
-				if (lastName)
-					errors.rejectValue("lastName", "REQUIRED",
-							"Missing Last Name");
-				
 			}
 
 			@Override
@@ -115,7 +100,7 @@ public class CreateResearchStaffController extends
 
 		ResearchStaff researchStaff = (ResearchStaff) command;
 		researchStaffDao.save(researchStaff);
-		
+
 		response.sendRedirect("viewResearchStaff?fullName="
 				+ researchStaff.getFullName() + "&type=confirm");
 		return null;
@@ -135,7 +120,8 @@ public class CreateResearchStaffController extends
 		return configurationProperty;
 	}
 
-	public void setConfigurationProperty(ConfigurationProperty configurationProperty) {
+	public void setConfigurationProperty(
+			ConfigurationProperty configurationProperty) {
 		this.configurationProperty = configurationProperty;
 	}
 
@@ -155,4 +141,3 @@ public class CreateResearchStaffController extends
 		this.healthcareSiteDao = healthcareSiteDao;
 	}
 }
-

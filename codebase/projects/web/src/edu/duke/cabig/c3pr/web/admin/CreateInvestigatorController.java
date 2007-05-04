@@ -66,21 +66,6 @@ public class CreateInvestigatorController extends
 			}
 
 			@Override
-			public void validate(Investigator command, Errors errors) {
-				boolean firstName = command.getFirstName() == null
-						|| command.getFirstName().equals("");
-				boolean lastName = command.getLastName() == null
-						|| command.getLastName().equals("");
-
-				if (firstName)
-					errors.rejectValue("firstName", "REQUIRED",
-							"Missing First Name");
-				if (lastName)
-					errors.rejectValue("lastName", "REQUIRED",
-							"Missing Last Name");
-			}
-
-			@Override
 			public boolean isAllowDirtyForward() {
 				return false;
 			}
