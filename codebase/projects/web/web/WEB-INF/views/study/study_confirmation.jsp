@@ -28,53 +28,31 @@ function validatePage(){
 <div>
 <tabs:division id="study-details">
 <!-- MAIN BODY STARTS HERE -->
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<table border="0" cellspacing="0" cellpadding="0">
 	<tr>
 		<td valign="top" class="additionals2">
 			<tr>
-				<td id="current">Study Created Succesfully for Short Title :
-				${command.trimmedShortTitleText} on Study Site : ${command.studySites[0].site.name}</td>
+				<td >Study Created Succesfully for <b>Short Title </b> :${command.trimmedShortTitleText}</td>
 			</tr>
 			<tr>
-				<td class="display">
-				<table width="100%" border="0" cellpadding="0" cellspacing="0">
-					<tr>
-						<td valign="top" class="additionals2">
-						<table width="50%" border="0" cellspacing="0" cellpadding="0"
-							id="details">
-							<tr>
-								<td width="50%" valign="top">
-								<table width="100%" border="0" cellspacing="0" cellpadding="0"
-									id="table1">
-									<tr>
-										<td width ="20%"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
-											class="heightControl"></td>
-									</tr>
-									<tr>
-										<td width="20%" class="label">Study Site:</td>
-										<td>${command.studySites[0].site.name}</td>
-									</tr>
+				<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
+					class="heightControl"></td>
+			</tr>
+			<tr>
+				<td class="label">Study Site:</td>
+				<td>${command.studySites[0].site.name}</td>
+			</tr>
 
-									<tr>
-										<td width="20%" class="label">Study Identifiers</td>
-										<td ><c:forEach items="${command.identifiers}" var="id">
-											${id.value},
-										</c:forEach></td>
-									</tr>
+			<tr>
+				<td class="label">Study Identifiers</td>
+				<td ><c:forEach items="${command.identifiers}" var="id">
+					${id.value},
+				</c:forEach></td>
+			</tr>
 
-									<tr>
-										<td class="label">Subject MRN Num:</td>
-										<td>${command.primaryIdentifier}</td>
-									</tr>
-
-								</table>
-								</td>
-							</tr>
-						</table>
-						</td>
-					</tr>
-				</table>
-				</td>
+			<tr>
+				<td class="label">Subject MRN Num:</td>
+				<td>${command.primaryIdentifier}</td>
 			</tr>
 		</td>
 	</tr>

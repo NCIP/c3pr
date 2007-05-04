@@ -83,7 +83,7 @@ public class StudyDaoTest extends DaoTestCase {
             study.setStatus("Status");
             study.setTargetAccrualNumber(150);
             study.setType("Type");
-            study.setMultiInstitutionIndicator(true);
+            study.setMultiInstitutionIndicator("true");
             dao.save(study);
             savedId = study.getId();
             assertNotNull("The saved study didn't get an id", savedId);            
@@ -115,7 +115,7 @@ public class StudyDaoTest extends DaoTestCase {
             study.setStatus("Status");
             study.setTargetAccrualNumber(150);
             study.setType("Type");
-            study.setMultiInstitutionIndicator(new Boolean(true));
+            study.setMultiInstitutionIndicator("true");
             
             createDefaultStudyWithDesign(study);
             	dao.save(study);

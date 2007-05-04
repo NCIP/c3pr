@@ -27,11 +27,11 @@ function fireAction(action, selectedSite, selectedPersonnel){
 	document.form._action.value=action;
 	document.form._selectedSite.value=selectedSite;
 	document.form._selectedPersonnel.value=selectedPersonnel;
-	// need to disable validations while submitting
-	role = 'studySites['+selectedSite+'].studyPersonnels['+selectedPersonnel+'].roleCode';
-	$(role).className='none';
-	status = 'studySites['+selectedSite+'].studyPersonnels['+selectedPersonnel+'].statusCode';
-	$(status).className='none';
+//  need to disable validations while submitting
+//  role = 'studySites['+selectedSite+'].studyPersonnels['+selectedPersonnel+'].roleCode';
+//  $(role).className='none';
+//	status = 'studySites['+selectedSite+'].studyPersonnels['+selectedPersonnel+'].statusCode';
+//	$(status).className='none';
 	document.form.submit();
 	fireListeners(selected);
 }

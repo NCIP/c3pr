@@ -26,10 +26,10 @@ function fireAction(action, selectedSite, selectedInvestigator){
 	document.form._selectedSite.value=selectedSite;
 	document.form._selectedInvestigator.value=selectedInvestigator;
 	// need to disable validations while submitting
-	role = 'studySites['+selectedSite+'].studyInvestigators['+selectedInvestigator+'].roleCode';
-	$(role).className='none';
-	status = 'studySites['+selectedSite+'].studyInvestigators['+selectedInvestigator+'].statusCode';
-	$(status).className='none';
+//	role = 'studySites['+selectedSite+'].studyInvestigators['+selectedInvestigator+'].roleCode';
+//	$(role).className='none';
+//	status = 'studySites['+selectedSite+'].studyInvestigators['+selectedInvestigator+'].statusCode';
+//	$(status).className='none';
 	document.form.submit();
 	fireListeners(selected);
 }
@@ -199,13 +199,7 @@ Event.observe(window, "load", function() {
 						src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a></td>
 			</tr>
 		</c:forEach>
-		<tr>
-		<td class="alt">
-		<p id="investigator-selected" style="display: none">
-			You've selected the participant <span id="investigator-selected-name"></span>.
-		</p>
-		</td>
-		</tr>
+		
 	</table>
   	</tabs:division>
 	</td>

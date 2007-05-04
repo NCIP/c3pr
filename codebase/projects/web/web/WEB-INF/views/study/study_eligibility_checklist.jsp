@@ -139,108 +139,102 @@ function displayDiv(id,flag){
 </div>
 <tabs:tabFields tab="${tab}" />
 <!-- MAIN BODY STARTS HERE -->
-<table border="0" id="table1" cellspacing="10" width="60%">
+<table border="0" id="table1" cellspacing="5">
 	<tr>
-		<td valign="top" width="100%">
-		 <table border="0" id="table1" cellspacing="0" width="100%">
-			 <tr>
-			 <td valign="top">
-			 <tags:panel id="InclusionTable" title="Inclusion Criterias">
-				<table width="100%" border="0" cellspacing="0" cellpadding="0" id="details">
-				<tr>
-					<p id="instructions">
-						*NA - Allow Not Applicable answer<br>
-						Yes and No are permissible answers
-						</p>
-					<p>
-						<b>Inclusion Criteria</b><a href="javascript:fireAction('addInclusionCriteria',0,'InclusionTable');"><img
-							src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a>
+		<td valign="top">
+		 <tags:panel id="InclusionTable" title="Inclusion Criterias">
+			<table border="0" cellspacing="0" cellpadding="0" id="details">
+			<tr>
+				<p id="instructions">
+					*NA - Allow Not Applicable answer<br>
+					Yes and No are permissible answers
 					</p>
-				</tr>
-				<tr>
-					<td valign="top">
-					<table border="0" cellspacing="0" cellpadding="0" id="mytable">
-						<tr>
-							<th scope="col"><b>Question<span class="red">*</span></b></td>
-							<th scope="col"><b>NA</b></td>
-							<th scope="col" class="specalt"></td></b>
-						</tr>
-						<c:forEach varStatus="status" items="${command.incCriterias}">
-						<tr id="bex-${status.index}">
-							<td class="alt">
-								<form:hidden path="incCriterias[${status.index}].questionNumber"/>
-								<form:textarea path="incCriterias[${status.index}].questionText" rows="1" cols="90"/>
-							</td>
-							<td class="alt">
-								<form:checkbox path="incCriterias[${status.index}].notApplicableIndicator"/>
-							</td>
-							<td class="alt">
-								<a href="javascript:fireAction('removeInclusionCriteria',${status.index},'InclusionTable');">
-								<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
-							</td>
-						</tr>
-						</c:forEach>							
-					</table>
-					</td>
-				</tr>
-				</table>
-				
-				</tags:panel>
-			</td>
+				<p>
+					<b>Inclusion Criteria</b><a href="javascript:fireAction('addInclusionCriteria',0,'InclusionTable');"><img
+						src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a>
+				</p>
 			</tr>
 			<tr>
-			<td valign="top" width="75%">
-			<table width="100%" border="0" cellspacing="0" cellpadding="0" id="details">
-				<tr>
-					<td valign="top">
-				   <tags:panel id="ExclusionTable" title="Inclusion Criterias">
-					
-					<table width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
-						<tr>
-							<p id="instructions">
-								*NA - Allow Not Applicable answer <br>
-								Yes and No are permissible answers
-							</p>
-							<p>
-								<b>Exclusion Criteria</b><a href="javascript:fireAction('addExclusionCriteria',0,'ExclusionTable');"><img
-									src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a>
-							</p>
-						</tr>
-						<tr>
-							<td valign="top">
-							<table border="0" cellspacing="0" cellpadding="0" id="mytable">
-								<tr>
-									<th scope="col"><b>Question<span class="red">*</span></b></th>
-									<th scope="col"><b>*NA</b></th>
-									<th scope="col"></th></b>
-								</tr>
-								<c:forEach varStatus="status" items="${command.excCriterias}">
-								<tr id="bex-${status.index}">
-									  <td class="alt" align="left">      
-										<form:hidden path="excCriterias[${status.index}].questionNumber"/>
-										<form:textarea path="excCriterias[${status.index}].questionText" rows="1" cols="90"/>
-									</td>
-									<td class="alt" align="left">      
-										<form:checkbox path="excCriterias[${status.index}].notApplicableIndicator"/>
-									</td>
-									 <td class="alt" align="left">      <td width="5%">
-										<a href="javascript:fireAction('removeExclusionCriteria',${status.index},'ExclusionTable');">
-										<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
-									</td>
-								</tr>
-								</c:forEach>								
-							</table>
-							</td>
-						</tr>
-					</table>
-			
-				</tags:panel>
-					</td>
-				</tr>
+				<td valign="top">
+				<table border="0" cellspacing="0" cellpadding="0" id="mytable">
+					<tr>
+						<td class="alt"><b>Question<span class="red">*</span></b></td>
+						<td class="alt"><b>NA</b></td>
+						<th class="specalt"></th></b>
+					</tr>
+					<c:forEach varStatus="status" items="${command.incCriterias}">
+					<tr id="bex-${status.index}">
+						<td class="alt">
+							<form:hidden path="incCriterias[${status.index}].questionNumber"/>
+							<form:textarea path="incCriterias[${status.index}].questionText" rows="1" cols="90" cssClass="validate-notEmpty"/>
+						</td>
+						<td class="alt">
+							<form:checkbox path="incCriterias[${status.index}].notApplicableIndicator"/>
+						</td>
+						<td class="alt">
+							<a href="javascript:fireAction('removeInclusionCriteria',${status.index},'InclusionTable');">
+							<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
+						</td>
+					</tr>
+					</c:forEach>							
+				</table>
+				</td>
+			</tr>
 			</table>
+			
+			</tags:panel>
 		</td>
 		</tr>
-	   </table>
+		<tr>
+		<td>
+		<table border="0" cellspacing="0" cellpadding="0" id="details">
+			<tr>
+				<td>
+			   <tags:panel id="ExclusionTable" title="Inclusion Criterias">
+				
+				<table border="0" cellspacing="0" cellpadding="0" id="table1">
+					<tr>
+						<p id="instructions">
+							*NA - Allow Not Applicable answer <br>
+							Yes and No are permissible answers
+						</p>
+						<p>
+							<b>Exclusion Criteria</b><a href="javascript:fireAction('addExclusionCriteria',0,'ExclusionTable');"><img
+								src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a>
+						</p>
+					</tr>
+					<tr>
+						<td>
+						<table border="0" cellspacing="0" cellpadding="0" id="mytable">
+							<tr>
+								<td class="alt"><b>Question<span class="red">*</span></b></td>
+								<td class="alt"><b>*NA</b></td>
+								<th class="specalt"></th></b>
+							</tr>
+							<c:forEach varStatus="status" items="${command.excCriterias}">
+							<tr id="bex-${status.index}">
+								<td class="alt" align="left">      
+									<form:hidden path="excCriterias[${status.index}].questionNumber"/>
+									<form:textarea path="excCriterias[${status.index}].questionText" rows="1" cols="90" cssClass="validate-notEmpty"/>
+								</td>
+								<td class="alt" align="left">      
+									<form:checkbox path="excCriterias[${status.index}].notApplicableIndicator"/>
+								</td>
+								 <td class="alt" align="left">      
+									<a href="javascript:fireAction('removeExclusionCriteria',${status.index},'ExclusionTable');">
+									<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
+								</td>
+							</tr>
+							</c:forEach>								
+						</table>
+						</td>
+					</tr>
+				</table>
+		
+			</tags:panel>
+				</td>
+			</tr>
+		</table>
 		</td>
 	</tr>
 </table>

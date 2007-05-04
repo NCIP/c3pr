@@ -576,31 +576,16 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 	{
 		StudySite studySite = new StudySite();
 		createDefaultHealthcareSite(studySite);	
-		createDefaultStudyInvestigators(studySite);
-		createDefaultStudyPersonnel(studySite);
+	//	createDefaultStudyInvestigators(studySite);
+	//	createDefaultStudyPersonnel(studySite);
 		study.addStudySite(studySite);					
 	}	
 	
 	protected void createDefaultStudyInvestigators(StudySite studySite)
 	{
 		StudyInvestigator studyInvestigator = new StudyInvestigator();
-		studyInvestigator.setStudySite(studySite);
 		studySite.addStudyInvestigator(studyInvestigator);
 		createDefaultHealthcareSiteInvestigator(studyInvestigator);
-	}
-	
-	protected void createDefaultHealthcareSiteInvestigator(StudyInvestigator si)
-	{
-		HealthcareSiteInvestigator hsi = new HealthcareSiteInvestigator();
-		hsi.setHealthcareSite(si.getStudySite().getSite());
-		hsi.setInvestigator(new Investigator());
-		hsi.addStudyInvestigator(si);					
-	}
-	
-	protected void createDefaultResearchStaff(StudyPersonnel sp)
-	{
-		ResearchStaff staff = new ResearchStaff();
-		staff.addStudyPersonnel(sp);
 	}
 	
 	protected void createDefaultStudyPersonnel(StudySite studySite)
@@ -609,6 +594,23 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 		studySite.addStudyPersonnel(studyPersonnel);
 		createDefaultResearchStaff(studyPersonnel);
 	}
+	
+	protected void createDefaultHealthcareSiteInvestigator(StudyInvestigator si)
+	{
+		HealthcareSiteInvestigator hsi = new HealthcareSiteInvestigator();
+		hsi.setHealthcareSite(si.getStudySite().getSite());
+		hsi.setInvestigator(new Investigator());
+		hsi.addStudyInvestigator(si);			
+		//need to save
+		healthcareSiteInvestigatorDao.save(hsi);
+	}
+	
+	protected void createDefaultResearchStaff(StudyPersonnel sp)
+	{
+		ResearchStaff staff = new ResearchStaff();
+		staff.addStudyPersonnel(sp);
+	}
+	
 	
 	protected void createDefaultHealthcareSite(StudySite studySite)
 	{

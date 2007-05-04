@@ -76,10 +76,11 @@ public class CreateStudyController extends StudyController {
 		//save study and proceed to final page
 		studyService.save(study);
 	
-	//	return new ModelAndView("forward:confirm?type=confirm", errors.getModel());
-		
-	    Map model = new ModelMap("type", "confirm");
-	    return new ModelAndView(new RedirectView("confirm", true), model);
+		return new ModelAndView("forward:confirm?type=confirm", errors.getModel());
+//		
+//	    Map model = new ModelMap("type", "confirm");
+//	    request.setAttribute("study", study); 
+//	    return new ModelAndView(new RedirectView("confirm", true), model);
 	}	
 	
 }
