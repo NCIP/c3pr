@@ -132,7 +132,7 @@ Event.observe(window, "load", function() {
 
 <table border="0" id="table1" cellspacing="10" width="100%">
 	<tr>
-	<td >
+	<td valign="top">
 	<tabs:division id="study-details" title="Study Personnel">
 	<tabs:tabFields tab="${tab}"/>
 	<div>
@@ -213,7 +213,7 @@ Event.observe(window, "load", function() {
 		</table>
 	  </tabs:division>
 	  </td>
-	  <td>
+	  <td valign="top">
 		<tabs:division id="Summary" title="Personnel Summary">
 		<font size="2"><b> Study Sites </b> </font>
 		<br><br>

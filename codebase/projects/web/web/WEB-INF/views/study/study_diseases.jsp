@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
-<%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
@@ -245,6 +245,9 @@
 <body>
 <!-- MAIN BODY STARTS HERE -->
 <form:form method="post" name="studyDiseasesForm" cssClass="standard">
+<table  id="table1" cellspacing="10" width="100%">
+	<tr>
+	<td width="50%">
     <tabs:tabFields tab="${tab}" />
     <div>
          <input type="hidden" name="_action" value="">
@@ -274,36 +277,44 @@
                 path="diseaseTermIds">
             </form:select>
     </tabs:division>
+    </td>
+    
+    <td width="50%" valign="top">
+
     <tabs:division title="Selected Disease - ${fn:length(command.studyDiseases)} " id="diseases">
+
     <c:if test="${fn:length(command.studyDiseases) == 0}" >
 		No Diseases Selected
 	</c:if>
     <c:forEach items="${command.studyDiseases}" begin="0" end="0" var="studyDisease" varStatus="status">
-     <div STYLE="  font-size: 12px; overflow: auto;">
-            <TABLE border="0"  width="100%" id="studyDetails">
-                <tr>
-                    <td >Disease Term</td>
-                    <td style="width:55px;" >Primary</td>
-                </tr>
-            </TABLE>
-            </div>
-            </c:forEach>
-            <div STYLE=" height: 400px;  font-size: 12px; overflow: auto;">
-            <table border="0" width="96%" id="studyDetails">
-                <c:forEach items="${command.studyDiseases}" var="studyDisease"
-                    varStatus="status">
-                    <tr>
-                        <td ><a href="javascript:fireAction('removeStudyDisease',${status.index});">
-                        <img src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="remove"></a>&nbsp;
-                             ${studyDisease.diseaseTerm.ctepTerm}</td>
-                        <td style="width:35px;">
-                        <form:checkbox  path="studyDiseases[${status.index}].leadDisease" /></td>
-                        </td>
-                    </tr>
-                </c:forEach>
-            </table>
-            </div>
+
+     <table border="0" id="id="mytable"">
+          <tr>
+              <th scope="col">Disease Term</th>
+              <th scope="col" >Primary</th>
+          </tr>
+      </table>
+
+      </c:forEach>
+
+      <table border="0" width="100%" id="mytable">
+          <c:forEach items="${command.studyDiseases}" var="studyDisease"
+              varStatus="status">
+              <tr>
+                  <td class="alt"><a href="javascript:fireAction('removeStudyDisease',${status.index});">
+                  <img src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="remove"></a>&nbsp;
+                       ${studyDisease.diseaseTerm.ctepTerm}</td>
+                  <td class="alt">
+                  <form:checkbox  path="studyDiseases[${status.index}].leadDisease" />
+                  </td>
+              </tr>
+          </c:forEach>
+      </table>
+
     </tabs:division>
+    </td>
+    </tr>
+</table>
 </form:form>
 <!-- MAIN BODY ENDS HERE -->
 </body>
