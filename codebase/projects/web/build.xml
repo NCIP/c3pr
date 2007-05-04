@@ -26,7 +26,7 @@
 
     <property name="web.dir" location="${basedir}/web" />
     <property name="webinf.dir" value="${web.dir}/WEB-INF"/>
-	<property name="webinfviews.dir" value="${web.dir}/WEB-INF/views"/>
+    <property name="webinfviews.dir" value="${web.dir}/WEB-INF/views"/>
     <property name="webinf.lib.dir" value="${webinf.dir}/lib"/>
     <property name="webinf.classes.dir" value="${webinf.dir}/classes"/>
 
@@ -53,7 +53,7 @@
 
     <!-- Warning, your environment variable for tomcat should be set in your OS (Windows/Linux),
        else it wont deploy -->
-	<property name="tomcat.home" value="${env.CATALINA_HOME}" />
+    <property name="tomcat.home" value="${env.CATALINA_HOME}" />
     <property name="deploy.path" value="${tomcat.home}/webapps" />
 
     <!-- =============================================================== -->
@@ -108,6 +108,8 @@
         <tstamp />
         <mkdir dir="${build.dir}" />
         <mkdir dir="${test.lib.dir}" />
+        <mkdir dir="${jar.dir}" />
+        <mkdir dir="${test.classes.dir}" />
         <mkdir dir="${webinf.lib.dir}"/>
     </target>
 
@@ -144,8 +146,6 @@
     <!-- Compiles the source code                                        -->
     <!-- =============================================================== -->
     <target name="compile" depends="prepare, resources">
-        <mkdir dir="${classes.dir}" />
-        <mkdir dir="${ext.lib.dir}" />
         <javac srcdir="${src.dir}" destdir="${classes.dir}" debug="${debug}" deprecation="off" optimize="off">
             <classpath refid="build.classpath" />
         </javac>
@@ -155,8 +155,6 @@
     <!-- Compiles the test source code                                        -->
     <!-- =============================================================== -->
     <target name="compile-tests" depends="prepare">
-        <mkdir dir="${test.classes.dir}" />
-
         <javac srcdir="${test.src.dir}" destdir="${test.classes.dir}" debug="${debug}" deprecation="off" optimize="off">
             <classpath refid="test.classpath" />
         </javac>
@@ -179,7 +177,6 @@
     <!-- Creates the test jar files                                     -->
     <!-- ============================================================== -->
     <target name="jar" depends="compile">
-        <mkdir dir="${jar.dir}" />
         <jar jarfile="${project.jarfile}" basedir="${classes.dir}">
             <manifest>
                 <attribute name="Built-By" value="${user.name}" />
@@ -192,7 +189,6 @@
     <!-- Creates the jar files                                          -->
     <!-- ============================================================== -->
     <target name="jar-tests" depends="compile-tests">
-        <mkdir dir="${jar.dir}" />
         <jar jarfile="${test.project.jar}" basedir="${test.classes.dir}">
             <manifest>
                 <attribute name="Built-By" value="${user.name}" />
@@ -270,11 +266,11 @@
     <target name="undeploy-web" description="Cleans the web folder.">
         <delete dir="${deploy.path}/${webapp.name}" failonerror="true" />
     </target>
-	
+
     <target name="copy-views" description="Explicitly copy the views folder ">
-	<copy todir="${deploy.path}/${webapp.name}/WEB-INF/views/" preservelastmodified="true">
-        <fileset dir="${webinfviews.dir}"/>
-    </copy>
+        <copy todir="${deploy.path}/${webapp.name}/WEB-INF/views/" preservelastmodified="true">
+            <fileset dir="${webinfviews.dir}"/>
+        </copy>
     </target>
 
 </project>

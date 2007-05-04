@@ -128,6 +128,10 @@
         <tstamp/>
         <mkdir dir="${build.dir}"/>
         <mkdir dir="${test.lib.dir}"/>
+        <mkdir dir="${classes.dir}"/>
+        <mkdir dir="${test.classes.dir}"/>
+        <mkdir dir="${jar.dir}"/>
+
     </target>
 
     <target name="resources" description="Copy resources into classpath" depends="prepare">
@@ -176,8 +180,6 @@
     <!-- Compiles the source code                                        -->
     <!-- =============================================================== -->
     <target name="compile" depends="prepare, resources" description="compiles">
-        <mkdir dir="${classes.dir}"/>
-        <mkdir dir="${ext.lib.dir}"/>
         <javac srcdir="${src.dir}" destdir="${classes.dir}" debug="${debug}" target="1.5" deprecation="off"
                optimize="off" failonerror="true">
             <classpath refid="build.classpath"/>
@@ -187,8 +189,6 @@
     <!-- Compiles the test source code                                        -->
     <!-- =============================================================== -->
     <target name="compile-tests" depends="prepare, resources" description="compiles.">
-        <mkdir dir="${test.classes.dir}"/>
-
         <javac srcdir="${test.src.dir}" destdir="${test.classes.dir}" debug="${debug}" deprecation="off" optimize="off">
             <classpath refid="test.classpath"/>
         </javac>
@@ -208,7 +208,6 @@
     <!-- Creates the jar files                                     -->
     <!-- ============================================================== -->
     <target name="jar" depends="compile" description="Builds the Jar Files">
-        <mkdir dir="${jar.dir}"/>
         <jar jarfile="${project.jarfile}" basedir="${classes.dir}">
             <manifest>
                 <attribute name="Built-By" value="${user.name}"/>
@@ -252,7 +251,6 @@
     <!-- Creates the jar files                                          -->
     <!-- ============================================================== -->
     <target name="jar-tests" depends="compile-tests" description="Builds the Jar Files">
-        <mkdir dir="${jar.dir}"/>
         <jar jarfile="${test.project.jar}" basedir="${test.classes.dir}">
             <manifest>
                 <attribute name="Built-By" value="${user.name}"/>
