@@ -108,9 +108,7 @@ if (action){
 												</td>
 											</tr>
 										</table>
-										<a href="reg_enroll_patient.htm"><img
-											src="<tags:imageUrl name="b-edit.gif"/>" alt="Edit"
-											width="39" height="16" border="0"></a>
+										<tabs:tabButtonControls text="edit" target="0"/>
 
 										<hr align="left" width="95%">
 										<strong><br>
@@ -144,8 +142,7 @@ if (action){
 											</tr>
 										</table>
 										</div>
-										<a href=""><img src="<tags:imageUrl name="b-edit.gif"/>"
-											alt="Edit" width="39" height="16" border="0"></a>
+										<tabs:tabButtonControls text="edit" target="1"/>
 										<hr align="left" width="95%">
 										<strong><br>
 										Identifiers</strong>
@@ -179,8 +176,7 @@ if (action){
 										</table>
 										</div>
 										<br>
-										<a href=""><img src="<tags:imageUrl name="b-edit.gif"/>"
-											alt="Edit" width="39" height="16" border="0"></a>
+										<tabs:tabButtonControls text="edit" target="0"/>
 									</form:form></td>
 
 									<!-- LEFT CONTENT ENDS HERE -->
