@@ -186,24 +186,20 @@ function manageSearchTypeMessage(message){
 							<tr>
 								<td align="right" width="15%"><select name="select" id="select"
 									onChange="manageSelectBox(this);">
-									<option selected>--Please Select--</option>
 									<option value="Subject">Subject</option>
 									<option value="Study">Study</option>
 									<option value="Id">Registration Identifier</option>
 								</select></td>
 
 								<td align="left">
-								<div name="SubjectSearch" id="SubjectSearch"
-									style="display:none;"><select name="SubjectOption"
-									id="SubjectOption">
-									<option selected>--Please Select--</option>
+								<div name="SubjectSearch" id="SubjectSearch"><select
+									name="SubjectOption" id="SubjectOption">
 									<c:forEach items="${searchTypeRefDataPrt}" var="option">
 										<option value="${option.code }">${option.desc }</option>
 									</c:forEach>
 								</select></div>
 								<div name="StudySearch" id="StudySearch" style="display:none;"><select
 									name="StudyOption" id="StudyOption">
-									<option selected>--Please Select--</option>
 									<c:forEach items="${searchTypeRefDataStudy}" var="option">
 										<option value="${option.code }">${option.desc }</option>
 									</c:forEach>
@@ -213,8 +209,8 @@ function manageSearchTypeMessage(message){
 
 							<tr>
 								<td colspan="2"><input type="hidden" id="registration" /> <input
-									id="registration-input" size="52" type="text" name="searchText" /> <tags:indicator
-									id="registration-indicator" />
+									id="registration-input" size="52" type="text" name="searchText" class="validate-notEmpty" />
+								<tags:indicator id="registration-indicator" />
 								<div id="registration-choices" class="autocomplete"></div>
 								<p id="registration-selected" style="display: none">You've
 								selected <span id="registration-selected-name"></span>.</p>
@@ -226,7 +222,7 @@ function manageSearchTypeMessage(message){
 							</tr>
 							<tr>
 								<td>
-								<div id="SubjectSearchMessage" style="display:none;">
+								<div id="SubjectSearchMessage">
 								<p id="instructions">Please search a Subject</p>
 								</div>
 								<div id="StudySearchMessage" style="display:none;">
