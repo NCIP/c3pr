@@ -8,11 +8,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
              <entry key="yesNo">
                     <list>
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="0" />
+                            <property name="code" value="true" />
                             <property name="desc" value="No" />
                         </bean>
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="1" />
+                            <property name="code" value="false" />
                             <property name="desc" value="Yes" />
                         </bean>
                 	</list>
@@ -415,11 +415,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                     <list>
                       	<bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="PI" />
-                            <property name="desc" value="Principal Investigator" />
+                            <property name="desc" value="Site Principle Investigator" />
                         </bean>   
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="COI" />
-                            <property name="desc" value="Co Investigator" />
+                            <property name="code" value="SI" />
+                            <property name="desc" value="Site Investigator" />
                         </bean>                      
                		</list>
                	</entry>
@@ -440,11 +440,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                  <entry key="studyPersonnelRole">
                     <list>
                       	<bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="CRA" />
-                            <property name="desc" value="Clinical Research Associate" />
+                            <property name="code" value="REG" />
+                            <property name="desc" value="Regsitrar" />
                         </bean>   
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="SE" />
+                            <property name="code" value="SC" />
                             <property name="desc" value="Study Coordinator" />
                         </bean>                      
                		</list>
