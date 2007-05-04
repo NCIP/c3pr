@@ -34,7 +34,7 @@ function fireAction(action, selected){
 <body>
 
 
-<tabs:division title="Investigator" id="investigator">
+<tabs:division id="investigator">
 	<form:form method="post" cssClass="standard" name="studySiteForm"
 		>
 		<div><input type="hidden" name="_action" value=""> <input
@@ -56,11 +56,11 @@ function fireAction(action, selected){
 					</tr>
 					<tr valign="top">
 						<td class="label"><span class="red">*</span>First Name:</td>
-						<td><form:input path="firstName" /></td>
+						<td ><form:input path="firstName" cssClass="validate-notEmpty" /></td>
 					</tr>
 					<tr valign="top">
 						<td class="label"><span class="red">*</span>Last Name:</td>
-						<td><form:input path="lastName" /></td>
+						<td><form:input path="lastName" cssClass="validate-notEmpty"/></td>
 					</tr>
 					<tr>
 						<td class="label">NCI Identifier:</td>

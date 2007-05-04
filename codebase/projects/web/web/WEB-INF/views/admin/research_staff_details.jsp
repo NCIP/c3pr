@@ -21,7 +21,7 @@
 </head>
 <body>
 
-	<tabs:division title="Research Staff" id="research_staff">
+	<tabs:division id="research_staff">
 		<form:form method="post" cssClass="standard" name="studySiteForm">
 			<div><input type="hidden" name="_action" value=""> <input
 				type="hidden" name="_selected" value=""> <input type="hidden"
@@ -42,11 +42,11 @@
 						</tr>
 						<tr valign="top">
 							<td class="label"><span class="red">*</span>First Name:</td>
-							<td><form:input path="firstName" /></td>
+							<td><form:input path="firstName" cssClass="validate-notEmpty" /> </td>
 						</tr>
 						<tr valign="top">
 							<td class="label"><span class="red">*</span>Last Name:</td>
-							<td><form:input path="lastName" /></td>
+							<td><form:input path="lastName" cssClass="validate-notEmpty"/></td>
 						</tr>
 					</table>
 					</td>
