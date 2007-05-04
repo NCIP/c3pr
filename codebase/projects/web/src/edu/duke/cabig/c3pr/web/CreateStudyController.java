@@ -3,14 +3,17 @@ package edu.duke.cabig.c3pr.web;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -49,7 +52,7 @@ public class CreateStudyController extends StudyController {
 	}
 	
 	
-	/* (non-Javadoc)
+	/* (non-Javadoc) 
 	 * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#processFinish
 	 * (javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, 
 	 * java.lang.Object, org.springframework.validation.BindException)
@@ -73,7 +76,10 @@ public class CreateStudyController extends StudyController {
 		//save study and proceed to final page
 		studyService.save(study);
 	
-		return new ModelAndView("forward:confirm?type=confirm", errors.getModel());
+	//	return new ModelAndView("forward:confirm?type=confirm", errors.getModel());
+		
+	    Map model = new ModelMap("type", "confirm");
+	    return new ModelAndView(new RedirectView("confirm", true), model);
 	}	
 	
 }

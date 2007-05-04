@@ -31,6 +31,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
@@ -328,22 +329,6 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 		// implement this in sub class
 		return null;
 	}
-	
-	/**
-	* Method for custom validation logic for individual pages
-	* @param command - form object with the current wizard state
-	* @param errors - validation errors holder
-	* @param page - number of page to validate
-	*/
-	
-	protected void validatePage(Object command, Errors errors, int page, boolean finish) {
-		Study study = (Study) command;
-		switch (page) {
-		case 0:
-			studyValidator.validateStudy(study, errors);
-			break;
-		}
-	}	
 
 	protected void handleIdentifierAction(Study study, String action, String selected)
 	{				
@@ -351,7 +336,6 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 		{	
 			log.debug("Requested Add Identifier");	
 			Identifier id = new Identifier();
-			id.setValue("<enter value>");
 			study.addIdentifier(id);		
 		}
 		else if ("removeIdentifier".equals(action))
@@ -564,8 +548,8 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 	
 	/**
 	 * Need to create a default study with default associated Collection objects
-	 * this is shown to the User for the first time
-	 * @return Study the default study
+	 * Need this to bind empty collections in Spring <form> tag
+	 * @return Study with the defaults
 	 */
 	protected Study createDefaultStudyWithDesign()
 	{
@@ -592,20 +576,38 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 	{
 		StudySite studySite = new StudySite();
 		createDefaultHealthcareSite(studySite);	
-		//createDefaultStudyInvestigators(studySite);
-		//createDefaultStudyPersonnel(studySite);
+		createDefaultStudyInvestigators(studySite);
+		createDefaultStudyPersonnel(studySite);
 		study.addStudySite(studySite);					
 	}	
 	
 	protected void createDefaultStudyInvestigators(StudySite studySite)
 	{
 		StudyInvestigator studyInvestigator = new StudyInvestigator();
+		studyInvestigator.setStudySite(studySite);
 		studySite.addStudyInvestigator(studyInvestigator);
+		createDefaultHealthcareSiteInvestigator(studyInvestigator);
 	}
+	
+	protected void createDefaultHealthcareSiteInvestigator(StudyInvestigator si)
+	{
+		HealthcareSiteInvestigator hsi = new HealthcareSiteInvestigator();
+		hsi.setHealthcareSite(si.getStudySite().getSite());
+		hsi.setInvestigator(new Investigator());
+		hsi.addStudyInvestigator(si);					
+	}
+	
+	protected void createDefaultResearchStaff(StudyPersonnel sp)
+	{
+		ResearchStaff staff = new ResearchStaff();
+		staff.addStudyPersonnel(sp);
+	}
+	
 	protected void createDefaultStudyPersonnel(StudySite studySite)
 	{
 		StudyPersonnel studyPersonnel = new StudyPersonnel();
 		studySite.addStudyPersonnel(studyPersonnel);
+		createDefaultResearchStaff(studyPersonnel);
 	}
 	
 	protected void createDefaultHealthcareSite(StudySite studySite)
@@ -621,9 +623,7 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 		List<Identifier> identifiers = new ArrayList<Identifier>();
 		Identifier id1 = new Identifier();	
 		id1.setPrimaryIndicator(true);
-		identifiers.add(id1);
-		Identifier id2 = new Identifier();	
-		identifiers.add(id2);		
+		identifiers.add(id1);	
 		study.setIdentifiers(identifiers);		
 	}
 	
