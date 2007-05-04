@@ -55,7 +55,7 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 	private String status;
 	private String type;
 	private String primaryIdentifier;
-	private int targetAccrualNumber;
+	private Integer targetAccrualNumber;
 		
 	private List<Epoch> epochs = new ArrayList<Epoch>();	  	
 	private List<StudySite> studySites = new ArrayList<StudySite>();;			  
@@ -288,11 +288,11 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 		this.status = status;
 	}
 
-	public int getTargetAccrualNumber() {
+	public Integer getTargetAccrualNumber() {
 		return targetAccrualNumber;
 	}
 
-	public void setTargetAccrualNumber(int targetAccrualNumber) {
+	public void setTargetAccrualNumber(Integer targetAccrualNumber) {
 		this.targetAccrualNumber = targetAccrualNumber;
 	}
 
@@ -320,7 +320,6 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 		result = PRIME * result + ((sponsorCode == null) ? 0 : sponsorCode.hashCode());
 		result = PRIME * result + ((status == null) ? 0 : status.hashCode());
 		result = PRIME * result + ((studySites == null) ? 0 : studySites.hashCode());
-		result = PRIME * result + targetAccrualNumber;
 		result = PRIME * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
@@ -368,8 +367,6 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 			if (other.studySites != null)
 				return false;
 		} else if (!studySites.equals(other.studySites))
-			return false;
-		if (targetAccrualNumber != other.targetAccrualNumber)
 			return false;
 		if (type == null) {
 			if (other.type != null)
