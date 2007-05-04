@@ -1,20 +1,33 @@
 package edu.duke.cabig.c3pr.dao;
 
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
 
+import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
+import edu.emory.mathcs.backport.java.util.Collections;
 
 /**
  * @author Priyatam, kulasekaran
  */
 public class ParticipantDao extends AbstractBaseDao<Participant> {
+
+	private List<String> SUBSTRING_MATCH_PROPERTIES = Arrays.asList("lastName");
+
+	private List<String> EXACT_MATCH_PROPERTIES = Collections.emptyList();
+
+	private static Log log = LogFactory.getLog(ParticipantDao.class);
 
 	public Class<Participant> domainClass() {
 		return Participant.class;
@@ -34,17 +47,20 @@ public class ParticipantDao extends AbstractBaseDao<Participant> {
 	 * @param participant
 	 * @return
 	 */
-	public List<Participant> searchByExample(Participant participant, boolean isWildCard) {
-		Example example = Example.create(participant).excludeZeroes().ignoreCase();
+	public List<Participant> searchByExample(Participant participant,
+			boolean isWildCard) {
+		Example example = Example.create(participant).excludeZeroes()
+				.ignoreCase();
 		Criteria participantCriteria = getSession().createCriteria(
-			Participant.class);
+				Participant.class);
 		if (isWildCard) {
 			example.excludeProperty("doNotUse").enableLike(MatchMode.ANYWHERE);
 			participantCriteria.add(example);
 			if (participant.getIdentifiers().size() > 0) {
 				participantCriteria.createCriteria("identifiers").add(
-					Restrictions.like("value", participant.getIdentifiers()
-					.get(0).getValue()+ "%"));
+						Restrictions.like("value", participant.getIdentifiers()
+								.get(0).getValue()
+								+ "%"));
 			}
 			return participantCriteria.list();
 
@@ -75,8 +91,9 @@ public class ParticipantDao extends AbstractBaseDao<Participant> {
 	}
 
 	/**
-	 * An overloaded method to return Participant Object along with
-	 * the collection of associated identifiers
+	 * An overloaded method to return Participant Object along with the
+	 * collection of associated identifiers
+	 * 
 	 * @return Participant Object based on the id
 	 * @throws DataAccessException
 	 */
@@ -92,13 +109,28 @@ public class ParticipantDao extends AbstractBaseDao<Participant> {
 		return participant;
 
 	}
-	
+
 	@Override
 	public Participant getById(int id) {
 		// TODO Auto-generated method stub
-		Participant participant= super.getById(id);
+		Participant participant = super.getById(id);
 		participant.getStudyParticipantAssignments().size();
 		return participant;
 	}
-	
+
+	public List<Participant> getBySubnames(String[] subnames,
+			int criterionSelector) {
+
+		switch (criterionSelector) {
+		case 0:
+			SUBSTRING_MATCH_PROPERTIES = Arrays.asList("lastName");
+			break;
+		case 1:
+			SUBSTRING_MATCH_PROPERTIES = Arrays.asList("identifiers");
+
+		}
+		return findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES,
+				EXACT_MATCH_PROPERTIES);
+	}
+
 }
