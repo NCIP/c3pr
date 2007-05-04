@@ -57,21 +57,21 @@ function getPage(s){
 												<tr>
 													<td align="right"><span class="red">*</span><em></em> <b>First
 													Name: &nbsp;</b></td>
-													<td align="left"><form:input path="firstName" /><span
-														class="red">&nbsp;&nbsp;&nbsp;<form:errors
-														path="firstName" /></span><em></em></td>
+													<td align="left"><form:input path="firstName" cssClass="validate-notEmpty" /><span
+														class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
 												</tr>
 												<tr>
 													<td align="right"><span class="red">*</span><em></em> <b>Last
 													Name:</b>&nbsp;</td>
-													<td align="left"><form:input path="lastName" /><span
-														class="red">&nbsp;&nbsp;&nbsp;<form:errors path="lastName" /></span><em></em></td>
+													<td align="left"><form:input path="lastName" cssClass="validate-notEmpty" /><span
+														class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
 												</tr>
 												<tr>
 													<td align="right"><span class="red">*</span> <em></em> <b>Gender:</b>
 													&nbsp;</td>
 													<td align="left"><form:select
-														path="administrativeGenderCode">
+														path="administrativeGenderCode" cssClass="validate-notEmpty">
+														<option value="">--Please Select-- </option>
 														<form:options items="${administrativeGenderCode}"
 															itemLabel="desc" itemValue="code" />
 													</form:select></td>
@@ -90,12 +90,13 @@ function getPage(s){
 												<tr>
 													<td align="right"><span class="red">&nbsp;&nbsp;&nbsp;*</span><em></em><b>Birth
 													Date: </b>&nbsp;</td>
-													<td><tags:dateInput path="birthDate" />&nbsp;&nbsp;&nbsp;<span
-														class="red"><form:errors path="birthDate" /><em></em></span></td>
+													<td><form:input path="birthDate" cssClass="validate-date" />&nbsp;(mm/dd/yyyy)&nbsp;&nbsp;<span
+														class="red"><em></em></span></td>
 												</tr>
 												<tr>
 													<td align="right"><em></em><b>Ethnicity:</b> &nbsp;</td>
 													<td align="left"><form:select path="ethnicGroupCode">
+														<option value="">--Please Select-- </option>
 														<form:options items="${ethnicGroupCode}" itemLabel="desc"
 															itemValue="code" />
 													</form:select></td>
@@ -103,6 +104,7 @@ function getPage(s){
 												<tr>
 													<td align="right"><em></em><b>Race(s):</b> &nbsp;</td>
 													<td align="left"><form:select path="raceCode">
+													<option value="">--Please Select-- </option>
 														<form:options items="${raceCode}" itemLabel="desc"
 															itemValue="code" />
 													</form:select></td>
