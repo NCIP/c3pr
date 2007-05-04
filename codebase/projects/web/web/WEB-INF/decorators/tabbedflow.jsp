@@ -29,8 +29,7 @@
 
     <div class="tabpane">
         <tabs:levelTwoTabs tab="${tab}" flow="${flow}"/>
-        <tabs:body title="${flow.name}: ${tab.longTitle} - Short Title: ${command.trimmedShortTitleText}">
-
+        <tabs:body title="Short Title: ${command.trimmedShortTitleText} - Primary Identifier: ${command.primaryIdentifier}">
             <div class="tabcontent workArea">
                 <decorator:body/>
                 <tabs:tabControls tabNumber="${tab.number}" isLast="${tab.number < flow.tabCount - 1}"/>
