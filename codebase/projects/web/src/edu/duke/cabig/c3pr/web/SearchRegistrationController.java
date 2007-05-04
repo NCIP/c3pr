@@ -16,7 +16,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
+import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudyParticipantAssignmentDao;
+import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -37,6 +39,12 @@ public class SearchRegistrationController extends SimpleFormController {
 
 	private StudyParticipantAssignmentDao registrationDao;
 
+	private ParticipantDao participantDao;
+
+	private StudyDao studyDao;
+
+	private StudySiteDao studySiteDao;
+
 	private ConfigurationProperty configurationProperty;
 
 	public SearchRegistrationController() {
@@ -53,12 +61,56 @@ public class SearchRegistrationController extends SimpleFormController {
 		StudyParticipantAssignment registration = new StudyParticipantAssignment();
 		String text = searchRegistrationCommand.getSearchText();
 		String type = searchRegistrationCommand.getSearchType();
-		Map<String, List<Lov>> configMap = configurationProperty.getMap();
-		log.debug("search string = " + text + "; type = " + type);
+		List<StudyParticipantAssignment> registrations = new ArrayList<StudyParticipantAssignment>();
+		log.debug(" Search string is :" + text);
+		if (request.getParameter("select").equals("Subject")) {
+			Participant participant = new Participant();
+			if (request.getParameter("SubjectOption").equals("N"))
+				participant.setLastName(text);
+			else {
+				Identifier identifier = new Identifier();
+				identifier.setValue(text);
+				participant.addIdentifier(identifier);
+			}
+			List<Participant> participants = participantDao
+					.searchByExample(participant);
+			for (Participant partVar : participants) {
+				registrations = partVar.getStudyParticipantAssignments();
+			}
+		} else if (request.getParameter("select").equals("Study")) {
+			Study study = new Study();
+			if (request.getParameter("StudyOption").equals("shortTitle")) {
+				study.setShortTitleText(text);
 
-		List<StudyParticipantAssignment> registrations = registrationDao
-				.searchByExample(registration, true);
-		log.debug("Search results size " + registrations.size());
+			} else if (request.getParameter("StudyOption").equals("longTitle")) {
+				study.setLongTitleText(text);
+
+			} else if (request.getParameter("StudyOption").equals("status")) {
+				study.setStatus(text);
+			} else {
+				Identifier identifier = new Identifier();
+				identifier.setValue(text);
+				study.addIdentifier(identifier);
+			}
+
+			List<Study> studies = studyDao.searchByExample(study, true);
+			for (Study studyVar : studies) {
+				for (StudySite studySite : studyVar.getStudySites()) {
+					for (StudyParticipantAssignment studyParticipantAssignment : studySite
+							.getStudyParticipantAssignments()) {
+						registrations.add(studyParticipantAssignment);
+					}
+				}
+			}
+		} else if (request.getParameter("select").equals("Id")) {
+			Identifier identifier = new Identifier();
+			identifier.setValue(text);
+			registration.addIdentifier(identifier);
+			registrations = registrationDao.searchByExample(registration);
+		}
+
+		log.debug("Search registrations result size: " + registrations.size());
+		Map<String, List<Lov>> configMap = configurationProperty.getMap();
 		Map map = errors.getModel();
 		map.put("registrations", registrations);
 		map.put("searchTypeRefDataPrt", configMap.get("participantSearchType"));
@@ -93,6 +145,30 @@ public class SearchRegistrationController extends SimpleFormController {
 
 	public void setRegistrationDao(StudyParticipantAssignmentDao registrationDao) {
 		this.registrationDao = registrationDao;
+	}
+
+	public ParticipantDao getParticipantDao() {
+		return participantDao;
+	}
+
+	public void setParticipantDao(ParticipantDao participantDao) {
+		this.participantDao = participantDao;
+	}
+
+	public StudyDao getStudyDao() {
+		return studyDao;
+	}
+
+	public void setStudyDao(StudyDao studyDao) {
+		this.studyDao = studyDao;
+	}
+
+	public StudySiteDao getStudySiteDao() {
+		return studySiteDao;
+	}
+
+	public void setStudySiteDao(StudySiteDao studySiteDao) {
+		this.studySiteDao = studySiteDao;
 	}
 
 }
