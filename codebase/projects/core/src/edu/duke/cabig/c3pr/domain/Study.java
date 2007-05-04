@@ -41,9 +41,9 @@ import edu.duke.cabig.c3pr.utils.StringUtils;
 )
 public class Study extends AbstractGridIdentifiableDomainObject implements Comparable<Study>{
 		 
-	private Boolean blindedIndicator;
-	private Boolean multiInstitutionIndicator;
-	private Boolean randomizedIndicator;	
+	private String blindedIndicator;
+	private String multiInstitutionIndicator;
+	private String randomizedIndicator;	
 	
 	// A name or abbreviated title by which the document is known
 	private String shortTitleText;
@@ -230,29 +230,7 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 		this.studySites = studySites;
 	}	
 	
-	public Boolean getBlindedIndicator() {
-		return blindedIndicator;
-	}
-
-	public void setBlindedIndicator(Boolean blindedIndicator) {
-		this.blindedIndicator = blindedIndicator;
-	}
 	
-	public Boolean getMultiInstitutionIndicator() {
-		return multiInstitutionIndicator;
-	}
-
-	public void setMultiInstitutionIndicator(Boolean multiInstitutionIndicator) {
-		this.multiInstitutionIndicator = multiInstitutionIndicator;
-	}
-	
-	public Boolean getRandomizedIndicator() {
-		return randomizedIndicator;
-	}
-
-	public void setRandomizedIndicator(Boolean randomizedIndicator) {
-		this.randomizedIndicator = randomizedIndicator;
-	}
 
 	public String getDescriptionText() {
 		return descriptionText;
@@ -416,6 +394,30 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 		}
 			
 		return primaryIdentifier;		
+	}
+
+	public String getBlindedIndicator() {
+		return blindedIndicator;
+	}
+
+	public void setBlindedIndicator(String blindedIndicator) {
+		this.blindedIndicator = blindedIndicator;
+	}
+
+	public String getMultiInstitutionIndicator() {
+		return multiInstitutionIndicator;
+	}
+
+	public void setMultiInstitutionIndicator(String multiInstitutionIndicator) {
+		this.multiInstitutionIndicator = multiInstitutionIndicator;
+	}
+
+	public String getRandomizedIndicator() {
+		return randomizedIndicator;
+	}
+
+	public void setRandomizedIndicator(String randomizedIndicator) {
+		this.randomizedIndicator = randomizedIndicator;
 	}
 	
 }
