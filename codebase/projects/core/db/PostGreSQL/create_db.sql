@@ -12,7 +12,5 @@ CREATE DATABASE c3pr_dev
 GRANT ALL ON DATABASE c3pr_dev TO public;
 GRANT ALL ON DATABASE c3pr_dev TO pg;
 
-CREATE LANGUAGE plpgsql;
-
 For more info follow this tutorial
 http://www.cyberciti.biz/faq/howto-add-postgresql-user-account/
