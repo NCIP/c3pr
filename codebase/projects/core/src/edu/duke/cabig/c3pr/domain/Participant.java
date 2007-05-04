@@ -38,7 +38,7 @@ public class Participant extends Person implements Comparable<Participant>
 	private String ethnicGroupCode;
 	private String raceCode;
     private String maritalStatusCode;
-     private String primaryIdentifier;
+    private String primaryIdentifier;
     private List<Identifier> identifiers = new ArrayList<Identifier>();
     
     private List<StudyParticipantAssignment> studyParticipantAssignments= new ArrayList<StudyParticipantAssignment>();
@@ -105,6 +105,11 @@ public class Participant extends Person implements Comparable<Participant>
 	
 	@Transient
 	public String getBirthDateStr() {
+		if(birthDate==null){
+			return "";
+		}else if(birthDate.equals("")){
+			return "";
+		}
 		try {
 			return DateUtil.formatDate(birthDate, "MM/dd/yyyy");
 		}
@@ -181,5 +186,9 @@ public class Participant extends Person implements Comparable<Participant>
 		}
 			
 		return primaryIdentifier;		
+	}
+
+	public void setPrimaryIdentifier(String primaryIdentifier) {
+		this.primaryIdentifier = primaryIdentifier;
 	}
 }
