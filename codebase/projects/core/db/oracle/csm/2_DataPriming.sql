@@ -12,7 +12,7 @@ values (2, 'csmupt','UPT Super Admin Application',0,0,sysdate);
 select CSM_APPLICATI_APPLICATION__SEQ.nextval from dual;
 
 insert into csm_user (USER_ID, LOGIN_NAME,FIRST_NAME,LAST_NAME,PASSWORD,UPDATE_DATE)
-values (1, 'admin','admin','admin','Ie0InPvp8oOgmHldOE8ejA==',sysdate);
+values (1, 'c3pr_admin','admin','admin','Ie0InPvp8oOgmHldOE8ejA==',sysdate);
 select CSM_USER_USER_ID_SEQ.nextval from dual;
  
 insert into csm_protection_element(PROTECTION_ELEMENT_ID, PROTECTION_ELEMENT_NAME,PROTECTION_ELEMENT_DESCRIPTION,OBJECT_ID,APPLICATION_ID,UPDATE_DATE)
