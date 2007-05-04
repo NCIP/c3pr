@@ -125,6 +125,9 @@
 			value="edu.duke.cabig.c3pr.domain.Participant" />
 		<property name="commandName" value="command" />
 	</bean>
+	<bean name="/participant/confirmCreateParticipant" id="confirmCreateParticipantController" autowire="byType"
+    	  class="edu.duke.cabig.c3pr.web.ConfirmCreateParticipantController" >
+    </bean>
 	<bean name="/registration/registrationDetails"
 		id="registrationDetailsController" lazy-init="true"
 		class="edu.duke.cabig.c3pr.web.RegistrationDetailsController"
