@@ -5,7 +5,9 @@
 -- > database->schema->functions
 -- > database->schema->indexes
 -- Refer the postgres documentation for further details.
- 
+
+    CREATE LANGUAGE plpgsql;
+
 	CREATE SEQUENCE CSM_APPLICATI_APPLICATION__SEQ;
 	CREATE TABLE CSM_APPLICATION
 	(
