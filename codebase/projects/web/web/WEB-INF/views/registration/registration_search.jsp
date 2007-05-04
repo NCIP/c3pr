@@ -22,7 +22,9 @@ function getCriteriaNumber(){
 	if(document.getElementById("select").value=='Subject')
 		return subjectCriteriaNumber();
 	else if(document.getElementById("select").value=='Study')
+		{
 		return studyCriteriaNumber();
+		}
 	else if(document.getElementById("select").value=='Id')
 		return 5;
 	
@@ -35,43 +37,62 @@ function subjectCriteriaNumber(){
 	}
 	
 function studyCriteriaNumber(){
+
 	if(document.getElementById("StudyOption").value=='shortTitle')
 		return 2
 	else if(document.getElementById("StudyOption").value=='longTitle')
 		return 3
 	else if(document.getElementById("StudyOption").value=='status')
-	{return 4}
-	else return 2
+	{return 5}
+	else if(document.getElementById("StudyOption").value=='id')
+	{
+	return 4
+	}
 	}
 	
-
-
-
 var registrationAutocompleterProps = {
     basename: "registration",
-    populator: function(autocompleter, text) {
-	registrationDetails.matchRegistrations(text,getCriteriaNumber(),function(values) {
+    populator: function(autocompleter, text) {if (document.getElementById("select").value=="Study"){if(document.getElementById("StudyOption").value=='id') {
+	(registrationDetails.matchStudyIdentifiers(text,getCriteriaNumber(),function(values) {
 	    autocompleter.setChoices(values)
-	})
-    },
+	}))
+    } else {
+	(registrationDetails.matchStudies(text,getCriteriaNumber(),function(values) {
+	    autocompleter.setChoices(values)
+	}))
+    }}else if (document.getElementById("select").value=="Subject"){if(document.getElementById("SubjectOption").value=='Identifier') {
+	(registrationDetails.matchParticipantIdentifiers(text,getCriteriaNumber(),function(values) {
+	    autocompleter.setChoices(values)
+	}))
+    } else {
+	(registrationDetails.matchParticipants(text,getCriteriaNumber(),function(values) {
+	    autocompleter.setChoices(values)
+	}))
+    }}else {
+	(registrationDetails.matchRegistrationIdentifiers(text,getCriteriaNumber(),function(values) {
+	    autocompleter.setChoices(values)
+	}))
+    }},
     valueSelector: function(obj) {
     if(document.getElementById("select").value=='Subject')
     { 
-    	return obj.participant.lastName;
-    
-    }else if (document.getElementById("select").value=='Study')
+    	if(document.getElementById("SubjectOption").value=='N')
+		return obj.lastName
+		else if(document.getElementById("SubjectOption").value=='Identifier'){
+		return obj.value}
+   }else if (document.getElementById("select").value=='Study')
     {
     	if (document.getElementById("StudyOption").value=='shortTitle')
-    	return obj.studySite.study.shortTitleText
+    	return obj.shortTitleText
     	else if (document.getElementById("StudyOption").value=='longTitle')
-    	return obj.studySite.study.longTitleText
+    	return obj.longTitleText
     	else if (document.getElementById("StudyOption").value=='status')
-    	return obj.studySite.study.status
-    	else return obj.studySite.study.shortTitleText
+    	return obj.status
+    	else return obj.value
     	
     }else if (document.getElementById("select").value=='Id') 
     {
-     return obj.studySite.study.status
+     return obj.value
     }
     
     }
@@ -110,7 +131,7 @@ function acCreate(mode) {
 Event.observe(window, "load", function() {
     acCreate(registrationAutocompleterProps)
     updateSelectedDisplay(registrationAutocompleterProps)
-   // Element.update("flow-next", "Continue &raquo;")
+    // Element.update("flow-next", "Continue &raquo;")
 })
 function updateAction(action){
 		document.getElementById("_updateaction").value=action;
@@ -172,8 +193,9 @@ function manageSearchTypeMessage(message){
 								</select></td>
 
 								<td align="left">
-								<div name="SubjectSearch" id="SubjectSearch" style="display:none;"><select
-									name="SubjectOption" id="SubjectOption">
+								<div name="SubjectSearch" id="SubjectSearch"
+									style="display:none;"><select name="SubjectOption"
+									id="SubjectOption">
 									<option selected>--Please Select--</option>
 									<c:forEach items="${searchTypeRefDataPrt}" var="option">
 										<option value="${option.code }">${option.desc }</option>
@@ -190,8 +212,8 @@ function manageSearchTypeMessage(message){
 							</tr>
 
 							<tr>
-								<td colspan="2"><input type="hidden" id="registration" /> <form:input
-									id="registration-input" size="52" path="searchText" /> <tags:indicator
+								<td colspan="2"><input type="hidden" id="registration" /> <input
+									id="registration-input" size="52" type="text" name="searchText" /> <tags:indicator
 									id="registration-indicator" />
 								<div id="registration-choices" class="autocomplete"></div>
 								<p id="registration-selected" style="display: none">You've
