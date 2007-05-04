@@ -67,27 +67,27 @@ field.value="";
 										<td width="150" align="right"><span class="red">*</span><em></em>
 										<b>Street Address:</b>&nbsp;</td>
 										<td align="left"><form:input size="58"
-											path="address.streetAddress" />&nbsp;&nbsp;&nbsp;<span
-											class="red"><form:errors path="address.streetAddress" /><em></em></span></td>
+											path="address.streetAddress" cssClass="validate-notEmpty"/>&nbsp;&nbsp;&nbsp;<span
+											class="red"><em></em></span></td>
 									</tr>
 									<tr>
 										<td width="150" align="right"><span class="red">*</span><em></em>
 										<b>City:</b>&nbsp;</td>
-										<td align="left"><form:input path="address.city" />&nbsp;&nbsp;&nbsp;<span
-											class="red"><form:errors path="address.city" /><em></em></span></td>
+										<td align="left"><form:input path="address.city" cssClass="validate-notEmpty" />&nbsp;&nbsp;&nbsp;<span
+											class="red"><em></em></span></td>
 									</tr>
 									<tr>
 										<td width="150" align="right"><span class="data"><span
 											class="red">*</span><em></em><b>State:</b>&nbsp;</span></td>
-										<td align="left"><form:input path="address.stateCode" />&nbsp;&nbsp;&nbsp;<span
-											class="red"><form:errors path="address.stateCode" /><em></em></span>&nbsp;&nbsp;
+										<td align="left"><form:input path="address.stateCode" cssClass="validate-notEmpty" />&nbsp;&nbsp;&nbsp;<span
+											class="red"><em></em></span>&nbsp;&nbsp;
 										<strong><b>Zip:</b>&nbsp;</strong><form:input
 											path="address.postalCode" /></td>
 									</tr>
 									<tr>
 										<td width="150" align="right"><em></em><em></em> <b>Country:</b>&nbsp;</td>
-										<td align="left"><form:input path="address.countryCode" />&nbsp;&nbsp;&nbsp;<span
-											class="red"><form:errors path="address.countryCode" /><em></em></span></td>
+										<td align="left"><form:input path="address.countryCode" cssClass="validate-notEmpty" />&nbsp;&nbsp;&nbsp;<span
+											class="red"><em></em></span></td>
 									</tr>
 								</table>
 								</form>

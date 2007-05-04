@@ -42,20 +42,20 @@ function getPage(s){
 										<td width="150" align="right" ><span class="red">*</span><em></em>
 										<b>Street Address:</b>&nbsp;</td>
 										<td width align="left"><form:input size="58"
-											path="address.streetAddress" />&nbsp;&nbsp;&nbsp;<span
-											class="red"><form:errors path="address.streetAddress" /><em></em></span></td>
+											path="address.streetAddress" cssClass="validate-notEmpty" />&nbsp;&nbsp;&nbsp;<span
+											class="red"><em></em></span></td>
 									</tr>
 									<tr>
 										<td width="150" align="right"><span class="red">*</span><em></em>
 										<b>City:</b>&nbsp;</td>
-										<td align="left"><form:input path="address.city" />&nbsp;&nbsp;&nbsp;<span
-											class="red"><form:errors path="address.city" /><em></em></span></td>
+										<td align="left"><form:input path="address.city"cssClass="validate-notEmpty" />&nbsp;&nbsp;&nbsp;<span
+											class="red"><em></em></span></td>
 									</tr>
 									<tr>
 										<td width="150" align="right" ><span class="data"><span
 											class="red">*</span><em></em> <b>State:</b>&nbsp;</span></td>
-										<td align="left"><form:input path="address.stateCode" />&nbsp;&nbsp;&nbsp;<span
-											class="red"><form:errors path="address.stateCode" /><em></em></span>&nbsp;&nbsp;
+										<td align="left"><form:input path="address.stateCode" cssClass="validate-notEmpty" />&nbsp;&nbsp;&nbsp;<span
+											class="red"><em></em></span>&nbsp;&nbsp;
 										<b>Zip:</b>&nbsp;<form:input
 											path="address.postalCode" /></td>
 									</tr>
