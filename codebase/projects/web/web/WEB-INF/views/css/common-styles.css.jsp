@@ -33,7 +33,12 @@ textarea { background: #EBEFF5; font-family: "Trebuchet MS", arial, verdana, san
 .header img{border:0;}
 
 /* top nav */
-#topNav { color: #E6E6E6; font-weight: bold; background-color: #5C5C5C; font-size:11px; }
+#topNav { 
+	color: #E6E6E6; font-weight: bold; background-color: #5C5C5C;
+	font-family: "Trebuchet MS", arial, verdana, sans-serif; 
+	font-size: 12px; 
+	padding: 0 3px 0 3px;
+}
 #topNav .left { padding: 0 0 0 8px; white-space: nowrap; }
 #topNav .right { padding: 0; text-align: right; white-space: nowrap; }
 #topNav .divider { height:18px; width: 6px; margin-left:-3px; vertical-align:bottom;}
@@ -43,6 +48,7 @@ textarea { background: #EBEFF5; font-family: "Trebuchet MS", arial, verdana, san
     text-decoration: none; background-color:#747474;
     border: solid #D6D6D6; border-width: 1px 0 0 1px;
     padding: 2px 24px 0 10px; vertical-align: bottom;
+    font-family: "Trebuchet MS", arial, verdana, sans-serif; font-size: 12px; padding: 0 3px 0 3px;
 }
 #topNav a:link, #topNav a:visited { color: #E6E6E6; }
 #topNav a:hover, #topNav a:active { color: #FFFFFF; }

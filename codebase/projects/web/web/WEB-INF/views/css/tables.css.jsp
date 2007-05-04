@@ -31,7 +31,7 @@ a {
 	text-transform: uppercase;
 	text-align: left;
 	padding: 6px 6px 6px 12px;
-	background: #D7D9E3;
+	background: #D7D9E3 ;
 }
 
 #mytable th.nobg {
@@ -52,7 +52,7 @@ a {
 
 
 #mytable td.alt {
-	background: #F5F5F8;
+	background: #F5F5F8 ;
 	color: #797268;
 }
 
