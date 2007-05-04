@@ -31,64 +31,53 @@ function fireAction(action, selectedEpoch, selectedArm){
 <tabs:tabFields tab="${tab}" />
 <div><tabs:division id="study-design">
 <!-- MAIN BODY STARTS HERE -->
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<table border="0" cellspacing="0" cellpadding="0"">
 	<tr>
-		<td valign="top">
+		<td>
 		<p id="instructions">
-			Add Epochs & Arms associated with the Study (<span class="red">*</span><em>Required Information </em>)<br>
+			Add Epochs & Arms associated with the Study <a href="javascript:fireAction('addEpoch','0');"><img
+				src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add another Epoch"></a><br>
 		</p>
-			<br>
-			<table width="80%" border="0" cellspacing="0" cellpadding="0"
-				id="table1">
-				<td width="100%" valign="top">
-					<table width="80%" border="0" cellspacing="10" cellpadding="0"
-						id="table1">
-					<tr align="center" class="label">
-						<td width="5%" align="center"><a href="javascript:fireAction('addEpoch','0');"><img
-								src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add another Epoch"></a>
-						</td>
-						<td width="20%" align="left"><b>Epoch <span class="red">*</span></b></td>
-						<td width="20%" align="left"><b>Description</b></td>
-						<td width="3%" align="left"><b>(add arms)<span class="red">*</span></b></td>
-						<td width="50%" align="left"><b>[Name, Target Accrual Number]</b></td>
-
+		<br>
+		<table border="0" cellspacing="0" cellpadding="0" id="mytable">
+		<tr>
+			<th scope="col" align="left"></th>
+			<th scope="col" align="left"><b>Epoch <span class="red">*</span></b></th>
+			<th scope="col" align="left"><b>Description</b></th>
+			<th scope="col" align="left"><b>add&nbsp;arms<span class="red">*</span></b></th>
+			<th scope="col" align="left"></th>
+		</tr>
+		<c:forEach items="${command.epochs}" var="epoch" varStatus="status">
+		<tr>
+			<td class="alt"><a href="javascript:fireAction('removeEpoch',${status.index},'0');"><img
+				src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
+			</td>
+			<td class="alt"><form:input path="epochs[${status.index}].name" /></td>
+			<td class="alt"><form:textarea path="epochs[${status.index}].descriptionText" cols="25" rows="1"/></td>
+			<td class="alt"><a href="javascript:fireAction('addArm',${status.index},'0');"><img
+				src="<tags:imageUrl name="checkyes.gif"/>" border="0"></a></td>
+			<td>
+				<table border="0" cellspacing="0" cellpadding="0" id="table1" width="50%">
+					<tr>
+						<td class="alt">Arm </td>
+						<td class="alt">Target&nbsp;Accrual&nbsp;Number</td>
+						<td class="alt"></td>
 					</tr>
-						<c:forEach items="${command.epochs}" var="epoch" varStatus="status">
-						<tr align="left" class="results">
-							<td width="8%"><a href="javascript:fireAction('removeEpoch',${status.index},'0');"><img
-								src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
-							</td>
-							<td width="20%"><form:input path="epochs[${status.index}].name" /></td>
-							<td width="20%"><form:input path="epochs[${status.index}].descriptionText" /></td>
-							<td width="3%"><a href="javascript:fireAction('addArm',${status.index},'0');"><img
-								src="<tags:imageUrl name="checkyes.gif"/>" border="0"></a></td>
-							<td width="50%" >
-								<table width="100%" border="1" cellspacing="0" cellpadding="0"
-									id="table1">
-									<c:forEach items="${epoch.arms}" var="arm" varStatus="statusArms">
-
-									<tr align="center" class="results">
-										<td width="8%"><a href="javascript:fireAction('removeArm',${status.index},${statusArms.index});"><img
-											src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
-										</td>
-										<td ><form:input path="epochs[${status.index}].arms[${statusArms.index}].name" /></td>
-										<td ><form:input path="epochs[${status.index}].arms[${statusArms.index}].targetAccrualNumber" /></td>
-									</tr>
-									</c:forEach>
-								</table>
-
-							</td>
-						</tr>
-						</c:forEach>
-						<tr>
-							<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
-							class="heightControl"></td>
-						</tr>
-						</table>
-					</table>
-				</td>
-			</table>
-		</td>
+					<c:forEach items="${epoch.arms}" var="arm" varStatus="statusArms">
+					<tr>
+						<td class="alt"><form:input path="epochs[${status.index}].arms[${statusArms.index}].name" cssClass="validate-notEmpty"/></td>
+						<td class="alt"><form:input path="epochs[${status.index}].arms[${statusArms.index}].targetAccrualNumber" size="12" maxlength="10" cssClass="validate-numeric"/></td>
+						<td class="alt"><a href="javascript:fireAction('removeArm',${status.index},${statusArms.index});"><img
+							src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+					</tr>
+					</c:forEach>
+				</table>
+			</td>
+		</tr>
+		</c:forEach>
+		</table>
+	</table>
+	</td>
 	</tr>
 </table>
 <!-- MAIN CONTENT ENDS HERE -->

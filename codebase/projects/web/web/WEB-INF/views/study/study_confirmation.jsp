@@ -40,10 +40,6 @@ function validatePage(){
 				<table width="100%" border="0" cellpadding="0" cellspacing="0">
 					<tr>
 						<td valign="top" class="additionals2">
-						<input type="hidden"
-							name="nextView"> <strong>Please <a
-							href="javascript:doNothing()">print</a> and save this
-						confirmation in the study records </strong><br>
 						<table width="50%" border="0" cellspacing="0" cellpadding="0"
 							id="details">
 							<tr>
@@ -53,9 +49,6 @@ function validatePage(){
 									<tr>
 										<td width ="20%"><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
 											class="heightControl"></td>
-									</tr>
-									<tr>
-										<td width="20%" class="label">Study Created on:</td>
 									</tr>
 									<tr>
 										<td width="20%" class="label">Study Site:</td>

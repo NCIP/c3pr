@@ -19,7 +19,7 @@ function fireAction(action, selected){
 	document.studySiteForm._action.value=action;
 	document.studySiteForm._selected.value=selected;
 	
-	// need to disable validations while submitting
+	// need to disable validations while removing
 	name = 'studySites['+selected+'].site';
 	$(name).className='none';
 	status = 'studySites['+selected+'].statusCode';
@@ -47,28 +47,26 @@ function fireAction(action, selected){
 	<tr>
 		<td>
 		<p id="instructions">
-			Add StudySites associated with the Study (<span class="red">*</span><em>Required Information </em>)<br>
-			Use Date format as (mm/dd/yyyy)
+			Add StudySites associated with the Study
+			<a href="javascript:fireAction('addStudySite','0');"><img
+				src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add another Study Site"></a><br>
 		</p>
 		<br>
 			<table id="mytable" border="0" cellspacing="0" cellpadding="0">
 			<tr align="left" class="label">
-				<th scope="col" class="nobg"lign="left"><a href="javascript:fireAction('addStudySite','0');"><img
-					src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add another Study Site"></a></th>
 				<th scope="col" align="left"><b>HealthCare Site</b><span class="red">*</span></th>
 				<th scope="col" align="left"><b>Status<span class="red">*</span></th>
 				<th scope="col" align="left"><b>Role<span class="red">*</span></th>
 				<th scope="col" align="left"><b>Activation&nbsp;Date</b><span class="red">*</span> </th>
 				<th scope="col" align="left"><b>IRB&nbsp;Approval&nbsp;Date</b><span class="red">*</span></th>
+				<th scope="col" class="specalt" align="left"></th>
 			</tr>
 			<c:forEach items="${command.studySites}" varStatus="status">
 				<tr>
-					<th scope="row" class="specalt"><a href="javascript:fireAction('removeStudySite',${status.index});"><img
-						src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></th>
 					<td class="alt"><form:select path="studySites[${status.index}].site" cssClass="validate-notEmpty">
 						<option value="">--Please Select--</option>
 						<form:options items="${healthCareSitesRefData}" itemLabel="name" itemValue="id" />
-						</form:select></td>
+						</form:select></th>
 					<td class="alt"><form:select path="studySites[${status.index}].statusCode" cssClass="validate-notEmpty">
 						<option value="">--Please Select--</option>
 						<form:options items="${studySiteStatusRefData}" itemLabel="desc"
@@ -83,6 +81,9 @@ function fireAction(action, selected){
 						class="red"><em></em></span></td>
 					<td class="alt"><tags:dateInput path="studySites[${status.index}].irbApprovalDate" />&nbsp;&nbsp;&nbsp;<span
 						class="red"><em></em></span></td>
+					<td class="specalt"class="specalt"><a href="javascript:fireAction('removeStudySite',${status.index});"><img
+						src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+				
 				</tr>
 			</c:forEach>
 			</table>

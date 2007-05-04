@@ -26,7 +26,7 @@ function updateTargetPage(target){
 <body>
 <form:form method="post">
 <input type="hidden" name="_finish" value="true"/>
-<div><tabs:division id="study-studysites">
+<div><tabs:division id="study-summary">
 <!-- MAIN BODY STARTS HERE -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
@@ -34,11 +34,14 @@ function updateTargetPage(target){
 			<strong>Study Details </strong>
 			<br>
 			<div class="review">
-			<table width="50%" border="0" cellspacing="0" cellpadding="0" id="table1">
-
+			<table width="50%" border="0" cellspacing="0" cellpadding="0" id="mytable">
 				<tr>
 					<td width="20%" class="labelR"><b>Short Title:<b></td>
 					<td>${command.shortTitleText}</td>
+				</tr>
+				<tr>
+					<td width="20%" class="labelR"><b>Priamry Identifier:<b></td>
+					<td>${command.primaryIdentifier}</td>
 				</tr>
 				<tr>
 					<td width="20%" class="labelR"><b>Target Accrual Number:</b></td>
@@ -53,12 +56,25 @@ function updateTargetPage(target){
 					<td>${command.phaseCode}</td>
 				</tr>
 				<tr>
-					<td width="20%" class="labelR"><b>Multi Institution:</b></td>
-					<td><form:checkbox path="multiInstitutionIndicator" disabled="true"/>
-					Blinded: <form:checkbox path="blindedIndicator" disabled="true"/>
-					Randomized: <form:checkbox path="randomizedIndicator" disabled="true"/></td>
+					<td width="20%" class="labelR"><b>Type:<b></td>
+					<td>${command.type}</td>
 				</tr>
-				
+				<tr>
+					<td width="20%" class="labelR"><b>Phase:<b></td>
+					<td>${command.phaseCode}</td>
+				</tr>
+				<tr>
+					<td width="20%" class="labelR"><b>Multi Institution:</b></td>
+					<td>${command.multiInstitutionIndicator}</td>
+				</tr>
+				<tr>
+					<td width="20%" class="labelR"><b>Blinded</b></td>
+					<td> ${command.randomizedIndicator}</td>
+				</tr>
+				<tr>
+					<td width="20%" class="labelR"><b>Randomized</b></td>
+					<td>${command.blindedIndicator}</td>
+				</tr>
 			</table>
 			</div>
 			<br>
@@ -69,28 +85,19 @@ function updateTargetPage(target){
 			<br>
 			<div class="review">
 
-			<table width="60%" border="0" cellspacing="0" cellpadding="0"
-				id="table1">
+			<table border="0" cellspacing="0" cellpadding="0" id="mytable">
 				<tr>
-					<td valign="top">
-					<table width="100%" border="0" cellspacing="0" cellpadding="0"
-						id="table1">
-						<tr>
-							<td width ="33%" align="left"><b>Source</b></td>
-							<td width ="33%" align="left"><b>Type</b></td>
-							<td width ="33%" align="left" class="label"><b>Identifier</b></td>
-						</tr>
-						<c:forEach items="${command.identifiers}" var="identifier">
-						<tr class="results">
-							<td width ="33%" align="left">${identifier.source}</td>
-							<td width ="33%" align="left">${identifier.type}</td>
-							<td width ="33%" align="left">${identifier.value}</td>
-						</tr>
-						</c:forEach>
-					</table>
-					</td>
+					<th scope="col" align="left">Source</td>
+					<th scope="col" align="left">Type</td>
+					<th scope="col" align="left">Identifier</td>
 				</tr>
-				
+				<c:forEach items="${command.identifiers}" var="identifier">
+				<tr class="results">
+					<td class="alt" align="left">${identifier.source}</td>
+					<td class="alt" align="left">${identifier.type}</td>
+					<td class="alt" align="left">${identifier.value}</td>
+				</tr>
+			</c:forEach>
 			</table>
 			</div>
 			<br>
@@ -100,33 +107,24 @@ function updateTargetPage(target){
 			<br>
 			<br>
 			<div class="review">
-			<table width="70%" border="0" cellspacing="0" cellpadding="0"
-				id="table1">
+			<table border="0" cellspacing="0" cellpadding="0" id="mytable">
 				<tr>
-					<td valign="top">
-					<table width="100%" border="0" cellspacing="0" cellpadding="0"
-						id="table1">
-						<tr>
-							<td width="40% align="left"><b>Study Site</b></td>
-							<td width="15%" align="left"><b>Status</b></td>
-							<td width="15%" align="left"><b>Role</b></td>
-							<td width="15%" align="left"><b>Start Date</b></td>
-							<td width="15%" align="left"><b>IRB Approval Date</b></td>
-						</tr>
-						<c:forEach items="${command.studySites}" var="studySite">
-						<tr class="results">
-							<td>${studySite.site.name}</td>
-							<td>${studySite.statusCode}</td>
-							<td>${studySite.roleCode}</td>
-							<td>${studySite.startDateStr}</td>
-							<td>${studySite.irbApprovalDateStr}</td>
-						</tr>
-						</c:forEach>
-					</table>
-					</td>
+					<th scope="col" align="left">Study Site</td>
+					<th scope="col" align="left">Status</td>
+					<th scope="col" align="left">Role</td>
+					<th scope="col" align="left">Start Date</td>
+					<th scope="col" align="left">IRB Approval Date</td>
 				</tr>
-				
-			</table>
+				<c:forEach items="${command.studySites}" var="studySite">
+				<tr class="results">
+					<td class="alt" align="left">${studySite.site.name}</td>
+					<td class="alt" align="left">${studySite.statusCode}</td>
+					<td class="alt" align="left">${studySite.roleCode}</td>
+					<td class="alt" align="left">${studySite.startDateStr}</td>
+					<td class="alt" align="left">${studySite.irbApprovalDateStr}</td>
+				</tr>
+				</c:forEach>
+			</table>		
 			</div>
 			<br>
 			<br>
@@ -135,33 +133,25 @@ function updateTargetPage(target){
 			<br>
 			<br>
 			<div class="review">
-			<table width="50%" border="0" cellspacing="0" cellpadding="0"
-				id="table1">
+			<table border="0" cellspacing="0" cellpadding="0" id="mytable">
 				<tr>
-					<td valign="top">
-					<table width="100%" border="0" cellspacing="0" cellpadding="0"
-						id="table1">
-						<tr>
-							<td width="33% align="left"><b>Investigator</b></td>
-							<td width="33%" align="left"><b>Role</b></td>
-							<td width="33%" align="left"><b>Status</td>
-						</tr>
-						<c:forEach items="${command.studySites}" var="studySite" varStatus="status">
-							<c:forEach items="${studySite.studyInvestigators}" var="studyInvestigator" varStatus="status">
-							<tr class="results">
-								<td>${studyInvestigator.healthcareSiteInvestigator.investigator.fullName}</td>
-								<td>${studyInvestigator.roleCode}</td>
-								<td>${studyInvestigator.statusCode}</td>
-							</tr>
-							</c:forEach>
-						</c:forEach>
-					</table>
-					</td>
+					<th scope="col" align="left">Investigator</td>
+					<th scope="col" align="left">Role</td>
+					<th scope="col" align="left">Status</td>
 				</tr>
-				
+				<c:forEach items="${command.studySites}" var="studySite" varStatus="status">
+					<c:forEach items="${studySite.studyInvestigators}" var="studyInvestigator" varStatus="status">
+					<tr class="results">
+						<td class="alt" align="left">${studyInvestigator.healthcareSiteInvestigator.investigator.fullName}</td>
+						<td class="alt" align="left">${studyInvestigator.roleCode}</td>
+						<td class="alt" align="left">${studyInvestigator.statusCode}</td>
+					</tr>
+					</c:forEach>
+				</c:forEach>
 			</table>
 			</div>
 			<br>
+			
 			<br>
 			<hr>
 			<strong>Study Personnel</strong>
@@ -169,88 +159,73 @@ function updateTargetPage(target){
 			<br>
 			<div class="review">
 
-			<table width="50%" border="0" cellspacing="0" cellpadding="0"
-				id="table1">
+			<table border="0" cellspacing="0" cellpadding="0" id="mytable">
 				<tr>
-					<td valign="top">
-					<table width="100%" border="0" cellspacing="0" cellpadding="0"
-						id="table1">
-						<tr>
-							<td width="20% align="left"><b>Name</b></td>
-							<td width="20%" align="left"><b>Role</b></td>
-							<td width="20%" align="left"><b>Status</b></td>
+					<th scope="col" align="left">Name</td>
+					<th scope="col" align="left">Role</td>
+					<th scope="col" align="left">Status</td>
+					</tr>
+					<c:forEach items="${command.studySites}" var="studySite" varStatus="status">
+						<c:forEach items="${studySite.studyPersonnels}" var="studyPersonnel" varStatus="status">
+						<tr class="results">
+							<td class="alt">${studyPersonnel.researchStaff.fullName}</td>
+							<td class="alt">${studyPersonnel.roleCode}</td>
+							<td class="alt">${studyPersonnel.statusCode}</td>
 						</tr>
-						<c:forEach items="${command.studySites}" var="studySite" varStatus="status">
-							<c:forEach items="${studySite.studyPersonnels}" var="studyPersonnel" varStatus="status">
-							<tr class="results">
-								<td>${studyPersonnel.researchStaff.fullName}</td>
-								<td>${studyPersonnel.roleCode}</td>
-								<td>${studyPersonnel.statusCode}</td>
-							</tr>
-							</c:forEach>
 						</c:forEach>
-					</table>
-					</td>
-				</tr>
-				
+					</c:forEach>								
 			</table>
 			</div>
 			<br>
-				<br>
-				<hr>
-				<strong>Eligibility Criteria</strong>
-				<br>
-				<br>
-				<div class="review">
+			
+			<br>
+			<hr>
+			<strong>Stratifications</strong>
+			<br>
+			<br>
+			<div class="review">
 
-				<table width="70%" border="0" cellspacing="0" cellpadding="0"
-					id="table1">
-					<tr>
-						<td valign="top">
-						<table width="100%" border="0" cellspacing="0" cellpadding="0"
-							id="table1">
-							<tr><strong>-- Inclusion Criteria --</strong></tr>
-							<tr><td>&nbsp;</td></tr>
-							<tr>
-								<td width="33%" align="left"><b>Number</b></td>
-								<td width="33%" align="left"><b>Question</td>
-								<td width="33%" align="left"><b>N/A</b></td>
-							</tr>
-							<c:forEach items="${command.incCriterias}" var="inc">
-							<tr class="results">
-								<td width="33% align="left">${inc.questionNumber}</td>
-								<td width="33% align="left">${inc.questionText}</td>
-								<td width="33% align="left">${inc.notApplicableIndicator}</td>
-							</tr>
-							</c:forEach>
-						</table>
-						</td>
+			<table border="0" cellspacing="0" cellpadding="0" id="mytable">
+				<tr>
+					<th scope="col" align="left"><b>Strata</b></td>
+					<b></td>
+				</tr>
+				<c:forEach items="${command.stratificationCriteria}" var="strat">
+				<tr>
+					<td class="alt">${strat.questionText}</td>
+					<td class="alt">
+						<table border="0" cellspacing="0" cellpadding="0" id="mytable">
+						<c:forEach items="${strat.permissibleAnswers}" var="ans">
+						<tr>
+							<td class="alt" align="left">${ans.permissibleAnswer}</td>
+						</tr>
+						</c:forEach>
+					 	</table>
+					</td>
+				</tr>
+				</c:forEach>
+			</table>
+			</div>
+			
+			<br>
+			<hr>
+			<strong>Study Diseases</strong>
+			<br>
+			<br>
+			<div class="review">
+
+			<table order="0" cellspacing="0" cellpadding="0" id="mytable">
+				<tr>
+					<th scope="col" align="left"><b>Disease Term</b></td>
+					<th scope="col" align="left"><b>Primary</b></td>
+				</tr>
+				<c:forEach items="${command.studyDiseases}" var="studyDisease" varStatus="status">
+					<tr class="results">
+						<td class="alt">${studyDisease.diseaseTerm.ctepTerm}</td>
+						<td class="alt">${studyDiseases[status.index].leadDisease}</td>
 					</tr>
-					<tr><td>&nbsp;</td></tr>
-					<tr>
-						<td valign="top">
-						<table width="100%" border="0" cellspacing="0" cellpadding="0"
-							id="table1">
-							<tr><strong>-- Exclusion Criteria --</strong></tr>
-							<tr><td>&nbsp;</td></tr>
-							<tr>
-								<td width="33%" align="left"><b>Number</b></td>
-								<td width="33%" align="left"><b>Question</b></td>
-								<td width="33%" align="left"><b>N/A</b></td>
-							</tr>
-							
-							<c:forEach items="${command.excCriterias}" var="exc">
-							<tr class="results">
-								<td>${exc.questionNumber}</td>
-								<td>${exc.questionText}</td>
-								<td>${exc.notApplicableIndicator}</td>
-							</tr>
-							</c:forEach>
-						</table>
-						</td>
-					</tr>
-					
-				</table>
+				</c:forEach>
+			</table>
 			</div>
 
 			<br>
@@ -260,40 +235,29 @@ function updateTargetPage(target){
 			<br>
 			<div class="review">
 
-			<table width="50%" border="0" cellspacing="10" cellpadding="0"
-				id="table1">
+			<table border="0" cellspacing="0" cellpadding="0" id="mytable">
 				<tr>
-					<td valign="top">
-					<table width="50%" border="0" cellspacing="0" cellpadding="0"
-						id="table1">
+					<th scope="col" align="left"><b>Epochs</b></td>
+					<th scope="col" align="left"><b>Arms</b>
+					<b>&nbsp;&nbsp;&nbsp;&nbsp;Target Accrual No</b></td>
+				</tr>
+				<c:forEach items="${command.epochs}" var="epoch">
+				<tr>
+					<td class="alt">${epoch.name}</td>
+					<td>
+						<table border="0" cellspacing="0" cellpadding="0" id="mytable">
 						<tr>
-							<td width="20% align="left"><b>Epochs</b></td>
-							<td width="80%" align="left"><b>Arms</b>
-							<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Target Accrual No</b></td>
-
-						</tr>
-						<c:forEach items="${command.epochs}" var="epoch">
-						<tr class="results">
-							<td lclass="label">${epoch.name}</td>
-							<td >
-								<table width="100%" border="0" cellspacing="2" cellpadding="2"
-									id="table1">
+							<c:forEach items="${epoch.arms}" var="arm">
 								<tr>
-									<c:forEach items="${epoch.arms}" var="arm">
-										<tr>
-											<td align="left" width="50%">${arm.name}</td>
-											<td align="left" width="50%">${arm.targetAccrualNumber}</td>
-										</tr>
-									</c:forEach>
+									<td class="alt" align="left">${arm.name}</td>
+									<td class="alt" align="left">${arm.targetAccrualNumber}</td>
 								</tr>
-								</table>
-							</td>
+							</c:forEach>
 						</tr>
-						</c:forEach>
-					</table>
+						</table>
 					</td>
 				</tr>
-					
+				</c:forEach>
 			</table>
 		</td>
 	</tr>

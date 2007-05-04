@@ -14,7 +14,7 @@ function fireAction(action, selected){
 	document.form._action.value=action;
 	document.form._selected.value=selected;
 	
-	// need to disable validations while submitting
+	// need to disable validations while removing
 	source = 'identifiers['+selected+'].source';
 	$(source).className='none';
 	type = 'identifiers['+selected+'].type';
@@ -39,30 +39,31 @@ function fireAction(action, selected){
 <tr>
 	<td>
 		<p id="instructions">
-			Add Identifiers associated with the Study (<span class="red">*</span><em>Required Information </em>)<br>
+			Add Identifiers associated with the Study
+			<a href="javascript:fireAction('addIdentifier','0');"><img
+				src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add another Identifier"></a><br>
 		</p>
 		<table id="mytable" border="0" cellspacing="0" cellpadding="0">
 		<tr>
-			<th scope="col" class="nobg" align="left"><a href="javascript:fireAction('addIdentifier','0');"><img
-				src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add another Identifier"></a></th>
-			<th scope="col" align="left"><b>Assigning Authority<span class="red">*</span></b></th>
+			<th class="scope="col" align="left"><b>Assigning Authority<span class="red">*</span></b></th>
 			<th scope="col" align="left"><b>Identifier Type<span class="red">*</span></b></th>
 			<th scope="col" align="left"><b>Identifier<span class="red">*</span></b></th>
 			<th scope="col" align="left"><b>Primary&nbsp;Indicator</b></td>
+			<th class="specalt" scope="col" align="left"></th>
 		</tr>
 		<c:forEach items="${command.identifiers}" varStatus="status">
 			<tr>
-				<th scope="row" class="specalt"><a href="javascript:fireAction('removeIdentifier',${status.index});"><img
-					src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></th>
 				<td class="alt"><form:select path="identifiers[${status.index}].source" cssClass="validate-notEmpty">
 					<option value="">--Please Select--</option>
 					<form:options items="${identifiersSourceRefData}" itemLabel="name"
-						itemValue="name" /></form:select></td>
+						itemValue="name" /></form:select></th>
 				<td class="alt"><form:select path="identifiers[${status.index}].type" cssClass="validate-notEmpty">
 					<option value="">--Please Select--</option>
 					<form:options items="${identifiersTypeRefData}" itemLabel="desc" itemValue="desc" /></form:select></td>
 				<td class="alt"><form:input path="identifiers[${status.index}].value" cssClass="validate-notEmpty"/></td>
 				<td class="alt"><form:radiobutton path="identifiers[${status.index}].primaryIndicator" value="true"/></td>
+				<td class="tdalt"><a href="javascript:fireAction('removeIdentifier',${status.index});"><img
+					src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 			</tr>
 		</c:forEach>
 		</table>

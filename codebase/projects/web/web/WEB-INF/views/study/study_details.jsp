@@ -109,8 +109,9 @@ prefix="decorator"%>
 				width="1" height="1" class="heightControl"></td>
 		</tr>
 		<tr>
-			<td class="label"><span class="red">*</span><em></em>Randomized</td>
+			<td class="label">Randomized</td>
 			<td><form:select path="randomizedIndicator">
+			<option value="">--Please Select-- </option>
 				<form:options items="${randomizedIndicatorRefData}"
 					itemLabel="desc" itemValue="code" />
 			</form:select></td>
@@ -121,9 +122,9 @@ prefix="decorator"%>
 				width="1" height="1" class="heightControl"></td>
 		</tr>
 		<tr>
-			<td class="label"><span class="red">*</span><em></em>Multi
-			Institution:</td>
+			<td class="label">Multi Institution:</td>
 			<td><form:select path="multiInstitutionIndicator">
+			<option value="">--Please Select-- </option>
 				<form:options items="${multiInstitutionIndicatorRefData}"
 					itemLabel="desc" itemValue="code" />
 			</form:select></td>
@@ -135,6 +136,7 @@ prefix="decorator"%>
 		<tr>
 			<td class="label">Blinded</td>
 			<td><form:select path="blindedIndicator">
+			<option value="">--Please Select-- </option>
 				 <form:options items="${blindedIndicatorRefData}"
 					itemLabel="desc" itemValue="code" />
 			</form:select></td>
@@ -146,7 +148,7 @@ prefix="decorator"%>
 		<tr>
 			<td class="label"><span class="red">*</span><em></em>Type:</td>
 			<td><form:select path="type" cssClass="validate-notEmpty">
-				<option value="">--Please Select--</option>
+				<option value="0">--Please Select--</option>
 				<form:options
 					items="${typeRefData}" itemLabel="desc" itemValue="desc" />
 			</form:select></td>

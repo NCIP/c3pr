@@ -25,6 +25,11 @@ function fireAction(action, selectedSite, selectedInvestigator){
 	document.form._action.value=action;
 	document.form._selectedSite.value=selectedSite;
 	document.form._selectedInvestigator.value=selectedInvestigator;
+	// need to disable validations while submitting
+	role = 'studySites['+selectedSite+'].studyInvestigators['+selectedInvestigator+'].roleCode';
+	$(role).className='none';
+	status = 'studySites['+selectedSite+'].studyInvestigators['+selectedInvestigator+'].statusCode';
+	$(status).className='none';
 	document.form.submit();
 	fireListeners(selected);
 }
@@ -123,7 +128,7 @@ Event.observe(window, "load", function() {
 <form:form method="post" name="form">
 <table border="0" id="table1" cellspacing="10" width="100%">
 	<tr>
-	<td valign="top" width="70%" >
+	<td >
 	<tabs:division id="study-details" title="Study Investigators">
 	<tabs:tabFields tab="${tab}"/>
 	<div>
@@ -132,83 +137,80 @@ Event.observe(window, "load", function() {
 		<input type="hidden" name="_selectedInvestigator" value="">
 	</div>
 	<p id="instructions">
-		Please choose a study site and add investigators to that study site
+		Choose a study site first
 	</p>
 
-		<c:set var="selected_site" value="0"/>
-		<c:if test="${not empty selectedSite}">
-			<c:set var="selected_site" value="${selectedSite}"/>
-		</c:if>
+	<c:set var="selected_site" value="0"/>
+	<c:if test="${not empty selectedSite}">
+		<c:set var="selected_site" value="${selectedSite}"/>
+	</c:if>
 
-		<table border="0" id="table1" cellspacing="10" width="30%">
-		   <tr>
-				<td align="left"> <b> <span class="red">*</span><em></em>Site:</b> </td>
-				<td align="left">
-					<select id="site" name="site" onchange="javascript:chooseSites();">
-						<c:forEach  items="${command.studySites}" var="studySite" varStatus="status">
-							<c:if test="${selected_site == status.index }">
-								<option selected="true" value=${status.index}>${studySite.site.name}</option>
-							</c:if>
-							<c:if test="${selected_site != status.index }">
-								<option value=${status.index}>${studySite.site.name}</option>
-							</c:if>
-						</c:forEach>
-					</select>
-				</td>
-		   </tr>
-		</table>
-
-		<table border="0" id="table1" cellspacing="10" width="100%">
-			<tr>
-				<td align="left"> <b> <span class="red">*</span><em></em>Investigator:</b> </td>
-				<td align="left"> <b> <span class="red">*</span><em></em>Role:</b> </td>
-				<td align="left"> <b> <span class="red">*</span><em></em>Status:</b> </td>
-				<td align="left">
-					<b><a href="javascript:fireAction('addInv',${selected_site}, '0');"><img
-						src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a></b>
-				</td>
-			</tr>
-
-			<c:forEach varStatus="status" items="${command.studySites[selected_site].studyInvestigators}">
-				<tr>
-					<td align="left" width="50%">
-						<form:hidden id="investigator${status.index}" path="studySites[${selected_site}].studyInvestigators[${status.index}].healthcareSiteInvestigator"/>
-						<input type="text" id="investigator${status.index}-input" size="30" value="${command.studySites[selected_site].studyInvestigators[status.index].healthcareSiteInvestigator.investigator.fullName}"/>
-						<input type="button" id="investigator${status.index}-clear" value="Clear"/>
-						<tags:indicator id="investigator${status.index}-indicator"/>
-						<div id="investigator${status.index}-choices" class="autocomplete"></div>
-					</td>
-					<td width="20%">
-						<form:select path="studySites[${selected_site}].studyInvestigators[${status.index}].roleCode">
-							<option value="">--Please Select--</option>
-							<form:options items="${studyInvestigatorRoleRefData}" itemLabel="desc" itemValue="desc"/>
-						</form:select>
-					</td>
-					<td align="left" width="20%">
-						<form:select path="studySites[${selected_site}].studyInvestigators[${status.index}].statusCode">
-							<option value="">--Please Select--</option>
-							<form:options items="${studyInvestigatorStatusRefData}" itemLabel="desc" itemValue="desc" />
-						</form:select>
-					</td>
-
-					<td align="left" width="10%">
-						<a href="javascript:fireAction('removeInv', ${selected_site}, ${status.index});"><img
-							src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a>
-					</td>
-				</tr>
-			</c:forEach>
-			<tr>
-			<td>
-			<p id="investigator-selected" style="display: none">
-				You've selected the participant <span id="investigator-selected-name"></span>.
-			</p>
+	<table border="0" id="table1" cellspacing="0">
+	   <tr>
+			<td align="left"> <b> <span class="red">*</span><em></em>Site:</b> </td>
+			<td align="left">
+				<select id="site" name="site" onchange="javascript:chooseSites();">
+					<c:forEach  items="${command.studySites}" var="studySite" varStatus="status">
+						<c:if test="${selected_site == status.index }">
+							<option selected="true" value=${status.index}>${studySite.site.name}</option>
+						</c:if>
+						<c:if test="${selected_site != status.index }">
+							<option value=${status.index}>${studySite.site.name}</option>
+						</c:if>
+					</c:forEach>
+				</select>
 			</td>
+	   </tr>
+	</table>
+	<br>
+	<hr>
+	<p id="instructions">
+		Add investigators <a href="javascript:fireAction('addInv',${selected_site}, '0');"><img
+			src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add Investigators"></a>
+	</p>
+	<table border="0" id="mytable" cellspacing="0">
+		<tr>
+			<th scope="col" align="left"><b> <span class="red">*</span><em></em>Investigator:</b></th>
+			<th scope="col" align="left"><b> <span class="red">*</span><em></em>Role:</b> </th>
+			<th scope="col" align="left"><b> <span class="red">*</span><em></em>Status:</b> </th>
+			<th scope="col" class="specalt" align="left"><b></b></th>
+		</tr>
+
+		<c:forEach varStatus="status" items="${command.studySites[selected_site].studyInvestigators}">
+			<tr>
+				<td class="alt">
+					<form:hidden id="investigator${status.index}" path="studySites[${selected_site}].studyInvestigators[${status.index}].healthcareSiteInvestigator"/>
+					<input class="validate-notEmpty" type="text" id="investigator${status.index}-input" size="30" value="${command.studySites[selected_site].studyInvestigators[status.index].healthcareSiteInvestigator.investigator.fullName}"/>
+					<input type="button" id="investigator${status.index}-clear" value="Clear"/>
+					<tags:indicator id="investigator${status.index}-indicator"/>
+					<div id="investigator${status.index}-choices" class="autocomplete"></div></td>
+				<td class="alt">
+					<form:select path="studySites[${selected_site}].studyInvestigators[${status.index}].roleCode" cssClass="validate-notEmpty">
+						<option value="">--Please Select--</option>
+						<form:options items="${studyInvestigatorRoleRefData}" itemLabel="desc" itemValue="desc"/>
+					</form:select></td>
+				<td class="alt">
+					<form:select path="studySites[${selected_site}].studyInvestigators[${status.index}].statusCode" cssClass="validate-notEmpty">
+						<option value="">--Please Select--</option>
+						<form:options items="${studyInvestigatorStatusRefData}" itemLabel="desc" itemValue="desc" />
+					</form:select></td>
+				<td class="alt">
+					<a href="javascript:fireAction('removeInv', ${selected_site}, ${status.index});"><img
+						src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a></td>
 			</tr>
-		</table>
-	  </tabs:division>
-	  </td>
-	   <td valign="top" width="30%">
-	  	<tabs:division id="Summary" title="Investigators Summary">
+		</c:forEach>
+		<tr>
+		<td class="alt">
+		<p id="investigator-selected" style="display: none">
+			You've selected the participant <span id="investigator-selected-name"></span>.
+		</p>
+		</td>
+		</tr>
+	</table>
+  	</tabs:division>
+	</td>
+    <td>
+  	<tabs:division id="Summary" title="Investigators Summary">
 	  	<font size="2"><b> Study Sites </b> </font>
 	  	<br><br>
 	  	<table border="0" id="table1" cellspacing="0" cellpadding="0" width="100%">
@@ -239,8 +241,8 @@ Event.observe(window, "load", function() {
 	  	</table>
 	  	</tabs:division>
 	</td>
-	  </tr>
-	</table>
+  </tr>
+</table>
 </form:form>
 <!-- MAIN BODY ENDS HERE -->
 </body>
