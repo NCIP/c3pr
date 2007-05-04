@@ -185,7 +185,8 @@ public class CreateParticipantController extends
 			response.sendRedirect(url);
 			return null;
 		}
-		response.sendRedirect("searchParticipant");
+		response.sendRedirect("confirmCreateParticipant?lastName=" + command.getLastName()
+				+"&type=confirm");
 		return null;
 	}
 	private boolean isSubFlow(HttpServletRequest request){
