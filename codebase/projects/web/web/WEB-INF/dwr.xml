@@ -9,7 +9,9 @@
         <create creator="spring" javascript="registrationDetails">
             <param name="beanName" value="registrationAjaxFacade"/>
         </create>
-              
+        <create creator="spring" javascript="anatomicDiseaseSite">
+            <param name="beanName" value="anatomicDiseaseSiteFacade"/>
+        </create>
         <create creator="new" javascript="date">
             <param name="class" value="java.util.Date"/>
         </create>

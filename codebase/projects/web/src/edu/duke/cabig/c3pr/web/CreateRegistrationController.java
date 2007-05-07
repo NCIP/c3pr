@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.web;
 
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.duke.cabig.c3pr.domain.DiseaseHistory;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
@@ -63,13 +65,14 @@ public class CreateRegistrationController extends RegistrationController {
 		flow.addTab(new Tab<StudyParticipantAssignment>("Select Study", "Select Study"));
 		flow.addTab(new Tab<StudyParticipantAssignment>("Select Subject", "Select Subject"));
 		flow.addTab(new Tab<StudyParticipantAssignment>("Enrollment Details", "Enrollment Details","registration/reg_registration_details"));
+		flow.addTab(new Tab<StudyParticipantAssignment>("Diseases", "Diseases","registration/reg_diseases"));
 		flow.addTab(new Tab<StudyParticipantAssignment>("Check Eligibility", "Check Eligibility","registration/reg_check_eligibility"));
 		flow.addTab(new Tab<StudyParticipantAssignment>("Stratify", "Stratify","registration/reg_stratify"));
 		flow.addTab(new Tab<StudyParticipantAssignment>("Review & Submit", "Review & Submit","registration/reg_submit"));
 		flow.getTab(0).setShowSummary("false");
 		flow.getTab(1).setShowSummary("false");
 		flow.getTab(2).setShowSummary("false");
-		flow.getTab(6).setShowSummary("false");
+		flow.getTab(7).setShowSummary("false");
 		flow.getTab(0).setShowLink("false");
 		flow.getTab(1).setShowLink("false");
 		flow.getTab(2).setShowLink("false");
@@ -120,6 +123,17 @@ public class CreateRegistrationController extends RegistrationController {
 				System.out.println(subjectStratificationAnswer.getStratificationCriterion().getQuestionText()+" : "+subjectStratificationAnswer.getStratificationCriterionAnswer()!=null?subjectStratificationAnswer.getStratificationCriterionAnswer().getPermissibleAnswer():"Unanswered");
 			}
 		}
+		if(tabShortTitle.equalsIgnoreCase("Diseases")){
+			System.out.println("Request Params");
+			Enumeration e=request.getParameterNames();
+			while(e.hasMoreElements()){
+				String param=(String)e.nextElement();
+				System.out.println(param+" : "+request.getParameter(param));
+			}
+			DiseaseHistory dh=studyParticipantAssignment.getDiseaseHistory();
+			if(dh==null)
+				return;
+		}
 	}
 	@Override
 	protected ModelAndView processFinish(HttpServletRequest request,
@@ -133,6 +147,9 @@ public class CreateRegistrationController extends RegistrationController {
 		studyParticipantAssignment.getParticipant().getStudyParticipantAssignments().size();
 		studyParticipantAssignment.getParticipant().addStudyParticipantAssignment(studyParticipantAssignment);
 		studyParticipantAssignment.setRegistrationStatus(evaluateStatus(studyParticipantAssignment));
+		if(!hasDiseaseHistory(studyParticipantAssignment.getDiseaseHistory())){
+			studyParticipantAssignment.setDiseaseHistory(null);
+		}
 		System.out.println("Calling participant service");
 		participantService.createRegistration(studyParticipantAssignment);
 		System.out.println("participant service call over");
@@ -200,6 +217,7 @@ public class CreateRegistrationController extends RegistrationController {
 		if (logger.isDebugEnabled()) {
 			logger.debug("buildCommandObject(StudyParticipantAssignment studyParticipantAssignment) - extracting eligibility criteria from study..."); //$NON-NLS-1$
 		}
+		studyParticipantAssignment.setDiseaseHistory(new DiseaseHistory());
 		List criterias=studyParticipantAssignment.getStudySite().getStudy().getIncCriterias();
 		for(int i=0 ; i<criterias.size() ; i++){
 			SubjectEligibilityAnswer subjectEligibilityAnswer=new SubjectEligibilityAnswer();
@@ -224,6 +242,8 @@ public class CreateRegistrationController extends RegistrationController {
 			subjectStratificationAnswer.setStratificationCriterion(stratificationCriterion);
 			studyParticipantAssignment.addSubjectStratificationAnswers(subjectStratificationAnswer);
 		}
+		System.out.println("-------------diseases-------------------");
+		studyParticipantAssignment.getStudySite().getStudy().getStudyDiseases().size();
 	}
 	
 	private boolean evaluateEligibilityIndicator(StudyParticipantAssignment studyParticipantAssignment){
@@ -258,5 +278,10 @@ public class CreateRegistrationController extends RegistrationController {
 			}
 		}
 	}
+	private boolean hasDiseaseHistory(DiseaseHistory diseaseHistory){
+		if(diseaseHistory.getAnatomicSite()==null&&(diseaseHistory.getOtherPrimaryDiseaseSiteCode()==null||diseaseHistory.getOtherPrimaryDiseaseSiteCode().equals(""))&&
+				(diseaseHistory.getOtherPrimaryDiseaseCode()==null||diseaseHistory.getOtherPrimaryDiseaseCode().equals(""))&&diseaseHistory.getStudyDisease()==null)
+				return false;
+		return true;
+	}
 }
-

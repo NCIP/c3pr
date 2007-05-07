@@ -49,10 +49,21 @@ public class StudyParticipantAssignment extends AbstractGridIdentifiableDomainOb
     private String primaryIdentifier;
     private StudyInvestigator treatingPhysician;
     private String registrationStatus;
+    private DiseaseHistory diseaseHistory;
     private List<SubjectEligibilityAnswer> subjectEligibilityAnswers=new ArrayList<SubjectEligibilityAnswer>();
     private List<SubjectStratificationAnswer> subjectStratificationAnswers=new ArrayList<SubjectStratificationAnswer>();
     
     /// BEAN PROPERTIES
+    @OneToOne
+    @Cascade({CascadeType.ALL,CascadeType.DELETE_ORPHAN})
+    @JoinColumn(name = "DISEASE_HISTORY_ID")
+    public DiseaseHistory getDiseaseHistory() {
+		return diseaseHistory;
+	}
+
+	public void setDiseaseHistory(DiseaseHistory diseaseHistory) {
+		this.diseaseHistory = diseaseHistory;
+	}
 
 	@OneToMany
     @Cascade({CascadeType.ALL,CascadeType.DELETE_ORPHAN})
@@ -309,6 +320,4 @@ public class StudyParticipantAssignment extends AbstractGridIdentifiableDomainOb
 		}
 		return exclusionCriteriaAnswers;
 	}
-
-
 }

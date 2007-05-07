@@ -90,6 +90,8 @@
 				<value>edu.duke.cabig.c3pr.domain.StratificationCriterion</value>
 				<value>edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer</value>													
 				<value>edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer</value>			
+				<value>edu.duke.cabig.c3pr.domain.AnatomicSite</value>			
+				<value>edu.duke.cabig.c3pr.domain.DiseaseHistory</value>											
 			</list>
 		</property>
 		<property name="entityInterceptor">
@@ -149,6 +151,7 @@
 	<bean id="diseaseTermDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.DiseaseTermDao" autowire="byType"/>
 	<bean id="studyInvestigatorDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyInvestigatorDao" autowire="byType"/>	
 	<bean id="StratificationCriterionDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StratificationCriterionDao" autowire="byType"/>	
+	<bean id="anatomicSiteDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.AnatomicSiteDao" autowire="byType"/>		
 	
 	<!-- Services -->
 	<bean id="studyService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudyServiceImpl" autowire="byType"/>

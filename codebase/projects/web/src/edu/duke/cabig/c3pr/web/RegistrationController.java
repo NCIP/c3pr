@@ -16,17 +16,20 @@ import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.duke.cabig.c3pr.dao.AnatomicSiteDao;
 import edu.duke.cabig.c3pr.dao.ArmDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudyInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.StudyParticipantAssignmentDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
+import edu.duke.cabig.c3pr.domain.AnatomicSite;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
+import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.duke.cabig.c3pr.domain.StudySite;
@@ -59,6 +62,8 @@ public abstract class RegistrationController extends AbstractTabbedFlowFormContr
 	protected ArmDao armDao;
 	
 	protected StudyInvestigatorDao studyInvestigatorDao;
+	
+	protected AnatomicSiteDao anatomicSiteDao;
 
 	protected ConfigurationProperty configurationProperty;
 
@@ -153,11 +158,13 @@ public abstract class RegistrationController extends AbstractTabbedFlowFormContr
 				studySiteDao));
 		binder.registerCustomEditor(Participant.class, new CustomDaoEditor(
 				participantDao));
+		binder.registerCustomEditor(AnatomicSite.class, new CustomDaoEditor(
+				anatomicSiteDao));
 		Object command=binder.getTarget();
 		binder.registerCustomEditor(StudyInvestigator.class, new ObjectGraphBasedEditor(
 				command,"studySite.studyInvestigators"));
-//		binder.registerCustomEditor(StratificationCriterionPermissibleAnswer.class, new ObjectGraphBasedEditor(
-//				command,"subjectStratificationAnswers.stratificationCriterion.permissibleAnswers"));
+		binder.registerCustomEditor(StudyDisease.class, new ObjectGraphBasedEditor(
+				command,"studySite.study.studyDiseases"));
 	}
 
 	public ConfigurationProperty getConfigurationProperty() {
@@ -215,6 +222,14 @@ public abstract class RegistrationController extends AbstractTabbedFlowFormContr
 
 	public void setStudyInvestigatorDao(StudyInvestigatorDao studyInvestigatorDao) {
 		this.studyInvestigatorDao = studyInvestigatorDao;
+	}
+
+	public AnatomicSiteDao getAnatomicSiteDao() {
+		return anatomicSiteDao;
+	}
+
+	public void setAnatomicSiteDao(AnatomicSiteDao anatomicSiteDao) {
+		this.anatomicSiteDao = anatomicSiteDao;
 	}
 
 }

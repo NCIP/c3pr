@@ -26,7 +26,7 @@ import org.hibernate.annotations.Parameter;
         @Parameter(name="sequence", value="DISEASE_CATEGORIES_ID_SEQ")
     }
 )
-public class DiseaseCategory extends AbstractDomainObject {
+public class DiseaseCategory extends AbstractGridIdentifiableDomainObject {
     private String name;
     private List<DiseaseTerm> terms = new ArrayList<DiseaseTerm>();
     private DiseaseCategory parentCategory;
