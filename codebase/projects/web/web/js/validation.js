@@ -70,7 +70,7 @@ validateForm=function(submit){
 var submitPostProcess
 prepareField=function(element){
 	ERROR_MSG_REQUIRED="required"
-	ERROR_MSG_PATTERN="Incorrect fromat"
+	ERROR_MSG_PATTERN="Incorrect format"
 	ERROR_MSG_MINLENGTH="too short"
 	ERROR_MSG_MAXLENGTH="too long"	
 	ERROR_MSG_PHONE="The second phone number is not valid"	
