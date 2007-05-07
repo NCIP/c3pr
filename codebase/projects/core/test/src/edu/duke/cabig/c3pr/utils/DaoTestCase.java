@@ -19,6 +19,7 @@ import org.springframework.jdbc.core.ColumnMapRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.orm.hibernate3.HibernateJdbcException;
 import org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
@@ -70,7 +71,27 @@ public abstract class DaoTestCase extends DbTestCase {
         log.info("--    ending DaoTestCase interceptor session --");
         OpenSessionInViewInterceptor interceptor = findOpenSessionInViewInterceptor();
         if (shouldFlush) {
-            interceptor.postHandle(webRequest, null);
+            try{
+            	interceptor.postHandle(webRequest, null);
+            }
+            catch(Exception exception){
+            	System.out.println("Exception while saving a Study");
+    			if (exception instanceof HibernateJdbcException) {
+    				   if(exception != null) {
+    					   System.out.println(exception); // Log the exception
+    				         // Get cause if present
+    				         Throwable t = ((HibernateJdbcException)exception).getRootCause();
+    				       
+	    				         while(t != null) {
+	    				        	 System.out.println("*************Cause: " + t);
+	    				               t = t.getCause();
+	    				         // procees to the next exception
+	    				       //  exception = ((SQLGrammarException)exception).get
+	    				         }
+    				    
+    				   }
+    				}
+           }   
         }
         interceptor.afterCompletion(webRequest, null);
     } 
@@ -97,10 +118,10 @@ public abstract class DaoTestCase extends DbTestCase {
 
     protected String getSchema()
     {
-    	return "C3PR";
+    	return "public";
     }
     
-   /* protected DatabaseOperation getSetUpOperation() throws Exception
+    protected DatabaseOperation getSetUpOperation() throws Exception
 	{
 	    return DatabaseOperation.DELETE;
 	}
@@ -108,7 +129,7 @@ public abstract class DaoTestCase extends DbTestCase {
     protected DatabaseOperation getTearDownOperation() throws Exception {
         return DatabaseOperation.DELETE;
     }
-    */
+    
     public static ApplicationContext getApplicationContext() {
         return ApplicationTestCase.getDeployedCoreApplicationContext();
     }
