@@ -64,6 +64,10 @@ public class ObjectGraphBasedEditor extends PropertyEditorSupport {
 	@Override
 	public void setAsText(String text) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
+		if(text==null||text.equalsIgnoreCase("")){
+			setValue(null);
+			return;
+		}
 		Object value=null;
 		if (logger.isDebugEnabled()) {
 			logger.debug("setAsText(String) - Setting property"); //$NON-NLS-1$

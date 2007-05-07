@@ -43,7 +43,7 @@ public class CustomDaoEditor extends PropertyEditorSupport {
     @Override
     public void setAsText(String text) throws IllegalArgumentException {
         DomainObject newValue;
-        if (text == null) {
+        if (text == null||text.equals("")) {
             newValue = null;
         } else {
             Integer id = new Integer(text);
