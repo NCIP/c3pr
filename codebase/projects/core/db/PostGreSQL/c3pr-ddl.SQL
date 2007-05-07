@@ -15,7 +15,7 @@ drop table study_personnels cascade;
 drop table research_staffs cascade;
 drop table eligibility_criterias cascade;
 drop table subject_eligibility_answers cascade;
-
+drop table subject_stratification_answers cascade;
 drop table study_diseases cascade;
 drop table disease_terms cascade;
 drop table disease_categories cascade;
@@ -39,7 +39,8 @@ drop SEQUENCE STUDY_SITES_ID_seq;
 drop SEQUENCE STUDY_PERSONNELS_ID_seq;
 drop SEQUENCE RESEARCH_STAFFS_ID_seq;
 drop SEQUENCE ELIGIBILITY_CRITERIAS_ID_seq;
-
+drop SEQUENCE PRT_STRAT_ANS_id_seq;
+drop SEQUENCE PRT_ELIGIBILITY_ANS_ID_seq;
 drop SEQUENCE STUDY_DISEASES_ID_seq;
 drop SEQUENCE DISEASE_TERMS_ID_seq;
 drop SEQUENCE DISEASE_CATEGORIES_ID_seq;
