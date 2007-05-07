@@ -5,3 +5,4 @@
 <tags:javascriptLink name="scriptaculous/dragdrop"/>
 <tags:javascriptLink name="scriptaculous/slider"/>
 <tags:javascriptLink name="common-scriptaculous"/>
+<tags:javascriptLink name="autocomplete"/>
