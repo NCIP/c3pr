@@ -41,7 +41,7 @@ function navRollOver(obj, state) {
 						</tr>
 						<tr>
 							<td class="label">Informed Consent Version:</td>
-							<td><form:input path="informedConsentVersion"/></td>
+							<td><form:input path="informedConsentVersion" cssClass="validate-notEmpty"/></td>
 						</tr>
 					</table>
 				</td>
