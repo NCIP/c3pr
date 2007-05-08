@@ -1,89 +1,87 @@
-drop table if exists  scheduled_arms;
-drop table if exists epochs cascade;
-drop table if exists study_participant_assignments cascade;
-drop table if exists healthcare_sites cascade;
-drop table if exists study_investigators cascade;
-drop table if exists study_sites cascade;
-drop table if exists studies cascade;
-drop table if exists investigators cascade;
-drop table if exists addresses cascade;
-drop table if exists participants cascade;
-drop table if exists hc_site_investigators cascade;
-drop table if exists arms cascade;
-drop table if exists identifiers cascade;
-drop table if exists study_personnels cascade;
-drop table if exists research_staffs cascade;
-drop table if exists eligibility_criterias cascade;
-drop table if exists subject_eligibility_answers cascade;
-drop table if exists subject_stratification_answers cascade;
-drop table if exists study_diseases cascade;
-drop table if exists disease_terms cascade;
-drop table if exists disease_categories cascade;
-drop table if exists stratification_criterion cascade;
-drop table if exists stratification_cri_per_ans cascade;
+drop table scheduled_arms;
+drop table epochs cascade;
+drop table study_participant_assignments cascade;
+drop table healthcare_sites cascade;
+drop table study_investigators cascade;
+drop table study_sites cascade;
+drop table studies cascade;
+drop table investigators cascade;
+drop table addresses cascade;
+drop table participants cascade;
+drop table hc_site_investigators cascade;
+drop table arms cascade;
+drop table identifiers cascade;
+drop table study_personnels cascade;
+drop table research_staffs cascade;
+drop table eligibility_criterias cascade;
+drop table subject_eligibility_answers cascade;
+drop table subject_stratification_answers cascade;
+drop table study_diseases cascade;
+drop table disease_terms cascade;
+drop table disease_categories cascade;
+drop table stratification_criterion cascade;
+drop table stratification_cri_per_ans cascade;
 drop table if exists disease_history cascade;
 drop table if exists anatomic_sites cascade;
 
 
-drop SEQUENCE if exists IDENTIFIERS_ID_seq ;
-drop SEQUENCE if exists ARMS_ID_seq ;
-drop SEQUENCE if exists STUDY_PARTICIPANT_ASSIG_ID_seq ;
-drop SEQUENCE if exists ADDRESSES_ID_seq ;
-drop SEQUENCE if exists EPOCHS_ID_seq ;
-drop SEQUENCE if exists HC_SITE_INVESTIGATORS_ID_seq ;
-drop SEQUENCE if exists HEALTHCARE_SITES_ID_seq ;
-drop SEQUENCE if exists INVESTIGATORS_ID_seq ;
-drop SEQUENCE if exists PARTICIPANTS_ID_seq ;
-drop SEQUENCE if exists SCHEDULED_ARMS_ID_seq ;
-drop SEQUENCE if exists STUDIES_ID_seq ;
-drop SEQUENCE if exists STUDY_INVESTIGATORS_ID_seq ;
-drop SEQUENCE if exists STUDY_SITES_ID_seq;
-drop SEQUENCE if exists STUDY_PERSONNELS_ID_seq;
-drop SEQUENCE if exists RESEARCH_STAFFS_ID_seq;
-drop SEQUENCE if exists ELIGIBILITY_CRITERIAS_ID_seq;
-drop SEQUENCE if exists PRT_ELIGIBILITY_ANS_ID_seq;
-drop SEQUENCE if exists PRT_STRAT_ANS_ID_seq;
-drop SEQUENCE if exists STUDY_DISEASES_ID_seq;
-drop SEQUENCE if exists DISEASE_TERMS_ID_seq;
-drop SEQUENCE if exists DISEASE_CATEGORIES_ID_seq;
-drop SEQUENCE if exists STRATIFICATION_CRI_ID_SEQ;
-drop SEQUENCE if exists STRATIFICATION_CRI_ANS_ID_SEQ;
-drop SEQUENCE if exists DISEASE_HISTORY_ID_seq;
-drop SEQUENCE if exists ANATOMIC_SITES_ID_seq;
+drop SEQUENCE IDENTIFIERS_ID_seq ;
+drop SEQUENCE ARMS_ID_seq ;
+drop SEQUENCE STUDY_PARTICIPANT_ASSIG_ID_seq ;
+drop SEQUENCE ADDRESSES_ID_seq ;
+drop SEQUENCE EPOCHS_ID_seq ;
+drop SEQUENCE HC_SITE_INVESTIGATORS_ID_seq ;
+drop SEQUENCE HEALTHCARE_SITES_ID_seq ;
+drop SEQUENCE INVESTIGATORS_ID_seq ;
+drop SEQUENCE PARTICIPANTS_ID_seq ;
+drop SEQUENCE SCHEDULED_ARMS_ID_seq ;
+drop SEQUENCE STUDIES_ID_seq ;
+drop SEQUENCE STUDY_INVESTIGATORS_ID_seq ;
+drop SEQUENCE STUDY_SITES_ID_seq;
+drop SEQUENCE STUDY_PERSONNELS_ID_seq;
+drop SEQUENCE RESEARCH_STAFFS_ID_seq;
+drop SEQUENCE ELIGIBILITY_CRITERIAS_ID_seq;
+drop SEQUENCE PRT_STRAT_ANS_id_seq;
+drop SEQUENCE PRT_ELIGIBILITY_ANS_ID_seq;
+drop SEQUENCE STUDY_DISEASES_ID_seq;
+drop SEQUENCE DISEASE_TERMS_ID_seq;
+drop SEQUENCE DISEASE_CATEGORIES_ID_seq;
+drop SEQUENCE STRATIFICATION_CRI_ID_SEQ;
+drop SEQUENCE STRATIFICATION_CRI_ANS_ID_SEQ;
 
 CREATE SEQUENCE IDENTIFIERS_ID_seq INCREMENT 1 START 1 ;
 
 CREATE TABLE IDENTIFIERS ( 
 	PRIMARY_INDICATOR boolean,
-	GRID_ID varchar(500),
-	VERSION decimal(4,2) NOT NULL,
+	GRID_ID varchar(100),
+	VERSION BIGINT NOT NULL,
 	VALUE varchar(50) NOT NULL,
 	TYPE varchar(50),
 	SOURCE varchar(50) NOT NULL,
 	STU_ID decimal(10,2),
 	PRT_ID decimal(10,2),
 	SPA_ID decimal(10,2),
-	ID decimal(10,2) DEFAULT NEXTVAL('"IDENTIFIERS_ID_seq"'::TEXT) NOT NULL
+	ID BIGINT DEFAULT NEXTVAL('"IDENTIFIERS_ID_seq"'::TEXT) NOT NULL
 ) ;
 CREATE SEQUENCE ADDRESSES_ID_seq INCREMENT 1 START 1 ;
 
 CREATE TABLE ADDRESSES ( 
-	GRID_ID varchar(500),
-	VERSION decimal(4,2) NOT NULL,
+	GRID_ID varchar(100),
+	VERSION BIGINT NOT NULL,
 	STREET_ADDRESS varchar(200) NOT NULL,
 	CITY varchar(200) NOT NULL,
 	STATE_CODE varchar(200) NOT NULL,
 	COUNTRY_CODE varchar(200) NOT NULL,
 	POSTAL_CODE varchar(10), 
-	ID decimal(10,2) DEFAULT NEXTVAL('"ADDRESSES_ID_seq"'::TEXT) NOT NULL
+	ID BIGINT DEFAULT NEXTVAL('"ADDRESSES_ID_seq"'::TEXT) NOT NULL
 ) ;
 
 CREATE SEQUENCE ARMS_ID_seq INCREMENT 1 START 1 ;
 
 CREATE TABLE ARMS ( 
-	GRID_ID varchar(500),
-	VERSION decimal(4,2) NOT NULL,
-	ID decimal(10,2) DEFAULT NEXTVAL('"ARMS_ID_seq"'::TEXT) NOT NULL,
+	GRID_ID varchar(100),
+	VERSION BIGINT NOT NULL,
+	ID BIGINT DEFAULT NEXTVAL('"ARMS_ID_seq"'::TEXT) NOT NULL,
 	NAME varchar(50) NOT NULL,
 	DESCRIPTION_TEXT varchar(50),
 	TARGET_ACCRUAL_NUMBER decimal(8,2),
@@ -93,9 +91,9 @@ CREATE TABLE ARMS (
 CREATE SEQUENCE EPOCHS_ID_seq INCREMENT 1 START 1 ;
 
 CREATE TABLE EPOCHS ( 
-	GRID_ID varchar(500),
-	VERSION decimal(4,2) NOT NULL,
-	ID decimal(10,2) DEFAULT NEXTVAL('"EPOCHS_ID_seq"'::TEXT) NOT NULL,
+	GRID_ID varchar(100),
+	VERSION BIGINT NOT NULL,
+	ID BIGINT DEFAULT NEXTVAL('"EPOCHS_ID_seq"'::TEXT) NOT NULL,
 	NAME varchar(50) NOT NULL,
 	DESCRIPTION_TEXT varchar(200),
 	STU_ID decimal(10,2) NOT NULL
@@ -104,9 +102,9 @@ CREATE TABLE EPOCHS (
 CREATE SEQUENCE HC_SITE_INVESTIGATORS_ID_seq INCREMENT 1 START 1 ;
 
 CREATE TABLE HC_SITE_INVESTIGATORS ( 
-	GRID_ID varchar(500),
-	VERSION decimal(4,2) NOT NULL,
-	ID decimal(10,2) DEFAULT NEXTVAL('"HC_SITE_INVESTIGATORS_ID_seq"'::TEXT) NOT NULL,
+	GRID_ID varchar(100),
+	VERSION BIGINT NOT NULL,
+	ID BIGINT DEFAULT NEXTVAL('"HC_SITE_INVESTIGATORS_ID_seq"'::TEXT) NOT NULL,
 	STATUS_CODE varchar(200),
 	STATUS_DATE timestamp,
 	INV_ID decimal(10,2) NOT NULL,
@@ -116,9 +114,9 @@ CREATE TABLE HC_SITE_INVESTIGATORS (
 CREATE SEQUENCE HEALTHCARE_SITES_ID_seq INCREMENT 1 START 1 ;
 
 CREATE TABLE HEALTHCARE_SITES ( 
-	GRID_ID varchar(500),
-	VERSION decimal(4,2) NOT NULL,
-	ID decimal(10,2) DEFAULT NEXTVAL('"HEALTHCARE_SITES_ID_seq"'::TEXT) NOT NULL,
+	GRID_ID varchar(100),
+	VERSION BIGINT NOT NULL,
+	ID BIGINT DEFAULT NEXTVAL('"HEALTHCARE_SITES_ID_seq"'::TEXT) NOT NULL,
 	NAME varchar(200) NOT NULL,
 	DESCRIPTION_TEXT varchar(200),
 	ADDRESS_ID decimal(10,2) NOT NULL,
@@ -128,9 +126,9 @@ CREATE TABLE HEALTHCARE_SITES (
 CREATE SEQUENCE INVESTIGATORS_ID_seq INCREMENT 1 START 1 ;
 
 CREATE TABLE INVESTIGATORS ( 
-	GRID_ID varchar(500),
-	VERSION decimal(4,2) NOT NULL,
-	ID decimal(10,2) DEFAULT NEXTVAL('"INVESTIGATORS_ID_seq"'::TEXT) NOT NULL,
+	GRID_ID varchar(100),
+	VERSION BIGINT NOT NULL,
+	ID BIGINT DEFAULT NEXTVAL('"INVESTIGATORS_ID_seq"'::TEXT) NOT NULL,
 	FIRST_NAME varchar(200),
 	LAST_NAME varchar(200),
 	NCI_IDENTIFIER varchar(50),
@@ -140,9 +138,9 @@ CREATE TABLE INVESTIGATORS (
 CREATE SEQUENCE PARTICIPANTS_ID_seq INCREMENT 1 START 1 ;
 
 CREATE TABLE PARTICIPANTS ( 
-	GRID_ID varchar(500),
-	VERSION decimal(4,2) NOT NULL,
-	ID decimal(10,2) DEFAULT NEXTVAL('"PARTICIPANTS_ID_seq"'::TEXT) NOT NULL,
+	GRID_ID varchar(100),
+	VERSION BIGINT NOT NULL,
+	ID BIGINT DEFAULT NEXTVAL('"PARTICIPANTS_ID_seq"'::TEXT) NOT NULL,
 	FIRST_NAME varchar(200),
 	LAST_NAME varchar(200),
 	BIRTH_DATE timestamp,
@@ -156,9 +154,9 @@ CREATE TABLE PARTICIPANTS (
 CREATE SEQUENCE SCHEDULED_ARMS_ID_seq INCREMENT 1 START 1 ;
 
 CREATE TABLE SCHEDULED_ARMS ( 
-	GRID_ID varchar(500),
-	VERSION decimal(4,2) NOT NULL,
-	ID decimal(10,2) DEFAULT NEXTVAL('"SCHEDULED_ARMS_ID_seq"'::TEXT) NOT NULL,
+	GRID_ID varchar(100),
+	VERSION BIGINT NOT NULL,
+	ID BIGINT DEFAULT NEXTVAL('"SCHEDULED_ARMS_ID_seq"'::TEXT) NOT NULL,
 	START_DATE timestamp NOT NULL,
 	ELIGIBILITY_INDICATOR varchar(10) NOT NULL,
 	ELIGIBILITY_WAIVER_REASON_TEXT varchar(200),
@@ -169,9 +167,9 @@ CREATE TABLE SCHEDULED_ARMS (
 CREATE SEQUENCE STUDIES_ID_seq INCREMENT 1 START 1 ;
 
 CREATE TABLE STUDIES ( 
-	GRID_ID varchar(500),
-	VERSION decimal(4,2) NOT NULL,
-	ID decimal(10,2) DEFAULT NEXTVAL('"STUDIES_ID_seq"'::TEXT) NOT NULL,
+	GRID_ID varchar(100),
+	VERSION BIGINT NOT NULL,
+	ID BIGINT DEFAULT NEXTVAL('"STUDIES_ID_seq"'::TEXT) NOT NULL,
 	BLINDED_INDICATOR varchar(10),
 	LONG_TITLE_TEXT varchar(200) NOT NULL,
 	MULTI_INSTITUTION_INDICATOR varchar(10),
@@ -189,9 +187,9 @@ CREATE TABLE STUDIES (
 CREATE SEQUENCE STUDY_INVESTIGATORS_ID_seq INCREMENT 1 START 1 ;
 
 CREATE TABLE STUDY_INVESTIGATORS ( 
-	GRID_ID varchar(500),
-	VERSION decimal(4,2) NOT NULL,
-	ID decimal(10,2) DEFAULT NEXTVAL('"STUDY_INVESTIGATORS_ID_seq"'::TEXT) NOT NULL,
+	GRID_ID varchar(100),
+	VERSION BIGINT NOT NULL,
+	ID BIGINT DEFAULT NEXTVAL('"STUDY_INVESTIGATORS_ID_seq"'::TEXT) NOT NULL,
 	STS_ID decimal(10,2) NOT NULL,
 	HSI_ID decimal(10,2) NOT NULL,
 	ROLE_CODE varchar(50) NOT NULL,
@@ -203,9 +201,9 @@ CREATE TABLE STUDY_INVESTIGATORS (
 CREATE SEQUENCE STUDY_PARTICIPANT_ASSIG_ID_seq INCREMENT 1 START 1 ;
 
 CREATE TABLE STUDY_PARTICIPANT_ASSIGNMENTS ( 
-	GRID_ID varchar(500),
-	VERSION decimal(4,2) NOT NULL,
-	ID decimal(10,2) DEFAULT NEXTVAL('"STUDY_PARTICIPANT_ASSIG_ID_seq"'::TEXT) NOT NULL,
+	GRID_ID varchar(100),
+	VERSION BIGINT NOT NULL,
+	ID BIGINT DEFAULT NEXTVAL('"STUDY_PARTICIPANT_ASSIG_ID_seq"'::TEXT) NOT NULL,
 	STUDY_PARTICIPANT_IDENTIFIER varchar(50) NOT NULL,
 	REGISTRATION_STATUS varchar(200),
 	START_DATE timestamp NOT NULL,
@@ -215,16 +213,15 @@ CREATE TABLE STUDY_PARTICIPANT_ASSIGNMENTS (
 	PRT_ID decimal(10,2) NOT NULL,
 	STS_ID decimal(10,2) NOT NULL,
 	STI_ID decimal(10,2),	
-	DISEASE_HISTORY_ID decimal(10,2),	
 	INFORMED_CONSENT_VERSION varchar(200)
 ) ;
 
 CREATE SEQUENCE STUDY_SITES_ID_seq INCREMENT 1 START 1 ;
 
 CREATE TABLE STUDY_SITES ( 
-	GRID_ID varchar(500),
-	VERSION decimal(4,2) NOT NULL,
-	ID decimal(10,2) DEFAULT NEXTVAL('"STUDY_SITES_ID_seq"'::TEXT) NOT NULL,
+	GRID_ID varchar(100),
+	VERSION BIGINT NOT NULL,
+	ID BIGINT DEFAULT NEXTVAL('"STUDY_SITES_ID_seq"'::TEXT) NOT NULL,
 	IRB_APPROVAL_DATE timestamp NOT NULL,
 	ROLE_CODE varchar(200) NOT NULL,
 	STATUS_CODE varchar(200) NOT NULL,
@@ -237,9 +234,9 @@ CREATE TABLE STUDY_SITES (
 CREATE SEQUENCE STUDY_PERSONNELS_ID_seq INCREMENT 1 START 1 ;
 
 CREATE TABLE STUDY_PERSONNELS (
-  ID decimal(10,2)DEFAULT NEXTVAL('"STUDY_PERSONNELS_ID_seq"'::TEXT) NOT NULL,
-  VERSION decimal(4,2) NOT NULL,	 
-  GRID_ID varchar(500),		
+  ID BIGINT DEFAULT NEXTVAL('"STUDY_PERSONNELS_ID_seq"'::TEXT) NOT NULL,
+  VERSION BIGINT NOT NULL,	 
+  GRID_ID varchar(100),		
   RESEARCH_STAFFS_ID decimal(10,2),
   STS_ID decimal(10,2),
   ROLE_CODE varchar(50) NOT NULL,
@@ -251,9 +248,9 @@ CREATE TABLE STUDY_PERSONNELS (
 CREATE SEQUENCE RESEARCH_STAFFS_ID_seq INCREMENT 1 START 1 ;
 
 CREATE TABLE RESEARCH_STAFFS (
-  ID decimal(10,2)DEFAULT NEXTVAL('"RESEARCH_STAFFS_ID_seq"'::TEXT) NOT NULL,
+  ID BIGINT DEFAULT NEXTVAL('"RESEARCH_STAFFS_ID_seq"'::TEXT) NOT NULL,
   VERSION decimal(4,2) NOT NULL,	 
-  GRID_ID varchar(500),		
+  GRID_ID varchar(100),		
   FIRST_NAME varchar(200),
   LAST_NAME varchar(200),
   ADD_ID decimal(10,2)
@@ -262,9 +259,9 @@ CREATE TABLE RESEARCH_STAFFS (
 CREATE SEQUENCE ELIGIBILITY_CRITERIAS_ID_seq INCREMENT 1 START 1 ;
 
 CREATE TABLE ELIGIBILITY_CRITERIAS (
-  ID decimal(10,2)DEFAULT NEXTVAL('"ELIGIBILITY_CRITERIAS_ID_seq"'::TEXT) NOT NULL,
-  VERSION decimal(4,2) NOT NULL,	 
-  GRID_ID varchar(500),	
+  ID BIGINT DEFAULT NEXTVAL('"ELIGIBILITY_CRITERIAS_ID_seq"'::TEXT) NOT NULL,
+  VERSION BIGINT NOT NULL,	 
+  GRID_ID varchar(100),	
   QUESTION_NUMBER decimal(4,2) NOT NULL,	 
   QUESTION_TEXT varchar(500) NOT NULL,
   NOT_APPLICABLE_INDICATOR  boolean,
@@ -274,9 +271,9 @@ CREATE TABLE ELIGIBILITY_CRITERIAS (
 
 CREATE SEQUENCE PRT_STRAT_ANS_ID_seq INCREMENT 1 START 1 ;
 CREATE TABLE SUBJECT_STRATIFICATION_ANSWERS (
-  ID decimal(10,2)DEFAULT NEXTVAL('"PRT_STRAT_ANS_ID_seq"'::TEXT) NOT NULL,
-  VERSION decimal(4,2) NOT NULL,	 
-  GRID_ID varchar(500),		
+  ID BIGINT DEFAULT NEXTVAL('"PRT_STRAT_ANS_ID_seq"'::TEXT) NOT NULL,
+  VERSION BIGINT NOT NULL,	 
+  GRID_ID varchar(100),		
   STRAT_ANS_ID decimal(10,2),  
   STR_CRI_ID decimal(10,2),
   SPA_ID decimal(10,2) 
@@ -285,9 +282,9 @@ CREATE TABLE SUBJECT_STRATIFICATION_ANSWERS (
 CREATE SEQUENCE PRT_ELIGIBILITY_ANS_ID_seq INCREMENT 1 START 1 ;
 
 CREATE TABLE SUBJECT_ELIGIBILITY_ANSWERS (
-  ID decimal(10,2)DEFAULT NEXTVAL('"PRT_ELIGIBILITY_ANS_ID_seq"'::TEXT) NOT NULL,
-  VERSION decimal(4,2) NOT NULL,	 
-  GRID_ID varchar(500),		
+  ID BIGINT DEFAULT NEXTVAL('"PRT_ELIGIBILITY_ANS_ID_seq"'::TEXT) NOT NULL,
+  VERSION BIGINT NOT NULL,	 
+  GRID_ID varchar(100),		
   ANSWER_TEXT varchar(500),
   ELGCT_ID decimal(10,2) NOT NULL,  
   SPA_ID decimal(10,2) 
@@ -299,13 +296,14 @@ CREATE TABLE study_diseases (
 	study_id BIGINT NOT NULL,
 	disease_term_id BIGINT NOT NULL,
 	version BIGINT DEFAULT 0 NOT NULL,
-	grid_id BIGINT,
+	grid_id varchar(100),
 	lead_disease boolean
 );
 
 CREATE SEQUENCE DISEASE_HISTORY_ID_seq INCREMENT 1 START 1 ;
 CREATE TABLE disease_history (
-	id decimal(10,2) DEFAULT NEXTVAL('DISEASE_HISTORY_ID_seq'::TEXT) NOT NULL,
+	id BIGINT DEFAULT NEXTVAL('DISEASE_HISTORY_ID_seq'::TEXT) NOT NULL,
+	grid_id varchar(100),
 	study_disease_id BIGINT,
 	anatomic_site_id BIGINT,	
 	other_disease_code varchar(500),
@@ -318,7 +316,7 @@ CREATE TABLE anatomic_sites (
 	id decimal(10,2) DEFAULT NEXTVAL('ANATOMIC_SITES_ID_seq'::TEXT) NOT NULL,
 	name varchar(500),
 	category varchar(500),
-	grid_id BIGINT,	
+	grid_id varchar(100),	
 	version BIGINT DEFAULT 0 NOT NULL
 );
 	
