@@ -22,12 +22,6 @@
     <bean id="publicHandlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">        
     </bean>      
    
-    <bean id="loginController" autowire="byName"
-        class="edu.duke.cabig.c3pr.web.LoginController" lazy-init="true">
-	    <property name="commandClass" value="edu.duke.cabig.c3pr.web.LoginCommand"/>
-	    <property name="formView" value="login"/>
-    </bean>
-
     <bean name="/welcome" id="welcomeController"
         class="org.springframework.web.servlet.mvc.ParameterizableViewController">
         <property name="viewName"><value>internal-welcome</value></property>
