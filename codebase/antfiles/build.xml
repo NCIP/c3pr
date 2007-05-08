@@ -312,7 +312,6 @@
              cvsrsh="ssh"
              quiet="false"
              failonerror="true"
-             package="c3prv2/codebase/projects"
              dest="${basedir}"/>
     </target>
 
