@@ -7,7 +7,7 @@
 	<!-- For every application using the security api an entry should be made here -->
 		<application>
 			<context-name>
-				csm_upt
+				csmupt
 			</context-name>
 			<authentication>
 				<lockout-time>
