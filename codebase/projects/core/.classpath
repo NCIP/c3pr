@@ -48,6 +48,8 @@
 	<classpathentry exported="true" kind="lib" path="/web/build/classes" sourcepath="/web/src"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/esb-client"/>
 	<classpathentry exported="true" kind="lib" path="/share/dom4j-1.6.1/dom4j-1.6.1.jar"/>
-	<classpathentry kind="lib" path="ext/lib/antlr-2.7.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="ext/lib/antlr-2.7.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/jars/c3pr-2.0-core-tests-1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/classes-test"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
