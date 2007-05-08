@@ -49,11 +49,11 @@ function navRollOver(obj, state) {
 			<tr>
 				<td>
 					<hr align="left" width="95%">
-					<strong>Step 2. Treating Physician Details </strong><br>
+					<strong>Step 2. Enrolling Physician Details </strong><br>
 					<table width="60%" border="0" cellspacing="0" cellpadding="0" id="table1">
 						<tr><td colspan='2'>&nbsp;</td></tr>
 						<tr>
-							<td class="label" width="60%"><span class="red">*</span><em></em>Treating Physician:</td>
+							<td class="label" width="60%"><span class="red">*</span><em></em>Enrolling Physician:</td>
 							<td>
 								<form:select path="treatingPhysician" cssClass="validate-notEmpty">
 									<option value="">--Please Select--</options><form:options
