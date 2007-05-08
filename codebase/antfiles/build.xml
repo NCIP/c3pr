@@ -304,13 +304,16 @@
 
     <!--Update code from CVS. For developer use only-->
     <target name="cvsUpdate" description="Updates code from CVS. For developers use only">
-        <property name="c3prv2.cvs.root" value=":pserver:anonymous@cbiocvs2.nci.nih.gov:/share/content/gforge/c3prv2"/>
-        <property name="c3prv2.cvs.passfile" value="${antfiles.dir}/.c3prv2_cvspass"/>
+        <!-- Assumes PKI setup for the following account-->
+        <property name="c3prv2.cvs.root" value=":ext:kherm@cbiocvs2.nci.nih.gov:/share/content/gforge/c3prv2"/>
 
-        <!--login first-->
-        <cvspass cvsroot="${c3prv2.cvs.root}" passfile="${c3prv2.cvs.passfile}"
-                 password="anonymoust"/>
-
+        <cvs cvsroot="${c3prv2.cvs.root}"
+             command="update -P -A -d"
+             cvsrsh="ssh"
+             quiet="false"
+             failonerror="true"
+             package="c3prv2/codebase/projects"
+             dest="${basedir}"/>
     </target>
 
 
