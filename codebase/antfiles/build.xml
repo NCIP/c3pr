@@ -62,7 +62,7 @@
     <!--                  DEFINE THE SUB PROJECTS THAT SUPPORT TESTING                    -->
     <!-- ================================================================================ -->
     <!-- This should be a subset of the projects above -->
-    <property name="testable.projects.list" value="grid,installer,web"/>
+    <property name="testable.projects.list" value="core,grid,web"/>
 
     <!-- ======================================================================================= -->
     <!--                  DEFINE THE SUB PROJECTS THAT SUPPORT SYSTEM TESTING                    -->
@@ -301,6 +301,18 @@
 
         <ant dir="${projects.dir}/installer" target="build-installer"/>
     </target>
+
+    <!--Update code from CVS. For developer use only-->
+    <target name="cvsUpdate" description="Updates code from CVS. For developers use only">
+        <property name="c3prv2.cvs.root" value=":pserver:anonymous@cbiocvs2.nci.nih.gov:/share/content/gforge/c3prv2"/>
+        <property name="c3prv2.cvs.passfile" value="${antfiles.dir}/.c3prv2_cvspass"/>
+
+        <!--login first-->
+        <cvspass cvsroot="${c3prv2.cvs.root}" passfile="${c3prv2.cvs.passfile}"
+                 password="anonymoust"/>
+
+    </target>
+
 
     <target name="run-installer" description="Runs a previously built installer">
         <ant dir="${projects.dir}/installer" target="run-installer"/>
