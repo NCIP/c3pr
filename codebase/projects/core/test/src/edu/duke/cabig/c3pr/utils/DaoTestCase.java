@@ -116,20 +116,27 @@ public abstract class DaoTestCase extends DbTestCase {
         return databaseConnection;
     }
 
+    /**
+     * For Oracle typically it is "C3PR_DEV" (note- upper case). For Postgres - "public". 
+     * Dont forget to override this depending on your database
+     * @return
+     */
     protected String getSchema()
     {
-    	return "public";
+    	return "C3PR_DEV";
     }
     
-    protected DatabaseOperation getSetUpOperation() throws Exception
-	{
-	    return DatabaseOperation.DELETE;
-	}
-    
-    protected DatabaseOperation getTearDownOperation() throws Exception {
-        return DatabaseOperation.DELETE;
-    }
-    
+    // Note - Comment of uncomment this based on the DB you are testing against.
+    // By default, it is DELETE_ALL. Other options are DELETE, REFRESH
+//    protected DatabaseOperation getSetUpOperation() throws Exception
+//	{
+//	    return DatabaseOperation.DELETE_ALL;
+//	}
+//    
+//    protected DatabaseOperation getTearDownOperation() throws Exception {
+//        return DatabaseOperation.DELETE_ALL;
+//    }
+//    
     public static ApplicationContext getApplicationContext() {
         return ApplicationTestCase.getDeployedCoreApplicationContext();
     }
