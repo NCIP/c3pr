@@ -92,7 +92,7 @@ public class StudyDaoTest extends DaoTestCase {
         interruptSession();
         {
             Study loaded = dao.getById(savedId);
-            assertNotNull("GridId not updated", loaded.getGridId());
+           // assertNotNull("GridId not updated", loaded.getGridId());
             assertNotNull("Could not reload study with id " + savedId, loaded);
             assertEquals("Wrong name", "New study", loaded.getPrecisText());
         }
@@ -127,7 +127,7 @@ public class StudyDaoTest extends DaoTestCase {
         {
             Study loaded = dao.getById(savedId);            
             assertNotNull("Could not reload study with id " + savedId, loaded);
-            assertNotNull("GridId not updated", loaded.getGridId());            
+            //assertNotNull("GridId not updated", loaded.getGridId());            
             assertEquals("Wrong name", "New study", loaded.getPrecisText());
         }
     }
@@ -167,7 +167,7 @@ public class StudyDaoTest extends DaoTestCase {
      * @throws Exception
      */
     public void testGetStudyParticipantAssignmentsForStudy() throws Exception {
-    	List<StudyParticipantAssignment> spa = dao.getStudyParticipantAssignmentsForStudy(34);
+    	List<StudyParticipantAssignment> spa = dao.getStudyParticipantAssignmentsForStudy(1000);
     	assertEquals(2, spa.size());
         List<Integer> ids = collectIds(spa);
         assertContains("Wrong study found", ids, 1000);          	    
