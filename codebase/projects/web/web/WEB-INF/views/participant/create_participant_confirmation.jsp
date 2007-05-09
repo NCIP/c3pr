@@ -9,19 +9,22 @@
 
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<title>Confirmation</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+    <meta name="displayTabs" content="hidden"/>
+
+    <title>Confirmation</title>
 </head>
 <body>
 <form:form name="createParticipantForm" method="post">
-					<div>
-			<tabs:division id="confirm-create-participant">
+    <div>
+        <tabs:division id="confirm-create-participant">
 
-	<div><input type="hidden" name="_page" value="1"></div>
-					
-<h3> <font color="green"> You have successfully created Subject with last name : ${param.lastName}</font></h3>
-		</tabs:division>
-</div>							
+            <div><input type="hidden" name="_page" value="1"></div>
+
+            <h3> <font color="green"> You have successfully created Subject with last name : ${param.lastName}</font></h3>
+        </tabs:division>
+    </div>
 </form:form>
 </body>
 </html>

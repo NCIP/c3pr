@@ -32,7 +32,9 @@
 
             <div class="tabcontent workArea">
                 <decorator:body/>
-                <tabs:tabControls tabNumber="${tab.number}" isLast="${tab.number < flow.tabCount - 1}"/>
+                <div style='visibility:<decorator:getProperty property="meta.displayTabs" default="visible"/>;'>
+                    <tabs:tabControls tabNumber="${tab.number}" isLast="${tab.number < flow.tabCount - 1}"/>
+                </div>
             </div>
 
         </tabs:body>

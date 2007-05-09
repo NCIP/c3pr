@@ -11,6 +11,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     <util:map id="taskObjectPrivilegeMap">
         <entry key="/pages/registration/searchRegistration" value="edu.duke.cabig.c3pr.domain.Registration:READ"/>
         <entry key="/pages/registration/createRegistration" value="edu.duke.cabig.c3pr.domain.Registration:CREATE"/>
+        <entry key="/pages/registration/registrationDetails" value="edu.duke.cabig.c3pr.domain.Registration:READ"/>
 
         <entry key="/pages/study/searchStudy" value="edu.duke.cabig.c3pr.domain.Study:READ"/>
         <entry key="/pages/study/createStudy" value="edu.duke.cabig.c3pr.domain.Study:CREATE"/>
@@ -54,6 +55,8 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 
     <util:map id="sectionObjectPrivilegeMap">
         <entry key="/pages/registration/searchRegistration" value="edu.duke.cabig.c3pr.domain.Registration:READ"/>
+        <entry key="/pages/registration/registrationDetails" value="edu.duke.cabig.c3pr.domain.Registration:READ"/>
+
         <entry key="/pages/study/searchStudy" value="edu.duke.cabig.c3pr.domain.Study:READ"/>
         <entry key="/pages/participant/searchParticipant" value="edu.duke.cabig.c3pr.domain.Participant:READ"/>
         <entry key="/pages/admin/createInvestigator" value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
