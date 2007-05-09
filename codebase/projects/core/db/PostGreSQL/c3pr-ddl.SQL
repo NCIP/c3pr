@@ -326,6 +326,7 @@ CREATE TABLE anatomic_sites (
 CREATE SEQUENCE DISEASE_CATEGORIES_ID_seq INCREMENT 1 START 1 ;
 CREATE TABLE disease_categories (
 	id BIGINT DEFAULT nextval('DISEASE_CATEGORIES_ID_seq'::regclass) NOT NULL,
+	grid_id varchar(100),
 	parent_id BIGINT,
 	name varchar(200),
 	version BIGINT DEFAULT 0 NOT NULL
@@ -334,6 +335,7 @@ CREATE TABLE disease_categories (
 CREATE SEQUENCE DISEASE_TERMS_ID_seq INCREMENT 1 START 1 ;
 CREATE TABLE disease_terms (
 	id BIGINT DEFAULT nextval('DISEASE_TERMS_ID_seq'::regclass) NOT NULL,
+	grid_id varchar(100),
 	term varchar(200),
 	ctep_term varchar(200),
 	category_id BIGINT NOT NULL,
@@ -344,6 +346,7 @@ CREATE TABLE disease_terms (
 CREATE SEQUENCE STRATIFICATION_CRI_ID_SEQ INCREMENT 1 START 1 ;
 CREATE TABLE STRATIFICATION_CRITERION (
 	id BIGINT DEFAULT nextval('STRATIFICATION_CRI_ID_SEQ'::regclass) NOT NULL,
+	grid_id varchar(100),
 	version BIGINT DEFAULT 0 NOT NULL,
 	question_text varchar(200),
 	question_number BIGINT,
@@ -353,6 +356,7 @@ CREATE TABLE STRATIFICATION_CRITERION (
 CREATE SEQUENCE STRATIFICATION_CRI_ANS_ID_SEQ INCREMENT 1 START 1 ;
 CREATE TABLE STRATIFICATION_CRI_PER_ANS (
 	id BIGINT DEFAULT nextval('STRATIFICATION_CRI_ANS_ID_SEQ'::regclass) NOT NULL,
+	grid_id varchar(100),
 	version BIGINT DEFAULT 0 NOT NULL,
 	permissible_answer varchar(200),
 	str_cri_id BIGINT NOT NULL
