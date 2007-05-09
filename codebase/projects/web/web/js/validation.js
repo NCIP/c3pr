@@ -68,12 +68,31 @@ validateForm=function(submit){
 	}
 }
 var submitPostProcess
+
+var ERROR_STRATEGY
+var ERROR_HIGHTLIGHT_COLOR
+var	DEFAULT_ERROR_STRATEGY="text"
+var DEFAULT_ERROR_HIGHTLIGHT_COLOR="red"
+
+var ERROR_MSG_REQUIRED
+var ERROR_MSG_PATTERN
+var ERROR_MSG_MINLENGTH
+var ERROR_MSG_MAXLENGTH
+var ERROR_MSG_PHONE
+var	DEFAULT_ERROR_MSG_REQUIRED="required"
+var	DEFAULT_ERROR_MSG_PATTERN="Incorrect format"
+var	DEFAULT_ERROR_MSG_MINLENGTH="too short"
+var	DEFAULT_ERROR_MSG_MAXLENGTH="too long"	
+var	DEFAULT_ERROR_MSG_PHONE="The second phone number is not valid"	
+
 prepareField=function(element){
-	ERROR_MSG_REQUIRED="required"
-	ERROR_MSG_PATTERN="Incorrect format"
-	ERROR_MSG_MINLENGTH="too short"
-	ERROR_MSG_MAXLENGTH="too long"	
-	ERROR_MSG_PHONE="The second phone number is not valid"	
+	ERROR_MSG_REQUIRED=ERROR_MSG_REQUIRED?ERROR_MSG_REQUIRED:DEFAULT_ERROR_MSG_REQUIRED
+	ERROR_MSG_PATTERN=ERROR_MSG_PATTERN?ERROR_MSG_PATTERN:DEFAULT_ERROR_MSG_PATTERN
+	ERROR_MSG_MINLENGTH=ERROR_MSG_MINLENGTH?ERROR_MSG_REQUIRED:DEFAULT_ERROR_MSG_MINLENGTH
+	ERROR_MSG_MAXLENGTH=ERROR_MSG_MAXLENGTH?ERROR_MSG_MAXLENGTH:DEFAULT_ERROR_MSG_MAXLENGTH
+	ERROR_MSG_PHONE=ERROR_MSG_PHONE?ERROR_MSG_PHONE:DEFAULT_ERROR_MSG_PHONE
+	ERROR_STRATEGY=ERROR_STRATEGY?ERROR_STRATEGY:DEFAULT_ERROR_STRATEGY
+	ERROR_HIGHTLIGHT_COLOR=ERROR_HIGHTLIGHT_COLOR?ERROR_HIGHTLIGHT_COLOR:DEFAULT_ERROR_HIGHTLIGHT_COLOR		
 	validationTypeStr=Element.classNames(element).detect(function(cls) {
 															var v=cls.indexOf('validate') == 0
 															return cls.indexOf('validate') == 0
@@ -99,9 +118,28 @@ prepareField=function(element){
 	}
 }
 function showError(element,msg){
-	new Insertion.After(element, " <span id='"+element.name+"-msg'class='red'>*"+msg+"</span>")
+	strategies=ERROR_STRATEGY.split("&&")
+	for(i=0 ; i<strategies.length ; i++){
+	errorStrategy1=strategies[i]
+		if(errorStrategy1=="text"){
+			new Insertion.After(element, " <span id='"+element.name+"-msg'class='red'>*"+msg+"</span>")
+		}
+		if(errorStrategy1=="highlight") {
+			element.style._backgroundColor=element.style._backgroundColor?element.style._backgroundColor:element.style.backgroundColor
+			element.style.backgroundColor=ERROR_HIGHTLIGHT_COLOR
+		}
+	}
 }
 function removeError(element){
-	msgId=element.name+"-msg"
-   	$(msgId)!=null?new Element.remove(msgId):null
+	strategies=ERROR_STRATEGY.split("&&")
+	for(i=0 ; i<strategies.length ; i++){
+	errorStrategy2=strategies[i]
+		if(errorStrategy2=="text"){
+			msgId=element.name+"-msg"
+		   	$(msgId)!=null?new Element.remove(msgId):null
+		}
+		if(errorStrategy2=="highlight") {
+			element.style.backgroundColor=element.style._backgroundColor?element.style._backgroundColor:element.style.backgroundColor
+		}
+	}
 }
