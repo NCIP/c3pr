@@ -75,7 +75,7 @@
         </javac>
     </target>
 
-    <target name="jar" depends="compile">
+    <target name="jar" depends="compile,compileTests">
         <jar destfile="${build.jar.dir}/${project.jar.name}" basedir="${build.classes.dir}"/>
     </target>
 

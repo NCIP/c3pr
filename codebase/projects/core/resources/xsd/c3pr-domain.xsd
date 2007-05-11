@@ -1,0 +1,88 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://semanticbits.com/edu.duke.cabig.c3pr.domain"
+           xmlns="http://semanticbits.com/edu.duke.cabig.c3pr.domain" elementFormDefault="qualified">
+    <xs:annotation>
+        <xs:documentation xml:lang="en">
+            Registartion schema, referring c3prV2-I2.EAP
+        </xs:documentation>
+    </xs:annotation>
+
+    <xs:element name="registration" type="RegistrationType"/>
+
+
+
+    <xs:complexType name="RegistrationType">
+        <xs:sequence>
+            <xs:element name="informedConsentFormSignedDate" type="xs:date" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="startDate" type="xs:date"/>
+            <xs:element name="studyParticipantIdentifier" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="eligibilityIndicator" type="xs:boolean" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="participant"  type="ParticipantType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="study"  type="StudyType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="identifier"  type="IdentifierType" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="healthCareSiteGridId" type="xs:string"/>
+        <xs:attribute name="studyGridId" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="ParticipantType">
+        <xs:sequence>
+            <xs:element name="firstName"  type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="lastName"  type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="address"  type="AddressType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="administrativeGenderCode"   type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="birthDate" type="xs:date" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="ethnicGroupCode"   type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="maritalStatusCode"  type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="raceCode"  type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="identifier"  type="IdentifierType" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="gridId" type="xs:string" />
+    </xs:complexType>
+
+    <xs:complexType name="IdentifierType">
+        <xs:sequence>
+            <xs:element name="source"   type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="type" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="value"   type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="isprimary"  type="xs:boolean" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="AddressType">
+        <xs:sequence>
+            <xs:element name="city" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="countryCode" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="postalCode" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="stateCode" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="streetAddress" type="xs:string" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="study" type="StudyType"/>
+
+    <xs:complexType name="StudyType">
+        <xs:sequence>
+            <xs:element name="blindedIndicator" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="multiInstitutionIndicator" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="randomizedIndicator" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="shortTitleText" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="longTitleText"  type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="descriptionText"  type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="precisText"  type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="phaseCode"  type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="sponsorCode"  type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="status"  type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="type"  type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="primaryIdentifier"  type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="targetAccrualNumber"  type="xs:integer" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="identifier"  type="IdentifierType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="gridId" type="xs:string"/>
+    </xs:complexType>
+
+
+
+
+
+</xs:schema>
+

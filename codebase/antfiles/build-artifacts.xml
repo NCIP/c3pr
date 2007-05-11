@@ -148,7 +148,7 @@
 
 
         <artifact track="main" type="jars" id="xercesImpl.jars">
-            <fileset dir="${share.dir}/xercesImpl-2.2.1">
+            <fileset dir="${share.dir}/xercesImpl">
                 <include name="*.jar"/>
             </fileset>
         </artifact>
@@ -196,6 +196,9 @@
                 <include name="*.jar"/>
                 <exclude name="*-tests*.jar"/>
             </fileset>
+        </artifact>
+
+        <artifact track="main" type="jars" id="c3pr.core.lib.jars">
             <fileset dir="${projects.dir}/core/lib">
                 <include name="*.jar"/>
             </fileset>

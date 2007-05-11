@@ -170,6 +170,9 @@
             <fileset dir="${resources.dir}">
                 <include name="c3pr-castor-mapping.xml"/>
             </fileset>
+            <fileset dir="${resources.dir}/xsd">
+                <include name="c3pr-domain.xsd"/>
+            </fileset>
         </copy>
 
         <echo>All database ops for this build will use ${datasource.url}</echo>

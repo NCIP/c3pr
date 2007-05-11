@@ -189,9 +189,24 @@
         <resolveDependencies extdir="${projects.dir}/web/ext">
             <artifact refid="security.lib.jars"/>
             <artifact refid="common.test.jars"/>
-            <artifact refid="spring.jars"/>
+
             <artifact refid="c3pr.core.jars"/>
+            <artifact refid="c3pr.core.lib.jars"/>
+
+            <!-- get third party shared jars -->
+            <artifact refid="jboss-j2ee.jars"/>
+            <artifact refid="spring.jars"/>
+            <artifact refid="hibernate.jars"/>
+            <artifact refid="log4j.jars"/>
+            <artifact refid="commons-logging.jars"/>
+            <artifact refid="dom4j.jars"/>
+            <artifact refid="antlr.jars"/>
+            <artifact refid="net-handle.jars"/>
+            <artifact refid="xerces.jars"/>
+            <artifact refid="xercesImpl.jars"/>
+            <artifact refid="c3pr.build.properties"/>
             <artifact refid="c3pr.core.test.jars"/>
+
             <artifact refid="jdom.jars"/>
             <artifact refid="dom4j.jars"/>
             <artifact refid="web-sso.jars"/>
@@ -227,8 +242,22 @@
     <target name="build-grid" depends="prepare" description="Builds the c3p3 Registration Consumer grid node">
         <resolveDependencies extdir="${projects.dir}/grid/ext">
             <artifact refid="ant-contrib.jars"/>
-            <artifact refid="spring.jars"/>
             <artifact refid="c3pr.core.jars"/>
+            <artifact refid="c3pr.core.lib.jars"/>
+
+            <!-- get third party shared jars -->
+            <artifact refid="jboss-j2ee.jars"/>
+            <artifact refid="spring.jars"/>
+            <artifact refid="hibernate.jars"/>
+            <artifact refid="log4j.jars"/>
+            <artifact refid="commons-logging.jars"/>
+            <artifact refid="dom4j.jars"/>
+            <artifact refid="antlr.jars"/>
+            <artifact refid="net-handle.jars"/>
+            <artifact refid="xerces.jars"/>
+            <artifact refid="xercesImpl.jars"/>
+            <artifact refid="c3pr.build.properties"/>
+
             <artifact refid="c3pr.core.test.jars"/>
             <artifact refid="common.test.jars"/>
         </resolveDependencies>
