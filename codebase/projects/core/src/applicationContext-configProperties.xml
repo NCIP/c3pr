@@ -8,11 +8,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
              <entry key="yesNo">
                     <list>
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="true" />
+                            <property name="code" value="false" />
                             <property name="desc" value="No" />
                         </bean>
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="false" />
+                            <property name="code" value="true" />
                             <property name="desc" value="Yes" />
                         </bean>
                 	</list>

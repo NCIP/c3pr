@@ -45,7 +45,7 @@ function fireAction(action, selected){
 		</p>
 		<table id="mytable" border="0" cellspacing="0" cellpadding="0">
 		<tr>
-			<th class="scope="col" align="left"><b>Assigning Authority<span class="red">*</span></b></th>
+			<th scope="col" align="left"><b>Assigning Authority<span class="red">*</span></b></th>
 			<th scope="col" align="left"><b>Identifier Type<span class="red">*</span></b></th>
 			<th scope="col" align="left"><b>Identifier<span class="red">*</span></b></th>
 			<th scope="col" align="left"><b>Primary&nbsp;Indicator</b></td>
