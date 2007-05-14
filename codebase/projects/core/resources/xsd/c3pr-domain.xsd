@@ -1,5 +1,5 @@
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://semanticbits.com/edu.duke.cabig.c3pr.domain"
-           xmlns="http://semanticbits.com/edu.duke.cabig.c3pr.domain" elementFormDefault="qualified">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://edu.duke.c3pr.domain"
+           xmlns="http://edu.duke.c3pr.domain" elementFormDefault="qualified">
     <xs:annotation>
         <xs:documentation xml:lang="en">
             Registartion schema, referring c3prV2-I2.EAP
