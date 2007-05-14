@@ -52,7 +52,7 @@ prefix="decorator"%>
 		</tr>
 		<tr>
 			<td class="label">Description:</td>
-			<td><form:textarea path="descriptionText" rows="3" cols="40" cssClass="validate-maxlength200" /></td>
+			<td><form:textarea path="descriptionText" rows="3" cols="40" cssClass="validate-maxlength2000" /></td>
 		</tr>
 	</table>
 	</td>
