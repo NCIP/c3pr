@@ -80,7 +80,7 @@ public class EditStudyController extends StudyController {
 				studyDao.save(study);
 			} catch (RuntimeException e) {
 				log.debug("Unable to update Study");
-				e.printStackTrace();
+				throw e;
 			}
 		}	
 	}
