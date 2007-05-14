@@ -140,7 +140,7 @@ function getPage(s){
 													path="identifiers[${index}].type">
 													<option value="">--Please Select-- </option>
 													<form:options items="${identifiersTypeRefData}"
-														itemLabel="desc" itemValue="code" />
+														itemLabel="desc" itemValue="desc" />
 												</form:select></td>
 												<td align="center"><form:input
 													path="identifiers[${index}].value" /></td>
