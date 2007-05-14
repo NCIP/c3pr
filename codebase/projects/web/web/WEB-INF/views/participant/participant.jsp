@@ -132,11 +132,13 @@ function getPage(s){
 											<tr>
 												<td align="center"><form:select
 													path="identifiers[${index}].source">
+													<option value="">--Please Select-- </option>
 													<form:options items="${source}" itemLabel="name"
 														itemValue="name" />
 												</form:select></td>
 												<td align="center"><form:select
 													path="identifiers[${index}].type">
+													<option value="">--Please Select-- </option>
 													<form:options items="${identifiersTypeRefData}"
 														itemLabel="desc" itemValue="code" />
 												</form:select></td>
