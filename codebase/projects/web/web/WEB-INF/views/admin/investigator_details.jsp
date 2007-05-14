@@ -111,11 +111,13 @@ function fireAction(action, selected){
 				<tr>
 					<td align="center" width="15%"><form:select
 						path="healthcareSiteInvestigators[${status.index}].healthcareSite">
+						<option value="">--Please Select-- </option>
 						<form:options items="${healthcareSites}" itemLabel="name"
 							itemValue="id" />
 					</form:select></td>
 					<td align="center" width="15%"><form:select
 						path="healthcareSiteInvestigators[${status.index}].statusCode">
+						<option value="">--Please Select-- </option>
 						<form:options items="${studySiteStatusRefData}" itemLabel="desc"
 							itemValue="code" />
 					</form:select></td>
