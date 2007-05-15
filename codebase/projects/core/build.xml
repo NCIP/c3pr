@@ -321,5 +321,5 @@
     <!-- ============================================================== -->
     <!-- Builds from scratch                                                -->
     <!-- ============================================================== -->
-    <target name="all" description="Builds the entire application" depends="jar,jar-tests"/>
+    <target name="all" description="Builds the entire application" depends="clean,jar,jar-tests"/>
 </project>
