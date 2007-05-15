@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.AssociationOverride;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -31,6 +32,8 @@ public class ResearchStaff extends Person {
     private List<StudyPersonnel> studyPersonnels = new ArrayList<StudyPersonnel>();
     
     private String fullName;
+    
+    private HealthcareSite healthcareSite;
     
     /// LOGIC ~
     	   	    
@@ -89,6 +92,15 @@ public class ResearchStaff extends Person {
 	public void setContactMechanisms(List<ContactMechanism> contactMechanisms)
 	{
 		this.contactMechanisms = contactMechanisms;
+	}
+	@ManyToOne
+	@JoinColumn(name="HCS_ID")
+	public HealthcareSite getHealthcareSite() {
+		return healthcareSite;
+	}
+
+	public void setHealthcareSite(HealthcareSite healthcareSite) {
+		this.healthcareSite = healthcareSite;
 	}
 			
 }
