@@ -23,52 +23,62 @@ import edu.duke.cabig.c3pr.utils.DateUtil;
  * @author Priyatam
  * 
  */
-@Entity 
-@Table (name = "participants")
-@GenericGenerator (name="id-generator", strategy = "native",
-		parameters = {
-			@Parameter(name="sequence", value="participants_id_seq")
-		}
-)
-public class Participant extends Person implements Comparable<Participant>
-{	
-	private Date birthDate;	
+@Entity
+@Table(name = "participants")
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "participants_id_seq") })
+public class Participant extends Person implements Comparable<Participant> {
+	private Date birthDate;
+
 	private String birthDateStr;
+
 	private String administrativeGenderCode;
+
 	private String ethnicGroupCode;
+
 	private String raceCode;
-    private String maritalStatusCode;
-    private String primaryIdentifier;
-    private List<Identifier> identifiers = new ArrayList<Identifier>();
-    
-    private List<StudyParticipantAssignment> studyParticipantAssignments= new ArrayList<StudyParticipantAssignment>();
-	    
-    public void addIdentifier(Identifier identifier)
-	{		
-		identifiers.add(identifier);		
+
+	private String maritalStatusCode;
+
+	private String primaryIdentifier;
+
+	private List<Identifier> identifiers = new ArrayList<Identifier>();
+
+	private List<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();
+
+	public void addIdentifier(Identifier identifier) {
+		identifiers.add(identifier);
 	}
-	
-	public void removeIdentifier(Identifier identifier)
-	{
+
+	public void removeIdentifier(Identifier identifier) {
 		identifiers.remove(identifier);
 	}
-	
-    @OneToMany(fetch=FetchType.LAZY)
-    @Cascade({CascadeType.ALL,CascadeType.DELETE_ORPHAN})
-    @JoinColumn(name = "PRT_ID")
-    public List<Identifier> getIdentifiers() {
+
+	@OneToMany(fetch = FetchType.LAZY)
+	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@JoinColumn(name = "PRT_ID")
+	public List<Identifier> getIdentifiers() {
 		return identifiers;
 	}
 
-	public void setIdentifiers(
-			List<Identifier> identifiers) {
+	public void setIdentifiers(List<Identifier> identifiers) {
 		this.identifiers = identifiers;
 	}
-	
-	@OneToMany (mappedBy="participant", fetch=FetchType.LAZY)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+
+	@OneToMany(mappedBy = "participant", fetch = FetchType.LAZY)
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	public List<StudyParticipantAssignment> getStudyParticipantAssignments() {
 		return studyParticipantAssignments;
+	}
+
+	@OneToMany
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@JoinColumn(name = "PRT_ID")
+	public List<ContactMechanism> getContactMechanisms() {
+		return contactMechanisms;
+	}
+
+	public void setContactMechanisms(List<ContactMechanism> contactMechanisms) {
+		this.contactMechanisms = contactMechanisms;
 	}
 
 	public Date getBirthDate() {
@@ -94,52 +104,53 @@ public class Participant extends Person implements Comparable<Participant>
 	public void setEthnicGroupCode(String ethnicGroupCode) {
 		this.ethnicGroupCode = ethnicGroupCode;
 	}
-	
+
 	public String getRaceCode() {
 		return raceCode;
 	}
-	
+
 	public void setRaceCode(String raceCode) {
 		this.raceCode = raceCode;
-	}	
-	
+	}
+
 	@Transient
 	public String getBirthDateStr() {
-		if(birthDate==null){
+		if (birthDate == null) {
 			return "";
-		}else if(birthDate.equals("")){
+		} else if (birthDate.equals("")) {
 			return "";
 		}
 		try {
 			return DateUtil.formatDate(birthDate, "MM/dd/yyyy");
-		}
-		catch(ParseException e){
-			//do nothing
+		} catch (ParseException e) {
+			// do nothing
 		}
 		return "";
 	}
 
-    public String getMaritalStatusCode() {
-        return maritalStatusCode;
-    }
+	public String getMaritalStatusCode() {
+		return maritalStatusCode;
+	}
 
-    public void setMaritalStatusCode(String maritalStatusCode) {
-        this.maritalStatusCode = maritalStatusCode;
-    }
-    
+	public void setMaritalStatusCode(String maritalStatusCode) {
+		this.maritalStatusCode = maritalStatusCode;
+	}
+
 	public void setStudyParticipantAssignments(
 			List<StudyParticipantAssignment> studyParticipantAssignments) {
 		this.studyParticipantAssignments = studyParticipantAssignments;
 	}
 
-    public void addStudyParticipantAssignment(StudyParticipantAssignment studyParticipantAssignment){
-    	studyParticipantAssignments.add(studyParticipantAssignment);
-    }
+	public void addStudyParticipantAssignment(
+			StudyParticipantAssignment studyParticipantAssignment) {
+		studyParticipantAssignments.add(studyParticipantAssignment);
+	}
 
-    public void removeStudyParticipantAssignment(StudyParticipantAssignment studyParticipantAssignment){
-    	studyParticipantAssignments.remove(studyParticipantAssignment);
-    }
-	
+	public void removeStudyParticipantAssignment(
+			StudyParticipantAssignment studyParticipantAssignment) {
+		studyParticipantAssignments.remove(studyParticipantAssignment);
+	}
+
 	public int compareTo(Participant o) {
 		// TODO Auto-generated method stub
 		return 0;
@@ -149,8 +160,12 @@ public class Participant extends Person implements Comparable<Participant>
 	public int hashCode() {
 		final int PRIME = 31;
 		int result = super.hashCode();
-		result = PRIME * result + ((identifiers == null) ? 0 : identifiers.hashCode());
-		result = PRIME * result + ((studyParticipantAssignments == null) ? 0 : studyParticipantAssignments.hashCode());
+		result = PRIME * result
+				+ ((identifiers == null) ? 0 : identifiers.hashCode());
+		result = PRIME
+				* result
+				+ ((studyParticipantAssignments == null) ? 0
+						: studyParticipantAssignments.hashCode());
 		return result;
 	}
 
@@ -171,21 +186,21 @@ public class Participant extends Person implements Comparable<Participant>
 		if (studyParticipantAssignments == null) {
 			if (other.studyParticipantAssignments != null)
 				return false;
-		} else if (!studyParticipantAssignments.equals(other.studyParticipantAssignments))
+		} else if (!studyParticipantAssignments
+				.equals(other.studyParticipantAssignments))
 			return false;
 		return true;
 	}
-	
+
 	@Transient
-	public String getPrimaryIdentifier() {		
+	public String getPrimaryIdentifier() {
 		for (Identifier identifier : identifiers) {
-			if(identifier.getPrimaryIndicator().booleanValue() == true)
-			{
+			if (identifier.getPrimaryIndicator().booleanValue() == true) {
 				return identifier.getValue();
 			}
 		}
-			
-		return primaryIdentifier;		
+
+		return primaryIdentifier;
 	}
 
 	public void setPrimaryIdentifier(String primaryIdentifier) {
