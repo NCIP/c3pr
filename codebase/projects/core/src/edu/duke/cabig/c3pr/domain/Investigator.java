@@ -3,7 +3,9 @@ package edu.duke.cabig.c3pr.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.AssociationOverride;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -23,6 +25,7 @@ import org.hibernate.annotations.Parameter;
         @Parameter(name="sequence", value="investigators_id_seq")
     }
 )
+//@AssociationOverride( name="contactMechanisms", joinColumns= @JoinColumn(name="INV_ID") )
 public class Investigator extends Person {
     private String nciIdentifier;
     private List<HealthcareSiteInvestigator> healthcareSiteInvestigators 
@@ -83,5 +86,18 @@ public class Investigator extends Person {
 	public void setNciIdentifier(String nciIdentifier) {
 		this.nciIdentifier = nciIdentifier;
 	}	
+	
+	@OneToMany
+	@Cascade(value={CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+	@JoinColumn(name="INV_ID")
+	public List<ContactMechanism> getContactMechanisms()
+	{
+		return contactMechanisms;
+	}
+	
+	public void setContactMechanisms(List<ContactMechanism> contactMechanisms)
+	{
+		this.contactMechanisms = contactMechanisms;
+	}
    
 }
