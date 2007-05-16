@@ -91,7 +91,8 @@
 				<value>edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer</value>													
 				<value>edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer</value>			
 				<value>edu.duke.cabig.c3pr.domain.AnatomicSite</value>			
-				<value>edu.duke.cabig.c3pr.domain.DiseaseHistory</value>											
+				<value>edu.duke.cabig.c3pr.domain.DiseaseHistory</value>
+				<value>edu.duke.cabig.c3pr.domain.ContactMechanism</value>											
 			</list>
 		</property>
 		<property name="entityInterceptor">
