@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="windows-1252"?>
-<XMI xmi.version="1.1" xmlns:UML="omg.org/UML1.3" timestamp="2007-05-15 17:25:14">
+<XMI xmi.version="1.1" xmlns:UML="omg.org/UML1.3" timestamp="2007-05-16 15:42:06">
 	<XMI.header>
 		<XMI.documentation>
 			<XMI.exporter>Enterprise Architect</XMI.exporter>
@@ -268,11 +268,11 @@
 										<UML:TaggedValue tag="ea_end" value="source"/>
 									</UML:ModelElement.taggedValue>
 								</UML:AssociationEnd>
-								<UML:AssociationEnd visibility="public" multiplicity="1..*" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="true" type="EAID_7C025A4E_C77E_4b7c_B12D_3887F978BCB9">
+								<UML:AssociationEnd visibility="public" multiplicity="0..*" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="true" type="EAID_7C025A4E_C77E_4b7c_B12D_3887F978BCB9">
 									<UML:AssociationEnd.multiplicity>
 										<UML:Multiplicity>
 											<UML:Multiplicity.range>
-												<UML:MultiplicityRange lower="1" upper="-1"/>
+												<UML:MultiplicityRange lower="0" upper="-1"/>
 											</UML:Multiplicity.range>
 										</UML:Multiplicity>
 									</UML:AssociationEnd.multiplicity>
@@ -1622,11 +1622,11 @@
 										<UML:TaggedValue tag="ea_end" value="source"/>
 									</UML:ModelElement.taggedValue>
 								</UML:AssociationEnd>
-								<UML:AssociationEnd visibility="public" multiplicity="1..*" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="true" type="EAID_7C025A4E_C77E_4b7c_B12D_3887F978BCB9">
+								<UML:AssociationEnd visibility="public" multiplicity="0..*" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="true" type="EAID_7C025A4E_C77E_4b7c_B12D_3887F978BCB9">
 									<UML:AssociationEnd.multiplicity>
 										<UML:Multiplicity>
 											<UML:Multiplicity.range>
-												<UML:MultiplicityRange lower="1" upper="-1"/>
+												<UML:MultiplicityRange lower="0" upper="-1"/>
 											</UML:Multiplicity.range>
 										</UML:Multiplicity>
 									</UML:AssociationEnd.multiplicity>
@@ -3465,11 +3465,11 @@
 										<UML:TaggedValue tag="ea_end" value="source"/>
 									</UML:ModelElement.taggedValue>
 								</UML:AssociationEnd>
-								<UML:AssociationEnd visibility="public" multiplicity="1..*" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="true" type="EAID_7C025A4E_C77E_4b7c_B12D_3887F978BCB9">
+								<UML:AssociationEnd visibility="public" multiplicity="0..*" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="true" type="EAID_7C025A4E_C77E_4b7c_B12D_3887F978BCB9">
 									<UML:AssociationEnd.multiplicity>
 										<UML:Multiplicity>
 											<UML:Multiplicity.range>
-												<UML:MultiplicityRange lower="1" upper="-1"/>
+												<UML:MultiplicityRange lower="0" upper="-1"/>
 											</UML:Multiplicity.range>
 										</UML:Multiplicity>
 									</UML:AssociationEnd.multiplicity>
