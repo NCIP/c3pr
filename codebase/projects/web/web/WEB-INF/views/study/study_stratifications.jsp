@@ -32,13 +32,13 @@ function fireAction(action, selectedStratification, selectedAnswer){
         <input type="hidden" name="_selectedAnswer" value="">
     </div>
 <tabs:tabFields tab="${tab}" />
-<div><tabs:division id="Strata Factors">
+<div><tabs:division id="Stratification Factors">
 <!-- MAIN BODY STARTS HERE -->
 <table border="0" cellspacing="0" cellpadding="0"">
 	<tr>
 		<td>
 		<p id="instructions">
-			Strata:
+			Add Stratatification factor:
 			<a href="javascript:fireAction('addStratificationQuestion','0','0');"><img
 		 	      src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a>&nbsp;&nbsp
 		</p>
@@ -47,7 +47,7 @@ function fireAction(action, selectedStratification, selectedAnswer){
 		<table border="0" cellspacing="0" cellpadding="0" id="mytable">
 		<tr>
 			<th scope="col" align="left"></th>
-			<th scope="col" align="left"><b>Strata <span class="red">*</span></b></th>
+			<th scope="col" align="left"><b>Stratification Factor <span class="red">*</span></b></th>
 			<th scope="col" align="left"><b>add&nbsp;answers<span class="red">*</span></b></th>
 			<th scope="col" align="left"></th>
 		</tr>

@@ -32,26 +32,24 @@ function validatePage(){
 	<tr>
 		<td valign="top" class="additionals2">
 			<tr>
-				<td >Study Created Succesfully for <b>Short Title </b> :${command.trimmedShortTitleText}</td>
+				<td ><b>Study Created Succesfully</b></td>
 			</tr>
 			<tr>
-				<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
-					class="heightControl"></td>
+				<td class="label">Short Title:</td>
+				<td>${command.trimmedShortTitleText}</td>
 			</tr>
 			<tr>
 				<td class="label">Study Site:</td>
 				<td>${command.studySites[0].site.name}</td>
 			</tr>
-
 			<tr>
 				<td class="label">Study Identifiers</td>
 				<td ><c:forEach items="${command.identifiers}" var="id">
 					${id.value},
 				</c:forEach></td>
 			</tr>
-
 			<tr>
-				<td class="label">Subject MRN Num:</td>
+				<td class="label">Primary Identifier:</td>
 				<td>${command.primaryIdentifier}</td>
 			</tr>
 		</td>

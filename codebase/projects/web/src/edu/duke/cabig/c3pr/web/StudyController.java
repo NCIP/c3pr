@@ -156,7 +156,7 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
        	}        	
        };
        
-       Tab stratifications = new Tab<Study>("Stratifications", "Stratifications", "study/study_stratifications") {
+       Tab stratifications = new Tab<Study>("Stratification Factors", "Stratification Factors", "study/study_stratifications") {
       	public Map<String, Object> referenceData() {
               Map<String, Object> refdata = super.referenceData();
               return refdata;
