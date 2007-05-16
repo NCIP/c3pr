@@ -161,6 +161,7 @@
             <artifact refid="c3pr.esb-client.jars"/>
 
             <!-- get third party shared jars -->
+			<artifact refid="collections-generic"/>
             <artifact refid="jboss-j2ee.jars"/>
             <artifact refid="spring.jars"/>
             <artifact refid="hibernate.jars"/>

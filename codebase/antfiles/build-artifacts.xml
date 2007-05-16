@@ -13,6 +13,12 @@
         <!-- =============== -->
         <!-- share artifacts -->
         <!-- =============== -->
+        <artifact track="main" type="jars" id="collections-generic">
+            <fileset dir="${share.dir}/collections-generic">
+                <include name="*.jar"/>
+            </fileset>
+        </artifact>
+        	
         <artifact track="main" type="jars" id="acegi.jars">
             <fileset dir="${share.dir}/spring-2.0/acegi">
                 <include name="*.jar"/>
@@ -206,7 +212,7 @@
                 <include name="*.jar"/>
             </fileset>
         </artifact>
-
+	
         <artifact track="test" type="jars" id="c3pr.core.test.jars">
             <antcall target="build-core"/>
             <fileset dir="${projects.dir}/core/build/jars">
