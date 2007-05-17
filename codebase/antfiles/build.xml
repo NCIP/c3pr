@@ -25,10 +25,6 @@
     <!--ESB deploy directory. Defaults to scratch-->
     <property name="esb.deploy.dir" location="${basedir}/scratch"/>
 
-    <!-- Warning, your environment variable for tomcat should be set in your OS (Windows/Linux),
-	else it wont deploy -->
-    <property name="catalina.home" value="${env.CATALINA_HOME}"/>
-    <property name="deploy.path" value="${catalina.home}/webapps" />
     <property name="webapp.name" value="c3pr" />
 
     <property name="servicemix.project.home" value="${projects.dir}/servicemix"/>
@@ -41,6 +37,7 @@
     <import file="${antfiles.dir}/build-test.xml"/>
     <import file="${antfiles.dir}/build-reports.xml"/>
     <import file="${antfiles.dir}/build-codedrop.xml"/>
+    <import file="${antfiles.dir}/build-utilities.xml"/>
 
     <!-- define global properties -->
     <property name="cobertura.home" location="${basedir}/share/cobertura-1.8"/>
@@ -338,7 +335,7 @@
         <property name="c3prv2.cvs.root" value=":ext:kherm@cbiocvs2.nci.nih.gov:/share/content/gforge/c3prv2"/>
 
         <cvs cvsroot="${c3prv2.cvs.root}"
-             command="update -P -A -d"
+             command="update -PAd"
              cvsrsh="ssh"
              quiet="false"
              failonerror="true"
@@ -348,6 +345,55 @@
 
     <target name="run-installer" description="Runs a previously built installer">
         <ant dir="${projects.dir}/installer" target="run-installer"/>
+    </target>
+
+    <!-- ============================================================== -->
+    <!-- Generate schemas and castor mappings using cacore               -->
+    <!-- ============================================================== -->
+    <target name="regenerateSchemaAndMappings" description="Will regenerate the xml schemas and castor mapping
+                                    files. Needs cacore.home set"
+            depends="checkcacoreToolkit">
+
+        <property name="c3pr.core.resources.dir" value="${projects.dir}/core/resources"/>
+        <property name="c3pr.core.xmi.dir" value="${c3pr.core.resources.dir}/xmi"/>
+        <property name="c3pr.core.xsd.dir" value="${c3pr.core.resources.dir}/xsd"/>
+        <property name="c3pr.model.filename" value="c3pr.xmi"/>
+        <property name="cacore.toolkit.output.dir" value="${ext.cacore.toolkit.home}/output/example/src"/>
+
+        <ant dir="${ext.cacore.toolkit.home}" target="clean-all" inheritall="false"/>
+
+        <!--copy our model file over-->
+        <copy file="${c3pr.core.xmi.dir}/${c3pr.model.filename}" todir="${ext.cacore.toolkit.home}/models"
+              overwrite="true"/>
+
+        <!--generate xml schemas-->
+        <ant dir="${ext.cacore.toolkit.home}" target="generate-schemas" inheritall="false">
+            <property name="model_filename" value="${c3pr.model.filename}"/>
+            <property name="fixed_filename" value="fixed-${c3pr.model.filename}"/>
+        </ant>
+
+        <!--Copy the xml schmas over-->
+        <copy  todir="${c3pr.core.xsd.dir}"
+               overwrite="true">
+            <fileset dir="${cacore.toolkit.output.dir}">
+                <include name="*.xsd"/>
+            </fileset>
+        </copy>
+
+        <!--generate castor mapping-->
+        <ant dir="${ext.cacore.toolkit.home}" target="generate-xml-mapping" inheritall="false">
+            <property name="model_filename" value="${c3pr.model.filename}"/>
+            <property name="fixed_filename" value="fixed-${c3pr.model.filename}"/>
+        </ant>
+
+        <copy
+                tofile="${c3pr.core.resources.dir}/c3pr-xml-mapping.xml"
+                overwrite="true" file="${cacore.toolkit.output.dir}/xml-mapping.xml">
+
+        </copy>
+
+
+
     </target>
 
 
@@ -364,23 +410,23 @@
         </for>
     </target>
 
-    <target name="tomcat.security" depends="build-core" description="Configure CSM">
+    <target name="tomcat.security" depends="checkTomcat,build-core" description="Configure CSM">
         <ant dir="${projects.dir}/core" inheritall="false" target="tomcat.security">
-            <property name="catalina.home" value="${catalina.home}"/>
+            <property name="catalina.home" value="${ext.tomcat.dir}"/>
         </ant>
     </target>
 
     <!-- ====================================================================== -->
     <!-- Deploys the webapp (note:- only web + core projects )in Catalina_home  -->
     <!-- ====================================================================== -->
-    <target name="deploy-webapp" depends="build-web" description="Deploy web application to tomcat">
+    <target name="deploy-webapp" depends="checkTomcat,build-web" description="Deploy web application to tomcat">
         <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="deploy"/>
     </target>
 
     <!-- ====================================================================== -->
-    <!-- UnDeploys the webapp (note:- only web + core projects )in Catalina_home  -->
+    <!-- UnDeploys the webapp (note:- only web + core projects )in CATALINA_HOME  -->
     <!-- ====================================================================== -->
-    <target name="undeploy-webapp" description="undeploys the c3pr webapp">
+    <target name="undeploy-webapp" depends="checkTomcat" description="undeploys the c3pr webapp">
         <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="undeploy-web"/>
     </target>
 
