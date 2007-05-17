@@ -2,11 +2,15 @@ package edu.duke.cabig.c3pr.web.admin;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
+import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
+import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
+import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AbstractTabbedFlowFormController;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Tab;
@@ -50,8 +54,9 @@ public class CreateResearchStaffController extends
 						.getMap();
 
 				Map<String, Object> refdata = new HashMap<String, Object>();
-
-				refdata.put("healthcareSite", getHealthcareSites());
+				refdata.put("studySiteStatusRefData", configMap
+						.get("studySiteStatusRefData"));
+				refdata.put("healthcareSites", healthcareSiteDao.getAll());
 				refdata.put("action", "New");
 				return refdata;
 			}
@@ -68,13 +73,13 @@ public class CreateResearchStaffController extends
 	protected void initBinder(HttpServletRequest request,
 			ServletRequestDataBinder binder) throws Exception {
 		super.initBinder(request, binder);
-		binder.registerCustomEditor(Date.class, ControllerTools
-				.getDateEditor(true));
+		binder.registerCustomEditor(healthcareSiteDao.domainClass(), new CustomDaoEditor(
+				healthcareSiteDao));
 
 	}
 
 	/**
-	 * Create a nested object graph that Create Investigator Design needs
+	 * Create a nested object graph that Create Research Staff needs
 	 * 
 	 * @param request -
 	 *            HttpServletRequest
@@ -82,7 +87,12 @@ public class CreateResearchStaffController extends
 	 */
 	protected Object formBackingObject(HttpServletRequest request)
 			throws ServletException {
-		return new ResearchStaff();
+
+		ResearchStaff researchStaff = new ResearchStaff();
+		ContactMechanism contactMechanism = new ContactMechanism();
+		researchStaff.addContactMechanism(contactMechanism);
+		
+		return researchStaff;
 	}
 
 	/*
@@ -109,6 +119,29 @@ public class CreateResearchStaffController extends
 	@Override
 	protected void postProcessPage(HttpServletRequest request, Object command,
 			Errors arg2, int pageNo) throws Exception {
+
+		switch (pageNo) {
+		case 0:
+			handleRowAction((ResearchStaff) command, request
+					.getParameter("_action"), request.getParameter("_selected"));
+			break;
+
+		default:
+			// do nothing
+		}
+	}
+	
+	private void handleRowAction(ResearchStaff researchStaff,
+			String action, String selected) {
+		 if ("addContact".equals(action)
+				) {
+			ContactMechanism contactMechanism = new ContactMechanism();
+			researchStaff.addContactMechanism(contactMechanism);
+		}else if ("removeContact".equals(action))
+				 {
+			researchStaff.getContactMechanisms().remove(
+					Integer.parseInt(selected));
+		}
 
 	}
 
