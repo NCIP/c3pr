@@ -123,7 +123,7 @@ public abstract class DaoTestCase extends DbTestCase {
      */
     protected String getSchema()
     {
-    	return "C3PR_DEV";
+    	return "public";
     }
     
     // Note - Comment of uncomment this based on the DB you are testing against.
