@@ -35,12 +35,11 @@ function fireAction(action, selected){
 
 
 <tabs:division id="investigator">
-	<form:form method="post" cssClass="standard" name="studySiteForm"
-		>
+	<form:form method="post" cssClass="standard" name="studySiteForm">
 		<div><input type="hidden" name="_action" value=""> <input
 			type="hidden" name="_selected" value=""><input type="hidden"
-				name="_finish" value="true"></div>
-			<tags:errors path="*" />
+			name="_finish" value="true"></div>
+		<tags:errors path="*" />
 		<table width="100%" border="0" cellspacing="0" cellpadding="0"
 			class="table1">
 			<tr>
@@ -56,11 +55,11 @@ function fireAction(action, selected){
 					</tr>
 					<tr valign="top">
 						<td class="label"><span class="red">*</span>First Name:</td>
-						<td ><form:input path="firstName" cssClass="validate-notEmpty" /></td>
+						<td><form:input path="firstName" cssClass="validate-notEmpty" /></td>
 					</tr>
 					<tr valign="top">
 						<td class="label"><span class="red">*</span>Last Name:</td>
-						<td><form:input path="lastName" cssClass="validate-notEmpty"/></td>
+						<td><form:input path="lastName" cssClass="validate-notEmpty" /></td>
 					</tr>
 					<tr>
 						<td class="label">NCI Identifier:</td>
@@ -68,6 +67,8 @@ function fireAction(action, selected){
 					</tr>
 
 				</table>
+
+
 				</td>
 				<td><img src="<tags:imageUrl name="spacer.gif"/>" width="30"
 					height="1" class="heightControl"></td>
@@ -83,53 +84,86 @@ function fireAction(action, selected){
 
 				</table>
 				</td>
+
+				<table border="0" width="60%" cellspacing="0" cellpadding="0">
+					<tr>
+						<td>
+						<p id="instructions">Add Healthcare Sites for the Investigator <a
+							href="javascript:fireAction('addSite','0');"><img
+							src="<tags:imageUrl name="checkyes.gif"/>" border="0"
+							alt="Add another Site"></a><br>
+						</p>
+						<table id="mytable" width="40%" border="0" cellspacing="0"
+							cellpadding="0">
+							<tr>
+								<th class="alt" scope="col" align="left"><b>Site<span
+									class="red">*</span></b></th>
+								<th scope="col" align="left"><b>Status<span class="red">*</span></b></th>
+							</tr>
+							<c:forEach items="${command.healthcareSiteInvestigators}"
+								varStatus="status">
+								<tr>
+									<td class="alt"><form:select
+										path="healthcareSiteInvestigators[${status.index}].healthcareSite">
+										<option value="">--Please Select--</option>
+										<form:options items="${healthcareSites}" itemLabel="name"
+											itemValue="id" />
+									</form:select></td>
+									<td class="alt"><form:select
+										path="healthcareSiteInvestigators[${status.index}].statusCode">
+										<option value="">--Please Select--</option>
+										<form:options items="${studySiteStatusRefData}"
+											itemLabel="desc" itemValue="code" />
+									</form:select></td>
+									<td class="tdalt"><a
+										href="javascript:fireAction('removeSite',${status.index});"><img
+										src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+								</tr>
+							</c:forEach>
+						</table>
+						</td>
+					</tr>
+				</table>
+
+
+
+				<table border="0" width="60%" cellspacing="0" cellpadding="0">
+					<tr>
+						<td>
+						<p id="instructions">Add Contacts for the Investigator <a
+							href="javascript:fireAction('addContact','0');"><img
+							src="<tags:imageUrl name="checkyes.gif"/>" border="0"
+							alt="Add another Contact"></a><br>
+						</p>
+						<table id="mytable" width="40%" border="0" cellspacing="0"
+							cellpadding="0">
+							<tr>
+								<th class="alt" scope="col" align="left"><b>Contact Type<span
+									class="red">*</span></b></th>
+								<th scope="col" align="left"><b>Contact Value<span class="red">*</span></b></th>
+							</tr>
+							<c:forEach items="${command.contactMechanisms}"
+								varStatus="status">
+								<tr>
+									<td class="alt"><form:input
+										path="contactMechanisms[${status.index}].type" /></td>
+									<td class="alt"><form:input
+										path="contactMechanisms[${status.index}].value" /></td>
+									<td class="tdalt"><a
+										href="javascript:fireAction('removeContact',${status.index});"><img
+										src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+								</tr>
+							</c:forEach>
+						</table>
+						</td>
+					</tr>
+				</table>
+
+
+
 			</tr>
 		</table>
 
-		<br>
-		<br>
-
-		<br>
-		<br>
-
-
-		<table border="0" id="table1" cellspacing="10" width="600">
-
-			<tr>
-				<td align="center"><b> <span class="red">*</span><em></em>Site</b></td>
-
-				<td align="center"><b> <span class="red">*</span><em></em>Status</b>
-				</td>
-				<td align="center"><b><a
-					href="javascript:fireAction('addSite','0');"><img
-					src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a></b>
-				</td>
-			</tr>
-
-			<c:forEach varStatus="status"
-				items="${command.healthcareSiteInvestigators}">
-				<tr>
-					<td align="center" width="15%"><form:select
-						path="healthcareSiteInvestigators[${status.index}].healthcareSite">
-						<option value="">--Please Select-- </option>
-						<form:options items="${healthcareSites}" itemLabel="name"
-							itemValue="id" />
-					</form:select></td>
-					<td align="center" width="15%"><form:select
-						path="healthcareSiteInvestigators[${status.index}].statusCode">
-						<option value="">--Please Select-- </option>
-						<form:options items="${studySiteStatusRefData}" itemLabel="desc"
-							itemValue="code" />
-					</form:select></td>
-
-					<td align="center" width="10%"><a
-						href="javascript:fireAction('removeSite',${status.index});"><img
-						src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a>
-					</td>
-				</tr>
-			</c:forEach>
-
-		</table>
 
 	</form:form>
 </tabs:division>
