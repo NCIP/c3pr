@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.web.admin;
 
 import edu.duke.cabig.c3pr.dao.InvestigatorDao;
+import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
@@ -122,7 +123,7 @@ public class CreateInvestigatorController extends
 
 		switch (pageNo) {
 		case 0:
-			handleSiteInvestigatorAction((Investigator) command, request
+			handleRowAction((Investigator) command, request
 					.getParameter("_action"), request.getParameter("_selected"));
 			break;
 
@@ -131,9 +132,8 @@ public class CreateInvestigatorController extends
 		}
 	}
 
-	private void handleSiteInvestigatorAction(Investigator investigator,
+	private void handleRowAction(Investigator investigator,
 			String action, String selected) {
-
 		if ("addSite".equals(action)) {
 			HealthcareSiteInvestigator healthcareSiteInvestigator = new HealthcareSiteInvestigator();
 			investigator
@@ -143,6 +143,14 @@ public class CreateInvestigatorController extends
 
 			investigator.getHealthcareSiteInvestigators().remove(
 					Integer.parseInt(selected));
+		}else if ("addContact".equals(action)
+				) {
+			ContactMechanism contactMechanism = new ContactMechanism();
+			investigator.addContactMechanism(contactMechanism);
+		}else if ("removeContact".equals(action))
+				 {
+			investigator.getContactMechanisms().remove(
+					Integer.parseInt(selected));
 		}
 
 	}
@@ -150,6 +158,8 @@ public class CreateInvestigatorController extends
 	private Investigator createInvestigatorWithDesign() {
 
 		Investigator investigator = new Investigator();
+		ContactMechanism contactMechanism = new ContactMechanism();
+		investigator.addContactMechanism(contactMechanism);
 		HealthcareSiteInvestigator healthcareSiteInvestigator = new HealthcareSiteInvestigator();
 		investigator.addHealthcareSiteInvestigator(healthcareSiteInvestigator);
 		return investigator;
