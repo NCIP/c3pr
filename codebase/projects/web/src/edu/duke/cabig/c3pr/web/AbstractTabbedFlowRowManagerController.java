@@ -15,6 +15,7 @@ import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AbstractTabbedFlowFormCon
 import edu.duke.cabig.c3pr.web.beans.DefaultObjectPropertyReader;
 import edu.duke.cabig.c3pr.web.beans.HttpServletLazyCollectionInitializer;
 import edu.duke.cabig.c3pr.web.beans.HttpServletLazyCollectionInitializerImpl;
+import edu.duke.cabig.c3pr.web.beans.LazyListBindable;
 import edu.duke.cabig.c3pr.web.beans.ObjectPropertyReader;
 
 /**
