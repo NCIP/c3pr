@@ -14,6 +14,7 @@
 <tags:javascriptLink name="validation"/>
 <tags:javascriptLink name="commons-validation"/>
 <tags:javascriptLink name="date"/>
+<tags:javascriptLink name="row-manager"/>
 
 
 
