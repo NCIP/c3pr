@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
+import gov.nih.nci.security.util.StringUtilities;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -10,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -74,5 +77,28 @@ public class DiseaseHistory extends AbstractDomainObject
 	public void setOtherPrimaryDiseaseSiteCode(String otherPrimaryDiseaseSiteCode) {
 		this.otherPrimaryDiseaseSiteCode = otherPrimaryDiseaseSiteCode;
 	}
+	
+	@Transient
+	public String getPrimaryDiseaseStr(){
+		if(!StringUtilities.isBlank(otherPrimaryDiseaseCode))
+			return otherPrimaryDiseaseCode;
+		try {
+			return studyDisease.getDiseaseTerm().getTerm();
+		} catch (RuntimeException e) {
+		}
+		return "";
+	}
+
+	@Transient
+	public String getPrimaryDiseaseSiteStr(){
+		if(!StringUtilities.isBlank(otherPrimaryDiseaseSiteCode))
+			return otherPrimaryDiseaseSiteCode;
+		try {
+			return anatomicSite.getName();
+		} catch (RuntimeException e) {
+		}
+		return "";
+	}
+
 }
 

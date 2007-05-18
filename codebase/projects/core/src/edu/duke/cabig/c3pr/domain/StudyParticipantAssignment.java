@@ -137,6 +137,7 @@ public class StudyParticipantAssignment extends AbstractGridIdentifiableDomainOb
 	}
 
 	public void addScheduledArm(ScheduledArm scheduledArm){
+		scheduledArm.setStudyParticipantAssignment(this);
 		scheduledArms.add(scheduledArm);
 	}
 

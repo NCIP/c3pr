@@ -20,25 +20,24 @@ import edu.duke.cabig.c3pr.dao.AnatomicSiteDao;
 import edu.duke.cabig.c3pr.dao.ArmDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
+import edu.duke.cabig.c3pr.dao.ScheduledArmDao;
 import edu.duke.cabig.c3pr.dao.StudyInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.StudyParticipantAssignmentDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.domain.AnatomicSite;
+import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
-import edu.duke.cabig.c3pr.utils.web.CustomMethodInvocater;
-import edu.duke.cabig.c3pr.utils.web.propertyeditors.ObjectGraphBasedEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AbstractTabbedFlowFormController;
+import edu.duke.cabig.c3pr.utils.web.propertyeditors.ObjectGraphBasedEditor;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
 
 /**
@@ -46,7 +45,7 @@ import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
  * 
  */
 
-public abstract class RegistrationController extends AbstractTabbedFlowFormController {
+public abstract class RegistrationController extends AbstractTabbedFlowRowManagerController {
 
 	private static Log log = LogFactory
 	.getLog(RegistrationController.class);
@@ -64,7 +63,7 @@ public abstract class RegistrationController extends AbstractTabbedFlowFormContr
 	protected StudyInvestigatorDao studyInvestigatorDao;
 	
 	protected AnatomicSiteDao anatomicSiteDao;
-
+	
 	protected ConfigurationProperty configurationProperty;
 
 	public RegistrationController(String flowName) {
@@ -92,7 +91,7 @@ public abstract class RegistrationController extends AbstractTabbedFlowFormContr
 	@Override
 	protected Object formBackingObject(HttpServletRequest request)
 			throws Exception {
-		StudyParticipantAssignment registration = null;
+		StudyParticipantAssignment studyParticipantAssignment = null;
 		if ((request.getParameter("registrationId") != null)
 				&& (request.getParameter("registrationId") != "")) {
 			System.out.println(" Request URl  is:"
@@ -101,14 +100,14 @@ public abstract class RegistrationController extends AbstractTabbedFlowFormContr
 					+ Integer.parseInt(request.getParameter("registrationId")));
 			System.out.println(" registration Dao is :"
 					+ registrationDao.toString());
-			registration = registrationDao.getById(Integer.parseInt(request
+			studyParticipantAssignment = registrationDao.getById(Integer.parseInt(request
 					.getParameter("registrationId")), true);
-			System.out.println(" Registration ID is:" + registration.getId());
+			System.out.println(" Registration ID is:" + studyParticipantAssignment.getId());
 		}else{
-			registration= new StudyParticipantAssignment();
+			studyParticipantAssignment= new StudyParticipantAssignment();
 			System.out.println("------------Command set to new Command------------------");
 		}
-		return registration;
+		return studyParticipantAssignment;
 	}
 	
 	protected void updateRegistration(StudyParticipantAssignment registration){
@@ -160,6 +159,8 @@ public abstract class RegistrationController extends AbstractTabbedFlowFormContr
 				participantDao));
 		binder.registerCustomEditor(AnatomicSite.class, new CustomDaoEditor(
 				anatomicSiteDao));
+		binder.registerCustomEditor(Arm.class, new CustomDaoEditor(
+				armDao));
 		Object command=binder.getTarget();
 		binder.registerCustomEditor(StudyInvestigator.class, new ObjectGraphBasedEditor(
 				command,"studySite.studyInvestigators"));

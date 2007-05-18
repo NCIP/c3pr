@@ -26,6 +26,11 @@ public class ScheduledArm extends AbstractDomainObject {
 	
 	private Arm arm;
 
+	public ScheduledArm() {
+		this.startDate=new Date();
+		this.eligibilityIndicator="true";
+	}
+
 	@ManyToOne
 	@JoinColumn (name="ARM_ID")
 	public Arm getArm() {

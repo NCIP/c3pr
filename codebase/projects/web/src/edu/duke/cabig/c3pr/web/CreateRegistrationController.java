@@ -20,6 +20,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import edu.duke.cabig.c3pr.domain.DiseaseHistory;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.ScheduledArm;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
@@ -69,11 +71,12 @@ public class CreateRegistrationController extends RegistrationController {
 		flow.addTab(new Tab<StudyParticipantAssignment>("Diseases", "Diseases","registration/reg_diseases"));
 		flow.addTab(new Tab<StudyParticipantAssignment>("Check Eligibility", "Check Eligibility","registration/reg_check_eligibility"));
 		flow.addTab(new Tab<StudyParticipantAssignment>("Stratify", "Stratify","registration/reg_stratify"));
+		flow.addTab(new Tab<StudyParticipantAssignment>("Randomize", "Randomize","registration/reg_randomize"));
 		flow.addTab(new Tab<StudyParticipantAssignment>("Review & Submit", "Review & Submit","registration/reg_submit"));
 		flow.getTab(0).setShowSummary("false");
 		flow.getTab(1).setShowSummary("false");
 		flow.getTab(2).setShowSummary("false");
-		flow.getTab(7).setShowSummary("false");
+		flow.getTab(8).setShowSummary("false");
 		flow.getTab(0).setShowLink("false");
 		flow.getTab(1).setShowLink("false");
 		flow.getTab(2).setShowLink("false");
@@ -97,6 +100,8 @@ public class CreateRegistrationController extends RegistrationController {
 		removeAlternateDisplayFlow(request);
 		request.getSession().setAttribute("registrationFlow", getFlow());
 		request.getSession().setAttribute("studyParticipantAssignments", studyParticipantAssignment);
+		studyParticipantAssignment.setDiseaseHistory(new DiseaseHistory());
+		studyParticipantAssignment.addScheduledArm(new ScheduledArm());
 		return studyParticipantAssignment;
 	}
 	@Override
@@ -171,6 +176,9 @@ public class CreateRegistrationController extends RegistrationController {
 			return "Incomplete";
 		}else if(studyParticipantAssignment.getTreatingPhysician().equals("")){
 			return "Incomplete";
+		}else if(studyParticipantAssignment.getScheduledArms().get(studyParticipantAssignment.getScheduledArms().size()-1).getArm()==null){
+			studyParticipantAssignment.getScheduledArms().remove(studyParticipantAssignment.getScheduledArms().size()-1);
+			return "Incomplete";
 		}else if(studyParticipantAssignment.getEligibilityIndicator()){
 			List<SubjectEligibilityAnswer> criterias=studyParticipantAssignment.getSubjectEligibilityAnswers();
 			if (logger.isDebugEnabled()) {
@@ -218,7 +226,6 @@ public class CreateRegistrationController extends RegistrationController {
 		if (logger.isDebugEnabled()) {
 			logger.debug("buildCommandObject(StudyParticipantAssignment studyParticipantAssignment) - extracting eligibility criteria from study..."); //$NON-NLS-1$
 		}
-		studyParticipantAssignment.setDiseaseHistory(new DiseaseHistory());
 		List criterias=studyParticipantAssignment.getStudySite().getStudy().getIncCriterias();
 		for(int i=0 ; i<criterias.size() ; i++){
 			SubjectEligibilityAnswer subjectEligibilityAnswer=new SubjectEligibilityAnswer();
@@ -243,8 +250,10 @@ public class CreateRegistrationController extends RegistrationController {
 			subjectStratificationAnswer.setStratificationCriterion(stratificationCriterion);
 			studyParticipantAssignment.addSubjectStratificationAnswers(subjectStratificationAnswer);
 		}
-		System.out.println("-------------diseases-------------------");
 		studyParticipantAssignment.getStudySite().getStudy().getStudyDiseases().size();
+		for(Epoch e:studyParticipantAssignment.getStudySite().getStudy().getEpochs()){
+			e.getArms().size();
+		}
 	}
 	
 	private boolean evaluateEligibilityIndicator(StudyParticipantAssignment studyParticipantAssignment){
