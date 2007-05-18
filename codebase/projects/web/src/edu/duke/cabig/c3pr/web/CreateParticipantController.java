@@ -10,6 +10,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
@@ -19,8 +21,11 @@ import org.springframework.web.servlet.ModelAndView;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.domain.Address;
+import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
@@ -35,6 +40,9 @@ import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Tab;
  */
 public class CreateParticipantController extends
 		AbstractTabbedFlowFormController<Participant> {
+
+	protected static final Log log = LogFactory
+			.getLog(CreateParticipantController.class);
 
 	private ParticipantDao participantDao;
 
@@ -51,8 +59,8 @@ public class CreateParticipantController extends
 	}
 
 	protected void intializeFlows(Flow<Participant> flow) {
-		flow.addTab(new Tab<Participant>("Details",
-				"Details", "participant/participant") {
+		flow.addTab(new Tab<Participant>("Details", "Details",
+				"participant/participant") {
 			public Map<String, Object> referenceData() {
 				Map<String, List<Lov>> configMap = configurationProperty
 						.getMap();
@@ -74,8 +82,8 @@ public class CreateParticipantController extends
 				return refdata;
 			}
 		});
-		flow.addTab(new Tab<Participant>("Address",
-				"Address", "participant/participant_address"));
+		flow.addTab(new Tab<Participant>("Address & Contact Info",
+				"Address & ContactInfo", "participant/participant_address"));
 		flow.addTab(new Tab<Participant>("Review and Submit ",
 				"Review and Submit ", "participant/participant_submit"));
 		setFlow(flow);
@@ -100,7 +108,7 @@ public class CreateParticipantController extends
 			}
 		}
 
-		if(isSubFlow(httpServletRequest)){
+		if (isSubFlow(httpServletRequest)) {
 			processSubFlow(httpServletRequest, refdata);
 		}
 		return refdata;
@@ -136,7 +144,7 @@ public class CreateParticipantController extends
 
 		Participant participant = (Participant) super
 				.formBackingObject(request);
-		for (int i = 0; i < 5; i++) {
+		{
 			Identifier temp = new Identifier();
 			temp.setPrimaryIndicator(false);
 			participant.addIdentifier(temp);
@@ -150,6 +158,43 @@ public class CreateParticipantController extends
 			ServletRequestDataBinder binder) throws Exception {
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(
 				new SimpleDateFormat("MM/dd/yyyy"), true));
+	}
+
+	@Override
+	protected void postProcessPage(HttpServletRequest request, Object Command,
+			Errors errors, int page) {
+		Participant participant = (Participant) Command;
+
+		handleRowAction(participant, page, request.getParameter("_action"),
+				request.getParameter("_selected"));
+	}
+
+	private void handleRowAction(Participant participant, int page,
+			String action, String selected) {
+		switch (page) {
+		case 0:
+			if ("addIdentifier".equals(action)) {
+				Identifier identifier = new Identifier();
+				participant.addIdentifier(identifier);
+			} else if ("removeIdentifier".equals(action)) {
+
+				participant.getIdentifiers().remove(Integer.parseInt(selected));
+
+				break;
+			}
+		case 1:
+			if ("addContact".equals(action)) {
+				ContactMechanism contactMechanism = new ContactMechanism();
+				participant.addContactMechanism(contactMechanism);
+			} else if ("removeContact".equals(action)) {
+				participant.getContactMechanisms().remove(
+						Integer.parseInt(selected));
+			}
+			break;
+		default:
+			// do Nothing
+
+		}
 	}
 
 	@Override
@@ -174,34 +219,39 @@ public class CreateParticipantController extends
 		// FIXME: small hack
 		if (isSubFlow(request)) {
 			String url = "";
-			if (request.getParameter("studySiteId") != null){
+			if (request.getParameter("studySiteId") != null) {
 				url = "createRegistration?resumeFlow=true&_page=1&_target3=3";
 				url += "&participant=" + Integer.toString(command.getId());
-				url += "&studySite="+ request.getParameter("studySiteId");
-			}else{
+				url += "&studySite=" + request.getParameter("studySiteId");
+			} else {
 				url = "searchStudy";
-				url += "?inRegistration=true&subjectId=" + Integer.toString(command.getId());
+				url += "?inRegistration=true&subjectId="
+						+ Integer.toString(command.getId());
 			}
 			response.sendRedirect(url);
 			return null;
 		}
-		response.sendRedirect("confirmCreateParticipant?lastName=" + command.getLastName()
-				+"&type=confirm");
+		response.sendRedirect("confirmCreateParticipant?lastName="
+				+ command.getLastName() + "&type=confirm");
 		return null;
 	}
-	private boolean isSubFlow(HttpServletRequest request){
-    	if(request.getParameter("inRegistration")!=null||request.getParameter("studySiteId")!=null)
-    		return true;
-    	return false;
-    }
-    private void processSubFlow(HttpServletRequest request, Map map){
-    	map.put("registrationTab", getRegistrationFlow(request).getTab(2));
-    	map.put("inRegistration", "true");
-    	map.put("actionReturnType", "CreateParticipant");
-    }
-    private Flow getRegistrationFlow(HttpServletRequest request){
-    	return (Flow)request.getSession().getAttribute("registrationFlow");
-    }
+
+	private boolean isSubFlow(HttpServletRequest request) {
+		if (request.getParameter("inRegistration") != null
+				|| request.getParameter("studySiteId") != null)
+			return true;
+		return false;
+	}
+
+	private void processSubFlow(HttpServletRequest request, Map map) {
+		map.put("registrationTab", getRegistrationFlow(request).getTab(2));
+		map.put("inRegistration", "true");
+		map.put("actionReturnType", "CreateParticipant");
+	}
+
+	private Flow getRegistrationFlow(HttpServletRequest request) {
+		return (Flow) request.getSession().getAttribute("registrationFlow");
+	}
 
 	protected void validatePage(Object command, Errors errors, int page,
 			boolean finish) {
