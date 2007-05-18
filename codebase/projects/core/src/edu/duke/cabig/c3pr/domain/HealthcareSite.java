@@ -30,6 +30,7 @@ public class HealthcareSite extends Organization implements Comparable<Healthcar
 	private String nciInstituteCode;	
 	private List<HealthcareSiteInvestigator> healthcareSiteInvestigators
 		= new ArrayList<HealthcareSiteInvestigator>();
+	private List<ResearchStaff> researchStaffCollection = new ArrayList<ResearchStaff>();
 	
 	public void addHealthcareSiteInvestigator(HealthcareSiteInvestigator hcsi)
 	{
@@ -52,6 +53,28 @@ public class HealthcareSite extends Organization implements Comparable<Healthcar
 			List<HealthcareSiteInvestigator> healthcareSiteInvestigators) {
 		this.healthcareSiteInvestigators = healthcareSiteInvestigators;
 	}
+	
+	@OneToMany (mappedBy="healthcareSite", fetch=FetchType.LAZY)
+    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})	
+	public List<ResearchStaff> getResearchStaffCollection() {
+		return researchStaffCollection;
+	}
+
+	public void setResearchStaffCollection(
+			List<ResearchStaff> researchStaffCollection) {
+		this.researchStaffCollection = researchStaffCollection;
+	}	
+	
+	public void addResearchStaff(ResearchStaff rs)
+	{
+		researchStaffCollection.add(rs);
+	}
+	
+	public void removeResearchStaff(ResearchStaff rs)
+	{
+		researchStaffCollection.remove(rs);
+	}
+	
 
 	public String getNciInstituteCode() {
 		return nciInstituteCode;
@@ -89,5 +112,6 @@ public class HealthcareSite extends Organization implements Comparable<Healthcar
 		} else if (!nciInstituteCode.equals(other.nciInstituteCode))
 			return false;
 		return true;
-	}	
-}
+	}
+
+	}
