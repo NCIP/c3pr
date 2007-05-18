@@ -10,6 +10,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Logger;
@@ -119,10 +120,10 @@ public class CreateRegistrationController extends RegistrationController {
 		}
 		if(tabShortTitle.equalsIgnoreCase("Stratify")){
 			handleStratification(request,studyParticipantAssignment);
-			for(SubjectStratificationAnswer subjectStratificationAnswer : studyParticipantAssignment.getSubjectStratificationAnswers()){
+/*			for(SubjectStratificationAnswer subjectStratificationAnswer : studyParticipantAssignment.getSubjectStratificationAnswers()){
 				System.out.println(subjectStratificationAnswer.getStratificationCriterion().getQuestionText()+" : "+subjectStratificationAnswer.getStratificationCriterionAnswer()!=null?subjectStratificationAnswer.getStratificationCriterionAnswer().getPermissibleAnswer():"Unanswered");
 			}
-		}
+*/		}
 		if(tabShortTitle.equalsIgnoreCase("Diseases")){
 			System.out.println("Request Params");
 			Enumeration e=request.getParameterNames();
@@ -271,6 +272,8 @@ public class CreateRegistrationController extends RegistrationController {
 	private void handleStratification(HttpServletRequest request, StudyParticipantAssignment studyParticipantAssignment){
 		for(int i=0 ; i<studyParticipantAssignment.getSubjectStratificationAnswers().size() ; i++){
 			String id=request.getParameter("subjectStratificationAnswers["+i+"].stratificationCriterionAnswer");
+			if(StringUtils.isEmpty(id))
+				return;
 			int tempId=Integer.parseInt(id);
 			for(StratificationCriterionPermissibleAnswer answer : studyParticipantAssignment.getSubjectStratificationAnswers().get(i).getStratificationCriterion().getPermissibleAnswers()){
 				if(answer.getId()==tempId)

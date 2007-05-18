@@ -48,9 +48,18 @@ public class CustomMethodInvocater {
 	 */
 	public Object invoke() throws IllegalAccessException,
 			InvocationTargetException {
-		return m.invoke(target, args); // Use reflection to invoke the method
+		return invoke(args); // Use reflection to invoke the method
 	}
 
+	/**
+	 * Invoke the Command by calling the method on its target, and passing the
+	 * arguments. See also actionPerformed() which does not throw the checked
+	 * exceptions that this method does.
+	 */
+	public Object invoke(Object[] arguments) throws IllegalAccessException,
+			InvocationTargetException {
+		return m.invoke(target, arguments); // Use reflection to invoke the method
+	}
 	/**
 	 * This static method creates a Command using the specified target object,
 	 * and the specified string. The string should contain method name followed
