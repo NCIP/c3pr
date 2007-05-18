@@ -70,7 +70,7 @@ submitPostProcess=function(){
 					<table width="60%" border="0" cellspacing="0" cellpadding="0" id="table1">
 						<tr><td colspan="3">&nbsp;</td></tr>
 						<tr>
-							<td class="label" width="30%"><span class="red">*</span>Disease:</td>
+							<td class="label" width="30%">Primary Disease:</td>
 							<td class="labelL">
 								<form:select id="stuydDiseaseSelect" path="diseaseHistory.studyDisease" onchange="manageField(this)">
 									<option value="">--Please Select--</option>
@@ -93,7 +93,7 @@ submitPostProcess=function(){
 					<table width="60%" border="0" cellspacing="0" cellpadding="0" id="table1">
 						<tr><td colspan="2">&nbsp;</td></tr>
 						<tr>
-							<td class="label" width="60%"><span class="red">*</span>Disease Site:</td>
+							<td class="label" width="60%">Primary Disease Site:</td>
 							<td class="labelL">
 								<input id="diseaseSite-input" type="text" value="${command.diseaseHistory.anatomicSite==null?command.diseaseHistory.otherPrimaryDiseaseSiteCode:command.diseaseHistory.anatomicSite.name }"/>
 								<form:hidden id="diseaseSite-hidden" path="diseaseHistory.anatomicSite"/>

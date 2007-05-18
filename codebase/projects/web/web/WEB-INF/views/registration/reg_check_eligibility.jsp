@@ -65,6 +65,7 @@ function markAsAnswered(id){
 													<form:option value="No" />
 													<c:if test="${criteria.notApplicableIndicator}"><form:option value="NA"/></c:if>
 												</form:select>
+												<input type="hidden" name="subjectEligibilityAnswers[2].answerText" value="ansTextTest">
 											</td>
 										</tr>
 										<c:set var="index" value="${index+1}"/>
