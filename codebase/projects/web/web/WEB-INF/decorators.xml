@@ -17,8 +17,10 @@
         <pattern>/pages/admin/createResearchStaff</pattern>      
     </decorator>
     <decorator name="tabbedflow_edit" page="tabbedflow_edit.jsp">
+      	<pattern>/pages/registration/registrationDetails</pattern>    
+    </decorator>
+    <decorator name="tabbedflow_edit_participant" page="tabbedflow_edit_participant.jsp">
       	<pattern>/pages/participant/editParticipant</pattern>
-   		<pattern>/pages/registration/registrationDetails</pattern>    
     </decorator>
     <decorator name="tabbedflow_edit_study" page="tabbedflow_edit_study.jsp">    
         <pattern>/pages/study/editStudy</pattern>
