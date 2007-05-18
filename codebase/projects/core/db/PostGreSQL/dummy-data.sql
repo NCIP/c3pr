@@ -151,5 +151,33 @@ INSERT INTO study_participant_assignments(version,id,study_participant_identifie
     VALUES (1,1,1,to_date('2003/07/09', 'yyyy/mm/dd'), 'Eligibility Waived', 
             to_date('2003/05/09', 'yyyy/mm/dd'), 
             10001, 10001, true,1,'Dr Baker');
+
+INSERT INTO anatomic_sites(
+            id, name, category, version)
+    VALUES (2,'Peripheral blood','Bone Marrow',1);
+INSERT INTO anatomic_sites(
+            id, name, category, version)
+    VALUES (3,'Brainstem','Central Nervous System',1);
+INSERT INTO anatomic_sites(
+            id, name, category, version)
+    VALUES (4,'CSF','Central Nervous System',1);
+INSERT INTO anatomic_sites(
+            id, name, category, version)
+    VALUES (5,'Cerebellum','Central Nervous System',1);
+INSERT INTO anatomic_sites(
+            id, name, category, version)
+    VALUES (6,'Cerebrum','Central Nervous System',1);
+INSERT INTO anatomic_sites(
+            id, name, category, version)
+    VALUES (7,'Skin','Dermatology',1);
+INSERT INTO anatomic_sites(
+            id, name, category, version)
+    VALUES (8,'bernate ','Gastrointestinal',1);
+INSERT INTO anatomic_sites(
+            id, name, category, version)
+    VALUES (9,'Appendix','Gastrointestinal',1);
+INSERT INTO anatomic_sites(
+            id, name, category, version)
+    VALUES (10,'Colon','Gastrointestinal',1);
             
             
