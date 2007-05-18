@@ -101,6 +101,7 @@ public class ResearchStaff extends Person {
 
 	public void setHealthcareSite(HealthcareSite healthcareSite) {
 		this.healthcareSite = healthcareSite;
+		healthcareSite.addResearchStaff(this);
 	}
 			
 }
