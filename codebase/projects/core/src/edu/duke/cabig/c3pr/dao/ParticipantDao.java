@@ -12,6 +12,7 @@ import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
 
+import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
@@ -105,6 +106,8 @@ public class ParticipantDao extends AbstractBaseDao<Participant> {
 			List<Identifier> identifiers = participant.getIdentifiers();
 			int size = identifiers.size();
 		}
+		List<ContactMechanism> contactMechanisms = participant.getContactMechanisms();
+		contactMechanisms.size();
 
 		return participant;
 
