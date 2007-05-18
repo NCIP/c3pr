@@ -23,6 +23,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
+import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
@@ -56,7 +57,7 @@ public class EditParticipantController extends
 
 	protected void intializeFlows(Flow<Participant> flow) {
 		flow.addTab(new Tab<Participant>("Details", "Details",
-				"participant/participant_edit_details") {
+				"participant/participant") {
 			public Map<String, Object> referenceData() {
 				Map<String, List<Lov>> configMap = configurationProperty
 						.getMap();
@@ -79,45 +80,8 @@ public class EditParticipantController extends
 				return refdata;
 			}
 		});
-		flow.addTab(new Tab<Participant>("Identifiers", "Identifiers",
-				"participant/participant_edit_identifiers") {
-			public Map<String, Object> referenceData() {
-				Map<String, List<Lov>> configMap = configurationProperty
-						.getMap();
-
-				Map<String, Object> refdata = new HashMap<String, Object>();
-
-				refdata.put("administrativeGenderCode", configMap
-						.get("administrativeGenderCode"));
-				refdata
-						.put("ethnicGroupCode", configMap
-								.get("ethnicGroupCode"));
-				refdata.put("raceCode", configMap.get("raceCode"));
-				refdata.put("source", healthcareSiteDao.getAll());
-				refdata.put("searchTypeRefData", configMap
-						.get("participantSearchType"));
-				refdata.put("identifiersTypeRefData", configMap
-						.get("participantIdentifiersType"));
-				;
-
-				return refdata;
-			}
-		});
-		flow.addTab(new Tab<Participant>("Address", "Address",
-				"participant/participant_edit_addresses") {
-			public Map<String, Object> referenceData() {
-				Map<String, List<Lov>> configMap = configurationProperty
-						.getMap();
-
-				Map<String, Object> refdata = new HashMap<String, Object>();
-				refdata.put("searchTypeRefData", configMap
-						.get("participantSearchType"));
-
-				return refdata;
-			}
-		});
-		flow.addTab(new Tab<Participant>("Contact Info", "Contact Info",
-				"participant/participant_edit_contactInfo") {
+		flow.addTab(new Tab<Participant>("Address & ContactInfo",
+				"Address & ContactInfo", "participant/participant_address") {
 			public Map<String, Object> referenceData() {
 				Map<String, List<Lov>> configMap = configurationProperty
 						.getMap();
@@ -151,18 +115,7 @@ public class EditParticipantController extends
 				refdata.put("updateMessageRefData", configMap.get(
 						"editParticipantMessages").get(1));
 				break;
-			case 2:
-				refdata.put("updateMessageRefData", configMap.get(
-						"editParticipantMessages").get(2));
-				break;
-			case 3:
-				refdata.put("updateMessageRefData", configMap.get(
-						"editParticipantMessages").get(3));
-				break;
 			default:
-				refdata.put("updateMessageRefData", configMap.get(
-						"editParticipantMessages").get(4));
-
 			}
 
 		return refdata;
@@ -208,37 +161,48 @@ public class EditParticipantController extends
 	}
 
 	@Override
-	protected void postProcessPage(HttpServletRequest request, Object oCommand,
-			Errors errors, int page) throws Exception {
-		Participant participant = (Participant) oCommand;
+	protected void postProcessPage(HttpServletRequest request, Object Command,
+			Errors errors, int page) {
+		Participant participant = (Participant) Command;
 
-		if (page == 1) {
-			handleIdentifierAction(participant,
-					request.getParameter("_action"), request
-							.getParameter("_selected"));
-		}
+		handleRowAction(participant, page, request.getParameter("_action"),
+				request.getParameter("_selected"));
 
-		if (("update").equals(request.getParameter("_updateaction"))) {
-
-			Iterator<Identifier> iterator = participant.getIdentifiers()
-					.iterator();
-
-			while (iterator.hasNext()) {
-				Identifier identifier = iterator.next();
-				if (identifier.getSource().trim().equals("<enter value>")
-						|| identifier.getType().trim().equals("<enter value>")
-						|| identifier.getValue().equals("<enter value>")) {
-					iterator.remove();
-				}
-			}
-
+		if ("update".equals(request.getParameter("_action"))) {
 			try {
-				log.debug("Updating Participant");
+				log.debug(" -- Updating Subject--");
 				participantDao.save(participant);
 			} catch (RuntimeException e) {
-				log.debug("Unable to update Participant");
+				log.debug("--Error while updating Subject--");
 				e.printStackTrace();
 			}
+		}
+	}
+
+	private void handleRowAction(Participant participant, int page,
+			String action, String selected) {
+		switch (page) {
+		case 0:
+			if ("addIdentifier".equals(action)) {
+				Identifier identifier = new Identifier();
+				participant.addIdentifier(identifier);
+			} else if ("removeIdentifier".equals(action)) {
+
+				participant.getIdentifiers().remove(Integer.parseInt(selected));
+
+				break;
+			}
+		case 1:
+			if ("addContact".equals(action)) {
+				ContactMechanism contactMechanism = new ContactMechanism();
+				participant.addContactMechanism(contactMechanism);
+			} else if ("removeContact".equals(action)) {
+				participant.getContactMechanisms().remove(
+						Integer.parseInt(selected));
+			}
+			break;
+		default:
+			// do Nothing
 
 		}
 	}
@@ -250,21 +214,6 @@ public class EditParticipantController extends
 		ModelAndView modelAndView = new ModelAndView(new RedirectView(
 				"searchparticipant.do"));
 		return modelAndView;
-	}
-
-	private void handleIdentifierAction(Participant participant, String action,
-			String selected) {
-		if ("addIdentifier".equals(action)) {
-			log.debug("Requested Add Identifier");
-			Identifier id = new Identifier();
-			id.setSource("<enter value>");
-			id.setType("<enter value>");
-			id.setValue("<enter value>");
-			participant.addIdentifier(id);
-		} else if ("removeIdentifier".equals(action)) {
-			log.debug("Requested Remove Identifier");
-			participant.getIdentifiers().remove(Integer.parseInt(selected));
-		}
 	}
 
 	public HealthcareSiteDao getHealthcareSiteDao() {
