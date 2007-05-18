@@ -21,6 +21,8 @@
 		<tags:tdNameValue name="Informed Consent Signed Date" value="${studyParticipantAssignment.informedConsentSignedDateStr }" columnAttrName="class='labelR'"/>
 		<tags:tdNameValue name="Informed Consent Version" value="${studyParticipantAssignment.informedConsentVersion }" columnAttrName="class='labelR'"/>		
 		<tags:tdNameValue name="Treating Physician" value="${studyParticipantAssignment.treatingPhysician.healthcareSiteInvestigator.investigator.fullName }" columnAttrName="class='labelR'"/>		
+		<tags:tdNameValue name="Disease" value="${studyParticipantAssignment.diseaseHistory.primaryDiseaseStr }" columnAttrName="class='labelR'"/>		
+		<tags:tdNameValue name="Disease Site" value="${studyParticipantAssignment.diseaseHistory.primaryDiseaseSiteStr }" columnAttrName="class='labelR'"/>
 		<tags:tdNameValue name="Eligibility Indicator" value="${studyParticipantAssignment.eligibilityIndicator }" columnAttrName="class='labelR'"/>		
 		<tr>
 			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"	height="1" class="heightControl"></td>

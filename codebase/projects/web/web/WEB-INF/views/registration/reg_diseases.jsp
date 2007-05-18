@@ -63,50 +63,39 @@ submitPostProcess=function(){
 		<td valign="top">
 		<form:form method="post" action="createRegistration">
 		<tabs:tabFields tab="${tab}" />
-		<table width="100%" border="0" cellspacing="0" cellpadding="0">
-			<tr>
-				<td>
-					<strong>Step 1. Select Disease </strong><br>
-					<table width="60%" border="0" cellspacing="0" cellpadding="0" id="table1">
-						<tr><td colspan="3">&nbsp;</td></tr>
-						<tr>
-							<td class="label" width="30%">Primary Disease:</td>
-							<td class="labelL">
-								<form:select id="stuydDiseaseSelect" path="diseaseHistory.studyDisease" onchange="manageField(this)">
-									<option value="">--Please Select--</option>
-									<form:options items="${command.studySite.study.studyDiseases}" itemLabel="diseaseTerm.term" itemValue="id"/>
-									<option value="">Other</option>
-								</form:select>
-							</td>
-							<td>
-								<div id="studyDiseaseDiv" <c:if test="${empty command.diseaseHistory.otherPrimaryDiseaseCode }">style="display: none;" </c:if>>
-								<form:input id="otherDisease" path="diseaseHistory.otherPrimaryDiseaseCode"/>
-								</div>
-							<td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<strong>Step 2. Select Disease Site</strong><br>
-					<table width="60%" border="0" cellspacing="0" cellpadding="0" id="table1">
-						<tr><td colspan="2">&nbsp;</td></tr>
-						<tr>
-							<td class="label" width="60%">Primary Disease Site:</td>
-							<td class="labelL">
-								<input id="diseaseSite-input" type="text" value="${command.diseaseHistory.anatomicSite==null?command.diseaseHistory.otherPrimaryDiseaseSiteCode:command.diseaseHistory.anatomicSite.name }"/>
-								<form:hidden id="diseaseSite-hidden" path="diseaseHistory.anatomicSite"/>
-								<form:hidden id="otherDiseaseSite-hidden" path="diseaseHistory.otherPrimaryDiseaseSiteCode"/>
-								<input type="button" id="diseaseSite-clear" value="Clear" onclick="$('diseaseSite-hidden').value='';"/>
-								<tags:indicator id="diseaseSite-indicator"/>
-								<div id="diseaseSite-choices" class="autocomplete"></div>
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
+			<strong>Select Disease and Disease Site </strong><br>
+			<table width="60%" border="0" cellspacing="0" cellpadding="0" id="table1">
+				<tr><td colspan="3">&nbsp;</td></tr>
+				<tr>
+					<td class="label" width="30%">Primary Disease:</td>
+					<td class="labelL">
+						<form:select id="stuydDiseaseSelect" path="diseaseHistory.studyDisease" onchange="manageField(this)">
+							<option value="">--Please Select--</option>
+							<form:options items="${command.studySite.study.studyDiseases}" itemLabel="diseaseTerm.term" itemValue="id"/>
+							<option value="">Other</option>
+						</form:select>
+					</td>
+					<td>
+						<div id="studyDiseaseDiv" <c:if test="${empty command.diseaseHistory.otherPrimaryDiseaseCode }">style="display: none;" </c:if>>
+						<form:input id="otherDisease" path="diseaseHistory.otherPrimaryDiseaseCode"/>
+						</div>
+					<td>
+				</tr>
+			</table>
+			<table width="60%" border="0" cellspacing="0" cellpadding="0" id="table1">
+				<tr><td colspan="2">&nbsp;</td></tr>
+				<tr>
+					<td class="label" width="60%">Primary Disease Site:</td>
+					<td class="labelL">
+						<input id="diseaseSite-input" type="text" value="${command.diseaseHistory.anatomicSite==null?command.diseaseHistory.otherPrimaryDiseaseSiteCode:command.diseaseHistory.anatomicSite.name }"/>
+						<form:hidden id="diseaseSite-hidden" path="diseaseHistory.anatomicSite"/>
+						<form:hidden id="otherDiseaseSite-hidden" path="diseaseHistory.otherPrimaryDiseaseSiteCode"/>
+						<input type="button" id="diseaseSite-clear" value="Clear" onclick="$('diseaseSite-hidden').value='';"/>
+						<tags:indicator id="diseaseSite-indicator"/>
+						<div id="diseaseSite-choices" class="autocomplete"></div>
+					</td>
+				</tr>
+			</table>
 		</form:form>
 		</td>
 	</tr>

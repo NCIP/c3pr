@@ -12,14 +12,6 @@
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script type="text/javascript" src="/c3pr/js/CalendarPopup.js"></script>
-<script language="JavaScript" id="js1">
-</script>
-<script>
-function navRollOver(obj, state) {
-  document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
-}
-
-</script>
 </head>
 <body>
 <tabs:division id="enrollment-details">

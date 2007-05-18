@@ -130,8 +130,7 @@ function navRollOver(obj, state) {
 			</table>
 			<table width="70%"><tr><td><p style="border-bottom: 1px dotted #000000;">&nbsp;</p></td></tr></table>
 			<strong>Study Site Information:</strong><br>
-			<table width="100%" border="0" cellspacing="0" cellpadding="0"
-				id="table1">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0"	id="table1">
 				<tr>
 					<td valign="top">
 					<table width="80%" border="0" cellspacing="0" cellpadding="0"
@@ -168,8 +167,7 @@ function navRollOver(obj, state) {
 			<br>
 			<strong>Step 3. Enrollment Information </strong><br>
 			<div class="review">
-			<table width="100%" border="0" cellspacing="0" cellpadding="0"
-				id="table1">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0"	id="table1">
 				<tr>
 					<td width="50%" valign="top">
 					<table width="100%" border="0" cellspacing="0" cellpadding="0"
@@ -223,7 +221,33 @@ function navRollOver(obj, state) {
 			<tabs:tabButtonControls text="edit" target="3"/>
 			<hr align="left" width="95%">					
 			<br>
-			<strong>Step 4. Check Eligibility </strong><br>
+			<strong>Step 4. Disease Information </strong><br>
+			<div class="review">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0"	id="table1">
+				<tr>
+					<td width="50%" valign="top">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0"	id="table1">
+						<tr>
+							<td width="40%" class="labelR">Primary Disease:</td>
+							<td>${command.diseaseHistory.primaryDiseaseStr }</td>
+						</tr>
+					</table>
+					</td>
+					<td width="50%" valign="top">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0"	id="table1">
+						<tr>
+							<td width="40%" class="labelR">Primary Disease Site:</td>
+							<td>${command.diseaseHistory.primaryDiseaseSiteStr }</td>
+						</tr>
+					</table>
+					</td>
+				</tr>
+			</table>
+			</div>
+			<tabs:tabButtonControls text="edit" target="4"/>
+			<hr align="left" width="95%">					
+			<br>
+			<strong>Step 5. Check Eligibility </strong><br>
 			<div class="review">
 			<table width="50%" border="0" cellspacing="0" cellpadding="0" id="table1">
 				<tr>
@@ -246,30 +270,30 @@ function navRollOver(obj, state) {
 			<c:otherwise>
 				<strong>Inclusion Criteria:</strong>
 				<div class="review">
-				<table width="50%" border="0" cellspacing="0" cellpadding="0">
+				<table border="0" cellspacing="0" cellpadding="0" id="mytable">
 					<tr>
-						<td class="label">Question</td>
-						<td><b>Answer</td>
+						<th scope="col" align="left">Question</td>
+						<th scope="col" align="left">Answer</td>
 					</tr>
 					<c:forEach items="${command.inclusionEligibilityAnswers}" var="criteria">
-						<tr>
-							<td width="85%" class="label">${ criteria.eligibilityCriteria.questionText}</td>
-							<td>${criteria.answerText==''?'<span class="red"><b>Unanswered</span>':criteria.answerText }</td>
+						<tr class="results">
+							<td class="alt" align="left">${ criteria.eligibilityCriteria.questionText}</td>
+							<td class="alt" align="left">${criteria.answerText==''?'<span class="red"><b>Unanswered</span>':criteria.answerText }</td>
 						</tr>
 					</c:forEach>
 				</table>
 				</div>
 				<strong>Exclusion Criteria:</strong>
 				<div class="review">
-				<table width="50%" border="0" cellspacing="0" cellpadding="0">
+				<table border="0" cellspacing="0" cellpadding="0" id="mytable">
 					<tr>
-						<td class="label">Question</td>
-						<td><b>Answer</td>
+						<th scope="col" align="left">Question</td>
+						<th scope="col" align="left">Answer</td>
 					</tr>
 					<c:forEach items="${command.exclusionEligibilityAnswers}" var="criteria">
-						<tr>
-							<td width="85%" class="label">${ criteria.eligibilityCriteria.questionText}</td>
-							<td>${criteria.answerText==''?'<span class="red"><b>Unanswered</span>':criteria.answerText }</td>
+						<tr class="results">
+							<td class="alt" align="left">${ criteria.eligibilityCriteria.questionText}</td>
+							<td class="alt" align="left">${criteria.answerText==''?'<span class="red"><b>Unanswered</span>':criteria.answerText }</td>
 						</tr>
 					</c:forEach>
 				</table>
@@ -277,48 +301,36 @@ function navRollOver(obj, state) {
 			</c:otherwise>
 			</c:choose>
 			</div>
-			<tabs:tabButtonControls text="edit" target="4"/>
+			<tabs:tabButtonControls text="edit" target="5"/>
 			<hr align="left" width="95%">
 			<br>
-			<strong>Step 5. Stratification Information </strong><br>
+			<strong>Step 6. Stratification Information </strong><br>
 			<div class="review">
-			<table width="50%" border="0" cellspacing="0" cellpadding="0"
-				id="table1">
+			<c:choose>
+			<c:when test="${fn:length(command.subjectStratificationAnswers) == 0}">
+			<table width="50%" border="0" cellspacing="0" cellpadding="0" id="table1">
 				<tr>
-					<td width="50%" valign="top">
-					<table width="100%" border="0" cellspacing="0" cellpadding="0"
-						id="table1">
-						<tr>
-							<td><img src="<tags:imageUrl name="spacer.gif"/>"
-								width="1" height="1" class="heightControl"></td>
-							<td><img src="<tags:imageUrl name="spacer.gif"/>"
-								width="1" height="1" class="heightControl"></td>
-						</tr>
-						<c:choose>
-						<c:when test="${fn:length(command.subjectStratificationAnswers) == 0}">
-							<tr>
-								<td class="label" align=left>The Selected Study does not have Stratification Factors</td>
-							</tr>
-						</c:when>
-						<c:otherwise>
-							<tr>
-								<td class="label">Strata</td>
-								<td><b>Answer</td>
-							</tr>
-							<c:forEach items="${command.subjectStratificationAnswers}" var="criteria">
-								<tr>
-									<td width="85%" class="label">${criteria.stratificationCriterion.questionText}</td>
-									<td>${criteria.stratificationCriterionAnswer.permissibleAnswer==''?'<span class="red"><b>Unanswered</span>':criteria.stratificationCriterionAnswer.permissibleAnswer }</td>
-								</tr>
-							</c:forEach>
-						</c:otherwise>
-						</c:choose>
-					</table>
-					</td>
+					<td class="label" align=left>The Selected Study does not have Stratification Factors</td>
 				</tr>
 			</table>
+			</c:when>
+			<c:otherwise>
+			<table border="0" cellspacing="0" cellpadding="0" id="mytable">
+				<tr>
+					<th scope="col" align="left">Strata</td>
+					<th scope="col" align="left"><b>Answer</td>
+				</tr>
+				<c:forEach items="${command.subjectStratificationAnswers}" var="criteria">
+					<tr class="results">
+						<td class="alt" align="left">${criteria.stratificationCriterion.questionText}</td>
+						<td class="alt" align="left">${criteria.stratificationCriterionAnswer.permissibleAnswer==''?'<span class="red"><b>Unanswered</span>':criteria.stratificationCriterionAnswer.permissibleAnswer }</td>
+					</tr>
+				</c:forEach>
+			</table>
+			</c:otherwise>
+			</c:choose>
 			</div>
-			<tabs:tabButtonControls text="edit" target="5"/>
+			<tabs:tabButtonControls text="edit" target="6"/>
 		</td>
 	</tr>
 </table>
