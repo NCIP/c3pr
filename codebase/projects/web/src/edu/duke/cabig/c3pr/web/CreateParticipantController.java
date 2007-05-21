@@ -253,7 +253,7 @@ public class CreateParticipantController extends
 		return (Flow) request.getSession().getAttribute("registrationFlow");
 	}
 
-	protected void validatePage(Object command, Errors errors, int page,
+	/*protected void validatePage(Object command, Errors errors, int page,
 			boolean finish) {
 		Participant participant = (Participant) command;
 		switch (page) {
@@ -272,7 +272,7 @@ public class CreateParticipantController extends
 			break;
 
 		}
-	}
+	}*/
 
 	protected List<HealthcareSite> getHealthcareSites() {
 		return healthcareSiteDao.getAll();
