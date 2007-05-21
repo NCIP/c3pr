@@ -23,7 +23,7 @@
 		<td valign="top">
 		<form:form method="post" action="createRegistration">
 		<tabs:tabFields tab="${tab}" />
-		<strong>Randomization Details </strong><br>
+		<strong>Please select an arm  </strong><br>
 		<table width="60%" border="0" cellspacing="0" cellpadding="0" id="table1">
 			<tr><td>&nbsp;</td></tr>
 			<tr>
