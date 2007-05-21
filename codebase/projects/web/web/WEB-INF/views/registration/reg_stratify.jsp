@@ -27,59 +27,44 @@ function markAsAnswered(id){
 <div><tabs:division id="reg-stratification">
 <!-- MAIN BODY STARTS HERE -->
 <div class="workArea">
-
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-	<tr>
-		<td valign="top">
-		<form:form method="post">
-		<tabs:tabFields tab="${tab}" />
-		<table width="100%" border="0" cellspacing="0" cellpadding="0"
-			id="table1">
+<form:form method="post">
+<tabs:tabFields tab="${tab}" />
+<table width="100%" border="0" cellspacing="0" cellpadding="0"
+	id="table1">
+	<c:choose>
+	<c:when test="${fn:length(command.subjectStratificationAnswers) == 0}">
+		<tr>
+			<td class="label" align=left>The Selected Study does not have Stratification Factors</td>
+		</tr>
+	</c:when>
+	<c:otherwise>
+		<tr>
+			<td>&nbsp;</td>
+			<td align="left"><b>Criteria<span class="red">*</span></b></td>
+			<td align="left"><b>Answers</b></td>
+		</tr>
+		<c:forEach var="criteria" varStatus="status" items="${command.subjectStratificationAnswers}">
 			<tr>
-				<td>
-					<tags:panel id="Stratification" title="Stratification">
-						<table width="100%" border="0">
-						<c:choose>
-						<c:when test="${fn:length(command.subjectStratificationAnswers) == 0}">
-							<tr>
-								<td class="label" align=left>The Selected Study does not have Stratification Factors</td>
-							</tr>
-						</c:when>
-						<c:otherwise>
-							<tr>
-								<td>&nbsp;</td>
-								<td align="left"><b>Criteria<span class="red">*</span></b></td>
-								<td align="left"><b>Answers</b></td>
-							</tr>
-							<c:forEach var="criteria" varStatus="status" items="${command.subjectStratificationAnswers}">
-								<tr>
-									<td width="5%">
-										<div id="tick-${status.index }" <c:if test="${criteria.stratificationCriterionAnswer==null||criteria.stratificationCriterionAnswer=='' }">style="display:none;"</c:if>>
-											<img src="<tags:imageUrl name="checkbox.gif"/>" border="0" alt="answered" height="20" width="20">												
-										</div>
-									</td>
-									<td width="80%">
-										${criteria.stratificationCriterion.questionText}
-									</td>
-									<td width="15%">
-										<form:select id="stratificationCriterion[${status.index}].stratificationCriterionAnswer" path="subjectStratificationAnswers[${status.index }].stratificationCriterionAnswer" onchange="markAsAnswered('${status.index }')">
-											<option value="">--Please Select---</option>
-											<form:options items="${criteria.stratificationCriterion.permissibleAnswers}" itemLabel="permissibleAnswer" itemValue="id"/>
-										</form:select>
-									</td>
-								</tr>
-							</c:forEach>
-						</c:otherwise>
-						</c:choose>
-						</table>
-					</tags:panel>
+				<td width="5%">
+					<div id="tick-${status.index }" <c:if test="${criteria.stratificationCriterionAnswer==null||criteria.stratificationCriterionAnswer=='' }">style="display:none;"</c:if>>
+						<img src="<tags:imageUrl name="checkbox.gif"/>" border="0" alt="answered" height="20" width="20">												
+					</div>
+				</td>
+				<td width="80%">
+					${criteria.stratificationCriterion.questionText}
+				</td>
+				<td width="15%">
+					<form:select id="stratificationCriterion[${status.index}].stratificationCriterionAnswer" path="subjectStratificationAnswers[${status.index }].stratificationCriterionAnswer" onchange="markAsAnswered('${status.index }')">
+						<option value="">--Please Select---</option>
+						<form:options items="${criteria.stratificationCriterion.permissibleAnswers}" itemLabel="permissibleAnswer" itemValue="id"/>
+					</form:select>
 				</td>
 			</tr>
-		</table>
-		</form:form>
-		</td>
-	</tr>
+		</c:forEach>
+	</c:otherwise>
+	</c:choose>
 </table>
+</form:form>
 </div>
 </tabs:division>
 </div>
