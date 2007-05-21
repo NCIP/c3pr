@@ -52,7 +52,12 @@
 // --> Highlighting Strategy: this can be activated by setting Error strategy varibale to "highlight"
 //     Defalt color is red. though this can be customized setting the global variable ERROR_HIGHTLIGHT_COLOR
 //
-
+// Callback Hooks:
+// The validation framework provides a callback hook for html pages to post process validations
+// any page that provides and implementation of submitPostProcess(formElement) recieve a call back
+// on the function. If the function return true then the form will be submitted else the submit
+// will be ignored.
+//
 Event.observe(window, "load", function(){
 	$$('form').each(function(formVar){
 									formVar._submit= formVar.submit
