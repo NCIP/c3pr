@@ -95,6 +95,7 @@ public class CreateRegistrationController extends RegistrationController {
 	protected Object formBackingObject(HttpServletRequest request) throws Exception {
 		// TODO Auto-generated method stub
 		StudyParticipantAssignment studyParticipantAssignment=new StudyParticipantAssignment();
+		studyParticipantAssignment.setStudyParticipantIdentifier("SYS_GEN1");
 		studyParticipantAssignment.setStartDate(new Date());
 		studyParticipantAssignment.setEligibilityWaiverReasonText("Type Eligibility Waiver Reason.");
 		removeAlternateDisplayFlow(request);
@@ -116,7 +117,11 @@ public class CreateRegistrationController extends RegistrationController {
 		// TODO Auto-generated method stub
 		StudyParticipantAssignment studyParticipantAssignment=(StudyParticipantAssignment)command;
 		if(isResumeFlow(request)){
-			buildCommandObject(studyParticipantAssignment);
+			if(isNewRegistration(request))
+				buildCommandObject(studyParticipantAssignment);
+			else
+				updateCommandObject(studyParticipantAssignment);
+			checkCollections(studyParticipantAssignment);
 		}
 		if(tabShortTitle.equalsIgnoreCase("Check Eligibility")){
 			
@@ -129,11 +134,15 @@ public class CreateRegistrationController extends RegistrationController {
 			}
 */		}
 		if(tabShortTitle.equalsIgnoreCase("Diseases")){
-			System.out.println("Request Params");
+			if (logger.isDebugEnabled()) {
+				logger.debug("postProcessPage(HttpServletRequest, Object, Errors, String) - Request Params"); //$NON-NLS-1$
+			}
 			Enumeration e=request.getParameterNames();
 			while(e.hasMoreElements()){
 				String param=(String)e.nextElement();
-				System.out.println(param+" : "+request.getParameter(param));
+				if (logger.isDebugEnabled()) {
+					logger.debug("postProcessPage(HttpServletRequest, Object, Errors, String) - " + param + " : " + request.getParameter(param)); //$NON-NLS-1$ //$NON-NLS-2$
+				}
 			}
 			DiseaseHistory dh=studyParticipantAssignment.getDiseaseHistory();
 			if(dh==null)
@@ -155,9 +164,13 @@ public class CreateRegistrationController extends RegistrationController {
 		if(!hasDiseaseHistory(studyParticipantAssignment.getDiseaseHistory())){
 			studyParticipantAssignment.setDiseaseHistory(null);
 		}
-		System.out.println("Calling participant service");
+		if (logger.isDebugEnabled()) {
+			logger.debug("processFinish(HttpServletRequest, HttpServletResponse, Object, BindException) - Calling participant service"); //$NON-NLS-1$
+		}
 		participantService.createRegistration(studyParticipantAssignment);
-		System.out.println("participant service call over");
+		if (logger.isDebugEnabled()) {
+			logger.debug("processFinish(HttpServletRequest, HttpServletResponse, Object, BindException) - participant service call over"); //$NON-NLS-1$
+		}
 		removeAlternateDisplayFlow(request);
 		request.getSession().removeAttribute("registrationFlow");
 		request.setAttribute("command", command);
@@ -209,14 +222,16 @@ public class CreateRegistrationController extends RegistrationController {
 	}
 	private boolean isResumeFlow(HttpServletRequest request){
 		if(request.getParameter("resumeFlow")!=null){
-			String id=request.getParameter("registrationId");
-			if(id!=null){
-				int regId=Integer.parseInt(id);
-				StudyParticipantAssignment command=registrationDao.getById(regId);
-				String formAttrName = getFormSessionAttributeName(request);
-				request.getSession().setAttribute(formAttrName, command);
-				if(request.getSession().getAttribute("registrationFlow")==null)
-					request.getSession().setAttribute("registrationFlow", getFlow());
+			if(!isNewRegistration(request)){
+				String id=request.getParameter("registrationId");
+				if(id!=null){
+					int regId=Integer.parseInt(id);
+					StudyParticipantAssignment command=registrationDao.getById(regId);
+					String formAttrName = getFormSessionAttributeName(request);
+					request.getSession().setAttribute(formAttrName, command);
+					if(request.getSession().getAttribute("registrationFlow")==null)
+						request.getSession().setAttribute("registrationFlow", getFlow());
+				}
 			}
 			return true;
 		}
@@ -242,8 +257,6 @@ public class CreateRegistrationController extends RegistrationController {
 			subjectEligibilityAnswer.setEligibilityCriteria((EligibilityCriteria)criterias.get(i));
 			studyParticipantAssignment.addSubjectEligibilityAnswers(subjectEligibilityAnswer);
 		}
-		studyParticipantAssignment.setStartDate(new Date());
-		studyParticipantAssignment.setStudyParticipantIdentifier("SYS_GEN1");
 		if (logger.isDebugEnabled()) {
 			logger.debug("buildCommandObject(StudyParticipantAssignment studyParticipantAssignment) - studyParticipantAssignment.getParticipant().getPrimaryIdentifier()" + studyParticipantAssignment.getParticipant().getPrimaryIdentifier()); //$NON-NLS-1$
 		}
@@ -254,17 +267,35 @@ public class CreateRegistrationController extends RegistrationController {
 			subjectStratificationAnswer.setStratificationCriterion(stratificationCriterion);
 			studyParticipantAssignment.addSubjectStratificationAnswers(subjectStratificationAnswer);
 		}
+	}
+	
+	private void updateCommandObject(StudyParticipantAssignment studyParticipantAssignment){
+		if(studyParticipantAssignment.getScheduledArms().size()==0){
+			studyParticipantAssignment.addScheduledArm(new ScheduledArm());
+		}
+	}
+	
+	private void checkCollections(StudyParticipantAssignment studyParticipantAssignment){
 		studyParticipantAssignment.getStudySite().getStudy().getStudyDiseases().size();
 		for(Epoch e:studyParticipantAssignment.getStudySite().getStudy().getEpochs()){
 			e.getArms().size();
 		}
-		if(studyParticipantAssignment.getScheduledArms().size()==0){
-			studyParticipantAssignment.addScheduledArm(new ScheduledArm());
-		}
 		studyParticipantAssignment.getParticipant().getStudyParticipantAssignments().size();
 		studyParticipantAssignment.getStudySite().getStudyParticipantAssignments().size();
+		studyParticipantAssignment.getSubjectEligibilityAnswers().size();
+		studyParticipantAssignment.getSubjectStratificationAnswers().size();
+		for(StratificationCriterion stratificationCriterion:studyParticipantAssignment.getStudySite().getStudy().getStratificationCriteria()){
+			stratificationCriterion.getPermissibleAnswers().size();
+		}
+		studyParticipantAssignment.getStudySite().getStudy().getIncCriterias().size();
+		studyParticipantAssignment.getStudySite().getStudy().getExcCriterias().size();
 	}
-	
+	private boolean isNewRegistration(HttpServletRequest request){
+		if(request.getParameter("registrationId")!=null){
+			return false;
+		}
+		return true;
+	}
 	private boolean evaluateEligibilityIndicator(StudyParticipantAssignment studyParticipantAssignment){
 		boolean flag=true;
 		List<SubjectEligibilityAnswer> answers=studyParticipantAssignment.getInclusionEligibilityAnswers();
