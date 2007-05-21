@@ -42,6 +42,17 @@
 //  <[input].... type=.... class=validate-NOTEMPTY&&MINLENGTH7&&EMAIL
 // ------------------------------------------------------------------
 
+// VALIDATION ERROR DISPLAY:
+// This javascript library provides two strategies of indicating validation error on the html page.
+// These strategies can be handled by setting the ERROR_STRATEGY global variable.
+// --> TEXT Strategy: this is the default strategy (ERROR_STRATEGY="text")
+//     For each type of validation there is a default error message which can be overridden
+//     by each html page by setting the global error message variables. e.g setting the ERROR_MSG_REQUIRED global
+//     variable, a page can customize the Required Feild Error Message.
+// --> Highlighting Strategy: this can be activated by setting Error strategy varibale to "highlight"
+//     Defalt color is red. though this can be customized setting the global variable ERROR_HIGHTLIGHT_COLOR
+//
+
 Event.observe(window, "load", function(){
 	$$('form').each(function(formVar){
 									formVar._submit= formVar.submit
