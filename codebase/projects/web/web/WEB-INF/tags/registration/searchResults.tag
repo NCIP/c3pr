@@ -31,10 +31,11 @@ function navRollOver(obj, state) {
 			</c:if>
 			<c:set var="i" value="0" />
 			<c:forEach items="${registrations}" var="registration">
+			<c:set var="localUrl" value="../registration/${registration.registrationStatus=='Incomplete'?'createRegistration':'overview'}?resumeFlow=true&_page=1&_target3=3&registrationId=${registration.id}" />
 				<tr align="center" id="row${i}" class="results"
 					onMouseOver="navRollOver('row${i}', 'on')"
 					onMouseOut="navRollOver('row${i}', 'off')"
-					onClick="document.location='../registration/registrationDetails?registrationId=${registration.id}'">
+					onClick='document.location="${localUrl }"	'>
 					<td width="11">&nbsp;</td>
 					<td>${registration.primaryIdentifier}</td>
 					<td>${registration.studySite.study.trimmedShortTitleText}</td>
@@ -47,6 +48,7 @@ function navRollOver(obj, state) {
 					<td>${registration.treatingPhysician.healthcareSiteInvestigator.investigator.fullName}</td>
 					</a>
 				</tr>
+				<c:set var="i" value="${i+1}"></c:set>
 			</c:forEach>
 		</table>
 		</td>

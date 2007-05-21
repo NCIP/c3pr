@@ -75,7 +75,7 @@ function displayDiv(id,flag){
         </c:otherwise>
     </c:choose>
     <c:set var="rTab" value="${registrationTab}"/>
-    <c:set var="studyParticipantAssignment" value="${studyParticipantAssignments}" scope="request"/>
+    <c:set var="studyParticipantAssignment" value="${command}" scope="request"/>
     <form:form id="flowredirect">
         <input type="hidden" name="_target${rTab.targetNumber}" id="flowredirect-target"/>
         <input type="hidden" name="_page${rTab.number}"/>
@@ -86,6 +86,9 @@ function displayDiv(id,flag){
     rTab.shortTitle : ${rTab.shortTitle }<br>
     rTab.showSummary : ${rTab.showSummary }<br>
     rTab.subFlow : ${rTab.subFlow }<br>
+    rFlow :  ${rFlow}<br>
+    ${currentSection.displayName=='Registration' && rFlow!='false' && rTab.display!='false'}<br>
+    <%= request.getSession().getAttribute("registrationFlow")!=null?"not empty":"empty" %><br>
     --%>
     <c:choose>
         <c:when test="${currentSection.displayName=='Registration' && rFlow!='false' && rTab.display!='false'}">

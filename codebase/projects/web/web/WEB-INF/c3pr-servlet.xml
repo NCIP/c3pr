@@ -159,8 +159,13 @@
 	</bean>
 	<bean name="/registration/confirm"
 		id="confirmRegistrationController"
-		class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+		class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">
 		<property name="viewName" value="/registration/reg_confirm_reg" />
+	</bean>
+	<bean name="/registration/overview"
+		id="overviewRegistrationController"
+		class="edu.duke.cabig.c3pr.web.RegistrationOverviewController" autowire="byName">
+		<property name="viewName" value="registration/reg_submit" />
 	</bean>
 	<bean name="/admin/createInvestigator"
 		id="createInvestigatorController" lazy-init="true"

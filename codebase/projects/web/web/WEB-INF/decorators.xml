@@ -6,6 +6,7 @@
         <pattern>/pages/*</pattern>
         <pattern>/public/*</pattern>
         <pattern>/pages/registration/searchRegistration</pattern>
+        <pattern>/pages/registration/overview</pattern>
     </decorator>
    
     <decorator name="tabbedflow" page="tabbedflow.jsp">

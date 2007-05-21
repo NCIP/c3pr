@@ -99,7 +99,6 @@ public class CreateRegistrationController extends RegistrationController {
 		studyParticipantAssignment.setEligibilityWaiverReasonText("Type Eligibility Waiver Reason.");
 		removeAlternateDisplayFlow(request);
 		request.getSession().setAttribute("registrationFlow", getFlow());
-		request.getSession().setAttribute("studyParticipantAssignments", studyParticipantAssignment);
 		studyParticipantAssignment.setDiseaseHistory(new DiseaseHistory());
 		studyParticipantAssignment.addScheduledArm(new ScheduledArm());
 		return studyParticipantAssignment;
@@ -174,10 +173,10 @@ public class CreateRegistrationController extends RegistrationController {
 			return "Incomplete";
 		}else if(studyParticipantAssignment.getTreatingPhysician()==null){
 			return "Incomplete";
-		}else if(studyParticipantAssignment.getTreatingPhysician().equals("")){
-			return "Incomplete";
 		}else if(studyParticipantAssignment.getScheduledArms().get(studyParticipantAssignment.getScheduledArms().size()-1).getArm()==null){
 			studyParticipantAssignment.getScheduledArms().remove(studyParticipantAssignment.getScheduledArms().size()-1);
+			return "Incomplete";
+		}else if(!evaluateStratificationIndicator(studyParticipantAssignment)){
 			return "Incomplete";
 		}else if(studyParticipantAssignment.getEligibilityIndicator()){
 			List<SubjectEligibilityAnswer> criterias=studyParticipantAssignment.getSubjectEligibilityAnswers();
@@ -195,14 +194,9 @@ public class CreateRegistrationController extends RegistrationController {
 				if (logger.isDebugEnabled()) {
 					logger.debug("evaluateStatus(StudyParticipantAssignment) - ----- answer : " + criterias.get(i).getAnswerText()); //$NON-NLS-1$
 				}
-				if(criterias.get(i).getAnswerText()==null){
-					if(criterias.get(i).getAnswerText().equals("")){
-						return "Incomplete";
-					}
-				}
 			}
-		}else if(!studyParticipantAssignment.getEligibilityIndicator()&&studyParticipantAssignment.getEligibilityWaiverReasonText()!=null){
-			if(studyParticipantAssignment.getEligibilityWaiverReasonText().equals(""))
+		}else if(!studyParticipantAssignment.getEligibilityIndicator()){
+			if(studyParticipantAssignment.getEligibilityWaiverReasonText()==null||studyParticipantAssignment.getEligibilityWaiverReasonText().equals(""))
 			return "Incomplete";
 		}
 		return status;
@@ -214,8 +208,18 @@ public class CreateRegistrationController extends RegistrationController {
 		request.getSession().removeAttribute("registrationAltFlow");
 	}
 	private boolean isResumeFlow(HttpServletRequest request){
-		if(request.getParameter("resumeFlow")!=null)
+		if(request.getParameter("resumeFlow")!=null){
+			String id=request.getParameter("registrationId");
+			if(id!=null){
+				int regId=Integer.parseInt(id);
+				StudyParticipantAssignment command=registrationDao.getById(regId);
+				String formAttrName = getFormSessionAttributeName(request);
+				request.getSession().setAttribute(formAttrName, command);
+				if(request.getSession().getAttribute("registrationFlow")==null)
+					request.getSession().setAttribute("registrationFlow", getFlow());
+			}
 			return true;
+		}
 		return false;
 	}
 	
@@ -254,6 +258,11 @@ public class CreateRegistrationController extends RegistrationController {
 		for(Epoch e:studyParticipantAssignment.getStudySite().getStudy().getEpochs()){
 			e.getArms().size();
 		}
+		if(studyParticipantAssignment.getScheduledArms().size()==0){
+			studyParticipantAssignment.addScheduledArm(new ScheduledArm());
+		}
+		studyParticipantAssignment.getParticipant().getStudyParticipantAssignments().size();
+		studyParticipantAssignment.getStudySite().getStudyParticipantAssignments().size();
 	}
 	
 	private boolean evaluateEligibilityIndicator(StudyParticipantAssignment studyParticipantAssignment){
@@ -277,6 +286,15 @@ public class CreateRegistrationController extends RegistrationController {
 			}
 		}
 		return flag;
+	}
+	private boolean evaluateStratificationIndicator(StudyParticipantAssignment studyParticipantAssignment){
+		List<SubjectStratificationAnswer> answers=studyParticipantAssignment.getSubjectStratificationAnswers();
+		for(SubjectStratificationAnswer subjectStratificationAnswer:answers){
+			if(subjectStratificationAnswer.getStratificationCriterionAnswer()==null){
+				return false;
+			}
+		}
+		return true;
 	}
 	private void handleStratification(HttpServletRequest request, StudyParticipantAssignment studyParticipantAssignment){
 		for(int i=0 ; i<studyParticipantAssignment.getSubjectStratificationAnswers().size() ; i++){
