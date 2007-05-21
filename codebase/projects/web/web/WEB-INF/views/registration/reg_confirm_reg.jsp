@@ -88,8 +88,8 @@ function accessApp(url,app,targetWindow){
 								<td>${command.studySite.site.name}</td>
 							</tr>
 							<tr>
-								<td class="label">Investigator:</td>
-								<td></td>
+								<td class="label">Treating Physician:</td>
+								<td>${command.treatingPhysician.healthcareSiteInvestigator.investigator.fullName}</td>
 							</tr>
 							<tr>
 								<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
@@ -97,12 +97,6 @@ function accessApp(url,app,targetWindow){
 								<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
 									height="1" class="heightControl"></td>
 							</tr>
-							<tr>
-								<td class="label"><a
-									href="registrationDetails?registrationId=${command.id }">Click
-								Here</a> to Assign Arms</td>
-							</tr>
-
 						</table>
 						<br>
 						<hr align="left" width="95%">

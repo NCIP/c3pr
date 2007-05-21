@@ -218,7 +218,9 @@ function navRollOver(obj, state) {
 				</tr>
 			</table>
 			</div>
-			<tabs:tabButtonControls text="edit" target="3"/>
+			<c:if test="${empty editable}">
+				<tabs:tabButtonControls text="edit" target="3"/>
+			</c:if>
 			<hr align="left" width="95%">					
 			<br>
 			<strong>Step 4. Disease Information </strong><br>
@@ -244,7 +246,10 @@ function navRollOver(obj, state) {
 				</tr>
 			</table>
 			</div>
-			<tabs:tabButtonControls text="edit" target="4"/>
+			<c:if test="${empty editable}">
+				<tabs:tabButtonControls text="edit" target="4"/>
+			</c:if>
+
 			<hr align="left" width="95%">					
 			<br>
 			<strong>Step 5. Check Eligibility </strong><br>
@@ -301,7 +306,10 @@ function navRollOver(obj, state) {
 			</c:otherwise>
 			</c:choose>
 			</div>
-			<tabs:tabButtonControls text="edit" target="5"/>
+			<c:if test="${empty editable}">
+				<tabs:tabButtonControls text="edit" target="5"/>
+			</c:if>
+
 			<hr align="left" width="95%">
 			<br>
 			<strong>Step 6. Stratification Information </strong><br>
@@ -330,7 +338,9 @@ function navRollOver(obj, state) {
 			</c:otherwise>
 			</c:choose>
 			</div>
-			<tabs:tabButtonControls text="edit" target="6"/>
+			<c:if test="${empty editable}">
+				<tabs:tabButtonControls text="edit" target="6"/>
+			</c:if>
 		</td>
 	</tr>
 </table>

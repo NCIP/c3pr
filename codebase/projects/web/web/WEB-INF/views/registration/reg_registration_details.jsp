@@ -47,7 +47,7 @@
 						<tr>
 							<td class="label" width="60%"><span class="red">*</span><em></em>Enrolling Physician:</td>
 							<td>
-								<form:select path="treatingPhysician" cssClass="validate-notEmpty">
+								<form:select path="treatingPhysician">
 									<option value="">--Please Select--</options><form:options
 										items="${command.studySite.studyInvestigators}" itemLabel="healthcareSiteInvestigator.investigator.fullName" itemValue="id" />
 								</form:select>
