@@ -15,7 +15,7 @@
 <tabs:tabFields tab="${tab}" />
 <div>
 	<tabs:division id="Summary">
-	<registrationTags:registrationHistory url="../registration/registrationDetails" registrations="${participantAssignments}"/>
+	<registrationTags:searchResults registrations="${participantAssignments }" />
 	</tabs:division>
 </div>
 </form:form>
