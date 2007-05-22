@@ -30,7 +30,7 @@ public class HealthcareSite extends Organization implements Comparable<Healthcar
 	private String nciInstituteCode;	
 	private List<HealthcareSiteInvestigator> healthcareSiteInvestigators
 		= new ArrayList<HealthcareSiteInvestigator>();
-	private List<ResearchStaff> researchStaffCollection = new ArrayList<ResearchStaff>();
+	private List<ResearchStaff> researchStaffs = new ArrayList<ResearchStaff>();
 	
 	public void addHealthcareSiteInvestigator(HealthcareSiteInvestigator hcsi)
 	{
@@ -57,22 +57,22 @@ public class HealthcareSite extends Organization implements Comparable<Healthcar
 	@OneToMany (mappedBy="healthcareSite", fetch=FetchType.LAZY)
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})	
 	public List<ResearchStaff> getResearchStaffCollection() {
-		return researchStaffCollection;
+		return researchStaffs;
 	}
 
 	public void setResearchStaffCollection(
 			List<ResearchStaff> researchStaffCollection) {
-		this.researchStaffCollection = researchStaffCollection;
+		this.researchStaffs = researchStaffCollection;
 	}	
 	
 	public void addResearchStaff(ResearchStaff rs)
 	{
-		researchStaffCollection.add(rs);
+		researchStaffs.add(rs);
 	}
 	
 	public void removeResearchStaff(ResearchStaff rs)
 	{
-		researchStaffCollection.remove(rs);
+		researchStaffs.remove(rs);
 	}
 	
 
