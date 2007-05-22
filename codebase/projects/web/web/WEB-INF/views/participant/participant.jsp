@@ -55,11 +55,11 @@ function fireAction(action, selected){
 								<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
 								<!-- RIGHT CONTENT STARTS HERE -->
 
-								<table width="60%" border="0" cellspacing="0" cellpadding="0"
+								<table width="80%" border="0" cellspacing="0" cellpadding="0"
 									id="details">
 									<tr>
-										<td width="30%" valign="top">
-										<table width="100%" border="0" cellspacing="0" cellpadding="0"
+										<td width="40%" valign="top">
+										<table width="100%" border="0" cellspacing="1" cellpadding="1"
 											id="table1">
 											<tr>
 												<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
@@ -93,8 +93,8 @@ function fireAction(action, selected){
 											</tr>
 										</table>
 										</td>
-										<td width="30%" valign="top">
-										<table width="100%" border="0" cellspacing="0" cellpadding="0"
+										<td width="40%" valign="top">
+										<table width="100%" border="0" cellspacing="1" cellpadding="1"
 											id="table1">
 											<tr>
 												<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
