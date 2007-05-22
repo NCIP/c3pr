@@ -50,7 +50,7 @@ function fireAction(action, selected){
 					</tr>
 					<tr>
 						<td class="label" align="right"><b> <span class="red">*</span><em></em>Site:&nbsp;</b></td>
-						<td><form:select path="healthcareSite" id="selectedHealthcareSite">
+						<td><form:select path="healthcareSite" id="selectedHealthcareSite" cssClass="validate-notEmpty">
 							<option value="">--Please Select--</option>
 							<form:options items="${healthcareSites}" itemLabel="name"
 								itemValue="id" />
