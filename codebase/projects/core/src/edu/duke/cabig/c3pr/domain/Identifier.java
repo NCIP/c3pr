@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -25,6 +26,15 @@ public class Identifier extends AbstractDomainObject
 	private String value;
 	private Boolean primaryIndicator = false;
 				
+	/**
+     * Null-safe conversion from primaryIndicator property to simple boolean.
+     * TODO: switch the db field to not-null, default false so this isn't necessary.
+     */
+    @Transient
+    public boolean isPrimary() {
+        return getPrimaryIndicator() == null ? false : getPrimaryIndicator();
+    }
+    
 	public String getSource() {
 		return source;
 	}
