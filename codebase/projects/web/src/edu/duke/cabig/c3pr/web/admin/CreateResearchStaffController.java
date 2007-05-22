@@ -9,6 +9,7 @@ import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AbstractTabbedFlowFormController;
@@ -17,6 +18,7 @@ import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Tab;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -73,8 +75,8 @@ public class CreateResearchStaffController extends
 	protected void initBinder(HttpServletRequest request,
 			ServletRequestDataBinder binder) throws Exception {
 		super.initBinder(request, binder);
-		binder.registerCustomEditor(healthcareSiteDao.domainClass(), new CustomDaoEditor(
-				healthcareSiteDao));
+		binder.registerCustomEditor(healthcareSiteDao.domainClass(),
+				new CustomDaoEditor(healthcareSiteDao));
 
 	}
 
@@ -89,10 +91,22 @@ public class CreateResearchStaffController extends
 			throws ServletException {
 
 		ResearchStaff researchStaff = new ResearchStaff();
-		ContactMechanism contactMechanism = new ContactMechanism();
-		researchStaff.addContactMechanism(contactMechanism);
+		researchStaff = CreateResearchStaffWithContacts(researchStaff);
 		
 		return researchStaff;
+	}
+	private ResearchStaff CreateResearchStaffWithContacts(ResearchStaff rs) {
+
+		ContactMechanism contactMechanismEmail = new ContactMechanism();
+		ContactMechanism contactMechanismPhone = new ContactMechanism();
+		ContactMechanism contactMechanismFax = new ContactMechanism();
+		contactMechanismEmail.setType("Email");
+		contactMechanismPhone.setType("Phone");
+		contactMechanismFax.setType("Fax");
+		rs.addContactMechanism(contactMechanismEmail);
+		rs.addContactMechanism(contactMechanismPhone);
+		rs.addContactMechanism(contactMechanismFax);
+		return rs;
 	}
 
 	/*
@@ -109,6 +123,16 @@ public class CreateResearchStaffController extends
 			throws Exception {
 
 		ResearchStaff researchStaff = (ResearchStaff) command;
+
+		Iterator<ContactMechanism> cMIterator = researchStaff.getContactMechanisms()
+				.iterator();
+		StringUtils strUtil = new StringUtils();
+		while (cMIterator.hasNext()) {
+			ContactMechanism contactMechanism = cMIterator.next();
+			if (strUtil.isBlank(contactMechanism.getValue()))
+				cMIterator.remove();
+		}
+
 		researchStaffDao.save(researchStaff);
 
 		response.sendRedirect("viewResearchStaff?fullName="
@@ -130,15 +154,13 @@ public class CreateResearchStaffController extends
 			// do nothing
 		}
 	}
-	
-	private void handleRowAction(ResearchStaff researchStaff,
-			String action, String selected) {
-		 if ("addContact".equals(action)
-				) {
+
+	private void handleRowAction(ResearchStaff researchStaff, String action,
+			String selected) {
+		if ("addContact".equals(action)) {
 			ContactMechanism contactMechanism = new ContactMechanism();
 			researchStaff.addContactMechanism(contactMechanism);
-		}else if ("removeContact".equals(action))
-				 {
+		} else if ("removeContact".equals(action)) {
 			researchStaff.getContactMechanisms().remove(
 					Integer.parseInt(selected));
 		}
