@@ -24,6 +24,16 @@ public abstract class Person extends AbstractGridIdentifiableDomainObject
 	private Address address;  
 	protected List<ContactMechanism> contactMechanisms = new ArrayList<ContactMechanism>();
 	
+	public void addContactMechanism(ContactMechanism contactMechanism)
+	{
+		contactMechanisms.add(contactMechanism);
+	}
+	
+	public void removeContactMechanism(ContactMechanism contactMechanism)
+	{
+		contactMechanisms.remove(contactMechanism);
+	}
+	
 	public String getFirstName() {
 		return firstName;
 	}
@@ -55,19 +65,11 @@ public abstract class Person extends AbstractGridIdentifiableDomainObject
 	{
 		this.contactMechanisms = contactMechanisms;
 	}
+	
 	@Transient
 	public List<ContactMechanism> getContactMechanisms()
 	{
 		return contactMechanisms;
-	}
-	
-	public void addContactMechanism(ContactMechanism contactMechanism)
-	{
-		contactMechanisms.add(contactMechanism);
-	}
-	public void removeContactMechanism(ContactMechanism contactMechanism)
-	{
-		contactMechanisms.remove(contactMechanism);
 	}
 	
 }
