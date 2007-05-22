@@ -64,7 +64,7 @@ function fireAction(action, selected){
 											<tr>
 												<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
 													height="1" class="heightControl"></td>
-												<td width="65%"><img
+												<td width="75%"><img
 													src="<tags:imageUrl name="spacer.gif"/>" width="1"
 													height="1" class="heightControl"></td>
 											</tr>
