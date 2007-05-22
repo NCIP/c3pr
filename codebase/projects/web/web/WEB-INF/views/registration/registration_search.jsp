@@ -239,7 +239,7 @@ function manageSearchTypeMessage(message){
 					</table></td>
 			</tr>
 		</table>
-		<registrationTags:searchResults />
+		<registrationTags:searchResults registrations="${registrations }" />
 
 		<!-- MAIN BODY ENDS HERE -->
 		</tabs:division>
