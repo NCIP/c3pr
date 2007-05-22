@@ -42,64 +42,46 @@ function fireAction(action, selected){
 						<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
 						<!-- RIGHT CONTENT STARTS HERE -->
 						<td>
-						<table width="700" border="0" cellspacing="0" cellpadding="0"
+						<table width="80%" border="0" cellspacing="1" cellpadding="1"
 							id="table1">
 							<tr>
-								<td width="150" align="right"><span class="red">*</span><em></em>
-								<b>Street Address:</b>&nbsp;</td>
+								<td width="150" align="right"><em></em> <b>Street Address:</b>&nbsp;</td>
 								<td width align="left"><form:input size="58"
-									path="address.streetAddress" />&nbsp;&nbsp;&nbsp;<span
-									class="red"><em></em></span></td>
+									path="address.streetAddress" />&nbsp;&nbsp;&nbsp;</td>
 							</tr>
 							<tr>
-								<td width="150" align="right"><span class="red">*</span><em></em>
-								<b>City:</b>&nbsp;</td>
-								<td align="left"><form:input path="address.city" />&nbsp;&nbsp;&nbsp;<span
-									class="red"><em></em></span></td>
+								<td width="150" align="right"><em></em> <b>City:</b>&nbsp;</td>
+								<td align="left"><form:input path="address.city" />&nbsp;&nbsp;&nbsp;</td>
 							</tr>
 							<tr>
-								<td width="150" align="right"><span class="data"><span
-									class="red">*</span><em></em> <b>State:</b>&nbsp;</span></td>
-								<td align="left"><form:input path="address.stateCode" />&nbsp;&nbsp;&nbsp;<span
-									class="red"><em></em></span>&nbsp;&nbsp; <b>Zip:</b>&nbsp;<form:input
-									path="address.postalCode" /></td>
+								<td width="150" align="right"><span class="data"><em></em> <b>State:</b>&nbsp;</span></td>
+								<td align="left"><form:input path="address.stateCode" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								<b>Zip:</b>&nbsp;<form:input path="address.postalCode" /></td>
 							</tr>
 							<tr>
 								<td width="150" align="right"><em></em><em></em> <b>Country:</b>&nbsp;</td>
-								<td align="left"><form:input path="address.countryCode" />&nbsp;&nbsp;&nbsp;<span
-									class="red"><form:errors path="address.countryCode" /><em></em></span></td>
+								<td align="left"><form:input path="address.countryCode" />&nbsp;&nbsp;&nbsp;</td>
 							</tr>
 						</table>
-						<table border="0" width="60%" cellspacing="0" cellpadding="0">
+						<hr align="left" width="95%">
+						<table border="0" width="60%" cellspacing="1" cellpadding="1">
 							<tr>
-								<td>
-								<p id="instructions">Add Contacts for the Participant <a
-									href="javascript:fireAction('addContact','0');"><img
-									src="<tags:imageUrl name="checkyes.gif"/>" border="0"
-									alt="Add another Contact"></a><br>
+
+								<p id="instructions">Enter Contact Information for the Subject <br>
 								</p>
-								<table id="mytable" width="40%" border="0" cellspacing="0"
-									cellpadding="0">
-									<tr>
-										<th class="alt" scope="col" align="left"><b>Contact Type<span
-											class="red">*</span></b></th>
-										<th scope="col" align="left"><b>Contact Value<span class="red">*</span></b></th>
-									</tr>
-									<c:forEach items="${command.contactMechanisms}"
-										varStatus="status">
-										<tr>
-											<td class="alt"><form:input
-												path="contactMechanisms[${status.index}].type" /></td>
-											<td class="alt"><form:input
-												path="contactMechanisms[${status.index}].value" /></td>
-											<td class="tdalt"><a
-												href="javascript:fireAction('removeContact',${status.index});"><img
-												src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
-										</tr>
-									</c:forEach>
-								</table>
-								</td>
+							<tr>
+								<td width="150" align="right"><em></em><em></em> <b>${command.contactMechanisms[0].type }:</b>&nbsp;</td>
+								<td align="left"><form:input path="contactMechanisms[0].value" />&nbsp;&nbsp;&nbsp;</td>
 							</tr>
+							<tr>
+								<td width="150" align="right"><em></em><em></em> <b>${command.contactMechanisms[1].type }:</b>&nbsp;</td>
+								<td align="left"><form:input path="contactMechanisms[1].value" />&nbsp;&nbsp;&nbsp;</td>
+							</tr>
+							<tr>
+								<td width="150" align="right"><em></em><em></em> <b>${command.contactMechanisms[2].type }:</b>&nbsp;</td>
+								<td align="left"><form:input path="contactMechanisms[2].value" />&nbsp;&nbsp;&nbsp;</td>
+							</tr>
+
 						</table>
 						</td>
 						<!-- LEFT CONTENT ENDS HERE -->
