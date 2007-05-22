@@ -6,6 +6,7 @@
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
 <%@ taglib prefix="participantTags" tagdir="/WEB-INF/tags/participant"%>
+<%@ taglib prefix="registrationTags" tagdir="/WEB-INF/tags/registration"%>
 <%@ taglib prefix="layout" tagdir="/WEB-INF/tags/layout"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -44,7 +45,7 @@
 			</td>
 		</tr>
 		<tr>
-			<participantTags:registrationHistory />
+			<registrationTags:searchResults registrations="${command.studyParticipantAssignments }" />
 		</tr>
 	</table>
 	</div>
