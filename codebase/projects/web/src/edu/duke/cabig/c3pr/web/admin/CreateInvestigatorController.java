@@ -13,6 +13,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AbstractTabbedFlowFormController;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
@@ -20,6 +21,7 @@ import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Tab;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -110,6 +112,16 @@ public class CreateInvestigatorController extends
 			throws Exception {
 
 		Investigator inv = (Investigator) command;
+
+		Iterator<ContactMechanism> cMIterator = inv.getContactMechanisms()
+				.iterator();
+		StringUtils strUtil = new StringUtils();
+		while (cMIterator.hasNext()) {
+			ContactMechanism contactMechanism = cMIterator.next();
+			if (strUtil.isBlank(contactMechanism.getValue()))
+				cMIterator.remove();
+		}
+
 		investigatorDao.save(inv);
 
 		response.sendRedirect("viewInvestigator?fullName=" + inv.getFullName()
@@ -132,8 +144,8 @@ public class CreateInvestigatorController extends
 		}
 	}
 
-	private void handleRowAction(Investigator investigator,
-			String action, String selected) {
+	private void handleRowAction(Investigator investigator, String action,
+			String selected) {
 		if ("addSite".equals(action)) {
 			HealthcareSiteInvestigator healthcareSiteInvestigator = new HealthcareSiteInvestigator();
 			investigator
@@ -143,12 +155,10 @@ public class CreateInvestigatorController extends
 
 			investigator.getHealthcareSiteInvestigators().remove(
 					Integer.parseInt(selected));
-		}else if ("addContact".equals(action)
-				) {
+		} else if ("addContact".equals(action)) {
 			ContactMechanism contactMechanism = new ContactMechanism();
 			investigator.addContactMechanism(contactMechanism);
-		}else if ("removeContact".equals(action))
-				 {
+		} else if ("removeContact".equals(action)) {
 			investigator.getContactMechanisms().remove(
 					Integer.parseInt(selected));
 		}
@@ -158,11 +168,25 @@ public class CreateInvestigatorController extends
 	private Investigator createInvestigatorWithDesign() {
 
 		Investigator investigator = new Investigator();
-		ContactMechanism contactMechanism = new ContactMechanism();
-		investigator.addContactMechanism(contactMechanism);
 		HealthcareSiteInvestigator healthcareSiteInvestigator = new HealthcareSiteInvestigator();
 		investigator.addHealthcareSiteInvestigator(healthcareSiteInvestigator);
+		investigator = CreateInvestigatorWithContacts(investigator);
+
 		return investigator;
+	}
+
+	private Investigator CreateInvestigatorWithContacts(Investigator inv) {
+
+		ContactMechanism contactMechanismEmail = new ContactMechanism();
+		ContactMechanism contactMechanismPhone = new ContactMechanism();
+		ContactMechanism contactMechanismFax = new ContactMechanism();
+		contactMechanismEmail.setType("Email");
+		contactMechanismPhone.setType("Phone");
+		contactMechanismFax.setType("Fax");
+		inv.addContactMechanism(contactMechanismEmail);
+		inv.addContactMechanism(contactMechanismPhone);
+		inv.addContactMechanism(contactMechanismFax);
+		return inv;
 	}
 
 	public HealthcareSiteDao getHealthcareSiteDao() {
