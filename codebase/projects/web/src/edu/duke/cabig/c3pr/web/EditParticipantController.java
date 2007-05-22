@@ -29,6 +29,7 @@ import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AbstractTabbedFlowFormController;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
@@ -89,6 +90,8 @@ public class EditParticipantController extends
 				Map<String, Object> refdata = new HashMap<String, Object>();
 				refdata.put("searchTypeRefData", configMap
 						.get("participantSearchType"));
+				refdata.put("contactMechanismType", configMap
+						.get("contactMechanismType"));
 
 				return refdata;
 			}
@@ -146,6 +149,34 @@ public class EditParticipantController extends
 			temp.setValue("<enter value>");
 			temp.setPrimaryIndicator(false);
 			participant.addIdentifier(temp);
+		}
+		boolean contactMechanismEmailPresent = false, contactMechanismPhonePresent = false, contactMechanismFaxPresent = false;
+		for (ContactMechanism contactMechanism : participant
+				.getContactMechanisms()) {
+			if (contactMechanism.getType().equals("Email"))
+				contactMechanismEmailPresent = true;
+
+			if (contactMechanism.getType().equals("Phone"))
+				contactMechanismPhonePresent = true;
+
+			if (contactMechanism.getType().equals("Fax"))
+				contactMechanismFaxPresent = true;
+
+		}
+		if (!contactMechanismEmailPresent) {
+			ContactMechanism contactMechanismEmail = new ContactMechanism();
+			contactMechanismEmail.setType("Email");
+			participant.getContactMechanisms().add(0, contactMechanismEmail);
+		}
+		if (!contactMechanismPhonePresent) {
+			ContactMechanism contactMechanismPhone = new ContactMechanism();
+			contactMechanismPhone.setType("Phone");
+			participant.getContactMechanisms().add(1, contactMechanismPhone);
+		}
+		if (!contactMechanismFaxPresent) {
+			ContactMechanism contactMechanismFax = new ContactMechanism();
+			contactMechanismFax.setType("Fax");
+			participant.getContactMechanisms().add(2, contactMechanismFax);
 		}
 
 		return participant;
@@ -211,6 +242,15 @@ public class EditParticipantController extends
 	protected ModelAndView processFinish(HttpServletRequest request,
 			HttpServletResponse response, Object oCommand, BindException errors)
 			throws Exception {
+		Participant participant = (Participant) oCommand;
+		Iterator<ContactMechanism> cMIterator = participant.getContactMechanisms().iterator();
+		StringUtils strUtil = new StringUtils();
+		while (cMIterator.hasNext()) {
+			ContactMechanism contactMechanism = cMIterator.next();
+			if (strUtil.isBlank(contactMechanism.getValue()))
+				cMIterator.remove();
+			}
+		participantDao.save(participant);
 		ModelAndView modelAndView = new ModelAndView(new RedirectView(
 				"searchparticipant.do"));
 		return modelAndView;

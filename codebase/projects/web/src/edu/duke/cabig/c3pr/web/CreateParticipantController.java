@@ -1,11 +1,13 @@
 package edu.duke.cabig.c3pr.web;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -83,9 +85,21 @@ public class CreateParticipantController extends
 			}
 		});
 		flow.addTab(new Tab<Participant>("Address & Contact Info",
-				"Address & ContactInfo", "participant/participant_address"));
+				"Address & ContactInfo", "participant/participant_address") {
+			public Map<String, Object> referenceData() {
+				Map<String, List<Lov>> configMap = configurationProperty
+						.getMap();
+
+				Map<String, Object> refdata = new HashMap<String, Object>();
+				refdata.put("contactMechanismType", configMap
+						.get("contactMechanismType"));
+
+				return refdata;
+			}
+		});
 		flow.addTab(new Tab<Participant>("Review and Submit ",
 				"Review and Submit ", "participant/participant_submit"));
+
 		setFlow(flow);
 	}
 
@@ -149,7 +163,22 @@ public class CreateParticipantController extends
 			temp.setPrimaryIndicator(false);
 			participant.addIdentifier(temp);
 		}
+		participant = CreateParticipantWithContacts(participant);
 		participant.setAddress(new Address());
+		return participant;
+	}
+	
+	private Participant CreateParticipantWithContacts(Participant participant) {
+
+		ContactMechanism contactMechanismEmail = new ContactMechanism();
+		ContactMechanism contactMechanismPhone = new ContactMechanism();
+		ContactMechanism contactMechanismFax = new ContactMechanism();
+		contactMechanismEmail.setType("Email");
+		contactMechanismPhone.setType("Phone");
+		contactMechanismFax.setType("Fax");
+		participant.addContactMechanism(contactMechanismEmail);
+		participant.addContactMechanism(contactMechanismPhone);
+		participant.addContactMechanism(contactMechanismFax);
 		return participant;
 	}
 
@@ -167,6 +196,7 @@ public class CreateParticipantController extends
 
 		handleRowAction(participant, page, request.getParameter("_action"),
 				request.getParameter("_selected"));
+
 	}
 
 	private void handleRowAction(Participant participant, int page,
@@ -212,7 +242,15 @@ public class CreateParticipantController extends
 				iterator.remove();
 			}
 		}
-
+		
+		Iterator<ContactMechanism> cMIterator = command.getContactMechanisms().iterator();
+		StringUtils strUtil = new StringUtils();
+		while (cMIterator.hasNext()) {
+			ContactMechanism contactMechanism = cMIterator.next();
+			if (strUtil.isBlank(contactMechanism.getValue()))
+				cMIterator.remove();
+			}
+						
 		participantDao.save(command);
 
 		ModelAndView modelAndView = null;
@@ -253,26 +291,15 @@ public class CreateParticipantController extends
 		return (Flow) request.getSession().getAttribute("registrationFlow");
 	}
 
-	/*protected void validatePage(Object command, Errors errors, int page,
-			boolean finish) {
-		Participant participant = (Participant) command;
-		switch (page) {
-		case 0: {
-			participantValidator
-					.validateParticipantDetails(participant, errors);
-			// participantValidator.validateIdentifiers(participant, errors);
-		}
-			break;
-		case 1:
-			participantValidator
-					.validateParticipantAddress(participant, errors);
-			break;
-		case 2:
-			//
-			break;
-
-		}
-	}*/
+	/*
+	 * protected void validatePage(Object command, Errors errors, int page,
+	 * boolean finish) { Participant participant = (Participant) command; switch
+	 * (page) { case 0: { participantValidator
+	 * .validateParticipantDetails(participant, errors); //
+	 * participantValidator.validateIdentifiers(participant, errors); } break;
+	 * case 1: participantValidator .validateParticipantAddress(participant,
+	 * errors); break; case 2: // break; } }
+	 */
 
 	protected List<HealthcareSite> getHealthcareSites() {
 		return healthcareSiteDao.getAll();
