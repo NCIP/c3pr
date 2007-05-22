@@ -1,6 +1,6 @@
-<%@taglib uri="http://www.opensymphony.com/sitemesh/decorator"
+<%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator"
 	prefix="decorator"%>
-<%@taglib prefix="tags" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -9,188 +9,140 @@
 
 <html>
 <head>
-<script>
-function navRollOver(obj, state) {
-  document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
+<style type="text/css">
+        .labelR { width: 12em; text-align: right; padding: 4px; }
+</style>
+<style type="text/css">
+        .label { width: 12em; text-align: left; padding: 4px; }
+</style>
+<script language="JavaScript" type="text/JavaScript">
+
+function updateTargetPage(target){
+	document.studyDesignForm._target0.value=s;
+	document.studyDesignForm.submit();
 }
-function getPage(s){
-	parent.window.location="reg_patient_search.htm";
-}
-function add(){
-var action = confirm ("You have not completed adding this protocol.\r\rStarting over will lose current protocol data?")
-if (action){
-	parent.window.location="reg_enroll_patient.htm";
-}}
-function addPatient(){
-var action = confirm ("Are you sure you want to create this participant?")
-if (action){
-	alert("Subject successfully created.");
-	parent.window.location="participant_details.htm";
-}}
+
 </script>
 </head>
 <body>
 <form:form method="post">
-<input type="hidden" name="_finish" value="true"/>		
-<div><tabs:division id="subject-review-submit">
+	<input type="hidden" name="_finish" value="true" />
+	<div><tabs:division id="subject-summary">
+		<!-- MAIN BODY STARTS HERE -->
+		<table width="100%" border="0" cellspacing="0" cellpadding="0">
+			<tr>
+				<td valign="top"><strong>Details </strong> <br>
+				<div class="review">
+				<table width="50%" border="0" cellspacing="0" cellpadding="0"
+					id="mytable">
+					<tr>
+						<td width="20%" class="labelR"><b>First Name:<b></td>
+						<td>${command.firstName}</td>
+					</tr>
+					<tr>
+						<td width="20%" class="labelR"><b>Last Name:<b></td>
+						<td>${command.lastName}</td>
+					</tr>
+					<tr>
+						<td width="20%" class="labelR"><b>Gender:</b></td>
+						<td>${command.administrativeGenderCode}</td>
+					</tr>
+					<tr>
+						<td width="20%" class="labelR"><b>Birth Date:</b></td>
+						<td>${command.birthDateStr}</td>
+					</tr>
+					<tr>
+						<td width="20%" class="labelR"><b>Ethnicity:<b></td>
+						<td>${command.ethnicGroupCode}</td>
+					</tr>
+					<tr>
+						<td width="20%" class="labelR"><b>Race(s):<b></td>
+						<td>${command.raceCode}</td>
+					</tr>
+				</table>
+				</div>
+				<br>
+				<tabs:tabButtonControls text="edit" target="0"/>
+				<hr>
+				<strong>Address</strong> <br>
+				<br>
+				<div class="review">
 
+				<table order="0" cellspacing="0" cellpadding="0" id="mytable">
+					<tr>
+						<td width="20%" class="labelR"><b>Street Address:<b></td>
+						<td>${command.address.streetAddress}</td>
+					</tr>
+					<tr>
+						<td width="20%" class="labelR"><b>City:<b></td>
+						<td>${command.address.city}</td>
+					</tr>
+					<tr>
+						<td width="20%" class="labelR"><b>State:</b></td>
+						<td>${command.address.stateCode}</td>
+					</tr>
+					<tr>
+						<td width="20%" class="labelR"><b>Country:</b></td>
+						<td>${command.address.countryCode}</td>
+					</tr>
+					<tr>
+						<td width="20%" class="labelR"><b>Zip:<b></td>
+						<td>${command.address.postalCode}</td>
+					</tr>
+				</table>
+				</div>
 
-			<table width="100%" border="0" cellpadding="0" cellspacing="0">
-				<tr>
-					<td>
-					<table width="100%" border="0" cellspacing="0" cellpadding="0">
+				<br>
+				<tabs:tabButtonControls text="edit" target="1"/>
+				<hr>
+				<strong>Contact Information</strong> <br>
+				<br>
+				<div class="review">
 
-						<tr>
-
-							<td><!-- TABS LEFT START HERE -->
-							<table width="100%" border="0" cellpadding="0" cellspacing="0">
-								<tr>
-
-									<!-- LEFT CONTENT STARTS HERE -->
-									<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
-									<!-- RIGHT CONTENT STARTS HERE --> <form:form method="post"
-										action="createParticipant">
-										<div><input type="hidden" name="_page" value="1"></div>
-										<strong>Details </strong>
-										<br>
-										<table width="50%" border="0" cellspacing="0" cellpadding="0"
-											id="details">
-											<tr>
-												<td width="50%" valign="top">
-												<table width="100%" border="0" cellspacing="0"
-													cellpadding="0" id="table1">
-													<tr>
-														<td><img src="<tags:imageUrl name="spacer.gif"/>"
-															width="1" height="1" class="heightControl"></td>
-														<td><img src="<tags:imageUrl name="spacer.gif"/>"
-															width="1" height="1" class="heightControl"></td>
-													</tr>
-													<tr>
-														<td width="50%" align="right"><em></em><b>First Name:</b>&nbsp;</td>
-														<td align="left">${command.firstName}</td>
-													</tr>
-													<tr>
-														<td width="50%" align="right"><em></em><b>Last Name:</b>&nbsp;</td>
-														<td align="left">${command.lastName}</td>
-													</tr>
-													<tr>
-														<td width="50%" align="right" ><em></em><b>Gender:</b>&nbsp; </td>
-														<td align="left">${command.administrativeGenderCode}</td>
-													</tr>
-													<tr>
-														<td width="50%" align="right"><em></em><b>Subject MRN:</b>&nbsp;</td>
-														<td align="left">${command.primaryIdentifier }</td>
-													</tr>
-												</table>
-												</td>
-												<td width="50%" valign="top" class="contentAreaR"><strong><strong><strong></strong></strong></strong>
-												<table width="100%" border="0" cellspacing="0"
-													cellpadding="0" id="table1">
-													<tr>
-														<td><img src="<tags:imageUrl name="spacer.gif"/>"
-															width="1" height="1" class="heightControl"></td>
-														<td><img src="<tags:imageUrl name="spacer.gif"/>"
-															width="1" height="1" class="heightControl"></td>
-													</tr>
-													<tr>
-														<td align="right" ><em></em><b>Birth Date:</b>&nbsp;</td>
-														<td align="left"valign="top">${command.birthDateStr}</td>
-													</tr>
-													<tr>
-														<td align="right"><em></em><b>Ethnicity:</b>&nbsp;</td>
-														<td align="left">${command.ethnicGroupCode}</td>
-													</tr>
-													<tr>
-														<td align="right"><em></em><b>Race(s):</b>&nbsp;</td>
-														<td align="left">${command.raceCode}</td>
-													</tr>
-												</table>
-												</td>
-											</tr>
-										</table>
-										<tabs:tabButtonControls text="edit" target="0"/>
-
-										<hr align="left" width="95%">
-										<strong><br>
-										Address</strong>
-										<br>
-										<br>
-										<table width="50%" border="0" cellspacing="0" cellpadding="0"
-											id="details">
-											<tr>
-												<td width="50%" valign="top">
-												<table width="50%" border="0" cellspacing="0"
-													cellpadding="0" id="table1">
-													<tr>
-														<td width="50%" align="right"><em></em><b> Street Address:</b>&nbsp;</td>
-														<td align="left" >${command.address.streetAddress}</td>
-													</tr>
-													<tr>
-														<td width="50%" align="right"><em></em><b> City:</b>&nbsp;</td>
-														<td align="left">${command.address.city}</td>
-													</tr>
-													<tr>
-														<td width="50%" align="right" ><em></em><b> State:</b>&nbsp;</td>
-														<td align="left">${command.address.stateCode}<em></em><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Zip:&nbsp;</strong>${command.address.postalCode}</td>
-													</tr>
-													<tr>
-														<td width="50%" align="right" ><em></em><em></em><b> Country:</b>&nbsp;</td>
-														<td align="left">${command.address.countryCode}</td>
-													</tr>
-												</table>
-												</td>
-											</tr>
-										</table>
-										</div>
-										<tabs:tabButtonControls text="edit" target="1"/>
-										<hr align="left" width="95%">
-										<strong><br>
-										Identifiers</strong>
-										<br>
-										<br>
-										<div class="review"><br>
-										<table width="50%" border="0" cellspacing="0" cellpadding="0"
-											id="details">
-											<tr>
-												<td valign="top">
-												<table width="100%" border="1" cellspacing="0"
-													cellpadding="0" id="table1">
-													<tr>
-														<th align="left" width="40%" >&nbsp;<b>Assigning Authority</b></th>
-														<th align="left" width="30%" >&nbsp;<b>Identifier Type</b></th>
-														<th align="left" width="30%" >&nbsp;<b>Identifier</b></th>
-													</tr>
-													<c:forEach items="${command.identifiers}" var="identifier">
-														<c:if test="${identifier.type!=''}">
-															<tr class="results">
-																<td align="center">${identifier.source}</td>
-																<td align="center">${identifier.type}</td>
-																<td align="center">${identifier.value}</td>
-															</tr>
-														</c:if>
-													</c:forEach>
-
-												</table>
-												</td>
-											</tr>
-										</table>
-										</div>
-										<br>
-										<tabs:tabButtonControls text="edit" target="0"/>
-									</form:form></td>
-
-									<!-- LEFT CONTENT ENDS HERE -->
-								</tr>
-							</table>
-							</td>
+			<table border="0" cellspacing="0" cellpadding="0" id="mytable">
+					<c:forEach items="${command.contactMechanisms}" var="contactMechanism">
+						<tr class="results">
+							<td width="22%"class="alt" align="right">${contactMechanism.type}:</td>
+							<td width="78%"class="alt" align="left">${contactMechanism.value}</td>
 						</tr>
-					</table>
-					</td>
-				</tr>
-			</table>
-			<div id="copyright"></div>
-			<!-- MAIN BODY ENDS HERE -->
-		</tabs:division>
-	</form:form>
+					</c:forEach>
+				</table>
+				</div>
+
+				<br>
+				<tabs:tabButtonControls text="edit" target="1"/>
+				<hr>
+				<strong>Subject Identifiers</strong> <br>
+				<br>
+				<div class="review">
+
+				<table border="0" cellspacing="0" cellpadding="0" id="mytable">
+					<tr>
+						<th scope="col" align="left">Assigning Authority</th>
+						<th scope="col" align="left">Identifier Type</th>
+						<th scope="col" align="left">Identifier</th>
+					</tr>
+					<c:forEach items="${command.identifiers}" var="identifier">
+						<tr class="results">
+							<td class="alt" align="left">${identifier.source}</td>
+							<td class="alt" align="left">${identifier.type}</td>
+							<td class="alt" align="left">${identifier.value}</td>
+						</tr>
+					</c:forEach>
+				</table>
+				</div>
+				<br>
+				<br>
+				<tabs:tabButtonControls text="edit" target="0"/>
+				<hr>
+
+				</td>
+			</tr>
+		</table></div>
+	<!-- MAIN CONTENT ENDS HERE -->
+	</tabs:division>
+</form:form>
+</table>
+</div>
 </body>
 </html>
