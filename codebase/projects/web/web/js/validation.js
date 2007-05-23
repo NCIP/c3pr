@@ -53,10 +53,13 @@
 //     Defalt color is red. though this can be customized setting the global variable ERROR_HIGHTLIGHT_COLOR
 //
 // Callback Hooks:
-// The validation framework provides a callback hook for html pages to post process validations
-// any page that provides and implementation of submitPostProcess(formElement) recieve a call back
-// on the function. If the function return true then the form will be submitted else the submit
-// will be ignored.
+// The validation framework provides a callback hook for html pages to pre process and post process validations.
+// --> submitPreProcess(formElement)                        :   Any page that provides and implementation of submitPreProcess(formElement)
+//                                                              recieve a call back on the function. If the function return
+// 																true then the form will be validated else the form will be submitted.
+// --> submitPostProcess(formElement, continurSubmission)   :   Any page that provides and implementation of submitPostProcess(formElement, continurSubmission)
+//                                                              recieve a call back on the function. If the function return
+// 																true then the form will be submitted else the submit will be ignored.
 //
 Event.observe(window, "load", function(){
 	$$('form').each(function(formVar){
@@ -68,6 +71,10 @@ Event.observe(window, "load", function(){
 validateForm=function(submit){
 	formVar=submit?Event.element(submit):this
 	submit?Event.stop(submit):null
+	if(!(submitPreProcess?submitPreProcess(formVar):true)){
+		formVar._submit()
+		return
+	}
 	var fields=Form.getElements(formVar)
 	var checkFields=fields.findAll(function(field){
 						className=Element.classNames(field).detect(function(cls) {
@@ -78,12 +85,11 @@ validateForm=function(submit){
 					})
 	checkFields.each(prepareField)
 	flag=validateFields(checkFields)
-	if(flag){
-		ret=(submitPostProcess?submitPostProcess(formVar):true)
-		ret?formVar._submit():null
-	}
+	ret=(submitPostProcess?submitPostProcess(formVar, flag):true)
+	ret?formVar._submit():null
 }
 var submitPostProcess
+var submitPreProcess
 
 var ERROR_STRATEGY
 var ERROR_HIGHTLIGHT_COLOR
