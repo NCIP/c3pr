@@ -3,17 +3,14 @@ package edu.duke.cabig.c3pr.web;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -37,7 +34,6 @@ public class CreateStudyController extends StudyController {
 		return createDefaultStudyWithDesign();		         
 	}	
 	
-		
 	protected void layoutTabs(Flow flow, HashMap tabsMap){
 		flow.addTab((Tab<Study>)tabsMap.get("Details"));
 		flow.addTab((Tab<Study>)tabsMap.get("Identifiers"));
@@ -61,23 +57,10 @@ public class CreateStudyController extends StudyController {
 	protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, 
 			Object command, BindException errors) throws Exception {		
 		Study study = (Study) command;
-		
-		//cleanup identifiers page if user selected 'please select'
-		List<Identifier> newList = new ArrayList<Identifier>();			
-		for (Identifier identifier : study.getIdentifiers()) {
-			if(!StringUtils.isEmpty(identifier.getSource()) &&
-				!StringUtils.isEmpty(identifier.getType()) )
-			{
-				newList.add(identifier);
-			}	
-		}					
-		study.setIdentifiers(newList);
-		
-		//save study and proceed to final page
+	
 		studyService.save(study);
 	
 		return new ModelAndView("forward:confirm?type=confirm", errors.getModel());
-//		
 //	    Map model = new ModelMap("type", "confirm");
 //	    request.setAttribute("study", study); 
 //	    return new ModelAndView(new RedirectView("confirm", true), model);
