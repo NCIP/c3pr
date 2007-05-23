@@ -87,7 +87,7 @@ public class ParticipantDaoTest extends DaoTestCase {
     public void testGetStudyParticipantAssignments() throws Exception {
     	Participant participant = dao.getById(1000);
     	List<StudyParticipantAssignment> studyPartIds = participant.getStudyParticipantAssignments();
-        assertEquals("Wrong number of Study Participant Identifiers", 2, studyPartIds.size());
+        assertEquals("Wrong number of Study Participant Identifiers", 3, studyPartIds.size());
         List<Integer> ids = collectIds(studyPartIds);
 
         assertContains("Missing expected Study Participant Identifier", ids, 1000);
