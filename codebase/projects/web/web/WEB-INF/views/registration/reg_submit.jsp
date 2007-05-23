@@ -122,7 +122,7 @@ function navRollOver(obj, state) {
 						</tr>
 						<tr>
 							<td width="35%" class="labelR">Sponsor Code:</td>
-							<td>${command.studySite.study.sponsorCode}</td>
+							<td>${command.studySite.study.identifiers[0].value}</td>
 						</tr>
 					</table>
 					</td>
