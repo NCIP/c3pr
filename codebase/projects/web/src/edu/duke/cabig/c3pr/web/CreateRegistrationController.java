@@ -124,7 +124,6 @@ public class CreateRegistrationController extends RegistrationController {
 			checkCollections(studyParticipantAssignment);
 		}
 		if(tabShortTitle.equalsIgnoreCase("Check Eligibility")){
-			
 			studyParticipantAssignment.setEligibilityIndicator(evaluateEligibilityIndicator(studyParticipantAssignment));
 		}
 		if(tabShortTitle.equalsIgnoreCase("Stratify")){
@@ -155,18 +154,6 @@ public class CreateRegistrationController extends RegistrationController {
 			throws Exception {
 		// TODO Auto-generated method stub
 		StudyParticipantAssignment studyParticipantAssignment = (StudyParticipantAssignment) command;
-		if (logger.isDebugEnabled()) {
-			logger.debug("processFinish(HttpServletRequest, HttpServletResponse, Object, BindException) - in process finish"); //$NON-NLS-1$
-		}
-		studyParticipantAssignment.getParticipant().getStudyParticipantAssignments().size();
-		studyParticipantAssignment.getParticipant().addStudyParticipantAssignment(studyParticipantAssignment);
-		studyParticipantAssignment.setRegistrationStatus(evaluateStatus(studyParticipantAssignment));
-		if(!hasDiseaseHistory(studyParticipantAssignment.getDiseaseHistory())){
-			studyParticipantAssignment.setDiseaseHistory(null);
-		}
-		if (logger.isDebugEnabled()) {
-			logger.debug("processFinish(HttpServletRequest, HttpServletResponse, Object, BindException) - Calling participant service"); //$NON-NLS-1$
-		}
 		participantService.createRegistration(studyParticipantAssignment);
 		if (logger.isDebugEnabled()) {
 			logger.debug("processFinish(HttpServletRequest, HttpServletResponse, Object, BindException) - participant service call over"); //$NON-NLS-1$
@@ -180,40 +167,6 @@ public class CreateRegistrationController extends RegistrationController {
 
 	}
 
-	private String evaluateStatus(StudyParticipantAssignment studyParticipantAssignment){
-		String status="Complete";
-		if(studyParticipantAssignment.getInformedConsentSignedDateStr().equals("")){
-			return "Incomplete";
-		}else if(studyParticipantAssignment.getTreatingPhysician()==null){
-			return "Incomplete";
-		}else if(studyParticipantAssignment.getScheduledArms().get(studyParticipantAssignment.getScheduledArms().size()-1).getArm()==null){
-			studyParticipantAssignment.getScheduledArms().remove(studyParticipantAssignment.getScheduledArms().size()-1);
-			return "Incomplete";
-		}else if(!evaluateStratificationIndicator(studyParticipantAssignment)){
-			return "Incomplete";
-		}else if(studyParticipantAssignment.getEligibilityIndicator()){
-			List<SubjectEligibilityAnswer> criterias=studyParticipantAssignment.getSubjectEligibilityAnswers();
-			if (logger.isDebugEnabled()) {
-				logger.debug("evaluateStatus(StudyParticipantAssignment) - studyParticipantAssignment.getEligibilityIndicator():" + studyParticipantAssignment.getEligibilityIndicator()); //$NON-NLS-1$
-			}
-			studyParticipantAssignment.setEligibilityWaiverReasonText("");
-			if (logger.isDebugEnabled()) {
-				logger.debug("evaluateStatus(StudyParticipantAssignment) - printing answers....."); //$NON-NLS-1$
-			}
-			for(int i=0 ; i<criterias.size() ; i++){
-				if (logger.isDebugEnabled()) {
-					logger.debug("evaluateStatus(StudyParticipantAssignment) - question : " + criterias.get(i).getEligibilityCriteria().getQuestionText()); //$NON-NLS-1$
-				}
-				if (logger.isDebugEnabled()) {
-					logger.debug("evaluateStatus(StudyParticipantAssignment) - ----- answer : " + criterias.get(i).getAnswerText()); //$NON-NLS-1$
-				}
-			}
-		}else if(!studyParticipantAssignment.getEligibilityIndicator()){
-			if(studyParticipantAssignment.getEligibilityWaiverReasonText()==null||studyParticipantAssignment.getEligibilityWaiverReasonText().equals(""))
-			return "Incomplete";
-		}
-		return status;
-	}
 	private void setAlternateDisplayOrder(HttpServletRequest request, List order){
 		request.getSession().setAttribute("registrationAltOrder", order);
 	}
@@ -296,6 +249,18 @@ public class CreateRegistrationController extends RegistrationController {
 		}
 		return true;
 	}
+	private void handleStratification(HttpServletRequest request, StudyParticipantAssignment studyParticipantAssignment){
+		for(int i=0 ; i<studyParticipantAssignment.getSubjectStratificationAnswers().size() ; i++){
+			String id=request.getParameter("subjectStratificationAnswers["+i+"].stratificationCriterionAnswer");
+			if(StringUtils.isEmpty(id))
+				return;
+			int tempId=Integer.parseInt(id);
+			for(StratificationCriterionPermissibleAnswer answer : studyParticipantAssignment.getSubjectStratificationAnswers().get(i).getStratificationCriterion().getPermissibleAnswers()){
+				if(answer.getId()==tempId)
+					studyParticipantAssignment.getSubjectStratificationAnswers().get(i).setStratificationCriterionAnswer(answer);
+			}
+		}
+	}
 	private boolean evaluateEligibilityIndicator(StudyParticipantAssignment studyParticipantAssignment){
 		boolean flag=true;
 		List<SubjectEligibilityAnswer> answers=studyParticipantAssignment.getInclusionEligibilityAnswers();
@@ -318,31 +283,5 @@ public class CreateRegistrationController extends RegistrationController {
 		}
 		return flag;
 	}
-	private boolean evaluateStratificationIndicator(StudyParticipantAssignment studyParticipantAssignment){
-		List<SubjectStratificationAnswer> answers=studyParticipantAssignment.getSubjectStratificationAnswers();
-		for(SubjectStratificationAnswer subjectStratificationAnswer:answers){
-			if(subjectStratificationAnswer.getStratificationCriterionAnswer()==null){
-				return false;
-			}
-		}
-		return true;
-	}
-	private void handleStratification(HttpServletRequest request, StudyParticipantAssignment studyParticipantAssignment){
-		for(int i=0 ; i<studyParticipantAssignment.getSubjectStratificationAnswers().size() ; i++){
-			String id=request.getParameter("subjectStratificationAnswers["+i+"].stratificationCriterionAnswer");
-			if(StringUtils.isEmpty(id))
-				return;
-			int tempId=Integer.parseInt(id);
-			for(StratificationCriterionPermissibleAnswer answer : studyParticipantAssignment.getSubjectStratificationAnswers().get(i).getStratificationCriterion().getPermissibleAnswers()){
-				if(answer.getId()==tempId)
-					studyParticipantAssignment.getSubjectStratificationAnswers().get(i).setStratificationCriterionAnswer(answer);
-			}
-		}
-	}
-	private boolean hasDiseaseHistory(DiseaseHistory diseaseHistory){
-		if(diseaseHistory.getAnatomicSite()==null&&(diseaseHistory.getOtherPrimaryDiseaseSiteCode()==null||diseaseHistory.getOtherPrimaryDiseaseSiteCode().equals(""))&&
-				(diseaseHistory.getOtherPrimaryDiseaseCode()==null||diseaseHistory.getOtherPrimaryDiseaseCode().equals(""))&&diseaseHistory.getStudyDisease()==null)
-				return false;
-		return true;
-	}
+
 }
