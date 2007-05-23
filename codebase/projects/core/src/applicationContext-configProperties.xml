@@ -181,6 +181,46 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                         </bean>
                     </list>
                 </entry>
+                 <entry key="coordinatingCenters">
+                    <list>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="ACOSOG" />
+                            <property name="desc" value="American College of Surgeons Oncology Trials Group" />
+                        </bean>                      
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                        	<property name="code" value="CALGB" />
+                            <property name="desc" value="Cancer and Leukemia Group B" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                        	<property name="code" value="ECOG" />
+                            <property name="desc" value="Eastern Cooperative Oncology Group" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="GOG" />
+                            <property name="desc" value="Gynecologic Oncology Group" />
+                        </bean>                      
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                        	<property name="code" value="NCCTG" />
+                            <property name="desc" value="North Central Cancer Treatment Group" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                        	<property name="code" value="NCIC" />
+                            <property name="desc" value="National Cancer Institute of Canada Clinical Trials Group" />
+                        </bean>
+                          <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="NSABP" />
+                            <property name="desc" value="National Surgical Adjuvant Breast and Bowel Project" />
+                        </bean>                      
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                        	<property name="code" value="RTOG" />
+                            <property name="desc" value="Radiation Therapy Oncology Group" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                        	<property name="code" value="SWOG" />
+                            <property name="desc" value="Southwest Oncology Group" />
+                        </bean>
+                      </list>
+                </entry>
                 
                   <!-- codes for Study Identifiers -->
                 
@@ -203,14 +243,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                     
                 <entry key="identifiersType">
                     <list>
-                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="PA" />
-                            <property name="desc" value="Protocol Authority Identifier" />
-                        </bean>
-                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="CC" />
-                            <property name="desc" value="Coordinating Site Identifier" />
- 			           </bean>
                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="S" />
                             <property name="desc" value="Site Identifier" />
@@ -449,7 +481,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                     <list>
                       	<bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="REG" />
-                            <property name="desc" value="Regsitrar" />
+                            <property name="desc" value="Registrar" />
                         </bean>   
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="SC" />
