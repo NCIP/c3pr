@@ -52,8 +52,6 @@ public class SearchStudyController  extends SimpleFormController{
     	}
     	else if ("shortTitle".equals(type))
     		study.setShortTitleText(searchtext);
-    	else if ("longTitle".equals(type))
-    		study.setShortTitleText(searchtext);
     	
     	List<Study> studies = studyDao.searchByExample(study, true);
     	log.debug("Search results size " +studies.size());
