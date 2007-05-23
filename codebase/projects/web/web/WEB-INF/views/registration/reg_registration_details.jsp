@@ -16,51 +16,35 @@
 <body>
 <tabs:division id="enrollment-details">
 <!-- MAIN BODY STARTS HERE -->
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<form:form method="post" action="createRegistration">
+<tabs:tabFields tab="${tab}" />
+<strong>Step 1. Informed Consent Details </strong><br>
+<table width="60%" border="0" cellspacing="0" cellpadding="0" id="table1">
+	<tr><td colspan="2">&nbsp;</td></tr>
 	<tr>
-		<td valign="top">
-		<form:form method="post" action="createRegistration">
-		<tabs:tabFields tab="${tab}" />
-		<table width="100%" border="0" cellspacing="0" cellpadding="0">
-			<tr>
-				<td>
-					<strong>Step 1. Informed Consent Details </strong><br>
-					<table width="60%" border="0" cellspacing="0" cellpadding="0" id="table1">
-						<tr><td>&nbsp;</td></tr>
-						<tr>
-							<td class="label" width="80%"><span class="red">*</span>Informed Consent Signed Date:</td>
-							<td><tags:dateInput path="informedConsentSignedDate" /><em> (mm/dd/yyyy)</em></td>
-						</tr>
-						<tr>
-							<td class="label">Informed Consent Version:</td>
-							<td><form:input path="informedConsentVersion" cssClass="validate-notEmpty"/></td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<hr align="left" width="95%">
-					<strong>Step 2. Enrolling Physician Details </strong><br>
-					<table width="60%" border="0" cellspacing="0" cellpadding="0" id="table1">
-						<tr><td colspan='2'>&nbsp;</td></tr>
-						<tr>
-							<td class="label" width="60%"><span class="red">*</span><em></em>Enrolling Physician:</td>
-							<td>
-								<form:select path="treatingPhysician">
-									<option value="">--Please Select--</options><form:options
-										items="${command.studySite.studyInvestigators}" itemLabel="healthcareSiteInvestigator.investigator.fullName" itemValue="id" />
-								</form:select>
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
-		</form:form>
+		<td class="label" width="80%"><span class="red">*</span>Informed Consent Signed Date:</td>
+		<td><tags:dateInput path="informedConsentSignedDate" /><em> (mm/dd/yyyy)</em></td>
+	</tr>
+	<tr>
+		<td class="label">Informed Consent Version:</td>
+		<td><form:input path="informedConsentVersion" cssClass="validate-notEmpty"/></td>
+	</tr>
+</table>
+<hr align="left" width="95%">
+<strong>Step 2. Enrolling Physician Details </strong><br>
+<table width="60%" border="0" cellspacing="0" cellpadding="0" id="table1">
+	<tr><td colspan='2'>&nbsp;</td></tr>
+	<tr>
+		<td class="label" width="80%"><span class="red">*</span><em></em>Enrolling Physician:</td>
+		<td width="42%">
+			<form:select path="treatingPhysician">
+				<option value="">--Please Select--</options><form:options
+					items="${command.studySite.studyInvestigators}" itemLabel="healthcareSiteInvestigator.investigator.fullName" itemValue="id" />
+			</form:select>
 		</td>
 	</tr>
 </table>
+</form:form>
 </tabs:division>
 <!-- MAIN BODY ENDS HERE -->
 </body>

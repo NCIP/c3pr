@@ -43,6 +43,7 @@ function markAsAnswered(id){
 			<td align="left"><b>Criteria<span class="red">*</span></b></td>
 			<td align="left"><b>Answers</b></td>
 		</tr>
+		<tr><td colspan="3">&nbsp;</td></tr>
 		<c:forEach var="criteria" varStatus="status" items="${command.subjectStratificationAnswers}">
 			<tr>
 				<td width="5%">
@@ -50,7 +51,7 @@ function markAsAnswered(id){
 						<img src="<tags:imageUrl name="checkbox.gif"/>" border="0" alt="answered" height="20" width="20">												
 					</div>
 				</td>
-				<td width="80%">
+				<td >
 					${criteria.stratificationCriterion.questionText}
 				</td>
 				<td width="15%">
@@ -60,6 +61,8 @@ function markAsAnswered(id){
 					</form:select>
 				</td>
 			</tr>
+			<tr><td colspan="3"><hr align="left" width="100%"></td></tr>
+			
 		</c:forEach>
 	</c:otherwise>
 	</c:choose>

@@ -8,7 +8,7 @@
 <html>
 <head>
 <style type="text/css">
-        .label { width: 10em; text-align: right; padding: 2px; }
+        .label { width: 15em; text-align: right; padding: 2px; }
 </style>
 <tags:dwrJavascriptLink objects="anatomicDiseaseSite" />
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -58,48 +58,41 @@ submitPostProcess=function(){
 <body>
 <tabs:division id="enrollment-details">
 <!-- MAIN BODY STARTS HERE -->
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-	<tr>
-		<td valign="top">
-		<form:form method="post" action="createRegistration">
-		<tabs:tabFields tab="${tab}" />
-			<strong>Select Disease and Disease Site </strong><br>
-			<table width="60%" border="0" cellspacing="0" cellpadding="0" id="table1">
-				<tr><td colspan="3">&nbsp;</td></tr>
-				<tr>
-					<td class="label" width="30%">Primary Disease:</td>
-					<td class="labelL">
-						<form:select id="stuydDiseaseSelect" path="diseaseHistory.studyDisease" onchange="manageField(this)">
-							<option value="">--Please Select--</option>
-							<form:options items="${command.studySite.study.studyDiseases}" itemLabel="diseaseTerm.term" itemValue="id"/>
-							<option value="">Other</option>
-						</form:select>
-					</td>
-					<td>
-						<div id="studyDiseaseDiv" <c:if test="${empty command.diseaseHistory.otherPrimaryDiseaseCode }">style="display: none;" </c:if>>
-						<form:input id="otherDisease" path="diseaseHistory.otherPrimaryDiseaseCode"/>
-						</div>
-					<td>
-				</tr>
-			</table>
-			<table width="60%" border="0" cellspacing="0" cellpadding="0" id="table1">
-				<tr><td colspan="2">&nbsp;</td></tr>
-				<tr>
-					<td class="label" width="60%">Primary Disease Site:</td>
-					<td class="labelL">
-						<input id="diseaseSite-input" type="text" value="${command.diseaseHistory.anatomicSite==null?command.diseaseHistory.otherPrimaryDiseaseSiteCode:command.diseaseHistory.anatomicSite.name }"/>
-						<form:hidden id="diseaseSite-hidden" path="diseaseHistory.anatomicSite"/>
-						<form:hidden id="otherDiseaseSite-hidden" path="diseaseHistory.otherPrimaryDiseaseSiteCode"/>
-						<input type="button" id="diseaseSite-clear" value="Clear" onclick="$('diseaseSite-hidden').value='';"/>
-						<tags:indicator id="diseaseSite-indicator"/>
-						<div id="diseaseSite-choices" class="autocomplete"></div>
-					</td>
-				</tr>
-			</table>
-		</form:form>
-		</td>
-	</tr>
-</table>
+<form:form method="post" action="createRegistration">
+<tabs:tabFields tab="${tab}" />
+	<strong>Select Disease and Disease Site </strong><br>
+	<table width="60%" border="0" cellspacing="0" cellpadding="0" id="table1">
+		<tr><td colspan="3">&nbsp;</td></tr>
+		<tr>
+			<td class="label">Primary Disease:</td>
+			<td>
+				<form:select id="stuydDiseaseSelect" path="diseaseHistory.studyDisease" onchange="manageField(this)">
+					<option value="">--Please Select--</option>
+					<form:options items="${command.studySite.study.studyDiseases}" itemLabel="diseaseTerm.term" itemValue="id"/>
+					<option value="">Other</option>
+				</form:select>
+			</td>
+			<td width="25%">
+				<div id="studyDiseaseDiv" <c:if test="${empty command.diseaseHistory.otherPrimaryDiseaseCode }">style="display: none;" </c:if>>
+				<form:input id="otherDisease" path="diseaseHistory.otherPrimaryDiseaseCode"/>
+				</div>
+				
+			<td>
+		</tr>
+		<tr>
+			<td class="label" width="25%">Primary Disease Site:</td>
+			<td>
+				<input id="diseaseSite-input" type="text" value="${command.diseaseHistory.anatomicSite==null?command.diseaseHistory.otherPrimaryDiseaseSiteCode:command.diseaseHistory.anatomicSite.name }"/>
+				<form:hidden id="diseaseSite-hidden" path="diseaseHistory.anatomicSite"/>
+				<form:hidden id="otherDiseaseSite-hidden" path="diseaseHistory.otherPrimaryDiseaseSiteCode"/>
+				<input type="button" id="diseaseSite-clear" value="Clear" onclick="$('diseaseSite-hidden').value='';"/>
+				<tags:indicator id="diseaseSite-indicator"/>
+				<div id="diseaseSite-choices" class="autocomplete"></div>
+			</td>
+			<td>&nbsp;</td>
+		</tr>
+	</table>
+</form:form>
 </tabs:division>
 <!-- MAIN BODY ENDS HERE -->
 </body>
