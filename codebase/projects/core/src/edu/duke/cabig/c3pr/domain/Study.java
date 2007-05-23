@@ -40,18 +40,15 @@ import edu.duke.cabig.c3pr.utils.StringUtils;
     }
 )
 public class Study extends AbstractGridIdentifiableDomainObject implements Comparable<Study>{
-		 
+	
 	private String blindedIndicator;
 	private String multiInstitutionIndicator;
 	private String randomizedIndicator;	
-	
-	// A name or abbreviated title by which the document is known
 	private String shortTitleText;
 	private String longTitleText;	
 	private String descriptionText;
 	private String precisText;
 	private String phaseCode;					
-	private String sponsorCode;	
 	private String status;
 	private String type;
 	private String primaryIdentifier;
@@ -65,10 +62,9 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 	private List<StudyDisease> studyDiseases = new ArrayList<StudyDisease>();
 	private List<StratificationCriterion> stratificationCriteria = new ArrayList<StratificationCriterion>();
 
-	//TODO move into Command Object
+    // TODO move into Command Object
     private String[] diseaseTermIds;
     private String   diseaseCategoryAsText;
-  
 	
 	/// LOGIC
 
@@ -86,7 +82,6 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 		studySites.add(studySite);
 		studySite.setStudy(this);
 	}
-	
 	
 	public void removeStudySite(StudySite studySite)
 	{
@@ -135,8 +130,7 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 	
 	/// BEAN PROPERTIES
 	
-	 // TODO: this stuff should really, really not be in here.  It's web-view/entry specific.
-
+	// TODO: this stuff should really, really not be in here.  It's web-view/entry specific.
     @Transient
     public String[] getDiseaseTermIds() {
         return diseaseTermIds;
@@ -153,8 +147,24 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 
     public void setDiseaseCategoryAsText(String diseaseCategoryAsText) {
         this.diseaseCategoryAsText = diseaseCategoryAsText;
+    }    
+
+    @Transient
+    public List<Identifier> getLocalIdentifiers() {
+    	List <Identifier> localIdentifiers = new ArrayList<Identifier>();
+    	for (Identifier identifier : getIdentifiers()) {
+			if ("Protocol Authority Identifier".equals(identifier.getType())
+				|| "Coordinating Center Identifier".equals(identifier.getType())){
+				//nothing
+			}
+			else
+			{
+				localIdentifiers.add(identifier);
+			}
+		}
+    	return localIdentifiers;
     }
-    
+   
 	@OneToMany (mappedBy="study", fetch=FetchType.LAZY)
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})
 	public List<Epoch> getEpochs() {
@@ -229,8 +239,6 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 	public void setStudySites(List<StudySite> studySites) {
 		this.studySites = studySites;
 	}	
-	
-	
 
 	public String getDescriptionText() {
 		return descriptionText;
@@ -272,14 +280,6 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 		this.shortTitleText = shortTitleText;
 	}
 
-	public String getSponsorCode() {
-		return sponsorCode;
-	}
-
-	public void setSponsorCode(String sponsorCode) {
-		this.sponsorCode = sponsorCode;
-	}
-
 	public String getStatus() {
 		return status;
 	}
@@ -317,7 +317,6 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 		result = PRIME * result + ((identifiers == null) ? 0 : identifiers.hashCode());
 		result = PRIME * result + ((longTitleText == null) ? 0 : longTitleText.hashCode());
 		result = PRIME * result + ((phaseCode == null) ? 0 : phaseCode.hashCode());
-		result = PRIME * result + ((sponsorCode == null) ? 0 : sponsorCode.hashCode());
 		result = PRIME * result + ((status == null) ? 0 : status.hashCode());
 		result = PRIME * result + ((studySites == null) ? 0 : studySites.hashCode());
 		result = PRIME * result + ((type == null) ? 0 : type.hashCode());
@@ -352,11 +351,6 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 			if (other.phaseCode != null)
 				return false;
 		} else if (!phaseCode.equals(other.phaseCode))
-			return false;
-		if (sponsorCode == null) {
-			if (other.sponsorCode != null)
-				return false;
-		} else if (!sponsorCode.equals(other.sponsorCode))
 			return false;
 		if (status == null) {
 			if (other.status != null)
