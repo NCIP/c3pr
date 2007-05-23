@@ -19,6 +19,10 @@ function manageSelectBox(box){
 		document.getElementById('cooperativeGroups').style.display='none';
 		Effect.OpenUp('cooperativeGroups');
 	}
+	if(box.value=='false'){
+		document.getElementById('cooperativeGroups').style.display='none';
+		Effect.CloseDown('cooperativeGroups');
+	}
 }
 
 </script>
@@ -157,10 +161,12 @@ function manageSelectBox(box){
 			<form:options
 				items="${sponsorCodeRefData}" itemLabel="desc" itemValue="desc" />
 		</form:select></td>
-		<td class="label"><span class="red">*</span><em></em>Sponsor Identifier:</td>
+		<td class="label"><span class="red">*</span><em></em>Sponsor Study Identifier:</td>
 		<td><form:input path="identifiers[0].value" size="30" maxlength="30" cssClass="validate-notEmpty"/></td>
 		<input type="hidden" name="identifiers[0].type" value="Protocol Authority Identifier"/>
 	</tr>	
+	<tr>
+	</tr>
 	<tr>
 		<td><img src="<tags:imageUrl name="spacer.gif"/>"
 			width="1" height="1" class="heightControl"></td>
@@ -185,7 +191,7 @@ function manageSelectBox(box){
 				<form:options items="${coordinatingCenters}" itemLabel="desc" itemValue="desc" />
 			</form:select>
 		</td>
-		<td class="label"><span class="red">*</span>Center Identifier:</td>
+		<td class="label"><span class="red">*</span>Coordinating Center Study Identifier:</td>
 		<td>
 			<form:input path="identifiers[1].value" size="30" maxlength="30"/>
 			<input type="hidden" name="identifiers[1].type" value="Coordinating Center Identifier"/>
