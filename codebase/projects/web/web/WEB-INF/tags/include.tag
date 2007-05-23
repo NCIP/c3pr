@@ -10,11 +10,15 @@
 <tags:javascriptLink name="calendar"/>
 <tags:javascriptLink name="prototype"/>
 <tags:javascriptLink name="common"/>
+<tags:includeScriptaculous />
+<tags:javascriptLink name="common"/>
 <tags:javascriptLink name="CalendarPopup"/>
 <tags:javascriptLink name="validation"/>
 <tags:javascriptLink name="commons-validation"/>
 <tags:javascriptLink name="date"/>
 <tags:javascriptLink name="row-manager"/>
+
+
 
 
 
