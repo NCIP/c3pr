@@ -15,12 +15,12 @@ function fireAction(action, selected){
 	document.form._selected.value=selected;
 	
 	// need to disable validations while removing
-	source = 'identifiers['+selected+'].source';
-	$(source).className='none';
-	type = 'identifiers['+selected+'].type';
-	$(type).className='none';
-	id = 'identifiers['+selected+'].value';
-	$(id).className='none';
+	//source = 'identifiers['+selected+'].source';
+	//$(source).className='none';
+	//type = 'identifiers['+selected+'].type';
+	//$(type).className='none';
+	//id = 'identifiers['+selected+'].value';
+	//$(id).className='none';
 	
 	document.form.submit();
 }
@@ -51,17 +51,17 @@ function fireAction(action, selected){
 			<th scope="col" align="left"><b>Primary&nbsp;Indicator</b></td>
 			<th class="specalt" scope="col" align="left"></th>
 		</tr>
-		<c:forEach items="${command.identifiers}" varStatus="status">
+		<c:forEach items="${command.localIdentifiers}" varStatus="status">
 			<tr>
-				<td class="alt"><form:select path="identifiers[${status.index}].source" cssClass="validate-notEmpty">
+				<td class="alt"><form:select path="localIdentifiers[${status.index}].source" cssClass="validate-notEmpty">
 					<option value="">--Please Select--</option>
 					<form:options items="${identifiersSourceRefData}" itemLabel="name"
 						itemValue="name" /></form:select></th>
-				<td class="alt"><form:select path="identifiers[${status.index}].type" cssClass="validate-notEmpty">
+				<td class="alt"><form:select path="localIdentifiers[${status.index}].type" cssClass="validate-notEmpty">
 					<option value="">--Please Select--</option>
 					<form:options items="${identifiersTypeRefData}" itemLabel="desc" itemValue="desc" /></form:select></td>
-				<td class="alt"><form:input path="identifiers[${status.index}].value" cssClass="validate-notEmpty"/></td>
-				<td class="alt"><form:radiobutton path="identifiers[${status.index}].primaryIndicator" value="true"/></td>
+				<td class="alt"><form:input path="localIdentifiers[${status.index}].value" cssClass="validate-notEmpty"/></td>
+				<td class="alt"><form:radiobutton path="localIdentifiers[${status.index}].primaryIndicator" value="true"/></td>
 				<td class="tdalt"><a href="javascript:fireAction('removeIdentifier',${status.index});"><img
 					src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 			</tr>

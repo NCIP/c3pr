@@ -24,8 +24,6 @@ function fireAction(action, selected){
 	$(name).className='none';
 	status = 'studySites['+selected+'].statusCode';
 	$(status).className='none';
-	role = 'studySites['+selected+'].roleCode';
-	$(role).className='none';
 	date = 'studySites['+selected+'].irbApprovalDate';
 	$(date).className='none';
 	
@@ -56,9 +54,8 @@ function fireAction(action, selected){
 			<tr align="left" class="label">
 				<th scope="col" align="left"><b>HealthCare Site</b><span class="red">*</span></th>
 				<th scope="col" align="left"><b>Status<span class="red">*</span></th>
-				<th scope="col" align="left"><b>Role<span class="red">*</span></th>
-				<th scope="col" align="left"><b>Activation&nbsp;Date</b><span class="red">*</span> </th>
-				<th scope="col" align="left"><b>IRB&nbsp;Approval&nbsp;Date</b><span class="red">*</span></th>
+				<th scope="col" align="left"><b>Activation&nbsp;Date</b> </th>
+				<th scope="col" align="left"><b>IRB&nbsp;Approval&nbsp;Date</b></th>
 				<th scope="col" class="specalt" align="left"></th>
 			</tr>
 			<c:forEach items="${command.studySites}" varStatus="status">
@@ -72,11 +69,9 @@ function fireAction(action, selected){
 						<form:options items="${studySiteStatusRefData}" itemLabel="desc"
 							itemValue="desc" />
 					</form:select></td>
-					<td class="alt"><form:select path="studySites[${status.index}].roleCode" cssClass="validate-notEmpty">
-						<option value="">--Please Select--</option>
-						<form:options items="${studySiteRoleCodeRefData}" itemLabel="desc"
-							itemValue="desc" />
-					</form:select></td>
+					<!--TODO:HACK Remove this once more roles are present -->
+					<input type="hidden" name="studySites[${status.index}].roleCode" value="Affiliate Site"/>
+						
 					<td class="alt"><tags:dateInput path="studySites[${status.index}].startDate" />&nbsp;&nbsp;&nbsp;<span
 						class="red"><em></em></span></td>
 					<td class="alt"><tags:dateInput path="studySites[${status.index}].irbApprovalDate" />&nbsp;&nbsp;&nbsp;<span

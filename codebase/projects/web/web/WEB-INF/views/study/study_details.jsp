@@ -12,12 +12,25 @@ prefix="decorator"%>
 <style type="text/css">
         .label { width: 10em; text-align: right; padding: 4px; }
 </style>
+<script>
+
+function manageSelectBox(box){
+	if(box.value=='true'){
+		document.getElementById('cooperativeGroups').style.display='none';
+		Effect.OpenUp('cooperativeGroups');
+	}
+}
+
+</script>
+
 </head>
 <body>
+<!-- MAIN BODY STARTS HERE -->
+
 <form:form name="form" method="post">
 <tabs:tabFields tab="${tab}" />
-<div><tabs:division id="study-details">
-<!-- MAIN BODY STARTS HERE -->
+<div>
+<tabs:division id="study-details" title="Basic Details">
 <table border="0" cellspacing="0" cellpadding="0">
 <div>
 		<input type="hidden" name="_action" value="">
@@ -27,16 +40,8 @@ prefix="decorator"%>
 	<td>
 	<table border="0" cellspacing="0" cellpadding="0" id="table1">
 		<tr>
-			<td class="label">Short Title:</td>
-			<td><form:input path="shortTitleText" size="40" maxlength="30"/></td>
-		</tr>
-		<tr>
-			<td><img src="<tags:imageUrl name="spacer.gif"/>"
-				width="1" height="1" class="heightControl"></td>
-		</tr>
-		<tr>
-			<td class="label"><span class="red">*</span><em></em>Long Title:</td>
-			<td><form:textarea path="longTitleText" rows="4" cols="40" cssClass="validate-notEmpty&&maxlength200" /></td>
+			<td class="label"><span class="red">*</span><em></em>Short Title:</td>
+			<td><form:input path="shortTitleText" size="40" maxlength="30" cssClass="validate-notEmpty"/></td>
 		</tr>
 		<tr>
 			<td><img src="<tags:imageUrl name="spacer.gif"/>"
@@ -44,7 +49,15 @@ prefix="decorator"%>
 		</tr>
 		<tr>
 			<td class="label">Precis:</td>
-			<td><form:textarea path="precisText" rows="2" cols="40" cssClass="validate-maxlength200" /></td>
+			<td><form:textarea path="precisText" rows="2" cols="50" cssClass="validate-maxlength200" /></td>
+		</tr>
+		<tr>
+			<td><img src="<tags:imageUrl name="spacer.gif"/>"
+				width="1" height="1" class="heightControl"></td>
+		</tr>
+		<tr>
+			<td class="label"><span class="red">*</span><em></em>Long Title:</td>
+			<td><form:textarea path="longTitleText" rows="3" cols="50" cssClass="validate-notEmpty&&maxlength200" /></td>
 		</tr>
 		<tr>
 			<td><img src="<tags:imageUrl name="spacer.gif"/>"
@@ -52,16 +65,31 @@ prefix="decorator"%>
 		</tr>
 		<tr>
 			<td class="label">Description:</td>
-			<td><form:textarea path="descriptionText" rows="3" cols="40" cssClass="validate-maxlength2000" /></td>
+			<td><form:textarea path="descriptionText" rows="5" cols="50" cssClass="validate-maxlength2000" /></td>
+		</tr>
+		<tr>
+			<td><img src="<tags:imageUrl name="spacer.gif"/>"
+				width="1" height="1" class="heightControl"></td>
 		</tr>
 	</table>
 	</td>
-	<td class="contentAreaR"><strong><strong><strong></strong></strong></strong>
-	<table  border="0" cellspacing="0" cellpadding="0"
-		id="table1">
+	<td class="contentAreaR">
+	<table  border="0" cellspacing="0" cellpadding="0"id="table1">
 		<tr>
 			<td class="label">Target Accrual:</td>
 			<td><form:input path="targetAccrualNumber" size="10" cssClass="validate-numeric"/></td>
+		</tr>
+		<tr>
+			<td><img src="<tags:imageUrl name="spacer.gif"/>"
+				width="1" height="1" class="heightControl"></td>
+		</tr>
+		<tr>
+			<td class="label"><span class="red">*</span><em></em>Type:</td>
+			<td><form:select path="type" cssClass="validate-notEmpty">
+				<option value="0">--Please Select--</option>
+				<form:options
+					items="${typeRefData}" itemLabel="desc" itemValue="desc" />
+			</form:select></td>
 		</tr>
 		<tr>
 			<td><img src="<tags:imageUrl name="spacer.gif"/>"
@@ -80,10 +108,6 @@ prefix="decorator"%>
 				width="1" height="1" class="heightControl"></td>
 		</tr>
 		<tr>
-			<td><img src="<tags:imageUrl name="spacer.gif"/>"
-				width="1" height="1" class="heightControl"></td>
-		</tr>
-		<tr>
 			<td class="label"><span class="red">*</span><em></em>Phase:</td>
 			<td><form:select path="phaseCode"  cssClass="validate-notEmpty">
 				<option value="">--Please Select-- </option>
@@ -96,36 +120,10 @@ prefix="decorator"%>
 				width="1" height="1" class="heightControl"></td>
 		</tr>
 		<tr>
-			<td class="label"><span class="red">*</span><em></em>Sponsor:</td>
-			<td><form:select path="sponsorCode" cssClass="validate-notEmpty">
-				<option value="">--Please Select-- </option>
-				<form:options
-					items="${sponsorCodeRefData}" itemLabel="desc"
-					itemValue="desc" />
-			</form:select></td>
-		</tr>
-		<tr>
-			<td><img src="<tags:imageUrl name="spacer.gif"/>"
-				width="1" height="1" class="heightControl"></td>
-		</tr>
-		<tr>
 			<td class="label">Randomized</td>
 			<td><form:select path="randomizedIndicator">
 			<option value="">--Please Select-- </option>
 				<form:options items="${randomizedIndicatorRefData}"
-					itemLabel="desc" itemValue="code" />
-			</form:select></td>
-		</tr>
-
-		<tr>
-			<td><img src="<tags:imageUrl name="spacer.gif"/>"
-				width="1" height="1" class="heightControl"></td>
-		</tr>
-		<tr>
-			<td class="label">Multi Institution:</td>
-			<td><form:select path="multiInstitutionIndicator">
-			<option value="">--Please Select-- </option>
-				<form:options items="${multiInstitutionIndicatorRefData}"
 					itemLabel="desc" itemValue="code" />
 			</form:select></td>
 		</tr>
@@ -145,21 +143,58 @@ prefix="decorator"%>
 			<td><img src="<tags:imageUrl name="spacer.gif"/>"
 				width="1" height="1" class="heightControl"></td>
 		</tr>
-		<tr>
-			<td class="label"><span class="red">*</span><em></em>Type:</td>
-			<td><form:select path="type" cssClass="validate-notEmpty">
-				<option value="0">--Please Select--</option>
-				<form:options
-					items="${typeRefData}" itemLabel="desc" itemValue="desc" />
-			</form:select></td>
-		</tr>
 	</table>
 	</td>
 </tr>
 </table>
-<!-- MAIN BODY ENDS HERE -->
+</tabs:division>
+<tabs:division id="identifiers" title="Global Identifiers">
+<table>
+	<tr>
+		<td class="label"><span class="red">*</span>Sponsor:</td>
+		<td><form:select path="identifiers[0].source">
+			<option value="">--Please Select-- </option>
+			<form:options
+				items="${sponsorCodeRefData}" itemLabel="desc" itemValue="desc" />
+		</form:select></td>
+		<td class="label"><span class="red">*</span><em></em>Sponsor Identifier:</td>
+		<td><form:input path="identifiers[0].value" size="30" maxlength="30"/></td>
+		<input type="hidden" name="identifiers[0].type" value="Protocol Authority Identifier"/>
+	</tr>	
+	<tr>
+		<td><img src="<tags:imageUrl name="spacer.gif"/>"
+			width="1" height="1" class="heightControl"></td>
+	</tr>
+	<tr>
+		<td class="label"><span class="red">*</span>Multi Institution:</td>
+		<td><select name="multiInstitutionIndicator" onChange="manageSelectBox(this);">
+		<option value="">--Please Select-- </option>
+			<c:forEach items="${multiInstitutionIndicatorRefData}" var="option">
+				<option value="${option.code }">${option.desc }</option>
+			</c:forEach></td>
+	</tr>
+	<tr>
+		<td><img src="<tags:imageUrl name="spacer.gif"/>"
+			width="1" height="1" class="heightControl"></td>
+	</tr>
+	<tr name="cooperativeGroups" id="cooperativeGroups" style="display:none;">
+		<td class="label">Coordinating Center:</td>
+		<td>
+			<form:select path="identifiers[1].source">
+			<option value="">--Please Select-- </option>
+				<form:options items="${coordinatingCenters}" itemLabel="desc" itemValue="desc" />
+			</form:select>
+		</td>
+		<td class="label"><span class="red">*</span>Center Identifier:</td>
+		<td>
+			<form:input path="identifiers[1].value" size="30" maxlength="30"/>
+			<input type="hidden" name="identifiers[1].type" value="Coordinating Center Identifier"/>
+		</td>
+	</tr>
+</table>
+
 </tabs:division>
 </form:form>
-</table>
+<!-- MAIN BODY ENDS HERE -->
 </body>
 </html>

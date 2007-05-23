@@ -17,8 +17,6 @@ function fireAction(action, selectedStratification, selectedAnswer){
 	document.form._action.value=action;
 	document.form._selectedStratification.value=selectedStratification;
 	document.form._selectedAnswer.value=selectedAnswer;
-	// need to disable validations while removing
-		
 	document.form.submit();
 }
 

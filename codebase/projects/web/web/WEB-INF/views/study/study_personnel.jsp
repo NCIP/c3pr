@@ -55,7 +55,7 @@ function chooseSitesfromSummary(_selectedSite){
 var personnelAutocompleterProps = {
 	basename: "personnel",
     populator: function(autocompleter, text) {
-    createStudy.matchResearchStaffs(text, function(values) {
+    createStudy.matchResearchStaffs(text,document.getElementById('site').value, function(values) {
 	    autocompleter.setChoices(values)
 	})
     },
