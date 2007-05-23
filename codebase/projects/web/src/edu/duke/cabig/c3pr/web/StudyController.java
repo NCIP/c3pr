@@ -91,6 +91,7 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
     	  		refdata.put("sponsorCodeRefData",  configMap.get("sponsorCodeRefData"));
     	  		refdata.put("statusRefData",  configMap.get("statusRefData"));
     	  		refdata.put("typeRefData",  configMap.get("typeRefData"));
+    	  		refdata.put("coordinatingCenters", configMap.get("coordinatingCenters"));
     	  		refdata.put("randomizedIndicatorRefData", configMap.get("yesNo"));
     	  		refdata.put("multiInstitutionIndicatorRefData", configMap.get("yesNo"));
     	  		refdata.put("blindedIndicatorRefData", configMap.get("yesNo"));	    	  		
@@ -259,7 +260,7 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 		else if ("Eligibility Checklist".equals(tabShortTitle)){		
 				handleEligibilityChecklist((Study)command, request);								
 		}
-		else if ("Stratifications".equals(tabShortTitle)){	
+		else if ("Stratification Factors".equals(tabShortTitle)){	
 			String selected = request.getParameter("_selected");
 			
 			if("displayStratification".equals(request.getParameter("_action"))) {
@@ -625,7 +626,9 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 		List<Identifier> identifiers = new ArrayList<Identifier>();
 		Identifier id1 = new Identifier();	
 		id1.setPrimaryIndicator(true);
+		Identifier id2 = new Identifier();	
 		identifiers.add(id1);	
+		identifiers.add(id2);
 		study.setIdentifiers(identifiers);		
 	}
 	
