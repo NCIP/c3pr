@@ -26,81 +26,119 @@ function fireAction(action, selected){
 		<input type="hidden" name="_selected" value="">
 		<input type="hidden" name="_finish" value="true">
 		<tags:errors path="*" />
-		<table width="100%" border="0" cellspacing="0" cellpadding="0">
-			<tr>
-				<td width="100%">
-				<table width="40%" border="0" cellspacing="0" cellpadding="0"
-					id="table1">
-					<tr valign="top">
-						<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-							height="1" class="heightControl"></td>
-						<td width="75%"><img src="<tags:imageUrl name="spacer.gif"/>"
-							width="1" height="1" class="heightControl"></td>
-					</tr>
-					<tr valign="top">
-						<td class="label" align="right"><span class="red">*</span>First
-						Name:&nbsp;</td>
-						<td><form:input path="firstName" cssClass="validate-notEmpty" />
-						</td>
-					</tr>
-					<tr valign="top">
-						<td class="label" align="right"><span class="red">*</span>Last
-						Name:&nbsp;</td>
-						<td><form:input path="lastName" cssClass="validate-notEmpty" /></td>
-					</tr>
-					<tr>
-						<td class="label" align="right"><b> <span class="red">*</span><em></em>Site:&nbsp;</b></td>
-						<td><form:select path="healthcareSite" id="selectedHealthcareSite" cssClass="validate-notEmpty">
-							<option value="">--Please Select--</option>
-							<form:options items="${healthcareSites}" itemLabel="name"
-								itemValue="id" />
-						</form:select></td>
-					</tr>
-				</table>
-
-				</td>
-			</tr>
-
+		<table width="100%" border="0" cellpadding="0" cellspacing="0">
 			<tr>
 				<td>
-				<hr align="left" width="95%">
 
-				<table border="0" width="40%" cellspacing="1" cellpadding="1">
-					<tr valign="top">
-						<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-							height="1" class="heightControl"></td>
-						<td width="75%"><img src="<tags:imageUrl name="spacer.gif"/>"
-							width="1" height="1" class="heightControl"></td>
-					</tr>
+				<table width="100%" border="0" cellspacing="0" cellpadding="0">
 					<tr>
-						<td colspan="2">Enter Contact Information for the Research Staff</td>
-					</tr>
-					<tr valign="top">
-						<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-							height="1" class="heightControl"></td>
-						<td width="75%"><img src="<tags:imageUrl name="spacer.gif"/>"
-							width="1" height="1" class="heightControl"></td>
-					</tr>
-					<tr>
-						<td class="label" align="right"><em></em><em></em> <b>${command.contactMechanisms[0].type
-						}:</b>&nbsp;</td>
-						<td align="left"><form:input path="contactMechanisms[0].value" />&nbsp;&nbsp;&nbsp;</td>
-					</tr>
-					<tr>
-						<td class""label" align="right"><em></em><em></em> <b>${command.contactMechanisms[1].type
-						}:</b>&nbsp;</td>
-						<td align="left"><form:input path="contactMechanisms[1].value" />&nbsp;&nbsp;&nbsp;</td>
-					</tr>
-					<tr>
-						<td class="label" align="right"><em></em><em></em> <b>${command.contactMechanisms[2].type
-						}:</b>&nbsp;</td>
-						<td align="left"><form:input path="contactMechanisms[2].value" />&nbsp;&nbsp;&nbsp;</td>
-					</tr>
+						<td><!-- TABS LEFT START HERE -->
+						<table width="100%" border="0" cellpadding="0" cellspacing="0">
+							<tr>
+								<!-- LEFT CONTENT STARTS HERE -->
+								<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
+								<!-- RIGHT CONTENT STARTS HERE -->
 
+								<table border="0" cellspacing="0" cellpadding="0">
+									<tr>
+										<td>
+										<p id="instructions">Choose a healthcare site</p>
+										<table border="0" cellspacing="0" cellpadding="0">
+
+											<tr>
+												<td align="right"><b> <span class="red">*</span><em></em><b>Site:</b>&nbsp;</b></td>
+												<td><form:select path="healthcareSite"
+													id="selectedHealthcareSite" cssClass="validate-notEmpty">
+													<option value="">--Please Select--</option>
+													<form:options items="${healthcareSites}" itemLabel="name"
+														itemValue="id" />
+												</form:select></td>
+											</tr>
+											<tr>
+												<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+													height="1" class="heightControl"></td>
+												<td width="75%"><img
+													src="<tags:imageUrl name="spacer.gif"/>" width="1"
+													height="1" class="heightControl"></td>
+											</tr>
+										</table>
+										</td>
+									</tr>
+								</table>
+
+								<hr align="left" width="95%">
+
+								<table width="80%" border="0" cellspacing="0" cellpadding="0"
+									id="details">
+									<tr>
+										<td width="40%" valign="top">
+										<table width="100%" border="0" cellspacing="1" cellpadding="1"
+											id="table1">
+											<tr>
+												<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+													height="1" class="heightControl"></td>
+												<td width="75%"><img
+													src="<tags:imageUrl name="spacer.gif"/>" width="1"
+													height="1" class="heightControl"></td>
+											</tr>
+											<tr valign="top">
+												<td align="right"><span class="red">*</span><b>First Name:</b>&nbsp;</td>
+												<td><form:input path="firstName"
+													cssClass="validate-notEmpty" /></td>
+											</tr>
+											<tr valign="top">
+												<td align="right"><span class="red">*</span><b>Last Name:<b>&nbsp;</td>
+												<td><form:input path="lastName" cssClass="validate-notEmpty" /></td>
+											</tr>
+										</table>
+										</td>
+										<td width="40%" valign="top">
+										<table width="100%" border="0" cellspacing="1" cellpadding="1"
+											id="table1">
+											<tr valign="top">
+												<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+													height="1" class="heightControl"></td>
+												<td width="75%"><img
+													src="<tags:imageUrl name="spacer.gif"/>" width="1"
+													height="1" class="heightControl"></td>
+											</tr>
+											<tr>
+												<td align="right"><em></em><em></em> <b>${command.contactMechanisms[0].type
+												}:</b>&nbsp;</td>
+												<td align="left"><form:input
+													path="contactMechanisms[0].value" />&nbsp;&nbsp;&nbsp;</td>
+											</tr>
+											<tr>
+												<td align="right"><em></em><em></em> <b>${command.contactMechanisms[1].type
+												}:</b>&nbsp;</td>
+												<td align="left"><form:input
+													path="contactMechanisms[1].value" />&nbsp;&nbsp;&nbsp;</td>
+											</tr>
+											<tr>
+												<td align="right"><em></em><em></em> <b>${command.contactMechanisms[2].type
+												}:</b>&nbsp;</td>
+												<td align="left"><form:input
+													path="contactMechanisms[2].value" />&nbsp;&nbsp;&nbsp;</td>
+											</tr>
+
+										</table>
+										</td>
+									</tr>
+								</table>
+
+
+
+								</td>
+
+								<!-- LEFT CONTENT ENDS HERE -->
+							</tr>
+						</table>
+						</td>
+					</tr>
 				</table>
-
-
+				<br>
 				</td>
+				<!-- LEFT CONTENT ENDS HERE -->
 			</tr>
 		</table>
 	</form:form>
