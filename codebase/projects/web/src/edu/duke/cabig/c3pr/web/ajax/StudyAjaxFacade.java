@@ -100,9 +100,11 @@ public class StudyAjaxFacade {
         return reducedPersonnel;
     }
 
-    public List<ResearchStaff> matchResearchStaffs(String text, 
+    public List<ResearchStaff> matchResearchStaffs(String text, int siteIndex,
     		HttpServletRequest request) throws Exception{
-    	List<ResearchStaff> staffCol = researchStaffDao.getBySubnames(extractSubnames(text));
+    	Study study = (Study) getCommandOnly(request);
+    	int siteId = study.getStudySites().get(siteIndex).getSite().getId();
+    	List<ResearchStaff> staffCol = researchStaffDao.getBySubnames(extractSubnames(text), siteId);
         List<ResearchStaff> reducedStaffCol = new ArrayList<ResearchStaff>(staffCol.size());
         for (ResearchStaff staff : staffCol) {
         	reducedStaffCol.add(buildReduced(staff, Arrays.asList("id", "firstName","lastName"))

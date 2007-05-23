@@ -17,6 +17,8 @@ public class ResearchStaffDao extends AbstractBaseDao<ResearchStaff> {
 		= Arrays.asList("firstName", "lastName");
 	private static final List<String> EXACT_MATCH_PROPERTIES
 		= Collections.emptyList();
+	private static final List<Object> EXTRA_PARAMS
+		= Collections.emptyList();
 		
 	@Override
 	public Class<ResearchStaff> domainClass() {
@@ -29,9 +31,10 @@ public class ResearchStaffDao extends AbstractBaseDao<ResearchStaff> {
 	 public List<ResearchStaff> getAll() {
 		 return getHibernateTemplate().find("from ResearchStaff");
 	 }
-	 	 	
-	 public List<ResearchStaff> getBySubnames(String[] subnames) {
-        return findBySubname(subnames,
-            SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
-    }
+	 
+	 public List<ResearchStaff> getBySubnames(String[] subnames, int healthcareSite) {
+	        return findBySubname(subnames,"o.healthcareSite.id = '"+healthcareSite+"'",EXTRA_PARAMS,
+	            SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
+	 }	
+	 	 
 }
