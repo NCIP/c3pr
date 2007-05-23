@@ -35,7 +35,7 @@ public class EditParticipantControllerTest extends ControllerTestCase {
 	private ConfigurationProperty configurationProperty;
 
 	private ApplicationContext context;
-	
+
 	private Participant participant;
 
 	protected void setUp() throws Exception {
@@ -54,16 +54,19 @@ public class EditParticipantControllerTest extends ControllerTestCase {
 
 	public void testReferenceData() throws Exception {
 		controller.setConfigurationProperty(configurationProperty);
-		Map<String, Object> refdata = controller.getFlow().getTab(1).referenceData(participant);
+		Map<String, Object> refdata = controller.getFlow().getTab(1)
+				.referenceData(participant);
 		List<Lov> races = (List<Lov>) refdata.get("raceCode");
-		Iterator<Lov> racesIter = races.iterator();
-		Lov race;
-		while (racesIter.hasNext()) {
-			race = racesIter.next();
-			if (race.getCode() == "White") {
-				assertEquals("RaceCodes missing or wrong", "White", race
-						.getDesc());
+		if (races.size() > 0) {
+			Iterator<Lov> racesIter = races.iterator();
+			Lov race;
+			while (racesIter.hasNext()) {
+				race = racesIter.next();
+				if (race.getCode() == "White") {
+					assertEquals("RaceCodes missing or wrong", "White", race
+							.getDesc());
 
+				}
 			}
 		}
 	}
