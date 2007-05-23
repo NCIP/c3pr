@@ -1,9 +1,12 @@
 package edu.duke.cabig.c3pr.xml;
 
-import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.*;
 import gov.nih.nci.common.exception.XMLUtilityException;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Date;
 
 
 /**
@@ -49,7 +52,70 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
         Study studyObject = new Study();
 
         studyObject.setGridId(studyGridId);
+        studyObject.setShortTitleText(strValue);
+        studyObject.setRandomizedIndicator(strValue);
+        studyObject.setMultiInstitutionIndicator(strValue);
+        studyObject.setLongTitleText(strValue);
+        studyObject.setPhaseCode(strValue);
+        studyObject.setPrecisText(strValue);
+        studyObject.setStatus(strValue);
+        studyObject.setStatus(strValue);
+        studyObject.setType(strValue);
+        studyObject.setTargetAccrualNumber(intValue);
+        studyObject.setVersion(intValue);
+
         studyObject.setDescriptionText(strValue);
+
+        StudySite studySiteObject = new StudySite();
+        studySiteObject.setGridId(strValue);
+        studySiteObject.setIrbApprovalDate(dateValue);
+        studySiteObject.setRoleCode(strValue);
+
+        Identifier identifierObject = new Identifier();
+        identifierObject.setSource(strValue);
+        identifierObject.setType(strValue);
+
+        studyObject.addIdentifier(identifierObject);
+        studyObject.addStudySite(studySiteObject);
+
+        studyObject.addEpoch(Epoch.create("Screening"));
+        studyObject.addEpoch(Epoch.create("Treatment", "Arm A", "Arm B", "Arm C"));
+        studyObject.addEpoch(Epoch.create("Follow up"));
+
+        // healthcare site
+        HealthcareSite healthcaresite = new HealthcareSite();
+
+        healthcaresite.setAddress(getAddress());
+        healthcaresite.setName("duke healthcare");
+        healthcaresite.setDescriptionText("duke healthcare");
+        healthcaresite.setNciInstituteCode("Nci duke");
+
+        StudySite studySite = new StudySite();
+        studyObject.addStudySite(studySite);
+        studySite.setSite(healthcaresite); //
+        studySite.setStartDate(new Date());
+        studySite.setIrbApprovalDate(new Date());
+        studySite.setRoleCode("role");
+        studySite.setStatusCode("active");
+
+        StratificationCriterionPermissibleAnswer ans = new StratificationCriterionPermissibleAnswer();
+        ans.setPermissibleAnswer("it is valid");
+        StratificationCriterionPermissibleAnswer ans2 = new StratificationCriterionPermissibleAnswer();
+        ans.setPermissibleAnswer("it is valid");
+        StratificationCriterion cri = new StratificationCriterion();
+        cri.setQuestionNumber(1);
+        cri.setQuestionText("is criterion valid");
+        cri.addPermissibleAnswer(ans);
+        StratificationCriterion cri2 = new StratificationCriterion();
+        cri.setQuestionNumber(2);
+        cri.setQuestionText("is criterion valid 2");
+        cri.addPermissibleAnswer(ans2);
+
+        studyObject.addStratificationCriteria(cri);
+        studyObject.addStratificationCriteria(cri2);
+
+        studyObject.setIncCriterias(getInclusionEligibilityCriterias());
+        studyObject.setExcCriterias(getExclusionEligibilityCriterias());
 
         try {
             marshalledStudy = marshaller.toXML(studyObject);
@@ -60,6 +126,33 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
         }
     }
 
+    private List<InclusionEligibilityCriteria> getInclusionEligibilityCriterias(){
+        List<InclusionEligibilityCriteria> criterias = new ArrayList<InclusionEligibilityCriteria>();
+
+        for(int i =0; i<=2;i++){
+            InclusionEligibilityCriteria criteria = new InclusionEligibilityCriteria();
+            criteria.setGridId(strValue);
+            criteria.setName(strValue);
+            criteria.setQuestionNumber(i);
+            criteria.setQuestionText(strValue);
+            criterias.add(criteria);
+        }
+        return criterias;
+    }
+
+    private List<ExclusionEligibilityCriteria> getExclusionEligibilityCriterias(){
+        List<ExclusionEligibilityCriteria> criterias = new ArrayList<ExclusionEligibilityCriteria>();
+
+        for(int i =1; i<=2;i++){
+            ExclusionEligibilityCriteria criteria = new ExclusionEligibilityCriteria();
+            criteria.setGridId(strValue);
+            criteria.setName(strValue);
+            criteria.setQuestionNumber(i);
+            criteria.setQuestionText(strValue);
+            criterias.add(criteria);
+        }
+        return criterias;
+    }
 
     /**
      * Tests if the message generated can be validated
@@ -86,7 +179,7 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
             assertNotNull(unmarshalledStudy);
 
             assertEquals(unmarshalledStudy.getGridId(), studyGridId);
-            // we never set this so it should be null
+// we never set this so it should be null
             assertNull(unmarshalledStudy.getDiseaseCategoryAsText());
         } catch (XMLUtilityException e) {
             fail(e.getMessage());

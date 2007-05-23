@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.xml;
 
 import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.Address;
 import junit.framework.TestCase;
 
 import javax.xml.XMLConstants;
@@ -45,6 +46,7 @@ public abstract class AbstractXMLMarshalling extends TestCase {
 
     String strValue;
     boolean boolValue;
+    Integer intValue = 0;
     Date dateValue;
     String studyGridId;
     String siteGridId;
@@ -89,6 +91,15 @@ public abstract class AbstractXMLMarshalling extends TestCase {
         return identifiers;
     }
 
+    protected Address getAddress(){
+        Address address = new Address();
+        address.setCity("Reston");
+        address.setCountryCode("USA");
+        address.setPostalCode("20191");
+        address.setStateCode("VA");
+        address.setStreetAddress("12359 Sunrise Valley Dr");
+        return address;
+    }
 
     public abstract void testSerializationDeserializationTest();
 
