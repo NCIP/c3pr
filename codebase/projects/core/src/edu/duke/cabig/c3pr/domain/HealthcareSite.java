@@ -13,38 +13,33 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-
 /**
  * @author Priyatam
  * @author Kulasekaran
  */
- @Entity
- @Table (name = "healthcare_sites")
- @GenericGenerator(name="id-generator", strategy = "native",
-     parameters = {
-         @Parameter(name="sequence", value="healthcare_sites_id_seq")
-     }
- )
-public class HealthcareSite extends Organization implements Comparable<HealthcareSite> {
-		 
-	private String nciInstituteCode;	
-	private List<HealthcareSiteInvestigator> healthcareSiteInvestigators
-		= new ArrayList<HealthcareSiteInvestigator>();
+@Entity
+@Table(name = "healthcare_sites")
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "healthcare_sites_id_seq") })
+public class HealthcareSite extends Organization implements
+		Comparable<HealthcareSite> {
+
+	private String nciInstituteCode;
+
+	private List<HealthcareSiteInvestigator> healthcareSiteInvestigators = new ArrayList<HealthcareSiteInvestigator>();
+
 	private List<ResearchStaff> researchStaffs = new ArrayList<ResearchStaff>();
-	
-	public void addHealthcareSiteInvestigator(HealthcareSiteInvestigator hcsi)
-	{
+
+	public void addHealthcareSiteInvestigator(HealthcareSiteInvestigator hcsi) {
 		healthcareSiteInvestigators.add(hcsi);
 		hcsi.setHealthcareSite(this);
 	}
-	
-	public void removeHealthcareSiteInvestigator(HealthcareSiteInvestigator hcsi)
-	{
+
+	public void removeHealthcareSiteInvestigator(HealthcareSiteInvestigator hcsi) {
 		healthcareSiteInvestigators.remove(hcsi);
 	}
-	
-	@OneToMany (mappedBy="healthcareSite", fetch=FetchType.LAZY)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})	
+
+	@OneToMany(mappedBy = "healthcareSite", fetch = FetchType.LAZY)
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	public List<HealthcareSiteInvestigator> getHealthcareSiteInvestigators() {
 		return healthcareSiteInvestigators;
 	}
@@ -53,28 +48,24 @@ public class HealthcareSite extends Organization implements Comparable<Healthcar
 			List<HealthcareSiteInvestigator> healthcareSiteInvestigators) {
 		this.healthcareSiteInvestigators = healthcareSiteInvestigators;
 	}
-	
-	@OneToMany (mappedBy="healthcareSite", fetch=FetchType.LAZY)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})	
-	public List<ResearchStaff> getResearchStaffCollection() {
+
+	@OneToMany(mappedBy = "healthcareSite", fetch = FetchType.LAZY)
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	public List<ResearchStaff> getResearchStaffs() {
 		return researchStaffs;
 	}
 
-	public void setResearchStaffCollection(
-			List<ResearchStaff> researchStaffCollection) {
-		this.researchStaffs = researchStaffCollection;
-	}	
-	
-	public void addResearchStaff(ResearchStaff rs)
-	{
+	public void setResearchStaffs(List<ResearchStaff> researchStaffs) {
+		this.researchStaffs = researchStaffs;
+	}
+
+	public void addResearchStaff(ResearchStaff rs) {
 		researchStaffs.add(rs);
 	}
-	
-	public void removeResearchStaff(ResearchStaff rs)
-	{
+
+	public void removeResearchStaff(ResearchStaff rs) {
 		researchStaffs.remove(rs);
 	}
-	
 
 	public String getNciInstituteCode() {
 		return nciInstituteCode;
@@ -82,18 +73,20 @@ public class HealthcareSite extends Organization implements Comparable<Healthcar
 
 	public void setNciInstituteCode(String nciInstituteCode) {
 		this.nciInstituteCode = nciInstituteCode;
-	}  
-	
+	}
+
 	public int compareTo(HealthcareSite o) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int PRIME = 31;
 		int result = super.hashCode();
-		result = PRIME * result + ((nciInstituteCode == null) ? 0 : nciInstituteCode.hashCode());
+		result = PRIME
+				* result
+				+ ((nciInstituteCode == null) ? 0 : nciInstituteCode.hashCode());
 		return result;
 	}
 
@@ -114,4 +107,4 @@ public class HealthcareSite extends Organization implements Comparable<Healthcar
 		return true;
 	}
 
-	}
+}
