@@ -57,7 +57,7 @@ public class EditParticipantControllerTest extends ControllerTestCase {
 		Map<String, Object> refdata = controller.getFlow().getTab(1)
 				.referenceData(participant);
 		List<Lov> races = (List<Lov>) refdata.get("raceCode");
-		if (races.size() > 0) {
+		/*if (races.size() > 0) {
 			Iterator<Lov> racesIter = races.iterator();
 			Lov race;
 			while (racesIter.hasNext()) {
@@ -68,7 +68,7 @@ public class EditParticipantControllerTest extends ControllerTestCase {
 
 				}
 			}
-		}
+		}*/
 	}
 
 	public class HealthCareSiteDaoMock extends HealthcareSiteDao {
