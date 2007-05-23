@@ -42,7 +42,7 @@
 				<td>${study.primaryIdentifier}</td>
 				<td>${study.trimmedShortTitleText}</td>
 				<td>${study.status}</td>
-				<td>${study.sponsorCode}</td>
+				<td>${study.identifiers[0].value}</td>
 				<td>${study.phaseCode}</td>
 				<td>${study.targetAccrualNumber}</td>
 				</a>

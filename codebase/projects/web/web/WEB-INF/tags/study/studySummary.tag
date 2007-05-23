@@ -36,7 +36,7 @@
 	<td><b>Sponsor:</b></td>
 </tr>
 <tr>
-	<td>${command.sponsorCode}</td>
+	<td>${command.identifiers[0].value}</td>
 </tr>
 <tr>
 	<td><b>Phase:</b></td>
