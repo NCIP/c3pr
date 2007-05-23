@@ -242,6 +242,7 @@ public class CreateRegistrationController extends RegistrationController {
 		}
 		studyParticipantAssignment.getStudySite().getStudy().getIncCriterias().size();
 		studyParticipantAssignment.getStudySite().getStudy().getExcCriterias().size();
+		studyParticipantAssignment.getStudySite().getStudy().getIdentifiers().size();
 	}
 	private boolean isNewRegistration(HttpServletRequest request){
 		if(request.getParameter("registrationId")!=null){
