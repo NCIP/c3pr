@@ -158,7 +158,7 @@ function manageSelectBox(box){
 				items="${sponsorCodeRefData}" itemLabel="desc" itemValue="desc" />
 		</form:select></td>
 		<td class="label"><span class="red">*</span><em></em>Sponsor Identifier:</td>
-		<td><form:input path="identifiers[0].value" size="30" maxlength="30"/></td>
+		<td><form:input path="identifiers[0].value" size="30" maxlength="30" cssClass="validate-notEmpty"/></td>
 		<input type="hidden" name="identifiers[0].type" value="Protocol Authority Identifier"/>
 	</tr>	
 	<tr>
