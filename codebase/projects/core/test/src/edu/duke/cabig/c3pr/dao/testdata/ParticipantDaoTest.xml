@@ -1,7 +1,7 @@
 <dataset>
       
     <STUDIES id="1000" version="1" blinded_indicator="true" long_title_text="long_title_text" multi_institution_indicator="true"
-   	phase_code="Ph" randomized_indicator="flase" short_title_text="short_title_text" sponsor_code="sp" target_accrual_number="123" type="ty"
+   	phase_code="Ph" randomized_indicator="flase" short_title_text="short_title_text" target_accrual_number="123" type="ty"
     description_text="description" precis_text="precis_text" status="st" />
         
     <EPOCHS id="1000" version="1" name="Treatment" description_text="treatement desc" stu_id="1000" />

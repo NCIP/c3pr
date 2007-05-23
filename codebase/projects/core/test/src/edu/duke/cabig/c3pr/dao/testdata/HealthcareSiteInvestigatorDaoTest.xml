@@ -1,6 +1,6 @@
 <dataset>	
     <STUDIES id="1000" version="1" blinded_indicator="1" long_title_text="long_title_text" multi_institution_indicator="1"
-   	phase_code="Ph" randomized_indicator="1" short_title_text="short_title_text" sponsor_code="sp" target_accrual_number="123" type="ty"
+   	phase_code="Ph" randomized_indicator="1" short_title_text="short_title_text" target_accrual_number="123" type="ty"
     description_text="description" precis_text="precis_text" status="st" />
     
     <ADDRESSES id="1000" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA" />
