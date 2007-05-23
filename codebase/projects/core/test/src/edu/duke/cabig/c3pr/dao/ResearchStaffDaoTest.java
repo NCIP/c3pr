@@ -44,7 +44,7 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
 	 * @throws Exception
 	 */
 	public void testGetBySubnameMatchesShortTitle() throws Exception {
-        List<ResearchStaff> actual = getDao().getBySubnames(new String[] { "Bi" });
+        List<ResearchStaff> actual = getDao().getBySubnames(new String[] { "Bi" }, 1000);
         assertEquals("Wrong number of matches", 1, actual.size());
         assertEquals("Wrong match", 1000, (int) actual.get(0).getId());
     }
@@ -54,7 +54,7 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
 	 * @throws Exception
 	 */
     public void testGetBySubnameMatchesIntersectionOfSubnames() throws Exception {
-        List<ResearchStaff> actual = getDao().getBySubnames(new String[] { "Resea", "Geo" });
+        List<ResearchStaff> actual = getDao().getBySubnames(new String[] { "Resea", "Geo" }, 1000);
         assertEquals("Wrong number of matches", 1, actual.size());
         assertEquals("Wrong match", 1001, (int) actual.get(0).getId());
     }
