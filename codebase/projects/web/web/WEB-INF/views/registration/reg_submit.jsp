@@ -189,7 +189,9 @@ function navRollOver(obj, state) {
 			There is no eligibility check list available for this subject
 			</c:when>
 			<c:otherwise>
+			<br><br>
 				<strong>Inclusion Criteria:</strong>
+				
 				<div class="review">
 				<table border="0" cellspacing="0" cellpadding="0" id="mytable">
 					<tr>
@@ -204,7 +206,9 @@ function navRollOver(obj, state) {
 					</c:forEach>
 				</table>
 				</div>
+				<br><br>
 				<strong>Exclusion Criteria:</strong>
+				
 				<div class="review">
 				<table border="0" cellspacing="0" cellpadding="0" id="mytable">
 					<tr>
@@ -239,6 +243,7 @@ function navRollOver(obj, state) {
 			</table>
 			</c:when>
 			<c:otherwise>
+			<br>
 			<table border="0" cellspacing="0" cellpadding="0" id="mytable">
 				<tr>
 					<th scope="col" align="left">Strata</td>
