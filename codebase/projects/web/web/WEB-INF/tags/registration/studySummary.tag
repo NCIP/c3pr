@@ -35,7 +35,7 @@
 		</tr>
 		<tr>
 			<td valign="top" width="35%" align="right"><b>Sponsor:&nbsp;</b></td>
-			<td valign="bottom" align="left">${command.studySite.study.sponsorCode}</td>
+			<td valign="bottom" align="left">${command.studySite.study.identifiers[0].value}</td>
 		</tr>
 		<tr>
 			<td valign="top" width="35%" align="right"><b>Type:&nbsp;</b></td>
