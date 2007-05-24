@@ -29,9 +29,18 @@
 
     <div class="tabpane">
         <div class="tabcontent workArea">
+           <div class="body">
             <decorator:body/>
         </div>
+  		<div class="tabcontrols autoclear">    		
+            <a href="javascript:fireAction('update','0');" id="flow-next">
+                Save   				
+			</a>    		
+		</div>
+        </div>
+        
     </div>
+    
 
     <form:form id="flowredirect">
         <input type="hidden" name="_target${tab.targetNumber}"
