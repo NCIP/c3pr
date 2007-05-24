@@ -48,12 +48,6 @@ function PanelCombo(element) {
         document.getElementById(imageId).src=imageSource.replace('maximize','minimize');
     }
 }
-function displayDiv(id,flag){
-	if(flag=='true'){
-		document.getElementById(id).style.display='block';
-	}else
-		document.getElementById(id).style.display='none';	
-}
 </script>
 <decorator:head/>
 </head>
