@@ -172,7 +172,7 @@ function manageSearchTypeMessage(message){
 </script>
 </head>
 <body>
-<tabs:body title="">
+<tabs:body title="Search Registration">
 	<form:form id="searchForm" name="searchForm" method="post">
 		<table width="100%" border="0" cellspacing="5" cellpadding="0">
 			<tr>
