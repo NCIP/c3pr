@@ -45,11 +45,20 @@ function accessApp(url,app,targetWindow){
 			<tr>
 
 				<!-- LEFT CONTENT STARTS HERE -->
-				<td valign="top" class="additionals2"><font color="Green"><!-- LEFT FORM STARTS HERE -->
-				<!-- RIGHT CONTENT STARTS HERE --> <input type="hidden"
-					name="nextView"> <strong>Subject Registration has
-				been successfully completed. Please <a href="javascript:doNothing()">print</a>
-				and save this confirmation in the subject study records </strong></font><br>
+				<td valign="top" class="additionals2">
+				<c:choose><c:when test="${command.registrationStatus=='Incomplete'}">
+					<font color="Red"><!-- LEFT FORM STARTS HERE -->
+					<!-- RIGHT CONTENT STARTS HERE --> <input type="hidden"
+						name="nextView"> <strong>Subject Registration has
+					been saved in an Incomplete Status.  </strong></font></c:when>
+				<c:otherwise>
+					<font color="Green"><!-- LEFT FORM STARTS HERE -->
+					<!-- RIGHT CONTENT STARTS HERE --> <input type="hidden"
+						name="nextView"> <strong>Subject Registration has
+					been successfully completed. Please <a href="javascript:doNothing()">print</a>
+					and save this confirmation in the subject study records </strong></font>
+				</c:otherwise> </c:choose>
+				<br>
 				<table width="100%" border="0" cellspacing="0" cellpadding="0"
 					id="details">
 					<tr>
