@@ -2,84 +2,18 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="body">
-	<%--<c:choose>
-		<c:when test="${empty actionReturnType }">
-			<tr>
-		        <td>
-					<tags:panel id="SearchSubject" title="Search Subject">		        
-		        	<c:choose>
-		        		<c:when test="${!empty studySiteId}">
-			        		<tags:search action="searchParticipant?inRegistration=true&studySiteId=${studySiteId}"/>
-			           	</c:when>
-		        		<c:otherwise>
-			        		<tags:search action="searchParticipant?inRegistration=true"/>
-		        		</c:otherwise>
-		        	</c:choose>
-	        		</tags:panel>		        	
-		       	</td>
-			</tr>
-			<tr>
-		        <td>
-		        	<c:choose>
-		        		<c:when test="${!empty studySiteId}">
-			        		<tags:panel id="CreateSubject" title="Create Subject" display="false" 
-			        				url="createParticipant?inRegistration=true&studySiteId=${studySiteId}">
-				        	</tags:panel>
-			        	</c:when>
-		        		<c:otherwise>
-							<tags:panel id="CreateSubject" title="Create Subject" display="false" 
-				        				url="createParticipant?inRegistration=true">
-					        </tags:panel>		        		
-		        		</c:otherwise>
-		        	</c:choose>
-		       	</td>
-			</tr>
-		</c:when>
-		<c:when test="${actionReturnType=='SearchResults' }">
-			<tr>
-		        <td>
-		        	<tags:panel id="SearchSubject" title="Search Subject">
-		        	<c:choose>
-		        		<c:when test="${!empty studySiteId}">
-				        	<tags:search action="searchParticipant?inRegistration=true&studySiteId=${studySiteId}"/>
-			           	</c:when>
-		        		<c:otherwise>
-			        		<tags:search action="searchParticipant?inRegistration=true"/>
-		        		</c:otherwise>
-		        	</c:choose>
-		        	<jsp:doBody/>
-		       		</tags:panel>
-		       	</td>
-			</tr>
-			<tr>
-		        <td>
-		        	<c:choose>
-		        		<c:when test="${!empty studySiteId}">
-			        		<tags:panel id="CreateSubject" title="Create Subject" display="false" 
-			        				url="createParticipant?inRegistration=true&studySiteId=${studySiteId}">
-				        	</tags:panel>
-			        	</c:when>
-		        		<c:otherwise>
-							<tags:panel id="CreateSubject" title="Create Subject" display="false" 
-				        				url="createParticipant?inRegistration=true">
-					        </tags:panel>		        		
-		        		</c:otherwise>
-		        	</c:choose>
-		       	</td>
-			</tr>
-		</c:when>--%>
 	<c:choose>
 		<c:when test="${actionReturnType=='CreateParticipant' }">
 			<tr>
 		        <td>
 		        	<c:choose>
 		        		<c:when test="${!empty studySiteId}">
-			        		<tags:panel id="SearchSubject" title="Search Subject" display="false" 
+			        		<tags:panel id="SearchSubject" title="Search Subject" display="false" isAlwaysDisplay="true"
 			        				url="searchParticipant?inRegistration=true&studySiteId=${studySiteId}">
 				        	</tags:panel>
 			        	</c:when>
 		        		<c:otherwise>
-							<tags:panel id="SearchSubject" title="Search Subject" display="false" 
+							<tags:panel id="SearchSubject" title="Search Subject" display="false" isAlwaysDisplay="true"
 			        				url="searchParticipant?inRegistration=true">
 					        </tags:panel>		        		
 		        		</c:otherwise>
@@ -88,7 +22,7 @@
 			</tr>
 			<tr>
 		        <td>
-			        <tags:panel id="CreateSubject" title="Create Subject">
+			        <tags:panel id="CreateSubject" title="Create Subject" isAlwaysDisplay="true">
 					    <tabs:levelTwoTabsSubFlow tab="${tab}" flow="${flow}"/>
 					    <div class="tabcontent workArea">
 					        <div class="body">
@@ -103,7 +37,7 @@
 		<c:otherwise>
 			<tr>
 		        <td>
-		        	<tags:panel id="SearchSubject" title="Search Subject">
+		        	<tags:panel id="SearchSubject" title="Search Subject" isAlwaysDisplay="true">
 			        	<jsp:doBody/>
 		       		</tags:panel>
 		       	</td>
@@ -113,12 +47,12 @@
 		        	<c:choose>
 		        		<c:when test="${!empty studySiteId}">
 			        		<tags:panel id="CreateSubject" title="Create Subject" display="false" 
-			        				url="createParticipant?inRegistration=true&studySiteId=${studySiteId}">
+			        				url="createParticipant?inRegistration=true&studySiteId=${studySiteId}" isAlwaysDisplay="true">
 				        	</tags:panel>
 			        	</c:when>
 		        		<c:otherwise>
 							<tags:panel id="CreateSubject" title="Create Subject" display="false" 
-				        				url="createParticipant?inRegistration=true">
+				        				url="createParticipant?inRegistration=true" isAlwaysDisplay="true">
 					        </tags:panel>		        		
 		        		</c:otherwise>
 		        	</c:choose>
