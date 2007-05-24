@@ -85,7 +85,7 @@ validateForm=function(submit){
 					})
 	checkFields.each(prepareField)
 	flag=validateFields(checkFields)
-	ret=(submitPostProcess?submitPostProcess(formVar, flag):true)
+	ret=(submitPostProcess?submitPostProcess(formVar, flag):flag)
 	ret?formVar._submit():null
 }
 var submitPostProcess
