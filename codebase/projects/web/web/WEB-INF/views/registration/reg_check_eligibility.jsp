@@ -41,7 +41,7 @@ function markAsAnswered(id){
 					<table id="" width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
 						<tr>
 							<td>
-							<tags:panel id="Inclusion" title="Inclusion Criterias">
+							<tags:panel id="Inclusion" title="Inclusion Criteria">
 								<table width="100%" border="0">
 									<tr>
 										<td>&nbsp;</td>
@@ -77,7 +77,7 @@ function markAsAnswered(id){
 						<tr><td>&nbsp;</td></tr>
 						<tr>
 							<td>
-							<tags:panel id="Exclusion" title="Exclusion Criterias">
+							<tags:panel id="Exclusion" title="Exclusion Criteria">
 								<table width="100%" border="0">
 									<tr>
 										<td>&nbsp;</td>

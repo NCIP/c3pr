@@ -27,7 +27,7 @@
 	</tr>
 	<tr>
 		<td class="label">Informed Consent Version:</td>
-		<td><form:input path="informedConsentVersion" cssClass="validate-notEmpty"/></td>
+		<td><form:input path="informedConsentVersion"/></td>
 	</tr>
 </table>
 <hr align="left" width="95%">

@@ -164,7 +164,7 @@ function manageSelectBox(box){
 			<form:options
 				items="${sponsorCodeRefData}" itemLabel="desc" itemValue="desc" />
 		</form:select></td>
-		<td class="label13"><span class="red">*</span><em></em>Sponsor Study Identifier:</td>
+		<td class="label13"><span class="red">*</span><em></em><b>Sponsor Study Identifier:</td>
 		<td><form:input path="identifiers[0].value" size="30" maxlength="30" cssClass="validate-notEmpty"/></td>
 		<input type="hidden" name="identifiers[0].type" value="Protocol Authority Identifier"/>
 	</tr>	
@@ -184,14 +184,14 @@ function manageSelectBox(box){
 <div id="cooperativeGroups"  <c:if test="${ (empty command.multiInstitutionIndicator) || command.multiInstitutionIndicator=='false'}">style="display:none;"</c:if>>
 <table width="80%" border="0">
 	<tr>
-		<td class="label130">Coordinating Center:</td>
+		<td class="label130"><b>Coordinating Center:</td>
 		<td align="center" width="39%">
 			<form:select path="identifiers[1].source">
 			<option value="">--Please Select-- </option>
 				<form:options items="${coordinatingCenters}" itemLabel="desc" itemValue="desc" />
 			</form:select>
 		</td>
-		<td class="label20"><span class="red">*</span>Coordinating Center Study Identifier:</td>
+		<td class="label20"><span class="red">*</span><b>Coordinating Center Study Identifier:</td>
 		<td>
 			<form:input path="identifiers[1].value" size="30" maxlength="30"/>
 			<input type="hidden" name="identifiers[1].type" value="Coordinating Center Identifier"/>
