@@ -37,6 +37,7 @@ import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.ObjectGraphBasedEditor;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AbstractTabbedFlowFormController;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
 
 /**
@@ -44,7 +45,7 @@ import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
  * 
  */
 
-public abstract class RegistrationController extends AbstractTabbedFlowRowManagerController {
+public abstract class RegistrationController extends AbstractTabbedFlowFormController {
 
 	private static Log log = LogFactory
 	.getLog(RegistrationController.class);
