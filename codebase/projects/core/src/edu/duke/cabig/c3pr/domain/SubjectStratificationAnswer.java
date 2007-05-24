@@ -28,7 +28,7 @@ public class SubjectStratificationAnswer extends AbstractGridIdentifiableDomainO
 
 	@ManyToOne
     @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN, CascadeType.SAVE_UPDATE, CascadeType.PERSIST })        
-    @JoinColumn(name = "STR_CRI_ID", nullable=false)
+    @JoinColumn(name = "STR_CRI_ID", nullable=true)
 	public StratificationCriterion getStratificationCriterion() {
 		return stratificationCriterion;
 	}
