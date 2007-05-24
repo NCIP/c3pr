@@ -21,6 +21,13 @@
 function navRollOver(obj, state) {
   document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
 }
+var submitPostProcess= function(formElement, continueSubmission){
+		registrationStatus="${command.registrationStatus}";
+		if(registrationStatus=='Incomplete'){
+			return confirm("Registration will be saven in Incomplete status since all the required fields are not filled in. Do you want to continue?");
+		}
+		return continueSubmission;
+	}
 </script>
 </head>
 <body>
