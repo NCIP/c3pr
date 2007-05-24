@@ -24,6 +24,7 @@
 		<tags:tdNameValue name="Disease" value="${studyParticipantAssignment.diseaseHistory.primaryDiseaseStr }" columnAttrName="class='labelR'"/>		
 		<tags:tdNameValue name="Disease Site" value="${studyParticipantAssignment.diseaseHistory.primaryDiseaseSiteStr }" columnAttrName="class='labelR'"/>
 		<tags:tdNameValue name="Eligibility Indicator" value="${studyParticipantAssignment.eligibilityIndicator }" columnAttrName="class='labelR'"/>		
+		<tags:tdNameValue name="Registration Status" value="${studyParticipantAssignment.registrationStatus }" columnAttrName="class='labelR'"/>		
 		<tr>
 			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"	height="1" class="heightControl"></td>
 		</tr>

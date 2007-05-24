@@ -28,6 +28,7 @@ import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
 import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
 import edu.duke.cabig.c3pr.service.ParticipantService;
+import edu.duke.cabig.c3pr.service.impl.ParticipantServiceImpl;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Tab;
@@ -143,10 +144,8 @@ public class CreateRegistrationController extends RegistrationController {
 					logger.debug("postProcessPage(HttpServletRequest, Object, Errors, String) - " + param + " : " + request.getParameter(param)); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 			}
-			DiseaseHistory dh=studyParticipantAssignment.getDiseaseHistory();
-			if(dh==null)
-				return;
 		}
+		studyParticipantAssignment.setRegistrationStatus(ParticipantServiceImpl.evaluateStatus(studyParticipantAssignment));
 	}
 	@Override
 	protected ModelAndView processFinish(HttpServletRequest request,
