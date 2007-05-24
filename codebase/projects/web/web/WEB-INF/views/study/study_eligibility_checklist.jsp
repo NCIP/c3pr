@@ -142,7 +142,7 @@ function displayDiv(id,flag){
 <table border="0" id="table1" cellspacing="5">
 	<tr>
 		<td valign="top">
-		 <tags:panel id="InclusionTable" title="Inclusion Criterias">
+		 <tags:panel id="InclusionTable" title="Inclusion Criteria">
 			<table border="0" cellspacing="0" cellpadding="0" id="details">
 			<tr>
 				<p id="instructions">
@@ -150,7 +150,7 @@ function displayDiv(id,flag){
 					Yes and No are permissible answers
 					</p>
 				<p>
-					<b>Inclusion Criteria</b><a href="javascript:fireAction('addInclusionCriteria',0,'InclusionTable');"><img
+					<b>Inclusion Criterion</b><a href="javascript:fireAction('addInclusionCriteria',0,'InclusionTable');"><img
 						src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a>
 				</p>
 			</tr>
@@ -190,7 +190,7 @@ function displayDiv(id,flag){
 		<table border="0" cellspacing="0" cellpadding="0" id="details">
 			<tr>
 				<td>
-			   <tags:panel id="ExclusionTable" title="Inclusion Criterias">
+			   <tags:panel id="ExclusionTable" title="Exclusion Criteria">
 				
 				<table border="0" cellspacing="0" cellpadding="0" id="table1">
 					<tr>
@@ -199,7 +199,7 @@ function displayDiv(id,flag){
 							Yes and No are permissible answers
 						</p>
 						<p>
-							<b>Exclusion Criteria</b><a href="javascript:fireAction('addExclusionCriteria',0,'ExclusionTable');"><img
+							<b>Exclusion Criterion</b><a href="javascript:fireAction('addExclusionCriteria',0,'ExclusionTable');"><img
 								src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a>
 						</p>
 					</tr>
