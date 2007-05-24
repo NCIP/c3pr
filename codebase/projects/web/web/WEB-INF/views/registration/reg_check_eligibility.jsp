@@ -27,12 +27,13 @@ function markAsAnswered(id){
 <div><tabs:division id="check-eligibility">
 <!-- MAIN BODY STARTS HERE -->
 <div class="workArea">
-
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-	<tr>
-		<td valign="top">
-		<form:form method="post">
-		<tabs:tabFields tab="${tab}" />
+<form:form method="post">
+<tabs:tabFields tab="${tab}" />
+<c:choose>
+	<c:when test="${fn:length(command.subjectEligibilityAnswers) == 0}">
+			The Selected Study does not have Eligibility Crieterias</td>
+	</c:when>
+	<c:otherwise>
 		<table width="100%" border="0" cellspacing="0" cellpadding="0"
 			id="table1">
 			<tr>
@@ -113,10 +114,9 @@ function markAsAnswered(id){
 				</td>
 			</tr>
 		</table>
-		</form:form>
-		</td>
-	</tr>
-</table>
+	</c:otherwise>
+</c:choose>
+</form:form>
 </div>
 </tabs:division>
 </div>
