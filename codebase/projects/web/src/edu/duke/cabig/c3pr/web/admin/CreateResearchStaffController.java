@@ -135,8 +135,7 @@ public class CreateResearchStaffController extends
 
 		researchStaffDao.save(researchStaff);
 
-		response.sendRedirect("viewResearchStaff?fullName="
-				+ researchStaff.getFullName() + "&type=confirm");
+		response.sendRedirect("createResearchStaff");
 		return null;
 	}
 
