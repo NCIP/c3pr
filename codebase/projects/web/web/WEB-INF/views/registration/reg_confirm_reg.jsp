@@ -50,7 +50,7 @@ function accessApp(url,app,targetWindow){
 					<font color="Red"><!-- LEFT FORM STARTS HERE -->
 					<!-- RIGHT CONTENT STARTS HERE --> <input type="hidden"
 						name="nextView"> <strong>Subject Registration has
-					been saved in an Incomplete Status.  </strong></font></c:when>
+					been saved in an Incomplete Status successfully.  </strong></font></c:when>
 				<c:otherwise>
 					<font color="Green"><!-- LEFT FORM STARTS HERE -->
 					<!-- RIGHT CONTENT STARTS HERE --> <input type="hidden"
