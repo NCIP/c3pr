@@ -20,7 +20,6 @@ function submitPage(){
 <!-- MAIN BODY STARTS HERE -->
 <body>
 <!-- SUBJECT SEARCH STARTS HERE -->
-<tabs:body>
 	<form:form id="searchForm" name="searchForm" method="post">
 		<div><tabs:division id="subject-details">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -73,7 +72,6 @@ function submitPage(){
 		</tabs:division>
 	</div>
 	</form:form>
-</tabs:body>
 </body>
 </html>
 <!-- SUBJECT SEARCH ENDS HERE -->
