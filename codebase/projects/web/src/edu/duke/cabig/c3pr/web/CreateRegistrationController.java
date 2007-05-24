@@ -226,6 +226,9 @@ public class CreateRegistrationController extends RegistrationController {
 		if(studyParticipantAssignment.getScheduledArms().size()==0){
 			studyParticipantAssignment.addScheduledArm(new ScheduledArm());
 		}
+		if(studyParticipantAssignment.getDiseaseHistory()==null){
+			studyParticipantAssignment.setDiseaseHistory(new DiseaseHistory());
+		}
 	}
 	
 	private void checkCollections(StudyParticipantAssignment studyParticipantAssignment){
