@@ -11,16 +11,19 @@ prefix="decorator"%>
 <head>
 <style type="text/css">
         .label { width: 10em; text-align: right; padding: 4px; }
+        .label13 { width: 13em; text-align: right; padding: 4px; } 
+		.label130 { width: 11em; text-align: right; padding: 0px; }                
+        .label20 { width: 20em; text-align: right; padding: 4px; }                
 </style>
 <script>
 
 function manageSelectBox(box){
 	if(box.value=='true'){
-		document.getElementById('cooperativeGroups').style.display='none';
+//		document.getElementById('cooperativeGroups').style.display='none';
 		Effect.OpenUp('cooperativeGroups');
 	}
 	if(box.value=='false'){
-		document.getElementById('cooperativeGroups').style.display='none';
+//		document.getElementById('cooperativeGroups').style.display='none';
 		Effect.CloseDown('cooperativeGroups');
 	}
 }
@@ -153,7 +156,7 @@ function manageSelectBox(box){
 </table>
 </tabs:division>
 <tabs:division id="identifiers" title="Global Identifiers">
-<table>
+<table width="60%" border="0">
 	<tr>
 		<td class="label"><span class="red">*</span>Sponsor:</td>
 		<td><form:select path="identifiers[0].source">
@@ -161,44 +164,41 @@ function manageSelectBox(box){
 			<form:options
 				items="${sponsorCodeRefData}" itemLabel="desc" itemValue="desc" />
 		</form:select></td>
-		<td class="label"><span class="red">*</span><em></em>Sponsor Study Identifier:</td>
+		<td class="label13"><span class="red">*</span><em></em>Sponsor Study Identifier:</td>
 		<td><form:input path="identifiers[0].value" size="30" maxlength="30" cssClass="validate-notEmpty"/></td>
 		<input type="hidden" name="identifiers[0].type" value="Protocol Authority Identifier"/>
 	</tr>	
 	<tr>
-	</tr>
-	<tr>
-		<td><img src="<tags:imageUrl name="spacer.gif"/>"
+		<td colspan="4"><img src="<tags:imageUrl name="spacer.gif"/>"
 			width="1" height="1" class="heightControl"></td>
 	</tr>
 	<tr>
 		<td class="label"><span class="red">*</span>Multi Institution:</td>
-		<td><select name="multiInstitutionIndicator" onChange="manageSelectBox(this);">
-		<option value="">--Please Select-- </option>
-			<c:forEach items="${multiInstitutionIndicatorRefData}" var="option">
-				<option value="${option.code }">${option.desc }</option>
-			</c:forEach></td>
-	</tr>
-	<tr>
-		<td><img src="<tags:imageUrl name="spacer.gif"/>"
-			width="1" height="1" class="heightControl"></td>
-	</tr>
-	<tr name="cooperativeGroups" id="cooperativeGroups" style="display:none;">
-		<td class="label">Coordinating Center:</td>
 		<td>
+		<form:select path="multiInstitutionIndicator" onchange="manageSelectBox(this);">
+			<option value="">--Please Select-- </option>
+			<form:options items="${multiInstitutionIndicatorRefData}" itemLabel="desc" itemValue="code"/>
+		</form:select></td>
+	</tr>
+</table>
+<div id="cooperativeGroups"  <c:if test="${ (empty command.multiInstitutionIndicator) || command.multiInstitutionIndicator=='false'}">style="display:none;"</c:if>>
+<table width="80%" border="0">
+	<tr>
+		<td class="label130">Coordinating Center:</td>
+		<td align="center" width="39%">
 			<form:select path="identifiers[1].source">
 			<option value="">--Please Select-- </option>
 				<form:options items="${coordinatingCenters}" itemLabel="desc" itemValue="desc" />
 			</form:select>
 		</td>
-		<td class="label"><span class="red">*</span>Coordinating Center Study Identifier:</td>
+		<td class="label20"><span class="red">*</span>Coordinating Center Study Identifier:</td>
 		<td>
 			<form:input path="identifiers[1].value" size="30" maxlength="30"/>
 			<input type="hidden" name="identifiers[1].type" value="Coordinating Center Identifier"/>
 		</td>
 	</tr>
 </table>
-
+</div>
 </tabs:division>
 </form:form>
 <!-- MAIN BODY ENDS HERE -->
