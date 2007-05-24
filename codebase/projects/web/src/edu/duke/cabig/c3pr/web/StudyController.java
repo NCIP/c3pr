@@ -561,7 +561,7 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 		createDefaultIdentifiers(study);
 		createDefaultExclusion(study);
 		createDefaultInclusion(study);
-		createDefaultStratification(study);
+//		createDefaultStratification(study);
 		
 		return study;
 	}	
