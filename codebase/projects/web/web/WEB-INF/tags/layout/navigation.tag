@@ -25,7 +25,6 @@
                 </csmauthz:accesscontrol>
             </c:forEach>
         </td>
-
         <td class="right"><a href="<c:url value="/j_acegi_logout"/>">Log out</a></td>
     </tr>
 </table>
@@ -33,7 +32,7 @@
 <!-- SUB NAV STARTS HERE -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0" id="subNav">
     <tr>
-        <td width="99%" valign="middle">
+        <td width="80%" valign="middle">
             <c:forEach items="${currentSection.tasks}" var="task">
                 <csmauthz:accesscontrol domainObject="${task}" authorizationCheckName="taskAuthorizationCheck">
                     <c:choose>
@@ -48,6 +47,7 @@
                 </csmauthz:accesscontrol>
             </c:forEach>
         </td>
+   		<td align="right"><b>Construction Iteration 3&nbsp;</td>
     </tr>
 </table>
 <!-- SUB NAV ENDS HERE -->
