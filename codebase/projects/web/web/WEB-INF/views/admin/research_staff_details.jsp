@@ -54,6 +54,7 @@ function fireAction(action, selected){
 														src="<tags:imageUrl name="spacer.gif"/>" width="1"
 														height="1" class="heightControl"></td>
 												</tr>
+												<p id="instructions">Please Choose a healthcare site</p>
 												<tr>
 													<td align="right"><b> <span class="red">*</span><em></em><b>Site:</b>&nbsp;</b></td>
 													<td><form:select path="healthcareSite"
