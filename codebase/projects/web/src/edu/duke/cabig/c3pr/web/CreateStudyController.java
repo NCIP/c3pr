@@ -36,8 +36,8 @@ public class CreateStudyController extends StudyController {
 	
 	protected void layoutTabs(Flow flow, HashMap tabsMap){
 		flow.addTab((Tab<Study>)tabsMap.get("Details"));
-		flow.addTab((Tab<Study>)tabsMap.get("Identifiers"));
 		flow.addTab((Tab<Study>)tabsMap.get("Sites"));
+		flow.addTab((Tab<Study>)tabsMap.get("Identifiers"));		
 		flow.addTab((Tab<Study>)tabsMap.get("Investigators"));
 		flow.addTab((Tab<Study>)tabsMap.get("Personnel"));
 		flow.addTab((Tab<Study>)tabsMap.get("Eligibility Checklist"));
