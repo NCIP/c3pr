@@ -1,3 +1,4 @@
+
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -20,128 +21,143 @@ function fireAction(action, selected){
 </head>
 <body>
 
-<tabs:division id="research_staff">
-	<form:form method="post" name="studySiteForm">
-		<input type="hidden" name="_action" value="">
-		<input type="hidden" name="_selected" value="">
-		<input type="hidden" name="_finish" value="true">
-		<tags:errors path="*" />
-		<table width="100%" border="0" cellpadding="0" cellspacing="0">
-			<tr>
-				<td>
+<tabs:body title="Enter Research Staff Details">
+	<tabs:division>
+		<form:form method="post" name="studySiteForm">
+			<input type="hidden" name="_action" value="">
+			<input type="hidden" name="_selected" value="">
+			<input type="hidden" name="_finish" value="true">
+			<tags:errors path="*" />
+			<table width="100%" border="0" cellpadding="0" cellspacing="0">
+				<tr>
+					<td>
 
-				<table width="100%" border="0" cellspacing="0" cellpadding="0">
-					<tr>
-						<td><!-- TABS LEFT START HERE -->
-						<table width="100%" border="0" cellpadding="0" cellspacing="0">
-							<tr>
-								<!-- LEFT CONTENT STARTS HERE -->
-								<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
-								<!-- RIGHT CONTENT STARTS HERE -->
+					<table width="100%" border="0" cellspacing="0" cellpadding="0">
+						<tr>
+							<td><!-- TABS LEFT START HERE -->
+							<table width="100%" border="0" cellpadding="0" cellspacing="0">
+								<tr>
+									<!-- LEFT CONTENT STARTS HERE -->
+									<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
+									<!-- RIGHT CONTENT STARTS HERE -->
 
-								<table border="0" cellspacing="0" cellpadding="0">
-									<tr>
-										<td>
-										<p id="instructions">Choose a healthcare site</p>
-										<table border="0" cellspacing="0" cellpadding="0">
+									<table width="600" border="0" cellspacing="0" cellpadding="0"
+										id="details">
+										<tr>
+											<td width="350" valign="top">
+											<table width="350" border="0" cellspacing="1" cellpadding="1"
+												id="table1">
+												<tr>
+													<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+														height="1" class="heightControl"></td>
+													<td width="75%"><img
+														src="<tags:imageUrl name="spacer.gif"/>" width="1"
+														height="1" class="heightControl"></td>
+												</tr>
+												<tr>
+													<td align="right"><b> <span class="red">*</span><em></em><b>Site:</b>&nbsp;</b></td>
+													<td><form:select path="healthcareSite"
+														id="selectedHealthcareSite" cssClass="validate-notEmpty">
+														<option value="">--Please Select--</option>
+														<form:options items="${healthcareSites}" itemLabel="name"
+															itemValue="id" />
+													</form:select></td>
+												</tr>
+												<tr>
+													<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+														height="1" class="heightControl"></td>
+													<td width="75%"><img
+														src="<tags:imageUrl name="spacer.gif"/>" width="1"
+														height="1" class="heightControl"></td>
+												</tr>
+											</table>
+											</td>
+											<td width="320" valign="top">
+											<table width="320" border="0" cellspacing="1" cellpadding="1"
+												id="table1">
 
-											<tr>
-												<td align="right"><b> <span class="red">*</span><em></em><b>Site:</b>&nbsp;</b></td>
-												<td><form:select path="healthcareSite"
-													id="selectedHealthcareSite" cssClass="validate-notEmpty">
-													<option value="">--Please Select--</option>
-													<form:options items="${healthcareSites}" itemLabel="name"
-														itemValue="id" />
-												</form:select></td>
-											</tr>
-											<tr>
-												<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-													height="1" class="heightControl"></td>
-												<td width="75%"><img
-													src="<tags:imageUrl name="spacer.gif"/>" width="1"
-													height="1" class="heightControl"></td>
-											</tr>
-										</table>
-										</td>
-									</tr>
-								</table>
+											</table>
+											</td>
+										</tr>
+									</table>
+									<hr align="left" width="95%">
 
-								<hr align="left" width="95%">
+									<table width="600" border="0" cellspacing="0" cellpadding="0"
+										id="details">
+										<tr>
+											<td width="350" valign="top">
+											<table width="350" border="0" cellspacing="1" cellpadding="1"
+												id="table1">
+												<tr>
+													<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+														height="1" class="heightControl"></td>
+													<td width="75%"><img
+														src="<tags:imageUrl name="spacer.gif"/>" width="1"
+														height="1" class="heightControl"></td>
+												</tr>
+												<tr valign="top">
+													<td align="right"><span class="red">*</span><b>First Name:</b>&nbsp;</td>
+													<td><form:input size="25" path="firstName"
+														cssClass="validate-notEmpty" /></td>
+												</tr>
+												<tr>
+													<td align="right"><em></em><em></em> <b>${command.contactMechanisms[0].type
+													}:</b>&nbsp;</td>
+													<td align="left"><form:input size="25"
+														path="contactMechanisms[0].value" />&nbsp;&nbsp;&nbsp;</td>
+												</tr>
+												<tr>
+													<td align="right"><em></em><em></em> <b>${command.contactMechanisms[2].type
+													}:</b>&nbsp;</td>
+													<td align="left"><form:input size="25"
+														path="contactMechanisms[2].value" />&nbsp;&nbsp;&nbsp;</td>
+												</tr>
+											</table>
+											</td>
+											<td width="320" valign="top">
+											<table width="320" border="0" cellspacing="1" cellpadding="1"
+												id="table1">
+												<tr valign="top">
+													<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+														height="1" class="heightControl"></td>
+													<td width="75%"><img
+														src="<tags:imageUrl name="spacer.gif"/>" width="1"
+														height="1" class="heightControl"></td>
+												</tr>
+												<tr valign="top">
+													<td align="right"><span class="red">*</span><b>Last Name:<b>&nbsp;</td>
+													<td><form:input size="25" path="lastName"
+														cssClass="validate-notEmpty" /></td>
+												</tr>
 
-								<table width="80%" border="0" cellspacing="0" cellpadding="0"
-									id="details">
-									<tr>
-										<td width="40%" valign="top">
-										<table width="100%" border="0" cellspacing="1" cellpadding="1"
-											id="table1">
-											<tr>
-												<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-													height="1" class="heightControl"></td>
-												<td width="75%"><img
-													src="<tags:imageUrl name="spacer.gif"/>" width="1"
-													height="1" class="heightControl"></td>
-											</tr>
-											<tr valign="top">
-												<td align="right"><span class="red">*</span><b>First Name:</b>&nbsp;</td>
-												<td><form:input path="firstName"
-													cssClass="validate-notEmpty" /></td>
-											</tr>
-											<tr valign="top">
-												<td align="right"><span class="red">*</span><b>Last Name:<b>&nbsp;</td>
-												<td><form:input path="lastName" cssClass="validate-notEmpty" /></td>
-											</tr>
-										</table>
-										</td>
-										<td width="40%" valign="top">
-										<table width="100%" border="0" cellspacing="1" cellpadding="1"
-											id="table1">
-											<tr valign="top">
-												<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-													height="1" class="heightControl"></td>
-												<td width="75%"><img
-													src="<tags:imageUrl name="spacer.gif"/>" width="1"
-													height="1" class="heightControl"></td>
-											</tr>
-											<tr>
-												<td align="right"><em></em><em></em> <b>${command.contactMechanisms[0].type
-												}:</b>&nbsp;</td>
-												<td align="left"><form:input
-													path="contactMechanisms[0].value" />&nbsp;&nbsp;&nbsp;</td>
-											</tr>
-											<tr>
-												<td align="right"><em></em><em></em> <b>${command.contactMechanisms[1].type
-												}:</b>&nbsp;</td>
-												<td align="left"><form:input
-													path="contactMechanisms[1].value" />&nbsp;&nbsp;&nbsp;</td>
-											</tr>
-											<tr>
-												<td align="right"><em></em><em></em> <b>${command.contactMechanisms[2].type
-												}:</b>&nbsp;</td>
-												<td align="left"><form:input
-													path="contactMechanisms[2].value" />&nbsp;&nbsp;&nbsp;</td>
-											</tr>
-
-										</table>
-										</td>
-									</tr>
-								</table>
+												<tr>
+													<td align="right"><em></em><em></em> <b>${command.contactMechanisms[1].type
+													}:</b>&nbsp;</td>
+													<td align="left"><form:input size="25"
+														path="contactMechanisms[1].value" />&nbsp;&nbsp;&nbsp;</td>
+												</tr>
+											</table>
+											</td>
+										</tr>
+									</table>
 
 
 
-								</td>
+									</td>
 
-								<!-- LEFT CONTENT ENDS HERE -->
-							</tr>
-						</table>
-						</td>
-					</tr>
-				</table>
-				<br>
-				</td>
-				<!-- LEFT CONTENT ENDS HERE -->
-			</tr>
-		</table>
-	</form:form>
-</tabs:division>
+									<!-- LEFT CONTENT ENDS HERE -->
+								</tr>
+							</table>
+							</td>
+						</tr>
+					</table>
+					<br>
+					</td>
+					<!-- LEFT CONTENT ENDS HERE -->
+				</tr>
+			</table>
+		</form:form>
+	</tabs:division>
+</tabs:body>
 </body>
 </html>
