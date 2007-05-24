@@ -64,7 +64,7 @@ function markAsAnswered(id){
 													<option value="">--Please Select---</option>
 													<form:option value="Yes" />
 													<form:option value="No" />
-													<c:if test="${criteria.notApplicableIndicator}"><form:option value="NA"/></c:if>
+													<c:if test="${criteria.notApplicableIndicator}"><form:option value="NA" label="Not Applicable"/></c:if>
 												</form:select>
 											</td>
 										</tr>
@@ -99,7 +99,7 @@ function markAsAnswered(id){
 													<option value="">--Please Select---</option>
 													<form:option value="Yes" />
 													<form:option value="No" />
-													<c:if test="${criteria.notApplicableIndicator}"><form:option value="NA"/></c:if>
+													<c:if test="${criteria.notApplicableIndicator}"><form:option value="NA" label="Not Applicable"/></c:if>
 												</form:select>
 											</td>
 										</tr>
