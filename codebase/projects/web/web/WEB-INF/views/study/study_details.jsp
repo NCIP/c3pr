@@ -159,7 +159,7 @@ function manageSelectBox(box){
 					</tr>
 					<tr>
 						<td align="right"><span class="red">*</span><b>Sponsor:</b>&nbsp;</td>
-						<td><form:select path="identifiers[0].source">
+						<td><form:select path="identifiers[0].source" cssClass="validate-notEmpty">
 							<option value="">--Please Select--</option>
 							<form:options items="${sponsorCodeRefData}" itemLabel="desc"
 								itemValue="desc" />
