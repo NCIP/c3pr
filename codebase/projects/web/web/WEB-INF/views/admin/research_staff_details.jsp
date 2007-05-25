@@ -17,6 +17,10 @@ function fireAction(action, selected){
 			document.getElementById("command").submit();
 		
 	}
+function handleConfirmation(){
+	new Effect.SlideDown('createRS');
+	new Effect.SlideUp('confirmationMessage');
+}
 </script>
 </head>
 <body>
@@ -39,8 +43,13 @@ function fireAction(action, selected){
 								<tr>
 									<!-- LEFT CONTENT STARTS HERE -->
 									<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
-									<!-- RIGHT CONTENT STARTS HERE -->
-
+									<!-- RIGHT CONTENT STARTS HERE --> <c:if
+										test="${param.type == 'confirm'}">
+										<div id="confirmationMessage"><h3><font color="green"> You have successfully created a
+										research staff person with name : ${param.fullName}</font></h3>
+									<br>
+								<a href="javascript:handleConfirmation()">Click here to create another research staff person</a></div></c:if>
+								<div id="createRS" <c:if test="${param.type == 'confirm'}">style="display:none"</c:if>>
 									<table width="600" border="0" cellspacing="0" cellpadding="0"
 										id="details">
 										<tr>
@@ -141,7 +150,7 @@ function fireAction(action, selected){
 											</td>
 										</tr>
 									</table>
-
+								</div>
 
 
 									</td>
