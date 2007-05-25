@@ -34,13 +34,13 @@ function updateTargetPage(target){
 			<strong>Study Details </strong>
 			<br>
 			<div class="review">
-			<table width="50%" border="0" cellspacing="0" cellpadding="0" id="mytable">
+			<table width="50%" border="2" cellspacing="0" cellpadding="0" id="mytable">
 				<tr>
-					<td width="20%" class="labelR"><b>Short Title:<b></td>
+					<td width="20%" align="right"><b>Short Title:<b></td>
 					<td>${command.shortTitleText}</td>
 				</tr>
 				<tr>
-					<td width="20%" class="labelR"><b>Priamry Identifier:<b></td>
+					<td width="20%" class="labelR"><b>Sponsor Study Identifier:<b></td>
 					<td>${command.primaryIdentifier}</td>
 				</tr>
 				<tr>
@@ -68,11 +68,11 @@ function updateTargetPage(target){
 					<td>${command.multiInstitutionIndicator}</td>
 				</tr>
 				<tr>
-					<td width="20%" class="labelR"><b>Blinded</b></td>
+					<td width="20%" class="labelR"><b>Blinded:</b></td>
 					<td> ${command.randomizedIndicator}</td>
 				</tr>
 				<tr>
-					<td width="20%" class="labelR"><b>Randomized</b></td>
+					<td width="20%" class="labelR"><b>Randomized:</b></td>
 					<td>${command.blindedIndicator}</td>
 				</tr>
 			</table>
