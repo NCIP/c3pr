@@ -23,7 +23,7 @@ function navRollOver(obj, state) {
 					<td><b>Study <br>Short Title</b></td>
 					<td><b>Study <br>Identifier</b></td>
 					<td><b>Subject <br>Last Name</b></td>
-					<td><b>Subject MRN</b></td>
+					<td><b>Subject <br> Primary Identifier</b></td>
 					<td><b>Site</b></td>
 					<td><b>Registration <br>Status</b></td>
 					<td><b>Registration <br>Date</b></td>
