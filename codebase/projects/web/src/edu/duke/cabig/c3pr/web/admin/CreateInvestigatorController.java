@@ -123,9 +123,11 @@ public class CreateInvestigatorController extends
 		}
 
 		investigatorDao.save(inv);
+		// response.sendRedirect("createInvestigator?fullName="
+		// + inv.getFullName() + "&type=confirm");
+		return new ModelAndView("redirect:createInvestigator?fullName="
+				+ inv.getFullName() + "&type=confirm");
 
-		response.sendRedirect("createInvestigator");
-		return null;
 	}
 
 	@Override
