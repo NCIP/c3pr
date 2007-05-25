@@ -39,6 +39,12 @@ function fireAction(action, selected){
 									<!-- LEFT CONTENT STARTS HERE -->
 									<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
 									<!-- RIGHT CONTENT STARTS HERE -->
+									<c:if
+										test="${param.type == 'confirm'}">
+										<h3><font color="green"> You have successfully created a
+										investigator with name : ${param.fullName}</font></h3></c:if>
+									<br>
+								
 
 									<table width="600" border="0" cellspacing="0" cellpadding="0"
 										id="details">
