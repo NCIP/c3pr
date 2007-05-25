@@ -23,7 +23,7 @@ public class Address extends AbstractDomainObject {
     private String city;
     private String stateCode;
     private String postalCode;
-    private String countryCode = "USA";
+    private String countryCode;
     
     public Address() {
     }
