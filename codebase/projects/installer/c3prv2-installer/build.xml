@@ -51,6 +51,7 @@
              inheritall="false" target="deploy-webapp">
             <property name="deploy.path" value="${tomcat.webapp.dir}"/>
             <property name="basedir" value="${base.codebase.dir}"/>
+            <property name="ext.tomcat.dir" value="${tomcat.home}"/>
         </ant>
 
     </target>
@@ -80,6 +81,9 @@
                 <filter token="jaas.config" value="java.security.auth.login.config=${tomcat.conf.dir}/cabig/csm_jaas.config"/>
             </filterset>
         </copy>
+
+        <chmod dir="${tomcat.home}/bin" includes="**/*.sh" perm="ugo+x"/>
+
     </target>
 
 
