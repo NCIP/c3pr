@@ -37,7 +37,7 @@ function manageSelectBox(box){
 <form:form name="form" method="post">
 	<tabs:tabFields tab="${tab}" />
 	<div><tabs:division id="study-details" title="Basic Details">
-		<table border="0" width="900" cellspacing="0" cellpadding="0">
+		<table border="0" width="90%" cellspacing="0" cellpadding="0">
 			<div><input type="hidden" name="_action" value=""></div>
 			<tags:hasErrorsMessage />
 			<tr>
@@ -47,15 +47,6 @@ function manageSelectBox(box){
 						<td class="label"><span class="red">*</span><em></em>Short Title:</td>
 						<td><form:input path="shortTitleText" size="40" maxlength="30"
 							cssClass="validate-notEmpty" /></td>
-					</tr>
-					<tr>
-						<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-							height="1" class="heightControl"></td>
-					</tr>
-					<tr>
-						<td class="label">Precis:</td>
-						<td><form:textarea path="precisText" rows="2" cols="50"
-							cssClass="validate-maxlength200" /></td>
 					</tr>
 					<tr>
 						<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
@@ -79,8 +70,18 @@ function manageSelectBox(box){
 						<td class="label"><img src="<tags:imageUrl name="spacer.gif"/>"
 							width="1" height="1" class="heightControl"></td>
 					</tr>
+					<tr>
+						<td class="label">Precis:</td>
+						<td><form:textarea path="precisText" rows="2" cols="50"
+							cssClass="validate-maxlength200" /></td>
+					</tr>
+					<tr>
+						<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+							height="1" class="heightControl"></td>
+					</tr>
 				</table>
 				</td>
+				<td width="100"></td>
 				<td class="contentAreaR">
 				<table border="0" width="100%" cellspacing="0" cellpadding="0"
 					id="table1">
