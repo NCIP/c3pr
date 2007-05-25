@@ -134,9 +134,13 @@ public class CreateResearchStaffController extends
 		}
 
 		researchStaffDao.save(researchStaff);
+		
+	//	return new ModelAndView("forward:createResearchStaff?fullName="
+	//			+ researchStaff.getFullName() + "&type=confirm");
+			return new ModelAndView("redirect:createResearchStaff?fullName="
+					+ researchStaff.getFullName() + "&type=confirm");
+		
 
-		response.sendRedirect("createResearchStaff");
-		return null;
 	}
 
 	@Override
