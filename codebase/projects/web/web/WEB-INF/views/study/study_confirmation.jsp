@@ -1,4 +1,5 @@
-<%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
+<%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator"
+	prefix="decorator"%>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -24,40 +25,28 @@ function validatePage(){
 </head>
 <body>
 <form:form method="post" cssClass="standard">
-<tabs:tabFields tab="${tab}" />
-<div>
-<tabs:division id="study-details">
-<!-- MAIN BODY STARTS HERE -->
-<table border="0" cellspacing="0" cellpadding="0">
-	<tr>
-		<td valign="top" class="additionals2">
+	<tabs:tabFields tab="${tab}" />
+	<div><tabs:division id="study-details">
+		<!-- MAIN BODY STARTS HERE -->
+		<table border="0" cellspacing="0" cellpadding="0">
 			<tr>
-				<td ><b>Study Created Succesfully</b></td>
+				<td align="right" colspan="2">
+				<h3><font color="green">Study Created Successfully</font></h3>
+				</td>
 			</tr>
 			<tr>
-				<td class="label">Short Title:</td>
+				<td align="right"><b>Short Title:&nbsp;</b></td>
 				<td>${command.trimmedShortTitleText}</td>
 			</tr>
+
 			<tr>
-				<td class="label">Study Site:</td>
-				<td>${command.studySites[0].site.name}</td>
-			</tr>
-			<tr>
-				<td class="label">Study Identifiers</td>
-				<td ><c:forEach items="${command.identifiers}" var="id">
-					${id.value},
-				</c:forEach></td>
-			</tr>
-			<tr>
-				<td class="label">Primary Identifier:</td>
+				<td align="right"><b>Sponsor Study Identifier:&nbsp;</b></td>
 				<td>${command.primaryIdentifier}</td>
 			</tr>
-		</td>
-	</tr>
-</table>
-<!-- MAIN BODY ENDS HERE -->
-</tabs:division>
-</div>
+
+		</table>
+		<!-- MAIN BODY ENDS HERE -->
+	</tabs:division></div>
 </form:form>
 </body>
 </html>
