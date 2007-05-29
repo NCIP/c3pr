@@ -106,3 +106,72 @@ INSERT INTO DISEASE_TERMS (ID,VERSION,TERM,CTEP_TERM,CATEGORY_ID,MEDRA_CODE)
 VALUES ('6', '1','AIDS-related Hodgkin lymphoma', 'AIDS-related Lymphoma','4','90600076');
 INSERT INTO DISEASE_TERMS (ID,VERSION,TERM,CTEP_TERM,CATEGORY_ID,MEDRA_CODE)
 VALUES ('7', '1','AIDS-related NHL', 'AIDS-related NHL','4','90600308');
+
+
+INSERT INTO anatomic_sites(
+            id, name, category, version)
+    VALUES (2,'Peripheral blood','Bone Marrow',1);
+INSERT INTO anatomic_sites(
+            id, name, category, version)
+    VALUES (3,'Brainstem','Central Nervous System',1);
+INSERT INTO anatomic_sites(
+            id, name, category, version)
+    VALUES (4,'CSF','Central Nervous System',1);
+INSERT INTO anatomic_sites(
+            id, name, category, version)
+    VALUES (5,'Cerebellum','Central Nervous System',1);
+INSERT INTO anatomic_sites(
+            id, name, category, version)
+    VALUES (6,'Cerebrum','Central Nervous System',1);
+INSERT INTO anatomic_sites(
+            id, name, category, version)
+    VALUES (7,'Skin','Dermatology',1);
+INSERT INTO anatomic_sites(
+            id, name, category, version)
+    VALUES (8,'bernate ','Gastrointestinal',1);
+INSERT INTO anatomic_sites(
+            id, name, category, version)
+    VALUES (9,'Appendix','Gastrointestinal',1);
+INSERT INTO anatomic_sites(
+            id, name, category, version)
+    VALUES (10,'Colon','Gastrointestinal',1);
+    
+    INSERT INTO disease_categories(
+            id,  name, version)
+    VALUES (11,'Breast Neoplasm', 1);
+
+INSERT INTO disease_categories(
+            id,parent_id,  name, version)
+    VALUES (12,11,'Breast Cancer - In situ', 1);
+INSERT INTO disease_categories(
+            id,parent_id,  name, version)
+    VALUES (13,11,'Breast Cancer - Invasive', 1);
+INSERT INTO disease_categories(
+            id,parent_id,  name, version)
+    VALUES (14,11,'Breast Neoplasm, Miscellaneous', 1);
+
+
+INSERT INTO disease_terms(
+            id, term, ctep_term, category_id, medra_code, version)
+    VALUES (16, 'Ductal carcinoma in situ', 'Ductal carcinoma in situ', 12, 10013806, 1);
+INSERT INTO disease_terms(
+            id, term, ctep_term, category_id, medra_code, version)
+    VALUES (17, 'Lobular carcinoma in situ', 'Lobular carcinoma in situ', 12, 10024744, 1);
+INSERT INTO disease_terms(
+            id, term, ctep_term, category_id, medra_code, version)
+    VALUES (18, 'Cystosarcoma phylloides - breast', 'Cystosarcoma phylloides of the breast', 13, 10053130, 1);
+INSERT INTO disease_terms(
+            id, term, ctep_term, category_id, medra_code, version)
+    VALUES (19, 'Inflammatory breast carcinoma', 'Inflammatory breast carcinoma', 13, 10021980, 1);
+INSERT INTO disease_terms(
+            id, term, ctep_term, category_id, medra_code, version)
+    VALUES (20, 'Invasive breast carcinoma', 'Invasive breast carcinoma', 13,  10006190, 1);
+INSERT INTO disease_terms(
+            id, term, ctep_term, category_id, medra_code, version)
+    VALUES (21, 'Breast cancer, NOS', 'Breast cancer, NOS', 14, 10006285, 1);
+    
+    
+    
+    
+    
+    
