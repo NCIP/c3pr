@@ -163,12 +163,12 @@ public class CreateParticipantController extends
 			temp.setPrimaryIndicator(false);
 			participant.addIdentifier(temp);
 		}
-		participant = CreateParticipantWithContacts(participant);
+		participant = createParticipantWithContacts(participant);
 		participant.setAddress(new Address());
 		return participant;
 	}
 	
-	private Participant CreateParticipantWithContacts(Participant participant) {
+	private Participant createParticipantWithContacts(Participant participant) {
 
 		ContactMechanism contactMechanismEmail = new ContactMechanism();
 		ContactMechanism contactMechanismPhone = new ContactMechanism();

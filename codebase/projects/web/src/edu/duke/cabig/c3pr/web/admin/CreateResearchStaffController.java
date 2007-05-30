@@ -91,11 +91,11 @@ public class CreateResearchStaffController extends
 			throws ServletException {
 
 		ResearchStaff researchStaff = new ResearchStaff();
-		researchStaff = CreateResearchStaffWithContacts(researchStaff);
+		researchStaff = createResearchStaffWithContacts(researchStaff);
 		
 		return researchStaff;
 	}
-	private ResearchStaff CreateResearchStaffWithContacts(ResearchStaff rs) {
+	private ResearchStaff createResearchStaffWithContacts(ResearchStaff rs) {
 
 		ContactMechanism contactMechanismEmail = new ContactMechanism();
 		ContactMechanism contactMechanismPhone = new ContactMechanism();
