@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -58,7 +60,10 @@ private static Log log = LogFactory.getLog(SearchParticipantController.class);
 			participant.addIdentifier(identifier);
 		}
     	    		
-    	List<Participant> participants = participantDao.searchByExample(participant);     	
+    	List<Participant> participants = participantDao.searchByExample(participant);  
+    	Set<Participant> participantSet = new TreeSet<Participant>();
+    	participantSet.addAll(participants);
+    	participants.addAll(participantSet);
     	Iterator<Participant> participantIter = participants.iterator();
     	log.debug("Search results size " +participants.size());
     	Map map =errors.getModel();
@@ -98,8 +103,10 @@ private static Log log = LogFactory.getLog(SearchParticipantController.class);
 			dispOrder.add("Select Subject");
 			dispOrder.add("Select Study");
 			dispOrder.add("Enrollment Details");
+			dispOrder.add("Diseases");
 			dispOrder.add("Check Eligibility");
 			dispOrder.add("Stratify");
+			dispOrder.add("Randomize");
 			dispOrder.add("Review & Submit");
 			setAlternateDisplayOrder(request,getRegistrationFlow(request).createAlternateFlow(dispOrder));
 //			getAlternateDisplayOrder(request).getTab(1).setShowSummary("false");
