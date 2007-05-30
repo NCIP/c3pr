@@ -67,7 +67,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
           class="org.acegisecurity.ui.webapp.AuthenticationProcessingFilter">
         <property name="authenticationManager"
                   ref="authenticationManager" />
-        <property name="authenticationFailureUrl" value="/login.jsp?login_error=1" />
+        <property name="authenticationFailureUrl" value="/public/login?login_error=1" />
         <property name="defaultTargetUrl" value="/" />
         <property name="filterProcessesUrl"
                   value="/j_acegi_security_check" />
@@ -75,7 +75,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 
     <bean id="authenticationProcessingFilterEntryPoint"
           class="org.acegisecurity.ui.webapp.AuthenticationProcessingFilterEntryPoint">
-        <property name="loginFormUrl" value="/login.jsp" />
+        <property name="loginFormUrl" value="/public/login" />
         <property name="forceHttps" value="false" />
     </bean>
 
@@ -179,9 +179,9 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <entry key="/pages/registration/registrationDetails"
                value="edu.duke.cabig.c3pr.domain.Registration:READ" />
 
-        <entry key="/pages/admin/createInvestigator"
+        <entry key="/pages/admin/createInvestigator.*"
                value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
-        <entry key="/pages/admin/createResearchStaff"
+        <entry key="/pages/admin/createResearchStaff.*"
                value="edu.duke.cabig.c3pr.domain.ResearchStaff:CREATE"/>
 
 
