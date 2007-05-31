@@ -22,7 +22,7 @@
 <table width="60%" border="0" cellspacing="0" cellpadding="0" id="table1">
 	<tr><td colspan="2">&nbsp;</td></tr>
 	<tr>
-		<td class="label" width="80%"><span class="red">*</span>Informed Consent Signed Date:</td>
+		<td class="label" width="80%">Informed Consent Signed Date:</td>
 		<td><tags:dateInput path="informedConsentSignedDate" /><em> (mm/dd/yyyy)</em></td>
 	</tr>
 	<tr>
@@ -35,7 +35,7 @@
 <table width="60%" border="0" cellspacing="0" cellpadding="0" id="table1">
 	<tr><td colspan='2'>&nbsp;</td></tr>
 	<tr>
-		<td class="label" width="80%"><span class="red">*</span><em></em>Enrolling Physician:</td>
+		<td class="label" width="80%"><em></em>Enrolling Physician:</td>
 		<td width="42%">
 			<form:select path="treatingPhysician">
 				<option value="">--Please Select--</options><form:options
