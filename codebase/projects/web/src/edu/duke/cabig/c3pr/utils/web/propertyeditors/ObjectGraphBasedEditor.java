@@ -82,8 +82,31 @@ public class ObjectGraphBasedEditor extends PropertyEditorSupport {
 	}
 	
 	public Object getObjectFromGraphWithText(String text) throws Exception{
-		Object value=null;
-		Object targetObject = getObjectFromGraph();
+		Object targetObject = commandObject;
+		String[] ids=text.split(",");
+		int idIndex=0;
+		CustomMethodInvocater methodInvocater;
+		for(int i=0 ; i<methodsToInvoke.size() ; i++){
+			methodInvocater=CustomMethodInvocater.parse(targetObject,methodsToInvoke.get(i));
+			targetObject=methodInvocater.invoke();
+			if (targetObject instanceof Collection) {
+				Iterator it=((Collection)targetObject).iterator();
+				while(it.hasNext()){
+					Object element=it.next();
+					methodInvocater=CustomMethodInvocater.parse(element,getGetterString(defaultComparatorProperty));
+					Object methodReturn=methodInvocater.invoke();
+					if(equal(methodReturn,ids[idIndex])){
+						targetObject=element;
+						break;
+					}
+				}
+				if (targetObject instanceof Collection){
+					throw new Exception("No Object Found in Collection with identifier "+ids[idIndex]+" in object path "+objectPath);
+				}
+				idIndex++;
+			}
+		}
+/*		Object targetObject = getObjectFromGraph();
 		if (targetObject instanceof Collection) {
 			Iterator it=((Collection)targetObject).iterator();
 			while(it.hasNext()){
@@ -102,7 +125,7 @@ public class ObjectGraphBasedEditor extends PropertyEditorSupport {
 				value=methodReturn;
 			}
 		}
-		return value;
+*/		return targetObject;
 	}
 	
 	public Object getObjectFromGraph() throws Exception{
