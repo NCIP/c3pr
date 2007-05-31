@@ -49,6 +49,7 @@ import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.NullIdDaoBasedEditor;
+import edu.duke.cabig.c3pr.utils.web.propertyeditors.ObjectGraphBasedEditor;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AbstractTabbedFlowFormController;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Tab;
@@ -211,7 +212,18 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 	
 	protected void postProcessPage(HttpServletRequest request, Object command,
 			Errors arg2, String tabShortTitle) throws Exception {
-		
+/*		Study study = (Study) command;
+		System.out.println("request.getParameter(action) - "+request.getParameter("_action"));
+		try {
+			log.debug("Updating Study");
+			studyDao.save(study);
+		} catch (RuntimeException e) {
+			log.debug("Unable to update Study");
+			throw e;
+		}
+*//*		HealthcareSite temp=healthcareSiteDao.getById(10001);
+		HealthcareSiteInvestigator temp2=healthcareSiteInvestigatorDao.getById(10002);
+*///		Study command=studyDao.getById(((Study)studyCommand).getId());
 		if ("Identifiers".equals(tabShortTitle)){
 			handleIdentifierAction((Study)command,
 				request.getParameter("_action"),
@@ -228,12 +240,7 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 					request.getSession().setAttribute("selectedSite", request.getParameter("_selectedSite"));
 					
 					StudySite studySite = ((Study)command).getStudySites().get(Integer.parseInt(request.getParameter("_selectedSite")));
-					if(studySite.getStudyInvestigators().size() == 0 )
-					{						
-						StudyInvestigator studyInvestigator = new StudyInvestigator();	
-						studyInvestigator.setSiteInvestigator(new HealthcareSiteInvestigator());
-						studySite.addStudyInvestigator(studyInvestigator);
-					}
+					
 				}
 				else {
 					handleStudyInvestigatorAction((Study)command, request);
@@ -286,6 +293,7 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 					request.getParameter("_selectedArm"));	
 		}
 		
+//		postPostProcessPage(request, command, arg2, tabShortTitle);
 		postPostProcessPage(request, command, arg2, tabShortTitle);
 	}
 	/**
@@ -316,7 +324,7 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
         binder.registerCustomEditor(healthcareSiteDao.domainClass(),
         	new CustomDaoEditor(healthcareSiteDao));
         binder.registerCustomEditor(healthcareSiteInvestigatorDao.domainClass(),
-            new NullIdDaoBasedEditor(healthcareSiteInvestigatorDao));       
+            new NullIdDaoBasedEditor(healthcareSiteInvestigatorDao));
         binder.registerCustomEditor(researchStaffDao.domainClass(),
             new NullIdDaoBasedEditor(researchStaffDao));           
      }
@@ -397,7 +405,7 @@ public abstract class StudyController extends AbstractTabbedFlowFormController<S
 		{				
 			StudyInvestigator studyInvestigator = new StudyInvestigator();
 			StudySite studySite = study.getStudySites().get(Integer.parseInt(selectedSite));			
-			studySite.addStudyInvestigator(studyInvestigator);														
+			studySite.addStudyInvestigator(studyInvestigator);	
 		}
 		else if ("removeInv".equals(action))
 		{	

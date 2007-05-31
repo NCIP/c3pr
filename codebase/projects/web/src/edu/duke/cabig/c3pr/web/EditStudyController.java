@@ -10,10 +10,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.utils.web.propertyeditors.ObjectGraphBasedEditor;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Tab;
 
@@ -53,7 +56,9 @@ public class EditStudyController extends StudyController {
 		flow.addTab((Tab<Study>)tabsMap.get("Details"));
 		flow.addTab((Tab<Study>)tabsMap.get("Identifiers"));
 		flow.addTab((Tab<Study>)tabsMap.get("Sites"));
-		flow.addTab((Tab<Study>)tabsMap.get("Investigators"));
+		Tab<Study> invTab=(Tab<Study>)tabsMap.get("Investigators");
+		invTab.setViewName("study/study_investigator_edit");
+		flow.addTab(invTab);
 		flow.addTab((Tab<Study>)tabsMap.get("Personnel"));
 		flow.addTab((Tab<Study>)tabsMap.get("Eligibility Checklist"));
 		flow.addTab((Tab<Study>)tabsMap.get("Stratifications"));
@@ -61,6 +66,14 @@ public class EditStudyController extends StudyController {
 		flow.addTab((Tab<Study>)tabsMap.get("Epochs & Arms"));
 	}
 	
+	@Override
+	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
+		// TODO Auto-generated method stub
+		super.initBinder(request, binder);
+		Object command=binder.getTarget();
+		binder.registerCustomEditor(HealthcareSiteInvestigator.class, new ObjectGraphBasedEditor(
+				command,"studySites.site.healthcareSiteInvestigators"));
+	}
 	/**
 	 * Overriden here to perform futher processing
 	 * @param request
