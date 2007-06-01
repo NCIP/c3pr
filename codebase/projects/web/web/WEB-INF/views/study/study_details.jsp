@@ -101,7 +101,7 @@ function manageSelectBox(box){
 					<tr>
 						<td align="right"><span class="red">*</span><em></em><b>Type:</b>&nbsp;</td>
 						<td><form:select path="type" cssClass="validate-notEmpty">
-							<option value="0">--Please Select--</option>
+							<option value="">--Please Select--</option>
 							<form:options items="${typeRefData}" itemLabel="desc"
 								itemValue="desc" />
 						</form:select></td>
@@ -197,7 +197,7 @@ function manageSelectBox(box){
 			<tr>
 				<td class="label"><span class="red">*</span>Multi-Institution:</td>
 				<td><form:select path="multiInstitutionIndicator"
-					onchange="manageSelectBox(this);">
+					onchange="manageSelectBox(this);" cssClass="validate-notEmpty">
 					<option value="">--Please Select--</option>
 					<form:options items="${multiInstitutionIndicatorRefData}"
 						itemLabel="desc" itemValue="code" />
