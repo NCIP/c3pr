@@ -33,6 +33,16 @@ function fireAction(action, selected){
 	$(id).className='none';
 	document.getElementById("command").submit();
 }
+function submitPostProcess(formElement, flag){	
+	if(formElement.id!='command')
+		return flag;
+	if(!flag)
+		return false;
+	if(compareDateWithToday($('birthDate').value)==0)
+		return true;
+	alert("Birth Date cannot be greater than today's date");
+	return false;
+}
 </script>
 </head>
 <body>
