@@ -15,12 +15,6 @@ function toggleImage(id){
 		document.getElementById(id).src=imageStr.replace('plus','minus');	
 //	alert(document.getElementById(id).src)
 }
-function toggleTableVisibility(id){
-	if(document.getElementById(id).style.visibility=='collapse')
-		document.getElementById(id).style.visibility='visible';
-	else
-		document.getElementById(id).style.visibility='collapse';
-}
 </script>
 <!-- STUDY SEARCH RESULTS START HERE -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -53,7 +47,7 @@ function toggleTableVisibility(id){
 						onClick="
 							<c:choose>
 								<c:when test="${fn:length(study.studySites) > 1}">
-									toggleTableVisibility('studySites-table-${statusStudy.index }');Effect.Combo('studySites-${statusStudy.index }');toggleImage('image-open-${statusStudy.index }');
+									new Element.toggle('studySites-table-${statusStudy.index }');toggleImage('image-open-${statusStudy.index }');
 								</c:when>
 								<c:otherwise>
 									document.location='${documentLocation }${study.studySites[0].id }'
@@ -73,10 +67,10 @@ function toggleTableVisibility(id){
 						</a>
 					</tr>
 					<c:if test="${fn:length(study.studySites) > 1}">
-						<tr id="studySites-table-${statusStudy.index }" style="visibility:collapse;" class="details">
+						<tr id="studySites-table-${statusStudy.index }" style="display:none;" class="details">
 							<td colspan="2">&nbsp;</td>
 							<td colspan="6" height="0" class>
-								<div id="studySites-${statusStudy.index }" style="display:none;">
+								<div id="studySites-${statusStudy.index }">
 								<table width="50%" height="0" border="0" cellspacing="0" cellpadding="0" id="tableHistory1">
 									<tr class="header">
 										<td>Healthcare Site</td>
