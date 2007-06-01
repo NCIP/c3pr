@@ -31,7 +31,7 @@ var diseaseSiteAutocompleterProps = {
     								hiddenField=diseaseSiteAutocompleterProps.basename+"-hidden"
 	    							$(hiddenField).value=selectedChoice.id;
 	    							ajaxDiseaseSite=selectedChoice.name;
-								},
+								}
 }
 autoCompleters.push(diseaseSiteAutocompleterProps);
 function manageField(box){
