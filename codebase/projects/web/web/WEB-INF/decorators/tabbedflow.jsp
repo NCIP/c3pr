@@ -32,7 +32,9 @@
         <tabs:body title="Short Title: ${command.trimmedShortTitleText} - Primary Identifier: ${command.primaryIdentifier}">
             <div class="tabcontent workArea">
                 <decorator:body/>
-                <tabs:tabControls tabNumber="${tab.number}" isLast="${tab.number < flow.tabCount - 1}"/>
+                <c:if test="${! empty flow}">
+	                <tabs:tabControls tabNumber="${tab.number}" isLast="${tab.number < flow.tabCount - 1}"/>
+                </c:if>
             </div>
 
         </tabs:body>
