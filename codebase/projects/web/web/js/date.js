@@ -93,6 +93,26 @@ function compareDates(date1,dateformat1,date2,dateformat2) {
 	return 0;
 	}
 
+// -------------------------------------------------------------------
+// compareDateWithToday(date)
+//   Compare the date string with todays date to see which is greater.
+//   Returns:
+//   1 if date1 is greater than date2
+//   0 if date2 is greater than date1 of if they are the same
+//  -1 if either of the dates is in an invalid format
+//   the format of the input date should be mm/dd/yyyy
+//
+function compareDateWithToday(inputDate){
+	dateFormat="mm/dd/yyyy";
+	today=new Date();
+	month=new String(today.getMonth()+1);
+	month=month.length==1?("0"+month):month;
+	day=new String(today.getDate());
+	day=day.length==1?("0"+day):day;
+	year=new String(today.getFullYear());
+	todayString=month+"/"+day+"/"+year;
+	return compareDates(inputDate,dateFormat,todayString,dateFormat);
+}
 // ------------------------------------------------------------------
 // formatDate (date_object, format)
 // Returns a date in the output format specified.
