@@ -209,8 +209,9 @@ function manageSearchTypeMessage(message){
 
 							<tr>
 								<td colspan="2"><input type="hidden" id="registration" /> <input
-									id="registration-input" size="52" type="text" name="searchText" class="validate-notEmpty" />
-								<tags:indicator id="registration-indicator" />
+									id="registration-input" size="52" type="text" name="searchText"
+									class="validate-notEmpty" /> <tags:indicator
+									id="registration-indicator" />
 								<div id="registration-choices" class="autocomplete"></div>
 								<p id="registration-selected" style="display: none">You've
 								selected <span id="registration-selected-name"></span>.</p>
@@ -235,9 +236,17 @@ function manageSearchTypeMessage(message){
 							</tr>
 
 						</table>
-						</td>
+						<tr>
+							<td align="left"><c:if
+								test="${registrations!=null && fn:length(registrations)==0}">
+											Sorry, no matches were found				
+											</c:if></td>
+						</tr>
 					</table></td>
-			</tr>
+		</table>
+		</td>
+		</tr>
+
 		</table>
 		<registrationTags:searchResults registrations="${registrations }" />
 
