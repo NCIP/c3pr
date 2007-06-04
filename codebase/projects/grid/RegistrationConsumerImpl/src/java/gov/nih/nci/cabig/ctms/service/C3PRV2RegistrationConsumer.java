@@ -20,14 +20,14 @@ import java.util.List;
 import java.util.ArrayList;
 
 
-public class CRPRV2RegistrationConsumer implements RegistrationConsumer {
+public class C3PRV2RegistrationConsumer implements RegistrationConsumer {
 
-    private static final Log logger = LogFactory.getLog(CRPRV2RegistrationConsumer.class);
+    private static final Log logger = LogFactory.getLog(C3PRV2RegistrationConsumer.class);
 
     StudyService studyService;
 
 
-    public CRPRV2RegistrationConsumer() {
+    public C3PRV2RegistrationConsumer() {
     }
 
     /*

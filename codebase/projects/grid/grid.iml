@@ -10,6 +10,9 @@
       <sourceFolder url="file://$MODULE_DIR$/RegistrationConsumerImpl/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/RegistrationConsumerImpl/src/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/RegistrationConsumerImpl/test/src" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/C3PRStudyConsumer/build" />
+      <excludeFolder url="file://$MODULE_DIR$/C3PRStudyConsumer/ext" />
+      <excludeFolder url="file://$MODULE_DIR$/RegistrationConsumer/build" />
       <excludeFolder url="file://$MODULE_DIR$/RegistrationConsumer/build/classes" />
       <excludeFolder url="file://$MODULE_DIR$/RegistrationConsumer/build/lib" />
       <excludeFolder url="file://$MODULE_DIR$/RegistrationConsumer/build/schema" />

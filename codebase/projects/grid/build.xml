@@ -2,6 +2,7 @@
 
 <project name="grid" default="all" basedir=".">
 
+    <property environment="env"/>
     <property name="c3pr.dir" value="../../"/>
     <property name="c3pr.antfiles.dir" value="${c3pr.dir}/antfiles"/>
     <property name="projects.dir" value="${basedir}"/>
@@ -18,8 +19,8 @@
     <property name="build.dir" value="${basedir}/build"/>
     <property name="zip.filename" value="${project.name}.zip"/>
 
-     <import file="${antfiles.dir}/build-test.xml" />
-     <import file="${antfiles.dir}/artifacts.xml" />
+    <import file="${antfiles.dir}/build-test.xml" />
+    <import file="${antfiles.dir}/artifacts.xml" />
 
 
     <!-- projects-->
@@ -143,8 +144,8 @@
 
         <ant antfile="${projects.dir}/RegistrationConsumerImpl/build.xml" inheritall="false" target="deployTomcat"/>
         <!--copy the ext folder-->
-        <copy todir="${tomcat.wsrf.home}/WEB-INF/lib">
-            <fileset refid="ext.jars"/>
+        <copy todir="${tomcat.wsrf.home}/WEB-INF/lib" overwrite="true">
+            <fileset refid="ext.lib.jars"/>
         </copy>
 
         <echo message="============================================================================="/>

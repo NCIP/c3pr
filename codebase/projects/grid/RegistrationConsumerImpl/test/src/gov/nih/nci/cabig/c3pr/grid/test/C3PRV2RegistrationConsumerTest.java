@@ -1,7 +1,6 @@
 package gov.nih.nci.cabig.c3pr.grid.test;
 
-import junit.framework.TestCase;
-import gov.nih.nci.cabig.ctms.service.CRPRV2RegistrationConsumer;
+import gov.nih.nci.cabig.ctms.service.C3PRV2RegistrationConsumer;
 import gov.nih.nci.cagrid.common.Utils;
 
 import java.io.*;
@@ -22,7 +21,7 @@ import edu.duke.cabig.c3pr.service.StudyService;
  * To change this template use File | Settings | File Templates.
  */
 public class C3PRV2RegistrationConsumerTest extends ApplicationTestCase {
-    CRPRV2RegistrationConsumer gridService = new CRPRV2RegistrationConsumer();
+    C3PRV2RegistrationConsumer gridService = new C3PRV2RegistrationConsumer();
 
     private String sampleMessage="SampleRegistrationMessage.xml";
     private StudyService studyService;
