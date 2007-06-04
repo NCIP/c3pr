@@ -1,4 +1,5 @@
-<%@tag%><%@attribute name="url" required="true"%>
+<%@tag%>
+<%@attribute name="url" required="true"%>
 
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -9,23 +10,29 @@
 
 <!-- SUBJECT SEARCH RESULTS START HERE -->
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
-<tr>
-	<td>			
+	<tr>
+		<td>
 		<table width="100%" border="0" cellspacing="0" cellpadding="0"
 			id="additionalList">
-			<c:if test="${fn:length(participants) > 0}">
-			<tr align="center" class="label">
-				<td>Last Name, First Name</td>
-				<td>Primary Identifier</td>
-				<td>Gender</td>
-				<td>Race</td>
-				<td>Birth Date</td>
-				<td></td>
-			</tr>
+			<c:if test="${participants!=null}">
+				<tr align="center" class="label">
+					<td>Last Name, First Name</td>
+					<td>Primary Identifier</td>
+					<td>Gender</td>
+					<td>Race</td>
+					<td>Birth Date</td>
+					<td></td>
+				</tr>
+			</c:if>
+			<c:if test="${participants!=null && fn:length(participants)==0}">
+				<tr>
+					Sorry, no matches were found
+				</tr>
 			</c:if>
 			<%int i=0; %>
 			<c:forEach items="${participants}" var="participant">
-				<tr align="center" id="row<%= i++ %>" class="results" onMouseOver="navRollOver('row<%= i-1 %>', 'on')"
+				<tr align="center" id="row<%= i++ %>" class="results"
+					onMouseOver="navRollOver('row<%= i-1 %>', 'on')"
 					onMouseOut="navRollOver('row<%= i-1 %>', 'off')"
 					onClick="
 						<c:choose>
@@ -45,11 +52,11 @@
 					<td>${participant.administrativeGenderCode}</td>
 					<td>${participant.raceCode}</td>
 					<td>${participant.birthDateStr}</td>
-				</a>
+					</a>
 				</tr>
 			</c:forEach>
 		</table>
-	</td>
-</tr>
+		</td>
+	</tr>
 </table>
 <!-- SUBJECT SEARCH RESULTS END HERE -->
