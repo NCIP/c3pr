@@ -125,7 +125,7 @@ public class CreateInvestigatorController extends
 		investigatorDao.save(inv);
 		// response.sendRedirect("createInvestigator?fullName="
 		// + inv.getFullName() + "&type=confirm");
-		return new ModelAndView("redirect:createInvestigator?fullName="
+		return new ModelAndView("forward:createInvestigator?fullName="
 				+ inv.getFullName() + "&type=confirm");
 
 	}
@@ -171,12 +171,12 @@ public class CreateInvestigatorController extends
 		Investigator investigator = new Investigator();
 		HealthcareSiteInvestigator healthcareSiteInvestigator = new HealthcareSiteInvestigator();
 		investigator.addHealthcareSiteInvestigator(healthcareSiteInvestigator);
-		investigator = CreateInvestigatorWithContacts(investigator);
+		investigator = createInvestigatorWithContacts(investigator);
 
 		return investigator;
 	}
 
-	private Investigator CreateInvestigatorWithContacts(Investigator inv) {
+	private Investigator createInvestigatorWithContacts(Investigator inv) {
 
 		ContactMechanism contactMechanismEmail = new ContactMechanism();
 		ContactMechanism contactMechanismPhone = new ContactMechanism();

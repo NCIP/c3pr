@@ -92,9 +92,10 @@ public class CreateResearchStaffController extends
 
 		ResearchStaff researchStaff = new ResearchStaff();
 		researchStaff = createResearchStaffWithContacts(researchStaff);
-		
+
 		return researchStaff;
 	}
+
 	private ResearchStaff createResearchStaffWithContacts(ResearchStaff rs) {
 
 		ContactMechanism contactMechanismEmail = new ContactMechanism();
@@ -124,8 +125,8 @@ public class CreateResearchStaffController extends
 
 		ResearchStaff researchStaff = (ResearchStaff) command;
 
-		Iterator<ContactMechanism> cMIterator = researchStaff.getContactMechanisms()
-				.iterator();
+		Iterator<ContactMechanism> cMIterator = researchStaff
+				.getContactMechanisms().iterator();
 		StringUtils strUtil = new StringUtils();
 		while (cMIterator.hasNext()) {
 			ContactMechanism contactMechanism = cMIterator.next();
@@ -134,12 +135,9 @@ public class CreateResearchStaffController extends
 		}
 
 		researchStaffDao.save(researchStaff);
-		
-	//	return new ModelAndView("forward:createResearchStaff?fullName="
-	//			+ researchStaff.getFullName() + "&type=confirm");
-			return new ModelAndView("redirect:createResearchStaff?fullName="
-					+ researchStaff.getFullName() + "&type=confirm");
-		
+
+		return new ModelAndView("forward:createResearchStaff?fullName="
+				+ researchStaff.getFullName() + "&type=confirm");
 
 	}
 
