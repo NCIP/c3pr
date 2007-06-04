@@ -11,7 +11,7 @@
 <tr>
 	<td>			
 		<table width="100%" border="0" cellspacing="0" cellpadding="0" id="additionalList">
-			<c:if test="${fn:length(studyResults) > 0}">
+			<c:if test="${studyResults!=null}">
 			<tr align="center" class="label">
 				<td>Primary Identifier</td>				
 				<td>Short Title</td>
@@ -20,6 +20,11 @@
 				<td>Phase</td>			
 				<td>Target Accrual</td>
 			</tr>
+			</c:if>
+			<c:if test="${studyResults!=null && fn:length(studyResults)==0}">
+				<tr>
+					Sorry, no matches were found
+				</tr>
 			</c:if>
 			
 			<%int i=0; %>
