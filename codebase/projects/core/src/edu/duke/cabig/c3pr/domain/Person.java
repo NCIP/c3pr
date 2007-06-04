@@ -21,6 +21,7 @@ public abstract class Person extends AbstractGridIdentifiableDomainObject
 {			
 	private String firstName;
 	private String lastName;
+	private String maidenName;
 	private Address address;  
 	protected List<ContactMechanism> contactMechanisms = new ArrayList<ContactMechanism>();
 	
@@ -70,6 +71,14 @@ public abstract class Person extends AbstractGridIdentifiableDomainObject
 	public List<ContactMechanism> getContactMechanisms()
 	{
 		return contactMechanisms;
+	}
+
+	public String getMaidenName() {
+		return maidenName;
+	}
+
+	public void setMaidenName(String maidenName) {
+		this.maidenName = maidenName;
 	}
 	
 }

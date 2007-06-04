@@ -27,7 +27,7 @@ function handleConfirmation(){
 
 <tabs:body title="Enter Research Staff Details">
 	<tabs:division>
-		<form:form method="post" name="studySiteForm">
+		<form:form method="post" action="createResearchStaff">
 			<input type="hidden" name="_action" value="">
 			<input type="hidden" name="_selected" value="">
 			<input type="hidden" name="_finish" value="true">
@@ -45,11 +45,15 @@ function handleConfirmation(){
 									<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
 									<!-- RIGHT CONTENT STARTS HERE --> <c:if
 										test="${param.type == 'confirm'}">
-										<div id="confirmationMessage"><h3><font color="green"> You have successfully created a
+										<div id="confirmationMessage">
+										<h3><font color="green"> You have successfully created a
 										research staff person with name : ${param.fullName}</font></h3>
-									<br>
-								<a href="javascript:handleConfirmation()">Click here to create another research staff person</a></div></c:if>
-								<div id="createRS" <c:if test="${param.type == 'confirm'}">style="display:none"</c:if>>
+										<br>
+										<a href="javascript:handleConfirmation()">Click here to create
+										another research staff person</a></div>
+									</c:if>
+									<div id="createRS"
+										<c:if test="${param.type == 'confirm'}">style="display:none"</c:if>>
 									<table width="600" border="0" cellspacing="0" cellpadding="0"
 										id="details">
 										<tr>
@@ -63,7 +67,7 @@ function handleConfirmation(){
 														src="<tags:imageUrl name="spacer.gif"/>" width="1"
 														height="1" class="heightControl"></td>
 												</tr>
-												<p id="instructions">Please Choose a healthcare site</p>
+												<p id="instructions">Please choose a healthcare site</p>
 												<tr>
 													<td align="right"><b> <span class="red">*</span><em></em><b>Site:</b>&nbsp;</b></td>
 													<td><form:select path="healthcareSite"
@@ -110,18 +114,17 @@ function handleConfirmation(){
 													<td><form:input size="25" path="firstName"
 														cssClass="validate-notEmpty" /></td>
 												</tr>
-												<tr>
-													<td align="right"><em></em><em></em> <b>${command.contactMechanisms[0].type
-													}:</b>&nbsp;</td>
-													<td align="left"><form:input size="25"
-														path="contactMechanisms[0].value" />&nbsp;&nbsp;&nbsp;</td>
+												<tr valign="top">
+													<td align="right"><span class="red">*</span><b>Last Name:<b>&nbsp;</td>
+													<td><form:input size="25" path="lastName"
+														cssClass="validate-notEmpty" /></td>
 												</tr>
 												<tr>
-													<td align="right"><em></em><em></em> <b>${command.contactMechanisms[2].type
-													}:</b>&nbsp;</td>
-													<td align="left"><form:input size="25"
-														path="contactMechanisms[2].value" />&nbsp;&nbsp;&nbsp;</td>
+													<td align="right"><em></em> <b>Maiden
+													Name:</b>&nbsp;</td>
+													<td align="left"><form:input path="maidenName" size="25" />&nbsp;&nbsp;&nbsp;</td>
 												</tr>
+
 											</table>
 											</td>
 											<td width="320" valign="top">
@@ -135,22 +138,28 @@ function handleConfirmation(){
 														height="1" class="heightControl"></td>
 												</tr>
 												<tr valign="top">
-													<td align="right"><span class="red">*</span><b>Last Name:<b>&nbsp;</td>
-													<td><form:input size="25" path="lastName"
-														cssClass="validate-notEmpty" /></td>
+													<td align="right"><em></em><em></em> <b>${command.contactMechanisms[0].type
+													}:</b>&nbsp;</td>
+													<td align="left"><form:input size="25"
+														path="contactMechanisms[0].value" />&nbsp;&nbsp;&nbsp;</td>
 												</tr>
-
 												<tr>
 													<td align="right"><em></em><em></em> <b>${command.contactMechanisms[1].type
 													}:</b>&nbsp;</td>
 													<td align="left"><form:input size="25"
 														path="contactMechanisms[1].value" />&nbsp;&nbsp;&nbsp;</td>
 												</tr>
+												<tr>
+													<td align="right"><em></em><em></em> <b>${command.contactMechanisms[2].type
+													}:</b>&nbsp;</td>
+													<td align="left"><form:input size="25"
+														path="contactMechanisms[2].value" />&nbsp;&nbsp;&nbsp;</td>
+												</tr>
 											</table>
 											</td>
 										</tr>
 									</table>
-								</div>
+									</div>
 
 
 									</td>

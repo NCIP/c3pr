@@ -44,6 +44,10 @@ function updateTargetPage(target){
 						<td>${command.lastName}</td>
 					</tr>
 					<tr>
+						<td width="20%" class="labelR"><b>Maiden Name:<b></td>
+						<td>${command.maidenName}</td>
+					</tr>
+					<tr>
 						<td width="20%" class="labelR"><b>Gender:</b></td>
 						<td>${command.administrativeGenderCode}</td>
 					</tr>

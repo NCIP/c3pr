@@ -32,6 +32,10 @@ function submitlinksPage(){
 			<td valign="bottom" align="left">${command.lastName}</td>
 		</tr>
 		<tr>
+			<td valign="top" width="35%" align="right"><b>Maiden Name:&nbsp;</b></td>
+			<td valign="bottom" align="left">${command.maidenName}</td>
+		</tr>
+		<tr>
 			<td valign="top" width="35%" align="right"><b>Gender:&nbsp;</b></td>
 			<td valign="bottom" align="left">${command.administrativeGenderCode}</td>
 		</tr>
