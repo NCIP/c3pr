@@ -152,8 +152,9 @@ public class Participant extends Person implements Comparable<Participant> {
 	}
 
 	public int compareTo(Participant o) {
-		// TODO Auto-generated method stub
-		return 0;
+		if(this.equals((Participant)o))
+			return 0;
+		return 1;
 	}
 
 	@Override
