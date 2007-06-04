@@ -1,8 +1,11 @@
 package edu.duke.cabig.c3pr.web;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -54,11 +57,16 @@ public class SearchStudyController  extends SimpleFormController{
     		study.setShortTitleText(searchtext);
     	
     	List<Study> studies = studyDao.searchByExample(study, true);
-    	log.debug("Search results size " +studies.size());
+    	Set<Study> studySet = new TreeSet<Study>();
+    	List<Study> uniqueStudies = new ArrayList<Study>();
+    	studySet.addAll(studies);
+    	uniqueStudies.addAll(studySet);
+    	studies.addAll(studySet);
+    	log.debug("Search results size " +uniqueStudies.size());
     	Map <String, List<Lov>> configMap = configurationProperty.getMap();
     	
     	Map map = errors.getModel();
-    	map.put("studyResults", studies);
+    	map.put("studyResults", uniqueStudies);
     	map.put("searchTypeRefData",configMap.get("studySearchType"));  
     	if(isSubFlow(request)){
     		processSubFlow(request,map);

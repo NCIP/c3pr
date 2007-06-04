@@ -63,11 +63,12 @@ private static Log log = LogFactory.getLog(SearchParticipantController.class);
     	List<Participant> participants = participantDao.searchByExample(participant);  
     	Set<Participant> participantSet = new TreeSet<Participant>();
     	participantSet.addAll(participants);
-    	participants.addAll(participantSet);
+    	List<Participant> uniqueParticipants = new ArrayList<Participant>();
+    	uniqueParticipants.addAll(participantSet);
     	Iterator<Participant> participantIter = participants.iterator();
-    	log.debug("Search results size " +participants.size());
+    	log.debug("Search results size " +uniqueParticipants.size());
     	Map map =errors.getModel();
-    	map.put("participants", participants);
+    	map.put("participants", uniqueParticipants);
     	map.put("searchTypeRefData",configMap.get("participantSearchType"));
     	if(isSubFlow(request)){
     		processSubFlow(request,map);
