@@ -74,7 +74,7 @@ function submitPostProcess(formElement, flag){
 											<tr>
 												<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
 													height="1" class="heightControl"></td>
-												<td width="75%"><img
+												<td width="70%"><img
 													src="<tags:imageUrl name="spacer.gif"/>" width="1"
 													height="1" class="heightControl"></td>
 											</tr>
@@ -89,6 +89,11 @@ function submitPostProcess(formElement, flag){
 												Name:</b>&nbsp;</td>
 												<td align="left"><form:input path="lastName"
 													cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
+											</tr>
+											<tr>
+												<td align="right"><em></em> <b>Maiden
+												Name:</b>&nbsp;</td>
+												<td align="left"><form:input path="maidenName" />&nbsp;&nbsp;&nbsp;</td>
 											</tr>
 											<tr>
 												<td align="right"><span class="red">*</span> <em></em> <b>Gender:</b>
