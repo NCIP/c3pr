@@ -23,7 +23,7 @@
 
 
     <!-- projects-->
-    <property name="projects.list" value="RegistrationConsumer, RegistrationConsumerImpl"/>
+    <property name="projects.list" value="RegistrationConsumer, RegistrationConsumerImpl,C3PRStudyConsumer"/>
 
     <property name="testable.projects.list" value="RegistrationConsumerImpl"/>
 
@@ -79,6 +79,11 @@
         </resolveDependencies>
 
         <ant dir="${projects.dir}/RegistrationConsumerImpl" inheritall="false"
+             antfile="build.xml" target="all"/>
+    </target>
+
+    <target name="build-C3PRStudyConsumer" depends="prepare">
+        <ant dir="${projects.dir}/C3PRStudyConsumer" inheritall="false"
              antfile="build.xml" target="all"/>
     </target>
 
