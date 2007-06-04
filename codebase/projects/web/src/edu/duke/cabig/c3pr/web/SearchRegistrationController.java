@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -74,7 +76,11 @@ public class SearchRegistrationController extends SimpleFormController {
 			}
 			List<Participant> participants = participantDao
 					.searchByExample(participant);
-			for (Participant partVar : participants) {
+			Set<Participant> participantSet = new TreeSet<Participant>();
+	    	participantSet.addAll(participants);
+	    	List<Participant> uniqueParticipants = new ArrayList<Participant>();
+	    	uniqueParticipants.addAll(participantSet);
+			for (Participant partVar : uniqueParticipants) {
 				registrations = partVar.getStudyParticipantAssignments();
 			}
 		} else if (request.getParameter("select").equals("Study")) {
@@ -94,7 +100,11 @@ public class SearchRegistrationController extends SimpleFormController {
 			}
 
 			List<Study> studies = studyDao.searchByExample(study, true);
-			for (Study studyVar : studies) {
+			Set<Study> studySet = new TreeSet<Study>();
+	    	List<Study> uniqueStudies = new ArrayList<Study>();
+	    	studySet.addAll(studies);
+	    	uniqueStudies.addAll(studySet);
+	    	for (Study studyVar : uniqueStudies) {
 				for (StudySite studySite : studyVar.getStudySites()) {
 					for (StudyParticipantAssignment studyParticipantAssignment : studySite
 							.getStudyParticipantAssignments()) {
