@@ -110,9 +110,12 @@
     </target>
 
     <target name="deployGlobus" depends="jar">
-        <copy todir="${ext.globus.dir}/lib">
+        <copy todir="${ext.globus.dir}/lib" overwrite="true">
             <fileset dir="${build.jar.dir}">
                 <include name="${jar.name}"/>
+            </fileset>
+            <fileset dir="${ext.lib.dir}">
+                <include name="*.jar"/>
             </fileset>
         </copy>
     </target>
