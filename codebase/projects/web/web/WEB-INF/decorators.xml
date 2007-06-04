@@ -1,11 +1,10 @@
 <decorators defaultdir="/WEB-INF/decorators">
 	<decorator name="standard" page="standard.jsp">
-		<pattern>/login.jsp</pattern>
-		<pattern>/error.jsp</pattern>
-		<pattern>/accessDenied.jsp</pattern>
 		<pattern>/pages/*</pattern>
 		<pattern>/public/*</pattern>
-		<pattern>/pages/registration/searchRegistration</pattern>
+        <pattern>/error.jsp</pattern>
+        <pattern>/accessDenied.jsp</pattern>
+        <pattern>/pages/registration/searchRegistration</pattern>
 		<pattern>/pages/registration/overview</pattern>
 	</decorator>
 	<decorator name="searchSubject" page="searchSubject.jsp">

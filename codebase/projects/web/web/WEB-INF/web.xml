@@ -22,6 +22,11 @@
         </param-value>
     </context-param>
 
+    <context-param>
+        <param-name>log4jConfigLocation</param-name>
+        <param-value>/WEB-INF/log4j.properties</param-value>
+    </context-param>
+
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
@@ -30,14 +35,20 @@
         <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
     </listener>
 
-    <context-param>
-        <param-name>log4jConfigLocation</param-name>
-        <param-value>/WEB-INF/log4j.properties</param-value>
-    </context-param>
+    <servlet>
+        <servlet-name>public</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>public</servlet-name>
+        <url-pattern>/public/*</url-pattern>
+    </servlet-mapping>
+
     <servlet>
         <servlet-name>c3pr</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
+        <load-on-startup>3</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>c3pr</servlet-name>
@@ -56,16 +67,6 @@
     <servlet-mapping>
         <servlet-name>dwr-invoker</servlet-name>
         <url-pattern>/dwr/*</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>public</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>public</servlet-name>
-        <url-pattern>/public/*</url-pattern>
     </servlet-mapping>
 
 
@@ -87,7 +88,6 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-
     <filter>
         <filter-name>OpenSessionInViewInterceptorFilter</filter-name>
         <filter-class> edu.duke.cabig.c3pr.utils.web.OpenSessionInViewInterceptorFilter</filter-class>
@@ -101,7 +101,6 @@
         <filter-name>OpenSessionInViewInterceptorFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-
 
     <!--
     Checks for presence of grid proxy. If not found, forwards to failureUrl.
@@ -148,7 +147,7 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Secure URLs</web-resource-name>
-            <url-pattern>/pages/*</url-pattern>
+            <url-pattern>/*</url-pattern>
         </web-resource-collection>
         <user-data-constraint>
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
@@ -160,8 +159,9 @@
         <error-code>500</error-code>
         <location>/error.jsp</location>
     </error-page>
+    <error-page>
+        <exception-type>java.lang.Throwable</exception-type>
+        <location>/error.jsp</location>
+    </error-page>
 
-    <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
-    </welcome-file-list>
 </web-app>

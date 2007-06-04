@@ -25,7 +25,12 @@
     <bean name="/welcome" id="welcomeController"
         class="org.springframework.web.servlet.mvc.ParameterizableViewController">
         <property name="viewName"><value>internal-welcome</value></property>
-    </bean>    
+    </bean>
+
+    <bean name="/login" id="loginController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+        <property name="viewName"><value>login</value></property>
+    </bean>
 
     <bean name="/css/*"
           class="org.springframework.web.servlet.mvc.UrlFilenameViewController">

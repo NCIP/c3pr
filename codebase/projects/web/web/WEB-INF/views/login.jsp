@@ -11,23 +11,25 @@
 <head>
     <script>
         function navRollOver(obj, state) {
-        document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
+            document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
         }
     </script>
 </head>
 
 <body>
 <!-- SUB NAV STARTS HERE -->
-<form method="post" name="loginForm" action="<c:url value="j_acegi_security_check"/>">
+<form method="post" name="loginForm" action="<c:url value="/j_acegi_security_check"/>">
 
-    <c:if test="${not empty param.login_error}">
-      	<tr>
-				<td align="center"><span class="red">* Invalid Login. Please Try Again.</span></td>
-			</tr>
-			<tr>
-				<td>&nbsp;</td>
-			</tr>
-    </c:if>
+    <div align="center">
+        <c:if test="${not empty param.login_error}">
+            <tr>
+                <td align="center"><span class="red">* Invalid Login. Please Try Again.</span></td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+            </tr>
+        </c:if>
+    </div>
 
     <table width="100%" border="0" cellspacing="0" cellpadding="0"
            id="subNav">
