@@ -1,27 +1,19 @@
 package edu.duke.cabig.c3pr.xml;
 
-import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Address;
-import junit.framework.TestCase;
+import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.utils.ApplicationTestCase;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+import org.xml.sax.helpers.DefaultHandler;
 
-import javax.xml.XMLConstants;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.parsers.SAXParserFactory;
 import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Schema;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.io.InputStream;
-import java.io.File;
-
-import org.xml.sax.helpers.DefaultHandler;
-import org.xml.sax.SAXParseException;
-import org.xml.sax.SAXException;
-import org.xml.sax.EntityResolver;
-import org.xml.sax.InputSource;
 
 /**
  * Created by IntelliJ IDEA.
@@ -30,7 +22,7 @@ import org.xml.sax.InputSource;
  * Time: 11:41:32 AM
  * To change this template use File | Settings | File Templates.
  */
-public abstract class AbstractXMLMarshalling extends TestCase {
+public abstract class AbstractXMLMarshalling extends ApplicationTestCase {
     protected static final String W3C_XML_SCHEMA =
             "http://www.w3.org/2001/XMLSchema";
     protected static final String JAXP_SCHEMA_LANGUAGE =
@@ -58,13 +50,12 @@ public abstract class AbstractXMLMarshalling extends TestCase {
         strValue = "tempStr";
         boolValue = true;
         dateValue = sdf.parse("2009/01/20");
-        studyGridId = "studyGridId";
+        studyGridId = "testStudyGridId";
         siteGridId = "siteGridId";
 
         org.xml.sax.InputSource in = new org.xml.sax.InputSource(Thread.currentThread().getContextClassLoader().getResourceAsStream(schemaFileName));
 
         parserFactory = SAXParserFactory.newInstance();
-        System.out.println("Factory: " + parserFactory);
         parserFactory.setValidating(true);
         parserFactory.setNamespaceAware(true);
 
@@ -119,5 +110,4 @@ public abstract class AbstractXMLMarshalling extends TestCase {
             fail(saxParseException.getMessage());
         }
     }
-
 }

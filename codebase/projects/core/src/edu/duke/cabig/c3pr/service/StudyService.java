@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.service;
 
 import java.util.List;
+import java.util.Date;
 
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.Participant;
@@ -29,7 +30,8 @@ public interface StudyService {
      * @param site
      * @return StudyParticipantAssignment
      */
-    public StudyParticipantAssignment assignParticipant(Study study, Participant participant, HealthcareSite site);
+    public StudyParticipantAssignment assignParticipant(Study study, Participant participant,
+                                                        HealthcareSite site, Date enrollmentDate);
 
 
 }

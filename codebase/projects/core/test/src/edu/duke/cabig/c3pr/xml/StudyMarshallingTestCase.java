@@ -49,9 +49,88 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
 
 
     private void studySerializationTest() {
+        try {
+            marshalledStudy = marshaller.toXML(createDummyStudy(studyGridId));
+            System.out.println(marshalledStudy);
+            assertNotNull(marshalledStudy);
+        } catch (XMLUtilityException e) {
+            fail(e.getMessage());
+        }
+    }
+
+    /**
+     * Tests if the message generated can be validated
+     * against the schema
+     */
+    private void schemaValidationTest() {
+
+        try{
+            //validate the marshalled message
+            byte[] messageBytes = marshalledStudy.getBytes();
+            parser.parse(new ByteArrayInputStream(messageBytes), new MyHandler());
+        }
+        catch (Exception x) {
+            fail(x.getMessage());
+        }
+    }
+
+
+    private void studyDeserializationTest() {
+        Reader messageReader = new StringReader(marshalledStudy);
+
+        try {
+            Study unmarshalledStudy = (Study) marshaller.fromXML(messageReader);
+            assertNotNull(unmarshalledStudy);
+
+            assertEquals(unmarshalledStudy.getGridId(), studyGridId);
+// we never set this so it should be null
+            assertNull(unmarshalledStudy.getDiseaseCategoryAsText());
+        } catch (XMLUtilityException e) {
+            fail(e.getMessage());
+        }
+
+    }
+
+
+
+    private List<InclusionEligibilityCriteria> getInclusionEligibilityCriterias(){
+        List<InclusionEligibilityCriteria> criterias = new ArrayList<InclusionEligibilityCriteria>();
+
+        for(int i =0; i<=2;i++){
+            InclusionEligibilityCriteria criteria = new InclusionEligibilityCriteria();
+            criteria.setGridId(strValue);
+            criteria.setName(strValue);
+            criteria.setQuestionNumber(i);
+            criteria.setQuestionText(strValue);
+            criterias.add(criteria);
+        }
+        return criterias;
+    }
+
+    private List<ExclusionEligibilityCriteria> getExclusionEligibilityCriterias(){
+        List<ExclusionEligibilityCriteria> criterias = new ArrayList<ExclusionEligibilityCriteria>();
+
+        for(int i =1; i<=2;i++){
+            ExclusionEligibilityCriteria criteria = new ExclusionEligibilityCriteria();
+            criteria.setGridId(strValue);
+            criteria.setName(strValue);
+            criteria.setQuestionNumber(i);
+            criteria.setQuestionText(strValue);
+            criterias.add(criteria);
+        }
+        return criterias;
+    }
+
+
+    /**
+     * Will create a dummy study for the provided gridId
+     * @param gridId
+     * @return
+     */
+    protected Study createDummyStudy(String gridId){
         Study studyObject = new Study();
 
-        studyObject.setGridId(studyGridId);
+        studyObject.setGridId(gridId);
         studyObject.setShortTitleText(strValue);
         studyObject.setRandomizedIndicator(strValue);
         studyObject.setMultiInstitutionIndicator(strValue);
@@ -117,74 +196,7 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
         studyObject.setIncCriterias(getInclusionEligibilityCriterias());
         studyObject.setExcCriterias(getExclusionEligibilityCriterias());
 
-        try {
-            marshalledStudy = marshaller.toXML(studyObject);
-            System.out.println(marshalledStudy);
-            assertNotNull(marshalledStudy);
-        } catch (XMLUtilityException e) {
-            fail(e.getMessage());
-        }
-    }
-
-    private List<InclusionEligibilityCriteria> getInclusionEligibilityCriterias(){
-        List<InclusionEligibilityCriteria> criterias = new ArrayList<InclusionEligibilityCriteria>();
-
-        for(int i =0; i<=2;i++){
-            InclusionEligibilityCriteria criteria = new InclusionEligibilityCriteria();
-            criteria.setGridId(strValue);
-            criteria.setName(strValue);
-            criteria.setQuestionNumber(i);
-            criteria.setQuestionText(strValue);
-            criterias.add(criteria);
-        }
-        return criterias;
-    }
-
-    private List<ExclusionEligibilityCriteria> getExclusionEligibilityCriterias(){
-        List<ExclusionEligibilityCriteria> criterias = new ArrayList<ExclusionEligibilityCriteria>();
-
-        for(int i =1; i<=2;i++){
-            ExclusionEligibilityCriteria criteria = new ExclusionEligibilityCriteria();
-            criteria.setGridId(strValue);
-            criteria.setName(strValue);
-            criteria.setQuestionNumber(i);
-            criteria.setQuestionText(strValue);
-            criterias.add(criteria);
-        }
-        return criterias;
-    }
-
-    /**
-     * Tests if the message generated can be validated
-     * against the schema
-     */
-    private void schemaValidationTest() {
-
-        try{
-            //validate the marshalled message
-            byte[] messageBytes = marshalledStudy.getBytes();
-            parser.parse(new ByteArrayInputStream(messageBytes), new MyHandler());
-        }
-        catch (Exception x) {
-            fail(x.getMessage());
-        }
-    }
-
-
-    private void studyDeserializationTest() {
-        Reader messageReader = new StringReader(marshalledStudy);
-
-        try {
-            Study unmarshalledStudy = (Study) marshaller.fromXML(messageReader);
-            assertNotNull(unmarshalledStudy);
-
-            assertEquals(unmarshalledStudy.getGridId(), studyGridId);
-// we never set this so it should be null
-            assertNull(unmarshalledStudy.getDiseaseCategoryAsText());
-        } catch (XMLUtilityException e) {
-            fail(e.getMessage());
-        }
-
+        return studyObject;
     }
 
 
