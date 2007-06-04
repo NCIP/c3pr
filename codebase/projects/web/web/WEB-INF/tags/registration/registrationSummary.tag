@@ -12,7 +12,7 @@
 <tabs:division id="Summary" title="Summary">
 	<table width="100%" border="0" cellspacing="0" cellpadding="0"id="table1">
 		<tags:tdNameValue name="Full Name" value="${studyParticipantAssignment.participant.firstName} ${studyParticipantAssignment.participant.lastName }" columnAttrName="class='labelR'"/>
-		<tags:tdNameValue name="Subject MRN" value="${studyParticipantAssignment.participant.primaryIdentifier }" columnAttrName="width='50%' class='labelR'"/>
+		<tags:tdNameValue name="Subject Primary Identifier" value="${studyParticipantAssignment.participant.primaryIdentifier }" columnAttrName="width='50%' class='labelR'"/>
 		<tags:tdNameValue name="Gender" value="${studyParticipantAssignment.id }" columnAttrName="class='labelR'"/>
 		<tags:tdNameValue name="Short Title" value="${studyParticipantAssignment.studySite.study.shortTitleText}" columnAttrName="class='labelR'"/>
 		<tags:tdNameValue name="Status" value="${studyParticipantAssignment.studySite.study.status }" columnAttrName="class='labelR'"/>
