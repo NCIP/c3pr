@@ -28,28 +28,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/core/src/edu/duke/cabig/c3pr/service/impl/StudyServiceImpl.java" afterPath="$PROJECT_DIR$/codebase/projects/core/src/edu/duke/cabig/c3pr/service/impl/StudyServiceImpl.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/grid/RegistrationConsumer/test/resources/SampleXMLBeansTest.xml" afterPath="$PROJECT_DIR$/codebase/projects/grid/RegistrationConsumer/test/resources/SampleXMLBeansTest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/src/test/resources/spring.xml" afterPath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/src/test/resources/spring.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-toolkit/build.xml" afterPath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-toolkit/build.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/core/db/PostGreSQL/csm/1_AuthSchema.sql" afterPath="$PROJECT_DIR$/codebase/projects/core/db/PostGreSQL/csm/1_AuthSchema.sql" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/installer/installer.iml" afterPath="$PROJECT_DIR$/codebase/projects/installer/installer.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/c3prv2.ipr" afterPath="$PROJECT_DIR$/c3prv2.ipr" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix.iml" afterPath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/c3prv2.iws" afterPath="$PROJECT_DIR$/c3prv2.iws" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/grid/RegistrationConsumerImpl/test/resources/SampleRegistrationMessage.xml" afterPath="$PROJECT_DIR$/codebase/projects/grid/RegistrationConsumerImpl/test/resources/SampleRegistrationMessage.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/applicationContext-acegi-security.xml" afterPath="$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/applicationContext-acegi-security.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/installer/c3prv2-installer/build.xml" afterPath="$PROJECT_DIR$/codebase/projects/installer/c3prv2-installer/build.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/servicemix-wsrf.iml" afterPath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/servicemix-wsrf.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/share/share.iml" afterPath="$PROJECT_DIR$/codebase/share/share.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/grid/build.xml" afterPath="$PROJECT_DIR$/codebase/projects/grid/build.xml" />
+      <change type="MODIFICATION" beforePath="/Users/kherm/dev/cvsroot/caaers/projects/web/src/main/webapp/WEB-INF/decorators/standard.jsp" afterPath="/Users/kherm/dev/cvsroot/caaers/projects/web/src/main/webapp/WEB-INF/decorators/standard.jsp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/servicemix/c3pr-workflow-sm/bridge-jms-su/src/main/resources/xbean.xml" afterPath="$PROJECT_DIR$/codebase/projects/servicemix/c3pr-workflow-sm/bridge-jms-su/src/main/resources/xbean.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/mvn-install-globus-libs.sh" afterPath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/mvn-install-globus-libs.sh" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/antfiles/build.properties" afterPath="$PROJECT_DIR$/codebase/antfiles/build.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/src/test/java/com/sb/servicemix/wsrf/bc/WSRFSpringComponentTest.java" afterPath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/src/test/java/com/sb/servicemix/wsrf/bc/WSRFSpringComponentTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/web/web.iml" afterPath="$PROJECT_DIR$/codebase/projects/web/web.iml" />
+      <change type="MODIFICATION" beforePath="/Users/kherm/dev/cvsroot/caaers/projects/web/src/main/webapp/css/common.css" afterPath="/Users/kherm/dev/cvsroot/caaers/projects/web/src/main/webapp/css/common.css" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/esb-client/esb-client.iml" afterPath="$PROJECT_DIR$/codebase/projects/esb-client/esb-client.iml" />
+      <change type="DELETED" beforePath="/Users/kherm/dev/cvsroot/caaers/projects/web/src/main/webapp/WEB-INF/tags/parsedStylesheetLink.tag" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/src/main/java/com/sb/servicemix/wsrf/bc/WSRFEndpoint.java" afterPath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/src/main/java/com/sb/servicemix/wsrf/bc/WSRFEndpoint.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/grid/grid.iml" afterPath="$PROJECT_DIR$/codebase/projects/grid/grid.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/core/db/PostGreSQL/dummy-data.sql" afterPath="$PROJECT_DIR$/codebase/projects/core/db/PostGreSQL/dummy-data.sql" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/grid/RegistrationConsumerImpl/src/java/gov/nih/nci/cabig/ctms/service/CRPRV2RegistrationConsumer.java" afterPath="$PROJECT_DIR$/codebase/projects/grid/RegistrationConsumerImpl/src/java/gov/nih/nci/cabig/ctms/service/CRPRV2RegistrationConsumer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-toolkit/conf/jmx.xml" afterPath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-toolkit/conf/jmx.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-toolkit/conf/log4j.xml" afterPath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-toolkit/conf/log4j.xml" />
@@ -57,13 +53,14 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/src/main/java/com/sb/servicemix/wsrf/bc/CTMSAdverseEventProcessor.java" afterPath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/src/main/java/com/sb/servicemix/wsrf/bc/CTMSAdverseEventProcessor.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/build.xml" afterPath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/build.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-toolkit/.cvsignore" afterPath="$PROJECT_DIR$/codebase/projects/servicemix/servicemix-toolkit/.cvsignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/core/resources/xsd/c3pr-domain.xsd" afterPath="$PROJECT_DIR$/codebase/projects/core/resources/xsd/c3pr-domain.xsd" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/projects/core/src/edu/duke/cabig/c3pr/service/StudyService.java" afterPath="$PROJECT_DIR$/codebase/projects/core/src/edu/duke/cabig/c3pr/service/StudyService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/c3prv2.iml" afterPath="$PROJECT_DIR$/c3prv2.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/codebase/antfiles/antfiles.iml" afterPath="$PROJECT_DIR$/codebase/antfiles/antfiles.iml" />
     </list>
     <list name="Failed commit: Default" comment="added jars for globus security" />
     <list name="later" comment="" />
     <list name="Failed commit: Default (2)" comment="deleted invalid reports" />
+    <list name="Failed commit: Default (3)" comment="rollback /public for now" />
+    <ignored mask=".DS_Store" />
   </component>
   <component name="ChangeListSynchronizer" />
   <component name="ChangesViewManager" flattened_view="false" show_ignored="false" />
@@ -93,6 +90,12 @@
         <option name="DATE" value="Wed May 23 11:30:09 2007" />
       </DateOrRevisionSettings>
     </option>
+    <option name="SHOW_CHANGES_REVISION_SETTINGS">
+      <DateOrRevisionSettings>
+        <option name="date" value="Mon Jun 04 12:01:05 2007" />
+        <option name="DATE" value="Mon Jun 04 12:01:05 2007" />
+      </DateOrRevisionSettings>
+    </option>
     <option name="UPDATE_KEYWORD_SUBSTITUTION" value="NONE" />
     <option name="SHOW_CORRUPTED_PROJECT_FILES" value="2" />
   </component>
@@ -100,21 +103,6 @@
     <disable_hints />
   </component>
   <component name="DebuggerManager">
-    <line_breakpoints>
-      <breakpoint url="file://$PROJECT_DIR$/codebase/projects/core/src/edu/duke/cabig/c3pr/xml/StudyGridIdFieldHandler.java" line="28" class="edu.duke.cabig.c3pr.xml.StudyGridIdFieldHandler" package="edu.duke.cabig.c3pr.xml">
-        <option name="ENABLED" value="true" />
-        <option name="LOG_ENABLED" value="false" />
-        <option name="LOG_EXPRESSION_ENABLED" value="false" />
-        <option name="SUSPEND_POLICY" value="SuspendAll" />
-        <option name="COUNT_FILTER_ENABLED" value="false" />
-        <option name="COUNT_FILTER" value="0" />
-        <option name="CONDITION_ENABLED" value="false" />
-        <option name="CLASS_FILTERS_ENABLED" value="false" />
-        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
-        <option name="CONDITION" value="" />
-        <option name="LOG_MESSAGE" value="" />
-      </breakpoint>
-    </line_breakpoints>
     <breakpoint_any>
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -192,10 +180,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="SubjectStratificationAnswer.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/codebase/projects/core/src/edu/duke/cabig/c3pr/domain/SubjectStratificationAnswer.java">
+      <file leaf-file-name="build.properties" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/codebase/antfiles/build.properties">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+            <state line="11" column="60" selection-start="377" selection-end="377" vertical-scroll-proportion="0.30697674">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CRPRV2RegistrationConsumer.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/codebase/projects/grid/RegistrationConsumerImpl/src/java/gov/nih/nci/cabig/ctms/service/CRPRV2RegistrationConsumer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="50" column="79" selection-start="1726" selection-end="1726" vertical-scroll-proportion="0.60722893">
               <folding />
             </state>
           </provider>
@@ -218,10 +215,10 @@
     <option name="SPLITTER_PROPORTION" value="0.5" />
     <option name="GROUP_BY_SEVERITY" value="false" />
     <option name="FILTER_RESOLVED_ITEMS" value="true" />
-    <option name="ANALYZE_TEST_SOURCES" value="true" />
+    <option name="ANALYZE_TEST_SOURCES" value="false" />
     <option name="SHOW_DIFF_WITH_PREVIOUS_RUN" value="false" />
     <option name="SCOPE_TYPE" value="1" />
-    <option name="CUSTOM_SCOPE_NAME" value="" />
+    <option name="CUSTOM_SCOPE_NAME" value="Project Files" />
     <option name="SHOW_ONLY_DIFF" value="false" />
     <option name="SHOW_STRUCTURE" value="true" />
     <option name="ANALYSIS_IN_BACKGROUND" value="false" />
@@ -297,31 +294,7 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
         </PATH_ELEMENT>
         <PATH_ELEMENT>
-          <option name="myItemId" value="grid" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
           <option name="myItemId" value="c3prv2" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="grid" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/codebase/projects/grid" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-      </PATH>
-      <PATH>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="c3prv2" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="antfiles" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -341,7 +314,7 @@
         </option>
       </SplitterProportionsDataImpl>
     </option>
-    <option name="lastEditedConfigurable" value="C3PRStudyConsumer" />
+    <option name="lastEditedConfigurable" value="core" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="0.1" version="1" splitterProportion="0.5">
@@ -351,7 +324,7 @@
       <showLibraryContents />
       <hideEmptyPackages J2EEPane="false" ProjectPane="false" />
       <abbreviatePackageNames />
-      <showStructure Favorites="false" J2EEPane="false" Scope="false" PackagesPane="false" ProjectPane="false" />
+      <showStructure ProjectPane="false" J2EEPane="false" Scope="false" PackagesPane="false" Favorites="false" />
       <autoscrollToSource />
       <autoscrollFromSource />
       <sortByType ProjectPane="false" />
@@ -364,9 +337,9 @@
     <property name="cvs_file_history_flatOrder4" value="4" />
     <property name="FileHistory.com.intellij.cvsSupport2.history.CvsHistoryProvider_treeOrder4" value="4" />
     <property name="cvs_file_history_flatOrder1" value="1" />
-    <property name="GenerateAntBuildDialog.forceTargetJdk" value="false" />
-    <property name="cvs_file_history_flatWidth1" value="54" />
     <property name="FileHistory.com.intellij.cvsSupport2.history.CvsHistoryProvider_flatOrder5" value="5" />
+    <property name="cvs_file_history_flatWidth1" value="54" />
+    <property name="GenerateAntBuildDialog.forceTargetJdk" value="false" />
     <property name="FileHistory.com.intellij.cvsSupport2.history.CvsHistoryProvider_flatWidth6" value="166" />
     <property name="TEMP_MODULE_EXPLODED_DIR_FOR_wsb4028478801" value="/private/tmp/webExplodedDir4981tmp" />
     <property name="cvs_file_history_flatOrder2" value="2" />
@@ -374,7 +347,7 @@
     <property name="cvs_file_history_flatWidth4" value="63" />
     <property name="FileHistory.com.intellij.cvsSupport2.history.CvsHistoryProvider_flatOrder2" value="2" />
     <property name="cvs_file_history_treeOrder5" value="5" />
-    <property name="FileHistory.com.intellij.cvsSupport2.history.CvsHistoryProvider_treeWidth5" value="29" />
+    <property name="FileHistory.com.intellij.cvsSupport2.history.CvsHistoryProvider_treeWidth5" value="30" />
     <property name="FileHistory.com.intellij.cvsSupport2.history.CvsHistoryProvider_flatOrder1" value="1" />
     <property name="MemberChooser.sorted" value="false" />
     <property name="RunManagerConfig.compileBeforeRunning" value="false" />
@@ -383,7 +356,7 @@
     <property name="cvs_file_history_treeOrder3" value="3" />
     <property name="cvs_file_history_treeWidth6" value="51" />
     <property name="GenerateAntBuildDialog.enableUiFormCompile" value="false" />
-    <property name="FileHistory.com.intellij.cvsSupport2.history.CvsHistoryProvider_flatWidth2" value="28" />
+    <property name="FileHistory.com.intellij.cvsSupport2.history.CvsHistoryProvider_flatWidth2" value="29" />
     <property name="cvs_file_history_treeWidth3" value="56" />
     <property name="FileHistory.com.intellij.cvsSupport2.history.CvsHistoryProvider_treeOrder6" value="6" />
     <property name="GenerateAntBuildDialog.generateSingleFile" value="true" />
@@ -391,16 +364,16 @@
     <property name="FileHistory.com.intellij.cvsSupport2.history.CvsHistoryProvider_treeWidth4" value="28" />
     <property name="cvs_file_history_flatOrder6" value="6" />
     <property name="Additional Resource Default Version" value="" />
-    <property name="FileHistory.com.intellij.cvsSupport2.history.CvsHistoryProvider_treeWidth1" value="34" />
+    <property name="FileHistory.com.intellij.cvsSupport2.history.CvsHistoryProvider_treeWidth1" value="35" />
     <property name="cvs_file_history_flatWidth3" value="56" />
     <property name="TEMP_MODULE_EXPLODED_DIR_FOR_web" value="/private/tmp/webExplodedDir61174tmp" />
     <property name="GoToClass.includeJavaFiles" value="false" />
     <property name="MemberChooser.copyJavadoc" value="false" />
-    <property name="FileHistory.com.intellij.cvsSupport2.history.CvsHistoryProvider_flatWidth3" value="27" />
+    <property name="FileHistory.com.intellij.cvsSupport2.history.CvsHistoryProvider_flatWidth3" value="28" />
     <property name="FileHistory.com.intellij.cvsSupport2.history.CvsHistoryProvider_flatOrder4" value="4" />
     <property name="cvs_file_history_treeOrder1" value="1" />
     <property name="FileHistory.com.intellij.cvsSupport2.history.CvsHistoryProvider_treeWidth2" value="30" />
-    <property name="FileHistory.com.intellij.cvsSupport2.history.CvsHistoryProvider_treeWidth3" value="29" />
+    <property name="FileHistory.com.intellij.cvsSupport2.history.CvsHistoryProvider_treeWidth3" value="30" />
     <property name="FileHistory.com.intellij.cvsSupport2.history.CvsHistoryProvider_treeOrder1" value="1" />
     <property name="Web Module Deployment Descriptor Default Version" value="2.4" />
     <property name="GoToFile.includeJavaFiles" value="false" />
@@ -419,13 +392,13 @@
     <property name="FileHistory.com.intellij.cvsSupport2.history.CvsHistoryProvider_treeOrder0" value="0" />
     <property name="FileHistory.com.intellij.cvsSupport2.history.CvsHistoryProvider_treeWidth6" value="201" />
     <property name="FileHistory.com.intellij.cvsSupport2.history.CvsHistoryProvider_flatOrder0" value="0" />
+    <property name="FileHistory.com.intellij.cvsSupport2.history.CvsHistoryProvider_flatWidth5" value="28" />
     <property name="cvs_file_history_flatWidth6" value="47" />
-    <property name="FileHistory.com.intellij.cvsSupport2.history.CvsHistoryProvider_flatWidth5" value="27" />
     <property name="FileHistory.com.intellij.cvsSupport2.history.CvsHistoryProvider_flatOrder3" value="3" />
     <property name="cvs_file_history_flatOrder5" value="5" />
-    <property name="cvs_file_history_flatWidth5" value="48" />
-    <property name="GenerateAntBuildDialog.backupFiles" value="true" />
     <property name="FileHistory.com.intellij.cvsSupport2.history.CvsHistoryProvider_treeOrder5" value="5" />
+    <property name="GenerateAntBuildDialog.backupFiles" value="true" />
+    <property name="cvs_file_history_flatWidth5" value="48" />
     <property name="cvs_file_history_treeOrder2" value="2" />
     <property name="cvs_file_history_treeWidth5" value="51" />
     <property name="cvs_file_history_flatWidth0" value="58" />
@@ -448,7 +421,7 @@
     </key>
   </component>
   <component name="RestoreUpdateTree">
-    <UpdateInfo date="5/25/07 11:06 AM" ActionInfo="_Update">
+    <UpdateInfo date="6/4/07 4:52 PM" ActionInfo="_Update">
       <UpdatedFiles>
         <FILE-GROUP>
           <option name="myUpdateName" value="Updated from server" />
@@ -462,45 +435,26 @@
             <option name="mySupportsDeletion" value="false" />
             <option name="myCanBeAbsent" value="false" />
             <option name="myId" value="UPDATED" />
-            <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/views/admin/investigator_details.jsp</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/web/src/edu/duke/cabig/c3pr/web/admin/CreateInvestigatorController.java</PATH>
+            <PATH>$PROJECT_DIR$/codebase/projects/web/src/edu/duke/cabig/c3pr/web/SearchRegistrationController.java</PATH>
             <PATH>$PROJECT_DIR$/meetings/f2f/elaboration_f2f/c3prv2_elaboration_f2f_notes_task1.5.doc</PATH>
             <PATH>$PROJECT_DIR$/codebase/projects/web/src/edu/duke/cabig/c3pr/web/admin/CreateResearchStaffController.java</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/decorators/registrationflow.jsp</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/views/registration/reg_confirm_reg.jsp</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/views/registration/reg_registration_details.jsp</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/decorators.xml</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/web/web/js/row-manager.js</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/views/registration/reg_check_eligibility.jsp</PATH>
+            <PATH>$PROJECT_DIR$/codebase/projects/core/src/edu/duke/cabig/c3pr/domain/Study.java</PATH>
             <PATH>$PROJECT_DIR$/codebase/projects/web/src/edu/duke/cabig/c3pr/web/StudyController.java</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/tags/registration/searchStudyResults.tag</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/views/registration/reg_submit.jsp</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/web/src/edu/duke/cabig/c3pr/web/CreateStudyController.java</PATH>
+            <PATH>$PROJECT_DIR$/codebase/projects/core/src/edu/duke/cabig/c3pr/domain/Address.java</PATH>
+            <PATH>$PROJECT_DIR$/codebase/projects/core/src/applicationContext-configProperties.xml</PATH>
+            <PATH>$PROJECT_DIR$/codebase/projects/core/db/oracle/static-data.sql</PATH>
+            <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/tags/participant/searchResults.tag</PATH>
             <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/views/registration/registration_search.jsp</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/web/test/src/edu/duke/cabig/c3pr/web/EditParticipantControllerTest.java</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/web/web/js/validation.js</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/views/study/study_eligibility_checklist.jsp</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/tags/layout/navigation.tag</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/views/registration/reg_stratify.jsp</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/web/src/edu/duke/cabig/c3pr/web/RegistrationController.java</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/core/db/oracle/c3pr-ddl.SQL</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/core/test/src/edu/duke/cabig/c3pr/dao/testdata/EpochDaoTest.xml</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/core/src/edu/duke/cabig/c3pr/service/impl/ParticipantServiceImpl.java</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/tags/layout/selectsubject-layout-2-0.tag</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/views/study/study_details.jsp</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/views/admin/research_staff_details.jsp</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/core/src/edu/duke/cabig/c3pr/domain/SubjectStratificationAnswer.java</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/web/src/edu/duke/cabig/c3pr/web/CreateRegistrationController.java</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/tags/panel.tag</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/core/test/src/edu/duke/cabig/c3pr/dao/testdata/ParticipantDaoTest.xml</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/tags/registration/registrationSummary.tag</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/core/test/src/edu/duke/cabig/c3pr/dao/ParticipantDaoTest.java</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/core/db/PostGreSQL/c3pr-ddl.SQL</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/core/test/src/edu/duke/cabig/c3pr/dao/testdata/StudySiteDaoTest.xml</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/views/registration/reg_diseases.jsp</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/views/participant/participant_search.jsp</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/core/test/src/edu/duke/cabig/c3pr/dao/testdata/HealthcareSiteInvestigatorDaoTest.xml</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/decorators/tabbedflow_edit.jsp</PATH>
+            <PATH>$PROJECT_DIR$/codebase/projects/web/src/edu/duke/cabig/c3pr/web/EditStudyController.java</PATH>
+            <PATH>$PROJECT_DIR$/codebase/projects/web/src/edu/duke/cabig/c3pr/web/CreateParticipantController.java</PATH>
+            <PATH>$PROJECT_DIR$/codebase/projects/core/db/PostGreSQL/static-data.sql</PATH>
+            <PATH>$PROJECT_DIR$/documentation/presentations/20070531_c3pr_ctms_f2f/20070531_c3pr_ctms_f2f.ppt</PATH>
+            <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/tags/study/searchResults.tag</PATH>
+            <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/tags/registration/searchResults.tag</PATH>
+            <PATH>$PROJECT_DIR$/codebase/projects/web/src/edu/duke/cabig/c3pr/web/SearchParticipantController.java</PATH>
+            <PATH>$PROJECT_DIR$/codebase/projects/web/src/edu/duke/cabig/c3pr/utils/web/propertyeditors/ObjectGraphBasedEditor.java</PATH>
+            <PATH>$PROJECT_DIR$/codebase/projects/core/src/edu/duke/cabig/c3pr/domain/Participant.java</PATH>
+            <PATH>$PROJECT_DIR$/codebase/projects/web/src/edu/duke/cabig/c3pr/web/SearchStudyController.java</PATH>
             <PATH>$PROJECT_DIR$/meetings/all_hands/c3pr_all_hands_20061204.doc</PATH>
           </FILE-GROUP>
           <FILE-GROUP>
@@ -537,7 +491,6 @@
             <PATH>$PROJECT_DIR$/deliverables/construction/5.6.2_WFUTS_create_new_study_updated.doc</PATH>
             <PATH>$PROJECT_DIR$/deliverables/feedback/2.1.4_c3prv2_use_cases_commented_response.doc</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction/3.3.2_C3PR-BRIDG.EAP</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/decorators/searchSubject.jsp</PATH>
             <PATH>$PROJECT_DIR$/deliverables/feedback/2.2.2_c3pv2_srs response.doc</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction/3.4.1_c3prv2_technical_spec_core-web.doc</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction/5.6.2_WFUTS_create_new_participant.doc</PATH>
@@ -550,8 +503,8 @@
             <PATH>$PROJECT_DIR$/deliverables/construction/1.3.1_c3prv2_risks_20070405.xls</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction/5.4.1_test_approach_sign_off.doc</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction/5.2.2_use_case_sign_off.doc</PATH>
-            <PATH>$PROJECT_DIR$/deliverables/construction/3.4.1_c3prv2_technical_specification_Integration.doc</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction/1.4.2_c3prv2_risks_20070416.xls</PATH>
+            <PATH>$PROJECT_DIR$/deliverables/construction/3.4.1_c3prv2_technical_specification_Integration.doc</PATH>
             <PATH>$PROJECT_DIR$/deliverables/feedback/kickoff_f2f_notes_feedback.doc</PATH>
             <PATH>$PROJECT_DIR$/deliverables/feedback/2.4.2_c3prv2_technical_specification_Integration response.doc</PATH>
             <PATH>$PROJECT_DIR$/deliverables/feedback/1.8_c3prv2_vision_scope_wGTcomment_response.doc</PATH>
@@ -671,8 +624,8 @@
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/test-system/.classpath'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/WEB-INF/tags/tabs/tabFields.tag</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/WEB-INF/views/registration/reg_details_status.jsp'</PATH>
-            <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/c3pr-bridge/bridge-eip-su/jbi.xml'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/grid/RegistrationConsumer/schema/RegistrationConsumer/cagrid/types/caGridMetadata.xsd</PATH>
+            <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/c3pr-bridge/bridge-eip-su/jbi.xml'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/c3pr-bridge/jmslogger/Logger.class</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/src/edu/duke/cabig/c3pr/utils/web/spring/BeanNameControllerUrlResolver.java</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/c3pr-bridge/pom.xml'</PATH>
@@ -779,7 +732,6 @@
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/src/edu/duke/cabig/c3pr/web/StudyController.java'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/servicemix-toolkit/lib/geronimo-core-1.1.jar'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/WEB-INF/tags/study/studySummary.tag'</PATH>
-            <PATH>$PROJECT_DIR$/ate: `codebase/projects/web/web/WEB-INF/views/registration/reg_protocol_search.jsp'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/css/tabbedflow.css'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/grid/RegistrationConsumerImpl/test/src/gov/nih/nci/cabig/c3pr/grid/test/C3PRV2RegistrationConsumerTest.java'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/includes/welcome.jsp'</PATH>
@@ -905,8 +857,8 @@
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/grid/RegistrationConsumer/.project'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/images/tab2_h_R.gif'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/WEB-INF/views/home.jsp</PATH>
-            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/c3pr-bridge/bridge-eip-su/src/main/resources/xbean.xml</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/test/logs/junit/TEST-src.edu.duke.cabig.c3pr.dao.ArmDaoTest.xml'</PATH>
+            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/c3pr-bridge/bridge-eip-su/src/main/resources/xbean.xml</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/src/edu/duke/cabig/c3pr/web/LoginController.java'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/grid/grid.iml</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/test/src/edu/duke/cabig/c3pr/dao/ResearchStaffDaoTest.java'</PATH>
@@ -923,9 +875,9 @@
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/js/scriptaculous/builder.js'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/src/edu/duke/cabig/c3pr/utils/Lov.java'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/c3pr-bridge/client/lib/commons-logging.jar'</PATH>
+            <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/WEB-INF/tags/tabs/tabFields.tag'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/antfiles/build-test.xml</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/test-system/test/src/java/edu/duke/cabig/c3pr/test/system/steps/WebappDeployStep.java</PATH>
-            <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/WEB-INF/tags/tabs/tabFields.tag'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/c3pr-bridge/client/lib/commons-pool-1.2.jar'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web.iml</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/core.iml</PATH>
@@ -940,9 +892,9 @@
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/reports/junit/TEST-edu.duke.cabig.c3pr.web.EditParticipantControllerTest.xml'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/c3pr-workflow-sm/bridge-grid-su/lib/commonj.jar</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/lib/northwestern-core-commons.jar'</PATH>
+            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/WEB-INF/tags/registration/participantSummary.tag</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/c3pr-bridge/client/lib/standard.jar</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/servicemix-toolkit/lib/servicemix-core-3.0-incubating.jar</PATH>
-            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/WEB-INF/tags/registration/participantSummary.tag</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/servicemix-toolkit/lib/geronimo-activation_1.0.2_spec-1.1.jar'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/WEB-INF/views/registration/reg_randomize.jsp</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/test-system/test/src/java/edu/duke/cabig/c3pr/test/system/steps/WebCheckStep.java</PATH>
@@ -983,14 +935,14 @@
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/servicemix-toolkit/lib/optional/commons-pool-1.2.jar</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/src/edu/duke/cabig/c3pr/dao/ResearchStaffDao.java</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/WEB-INF/tags/parsedStylesheetLink.tag</PATH>
-            <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/test/lib/easymock.jar'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/WEB-INF/views/participant/participant_search.jsp</PATH>
+            <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/test/lib/easymock.jar'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/db/oracle/delete_data.sql'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/.project'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/WEB-INF/dwr.xml</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/lib/asm.jar</PATH>
-            <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/c3pr-bridge/build.xml'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/src/edu/duke/cabig/c3pr/xml/StudyGridIdFieldHandler.java'</PATH>
+            <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/c3pr-bridge/build.xml'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/src/edu/duke/cabig/c3pr/domain/StudyParticipantAssignment.java'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/servicemix-toolkit/LICENSE</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/servicemix-toolkit/conf/tx.xml'</PATH>
@@ -1006,8 +958,8 @@
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/images/content_B.gif</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/lib/activemq-core-4.0.2.jar'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/c3pr-bridge/bridge-jms-su/src/main/resources/servicemix.xml</PATH>
-            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/test/logs/junit/TEST-edu.duke.cabig.c3pr.dao.EpochDaoTest.xml</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/WEB-INF/tags/tabs/division.tag'</PATH>
+            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/test/logs/junit/TEST-edu.duke.cabig.c3pr.dao.EpochDaoTest.xml</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/grid/RegistrationConsumer/lib/caGrid-1.0-ServiceSecurityProvider-common.jar</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/grid/RegistrationConsumer/lib/caGrid-1.0-ServiceSecurityProvider-service.jar'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/images/rowsDisplayed.gif</PATH>
@@ -1046,8 +998,8 @@
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/servicemix-toolkit/lib/geronimo-system-1.1.jar</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/build.xml'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/c3pr-workflow-sm/bridge-grid-su/lib/ant-contrib.jar</PATH>
-            <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/servicemix-toolkit/components/servicemix-http-3.0-incubating-installer.zip'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/WEB-INF/tags/study/searchStudy.tag'</PATH>
+            <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/servicemix-toolkit/components/servicemix-http-3.0-incubating-installer.zip'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/c3pr-workflow-sm/bridge-grid-su/lib/caGrid-1.0-metadata-common.jar</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/c3pr-bridge/bridge-jms-su/jbi.xml'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/build.xml</PATH>
@@ -1080,8 +1032,8 @@
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/test/src/edu/duke/cabig/c3pr/web/EditParticipantControllerTest.java'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/grid/RegistrationConsumerImpl/antfiles/build-test.xml'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/src/edu/duke/cabig/c3pr/web/RegisterController.java'</PATH>
-            <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/build-test.properties'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/src/edu/duke/cabig/c3pr/utils/EmailManager.java'</PATH>
+            <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/build-test.properties'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/servicemix-wsrf/src/main/java/com/sb/servicemix/wsrf/bc/CTMSAdverseEventProcessor.java</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/test-system/test/src/java/edu/duke/cabig/c3pr/test/system/steps/ESBSendMessageStep.java</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/servicemix-toolkit/lib/geronimo-javamail_1.3.1_spec-1.1.jar'</PATH>
@@ -1133,8 +1085,8 @@
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/images/tabGrayR.gif</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/build-test.properties</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/servicemix-toolkit/lib/mx4j-remote-3.0.1.jar'</PATH>
-            <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/src/edu/duke/cabig/c3pr/domain/Investigator.java'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/WEB-INF/tags/indicator.tag</PATH>
+            <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/src/edu/duke/cabig/c3pr/domain/Investigator.java'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/servicemix-toolkit/lib/stax-api-1.0.1.jar'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/servicemix-toolkit/lib/jencks-1.3.jar</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/test/lib/servlet-api.jar'</PATH>
@@ -1189,8 +1141,8 @@
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/images/b-edit.gif</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/test-system/test/lib/abbot.jar'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/test/src/edu/duke/cabig/c3pr/dao/testdata/StudySiteDaoTest.xml'</PATH>
-            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/grid/RegistrationConsumerImpl/test/report/.removeMe.txt</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/WEB-INF/tags/study/subjectAssignments.tag'</PATH>
+            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/grid/RegistrationConsumerImpl/test/report/.removeMe.txt</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/images/b-edit.gif'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/c3pr-workflow-sm/servicemix.xml'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/images/topNavL.gif'</PATH>
@@ -1207,15 +1159,15 @@
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/servicemix-toolkit/lib/optional/servicemix-components-3.0-incubating.jar'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/lib/asm-attrs.jar</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/images/b-questionL.gif'</PATH>
-            <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/c3pr-bridge/bridge-grid-su/src/main/resources/xbean.xml'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/grid/RegistrationConsumer/lib/mobius_common_client-1.1.jar</PATH>
+            <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/c3pr-bridge/bridge-grid-su/src/main/resources/xbean.xml'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/grid/.project'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/c3pr-workflow-sm/bridge-grid-su/lib/globus_wsrf_mds_aggregator_stubs.jar</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/grid/RegistrationConsumer/lib/caGrid-1.0-ServiceSecurityProvider-stubs.jar</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/c3pr-bridge/client/lib/mysql-connector-java-5.0.4-bin.jar'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/src/edu/duke/cabig/c3pr/utils/web/propertyeditors/NullIdDaoBasedEditor.java</PATH>
-            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/grid/RegistrationConsumerImpl/test/src/gov/nih/nci/cabig/c3pr/grid/test/C3PRV2RegistrationConsumerTest.java</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/test/lib/easymock.jar</PATH>
+            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/grid/RegistrationConsumerImpl/test/src/gov/nih/nci/cabig/c3pr/grid/test/C3PRV2RegistrationConsumerTest.java</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/WEB-INF/views/registration/reg_details_randomization.jsp'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/servicemix-toolkit/conf/keystore.jks'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/images/footer_hhs.gif'</PATH>
@@ -1229,8 +1181,8 @@
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/c3pr-workflow-sm/bridge-grid-su/lib/ant-contrib.jar'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/c3pr-bridge/.cvsignore'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/src/edu/duke/cabig/c3pr/domain/Person.java</PATH>
-            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/c3pr-bridge/.classpath</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/WEB-INF/tags/study/searchResults.tag</PATH>
+            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/c3pr-bridge/.classpath</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/src/edu/duke/cabig/c3pr/dao/StudySiteDao.java'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/c3pr-workflow-sm/bridge-grid-su/lib/caGrid-1.0-ServiceSecurityProvider-stubs.jar'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/c3pr-bridge/client/lib/activeio-core-3.0-beta4.jar'</PATH>
@@ -1289,8 +1241,8 @@
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/grid/RegistrationConsumer/introduce.properties</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/src/edu/duke/cabig/c3pr/web/RegistrationController.java'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/images/content_BR.gif</PATH>
-            <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/test/src/edu/duke/cabig/c3pr/utils/ContextDaoTestCase.java'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/WEB-INF/tags/tabs/divisionEffects.tag'</PATH>
+            <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/test/src/edu/duke/cabig/c3pr/utils/ContextDaoTestCase.java'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/images/favicon.ico</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/.cvsignore'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/src/edu/duke/cabig/c3pr/domain/HealthcareSiteInvestigator.java</PATH>
@@ -1348,7 +1300,6 @@
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/esb-client/src/edu/duke/cabig/c3pr/esb/SubscribeToMessageClient.java'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/src/edu/duke/cabig/c3pr/utils/web/OpenSessionInViewInterceptorFilter.java'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/images/filterArrow.gif</PATH>
-            <PATH>$PROJECT_DIR$/ate: `codebase/projects/web/web/WEB-INF/views/registration/reg_study_search.jsp'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/test/lib/easymockclassextension.jar</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/test/src/edu/duke/cabig/c3pr/utils/ContextDaoTestCase.java</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/WEB-INF/views/study/study_investigators.jsp</PATH>
@@ -1405,7 +1356,6 @@
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/WEB-INF/c3pr-servlet.xml'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/WEB-INF/views/registration/reg_create_patient_study.jsp'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/grid/RegistrationConsumerImpl/.cvsignore</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/views/registration/reg_study_search.jsp</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/servicemix-wsrf/build.properties</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/images/bg-page.gif</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/servicemix-wsrf/src/main/java/com/sb/servicemix/wsrf/bc/WSRFComponent.java'</PATH>
@@ -1518,8 +1468,8 @@
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/db/PostGreSQL/static-data.sql'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/servicemix-toolkit/bin/servicemix'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/lib/jstl.jar'</PATH>
-            <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/grid/antfiles/build-test.xml'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/grid/RegistrationConsumer/build-deploy.xml</PATH>
+            <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/grid/antfiles/build-test.xml'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/grid/RegistrationConsumer/schema/RegistrationConsumer/registration.xsd</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/servicemix-toolkit/lib/wsdl4j-1.5.1.jar</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/db/oracle/create_users.sql'</PATH>
@@ -1537,9 +1487,9 @@
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/lib/mail-1.3.2.jar</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/src/edu/duke/cabig/c3pr/web/SearchRegisterCommand.java</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/WEB-INF/views/registration/reg_enroll_patient_address.jsp</PATH>
+            <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/WEB-INF/tags/parsedStylesheetLink.tag'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/grid/RegistrationConsumer/lib/spring.jar</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/test/src/edu/duke/cabig/c3pr/dao/ParticipantDaoTest.java</PATH>
-            <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/WEB-INF/tags/parsedStylesheetLink.tag'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/servicemix-toolkit/lib/commons-logging-1.0.4.jar'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/src/edu/duke/cabig/c3pr/domain/HealthcareSiteInvestigator.java'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/servicemix-toolkit/conf/servicemix.conf'</PATH>
@@ -1555,8 +1505,8 @@
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/grid/RegistrationConsumerImpl/test/logs/junit/TEST-gov.nih.nci.cabig.c3pr.grid.test.C3PRV2RegistrationConsumerTest.xml</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/grid/RegistrationConsumer/schema/RegistrationConsumer/cagrid/types/data/data.xsd'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/servicemix-toolkit/lib/activeio-core-3.0-beta4.jar</PATH>
-            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/c3pr-bridge/bridge-http-su/src/main/resources/xbean.xml</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/lib/xbean-spring-2.7.jar'</PATH>
+            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/c3pr-bridge/bridge-http-su/src/main/resources/xbean.xml</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/WEB-INF/views/css/common-styles.css.jsp'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/grid/RegistrationConsumer/lib/caGrid-1.0-metadata-security.jar'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/test-system/.project</PATH>
@@ -1602,8 +1552,8 @@
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/c3pr-workflow-sm/bridge-xslt-su/src/main/resources/webservice-transformer.xsl'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/reports/junit/TEST-edu.duke.cabig.c3pr.dao.StudyDaoTest.xml'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/servicemix-toolkit/conf/tx.xml</PATH>
-            <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/grid/RegistrationConsumer/build.xml'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/WEB-INF/views/participant/participant_address.jsp'</PATH>
+            <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/grid/RegistrationConsumer/build.xml'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/images/b-send.gif</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/test/lib/dbunit-2.1.jar</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/WEB-INF/tags/indicator.tag'</PATH>
@@ -1629,11 +1579,11 @@
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/c3pr-workflow-sm/bridge-sa/jbi.xml</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/images/bottomTabGrayR.gif'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/src/edu/duke/cabig/c3pr/web/LoginController.java</PATH>
-            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/c3pr-workflow-sm/bridge-grid-su/lib/globus_wsrf_servicegroup.jar</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/WEB-INF/views/css/common-styles.css.jsp</PATH>
+            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/c3pr-workflow-sm/bridge-grid-su/lib/globus_wsrf_servicegroup.jar</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/test/logs/junit/TEST-edu.duke.cabig.c3pr.utils.ApplicationContextInitializationTest.xml</PATH>
-            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/c3pr-bridge/bridge-eip-su/pom.xml</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/test/src/edu/duke/cabig/c3pr/dao/testdata/StudySiteDaoTest.xml</PATH>
+            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/c3pr-bridge/bridge-eip-su/pom.xml</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/servicemix-toolkit/bin/servicemix.bat</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/c3pr-bridge/bridge-xslt-su/src/main/resources/servicemix.xml'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/test-system/test/src/java/edu/duke/cabig/c3pr/test/system/CTMISystemTest.java'</PATH>
@@ -1699,12 +1649,12 @@
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/test/src/edu/duke/cabig/c3pr/dao/testdata/StudyDaoTest.xml</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/test/logs/junit/TEST-src.edu.duke.cabig.c3pr.dao.StudyDaoTest.xml</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/servicemix-toolkit/lib/xbean-server-2.6.jar</PATH>
+            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/WEB-INF/tags/layout/header.tag</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/src/edu/duke/cabig/c3pr/dao/StudyPersonnelDao.java</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/test-system/lib/.cvsignore'</PATH>
-            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/WEB-INF/tags/layout/header.tag</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/servicemix-toolkit/lib/optional/lingo-1.0.jar</PATH>
-            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/c3pr-bridge/New Text Document.txt</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/grid/RegistrationConsumer/src/gov/nih/nci/cabig/ctms/service/globus/resource/ResourceConstants.java'</PATH>
+            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/c3pr-bridge/New Text Document.txt</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/c3pr-bridge/client/lib/backport-util-concurrent-2.1.jar</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/src/applicationContext-esb.xml</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/src/edu/duke/cabig/c3pr/web/CreateParticipantController.java'</PATH>
@@ -1875,16 +1825,16 @@
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/images/filter.gif</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/WEB-INF/tags/layout/.#footer.tag.1.4</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/WEB-INF/views/registration/reg_study_search.jsp'</PATH>
+            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/WEB-INF/views/participant/participant_edit_contactInfo.jsp</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/lib/commons-dbcp-1.2.1.jar'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/test-system/test/lib/abbot.jar</PATH>
-            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/WEB-INF/views/participant/participant_edit_contactInfo.jsp</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/c3pr-workflow-sm/bridge-grid-su/lib/wss4j.jar'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/WEB-INF/views/study/study_identifiers.jsp</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/test-system/.cvsignore</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/c3pr-workflow-sm/README.txt</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/test/.cvsignore</PATH>
-            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/servicemix-wsrf/lib/AdverseEventConsumer-stubs.jar</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/WEB-INF/views/participant/participant.jsp'</PATH>
+            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/servicemix-wsrf/lib/AdverseEventConsumer-stubs.jar</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/images/b-prev.gif</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/c3pr-workflow-sm/bridge-grid-su/lib/commons-discovery.jar'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/WEB-INF/special-views.xml'</PATH>
@@ -1893,15 +1843,15 @@
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/antfiles/build-test.xml'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/js/scriptaculous/effects.js</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/test/lib/.cvsignore</PATH>
-            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/src/edu/duke/cabig/c3pr/dao/StudyDao.java</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/src/edu/duke/cabig/c3pr/domain/Study.java'</PATH>
+            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/src/edu/duke/cabig/c3pr/dao/StudyDao.java</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/c3pr-workflow-sm/bridge-grid-su/lib/mobius_tools-1.1.jar</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/lib/commons-collections-3.2.jar'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/src/edu/duke/cabig/c3pr/domain/StudyPersonnel.java</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/WEB-INF/views/participant/participant_edit_addresses.jsp'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/src/edu/duke/cabig/c3pr/utils/web/ContextRetainingFilterAdapter.java'</PATH>
-            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/c3pr-bridge/bridge-grid-su/pom.xml</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/src/edu/duke/cabig/c3pr/domain/validator/ArmValidator.java</PATH>
+            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/c3pr-bridge/bridge-grid-su/pom.xml</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/c3pr-workflow-sm/bridge-grid-su/lib/cog-tomcat.jar'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/images/prevPageDisabled.gif</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/c3pr-bridge/bridge-jms-su/src/main/resources/servicemix.xml'</PATH>
@@ -2027,8 +1977,8 @@
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/c3pr-workflow-sm/bridge-grid-su/src/main/resources/xbean.xml'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/test/resources/registration.xsd'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/WEB-INF/views/registration/reg_create_patient_address.jsp</PATH>
-            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/grid/RegistrationConsumerImpl/src/java/applicationContext-grid.xml</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/lib/castor-0.9.9.jar</PATH>
+            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/grid/RegistrationConsumerImpl/src/java/applicationContext-grid.xml</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/servicemix-toolkit/lib/commons-beanutils-core-1.7.0.jar'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/esb-client/src/edu/duke/cabig/c3pr/esb/JmsService.java'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/grid/RegistrationConsumerImpl/test/resources/SampleRegistrationMessage.xml</PATH>
@@ -2062,9 +2012,9 @@
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/WEB-INF/views/registration/reg_create_patient_address_study.jsp'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/images/b-minus.gif</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/servicemix-wsrf/src/main/java/com/sb/servicemix/wsrf/bc/WSRFSpringComponent.java</PATH>
+            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/WEB-INF/views/participant/participant_edit_details.jsp</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/src/edu/duke/cabig/c3pr/api/RegistrationService.java'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/c3pr-workflow-sm/bridge-grid-su/lib/caGrid-1.0-ServiceSecurityProvider-common.jar'</PATH>
-            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/WEB-INF/views/participant/participant_edit_details.jsp</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/src/edu/duke/cabig/c3pr/domain/Arm.java</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/src/edu/duke/cabig/c3pr/web/EditStudyController.java</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/src/edu/duke/cabig/c3pr/web/ajax/StudyAjaxFacade.java'</PATH>
@@ -2123,8 +2073,8 @@
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/js/calendar.js'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/grid/RegistrationConsumer/schema/RegistrationConsumer/cagrid/types/caGridMetadata.xsd'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/WEB-INF/tags/hotlinks.tag</PATH>
-            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/grid/RegistrationConsumer/src/gov/nih/nci/cabig/ctms/service/RegistrationConsumerImpl.java</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/WEB-INF/tags/participant/registrationHistory.tag</PATH>
+            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/grid/RegistrationConsumer/src/gov/nih/nci/cabig/ctms/service/RegistrationConsumerImpl.java</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/esb-client/esb-client.iml</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/src/applicationContext-core.xml'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/servicemix-toolkit/conf/users-credentials.properties</PATH>
@@ -2140,8 +2090,8 @@
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/WEB-INF/views/registration/reg_identifiers.jsp'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/WEB-INF/tags/tabs/levelTwoTabs.tag'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/js/scriptaculous/slider.js</PATH>
-            <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/grid/RegistrationConsumer/test/src/README.txt'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/src/edu/duke/cabig/c3pr/xml/XmlMarshaller.java'</PATH>
+            <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/grid/RegistrationConsumer/test/src/README.txt'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/servicemix-wsrf/src/test/resources/jndi.xml</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/images/whiteCorner.gif</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/grid/RegistrationConsumer/lib/caGrid-1.0-ServiceSecurityProvider-service.jar</PATH>
@@ -2178,8 +2128,8 @@
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/src/edu/duke/cabig/c3pr/domain/ExclusionEligibilityCriteria.java</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/src/edu/duke/cabig/c3pr/web/SearchParticipantController.java'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/images/level2_BG.gif</PATH>
-            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/WEB-INF/tags/layout/footer.tag</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/WEB-INF/tags/layout/navigation.tag'</PATH>
+            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/WEB-INF/tags/layout/footer.tag</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/c3pr-workflow-sm/bridge-grid-su/lib/commons-logging.jar</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/WEB-INF/tags/participant/participantSummary.tag</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/c3pr-bridge/.project'</PATH>
@@ -2267,8 +2217,8 @@
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/src/edu/duke/cabig/c3pr/utils/StringBean.java'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/images/b-search2.gif</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/servicemix-toolkit/NOTICE</PATH>
-            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/db/oracle/static-data.sql</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/WEB-INF/tags/participant/registrationHistory.tag'</PATH>
+            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/db/oracle/static-data.sql</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/servicemix-toolkit/lib/commons-logging-1.0.4.jar</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/src/applicationContext-configProperties.xml'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/db/PostGreSQL/c3pr-ddl.SQL</PATH>
@@ -2322,8 +2272,8 @@
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/test/lib/.cvsignore</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/test-system/test/src/java/edu/duke/cabig/c3pr/test/system/steps/ESBStopStep.java</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/images/SerachProtocols.gif'</PATH>
-            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/grid/RegistrationConsumerImpl/antfiles/build-test.xml</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/esb-client/src/edu/duke/cabig/c3pr/esb/impl/MessageBroadcastServiceImpl.java'</PATH>
+            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/grid/RegistrationConsumerImpl/antfiles/build-test.xml</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/c3pr-workflow-sm/bridge-eip-su/src/main/resources/xbean.xml'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/src/edu/duke/cabig/c3pr/web/StudyController.java</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/esb-client/docs/README.txt</PATH>
@@ -2336,8 +2286,8 @@
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/test/src/edu/duke/cabig/c3pr/dao/testdata/HealthcareSiteInvestigatorDaoTest.xml</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/servicemix-toolkit/components/servicemix-eip-3.0-incubating-installer.zip</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/test/src/edu/duke/cabig/c3pr/dao/testdata/StudyDaoTest.xml'</PATH>
-            <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/servicemix-toolkit/ant/servicemix_ant_taskdef.properties'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/WEB-INF/tags/errors.tag</PATH>
+            <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/servicemix-toolkit/ant/servicemix_ant_taskdef.properties'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/grid/RegistrationConsumer/lib/mobius_mako_client-1.1.jar'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/lib/javax.servlet.jsp.jar</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/src/edu/duke/cabig/c3pr/dao/AbstractBaseDao.java</PATH>
@@ -2360,8 +2310,8 @@
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/servicemix/servicemix-toolkit/lib/classworlds-1.0.1.jar'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/grid/RegistrationConsumer/lib/caGrid-1.0-metadataUtils.jar'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/images/tab2_h_BG.gif</PATH>
-            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/c3pr-workflow-sm/bridge-grid-su/lib/caGrid-1.0-ServiceSecurityProvider-common.jar</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/web/web/WEB-INF/tags/participant/registrationSummary.tag</PATH>
+            <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/servicemix/c3pr-workflow-sm/bridge-grid-su/lib/caGrid-1.0-ServiceSecurityProvider-common.jar</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/grid/RegistrationConsumer/src/gov/nih/nci/cabig/ctms/service/globus/RegistrationConsumerAuthorization.java</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/test/src/edu/duke/cabig/c3pr/dao/testdata/ParticipantDaoTest.xml'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/core/src/edu/duke/cabig/c3pr/domain/InclusionEligibilityCriteria.java'</PATH>
@@ -2388,7 +2338,6 @@
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/grid/RegistrationConsumer/test/resources/SampleRegistrationMessage.xml'</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/web/images/b-continue.gif'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/core/lib/avalon-framework-cvs-20020806.jar</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/views/registration/reg_protocol_search.jsp</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/web/src/applicationContext-web-sso.xml'</PATH>
             <PATH>$PROJECT_DIR$/deliverables/construction_iteration1/codebase/esb-client/src/edu/duke/cabig/c3pr/esb/impl/MessageBroadcastServiceImpl.java</PATH>
             <PATH>$PROJECT_DIR$/ate: `deliverables/construction_iteration1/codebase/test-system/test/src/java/edu/duke/cabig/c3pr/test/system/steps/ESBStopStep.java'</PATH>
@@ -2459,9 +2408,6 @@
             <option name="mySupportsDeletion" value="false" />
             <option name="myCanBeAbsent" value="false" />
             <option name="myId" value="RESTORED" />
-            <PATH>$PROJECT_DIR$/codebase/projects/portal/gridsphere-2.2.8/projects/gridauth/.DS_Store</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/portal/gridsphere-2.2.8/webapps/gridsphere/.DS_Store</PATH>
-            <PATH>$PROJECT_DIR$/codebase/projects/portal/gridsphere-2.2.8/.DS_Store</PATH>
           </FILE-GROUP>
         </FILE-GROUP>
         <FILE-GROUP>
@@ -2472,39 +2418,28 @@
           <option name="myId" value="MODIFIED" />
           <PATH>$PROJECT_DIR$/codebase/antfiles/antfiles.iml</PATH>
           <PATH>$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/servicemix-wsrf.iml</PATH>
-          <PATH>$PROJECT_DIR$/codebase/projects/grid/grid.iml</PATH>
           <PATH>$PROJECT_DIR$/codebase/projects/servicemix/servicemix-toolkit/build.xml</PATH>
-          <PATH>$PROJECT_DIR$/codebase/projects/core/src/edu/duke/cabig/c3pr/service/impl/StudyServiceImpl.java</PATH>
-          <PATH>$PROJECT_DIR$/codebase/projects/installer/c3prv2-installer/build.xml</PATH>
           <PATH>$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/src/test/java/com/sb/servicemix/wsrf/bc/WSRFSpringComponentTest.java</PATH>
-          <PATH>$PROJECT_DIR$/codebase/projects/grid/build.xml</PATH>
           <PATH>$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/build.xml</PATH>
           <PATH>$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/src/test/resources/spring.xml</PATH>
           <PATH>$PROJECT_DIR$/codebase/projects/servicemix/c3pr-workflow-sm/bridge-jms-su/src/main/resources/xbean.xml</PATH>
-          <PATH>$PROJECT_DIR$/codebase/antfiles/build.properties</PATH>
           <PATH>$PROJECT_DIR$/c3prv2.iws</PATH>
           <PATH>$PROJECT_DIR$/codebase/projects/grid/RegistrationConsumerImpl/src/java/gov/nih/nci/cabig/ctms/service/CRPRV2RegistrationConsumer.java</PATH>
-          <PATH>$PROJECT_DIR$/codebase/projects/web/web.iml</PATH>
           <PATH>$PROJECT_DIR$/codebase/projects/servicemix/servicemix-toolkit/conf/servicemix.xml</PATH>
           <PATH>$PROJECT_DIR$/c3prv2.ipr</PATH>
           <PATH>$PROJECT_DIR$/codebase/projects/servicemix/servicemix-toolkit/conf/log4j.xml</PATH>
-          <PATH>$PROJECT_DIR$/codebase/projects/esb-client/test/src/edu/duke/cabig/c3pr/esb/test/TestEsbClient.java</PATH>
           <PATH>$PROJECT_DIR$/codebase/projects/grid/RegistrationConsumer/test/resources/SampleXMLBeansTest.xml</PATH>
           <PATH>$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/src/main/java/com/sb/servicemix/wsrf/bc/CTMSAdverseEventProcessor.java</PATH>
-          <PATH>$PROJECT_DIR$/codebase/projects/core/resources/xsd/c3pr-domain.xsd</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/core/db/PostGreSQL/dummy-data.sql</PATH>
           <PATH>$PROJECT_DIR$/codebase/projects/servicemix/servicemix.iml</PATH>
           <PATH>$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/src/main/java/com/sb/servicemix/wsrf/bc/WSRFEndpoint.java</PATH>
-          <PATH>$PROJECT_DIR$/codebase/projects/core/src/edu/duke/cabig/c3pr/service/StudyService.java</PATH>
           <PATH>$PROJECT_DIR$/codebase/projects/grid/RegistrationConsumerImpl/test/resources/SampleRegistrationMessage.xml</PATH>
           <PATH>$PROJECT_DIR$/codebase/projects/servicemix/servicemix-toolkit/conf/jmx.xml</PATH>
           <PATH>$PROJECT_DIR$/codebase/projects/installer/installer.iml</PATH>
-          <PATH>$PROJECT_DIR$/codebase/projects/core/db/PostGreSQL/csm/1_AuthSchema.sql</PATH>
           <PATH>$PROJECT_DIR$/codebase/projects/esb-client/esb-client.iml</PATH>
           <PATH>$PROJECT_DIR$/codebase/projects/servicemix/servicemix-toolkit/.cvsignore</PATH>
-          <PATH>$PROJECT_DIR$/codebase/share/share.iml</PATH>
           <PATH>$PROJECT_DIR$/codebase/projects/servicemix/servicemix-wsrf/mvn-install-globus-libs.sh</PATH>
           <PATH>$PROJECT_DIR$/c3prv2.iml</PATH>
-          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/applicationContext-acegi-security.xml</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Skipped" />
@@ -2533,11 +2468,131 @@
           <option name="mySupportsDeletion" value="true" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="UNKNOWN" />
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/acegi-security-1.0.3.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/caGrid-1.0-authentication-service-client.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/cog-tomcat.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/mobius_mako_client-1.1.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/wsdl4j.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/naming-java.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/javax.servlet.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/caGrid-1.0-metadata-security.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/caGrid-1.0-authentication-service-common.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/jgss.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/mobius_factories-1.1.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/c3pr-2.0-core-1.0.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/activeio-core-3.0-beta4.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/wsrf_core_stubs.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/cog-url.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/jta.jar</PATH>
           <PATH>$PROJECT_DIR$/codebase/projects/grid/.DS_Store</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/commonj.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/core/.DS_Store</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/cryptix32.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/c3pr-2.0-esb-client-1.0.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/jdom.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/axis-url.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/handlerservice.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/ant-contrib.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/standard.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/postgresql-8.1-407.jdbc3.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/northwestern-core-commons.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/wss4j.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/collections-generic-4.01.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/cog-jglobus.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/commons-httpclient-3.0-rc2.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/mail-1.3.2.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/hibernate-annotations.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/caGrid-1.0-ServiceSecurityProvider-client.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/caGrid-1.0-gridca.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/mobius_common_client-1.1.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/clm-3.2.1-SNAPSHOT.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/xmlsec.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/globus_wsrf_mds_aggregator_stubs.jar</PATH>
           <PATH>$PROJECT_DIR$/codebase/projects/.DS_Store</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/ojdbc14.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/log4j-1.2.13.jar</PATH>
           <PATH>$PROJECT_DIR$/codebase/projects/core/junit527812008.properties</PATH>
-          <PATH>$PROJECT_DIR$/codebase/projects/core/resources/xsd/edu.duke.cabig.c3pr.domain.xsd</PATH>
-          <PATH>$PROJECT_DIR$/codebase/projects/core/resources/c3pr-xml-mapping.xml</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/caGrid-1.0-opensaml-1.1.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/acegi-csm-1.0-SNAPSHOT.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/c3p0-0.8.5.2.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/commons-digester.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/asm.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/cryptix.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/jboss-j2ee-4.0.5.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/globus_wsrf_servicegroup_stubs.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/jakarta-oro-2.0.8.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/castor-0.9.9.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/addressing-1.0.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/globus_wsrf_servicegroup.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/jaxen-core.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/caGrid-1.0-ServiceSecurityProvider-stubs.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/activemq-core-4.0.2.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/caGrid-1.0-authentication-service-stubs.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/.DS_Store</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/backport-util-concurrent-2.1.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/jaxrpc.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/dwr.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/acegi-security-tiger-1.0.3.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/wsrf_core.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/dom4j-1.6.1.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/saxpath.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/xercesImpl.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/xerces.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/caGrid-1.0-core.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/mobius_tools-1.1.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/javax.servlet.jsp.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/caGrid-1.0-dorian-common.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/fop.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/caGrid-1.0-dorian-stubs.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/avalon-framework-cvs-20020806.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/commons-collections-3.2.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/caGrid-1.0-ServiceSecurityProvider-common.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/bootstrap.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/sitemesh-2.2.1.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/jaxen-jdom.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/axis.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/mobius_gme_client-1.1.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/ctms-web-sso.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/puretls.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/cglib-2.1.3.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/antlr-2.7.6.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/jstl.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/commons-lang-2.1.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/xbean-spring-2.7.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/ehcache-1.2.3.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/c3pr-2.0-web-1.0.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/commons-dbcp-1.2.1.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/caGrid-1.0-metadata-data.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/activation-1.0.2.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/commons-pool-1.2.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/nls_charset12.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/cog-axis.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/concurrent.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/spring2.0.2.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/commons-logging.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/saaj.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/jboss-jsr77.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/globus_wsrf_mds_aggregator.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/commons-beanutils-1.7.0.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/acegi-security-cas-1.0.3.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/jce-jdk13-125.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/.DS_Store</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/caGrid-1.0-metadata-common.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/csmapi-3.2.1-SNAPSHOT.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/commons-cli-2.0.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/handle.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/images/.DS_Store</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/cryptix-asn1.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/ejb3-persistence.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/commons-collections-3.1.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/hibernate3.2.1.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/grid-security-plugin-1.0.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/client.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/xerces-2.6.2.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/commons-discovery.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/asm-attrs.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/caGrid-1.0-dorian-client.jar</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/web/web/WEB-INF/lib/acegi-grid-1.0-SNAPSHOT.jar</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Locally added" />
@@ -2552,6 +2607,9 @@
           <option name="mySupportsDeletion" value="false" />
           <option name="myCanBeAbsent" value="false" />
           <option name="myId" value="LOCALLY_REMOVED" />
+          <PATH>$PROJECT_DIR$/codebase/projects/portal/gridsphere-2.2.8/projects/gridauth/.DS_Store</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/portal/gridsphere-2.2.8/webapps/gridsphere/.DS_Store</PATH>
+          <PATH>$PROJECT_DIR$/codebase/projects/portal/gridsphere-2.2.8/.DS_Store</PATH>
         </FILE-GROUP>
         <FILE-GROUP>
           <option name="myUpdateName" value="Unknown" />
@@ -2591,7 +2649,7 @@
       </UpdatedFiles>
     </UpdateInfo>
   </component>
-  <component name="RunManager" selected="JUnit.RegistrationMarshallingTestCase">
+  <component name="RunManager" selected="JUnit.CoreTests">
     <tempConfiguration default="false" name="CSMEncrypterTest" type="JUnit" factoryName="JUnit" enabled="false" merge="false">
       <pattern value="edu.duke.cabig.c3pr.utils.*" />
       <module name="core" />
@@ -2634,24 +2692,17 @@
         <option name="Make" value="true" />
       </method>
     </configuration>
-    <configuration default="true" type="JUnit" factoryName="JUnit" enabled="false" merge="false">
+    <configuration default="true" type="Applet" factoryName="Applet">
       <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ADDITIONAL_CLASS_PATH" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="wholeProject" />
-      </option>
-      <method>
-        <option name="Make" value="true" />
-      </method>
     </configuration>
     <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local">
       <option name="WORKING_DIRECTORY" />
@@ -2670,17 +2721,24 @@
       <option name="BASE_DIRECTORY_NAME" value="" />
       <predefined_log_file id="TOMCAT_LOCALHOST_LOG_ID" enabled="true" />
     </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
+    <configuration default="true" type="JUnit" factoryName="JUnit" enabled="false" merge="false">
       <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ADDITIONAL_CLASS_PATH" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="wholeProject" />
+      </option>
+      <method>
+        <option name="Make" value="true" />
+      </method>
     </configuration>
     <configuration default="false" name="RegistrationConsumerClient" type="Application" factoryName="Application" enabled="false" merge="false">
       <option name="MAIN_CLASS_NAME" value="gov.nih.nci.cabig.ctms.client.RegistrationConsumerClient" />
@@ -2960,6 +3018,33 @@
         <option name="Make" value="true" />
       </method>
     </configuration>
+    <configuration default="false" name="CoreTests" type="JUnit" factoryName="JUnit" enabled="false" merge="false">
+      <module name="core" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="PACKAGE_NAME" value="edu.duke.cabig.c3pr.xml" />
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ADDITIONAL_CLASS_PATH" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="wholeProject" />
+      </option>
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="57059" />
+        <option name="TRANSPORT" value="0" />
+        <option name="LOCAL" value="true" />
+      </RunnerSettings>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Debug" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method>
+        <option name="Make" value="true" />
+      </method>
+    </configuration>
     <configuration default="false" name="Tomcat -nosec" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local">
       <option name="WORKING_DIRECTORY" />
       <option name="HOST" value="localhost" />
@@ -3157,31 +3242,35 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="74" y="22" width="1397" height="878" extended-state="0" />
+    <frame x="89" y="22" width="1363" height="830" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="4" />
+      <window_info id="Maven-2 Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32927758" order="3" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32637855" order="7" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2935508" order="0" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30818415" order="1" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.29277566" order="0" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.30790192" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24809161" order="1" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31841433" order="16" />
+      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33787465" order="16" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" order="6" />
       <window_info id="Module Dependencies" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="17" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="6" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.14455152" order="1" />
-      <window_info id="Changes" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3135656" order="10" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35038364" order="2" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14220533" order="1" />
+      <window_info id="Changes" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.31330797" order="10" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.35013625" order="2" />
+      <window_info id="Maven" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32986626" order="0" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="2" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6393862" order="3" x="67" y="307" width="1349" height="307" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.399287" order="0" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6389646" order="3" x="67" y="307" width="1349" height="307" />
+      <window_info id="TCPMON" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32824427" order="4" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="18" />
-      <window_info id="Version Control" active="true" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3283914" order="9" />
+      <window_info id="Version Control" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32775664" order="9" />
       <window_info id="Duplicates" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
-      <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.317757" order="9" />
+      <window_info id="Goals" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="SVN Repositories" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32935917" order="13" />
+      <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.317757" order="9" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="4" />
       <window_info id="Log4jMonitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32985073" order="11" />
       <window_info id="IdeaSpring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32985073" order="10" />
@@ -3189,13 +3278,11 @@
       <window_info id="IView" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3283582" order="14" />
       <window_info id="IntelliTail" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3283582" order="12" />
       <window_info id="Struts Assistant" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="2" />
-      <window_info id="TCPMON" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32824427" order="4" />
       <window_info id="SQL Schema" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3283582" order="15" />
       <window_info id="CVS" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32225063" order="19" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="3" />
       <window_info id="EJB" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="5" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="8" />
-      <window_info id="Maven" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32986626" order="0" />
       <window_info id="File View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="7" />
       <window_info id="JarSpy" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3264463" order="20" />
     </layout>
@@ -3215,7 +3302,7 @@
     <option name="PERFORM_EDIT_IN_BACKGROUND" value="true" />
     <option name="PERFORM_ADD_REMOVE_IN_BACKGROUND" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="updates" />
+    <option name="LAST_COMMIT_MESSAGE" value="added Study grid service" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="REFORMAT_BEFORE_FILE_COMMIT" value="false" />
@@ -3238,6 +3325,14 @@
     <MESSAGE value="schema public" />
     <MESSAGE value="removed getSponsorCode from study" />
     <MESSAGE value="updates" />
+    <MESSAGE value="admin * added" />
+    <MESSAGE value="rollback /public for now" />
+    <MESSAGE value="web updates" />
+    <MESSAGE value="new study grid service" />
+    <MESSAGE value="study xml importer util added" />
+    <MESSAGE value="updated build" />
+    <MESSAGE value="added cacore.home property" />
+    <MESSAGE value="added Study grid service" />
   </component>
   <component name="VssConfiguration">
     <option name="CLIENT_PATH" value="" />
@@ -3376,107 +3471,116 @@
     <option name="myLastEditedConfigurable" value="c3pr defaults" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/codebase/projects/core/src/edu/duke/cabig/c3pr/domain/Study.java">
+    <entry file="file://$PROJECT_DIR$/codebase/projects/core/src/edu/duke/cabig/c3pr/service/impl/StudyServiceImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="13" selection-start="1456" selection-end="1456" vertical-scroll-proportion="0.42194092">
+        <state line="43" column="0" selection-start="1359" selection-end="1359" vertical-scroll-proportion="1.0997305">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/codebase/projects/grid/build.xml">
+    <entry file="file://$PROJECT_DIR$/codebase/projects/core/src/edu/duke/cabig/c3pr/dao/AbstractBaseDao.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="85" column="51" selection-start="3500" selection-end="3500" vertical-scroll-proportion="0.5470086">
+        <state line="64" column="0" selection-start="1902" selection-end="1902" vertical-scroll-proportion="0.13477089">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/codebase/projects/core/src/edu/duke/cabig/c3pr/xml/StudyXMLImporter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="41" column="20" selection-start="1046" selection-end="1046" vertical-scroll-proportion="0.49453977">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/codebase/projects/core/test/src/edu/duke/cabig/c3pr/xml/StudyXMLImporterTestCase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="72" selection-start="974" selection-end="974" vertical-scroll-proportion="0.42492014">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/codebase/projects/core/src/applicationContext-core.xml">
+      <provider editor-type-id="com.intellij.spring.perspectives.SpringBeansStructureEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="169" column="0" selection-start="9932" selection-end="9991" vertical-scroll-proportion="0.8121739">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/codebase/projects/core/src/edu/duke/cabig/c3pr/xml/XmlMarshaller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="13" selection-start="783" selection-end="783" vertical-scroll-proportion="-1.4728434">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/codebase/projects/core/test/src/edu/duke/cabig/c3pr/xml/AbstractXMLMarshalling.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="22" selection-start="706" selection-end="706" vertical-scroll-proportion="0.33226836">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/codebase/projects/core/resources/c3pr-castor-mapping.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-6.2">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/codebase/projects/core/resources/xsd/c3pr-domain.xsd">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="62" column="31" selection-start="3429" selection-end="3429" vertical-scroll-proportion="-0.6923077">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/codebase/projects/grid/C3PRStudyConsumer/schema/C3PRStudyConsumer/C3PRStudyConsumer.wsdl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="23" selection-start="2986" selection-end="2986" vertical-scroll-proportion="0.23931624">
+        <state line="16" column="9" selection-start="685" selection-end="685" vertical-scroll-proportion="0.3147541">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/codebase/projects/grid/C3PRStudyConsumer/schema/C3PRStudyConsumer/c3pr-domain.xsd">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="59" column="49" selection-start="3352" selection-end="3352" vertical-scroll-proportion="0.34650457">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/codebase/projects/grid/C3PRStudyConsumer/C3PRStudyConsumer.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/codebase/projects/grid/C3PRStudyConsumer/build.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="53" column="28" selection-start="2588" selection-end="2588" vertical-scroll-proportion="0.018867925">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/codebase/projects/grid/C3PRStudyConsumer/src/edu/duke/cabig/c3pr/grid/client/C3PRStudyConsumerClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="13" selection-start="1323" selection-end="1323" vertical-scroll-proportion="0.018404908">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/codebase/projects/grid/RegistrationConsumer/src/gov/nih/nci/cabig/ctms/service/RegistrationConsumerImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="14" selection-start="1826" selection-end="1826" vertical-scroll-proportion="0.6993865">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/codebase/projects/grid/C3PRStudyConsumer/src/edu/duke/cabig/c3pr/grid/service/C3PRStudyConsumerImplBase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="22" selection-start="739" selection-end="739" vertical-scroll-proportion="0.018404908">
+        <state line="9" column="41" selection-start="446" selection-end="446" vertical-scroll-proportion="0.17704917">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/codebase/projects/grid/C3PRStudyConsumer/src/edu/duke/cabig/c3pr/grid/service/C3PRStudyConsumerImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="17" selection-start="715" selection-end="715" vertical-scroll-proportion="0.36809817">
+        <state line="20" column="20" selection-start="0" selection-end="723" vertical-scroll-proportion="0.38338658">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/codebase/projects/core/test/src/edu/duke/cabig/c3pr/dao/StudyDaoTest.java">
+    <entry file="file://$PROJECT_DIR$/codebase/projects/grid/C3PRStudyConsumer/.cvsignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="44" selection-start="1217" selection-end="1217" vertical-scroll-proportion="0.018404908">
+        <state line="2" column="0" selection-start="10" selection-end="10" vertical-scroll-proportion="0.037441496">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/codebase/projects/core/test/src/edu/duke/cabig/c3pr/utils/DaoTestCase.java">
+    <entry file="file://$PROJECT_DIR$/codebase/projects/grid/build.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="140" column="27" selection-start="5008" selection-end="5008" vertical-scroll-proportion="0.06288344">
+        <state line="102" column="18" selection-start="4161" selection-end="4161" vertical-scroll-proportion="-0.10655738">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/codebase/projects/core/test/src/edu/duke/cabig/c3pr/utils/ApplicationTestCase.java">
+    <entry file="file://$PROJECT_DIR$/codebase/antfiles/build.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="43" column="5" selection-start="1545" selection-end="1545" vertical-scroll-proportion="0.4601227">
+        <state line="11" column="60" selection-start="377" selection-end="377" vertical-scroll-proportion="0.30697674">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/codebase/projects/core/src/edu/duke/cabig/c3pr/domain/SubjectStratificationAnswer.java">
+    <entry file="file://$PROJECT_DIR$/codebase/projects/grid/RegistrationConsumerImpl/src/java/gov/nih/nci/cabig/ctms/service/CRPRV2RegistrationConsumer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+        <state line="50" column="79" selection-start="1726" selection-end="1726" vertical-scroll-proportion="0.60722893">
           <folding />
         </state>
       </provider>

@@ -1,83 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<registration xmlns="http://semanticbits.com/registration.xsd"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- healthCareSiteGridId="gridSite"
- studyGridId="gridStudy"
-    >
-    <informedConsentFormSignedDate>2006-05-04</informedConsentFormSignedDate>
-    <enrollmentDate>2006-05-04</enrollmentDate>
-    <studyParticipantIdentifier>studyParticipantIdentifier0</studyParticipantIdentifier>
-    <eligibilityIndicator>false</eligibilityIndicator>
-    <participant participantGridId="gridParticipant">
-        <administrativeGenderCode>administrativeGenderCode0</administrativeGenderCode>
-        <birthDate>2006-05-04</birthDate>
-        <ethnicGroupCode>ethnicGroupCode0</ethnicGroupCode>
-        <firstName>firstName0</firstName>
-        <lastName>lastName0</lastName>
-        <maritalStatusCode>maritalStatusCode0</maritalStatusCode>
-        <raceCode>raceCode0</raceCode>
-        <identifier>
-            <source>source0</source>
-            <type>type0</type>
-            <value>value0</value>
-            <isprimary>false</isprimary>
-        </identifier>
-        <identifier>
-            <source>source1</source>
-            <type>type1</type>
-            <value>value1</value>
-            <isprimary>false</isprimary>
-        </identifier>
-        <identifier>
-            <source>source2</source>
-            <type>type2</type>
-            <value>value2</value>
-            <isprimary>false</isprimary>
-        </identifier>
-        <address>
-            <city>city0</city>
-            <countryCode>countryCode0</countryCode>
-            <postalCode>postalCode0</postalCode>
-            <stateCode>stateCode0</stateCode>
-            <streetAddress>streetAddress0</streetAddress>
-        </address>
+<registration xmlns="http://semanticbits.com/registration.xsd" healthCareSiteGridId="siteGridId"
+              studyGridId="studyGridId">
+    <enrollmentDate>2009-01-20</enrollmentDate>
+    <studyParticipantIdentifier>tempStr</studyParticipantIdentifier>
+    <informedConsentFormSignedDate>2009-01-20</informedConsentFormSignedDate>
+    <eligibilityIndicator>true</eligibilityIndicator>
+    <participant xmlns:ns1="http://semanticbits.com/registration.xsd">
+        <ns1:administrativeGenderCode>tempStr</ns1:administrativeGenderCode>
+        <ns1:birthDate>2009-01-20</ns1:birthDate>
+        <ns1:ethnicGroupCode>tempStr</ns1:ethnicGroupCode>
+        <ns1:firstName>tempStr</ns1:firstName>
+        <ns1:lastName>tempStr</ns1:lastName>
+        <ns1:maritalStatusCode>tempStr</ns1:maritalStatusCode>
+        <ns1:raceCode>tempStr</ns1:raceCode>
+        <ns1:address>
+            <ns1:streetAddress>tempStr</ns1:streetAddress>
+            <ns1:city>tempStr</ns1:city>
+            <ns1:stateCode>tempStr</ns1:stateCode>
+            <ns1:postalCode>tempStr</ns1:postalCode>
+            <ns1:countryCode>tempStr</ns1:countryCode>
+        </ns1:address>
+        <ns1:identifier>
+            <ns1:source>tempStr0</ns1:source>
+            <ns1:type>tempStr0</ns1:type>
+            <ns1:value>tempStr0</ns1:value>
+            <ns1:isprimary>true</ns1:isprimary>
+        </ns1:identifier>
+        <ns1:identifier>
+            <ns1:source>tempStr1</ns1:source>
+            <ns1:type>tempStr1</ns1:type>
+            <ns1:value>tempStr1</ns1:value>
+            <ns1:isprimary>true</ns1:isprimary>
+        </ns1:identifier>
+        <ns1:identifier>
+            <ns1:source>tempStr2</ns1:source>
+            <ns1:type>tempStr2</ns1:type>
+            <ns1:value>tempStr2</ns1:value>
+            <ns1:isprimary>true</ns1:isprimary>
+        </ns1:identifier>
     </participant>
     <study>
         <identifier>
-            <source>source3</source>
-            <type>type3</type>
-            <value>value3</value>
-            <isprimary>false</isprimary>
+            <source>tempStr0</source>
+            <type>tempStr0</type>
+            <value>tempStr0</value>
+            <isprimary>true</isprimary>
         </identifier>
         <identifier>
-            <source>source4</source>
-            <type>type4</type>
-            <value>value4</value>
-            <isprimary>false</isprimary>
+            <source>tempStr1</source>
+            <type>tempStr1</type>
+            <value>tempStr1</value>
+            <isprimary>true</isprimary>
         </identifier>
         <identifier>
-            <source>source5</source>
-            <type>type5</type>
-            <value>value5</value>
-            <isprimary>false</isprimary>
+            <source>tempStr2</source>
+            <type>tempStr2</type>
+            <value>tempStr2</value>
+            <isprimary>true</isprimary>
         </identifier>
     </study>
     <identifier>
-        <source>source6</source>
-        <type>type6</type>
-        <value>value6</value>
-        <isprimary>false</isprimary>
+        <source>tempStr0</source>
+        <type>tempStr0</type>
+        <value>tempStr0</value>
+        <isprimary>true</isprimary>
     </identifier>
     <identifier>
-        <source>source7</source>
-        <type>type7</type>
-        <value>value7</value>
-        <isprimary>false</isprimary>
+        <source>tempStr1</source>
+        <type>tempStr1</type>
+        <value>tempStr1</value>
+        <isprimary>true</isprimary>
     </identifier>
     <identifier>
-        <source>source8</source>
-        <type>type8</type>
-        <value>value8</value>
-        <isprimary>false</isprimary>
+        <source>tempStr2</source>
+        <type>tempStr2</type>
+        <value>tempStr2</value>
+        <isprimary>true</isprimary>
     </identifier>
 </registration>

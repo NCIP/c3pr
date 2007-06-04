@@ -1232,13 +1232,18 @@
     <option name="config">
       <value>
         <option name="pluginEnabled" value="true" />
+        <option name="offlineModeEnabled" value="false" />
         <option name="updateClasspathsEnabled" value="false" />
+        <option name="sortDependenciesEnabled" value="false" />
+        <option name="removeDuplicateDependenciesEnabled" value="false" />
+        <option name="respondToPomChangesEnabled" value="true" />
         <option name="manageSourceRootsEnabled" value="false" />
         <option name="manageModuleInterdependenciesEnabled" value="false" />
-        <option name="downloadBinariesEnabled" value="false" />
         <option name="downloadSourcesEnabled" value="false" />
+        <option name="downloadJavadocEnabled" value="false" />
         <option name="generateSourcesEnabled" value="false" />
         <option name="settingsPath" value="/Users/kherm/.m2/settings.xml" />
+        <option name="searchFilter" value="" />
         <option name="disabledPoms">
           <value>
             <collection type="java.util.HashSet">
@@ -1254,6 +1259,32 @@
         <option name="logLevel" value="1" />
       </value>
     </option>
+  </component>
+  <component name="MavenBuildProjectComponent">
+    <option name="mavenExecutable" value="" />
+    <option name="Settings File" value="/Users/kherm/.m2/settings.xml" />
+    <option name="mavenCommandLineParams" value="" />
+    <option name="vmOptions" value="" />
+    <option name="useMavenEmbedder" value="false" />
+    <option name="useFilter" value="false" />
+    <option name="Batch Mode" value="false" />
+    <option name="Check Plugin Updates" value="false" />
+    <option name="Debug" value="false" />
+    <option name="Errors" value="false" />
+    <option name="Fail At End" value="false" />
+    <option name="Fail Fast" value="false" />
+    <option name="Fail Never" value="false" />
+    <option name="Lax Checksums" value="false" />
+    <option name="No Plugin Registry" value="false" />
+    <option name="No Plugin Updates" value="false" />
+    <option name="Non Recursive" value="false" />
+    <option name="Offline" value="false" />
+    <option name="Reactor" value="false" />
+    <option name="Strict Checksums" value="false" />
+    <option name="Update Plugins" value="false" />
+    <option name="Update Snapshots" value="false" />
+    <option name="Skip Tests" value="false" />
+    <pom-list />
   </component>
   <component name="Monitor.Log4jWindowPlugin" />
   <component name="Palette2">
@@ -1382,6 +1413,7 @@
       <module fileurl="file://$PROJECT_DIR$/codebase/projects/grid/C3PRStudyConsumer/C3PRStudyConsumer.iml" filepath="$PROJECT_DIR$/codebase/projects/grid/C3PRStudyConsumer/C3PRStudyConsumer.iml" />
       <module fileurl="file://$PROJECT_DIR$/codebase/antfiles/antfiles.iml" filepath="$PROJECT_DIR$/codebase/antfiles/antfiles.iml" />
       <module fileurl="file://$PROJECT_DIR$/c3prv2.iml" filepath="$PROJECT_DIR$/c3prv2.iml" />
+      <module fileurl="file:///Users/kherm/dev/cvsroot/caaers/projects/web/caaers-web.iml" filepath="/Users/kherm/dev/cvsroot/caaers/projects/web/caaers-web.iml" />
       <module fileurl="file://$PROJECT_DIR$/codebase/projects/core/core.iml" filepath="$PROJECT_DIR$/codebase/projects/core/core.iml" />
       <module fileurl="file://$PROJECT_DIR$/codebase/projects/esb-client/esb-client.iml" filepath="$PROJECT_DIR$/codebase/projects/esb-client/esb-client.iml" />
       <module fileurl="file://$PROJECT_DIR$/codebase/projects/grid/grid.iml" filepath="$PROJECT_DIR$/codebase/projects/grid/grid.iml" />
@@ -1408,8 +1440,10 @@
     <option name="ADDITIONAL_OPTIONS_STRING" value="" />
   </component>
   <component name="StarteamVcsAdapter" />
+  <component name="SvnBranchConfigurationManager" />
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="CVS" />
+    <mapping directory="/Users/kherm/dev/cvsroot/caaers/projects/web" vcs="svn" />
   </component>
   <component name="VssVcs" />
   <component name="com.intellij.jsf.UserDefinedFacesConfigs">
