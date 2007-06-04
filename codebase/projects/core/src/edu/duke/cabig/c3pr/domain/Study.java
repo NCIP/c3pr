@@ -305,11 +305,12 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 	}
 
 	public int compareTo(Study o) {
-     //TODO
+     if(this.equals((Study)o)) return 0;
+     		 
     	return 1;
 	}
 
-	@Override
+	/*@Override
 	public int hashCode() {
 		final int PRIME = 31;
 		int result = super.hashCode();
@@ -322,8 +323,8 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 		result = PRIME * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
-
-	@Override
+*/
+	/*@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -368,7 +369,7 @@ public class Study extends AbstractGridIdentifiableDomainObject implements Compa
 		} else if (!type.equals(other.type))
 			return false;
 		return true;
-	}
+	}*/
 
 	@Transient
 	public String getTrimmedShortTitleText() {		
