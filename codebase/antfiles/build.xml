@@ -421,7 +421,7 @@
     <!-- ====================================================================== -->
     <target name="deploy-webapp" depends="checkTomcat,build-web" description="Deploy web application to tomcat">
         <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="deploy">
-            <property name="deploy.path" value="${ext.tomcat.dir}"/>
+            <property name="catalina.home" value="${ext.tomcat.dir}"/>
         </ant>
     </target>
 
@@ -430,7 +430,7 @@
     <!-- ====================================================================== -->
     <target name="undeploy-webapp" depends="checkTomcat" description="undeploys the c3pr webapp">
         <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="undeploy-web">
-            <property name="deploy.path" value="${ext.tomcat.dir}"/>
+            <property name="catalina.home" value="${ext.tomcat.dir}"/>
         </ant>
     </target>
 
