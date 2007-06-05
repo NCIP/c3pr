@@ -1,4 +1,5 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="org.acegisecurity.ui.AbstractProcessingFilter" %>
 <%@ page import="org.acegisecurity.ui.webapp.AuthenticationProcessingFilter" %>
@@ -47,8 +48,9 @@
                 &nbsp;
 
                 <div align="center">
+
                     <input type="image"
-                           name="_target5" src="/c3pr/images/b-submit.gif"
+                           name="_target5" src="<tags:imageUrl name="b-submit.gif"/>"
                            alt="submit">
                 </div>
             </div>
