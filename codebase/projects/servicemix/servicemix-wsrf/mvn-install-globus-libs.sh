@@ -2,6 +2,8 @@
 
 mvn install:install-file -Dfile=ext/lib/addressing-1.0.jar -DgroupId=globus.jars -DartifactId=addressing.jar -Dversion=4.0  -Dpackaging=jar -DgeneratePom=true
 
+mvn install:install-file -Dfile=ext/lib/axis.jar -DgroupId=globus.jars -DartifactId=axis.jar -Dversion=4.0  -Dpackaging=jar -DgeneratePom=true
+
 mvn install:install-file -Dfile=ext/lib/axis-url.jar -DgroupId=globus.jars -DartifactId=axis-url.jar -Dversion=4.0  -Dpackaging=jar -DgeneratePom=true
 
  
@@ -58,11 +60,11 @@ mvn install:install-file -Dfile=ext/lib/caGrid-1.0-ServiceSecurityProvider-commo
 
 mvn install:install-file -Dfile=ext/lib/caGrid-1.0-ServiceSecurityProvider-stubs.jar -DgroupId=cagrid.jars -DartifactId=caGrid-1.0-ServiceSecurityProvider-stubs.jar -Dversion=1.0  -Dpackaging=jar -DgeneratePom=true
 
-mvn install:install-file -Dfile=ext/lib/ProtocolIngestor-client.jar -DgroupId=cagrid.jars -DartifactId=ProtocolIngestor-client.jar -Dversion=1.0  -Dpackaging=jar -DgeneratePom=true
+mvn install:install-file -Dfile=ext/lib/RegistrationConsumer-client.jar -DgroupId=cagrid.jars -DartifactId=RegistrationConsumer-client.jar -Dversion=1.0  -Dpackaging=jar -DgeneratePom=true
 
-mvn install:install-file -Dfile=ext/lib/ProtocolIngestor-common.jar -DgroupId=cagrid.jars -DartifactId=ProtocolIngestor-common.jar -Dversion=1.0  -Dpackaging=jar -DgeneratePom=true
+mvn install:install-file -Dfile=ext/lib/RegistrationConsumer-common.jar -DgroupId=cagrid.jars -DartifactId=RegistrationConsumer-common.jar -Dversion=1.0  -Dpackaging=jar -DgeneratePom=true
 
-mvn install:install-file -Dfile=ext/lib/ProtocolIngestor-stubs.jar -DgroupId=cagrid.jars -DartifactId=ProtocolIngestor-stubs.jar -Dversion=1.0  -Dpackaging=jar -DgeneratePom=true
+mvn install:install-file -Dfile=ext/lib/RegistrationConsumer-stubs.jar -DgroupId=cagrid.jars -DartifactId=RegistrationConsumer-stubs.jar -Dversion=1.0  -Dpackaging=jar -DgeneratePom=true
 
 
 
