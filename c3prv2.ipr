@@ -48,7 +48,6 @@
   <component name="BuildJarProjectSettings">
     <option name="BUILD_JARS_ON_MAKE" value="false" />
   </component>
-  <component name="ClearCase" />
   <component name="CodeStyleProjectProfileManger">
     <option name="PROJECT_PROFILE" />
     <option name="USE_PROJECT_LEVEL_SETTINGS" value="false" />
@@ -76,11 +75,12 @@
       <entry name="?*.tld" />
     </wildcardResourcePatterns>
   </component>
-  <component name="DataSourceManagerImpl" />
   <component name="DependenciesAnalyzeManager">
     <option name="myForwardDirection" value="false" />
   </component>
-  <component name="DependencyValidationManager" />
+  <component name="DependencyValidationManager">
+    <option name="SKIP_IMPORT_STATEMENTS" value="false" />
+  </component>
   <component name="EclipseCompilerSettings">
     <option name="DEBUGGING_INFO" value="true" />
     <option name="GENERATE_NO_WARNINGS" value="true" />
@@ -103,7 +103,6 @@
     <option name="OPEN_IN_BROWSER" value="false" />
     <option name="OUTPUT_DIRECTORY" />
   </component>
-  <component name="GUI Designer component loader factory" />
   <component name="IdProvider" IDEtalkID="16CAEAE26E6C4D7087BBF696D20F29F6" />
   <component name="InspectionProjectProfileManager">
     <option name="PROJECT_PROFILE" value="c3pr defaults" />
@@ -150,7 +149,9 @@
         </inspection_tool>
         <inspection_tool class="ParameterOfConcreteClass" level="WARNING" enabled="true" />
         <inspection_tool class="MethodReturnOfConcreteClass" level="WARNING" enabled="true" />
-        <inspection_tool class="OverlyStrongTypeCast" level="WARNING" enabled="true" />
+        <inspection_tool class="OverlyStrongTypeCast" level="WARNING" enabled="true">
+          <option name="ignoreInMatchingInstanceof" value="false" />
+        </inspection_tool>
         <inspection_tool class="MethodOnlyUsedFromInnerClass" level="WARNING" enabled="true">
           <option name="ignoreMethodsAccessedFromAnonymousClass" value="false" />
         </inspection_tool>
@@ -272,7 +273,7 @@
           <option name="m_ignoreOverridesOfLibraryMethods" value="false" />
         </inspection_tool>
         <inspection_tool class="QuestionableName" level="WARNING" enabled="true">
-          <option name="nameCheckString" value="foo,bar,baz" />
+          <option name="nameString" value="aa,abc,bad,bar,bar2,baz,baz1,baz2,baz3,bb,blah,bogus,bool,cc,dd,defau1t,dummy,dummy2,ee,fa1se,ff,foo,foo1,foo2,foo3,foobar,four,fred,fred1,fred2,gg,hh,hello,hello1,hello2,hello3,ii,nu11,one,silly,silly2,string,two,that,then,three,whi1e,var" />
         </inspection_tool>
         <inspection_tool class="StandardVariableNames" level="WARNING" enabled="true" />
         <inspection_tool class="StaticMethodNamingConvention" level="WARNING" enabled="true">
@@ -646,7 +647,7 @@
         </inspection_tool>
         <inspection_tool class="ReuseOfLocalVariable" level="WARNING" enabled="false" />
         <inspection_tool class="SerializableInnerClassWithNonSerializableOuterClass" level="WARNING" enabled="false">
-          <option name="m_ignoreSerializableDueToInheritance" value="true" />
+          <option name="superClassString" value="java.awt.Component" />
         </inspection_tool>
         <inspection_tool class="PointlessArithmeticExpression" level="WARNING" enabled="true">
           <option name="m_ignoreExpressionsContainingConstants" value="false" />
@@ -724,7 +725,9 @@
         <inspection_tool class="ThrownExceptionsPerMethod" level="WARNING" enabled="false">
           <option name="m_limit" value="3" />
         </inspection_tool>
-        <inspection_tool class="SuspiciousMethodCalls" level="WARNING" enabled="true" />
+        <inspection_tool class="SuspiciousMethodCalls" level="WARNING" enabled="true">
+          <option name="REPORT_CONVERTIBLE_METHOD_CALLS" value="true" />
+        </inspection_tool>
         <inspection_tool class="OverriddenMethodCallInConstructor" level="WARNING" enabled="false" />
         <inspection_tool class="ResultOfObjectAllocationIgnored" level="WARNING" enabled="false" />
         <inspection_tool class="AwaitNotInLoop" level="WARNING" enabled="false" />
@@ -892,7 +895,7 @@
         </inspection_tool>
         <inspection_tool class="CompareToUsesNonFinalVariable" level="WARNING" enabled="false" />
         <inspection_tool class="NonSerializableFieldInSerializableClass" level="WARNING" enabled="false">
-          <option name="ignoreSerializableDueToInheritance" value="true" />
+          <option name="superClassString" value="java.awt.Component" />
         </inspection_tool>
         <inspection_tool class="EmptyCatchBlock" level="WARNING" enabled="true">
           <option name="m_includeComments" value="true" />
@@ -921,7 +924,7 @@
         <inspection_tool class="MisspelledToString" level="WARNING" enabled="false" />
         <inspection_tool class="MisspelledCompareTo" level="WARNING" enabled="false" />
         <inspection_tool class="SerializableHasSerialVersionUIDField" level="WARNING" enabled="false">
-          <option name="m_ignoreSerializableDueToInheritance" value="true" />
+          <option name="superClassString" value="java.awt.Component" />
         </inspection_tool>
         <inspection_tool class="ChainedMethodCall" level="WARNING" enabled="false">
           <option name="m_ignoreFieldInitializations" value="true" />
@@ -969,7 +972,7 @@
           <option name="m_ignoreForObjectSubclasses" value="false" />
         </inspection_tool>
         <inspection_tool class="SerializableHasSerializationMethods" level="WARNING" enabled="false">
-          <option name="m_ignoreSerializableDueToInheritance" value="true" />
+          <option name="superClassString" value="java.awt.Component" />
         </inspection_tool>
         <inspection_tool class="MissingOverrideAnnotation" level="WARNING" enabled="false">
           <option name="useJdk6Rules" value="false" />
@@ -1007,12 +1010,13 @@
         <inspection_tool class="ExtendsObject" level="WARNING" enabled="true" />
         <inspection_tool class="SerialVersionUIDNotStaticFinal" level="WARNING" enabled="false" />
         <inspection_tool class="SerializableInnerClassHasSerialVersionUIDField" level="WARNING" enabled="false">
-          <option name="m_ignoreSerializableDueToInheritance" value="true" />
+          <option name="superClassString" value="java.awt.Component" />
         </inspection_tool>
         <inspection_tool class="RedundantArrayCreation" level="WARNING" enabled="true" />
         <inspection_tool class="NonSerializableObjectBoundToHttpSession" level="WARNING" enabled="false" />
         <inspection_tool class="DuplicateStringLiteralInspection" level="WARNING" enabled="false">
           <option name="MIN_STRING_LENGTH" value="5" />
+          <option name="IGNORE_PROPERTY_KEYS" value="false" />
         </inspection_tool>
         <inspection_tool class="CheckImageSize" level="WARNING" enabled="true" />
         <inspection_tool class="SystemOutErr" level="WARNING" enabled="false" />
@@ -1111,7 +1115,9 @@
         <inspection_tool class="SingleClassImport" level="WARNING" enabled="false" />
         <inspection_tool class="StaticImport" level="WARNING" enabled="false" />
         <inspection_tool class="SillyAssignment" level="WARNING" enabled="true" />
-        <inspection_tool class="AutoBoxing" level="WARNING" enabled="false" />
+        <inspection_tool class="AutoBoxing" level="WARNING" enabled="false">
+          <option name="ignoreAddedToCollection" value="false" />
+        </inspection_tool>
         <inspection_tool class="TailRecursion" level="WARNING" enabled="false" />
         <inspection_tool class="FinallyBlockCannotCompleteNormally" level="WARNING" enabled="true" />
         <inspection_tool class="ArithmeticOnVolatileField" level="WARNING" enabled="false" />
@@ -1179,6 +1185,7 @@
             </value>
           </option>
           <option name="ADD_EJB_TO_ENTRIES" value="true" />
+          <option name="ADD_TESTNG_TO_ENTRIES" value="true" />
         </inspection_tool>
         <inspection_tool class="Deprecation" level="WARNING" enabled="true" />
         <inspection_tool class="ArrayEquals" level="WARNING" enabled="false" />
@@ -1286,7 +1293,6 @@
     <option name="Skip Tests" value="false" />
     <pom-list />
   </component>
-  <component name="Monitor.Log4jWindowPlugin" />
   <component name="Palette2">
     <group name="Swing">
       <item class="com.intellij.uiDesigner.HSpacer" tooltip-text="Horizontal Spacer" icon="/com/intellij/uiDesigner/icons/hspacer.png" removable="false" auto-create-binding="false" can-attach-label="false">
@@ -1408,12 +1414,14 @@
       </item>
     </group>
   </component>
+  <component name="ProjectFileVersion" converted="true" />
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/codebase/projects/grid/C3PRStudyConsumer/C3PRStudyConsumer.iml" filepath="$PROJECT_DIR$/codebase/projects/grid/C3PRStudyConsumer/C3PRStudyConsumer.iml" />
       <module fileurl="file://$PROJECT_DIR$/codebase/antfiles/antfiles.iml" filepath="$PROJECT_DIR$/codebase/antfiles/antfiles.iml" />
       <module fileurl="file://$PROJECT_DIR$/c3prv2.iml" filepath="$PROJECT_DIR$/c3prv2.iml" />
       <module fileurl="file:///Users/kherm/dev/cvsroot/caaers/projects/web/caaers-web.iml" filepath="/Users/kherm/dev/cvsroot/caaers/projects/web/caaers-web.iml" />
+      <module fileurl="file:///Users/kherm/dev/cvsroot/cagrid-1-0/tests/cagrid-testing-framework.iml" filepath="/Users/kherm/dev/cvsroot/cagrid-1-0/tests/cagrid-testing-framework.iml" />
       <module fileurl="file://$PROJECT_DIR$/codebase/projects/core/core.iml" filepath="$PROJECT_DIR$/codebase/projects/core/core.iml" />
       <module fileurl="file://$PROJECT_DIR$/codebase/projects/esb-client/esb-client.iml" filepath="$PROJECT_DIR$/codebase/projects/esb-client/esb-client.iml" />
       <module fileurl="file://$PROJECT_DIR$/codebase/projects/grid/grid.iml" filepath="$PROJECT_DIR$/codebase/projects/grid/grid.iml" />
@@ -1424,7 +1432,6 @@
     </modules>
   </component>
   <component name="ProjectRootManager" version="2" assert-keyword="true" jdk-15="true" project-jdk-name="1.5" />
-  <component name="ProjectRunConfigurationManager" />
   <component name="ResourceManagerContainer">
     <option name="myResourceBundles">
       <value>
@@ -1439,13 +1446,11 @@
     <option name="GENERATE_IIOP_STUBS" value="false" />
     <option name="ADDITIONAL_OPTIONS_STRING" value="" />
   </component>
-  <component name="StarteamVcsAdapter" />
-  <component name="SvnBranchConfigurationManager" />
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="CVS" />
     <mapping directory="/Users/kherm/dev/cvsroot/caaers/projects/web" vcs="svn" />
+    <mapping directory="/Users/kherm/dev/cvsroot/cagrid-1-0/tests" vcs="CVS" />
   </component>
-  <component name="VssVcs" />
   <component name="com.intellij.jsf.UserDefinedFacesConfigs">
     <option name="USER_DEFINED_CONFIGS">
       <value>
@@ -1562,7 +1567,6 @@
       <SOURCES />
     </library>
   </component>
-  <component name="uidesigner-configuration" />
   <UsedPathMacros>
     <macro name="GLOBUS_LOCATION" />
   </UsedPathMacros>
