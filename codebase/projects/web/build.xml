@@ -12,13 +12,22 @@
     <property name="project.name" value="c3pr-2.0-web" />
     <property name="project.version" value="1.0" />
 
+    <!--src dirs-->
     <property name="src.dir" value="${basedir}/src" />
+    <property name="src.java.dir" value="${src.dir}/java" />
+    <property name="src.resources.dir" value="${src.dir}/resources" />
+
+    <!--build -->
     <property name="build.dir" value="${basedir}/build" />
     <property name="classes.dir" value="${build.dir}/classes" />
     <property name="jar.dir" value="${build.dir}/jars" />
     <property name="project.jarfile" value="${jar.dir}/${project.name}-${project.version}.jar" />
     <property name="lib.dir" value="${basedir}/lib" />
     <property name="conf.dir" value="${basedir}/conf" />
+    <property name="war.file" location="${build.dir}/c3prv2.war" />
+    <property name="webapp.name" value="c3pr" />
+
+    <!--ext dirs-->
     <property name="ext.dir" value="${basedir}/ext"/>
     <property name="ext.lib.dir" value="${ext.dir}/lib" />
     <property name="ext.test.lib.dir" location="${ext.dir}/test/lib" />
@@ -30,13 +39,10 @@
     <property name="webinf.lib.dir" value="${webinf.dir}/lib"/>
     <property name="webinf.classes.dir" value="${webinf.dir}/classes"/>
 
-
-    <property name="war.file" location="${build.dir}/c3prv2.war" />
-    <property name="webapp.name" value="c3pr" />
-
-    <!-- testing stuff -->
+    <!-- test dirs -->
     <property name="test.dir" location="${basedir}/test" />
     <property name="test.src.dir" location="${test.dir}/src" />
+    <property name="test.src.java.dir" location="${test.src.dir}/java" />
     <property name="test.classes.dir" location="${build.dir}/classes-test" />
     <property name="test.lib.dir" location="${test.dir}/lib" />
     <property name="test.logs.dir" location="${test.dir}/logs" />
@@ -130,13 +136,9 @@
                 <filter token="broadcastEnable" value="${broadcastEnable}"/>
             </filterset>
         </copy>
-        <copy todir="${classes.dir}/context">
-            <fileset dir="${src.dir}">
-                <include name="**/*.xml"/>
-            </fileset>
-        </copy>
-        <copy todir="${test.src.dir}">
-            <fileset dir="${test.src.dir}">
+
+        <copy todir="${classes.dir}">
+            <fileset dir="${src.resources.dir}">
                 <include name="**/*.xml"/>
             </fileset>
         </copy>
@@ -155,14 +157,10 @@
     <!-- Compiles the test source code                                        -->
     <!-- =============================================================== -->
     <target name="compile-tests" depends="prepare">
-        <javac srcdir="${test.src.dir}" destdir="${test.classes.dir}" debug="${debug}" deprecation="off" optimize="off">
+        <javac srcdir="${test.src.java.dir}" destdir="${test.classes.dir}" debug="${debug}" deprecation="off" optimize="off">
             <classpath refid="test.classpath" />
         </javac>
-        <copy todir="${test.classes.dir}">
-            <fileset dir="${test.src.dir}">
-                <include name="**/*.xml" />
-            </fileset>
-        </copy>
+
     </target>
 
     <!-- ============================================================== -->
