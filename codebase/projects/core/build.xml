@@ -85,18 +85,10 @@
     <!-- The Run Classpath                                                   -->
     <!-- =============================================================== -->
     <path id="run.classpath">
+        <path refid="build.classpath"/>
         <fileset dir="${jar.dir}">
             <include name="**/*.jar"/>
             <exclude name="**/*test*.jar"/>
-        </fileset>
-        <fileset dir="${lib.dir}">
-            <include name="**/*.jar"/>
-        </fileset>
-        <fileset dir="${ext.lib.dir}">
-            <include name="**/*.jar"/>
-        </fileset>
-        <fileset dir="${env.CATALINA_HOME}/common/lib">
-            <include name="**/*.jar"/>
         </fileset>
         <fileset dir="${classes.dir}/context"/>
     </path>
@@ -105,17 +97,12 @@
     <!-- The Test Classpath                                                   -->
     <!-- =============================================================== -->
     <path id="test.classpath">
+        <path refid="build.classpath"/>
         <fileset dir="${jar.dir}">
             <include name="**/*.jar"/>
         </fileset>
         <fileset dir="${env.JAVA_HOME}/lib">
             <include name="tools.jar"/>
-        </fileset>
-        <fileset dir="${lib.dir}">
-            <include name="**/*.jar"/>
-        </fileset>
-        <fileset dir="${ext.lib.dir}">
-            <include name="**/*.jar"/>
         </fileset>
         <fileset dir="${test.lib.dir}">
             <include name="**/*.jar"/>
@@ -123,10 +110,6 @@
         <fileset dir="${ext.test.lib.dir}">
             <include name="**/*.jar"/>
         </fileset>
-        <fileset dir="${env.CATALINA_HOME}/common/lib">
-            <include name="**/*.jar"/>
-        </fileset>
-
     </path>
     <!-- =============================================================== -->
     <!-- Prepares the build directory                                    -->

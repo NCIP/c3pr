@@ -8,19 +8,19 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class ContextTools {
     public static ApplicationContext createDeployedApplicationContext() {
     	  return new ClassPathXmlApplicationContext (new String[] {
-    			 "classpath*:context/applicationContext-core.xml", 
-    			 "classpath*:context/applicationContext-configProperties.xml",
-    			 "classpath*:context/applicationContext-esb.xml",
-    			 "classpath*:context/applicationContext-web.xml",
-    			 "classpath*:context/applicationContext-web-sso.xml"
+    			 "classpath*:edu/duke/cabig/c3pr/applicationContext-core.xml",
+    			 "classpath*:edu/duke/cabig/c3pr/applicationContext-configProperties.xml",
+    			 "classpath*:edu/duke/cabig/c3pr/applicationContext-esb.xml",
+    			 "classpath*:edu/duke/cabig/c3pr/applicationContext-web.xml",
+    			 "classpath*:edu/duke/cabig/c3pr/applicationContext-web-sso.xml"
     			 
     	  }); 
      }
        
     public static ApplicationContext createDeployedCoreApplicationContext() {
   	  return new ClassPathXmlApplicationContext (new String[] {
-  			 "classpath*:context/applicationContext-esb.xml",
-  			 "classpath*:context/applicationContext-core.xml"
+  			 "classpath*:edu/duke/cabig/c3pr/applicationContext-esb.xml",
+  			 "classpath*:edu/duke/cabig/c3pr/applicationContext-core.xml"
   	  }); 
    }
 
