@@ -1,0 +1,78 @@
+<dataset>
+	
+    <STUDIES id="1000" version="1" blinded_indicator="1" long_title_text="long_title_text" multi_institution_indicator="1"
+   	phase_code="Ph" randomized_indicator="1" short_title_text="short_title_text" target_accrual_number="123" type="ty"
+    description_text="description" precis_text="precis_text" status="st" />
+    <STUDIES id="1001" version="1" blinded_indicator="0" long_title_text="long_title_text2" multi_institution_indicator="1"
+   	phase_code="Ph2" randomized_indicator="1" short_title_text="short_title_text2" target_accrual_number="123" type="ty"
+    description_text="description2" precis_text="precis_text2" status="st2" />
+    <STUDIES id="1002" version="1" blinded_indicator="0"  long_title_text="long_title_text" multi_institution_indicator="1"
+   	phase_code="Ph" randomized_indicator="1" short_title_text="short_title_text" target_accrual_number="123" type="ty"
+    description_text="description" precis_text="precis_text" status="st" />
+   
+    <ADDRESSES id="1000" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA" />
+    <ADDRESSES id="1001" version="1" street_address="Coppermine Dr" city="Herndon" state_code="VA" postal_code="20171" country_code="USA" />
+  
+    <PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="M" race_code="White" add_id="1000" />
+ 
+    <HEALTHCARE_SITES id="1000" version="1" name="duke healthcare" description_text="duke healthcare" address_id="1000" nci_institute_code="code" />
+    <HEALTHCARE_SITES id="1001" version="1" name="duke healthcare" description_text="duke healthcare" address_id="1001" nci_institute_code="code" />   
+    
+    <STUDY_SITES id="1000" version="1" irb_approval_date="01-01-2000" role_code="role" status_code="active" start_date="01-01-2001" end_date="01-01-2002" study_id="1000"
+    hcs_id="1000" />
+    <STUDY_SITES id="1001" version="1" irb_approval_date="01-01-2000" role_code="role2" status_code="inactive" start_date="01-01-2001" end_date="01-01-2002" study_id="1000"
+    hcs_id="1001" />
+    <STUDY_SITES id="1002" version="1" irb_approval_date="01-01-2000" role_code="role" status_code="active" start_date="01-01-2001" end_date="01-01-2002" study_id="1001"
+    hcs_id="1000" />
+    <STUDY_SITES id="1003" version="1" irb_approval_date="01-01-2000" role_code="role2" status_code="inactive" start_date="01-01-2001" end_date="01-01-2002" study_id="1001"
+    hcs_id="1001" />
+        
+    <IDENTIFIERS id="1000" version="1" value="nci" type="local" source="nci" stu_id="1000"/>
+    
+    <STUDY_PARTICIPANT_ASSIGNMENTS id="1000" version="1" study_participant_identifier="partid" start_date="01-01-2000" eligibility_waiver_reason_text="reason" informed_consent_signed_date="01-01-2000" eligibility_indicator="1" prt_id="1000" sts_id="1000"/>
+    <STUDY_PARTICIPANT_ASSIGNMENTS id="1001" version="1" study_participant_identifier="partid" start_date="01-01-2000" eligibility_waiver_reason_text="reason" informed_consent_signed_date="01-01-2000" eligibility_indicator="0" prt_id="1000" sts_id="1000"/>
+      
+    <EPOCHS id="1000" version="1" name="Treatment" description_text="treatement desc" stu_id="1000" />
+    <EPOCHS id="1001" version="1" name="Cancer" description_text="cancer desc" stu_id="1000" />
+    <EPOCHS id="1002" version="1" name="Treatment" description_text="treatement desc" stu_id="1001" />
+    <EPOCHS id="1003" version="1" name="Cancer" description_text="cancer desc" stu_id="1001" />
+    
+    <ARMS id="1000" version="1" name="Arm 1000" description_text="Arm 1000 desc" target_accrual_number="1000" eph_id="1000" />
+    <ARMS id="1001" version="1" name="Arm 1001" description_text="Arm 1001 desc" target_accrual_number="1001" eph_id="1000" />
+    <ARMS id="1002" version="1" name="Arm 1002" description_text="Arm 1002 desc" target_accrual_number="1002" eph_id="1001" />
+    <ARMS id="1003" version="1" name="Arm 1003" description_text="Arm 1003 desc" target_accrual_number="1003" eph_id="1001" />
+    <ARMS id="1004" version="1" name="Arm 1004" description_text="Arm 1004 desc" target_accrual_number="1004" eph_id="1002" />
+    <ARMS id="1005" version="1" name="Arm 1005" description_text="Arm 1005 desc" target_accrual_number="1005" eph_id="1002" />
+    <ARMS id="1006" version="1" name="Arm 1006" description_text="Arm 1006 desc" target_accrual_number="1006" eph_id="1003" />
+    <ARMS id="1007" version="1" name="Arm 1007" description_text="Arm 1007 desc" target_accrual_number="1007" eph_id="1003" />
+        
+    <RESEARCH_STAFFS id="1000" version="1" first_name="Research Bill" last_name="Staff2" hcs_id="1000"/>
+    <RESEARCH_STAFFS id="1001" version="1" first_name="Research George" last_name="Staff2" hcs_id="1000"/>
+    <RESEARCH_STAFFS id="1002" version="1" first_name="Research Benjamin" last_name="Staff3" hcs_id="1001"/>    
+    <RESEARCH_STAFFS id="1003" version="1" first_name="Research JFK" last_name="Staff4" hcs_id="1001"/>
+    
+    <INVESTIGATORS id="1000" version="1" first_name="Investigator Bill" last_name="Staff1"/>
+    <INVESTIGATORS id="1001" version="1" first_name="Investigator George" last_name="Staff2"/>
+    <INVESTIGATORS id="1002" version="1" first_name="Investigator Benjamin" last_name="Staff3"/>
+    <INVESTIGATORS id="1003" version="1" first_name="Investigator JFK" last_name="Staff4"/>
+    
+    <HC_SITE_INVESTIGATORS id="1000" version="1" status_code="ACTIVE" status_date="01-01-2000" inv_id="1000" hcs_id="1000"/>
+    <HC_SITE_INVESTIGATORS id="1001" version="1" status_code="ACTIVE" status_date="01-01-2000" inv_id="1001" hcs_id="1000"/>
+    <HC_SITE_INVESTIGATORS id="1002" version="1" status_code="ACTIVE" status_date="01-01-2000" inv_id="1002" hcs_id="1001"/>
+    <HC_SITE_INVESTIGATORS id="1003" version="1" status_code="INACTIVE" status_date="01-01-2000" inv_id="1003" hcs_id="1001"/>
+    
+    <STUDY_INVESTIGATORS id="1000" version="1" hsi_id="1000" sts_id="1000" start_date="01-01-2000" end_date="01-01-2000" role_code="role1" status_code="Active"/>
+    <STUDY_INVESTIGATORS id="1001" version="1" hsi_id="1001" sts_id="1000" start_date="01-01-2000" end_date="01-01-2000" role_code="role2" status_code="Active"/>
+    
+    <DISEASE_CATEGORIES id="1000" version="1" name="AIDS-related Human Papillomavirus"/>
+    
+    <DISEASE_TERMS id="1000" version="1" term="AIDS-related anal cancer" ctep_term="AIDS-related anal cancer" category_id="1" medra_code="10065860"/>
+    <DISEASE_TERMS id="1001" version="1" term="AIDS-related cervical cancer" ctep_term="AIDS-related cervical cancer" category_id="1" medra_code="10008229"/>
+   
+    <STUDY_DISEASES id="1000" version="1" study_id="1000" disease_term_id="1000" lead_disease="1"/>
+    
+    <STRATIFICATION_CRITERION id="1000" version="1" question_text="question" question_number="1" study_id="1000"/>
+    <STRATIFICATION_CRI_PER_ANS id="1000" version="1" permissible_answer="answer" str_cri_id="1000"/>
+  
+  	 
+</dataset>

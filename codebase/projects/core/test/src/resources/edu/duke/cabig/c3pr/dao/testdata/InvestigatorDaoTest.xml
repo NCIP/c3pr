@@ -1,0 +1,6 @@
+<dataset>    
+    <INVESTIGATORS id="1000" version="1" first_name="Investigator Bill" last_name="Staff1"/>
+    <INVESTIGATORS id="1001" version="1" first_name="Investigator George" last_name="Staff2"/>
+    <INVESTIGATORS id="1002" version="1" first_name="Investigator Benjamin" last_name="Staff3"/>
+    <INVESTIGATORS id="1003" version="1" first_name="Investigator JFK" last_name="Staff4"/>             
+</dataset>
