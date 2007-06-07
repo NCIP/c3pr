@@ -29,7 +29,7 @@
 			<formatter type="plain" usefile="false" />
 
 			<batchtest fork="yes" todir="${junit.results.dir}">
-				<fileset dir="${test.src.dir}">
+				<fileset dir="${test.src.java.dir}">
 					<include name="**/*TestCase.java"/>
 					<include name="**/*Test.java"/>
 					<exclude name="**/DaoTestCase.java"/>
@@ -64,7 +64,7 @@
 			<formatter type="plain" usefile="false" />
 
 			<batchtest fork="yes" todir="${junit.results.dir}">
-				<fileset dir="${test.src.dir}">
+				<fileset dir="${test.src.java.dir}">
 					<include name="**/StudyDaoTest.java"/>
 				</fileset>
 			</batchtest>

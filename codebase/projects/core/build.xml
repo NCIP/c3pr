@@ -14,6 +14,9 @@
 
     <!--src dirs-->
     <property name="src.dir" value="${basedir}/src"/>
+    <property name="src.java.dir" value="${src.dir}/java"/>
+    <property name="src.resources.dir" value="${src.dir}/resources"/>
+
     <property name="resources.dir" value="${basedir}/resources"/>
     <property name="lib.dir" value="${basedir}/lib"/>
 
@@ -24,13 +27,17 @@
     <property name="project.jarfile" value="${jar.dir}/c3pr-2.0-${project.name}-${project.version}.jar"/>
 
     <!--ext dirs-->
-    <property name="ext.lib.dir" value="${basedir}/ext/lib"/>
-    <property name="ext.test.lib.dir" location="${basedir}/ext/test/lib"/>
-    <property name="ext.resources.dir" location="${basedir}/ext/resources"/>
+    <property name="ext.dir" value="${basedir}/ext"/>
+    <property name="ext.lib.dir" value="${ext.dir}/lib"/>
+    <property name="ext.test.lib.dir" location="${ext.dir}/test/lib"/>
+    <property name="ext.resources.dir" location="${ext.dir}/resources"/>
 
     <!-- testing stuff -->
     <property name="test.dir" location="${basedir}/test"/>
     <property name="test.src.dir" location="${test.dir}/src"/>
+    <property name="test.src.java.dir" location="${test.src.dir}/java"/>
+    <property name="test.src.resources.dir" location="${test.src.dir}/resources"/>
+
     <property name="test.classes.dir" location="${build.dir}/classes-test"/>
     <property name="test.lib.dir" location="${test.dir}/lib"/>
     <property name="test.logs.dir" location="${test.dir}/logs"/>
@@ -155,18 +162,12 @@
                 <filter token="csm.context.name" value="${csm.context.name}"/>
             </filterset>
         </copy>
-        <copy todir="${classes.dir}/context">
-            <fileset dir="${src.dir}">
-                <include name="**/*.xml"/>
-            </fileset>
-        </copy>
-        <copy todir="${test.src.dir}">
-            <fileset dir="${test.src.dir}">
-                <include name="**/*.xml"/>
-            </fileset>
-        </copy>
+
         <!--copy the castor mapping file-->
         <copy todir="${classes.dir}">
+            <fileset dir="${src.resources.dir}">
+                <include name="**/*.xml"/>
+            </fileset>
             <fileset dir="${resources.dir}">
                 <include name="c3pr-castor-mapping.xml"/>
             </fileset>
@@ -183,7 +184,7 @@
     <!-- Compiles the source code                                        -->
     <!-- =============================================================== -->
     <target name="compile" depends="prepare, resources" description="compiles">
-        <javac srcdir="${src.dir}" destdir="${classes.dir}" debug="${debug}" target="1.5" deprecation="off"
+        <javac srcdir="${src.java.dir}" destdir="${classes.dir}" debug="${debug}" target="1.5" deprecation="off"
                optimize="off" failonerror="true">
             <classpath refid="build.classpath"/>
         </javac>
@@ -192,11 +193,11 @@
     <!-- Compiles the test source code                                        -->
     <!-- =============================================================== -->
     <target name="compile-tests" depends="prepare, resources" description="compiles.">
-        <javac srcdir="${test.src.dir}" destdir="${test.classes.dir}" debug="${debug}" deprecation="off" optimize="off">
+        <javac srcdir="${test.src.java.dir}" destdir="${test.classes.dir}" debug="${debug}" deprecation="off" optimize="off">
             <classpath refid="test.classpath"/>
         </javac>
         <copy todir="${test.classes.dir}">
-            <fileset dir="${test.src.dir}">
+            <fileset dir="${test.src.resources.dir}">
                 <include name="**/*.xml"/>
             </fileset>
         </copy>

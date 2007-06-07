@@ -4,15 +4,12 @@
 <project name="c3pr-2.0-web-test" basedir=".">
 
 	<property name="junit.results.dir" value="${test.logs.dir}/junit" />
-	<property name="core.src.dir" value="../core/src/" />
-	<property name="test.classes.dir" location="${basedir}/build/classes-test" />
-
 
 	<!-- call the test target for each project and aggregates the log results  -->
 	<target name="prepare-tests">
 		<tstamp />
 		<copy todir="${test.classes.dir}">
-			<fileset dir="${core.src.dir}">
+			<fileset dir="${src.resources.dir}">
 				<include name="applicationContext-configProperties.xml" />
 			</fileset>
 		</copy>
@@ -38,7 +35,7 @@
 			<formatter type="plain" usefile="false" />
 
 			<batchtest fork="yes" todir="${junit.results.dir}">
-				<fileset dir="${test.src.dir}">
+				<fileset dir="${test.src.java.dir}">
 					<include name="**/*TestCase.java" />
 					<include name="**/*Test.java" />
 					<exclude name="**/ControllerTestCase.java" />
@@ -71,7 +68,7 @@
 			<formatter type="plain" usefile="false" />
 
 			<batchtest fork="yes" todir="${junit.results.dir}">
-				<fileset dir="${test.src.dir}">
+				<fileset dir="${test.src.java.dir}">
 					<include name="**/StudyDaoTest.java"/>
 				</fileset>
 			</batchtest>
