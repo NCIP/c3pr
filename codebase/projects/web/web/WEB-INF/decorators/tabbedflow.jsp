@@ -8,6 +8,7 @@
 <%@ taglib prefix="layout" tagdir="/WEB-INF/tags/layout" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
 
 <html>
 <head>
@@ -25,20 +26,28 @@
 
 <div id="content">
     <layout:header/>
-    <layout:navigation/>
+    <chrome:workflowTabs tab="${tab}" flow="${flow}"/>
 
-    <div class="tabpane">
-        <tabs:levelTwoTabs tab="${tab}" flow="${flow}"/>
-        <tabs:body title="Short Title: ${command.trimmedShortTitleText} - Primary Identifier: ${command.primaryIdentifier}">
-            <div class="tabcontent workArea">
-                <decorator:body/>
-                <c:if test="${! empty flow}">
-	                <tabs:tabControls tabNumber="${tab.number}" isLast="${tab.number < flow.tabCount - 1}"/>
-                </c:if>
+    <chrome:body title="${flow.name}: ${tab.longTitle}">
+        <c:set var="hasSummary" value="${not empty summary}"/>
+        <c:if test="${hasSummary}">
+            <div id="summary-pane" class="pane">
+                <chrome:box title="Summary">
+                    <c:forEach items="${summary}" var="summaryEntry">
+                        <div class="row">
+                            <div class="label">${summaryEntry.key}</div>
+                            <div class="value">${empty summaryEntry.value ? '<em class="none">None</em>' : summaryEntry.value}</div>
+                        </div>
+                    </c:forEach>
+                </chrome:box>
             </div>
+        </c:if>
 
-        </tabs:body>
-    </div>
+        <div id="main${hasSummary ? '' : '-no-summary'}-pane" class="pane">
+            <decorator:body/>
+        </div>
+    </chrome:body>
+
 
     <form:form id="flowredirect">
         <input type="hidden" name="_target${tab.targetNumber}" id="flowredirect-target"/>
@@ -47,9 +56,6 @@
 
 </div>
 
-<div id="footer">
-    <layout:footer/>
-</div>
 
 </body>
 </html>
