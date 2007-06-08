@@ -127,6 +127,13 @@
             </fileset>
         </artifact>
 
+        <!--jars from the ctms commons project-->
+          <artifact track="main" type="jars" id="ctms-commons.jars">
+            <fileset dir="${share.dir}/ctms-commons">
+                <include name="*.jar"/>
+            </fileset>
+        </artifact>
+
         <artifact track="main" type="jars" id="antlr.jars">
             <fileset dir="${share.dir}/antlr-2.7.6">
                 <include name="*.jar"/>

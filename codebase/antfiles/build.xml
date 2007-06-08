@@ -187,7 +187,7 @@
         <resolveDependencies extdir="${projects.dir}/web/ext">
             <artifact refid="security.lib.jars"/>
             <artifact refid="common.test.jars"/>
-
+            <artifact refid="ctms-commons.jars"/>
             <artifact refid="c3pr.core.jars"/>
             <artifact refid="c3pr.core.lib.jars"/>
 
