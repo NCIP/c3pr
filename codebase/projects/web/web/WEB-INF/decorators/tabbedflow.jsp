@@ -23,9 +23,8 @@
 </head>
 
 <body>
-
-<div id="content">
-    <layout:header/>
+<layout:header/>
+<div class="tabpane">
     <chrome:workflowTabs tab="${tab}" flow="${flow}"/>
 
     <chrome:body title="${flow.name}: ${tab.longTitle}">
