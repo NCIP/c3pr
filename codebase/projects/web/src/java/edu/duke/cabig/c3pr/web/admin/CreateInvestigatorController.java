@@ -1,24 +1,5 @@
 package edu.duke.cabig.c3pr.web.admin;
 
-import edu.duke.cabig.c3pr.dao.InvestigatorDao;
-import edu.duke.cabig.c3pr.domain.ContactMechanism;
-import edu.duke.cabig.c3pr.domain.Investigator;
-import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
-import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
-import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
-import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
-import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
-import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
-import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
-import edu.duke.cabig.c3pr.utils.Lov;
-import edu.duke.cabig.c3pr.utils.StringUtils;
-import edu.duke.cabig.c3pr.utils.web.ControllerTools;
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AbstractTabbedFlowFormController;
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Tab;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -33,6 +14,22 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
+
+import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
+import edu.duke.cabig.c3pr.dao.InvestigatorDao;
+import edu.duke.cabig.c3pr.domain.ContactMechanism;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
+import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
+import edu.duke.cabig.c3pr.utils.Lov;
+import edu.duke.cabig.c3pr.utils.StringUtils;
+import edu.duke.cabig.c3pr.utils.web.ControllerTools;
+import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.SubFlow;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.SubFlowTab;
+import gov.nih.nci.cabig.ctms.web.tabs.AbstractTabbedFlowFormController;
 
 /**
  * @author Ramakrishna
@@ -51,9 +48,9 @@ public class CreateInvestigatorController extends
 	public CreateInvestigatorController() {
 		setCommandClass(Investigator.class);
 
-		Flow<Investigator> flow = new Flow<Investigator>("Create Investigator");
+		SubFlow<Investigator> flow = new SubFlow<Investigator>("Create Investigator");
 
-		flow.addTab(new Tab<Investigator>("Enter Investigator Information",
+		flow.addTab(new SubFlowTab<Investigator>("Enter Investigator Information",
 				"New Investigator", "admin/investigator_details") {
 			public Map<String, Object> referenceData() {
 				Map<String, List<Lov>> configMap = configurationProperty

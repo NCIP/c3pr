@@ -17,8 +17,8 @@ import org.springframework.web.servlet.view.RedirectView;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.ObjectGraphBasedEditor;
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Tab;
+import gov.nih.nci.cabig.ctms.web.tabs.Flow;
+import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
 /**
  * Controller class to handle the work flow in the Updation of a Study Design
@@ -49,8 +49,8 @@ public class EditStudyController extends StudyController {
 		return study;
 	}
 	
+	@Override
 	protected void layoutTabs(Flow flow, HashMap tabsMap){
-		
 		flow.addTab((Tab<Study>)tabsMap.get("Overview"));
 		flow.addTab((Tab<Study>)tabsMap.get("Registrations"));
 		flow.addTab((Tab<Study>)tabsMap.get("Details"));

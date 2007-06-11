@@ -1,21 +1,5 @@
 package edu.duke.cabig.c3pr.web;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.validation.BindException;
-import org.springframework.web.bind.ServletRequestDataBinder;
-import org.springframework.web.servlet.ModelAndView;
-
 import edu.duke.cabig.c3pr.dao.AnatomicSiteDao;
 import edu.duke.cabig.c3pr.dao.ArmDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
@@ -37,15 +21,32 @@ import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.ObjectGraphBasedEditor;
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AbstractTabbedFlowFormController;
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.SubFlow;
+import gov.nih.nci.cabig.ctms.web.tabs.AbstractTabbedFlowFormController;
+import gov.nih.nci.cabig.ctms.web.tabs.Flow;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.validation.BindException;
+import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author Ramakrishna
  * 
  */
 
-public abstract class RegistrationController extends AbstractTabbedFlowFormController {
+public abstract class RegistrationController extends AbstractTabbedFlowFormController<StudyParticipantAssignment> {
 
 	private static Log log = LogFactory
 	.getLog(RegistrationController.class);
@@ -68,7 +69,7 @@ public abstract class RegistrationController extends AbstractTabbedFlowFormContr
 
 	public RegistrationController(String flowName) {
 		setCommandClass(StudyParticipantAssignment.class);
-		Flow<StudyParticipantAssignment> flow = new Flow<StudyParticipantAssignment>(flowName);
+		Flow<StudyParticipantAssignment> flow = new SubFlow<StudyParticipantAssignment>(flowName);
 		intializeFlows(flow);
 	}
 

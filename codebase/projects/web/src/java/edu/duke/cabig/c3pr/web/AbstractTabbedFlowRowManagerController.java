@@ -11,12 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.ServletRequestDataBinder;
 
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AbstractTabbedFlowFormController;
 import edu.duke.cabig.c3pr.web.beans.DefaultObjectPropertyReader;
 import edu.duke.cabig.c3pr.web.beans.HttpServletLazyCollectionInitializer;
 import edu.duke.cabig.c3pr.web.beans.HttpServletLazyCollectionInitializerImpl;
 import edu.duke.cabig.c3pr.web.beans.LazyListBindable;
 import edu.duke.cabig.c3pr.web.beans.ObjectPropertyReader;
+import gov.nih.nci.cabig.ctms.web.tabs.AbstractTabbedFlowFormController;
 
 /**
  * @author Kruttik

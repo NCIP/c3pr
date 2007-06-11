@@ -21,7 +21,7 @@ import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
+import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 
 public class SearchStudyController  extends SimpleFormController{
 

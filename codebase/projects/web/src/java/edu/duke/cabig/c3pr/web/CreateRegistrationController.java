@@ -30,8 +30,9 @@ import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
 import edu.duke.cabig.c3pr.service.ParticipantService;
 import edu.duke.cabig.c3pr.service.impl.ParticipantServiceImpl;
 import edu.duke.cabig.c3pr.utils.Lov;
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Tab;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.SubFlowTab;
+import gov.nih.nci.cabig.ctms.web.tabs.Flow;
+import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
 /**
  * @author Ramakrishna
@@ -57,7 +58,7 @@ public class CreateRegistrationController extends RegistrationController {
 	}
 
 	protected void intializeFlows(Flow<StudyParticipantAssignment> flow) {
-		flow.addTab(new Tab<StudyParticipantAssignment>("Search Subject or Study", "SearchSubjectStudy","registration/home","false"){
+		SubFlowTab subflow=new SubFlowTab<StudyParticipantAssignment>("Search Subject or Study", "SearchSubjectStudy","registration/home","false"){
 			public Map<String, Object> referenceData() {
 				Map<String, List<Lov>> configMap = configurationProperty.getMap();
 				Map<String, Object> refdata = new HashMap<String, Object>();
@@ -65,25 +66,34 @@ public class CreateRegistrationController extends RegistrationController {
 				refdata.put("searchTypeRefDataPrt", configMap.get("participantSearchType"));
 				return refdata;
 			}
-		});
-		flow.addTab(new Tab<StudyParticipantAssignment>("Select Study", "Select Study"));
-		flow.addTab(new Tab<StudyParticipantAssignment>("Select Subject", "Select Subject"));
-		flow.addTab(new Tab<StudyParticipantAssignment>("Enrollment Details", "Enrollment Details","registration/reg_registration_details"));
-		flow.addTab(new Tab<StudyParticipantAssignment>("Diseases", "Diseases","registration/reg_diseases"));
-		flow.addTab(new Tab<StudyParticipantAssignment>("Check Eligibility", "Check Eligibility","registration/reg_check_eligibility"));
-		flow.addTab(new Tab<StudyParticipantAssignment>("Stratify", "Stratify","registration/reg_stratify"));
-		flow.addTab(new Tab<StudyParticipantAssignment>("Randomize", "Randomize","registration/reg_randomize"));
-		flow.addTab(new Tab<StudyParticipantAssignment>("Review & Submit", "Review & Submit","registration/reg_submit"));
-		flow.getTab(0).setShowSummary("false");
-		flow.getTab(1).setShowSummary("false");
-		flow.getTab(2).setShowSummary("false");
-		flow.getTab(8).setShowSummary("false");
-		flow.getTab(0).setShowLink("false");
-		flow.getTab(1).setShowLink("false");
-		flow.getTab(2).setShowLink("false");
-		flow.getTab(0).setSubFlow("true");
-		flow.getTab(1).setSubFlow("true");
-		flow.getTab(2).setSubFlow("true");
+		};
+		subflow.setShowSummary("false");
+		subflow.setShowLink("false");
+		subflow.setSubFlow("true");
+		flow.addTab(subflow);
+		subflow=new SubFlowTab<StudyParticipantAssignment>("Select Study", "Select Study");
+		subflow.setShowSummary("false");
+		subflow.setShowLink("false");
+		subflow.setSubFlow("true");
+		flow.addTab(subflow);
+		subflow=new SubFlowTab<StudyParticipantAssignment>("Select Subject", "Select Subject");
+		subflow.setShowSummary("false");
+		subflow.setShowLink("false");
+		subflow.setSubFlow("true");
+		flow.addTab(subflow);
+		subflow=new SubFlowTab<StudyParticipantAssignment>("Enrollment Details", "Enrollment Details","registration/reg_registration_details");
+		flow.addTab(subflow);
+		subflow=new SubFlowTab<StudyParticipantAssignment>("Diseases", "Diseases","registration/reg_diseases");
+		flow.addTab(subflow);
+		subflow=new SubFlowTab<StudyParticipantAssignment>("Check Eligibility", "Check Eligibility","registration/reg_check_eligibility");
+		flow.addTab(subflow);
+		subflow=new SubFlowTab<StudyParticipantAssignment>("Stratify", "Stratify","registration/reg_stratify");
+		flow.addTab(subflow);
+		subflow=new SubFlowTab<StudyParticipantAssignment>("Randomize", "Randomize","registration/reg_randomize");
+		flow.addTab(subflow);
+		subflow=new SubFlowTab<StudyParticipantAssignment>("Review & Submit", "Review & Submit","registration/reg_submit");
+		subflow.setShowSummary("false");
+		flow.addTab(subflow);
 		setFlow(flow);
 	}
 
@@ -114,8 +124,10 @@ public class CreateRegistrationController extends RegistrationController {
 	}
 	
 	@Override
-	protected void postProcessPage(HttpServletRequest request, Object command, Errors errors, String tabShortTitle) throws Exception {
+	protected void postProcessPage(HttpServletRequest request, Object command, Errors errors, int page) throws Exception {
 		// TODO Auto-generated method stub
+		super.postProcessPage(request, command, errors, page);
+		String tabShortTitle=getFlow().getTab(page).getShortTitle();
 		StudyParticipantAssignment studyParticipantAssignment=(StudyParticipantAssignment)command;
 		if(isResumeFlow(request)){
 			if(isNewRegistration(request))

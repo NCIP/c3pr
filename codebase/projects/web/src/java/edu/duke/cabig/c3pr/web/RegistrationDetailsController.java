@@ -1,7 +1,5 @@
 package edu.duke.cabig.c3pr.web;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -12,27 +10,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.AbstractWizardFormController;
 
-import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
-import edu.duke.cabig.c3pr.dao.ParticipantDao;
-import edu.duke.cabig.c3pr.dao.StudyParticipantAssignmentDao;
-import edu.duke.cabig.c3pr.dao.StudySiteDao;
-import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
-import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
-import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
-import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AbstractTabbedFlowFormController;
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Tab;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.SubFlow;
+import gov.nih.nci.cabig.ctms.web.tabs.Flow;
+import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
 /**
  * @author Ramakrishna
@@ -48,7 +35,7 @@ public class RegistrationDetailsController extends RegistrationController {
 		super("Registration Management");
 	}
 
-	protected void intializeFlows(Flow<StudyParticipantAssignment> flow) {
+	protected void intializeFlows(SubFlow<StudyParticipantAssignment> flow) {
 		flow.addTab(new Tab<StudyParticipantAssignment>("Details", "Details",
 				"registration/reg_details_study_participant") {
 			public Map<String, Object> referenceData() {
@@ -278,5 +265,11 @@ public class RegistrationDetailsController extends RegistrationController {
 
 		}
 
+	}
+
+	@Override
+	protected void intializeFlows(Flow<StudyParticipantAssignment> flow) {
+		// TODO Auto-generated method stub
+		
 	}
 }

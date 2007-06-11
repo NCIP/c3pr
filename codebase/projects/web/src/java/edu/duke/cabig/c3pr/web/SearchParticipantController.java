@@ -22,7 +22,8 @@ import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.Flow;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.SubFlow;
+import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 
 /**
  * 
@@ -115,16 +116,13 @@ private static Log log = LogFactory.getLog(SearchParticipantController.class);
     	map.put("registrationTab", getRegistrationFlow(request).getTab(2));
     	map.put("inRegistration", "true");
     }
-    private Flow getRegistrationFlow(HttpServletRequest request){
-    	return (Flow)request.getSession().getAttribute("registrationFlow");
+    private SubFlow getRegistrationFlow(HttpServletRequest request){
+    	return (SubFlow)request.getSession().getAttribute("registrationFlow");
     }
 	private void setAlternateDisplayOrder(HttpServletRequest request, Flow flow){
 		request.getSession().setAttribute("registrationAltFlow", flow);
 	}
-	private Flow getAlternateDisplayOrder(HttpServletRequest request){
-		return (Flow)request.getSession().getAttribute("registrationAltFlow");
-	}
-	 public ParticipantDao getParticipantDao() {
+	public ParticipantDao getParticipantDao() {
 		return participantDao;
 	}
 
