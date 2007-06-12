@@ -5,6 +5,8 @@
         <pattern>/error.jsp</pattern>
         <pattern>/accessDenied.jsp</pattern>
         <pattern>/pages/registration/searchRegistration</pattern>
+         <pattern>/pages/participant/searchParticipant</pattern>
+          <pattern>/pages/study/searchStudy</pattern>
         <pattern>/pages/registration/overview</pattern>
     </decorator>
   <!--  <decorator name="searchSubject" page="searchSubject.jsp">
@@ -12,9 +14,7 @@
     </decorator>  --> 
     <decorator name="tabbedflow" page="tabbedflow.jsp">
         <pattern>/pages/study/createStudy</pattern>
-        <pattern>/pages/study/searchStudy</pattern>
         <pattern>/pages/participant/createParticipant</pattern>
-        <pattern>/pages/participant/searchParticipant</pattern>
         <pattern>/pages/admin/createInvestigator</pattern>
         <pattern>/pages/admin/createResearchStaff</pattern>
     </decorator>
