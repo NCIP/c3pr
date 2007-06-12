@@ -142,7 +142,7 @@ function displayDiv(id,flag){
 <table border="0" id="table1" cellspacing="5">
 	<tr>
 		<td valign="top">
-		 <tags:panel id="InclusionTable" title="Inclusion Criteria">
+		 <tags:minimizablePanelBox boxId="InclusionTable" title="Inclusion Criteria">
 			<table border="0" cellspacing="0" cellpadding="0" id="details">
 			<tr>
 				<p id="instructions">
@@ -182,7 +182,7 @@ function displayDiv(id,flag){
 			</tr>
 			</table>
 			
-			</tags:panel>
+			</tags:minimizablePanelBox>
 		</td>
 		</tr>
 		<tr>
@@ -190,7 +190,7 @@ function displayDiv(id,flag){
 		<table border="0" cellspacing="0" cellpadding="0" id="details">
 			<tr>
 				<td>
-			   <tags:panel id="ExclusionTable" title="Exclusion Criteria">
+			   <tags:minimizablePanelBox boxId="ExclusionTable" title="Exclusion Criteria">
 				
 				<table border="0" cellspacing="0" cellpadding="0" id="table1">
 					<tr>
@@ -231,7 +231,7 @@ function displayDiv(id,flag){
 					</tr>
 				</table>
 		
-			</tags:panel>
+			</tags:minimizablePanelBox>
 				</td>
 			</tr>
 		</table>
