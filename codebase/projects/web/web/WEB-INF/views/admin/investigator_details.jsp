@@ -24,8 +24,7 @@ function handleConfirmation(){
 
 </head>
 <body>
-<tabs:body title="Enter Investigator Details">
-	<tabs:division>
+<tags:panelBox tab="${tab}" flow="${flow}">
 		<form:form method="post" action="createInvestigator"
 			cssClass="standard" name="studySiteForm">
 			<input type="hidden" name="_action" value="">
@@ -185,7 +184,6 @@ function handleConfirmation(){
 
 
 		</form:form>
-	</tabs:division>
-</tabs:body>
+</tags:panelBox>
 </body>
 </html>

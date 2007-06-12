@@ -25,8 +25,7 @@ function handleConfirmation(){
 </head>
 <body>
 
-<tabs:body title="Enter Research Staff Details">
-	<tabs:division>
+<tags:panelBox tab="${tab}" flow="${flow}">
 		<form:form method="post" action="createResearchStaff">
 			<input type="hidden" name="_action" value="">
 			<input type="hidden" name="_selected" value="">
@@ -176,7 +175,6 @@ function handleConfirmation(){
 				</tr>
 			</table>
 		</form:form>
-	</tabs:division>
-</tabs:body>
+</tags:panelBox>
 </body>
 </html>

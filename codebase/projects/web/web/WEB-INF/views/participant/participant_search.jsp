@@ -5,6 +5,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
 <%@ taglib prefix="participantTags" tagdir="/WEB-INF/tags/participant"%>
+<%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
 
 <html>
 <head>
@@ -20,6 +21,7 @@ function submitPage(){
 <!-- MAIN BODY STARTS HERE -->
 <body>
 <!-- SUBJECT SEARCH STARTS HERE -->
+<chrome:search title="Search">
 	<form:form id="searchForm" name="searchForm" method="post">
 		<div><tabs:division id="subject-details">
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -72,6 +74,7 @@ function submitPage(){
 		</tabs:division>
 	</div>
 	</form:form>
+	</chrome:search>
 </body>
 </html>
 <!-- SUBJECT SEARCH ENDS HERE -->
