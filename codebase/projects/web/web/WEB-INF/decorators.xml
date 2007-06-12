@@ -7,13 +7,16 @@
         <pattern>/pages/registration/searchRegistration</pattern>
         <pattern>/pages/registration/overview</pattern>
     </decorator>
-    <decorator name="searchSubject" page="searchSubject.jsp">
+  <!--  <decorator name="searchSubject" page="searchSubject.jsp">
         <pattern>/pages/participant/searchParticipant</pattern>
-    </decorator>
+    </decorator>  --> 
     <decorator name="tabbedflow" page="tabbedflow.jsp">
         <pattern>/pages/study/createStudy</pattern>
         <pattern>/pages/study/searchStudy</pattern>
         <pattern>/pages/participant/createParticipant</pattern>
+        <pattern>/pages/participant/searchParticipant</pattern>
+        <pattern>/pages/admin/createInvestigator</pattern>
+        <pattern>/pages/admin/createResearchStaff</pattern>
     </decorator>
     <!-- <decorator name="tabbedflow_participant"
                page="tabbedflow_participant.jsp">
@@ -21,8 +24,6 @@
     </decorator> -->
     <decorator name="tabbedflow_edit" page="tabbedflow_edit.jsp">
         <pattern>/pages/registration/registrationDetails</pattern>
-        <pattern>/pages/admin/createInvestigator</pattern>
-        <pattern>/pages/admin/createResearchStaff</pattern>
     </decorator>
     <decorator name="tabbedflow_edit_participant"
                page="tabbedflow_edit_participant.jsp">
