@@ -10,23 +10,18 @@
 <%@attribute name="enctype"%>
 <%@attribute name="boxId"%>
 <%@attribute name="boxClass" %>
-<%@attribute name="instructions" fragment="true" %>
-<%@attribute name="singleFields" fragment="true" %>
-<%@attribute name="repeatingFields" fragment="true" %>
 <%@attribute name="localButtons" fragment="true" %>
-<%@attribute name="" fragment="true" %>
 
+<form:form name="${formName}" enctype="${enctype}">
 <c:if test="${empty willSave}"><c:set var="willSave" value="${true}"/></c:if>
 <chrome:box title="${empty title ? tab.shortTitle : title}" id="${boxId}" cssClass="${boxClass}">
     <chrome:flashMessage/>
-    <form:form name="${formName}" enctype="${enctype}">
         <tags:tabFields tab="${tab}"/>
         <chrome:division id="single-fields">
-            <c:if test="${not empty instructions}"><p class="instructions"><jsp:invoke fragment="instructions"/></p></c:if>
+
             <tags:hasErrorsMessage/>
-            <jsp:invoke fragment="singleFields"/>
+            <jsp:doBody/>
         </chrome:division>
-        <jsp:invoke fragment="repeatingFields"/>
         <tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
-    </form:form>
 </chrome:box>
+</form:form>
