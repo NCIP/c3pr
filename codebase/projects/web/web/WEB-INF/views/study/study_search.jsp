@@ -26,8 +26,6 @@ function submitPage(){
 <chrome:search title="Search">
 
 <form:form id="searchForm" name="searchForm" method="post">
-    <tabs:division id="study-details">
-
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
 		<td valign="top">
@@ -74,7 +72,6 @@ function submitPage(){
 <studyTags:searchResults url="editStudy" />
 
 <!-- MAIN BODY ENDS HERE -->
-</tabs:division>
 </form:form>
 </chrome:search>
 

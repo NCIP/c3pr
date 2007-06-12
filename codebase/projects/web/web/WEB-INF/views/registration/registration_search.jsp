@@ -5,6 +5,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
 <%@ taglib prefix="registrationTags" tagdir="/WEB-INF/tags/registration"%>
+<%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
 
 <html>
 <head>
@@ -172,87 +173,82 @@ function manageSearchTypeMessage(message){
 </script>
 </head>
 <body>
-<tabs:body title="Search Registration">
+<chrome:search title="Search">
 	<form:form id="searchForm" name="searchForm" method="post">
-		<table width="100%" border="0" cellspacing="5" cellpadding="0">
+
+		<table border="0" id="table1" cellspacing="0" cellpadding="5"
+			width="100%">
+			<td width="15% valign="top"><b>Search for Registration by:</b></td>
+			<td>
+
+			<table border="0">
+				<tr>
+					<td align="right" width="15%"><select name="select" id="select"
+						onChange="manageSelectBox(this);">
+						<option value="Subject">Subject</option>
+						<option value="Study">Study</option>
+						<option value="Id">Registration Identifier</option>
+					</select></td>
+
+					<td align="left">
+					<div name="SubjectSearch" id="SubjectSearch"><select
+						name="SubjectOption" id="SubjectOption">
+						<c:forEach items="${searchTypeRefDataPrt}" var="option">
+							<option value="${option.code }">${option.desc }</option>
+						</c:forEach>
+					</select></div>
+					<div name="StudySearch" id="StudySearch" style="display:none;"><select
+						name="StudyOption" id="StudyOption">
+						<c:forEach items="${searchTypeRefDataStudy}" var="option">
+							<option value="${option.code }">${option.desc }</option>
+						</c:forEach>
+					</select></div>
+					</td>
+				</tr>
+
+				<tr>
+					<td colspan="2"><input type="hidden" id="registration" /> <input
+						id="registration-input" size="52" type="text" name="searchText"
+						class="validate-notEmpty" /> <tags:indicator
+						id="registration-indicator" />
+					<div id="registration-choices" class="autocomplete"></div>
+					<p id="registration-selected" style="display: none">You've selected
+					<span id="registration-selected-name"></span>.</p>
+					</td>
+				</tr>
+				<tr>
+					<td><input type="submit" value="Search" /> <input type="button"
+						id="registration-clear" value="Clear" /></td>
+				</tr>
+				<tr>
+					<td>
+					<div id="SubjectSearchMessage">
+					<p id="instructions">Please search a Subject</p>
+					</div>
+					<div id="StudySearchMessage" style="display:none;">
+					<p id="instructions">Please search a Study</p>
+					</div>
+					<div id="IdentifierSearchMessage" style="display:none;">
+					<p id="instructions">Please search a Registration</p>
+					</div>
+					</td>
+				</tr>
+
+			</table>
 			<tr>
-				<td valign="top"><tabs:division id="registration-search">
-					<table border="0" id="table1" cellspacing="0" cellpadding="5"
-						width="100%">
-						<td width="15% valign="top"><b>Search for Registration by:</b></td>
-						<td>
-
-						<table border="0">
-							<tr>
-								<td align="right" width="15%"><select name="select" id="select"
-									onChange="manageSelectBox(this);">
-									<option value="Subject">Subject</option>
-									<option value="Study">Study</option>
-									<option value="Id">Registration Identifier</option>
-								</select></td>
-
-								<td align="left">
-								<div name="SubjectSearch" id="SubjectSearch"><select
-									name="SubjectOption" id="SubjectOption">
-									<c:forEach items="${searchTypeRefDataPrt}" var="option">
-										<option value="${option.code }">${option.desc }</option>
-									</c:forEach>
-								</select></div>
-								<div name="StudySearch" id="StudySearch" style="display:none;"><select
-									name="StudyOption" id="StudyOption">
-									<c:forEach items="${searchTypeRefDataStudy}" var="option">
-										<option value="${option.code }">${option.desc }</option>
-									</c:forEach>
-								</select></div>
-								</td>
-							</tr>
-
-							<tr>
-								<td colspan="2"><input type="hidden" id="registration" /> <input
-									id="registration-input" size="52" type="text" name="searchText"
-									class="validate-notEmpty" /> <tags:indicator
-									id="registration-indicator" />
-								<div id="registration-choices" class="autocomplete"></div>
-								<p id="registration-selected" style="display: none">You've
-								selected <span id="registration-selected-name"></span>.</p>
-								</td>
-							</tr>
-							<tr>
-								<td><input type="submit" value="Search" /> <input type="button"
-									id="registration-clear" value="Clear" /></td>
-							</tr>
-							<tr>
-								<td>
-								<div id="SubjectSearchMessage">
-								<p id="instructions">Please search a Subject</p>
-								</div>
-								<div id="StudySearchMessage" style="display:none;">
-								<p id="instructions">Please search a Study</p>
-								</div>
-								<div id="IdentifierSearchMessage" style="display:none;">
-								<p id="instructions">Please search a Registration</p>
-								</div>
-								</td>
-							</tr>
-
-						</table>
-						<tr>
-							<td align="left"><c:if
-								test="${registrations!=null && fn:length(registrations)==0}">
+				<td align="left"><c:if
+					test="${registrations!=null && fn:length(registrations)==0}">
 											Sorry, no matches were found				
 											</c:if></td>
-						</tr>
-					</table></td>
+			</tr>
 		</table>
 		</td>
-		</tr>
-
 		</table>
+
 		<registrationTags:searchResults registrations="${registrations }" />
 
 		<!-- MAIN BODY ENDS HERE -->
-		</tabs:division>
 	</form:form>
-</tabs:body>
+</chrome:search>
 </body>
 </html>
