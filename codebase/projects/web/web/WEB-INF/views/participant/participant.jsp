@@ -46,7 +46,7 @@ function submitPostProcess(formElement, flag){
 </script>
 </head>
 <body>
-<tags:panelBox tab="${tab}" flow="${flow}">
+<tags:formPanelBox tab="${tab}" flow="${flow}">
 	<input type="hidden" name="_action" id="_action" value=""> 
 	<input type="hidden" name="_selected" id="_selected" value="">
 	<input type="hidden" name="_page" id="_page" value="0">
@@ -175,6 +175,6 @@ function submitPostProcess(formElement, flag){
 			</tr>
 		</c:forEach>
 	</table>
-</tags:panelBox>
+</tags:formPanelBox>
 </body>
 </html>

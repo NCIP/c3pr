@@ -7,6 +7,7 @@
 <tags:stylesheetLink name="extremecomponents"/>
 <tags:stylesheetLink name="search"/>
 <tags:stylesheetLink name="calendar-blue"/>
+<tags:stylesheetLink name="fields"/>
 <tags:parsedStylesheetLink name="common-styles"/>
 <tags:parsedStylesheetLink name="tables"/>
 <!--[if IE]>

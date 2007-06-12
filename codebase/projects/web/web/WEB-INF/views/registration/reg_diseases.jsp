@@ -56,10 +56,7 @@ submitPostProcess=function(){
 </script>
 </head>
 <body>
-<tabs:division id="enrollment-details">
-<!-- MAIN BODY STARTS HERE -->
-<form:form method="post" action="createRegistration">
-<tabs:tabFields tab="${tab}" />
+<tags:formPanelBox tab="${tab}" flow="${flow}">
 	<strong>Select Disease and Disease Site </strong><br>
 	<table width="60%" border="0" cellspacing="0" cellpadding="0" id="table1">
 		<tr><td colspan="3">&nbsp;</td></tr>
@@ -92,8 +89,7 @@ submitPostProcess=function(){
 			<td>&nbsp;</td>
 		</tr>
 	</table>
-</form:form>
-</tabs:division>
+</tags:formPanelBox>
 <!-- MAIN BODY ENDS HERE -->
 </body>
 </html>

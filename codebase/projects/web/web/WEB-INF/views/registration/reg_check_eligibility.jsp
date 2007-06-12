@@ -24,102 +24,87 @@ function markAsAnswered(id){
 </script>
 </head>
 <body>
-<div><tabs:division id="check-eligibility">
-<!-- MAIN BODY STARTS HERE -->
-<div class="workArea">
-<form:form method="post">
-<tabs:tabFields tab="${tab}" />
+<tags:formPanelBox tab="${tab}" flow="${flow}">
 <c:choose>
 	<c:when test="${fn:length(command.subjectEligibilityAnswers) == 0}">
-			The Selected Study does not have Eligibility Crieterias</td>
+			The Selected Study does not have Eligibility Crieterias
 	</c:when>
 	<c:otherwise>
-		<table width="100%" border="0" cellspacing="0" cellpadding="0"
-			id="table1">
+		<table id="" width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
 			<tr>
 				<td>
-					<table id="" width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
+				<tags:minimizablePanelBox boxId="Inclusion" title="Inclusion Criteria">
+					<table width="100%" border="0">
 						<tr>
-							<td>
-							<tags:panel id="Inclusion" title="Inclusion Criteria">
-								<table width="100%" border="0">
-									<tr>
-										<td>&nbsp;</td>
-										<td align="left"><b>Question<span class="red">*</span></b></td>
-										<td align="left"><b>Answers</b></td>
-									</tr>
-									<c:set var="index" value="0"/>
-									<c:forEach var="criteria" varStatus="status" items="${command.studySite.study.incCriterias}">
-										<tr>
-											<td width="5%">
-												<div id="tick-${index }" <c:if test="${command.subjectEligibilityAnswers[index].answerText==null||command.subjectEligibilityAnswers[index].answerText=='' }">style="display:none;"</c:if>>
-													<img src="<tags:imageUrl name="checkbox.gif"/>" border="0" alt="answered" height="20" width="20">												
-												</div>
-											</td>
-											<td width="80%">
-												${criteria.questionText}
-											</td>
-											<td width="15%">
-												<form:select id="subjectEligibilityAnswers[${index}].answerText" path="subjectEligibilityAnswers[${index}].answerText" onchange="markAsAnswered('${index }')">
-													<option value="">--Please Select---</option>
-													<form:option value="Yes" />
-													<form:option value="No" />
-													<c:if test="${criteria.notApplicableIndicator}"><form:option value="NA" label="Not Applicable"/></c:if>
-												</form:select>
-											</td>
-										</tr>
-										<c:set var="index" value="${index+1}"/>
-									</c:forEach>
-								</table>
-							</tags:panel>
-							</td>
+							<td>&nbsp;</td>
+							<td align="left"><b>Question<span class="red">*</span></b></td>
+							<td align="left"><b>Answers</b></td>
 						</tr>
-						<tr><td>&nbsp;</td></tr>
-						<tr>
-							<td>
-							<tags:panel id="Exclusion" title="Exclusion Criteria">
-								<table width="100%" border="0">
-									<tr>
-										<td>&nbsp;</td>
-										<td align="left"><b>Question<span class="red">*</span></b></td>
-										<td align="left"><b>Answers</b></td>
-									</tr>
-									<c:forEach var="criteria" varStatus="status" items="${command.studySite.study.excCriterias}">
-										<tr>
-											<td width="5%">
-												<div id="tick-${index }" <c:if test="${command.subjectEligibilityAnswers[index].answerText==null||command.subjectEligibilityAnswers[index].answerText=='' }">style="display:none;"</c:if>>
-													<img src="<tags:imageUrl name="checkbox.gif"/>" border="0" alt="answered" height="20" width="20">												
-												</div>
-											</td>
-											<td width="80%">
-												${criteria.questionText}
-											</td>
-											<td width="15%">
-												<form:select id="subjectEligibilityAnswers[${index}].answerText" path="subjectEligibilityAnswers[${index}].answerText" onchange="markAsAnswered('${index }')">
-													<option value="">--Please Select---</option>
-													<form:option value="Yes" />
-													<form:option value="No" />
-													<c:if test="${criteria.notApplicableIndicator}"><form:option value="NA" label="Not Applicable"/></c:if>
-												</form:select>
-											</td>
-										</tr>
-										<c:set var="index" value="${index+1}"/>										
-									</c:forEach>
-								</table>
-							</tags:panel>
-							</td>
-						</tr>
+						<c:set var="index" value="0"/>
+						<c:forEach var="criteria" varStatus="status" items="${command.studySite.study.incCriterias}">
+							<tr>
+								<td width="5%">
+									<div id="tick-${index }" <c:if test="${command.subjectEligibilityAnswers[index].answerText==null||command.subjectEligibilityAnswers[index].answerText=='' }">style="display:none;"</c:if>>
+										<img src="<tags:imageUrl name="checkbox.gif"/>" border="0" alt="answered" height="20" width="20">												
+									</div>
+								</td>
+								<td width="80%">
+									${criteria.questionText}
+								</td>
+								<td width="15%">
+									<form:select id="subjectEligibilityAnswers[${index}].answerText" path="subjectEligibilityAnswers[${index}].answerText" onchange="markAsAnswered('${index }')">
+										<option value="">--Please Select---</option>
+										<form:option value="Yes" />
+										<form:option value="No" />
+										<c:if test="${criteria.notApplicableIndicator}"><form:option value="NA" label="Not Applicable"/></c:if>
+									</form:select>
+								</td>
+							</tr>
+							<c:set var="index" value="${index+1}"/>
+						</c:forEach>
 					</table>
-					</div>					
+				</tags:minimizablePanelBox>
+				</td>
+			</tr>
+			<tr><td>&nbsp;</td></tr>
+			<tr>
+				<td>
+				<tags:minimizablePanelBox boxId="Exclusion" title="Exclusion Criteria">
+					<table width="100%" border="0">
+						<tr>
+							<td>&nbsp;</td>
+							<td align="left"><b>Question<span class="red">*</span></b></td>
+							<td align="left"><b>Answers</b></td>
+						</tr>
+						<c:forEach var="criteria" varStatus="status" items="${command.studySite.study.excCriterias}">
+							<tr>
+								<td width="5%">
+									<div id="tick-${index }" <c:if test="${command.subjectEligibilityAnswers[index].answerText==null||command.subjectEligibilityAnswers[index].answerText=='' }">style="display:none;"</c:if>>
+										<img src="<tags:imageUrl name="checkbox.gif"/>" border="0" alt="answered" height="20" width="20">												
+									</div>
+								</td>
+								<td width="80%">
+									${criteria.questionText}
+								</td>
+								<td width="15%">
+									<form:select id="subjectEligibilityAnswers[${index}].answerText" path="subjectEligibilityAnswers[${index}].answerText" onchange="markAsAnswered('${index }')">
+										<option value="">--Please Select---</option>
+										<form:option value="Yes" />
+										<form:option value="No" />
+										<c:if test="${criteria.notApplicableIndicator}"><form:option value="NA" label="Not Applicable"/></c:if>
+									</form:select>
+								</td>
+							</tr>
+							<c:set var="index" value="${index+1}"/>										
+						</c:forEach>
+					</table>
+				</tags:minimizablePanelBox>
 				</td>
 			</tr>
 		</table>
 	</c:otherwise>
 </c:choose>
-</form:form>
-</div>
-</tabs:division>
-</div>
+</tags:formPanelBox>
 <!-- MAIN BODY ENDS HERE -->
 </body>
 </html>

@@ -76,7 +76,7 @@ function markAsAnswered(id){
 					<table id="" width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
 						<tr>
 							<td>
-							<tags:panel id="Inclusion" title="Inclusion Criterias">
+							<tags:minimizablePanelBox boxId="Inclusion" title="Inclusion Criterias">
 								<table width="100%" border="0">
 									<tr>
 										<td>&nbsp;</td>
@@ -106,13 +106,13 @@ function markAsAnswered(id){
 										<c:set var="index" value="${index+1}"/>
 									</c:forEach>
 								</table>
-							</tags:panel>
+							</tags:minimizablePanelBox>
 							</td>
 						</tr>
 						<tr><td>&nbsp;</td></tr>
 						<tr>
 							<td>
-							<tags:panel id="Exclusion" title="Exclusion Criterias">
+							<tags:minimizablePanelBox boxId="Exclusion" title="Exclusion Criterias">
 								<table width="100%" border="0">
 									<tr>
 										<td>&nbsp;</td>
@@ -141,7 +141,7 @@ function markAsAnswered(id){
 										<c:set var="index" value="${index+1}"/>										
 									</c:forEach>
 								</table>
-							</tags:panel>
+							</tags:minimizablePanelBox>
 							</td>
 						</tr>
 					</table>

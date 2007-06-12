@@ -3,10 +3,12 @@
 <%@attribute name="title"%>
 <%@attribute name="boxId"%>
 <%@attribute name="boxClass" %>
+<%@attribute name="url"%>
+<%@attribute name="display"%>
 
-<chrome:box title="${empty title ? tab.shortTitle : title}" id="${boxId}" cssClass="${boxClass}">
+<chrome:minimizableBox title="${empty title ? tab.shortTitle : title}" id="${boxId}" cssClass="${boxClass}" url="${url}" display="${display}">
     <chrome:flashMessage/>
         <chrome:division id="single-fields">
             <jsp:doBody/>
         </chrome:division>
-</chrome:box>
+</chrome:minimizableBox>

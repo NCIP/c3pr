@@ -6,49 +6,18 @@
 <%@ taglib prefix="layout" tagdir="/WEB-INF/tags/layout" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
 
 <html>
 <head>
-    <link rel="shortcut icon" href="<tags:imageUrl name="favicon.ico"/>" type="image/x-icon">
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-    <title>C3PRV2</title>
-    <tags:include/>
-    <tags:stylesheetLink name="tabbedflow"/>
-    <tags:includeScriptaculous/>
-    <tags:javascriptLink name="tabbedflow"/>
-    <tags:javascriptLink name="autocomplete"/>
-<script>
-Effect.OpenUp = function(element) {
-    element = $(element);
-    new Effect.BlindDown(element, arguments[1] || {});
-}
-
-Effect.CloseDown = function(element) {
-    element = $(element);
-    new Effect.BlindUp(element, arguments[1] || {});
-}
-
-Effect.Combo = function(element) {
-    element = $(element);
-    if (element.style.display == 'none') {
-        new Effect.OpenUp(element, arguments[1] || {});
-    } else {
-        new Effect.CloseDown(element, arguments[1] || {});
-    }
-}
-function PanelCombo(element) {
-    panelDiv = $(element);
-    imageId= element+'-image';
-    imageSource=document.getElementById(imageId).src;
-    if (panelDiv.style.display == 'none') {
-        new Effect.OpenUp(panelDiv, arguments[1] || {});
-        document.getElementById(imageId).src=imageSource.replace('minimize','maximize');
-    } else {
-        new Effect.CloseDown(panelDiv, arguments[1] || {});
-        document.getElementById(imageId).src=imageSource.replace('maximize','minimize');
-    }
-}
-</script>
+<link rel="shortcut icon" href="<tags:imageUrl name="favicon.ico"/>" type="image/x-icon">
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>C3PRV2</title>
+<tags:include/>
+<tags:stylesheetLink name="tabbedflow"/>
+<tags:includeScriptaculous/>
+<tags:javascriptLink name="tabbedflow"/>
+<tags:javascriptLink name="autocomplete"/>
 <decorator:head/>
 </head>
 
@@ -56,7 +25,6 @@ function PanelCombo(element) {
 
 <div id="content">
     <layout:header/>
-    <layout:navigation/>
     <c:choose>
         <c:when test="${!empty registrationAltFlow}">
             <c:set var="rFlow" value="${registrationAltFlow}"/>
@@ -74,7 +42,7 @@ function PanelCombo(element) {
         <input type="hidden" name="_target${rTab.targetNumber}" id="flowredirect-target"/>
         <input type="hidden" name="_page${rTab.number}"/>
     </form:form>
-    <%--currentSection.displayName : ${currentSection.displayName} <br>
+    <!--currentSection.displayName : ${currentSection.displayName} <br>
     currentTask.displayName : ${currentTask.displayName }<BR>
     rTab.display : ${rTab.display }<br>
     rTab.shortTitle : ${rTab.shortTitle }<br>
@@ -83,11 +51,11 @@ function PanelCombo(element) {
     rFlow :  ${rFlow}<br>
     ${currentSection.displayName=='Registration' && rFlow!='false' && rTab.display!='false'}<br>
     <%= request.getSession().getAttribute("registrationFlow")!=null?"not empty":"empty" %><br>
-    --%>
+    -->
     <c:choose>
         <c:when test="${currentSection.displayName=='Registration' && rFlow!='false' && rTab.display!='false'}">
             <%System.out.println("--------setting tabs-------------"); %>
-            <tabs:levelOneTabs tab='${rTab}' flow="${rFlow}"/>
+            <chrome:workflowTabsLevelOne tab='${rTab}' flow="${rFlow}"/>
             <div class="tabcontent workArea">
                 <layout:summaryLayout-1-1 tab='${rTab}' flow="${rFlow}">
                     <c:choose>
@@ -102,9 +70,7 @@ function PanelCombo(element) {
                             </layout:selectsubject-layout-2-0>
                         </c:when>
                         <c:otherwise>
-                            <tags:panel title="${rTab.shortTitle}">
                                 <decorator:body/>
-                            </tags:panel>
                         </c:otherwise>
                     </c:choose>
                 </layout:summaryLayout-1-1>

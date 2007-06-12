@@ -24,11 +24,7 @@ function markAsAnswered(id){
 </script>
 </head>
 <body>
-<div><tabs:division id="reg-stratification">
-<!-- MAIN BODY STARTS HERE -->
-<div class="workArea">
-<form:form method="post">
-<tabs:tabFields tab="${tab}" />
+<tags:formPanelBox tab="${tab}" flow="${flow}">
 <table width="100%" border="0" cellspacing="0" cellpadding="0"
 	id="table1">
 	<c:choose>
@@ -67,10 +63,7 @@ function markAsAnswered(id){
 	</c:otherwise>
 	</c:choose>
 </table>
-</form:form>
-</div>
-</tabs:division>
-</div>
+</tags:formPanelBox>
 <!-- MAIN BODY ENDS HERE -->
 </body>
 </html>

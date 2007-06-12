@@ -24,7 +24,7 @@ function fireAction(action, selected){
 </script>
 </head>
 <body>
-<tags:panelBox tab="${tab}" flow="${flow}">
+<tags:formPanelBox tab="${tab}" flow="${flow}">
 	<input type="hidden" name="_action" value="">
 	<input type="hidden" name="_selected" value="">
 	<table width="80%" border="0" cellspacing="1" cellpadding="1" id="table1">
@@ -67,6 +67,6 @@ function fireAction(action, selected){
 		</tr>
 
 	</table>
-</tags:panelBox>
+</tags:formPanelBox>
 </body>
 </html>

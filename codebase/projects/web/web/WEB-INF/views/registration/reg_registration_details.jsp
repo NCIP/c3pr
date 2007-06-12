@@ -14,10 +14,7 @@
 <script type="text/javascript" src="/c3pr/js/CalendarPopup.js"></script>
 </head>
 <body>
-<tabs:division id="enrollment-details">
-<!-- MAIN BODY STARTS HERE -->
-<form:form method="post" action="createRegistration">
-<tabs:tabFields tab="${tab}" />
+<tags:formPanelBox tab="${tab}" flow="${flow}">
 <strong>Step 1. Informed Consent Details </strong><br>
 <table width="60%" border="0" cellspacing="0" cellpadding="0" id="table1">
 	<tr><td colspan="2">&nbsp;</td></tr>
@@ -44,8 +41,7 @@
 		</td>
 	</tr>
 </table>
-</form:form>
-</tabs:division>
 <!-- MAIN BODY ENDS HERE -->
+</tags:formPanelBox>
 </body>
 </html>

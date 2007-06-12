@@ -31,10 +31,7 @@ var submitPostProcess= function(formElement, continueSubmission){
 </script>
 </head>
 <body>
-<form:form method="post">
-<input type="hidden" name="_finish" value="true"/>
-<div><tabs:division id="enrollment-table1">
-<!-- MAIN BODY STARTS HERE -->
+<tags:formPanelBox tab="${tab}" flow="${flow}">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
 		<td valign="top">
@@ -202,8 +199,8 @@ var submitPostProcess= function(formElement, continueSubmission){
 				<div class="review">
 				<table border="0" cellspacing="0" cellpadding="0" id="mytable">
 					<tr>
-						<th scope="col" align="left">Question</td>
-						<th scope="col" align="left">Answer</td>
+						<th scope="col" align="left">Question</th>
+						<th scope="col" align="left">Answer</th>
 					</tr>
 					<c:forEach items="${command.inclusionEligibilityAnswers}" var="criteria">
 						<tr class="results">
@@ -219,8 +216,8 @@ var submitPostProcess= function(formElement, continueSubmission){
 				<div class="review">
 				<table border="0" cellspacing="0" cellpadding="0" id="mytable">
 					<tr>
-						<th scope="col" align="left">Question</td>
-						<th scope="col" align="left">Answer</td>
+						<th scope="col" align="left">Question</th>
+						<th scope="col" align="left">Answer</th>
 					</tr>
 					<c:forEach items="${command.exclusionEligibilityAnswers}" var="criteria">
 						<tr class="results">
@@ -253,8 +250,8 @@ var submitPostProcess= function(formElement, continueSubmission){
 			<br>
 			<table border="0" cellspacing="0" cellpadding="0" id="mytable">
 				<tr>
-					<th scope="col" align="left">Strata</td>
-					<th scope="col" align="left"><b>Answer</td>
+					<th scope="col" align="left">Strata</th>
+					<th scope="col" align="left"><b>Answer</th>
 				</tr>
 				<c:forEach items="${command.subjectStratificationAnswers}" var="criteria">
 					<tr class="results">
@@ -286,9 +283,6 @@ var submitPostProcess= function(formElement, continueSubmission){
 		</td>
 	</tr>
 </table>
-<!-- MAIN BODY ENDS HERE -->
-</tabs:division>
-</div>
-</form:form>
+</tags:formPanelBox>
 </body>
 </html>

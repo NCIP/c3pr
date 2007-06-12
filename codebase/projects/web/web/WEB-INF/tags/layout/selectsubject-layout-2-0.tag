@@ -8,21 +8,21 @@
 		        <td>
 		        	<c:choose>
 		        		<c:when test="${!empty studySiteId}">
-			        		<tags:panel id="SearchSubject" title="Search Subject" display="false" isAlwaysDisplay="true"
+			        		<tags:minimizablePanelBox boxId="SearchSubject" title="Search Subject" display="false"
 			        				url="searchParticipant?inRegistration=true&studySiteId=${studySiteId}">
-				        	</tags:panel>
+				        	</tags:minimizablePanelBox>
 			        	</c:when>
 		        		<c:otherwise>
-							<tags:panel id="SearchSubject" title="Search Subject" display="false" isAlwaysDisplay="true"
+							<tags:minimizablePanelBox boxId="SearchSubject" title="Search Subject" display="false"
 			        				url="searchParticipant?inRegistration=true">
-					        </tags:panel>		        		
+					        </tags:minimizablePanelBox>		        		
 		        		</c:otherwise>
 		        	</c:choose>
 		       	</td>
 			</tr>
 			<tr>
 		        <td>
-			        <tags:panel id="CreateSubject" title="Create Subject" isAlwaysDisplay="true">
+			        <tags:minimizablePanelBox boxId="CreateSubject" title="Create Subject">
 					    <tabs:levelTwoTabsSubFlow tab="${tab}" flow="${flow}"/>
 					    <div class="tabcontent workArea">
 					        <div class="body">
@@ -30,30 +30,30 @@
 					        </div>
 					        <tabs:tabControls tabNumber="${tab.number}" isLast="${tab.number < flow.tabCount - 1}"/>
 					    </div>
-   			        </tags:panel>					
+   			        </tags:minimizablePanelBox>					
 	       		</td>
 			</tr>        
 		</c:when>
 		<c:otherwise>
 			<tr>
 		        <td>
-		        	<tags:panel id="SearchSubject" title="Search Subject" isAlwaysDisplay="true">
+		        	<tags:minimizablePanelBox boxId="SearchSubject" title="Search Subject">
 			        	<jsp:doBody/>
-		       		</tags:panel>
+		       		</tags:minimizablePanelBox>
 		       	</td>
 			</tr>
 			<tr>
 		        <td>
 		        	<c:choose>
 		        		<c:when test="${!empty studySiteId}">
-			        		<tags:panel id="CreateSubject" title="Create Subject" display="false" 
-			        				url="createParticipant?inRegistration=true&studySiteId=${studySiteId}" isAlwaysDisplay="true">
-				        	</tags:panel>
+			        		<tags:minimizablePanelBox boxId="CreateSubject" title="Create Subject" display="false" 
+			        				url="createParticipant?inRegistration=true&studySiteId=${studySiteId}">
+				        	</tags:minimizablePanelBox>
 			        	</c:when>
 		        		<c:otherwise>
-							<tags:panel id="CreateSubject" title="Create Subject" display="false" 
-				        				url="createParticipant?inRegistration=true" isAlwaysDisplay="true">
-					        </tags:panel>		        		
+							<tags:minimizablePanelBox boxId="CreateSubject" title="Create Subject" display="false" 
+				        				url="createParticipant?inRegistration=true">
+					        </tags:minimizablePanelBox>		        		
 		        		</c:otherwise>
 		        	</c:choose>
 		       	</td>

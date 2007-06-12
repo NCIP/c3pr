@@ -5,7 +5,7 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="body">
     <tr>
         <td>
-			<tags:panel id="SearchStudy" title="Search Study">		        
+			<tags:minimizablePanelBox boxId="SearchStudy" title="Search Study">
         	<c:choose>
         		<c:when test="${!empty subjectId}">
 	        		<tags:search action="searchStudy?inRegistration=true&subjectId=${subjectId}"/>
@@ -17,16 +17,14 @@
 	        <c:if test="${actionReturnType=='SearchResults' }">
 		        <c:choose>
 					<c:when test="${!empty subjectId}">
-						<%-- <studyTags:searchResults url="createRegistration"/>--%>
 						<registrationTags:searchStudyResults url="createRegistration"/>						
 					</c:when>
 					<c:otherwise>
-						<%--<studyTags:searchResults url="searchParticipant" />--%>
 						<registrationTags:searchStudyResults url="searchParticipant"/>						
 					</c:otherwise>
 				</c:choose>
 			</c:if>
-	        </tags:panel>
+	        </tags:minimizablePanelBox>
         </td>
 	</tr>        
 </table>

@@ -18,7 +18,6 @@ function submit(s){
 <table width="100%" border="0" cellspacing="5" cellpadding="0">
 	<tr>
 		<td>		
-		<tabs:division id="study-search">
 		<table border="0" width="100%" id="table1" cellspacing="0" cellpadding="5" >
 			<tr>
 				<td align="right" width="90%"/>
@@ -34,7 +33,6 @@ function submit(s){
 				</td>
 			</tr>			
 		</table>
-		</tabs:division>		
 	</td>
 	</tr>
 </table>
