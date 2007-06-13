@@ -4,7 +4,6 @@
 
 <html>
 <head>
-    <title>Enter c3prv2</title>
     <script type="text/javascript">
         function login(role){
             document.forms['loginForm'].j_password.value=role;

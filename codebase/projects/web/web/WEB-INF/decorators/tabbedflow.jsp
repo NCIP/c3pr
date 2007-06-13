@@ -24,6 +24,7 @@
 
 <body>
 <layout:header/>
+
 <div class="tabpane">
     <chrome:workflowTabs tab="${tab}" flow="${flow}"/>
 
@@ -54,7 +55,6 @@
     </form:form>
 
 </div>
-
-
+<layout:footer/>
 </body>
 </html>
