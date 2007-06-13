@@ -1,23 +1,19 @@
-<%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
-<%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
-<%@ taglib prefix="registrationTags" tagdir="/WEB-INF/tags/registration"%>
-<%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="registrationTags" tagdir="/WEB-INF/tags/registration" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 
 <html>
 
 <!-- MAIN BODY STARTS HERE -->
 <body>
 <form:form name="form" method="post">
-<tabs:tabFields tab="${tab}" />
-<div>
-	<tabs:division id="Summary">
-	<registrationTags:searchResults registrations="${participantAssignments }" />
-	</tabs:division>
-</div>
+    <tags:tabFields tab="${tab}"/>
+    <chrome:box title="${tab.shortTitle}">
+        <chrome:division title="Disease" id="disease">
+            <registrationTags:searchResults registrations="${participantAssignments }"/>
+        </chrome:division>
+    </chrome:box>
 </form:form>
 </body>
 <!-- MAIN BODY ENDS HERE -->

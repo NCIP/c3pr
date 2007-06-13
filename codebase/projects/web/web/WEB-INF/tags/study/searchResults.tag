@@ -6,31 +6,44 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
+<script>
+function navRollOver(obj, state) {
+  document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
+}
+</script>
+
 <!-- STUDY SEARCH RESULTS START HERE -->
+<div class="eXtremeTable" >
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 <tr>
-	<td>			
-		<table width="100%" border="0" cellspacing="0" cellpadding="0" id="additionalList">
-			<c:if test="${studyResults!=null}">
-			<tr align="center" class="label">
-				<td>Primary Identifier</td>				
-				<td>Short Title</td>
-				<td>Status</td>
-				<td>Sponsor</td>
-				<td>Phase</td>			
-				<td>Target Accrual</td>
+	<td>
+		<table class="tableRegion" width="100%" cellspacing="0" cellpadding="0" border="0">
+			<thead>
+
+            <tr>
+				<td class="tableHeader">Primary Identifier</td>
+				<td class="tableHeader">Short Title</td>
+				<td class="tableHeader">Status</td>
+				<td class="tableHeader">Sponsor</td>
+				<td class="tableHeader">Phase</td>
+				<td class="tableHeader">Target Accrual</td>
 			</tr>
-			</c:if>
-			<c:if test="${studyResults!=null && fn:length(studyResults)==0}">
+			 </thead>
+            <tbody class="tableBody">
+            <c:if test="${studyResults!=null && fn:length(studyResults)==0}">
 				<tr>
-					Sorry, no matches were found
-				</tr>
+                    <td>
+                    Sorry, no matches were found
+                    </td>
+                </tr>
 			</c:if>
-			
+
 			<%int i=0; %>
 			<c:forEach items="${studyResults}" var="study">
-			<tr align="center" id="row<%= i++ %>" class="results" onMouseOver="navRollOver('row<%= i-1 %>', 'on')"
-				onMouseOut="navRollOver('row<%= i-1 %>', 'off')"
+                <% String currClass=i%2==0? "odd":"even"; %>
+
+            <tr id="row<%= i++ %>" class="<%= currClass %>" onMouseOver="this.className='highlight'"
+				onMouseOut="this.className='<%= currClass %>'"
 				onClick="
 					<c:choose>
 						<c:when test="${!empty subjectId}">
@@ -44,17 +57,19 @@
 						</c:otherwise>
 					</c:choose>
 				">
-				<td>${study.primaryIdentifier}</td>
+				<td><a href="${url}?studyId=${study.id}">${study.primaryIdentifier}</a></td>
 				<td>${study.trimmedShortTitleText}</td>
 				<td>${study.status}</td>
 				<td>${study.identifiers[0].value}</td>
 				<td>${study.phaseCode}</td>
 				<td>${study.targetAccrualNumber}</td>
-				</a>
+			 
 			</tr>
 			</c:forEach>
-		</table>
+             </tbody>
+        </table>
 	</td>
 </tr>
 </table>
+    </div>
 <!-- STUDY SEARCH RESULTS END HERE -->

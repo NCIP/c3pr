@@ -1,23 +1,19 @@
-<%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
-<%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
-<%@ taglib prefix="studyTags" tagdir="/WEB-INF/tags/study"%>
-<%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="studyTags" tagdir="/WEB-INF/tags/study" %>
+<%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 
 <html>
 <head>
-<script>
-function navRollOver(obj, state) {
-  document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
-}
-function submitPage(){
-	document.getElementById("searchForm").submit();
-}
-</script>
+    <script type="text/javascript">
+        function navRollOver(obj, state) {
+            document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
+        }
+        function submitPage() {
+            document.getElementById("searchForm").submit();
+        }
+    </script>
 </head>
 <!-- MAIN BODY STARTS HERE -->
 <body>
@@ -25,55 +21,48 @@ function submitPage(){
 
 <chrome:search title="Search">
 
-<form:form id="searchForm" name="searchForm" method="post">
-    <table width="100%" border="0" cellspacing="0" cellpadding="0">
-	<tr>
-		<td valign="top">
-		<table width="50%" border="0" cellpadding="0" cellspacing="0"  id="table1">
-			<tr valign="top">
-				<td width="10%"><img src="<tags:imageUrl name="Study.gif"/>" alt="Study Search"
-					width="100" height="100" align="absmiddle"></td>
-				<td width="90%">
-				<table width="70%"  border="0" cellspacing="5" cellpadding="0" id="table1">
-					<tr>
-						<td width="25%" align="left" class="label">Search Studies By:</td>
-						<td align="left" >
-						<form:select path="searchType">
-							<form:options items="${searchTypeRefData}" itemLabel="desc" itemValue="code" />
-						</form:select></td>
-					</tr>
-					<tr>
-						<td align="left" class="label">Search Criteria: </td>
-						<td align="left"><form:input path="searchText" /></td>
-					</tr>
-					<tr>
-						<td align="left" class="label">&nbsp;</td>
-						<td align="left" class="label">&nbsp;</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td align="left">
-						<a href="" onClick="submitPage();return false;"><img
-							src="<tags:imageUrl name="b-search2.gif"/>" alt="Continue" width="59"
-							height="16" border="0"></a>
-						</td>
-					</tr>
-
-				</table>
-				</td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-</table>
-<br>
-<br>
-<br>
-<studyTags:searchResults url="editStudy" />
-
-<!-- MAIN BODY ENDS HERE -->
-</form:form>
+    <form:form id="searchForm" name="searchForm" method="post">
+        <div>
+            <input type="hidden" name="_selected" id="_selected" value="">
+            <input type="hidden" name="_action" id="_action" value="">
+        </div>
+        <div class="content">
+            <div class="row">
+                <div class="label">
+                    Search Studies By:
+                </div>
+                <div class="value">
+                    <form:select path="searchType">
+                        <form:options items="${searchTypeRefData}" itemLabel="desc" itemValue="code"/>
+                    </form:select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="label">
+                    Search Criteria:
+                </div>
+                <div class="value">
+                    <form:input path="searchText"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="value">
+                    <input type="submit" value="Search" />
+                </div>
+            </div>
+        </div>
+    </form:form>
 </chrome:search>
+
+<br>
+
+<chrome:box title="Search Results">
+    <form:form>
+        <chrome:division id="single-fields">
+            <studyTags:searchResults url="editStudy"/>
+        </chrome:division>
+    </form:form>
+</chrome:box>
 
 </body>
 </html>
