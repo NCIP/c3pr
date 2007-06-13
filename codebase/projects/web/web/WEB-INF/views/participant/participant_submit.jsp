@@ -25,7 +25,7 @@ function updateTargetPage(target){
 </script>
 </head>
 <body>
-<tags:panelBox tab="${tab}" flow="${flow}">
+<tags:formPanelBox tab="${tab}" flow="${flow}">
 <input type="hidden" name="_finish" value="true" />
 	<table width="100%" border="0" cellspacing="0" cellpadding="0">
 		<tr>
@@ -140,7 +140,7 @@ function updateTargetPage(target){
 			</td>
 		</tr>
 	</table>
-</tags:panelBox>
+</tags:formPanelBox>
 </table>
 </div>
 </body>
