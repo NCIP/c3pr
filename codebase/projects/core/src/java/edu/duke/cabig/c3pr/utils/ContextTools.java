@@ -10,16 +10,13 @@ public class ContextTools {
     	  return new ClassPathXmlApplicationContext (new String[] {
     			 "classpath*:edu/duke/cabig/c3pr/applicationContext-core.xml",
     			 "classpath*:edu/duke/cabig/c3pr/applicationContext-configProperties.xml",
-    			 "classpath*:edu/duke/cabig/c3pr/applicationContext-esb.xml",
     			 "classpath*:edu/duke/cabig/c3pr/applicationContext-web.xml",
-    			 "classpath*:edu/duke/cabig/c3pr/applicationContext-web-sso.xml"
     			 
     	  }); 
      }
        
     public static ApplicationContext createDeployedCoreApplicationContext() {
   	  return new ClassPathXmlApplicationContext (new String[] {
-  			 "classpath*:edu/duke/cabig/c3pr/applicationContext-esb.xml",
   			 "classpath*:edu/duke/cabig/c3pr/applicationContext-core.xml"
   	  }); 
    }
