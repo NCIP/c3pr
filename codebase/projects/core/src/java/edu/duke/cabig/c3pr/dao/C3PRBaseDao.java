@@ -1,19 +1,18 @@
 package edu.duke.cabig.c3pr.dao;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-
+import edu.nwu.bioinformatics.commons.CollectionUtils;
+import gov.nih.nci.cabig.ctms.dao.AbstractDomainObjectDao;
+import gov.nih.nci.cabig.ctms.domain.DomainObject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-import edu.duke.cabig.c3pr.domain.DomainObject;
-import edu.nwu.bioinformatics.commons.CollectionUtils;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Abstract BaseDao implementing BaseDao. Provides convenient methods for
@@ -21,20 +20,13 @@ import edu.nwu.bioinformatics.commons.CollectionUtils;
  *
  * @author Priyatam
  */
-public abstract class AbstractBaseDao<T extends DomainObject> extends HibernateDaoSupport
-	implements BaseDao{   
+public abstract class C3PRBaseDao<T extends DomainObject>  
+	extends AbstractDomainObjectDao<T> {
 	
-	private static Log log = LogFactory.getLog(AbstractBaseDao.class);
+	private static Log log = LogFactory.getLog(C3PRBaseDao.class);
 	
 		  
-	/**
-	 * Get Object by Id (based on domain class)
-	 * @param id object id
-	 * @return loaded persistent object
-	 */
-	public T getById(int id) {
-        return (T) getHibernateTemplate().get(domainClass(), id);
-    }
+	 
 	
 	/**
 	 * Get Object by Id (based on domain class) with eager fetch of a single
@@ -73,17 +65,7 @@ public abstract class AbstractBaseDao<T extends DomainObject> extends HibernateD
 		//default is empty implementation
 	}
         
-    @SuppressWarnings("unchecked")
-    public T getByGridId(T template) {
-        return (T) CollectionUtils.firstElement(getHibernateTemplate().findByExample(template));
-    }
-	 
-    public T getByGridId(String gridId) {
-        StringBuilder query = new StringBuilder("from ")
-          .append(domainClass().getName()).append(" o where gridId = ?");
-        Object[] params = {gridId};
-        return (T) CollectionUtils.firstElement(getHibernateTemplate().find(query.toString(), params));
-    }
+
     
     /**
      * A variation of {@link #findBySubname} that does not allow for extra conditions

@@ -13,7 +13,7 @@ import edu.emory.mathcs.backport.java.util.Collections;
 /**
  * @author Priyatam
  */
-public class StudyPersonnelDao extends AbstractBaseDao<StudyPersonnel> {
+public class StudyPersonnelDao extends GridIdentifiableDao<StudyPersonnel> {
 	
 	private static Log log = LogFactory.getLog(StudyPersonnelDao.class);
 	

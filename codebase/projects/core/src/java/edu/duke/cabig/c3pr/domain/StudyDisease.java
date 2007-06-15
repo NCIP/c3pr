@@ -9,6 +9,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 
 /**
@@ -22,7 +23,7 @@ import org.hibernate.annotations.Parameter;
         @Parameter(name="sequence", value="STUDY_DISEASES_ID_SEQ")
     }
 )
-public class StudyDisease extends AbstractDomainObject{
+public class StudyDisease extends AbstractMutableDomainObject {
 	
 	private Study study;
 	private DiseaseTerm diseaseTerm;

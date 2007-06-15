@@ -17,6 +17,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import edu.duke.cabig.c3pr.utils.StringUtils;
+import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 /**
  * @author Priyatam
@@ -28,7 +29,7 @@ import edu.duke.cabig.c3pr.utils.StringUtils;
         @Parameter(name="sequence", value="STRATIFICATION_CRI_ID_SEQ")
     }
 )
-public class StratificationCriterion extends AbstractDomainObject implements Comparable<StratificationCriterion> {
+public class StratificationCriterion extends AbstractMutableDomainObject implements Comparable<StratificationCriterion> {
 
 	private int questionNumber;
     private String questionText;

@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.emory.mathcs.backport.java.util.Collections;
@@ -15,7 +14,7 @@ import edu.nwu.bioinformatics.commons.CollectionUtils;
 /**
  * @author Priyatam
  */
-public class HealthcareSiteInvestigatorDao extends AbstractBaseDao<HealthcareSiteInvestigator> {
+public class HealthcareSiteInvestigatorDao extends GridIdentifiableDao<HealthcareSiteInvestigator> {
 	
 	private static Log log = LogFactory.getLog(HealthcareSiteInvestigatorDao.class);
 	

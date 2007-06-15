@@ -10,6 +10,7 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 /**
  * Base Class for Person
@@ -17,7 +18,7 @@ import org.hibernate.annotations.CascadeType;
  */
 
 @MappedSuperclass
-public abstract class Person extends AbstractGridIdentifiableDomainObject
+public abstract class Person extends AbstractMutableDomainObject
 {			
 	private String firstName;
 	private String lastName;

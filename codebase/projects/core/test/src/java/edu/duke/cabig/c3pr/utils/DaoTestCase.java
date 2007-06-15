@@ -24,7 +24,7 @@ import org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 
-import edu.duke.cabig.c3pr.domain.DomainObject;
+import gov.nih.nci.cabig.ctms.domain.DomainObject;
 import edu.nwu.bioinformatics.commons.StringUtils;
 import edu.nwu.bioinformatics.commons.testing.DbTestCase;
 

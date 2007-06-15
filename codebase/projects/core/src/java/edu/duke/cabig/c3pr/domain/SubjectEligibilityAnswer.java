@@ -3,13 +3,13 @@ package edu.duke.cabig.c3pr.domain;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 /**
  * @author Kruttik
@@ -21,7 +21,7 @@ import org.hibernate.annotations.Parameter;
          @Parameter(name="sequence", value="prt_eligibility_ans_id_seq")
      }
  )
-public class SubjectEligibilityAnswer extends AbstractGridIdentifiableDomainObject
+public class SubjectEligibilityAnswer extends AbstractMutableDomainObject
 {			
 	private String answerText;
 	private EligibilityCriteria eligibilityCriteria;

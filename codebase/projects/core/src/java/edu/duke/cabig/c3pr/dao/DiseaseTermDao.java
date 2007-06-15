@@ -8,7 +8,7 @@ import edu.duke.cabig.c3pr.domain.DiseaseTerm;
 /**
  * @author Krikor Krumlian
  */
-public class DiseaseTermDao extends AbstractBaseDao<DiseaseTerm> {
+public class DiseaseTermDao extends GridIdentifiableDao<DiseaseTerm> {
 
 	public Class<DiseaseTerm> domainClass() {
         return DiseaseTerm.class;

@@ -1,10 +1,11 @@
 package edu.duke.cabig.c3pr.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
+import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * @author Kulasekaran
@@ -17,7 +18,7 @@ import org.hibernate.annotations.Parameter;
         @Parameter(name="sequence", value="anatomic_sites_id_seq")
     }
 )
-public class AnatomicSite extends AbstractGridIdentifiableDomainObject
+public class AnatomicSite extends AbstractMutableDomainObject
 {			
 	private String name;
 	private String category;

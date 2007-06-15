@@ -1,14 +1,10 @@
 package edu.duke.cabig.c3pr.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
+import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+
+import javax.persistence.*;
 
 /**
  * @author Priyatam
@@ -21,7 +17,7 @@ import org.hibernate.annotations.Parameter;
          @Parameter(name="sequence", value="ELIGIBILITY_CRITERIAS_ID_SEQ")
      }
  )
-public abstract class EligibilityCriteria extends AbstractGridIdentifiableDomainObject
+public abstract class EligibilityCriteria extends AbstractMutableDomainObject
 {			
 	private Boolean notApplicableIndicator;
 	
@@ -30,8 +26,10 @@ public abstract class EligibilityCriteria extends AbstractGridIdentifiableDomain
 	private String questionText;
 	
 	private Study study;
-	
-	@ManyToOne
+
+    private String name;
+
+    @ManyToOne
 	@JoinColumn(name="stu_id", updatable = false, insertable = false) 
 	public Study getStudy() {
 		return study;
@@ -64,6 +62,13 @@ public abstract class EligibilityCriteria extends AbstractGridIdentifiableDomain
 	public void setQuestionText(String questionText) {
 		this.questionText = questionText;
 	}
-		
-	
+
+     @Transient
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

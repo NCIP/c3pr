@@ -9,7 +9,7 @@ import edu.duke.cabig.c3pr.domain.Arm;
  * @see edu.duke.cabig.c3pr.dao.ArmDao
  * @author Priyatam
  */
-public class ArmDao extends AbstractBaseDao<Arm>{
+public class ArmDao extends GridIdentifiableDao<Arm>{
 
 	@Override
 	public Class<Arm> domainClass() {

@@ -1,10 +1,11 @@
 package edu.duke.cabig.c3pr.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
+import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 
 /**
@@ -18,7 +19,7 @@ import org.hibernate.annotations.Parameter;
          @Parameter(name="sequence", value="addresses_id_seq")
      }
  )
-public class Address extends AbstractDomainObject {
+public class Address extends AbstractMutableDomainObject {
     private String streetAddress;
     private String city;
     private String stateCode;

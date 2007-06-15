@@ -4,12 +4,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
-import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 
 /**
  * @author Priyatam
  */
-public class StudyInvestigatorDao extends AbstractBaseDao<StudyInvestigator> {
+public class StudyInvestigatorDao extends GridIdentifiableDao<StudyInvestigator> {
 	
 	private static Log log = LogFactory.getLog(StudyInvestigatorDao.class);
 	

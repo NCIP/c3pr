@@ -1,15 +1,16 @@
 package edu.duke.cabig.c3pr.domain;
 
 import edu.duke.cabig.c3pr.utils.ApplicationTestCase;
+import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 
 /**
- * JUnit Tests for AbstractDomainObject
+ * JUnit Tests for AbstractMutableDomainObject
  * @author Priyatam
  * @testType unit
  */
 public class AbstractDomainObjectTest extends ApplicationTestCase {
-	private AbstractDomainObject o1, o2;
+	private AbstractMutableDomainObject o1, o2;
 
 	protected void setUp() throws Exception {
 	    super.setUp();
@@ -22,7 +23,7 @@ public class AbstractDomainObjectTest extends ApplicationTestCase {
 	 * @throws Exception
 	 */
 	public void testEqualByIdWithTwoNulls() throws Exception {
-	    assertTrue(AbstractDomainObject.equalById(null, null));
+	    assertTrue(AbstractMutableDomainObject.equalById(null, null));
 	}
 	
 	/**
@@ -30,7 +31,7 @@ public class AbstractDomainObjectTest extends ApplicationTestCase {
 	 * @throws Exception
 	 */
 	public void testEqualByIdWithFirstNull() throws Exception {
-	    assertFalse(AbstractDomainObject.equalById(null, o1));
+	    assertFalse(AbstractMutableDomainObject.equalById(null, o1));
 	}
 	
 	/**
@@ -38,7 +39,7 @@ public class AbstractDomainObjectTest extends ApplicationTestCase {
 	 * @throws Exception
 	 */
 	public void testEqualByIdWithSecondNull() throws Exception {
-	    assertFalse(AbstractDomainObject.equalById(o1, null));
+	    assertFalse(AbstractMutableDomainObject.equalById(o1, null));
 	}
 	
 	/**
@@ -46,7 +47,7 @@ public class AbstractDomainObjectTest extends ApplicationTestCase {
 	 * @throws Exception
 	 */
 	public void testEqualByIdWhenSame() throws Exception {
-	    assertTrue(AbstractDomainObject.equalById(o1, o1));
+	    assertTrue(AbstractMutableDomainObject.equalById(o1, o1));
 	}
 	
 	/**
@@ -55,7 +56,7 @@ public class AbstractDomainObjectTest extends ApplicationTestCase {
 	 */
 	public void testEqualByIdWhenEqual() throws Exception {
 	    o2.setId(o1.getId());
-	    assertTrue(AbstractDomainObject.equalById(o1, o2));
+	    assertTrue(AbstractMutableDomainObject.equalById(o1, o2));
 	}
 	
 	/**
@@ -63,6 +64,6 @@ public class AbstractDomainObjectTest extends ApplicationTestCase {
 	 * @throws Exception
 	 */
 	public void testEqualByIdWhenNotEqual() throws Exception {
-	    assertFalse(AbstractDomainObject.equalById(o1, o2));
+	    assertFalse(AbstractMutableDomainObject.equalById(o1, o2));
 	}
 }

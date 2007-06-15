@@ -7,6 +7,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 import edu.duke.cabig.c3pr.utils.StringUtils;
+import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 
 /**
@@ -14,7 +15,7 @@ import edu.duke.cabig.c3pr.utils.StringUtils;
  *         Kulasekaran
  */
 @MappedSuperclass
-public abstract class Organization extends AbstractGridIdentifiableDomainObject {
+public abstract class Organization extends AbstractMutableDomainObject {
 		
     private String name;
 		

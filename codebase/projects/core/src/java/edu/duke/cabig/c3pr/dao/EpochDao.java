@@ -9,7 +9,7 @@ import edu.duke.cabig.c3pr.domain.Epoch;
  * @see edu.duke.cabig.c3pr.dao.EpochDao
  * @author Priyatam
  */
-public class EpochDao extends AbstractBaseDao<Epoch> {
+public class EpochDao extends GridIdentifiableDao<Epoch> {
 
 	@Override
 	public Class<Epoch> domainClass() {

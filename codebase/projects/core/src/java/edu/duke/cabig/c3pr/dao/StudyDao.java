@@ -17,14 +17,16 @@ import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.emory.mathcs.backport.java.util.Collections;
 import edu.nwu.bioinformatics.commons.CollectionUtils;
+import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 
 
 /**
  * Hibernate implementation of StudyDao
  * @author Priyatam
  */
-public class StudyDao extends AbstractBaseDao<Study> {
-	
+public class StudyDao extends GridIdentifiableDao<Study>
+implements MutableDomainObjectDao<Study>{ 
+
 	private static final List<String> SUBSTRING_MATCH_PROPERTIES
     	= Arrays.asList("shortTitleText");
 	private static final List<String> EXACT_MATCH_PROPERTIES
@@ -89,9 +91,15 @@ public class StudyDao extends AbstractBaseDao<Study> {
 	
 	public void merge(Study study) {
     	getHibernateTemplate().merge(study);    	
-    } 
+    }
+
+    public void save(Study study) {
+            getHibernateTemplate().saveOrUpdate(study);
+        }
+
+    
 	
- 	public List<Study> getBySubnames(String[] subnames) {
+     public List<Study> getBySubnames(String[] subnames) {
         return findBySubname(subnames,
             SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
     }
@@ -160,4 +168,9 @@ public class StudyDao extends AbstractBaseDao<Study> {
 		 return getHibernateTemplate().find("select a from Study s join s.studySites ss " +
 		 	"join ss.studyParticipantAssignments a where s.id = ?", studyId);
 	 }
+
+
+      public void reassociate(Study s) {
+       getHibernateTemplate().update(s);
+    }
 }

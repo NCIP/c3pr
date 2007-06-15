@@ -8,7 +8,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
  * @author Ramakrishna
  * @version 1.0
  */
-public class HealthcareSiteDao extends AbstractBaseDao<HealthcareSite> {
+public class HealthcareSiteDao extends GridIdentifiableDao<HealthcareSite> {
 	
 	public Class<HealthcareSite> domainClass() {
 	        return HealthcareSite.class;

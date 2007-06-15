@@ -8,6 +8,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 /**
  * @author Ramakrishna
@@ -19,7 +20,7 @@ import org.hibernate.annotations.Parameter;
         @Parameter(name="sequence", value="CONTACT_MECHANISMS_ID_SEQ")
     }
 )
-public class ContactMechanism extends AbstractDomainObject {
+public class ContactMechanism extends AbstractMutableDomainObject {
 
 	private String type;
 	private String value;

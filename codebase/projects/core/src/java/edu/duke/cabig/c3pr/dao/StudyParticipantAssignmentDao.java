@@ -10,14 +10,11 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
 
 import edu.duke.cabig.c3pr.domain.Identifier;
-import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
-import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.emory.mathcs.backport.java.util.Collections;
 
 public class StudyParticipantAssignmentDao extends
-		AbstractBaseDao<StudyParticipantAssignment> {
+		GridIdentifiableDao<StudyParticipantAssignment> {
 
 	private List<String> SUBSTRING_MATCH_PROPERTIES = Arrays
 			.asList("studySite.study.shortTitleText");

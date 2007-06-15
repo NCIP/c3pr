@@ -15,8 +15,8 @@ import org.easymock.IArgumentMatcher;
 import org.easymock.classextension.EasyMock;
 import org.springframework.context.ApplicationContext;
 
-import edu.duke.cabig.c3pr.dao.BaseDao;
-import edu.duke.cabig.c3pr.domain.DomainObject;
+import edu.duke.cabig.c3pr.dao.C3PRBaseDao;
+import gov.nih.nci.cabig.ctms.domain.DomainObject;
 import edu.nwu.bioinformatics.commons.ComparisonUtils;
 import edu.nwu.bioinformatics.commons.testing.CoreTestCase;
 
@@ -55,7 +55,7 @@ public abstract class ApplicationTestCase extends CoreTestCase {
         return registered(EasyMock.createMock(forClass, methodsToMock));
     }
 
-   protected <T extends BaseDao> T registerDaoMockFor(Class<T> forClass) {
+   protected <T extends C3PRBaseDao> T registerDaoMockFor(Class<T> forClass) {
         List<Method> methods = new LinkedList<Method>(Arrays.asList(forClass.getMethods()));
         for (Iterator<Method> iterator = methods.iterator(); iterator.hasNext();) {
             Method method = iterator.next();
@@ -134,16 +134,5 @@ public abstract class ApplicationTestCase extends CoreTestCase {
             buffer.append(template).append(" (by properties)");
         }
     }
-    
-    public static <T extends DomainObject> T createNamedInstance(String name, Class<T> clazz) {
-        try {
-            T instance = clazz.newInstance();
-            instance.setName(name);
-            return instance;
-        } catch (InstantiationException e) {
-            throw new RuntimeException("Creating domain obj of class " + clazz.getName() + " failed", e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException("Creating domain obj of class " + clazz.getName() + " failed", e);
-        }
-    }
+
 }

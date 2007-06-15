@@ -6,7 +6,7 @@ import java.util.UUID;
 import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
 
-import edu.duke.cabig.c3pr.domain.GridIdentifiable;
+import gov.nih.nci.cabig.ctms.domain.GridIdentifiable;
 
 /**
  * Wrapper interceptor to add Grid Identifiers to objects which 
@@ -25,7 +25,7 @@ public class GridIdentifierInterceptor extends EmptyInterceptor {
      */
     public boolean onSave(Object entity, Serializable id, Object[] state, String[] propertyNames, Type[] types) {
         boolean localMod = false;
-        if (entity instanceof GridIdentifiable) {	         
+        if (entity instanceof GridIdentifiable) {
 	     	int gridIdIdx = findGridId(propertyNames);
 	     	if (gridIdIdx < 0) throw new IllegalStateException("GridIdentifierInterceptor : " +
 	     		"Class doesn't have gridId property: " +entity.getClass().getName());  

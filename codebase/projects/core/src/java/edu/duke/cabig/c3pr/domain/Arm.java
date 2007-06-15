@@ -1,7 +1,5 @@
 package edu.duke.cabig.c3pr.domain;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -11,6 +9,8 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+
+import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 /**
  * @author Ram Chilukuri, Priyatam
@@ -22,7 +22,7 @@ import org.hibernate.annotations.Parameter;
         @Parameter(name="sequence", value="ARMS_ID_SEQ")
     }
 )
-public class Arm extends AbstractGridIdentifiableDomainObject implements Comparable<Arm> {
+public class Arm extends AbstractMutableDomainObject implements Comparable<Arm> {
 
 	private Epoch epoch;
     private String name;
@@ -42,6 +42,7 @@ public class Arm extends AbstractGridIdentifiableDomainObject implements Compara
     }
 
     /// BEAN PROPERTIES
+
 
     public String getName() {
         return name;

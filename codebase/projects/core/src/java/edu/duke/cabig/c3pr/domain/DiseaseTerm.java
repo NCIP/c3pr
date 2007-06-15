@@ -8,6 +8,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 /**
  * @author Priyatam
@@ -19,7 +20,7 @@ import org.hibernate.annotations.Parameter;
         @Parameter(name="sequence", value="DISEASE_TERMS_ID_SEQ")
     }
 )
-public class DiseaseTerm extends AbstractDomainObject {
+public class DiseaseTerm extends AbstractMutableDomainObject {
     private String term;
     //private String select;
     private String ctepTerm;

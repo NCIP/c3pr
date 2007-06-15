@@ -10,6 +10,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 /**
  * @author Kruttik
@@ -21,7 +22,7 @@ import org.hibernate.annotations.Parameter;
          @Parameter(name="sequence", value="prt_strat_ans_id_seq")
      }
  )
-public class SubjectStratificationAnswer extends AbstractGridIdentifiableDomainObject
+public class SubjectStratificationAnswer extends AbstractMutableDomainObject
 {			
 	private StratificationCriterion stratificationCriterion;
 	private StratificationCriterionPermissibleAnswer stratificationCriterionAnswer;

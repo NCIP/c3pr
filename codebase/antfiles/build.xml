@@ -153,12 +153,13 @@
     <target name="build-core" depends="prepare" description="Builds the core project (Services, dao, domain">
         <resolveDependencies extdir="${projects.dir}/core/ext">
             <artifact refid="common.test.jars"/>
+            <artifact refid="ctms-commons.jars"/>
             <artifact refid="ant-contrib.jars"/>
             <artifact refid="cacore.jars"/>
             <artifact refid="c3pr.esb-client.jars"/>
 
             <!-- get third party shared jars -->
-			<artifact refid="collections-generic"/>
+            <artifact refid="collections-generic"/>
             <artifact refid="jboss-j2ee.jars"/>
             <artifact refid="spring.jars"/>
             <artifact refid="hibernate.jars"/>

@@ -2,7 +2,6 @@ package edu.duke.cabig.c3pr.dao;
 
 import java.util.List;
 
-import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.duke.cabig.c3pr.domain.StudySite;
 
 /**
@@ -10,7 +9,7 @@ import edu.duke.cabig.c3pr.domain.StudySite;
  * @see edu.duke.cabig.c3pr.dao.StudySiteDao
  * @author Priyatam
  */
-public class StudySiteDao extends AbstractBaseDao<StudySite> {
+public class StudySiteDao extends GridIdentifiableDao<StudySite> {
 
 	@Override
 	public Class<StudySite> domainClass() {

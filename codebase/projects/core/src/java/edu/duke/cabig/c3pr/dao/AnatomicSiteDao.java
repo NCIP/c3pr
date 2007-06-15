@@ -10,7 +10,7 @@ import edu.duke.cabig.c3pr.domain.AnatomicSite;
  * @author kulasekaran
  * 
  */
-public class AnatomicSiteDao extends AbstractBaseDao<AnatomicSite> {
+public class AnatomicSiteDao extends GridIdentifiableDao<AnatomicSite> {
 	
 	private static final List<String> SUBSTRING_MATCH_PROPERTIES
 			= Arrays.asList("name");

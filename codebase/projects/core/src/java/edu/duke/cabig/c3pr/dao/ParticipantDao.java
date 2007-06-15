@@ -1,7 +1,6 @@
 package edu.duke.cabig.c3pr.dao;
 
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -13,16 +12,14 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
 
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
-import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.emory.mathcs.backport.java.util.Collections;
 
 /**
  * @author Priyatam, kulasekaran
  */
-public class ParticipantDao extends AbstractBaseDao<Participant> {
+public class ParticipantDao extends GridIdentifiableDao<Participant> {
 
 	private List<String> SUBSTRING_MATCH_PROPERTIES = Arrays.asList("lastName");
 

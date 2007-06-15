@@ -10,11 +10,12 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 @Entity
 @Table(name = "SCHEDULED_ARMS")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "SCHEDULED_ARMS_ID_seq") })
-public class ScheduledArm extends AbstractDomainObject {
+public class ScheduledArm extends AbstractMutableDomainObject {
 
 	private Date startDate;
 

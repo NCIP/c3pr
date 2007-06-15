@@ -21,6 +21,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import edu.duke.cabig.c3pr.utils.DateUtil;
+import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 
 /**
@@ -34,8 +35,9 @@ import edu.duke.cabig.c3pr.utils.DateUtil;
         @Parameter(name="sequence", value="STUDY_PARTICIPANT_ASSIG_ID_SEQ")
     }
 )
-public class StudyParticipantAssignment extends AbstractGridIdentifiableDomainObject {
-    
+public class StudyParticipantAssignment extends AbstractMutableDomainObject {
+
+    private String name;
     private StudySite studySite;
     private Participant participant;
     private List<ScheduledArm> scheduledArms = new ArrayList<ScheduledArm>();
@@ -189,7 +191,7 @@ public class StudyParticipantAssignment extends AbstractGridIdentifiableDomainOb
         if (studySite != null ? !studySite.equals(that.studySite) : that.studySite != null)
             return false;
         // Participant#equals calls this method, so we can't use it here
-        if (!AbstractDomainObject.equalById(participant, that.participant)) return false;
+        if (!AbstractMutableDomainObject.equalById(participant, that.participant)) return false;
 
         return true;
     }
@@ -321,4 +323,13 @@ public class StudyParticipantAssignment extends AbstractGridIdentifiableDomainOb
 		}
 		return exclusionCriteriaAnswers;
 	}
+
+     @Transient
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

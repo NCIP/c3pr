@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
 import gov.nih.nci.security.util.StringUtilities;
+import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,7 +31,7 @@ import org.hibernate.annotations.Parameter;
         @Parameter(name="sequence", value="disease_history_id_seq")
     }
 )
-public class DiseaseHistory extends AbstractDomainObject
+public class DiseaseHistory extends AbstractMutableDomainObject
 {			
 	private String otherPrimaryDiseaseCode;
 	private String otherPrimaryDiseaseSiteCode;

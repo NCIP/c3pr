@@ -11,7 +11,7 @@ import edu.emory.mathcs.backport.java.util.Collections;
  * @see edu.duke.cabig.c3pr.dao.StudySiteDao
  * @author Priyatam
  */
-public class ResearchStaffDao extends AbstractBaseDao<ResearchStaff> {
+public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 	
 	private static final List<String> SUBSTRING_MATCH_PROPERTIES	
 		= Arrays.asList("firstName", "lastName");

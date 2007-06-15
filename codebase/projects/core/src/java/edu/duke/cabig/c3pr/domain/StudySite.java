@@ -20,6 +20,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import edu.duke.cabig.c3pr.utils.DateUtil;
+import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 /**
  * @author Ram Chilukuri, Priyatam
@@ -32,7 +33,7 @@ import edu.duke.cabig.c3pr.utils.DateUtil;
         @Parameter(name="sequence", value="STUDY_SITES_ID_SEQ")
     }
 )
-public class StudySite extends AbstractGridIdentifiableDomainObject implements Comparable<StudySite>{
+public class StudySite extends AbstractMutableDomainObject implements Comparable<StudySite>{
     private HealthcareSite site;
     private Study study;
     private Date irbApprovalDate = Calendar.getInstance().getTime();

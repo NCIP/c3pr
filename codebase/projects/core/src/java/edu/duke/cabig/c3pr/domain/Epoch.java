@@ -1,6 +1,5 @@
 package edu.duke.cabig.c3pr.domain;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +15,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 
 /**
@@ -28,7 +28,7 @@ import org.hibernate.annotations.Parameter;
         @Parameter(name="sequence", value="EPOCHS_ID_SEQ")
     }
 )
-public class Epoch extends AbstractGridIdentifiableDomainObject implements Comparable<Epoch>{  
+public class Epoch extends AbstractMutableDomainObject implements Comparable<Epoch>{
   
     private List<Arm> arms = new ArrayList<Arm>();
     private String name;

@@ -11,7 +11,7 @@ import edu.duke.cabig.c3pr.domain.DiseaseCategory;
 /**
  * @author Priytam
  */
-public class DiseaseCategoryDao extends AbstractBaseDao<DiseaseCategory> {
+public class DiseaseCategoryDao extends GridIdentifiableDao<DiseaseCategory> {
     
     private static final List<String> SUBSTRING_MATCH_PROPERTIES = Arrays.asList("name");
     private static final List<String> EXACT_MATCH_PROPERTIES = Collections.emptyList();

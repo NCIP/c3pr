@@ -17,6 +17,7 @@ import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Where;
 
 import edu.duke.cabig.c3pr.utils.StringUtils;
+import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 /**
  * A systematic evaluation of an observation or an
@@ -39,7 +40,7 @@ import edu.duke.cabig.c3pr.utils.StringUtils;
         @Parameter(name="sequence", value="STUDIES_ID_SEQ")
     }
 )
-public class Study extends AbstractGridIdentifiableDomainObject implements Comparable<Study>{
+public class Study extends AbstractMutableDomainObject implements Comparable<Study>{
 	
 	private String blindedIndicator;
 	private String multiInstitutionIndicator;
