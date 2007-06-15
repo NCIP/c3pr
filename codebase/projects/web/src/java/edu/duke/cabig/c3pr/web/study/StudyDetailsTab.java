@@ -22,10 +22,17 @@ public class StudyDetailsTab extends StudyTab {
 
     public Map<String, Object> referenceData(Study study) {
          Map<String, Object> refdata = super.referenceData();
+        addConfigMapToRefdata(refdata, "studySearchType");
+        addConfigMapToRefdata(refdata, "diseaseCodeRefData");
+        addConfigMapToRefdata(refdata, "monitorCodeRefData");
         addConfigMapToRefdata(refdata, "phaseCodeRefData");
-      
+        addConfigMapToRefdata(refdata, "sponsorCodeRefData");
+        addConfigMapToRefdata(refdata, "statusRefData");
+        addConfigMapToRefdata(refdata, "typeRefData");
+        addConfigMapToRefdata(refdata, "coordinatingCenters");
+        addConfigMapToRefdata(refdata, "yesNo");
+        
         return refdata;
-
     }
 
 

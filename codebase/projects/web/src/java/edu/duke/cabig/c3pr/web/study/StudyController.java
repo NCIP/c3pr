@@ -42,7 +42,7 @@ public abstract class StudyController<C extends Study> extends AutomaticSaveFlow
     protected static List<HealthcareSite> healthcareSites;
 
     public StudyController() {
-         setCommandClass(Study.class);
+        setCommandClass(Study.class);
         Flow<C> flow = new Flow<C>("Create Study");
         layoutTabs(flow);
         setFlow(flow);
@@ -75,7 +75,7 @@ public abstract class StudyController<C extends Study> extends AutomaticSaveFlow
                 new NullIdDaoBasedEditor(researchStaffDao));
     }
 
-    
+
 
 
     /**
@@ -101,16 +101,22 @@ public abstract class StudyController<C extends Study> extends AutomaticSaveFlow
         StudySite studySite = new StudySite();
         study.addStudySite(studySite);
 
-        List<Identifier> identifiers = new ArrayList<Identifier>();
-        Identifier id = new Identifier();
-        identifiers.add(id);
-        study.setIdentifiers(identifiers);
+        createDefaultIdentifiers(study);
 
-        
         return study;
     }
 
 
+    protected void createDefaultIdentifiers(Study study)
+    {
+        List<Identifier> identifiers = new ArrayList<Identifier>();
+        Identifier id1 = new Identifier();
+        id1.setPrimaryIndicator(true);
+        Identifier id2 = new Identifier();
+        identifiers.add(id1);
+        identifiers.add(id2);
+        study.setIdentifiers(identifiers);
+    }
 
     public StudyService getStudyService() {
         return studyService;

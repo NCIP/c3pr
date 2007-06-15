@@ -14,7 +14,7 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class StudyTab extends Tab<Study> {
-    protected ConfigurationProperty configurationProperty = new ConfigurationProperty();
+    protected ConfigurationProperty configurationProperty;
 
 
     public StudyTab() {
