@@ -82,16 +82,16 @@
 	</bean>
 
 	<bean name="/study/createStudy" id="createStudyController"
-		class="edu.duke.cabig.c3pr.web.CreateStudyController"
+		class="edu.duke.cabig.c3pr.web.study.CreateStudyController"
 		autowire="byName" />
 	<bean name="/study/confirm" id="confirmStudyController"
 		autowire="byType"
 		class="edu.duke.cabig.c3pr.web.ConfirmStudyController" />
 	<bean name="/study/editStudy" id="editStudyController"
-		class="edu.duke.cabig.c3pr.web.EditStudyController" autowire="byName" />
+		class="edu.duke.cabig.c3pr.web.study.EditStudyController" autowire="byName" />
 
 	<bean name="/study/searchStudy" id="searchStudyController"
-		lazy-init="true" class="edu.duke.cabig.c3pr.web.SearchStudyController"
+		lazy-init="true" class="edu.duke.cabig.c3pr.web.study.SearchStudyController"
 		autowire="byName">
 		<property name="commandClass"
 			value="edu.duke.cabig.c3pr.web.SearchCommand" />

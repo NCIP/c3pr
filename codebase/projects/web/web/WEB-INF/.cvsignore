@@ -1,3 +1,4 @@
 log4j.properties
 lib
 classes
+.DS_Store

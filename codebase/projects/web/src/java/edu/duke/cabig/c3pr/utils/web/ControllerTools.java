@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.web.bind.ServletRequestDataBinder;
 
-import edu.duke.cabig.c3pr.dao.BaseDao;
+import edu.duke.cabig.c3pr.dao.GridIdentifiableDao;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 
 
@@ -29,11 +29,11 @@ public class ControllerTools {
         return new SimpleDateFormat("MM/dd/yyyy");
     }
 
-    public static void registerDomainObjectEditor(ServletRequestDataBinder binder, String field, BaseDao dao) {
+    public static void registerDomainObjectEditor(ServletRequestDataBinder binder, String field, GridIdentifiableDao dao) {
         binder.registerCustomEditor(dao.domainClass(), field, new CustomDaoEditor(dao));
     }
 
-    public static void registerDomainObjectEditor(ServletRequestDataBinder binder, BaseDao dao) {
+    public static void registerDomainObjectEditor(ServletRequestDataBinder binder, GridIdentifiableDao dao) {
         binder.registerCustomEditor(dao.domainClass(), new CustomDaoEditor(dao));
     }
     

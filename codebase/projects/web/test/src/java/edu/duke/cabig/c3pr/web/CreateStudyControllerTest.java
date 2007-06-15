@@ -3,21 +3,20 @@ package edu.duke.cabig.c3pr.web;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.web.servlet.ModelAndView;
-
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
+import edu.duke.cabig.c3pr.web.study.CreateStudyController;
 
 /**
  * @author Priyatam
  */
 public class CreateStudyControllerTest extends WebTestCase {
 
-    private CreateStudyController controller = new CreateStudyController();
+    private edu.duke.cabig.c3pr.web.study.CreateStudyController controller = new CreateStudyController();
     private StudyDao studyDao;
     private HealthCareSiteDaoMock healthcareSiteDao;	
     private StudyService studyService;
@@ -35,7 +34,6 @@ public class CreateStudyControllerTest extends WebTestCase {
         studyValidator = registerMockFor(StudyValidator.class);
         controller.setStudyValidator(studyValidator); 
         configurationProperty = registerMockFor(ConfigurationProperty.class);
-        controller.setConfigurationProperty(configurationProperty); 
 	}
     
     public void testViewOnGet() throws Exception {

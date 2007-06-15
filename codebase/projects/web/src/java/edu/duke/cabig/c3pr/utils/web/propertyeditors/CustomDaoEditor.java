@@ -1,9 +1,11 @@
 package edu.duke.cabig.c3pr.utils.web.propertyeditors;
 
-import java.beans.PropertyEditorSupport;
+import edu.duke.cabig.c3pr.dao.GridIdentifiableDao;
 
-import edu.duke.cabig.c3pr.dao.BaseDao;
-import edu.duke.cabig.c3pr.domain.DomainObject;
+
+import gov.nih.nci.cabig.ctms.domain.DomainObject;
+
+import java.beans.PropertyEditorSupport;
 
 /**
  * A {@link java.beans.PropertyEditor} that supports binding domain objects by their IDs
@@ -11,9 +13,9 @@ import edu.duke.cabig.c3pr.domain.DomainObject;
  * @author Rhett Sutphin
  */
 public class CustomDaoEditor extends PropertyEditorSupport {
-    private BaseDao dao;
+    private GridIdentifiableDao dao;
 
-    public CustomDaoEditor(BaseDao dao) {
+    public CustomDaoEditor(GridIdentifiableDao dao) {
         this.dao = dao;
     }
 

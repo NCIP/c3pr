@@ -1,3 +1,3 @@
-<%@taglib prefix="tags" tagdir="/WEB-INF/tags"%>
-<div id="footer"></div>
- 
+<%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
+
+  
