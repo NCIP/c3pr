@@ -2,11 +2,8 @@
 "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs" %>
-<%@ taglib prefix="studyTags" tagdir="/WEB-INF/tags/study" %>
+
 
 <html>
 <head>
@@ -24,7 +21,7 @@
 <script language="JavaScript" type="text/JavaScript">
 
 function fireAction(action, selected, area) {
-    document.getElementById('command').targetPage.name = '_noname';
+    document.getElementById('command')._target.name = '_noname';
     document.form._action.value = action;
     document.form._selected.value = selected;
     document.form.submit();
@@ -136,12 +133,12 @@ function displayDiv(id, flag) {
 </script>
 </head>
 <body>
-<form:form method="post" name="form">
+<tags:tabForm tab="${tab}" flow="${flow}" formName="form">
+<jsp:attribute name="singleFields">
 <div>
     <input type="hidden" name="_action" value="">
-    <input type="hidden" name="_selected" value=""></div>
+    <input type="hidden" name="_selected" value="">
 </div>
-<tabs:tabFields tab="${tab}"/>
 <!-- MAIN BODY STARTS HERE -->
 <table border="0" id="table1" cellspacing="5">
     <tr>
@@ -254,7 +251,8 @@ function displayDiv(id, flag) {
     </tr>
 </table>
 <!-- MAIN BODY ENDS HERE -->
-</form:form>
+</jsp:attribute>
+</tags:tabForm>
 
 </body>
 </html>

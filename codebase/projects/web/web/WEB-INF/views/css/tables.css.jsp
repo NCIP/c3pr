@@ -10,10 +10,7 @@
 	background: #E6EAE9;
 }
 
-a {
-	color: #c75f3e;
-}
-
+ 
 #mytable caption {
 	padding: 0 0 5px 0;
 	width: 700px;	 

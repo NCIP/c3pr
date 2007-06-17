@@ -1,7 +1,10 @@
 package edu.duke.cabig.c3pr.web.study;
 
 import edu.duke.cabig.c3pr.dao.*;
-import edu.duke.cabig.c3pr.domain.*;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
@@ -12,11 +15,8 @@ import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.bind.ServletRequestDataBinder;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.net.BindException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -26,7 +26,7 @@ import java.util.List;
  * Base Controller class to handle the basic work flow in the Creation / Updation of a Study Design
  * This uses AbstractTabbedFlowFormController to implement tabbed workflow
  *
- *  @author Priyatam
+ * @author Priyatam
  * @author kherm
  */
 public abstract class StudyController<C extends Study> extends AutomaticSaveFlowFormController<C, Study, StudyDao> {
@@ -76,8 +76,6 @@ public abstract class StudyController<C extends Study> extends AutomaticSaveFlow
     }
 
 
-
-
     /**
      * Override this in sub controller if summary is needed
      *
@@ -86,7 +84,6 @@ public abstract class StudyController<C extends Study> extends AutomaticSaveFlow
     protected boolean isSummaryEnabled() {
         return false;
     }
-
 
 
     /**
@@ -107,8 +104,7 @@ public abstract class StudyController<C extends Study> extends AutomaticSaveFlow
     }
 
 
-    protected void createDefaultIdentifiers(Study study)
-    {
+    protected void createDefaultIdentifiers(Study study) {
         List<Identifier> identifiers = new ArrayList<Identifier>();
         Identifier id1 = new Identifier();
         id1.setPrimaryIndicator(true);

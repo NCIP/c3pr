@@ -81,7 +81,10 @@
 		<property name="servletName" value="pages" />
 	</bean>
 
-	<bean name="/study/createStudy" id="createStudyController"
+    <!--to autwire the tabs-->
+     <bean id="tabConfigurer" class="gov.nih.nci.cabig.ctms.web.tabs.DefaultTabConfigurer"/>
+
+    <bean name="/study/createStudy" id="createStudyController"
 		class="edu.duke.cabig.c3pr.web.study.CreateStudyController"
 		autowire="byName" />
 	<bean name="/study/confirm" id="confirmStudyController"

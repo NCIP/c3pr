@@ -5,11 +5,6 @@
 
 <html>
 <head>
-    <link href="calendar-blue.css" rel="stylesheet" type="text/css"/>
-    <script type="text/javascript" src="/c3pr/js/CalendarPopup.js"></script>
-    <script language="JavaScript" id="js1">
-        var cal1 = new CalendarPopup();
-    </script>
     <script type="text/javascript">
         function fireAction(action, selected) {
             document.getElementById('command')._target.name = '_noname';
@@ -17,12 +12,12 @@
             document.studySiteForm._selected.value = selected;
 
             // need to disable validations while removing
-            name = 'studySites[' + selected + '].site';
-            $(name).className = 'none';
-            status = 'studySites[' + selected + '].statusCode';
-            $(status).className = 'none';
-            date = 'studySites[' + selected + '].irbApprovalDate';
-            $(date).className = 'none';
+//            name = 'studySites[' + selected + '].site';
+//            $(name).className = 'none';
+//            status = 'studySites[' + selected + '].statusCode';
+//            $(status).className = 'none';
+//            date = 'studySites[' + selected + '].irbApprovalDate';
+//            $(date).className = 'none';
 
             document.studySiteForm.submit();
         }
@@ -41,7 +36,7 @@
         <td>
             <p id="instructions">
                 Add StudySites associated with the Study
-                <a href="javascript:fireAction('addStudySite','0');"><img
+                <a href="javascript:fireAction('addSite','0');"><img
                         src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add another Study Site"></a><br>
             </p>
             <br>
@@ -59,7 +54,7 @@
                             <form:select path="studySites[${status.index}].site" cssClass="validate-notEmpty">
                             <option value="">--Please Select--</option>
                                 <form:options items="${healthCareSitesRefData}" itemLabel="name" itemValue="id"/>
-                            </form:select></th>
+                            </form:select></td>
                         <td class="alt"><form:select path="studySites[${status.index}].statusCode"
                                                      cssClass="validate-notEmpty">
                             <option value="">--Please Select--</option>
@@ -74,7 +69,7 @@
                         <td class="alt"><tags:dateInput path="studySites[${status.index}].irbApprovalDate"/>&nbsp;&nbsp;&nbsp;<span
                                 class="red"><em></em></span></td>
                         <td class="specalt" class="specalt"><a
-                                href="javascript:fireAction('removeStudySite',${status.index});"><img
+                                href="javascript:fireAction('removeSite',${status.index});"><img
                                 src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 
                     </tr>

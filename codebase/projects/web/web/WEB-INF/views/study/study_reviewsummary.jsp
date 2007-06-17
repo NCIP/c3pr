@@ -1,4 +1,4 @@
-<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+ <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
@@ -201,7 +201,6 @@
                             <td class="alt" align="left">${arm.targetAccrualNumber}</td>
                         </tr>
                         </c:forEach>
-                        </tr>
                     </table>
                 </td>
             </tr>

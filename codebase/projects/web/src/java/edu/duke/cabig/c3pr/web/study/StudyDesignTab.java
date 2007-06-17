@@ -1,0 +1,67 @@
+package edu.duke.cabig.c3pr.web.study;
+
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.Arm;
+
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
+
+import org.springframework.validation.Errors;
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: kherm
+ * Date: Jun 15, 2007
+ * Time: 3:30:05 PM
+ * To change this template use File | Settings | File Templates.
+ */
+class StudyDesignTab extends StudyTab {
+
+    public StudyDesignTab() {
+        super("Epochs and Arms", "Epochs & Arms", "study/study_design");
+    }
+
+    @Override
+    public Map<String, Object> referenceData(Study study) {
+        Map<String, Object> refdata = super.referenceData(study);
+        refdata.put("currentOperation", getConfigurationProperty().getMap().get("inclusion"));
+
+        return refdata;
+    }
+
+    @Override
+    public void postProcess(HttpServletRequest httpServletRequest, Study study, Errors errors) {
+
+        String selectedEpoch =httpServletRequest.getParameter("_selectedEpoch");
+        String action   = httpServletRequest.getParameter("_action");
+        String selectedArm = httpServletRequest.getParameter("_selectedArm");
+
+        {
+            if ("addEpoch".equals(action))
+            {
+                log.debug("Requested Add Epoch");
+                study.addEpoch(Epoch.create("New Epoch", "Arm A", "Arm B", "Arm C"));
+            }
+            else if ("addArm".equals(action))
+            {
+                log.debug("Requested Add Arm");
+                Epoch epoch = study.getEpochs().get(Integer.parseInt(selectedEpoch));
+                epoch.addArm(new Arm());
+            }
+            else if ("removeEpoch".equals(action))
+            {
+                log.debug("Requested Remove Epoch");
+                study.getEpochs().remove(Integer.parseInt(selectedEpoch));
+            }
+            else if ("removeArm".equals(action))
+            {
+                log.debug("Requested Remove Arm");
+                Epoch epoch = study.getEpochs().get(Integer.parseInt(selectedEpoch));
+                epoch.getArms().remove(Integer.parseInt(selectedArm));
+            }
+
+        }
+    }
+}

@@ -1,10 +1,7 @@
 package edu.duke.cabig.c3pr.web.study;
 
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.utils.Lov;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -14,14 +11,15 @@ import java.util.Map;
  * Time: 7:27:09 PM
  * To change this template use File | Settings | File Templates.
  */
-public class StudyDetailsTab extends StudyTab {
+class StudyDetailsTab extends StudyTab {
 
     public StudyDetailsTab() {
         super("Study Details", "Details", "study/study_details");
     }
 
+    @Override
     public Map<String, Object> referenceData(Study study) {
-         Map<String, Object> refdata = super.referenceData();
+        Map<String, Object> refdata = super.referenceData();
         addConfigMapToRefdata(refdata, "studySearchType");
         addConfigMapToRefdata(refdata, "diseaseCodeRefData");
         addConfigMapToRefdata(refdata, "monitorCodeRefData");
@@ -31,7 +29,7 @@ public class StudyDetailsTab extends StudyTab {
         addConfigMapToRefdata(refdata, "typeRefData");
         addConfigMapToRefdata(refdata, "coordinatingCenters");
         addConfigMapToRefdata(refdata, "yesNo");
-        
+
         return refdata;
     }
 

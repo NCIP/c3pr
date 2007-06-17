@@ -22,7 +22,7 @@ function validatePage() {
 function fireAction(action, selected) {
     if (validatePage()) {
         addDiseasesToCart()
-        document.getElementById('command').targetPage.name = '_noname';
+        document.getElementById('command')._target.name = '_noname';
         document.studyDiseasesForm._action.value = action;
         document.studyDiseasesForm._selected.value = selected;
         document.studyDiseasesForm.submit();
@@ -231,7 +231,7 @@ Event.observe(window, "load", function() {
     })
     populateSelectsOnLoad();
 
-    Element.update("flow-next", "Continue &raquo;")
+   // Element.update("flow-next", "Continue &raquo;")
 })
 
 </script>

@@ -1,19 +1,11 @@
 /**** GENERAL TAG STYLE OVERRIDES */
 
-html { height:100%;}
-
 body {
-   height:100%;
   margin: 0; padding: 0;
   background: url(../images/chrome/caBIG_footer.gif) no-repeat bottom right #F4F4F5;
   font-family: Helvetica, Arial, sans-serif;
   font-size: 10pt;
   color: #000000;
-}
-
-#footer {
-    height: 3em;
-
 }
 
 h1, h2, h3, h4, h5, h6 {

@@ -1,5 +1,3 @@
-<%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator"
-           prefix="decorator" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
@@ -163,7 +161,7 @@
         <td align="right"><b>Randomized:</b>&nbsp;</td>
         <td><form:select path="randomizedIndicator">
             <option value="">--Please Select--</option>
-            <form:options items="${randomizedIndicatorRefData}"
+            <form:options items="${yesNo}"
                           itemLabel="desc" itemValue="code"/>
         </form:select></td>
     </tr>
@@ -175,7 +173,7 @@
         <td align="right"><b>Blinded:</b>&nbsp;</td>
         <td><form:select path="blindedIndicator">
             <option value="">--Please Select--</option>
-            <form:options items="${blindedIndicatorRefData}" itemLabel="desc"
+            <form:options items="${yesNo}" itemLabel="desc"
                           itemValue="code"/>
         </form:select></td>
     </tr>
@@ -197,7 +195,7 @@
     </tr>
     <tr>
         <td width="150" align="right"><span class="red">*</span><em></em><b>Sponsor
-            Study Identifier:&nbsp;</td>
+            Study Identifier:&nbsp;</b></td>
         <td><form:input path="identifiers[0].value" size="30"
                         maxlength="30" cssClass="validate-notEmpty"/></td>
         <input type="hidden" name="identifiers[0].type"
@@ -226,7 +224,7 @@
             <td><form:select path="multiInstitutionIndicator"
                              onchange="manageSelectBox(this);" cssClass="validate-notEmpty">
                 <option value="">--Please Select--</option>
-                <form:options items="${multiInstitutionIndicatorRefData}"
+                <form:options items="${yesNo}"
                               itemLabel="desc" itemValue="code"/>
             </form:select></td>
         </tr>

@@ -241,7 +241,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                     </list>
                 </entry>
                     
-                <entry key="identifiersType">
+                <entry key="identifiersTypeRefData">
                     <list>
                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="S" />
@@ -447,7 +447,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                 </entry>     
                 
                 <!-- Study Investigators -->
-                 <entry key="studyInvestigatorRole">
+                 <entry key="studyInvestigatorRoleRefData">
                     <list>
                       	<bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="PI" />
@@ -459,7 +459,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                         </bean>                      
                		</list>
                	</entry>
-               	<entry key="studyInvestigatorStatus">
+               	<entry key="studyInvestigatorStatusRefData">
                     <list>
                       	<bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="ACT" />
@@ -473,7 +473,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                	</entry>
                	
                	<!-- Study Investigators -->
-                 <entry key="studyPersonnelRole">
+                 <entry key="studyPersonnelRoleRefData">
                     <list>
                       	<bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="REG" />
@@ -485,7 +485,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                         </bean>                      
                		</list>
                	</entry>
-               	<entry key="studyPersonnelStatus">
+               	<entry key="studyPersonnelStatusRefData">
                     <list>
                       	<bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="ACT" />
