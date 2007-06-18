@@ -6,31 +6,6 @@
 
 <html>
 <head>
-    <style type="text/css">
-        .label {
-            width: 10em;
-            text-align: right;
-            padding: 4px;
-        }
-
-        .label13 {
-            width: 13em;
-            text-align: right;
-            padding: 4px;
-        }
-
-        .label130 {
-            width: 11em;
-            text-align: right;
-            padding: 0px;
-        }
-
-        .label20 {
-            width: 20em;
-            text-align: right;
-            padding: 4px;
-        }
-    </style>
     <script type="text/javascript">
 
         function manageSelectBox(box) {
@@ -49,208 +24,169 @@
 </head>
 <body>
 <%-- Can't use tags:tabForm b/c there are two boxes in the form --%>
-<form:form method="post" name="studyDetails" cssClass="standard">
-<tags:tabFields tab="${tab}"/>
-<chrome:box title="${tab.shortTitle}">
+<tags:tabForm tab="${tab}" flow="${flow}">
+<jsp:attribute name="singleFields">
 
 <div>
     <input type="hidden" name="_action" value="">
     <input type="hidden" name="_selected" value="">
 </div>
 
-<chrome:division id="study-details" title="Basic Details">
+<div class="content">
+<div class="row">
+    <div class="label">*Short Title:</div>
+    <div class="value">
+        <form:input path="shortTitleText" size="40" maxlength="30"
+                    cssClass="validate-notEmpty"/>
+    </div>
+</div>
 
-<table border="0" width="90%" cellspacing="0" cellpadding="0">
-<div><input type="hidden" name="_action" value=""></div>
-<tags:hasErrorsMessage/>
-<tr>
-<td width="400">
-    <table border="0" cellspacing="0" cellpadding="0" id="table1">
-        <tr>
-            <td class="label"><span class="red">*</span><em></em>Short Title:</td>
-            <td><form:input path="shortTitleText" size="40" maxlength="30"
-                            cssClass="validate-notEmpty"/></td>
-        </tr>
-        <tr>
-            <td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-                     height="1" class="heightControl"></td>
-        </tr>
-        <tr>
-            <td class="label"><span class="red">*</span><em></em>Long Title:</td>
-            <td><form:textarea path="longTitleText" rows="3" cols="50"
-                               cssClass="validate-notEmpty&&maxlength200"/></td>
-        </tr>
-        <tr>
-            <td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-                     height="1" class="heightControl"></td>
-        </tr>
-        <tr>
-            <td class="label">Description:</td>
-            <td><form:textarea path="descriptionText" rows="5" cols="50"
-                               cssClass="validate-maxlength2000"/></td>
-        </tr>
-        <tr>
-            <td class="label"><img src="<tags:imageUrl name="spacer.gif"/>"
-                                   width="1" height="1" class="heightControl"></td>
-        </tr>
-        <tr>
-            <td class="label">Precis:</td>
-            <td><form:textarea path="precisText" rows="2" cols="50"
-                               cssClass="validate-maxlength200"/></td>
-        </tr>
-        <tr>
-            <td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-                     height="1" class="heightControl"></td>
-        </tr>
-    </table>
-</td>
-<td width="100"></td>
-<td class="contentAreaR">
-<table border="0" width="100%" cellspacing="0" cellpadding="0"
-       id="table1">
-    <tr>
-        <td width="150"></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td align="right"><b>Target Accrual:</b>&nbsp;</td>
-        <td><form:input path="targetAccrualNumber" size="10"
-                        cssClass="validate-numeric"/></td>
-    </tr>
-    <tr>
-        <td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-                 height="1" class="heightControl"></td>
-    </tr>
-    <tr>
-        <td align="right"><span class="red">*</span><em></em><b>Type:</b>&nbsp;</td>
-        <td><form:select path="type" cssClass="validate-notEmpty">
+<div class="row">
+    <div class="label">*Long Title:</div>
+    <div class="value">
+        <form:textarea path="longTitleText" rows="3" cols="50"
+                       cssClass="validate-notEmpty&&maxlength200"/>
+    </div>
+</div>
+<div class="row">
+    <div class="label">Description:</div>
+    <div class="value">
+        <form:textarea path="descriptionText" rows="5" cols="50"
+                       cssClass="validate-maxlength2000"/>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="label">Precis:</div>
+    <div class="value">
+        <form:textarea path="precisText" rows="2" cols="50"
+                       cssClass="validate-maxlength200"/>
+    </div>
+</div>
+
+<div class="row">
+    <div class="label">Target Accrual:</div>
+    <div class="value">
+        <form:input path="targetAccrualNumber" size="10"
+                    cssClass="validate-numeric"/>
+    </div>
+</div>
+
+<div class="row">
+    <div class="label">*Type:</div>
+    <div class="value">
+        <form:select path="type" cssClass="validate-notEmpty">
             <option value="">--Please Select--</option>
             <form:options items="${typeRefData}" itemLabel="desc"
                           itemValue="desc"/>
-        </form:select></td>
-    </tr>
-    <tr>
-        <td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-                 height="1" class="heightControl"></td>
-    </tr>
-    <tr>
-        <td align="right"><span class="red">*</span><em></em><b>Status:</b>&nbsp;</td>
-        <td><form:select path="status" cssClass="validate-notEmpty">
+        </form:select>
+    </div>
+</div>
+
+<div class="row">
+    <div class="label">*Status:</div>
+    <div class="value">
+        <form:select path="status" cssClass="validate-notEmpty">
             <option value="">--Please Select--</option>
             <form:options items="${statusRefData}" itemLabel="desc"
                           itemValue="desc"/>
-        </form:select></td>
-    </tr>
-    <tr>
-        <td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-                 height="1" class="heightControl"></td>
-    </tr>
-    <tr>
-        <td align="right"><span class="red">*</span><em></em><b>Phase:</b>&nbsp;</td>
-        <td><form:select path="phaseCode" cssClass="validate-notEmpty">
+        </form:select>
+    </div>
+</div>
+
+<div class="row">
+    <div class="label">*Phase:</div>
+    <div class="value">
+
+        <form:select path="phaseCode" cssClass="validate-notEmpty">
             <option value="">--Please Select--</option>
             <form:options items="${phaseCodeRefData}" itemLabel="desc"
                           itemValue="desc"/>
-        </form:select></td>
-    </tr>
-    <tr>
-        <td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-                 height="1" class="heightControl"></td>
-    </tr>
-    <tr>
-        <td align="right"><b>Randomized:</b>&nbsp;</td>
-        <td><form:select path="randomizedIndicator">
+        </form:select>
+    </div>
+</div>
+
+<div class="row">
+    <div class="label">Randomized:</div>
+    <div class="value">
+        <form:select path="randomizedIndicator">
             <option value="">--Please Select--</option>
             <form:options items="${yesNo}"
                           itemLabel="desc" itemValue="code"/>
-        </form:select></td>
-    </tr>
-    <tr>
-        <td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-                 height="1" class="heightControl"></td>
-    </tr>
-    <tr>
-        <td align="right"><b>Blinded:</b>&nbsp;</td>
-        <td><form:select path="blindedIndicator">
+        </form:select>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="label">Blinded:</div>
+    <div class="value">
+        <form:select path="blindedIndicator">
             <option value="">--Please Select--</option>
             <form:options items="${yesNo}" itemLabel="desc"
                           itemValue="code"/>
-        </form:select></td>
-    </tr>
-    <tr>
-        <td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-                 height="1" class="heightControl"></td>
-    </tr>
-    <tr>
-        <td align="right"><span class="red">*</span><b>Sponsor:</b>&nbsp;</td>
-        <td><form:select path="identifiers[0].source" cssClass="validate-notEmpty">
+        </form:select>
+    </div>
+</div>
+
+<div class="row">
+    <div class="label">*Sponsor:</div>
+    <div class="value">
+        <form:select path="identifiers[0].source" cssClass="validate-notEmpty">
             <option value="">--Please Select--</option>
             <form:options items="${sponsorCodeRefData}" itemLabel="desc"
                           itemValue="desc"/>
-        </form:select></td>
-    </tr>
-    <tr>
-        <td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-                 height="1" class="heightControl"></td>
-    </tr>
-    <tr>
-        <td width="150" align="right"><span class="red">*</span><em></em><b>Sponsor
-            Study Identifier:&nbsp;</b></td>
-        <td><form:input path="identifiers[0].value" size="30"
-                        maxlength="30" cssClass="validate-notEmpty"/></td>
+        </form:select>
+    </div>
+</div>
+
+<div class="row">
+    <div class="label">*Sponsor Study Identifier:</div>
+    <div class="value">
+        <form:input path="identifiers[0].value" size="30"
+                    maxlength="30" cssClass="validate-notEmpty"/>
         <input type="hidden" name="identifiers[0].type"
                value="Protocol Authority Identifier"/>
-    </tr>
-    <tr>
-        <td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-                 height="1" class="heightControl"></td>
-    </tr>
-</table>
-</td>
-</tr>
-</table>
-</chrome:division>
+    </div>
+</div>
 
 
-<chrome:division title="Multi-Institutional Details">
-    <table width="60%" border="0">
+<div class="row">
+    <div class="label">*Multi-Institution:</div>
+    <div class="value">
+        <form:select path="multiInstitutionIndicator"
+                     onchange="manageSelectBox(this);" cssClass="validate-notEmpty">
+            <option value="">--Please Select--</option>
+            <form:options items="${yesNo}"
+                          itemLabel="desc" itemValue="code"/>
+        </form:select>
+    </div>
+</div>
 
+
+<div id="cooperativeGroups"
+     <c:if test="${ (empty command.multiInstitutionIndicator) || command.multiInstitutionIndicator=='false'}">style="display:none;"</c:if>>
+    <table width="80%" border="0">
         <tr>
-            <td width="100"></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td class="label"><span class="red">*</span>Multi-Institution:</td>
-            <td><form:select path="multiInstitutionIndicator"
-                             onchange="manageSelectBox(this);" cssClass="validate-notEmpty">
+            <td class="label130"><b>Coordinating Center:</td>
+            <td align="left" width="39%"><form:select
+                    path="identifiers[1].source">
                 <option value="">--Please Select--</option>
-                <form:options items="${yesNo}"
-                              itemLabel="desc" itemValue="code"/>
+                <form:options items="${coordinatingCenters}" itemLabel="desc"
+                              itemValue="desc"/>
             </form:select></td>
+            <td class="label20"><span class="red">*</span><b>Coordinating Center
+                Study Identifier:</td>
+            <td><form:input path="identifiers[1].value" size="30" maxlength="30"/>
+                <input type="hidden" name="identifiers[1].type"
+                       value="Coordinating Center Identifier"/></td>
         </tr>
     </table>
-    <div id="cooperativeGroups"
-         <c:if test="${ (empty command.multiInstitutionIndicator) || command.multiInstitutionIndicator=='false'}">style="display:none;"</c:if>>
-        <table width="80%" border="0">
-            <tr>
-                <td class="label130"><b>Coordinating Center:</td>
-                <td align="left" width="39%"><form:select
-                        path="identifiers[1].source">
-                    <option value="">--Please Select--</option>
-                    <form:options items="${coordinatingCenters}" itemLabel="desc"
-                                  itemValue="desc"/>
-                </form:select></td>
-                <td class="label20"><span class="red">*</span><b>Coordinating Center
-                    Study Identifier:</td>
-                <td><form:input path="identifiers[1].value" size="30" maxlength="30"/>
-                    <input type="hidden" name="identifiers[1].type"
-                           value="Coordinating Center Identifier"/></td>
-            </tr>
-        </table>
-    </div>
-</chrome:division>
-<tags:tabControls tab="${tab}" flow="${flow}"/>
-</chrome:box>
-</form:form>
+</div>
+
+</div>
+</jsp:attribute>
+</tags:tabForm>
 </body>
 </html>

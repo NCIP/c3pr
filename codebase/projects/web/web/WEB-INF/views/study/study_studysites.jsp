@@ -43,8 +43,8 @@
             <table id="mytable" border="0" cellspacing="0" cellpadding="0">
                 <tr align="left" class="label">
                     <th scope="col" align="left"><b>HealthCare Site</b><span class="red">*</span></th>
-                    <th scope="col" align="left"><b>Status<span class="red">*</span></th>
-                    <th scope="col" align="left"><b>Activation&nbsp;Date</b></th>
+                    <th scope="col" align="left"><b>Status<span class="red">*</span></b></th>
+                    <th scope="col" align="left"><b>Activation&nbsp;Date&nbsp;&nbsp;&nbsp;</b></th>
                     <th scope="col" align="left"><b>IRB&nbsp;Approval&nbsp;Date</b></th>
                     <th scope="col" class="specalt" align="left"></th>
                 </tr>
@@ -60,13 +60,15 @@
                             <option value="">--Please Select--</option>
                             <form:options items="${studySiteStatusRefData}" itemLabel="desc"
                                           itemValue="desc"/>
-                        </form:select></td>
+                        </form:select>
+                            <input type="hidden" name="studySites[${status.index}].roleCode" value="Affiliate Site"/>
+                            
+                        </td>
                         <!--TODO:HACK Remove this once more roles are present -->
-                        <input type="hidden" name="studySites[${status.index}].roleCode" value="Affiliate Site"/>
 
-                        <td class="alt"><tags:dateInput path="studySites[${status.index}].startDate"/>&nbsp;&nbsp;&nbsp;<span
+                        <td class="alt"><tags:dateInput path="studySites[${status.index}].startDate"/><span
                                 class="red"><em></em></span></td>
-                        <td class="alt"><tags:dateInput path="studySites[${status.index}].irbApprovalDate"/>&nbsp;&nbsp;&nbsp;<span
+                        <td class="alt"><tags:dateInput path="studySites[${status.index}].irbApprovalDate"/><span
                                 class="red"><em></em></span></td>
                         <td class="specalt" class="specalt"><a
                                 href="javascript:fireAction('removeSite',${status.index});"><img

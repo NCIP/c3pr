@@ -14,5 +14,5 @@ function checkDate(field,format){
 </script>
 <form:input path="${path}" cssClass="date" size="12" onchange="checkDate(this,'${format }');"/>
 <a href="#" id="${path}-calbutton">
-    <img src="<tags:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0"/>
+    <img src="<tags:imageUrl name="b-calendar.gif"/>" align="top" alt="Calendar" width="17" height="16" border="0"/>
 </a>

@@ -20,7 +20,7 @@ Event.observe(window, "load", function() {
         Event.stop(click);
         $("command")._action.value='update';
         // $("targetPage").name='_noname';
-        document.getElementById('targetPage').name='_noname';
+        document.getElementById('_target').name='_noname';
         $("command").submit(); // command is the default ID for a form created with form:form
     })
 })

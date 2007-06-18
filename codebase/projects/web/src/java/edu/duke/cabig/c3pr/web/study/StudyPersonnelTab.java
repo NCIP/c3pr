@@ -33,9 +33,28 @@ class StudyPersonnelTab extends StudyTab {
 
     @Override
     public void postProcess(HttpServletRequest httpServletRequest, Study study, Errors errors) {
-        String action =httpServletRequest.getParameter("_action");
-        String selectedSite = httpServletRequest.getParameter("_selectedSite");
-        String selectedPersonnel = httpServletRequest.getParameter("_selectedPersonnel");
+        if("siteChange".equals(httpServletRequest.getParameter("_action")))
+        {
+            httpServletRequest.getSession().setAttribute("selectedSite", httpServletRequest.getParameter("_selectedSite"));
+
+            StudySite studySite = ((Study)study).getStudySites().get(Integer.parseInt(httpServletRequest.getParameter("_selectedSite")));
+            if(studySite.getStudyPersonnels().size() == 0 )
+            {
+                StudyPersonnel studyPersonnel = new StudyPersonnel();
+                studyPersonnel.setStudySite(studySite);
+                studySite.addStudyPersonnel(studyPersonnel);
+            }
+        }
+        else {
+            handleStudyPersonnelAction((Study)study, httpServletRequest);
+        }
+    }
+
+    private void handleStudyPersonnelAction(Study study, HttpServletRequest request)
+    {
+        String action =request.getParameter("_action");
+        String selectedSite = request.getParameter("_selectedSite");
+        String selectedPersonnel = request.getParameter("_selectedPersonnel");
 
         if ("addStudyPersonnel".equals(action))
         {
@@ -50,6 +69,6 @@ class StudyPersonnelTab extends StudyTab {
             study.getStudySites().get(Integer.parseInt(selectedSite)).getStudyPersonnels()
                     .remove(Integer.parseInt(selectedPersonnel));
         }
-
     }
+
 }

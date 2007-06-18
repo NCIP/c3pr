@@ -1,7 +1,7 @@
 package edu.duke.cabig.c3pr.web.study;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
-import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
+
 import edu.duke.cabig.c3pr.domain.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -42,10 +42,20 @@ class StudySitesTab extends StudyTab {
         if ("addSite".equals(action)) {
             StudySite studySite = new StudySite();
             study.addStudySite(studySite);
+            studySite.setRoleCode("<role code>");
+            studySite.setStatusCode("<status code>");
+
+            List<HealthcareSite> healthcareSites  = getHealthcareSiteDao().getAll();
+            for (HealthcareSite site : healthcareSites) {
+                //associate all
+                studySite.setSite(site);
+            }
+
         } else if ("removeSite".equals(action)) {
             study.getStudySites().remove(Integer.parseInt(selected));
         }
     }
+
 
 }
 

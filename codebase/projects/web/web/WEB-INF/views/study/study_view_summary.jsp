@@ -6,15 +6,15 @@
 
 <html>
 <head>
-    
+<!--empty head-->
 </head>
 
+
 <body>
-<tags:tabForm tab="${tab}" flow="${flow}" formName="review">
-<jsp:attribute name="repeatingFields">
-<div>
-    <input type="hidden" name="_finish" value="true"/>
-</div>
+<table width="100%">
+<tr><td>
+
+<chrome:box title="Study Summary">
 
 <chrome:division id="study-details" title="Study Details">
     <table class="tablecontent">
@@ -202,9 +202,10 @@
     </table>
 
 </chrome:division>
+   </chrome:box>
 
+</td></tr>
+</table>
 
-   </jsp:attribute>
-</tags:tabForm>
 </body>
 </html>

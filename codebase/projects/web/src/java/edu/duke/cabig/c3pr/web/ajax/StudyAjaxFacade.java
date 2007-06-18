@@ -146,10 +146,10 @@ public class StudyAjaxFacade {
 	}
     
     private String getFormSessionAttributeName() {
-		return "edu.duke.cabig.c3pr.web.CreateStudyController.FORM.command";
+		return "edu.duke.cabig.c3pr.web.study.CreateStudyController.FORM.command";
 	}
     private String getFormSessionAttributeNameAgain() {
-		return "edu.duke.cabig.c3pr.web.EditStudyController.FORM.command";
+		return "edu.duke.cabig.c3pr.web.study.EditStudyController.FORM.command";
 	}
     private String[] extractSubnames(String text) {
         return text.split("\\s+");

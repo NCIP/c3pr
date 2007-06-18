@@ -1,4 +1,4 @@
-package edu.duke.cabig.c3pr.web;
+package edu.duke.cabig.c3pr.web.study;
 
 import java.util.HashMap;
 

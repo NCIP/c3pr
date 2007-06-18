@@ -41,9 +41,9 @@ public abstract class StudyController<C extends Study> extends AutomaticSaveFlow
     protected StudyValidator studyValidator;
     protected static List<HealthcareSite> healthcareSites;
 
-    public StudyController() {
+    public StudyController(String title) {
         setCommandClass(Study.class);
-        Flow<C> flow = new Flow<C>("Create Study");
+        Flow<C> flow = new Flow<C>(title);
         layoutTabs(flow);
         setFlow(flow);
     }

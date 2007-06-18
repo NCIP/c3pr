@@ -18,6 +18,10 @@ import javax.servlet.http.HttpServletResponse;
 public class CreateStudyController extends StudyController {
 
 
+    public CreateStudyController() {
+        super("Create Study");
+    }
+
     /**
      * Create a nested object graph that Create Study Design needs
      *

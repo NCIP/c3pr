@@ -39,6 +39,8 @@ class StudyIdentifiersTab extends StudyTab {
         {
             log.debug("Requested Add Identifier");
             Identifier id = new Identifier();
+            id.setValue("<enter value>");
+            id.setSource("<enter value>");
             study.addIdentifier(id);
         }
         else if ("removeIdentifier".equals(action))

@@ -23,6 +23,7 @@ class StudyDesignTab extends StudyTab {
         super("Epochs and Arms", "Epochs & Arms", "study/study_design");
     }
 
+    
     @Override
     public Map<String, Object> referenceData(Study study) {
         Map<String, Object> refdata = super.referenceData(study);

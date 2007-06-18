@@ -10,7 +10,7 @@
 <form:form name="form" method="post">
     <tags:tabFields tab="${tab}"/>
     <chrome:box title="${tab.shortTitle}">
-        <chrome:division title="Disease" id="disease">
+        <chrome:division title="Registrations" id="registration">
             <registrationTags:searchResults registrations="${participantAssignments }"/>
         </chrome:division>
     </chrome:box>

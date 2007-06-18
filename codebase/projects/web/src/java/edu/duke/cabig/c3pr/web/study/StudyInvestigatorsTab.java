@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.web.study;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import org.springframework.validation.Errors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -47,6 +48,7 @@ class StudyInvestigatorsTab extends StudyTab {
             StudyInvestigator studyInvestigator = new StudyInvestigator();
             StudySite studySite = study.getStudySites().get(Integer.parseInt(selectedSite));
             studySite.addStudyInvestigator(studyInvestigator);
+
         }
         else if ("removeInv".equals(action))
         {

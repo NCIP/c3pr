@@ -27,6 +27,7 @@ public class EditStudyController extends StudyController<Study> {
     protected static final Log log = LogFactory.getLog(EditStudyController.class);
 
     public EditStudyController() {
+        super("Edit Study");
         setBindOnNewForm(true);
     }
 
@@ -47,24 +48,27 @@ public class EditStudyController extends StudyController<Study> {
 
     @Override
     protected void layoutTabs(Flow flow) {
-
+        flow.addTab(new StudyRegistrationsTab());
+        flow.addTab(new StudyDetailsTab());
+        flow.addTab(new StudyIdentifiersTab());
+        flow.addTab(new StudySitesTab());
+        flow.addTab(new StudyInvestigatorsTab());
+        flow.addTab(new StudyPersonnelTab());
+        flow.addTab(new StudyEligibilityChecklistTab());
+        flow.addTab(new StudyStratificationTab());
+        flow.addTab(new StudyDiseasesTab());
+        flow.addTab(new StudyDesignTab());
+        flow.addTab(new StudyEmptyTab("Summary", "Summary", "study/study_view_summary"));
     }
 
+    
     @Override
-    protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
-        // TODO Auto-generated method stub
-        super.initBinder(request, binder);
-        Object command = binder.getTarget();
-        binder.registerCustomEditor(HealthcareSiteInvestigator.class, new ObjectGraphBasedEditor(
-                command, "studySites.site.healthcareSiteInvestigators"));
+    protected boolean shouldSave(HttpServletRequest request, Study command, Tab<Study> tab) {
+        return super.shouldSave(request, command, tab)
+            && (request.getParameter("_action") == null || "".equals(request.getParameter("_action")));
     }
 
-
-
-    @Override
-       protected boolean shouldSave(HttpServletRequest request, Study command, Tab<Study> tab) {
-           return "update".equals(request.getParameter("_action")) ? true : false;
-    }
+    
 
     @Override
     protected Object currentFormObject(HttpServletRequest request, Object sessionFormObject) throws Exception {
@@ -85,10 +89,9 @@ public class EditStudyController extends StudyController<Study> {
             HttpServletRequest request, HttpServletResponse response, Object command, BindException errors
     ) throws Exception {
         // Redirect to Search page
-        ModelAndView modelAndView = new ModelAndView(new RedirectView("searchstudy.do"));
+        ModelAndView modelAndView = new ModelAndView(new RedirectView("searchStudy"));
         return modelAndView;
     }
-
 
 
 }

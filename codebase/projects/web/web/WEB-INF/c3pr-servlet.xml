@@ -89,7 +89,7 @@
 		autowire="byName" />
 	<bean name="/study/confirm" id="confirmStudyController"
 		autowire="byType"
-		class="edu.duke.cabig.c3pr.web.ConfirmStudyController" />
+		class="edu.duke.cabig.c3pr.web.study.ConfirmStudyController" />
 	<bean name="/study/editStudy" id="editStudyController"
 		class="edu.duke.cabig.c3pr.web.study.EditStudyController" autowire="byName" />
 
