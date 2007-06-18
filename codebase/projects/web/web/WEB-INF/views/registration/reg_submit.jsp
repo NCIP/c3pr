@@ -32,6 +32,7 @@ var submitPostProcess= function(formElement, continueSubmission){
 </head>
 <body>
 <tags:formPanelBox tab="${tab}" flow="${flow}">
+<input type="hidden" name="_finish" value="true"/>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
 		<td valign="top">

@@ -27,10 +27,12 @@
 						<c:set var="flag" value="true" scope="page"></c:set>
 						<td class="label" width="80%">Select Arm:</td>
 						<td>
-							<form:select path="scheduledArms[0].arm">
+							<select name ="scheduledArms[0].arm">
 								<option value="" selected>--Please Select--</option>
-								<form:options items="${epoch.arms}" itemValue="id"	itemLabel="name" />
-							</form:select>
+								<c:forEach items="${epoch.arms}" var="arm">
+									<option value="${arm.id }" <c:if test="${arm.id== command.scheduledArms[0].arm.id }">selected</c:if>>${arm.name}</option>
+								</c:forEach>
+							</select>
 						</td>
 					</c:when>
 				</c:choose>
