@@ -125,7 +125,7 @@
         <property name="singleSession" value="true"/>
         <property name="flushModeName" value="FLUSH_AUTO"/>
     </bean>
-
+    <tx:annotation-driven proxy-target-class="true"/>
     <bean id="gridIdentifierCreator" class="edu.duke.cabig.c3pr.utils.LocalGridIdentifierCreator" />
 
     <!--validators for domain objects   -->
