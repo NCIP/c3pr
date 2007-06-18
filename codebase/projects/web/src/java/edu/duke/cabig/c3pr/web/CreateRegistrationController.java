@@ -1,7 +1,6 @@
 package edu.duke.cabig.c3pr.web;
 
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +38,7 @@ import gov.nih.nci.cabig.ctms.web.tabs.Tab;
  * 
  */
 
-public class CreateRegistrationController extends RegistrationController {
+public class CreateRegistrationController<C extends StudyParticipantAssignment> extends RegistrationController<C> {
 	/**
 	 * Logger for this class
 	 */
@@ -57,7 +56,32 @@ public class CreateRegistrationController extends RegistrationController {
 		super("Create Registration");
 	}
 
-	protected void intializeFlows(Flow<StudyParticipantAssignment> flow) {
+
+	@Override
+	protected Object currentFormObject(HttpServletRequest request, Object sessionFormObject) throws Exception {
+		// TODO Auto-generated method stub
+		StudyParticipantAssignment command=(StudyParticipantAssignment) sessionFormObject;
+		if (sessionFormObject != null) {
+			if(command.getId()!=null){
+				getDao().reassociate(command);
+				return command;
+			}
+			if(command.getParticipant()!=null)
+				getParticipantDao().reassociate(command.getParticipant());
+			if(command.getStudySite()!=null)
+				getStudySiteDao().reassociate(command.getStudySite());
+		}
+		return sessionFormObject;
+	}
+	
+	@Override
+	protected boolean shouldSave(HttpServletRequest request, C command, Tab<C> tab) {
+		if(getPrimaryDomainObject(command)==null)
+			return false;
+		return getPrimaryDomainObject(command).getId() != null;
+	}
+	@Override
+	protected void intializeFlows(Flow flow) {
 		SubFlowTab subflow=new SubFlowTab<StudyParticipantAssignment>("Search Subject or Study", "SearchSubjectStudy","registration/home","false"){
 			public Map<String, Object> referenceData() {
 				Map<String, List<Lov>> configMap = configurationProperty.getMap();
@@ -112,21 +136,20 @@ public class CreateRegistrationController extends RegistrationController {
 		removeAlternateDisplayFlow(request);
 		request.getSession().setAttribute("registrationFlow", getFlow());
 		studyParticipantAssignment.setDiseaseHistory(new DiseaseHistory());
-		studyParticipantAssignment.addScheduledArm(new ScheduledArm());
+		studyParticipantAssignment.addScheduledArm(new ScheduledArm(studyParticipantAssignment));
 		return studyParticipantAssignment;
 	}
 	@Override
 	protected Map<String, Object> referenceData(HttpServletRequest httpServletRequest, int page) throws Exception {
 		// TODO Auto-generated method stub
 		Map<String, Object> refdata = new HashMap<String, Object>();
-		refdata.put("registrationTab", getFlow().getTab(page));
+		refdata.put("registrationTab", (SubFlowTab)getFlow().getTab(page));
 		return refdata;
 	}
 	
 	@Override
 	protected void postProcessPage(HttpServletRequest request, Object command, Errors errors, int page) throws Exception {
 		// TODO Auto-generated method stub
-		super.postProcessPage(request, command, errors, page);
 		String tabShortTitle=getFlow().getTab(page).getShortTitle();
 		StudyParticipantAssignment studyParticipantAssignment=(StudyParticipantAssignment)command;
 		if(isResumeFlow(request)){
@@ -141,23 +164,9 @@ public class CreateRegistrationController extends RegistrationController {
 		}
 		if(tabShortTitle.equalsIgnoreCase("Stratify")){
 			handleStratification(request,studyParticipantAssignment);
-/*			for(SubjectStratificationAnswer subjectStratificationAnswer : studyParticipantAssignment.getSubjectStratificationAnswers()){
-				System.out.println(subjectStratificationAnswer.getStratificationCriterion().getQuestionText()+" : "+subjectStratificationAnswer.getStratificationCriterionAnswer()!=null?subjectStratificationAnswer.getStratificationCriterionAnswer().getPermissibleAnswer():"Unanswered");
-			}
-*/		}
-		if(tabShortTitle.equalsIgnoreCase("Diseases")){
-			if (logger.isDebugEnabled()) {
-				logger.debug("postProcessPage(HttpServletRequest, Object, Errors, String) - Request Params"); //$NON-NLS-1$
-			}
-			Enumeration e=request.getParameterNames();
-			while(e.hasMoreElements()){
-				String param=(String)e.nextElement();
-				if (logger.isDebugEnabled()) {
-					logger.debug("postProcessPage(HttpServletRequest, Object, Errors, String) - " + param + " : " + request.getParameter(param)); //$NON-NLS-1$ //$NON-NLS-2$
-				}
-			}
 		}
 		studyParticipantAssignment.setRegistrationStatus(ParticipantServiceImpl.evaluateStatus(studyParticipantAssignment));
+		super.postProcessPage(request, command, errors, page);
 	}
 	@Override
 	protected ModelAndView processFinish(HttpServletRequest request,
@@ -234,9 +243,9 @@ public class CreateRegistrationController extends RegistrationController {
 	}
 	
 	private void updateCommandObject(StudyParticipantAssignment studyParticipantAssignment){
-		if(studyParticipantAssignment.getScheduledArms().size()==0){
-			studyParticipantAssignment.addScheduledArm(new ScheduledArm());
-		}
+		/*if(studyParticipantAssignment.getScheduledArms().size()==0){
+			studyParticipantAssignment.addScheduledArm(new ScheduledArm(studyParticipantAssignment));
+		}*/
 		if(studyParticipantAssignment.getDiseaseHistory()==null){
 			studyParticipantAssignment.setDiseaseHistory(new DiseaseHistory());
 		}
@@ -298,5 +307,4 @@ public class CreateRegistrationController extends RegistrationController {
 		}
 		return flag;
 	}
-
 }

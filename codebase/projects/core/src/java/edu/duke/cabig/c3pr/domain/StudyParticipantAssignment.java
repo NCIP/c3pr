@@ -1,5 +1,9 @@
 package edu.duke.cabig.c3pr.domain;
 
+import edu.duke.cabig.c3pr.utils.DateUtil;
+import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
+import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,13 +19,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.commons.collections15.functors.InstantiateFactory;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-
-import edu.duke.cabig.c3pr.utils.DateUtil;
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 
 /**
@@ -36,12 +38,10 @@ import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
     }
 )
 public class StudyParticipantAssignment extends AbstractMutableDomainObject {
-
-    private String name;
+	private LazyListHelper lazyListHelper;
+	private String name;
     private StudySite studySite;
     private Participant participant;
-    private List<ScheduledArm> scheduledArms = new ArrayList<ScheduledArm>();
-    private List<Identifier> identifiers = new ArrayList<Identifier>();
     private Date startDate;
     private String studyParticipantIdentifier;
     private String eligibilityWaiverReasonText;
@@ -52,9 +52,14 @@ public class StudyParticipantAssignment extends AbstractMutableDomainObject {
     private StudyInvestigator treatingPhysician;
     private String registrationStatus;
     private DiseaseHistory diseaseHistory;
-    private List<SubjectEligibilityAnswer> subjectEligibilityAnswers=new ArrayList<SubjectEligibilityAnswer>();
-    private List<SubjectStratificationAnswer> subjectStratificationAnswers=new ArrayList<SubjectStratificationAnswer>();
     
+    public StudyParticipantAssignment() {
+    	lazyListHelper=new LazyListHelper();
+    	lazyListHelper.add(SubjectEligibilityAnswer.class, new InstantiateFactory<SubjectEligibilityAnswer>(SubjectEligibilityAnswer.class));
+    	lazyListHelper.add(SubjectStratificationAnswer.class, new InstantiateFactory<SubjectStratificationAnswer>(SubjectStratificationAnswer.class));
+    	lazyListHelper.add(ScheduledArm.class, new BiDirectionalInstantiateFactory<ScheduledArm>(ScheduledArm.class,this));
+    	lazyListHelper.add(Identifier.class, new InstantiateFactory<Identifier>(Identifier.class));
+	}
     /// BEAN PROPERTIES
     @OneToOne
     @Cascade({CascadeType.ALL,CascadeType.DELETE_ORPHAN})
@@ -70,41 +75,45 @@ public class StudyParticipantAssignment extends AbstractMutableDomainObject {
 	@OneToMany
     @Cascade({CascadeType.ALL,CascadeType.DELETE_ORPHAN})
     @JoinColumn(name = "SPA_ID")
-    public List<SubjectEligibilityAnswer> getSubjectEligibilityAnswers() {
-		return subjectEligibilityAnswers;
+    public List<SubjectEligibilityAnswer> getSubjectEligibilityAnswersInternal() {
+		return lazyListHelper.getInternalList(SubjectEligibilityAnswer.class);
 	}
-
-	public void setSubjectEligibilityAnswers(
+	public void setSubjectEligibilityAnswersInternal(
 			List<SubjectEligibilityAnswer> subjectEligibilityAnswers) {
-		this.subjectEligibilityAnswers = subjectEligibilityAnswers;
+		lazyListHelper.setInternalList(SubjectEligibilityAnswer.class, subjectEligibilityAnswers);
 	}
-	
+	@Transient
+	public List<SubjectEligibilityAnswer> getSubjectEligibilityAnswers() {
+		return lazyListHelper.getLazyList(SubjectEligibilityAnswer.class);
+	}
 	public void addSubjectEligibilityAnswers(SubjectEligibilityAnswer subjectEligibilityAnswer){
-		subjectEligibilityAnswers.add(subjectEligibilityAnswer);
+		lazyListHelper.getLazyList(SubjectEligibilityAnswer.class).add(subjectEligibilityAnswer);
 	}
-	
 	public void removeSubjectEligibilityAnswers(SubjectEligibilityAnswer subjectEligibilityAnswer){
-		subjectEligibilityAnswers.remove(subjectEligibilityAnswer);
+		lazyListHelper.getLazyList(SubjectEligibilityAnswer.class).remove(subjectEligibilityAnswer);
 	}
 	
+
 	@OneToMany
     @Cascade({CascadeType.ALL,CascadeType.DELETE_ORPHAN})
     @JoinColumn(name = "SPA_ID")
-	public List<SubjectStratificationAnswer> getSubjectStratificationAnswers() {
-		return subjectStratificationAnswers;
+    public List<SubjectStratificationAnswer> getSubjectStratificationAnswersInternal() {
+		return lazyListHelper.getInternalList(SubjectStratificationAnswer.class);
 	}
-
-	public void setSubjectStratificationAnswers(
+	public void setSubjectStratificationAnswersInternal(
 			List<SubjectStratificationAnswer> subjectStratificationAnswers) {
-		this.subjectStratificationAnswers = subjectStratificationAnswers;
+		lazyListHelper.setInternalList(SubjectStratificationAnswer.class, subjectStratificationAnswers);
 	}
-
+	@Transient
+	public List<SubjectStratificationAnswer> getSubjectStratificationAnswers() {
+		return lazyListHelper.getLazyList(SubjectStratificationAnswer.class);
+	}
 	public void addSubjectStratificationAnswers(SubjectStratificationAnswer subjectStratificationAnswer){
-		subjectStratificationAnswers.add(subjectStratificationAnswer);
+		lazyListHelper.getLazyList(SubjectStratificationAnswer.class).add(subjectStratificationAnswer);
 	}
 	
 	public void removeSubjectStratificationAnswers(SubjectStratificationAnswer subjectStratificationAnswer){
-		subjectStratificationAnswers.remove(subjectStratificationAnswer);
+		lazyListHelper.getLazyList(SubjectStratificationAnswer.class).remove(subjectStratificationAnswer);
 	}
 	
 	public void setStudySite(StudySite studySite) {
@@ -130,21 +139,23 @@ public class StudyParticipantAssignment extends AbstractMutableDomainObject {
 
     @OneToMany (mappedBy = "studyParticipantAssignment")
     @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })    	    
+	public List<ScheduledArm> getScheduledArmsInternal() {
+		return lazyListHelper.getInternalList(ScheduledArm.class);
+	}
+
+	public void setScheduledArmsInternal(List<ScheduledArm> scheduledArms) {
+		lazyListHelper.setInternalList(ScheduledArm.class, scheduledArms);
+	}
+	@Transient
 	public List<ScheduledArm> getScheduledArms() {
-		return scheduledArms;
+		return lazyListHelper.getLazyList(ScheduledArm.class);
 	}
-
-	public void setScheduledArms(List<ScheduledArm> scheduledArms) {
-		this.scheduledArms = scheduledArms;
-	}
-
 	public void addScheduledArm(ScheduledArm scheduledArm){
-		scheduledArm.setStudyParticipantAssignment(this);
-		scheduledArms.add(scheduledArm);
+		lazyListHelper.getLazyList(ScheduledArm.class).add(scheduledArm);
 	}
 
 	public void removeScheduledArm(ScheduledArm scheduledArm){
-		scheduledArms.remove(scheduledArm);
+		lazyListHelper.getLazyList(ScheduledArm.class).remove(scheduledArm);
 	}
 
     public void setStudyParticipantIdentifier(String studyParticipantIdentifier) {
@@ -248,25 +259,27 @@ public class StudyParticipantAssignment extends AbstractMutableDomainObject {
 	@OneToMany
     @Cascade({CascadeType.ALL,CascadeType.DELETE_ORPHAN})
     @JoinColumn(name = "SPA_ID")
+	public List<Identifier> getIdentifiersInternal() {
+		return lazyListHelper.getInternalList(Identifier.class);
+	}
+	public void setIdentifiersInternal(List<Identifier> identifiers) {
+		lazyListHelper.setInternalList(Identifier.class,identifiers);
+	}
+	@Transient
 	public List<Identifier> getIdentifiers() {
-		return identifiers;
+		return lazyListHelper.getLazyList(Identifier.class);
 	}
-
-	public void setIdentifiers(List<Identifier> identifiers) {
-		this.identifiers = identifiers;
-	}
-	
 	public void addIdentifier(Identifier identifier){
-		identifiers.add(identifier);
+		lazyListHelper.getLazyList(Identifier.class).add(identifier);
 	}
 
 	public void removeIdentifier(Identifier identifier){
-		identifiers.remove(identifier);
+		lazyListHelper.getLazyList(Identifier.class).remove(identifier);
 	}
 	
 	@Transient
 	public String getPrimaryIdentifier() {		
-		for (Identifier identifier : identifiers) {
+		for (Identifier identifier : getIdentifiers()) {
 			if(identifier.getPrimaryIndicator().booleanValue() == true)
 			{
 				return identifier.getValue();
@@ -306,9 +319,9 @@ public class StudyParticipantAssignment extends AbstractMutableDomainObject {
 	@Transient
 	public List<SubjectEligibilityAnswer> getInclusionEligibilityAnswers(){
 		List<SubjectEligibilityAnswer> inclusionCriteriaAnswers=new ArrayList<SubjectEligibilityAnswer>();
-		for(int i=0 ; i<subjectEligibilityAnswers.size() ; i++){
-			if(subjectEligibilityAnswers.get(i).getEligibilityCriteria() instanceof InclusionEligibilityCriteria){
-				inclusionCriteriaAnswers.add(subjectEligibilityAnswers.get(i));
+		for(int i=0 ; i<getSubjectEligibilityAnswers().size() ; i++){
+			if(getSubjectEligibilityAnswers().get(i).getEligibilityCriteria() instanceof InclusionEligibilityCriteria){
+				inclusionCriteriaAnswers.add(getSubjectEligibilityAnswers().get(i));
 			}
 		}
 		return inclusionCriteriaAnswers;
@@ -316,20 +329,17 @@ public class StudyParticipantAssignment extends AbstractMutableDomainObject {
 	@Transient
 	public List<SubjectEligibilityAnswer> getExclusionEligibilityAnswers(){
 		List<SubjectEligibilityAnswer> exclusionCriteriaAnswers=new ArrayList<SubjectEligibilityAnswer>();
-		for(int i=0 ; i<subjectEligibilityAnswers.size() ; i++){
-			if(subjectEligibilityAnswers.get(i).getEligibilityCriteria() instanceof ExclusionEligibilityCriteria){
-				exclusionCriteriaAnswers.add(subjectEligibilityAnswers.get(i));
+		for(int i=0 ; i<getSubjectEligibilityAnswers().size() ; i++){
+			if(getSubjectEligibilityAnswers().get(i).getEligibilityCriteria() instanceof ExclusionEligibilityCriteria){
+				exclusionCriteriaAnswers.add(getSubjectEligibilityAnswers().get(i));
 			}
 		}
 		return exclusionCriteriaAnswers;
 	}
-
-     @Transient
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 }
