@@ -1,4 +1,4 @@
-package edu.duke.cabig.c3pr.web;
+/*package edu.duke.cabig.c3pr.web;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -21,10 +21,10 @@ import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.SubFlow;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
-/**
+*//**
  * @author Ramakrishna
  * 
- */
+ *//*
 
 public class RegistrationDetailsController extends RegistrationController {
 
@@ -227,11 +227,11 @@ public class RegistrationDetailsController extends RegistrationController {
 		return null;
 	}
 
-	/*
+	
 	 * (non-Javadoc)
 	 * 
 	 * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
-	 */
+	 
 	@Override
 	protected void postProcessPage(HttpServletRequest request, Object oCommand,
 			Errors errors, int page) throws Exception {
@@ -273,3 +273,4 @@ public class RegistrationDetailsController extends RegistrationController {
 		
 	}
 }
+*/
