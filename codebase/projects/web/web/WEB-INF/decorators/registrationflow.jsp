@@ -42,16 +42,19 @@
         <input type="hidden" name="_target${rTab.targetNumber}" id="flowredirect-target"/>
         <input type="hidden" name="_page${rTab.number}"/>
     </form:form>
-    <!--currentSection.displayName : ${currentSection.displayName} <br>
+    <!-- currentSection.displayName : ${currentSection.displayName} <br>
     currentTask.displayName : ${currentTask.displayName }<BR>
     rTab.display : ${rTab.display }<br>
     rTab.shortTitle : ${rTab.shortTitle }<br>
     rTab.showSummary : ${rTab.showSummary }<br>
     rTab.subFlow : ${rTab.subFlow }<br>
     rFlow :  ${rFlow}<br>
+    rTab :  ${rTab}<br>
+    registrationTab : ${registrationTab}<br>
     ${currentSection.displayName=='Registration' && rFlow!='false' && rTab.display!='false'}<br>
     <%= request.getSession().getAttribute("registrationFlow")!=null?"not empty":"empty" %><br>
     -->
+    
     <c:choose>
         <c:when test="${currentSection.displayName=='Registration' && rFlow!='false' && rTab.display!='false'}">
             <%System.out.println("--------setting tabs-------------"); %>
