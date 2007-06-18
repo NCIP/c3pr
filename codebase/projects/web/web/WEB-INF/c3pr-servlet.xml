@@ -131,14 +131,14 @@
 	<bean name="/participant/confirmCreateParticipant" id="confirmCreateParticipantController" autowire="byType"
     	  class="edu.duke.cabig.c3pr.web.ConfirmCreateParticipantController" >
     </bean>
-	<bean name="/registration/registrationDetails"
+<!-- 	<bean name="/registration/registrationDetails"
 		id="registrationDetailsController" lazy-init="true"
 		class="edu.duke.cabig.c3pr.web.RegistrationDetailsController"
 		autowire="byName">
 		<property name="commandClass"
 			value="edu.duke.cabig.c3pr.domain.StudyParticipantAssignment" />
 		<property name="commandName" value="command" />
-	</bean>
+	</bean> -->
 	<bean name="/registration/searchRegistration"
 		id="searchRegistrationController" lazy-init="true"
 		class="edu.duke.cabig.c3pr.web.SearchRegistrationController"
@@ -273,7 +273,7 @@
 		</property>
 	</bean>
 
-	<bean id="exceptionResolver"
+ 	<bean id="exceptionResolver"
 		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
 		<property name="exceptionMappings">
 			<props>
@@ -283,4 +283,5 @@
 			</props>
 		</property>
 	</bean>
+
 </beans>
