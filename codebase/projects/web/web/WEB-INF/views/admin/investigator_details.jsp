@@ -10,11 +10,13 @@
 <script>
 
 function fireAction(action, selected){	
-			document.getElementById("command")._finish.name='xyz';		    
+			    
 			document.getElementById("command")._action.value=action;
-			document.getElementById("command")._selected.value=selected;		
+			document.getElementById("command")._selected.value=selected;
+			document.getElementById('command')._finish.name='_noname';
+			document.getElementById('_target').name='_noname';
 			document.getElementById("command").submit();
-		
+			
 	}
 function handleConfirmation(){
 	new Effect.SlideDown('createInv');
@@ -25,11 +27,10 @@ function handleConfirmation(){
 </head>
 <body>
 <tags:formPanelBox tab="${tab}" flow="${flow}">
-		<form:form method="post" action="createInvestigator"
-			cssClass="standard" name="studySiteForm">
 			<input type="hidden" name="_action" value="">
 			<input type="hidden" name="_selected" value="">
-			<input type="hidden" name="_finish" value="true">
+			<input type="hidden" name="_finish" value="true" />
+		
 			<tags:errors path="*" />
 			<table width="100%" border="0" cellpadding="0" cellspacing="0">
 				<tr>
@@ -43,16 +44,16 @@ function handleConfirmation(){
 									<!-- LEFT CONTENT STARTS HERE -->
 									<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
 									<!-- RIGHT CONTENT STARTS HERE --> <c:if
-										test="${param.type == 'confirm'}">
+										test="${type == 'confirm'}">
 										<div id="confirmationMessage">
 										<h3><font color="green"> You have successfully created an
-										investigator with name : ${param.fullName}</font></h3>
+										investigator with name : ${fullName}</font></h3>
 										<br>
 										<a href="javascript:handleConfirmation()">Click here to create
 										another investigator</a></div>
 									</c:if>
 									<div id="createInv"
-										<c:if test="${param.type == 'confirm'}">style="display:none"</c:if>>
+										<c:if test="${type == 'confirm'}">style="display:none"</c:if>>
 
 
 
@@ -169,6 +170,9 @@ function handleConfirmation(){
 									</table>
 									</div>
 									</td>
+									
+									
+									
 
 									<!-- LEFT CONTENT ENDS HERE -->
 								</tr>
@@ -183,7 +187,6 @@ function handleConfirmation(){
 			</table>
 
 
-		</form:form>
 </tags:formPanelBox>
 </body>
 </html>

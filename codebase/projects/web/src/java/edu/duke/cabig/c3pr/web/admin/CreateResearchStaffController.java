@@ -13,6 +13,7 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
@@ -30,8 +31,7 @@ import gov.nih.nci.cabig.ctms.web.tabs.AbstractTabbedFlowFormController;
 /**
  * @author Ramakrishna
  */
-public class CreateResearchStaffController extends
-		AbstractTabbedFlowFormController<ResearchStaff> {
+public class CreateResearchStaffController extends SimpleFormController {
 
 	private ResearchStaffDao researchStaffDao;
 
@@ -41,31 +41,20 @@ public class CreateResearchStaffController extends
 
 	public CreateResearchStaffController() {
 		setCommandClass(ResearchStaff.class);
+		this.setCommandName("command");
+		this.setFormView("admin/research_staff_details");
+		this.setSuccessView("admin/research_staff_details");
+	}
 
-		SubFlow<ResearchStaff> flow = new SubFlow<ResearchStaff>(
-				"Create Research Staff");
+	protected Map<String, Object> referenceData(HttpServletRequest request) {
 
-		flow.addTab(new SubFlowTab<ResearchStaff>("Enter Research Staff Information",
-				"New Research Staff", "admin/research_staff_details") {
-			public Map<String, Object> referenceData() {
-				Map<String, List<Lov>> configMap = configurationProperty
-						.getMap();
-
-				Map<String, Object> refdata = new HashMap<String, Object>();
-				refdata.put("studySiteStatusRefData", configMap
-						.get("studySiteStatusRefData"));
-				refdata.put("healthcareSites", healthcareSiteDao.getAll());
-				refdata.put("action", "New");
-				return refdata;
-			}
-
-			@Override
-			public boolean isAllowDirtyForward() {
-				return false;
-			}
-		});
-
-		setFlow(flow);
+		Map<String, Object> configMap = configurationProperty.getMap();
+		Map<String, Object> refdata = new HashMap<String, Object>();
+		refdata.put("studySiteStatusRefData", configMap
+				.get("studySiteStatusRefData"));
+		refdata.put("healthcareSites", healthcareSiteDao.getAll());
+		refdata.put("action", "New");
+		return refdata;
 	}
 
 	protected void initBinder(HttpServletRequest request,
@@ -84,11 +73,10 @@ public class CreateResearchStaffController extends
 	 * @throws ServletException
 	 */
 	protected Object formBackingObject(HttpServletRequest request)
-			throws ServletException {
-
+			throws Exception {
+		
 		ResearchStaff researchStaff = new ResearchStaff();
 		researchStaff = createResearchStaffWithContacts(researchStaff);
-
 		return researchStaff;
 	}
 
@@ -105,20 +93,28 @@ public class CreateResearchStaffController extends
 		rs.addContactMechanism(contactMechanismFax);
 		return rs;
 	}
+	
+	protected boolean isFormSubmission(HttpServletRequest request)
+	{
+		if((request.getAttribute("type") != null)&& (request.getAttribute("type").equals("confirm")))
+		return false;
+		return super.isFormSubmission(request);
+	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#processFinish
-	 *      (javax.servlet.http.HttpServletRequest,
-	 *      javax.servlet.http.HttpServletResponse, java.lang.Object,
-	 *      org.springframework.validation.BindException)
+	 * @see org.springframework.web.servlet.mvc.SimpleFormController#onSubmit
+	 *      (HttpServletRequest request, HttpServletResponse response, Object
+	 *      command, BindException errors)
 	 */
+
 	@Override
-	protected ModelAndView processFinish(HttpServletRequest request,
+	protected ModelAndView processFormSubmission(HttpServletRequest request,
 			HttpServletResponse response, Object command, BindException errors)
 			throws Exception {
-
+		// TODO Auto-generated method stub
+		Map<String, Object> configMap = configurationProperty.getMap();
 		ResearchStaff researchStaff = (ResearchStaff) command;
 
 		Iterator<ContactMechanism> cMIterator = researchStaff
@@ -131,27 +127,20 @@ public class CreateResearchStaffController extends
 		}
 
 		researchStaffDao.save(researchStaff);
-
-		return new ModelAndView("forward:createResearchStaff?fullName="
-				+ researchStaff.getFullName() + "&type=confirm");
+		Map map = errors.getModel();
+		map.put("studySiteStatusRefData", configMap
+				.get("studySiteStatusRefData"));
+		map.put("healthcareSites", healthcareSiteDao.getAll());
+		map.put("action", "New");
+		
+		request.setAttribute("fullName", researchStaff.getFullName());
+		request.setAttribute("type", "confirm");
+		
+		return new ModelAndView("forward:createResearchStaff");
 
 	}
-
-	@Override
-	protected void postProcessPage(HttpServletRequest request, Object command,
-			Errors arg2, int pageNo) throws Exception {
-
-		switch (pageNo) {
-		case 0:
-			handleRowAction((ResearchStaff) command, request
-					.getParameter("_action"), request.getParameter("_selected"));
-			break;
-
-		default:
-			// do nothing
-		}
-	}
-
+	
+	
 	private void handleRowAction(ResearchStaff researchStaff, String action,
 			String selected) {
 		if ("addContact".equals(action)) {
@@ -192,4 +181,5 @@ public class CreateResearchStaffController extends
 	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
 		this.healthcareSiteDao = healthcareSiteDao;
 	}
+
 }

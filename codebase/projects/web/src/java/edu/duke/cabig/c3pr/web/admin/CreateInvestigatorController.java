@@ -30,6 +30,8 @@ import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.SubFlow;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.SubFlowTab;
 import gov.nih.nci.cabig.ctms.web.tabs.AbstractTabbedFlowFormController;
+import gov.nih.nci.cabig.ctms.web.tabs.Flow;
+import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
 /**
  * @author Ramakrishna
@@ -48,9 +50,9 @@ public class CreateInvestigatorController extends
 	public CreateInvestigatorController() {
 		setCommandClass(Investigator.class);
 
-		SubFlow<Investigator> flow = new SubFlow<Investigator>("Create Investigator");
+		Flow<Investigator> flow = new Flow<Investigator>("Create Investigator");
 
-		flow.addTab(new SubFlowTab<Investigator>("Enter Investigator Information",
+		flow.addTab(new Tab<Investigator>("Enter Investigator Information",
 				"New Investigator", "admin/investigator_details") {
 			public Map<String, Object> referenceData() {
 				Map<String, List<Lov>> configMap = configurationProperty
@@ -107,7 +109,6 @@ public class CreateInvestigatorController extends
 	protected ModelAndView processFinish(HttpServletRequest request,
 			HttpServletResponse response, Object command, BindException errors)
 			throws Exception {
-
 		Investigator inv = (Investigator) command;
 
 		Iterator<ContactMechanism> cMIterator = inv.getContactMechanisms()
@@ -122,10 +123,20 @@ public class CreateInvestigatorController extends
 		investigatorDao.save(inv);
 		// response.sendRedirect("createInvestigator?fullName="
 		// + inv.getFullName() + "&type=confirm");
-		return new ModelAndView("forward:createInvestigator?fullName="
-				+ inv.getFullName() + "&type=confirm");
+		
+		request.setAttribute("fullName", inv.getFullName());
+		request.setAttribute("type", "confirm");
+		
+		return new ModelAndView("forward:createInvestigator");
 
 	}
+	
+	protected boolean isFormSubmission(HttpServletRequest request)
+	{
+		if((request.getAttribute("type") != null)&& (request.getAttribute("type").equals("confirm")))
+		return false;
+		return super.isFormSubmission(request);
+	}	
 
 	@Override
 	protected void postProcessPage(HttpServletRequest request, Object command,
