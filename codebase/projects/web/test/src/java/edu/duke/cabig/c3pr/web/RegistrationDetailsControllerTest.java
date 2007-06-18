@@ -1,4 +1,4 @@
-package edu.duke.cabig.c3pr.web;
+/*package edu.duke.cabig.c3pr.web;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,9 +22,9 @@ import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.ContextTools;
 import edu.duke.cabig.c3pr.utils.Lov;
 
-/**
+*//**
  * @author Ramakrishna
- */
+ *//*
 
 public class RegistrationDetailsControllerTest extends ControllerTestCase {
 
@@ -103,7 +103,7 @@ public class RegistrationDetailsControllerTest extends ControllerTestCase {
 
 	}
 
-	/*
+	
 	 * private Participant postAndReturnCommand() throws Exception {
 	 * request.setMethod("POST"); participantDao.save((new Participant())
 	 * notNull()); expectLastCall().atLeastOnce().asStub();
@@ -114,7 +114,7 @@ public class RegistrationDetailsControllerTest extends ControllerTestCase {
 	 * Object command = mv.getModel().get("command"); assertNotNull("Command not
 	 * present in model: " + mv.getModel(), command); return (Participant)
 	 * command; }
-	 */
+	 
 
 	public class HealthCareSiteDaoMock extends HealthcareSiteDao {
 
@@ -125,3 +125,4 @@ public class RegistrationDetailsControllerTest extends ControllerTestCase {
 		}
 	}
 }
+*/
