@@ -9,9 +9,10 @@
 <%@attribute name="enctype"%>
 <%@attribute name="boxId"%>
 <%@attribute name="boxClass" %>
+<%@attribute name="action" %>
 <%@attribute name="localButtons" fragment="true" %>
-
-<form:form name="${formName}" enctype="${enctype}">
+<c:if test="${not empty action}"><c:set var="actionString" value="action='${action}'"></c:set></c:if>
+<form:form name="${formName}" action="${action}" enctype="${enctype}">
 <tags:tabFields tab="${tab}"/>
 <c:if test="${empty willSave}"><c:set var="willSave" value="${true}"/></c:if>
 <chrome:box title="${empty title ? tab.shortTitle : title}" id="${boxId}" cssClass="${boxClass}">
