@@ -31,6 +31,11 @@ public class ScheduledArm extends AbstractMutableDomainObject {
 		this.startDate=new Date();
 		this.eligibilityIndicator="true";
 	}
+	public ScheduledArm(StudyParticipantAssignment studyParticipantAssignment) {
+		this.studyParticipantAssignment=studyParticipantAssignment;
+		this.startDate=new Date();
+		this.eligibilityIndicator="true";
+	}
 
 	@ManyToOne
 	@JoinColumn (name="ARM_ID")
