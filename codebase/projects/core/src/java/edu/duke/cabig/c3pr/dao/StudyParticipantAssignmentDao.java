@@ -4,17 +4,21 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.LockMode;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.emory.mathcs.backport.java.util.Collections;
+import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
+
 
 public class StudyParticipantAssignmentDao extends
-		GridIdentifiableDao<StudyParticipantAssignment> {
+		GridIdentifiableDao<StudyParticipantAssignment> implements MutableDomainObjectDao<StudyParticipantAssignment>{
 
 	private List<String> SUBSTRING_MATCH_PROPERTIES = Arrays
 			.asList("studySite.study.shortTitleText");
@@ -113,5 +117,12 @@ public class StudyParticipantAssignmentDao extends
 		return findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES,
 				EXACT_MATCH_PROPERTIES);
 	}
+	public void reassociate(StudyParticipantAssignment spa) {
+        getHibernateTemplate().lock(spa,LockMode.NONE);
+     }
 
+	public void save(StudyParticipantAssignment obj) {
+		getHibernateTemplate().saveOrUpdate(obj);
+		
+	}
 }

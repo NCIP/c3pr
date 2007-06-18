@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
+import org.hibernate.LockMode;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
@@ -14,12 +15,14 @@ import org.springframework.dao.DataAccessException;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.emory.mathcs.backport.java.util.Collections;
+import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 
 /**
  * @author Priyatam, kulasekaran
  */
-public class ParticipantDao extends GridIdentifiableDao<Participant> {
+public class ParticipantDao extends GridIdentifiableDao<Participant> implements MutableDomainObjectDao<Participant>{
 
 	private List<String> SUBSTRING_MATCH_PROPERTIES = Arrays.asList("lastName");
 
@@ -132,5 +135,11 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> {
 		return findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES,
 				EXACT_MATCH_PROPERTIES);
 	}
+	public void reassociate(Participant p) {
+        getHibernateTemplate().lock(p,LockMode.NONE);
+     }
 
+	public void save(Participant obj) {
+		getHibernateTemplate().saveOrUpdate(obj);
+	}
 }
