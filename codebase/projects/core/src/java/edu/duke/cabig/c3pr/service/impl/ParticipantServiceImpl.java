@@ -68,8 +68,9 @@ public class ParticipantServiceImpl implements ParticipantService {
 		if (logger.isDebugEnabled()) {
 			logger.debug("processFinish(HttpServletRequest, HttpServletResponse, Object, BindException) - in process finish"); //$NON-NLS-1$
 		}
-		studyParticipantAssignment.getParticipant().getStudyParticipantAssignments().size();
-		studyParticipantAssignment.getParticipant().addStudyParticipantAssignment(studyParticipantAssignment);
+//		studyParticipantAssignment.getParticipant().getStudyParticipantAssignments().size();
+		if(studyParticipantAssignment.getId()==null)
+			studyParticipantAssignment.getParticipant().addStudyParticipantAssignment(studyParticipantAssignment);
 		studyParticipantAssignment.setRegistrationStatus(evaluateStatus(studyParticipantAssignment));
 		if(!hasDiseaseHistory(studyParticipantAssignment.getDiseaseHistory())){
 			studyParticipantAssignment.setDiseaseHistory(null);
@@ -125,7 +126,7 @@ public class ParticipantServiceImpl implements ParticipantService {
 			return "Incomplete";
 		}else if(studyParticipantAssignment.getTreatingPhysician()==null){
 			return "Incomplete";
-		}else if(studyParticipantAssignment.getScheduledArms().get(studyParticipantAssignment.getScheduledArms().size()-1).getArm()==null){
+		}else if(studyParticipantAssignment.getScheduledArms().size()==0 || studyParticipantAssignment.getScheduledArms().get(studyParticipantAssignment.getScheduledArms().size()-1).getArm()==null){
 			return "Incomplete";
 		}else if(!evaluateStratificationIndicator(studyParticipantAssignment)){
 			return "Incomplete";
