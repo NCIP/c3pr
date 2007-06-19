@@ -48,7 +48,6 @@ public class EditStudyController extends StudyController<Study> {
 
     @Override
     protected void layoutTabs(Flow flow) {
-        flow.addTab(new StudyRegistrationsTab());
         flow.addTab(new StudyDetailsTab());
         flow.addTab(new StudyIdentifiersTab());
         flow.addTab(new StudySitesTab());
@@ -58,7 +57,7 @@ public class EditStudyController extends StudyController<Study> {
         flow.addTab(new StudyStratificationTab());
         flow.addTab(new StudyDiseasesTab());
         flow.addTab(new StudyDesignTab());
-        flow.addTab(new StudyEmptyTab("Summary", "Summary", "study/study_view_summary"));
+        flow.addTab(new StudyEmptyTab("Summary", "Summary", "study/study_summary_edit"));
     }
 
     
