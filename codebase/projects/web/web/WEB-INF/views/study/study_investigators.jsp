@@ -32,14 +32,14 @@ function fireAction(action, selectedSite, selectedInvestigator) {
 }
 
 function chooseSites() {
-    document.getElementById('command').targetPage.name = '_noname';
+    document.getElementById('command')._target.name = '_noname';
     document.form._action.value = "siteChange";
     document.form._selectedSite.value = document.getElementById('site').value;
     document.form.submit();
 }
 
 function chooseSitesFromSummary(selected) {
-    document.getElementById('command').targetPage.name = '_noname';
+    document.getElementById('command')._target.name = '_noname';
     document.form._action.value = "siteChange";
     document.form._selectedSite.value = selected;
     document.form.submit();
