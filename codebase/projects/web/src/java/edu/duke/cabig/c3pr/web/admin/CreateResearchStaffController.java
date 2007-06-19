@@ -53,7 +53,6 @@ public class CreateResearchStaffController extends SimpleFormController {
 		refdata.put("studySiteStatusRefData", configMap
 				.get("studySiteStatusRefData"));
 		refdata.put("healthcareSites", healthcareSiteDao.getAll());
-		refdata.put("action", "New");
 		return refdata;
 	}
 
