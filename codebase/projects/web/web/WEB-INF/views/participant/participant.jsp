@@ -20,7 +20,7 @@ function getPage(s){
 function fireAction(action, selected){
 	document.getElementById("_action").value=action;
 	document.getElementById("_selected").value=selected;
-	document.getElementById('targetPage').name='_noname';
+	document.getElementById('_target').name='_noname';
 	
 	// need to disable validations while removing
 	
