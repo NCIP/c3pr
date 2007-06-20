@@ -13,10 +13,8 @@
 		<pattern>/pages/participant/createParticipant</pattern>
 		<pattern>/pages/participant/editParticipant</pattern>
         <pattern>/pages/study/editStudy</pattern>
+        <pattern>/pages/registration/registrationDetails</pattern>
     </decorator>
-	<decorator name="tabbedflow_edit" page="tabbedflow_edit.jsp">
-		<pattern>/pages/registration/registrationDetails</pattern>
-	</decorator>
 	<decorator name="registration" page="registrationflow.jsp">
 		<pattern>/pages/registration/*</pattern>
 	</decorator>
