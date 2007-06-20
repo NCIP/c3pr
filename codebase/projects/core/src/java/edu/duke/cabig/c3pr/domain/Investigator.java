@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
+import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,13 +30,15 @@ import org.hibernate.annotations.Parameter;
 //@AssociationOverride( name="contactMechanisms", joinColumns= @JoinColumn(name="INV_ID") )
 public class Investigator extends Person {
     private String nciIdentifier;
-    private List<HealthcareSiteInvestigator> healthcareSiteInvestigators 
-    	= new ArrayList<HealthcareSiteInvestigator>(); 
-    
+    private LazyListHelper lazyListHelper;
     private String fullName;
     
     // business methods
     	   	    
+    public Investigator() {
+    	lazyListHelper=new LazyListHelper();
+    	lazyListHelper.add(HealthcareSiteInvestigator.class, new BiDirectionalInstantiateFactory<HealthcareSiteInvestigator>(HealthcareSiteInvestigator.class,this));
+	}
     @Transient
     public String getLastFirst() {
         StringBuilder name = new StringBuilder();
@@ -64,19 +68,26 @@ public class Investigator extends Person {
     }
     
     public void addHealthcareSiteInvestigator(HealthcareSiteInvestigator hcsi) {
-    	healthcareSiteInvestigators.add(hcsi);    
-        hcsi.setInvestigator(this);
+    	hcsi.setInvestigator(this);
+    	lazyListHelper.getLazyList(HealthcareSiteInvestigator.class).add(hcsi);
     }    
     	
 	@OneToMany (mappedBy = "investigator")    
     @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-	public List<HealthcareSiteInvestigator> getHealthcareSiteInvestigators() {
-		return healthcareSiteInvestigators;
+	public List<HealthcareSiteInvestigator> getHealthcareSiteInvestigatorsInternal() {
+		return lazyListHelper.getInternalList(HealthcareSiteInvestigator.class);
 	}
 
-	public void setHealthcareSiteInvestigators(List<HealthcareSiteInvestigator> 
+	@Transient
+	public List<HealthcareSiteInvestigator> getHealthcareSiteInvestigators() {
+		return lazyListHelper.getLazyList(HealthcareSiteInvestigator.class);
+	}
+	
+	public void setHealthcareSiteInvestigators(List<HealthcareSiteInvestigator>	healthcareSiteInvestigators) {
+	}
+	public void setHealthcareSiteInvestigatorsInternal(List<HealthcareSiteInvestigator> 
 		healthcareSiteInvestigators) {
-		this.healthcareSiteInvestigators = healthcareSiteInvestigators;
+		lazyListHelper.setInternalList(HealthcareSiteInvestigator.class, healthcareSiteInvestigators);
 	}
 
 	public String getNciIdentifier() {
