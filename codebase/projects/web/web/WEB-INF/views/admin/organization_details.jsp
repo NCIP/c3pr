@@ -85,7 +85,7 @@ function submitPage(){
 										<table width="625" border="0" cellspacing="1" cellpadding="1" id="table1">
 											<tr>
 												<td align="right"><em></em> <b>Street Address:</b>&nbsp;</td>
-												<td><form:input size="60" path="address.streetAddress" />&nbsp;&nbsp;&nbsp;</td>
+												<td align="left"><form:input size="60" path="address.streetAddress" />&nbsp;&nbsp;&nbsp;</td>
 											</tr>
 											<tr>
 												<td align="right"><em></em> <b>City:</b>&nbsp;</td>
