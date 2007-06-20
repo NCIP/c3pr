@@ -11,7 +11,6 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import edu.duke.cabig.c3pr.dao.OrganizationDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.web.SearchStudyController;
 
 /*
  * @author Vinay Gangoli
@@ -22,7 +21,7 @@ import edu.duke.cabig.c3pr.web.SearchStudyController;
  */
 public class CreateOrganizationController extends SimpleFormController {
 
-	private static Log log = LogFactory.getLog(SearchStudyController.class);
+	private static Log log = LogFactory.getLog(CreateOrganizationController.class);
 	private OrganizationDao organizationDao;
 	
 	//request parameter that helps determine 
@@ -30,7 +29,7 @@ public class CreateOrganizationController extends SimpleFormController {
 	public static final String TYPE = "type";
 	public static final String ORGNAME = "orgName";
 	public static final String CONFIRM = "confirm";
-	public static final String DISPLAYLOCALBUTTONS = "displayLocalButtons";
+
 	
 	@Override
 	protected boolean isFormSubmission(HttpServletRequest request) {
@@ -62,8 +61,7 @@ public class CreateOrganizationController extends SimpleFormController {
 
 		request.setAttribute(TYPE , CONFIRM);
 		request.setAttribute(ORGNAME , healthCareSite.getName());
-		
-		request.setAttribute(DISPLAYLOCALBUTTONS, "false");
+
     	return new ModelAndView("forward:createOrganization");
     	
     }
