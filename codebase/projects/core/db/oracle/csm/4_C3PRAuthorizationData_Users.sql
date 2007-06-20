@@ -27,60 +27,60 @@ values(3,3,3);
 insert into csm_user_group_role_pg (USER_GROUP_ROLE_PG_ID,
             GROUP_ID, ROLE_ID, PROTECTION_GROUP_ID,
             UPDATE_DATE)
-            values(16,2,1,1,sysdate);
+            values(19,2,1,1,sysdate);
 
 insert into csm_user_group_role_pg (USER_GROUP_ROLE_PG_ID,
             GROUP_ID, ROLE_ID, PROTECTION_GROUP_ID,
             UPDATE_DATE)
-            values(17,2,2,1,sysdate);
+            values(20,2,2,1,sysdate);
 
 insert into csm_user_group_role_pg (USER_GROUP_ROLE_PG_ID,
             GROUP_ID, ROLE_ID, PROTECTION_GROUP_ID,
             UPDATE_DATE)
-            values(18,2,3,1,sysdate);
+            values(21,2,3,1,sysdate);
 
 insert into csm_user_group_role_pg (USER_GROUP_ROLE_PG_ID,
             GROUP_ID, ROLE_ID, PROTECTION_GROUP_ID,
             UPDATE_DATE)
-            values(19,2,7,3,sysdate);
+            values(22,2,7,3,sysdate);
 
 insert into csm_user_group_role_pg (USER_GROUP_ROLE_PG_ID,
             GROUP_ID, ROLE_ID, PROTECTION_GROUP_ID,
             UPDATE_DATE)
-            values(20,2,8,3,sysdate);
+            values(23,2,8,3,sysdate);
 
 insert into csm_user_group_role_pg (USER_GROUP_ROLE_PG_ID,
             GROUP_ID, ROLE_ID, PROTECTION_GROUP_ID,
             UPDATE_DATE)
-            values(21,2,9,3,sysdate);
+            values(24,2,9,3,sysdate);
 
 insert into csm_user_group_role_pg (USER_GROUP_ROLE_PG_ID,
             GROUP_ID, ROLE_ID, PROTECTION_GROUP_ID,
             UPDATE_DATE)
-            values(22,2,6,2,sysdate);       
+            values(25,2,6,2,sysdate);
 
 insert into csm_user_group_role_pg (USER_GROUP_ROLE_PG_ID,
             GROUP_ID, ROLE_ID, PROTECTION_GROUP_ID,
             UPDATE_DATE)
-            values(23,3,3,1,sysdate);
+            values(26,3,3,1,sysdate);
 
 insert into csm_user_group_role_pg (USER_GROUP_ROLE_PG_ID,
             GROUP_ID, ROLE_ID, PROTECTION_GROUP_ID,
             UPDATE_DATE)
-            values(24,3,4,2,sysdate);
+            values(27,3,4,2,sysdate);
 
 insert into csm_user_group_role_pg (USER_GROUP_ROLE_PG_ID,
             GROUP_ID, ROLE_ID, PROTECTION_GROUP_ID,
             UPDATE_DATE)
-            values(25,3,5,2,sysdate);
+            values(28,3,5,2,sysdate);
 
 insert into csm_user_group_role_pg (USER_GROUP_ROLE_PG_ID,
             GROUP_ID, ROLE_ID, PROTECTION_GROUP_ID,
             UPDATE_DATE)
-            values(26,3,6,2,sysdate);
+            values(29,3,6,2,sysdate);
 
 insert into csm_user_group_role_pg (USER_GROUP_ROLE_PG_ID,
             GROUP_ID, ROLE_ID, PROTECTION_GROUP_ID,
             UPDATE_DATE)
-            values(27,3,9,3,sysdate);
+            values(30,3,9,3,sysdate);
 commit;
