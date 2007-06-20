@@ -1,3 +1,4 @@
-<%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
-
-  
+<%@taglib prefix="tags" tagdir="/WEB-INF/tags"%>
+<div id="footer"></div>
+<tags:ssoForm/>
+<tags:debugInfo/>
