@@ -79,7 +79,7 @@ temp=-1
 var AbstractRowInserterProps = {
 	add_row_division_id: "row-table",
 	skeleton_row_division_id: "dummy-row",
-	initialIndex: -1,
+	initialIndex: 0,
 	localIndex: -1,
 	validationCSSIndicator: "validate-",
 	row_index_indicator: "PAGE.ROW.INDEX",
@@ -138,7 +138,7 @@ var AbstractRowInserterProps = {
     							return $(this.add_row_division_id).innerHTML
     						},
     init: function(){
-    					this.localIndex=this.initialIndex+1
+    					this.localIndex=this.initialIndex
     				},
     suppressValidation: function(htmlString){
     								return htmlString.gsub(this.getRegExValidationStr(),function(match){
