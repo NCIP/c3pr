@@ -8,6 +8,17 @@
 <head>
     <script type="text/javascript">
 
+        Effect.OpenUp = function(element) {
+            element = $(element);
+            new Effect.BlindDown(element, arguments[1] || {});
+        }
+
+        Effect.CloseDown = function(element) {
+
+            element = $(element);
+            new Effect.BlindUp(element, arguments[1] || {});
+        }
+
         function manageSelectBox(box) {
             if (box.value == 'true') {
                 //		document.getElementById('cooperativeGroups').style.display='none';
@@ -24,13 +35,16 @@
 </head>
 <body>
 <%-- Can't use tags:tabForm b/c there are two boxes in the form --%>
-<tags:tabForm tab="${tab}" flow="${flow}">
-<jsp:attribute name="singleFields">
+<form:form method="post" name="studyDetails" cssClass="standard">
+<tags:tabFields tab="${tab}"/>
+<chrome:box title="${tab.shortTitle}">
 
 <div>
     <input type="hidden" name="_action" value="">
     <input type="hidden" name="_selected" value="">
 </div>
+
+<chrome:division id="study-details" title="Basic Details">
 
 <div class="content">
 <div class="row">
@@ -151,6 +165,11 @@
     </div>
 </div>
 
+</chrome:division>
+
+
+<chrome:division title="Multi-Institutional Details">
+
 
 <div class="row">
     <div class="label">*Multi-Institution:</div>
@@ -167,26 +186,35 @@
 
 <div id="cooperativeGroups"
      <c:if test="${ (empty command.multiInstitutionIndicator) || command.multiInstitutionIndicator=='false'}">style="display:none;"</c:if>>
-    <table width="80%" border="0">
-        <tr>
-            <td class="label130"><b>Coordinating Center:</td>
-            <td align="left" width="39%"><form:select
+
+    <div class="row">
+        <div class="label">Coordinating Center:</div>
+        <div class="value">
+            <form:select
                     path="identifiers[1].source">
                 <option value="">--Please Select--</option>
                 <form:options items="${coordinatingCenters}" itemLabel="desc"
                               itemValue="desc"/>
-            </form:select></td>
-            <td class="label20"><span class="red">*</span><b>Coordinating Center
-                Study Identifier:</td>
-            <td><form:input path="identifiers[1].value" size="30" maxlength="30"/>
-                <input type="hidden" name="identifiers[1].type"
-                       value="Coordinating Center Identifier"/></td>
-        </tr>
-    </table>
+            </form:select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="label">
+            <span class="red">*</span>
+            Coordinating Center Study Identifier:
+        </div>
+        <div class="value">
+            <form:input path="identifiers[1].value" size="30" maxlength="30"/>
+            <input type="hidden" name="identifiers[1].type"
+                   value="Coordinating Center Identifier"/>
+        </div>
+    </div>
 </div>
 
-</div>
-</jsp:attribute>
-</tags:tabForm>
+</chrome:division>
+    <tags:tabControls tab="${tab}" flow="${flow}"/>
+
+</chrome:box>
+</form:form>
 </body>
 </html>
