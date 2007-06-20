@@ -16,10 +16,12 @@ import org.hibernate.annotations.Parameter;
 /**
  * @author Priyatam
  * @author Kulasekaran
+ * 
+ * Currently points to the newly renamed organizations table instead of the healthcareSite table.
  */
 @Entity
-@Table(name = "healthcare_sites")
-@GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "healthcare_sites_id_seq") })
+@Table(name = "organizations")
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "organizations_id_seq") })
 public class HealthcareSite extends Organization implements
 		Comparable<HealthcareSite> {
 
