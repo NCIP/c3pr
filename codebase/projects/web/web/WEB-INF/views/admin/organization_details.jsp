@@ -80,11 +80,12 @@ function submitPage(){
 												<td align="left"><form:input path="nciInstituteCode" size="25" /></td>
 											</tr>
 										</table>							
-										<hr align="left" width="95%">																							
-										<table width="625" border="0" cellspacing="1" cellpadding="1" id="table2">
+										<hr align="left" width="95%">
+																							
+										<table width="625" border="0" cellspacing="1" cellpadding="1" id="table1">
 											<tr>
 												<td align="right"><em></em> <b>Street Address:</b>&nbsp;</td>
-												<td align="left"><form:input size="60" path="address.streetAddress" />&nbsp;&nbsp;&nbsp;</td>
+												<td><form:input size="60" path="address.streetAddress" />&nbsp;&nbsp;&nbsp;</td>
 											</tr>
 											<tr>
 												<td align="right"><em></em> <b>City:</b>&nbsp;</td>
@@ -96,7 +97,7 @@ function submitPage(){
 												<b>Zip:</b>&nbsp;<form:input path="address.postalCode" size="22"/></td>
 											</tr>
 											<tr>
-												<td align="right"><em></em><em></em> <b>Country:</b>&nbsp;</td>
+												<td align="right"><em></em> <b>Country:</b>&nbsp;</td>
 												<td align="left"><form:input path="address.countryCode" size="25"/>&nbsp;&nbsp;&nbsp;</td>
 											</tr>
 										</table>
