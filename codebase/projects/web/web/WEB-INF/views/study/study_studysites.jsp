@@ -5,19 +5,21 @@
 
 <html>
 <head>
-    <script type="text/javascript">
+       <script language="JavaScript" type="text/JavaScript">
         function fireAction(action, selected) {
             document.getElementById('command')._target.name = '_noname';
             document.studySiteForm._action.value = action;
             document.studySiteForm._selected.value = selected;
 
-            // need to disable validations while removing
-//            name = 'studySites[' + selected + '].site';
-//            $(name).className = 'none';
-//            status = 'studySites[' + selected + '].statusCode';
-//            $(status).className = 'none';
-//            date = 'studySites[' + selected + '].irbApprovalDate';
-//            $(date).className = 'none';
+            if(action == 'removeSite'){
+             //need to disable validations while removing
+            name = 'studySites[' + selected + '].site';
+            $(name).className = 'none';
+            status = 'studySites[' + selected + '].statusCode';
+            $(status).className = 'none';
+            date = 'studySites[' + selected + '].irbApprovalDate';
+            $(date).className = 'none';
+            }
 
             document.studySiteForm.submit();
         }

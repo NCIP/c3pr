@@ -10,13 +10,15 @@
 </head>
 
 <body>
-<tags:tabForm tab="${tab}" flow="${flow}" willSave="false" formName="review">
+<tags:tabForm tab="${tab}" flow="${flow}"
+              title="Study Overview" willSave="false" formName="review">
 <jsp:attribute name="repeatingFields">
 <div>
     <input type="hidden" name="_finish" value="true"/>
 </div>
 
-<chrome:division id="study-details" title="Study Details">
+
+<chrome:division id="study-details" title="Basic Details" >
     <table class="tablecontent">
         <tr>
             <td class="alt" align="left"><b>Short Title:</b></td>
@@ -61,23 +63,6 @@
     </table>
 </chrome:division>
 
-<chrome:division title="Identifiers">
-    <table class="tablecontent">
-        <tr>
-            <th scope="col" align="left">Source</th>
-            <th scope="col" align="left">Type</th>
-            <th scope="col" align="left">Identifier</th>
-        </tr>
-        <c:forEach items="${command.identifiers}" var="identifier">
-            <tr class="results">
-                <td class="alt" align="left">${identifier.source}</td>
-                <td class="alt" align="left">${identifier.type}</td>
-                <td class="alt" align="left">${identifier.value}</td>
-            </tr>
-        </c:forEach>
-    </table>
-</chrome:division>
-
 <chrome:division title="Sites">
     <table class="tablecontent">
         <tr>
@@ -94,6 +79,23 @@
                 <td class="alt" align="left">${studySite.roleCode}</td>
                 <td class="alt" align="left">${studySite.startDateStr}</td>
                 <td class="alt" align="left">${studySite.irbApprovalDateStr}</td>
+            </tr>
+        </c:forEach>
+    </table>
+</chrome:division>
+
+<chrome:division title="Identifiers">
+    <table class="tablecontent">
+        <tr>
+            <th scope="col" align="left">Source</th>
+            <th scope="col" align="left">Type</th>
+            <th scope="col" align="left">Identifier</th>
+        </tr>
+        <c:forEach items="${command.identifiers}" var="identifier">
+            <tr class="results">
+                <td class="alt" align="left">${identifier.source}</td>
+                <td class="alt" align="left">${identifier.type}</td>
+                <td class="alt" align="left">${identifier.value}</td>
             </tr>
         </c:forEach>
     </table>

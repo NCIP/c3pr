@@ -10,7 +10,19 @@
             document.getElementById('command')._target.name = '_noname';
             document.studyIdentifiersForm._action.value = action;
             document.studyIdentifiersForm._selected.value = selected;
+
+           if(action == 'removeIdentifier'){
+            //need to disable validations while removing
+            source = 'localIdentifiers[' + selected + '].source';
+            $(source).className = 'none';
+            type = 'localIdentifiers[' + selected + '].type';
+            $(type).className = 'none';
+            value = 'localIdentifiers[' + selected + '].value';
+            $(value).className = 'none';
+            }
+
             document.studyIdentifiersForm.submit();
+
         }
         function clearField(field) {
             field.value = "";
@@ -54,7 +66,7 @@
                             <form:options items="${identifiersTypeRefData}" itemLabel="desc"
                                           itemValue="desc"/></form:select></td>
                         <td class="alt"><form:input path="localIdentifiers[${status.index}].value"
-                                                    cssClass="validate-notEmpty"/></td>
+                                                    onfocus="clearField(this)" cssClass="validate-notEmpty"/></td>
                         <td class="alt"><form:radiobutton path="localIdentifiers[${status.index}].primaryIndicator"
                                                           value="true"/></td>
                         <td class="alt"><a href="javascript:fireAction('removeIdentifier',${status.index});"><img

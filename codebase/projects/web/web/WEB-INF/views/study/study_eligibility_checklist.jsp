@@ -24,7 +24,21 @@ function fireAction(action, selected, area) {
     document.getElementById('command')._target.name = '_noname';
     document.form._action.value = action;
     document.form._selected.value = selected;
+
+
+    if(action == 'removeExclusionCriteria'){
+        //need to disable validations while removing
+        source = 'excCriterias[' + selected + '].questionText';
+        $(source).className = 'none';
+        Effect.Puff('bex-' + selected);
+    }
+    else if(action == 'removeInclusionCriteria'){
+        type = 'incCriterias[' + selected + '].questionText';
+        $(type).className = 'none';
+    }
+
     document.form.submit();
+
 }
 
 function add(area, count)
@@ -141,114 +155,114 @@ function displayDiv(id, flag) {
 </div>
 <!-- MAIN BODY STARTS HERE -->
 <table border="0" id="table1" cellspacing="5">
-    <tr>
-        <td valign="top">
-            <tags:minimizablePanelBox boxId="InclusionTable" title="Inclusion Criteria">
-                <table border="0" cellspacing="0" cellpadding="0" id="details">
-                    <tr>
-                        <p id="instructions">
-                            *NA - Allow Not Applicable answer<br>
-                            Yes and No are permissible answers
-                        </p>
-
-                        <p>
-                            <b>Inclusion Criterion</b><a
-                                href="javascript:fireAction('addInclusionCriteria',0,'InclusionTable');"><img
-                                src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a>
-                        </p>
-                    </tr>
-                    <tr>
-                        <td valign="top">
-                            <table border="0" cellspacing="0" cellpadding="0" id="mytable">
-                                <tr>
-                                    <td class="alt"><b>Question<span class="red">*</span></b></td>
-                                    <td class="alt"><b>NA</b></td>
-                                    <th class="specalt"></th>
-                                    </b>
-                                </tr>
-                                <c:forEach varStatus="status" items="${command.incCriterias}">
-                                    <tr id="bex-${status.index}">
-                                        <td class="alt">
-                                            <form:hidden path="incCriterias[${status.index}].questionNumber"/>
-                                            <form:textarea path="incCriterias[${status.index}].questionText" rows="1"
-                                                           cols="90" cssClass="validate-notEmpty"/>
-                                        </td>
-                                        <td class="alt">
-                                            <form:checkbox path="incCriterias[${status.index}].notApplicableIndicator"/>
-                                        </td>
-                                        <td class="alt">
-                                            <a href="javascript:fireAction('removeInclusionCriteria',${status.index},'InclusionTable');">
-                                                <img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-
-            </tags:minimizablePanelBox>
-        </td>
-    </tr>
-    <tr>
-        <td>
+<tr>
+    <td valign="top">
+        <tags:minimizablePanelBox boxId="InclusionTable" title="Inclusion Criteria">
             <table border="0" cellspacing="0" cellpadding="0" id="details">
                 <tr>
-                    <td>
-                        <tags:minimizablePanelBox boxId="ExclusionTable" title="Exclusion Criteria">
+                    <p id="instructions">
+                        *NA - Allow Not Applicable answer<br>
+                        Yes and No are permissible answers
+                    </p>
 
-                            <table border="0" cellspacing="0" cellpadding="0" id="table1">
-                                <tr>
-                                    <p id="instructions">
-                                        *NA - Allow Not Applicable answer <br>
-                                        Yes and No are permissible answers
-                                    </p>
-
-                                    <p>
-                                        <b>Exclusion Criterion</b><a
-                                            href="javascript:fireAction('addExclusionCriteria',0,'ExclusionTable');"><img
-                                            src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a>
-                                    </p>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <table border="0" cellspacing="0" cellpadding="0" id="mytable">
-                                            <tr>
-                                                <td class="alt"><b>Question<span class="red">*</span></b></td>
-                                                <td class="alt"><b>*NA</b></td>
-                                                <th class="specalt"></th>
-                                                </b>
-                                            </tr>
-                                            <c:forEach varStatus="status" items="${command.excCriterias}">
-                                                <tr id="bex-${status.index}">
-                                                    <td class="alt" align="left">
-                                                        <form:hidden
-                                                                path="excCriterias[${status.index}].questionNumber"/>
-                                                        <form:textarea path="excCriterias[${status.index}].questionText"
-                                                                       rows="1" cols="90" cssClass="validate-notEmpty"/>
-                                                    </td>
-                                                    <td class="alt" align="left">
-                                                        <form:checkbox
-                                                                path="excCriterias[${status.index}].notApplicableIndicator"/>
-                                                    </td>
-                                                    <td class="alt" align="left">
-                                                        <a href="javascript:fireAction('removeExclusionCriteria',${status.index},'ExclusionTable');">
-                                                            <img src="<tags:imageUrl name="checkno.gif"/>"
-                                                                 border="0"></a>
-                                                    </td>
-                                                </tr>
-                                            </c:forEach>
-                                        </table>
+                    <p>
+                        <b>Inclusion Criterion</b><a
+                            href="javascript:fireAction('addInclusionCriteria',0,'InclusionTable');"><img
+                            src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a>
+                    </p>
+                </tr>
+                <tr>
+                    <td valign="top">
+                        <table border="0" cellspacing="0" cellpadding="0" id="mytable">
+                            <tr>
+                                <td class="alt"><b>Question<span class="red">*</span></b></td>
+                                <td class="alt"><b>NA</b></td>
+                                <th class="specalt"></th>
+                                </b>
+                            </tr>
+                            <c:forEach varStatus="status" items="${command.incCriterias}">
+                                <tr id="bex-${status.index}">
+                                    <td class="alt">
+                                        <form:hidden path="incCriterias[${status.index}].questionNumber"/>
+                                        <form:textarea path="incCriterias[${status.index}].questionText" rows="1"
+                                                       cols="90" cssClass="validate-notEmpty"/>
+                                    </td>
+                                    <td class="alt">
+                                        <form:checkbox path="incCriterias[${status.index}].notApplicableIndicator"/>
+                                    </td>
+                                    <td class="alt">
+                                        <a href="javascript:fireAction('removeInclusionCriteria',${status.index},'InclusionTable');">
+                                            <img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
                                     </td>
                                 </tr>
-                            </table>
-
-                        </tags:minimizablePanelBox>
+                            </c:forEach>
+                        </table>
                     </td>
                 </tr>
             </table>
-        </td>
-    </tr>
+
+        </tags:minimizablePanelBox>
+    </td>
+</tr>
+<tr>
+    <td>
+        <table border="0" cellspacing="0" cellpadding="0" id="details">
+            <tr>
+                <td>
+                    <tags:minimizablePanelBox boxId="ExclusionTable" title="Exclusion Criteria">
+
+                        <table border="0" cellspacing="0" cellpadding="0" id="table1">
+                            <tr>
+                                <p id="instructions">
+                                    *NA - Allow Not Applicable answer <br>
+                                    Yes and No are permissible answers
+                                </p>
+
+                                <p>
+                                    <b>Exclusion Criterion</b><a
+                                        href="javascript:fireAction('addExclusionCriteria',0,'ExclusionTable');"><img
+                                        src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a>
+                                </p>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <table border="0" cellspacing="0" cellpadding="0" id="mytable">
+                                        <tr>
+                                            <td class="alt"><b>Question<span class="red">*</span></b></td>
+                                            <td class="alt"><b>*NA</b></td>
+                                            <th class="specalt"></th>
+                                            </b>
+                                        </tr>
+                                        <c:forEach varStatus="status" items="${command.excCriterias}">
+                                            <tr id="bex-${status.index}">
+                                                <td class="alt" align="left">
+                                                    <form:hidden
+                                                            path="excCriterias[${status.index}].questionNumber"/>
+                                                    <form:textarea path="excCriterias[${status.index}].questionText"
+                                                                   rows="1" cols="90" cssClass="validate-notEmpty"/>
+                                                </td>
+                                                <td class="alt" align="left">
+                                                    <form:checkbox
+                                                            path="excCriterias[${status.index}].notApplicableIndicator"/>
+                                                </td>
+                                                <td class="alt" align="left">
+                                                    <a href="javascript:fireAction('removeExclusionCriteria',${status.index},'ExclusionTable');">
+                                                        <img src="<tags:imageUrl name="checkno.gif"/>"
+                                                             border="0"></a>
+                                                </td>
+                                            </tr>
+                                        </c:forEach>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </tags:minimizablePanelBox>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
 </table>
 <!-- MAIN BODY ENDS HERE -->
 </jsp:attribute>

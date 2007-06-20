@@ -22,11 +22,17 @@ function fireAction(action, selectedSite, selectedInvestigator) {
     document.form._action.value = action;
     document.form._selectedSite.value = selectedSite;
     document.form._selectedInvestigator.value = selectedInvestigator;
+
     // need to disable validations while submitting
-    //	role = 'studySites['+selectedSite+'].studyInvestigators['+selectedInvestigator+'].roleCode';
-    //	$(role).className='none';
-    //	status = 'studySites['+selectedSite+'].studyInvestigators['+selectedInvestigator+'].statusCode';
-    //	$(status).className='none';
+    if(action == 'removeInv'){
+        investigator = 'investigator' + selectedInvestigator + '-input';
+        $(investigator).className = 'none';
+        role = 'studySites['+selectedSite+'].studyInvestigators['+selectedInvestigator+'].roleCode';
+    	$(role).className='none';
+    	status = 'studySites['+selectedSite+'].studyInvestigators['+selectedInvestigator+'].statusCode';
+    	$(status).className='none';
+        }
+    
     document.form.submit();
     fireListeners(selected);
 }

@@ -15,8 +15,8 @@
 
     <PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="M" race_code="White" add_id="1000" />
 
-    <HEALTHCARE_SITES id="1000" version="1" name="duke healthcare" description_text="duke healthcare" address_id="1000" nci_institute_code="code" />
-    <HEALTHCARE_SITES id="1001" version="1" name="duke healthcare" description_text="duke healthcare" address_id="1001" nci_institute_code="code" />
+    <ORGANIZATIONS id="1000" version="1" name="duke healthcare" description_text="duke healthcare" address_id="1000" nci_institute_code="code" />
+    <ORGANIZATIONS id="1001" version="1" name="duke healthcare" description_text="duke healthcare" address_id="1001" nci_institute_code="code" />
 
     <STUDY_SITES id="1000" version="1" irb_approval_date="01-01-2000" role_code="role" status_code="active" start_date="01-01-2001" end_date="01-01-2002" study_id="1000"
     hcs_id="1000" />

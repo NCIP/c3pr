@@ -1,28 +1,30 @@
 <decorators defaultdir="/WEB-INF/decorators">
-	<decorator name="standard" page="standard.jsp">
-		<pattern>/pages/*</pattern>
-		<pattern>/public/*</pattern>
-		<pattern>/error.jsp</pattern>
-		<pattern>/accessDenied.jsp</pattern>
-		<pattern>/pages/registration/searchRegistration</pattern>
-		<pattern>/pages/participant/searchParticipant</pattern>
-		<pattern>/pages/registration/overview</pattern>
-	</decorator>
-	<decorator name="tabbedflow" page="tabbedflow.jsp">
-		<pattern>/pages/study/createStudy</pattern>
-		<pattern>/pages/participant/createParticipant</pattern>
-		<pattern>/pages/participant/editParticipant</pattern>
+    <decorator name="standard" page="standard.jsp">
+        <pattern>/pages/*</pattern>
+        <pattern>/public/*</pattern>
+        <pattern>/error.jsp</pattern>
+        <pattern>/accessDenied.jsp</pattern>
+        <pattern>/pages/registration/searchRegistration</pattern>
+        <pattern>/pages/participant/searchParticipant</pattern>
+        <pattern>/pages/registration/overview</pattern>
+        <pattern>/pages/study/confirm</pattern>
+    </decorator>
+    <decorator name="tabbedflow" page="tabbedflow.jsp">
+        <pattern>/pages/study/createStudy</pattern>
         <pattern>/pages/study/editStudy</pattern>
+        <pattern>/pages/study/viewStudy</pattern>
+        <pattern>/pages/participant/createParticipant</pattern>
+        <pattern>/pages/participant/editParticipant</pattern>
         <pattern>/pages/registration/registrationDetails</pattern>
     </decorator>
-	<decorator name="registration" page="registrationflow.jsp">
-		<pattern>/pages/registration/*</pattern>
-	</decorator>
-	<excludes>
-		<pattern>/*/image/*</pattern>
-		<pattern>/*/js/*</pattern>
-		<pattern>/*/css/*</pattern>
-	</excludes>
+    <decorator name="registration" page="registrationflow.jsp">
+        <pattern>/pages/registration/*</pattern>
+    </decorator>
+    <excludes>
+        <pattern>/*/image/*</pattern>
+        <pattern>/*/js/*</pattern>
+        <pattern>/*/css/*</pattern>
+    </excludes>
 
 </decorators>
 

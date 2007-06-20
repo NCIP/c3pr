@@ -3,11 +3,14 @@
 
 
 <html>
-<head/>
+<head>
+<!--empty head-->
+</head>
 
 <body>
-<chrome:box title="Confirmation">
-    <form:form>
+<form:form name="confirmation">
+    <chrome:box title="Confirmation">
+
 
         <chrome:division id="single-fields">
             <div class="content">
@@ -25,7 +28,7 @@
             </div>
 
         </chrome:division>
-    </form:form>
-</chrome:box>
+    </chrome:box>
+</form:form>
 </body>
 </html>
