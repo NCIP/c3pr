@@ -336,7 +336,9 @@ public class StudyParticipantAssignment extends AbstractMutableDomainObject {
 		}
 		return exclusionCriteriaAnswers;
 	}
-	public String getName() {
+
+    @Transient
+    public String getName() {
 		return name;
 	}
 	public void setName(String name) {
