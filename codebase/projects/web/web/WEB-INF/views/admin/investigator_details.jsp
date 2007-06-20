@@ -10,27 +10,32 @@
 <script>
 
 function fireAction(action, selected){	
-			    
+			document.getElementById("command")._finish.name='xyz';		    
 			document.getElementById("command")._action.value=action;
-			document.getElementById("command")._selected.value=selected;
-			document.getElementById('command')._finish.name='_noname';
-			document.getElementById('_target').name='_noname';
+			document.getElementById("command")._selected.value=selected;		
 			document.getElementById("command").submit();
-			
+		
 	}
 function handleConfirmation(){
 	new Effect.SlideDown('createInv');
 	new Effect.SlideUp('confirmationMessage');
 }
+var instanceRowInserterProps = {
+
+	add_row_division_id: "mytable", 	        /* this id belongs to element where the row would be appended to */
+	skeleton_row_division_id: "dummy-row",  	/* this id belongs to the element which hold the dummy row html to be inserted   */
+	initialIndex: ${fn:length(command.healthcareSiteInvestigators)},                            /* this is the initial count of the rows when the page is loaded  */
+	path: "healthcareSiteInvestigators",                               /* this is the path of the collection that holds the rows  */
+};
+rowInserters.push(instanceRowInserterProps);
 </script>
 
 </head>
 <body>
-<tags:formPanelBox tab="${tab}" flow="${flow}">
+<tags:formPanelBox tab="${tab}" flow="${flow}" action="createInvestigator">
 			<input type="hidden" name="_action" value="">
 			<input type="hidden" name="_selected" value="">
-			<input type="hidden" name="_finish" value="true" />
-		
+			<input type="hidden" name="_finish" value="true">
 			<tags:errors path="*" />
 			<table width="100%" border="0" cellpadding="0" cellspacing="0">
 				<tr>
@@ -44,16 +49,16 @@ function handleConfirmation(){
 									<!-- LEFT CONTENT STARTS HERE -->
 									<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
 									<!-- RIGHT CONTENT STARTS HERE --> <c:if
-										test="${type == 'confirm'}">
+										test="${param.type == 'confirm'}">
 										<div id="confirmationMessage">
 										<h3><font color="green"> You have successfully created an
-										investigator with name : ${fullName}</font></h3>
+										investigator with name : ${param.fullName}</font></h3>
 										<br>
-										<a href="javascript:handleConfirmation()">Click here to create
+										<a href="javascript:RowManager.addRow(instanceRowInserterProps)">Click here to create
 										another investigator</a></div>
 									</c:if>
 									<div id="createInv"
-										<c:if test="${type == 'confirm'}">style="display:none"</c:if>>
+										<c:if test="${param.type == 'confirm'}">style="display:none"</c:if>>
 
 
 
@@ -61,7 +66,7 @@ function handleConfirmation(){
 										<tr>
 											<td>
 											<p id="instructions">Please choose healthcare site(s) for the
-											Investigator <a href="javascript:fireAction('addSite','0');"><img
+											Investigator <a href="javascript:RowManager.addRow(instanceRowInserterProps);"><img
 												src="<tags:imageUrl name="checkyes.gif"/>" border="0"
 												alt="Add another Site"></a><br>
 											</p>
@@ -74,7 +79,7 @@ function handleConfirmation(){
 												</tr>
 												<c:forEach items="${command.healthcareSiteInvestigators}"
 													varStatus="status">
-													<tr>
+													<tr id="mytable-${status.index}">
 														<td class="alt"><form:select
 															path="healthcareSiteInvestigators[${status.index}].healthcareSite"
 															cssClass="validate-notEmpty">
@@ -90,7 +95,7 @@ function handleConfirmation(){
 																itemLabel="desc" itemValue="code" />
 														</form:select></td>
 														<td class="tdalt"><a
-															href="javascript:fireAction('removeSite',${status.index});"><img
+															href="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index});"><img
 															src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 													</tr>
 												</c:forEach>
@@ -170,9 +175,6 @@ function handleConfirmation(){
 									</table>
 									</div>
 									</td>
-									
-									
-									
 
 									<!-- LEFT CONTENT ENDS HERE -->
 								</tr>
@@ -185,8 +187,28 @@ function handleConfirmation(){
 					<!-- LEFT CONTENT ENDS HERE -->
 				</tr>
 			</table>
-
-
 </tags:formPanelBox>
+<div id="dummy-row" style="display: none;">
+<table>
+	<tr>
+	<td class="alt">
+	<select	id="healthcareSiteInvestigators[PAGE.ROW.INDEX].healthcareSite" name="healthcareSiteInvestigators[PAGE.ROW.INDEX].healthcareSite" cssClass="validate-notEmpty">
+		<option value="">--Please Select--</option>
+		<c:forEach items="${healthcareSites}" var="site">
+			<option value="${site.id}">${site.name }</option>
+		</c:forEach>
+	</select></td>
+	<td class="alt"><select id="healthcareSiteInvestigators[PAGE.ROW.INDEX].statusCode" name="healthcareSiteInvestigators[PAGE.ROW.INDEX].statusCode" cssClass="validate-notEmpty">
+		<option value="">--Please Select--</option>
+		<c:forEach items="${studySiteStatusRefData}" var="siteRef">
+			<option value="${siteRef.code}">${siteRef.desc }</option>
+		</c:forEach>
+	</select></td>
+	<td class="tdalt"><a
+		href="javascript:RowManager.deleteRow(instanceRowInserterProps,PAGE.ROW.INDEX);"><img
+		src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+</tr>
+</table>
+</div>
 </body>
 </html>
