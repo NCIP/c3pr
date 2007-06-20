@@ -21,15 +21,20 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
+import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
+import edu.duke.cabig.c3pr.web.participant.ParticipantDetailsTab;
+import edu.duke.cabig.c3pr.web.participant.ParticipantAddressAndContactInfoTab;
 import gov.nih.nci.cabig.ctms.web.tabs.AbstractTabbedFlowFormController;
+import gov.nih.nci.cabig.ctms.web.tabs.AutomaticSaveFlowFormController;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
@@ -37,8 +42,8 @@ import gov.nih.nci.cabig.ctms.web.tabs.Tab;
  * @author Ramakrishna
  * 
  */
-public class EditParticipantController extends
-		AbstractTabbedFlowFormController<Participant> {
+public class EditParticipantController<C extends Participant> extends
+		AutomaticSaveFlowFormController<C, Participant, ParticipantDao> {
 
 	private static Log log = LogFactory.getLog(EditParticipantController.class);
 
@@ -47,54 +52,37 @@ public class EditParticipantController extends
 	private HealthcareSiteDao healthcareSiteDao;
 
 	protected ConfigurationProperty configurationProperty;
+	
+	 public EditParticipantController() {
+		 setCommandClass(Participant.class);
+			Flow<C> flow = new Flow<C>("Edit Subject");
+			layoutTabs(flow);
+			setFlow(flow);
+	         setBindOnNewForm(true);
+	    }
+	
+	protected void layoutTabs(Flow flow) {
+	        flow.addTab(new ParticipantDetailsTab());
+	        flow.addTab(new ParticipantAddressAndContactInfoTab());
+	       	    }
 
-	public EditParticipantController() {
-		setCommandClass(Participant.class);
-		Flow<Participant> flow = new Flow<Participant>("Edit Participant");
-		intializeFlows(flow);
+	@Override
+	protected ParticipantDao getDao() {
+		return participantDao;
 	}
 
-	protected void intializeFlows(Flow<Participant> flow) {
-		flow.addTab(new Tab<Participant>("Details", "Details",
-				"participant/participant") {
-			public Map<String, Object> referenceData() {
-				Map<String, List<Lov>> configMap = configurationProperty
-						.getMap();
+	@Override
+	protected Participant getPrimaryDomainObject(C command) {
+		return command;
+	}
 
-				Map<String, Object> refdata = new HashMap<String, Object>();
-
-				refdata.put("administrativeGenderCode", configMap
-						.get("administrativeGenderCode"));
-				refdata
-						.put("ethnicGroupCode", configMap
-								.get("ethnicGroupCode"));
-				refdata.put("raceCode", configMap.get("raceCode"));
-				refdata.put("source", healthcareSiteDao.getAll());
-				refdata.put("searchTypeRefData", configMap
-						.get("participantSearchType"));
-				refdata.put("identifiersTypeRefData", configMap
-						.get("participantIdentifiersType"));
-				;
-
-				return refdata;
-			}
-		});
-		flow.addTab(new Tab<Participant>("Address & ContactInfo",
-				"Address & ContactInfo", "participant/participant_address") {
-			public Map<String, Object> referenceData() {
-				Map<String, List<Lov>> configMap = configurationProperty
-						.getMap();
-
-				Map<String, Object> refdata = new HashMap<String, Object>();
-				refdata.put("searchTypeRefData", configMap
-						.get("participantSearchType"));
-				refdata.put("contactMechanismType", configMap
-						.get("contactMechanismType"));
-
-				return refdata;
-			}
-		});
-		setFlow(flow);
+	/**
+	 * Override this in sub controller if summary is needed
+	 * 
+	 * @return
+	 */
+	protected boolean isSummaryEnabled() {
+		return false;
 	}
 
 	@Override
@@ -180,9 +168,9 @@ public class EditParticipantController extends
 		return participant;
 	}
 
-	@Override
 	protected void initBinder(HttpServletRequest req,
 			ServletRequestDataBinder binder) throws Exception {
+		super.initBinder(req, binder);
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(
 				new SimpleDateFormat("MM/dd/yyyy"), true));
 		binder.registerCustomEditor(HealthcareSite.class, new CustomDaoEditor(
@@ -241,13 +229,14 @@ public class EditParticipantController extends
 			HttpServletResponse response, Object oCommand, BindException errors)
 			throws Exception {
 		Participant participant = (Participant) oCommand;
-		Iterator<ContactMechanism> cMIterator = participant.getContactMechanisms().iterator();
+		Iterator<ContactMechanism> cMIterator = participant
+				.getContactMechanisms().iterator();
 		StringUtils strUtil = new StringUtils();
 		while (cMIterator.hasNext()) {
 			ContactMechanism contactMechanism = cMIterator.next();
 			if (strUtil.isBlank(contactMechanism.getValue()))
 				cMIterator.remove();
-			}
+		}
 		participantDao.save(participant);
 		ModelAndView modelAndView = new ModelAndView(new RedirectView(
 				"searchparticipant.do"));
