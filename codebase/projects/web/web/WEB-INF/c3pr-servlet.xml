@@ -80,6 +80,17 @@
 		class="edu.duke.cabig.c3pr.utils.web.spring.BeanNameControllerUrlResolver">
 		<property name="servletName" value="pages" />
 	</bean>
+	
+	<!-- mapping for create organization task -->
+	<bean name="/admin/createOrganization" id="createOrganizationController"
+		lazy-init="true" class="edu.duke.cabig.c3pr.web.admin.CreateOrganizationController"
+		autowire="byName">
+		<property name="commandClass" value="edu.duke.cabig.c3pr.domain.HealthcareSite" />
+		<property name="formView" value="admin/organization_details" />
+		<property name="successView" value="admin/organization_details" />
+	</bean>
+	<!-- mapping for create organization task -->
+	
 
     <!--to autwire the tabs-->
      <bean id="tabConfigurer" class="gov.nih.nci.cabig.ctms.web.tabs.DefaultTabConfigurer"/>
@@ -277,6 +288,10 @@
 								class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
 								autowire="byType" p:displayName="Create Research Staff"
 								p:linkName="createResearchStaffController" />
+							<bean	
+								class="edu.duke.cabig.c3pr.utils.web.navigation.Task" 				
+								autowire="byType" p:displayName="Create Organization"				
+								p:linkName="createOrganizationController" />
 						</list>
 					</property>
 				</bean>
