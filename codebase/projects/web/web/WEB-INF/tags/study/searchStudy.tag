@@ -71,7 +71,7 @@ Event.observe(window, "load", function() {
 		<tabs:division id="study-search">
 		<table border="0" width="100%" id="table1" cellspacing="0" cellpadding="5" >
 			<tr>
-				<td align="right" width="90%"/>
+				<td align="right" width="90%">
 					<input type="hidden" id="study"/>
 					<input type=text id="study-input" size="60" name="searchText"/>
 					<tags:indicator id="study-indicator"/>

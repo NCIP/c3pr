@@ -93,7 +93,18 @@
 	<bean name="/study/editStudy" id="editStudyController"
 		class="edu.duke.cabig.c3pr.web.study.EditStudyController" autowire="byName" />
 
-	<bean name="/study/searchStudy" id="searchStudyController"
+    <bean name="/study/viewStudy" id="viewStudyController"
+            class="edu.duke.cabig.c3pr.web.study.ViewStudyController" autowire="byName">
+        <property name="editTask">
+            <bean
+								class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+								autowire="byType" p:displayName="Create Study"
+								p:linkName="createStudyController" />
+        </property>
+    </bean>
+
+
+    <bean name="/study/searchStudy" id="searchStudyController"
 		lazy-init="true" class="edu.duke.cabig.c3pr.web.study.SearchStudyController"
 		autowire="byName">
 		<property name="commandClass"

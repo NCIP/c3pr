@@ -169,6 +169,8 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                value="edu.duke.cabig.c3pr.domain.Study:UPDATE" />
         <entry key="/pages/study/search.*"
                value="edu.duke.cabig.c3pr.domain.Study:READ" />
+        <entry key="/pages/study/view.*"
+               value="edu.duke.cabig.c3pr.domain.Study:READ" />
 
         <entry key="/pages/registration/create.*"
                value="edu.duke.cabig.c3pr.domain.Registration:CREATE" />

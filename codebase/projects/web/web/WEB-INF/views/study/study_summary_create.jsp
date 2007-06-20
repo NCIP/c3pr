@@ -10,7 +10,7 @@
 </head>
 
 <body>
-<tags:tabForm tab="${tab}" flow="${flow}" formName="review">
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="false" formName="review">
 <jsp:attribute name="repeatingFields">
 <div>
     <input type="hidden" name="_finish" value="true"/>
@@ -202,7 +202,6 @@
     </table>
 
 </chrome:division>
-
 
    </jsp:attribute>
 </tags:tabForm>

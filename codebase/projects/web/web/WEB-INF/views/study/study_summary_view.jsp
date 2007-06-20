@@ -1,20 +1,22 @@
- <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
+<%@ taglib prefix="csmauthz" uri="http://csm.ncicb.nci.nih.gov/authz" %>
+
 
 
 <html>
 <head>
-<!--empty head-->
+
 </head>
 
-
 <body>
-<table width="100%">
-<tr><td>
-
+<form:form name="viewDetails">
 <chrome:box title="Study Summary">
+<div>
+    <input type="hidden" name="_finish" value="true"/>
+</div>
 
 <chrome:division id="study-details" title="Study Details">
     <table class="tablecontent">
@@ -200,12 +202,22 @@
             </tr>
         </c:forEach>
     </table>
-
 </chrome:division>
-   </chrome:box>
 
-</td></tr>
-</table>
+<%--Optionally display edit button--%>
+ <c:if test="${not empty editAuthorizationTask}">
+<csmauthz:accesscontrol domainObject="${editAuthorizationTask}" authorizationCheckName="taskAuthorizationCheck">
+    <div class="content buttons autoclear">
+        <div class="flow-buttons">
+          <span class="next">
+                <input type="submit" id="flow-next" value="Edit Study"/>
+              </span>
+        </div>
+    </div>
+</csmauthz:accesscontrol>
+</c:if>
 
+</chrome:box>
+</form:form>
 </body>
 </html>

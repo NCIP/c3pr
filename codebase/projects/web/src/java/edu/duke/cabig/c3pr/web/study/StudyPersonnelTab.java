@@ -37,7 +37,7 @@ class StudyPersonnelTab extends StudyTab {
         {
             httpServletRequest.getSession().setAttribute("selectedSite", httpServletRequest.getParameter("_selectedSite"));
 
-            StudySite studySite = ((Study)study).getStudySites().get(Integer.parseInt(httpServletRequest.getParameter("_selectedSite")));
+            StudySite studySite = (study).getStudySites().get(Integer.parseInt(httpServletRequest.getParameter("_selectedSite")));
             if(studySite.getStudyPersonnels().size() == 0 )
             {
                 StudyPersonnel studyPersonnel = new StudyPersonnel();
@@ -46,7 +46,7 @@ class StudyPersonnelTab extends StudyTab {
             }
         }
         else {
-            handleStudyPersonnelAction((Study)study, httpServletRequest);
+            handleStudyPersonnelAction(study, httpServletRequest);
         }
     }
 

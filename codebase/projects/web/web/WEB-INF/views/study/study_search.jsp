@@ -59,7 +59,7 @@
 <chrome:box title="Search Results">
     <form:form>
         <chrome:division id="single-fields">
-            <studyTags:searchResults url="editStudy"/>
+            <studyTags:searchResults url="viewStudy"/>
         </chrome:division>
     </form:form>
 </chrome:box>
