@@ -73,7 +73,7 @@ function submitPage(){
 											</tr>
 											<tr valign="top">
 												<td align="right"><b>Description:<b>&nbsp;</td>
-												<td><form:textarea rows="3" cols="45" path="descriptionText" /></td>
+												<td><form:textarea rows="3" cols="56" path="descriptionText" /></td>
 											</tr>
 											<tr>
 												<td align="right"><b>NCI Institute Code:</b>&nbsp;</td>
@@ -84,20 +84,20 @@ function submitPage(){
 																							
 										<table width="625" border="0" cellspacing="1" cellpadding="1" id="table1">
 											<tr>
-												<td align="right"><em></em> <b>Street Address:</b>&nbsp;</td>
-												<td align="left"><form:input size="60" path="address.streetAddress" />&nbsp;&nbsp;&nbsp;</td>
+												<td align="right"><b>Street Address:</b>&nbsp;</td>
+												<td align="left"><form:input size="58" path="address.streetAddress" />&nbsp;&nbsp;&nbsp;</td>
 											</tr>
 											<tr>
-												<td align="right"><em></em> <b>City:</b>&nbsp;</td>
+												<td align="right"><b>City:</b>&nbsp;</td>
 												<td align="left"><form:input path="address.city" size="25"/>&nbsp;&nbsp;&nbsp;</td>
 											</tr>
 											<tr>
-												<td align="right"><span class="data"><em></em> <b>State:</b>&nbsp;</span></td>
+												<td align="right"><span class="data"><b>State:</b>&nbsp;</span></td>
 												<td align="left"><form:input path="address.stateCode" size="25"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 												<b>Zip:</b>&nbsp;<form:input path="address.postalCode" size="22"/></td>
 											</tr>
 											<tr>
-												<td align="right"><em></em> <b>Country:</b>&nbsp;</td>
+												<td align="right"><b>Country:</b>&nbsp;</td>
 												<td align="left"><form:input path="address.countryCode" size="25"/>&nbsp;&nbsp;&nbsp;</td>
 											</tr>
 										</table>
