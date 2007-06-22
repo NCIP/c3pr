@@ -54,7 +54,7 @@ public class EditParticipantControllerTest extends ControllerTestCase {
 
 	public void testReferenceData() throws Exception {
 		controller.setConfigurationProperty(configurationProperty);
-		Map<String, Object> refdata = controller.getFlow().getTab(1)
+		Map<String, Object> refdata = controller.getFlow().getTab(0)
 				.referenceData(participant);
 		List<Lov> races = (List<Lov>) refdata.get("raceCode");
 		/*if (races.size() > 0) {
