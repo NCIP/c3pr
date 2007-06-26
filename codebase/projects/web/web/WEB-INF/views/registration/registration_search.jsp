@@ -141,10 +141,10 @@ function updateAction(action){
 function manageSelectBox(box){
 	if(box.value=='Subject'){
 		document.getElementById('StudySearch').style.display='none';
-		Effect.OpenUp('SubjectSearch');
+		Effect.SlideDown('SubjectSearch');
 		manageSearchTypeMessage('Subject');
 	}else if(box.value=='Study'){
-		Effect.OpenUp('StudySearch');
+		Effect.SlideDown('StudySearch');
 		document.getElementById('SubjectSearch').style.display='none';	
 		manageSearchTypeMessage('Study');	
 	}else{
@@ -157,15 +157,15 @@ function manageSearchTypeMessage(message){
 	if(message=='Subject'){
 		document.getElementById('StudySearchMessage').style.display='none';
 		document.getElementById('IdentifierSearchMessage').style.display='none';
-		Effect.OpenUp('SubjectSearchMessage');
+		Effect.SlideDown('SubjectSearchMessage');
 	}else if(message=='Study'){
 		document.getElementById('SubjectSearchMessage').style.display='none';
 		document.getElementById('IdentifierSearchMessage').style.display='none';
-		Effect.OpenUp('StudySearchMessage');
+		Effect.SlideDown('StudySearchMessage');
 	}else if(message=='Identifier'){
 		document.getElementById('SubjectSearchMessage').style.display='none';
 		document.getElementById('StudySearchMessage').style.display='none';	
-		Effect.OpenUp('IdentifierSearchMessage');
+		Effect.SlideDown('IdentifierSearchMessage');
 	}
 }
 
