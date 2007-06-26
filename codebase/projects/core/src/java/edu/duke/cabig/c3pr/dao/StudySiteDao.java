@@ -11,7 +11,6 @@ import edu.duke.cabig.c3pr.domain.StudySite;
  * @see edu.duke.cabig.c3pr.dao.StudySiteDao
  * @author Priyatam
  */
-@Transactional(readOnly=true)
 public class StudySiteDao extends GridIdentifiableDao<StudySite> {
 
 	@Override
@@ -27,7 +26,8 @@ public class StudySiteDao extends GridIdentifiableDao<StudySite> {
 	 public List<StudySite> getAll() {
 		 return getHibernateTemplate().find("from StudySite");
 	 }
-	 public void reassociate(StudySite ss) {
+
+     public void reassociate(StudySite ss) {
 	        getHibernateTemplate().update(ss);
 	     }
 	 	 	

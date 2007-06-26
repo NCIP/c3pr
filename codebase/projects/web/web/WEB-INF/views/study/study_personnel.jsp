@@ -158,9 +158,11 @@ Event.observe(window, "load", function() {
         Choose a study site first
     </p>
 
+    <c:if test="${fn:length(command.studySites) > 0}">
     <c:set var="selected_site" value="0"/>
     <c:if test="${not empty selectedSite}">
         <c:set var="selected_site" value="${selectedSite}"/>
+    </c:if>
     </c:if>
 
     <table border="0" id="table1" cellspacing="0">

@@ -33,7 +33,13 @@ class StudyInvestigatorsTab extends StudyTab {
 
     @Override
     public void postProcess(HttpServletRequest httpServletRequest, Study study, Errors errors) {
+        if("siteChange".equals(httpServletRequest.getParameter("_action")))
+        {
+            httpServletRequest.getSession().setAttribute("selectedSite", httpServletRequest.getParameter("_selectedSite"));
 
+            StudySite studySite = study.getStudySites().get(Integer.parseInt(httpServletRequest.getParameter("_selectedSite")));
+
+        }
         handleStudyInvestigatorAction(study, httpServletRequest);
     }
 
@@ -48,7 +54,6 @@ class StudyInvestigatorsTab extends StudyTab {
             StudyInvestigator studyInvestigator = new StudyInvestigator();
             StudySite studySite = study.getStudySites().get(Integer.parseInt(selectedSite));
             studySite.addStudyInvestigator(studyInvestigator);
-
         }
         else if ("removeInv".equals(action))
         {

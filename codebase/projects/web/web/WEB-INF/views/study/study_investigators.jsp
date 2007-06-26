@@ -14,27 +14,29 @@
 <tags:dwrJavascriptLink objects="createStudy"/>
 
 <title>${tab.longTitle}</title>
- 
+
 <script language="JavaScript" type="text/JavaScript">
 
 function fireAction(action, selectedSite, selectedInvestigator) {
-    document.getElementById('command')._target.name = '_noname';
-    document.form._action.value = action;
-    document.form._selectedSite.value = selectedSite;
-    document.form._selectedInvestigator.value = selectedInvestigator;
+    if(selectedSite >-1){
+        document.getElementById('command')._target.name = '_noname';
+        document.form._action.value = action;
+        document.form._selectedSite.value = selectedSite;
+        document.form._selectedInvestigator.value = selectedInvestigator;
 
-    // need to disable validations while submitting
-    if(action == 'removeInv'){
-        investigator = 'investigator' + selectedInvestigator + '-input';
-        $(investigator).className = 'none';
-        role = 'studySites['+selectedSite+'].studyInvestigators['+selectedInvestigator+'].roleCode';
-    	$(role).className='none';
-    	status = 'studySites['+selectedSite+'].studyInvestigators['+selectedInvestigator+'].statusCode';
-    	$(status).className='none';
+        // need to disable validations while submitting
+        if(action == 'removeInv'){
+            investigator = 'investigator' + selectedInvestigator + '-input';
+            $(investigator).className = 'none';
+            role = 'studySites['+selectedSite+'].studyInvestigators['+selectedInvestigator+'].roleCode';
+            $(role).className='none';
+            status = 'studySites['+selectedSite+'].studyInvestigators['+selectedInvestigator+'].statusCode';
+            $(status).className='none';
         }
-    
-    document.form.submit();
-    fireListeners(selected);
+
+        document.form.submit();
+        fireListeners(selected);
+    }
 }
 
 function chooseSites() {
@@ -145,10 +147,17 @@ Event.observe(window, "load", function() {
         Choose a study site first
     </p>
 
-    <c:set var="selected_site" value="0"/>
-    <c:if test="${not empty selectedSite}">
-        <c:set var="selected_site" value="${selectedSite}"/>
-    </c:if>
+    <c:choose>
+        <c:when test="${fn:length(command.studySites) > 0}">
+            <c:set var="selected_site" value="0"/>
+            <c:if test="${not empty selectedSite}">
+                <c:set var="selected_site" value="${selectedSite}"/>
+            </c:if>
+        </c:when>
+        <c:otherwise>
+            <c:set var="selected_site" value="-1"/>
+        </c:otherwise>
+    </c:choose>
 
     <table border="0" id="table1" cellspacing="0">
         <tr>

@@ -4,22 +4,22 @@ import edu.duke.cabig.c3pr.dao.*;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.NullIdDaoBasedEditor;
+import edu.duke.cabig.c3pr.utils.web.propertyeditors.ObjectGraphBasedEditor;
+import edu.duke.cabig.c3pr.web.beans.DefaultObjectPropertyReader;
 import gov.nih.nci.cabig.ctms.web.tabs.AutomaticSaveFlowFormController;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.validation.BindException;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -56,6 +56,44 @@ public abstract class StudyController<C extends Study> extends AutomaticSaveFlow
     @Override
     protected StudyDao getDao() {
         return studyDao;
+    }
+
+    @Override
+    protected void onBind(HttpServletRequest request, Object command, BindException errors) throws Exception {
+        // TODO Auto-generated method stub
+        super.onBind(request, command, errors);
+        handleRowDeletion(request, command);
+    }
+
+    public void handleRowDeletion(HttpServletRequest request, Object command) throws Exception{
+        Enumeration enumeration=request.getParameterNames();
+        Hashtable<String, List<Integer>> table=new Hashtable<String, List<Integer>>();
+        while(enumeration.hasMoreElements()){
+            String param=(String)enumeration.nextElement();
+            if(param.startsWith("_deletedRow-")){
+                String[] params=param.split("-");
+                if(table.get(params[1])==null)
+                    table.put(params[1], new ArrayList<Integer>());
+                table.get(params[1]).add(new Integer(params[2]));
+            }
+        }
+        deleteRows(command, table);
+    }
+
+    public void deleteRows(Object command, Hashtable<String, List<Integer>> table)throws Exception{
+        Enumeration<String> e=table.keys();
+        while(e.hasMoreElements()){
+            String path=e.nextElement();
+            List col= (List)new DefaultObjectPropertyReader(command, path).getPropertyValueFromPath();
+            List<Integer> rowNums=table.get(path);
+            List temp=new ArrayList();
+            for(int i=0 ; i<col.size() ; i++){
+                if(!rowNums.contains(new Integer(i)))
+                    temp.add(col.get(i));
+            }
+            col.removeAll(col);
+            col.addAll(temp);
+        }
     }
 
     /**
@@ -95,10 +133,7 @@ public abstract class StudyController<C extends Study> extends AutomaticSaveFlow
     protected Study createDefaultStudyWithDesign() {
         Study study = new Study();
 
-        StudySite studySite = new StudySite();
-        study.addStudySite(studySite);
-
-        createDefaultIdentifiers(study);
+        // createDefaultIdentifiers(study);
 
         return study;
     }

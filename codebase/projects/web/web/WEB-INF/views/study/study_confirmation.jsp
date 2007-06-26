@@ -8,14 +8,13 @@
 </head>
 
 <body>
-<form:form name="confirmation">
     <chrome:box title="Confirmation">
 
-
-        <chrome:division id="single-fields">
+          <table width="100%" border="0">
+              <tr><td>
             <div class="content">
                 <div class="row">
-                    <div>Study Succesfully Created</div>
+                    <div<h1>Study Succesfully Created</h1></div>
                 </div>
                 <div class="row">
                     <div class="label">Short Title:</div>
@@ -26,9 +25,10 @@
                     <div class="value">${command.primaryIdentifier}</div>
                 </div>
             </div>
+            </td></tr>
+         </table>
 
-        </chrome:division>
     </chrome:box>
-</form:form>
+
 </body>
 </html>

@@ -28,34 +28,11 @@ class StudySitesTab extends StudyTab {
         Map<String, Object> refdata = super.referenceData(study);
         addConfigMapToRefdata(refdata, "studySiteStatusRefData");
         addConfigMapToRefdata(refdata, "studySiteRoleCodeRefData");
-        refdata.put("healthCareSitesRefData", getHealthcareSiteDao().getAll());
+        refdata.put("healthCareSites", getHealthcareSiteDao().getAll());
 
         return refdata;
 
     }
-
-    @Override
-    public void postProcess(HttpServletRequest httpServletRequest, Study study, Errors errors) {
-        String action =    httpServletRequest.getParameter("_action");
-        String selected =    httpServletRequest.getParameter("_selected");
-
-        if ("addSite".equals(action)) {
-            StudySite studySite = new StudySite();
-            study.addStudySite(studySite);
-            studySite.setRoleCode("<role code>");
-            studySite.setStatusCode("<status code>");
-
-            List<HealthcareSite> healthcareSites  = getHealthcareSiteDao().getAll();
-            for (HealthcareSite site : healthcareSites) {
-                //associate all
-                studySite.setSite(site);
-            }
-
-        } else if ("removeSite".equals(action)) {
-            study.getStudySites().remove(Integer.parseInt(selected));
-        }
-    }
-
 
 }
 

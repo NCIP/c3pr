@@ -144,7 +144,7 @@ function showError(element,msg){
 	for(i=0 ; i<strategies.length ; i++){
 	errorStrategy1=strategies[i]
 		if(errorStrategy1=="text"){
-			new Insertion.After(element, " <span id='"+element.name+"-msg'class='red'>*"+msg+"</span>")
+			new Insertion.After(element, " <span id='"+element.name+"-msg'style='color:#EE3324'>*"+msg+"</span>")
 		}
 		if(errorStrategy1=="highlight") {
 			element.style._backgroundColor=element.style._backgroundColor?element.style._backgroundColor:element.style.backgroundColor

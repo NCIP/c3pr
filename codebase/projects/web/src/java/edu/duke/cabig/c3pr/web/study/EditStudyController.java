@@ -67,7 +67,11 @@ public class EditStudyController extends StudyController<Study> {
             && (request.getParameter("_action") == null || "".equals(request.getParameter("_action")));
     }
 
-    
+
+    @Override
+    protected boolean isSummaryEnabled() {
+        return true;
+    }
 
     @Override
     protected Object currentFormObject(HttpServletRequest request, Object sessionFormObject) throws Exception {

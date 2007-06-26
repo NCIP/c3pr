@@ -2,7 +2,7 @@
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
 #mytable {
-	width: 700px;
+	width: 100%;
 	padding: 0;
 	margin: 0;
 	font: normal 11px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;

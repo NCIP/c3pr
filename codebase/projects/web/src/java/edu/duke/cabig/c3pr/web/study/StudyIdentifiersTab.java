@@ -33,7 +33,6 @@ class StudyIdentifiersTab extends StudyTab {
     @Override
     public void postProcess(HttpServletRequest httpServletRequest, Study study, Errors errors) {
         String action   = httpServletRequest.getParameter("_action");
-        String selected = httpServletRequest.getParameter("_selected");
 
         if ("addIdentifier".equals(action))
         {
@@ -45,8 +44,10 @@ class StudyIdentifiersTab extends StudyTab {
         }
         else if ("removeIdentifier".equals(action))
         {
+            int selected = Integer.parseInt(httpServletRequest.getParameter("_selected"));
             log.debug("Requested Remove Identifier");
-            study.getIdentifiers().remove(Integer.parseInt(selected));
+            Identifier id = study.getIdentifiers().get(selected);
+            study.removeIdentifier(id);
         }
     }
 
