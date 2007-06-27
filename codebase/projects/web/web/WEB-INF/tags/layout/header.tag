@@ -12,6 +12,7 @@
             <a href="<c:url value="/j_acegi_logout"/>">Log out</a>
         </div>
 
+
         <ul id="sections" class="tabs">
             <c:forEach items="${sections}" var="section">
                 <csmauthz:accesscontrol authorizationCheckName="sectionAuthorizationCheck"
@@ -30,7 +31,7 @@
                     <csmauthz:accesscontrol domainObject="${task}" authorizationCheckName="taskAuthorizationCheck">
                         <c:choose>
                             <c:when test="${task == currentTask}">
-                            <a href="<c:url value="${task.url}"/>" id="current">${task.displayName}</a>
+                                <a href="<c:url value="${task.url}"/>" id="current">${task.displayName}</a>
                             </c:when>
                             <c:otherwise>
                                 <a href="<c:url value="${task.url}"/>">${task.displayName}</a>
