@@ -46,6 +46,7 @@ function handleConfirmation(){
 							<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
 							<!-- RIGHT CONTENT STARTS HERE --> <c:if
 								test="${type == 'confirm'}">
+								
 								<div id="confirmationMessage">
 								<h3><font color="green"> You have successfully created a
 								research staff person with name : ${fullName}</font></h3>
@@ -96,16 +97,16 @@ function handleConfirmation(){
 							</table>
 							<hr align="left" width="95%">
 
-							<table width="800" border="0" cellspacing="0" cellpadding="0"
+							<table width="600" border="0" cellspacing="0" cellpadding="0"
 								id="details">
 								<tr>
-									<td width="400" valign="top">
-									<table width="400" border="0" cellspacing="1" cellpadding="1"
+									<td width="300" valign="top">
+									<table width="300" border="0" cellspacing="1" cellpadding="1"
 										id="table1">
 										<tr>
 											<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
 												height="1" class="heightControl"></td>
-											<td width="70%"><img src="<tags:imageUrl name="spacer.gif"/>"
+											<td width="65%"><img src="<tags:imageUrl name="spacer.gif"/>"
 												width="1" height="1" class="heightControl"></td>
 										</tr>
 										<tr valign="top">
