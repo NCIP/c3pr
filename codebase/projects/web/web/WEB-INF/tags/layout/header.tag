@@ -3,7 +3,10 @@
 <%@ taglib prefix="csmauthz" uri="http://csm.ncicb.nci.nih.gov/authz" %>
 <div id="header">
     <div class="background-R">
-        <img src="<chrome:imageUrl name="c3pr.gif"/>" alt="c3prv2" id="logo">
+        <a href="<c:url value="/"/>">
+        <img src="<chrome:imageUrl name="c3prLogo.gif"/>" alt="c3prv home" id="logo">
+        </a>
+        <img src="<chrome:imageUrl name="c3pr.gif"/>" alt="Cancer Clinical Centralized Patient Registry">
 
         <div id="login-action">
           <a href="<c:url value="/j_acegi_logout"/>">Log out</a>
