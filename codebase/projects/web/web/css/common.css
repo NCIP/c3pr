@@ -1,13 +1,5 @@
 /**** GENERAL TAG STYLE OVERRIDES */
 
-body {
-  margin: 0; padding: 0;
-  background: url(../images/chrome/caBIG_footer.gif) no-repeat bottom right #F4F4F5;
-  font-family: Helvetica, Arial, sans-serif;
-  font-size: 10pt;
-  color: #000000;
-}
-
 h1, h2, h3, h4, h5, h6 {
   margin: 0;
   padding: 0;
@@ -33,7 +25,6 @@ p { margin: 1em 0; }
 
 #header .background-R {
   background: url(../images/chrome/header_BG_R.gif) no-repeat top right;
-  padding-top: 12px;
 }
 
 #logo { vertical-align: top; }
@@ -159,6 +150,20 @@ ul.tabs li {
 .pane {
   float: left;
   margin: 0 14px 12px 0;
+}
+
+.rightpanel{
+    float:right;
+    width:48%;
+    margin: 0 14px 14px 0;
+    padding: 5px;
+}
+
+.leftpanel {
+    float: left;
+    width:48%;
+    margin: 0 14px 14px -4em;
+    padding: 5px;
 }
 
 /* Each pane will contain one or more "boxes" */
