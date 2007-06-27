@@ -47,7 +47,7 @@
                     <tr id="mytable-${status.index}">
                         <td class="alt">
                             <form:select id="studySites[${status.index}].site"
-                                    path="studySites[${status.index}].site" cssClass="validate-notEmpty">
+                                    path="studySites[${status.index}].site.id" cssClass="validate-notEmpty">
                                 <option value="">--Please Select--</option>
                                 <form:options items="${healthCareSites}" itemLabel="name" itemValue="id"/>
                             </form:select></td>

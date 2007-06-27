@@ -16,7 +16,7 @@ h1 { margin: 0px 0px 12px 0px; color: #2E3257; font-weight: 600; font-size: 16px
 
 h2 { margin: 0px 0px 12px 0px; color: #2E3257; font-weight: 600; font-size: 13px; }
 
-.header { background: url(../images/chrome/header_BG.gif) repeat-x top; min-width: 770px; }
+.header { background: url(../images/chrome/header_BG.gif) repeat-x top;  }
 
 .header_R { background: url(../images/chrome/header_BG_R.gif) no-repeat top right; }
 
@@ -96,11 +96,11 @@ h2 { margin: 0px 0px 12px 0px; color: #2E3257; font-weight: 600; font-size: 13px
 
 /* taskbar */
 
-.taskbar { background: url(../images/chrome/taskbar_BG.gif) repeat-x top; font-weight: bold; padding: 0px 20px 0px 12px; height: 24px; font-size: .85em; }
+#taskbar { background: url(../images/chrome/taskbar_BG.gif) repeat-x top; font-weight: bold; padding: 0px 20px 0px 12px; height: 24px; font-size: .85em; }
 
-.taskbar a { font-weight: normal; padding: 0px 0px 0px 12px; color: #002EE2; text-decoration: none; }
+#taskbar a { font-weight: normal; padding: 0px 0px 0px 12px; color: #002EE2; text-decoration: none; }
 
-.taskbar #current { font-weight: bold; }
+#taskbar #current { font-weight: bold; }
 
 #main { background: url(../images/chrome/main_BG.gif) repeat-x top; margin: 0px 0px 0px 0px; padding: 12px 18px 20px 18px; }
 
