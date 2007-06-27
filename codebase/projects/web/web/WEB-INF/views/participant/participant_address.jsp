@@ -24,7 +24,9 @@ function fireAction(action, selected){
 </script>
 </head>
 <body>
-<tags:formPanelBox tab="${tab}" flow="${flow}">
+<tags:tabForm tab="${tab}" flow="${flow}"
+	formName="participantAddressForm">
+	<jsp:attribute name="singleFields">
 	<input type="hidden" name="_action" value="">
 	<input type="hidden" name="_selected" value="">
 	<table width="80%" border="0" cellspacing="1" cellpadding="1" id="table1">
@@ -67,6 +69,8 @@ function fireAction(action, selected){
 		</tr>
 
 	</table>
-</tags:formPanelBox>
+	</jsp:attribute>
+</tags:tabForm>
+
 </body>
 </html>
