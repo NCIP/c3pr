@@ -95,25 +95,7 @@ ul.tabs li {
 
 #sections a:hover { color: #002EE2; }
 
-/**** TASKS */
-
-#taskbar {
-  background: url(../images/chrome/taskbar_BG.gif) repeat-x top;
-  font-weight: bold;
-  padding: 0 20px 0 12px;
-  height: 24px;
-  font-size: .85em;
-}
-
-#taskbar a {
-  font-weight: normal;
-  padding: 0 0 0 12px;
-  color: #002EE2;
-  text-decoration: none;
-}
-
-#current-task { font-weight: bold; }
-
+ 
 /**** PAGE CONTENT BOXES */
 
 #main {
