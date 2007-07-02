@@ -12,12 +12,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.commons.collections15.functors.InstantiateFactory;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import edu.duke.cabig.c3pr.utils.DateUtil;
+import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
 /**
  * @author Priyatam
@@ -28,22 +30,20 @@ import edu.duke.cabig.c3pr.utils.DateUtil;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "participants_id_seq") })
 public class Participant extends Person implements Comparable<Participant> {
 	private Date birthDate;
-
 	private String birthDateStr;
-
 	private String administrativeGenderCode;
-
 	private String ethnicGroupCode;
-
 	private String raceCode;
-
 	private String maritalStatusCode;
-
 	private String primaryIdentifier;
-
 	private List<Identifier> identifiers = new ArrayList<Identifier>();
-
 	private List<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();
+	private LazyListHelper lazyListHelper;
+	
+	public Participant() {
+        lazyListHelper = new LazyListHelper();
+        lazyListHelper.add(Identifier.class, new InstantiateFactory<Identifier>(Identifier.class));
+    }
 
 	public void addIdentifier(Identifier identifier) {
 		identifiers.add(identifier);
@@ -52,17 +52,26 @@ public class Participant extends Person implements Comparable<Participant> {
 	public void removeIdentifier(Identifier identifier) {
 		identifiers.remove(identifier);
 	}
+	
+	 @Transient
+	    public List<Identifier> getIdentifiers() {
+	        return lazyListHelper.getLazyList(Identifier.class);
+	    }
 
 	@OneToMany(fetch = FetchType.LAZY)
 	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "PRT_ID")
-	public List<Identifier> getIdentifiers() {
-		return identifiers;
+	public List<Identifier> getIdentifiersInternal() {
+		return lazyListHelper.getInternalList(Identifier.class);
 	}
+	
+    public void setIdentifiersInternal(List<Identifier> identifiers) {
+        lazyListHelper.setInternalList(Identifier.class, identifiers);
+    }
 
-	public void setIdentifiers(List<Identifier> identifiers) {
-		this.identifiers = identifiers;
-	}
+    public void setIdentifiers(List<Identifier> identifiers) {
+        lazyListHelper.setInternalList(Identifier.class, identifiers);
+    }
 
 	@OneToMany(mappedBy = "participant", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
