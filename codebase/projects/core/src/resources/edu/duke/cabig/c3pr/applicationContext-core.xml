@@ -80,6 +80,8 @@
             <list>
                 <value>edu.duke.cabig.c3pr.domain.Study</value>
                 <value>edu.duke.cabig.c3pr.domain.Epoch</value>
+                <value>edu.duke.cabig.c3pr.domain.NonTreatmentEpoch</value>
+                <value>edu.duke.cabig.c3pr.domain.TreatmentEpoch</value>
                 <value>edu.duke.cabig.c3pr.domain.Arm</value>
                 <value>edu.duke.cabig.c3pr.domain.StudySite</value>
                 <value>edu.duke.cabig.c3pr.domain.HealthcareSite</value>
