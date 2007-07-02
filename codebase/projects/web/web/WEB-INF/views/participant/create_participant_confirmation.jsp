@@ -22,7 +22,7 @@
 
             <div><input type="hidden" name="_page" value="1"></div>
 
-            <h3> <font color="green"> You have successfully created Subject with last name : ${param.lastName}</font></h3>
+            <h3> <font color="green"> You have successfully created Subject with name : ${param.firstName} ${param.lastName} </font></h3>
         </tabs:division>
     </div>
 </form:form>
