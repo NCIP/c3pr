@@ -11,9 +11,6 @@
 		<c:when test="${tab.showSummary=='false' }">
 			<td valign="top">
 				<jsp:doBody/>
-			    <c:if test="${tab.subFlow=='false'}">
-				    <tabs:tabControls tabNumber="${tab.number}" isLast="${tab.number < rFlow.tabCount - 1}"/>
-			    </c:if>
 			</td>
 		</c:when>
 		<c:otherwise>
