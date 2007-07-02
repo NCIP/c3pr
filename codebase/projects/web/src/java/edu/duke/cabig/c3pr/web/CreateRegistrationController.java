@@ -26,6 +26,7 @@ import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
 import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
+import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 import edu.duke.cabig.c3pr.service.ParticipantService;
 import edu.duke.cabig.c3pr.service.impl.ParticipantServiceImpl;
 import edu.duke.cabig.c3pr.utils.Lov;
@@ -253,7 +254,7 @@ public class CreateRegistrationController<C extends StudyParticipantAssignment> 
 	
 	private void checkCollections(StudyParticipantAssignment studyParticipantAssignment){
 		studyParticipantAssignment.getStudySite().getStudy().getStudyDiseases().size();
-		for(Epoch e:studyParticipantAssignment.getStudySite().getStudy().getEpochs()){
+		for(TreatmentEpoch e:studyParticipantAssignment.getStudySite().getStudy().getTreatmentEpochs()){
 			e.getArms().size();
 		}
 		studyParticipantAssignment.getParticipant().getStudyParticipantAssignments().size();
