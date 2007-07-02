@@ -43,12 +43,14 @@
 //								},
 // }
 //
-// After writing your class for autocompleter add this class to the autocompleters array. for e.g
+// For registering a auto-completer object on javascript onload() add your class to the autocompleters array. for e.g
 //    autoCompleters.push(<My Auto Completer Object>);
+//
+// You can also register your auto-completer object by calling the registerAutoCompleter(<my_auto-comp_object_xyz>)
 //
 // Thats all you need to do. The rest will be handled by the library.
 // Note: Make sure that that the input fields match the <basename>-<option> syntax
-//       for autocompleter to work properly
+//       for autocompleter to work properly. 
 
 
 var autoCompleters=new Array()
@@ -57,11 +59,15 @@ Event.observe(window, "load", function() {
 })
 function registerAutoCompleters(){
 	for(i=0 ; i<autoCompleters.length ; i++){
-		var autoCompleterObject=AbstractAutocompleterProps
-		Object.extend(autoCompleterObject,autoCompleters[i])
-					acCreate(autoCompleterObject)
+		registerAutoCompleter(autoCompleters[i])
 	}
 }
+function registerAutoCompleter(autoCompObject){
+	var autoCompleterObject=AbstractAutocompleterProps
+	Object.extend(autoCompleterObject,autoCompObject)
+	acCreate(autoCompleterObject)
+}
+
 function acCreate(mode) {
     new Autocompleter.DWR(mode.inputElement(), mode.displayChoices(),
 							mode.populator, {valueSelector: mode.valueSelector,
