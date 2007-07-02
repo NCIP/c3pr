@@ -72,4 +72,4 @@ INSERT INTO csm_privilege (privilege_id, privilege_name, privilege_description, 
 VALUES(7,'EXECUTE','This privilege allows a user to execute a particular resource. The resource can be a method, function, behavior of the application, URL, button etc', sysdate);
 SELECT CSM_PRIVILEGE_PRIVILEGE_ID_SEQ.nextval FROM dual;
 
-COMMIT;
+ 

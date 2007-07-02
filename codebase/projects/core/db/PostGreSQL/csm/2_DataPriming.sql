@@ -68,4 +68,4 @@
             VALUES('EXECUTE','This privilege allows a user to execute a particular resource. The resource can be a method, function, behavior of the application, URL, button etc', current_date);
 
 
-        COMMIT;
+   
