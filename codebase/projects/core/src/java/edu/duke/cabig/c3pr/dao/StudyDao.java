@@ -116,13 +116,16 @@ public class StudyDao extends GridIdentifiableDao<Study>
       * <li>code>studyDao.searchByExample(study)</li></code>
       * @return list of matching study objects based on your sample study object
       */
+  
+    @Transactional(readOnly = true)
     public List<Study> searchByExample(Study study, boolean isWildCard) {
         List<Study> result = new ArrayList<Study>();
 
         Example example = Example.create(study).excludeZeroes().ignoreCase();
         try {
             Criteria studyCriteria = getSession().createCriteria(Study.class);
-
+            studyCriteria.addOrder(Order.asc("shortTitleText"));
+            
             if (isWildCard)
             {
                 example.excludeProperty("doNotUse").enableLike(MatchMode.ANYWHERE);
@@ -130,7 +133,7 @@ public class StudyDao extends GridIdentifiableDao<Study>
                 if (study.getIdentifiers().size() > 0) {
                     studyCriteria.createCriteria("identifiersInternal")
                             .add(Restrictions.like("value", study.getIdentifiersInternal().get(0)
-                                    .getValue()+ "%")).addOrder(Order.asc("name"));
+                                    .getValue() + "%"));
                 }
                 result =  studyCriteria.list();
             }
@@ -178,7 +181,7 @@ public class StudyDao extends GridIdentifiableDao<Study>
      * @return list of StudyParticipantAssignments
      */
     public List<StudyParticipantAssignment> getStudyParticipantAssignmentsForStudy(Integer studyId) {
-        return getHibernateTemplate().find("select a from Study s join s.studySites ss " +
+        return getHibernateTemplate().find("select a from Study s join s.studySitesInternal ss " +
                 "join ss.studyParticipantAssignments a where s.id = ?", studyId);
     }
 
