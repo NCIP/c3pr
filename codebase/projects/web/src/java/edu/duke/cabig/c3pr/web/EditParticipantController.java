@@ -36,6 +36,7 @@ import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.web.participant.ParticipantDetailsTab;
 import edu.duke.cabig.c3pr.web.participant.ParticipantAddressAndContactInfoTab;
+import edu.duke.cabig.c3pr.web.participant.ParticipantSummaryTab;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.ObjectGraphBasedEditor;
 
 import edu.duke.cabig.c3pr.web.beans.DefaultObjectPropertyReader;
@@ -71,6 +72,7 @@ public class EditParticipantController<C extends Participant> extends
 	protected void layoutTabs(Flow flow) {
 	        flow.addTab(new ParticipantDetailsTab());
 	        flow.addTab(new ParticipantAddressAndContactInfoTab());
+	        flow.addTab(new ParticipantSummaryTab());
 	       	    }
 
 	@Override
