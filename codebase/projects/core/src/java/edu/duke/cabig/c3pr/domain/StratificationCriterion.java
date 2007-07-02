@@ -36,6 +36,7 @@ public class StratificationCriterion extends AbstractMutableDomainObject impleme
     private List<StratificationCriterionPermissibleAnswer> permissibleAnswers = 
     	new ArrayList<StratificationCriterionPermissibleAnswer>();
     private Study study;
+       
     
     /// LOGIC
 
@@ -61,7 +62,7 @@ public class StratificationCriterion extends AbstractMutableDomainObject impleme
 	}
 
 	@ManyToOne
-	@JoinColumn(name="study_id", nullable=false)
+	@JoinColumn(name="study_id", nullable=true)
 	public Study getStudy() {
 		return study;
 	}
@@ -130,6 +131,5 @@ public class StratificationCriterion extends AbstractMutableDomainObject impleme
 			return false;
 		return true;
 	}
-	
-	
+		
 }
