@@ -35,7 +35,7 @@ public class SearchStudyController extends SimpleFormController {
         SearchCommand searchStudyCommand = (SearchCommand) oCommand;
         Study study = new Study();
         String type = searchStudyCommand.getSearchType();
-        String searchtext = searchStudyCommand.getSearchText();
+        String searchtext = searchStudyCommand.getSearchText().trim();
 
         log.debug("search string = " + searchtext + "; type = " + type);
 
