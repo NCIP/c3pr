@@ -9,36 +9,20 @@ import javax.persistence.*;
 /**
  * @author Priyatam
  */
- @Entity
- @Table (name = "eligibility_criterias")
- @Inheritance(strategy=InheritanceType.SINGLE_TABLE) 
- @GenericGenerator(name="id-generator", strategy = "native",
-     parameters = {
-         @Parameter(name="sequence", value="ELIGIBILITY_CRITERIAS_ID_SEQ")
-     }
- )
-public abstract class EligibilityCriteria extends AbstractMutableDomainObject
-{			
+@Entity
+@Table(name = "eligibility_criterias")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "ELIGIBILITY_CRITERIAS_ID_SEQ") })
+public abstract class EligibilityCriteria extends AbstractMutableDomainObject {
 	private Boolean notApplicableIndicator;
-	
+
 	private int questionNumber;
-	
+
 	private String questionText;
+
+	private String name;
+
 	
-	private Study study;
-
-    private String name;
-
-    @ManyToOne
-	@JoinColumn(name="stu_id", updatable = false, insertable = false) 
-	public Study getStudy() {
-		return study;
-	}
-
-	public void setStudy(Study study) {
-		this.study = study;
-	}
-
 	public Boolean getNotApplicableIndicator() {
 		return notApplicableIndicator;
 	}
@@ -63,12 +47,12 @@ public abstract class EligibilityCriteria extends AbstractMutableDomainObject
 		this.questionText = questionText;
 	}
 
-     @Transient
-    public String getName() {
-        return name;
-    }
+	@Transient
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 }
