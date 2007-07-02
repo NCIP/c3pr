@@ -56,7 +56,7 @@ public class ParticipantDaoTest extends DaoTestCase {
             
             StudySite studySite= studySiteDao.getById(1000);
             ScheduledArm scheduledArm=new ScheduledArm();
-            Arm arm=studySite.getStudy().getEpochs().get(0).getArms().get(0);
+            Arm arm=studySite.getStudy().getTreatmentEpochs().get(0).getArms().get(0);
             scheduledArm.setArm(arm);
             scheduledArm.setEligibilityIndicator("true");
             scheduledArm.setStartDate(new Date());
