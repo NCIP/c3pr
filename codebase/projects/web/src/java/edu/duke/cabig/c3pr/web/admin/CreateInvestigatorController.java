@@ -132,7 +132,7 @@ public class CreateInvestigatorController extends
 
 	}
 
-	@Override
+/*	@Override
 	protected void postProcessPage(HttpServletRequest request, Object command,
 			Errors arg2, int pageNo) throws Exception {
 
@@ -145,9 +145,9 @@ public class CreateInvestigatorController extends
 		default:
 			// do nothing
 		}
-	}
+	}*/
 
-	private void handleRowAction(Investigator investigator, String action,
+/*	private void handleRowAction(Investigator investigator, String action,
 			String selected) {
 		if ("addSite".equals(action)) {
 			HealthcareSiteInvestigator healthcareSiteInvestigator = new HealthcareSiteInvestigator();
@@ -166,7 +166,7 @@ public class CreateInvestigatorController extends
 					Integer.parseInt(selected));
 		}
 
-	}
+	}*/
 
 	private Investigator createInvestigatorWithDesign() {
 
