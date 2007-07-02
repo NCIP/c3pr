@@ -1,26 +1,14 @@
 package edu.duke.cabig.c3pr.web;
 
-import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
-import edu.duke.cabig.c3pr.dao.ParticipantDao;
-import edu.duke.cabig.c3pr.domain.Address;
-import edu.duke.cabig.c3pr.domain.ContactMechanism;
-import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.Identifier;
-import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
-import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
-import edu.duke.cabig.c3pr.utils.Lov;
-import edu.duke.cabig.c3pr.utils.StringUtils;
-import gov.nih.nci.cabig.ctms.web.tabs.AbstractTabbedFlowFormController;
-import gov.nih.nci.cabig.ctms.web.tabs.Flow;
-import gov.nih.nci.cabig.ctms.web.tabs.Tab;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.Hashtable;
+import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,6 +20,26 @@ import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
+
+
+import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.dao.ParticipantDao;
+import edu.duke.cabig.c3pr.domain.Address;
+import edu.duke.cabig.c3pr.domain.ContactMechanism;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
+import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
+import edu.duke.cabig.c3pr.utils.Lov;
+import edu.duke.cabig.c3pr.utils.StringUtils;
+import edu.duke.cabig.c3pr.utils.web.propertyeditors.ObjectGraphBasedEditor;
+
+import edu.duke.cabig.c3pr.web.beans.DefaultObjectPropertyReader;
+import gov.nih.nci.cabig.ctms.web.tabs.AbstractTabbedFlowFormController;
+import gov.nih.nci.cabig.ctms.web.tabs.Flow;
+import gov.nih.nci.cabig.ctms.web.tabs.Tab;
+
 
 /**
  * @author Kulasekaran, Priyatam
@@ -165,7 +173,7 @@ public class CreateParticipantController extends
 		participant.setAddress(new Address());
 		return participant;
 	}
-	
+
 	private Participant createParticipantWithContacts(Participant participant) {
 
 		ContactMechanism contactMechanismEmail = new ContactMechanism();
@@ -226,6 +234,48 @@ public class CreateParticipantController extends
 	}
 
 	@Override
+	protected void onBind(HttpServletRequest request, Object command,
+			BindException errors) throws Exception {
+		// TODO Auto-generated method stub
+		super.onBind(request, command, errors);
+		handleRowDeletion(request, command);
+	}
+
+	public void handleRowDeletion(HttpServletRequest request, Object command)
+			throws Exception {
+		Enumeration enumeration = request.getParameterNames();
+		Hashtable<String, List<Integer>> table = new Hashtable<String, List<Integer>>();
+		while (enumeration.hasMoreElements()) {
+			String param = (String) enumeration.nextElement();
+			if (param.startsWith("_deletedRow-")) {
+				String[] params = param.split("-");
+				if (table.get(params[1]) == null)
+					table.put(params[1], new ArrayList<Integer>());
+				table.get(params[1]).add(new Integer(params[2]));
+			}
+		}
+		deleteRows(command, table);
+	}
+
+	public void deleteRows(Object command,
+			Hashtable<String, List<Integer>> table) throws Exception {
+		Enumeration<String> e = table.keys();
+		while (e.hasMoreElements()) {
+			String path = e.nextElement();
+			List col = (List) new DefaultObjectPropertyReader(command, path)
+					.getPropertyValueFromPath();
+			List<Integer> rowNums = table.get(path);
+			List temp = new ArrayList();
+			for (int i = 0; i < col.size(); i++) {
+				if (!rowNums.contains(new Integer(i)))
+					temp.add(col.get(i));
+			}
+			col.removeAll(col);
+			col.addAll(temp);
+		}
+	}
+
+	@Override
 	protected ModelAndView processFinish(HttpServletRequest request,
 			HttpServletResponse response, Object oCommand, BindException errors)
 			throws Exception {
@@ -240,15 +290,16 @@ public class CreateParticipantController extends
 				iterator.remove();
 			}
 		}
-		
-		Iterator<ContactMechanism> cMIterator = command.getContactMechanisms().iterator();
+
+		Iterator<ContactMechanism> cMIterator = command.getContactMechanisms()
+				.iterator();
 		StringUtils strUtil = new StringUtils();
 		while (cMIterator.hasNext()) {
 			ContactMechanism contactMechanism = cMIterator.next();
 			if (strUtil.isBlank(contactMechanism.getValue()))
 				cMIterator.remove();
-			}
-						
+		}
+
 		participantDao.save(command);
 
 		ModelAndView modelAndView = null;
@@ -268,7 +319,7 @@ public class CreateParticipantController extends
 			return null;
 		}
 		response.sendRedirect("confirmCreateParticipant?lastName="
-				+ command.getLastName() + "&type=confirm");
+				+ command.getLastName()+ "&firstName="+ command.getFirstName() + "&type=confirm");
 		return null;
 	}
 
