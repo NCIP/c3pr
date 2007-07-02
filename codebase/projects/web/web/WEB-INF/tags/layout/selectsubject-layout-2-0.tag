@@ -1,6 +1,7 @@
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
+<%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
 <table width="100%" border="0" cellspacing="0" cellpadding="0" class="body">
 	<c:choose>
 		<c:when test="${actionReturnType=='CreateParticipant' }">
@@ -23,14 +24,9 @@
 			<tr>
 		        <td>
 			        <tags:minimizablePanelBox boxId="CreateSubject" title="Create Subject">
-					    <tabs:levelTwoTabsSubFlow tab="${tab}" flow="${flow}"/>
-					    <div class="tabcontent workArea">
-					        <div class="body">
-					            <jsp:doBody/>
-					        </div>
-					        <tabs:tabControls tabNumber="${tab.number}" isLast="${tab.number < flow.tabCount - 1}"/>
-					    </div>
-   			        </tags:minimizablePanelBox>					
+				        <chrome:workflowTabsLevelTwo tab="${tab}" flow="${flow}"/>
+			            <jsp:doBody/>
+				    </tags:minimizablePanelBox>
 	       		</td>
 			</tr>        
 		</c:when>
