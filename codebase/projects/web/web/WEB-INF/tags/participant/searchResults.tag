@@ -9,21 +9,23 @@
 
 
 <!-- SUBJECT SEARCH RESULTS START HERE -->
+<div class="eXtremeTable" >
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
 		<td>
-		<table width="100%" border="0" cellspacing="0" cellpadding="0"
-			id="additionalList">
+		<table class="tableRegion" width="100%" border="0" cellspacing="0" cellpadding="0">
+		<thead>
 			<c:if test="${participants!=null}">
-				<tr align="center" class="label">
-					<td>Last Name, First Name</td>
-					<td>Primary Identifier</td>
-					<td>Gender</td>
-					<td>Race</td>
-					<td>Birth Date</td>
-					<td></td>
-				</tr>
+				<tr>
+					<td class="tableHeader">Last Name, First Name</td>
+					<td class="tableHeader">Primary Identifier</td>
+					<td class="tableHeader">Gender</td>
+					<td class="tableHeader">Race</td>
+					<td class="tableHeader">Birth Date</td>
+    			</tr>
 			</c:if>
+			</thead>
+			<tbody class="tableBody">
 			<c:if test="${participants!=null && fn:length(participants)==0}">
 				<tr>
 					Sorry, no matches were found
@@ -31,9 +33,10 @@
 			</c:if>
 			<%int i=0; %>
 			<c:forEach items="${participants}" var="participant">
-				<tr align="center" id="row<%= i++ %>" class="results"
-					onMouseOver="navRollOver('row<%= i-1 %>', 'on')"
-					onMouseOut="navRollOver('row<%= i-1 %>', 'off')"
+				  <% String currClass=i%2==0? "odd":"even"; %>
+
+            <tr id="row<%= i++ %>" class="<%= currClass %>" onMouseOver="this.className='highlight'"
+				onMouseOut="this.className='<%= currClass %>'"
 					onClick="
 						<c:choose>
 							<c:when test="${!empty studySiteId}">
@@ -47,16 +50,18 @@
 							</c:otherwise>
 						</c:choose>
 					">
+					
 					<td>${participant.lastName},${participant.firstName}</td>
-					<td>${participant.primaryIdentifier}</td>
+					<td><a href="${url}?participantId=${participant.id}">${participant.primaryIdentifier}</a></td>
 					<td>${participant.administrativeGenderCode}</td>
 					<td>${participant.raceCode}</td>
 					<td>${participant.birthDateStr}</td>
-					</a>
 				</tr>
 			</c:forEach>
+			</tbody>
 		</table>
 		</td>
 	</tr>
 </table>
+</div>
 <!-- SUBJECT SEARCH RESULTS END HERE -->
