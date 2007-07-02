@@ -1,29 +1,23 @@
 package edu.duke.cabig.c3pr.domain;
 
 import edu.duke.cabig.c3pr.utils.DateUtil;
+import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 
+import javax.persistence.*;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-
 /**
  * @author Ram Chilukuri, Priyatam
+ * @author kherm
  * 
  */
 @Entity
@@ -46,11 +40,15 @@ public class StudySite extends AbstractMutableDomainObject implements Comparable
     
     private List<StudyParticipantAssignment> studyParticipantAssignments 
     	= new ArrayList<StudyParticipantAssignment>();    
-    private List<StudyInvestigator> studyInvestigators = new ArrayList<StudyInvestigator>();
     private List<StudyPersonnel> studyPersonnels = new ArrayList<StudyPersonnel>();
-  
 
-    /// LOGIC
+    private LazyListHelper lazyListHelper;
+
+
+    public StudySite() {
+        lazyListHelper = new LazyListHelper();
+        lazyListHelper.add(StudyInvestigator.class, new BiDirectionalInstantiateFactory<StudyInvestigator>(StudyInvestigator.class,this));
+    }
 
     public void addStudyPersonnel(StudyPersonnel studyPersonnel) {
         studyPersonnels.add(studyPersonnel);
@@ -115,15 +113,26 @@ public class StudySite extends AbstractMutableDomainObject implements Comparable
     
     @OneToMany (mappedBy = "studySite")
     @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    public List<StudyInvestigator> getStudyInvestigatorsInternal(){
+        return lazyListHelper.getInternalList(StudyInvestigator.class);
+    }
+
+    public void setStudyInvestigatorsInternal(List<StudyInvestigator> studyInvestigators){
+        lazyListHelper.setInternalList(StudyInvestigator.class, studyInvestigators);
+    }
+
+
+    @Transient
     public List<StudyInvestigator> getStudyInvestigators() {
-		return studyInvestigators;
+		return lazyListHelper.getLazyList(StudyInvestigator.class);
 	}
 
-	public void setStudyInvestigators(List<StudyInvestigator> studyInvestigators) {
-		this.studyInvestigators = studyInvestigators;
-	}	
-	
-	@OneToMany (mappedBy = "studySite")
+
+    public void setStudyInvestigators(List<StudyInvestigator> studyInvestigators) {
+		lazyListHelper.setInternalList(StudyInvestigator.class,studyInvestigators);
+    }
+
+    @OneToMany (mappedBy = "studySite")
     @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })    
 	public List<StudyPersonnel> getStudyPersonnels() {
 		return studyPersonnels;
