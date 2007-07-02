@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="test/src"/>
+	<classpathentry kind="src" path="test/resources"/>
+	<classpathentry kind="src" path="test/src/resources"/>
+	<classpathentry kind="src" path="test/src/java"/>
+	<classpathentry kind="src" path="src/java"/>
+	<classpathentry kind="src" path="src/resources"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry exported="true" kind="lib" path="lib/activemq-core-4.0.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/asm.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/asm-attrs.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/castor-0.9.9.jar"/>
@@ -12,7 +14,6 @@
 	<classpathentry exported="true" kind="lib" path="lib/commons-collections-3.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-dbcp-1.2.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-lang-2.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-pool-1.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/fop.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jstl.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jta.jar"/>
@@ -44,11 +45,13 @@
 	<classpathentry exported="true" kind="lib" path="ext/lib/client.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/handlerservice.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/handle.jar"/>
-	<classpathentry exported="true" kind="lib" path="build/classes"/>
 	<classpathentry exported="true" kind="lib" path="/web/build/classes" sourcepath="/web/src"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/esb-client"/>
 	<classpathentry exported="true" kind="lib" path="/share/dom4j-1.6.1/dom4j-1.6.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/antlr-2.7.6.jar"/>
-	<classpathentry exported="true" kind="lib" path="build/jars/c3pr-2.0-core-tests-1.0.jar"/>
+	<classpathentry kind="lib" path="/share/ctms-commons/ctms-commons-core-0.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="/share/ctms-commons/ctms-commons-lang-0.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="/share/collections-generic/collections-generic-4.01.jar"/>
+	<classpathentry kind="lib" path="/share/cacore/csm/csmapi-3.2.1-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
