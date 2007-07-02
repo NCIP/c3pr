@@ -141,7 +141,5 @@ function updateTargetPage(target){
 		</tr>
 	</table>
 </tags:formPanelBox>
-</table>
-</div>
 </body>
 </html>
