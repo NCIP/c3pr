@@ -152,7 +152,7 @@ public class CreateRegistrationController<C extends StudyParticipantAssignment> 
 		// TODO Auto-generated method stub
 		String tabShortTitle=getFlow().getTab(page).getShortTitle();
 		StudyParticipantAssignment studyParticipantAssignment=(StudyParticipantAssignment)command;
-		if(isResumeFlow(request)){
+		if(!super.isFormSubmission(request)&&isResumeFlow(request)){
 			if(isNewRegistration(request))
 				buildCommandObject(studyParticipantAssignment);
 			else
@@ -306,5 +306,9 @@ public class CreateRegistrationController<C extends StudyParticipantAssignment> 
 			}
 		}
 		return flag;
+	}
+	
+	protected String getResumedFlowAttrName(){
+		return this.getClass().getName()+"-ResumedFlow";
 	}
 }
