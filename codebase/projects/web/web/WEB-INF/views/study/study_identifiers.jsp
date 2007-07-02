@@ -76,7 +76,7 @@
 </tags:tabForm>
     <div id="dummy-row" style="display:none;">
         <table>
-            <tr>
+            <tr id="myTable-PAGE.ROW.INDEX">
                 <td class="alt"><select id="identifiers[PAGE.ROW.INDEX].source"
                                         name="identifiers[PAGE.ROW.INDEX].source"
                                         class="validate-notEmpty">
@@ -96,7 +96,8 @@
                 </select>
                 </td>
                 <td class="alt"><input id="identifiers[PAGE.ROW.INDEX].value" name="identifiers[PAGE.ROW.INDEX].value"
-                                       onfocus="javascript:clearField(this)" class="validate-notEmpty"/></td>
+                                       onfocus="javascript:clearField(this)"
+                                       type="text" class="validate-notEmpty"/></td>
                 <td class="alt"><input type="radio" id="identifiers[PAGE.ROW.INDEX].primaryIndicator" name="identifiers[PAGE.ROW.INDEX].primaryIndicator"
                                        value="true"/></td>
                 <td class="alt"><a href="javascript:RowManager.deleteRow(instanceRowInserterProps,PAGE.ROW.INDEX);"><img

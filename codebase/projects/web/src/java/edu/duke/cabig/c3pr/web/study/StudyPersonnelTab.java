@@ -19,7 +19,11 @@ import java.util.Map;
 class StudyPersonnelTab extends StudyTab {
 
     public StudyPersonnelTab() {
-        super("Study Personnel", "Personnel", "study/study_personnel");
+        this(false);
+    }
+
+    public StudyPersonnelTab(boolean editMode){
+        super("Study Personnel", "Personnel", editMode?"study/study_personnel_edit":"study/study_personnel");
     }
 
     @Override
@@ -37,14 +41,9 @@ class StudyPersonnelTab extends StudyTab {
             httpServletRequest.getSession().setAttribute("selectedSite", httpServletRequest.getParameter("_selectedSite"));
 
             StudySite studySite = (study).getStudySites().get(Integer.parseInt(httpServletRequest.getParameter("_selectedSite")));
-            if (studySite.getStudyPersonnels().size() == 0) {
-                StudyPersonnel studyPersonnel = new StudyPersonnel();
-                studyPersonnel.setStudySite(studySite);
-                studySite.addStudyPersonnel(studyPersonnel);
-            }
-        } else {
-            handleStudyPersonnelAction(study, httpServletRequest);
         }
+        handleStudyPersonnelAction(study, httpServletRequest);
+
     }
 
     private void handleStudyPersonnelAction(Study study, HttpServletRequest request) {

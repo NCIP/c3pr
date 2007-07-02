@@ -30,24 +30,26 @@
 <script language="JavaScript" type="text/JavaScript">
 
 function fireAction(action, selectedSite, selectedPersonnel) {
-    document.getElementById('command')._target.name = '_noname';
-    document.form._action.value = action;
-    document.form._selectedSite.value = selectedSite;
-    document.form._selectedPersonnel.value = selectedPersonnel;
+    if(selectedSite >-1){
+        document.getElementById('command')._target.name = '_noname';
+        document.form._action.value = action;
+        document.form._selectedSite.value = selectedSite;
+        document.form._selectedPersonnel.value = selectedPersonnel;
 
 
-    //  need to disable validations while submitting
-    if(action == 'removeStudyPersonnel'){
-        input = 'personnel' + selectedPersonnel + '-input';
-        $(input).className = 'none';
-        role = 'studySites['+selectedSite+'].studyPersonnels['+selectedPersonnel+'].roleCode';
-        $(role).className='none';
-        status = 'studySites['+selectedSite+'].studyPersonnels['+selectedPersonnel+'].statusCode';
-        $(status).className='none';
+        //  need to disable validations while submitting
+        if(action == 'removeStudyPersonnel'){
+            input = 'personnel' + selectedPersonnel + '-input';
+            $(input).className = 'none';
+            role = 'studySites['+selectedSite+'].studyPersonnels['+selectedPersonnel+'].roleCode';
+            $(role).className='none';
+            status = 'studySites['+selectedSite+'].studyPersonnels['+selectedPersonnel+'].statusCode';
+            $(status).className='none';
+        }
+
+        document.form.submit();
+        fireListeners(selected);
     }
-
-    document.form.submit();
-    fireListeners(selected);
 }
 
 function chooseSites() {
@@ -158,12 +160,17 @@ Event.observe(window, "load", function() {
         Choose a study site first
     </p>
 
-    <c:if test="${fn:length(command.studySites) > 0}">
-    <c:set var="selected_site" value="0"/>
-    <c:if test="${not empty selectedSite}">
-        <c:set var="selected_site" value="${selectedSite}"/>
-    </c:if>
-    </c:if>
+    <c:choose>
+        <c:when test="${fn:length(command.studySites) > 0}">
+            <c:set var="selected_site" value="0"/>
+            <c:if test="${not empty selectedSite}">
+                <c:set var="selected_site" value="${selectedSite}"/>
+            </c:if>
+        </c:when>
+        <c:otherwise>
+            <c:set var="selected_site" value="-1"/>
+        </c:otherwise>
+    </c:choose>
 
     <table border="0" id="table1" cellspacing="0">
         <tr>
@@ -224,13 +231,6 @@ Event.observe(window, "load", function() {
                             src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a></td>
             </tr>
         </c:forEach>
-        <tr>
-            <td class="alt">
-                <p id="personnel-selected" style="display: none">
-                    You've selected the study personnel <span id="personnel-selected-name"></span>.
-                </p>
-            </td>
-        </tr>
     </table>
 </td>
 

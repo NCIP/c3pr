@@ -18,11 +18,11 @@ import java.util.Map;
 class StudyInvestigatorsTab extends StudyTab {
 
     public StudyInvestigatorsTab() {
-        super("Study Investigators", "Investigators", "study/study_investigators");
+        this(false);
     }
 
-    public StudyInvestigatorsTab(String viewName) {
-        super("Study Investigators", "Investigators", viewName);
+    public StudyInvestigatorsTab(boolean editMode) {
+            super("Study Investigators", "Investigators", editMode?"study/study_investigators_edit":"study/study_investigators");
     }
 
     @Override

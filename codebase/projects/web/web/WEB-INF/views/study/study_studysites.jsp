@@ -1,8 +1,11 @@
 <%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
-<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
+
 
 
 <html>
@@ -24,7 +27,10 @@
 <body>
 <tags:tabForm tab="${tab}" flow="${flow}" formName="studySiteForm">
 <jsp:attribute name="singleFields">
-
+<tags:errors path="*" />
+    <div>
+        <input type="hidden" name="_action" value="">
+    </div>
 
 <table border="0" cellspacing="0" cellpadding="0">
     <tr>
@@ -36,18 +42,18 @@
             </p>
             <br>
             <table id="mytable" border="0" cellspacing="0" cellpadding="0">
-                <tr align="left" class="label">
-                    <th scope="col" align="left"><b>HealthCare Site</b><span class="red">*</span></th>
-                    <th scope="col" align="left"><b>Status<span class="red">*</span></b></th>
-                    <th scope="col" align="left"><b>Activation&nbsp;Date&nbsp;&nbsp;&nbsp;</b></th>
-                    <th scope="col" align="left"><b>IRB&nbsp;Approval&nbsp;Date</b></th>
-                    <th scope="col" class="specalt" align="left"></th>
+                <tr class="label">
+                    <th scope="col"><b>HealthCare Site</b></th>
+                    <th scope="col"><b>Status</b></th>
+                    <th scope="col"><b>Activation Date</b></th>
+                    <th scope="col"><b>IRB Approval Date</b></th>
+                    <th scope="col" class="specalt"></th>
                 </tr>
                 <c:forEach items="${command.studySites}" varStatus="status">
                     <tr id="mytable-${status.index}">
                         <td class="alt">
                             <form:select id="studySites[${status.index}].site"
-                                    path="studySites[${status.index}].site.id" cssClass="validate-notEmpty">
+                                         path="studySites[${status.index}].site.id" cssClass="validate-notEmpty">
                                 <option value="">--Please Select--</option>
                                 <form:options items="${healthCareSites}" itemLabel="name" itemValue="id"/>
                             </form:select></td>
@@ -62,10 +68,12 @@
                         </td>
                         <!--TODO:HACK Remove this once more roles are present -->
 
-                        <td class="alt"><tags:dateInput path="studySites[${status.index}].startDate"/><span
-                                class="red"><em></em></span></td>
-                        <td class="alt"><tags:dateInput path="studySites[${status.index}].irbApprovalDate"/><span
-                                class="red"><em></em></span></td>
+                        <td class="alt">
+                            <tags:dateInput path="studySites[${status.index}].startDate"/>
+                        </td>
+                        <td class="alt">
+                            <tags:dateInput path="studySites[${status.index}].irbApprovalDate"/>
+                        </td>
                         <td class="specalt"><a
                                 href="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index});"><img
                                 src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
@@ -80,7 +88,7 @@
 </tags:tabForm>
 <div id="dummy-row" style="display:none;">
     <table>
-        <tr>
+        <tr id="mytable-PAGE.ROW.INDEX">
             <td class="alt">
                 <select id="studySites[PAGE.ROW.INDEX].site"
                         name="studySites[PAGE.ROW.INDEX].site"
@@ -105,43 +113,23 @@
 
             </td>
             <td class="alt">
-                <script>
-                    DEFAULT_FORMAT='mm/dd/yyyy'
-                    function checkDate(field,format){
-                        removeError(field);
-                        format = (format==null||format=='')?DEFAULT_FORMAT:format;
-                        if(isDate(field.value,format)==false){
-                            showError(field,'invalid format(mm/dd/yyyy')
-                        }
-                    }
-                </script>
                 <input id="studySites[PAGE.ROW.INDEX].startDate"
                        name="studySites[PAGE.ROW.INDEX].startDate"
-                       class="date,validate-notEmpty" size="12" onchange="checkDate(this, 'null');"/>
+                       type="text"
+                       class="date" />
                 <a href="#" id="studySites[PAGE.ROW.INDEX].startDate-calbutton">
-                    <img src="<tags:imageUrl name="b-calendar.gif"/>" align="top" alt="Calendar" width="17" height="16" border="0"/>
+                    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle"/>
                 </a>
             </td>
-
-            <td class="alt">
-                <script>
-                    DEFAULT_FORMAT='mm/dd/yyyy'
-                    function checkDate(field,format){
-                        removeError(field);
-                        format = (format==null||format=='')?DEFAULT_FORMAT:format;
-                        if(isDate(field.value,format)==false){
-                            showError(field,'invalid format(mm/dd/yyyy')
-                        }
-                    }
-                </script>
+             <td class="alt">
                 <input id="studySites[PAGE.ROW.INDEX].irbApprovalDate"
                        name="studySites[PAGE.ROW.INDEX].irbApprovalDate"
-                       class="date,validate-notEmpty"  size="12" onchange="checkDate(this, 'null');"/>
-                <a href="#" id="studySites[PAGE.ROW.INDEX].startDate-calbutton">
-                    <img src="<tags:imageUrl name="b-calendar.gif"/>" align="top" alt="Calendar" width="17" height="16" border="0"/>
+                       type="text"
+                       class="date" />
+                <a href="#" id="studySites[PAGE.ROW.INDEX].irbApprovalDate-calbutton">
+                    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle"/>
                 </a>
             </td>
-
             <td  class="specalt"><a
                     href="javascript:RowManager.deleteRow(instanceRowInserterProps,PAGE.ROW.INDEX);"><img
                     src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>

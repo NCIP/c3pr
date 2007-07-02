@@ -18,14 +18,14 @@ import java.util.List;
 /**
  * @author Ram Chilukuri, Priyatam
  * @author kherm
- * 
+ *
  */
 @Entity
 @Table (name = "study_sites")
 @GenericGenerator(name="id-generator", strategy = "native",
-    parameters = {
+        parameters = {
         @Parameter(name="sequence", value="STUDY_SITES_ID_SEQ")
-    }
+                }
 )
 public class StudySite extends AbstractMutableDomainObject implements Comparable<StudySite>{
     private HealthcareSite site;
@@ -34,13 +34,12 @@ public class StudySite extends AbstractMutableDomainObject implements Comparable
     private String roleCode;
     private String statusCode;
     private Date startDate = Calendar.getInstance().getTime();
-    private Date endDate;   
+    private Date endDate;
     private String irbApprovalDateStr;
     private String startDateStr;
-    
-    private List<StudyParticipantAssignment> studyParticipantAssignments 
-    	= new ArrayList<StudyParticipantAssignment>();    
-    private List<StudyPersonnel> studyPersonnels = new ArrayList<StudyPersonnel>();
+
+    private List<StudyParticipantAssignment> studyParticipantAssignments
+            = new ArrayList<StudyParticipantAssignment>();
 
     private LazyListHelper lazyListHelper;
 
@@ -48,30 +47,30 @@ public class StudySite extends AbstractMutableDomainObject implements Comparable
     public StudySite() {
         lazyListHelper = new LazyListHelper();
         lazyListHelper.add(StudyInvestigator.class, new BiDirectionalInstantiateFactory<StudyInvestigator>(StudyInvestigator.class,this));
+        lazyListHelper.add(StudyPersonnel.class, new BiDirectionalInstantiateFactory<StudyPersonnel>(StudyPersonnel.class,this));
+
     }
 
     public void addStudyPersonnel(StudyPersonnel studyPersonnel) {
-        studyPersonnels.add(studyPersonnel);
-        studyPersonnel.setStudySite(this);
-    }
-    
-    public void addStudyInvestigator(StudyInvestigator studyInvestigator) {
-        getStudyInvestigators().add(studyInvestigator);
-        studyInvestigator.setStudySite(this);
-    }
-    
-    public void addstudyParticipantAssignment(StudyParticipantAssignment spAssignments)
-    {
-    	studyParticipantAssignments.add(spAssignments);
-    	spAssignments.setStudySite(this);
-    }
-	
-    public void removeStudyParticipantAssignment(StudyParticipantAssignment studyParticipantAssignment){
-    	studyParticipantAssignments.remove(studyParticipantAssignment);
+        getStudyPersonnels().add(studyPersonnel);
     }
 
-    
-	/** Are there any assignments using this relationship? */
+    public void addStudyInvestigator(StudyInvestigator studyInvestigator) {
+        getStudyInvestigators().add(studyInvestigator);
+    }
+
+    public void addstudyParticipantAssignment(StudyParticipantAssignment spAssignments)
+    {
+        studyParticipantAssignments.add(spAssignments);
+        spAssignments.setStudySite(this);
+    }
+
+    public void removeStudyParticipantAssignment(StudyParticipantAssignment studyParticipantAssignment){
+        studyParticipantAssignments.remove(studyParticipantAssignment);
+    }
+
+
+    /** Are there any assignments using this relationship? */
     @Transient
     public boolean isUsed() {
         return getStudyParticipantAssignments().size() > 0;
@@ -83,9 +82,9 @@ public class StudySite extends AbstractMutableDomainObject implements Comparable
         this.site = site;
     }
 
-    @ManyToOne 
-    @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })    
-    @JoinColumn(name = "hcs_id", nullable=false)    
+    @ManyToOne
+    @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @JoinColumn(name = "hcs_id", nullable=false)
     public HealthcareSite getSite() {
         return site;
     }
@@ -95,8 +94,8 @@ public class StudySite extends AbstractMutableDomainObject implements Comparable
     }
 
     @ManyToOne
-    @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })        
-    @JoinColumn(name = "study_id", nullable=false)    
+    @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @JoinColumn(name = "study_id", nullable=false)
     public Study getStudy() {
         return study;
     }
@@ -110,7 +109,7 @@ public class StudySite extends AbstractMutableDomainObject implements Comparable
     public List<StudyParticipantAssignment> getStudyParticipantAssignments() {
         return studyParticipantAssignments;
     }
-    
+
     @OneToMany (mappedBy = "studySite")
     @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     public List<StudyInvestigator> getStudyInvestigatorsInternal(){
@@ -124,23 +123,32 @@ public class StudySite extends AbstractMutableDomainObject implements Comparable
 
     @Transient
     public List<StudyInvestigator> getStudyInvestigators() {
-		return lazyListHelper.getLazyList(StudyInvestigator.class);
-	}
+        return lazyListHelper.getLazyList(StudyInvestigator.class);
+    }
 
 
     public void setStudyInvestigators(List<StudyInvestigator> studyInvestigators) {
-		lazyListHelper.setInternalList(StudyInvestigator.class,studyInvestigators);
+        lazyListHelper.setInternalList(StudyInvestigator.class,studyInvestigators);
     }
 
     @OneToMany (mappedBy = "studySite")
-    @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })    
-	public List<StudyPersonnel> getStudyPersonnels() {
-		return studyPersonnels;
-	}
+    @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    public List<StudyPersonnel> getStudyPersonnelsInternal() {
+        return lazyListHelper.getInternalList(StudyPersonnel.class);
+    }
 
-	public void setStudyPersonnels(List<StudyPersonnel> studyPersonnels) {
-		this.studyPersonnels = studyPersonnels;
-	}
+    public void setStudyPersonnelsInternal(List<StudyPersonnel> studyPersonnels) {
+        lazyListHelper.setInternalList(StudyPersonnel.class, studyPersonnels);
+    }
+
+    @Transient
+    public List<StudyPersonnel> getStudyPersonnels() {
+        return lazyListHelper.getLazyList(StudyPersonnel.class);
+    }
+
+    public void setStudyPersonnels(List<StudyPersonnel> studyPersonnels) {
+       lazyListHelper.setInternalList(StudyPersonnel.class,studyPersonnels);
+    }
 
 
     public void setIrbApprovalDate(Date irbApprovalDate) {
@@ -152,64 +160,64 @@ public class StudySite extends AbstractMutableDomainObject implements Comparable
     }
 
     public Date getStartDate() {
-		return startDate;
-	}
+        return startDate;
+    }
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
 
-	public String getStatusCode() {
-		return statusCode;
-	}
+    public String getStatusCode() {
+        return statusCode;
+    }
 
-	public void setStatusCode(String statusCode) {
-		this.statusCode = statusCode;
-	}
+    public void setStatusCode(String statusCode) {
+        this.statusCode = statusCode;
+    }
 
-	public String getRoleCode() {
-		return roleCode;
-	}
+    public String getRoleCode() {
+        return roleCode;
+    }
 
-	public void setRoleCode(String roleCode) {
-		this.roleCode = roleCode;
-	}
+    public void setRoleCode(String roleCode) {
+        this.roleCode = roleCode;
+    }
 
-	public Date getEndDate() {
-		return endDate;
-	}
+    public Date getEndDate() {
+        return endDate;
+    }
 
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
 
-	public int compareTo(StudySite o) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    public int compareTo(StudySite o) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 
-	@Transient
-	public String getIrbApprovalDateStr() {
-		try {
-			return DateUtil.formatDate(irbApprovalDate, "MM/dd/yyyy");
-		}
-		catch(ParseException e){
-			//do nothing
-		}
-		return null;
-	}
-	
-	@Transient
-	public String getStartDateStr() {
-		try {
-			return DateUtil.formatDate(startDate, "MM/dd/yyyy");
-		}
-		catch(ParseException e){
-			//do nothing
-		}
-		return "";
-	}
-	
+    @Transient
+    public String getIrbApprovalDateStr() {
+        try {
+            return DateUtil.formatDate(irbApprovalDate, "MM/dd/yyyy");
+        }
+        catch(ParseException e){
+            //do nothing
+        }
+        return null;
+    }
+
+    @Transient
+    public String getStartDateStr() {
+        try {
+            return DateUtil.formatDate(startDate, "MM/dd/yyyy");
+        }
+        catch(ParseException e){
+            //do nothing
+        }
+        return "";
+    }
+
     public boolean equals(Object obj) {
         if (this == obj) return true;
         if (!(obj instanceof StudySite)) return false;
@@ -226,5 +234,5 @@ public class StudySite extends AbstractMutableDomainObject implements Comparable
         result = 29 * result + (studyParticipantAssignments != null ? studyParticipantAssignments.hashCode() : 0);
         return result;
     }
-    
+
 }
