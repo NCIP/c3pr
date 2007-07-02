@@ -39,14 +39,14 @@ public class CreateStudyController extends StudyController {
      */
     protected void layoutTabs(Flow flow) {
         flow.addTab(new StudyDetailsTab());
+        flow.addTab(new StudyDesignTab());
+        flow.addTab(new StudyEligibilityChecklistTab());
+        flow.addTab(new StudyStratificationTab());
+        flow.addTab(new StudyDiseasesTab());
         flow.addTab(new StudySitesTab());
         flow.addTab(new StudyIdentifiersTab());
         flow.addTab(new StudyInvestigatorsTab());
         flow.addTab(new StudyPersonnelTab());
-        flow.addTab(new StudyEligibilityChecklistTab());
-        flow.addTab(new StudyDiseasesTab());
-        flow.addTab(new StudyStratificationTab());
-        flow.addTab(new StudyDesignTab());
         flow.addTab(new StudyEmptyTab("Overview", "Overview", "study/study_summary_create"));
     }
 
