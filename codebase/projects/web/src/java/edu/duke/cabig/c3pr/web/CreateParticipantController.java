@@ -77,6 +77,7 @@ public class CreateParticipantController extends
 						.get("participantSearchType"));
 				refdata.put("identifiersTypeRefData", configMap
 						.get("participantIdentifiersType"));
+				refdata.put("action", "createParticipant");
 
 				return refdata;
 			}
