@@ -1,20 +1,18 @@
 package edu.duke.cabig.c3pr.web.study;
 
-import java.util.Map;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.utils.web.navigation.Task;
+import gov.nih.nci.cabig.ctms.web.tabs.Flow;
+import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.utils.web.navigation.Task;
-import gov.nih.nci.cabig.ctms.web.tabs.Flow;
-import gov.nih.nci.cabig.ctms.web.tabs.Tab;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -23,8 +21,8 @@ import gov.nih.nci.cabig.ctms.web.tabs.Tab;
  * Time: 1:10:17 PM
  * To change this template use File | Settings | File Templates.
  */
-public class ViewStudyController extends StudyController<Study>{
-     private edu.duke.cabig.c3pr.utils.web.navigation.Task editTask;
+public class ViewStudyController extends StudyController<Study> {
+    private edu.duke.cabig.c3pr.utils.web.navigation.Task editTask;
 
 
     public ViewStudyController() {
@@ -70,7 +68,7 @@ public class ViewStudyController extends StudyController<Study>{
      */
     protected Map referenceData(HttpServletRequest httpServletRequest, Object o, Errors errors, int i) throws Exception {
         Map<String, Object> refdata = super.referenceData(httpServletRequest, o, errors, i);    //To change body of overridden methods use File | Settings | File Templates.
-        refdata.put("editAuthorizationTask",editTask);
+        refdata.put("editAuthorizationTask", editTask);
         return refdata;
     }
 

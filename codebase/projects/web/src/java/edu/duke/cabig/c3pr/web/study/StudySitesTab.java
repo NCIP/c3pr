@@ -1,8 +1,8 @@
 package edu.duke.cabig.c3pr.web.study;
 
-import java.util.Map;
-
 import edu.duke.cabig.c3pr.domain.Study;
+
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.

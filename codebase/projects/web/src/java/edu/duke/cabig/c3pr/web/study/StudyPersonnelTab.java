@@ -1,15 +1,13 @@
 package edu.duke.cabig.c3pr.web.study;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.validation.Errors;
-
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.StudySite;
+import org.springframework.validation.Errors;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -35,39 +33,32 @@ class StudyPersonnelTab extends StudyTab {
 
     @Override
     public void postProcess(HttpServletRequest httpServletRequest, Study study, Errors errors) {
-        if("siteChange".equals(httpServletRequest.getParameter("_action")))
-        {
+        if ("siteChange".equals(httpServletRequest.getParameter("_action"))) {
             httpServletRequest.getSession().setAttribute("selectedSite", httpServletRequest.getParameter("_selectedSite"));
 
             StudySite studySite = (study).getStudySites().get(Integer.parseInt(httpServletRequest.getParameter("_selectedSite")));
-            if(studySite.getStudyPersonnels().size() == 0 )
-            {
+            if (studySite.getStudyPersonnels().size() == 0) {
                 StudyPersonnel studyPersonnel = new StudyPersonnel();
                 studyPersonnel.setStudySite(studySite);
                 studySite.addStudyPersonnel(studyPersonnel);
             }
-        }
-        else {
+        } else {
             handleStudyPersonnelAction(study, httpServletRequest);
         }
     }
 
-    private void handleStudyPersonnelAction(Study study, HttpServletRequest request)
-    {
-        String action =request.getParameter("_action");
+    private void handleStudyPersonnelAction(Study study, HttpServletRequest request) {
+        String action = request.getParameter("_action");
         String selectedSite = request.getParameter("_selectedSite");
         String selectedPersonnel = request.getParameter("_selectedPersonnel");
 
-        if ("addStudyPersonnel".equals(action))
-        {
+        if ("addStudyPersonnel".equals(action)) {
             StudyPersonnel studyPersonnel = new StudyPersonnel();
             studyPersonnel.setResearchStaff(new ResearchStaff());
             StudySite studySite = study.getStudySites().get(Integer.parseInt(selectedSite));
             studyPersonnel.setStudySite(studySite);
             studySite.addStudyPersonnel(studyPersonnel);
-        }
-        else if ("removeStudyPersonnel".equals(action))
-        {
+        } else if ("removeStudyPersonnel".equals(action)) {
             study.getStudySites().get(Integer.parseInt(selectedSite)).getStudyPersonnels()
                     .remove(Integer.parseInt(selectedPersonnel));
         }

@@ -1,13 +1,11 @@
 package edu.duke.cabig.c3pr.web.study;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.validation.Errors;
-
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Study;
+import org.springframework.validation.Errors;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -34,18 +32,15 @@ class StudyIdentifiersTab extends StudyTab {
 
     @Override
     public void postProcess(HttpServletRequest httpServletRequest, Study study, Errors errors) {
-        String action   = httpServletRequest.getParameter("_action");
+        String action = httpServletRequest.getParameter("_action");
 
-        if ("addIdentifier".equals(action))
-        {
+        if ("addIdentifier".equals(action)) {
             log.debug("Requested Add Identifier");
             Identifier id = new Identifier();
             id.setValue("<enter value>");
             id.setSource("<enter value>");
             study.addIdentifier(id);
-        }
-        else if ("removeIdentifier".equals(action))
-        {
+        } else if ("removeIdentifier".equals(action)) {
             int selected = Integer.parseInt(httpServletRequest.getParameter("_selected"));
             log.debug("Requested Remove Identifier");
             Identifier id = study.getIdentifiers().get(selected);

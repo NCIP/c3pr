@@ -1,23 +1,6 @@
 package edu.duke.cabig.c3pr.web.study;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.validation.BindException;
-import org.springframework.web.bind.ServletRequestDataBinder;
-
-import edu.duke.cabig.c3pr.dao.DiseaseTermDao;
-import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
-import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
-import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
-import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.dao.*;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -29,6 +12,13 @@ import edu.duke.cabig.c3pr.utils.web.propertyeditors.NullIdDaoBasedEditor;
 import edu.duke.cabig.c3pr.web.beans.DefaultObjectPropertyReader;
 import gov.nih.nci.cabig.ctms.web.tabs.AutomaticSaveFlowFormController;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.validation.BindException;
+import org.springframework.web.bind.ServletRequestDataBinder;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 
 
 /**
@@ -74,14 +64,14 @@ public abstract class StudyController<C extends Study> extends AutomaticSaveFlow
         handleRowDeletion(request, command);
     }
 
-    public void handleRowDeletion(HttpServletRequest request, Object command) throws Exception{
-        Enumeration enumeration=request.getParameterNames();
-        Hashtable<String, List<Integer>> table=new Hashtable<String, List<Integer>>();
-        while(enumeration.hasMoreElements()){
-            String param=(String)enumeration.nextElement();
-            if(param.startsWith("_deletedRow-")){
-                String[] params=param.split("-");
-                if(table.get(params[1])==null)
+    public void handleRowDeletion(HttpServletRequest request, Object command) throws Exception {
+        Enumeration enumeration = request.getParameterNames();
+        Hashtable<String, List<Integer>> table = new Hashtable<String, List<Integer>>();
+        while (enumeration.hasMoreElements()) {
+            String param = (String) enumeration.nextElement();
+            if (param.startsWith("_deletedRow-")) {
+                String[] params = param.split("-");
+                if (table.get(params[1]) == null)
                     table.put(params[1], new ArrayList<Integer>());
                 table.get(params[1]).add(new Integer(params[2]));
             }
@@ -89,15 +79,15 @@ public abstract class StudyController<C extends Study> extends AutomaticSaveFlow
         deleteRows(command, table);
     }
 
-    public void deleteRows(Object command, Hashtable<String, List<Integer>> table)throws Exception{
-        Enumeration<String> e=table.keys();
-        while(e.hasMoreElements()){
-            String path=e.nextElement();
-            List col= (List)new DefaultObjectPropertyReader(command, path).getPropertyValueFromPath();
-            List<Integer> rowNums=table.get(path);
-            List temp=new ArrayList();
-            for(int i=0 ; i<col.size() ; i++){
-                if(!rowNums.contains(new Integer(i)))
+    public void deleteRows(Object command, Hashtable<String, List<Integer>> table) throws Exception {
+        Enumeration<String> e = table.keys();
+        while (e.hasMoreElements()) {
+            String path = e.nextElement();
+            List col = (List) new DefaultObjectPropertyReader(command, path).getPropertyValueFromPath();
+            List<Integer> rowNums = table.get(path);
+            List temp = new ArrayList();
+            for (int i = 0; i < col.size(); i++) {
+                if (!rowNums.contains(new Integer(i)))
                     temp.add(col.get(i));
             }
             col.removeAll(col);

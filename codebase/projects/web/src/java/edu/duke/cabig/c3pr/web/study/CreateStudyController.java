@@ -1,14 +1,13 @@
 package edu.duke.cabig.c3pr.web.study;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import edu.duke.cabig.c3pr.domain.Study;
+import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
-import edu.duke.cabig.c3pr.domain.Study;
-import gov.nih.nci.cabig.ctms.web.tabs.Flow;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Controller class to handle the work flow in the Creation of a Study Design

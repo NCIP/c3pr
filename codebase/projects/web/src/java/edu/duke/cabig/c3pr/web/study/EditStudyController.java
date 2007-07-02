@@ -1,18 +1,17 @@
 package edu.duke.cabig.c3pr.web.study;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import edu.duke.cabig.c3pr.domain.Study;
+import gov.nih.nci.cabig.ctms.web.tabs.Flow;
+import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import edu.duke.cabig.c3pr.domain.Study;
-import gov.nih.nci.cabig.ctms.web.tabs.Flow;
-import gov.nih.nci.cabig.ctms.web.tabs.Tab;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Controller class to handle the work flow in the Updation of a Study Design
@@ -47,22 +46,22 @@ public class EditStudyController extends StudyController<Study> {
     @Override
     protected void layoutTabs(Flow flow) {
         flow.addTab(new StudyDetailsTab());
-        flow.addTab(new StudySitesTab());
-        flow.addTab(new StudyIdentifiersTab());
-        flow.addTab(new StudyInvestigatorsTab());
-        flow.addTab(new StudyPersonnelTab());
+        flow.addTab(new StudyDesignTab());
         flow.addTab(new StudyEligibilityChecklistTab());
         flow.addTab(new StudyStratificationTab());
         flow.addTab(new StudyDiseasesTab());
-        flow.addTab(new StudyDesignTab());
+        flow.addTab(new StudySitesTab());
+        flow.addTab(new StudyIdentifiersTab());
+        flow.addTab(new StudyInvestigatorsTab("study/study_investigators_edit"));
+        flow.addTab(new StudyPersonnelTab());
         flow.addTab(new StudyEmptyTab("Summary", "Summary", "study/study_summary_view"));
     }
 
-    
+
     @Override
     protected boolean shouldSave(HttpServletRequest request, Study command, Tab<Study> tab) {
         return super.shouldSave(request, command, tab)
-            && (request.getParameter("_action") == null || "".equals(request.getParameter("_action")));
+                && (request.getParameter("_action") == null || "".equals(request.getParameter("_action")));
     }
 
 
