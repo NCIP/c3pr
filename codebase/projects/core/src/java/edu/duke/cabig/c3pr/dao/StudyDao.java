@@ -63,9 +63,9 @@ public class StudyDao extends GridIdentifiableDao<Study>
             criterion.getPermissibleAnswers().size();
         }
 
-        List<Epoch> epochs = study.getEpochs();
+        List<TreatmentEpoch> epochs = study.getTreatmentEpochs();
         epochs.size();
-        for (Epoch epoch : epochs) {
+        for (TreatmentEpoch epoch : epochs) {
             epoch.getArms().size();
         }
         return study;
