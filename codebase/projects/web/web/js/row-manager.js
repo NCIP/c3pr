@@ -92,7 +92,8 @@ var AbstractRowInserterProps = {
 				 },
 	generateRowElement: function() {
 					localTable=$($(this.skeleton_row_division_id)).getElementsByTagName("table")[0]
-					rows=localTable.getElementsByTagName("tr")
+					//rows=localTable.getElementsByTagName("tr")
+					rows=localTable.rows
 					retRows=new Array()
 					for(i=0 ; i<rows.length ; i++){
 						rows[i].id=this.getColumnDivisionID(this.localIndex)
