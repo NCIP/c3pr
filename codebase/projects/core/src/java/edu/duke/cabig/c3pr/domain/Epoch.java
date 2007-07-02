@@ -3,8 +3,13 @@ package edu.duke.cabig.c3pr.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -17,105 +22,87 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
-
 /**
  * @author Ram Chilukuri, Priyatam
  */
 @Entity
-@Table (name = "epochs")
-@GenericGenerator(name="id-generator", strategy = "native",
-    parameters = {
-        @Parameter(name="sequence", value="EPOCHS_ID_SEQ")
-    }
-)
-public class Epoch extends AbstractMutableDomainObject implements Comparable<Epoch>{
-  
-    private List<Arm> arms = new ArrayList<Arm>();
-    private String name;
-    private String descriptionText;	
+@Table(name = "epochs")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "EPOCHS_ID_SEQ") })
+public class Epoch extends AbstractMutableDomainObject implements
+		Comparable<Epoch> {
+
+	private String name;
+
+	private String descriptionText;
+
 	private Study study;
-	
-    /**
-     * Factory method
-     * @param epochName
-     * @param armNames
-     * @return
-     */
-    public static Epoch create(String epochName, String... armNames) {
-        Epoch epoch = new Epoch();
-        epoch.setName(epochName);
-        if (armNames.length == 0) {
-            epoch.addNewArm(epochName);
-        } else {
-            for (String armName : armNames) {
-                epoch.addNewArm(armName);
-            }
-        }
-        return epoch;
-    }
 
-    /// LOGIC
-    
-    private void addNewArm(String armName) {
-        Arm arm = new Arm();
-        arm.setName(armName);
-        addArm(arm);
-    }
+	/**
+	 * Factory method
+	 * 
+	 * @param epochName
+	 * @param armNames
+	 * @return
+	 */
+	public static Epoch create(String epochName, String... armNames) {
 
-    public void addArm(Arm arm) {
-        arms.add(arm);
-        arm.setEpoch(this);
-    }
+		return createTreatmentEpoch(epochName, armNames);
+	}
 
-    @Transient
-    public boolean isMultipleArms() {
-        return getArms().size() > 1;
-    }
-    
-    /// BEAN PROPERTIES
+	public static Epoch createTreatmentEpoch(String epochName,
+			String... armNames) {
+		TreatmentEpoch epoch = new TreatmentEpoch();
+		epoch.setName(epochName);
+		if (armNames.length == 0) {
+			epoch.addNewArm(epochName);
+		} else {
+			for (String armName : armNames) {
+				epoch.addNewArm(armName);
+			}
+		}
+		return epoch;
+	}
 
-    @OneToMany(mappedBy="epoch", fetch=FetchType.LAZY)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})   
-    public List<Arm> getArms() {
-        return arms;
-    }
+	public static Epoch createNonTreatmentEpoch(String epochName) {
+		Epoch epoch = new NonTreatmentEpoch();
+		epoch.setName(epochName);
+		return epoch;
+	}
 
-    public void setArms(List<Arm> arms) {
-        this.arms = arms;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name="stu_id", nullable=false)
-    public Study getStudy() {
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "stu_id", nullable = false)
+	public Study getStudy() {
 		return study;
 	}
 
-    public void setStudy(Study study) {
+	public void setStudy(Study study) {
 		this.study = study;
 	}
-        
-    public void setDescriptionText(String descriptionText) {
-        this.descriptionText = descriptionText;
-    }
 
-    public String getDescriptionText() {
-        return descriptionText;
-    }
+	public void setDescriptionText(String descriptionText) {
+		this.descriptionText = descriptionText;
+	}
+
+	public String getDescriptionText() {
+		return descriptionText;
+	}
 
 	public int compareTo(Epoch o) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-		
-	@Override
+
+	/*@Override
 	public int hashCode() {
 		final int PRIME = 31;
 		int result = super.hashCode();
@@ -142,8 +129,8 @@ public class Epoch extends AbstractMutableDomainObject implements Comparable<Epo
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
-			return false;	
+			return false;
 		return true;
-	}
-	
+	}*/
+
 }
