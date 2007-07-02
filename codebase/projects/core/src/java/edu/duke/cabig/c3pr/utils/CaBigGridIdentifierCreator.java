@@ -12,8 +12,6 @@ import net.handle.server.ResourceIdInfo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import edu.duke.cabig.c3pr.utils.GridIdentifierCreator;
-
 /**
  * CaBig version of Grid Identifiers
  * 

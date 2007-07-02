@@ -3,9 +3,6 @@ package edu.duke.cabig.c3pr.domain;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-
-import org.hibernate.annotations.Where;
-
 @Entity(name="NonTreatmentEpoch")
 @DiscriminatorValue(value="NON-TREATMENT")
 //@Where(clause="type='NON-TREATMENT'")

@@ -3,21 +3,16 @@ package edu.duke.cabig.c3pr.web.ajax;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.HttpSessionRequiredException;
 
 import edu.duke.cabig.c3pr.dao.AnatomicSiteDao;
-import edu.duke.cabig.c3pr.dao.StudyParticipantAssignmentDao;
 import edu.duke.cabig.c3pr.domain.AnatomicSite;
-import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
-import edu.duke.cabig.c3pr.utils.Lov;
 
 public class AnatomicDiseaseSiteFacade {
 	private AnatomicSiteDao anatomicSiteDao;

@@ -1,12 +1,13 @@
 package edu.duke.cabig.c3pr.web.study;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.validation.Errors;
+
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.utils.StringUtils;
-import org.springframework.validation.Errors;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by IntelliJ IDEA.

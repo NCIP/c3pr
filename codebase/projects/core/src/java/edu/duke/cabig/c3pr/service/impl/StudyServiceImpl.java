@@ -1,14 +1,14 @@
 package edu.duke.cabig.c3pr.service.impl;
 
-import java.util.List;
 import java.util.Date;
+import java.util.List;
 
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudyParticipantAssignmentDao;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
-import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.service.StudyService;
 
 /**

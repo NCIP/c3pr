@@ -1,5 +1,8 @@
 package edu.duke.cabig.c3pr.domain;
 
+import edu.duke.cabig.c3pr.utils.StringUtils;
+import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,9 +18,6 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-
-import edu.duke.cabig.c3pr.utils.StringUtils;
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 /**
  * @author Priyatam

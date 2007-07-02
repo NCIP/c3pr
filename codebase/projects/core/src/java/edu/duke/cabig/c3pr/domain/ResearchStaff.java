@@ -3,7 +3,6 @@ package edu.duke.cabig.c3pr.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.AssociationOverride;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;

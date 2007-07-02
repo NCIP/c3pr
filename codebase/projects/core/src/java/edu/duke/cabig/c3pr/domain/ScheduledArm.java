@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
+import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -10,7 +12,6 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 @Entity
 @Table(name = "SCHEDULED_ARMS")

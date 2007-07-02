@@ -1,12 +1,11 @@
 package edu.duke.cabig.c3pr.service;
 
-import java.util.List;
 import java.util.Date;
 
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 
 /**
  * Interface for Services on Study related domain object

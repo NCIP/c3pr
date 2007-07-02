@@ -18,7 +18,6 @@ import edu.duke.cabig.c3pr.web.beans.DefaultObjectPropertyReader;
 import gov.nih.nci.cabig.ctms.web.tabs.AbstractTabbedFlowFormController;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -32,7 +31,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.validation.BindException;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 

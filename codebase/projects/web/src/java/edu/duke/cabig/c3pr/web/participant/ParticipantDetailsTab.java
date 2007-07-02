@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.utils.Lov;
 
 public class ParticipantDetailsTab extends ParticipantTab {

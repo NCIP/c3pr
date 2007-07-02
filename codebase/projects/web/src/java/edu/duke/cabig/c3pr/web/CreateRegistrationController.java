@@ -19,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import edu.duke.cabig.c3pr.domain.DiseaseHistory;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
-import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;

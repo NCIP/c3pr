@@ -1,7 +1,6 @@
 package edu.duke.cabig.c3pr.utils;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import org.jdom.Document;

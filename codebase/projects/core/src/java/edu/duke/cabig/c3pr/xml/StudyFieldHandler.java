@@ -1,10 +1,11 @@
 package edu.duke.cabig.c3pr.xml;
 
+import org.exolab.castor.mapping.FieldHandler;
+import org.exolab.castor.mapping.ValidityException;
+
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.duke.cabig.c3pr.domain.StudySite;
-import org.exolab.castor.mapping.FieldHandler;
-import org.exolab.castor.mapping.ValidityException;
 
 /**
  * To handle the studysite field in StudyParticipantAssignment

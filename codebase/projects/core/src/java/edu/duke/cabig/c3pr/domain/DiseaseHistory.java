@@ -1,16 +1,11 @@
 package edu.duke.cabig.c3pr.domain;
 
-import gov.nih.nci.security.util.StringUtilities;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -81,7 +76,7 @@ public class DiseaseHistory extends AbstractMutableDomainObject
 	
 	@Transient
 	public String getPrimaryDiseaseStr(){
-		if(!StringUtilities.isBlank(otherPrimaryDiseaseCode))
+		if(!StringUtils.isBlank(otherPrimaryDiseaseCode))
 			return otherPrimaryDiseaseCode;
 		try {
 			return studyDisease.getDiseaseTerm().getTerm();
@@ -92,7 +87,7 @@ public class DiseaseHistory extends AbstractMutableDomainObject
 
 	@Transient
 	public String getPrimaryDiseaseSiteStr(){
-		if(!StringUtilities.isBlank(otherPrimaryDiseaseSiteCode))
+		if(!StringUtils.isBlank(otherPrimaryDiseaseSiteCode))
 			return otherPrimaryDiseaseSiteCode;
 		try {
 			return anatomicSite.getName();

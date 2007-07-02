@@ -1,10 +1,9 @@
 package edu.duke.cabig.c3pr.xml;
 
-import edu.duke.cabig.c3pr.utils.ApplicationTestCase;
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.service.StudyService;
-import edu.duke.cabig.c3pr.exception.StudyValidationException;
 import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.exception.StudyValidationException;
+import edu.duke.cabig.c3pr.service.StudyService;
 
 /**
  * Created by IntelliJ IDEA.

@@ -1,11 +1,12 @@
 package edu.duke.cabig.c3pr.web.study;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.validation.Errors;
+
 import edu.duke.cabig.c3pr.dao.DiseaseTermDao;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
-import org.springframework.validation.Errors;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by IntelliJ IDEA.

@@ -1,10 +1,10 @@
 package edu.duke.cabig.c3pr.xml;
 
-import org.exolab.castor.mapping.GeneralizedFieldHandler;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import org.exolab.castor.mapping.GeneralizedFieldHandler;
 
 /**
  * Created by IntelliJ IDEA.

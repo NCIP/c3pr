@@ -1,5 +1,8 @@
 package edu.duke.cabig.c3pr.domain;
 
+import edu.duke.cabig.c3pr.utils.DateUtil;
+import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -18,9 +21,6 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-
-import edu.duke.cabig.c3pr.utils.DateUtil;
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 /**
  * @author Ram Chilukuri, Priyatam

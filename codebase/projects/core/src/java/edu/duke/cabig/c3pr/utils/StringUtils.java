@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.StringTokenizer;
 
-import javax.persistence.Transient;
-
 public class StringUtils extends org.apache.commons.lang.StringUtils {
 	
   public StringUtils() {

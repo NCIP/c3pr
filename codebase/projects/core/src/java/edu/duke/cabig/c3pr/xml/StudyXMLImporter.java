@@ -1,14 +1,12 @@
 package edu.duke.cabig.c3pr.xml;
 
-import edu.duke.cabig.c3pr.exception.StudyValidationException;
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.service.StudyService;
-import edu.duke.cabig.c3pr.dao.StudyDao;
-import gov.nih.nci.common.util.XMLUtility;
-
-
-import java.io.File;
 import java.io.Reader;
+
+import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.exception.StudyValidationException;
+import edu.duke.cabig.c3pr.service.StudyService;
+import gov.nih.nci.common.util.XMLUtility;
 
 /**
  * Utility class to import XML extracts of study

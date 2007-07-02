@@ -1,8 +1,8 @@
 package edu.duke.cabig.c3pr.dao;
 
+import edu.nwu.bioinformatics.commons.CollectionUtils;
 import gov.nih.nci.cabig.ctms.domain.DomainObject;
 import gov.nih.nci.cabig.ctms.domain.GridIdentifiable;
-import edu.nwu.bioinformatics.commons.CollectionUtils;
 
 /**
  * Created by IntelliJ IDEA.

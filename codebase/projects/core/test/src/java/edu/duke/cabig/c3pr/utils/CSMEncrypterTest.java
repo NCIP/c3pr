@@ -1,9 +1,7 @@
 package edu.duke.cabig.c3pr.utils;
 
-import junit.framework.TestCase;
 import gov.nih.nci.security.util.StringEncrypter;
-import gov.nih.nci.security.util.StringUtilities;
-import gov.nih.nci.security.util.StringEncrypter.EncryptionException;
+import junit.framework.TestCase;
 
 /**
  * Created by IntelliJ IDEA.

@@ -1,9 +1,9 @@
 package edu.duke.cabig.c3pr.dao;
 
-import edu.duke.cabig.c3pr.domain.*;
-import edu.emory.mathcs.backport.java.util.Collections;
-import edu.nwu.bioinformatics.commons.CollectionUtils;
-import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
@@ -15,9 +15,16 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import edu.duke.cabig.c3pr.domain.Arm;
+import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.StratificationCriterion;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
+import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
+import edu.emory.mathcs.backport.java.util.Collections;
+import edu.nwu.bioinformatics.commons.CollectionUtils;
+import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 
 
 /**

@@ -1,10 +1,5 @@
 package edu.duke.cabig.c3pr.dao;
 
-import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains;
-
-import java.util.List;
-
-import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 

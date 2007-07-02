@@ -3,7 +3,6 @@ package edu.duke.cabig.c3pr.utils.web.spring.tabbedflow;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 
 import java.util.List;
-import java.util.LinkedList;
 
 /**
  * @author Rhett Sutphin

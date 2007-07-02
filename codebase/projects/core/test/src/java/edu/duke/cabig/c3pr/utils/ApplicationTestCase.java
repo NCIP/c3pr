@@ -16,7 +16,6 @@ import org.easymock.classextension.EasyMock;
 import org.springframework.context.ApplicationContext;
 
 import edu.duke.cabig.c3pr.dao.C3PRBaseDao;
-import gov.nih.nci.cabig.ctms.domain.DomainObject;
 import edu.nwu.bioinformatics.commons.ComparisonUtils;
 import edu.nwu.bioinformatics.commons.testing.CoreTestCase;
 

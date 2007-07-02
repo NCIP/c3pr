@@ -1,11 +1,12 @@
 package edu.duke.cabig.c3pr.web.study;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.validation.Errors;
+
 import edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Study;
-import org.springframework.validation.Errors;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Created by IntelliJ IDEA.

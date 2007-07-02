@@ -1,11 +1,15 @@
 package edu.duke.cabig.c3pr.xml;
 
-import edu.duke.cabig.c3pr.domain.*;
-import gov.nih.nci.common.exception.XMLUtilityException;
-
 import java.io.ByteArrayInputStream;
 import java.io.Reader;
 import java.io.StringReader;
+
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
+import edu.duke.cabig.c3pr.domain.StudySite;
+import gov.nih.nci.common.exception.XMLUtilityException;
 
 /**
  * Will test the XML marshalling framework

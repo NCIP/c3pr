@@ -1,14 +1,8 @@
 package edu.duke.cabig.c3pr.web.study;
 
-import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
-
-import edu.duke.cabig.c3pr.domain.*;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 import java.util.Map;
 
-import org.springframework.validation.Errors;
+import edu.duke.cabig.c3pr.domain.Study;
 
 /**
  * Created by IntelliJ IDEA.

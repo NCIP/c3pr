@@ -8,9 +8,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.PropertyAccessorUtils;
-import org.springframework.beans.PropertyValue;
-import org.springframework.beans.PropertyValues;
 import org.springframework.util.StringUtils;
 
 import edu.duke.cabig.c3pr.utils.web.CustomMethodInvocater;

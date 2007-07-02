@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
+import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +12,6 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 /**
  * Base Class for Person

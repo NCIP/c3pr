@@ -5,8 +5,6 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 import gov.nih.nci.common.exception.XMLUtilityException;
 
-import java.io.StringReader;
-
 /**
  * Will test marshalling of a hibernate object.
  *

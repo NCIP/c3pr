@@ -1,8 +1,5 @@
 package edu.duke.cabig.c3pr.web.security;
 
-import java.util.Map;
-
-
 import gov.nih.nci.security.acegi.csm.authorization.CSMObjectIdGenerator;
 import gov.nih.nci.security.acegi.csm.authorization.CSMPrivilegeGenerator;
 

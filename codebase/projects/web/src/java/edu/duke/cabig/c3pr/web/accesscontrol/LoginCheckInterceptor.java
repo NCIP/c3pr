@@ -10,8 +10,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.semanticbits.security.grid.GridLoginContext;
-
 /**
  * @author Padmaja Vedula
  * @author Rhett Sutphin

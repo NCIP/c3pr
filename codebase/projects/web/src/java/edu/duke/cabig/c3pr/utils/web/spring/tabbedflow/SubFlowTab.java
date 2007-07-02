@@ -1,11 +1,6 @@
 package edu.duke.cabig.c3pr.utils.web.spring.tabbedflow;
 
-import org.springframework.validation.Errors;
-
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
-
-import java.util.Map;
-import java.util.HashMap;
 
 /**
  * @author Rhett Sutphin

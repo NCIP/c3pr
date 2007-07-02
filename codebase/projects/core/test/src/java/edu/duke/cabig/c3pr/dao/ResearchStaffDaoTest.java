@@ -4,7 +4,6 @@ import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains
 
 import java.util.List;
 
-import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
 

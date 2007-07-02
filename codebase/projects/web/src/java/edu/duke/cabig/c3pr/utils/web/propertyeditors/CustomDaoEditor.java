@@ -1,11 +1,9 @@
 package edu.duke.cabig.c3pr.utils.web.propertyeditors;
 
-import edu.duke.cabig.c3pr.dao.GridIdentifiableDao;
-
-
-import gov.nih.nci.cabig.ctms.domain.DomainObject;
-
 import java.beans.PropertyEditorSupport;
+
+import edu.duke.cabig.c3pr.dao.GridIdentifiableDao;
+import gov.nih.nci.cabig.ctms.domain.DomainObject;
 
 /**
  * A {@link java.beans.PropertyEditor} that supports binding domain objects by their IDs
