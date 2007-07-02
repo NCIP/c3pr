@@ -24,7 +24,7 @@ import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 )
 public class Arm extends AbstractMutableDomainObject implements Comparable<Arm> {
 
-	private Epoch epoch;
+	private TreatmentEpoch treatmentEpoch;
     private String name;
     private String descriptionText;
     private int targetAccrualNumber;
@@ -34,8 +34,8 @@ public class Arm extends AbstractMutableDomainObject implements Comparable<Arm> 
     @Transient
     public String getQualifiedName() {
         StringBuilder sb = new StringBuilder();
-        sb.append(epoch.getName());
-        if (epoch.isMultipleArms()) {
+        sb.append(treatmentEpoch.getName());
+        if (treatmentEpoch.isMultipleArms()) {
             sb.append(": ").append(getName());
         }
         return sb.toString();
@@ -65,12 +65,12 @@ public class Arm extends AbstractMutableDomainObject implements Comparable<Arm> 
     // will work with the bidirectional mapping
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name="eph_id", nullable=false)   
-    public Epoch getEpoch() {
-        return epoch;
+    public Epoch getTreatmentEpoch() {
+        return treatmentEpoch;
     }
 
-    public void setEpoch(Epoch epoch) {
-        this.epoch = epoch;
+    public void setTreatmentEpoch(TreatmentEpoch epoch) {
+        this.treatmentEpoch = epoch;
     }
 
 
