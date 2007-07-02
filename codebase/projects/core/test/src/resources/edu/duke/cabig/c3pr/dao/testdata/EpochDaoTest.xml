@@ -28,10 +28,10 @@
     <IDENTIFIERS id="1000" version="1" value="nci" type="local" source="nci" stu_id="1000" />
     <IDENTIFIERS id="1001" version="1" value="grid" type="local" source="calgb" stu_id="1000" />    
     
-    <EPOCHS id="1000" version="1" name="Treatment" description_text="treatement desc" stu_id="1000" />
-    <EPOCHS id="1001" version="1" name="Cancer" description_text="cancer desc" stu_id="1000" />
-    <EPOCHS id="1002" version="1" name="Treatment" description_text="treatement desc" stu_id="1001" />
-    <EPOCHS id="1003" version="1" name="Cancer" description_text="cancer desc" stu_id="1001" />
+    <EPOCHS id="1000" version="1" name="Treatment" description_text="treatement desc" stu_id="1000" type="TREATMENT"/>
+    <EPOCHS id="1001" version="1" name="Cancer" description_text="cancer desc" stu_id="1000" type="TREATMENT"/>
+    <EPOCHS id="1002" version="1" name="Treatment" description_text="treatement desc" stu_id="1001" type="TREATMENT" />
+    <EPOCHS id="1003" version="1" name="Cancer" description_text="cancer desc" stu_id="1001" type="TREATMENT" />
     
     <ARMS id="1000" version="1" name="Arm 1000" description_text="Arm 1000 desc" target_accrual_number="1000" eph_id="1000" />
     <ARMS id="1001" version="1" name="Arm 1001" description_text="Arm 1001 desc" target_accrual_number="1001" eph_id="1000" />
@@ -41,4 +41,13 @@
     <ARMS id="1005" version="1" name="Arm 1005" description_text="Arm 1005 desc" target_accrual_number="1005" eph_id="1002" />
     <ARMS id="1006" version="1" name="Arm 1006" description_text="Arm 1006 desc" target_accrual_number="1006" eph_id="1003" />
     <ARMS id="1007" version="1" name="Arm 1007" description_text="Arm 1007 desc" target_accrual_number="1007" eph_id="1003" />
+    
+    <ELIGIBILITY_CRITERIAS id="2000" version="1" question_number="1" eph_id="1000" question_text="inclusion question 1" stu_id="1000" dtype="I"/>
+    <ELIGIBILITY_CRITERIAS id="2001" version="1" question_number="2" eph_id="1000" question_text="inclusion question 2" stu_id="1000" dtype="I"/>
+    <ELIGIBILITY_CRITERIAS id="2002" version="1" question_number="3" eph_id="1000" question_text="exclusion question 1" stu_id="1001" dtype="E" />
+    
+    <STRATIFICATION_CRITERION id="3000" version="1" question_number="1" eph_id="1000" question_text="inclusion question 1" study_id="1000" />
+    
+    
+    
 </dataset>
