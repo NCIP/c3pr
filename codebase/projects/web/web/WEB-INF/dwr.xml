@@ -12,8 +12,28 @@
         <create creator="spring" javascript="anatomicDiseaseSite">
             <param name="beanName" value="anatomicDiseaseSiteFacade"/>
         </create>
+        
+        <create creator="spring" javascript="createReport">
+            <param name="beanName" value="createReportFacade"/>
+            <include method="getTable"/>
+        </create>
+        
+        <signatures>
+		    <![CDATA[
+		       import java.util.Map;
+		       import java.util.List;
+		       import edu.duke.cabig.c3pr.web.ajax.CreateReportFacade;
+		       import javax.servlet.http.HttpServletRequest;
+		       import java.lang.String;
+		       CreateReportFacade.getTable(Map parameterMap, String text, HttpServletRequest request);
+		       ]]>
+		. </signatures>
+        
         <create creator="new" javascript="date">
             <param name="class" value="java.util.Date"/>
+        </create>
+         <create creator="new" javascript="map">
+            <param name="class" value="java.util.Map"/>
         </create>
         <convert converter="bean" match="edu.duke.cabig.c3pr.domain.*"/>
     </allow>
