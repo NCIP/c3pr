@@ -176,6 +176,7 @@
             <artifact refid="jdom.jars"/>
             <artifact refid="dom4j.jars"/>
             <artifact refid="web-sso.jars"/>
+        	<artifact refid="extremeComponents.jars"/>
             <artifact refid="c3pr.build.properties"/>
         </resolveDependencies>
         <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="all"/>
