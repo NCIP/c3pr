@@ -57,8 +57,8 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements 
 			example.excludeProperty("doNotUse").enableLike(MatchMode.ANYWHERE);
 			participantCriteria.add(example);
 			if (participant.getIdentifiers().size() > 0) {
-				participantCriteria.createCriteria("identifiers").add(
-						Restrictions.like("value", participant.getIdentifiers()
+				participantCriteria.createCriteria("identifiersInternal").add(
+						Restrictions.like("value", participant.getIdentifiersInternal()
 								.get(0).getValue()
 								+ "%"));
 			}
