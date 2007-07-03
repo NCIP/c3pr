@@ -25,7 +25,7 @@ function handleConfirmation(){
 </head>
 <body>
 
-<tags:formPanelBox tab="${tab}" flow="${flow}"
+<tags:formPanelBox tab="${tab}" flow="${flow}" title="Research Staff Details"
 	action="createResearchStaff">
 	<input type="hidden" name="_action" value="">
 	<input type="hidden" name="_selected" value="">
