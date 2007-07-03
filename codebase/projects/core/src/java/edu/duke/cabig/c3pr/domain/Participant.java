@@ -36,7 +36,6 @@ public class Participant extends Person implements Comparable<Participant> {
 	private String raceCode;
 	private String maritalStatusCode;
 	private String primaryIdentifier;
-	private List<Identifier> identifiers = new ArrayList<Identifier>();
 	private List<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();
 	private LazyListHelper lazyListHelper;
 	
@@ -46,11 +45,11 @@ public class Participant extends Person implements Comparable<Participant> {
     }
 
 	public void addIdentifier(Identifier identifier) {
-		identifiers.add(identifier);
+		getIdentifiers().add(identifier);
 	}
 
 	public void removeIdentifier(Identifier identifier) {
-		identifiers.remove(identifier);
+		getIdentifiers().remove(identifier);
 	}
 	
 	 @Transient
@@ -171,7 +170,7 @@ public class Participant extends Person implements Comparable<Participant> {
 		final int PRIME = 31;
 		int result = super.hashCode();
 		result = PRIME * result
-				+ ((identifiers == null) ? 0 : identifiers.hashCode());
+				+ ((getIdentifiers() == null) ? 0 : getIdentifiers().hashCode());
 		result = PRIME
 				* result
 				+ ((studyParticipantAssignments == null) ? 0
@@ -188,10 +187,10 @@ public class Participant extends Person implements Comparable<Participant> {
 		if (getClass() != obj.getClass())
 			return false;
 		final Participant other = (Participant) obj;
-		if (identifiers == null) {
-			if (other.identifiers != null)
+		if (getIdentifiers() == null) {
+			if (other.getIdentifiers() != null)
 				return false;
-		} else if (!identifiers.equals(other.identifiers))
+		} else if (!getIdentifiers().equals(other.getIdentifiers()))
 			return false;
 		if (studyParticipantAssignments == null) {
 			if (other.studyParticipantAssignments != null)
@@ -204,7 +203,7 @@ public class Participant extends Person implements Comparable<Participant> {
 
 	@Transient
 	public String getPrimaryIdentifier() {
-		for (Identifier identifier : identifiers) {
+		for (Identifier identifier : getIdentifiers()) {
 			if (identifier.getPrimaryIndicator().booleanValue() == true) {
 				return identifier.getValue();
 			}
