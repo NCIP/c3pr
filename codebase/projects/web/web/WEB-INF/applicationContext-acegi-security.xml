@@ -190,6 +190,9 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 		<entry key="/pages/admin/createOrganization.*"
                value="edu.duke.cabig.c3pr.domain.HealthcareSite:CREATE"/>
 
+		<entry key="/pages/report/createReport.*"
+               value="edu.duke.cabig.c3pr.domain.StudyParticipantAssignment:READ" />
+               
     </util:map>
 
 
