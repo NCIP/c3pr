@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
+import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import org.apache.commons.collections15.functors.InstantiateFactory;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
@@ -24,6 +27,13 @@ public class TreatmentEpoch extends Epoch {
 	private List<Arm> arms = new ArrayList<Arm>();
 	private List<EligibilityCriteria> eligibilityCriteria= new ArrayList<EligibilityCriteria>();
 	private List<StratificationCriterion> stratificationCriteria = new ArrayList<StratificationCriterion>();
+	private LazyListHelper lazyListHelper;
+	
+	public TreatmentEpoch() {
+        lazyListHelper = new LazyListHelper();
+        lazyListHelper.add(Arm.class, new BiDirectionalInstantiateFactory<Arm>(Arm.class,this));
+    }
+
 	
 //	 / LOGIC
 
@@ -43,19 +53,29 @@ public class TreatmentEpoch extends Epoch {
 		return getArms().size() > 1;
 	}
 	
-	@OneToMany(mappedBy = "treatmentEpoch", fetch = FetchType.LAZY)
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-	public List<Arm> getArms() {
-		return arms;
-	}
-	
 	public void addEligibilityCriterion(EligibilityCriteria eligibilityCriterion){
 		this.getEligibilityCriteria().add(eligibilityCriterion);
 	}
-
-	public void setArms(List<Arm> arms) {
-		this.arms = arms;
+	
+	@Transient
+	public List<Arm> getArms() {
+		return lazyListHelper.getLazyList(Arm.class);
 	}
+	
+	public void setArms(List<Arm> arms) {
+		lazyListHelper.setInternalList(Arm.class,arms);
+	}
+	
+	@OneToMany(mappedBy = "treatmentEpoch", fetch = FetchType.LAZY)
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	public List<Arm> getArmsInternal() {
+		return lazyListHelper.getInternalList(Arm.class);
+	}
+	
+	public void setArmsInternal(List<Arm> arms) {
+		lazyListHelper.setInternalList(Arm.class, arms);
+	}
+		
 	@OneToMany (fetch=FetchType.LAZY)
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})
     @JoinColumn(name = "EPH_ID")
