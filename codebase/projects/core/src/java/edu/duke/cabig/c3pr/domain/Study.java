@@ -56,7 +56,9 @@ public class Study extends AbstractMutableDomainObject implements Comparable<Stu
     private String type;
     private String primaryIdentifier;
     private Integer targetAccrualNumber;
-    private ParameterizedBiDirectionalInstantiateFactory<Epoch> epochFactory;
+
+    private List<Epoch> epochs = new ArrayList<Epoch>();
+
 
     private List<InclusionEligibilityCriteria> incCriterias = new ArrayList<InclusionEligibilityCriteria>();
     private List<ExclusionEligibilityCriteria> excCriterias = new ArrayList<ExclusionEligibilityCriteria>();
@@ -74,8 +76,9 @@ public class Study extends AbstractMutableDomainObject implements Comparable<Stu
         lazyListHelper = new LazyListHelper();
         lazyListHelper.add(Identifier.class, new InstantiateFactory<Identifier>(Identifier.class));
         lazyListHelper.add(StudySite.class, new BiDirectionalInstantiateFactory<StudySite>(StudySite.class,this));
-        epochFactory=new ParameterizedBiDirectionalInstantiateFactory<Epoch>(Epoch.class,this);
-        lazyListHelper.add(Epoch.class, epochFactory);
+        lazyListHelper.add(Epoch.class, new BiDirectionalInstantiateFactory<Epoch>(Epoch.class,this));
+        lazyListHelper.add(TreatmentEpoch.class, new InstantiateFactory<TreatmentEpoch>(TreatmentEpoch.class));
+        lazyListHelper.add(NonTreatmentEpoch.class, new InstantiateFactory<NonTreatmentEpoch>(NonTreatmentEpoch.class));
 
     }
 
@@ -172,22 +175,40 @@ public class Study extends AbstractMutableDomainObject implements Comparable<Stu
     }
     
     @Transient
-	public List<Epoch> getTreatmentEpochs(){
-    	epochFactory.setClassToInstantiate(TreatmentEpoch.class);
-		return getEpochs();
+	public List<TreatmentEpoch> getTreatmentEpochs(){
+    	List<TreatmentEpoch> treatmentEpochs = new ArrayList<TreatmentEpoch>();
+		if (this.getEpochs()!=null)
+			for(Epoch epoch: this.getEpochs()){
+			if (epoch instanceof TreatmentEpoch  ){
+				treatmentEpochs.add((TreatmentEpoch)epoch);
+			}
+		}
+		return treatmentEpochs;
 	}
     
     public void setTreatmentEpochs(List<TreatmentEpoch> treatmentEpochs){
+    	List<TreatmentEpoch> currentTreatmentEpochs = this.getTreatmentEpochs();
+    	this.epochs.removeAll(currentTreatmentEpochs);
+    	this.epochs.addAll(treatmentEpochs);
 	}
 	
 	@Transient
-	public List<Epoch> getNonTreatmentEpochs(){
-    	epochFactory.setClassToInstantiate(NonTreatmentEpoch.class);
-		return getEpochs();
+	public List<NonTreatmentEpoch> getNonTreatmentEpochs(){
+		List<NonTreatmentEpoch> nonTreatmentEpochs = new ArrayList<NonTreatmentEpoch>();
+		if (this.getEpochs()!=null)
+		for(Epoch epoch: this.getEpochs()){
+			if (epoch instanceof NonTreatmentEpoch  ){
+				nonTreatmentEpochs.add((NonTreatmentEpoch)epoch);
+			}
+		}
+		return nonTreatmentEpochs;
 	}
 	
 	 public void setNonTreatmentEpochs(List<NonTreatmentEpoch> nonTreatmentEpochs){
-	}
+	    	List<NonTreatmentEpoch> currentNonTreatmentEpochs = this.getNonTreatmentEpochs();
+	    	this.epochs.removeAll(currentNonTreatmentEpochs);
+	    	this.epochs.addAll(nonTreatmentEpochs);
+		}
 
     @OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
     @Cascade(value = {CascadeType.ALL, CascadeType.DELETE_ORPHAN})
