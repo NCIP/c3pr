@@ -81,6 +81,25 @@
 		<property name="servletName" value="pages" />
 	</bean>
 	
+	<!-- JASPER view resolver
+	<bean id="xmlViewResolver"
+		class="org.springframework.web.servlet.view.XmlViewResolver">
+		<property name="location" value="/WEB-INF/special-views.xml" />
+		<property name="order" value="0" />
+	</bean>
+	 JASPER view resolver-->
+	
+	<!-- mapping for REPORT task -->
+	<bean name="/report/createReport" id="createReportController"
+		lazy-init="true" class="edu.duke.cabig.c3pr.web.report.CreateReportController"
+		autowire="byName">
+		<property name="commandClass" value="edu.duke.cabig.c3pr.web.report.ReportCommand" />
+		<property name="formView" value="report/registration_search_report" />
+		<property name="successView" value="report/registration_search_report" />
+	</bean>
+	<!-- mapping for REPORT task -->
+	
+	
 	<!-- mapping for create organization task -->
 	<bean name="/admin/createOrganization" id="createOrganizationController"
 		lazy-init="true" class="edu.duke.cabig.c3pr.web.admin.CreateOrganizationController"
@@ -292,6 +311,20 @@
 								class="edu.duke.cabig.c3pr.utils.web.navigation.Task" 				
 								autowire="byType" p:displayName="Create Organization"				
 								p:linkName="createOrganizationController" />
+						</list>
+					</property>
+				</bean>
+				<bean
+					class="edu.duke.cabig.c3pr.utils.web.navigation.Section"
+					autowire="byType" p:displayName="Advanced Search"
+					p:mainController="createReportController">
+					<property name="pathMapping" value="/report/**" />
+					<property name="tasks">
+						<list>
+							<bean
+								class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+								autowire="byType" p:displayName="Search Registration"
+								p:linkName="createReportController" />							
 						</list>
 					</property>
 				</bean>
