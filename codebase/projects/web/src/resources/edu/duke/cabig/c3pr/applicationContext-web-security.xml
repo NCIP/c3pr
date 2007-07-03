@@ -23,6 +23,8 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <entry key="/pages/admin/createInvestigator" value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
         <entry key="/pages/admin/createResearchStaff" value="edu.duke.cabig.c3pr.domain.ResearchStaff:CREATE"/>
 		<entry key="/pages/admin/createOrganization"  value="edu.duke.cabig.c3pr.domain.HealthcareSite:CREATE"/>
+		
+		<entry key="/pages/report/createReport" value="edu.duke.cabig.c3pr.domain.StudyParticipantAssignment:READ"/>
     </util:map>
 
 
@@ -63,6 +65,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <entry key="/pages/participant/confirmCreateParticipant" value="edu.duke.cabig.c3pr.domain.Participant:CREATE"/>
 
         <entry key="/pages/admin/createInvestigator" value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
+        <entry key="/pages/report/createReport" value="edu.duke.cabig.c3pr.domain.StudyParticipantAssignment:READ"/>
     </util:map>
 
     <bean id="sectionPrivilegeAndObjectIdGenerator"
