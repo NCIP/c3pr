@@ -10,47 +10,83 @@ ant -buildfile build-c3prv2.xml
 -->
 <project name="Create C3PRV2 Installer Build"  default="build-installer"  basedir=".">
 
-    <property name="ext.dir" value="${basedir}/ext"/>
-
-    <property name="c3prv2.installer.dir" value="${basedir}/c3prv2-installer"/>
-    <property name="c3prv2.installer.artifact" value="c3prv2-installer.jar"/>
-    <property name="resources.dir" value="${basedir}/resources"/>
-    <property name="software.dir" value="${resources.dir}/software"/>
-
-    <property name="build.dir" value="${basedir}/build"/>
+    <!-- Information -->
+    <property name="project.name" value="c3prv2-installer"/>
+    <property name="project.version" value="1.0"/>
     <property name="ant.lib.version" value=""/>
 
 
-    <path id="taskdef.cp">
+    <property name="ext.dir" value="${basedir}/ext"/>
+    <property name="build.dir" value="${basedir}/build"/>
+    <property name="build.jar.dir" value="${build.dir}/jars"/>
+
+
+    <property name="c3prv2.installer.dir" value="${basedir}/c3prv2-installer"/>
+    <property name="c3prv2.installer.artifact" value="${build.jar.dir}/${project.name}-${project.version}.jar"/>
+    <property name="resources.dir" value="${basedir}/resources"/>
+    <property name="software.dir" value="${resources.dir}/software"/>
+
+    <!--Test dirs-->
+    <property name="test.ext.dir" value="${ext.dir}/test"/>
+    <property name="test.ext.lib.dir" value="${test.ext.dir}/lib"/>
+
+    <property name="test.dir" value="${basedir}/test"/>
+    <property name="test.src.dir" value="${test.dir}/src"/>
+    <property name="test.src.java.dir" value="${test.src.dir}/java"/>
+    <property name="test.classes.dir" value="${build.dir}/classes-test"/>
+    <property name="test.jar.name" value="${build.jar.dir}/${project.name}-tests-${project.version}.jar"/>
+    <property name="test.logs.dir" value="${test.dir}/logs"/>
+
+    <import file="antfiles/build-test.xml"/>
+
+
+    <path id="build.classpath">
         <fileset dir="${basedir}/lib">
             <include name="ant-installer-ext.jar"/>
             <include name="ant-installer.jar"/>
         </fileset>
     </path>
 
-     <taskdef
+    <path id="test.classpath">
+        <path refid="build.classpath"/>
+        <pathelement  location="${c3prv2.installer.dir}"/>
+        <fileset dir="${basedir}/antlib">
+            <include name="**/*.jar"/>
+        </fileset>
+        <fileset dir="${build.jar.dir}">
+            <include name="**/*.jar"/>
+        </fileset>
+        <fileset dir="${test.ext.lib.dir}">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+
+    <taskdef
             name="installer"
             classname="org.tp23.antinstaller.taskdefs.Installer"
-            classpathref="taskdef.cp"/>
+            classpathref="build.classpath"/>
 
     <target name="prepare">
         <mkdir dir="${build.dir}"/>
+        <mkdir dir="${test.classes.dir}"/>
+        <mkdir dir="${build.jar.dir}"/>
     </target>
 
 
+    <!-- ============================================================== -->
+    <!-- Builds the installer                                           -->
+    <!-- ============================================================== -->
     <target name="build-installer"
             depends="prepare"
             description="Builds c3prv2 self extracting installer">
 
 
-        <installer file="${build.dir}/${c3prv2.installer.artifact}" compress="true"
+        <installer file="${c3prv2.installer.artifact}" compress="true"
                    extractType="NonExtractor"
                    installConfig="${c3prv2.installer.dir}/antinstall-config.xml"
                    buildFile="${c3prv2.installer.dir}/build.xml"
                    antInstallLib="${basedir}/lib"
                    antLib="${basedir}/antlib${ant.lib.version}"
-                   validateConfig="true"
-                   failOnError="true"
                    icons="eclipse">
             <fileset dir="${ext.dir}" includes="${project.archive}"/>
             <fileset dir="${basedir}" includes="resources/*"/>
@@ -63,19 +99,42 @@ ant -buildfile build-c3prv2.xml
 
     <!--runs the installer-->
     <target name="run-installer" description="Will run a previously built installer">
-        <java jar="${build.dir}/${c3prv2.installer.artifact}" fork="true"/>
+        <java jar="${c3prv2.installer.artifact}" fork="true"/>
     </target>
 
 
     <target name="clean">
         <delete dir="${build.dir}"/>
+        <delete dir="${test.logs.dir}"/>
+        <delete dir="${test.logs.dir}"/>
     </target>
 
-    <target name="test" description="Test the installer project">
-      <!-- ToDo validate the installer config-->
+    <!-- ============================================================== -->
+    <!-- Compile the tests                                             -->
+    <!-- ============================================================== -->
+    <target name="compile-tests" depends="prepare">
+        <javac srcdir="${test.src.java.dir}"
+               classpathref="test.classpath"
+               destdir="${test.classes.dir}"
+               debug="on"/>
     </target>
 
-    <target name="all">
+    <!-- ============================================================== -->
+    <!-- Creates the test jar files                                          -->
+    <!-- ============================================================== -->
+    <target name="jar-tests" depends="compile-tests" description="Builds the Jar Files">
+        <jar jarfile="${test.jar.name}"
+             basedir="${test.classes.dir}">
+            <manifest>
+                <attribute name="Built-By" value="${user.name}"/>
+            </manifest>
+        </jar>
+    </target>
+
+
+
+
+    <target name="all" depends="build-installer,jar-tests">
         <!--dummy target for main build-->
     </target>
 

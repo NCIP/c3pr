@@ -23,6 +23,7 @@ public class Artifact extends DataType {
 	public static final String TEST_TRACK = "test";
 	public static final String ENDORSED_TRACK = "endorsed";
 	public static final String MAIN_TRACK = "main";
+    public static final String COMPILE_TRACK = "compile";
 
 	private String track;
 	private String type;

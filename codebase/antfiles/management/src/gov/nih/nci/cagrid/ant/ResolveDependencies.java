@@ -91,9 +91,11 @@ public class ResolveDependencies extends Task {
 					track = File.separator + "test";
 				} else if (artifact.getTrack().equals(Artifact.ENDORSED_TRACK)) {
 					track = File.separator + "endorsed";
-				}
+				} else if (artifact.getTrack().equals(Artifact.COMPILE_TRACK)) {
+					track = File.separator + "compile";
+                }
 
-				// decide where to put it, based on the type
+                // decide where to put it, based on the type
 				if (artifact.getType().equals(Artifact.JAR_TYPE)) {
 					copyTask.setTodir(new File(getExtDir().getAbsolutePath() + track + File.separator + "lib"));
 				} else if (artifact.getType().equals(Artifact.SCHEMAS_TYPE)) {
@@ -108,7 +110,7 @@ public class ResolveDependencies extends Task {
 					copyTask.setTodir(new File(getExtDir().getAbsolutePath()));
 				} else if (artifact.getType().equals(Artifact.RESOURCES_TYPE)) {
 					copyTask.setTodir(new File(getExtDir().getAbsolutePath() + File.separator + "resources"));
-				} else {
+                } else {
 					throw new BuildException(artifact.getType() + ": not an valid artifact type");
 				}
 

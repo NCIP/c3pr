@@ -24,6 +24,7 @@
                     if="cacore.toolkit.not.found"/>
         <echo message="cacore.toolkit: ${ext.cacore.toolkit.home}"/>
     </target>
+
     <target name="setcacoreToolkit" if="env.CACORE_TOOLKIT_HOME">
         <property name="ext.cacore.toolkit.home" value="${env.CACORE_TOOLKIT_HOME}"/>
     </target>
@@ -60,11 +61,33 @@
         <fail message="Globus installation is not set in either GLOBUS_LOCATION or ext.globus.dir" if="globus.not.found"/>
         <echo message="Globus: ${ext.globus.dir}"/>
     </target>
+
     <target name="setGlobus" if="env.GLOBUS_LOCATION">
         <property name="ext.globus.dir" value="${env.GLOBUS_LOCATION}"/>
         <property name="build.stubs" location="${ext.globus.dir}/share/globus_wsrf_tools/build-stubs.xml" />
         <property name="schema.src" location="${ext.globus.dir}/share/schema" />
     </target>
+
+
+    <!-- ============================================================== -->
+    <!-- Maven properties                                              -->
+    <!-- ============================================================== -->
+
+    <target name="checkMaven" depends="setMaven">
+          <condition property="maven.not.found">
+              <or>
+                  <not><isset property="ext.maven.dir"/></not>
+                  <equals arg1="${ext.maven.dir}" arg2=""/>
+              </or>
+          </condition>
+          <fail message="Maven directory is not set in either MAVEN_HOME or ext.maven.dir" if="maven.not.found"/>
+          <echo message="Maven: ${ext.maven.dir}"/>
+      </target>
+      <target name="setMaven" if="env.MAVEN_HOME">
+          <property name="ext.maven.dir" value="${env.MAVEN_HOME}"/>
+      </target>
+
+      <!-- ============================================================== -->
 
 
     <target name="instructions" description="Default Target">

@@ -1,11 +1,11 @@
 <!-- =============================================================== -->
-        <!-- Define the build artifacts (created/used by projects) here      -->
-        <!--                                                                 -->
-        <!-- NOTE:  These should be all of the files necessary to "depend" on-->
-        <!-- the project (not just the built files).  Make a separate        -->
-        <!-- artifact for groups of files that will probably be copied to    -->
-        <!-- separate directoris (e.g. jars and conf files)                  -->
-        <!-- =============================================================== -->
+<!-- Define the build artifacts (created/used by projects) here      -->
+<!--                                                                 -->
+<!-- NOTE:  These should be all of the files necessary to "depend" on-->
+<!-- the project (not just the built files).  Make a separate        -->
+<!-- artifact for groups of files that will probably be copied to    -->
+<!-- separate directoris (e.g. jars and conf files)                  -->
+<!-- =============================================================== -->
 <project name="c3pr-2.0-artifacts" basedir=".">
 
     <target name="defineArtifacts" description="Defines artifacts that can be imported into projects.">
@@ -18,7 +18,7 @@
                 <include name="*.jar"/>
             </fileset>
         </artifact>
-        	
+
         <artifact track="main" type="jars" id="acegi.jars">
             <fileset dir="${share.dir}/spring-2.0/acegi">
                 <include name="*.jar"/>
@@ -33,6 +33,14 @@
 
         <artifact track="main" type="jars" id="activemq.jars">
             <fileset dir="${share.dir}/activemq">
+                <include name="*.jar"/>
+            </fileset>
+        </artifact>
+
+        <!--Libs are in a compile track. Only needed to run db scripts.
+            But jars conflict with runtime jars-->
+        <artifact track="compile" type="jars" id="bering.jars">
+            <fileset dir="${share.dir}/bering">
                 <include name="*.jar"/>
             </fileset>
         </artifact>
@@ -128,7 +136,7 @@
         </artifact>
 
         <!--jars from the ctms commons project-->
-          <artifact track="main" type="jars" id="ctms-commons.jars">
+        <artifact track="main" type="jars" id="ctms-commons.jars">
             <fileset dir="${share.dir}/ctms-commons">
                 <include name="*.jar"/>
             </fileset>
@@ -219,7 +227,7 @@
                 <include name="*.jar"/>
             </fileset>
         </artifact>
-	
+
         <artifact track="test" type="jars" id="c3pr.core.test.jars">
             <antcall target="build-core"/>
             <fileset dir="${projects.dir}/core/build/jars">

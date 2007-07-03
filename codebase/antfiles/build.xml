@@ -10,6 +10,8 @@
     <property file="${antfiles.dir}/build.properties"/>
     <property file="${user.home}/build.properties"/>
 
+    <property name="ant.home" value="${env.ANT_HOME}"/>
+
     <!-- layout info -->
     <property name="antfiles.dir" location="${basedir}/antfiles"/>
     <property name="management.dir" location="${antfiles.dir}/management"/>
@@ -59,7 +61,7 @@
     <!--                  DEFINE THE SUB PROJECTS THAT SUPPORT TESTING                    -->
     <!-- ================================================================================ -->
     <!-- This should be a subset of the projects above -->
-    <property name="testable.projects.list" value="core,grid,web"/>
+    <property name="testable.projects.list" value="core,grid,web,installer"/>
 
     <!-- ======================================================================================= -->
     <!--                  DEFINE THE SUB PROJECTS THAT SUPPORT SYSTEM TESTING                    -->
@@ -74,42 +76,6 @@
     <property name="reportable.projects.list" value="web"/>
 
 
-    <target name="checkMaven" depends="setMaven">
-        <condition property="maven.not.found">
-            <or>
-                <not><isset property="ext.maven.dir"/></not>
-                <equals arg1="${ext.maven.dir}" arg2=""/>
-            </or>
-        </condition>
-        <fail message="Maven directory is not set in either MAVEN_HOME or ext.maven.dir" if="maven.not.found"/>
-        <echo message="Maven: ${ext.maven.dir}"/>
-    </target>
-    <target name="setMaven" if="env.MAVEN_HOME">
-        <property name="ext.maven.dir" value="${env.MAVEN_HOME}"/>
-    </target>
-
-    <!-- ============================================================== -->
-    <!-- Globus properties                                              -->
-    <!-- ============================================================== -->
-    <target name="checkGlobus" depends="setGlobus">
-        <condition property="globus.not.found">
-            <or>
-                <not>
-                    <isset property="ext.globus.dir" />
-                </not>
-                <equals arg1="${ext.globus.dir}" arg2="" />
-            </or>
-        </condition>
-        <fail message="Globus installation is not set in either GLOBUS_LOCATION or ext.globus.dir" if="globus.not.found" />
-        <echo message="Globus: ${ext.globus.dir}" />
-    </target>
-
-    <target name="setGlobus" if="env.GLOBUS_LOCATION">
-        <!-- GT4 build files and directories-->
-        <property name="ext.globus.dir" value="${env.GLOBUS_LOCATION}" />
-    </target>
-
-
     <!-- =============================================================== -->
     <!-- Bootstrap the build by setting up the structure and building    -->
     <!-- our custom ant tasks.                                           -->
@@ -120,7 +86,7 @@
         <javac srcdir="${management.dir}/src" destdir="${management.dir}/build" debug="on" deprecation="off"
                optimize="off">
             <classpath>
-                <fileset dir="${ant.library.dir}">
+                <fileset dir="${ant.home}/lib">
                     <include name="ant.jar"/>
                 </fileset>
                 <path refid="cobertura.classpath"/>
@@ -161,6 +127,7 @@
             <!-- get third party shared jars -->
             <artifact refid="collections-generic"/>
             <artifact refid="jboss-j2ee.jars"/>
+            <artifact refid="bering.jars"/>
             <artifact refid="spring.jars"/>
             <artifact refid="hibernate.jars"/>
             <artifact refid="log4j.jars"/>
@@ -266,7 +233,21 @@
     <!-- =============================================================== -->
     <!-- c3pr Installer  project                                    -->
     <!-- =============================================================== -->
-    <target name="build-installer" depends="prepare">
+    <target name="build-installer" depends="prepare" description="Builds the installer project">
+        <property name="project.archive" value="c3prv2-installpack.zip"/>
+        <mkdir dir="${projects.dir}/installer/ext"/>
+        <zip destfile="${projects.dir}/installer/ext/${project.archive}">
+            <zipfileset dir="${antfiles.dir}" prefix="antfiles"/>
+            <zipfileset dir="${projects.dir}/core" prefix="projects/core"/>
+            <zipfileset dir="${projects.dir}/web" prefix="projects/web"/>
+            <zipfileset dir="${projects.dir}/esb-client" prefix="projects/esb-client"/>
+            <zipfileset dir="${share.dir}" prefix="share"/>
+        </zip>
+
+        <resolveDependencies extdir="${projects.dir}/installer/ext">
+            <artifact refid="common.test.jars"/>
+        </resolveDependencies>
+
         <ant dir="${projects.dir}/installer" inheritAll="false" target="all"/>
     </target>
 
@@ -315,20 +296,6 @@
         </delete>
     </target>
 
-
-    <target name="create-installer" depends="prepare" description="Builds the installer for the project">
-        <property name="project.archive" value="c3prv2-installpack.zip"/>
-        <mkdir dir="${projects.dir}/installer/ext"/>
-        <zip destfile="${projects.dir}/installer/ext/${project.archive}">
-            <zipfileset dir="${antfiles.dir}" prefix="antfiles"/>
-            <zipfileset dir="${projects.dir}/core" prefix="projects/core"/>
-            <zipfileset dir="${projects.dir}/web" prefix="projects/web"/>
-            <zipfileset dir="${projects.dir}/esb-client" prefix="projects/esb-client"/>
-            <zipfileset dir="${share.dir}" prefix="share"/>
-        </zip>
-
-        <ant dir="${projects.dir}/installer" target="build-installer"/>
-    </target>
 
     <!--Update code from CVS. For developer use only-->
     <target name="cvsUpdate" description="Updates code from CVS. For developers use only">
