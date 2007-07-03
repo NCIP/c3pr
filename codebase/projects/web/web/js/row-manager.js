@@ -62,16 +62,15 @@ var RowManager = {
 
 var rowInserters=new Array()
 Event.observe(window, "load", function() {
-	extendRowInserters()
-
-})
-function extendRowInserters(){
 	for(i=0 ; i<rowInserters.length ; i++){
-		clone=Object.clone(rowInserters[i])
-		Object.extend(rowInserters[i],AbstractRowInserterProps)
-		Object.extend(rowInserters[i],clone)
-		rowInserters[i].init()
+		registerRowInserter(rowInserters[i])
 	}
+})
+function registerRowInserter(rowInserter){
+	clone=Object.clone(rowInserter)
+	Object.extend(rowInserter,AbstractRowInserterProps)
+	Object.extend(rowInserter,clone)
+	rowInserter.init()
 }
 /* Abstract Implementation of an row-inseter object*/
 var AbstractRowInserterProps = Class.create()
