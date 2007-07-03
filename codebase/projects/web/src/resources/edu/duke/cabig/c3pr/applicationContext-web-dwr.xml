@@ -13,4 +13,6 @@
 		class="edu.duke.cabig.c3pr.web.ajax.RegistrationAjaxFacade" />
 	<bean id="anatomicDiseaseSiteFacade" autowire="byType"
 		class="edu.duke.cabig.c3pr.web.ajax.AnatomicDiseaseSiteFacade" />
+	<bean id="createReportFacade" autowire="byType"
+		class="edu.duke.cabig.c3pr.web.ajax.CreateReportFacade" />
 </beans>
