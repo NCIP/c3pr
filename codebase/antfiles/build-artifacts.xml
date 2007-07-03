@@ -197,6 +197,12 @@
                 <include name="*.jar"/>
             </fileset>
         </artifact>
+    	
+    	<artifact track="main" type="jars" id="extremeComponents.jars">
+            <fileset dir="${share.dir}/extremeComponents">
+                <include name="*.jar"/>
+            </fileset>
+        </artifact>
 
         <!-- ================= -->
         <!-- project artifacts -->
