@@ -21,21 +21,15 @@ import org.hibernate.annotations.CascadeType;
 @Entity(name="TreatmentEpoch")
 @DiscriminatorValue(value="TREATMENT")
 public class TreatmentEpoch extends Epoch {
-	
-//	private List<StratificationCriterion> stratificationCriteria = new ArrayList<StratificationCriterion>();
-	
-	private List<Arm> arms = new ArrayList<Arm>();
-	private List<EligibilityCriteria> eligibilityCriteria= new ArrayList<EligibilityCriteria>();
-	private List<StratificationCriterion> stratificationCriteria = new ArrayList<StratificationCriterion>();
 	private LazyListHelper lazyListHelper;
 	
-	public TreatmentEpoch() {
-        lazyListHelper = new LazyListHelper();
-        lazyListHelper.add(Arm.class, new BiDirectionalInstantiateFactory<Arm>(Arm.class,this));
-    }
-
-	
 //	 / LOGIC
+	public TreatmentEpoch() {
+		lazyListHelper = new LazyListHelper();
+        lazyListHelper.add(StratificationCriterion.class, new InstantiateFactory<StratificationCriterion>(StratificationCriterion.class));
+        lazyListHelper.add(EligibilityCriteria.class, new InstantiateFactory<EligibilityCriteria>(EligibilityCriteria.class));
+        lazyListHelper.add(Arm.class, new BiDirectionalInstantiateFactory<Arm>(Arm.class,this));
+	}
 
 	public void addNewArm(String armName) {
 		Arm arm = new Arm();
@@ -44,7 +38,7 @@ public class TreatmentEpoch extends Epoch {
 	}
 
 	public void addArm(Arm arm) {
-		arms.add(arm);
+		getArms().add(arm);
 		arm.setTreatmentEpoch(this);
 	}
 
@@ -53,8 +47,10 @@ public class TreatmentEpoch extends Epoch {
 		return getArms().size() > 1;
 	}
 	
-	public void addEligibilityCriterion(EligibilityCriteria eligibilityCriterion){
-		this.getEligibilityCriteria().add(eligibilityCriterion);
+	@OneToMany(mappedBy = "treatmentEpoch", fetch = FetchType.LAZY)
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	public List<Arm> getArmsInternal() {
+		return lazyListHelper.getInternalList(Arm.class);
 	}
 	
 	@Transient
@@ -62,29 +58,36 @@ public class TreatmentEpoch extends Epoch {
 		return lazyListHelper.getLazyList(Arm.class);
 	}
 	
-	public void setArms(List<Arm> arms) {
-		lazyListHelper.setInternalList(Arm.class,arms);
-	}
-	
-	@OneToMany(mappedBy = "treatmentEpoch", fetch = FetchType.LAZY)
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-	public List<Arm> getArmsInternal() {
-		return lazyListHelper.getInternalList(Arm.class);
-	}
-	
 	public void setArmsInternal(List<Arm> arms) {
 		lazyListHelper.setInternalList(Arm.class, arms);
 	}
-		
+	
+	public void setArms(List<Arm> arms) {
+		lazyListHelper.setInternalList(Arm.class, arms);
+	}
+	
+	public void addEligibilityCriterion(EligibilityCriteria eligibilityCriterion){
+		this.getEligibilityCriteria().add(eligibilityCriterion);
+	}
+
+	@Transient
+	public List<EligibilityCriteria> getEligibilityCriteria() {
+		return lazyListHelper.getLazyList(EligibilityCriteria.class);
+	}
+	
 	@OneToMany (fetch=FetchType.LAZY)
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})
     @JoinColumn(name = "EPH_ID")
-	public List<EligibilityCriteria> getEligibilityCriteria() {
-		return eligibilityCriteria;
+	public List<EligibilityCriteria> getEligibilityCriteriaInternal() {
+		return lazyListHelper.getInternalList(EligibilityCriteria.class);
 	}
 
 	public void setEligibilityCriteria(List<EligibilityCriteria> eligibilityCriteria) {
-		this.eligibilityCriteria = eligibilityCriteria;
+		lazyListHelper.setInternalList(EligibilityCriteria.class,eligibilityCriteria);
+	}
+	
+	public void setEligibilityCriteriaInternal(List<EligibilityCriteria> eligibilityCriteria) {
+		lazyListHelper.setInternalList(EligibilityCriteria.class,eligibilityCriteria);
 	}
 	
 	@Transient
@@ -114,18 +117,26 @@ public class TreatmentEpoch extends Epoch {
 	@OneToMany (fetch=FetchType.LAZY)
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})
     @JoinColumn(name = "EPH_ID")
-	public List<StratificationCriterion> getStratificationCriteria() {
-		return stratificationCriteria;
+	public List<StratificationCriterion> getStratificationCriteriaInternal() {
+		return lazyListHelper.getInternalList(StratificationCriterion.class);
 	}
 
+	@Transient
+	public List<StratificationCriterion> getStratificationCriteria() {
+		return lazyListHelper.getLazyList(StratificationCriterion.class);
+	}
+	
 	public void setStratificationCriteria(
 			List<StratificationCriterion> stratificationCriteria) {
-		this.stratificationCriteria = stratificationCriteria;
+		lazyListHelper.setInternalList(StratificationCriterion.class, stratificationCriteria);
+	}
+	
+	public void setStratificationCriteriaInternal(
+			List<StratificationCriterion> stratificationCriteria) {
+		lazyListHelper.setInternalList(StratificationCriterion.class, stratificationCriteria);
 	}
 	
 	public void addStratificationCriterion(StratificationCriterion stratificationCriterion){
 		this.getStratificationCriteria().add(stratificationCriterion);
 	}
-	
-
 }
