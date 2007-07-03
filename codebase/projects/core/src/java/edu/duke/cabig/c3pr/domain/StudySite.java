@@ -201,7 +201,7 @@ public class StudySite extends AbstractMutableDomainObject implements Comparable
         try {
             return DateUtil.formatDate(irbApprovalDate, "MM/dd/yyyy");
         }
-        catch(ParseException e){
+        catch(Exception e){
             //do nothing
         }
         return null;
@@ -212,7 +212,7 @@ public class StudySite extends AbstractMutableDomainObject implements Comparable
         try {
             return DateUtil.formatDate(startDate, "MM/dd/yyyy");
         }
-        catch(ParseException e){
+        catch(Exception e){
             //do nothing
         }
         return "";
