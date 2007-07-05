@@ -94,36 +94,21 @@ public abstract class Epoch extends AbstractMutableDomainObject implements
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
 
-	/*@Override
-	public int hashCode() {
-		final int PRIME = 31;
-		int result = super.hashCode();
-		result = PRIME * result + ((arms == null) ? 0 : arms.hashCode());
-		result = PRIME * result + ((name == null) ? 0 : name.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		final Epoch other = (Epoch) obj;
-		if (arms == null) {
-			if (other.arms != null)
-				return false;
-		} else if (!arms.equals(other.arms))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		return true;
-	}*/
+	/*
+	 * @Override public int hashCode() { final int PRIME = 31; int result =
+	 * super.hashCode(); result = PRIME * result + ((arms == null) ? 0 :
+	 * arms.hashCode()); result = PRIME * result + ((name == null) ? 0 :
+	 * name.hashCode()); return result; }
+	 * 
+	 * @Override public boolean equals(Object obj) { if (this == obj) return
+	 * true; if (!super.equals(obj)) return false; if (getClass() !=
+	 * obj.getClass()) return false; final Epoch other = (Epoch) obj; if (arms ==
+	 * null) { if (other.arms != null) return false; } else if
+	 * (!arms.equals(other.arms)) return false; if (name == null) { if
+	 * (other.name != null) return false; } else if (!name.equals(other.name))
+	 * return false; return true; }
+	 */
 
 }
