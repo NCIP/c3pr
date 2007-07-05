@@ -188,6 +188,8 @@
         <c:forEach items="${command.epochs}" var="epoch">
             <tr>
                 <td class="alt">${epoch.name}</td>
+                <c:if
+							test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
                 <td>
                     <table border="0" cellspacing="0" cellpadding="0" id="mytable">
                         <tr>
@@ -199,6 +201,7 @@
                         </c:forEach>
                     </table>
                 </td>
+                </c:if>
             </tr>
         </c:forEach>
     </table>
