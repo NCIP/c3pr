@@ -23,22 +23,14 @@ public class BiDirectionalInstantiateFactory<T> extends InstantiateFactory<T>{
 
 	@Override
 	public T create() {
-		// TODO Auto-generated method stub
 		T object= super.create();
 		try {
 			Method m=object.getClass().getMethod(getSetterString(this.biDirectionalPropertyName), new Class[]{this.parent.getClass()});
 			m.invoke(object, new Object[]{parent});
-		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
+			
 		return object;
 	}
 	
