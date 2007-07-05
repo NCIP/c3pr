@@ -35,15 +35,17 @@ public class CreateReportFacade {
 
 	private static Log log = LogFactory.getLog(CreateReportFacade.class);
 	private StudyParticipantAssignmentDao registrationDao;
-	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy"); 
-
-    public Object build(TableModel model, Collection studies) throws Exception 
+	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+	
+	
+	public Object build(TableModel model, Collection studies) throws Exception 
     {
+		
         Table table = model.getTableInstance();
         table.setAutoIncludeParameters(false);
         table.setTableId("assembler");
         table.setItems(studies);
-        table.setAction(model.getContext().getContextPath() + "/pages/report/createReport");
+        table.setAction(model.getContext().getContextPath() + "/pages/report/createReport"); //......./pages/report/createReport
         table.setTitle("Registrations");
         table.setShowPagination(false);
         table.setOnInvokeAction("buildTable('assembler')");
@@ -196,7 +198,7 @@ public class CreateReportFacade {
 				regEndDate = simpleDateFormat.parse(rEndDate);
 			}
         } catch(ParseException pr){
-        	log.error("birthDateFormat Exception in CreateReportFacade");
+        	log.error("DateFormat Exception in CreateReportFacade");
         }
         
         StudyParticipantAssignment studyParticipantAssignment = new StudyParticipantAssignment();

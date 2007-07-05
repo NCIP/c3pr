@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import edu.duke.cabig.c3pr.dao.StudyParticipantAssignmentDao;
+import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.web.ajax.CreateReportFacade;
 
@@ -65,11 +67,10 @@ public class CreateReportController extends SimpleFormController {
 			TableModel model = new TableModelImpl(context);
 			Object viewData = null;
 			try {
-				viewData = studyFacade.build(model, new ArrayList());	          
+				viewData = studyFacade.build(model, null);	          
 			} catch (Exception e) {
 				e.printStackTrace();
-			} 			
-			
+			}		
 			request.setAttribute("assembler", viewData);
 		} 		
 	}
@@ -103,33 +104,18 @@ public class CreateReportController extends SimpleFormController {
 		context = new HttpServletRequestContext(request);
     
 		TableModel model = new TableModelImpl(context);
+
 		Object viewData = null;
 		try {
 			viewData = reportFacade.build(model, new ArrayList());	          
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 			
-		request.setAttribute("assembler", viewData);
-	
-//		int index = Integer.parseInt(request.getParameter("_selected"));
-//		String action = request.getParameter("_action");
-		
-//		if("addCriteria".equals(action))
-//		{
-//			((SearchStudyCommand)oCommand).getSearchCriteria().add(new SearchCommand());
-//		}
-//		else if ("removeCriteria".equals(action))
-//		{
-//			((SearchStudyCommand)oCommand).getSearchCriteria().remove(index);
-//		}		
+		request.setAttribute("assembler", viewData);		
 		
 		Map map = errors.getModel();
-//		map.put("studySearchType",getConfigurationProperty().getMap().get("studySearchType"));  
+		map.put("raceCode", getConfigurationProperty().getMap().get("raceCode"));  
     	ModelAndView modelAndView= new ModelAndView(getSuccessView(), map);
-     	
-    	// needed for saving session state
-    	request.getSession().setAttribute(getFormSessionAttributeName(), oCommand);
-    	
     	return modelAndView;
 	}			
 
