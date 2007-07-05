@@ -13,6 +13,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 
 <title>${tab.longTitle}</title>
+ <script type="text/javascript" src="<c:url value="/dwr/interface/Assembler.js"/>"></script>
+  <script type="text/javascript" src="<c:url value="/dwr/engine.js"/>"></script>
+  <script type="text/javascript" src="<c:url value="/dwr/util.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/extremecomponents.js"/>"></script>
 <tags:dwrJavascriptLink objects="createReport"/>
 
@@ -133,8 +136,7 @@ function fireAction(action, selected){
 				<td align="left"><b>Race(s)</b> &nbsp;
 					<form:select path="raceCode">
 						<option value="">--Please Select--</option>
-						<form:options items="${raceCode}" itemLabel="desc"
-							itemValue="code" />
+						<form:options items="${raceCode}" itemLabel="desc" itemValue="code" />
 					</form:select>
 				</td>
         	</tr>    	
