@@ -100,7 +100,7 @@ public class TreatmentEpoch extends Epoch {
 				eligibilityCriteria);
 	}
 
-	/*@Transient
+	@Transient
 	public List<InclusionEligibilityCriteria> getInclusionEligibilityCriteria() {
 		List<InclusionEligibilityCriteria> inclusionCriteria = new ArrayList<InclusionEligibilityCriteria>();
 		if (this.getEligibilityCriteria() != null)
@@ -112,15 +112,15 @@ public class TreatmentEpoch extends Epoch {
 				}
 			}
 		return inclusionCriteria;
-	}*/
+	}
 	
 	 @Transient
-	 public List<EligibilityCriteria> getInclusionEligibilityCriteria(){
+	 public List<EligibilityCriteria> getInclusionEligibilityCriteriaAliased(){
 	    	eligibilityFactory.setClassToInstantiate(InclusionEligibilityCriteria.class);
 			return getEligibilityCriteria();
 		}
 
-	/*@Transient
+	@Transient
 	public List<ExclusionEligibilityCriteria> getExclusionEligibilityCriteria() {
 		List<ExclusionEligibilityCriteria> exclusionCriteria = new ArrayList<ExclusionEligibilityCriteria>();
 		if (this.getEligibilityCriteria() != null)
@@ -132,10 +132,10 @@ public class TreatmentEpoch extends Epoch {
 				}
 			}
 		return exclusionCriteria;
-	}*/
+	}
 	
 	@Transient
-	public List<EligibilityCriteria> getExclusionEligibilityCriteria(){
+	public List<EligibilityCriteria> getExclusionEligibilityCriteriaAliased(){
 		eligibilityFactory.setClassToInstantiate(ExclusionEligibilityCriteria.class);
 		return getEligibilityCriteria();
 	}
@@ -169,6 +169,16 @@ public class TreatmentEpoch extends Epoch {
 		this.getStratificationCriteria().add(stratificationCriterion);
 	}
 
+	public void setInclusionEligibilityCriteriaAliased(
+			List<InclusionEligibilityCriteria> inclusionEligibilityCriteria) {
+
+	}
+
+	public void setExclusionEligibilityCriteriaAliased(
+			List<ExclusionEligibilityCriteria> exclusionEligibilityCriteria) {
+
+	}
+	
 	public void setInclusionEligibilityCriteria(
 			List<InclusionEligibilityCriteria> inclusionEligibilityCriteria) {
 
