@@ -39,9 +39,6 @@ class StudyInvestigatorsTab extends StudyTab {
     public void postProcess(HttpServletRequest httpServletRequest, Study study, Errors errors) {
         if ("siteChange".equals(httpServletRequest.getParameter("_action"))) {
             httpServletRequest.getSession().setAttribute("selectedSite", httpServletRequest.getParameter("_selectedSite"));
-
-            StudySite studySite = study.getStudySites().get(Integer.parseInt(httpServletRequest.getParameter("_selectedSite")));
-
         }
 
     }
