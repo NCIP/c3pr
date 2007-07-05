@@ -4,8 +4,6 @@
 <project name="c3pr-2.0-core" default="all" basedir=".">
     <!-- Environment -->
     <property environment="env"/>
-    <property file="${basedir}/build.properties"/>
-    <property file="${user.dir}/build.properties"/>
     <property name="catalina.home" value="${env.CATALINA_HOME}"/>
 
     <!-- Information -->
@@ -61,11 +59,6 @@
 
     <property name="debug" value="on"/>
 
-    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
-        <classpath>
-            <pathelement location="${ext.lib.dir}/ant-contrib.jar"/>
-        </classpath>
-    </taskdef>
 
     <!-- =============================================================== -->
     <!-- The Build Classpath                                             -->
@@ -77,10 +70,15 @@
         <fileset dir="${ext.lib.dir}">
             <include name="**/*.jar"/>
         </fileset>
-        <fileset dir="${env.CATALINA_HOME}/common/lib">
+    </path>
+
+    <path id="compile.classpath">
+        <fileset dir="${ext.dir}/compile/lib">
             <include name="**/*.jar"/>
         </fileset>
+          <path refid="build.classpath"/>
     </path>
+
     <!-- =============================================================== -->
     <!-- The Run Classpath                                                   -->
     <!-- =============================================================== -->
@@ -101,9 +99,6 @@
         <fileset dir="${jar.dir}">
             <include name="**/*.jar"/>
         </fileset>
-        <fileset dir="${env.JAVA_HOME}/lib">
-            <include name="tools.jar"/>
-        </fileset>
         <fileset dir="${test.lib.dir}">
             <include name="**/*.jar"/>
         </fileset>
@@ -111,6 +106,14 @@
             <include name="**/*.jar"/>
         </fileset>
     </path>
+
+    <!--custom taskdefs-->
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+        <classpath>
+            <pathelement location="${ext.lib.dir}/ant-contrib.jar"/>
+        </classpath>
+    </taskdef>
+
     <!-- =============================================================== -->
     <!-- Prepares the build directory                                    -->
     <!-- =============================================================== -->
@@ -203,36 +206,6 @@
         </jar>
     </target>
 
-    <target name="create-database"
-            description="Will run the c3prv2 database scripts">
-
-        <property file="${ext.resources.dir}/build.properties"/>
-
-        <sql driver="${datasource.driver}"
-             url="${datasource.url}"
-             userid="${datasource.username}"
-             password="${datasource.password}"
-             classpathref="run.classpath"
-             rdbms="oracle">
-            <transaction src="${oracle.db.script.dir}/c3pr-ddl.SQL"/>
-            <transaction src="${oracle.db.script.dir}/static-data.sql"/>
-            <!--ToDo put csm scripts here also-->
-        </sql>
-
-        <sql driver="${datasource.driver}"
-             url="${datasource.url}"
-             userid="${datasource.username}"
-             password="${datasource.password}"
-             classpathref="run.classpath"
-             rdbms="postgres">
-            <transaction src="${postgresql.db.script.dir}/c3pr-ddl.SQL"/>
-            <transaction src="${postgresql.db.script.dir}/static-data.sql"/>
-            <transaction>
-                create language plpgsql;
-            </transaction>
-            <!--ToDo put csm scripts here also-->
-        </sql>
-    </target>
 
     <!-- ============================================================== -->
     <!-- Creates the jar files                                          -->
@@ -243,6 +216,38 @@
                 <attribute name="Built-By" value="${user.name}"/>
             </manifest>
         </jar>
+    </target>
+
+
+    <!-- ============================================================== -->
+    <!-- Bering migration task                                          -->
+    <!-- ============================================================== -->
+    <target name="bering-migrate" description="migrate database schema"
+            depends="jar">
+        <!--Taskdef. Has to be done inside since classpath is ext-->
+        <taskdef resource="edu/northwestern/bioinformatics/bering/antlib.xml"
+                classpathref="compile.classpath"/>
+
+        <property name="oracle.keyword" value="Oracle"/>
+        <property name="postgresql.keyword" value="PostgreSQLDialect"/>
+
+        <condition property="bering.dialect" value="edu.northwestern.bioinformatics.bering.dialect.PostgreSQL">
+            <contains string="${datasource.dialect}" substring="${postgresql.keyword}"/>
+        </condition>
+
+        <condition property="bering.dialect" value="edu.northwestern.bioinformatics.bering.dialect.Oracle">
+            <contains string="${datasource.dialect}" substring="${oracle.keyword}"/>
+        </condition>
+
+
+        <migrate classpathRef="run.classpath"
+                 driver="${datasource.driver}"
+                 dialect="${bering.dialect}"
+                 url="${datasource.url}"
+                 userid="${datasource.username}"
+                 password="{datasource.password}"
+                 migrationsDir="${db.scripts.dir}/bering"/>
+
     </target>
 
 
