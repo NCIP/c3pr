@@ -10,122 +10,104 @@
 
 <html>
 <head>
-<tags:includeScriptaculous/>
-<tags:dwrJavascriptLink objects="createStudy"/>
+    <tags:includeScriptaculous/>
+    <tags:dwrJavascriptLink objects="createStudy"/>
 
-<title>${tab.longTitle}</title>
+    <title>${tab.longTitle}</title>
 
-<script language="JavaScript" type="text/JavaScript">
+    <script language="JavaScript" type="text/JavaScript">
 
-function fireAction(action, selectedSite, selectedInvestigator) {
-    if(selectedSite >-1){
-        document.getElementById('command')._target.name = '_noname';
-        document.form._action.value = action;
-        document.form._selectedSite.value = selectedSite;
-        document.form._selectedInvestigator.value = selectedInvestigator;
 
-        // need to disable validations while submitting
-        if(action == 'removeInv'){
-            investigator = 'investigator' + selectedInvestigator + '-input';
-            $(investigator).className = 'none';
-            role = 'studySites['+selectedSite+'].studyInvestigators['+selectedInvestigator+'].roleCode';
-            $(role).className='none';
-            status = 'studySites['+selectedSite+'].studyInvestigators['+selectedInvestigator+'].statusCode';
-            $(status).className='none';
+        function chooseSites() {
+            document.getElementById('command')._target.name = '_noname';
+            document.form._action.value = "siteChange";
+            document.form._selectedSite.value = document.getElementById('site').value;
+            document.form.submit();
         }
 
-        document.form.submit();
-        fireListeners(selected);
-    }
-}
+        function chooseSitesFromSummary(selected) {
+            document.getElementById('command')._target.name = '_noname';
+            document.form._action.value = "siteChange";
+            document.form._selectedSite.value = selected;
+            document.form.submit();
+        }
 
-function chooseSites() {
-    document.getElementById('command')._target.name = '_noname';
-    document.form._action.value = "siteChange";
-    document.form._selectedSite.value = document.getElementById('site').value;
-    document.form.submit();
-}
+        /// AJAX
+        var investigatorAutocompleterProps = {
+            basename: "investigator",
+            populator: function(autocompleter, text) {
 
-function chooseSitesFromSummary(selected) {
-    document.getElementById('command')._target.name = '_noname';
-    document.form._action.value = "siteChange";
-    document.form._selectedSite.value = selected;
-    document.form.submit();
-}
+                createStudy.matchSiteInvestigators(text, document.getElementById('site').value, function(values) {
+                    autocompleter.setChoices(values)
+                })
+            },
+            valueSelector: function(obj) {
+                return obj.investigator.fullName
+            }
+        }
 
-/// AJAX
-var investigatorAutocompleterProps = {
-    basename: "investigator",
-    populator: function(autocompleter, text) {
+        function acPostSelect(mode, selectedChoice) {
+            $(mode.basename).value = selectedChoice.id;
+        }
 
-        createStudy.matchSiteInvestigators(text, document.getElementById('site').value, function(values) {
-            autocompleter.setChoices(values)
+        function updateSelectedDisplay(mode) {
+
+            if ($(mode.basename).value) {
+                Element.update(mode.basename + "-selected-name", $(mode.basename + "-input").value)
+                $(mode.basename + '-selected').show()
+            }
+        }
+
+        function acCreate(mode) {
+            new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
+                    mode.populator, {
+                valueSelector: mode.valueSelector,
+                afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+                    acPostSelect(mode, selectedChoice)
+                },
+                indicator: mode.basename + "-indicator"
+            })
+            Event.observe(mode.basename + "-clear", "click", function() {
+                //$(mode.basename + "-selected").hide()
+                $(mode.basename).value = ""
+                $(mode.basename + "-input").value = ""
+            })
+        }
+
+        function fireListeners(count)
+        {
+            index = 0;
+            autoCompleteId = 'investigator' + index;
+            for (i = 0; i < count; i++)
+            {
+                // change the basename property to agent0 ,agent1 ...
+                investigatorAutocompleterProps.basename = autoCompleteId
+                acCreate(investigatorAutocompleterProps)
+                index++
+                autoCompleteId = 'investigator' + index;
+            }
+
+            investigatorAutocompleterProps.basename = 'investigator' + count;
+            acCreate(investigatorAutocompleterProps);
+        }
+
+        Event.observe(window, "load", function() {
+            index = 0;
+            autoCompleteId = 'investigator' + index;
+            while ($(autoCompleteId))
+            {
+                // change the basename property to investigator0 ,investigator1 ...
+                investigatorAutocompleterProps.basename = autoCompleteId
+                acCreate(investigatorAutocompleterProps)
+                index++
+                autoCompleteId = 'investigator' + index;
+            }
         })
-    },
-    valueSelector: function(obj) {
-        return obj.investigator.fullName
-    }
-}
 
-function acPostSelect(mode, selectedChoice) {
-    $(mode.basename).value = selectedChoice.id;
-}
 
-function updateSelectedDisplay(mode) {
 
-    if ($(mode.basename).value) {
-        Element.update(mode.basename + "-selected-name", $(mode.basename + "-input").value)
-        $(mode.basename + '-selected').show()
-    }
-}
 
-function acCreate(mode) {
-    new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
-            mode.populator, {
-        valueSelector: mode.valueSelector,
-        afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
-            acPostSelect(mode, selectedChoice)
-        },
-        indicator: mode.basename + "-indicator"
-    })
-    Event.observe(mode.basename + "-clear", "click", function() {
-        //$(mode.basename + "-selected").hide()
-        $(mode.basename).value = ""
-        $(mode.basename + "-input").value = ""
-    })
-}
-
-function fireListeners(count)
-{
-    index = 0;
-    autoCompleteId = 'investigator' + index;
-    for (i = 0; i < count; i++)
-    {
-        // change the basename property to agent0 ,agent1 ...
-        investigatorAutocompleterProps.basename = autoCompleteId
-        acCreate(investigatorAutocompleterProps)
-        index++
-        autoCompleteId = 'investigator' + index;
-    }
-
-    investigatorAutocompleterProps.basename = 'investigator' + count;
-    acCreate(investigatorAutocompleterProps);
-}
-
-Event.observe(window, "load", function() {
-    index = 0;
-    autoCompleteId = 'investigator' + index;
-    while ($(autoCompleteId))
-    {
-        // change the basename property to investigator0 ,investigator1 ...
-        investigatorAutocompleterProps.basename = autoCompleteId
-        acCreate(investigatorAutocompleterProps)
-        index++
-        autoCompleteId = 'investigator' + index;
-    }
-})
-
-</script>
+    </script>
 </head>
 
 <body>
@@ -159,6 +141,24 @@ Event.observe(window, "load", function() {
         </c:otherwise>
     </c:choose>
 
+    <script type="text/javascript">
+        var instanceRowInserterProps = {
+
+            add_row_division_id: "mytable", 	        /* this id belongs to element where the row would be appended to */
+            skeleton_row_division_id: "dummy-row",
+            initialIndex: ${fn:length(command.studySites[selected_site].studyInvestigators)},                            /* this is the initial count of the rows when the page is loaded  */
+            path: "studySites[${selected_site}].studyInvestigators"                            /* this is the path of the collection that holds the rows  */
+        };
+        rowInserters.push(instanceRowInserterProps);
+
+
+        function addRow(){
+            RowManager.addRow(instanceRowInserterProps);
+            var indexValue = instanceRowInserterProps.localIndex - 1;
+            fireListeners(indexValue);
+        }
+    </script>
+
     <table border="0" id="table1" cellspacing="0">
         <tr>
             <td align="left"><b> <span class="red">*</span><em></em>Site:</b></td>
@@ -167,6 +167,7 @@ Event.observe(window, "load", function() {
                     <c:forEach items="${command.studySites}" var="studySite" varStatus="status">
                         <c:if test="${selected_site == status.index }">
                             <option selected="true" value=${status.index}>${studySite.site.name}</option>
+                            <c:set var="selectedStudySite" value="${studySite.id}"></c:set>
                         </c:if>
                         <c:if test="${selected_site != status.index }">
                             <option value=${status.index}>${studySite.site.name}</option>
@@ -176,10 +177,11 @@ Event.observe(window, "load", function() {
             </td>
         </tr>
     </table>
+      <input type="hidden" id="selectedStudySite" value="${selectedStudySite }"/>
     <br>
     <hr>
     <p id="instructions">
-        Add investigators <a href="javascript:fireAction('addInv',${selected_site}, '0');"><img
+        Add investigators <a href="javascript:addRow();"><img
             src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add Investigators"></a>
     </p>
     <table border="0" id="mytable" cellspacing="0">
@@ -191,7 +193,7 @@ Event.observe(window, "load", function() {
         </tr>
 
         <c:forEach varStatus="status" items="${command.studySites[selected_site].studyInvestigators}">
-            <tr>
+            <tr id="mytable-${status.index}">
                 <td class="alt">
                     <form:hidden id="investigator${status.index}"
                                  path="studySites[${selected_site}].studyInvestigators[${status.index}].healthcareSiteInvestigator"/>
@@ -214,7 +216,7 @@ Event.observe(window, "load", function() {
                         <form:options items="${studyInvestigatorStatusRefData}" itemLabel="desc" itemValue="desc"/>
                     </form:select></td>
                 <td class="alt">
-                    <a href="javascript:fireAction('removeInv', ${selected_site}, ${status.index});"><img
+                    <a href="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index});"><img
                             src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a></td>
             </tr>
         </c:forEach>
@@ -260,6 +262,48 @@ Event.observe(window, "load", function() {
 
 </jsp:attribute>
 </tags:tabForm>
+
+<div id="dummy-row" style="display:none;">
+    <table>
+        <tr  id="mytable-PAGE.ROW.INDEX">
+            <td class="alt">
+                <input type="hidden" id="investigatorPAGE.ROW.INDEX"
+                        name="studySites[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].healthcareSiteInvestigator"
+                       value="studySites[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].healthcareSiteInvestigator"/>
+                <input class="validate-notEmpty" type="text" id="investigatorPAGE.ROW.INDEX-input"
+                       size="30"
+                       value="${command.studySites[selected_site].studyInvestigators[PAGE.ROW.INDEX].healthcareSiteInvestigator.investigator.fullName}"/>
+                <input type="button" id="investigatorPAGE.ROW.INDEX-clear"
+                        value="Clear"/>
+                   <tags:indicator id="investigatorPAGE.ROW.INDEX-indicator"/>
+                  <div id="investigatorPAGE.ROW.INDEX-choices" class="autocomplete"></div>
+            </td>
+            <td class="alt">
+                <select id="studySites[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].roleCode"
+                           name="studySites[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].roleCode"
+                        class="validate-notEmpty">
+                    <option value="">--Please Select--</option>
+                    <c:forEach items="${studyInvestigatorRoleRefData}" var="studyInvRole">
+                        <option value="${studyInvRole.desc}">${studyInvRole.desc}</option>
+                    </c:forEach>
+                </select>
+            </td>
+            <td class="alt">
+                <select id="studySites[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].statusCode"
+                        name="studySites[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].statusCode"
+                        class="validate-notEmpty">
+                    <option value="">--Please Select--</option>
+                    <c:forEach items="${studyInvestigatorStatusRefData}" var="studyInvStatus">
+                        <option value="${studyInvStatus.desc}">${studyInvStatus.desc}</option>
+                    </c:forEach>
+                </select>
+            </td>
+            <td class="alt">
+                <a href="javascript:RowManager.deleteRow(instanceRowInserterProps,PAGE.ROW.INDEX);"><img
+                        src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a></td>
+        </tr>
+    </table>
+</div>
 
 </body>
 </html>

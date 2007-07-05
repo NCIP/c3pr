@@ -43,23 +43,9 @@ class StudyInvestigatorsTab extends StudyTab {
             StudySite studySite = study.getStudySites().get(Integer.parseInt(httpServletRequest.getParameter("_selectedSite")));
 
         }
-        handleStudyInvestigatorAction(study, httpServletRequest);
-    }
-
-    private void handleStudyInvestigatorAction(Study study, HttpServletRequest request) {
-        String action = request.getParameter("_action");
-        String selectedSite = request.getParameter("_selectedSite");
-        String selectedInvestigator = request.getParameter("_selectedInvestigator");
-
-        if ("addInv".equals(action)) {
-            StudyInvestigator studyInvestigator = new StudyInvestigator();
-            StudySite studySite = study.getStudySites().get(Integer.parseInt(selectedSite));
-            studySite.addStudyInvestigator(studyInvestigator);
-        } else if ("removeInv".equals(action)) {
-            study.getStudySites().get(Integer.parseInt(selectedSite)).getStudyInvestigators()
-                    .remove(Integer.parseInt(selectedInvestigator));
-        }
 
     }
+
+    
 }
 

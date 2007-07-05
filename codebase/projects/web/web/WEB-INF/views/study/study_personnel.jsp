@@ -29,116 +29,94 @@
 </style>
 <script language="JavaScript" type="text/JavaScript">
 
-function fireAction(action, selectedSite, selectedPersonnel) {
-    if(selectedSite >-1){
+
+    function chooseSites() {
         document.getElementById('command')._target.name = '_noname';
-        document.form._action.value = action;
-        document.form._selectedSite.value = selectedSite;
-        document.form._selectedPersonnel.value = selectedPersonnel;
+        document.form._action.value = "siteChange";
+        document.form._selectedSite.value = document.getElementById('site').value;
+        document.form.submit();
+    }
+
+    function chooseSitesfromSummary(_selectedSite) {
+        document.getElementById('command')._target.name = '_noname';
+        document.form._action.value = "siteChange";
+        document.form._selectedSite.value = _selectedSite;
+        document.form.submit();
+    }
+
+    /// AJAX
+
+    var personnelAutocompleterProps = {
+        basename: "personnel",
+        populator: function(autocompleter, text) {
+            createStudy.matchResearchStaffs(text, document.getElementById('site').value, function(values) {
+                autocompleter.setChoices(values)
+            })
+        },
+        valueSelector: function(obj) {
+            return obj.fullName
+        }
+    }
 
 
-        //  need to disable validations while submitting
-        if(action == 'removeStudyPersonnel'){
-            input = 'personnel' + selectedPersonnel + '-input';
-            $(input).className = 'none';
-            role = 'studySites['+selectedSite+'].studyPersonnels['+selectedPersonnel+'].roleCode';
-            $(role).className='none';
-            status = 'studySites['+selectedSite+'].studyPersonnels['+selectedPersonnel+'].statusCode';
-            $(status).className='none';
+    function acPostSelect(mode, selectedChoice) {
+        $(mode.basename).value = selectedChoice.id;
+    }
+
+    function updateSelectedDisplay(mode) {
+
+        if ($(mode.basename).value) {
+            Element.update(mode.basename + "-selected-name", $(mode.basename + "-input").value)
+            $(mode.basename + '-selected').show()
+        }
+    }
+
+    function acCreate(mode) {
+        new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
+                mode.populator, {
+            valueSelector: mode.valueSelector,
+            afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+                acPostSelect(mode, selectedChoice)
+            },
+            indicator: mode.basename + "-indicator"
+        })
+        Event.observe(mode.basename + "-clear", "click", function() {
+            //$(mode.basename + "-selected").hide()
+            $(mode.basename).value = ""
+            $(mode.basename + "-input").value = ""
+        })
+    }
+
+    function fireListeners(count)
+    {
+        index = 0;
+        autoCompleteId = 'personnel' + index;
+        for (i = 0; i < count; i++)
+        {
+            // change the basename property to agent0 ,agent1 ...
+            personnelAutocompleterProps.basename = autoCompleteId
+            acCreate(personnelAutocompleterProps)
+            index++
+            autoCompleteId = 'personnel' + index;
         }
 
-        document.form.submit();
-        fireListeners(selected);
+        personnelAutocompleterProps.basename = 'personnel' + count;
+        acCreate(personnelAutocompleterProps);
     }
-}
 
-function chooseSites() {
-    document.getElementById('command')._target.name = '_noname';
-    document.form._action.value = "siteChange";
-    document.form._selectedSite.value = document.getElementById('site').value;
-    document.form.submit();
-}
-
-function chooseSitesfromSummary(_selectedSite) {
-    document.getElementById('command')._target.name = '_noname';
-    document.form._action.value = "siteChange";
-    document.form._selectedSite.value = _selectedSite;
-    document.form.submit();
-}
-
-/// AJAX
-
-var personnelAutocompleterProps = {
-    basename: "personnel",
-    populator: function(autocompleter, text) {
-        createStudy.matchResearchStaffs(text, document.getElementById('site').value, function(values) {
-            autocompleter.setChoices(values)
-        })
-    },
-    valueSelector: function(obj) {
-        return obj.fullName
-    }
-}
-
-
-function acPostSelect(mode, selectedChoice) {
-    $(mode.basename).value = selectedChoice.id;
-}
-
-function updateSelectedDisplay(mode) {
-
-    if ($(mode.basename).value) {
-        Element.update(mode.basename + "-selected-name", $(mode.basename + "-input").value)
-        $(mode.basename + '-selected').show()
-    }
-}
-
-function acCreate(mode) {
-    new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
-            mode.populator, {
-        valueSelector: mode.valueSelector,
-        afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
-            acPostSelect(mode, selectedChoice)
-        },
-        indicator: mode.basename + "-indicator"
-    })
-    Event.observe(mode.basename + "-clear", "click", function() {
-        //$(mode.basename + "-selected").hide()
-        $(mode.basename).value = ""
-        $(mode.basename + "-input").value = ""
-    })
-}
-
-function fireListeners(count)
-{
-    index = 0;
-    autoCompleteId = 'personnel' + index;
-    for (i = 0; i < count; i++)
-    {
-        // change the basename property to agent0 ,agent1 ...
-        personnelAutocompleterProps.basename = autoCompleteId
-        acCreate(personnelAutocompleterProps)
-        index++
+    Event.observe(window, "load", function() {
+        index = 0;
         autoCompleteId = 'personnel' + index;
-    }
-
-    personnelAutocompleterProps.basename = 'personnel' + count;
-    acCreate(personnelAutocompleterProps);
-}
-
-Event.observe(window, "load", function() {
-    index = 0;
-    autoCompleteId = 'personnel' + index;
-    while ($(autoCompleteId))
-    {
-        // change the basename property to personnel0 ,personnel1 ...
-        personnelAutocompleterProps.basename = autoCompleteId
-        acCreate(personnelAutocompleterProps)
-        index++
-        autoCompleteId = 'personnel' + index;
-    }
-    //Element.update("flow-next", "Continue &raquo;")
-})
+        while ($(autoCompleteId))
+        {
+            // change the basename property to personnel0 ,personnel1 ...
+            personnelAutocompleterProps.basename = autoCompleteId
+            acCreate(personnelAutocompleterProps)
+            index++
+            autoCompleteId = 'personnel' + index;
+        }
+        //Element.update("flow-next", "Continue &raquo;")
+    })
 
 </script>
 </head>
@@ -156,82 +134,100 @@ Event.observe(window, "load", function() {
 <table border="0" id="table1" cellspacing="10" width="100%">
 <tr>
 <td valign="top">
-    <p id="instructions">
-        Choose a study site first
-    </p>
+<p id="instructions">
+    Choose a study site first
+</p>
 
-    <c:choose>
-        <c:when test="${fn:length(command.studySites) > 0}">
-            <c:set var="selected_site" value="0"/>
-            <c:if test="${not empty selectedSite}">
-                <c:set var="selected_site" value="${selectedSite}"/>
-            </c:if>
-        </c:when>
-        <c:otherwise>
-            <c:set var="selected_site" value="-1"/>
-        </c:otherwise>
-    </c:choose>
+<c:choose>
+    <c:when test="${fn:length(command.studySites) > 0}">
+        <c:set var="selected_site" value="0"/>
+        <c:if test="${not empty selectedSite}">
+            <c:set var="selected_site" value="${selectedSite}"/>
+        </c:if>
+    </c:when>
+    <c:otherwise>
+        <c:set var="selected_site" value="-1"/>
+    </c:otherwise>
+</c:choose>
 
-    <table border="0" id="table1" cellspacing="0">
-        <tr>
-            <td align="left"><b> <span class="red">*</span><em></em>Site:</b></td>
-            <td align="left">
-                <select id="site" name="site" onchange="javascript:chooseSites();">
-                    <c:forEach items="${command.studySites}" var="studySite" varStatus="status">
-                        <c:if test="${selected_site == status.index }">
-                            <option selected="true" value=${status.index}>${studySite.site.name}</option>
-                        </c:if>
-                        <c:if test="${selected_site != status.index }">
-                            <option value=${status.index}>${studySite.site.name}</option>
-                        </c:if>
-                    </c:forEach>
-                </select>
+<script type="text/javascript">
+    var instanceRowInserterProps = {
+
+        add_row_division_id: "mytable", 	        /* this id belongs to element where the row would be appended to */
+        skeleton_row_division_id: "dummy-row",
+        initialIndex: ${fn:length(command.studySites[selected_site].studyPersonnels)},                            /* this is the initial count of the rows when the page is loaded  */
+        path: "studySites[${selected_site}].studyPersonnels"
+    };
+    rowInserters.push(instanceRowInserterProps);
+
+
+    function addRow(){
+        RowManager.addRow(instanceRowInserterProps);
+        var indexValue = instanceRowInserterProps.localIndex - 1;
+        fireListeners(indexValue);
+    }
+</script>
+
+<table border="0" id="table1" cellspacing="0">
+    <tr>
+        <td align="left"><b> <span class="red">*</span><em></em>Site:</b></td>
+        <td align="left">
+            <select id="site" name="site" onchange="javascript:chooseSites();">
+                <c:forEach items="${command.studySites}" var="studySite" varStatus="status">
+                    <c:if test="${selected_site == status.index }">
+                        <option selected="true" value=${status.index}>${studySite.site.name}</option>
+                    </c:if>
+                    <c:if test="${selected_site != status.index }">
+                        <option value=${status.index}>${studySite.site.name}</option>
+                    </c:if>
+                </c:forEach>
+            </select>
+        </td>
+    </tr>
+</table>
+<br>
+<hr>
+<p id="instructions">
+    Add Research Staff <a href="javascript:addRow();"><img
+        src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add Research Staff"></a></a>
+</p>
+<table border="0" id="mytable" cellspacing="0">
+    <tr>
+        <th scope="col" align="left"><b> <span class="red">*</span><em></em>Name:</b></th>
+        <th scope="col" align="left"><b> <span class="red">*</span><em></em>Role:</b></th>
+        <th scope="col" align="left"><b> <span class="red">*</span><em></em>Status:</b></th>
+        <th scope="col" align="left" class="specalt"></th>
+    </tr>
+
+    <c:forEach varStatus="status" items="${command.studySites[selected_site].studyPersonnels}">
+        <tr id="mytable-${status.index}">
+            <td class="alt">
+                <form:hidden id="personnel${status.index}"
+                             path="studySites[${selected_site}].studyPersonnels[${status.index}].researchStaff"/>
+                <input type="text" class="validate-notEmpty" id="personnel${status.index}-input" size="30"
+                       value="${command.studySites[selected_site].studyPersonnels[status.index].researchStaff.fullName}"/>
+                <input type="button" id="personnel${status.index}-clear" value="Clear"/>
+                <tags:indicator id="personnel${status.index}-indicator"/>
+                <div id="personnel${status.index}-choices" class="autocomplete"></div>
             </td>
+            <td class="alt">
+                <form:select path="studySites[${selected_site}].studyPersonnels[${status.index}].roleCode"
+                             cssClass="validate-notEmpty">
+                    <option value="">--Please Select--</option>
+                    <form:options items="${studyPersonnelRoleRefData}" itemLabel="desc" itemValue="desc"/>
+                </form:select></td>
+            <td class="alt">
+                <form:select path="studySites[${selected_site}].studyPersonnels[${status.index}].statusCode"
+                             cssClass="validate-notEmpty">
+                    <option value="">--Please Select--</option>
+                    <form:options items="${studyPersonnelStatusRefData}" itemLabel="desc" itemValue="desc"/>
+                </form:select></td>
+            <td class="alt">
+                <a href="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index});"><img
+                        src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a></td>
         </tr>
-    </table>
-    <br>
-    <hr>
-    <p id="instructions">
-        Add Research Staff <a href="javascript:fireAction('addStudyPersonnel',${selected_site}, '0');"><img
-            src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add Research Staff"></a></a>
-    </p>
-    <table border="0" id="mytable" cellspacing="0">
-        <tr>
-            <th scope="col" align="left"><b> <span class="red">*</span><em></em>Name:</b></th>
-            <th scope="col" align="left"><b> <span class="red">*</span><em></em>Role:</b></th>
-            <th scope="col" align="left"><b> <span class="red">*</span><em></em>Status:</b></th>
-            <th scope="col" align="left" class="specalt"></th>
-        </tr>
-
-        <c:forEach varStatus="status" items="${command.studySites[selected_site].studyPersonnels}">
-            <tr>
-                <td class="alt">
-                    <form:hidden id="personnel${status.index}"
-                                 path="studySites[${selected_site}].studyPersonnels[${status.index}].researchStaff"/>
-                    <input type="text" class="validate-notEmpty" id="personnel${status.index}-input" size="30"
-                           value="${command.studySites[selected_site].studyPersonnels[status.index].researchStaff.fullName}"/>
-                    <input type="button" id="personnel${status.index}-clear" value="Clear"/>
-                    <tags:indicator id="personnel${status.index}-indicator"/>
-                    <div id="personnel${status.index}-choices" class="autocomplete"></div>
-                </td>
-                <td class="alt">
-                    <form:select path="studySites[${selected_site}].studyPersonnels[${status.index}].roleCode"
-                                 cssClass="validate-notEmpty">
-                        <option value="">--Please Select--</option>
-                        <form:options items="${studyPersonnelRoleRefData}" itemLabel="desc" itemValue="desc"/>
-                    </form:select></td>
-                <td class="alt">
-                    <form:select path="studySites[${selected_site}].studyPersonnels[${status.index}].statusCode"
-                                 cssClass="validate-notEmpty">
-                        <option value="">--Please Select--</option>
-                        <form:options items="${studyPersonnelStatusRefData}" itemLabel="desc" itemValue="desc"/>
-                    </form:select></td>
-                <td class="alt">
-                    <a href="javascript:fireAction('removeStudyPersonnel',${selected_site}, ${status.index});"><img
-                            src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a></td>
-            </tr>
-        </c:forEach>
-    </table>
+    </c:forEach>
+</table>
 </td>
 
 <td valign="top" width="25%">
@@ -272,5 +268,45 @@ Event.observe(window, "load", function() {
 </table>
 </jsp:attribute>
 </tags:tabForm>
+
+<div id="dummy-row" style="display:none;">
+    <table>
+        <tr id="mytable-PAGE.ROW.INDEX">
+            <td class="alt">
+                <input type="hidden" id="personnelPAGE.ROW.INDEX"
+                       name="studySites[${selected_site}].studyPersonnels[PAGE.ROW.INDEX].researchStaff"
+                       value="studySites[${selected_site}].studyPersonnels[PAGE.ROW.INDEX].researchStaff"/>
+                <input type="text" class="validate-notEmpty" id="personnelPAGE.ROW.INDEX-input" size="30"
+                       value="${command.studySites[selected_site].studyPersonnels[PAGE.ROW.INDEX].researchStaff.fullName}"/>
+                <input type="button" id="personnelPAGE.ROW.INDEX-clear" value="Clear"/>
+                <tags:indicator id="personnelPAGE.ROW.INDEX-indicator"/>
+                <div id="personnelPAGE.ROW.INDEX-choices" class="autocomplete"></div>
+            </td>
+            <td class="alt">
+                <select id="studySites[${selected_site}].studyPersonnels[PAGE.ROW.INDEX].roleCode"
+                        name="studySites[${selected_site}].studyPersonnels[PAGE.ROW.INDEX].roleCode"
+                        class="validate-notEmpty">
+                    <option value="">--Please Select--</option>
+                    <c:forEach items="${studyPersonnelRoleRefData}" var="role">
+                        <option value="${role.desc}">${role.desc}</option>
+                    </c:forEach>
+                </select>
+            </td>
+            <td class="alt">
+                <select id="studySites[${selected_site}].studyPersonnels[PAGE.ROW.INDEX].statusCode"
+                        name="studySites[${selected_site}].studyPersonnels[PAGE.ROW.INDEX].statusCode"
+                        class="validate-notEmpty">
+                    <option value="">--Please Select--</option>
+                    <c:forEach items="${studyPersonnelStatusRefData}" var="status">
+                        <option value="${status.desc}">${status.desc}</option>
+                    </c:forEach>
+                </select>
+            </td>
+            <td class="alt">
+                <a href="javascript:RowManager.deleteRow(instanceRowInserterProps,PAGE.ROW.INDEX);"><img
+                        src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a></td>
+        </tr>
+    </table>
+</div>
 </body>
 </html>
