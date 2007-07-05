@@ -1,14 +1,15 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
-<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 
 <html>
 <head>
-<tags:includeScriptaculous/>
-<tags:dwrJavascriptLink objects="createStudy"/>
+<tags:includeScriptaculous />
+<tags:dwrJavascriptLink objects="createStudy" />
 
 <title>${tab.longTitle}</title>
 <style type="text/css">
@@ -20,10 +21,11 @@
 </style>
 <script language="JavaScript" type="text/JavaScript">
 
-function fireAction(action, selected, area) {
+function fireAction(action,selectedEpoch, selected, area) {
     document.getElementById('command')._target.name = '_noname';
     document.form._action.value = action;
     document.form._selected.value = selected;
+    $('_selectedEpoch').value = selectedEpoch;
 
 
     if(action == 'removeExclusionCriteria'){
@@ -144,129 +146,207 @@ function displayDiv(id, flag) {
     } else
         document.getElementById(id).style.display = 'none';
 }
+var instanceInclusionRow = {
+	add_row_division_id: "addInclusionRowTable", 	        /* this id belongs to element where the row would be appended to */
+	skeleton_row_division_id: "dummy-inclusionRow",  	/* this id belongs to the element which hold the dummy row html to be inserted   */
+
+	initialIndex: 0,                         /* this is the initial count of the rows when the page is loaded  */
+	path: "epochs.eligibilityCriteria",                               /* this is the path of the collection that holds the rows  */
+};
+
+var instanceExclusionRow = {
+	add_row_division_id: "addExclusionRowTable", 	        /* this id belongs to element where the row would be appended to */
+	skeleton_row_division_id: "dummy-exclusionRow",  	/* this id belongs to the element which hold the dummy row html to be inserted   */
+             /* this is the initial count of the rows when the page is loaded  */
+	initialIndex: 0, 
+	path: "epochs.eligibilityCriteria",                               /* this is the path of the collection that holds the rows  */
+};
+
+
+rowInserters.push(instanceInclusionRow);
+rowInserters.push(instanceExclusionRow);
 </script>
 </head>
 <body>
 <tags:tabForm tab="${tab}" flow="${flow}" formName="form">
-<jsp:attribute name="singleFields">
-<div>
-    <input type="hidden" name="_action" value="">
-    <input type="hidden" name="_selected" value="">
-</div>
-<!-- MAIN BODY STARTS HERE -->
-<table border="0" id="table1" cellspacing="5">
-<tr>
-    <td valign="top">
-        <tags:minimizablePanelBox boxId="InclusionTable" title="Inclusion Criteria">
-            <table border="0" cellspacing="0" cellpadding="0" id="details">
-                <tr>
-                    <p id="instructions">
-                        *NA - Allow Not Applicable answer<br>
-                        Yes and No are permissible answers
-                    </p>
+	<jsp:attribute name="singleFields">
+		<div><input type="hidden" name="_action" value=""> <input
+			type="hidden" name="_selected" value=""> <input type="hidden"
+			id="_selectedEpoch" name="_selectedEpoch" value=""></div>
+		<!-- MAIN BODY STARTS HERE -->
 
-                    <p>
-                        <b>Inclusion Criterion</b><a
-                            href="javascript:fireAction('addInclusionCriteria',0,'InclusionTable');"><img
-                            src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a>
-                    </p>
-                </tr>
-                <tr>
-                    <td valign="top">
-                        <table border="0" cellspacing="0" cellpadding="0" id="mytable">
-                            <tr>
-                                <td class="alt"><b>Question<span class="red">*</span></b></td>
-                                <td class="alt"><b>NA</b></td>
-                                <th class="specalt"></th>
-                                </b>
-                            </tr>
-                            <c:forEach varStatus="status" items="${command.incCriterias}">
-                                <tr id="bex-${status.index}">
-                                    <td class="alt">
-                                        <form:hidden path="incCriterias[${status.index}].questionNumber"/>
-                                        <form:textarea path="incCriterias[${status.index}].questionText" rows="1"
-                                                       cols="90" cssClass="validate-notEmpty"/>
-                                    </td>
-                                    <td class="alt">
-                                        <form:checkbox path="incCriterias[${status.index}].notApplicableIndicator"/>
-                                    </td>
-                                    <td class="alt">
-                                        <a href="javascript:fireAction('removeInclusionCriteria',${status.index},'InclusionTable');">
-                                            <img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                        </table>
-                    </td>
-                </tr>
-            </table>
+		<c:forEach items="${command.epochs}" var="epoch"
+			varStatus="epochCount">
+			<c:if
+				test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch' }">
+				<tags:minimizablePanelBox
+					title="${epoch.name} : ${epoch.descriptionText }"
+					boxId="${epoch.name}">
+					<table border="0" id="table1" cellspacing="5">
+						<tr>
+							<td valign="top" width="600"><tags:minimizablePanelBox
+								boxId="InclusionTable" title="Inclusion Criteria">
 
-        </tags:minimizablePanelBox>
-    </td>
-</tr>
-<tr>
-    <td>
-        <table border="0" cellspacing="0" cellpadding="0" id="details">
-            <tr>
-                <td>
-                    <tags:minimizablePanelBox boxId="ExclusionTable" title="Exclusion Criteria">
 
-                        <table border="0" cellspacing="0" cellpadding="0" id="table1">
-                            <tr>
-                                <p id="instructions">
-                                    *NA - Allow Not Applicable answer <br>
-                                    Yes and No are permissible answers
-                                </p>
+								<p id="instructions">*NA - Allow Not Applicable answer<br>
+								Yes and No are permissible answers</p>
 
-                                <p>
-                                    <b>Exclusion Criterion</b><a
-                                        href="javascript:fireAction('addExclusionCriteria',0,'ExclusionTable');"><img
-                                        src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a>
-                                </p>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <table border="0" cellspacing="0" cellpadding="0" id="mytable">
-                                        <tr>
-                                            <td class="alt"><b>Question<span class="red">*</span></b></td>
-                                            <td class="alt"><b>*NA</b></td>
-                                            <th class="specalt"></th>
-                                            </b>
-                                        </tr>
-                                        <c:forEach varStatus="status" items="${command.excCriterias}">
-                                            <tr id="bex-${status.index}">
-                                                <td class="alt" align="left">
-                                                    <form:hidden
-                                                            path="excCriterias[${status.index}].questionNumber"/>
-                                                    <form:textarea path="excCriterias[${status.index}].questionText"
-                                                                   rows="1" cols="90" cssClass="validate-notEmpty"/>
-                                                </td>
-                                                <td class="alt" align="left">
-                                                    <form:checkbox
-                                                            path="excCriterias[${status.index}].notApplicableIndicator"/>
-                                                </td>
-                                                <td class="alt" align="left">
-                                                    <a href="javascript:fireAction('removeExclusionCriteria',${status.index},'ExclusionTable');">
-                                                        <img src="<tags:imageUrl name="checkno.gif"/>"
-                                                             border="0"></a>
-                                                </td>
-                                            </tr>
-                                        </c:forEach>
-                                    </table>
-                                </td>
-                            </tr>
-                        </table>
+								<p><b>Inclusion Criterion</b><a
+									href="javascript:RowManager.addRow(instanceInclusionRow);"><img
+									src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a></p>
 
-                    </tags:minimizablePanelBox>
-                </td>
-            </tr>
-        </table>
-    </td>
-</tr>
-</table>
-<!-- MAIN BODY ENDS HERE -->
-</jsp:attribute>
+								<table border="0" cellspacing="0" cellpadding="0"
+									id="addInclusionRowTable">
+									<tr>
+										<td valign="top">
+										<table border="0" cellspacing="0" cellpadding="0"
+											id="addInclusionRowTable">
+											<tr>
+												<td class="alt"><b>Question<span class="red">*</span></b></td>
+												<td class="alt"><b>NA</b></td>
+												<th class="specalt"></th>
+											</tr>
+											<c:forEach varStatus="status"
+												items="${command.epochs[epochCount.index].inclusionEligibilityCriteria}">
+												<tr id="addInclusionRowTable-${status.index}">
+													<td class="alt"><form:hidden
+														path="epochs[${epochCount.index }].inclusionEligibilityCriteriaAliased[${status.index}].questionNumber" />
+													<form:textarea
+														path="epochs[${epochCount.index }].inclusionEligibilityCriteriaAliased[${status.index}].questionText"
+														rows="1" cols="50" cssClass="validate-notEmpty" /></td>
+													<td class="alt"><form:checkbox
+														path="epochs[${epochCount.index }].inclusionEligibilityCriteriaAliased[${status.index}].notApplicableIndicator" />
+													</td>
+													<td class="alt"><a
+														href="javascript:RowManager.deleteRow(instanceInclusionRow,PAGE.ROW.INDEX);"><img
+														src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+												</tr>
+											</c:forEach>
+										</table>
+										</td>
+									</tr>
+								</table>
+
+							</tags:minimizablePanelBox></td>
+							<td>
+							<table border="0" cellspacing="0" cellpadding="0" id="details">
+								<tr>
+									<td width="600"><tags:minimizablePanelBox
+										boxId="ExclusionTable" title="Exclusion Criteria">
+
+										<table border="0" cellspacing="0" cellpadding="0"
+											id="addExclusionRowTable">
+											<tr>
+												<p id="instructions">*NA - Allow Not Applicable answer <br>
+												Yes and No are permissible answers</p>
+
+												<p><b>Exclusion Criterion</b><a
+													href="javascript:RowManager.addRow(instanceExclusionRow);"><img
+													src="<tags:imageUrl name="checkyes.gif"/>" border="0"
+													alt="Add"></a></p>
+
+											</tr>
+											<tr id="addExclusionRowTable-${epochCount.index }">
+												<td>
+												<table border="0" cellspacing="0" cellpadding="0"
+													id="mytable1">
+													<tr>
+														<td class="alt"><b>Question<span class="red">*</span></b></td>
+														<td class="alt"><b>*NA</b></td>
+														<th class="specalt"></th>
+
+													</tr>
+													<c:forEach varStatus="status"
+														items="${command.epochs[epochCount.index].exclusionEligibilityCriteria}">
+														<tr id="bex-${status.index}">
+															<td class="alt" align="left"><form:hidden
+																path="epochs[${epochCount.index }].exclusionEligibilityCriteriaAliased[${status.index}].questionNumber" />
+															<form:textarea
+																path="epochs[${epochCount.index }].exclusionEligibilityCriteriaAliased[${status.index}].questionText"
+																rows="1" cols="50" cssClass="validate-notEmpty" /></td>
+															<td class="alt" align="left"><form:checkbox
+																path="epochs[${epochCount.index }].exclusionEligibilityCriteriaAliased[${status.index}].notApplicableIndicator" />
+															</td>
+															<td class="alt"><a
+																href="javascript:RowManager.deleteRow(instanceExclusionRow,PAGE.ROW.INDEX);"><img
+																src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+														</tr>
+													</c:forEach>
+												</table>
+												</td>
+											</tr>
+										</table>
+
+									</tags:minimizablePanelBox></td>
+								</tr>
+							</table>
+							</td>
+						</tr>
+					</table>
+				</tags:minimizablePanelBox>
+			</c:if>
+		</c:forEach>
+
+		<!-- MAIN BODY ENDS HERE -->
+	</jsp:attribute>
 </tags:tabForm>
+
+<div id="dummy-inclusionRow" style="display:none">
+<tr>
+	<td>
+	<table border="0" cellspacing="0" cellpadding="0" id="mytable1">
+
+		<tr>
+			<td class="alt" align="left"><input type="hidden"
+				id="epochs[${epochCount.index }].inclusionEligibilityCriteriaAliased[PAGE.ROW.INDEX].questionNumber"
+				name="epochs[${epochCount.index }].inclusionEligibilityCriteriaAliased[PAGE.ROW.INDEX].questionNumber" />
+			</td>
+			<td class="alt" align="left"><textarea
+				id="epochs[${epochCount.index }].inclusionEligibilityCriteriaAliased[PAGE.ROW.INDEX].questionText"
+				name="epochs[${epochCount.index }].inclusionEligibilityCriteriaAliased[PAGE.ROW.INDEX].questionText"
+				rows="1" cols="50" cssClass="validate-notEmpty"></textarea></td>
+			<td class="alt" align="left"><input type="checkbox"
+				id="epochs[${epochCount.index }].inclusionEligibilityCriteriaAliased[PAGE.ROW.INDEX].notApplicableIndicator"
+				name="epochs[${epochCount.index }].inclusionEligibilityCriteriaAliased[PAGE.ROW.INDEX].notApplicableIndicator" />
+			</td>
+			<td class="alt"><a
+				href="javascript:RowManager.deleteRow(instanceInclusionRow,PAGE.ROW.INDEX);"><img
+				src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+		</tr>
+
+	</table>
+	</td>
+</tr>
+<hr>
+</div>
+
+<div id="dummy-exclusionRow" style="display:none">
+<tr>
+	<td>
+	<table border="0" cellspacing="0" cellpadding="0" id="mytable1">
+
+		<tr>
+			<td class="alt" align="left"><input type="hidden"
+				id="epochs[${epochCount.index }].exclusionEligibilityCriteriaAliased[PAGE.ROW.INDEX].questionNumber"
+				name="epochs[${epochCount.index }].exclusionEligibilityCriteriaAliased[PAGE.ROW.INDEX].questionNumber" />
+			</td>
+			<td class="alt" align="left"><textarea
+				id="epochs[${epochCount.index }].exclusionEligibilityCriteriaAliased[PAGE.ROW.INDEX].questionText"
+				name="epochs[${epochCount.index }].exclusionEligibilityCriteriaAliased[PAGE.ROW.INDEX].questionText"
+				rows="1" cols="50" cssClass="validate-notEmpty"></textarea></td>
+			<td class="alt" align="left"><input type="checkbox"
+				id="epochs[${epochCount.index }].exclusionEligibilityCriteriaAliased[PAGE.ROW.INDEX].notApplicableIndicator"
+				name="epochs[${epochCount.index }].exclusionEligibilityCriteriaAliased[PAGE.ROW.INDEX].notApplicableIndicator" />
+			</td>
+			<td class="alt"><a
+				href="javascript:RowManager.deleteRow(instanceExclusionRow,PAGE.ROW.INDEX);"><img
+				src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+		</tr>
+
+	</table>
+	</td>
+</tr>
+</div>
 
 </body>
 </html>

@@ -3,7 +3,9 @@ package edu.duke.cabig.c3pr.web.study;
 import edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 import org.springframework.validation.Errors;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,43 +25,49 @@ class StudyEligibilityChecklistTab extends StudyTab {
 
     @Override
     public void postProcess(HttpServletRequest httpServletRequest, Study study, Errors errors) {
+    	
+    	String epochIndex=httpServletRequest.getParameter("_selectedEpoch");
+        int selectedEpoch = StringUtils.getBlankIfNull(epochIndex).equals("")?-1:Integer.parseInt(epochIndex);
         String action = httpServletRequest.getParameter("_action");
         String selected = httpServletRequest.getParameter("_selected");
 
         if ("addInclusionCriteria".equals(action)) {
             log.debug("Requested - Add a Inclusion Eligibility Criteria");
             httpServletRequest.setAttribute("currentOperation", "inclusion");
-            createDefaultInclusion(study);
+            createDefaultInclusion(study,selectedEpoch);
         } else if ("removeInclusionCriteria".equals(action)) {
             log.debug("Requested - Remove an Inclusion Eligibility Criteria");
             httpServletRequest.setAttribute("currentOperation", "inclusion");
-            study.getIncCriterias().remove(Integer.parseInt(selected));
+           // study.getIncCriterias().remove(Integer.parseInt(selected));
+            ((TreatmentEpoch)study.getEpochs().get(selectedEpoch)).getInclusionEligibilityCriteria().remove(Integer.parseInt(selected));
         }
         if ("addExclusionCriteria".equals(action)) {
             log.debug("Requested - Add an Exclusion Eligibility Criteria");
             httpServletRequest.setAttribute("currentOperation", "exclusion");
-            createDefaultExclusion(study);
+            createDefaultExclusion(study,selectedEpoch);
         } else if ("removeExclusionCriteria".equals(action)) {
             log.debug("Requested - Remove an Exclusion Eligibility Criteria");
             httpServletRequest.setAttribute("currentOperation", "exclusion");
-            study.getExcCriterias().remove(Integer.parseInt(selected));
+          //  study.getExcCriterias().remove(Integer.parseInt(selected));
+            ((TreatmentEpoch)study.getEpochs().get(selectedEpoch)).getExclusionEligibilityCriteria().remove(Integer.parseInt(selected));
         }
 
     }
 
-    protected void createDefaultInclusion(Study study) {
+    protected void createDefaultInclusion(Study study,int epochIndex) {
         InclusionEligibilityCriteria inc = new InclusionEligibilityCriteria();
-        inc.setQuestionNumber(study.getIncCriterias().size() + 1);
+        inc.setQuestionNumber(((TreatmentEpoch)study.getEpochs().get(epochIndex)).getInclusionEligibilityCriteria().size() + 1);
         inc.setQuestionText("");
-        study.addInclusionEligibilityCriteria(inc);
+        ((TreatmentEpoch)study.getEpochs().get(epochIndex)).addEligibilityCriterion(inc);
+    //    study.addInclusionEligibilityCriteria(inc);
     }
 
-    protected void createDefaultExclusion(Study study) {
+    protected void createDefaultExclusion(Study study,int epochIndex) {
         ExclusionEligibilityCriteria exc = new ExclusionEligibilityCriteria();
-        exc.setQuestionNumber(study.getExcCriterias().size() + 1);
+        exc.setQuestionNumber(((TreatmentEpoch)study.getEpochs().get(epochIndex)).getExclusionEligibilityCriteria().size() + 1);
         exc.setQuestionText("");
-
-        study.addExclusionEligibilityCriteria(exc);
+        ((TreatmentEpoch)study.getEpochs().get(epochIndex)).addEligibilityCriterion(exc);
+       // study.addExclusionEligibilityCriteria(exc);
     }
 
 
