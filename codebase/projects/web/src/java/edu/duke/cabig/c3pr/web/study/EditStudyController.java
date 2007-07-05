@@ -53,8 +53,8 @@ public class EditStudyController extends StudyController<Study> {
         flow.addTab(new StudyDiseasesTab());
         flow.addTab(new StudySitesTab());
         flow.addTab(new StudyIdentifiersTab());
-        flow.addTab(new StudyInvestigatorsTab(editMode));
-        flow.addTab(new StudyPersonnelTab(editMode));
+        flow.addTab(new StudyInvestigatorsTab());
+        flow.addTab(new StudyPersonnelTab());
         flow.addTab(new StudyEmptyTab("Summary", "Summary", "study/study_summary_view"));
     }
 
