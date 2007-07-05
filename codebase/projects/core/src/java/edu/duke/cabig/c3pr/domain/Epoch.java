@@ -23,7 +23,7 @@ import org.hibernate.annotations.Parameter;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "EPOCHS_ID_SEQ") })
-public class Epoch extends AbstractMutableDomainObject implements
+public abstract class Epoch extends AbstractMutableDomainObject implements
 		Comparable<Epoch> {
 
 	private String name;
