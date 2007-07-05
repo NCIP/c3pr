@@ -172,21 +172,51 @@ public class Study extends AbstractMutableDomainObject implements Comparable<Stu
     }
     
     @Transient
-	public List<Epoch> getTreatmentEpochs(){
+	public List<Epoch> getTreatmentEpochsAliased(){
     	epochFactory.setClassToInstantiate(TreatmentEpoch.class);
 		return getEpochs();
+	}
+    
+    public void setTreatmentEpochsAliased(List<TreatmentEpoch> treatmentEpochs){
+	}
+	
+	@Transient
+	public List<Epoch> getNonTreatmentEpochsAliased(){
+    	epochFactory.setClassToInstantiate(NonTreatmentEpoch.class);
+		return getEpochs();
+	}
+	
+	public void setNonTreatmentEpochsAliased(List<NonTreatmentEpoch> nonTreatmentEpochs){
+	}
+    
+	@Transient
+	public List<TreatmentEpoch> getTreatmentEpochs(){
+    	List<TreatmentEpoch> treatmentEpochs=new ArrayList<TreatmentEpoch>();
+    	List<Epoch> epochs= getEpochs();
+    	for(Epoch epoch: epochs){
+    		if (epoch instanceof TreatmentEpoch) {
+				treatmentEpochs.add((TreatmentEpoch)epoch);
+			}
+    	}
+    	return treatmentEpochs;
 	}
     
     public void setTreatmentEpochs(List<TreatmentEpoch> treatmentEpochs){
 	}
 	
 	@Transient
-	public List<Epoch> getNonTreatmentEpochs(){
-    	epochFactory.setClassToInstantiate(NonTreatmentEpoch.class);
-		return getEpochs();
+	public List<NonTreatmentEpoch> getNonTreatmentEpochs(){
+    	List<NonTreatmentEpoch> nonTreatmentEpochs=new ArrayList<NonTreatmentEpoch>();
+    	List<Epoch> epochs= getEpochs();
+    	for(Epoch epoch: epochs){
+    		if (epoch instanceof NonTreatmentEpoch) {
+    			nonTreatmentEpochs.add((NonTreatmentEpoch)epoch);
+			}
+    	}
+    	return nonTreatmentEpochs;
 	}
-	
-	 public void setNonTreatmentEpochs(List<NonTreatmentEpoch> nonTreatmentEpochs){
+
+	public void setNonTreatmentEpochs(List<NonTreatmentEpoch> nonTreatmentEpochs){
 	}
 
     @OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
