@@ -69,7 +69,7 @@ class StudyStratificationTab extends StudyTab {
         StratificationCriterionPermissibleAnswer ans = new StratificationCriterionPermissibleAnswer();
         StratificationCriterion cri = new StratificationCriterion();
         cri.addPermissibleAnswer(ans);
-        cri.setQuestionNumber(study.getStratificationCriteria().size() + 1);
+        cri.setQuestionNumber(((TreatmentEpoch)study.getEpochs().get(epochIndex)).getStratificationCriteria().size() + 1);
         ((TreatmentEpoch)study.getEpochs().get(epochIndex)).addStratificationCriterion(cri);
     }
 }
