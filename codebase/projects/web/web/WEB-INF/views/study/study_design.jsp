@@ -239,7 +239,7 @@ function addRows(){
 							<b>Epoch Name :</b>&nbsp;</td>
 							<td align="left"><input type="text"
 								name="treatmentEpochsAliased[PAGE.ROW.INDEX].name" size="26"
-								cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
+								cssClass="validate-notEmpty" value="New Treatment Epoch-PAGE.ROW.INDEX"/><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
 						</tr>
 						<tr>
 							<td align="right" class="alt"><em></em> <b>Description:</b>&nbsp;</td>
@@ -269,7 +269,7 @@ function addRows(){
 						<tr>
 							<td class="alt"><input type="text"
 								name="treatmentEpochsAliased[PAGE.ROW.INDEX].arms[0].name"
-								cssClass="validate-notEmpty" /></td>
+								cssClass="validate-notEmpty" value="Arm A"/></td>
 							<td class="alt"><input type="text"
 								name="treatmentEpochsAliased[PAGE.ROW.INDEX].arms[0].targetAccrualNumber"
 								size="12" maxlength="10" cssClass="validate-numeric" /></td>
@@ -280,10 +280,10 @@ function addRows(){
 						<tr>
 							<td class="alt"><input type="text"
 								name="treatmentEpochsAliased[PAGE.ROW.INDEX].arms[1].name"
-								cssClass="validate-notEmpty" /></td>
+								cssClass="validate-notEmpty"  value="Arm B"/></td>
 							<td class="alt"><input type="text"
 								name="treatmentEpochsAliased[PAGE.ROW.INDEX].arms[1].targetAccrualNumber"
-								size="12" maxlength="10" cssClass="validate-numeric" /></td>
+								size="12" maxlength="10" cssClass="validate-numeric"/></td>
 							<td class="alt"><a
 								href="javascript:fireAction('removeArm',PAGE.ROW.INDEX,1);"><img
 								src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
@@ -292,7 +292,7 @@ function addRows(){
 						<tr>
 							<td class="alt"><input type="text"
 								name="treatmentEpochsAliased[PAGE.ROW.INDEX].arms[2].name"
-								cssClass="validate-notEmpty" /></td>
+								cssClass="validate-notEmpty" value="Arm C"/></td>
 							<td class="alt"><input type="text"
 								name="treatmentEpochsAliased[PAGE.ROW.INDEX].arms[2].targetAccrualNumber"
 								size="12" maxlength="10" cssClass="validate-numeric" /></td>
@@ -341,7 +341,7 @@ function addRows(){
 								src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 							<td class="alt"><input type="text"
 								name="nonTreatmentEpochsAliased[PAGE.ROW.INDEX].name"
-								cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span></td>
+								cssClass="validate-notEmpty" value="New NonTreatment Epoch-PAGE.ROW.INDEX"/><span class="red">&nbsp;&nbsp;&nbsp;</span></td>
 							<td class="alt"><textarea
 								name="nonTreatmentEpochsAliased[PAGE.ROW.INDEX].descriptionText"
 								rows="2" cols="20">&nbsp;&nbsp;&nbsp;</textarea></td>
