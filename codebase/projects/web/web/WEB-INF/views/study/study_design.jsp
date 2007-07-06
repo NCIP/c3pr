@@ -107,6 +107,9 @@ function addRows(){
 														<th class="alt">Arm</th>
 														<th class="alt">Target&nbsp;Accrual&nbsp;Number</th>
 														<th class="alt"></th>
+														<td class="alt"><a
+															href="javascript:fireAction('addArm',${status.index},0);"><img
+															src="<tags:imageUrl name="checkyes.gif"/>" border="0"></a></td>
 													</tr>
 													<c:forEach items="${epoch.arms}" var="arm"
 														varStatus="statusArms">
@@ -259,6 +262,9 @@ function addRows(){
 							<th class="alt">Arm</th>
 							<th class="alt">Target&nbsp;Accrual&nbsp;Number</th>
 							<th class="alt"></th>
+							<td class="alt"><a
+								href="javascript:fireAction('addArm',PAGE.ROW.INDEX,0);"><img
+								src="<tags:imageUrl name="checkyes.gif"/>" border="0"></a></td>
 						</tr>
 						<tr>
 							<td class="alt"><input type="text"
