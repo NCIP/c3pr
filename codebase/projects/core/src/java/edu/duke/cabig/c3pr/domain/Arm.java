@@ -65,7 +65,7 @@ public class Arm extends AbstractMutableDomainObject implements Comparable<Arm> 
     // will work with the bidirectional mapping
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name="eph_id", nullable=false)   
-    public Epoch getTreatmentEpoch() {
+    public TreatmentEpoch getTreatmentEpoch() {
         return treatmentEpoch;
     }
 
