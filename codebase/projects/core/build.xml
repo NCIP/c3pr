@@ -222,23 +222,26 @@
     <!-- ============================================================== -->
     <!-- Bering migration task                                          -->
     <!-- ============================================================== -->
-    <target name="bering-migrate" description="migrate database schema"
-            depends="jar">
+    <target name="prepare-bering" depends="jar">
         <!--Taskdef. Has to be done inside since classpath is ext-->
-        <taskdef resource="edu/northwestern/bioinformatics/bering/antlib.xml"
-                classpathref="compile.classpath"/>
+                <taskdef resource="edu/northwestern/bioinformatics/bering/antlib.xml"
+                        classpathref="compile.classpath"/>
 
-        <property name="oracle.keyword" value="Oracle"/>
-        <property name="postgresql.keyword" value="PostgreSQLDialect"/>
+                <property name="oracle.keyword" value="Oracle"/>
+                <property name="postgresql.keyword" value="PostgreSQLDialect"/>
 
-        <condition property="bering.dialect" value="edu.northwestern.bioinformatics.bering.dialect.PostgreSQL">
-            <contains string="${datasource.dialect}" substring="${postgresql.keyword}"/>
-        </condition>
+                <condition property="bering.dialect" value="edu.northwestern.bioinformatics.bering.dialect.PostgreSQL">
+                    <contains string="${datasource.dialect}" substring="${postgresql.keyword}"/>
+                </condition>
 
-        <condition property="bering.dialect" value="edu.northwestern.bioinformatics.bering.dialect.Oracle">
-            <contains string="${datasource.dialect}" substring="${oracle.keyword}"/>
-        </condition>
+                <condition property="bering.dialect" value="edu.northwestern.bioinformatics.bering.dialect.Oracle">
+                    <contains string="${datasource.dialect}" substring="${oracle.keyword}"/>
+                </condition>
 
+    </target>
+
+    <target name="bering-migrate" description="migrate database schema"
+            depends="prepare-bering">
 
         <migrate classpathRef="run.classpath"
                  driver="${datasource.driver}"
@@ -247,6 +250,21 @@
                  userid="${datasource.username}"
                  password="{datasource.password}"
                  migrationsDir="${db.scripts.dir}/bering"/>
+
+    </target>
+
+    <!--for tests create an empty db-->
+    <target name="bering-migrate-test" description="migrate database schema to support tests"
+            depends="prepare-bering">
+
+        <migrate classpathRef="run.classpath"
+                 driver="${datasource.driver}"
+                 dialect="${bering.dialect}"
+                 url="${datasource.url}"
+                 userid="${datasource.username}"
+                 password="{datasource.password}"
+                 migrationsDir="${db.scripts.dir}/bering"
+                 targetVersion="1"/>
 
     </target>
 

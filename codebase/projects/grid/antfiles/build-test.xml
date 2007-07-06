@@ -7,13 +7,22 @@
         <for list="${testable.projects.list}" parallel="true" param="project.name" trim="true">
             <sequential>
                 <echo message="Testing project @{project.name}." />
-
-                <ant inheritall="false" dir="${projects.dir}/@{project.name}"
-                     antfile="build.xml" target="test">
-                    <property name="test.logs.dir" value="${test.logs.dir}"/>
-                </ant>
+                <trycatch property="@{project.name}.test.failed.message">
+                    <try>
+                        <ant inheritall="false" dir="${projects.dir}/@{project.name}"
+                             antfile="build.xml" target="test">
+                            <property name="test.logs.dir" value="${test.logs.dir}"/>
+                        </ant>
+                    </try>
+                    <catch>
+                        <fail message="@{project.name} Tests failed (${@{project.name}.test.failed.message})" if="test.failfast" />
+                        <echo message="@{project.name} Tests failed (${@{project.name}.test.failed.message}), proceeding with other tests, but build will fail at completion." />
+                        <property name="test.failed" value="true" />
+                    </catch>
+                </trycatch>
             </sequential>
         </for>
+        <fail message="Tests failed! Consult the logs for details." if="test.failed" />
     </target>
 
 </project>
