@@ -41,7 +41,7 @@ public class SubjectStratificationAnswer extends AbstractMutableDomainObject
 	
 	@OneToOne
     @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN, CascadeType.SAVE_UPDATE, CascadeType.PERSIST })        
-    @JoinColumn(name = "STRAT_ANS_ID", nullable=false)
+    @JoinColumn(name = "STRAT_ANS_ID")
 	public StratificationCriterionPermissibleAnswer getStratificationCriterionAnswer() {
 		return stratificationCriterionAnswer;
 	}
