@@ -209,7 +209,7 @@
 	<bean name="/registration/overview"
 		id="overviewRegistrationController"
 		class="edu.duke.cabig.c3pr.web.RegistrationOverviewController" autowire="byName">
-		<property name="viewName" value="registration/reg_submit" />
+		<property name="viewName" value="registration/reg_overview" />
 	</bean>
 	<bean name="/admin/createInvestigator"
 		id="createInvestigatorController" lazy-init="true"
