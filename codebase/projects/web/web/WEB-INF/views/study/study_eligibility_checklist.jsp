@@ -91,16 +91,17 @@ function displayDiv(id, flag) {
 			<table border="0" width="100%" id="table1" cellspacing="5">
 				<tr>
 					<td valign="top">
-					<chrome:division title="Inclusion Criteria">
-						<p id="instructions">*NA - Allow Not Applicable answer<br>
+					<p id="instructions">*NA - Allow Not Applicable answer<br>
 						Yes and No are permissible answers</p>
-						<p><b>Inclusion Criterion</b><a
+						<p>
+					<chrome:division title="Inclusion Criteria">
+						Add Inclusion Criterion<a
 							href="javascript:RowManager.addRow(instanceInclusionRow_${epochCount.index});"><img
 							src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a></p>
 						<table border="0" cellspacing="0" width="100%" cellpadding="0" id="addInclusionRowTable-${epochCount.index}" class="mytable1">
 							<tr>
-								<th class="alt" align="left"><b>Question<span class="red">*</span></b></th>
-								<th class="alt" align="left"><b>*NA</b></th>
+								<th class="alt" align="left">Question<span class="red">*</span></th>
+								<th class="alt" align="left">NA<span class="red">*</span></th>
 								<th class="alt"></th>
 							</tr>
 							<c:forEach varStatus="status"
@@ -124,17 +125,14 @@ function displayDiv(id, flag) {
 					<tr>
 					<td valign="top">
 					<chrome:division title="Exclusion Criteria">
-						<p id="instructions">*NA - Allow Not Applicable answer <br>
-						Yes and No are permissible answers</p>
-	
-						<p><b>Exclusion Criterion</b><a
+						Add Exclusion Criterion<a
 							href="javascript:RowManager.addRow(instanceExclusionRow_${epochCount.index});"><img
 							src="<tags:imageUrl name="checkyes.gif"/>" border="0"
 							alt="Add"></a></p>
 						<table border="0" width="100%" cellspacing="0" cellpadding="0" class="mytable1" id="addExclusionRowTable-${epochCount.index}">
 							<tr>
-								<th class="alt" align="left"><b>Question<span class="red">*</span></b></th>
-								<th class="alt" align="left"><b>*NA</b></th>
+								<th class="alt" align="left">Question<span class="red">*</span></th>
+								<th class="alt" align="left">NA<span class="red">*</span></th>
 								<th class="alt"></th>
 	
 							</tr>
