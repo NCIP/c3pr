@@ -203,7 +203,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
 
 			Study loadedStudy = studyDao.getById(savedId);
 			TreatmentEpoch loadedEpoch = (TreatmentEpoch) loadedStudy
-					.getEpochs().get(0);
+					.getTreatmentEpochs().get(0);
 			// TreatmentEpoch loaded = (TreatmentEpoch)
 			// getDao().getById(savedId);
 			assertNotNull("Could not reload epoch id " + savedId, loadedEpoch);
@@ -226,14 +226,14 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
 			
 			TreatmentEpoch epoch = study.getTreatmentEpochs().get(0);
 			StratificationCriterion stratCrit = new StratificationCriterion();
-			stratCrit.setQuestionText("Stratificaiton question");
+			stratCrit.setQuestionText("Stratification question");
 			stratCrit.setQuestionNumber(2);
 			study.addStratificationCriteria(stratCrit);
 			epoch.addStratificationCriterion(stratCrit);
 			epoch.setName("Stratified Treatment Epoch");
 			epochDao.save(epoch);
 			savedId = epoch.getId();
-			
+						
 		}
 
 		interruptSession();
@@ -243,10 +243,10 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
 			assertNotNull("Could not reload epoch id " + savedId, loadedEpoch);
 			// assertNotNull("GridId not updated", loadedEpoch.getGridId());
 			assertEquals("Wrong question text:",
-					"Stratificaiton question", loadedEpoch
+					"Stratification question", loadedEpoch
 							.getStratificationCriteria().get(1)
 							.getQuestionText());
-			assertEquals("Wrong question text:", 2, loadedEpoch
+			assertEquals("Wrong question Number:", 2, loadedEpoch
 					.getStratificationCriteria().get(1).getQuestionNumber());
 		}
 
