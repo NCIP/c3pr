@@ -29,7 +29,7 @@ function submitPage(){
 </head>
 <body>
 
-<tags:basicFormPanelBox tab="${tab}" flow="${flow}">
+<tags:basicFormPanelBox tab="${tab}" flow="${flow}" title="Organization Details">
 <br/>
 	<form:form id="organizationForm" method="post" action="createOrganization">
 		<input type="hidden" name="_action" value="">
