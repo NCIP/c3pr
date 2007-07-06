@@ -88,7 +88,9 @@ ant -buildfile build-c3prv2.xml
                    antInstallLib="${basedir}/lib"
                    antLib="${basedir}/antlib${ant.lib.version}"
                    icons="eclipse">
-            <fileset dir="${ext.dir}" includes="${project.archive}"/>
+            <fileset dir="${ext.dir}">
+                <include name="*.zip"/>
+            </fileset>
             <fileset dir="${basedir}" includes="resources/*"/>
             <!--include bundled software -->
             <fileset dir="${software.dir}" includes="*"/>

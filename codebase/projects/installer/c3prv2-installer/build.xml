@@ -16,6 +16,9 @@
     <property name="install.codebase.dir" value="${install.dir}/codebase"/>
     <property name="tomcat.conf.dir" value="${tomcat.home}/conf"/>
 
+    <!--c3pr src folders-->
+    <property name="c3pr.core.dir" value="${base.codebase.dir}/projects/core"/>
+
 
     <target name="installNewTomcat">
         <unzip src="${antinstaller.jar}" dest="${basedir}"
@@ -58,13 +61,11 @@
 
     <!--will only be run if deploy-webapp has been run-->
     <target name="tomcat.security" depends="modifyTomcatConf">
-        <ant dir="${base.codebase.dir}/projects/core"
+        <ant dir="${c3pr.core.dir}"
              inheritall="false"
              target="tomcat.security">
             <property name="catalina.home" value="${tomcat.home}"/>
         </ant>
-
-
     </target>
 
     <!--only do this if a new tomcat is being installed-->
@@ -86,6 +87,15 @@
 
     </target>
 
+    <!--create/update datbase-->
+    <!--rem: build.properties is already copied-->
+    <target name="database.migrate">
+        <ant dir="${c3pr.core.dir}"
+            inheritall="false"
+            target="bering-migrate">
+
+            </ant>
+    </target>
 
     <target name="deploy-codebase">
         <copy todir="${install.codebase.dir}">

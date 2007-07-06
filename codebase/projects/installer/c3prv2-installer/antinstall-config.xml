@@ -172,9 +172,20 @@ This is the install config for c3prv2 installer
                 defaultValue="oracle">
             <option text="Oracle" value="oracle"/>
             <option text="PostgreSQL" value="postgres"/>
+            <option text="Other/none" value="none"/>
         </select>
     </page>
 
+    <page type="input"
+          name="createDatabaseChoice"
+          displayText="Create Database"
+          ifProperty="${database.type}!=none">
+        <target
+                displayText="Create/Update Database"
+                target="database.migrate"
+                defaultValue="true"
+                />
+    </page>
 
     <page
             type="input"
@@ -220,7 +231,7 @@ This is the install config for c3prv2 installer
         <text
                 property="datasource.url"
                 displayText="Database URL"
-                defaultValue="jdbc:postgresql://10.10.10.2:5432/c3pr_dev"
+                defaultValue="jdbc:postgresql://localhost:5432/c3pr_dev"
                 />
 
         <text
@@ -249,10 +260,10 @@ This is the install config for c3prv2 installer
             displayText="CTMSi Hot Links">
         <text property="hotlinks.psc"
               displayText="PSC Hotlink"
-              defaultValue="http://10.10.10.2:8041/studycalendar/pages/schedule"/>
+              defaultValue="http://localhost:8041/studycalendar/pages/schedule"/>
         <text property="hotlinks.caaers"
               displayText="CAAERS Hotlink"
-              defaultValue="http://10.10.10.2:8030/caaers/pages/ae/list"/>
+              defaultValue="http://localhost:8030/caaers/pages/ae/list"/>
         <text property="hotlinks.c3d"
               displayText="C3D Hotlink"
               defaultValue="https://octrials-train.nci.nih.gov/opa45/rdclaunch.htm"/>
@@ -284,11 +295,11 @@ This is the install config for c3prv2 installer
             displayText="Grid Infrastructure">
         <text property="grid.idpUrl"
               displayText="IDP url"
-              defaultValue="https://10.10.10.2:8446/wsrf/services/cagrid/AuthenticationService"
+              defaultValue="https://localhost:8446/wsrf/services/cagrid/AuthenticationService"
                 />
         <text property="grid.ifsUrl"
               displayText="IFS url"
-              defaultValue="https://10.10.10.2:8443/wsrf/services/cagrid/Dorian"
+              defaultValue="https://localhost:8443/wsrf/services/cagrid/Dorian"
                 />
         <!--no need for this-->
         <hidden property="enableLogin" value="false"/>
