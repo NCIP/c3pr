@@ -36,10 +36,10 @@
 //
 // Callback Hooks:
 // The validation framework provides a callback hook for html pages to pre process and post process validations.
-//	preProcessRowInsertion()   :	this call back function is called before the row is inserted
-//	postProcessRowInsertion()  :	this call back function is called after the row is inserted
-//	preProcessRowDeletion()    :	this call back function is called before the row is deleted
-//	postProcessRowDeletion()   :	this call back function is called after the row is deleted
+//	preProcessRowInsertion(instance)   :	this call back function is called before the row is inserted
+//	postProcessRowInsertion(instance)  :	this call back function is called after the row is inserted
+//	preProcessRowDeletion(instance)    :	this call back function is called before the row is deleted
+//	postProcessRowDeletion(instance)   :	this call back function is called after the row is deleted
 // 																
 //
 var RowManager = Class.create();
@@ -48,14 +48,14 @@ var RowManager = {
 	deleteRow: function(inserter,delIndex){this.execute(false,inserter,delIndex)},
 	execute: function(isAddRow, inserter, deletionIndex){
 					if(isAddRow){
-					    inserter.preProcessRowInsertion()
+					    inserter.preProcessRowInsertion(inserter)
 						inserter.insertRow()
-						inserter.localIndex++
-						inserter.postProcessRowInsertion()
+						inserter.postProcessRowInsertion(inserter)
+						inserter.localIndex++						
 					}else{
-						inserter.preProcessRowDeletion()
+						inserter.preProcessRowDeletion(inserter,deletionIndex)
 						inserter.deleteRow(deletionIndex)
-						inserter.postProcessRowDeletion()
+						inserter.postProcessRowDeletion(inserter,deletionIndex)
 					}
 				},
 }
@@ -117,10 +117,10 @@ var AbstractRowInserterProps = {
 	    							$(this.skeleton_row_division_id).innerHTML=localHtml
 	    						}
     					},
-	preProcessRowInsertion: function(){},
-	postProcessRowInsertion: function(){},
-	preProcessRowDeletion: function(){},
-	postProcessRowDeletion: function(){},
+	preProcessRowInsertion: function(object){},
+	postProcessRowInsertion: function(object){},
+	preProcessRowDeletion: function(object,index){},
+	postProcessRowDeletion: function(object,index){},
     deleteRow: function(index){	
     						temp=index
 							new Insertion.Bottom(this.getColumnDivisionID(index),"<input type='hidden' name='_deletedRow-"+this.path+"-"+index+"'/>")
