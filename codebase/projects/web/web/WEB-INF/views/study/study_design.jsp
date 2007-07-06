@@ -1,3 +1,4 @@
+
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -147,11 +148,11 @@ function addRows(){
 															id="mytable" width="50%">
 															<tr>
 																<th class="alt"></th>
-																<th class="alt">Epoch Name</th>
+																<th class="alt">*Epoch Name</th>
 																<th class="alt">Description</th>
-																<th class="alt">Accrual Indicator</th>
-																<th class="alt">Accrual Ceiling</th>
-																<th class="alt">Enrollment Indicator</th>
+																<th class="alt">*Accrual Indicator</th>
+																<th class="alt">*Accrual Ceiling</th>
+																<th class="alt">*Enrollment Indicator</th>
 																<th class="alt">Reservation Indicator</th>
 															</tr>
 															<tr>
@@ -166,13 +167,11 @@ function addRows(){
 																	cols="20" />&nbsp;&nbsp;&nbsp;</td>
 																<td class="alt"><form:select
 																	path="epochs[${status.index}].accrualIndicator"
-																	id="epochs[${status.index}].accrualIndicator"
 																	cssClass="validate-notEmpty">
 																	<option value="">--Please Select--</option>
-																	<option value="yes">yes</option>
-																	<option value="no">no</option>
+																	<form:options items="${fn:split('yes,no',',')}" />
 																</form:select></td>
-																<td class="alt"><input
+																<td class="alt"><form:input
 																	path="epochs[${status.index}].accrualCeiling" size="12"
 																	maxlength="10" cssClass="validate-numeric" /></td>
 																<td class="alt"><form:select
@@ -180,16 +179,13 @@ function addRows(){
 																	path="epochs[${status.index}].enrollmentIndicator"
 																	cssClass="validate-notEmpty">
 																	<option value="">--Please Select--</option>
-																	<option value="yes">yes</option>
-																	<option value="no">no</option>
+																	<form:options items="${fn:split('yes,no',',')}" />
 																</form:select></td>
 																<td class="alt"><form:select
-																	id="epochs[${status.index}].reservationIndicator"
 																	path="epochs[${status.index}].reservationIndicator"
 																	cssClass="validate-notEmpty">
 																	<option value="">--Please Select--</option>
-																	<option value="yes">yes</option>
-																	<option value="no">no</option>
+																	<form:options items="${fn:split('yes,no',',')}" />
 																</form:select></td>
 
 															</tr>
@@ -326,12 +322,12 @@ function addRows(){
 						width="50%">
 						<tr>
 							<th class="alt"></th>
-							<th class="alt">Epoch Name</th>
+							<th class="alt">*Epoch Name</th>
 							<th class="alt">Description</th>
-							<th class="alt">Accrual Indicator</th>
-							<th class="alt">Accrual Ceiling</th>
-							<th class="alt">Enrollment Indicator</th>
-							<th class="alt">Reservation Indicator</th>
+							<th class="alt">*Accrual Indicator</th>
+							<th class="alt">*Accrual Ceiling</th>
+							<th class="alt">*Enrollment Indicator</th>
+							<th class="alt">*Reservation Indicator</th>
 						</tr>
 						<tr>
 							<td class="alt"><a
@@ -344,7 +340,6 @@ function addRows(){
 								name="nonTreatmentEpochsAliased[PAGE.ROW.INDEX].descriptionText"
 								rows="2" cols="20">&nbsp;&nbsp;&nbsp;</textarea></td>
 							<td class="alt"><select
-								id="nonTreatmentEpochsAliased[PAGE.ROW.INDEX].accrualIndicator"
 								name="nonTreatmentEpochsAliased[PAGE.ROW.INDEX].accrualIndicator"
 								cssClass="validate-notEmpty">
 								<option value="">--Please Select--</option>
@@ -352,6 +347,7 @@ function addRows(){
 								<option value="no">no</option>
 							</select></td>
 							<td class="alt"><input type="text"
+								id="nonTreatmentEpochsAliased[PAGE.ROW.INDEX].accrualCeiling"
 								name="nonTreatmentEpochsAliased[PAGE.ROW.INDEX].accrualCeiling"
 								size="12" maxlength="10" cssClass="validate-numeric" /></td>
 							<td class="alt"><select
