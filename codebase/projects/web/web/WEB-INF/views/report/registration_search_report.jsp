@@ -48,12 +48,7 @@ function buildTable(form) {
 function showTable(table) {
 	document.getElementById('tableDiv').innerHTML=table;
 }
- 
-function fireAction(action, selected){	
-	document.getElementById("_action").value=action;	
-	document.getElementById("_selected").value=selected;
-	document.searchForm.submit();	
-} 
+  
 </script>
 </head>
 <body>
@@ -72,7 +67,7 @@ function fireAction(action, selected){
 		            </div>
 		        </td>
 		        <td align="left">
-		        	<div class="row" name="inputs"><b>Co-ordinating Center</b>
+		        	<div class="row" name="inputs"><b>Identifier</b>
 	            		<form:input path="studyCoordinatingSite" size="20"/>
 		            </div>
 		        </td>
@@ -111,12 +106,12 @@ function fireAction(action, selected){
         	<tr>
 	        	<td align="left">
 		        	<div class="row" name="inputs">
-		        		<b>Date Start</b><tags:dateInput path="regStartDate"/>
+		        		<b>Start Date</b><tags:dateInput path="regStartDate"/>
 		            </div>
 	            </td>
 	            <td align="left">    
 		            <div class="row" name="inputs">
-		            	<b>Date End</b><tags:dateInput path="regEndDate"/>
+		            	<b>End Date</b><tags:dateInput path="regEndDate"/>
 		            </div>
 	            </td>
         	</tr>        	
