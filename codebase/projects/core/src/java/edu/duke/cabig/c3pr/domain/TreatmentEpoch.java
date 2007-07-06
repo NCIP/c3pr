@@ -15,6 +15,7 @@ import javax.persistence.Transient;
 import org.apache.commons.collections15.functors.InstantiateFactory;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Where;
 
 @Entity(name = "TreatmentEpoch")
 @DiscriminatorValue(value = "TREATMENT")
@@ -35,6 +36,12 @@ public class TreatmentEpoch extends Epoch {
 		// InstantiateFactory<EligibilityCriteria>(EligibilityCriteria.class));
 		lazyListHelper.add(Arm.class, new BiDirectionalInstantiateFactory<Arm>(
 				Arm.class, this));
+		lazyListHelper.add(InclusionEligibilityCriteria.class,
+				new InstantiateFactory<InclusionEligibilityCriteria>(
+						InclusionEligibilityCriteria.class));
+		lazyListHelper.add(ExclusionEligibilityCriteria.class,
+				new InstantiateFactory<ExclusionEligibilityCriteria>(
+						ExclusionEligibilityCriteria.class));
 	}
 
 	public void addNewArm(String armName) {
@@ -100,44 +107,32 @@ public class TreatmentEpoch extends Epoch {
 				eligibilityCriteria);
 	}
 
-	@Transient
-	public List<InclusionEligibilityCriteria> getInclusionEligibilityCriteria() {
-		List<InclusionEligibilityCriteria> inclusionCriteria = new ArrayList<InclusionEligibilityCriteria>();
-		if (this.getEligibilityCriteria() != null)
-			for (EligibilityCriteria eligibilityCriterion : this
-					.getEligibilityCriteria()) {
-				if (eligibilityCriterion instanceof InclusionEligibilityCriteria) {
-					inclusionCriteria
-							.add((InclusionEligibilityCriteria) eligibilityCriterion);
-				}
-			}
-		return inclusionCriteria;
+		
+	@OneToMany(fetch = FetchType.LAZY)
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@JoinColumn(name = "EPH_ID")
+	@Where(clause = "DTYPE = 'E'")
+	public List<ExclusionEligibilityCriteria> getExclusionEligibilityCriteriaInternal() {
+		return lazyListHelper
+				.getInternalList(ExclusionEligibilityCriteria.class);
 	}
-	
-	 @Transient
-	 public List<EligibilityCriteria> getInclusionEligibilityCriteriaAliased(){
-	    	eligibilityFactory.setClassToInstantiate(InclusionEligibilityCriteria.class);
-			return getEligibilityCriteria();
-		}
 
 	@Transient
 	public List<ExclusionEligibilityCriteria> getExclusionEligibilityCriteria() {
-		List<ExclusionEligibilityCriteria> exclusionCriteria = new ArrayList<ExclusionEligibilityCriteria>();
-		if (this.getEligibilityCriteria() != null)
-			for (EligibilityCriteria eligibilityCriterion : this
-					.getEligibilityCriteria()) {
-				if (eligibilityCriterion instanceof ExclusionEligibilityCriteria) {
-					exclusionCriteria
-							.add((ExclusionEligibilityCriteria) eligibilityCriterion);
-				}
-			}
-		return exclusionCriteria;
+		return lazyListHelper.getLazyList(ExclusionEligibilityCriteria.class);
 	}
-	
-	@Transient
-	public List<EligibilityCriteria> getExclusionEligibilityCriteriaAliased(){
-		eligibilityFactory.setClassToInstantiate(ExclusionEligibilityCriteria.class);
-		return getEligibilityCriteria();
+
+	public void setExclusionEligibilityCriteria(
+			List<ExclusionEligibilityCriteria> exclusionEligibilityCriteria) {
+		lazyListHelper.setInternalList(ExclusionEligibilityCriteria.class,
+				exclusionEligibilityCriteria);
+	}
+
+	public void setExclusionEligibilityCriteriaInternal(
+			List<ExclusionEligibilityCriteria> exclusionEligibilityCriteria) {
+		lazyListHelper.setInternalList(ExclusionEligibilityCriteria.class,
+				exclusionEligibilityCriteria);
+
 	}
 
 	@OneToMany(fetch = FetchType.LAZY)
@@ -169,23 +164,33 @@ public class TreatmentEpoch extends Epoch {
 		this.getStratificationCriteria().add(stratificationCriterion);
 	}
 
-	public void setInclusionEligibilityCriteriaAliased(
-			List<InclusionEligibilityCriteria> inclusionEligibilityCriteria) {
-
+				
+	@OneToMany(fetch = FetchType.LAZY)
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@JoinColumn(name = "EPH_ID")
+	@Where(clause = "DTYPE = 'I'")
+	public List<InclusionEligibilityCriteria> getInclusionEligibilityCriteriaInternal() {
+		return lazyListHelper
+				.getInternalList(InclusionEligibilityCriteria.class);
 	}
 
-	public void setExclusionEligibilityCriteriaAliased(
-			List<ExclusionEligibilityCriteria> exclusionEligibilityCriteria) {
-
+	@Transient
+	public List<InclusionEligibilityCriteria> getInclusionEligibilityCriteria() {
+		return lazyListHelper.getLazyList(InclusionEligibilityCriteria.class);
 	}
-	
+
 	public void setInclusionEligibilityCriteria(
 			List<InclusionEligibilityCriteria> inclusionEligibilityCriteria) {
+		lazyListHelper.setInternalList(InclusionEligibilityCriteria.class,
+				inclusionEligibilityCriteria);
+	}
+
+	public void setInclusionEligibilityCriteriaInternal(
+			List<InclusionEligibilityCriteria> inclusionEligibilityCriteria) {
+		lazyListHelper.setInternalList(InclusionEligibilityCriteria.class,
+				inclusionEligibilityCriteria);
 
 	}
 
-	public void setExclusionEligibilityCriteria(
-			List<ExclusionEligibilityCriteria> exclusionEligibilityCriteria) {
 
-	}
 }
