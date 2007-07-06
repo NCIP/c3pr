@@ -74,7 +74,8 @@
             <xs:element name="type"  type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="primaryIdentifier"  type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="targetAccrualNumber"  type="xs:integer" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="epoch"  type="EpochType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="treatmentEpoch"  type="TreatmentEpochType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="nonTreatmentEpoch"  type="NonTreatmentEpochType" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="studySite"  type="StudySiteType" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="identifier"  type="IdentifierType" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="incCriteria"  type="EligibilityCriteriaType" minOccurs="0" maxOccurs="unbounded"/>
@@ -84,14 +85,37 @@
         <xs:attribute name="gridId" type="xs:string"/>
     </xs:complexType>
 
-    <xs:complexType name="EpochType">
+    <xs:complexType name="EpochType" abstract="true">
         <xs:sequence>
-            <xs:element name="arm" type="ArmType" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="name" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="descriptionText" type="xs:string" minOccurs="0" maxOccurs="1"/>
         </xs:sequence>
         <xs:attribute name="gridId" type="xs:string"/>
     </xs:complexType>
+
+    <xs:complexType name="TreatmentEpochType">
+        <xs:complexContent>
+            <xs:extension base="EpochType" >
+                <xs:sequence>
+                    <xs:element name="arm" type="ArmType" minOccurs="0" maxOccurs="unbounded"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="NonTreatmentEpochType">
+        <xs:complexContent>
+            <xs:extension base="EpochType" >
+                <xs:sequence>
+                    <xs:element name="accrualCeiling" type="xs:int" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="accrualIndicator" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="reservationIndicator" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="enrollmentIndicator" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
 
     <xs:complexType name="ArmType">
         <xs:sequence>
