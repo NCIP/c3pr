@@ -311,10 +311,17 @@ public class Study extends AbstractMutableDomainObject implements Comparable<Stu
         this.studyDiseases = studyDiseases;
     }
 
-    @OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
-    @Cascade(value = {CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+//    @OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
+//    @Cascade(value = {CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+    @Transient
     public List<StratificationCriterion> getStratificationCriteria() {
-        return stratificationCriteria;
+    	try {
+			return getTreatmentEpochs().get(0).getStratificationCriteria();
+		} catch (RuntimeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return null;
     }
 
     public void setDiseaseTermIds(String[] diseaseTermIds) {
