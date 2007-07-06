@@ -30,7 +30,7 @@ function fireAction(action, selectedEpoch, selectedStratification, selectedAnswe
 	<c:if test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch' }">
 		<tags:minimizablePanelBox title="${epoch.name} : ${epoch.descriptionText }" boxId="${epoch.name}">
            <p id="instructions">
-               Add Stratatification factor:
+               Add Stratification factor:
                <a href="javascript:fireAction('addStratificationQuestion','${epochCount.index }','0','0');"><img
                        src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a>&nbsp;&nbsp
            </p>
