@@ -51,13 +51,15 @@ public class StudySite extends AbstractMutableDomainObject implements Comparable
 
     }
 
-    public void addStudyPersonnel(StudyPersonnel studyPersonnel) {
-        getStudyPersonnels().add(studyPersonnel);
-    }
+	public void addStudyPersonnel(StudyPersonnel studyPersonnel) {
+		getStudyPersonnels().add(studyPersonnel);
+		studyPersonnel.setStudySite(this);
+	}
 
-    public void addStudyInvestigator(StudyInvestigator studyInvestigator) {
-        getStudyInvestigators().add(studyInvestigator);
-    }
+	public void addStudyInvestigator(StudyInvestigator studyInvestigator) {
+		getStudyInvestigators().add(studyInvestigator);
+		studyInvestigator.setStudySite(this);
+	}
 
     public void addstudyParticipantAssignment(StudyParticipantAssignment spAssignments)
     {
