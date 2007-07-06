@@ -1,4 +1,4 @@
- <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
@@ -6,7 +6,7 @@
 
 <html>
 <head>
-    
+
 </head>
 
 <body>
@@ -144,21 +144,27 @@
     <table class="tablecontent">
         <tr>
             <th scope="col" align="left"><b>Strata</b></th>
-            <b></td>
+            <th scope="col" align="left"><b>Permissible Answers</b></th>
+
         </tr>
-        <c:forEach items="${command.stratificationCriteria}" var="strat">
-            <tr>
-                <td class="alt">${strat.questionText}</td>
-                <td class="alt">
-                    <table border="0" cellspacing="0" cellpadding="0" id="mytable">
-                        <c:forEach items="${strat.permissibleAnswers}" var="ans">
-                            <tr>
-                                <td class="alt" align="left">${ans.permissibleAnswer}</td>
-                            </tr>
-                        </c:forEach>
-                    </table>
-                </td>
-            </tr>
+        <c:forEach items="${command.epochs}" var="epoch">
+            <c:if
+                    test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
+                <c:forEach items="${epoch.stratificationCriteria}" var="strat">
+                    <tr>
+                        <td class="alt">${strat.questionText}</td>
+                        <td class="alt">
+                            <table border="0" cellspacing="0" cellpadding="0" id="mytable">
+                                <c:forEach items="${strat.permissibleAnswers}" var="ans">
+                                    <tr>
+                                        <td class="alt" align="left">${ans.permissibleAnswer}></td>
+                                    </tr>
+                                </c:forEach>
+                            </table>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </c:if>
         </c:forEach>
     </table>
 </chrome:division>
@@ -183,29 +189,31 @@
         <tr>
             <th scope="col" align="left"><b>Epochs</b></th>
             <th scope="col" align="left"><b>Arms</b>
-                <b>&nbsp;&nbsp;&nbsp;&nbsp;Target Accrual No</b></th>
         </tr>
         <c:forEach items="${command.epochs}" var="epoch">
             <tr>
                 <td class="alt">${epoch.name}</td>
-                <c:if
-							test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
                 <td>
-                    <table border="0" cellspacing="0" cellpadding="0" id="mytable">
-                        <tr>
-                            <c:forEach items="${epoch.arms}" var="arm">
-                        <tr>
-                            <td class="alt" align="left">${arm.name}</td>
-                            <td class="alt" align="left">${arm.targetAccrualNumber}</td>
-                        </tr>
-                        </c:forEach>
-                    </table>
+                    <c:if
+                            test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
+                        <table border="0" cellspacing="0" cellpadding="0" id="mytable">
+                            <tr>
+                                <th scope="col" align="left"><b>Name</b></th>
+                                <th scope="col" align="left"><b>Target Accrual No.</b>
+                            </tr>
+                            <tr>
+                                <c:forEach items="${epoch.arms}" var="arm">
+                            <tr>
+                                <td class="alt" align="left">${arm.name}</td>
+                                <td class="alt" align="left">${arm.targetAccrualNumber}</td>
+                            </tr>
+                            </c:forEach>
+                        </table>
+                    </c:if>
                 </td>
-                </c:if>
             </tr>
         </c:forEach>
     </table>
-
 </chrome:division>
 
    </jsp:attribute>
