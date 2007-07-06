@@ -24,8 +24,52 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
 
 	private StudyDao studyDao = (StudyDao) getApplicationContext().getBean(
 			"studyDao");
+
 	private EpochDao epochDao = (EpochDao) getApplicationContext().getBean(
-	"epochDao");
+			"epochDao");
+
+	public void testSaveTreatmentEpochWithEligibilityCriteria()
+			throws Exception {
+		Integer savedId;
+		{
+			Study study = new Study();
+			study.setPrecisText("New study");
+			study.setShortTitleText("ShortTitleText");
+			study.setLongTitleText("LongTitleText");
+			study.setPhaseCode("PhaseCode");
+			study.setStatus("Status");
+			study.setTargetAccrualNumber(150);
+			study.setType("Type");
+			study.setMultiInstitutionIndicator("true");
+			TreatmentEpoch epoch = new TreatmentEpoch();
+			InclusionEligibilityCriteria incCrit = new InclusionEligibilityCriteria();
+			incCrit.setQuestionText("questionText");
+			incCrit.setQuestionNumber(1);
+			// incCrit.setStudy(study);
+			study.addInclusionEligibilityCriteria(incCrit);
+			epoch.addEligibilityCriterion(incCrit);
+			epoch.setName("Anoter Treatment Epoch");
+			study.addEpoch(epoch);
+			// getDao().save(epoch);
+			studyDao.save(study);
+			savedId = study.getId();
+		}
+
+		interruptSession();
+		{
+
+			Study loadedStudy = studyDao.getById(savedId);
+			TreatmentEpoch loadedEpoch = (TreatmentEpoch) loadedStudy
+					.getEpochs().get(0);
+			// TreatmentEpoch loaded = (TreatmentEpoch)
+			// getDao().getById(savedId);
+			assertNotNull("Could not reload epoch id " + savedId, loadedEpoch);
+			// assertNotNull("GridId not updated", loaded.getGridId());
+			assertEquals("Wrong question text:", "questionText", loadedEpoch
+					.getInclusionEligibilityCriteria().get(0).getQuestionText());
+		}
+
+	}
 
 	/**
 	 * Test for loading an Epoch by Id
@@ -103,49 +147,6 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
 
 	}
 
-	public void testSaveTreatmentEpochWithEligibilityCriteria()
-			throws Exception {
-		Integer savedId;
-		{
-			Study study = new Study();
-			study.setPrecisText("New study");
-			study.setShortTitleText("ShortTitleText");
-			study.setLongTitleText("LongTitleText");
-			study.setPhaseCode("PhaseCode");
-			study.setStatus("Status");
-			study.setTargetAccrualNumber(150);
-			study.setType("Type");
-			study.setMultiInstitutionIndicator("true");
-			TreatmentEpoch epoch = new TreatmentEpoch();
-			InclusionEligibilityCriteria incCrit = new InclusionEligibilityCriteria();
-			incCrit.setQuestionText("questionText");
-			incCrit.setQuestionNumber(1);
-			// incCrit.setStudy(study);
-			study.addInclusionEligibilityCriteria(incCrit);
-			epoch.addEligibilityCriterion(incCrit);
-			epoch.setName("Anoter Treatment Epoch");
-			study.addEpoch(epoch);
-			// getDao().save(epoch);
-			studyDao.save(study);
-			savedId = study.getId();
-		}
-
-		interruptSession();
-		{
-
-			Study loadedStudy = studyDao.getById(savedId);
-			TreatmentEpoch loadedEpoch = (TreatmentEpoch) loadedStudy
-					.getEpochs().get(0);
-			// TreatmentEpoch loaded = (TreatmentEpoch)
-			// getDao().getById(savedId);
-			assertNotNull("Could not reload epoch id " + savedId, loadedEpoch);
-			// assertNotNull("GridId not updated", loaded.getGridId());
-//			assertEquals("Wrong question text:", "questionText", loadedEpoch
-//					.getInclusionEligibilityCriteria().get(0).getQuestionText());
-		}
-
-	}
-
 	public void testSaveTreatmentEpoch() throws Exception {
 		Integer savedId;
 		{
@@ -171,59 +172,60 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
 
 	}
 
-//	public void testSaveNewTreatmentEpochWithStratificationCriteria()
-//			throws Exception {
-//		Integer savedId;
-//		{
-//			Study study = new Study();
-//			study.setPrecisText("New study");
-//			study.setShortTitleText("ShortTitleText");
-//			study.setLongTitleText("LongTitleText");
-//			study.setPhaseCode("PhaseCode");
-//			study.setStatus("Status");
-//			study.setTargetAccrualNumber(150);
-//			study.setType("Type");
-//			study.setMultiInstitutionIndicator("true");
-//			TreatmentEpoch epoch = new TreatmentEpoch();
-//			StratificationCriterion stratCrit = new StratificationCriterion();
-//			stratCrit.setQuestionText("Stratificaiton question text");
-//			stratCrit.setQuestionNumber(2);
-//			// incCrit.setStudy(study);
-//			study.addStratificationCriteria(stratCrit);
-//			epoch.addStratificationCriterion(stratCrit);
-//			epoch.setName("Stratified Treatment Epoch");
-//			study.addEpoch(epoch);
-//			// getDao().save(epoch);
-//			studyDao.save(study);
-//			savedId = study.getId();
-//		}
-//
-//		interruptSession();
-//		{
-//
-//			Study loadedStudy = studyDao.getById(savedId);
-//			TreatmentEpoch loadedEpoch = (TreatmentEpoch) loadedStudy
-//					.getTreatmentEpochs().get(0);
-//			// TreatmentEpoch loaded = (TreatmentEpoch)
-//			// getDao().getById(savedId);
-//			assertNotNull("Could not reload epoch id " + savedId, loadedEpoch);
-//			// assertNotNull("GridId not updated", loaded.getGridId());
-//			assertEquals("Wrong question text:",
-//					"Stratificaiton question text", loadedEpoch
-//							.getStratificationCriteria().get(0)
-//							.getQuestionText());
-//			assertEquals("Wrong question number:", 2, loadedEpoch
-//					.getStratificationCriteria().get(0).getQuestionNumber());
-//		}
-//
-//	}
+	public void testSaveNewTreatmentEpochWithStratificationCriteria()
+			throws Exception {
+		Integer savedId;
+		{
+			Study study = new Study();
+			study.setPrecisText("New study");
+			study.setShortTitleText("ShortTitleText");
+			study.setLongTitleText("LongTitleText");
+			study.setPhaseCode("PhaseCode");
+			study.setStatus("Status");
+			study.setTargetAccrualNumber(150);
+			study.setType("Type");
+			study.setMultiInstitutionIndicator("true");
+			TreatmentEpoch epoch = new TreatmentEpoch();
+			StratificationCriterion stratCrit = new StratificationCriterion();
+			stratCrit.setQuestionText("Stratificaiton question text");
+			stratCrit.setQuestionNumber(2);
+			// incCrit.setStudy(study);
+			study.addStratificationCriteria(stratCrit);
+			epoch.addStratificationCriterion(stratCrit);
+			epoch.setName("Stratified Treatment Epoch");
+			study.addEpoch(epoch);
+			// getDao().save(epoch);
+			studyDao.save(study);
+			savedId = study.getId();
+		}
+
+		interruptSession();
+		{
+
+			Study loadedStudy = studyDao.getById(savedId);
+			TreatmentEpoch loadedEpoch = (TreatmentEpoch) loadedStudy
+					.getTreatmentEpochs().get(0);
+			// TreatmentEpoch loaded = (TreatmentEpoch)
+			// getDao().getById(savedId);
+			assertNotNull("Could not reload epoch id " + savedId, loadedEpoch);
+			// assertNotNull("GridId not updated", loaded.getGridId());
+
+			assertEquals("Wrong question number:", 2, loadedEpoch
+					.getStratificationCriteria().get(0).getQuestionNumber());
+			assertEquals("Wrong question text:",
+					"Stratificaiton question text", loadedEpoch
+							.getStratificationCriteria().get(0)
+							.getQuestionText());
+		}
+
+	}
 
 	public void testSaveTreatmentEpochWithStratificationCriteria()
 			throws Exception {
 		Integer savedId;
 		{
 			Study study = studyDao.getById(1000);
-			
+
 			TreatmentEpoch epoch = study.getTreatmentEpochs().get(0);
 			StratificationCriterion stratCrit = new StratificationCriterion();
 			stratCrit.setQuestionText("Stratification question");
@@ -233,18 +235,18 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
 			epoch.setName("Stratified Treatment Epoch");
 			epochDao.save(epoch);
 			savedId = epoch.getId();
-						
+
 		}
 
 		interruptSession();
 		{
 
-			TreatmentEpoch loadedEpoch = (TreatmentEpoch) epochDao.getById(savedId);
+			TreatmentEpoch loadedEpoch = (TreatmentEpoch) epochDao
+					.getById(savedId);
 			assertNotNull("Could not reload epoch id " + savedId, loadedEpoch);
 			// assertNotNull("GridId not updated", loadedEpoch.getGridId());
-			assertEquals("Wrong question text:",
-					"Stratification question", loadedEpoch
-							.getStratificationCriteria().get(1)
+			assertEquals("Wrong question text:", "Stratification question",
+					loadedEpoch.getStratificationCriteria().get(1)
 							.getQuestionText());
 			assertEquals("Wrong question Number:", 2, loadedEpoch
 					.getStratificationCriteria().get(1).getQuestionNumber());
