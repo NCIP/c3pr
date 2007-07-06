@@ -161,8 +161,8 @@ var instanceExclusionRow = {
 </script>
 </head>
 <body>
-
-<form:form method="post" name="form">
+<tags:tabForm tab="${tab}" flow="${flow}" formName="studyEligibilityForm">
+	<jsp:attribute name="singleFields">
 <tags:tabFields tab="${tab}"/>
 	<div><input type="hidden" name="_action" value=""> <input
 		type="hidden" name="_selected" value=""> <input type="hidden"
@@ -170,24 +170,24 @@ var instanceExclusionRow = {
 	<!-- MAIN BODY STARTS HERE -->
 	
 	<c:forEach items="${command.epochs}" var="epoch" varStatus="epochCount">
+	<c:if test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch' }">
 	<script>
 		var instanceInclusionRow_${epochCount.index} = {
 			add_row_division_id: "addInclusionRowTable-${epochCount.index}",
 			skeleton_row_division_id: "dummy-inclusionRow-${epochCount.index}",
 			initialIndex: ${fn:length(command.epochs[epochCount.index].inclusionEligibilityCriteria)},
-			path: "epochs[${epochCount.index }].inclusionEligibilityCriteriaAliased"
+			path: "epochs[${epochCount.index }].inclusionEligibilityCriteria"
 		};
 		var instanceExclusionRow_${epochCount.index} = {
 			add_row_division_id: "addExclusionRowTable-${epochCount.index}",
 			skeleton_row_division_id: "dummy-exclusionRow-${epochCount.index}",
 			initialIndex: ${fn:length(command.epochs[epochCount.index].exclusionEligibilityCriteria)}, 
-			path: "epochs[${epochCount.index }].exclusionEligibilityCriteriaAliased"
+			path: "epochs[${epochCount.index }].exclusionEligibilityCriteria"
 		};
 		rowInserters.push(instanceInclusionRow_${epochCount.index});
 		rowInserters.push(instanceExclusionRow_${epochCount.index});
 	</script>
 	
-	<c:if test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch' }">
 		
 		<tags:minimizablePanelBox	title="${epoch.name} : ${epoch.descriptionText }"	boxId="${epoch.name}">
 			<table border="0" id="table1" cellspacing="5">
@@ -201,20 +201,20 @@ var instanceExclusionRow = {
 							src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a></p>
 						<table border="0" cellspacing="0" cellpadding="0" id="addInclusionRowTable-${epochCount.index}" class="mytable1">
 							<tr>
-								<td class="alt"><b>Question<span class="red">*</span></b></td>
-								<td class="alt"><b>NA</b></td>
+								<th class="alt"><b>Question<span class="red">*</span></b></th>
+								<th class="alt"><b>NA</b></th>
 								<th class="specalt"></th>
 							</tr>
 							<c:forEach varStatus="status"
 								items="${command.epochs[epochCount.index].inclusionEligibilityCriteria}">
 								<tr id="addInclusionRowTable-${epochCount.index}-${status.index}">
 									<td class="alt"><form:hidden
-										path="epochs[${epochCount.index }].inclusionEligibilityCriteriaAliased[${status.index}].questionNumber" />
+										path="epochs[${epochCount.index }].inclusionEligibilityCriteria[${status.index}].questionNumber" />
 									<form:textarea
-										path="epochs[${epochCount.index }].inclusionEligibilityCriteriaAliased[${status.index}].questionText"
+										path="epochs[${epochCount.index }].inclusionEligibilityCriteria[${status.index}].questionText"
 										rows="1" cols="50" cssClass="validate-notEmpty" /></td>
 									<td class="alt"><form:checkbox
-										path="epochs[${epochCount.index }].inclusionEligibilityCriteriaAliased[${status.index}].notApplicableIndicator" />
+										path="epochs[${epochCount.index }].inclusionEligibilityCriteria[${status.index}].notApplicableIndicator" />
 									</td>
 									<td class="alt"><a
 										href="javascript:RowManager.deleteRow(instanceInclusionRow_${epochCount.index},PAGE.ROW.INDEX);"><img
@@ -234,8 +234,8 @@ var instanceExclusionRow = {
 							alt="Add"></a></p>
 						<table border="0" cellspacing="0" cellpadding="0" class="mytable1" id="addExclusionRowTable-${epochCount.index}">
 							<tr>
-								<td class="alt"><b>Question<span class="red">*</span></b></td>
-								<td class="alt"><b>*NA</b></td>
+								<th class="alt"><b>Question<span class="red">*</span></b></th>
+								<th class="alt"><b>*NA</b></th>
 								<th class="specalt"></th>
 	
 							</tr>
@@ -243,12 +243,12 @@ var instanceExclusionRow = {
 								items="${command.epochs[epochCount.index].exclusionEligibilityCriteria}">
 								<tr id="addExclusionRowTable-${epochCount.index}-${status.index}">
 									<td class="alt" align="left"><form:hidden
-										path="epochs[${epochCount.index }].exclusionEligibilityCriteriaAliased[${status.index}].questionNumber" />
+										path="epochs[${epochCount.index }].exclusionEligibilityCriteria[${status.index}].questionNumber" />
 									<form:textarea
-										path="epochs[${epochCount.index }].exclusionEligibilityCriteriaAliased[${status.index}].questionText"
+										path="epochs[${epochCount.index }].exclusionEligibilityCriteria[${status.index}].questionText"
 										rows="1" cols="50" cssClass="validate-notEmpty" /></td>
 									<td class="alt" align="left"><form:checkbox
-										path="epochs[${epochCount.index }].exclusionEligibilityCriteriaAliased[${status.index}].notApplicableIndicator" />
+										path="epochs[${epochCount.index }].exclusionEligibilityCriteria[${status.index}].notApplicableIndicator" />
 									</td>
 									<td class="alt"><a
 										href="javascript:RowManager.deleteRow(instanceExclusionRow_${epochCount.index},PAGE.ROW.INDEX);"><img
@@ -263,23 +263,24 @@ var instanceExclusionRow = {
 	</c:if>
 	</c:forEach>
 	<!-- MAIN BODY ENDS HERE -->
-</form:form>
+</jsp:attribute>
+</tags:tabForm>
 <c:forEach items="${command.epochs}" var="epoch" varStatus="epochCount">
 <c:if test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch' }">
 	<div id="dummy-inclusionRow-${epochCount.index}" style="display:none">
-	<table>
+	<table border="0" cellspacing="0" cellpadding="0" class="mytable1">
 		<tr>
 			<td class="alt" align="left"><input type="hidden"
-				id="epochs[${epochCount.index }].inclusionEligibilityCriteriaAliased[PAGE.ROW.INDEX].questionNumber"
-				name="epochs[${epochCount.index }].inclusionEligibilityCriteriaAliased[PAGE.ROW.INDEX].questionNumber" />
+				id="epochs[${epochCount.index }].inclusionEligibilityCriteria[PAGE.ROW.INDEX].questionNumber"
+				name="epochs[${epochCount.index }].inclusionEligibilityCriteria[PAGE.ROW.INDEX].questionNumber" />
 			</td>
 			<td class="alt" align="left"><textarea
-				id="epochs[${epochCount.index }].inclusionEligibilityCriteriaAliased[PAGE.ROW.INDEX].questionText"
-				name="epochs[${epochCount.index }].inclusionEligibilityCriteriaAliased[PAGE.ROW.INDEX].questionText"
+				id="epochs[${epochCount.index }].inclusionEligibilityCriteria[PAGE.ROW.INDEX].questionText"
+				name="epochs[${epochCount.index }].inclusionEligibilityCriteria[PAGE.ROW.INDEX].questionText"
 				rows="1" cols="50" cssClass="validate-notEmpty"></textarea></td>
 			<td class="alt" align="left"><input type="checkbox"
-				id="epochs[${epochCount.index }].inclusionEligibilityCriteriaAliased[PAGE.ROW.INDEX].notApplicableIndicator"
-				name="epochs[${epochCount.index }].inclusionEligibilityCriteriaAliased[PAGE.ROW.INDEX].notApplicableIndicator" />
+				id="epochs[${epochCount.index }].inclusionEligibilityCriteria[PAGE.ROW.INDEX].notApplicableIndicator"
+				name="epochs[${epochCount.index }].inclusionEligibilityCriteria[PAGE.ROW.INDEX].notApplicableIndicator" />
 			</td>
 			<td class="alt"><a
 				href="javascript:RowManager.deleteRow(instanceInclusionRow_${epochCount.index},PAGE.ROW.INDEX);"><img
@@ -288,19 +289,19 @@ var instanceExclusionRow = {
 	</table>
 	</div>
 	<div id="dummy-exclusionRow-${epochCount.index}" style="display:none">
-	<table border="0" cellspacing="0" cellpadding="0" id="mytable1">
+	<table border="0" cellspacing="0" cellpadding="0" class="mytable1">
 		<tr>
 			<td class="alt" align="left"><input type="hidden"
-				id="epochs[${epochCount.index }].exclusionEligibilityCriteriaAliased[PAGE.ROW.INDEX].questionNumber"
-				name="epochs[${epochCount.index }].exclusionEligibilityCriteriaAliased[PAGE.ROW.INDEX].questionNumber" />
+				id="epochs[${epochCount.index }].exclusionEligibilityCriteria[PAGE.ROW.INDEX].questionNumber"
+				name="epochs[${epochCount.index }].exclusionEligibilityCriteria[PAGE.ROW.INDEX].questionNumber" />
 			</td>
 			<td class="alt" align="left"><textarea
-				id="epochs[${epochCount.index }].exclusionEligibilityCriteriaAliased[PAGE.ROW.INDEX].questionText"
-				name="epochs[${epochCount.index }].exclusionEligibilityCriteriaAliased[PAGE.ROW.INDEX].questionText"
+				id="epochs[${epochCount.index }].exclusionEligibilityCriteria[PAGE.ROW.INDEX].questionText"
+				name="epochs[${epochCount.index }].exclusionEligibilityCriteria[PAGE.ROW.INDEX].questionText"
 				rows="1" cols="50" cssClass="validate-notEmpty"></textarea></td>
 			<td class="alt" align="left"><input type="checkbox"
-				id="epochs[${epochCount.index }].exclusionEligibilityCriteriaAliased[PAGE.ROW.INDEX].notApplicableIndicator"
-				name="epochs[${epochCount.index }].exclusionEligibilityCriteriaAliased[PAGE.ROW.INDEX].notApplicableIndicator" />
+				id="epochs[${epochCount.index }].exclusionEligibilityCriteria[PAGE.ROW.INDEX].notApplicableIndicator"
+				name="epochs[${epochCount.index }].exclusionEligibilityCriteria[PAGE.ROW.INDEX].notApplicableIndicator" />
 			</td>
 			<td class="alt"><a
 				href="javascript:RowManager.deleteRow(instanceExclusionRow_${epochCount.index},PAGE.ROW.INDEX);"><img
