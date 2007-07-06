@@ -147,155 +147,127 @@ function displayDiv(id, flag) {
         document.getElementById(id).style.display = 'none';
 }
 var instanceInclusionRow = {
-	add_row_division_id: "addInclusionRowTable", 	        /* this id belongs to element where the row would be appended to */
-	skeleton_row_division_id: "dummy-inclusionRow",  	/* this id belongs to the element which hold the dummy row html to be inserted   */
-
-	initialIndex: 0,                         /* this is the initial count of the rows when the page is loaded  */
-	path: "epochs.eligibilityCriteria",                               /* this is the path of the collection that holds the rows  */
+	add_row_division_id: "addInclusionRowTable-${epochCount.index}",
+	skeleton_row_division_id: "dummy-inclusionRow-${epochCount.index}",
+	initialIndex: ${fn:length(command.epochs[epochCount.index].inclusionEligibilityCriteria)},
+	path: "epochs[${epochCount.index }].inclusionEligibilityCriteriaAliased"
 };
-
 var instanceExclusionRow = {
-	add_row_division_id: "addExclusionRowTable", 	        /* this id belongs to element where the row would be appended to */
-	skeleton_row_division_id: "dummy-exclusionRow",  	/* this id belongs to the element which hold the dummy row html to be inserted   */
-             /* this is the initial count of the rows when the page is loaded  */
-	initialIndex: 0, 
-	path: "epochs.eligibilityCriteria",                               /* this is the path of the collection that holds the rows  */
+	add_row_division_id: "addExclusionRowTable-${epochCount.index}",
+	skeleton_row_division_id: "dummy-exclusionRow-${epochCount.index}",
+	initialIndex: ${fn:length(command.epochs[epochCount.index].exclusionEligibilityCriteria)}, 
+	path: "epochs[${epochCount.index }].exclusionEligibilityCriteriaAliased"
 };
-
-
-rowInserters.push(instanceInclusionRow);
-rowInserters.push(instanceExclusionRow);
 </script>
 </head>
 <body>
-<tags:tabForm tab="${tab}" flow="${flow}" formName="form">
-	<jsp:attribute name="singleFields">
-		<div><input type="hidden" name="_action" value=""> <input
-			type="hidden" name="_selected" value=""> <input type="hidden"
-			id="_selectedEpoch" name="_selectedEpoch" value=""></div>
-		<!-- MAIN BODY STARTS HERE -->
 
-		<c:forEach items="${command.epochs}" var="epoch"
-			varStatus="epochCount">
-			<c:if
-				test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch' }">
-				<tags:minimizablePanelBox
-					title="${epoch.name} : ${epoch.descriptionText }"
-					boxId="${epoch.name}">
-					<table border="0" id="table1" cellspacing="5">
-						<tr>
-							<td valign="top" width="600"><tags:minimizablePanelBox
-								boxId="InclusionTable" title="Inclusion Criteria">
-
-
-								<p id="instructions">*NA - Allow Not Applicable answer<br>
-								Yes and No are permissible answers</p>
-
-								<p><b>Inclusion Criterion</b><a
-									href="javascript:RowManager.addRow(instanceInclusionRow);"><img
-									src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a></p>
-
-								<table border="0" cellspacing="0" cellpadding="0"
-									id="addInclusionRowTable">
-									<tr>
-										<td valign="top">
-										<table border="0" cellspacing="0" cellpadding="0"
-											id="addInclusionRowTable">
-											<tr>
-												<td class="alt"><b>Question<span class="red">*</span></b></td>
-												<td class="alt"><b>NA</b></td>
-												<th class="specalt"></th>
-											</tr>
-											<c:forEach varStatus="status"
-												items="${command.epochs[epochCount.index].inclusionEligibilityCriteria}">
-												<tr id="addInclusionRowTable-${status.index}">
-													<td class="alt"><form:hidden
-														path="epochs[${epochCount.index }].inclusionEligibilityCriteriaAliased[${status.index}].questionNumber" />
-													<form:textarea
-														path="epochs[${epochCount.index }].inclusionEligibilityCriteriaAliased[${status.index}].questionText"
-														rows="1" cols="50" cssClass="validate-notEmpty" /></td>
-													<td class="alt"><form:checkbox
-														path="epochs[${epochCount.index }].inclusionEligibilityCriteriaAliased[${status.index}].notApplicableIndicator" />
-													</td>
-													<td class="alt"><a
-														href="javascript:RowManager.deleteRow(instanceInclusionRow,PAGE.ROW.INDEX);"><img
-														src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
-												</tr>
-											</c:forEach>
-										</table>
-										</td>
-									</tr>
-								</table>
-
-							</tags:minimizablePanelBox></td>
-							<td>
-							<table border="0" cellspacing="0" cellpadding="0" id="details">
-								<tr>
-									<td width="600"><tags:minimizablePanelBox
-										boxId="ExclusionTable" title="Exclusion Criteria">
-
-										<table border="0" cellspacing="0" cellpadding="0"
-											id="addExclusionRowTable">
-											<tr>
-												<p id="instructions">*NA - Allow Not Applicable answer <br>
-												Yes and No are permissible answers</p>
-
-												<p><b>Exclusion Criterion</b><a
-													href="javascript:RowManager.addRow(instanceExclusionRow);"><img
-													src="<tags:imageUrl name="checkyes.gif"/>" border="0"
-													alt="Add"></a></p>
-
-											</tr>
-											<tr id="addExclusionRowTable-${epochCount.index }">
-												<td>
-												<table border="0" cellspacing="0" cellpadding="0"
-													id="mytable1">
-													<tr>
-														<td class="alt"><b>Question<span class="red">*</span></b></td>
-														<td class="alt"><b>*NA</b></td>
-														<th class="specalt"></th>
-
-													</tr>
-													<c:forEach varStatus="status"
-														items="${command.epochs[epochCount.index].exclusionEligibilityCriteria}">
-														<tr id="bex-${status.index}">
-															<td class="alt" align="left"><form:hidden
-																path="epochs[${epochCount.index }].exclusionEligibilityCriteriaAliased[${status.index}].questionNumber" />
-															<form:textarea
-																path="epochs[${epochCount.index }].exclusionEligibilityCriteriaAliased[${status.index}].questionText"
-																rows="1" cols="50" cssClass="validate-notEmpty" /></td>
-															<td class="alt" align="left"><form:checkbox
-																path="epochs[${epochCount.index }].exclusionEligibilityCriteriaAliased[${status.index}].notApplicableIndicator" />
-															</td>
-															<td class="alt"><a
-																href="javascript:RowManager.deleteRow(instanceExclusionRow,PAGE.ROW.INDEX);"><img
-																src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
-														</tr>
-													</c:forEach>
-												</table>
-												</td>
-											</tr>
-										</table>
-
-									</tags:minimizablePanelBox></td>
+<form:form method="post" name="form">
+<tags:tabFields tab="${tab}"/>
+	<div><input type="hidden" name="_action" value=""> <input
+		type="hidden" name="_selected" value=""> <input type="hidden"
+		id="_selectedEpoch" name="_selectedEpoch" value=""></div>
+	<!-- MAIN BODY STARTS HERE -->
+	
+	<c:forEach items="${command.epochs}" var="epoch" varStatus="epochCount">
+	<script>
+		var instanceInclusionRow_${epochCount.index} = {
+			add_row_division_id: "addInclusionRowTable-${epochCount.index}",
+			skeleton_row_division_id: "dummy-inclusionRow-${epochCount.index}",
+			initialIndex: ${fn:length(command.epochs[epochCount.index].inclusionEligibilityCriteria)},
+			path: "epochs[${epochCount.index }].inclusionEligibilityCriteriaAliased"
+		};
+		var instanceExclusionRow_${epochCount.index} = {
+			add_row_division_id: "addExclusionRowTable-${epochCount.index}",
+			skeleton_row_division_id: "dummy-exclusionRow-${epochCount.index}",
+			initialIndex: ${fn:length(command.epochs[epochCount.index].exclusionEligibilityCriteria)}, 
+			path: "epochs[${epochCount.index }].exclusionEligibilityCriteriaAliased"
+		};
+		rowInserters.push(instanceInclusionRow_${epochCount.index});
+		rowInserters.push(instanceExclusionRow_${epochCount.index});
+	</script>
+	
+	<c:if test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch' }">
+		
+		<tags:minimizablePanelBox	title="${epoch.name} : ${epoch.descriptionText }"	boxId="${epoch.name}">
+			<table border="0" id="table1" cellspacing="5">
+				<tr>
+					<td valign="top" width="600">
+					<tags:minimizablePanelBox	boxId="InclusionTable" title="Inclusion Criteria">
+						<p id="instructions">*NA - Allow Not Applicable answer<br>
+						Yes and No are permissible answers</p>
+						<p><b>Inclusion Criterion</b><a
+							href="javascript:RowManager.addRow(instanceInclusionRow_${epochCount.index});"><img
+							src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add"></a></p>
+						<table border="0" cellspacing="0" cellpadding="0" id="addInclusionRowTable-${epochCount.index}" class="mytable1">
+							<tr>
+								<td class="alt"><b>Question<span class="red">*</span></b></td>
+								<td class="alt"><b>NA</b></td>
+								<th class="specalt"></th>
+							</tr>
+							<c:forEach varStatus="status"
+								items="${command.epochs[epochCount.index].inclusionEligibilityCriteria}">
+								<tr id="addInclusionRowTable-${epochCount.index}-${status.index}">
+									<td class="alt"><form:hidden
+										path="epochs[${epochCount.index }].inclusionEligibilityCriteriaAliased[${status.index}].questionNumber" />
+									<form:textarea
+										path="epochs[${epochCount.index }].inclusionEligibilityCriteriaAliased[${status.index}].questionText"
+										rows="1" cols="50" cssClass="validate-notEmpty" /></td>
+									<td class="alt"><form:checkbox
+										path="epochs[${epochCount.index }].inclusionEligibilityCriteriaAliased[${status.index}].notApplicableIndicator" />
+									</td>
+									<td class="alt"><a
+										href="javascript:RowManager.deleteRow(instanceInclusionRow_${epochCount.index},PAGE.ROW.INDEX);"><img
+										src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 								</tr>
-							</table>
-							</td>
-						</tr>
-					</table>
-				</tags:minimizablePanelBox>
-			</c:if>
-		</c:forEach>
-
-		<!-- MAIN BODY ENDS HERE -->
-	</jsp:attribute>
-</tags:tabForm>
-
-<div id="dummy-inclusionRow" style="display:none">
-<tr>
-	<td>
-	<table border="0" cellspacing="0" cellpadding="0" id="mytable1">
-
+							</c:forEach>
+						</table>
+					</tags:minimizablePanelBox></td>
+					<td valign="top" width="600">
+					<tags:minimizablePanelBox	boxId="ExclusionTable" title="Exclusion Criteria">
+						<p id="instructions">*NA - Allow Not Applicable answer <br>
+						Yes and No are permissible answers</p>
+	
+						<p><b>Exclusion Criterion</b><a
+							href="javascript:RowManager.addRow(instanceExclusionRow_${epochCount.index});"><img
+							src="<tags:imageUrl name="checkyes.gif"/>" border="0"
+							alt="Add"></a></p>
+						<table border="0" cellspacing="0" cellpadding="0" class="mytable1" id="addExclusionRowTable-${epochCount.index}">
+							<tr>
+								<td class="alt"><b>Question<span class="red">*</span></b></td>
+								<td class="alt"><b>*NA</b></td>
+								<th class="specalt"></th>
+	
+							</tr>
+							<c:forEach varStatus="status"
+								items="${command.epochs[epochCount.index].exclusionEligibilityCriteria}">
+								<tr id="addExclusionRowTable-${epochCount.index}-${status.index}">
+									<td class="alt" align="left"><form:hidden
+										path="epochs[${epochCount.index }].exclusionEligibilityCriteriaAliased[${status.index}].questionNumber" />
+									<form:textarea
+										path="epochs[${epochCount.index }].exclusionEligibilityCriteriaAliased[${status.index}].questionText"
+										rows="1" cols="50" cssClass="validate-notEmpty" /></td>
+									<td class="alt" align="left"><form:checkbox
+										path="epochs[${epochCount.index }].exclusionEligibilityCriteriaAliased[${status.index}].notApplicableIndicator" />
+									</td>
+									<td class="alt"><a
+										href="javascript:RowManager.deleteRow(instanceExclusionRow_${epochCount.index},PAGE.ROW.INDEX);"><img
+										src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+								</tr>
+							</c:forEach>
+						</table>
+					</tags:minimizablePanelBox></td>
+				</tr>
+			</table>
+		</tags:minimizablePanelBox>
+	</c:if>
+	</c:forEach>
+	<!-- MAIN BODY ENDS HERE -->
+</form:form>
+<c:forEach items="${command.epochs}" var="epoch" varStatus="epochCount">
+<c:if test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch' }">
+	<div id="dummy-inclusionRow-${epochCount.index}" style="display:none">
+	<table>
 		<tr>
 			<td class="alt" align="left"><input type="hidden"
 				id="epochs[${epochCount.index }].inclusionEligibilityCriteriaAliased[PAGE.ROW.INDEX].questionNumber"
@@ -310,21 +282,13 @@ rowInserters.push(instanceExclusionRow);
 				name="epochs[${epochCount.index }].inclusionEligibilityCriteriaAliased[PAGE.ROW.INDEX].notApplicableIndicator" />
 			</td>
 			<td class="alt"><a
-				href="javascript:RowManager.deleteRow(instanceInclusionRow,PAGE.ROW.INDEX);"><img
+				href="javascript:RowManager.deleteRow(instanceInclusionRow_${epochCount.index},PAGE.ROW.INDEX);"><img
 				src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 		</tr>
-
 	</table>
-	</td>
-</tr>
-<hr>
-</div>
-
-<div id="dummy-exclusionRow" style="display:none">
-<tr>
-	<td>
+	</div>
+	<div id="dummy-exclusionRow-${epochCount.index}" style="display:none">
 	<table border="0" cellspacing="0" cellpadding="0" id="mytable1">
-
 		<tr>
 			<td class="alt" align="left"><input type="hidden"
 				id="epochs[${epochCount.index }].exclusionEligibilityCriteriaAliased[PAGE.ROW.INDEX].questionNumber"
@@ -339,14 +303,12 @@ rowInserters.push(instanceExclusionRow);
 				name="epochs[${epochCount.index }].exclusionEligibilityCriteriaAliased[PAGE.ROW.INDEX].notApplicableIndicator" />
 			</td>
 			<td class="alt"><a
-				href="javascript:RowManager.deleteRow(instanceExclusionRow,PAGE.ROW.INDEX);"><img
+				href="javascript:RowManager.deleteRow(instanceExclusionRow_${epochCount.index},PAGE.ROW.INDEX);"><img
 				src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 		</tr>
-
 	</table>
-	</td>
-</tr>
-</div>
-
+	</div>
+</c:if>
+</c:forEach>
 </body>
 </html>
