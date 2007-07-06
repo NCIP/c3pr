@@ -18,8 +18,10 @@
 <%--javascript sources--%>
 <tags:javascriptLink name="calendar"/>
 <tags:javascriptLink name="prototype"/>
-<tags:javascriptLink name="common"/>
 <tags:includeScriptaculous />
+<tags:javascriptLink name="common"/>
+<tags:javascriptLink name="common-scriptaculous"/>
+<tags:javascriptLink name="autocomplete"/>
 <tags:javascriptLink name="CalendarPopup"/>
 <tags:javascriptLink name="validation"/>
 <tags:javascriptLink name="commons-validation"/>
