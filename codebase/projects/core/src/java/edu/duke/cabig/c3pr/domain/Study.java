@@ -249,11 +249,11 @@ public class Study extends AbstractMutableDomainObject implements Comparable<Stu
     @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     @JoinColumn(name = "stu_id", nullable=true)       
     @Where(clause = "DTYPE = 'E'") // it is pretty lame that this is necessary
-	public List<ExclusionEligibilityCriteria> getExcCriterias() {
+	public List<ExclusionEligibilityCriteria> getExcCriteriasTemp() {
 		return excCriterias;
 	}
 
-    public void setExcCriterias(List<ExclusionEligibilityCriteria> excCriterias) {
+    public void setExcCriteriasTemp(List<ExclusionEligibilityCriteria> excCriterias) {
         this.excCriterias = excCriterias;
     }
 
@@ -261,13 +261,45 @@ public class Study extends AbstractMutableDomainObject implements Comparable<Stu
     @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     @JoinColumn(name = "stu_id", nullable=true)
     @Where(clause = "DTYPE = 'I'") // it is pretty lame that this is necessary
-	public List<InclusionEligibilityCriteria> getIncCriterias() {
+	public List<InclusionEligibilityCriteria> getIncCriteriasTemp() {
 		return incCriterias;
+	}
+
+    public void setIncCriteriasTemp(List<InclusionEligibilityCriteria> incCriterias) {
+        this.incCriterias = incCriterias;
+    }
+
+    @Transient
+    public List<InclusionEligibilityCriteria> getIncCriterias() {
+    	try {
+			return getTreatmentEpochs().get(0).getInclusionEligibilityCriteria();
+		} catch (RuntimeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return null;
 	}
 
     public void setIncCriterias(List<InclusionEligibilityCriteria> incCriterias) {
         this.incCriterias = incCriterias;
     }
+
+    @Transient
+	public List<ExclusionEligibilityCriteria> getExcCriterias() {
+    	try {
+			return getTreatmentEpochs().get(0).getExclusionEligibilityCriteria();
+		} catch (RuntimeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return null;
+
+	}
+
+    public void setExcCriterias(List<ExclusionEligibilityCriteria> excCriterias) {
+        this.excCriterias = excCriterias;
+    }
+
 
     @OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
     @Cascade(value = {CascadeType.ALL, CascadeType.DELETE_ORPHAN})
