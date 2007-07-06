@@ -18,6 +18,26 @@
             skeleton_row_division_id: "dummy-row",
             initialIndex: ${fn:length(command.studySites)},                            /* this is the initial count of the rows when the page is loaded  */
             path: "studySites",                               /* this is the path of the collection that holds the rows  */
+            postProcessRowInsertion: function(object){
+            								inputDateElementLocal="studySites["+object.localIndex+"].startDate";
+            								inputDateElementLink="studySites["+object.localIndex+"].startDate-calbutton";
+										   	Calendar.setup(
+												    {
+												      inputField  : inputDateElementLocal,         // ID of the input field
+												      ifFormat    : "%m/%d/%Y",    // the date format
+												      button      : inputDateElementLink       // ID of the button
+												    }
+										  	);
+            								inputDateElementLocal="studySites["+object.localIndex+"].irbApprovalDate";
+            								inputDateElementLink="studySites["+object.localIndex+"].irbApprovalDate-calbutton";
+										  	Calendar.setup(
+												    {
+												      inputField  : inputDateElementLocal,         // ID of the input field
+												      ifFormat    : "%m %d, %Y",    // the date format
+												      button      : inputDateElementLink       // ID of the button
+												    }
+										  	);
+            							  },
         };
         rowInserters.push(instanceRowInserterProps);
 
@@ -117,7 +137,7 @@
                        name="studySites[PAGE.ROW.INDEX].startDate"
                        type="text"
                        class="date" />
-                <a href="#" id="studySites[PAGE.ROW.INDEX].startDate-calbutton">
+                <a href="#" id="studySites[PAGE.ROW.INDEX].startDate-calbutton" onclick="alert('called');$('studySites[PAGE.ROW.INDEX].startDate').className='date';">
                     <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle"/>
                 </a>
             </td>
