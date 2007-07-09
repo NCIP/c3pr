@@ -52,7 +52,7 @@
 					">
 					
 					<td>${participant.lastName},${participant.firstName}</td>
-					<td><a href="${url}?participantId=${participant.id}">${participant.primaryIdentifier}</a></td>
+					<td>${participant.primaryIdentifier}</a></td>
 					<td>${participant.administrativeGenderCode}</td>
 					<td>${participant.raceCode}</td>
 					<td>${participant.birthDateStr}</td>
