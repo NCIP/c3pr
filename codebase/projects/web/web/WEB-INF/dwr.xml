@@ -22,13 +22,27 @@
 		    <![CDATA[
 		       import java.util.Map;
 		       import java.util.List;
+		       import edu.duke.cabig.c3pr.web.report.CreateReportController;
 		       import edu.duke.cabig.c3pr.web.ajax.CreateReportFacade;
 		       import javax.servlet.http.HttpServletRequest;
 		       import java.lang.String;
-		       CreateReportFacade.getTable(Map parameterMap, String text, HttpServletRequest request);
+		       CreateReportFacade.getTable(Map parameterMap, String[] params, HttpServletRequest request);
 		       ]]>
 		. </signatures>
         
+        <create creator="spring" javascript="reportCommand">
+            <param name="beanName" value="reportCommand"/>
+            <include method="setParams"/>
+        </create>
+        
+        <signatures>
+		    <![CDATA[
+		       import java.lang.String;
+		       import edu.duke.cabig.c3pr.web.report.ReportCommand;
+		       ReportCommand.setParams(String[] params);
+		       ]]>
+		. </signatures>
+		
         <create creator="new" javascript="date">
             <param name="class" value="java.util.Date"/>
         </create>
