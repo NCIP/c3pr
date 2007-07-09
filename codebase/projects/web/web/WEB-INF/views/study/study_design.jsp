@@ -52,7 +52,7 @@ function addRows(){
 					onclick="$('dummy-row').innerHTML=$('treatmentHtml').innerHTML;RowManager.addRow(instanceRowEpoch)" />
 
 				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input
-					id="addEpoch" type="button" value="Add NonTreatment Epoch"
+					id="addEpoch" type="button" value="Add Non-Treatment Epoch"
 					onclick="$('dummy-row').innerHTML=$('non-treatmentHtml').innerHTML;RowManager.addRow(instanceRowEpoch)" /><br>
 				</td>
 
@@ -80,7 +80,7 @@ function addRows(){
 													cellpadding="1" id="mytable1">
 													<tr>
 														<td align="right" class="alt"><span class="red">*</span><em></em>
-														<b>Epoch Name :</b>&nbsp;</td>
+														<b>Name :</b>&nbsp;</td>
 														<td align="left"><form:input
 															path="epochs[${status.index}].name" size="26"
 															cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
@@ -151,7 +151,7 @@ function addRows(){
 															id="mytable" width="50%">
 															<tr>
 																<th class="alt"></th>
-																<th class="alt">*Epoch Name</th>
+																<th class="alt">*Name</th>
 																<th class="alt">Description</th>
 																<th class="alt">*Accrual Indicator</th>
 																<th class="alt">*Accrual Ceiling</th>
@@ -225,7 +225,7 @@ function addRows(){
 
 <table>
 	<tr>
-		<td><chrome:division title="New Treatment Epoch-PAGE.ROW.INDEX">
+		<td><chrome:division title="New Treatment Epoch">
 			<table>
 
 				<tr>
@@ -236,10 +236,10 @@ function addRows(){
 
 						<tr>
 							<td align="right" class="alt"><span class="red">*</span><em></em>
-							<b>Epoch Name :</b>&nbsp;</td>
+							<b>Name :</b>&nbsp;</td>
 							<td align="left"><input type="text"
 								name="treatmentEpochsAliased[PAGE.ROW.INDEX].name" size="26"
-								cssClass="validate-notEmpty" value="New Treatment Epoch-PAGE.ROW.INDEX"/><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
+								cssClass="validate-notEmpty"/><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
 						</tr>
 						<tr>
 							<td align="right" class="alt"><em></em> <b>Description:</b>&nbsp;</td>
@@ -316,7 +316,7 @@ function addRows(){
 <div id="non-treatmentHtml" style="display:none">
 <table>
 	<tr>
-		<td><chrome:division title="New NonTreatment Epoch-PAGE.ROW.INDEX">
+		<td><chrome:division title="New Non-Treatment Epoch">
 
 			<table width="100" border="0" cellspacing="0" cellpadding="0"
 				id="details">
@@ -328,7 +328,7 @@ function addRows(){
 						width="50%">
 						<tr>
 							<th class="alt"></th>
-							<th class="alt">*Epoch Name</th>
+							<th class="alt">*Name</th>
 							<th class="alt">Description</th>
 							<th class="alt">*Accrual Indicator</th>
 							<th class="alt">*Accrual Ceiling</th>
@@ -341,7 +341,7 @@ function addRows(){
 								src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 							<td class="alt"><input type="text"
 								name="nonTreatmentEpochsAliased[PAGE.ROW.INDEX].name"
-								cssClass="validate-notEmpty" value="New NonTreatment Epoch-PAGE.ROW.INDEX"/><span class="red">&nbsp;&nbsp;&nbsp;</span></td>
+								cssClass="validate-notEmpty"/><span class="red">&nbsp;&nbsp;&nbsp;</span></td>
 							<td class="alt"><textarea
 								name="nonTreatmentEpochsAliased[PAGE.ROW.INDEX].descriptionText"
 								rows="2" cols="20">&nbsp;&nbsp;&nbsp;</textarea></td>
