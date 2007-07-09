@@ -87,7 +87,7 @@ function displayDiv(id, flag) {
 	</script>
 	
 		
-		<tags:minimizablePanelBox	title="${epoch.name} : ${epoch.descriptionText }"	boxId="${epoch.name}">
+		<tags:minimizablePanelBox	title="${epoch.name}"	boxId="${epoch.name}">
 			<table border="0" width="100%" id="table1" cellspacing="5">
 				<tr>
 					<td valign="top">
@@ -124,6 +124,7 @@ function displayDiv(id, flag) {
 					</chrome:division></td></tr>
 					<tr>
 					<td valign="top">
+					<p>
 					<chrome:division title="Exclusion Criteria">
 						Add Exclusion Criterion<a
 							href="javascript:RowManager.addRow(instanceExclusionRow_${epochCount.index});"><img
