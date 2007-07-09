@@ -7,6 +7,8 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
+<%@ taglib prefix="participanttags" tagdir="/WEB-INF/tags/participant"%>
+<%@ taglib prefix="registrationTags" tagdir="/WEB-INF/tags/registration" %>
 
 <html>
 <head>
@@ -117,6 +119,9 @@ function updateTargetPage(target){
 					</tr>
 				</c:forEach>
 			</table>
+		</chrome:division>
+		<chrome:division title="Registration Summary">
+			<registrationTags:searchResults registrations="${participantAssignments }"/>
 		</chrome:division>
 	</jsp:attribute>
 </tags:tabForm>
