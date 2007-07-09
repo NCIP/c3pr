@@ -6,14 +6,17 @@ package edu.duke.cabig.c3pr.web.report;
 
 public class ReportCommand {
 	
-	private String studyCoordinatingSite;
-	private String studyShortTitle;
-	private String siteName;
-	private String siteNciId;
-	private String regStartDate;
-	private String regEndDate;	
-	private String birthDate;
-	private String raceCode;
+//  The params array contains the following attributes in the following order,	
+	private String studyCoordinatingSite;       //param[0]
+	private String studyShortTitle;				//param[1]
+	private String siteName;					//param[2]
+	private String siteNciId;					//param[3]
+	private String regStartDate;				//param[4]
+	private String regEndDate;					//param[5]
+	private String birthDate;					//param[6]
+	private String raceCode;					//param[7]
+	
+	private String[] params;
 	
 	public String getSiteName() {
 		return siteName;
@@ -65,5 +68,10 @@ public class ReportCommand {
 		this.regStartDate = regStartDate;
 	}
 
-
+	public String[] getParams() {
+		return params;
+	}
+	public void setParams(String[] params) {
+		this.params = params;
+	}
 }

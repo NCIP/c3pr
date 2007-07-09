@@ -67,9 +67,8 @@ public class CreateReportFacade {
         model.addRow(row);
  
         Column columnPrimaryIdentifier = model.getColumnInstance();        
-        columnPrimaryIdentifier.setTitle("Registration	Identifier");
+        columnPrimaryIdentifier.setTitle("Registration Identifier");
         columnPrimaryIdentifier.setProperty("primaryIdentifier");
-//        columnPrimaryIdentifier.setCell("gov.nih.nci.cabig.caaers.web.study.StudyLinkDisplayCell");        
         model.addColumn(columnPrimaryIdentifier);
         
         Column columnShortTitle = model.getColumnInstance();

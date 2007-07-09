@@ -13,11 +13,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 
 <title>${tab.longTitle}</title>
- <script type="text/javascript" src="<c:url value="/dwr/interface/Assembler.js"/>"></script>
-  <script type="text/javascript" src="<c:url value="/dwr/engine.js"/>"></script>
-  <script type="text/javascript" src="<c:url value="/dwr/util.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/extremecomponents.js"/>"></script>
 <tags:dwrJavascriptLink objects="createReport"/>
+<tags:dwrJavascriptLink objects="reportCommand"/>
 
 <script>
 function buildTable(form) {		
@@ -41,7 +39,8 @@ function buildTable(form) {
 	params[5] = regEndDate;		
 	params[6] = birthDate;	
 	params[7] = raceCode;	
-			
+
+	reportCommand.setParams(params);			
 	createReport.getTable(parameterMap, params, showTable);		
 }
 
