@@ -73,7 +73,7 @@ function submitPage(){
 											</tr>
 											<tr valign="top">
 												<td align="right"><b>Description:<b>&nbsp;</td>
-												<td><form:textarea rows="3" cols="56" path="descriptionText" /></td>
+												<td><form:textarea rows="3" cols="45" path="descriptionText" /></td>
 											</tr>
 											<tr>
 												<td align="right"><b>NCI Institute Code:</b>&nbsp;</td>
@@ -85,7 +85,7 @@ function submitPage(){
 										<table width="625" border="0" cellspacing="1" cellpadding="1" id="table1">
 											<tr>
 												<td align="right"><b>Street Address:</b>&nbsp;</td>
-												<td align="left"><form:input size="58" path="address.streetAddress" />&nbsp;&nbsp;&nbsp;</td>
+												<td align="left"><form:input size="60" path="address.streetAddress" />&nbsp;&nbsp;&nbsp;</td>
 											</tr>
 											<tr>
 												<td align="right"><b>City:</b>&nbsp;</td>
