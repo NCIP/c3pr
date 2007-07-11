@@ -7,6 +7,7 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
+import edu.duke.cabig.c3pr.utils.web.RowManager;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.NullIdDaoBasedEditor;
 import edu.duke.cabig.c3pr.web.beans.DefaultObjectPropertyReader;
@@ -30,6 +31,7 @@ import java.util.*;
  */
 public abstract class StudyController<C extends Study> extends AutomaticSaveFlowFormController<C, Study, StudyDao> {
     protected static final Log log = LogFactory.getLog(StudyController.class);
+    private RowManager rowManager;
     protected StudyService studyService;
     protected StudyDao studyDao;
     protected HealthcareSiteDao healthcareSiteDao;
@@ -45,6 +47,7 @@ public abstract class StudyController<C extends Study> extends AutomaticSaveFlow
         Flow<C> flow = new Flow<C>(title);
         layoutTabs(flow);
         setFlow(flow);
+        rowManager=new RowManager();
     }
 
     @Override
@@ -61,7 +64,8 @@ public abstract class StudyController<C extends Study> extends AutomaticSaveFlow
     protected void onBind(HttpServletRequest request, Object command, BindException errors) throws Exception {
         // TODO Auto-generated method stub
         super.onBind(request, command, errors);
-        handleRowDeletion(request, command);
+//        handleRowDeletion(request, command);
+        rowManager.handleRowDeletion(request, command);
     }
 
     public void handleRowDeletion(HttpServletRequest request, Object command) throws Exception {
@@ -83,7 +87,13 @@ public abstract class StudyController<C extends Study> extends AutomaticSaveFlow
         Enumeration<String> e = table.keys();
         while (e.hasMoreElements()) {
             String path = e.nextElement();
-            List col = (List) new DefaultObjectPropertyReader(command, path).getPropertyValueFromPath();
+            List col;
+			try {
+				col = (List) new DefaultObjectPropertyReader(command, path).getPropertyValueFromPath();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+				continue;
+			}
             List<Integer> rowNums = table.get(path);
             List temp = new ArrayList();
             for (int i = 0; i < col.size(); i++) {
