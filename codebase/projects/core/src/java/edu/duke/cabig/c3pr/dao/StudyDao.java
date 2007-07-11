@@ -56,25 +56,7 @@ public class StudyDao extends GridIdentifiableDao<Study>
      */
     public Study getStudyDesignById(int id) {
         Study study =  (Study) getHibernateTemplate().get(domainClass(), id);
-        study.getIdentifiers().size();
-        study.getStudySites().size();
-        for (StudySite studySite : study.getStudySites()) {
-            studySite.getStudyInvestigators().size();
-            studySite.getStudyPersonnels().size();
-        }
-        study.getExcCriterias().size();
-        study.getIncCriterias().size();
-        study.getStudyDiseases().size();
-        study.getStratificationCriteria().size();
-        for (StratificationCriterion criterion : study.getStratificationCriteria()) {
-            criterion.getPermissibleAnswers().size();
-        }
-
-        List<TreatmentEpoch> epochs = study.getTreatmentEpochs();
-        epochs.size();
-        for (TreatmentEpoch epoch : epochs) {
-            epoch.getArms().size();
-        }
+     
         return study;
     }
 
