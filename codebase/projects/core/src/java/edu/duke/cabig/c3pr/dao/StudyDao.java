@@ -46,18 +46,8 @@ public class StudyDao extends GridIdentifiableDao<Study>
         return Study.class;
     }
 
-    /**
-     * This is a hack to load all collection objects in memory. Useful
-     * for editing a Study when you know you will be needing all collections
-     * To avoid Lazy loading Exception by Hibernate, a call to .size() is done
-     * for each collection
-     * @param id
-     * @return
-     */
     public Study getStudyDesignById(int id) {
-        Study study =  (Study) getHibernateTemplate().get(domainClass(), id);
-     
-        return study;
+        return (Study) getHibernateTemplate().get(domainClass(), id);
     }
 
     @SuppressWarnings("unchecked")
