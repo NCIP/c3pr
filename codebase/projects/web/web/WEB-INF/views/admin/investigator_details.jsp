@@ -19,6 +19,7 @@ function fireAction(action, selected){
 function handleConfirmation(){
 	new Effect.SlideDown('createInv');
 	new Effect.SlideUp('confirmationMessage');
+	new Effect.SlideDown('dispButton');
 }
 var instanceRowInserterProps = {
 
@@ -32,7 +33,7 @@ rowInserters.push(instanceRowInserterProps);
 
 </head>
 <body>
-<tags:formPanelBox tab="${tab}" flow="${flow}"
+<tags:basicFormPanelBox tab="${tab}" flow="${flow}"
 	action="createInvestigator">
 	<input type="hidden" name="_action" value="">
 	<input type="hidden" name="_selected" value="">
@@ -184,7 +185,10 @@ rowInserters.push(instanceRowInserterProps);
 			<!-- LEFT CONTENT ENDS HERE -->
 		</tr>
 	</table>
-</tags:formPanelBox>
+	<div id="dispButton"
+		<c:if test="${param.type == 'confirm'}">style="display:none"</c:if>><tags:tabControls />
+	</div>
+</tags:basicFormPanelBox>
 <div id="dummy-row" style="display: none;">
 <table>
 	<tr>
