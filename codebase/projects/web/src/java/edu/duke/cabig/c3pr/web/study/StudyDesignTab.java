@@ -48,7 +48,7 @@ class StudyDesignTab extends StudyTab {
 						.getTreatmentEpochs().get(
 								Integer.parseInt(selectedEpoch));
 				if (epoch.getName().equals("") || (epoch.getName() == null)) {
-					epoch.setName("New TreatmentEpoch");
+					epoch.setName("Treatment Epoch");
 				}
 				Arm newArm = new Arm();
 				newArm.setName("New Arm");
