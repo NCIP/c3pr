@@ -125,8 +125,7 @@ public class CreateResearchStaffController extends SimpleFormController {
 		map.put("studySiteStatusRefData", configMap
 				.get("studySiteStatusRefData"));
 		map.put("healthcareSites", healthcareSiteDao.getAll());
-		map.put("action", "New");
-		
+				
 		request.setAttribute("fullName", researchStaff.getFullName());
 		request.setAttribute("type", "confirm");
 		
