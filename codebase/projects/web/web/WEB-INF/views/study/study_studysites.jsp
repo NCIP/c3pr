@@ -19,25 +19,25 @@
             initialIndex: ${fn:length(command.studySites)},                            /* this is the initial count of the rows when the page is loaded  */
             path: "studySites",                               /* this is the path of the collection that holds the rows  */
             postProcessRowInsertion: function(object){
-            								inputDateElementLocal="studySites["+object.localIndex+"].startDate";
-            								inputDateElementLink="studySites["+object.localIndex+"].startDate-calbutton";
-										   	Calendar.setup(
-												    {
-												      inputField  : inputDateElementLocal,         // ID of the input field
-												      ifFormat    : "%m/%d/%Y",    // the date format
-												      button      : inputDateElementLink       // ID of the button
-												    }
-										  	);
-            								inputDateElementLocal="studySites["+object.localIndex+"].irbApprovalDate";
-            								inputDateElementLink="studySites["+object.localIndex+"].irbApprovalDate-calbutton";
-										  	Calendar.setup(
-												    {
-												      inputField  : inputDateElementLocal,         // ID of the input field
-												      ifFormat    : "%m %d, %Y",    // the date format
-												      button      : inputDateElementLink       // ID of the button
-												    }
-										  	);
-            							  },
+                inputDateElementLocal="studySites["+object.localIndex+"].startDate";
+                inputDateElementLink="studySites["+object.localIndex+"].startDate-calbutton";
+                Calendar.setup(
+                {
+                    inputField  : inputDateElementLocal,         // ID of the input field
+                    ifFormat    : "%m/%d/%Y",    // the date format
+                    button      : inputDateElementLink       // ID of the button
+                }
+                        );
+                inputDateElementLocal="studySites["+object.localIndex+"].irbApprovalDate";
+                inputDateElementLink="studySites["+object.localIndex+"].irbApprovalDate-calbutton";
+                Calendar.setup(
+                {
+                    inputField  : inputDateElementLocal,         // ID of the input field
+                    ifFormat    : "%m %d, %Y",    // the date format
+                    button      : inputDateElementLink       // ID of the button
+                }
+                        );
+            },
         };
         rowInserters.push(instanceRowInserterProps);
 
@@ -45,21 +45,17 @@
 </head>
 
 <body>
-<tags:tabForm tab="${tab}" flow="${flow}" formName="studySiteForm">
-<jsp:attribute name="singleFields">
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" formName="studySiteForm">
+
+
+
+    <jsp:attribute name="singleFields">
 <tags:errors path="*" />
-    <div>
-        <input type="hidden" name="_action" value="">
-    </div>
 
 <table border="0" cellspacing="0" cellpadding="0">
     <tr>
         <td>
-            <p id="instructions">
-                Add StudySites associated with the Study
-                <a href="javascript:RowManager.addRow(instanceRowInserterProps);"><img
-                        src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add another Study Site"></a><br>
-            </p>
+
             <br>
             <table id="mytable" border="0" cellspacing="0" cellpadding="0">
                 <tr class="label">
@@ -86,7 +82,6 @@
                             <input type="hidden" name="studySites[${status.index}].roleCode" value="Affiliate Site"/>
 
                         </td>
-                        <!--TODO:HACK Remove this once more roles are present -->
 
                         <td class="alt">
                             <tags:dateInput path="studySites[${status.index}].startDate"/>
@@ -105,6 +100,13 @@
     </tr>
 </table>
     	</jsp:attribute>
+
+    	 <jsp:attribute name="localButtons">
+        <input id="addEpoch" type="button"
+               value="Add Study Site"
+               onclick="RowManager.addRow(instanceRowInserterProps);"/>
+    </jsp:attribute>
+
 </tags:tabForm>
 <div id="dummy-row" style="display:none;">
     <table>
@@ -137,11 +139,11 @@
                        name="studySites[PAGE.ROW.INDEX].startDate"
                        type="text"
                        class="date" />
-                <a href="#" id="studySites[PAGE.ROW.INDEX].startDate-calbutton" onclick="alert('called');$('studySites[PAGE.ROW.INDEX].startDate').className='date';">
-                    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle"/>
+                <a href="#" id="studySites[PAGE.ROW.INDEX].startDate-calbutton">
+                    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>
                 </a>
             </td>
-             <td class="alt">
+            <td class="alt">
                 <input id="studySites[PAGE.ROW.INDEX].irbApprovalDate"
                        name="studySites[PAGE.ROW.INDEX].irbApprovalDate"
                        type="text"

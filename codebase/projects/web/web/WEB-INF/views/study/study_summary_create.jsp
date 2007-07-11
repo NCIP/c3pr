@@ -11,7 +11,7 @@
 
 <body>
 <tags:tabForm tab="${tab}" flow="${flow}"
-              title="Study Overview" willSave="false" formName="review">
+              title="Study Overview" willSave="${willSave}" formName="review">
 <jsp:attribute name="repeatingFields">
 <div>
     <input type="hidden" name="_finish" value="true"/>

@@ -39,11 +39,6 @@
 <tags:tabFields tab="${tab}"/>
 <chrome:box title="${tab.shortTitle}">
 
-<div>
-    <input type="hidden" name="_action" value="">
-    <input type="hidden" name="_selected" value="">
-</div>
-
 <chrome:division id="study-details" title="Basic Details">
 
 <div class="leftpanel">
@@ -216,7 +211,7 @@
     </div>
 
 </chrome:division>
-<tags:tabControls tab="${tab}" flow="${flow}"/>
+<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}"/>
 
 </chrome:box>
 </form:form>

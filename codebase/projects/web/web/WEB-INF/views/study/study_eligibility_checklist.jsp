@@ -62,10 +62,6 @@ function displayDiv(id, flag) {
 <body>
 <form:form method="post" name="form">
 <tags:tabFields tab="${tab}"/>
-	<div><input type="hidden" name="_action" value=""> <input
-		type="hidden" name="_selected" value=""> <input type="hidden"
-		id="_selectedEpoch" name="_selectedEpoch" value=""></div>
-	<!-- MAIN BODY STARTS HERE -->
 	
 	<c:forEach items="${command.epochs}" var="epoch" varStatus="epochCount">
 	<c:if test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch' }">

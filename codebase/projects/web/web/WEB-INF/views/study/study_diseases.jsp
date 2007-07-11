@@ -231,7 +231,7 @@ Event.observe(window, "load", function() {
     })
     populateSelectsOnLoad();
 
-   // Element.update("flow-next", "Continue &raquo;")
+    // Element.update("flow-next", "Continue &raquo;")
 })
 
 </script>
@@ -241,7 +241,7 @@ Event.observe(window, "load", function() {
 <%-- Can't use tags:tabForm b/c there are two boxes in the form --%>
 <form:form method="post" name="studyDiseasesForm" cssClass="standard">
     <tags:tabFields tab="${tab}"/>
-    <chrome:box title="${tab.shortTitle}">
+    <chrome:box title="${tab.shortTitle}" cssClass="paired">
 
         <div>
             <input type="hidden" name="_action" value="">
@@ -276,27 +276,22 @@ Event.observe(window, "load", function() {
                                    path="diseaseTermIds">
         </form:select>
         </chrome:division>
-        <tags:tabControls tab="${tab}" flow="${flow}"/>
+        <tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}"/>
     </chrome:box>
 
-    <chrome:box title="Selected Disease - ${fn:length(command.studyDiseases)} " id="diseases">
+    <chrome:box title="Selected Disease - ${fn:length(command.studyDiseases)}" id="diseases" cssClass="paired">
 
-        <c:if test="${fn:length(command.studyDiseases) == 0}">
-            No Diseases Selected
-        </c:if>
-        <c:forEach items="${command.studyDiseases}" begin="0" end="0" var="studyDisease" varStatus="status">
+        <c:choose>
+            <c:when test="${fn:length(command.studyDiseases) == 0}">
+                No Diseases Selected
+            </c:when>
 
-            <table border="0" id="id=" mytable
-            "">
+            <c:otherwise>
+                  <table border="0" width="100%" class="tablecontent">
             <tr>
                 <th scope="col">Disease Term</th>
                 <th scope="col">Primary</th>
             </tr>
-            </table>
-
-        </c:forEach>
-
-        <table border="0" width="100%" id="mytable">
             <c:forEach items="${command.studyDiseases}" var="studyDisease"
                        varStatus="status">
                 <tr>
@@ -309,6 +304,11 @@ Event.observe(window, "load", function() {
                 </tr>
             </c:forEach>
         </table>
+            </c:otherwise>
+        </c:choose>
+
+
+
 
     </chrome:box>
 </form:form>

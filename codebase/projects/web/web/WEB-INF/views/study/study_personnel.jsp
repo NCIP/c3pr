@@ -122,7 +122,7 @@
 </head>
 <body>
 
-<tags:tabForm tab="${tab}" flow="${flow}" formName="form">
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" formName="form">
 <jsp:attribute name="singleFields">
 <div>
     <input type="hidden" name="_action" value="">
@@ -187,10 +187,7 @@
 </table>
 <br>
 <hr>
-<p id="instructions">
-    Add Research Staff <a href="javascript:addRow();"><img
-        src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add Research Staff"></a></a>
-</p>
+
 <table border="0" id="mytable" cellspacing="0">
     <tr>
         <th scope="col" align="left"><b> <span class="red">*</span><em></em>Name:</b></th>
@@ -267,6 +264,11 @@
 </tr>
 </table>
 </jsp:attribute>
+
+<jsp:attribute name="localButtons">
+    <input type="button" onclick="addRow();" value="Add Research Staff"/>
+</jsp:attribute>
+
 </tags:tabForm>
 
 <div id="dummy-row" style="display:none;">
