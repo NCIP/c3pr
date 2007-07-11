@@ -185,7 +185,8 @@ ul.tabs li {
 }
 
 .box .content {
-  padding: 8px;
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
 
 .box h3 {
