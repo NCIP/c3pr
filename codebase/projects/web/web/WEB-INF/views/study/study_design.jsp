@@ -44,7 +44,8 @@ function addRows(){
 			type="hidden" name="_selectedEpoch" value=""> <input type="hidden"
 			name="_selectedArm" value=""></div>
 
-		<table border="0" cellspacing="2" cellpadding="2">
+
+		<table border="0" cellspacing="0" cellpadding="0" width="100%">
 
 			<tr>
 				<td><input id="addEpoch" type="button"
@@ -60,7 +61,8 @@ function addRows(){
 
 			<tr>
 				<td>
-				<table border="0" cellspacing="2" cellpadding="2" id="addRowTable">
+				<table border="0" cellspacing="0" cellpadding="0" id="addRowTable"
+					width="100%">
 					<tr>
 						<td></td>
 					</tr>
@@ -70,8 +72,8 @@ function addRows(){
 							<c:choose>
 								<c:when
 									test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
-									<td><chrome:division
-										title="New Treatment Epoch-${status.index }">
+									<td><chrome:deletableDivision title="Treatment Epoch"
+										onclick="RowManager.deleteRow(instanceRowEpoch,${status.index})">
 										<table>
 											<tr>
 												<td>
@@ -91,13 +93,6 @@ function addRows(){
 															path="epochs[${status.index}].descriptionText" rows="2"
 															cols="20" />&nbsp;&nbsp;&nbsp;</td>
 													</tr>
-
-													<tr>
-														<td class="alt"><a
-															href="javascript:RowManager.deleteRow(instanceRowEpoch,${status.index});"><img
-															src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
-													</tr>
-
 												</table>
 												</td>
 												<td width="100" valign="top">
@@ -106,10 +101,9 @@ function addRows(){
 													<tr>
 														<th class="alt">Arm</th>
 														<th class="alt">Target&nbsp;Accrual&nbsp;Number</th>
-														<th class="alt"></th>
-														<td class="alt"><a
-															href="javascript:fireAction('addArm',${status.index},0);"><img
-															src="<tags:imageUrl name="checkyes.gif"/>" border="0"></a></td>
+														<th class="alt"><input id="addArm" type="button"
+															value="Add Arm"
+															onclick="javascript:fireAction('addArm',${status.index},0)" ;/></th>
 													</tr>
 													<c:forEach items="${epoch.arms}" var="arm"
 														varStatus="statusArms">
@@ -131,77 +125,67 @@ function addRows(){
 
 											</tr>
 										</table>
-									</chrome:division></td>
+									</chrome:deletableDivision></td>
 								</c:when>
 								<c:otherwise>
 
-									<td><chrome:division
-										title="New NonTreatment Epoch-${status.index }">
+									<td><chrome:deletableDivision title="Non-Treatment Epoch"
+										onclick="RowManager.deleteRow(instanceRowEpoch,${status.index})">
+										<div class="leftpanel">
+										<div class="row">
+										<div class="label">*Name:</div>
+										<div class="value"><form:input
+											path="epochs[${status.index}].name" size="50"
+											cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span></div>
+										</div>
 
-										<table>
-											<tr>
-												<td>
-												<table width="100" border="0" cellspacing="0"
-													cellpadding="0" id="details">
-													<tr>
-														<td width="50" valign="top">
+										<div class="row">
+										<div class="label">Description:</div>
+										<div class="value"><form:textarea
+											path="epochs[${status.index}].descriptionText" rows="5" cols="40" />&nbsp;&nbsp;&nbsp;</div>
+										</div>
+										</div>
 
+										<div class="rightpanel">
+										<div class="row">
+										<div class="label">*Accrual Indicator:</div>
+										<div class="value"><form:select
+											path="epochs[${status.index}].accrualIndicator"
+											cssClass="validate-notEmpty">
+											<option value="">--Please Select--</option>
+											<form:options items="${fn:split('Yes,No',',')}" />
+										</form:select></div>
+										</div>
 
-														<table border="0" cellspacing="0" cellpadding="0"
-															id="mytable" width="50%">
-															<tr>
-																<th class="alt"></th>
-																<th class="alt">*Name</th>
-																<th class="alt">Description</th>
-																<th class="alt">*Accrual Indicator</th>
-																<th class="alt">*Accrual Ceiling</th>
-																<th class="alt">*Enrollment Indicator</th>
-																<th class="alt">Reservation Indicator</th>
-															</tr>
-															<tr>
-																<td class="alt"><a
-																	href="javascript:RowManager.deleteRow(instanceRowEpoch,${status.index});"><img
-																	src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
-																<td class="alt"><form:input
-																	path="epochs[${status.index}].name"
-																	cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span></td>
-																<td class="alt"><form:textarea
-																	path="epochs[${status.index}].descriptionText" rows="2"
-																	cols="20" />&nbsp;&nbsp;&nbsp;</td>
-																<td class="alt"><form:select
-																	path="epochs[${status.index}].accrualIndicator"
-																	cssClass="validate-notEmpty">
-																	<option value="">--Please Select--</option>
-																	<form:options items="${fn:split('yes,no',',')}" />
-																</form:select></td>
-																<td class="alt"><form:input
-																	path="epochs[${status.index}].accrualCeiling" size="12"
-																	maxlength="10" cssClass="validate-numeric" /></td>
-																<td class="alt"><form:select
-																	id="epochs[${status.index}].enrollmentIndicator"
-																	path="epochs[${status.index}].enrollmentIndicator"
-																	cssClass="validate-notEmpty">
-																	<option value="">--Please Select--</option>
-																	<form:options items="${fn:split('yes,no',',')}" />
-																</form:select></td>
-																<td class="alt"><form:select
-																	path="epochs[${status.index}].reservationIndicator"
-																	cssClass="validate-notEmpty">
-																	<option value="">--Please Select--</option>
-																	<form:options items="${fn:split('yes,no',',')}" />
-																</form:select></td>
+										<div class="row">
+										<div class="label">*Accrual Ceiling:</div>
+										<div class="value"><form:input
+											path="epochs[${status.index}].accrualCeiling" size="12"
+											maxlength="10" cssClass="validate-numeric" /></div>
+										</div>
 
-															</tr>
-														</table>
+										<div class="row">
+										<div class="label">*Enrollment Indicator:</div>
+										<div class="value"><form:select
+											id="epochs[${status.index}].enrollmentIndicator"
+											path="epochs[${status.index}].enrollmentIndicator"
+											cssClass="validate-notEmpty">
+											<option value="">--Please Select--</option>
+											<form:options items="${fn:split('Yes,No',',')}" />
+										</form:select></div>
+										</div>
 
-														</td>
-													</tr>
-												</table>
-												</td>
-											</tr>
-										</table>
-
-									</chrome:division></td>
+										<div class="row">
+										<div class="label">*Reservation Indicator:</div>
+										<div class="value"><form:select
+											path="epochs[${status.index}].reservationIndicator"
+											cssClass="validate-notEmpty">
+											<option value="">--Please Select--</option>
+											<form:options items="${fn:split('Yes,No',',')}" />
+										</form:select></div>
+										</div>
+										</div>
+									</chrome:deletableDivision></td>
 								</c:otherwise>
 							</c:choose>
 
@@ -225,21 +209,20 @@ function addRows(){
 
 <table>
 	<tr>
-		<td><chrome:division title="New Treatment Epoch">
+		<td><chrome:deletableDivision title="New Treatment Epoch"
+			onclick="RowManager.deleteRow(instanceRowEpoch,PAGE.ROW.INDEX)">
 			<table>
-
 				<tr>
-
 					<td width="50" valign="top">
 					<table width="50%" border="0" cellspacing="1" cellpadding="1"
 						id="mytable1">
 
 						<tr>
 							<td align="right" class="alt"><span class="red">*</span><em></em>
-							<b>Name :</b>&nbsp;</td>
+							<b>Name:</b>&nbsp;</td>
 							<td align="left"><input type="text"
 								name="treatmentEpochsAliased[PAGE.ROW.INDEX].name" size="26"
-								cssClass="validate-notEmpty"/><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
+								cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
 						</tr>
 						<tr>
 							<td align="right" class="alt"><em></em> <b>Description:</b>&nbsp;</td>
@@ -247,12 +230,6 @@ function addRows(){
 								name="treatmentEpochsAliased[PAGE.ROW.INDEX].descriptionText"
 								rows="2" cols="20">&nbsp;&nbsp;&nbsp;</textarea></td>
 						</tr>
-						<tr>
-							<td class="alt"><a
-								href="javascript:RowManager.deleteRow(instanceRowEpoch,PAGE.ROW.INDEX);"><img
-								src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
-						</tr>
-
 					</table>
 					</td>
 					<td width="100" valign="top">
@@ -261,15 +238,13 @@ function addRows(){
 						<tr>
 							<th class="alt">Arm</th>
 							<th class="alt">Target&nbsp;Accrual&nbsp;Number</th>
-							<th class="alt"></th>
-							<td class="alt"><a
-								href="javascript:fireAction('addArm',PAGE.ROW.INDEX,0);"><img
-								src="<tags:imageUrl name="checkyes.gif"/>" border="0"></a></td>
+							<th class="alt"><input id="addArm" type="button" value="Add Arm"
+								onclick="javascript:fireAction('addArm',PAGE.ROW.INDEX,0)" ;/></th>
 						</tr>
 						<tr>
 							<td class="alt"><input type="text"
 								name="treatmentEpochsAliased[PAGE.ROW.INDEX].arms[0].name"
-								cssClass="validate-notEmpty" value="Arm A"/></td>
+								cssClass="validate-notEmpty" value="Arm A" /></td>
 							<td class="alt"><input type="text"
 								name="treatmentEpochsAliased[PAGE.ROW.INDEX].arms[0].targetAccrualNumber"
 								size="12" maxlength="10" cssClass="validate-numeric" /></td>
@@ -280,10 +255,10 @@ function addRows(){
 						<tr>
 							<td class="alt"><input type="text"
 								name="treatmentEpochsAliased[PAGE.ROW.INDEX].arms[1].name"
-								cssClass="validate-notEmpty"  value="Arm B"/></td>
+								cssClass="validate-notEmpty" value="Arm B" /></td>
 							<td class="alt"><input type="text"
 								name="treatmentEpochsAliased[PAGE.ROW.INDEX].arms[1].targetAccrualNumber"
-								size="12" maxlength="10" cssClass="validate-numeric"/></td>
+								size="12" maxlength="10" cssClass="validate-numeric" /></td>
 							<td class="alt"><a
 								href="javascript:fireAction('removeArm',PAGE.ROW.INDEX,1);"><img
 								src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
@@ -292,7 +267,7 @@ function addRows(){
 						<tr>
 							<td class="alt"><input type="text"
 								name="treatmentEpochsAliased[PAGE.ROW.INDEX].arms[2].name"
-								cssClass="validate-notEmpty" value="Arm C"/></td>
+								cssClass="validate-notEmpty" value="Arm C" /></td>
 							<td class="alt"><input type="text"
 								name="treatmentEpochsAliased[PAGE.ROW.INDEX].arms[2].targetAccrualNumber"
 								size="12" maxlength="10" cssClass="validate-numeric" /></td>
@@ -307,79 +282,78 @@ function addRows(){
 
 				</tr>
 			</table>
-		</chrome:division></td>
+		</chrome:deletableDivision></td>
 	</tr>
 </table>
 
 </div>
 
 <div id="non-treatmentHtml" style="display:none">
-<table>
+<table border="10">
 	<tr>
-		<td><chrome:division title="New Non-Treatment Epoch">
+		<td><chrome:deletableDivision title="New Non-Treatment Epoch"
+			onclick="RowManager.deleteRow(instanceRowEpoch,PAGE.ROW.INDEX)">
+			<div class="leftpanel">
+			<div class="row">
+			<div class="label">*Name:</div>
+			<div class="value"><input type="text" size="50"
+				name="nonTreatmentEpochsAliased[PAGE.ROW.INDEX].name"
+				cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span></div>
+			</div>
 
-			<table width="100" border="0" cellspacing="0" cellpadding="0"
-				id="details">
-				<tr>
-					<td width="50" valign="top">
+			<div class="row">
+			<div class="label">Description:</div>
+			<div class="value"><textarea
+				name="nonTreatmentEpochsAliased[PAGE.ROW.INDEX].descriptionText"
+				rows="5" cols="40">&nbsp;&nbsp;&nbsp;</textarea></div>
+			</div>
+			</div>
 
+			<div class="rightpanel">
+			<div class="row">
+			<div class="label">*Accrual Indicator:</div>
+			<div class="value"><select
+				name="nonTreatmentEpochsAliased[PAGE.ROW.INDEX].accrualIndicator"
+				cssClass="validate-notEmpty">
+				<option value="">--Please Select--</option>
+				<option value="yes">Yes</option>
+				<option value="no">No</option>
+			</select></div>
+			</div>
 
-					<table border="0" cellspacing="0" cellpadding="0" id="mytable"
-						width="50%">
-						<tr>
-							<th class="alt"></th>
-							<th class="alt">*Name</th>
-							<th class="alt">Description</th>
-							<th class="alt">*Accrual Indicator</th>
-							<th class="alt">*Accrual Ceiling</th>
-							<th class="alt">*Enrollment Indicator</th>
-							<th class="alt">*Reservation Indicator</th>
-						</tr>
-						<tr>
-							<td class="alt"><a
-								href="javascript:RowManager.deleteRow(instanceRowEpoch,PAGE.ROW.INDEX);"><img
-								src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
-							<td class="alt"><input type="text"
-								name="nonTreatmentEpochsAliased[PAGE.ROW.INDEX].name"
-								cssClass="validate-notEmpty"/><span class="red">&nbsp;&nbsp;&nbsp;</span></td>
-							<td class="alt"><textarea
-								name="nonTreatmentEpochsAliased[PAGE.ROW.INDEX].descriptionText"
-								rows="2" cols="20">&nbsp;&nbsp;&nbsp;</textarea></td>
-							<td class="alt"><select
-								name="nonTreatmentEpochsAliased[PAGE.ROW.INDEX].accrualIndicator"
-								cssClass="validate-notEmpty">
-								<option value="">--Please Select--</option>
-								<option value="yes">yes</option>
-								<option value="no">no</option>
-							</select></td>
-							<td class="alt"><input type="text"
-								id="nonTreatmentEpochsAliased[PAGE.ROW.INDEX].accrualCeiling"
-								name="nonTreatmentEpochsAliased[PAGE.ROW.INDEX].accrualCeiling"
-								size="12" maxlength="10" cssClass="validate-numeric" /></td>
-							<td class="alt"><select
-								id="nonTreatmentEpochsAliased[PAGE.ROW.INDEX].enrollmentIndicator"
-								name="nonTreatmentEpochsAliased[PAGE.ROW.INDEX].enrollmentIndicator"
-								cssClass="validate-notEmpty">
-								<option value="">--Please Select--</option>
-								<option value="yes">yes</option>
-								<option value="no">no</option>
-							</select></td>
-							<td class="alt"><select
-								id="nonTreatmentEpochsAliased[PAGE.ROW.INDEX].reservationIndicator"
-								name="nonTreatmentEpochsAliased[PAGE.ROW.INDEX].reservationIndicator"
-								cssClass="validate-notEmpty">
-								<option value="">--Please Select--</option>
-								<option value="yes">yes</option>
-								<option value="no">no</option>
-							</select></td>
+			<div class="row">
+			<div class="label">*Accrual Ceiling:</div>
+			<div class="value"><input type="text"
+				id="nonTreatmentEpochsAliased[PAGE.ROW.INDEX].accrualCeiling"
+				name="nonTreatmentEpochsAliased[PAGE.ROW.INDEX].accrualCeiling"
+				size="12" maxlength="10" cssClass="validate-numeric" /></div>
+			</div>
 
-						</tr>
-					</table>
+			<div class="row">
+			<div class="label">*Enrollment Indicator:</div>
+			<div class="value"><select
+				id="nonTreatmentEpochsAliased[PAGE.ROW.INDEX].enrollmentIndicator"
+				name="nonTreatmentEpochsAliased[PAGE.ROW.INDEX].enrollmentIndicator"
+				cssClass="validate-notEmpty">
+				<option value="">--Please Select--</option>
+				<option value="yes">Yes</option>
+				<option value="no">No</option>
+			</select></div>
+			</div>
 
-					</td>
-				</tr>
-			</table>
-		</chrome:division></td>
+			<div class="row">
+			<div class="label">*Reservation Indicator:</div>
+			<div class="value"><select
+				id="nonTreatmentEpochsAliased[PAGE.ROW.INDEX].reservationIndicator"
+				name="nonTreatmentEpochsAliased[PAGE.ROW.INDEX].reservationIndicator"
+				cssClass="validate-notEmpty">
+				<option value="">--Please Select--</option>
+				<option value="yes">Yes</option>
+				<option value="no">No</option>
+			</select></div>
+			</div>
+			</div>
+		</chrome:deletableDivision></td>
 	</tr>
 </table>
 </div>
