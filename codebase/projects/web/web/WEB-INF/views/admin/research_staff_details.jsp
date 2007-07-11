@@ -20,13 +20,14 @@ function fireAction(action, selected){
 function handleConfirmation(){
 	new Effect.SlideDown('createRS');
 	new Effect.SlideUp('confirmationMessage');
+	new Effect.SlideDown('dispButton');
 }
 </script>
 </head>
 <body>
 
-<tags:formPanelBox tab="${tab}" flow="${flow}" title="Research Staff Details"
-	action="createResearchStaff">
+<tags:basicFormPanelBox tab="${tab}" flow="${flow}"
+	title="Research Staff Details" action="createResearchStaff">
 	<input type="hidden" name="_action" value="">
 	<input type="hidden" name="_selected" value="">
 	<input type="hidden" name="_finish" value="true">
@@ -46,7 +47,7 @@ function handleConfirmation(){
 							<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
 							<!-- RIGHT CONTENT STARTS HERE --> <c:if
 								test="${type == 'confirm'}">
-								
+
 								<div id="confirmationMessage">
 								<h3><font color="green"> You have successfully created a
 								research staff person with name : ${fullName}</font></h3>
@@ -172,7 +173,9 @@ function handleConfirmation(){
 			<!-- LEFT CONTENT ENDS HERE -->
 		</tr>
 	</table>
-
-</tags:formPanelBox>
+	<div id="dispButton"
+		<c:if test="${type == 'confirm'}">style="display:none"</c:if>><tags:tabControls />
+	</div>
+</tags:basicFormPanelBox>
 </body>
 </html>
