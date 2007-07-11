@@ -303,7 +303,7 @@ div.row div.label {
   margin-left: 0.5em;
   text-align: right;
   /* default width; pages might override */
-  width: 10em;
+  width: 12em;
 }
 div.row div.value {
   font-weight: normal;
