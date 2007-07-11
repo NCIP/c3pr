@@ -36,13 +36,13 @@
 //
 // Callback Hooks:
 // The validation framework provides a callback hook for html pages to pre process and post process validations.
-//	preProcessRowInsertion()   :	this call back function is called before the row is inserted
-//	postProcessRowInsertion()  :	this call back function is called after the row is inserted
-//	preProcessRowDeletion()    :	this call back function is called before the row is deleted
-//	postProcessRowDeletion()   :	this call back function is called after the row is deleted
+//	preProcessRowInsertion(instance)   :	this call back function is called before the row is inserted
+//	postProcessRowInsertion(instance)  :	this call back function is called after the row is inserted
+//	preProcessRowDeletion(instance)    :	this call back function is called before the row is deleted
+//	postProcessRowDeletion(instance)   :	this call back function is called after the row is deleted
 // 																
 //
-var RowManager = Class.create()
+var RowManager = Class.create();
 var RowManager = {
 	addRow: function(inserter){this.execute(true,inserter,-1)},
 	deleteRow: function(inserter,delIndex){this.execute(false,inserter,delIndex)},
@@ -58,26 +58,17 @@ var RowManager = {
 						inserter.postProcessRowDeletion(inserter,deletionIndex)
 					}
 				},
-	getNestedRowInserter: function(inserter, index){
-								return inserter.cloned_nested_row_inserters[index]
-							}
 }
 
 var rowInserters=new Array()
 Event.observe(window, "load", function() {
-	registerRowInserters();
-})
-function registerRowInserters(){
-	for(x=0 ; x<rowInserters.length ; x++){
-		if(rowInserters[x].isRegistered==null){
-			registerRowInserter(rowInserters[x])
-//			alert("registered "+rowInserters[x].add_row_division_id)
-		}
+	for(i=0 ; i<rowInserters.length ; i++){
+		registerRowInserter(rowInserters[i])
 	}
-}
+})
 function registerRowInserter(rowInserter){
-	clone=Object.clone(AbstractRowInserterProps);
-	Object.extend(clone,rowInserter)
+	clone=Object.clone(rowInserter)
+	Object.extend(rowInserter,AbstractRowInserterProps)
 	Object.extend(rowInserter,clone)
 	rowInserter.init()
 }
@@ -92,87 +83,39 @@ var AbstractRowInserterProps = {
 	validationCSSIndicator: "validate-",
 	row_index_indicator: "PAGE.ROW.INDEX",
 	row_addition_startegy: "table",
-	cloned_nested_row_inserters: "",
-	nested_row_inserter: "",
-	parent_row_inserter: "",
-	parent_row_index: -1,
-	isRegistered: true,
-	updateIndex: function(index){
-						this.localIndex=index
-					},
-	getRowDivisionElement: function(){
-							element=$(this.add_row_division_id)
-							if(this.havingParentRowInserter()){
-								classString="#"+this.parent_row_inserter.getColumnDivisionID(this.parent_row_index)+" #"+this.add_row_division_id
-								element=$$(classString)[0]
-							}
-							return element
-						},
-	getColumnDivisionElement: function(index){
-							element=$(this.getColumnDivisionID(index))
-							if(this.havingParentRowInserter()){
-								classString="#"+this.parent_row_inserter.getColumnDivisionID(this.parent_row_index)+" #"+this.getColumnDivisionID(index)
-								element=$$(classString)[0]
-							}
-							return element
-						},
     generateRowHtml: function() {
     				rowHtml=this.getRowHtml()
-    				rowHtml= this.replaceIndexes(rwoHtml)    
+    				rowHtml= rowHtml.gsub(this.row_index_indicator,this.localIndex)    
 					rowHtml=this.addDivision(rowHtml)
 					return rowHtml
 				 },
 	generateRowElement: function() {
 					localTable=$($(this.skeleton_row_division_id)).getElementsByTagName("table")[0]
+					//rows=localTable.getElementsByTagName("tr")
 					rows=localTable.rows
 					retRows=new Array()
 					for(i=0 ; i<rows.length ; i++){
 						rows[i].id=this.getColumnDivisionID(this.localIndex)
-						columns=rows[i].cells
+						columns=rows[i].getElementsByTagName("td")
 						for(j=0 ; j<columns.length ; j++){
-							columns[j].innerHTML=this.replaceIndexes(columns[j].innerHTML)
+							columns[j].innerHTML=columns[j].innerHTML.gsub(this.row_index_indicator,this.localIndex)
 						}
 					}
 					return rows
 				 },
-	replaceIndexes: function(htmlString){
-							htmlString=htmlString.gsub(this.row_index_indicator,this.localIndex)
-							return this.replaceParentIndexes(htmlString)
-						},
-	replaceParentIndexes: function(htmlString){
-							currentObject=this
-							while(currentObject.havingParentRowInserter()){
-								localTempIndex=currentObject.parent_row_index
-								currentObject=currentObject.parent_row_inserter
-								htmlString=htmlString.gsub(currentObject.row_index_indicator,localTempIndex)
-							}
-							return htmlString
-						},
 	getRowHtml: function(){
 							return $(this.skeleton_row_division_id).innerHTML
 						},
     insertRow: function() {
     						if(this.row_addition_startegy.toUpperCase()!="TABLE")
-	    						new Insertion.Bottom(this.getRowDivisionElement() ,this.generateRowHtml())	
+	    						new Insertion.Bottom(this.add_row_division_id ,this.generateRowHtml())	
 	    					else{
-								localHtml=this.getRowHtml()
-    							rows=this.generateRowElement()
-    							for(k=0 ; k<rows.length ; k++){
-    								new Element.hide(rows[k])
-    								this.getRowDivisionElement().getElementsByTagName("tbody")[0].appendChild(rows[k])
-    								tableRows=this.getRowDivisionElement().getElementsByTagName("tbody")[0].rows
-    								new Effect.Appear(this.getRowDivisionElement().getElementsByTagName("tbody")[0].rows[tableRows.length-1], arguments[1] || {});
-    							}
-    							$(this.skeleton_row_division_id).innerHTML=localHtml
-    						}
-    						if(this.havingNestedRowInserter()){
-								inNewInstance=Object.clone(AbstractRowInserterProps)
-								Object.extend(inNewInstance,Object.clone(this.nested_row_inserter))
-								inNewInstance.parent_row_index=this.localIndex
-								inNewInstance.init()
-								this.cloned_nested_row_inserters.push(inNewInstance)
-								inNewInstance.parent_row_inserter=this
-    						}
+									localHtml=this.getRowHtml()
+	    							rows=this.generateRowElement()
+	    							for(i=0 ; i<rows.length ; i++)
+	    								$(this.add_row_division_id).getElementsByTagName("tbody")[0].appendChild(rows[i])
+	    							$(this.skeleton_row_division_id).innerHTML=localHtml
+	    						}
     					},
 	preProcessRowInsertion: function(object){},
 	postProcessRowInsertion: function(object){},
@@ -180,9 +123,9 @@ var AbstractRowInserterProps = {
 	postProcessRowDeletion: function(object,index){},
     deleteRow: function(index){	
     						temp=index
-							new Insertion.Bottom(this.getColumnDivisionElement(index),"<input type='hidden' name='_deletedRow-"+this.replaceParentIndexes(this.path)+"-"+index+"'/>")
-    						new Effect.Puff(this.getColumnDivisionElement(index))
-    						new Element.update(this.getColumnDivisionElement,this.suppressValidation($(this.getColumnDivisionID(index)).innerHTML))
+							new Insertion.Bottom(this.getColumnDivisionID(index),"<input type='hidden' name='_deletedRow-"+this.path+"-"+index+"'/>")
+    						new Element.hide(this.getColumnDivisionID(index))
+    						new Element.update(this.getColumnDivisionID(index),this.suppressValidation($(this.getColumnDivisionID(index)).innerHTML))
     						rowHtml=this.getRowsDivisionHtml()
     					},
     addDivision: function(htmlStr){
@@ -195,28 +138,8 @@ var AbstractRowInserterProps = {
     							return $(this.add_row_division_id).innerHTML
     						},
     init: function(){
-    					this.updateIndex(this.initialIndex)
-    					this.cloned_nested_row_inserters= new Array()
-    					if(this.havingNestedRowInserter()){
-	    					for(a=0 ; a<this.initialIndex ; a++){
-								newInstance=Object.clone(AbstractRowInserterProps)
-								Object.extend(newInstance,Object.clone(this.nested_row_inserter))
-								newInstance.parent_row_inserter=this
-								newInstance.parent_row_index=a
-								this.cloned_nested_row_inserters.push(newInstance)
-								newInstance.init()
-    						}
-    					}
+    					this.localIndex=this.initialIndex
     				},
-    getNestedRowInserter: function(index){
-    								return cloned_nested_row_inserters[index]
-    							},
-   	havingNestedRowInserter: function(){
-   										return this.nested_row_inserter==""?false:true
-   									},
-   	havingParentRowInserter: function(){
-   										return this.parent_row_inserter==""?false:true
-   									},
     suppressValidation: function(htmlString){
     								return htmlString.gsub(this.getRegExValidationStr(),function(match){
     																									return ""
