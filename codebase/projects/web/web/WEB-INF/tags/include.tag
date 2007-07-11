@@ -10,6 +10,7 @@
 <tags:stylesheetLink name="calendar-blue"/>
 <tags:stylesheetLink name="fields"/>
 <tags:parsedStylesheetLink name="tables"/>
+<tags:stylesheetLink name="tabbedflow"/>
 <!--[if IE]>
 <tags:stylesheetLink name="ie"/>
 <![endif]-->
