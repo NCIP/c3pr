@@ -1,6 +1,7 @@
 input, label, select, textarea {
   vertical-align: middle;
   margin: 0; padding: 0;
+  margin-left: 2pt;
 }
 input[type=text], input[type=password], select, textarea {
   background-color: #f4f4f5;
