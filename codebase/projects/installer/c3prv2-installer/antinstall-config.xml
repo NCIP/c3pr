@@ -53,11 +53,8 @@ This is the install config for c3prv2 installer
         <target-select displayText="Select" property="install.new.tomcat"
                        defaultValue="installNewTomcat">
             <option text="Install new Tomcat" value="installNewTomcat"/>
-            <option text="Choose Existing" value="dummyTarget"/>
+            <option text="Choose Existing" value="installExistingTomcat"/>
         </target-select>
-        <conditional ifProperty="${install.new.tomcat}==installNewTarget">
-            <hidden property="new.tomcat.used" value="doesNotMatter"/>
-        </conditional>
     </page>
 
     <page
@@ -79,12 +76,20 @@ This is the install config for c3prv2 installer
             type="input"
             name="selectExistingTomcat"
             displayText="Select Tomcat Directory"
-            ifTarget="dummyTarget">
+            ifTarget="installExistingTomcat">
         <directory
                 property="tomcat.home"
                 displayText="Tomcat Directory"
                 defaultValue="${env.CATALINA_HOME}"
                 checkExists="true"/>
+    </page>
+
+    <page type="text"
+          name="existingTomcatInstructions"
+          ifTarget="installExistingTomcat"
+          htmlResource="/resources/Existing_Tomcat_Instructions.html"
+          displayText="Configure tomcat">
+        <comment bold="true" displayText="Replace"/>
     </page>
 
     <page

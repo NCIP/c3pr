@@ -1,0 +1,20 @@
+<html>
+
+<body bgcolor="white">
+<p>
+    <b>Attention:</b> Since you are using an existing Tomcat
+
+    Please append the following 2 lines to [TOMCAT_HOME]/conf/catalina.properties
+
+    <br>
+<p>
+    <span style="font-size:10px;font-family:Arial;">
+    gov.nih.nci.security.configFile=[TOMCAT_HOME]/conf/cabig/ApplicationSecurityConfig.xml
+    java.security.auth.login.config=[TOMCAT_HOME]/conf/cabig/csm_jaas.config
+        </span>
+
+<p>
+    <b>Note:</b> Replace [TOMCAT_HOME] with the tomcat directory
+
+</body>
+</html>

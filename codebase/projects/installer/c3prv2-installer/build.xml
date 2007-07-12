@@ -31,6 +31,22 @@
         <unzip src="${basedir}/${tomcat.artifact}"
                dest="${tomcat.home}"
                overwrite="true"/>
+
+        <echo message="Modifying tomcat conf"/>
+        <!--todo refactor into core build.xml-->
+        <copy file="${tomcat.conf.dir}/catalina.properties.template"
+              tofile="${tomcat.conf.dir}/catalina.properties"
+              overwrite="true"
+              filtering="true"
+              verbose="true">
+            <filterset>
+                <filter token="csm.config" value="gov.nih.nci.security.configFile=${tomcat.conf.dir}/cabig/ApplicationSecurityConfig.xml"/>
+                <filter token="jaas.config" value="java.security.auth.login.config=${tomcat.conf.dir}/cabig/csm_jaas.config"/>
+            </filterset>
+        </copy>
+
+        <chmod dir="${tomcat.home}/bin" includes="**/*.sh" perm="ugo+x"/>
+
     </target>
 
     <target name="deploy-webapp">
@@ -60,7 +76,7 @@
     </target>
 
     <!--will only be run if deploy-webapp has been run-->
-    <target name="tomcat.security" depends="modifyTomcatConf">
+    <target name="tomcat.security">
         <ant dir="${c3pr.core.dir}"
              inheritall="false"
              target="tomcat.security">
@@ -68,33 +84,16 @@
         </ant>
     </target>
 
-    <!--only do this if a new tomcat is being installed-->
-    <target name="modifyTomcatConf" if="new.tomcat.used">
-        <echo message="Modifying tomcat conf"/>
-        <!--todo refactor into core build.xml-->
-        <copy file="${tomcat.conf.dir}/catalina.properties.template"
-              tofile="${tomcat.conf.dir}/catalina.properties"
-              overwrite="true"
-              filtering="true"
-              verbose="true">
-            <filterset>
-                <filter token="csm.config" value="gov.nih.nci.security.configFile=${tomcat.conf.dir}/cabig/ApplicationSecurityConfig.xml"/>
-                <filter token="jaas.config" value="java.security.auth.login.config=${tomcat.conf.dir}/cabig/csm_jaas.config"/>
-            </filterset>
-        </copy>
 
-        <chmod dir="${tomcat.home}/bin" includes="**/*.sh" perm="ugo+x"/>
-
-    </target>
 
     <!--create/update datbase-->
     <!--rem: build.properties is already copied-->
     <target name="database.migrate">
         <ant dir="${c3pr.core.dir}"
-            inheritall="false"
-            target="bering-migrate">
+             inheritall="false"
+             target="bering-migrate">
 
-            </ant>
+        </ant>
     </target>
 
     <target name="deploy-codebase">
@@ -104,6 +103,10 @@
     </target>
 
     <target name="dummyTarget">
+        <!--does nothing-->
+    </target>
+
+    <target name="installExistingTomcat">
         <!--does nothing-->
     </target>
 
