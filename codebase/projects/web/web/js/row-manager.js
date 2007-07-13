@@ -181,8 +181,12 @@ var AbstractRowInserterProps = {
     deleteRow: function(index){	
     						temp=index
 							new Insertion.Bottom(this.getColumnDivisionElement(index),"<input type='hidden' name='_deletedRow-"+this.replaceParentIndexes(this.path)+"-"+index+"'/>")
-    						new Effect.Puff(this.getColumnDivisionElement(index))
-    						new Element.update(this.getColumnDivisionElement,this.suppressValidation($(this.getColumnDivisionID(index)).innerHTML))
+    						try{
+    							new Effect.Puff(this.getColumnDivisionElement(index))
+    						}catch(e){
+    							new Element.hide(this.getColumnDivisionElement(index))
+    						}
+    						new Element.update(this.getColumnDivisionElement(index),this.suppressValidation($(this.getColumnDivisionID(index)).innerHTML))
     						rowHtml=this.getRowsDivisionHtml()
     					},
     addDivision: function(htmlStr){
