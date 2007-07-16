@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.domain;
 
+import edu.duke.cabig.c3pr.utils.ProjectedList;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
@@ -56,7 +57,7 @@ public class Study extends AbstractMutableDomainObject implements Comparable<Stu
     private String type;
     private String primaryIdentifier;
     private Integer targetAccrualNumber;
-    private ParameterizedBiDirectionalInstantiateFactory<Epoch> epochFactory;
+    private List<Epoch> epochs;
 
     private List<InclusionEligibilityCriteria> incCriterias = new ArrayList<InclusionEligibilityCriteria>();
     private List<ExclusionEligibilityCriteria> excCriterias = new ArrayList<ExclusionEligibilityCriteria>();
@@ -74,10 +75,13 @@ public class Study extends AbstractMutableDomainObject implements Comparable<Stu
         lazyListHelper = new LazyListHelper();
         lazyListHelper.add(Identifier.class, new InstantiateFactory<Identifier>(Identifier.class));
         lazyListHelper.add(StudySite.class, new BiDirectionalInstantiateFactory<StudySite>(StudySite.class,this));
-        epochFactory=new ParameterizedBiDirectionalInstantiateFactory<Epoch>(Epoch.class,this);
-        lazyListHelper.add(Epoch.class, epochFactory);
+    //  lazyListHelper.add(Epoch.class, epochFactory);
+        lazyListHelper.add(TreatmentEpoch.class, new ParameterizedBiDirectionalInstantiateFactory<TreatmentEpoch>(TreatmentEpoch.class,this));
+        lazyListHelper.add(NonTreatmentEpoch.class, new ParameterizedBiDirectionalInstantiateFactory<NonTreatmentEpoch>(NonTreatmentEpoch.class,this));
+   //   mandatory, so that the lazy-projected list is managed properly.
+        setEpochs(new ArrayList<Epoch>());
 
-    }
+       }
 
     public void addEpoch(Epoch epoch) {
     	    epoch.setStudy(this);
@@ -146,79 +150,44 @@ public class Study extends AbstractMutableDomainObject implements Comparable<Stu
         return diseaseCategoryAsText;
     }
 
-
     @Transient
     public List<Identifier> getIdentifiers() {
         return lazyListHelper.getLazyList(Identifier.class);
     }
+      
         
     @OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
     @Cascade(value = {CascadeType.ALL, CascadeType.DELETE_ORPHAN})
-    public List<Epoch> getEpochsInternal() {
-        return lazyListHelper.getInternalList(Epoch.class);
-    }
-
-    public void setEpochsInternal(List<Epoch> epochs) {
-        lazyListHelper.setInternalList(Epoch.class, epochs);
-    }
-     
-    @Transient
     public List<Epoch> getEpochs() {
-    	return lazyListHelper.getLazyList(Epoch.class);
+    	return epochs;
     }
 
     public void setEpochs(List<Epoch> epochs) {
-    	 lazyListHelper.setInternalList(Epoch.class,epochs);
+    	this.epochs=epochs;
+        lazyListHelper.setInternalList(TreatmentEpoch.class,new ProjectedList<TreatmentEpoch>(this.epochs, TreatmentEpoch.class));
+   	 	lazyListHelper.setInternalList(NonTreatmentEpoch.class,new ProjectedList<NonTreatmentEpoch>(this.epochs, NonTreatmentEpoch.class));
     }
     
-    @Transient
-	public List<Epoch> getTreatmentEpochsAliased(){
-    	epochFactory.setClassToInstantiate(TreatmentEpoch.class);
-		return getEpochs();
-	}
-    
-    public void setTreatmentEpochsAliased(List<TreatmentEpoch> treatmentEpochs){
-	}
-	
-	@Transient
-	public List<Epoch> getNonTreatmentEpochsAliased(){
-    	epochFactory.setClassToInstantiate(NonTreatmentEpoch.class);
-		return getEpochs();
-	}
-	
-	public void setNonTreatmentEpochsAliased(List<NonTreatmentEpoch> nonTreatmentEpochs){
-	}
-    
-	@Transient
+    @Transient 
 	public List<TreatmentEpoch> getTreatmentEpochs(){
-    	List<TreatmentEpoch> treatmentEpochs=new ArrayList<TreatmentEpoch>();
-    	List<Epoch> epochs= getEpochs();
-    	for(Epoch epoch: epochs){
-    		if (epoch instanceof TreatmentEpoch) {
-				treatmentEpochs.add((TreatmentEpoch)epoch);
-			}
-    	}
-    	return treatmentEpochs;
+    	 return lazyListHelper.getLazyList(TreatmentEpoch.class);
 	}
-    
+        
+    @Transient 
     public void setTreatmentEpochs(List<TreatmentEpoch> treatmentEpochs){
 	}
-	
-	@Transient
+	      
+       
+    @Transient
 	public List<NonTreatmentEpoch> getNonTreatmentEpochs(){
-    	List<NonTreatmentEpoch> nonTreatmentEpochs=new ArrayList<NonTreatmentEpoch>();
-    	List<Epoch> epochs= getEpochs();
-    	for(Epoch epoch: epochs){
-    		if (epoch instanceof NonTreatmentEpoch) {
-    			nonTreatmentEpochs.add((NonTreatmentEpoch)epoch);
-			}
-    	}
-    	return nonTreatmentEpochs;
-	}
-
+    	 return lazyListHelper.getLazyList(NonTreatmentEpoch.class);
+   	}
+     
+    @Transient
 	public void setNonTreatmentEpochs(List<NonTreatmentEpoch> nonTreatmentEpochs){
 	}
-
+	
+	
     @OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
     @Cascade(value = {CascadeType.ALL, CascadeType.DELETE_ORPHAN})
     public List<StudySite> getStudySitesInternal() {
@@ -271,7 +240,7 @@ public class Study extends AbstractMutableDomainObject implements Comparable<Stu
 
     @Transient
     public List<InclusionEligibilityCriteria> getIncCriterias() {
-    	try {
+    	try {if(getTreatmentEpochs().size()!=0)
 			return getTreatmentEpochs().get(0).getInclusionEligibilityCriteria();
 		} catch (RuntimeException e) {
 			// TODO Auto-generated catch block
@@ -286,7 +255,7 @@ public class Study extends AbstractMutableDomainObject implements Comparable<Stu
 
     @Transient
 	public List<ExclusionEligibilityCriteria> getExcCriterias() {
-    	try {
+    	try { if(getTreatmentEpochs().size()!=0)
 			return getTreatmentEpochs().get(0).getExclusionEligibilityCriteria();
 		} catch (RuntimeException e) {
 			// TODO Auto-generated catch block
@@ -315,7 +284,7 @@ public class Study extends AbstractMutableDomainObject implements Comparable<Stu
 //    @Cascade(value = {CascadeType.ALL, CascadeType.DELETE_ORPHAN})
     @Transient
     public List<StratificationCriterion> getStratificationCriteria() {
-    	try {
+    	try {if(getTreatmentEpochs().size()!=0)
 			return getTreatmentEpochs().get(0).getStratificationCriteria();
 		} catch (RuntimeException e) {
 			// TODO Auto-generated catch block
