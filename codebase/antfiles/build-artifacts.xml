@@ -123,6 +123,12 @@
             </fileset>
         </artifact>
 
+        <artifact track="main" type="jars" id="commons-io.jars">
+            <fileset dir="${share.dir}/commons-io">
+                <include name="*.jar"/>
+            </fileset>
+        </artifact>
+
         <artifact track="main" type="jars" id="commons-logging.jars">
             <fileset dir="${share.dir}/commons-logging">
                 <include name="*.jar"/>
@@ -197,8 +203,8 @@
                 <include name="*.jar"/>
             </fileset>
         </artifact>
-    	
-    	<artifact track="main" type="jars" id="extremeComponents.jars">
+
+        <artifact track="main" type="jars" id="extremeComponents.jars">
             <fileset dir="${share.dir}/extremeComponents">
                 <include name="*.jar"/>
             </fileset>

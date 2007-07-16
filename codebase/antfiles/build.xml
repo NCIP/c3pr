@@ -131,6 +131,7 @@
             <artifact refid="spring.jars"/>
             <artifact refid="hibernate.jars"/>
             <artifact refid="log4j.jars"/>
+            <artifact refid="commons-io.jars"/>
             <artifact refid="commons-logging.jars"/>
             <artifact refid="dom4j.jars"/>
             <artifact refid="antlr.jars"/>
@@ -164,6 +165,7 @@
             <artifact refid="spring.jars"/>
             <artifact refid="hibernate.jars"/>
             <artifact refid="log4j.jars"/>
+            <artifact refid="commons-logging.jars"/>
             <artifact refid="commons-logging.jars"/>
             <artifact refid="dom4j.jars"/>
             <artifact refid="antlr.jars"/>
