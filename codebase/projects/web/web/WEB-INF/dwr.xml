@@ -1,6 +1,6 @@
 <!DOCTYPE dwr
-    PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 2.0//EN"
-    "http://www.getahead.ltd.uk/dwr/dwr20.dtd">
+        PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 2.0//EN"
+        "http://www.getahead.ltd.uk/dwr/dwr20.dtd">
 <dwr>
     <allow>
         <create creator="spring" javascript="createStudy">
@@ -12,14 +12,33 @@
         <create creator="spring" javascript="anatomicDiseaseSite">
             <param name="beanName" value="anatomicDiseaseSiteFacade"/>
         </create>
-        
+
         <create creator="spring" javascript="createReport">
             <param name="beanName" value="createReportFacade"/>
             <include method="getTable"/>
         </create>
-        
-        <signatures>
-		    <![CDATA[
+
+        <create creator="spring" javascript="reportCommand">
+            <param name="beanName" value="reportCommand"/>
+            <include method="setParams"/>
+        </create>
+
+        <create creator="spring" javascript="StudyXMLFileImportAjaxFacade">
+            <param name="beanName" value="studyXMLFileAjaxFacade"/>
+            <include method="getTable"/>
+        </create>
+
+        <create creator="new" javascript="date">
+            <param name="class" value="java.util.Date"/>
+        </create>
+        <create creator="new" javascript="map">
+            <param name="class" value="java.util.Map"/>
+        </create>
+        <convert converter="bean" match="edu.duke.cabig.c3pr.domain.*"/>
+    </allow>
+
+    <signatures>
+        <![CDATA[
 		       import java.util.Map;
 		       import java.util.List;
 		       import edu.duke.cabig.c3pr.web.report.CreateReportController;
@@ -28,27 +47,21 @@
 		       import java.lang.String;
 		       CreateReportFacade.getTable(Map parameterMap, String[] params, HttpServletRequest request);
 		       ]]>
-		. </signatures>
-        
-        <create creator="spring" javascript="reportCommand">
-            <param name="beanName" value="reportCommand"/>
-            <include method="setParams"/>
-        </create>
-        
-        <signatures>
-		    <![CDATA[
+
+        <![CDATA[
 		       import java.lang.String;
 		       import edu.duke.cabig.c3pr.web.report.ReportCommand;
 		       ReportCommand.setParams(String[] params);
 		       ]]>
-		. </signatures>
-		
-        <create creator="new" javascript="date">
-            <param name="class" value="java.util.Date"/>
-        </create>
-         <create creator="new" javascript="map">
-            <param name="class" value="java.util.Map"/>
-        </create>
-        <convert converter="bean" match="edu.duke.cabig.c3pr.domain.*"/>
-    </allow>
+
+        <![CDATA[
+               import java.util.Map;
+               import java.util.List;
+               import edu.duke.cabig.c3pr.web.admin.StudyXMLFileUploadController;
+               import edu.duke.cabig.c3pr.web.ajax.StudyXMLFileImportAjaxFacade;
+               import javax.servlet.http.HttpServletRequest;
+               StudyXMLFileImportAjaxFacade.getTable(Map<String, List> parameterMap, HttpServletRequest request);
+               ]]>
+    </signatures>
+
 </dwr>

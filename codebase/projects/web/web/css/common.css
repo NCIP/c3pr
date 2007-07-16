@@ -185,8 +185,7 @@ ul.tabs li {
 }
 
 .box .content {
-  padding-top: 8px;
-  padding-bottom: 8px;
+  padding: 8px;
 }
 
 .box h3 {
@@ -303,7 +302,7 @@ div.row div.label {
   margin-left: 0.5em;
   text-align: right;
   /* default width; pages might override */
-  width: 12em;
+  width: 10em;
 }
 div.row div.value {
   font-weight: normal;

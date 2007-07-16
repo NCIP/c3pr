@@ -132,31 +132,10 @@ public abstract class StudyController<C extends Study> extends AutomaticSaveFlow
         return false;
     }
 
-
-    /**
-     * Need to create a default study with default associated Collection objects
-     * Need this to bind empty collections in Spring <form> tag
-     *
-     * @return Study with the defaults
-     */
     protected Study createDefaultStudyWithDesign() {
-        Study study = new Study();
-
-        // createDefaultIdentifiers(study);
-
-        return study;
+        return new Study();
     }
 
-
-    protected void createDefaultIdentifiers(Study study) {
-        List<Identifier> identifiers = new ArrayList<Identifier>();
-        Identifier id1 = new Identifier();
-        id1.setPrimaryIndicator(true);
-        Identifier id2 = new Identifier();
-        identifiers.add(id1);
-        identifiers.add(id2);
-        study.setIdentifiers(identifiers);
-    }
 
     public StudyService getStudyService() {
         return studyService;
