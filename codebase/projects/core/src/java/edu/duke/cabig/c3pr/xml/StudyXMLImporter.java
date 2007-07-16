@@ -1,12 +1,13 @@
 package edu.duke.cabig.c3pr.xml;
 
-import java.io.Reader;
-
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.exception.StudyValidationException;
 import edu.duke.cabig.c3pr.service.StudyService;
-import gov.nih.nci.common.util.XMLUtility;
+
+
+import java.io.Reader;
+
 
 /**
  * Utility class to import XML extracts of study
@@ -21,7 +22,7 @@ public class StudyXMLImporter {
 
     private StudyDao studyDao;
     private StudyService studyService;
-
+    private XmlMarshaller marshaller;
 
     /**
      * Will validate and save a study 
@@ -34,10 +35,10 @@ public class StudyXMLImporter {
     }
 
 
-    public void importStudy(Reader studyXMLReader) throws Exception  {
-        Study study = (Study)XMLUtility.fromXML(studyXMLReader);
+    public Study getStudy(Reader studyXMLReader) throws Exception  {
+        Study study = (Study) marshaller.fromXML(studyXMLReader);
         this.validate(study);
-        studyService.save(study);
+        return study;
     }
 
 
@@ -53,6 +54,16 @@ public class StudyXMLImporter {
         }
     }
 
+    /**
+     * Validate study and throw exception if its invalid
+     * @param studyXMLReader
+     * @throws Exception
+     */
+    public void validate(Reader studyXMLReader) throws Exception{
+        //make sure we can read the study
+        Study study = (Study)marshaller.fromXML(studyXMLReader);
+        this.validate(study);
+    }
 
     //setters for spring
 
@@ -62,5 +73,13 @@ public class StudyXMLImporter {
 
     public void setStudyService(StudyService studyService) {
         this.studyService = studyService;
+    }
+
+    public XmlMarshaller getMarshaller() {
+        return marshaller;
+    }
+
+    public void setMarshaller(XmlMarshaller marshaller) {
+        this.marshaller = marshaller;
     }
 }

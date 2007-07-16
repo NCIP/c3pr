@@ -180,9 +180,10 @@
         <property name="mappingFile" value="c3pr-castor-mapping.xml"/>
     </bean>
 
-    <bean id="studyXMLImporter" class="edu.duke.cabig.c3pr.xml.StudyXMLImporter">
-        <property name="studyService" ref="studyService"/>
-        <property name="studyDao" ref="studyDao"/>
+    <bean id="studyXMLImporter"
+          class="edu.duke.cabig.c3pr.xml.StudyXMLImporter"
+            autowire="byType">
+
     </bean>
 
 
