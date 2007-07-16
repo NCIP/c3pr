@@ -153,7 +153,7 @@
 
 						<div class="rightpanel">
 						<div class="row">
-						<div class="label">*Accrual Indicator:</div>
+						<div class="label">Accrual Indicator:</div>
 						<div class="value"><form:select
 							path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].accrualIndicator"
 							cssClass="validate-notEmpty">
@@ -163,14 +163,14 @@
 						</div>
 
 						<div class="row">
-						<div class="label">*Accrual Ceiling:</div>
+						<div class="label">Accrual Ceiling:</div>
 						<div class="value"><form:input
 							path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].accrualCeiling"
 							size="12" maxlength="10" cssClass="validate-numeric" /></div>
 						</div>
 
 						<div class="row">
-						<div class="label">*Enrollment Indicator:</div>
+						<div class="label">Enrollment Indicator:</div>
 						<div class="value"><form:select
 							id="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].enrollmentIndicator"
 							path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].enrollmentIndicator"
@@ -181,7 +181,7 @@
 						</div>
 
 						<div class="row">
-						<div class="label">*Reservation Indicator:</div>
+						<div class="label">Reservation Indicator:</div>
 						<div class="value"><form:select
 							path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].reservationIndicator"
 							cssClass="validate-notEmpty">
@@ -285,7 +285,7 @@
 
 			<div class="rightpanel">
 			<div class="row">
-			<div class="label">*Accrual Indicator:</div>
+			<div class="label">Accrual Indicator:</div>
 			<div class="value"><select
 				name="nonTreatmentEpochs[PAGE.ROW.INDEX].accrualIndicator"
 				cssClass="validate-notEmpty">
@@ -296,7 +296,7 @@
 			</div>
 
 			<div class="row">
-			<div class="label">*Accrual Ceiling:</div>
+			<div class="label">Accrual Ceiling:</div>
 			<div class="value"><input type="text"
 				id="nonTreatmentEpochs[PAGE.ROW.INDEX].accrualCeiling"
 				name="nonTreatmentEpochs[PAGE.ROW.INDEX].accrualCeiling" size="12"
@@ -304,7 +304,7 @@
 			</div>
 
 			<div class="row">
-			<div class="label">*Enrollment Indicator:</div>
+			<div class="label">Enrollment Indicator:</div>
 			<div class="value"><select
 				id="nonTreatmentEpochs[PAGE.ROW.INDEX].enrollmentIndicator"
 				name="nonTreatmentEpochs[PAGE.ROW.INDEX].enrollmentIndicator"
@@ -316,7 +316,7 @@
 			</div>
 
 			<div class="row">
-			<div class="label">*Reservation Indicator:</div>
+			<div class="label">Reservation Indicator:</div>
 			<div class="value"><select
 				id="nonTreatmentEpochs[PAGE.ROW.INDEX].reservationIndicator"
 				name="nonTreatmentEpochs[PAGE.ROW.INDEX].reservationIndicator"
