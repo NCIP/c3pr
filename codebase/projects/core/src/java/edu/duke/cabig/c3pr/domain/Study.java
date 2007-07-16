@@ -85,7 +85,7 @@ public class Study extends AbstractMutableDomainObject implements Comparable<Stu
 
     public void addEpoch(Epoch epoch) {
     	    epoch.setStudy(this);
-    	    lazyListHelper.getLazyList(Epoch.class).add(epoch);
+    	    getEpochs().add(epoch);
     }
 
     public void removeEpoch(Epoch epoch) {
