@@ -11,10 +11,9 @@
     <property name="tomcat.artifact" value="apache-tomcat-5.5.23.zip"/>
 
     <!--properties from the GUI installer-->
-    <property name="tomcat.webapp.dir" value="${tomcat.home}/webapps"/>
     <property name="base.codebase.dir" value="${basedir}/codebase"/>
     <property name="install.codebase.dir" value="${install.dir}/codebase"/>
-    <property name="tomcat.conf.dir" value="${tomcat.home}/conf"/>
+
 
     <!--c3pr src folders-->
     <property name="c3pr.core.dir" value="${base.codebase.dir}/projects/core"/>
@@ -33,12 +32,20 @@
                overwrite="true"/>
 
         <echo message="Modifying tomcat conf"/>
+
+
+        <!--Works for all OS-->
+        <pathconvert targetos="unix" property="tomcat.conf.dir">
+            <path location="${tomcat.home}/conf"/>
+        </pathconvert>
+
         <!--todo refactor into core build.xml-->
         <copy file="${tomcat.conf.dir}/catalina.properties.template"
               tofile="${tomcat.conf.dir}/catalina.properties"
               overwrite="true"
               filtering="true"
               verbose="true">
+
             <filterset>
                 <filter token="csm.config" value="gov.nih.nci.security.configFile=${tomcat.conf.dir}/cabig/ApplicationSecurityConfig.xml"/>
                 <filter token="jaas.config" value="java.security.auth.login.config=${tomcat.conf.dir}/cabig/csm_jaas.config"/>
@@ -65,6 +72,12 @@
         <copy file="${basedir}/ant.install.properties"
               tofile="${base.codebase.dir}/antfiles/build.properties"
                 />
+
+
+        <!--Works for all OS-->
+        <pathconvert targetos="unix" property="tomcat.webapp.dir">
+            <path location="${tomcat.home}/webapps"/>
+        </pathconvert>
 
         <ant dir="${base.codebase.dir}" antfile="antfiles/build.xml"
              inheritall="false" target="deploy-webapp">

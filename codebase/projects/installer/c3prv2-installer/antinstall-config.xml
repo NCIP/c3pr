@@ -200,7 +200,7 @@ This is the install config for c3prv2 installer
         <text
                 property="datasource.url"
                 displayText="Database URL"
-                defaultValue="jdbc:oracle:thin:@10.10.10.2:1522:CAAERS"
+                defaultValue="jdbc:oracle:thin:@localhost:1522:c3pr_dev"
                 />
         <text
                 property="datasource.username"

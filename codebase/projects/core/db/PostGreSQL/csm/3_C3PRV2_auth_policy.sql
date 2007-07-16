@@ -64,12 +64,6 @@ insert into CSM_PROTECTION_GROUP(PROTECTION_GROUP_ID,
             values(6,'edu.duke.cabig.c3pr.domain.HealthcareSite',
             'Investigator protection group',1,0,'now');
 
-insert into CSM_PROTECTION_GROUP(PROTECTION_GROUP_ID,
-            PROTECTION_GROUP_NAME, PROTECTION_GROUP_DESCRIPTION,
-            APPLICATION_ID, LARGE_ELEMENT_COUNT_FLAG,
-            UPDATE_DATE)
-            values(7,'edu.duke.cabig.c3pr.domain.StudyParticipantAssignment',
-            'Investigator protection group',1,0,'now'); 
 
 insert into csm_protection_element(protection_element_id,
             protection_element_name,protection_element_description,
@@ -114,13 +108,6 @@ insert into csm_protection_element(protection_element_id,
             'HealthCare Site Domain object','edu.duke.cabig.c3pr.domain.HealthcareSite',
             1,'now');
 
-insert into csm_protection_element(protection_element_id,
-            protection_element_name,protection_element_description,
-            object_id,application_id,update_date)
-            values(9,'edu.duke.cabig.c3pr.domain.StudyParticipantAssignment',
-            'StudyParticipantAssignment Domain object','edu.duke.cabig.c3pr.domain.StudyParticipantAssignment',
-            1,'now');
-
 
 insert into csm_pg_pe(pg_pe_id,protection_group_id,
             protection_element_id)
@@ -146,9 +133,6 @@ insert into csm_pg_pe(pg_pe_id,protection_group_id,
             protection_element_id)
             values(8,6,8);
 
-insert into csm_pg_pe(pg_pe_id,protection_group_id,
-            protection_element_id)
-            values(9,7,9);
 
     insert into CSM_ROLE(role_id,role_name,
                 role_description,application_id,
@@ -258,25 +242,8 @@ insert into CSM_ROLE(role_id,role_name,
                 values(18,'edu.duke.cabig.c3pr.domain.HealthcareSite.CREATE',
                 'HealthcareSite read role',1,1,'now');
 
-insert into CSM_ROLE(role_id,role_name,
-                role_description,application_id,
-                active_flag,update_date)
-                values(19,'edu.duke.cabig.c3pr.domain.StudyParticipantAssignment.CREATE',
-                'StudyParticipantAssignment read role',1,1,'now');
-              
-insert into CSM_ROLE(role_id,role_name,
-                role_description,application_id,
-                active_flag,update_date)
-                values(20,'edu.duke.cabig.c3pr.domain.StudyParticipantAssignment.UPDATE',
-                'StudyParticipantAssignment read role',1,1,'now');
-                
-insert into CSM_ROLE(role_id,role_name,
-                role_description,application_id,
-                active_flag,update_date)
-                values(21,'edu.duke.cabig.c3pr.domain.StudyParticipantAssignment.READ',
-                'StudyParticipantAssignment read role',1,1,'now'); 
-                
-                
+
+
 insert into CSM_ROLE_PRIVILEGE(role_privilege_id,
             role_id,privilege_id,update_date)
             values(1,1,1,'now');
@@ -349,19 +316,7 @@ insert into CSM_ROLE_PRIVILEGE(role_privilege_id,
             role_id,privilege_id,update_date)
             values(18,18,3,'now');
 
-           
-insert into CSM_ROLE_PRIVILEGE(role_privilege_id,
-            role_id,privilege_id,update_date)
-            values(19,19,1,'now');
 
-insert into CSM_ROLE_PRIVILEGE(role_privilege_id,
-            role_id,privilege_id,update_date)
-            values(20,20,5,'now');
-
-insert into CSM_ROLE_PRIVILEGE(role_privilege_id,
-            role_id,privilege_id,update_date)
-            values(21,21,3,'now');
-            
 insert into csm_user_group_role_pg (USER_GROUP_ROLE_PG_ID,
             GROUP_ID, ROLE_ID, PROTECTION_GROUP_ID,
             UPDATE_DATE)
@@ -512,20 +467,4 @@ insert into csm_user_group_role_pg (USER_GROUP_ROLE_PG_ID,
             UPDATE_DATE)
             values(30,3,9,3,'now');
             
-insert into csm_user_group_role_pg (USER_GROUP_ROLE_PG_ID,
-            GROUP_ID, ROLE_ID, PROTECTION_GROUP_ID,
-            UPDATE_DATE)
-            values(31,1,19,7,'now');
-            
-insert into csm_user_group_role_pg (USER_GROUP_ROLE_PG_ID,
-            GROUP_ID, ROLE_ID, PROTECTION_GROUP_ID,
-            UPDATE_DATE)
-            values(32,1,20,7,'now');
-            
-insert into csm_user_group_role_pg (USER_GROUP_ROLE_PG_ID,
-            GROUP_ID, ROLE_ID, PROTECTION_GROUP_ID,
-            UPDATE_DATE)
-            values(33,1,21,7,'now');                
-            
-           
  
