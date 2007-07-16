@@ -3,7 +3,7 @@ package edu.duke.cabig.c3pr.domain;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-@Entity(name="NonTreatmentEpoch")
+@Entity
 @DiscriminatorValue(value="NON-TREATMENT")
 //@Where(clause="type='NON-TREATMENT'")
 public class NonTreatmentEpoch extends Epoch{
