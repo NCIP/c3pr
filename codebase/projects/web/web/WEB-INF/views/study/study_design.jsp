@@ -14,7 +14,7 @@
 		var armInserterProps= {
 			add_row_division_id: "arm",
 			skeleton_row_division_id: "dummy-arm",
-			initialIndex: 0,
+			initialIndex: ${fn:length(command.treatmentEpochs[treatmentEpochCount.index].arms)},
 			row_index_indicator: "NESTED.PAGE.ROW.INDEX",
 			path: "treatmentEpochs[${treatmentEpochCount.index }].arms",
 		};
@@ -77,17 +77,17 @@
 								<table width="50%" border="0" cellspacing="1" cellpadding="1"
 									id="mytable1">
 									<tr>
-										<td align="right" class="alt"><span class="red">*</span><em></em>
-										<b>Name :</b>&nbsp;</td>
+										<th align="right" class="alt"><span class="red">*</span><em></em>
+										<b>Name :</b>&nbsp;</th>
 										<td align="left"><form:input
 											path="treatmentEpochs[${treatmentEpochCount.index}].name"
-											size="26" cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
+											size="50" cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
 									</tr>
 									<tr>
-										<td align="right" class="alt"><em></em> <b>Description:</b>&nbsp;</td>
+										<th align="right" class="alt"><em></em> <b>Description:</b>&nbsp;</th>
 										<td align="left"><form:textarea
 											path="treatmentEpochs[${treatmentEpochCount.index}].descriptionText"
-											rows="2" cols="20" />&nbsp;&nbsp;&nbsp;</td>
+											rows="5" cols="40" />&nbsp;&nbsp;&nbsp;</td>
 									</tr>
 								</table>
 								</td>
@@ -104,7 +104,7 @@
 
 									<c:forEach items="${treatmentEpoch.arms}" var="arm"
 										varStatus="statusArms">
-										<tr>
+										<tr id="arm-${statusArms.index}">
 											<td class="alt"><form:input
 												path="treatmentEpochs[${treatmentEpochCount.index}].arms[${statusArms.index}].name"
 												cssClass="validate-notEmpty" /></td>
@@ -214,23 +214,23 @@
 					<table width="50%" border="0" cellspacing="1" cellpadding="1"
 						id="mytable1">
 						<tr>
-							<td align="right" class="alt"><span class="red">*</span><em></em>
-							<b>Name:</b>&nbsp;</td>
+							<th align="right" class="alt"><span class="red">*</span><em></em>
+							<b>Name:</b>&nbsp;</th>
 							<td align="left"><input type="text"
-								name="treatmentEpochs[PAGE.ROW.INDEX].name" size="26"
+								name="treatmentEpochs[PAGE.ROW.INDEX].name" size="50"
 								cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
 						</tr>
 						<tr>
-							<td align="right" class="alt"><em></em> <b>Description:</b>&nbsp;</td>
+							<th align="right" class="alt"><em></em> <b>Description:</b>&nbsp;</th>
 							<td align="left"><textarea
-								name="treatmentEpochs[PAGE.ROW.INDEX].descriptionText" rows="2"
-								cols="20"></textarea></td>
+								name="treatmentEpochs[PAGE.ROW.INDEX].descriptionText" rows="5"
+								cols="40"></textarea></td>
 						</tr>
 					</table>
 					</td>
 					<td width="100" valign="top">
 					<table border="0" cellspacing="0" cellpadding="0" id="arm" class="mytable"
-						width="50%">
+						width="40%">
 						<tr>
 							<th class="alt">Arm</th>
 							<th class="alt">Target&nbsp;Accrual&nbsp;Number</th>
