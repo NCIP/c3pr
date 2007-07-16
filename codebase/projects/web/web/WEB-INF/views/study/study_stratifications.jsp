@@ -35,7 +35,7 @@
 		rowInserters.push(stratRowInserterProps_${epochCount.index});
 		registerRowInserters();
 	</script>
-	<tags:minimizablePanelBox title="${epoch.name} : ${epoch.descriptionText }" boxId="${epoch.name}">
+	<tags:minimizablePanelBox title="${epoch.name}" boxId="${epoch.name}">
 	  <p id="instructions">
              Add Stratatification factor:
              <a href="javascript:RowManager.addRow(stratRowInserterProps_${epochCount.index});"><img
@@ -50,7 +50,7 @@
                  <th scope="col" align="left"><b>add&nbsp;answers<span class="red">*</span></b></th>
                  <th scope="col" align="left"></th>
              </tr>
-             <c:forEach items="${command.epochs[epochCount.index].stratificationCriteria}" var="strat" varStatus="status">
+             <c:forEach items="${command.treatmentEpochs[epochCount.index].stratificationCriteria}" var="strat" varStatus="status">
                 <script>
                     RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},${status.index}).updateIndex(${fn:length(command.treatmentEpochs[epochCount.index].stratificationCriteria[status.index].permissibleAnswers)});
 				</script>
@@ -60,8 +60,8 @@
                          <img src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="Delete"></a>
                      </td>
                      <td class="alt">
-                         <form:hidden path="epochs[${epochCount.index }].stratificationCriteria[${status.index}].questionNumber"/>
-                         <form:textarea path="epochs[${epochCount.index }].stratificationCriteria[${status.index}].questionText" rows="1"
+                         <form:hidden path="treatmentEpochs[${epochCount.index }].stratificationCriteria[${status.index}].questionNumber"/>
+                         <form:textarea path="treatmentEpochs[${epochCount.index }].stratificationCriteria[${status.index}].questionText" rows="1"
                                         cols="60" cssClass="validate-notEmpty"/>
                      </td>
                      <td class="alt"><a href="javascript:RowManager.addRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},${status.index}));">
@@ -73,11 +73,11 @@
                                  <td class="alt"></td>
                              </tr>
                              <c:forEach var="answer" varStatus="statusAns"
-                                        items="${command.epochs[epochCount.index].stratificationCriteria[status.index].permissibleAnswers}">
+                                        items="${command.treatmentEpochs[epochCount.index].stratificationCriteria[status.index].permissibleAnswers}">
                                  <tr id="table1-${statusAns.index }">
                                      <td class="alt">
                                          <form:input
-                                                 path="epochs[${epochCount.index }].stratificationCriteria[${status.index}].permissibleAnswers[${statusAns.index}].permissibleAnswer"
+                                                 path="treatmentEpochs[${epochCount.index }].stratificationCriteria[${status.index}].permissibleAnswers[${statusAns.index}].permissibleAnswer"
                                                  size="30" cssClass="validate-notEmpty"/></td>
                                      <td class="alt"><a
                                              href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},${status.index}),${statusAns.index });">
@@ -102,8 +102,8 @@
 	        <img src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="Delete"></a>
 	    </td>
 	    <td class="alt">
-	        <input type="hidden" name="epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].questionNumber"/>
-	        <textarea name="epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].questionText" rows="1"
+	        <input type="hidden" name="treatmentEpochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].questionNumber"/>
+	        <textarea name="treatmentEpochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].questionText" rows="1"
 	                       cols="60" cssClass="validate-notEmpty"></textarea>
 	    </td>
 	    <td class="alt"><a href="javascript:RowManager.addRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},PAGE.ROW.INDEX));">
@@ -116,7 +116,7 @@
 	            </tr>
                 <tr id="table1-0">
                     <td class="alt">
-                        <input type="text" name="epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers[0].permissibleAnswer"
+                        <input type="text" name="treatmentEpochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers[0].permissibleAnswer"
                                 size="30" cssClass="validate-notEmpty"/></td>
                     <td class="alt"><a
                             href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},PAGE.ROW.INDEX),0);">
@@ -131,7 +131,7 @@
 <table>
 	<tr>
 	    <td class="alt">
-	        <input type="text" name="epochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers[NESTED.PAGE.ROW.INDEX].permissibleAnswer"
+	        <input type="text" name="treatmentEpochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers[NESTED.PAGE.ROW.INDEX].permissibleAnswer"
 	                size="30" cssClass="validate-notEmpty"/></td>
 	    <td class="alt"><a
 	            href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},PAGE.ROW.INDEX),NESTED.PAGE.ROW.INDEX);">
