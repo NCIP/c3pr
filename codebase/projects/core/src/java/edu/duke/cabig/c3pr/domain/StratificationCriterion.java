@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.domain;
 
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,13 @@ public class StratificationCriterion extends AbstractMutableDomainObject impleme
     private List<StratificationCriterionPermissibleAnswer> permissibleAnswers = 
     	new ArrayList<StratificationCriterionPermissibleAnswer>();
     private Study study;
-       
+    private LazyListHelper lazyListHelper;
+     
+    public StratificationCriterion()
+    {
+    lazyListHelper = new LazyListHelper();
+    lazyListHelper.add(StratificationCriterionPermissibleAnswer.class,new BiDirectionalInstantiateFactory<StratificationCriterionPermissibleAnswer>(StratificationCriterionPermissibleAnswer.class,this));
+    }
     
     /// LOGIC
 
@@ -89,13 +96,23 @@ public class StratificationCriterion extends AbstractMutableDomainObject impleme
 
 	@OneToMany (mappedBy="stratificationCriterion", fetch=FetchType.LAZY)
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})	
-	public List<StratificationCriterionPermissibleAnswer> getPermissibleAnswers() {
-		return permissibleAnswers;
+	public List<StratificationCriterionPermissibleAnswer> getPermissibleAnswersInternal() {
+		return lazyListHelper.getInternalList(StratificationCriterionPermissibleAnswer.class);
 	}
 
+	public void setPermissibleAnswersInternal(
+			List<StratificationCriterionPermissibleAnswer> permissibleAnswers) {
+		lazyListHelper.setInternalList(StratificationCriterionPermissibleAnswer.class, permissibleAnswers);
+	}
+	
+	@Transient
+	public List<StratificationCriterionPermissibleAnswer> getPermissibleAnswers() {
+		return lazyListHelper.getLazyList(StratificationCriterionPermissibleAnswer.class);
+	}
+	
 	public void setPermissibleAnswers(
 			List<StratificationCriterionPermissibleAnswer> permissibleAnswers) {
-		this.permissibleAnswers = permissibleAnswers;
+		lazyListHelper.setInternalList(StratificationCriterionPermissibleAnswer.class, permissibleAnswers);
 	}
 
 	@Override
