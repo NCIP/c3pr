@@ -66,11 +66,7 @@ public class CreateInvestigatorController extends
 				refdata.put("healthcareSites", healthcareSiteDao.getAll());
 				return refdata;
 			}
-
-			@Override
-			public boolean isAllowDirtyForward() {
-				return false;
-			}
+			
 		});
 
 		setFlow(flow);
