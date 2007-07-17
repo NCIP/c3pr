@@ -3,9 +3,10 @@
     <!--Get ctmsi commons project artifacts-->
     <property file="${antfiles.dir}/build.properties"/>
 
+    <property name="antfiles.lib.dir" value="${antfiles.dir}/lib"/>
     <property name="ctms.commons.dir" value="${share.dir}/ctms-commons"/>
     
-    <path id="maven-ant-tasks.classpath" path="${antfiles.dir}/maven-ant-tasks-2.0.7.jar" />
+    <path id="maven-ant-tasks.classpath" path="${antfiles.lib.dir}/maven-ant-tasks-2.0.7.jar" />
 
     <typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant"
              classpathref="maven-ant-tasks.classpath" />
