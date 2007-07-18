@@ -262,7 +262,7 @@
                  dialect="${bering.dialect}"
                  url="${datasource.url}"
                  userid="${datasource.username}"
-                 password="{datasource.password}"
+                 password="${datasource.password}"
                  migrationsDir="${db.scripts.dir}/bering"
                  targetVersion="1"/>
 
