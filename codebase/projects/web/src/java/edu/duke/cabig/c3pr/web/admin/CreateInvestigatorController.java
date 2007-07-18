@@ -13,9 +13,9 @@ import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.SubFlow;
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.SubFlowTab;
 import edu.duke.cabig.c3pr.web.beans.DefaultObjectPropertyReader;
 import gov.nih.nci.cabig.ctms.web.tabs.AbstractTabbedFlowFormController;
+import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -53,7 +53,7 @@ public class CreateInvestigatorController extends
 
 		SubFlow<Investigator> flow = new SubFlow<Investigator>("Create Investigator");
 
-		flow.addTab(new SubFlowTab<Investigator>("Enter Investigator Information",
+		flow.addTab(new Tab<Investigator>("Enter Investigator Information",
 				"Investigator Details", "admin/investigator_details") {
 			public Map<String, Object> referenceData() {
 				Map<String, List<Lov>> configMap = configurationProperty
