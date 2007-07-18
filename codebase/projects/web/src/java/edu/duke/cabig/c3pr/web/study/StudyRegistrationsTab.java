@@ -23,7 +23,7 @@ class StudyRegistrationsTab extends StudyTab {
     @Override
     public Map<String, Object> referenceData(Study study) {
         Map<String, Object> refdata = super.referenceData(study);
-        refdata.put("participantAssignments", this.getStudyDao().getStudyParticipantAssignmentsForStudy(study.getId()));
+        refdata.put("participantAssignments", this.getStudyDao().getStudySubjectsForStudy(study.getId()));
 
         return refdata;
     }

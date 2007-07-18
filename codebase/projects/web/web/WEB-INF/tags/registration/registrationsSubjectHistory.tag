@@ -23,7 +23,7 @@ function navRollOver(obj, state) {
 			<td>Treating Physician</td>
 		</tr>
 		<c:set var="i" value="0"/>
-		<c:forEach items="${command.participant.studyParticipantAssignments}" var="registration">
+		<c:forEach items="${command.participant.studySubjects}" var="registration">
 			<tr align="center" id="row${i}" class="results"
 				onMouseOver="navRollOver('row${i}', 'on')"
 				onMouseOut="navRollOver('row${i}', 'off')"

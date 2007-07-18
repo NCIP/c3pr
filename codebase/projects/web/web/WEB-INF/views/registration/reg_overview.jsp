@@ -133,7 +133,12 @@
 				</tr>
 				<tr>
 					<td class="labelR" width="25%">Informed Consent Signed Date:</td>
-					<td>${command.informedConsentSignedDateStr}</td>
+					<td><p id="date">${command.informedConsentSignedDateStr}</p></td>
+					<script type="text/javascript">
+						 url=document.URL+"&_page0=0&_target0=0&asynchronous=true";
+						 //new Ajax.InPlaceEditor('date', '');
+						 new Ajax.InPlaceEditor('date', url, { callback: function(form, value) { return 'informedConsentSignedDate=' + escape(value) }});
+					</script>
 				</tr>
 				<tr>
 					<td class="labelR">Informed Consent Version:</td>

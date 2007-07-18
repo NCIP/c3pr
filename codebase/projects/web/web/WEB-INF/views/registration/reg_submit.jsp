@@ -18,9 +18,6 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script>
-function navRollOver(obj, state) {
-  document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
-}
 var submitPostProcess= function(formElement, continueSubmission){
 		registrationStatus="${command.registrationStatus}";
 		if(formElement.id!='command')
@@ -158,9 +155,6 @@ var submitPostProcess= function(formElement, continueSubmission){
 				</tr>
 			</table>
 			</div>
-			<c:if test="${empty editable}">
-				<tabs:tabButtonControls text="edit" target="3"/>
-			</c:if>
 			<hr align="left" width="95%">					
 			<br>
 			<strong>Disease Information </strong><br>
@@ -176,10 +170,6 @@ var submitPostProcess= function(formElement, continueSubmission){
 				</tr>
 			</table>
 			</div>
-			<c:if test="${empty editable}">
-				<tabs:tabButtonControls text="edit" target="4"/>
-			</c:if>
-
 			<hr align="left" width="95%">					
 			<br>
 			<strong>Check Eligibility </strong><br>
@@ -188,11 +178,11 @@ var submitPostProcess= function(formElement, continueSubmission){
 				<tr>
 					<td width="25%" class="labelR">Eligibility
 					Indicator:</td>
-					<td>${command.eligibilityIndicator }</td>
+					<td>${command.scheduledEpoch.eligibilityIndicator }</td>
 				</tr>
 			</table>
 			<c:choose>
-			<c:when test="${fn:length(command.inclusionEligibilityAnswers) == 0 && fn:length(command.exclusionEligibilityAnswers) == 0}">
+			<c:when test="${fn:length(command.scheduledEpoch.inclusionEligibilityAnswers) == 0 && fn:length(command.scheduledEpoch.exclusionEligibilityAnswers) == 0}">
 			There is no eligibility check list available for this subject
 			</c:when>
 			<c:otherwise>
@@ -205,7 +195,7 @@ var submitPostProcess= function(formElement, continueSubmission){
 						<th scope="col" align="left">Question</th>
 						<th scope="col" align="left">Answer</th>
 					</tr>
-					<c:forEach items="${command.inclusionEligibilityAnswers}" var="criteria">
+					<c:forEach items="${command.scheduledEpoch.inclusionEligibilityAnswers}" var="criteria">
 						<tr class="results">
 							<td class="alt" align="left">${ criteria.eligibilityCriteria.questionText}</td>
 							<td class="alt" align="left">${criteria.answerText==''?'<span class="red"><b>Unanswered</span>':criteria.answerText }</td>
@@ -222,7 +212,7 @@ var submitPostProcess= function(formElement, continueSubmission){
 						<th scope="col" align="left">Question</th>
 						<th scope="col" align="left">Answer</th>
 					</tr>
-					<c:forEach items="${command.exclusionEligibilityAnswers}" var="criteria">
+					<c:forEach items="${command.scheduledEpoch.exclusionEligibilityAnswers}" var="criteria">
 						<tr class="results">
 							<td class="alt" align="left">${ criteria.eligibilityCriteria.questionText}</td>
 							<td class="alt" align="left">${criteria.answerText==''?'<span class="red"><b>Unanswered</span>':criteria.answerText }</td>
@@ -242,7 +232,7 @@ var submitPostProcess= function(formElement, continueSubmission){
 			<strong>Stratification Information </strong><br>
 			<div class="review">
 			<c:choose>
-			<c:when test="${fn:length(command.subjectStratificationAnswers) == 0}">
+			<c:when test="${fn:length(command.scheduledEpoch.subjectStratificationAnswers) == 0}">
 			<table width="50%" border="0" cellspacing="0" cellpadding="0" id="table1">
 				<tr>
 					<td class="label" align=left>The Selected Study does not have Stratification Factors</td>
@@ -256,7 +246,7 @@ var submitPostProcess= function(formElement, continueSubmission){
 					<th scope="col" align="left">Strata</th>
 					<th scope="col" align="left"><b>Answer</th>
 				</tr>
-				<c:forEach items="${command.subjectStratificationAnswers}" var="criteria">
+				<c:forEach items="${command.scheduledEpoch.subjectStratificationAnswers}" var="criteria">
 					<tr class="results">
 						<td class="alt" align="left">${criteria.stratificationCriterion.questionText}</td>
 						<td class="alt" align="left">${criteria.stratificationCriterionAnswer.permissibleAnswer==''?'<span class="red"><b>Unanswered</span>':criteria.stratificationCriterionAnswer.permissibleAnswer }</td>
@@ -266,9 +256,6 @@ var submitPostProcess= function(formElement, continueSubmission){
 			</c:otherwise>
 			</c:choose>
 			</div>
-			<c:if test="${empty editable}">
-				<tabs:tabButtonControls text="edit" target="6"/>
-			</c:if>
 						<hr align="left" width="95%">					
 			<br>
 			<strong>Randomization Information </strong><br>
@@ -276,13 +263,10 @@ var submitPostProcess= function(formElement, continueSubmission){
 			<table width="50%" border="0" cellspacing="0" cellpadding="0" id="mytable">
 				<tr>
 					<td width="25%" class="labelR">Arm:</td>
-					<td><c:if test="${!empty command.scheduledArms[0].arm }">${command.scheduledArms[0].arm.name }</c:if></td>
+					<td><c:if test="${!empty command.scheduledEpoch.scheduledArms[0].arm }">${command.scheduledEpoch.scheduledArms[0].arm.name }</c:if></td>
 				</tr>
 			</table>
 			</div>
-			<c:if test="${empty editable}">
-				<tabs:tabButtonControls text="edit" target="7"/>
-			</c:if>
 		</td>
 	</tr>
 </table>

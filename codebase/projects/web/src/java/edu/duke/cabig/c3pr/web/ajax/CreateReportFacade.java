@@ -21,11 +21,11 @@ import org.extremecomponents.table.core.TableConstants;
 import org.extremecomponents.table.core.TableModel;
 import org.extremecomponents.table.core.TableModelImpl;
 
-import edu.duke.cabig.c3pr.dao.StudyParticipantAssignmentDao;
+import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySite;
 
 /**
@@ -34,7 +34,7 @@ import edu.duke.cabig.c3pr.domain.StudySite;
 public class CreateReportFacade {
 
 	private static Log log = LogFactory.getLog(CreateReportFacade.class);
-	private StudyParticipantAssignmentDao registrationDao;
+	private StudySubjectDao studySubjectDao;
 	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
 	
 	
@@ -200,11 +200,11 @@ public class CreateReportFacade {
         	log.error("DateFormat Exception in CreateReportFacade");
         }
         
-        StudyParticipantAssignment studyParticipantAssignment = new StudyParticipantAssignment();
-        studyParticipantAssignment.setStudySite(studySite);
-        studyParticipantAssignment.setParticipant(participant);
+        StudySubject studySubject = new StudySubject();
+        studySubject.setStudySite(studySite);
+        studySubject.setParticipant(participant);
         
-        List<StudyParticipantAssignment> registrationResults = registrationDao.advancedSearch(studyParticipantAssignment, regStartDate, regEndDate, studyCoordinatingSiteId);
+        List<StudySubject> registrationResults = studySubjectDao.advancedSearch(studySubject, regStartDate, regEndDate, studyCoordinatingSiteId);
 		
         Context context = null;
         if (parameterMap == null) {
@@ -224,12 +224,12 @@ public class CreateReportFacade {
      }
 
 
-	public StudyParticipantAssignmentDao getRegistrationDao() {
-		return registrationDao;
+	public StudySubjectDao getRegistrationDao() {
+		return studySubjectDao;
 	}
 
-	public void setRegistrationDao(StudyParticipantAssignmentDao registrationDao) {
-		this.registrationDao = registrationDao;
+	public void setRegistrationDao(StudySubjectDao studySubjectDao) {
+		this.studySubjectDao = studySubjectDao;
 	}
    	
 	

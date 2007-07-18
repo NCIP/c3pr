@@ -70,11 +70,11 @@ public class AnatomicDiseaseSiteFacade {
 	}
 
 	private String getFormSessionAttributeName() {
-		return "edu.duke.cabig.c3pr.web.CreateRegistrationController.FORM.command";
+		return "edu.duke.cabig.c3pr.web.registration.RegistrationDetailsController.FORM.command";
 	}
 
 	private String getFormSessionAttributeNameAgain() {
-		return "edu.duke.cabig.c3pr.web.CreateRegistrationController.FORM.command";
+		return "edu.duke.cabig.c3pr.web.registration.RegistrationDetailsController.FORM.command";
 	}
 
 	private String[] extractSubnames(String text) {

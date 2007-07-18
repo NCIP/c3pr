@@ -26,7 +26,7 @@ function markAsAnswered(id){
 <body>
 <tags:formPanelBox tab="${tab}" flow="${flow}">
 <c:choose>
-	<c:when test="${fn:length(command.subjectEligibilityAnswers) == 0}">
+	<c:when test="${fn:length(command.scheduledEpoch.subjectEligibilityAnswers) == 0}">
 			The Selected Study does not have Eligibility Crieterias
 	</c:when>
 	<c:otherwise>
@@ -41,10 +41,10 @@ function markAsAnswered(id){
 							<td align="left"><b>Answers</b></td>
 						</tr>
 						<c:set var="index" value="0"/>
-						<c:forEach var="criteria" varStatus="status" items="${command.studySite.study.incCriterias}">
+						<c:forEach var="criteria" varStatus="status" items="${command.scheduledEpoch.treatmentEpoch.incCriterias}">
 							<tr>
 								<td width="5%">
-									<div id="tick-${index }" <c:if test="${command.subjectEligibilityAnswers[index].answerText==null||command.subjectEligibilityAnswers[index].answerText=='' }">style="display:none;"</c:if>>
+									<div id="tick-${index }" <c:if test="${command.scheduledEpoch.subjectEligibilityAnswers[index].answerText==null||command.scheduledEpoch.subjectEligibilityAnswers[index].answerText=='' }">style="display:none;"</c:if>>
 										<img src="<tags:imageUrl name="checkbox.gif"/>" border="0" alt="answered" height="20" width="20">												
 									</div>
 								</td>
@@ -52,7 +52,7 @@ function markAsAnswered(id){
 									${criteria.questionText}
 								</td>
 								<td width="15%">
-									<form:select id="subjectEligibilityAnswers[${index}].answerText" path="subjectEligibilityAnswers[${index}].answerText" onchange="markAsAnswered('${index }')">
+									<form:select id="scheduledEpoch.subjectEligibilityAnswers[${index}].answerText" path="scheduledEpoch.subjectEligibilityAnswers[${index}].answerText" onchange="markAsAnswered('${index }')">
 										<option value="">--Please Select---</option>
 										<form:option value="Yes" />
 										<form:option value="No" />
@@ -76,10 +76,10 @@ function markAsAnswered(id){
 							<td align="left"><b>Question<span class="red">*</span></b></td>
 							<td align="left"><b>Answers</b></td>
 						</tr>
-						<c:forEach var="criteria" varStatus="status" items="${command.studySite.study.excCriterias}">
+						<c:forEach var="criteria" varStatus="status" items="${command.scheduledEpoch.treatmentEpoch.incCriterias}">
 							<tr>
 								<td width="5%">
-									<div id="tick-${index }" <c:if test="${command.subjectEligibilityAnswers[index].answerText==null||command.subjectEligibilityAnswers[index].answerText=='' }">style="display:none;"</c:if>>
+									<div id="tick-${index }" <c:if test="${command.scheduledEpoch.subjectEligibilityAnswers[index].answerText==null||command.scheduledEpoch.subjectEligibilityAnswers[index].answerText=='' }">style="display:none;"</c:if>>
 										<img src="<tags:imageUrl name="checkbox.gif"/>" border="0" alt="answered" height="20" width="20">												
 									</div>
 								</td>
@@ -87,7 +87,7 @@ function markAsAnswered(id){
 									${criteria.questionText}
 								</td>
 								<td width="15%">
-									<form:select id="subjectEligibilityAnswers[${index}].answerText" path="subjectEligibilityAnswers[${index}].answerText" onchange="markAsAnswered('${index }')">
+									<form:select id="scheduledEpoch.subjectEligibilityAnswers[${index}].answerText" path="scheduledEpoch.subjectEligibilityAnswers[${index}].answerText" onchange="markAsAnswered('${index }')">
 										<option value="">--Please Select---</option>
 										<form:option value="Yes" />
 										<form:option value="No" />

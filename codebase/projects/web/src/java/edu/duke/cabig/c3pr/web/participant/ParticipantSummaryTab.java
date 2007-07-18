@@ -16,7 +16,7 @@ public class ParticipantSummaryTab extends ParticipantTab{
 	@Override
     public Map<String, Object> referenceData(Participant participant) {
         Map<String, Object> refdata = super.referenceData(participant);
-        refdata.put("participantAssignments", this.getParticipantDao().getById(participant.getId()).getStudyParticipantAssignments());
+        refdata.put("participantAssignments", this.getParticipantDao().getById(participant.getId()).getStudySubjects());
 
         return refdata;
     }

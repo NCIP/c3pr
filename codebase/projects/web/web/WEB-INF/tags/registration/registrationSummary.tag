@@ -1,5 +1,6 @@
 <%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <style type="text/css">
         .labelR { text-align: right; padding: 4px;  font-weight: bold;}
 </style>
@@ -10,20 +11,20 @@
         .labelC { text-align: center; padding: 4px; font-weight: bold;}
 </style>
 <table width="100%" border="0" cellspacing="0" cellpadding="0"id="table1">
-	<tags:tdNameValue name="Full Name" value="${studyParticipantAssignment.participant.firstName} ${studyParticipantAssignment.participant.lastName }" columnAttrName="class='labelR'"/>
-	<tags:tdNameValue name="Subject Primary Identifier" value="${studyParticipantAssignment.participant.primaryIdentifier }" columnAttrName="width='50%' class='labelR'"/>
-	<tags:tdNameValue name="Gender" value="${studyParticipantAssignment.id }" columnAttrName="class='labelR'"/>
-	<tags:tdNameValue name="Short Title" value="${studyParticipantAssignment.studySite.study.shortTitleText}" columnAttrName="class='labelR'"/>
-	<tags:tdNameValue name="Status" value="${studyParticipantAssignment.studySite.study.status }" columnAttrName="class='labelR'"/>
-	<tags:tdNameValue name="Study Site" value="${studyParticipantAssignment.studySite.site.name }" columnAttrName="class='labelR'"/>
-	<tags:tdNameValue name="Site IRB Approval Date" value="${studyParticipantAssignment.studySite.irbApprovalDateStr }" columnAttrName="class='labelR'"/>		
-	<tags:tdNameValue name="Informed Consent Signed Date" value="${studyParticipantAssignment.informedConsentSignedDateStr }" columnAttrName="class='labelR'"/>
-	<tags:tdNameValue name="Informed Consent Version" value="${studyParticipantAssignment.informedConsentVersion }" columnAttrName="class='labelR'"/>		
-	<tags:tdNameValue name="Treating Physician" value="${studyParticipantAssignment.treatingPhysician.healthcareSiteInvestigator.investigator.fullName }" columnAttrName="class='labelR'"/>		
-	<tags:tdNameValue name="Disease" value="${studyParticipantAssignment.diseaseHistory.primaryDiseaseStr }" columnAttrName="class='labelR'"/>		
-	<tags:tdNameValue name="Disease Site" value="${studyParticipantAssignment.diseaseHistory.primaryDiseaseSiteStr }" columnAttrName="class='labelR'"/>
-	<tags:tdNameValue name="Eligibility Indicator" value="${studyParticipantAssignment.eligibilityIndicator }" columnAttrName="class='labelR'"/>		
-	<tags:tdNameValue name="Registration Status" value="${studyParticipantAssignment.registrationStatus }" columnAttrName="class='labelR'"/>		
+	<tags:tdNameValue name="Full Name" value="${studySubject.participant.firstName} ${studySubject.participant.lastName }" columnAttrName="class='labelR'"/>
+	<tags:tdNameValue name="Subject Primary Identifier" value="${studySubject.participant.primaryIdentifier }" columnAttrName="width='50%' class='labelR'"/>
+	<tags:tdNameValue name="Gender" value="${studySubject.id }" columnAttrName="class='labelR'"/>
+	<tags:tdNameValue name="Short Title" value="${studySubject.studySite.study.shortTitleText}" columnAttrName="class='labelR'"/>
+	<tags:tdNameValue name="Status" value="${studySubject.studySite.study.status }" columnAttrName="class='labelR'"/>
+	<tags:tdNameValue name="Study Site" value="${studySubject.studySite.site.name }" columnAttrName="class='labelR'"/>
+	<tags:tdNameValue name="Site IRB Approval Date" value="${studySubject.studySite.irbApprovalDateStr }" columnAttrName="class='labelR'"/>		
+	<tags:tdNameValue name="Informed Consent Signed Date" value="${studySubject.informedConsentSignedDateStr }" columnAttrName="class='labelR'"/>
+	<tags:tdNameValue name="Informed Consent Version" value="${studySubject.informedConsentVersion }" columnAttrName="class='labelR'"/>		
+	<tags:tdNameValue name="Treating Physician" value="${studySubject.treatingPhysician.healthcareSiteInvestigator.investigator.fullName }" columnAttrName="class='labelR'"/>		
+	<tags:tdNameValue name="Disease" value="${studySubject.diseaseHistory.primaryDiseaseStr }" columnAttrName="class='labelR'"/>		
+	<tags:tdNameValue name="Disease Site" value="${studySubject.diseaseHistory.primaryDiseaseSiteStr }" columnAttrName="class='labelR'"/>
+	<c:if test="${studySubject.ifTreatmentScheduledEpoch}"><tags:tdNameValue name="Eligibility Indicator" value="${studySubject.scheduledEpoch.eligibilityIndicator }" columnAttrName="class='labelR'"/></c:if>
+	<tags:tdNameValue name="Registration Status" value="${studySubject.registrationStatus }" columnAttrName="class='labelR'"/>		
 	<tr>
 		<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"	height="1" class="heightControl"></td>
 	</tr>

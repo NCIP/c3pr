@@ -25,22 +25,10 @@
 
 <div id="content">
     <layout:header/>
-    <c:choose>
-        <c:when test="${!empty registrationAltFlow}">
-            <c:set var="rFlow" value="${registrationAltFlow}"/>
-        </c:when>
-        <c:when test="${!empty registrationFlow}">
-            <c:set var="rFlow" value="${registrationFlow}"/>
-        </c:when>
-        <c:otherwise>
-            <c:set var="rFlow" value="false"/>
-        </c:otherwise>
-    </c:choose>
-    <c:set var="rTab" value="${registrationTab}"/>
-    <c:set var="studyParticipantAssignment" value="${command}" scope="request"/>
+    <c:set var="studySubject" value="${command}" scope="request"/>
     <form:form id="flowredirect">
-        <input type="hidden" name="_target${rTab.targetNumber}" id="flowredirect-target"/>
-        <input type="hidden" name="_page${rTab.number}"/>
+        <input type="hidden" name="_target${Tab.targetNumber}" id="flowredirect-target"/>
+        <input type="hidden" name="_page${Tab.number}"/>
     </form:form>
     <!-- currentSection.displayName : ${currentSection.displayName} <br>
     currentTask.displayName : ${currentTask.displayName }<BR>
@@ -56,26 +44,12 @@
     -->
     
     <c:choose>
-        <c:when test="${currentSection.displayName=='Registration' && rFlow!='false' && rTab.display!='false'}">
+        <c:when test="${Tab.display!='false'}">
             <%System.out.println("--------setting tabs-------------"); %>
-            <chrome:workflowTabsLevelOne tab='${rTab}' flow="${rFlow}"/>
+            <chrome:workflowTabsLevelOne tab='${Tab}' flow="${Flow}"/>
             <div class="tabcontent workArea">
-                <layout:summaryLayout-1-1 tab='${rTab}' flow="${rFlow}">
-                    <c:choose>
-                        <c:when test="${rTab.shortTitle=='Select Study'}">
-                            <layout:studysearch-layout-2-0>
-                                <decorator:body/>
-                            </layout:studysearch-layout-2-0>
-                        </c:when>
-                        <c:when test="${rTab.shortTitle=='Select Subject'}">
-                            <layout:selectsubject-layout-2-0>
-                                <decorator:body/>
-                            </layout:selectsubject-layout-2-0>
-                        </c:when>
-                        <c:otherwise>
-                                <decorator:body/>
-                        </c:otherwise>
-                    </c:choose>
+                <layout:summaryLayout-1-1 tab='${Tab}' flow="${Flow}">
+                    <decorator:body/>
                 </layout:summaryLayout-1-1>
             </div>
         </c:when>
@@ -84,10 +58,8 @@
         </c:otherwise>
     </c:choose>
 </div>
-
 <div id="footer">
     <layout:footer/>
 </div>
-
 </body>
 </html>

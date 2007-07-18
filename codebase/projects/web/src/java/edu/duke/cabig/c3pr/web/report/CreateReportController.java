@@ -22,11 +22,11 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 
-import edu.duke.cabig.c3pr.dao.StudyParticipantAssignmentDao;
+import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.web.ajax.CreateReportFacade;
@@ -40,7 +40,7 @@ import edu.duke.cabig.c3pr.web.ajax.CreateReportFacade;
 public class CreateReportController extends SimpleFormController {
 
 	private static Log log = LogFactory.getLog(CreateReportController.class);
-	private StudyParticipantAssignmentDao registrationDao;
+	private StudySubjectDao studySubjectDao;
 	private ConfigurationProperty configurationProperty;
 	private ReportCommand reportCommand;
 	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
@@ -190,10 +190,10 @@ public class CreateReportController extends SimpleFormController {
         	log.error("DateFormat Exception in CreateReportController");
         }
         
-        StudyParticipantAssignment studyParticipantAssignment = new StudyParticipantAssignment();
-        studyParticipantAssignment.setStudySite(studySite);
-        studyParticipantAssignment.setParticipant(participant);
-		List<StudyParticipantAssignment> registrationResults = registrationDao.advancedSearch(studyParticipantAssignment, regStartDate, regEndDate, studyCoordinatingSiteId);
+        StudySubject studySubject = new StudySubject();
+        studySubject.setStudySite(studySite);
+        studySubject.setParticipant(participant);
+		List<StudySubject> registrationResults = studySubjectDao.advancedSearch(studySubject, regStartDate, regEndDate, studyCoordinatingSiteId);
 		Object viewData = null;
 		try {
 			viewData = reportFacade.build(model, registrationResults);
@@ -209,12 +209,12 @@ public class CreateReportController extends SimpleFormController {
     	return modelAndView;
 	}			
 
-	public StudyParticipantAssignmentDao getRegistrationDao() {
-		return registrationDao;
+	public StudySubjectDao getRegistrationDao() {
+		return studySubjectDao;
 	}
 
-	public void setRegistrationDao(StudyParticipantAssignmentDao registrationDao) {
-		this.registrationDao = registrationDao;
+	public void setRegistrationDao(StudySubjectDao studySubjectDao) {
+		this.studySubjectDao = studySubjectDao;
 	}
 
 

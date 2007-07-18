@@ -40,10 +40,10 @@ function markAsAnswered(id){
 			<td align="left"><b>Answers</b></td>
 		</tr>
 		<tr><td colspan="3">&nbsp;</td></tr>
-		<c:forEach var="criteria" varStatus="status" items="${command.subjectStratificationAnswers}">
+		<c:forEach var="criteria" varStatus="status" items="${command.scheduledEpoch.subjectStratificationAnswers}">
 			<tr>
 				<td width="5%">
-					<div id="tick-${status.index }" <c:if test="${criteria.stratificationCriterionAnswer==null||criteria.stratificationCriterionAnswer=='' }">style="display:none;"</c:if>>
+					<div id="tick-${status.index }" <c:if test="${criteria.scheduledEpoch.stratificationCriterionAnswer==null||criteria.scheduledEpoch.stratificationCriterionAnswer=='' }">style="display:none;"</c:if>>
 						<img src="<tags:imageUrl name="checkbox.gif"/>" border="0" alt="answered" height="20" width="20">												
 					</div>
 				</td>
@@ -51,7 +51,7 @@ function markAsAnswered(id){
 					${criteria.stratificationCriterion.questionText}
 				</td>
 				<td width="15%">
-					<form:select id="stratificationCriterion[${status.index}].stratificationCriterionAnswer" path="subjectStratificationAnswers[${status.index }].stratificationCriterionAnswer" onchange="markAsAnswered('${status.index }')">
+					<form:select id="scheduledEpoch.stratificationCriterion[${status.index}].stratificationCriterionAnswer" path="scheduledEpoch.subjectStratificationAnswers[${status.index }].stratificationCriterionAnswer" onchange="markAsAnswered('${status.index }')">
 						<option value="">--Please Select---</option>
 						<form:options items="${criteria.stratificationCriterion.permissibleAnswers}" itemLabel="permissibleAnswer" itemValue="id"/>
 					</form:select>

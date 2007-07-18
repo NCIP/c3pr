@@ -15,14 +15,14 @@ import org.springframework.web.HttpSessionRequiredException;
 
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
-import edu.duke.cabig.c3pr.dao.StudyParticipantAssignmentDao;
+import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 
 public class RegistrationAjaxFacade {
-	private StudyParticipantAssignmentDao registrationDao;
+	private StudySubjectDao studySubjectDao;
 
 	private ParticipantDao participantDao;
 
@@ -54,17 +54,17 @@ public class RegistrationAjaxFacade {
 	public List<Identifier> matchRegistrationIdentifiers(
 			String text, int criterionSelector) {
 
-		List<StudyParticipantAssignment> registrations = new ArrayList<StudyParticipantAssignment>();
+		List<StudySubject> registrations = new ArrayList<StudySubject>();
 		List<Identifier> identifiers = new ArrayList<Identifier>();
 
 		Identifier identifier = new Identifier();
 		identifier.setValue(text);
-		StudyParticipantAssignment registrationObj = new StudyParticipantAssignment();
+		StudySubject registrationObj = new StudySubject();
 		registrationObj.addIdentifier(identifier);
-		registrations = registrationDao.searchByExample(registrationObj);
+		registrations = studySubjectDao.searchByExample(registrationObj);
 		List<Identifier> registrationIdentifiers = new ArrayList<Identifier>();
 		Identifier ident = new Identifier();
-		for (StudyParticipantAssignment registrationIter : registrations) {
+		for (StudySubject registrationIter : registrations) {
 			registrationIdentifiers = registrationIter.getIdentifiers();
 			Iterator<Identifier> identifierIter = registrationIdentifiers.iterator();
 			while (identifierIter.hasNext()) {
@@ -224,11 +224,11 @@ public class RegistrationAjaxFacade {
 	}
 
 	private String getFormSessionAttributeName() {
-		return "edu.duke.cabig.c3pr.web.RegistrationDetailsController.FORM.command";
+		return "edu.duke.cabig.c3pr.web.registration.RegistrationDetailsController.FORM.command";
 	}
 
 	private String getFormSessionAttributeNameAgain() {
-		return "edu.duke.cabig.c3pr.web.RegistrationDetailsController.FORM.command";
+		return "edu.duke.cabig.c3pr.web.registration.RegistrationDetailsController.FORM.command";
 	}
 
 	private String[] extractSubnames(String text) {
@@ -238,12 +238,12 @@ public class RegistrationAjaxFacade {
 	// //// CONFIGURATION
 
 	@Required
-	public void setRegistrationDao(StudyParticipantAssignmentDao registrationDao) {
-		this.registrationDao = registrationDao;
+	public void setRegistrationDao(StudySubjectDao studySubjectDao) {
+		this.studySubjectDao = studySubjectDao;
 	}
 
-	public StudyParticipantAssignmentDao getRegistrationDao() {
-		return registrationDao;
+	public StudySubjectDao getRegistrationDao() {
+		return studySubjectDao;
 	}
 
 	public ParticipantDao getParticipantDao() {

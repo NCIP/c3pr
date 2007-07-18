@@ -44,8 +44,16 @@ function navRollOver(obj, state) {
 			<%int i=0; %>
 			<c:forEach items="${registrations}" var="registration">
 			<% String currClass=i%2==0? "odd":"even"; %>
-				<c:set var="localUrl"
-					value="../registration/${registration.registrationStatus=='Incomplete'?'createRegistration':'overview'}?resumeFlow=true&_page=1&_target3=3&registrationId=${registration.id}" />
+				<c:choose>
+				<c:when test="${registration.registrationStatus=='Incomplete'}">
+					<c:set var="localUrl"
+					value="../registration/createRegistration?resumeFlow=true&_page=1&_target3=3&registrationId=${registration.id}" />
+				</c:when>
+				<c:otherwise>
+					<c:set var="localUrl"
+					value="../registration/manageRegistration?registrationId=${registration.id}" />				
+				</c:otherwise>
+				</c:choose>
 				<tr id="row<%= i++ %>" class="<%= currClass %>" onMouseOver="this.className='highlight'"
 				onMouseOut="this.className='<%= currClass %>'"
 					onClick='document.location="${localUrl }"	'>
