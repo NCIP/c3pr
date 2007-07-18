@@ -5,7 +5,7 @@ import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 /**
  * @author Rhett Sutphin
 */
-public class SubFlowTab<C> extends Tab<C>{
+public abstract class SubFlowTab<C> extends AjaxableTab<C>{
 
     private String display="true";
     private String showSummary="true";
