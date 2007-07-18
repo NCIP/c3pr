@@ -35,8 +35,7 @@ public class Participant extends Person implements Comparable<Participant> {
 	private String ethnicGroupCode;
 	private String raceCode;
 	private String maritalStatusCode;
-	private String primaryIdentifier;
-	private List<StudyParticipantAssignment> studyParticipantAssignments = new ArrayList<StudyParticipantAssignment>();
+	private List<StudySubject> studySubjects = new ArrayList<StudySubject>();
 	private LazyListHelper lazyListHelper;
 	
 	public Participant() {
@@ -74,8 +73,8 @@ public class Participant extends Person implements Comparable<Participant> {
 
 	@OneToMany(mappedBy = "participant", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-	public List<StudyParticipantAssignment> getStudyParticipantAssignments() {
-		return studyParticipantAssignments;
+	public List<StudySubject> getStudySubjects() {
+		return studySubjects;
 	}
 
 	@OneToMany
@@ -144,19 +143,18 @@ public class Participant extends Person implements Comparable<Participant> {
 		this.maritalStatusCode = maritalStatusCode;
 	}
 
-	public void setStudyParticipantAssignments(
-			List<StudyParticipantAssignment> studyParticipantAssignments) {
-		this.studyParticipantAssignments = studyParticipantAssignments;
+	public void setStudySubjects(
+			List<StudySubject> studySubjects) {
+		this.studySubjects = studySubjects;
 	}
 
-	public void addStudyParticipantAssignment(
-			StudyParticipantAssignment studyParticipantAssignment) {
-		studyParticipantAssignments.add(studyParticipantAssignment);
+	public void addStudySubject(StudySubject studySubject) {
+		studySubjects.add(studySubject);
 	}
 
-	public void removeStudyParticipantAssignment(
-			StudyParticipantAssignment studyParticipantAssignment) {
-		studyParticipantAssignments.remove(studyParticipantAssignment);
+	public void removeStudySubject(
+			StudySubject studySubject) {
+		studySubjects.remove(studySubject);
 	}
 
 	public int compareTo(Participant o) {
@@ -173,8 +171,8 @@ public class Participant extends Person implements Comparable<Participant> {
 				+ ((getIdentifiers() == null) ? 0 : getIdentifiers().hashCode());
 		result = PRIME
 				* result
-				+ ((studyParticipantAssignments == null) ? 0
-						: studyParticipantAssignments.hashCode());
+				+ ((studySubjects == null) ? 0
+						: studySubjects.hashCode());
 		return result;
 	}
 
@@ -192,11 +190,11 @@ public class Participant extends Person implements Comparable<Participant> {
 				return false;
 		} else if (!getIdentifiers().equals(other.getIdentifiers()))
 			return false;
-		if (studyParticipantAssignments == null) {
-			if (other.studyParticipantAssignments != null)
+		if (studySubjects == null) {
+			if (other.studySubjects != null)
 				return false;
-		} else if (!studyParticipantAssignments
-				.equals(other.studyParticipantAssignments))
+		} else if (!studySubjects
+				.equals(other.studySubjects))
 			return false;
 		return true;
 	}
@@ -208,11 +206,9 @@ public class Participant extends Person implements Comparable<Participant> {
 				return identifier.getValue();
 			}
 		}
-
-		return primaryIdentifier;
+		return "";
 	}
 
 	public void setPrimaryIdentifier(String primaryIdentifier) {
-		this.primaryIdentifier = primaryIdentifier;
 	}
 }

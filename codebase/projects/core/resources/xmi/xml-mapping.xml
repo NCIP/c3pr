@@ -233,8 +233,8 @@
       <bind-xml name="statusDate" node="attribute" />
     </field>
   </class>
-  <class name="edu.duke.cabig.c3pr.domain.StudyParticipantAssignment">
-    <map-to xml="StudyParticipantAssignment" ns-uri="gme://caCORE.cabig/3.0/edu.duke.cabig.c3pr.domain" />
+  <class name="edu.duke.cabig.c3pr.domain.StudySubject">
+    <map-to xml="StudySubject" ns-uri="gme://caCORE.cabig/3.0/edu.duke.cabig.c3pr.domain" />
     <field name="armIdentifier" type="string">
       <bind-xml name="armIdentifier" node="attribute" />
     </field>

@@ -5,7 +5,7 @@ import java.util.Date;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 
 /**
  * Interface for Services on Study related domain object
@@ -27,9 +27,9 @@ public interface StudyService {
      * @param study
      * @param participant
      * @param site
-     * @return StudyParticipantAssignment
+     * @return StudySubject
      */
-    public StudyParticipantAssignment assignParticipant(Study study, Participant participant,
+    public StudySubject assignParticipant(Study study, Participant participant,
                                                         HealthcareSite site, Date enrollmentDate);
 
 

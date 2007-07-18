@@ -296,7 +296,7 @@
 								<UML:TaggedValue tag="headStyle" value="0"/>
 								<UML:TaggedValue tag="lineStyle" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="289"/>
-								<UML:TaggedValue tag="ea_sourceName" value="StudyParticipantAssignment"/>
+								<UML:TaggedValue tag="ea_sourceName" value="StudySubject"/>
 								<UML:TaggedValue tag="ea_targetName" value="Participant"/>
 								<UML:TaggedValue tag="ea_sourceType" value="Class"/>
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
@@ -309,7 +309,7 @@
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Association.connection>
-								<UML:AssociationEnd visibility="public" multiplicity="0..*" name="studyParticipantAssignmentCollection" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="true" type="EAID_C445665D_2271_4594_A4C5_8255F86CC826">
+								<UML:AssociationEnd visibility="public" multiplicity="0..*" name="studySubjectCollection" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="true" type="EAID_C445665D_2271_4594_A4C5_8255F86CC826">
 									<UML:AssociationEnd.multiplicity>
 										<UML:Multiplicity>
 											<UML:Multiplicity.range>
@@ -789,7 +789,7 @@
 								<UML:TaggedValue tag="headStyle" value="0"/>
 								<UML:TaggedValue tag="lineStyle" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="467"/>
-								<UML:TaggedValue tag="ea_sourceName" value="StudyParticipantAssignment"/>
+								<UML:TaggedValue tag="ea_sourceName" value="StudySubject"/>
 								<UML:TaggedValue tag="ea_targetName" value="StudyInvestigator"/>
 								<UML:TaggedValue tag="ea_sourceType" value="Class"/>
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
@@ -801,7 +801,7 @@
 								<UML:TaggedValue tag="virtualInheritance" value="0"/>
 							</UML:ModelElement.taggedValue>
 							<UML:Association.connection>
-								<UML:AssociationEnd visibility="private" name="studyParticipantAssignment" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="false" type="EAID_C445665D_2271_4594_A4C5_8255F86CC826">
+								<UML:AssociationEnd visibility="private" name="studySubject" aggregation="none" isOrdered="false" targetScope="instance" changeable="none" isNavigable="false" type="EAID_C445665D_2271_4594_A4C5_8255F86CC826">
 									<UML:AssociationEnd.multiplicity>
 										<UML:Multiplicity>
 											<UML:Multiplicity.range>
@@ -2588,7 +2588,7 @@
 								<UML:TaggedValue tag="headStyle" value="0"/>
 								<UML:TaggedValue tag="lineStyle" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="287"/>
-								<UML:TaggedValue tag="ea_sourceName" value="StudyParticipantAssignment"/>
+								<UML:TaggedValue tag="ea_sourceName" value="StudySubject"/>
 								<UML:TaggedValue tag="ea_targetName" value="StudySite"/>
 								<UML:TaggedValue tag="ea_sourceType" value="Class"/>
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
@@ -3439,7 +3439,7 @@
 								<UML:TaggedValue tag="headStyle" value="0"/>
 								<UML:TaggedValue tag="lineStyle" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="476"/>
-								<UML:TaggedValue tag="ea_sourceName" value="StudyParticipantAssignment"/>
+								<UML:TaggedValue tag="ea_sourceName" value="StudySubject"/>
 								<UML:TaggedValue tag="ea_targetName" value="Identifier"/>
 								<UML:TaggedValue tag="ea_sourceType" value="Class"/>
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
@@ -3875,7 +3875,7 @@
 								<UML:TaggedValue tag="headStyle" value="0"/>
 								<UML:TaggedValue tag="lineStyle" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="457"/>
-								<UML:TaggedValue tag="ea_sourceName" value="StudyParticipantAssignment"/>
+								<UML:TaggedValue tag="ea_sourceName" value="StudySubject"/>
 								<UML:TaggedValue tag="ea_targetName" value="StudyParticipantStratificationCriterionAnswer"/>
 								<UML:TaggedValue tag="ea_sourceType" value="Class"/>
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
@@ -4804,7 +4804,7 @@
 								<UML:TaggedValue tag="headStyle" value="0"/>
 								<UML:TaggedValue tag="lineStyle" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="461"/>
-								<UML:TaggedValue tag="ea_sourceName" value="StudyParticipantAssignment"/>
+								<UML:TaggedValue tag="ea_sourceName" value="StudySubject"/>
 								<UML:TaggedValue tag="ea_targetName" value="SubjectStratificationAnswer"/>
 								<UML:TaggedValue tag="ea_sourceType" value="Class"/>
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
@@ -5058,7 +5058,7 @@
 								</UML:AssociationEnd>
 							</UML:Association.connection>
 						</UML:Association>
-						<UML:Class name="StudyParticipantAssignment" xmi.id="EAID_C445665D_2271_4594_A4C5_8255F86CC826" visibility="public" namespace="EAPK_816AA8F0_E428_4459_BC5B_478ACEE2F1F9" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
+						<UML:Class name="StudySubject" xmi.id="EAID_C445665D_2271_4594_A4C5_8255F86CC826" visibility="public" namespace="EAPK_816AA8F0_E428_4459_BC5B_478ACEE2F1F9" isRoot="false" isLeaf="false" isAbstract="false" isActive="false">
 							<UML:ModelElement.taggedValue>
 								<UML:TaggedValue tag="isSpecification" value="false"/>
 								<UML:TaggedValue tag="ea_stype" value="Class"/>
@@ -5067,7 +5067,7 @@
 								<UML:TaggedValue tag="package" value="EAPK_816AA8F0_E428_4459_BC5B_478ACEE2F1F9"/>
 								<UML:TaggedValue tag="date_created" value="2005-06-27 11:37:14"/>
 								<UML:TaggedValue tag="date_modified" value="2007-03-19 17:05:11"/>
-								<UML:TaggedValue tag="genfile" value="C:\my_dir\projects\c3pr\C3PRV2\Models\AutoGenCodeFromEA\domain\StudyParticipantAssignment.java"/>
+								<UML:TaggedValue tag="genfile" value="C:\my_dir\projects\c3pr\C3PRV2\Models\AutoGenCodeFromEA\domain\StudySubject.java"/>
 								<UML:TaggedValue tag="gentype" value="Java"/>
 								<UML:TaggedValue tag="tagged" value="0"/>
 								<UML:TaggedValue tag="package_name" value="domain"/>
@@ -5470,7 +5470,7 @@
 								<UML:TaggedValue tag="headStyle" value="0"/>
 								<UML:TaggedValue tag="lineStyle" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="459"/>
-								<UML:TaggedValue tag="ea_sourceName" value="StudyParticipantAssignment"/>
+								<UML:TaggedValue tag="ea_sourceName" value="StudySubject"/>
 								<UML:TaggedValue tag="ea_targetName" value="SubjectEligibilityAnswers"/>
 								<UML:TaggedValue tag="ea_sourceType" value="Class"/>
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
@@ -5520,7 +5520,7 @@
 								<UML:TaggedValue tag="headStyle" value="0"/>
 								<UML:TaggedValue tag="lineStyle" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="410"/>
-								<UML:TaggedValue tag="ea_sourceName" value="StudyParticipantAssignment"/>
+								<UML:TaggedValue tag="ea_sourceName" value="StudySubject"/>
 								<UML:TaggedValue tag="ea_targetName" value="ScheduledArm"/>
 								<UML:TaggedValue tag="ea_sourceType" value="Class"/>
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
@@ -5575,7 +5575,7 @@
 								<UML:TaggedValue tag="lineStyle" value="0"/>
 								<UML:TaggedValue tag="ea_localid" value="454"/>
 								<UML:TaggedValue tag="ea_sourceName" value="ParticipantEligibilityAnswer"/>
-								<UML:TaggedValue tag="ea_targetName" value="StudyParticipantAssignment"/>
+								<UML:TaggedValue tag="ea_targetName" value="StudySubject"/>
 								<UML:TaggedValue tag="ea_sourceType" value="Class"/>
 								<UML:TaggedValue tag="ea_targetType" value="Class"/>
 								<UML:TaggedValue tag="ea_sourceID" value="433"/>

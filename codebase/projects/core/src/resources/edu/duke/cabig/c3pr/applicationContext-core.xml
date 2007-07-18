@@ -87,7 +87,7 @@
                 <value>edu.duke.cabig.c3pr.domain.HealthcareSite</value>
                 <value>edu.duke.cabig.c3pr.domain.Organization</value>
                 <value>edu.duke.cabig.c3pr.domain.Address</value>
-                <value>edu.duke.cabig.c3pr.domain.StudyParticipantAssignment</value>
+                <value>edu.duke.cabig.c3pr.domain.StudySubject</value>
                 <value>edu.duke.cabig.c3pr.domain.StudyInvestigator</value>
                 <value>edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator</value>
                 <value>edu.duke.cabig.c3pr.domain.StudyPersonnel</value>
@@ -109,6 +109,9 @@
                 <value>edu.duke.cabig.c3pr.domain.AnatomicSite</value>
                 <value>edu.duke.cabig.c3pr.domain.DiseaseHistory</value>
                 <value>edu.duke.cabig.c3pr.domain.ContactMechanism</value>
+                <value>edu.duke.cabig.c3pr.domain.ScheduledEpoch</value>
+                <value>edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch</value>
+                <value>edu.duke.cabig.c3pr.domain.ScheduledNonTreatmentEpoch</value>
             </list>
         </property>
         <property name="entityInterceptor">
@@ -151,12 +154,12 @@
 
     <!-- Daos -->
     <bean id="studyDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyDao" autowire="byType"/>
+    <bean id="studySubjectDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudySubjectDao" autowire="byType"/>    
     <bean id="studySiteDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudySiteDao" autowire="byType"/>
     <bean id="epochDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.EpochDao" autowire="byType"/>
     <bean id="armDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ArmDao" autowire="byType"/>
     <bean id="participantDao" parent="daoTemplate"	class="edu.duke.cabig.c3pr.dao.ParticipantDao" autowire="byType"/>
     <bean id="healthcareSiteDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.HealthcareSiteDao" autowire="byType"/>
-    <bean id="registrationDao" parent="daoTemplate"	class="edu.duke.cabig.c3pr.dao.StudyParticipantAssignmentDao" autowire="byType"/>
     <bean id="healthcareSiteInvestigatorDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao" autowire="byType"/>
     <bean id="studyPersonnelDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyPersonnelDao" autowire="byType"/>
     <bean id="researchStaffDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ResearchStaffDao" autowire="byType"/>
@@ -171,7 +174,8 @@
 
     <!-- Services -->
     <bean id="studyService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudyServiceImpl" autowire="byType"/>
-    <bean id="participantService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.ParticipantServiceImpl" autowire="byType">
+    <bean id="participantService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.ParticipantServiceImpl" autowire="byType"/>
+    <bean id="studySubjectService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl" autowire="byType">
         <property name="isBroadcastEnable" value="${broadcastEnable}"/>
     </bean>
 

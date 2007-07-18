@@ -340,7 +340,7 @@
         </field>
     </class>
 
-    <class name="edu.duke.cabig.c3pr.domain.StudyParticipantAssignment">
+    <class name="edu.duke.cabig.c3pr.domain.StudySubject">
         <map-to xml="registration" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
 
         <field name="healthCareSiteGridId" type="string"

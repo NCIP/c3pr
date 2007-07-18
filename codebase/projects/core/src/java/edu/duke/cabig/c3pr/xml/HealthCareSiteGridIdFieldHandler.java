@@ -4,7 +4,7 @@ import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.ValidityException;
 
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySite;
 
 /**
@@ -18,7 +18,7 @@ public class HealthCareSiteGridIdFieldHandler implements FieldHandler {
 
 
     public Object getValue(Object object) throws IllegalStateException {
-        StudyParticipantAssignment registration = (StudyParticipantAssignment) object;
+        StudySubject registration = (StudySubject) object;
         StudySite studySite = registration.getStudySite();
         if (studySite == null) return null;
         HealthcareSite site = studySite.getSite();
@@ -27,7 +27,7 @@ public class HealthCareSiteGridIdFieldHandler implements FieldHandler {
     }
 
     public void setValue(Object object, Object value) throws IllegalStateException, IllegalArgumentException {
-        StudyParticipantAssignment registration = (StudyParticipantAssignment) object;
+        StudySubject registration = (StudySubject) object;
         StudySite studySite = registration.getStudySite();
         if (studySite == null) {
             studySite = new StudySite();
@@ -42,7 +42,7 @@ public class HealthCareSiteGridIdFieldHandler implements FieldHandler {
     }
 
     public void resetValue(Object object) throws IllegalStateException, IllegalArgumentException {
-        StudyParticipantAssignment registration = (StudyParticipantAssignment) object;
+        StudySubject registration = (StudySubject) object;
         registration.getStudySite().getSite().setGridId(null);
     }
 

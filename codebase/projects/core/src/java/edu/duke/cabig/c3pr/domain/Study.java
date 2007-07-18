@@ -59,10 +59,7 @@ public class Study extends AbstractMutableDomainObject implements Comparable<Stu
     private Integer targetAccrualNumber;
     private List<Epoch> epochs;
 
-    private List<InclusionEligibilityCriteria> incCriterias = new ArrayList<InclusionEligibilityCriteria>();
-    private List<ExclusionEligibilityCriteria> excCriterias = new ArrayList<ExclusionEligibilityCriteria>();
     private List<StudyDisease> studyDiseases = new ArrayList<StudyDisease>();
-    private List<StratificationCriterion> stratificationCriteria = new ArrayList<StratificationCriterion>();
    
     // TODO move into Command Object
     private String[] diseaseTermIds;
@@ -101,33 +98,9 @@ public class Study extends AbstractMutableDomainObject implements Comparable<Stu
         lazyListHelper.getLazyList(StudySite.class).remove(studySite);
     }
 
-    public void addInclusionEligibilityCriteria(InclusionEligibilityCriteria inc) {
-        incCriterias.add(inc);
-        inc.setStudy(this);
-    }
-
-    public void removeInclusionEligibilityCriteria(InclusionEligibilityCriteria inc) {
-        incCriterias.remove(inc);
-    }
-
-    public void addExclusionEligibilityCriteria(ExclusionEligibilityCriteria exc) {
-        excCriterias.add(exc);
-        exc.setStudy(this);
-    }
-
-    public void removeExcclusionEligibilityCriteria(ExclusionEligibilityCriteria exc) {
-        excCriterias.remove(exc);
-    }
-
-
     public void addStudyDisease(StudyDisease studyDisease) {
         studyDisease.setStudy(this);
         studyDiseases.add(studyDisease);
-    }
-
-    public void addStratificationCriteria(StratificationCriterion strat) {
-        strat.setStudy(this);
-        stratificationCriteria.add(strat);
     }
 
     public void addIdentifier(Identifier identifier) {
@@ -182,8 +155,7 @@ public class Study extends AbstractMutableDomainObject implements Comparable<Stu
 	public List<NonTreatmentEpoch> getNonTreatmentEpochs(){
     	 return lazyListHelper.getLazyList(NonTreatmentEpoch.class);
    	}
-     
-    @Transient
+	
 	public void setNonTreatmentEpochs(List<NonTreatmentEpoch> nonTreatmentEpochs){
 	}
 	
@@ -214,62 +186,6 @@ public class Study extends AbstractMutableDomainObject implements Comparable<Stu
         lazyListHelper.setInternalList(Identifier.class, identifiers);
     }
 
-    @OneToMany
-    @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-    @JoinColumn(name = "stu_id", nullable=true)       
-    @Where(clause = "DTYPE = 'E'") // it is pretty lame that this is necessary
-	public List<ExclusionEligibilityCriteria> getExcCriteriasTemp() {
-		return excCriterias;
-	}
-
-    public void setExcCriteriasTemp(List<ExclusionEligibilityCriteria> excCriterias) {
-        this.excCriterias = excCriterias;
-    }
-
-    @OneToMany
-    @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-    @JoinColumn(name = "stu_id", nullable=true)
-    @Where(clause = "DTYPE = 'I'") // it is pretty lame that this is necessary
-	public List<InclusionEligibilityCriteria> getIncCriteriasTemp() {
-		return incCriterias;
-	}
-
-    public void setIncCriteriasTemp(List<InclusionEligibilityCriteria> incCriterias) {
-        this.incCriterias = incCriterias;
-    }
-
-    @Transient
-    public List<InclusionEligibilityCriteria> getIncCriterias() {
-    	try {if(getTreatmentEpochs().size()!=0)
-			return getTreatmentEpochs().get(0).getInclusionEligibilityCriteria();
-		} catch (RuntimeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	return null;
-	}
-
-    public void setIncCriterias(List<InclusionEligibilityCriteria> incCriterias) {
-        this.incCriterias = incCriterias;
-    }
-
-    @Transient
-	public List<ExclusionEligibilityCriteria> getExcCriterias() {
-    	try { if(getTreatmentEpochs().size()!=0)
-			return getTreatmentEpochs().get(0).getExclusionEligibilityCriteria();
-		} catch (RuntimeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	return null;
-
-	}
-
-    public void setExcCriterias(List<ExclusionEligibilityCriteria> excCriterias) {
-        this.excCriterias = excCriterias;
-    }
-
-
     @OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
     @Cascade(value = {CascadeType.ALL, CascadeType.DELETE_ORPHAN})
     public List<StudyDisease> getStudyDiseases() {
@@ -280,28 +196,12 @@ public class Study extends AbstractMutableDomainObject implements Comparable<Stu
         this.studyDiseases = studyDiseases;
     }
 
-//    @OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
-//    @Cascade(value = {CascadeType.ALL, CascadeType.DELETE_ORPHAN})
-    @Transient
-    public List<StratificationCriterion> getStratificationCriteria() {
-    	try {if(getTreatmentEpochs().size()!=0)
-			return getTreatmentEpochs().get(0).getStratificationCriteria();
-		} catch (RuntimeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	return null;
-    }
-
     public void setDiseaseTermIds(String[] diseaseTermIds) {
         this.diseaseTermIds = diseaseTermIds;
     }
 
     public void setDiseaseCategoryAsText(String diseaseCategoryAsText) {
         this.diseaseCategoryAsText = diseaseCategoryAsText;
-    }
-    public void setStratificationCriteria(List<StratificationCriterion> stratificationCriteria) {
-        this.stratificationCriteria = stratificationCriteria;
     }
 
     public void setIdentifiers(List<Identifier> identifiers) {

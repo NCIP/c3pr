@@ -29,8 +29,8 @@
 
     <IDENTIFIERS id="1000" version="1" value="nci" type="local" source="nci" stu_id="1000"/>
 
-    <STUDY_PARTICIPANT_ASSIGNMENTS id="1000" version="1" study_participant_identifier="partid" start_date="01-01-2000" eligibility_waiver_reason_text="reason" informed_consent_signed_date="01-01-2000" eligibility_indicator="1" prt_id="1000" sts_id="1000"/>
-    <STUDY_PARTICIPANT_ASSIGNMENTS id="1001" version="1" study_participant_identifier="partid" start_date="01-01-2000" eligibility_waiver_reason_text="reason" informed_consent_signed_date="01-01-2000" eligibility_indicator="0" prt_id="1000" sts_id="1000"/>
+    <STUDY_SUBJECTS id="1000" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="1000" sts_id="1000"/>
+    <STUDY_SUBJECTS id="1001" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="1000" sts_id="1000"/>
 
     <EPOCHS id="1000" version="1" name="Treatment1000" description_text="treatement desc" stu_id="1000" type="TREATMENT"/>
     <EPOCHS id="1001" version="1" name="Treatment1001" description_text="cancer desc" stu_id="1000" type="TREATMENT" />

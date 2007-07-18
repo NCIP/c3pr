@@ -1,6 +1,8 @@
 package edu.duke.cabig.c3pr.domain;
 
 import edu.duke.cabig.c3pr.utils.DateUtil;
+import edu.duke.cabig.c3pr.utils.ProjectedList;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
@@ -25,95 +27,117 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
+import com.sun.corba.se.spi.legacy.connection.GetEndPointInfoAgainException;
+
 
 /**
  * @author Ram Chilukuri
  */
 
 @Entity
-@Table (name = "STUDY_PARTICIPANT_ASSIGNMENTS")
+@Table (name = "STUDY_SUBJECTS")
 @GenericGenerator(name="id-generator", strategy = "native",
     parameters = {
-        @Parameter(name="sequence", value="STUDY_PARTICIPANT_ASSIG_ID_SEQ")
+        @Parameter(name="sequence", value="STUDY_SUBJECTS_ID_SEQ")
     }
 )
-public class StudyParticipantAssignment extends AbstractMutableDomainObject {
+public class StudySubject extends AbstractMutableDomainObject {
 	private LazyListHelper lazyListHelper;
+	private ScheduledEpoch scheduledEpoch;
+	private List<ScheduledEpoch> scheduledEpochs;
 	private String name;
     private StudySite studySite;
     private Participant participant;
     private Date startDate;
-    private String studyParticipantIdentifier;
-    private String eligibilityWaiverReasonText;
     private Date informedConsentSignedDate;
-    private Boolean eligibilityIndicator;
     private String informedConsentVersion;
     private String primaryIdentifier;
     private StudyInvestigator treatingPhysician;
     private String registrationStatus;
     private DiseaseHistory diseaseHistory;
     
-    public StudyParticipantAssignment() {
+    public StudySubject() {
     	lazyListHelper=new LazyListHelper();
-    	lazyListHelper.add(SubjectEligibilityAnswer.class, new InstantiateFactory<SubjectEligibilityAnswer>(SubjectEligibilityAnswer.class));
-    	lazyListHelper.add(SubjectStratificationAnswer.class, new InstantiateFactory<SubjectStratificationAnswer>(SubjectStratificationAnswer.class));
-    	lazyListHelper.add(ScheduledArm.class, new BiDirectionalInstantiateFactory<ScheduledArm>(ScheduledArm.class,this));
     	lazyListHelper.add(Identifier.class, new InstantiateFactory<Identifier>(Identifier.class));
+        lazyListHelper.add(ScheduledTreatmentEpoch.class, new InstantiateFactory<ScheduledTreatmentEpoch>(ScheduledTreatmentEpoch.class));
+        lazyListHelper.add(ScheduledNonTreatmentEpoch.class, new InstantiateFactory<ScheduledNonTreatmentEpoch>(ScheduledNonTreatmentEpoch.class));
+        setScheduledEpochs(new ArrayList<ScheduledEpoch>());
+    	this.startDate=new Date();
+    	this.primaryIdentifier="SysGen";
 	}
     /// BEAN PROPERTIES
-    @OneToOne
+    
+    @OneToMany
     @Cascade({CascadeType.ALL,CascadeType.DELETE_ORPHAN})
-    @JoinColumn(name = "DISEASE_HISTORY_ID")
+    @JoinColumn(name = "SPA_ID", nullable=false)
+    public List<ScheduledEpoch> getScheduledEpochs() {
+		return scheduledEpochs;
+	}
+	public void setScheduledEpochs(List<ScheduledEpoch> scheduledEpochs) {
+    	this.scheduledEpochs=scheduledEpochs;
+        lazyListHelper.setInternalList(ScheduledTreatmentEpoch.class,new ProjectedList<ScheduledTreatmentEpoch>(this.scheduledEpochs, ScheduledTreatmentEpoch.class));
+   	 	lazyListHelper.setInternalList(ScheduledNonTreatmentEpoch.class,new ProjectedList<ScheduledNonTreatmentEpoch>(this.scheduledEpochs, ScheduledNonTreatmentEpoch.class));
+	}
+	
+	@Transient
+	public List<ScheduledTreatmentEpoch> getScheduledTreatmentEpochs() {
+		return lazyListHelper.getLazyList(ScheduledTreatmentEpoch.class);
+	}
+
+	public void setScheduledTreatmentEpochs(List<ScheduledEpoch> scheduledEpochs) {
+	}
+
+	@Transient
+	public List<ScheduledNonTreatmentEpoch> getScheduledNonTreatmentEpochs() {
+		return lazyListHelper.getLazyList(ScheduledNonTreatmentEpoch.class);
+	}
+
+	public void setScheduledNonTreatmentEpochs(List<ScheduledNonTreatmentEpoch> scheduledEpochs) {
+	}
+
+	public void addScheduledEpoch(ScheduledEpoch scheduledEpoch){
+		getScheduledEpochs().add(scheduledEpoch);
+	}
+	
+	@Transient
+	public ScheduledEpoch getScheduledEpoch() {
+		if(scheduledEpoch==null)
+			scheduledEpoch=getScheduledEpochs().get(getScheduledEpochs().size()-1);
+		return scheduledEpoch;
+	}
+	
+	public void setScheduledEpoch(ScheduledEpoch scheduledEpoch) {
+		this.scheduledEpoch = scheduledEpoch;
+	}
+
+	@Transient
+	public boolean getIfTreatmentScheduledEpoch(){
+		if (getScheduledEpoch() instanceof ScheduledTreatmentEpoch) {
+			return true;
+		}
+		return false;
+	}
+
+	@Transient
     public DiseaseHistory getDiseaseHistory() {
+    	if(this.diseaseHistory==null)
+    		this.diseaseHistory=new DiseaseHistory();
 		return diseaseHistory;
 	}
 
 	public void setDiseaseHistory(DiseaseHistory diseaseHistory) {
 		this.diseaseHistory = diseaseHistory;
 	}
-
-	@OneToMany
+	
+	@OneToOne
     @Cascade({CascadeType.ALL,CascadeType.DELETE_ORPHAN})
-    @JoinColumn(name = "SPA_ID")
-    public List<SubjectEligibilityAnswer> getSubjectEligibilityAnswersInternal() {
-		return lazyListHelper.getInternalList(SubjectEligibilityAnswer.class);
-	}
-	public void setSubjectEligibilityAnswersInternal(
-			List<SubjectEligibilityAnswer> subjectEligibilityAnswers) {
-		lazyListHelper.setInternalList(SubjectEligibilityAnswer.class, subjectEligibilityAnswers);
-	}
-	@Transient
-	public List<SubjectEligibilityAnswer> getSubjectEligibilityAnswers() {
-		return lazyListHelper.getLazyList(SubjectEligibilityAnswer.class);
-	}
-	public void addSubjectEligibilityAnswers(SubjectEligibilityAnswer subjectEligibilityAnswer){
-		lazyListHelper.getLazyList(SubjectEligibilityAnswer.class).add(subjectEligibilityAnswer);
-	}
-	public void removeSubjectEligibilityAnswers(SubjectEligibilityAnswer subjectEligibilityAnswer){
-		lazyListHelper.getLazyList(SubjectEligibilityAnswer.class).remove(subjectEligibilityAnswer);
+    @JoinColumn(name = "DISEASE_HISTORY_ID")
+    public DiseaseHistory getDiseaseHistoryInternal() {
+		return diseaseHistory;
 	}
 	
-
-	@OneToMany
-    @Cascade({CascadeType.ALL,CascadeType.DELETE_ORPHAN})
-    @JoinColumn(name = "SPA_ID")
-    public List<SubjectStratificationAnswer> getSubjectStratificationAnswersInternal() {
-		return lazyListHelper.getInternalList(SubjectStratificationAnswer.class);
-	}
-	public void setSubjectStratificationAnswersInternal(
-			List<SubjectStratificationAnswer> subjectStratificationAnswers) {
-		lazyListHelper.setInternalList(SubjectStratificationAnswer.class, subjectStratificationAnswers);
-	}
-	@Transient
-	public List<SubjectStratificationAnswer> getSubjectStratificationAnswers() {
-		return lazyListHelper.getLazyList(SubjectStratificationAnswer.class);
-	}
-	public void addSubjectStratificationAnswers(SubjectStratificationAnswer subjectStratificationAnswer){
-		lazyListHelper.getLazyList(SubjectStratificationAnswer.class).add(subjectStratificationAnswer);
-	}
-	
-	public void removeSubjectStratificationAnswers(SubjectStratificationAnswer subjectStratificationAnswer){
-		lazyListHelper.getLazyList(SubjectStratificationAnswer.class).remove(subjectStratificationAnswer);
+	public void setDiseaseHistoryInternal(DiseaseHistory diseaseHistory) {
+		this.diseaseHistory=diseaseHistory;
 	}
 	
 	public void setStudySite(StudySite studySite) {
@@ -137,43 +161,6 @@ public class StudyParticipantAssignment extends AbstractMutableDomainObject {
         return participant;
     }
 
-    @OneToMany (mappedBy = "studyParticipantAssignment")
-    @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })    	    
-	public List<ScheduledArm> getScheduledArmsInternal() {
-		return lazyListHelper.getInternalList(ScheduledArm.class);
-	}
-
-	public void setScheduledArmsInternal(List<ScheduledArm> scheduledArms) {
-		lazyListHelper.setInternalList(ScheduledArm.class, scheduledArms);
-	}
-	@Transient
-	public List<ScheduledArm> getScheduledArms() {
-		return lazyListHelper.getLazyList(ScheduledArm.class);
-	}
-	public void addScheduledArm(ScheduledArm scheduledArm){
-		lazyListHelper.getLazyList(ScheduledArm.class).add(scheduledArm);
-	}
-
-	public void removeScheduledArm(ScheduledArm scheduledArm){
-		lazyListHelper.getLazyList(ScheduledArm.class).remove(scheduledArm);
-	}
-
-    public void setStudyParticipantIdentifier(String studyParticipantIdentifier) {
-        this.studyParticipantIdentifier = studyParticipantIdentifier;
-    }
-
-    public String getStudyParticipantIdentifier() {
-        return studyParticipantIdentifier;
-    }
-
-    public void setEligibilityWaiverReasonText(String eligibilityWaiverReasonText) {
-        this.eligibilityWaiverReasonText = eligibilityWaiverReasonText;
-    }
-
-    public String getEligibilityWaiverReasonText() {
-        return eligibilityWaiverReasonText;
-    }
-    
 	public Date getInformedConsentSignedDate() {
 		return informedConsentSignedDate;
 	}
@@ -195,7 +182,7 @@ public class StudyParticipantAssignment extends AbstractMutableDomainObject {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        final StudyParticipantAssignment that = (StudyParticipantAssignment) o;
+        final StudySubject that = (StudySubject) o;
 
         if (startDate != null ? !startDate.equals(that.startDate) : that.startDate != null)
             return false;
@@ -216,14 +203,6 @@ public class StudyParticipantAssignment extends AbstractMutableDomainObject {
         return result;
     }
 
-	public Boolean getEligibilityIndicator() {
-		return eligibilityIndicator;
-	}
-
-	public void setEligibilityIndicator(Boolean eligibilityIndicator) {
-		this.eligibilityIndicator = eligibilityIndicator;
-	}
-	
 	@Transient
 	public String getInformedConsentSignedDateStr() {
 		if(informedConsentSignedDate==null){
@@ -314,27 +293,6 @@ public class StudyParticipantAssignment extends AbstractMutableDomainObject {
 
 	public void setTreatingPhysician(StudyInvestigator treatingPhysician) {
 		this.treatingPhysician = treatingPhysician;
-	}
-
-	@Transient
-	public List<SubjectEligibilityAnswer> getInclusionEligibilityAnswers(){
-		List<SubjectEligibilityAnswer> inclusionCriteriaAnswers=new ArrayList<SubjectEligibilityAnswer>();
-		for(int i=0 ; i<getSubjectEligibilityAnswers().size() ; i++){
-			if(getSubjectEligibilityAnswers().get(i).getEligibilityCriteria() instanceof InclusionEligibilityCriteria){
-				inclusionCriteriaAnswers.add(getSubjectEligibilityAnswers().get(i));
-			}
-		}
-		return inclusionCriteriaAnswers;
-	}
-	@Transient
-	public List<SubjectEligibilityAnswer> getExclusionEligibilityAnswers(){
-		List<SubjectEligibilityAnswer> exclusionCriteriaAnswers=new ArrayList<SubjectEligibilityAnswer>();
-		for(int i=0 ; i<getSubjectEligibilityAnswers().size() ; i++){
-			if(getSubjectEligibilityAnswers().get(i).getEligibilityCriteria() instanceof ExclusionEligibilityCriteria){
-				exclusionCriteriaAnswers.add(getSubjectEligibilityAnswers().get(i));
-			}
-		}
-		return exclusionCriteriaAnswers;
 	}
 
     @Transient

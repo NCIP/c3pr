@@ -4,11 +4,11 @@ import java.util.Date;
 import java.util.List;
 
 import edu.duke.cabig.c3pr.dao.StudyDao;
-import edu.duke.cabig.c3pr.dao.StudyParticipantAssignmentDao;
+import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.service.StudyService;
 
 /**
@@ -19,7 +19,7 @@ import edu.duke.cabig.c3pr.service.StudyService;
 public class StudyServiceImpl implements StudyService {
 
     StudyDao studyDao;
-    StudyParticipantAssignmentDao studyParticipantDao;
+    StudySubjectDao studySubjectDao;
 
     //TODO hook esb call
     // ProtocolBroadcastService esbCreateProtocol;
@@ -53,12 +53,12 @@ public class StudyServiceImpl implements StudyService {
     }
 
 
-    public StudyParticipantAssignmentDao getStudyParticipantDao() {
-        return studyParticipantDao;
+    public StudySubjectDao getStudyParticipantDao() {
+        return studySubjectDao;
     }
 
-    public void setStudyParticipantDao(StudyParticipantAssignmentDao studyParticipantDao) {
-        this.studyParticipantDao = studyParticipantDao;
+    public void setStudyParticipantDao(StudySubjectDao studyParticipantDao) {
+        this.studySubjectDao = studyParticipantDao;
     }
 
     /**
@@ -68,19 +68,19 @@ public class StudyServiceImpl implements StudyService {
      * @param study
      * @param participant
      * @param site
-     * @return StudyParticipantAssignment for the Participant
+     * @return StudySubject for the Participant
      */
-    public StudyParticipantAssignment assignParticipant(Study study, Participant participant,
+    public StudySubject assignParticipant(Study study, Participant participant,
                                                         HealthcareSite site, Date enrollmentDate) {
 // new assignment       
-        StudyParticipantAssignment assignment = new StudyParticipantAssignment();
+        StudySubject assignment = new StudySubject();
 
 // study shld exist
         Study assignedStudy = studyDao.getByGridId(study.getGridId());
 
         assignment.setParticipant(participant);
         assignment.setStartDate(enrollmentDate);
-        studyParticipantDao.save(assignment);
+        studySubjectDao.save(assignment);
 
         return assignment;
     }

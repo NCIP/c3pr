@@ -24,16 +24,9 @@ public class ScheduledArm extends AbstractMutableDomainObject {
 
 	private String eligibilityWaiverReasonText;
 
-	private StudyParticipantAssignment studyParticipantAssignment;
-	
 	private Arm arm;
 
 	public ScheduledArm() {
-		this.startDate=new Date();
-		this.eligibilityIndicator="true";
-	}
-	public ScheduledArm(StudyParticipantAssignment studyParticipantAssignment) {
-		this.studyParticipantAssignment=studyParticipantAssignment;
 		this.startDate=new Date();
 		this.eligibilityIndicator="true";
 	}
@@ -63,17 +56,6 @@ public class ScheduledArm extends AbstractMutableDomainObject {
 
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
-	}
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "SPA_ID")
-	public StudyParticipantAssignment getStudyParticipantAssignment() {
-		return studyParticipantAssignment;
-	}
-
-	public void setStudyParticipantAssignment(
-			StudyParticipantAssignment studyParticipantAssignment) {
-		this.studyParticipantAssignment = studyParticipantAssignment;
 	}
 
 	public String getEligibilityWaiverReasonText() {

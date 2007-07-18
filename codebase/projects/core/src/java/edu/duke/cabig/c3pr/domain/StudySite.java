@@ -38,8 +38,7 @@ public class StudySite extends AbstractMutableDomainObject implements Comparable
     private String irbApprovalDateStr;
     private String startDateStr;
 
-    private List<StudyParticipantAssignment> studyParticipantAssignments
-            = new ArrayList<StudyParticipantAssignment>();
+    private List<StudySubject> studySubjects = new ArrayList<StudySubject>();
 
     private LazyListHelper lazyListHelper;
 
@@ -61,21 +60,21 @@ public class StudySite extends AbstractMutableDomainObject implements Comparable
 		studyInvestigator.setStudySite(this);
 	}
 
-    public void addstudyParticipantAssignment(StudyParticipantAssignment spAssignments)
+    public void addStudySubject(StudySubject spAssignments)
     {
-        studyParticipantAssignments.add(spAssignments);
-        spAssignments.setStudySite(this);
+        studySubjects.add(spAssignments);
+        studySubjects.size();
     }
 
-    public void removeStudyParticipantAssignment(StudyParticipantAssignment studyParticipantAssignment){
-        studyParticipantAssignments.remove(studyParticipantAssignment);
+    public void removeStudySubject(StudySubject studySubject){
+        studySubjects.remove(studySubject);
     }
 
 
     /** Are there any assignments using this relationship? */
     @Transient
     public boolean isUsed() {
-        return getStudyParticipantAssignments().size() > 0;
+        return getStudySubjects().size() > 0;
     }
 
     /// BEAN PROPERTIES
@@ -102,14 +101,14 @@ public class StudySite extends AbstractMutableDomainObject implements Comparable
         return study;
     }
 
-    public void setStudyParticipantAssignments(List<StudyParticipantAssignment> studyParticipantAssignments) {
-        this.studyParticipantAssignments = studyParticipantAssignments;
+    public void setStudySubjects(List<StudySubject> studySubjects) {
+        this.studySubjects = studySubjects;
     }
 
     @OneToMany (mappedBy = "studySite", fetch=FetchType.LAZY)
     @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-    public List<StudyParticipantAssignment> getStudyParticipantAssignments() {
-        return studyParticipantAssignments;
+    public List<StudySubject> getStudySubjects() {
+        return studySubjects;
     }
 
     @OneToMany (mappedBy = "studySite")
@@ -233,7 +232,7 @@ public class StudySite extends AbstractMutableDomainObject implements Comparable
     public int hashCode() {
         int result;
         result = (site != null ? site.hashCode() : 0);
-        result = 29 * result + (studyParticipantAssignments != null ? studyParticipantAssignments.hashCode() : 0);
+        result = 29 * result + (studySubjects != null ? studySubjects.hashCode() : 0);
         return result;
     }
 

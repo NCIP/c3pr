@@ -4,11 +4,11 @@ import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.ValidityException;
 
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySite;
 
 /**
- * To handle the studysite field in StudyParticipantAssignment
+ * To handle the studysite field in StudySubject
  * object
  * <p/>
  * Created by IntelliJ IDEA.
@@ -26,7 +26,7 @@ public class StudyFieldHandler implements FieldHandler {
 
 
     public Object getValue(Object object) throws IllegalStateException {
-        StudyParticipantAssignment registration = (StudyParticipantAssignment) object;
+        StudySubject registration = (StudySubject) object;
         StudySite site = registration.getStudySite();
         if (site == null) return null;
         Study study = site.getStudy();
@@ -35,7 +35,7 @@ public class StudyFieldHandler implements FieldHandler {
     }
 
     public void setValue(Object object, Object value) throws IllegalStateException, IllegalArgumentException {
-        StudyParticipantAssignment registration = (StudyParticipantAssignment) object;
+        StudySubject registration = (StudySubject) object;
         StudySite site = registration.getStudySite();
         if (site == null) {
             site = new StudySite();
@@ -49,7 +49,7 @@ public class StudyFieldHandler implements FieldHandler {
     }
 
     public void resetValue(Object object) throws IllegalStateException, IllegalArgumentException {
-        StudyParticipantAssignment registration = (StudyParticipantAssignment) object;
+        StudySubject registration = (StudySubject) object;
         registration.getStudySite().setStudy(null);
     }
 

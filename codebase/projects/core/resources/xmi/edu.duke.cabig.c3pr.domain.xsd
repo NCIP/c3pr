@@ -6,7 +6,7 @@
       <xs:extension base="Person">
         <xs:sequence>
           <xs:element name="healthcareSiteParticipantCollection" type="HealthcareSiteParticipant" minOccurs="0" maxOccurs="unbounded" />
-          <xs:element name="studyParticipantAssignmentCollection" type="StudyParticipantAssignment" minOccurs="0" maxOccurs="unbounded" />
+          <xs:element name="studySubjectCollection" type="StudySubject" minOccurs="0" maxOccurs="unbounded" />
         </xs:sequence>
         <xs:attribute name="confidentialityIndicator" type="xs:boolean" />
         <xs:attribute name="initials" type="xs:char" />
@@ -109,7 +109,7 @@
   <xs:complexType name="StudySite">
     <xs:sequence>
       <xs:element name="study" type="Study" minOccurs="0" maxOccurs="1" />
-      <xs:element name="studyParticipantCollection" type="StudyParticipantAssignment" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="studyParticipantCollection" type="StudySubject" minOccurs="0" maxOccurs="unbounded" />
     </xs:sequence>
     <xs:attribute name="id" type="xs:int" />
     <xs:attribute name="irbApprovalDate" type="xs:dateTime" />
@@ -160,8 +160,8 @@
     <xs:attribute name="statusCode" type="xs:string" />
     <xs:attribute name="statusDate" type="xs:dateTime" />
   </xs:complexType>
-  <xs:element name="StudyParticipantAssignment" type="StudyParticipantAssignment" />
-  <xs:complexType name="StudyParticipantAssignment">
+  <xs:element name="StudySubject" type="StudySubject" />
+  <xs:complexType name="StudySubject">
     <xs:sequence>
       <xs:element name="participant" type="Participant" minOccurs="0" maxOccurs="1" />
     </xs:sequence>

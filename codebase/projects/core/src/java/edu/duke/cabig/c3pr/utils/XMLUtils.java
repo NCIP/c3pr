@@ -10,29 +10,34 @@ import org.jdom.output.XMLOutputter;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
+import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 
 public class XMLUtils {
 
-	public static String toXml(StudyParticipantAssignment studyParticipantAssignment)throws RuntimeException{
+	public static String toXml(StudySubject studySubject)throws RuntimeException{
 		String ns="http://semanticbits.com/registration.xsd";
 		String xml="";
 		Element rootElement=new Element("registration","p1", ns);
-		rootElement.setAttribute("healthCareSiteGridId", studyParticipantAssignment.getStudySite().getSite().getGridId());
-		rootElement.setAttribute("studyGridId", studyParticipantAssignment.getStudySite().getStudy().getGridId());
-//		String siteGridId=StringUtils.getBlankIfNull(studyParticipantAssignment.getStudySite().getGridId());
-//		String studyGridId=StringUtils.getBlankIfNull(studyParticipantAssignment.getStudySite().getStudy().getGridId());
+		rootElement.setAttribute("healthCareSiteGridId", studySubject.getStudySite().getSite().getGridId());
+		rootElement.setAttribute("studyGridId", studySubject.getStudySite().getStudy().getGridId());
+//		String siteGridId=StringUtils.getBlankIfNull(studySubject.getStudySite().getGridId());
+//		String studyGridId=StringUtils.getBlankIfNull(studySubject.getStudySite().getStudy().getGridId());
 		
 //		rootElement.setAttribute("healthCareSiteGridId", "gridSite");
 //		rootElement.setAttribute("studyGridId", "gridStudy");
 		
-		rootElement.addContent(new Element("informedConsentFormSignedDate", "p1",ns).setText(new SimpleDateFormat("yyyy-MM-dd").format(studyParticipantAssignment.getInformedConsentSignedDate())));	
-		rootElement.addContent(new Element("enrollmentDate", "p1",ns).setText(new SimpleDateFormat("yyyy-MM-dd").format(studyParticipantAssignment.getStartDate())));		
-		rootElement.addContent(new Element("studyParticipantIdentifier", "p1",ns).setText(StringUtils.getBlankIfNull(studyParticipantAssignment.getGridId())));
-		rootElement.addContent(new Element("eligibilityIndicator", "p1",ns).setText(StringUtils.getBlankIfNull(studyParticipantAssignment.getEligibilityIndicator())));
-		
-		Participant stPart=studyParticipantAssignment.getParticipant();
+		rootElement.addContent(new Element("informedConsentFormSignedDate", "p1",ns).setText(new SimpleDateFormat("yyyy-MM-dd").format(studySubject.getInformedConsentSignedDate())));	
+		rootElement.addContent(new Element("enrollmentDate", "p1",ns).setText(new SimpleDateFormat("yyyy-MM-dd").format(studySubject.getStartDate())));		
+		rootElement.addContent(new Element("studyParticipantIdentifier", "p1",ns).setText(StringUtils.getBlankIfNull(studySubject.getGridId())));
+		ScheduledEpoch current=studySubject.getScheduledEpoch();
+		if (current instanceof ScheduledTreatmentEpoch) {
+			ScheduledTreatmentEpoch scheduledTreatmentEpoch = (ScheduledTreatmentEpoch) current;
+			rootElement.addContent(new Element("eligibilityIndicator", "p1",ns).setText(StringUtils.getBlankIfNull(scheduledTreatmentEpoch.getEligibilityIndicator())));
+		}
+		Participant stPart=studySubject.getParticipant();
 		Element participant=new Element("participant", "p1",ns);
 		participant.setAttribute("participantGridId", StringUtils.getBlankIfNull(stPart.getGridId()));
 		participant.addContent(new Element("administrativeGenderCode", "p1",ns).setText(StringUtils.getBlankIfNull(stPart.getAdministrativeGenderCode())));
@@ -71,7 +76,7 @@ public class XMLUtils {
 		participant.addContent(address);
 		rootElement.addContent(participant);
 		
-		Study st=studyParticipantAssignment.getStudySite().getStudy();
+		Study st=studySubject.getStudySite().getStudy();
 		Element study=new Element("study", "p1",ns);
 		identifiers= st.getIdentifiers();
 		if(identifiers.size()==0){
@@ -97,10 +102,10 @@ public class XMLUtils {
 		Element identifier=new Element("identifier", "p1",ns);
 		identifier.addContent(new Element("source", "p1",ns).setText("c3pr"));
 		identifier.addContent(new Element("type", "p1",ns).setText("Grid Identifier"));
-		identifier.addContent(new Element("value", "p1",ns).setText(StringUtils.getBlankIfNull(studyParticipantAssignment.getGridId())));
+		identifier.addContent(new Element("value", "p1",ns).setText(StringUtils.getBlankIfNull(studySubject.getGridId())));
 		identifier.addContent(new Element("isprimary", "p1",ns).setText("false"));
 		rootElement.addContent(identifier);
-		identifiers=studyParticipantAssignment.getIdentifiers();
+		identifiers=studySubject.getIdentifiers();
 		for(int i=0 ; i<identifiers.size() ; i++){
 			Identifier id=identifiers.get(i);
 			Element idTemp=new Element("identifier", "p1",ns);

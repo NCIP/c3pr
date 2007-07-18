@@ -1,8 +1,8 @@
 package edu.duke.cabig.c3pr.domain;
 
 import edu.duke.cabig.c3pr.utils.StringUtils;
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
+import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.commons.collections15.functors.InstantiateFactory;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
@@ -32,28 +33,24 @@ import org.hibernate.annotations.Parameter;
 )
 public class StratificationCriterion extends AbstractMutableDomainObject implements Comparable<StratificationCriterion> {
 
+	private LazyListHelper lazyListHelper;
 	private int questionNumber;
     private String questionText;
-    private List<StratificationCriterionPermissibleAnswer> permissibleAnswers = 
-    	new ArrayList<StratificationCriterionPermissibleAnswer>();
-    private Study study;
-    private LazyListHelper lazyListHelper;
-     
-    public StratificationCriterion()
-    {
-    lazyListHelper = new LazyListHelper();
-    lazyListHelper.add(StratificationCriterionPermissibleAnswer.class,new BiDirectionalInstantiateFactory<StratificationCriterionPermissibleAnswer>(StratificationCriterionPermissibleAnswer.class,this));
-    }
-    
+       
+    public StratificationCriterion() {
+    	lazyListHelper=new LazyListHelper();
+    	lazyListHelper.add(StratificationCriterionPermissibleAnswer.class,new BiDirectionalInstantiateFactory<StratificationCriterionPermissibleAnswer>(
+    			StratificationCriterionPermissibleAnswer.class,this));
+	}
     /// LOGIC
 
 	public void addPermissibleAnswer(StratificationCriterionPermissibleAnswer answer){
-		permissibleAnswers.add(answer);
+		getPermissibleAnswers().add(answer);
 		answer.setStratificationCriterion(this);
 	}
 	
 	public void removePermissibleAnswer(StratificationCriterionPermissibleAnswer answer){
-		permissibleAnswers.remove(answer);
+		getPermissibleAnswers().remove(answer);
 	}
 	
 
@@ -68,16 +65,6 @@ public class StratificationCriterion extends AbstractMutableDomainObject impleme
 		return 0;
 	}
 
-	@ManyToOne
-	@JoinColumn(name="study_id", nullable=true)
-	public Study getStudy() {
-		return study;
-	}
-	
-	public void setStudy(Study study) {
-		this.study = study;
-	}
-	
 	public int getQuestionNumber() {
 		return questionNumber;
 	}
@@ -100,17 +87,17 @@ public class StratificationCriterion extends AbstractMutableDomainObject impleme
 		return lazyListHelper.getInternalList(StratificationCriterionPermissibleAnswer.class);
 	}
 
-	public void setPermissibleAnswersInternal(
+	public void setPermissibleAnswers(
 			List<StratificationCriterionPermissibleAnswer> permissibleAnswers) {
 		lazyListHelper.setInternalList(StratificationCriterionPermissibleAnswer.class, permissibleAnswers);
 	}
-	
+
 	@Transient
 	public List<StratificationCriterionPermissibleAnswer> getPermissibleAnswers() {
 		return lazyListHelper.getLazyList(StratificationCriterionPermissibleAnswer.class);
 	}
-	
-	public void setPermissibleAnswers(
+
+	public void setPermissibleAnswersInternal(
 			List<StratificationCriterionPermissibleAnswer> permissibleAnswers) {
 		lazyListHelper.setInternalList(StratificationCriterionPermissibleAnswer.class, permissibleAnswers);
 	}
@@ -119,7 +106,7 @@ public class StratificationCriterion extends AbstractMutableDomainObject impleme
 	public int hashCode() {
 		final int PRIME = 31;
 		int result = super.hashCode();
-		result = PRIME * result + ((permissibleAnswers == null) ? 0 : permissibleAnswers.hashCode());
+		result = PRIME * result + ((getPermissibleAnswers() == null) ? 0 : getPermissibleAnswers().hashCode());
 		result = PRIME * result + questionNumber;
 		result = PRIME * result + ((questionText == null) ? 0 : questionText.hashCode());
 		return result;
@@ -134,10 +121,10 @@ public class StratificationCriterion extends AbstractMutableDomainObject impleme
 		if (getClass() != obj.getClass())
 			return false;
 		final StratificationCriterion other = (StratificationCriterion) obj;
-		if (permissibleAnswers == null) {
-			if (other.permissibleAnswers != null)
+		if (getPermissibleAnswers() == null) {
+			if (other.getPermissibleAnswers() != null)
 				return false;
-		} else if (!permissibleAnswers.equals(other.permissibleAnswers))
+		} else if (!getPermissibleAnswers().equals(other.getPermissibleAnswers()))
 			return false;
 		if (questionNumber != other.questionNumber)
 			return false;

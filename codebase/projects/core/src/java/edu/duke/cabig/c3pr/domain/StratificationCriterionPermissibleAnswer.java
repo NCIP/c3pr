@@ -53,7 +53,7 @@ public class StratificationCriterionPermissibleAnswer extends AbstractMutableDom
 
     @OneToOne
 	@Cascade(value = { CascadeType.ALL})
-    @JoinColumn(name="str_cri_id", nullable=true)
+    @JoinColumn(name="str_cri_id", nullable=false)
 	public StratificationCriterion getStratificationCriterion() {
 		return stratificationCriterion;
 	}
