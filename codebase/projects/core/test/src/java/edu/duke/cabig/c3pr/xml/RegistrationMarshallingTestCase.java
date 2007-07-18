@@ -7,7 +7,7 @@ import java.io.StringReader;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import gov.nih.nci.common.exception.XMLUtilityException;
 
@@ -52,13 +52,12 @@ public class RegistrationMarshallingTestCase extends AbstractXMLMarshalling {
      * Test serialization of message
      */
     private void registrationSerializationTest() {
-        StudyParticipantAssignment registration = new StudyParticipantAssignment();
+        StudySubject registration = new StudySubject();
         registration.setName(strValue);
 
-        registration.setStudyParticipantIdentifier(strValue);
         registration.setInformedConsentSignedDate(dateValue);
         registration.setStartDate(dateValue);
-        registration.setEligibilityIndicator(boolValue);
+
         registration.setIdentifiersInternal(getIdentifiers());
 
         StudySite studySite = new StudySite();
@@ -124,8 +123,8 @@ public class RegistrationMarshallingTestCase extends AbstractXMLMarshalling {
     private void registrationDeserializationTest() {
         Reader messageReader = new StringReader(marshalledRegistration);
         try {
-            StudyParticipantAssignment unmarshalledRegistration = (StudyParticipantAssignment) marshaller.fromXML(messageReader);
-            unmarshalledRegistration = (StudyParticipantAssignment) marshaller.fromXML(new StringReader(marshalledRegistration));
+            StudySubject unmarshalledRegistration = (StudySubject) marshaller.fromXML(messageReader);
+            unmarshalledRegistration = (StudySubject) marshaller.fromXML(new StringReader(marshalledRegistration));
             assertNotNull(unmarshalledRegistration);
 
             assertNotNull(unmarshalledRegistration.getParticipant());

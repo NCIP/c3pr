@@ -19,7 +19,7 @@ import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 import edu.emory.mathcs.backport.java.util.Collections;
@@ -157,11 +157,11 @@ public class StudyDao extends GridIdentifiableDao<Study>
     /**
      * Get all Assignments associated with the given study
      * @param studyId the study id
-     * @return list of StudyParticipantAssignments
+     * @return list of StudySubjects
      */
-    public List<StudyParticipantAssignment> getStudyParticipantAssignmentsForStudy(Integer studyId) {
+    public List<StudySubject> getStudySubjectsForStudy(Integer studyId) {
         return getHibernateTemplate().find("select a from Study s join s.studySitesInternal ss " +
-                "join ss.studyParticipantAssignments a where s.id = ?", studyId);
+                "join ss.studySubjects a where s.id = ?", studyId);
     }
 
     @Transactional (readOnly = false)

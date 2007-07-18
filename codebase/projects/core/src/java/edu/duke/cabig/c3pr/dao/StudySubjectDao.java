@@ -14,25 +14,25 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
 
 import edu.duke.cabig.c3pr.domain.Identifier;
-import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.emory.mathcs.backport.java.util.Collections;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 
 
-public class StudyParticipantAssignmentDao extends
-		GridIdentifiableDao<StudyParticipantAssignment> implements MutableDomainObjectDao<StudyParticipantAssignment>{
+public class StudySubjectDao extends
+		GridIdentifiableDao<StudySubject> implements MutableDomainObjectDao<StudySubject>{
 
 	private List<String> SUBSTRING_MATCH_PROPERTIES = Arrays
 			.asList("studySite.study.shortTitleText");
 
 	private List<String> EXACT_MATCH_PROPERTIES = Collections.emptyList();
 
-	public StudyParticipantAssignmentDao() {
+	public StudySubjectDao() {
 	}
 
 	@Override
-	public Class<StudyParticipantAssignment> domainClass() {
-		return StudyParticipantAssignment.class;
+	public Class<StudySubject> domainClass() {
+		return StudySubject.class;
 	}
 
 	/**
@@ -41,14 +41,14 @@ public class StudyParticipantAssignmentDao extends
 	 * Also takes the date range(startDate, endDate) and gets all objects 
 	 * having their informedConsentSignedDate between these two dates.
 	 * @param registration, startDate and endDate
-	 * @return list of StudyParticipantAssignment objects.
+	 * @return list of StudySubject objects.
 	 */
-	public List<StudyParticipantAssignment> advancedSearch(StudyParticipantAssignment registration, Date startDate, Date endDate, String ccId) {
+	public List<StudySubject> advancedSearch(StudySubject registration, Date startDate, Date endDate, String ccId) {
 
 
 		Criteria registrationCriteria = getHibernateTemplate()
 				.getSessionFactory().getCurrentSession().createCriteria(
-						StudyParticipantAssignment.class);
+						StudySubject.class);
 
 		Criteria studySiteCriteria = registrationCriteria.createCriteria("studySite");
 		Criteria participantCriteria = registrationCriteria.createCriteria("participant");
@@ -100,14 +100,14 @@ public class StudyParticipantAssignmentDao extends
 	 * @param registration
 	 * @return
 	 */
-	public List<StudyParticipantAssignment> searchByExample(
-			StudyParticipantAssignment registration, boolean isWildCard) {
+	public List<StudySubject> searchByExample(
+			StudySubject registration, boolean isWildCard) {
 
 		Example example = Example.create(registration).excludeZeroes()
 				.ignoreCase();
 		Criteria registrationCriteria = getHibernateTemplate()
 				.getSessionFactory().getCurrentSession().createCriteria(
-						StudyParticipantAssignment.class);
+						StudySubject.class);
 		if (isWildCard) {
 			example.excludeProperty("doNotUse").enableLike(MatchMode.ANYWHERE);
 			registrationCriteria.add(example);
@@ -124,18 +124,18 @@ public class StudyParticipantAssignmentDao extends
 
 	}
 
-	public List<StudyParticipantAssignment> getAll() throws DataAccessException {
+	public List<StudySubject> getAll() throws DataAccessException {
 		return getHibernateTemplate().find("from StudyParticipantAssignmet");
 	}
 
-	public List<StudyParticipantAssignment> searchByExample(
-			StudyParticipantAssignment registration) {
+	public List<StudySubject> searchByExample(
+			StudySubject registration) {
 		return searchByExample(registration, true);
 	}
 
-	public StudyParticipantAssignment getById(int id, boolean withIdentifiers) {
+	public StudySubject getById(int id, boolean withIdentifiers) {
 
-		StudyParticipantAssignment registration = (StudyParticipantAssignment) getHibernateTemplate()
+		StudySubject registration = (StudySubject) getHibernateTemplate()
 				.get(domainClass(), id);
 		if (withIdentifiers) {
 			List<Identifier> identifiers = registration.getIdentifiers();
@@ -145,7 +145,7 @@ public class StudyParticipantAssignmentDao extends
 
 	}
 
-	public List<StudyParticipantAssignment> getBySubnames(String[] subnames,
+	public List<StudySubject> getBySubnames(String[] subnames,
 			int criterionSelector) {
 
 		switch (criterionSelector) {
@@ -176,11 +176,11 @@ public class StudyParticipantAssignmentDao extends
 		return findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES,
 				EXACT_MATCH_PROPERTIES);
 	}
-	public void reassociate(StudyParticipantAssignment spa) {
+	public void reassociate(StudySubject spa) {
         getHibernateTemplate().lock(spa,LockMode.NONE);
      }
 
-	public void save(StudyParticipantAssignment obj) {
+	public void save(StudySubject obj) {
 		getHibernateTemplate().saveOrUpdate(obj);
 		
 	}

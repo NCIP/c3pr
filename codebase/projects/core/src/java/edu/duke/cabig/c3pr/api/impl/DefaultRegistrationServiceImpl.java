@@ -1,30 +1,30 @@
 package edu.duke.cabig.c3pr.api.impl;
 
 import edu.duke.cabig.c3pr.api.RegistrationService;
-import edu.duke.cabig.c3pr.dao.StudyParticipantAssignmentDao;
+import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 
 /**
  * @author Ram Chilukuri
  */
 public class DefaultRegistrationServiceImpl implements RegistrationService {
-    private StudyParticipantAssignmentDao registrationDao;
+    private StudySubjectDao studySubjectDao;
     public DefaultRegistrationServiceImpl() {
     }
 
     public void addStudySubjectIdentifier(String studySubjectGridIdentifier, 
                                           Identifier newIdentifier) {
-        StudyParticipantAssignment registration = (StudyParticipantAssignment)registrationDao.getByGridId(studySubjectGridIdentifier);
+        StudySubject registration = (StudySubject)studySubjectDao.getByGridId(studySubjectGridIdentifier);
         if (registration == null) {
             throw new IllegalArgumentException("Registration with grid identifier: "+studySubjectGridIdentifier+" could not be found in the database");
         }
         if (this.validateIdentifier(newIdentifier)){
             registration.addIdentifier(newIdentifier);
-            registrationDao.save(registration);
+            studySubjectDao.save(registration);
         }
         
         
@@ -36,8 +36,8 @@ public class DefaultRegistrationServiceImpl implements RegistrationService {
         //TODO: Implement this method
     }
 
-    public void setRegistrationDao(StudyParticipantAssignmentDao registrationDao) {
-        this.registrationDao = registrationDao;
+    public void setRegistrationDao(StudySubjectDao studySubjectDao) {
+        this.studySubjectDao = studySubjectDao;
     }
     
     private boolean validateIdentifier(Identifier newIdentifier){

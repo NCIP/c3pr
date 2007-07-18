@@ -116,7 +116,7 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements 
 	public Participant getById(int id) {
 		// TODO Auto-generated method stub
 		Participant participant = super.getById(id);
-		participant.getStudyParticipantAssignments().size();
+		participant.getStudySubjects().size();
 		return participant;
 	}
 
