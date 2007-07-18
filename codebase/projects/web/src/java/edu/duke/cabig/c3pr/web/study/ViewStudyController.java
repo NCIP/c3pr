@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.web.study;
 
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.utils.web.navigation.Task;
+import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import org.springframework.validation.BindException;
@@ -23,6 +24,7 @@ import java.util.Map;
  */
 public class ViewStudyController extends StudyController<Study> {
     private edu.duke.cabig.c3pr.utils.web.navigation.Task editTask;
+    private XmlMarshaller xmlUtility;
 
 
     public ViewStudyController() {
@@ -72,8 +74,21 @@ public class ViewStudyController extends StudyController<Study> {
         return refdata;
     }
 
+
     protected ModelAndView processFinish(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object command, BindException e) throws Exception {
         Study study = (Study) command;
+
+        // study export
+        if (httpServletRequest.getParameter("_action").equals("export")) {
+            log.debug("Exporting Study " + study.getId());
+            httpServletResponse.setContentType("application/xml");
+            httpServletResponse.setHeader("Content-Disposition", "attachment; filename=study-" + study.getId() + ".xml");
+            xmlUtility.toXML(study, httpServletResponse.getWriter());
+            httpServletResponse.getWriter().close();
+
+            return null;
+        }
+
 
         ModelAndView modelAndView = new ModelAndView(new RedirectView("editStudy?studyId=" + study.getId()));
         return modelAndView;
@@ -85,5 +100,13 @@ public class ViewStudyController extends StudyController<Study> {
 
     public void setEditTask(Task editTask) {
         this.editTask = editTask;
+    }
+
+    public XmlMarshaller getXmlUtility() {
+        return xmlUtility;
+    }
+
+    public void setXmlUtility(XmlMarshaller xmlUtility) {
+        this.xmlUtility = xmlUtility;
     }
 }
