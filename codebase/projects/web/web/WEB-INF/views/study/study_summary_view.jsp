@@ -1,21 +1,29 @@
-<%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
-<%@ taglib prefix="csmauthz" uri="http://csm.ncicb.nci.nih.gov/authz"%>
-
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
+<%@ taglib prefix="csmauthz" uri="http://csm.ncicb.nci.nih.gov/authz" %>
 
 
 <html>
 <head>
-
+    <script language="JavaScript" type="text/JavaScript">
+        function doExportAction() {
+            document.viewDetails._action.value = "export";
+            document.viewDetails.submit();
+            document.viewDetails._action.value = "";
+        }
+    </script>
 </head>
 
 <body>
 <form:form name="viewDetails">
- <tags:tabFields tab="${tab}"/>
+<tags:tabFields tab="${tab}"/>
 <chrome:box title="Study Summary">
-<div><input type="hidden" name="_finish" value="true" /></div>
+<div>
+    <input type="hidden" name="_finish" value="true"/>
+    <input type="hidden" name="_action" value="">
+</div>
 
 <chrome:division id="study-details" title="Study Details">
     <table class="tablecontent">
@@ -112,7 +120,8 @@
             <c:forEach items="${studySite.studyInvestigators}"
                        var="studyInvestigator" varStatus="status">
                 <tr class="results">
-                    <td class="alt" align="left">${studyInvestigator.healthcareSiteInvestigator.investigator.fullName}</td>
+                    <td class="alt"
+                        align="left">${studyInvestigator.healthcareSiteInvestigator.investigator.fullName}</td>
                     <td class="alt" align="left">${studyInvestigator.roleCode}</td>
                     <td class="alt" align="left">${studyInvestigator.statusCode}</td>
                 </tr>
@@ -187,47 +196,53 @@
 </chrome:division>
 
 <chrome:division title="Study Design">
-<table class="tablecontent">
-    <tr>
-        <th scope="col" align="left"><b>Epochs</b></th>
-        <th scope="col" align="left"><b>Arms</b>
-    </tr>
-    <c:forEach items="${command.epochs}" var="epoch">
+    <table class="tablecontent">
         <tr>
-            <td class="alt">${epoch.name}</td>
-            <td>
-                <c:if
-                        test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
-                    <table border="0" cellspacing="0" cellpadding="0" id="mytable">
-                        <tr>
-                            <th scope="col" align="left"><b>Name</b></th>
-                            <th scope="col" align="left"><b>Target Accrual No.</b>
-                        </tr>
-                        <tr>
-                            <c:forEach items="${epoch.arms}" var="arm">
-                        <tr>
-                            <td class="alt" align="left">${arm.name}</td>
-                            <td class="alt" align="left">${arm.targetAccrualNumber}</td>
-                        </tr>
-                        </c:forEach>
-                    </table>
-                </c:if>
-            </td>
-
+            <th scope="col" align="left"><b>Epochs</b></th>
+            <th scope="col" align="left"><b>Arms</b>
         </tr>
-    </c:forEach>
-</table>
+        <c:forEach items="${command.epochs}" var="epoch">
+            <tr>
+                <td class="alt">${epoch.name}</td>
+                <td>
+                    <c:if
+                            test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
+                        <table border="0" cellspacing="0" cellpadding="0" id="mytable">
+                            <tr>
+                                <th scope="col" align="left"><b>Name</b></th>
+                                <th scope="col" align="left"><b>Target Accrual No.</b>
+                            </tr>
+                            <tr>
+                                <c:forEach items="${epoch.arms}" var="arm">
+                            <tr>
+                                <td class="alt" align="left">${arm.name}</td>
+                                <td class="alt" align="left">${arm.targetAccrualNumber}</td>
+                            </tr>
+                            </c:forEach>
+                        </table>
+                    </c:if>
+                </td>
+
+            </tr>
+        </c:forEach>
+    </table>
 </chrome:division>
 
-<%--Optionally display edit button--%>
+<%--Optionally display edit mode buttons--%>
 <c:if test="${not empty editAuthorizationTask}">
+    <div class="content buttons autoclear">
+        <div class="flow-buttons">
+                    <span class="next">
+                        <input type="button" value="Export Study" onclick="doExportAction();"/>
+
     <csmauthz:accesscontrol domainObject="${editAuthorizationTask}"
                             authorizationCheckName="taskAuthorizationCheck">
-        <div class="content buttons autoclear">
-            <div class="flow-buttons"><span class="next"> <input type="submit"
-                                                                 id="flow-next" value="Edit Study" /> </span></div>
-        </div>
+        <input type="submit" value="Edit Study"/>
     </csmauthz:accesscontrol>
+                    </span>
+        </div>
+    </div>
+
 </c:if>
 
 </chrome:box>

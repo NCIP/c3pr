@@ -74,21 +74,26 @@ public class ViewStudyController extends StudyController<Study> {
         return refdata;
     }
 
+    @Override
+    protected ModelAndView handleRequestInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+        // study export
+        if (isFormSubmission(httpServletRequest)) {
+            if (httpServletRequest.getParameter("_action").equals("export")) {
+                Study study = (Study) httpServletRequest.getSession().getAttribute(getFormSessionAttributeName());
+                log.debug("Exporting Study " + study.getId());
+                httpServletResponse.setContentType("application/xml");
+                httpServletResponse.setHeader("Content-Disposition", "attachment; filename=study-" + study.getId() + ".xml");
+                xmlUtility.toXML(study, httpServletResponse.getWriter());
+                httpServletResponse.getWriter().close();
+
+                return null;
+            }
+        }
+        return super.handleRequestInternal(httpServletRequest, httpServletResponse);    //To change body of overridden methods use File | Settings | File Templates.
+    }
 
     protected ModelAndView processFinish(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object command, BindException e) throws Exception {
         Study study = (Study) command;
-
-        // study export
-        if (httpServletRequest.getParameter("_action").equals("export")) {
-            log.debug("Exporting Study " + study.getId());
-            httpServletResponse.setContentType("application/xml");
-            httpServletResponse.setHeader("Content-Disposition", "attachment; filename=study-" + study.getId() + ".xml");
-            xmlUtility.toXML(study, httpServletResponse.getWriter());
-            httpServletResponse.getWriter().close();
-
-            return null;
-        }
-
 
         ModelAndView modelAndView = new ModelAndView(new RedirectView("editStudy?studyId=" + study.getId()));
         return modelAndView;
