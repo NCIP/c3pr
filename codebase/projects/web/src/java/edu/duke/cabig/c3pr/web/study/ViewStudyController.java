@@ -14,6 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
@@ -75,21 +76,32 @@ public class ViewStudyController extends StudyController<Study> {
     }
 
     @Override
+    protected boolean isFormSubmission(HttpServletRequest httpServletRequest) {
+        Set<String> paramNames = httpServletRequest.getParameterMap().keySet();
+        return paramNames.contains("_action");
+
+    }
+
+    @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
         // study export
         if (isFormSubmission(httpServletRequest)) {
-            if (httpServletRequest.getParameter("_action").equals("export")) {
                 Study study = (Study) httpServletRequest.getSession().getAttribute(getFormSessionAttributeName());
-                log.debug("Exporting Study " + study.getId());
+                //log.debug("Exporting Study " + study.getId());
                 httpServletResponse.setContentType("application/xml");
                 httpServletResponse.setHeader("Content-Disposition", "attachment; filename=study-" + study.getId() + ".xml");
                 xmlUtility.toXML(study, httpServletResponse.getWriter());
                 httpServletResponse.getWriter().close();
 
                 return null;
-            }
         }
+
         return super.handleRequestInternal(httpServletRequest, httpServletResponse);    //To change body of overridden methods use File | Settings | File Templates.
+    }
+
+    @Override
+    protected String getFormSessionAttributeName(HttpServletRequest httpServletRequest) {
+        return super.getFormSessionAttributeName(httpServletRequest);    //To change body of overridden methods use File | Settings | File Templates.
     }
 
     protected ModelAndView processFinish(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object command, BindException e) throws Exception {
