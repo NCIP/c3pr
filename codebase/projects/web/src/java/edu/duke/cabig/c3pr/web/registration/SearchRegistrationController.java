@@ -1,4 +1,4 @@
-package edu.duke.cabig.c3pr.web;
+package edu.duke.cabig.c3pr.web.registration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,15 +18,16 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
-import edu.duke.cabig.c3pr.dao.StudyParticipantAssignmentDao;
+import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
+import edu.duke.cabig.c3pr.web.SearchCommand;
 
 /**
  * 
@@ -37,7 +38,7 @@ public class SearchRegistrationController extends SimpleFormController {
 	private static Log log = LogFactory
 			.getLog(SearchRegistrationController.class);
 
-	private StudyParticipantAssignmentDao registrationDao;
+	private StudySubjectDao studySubjectDao;
 
 	private ParticipantDao participantDao;
 
@@ -58,10 +59,10 @@ public class SearchRegistrationController extends SimpleFormController {
 			throws Exception {
 
 		SearchCommand searchRegistrationCommand = (SearchCommand) oCommand;
-		StudyParticipantAssignment registration = new StudyParticipantAssignment();
+		StudySubject registration = new StudySubject();
 		String text = searchRegistrationCommand.getSearchText();
 		String type = searchRegistrationCommand.getSearchType();
-		List<StudyParticipantAssignment> registrations = new ArrayList<StudyParticipantAssignment>();
+		List<StudySubject> registrations = new ArrayList<StudySubject>();
 		log.debug(" Search string is :" + text);
 		if (request.getParameter("select").equals("Subject")) {
 			Participant participant = new Participant();
@@ -79,7 +80,7 @@ public class SearchRegistrationController extends SimpleFormController {
 	    	List<Participant> uniqueParticipants = new ArrayList<Participant>();
 	    	uniqueParticipants.addAll(participantSet);
 			for (Participant partVar : uniqueParticipants) {
-				registrations = partVar.getStudyParticipantAssignments();
+				registrations = partVar.getStudySubjects();
 			}
 		} else if (request.getParameter("select").equals("Study")) {
 			Study study = new Study();
@@ -104,9 +105,9 @@ public class SearchRegistrationController extends SimpleFormController {
 	    	uniqueStudies.addAll(studySet);
 	    	for (Study studyVar : uniqueStudies) {
 				for (StudySite studySite : studyVar.getStudySites()) {
-					for (StudyParticipantAssignment studyParticipantAssignment : studySite
-							.getStudyParticipantAssignments()) {
-						registrations.add(studyParticipantAssignment);
+					for (StudySubject studySubject : studySite
+							.getStudySubjects()) {
+						registrations.add(studySubject);
 					}
 				}
 			}
@@ -114,7 +115,7 @@ public class SearchRegistrationController extends SimpleFormController {
 			Identifier identifier = new Identifier();
 			identifier.setValue(text);
 			registration.addIdentifier(identifier);
-			registrations = registrationDao.searchByExample(registration);
+			registrations = studySubjectDao.searchByExample(registration);
 		}
 
 		log.debug("Search registrations result size: " + registrations.size());
@@ -147,12 +148,12 @@ public class SearchRegistrationController extends SimpleFormController {
 		this.configurationProperty = configurationProperty;
 	}
 
-	public StudyParticipantAssignmentDao getRegistrationDao() {
-		return registrationDao;
+	public StudySubjectDao getRegistrationDao() {
+		return studySubjectDao;
 	}
 
-	public void setRegistrationDao(StudyParticipantAssignmentDao registrationDao) {
-		this.registrationDao = registrationDao;
+	public void setRegistrationDao(StudySubjectDao studySubjectDao) {
+		this.studySubjectDao = studySubjectDao;
 	}
 
 	public ParticipantDao getParticipantDao() {

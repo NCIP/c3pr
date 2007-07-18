@@ -1,4 +1,4 @@
-package edu.duke.cabig.c3pr.web;
+package edu.duke.cabig.c3pr.web.registration;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,7 +18,7 @@ import edu.duke.cabig.c3pr.dao.ArmDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudyInvestigatorDao;
-import edu.duke.cabig.c3pr.dao.StudyParticipantAssignmentDao;
+import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.domain.AnatomicSite;
 import edu.duke.cabig.c3pr.domain.Arm;
@@ -28,29 +28,32 @@ import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
-import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.ObjectGraphBasedEditor;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AutomaticSaveAjaxableFormController;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.SubFlow;
 import gov.nih.nci.cabig.ctms.web.tabs.AutomaticSaveFlowFormController;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
+import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
 /**
  * @author Ramakrishna
  * 
  */
 
-public abstract class RegistrationController <C extends StudyParticipantAssignment> extends AutomaticSaveFlowFormController<C, StudyParticipantAssignment, StudyParticipantAssignmentDao> {
+public abstract class RegistrationController <C extends StudySubject> extends AutomaticSaveAjaxableFormController<C, StudySubject, StudySubjectDao> {
 
 	private static Log log = LogFactory
 	.getLog(RegistrationController.class);
 
 	protected ParticipantDao participantDao;
 
-	protected StudyParticipantAssignmentDao registrationDao;
+	protected StudySubjectDao studySubjectDao;
 
 	protected HealthcareSiteDao healthcareSiteDao;
 
@@ -64,22 +67,56 @@ public abstract class RegistrationController <C extends StudyParticipantAssignme
 	
 	protected ConfigurationProperty configurationProperty;
 
-	public RegistrationController(String flowName) {
-		setCommandClass(StudyParticipantAssignment.class);
-		Flow<StudyParticipantAssignment> flow = new SubFlow<StudyParticipantAssignment>(flowName);
-		intializeFlows(flow);
+	protected StudySubjectServiceImpl studySubjectService;
+	
+	public StudySubjectServiceImpl getStudySubjectService() {
+		return studySubjectService;
 	}
 
-	abstract protected void intializeFlows(Flow<StudyParticipantAssignment> flow);
+
+	public void setStudySubjectService(StudySubjectServiceImpl studySubjectService) {
+		this.studySubjectService = studySubjectService;
+	}
+
+	public RegistrationController(String flowName) {
+		setCommandClass(StudySubject.class);
+		Flow<StudySubject> flow = new SubFlow<StudySubject>(flowName);
+		intializeFlows(flow);
+	}
+	@Override
+	protected Object currentFormObject(HttpServletRequest request, Object sessionFormObject) throws Exception {
+		// TODO Auto-generated method stub
+		StudySubject command=(StudySubject) sessionFormObject;
+		if (sessionFormObject != null) {
+			if(command.getId()!=null){
+				getDao().reassociate(command);
+				return command;
+			}
+			if(command.getParticipant()!=null)
+				getParticipantDao().reassociate(command.getParticipant());
+			if(command.getStudySite()!=null)
+				getStudySiteDao().reassociate(command.getStudySite());
+		}
+		return sessionFormObject;
+	}
 	
 	@Override
-	protected StudyParticipantAssignment getPrimaryDomainObject(C command) {
+	protected boolean shouldSave(HttpServletRequest request, C command, Tab<C> tab) {
+		if(getPrimaryDomainObject(command)==null)
+			return false;
+		return getPrimaryDomainObject(command).getId() != null;
+	}
+
+	abstract protected void intializeFlows(Flow<StudySubject> flow);
+	
+	@Override
+	protected StudySubject getPrimaryDomainObject(C command) {
 		 return command;
 	}
 	
     @Override
-    protected StudyParticipantAssignmentDao getDao() {
-        return registrationDao;
+    protected StudySubjectDao getDao() {
+        return studySubjectDao;
     }
 
 	/*
@@ -88,9 +125,8 @@ public abstract class RegistrationController <C extends StudyParticipantAssignme
 	 * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
 	 */
 	@Override
-	protected Object formBackingObject(HttpServletRequest request)
-			throws Exception {
-		StudyParticipantAssignment studyParticipantAssignment = null;
+	protected Object formBackingObject(HttpServletRequest request) throws Exception {
+		StudySubject studySubject = null;
 		if ((request.getParameter("registrationId") != null)
 				&& (request.getParameter("registrationId") != "")) {
 			System.out.println(" Request URl  is:"
@@ -98,21 +134,21 @@ public abstract class RegistrationController <C extends StudyParticipantAssignme
 			System.out.println(" RegistrationId is: "
 					+ Integer.parseInt(request.getParameter("registrationId")));
 			System.out.println(" registration Dao is :"
-					+ registrationDao.toString());
-			studyParticipantAssignment = registrationDao.getById(Integer.parseInt(request
+					+ studySubjectDao.toString());
+			studySubject = studySubjectDao.getById(Integer.parseInt(request
 					.getParameter("registrationId")), true);
-			System.out.println(" Registration ID is:" + studyParticipantAssignment.getId());
+			System.out.println(" Registration ID is:" + studySubject.getId());
 		}else{
-			studyParticipantAssignment= new StudyParticipantAssignment();
+			studySubject= new StudySubject();
 			System.out.println("------------Command set to new Command------------------");
 		}
-		return studyParticipantAssignment;
+		return studySubject;
 	}
 	
-	protected void updateRegistration(StudyParticipantAssignment registration){
-		registrationDao.save(registration);
+	protected void updateRegistration(StudySubject registration){
+		studySubjectDao.save(registration);
 	}
-	protected void handleIdentifierAction(StudyParticipantAssignment registration, String action,
+	protected void handleIdentifierAction(StudySubject registration, String action,
 			String selected) {
 		if ("addIdentifier".equals(action)) {
 			log.debug("Requested Add Identifier");
@@ -195,12 +231,12 @@ public abstract class RegistrationController <C extends StudyParticipantAssignme
 		this.participantDao = participantDao;
 	}
 
-	public StudyParticipantAssignmentDao getRegistrationDao() {
-		return registrationDao;
+	public StudySubjectDao getRegistrationDao() {
+		return studySubjectDao;
 	}
 
-	public void setRegistrationDao(StudyParticipantAssignmentDao registrationDao) {
-		this.registrationDao = registrationDao;
+	public void setRegistrationDao(StudySubjectDao studySubjectDao) {
+		this.studySubjectDao = studySubjectDao;
 	}
 
 	public StudySiteDao getStudySiteDao() {

@@ -1,3 +1,4 @@
+package edu.duke.cabig.c3pr.web.registration;
 /*package edu.duke.cabig.c3pr.web;
 
 import java.util.HashMap;
@@ -15,7 +16,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.duke.cabig.c3pr.domain.Identifier;
-import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.SubFlow;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
@@ -35,8 +36,8 @@ public class RegistrationDetailsController extends RegistrationController {
 		super("Registration Management");
 	}
 
-	protected void intializeFlows(SubFlow<StudyParticipantAssignment> flow) {
-		flow.addTab(new Tab<StudyParticipantAssignment>("Details", "Details",
+	protected void intializeFlows(SubFlow<StudySubject> flow) {
+		flow.addTab(new Tab<StudySubject>("Details", "Details",
 				"registration/reg_details_study_participant") {
 			public Map<String, Object> referenceData() {
 				Map<String, List<Lov>> configMap = configurationProperty
@@ -60,7 +61,7 @@ public class RegistrationDetailsController extends RegistrationController {
 				return refdata;
 			}
 		});
-		flow.addTab(new Tab<StudyParticipantAssignment>("Identifiers",
+		flow.addTab(new Tab<StudySubject>("Identifiers",
 				"Identifiers", "registration/reg_details_identifiers") {
 			public Map<String, Object> referenceData() {
 				Map<String, List<Lov>> configMap = configurationProperty
@@ -84,7 +85,7 @@ public class RegistrationDetailsController extends RegistrationController {
 				return refdata;
 			}
 		});
-		flow.addTab(new Tab<StudyParticipantAssignment>("Eligibility",
+		flow.addTab(new Tab<StudySubject>("Eligibility",
 				"Eligibility", "registration/reg_details_eligibility") {
 			public Map<String, Object> referenceData() {
 				Map<String, List<Lov>> configMap = configurationProperty
@@ -108,7 +109,7 @@ public class RegistrationDetailsController extends RegistrationController {
 				return refdata;
 			}
 		});
-		flow.addTab(new Tab<StudyParticipantAssignment>("Stratification",
+		flow.addTab(new Tab<StudySubject>("Stratification",
 				"Stratification", "registration/reg_details_stratification") {
 			public Map<String, Object> referenceData() {
 				Map<String, List<Lov>> configMap = configurationProperty
@@ -133,7 +134,7 @@ public class RegistrationDetailsController extends RegistrationController {
 			}
 
 		});
-		flow.addTab(new Tab<StudyParticipantAssignment>("Randomization",
+		flow.addTab(new Tab<StudySubject>("Randomization",
 				"Randomization", "registration/reg_details_randomization") {
 			public Map<String, Object> referenceData() {
 				Map<String, List<Lov>> configMap = configurationProperty
@@ -158,7 +159,7 @@ public class RegistrationDetailsController extends RegistrationController {
 			}
 
 		});
-		flow.addTab(new Tab<StudyParticipantAssignment>("Status", "Status",
+		flow.addTab(new Tab<StudySubject>("Status", "Status",
 				"registration/reg_details_status") {
 			public Map<String, Object> referenceData() {
 				Map<String, List<Lov>> configMap = configurationProperty
@@ -189,7 +190,7 @@ public class RegistrationDetailsController extends RegistrationController {
 	@Override
 	protected Object formBackingObject(HttpServletRequest request)
 			throws Exception {
-		StudyParticipantAssignment registration = null;
+		StudySubject registration = null;
 		if ((request.getParameter("registrationId") != null)
 				&& (request.getParameter("registrationId") != "")) {
 			System.out.println(" Request URl  is:"
@@ -197,12 +198,12 @@ public class RegistrationDetailsController extends RegistrationController {
 			System.out.println(" RegistrationId is: "
 					+ Integer.parseInt(request.getParameter("registrationId")));
 			System.out.println(" registration Dao is :"
-					+ registrationDao.toString());
-			registration = registrationDao.getById(Integer.parseInt(request
+					+ studySubjectDao.toString());
+			registration = studySubjectDao.getById(Integer.parseInt(request
 					.getParameter("registrationId")), true);
 			System.out.println(" Registration ID is:" + registration.getId());
 		} else {
-			registration = new StudyParticipantAssignment();
+			registration = new StudySubject();
 			System.out
 					.println("------------Command set to new Command------------------");
 		}
@@ -235,7 +236,7 @@ public class RegistrationDetailsController extends RegistrationController {
 	@Override
 	protected void postProcessPage(HttpServletRequest request, Object oCommand,
 			Errors errors, int page) throws Exception {
-		StudyParticipantAssignment registration = (StudyParticipantAssignment) oCommand;
+		StudySubject registration = (StudySubject) oCommand;
 		if (page == 1) {
 			handleIdentifierAction(registration, request
 					.getParameter("_action"), request.getParameter("_selected"));
@@ -257,7 +258,7 @@ public class RegistrationDetailsController extends RegistrationController {
 
 			try {
 				log.debug("Updating Registration");
-				registrationDao.save(registration);
+				studySubjectDao.save(registration);
 			} catch (RuntimeException e) {
 				log.debug("Unable to update Registration");
 				e.printStackTrace();
@@ -268,7 +269,7 @@ public class RegistrationDetailsController extends RegistrationController {
 	}
 
 	@Override
-	protected void intializeFlows(Flow<StudyParticipantAssignment> flow) {
+	protected void intializeFlows(Flow<StudySubject> flow) {
 		// TODO Auto-generated method stub
 		
 	}
