@@ -46,7 +46,6 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
 			incCrit.setQuestionText("questionText");
 			incCrit.setQuestionNumber(1);
 			// incCrit.setStudy(study);
-			study.addInclusionEligibilityCriteria(incCrit);
 			epoch.addEligibilityCriterion(incCrit);
 			epoch.setName("Anoter Treatment Epoch");
 			study.addEpoch(epoch);
@@ -190,7 +189,6 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
 			stratCrit.setQuestionText("Stratificaiton question text");
 			stratCrit.setQuestionNumber(2);
 			// incCrit.setStudy(study);
-			study.addStratificationCriteria(stratCrit);
 			epoch.addStratificationCriterion(stratCrit);
 			epoch.setName("Stratified Treatment Epoch");
 			study.addEpoch(epoch);
@@ -230,7 +228,6 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
 			StratificationCriterion stratCrit = new StratificationCriterion();
 			stratCrit.setQuestionText("Stratification question");
 			stratCrit.setQuestionNumber(2);
-			study.addStratificationCriteria(stratCrit);
 			epoch.addStratificationCriterion(stratCrit);
 			epoch.setName("Stratified Treatment Epoch");
 			epochDao.save(epoch);

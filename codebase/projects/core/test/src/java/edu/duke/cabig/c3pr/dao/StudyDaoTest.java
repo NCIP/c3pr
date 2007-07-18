@@ -22,7 +22,7 @@ import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
-import edu.duke.cabig.c3pr.domain.StudyParticipantAssignment;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
@@ -222,12 +222,6 @@ public class StudyDaoTest extends DaoTestCase {
 			// Stratifications
 			StratificationCriterionPermissibleAnswer ans = new StratificationCriterionPermissibleAnswer();
 			ans.setPermissibleAnswer("it is valid");
-			StratificationCriterion cri = new StratificationCriterion();
-			cri.setQuestionNumber(1);
-			cri.setQuestionText("is criterion valid");
-			cri.addPermissibleAnswer(ans);
-
-			study.addStratificationCriteria(cri);
 
 			dao.save(study);
 
@@ -308,9 +302,9 @@ public class StudyDaoTest extends DaoTestCase {
 	 * 
 	 * @throws Exception
 	 */
-	public void testGetStudyParticipantAssignmentsForStudy() throws Exception {
-		List<StudyParticipantAssignment> spa = dao
-				.getStudyParticipantAssignmentsForStudy(1000);
+	public void testGetStudySubjectsForStudy() throws Exception {
+		List<StudySubject> spa = dao
+				.getStudySubjectsForStudy(1000);
 		assertEquals(2, spa.size());
 		List<Integer> ids = collectIds(spa);
 		assertContains("Wrong study found", ids, 1000);
@@ -417,23 +411,6 @@ public class StudyDaoTest extends DaoTestCase {
 		studyDisease.setStudy(study);
 
 		study.addStudyDisease(studyDisease);
-
-		// Stratifications
-		StratificationCriterionPermissibleAnswer ans = new StratificationCriterionPermissibleAnswer();
-		ans.setPermissibleAnswer("it is valid");
-		StratificationCriterionPermissibleAnswer ans2 = new StratificationCriterionPermissibleAnswer();
-		ans.setPermissibleAnswer("it is valid");
-		StratificationCriterion cri = new StratificationCriterion();
-		cri.setQuestionNumber(1);
-		cri.setQuestionText("is criterion valid");
-		cri.addPermissibleAnswer(ans);
-		StratificationCriterion cri2 = new StratificationCriterion();
-		cri.setQuestionNumber(2);
-		cri.setQuestionText("is criterion valid 2");
-		cri.addPermissibleAnswer(ans2);
-
-		study.addStratificationCriteria(cri);
-		study.addStratificationCriteria(cri2);
 
 		return study;
 	}
@@ -646,7 +623,7 @@ public class StudyDaoTest extends DaoTestCase {
 		}
 
 	}
-*/
+
 	public void testSaveStudyWithInclusionEligibilityCriteria()
 			throws Exception {
 		Integer savedId;
@@ -680,5 +657,5 @@ public class StudyDaoTest extends DaoTestCase {
 		}
 
 	}
-
+*/
 }
