@@ -171,7 +171,7 @@
 
 
     <div class="row">
-        <div class="label">*Multi-Institution:</div>
+        <div class="label">*Multi-Institutional:</div>
         <div class="value">
             <form:select path="multiInstitutionIndicator"
                          onchange="manageSelectBox(this);" cssClass="validate-notEmpty">
