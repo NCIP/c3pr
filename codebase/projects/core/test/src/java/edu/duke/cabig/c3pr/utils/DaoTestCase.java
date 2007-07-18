@@ -74,7 +74,6 @@ public abstract class DaoTestCase extends DbTestCase {
             	interceptor.postHandle(webRequest, null);
             }
             catch(Exception exception){
-            	System.out.println("Exception while saving a Study");
     			if (exception instanceof HibernateJdbcException) {
     				   if(exception != null) {
     					   System.out.println(exception); // Log the exception
