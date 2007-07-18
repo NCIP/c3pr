@@ -47,7 +47,7 @@ public class C3PRV2RegistrationConsumer implements RegistrationConsumer {
         Participant participant = createParticipant(registration);
 
 
-        StudyParticipantAssignment assignment = studyService.assignParticipant(study, participant, site,
+        StudySubject assignment = studyService.assignParticipant(study, participant, site,
                                                                                registration.getEnrollmentDate());
         logger.debug("Created assignment" + assignment);
     }
