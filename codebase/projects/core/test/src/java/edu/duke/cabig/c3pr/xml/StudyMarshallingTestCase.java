@@ -191,21 +191,6 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
         ans.setPermissibleAnswer("it is valid");
         StratificationCriterionPermissibleAnswer ans2 = new StratificationCriterionPermissibleAnswer();
         ans.setPermissibleAnswer("it is valid");
-        StratificationCriterion cri = new StratificationCriterion();
-        cri.setQuestionNumber(1);
-        cri.setQuestionText("is criterion valid");
-        cri.addPermissibleAnswer(ans);
-        StratificationCriterion cri2 = new StratificationCriterion();
-        cri.setQuestionNumber(2);
-        cri.setQuestionText("is criterion valid 2");
-        cri.addPermissibleAnswer(ans2);
-
-        studyObject.addStratificationCriteria(cri);
-        studyObject.addStratificationCriteria(cri2);
-
-        studyObject.setIncCriterias(getInclusionEligibilityCriterias());
-        studyObject.setExcCriterias(getExclusionEligibilityCriterias());
-
         return studyObject;
     }
 

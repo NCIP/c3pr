@@ -171,44 +171,32 @@
     <bean name="/participant/confirmCreateParticipant" id="confirmCreateParticipantController" autowire="byType"
           class="edu.duke.cabig.c3pr.web.ConfirmCreateParticipantController" >
     </bean>
-    <!-- 	<bean name="/registration/registrationDetails"
-         id="registrationDetailsController" lazy-init="true"
-         class="edu.duke.cabig.c3pr.web.RegistrationDetailsController"
-         autowire="byName">
-         <property name="commandClass"
-             value="edu.duke.cabig.c3pr.domain.StudyParticipantAssignment" />
-         <property name="commandName" value="command" />
-     </bean> -->
     <bean name="/registration/searchRegistration"
-          id="searchRegistrationController" lazy-init="true"
-          class="edu.duke.cabig.c3pr.web.SearchRegistrationController"
-          autowire="byName">
-        <property name="formView"
-                  value="registration/registration_search" />
-        <property name="successView"
-                  value="registration/registration_search" />
-        <property name="commandClass"
-                  value="edu.duke.cabig.c3pr.web.SearchCommand" />
+    	  id="searchRegistrationController" lazy-init="true" class="edu.duke.cabig.c3pr.web.registration.SearchRegistrationController" autowire="byName">
+        <property name="formView" value="registration/registration_search" />
+        <property name="successView" value="registration/registration_search" />
+        <property name="commandClass" value="edu.duke.cabig.c3pr.web.SearchCommand" />
     </bean>
 
     <bean name="/registration/createRegistration"
           id="createRegistrationController" lazy-init="true"
-          class="edu.duke.cabig.c3pr.web.CreateRegistrationController"
+          class="edu.duke.cabig.c3pr.web.registration.CreateRegistrationController"
           autowire="byName">
         <property name="commandClass"
-                  value="edu.duke.cabig.c3pr.domain.StudyParticipantAssignment" />
+                  value="edu.duke.cabig.c3pr.domain.StudySubject" />
         <property name="commandName" value="command" />
         <property name="sessionForm" value="true" />
     </bean>
+	<bean name="/registration/manageRegistration" id="manageRegistrationController" 
+		class="edu.duke.cabig.c3pr.web.registration.ManageRegistrationController" autowire="byName">
+		<property name="commandClass" value="edu.duke.cabig.c3pr.domain.StudySubject" />
+		<property name="commandName" value="command" />
+		<property name="sessionForm" value="true" />
+	</bean>    
     <bean name="/registration/confirm"
           id="confirmRegistrationController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">
         <property name="viewName" value="/registration/reg_confirm_reg" />
-    </bean>
-    <bean name="/registration/overview"
-          id="overviewRegistrationController"
-          class="edu.duke.cabig.c3pr.web.RegistrationOverviewController" autowire="byName">
-        <property name="viewName" value="registration/reg_overview" />
     </bean>
     <bean name="/admin/createInvestigator"
           id="createInvestigatorController" lazy-init="true"
