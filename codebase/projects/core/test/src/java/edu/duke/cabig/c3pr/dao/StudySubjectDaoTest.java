@@ -101,8 +101,9 @@ public class StudySubjectDaoTest extends DaoTestCase {
             studySubject.setStudySite(studySite);
             participant.addStudySubject(studySubject);
             studySite.addStudySubject(studySubject);
-            studySubject.addScheduledEpoch(new ScheduledTreatmentEpoch());
-            studySubject.getScheduledEpoch().setEpoch(epochDao.getById(1000));
+            ScheduledEpoch scheduledEpochFirst=new ScheduledTreatmentEpoch();
+            scheduledEpochFirst.setEpoch(epochDao.getById(1000));
+            studySubject.setScheduledEpoch(scheduledEpochFirst);
 			ScheduledTreatmentEpoch scheduledTreatmentEpoch=(ScheduledTreatmentEpoch)studySubject.getScheduledEpoch();
 			List criterias=scheduledTreatmentEpoch.getTreatmentEpoch().getInclusionEligibilityCriteria();
 			for(int i=0 ; i<criterias.size() ; i++){
