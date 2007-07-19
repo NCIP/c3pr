@@ -17,7 +17,7 @@ import java.io.Writer;
  *         Time: 1:48:37 PM
  *         To change this template use File | Settings | File Templates.
  */
-public class ViewStudyControllerTest extends StudyControllerTest {
+public class ViewStudyControllerTest extends AbstractStudyControllerTest {
 
     private ViewStudyController controller;
     private XmlMarshaller mockMarshaller;

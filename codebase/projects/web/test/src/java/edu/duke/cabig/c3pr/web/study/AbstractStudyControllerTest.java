@@ -11,7 +11,7 @@ import edu.duke.cabig.c3pr.web.ControllerTestCase;
  *
  * @author kherm manav.kher@semanticbits.com
  */
-public class StudyControllerTest extends ControllerTestCase {
+public class AbstractStudyControllerTest extends ControllerTestCase {
     protected Study command;
     protected StudyDao studyDao;
     protected StudyService studyService;

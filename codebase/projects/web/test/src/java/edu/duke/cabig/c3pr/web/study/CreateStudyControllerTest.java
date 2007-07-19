@@ -20,7 +20,7 @@ import java.util.List;
  * @author kherm manav.kher@semanticbits.com
  */
 
-public class CreateStudyControllerTest extends StudyControllerTest {
+public class CreateStudyControllerTest extends AbstractStudyControllerTest {
 
     private edu.duke.cabig.c3pr.web.study.CreateStudyController controller;
     private HealthCareSiteDaoMock healthcareSiteDao;
