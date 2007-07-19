@@ -157,16 +157,6 @@
             <bind-xml name="identifier" node="element"
                       xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
-        <field name="incCriterias" type="edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria"
-               collection="collection">
-            <bind-xml name="incCriteria" node="element"
-                      xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        </field>
-        <field name="excCriterias" type="edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria"
-               collection="collection">
-            <bind-xml name="incCriteria" node="element"
-                      xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        </field>
         <field name="stratificationCriteria" type="edu.duke.cabig.c3pr.domain.StratificationCriterion"
                collection="collection">
             <bind-xml name="stratificationCriteria" node="element"
