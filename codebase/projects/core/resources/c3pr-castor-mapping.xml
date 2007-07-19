@@ -347,23 +347,11 @@
             <bind-xml name="startDate" node="element"
                       xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
-        <field name="studyParticipantIdentifier" type="string">
-            <bind-xml name="studyParticipantIdentifier" node="element"
-                      xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        </field>
-        <field name="eligibilityIndicator" type="boolean">
-            <bind-xml name="eligibilityIndicator" node="element"
-                      xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        </field>
         <!--Mapping to Participant-->
         <field name="participant" type="edu.duke.cabig.c3pr.domain.Participant">
             <bind-xml name="participant" node="element"
                       xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
-        <!--<field name="study" type="edu.duke.cabig.c3pr.domain.Study">-->
-        <!--<bind-xml name="study" node="element"-->
-        <!--xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>-->
-        <!--</field>-->
         <field name="identifiers" type="edu.duke.cabig.c3pr.domain.Identifier"
                collection="collection">
             <bind-xml name="identifier" node="element"
