@@ -13,7 +13,7 @@ function navRollOver(obj, state) {
   document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
 }
 function markAsAnswered(id){
-	selectBox='subjectEligibilityAnswers['+id+'].answerText';
+	selectBox='scheduledEpoch.subjectEligibilityAnswers['+id+'].answerText';
 	tick='tick-'+id;
 	if(document.getElementById(selectBox).value==''){
 		document.getElementById(tick).style.display='none';
@@ -24,12 +24,13 @@ function markAsAnswered(id){
 </script>
 </head>
 <body>
-<tags:formPanelBox tab="${tab}" flow="${flow}">
 <c:choose>
-	<c:when test="${fn:length(command.scheduledEpoch.subjectEligibilityAnswers) == 0}">
-			The Selected Study does not have Eligibility Crieterias
+	<c:when test="${!command.ifTreatmentScheduledEpoch || fn:length(command.scheduledEpoch.subjectEligibilityAnswers) == 0}">
+			<tags:panelBox>The Selected Study does not have Eligibility Crieterias</tags:panelBox>
 	</c:when>
 	<c:otherwise>
+	<form:form method="post">
+		<tags:tabFields tab="${tab}"/>
 		<table id="" width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
 			<tr>
 				<td>
@@ -41,7 +42,7 @@ function markAsAnswered(id){
 							<td align="left"><b>Answers</b></td>
 						</tr>
 						<c:set var="index" value="0"/>
-						<c:forEach var="criteria" varStatus="status" items="${command.scheduledEpoch.treatmentEpoch.incCriterias}">
+						<c:forEach var="criteria" varStatus="status" items="${command.scheduledEpoch.treatmentEpoch.inclusionEligibilityCriteria}">
 							<tr>
 								<td width="5%">
 									<div id="tick-${index }" <c:if test="${command.scheduledEpoch.subjectEligibilityAnswers[index].answerText==null||command.scheduledEpoch.subjectEligibilityAnswers[index].answerText=='' }">style="display:none;"</c:if>>
@@ -76,7 +77,7 @@ function markAsAnswered(id){
 							<td align="left"><b>Question<span class="red">*</span></b></td>
 							<td align="left"><b>Answers</b></td>
 						</tr>
-						<c:forEach var="criteria" varStatus="status" items="${command.scheduledEpoch.treatmentEpoch.incCriterias}">
+						<c:forEach var="criteria" varStatus="status" items="${command.scheduledEpoch.treatmentEpoch.exclusionEligibilityCriteria}">
 							<tr>
 								<td width="5%">
 									<div id="tick-${index }" <c:if test="${command.scheduledEpoch.subjectEligibilityAnswers[index].answerText==null||command.scheduledEpoch.subjectEligibilityAnswers[index].answerText=='' }">style="display:none;"</c:if>>
@@ -102,9 +103,10 @@ function markAsAnswered(id){
 				</td>
 			</tr>
 		</table>
+        <tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
+		</form:form>
 	</c:otherwise>
 </c:choose>
-</tags:formPanelBox>
 <!-- MAIN BODY ENDS HERE -->
 </body>
 </html>

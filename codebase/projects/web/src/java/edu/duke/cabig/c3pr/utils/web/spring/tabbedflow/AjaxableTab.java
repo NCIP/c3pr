@@ -21,7 +21,10 @@ public abstract class AjaxableTab<C> extends Tab<C>{
     	super(longTitle, shortTitle, "");
     }
     
-  
+    @Override
+    public void postProcess(HttpServletRequest arg0, C arg1, Errors arg2) {
+    }
+    
     protected abstract void postProcessSynchronous(HttpServletRequest request, C command, Errors error);
     protected abstract String postProcessAsynchronous(HttpServletRequest request, C command, Errors error);
 }

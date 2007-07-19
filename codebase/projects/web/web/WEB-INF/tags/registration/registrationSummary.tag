@@ -15,6 +15,15 @@
 	<tags:tdNameValue name="Subject Primary Identifier" value="${studySubject.participant.primaryIdentifier }" columnAttrName="width='50%' class='labelR'"/>
 	<tags:tdNameValue name="Gender" value="${studySubject.id }" columnAttrName="class='labelR'"/>
 	<tags:tdNameValue name="Short Title" value="${studySubject.studySite.study.shortTitleText}" columnAttrName="class='labelR'"/>
+	<tags:tdNameValue name="Epoch" value="${studySubject.scheduledEpoch.epoch.name}" columnAttrName="class='labelR'"/>	
+	<c:choose>
+		<c:when test="${studySubject.ifTreatmentScheduledEpoch}">
+			<tags:tdNameValue name="Epoch Type" value="Treatment" columnAttrName="class='labelR'"/>	
+		</c:when>
+		<c:otherwise>
+			<tags:tdNameValue name="Epoch Type" value="Non Treatment" columnAttrName="class='labelR'"/>	
+		</c:otherwise>
+	</c:choose>
 	<tags:tdNameValue name="Status" value="${studySubject.studySite.study.status }" columnAttrName="class='labelR'"/>
 	<tags:tdNameValue name="Study Site" value="${studySubject.studySite.site.name }" columnAttrName="class='labelR'"/>
 	<tags:tdNameValue name="Site IRB Approval Date" value="${studySubject.studySite.irbApprovalDateStr }" columnAttrName="class='labelR'"/>		

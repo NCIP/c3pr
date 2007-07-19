@@ -15,21 +15,23 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 
 import edu.duke.cabig.c3pr.dao.AnatomicSiteDao;
 import edu.duke.cabig.c3pr.dao.ArmDao;
+import edu.duke.cabig.c3pr.dao.EpochDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudyInvestigatorDao;
-import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
+import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.AnatomicSite;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
-import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
@@ -37,7 +39,6 @@ import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.ObjectGraphBasedEditor;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AutomaticSaveAjaxableFormController;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.SubFlow;
-import gov.nih.nci.cabig.ctms.web.tabs.AutomaticSaveFlowFormController;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
@@ -58,6 +59,8 @@ public abstract class RegistrationController <C extends StudySubject> extends Au
 	protected HealthcareSiteDao healthcareSiteDao;
 
 	protected StudySiteDao studySiteDao;
+	
+	protected EpochDao epochDao;
 	
 	protected ArmDao armDao;
 	
@@ -196,6 +199,8 @@ public abstract class RegistrationController <C extends StudySubject> extends Au
 				anatomicSiteDao));
 		binder.registerCustomEditor(Arm.class, new CustomDaoEditor(
 				armDao));
+		binder.registerCustomEditor(Epoch.class, new CustomDaoEditor(
+				epochDao));
 		Object command=binder.getTarget();
 /*		binder.registerCustomEditor(StudyInvestigator.class, new ObjectGraphBasedEditor(
 				command,"studySite.studyInvestigators"));
@@ -269,6 +274,16 @@ public abstract class RegistrationController <C extends StudySubject> extends Au
 
 	public void setAnatomicSiteDao(AnatomicSiteDao anatomicSiteDao) {
 		this.anatomicSiteDao = anatomicSiteDao;
+	}
+
+
+	public EpochDao getEpochDao() {
+		return epochDao;
+	}
+
+
+	public void setEpochDao(EpochDao epochDao) {
+		this.epochDao = epochDao;
 	}
 
 }

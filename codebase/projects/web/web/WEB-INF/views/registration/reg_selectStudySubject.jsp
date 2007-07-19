@@ -22,7 +22,7 @@ function submitPage(s){
 <tags:formPanelBox tab="${tab}" flow="${flow}">
 Study: <input type="text" name="study" value="Test Study Short Title"/>
 <input type="hidden" name="studySite" value="1"/>
-<input type="hidden" name="scheduledTreatmentEpochs[0].epoch" value="2"/>
+<input type="hidden" name="epoch" value="2"/>
 Subject: <input type="text" name="participant" value="1"/>
 
 </tags:formPanelBox>

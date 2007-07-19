@@ -30,6 +30,7 @@ public class ScheduledTreatmentEpoch extends ScheduledEpoch {
     	lazyListHelper.add(SubjectEligibilityAnswer.class, new InstantiateFactory<SubjectEligibilityAnswer>(SubjectEligibilityAnswer.class));
     	lazyListHelper.add(SubjectStratificationAnswer.class, new InstantiateFactory<SubjectStratificationAnswer>(SubjectStratificationAnswer.class));
     	lazyListHelper.add(ScheduledArm.class, new BiDirectionalInstantiateFactory<ScheduledArm>(ScheduledArm.class,this));
+    	eligibilityIndicator=false;
 	}
 	
 	@Transient

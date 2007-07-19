@@ -14,9 +14,17 @@
 <script type="text/javascript" src="/c3pr/js/CalendarPopup.js"></script>
 </head>
 <body>
+<c:choose>
+<c:when test="${empty command.scheduledEpoch}">
+<tags:panelBox>
+The participant is already registered on this epoch. If u want to move this subject to another epoch of this study. Please <a href="javascript:null;">click</a> here
+</tags:panelBox>
+</c:when>
+<c:otherwise>
+
 <tags:formPanelBox tab="${tab}" flow="${flow}" action="createRegistration">
 <strong>Step 1. Informed Consent Details </strong><br>
-<table width="60%" border="0" cellspacing="0" cellpadding="0" id="table1">
+<table width="80%" border="0" cellspacing="0" cellpadding="0" id="table1">
 	<tr><td colspan="2">&nbsp;</td></tr>
 	<tr>
 		<td class="label" width="80%">Informed Consent Signed Date:</td>
@@ -28,6 +36,7 @@
 	</tr>
 </table>
 <hr align="left" width="95%">
+
 <strong>Step 2. Enrolling Physician Details </strong><br>
 <table width="60%" border="0" cellspacing="0" cellpadding="0" id="table1">
 	<tr><td colspan='2'>&nbsp;</td></tr>
@@ -43,5 +52,7 @@
 </table>
 <!-- MAIN BODY ENDS HERE -->
 </tags:formPanelBox>
+</c:otherwise>
+</c:choose>
 </body>
 </html>

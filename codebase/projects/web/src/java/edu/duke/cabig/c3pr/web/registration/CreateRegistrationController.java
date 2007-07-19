@@ -50,8 +50,6 @@ public class CreateRegistrationController<C extends StudySubject> extends Regist
 	 */
 	private static final Logger logger = Logger.getLogger(CreateRegistrationController.class);
 
-	private static Log log = LogFactory.getLog(CreateRegistrationController.class);
-	
 	public CreateRegistrationController() {
 		super("Create Registration");
 	}
@@ -100,45 +98,5 @@ public class CreateRegistrationController<C extends StudySubject> extends Regist
     	rd.forward(request, response);
     	return null;
 
-	}
-
-	@Override
-	protected void onBindOnNewForm(HttpServletRequest request, Object command, BindException error) throws Exception {
-		if(isNewRegistration(request,command))
-			buildCommandObject((StudySubject)command);
-	}
-	private void buildCommandObject(StudySubject studySubject){
-		if(studySubject.getIfTreatmentScheduledEpoch()){
-			ScheduledTreatmentEpoch scheduledTreatmentEpoch=(ScheduledTreatmentEpoch)studySubject.getScheduledEpoch();
-			List criterias=scheduledTreatmentEpoch.getTreatmentEpoch().getInclusionEligibilityCriteria();
-			for(int i=0 ; i<criterias.size() ; i++){
-				SubjectEligibilityAnswer subjectEligibilityAnswer=new SubjectEligibilityAnswer();
-				subjectEligibilityAnswer.setEligibilityCriteria((EligibilityCriteria)criterias.get(i));
-				scheduledTreatmentEpoch.addSubjectEligibilityAnswers(subjectEligibilityAnswer);
-			}
-			criterias=scheduledTreatmentEpoch.getTreatmentEpoch().getExclusionEligibilityCriteria();
-			for(int i=0 ; i<criterias.size() ; i++){
-				SubjectEligibilityAnswer subjectEligibilityAnswer=new SubjectEligibilityAnswer();
-				subjectEligibilityAnswer.setEligibilityCriteria((EligibilityCriteria)criterias.get(i));
-				scheduledTreatmentEpoch.addSubjectEligibilityAnswers(subjectEligibilityAnswer);
-			}
-			if (logger.isDebugEnabled()) {
-				logger.debug("buildCommandObject(StudySubject studySubject) - studySubject.getParticipant().getPrimaryIdentifier()" + studySubject.getParticipant().getPrimaryIdentifier()); //$NON-NLS-1$
-			}
-			List<StratificationCriterion> stratifications=scheduledTreatmentEpoch.getTreatmentEpoch().getStratificationCriteria();
-			for(StratificationCriterion stratificationCriterion : stratifications){
-				stratificationCriterion.getPermissibleAnswers().size();
-				SubjectStratificationAnswer subjectStratificationAnswer=new SubjectStratificationAnswer();
-				subjectStratificationAnswer.setStratificationCriterion(stratificationCriterion);
-				scheduledTreatmentEpoch.addSubjectStratificationAnswers(subjectStratificationAnswer);
-			}
-		}
-	}
-	
-	private boolean isNewRegistration(HttpServletRequest request, Object command){
-		if(((StudySubject)command).getScheduledEpoch().getId()!=null){
-			return false;
-		}
-		return true;
 	}
 }

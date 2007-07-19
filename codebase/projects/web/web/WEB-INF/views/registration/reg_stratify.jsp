@@ -13,7 +13,7 @@ function navRollOver(obj, state) {
   document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
 }
 function markAsAnswered(id){
-	selectBox='stratificationCriterion['+id+'].stratificationCriterionAnswer';
+	selectBox='scheduledEpoch.stratificationCriterion['+id+'].stratificationCriterionAnswer';
 	tick='tick-'+id;
 	if(document.getElementById(selectBox).value==''){
 		document.getElementById(tick).style.display='none';
@@ -28,7 +28,7 @@ function markAsAnswered(id){
 <table width="100%" border="0" cellspacing="0" cellpadding="0"
 	id="table1">
 	<c:choose>
-	<c:when test="${fn:length(command.subjectStratificationAnswers) == 0}">
+	<c:when test="${fn:length(command.scheduledEpoch.subjectStratificationAnswers) == 0}">
 		<tr>
 			<td class="label" align=left>The Selected Study does not have Stratification Factors</td>
 		</tr>
@@ -43,7 +43,7 @@ function markAsAnswered(id){
 		<c:forEach var="criteria" varStatus="status" items="${command.scheduledEpoch.subjectStratificationAnswers}">
 			<tr>
 				<td width="5%">
-					<div id="tick-${status.index }" <c:if test="${criteria.scheduledEpoch.stratificationCriterionAnswer==null||criteria.scheduledEpoch.stratificationCriterionAnswer=='' }">style="display:none;"</c:if>>
+					<div id="tick-${status.index }" <c:if test="${criteria.stratificationCriterionAnswer==null||criteria.stratificationCriterionAnswer=='' }">style="display:none;"</c:if>>
 						<img src="<tags:imageUrl name="checkbox.gif"/>" border="0" alt="answered" height="20" width="20">												
 					</div>
 				</td>

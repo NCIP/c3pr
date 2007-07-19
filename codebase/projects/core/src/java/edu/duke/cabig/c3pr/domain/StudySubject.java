@@ -101,8 +101,6 @@ public class StudySubject extends AbstractMutableDomainObject {
 	
 	@Transient
 	public ScheduledEpoch getScheduledEpoch() {
-		if(scheduledEpoch==null)
-			scheduledEpoch=getScheduledEpochs().get(getScheduledEpochs().size()-1);
 		return scheduledEpoch;
 	}
 	
