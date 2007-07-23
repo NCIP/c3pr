@@ -1,18 +1,34 @@
-<%@ page import="org.acegisecurity.context.SecurityContextHolder" %>
-<%@ page import="org.acegisecurity.Authentication" %>
-<%@ page import="org.acegisecurity.ui.AccessDeniedHandlerImpl" %>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 
-<h1>Sorry, access is denied</h1>
 
-<span id="error"
+<html>
+<head>
 
-<%= request.getAttribute(AccessDeniedHandlerImpl.ACEGI_SECURITY_ACCESS_DENIED_EXCEPTION_KEY)%>
+</head>
+<body>
 
-<p>
+<chrome:box title="Access Denied" autopad="true">
 
-<%		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth != null) { %>
-			Authentication object as a String: <%= auth.toString() %><BR><BR>
-<%      } %>
-    </p>
-</span>
+    <div class="row">
+        <div class="label">
+             <ul class="errors">
+            Access Denied:
+                 </ul>
+            </div>
+        <div class="value">
+                You do not have sufficient privileges to access this resource.
+        </div>
+    </div>
+     <div class="row">
+    <div class="value">
+        <a href="<c:url value="/"/>">Return Home</a>
+    </div>
+         </div>
+
+</chrome:box>
+
+</body>
+
+</html>
