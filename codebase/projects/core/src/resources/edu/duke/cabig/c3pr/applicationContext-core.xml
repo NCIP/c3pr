@@ -170,6 +170,7 @@
     <bean id="StratificationCriterionDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StratificationCriterionDao" autowire="byType"/>
     <bean id="anatomicSiteDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.AnatomicSiteDao" autowire="byType"/>
     <bean id="organizationDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.OrganizationDao" autowire="byType"/>
+    <bean id="stratificationAnswerDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StratificationCriterionAnswerDao" autowire="byType"/>    
 
 
     <!-- Services -->
