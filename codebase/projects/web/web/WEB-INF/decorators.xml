@@ -15,7 +15,7 @@
         <pattern>/pages/study/viewStudy</pattern>
         <pattern>/pages/participant/createParticipant</pattern>
         <pattern>/pages/participant/editParticipant</pattern>
-        <pattern>/pages/registration/registrationDetails</pattern>
+        <pattern>/pages/registration/manageRegistration*</pattern>
     </decorator>
     <decorator name="registration" page="registrationflow.jsp">
         <pattern>/pages/registration/*</pattern>

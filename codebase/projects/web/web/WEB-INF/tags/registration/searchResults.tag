@@ -47,11 +47,11 @@ function navRollOver(obj, state) {
 				<c:choose>
 				<c:when test="${registration.registrationStatus=='Incomplete'}">
 					<c:set var="localUrl"
-					value="../registration/createRegistration?resumeFlow=true&_page=1&_target3=3&registrationId=${registration.id}" />
+					value="../registration/createRegistration?_page0=0&_target1=1&registrationId=${registration.id}&scheduledEpoch=${registration.scheduledEpochs[0].id}" />
 				</c:when>
 				<c:otherwise>
 					<c:set var="localUrl"
-					value="../registration/manageRegistration?registrationId=${registration.id}" />				
+					value="../registration/manageRegistration?registrationId=${registration.id}&scheduledEpoch=${registration.scheduledEpochs[0].id}" />				
 				</c:otherwise>
 				</c:choose>
 				<tr id="row<%= i++ %>" class="<%= currClass %>" onMouseOver="this.className='highlight'"

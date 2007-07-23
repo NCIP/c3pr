@@ -18,10 +18,18 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script>
+var submitPostProcess= function(formElement, continueSubmission){
+		registrationStatus="${command.registrationStatus}";
+		if(formElement.id!='command')
+			return continueSubmission;
+		if(registrationStatus=='Incomplete'){
+			return confirm("Registration will be saven in Incomplete status since all the required fields are not filled in. Do you want to continue?");
+		}
+		return continueSubmission;
+	}
 </script>
 </head>
 <body>
-<tags:panelBox title="Registration Overview">
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
 		<td valign="top">
@@ -123,22 +131,12 @@
 			<div class="review">
 			<table width="50%" border="0" cellspacing="0" cellpadding="0" id="mytable">
 				<tr>
-					<td width="25%" class="labelR">Study Subject
-					Identifier:</td>
-					<td>${command.studyParticipantIdentifier }</td>
-				</tr>
-				<tr>
 					<td class="labelR">Registration Start Date:</td>
 					<td>${command.startDate }</td>
 				</tr>
 				<tr>
 					<td class="labelR" width="25%">Informed Consent Signed Date:</td>
-					<td><p id="date">${command.informedConsentSignedDateStr}</p></td>
-					<script type="text/javascript">
-						 url=document.URL+"&_page0=0&_target0=0&asynchronous=true";
-						 //new Ajax.InPlaceEditor('date', '');
-						 new Ajax.InPlaceEditor('date', url, { callback: function(form, value) { return 'informedConsentSignedDate=' + escape(value) }});
-					</script>
+					<td>${command.informedConsentSignedDateStr}</td>
 				</tr>
 				<tr>
 					<td class="labelR">Informed Consent Version:</td>
@@ -173,11 +171,11 @@
 				<tr>
 					<td width="25%" class="labelR">Eligibility
 					Indicator:</td>
-					<td>${command.eligibilityIndicator }</td>
+					<td>${command.scheduledEpoch.eligibilityIndicator }</td>
 				</tr>
 			</table>
 			<c:choose>
-			<c:when test="${fn:length(command.inclusionEligibilityAnswers) == 0 && fn:length(command.exclusionEligibilityAnswers) == 0}">
+			<c:when test="${fn:length(command.scheduledEpoch.inclusionEligibilityAnswers) == 0 && fn:length(command.scheduledEpoch.exclusionEligibilityAnswers) == 0}">
 			There is no eligibility check list available for this subject
 			</c:when>
 			<c:otherwise>
@@ -190,7 +188,7 @@
 						<th scope="col" align="left">Question</th>
 						<th scope="col" align="left">Answer</th>
 					</tr>
-					<c:forEach items="${command.inclusionEligibilityAnswers}" var="criteria">
+					<c:forEach items="${command.scheduledEpoch.inclusionEligibilityAnswers}" var="criteria">
 						<tr class="results">
 							<td class="alt" align="left">${ criteria.eligibilityCriteria.questionText}</td>
 							<td class="alt" align="left">${criteria.answerText==''?'<span class="red"><b>Unanswered</span>':criteria.answerText }</td>
@@ -207,7 +205,7 @@
 						<th scope="col" align="left">Question</th>
 						<th scope="col" align="left">Answer</th>
 					</tr>
-					<c:forEach items="${command.exclusionEligibilityAnswers}" var="criteria">
+					<c:forEach items="${command.scheduledEpoch.exclusionEligibilityAnswers}" var="criteria">
 						<tr class="results">
 							<td class="alt" align="left">${ criteria.eligibilityCriteria.questionText}</td>
 							<td class="alt" align="left">${criteria.answerText==''?'<span class="red"><b>Unanswered</span>':criteria.answerText }</td>
@@ -218,13 +216,16 @@
 			</c:otherwise>
 			</c:choose>
 			</div>
+			<c:if test="${empty editable}">
+				<tabs:tabButtonControls text="edit" target="5"/>
+			</c:if>
 
 			<hr align="left" width="95%">
 			<br>
 			<strong>Stratification Information </strong><br>
 			<div class="review">
 			<c:choose>
-			<c:when test="${fn:length(command.subjectStratificationAnswers) == 0}">
+			<c:when test="${fn:length(command.scheduledEpoch.subjectStratificationAnswers) == 0}">
 			<table width="50%" border="0" cellspacing="0" cellpadding="0" id="table1">
 				<tr>
 					<td class="label" align=left>The Selected Study does not have Stratification Factors</td>
@@ -238,7 +239,7 @@
 					<th scope="col" align="left">Strata</th>
 					<th scope="col" align="left"><b>Answer</th>
 				</tr>
-				<c:forEach items="${command.subjectStratificationAnswers}" var="criteria">
+				<c:forEach items="${command.scheduledEpoch.subjectStratificationAnswers}" var="criteria">
 					<tr class="results">
 						<td class="alt" align="left">${criteria.stratificationCriterion.questionText}</td>
 						<td class="alt" align="left">${criteria.stratificationCriterionAnswer.permissibleAnswer==''?'<span class="red"><b>Unanswered</span>':criteria.stratificationCriterionAnswer.permissibleAnswer }</td>
@@ -255,16 +256,12 @@
 			<table width="50%" border="0" cellspacing="0" cellpadding="0" id="mytable">
 				<tr>
 					<td width="25%" class="labelR">Arm:</td>
-					<td><c:if test="${!empty command.scheduledArms[0].arm }">${command.scheduledArms[0].arm.name }</c:if></td>
+					<td><c:if test="${!empty command.scheduledEpoch.scheduledArms[0].arm }">${command.scheduledEpoch.scheduledArms[0].arm.name }</c:if></td>
 				</tr>
 			</table>
 			</div>
-			<c:if test="${empty editable}">
-				<tabs:tabButtonControls text="edit" target="7"/>
-			</c:if>
 		</td>
 	</tr>
 </table>
-</tags:panelBox>
 </body>
 </html>
