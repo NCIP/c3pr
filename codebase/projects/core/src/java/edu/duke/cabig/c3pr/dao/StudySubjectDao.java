@@ -181,7 +181,10 @@ public class StudySubjectDao extends
      }
 
 	public void save(StudySubject obj) {
-		getHibernateTemplate().saveOrUpdate(obj);
-		
+		getHibernateTemplate().saveOrUpdate(obj);		
 	}
+	public StudySubject merge(StudySubject obj) {
+		return (StudySubject)getHibernateTemplate().merge(obj);		
+	}
+
 }
