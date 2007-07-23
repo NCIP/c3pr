@@ -18,6 +18,7 @@ import edu.duke.cabig.c3pr.dao.ArmDao;
 import edu.duke.cabig.c3pr.dao.EpochDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
+import edu.duke.cabig.c3pr.dao.ScheduledEpochDao;
 import edu.duke.cabig.c3pr.dao.StratificationCriterionAnswerDao;
 import edu.duke.cabig.c3pr.dao.StudyInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
@@ -29,6 +30,7 @@ import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
@@ -76,6 +78,18 @@ public abstract class RegistrationController <C extends StudySubject> extends Au
 	
 	protected StratificationCriterionAnswerDao stratificationAnswerDao;
 	
+	protected ScheduledEpochDao scheduledEpochDao;
+	
+	public ScheduledEpochDao getScheduledEpochDao() {
+		return scheduledEpochDao;
+	}
+
+
+	public void setScheduledEpochDao(ScheduledEpochDao scheduledEpochDao) {
+		this.scheduledEpochDao = scheduledEpochDao;
+	}
+
+
 	public StratificationCriterionAnswerDao getStratificationAnswerDao() {
 		return stratificationAnswerDao;
 	}
@@ -157,15 +171,10 @@ public abstract class RegistrationController <C extends StudySubject> extends Au
 		StudySubject studySubject = null;
 		if ((request.getParameter("registrationId") != null)
 				&& (request.getParameter("registrationId") != "")) {
-			System.out.println(" Request URl  is:"
-					+ request.getRequestURL().toString());
 			System.out.println(" RegistrationId is: "
 					+ Integer.parseInt(request.getParameter("registrationId")));
-			System.out.println(" registration Dao is :"
-					+ studySubjectDao.toString());
 			studySubject = studySubjectDao.getById(Integer.parseInt(request
 					.getParameter("registrationId")), true);
-			System.out.println(" Registration ID is:" + studySubject.getId());
 		}else{
 			studySubject= new StudySubject();
 			System.out.println("------------Command set to new Command------------------");
@@ -235,7 +244,8 @@ public abstract class RegistrationController <C extends StudySubject> extends Au
 				command,"studySite.study.studyDiseases"));
 		binder.registerCustomEditor(StudyInvestigator.class, new CustomDaoEditor(
 			studyInvestigatorDao));
-
+		binder.registerCustomEditor(ScheduledEpoch.class, new CustomDaoEditor(
+				scheduledEpochDao));
 	}
 
 	public ConfigurationProperty getConfigurationProperty() {

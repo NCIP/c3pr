@@ -24,9 +24,6 @@ public class EligibilityCriteriaTab extends RegistrationTab<StudySubject>{
 	public EligibilityCriteriaTab() {
 		super("Check Eligibility", "Check Eligibility","registration/reg_check_eligibility");
 	}
-	@Override
-	public void postProcess(HttpServletRequest arg0, StudySubject arg1, Errors arg2) {
-	}
 
 	@Override
 	protected String postProcessAsynchronous(HttpServletRequest request, StudySubject command, Errors error) {

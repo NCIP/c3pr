@@ -25,18 +25,6 @@ public class ReviewSubmitTab extends RegistrationTab<StudySubject>{
 	}
 	
 	@Override
-	public Map<String, Object> referenceData() {
-		Map<String, List<Lov>> configMap = configurationProperty.getMap();
-		Map<String, Object> refdata = new HashMap<String, Object>();
-		refdata.put("searchTypeRefDataStudy", configMap.get("studySearchType"));
-		refdata.put("searchTypeRefDataPrt", configMap.get("participantSearchType"));
-		return refdata;
-	}
-	@Override
-	public void postProcess(HttpServletRequest arg0, StudySubject arg1, Errors arg2) {
-	}
-
-	@Override
 	protected String postProcessAsynchronous(HttpServletRequest request, StudySubject command, Errors error) {
 		// TODO Auto-generated method stub
 		return null;

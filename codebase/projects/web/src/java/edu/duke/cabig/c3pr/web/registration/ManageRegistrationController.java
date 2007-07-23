@@ -32,4 +32,10 @@ public class ManageRegistrationController<C extends StudySubject> extends Regist
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	protected void onBindOnNewForm(HttpServletRequest request, Object command) throws Exception {
+		// TODO Auto-generated method stub
+		super.onBindOnNewForm(request, command);
+	}
 }

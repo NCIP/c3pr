@@ -22,9 +22,6 @@ public class RandomizationTab extends RegistrationTab<StudySubject>{
 	public RandomizationTab() {
 		super("Randomize", "Randomize","registration/reg_randomize");
 	}
-	@Override
-	public void postProcess(HttpServletRequest arg0, StudySubject arg1, Errors arg2) {
-	}
 
 	@Override
 	protected String postProcessAsynchronous(HttpServletRequest request, StudySubject command, Errors error) {

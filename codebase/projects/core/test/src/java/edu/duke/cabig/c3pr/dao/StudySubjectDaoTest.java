@@ -210,8 +210,6 @@ public class StudySubjectDaoTest extends DaoTestCase {
             StudySite studySite= studySiteDao.getById(1001);
             studySubject.setParticipant(participant);
             studySubject.setStudySite(studySite);
-            participant.addStudySubject(studySubject);
-            studySite.addStudySubject(studySubject);
             ScheduledEpoch scheduledEpochFirst=new ScheduledTreatmentEpoch();
             scheduledEpochFirst.setEpoch(epochDao.getById(1000));
             studySubject.setScheduledEpoch(scheduledEpochFirst);
@@ -262,7 +260,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 			studySubject.setRegistrationStatus(evaluateStatus(studySubject));
 			
 //			dao.save(studySubject.getParticipant());
-			studySubjectDao.save(studySubject);
+			studySubject=studySubjectDao.merge(studySubject);
 
             savedId= studySubject.getId().intValue();
             assertNotNull("The registration didn't get an id", savedId);
@@ -415,8 +413,8 @@ public class StudySubjectDaoTest extends DaoTestCase {
 	}
 	
 	private Object createRegistration(StudySubject studySubject) {
-        studySubject.getParticipant().addStudySubject(studySubject);
-        studySubject.getStudySite().addStudySubject(studySubject);
+//        studySubject.getParticipant().addStudySubject(studySubject);
+//        studySubject.getStudySite().addStudySubject(studySubject);
 		ScheduledEpoch current=studySubject.getScheduledEpoch();
 		if (current instanceof ScheduledTreatmentEpoch) {
 			ScheduledTreatmentEpoch scheduledTreatmentEpoch = (ScheduledTreatmentEpoch) current;
@@ -425,8 +423,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 			}
 		}
 //		dao.save(studySubject.getParticipant());
-		studySubjectDao.save(studySubject);
-		return studySubject;
+		return studySubjectDao.merge(studySubject);
 	}
 	
 	public static String evaluateStatus(StudySubject studySubject){

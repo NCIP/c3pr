@@ -66,6 +66,17 @@ public class StudySubject extends AbstractMutableDomainObject {
     	this.primaryIdentifier="SysGen";
 	}
     /// BEAN PROPERTIES
+    public StudySubject(boolean forExample) {
+    	lazyListHelper=new LazyListHelper();
+    	lazyListHelper.add(Identifier.class, new InstantiateFactory<Identifier>(Identifier.class));
+        lazyListHelper.add(ScheduledTreatmentEpoch.class, new InstantiateFactory<ScheduledTreatmentEpoch>(ScheduledTreatmentEpoch.class));
+        lazyListHelper.add(ScheduledNonTreatmentEpoch.class, new InstantiateFactory<ScheduledNonTreatmentEpoch>(ScheduledNonTreatmentEpoch.class));
+        setScheduledEpochs(new ArrayList<ScheduledEpoch>());
+    	if(!forExample){
+        	this.startDate=new Date();
+        	this.primaryIdentifier="SysGen";
+    	}
+	}
     
     @OneToMany
     @Cascade({CascadeType.ALL,CascadeType.DELETE_ORPHAN})
@@ -142,8 +153,8 @@ public class StudySubject extends AbstractMutableDomainObject {
         this.studySite = studySite;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "STS_ID")
+    @ManyToOne
+    @JoinColumn(name = "STS_ID", nullable=false)
     @Cascade (value={CascadeType.ALL})
     public StudySite getStudySite() {
         return studySite;
@@ -153,8 +164,8 @@ public class StudySubject extends AbstractMutableDomainObject {
         this.participant = participant;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PRT_ID")
+    @ManyToOne
+    @JoinColumn(name = "PRT_ID", nullable=false)
     public Participant getParticipant() {
         return participant;
     }

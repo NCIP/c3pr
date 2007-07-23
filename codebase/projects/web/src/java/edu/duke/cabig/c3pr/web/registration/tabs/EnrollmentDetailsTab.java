@@ -23,10 +23,6 @@ public class EnrollmentDetailsTab extends RegistrationTab<StudySubject>{
 		super("Enrollment Details", "Enrollment Details","registration/reg_registration_details");
 	}
 	@Override
-	public void postProcess(HttpServletRequest arg0, StudySubject arg1, Errors arg2) {
-	}
-
-	@Override
 	protected String postProcessAsynchronous(HttpServletRequest request, StudySubject command, Errors error) {
 		// TODO Auto-generated method stub
 		return null;

@@ -17,6 +17,6 @@ public interface StudySubjectService {
 		 * @return List of Participant objects based on the sample participant object
 		 * @throws Runtime exception 
 		 */
-	  public void createRegistration (StudySubject studySubject);
+	  public StudySubject createRegistration (StudySubject studySubject);
 }
 

@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.domain.DiseaseHistory;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
@@ -54,6 +55,11 @@ public class CreateRegistrationController<C extends StudySubject> extends Regist
 		super("Create Registration");
 	}
 
+	@Override
+	protected boolean isFormSubmission(HttpServletRequest request) {
+		// TODO Auto-generated method stub
+		return WebUtils.hasSubmitParameter(request, "registrationId")||super.isFormSubmission(request);
+	}
 
 	@Override
 	protected void intializeFlows(Flow flow) {
@@ -70,13 +76,6 @@ public class CreateRegistrationController<C extends StudySubject> extends Regist
 	}
 
 	@Override
-	protected Object formBackingObject(HttpServletRequest request) throws Exception {
-		// TODO Auto-generated method stub
-		StudySubject studySubject=new StudySubject();
-		return studySubject;
-	}
-	
-	@Override
 	protected void postProcessPage(HttpServletRequest request, Object command, Errors errors, int page) throws Exception {
 		// TODO Auto-generated method stub
 		StudySubject studySubject=(StudySubject)command;
@@ -89,7 +88,7 @@ public class CreateRegistrationController<C extends StudySubject> extends Regist
 			throws Exception {
 		// TODO Auto-generated method stub
 		StudySubject studySubject = (StudySubject) command;
-		studySubjectService.createRegistration(studySubject);
+		studySubject=studySubjectService.createRegistration(studySubject);
 		if (logger.isDebugEnabled()) {
 			logger.debug("processFinish(HttpServletRequest, HttpServletResponse, Object, BindException) - registration service call over"); //$NON-NLS-1$
 		}

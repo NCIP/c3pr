@@ -147,6 +147,8 @@
           autowire="byName">
         <property name="commandClass"
                   value="edu.duke.cabig.c3pr.domain.Participant" />
+        <property name="bindOnNewForm"
+                  value="true" />          
         <!-- Set the pages in Controller -->
     </bean>
     <bean name="/participant/searchParticipant"
@@ -192,6 +194,7 @@
 		<property name="commandClass" value="edu.duke.cabig.c3pr.domain.StudySubject" />
 		<property name="commandName" value="command" />
 		<property name="sessionForm" value="true" />
+		<property name="bindOnNewForm" value="true" />
 	</bean>    
     <bean name="/registration/confirm"
           id="confirmRegistrationController"
@@ -333,7 +336,7 @@
         </property>
     </bean>
 
-    <bean id="exceptionResolver"
+    <!-- <bean id="exceptionResolver"
           class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
         <property name="exceptionMappings">
             <props>
@@ -343,5 +346,5 @@
             </props>
         </property>
     </bean>
-
+-->
 </beans>

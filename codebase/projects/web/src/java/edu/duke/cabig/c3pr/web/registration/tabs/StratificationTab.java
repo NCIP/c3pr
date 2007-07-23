@@ -25,9 +25,6 @@ public class StratificationTab extends RegistrationTab<StudySubject>{
 	public StratificationTab() {
 		super("Stratify", "Stratify","registration/reg_stratify");
 	}
-	@Override
-	public void postProcess(HttpServletRequest arg0, StudySubject arg1, Errors arg2) {
-	}
 
 	@Override
 	protected String postProcessAsynchronous(HttpServletRequest request, StudySubject command, Errors error) {
@@ -37,11 +34,11 @@ public class StratificationTab extends RegistrationTab<StudySubject>{
 
 	@Override
 	protected void postProcessSynchronous(HttpServletRequest request, StudySubject command, Errors error) {
-		StudySubject studySubject=(StudySubject)command;
+/*		StudySubject studySubject=(StudySubject)command;
 		handleStratification(request,studySubject);
-		
+*/		
 	}
-	private void handleStratification(HttpServletRequest request, StudySubject studySubject){
+/*	private void handleStratification(HttpServletRequest request, StudySubject studySubject){
 		ScheduledTreatmentEpoch scheduledTreatmentEpoch=(ScheduledTreatmentEpoch)studySubject.getScheduledEpoch();
 		for(int i=0 ; i<scheduledTreatmentEpoch.getSubjectStratificationAnswers().size() ; i++){
 			String id=request.getParameter("subjectStratificationAnswers["+i+"].stratificationCriterionAnswer");
@@ -54,5 +51,4 @@ public class StratificationTab extends RegistrationTab<StudySubject>{
 			}
 		}
 	}
-
-}
+*/}

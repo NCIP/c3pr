@@ -8,8 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.validation.Errors;
+import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.dao.EpochDao;
+import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.NonTreatmentEpoch;
@@ -33,6 +35,8 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject>{
 	private static final Logger logger = Logger.getLogger(SearchStudySubjectTab.class);
 	private EpochDao epochDao;
 
+	private StudySubjectDao studySubjectDao;
+	
 	public EpochDao getEpochDao() {
 		return epochDao;
 	}
@@ -61,16 +65,18 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject>{
 	}
 
 	@Override
-	protected void postProcessSynchronous(HttpServletRequest request, StudySubject command, Errors error) {
+	protected void postProcessSynchronous(HttpServletRequest request, StudySubject command, Errors error) throws Exception{
+		if(!WebUtils.hasSubmitParameter(request, "registrationId")){
+			StudySubject exampleSS=new StudySubject(true);
+			exampleSS.setParticipant(command.getParticipant());
+			exampleSS.setStudySite(command.getStudySite());
+			List registrations=studySubjectDao.searchByExample(exampleSS);
+			if(registrations.size()>0)
+				return;
+		}
 		if(command.getScheduledEpoch()!=null)
 			return;
-		Integer id;
-		try {
-			id=Integer.parseInt(request.getParameter("epoch"));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			return;
-		}
+		Integer id=Integer.parseInt(request.getParameter("epoch"));
 		Epoch epoch=epochDao.getById(id);
 		for(ScheduledEpoch scheduledEpoch:command.getScheduledEpochs()){
 			if(scheduledEpoch.getEpoch().getId()==epoch.getId())
@@ -85,6 +91,7 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject>{
 		}
 		scheduledEpoch.setEpoch(epoch);
 		command.setScheduledEpoch(scheduledEpoch);
+		command.addScheduledEpoch(scheduledEpoch);
 		buildCommandObject(command);
 	}
 	private void buildCommandObject(StudySubject studySubject){
@@ -102,9 +109,6 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject>{
 				subjectEligibilityAnswer.setEligibilityCriteria((EligibilityCriteria)criterias.get(i));
 				scheduledTreatmentEpoch.addSubjectEligibilityAnswers(subjectEligibilityAnswer);
 			}
-			if (logger.isDebugEnabled()) {
-				logger.debug("buildCommandObject(StudySubject studySubject) - studySubject.getParticipant().getPrimaryIdentifier()" + studySubject.getParticipant().getPrimaryIdentifier()); //$NON-NLS-1$
-			}
 			List<StratificationCriterion> stratifications=scheduledTreatmentEpoch.getTreatmentEpoch().getStratificationCriteria();
 			for(StratificationCriterion stratificationCriterion : stratifications){
 				stratificationCriterion.getPermissibleAnswers().size();
@@ -115,4 +119,11 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject>{
 		}
 	}
 
+	public StudySubjectDao getStudySubjectDao() {
+		return studySubjectDao;
+	}
+
+	public void setStudySubjectDao(StudySubjectDao studySubjectDao) {
+		this.studySubjectDao = studySubjectDao;
+	}
 }

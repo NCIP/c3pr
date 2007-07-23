@@ -56,18 +56,18 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 		this.studySubjectDao = studySubjectDao;
 	}
 
-	public void createRegistration(StudySubject studySubject) {
-		if(studySubject.getId()==null)
-			studySubject.getParticipant().addStudySubject(studySubject);
+	public StudySubject createRegistration(StudySubject studySubject) {
 		studySubject.setRegistrationStatus(evaluateStatus(studySubject));
+//        studySubject.getParticipant().addStudySubject(studySubject);
+//        studySubject.getStudySite().addStudySubject(studySubject);
 		ScheduledEpoch current=studySubject.getScheduledEpoch();
 		if (current instanceof ScheduledTreatmentEpoch) {
 			ScheduledTreatmentEpoch scheduledTreatmentEpoch = (ScheduledTreatmentEpoch) current;
-			if(scheduledTreatmentEpoch.getScheduledArm().getArm()==null){
+			if(scheduledTreatmentEpoch.getScheduledArm()!=null&&scheduledTreatmentEpoch.getScheduledArm().getArm()==null){
 				scheduledTreatmentEpoch.removeScheduledArm();
 			}
 		}
-		studySubjectDao.save(studySubject);
+		studySubject=studySubjectDao.merge(studySubject);
 		if(isBroadcastEnable.equalsIgnoreCase("true")){
 			String xml = "";
 			try {
@@ -85,6 +85,7 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 				logger.error("", e); //$NON-NLS-1$
 			}
 		}
+		return studySubject;
 	}
 	
 	public static String evaluateStatus(StudySubject studySubject){
