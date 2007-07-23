@@ -18,6 +18,7 @@ import edu.duke.cabig.c3pr.dao.ArmDao;
 import edu.duke.cabig.c3pr.dao.EpochDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
+import edu.duke.cabig.c3pr.dao.StratificationCriterionAnswerDao;
 import edu.duke.cabig.c3pr.dao.StudyInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
@@ -28,6 +29,7 @@ import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudySite;
@@ -72,6 +74,29 @@ public abstract class RegistrationController <C extends StudySubject> extends Au
 
 	protected StudySubjectServiceImpl studySubjectService;
 	
+	protected StratificationCriterionAnswerDao stratificationAnswerDao;
+	
+	public StratificationCriterionAnswerDao getStratificationAnswerDao() {
+		return stratificationAnswerDao;
+	}
+
+
+	public void setStratificationAnswerDao(
+			StratificationCriterionAnswerDao stratificationAnswerDao) {
+		this.stratificationAnswerDao = stratificationAnswerDao;
+	}
+
+
+	public StudySubjectDao getStudySubjectDao() {
+		return studySubjectDao;
+	}
+
+
+	public void setStudySubjectDao(StudySubjectDao studySubjectDao) {
+		this.studySubjectDao = studySubjectDao;
+	}
+
+
 	public StudySubjectServiceImpl getStudySubjectService() {
 		return studySubjectService;
 	}
@@ -201,6 +226,8 @@ public abstract class RegistrationController <C extends StudySubject> extends Au
 				armDao));
 		binder.registerCustomEditor(Epoch.class, new CustomDaoEditor(
 				epochDao));
+		binder.registerCustomEditor(StratificationCriterionPermissibleAnswer.class, new CustomDaoEditor(
+				stratificationAnswerDao));
 		Object command=binder.getTarget();
 /*		binder.registerCustomEditor(StudyInvestigator.class, new ObjectGraphBasedEditor(
 				command,"studySite.studyInvestigators"));

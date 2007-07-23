@@ -65,5 +65,4 @@ public class ScheduledArm extends AbstractMutableDomainObject {
 	public void setEligibilityWaiverReasonText(String eligibilityWaiverReasonText) {
 		this.eligibilityWaiverReasonText = eligibilityWaiverReasonText;
 	}
-
 }

@@ -60,6 +60,7 @@
     
     <STUDY_INVESTIGATORS id="1000" version="1" hsi_id="1000" sts_id="1000" start_date="01-01-2000" end_date="01-01-2000" role_code="role1" status_code="Active"/>
     <STUDY_INVESTIGATORS id="1001" version="1" hsi_id="1001" sts_id="1000" start_date="01-01-2000" end_date="01-01-2000" role_code="role2" status_code="Active"/>
+    <STUDY_INVESTIGATORS id="1003" version="1" hsi_id="1001" sts_id="1001" start_date="01-01-2000" end_date="01-01-2000" role_code="role2" status_code="Active"/>    
     <STUDY_INVESTIGATORS id="1002" version="1" hsi_id="1001" sts_id="1010" start_date="01-01-2000" end_date="01-01-2000" role_code="role2" status_code="Active"/>    
     
     <DISEASE_CATEGORIES id="1000" version="1" name="AIDS-related Human Papillomavirus"/>
@@ -73,7 +74,7 @@
     <ELIGIBILITY_CRITERIAS id="2001" version="1" question_number="2" eph_id="1000" question_text="inclusion question 2" dtype="I"/>
     <ELIGIBILITY_CRITERIAS id="2002" version="1" question_number="3" eph_id="1000" question_text="exclusion question 1" dtype="E" />
     
-    <STRATIFICATION_CRITERION id="1000" version="1" question_text="question" question_number="1"/>
+    <STRATIFICATION_CRITERION id="1000" version="1" question_text="question" eph_id="1000" question_number="1"/>
     <STRATIFICATION_CRI_PER_ANS id="1000" version="1" permissible_answer="answer" str_cri_id="1000"/>  
               
    	<PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="M" race_code="White" add_id="1000" />
@@ -90,6 +91,10 @@
 
     <SCHEDULED_EPOCHS id="1000" version="1" start_date="01-01-2000" eligibility_indicator="true" ELIGIBILITY_WAIVER_REASON_TEXT="reason" spa_id="1000" type="TREATMENT" eph_id="1000"/>  
 
+	<SUBJECT_STRATIFICATION_ANSWERS id="1000" version="1" sceph_id="1000" str_cri_id="1000"/>
+	
+	<SUBJECT_ELIGIBILITY_ANSWERS id="1000" version="1" sceph_id="1000" elgct_id="2000"/>
+	
     <SCHEDULED_ARMS id="1000" version="1" start_date="01-01-2000" eligibility_indicator="true" arm_id="1000" SCEPH_ID="1000" />  
 
     <IDENTIFIERS id="1000" version="1" value="nci" type="local" source="nci" stu_id="1000"/>

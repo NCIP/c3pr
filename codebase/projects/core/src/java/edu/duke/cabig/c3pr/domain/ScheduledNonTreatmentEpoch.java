@@ -17,6 +17,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
 
+@Entity
 @DiscriminatorValue(value = "NON-TREATMENT")
 public class ScheduledNonTreatmentEpoch extends ScheduledEpoch {
 	public ScheduledNonTreatmentEpoch() {

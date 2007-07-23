@@ -17,11 +17,12 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
 
+@Entity
 @DiscriminatorValue(value = "TREATMENT")
 public class ScheduledTreatmentEpoch extends ScheduledEpoch {
 	private LazyListHelper lazyListHelper;
     private String eligibilityWaiverReasonText;
-    private Boolean eligibilityIndicator;    
+    private Boolean eligibilityIndicator;
 
 	// / LOGIC
 	public ScheduledTreatmentEpoch() {
@@ -29,7 +30,7 @@ public class ScheduledTreatmentEpoch extends ScheduledEpoch {
 		lazyListHelper = new LazyListHelper();
     	lazyListHelper.add(SubjectEligibilityAnswer.class, new InstantiateFactory<SubjectEligibilityAnswer>(SubjectEligibilityAnswer.class));
     	lazyListHelper.add(SubjectStratificationAnswer.class, new InstantiateFactory<SubjectStratificationAnswer>(SubjectStratificationAnswer.class));
-    	lazyListHelper.add(ScheduledArm.class, new BiDirectionalInstantiateFactory<ScheduledArm>(ScheduledArm.class,this));
+    	lazyListHelper.add(ScheduledArm.class, new InstantiateFactory<ScheduledArm>(ScheduledArm.class));
     	eligibilityIndicator=false;
 	}
 	
@@ -81,7 +82,7 @@ public class ScheduledTreatmentEpoch extends ScheduledEpoch {
 
 	@OneToMany
     @Cascade({CascadeType.ALL,CascadeType.DELETE_ORPHAN})
-    @JoinColumn(name = "STE_ID")
+    @JoinColumn(name = "SCEPH_ID", nullable=false)
     public List<SubjectEligibilityAnswer> getSubjectEligibilityAnswersInternal() {
 		return lazyListHelper.getInternalList(SubjectEligibilityAnswer.class);
 	}
@@ -103,7 +104,7 @@ public class ScheduledTreatmentEpoch extends ScheduledEpoch {
 
 	@OneToMany
     @Cascade({CascadeType.ALL,CascadeType.DELETE_ORPHAN})
-    @JoinColumn(name = "STE_ID")
+    @JoinColumn(name = "SCEPH_ID", nullable=false)
     public List<SubjectStratificationAnswer> getSubjectStratificationAnswersInternal() {
 		return lazyListHelper.getInternalList(SubjectStratificationAnswer.class);
 	}
@@ -125,7 +126,7 @@ public class ScheduledTreatmentEpoch extends ScheduledEpoch {
     
 	@OneToMany
     @Cascade({CascadeType.ALL,CascadeType.DELETE_ORPHAN})
-    @JoinColumn(name = "STE_ID")	    
+    @JoinColumn(name = "SCEPH_ID", nullable=false)	    
 	public List<ScheduledArm> getScheduledArmsInternal() {
 		return lazyListHelper.getInternalList(ScheduledArm.class);
 	}
@@ -137,6 +138,7 @@ public class ScheduledTreatmentEpoch extends ScheduledEpoch {
 	public List<ScheduledArm> getScheduledArms() {
 		return lazyListHelper.getLazyList(ScheduledArm.class);
 	}
+
 	public void addScheduledArm(ScheduledArm scheduledArm){
 		lazyListHelper.getLazyList(ScheduledArm.class).add(scheduledArm);
 	}
@@ -147,7 +149,10 @@ public class ScheduledTreatmentEpoch extends ScheduledEpoch {
 
 	@Transient
 	public ScheduledArm getScheduledArm() {
-		return getScheduledArms().get(getScheduledArms().size()-1);
+		List<ScheduledArm> scList=getScheduledArms();
+		if(scList.size()==0)
+			return null;
+		return scList.get(scList.size()-1);
 	}
 	public ScheduledArm removeScheduledArm() {
 		return getScheduledArms().remove(getScheduledArms().size()-1);
