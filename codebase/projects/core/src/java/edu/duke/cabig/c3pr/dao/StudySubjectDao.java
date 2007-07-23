@@ -125,7 +125,7 @@ public class StudySubjectDao extends
 	}
 
 	public List<StudySubject> getAll() throws DataAccessException {
-		return getHibernateTemplate().find("from StudyParticipantAssignmet");
+		return getHibernateTemplate().find("from StudySubject");
 	}
 
 	public List<StudySubject> searchByExample(
