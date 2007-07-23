@@ -13,7 +13,7 @@ function navRollOver(obj, state) {
   document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
 }
 function markAsAnswered(id){
-	selectBox='scheduledEpoch.stratificationCriterion['+id+'].stratificationCriterionAnswer';
+	selectBox='scheduledEpoch.subjectStratificationAnswers['+id+'].stratificationCriterionAnswer';
 	tick='tick-'+id;
 	if(document.getElementById(selectBox).value==''){
 		document.getElementById(tick).style.display='none';
@@ -51,9 +51,11 @@ function markAsAnswered(id){
 					${criteria.stratificationCriterion.questionText}
 				</td>
 				<td width="15%">
-					<form:select id="scheduledEpoch.stratificationCriterion[${status.index}].stratificationCriterionAnswer" path="scheduledEpoch.subjectStratificationAnswers[${status.index }].stratificationCriterionAnswer" onchange="markAsAnswered('${status.index }')">
-						<option value="">--Please Select---</option>
-						<form:options items="${criteria.stratificationCriterion.permissibleAnswers}" itemLabel="permissibleAnswer" itemValue="id"/>
+					<form:select path="scheduledEpoch.subjectStratificationAnswers[${status.index}].stratificationCriterionAnswer" onchange="markAsAnswered('${status.index }')">
+					<option value="">--Please Select---</option>
+					<c:forEach items="${criteria.stratificationCriterion.permissibleAnswers}" var="option">
+						<option value="${option.id }" <c:if test="${option.id== command.scheduledEpoch.subjectStratificationAnswers[status.index].stratificationCriterionAnswer.id}">selected</c:if>>${option.permissibleAnswer }</option>
+					</c:forEach>
 					</form:select>
 				</td>
 			</tr>

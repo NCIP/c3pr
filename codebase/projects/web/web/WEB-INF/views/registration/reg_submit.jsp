@@ -133,11 +133,6 @@ var submitPostProcess= function(formElement, continueSubmission){
 			<div class="review">
 			<table width="50%" border="0" cellspacing="0" cellpadding="0" id="mytable">
 				<tr>
-					<td width="25%" class="labelR">Study Subject
-					Identifier:</td>
-					<td>${command.studyParticipantIdentifier }</td>
-				</tr>
-				<tr>
 					<td class="labelR">Registration Start Date:</td>
 					<td>${command.startDate }</td>
 				</tr>

@@ -82,10 +82,6 @@ function accessApp(url,app,targetWindow){
 									<td>${command.participant.primaryIdentifier}</td>
 								</tr>
 								<tr>
-									<td class="label">Study Subject Identifier:</td>
-									<td>${command.studyParticipantIdentifier}</td>
-								</tr>
-								<tr>
 									<td class="label">Registration Date:</td>
 									<td><fmt:formatDate type="date" value="${command.startDate }"/></td>
 								</tr>
