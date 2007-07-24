@@ -16,6 +16,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
+import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.domain.Identifier;
@@ -75,6 +76,9 @@ private static Log log = LogFactory.getLog(SearchParticipantController.class);
     		processSubFlow(request,map);
         	map.put("actionReturnType", "SearchResults");
     	}
+    	if(WebUtils.hasSubmitParameter(request, "async")){
+        	return new ModelAndView("/registration/subjectResultsAsync",map);
+        }
     	ModelAndView modelAndView= new ModelAndView(getSuccessView(), map);
     	return modelAndView;
     }

@@ -300,9 +300,17 @@ public class CreateParticipantController extends
 				cMIterator.remove();
 		}
 
+		if(StringUtils.getBlankIfNull(command.getAddress().getStreetAddress()).equals("")&&StringUtils.getBlankIfNull(command.getAddress().getCity()).equals("")
+				&&StringUtils.getBlankIfNull(command.getAddress().getCountryCode()).equals("")&&StringUtils.getBlankIfNull(command.getAddress().getPostalCode()).equals("")
+				&&StringUtils.getBlankIfNull(command.getAddress().getStateCode()).equals(""))
+			command.setAddress(null);
 		participantDao.save(command);
 
 		ModelAndView modelAndView = null;
+		if(request.getParameter("async")!=null){
+			response.getWriter().print(command.getFirstName()+" "+command.getLastName()+"||"+command.getId());
+			return null;
+		}
 		// FIXME: small hack
 		if (isSubFlow(request)) {
 			String url = "";
@@ -323,6 +331,7 @@ public class CreateParticipantController extends
 		return null;
 	}
 
+	
 	private boolean isSubFlow(HttpServletRequest request) {
 		if (request.getParameter("inRegistration") != null
 				|| request.getParameter("studySiteId") != null)
