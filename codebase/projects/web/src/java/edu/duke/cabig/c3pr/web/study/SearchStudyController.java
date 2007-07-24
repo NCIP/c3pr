@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.web.study;
 
+import org.springframework.web.util.WebUtils;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -63,6 +64,9 @@ public class SearchStudyController extends SimpleFormController {
         if (isSubFlow(request)) {
             processSubFlow(request, map);
             map.put("actionReturnType", "SearchResults");
+        }
+        if(WebUtils.hasSubmitParameter(request, "async")){
+        	return new ModelAndView("/registration/studyResultsAsync",map);
         }
         ModelAndView modelAndView = new ModelAndView(getSuccessView(), map);
         return modelAndView;
