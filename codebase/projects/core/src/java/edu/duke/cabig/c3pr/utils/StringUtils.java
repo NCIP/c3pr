@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.utils;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -247,4 +249,17 @@ public class StringUtils extends org.apache.commons.lang.StringUtils {
 		}		
 		return trim;
 	}
+
+    /**
+     * Returns an InputStream given a String str
+     * @param str
+     * @return
+     */
+    public static InputStream getInputStream(String str){
+
+        byte[] b = str.getBytes();
+
+        ByteArrayInputStream iStream = new ByteArrayInputStream(b);
+        return iStream;
+    }
 }

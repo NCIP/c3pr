@@ -1,15 +1,11 @@
 package edu.duke.cabig.c3pr.xml;
 
+import edu.duke.cabig.c3pr.domain.*;
+import gov.nih.nci.common.exception.XMLUtilityException;
+
 import java.io.ByteArrayInputStream;
 import java.io.Reader;
 import java.io.StringReader;
-
-import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudySubject;
-import edu.duke.cabig.c3pr.domain.StudySite;
-import gov.nih.nci.common.exception.XMLUtilityException;
 
 /**
  * Will test the XML marshalling framework
@@ -39,13 +35,13 @@ public class RegistrationMarshallingTestCase extends AbstractXMLMarshalling {
 
 
     /**
-     * @Test main test method. Runs methods in a sequence.
      * @throws Throwable
+     * @Test main test method. Runs methods in a sequence.
      */
-    public void testSerializationDeserializationTest(){
-            registrationSerializationTest();
-           // schemaValidationTest();
-            registrationDeserializationTest();
+    public void testSerializationDeserializationTest() {
+        registrationSerializationTest();
+        // schemaValidationTest();
+        registrationDeserializationTest();
     }
 
     /**
@@ -83,7 +79,6 @@ public class RegistrationMarshallingTestCase extends AbstractXMLMarshalling {
         patient.setIdentifiers(getIdentifiers());
 
         registration.setParticipant(patient);
-
 
 
         patient.setAddress(getAddress());
@@ -136,7 +131,6 @@ public class RegistrationMarshallingTestCase extends AbstractXMLMarshalling {
             fail(e.getMessage());
         }
     }
-
 
 
 }

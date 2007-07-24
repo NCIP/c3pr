@@ -1,21 +1,18 @@
 package edu.duke.cabig.c3pr.xml;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-import javax.xml.validation.SchemaFactory;
-
+import edu.duke.cabig.c3pr.domain.*;
+import edu.duke.cabig.c3pr.utils.ApplicationTestCase;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import edu.duke.cabig.c3pr.domain.Address;
-import edu.duke.cabig.c3pr.domain.Identifier;
-import edu.duke.cabig.c3pr.utils.ApplicationTestCase;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import javax.xml.validation.SchemaFactory;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -34,7 +31,7 @@ public abstract class AbstractXMLMarshalling extends ApplicationTestCase {
 
     SchemaFactory schemaFactory;
     SAXParserFactory parserFactory;
-    XmlMarshaller marshaller;
+    protected XmlMarshaller marshaller;
     SAXParser parser;
     final String schemaFileName = "c3pr-domain.xsd";
 
@@ -42,7 +39,7 @@ public abstract class AbstractXMLMarshalling extends ApplicationTestCase {
     boolean boolValue;
     Integer intValue = 0;
     Date dateValue;
-    String studyGridId;
+    protected String studyGridId;
     String siteGridId;
     static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
@@ -84,7 +81,7 @@ public abstract class AbstractXMLMarshalling extends ApplicationTestCase {
         return identifiers;
     }
 
-    protected Address getAddress(){
+    protected Address getAddress() {
         Address address = new Address();
         address.setCity("Reston");
         address.setCountryCode("USA");
@@ -94,7 +91,69 @@ public abstract class AbstractXMLMarshalling extends ApplicationTestCase {
         return address;
     }
 
-    public abstract void testSerializationDeserializationTest();
+    /**
+     * Will create a dummy study for the provided gridId
+     *
+     * @param gridId
+     * @return
+     */
+    protected Study createDummyStudy(String gridId) {
+        Study studyObject = new Study();
+
+        studyObject.setGridId(gridId);
+        studyObject.setShortTitleText(strValue);
+        studyObject.setRandomizedIndicator(strValue);
+        studyObject.setMultiInstitutionIndicator(strValue);
+        studyObject.setLongTitleText(strValue);
+        studyObject.setPhaseCode(strValue);
+        studyObject.setPrecisText(strValue);
+        studyObject.setStatus(strValue);
+        studyObject.setStatus(strValue);
+        studyObject.setType(strValue);
+        studyObject.setTargetAccrualNumber(intValue);
+        studyObject.setVersion(intValue);
+
+        studyObject.setDescriptionText(strValue);
+
+        StudySite studySiteObject = new StudySite();
+        studySiteObject.setGridId(strValue);
+        studySiteObject.setIrbApprovalDate(dateValue);
+        studySiteObject.setRoleCode(strValue);
+
+        Identifier identifierObject = new Identifier();
+        identifierObject.setSource(strValue);
+        identifierObject.setType(strValue);
+
+        studyObject.addIdentifier(identifierObject);
+        studyObject.addStudySite(studySiteObject);
+
+        studyObject.addEpoch(Epoch.create("Screening"));
+        studyObject.addEpoch(Epoch.create("Treatment", "Arm A", "Arm B", "Arm C"));
+        studyObject.addEpoch(Epoch.create("Follow up"));
+
+        // healthcare site
+        HealthcareSite healthcaresite = new HealthcareSite();
+
+        healthcaresite.setAddress(getAddress());
+        healthcaresite.setName("duke healthcare");
+        healthcaresite.setDescriptionText("duke healthcare");
+        healthcaresite.setNciInstituteCode("Nci duke");
+
+        StudySite studySite = new StudySite();
+        studyObject.addStudySite(studySite);
+        studySite.setSite(healthcaresite); //
+        studySite.setStartDate(new Date());
+        studySite.setIrbApprovalDate(new Date());
+        studySite.setRoleCode("role");
+        studySite.setStatusCode("active");
+
+        StratificationCriterionPermissibleAnswer ans = new StratificationCriterionPermissibleAnswer();
+        ans.setPermissibleAnswer("it is valid");
+        StratificationCriterionPermissibleAnswer ans2 = new StratificationCriterionPermissibleAnswer();
+        ans.setPermissibleAnswer("it is valid");
+        return studyObject;
+    }
+
 
     /**
      * inner class. Will fail test if any

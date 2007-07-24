@@ -9,7 +9,7 @@ import gov.nih.nci.common.exception.XMLUtilityException;
  * Will test marshalling of a hibernate object.
  *
  * @testType unit
- *
+ * <p/>
  * Created by IntelliJ IDEA.
  * User: kherm
  * Date: Jun 8, 2007
@@ -21,9 +21,7 @@ public class StudyHibernateObjectMarshallingTest extends DaoTestCase {
     XmlMarshaller marshaller;
 
 
-
-
-    public void testMarshallStudy(){
+    public void testMarshallStudy() {
         try {
             Study study = dao.getById(1000);
             marshaller = new XmlMarshaller();
@@ -32,7 +30,7 @@ public class StudyHibernateObjectMarshallingTest extends DaoTestCase {
             assertNotNull(studyXML);
 
             // make sure no hibernate proxy (garbage) is being serialized           
-            assertFalse(studyXML.indexOf("proxy")>-1);
+            assertFalse(studyXML.indexOf("proxy") > -1);
 
         } catch (XMLUtilityException e) {
             fail(e.getMessage());

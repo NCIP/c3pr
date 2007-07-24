@@ -180,16 +180,11 @@
     <bean id="studySubjectService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl" autowire="byType">
         <property name="isBroadcastEnable" value="${broadcastEnable}"/>
     </bean>
+    <bean id="studyXMLImporterService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudyXMLImporterService" autowire="byType"/>
 
     <!--Utilities-->
     <bean id="xmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
         <property name="mappingFile" value="c3pr-castor-mapping.xml"/>
-    </bean>
-
-    <bean id="studyXMLImporter"
-          class="edu.duke.cabig.c3pr.xml.StudyXMLImporter"
-            autowire="byType">
-
     </bean>
 
 
