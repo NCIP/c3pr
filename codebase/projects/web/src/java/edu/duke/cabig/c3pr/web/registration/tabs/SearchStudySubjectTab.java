@@ -11,6 +11,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.dao.EpochDao;
+import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
@@ -36,6 +37,7 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject>{
 	private EpochDao epochDao;
 
 	private StudySubjectDao studySubjectDao;
+	private HealthcareSiteDao healthcareSiteDao;
 	
 	public EpochDao getEpochDao() {
 		return epochDao;
@@ -52,10 +54,20 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject>{
 	
 	@Override
 	public Map<String, Object> referenceData() {
-		Map<String, List<Lov>> configMap = configurationProperty.getMap();
 		Map<String, Object> refdata = new HashMap<String, Object>();
+		Map<String, List<Lov>> configMap = configurationProperty.getMap();
+
+		refdata.put("searchTypeRefDataPrt", configMap
+				.get("participantSearchType"));
 		refdata.put("searchTypeRefDataStudy", configMap.get("studySearchType"));
-		refdata.put("searchTypeRefDataPrt", configMap.get("participantSearchType"));
+		refdata.put("administrativeGenderCode", configMap
+				.get("administrativeGenderCode"));
+		refdata
+				.put("ethnicGroupCode", configMap
+						.get("ethnicGroupCode"));
+		refdata.put("raceCode", configMap.get("raceCode"));
+		refdata.put("identifiersTypeRefData", configMap.get("participantIdentifiersType"));
+		refdata.put("source", healthcareSiteDao.getAll());
 		return refdata;
 	}
 	@Override
@@ -125,5 +137,13 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject>{
 
 	public void setStudySubjectDao(StudySubjectDao studySubjectDao) {
 		this.studySubjectDao = studySubjectDao;
+	}
+
+	public HealthcareSiteDao getHealthcareSiteDao() {
+		return healthcareSiteDao;
+	}
+
+	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
+		this.healthcareSiteDao = healthcareSiteDao;
 	}
 }
