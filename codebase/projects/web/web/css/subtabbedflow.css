@@ -1,0 +1,36 @@
+/* 2nd level tabs created initially for searchStudy/Subject of Registration workflow */
+
+/* general style properties 
+html { height:100%;}
+body { height:100%; margin: 0 0 0 0; padding: 0; font-family: "Trebuchet MS", arial, verdana, sans-serif; font-size: 11px; color: #000000; background: #F4F4F5; }
+*/
+
+/* tab table */
+.subFlowTabs { margin-top: 4px; font-family: arial, verdana, sans-serif; font-size: 11px;}
+
+/* tabs */
+#tabDisplay { background: url(../images/subTabBg-tabs.gif) repeat-x bottom; padding-left: 7px; white-space: nowrap; color: #333333; }
+#tabDisplay a:link { color: #333333; text-decoration: none; }
+#tabDisplay a:visited { color: #333333; text-decoration: none; }
+#tabDisplay a:hover { color: #000000; text-decoration: underline; }
+#tabDisplay a:active { color: #000000; text-decoration: underline; }
+#tabDisplay .current { background: #FFFFFF url(../images/subTabBg-tabs.gif) repeat-x top; font-weight: bold; color: #3B73B9; padding-bottom: 2px; }
+#tabDisplay .current a:link { color: #3B73B9; text-decoration: none; }
+#tabDisplay .current a:visited { color: #3B73B9; text-decoration: none; }
+#tabDisplay .current a:hover { color: #89ABD5; text-decoration: underline; }
+#tabDisplay .current a:active { color: #89ABD5; text-decoration: underline; }
+#tabDisplay .tab { background: #CCCCCC url(../images/subTabBg-tabs.gif) repeat-x top; padding-bottom: 2px; }
+
+/* properties of the area directly under the tabs that has the angled graphic */
+.tabBotL { background: #FFFFFF url(../images/subTabWhiteCorner.gif) no-repeat top right; }
+.tabBotR { background: #FFFFFF url(../images/subTabWhiteCorner.gif) no-repeat top right; border-left: 1px solid #CCCCCC; }
+
+/* sub menu under the tabs */
+#bottomTab { font-size: 11px;border-bottom: 1px dashed #CCCCCC; padding-left: 10px; color: #3B73B9; line-height: 20px; }
+#bottomTab .spacer { margin: 0px 12px 0px 12px; }
+#bottomTab a:link { color: #3B73B9; text-decoration: none; font-weight: normal; }
+#bottomTab a:visited { color: #3B73B9; text-decoration: none; font-weight: normal; }
+#bottomTab a:hover { color: #89ABD5; text-decoration: underline; font-weight: normal; }
+#bottomTab a:active { color: #89ABD5; text-decoration: underline; font-weight: normal; }
+#bottomTab .current{ font-weight: bold; }
+#bottomTab .current:before { content: url(../images/subTabArrowRight.gif) ; }
