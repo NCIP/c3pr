@@ -55,6 +55,9 @@
                 <prop key="/participant/searchParticipant">
                     searchParticipantController
                 </prop>
+                <prop key="/registration/searchStudy">
+					searchStudyController
+				</prop>
             </props>
         </property>
     </bean>
@@ -87,6 +90,11 @@
         <!-- one of the properties available; the maximum file size in bytes -->
         <property name="maxUploadSize" value="100000"/>
     </bean>
+
+	<bean name="/registration/searchEpoch" id="searchEpochController"
+		lazy-init="true" class="edu.duke.cabig.c3pr.web.SearchEpochController"
+		autowire="byName">
+	</bean>
 
     <!-- mapping for REPORT task -->
     <bean name="/report/createReport" id="createReportController"
