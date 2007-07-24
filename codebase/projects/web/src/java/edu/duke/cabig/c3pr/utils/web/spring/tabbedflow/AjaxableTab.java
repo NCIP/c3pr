@@ -26,5 +26,9 @@ public abstract class AjaxableTab<C> extends Tab<C>{
     }
     
     protected abstract void postProcessSynchronous(HttpServletRequest request, C command, Errors error) throws Exception;
+    
+    //Note: If this method returns null- It would result in the view resolving done by spring.
+    //If the method returns a string then the string would be sent to the browser(client) and the
+    //response would be over i.e no spring base view resolution will take place.
     protected abstract String postProcessAsynchronous(HttpServletRequest request, C command, Errors error) throws Exception;
 }

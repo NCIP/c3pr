@@ -18,15 +18,11 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script>
-var submitPostProcess= function(formElement, continueSubmission){
-		registrationStatus="${command.registrationStatus}";
-		if(formElement.id!='command')
-			return continueSubmission;
-		if(registrationStatus=='Incomplete'){
-			return confirm("Registration will be saven in Incomplete status since all the required fields are not filled in. Do you want to continue?");
-		}
-		return continueSubmission;
+function activateInPlaceEditing(arrayElements){
+	for(aE=0 ; aE<arrayElements.length ; aE++){
+		arrayElements[aE].enterEditMode('click');
 	}
+}
 </script>
 </head>
 <body>
@@ -132,15 +128,15 @@ var submitPostProcess= function(formElement, continueSubmission){
 			<table width="50%" border="0" cellspacing="0" cellpadding="0" id="mytable">
 				<tr>
 					<td class="labelR">Registration Start Date:</td>
-					<td>${command.startDate }</td>
+					<td><tags:inPlaceEdit value="${command.startDate }" path="startDate" /></td>
 				</tr>
 				<tr>
 					<td class="labelR" width="25%">Informed Consent Signed Date:</td>
-					<td>${command.informedConsentSignedDateStr}</td>
+					<td><tags:inPlaceEdit value="${command.informedConsentSignedDateStr }" path="informedConsentSignedDate" /></td>
 				</tr>
 				<tr>
 					<td class="labelR">Informed Consent Version:</td>
-					<td>${command.informedConsentVersion}</td>
+					<td><tags:inPlaceEdit value="${command.informedConsentVersion}" path="informedConsentVersion" /></td>
 				</tr>
 				<tr>
 					<td width="25%" class="labelR">Treating Physician:</td>
@@ -148,6 +144,13 @@ var submitPostProcess= function(formElement, continueSubmission){
 				</tr>
 			</table>
 			</div>
+			<script>
+			eArray=new Array();
+			eArray.push(editor_startDate);
+			eArray.push(editor_informedConsentSignedDate);
+			eArray.push(editor_informedConsentVersion);
+			</script>
+			<input type="button" value="Edit" onclick="activateInPlaceEditing(eArray)"/>
 			<hr align="left" width="95%">					
 			<br>
 			<strong>Disease Information </strong><br>

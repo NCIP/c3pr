@@ -1,42 +1,23 @@
 package edu.duke.cabig.c3pr.web.registration;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Logger;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
-import edu.duke.cabig.c3pr.domain.DiseaseHistory;
-import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
-import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
-import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.StudySubject;
-import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
-import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
-import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
-import edu.duke.cabig.c3pr.service.ParticipantService;
-import edu.duke.cabig.c3pr.service.StudySubjectService;
-import edu.duke.cabig.c3pr.service.impl.ParticipantServiceImpl;
 import edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl;
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.SubFlowTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.DiseasesDetailsTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EligibilityCriteriaTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EnrollmentDetailsTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.RandomizationTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.ReviewSubmitTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.SearchStudySubjectTab;
-import edu.duke.cabig.c3pr.web.registration.tabs.SelectStudyTab;
-import edu.duke.cabig.c3pr.web.registration.tabs.SelectSubjectTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.StratificationTab;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 
