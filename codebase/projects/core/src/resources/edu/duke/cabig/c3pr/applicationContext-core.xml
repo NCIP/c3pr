@@ -84,6 +84,9 @@
                 <value>edu.duke.cabig.c3pr.domain.TreatmentEpoch</value>
                 <value>edu.duke.cabig.c3pr.domain.Arm</value>
                 <value>edu.duke.cabig.c3pr.domain.StudySite</value>
+                <value>edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter</value>
+                <value>edu.duke.cabig.c3pr.domain.StudyFundingSponsor</value>
+                <value>edu.duke.cabig.c3pr.domain.StudyOrganization</value>
                 <value>edu.duke.cabig.c3pr.domain.HealthcareSite</value>
                 <value>edu.duke.cabig.c3pr.domain.Organization</value>
                 <value>edu.duke.cabig.c3pr.domain.Address</value>
