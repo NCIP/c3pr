@@ -62,11 +62,11 @@ public class StudySubjectDao extends
 		}
 		
 		//Site criteria
-		if(registration.getStudySite().getSite().getName() != null && !registration.getStudySite().getSite().getName().equals("")){
-			siteCriteria.add(Expression.like("name", "%"+registration.getStudySite().getSite().getName()+"%"));
+		if(registration.getStudySite().getHealthcareSite().getName() != null && !registration.getStudySite().getHealthcareSite().getName().equals("")){
+			siteCriteria.add(Expression.like("name", "%"+registration.getStudySite().getHealthcareSite().getName()+"%"));
 		}
-		if(registration.getStudySite().getSite().getNciInstituteCode() != null && !registration.getStudySite().getSite().getNciInstituteCode().equals("")){
-			siteCriteria.add(Expression.like("nciInstituteCode", "%"+registration.getStudySite().getSite().getNciInstituteCode()+"%"));
+		if(registration.getStudySite().getHealthcareSite().getNciInstituteCode() != null && !registration.getStudySite().getHealthcareSite().getNciInstituteCode().equals("")){
+			siteCriteria.add(Expression.like("nciInstituteCode", "%"+registration.getStudySite().getHealthcareSite().getNciInstituteCode()+"%"));
 		}
 					
 		//registration criteria

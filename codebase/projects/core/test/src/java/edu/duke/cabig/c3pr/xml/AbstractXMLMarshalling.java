@@ -141,7 +141,7 @@ public abstract class AbstractXMLMarshalling extends ApplicationTestCase {
 
         StudySite studySite = new StudySite();
         studyObject.addStudySite(studySite);
-        studySite.setSite(healthcaresite); //
+        studySite.setHealthcareSite(healthcaresite); //
         studySite.setStartDate(new Date());
         studySite.setIrbApprovalDate(new Date());
         studySite.setRoleCode("role");

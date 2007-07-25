@@ -60,7 +60,7 @@ public class RegistrationMarshallingTestCase extends AbstractXMLMarshalling {
 
         HealthcareSite site = new HealthcareSite();
         site.setGridId(siteGridId);
-        studySite.setSite(site);
+        studySite.setHealthcareSite(site);
 
         Study study = new Study();
         study.setGridId(studyGridId);
@@ -124,7 +124,7 @@ public class RegistrationMarshallingTestCase extends AbstractXMLMarshalling {
 
             assertNotNull(unmarshalledRegistration.getParticipant());
 
-            assertEquals(unmarshalledRegistration.getStudySite().getSite().getGridId(), siteGridId);
+            assertEquals(unmarshalledRegistration.getStudySite().getHealthcareSite().getGridId(), siteGridId);
             assertEquals(unmarshalledRegistration.getStudySite().getStudy().getGridId(), studyGridId);
 
         } catch (XMLUtilityException e) {

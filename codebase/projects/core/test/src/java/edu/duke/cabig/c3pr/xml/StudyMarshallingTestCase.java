@@ -1,15 +1,22 @@
 package edu.duke.cabig.c3pr.xml;
 
-import edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria;
-import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
-import edu.duke.cabig.c3pr.domain.Study;
-import gov.nih.nci.common.exception.XMLUtilityException;
-
 import java.io.ByteArrayInputStream;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.StratificationCriterion;
+import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudySite;
+import gov.nih.nci.common.exception.XMLUtilityException;
 
 
 /**
@@ -40,13 +47,15 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
     /**
      * @throws Throwable
      * @Test main test method. Runs methods in a sequence.
+     *
      */
-    public void testSerializationDeserializationTest() {
+    public void testSerializationDeserializationTest(){
         //have to be run in order
         studySerializationTest();
         schemaValidationTest();
         studyDeserializationTest();
     }
+
 
 
     private void studySerializationTest() {
@@ -65,7 +74,7 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
      */
     private void schemaValidationTest() {
 
-        try {
+        try{
             //validate the marshalled message
             byte[] messageBytes = marshalledStudy.getBytes();
             parser.parse(new ByteArrayInputStream(messageBytes), new MyHandler());
@@ -93,10 +102,11 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
     }
 
 
-    private List<InclusionEligibilityCriteria> getInclusionEligibilityCriterias() {
+
+    private List<InclusionEligibilityCriteria> getInclusionEligibilityCriterias(){
         List<InclusionEligibilityCriteria> criterias = new ArrayList<InclusionEligibilityCriteria>();
 
-        for (int i = 0; i <= 2; i++) {
+        for(int i =0; i<=2;i++){
             InclusionEligibilityCriteria criteria = new InclusionEligibilityCriteria();
             criteria.setGridId(strValue);
             criteria.setName(strValue);
@@ -107,10 +117,10 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
         return criterias;
     }
 
-    private List<ExclusionEligibilityCriteria> getExclusionEligibilityCriterias() {
+    private List<ExclusionEligibilityCriteria> getExclusionEligibilityCriterias(){
         List<ExclusionEligibilityCriteria> criterias = new ArrayList<ExclusionEligibilityCriteria>();
 
-        for (int i = 1; i <= 2; i++) {
+        for(int i =1; i<=2;i++){
             ExclusionEligibilityCriteria criteria = new ExclusionEligibilityCriteria();
             criteria.setGridId(strValue);
             criteria.setName(strValue);
@@ -120,6 +130,70 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
         }
         return criterias;
     }
+
+
+    /**
+     * Will create a dummy study for the provided gridId
+     * @param gridId
+     * @return
+     */
+    protected Study createDummyStudy(String gridId){
+        Study studyObject = new Study();
+
+        studyObject.setGridId(gridId);
+        studyObject.setShortTitleText(strValue);
+        studyObject.setRandomizedIndicator(strValue);
+        studyObject.setMultiInstitutionIndicator(strValue);
+        studyObject.setLongTitleText(strValue);
+        studyObject.setPhaseCode(strValue);
+        studyObject.setPrecisText(strValue);
+        studyObject.setStatus(strValue);
+        studyObject.setStatus(strValue);
+        studyObject.setType(strValue);
+        studyObject.setTargetAccrualNumber(intValue);
+        studyObject.setVersion(intValue);
+
+        studyObject.setDescriptionText(strValue);
+
+        StudySite studySiteObject = new StudySite();
+        studySiteObject.setGridId(strValue);
+        studySiteObject.setIrbApprovalDate(dateValue);
+        studySiteObject.setRoleCode(strValue);
+
+        Identifier identifierObject = new Identifier();
+        identifierObject.setSource(strValue);
+        identifierObject.setType(strValue);
+
+        studyObject.addIdentifier(identifierObject);
+        studyObject.addStudySite(studySiteObject);
+
+        studyObject.addEpoch(Epoch.create("Screening"));
+        studyObject.addEpoch(Epoch.create("Treatment", "Arm A", "Arm B", "Arm C"));
+        studyObject.addEpoch(Epoch.create("Follow up"));
+
+        // healthcare site
+        HealthcareSite healthcaresite = new HealthcareSite();
+
+        healthcaresite.setAddress(getAddress());
+        healthcaresite.setName("duke healthcare");
+        healthcaresite.setDescriptionText("duke healthcare");
+        healthcaresite.setNciInstituteCode("Nci duke");
+
+        StudySite studySite = new StudySite();
+        studyObject.addStudySite(studySite);
+        studySite.setHealthcareSite(healthcaresite); //
+        studySite.setStartDate(new Date());
+        studySite.setIrbApprovalDate(new Date());
+        studySite.setRoleCode("role");
+        studySite.setStatusCode("active");
+
+        StratificationCriterionPermissibleAnswer ans = new StratificationCriterionPermissibleAnswer();
+        ans.setPermissibleAnswer("it is valid");
+        StratificationCriterionPermissibleAnswer ans2 = new StratificationCriterionPermissibleAnswer();
+        ans.setPermissibleAnswer("it is valid");
+        return studyObject;
+    }
+
 
 
 }

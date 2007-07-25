@@ -16,16 +16,16 @@
     <ORGANIZATIONS id="1000" version="1" name="duke healthcare" description_text="duke healthcare" address_id="1000" nci_institute_code="code" />
     <ORGANIZATIONS id="1001" version="1" name="duke healthcare" description_text="duke healthcare" address_id="1001" nci_institute_code="code" />   
     
-    <STUDY_SITES id="1000" version="1" irb_approval_date="01-01-2000" role_code="role" status_code="active" start_date="01-01-2001" end_date="01-01-2002" study_id="1000"
-    hcs_id="1000" />
-    <STUDY_SITES id="1001" version="1" irb_approval_date="01-01-2000" role_code="role2" status_code="inactive" start_date="01-01-2001" end_date="01-01-2002" study_id="1000"
-    hcs_id="1001" />
-    <STUDY_SITES id="1002" version="1" irb_approval_date="01-01-2000" role_code="role" status_code="active" start_date="01-01-2001" end_date="01-01-2002" study_id="1001"
-    hcs_id="1000" />
-    <STUDY_SITES id="1003" version="1" irb_approval_date="01-01-2000" role_code="role2" status_code="inactive" start_date="01-01-2001" end_date="01-01-2002" study_id="1001"
-    hcs_id="1001" />
-    <STUDY_SITES id="1010" version="1" irb_approval_date="01-01-2000" role_code="role2" status_code="inactive" start_date="01-01-2001" end_date="01-01-2002" study_id="1000"
-    hcs_id="1001" />
+    <STUDY_ORGANIZATIONS id="1000" version="1" irb_approval_date="01-01-2000" role_code="role" status_code="active" start_date="01-01-2001" end_date="01-01-2002" study_id="1000"
+    hcs_id="1000" type="SST"/>
+    <STUDY_ORGANIZATIONS id="1001" version="1" irb_approval_date="01-01-2000" role_code="role2" status_code="inactive" start_date="01-01-2001" end_date="01-01-2002" study_id="1000"
+    hcs_id="1001" type="SST"/>
+    <STUDY_ORGANIZATIONS id="1002" version="1" irb_approval_date="01-01-2000" role_code="role" status_code="active" start_date="01-01-2001" end_date="01-01-2002" study_id="1001"
+    hcs_id="1000" type="SST"/>
+    <STUDY_ORGANIZATIONS id="1003" version="1" irb_approval_date="01-01-2000" role_code="role2" status_code="inactive" start_date="01-01-2001" end_date="01-01-2002" study_id="1001"
+    hcs_id="1001" type="SST"/>
+    <STUDY_ORGANIZATIONS id="1010" version="1" irb_approval_date="01-01-2000" role_code="role2" status_code="inactive" start_date="01-01-2001" end_date="01-01-2002" study_id="1000"
+    hcs_id="1001" type="SST"/>
         
     <EPOCHS id="1000" version="1" name="Treatment1000" description_text="treatement desc" stu_id="1000" type="TREATMENT"/>
     <EPOCHS id="1001" version="1" name="Treatment1001" description_text="cancer desc" stu_id="1000" type="TREATMENT" />
@@ -58,9 +58,9 @@
     <HC_SITE_INVESTIGATORS id="1002" version="1" status_code="ACTIVE" status_date="01-01-2000" inv_id="1002" hcs_id="1001"/>
     <HC_SITE_INVESTIGATORS id="1003" version="1" status_code="INACTIVE" status_date="01-01-2000" inv_id="1003" hcs_id="1001"/>
     
-    <STUDY_INVESTIGATORS id="1000" version="1" hsi_id="1000" sts_id="1000" start_date="01-01-2000" end_date="01-01-2000" role_code="role1" status_code="Active"/>
-    <STUDY_INVESTIGATORS id="1001" version="1" hsi_id="1001" sts_id="1000" start_date="01-01-2000" end_date="01-01-2000" role_code="role2" status_code="Active"/>
-    <STUDY_INVESTIGATORS id="1002" version="1" hsi_id="1001" sts_id="1010" start_date="01-01-2000" end_date="01-01-2000" role_code="role2" status_code="Active"/>    
+    <STUDY_INVESTIGATORS id="1000" version="1" hsi_id="1000" sto_id="1000" start_date="01-01-2000" end_date="01-01-2000" role_code="role1" status_code="Active"/>
+    <STUDY_INVESTIGATORS id="1001" version="1" hsi_id="1001" sto_id="1000" start_date="01-01-2000" end_date="01-01-2000" role_code="role2" status_code="Active"/>
+    <STUDY_INVESTIGATORS id="1002" version="1" hsi_id="1001" sto_id="1010" start_date="01-01-2000" end_date="01-01-2000" role_code="role2" status_code="Active"/>    
     
     <DISEASE_CATEGORIES id="1000" version="1" name="AIDS-related Human Papillomavirus"/>
     
@@ -85,8 +85,8 @@
 
     <DISEASE_HISTORY id="1000" version="1"/>
 
-    <STUDY_SUBJECTS id="1000" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="1000" sts_id="1000" sti_id="1000"/>
-    <STUDY_SUBJECTS id="1001" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="1000" sts_id="1000" sti_id="1001"/>
+    <STUDY_SUBJECTS id="1000" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="1000" sto_id="1000" sti_id="1000"/>
+    <STUDY_SUBJECTS id="1001" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="1000" sto_id="1000" sti_id="1001"/>
 
     <SCHEDULED_EPOCHS id="1000" version="1" start_date="01-01-2000" eligibility_indicator="true" ELIGIBILITY_WAIVER_REASON_TEXT="reason" spa_id="1000" type="TREATMENT" eph_id="1000"/>  
 

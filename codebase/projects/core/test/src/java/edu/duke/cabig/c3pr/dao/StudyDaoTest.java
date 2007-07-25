@@ -20,7 +20,9 @@ import edu.duke.cabig.c3pr.domain.NonTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
+import edu.duke.cabig.c3pr.domain.StudyFundingSponsor;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySite;
@@ -204,7 +206,7 @@ public class StudyDaoTest extends DaoTestCase {
 
 			// Study Site
 			StudySite studySite = new StudySite();
-			studySite.setSite(hcsiteloaded);
+			studySite.setHealthcareSite(hcsiteloaded);
 			studySite.setRoleCode("role");
 			studySite.setStatusCode("active");
 
@@ -222,7 +224,7 @@ public class StudyDaoTest extends DaoTestCase {
 			// Stratifications
 			StratificationCriterionPermissibleAnswer ans = new StratificationCriterionPermissibleAnswer();
 			ans.setPermissibleAnswer("it is valid");
-
+	
 			dao.save(study);
 
 			savedId = study.getId();
@@ -237,6 +239,21 @@ public class StudyDaoTest extends DaoTestCase {
 			assertEquals("Wrong name", "ShortTitleText", loaded
 					.getShortTitleText());
 		}
+	}
+	
+	/**
+	 * Test for retrieving all study sites associated with this Study
+	 * 
+	 * @throws Exception
+	 */
+	
+	public void testGetStudySites() throws Exception {
+		Study study = dao.getById(1000);
+		List<StudySite> sites = study.getStudySites();
+		assertEquals("Wrong number of study sites", 1, sites.size());
+		List<Integer> ids = collectIds(sites);
+
+		assertContains("Missing expected study site", ids, 1000);
 	}
 
 	/**
@@ -354,7 +371,7 @@ public class StudyDaoTest extends DaoTestCase {
 		// Study Site
 		StudySite studySite = new StudySite();
 		study.addStudySite(studySite);
-		studySite.setSite(healthcaresite); //
+		studySite.setHealthcareSite(healthcaresite); //
 		studySite.setStartDate(new Date());
 		studySite.setIrbApprovalDate(new Date());
 		studySite.setRoleCode("role");
@@ -657,5 +674,134 @@ public class StudyDaoTest extends DaoTestCase {
 		}
 
 	}
-*/
+		
+	/**
+	 * Test for retrieving all study funding sponsors associated with this Study
+	 * 
+	 * @throws Exception
+	 */
+	public void testGetStudyFundingSponsors() throws Exception {
+		Study study = dao.getById(1000);
+		List<StudyFundingSponsor> sponsors = study.getStudyFundingSponsors();
+		assertEquals("Wrong number of study funding sponsors", 1, sponsors.size());
+		System.out.println("Study funding sponsor is: "+sponsors.get(0).getHealthcareSite().getName());
+		List<Integer> ids = collectIds(sponsors);
+
+		assertContains("Missing expected study funding sponsor", ids, 1001);
+	}
+	
+	/**
+	 * Test for retrieving all study coordinating centers associated with this Study
+	 * 
+	 * @throws Exception
+	 */
+	public void testGetStudyCoordinatingCenters() throws Exception {
+		Study study = dao.getById(1000);
+		List<StudyCoordinatingCenter> centers = study.getStudyCoordinatingCenters();
+		assertEquals("Wrong number of study coordinating centers", 1, centers.size());
+		List<Integer> ids = collectIds(centers);
+
+		assertContains("Missing expected study funding sponsor", ids, 1004);
+	}
+	
+	public void testSaveNewStudyWithFundingSponsor() throws Exception {
+		Integer savedId;
+		{
+			HealthcareSite sponsor = healthcareSitedao.getById(1001);
+			HealthcareSite site = healthcareSitedao.getById(1000);
+			
+			
+			Study study = new Study();
+			study.setShortTitleText("ShortTitleText");
+			study.setLongTitleText("LongTitleText");
+			study.setPhaseCode("PhaseCode");
+			study.setStatus("Status");
+			study.setTargetAccrualNumber(150);
+			study.setType("Type");
+			study.setMultiInstitutionIndicator("true");
+			
+			
+			// Study Site
+			StudySite studySite = new StudySite();
+			studySite.setHealthcareSite(site);
+			studySite.setRoleCode("role");
+			studySite.setStatusCode("active");
+			
+			study.addStudySite(studySite);
+			
+			// Study funding sponsor
+			StudyFundingSponsor fundingSponsor = new StudyFundingSponsor();
+			fundingSponsor.setHealthcareSite(sponsor);
+			study.addStudyOrganization(fundingSponsor);
+			
+			dao.save(study);
+			
+			savedId = study.getId();
+			assertNotNull("The saved study didn't get an id", savedId);
+		}
+
+		interruptSession();
+		{
+			Study loaded = dao.getById(savedId);
+			assertNotNull("Could not reload study with id " + savedId, loaded);
+			// assertNotNull("GridId not updated", loaded.getGridId());
+			assertEquals("Wrong name", "ShortTitleText", loaded.getShortTitleText());
+			assertEquals("Wrong study funding sponsor", "National Cancer Institute", loaded.getStudyFundingSponsors().get(0).getHealthcareSite().getName());
+		}
+	}
+	
+	public void testSaveNewStudyWithCoordinatingCenter() throws Exception {
+		Integer savedId;
+		{
+			HealthcareSite sponsor = healthcareSitedao.getById(1001);
+			HealthcareSite site = healthcareSitedao.getById(1000);
+			HealthcareSite center = healthcareSitedao.getById(1002);
+			
+			
+			Study study = new Study();
+			study.setShortTitleText("ShortTitleText");
+			study.setLongTitleText("LongTitleText");
+			study.setPhaseCode("PhaseCode");
+			study.setStatus("Status");
+			study.setTargetAccrualNumber(150);
+			study.setType("Type");
+			study.setMultiInstitutionIndicator("true");
+			
+			
+			// Study Site
+			StudySite studySite = new StudySite();
+			studySite.setHealthcareSite(site);
+			studySite.setRoleCode("role");
+			studySite.setStatusCode("active");
+			
+			study.addStudySite(studySite);
+			
+			// Study funding sponsor
+			StudyFundingSponsor fundingSponsor = new StudyFundingSponsor();
+			fundingSponsor.setHealthcareSite(sponsor);
+			study.addStudyOrganization(fundingSponsor);
+			
+			// Study coordinating center
+			StudyCoordinatingCenter coCenter = new StudyCoordinatingCenter();
+			coCenter.setHealthcareSite(center);
+			study.addStudyOrganization(coCenter);
+			
+			dao.save(study);
+			
+			savedId = study.getId();
+			assertNotNull("The saved study didn't get an id", savedId);
+		}
+
+		interruptSession();
+		{
+			Study loaded = dao.getById(savedId);
+			assertNotNull("Could not reload study with id " + savedId, loaded);
+			// assertNotNull("GridId not updated", loaded.getGridId());
+			assertEquals("Wrong name", "ShortTitleText", loaded.getShortTitleText());
+			assertEquals("Wrong study funding sponsor", "National Cancer Institute", loaded.getStudyFundingSponsors().get(0).getHealthcareSite().getName());
+			assertEquals("Wrong study coordinating center", "CALGB", loaded.getStudyCoordinatingCenters().get(0).getHealthcareSite().getName());
+		}
+	}
+
+
 }
