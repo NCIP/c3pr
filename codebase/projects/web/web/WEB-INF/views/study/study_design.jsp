@@ -218,7 +218,7 @@
 							<b>Name:</b>&nbsp;</th>
 							<td align="left"><input type="text"
 								name="treatmentEpochs[PAGE.ROW.INDEX].name" size="50"
-								cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
+								class="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
 						</tr>
 						<tr>
 							<th align="right" class="alt"><em></em> <b>Description:</b>&nbsp;</th>
@@ -251,10 +251,10 @@
 	<tr>
 		<td class="alt"><input type="text"
 			name="treatmentEpochs[PAGE.ROW.INDEX].arms[NESTED.PAGE.ROW.INDEX].name"
-			cssClass="validate-notEmpty" value="Arm A" /></td>
+			class="validate-notEmpty" value="Arm A" /></td>
 		<td class="alt"><input type="text"
 			name="treatmentEpochs[PAGE.ROW.INDEX].arms[NESTED.PAGE.ROW.INDEX].targetAccrualNumber"
-			size="12" maxlength="10" cssClass="validate-numeric" /></td>
+			size="12" maxlength="10" class="validate-numeric" /></td>
 		<td class="alt"><a
 			href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(treatmentEpochRowInserterProps,PAGE.ROW.INDEX),NESTED.PAGE.ROW.INDEX);"><img
 			src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
@@ -272,7 +272,7 @@
 			<div class="label">*Name:</div>
 			<div class="value"><input type="text" size="50"
 				name="nonTreatmentEpochs[PAGE.ROW.INDEX].name"
-				cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span></div>
+				class="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span></div>
 			</div>
 
 			<div class="row">
@@ -288,7 +288,7 @@
 			<div class="label">Accrual Indicator:</div>
 			<div class="value"><select
 				name="nonTreatmentEpochs[PAGE.ROW.INDEX].accrualIndicator"
-				cssClass="validate-notEmpty">
+				class="validate-notEmpty">
 				<option value="">--Please Select--</option>
 				<option value="Yes">Yes</option>
 				<option value="No">No</option>
@@ -300,7 +300,7 @@
 			<div class="value"><input type="text"
 				id="nonTreatmentEpochs[PAGE.ROW.INDEX].accrualCeiling"
 				name="nonTreatmentEpochs[PAGE.ROW.INDEX].accrualCeiling" size="12"
-				maxlength="10" cssClass="validate-numeric" /></div>
+				maxlength="10" class="validate-numeric" /></div>
 			</div>
 
 			<div class="row">
@@ -308,7 +308,7 @@
 			<div class="value"><select
 				id="nonTreatmentEpochs[PAGE.ROW.INDEX].enrollmentIndicator"
 				name="nonTreatmentEpochs[PAGE.ROW.INDEX].enrollmentIndicator"
-				cssClass="validate-notEmpty">
+				class="validate-notEmpty">
 				<option value="">--Please Select--</option>
 				<option value="Yes">Yes</option>
 				<option value="No">No</option>
@@ -320,7 +320,7 @@
 			<div class="value"><select
 				id="nonTreatmentEpochs[PAGE.ROW.INDEX].reservationIndicator"
 				name="nonTreatmentEpochs[PAGE.ROW.INDEX].reservationIndicator"
-				cssClass="validate-notEmpty">
+				class="validate-notEmpty">
 				<option value="">--Please Select--</option>
 				<option value="Yes">Yes</option>
 				<option value="No">No</option>
