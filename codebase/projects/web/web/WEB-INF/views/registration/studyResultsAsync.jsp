@@ -47,7 +47,7 @@ function toggleImage(id){
 							new Element.toggle('studySites-table-${statusStudy.index }');toggleImage('image-open-${statusStudy.index }');
 						</c:when>
 						<c:otherwise>
-							postProcessStudySelection('${study.studySites[0].id}', '${study.studySites[0].site.name}','${study.shortTitleText}');
+							postProcessStudySelection('${study.studySites[0].id}', '${study.studySites[0].healthcareSite.name}','${study.shortTitleText}');
 						</c:otherwise>
 					</c:choose>
 				">
@@ -80,8 +80,8 @@ function toggleImage(id){
 							<% String currClassJ=j%2==0? "odd":"even"; %>
 								<tr align="center" id="row<%= j++ %>" class="<%= currClass %>" onMouseOver="this.className='highlight'"
 								onMouseOut="this.className='<%= currClass %>'" 
-								onClick="postProcessStudySelection('${site.id}','${site.site.name}','${study.shortTitleText}')">
-									<td>${site.site.name}</td>
+								onClick="postProcessStudySelection('${site.id}','${site.healthcareSite.name}','${study.shortTitleText}')">
+									<td>${site.healthcareSite.name}</td>
 									<td>${site.irbApprovalDateStr==null?'01/01/1970':site.irbApprovalDateStr}</td>
 								</tr>
 							</c:forEach>
