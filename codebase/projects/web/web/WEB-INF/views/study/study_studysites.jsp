@@ -68,8 +68,8 @@
                 <c:forEach items="${command.studySites}" varStatus="status">
                     <tr id="mytable-${status.index}">
                         <td class="alt">
-                            <form:select id="studySites[${status.index}].site"
-                                         path="studySites[${status.index}].site.id" cssClass="validate-notEmpty">
+                            <form:select id="studySites[${status.index}].healthcareSite"
+                                         path="studySites[${status.index}].healthcareSite.id" cssClass="validate-notEmpty">
                                 <option value="">--Please Select--</option>
                                 <form:options items="${healthCareSites}" itemLabel="name" itemValue="id"/>
                             </form:select></td>
@@ -112,12 +112,12 @@
     <table>
         <tr id="mytable-PAGE.ROW.INDEX">
             <td class="alt">
-                <select id="studySites[PAGE.ROW.INDEX].site"
-                        name="studySites[PAGE.ROW.INDEX].site"
+                <select id="studySites[PAGE.ROW.INDEX].healthcareSite"
+                        name="studySites[PAGE.ROW.INDEX].healthcareSite"
                         class="validate-notEmpty">
                     <option value="">--Please Select--</option>
-                    <c:forEach items="${healthCareSites}" var="site">
-                        <option value="${site.id}">${site.name}</option>
+                    <c:forEach items="${healthCareSites}" var="healthcareSite">
+                        <option value="${healthcareSite.id}">${healthcareSite.name}</option>
                     </c:forEach>
                 </select>
             </td>
