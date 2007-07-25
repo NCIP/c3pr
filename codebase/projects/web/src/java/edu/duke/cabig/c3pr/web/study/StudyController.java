@@ -3,12 +3,14 @@ package edu.duke.cabig.c3pr.web.study;
 import edu.duke.cabig.c3pr.dao.*;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.RowManager;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
+import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.NullIdDaoBasedEditor;
 import edu.duke.cabig.c3pr.web.beans.DefaultObjectPropertyReader;
 import gov.nih.nci.cabig.ctms.web.tabs.AutomaticSaveFlowFormController;
@@ -120,6 +122,7 @@ public abstract class StudyController<C extends Study> extends AutomaticSaveFlow
                 new NullIdDaoBasedEditor(healthcareSiteInvestigatorDao));
         binder.registerCustomEditor(researchStaffDao.domainClass(),
                 new NullIdDaoBasedEditor(researchStaffDao));
+        binder.registerCustomEditor(RandomizationType.class, new EnumByNameEditor(RandomizationType.class));
     }
 
 
