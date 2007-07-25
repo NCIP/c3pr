@@ -104,14 +104,14 @@ var submitPostProcess= function(formElement, continueSubmission){
 			<table width="50%" border="0" cellspacing="0" cellpadding="0" id="mytable">
 				<tr>
 					<td width="25%" class="labelR"> Name:</td>
-					<td>${command.studySite.site.name}</td>
+					<td>${command.studySite.healthcareSite.name}</td>
 				</tr>
 				<tr>
 					<td class="labelR">Address:</td>
-					<td>${command.studySite.site.address.streetAddress},
-					${command.studySite.site.address.city},
-					${command.studySite.site.address.stateCode},
-					${command.studySite.site.address.postalCode}</td>
+					<td>${command.studySite.healthcareSite.address.streetAddress},
+					${command.studySite.healthcareSite.address.city},
+					${command.studySite.healthcareSite.address.stateCode},
+					${command.studySite.healthcareSite.address.postalCode}</td>
 				</tr>
 				<tr>
 					<td class="labelR"> Status Code:</td>
@@ -119,7 +119,7 @@ var submitPostProcess= function(formElement, continueSubmission){
 				</tr>
 				<tr>
 					<td class="labelR"> NCI Institution Code:</td>
-					<td>${command.studySite.site.nciInstituteCode}</td>
+					<td>${command.studySite.healthcareSite.nciInstituteCode}</td>
 				</tr>
 				<tr>
 					<td class="labelR">IRB Approval Date:</td>

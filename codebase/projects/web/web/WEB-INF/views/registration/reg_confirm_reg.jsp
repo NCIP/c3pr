@@ -87,7 +87,7 @@ function accessApp(url,app,targetWindow){
 								</tr>
 								<tr>
 									<td class="label">Site:</td>
-									<td>${command.studySite.site.name}</td>
+									<td>${command.studySite.healthcareSite.name}</td>
 								</tr>
 								<tr>
 									<td class="label">Treating Physician:</td>
