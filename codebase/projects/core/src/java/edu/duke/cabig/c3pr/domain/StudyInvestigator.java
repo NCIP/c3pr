@@ -79,7 +79,7 @@ public class StudyInvestigator extends AbstractMutableDomainObject {
 	}
 		
 	@ManyToOne
-    @JoinColumn(name = "sts_id")    	
+    @JoinColumn(name = "sto_id")    	
 	public StudySite getStudySite() {
 		return studySite;
 	}
