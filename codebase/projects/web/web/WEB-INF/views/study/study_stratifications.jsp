@@ -104,7 +104,7 @@
 	    <td class="alt">
 	        <input type="hidden" name="treatmentEpochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].questionNumber"/>
 	        <textarea name="treatmentEpochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].questionText" rows="1"
-	                       cols="60" cssClass="validate-notEmpty"></textarea>
+	                       cols="60" class="validate-notEmpty"></textarea>
 	    </td>
 	    <td class="alt"><a href="javascript:RowManager.addRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},PAGE.ROW.INDEX));">
 	        <img src="<tags:imageUrl name="checkyes.gif"/>" border="0"></a></td>
@@ -117,7 +117,7 @@
                 <tr id="table1-0">
                     <td class="alt">
                         <input type="text" name="treatmentEpochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers[0].permissibleAnswer"
-                                size="30" cssClass="validate-notEmpty"/></td>
+                                size="30" class="validate-notEmpty"/></td>
                     <td class="alt"><a
                             href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},PAGE.ROW.INDEX),0);">
                         <img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
@@ -132,7 +132,7 @@
 	<tr>
 	    <td class="alt">
 	        <input type="text" name="treatmentEpochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers[NESTED.PAGE.ROW.INDEX].permissibleAnswer"
-	                size="30" cssClass="validate-notEmpty"/></td>
+	                size="30" class="validate-notEmpty"/></td>
 	    <td class="alt"><a
 	            href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},PAGE.ROW.INDEX),NESTED.PAGE.ROW.INDEX);">
 	        <img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>

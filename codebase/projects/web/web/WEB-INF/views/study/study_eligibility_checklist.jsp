@@ -112,7 +112,7 @@ function displayDiv(id, flag) {
 										path="epochs[${epochCount.index }].inclusionEligibilityCriteria[${status.index}].notApplicableIndicator" />
 									</td>
 									<td class="alt"><a
-										href="javascript:RowManager.deleteRow(instanceInclusionRow_${epochCount.index},PAGE.ROW.INDEX);"><img
+										href="javascript:RowManager.deleteRow(instanceInclusionRow_${epochCount.index},${status.index});"><img
 										src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 								</tr>
 							</c:forEach>
@@ -145,7 +145,7 @@ function displayDiv(id, flag) {
 										path="epochs[${epochCount.index }].exclusionEligibilityCriteria[${status.index}].notApplicableIndicator" />
 									</td>
 									<td class="alt"><a
-										href="javascript:RowManager.deleteRow(instanceExclusionRow_${epochCount.index},PAGE.ROW.INDEX);"><img
+										href="javascript:RowManager.deleteRow(instanceExclusionRow_${epochCount.index},${status.index});"><img
 										src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 								</tr>
 							</c:forEach>
@@ -170,7 +170,7 @@ function displayDiv(id, flag) {
 				<textarea
 					id="epochs[${epochCount.index }].inclusionEligibilityCriteria[PAGE.ROW.INDEX].questionText"
 					name="epochs[${epochCount.index }].inclusionEligibilityCriteria[PAGE.ROW.INDEX].questionText"
-					rows="1" cols="80" cssClass="validate-notEmpty"></textarea></td>
+					rows="1" cols="80" class="validate-notEmpty"></textarea></td>
 			<td class="alt" align="left"><input type="checkbox"
 				id="epochs[${epochCount.index }].inclusionEligibilityCriteria[PAGE.ROW.INDEX].notApplicableIndicator"
 				name="epochs[${epochCount.index }].inclusionEligibilityCriteria[PAGE.ROW.INDEX].notApplicableIndicator" />
@@ -190,7 +190,7 @@ function displayDiv(id, flag) {
 				<textarea
 					id="epochs[${epochCount.index }].exclusionEligibilityCriteria[PAGE.ROW.INDEX].questionText"
 					name="epochs[${epochCount.index }].exclusionEligibilityCriteria[PAGE.ROW.INDEX].questionText"
-					rows="1" cols="80" cssClass="validate-notEmpty"></textarea></td>
+					rows="1" cols="80" class="validate-notEmpty"></textarea></td>
 			<td class="alt" align="left"><input type="checkbox"
 				id="epochs[${epochCount.index }].exclusionEligibilityCriteria[PAGE.ROW.INDEX].notApplicableIndicator"
 				name="epochs[${epochCount.index }].exclusionEligibilityCriteria[PAGE.ROW.INDEX].notApplicableIndicator" />
