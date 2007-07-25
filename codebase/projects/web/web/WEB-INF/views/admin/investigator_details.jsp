@@ -65,7 +65,7 @@ rowInserters.push(instanceRowInserterProps);
 							<table border="0" width="100%" cellspacing="0" cellpadding="0">
 								<tr>
 									<td>
-									<p id="instructions">Please choose healthcare site(s) for the
+									<p id="instructions">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Please choose healthcare site(s) for the
 									Investigator <a
 										href="javascript:RowManager.addRow(instanceRowInserterProps);"><img
 										src="<tags:imageUrl name="checkyes.gif"/>" border="0"
@@ -120,7 +120,7 @@ rowInserters.push(instanceRowInserterProps);
 										</tr>
 										<tr>
 											<td align="right"><span class="red">*</span><em></em> <b>First
-											Name: &nbsp;</b></td>
+											Name:&nbsp;</b></td>
 											<td align="left"><form:input path="firstName" size="25"
 												cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
 										</tr>
@@ -131,13 +131,14 @@ rowInserters.push(instanceRowInserterProps);
 												cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
 										</tr>
 										<tr>
+											<td align="right"><em></em> <b>Middle Name:</b>&nbsp;</td>
+											<td align="left"><form:input path="middleName" size="25" />&nbsp;&nbsp;&nbsp;</td>
+										</tr>
+										<tr>
 											<td align="right"><em></em> <b>Maiden Name:</b>&nbsp;</td>
 											<td align="left"><form:input path="maidenName" size="25" />&nbsp;&nbsp;&nbsp;</td>
 										</tr>
-										<tr>
-											<td align="right"><em></em><em></em> <b>NCI Identifier:</b>&nbsp;</td>
-											<td align="left"><form:input path="nciIdentifier" size="25" />&nbsp;&nbsp;&nbsp;</td>
-										</tr>
+										
 									</table>
 									</td>
 									<td width="350" valign="top">
@@ -146,8 +147,12 @@ rowInserters.push(instanceRowInserterProps);
 										<tr>
 											<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
 												height="1" class="heightControl"></td>
-											<td width="75%"><img src="<tags:imageUrl name="spacer.gif"/>"
+											<td width="70%"><img src="<tags:imageUrl name="spacer.gif"/>"
 												width="1" height="1" class="heightControl"></td>
+										</tr>
+										<tr>
+											<td align="right"><em></em><em></em> <b>NCI Identifier:</b>&nbsp;</td>
+											<td align="left"><form:input path="nciIdentifier" size="25" />&nbsp;&nbsp;&nbsp;</td>
 										</tr>
 										<tr>
 											<td align="right"><em></em><em></em> <b>${command.contactMechanisms[0].type
