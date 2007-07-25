@@ -21,15 +21,13 @@ import java.util.List;
  *
  */
 @Entity
-@Table (name = "study_sites")
-@GenericGenerator(name="id-generator", strategy = "native",
-        parameters = {
-        @Parameter(name="sequence", value="STUDY_SITES_ID_SEQ")
-                }
-)
-public class StudySite extends AbstractMutableDomainObject implements Comparable<StudySite>{
-    private HealthcareSite site;
-    private Study study;
+@DiscriminatorValue(value = "SST")
+// @Table (name = "study_sites")
+//@GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "STUDY_SITES_ID_SEQ") })
+public class StudySite extends StudyOrganization implements
+		Comparable<StudySite> {
+//    private HealthcareSite site;
+//    private Study study;
     private Date irbApprovalDate = Calendar.getInstance().getTime();
     private String roleCode;
     private String statusCode;
@@ -79,27 +77,27 @@ public class StudySite extends AbstractMutableDomainObject implements Comparable
 
     /// BEAN PROPERTIES
 
-    public void setSite(HealthcareSite site) {
+  /*  public void setSite(HealthcareSite site) {
         this.site = site;
-    }
+    }*/
 
-    @ManyToOne
+  /*  @ManyToOne
     @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     @JoinColumn(name = "hcs_id", nullable=false)
     public HealthcareSite getSite() {
         return site;
-    }
+    }*/
 
-    public void setStudy(Study study) {
+   /* public void setStudy(Study study) {
         this.study = study;
     }
-
-    @ManyToOne
+*/
+   /* @ManyToOne
     @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     @JoinColumn(name = "study_id", nullable=false)
     public Study getStudy() {
         return study;
-    }
+    }*/
 
     public void setStudySubjects(List<StudySubject> studySubjects) {
         this.studySubjects = studySubjects;
@@ -224,14 +222,14 @@ public class StudySite extends AbstractMutableDomainObject implements Comparable
         if (!(obj instanceof StudySite)) return false;
         final StudySite studySite = (StudySite) obj;
         Study study = studySite.getStudy();
-        HealthcareSite site = studySite.getSite();
-        if (!getSite().equals(site)) return false;
+        HealthcareSite site = studySite.getHealthcareSite();
+        if (!getHealthcareSite().equals(site)) return false;
         return true;
     }
 
     public int hashCode() {
         int result;
-        result = (site != null ? site.hashCode() : 0);
+        result = (getHealthcareSite() != null ? getHealthcareSite().hashCode() : 0);
         result = 29 * result + (studySubjects != null ? studySubjects.hashCode() : 0);
         return result;
     }
