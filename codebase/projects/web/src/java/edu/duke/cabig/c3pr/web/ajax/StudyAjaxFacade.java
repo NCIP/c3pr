@@ -74,7 +74,7 @@ public class StudyAjaxFacade {
     public List<HealthcareSiteInvestigator> matchSiteInvestigators(String text, int siteIndex, 
     		HttpServletRequest request) throws Exception{
     	Study study = (Study) getCommandOnly(request);
-    	int siteId = study.getStudySites().get(siteIndex).getSite().getId();
+    	int siteId = study.getStudySites().get(0).getHealthcareSite().getId();
     	List<HealthcareSiteInvestigator> inv = healthcareSiteInvestigatorDao
         	.getBySubnames(extractSubnames(text), siteId);
         List<HealthcareSiteInvestigator> reducedInv = new ArrayList<HealthcareSiteInvestigator>(inv.size());
@@ -89,7 +89,7 @@ public class StudyAjaxFacade {
     public List<StudyPersonnel> matchStudyPersonnels(String text, int siteIndex, 
     		HttpServletRequest request) throws Exception{
     	Study study = (Study) getCommandOnly(request);
-    	int siteId = study.getStudySites().get(siteIndex).getSite().getId();
+    	int siteId = study.getStudySites().get(siteIndex).getHealthcareSite().getId();
     	List<StudyPersonnel> personnel = studyPersonnelDao.getBySubnames(extractSubnames(text), siteId);
         List<StudyPersonnel> reducedPersonnel = new ArrayList<StudyPersonnel>(personnel.size());
         for (StudyPersonnel hcInv : personnel) {
@@ -103,7 +103,7 @@ public class StudyAjaxFacade {
     public List<ResearchStaff> matchResearchStaffs(String text, int siteIndex,
     		HttpServletRequest request) throws Exception{
     	Study study = (Study) getCommandOnly(request);
-    	int siteId = study.getStudySites().get(siteIndex).getSite().getId();
+    	int siteId = study.getStudySites().get(siteIndex).getHealthcareSite().getId();
     	List<ResearchStaff> staffCol = researchStaffDao.getBySubnames(extractSubnames(text), siteId);
         List<ResearchStaff> reducedStaffCol = new ArrayList<ResearchStaff>(staffCol.size());
         for (ResearchStaff staff : staffCol) {

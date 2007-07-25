@@ -21,7 +21,7 @@ public class HealthCareSiteGridIdFieldHandler implements FieldHandler {
         StudySubject registration = (StudySubject) object;
         StudySite studySite = registration.getStudySite();
         if (studySite == null) return null;
-        HealthcareSite site = studySite.getSite();
+        HealthcareSite site = studySite.getHealthcareSite();
         if (site == null) return null;
         return site.getGridId();
     }
@@ -33,17 +33,17 @@ public class HealthCareSiteGridIdFieldHandler implements FieldHandler {
             studySite = new StudySite();
             registration.setStudySite(studySite);
         }
-        HealthcareSite site = studySite.getSite();
+        HealthcareSite site = studySite.getHealthcareSite();
         if (site == null) {
             site = new HealthcareSite();
-            studySite.setSite(site);
+            studySite.setHealthcareSite(site);
         }
         site.setGridId((String) value);
     }
 
     public void resetValue(Object object) throws IllegalStateException, IllegalArgumentException {
         StudySubject registration = (StudySubject) object;
-        registration.getStudySite().getSite().setGridId(null);
+        registration.getStudySite().getHealthcareSite().setGridId(null);
     }
 
     /**

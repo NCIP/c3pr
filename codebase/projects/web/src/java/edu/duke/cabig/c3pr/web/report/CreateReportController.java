@@ -169,7 +169,7 @@ public class CreateReportController extends SimpleFormController {
 		
 		StudySite studySite = new StudySite();
         studySite.setStudy(study);
-        studySite.setSite(hcs);
+        studySite.setHealthcareSite(hcs);
         
         Participant participant = new Participant();
         participant.setRaceCode(raceCode);

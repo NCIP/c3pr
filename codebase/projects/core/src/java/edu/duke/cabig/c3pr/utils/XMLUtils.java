@@ -21,7 +21,7 @@ public class XMLUtils {
 		String ns="http://semanticbits.com/registration.xsd";
 		String xml="";
 		Element rootElement=new Element("registration","p1", ns);
-		rootElement.setAttribute("healthCareSiteGridId", studySubject.getStudySite().getSite().getGridId());
+		rootElement.setAttribute("healthCareSiteGridId", studySubject.getStudySite().getHealthcareSite().getGridId());
 		rootElement.setAttribute("studyGridId", studySubject.getStudySite().getStudy().getGridId());
 //		String siteGridId=StringUtils.getBlankIfNull(studySubject.getStudySite().getGridId());
 //		String studyGridId=StringUtils.getBlankIfNull(studySubject.getStudySite().getStudy().getGridId());
