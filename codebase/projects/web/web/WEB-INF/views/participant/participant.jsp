@@ -80,7 +80,7 @@ function submitPostProcess(formElement, flag){
 					</tr>
 					<tr>
 						<td align="right"><span class="red">*</span><em></em> <b>First
-						Name: &nbsp;</b></td>
+						Name:&nbsp;</b></td>
 						<td align="left"><form:input path="firstName"
 							cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
 					</tr>
@@ -91,19 +91,14 @@ function submitPostProcess(formElement, flag){
 							cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
 					</tr>
 					<tr>
+						<td align="right"><em></em> <b>Middle Name:</b>&nbsp;</td>
+						<td align="left"><form:input path="middleName" />&nbsp;&nbsp;&nbsp;</td>
+					</tr>
+					<tr>
 						<td align="right"><em></em> <b>Maiden Name:</b>&nbsp;</td>
 						<td align="left"><form:input path="maidenName" />&nbsp;&nbsp;&nbsp;</td>
 					</tr>
-					<tr>
-						<td align="right"><span class="red">*</span> <em></em> <b>Gender:</b>
-						&nbsp;</td>
-						<td align="left"><form:select path="administrativeGenderCode"
-							cssClass="validate-notEmpty">
-							<option value="">--Please Select--</option>
-							<form:options items="${administrativeGenderCode}"
-								itemLabel="desc" itemValue="code" />
-						</form:select></td>
-					</tr>
+										
 				</table>
 				</td>
 				<td width="40%" valign="top">
@@ -114,6 +109,16 @@ function submitPostProcess(formElement, flag){
 							height="1" class="heightControl"></td>
 						<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
 							height="1" class="heightControl"></td>
+					</tr>
+					<tr>
+						<td align="right"><span class="red">*</span> <em></em> <b>Gender:</b>
+						&nbsp;</td>
+						<td align="left"><form:select path="administrativeGenderCode"
+							cssClass="validate-notEmpty">
+							<option value="">--Please Select--</option>
+							<form:options items="${administrativeGenderCode}"
+								itemLabel="desc" itemValue="code" />
+						</form:select></td>
 					</tr>
 					<tr>
 						<td align="right"><span class="red">&nbsp;&nbsp;&nbsp;*</span><em></em><b>Birth

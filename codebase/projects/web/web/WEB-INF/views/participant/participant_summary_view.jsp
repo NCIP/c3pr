@@ -43,6 +43,10 @@ function updateTargetPage(target){
 					<td class="alt" align="left">${command.lastName}</td>
 				</tr>
 				<tr>
+					<td class="alt" align="left"><b>Middle Name:<b></td>
+					<td class="alt" align="left">${command.middleName}</td>
+				</tr>
+				<tr>
 					<td class="alt" align="left"><b>Maiden Name:<b></td>
 					<td class="alt" align="left">${command.maidenName}</td>
 				</tr>
