@@ -98,7 +98,7 @@
         </tr>
         <c:forEach items="${command.studySites}" var="studySite">
             <tr class="results">
-                <td class="alt" align="left">${studySite.site.name}</td>
+                <td class="alt" align="left">${studySite.healthcareSite.name}</td>
                 <td class="alt" align="left">${studySite.statusCode}</td>
                 <td class="alt" align="left">${studySite.roleCode}</td>
                 <td class="alt" align="left">${studySite.startDateStr}</td>
