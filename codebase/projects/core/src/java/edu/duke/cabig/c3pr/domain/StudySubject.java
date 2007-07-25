@@ -142,7 +142,7 @@ public class StudySubject extends AbstractMutableDomainObject {
     }
 
     @ManyToOne
-    @JoinColumn(name = "STS_ID", nullable=false)
+    @JoinColumn(name = "STO_ID", nullable=false)
     @Cascade (value={CascadeType.ALL})
     public StudySite getStudySite() {
         return studySite;
