@@ -166,11 +166,11 @@
                 <select id="site" name="site" onchange="javascript:chooseSites();">
                     <c:forEach items="${command.studySites}" var="studySite" varStatus="status">
                         <c:if test="${selected_site == status.index }">
-                            <option selected="true" value=${status.index}>${studySite.site.name}</option>
+                            <option selected="true" value=${status.index}>${studySite.healthcareSite.name}</option>
                             <c:set var="selectedStudySite" value="${studySite.id}"></c:set>
                         </c:if>
                         <c:if test="${selected_site != status.index }">
-                            <option value=${status.index}>${studySite.site.name}</option>
+                            <option value=${status.index}>${studySite.healthcareSite.name}</option>
                         </c:if>
                     </c:forEach>
                 </select>
@@ -230,7 +230,7 @@
                     <td>
                         <a onclick="javascript:chooseSitesFromSummary(${status.index});"
                            title="click here to edit investigator assigned to study"> <font size="2">
-                            <b> ${studySite.site.name} </b> </font> </a>
+                            <b> ${studySite.healthcareSite.name} </b> </font> </a>
                     </td>
                 </tr>
                 <tr>
