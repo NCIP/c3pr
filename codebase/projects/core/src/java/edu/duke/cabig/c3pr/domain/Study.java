@@ -8,7 +8,10 @@ import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -43,9 +46,9 @@ import org.hibernate.annotations.Where;
         @Parameter(name = "sequence", value = "STUDIES_ID_SEQ")
                 }
 )
-public class Study extends AbstractMutableDomainObject implements Comparable<Study> {
-
-    private String blindedIndicator;
+public class Study extends AbstractMutableDomainObject implements Comparable<Study>{
+	
+	private String blindedIndicator;
     private String multiInstitutionIndicator;
     private String randomizedIndicator;
     private String shortTitleText;
@@ -58,8 +61,10 @@ public class Study extends AbstractMutableDomainObject implements Comparable<Stu
     private String primaryIdentifier;
     private Integer targetAccrualNumber;
     private List<Epoch> epochs;
-
+    private RandomizationType randomizationType;
     private List<StudyDisease> studyDiseases = new ArrayList<StudyDisease>();
+    private List<StudyOrganization> studyOrganizations;
+
    
     // TODO move into Command Object
     private String[] diseaseTermIds;
@@ -71,14 +76,73 @@ public class Study extends AbstractMutableDomainObject implements Comparable<Stu
     public Study() {
         lazyListHelper = new LazyListHelper();
         lazyListHelper.add(Identifier.class, new InstantiateFactory<Identifier>(Identifier.class));
-        lazyListHelper.add(StudySite.class, new BiDirectionalInstantiateFactory<StudySite>(StudySite.class,this));
+   //     lazyListHelper.add(StudySite.class, new BiDirectionalInstantiateFactory<StudySite>(StudySite.class,this));
+        lazyListHelper.add(StudySite.class, new ParameterizedBiDirectionalInstantiateFactory<StudySite>(StudySite.class,this));
+		lazyListHelper.add(StudyFundingSponsor.class, new ParameterizedBiDirectionalInstantiateFactory<StudyFundingSponsor>(StudyFundingSponsor.class,this));
+		lazyListHelper.add(StudyCoordinatingCenter.class, new ParameterizedBiDirectionalInstantiateFactory<StudyCoordinatingCenter>(StudyCoordinatingCenter.class,this));
+
     //  lazyListHelper.add(Epoch.class, epochFactory);
         lazyListHelper.add(TreatmentEpoch.class, new ParameterizedBiDirectionalInstantiateFactory<TreatmentEpoch>(TreatmentEpoch.class,this));
         lazyListHelper.add(NonTreatmentEpoch.class, new ParameterizedBiDirectionalInstantiateFactory<NonTreatmentEpoch>(NonTreatmentEpoch.class,this));
    //   mandatory, so that the lazy-projected list is managed properly.
+        setStudyOrganizations(new ArrayList<StudyOrganization>());
         setEpochs(new ArrayList<Epoch>());
 
        }
+    @Transient
+	public List<Identifier> getLocalIdentifiers() {
+		List<Identifier> localIdentifiers = new ArrayList<Identifier>();
+		for (Identifier identifier : getIdentifiers()) {
+			if ("Protocol Authority Identifier".equals(identifier.getType())
+					|| "Coordinating Center Identifier".equals(identifier
+							.getType())) {
+				// nothing
+			} else {
+				localIdentifiers.add(identifier);
+			}
+		}
+		return localIdentifiers;
+	}
+    
+    @Transient
+    public List<StudySite> getStudySites() {
+        return lazyListHelper.getLazyList(StudySite.class);
+    }
+
+    @Transient
+	public List<StudyFundingSponsor> getStudyFundingSponsors() {
+		return lazyListHelper.getLazyList(StudyFundingSponsor.class);
+	}
+	
+    @Transient
+	public List<StudyCoordinatingCenter> getStudyCoordinatingCenters() {
+		return lazyListHelper.getLazyList(StudyCoordinatingCenter.class);
+	}
+	
+	@OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	public List<StudyOrganization> getStudyOrganizations() {
+		return studyOrganizations;
+	}
+	 public void setStudyOrganizations(List<StudyOrganization> studyOrganizations) {
+			this.studyOrganizations = studyOrganizations;
+			//initialize projected list for StudySite, StudyFundingSponsor and StudyCoordinatingCenter
+			lazyListHelper.setInternalList(StudySite.class, 
+					new ProjectedList<StudySite>(this.studyOrganizations, StudySite.class));
+			lazyListHelper.setInternalList(StudyFundingSponsor.class, 
+					new ProjectedList<StudyFundingSponsor>(this.studyOrganizations, StudyFundingSponsor.class));
+			lazyListHelper.setInternalList(StudyCoordinatingCenter.class, 
+					new ProjectedList<StudyCoordinatingCenter>(this.studyOrganizations, StudyCoordinatingCenter.class));
+		}
+	
+	public void addStudyOrganization(StudyOrganization so){
+		this.getStudyOrganizations().add(so);
+		so.setStudy(this);
+	}
+	
+	public void removeStudyOrganization(StudyOrganization so){
+		this.getStudyOrganizations().remove(so);
+	}
 
     public void addEpoch(Epoch epoch) {
     	    epoch.setStudy(this);
@@ -112,7 +176,9 @@ public class Study extends AbstractMutableDomainObject implements Comparable<Stu
     }
 
     /// BEAN PROPERTIES
-
+    
+//  TODO: this stuff should really, really not be in here. It's
+	// web-view/entry specific.
     @Transient
     public String[] getDiseaseTermIds() {
         return diseaseTermIds;
@@ -145,35 +211,11 @@ public class Study extends AbstractMutableDomainObject implements Comparable<Stu
 	public List<TreatmentEpoch> getTreatmentEpochs(){
     	 return lazyListHelper.getLazyList(TreatmentEpoch.class);
 	}
-        
-    @Transient 
-    public void setTreatmentEpochs(List<TreatmentEpoch> treatmentEpochs){
-	}
-	      
-       
+         
     @Transient
 	public List<NonTreatmentEpoch> getNonTreatmentEpochs(){
     	 return lazyListHelper.getLazyList(NonTreatmentEpoch.class);
    	}
-	
-	public void setNonTreatmentEpochs(List<NonTreatmentEpoch> nonTreatmentEpochs){
-	}
-	
-	
-    @OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
-    @Cascade(value = {CascadeType.ALL, CascadeType.DELETE_ORPHAN})
-    public List<StudySite> getStudySitesInternal() {
-        return lazyListHelper.getInternalList(StudySite.class);
-    }
-
-    public void setStudySitesInternal(List<StudySite> studySites) {
-        lazyListHelper.setInternalList(StudySite.class, studySites);
-    }
-
-    @Transient
-    public List<StudySite> getStudySites() {
-        return lazyListHelper.getLazyList(StudySite.class);
-    }
 
     @OneToMany
     @Cascade({CascadeType.ALL, CascadeType.DELETE_ORPHAN})
@@ -203,13 +245,9 @@ public class Study extends AbstractMutableDomainObject implements Comparable<Stu
     public void setDiseaseCategoryAsText(String diseaseCategoryAsText) {
         this.diseaseCategoryAsText = diseaseCategoryAsText;
     }
-
+   
     public void setIdentifiers(List<Identifier> identifiers) {
         lazyListHelper.setInternalList(Identifier.class, identifiers);
-    }
-
-    public void setStudySites(List<StudySite> studySites) {
-        lazyListHelper.setInternalList(StudySite.class,studySites);
     }
 
     public String getDescriptionText() {
@@ -382,5 +420,13 @@ public class Study extends AbstractMutableDomainObject implements Comparable<Stu
     public void setRandomizedIndicator(String randomizedIndicator) {
         this.randomizedIndicator = randomizedIndicator;
     }
+    
+	public RandomizationType getRandomizationType() {
+		return randomizationType;
+	}
+
+	public void setRandomizationType(RandomizationType randomizationType) {
+		this.randomizationType = randomizationType;
+	}
 
 }
