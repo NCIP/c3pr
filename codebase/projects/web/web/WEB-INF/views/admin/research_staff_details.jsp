@@ -70,7 +70,7 @@ function handleConfirmation(){
 											<td width="75%"><img src="<tags:imageUrl name="spacer.gif"/>"
 												width="1" height="1" class="heightControl"></td>
 										</tr>
-										<p id="instructions">Please choose a healthcare site</p>
+										<p id="instructions">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Please choose a healthcare site</p>
 										<tr>
 											<td align="right"><b> <span class="red">*</span><em></em><b>Site:</b>&nbsp;</b></td>
 											<td><form:select path="healthcareSite"
@@ -98,11 +98,11 @@ function handleConfirmation(){
 							</table>
 							<hr align="left" width="95%">
 
-							<table width="600" border="0" cellspacing="0" cellpadding="0"
+							<table width="700" border="0" cellspacing="0" cellpadding="0"
 								id="details">
 								<tr>
-									<td width="300" valign="top">
-									<table width="300" border="0" cellspacing="1" cellpadding="1"
+									<td width="350" valign="top">
+									<table width="350" border="0" cellspacing="1" cellpadding="1"
 										id="table1">
 										<tr>
 											<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
@@ -121,19 +121,27 @@ function handleConfirmation(){
 												cssClass="validate-notEmpty" /></td>
 										</tr>
 										<tr>
+											<td align="right"><em></em> <b>Middle Name:</b>&nbsp;</td>
+											<td align="left"><form:input path="middleName" size="25" />&nbsp;&nbsp;&nbsp;</td>
+										</tr>
+										<tr>
 											<td align="right"><em></em> <b>Maiden Name:</b>&nbsp;</td>
 											<td align="left"><form:input path="maidenName" size="25" />&nbsp;&nbsp;&nbsp;</td>
 										</tr>
 									</table>
 									</td>
-									<td width="320" valign="top">
-									<table width="320" border="0" cellspacing="1" cellpadding="1"
+									<td width="350" valign="top">
+									<table width="350" border="0" cellspacing="1" cellpadding="1"
 										id="table1">
 										<tr valign="top">
 											<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
 												height="1" class="heightControl"></td>
-											<td width="75%"><img src="<tags:imageUrl name="spacer.gif"/>"
+											<td width="70%"><img src="<tags:imageUrl name="spacer.gif"/>"
 												width="1" height="1" class="heightControl"></td>
+										</tr>
+										<tr>
+											<td align="right"><em></em><em></em> <b>NCI Identifier:</b>&nbsp;</td>
+											<td align="left"><form:input path="nciIdentifier" size="25" />&nbsp;&nbsp;&nbsp;</td>
 										</tr>
 
 										<tr valign="top">
