@@ -25,7 +25,7 @@
 		</c:otherwise>
 	</c:choose>
 	<tags:tdNameValue name="Status" value="${studySubject.studySite.study.status }" columnAttrName="class='labelR'"/>
-	<tags:tdNameValue name="Study Site" value="${studySubject.studySite.site.name }" columnAttrName="class='labelR'"/>
+	<tags:tdNameValue name="Study Site" value="${studySubject.studySite.healthcareSite.name }" columnAttrName="class='labelR'"/>
 	<tags:tdNameValue name="Site IRB Approval Date" value="${studySubject.studySite.irbApprovalDateStr }" columnAttrName="class='labelR'"/>		
 	<tags:tdNameValue name="Informed Consent Signed Date" value="${studySubject.informedConsentSignedDateStr }" columnAttrName="class='labelR'"/>
 	<tags:tdNameValue name="Informed Consent Version" value="${studySubject.informedConsentVersion }" columnAttrName="class='labelR'"/>		
