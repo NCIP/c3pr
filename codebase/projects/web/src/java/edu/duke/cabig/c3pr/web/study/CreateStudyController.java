@@ -60,8 +60,9 @@ public class CreateStudyController<C extends Study> extends StudyController<C> {
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
                                          Object command, BindException errors) throws Exception {
         Study study = (Study) command;
-
-        studyService.save(study);
+        
+        studyService.merge(study);
+       // studyService.save(study);
 
         return new ModelAndView("forward:confirm?type=confirm", errors.getModel());
 
