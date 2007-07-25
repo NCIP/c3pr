@@ -27,6 +27,7 @@ public class ResearchStaff extends Person {
 
 	private List<StudyPersonnel> studyPersonnels = new ArrayList<StudyPersonnel>();
 
+	private String nciIdentifier;
 	private String fullName;
 
 	private HealthcareSite healthcareSite;
@@ -98,6 +99,14 @@ public class ResearchStaff extends Person {
 
 	public void setHealthcareSite(HealthcareSite healthcareSite) {
 		this.healthcareSite = healthcareSite;
+	}
+
+	public String getNciIdentifier() {
+		return nciIdentifier;
+	}
+
+	public void setNciIdentifier(String nciIdentifier) {
+		this.nciIdentifier = nciIdentifier;
 	}
 
 }
