@@ -84,4 +84,8 @@ public class StudyServiceImpl implements StudyService {
 
         return assignment;
     }
+
+	public Study merge(Study study) {
+		return studyDao.merge(study);
+	}
 }

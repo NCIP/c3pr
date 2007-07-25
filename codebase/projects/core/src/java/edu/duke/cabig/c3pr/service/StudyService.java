@@ -21,6 +21,8 @@ public interface StudyService {
      * @throws Exception runtime exception object
      */
     public void save(Study study) throws Exception;
+    
+    public Study merge(Study study);
 
 
     /**
