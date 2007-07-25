@@ -24,7 +24,8 @@ public abstract class Person extends AbstractMutableDomainObject
 	private String firstName;
 	private String lastName;
 	private String maidenName;
-	private Address address;  
+	private String middleName;
+	private Address address;
 	protected List<ContactMechanism> contactMechanisms = new ArrayList<ContactMechanism>();
 	
 	public void addContactMechanism(ContactMechanism contactMechanism)
@@ -81,6 +82,14 @@ public abstract class Person extends AbstractMutableDomainObject
 
 	public void setMaidenName(String maidenName) {
 		this.maidenName = maidenName;
+	}
+
+	public String getMiddleName() {
+		return middleName;
+	}
+
+	public void setMiddleName(String middleName) {
+		this.middleName = middleName;
 	}
 	
 }
