@@ -69,8 +69,9 @@ public class StudyDao extends GridIdentifiableDao<Study>
         return (Study) CollectionUtils.firstElement(criteria.list());
     }
 
-    public void merge(Study study) {
-        getHibernateTemplate().merge(study);
+    @Transactional (readOnly = false)
+    public Study merge(Study study) {
+        return (Study)getHibernateTemplate().merge(study);
     }
 
     @Transactional (readOnly = false)
@@ -160,8 +161,8 @@ public class StudyDao extends GridIdentifiableDao<Study>
      * @return list of StudySubjects
      */
     public List<StudySubject> getStudySubjectsForStudy(Integer studyId) {
-        return getHibernateTemplate().find("select a from Study s join s.studySitesInternal ss " +
-                "join ss.studySubjects a where s.id = ?", studyId);
+        return getHibernateTemplate().find("select a from Study s join s.studyOrganizations so " +
+                "join so.studySubjects a where s.id = ? ", studyId);
     }
 
     @Transactional (readOnly = false)
