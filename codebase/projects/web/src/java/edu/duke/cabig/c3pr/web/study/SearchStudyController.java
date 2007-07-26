@@ -1,12 +1,12 @@
 package edu.duke.cabig.c3pr.web.study;
 
-import org.springframework.web.util.WebUtils;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.web.SearchCommand;
+import edu.duke.cabig.c3pr.web.ajax.StudyAjaxFacade;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -16,13 +16,17 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SearchStudyController extends SimpleFormController {
 
     private static Log log = LogFactory.getLog(SearchStudyController.class);
     private ConfigurationProperty configurationProperty;
     private StudyDao studyDao;
+    private StudyAjaxFacade studyAjaxFacade;
+
 
     @Override
     protected boolean isFormSubmission(HttpServletRequest request) {
@@ -50,24 +54,18 @@ public class SearchStudyController extends SimpleFormController {
             study.setShortTitleText(searchtext);
 
         List<Study> studies = studyDao.searchByExample(study, true);
-        Set<Study> studySet = new TreeSet<Study>();
-        List<Study> uniqueStudies = new ArrayList<Study>();
-        studySet.addAll(studies);
-        uniqueStudies.addAll(studySet);
-        studies.addAll(studySet);
-        log.debug("Search results size " + uniqueStudies.size());
+        log.debug("Search results size " + studies.size());
         Map<String, List<Lov>> configMap = configurationProperty.getMap();
 
         Map map = errors.getModel();
-        map.put("studyResults", uniqueStudies);
+        map.put("studyResults", studies);
         map.put("searchTypeRefData", configMap.get("studySearchType"));
         if (isSubFlow(request)) {
             processSubFlow(request, map);
             map.put("actionReturnType", "SearchResults");
         }
-        if(WebUtils.hasSubmitParameter(request, "async")){
-        	return new ModelAndView("/registration/studyResultsAsync",map);
-        }
+        Object viewData = studyAjaxFacade.getTableForExport(map, request);
+        request.setAttribute("studies", viewData);
         ModelAndView modelAndView = new ModelAndView(getSuccessView(), map);
         return modelAndView;
     }
@@ -123,4 +121,11 @@ public class SearchStudyController extends SimpleFormController {
         this.studyDao = studyDao;
     }
 
+    public StudyAjaxFacade getStudyAjaxFacade() {
+        return studyAjaxFacade;
+    }
+
+    public void setStudyAjaxFacade(StudyAjaxFacade studyAjaxFacade) {
+        this.studyAjaxFacade = studyAjaxFacade;
+    }
 }

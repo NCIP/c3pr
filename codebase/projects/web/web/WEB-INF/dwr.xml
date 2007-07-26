@@ -3,9 +3,11 @@
         "http://www.getahead.ltd.uk/dwr/dwr20.dtd">
 <dwr>
     <allow>
-        <create creator="spring" javascript="createStudy">
+        <create creator="spring" javascript="StudyAjaxFacade">
             <param name="beanName" value="studyAjaxFacade"/>
+             <include method="getTable"/>
         </create>
+
         <create creator="spring" javascript="registrationDetails">
             <param name="beanName" value="registrationAjaxFacade"/>
         </create>
@@ -61,6 +63,14 @@
                import edu.duke.cabig.c3pr.web.ajax.StudyXMLFileImportAjaxFacade;
                import javax.servlet.http.HttpServletRequest;
                StudyXMLFileImportAjaxFacade.getTable(Map<String, List> parameterMap, HttpServletRequest request);
+               ]]>
+
+         <![CDATA[
+               import java.util.Map;
+               import java.util.List;
+               import edu.duke.cabig.c3pr.web.ajax.StudyAjaxFacade;
+               import javax.servlet.http.HttpServletRequest;
+               StudyAjaxFacade.getTable(Map<String, List> parameterMap, HttpServletRequest request);
                ]]>
     </signatures>
 

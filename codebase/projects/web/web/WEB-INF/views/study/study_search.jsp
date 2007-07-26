@@ -6,12 +6,19 @@
 
 <html>
 <head>
+    <script type="text/javascript" src="<c:url value="/js/extremecomponents.js"/>"></script>
+        
+   <tags:dwrJavascriptLink objects="StudyAjaxFacade"/>
+
+
     <script type="text/javascript">
-        function navRollOver(obj, state) {
-            document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
+        function buildTable(form) {
+            var parameterMap = getParameterMap(form);
+            StudyAjaxFacade.getTable(parameterMap, showTable);
         }
-        function submitPage() {
-            document.getElementById("searchForm").submit();
+
+        function showTable(table) {
+            document.getElementById('tableDiv').innerHTML=table;
         }
     </script>
 </head>
@@ -21,7 +28,7 @@
 
 <chrome:search title="Search">
 
-    <form:form id="searchForm" name="searchForm" method="post">
+    <form:form id="searchForm" method="post">
         <div>
             <input type="hidden" name="_selected" id="_selected" value="">
             <input type="hidden" name="_action" id="_action" value="">
@@ -45,9 +52,10 @@
                     <form:input path="searchText"/>
                 </div>
             </div>
+
             <div class="row">
                 <div class="value">
-                    <input type="submit" value="Search" />
+                    <input class='ibutton' type='button' onclick="buildTable('searchForm');" value='Search'  title='Search Study'/>
                 </div>
             </div>
         </div>
@@ -57,11 +65,12 @@
 <br>
 
 <chrome:box title="Search Results">
-    <form:form>
-        <chrome:division id="single-fields">
-            <studyTags:searchResults url="viewStudy"/>
+    <chrome:division id="single-fields">
+            <div id="tableDiv">
+                <c:out value="${studies}" escapeXml="false"/>
+            </div>
         </chrome:division>
-    </form:form>
+
 </chrome:box>
 
 </body>

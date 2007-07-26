@@ -1,23 +1,6 @@
 package edu.duke.cabig.c3pr.web.beans;
 
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.xml.StudyXMLImporter;
-import org.extremecomponents.table.bean.Column;
-import org.extremecomponents.table.bean.Row;
-import org.extremecomponents.table.bean.Table;
-import org.extremecomponents.table.context.Context;
-import org.extremecomponents.table.context.HttpServletRequestContext;
-import org.extremecomponents.table.core.TableModel;
-import org.extremecomponents.table.core.TableModelImpl;
-
-import javax.servlet.http.HttpServletRequest;
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Map;
+import java.io.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -27,7 +10,7 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public class StudyXMLFileBean {
-     
+
 
     private byte[] file;
 
@@ -42,11 +25,14 @@ public class StudyXMLFileBean {
         return file;
     }
 
-    public Reader getReader(){
+    public Reader getReader() {
         return new BufferedReader(new InputStreamReader(
                 new ByteArrayInputStream(file)));
     }
 
+    public InputStream getInputStream() {
+        return new ByteArrayInputStream(file);
+    }
 
 }
 

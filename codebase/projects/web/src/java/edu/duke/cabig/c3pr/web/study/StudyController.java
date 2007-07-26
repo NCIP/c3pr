@@ -2,7 +2,6 @@ package edu.duke.cabig.c3pr.web.study;
 
 import edu.duke.cabig.c3pr.dao.*;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
@@ -49,7 +48,7 @@ public abstract class StudyController<C extends Study> extends AutomaticSaveFlow
         Flow<C> flow = new Flow<C>(title);
         layoutTabs(flow);
         setFlow(flow);
-        rowManager=new RowManager();
+        rowManager = new RowManager();
     }
 
     @Override
@@ -90,12 +89,12 @@ public abstract class StudyController<C extends Study> extends AutomaticSaveFlow
         while (e.hasMoreElements()) {
             String path = e.nextElement();
             List col;
-			try {
-				col = (List) new DefaultObjectPropertyReader(command, path).getPropertyValueFromPath();
-			} catch (Exception e1) {
-				e1.printStackTrace();
-				continue;
-			}
+            try {
+                col = (List) new DefaultObjectPropertyReader(command, path).getPropertyValueFromPath();
+            } catch (Exception e1) {
+                e1.printStackTrace();
+                continue;
+            }
             List<Integer> rowNums = table.get(path);
             List temp = new ArrayList();
             for (int i = 0; i < col.size(); i++) {
@@ -125,6 +124,10 @@ public abstract class StudyController<C extends Study> extends AutomaticSaveFlow
         binder.registerCustomEditor(RandomizationType.class, new EnumByNameEditor(RandomizationType.class));
     }
 
+    @Override
+    protected String getFormSessionAttributeName(HttpServletRequest httpServletRequest) {
+        return super.getFormSessionAttributeName(httpServletRequest);    //To change body of overridden methods use File | Settings | File Templates.
+    }
 
     /**
      * Override this in sub controller if summary is needed

@@ -99,11 +99,6 @@ public class ViewStudyController extends StudyController<Study> {
         return super.handleRequestInternal(httpServletRequest, httpServletResponse);    //To change body of overridden methods use File | Settings | File Templates.
     }
 
-    @Override
-    protected String getFormSessionAttributeName(HttpServletRequest httpServletRequest) {
-        return super.getFormSessionAttributeName(httpServletRequest);    //To change body of overridden methods use File | Settings | File Templates.
-    }
-
     protected ModelAndView processFinish(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object command, BindException e) throws Exception {
         Study study = (Study) command;
 
