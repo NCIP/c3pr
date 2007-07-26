@@ -1,30 +1,23 @@
 package edu.duke.cabig.c3pr.dao;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+import edu.duke.cabig.c3pr.domain.Arm;
+import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.emory.mathcs.backport.java.util.Collections;
+import edu.nwu.bioinformatics.commons.CollectionUtils;
+import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-import org.hibernate.criterion.Example;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.*;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.duke.cabig.c3pr.domain.Arm;
-import edu.duke.cabig.c3pr.domain.Identifier;
-import edu.duke.cabig.c3pr.domain.StratificationCriterion;
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudySubject;
-import edu.duke.cabig.c3pr.domain.StudySite;
-import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
-import edu.emory.mathcs.backport.java.util.Collections;
-import edu.nwu.bioinformatics.commons.CollectionUtils;
-import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -105,6 +98,7 @@ public class StudyDao extends GridIdentifiableDao<Study>
         try {
             Criteria studyCriteria = getSession().createCriteria(Study.class);
             studyCriteria.addOrder(Order.asc("shortTitleText"));
+            studyCriteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
             
             if (isWildCard)
             {
