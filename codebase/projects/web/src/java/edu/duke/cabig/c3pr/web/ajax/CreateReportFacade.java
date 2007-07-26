@@ -86,7 +86,7 @@ public class CreateReportFacade {
 
         Column columnSiteName = model.getColumnInstance();
         columnSiteName.setTitle("Site");
-        columnSiteName.setProperty("studySite.site.name");
+        columnSiteName.setProperty("studySite.healthcareSite.name");
         model.addColumn(columnSiteName);
 
         Column columnRegistrationStatus = model.getColumnInstance();
