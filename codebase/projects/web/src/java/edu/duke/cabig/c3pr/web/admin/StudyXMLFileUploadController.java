@@ -2,8 +2,7 @@ package edu.duke.cabig.c3pr.web.admin;
 
 
 import edu.duke.cabig.c3pr.web.ajax.StudyXMLFileImportAjaxFacade;
-import edu.duke.cabig.c3pr.web.beans.StudyXMLFileBean;
-import edu.duke.cabig.c3pr.xml.StudyXMLImporter;
+import edu.duke.cabig.c3pr.web.ajax.BaseStudyAjaxFacade;
 import gov.nih.nci.common.exception.XMLUtilityException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -16,48 +15,41 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 
 /**
- * Created by IntelliJ IDEA.
  * User: kherm
- * Date: Jul 12, 2007
- * Time: 11:27:34 PM
- * To change this template use File | Settings | File Templates.
+ * @author kherm
+ * @author kherm manav.kher@semanticbits.com
  */
 public class StudyXMLFileUploadController  extends SimpleFormController {
 
     private static Log log = LogFactory.getLog(StudyXMLFileUploadController.class);
-    private StudyXMLImporter studyXMLImporter;
     private StudyXMLFileImportAjaxFacade studyXMLFileAjaxFacade;
 
-
-
-    @Override
-    protected ModelAndView onSubmit(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, BindException e) throws Exception {
-        StudyXMLFileBean studyXML =  (StudyXMLFileBean)o;
-        //save it to session
-        httpServletRequest.getSession().setAttribute(getFormSessionAttributeName(),o);
-        
-        try {
-            //should be done in a validator
-            studyXMLImporter.validate(studyXML.getReader());
-            log.debug("Uploaded study has ID");
-
-            Object viewData = studyXMLFileAjaxFacade.getTable(null,httpServletRequest);
-            httpServletRequest.setAttribute("studies", viewData);
-
-        } catch (XMLUtilityException e1) {
-            log.debug("Uploaded file contains invalid study");
-        }
-
-        Map map = e.getModel();
-        ModelAndView modelAndView= new ModelAndView(getSuccessView(), map);
-        return modelAndView;
-
+    public StudyXMLFileUploadController() {
+         setBindOnNewForm(true);
     }
 
-    
+    @Override
+    protected ModelAndView onSubmit(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, BindException errors) throws Exception {
+        //save it to session
+        httpServletRequest.getSession().setAttribute(getFormSessionAttributeName(),o);
+
+        try {
+            Object viewData = studyXMLFileAjaxFacade.getTable(null,httpServletRequest);
+            httpServletRequest.setAttribute("studies", viewData);
+        } catch (XMLUtilityException e1) {
+            log.debug("Uploaded file contains invalid study");
+            errors.reject("Could not import Studies",e1.getMessage());
+        }
+
+        return new ModelAndView(this.getSuccessView(), errors.getModel());
+    }
+
+     @Override
+protected ModelAndView showForm(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, BindException e) throws Exception {
+     return new ModelAndView(this.getFormView(),e.getModel());
+}
 
     protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder)
             throws ServletException {
@@ -67,15 +59,8 @@ public class StudyXMLFileUploadController  extends SimpleFormController {
         // now Spring knows how to handle multipart object and convert them
     }
 
-    public StudyXMLImporter getStudyXMLImporter() {
-        return studyXMLImporter;
-    }
 
-    public void setStudyXMLImporter(StudyXMLImporter studyXMLImporter) {
-        this.studyXMLImporter = studyXMLImporter;
-    }
-
-    public StudyXMLFileImportAjaxFacade getStudyXMLFileAjaxFacade() {
+   public BaseStudyAjaxFacade getStudyXMLFileAjaxFacade() {
         return studyXMLFileAjaxFacade;
     }
 
