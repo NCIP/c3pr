@@ -98,10 +98,16 @@
 	}  	
 	
 	function submitPostProcess(formElement, flag){
-		if(flag){
-			new Ajax.Updater('temp','../participant/createParticipant', {method:'post', postBody:Form.serialize('createSubForm'),onSuccess:handlerFunc, onFailure:handlerFail});
-		}
-		return false;
+		if(formElement.name == 'createSubForm'){
+			//for the create subject form we make an ajaz sunmit and return false to avoid the html submit
+			if(flag){
+				new Ajax.Updater('temp','../participant/createParticipant', {method:'post', postBody:Form.serialize('createSubForm'),onSuccess:handlerFunc, onFailure:handlerFail});
+			}
+			return false;
+		} else {
+			//for all other forms(i.e. the main form on select_study_or_subject) we return true to ensure the html submit
+			return true;
+		}		
 	}
 </script>
 
@@ -162,6 +168,7 @@
 	<div id="createSubjectDiv" style="display:none;">
 	<div id="createSubjectDetailsDiv">		
 	<form id="createSubForm" name="createSubForm">
+	<input type="hidden" name="validate" id="validate" value="true"/>
 	<input type="hidden" name="_finish" id="_action" value="">
 	<input type="hidden" name="async" id="async" value="async">
 	<div class="division " id="single-fields" >
