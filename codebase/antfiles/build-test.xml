@@ -83,7 +83,7 @@
         <delete dir="${instrumentation.temp.dir}"/>
     </target>
 
-    <target name="test-prepare" depends="prepare, defineArtifacts" description="Prepare for running tests">
+    <target name="test-prepare" depends="prepare, defineArtifacts, createOrUpdateDatabase" description="Prepare for running tests">
         <property name="testcoverage.dir" location="${reports.dir}/testcoverage"/>
         <property name="testcoverage.temp.dir" location="${reports.dir}/testcoverage"/>
         <property name="instrumentation.temp.dir" location="${basedir}/temp"/>

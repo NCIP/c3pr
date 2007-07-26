@@ -301,6 +301,10 @@
 
     </target>
 
+    <target name="createOrUpdateDatabase" depends="build-core"
+            description="create or update the Database using bering">
+        <ant dir="${projects.dir}/core" inheritall="false" target="bering-migrate"/>
+    </target>
 
     <!--Update code from CVS. For developer use only-->
     <target name="cvsUpdate" description="Updates code from CVS. For developers use only">
