@@ -5,8 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <tags:stylesheetLink name="subtabbedflow"/>
 <script>
-
-	function minimizeSubjectBox(msg){
+		function minimizeSubjectBox(msg){
 		PanelCombo('SubjectBox');
 		element=$$("#Subject .header h2")[0];
 		new Element.update(element,msg);
@@ -30,7 +29,7 @@
   	var instanceRowInserterProps = {
         add_row_division_id: "mytable", 	        		/* this id belongs to element where the row would be appended to */
         skeleton_row_division_id: "dummy-row",
-        initialIndex: ${fn:length(command.identifiers)},    /* this is the initial count of the rows when the page is loaded  */
+        initialIndex: 1,    /* this is the initial count of the rows when the page is loaded  */
         path: "identifiers",                                /* this is the path of the collection that holds the rows  */
     };
     rowInserters.push(instanceRowInserterProps);
@@ -55,15 +54,15 @@
   		new Ajax.Request('../participant/createParticipant', {method:'get', asynchronous:true});
   	}
   	
+ 	
   	/* handlers for  create Subject flow */
 	var handlerFunc = function(t) {
-	alert(t.responseText);
 		if(t.responseText != null && t.responseText != ''){
 			var ret=t.responseText
 		    var name=ret.substr(0,ret.indexOf("||"));
 		    var id=ret.substr(ret.indexOf("||")+2);
 			$('participant').value = id;	
-			//document.getElementById("subject-message").innerHTML = "Selected: Subject with Name- " +name+ ".";
+			document.getElementById("subject-message").innerHTML = "Selected: Subject with Name: " +name+ ".";
 			message="Selected: Subject with Name: " +name+ "."
 			minimizeSubjectBox(message);
 			var elMsg = document.getElementById('succesfulCreateDiv');
@@ -97,6 +96,13 @@
 		$("participant").value = id;
 		minimizeSubjectBox("Selected: "+name);	
 	}  	
+	
+	function submitPostProcess(formElement, flag){
+		if(flag){
+			new Ajax.Updater('temp','../participant/createParticipant', {method:'post', postBody:Form.serialize('createSubForm'),onSuccess:handlerFunc, onFailure:handlerFail});
+		}
+		return false;
+	}
 </script>
 
 <tags:minimizablePanelBox title="Please Select A Subject" boxId="SubjectBox">
@@ -155,7 +161,7 @@
 	<!--start of create subject div-->
 	<div id="createSubjectDiv" style="display:none;">
 	<div id="createSubjectDetailsDiv">		
-	<form id="createSubForm">
+	<form id="createSubForm" name="createSubForm">
 	<input type="hidden" name="_finish" id="_action" value="">
 	<input type="hidden" name="async" id="async" value="async">
 	<div class="division " id="single-fields" >
@@ -167,12 +173,12 @@
 					id="table1">
 					<tr>
 						<td align="right"><span class="red">*</span><em></em> <b>First Name: &nbsp;</b></td>
-						<td align="left"><input id="firstName" name="firstName" type="text" value=""/>
-						<span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
+						<td align="left"><input id="firstName" name="firstName" type="text" value="" class="validate-notEmpty"/>
+						<span class="red">&nbsp;&nbsp;&nbsp;</span></div><em></em></td>
 					</tr>
 					<tr>
 						<td align="right"><span class="red">*</span><em></em> <b>Last Name:</b>&nbsp;</td>
-						<td align="left"><input id="lastName" name="lastName" type="text" value=""/>
+						<td align="left"><input id="lastName" name="lastName" type="text" value="" class="validate-notEmpty"/>
 						<span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
 					</tr>
 					<tr>
@@ -183,7 +189,7 @@
 						<td align="right"><span class="red">*</span> <em></em> <b>Gender:</b>
 						&nbsp;</td>
 						<td align="left">
-							<select id="administrativeGenderCode" name="administrativeGenderCode">
+							<select id="administrativeGenderCode" name="administrativeGenderCode" class="validate-notEmpty">
 									<option value="">--Please Select--</option>
 								<c:forEach items="${administrativeGenderCode}" var="administrativeGenderCode" varStatus="loop">
 								<c:if test="${!empty administrativeGenderCode.desc}">
@@ -205,7 +211,7 @@
 					</tr>
 					<tr>
 						<td align="right"><span class="red">&nbsp;&nbsp;&nbsp;*</span><em></em><b>Birth Date: </b>&nbsp;</td>
-						<td><input id="birthDate" name="birthDate" type="text" value=""/>&nbsp;(mm/dd/yyyy)&nbsp;&nbsp;<span
+						<td><input id="birthDate" name="birthDate" type="text" value="" class="validate-notEmpty"/>&nbsp;(mm/dd/yyyy)&nbsp;&nbsp;<span
 							class="red"><em></em></span></td>
 					</tr>
 					<tr>
@@ -254,31 +260,32 @@
 				<th scope="col" align="left"><b>Primary&nbsp;Indicator</b></th>
 				<th class="specalt" scope="col" align="left"></th>
 			</tr>
-			<c:forEach items="${identifiers}" varStatus="status">
-				 <tr id="mytable-${status.index}">
-					<td class="alt"><form:select
-						path="identifiers[${status.index}].source"
-						cssClass="validate-notEmpty">
-						<option value="">--Please Select--</option>
-						<form:options items="${source}" itemLabel="name" itemValue="name" />
-					</form:select></td>
-					<td class="alt"><form:select
-						path="identifiers[${status.index}].type"
-						cssClass="validate-notEmpty">
-						<option value="">--Please Select--</option>
-						<form:options items="${identifiersTypeRefData}" itemLabel="desc"
-							itemValue="desc" />
-					</form:select></td>
-					<td class="alt"><form:input
-						path="identifiers[${status.index}].value"
-						cssClass="validate-notEmpty" /></td>
-					<td class="alt"><form:radiobutton
-						path="identifiers[${status.index}].primaryIndicator" value="true" /></td>
-					<td class="alt">
-					<a href="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index});">
-					<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
-				</tr>
-			</c:forEach>
+			 <tr id="mytable-0}">
+                <td class="alt">
+                <select id="identifiers[0].source" name="identifiers[0].source"
+                                        class="validate-notEmpty">
+                    <option value="">--Please Select--</option>
+                    <c:forEach items="${source}" var="id">
+                        <option value="${id.name}">${id.name}</option>
+                    </c:forEach>
+                </select>
+                </td>
+                <td class="alt">
+                <select id="identifiers[0].type" name="identifiers[0].type"
+                                        class="validate-notEmpty">
+                    <option value="">--Please Select--</option>
+                    <c:forEach items="${identifiersTypeRefData}" var="id">
+                        <option value="${id.desc}">${id.desc}</option>
+                    </c:forEach>
+                </select>
+                </td>
+                <td class="alt"><input id="identifiers[0].value" name="identifiers[0].value"
+                                       onfocus="javascript:clearField(this)" class="validate-notEmpty"/></td>
+                <td class="alt"><input type="radio" id="identifiers[0].primaryIndicator" name="identifiers[0].primaryIndicator"
+                                       value="true"/></td>
+                <td class="alt"><a href="javascript:RowManager.deleteRow(instanceRowInserterProps,0);"><img
+                        src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+			</tr>
 		</table>		
 		<!--end of adding identifiers-->
 		
@@ -327,13 +334,12 @@
 		<!--end of div id="addressSection"-->
 		
 		<div align="center">
-		<input type="button" class="tab0" value="Save" 
-		onclick="new Ajax.Updater('temp','../participant/createParticipant', {method:'post', postBody:Form.serialize('createSubForm'),onSuccess:handlerFunc, onFailure:handlerFail});"/>
+		<input type="button" class="tab0" value="Save" onclick="document.createSubForm.submit();"/>
 		</div>
     </div>
-	</div>
-	
+	</div>	
 	</form>
+	
 	<!--Identifiers section thats supposed to be outside the form-->
 	<div id="dummy-row" style="display:none;">
         <table>
