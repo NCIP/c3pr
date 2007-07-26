@@ -341,7 +341,17 @@ public class StudyDaoTest extends DaoTestCase {
 		assertEquals("short_title_text", results.get(1).getShortTitleText());
 	}
 
-	private Study createDefaultStudyWithDesign(Study study) {
+    /**
+     * Make sure DAO returns unique results
+     */
+    public void testIdentifierUniqueResults(){
+         Study studySearchCriteria = new Study();
+		studySearchCriteria.setId(1000);
+		List<Study> results = dao.searchByExample(studySearchCriteria);
+		assertEquals("Wrong number of Studies", 1, results.size());
+    }
+
+    private Study createDefaultStudyWithDesign(Study study) {
 		// Investigators
 		Investigator inv = new Investigator();
 		inv.setFirstName("Investigator first name");
