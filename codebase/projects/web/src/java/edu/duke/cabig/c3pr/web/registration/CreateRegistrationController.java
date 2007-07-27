@@ -39,7 +39,18 @@ public class CreateRegistrationController<C extends StudySubject> extends Regist
 	@Override
 	protected boolean isFormSubmission(HttpServletRequest request) {
 		// TODO Auto-generated method stub
-		return WebUtils.hasSubmitParameter(request, "registrationId")||super.isFormSubmission(request);
+		if(WebUtils.hasSubmitParameter(request, "registrationId")){
+			if(request.getSession(false).getAttribute(getFormSessionAttributeName())==null){
+				try {
+					request.getSession(false).setAttribute(getFormSessionAttributeName(),formBackingObject(request));
+					return true;
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return super.isFormSubmission(request);
 	}
 
 	@Override

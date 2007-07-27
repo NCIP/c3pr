@@ -132,6 +132,8 @@ public abstract class RegistrationController <C extends StudySubject> extends Au
 		if (sessionFormObject != null) {
 			if(command.getId()!=null){
 				getDao().reassociate(command);
+				if(command.getScheduledEpoch()!=null && command.getScheduledEpoch().getEpoch()!=null)
+					epochDao.reassociate(command.getScheduledEpoch().getEpoch());
 				return command;
 			}
 			if(command.getParticipant()!=null)
@@ -171,8 +173,6 @@ public abstract class RegistrationController <C extends StudySubject> extends Au
 		StudySubject studySubject = null;
 		if ((request.getParameter("registrationId") != null)
 				&& (request.getParameter("registrationId") != "")) {
-			System.out.println(" RegistrationId is: "
-					+ Integer.parseInt(request.getParameter("registrationId")));
 			studySubject = studySubjectDao.getById(Integer.parseInt(request
 					.getParameter("registrationId")), true);
 		}else{

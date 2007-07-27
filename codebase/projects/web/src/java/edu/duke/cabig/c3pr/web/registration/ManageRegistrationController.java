@@ -7,6 +7,7 @@ import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.web.registration.tabs.ManageEpochTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.RegistrationOverviewTab;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 
@@ -18,7 +19,8 @@ public class ManageRegistrationController<C extends StudySubject> extends Regist
 
 	@Override
 	protected void intializeFlows(Flow flow) {
-		flow.addTab(new RegistrationOverviewTab());
+		flow.addTab(new RegistrationOverviewTab<StudySubject>());
+		flow.addTab(new ManageEpochTab<StudySubject>());
 		setFlow(flow);
 	}
 

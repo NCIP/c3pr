@@ -78,15 +78,29 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject>{
 
 	@Override
 	protected void postProcessSynchronous(HttpServletRequest request, StudySubject command, Errors error) throws Exception{
-		if(!WebUtils.hasSubmitParameter(request, "registrationId")){
-			StudySubject exampleSS=new StudySubject(true);
-			exampleSS.setParticipant(command.getParticipant());
-			exampleSS.setStudySite(command.getStudySite());
-			List registrations=studySubjectDao.searchByExample(exampleSS);
-			if(registrations.size()>0)
-				return;
+		if(WebUtils.hasSubmitParameter(request, "registrationId")){
+			if(WebUtils.hasSubmitParameter(request, "epoch")){
+				ScheduledEpoch scheduledEpoch;
+				Integer id=Integer.parseInt(request.getParameter("epoch"));
+				Epoch epoch=epochDao.getById(id);
+				if (epoch instanceof TreatmentEpoch) {
+					((TreatmentEpoch)epoch).getArms().size();
+					scheduledEpoch=new ScheduledTreatmentEpoch();
+				}else{
+					scheduledEpoch=new ScheduledNonTreatmentEpoch();
+				}
+				scheduledEpoch.setEpoch(epoch);
+				command.addScheduledEpoch(scheduledEpoch);
+				command.setScheduledEpoch(scheduledEpoch);
+				buildCommandObject(command);
+			}
+			return;
 		}
-		if(command.getScheduledEpoch()!=null)
+		StudySubject exampleSS=new StudySubject(true);
+		exampleSS.setParticipant(command.getParticipant());
+		exampleSS.setStudySite(command.getStudySite());
+		List registrations=studySubjectDao.searchBySubjectAndStudySite(exampleSS);
+		if(registrations.size()>0)
 			return;
 		Integer id=Integer.parseInt(request.getParameter("epoch"));
 		Epoch epoch=epochDao.getById(id);
@@ -102,8 +116,8 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject>{
 			scheduledEpoch=new ScheduledNonTreatmentEpoch();
 		}
 		scheduledEpoch.setEpoch(epoch);
+		command.getScheduledEpochs().add(0,scheduledEpoch);
 		command.setScheduledEpoch(scheduledEpoch);
-		command.addScheduledEpoch(scheduledEpoch);
 		buildCommandObject(command);
 	}
 	private void buildCommandObject(StudySubject studySubject){
