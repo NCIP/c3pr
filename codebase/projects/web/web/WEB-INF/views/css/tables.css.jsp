@@ -134,3 +134,44 @@
 	font: bold 10px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
 	color: #797268;
 }
+
+      .TableLikeHeader {
+	background:#D7D9E3 none repeat scroll 0%;
+	border-bottom:1px solid #C1DAD7;
+	border-right:1px solid #C1DAD7;
+	border-top:1px solid #C1DAD7;
+	color:#000000;
+	font-family:"Trebuchet MS",Verdana,Arial,Helvetica,sans-serif;
+	font-size:11px;
+	font-size-adjust:none;
+	font-stretch:normal;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:bold;
+	letter-spacing:2px;
+	line-height:normal;
+	padding:6px 6px 6px 12px;
+	text-align:left;
+	text-transform:uppercase;
+}
+.TableLikeColumn{
+	background:#FFFFFF none repeat scroll 0%;
+	border-bottom:1px solid #C1DAD7;
+	border-right:1px solid #C1DAD7;
+	color:#4F6B72;
+	font-family:auto,"Trebuchet MS",Verdana,Arial,Helvetica,sans-serif;
+	font-size:11px;
+	font-size-adjust:none;
+	font-stretch:normal;
+	font-style:normal;
+	font-variant:normal;
+	font-weight:normal;
+	line-height:normal;
+	padding:6px 6px 6px 12px;
+	height: 150px;
+	width: 300px
+}
+.DropDraggableArea{
+	height: 100%;
+	width: 100%;
+}

@@ -42,7 +42,7 @@ public class ManageEpochTab<C extends StudySubject> extends InPlaceEditableTab<C
 			Epoch epoch=epochDao.getById(id);
 			for(ScheduledEpoch scheduledEpoch:command.getScheduledEpochs()){
 				if(scheduledEpoch.getEpoch().getId()==epoch.getId())
-					return new AjaxResponseText(true,false,-1).toString();
+					return new AjaxResponseText(true,false,id).toString();
 			}
 			if (epoch instanceof TreatmentEpoch) {
 				return new AjaxResponseText(false,true,epoch.getId()).toString();
