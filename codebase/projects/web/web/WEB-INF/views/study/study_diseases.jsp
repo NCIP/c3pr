@@ -12,7 +12,7 @@
 <title>${tab.longTitle}</title>
 
 <tags:includeScriptaculous/>
-<tags:dwrJavascriptLink objects="createStudy"/>
+<tags:dwrJavascriptLink objects="StudyAjaxFacade"/>
 <script type="text/javascript">
 
 function validatePage() {
@@ -43,7 +43,7 @@ function hover(index)
 var diseaseAutocompleterProps = {
     basename: "disease",
     populator: function(autocompleter, text) {
-        createStudy.matchDiseaseCategories(text, '', function(values) {
+        StudyAjaxFacade.matchDiseaseCategories(text, '', function(values) {
             autocompleter.setChoices(values)
         })
     },
@@ -87,7 +87,7 @@ function acCreate(mode) {
 
 
 function updateCategories(id) {
-    createStudy.matchDiseaseCategoriesByParentId(id, function(categories) {
+    StudyAjaxFacade.matchDiseaseCategoriesByParentId(id, function(categories) {
         var sel = $("disease-sub-category")
         sel.size = categories.length < 10 ? categories.length + 2 : 10;
         //sel.size= 10
@@ -117,7 +117,7 @@ function showDiseases() {
         for (i = 1; i < subCategorySelect.length; i++) {
             var catId = subCategorySelect.options[i].value
 
-            createStudy.matchDiseaseTermsByCategoryId(catId, function(diseases) {
+            StudyAjaxFacade.matchDiseaseTermsByCategoryId(catId, function(diseases) {
 
                 diseases.each(function(cat) {
                     var opt = new Option(cat.ctepTerm, cat.id)
@@ -128,7 +128,7 @@ function showDiseases() {
 
     }
     else {
-        createStudy.matchDiseaseTermsByCategoryId(categoryId, function(diseases) {
+        StudyAjaxFacade.matchDiseaseTermsByCategoryId(categoryId, function(diseases) {
             var sel = $("disease-term")
             sel.size = diseases.length + 2;
             sel.options.length = 0
@@ -213,7 +213,7 @@ function populateSelectsOnLoad()
 
     if ($('disease-input').value.length > 0)
     {
-        createStudy.matchDiseaseCategories($('disease-input').value, '', function(values) {
+        StudyAjaxFacade.matchDiseaseCategories($('disease-input').value, '', function(values) {
             updateCategories(values[0].id);
         })
     }

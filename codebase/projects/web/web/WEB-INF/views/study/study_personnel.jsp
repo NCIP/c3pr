@@ -17,7 +17,7 @@
     }
 </style>
 <tags:includeScriptaculous/>
-<tags:dwrJavascriptLink objects="createStudy"/>
+<tags:dwrJavascriptLink objects="StudyAjaxFacade"/>
 
 <title>${tab.longTitle}</title>
 <style type="text/css">
@@ -49,7 +49,7 @@
     var personnelAutocompleterProps = {
         basename: "personnel",
         populator: function(autocompleter, text) {
-            createStudy.matchResearchStaffs(text, document.getElementById('site').value, function(values) {
+            StudyAjaxFacade.matchResearchStaffs(text, document.getElementById('site').value, function(values) {
                 autocompleter.setChoices(values)
             })
         },

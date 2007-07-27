@@ -11,7 +11,7 @@
 <html>
 <head>
     <tags:includeScriptaculous/>
-    <tags:dwrJavascriptLink objects="createStudy"/>
+    <tags:dwrJavascriptLink objects="StudyAjaxFacade"/>
 
     <title>${tab.longTitle}</title>
 
@@ -37,7 +37,7 @@
             basename: "investigator",
             populator: function(autocompleter, text) {
 
-                createStudy.matchSiteInvestigators(text, document.getElementById('site').value, function(values) {
+                StudyAjaxFacade.matchSiteInvestigators(text, document.getElementById('site').value, function(values) {
                     autocompleter.setChoices(values)
                 })
             },
