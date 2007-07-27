@@ -94,7 +94,7 @@ public class ManageEpochTab<C extends StudySubject> extends InPlaceEditableTab<C
 		@Override
 		public String toString() {
 			// TODO Auto-generated method stub
-			return alreadyRegistered+"||"+requiresStratification+"||"+epochId;
+			return alreadyRegistered+"||"+requiresStratification+"||"+epochId+"||";
 		}
 	}
 }
