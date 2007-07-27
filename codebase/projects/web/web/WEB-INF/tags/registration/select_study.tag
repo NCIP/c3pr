@@ -14,6 +14,7 @@
 		element=$$(localClassString)[0];
 		htmlStr=msg;
 		new Element.update(element,htmlStr);
+		new Effect.Pulsate(element);
 	}
 	
 	function minimizeEpochBox(msg){
@@ -22,6 +23,7 @@
 		element=$$(localClassString)[0];
 		htmlStr=msg;
 		new Element.update(element,htmlStr);
+		new Effect.Pulsate(element);
 	}
 	
 	
