@@ -5,7 +5,6 @@
     <allow>
         <create creator="spring" javascript="StudyAjaxFacade">
             <param name="beanName" value="studyAjaxFacade"/>
-             <include method="getTable"/>
         </create>
 
         <create creator="spring" javascript="registrationDetails">
