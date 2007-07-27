@@ -12,6 +12,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
+import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Identifier;
@@ -63,6 +64,9 @@ public class SearchStudyController extends SimpleFormController {
         map.put("searchTypeRefData", configMap.get("studySearchType"));
         Object viewData = studyAjaxFacade.getTableForExport(map, request);
         request.setAttribute("studies", viewData);
+        if(WebUtils.hasSubmitParameter(request, "async")){
+        	return new ModelAndView("/registration/studyResultsAsync",map);
+        }
         ModelAndView modelAndView = new ModelAndView(getSuccessView(), map);
         return modelAndView;
     }
