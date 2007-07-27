@@ -1,8 +1,5 @@
 package edu.duke.cabig.c3pr.service;
 
-import java.util.List;
-
-import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 
 /**

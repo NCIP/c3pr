@@ -5,17 +5,29 @@ import edu.duke.cabig.c3pr.utils.ProjectedList;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 import gov.nih.nci.cabig.ctms.domain.DomainObjectTools;
+
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import org.apache.commons.collections15.functors.InstantiateFactory;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-
-import javax.persistence.*;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import org.hibernate.mapping.Collection;
 
 
 /**
@@ -104,9 +116,22 @@ public class StudySubject extends AbstractMutableDomainObject {
 	}
 	
 	public void setScheduledEpoch(ScheduledEpoch scheduledEpoch) {
-		this.scheduledEpoch = scheduledEpoch;
+		for(ScheduledEpoch scheduledEpoch2: getScheduledEpochs())
+			if(scheduledEpoch2.getId()==scheduledEpoch.getId())
+				this.scheduledEpoch = scheduledEpoch2;
 	}
 
+	@Transient
+	public ScheduledEpoch getCurrentScheduledEpoch(){
+		List<ScheduledEpoch> tempList=new ArrayList<ScheduledEpoch>();
+		tempList.addAll(getScheduledEpochs());
+		Collections.sort(tempList);
+		return tempList.get(tempList.size()-1);
+	}
+	
+	public void setCurrentScheduledEpoch(ScheduledEpoch scheduledEpoch){
+		
+	}
 	@Transient
 	public boolean getIfTreatmentScheduledEpoch(){
 		if (getScheduledEpoch() instanceof ScheduledTreatmentEpoch) {

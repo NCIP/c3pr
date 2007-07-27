@@ -2,16 +2,19 @@ package edu.duke.cabig.c3pr.dao;
 
 import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import org.hibernate.proxy.HibernateProxyHelper;
 
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
+import edu.duke.cabig.c3pr.domain.ScheduledNonTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.StudySite;
@@ -32,6 +35,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     private EpochDao epochDao;
     private AnatomicSiteDao anatomicSiteDao;
     private StudySubjectDao studySubjectDao;
+    private ScheduledEpochDao scheduledEpochDao;
     
     @Override
     protected void setUp() throws Exception {
@@ -42,8 +46,90 @@ public class StudySubjectDaoTest extends DaoTestCase {
         epochDao = (EpochDao) getApplicationContext().getBean("epochDao");
         anatomicSiteDao = (AnatomicSiteDao) getApplicationContext().getBean("anatomicSiteDao");
         studySubjectDao = (StudySubjectDao) getApplicationContext().getBean("studySubjectDao");
+        scheduledEpochDao= (ScheduledEpochDao) getApplicationContext().getBean("scheduledEpochDao");
     }
-    
+    /**
+	 * Test for loading a Study Subject by Id 
+	 * @throws Exception
+	 */
+    public void testMoveToNewScheduledEpoch() throws Exception {
+        Integer savedId;
+        {
+        	//formbackingobject
+            Object command =studySubjectDao.getById(1000);
+            
+            //add new scheduled epoch
+            Object onBindFormObject=bindNewScheduledEpoch(command);
+            interruptSession();
+            currentFormObject(onBindFormObject);
+            
+            //enrollment details
+            Object afterEnroll= bindEnrollmentDetails(onBindFormObject);
+            interruptSession();
+            currentFormObject(afterEnroll);
+            
+            //disease details
+            Object afterDisease= bindDiseaseDetails(afterEnroll);
+            interruptSession();
+            currentFormObject(afterDisease);
+            
+            //eligibility details
+            Object afterElig= bindEligibility(afterDisease);
+            interruptSession();
+            currentFormObject(afterElig);
+            
+            //startification details
+            Object afterStrat= bindStratification(afterElig);
+            interruptSession();
+            currentFormObject(afterStrat);
+
+            //randomization details
+            Object afterRan= bindRandomization(afterStrat);
+            interruptSession();
+            currentFormObject(afterRan);
+
+            //reviewsave details
+            Object saved= reviewAndSave(afterRan);
+            
+            StudySubject studySubject=(StudySubject)saved;
+            
+            savedId= studySubject.getId().intValue();
+            assertNotNull("The registration didn't get an id", savedId);
+        }
+
+        interruptSession();
+        {
+        	StudySubject loaded = studySubjectDao.getById(savedId);
+        	assertNotNull("Could not reload registration with id " + savedId, loaded);
+        	assertEquals("Wrong number of scheduled epochs", 2, loaded.getScheduledEpochs().size());
+        	assertEquals("Wrong number of scheduled treatment epochs", 2, loaded.getScheduledTreatmentEpochs().size());
+        	assertEquals("Wrong number of scheduled non treatment epochs", 0, loaded.getScheduledNonTreatmentEpochs().size());
+        	loaded.setScheduledEpoch(loaded.getScheduledEpochs().get(1));
+        	assertEquals("getIfTreatmentScheduledEpoch return is inconsistent", true, loaded.getIfTreatmentScheduledEpoch());
+        	ScheduledTreatmentEpoch scheduledTreatmentEpoch=(ScheduledTreatmentEpoch)loaded.getScheduledEpoch();
+        	assertEquals("Wrong eligibility indicator", true, scheduledTreatmentEpoch.getEligibilityIndicator().booleanValue());
+        	assertEquals("Wrong number of subject eligibility answers", 3, scheduledTreatmentEpoch.getSubjectEligibilityAnswers().size());
+        	assertEquals("Wrong number of subject inclusion eligibility answers", 1, scheduledTreatmentEpoch.getInclusionEligibilityAnswers().size());
+        	assertEquals("Wrong number of subject exclusion eligibility answers", 2, scheduledTreatmentEpoch.getExclusionEligibilityAnswers().size());
+        	assertEquals("Wrong number of subject stratification answers", 1, scheduledTreatmentEpoch.getSubjectStratificationAnswers().size());
+        	assertEquals("Wrong registration status", "Complete", loaded.getRegistrationStatus());
+        	ScheduledEpoch currentScheduledEpoch=loaded.getCurrentScheduledEpoch();
+        	assertEquals("Wrong current scheduledEpoch", currentScheduledEpoch.getId(), scheduledTreatmentEpoch.getId());
+        }
+        interruptSession();
+    	
+
+    }
+
+    public void testCurrentScheduledEpoch() throws Exception{
+    	StudySubject studySubject=new StudySubject();
+    	ScheduledEpoch scheduledEpoch1=new ScheduledTreatmentEpoch();
+    	scheduledEpoch1.setStartDate((new GregorianCalendar(1990,1,2)).getTime());
+    	ScheduledEpoch scheduledEpoch2=new ScheduledNonTreatmentEpoch();
+    	studySubject.addScheduledEpoch(scheduledEpoch2);
+    	studySubject.addScheduledEpoch(scheduledEpoch1);
+    	assertEquals("current epoch is wrong",studySubject.getCurrentScheduledEpoch(),scheduledEpoch2); 
+    }
     /**
      * Test Saving of a basic Study Subject
      * @throws Exception
@@ -170,8 +256,6 @@ public class StudySubjectDaoTest extends DaoTestCase {
         	assertEquals("Wrong number of subject exclusion eligibility answers", 1, scheduledTreatmentEpoch.getExclusionEligibilityAnswers().size());
         	assertEquals("Wrong number of subject stratification answers", 1, scheduledTreatmentEpoch.getSubjectStratificationAnswers().size());
         	assertEquals("Wrong registration status", "Complete", loaded.getRegistrationStatus());
-        	assertEquals("Wrong number of registrations", 1, loaded.getParticipant().getStudySubjects().size());
-        	assertEquals("Wrong number of registrations", 1, loaded.getStudySite().getStudySubjects().size());
         }
         interruptSession();
     }
@@ -212,8 +296,8 @@ public class StudySubjectDaoTest extends DaoTestCase {
             studySubject.setStudySite(studySite);
             ScheduledEpoch scheduledEpochFirst=new ScheduledTreatmentEpoch();
             scheduledEpochFirst.setEpoch(epochDao.getById(1000));
-            studySubject.setScheduledEpoch(scheduledEpochFirst);
             studySubject.addScheduledEpoch(scheduledEpochFirst);
+            studySubject.setScheduledEpoch(scheduledEpochFirst);
 			ScheduledTreatmentEpoch scheduledTreatmentEpoch=(ScheduledTreatmentEpoch)studySubject.getScheduledEpoch();
 			List criterias=scheduledTreatmentEpoch.getTreatmentEpoch().getInclusionEligibilityCriteria();
 			for(int i=0 ; i<criterias.size() ; i++){
@@ -282,8 +366,6 @@ public class StudySubjectDaoTest extends DaoTestCase {
         	assertEquals("Wrong number of subject exclusion eligibility answers", 1, scheduledTreatmentEpoch.getExclusionEligibilityAnswers().size());
         	assertEquals("Wrong number of subject stratification answers", 1, scheduledTreatmentEpoch.getSubjectStratificationAnswers().size());
         	assertEquals("Wrong registration status", "Complete", loaded.getRegistrationStatus());
-        	assertEquals("Wrong number of registrations", 1, loaded.getParticipant().getStudySubjects().size());
-        	assertEquals("Wrong number of registrations", 1, loaded.getStudySite().getStudySubjects().size());
         }
     }
 
@@ -305,8 +387,17 @@ public class StudySubjectDaoTest extends DaoTestCase {
         ScheduledEpoch scheduledEpochFirst=new ScheduledTreatmentEpoch();
         scheduledEpochFirst.setEpoch(epochDao.getById(1000));
         int a=((TreatmentEpoch)scheduledEpochFirst.getEpoch()).getArms().size();
-        studySubject.setScheduledEpoch(scheduledEpochFirst);
         studySubject.addScheduledEpoch(scheduledEpochFirst);
+        studySubject.setScheduledEpoch(scheduledEpochFirst);
+		return buildCommandObject(studySubject);
+	}
+	protected StudySubject bindNewScheduledEpoch(Object command) {
+		StudySubject studySubject=(StudySubject)command;
+        ScheduledEpoch scheduledEpochFirst=new ScheduledTreatmentEpoch();
+        scheduledEpochFirst.setEpoch(epochDao.getById(1002));
+        int a=((TreatmentEpoch)scheduledEpochFirst.getEpoch()).getArms().size();
+        studySubject.addScheduledEpoch(scheduledEpochFirst);
+        studySubject.setScheduledEpoch(scheduledEpochFirst);
 		return buildCommandObject(studySubject);
 	}
 

@@ -2,8 +2,10 @@ package edu.duke.cabig.c3pr.dao;
 
 import java.util.List;
 
-import edu.duke.cabig.c3pr.domain.Epoch;
+import org.hibernate.LockMode;
+
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 
 /**
  * Hibernate implementation of EpochDao
@@ -25,4 +27,8 @@ public class ScheduledEpochDao extends GridIdentifiableDao<ScheduledEpoch> {
 	 public List<ScheduledEpoch> getAll(){
 		 return getHibernateTemplate().find("from ScheduledEpoch");
 	 }
+	 
+	 public void reassociate(ScheduledEpoch sch) {
+        getHibernateTemplate().lock(sch,LockMode.NONE);
+     }
 }

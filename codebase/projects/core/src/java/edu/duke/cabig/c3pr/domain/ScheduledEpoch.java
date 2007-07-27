@@ -25,7 +25,7 @@ import org.hibernate.annotations.Parameter;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "SCHEDULED_EPOCHS_ID_SEQ") })
-public abstract class ScheduledEpoch extends AbstractMutableDomainObject {
+public abstract class ScheduledEpoch extends AbstractMutableDomainObject implements Comparable<ScheduledEpoch>{
 
 	private Epoch epoch;
 
@@ -45,7 +45,7 @@ public abstract class ScheduledEpoch extends AbstractMutableDomainObject {
 		this.startDate=new Date();
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "eph_id", nullable = false)
 	public Epoch getEpoch() {
 		return epoch;
@@ -78,4 +78,7 @@ public abstract class ScheduledEpoch extends AbstractMutableDomainObject {
 	 * return false; return true; }
 	 */
 
+	public int compareTo(ScheduledEpoch scheduledEpoch) {
+		return this.startDate.compareTo(scheduledEpoch.getStartDate());
+	}
 }

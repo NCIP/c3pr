@@ -1,19 +1,21 @@
 package edu.duke.cabig.c3pr.domain;
 
-import edu.duke.cabig.c3pr.utils.DateUtil;
-import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
-
-import javax.persistence.*;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
+import edu.duke.cabig.c3pr.utils.DateUtil;
+import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
 /**
  * @author Ram Chilukuri, Priyatam

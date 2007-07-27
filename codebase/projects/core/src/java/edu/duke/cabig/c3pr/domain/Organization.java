@@ -1,12 +1,11 @@
 package edu.duke.cabig.c3pr.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
-//import javax.persistence.CascadeType;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;

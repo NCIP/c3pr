@@ -5,17 +5,9 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
-import edu.duke.cabig.c3pr.domain.DiseaseHistory;
-import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
-import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
-import edu.duke.cabig.c3pr.domain.StudySubject;
-import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
-import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
 import edu.duke.cabig.c3pr.esb.impl.MessageBroadcastServiceImpl;
 import edu.duke.cabig.c3pr.service.ParticipantService;
-import edu.duke.cabig.c3pr.utils.XMLUtils;
 
 /**
  * @author Kulasekaran, Ramakrishna

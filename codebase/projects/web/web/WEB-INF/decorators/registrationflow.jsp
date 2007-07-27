@@ -40,17 +40,24 @@
     rTab :  ${rTab}<br>
     registrationTab : ${registrationTab}<br>
     ${currentSection.displayName=='Registration' && rFlow!='false' && rTab.display!='false'}<br>
+    
     <%= request.getSession().getAttribute("registrationFlow")!=null?"not empty":"empty" %><br>
     -->
-    
     <c:choose>
         <c:when test="${Tab.display!='false'}">
             <%System.out.println("--------setting tabs-------------"); %>
             <chrome:workflowTabsLevelOne tab='${Tab}' flow="${Flow}"/>
             <div class="tabcontent workArea">
-                <layout:summaryLayout-1-1 tab='${Tab}' flow="${Flow}">
-                    <decorator:body/>
-                </layout:summaryLayout-1-1>
+            	<c:choose>
+            		<c:when test="${Tab.showSummary!='false'}">
+		                <layout:summaryLayout-1-1 tab='${Tab}' flow="${Flow}">
+		                    <decorator:body/>
+		                </layout:summaryLayout-1-1>
+            		</c:when>
+            		<c:otherwise>
+            			<decorator:body/>
+            		</c:otherwise>
+            	</c:choose>
             </div>
         </c:when>
         <c:otherwise>

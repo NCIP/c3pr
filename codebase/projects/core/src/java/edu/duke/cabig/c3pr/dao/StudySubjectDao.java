@@ -123,7 +123,30 @@ public class StudySubjectDao extends
 		return registrationCriteria.add(example).list();
 
 	}
+	/**
+	 * *
+	 * 
+	 * @return list of matching registration objects based on your sample
+	 *         registration object
+	 * @param registration
+	 * @return
+	 */
+	public List<StudySubject> searchBySubjectAndStudySite(
+			StudySubject registration) {
 
+		Example example = Example.create(registration).excludeZeroes()
+				.ignoreCase();
+		Criteria registrationCriteria = getHibernateTemplate()
+				.getSessionFactory().getCurrentSession().createCriteria(
+						StudySubject.class);
+		registrationCriteria.add(example);
+		registrationCriteria.createCriteria("participant").add(
+						Restrictions.like("id", registration.getParticipant().getId()));
+		registrationCriteria.createCriteria("studySite").add(
+				Restrictions.like("id", registration.getStudySite().getId()));
+		return registrationCriteria.list();
+
+	}
 	public List<StudySubject> getAll() throws DataAccessException {
 		return getHibernateTemplate().find("from StudySubject");
 	}
