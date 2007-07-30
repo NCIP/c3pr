@@ -27,10 +27,10 @@
     <layout:header/>
     <c:set var="studySubject" value="${command}" scope="request"/>
     <form:form id="flowredirect">
-        <input type="hidden" name="_target${Tab.targetNumber}" id="flowredirect-target"/>
-        <input type="hidden" name="_page${Tab.number}"/>
+        <input type="hidden" name="_target${tab.targetNumber}" id="flowredirect-target"/>
+        <input type="hidden" name="_page${tab.number}" value="${tab.number}"/>
     </form:form>
-    <!-- currentSection.displayName : ${currentSection.displayName} <br>
+    <%-- currentSection.displayName : ${currentSection.displayName} <br>
     currentTask.displayName : ${currentTask.displayName }<BR>
     rTab.display : ${rTab.display }<br>
     rTab.shortTitle : ${rTab.shortTitle }<br>
@@ -42,15 +42,15 @@
     ${currentSection.displayName=='Registration' && rFlow!='false' && rTab.display!='false'}<br>
     
     <%= request.getSession().getAttribute("registrationFlow")!=null?"not empty":"empty" %><br>
-    -->
+    --%>
     <c:choose>
-        <c:when test="${Tab.display!='false'}">
+        <c:when test="${tab.display!='false'}">
             <%System.out.println("--------setting tabs-------------"); %>
-            <chrome:workflowTabsLevelOne tab='${Tab}' flow="${Flow}"/>
+            <chrome:workflowTabsLevelOne tab='${tab}' flow="${flow}"/>
             <div class="tabcontent workArea">
             	<c:choose>
-            		<c:when test="${Tab.showSummary!='false'}">
-		                <layout:summaryLayout-1-1 tab='${Tab}' flow="${Flow}">
+            		<c:when test="${!empty tab && tab.showSummary!='false'}">
+		                <layout:summaryLayout-1-1 tab='${tab}' flow="${flow}">
 		                    <decorator:body/>
 		                </layout:summaryLayout-1-1>
             		</c:when>
