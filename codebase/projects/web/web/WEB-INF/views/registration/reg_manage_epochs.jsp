@@ -71,8 +71,8 @@ function reloadPage(Id){
 							</c:when>
 							<c:otherwise>
 								Type: Non-Treatment<br>
-								Accrual Ceiling: epoch.accrualCeiling<br>
-								Accrual Indicator: epoch.accrualIndicator<br>
+								Accrual Ceiling: ${epoch.accrualCeiling}<br>
+								Accrual Indicator: ${epoch.accrualIndicator}<br>
 							</c:otherwise>
 						</c:choose>
 					</div>

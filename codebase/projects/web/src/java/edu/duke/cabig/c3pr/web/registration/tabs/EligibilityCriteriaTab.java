@@ -34,8 +34,9 @@ public class EligibilityCriteriaTab extends RegistrationTab<StudySubject>{
 	@Override
 	protected void postProcessSynchronous(HttpServletRequest request, StudySubject command, Errors error) {
 		// TODO Auto-generated method stub
-		StudySubject studySubject=(StudySubject)command;
-		((ScheduledTreatmentEpoch)studySubject.getScheduledEpoch()).setEligibilityIndicator(evaluateEligibilityIndicator(studySubject));
+		if(command.getIfTreatmentScheduledEpoch()){
+			((ScheduledTreatmentEpoch)command.getScheduledEpoch()).setEligibilityIndicator(evaluateEligibilityIndicator(command));
+		}
 	}
 	private boolean evaluateEligibilityIndicator(StudySubject studySubject){
 		boolean flag=true;

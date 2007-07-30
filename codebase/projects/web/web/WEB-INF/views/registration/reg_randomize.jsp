@@ -17,27 +17,28 @@
 </head>
 <body>
 <tags:formPanelBox tab="${tab}" flow="${flow}">
-	<strong>Please select an arm  </strong><br>
-	<table width="60%" border="0" cellspacing="0" cellpadding="0" id="table1">
-		<tr><td>&nbsp;</td></tr>
-		<tr>
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
 		<c:choose>
-			<c:when test="${fn:length(command.scheduledEpoch.epoch.arms)>0}">
-				<td class="label" width="80%">Select Arm:</td>
-				<td>
-					<select name ="scheduledEpoch.scheduledArms[0].arm">
-						<option value="" selected>--Please Select--</option>
-						<c:forEach items="${command.scheduledEpoch.treatmentEpoch.arms}" var="arm">
-							<option value="${arm.id }" <c:if test="${!empty command.scheduledEpoch.scheduledArms[0].arm && arm.id== command.scheduledEpoch.scheduledArms[0].arm.id }">selected</c:if>>${arm.name}</option>
-						</c:forEach>
-					</select>
-				</td>
-			</c:when>
-			<c:otherwise>
-				<td><span class="red"> This Study has no randomization</span></td>
-			</c:otherwise>
-		</c:choose>
+		<c:when test="${!command.ifTreatmentScheduledEpoch}">
+			<tr>
+				<td align=left><span class="red"> This Study has no randomization</span></td>
+			</tr>
+		</c:when>
+		<c:otherwise>
+		<tr><td><strong>Please select an arm  </strong></td></tr>
+		<tr>
+			<td class="label" width="80%">Select Arm:</td>
+			<td>
+				<select name ="scheduledEpoch.scheduledArms[0].arm">
+					<option value="" selected>--Please Select--</option>
+					<c:forEach items="${command.scheduledEpoch.treatmentEpoch.arms}" var="arm">
+						<option value="${arm.id }" <c:if test="${!empty command.scheduledEpoch.scheduledArms[0].arm && arm.id== command.scheduledEpoch.scheduledArms[0].arm.id }">selected</c:if>>${arm.name}</option>
+					</c:forEach>
+				</select>
+			</td>
 		</tr>
+		</c:otherwise>
+	</c:choose>
 	</table>
 </tags:formPanelBox>
 </body>

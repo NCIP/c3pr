@@ -24,13 +24,13 @@ function markAsAnswered(id){
 </script>
 </head>
 <body>
+<form:form method="post">
+<tags:tabFields tab="${tab}"/>
 <c:choose>
 	<c:when test="${!command.ifTreatmentScheduledEpoch || fn:length(command.scheduledEpoch.subjectEligibilityAnswers) == 0}">
 			<tags:panelBox>The Selected Study does not have Eligibility Crieterias</tags:panelBox>
 	</c:when>
 	<c:otherwise>
-	<form:form method="post">
-		<tags:tabFields tab="${tab}"/>
 		<table id="" width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
 			<tr>
 				<td>
@@ -103,10 +103,10 @@ function markAsAnswered(id){
 				</td>
 			</tr>
 		</table>
-        <tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
-		</form:form>
 	</c:otherwise>
 </c:choose>
 <!-- MAIN BODY ENDS HERE -->
-</body>
+<tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
+</form:form>
+	</body>
 </html>

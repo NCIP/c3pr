@@ -242,13 +242,10 @@ function manageSearchTypeMessage(message){
 											</c:if></td>
 			</tr>
 		</table>
-		</td>
-		</table>
-
-		<registrationTags:searchResults registrations="${registrations }" />
+	</form:form>
+	<registrationTags:searchResults registrations="${registrations }" />
 
 		<!-- MAIN BODY ENDS HERE -->
-	</form:form>
 </chrome:search>
 </body>
 </html>

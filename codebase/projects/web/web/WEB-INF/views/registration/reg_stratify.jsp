@@ -25,12 +25,11 @@ function markAsAnswered(id){
 </head>
 <body>
 <tags:formPanelBox tab="${tab}" flow="${flow}">
-<table width="100%" border="0" cellspacing="0" cellpadding="0"
-	id="table1">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
 	<c:choose>
-	<c:when test="${fn:length(command.scheduledEpoch.subjectStratificationAnswers) == 0}">
+	<c:when test="${!command.ifTreatmentScheduledEpoch}">
 		<tr>
-			<td class="label" align=left>The Selected Study does not have Stratification Factors</td>
+			<td class="label" align=left>The Selected Epcoh does not have Stratification Factors</td>
 		</tr>
 	</c:when>
 	<c:otherwise>
