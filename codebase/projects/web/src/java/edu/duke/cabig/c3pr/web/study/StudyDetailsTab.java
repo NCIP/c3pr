@@ -29,7 +29,7 @@ class StudyDetailsTab extends StudyTab {
         addConfigMapToRefdata(refdata, "typeRefData");
         addConfigMapToRefdata(refdata, "coordinatingCenters");
         addConfigMapToRefdata(refdata, "yesNo");
-
+        refdata.put("mandatory", "true");
         return refdata;
     }
 
