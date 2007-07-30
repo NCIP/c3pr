@@ -59,8 +59,7 @@ protected ModelAndView showForm(HttpServletRequest httpServletRequest, HttpServl
         // now Spring knows how to handle multipart object and convert them
     }
 
-
-   public BaseStudyAjaxFacade getStudyXMLFileAjaxFacade() {
+    public StudyXMLFileImportAjaxFacade getStudyXMLFileAjaxFacade() {
         return studyXMLFileAjaxFacade;
     }
 
