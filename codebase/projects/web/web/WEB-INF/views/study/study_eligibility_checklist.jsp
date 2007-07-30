@@ -9,7 +9,7 @@
 <html>
 <head>
 <tags:includeScriptaculous />
-<tags:dwrJavascriptLink objects="createStudy" />
+<tags:dwrJavascriptLink objects="StudyAjaxFacade" />
 
 <title>${tab.longTitle}</title>
 <style type="text/css">
