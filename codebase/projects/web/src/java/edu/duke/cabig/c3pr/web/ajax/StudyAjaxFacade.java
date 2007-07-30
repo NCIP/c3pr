@@ -159,7 +159,7 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
     public List<HealthcareSiteInvestigator> matchSiteInvestigators(String text, int siteIndex,
                                                                    HttpServletRequest request) throws Exception {
         Study study = (Study) getCommandOnly(request);
-        int siteId = study.getStudySites().get(0).getHealthcareSite().getId();
+        int siteId = study.getStudySites().get(siteIndex).getHealthcareSite().getId();
         List<HealthcareSiteInvestigator> inv = healthcareSiteInvestigatorDao
                 .getBySubnames(extractSubnames(text), siteId);
         List<HealthcareSiteInvestigator> reducedInv = new ArrayList<HealthcareSiteInvestigator>(inv.size());
