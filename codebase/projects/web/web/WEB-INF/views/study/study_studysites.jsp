@@ -33,7 +33,7 @@
                 Calendar.setup(
                 {
                     inputField  : inputDateElementLocal,         // ID of the input field
-                    ifFormat    : "%m %d, %Y",    // the date format
+                    ifFormat    : "%m/%d/%Y",    // the date format
                     button      : inputDateElementLink       // ID of the button
                 }
                         );
@@ -149,7 +149,7 @@
                        type="text"
                        class="date" />
                 <a href="#" id="studySites[PAGE.ROW.INDEX].irbApprovalDate-calbutton">
-                    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle"/>
+                    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>
                 </a>
             </td>
             <td  class="specalt"><a
