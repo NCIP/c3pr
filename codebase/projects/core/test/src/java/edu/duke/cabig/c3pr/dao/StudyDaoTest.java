@@ -538,7 +538,7 @@ public class StudyDaoTest extends DaoTestCase {
 							.getReservationIndicator());
 			assertEquals("Wrong accrual ceiling", 10,
 					((NonTreatmentEpoch) newNonTreatmentEpochs.get(1))
-							.getAccrualCeiling());
+							.getAccrualCeiling().intValue());
 
 		}
 	}

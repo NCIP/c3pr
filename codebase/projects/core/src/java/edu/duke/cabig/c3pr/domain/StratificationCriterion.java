@@ -30,7 +30,7 @@ import org.hibernate.annotations.Parameter;
 public class StratificationCriterion extends AbstractMutableDomainObject implements Comparable<StratificationCriterion> {
 
 	private LazyListHelper lazyListHelper;
-	private int questionNumber;
+	private Integer questionNumber;
     private String questionText;
        
     public StratificationCriterion() {
@@ -61,11 +61,11 @@ public class StratificationCriterion extends AbstractMutableDomainObject impleme
 		return 0;
 	}
 
-	public int getQuestionNumber() {
+	public Integer getQuestionNumber() {
 		return questionNumber;
 	}
 
-	public void setQuestionNumber(int questionNumber) {
+	public void setQuestionNumber(Integer questionNumber) {
 		this.questionNumber = questionNumber;
 	}
 

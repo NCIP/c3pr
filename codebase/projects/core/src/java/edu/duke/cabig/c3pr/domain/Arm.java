@@ -27,7 +27,7 @@ public class Arm extends AbstractMutableDomainObject implements Comparable<Arm> 
 	private TreatmentEpoch treatmentEpoch;
     private String name;
     private String descriptionText;
-    private int targetAccrualNumber;
+    private Integer targetAccrualNumber;
     
     /// LOGIC
     
@@ -74,11 +74,11 @@ public class Arm extends AbstractMutableDomainObject implements Comparable<Arm> 
     }
 
 
-    public void setTargetAccrualNumber(int targetAccrualNumber) {
+    public void setTargetAccrualNumber(Integer targetAccrualNumber) {
         this.targetAccrualNumber = targetAccrualNumber;
     }
 
-    public int getTargetAccrualNumber() {
+    public Integer getTargetAccrualNumber() {
         return targetAccrualNumber;
     }
     

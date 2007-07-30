@@ -6,9 +6,9 @@ import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 public enum RandomizationType  implements CodedEnum<Integer> {
 	PHONE_CALL(1), BOOK(2), CALL_OUT(3);
 
-	private int code;
+	private Integer code;
 
-	private RandomizationType(int code) {
+	private RandomizationType(Integer code) {
 		this.code = code;
 		register(this);
 	}
@@ -25,7 +25,7 @@ public enum RandomizationType  implements CodedEnum<Integer> {
 		return name();
 	}
 
-	public static RandomizationType getByCode(int code) {
+	public static RandomizationType getByCode(Integer code) {
 		return getByClassAndCode(RandomizationType.class, code);
 	}
 

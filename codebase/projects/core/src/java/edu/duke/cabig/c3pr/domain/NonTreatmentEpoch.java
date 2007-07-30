@@ -7,15 +7,15 @@ import javax.persistence.Entity;
 @DiscriminatorValue(value="NON-TREATMENT")
 //@Where(clause="type='NON-TREATMENT'")
 public class NonTreatmentEpoch extends Epoch{
-	private int accrualCeiling;
+	private Integer accrualCeiling;
 	private String accrualIndicator;
 	private String reservationIndicator;
 	private String enrollmentIndicator;
 	
-	public int getAccrualCeiling() {
+	public Integer getAccrualCeiling() {
 		return accrualCeiling;
 	}
-	public void setAccrualCeiling(int accrualCeiling) {
+	public void setAccrualCeiling(Integer accrualCeiling) {
 		this.accrualCeiling = accrualCeiling;
 	}
 	public String getAccrualIndicator() {

@@ -21,7 +21,7 @@ import org.hibernate.annotations.Parameter;
 public abstract class EligibilityCriteria extends AbstractMutableDomainObject {
 	private Boolean notApplicableIndicator;
 
-	private int questionNumber;
+	private Integer questionNumber;
 
 	private String questionText;
 
@@ -36,11 +36,11 @@ public abstract class EligibilityCriteria extends AbstractMutableDomainObject {
 		this.notApplicableIndicator = notApplicableInidicator;
 	}
 
-	public int getQuestionNumber() {
+	public Integer getQuestionNumber() {
 		return questionNumber;
 	}
 
-	public void setQuestionNumber(int questionNumber) {
+	public void setQuestionNumber(Integer questionNumber) {
 		this.questionNumber = questionNumber;
 	}
 
