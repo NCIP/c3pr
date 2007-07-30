@@ -135,7 +135,7 @@
 	color: #797268;
 }
 
-      .TableLikeHeader {
+.TableLikeHeader {
 	background:#D7D9E3 none repeat scroll 0%;
 	border-bottom:1px solid #C1DAD7;
 	border-right:1px solid #C1DAD7;
@@ -168,7 +168,7 @@
 	font-weight:normal;
 	line-height:normal;
 	padding:6px 6px 6px 12px;
-	height: 150px;
+	height: 180px;
 	width: 300px
 }
 .DropDraggableArea{
