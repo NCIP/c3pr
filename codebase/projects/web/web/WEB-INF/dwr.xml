@@ -26,7 +26,6 @@
 
         <create creator="spring" javascript="StudyXMLFileImportAjaxFacade">
             <param name="beanName" value="studyXMLFileAjaxFacade"/>
-            <include method="getTable"/>
         </create>
 
         <create creator="new" javascript="date">
