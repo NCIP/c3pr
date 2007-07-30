@@ -73,9 +73,15 @@
     <ELIGIBILITY_CRITERIAS id="2000" version="1" question_number="1" eph_id="1000" question_text="inclusion question 1" dtype="I"/>
     <ELIGIBILITY_CRITERIAS id="2001" version="1" question_number="2" eph_id="1000" question_text="inclusion question 2" dtype="I"/>
     <ELIGIBILITY_CRITERIAS id="2002" version="1" question_number="3" eph_id="1000" question_text="exclusion question 1" dtype="E" />
+    <ELIGIBILITY_CRITERIAS id="2003" version="1" question_number="1" eph_id="1002" question_text="inclusion question 1" dtype="I"/>
+    <ELIGIBILITY_CRITERIAS id="2004" version="1" question_number="2" eph_id="1002" question_text="inclusion question 2" dtype="E"/>
+    <ELIGIBILITY_CRITERIAS id="2005" version="1" question_number="3" eph_id="1002" question_text="exclusion question 1" dtype="E" />
     
     <STRATIFICATION_CRITERION id="1000" version="1" question_text="question" eph_id="1000" question_number="1"/>
     <STRATIFICATION_CRI_PER_ANS id="1000" version="1" permissible_answer="answer" str_cri_id="1000"/>  
+    <STRATIFICATION_CRITERION id="1001" version="1" question_text="question" eph_id="1002" question_number="1"/>
+    <STRATIFICATION_CRI_PER_ANS id="1001" version="1" permissible_answer="answer" str_cri_id="1001"/>  
+    <STRATIFICATION_CRI_PER_ANS id="1002" version="1" permissible_answer="answer2" str_cri_id="1001"/>      
               
    	<PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="M" race_code="White" add_id="1000" />
     <PARTICIPANTS id="1001" version="1" first_name="Alfred" last_name="Douglas" birth_date="01-01-2000" administrative_gender_code="M" race_code="White" add_id="1001" />
