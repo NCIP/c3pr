@@ -27,7 +27,6 @@ public class StudyXMLFileImportAjaxFacade extends BaseStudyAjaxFacade {
     private edu.duke.cabig.c3pr.service.StudyXMLImporterService studyXMLImporterService;
     private static Log log = LogFactory.getLog(StudyXMLFileImportAjaxFacade.class);
 
-
     public String getTable(Map parameterMap, HttpServletRequest request)
             throws Exception {
 
@@ -45,11 +44,11 @@ public class StudyXMLFileImportAjaxFacade extends BaseStudyAjaxFacade {
         Collection<Study> studies = null;
         try {
             studies = studyXMLImporterService.importStudies(studyXMLFile.getInputStream());
-
+            return build(model, studies, "Imported Studies", action).toString();
         } catch (Exception e) {
             log.debug(e.getMessage());
         }
-        return build(model, studies, "Imported Studies", action).toString();
+          return "";
     }
 
 

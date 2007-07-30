@@ -15,7 +15,7 @@ import org.extremecomponents.util.HtmlBuilder;
  */
 public class ViewStudyLinkCustomCell extends AbstractCell {
 
-    public static final String VIEW_STUDY_URL = "viewStudy";
+    public static final String VIEW_STUDY_URL = "/pages/study/viewStudy";
 
     @Override
     public String getHtmlDisplay(TableModel tableModel, Column column) {
@@ -24,7 +24,7 @@ public class ViewStudyLinkCustomCell extends AbstractCell {
         CustomHtmlBuilder html = new CustomHtmlBuilder();
         ColumnBuilder columnBuilder = new ColumnBuilder(html, column);
         columnBuilder.tdStart();
-        html.a(VIEW_STUDY_URL, "studyId", study.getId().toString());
+        html.a(tableModel.getContext().getContextPath() + VIEW_STUDY_URL, "studyId", study.getId().toString());
         html.close();
         columnBuilder.tdBody(column.getValueAsString());
         html.aEnd();

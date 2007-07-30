@@ -7,6 +7,7 @@ import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.apache.log4j.Logger;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.TransformerFactory;
@@ -33,7 +34,7 @@ public class StudyXMLImporterService implements edu.duke.cabig.c3pr.service.Stud
 
     private StudyDao studyDao;
     private XmlMarshaller marshaller;
-
+    private  Logger log = Logger.getLogger(StudyXMLImporterService.class.getName());
 
     /**
      * Will parse an xml stream and create 1..many studies
@@ -63,12 +64,11 @@ public class StudyXMLImporterService implements edu.duke.cabig.c3pr.service.Stud
                         Study study = (Study)marshaller.fromXML(new StringReader(sr.getWriter().toString()));
                         this.validate(study);
                         //on validation save the study
-                        studyDao.save(study);
+                        studyDao.merge(study);
                         //once saved retreive persisted study
-                        studyDao.getByGridId(study.getGridId());
-                        studyList.add(study);
+                        studyList.add(studyDao.getByGridId(study.getGridId()));
                     } catch (Exception e) {
-                        //invalid study will not be imported
+                          log.debug(e.getMessage());
                     }
             }
 
@@ -83,10 +83,10 @@ public class StudyXMLImporterService implements edu.duke.cabig.c3pr.service.Stud
      */
     public void validate(Study study) throws StudyValidationException {
         //make sure grid id exists
-        if (study.getGridId()!=null){
-            throw new StudyValidationException("Study exists");
+        if (study.getGridId()==null){
+            throw new StudyValidationException("No valid GridID found.");
         }
-        else if(studyDao.getByGridId(study)!=null){
+        else if(studyDao.getByGridId(study.getGridId())!=null){
             throw new StudyValidationException("Study exists");
         }
     }
