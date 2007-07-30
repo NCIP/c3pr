@@ -109,15 +109,43 @@
             <xs:element name="type"  type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="primaryIdentifier"  type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="targetAccrualNumber"  type="xs:integer" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="identifier" type="IdentifierType" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element ref="epoch" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element name="studySite"  type="StudySiteType" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element name="identifier"  type="IdentifierType" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element name="incCriteria"  type="EligibilityCriteriaType" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element name="excCriteria"  type="EligibilityCriteriaType" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element name="stratificationCriteria"  type="StratificationCriterionType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="studyDisease" type="StudyDiseaseType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="studySite" type="StudySiteType" minOccurs="0" maxOccurs="unbounded"/>
+            <!--<xs:element name="studyOrganization" type="StudyOrganizationType" minOccurs="0" maxOccurs="unbounded"/>-->
+            <xs:element name="studyFundingSponsors" type="StudyOrganizationType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="studyCoordinatingCenters" type="StudyOrganizationType" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute name="gridId" type="xs:string"/>
     </xs:complexType>
+
+    <xs:complexType name="StudyOrganizationType">
+        <xs:sequence>
+            <xs:element name="healthcareSite" type="HealthcareSiteType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="gridId" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="StudyDiseaseType">
+        <xs:sequence>
+            <xs:element name="leadDisease" type="xs:boolean" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="diseaseTerm" type="DiseaseTermType" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="gridId" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="DiseaseTermType">
+        <xs:sequence>
+            <xs:element name="term" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="ctepTerm" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="medraCode" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="gridId" type="xs:string"/>
+    </xs:complexType>
+
+
+
 
     <xs:complexType name="ArmType">
         <xs:sequence>
@@ -129,15 +157,17 @@
     </xs:complexType>
 
     <xs:complexType name="StudySiteType">
-        <xs:sequence>
-            <xs:element name="irbApprovalDate" type="xs:dateTime" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="roleCode" type="xs:string" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="startDate" type="xs:dateTime" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="statusCode" type="xs:string" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="endDate" type="xs:dateTime" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="site" type="HealthcareSiteType" minOccurs="0" maxOccurs="1"/>
-        </xs:sequence>
-        <xs:attribute name="gridId" type="xs:string"/>
+        <xs:complexContent>
+            <xs:extension base="StudyOrganizationType" >
+                <xs:sequence>
+                    <xs:element name="irbApprovalDate" type="xs:dateTime" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="roleCode" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="startDate" type="xs:dateTime" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="statusCode" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="endDate" type="xs:dateTime" minOccurs="0" maxOccurs="1"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
 
     <xs:complexType name="HealthcareSiteType">
