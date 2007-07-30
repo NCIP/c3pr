@@ -104,16 +104,28 @@ public class Study extends AbstractMutableDomainObject implements Comparable<Stu
     public List<StudySite> getStudySites() {
         return lazyListHelper.getLazyList(StudySite.class);
     }
+    
+   public void setStudySites(List<StudySite> studySites) {
+        // do nothing
+    }
 
     @Transient
 	public List<StudyFundingSponsor> getStudyFundingSponsors() {
 		return lazyListHelper.getLazyList(StudyFundingSponsor.class);
 	}
+    
+    public void setStudyFundingSponsors(List<StudyFundingSponsor> studyFundingSponsors) {
+        // do nothing
+    }
 	
     @Transient
 	public List<StudyCoordinatingCenter> getStudyCoordinatingCenters() {
 		return lazyListHelper.getLazyList(StudyCoordinatingCenter.class);
 	}
+    
+    public void setStudyCoordinatingCenters(List<StudyCoordinatingCenter> studyCoordinatingCenters) {
+        // do nothing
+    }
 	
 	@OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
@@ -207,11 +219,19 @@ public class Study extends AbstractMutableDomainObject implements Comparable<Stu
 	public List<TreatmentEpoch> getTreatmentEpochs(){
     	 return lazyListHelper.getLazyList(TreatmentEpoch.class);
 	}
+    
+   	public void setTreatmentEpochs(List<TreatmentEpoch> treatmentEpochs){
+    	// do nothing
+	}
          
     @Transient
 	public List<NonTreatmentEpoch> getNonTreatmentEpochs(){
     	 return lazyListHelper.getLazyList(NonTreatmentEpoch.class);
    	}
+    
+	public void setNonTreatmentEpochs(List<NonTreatmentEpoch> nonTreatmentEpochs){
+    	// do nothing
+	}
 
     @OneToMany
     @Cascade({CascadeType.ALL, CascadeType.DELETE_ORPHAN})
