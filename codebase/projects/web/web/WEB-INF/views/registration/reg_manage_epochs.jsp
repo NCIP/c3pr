@@ -34,7 +34,7 @@ requiresWorkFlow=function(request){
 	}
 	if(requiresStratification=="true"){
 		$("create_epoch").value=idString;
-		confirm("This epoch requires stratifications. Do you want to stratify?")?$("create").submit():reloadPage(idString);
+		confirm("This epoch requires eligibility check, stratifications and Randomization. Do you want to continue?")?$("create").submit():reloadPage(idString);
 	}else{
 		$("manage_epoch").value=idString;
 		// write code to assign non treatment epoch
