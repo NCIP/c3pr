@@ -23,8 +23,6 @@ import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.SubFlow;
-import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 
 /**
  * 
@@ -72,10 +70,6 @@ private static Log log = LogFactory.getLog(SearchParticipantController.class);
     	Map map =errors.getModel();
     	map.put("participants", uniqueParticipants);
     	map.put("searchTypeRefData",configMap.get("participantSearchType"));
-    	if(isSubFlow(request)){
-    		processSubFlow(request,map);
-        	map.put("actionReturnType", "SearchResults");
-    	}
     	if(WebUtils.hasSubmitParameter(request, "async")){
         	return new ModelAndView("/registration/subjectResultsAsync",map);
         }
@@ -88,44 +82,8 @@ private static Log log = LogFactory.getLog(SearchParticipantController.class);
  		Map <String, List<Lov>> configMap = configurationProperty.getMap();
 		
  		refdata.put("searchTypeRefData", configMap.get("participantSearchType"));
- 		if(isSubFlow(request)){
- 			processSubFlow(request, refdata);
-    	}
  		return refdata;
 	 }	
-    private boolean isSubFlow(HttpServletRequest request){
-    	if(request.getParameter("inRegistration")!=null||request.getParameter("studySiteId")!=null)
-    		return true;
-    	return false;
-    }
-	
-    private void processSubFlow(HttpServletRequest request, Map map){
-    	if(request.getParameter("studySiteId")!=null){
-    		map.put("studySiteId", request.getParameter("studySiteId"));
-//    		getRegistrationFlow(request).getTab(2).setShowSummary("true");
-    	}else{
-    		List dispOrder=new ArrayList();
-			dispOrder.add("SearchSubjectStudy");
-			dispOrder.add("Select Subject");
-			dispOrder.add("Select Study");
-			dispOrder.add("Enrollment Details");
-			dispOrder.add("Diseases");
-			dispOrder.add("Check Eligibility");
-			dispOrder.add("Stratify");
-			dispOrder.add("Randomize");
-			dispOrder.add("Review & Submit");
-			setAlternateDisplayOrder(request,getRegistrationFlow(request).createAlternateFlow(dispOrder));
-//			getAlternateDisplayOrder(request).getTab(1).setShowSummary("false");
-    	}
-    	map.put("registrationTab", getRegistrationFlow(request).getTab(2));
-    	map.put("inRegistration", "true");
-    }
-    private SubFlow getRegistrationFlow(HttpServletRequest request){
-    	return (SubFlow)request.getSession().getAttribute("registrationFlow");
-    }
-	private void setAlternateDisplayOrder(HttpServletRequest request, Flow flow){
-		request.getSession().setAttribute("registrationAltFlow", flow);
-	}
 	public ParticipantDao getParticipantDao() {
 		return participantDao;
 	}

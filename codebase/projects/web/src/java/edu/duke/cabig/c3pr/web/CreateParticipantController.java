@@ -1,27 +1,5 @@
 package edu.duke.cabig.c3pr.web;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.Hashtable;
-import java.util.Enumeration;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.validation.BindException;
-import org.springframework.validation.Errors;
-import org.springframework.web.bind.ServletRequestDataBinder;
-import org.springframework.web.servlet.ModelAndView;
-
-
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.domain.Address;
@@ -33,12 +11,28 @@ import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.StringUtils;
-import edu.duke.cabig.c3pr.utils.web.propertyeditors.ObjectGraphBasedEditor;
-
-import edu.duke.cabig.c3pr.web.beans.DefaultObjectPropertyReader;
+import edu.duke.cabig.c3pr.utils.web.RowManager;
 import gov.nih.nci.cabig.ctms.web.tabs.AbstractTabbedFlowFormController;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.validation.BindException;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.servlet.ModelAndView;
 
 
 /**
@@ -118,19 +112,6 @@ public class CreateParticipantController extends
 		System.out.println("------------Create Reference Data-------------");
 		Map<String, Object> refdata = new HashMap<String, Object>();
 		Map<String, List<Lov>> configMap = configurationProperty.getMap();
-
-		if (page == 0) {
-			if (httpServletRequest.getParameter("studySiteId") != null) {
-				if (!httpServletRequest.getParameter("studySiteId").equals("")) {
-					refdata.put("studySiteId", httpServletRequest
-							.getParameter("studySiteId"));
-				}
-			}
-		}
-
-		if (isSubFlow(httpServletRequest)) {
-			processSubFlow(httpServletRequest, refdata);
-		}
 		return refdata;
 	}
 
@@ -139,36 +120,11 @@ public class CreateParticipantController extends
 			throws Exception {
 
 		// FIXME: small hack
-		if (request.getParameter("url") != null) {
-			if (request.getParameter("studySiteId") != null) {
-				setPages(new String[] {
-						"registration/reg_create_patient_study",
-						"registration/reg_create_patient_address_study",
-						"registration/reg_create_patient_submit_study" });
-			} else {
-				setPages(new String[] { "registration/reg_create_patient",
-						"registration/reg_create_patient_address",
-						"registration/reg_create_patient_submit" });
-			}
-			request.getSession().setAttribute("url",
-					request.getParameter("url"));
-			request.getSession().setAttribute("studySiteId",
-					request.getParameter("studySiteId"));
-		} else {
-			setPages(new String[] { "participant/participant",
-					"participant/participant_address",
-					"participant/participant_submit" });
-			request.getSession().removeAttribute("url");
-			request.getSession().removeAttribute("studySiteId");
-		}
-
 		Participant participant = (Participant) super
 				.formBackingObject(request);
-		{
-			Identifier temp = new Identifier();
-			temp.setPrimaryIndicator(false);
-			participant.addIdentifier(temp);
-		}
+		Identifier temp = new Identifier();
+		temp.setPrimaryIndicator(false);
+		participant.addIdentifier(temp);
 		participant = createParticipantWithContacts(participant);
 		participant.setAddress(new Address());
 		return participant;
@@ -198,39 +154,6 @@ public class CreateParticipantController extends
 	@Override
 	protected void postProcessPage(HttpServletRequest request, Object Command,
 			Errors errors, int page) {
-		Participant participant = (Participant) Command;
-
-		handleRowAction(participant, page, request.getParameter("_action"),
-				request.getParameter("_selected"));
-
-	}
-
-	private void handleRowAction(Participant participant, int page,
-			String action, String selected) {
-		switch (page) {
-		case 0:
-			if ("addIdentifier".equals(action)) {
-				Identifier identifier = new Identifier();
-				participant.addIdentifier(identifier);
-			} else if ("removeIdentifier".equals(action)) {
-
-				participant.getIdentifiers().remove(Integer.parseInt(selected));
-
-				break;
-			}
-		case 1:
-			if ("addContact".equals(action)) {
-				ContactMechanism contactMechanism = new ContactMechanism();
-				participant.addContactMechanism(contactMechanism);
-			} else if ("removeContact".equals(action)) {
-				participant.getContactMechanisms().remove(
-						Integer.parseInt(selected));
-			}
-			break;
-		default:
-			// do Nothing
-
-		}
 	}
 
 	@Override
@@ -238,41 +161,7 @@ public class CreateParticipantController extends
 			BindException errors) throws Exception {
 		// TODO Auto-generated method stub
 		super.onBind(request, command, errors);
-		handleRowDeletion(request, command);
-	}
-
-	public void handleRowDeletion(HttpServletRequest request, Object command)
-			throws Exception {
-		Enumeration enumeration = request.getParameterNames();
-		Hashtable<String, List<Integer>> table = new Hashtable<String, List<Integer>>();
-		while (enumeration.hasMoreElements()) {
-			String param = (String) enumeration.nextElement();
-			if (param.startsWith("_deletedRow-")) {
-				String[] params = param.split("-");
-				if (table.get(params[1]) == null)
-					table.put(params[1], new ArrayList<Integer>());
-				table.get(params[1]).add(new Integer(params[2]));
-			}
-		}
-		deleteRows(command, table);
-	}
-
-	public void deleteRows(Object command,
-			Hashtable<String, List<Integer>> table) throws Exception {
-		Enumeration<String> e = table.keys();
-		while (e.hasMoreElements()) {
-			String path = e.nextElement();
-			List col = (List) new DefaultObjectPropertyReader(command, path)
-					.getPropertyValueFromPath();
-			List<Integer> rowNums = table.get(path);
-			List temp = new ArrayList();
-			for (int i = 0; i < col.size(); i++) {
-				if (!rowNums.contains(new Integer(i)))
-					temp.add(col.get(i));
-			}
-			col.removeAll(col);
-			col.addAll(temp);
-		}
+		new RowManager().handleRowDeletion(request, command);
 	}
 
 	@Override
@@ -311,53 +200,10 @@ public class CreateParticipantController extends
 			response.getWriter().print(command.getFirstName()+" "+command.getLastName()+"||"+command.getId());
 			return null;
 		}
-		// FIXME: small hack
-		if (isSubFlow(request)) {
-			String url = "";
-			if (request.getParameter("studySiteId") != null) {
-				url = "createRegistration?resumeFlow=true&_page=1&_target3=3";
-				url += "&participant=" + Integer.toString(command.getId());
-				url += "&studySite=" + request.getParameter("studySiteId");
-			} else {
-				url = "searchStudy";
-				url += "?inRegistration=true&subjectId="
-						+ Integer.toString(command.getId());
-			}
-			response.sendRedirect(url);
-			return null;
-		}
 		response.sendRedirect("confirmCreateParticipant?lastName="
 				+ command.getLastName()+ "&firstName="+ command.getFirstName() + "&type=confirm");
 		return null;
 	}
-
-	
-	private boolean isSubFlow(HttpServletRequest request) {
-		if (request.getParameter("inRegistration") != null
-				|| request.getParameter("studySiteId") != null)
-			return true;
-		return false;
-	}
-
-	private void processSubFlow(HttpServletRequest request, Map map) {
-		map.put("registrationTab", getRegistrationFlow(request).getTab(2));
-		map.put("inRegistration", "true");
-		map.put("actionReturnType", "CreateParticipant");
-	}
-
-	private Flow getRegistrationFlow(HttpServletRequest request) {
-		return (Flow) request.getSession().getAttribute("registrationFlow");
-	}
-
-	/*
-	 * protected void validatePage(Object command, Errors errors, int page,
-	 * boolean finish) { Participant participant = (Participant) command; switch
-	 * (page) { case 0: { participantValidator
-	 * .validateParticipantDetails(participant, errors); //
-	 * participantValidator.validateIdentifiers(participant, errors); } break;
-	 * case 1: participantValidator .validateParticipantAddress(participant,
-	 * errors); break; case 2: // break; } }
-	 */
 
 	protected List<HealthcareSite> getHealthcareSites() {
 		return healthcareSiteDao.getAll();

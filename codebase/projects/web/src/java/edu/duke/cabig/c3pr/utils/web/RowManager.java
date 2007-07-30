@@ -25,7 +25,7 @@ public class RowManager {
         deleteRows(command, table);
     }
 
-    public void deleteRows(Object command, Hashtable<String, List<Integer>> table) throws Exception {
+    private void deleteRows(Object command, Hashtable<String, List<Integer>> table) throws Exception {
         Enumeration<String> e = table.keys();
         while (e.hasMoreElements()) {
             String path = e.nextElement();
