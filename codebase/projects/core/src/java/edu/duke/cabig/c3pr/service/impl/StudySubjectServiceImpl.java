@@ -91,7 +91,7 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 			return "Incomplete";
 		}else if(!evaluateStratificationIndicator(studySubject)){
 			return "Incomplete";
-		}else if (current instanceof ScheduledTreatmentEpoch) {
+		}else if (studySubject.getIfTreatmentScheduledEpoch()) {
 			ScheduledTreatmentEpoch scheduledTreatmentEpoch = (ScheduledTreatmentEpoch) current; 
 			if(!scheduledTreatmentEpoch.getEligibilityIndicator()){
 				return "Incomplete";
@@ -103,7 +103,7 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 	}
 	private static boolean evaluateStratificationIndicator(StudySubject studySubject){
 		ScheduledEpoch current=studySubject.getScheduledEpoch();
-		if (current instanceof ScheduledTreatmentEpoch) {
+		if (studySubject.getIfTreatmentScheduledEpoch()) {
 			ScheduledTreatmentEpoch scheduledTreatmentEpoch = (ScheduledTreatmentEpoch) current; 
 			List<SubjectStratificationAnswer> answers=scheduledTreatmentEpoch.getSubjectStratificationAnswers();
 			for(SubjectStratificationAnswer subjectStratificationAnswer:answers){
