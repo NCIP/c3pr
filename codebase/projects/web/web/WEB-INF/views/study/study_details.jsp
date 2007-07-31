@@ -4,9 +4,12 @@
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
-
 <html>
 <head>
+<tags:stylesheetLink name="tabbedflow" />
+<tags:javascriptLink name="tabbedflow" />
+<tags:includeScriptaculous />
+<tags:dwrJavascriptLink objects="StudyAjaxFacade" />
 <script type="text/javascript">
 
         Effect.OpenUp = function(element) {
@@ -42,6 +45,40 @@
                 Effect.CloseDown('randomizationType');
             }
         }
+        
+var sponsorSiteAutocompleterProps = {
+	basename: "healthcareSite",
+    populator: function(autocompleter, text) {
+			        StudyAjaxFacade.matchHealthcareSites(text,function(values) {
+																    	autocompleter.setChoices(values)
+																	   })
+			    },
+    valueSelector: function(obj) {
+						return obj.name
+			    	},
+    afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+    								hiddenField=sponsorSiteAutocompleterProps.basename+"-hidden"
+	    							$(hiddenField).value=selectedChoice.id;  	    								    							
+								}
+}
+var coCenterAutocompleterProps = {
+	basename: "coCenter",
+    populator: function(autocompleter, text) {
+			        StudyAjaxFacade.matchHealthcareSites(text,function(values) {
+																    	autocompleter.setChoices(values)
+																	   })
+			    },
+    valueSelector: function(obj) {
+						return obj.name
+			    	},
+    afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+    								hiddenField=coCenterAutocompleterProps.basename+"-hidden"
+	    							$(hiddenField).value=selectedChoice.id;
+								}
+}
+autoCompleters.push(coCenterAutocompleterProps);
+autoCompleters.push(sponsorSiteAutocompleterProps);
+
 
     </script>
 
@@ -125,15 +162,15 @@
 				<form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
 			</form:select></div>
 			</div>
-
+			
 			<div class="row">
 			<div class="label">*Sponsor:</div>
-			<div class="value"><form:select path="identifiers[0].source"
-				cssClass="validate-notEmpty">
-				<option value="">--Please Select--</option>
-				<form:options items="${sponsorCodeRefData}" itemLabel="desc"
-					itemValue="desc" />
-			</form:select></div>
+			<div class="value"><form:hidden id="healthcareSite-hidden" path="studyFundingSponsors[0].healthcareSite" /> <input
+				id="healthcareSite-input" size="50" type="text" name="identifiers[0].source" value="${not empty command.identifiers[0].source?command.identifiersInternal[0].source:''}"
+				class="validate-notEmpty" /> <tags:indicator
+				id="healthcareSite-indicator" />
+			<div id="healthcareSite-choices" class="autocomplete"></div>
+			</div>
 			</div>
 
 			<div class="row">
@@ -147,7 +184,8 @@
 			<div class="row">
 			<div class="label">Randomized:</div>
 			<div class="value"><form:select path="randomizedIndicator"
-			onchange="manageRandomizedIndicatorSelectBox(this);" cssClass="validate-notEmpty">
+				onchange="manageRandomizedIndicatorSelectBox(this);"
+				cssClass="validate-notEmpty">
 				<option value="">--Please Select--</option>
 				<form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
 			</form:select></div>
@@ -181,19 +219,21 @@
 				<form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
 			</form:select></div>
 			</div>
-
-
+			
+			
 			<div id="cooperativeGroups"
 				<c:if test="${ (empty command.multiInstitutionIndicator) || command.multiInstitutionIndicator=='false'}">style="display:none;"</c:if>>
-
-			<div class="row">
-			<div class="label">Coordinating Center:</div>
-			<div class="value"><form:select path="identifiers[1].source">
-				<option value="">--Please Select--</option>
-				<form:options items="${coordinatingCenters}" itemLabel="desc"
-					itemValue="desc" />
-			</form:select></div>
+					<div class="row">
+			<div class="label">*Coordinating Center:</div>
+			<div class="value"><form:hidden id="coCenter-hidden" path="studyCoordinatingCenters[0].healthcareSite" /> <input
+				id="coCenter-input" size="50" type="text" name="identifiers[1].source" value="${not empty command.identifiers[1].source?command.identifiersInternal[0].source:''}"
+				class="validate-notEmpty" /> <tags:indicator
+				id="coCenter-indicator" />
+			<div id="coCenter-choices" class="autocomplete"></div>
 			</div>
+			</div>
+			
+			
 			<div class="row">
 			<div class="label"><span class="red">*</span> Coordinating Center
 			Study Identifier:</div>

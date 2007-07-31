@@ -10,38 +10,62 @@
 
 <html>
 <head>
-    <script language="JavaScript" type="text/JavaScript">
+<tags:includeScriptaculous />
+<tags:dwrJavascriptLink objects="StudyAjaxFacade" />
+<script language="JavaScript" type="text/JavaScript">
+var healthcareSiteAutocompleterProps = {
+    basename: "healthcareSite",
+    populator: function(autocompleter, text) {
 
-        var instanceRowInserterProps = {
+        StudyAjaxFacade.matchHealthcareSites( text,function(values) {
+            autocompleter.setChoices(values)
+        })
+    },
+    valueSelector: function(obj) {
+        return obj.name
+    },
+    afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+    								hiddenField=inputElement.id.split("-")[0]+"-hidden";
+	    							$(hiddenField).value=selectedChoice.id;
+								}
+}
+var instanceRowInserterProps = {
 
-            add_row_division_id: "mytable", 	        /* this id belongs to element where the row would be appended to */
-            skeleton_row_division_id: "dummy-row",
-            initialIndex: ${fn:length(command.studySites)},                            /* this is the initial count of the rows when the page is loaded  */
-            path: "studySites",                               /* this is the path of the collection that holds the rows  */
-            postProcessRowInsertion: function(object){
-                inputDateElementLocal="studySites["+object.localIndex+"].startDate";
-                inputDateElementLink="studySites["+object.localIndex+"].startDate-calbutton";
-                Calendar.setup(
-                {
-                    inputField  : inputDateElementLocal,         // ID of the input field
-                    ifFormat    : "%m/%d/%Y",    // the date format
-                    button      : inputDateElementLink       // ID of the button
-                }
-                        );
-                inputDateElementLocal="studySites["+object.localIndex+"].irbApprovalDate";
-                inputDateElementLink="studySites["+object.localIndex+"].irbApprovalDate-calbutton";
-                Calendar.setup(
-                {
-                    inputField  : inputDateElementLocal,         // ID of the input field
-                    ifFormat    : "%m/%d/%Y",    // the date format
-                    button      : inputDateElementLink       // ID of the button
-                }
-                        );
-            },
-        };
-        rowInserters.push(instanceRowInserterProps);
-
-    </script>
+    add_row_division_id: "mytable", 	        
+    skeleton_row_division_id: "dummy-row",
+    initialIndex: ${fn:length(command.studySites)},
+    path: "studySites",
+    postProcessRowInsertion: function(object){
+        inputDateElementLocal="studySites["+object.localIndex+"].startDate";
+        inputDateElementLink="studySites["+object.localIndex+"].startDate-calbutton";
+        Calendar.setup(
+        {
+            inputField  : inputDateElementLocal,         // ID of the input field
+            ifFormat    : "%m/%d/%Y",    // the date format
+            button      : inputDateElementLink       // ID of the button
+        }
+                );
+        inputDateElementLocal="studySites["+object.localIndex+"].irbApprovalDate";
+        inputDateElementLink="studySites["+object.localIndex+"].irbApprovalDate-calbutton";
+        Calendar.setup(
+        {
+            inputField  : inputDateElementLocal,         // ID of the input field
+            ifFormat    : "%m/%d/%Y",    // the date format
+            button      : inputDateElementLink       // ID of the button
+        }
+                );
+        clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
+		clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;
+		registerAutoCompleter(clonedRowInserter);
+    },
+    onLoadRowInitialize: function(object, currentRowIndex){
+		clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
+		clonedRowInserter.basename=clonedRowInserter.basename+currentRowIndex;
+		registerAutoCompleter(clonedRowInserter);
+    },
+};
+rowInserters.push(instanceRowInserterProps);
+</script>
 </head>
 
 <body>
@@ -67,13 +91,22 @@
                 </tr>
                 <c:forEach items="${command.studySites}" varStatus="status">
                     <tr id="mytable-${status.index}">
-                        <td class="alt">
-                            <form:select id="studySites[${status.index}].healthcareSite"
-                                         path="studySites[${status.index}].healthcareSite.id" cssClass="validate-notEmpty">
-                                <option value="">--Please Select--</option>
-                                <form:options items="${healthCareSites}" itemLabel="name" itemValue="id"/>
-                            </form:select></td>
-                        <td class="alt"><form:select path="studySites[${status.index}].statusCode"
+                    
+                    
+                     <td class="alt">
+               				<input type="hidden" id="healthcareSite${status.index}-hidden"
+                        			name="studySites[${status.index}].healthcareSite"
+                      				 value="${command.studySites[status.index].healthcareSite.id}"/>
+                			<input class="validate-notEmpty" type="text" id="healthcareSite${status.index}-input"
+                       				size="30"
+                      				 value="${command.studySites[status.index].healthcareSite.name}"/>
+                				<input type="button" id="healthcareSite${status.index}-clear"
+                       				 value="Clear"/>
+                  		 	<tags:indicator id="healthcareSite${status.index}-indicator"/>
+                  			<div id="healthcareSite${status.index}-choices" class="autocomplete"></div>
+           			 </td>
+                               
+                       <td class="alt"><form:select path="studySites[${status.index}].statusCode"
                                                      cssClass="validate-notEmpty">
                             <option value="">--Please Select--</option>
                             <form:options items="${studySiteStatusRefData}" itemLabel="desc"
@@ -104,23 +137,27 @@
     	 <jsp:attribute name="localButtons">
         <input id="addEpoch" type="button"
                value="Add Study Site"
-               onclick="RowManager.addRow(instanceRowInserterProps);"/>
+               onclick="javascript:RowManager.addRow(instanceRowInserterProps);"/>
     </jsp:attribute>
 
 </tags:tabForm>
 <div id="dummy-row" style="display:none;">
     <table>
         <tr id="mytable-PAGE.ROW.INDEX">
+                       
             <td class="alt">
-                <select id="studySites[PAGE.ROW.INDEX].healthcareSite"
-                        name="studySites[PAGE.ROW.INDEX].healthcareSite"
-                        class="validate-notEmpty">
-                    <option value="">--Please Select--</option>
-                    <c:forEach items="${healthCareSites}" var="healthcareSite">
-                        <option value="${healthcareSite.id}">${healthcareSite.name}</option>
-                    </c:forEach>
-                </select>
+                <input type="hidden" id="healthcareSitePAGE.ROW.INDEX-hidden"
+                        name="studySites[PAGE.ROW.INDEX].healthcareSite"/>
+                <input class="validate-notEmpty" type="text" id="healthcareSitePAGE.ROW.INDEX-input"
+                       size="30"
+                       value="${command.studySites[PAGE.ROW.INDEX].healthcareSite.name}"/>
+                <input type="button" id="healthcareSitePAGE.ROW.INDEX-clear"
+                        value="Clear"/>
+                   <tags:indicator id="healthcareSitePAGE.ROW.INDEX-indicator"/>
+                  <div id="healthcareSitePAGE.ROW.INDEX-choices" class="autocomplete"></div>
             </td>
+            
+          
             <td class="alt">
                 <select id="studySites[PAGE.ROW.INDEX].statusCode"
                         name="studySites[PAGE.ROW.INDEX].statusCode"
@@ -149,7 +186,7 @@
                        type="text"
                        class="date" />
                 <a href="#" id="studySites[PAGE.ROW.INDEX].irbApprovalDate-calbutton">
-                    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>
+                    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle"/>
                 </a>
             </td>
             <td  class="specalt"><a
