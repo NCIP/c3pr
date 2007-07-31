@@ -162,9 +162,7 @@ function displayDiv(id, flag) {
 	<div id="dummy-inclusionRow-${epochCount.index}" style="display:none">
 	<table border="0" cellspacing="0" cellpadding="0" class="mytable1">
 		<tr>
-			<td class="alt" align="left"><input type="hidden"
-				id="epochs[${epochCount.index }].inclusionEligibilityCriteria[PAGE.ROW.INDEX].questionNumber"
-				name="epochs[${epochCount.index }].inclusionEligibilityCriteria[PAGE.ROW.INDEX].questionNumber" />
+			<td class="alt" align="left">
 				<textarea
 					id="epochs[${epochCount.index }].inclusionEligibilityCriteria[PAGE.ROW.INDEX].questionText"
 					name="epochs[${epochCount.index }].inclusionEligibilityCriteria[PAGE.ROW.INDEX].questionText"
@@ -182,9 +180,7 @@ function displayDiv(id, flag) {
 	<div id="dummy-exclusionRow-${epochCount.index}" style="display:none">
 	<table border="0" cellspacing="0" cellpadding="0" class="mytable1">
 		<tr>
-			<td class="alt" align="left"><input type="hidden"
-				id="epochs[${epochCount.index }].exclusionEligibilityCriteria[PAGE.ROW.INDEX].questionNumber"
-				name="epochs[${epochCount.index }].exclusionEligibilityCriteria[PAGE.ROW.INDEX].questionNumber" />
+			<td class="alt" align="left">
 				<textarea
 					id="epochs[${epochCount.index }].exclusionEligibilityCriteria[PAGE.ROW.INDEX].questionText"
 					name="epochs[${epochCount.index }].exclusionEligibilityCriteria[PAGE.ROW.INDEX].questionText"
