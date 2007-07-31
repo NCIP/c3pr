@@ -211,7 +211,11 @@ var AbstractRowInserterProps = {
 								newInstance.init()
     						}
     					}
+    					for(initRow=0 ; initRow<this.localIndex ; initRow++){
+    						this.onLoadRowInitialize(this,initRow)
+    					}
     				},
+    onLoadRowInitialize: function(object, currentRowIndex){},
     getNestedRowInserter: function(index){
     								return cloned_nested_row_inserters[index]
     							},

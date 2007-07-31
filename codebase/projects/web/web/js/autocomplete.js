@@ -58,12 +58,15 @@ Event.observe(window, "load", function() {
 	autoCompleters.length>0?registerAutoCompleters() : null
 })
 function registerAutoCompleters(){
-	for(i=0 ; i<autoCompleters.length ; i++){
-		registerAutoCompleter(autoCompleters[i])
+	for(autoCount=0 ; autoCount<autoCompleters.length ; autoCount++){
+		if(autoCompleters[autoCount].registered==null){
+			autoCompleters[autoCount].registered=true;
+			registerAutoCompleter(autoCompleters[autoCount])
+		}
 	}
 }
 function registerAutoCompleter(autoCompObject){
-	var autoCompleterObject=AbstractAutocompleterProps
+	var autoCompleterObject=Object.clone(AbstractAutocompleterProps)
 	Object.extend(autoCompleterObject,autoCompObject)
 	acCreate(autoCompleterObject)
 }
@@ -74,10 +77,13 @@ function acCreate(mode) {
 											 	afterUpdateElement: mode.afterUpdateElement,
 											 	indicator: mode.indicator()
     										 })
-    Event.observe(mode.basename + "-clear", "click", function() {
-														$(mode.basename)?$(mode.basename).value = "":null
-														$(mode.inputElement()).value = ""
-												    })
+    clearElement=document.getElementById(mode.basename + "-clear")
+    if(clearElement!=null){
+	    Event.observe(mode.basename + "-clear", "click", function() {
+															$(mode.basename)?$(mode.basename).value = "":null
+															$(mode.inputElement()).value = ""
+													    })
+	}
 }
 
 /* Abstract Implementation of an autocompleter object*/
