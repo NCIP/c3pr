@@ -63,6 +63,16 @@ public class ViewStudyController extends StudyController<Study> {
     }
 
     @Override
+    protected Object currentFormObject(HttpServletRequest request, Object sessionFormObject) throws Exception {
+        if (sessionFormObject != null) {
+            getDao().reassociate((Study) sessionFormObject);
+        }
+
+        return sessionFormObject;
+    }
+
+
+    @Override
     protected boolean isSummaryEnabled() {
         return false;
     }
@@ -81,21 +91,19 @@ public class ViewStudyController extends StudyController<Study> {
     protected boolean isFormSubmission(HttpServletRequest httpServletRequest) {
         Set<String> paramNames = httpServletRequest.getParameterMap().keySet();
         return paramNames.contains("_action");
-
     }
 
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
         // study export
         if (isFormSubmission(httpServletRequest)&&StringUtils.getBlankIfNull(httpServletRequest.getParameter("_action")).equalsIgnoreCase("export")) {
-                Study study = (Study) httpServletRequest.getSession().getAttribute(getFormSessionAttributeName());
-                //log.debug("Exporting Study " + study.getId());
-                httpServletResponse.setContentType("application/xml");
-                httpServletResponse.setHeader("Content-Disposition", "attachment; filename=study-" + study.getId() + ".xml");
-                xmlUtility.toXML(study, httpServletResponse.getWriter());
-                httpServletResponse.getWriter().close();
+            Study study = (Study) currentFormObject(httpServletRequest,httpServletRequest.getSession().getAttribute(getFormSessionAttributeName()));
+            httpServletResponse.setContentType("application/xml");
+            httpServletResponse.setHeader("Content-Disposition", "attachment; filename=study-" + study.getId() + ".xml");
+            xmlUtility.toXML(study, httpServletResponse.getWriter());
+            httpServletResponse.getWriter().close();
 
-                return null;
+            return null;
         }
 
         return super.handleRequestInternal(httpServletRequest, httpServletResponse);    //To change body of overridden methods use File | Settings | File Templates.
