@@ -16,6 +16,7 @@ import gov.nih.nci.cabig.ctms.web.tabs.AutomaticSaveFlowFormController;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
 
@@ -84,6 +85,7 @@ public abstract class StudyController<C extends Study> extends AutomaticSaveFlow
         binder.registerCustomEditor(researchStaffDao.domainClass(),
                 new NullIdDaoBasedEditor(researchStaffDao));
         binder.registerCustomEditor(RandomizationType.class, new EnumByNameEditor(RandomizationType.class));
+        binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class,true));
     }
 
     @Override
