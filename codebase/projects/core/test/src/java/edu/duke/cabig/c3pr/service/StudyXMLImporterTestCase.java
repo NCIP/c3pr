@@ -46,7 +46,7 @@ public class StudyXMLImporterTestCase extends AbstractXMLMarshalling {
     public void testGetStudies() throws Exception {
         Study study2  = new Study();
         study2.setId(2);
-        expect(studyDao.getByGridId(study.getGridId())).andReturn(null);
+        expect(studyDao.getByGridId(isA(String.class))).andReturn(null);
         expectLastCall().times(2);
 
         studyDao.save(isA(Study.class));
