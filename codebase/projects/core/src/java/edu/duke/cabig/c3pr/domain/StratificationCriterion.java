@@ -35,6 +35,7 @@ public class StratificationCriterion extends AbstractMutableDomainObject impleme
        
     public StratificationCriterion() {
     	lazyListHelper=new LazyListHelper();
+    	this.questionNumber=new Integer(0);
     	lazyListHelper.add(StratificationCriterionPermissibleAnswer.class,new BiDirectionalInstantiateFactory<StratificationCriterionPermissibleAnswer>(
     			StratificationCriterionPermissibleAnswer.class,this));
 	}
