@@ -32,8 +32,7 @@ function accessApp(url,app,targetWindow){
 <body>
 <form name="navigationForm" id="navigationForm" method="post"><input
 	type="hidden" name="gridProxy" value="${proxy}"></form>
-<chrome:box title="${empty title ? tab.shortTitle : title}" id="${boxId}" cssClass="${boxClass}">
-	<chrome:division id="single-fields">
+<tags:panelBox title="Registration Confirmation Message" boxId="ConfMessage">
 	<table width="100%" border="0" cellspacing="0" cellpadding="0">
 		<tr>
 			<td valign="top">
@@ -147,7 +146,6 @@ function accessApp(url,app,targetWindow){
 			</td>
 		</tr>
 	</table>
-	</chrome:division>
-</chrome:box>
+</tags:panelBox>
 </body>
 </html>

@@ -46,7 +46,7 @@
     <c:choose>
         <c:when test="${tab.display!='false'}">
             <%System.out.println("--------setting tabs-------------"); %>
-            <chrome:workflowTabsLevelOne tab='${tab}' flow="${flow}"/>
+            <c:if test="${not empty flow}"><chrome:workflowTabsLevelOne tab='${tab}' flow="${flow}"/></c:if>
             <div class="tabcontent workArea">
             	<c:choose>
             		<c:when test="${!empty tab && tab.showSummary!='false'}">
