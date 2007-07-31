@@ -103,8 +103,7 @@ function displayDiv(id, flag) {
 							<c:forEach varStatus="status"
 								items="${command.epochs[epochCount.index].inclusionEligibilityCriteria}">
 								<tr id="addInclusionRowTable-${epochCount.index}-${status.index}">
-									<td class="alt" align="left"><form:hidden
-										path="epochs[${epochCount.index }].inclusionEligibilityCriteria[${status.index}].questionNumber" />
+									<td class="alt" align="left">
 									<form:textarea
 										path="epochs[${epochCount.index }].inclusionEligibilityCriteria[${status.index}].questionText"
 										rows="1" cols="80" cssClass="validate-notEmpty" /></td>
@@ -136,8 +135,7 @@ function displayDiv(id, flag) {
 							<c:forEach varStatus="status"
 								items="${command.epochs[epochCount.index].exclusionEligibilityCriteria}">
 								<tr id="addExclusionRowTable-${epochCount.index}-${status.index}">
-									<td class="alt" align="left"><form:hidden
-										path="epochs[${epochCount.index }].exclusionEligibilityCriteria[${status.index}].questionNumber" />
+									<td class="alt" align="left">
 										<form:textarea
 										path="epochs[${epochCount.index }].exclusionEligibilityCriteria[${status.index}].questionText"
 										rows="1" cols="80" cssClass="validate-notEmpty" /></td>

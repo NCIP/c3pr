@@ -60,7 +60,7 @@
                          <img src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="Delete"></a>
                      </td>
                      <td class="alt">
-                         <form:hidden path="treatmentEpochs[${epochCount.index }].stratificationCriteria[${status.index}].questionNumber"/>
+                         
                          <form:textarea path="treatmentEpochs[${epochCount.index }].stratificationCriteria[${status.index}].questionText" rows="1"
                                         cols="60" cssClass="validate-notEmpty"/>
                      </td>
