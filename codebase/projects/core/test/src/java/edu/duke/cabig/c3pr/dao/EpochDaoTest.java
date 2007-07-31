@@ -209,7 +209,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
 			// assertNotNull("GridId not updated", loaded.getGridId());
 
 			assertEquals("Wrong question number:", 2, loadedEpoch
-					.getStratificationCriteria().get(0).getQuestionNumber());
+					.getStratificationCriteria().get(0).getQuestionNumber().intValue());
 			assertEquals("Wrong question text:",
 					"Stratificaiton question text", loadedEpoch
 							.getStratificationCriteria().get(0)
@@ -246,7 +246,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
 					loadedEpoch.getStratificationCriteria().get(1)
 							.getQuestionText());
 			assertEquals("Wrong question Number:", 2, loadedEpoch
-					.getStratificationCriteria().get(1).getQuestionNumber());
+					.getStratificationCriteria().get(1).getQuestionNumber().intValue());
 		}
 
 	}
