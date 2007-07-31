@@ -8,6 +8,7 @@ import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import gov.nih.nci.cabig.ctms.web.tabs.StaticTabConfigurer;
 import org.easymock.EasyMock;
+import static org.easymock.EasyMock.expect;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -73,8 +74,8 @@ public class CreateStudyControllerTest extends AbstractStudyControllerTest {
 
     public void testPostAndReturnCommand() throws Exception {
         request.setMethod("POST");
-        studyService.save(command);
-        EasyMock.expectLastCall().atLeastOnce().asStub();
+        expect(studyService.merge(command)).andReturn(null);
+       
 
         replayMocks();
         ModelAndView mv = controller.processFinish(request, response, command, errors);
