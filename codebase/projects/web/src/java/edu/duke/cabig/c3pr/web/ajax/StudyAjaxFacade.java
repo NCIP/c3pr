@@ -29,6 +29,8 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
     private ResearchStaffDao researchStaffDao;
     private DiseaseCategoryDao diseaseCategoryDao;
     private DiseaseTermDao diseaseTermDao;
+    private OrganizationDao organizationDao;
+	private HealthcareSiteDao healthcareSiteDao;
 
     private static Log log = LogFactory.getLog(StudyAjaxFacade.class);
 
@@ -213,6 +215,20 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
         List<DiseaseTerm> diseaseTerms = diseaseTermDao.getByCategoryId(categoryId);
         return diseaseTerms;
     }
+    
+    public List<HealthcareSite> matchHealthcareSites(String text) throws Exception {
+    	
+    	 List<HealthcareSite> healthcareSites = healthcareSiteDao.getBySubnames(extractSubnames(text));
+
+		List<HealthcareSite> reducedHealthcareSites = new ArrayList<HealthcareSite>(
+				healthcareSites.size());
+		for (HealthcareSite healthcareSite : healthcareSites) {
+			reducedHealthcareSites.add(buildReduced(healthcareSite, Arrays.asList(
+					"id", "name")));
+		}
+		return reducedHealthcareSites;
+
+	}
 
     private final Object getCommandOnly(HttpServletRequest request) throws Exception {
         HttpSession session = request.getSession(false);
@@ -293,6 +309,14 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
     public void setDiseaseTermDao(DiseaseTermDao diseaseTermDao) {
         this.diseaseTermDao = diseaseTermDao;
     }
+
+	public HealthcareSiteDao getHealthcareSiteDao() {
+		return healthcareSiteDao;
+	}
+
+	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
+		this.healthcareSiteDao = healthcareSiteDao;
+	}
 
 
 }
