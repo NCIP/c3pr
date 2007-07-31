@@ -10,104 +10,68 @@
 
 <html>
 <head>
-    <tags:includeScriptaculous/>
-    <tags:dwrJavascriptLink objects="StudyAjaxFacade"/>
+<tags:includeScriptaculous/>
+<tags:dwrJavascriptLink objects="StudyAjaxFacade"/>
 
-    <title>${tab.longTitle}</title>
+<title>${tab.longTitle}</title>
+<c:choose>
+    <c:when test="${fn:length(command.studySites) > 0}">
+        <c:set var="selected_site" value="0"/>
+        <c:if test="${not empty selectedSite}">
+            <c:set var="selected_site" value="${selectedSite}"/>
+        </c:if>
+    </c:when>
+    <c:otherwise>
+        <c:set var="selected_site" value="-1"/>
+    </c:otherwise>
+</c:choose>
+<script language="JavaScript" type="text/JavaScript">
+function chooseSites() {
+    document.getElementById('command')._target.name = '_noname';
+    document.form._action.value = "siteChange";
+    document.form._selectedSite.value = document.getElementById('site').value;
+    document.form.submit();
+}
 
-    <script language="JavaScript" type="text/JavaScript">
-
-
-        function chooseSites() {
-            document.getElementById('command')._target.name = '_noname';
-            document.form._action.value = "siteChange";
-            document.form._selectedSite.value = document.getElementById('site').value;
-            document.form.submit();
-        }
-
-        function chooseSitesFromSummary(selected) {
-            document.getElementById('command')._target.name = '_noname';
-            document.form._action.value = "siteChange";
-            document.form._selectedSite.value = selected;
-            document.form.submit();
-        }
-
-        /// AJAX
-        var investigatorAutocompleterProps = {
-            basename: "investigator",
-            populator: function(autocompleter, text) {
-
-                StudyAjaxFacade.matchSiteInvestigators(text, document.getElementById('site').value, function(values) {
-                    autocompleter.setChoices(values)
-                })
-            },
-            valueSelector: function(obj) {
-                return obj.investigator.fullName
-            }
-        }
-
-        function acPostSelect(mode, selectedChoice) {
-            $(mode.basename).value = selectedChoice.id;
-        }
-
-        function updateSelectedDisplay(mode) {
-
-            if ($(mode.basename).value) {
-                Element.update(mode.basename + "-selected-name", $(mode.basename + "-input").value)
-                $(mode.basename + '-selected').show()
-            }
-        }
-
-        function acCreate(mode) {
-            new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
-                    mode.populator, {
-                valueSelector: mode.valueSelector,
-                afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
-                    acPostSelect(mode, selectedChoice)
-                },
-                indicator: mode.basename + "-indicator"
-            })
-            Event.observe(mode.basename + "-clear", "click", function() {
-                //$(mode.basename + "-selected").hide()
-                $(mode.basename).value = ""
-                $(mode.basename + "-input").value = ""
-            })
-        }
-
-        function fireListeners(count)
-        {
-            index = 0;
-            autoCompleteId = 'investigator' + index;
-            for (i = 0; i < count; i++)
-            {
-                // change the basename property to agent0 ,agent1 ...
-                investigatorAutocompleterProps.basename = autoCompleteId
-                acCreate(investigatorAutocompleterProps)
-                index++
-                autoCompleteId = 'investigator' + index;
-            }
-
-            investigatorAutocompleterProps.basename = 'investigator' + count;
-            acCreate(investigatorAutocompleterProps);
-        }
-
-        Event.observe(window, "load", function() {
-            index = 0;
-            autoCompleteId = 'investigator' + index;
-            while ($(autoCompleteId))
-            {
-                // change the basename property to investigator0 ,investigator1 ...
-                investigatorAutocompleterProps.basename = autoCompleteId
-                acCreate(investigatorAutocompleterProps)
-                index++
-                autoCompleteId = 'investigator' + index;
-            }
-        })
-
-
-
-
-    </script>
+function chooseSitesFromSummary(selected) {
+    document.getElementById('command')._target.name = '_noname';
+    document.form._action.value = "siteChange";
+    document.form._selectedSite.value = selected;
+    document.form.submit();
+}
+var investigatorsAutocompleterProps = {
+       basename: "investigator",
+       populator: function(autocompleter, text) {
+           StudyAjaxFacade.matchSiteInvestigators(text, document.getElementById('site').value, function(values) {
+               autocompleter.setChoices(values)
+           })
+       },
+       valueSelector: function(obj) {
+           return obj.investigator.fullName
+       },
+       afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+    								hiddenField=inputElement.id.split("-")[0]+"-hidden";
+	    							$(hiddenField).value=selectedChoice.id;
+								}
+}
+var instanceRowInserterProps = {
+       add_row_division_id: "mytable", 	        /* this id belongs to element where the row would be appended to */
+       skeleton_row_division_id: "dummy-row",
+       initialIndex: ${fn:length(command.studySites[selected_site].studyInvestigators)},                            /* this is the initial count of the rows when the page is loaded  */
+       path: "studySites[${selected_site}].studyInvestigators",                            /* this is the path of the collection that holds the rows  */
+    postProcessRowInsertion: function(object){
+        clonedRowInserter=Object.clone(investigatorsAutocompleterProps);
+		clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;
+		registerAutoCompleter(clonedRowInserter);
+    },
+    onLoadRowInitialize: function(object, currentRowIndex){
+		clonedRowInserter=Object.clone(investigatorsAutocompleterProps);
+		clonedRowInserter.basename=clonedRowInserter.basename+currentRowIndex;
+		registerAutoCompleter(clonedRowInserter);
+    },
+};
+rowInserters.push(instanceRowInserterProps);        
+</script>
 </head>
 
 <body>
@@ -128,36 +92,6 @@
     <p id="instructions">
         Choose a study site first
     </p>
-
-    <c:choose>
-        <c:when test="${fn:length(command.studySites) > 0}">
-            <c:set var="selected_site" value="0"/>
-            <c:if test="${not empty selectedSite}">
-                <c:set var="selected_site" value="${selectedSite}"/>
-            </c:if>
-        </c:when>
-        <c:otherwise>
-            <c:set var="selected_site" value="-1"/>
-        </c:otherwise>
-    </c:choose>
-
-    <script type="text/javascript">
-        var instanceRowInserterProps = {
-
-            add_row_division_id: "mytable", 	        /* this id belongs to element where the row would be appended to */
-            skeleton_row_division_id: "dummy-row",
-            initialIndex: ${fn:length(command.studySites[selected_site].studyInvestigators)},                            /* this is the initial count of the rows when the page is loaded  */
-            path: "studySites[${selected_site}].studyInvestigators"                            /* this is the path of the collection that holds the rows  */
-        };
-        rowInserters.push(instanceRowInserterProps);
-
-
-        function addRow(){
-            RowManager.addRow(instanceRowInserterProps);
-            var indexValue = instanceRowInserterProps.localIndex - 1;
-            fireListeners(indexValue);
-        }
-    </script>
 
     <table border="0" id="table1" cellspacing="0">
         <tr>
@@ -192,7 +126,7 @@
         <c:forEach varStatus="status" items="${command.studySites[selected_site].studyInvestigators}">
             <tr id="mytable-${status.index}">
                 <td class="alt">
-                    <form:hidden id="investigator${status.index}"
+                    <form:hidden id="investigator${status.index}-hidden"
                                  path="studySites[${selected_site}].studyInvestigators[${status.index}].healthcareSiteInvestigator"/>
                     <input class="validate-notEmpty" type="text" id="investigator${status.index}-input" size="30"
                            value="${command.studySites[selected_site].studyInvestigators[status.index].healthcareSiteInvestigator.investigator.fullName}"/>
@@ -260,7 +194,7 @@
 </jsp:attribute>
 
     <jsp:attribute name="localButtons">
-        <input type="button" onclick="addRow();" value="Add Investigators"/>
+        <input type="button" onclick="RowManager.addRow(instanceRowInserterProps);" value="Add Investigators"/>
     </jsp:attribute>
 
 </tags:tabForm>
@@ -269,7 +203,7 @@
     <table>
         <tr  id="mytable-PAGE.ROW.INDEX">
             <td class="alt">
-                <input type="hidden" id="investigatorPAGE.ROW.INDEX"
+                <input type="hidden" id="investigatorPAGE.ROW.INDEX-hidden"
                         name="studySites[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].healthcareSiteInvestigator"
                        value="studySites[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].healthcareSiteInvestigator"/>
                 <input class="validate-notEmpty" type="text" id="investigatorPAGE.ROW.INDEX-input"
