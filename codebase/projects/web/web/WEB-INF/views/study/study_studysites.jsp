@@ -98,7 +98,7 @@ rowInserters.push(instanceRowInserterProps);
                         			name="studySites[${status.index}].healthcareSite"
                       				 value="${command.studySites[status.index].healthcareSite.id}"/>
                 			<input class="validate-notEmpty" type="text" id="healthcareSite${status.index}-input"
-                       				size="30"
+                       				size="50"
                       				 value="${command.studySites[status.index].healthcareSite.name}"/>
                 				<input type="button" id="healthcareSite${status.index}-clear"
                        				 value="Clear"/>
@@ -149,7 +149,7 @@ rowInserters.push(instanceRowInserterProps);
                 <input type="hidden" id="healthcareSitePAGE.ROW.INDEX-hidden"
                         name="studySites[PAGE.ROW.INDEX].healthcareSite"/>
                 <input class="validate-notEmpty" type="text" id="healthcareSitePAGE.ROW.INDEX-input"
-                       size="30"
+                       size="50"
                        value="${command.studySites[PAGE.ROW.INDEX].healthcareSite.name}"/>
                 <input type="button" id="healthcareSitePAGE.ROW.INDEX-clear"
                         value="Clear"/>
