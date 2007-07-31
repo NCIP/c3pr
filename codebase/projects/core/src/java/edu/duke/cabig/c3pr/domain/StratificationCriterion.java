@@ -103,7 +103,7 @@ public class StratificationCriterion extends AbstractMutableDomainObject impleme
 		final int PRIME = 31;
 		int result = super.hashCode();
 		result = PRIME * result + ((getPermissibleAnswers() == null) ? 0 : getPermissibleAnswers().hashCode());
-		result = PRIME * result + questionNumber;
+		result = PRIME * result + ((questionNumber == null) ? 0 : questionNumber.hashCode());
 		result = PRIME * result + ((questionText == null) ? 0 : questionText.hashCode());
 		return result;
 	}
@@ -122,8 +122,11 @@ public class StratificationCriterion extends AbstractMutableDomainObject impleme
 				return false;
 		} else if (!getPermissibleAnswers().equals(other.getPermissibleAnswers()))
 			return false;
-		if (questionNumber != other.questionNumber)
-			return false;
+        if (questionNumber == null) {
+            if (other.questionText != null)
+				return false;
+       } else if (!questionNumber.equals(other.questionNumber))
+        	return false;
 		if (questionText == null) {
 			if (other.questionText != null)
 				return false;

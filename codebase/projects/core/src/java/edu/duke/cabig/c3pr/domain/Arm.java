@@ -18,19 +18,19 @@ import org.hibernate.annotations.Parameter;
 @Entity
 @Table (name = "arms")
 @GenericGenerator(name="id-generator", strategy = "native",
-    parameters = {
+        parameters = {
         @Parameter(name="sequence", value="ARMS_ID_SEQ")
-    }
+                }
 )
 public class Arm extends AbstractMutableDomainObject implements Comparable<Arm> {
 
-	private TreatmentEpoch treatmentEpoch;
+    private TreatmentEpoch treatmentEpoch;
     private String name;
     private String descriptionText;
     private Integer targetAccrualNumber;
-    
+
     /// LOGIC
-    
+
     @Transient
     public String getQualifiedName() {
         StringBuilder sb = new StringBuilder();
@@ -51,20 +51,20 @@ public class Arm extends AbstractMutableDomainObject implements Comparable<Arm> 
     public void setName(String name) {
         this.name = name;
     }
-    
 
-	public String getDescriptionText() {
-		return descriptionText;
-	}
 
-	public void setDescriptionText(String descriptionText) {
-		this.descriptionText = descriptionText;
-	}   	
+    public String getDescriptionText() {
+        return descriptionText;
+    }
+
+    public void setDescriptionText(String descriptionText) {
+        this.descriptionText = descriptionText;
+    }
 
     // This is annotated this way so that the IndexColumn in the parent
     // will work with the bidirectional mapping
     @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name="eph_id", nullable=false)   
+    @JoinColumn(name="eph_id", nullable=false)
     public TreatmentEpoch getTreatmentEpoch() {
         return treatmentEpoch;
     }
@@ -81,37 +81,41 @@ public class Arm extends AbstractMutableDomainObject implements Comparable<Arm> 
     public Integer getTargetAccrualNumber() {
         return targetAccrualNumber;
     }
-    
-	public int compareTo(Arm o) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
-	@Override
-	public int hashCode() {
-		final int PRIME = 31;
-		int result = super.hashCode();
-		result = PRIME * result + ((name == null) ? 0 : name.hashCode());
-		result = PRIME * result + targetAccrualNumber;
-		return result;
-	}
+    public int compareTo(Arm o) {
+        // TODO Auto-generated method stub
+        return 0;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		final Arm other = (Arm) obj;		
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (targetAccrualNumber != other.targetAccrualNumber)
-			return false;
-		return true;
-	}
+    @Override
+    public int hashCode() {
+        final int PRIME = 31;
+        int result = super.hashCode();
+        result = PRIME * result + ((name == null) ? 0 : name.hashCode());
+        result = PRIME * result + ((targetAccrualNumber == null) ? 0 : targetAccrualNumber.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (!super.equals(obj))
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final Arm other = (Arm) obj;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        if (targetAccrualNumber == null) {
+            if (other.targetAccrualNumber != null)
+                return false;
+        } else if (!targetAccrualNumber.equals(other.targetAccrualNumber))
+            return false;
+
+        return true;
+    }
 }
