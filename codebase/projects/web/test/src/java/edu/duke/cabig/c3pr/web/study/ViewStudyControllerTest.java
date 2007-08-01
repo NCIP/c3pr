@@ -6,6 +6,7 @@ import org.easymock.classextension.EasyMock;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.Writer;
 
 /**
@@ -32,6 +33,11 @@ public class ViewStudyControllerTest extends AbstractStudyControllerTest {
             @Override
             protected StudyDao getDao() {
                 return studyDao;
+            }
+
+            @Override
+            protected Object currentFormObject(HttpServletRequest request, Object sessionFormObject) throws Exception {
+                return command;
             }
         };
 
