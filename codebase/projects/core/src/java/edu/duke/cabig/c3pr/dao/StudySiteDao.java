@@ -28,5 +28,9 @@ public class StudySiteDao extends GridIdentifiableDao<StudySite> {
      public void reassociate(StudySite ss) {
 	        getHibernateTemplate().update(ss);
 	     }
+
+    public List<StudySite> getByNciInstituteCode(String nciInstituteCode){
+          return  getHibernateTemplate().find("from StudySite s where s.healthcareSite.nciInstituteCode = ?", nciInstituteCode);
+    }
 	 	 	
 }

@@ -3,6 +3,8 @@ package edu.duke.cabig.c3pr.dao;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 
+import java.util.List;
+
 /**
  * JUnit Tests for StudySiteDao
  * @author Priyatam
@@ -19,5 +21,13 @@ public class StudySiteDaoTest extends DaoTestCase {
     public void testGetById() throws Exception {
     	StudySite studySite = dao.getById(1000);
         assertNotNull("StudySite 1000 not found", studySite);
-    }   
+    }
+
+    public void testGetByNciInstituteCode() throws Exception{
+        List<StudySite> sites =dao.getByNciInstituteCode("code");
+        assertTrue(sites.size()==2);
+        for(StudySite site: sites){
+            assertEquals(site.getHealthcareSite().getNciInstituteCode(),"code");
+        }
+    }
 }
