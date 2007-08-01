@@ -166,7 +166,7 @@ autoCompleters.push(sponsorSiteAutocompleterProps);
 			<div class="row">
 			<div class="label">*Sponsor:</div>
 			<div class="value"><form:hidden id="healthcareSite-hidden" path="studyFundingSponsors[0].healthcareSite" /> <input
-				id="healthcareSite-input" size="50" type="text" name="identifiers[0].source" value="${not empty command.identifiers[0].source?command.identifiersInternal[0].source:''}"
+				id="healthcareSite-input" size="50" type="text" name="identifiers[0].source" value="${not empty command.identifiers[0].source?command.identifiers[0].source:''}"
 				class="validate-notEmpty" /> <tags:indicator
 				id="healthcareSite-indicator" />
 			<div id="healthcareSite-choices" class="autocomplete"></div>
@@ -182,7 +182,7 @@ autoCompleters.push(sponsorSiteAutocompleterProps);
 			</div>
 
 			<div class="row">
-			<div class="label">Randomized:</div>
+			<div class="label">*Randomized:</div>
 			<div class="value"><form:select path="randomizedIndicator"
 				onchange="manageRandomizedIndicatorSelectBox(this);"
 				cssClass="validate-notEmpty">
@@ -226,7 +226,7 @@ autoCompleters.push(sponsorSiteAutocompleterProps);
 					<div class="row">
 			<div class="label">*Coordinating Center:</div>
 			<div class="value"><form:hidden id="coCenter-hidden" path="studyCoordinatingCenters[0].healthcareSite" /> <input
-				id="coCenter-input" size="50" type="text" name="identifiers[1].source" value="${not empty command.identifiers[1].source?command.identifiersInternal[0].source:''}"
+				id="coCenter-input" size="50" type="text" name="identifiers[1].source" value="${not empty command.identifiers[1].source?command.identifiers[1].source:''}"
 				class="validate-notEmpty" /> <tags:indicator
 				id="coCenter-indicator" />
 			<div id="coCenter-choices" class="autocomplete"></div>
