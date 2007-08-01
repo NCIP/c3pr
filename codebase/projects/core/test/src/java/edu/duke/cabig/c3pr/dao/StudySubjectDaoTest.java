@@ -172,8 +172,6 @@ public class StudySubjectDaoTest extends DaoTestCase {
         	assertEquals("Wrong number of subject exclusion eligibility answers", 1, scheduledTreatmentEpoch.getExclusionEligibilityAnswers().size());
         	assertEquals("Wrong number of subject stratification answers", 1, scheduledTreatmentEpoch.getSubjectStratificationAnswers().size());
         	assertEquals("Wrong registration status", "Incomplete", loaded.getRegistrationStatus());
-        	assertEquals("Wrong number of registrations", 1, loaded.getParticipant().getStudySubjects().size());
-        	assertEquals("Wrong number of registrations", 1, loaded.getStudySite().getStudySubjects().size());
         }
         interruptSession();
     }
