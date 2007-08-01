@@ -1,13 +1,17 @@
 package edu.duke.cabig.c3pr.service.impl;
 
 import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.exception.StudyValidationException;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
+import org.apache.log4j.Logger;
+import org.springframework.transaction.annotation.Transactional;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.apache.log4j.Logger;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.TransformerFactory;
@@ -30,9 +34,13 @@ import java.util.List;
  * Time: 1:18:10 PM
  * To change this template use File | Settings | File Templates.
  */
+ 
 public class StudyXMLImporterService implements edu.duke.cabig.c3pr.service.StudyXMLImporterService {
 
     private StudyDao studyDao;
+    private StudySiteDao studySiteDao;
+    private StudyValidator studyValidator;
+
     private XmlMarshaller marshaller;
     private  Logger log = Logger.getLogger(StudyXMLImporterService.class.getName());
 
@@ -61,15 +69,24 @@ public class StudyXMLImporterService implements edu.duke.cabig.c3pr.service.Stud
                 StreamResult sr = new StreamResult( sw );
                 TransformerFactory.newInstance().newTransformer().transform(new DOMSource(studyNode),sr);
                 try {
-                        Study study = (Study)marshaller.fromXML(new StringReader(sr.getWriter().toString()));
-                        this.validate(study);
-                        //on validation save the study
-                        studyDao.merge(study);
-                        //once saved retreive persisted study
-                        studyList.add(studyDao.getByGridId(study.getGridId()));
-                    } catch (Exception e) {
-                          log.debug(e.getMessage());
+                    Study study = (Study)marshaller.fromXML(new StringReader(sr.getWriter().toString()));
+                    this.validate(study);
+                    // already checked in validator
+                    for(StudySite site: study.getStudySites()){
+                        // Already checked in validator. Should only have one study site
+                        StudySite loadedSite = studySiteDao.getByNciInstituteCode(site.getHealthcareSite().getNciInstituteCode()).get(0);
+                        study.removeStudySite(site);
+                        study.addStudySite(loadedSite);
                     }
+
+                    log.debug("Saving study with grid ID" + study.getGridId());
+                    studyDao.save(study);
+                    log.debug("Study saved with grid ID" + study.getGridId());
+                    //once saved retreive persisted study
+                    studyList.add(studyDao.getByGridId(study.getGridId()));
+                } catch (Exception e) {
+                    log.debug(e.getMessage());
+                }
             }
 
         }
@@ -83,11 +100,18 @@ public class StudyXMLImporterService implements edu.duke.cabig.c3pr.service.Stud
      */
     public void validate(Study study) throws StudyValidationException {
         //make sure grid id exists
-        if (study.getGridId()==null){
-            throw new StudyValidationException("No valid GridID found.");
+        if (study.getGridId()!=null){
+            if(studyDao.getByGridId(study.getGridId())!=null){
+                throw new StudyValidationException("Study exists");
+            }
         }
-        else if(studyDao.getByGridId(study.getGridId())!=null){
-            throw new StudyValidationException("Study exists");
+        //make sure study sites are valid
+        for(StudySite site: study.getStudySites()){
+            if(site.getHealthcareSite().getNciInstituteCode()==null
+                    || studySiteDao.getByNciInstituteCode(site.getHealthcareSite().getNciInstituteCode()).size()<0)
+            {
+                throw new StudyValidationException("Site does not have a valid NCI Institute code or does not exist");
+            }
         }
     }
 
@@ -106,6 +130,19 @@ public class StudyXMLImporterService implements edu.duke.cabig.c3pr.service.Stud
         this.marshaller = marshaller;
     }
 
+    public StudySiteDao getStudySiteDao() {
+        return studySiteDao;
+    }
 
+    public void setStudySiteDao(StudySiteDao studySiteDao) {
+        this.studySiteDao = studySiteDao;
+    }
 
+    public StudyValidator getStudyValidator() {
+        return studyValidator;
+    }
+
+    public void setStudyValidator(StudyValidator studyValidator) {
+        this.studyValidator = studyValidator;
+    }
 }

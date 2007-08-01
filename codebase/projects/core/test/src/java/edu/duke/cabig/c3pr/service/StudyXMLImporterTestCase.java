@@ -54,6 +54,7 @@ public class StudyXMLImporterTestCase extends AbstractXMLMarshalling {
         replayMocks();
 
         String xmlStudy = marshaller.toXML(study);
+        studyDao.save(study.getStudySites().get(0));
         List<Study> studies = studyImporter.importStudies(StringUtils.getInputStream(xmlStudy));
         assertNotNull(studies);
         assertTrue(studies.size() > 0);
