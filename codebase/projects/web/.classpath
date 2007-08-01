@@ -17,7 +17,7 @@
 	<classpathentry exported="true" kind="lib" path="ext/lib/grid-security-plugin-1.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/jdom.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/log4j-1.2.13.jar"/>
-	<classpathentry exported="true" kind="lib" path="ext/lib/spring2.0.2.jar" sourcepath="/Users/priyatam/dev/spring-framework-2.0.4/src"/>
+	<classpathentry exported="true" kind="lib" path="ext/lib/spring2.0.2.jar" sourcepath="/spring-src"/>
 	<classpathentry exported="true" kind="lib" path="test/lib/core-commons-testing.jar"/>
 	<classpathentry exported="true" kind="lib" path="test/lib/easymockclassextension.jar"/>
 	<classpathentry exported="true" kind="lib" path="test/lib/servlet-api.jar"/>
@@ -36,9 +36,6 @@
 	<classpathentry exported="true" kind="lib" path="ext/lib/northwestern-core-commons.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/c3pr-2.0-core-1.0.jar" sourcepath="/core/src"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/core"/>
-	<classpathentry kind="lib" path="/share/ctms-commons/ctms-commons-core-0.2-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="/share/ctms-commons/ctms-commons-lang-0.2-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="/share/ctms-commons/ctms-commons-web-0.2-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="/share/cacore/csm/csmapi-3.2.1-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="/share/cacore/csm/c3p0-0.8.5.2.jar"/>
 	<classpathentry kind="lib" path="/share/acegi-csm/acegi-csm-1.0-SNAPSHOT.jar"/>
@@ -46,5 +43,10 @@
 	<classpathentry kind="lib" path="/share/spring-2.0/acegi/acegi-security-1.0.3.jar"/>
 	<classpathentry kind="lib" path="/share/spring-2.0/acegi/acegi-security-cas-1.0.3.jar"/>
 	<classpathentry kind="lib" path="/share/spring-2.0/acegi/acegi-security-tiger-1.0.3.jar"/>
+	<classpathentry kind="lib" path="ext/lib/extremecomponents-1.0.1.jar"/>
+	<classpathentry kind="lib" path="ext/lib/ctms-commons-base-0.3.jar"/>
+	<classpathentry kind="lib" path="ext/lib/ctms-commons-core-0.3.jar"/>
+	<classpathentry kind="lib" path="ext/lib/ctms-commons-lang-0.3.jar"/>
+	<classpathentry kind="lib" path="ext/lib/ctms-commons-web-0.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

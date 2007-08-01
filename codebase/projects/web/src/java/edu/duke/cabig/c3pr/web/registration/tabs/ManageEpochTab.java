@@ -21,7 +21,7 @@ import org.springframework.web.util.WebUtils;
 public class ManageEpochTab<C extends StudySubject> extends InPlaceEditableTab<C>{
 
 	public ManageEpochTab() {
-		super("Manage Epochs", "Manage Epochs", "registration/reg_manage_epochs");
+		super("Manage Epochs", "Change Current Epoch", "registration/reg_manage_epochs");
 	}
 
 	private EpochDao epochDao;

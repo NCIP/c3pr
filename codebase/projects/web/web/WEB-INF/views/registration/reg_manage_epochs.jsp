@@ -55,7 +55,7 @@ function reloadPage(Id){
 	<input type="hidden" name="epoch" id="create_epoch"/>
 </form>
 <tags:formPanelBox tab="${tab}" flow="${flow}">
-	<strong>To move subject between epochs drag and drop the subject to the appropriate epoch: </strong><br><br>
+	To move subject between epochs drag and drop the subject to the appropriate epoch: <br><br>
 	<div id="indicator" style="display:none"><img src="<tags:imageUrl name="indicator.white.gif"/>"
 								alt="Indicator" align="absmiddle">Updating...</div>
 	<table border="0" cellspacing="0" cellpadding="0">

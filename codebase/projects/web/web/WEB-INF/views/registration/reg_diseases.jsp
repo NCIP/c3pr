@@ -7,9 +7,6 @@
 <%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
 <html>
 <head>
-<style type="text/css">
-        .label { width: 15em; text-align: right; padding: 2px; }
-</style>
 <tags:dwrJavascriptLink objects="anatomicDiseaseSite" />
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script type="text/javascript" src="/c3pr/js/CalendarPopup.js"></script>

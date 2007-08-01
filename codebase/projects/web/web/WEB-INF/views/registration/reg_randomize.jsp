@@ -7,9 +7,6 @@
 <%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
 <html>
 <head>
-<style type="text/css">
-        .label { width: 20em; text-align: right; padding: 2px; }
-</style>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script type="text/javascript" src="/c3pr/js/CalendarPopup.js"></script>
 <script>
@@ -21,7 +18,7 @@
 		<c:choose>
 		<c:when test="${!command.ifTreatmentScheduledEpoch}">
 			<tr>
-				<td align=left><span class="red"> This Study has no randomization</span></td>
+				<td align=left><span class="red"> The selected epoch does not involve randomization</span></td>
 			</tr>
 		</c:when>
 		<c:otherwise>

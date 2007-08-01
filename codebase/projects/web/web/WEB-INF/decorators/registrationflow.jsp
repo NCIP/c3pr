@@ -19,6 +19,9 @@
 <tags:javascriptLink name="tabbedflow"/>
 <tags:javascriptLink name="autocomplete"/>
 <decorator:head/>
+<style type="text/css">
+        .label { width: 20em; text-align: right; padding: 2px; font-weight: bold;}
+</style>
 </head>
 
 <body>

@@ -28,7 +28,7 @@ function markAsAnswered(id){
 <tags:tabFields tab="${tab}"/>
 <c:choose>
 	<c:when test="${!command.ifTreatmentScheduledEpoch || fn:length(command.scheduledEpoch.subjectEligibilityAnswers) == 0}">
-			<tags:panelBox>The Selected Study does not have Eligibility Crieterias</tags:panelBox>
+			<tags:panelBox>The Selected Epoch does not have Eligibility Crieteria</tags:panelBox>
 	</c:when>
 	<c:otherwise>
 		<table id="" width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">

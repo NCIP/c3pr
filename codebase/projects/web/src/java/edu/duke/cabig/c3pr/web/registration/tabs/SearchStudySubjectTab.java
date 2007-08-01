@@ -48,7 +48,7 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject>{
 	}
 
 	public SearchStudySubjectTab() {
-		super("Search Subject or Study", "SearchSubjectStudy","registration/select_study_or_subject");
+		super("Search Subject or Study", "Select Subject & Study","registration/select_study_or_subject");
 		setShowSummary("false");
 	}
 	
