@@ -92,14 +92,14 @@
 	
 	/* handlers for searchSubject flwo */
 	  	
-	function postProcessSubjectSelection(id, name){
+	function postProcessSubjectSelection(id, name, identifier){
 		$("participant").value = id;
-		minimizeSubjectBox("Selected: "+name);	
+		minimizeSubjectBox("Selected Subject: " +name+ " (" + identifier + ")");	
 	}  	
 	
 	function submitPostProcess(formElement, flag){
 		if(formElement.name == 'createSubForm'){
-			//for the create subject form we make an ajaz sunmit and return false to avoid the html submit
+			//for the create subject form we make an ajax submit and return false to avoid the html submit
 			if(flag){
 				new Ajax.Updater('temp','../participant/createParticipant', {method:'post', postBody:Form.serialize('createSubForm'),onSuccess:handlerFunc, onFailure:handlerFail});
 			}
@@ -111,18 +111,18 @@
 	}
 </script>
 
-<tags:minimizablePanelBox title="Please Select A Subject" boxId="SubjectBox">
+<tags:minimizablePanelBox title="Select A Subject" boxId="SubjectBox">
 	<!-- subTabbedflow-->
 	<table width="100%" border="0" cellspacing="0" cellpadding="0"	class="subFlowTabs">
 		<tr>
 			<td width="100%" id="tabDisplay">
-			<a href="#"><span id="searchSubjectSpan" class="current" onclick="moveToSearchSubject()">
+			<a href="#" style="font-size:100%"><span id="searchSubjectSpan" class="current" onclick="moveToSearchSubject()">
 			<img src="<tags:imageUrl name="subTabWhiteL.gif"/>" width="3" height="16" align="absmiddle" />			
-			Search Subject<img src="<tags:imageUrl name="subTabWhiteR.gif"/>" width="3" height="16" align="absmiddle" />
+			<b>Search Subject</b><img src="<tags:imageUrl name="subTabWhiteR.gif"/>" width="3" height="16" align="absmiddle" />
 			</span></a>
 			<a href="#"><span id="createSubjectSpan" class="tab" onclick="moveToCreateSubject()">
 			<img src="<tags:imageUrl name="subTabGrayL.gif"/>" width="3" height="16" align="absmiddle" />
-			Create Subject<img src="<tags:imageUrl name="subTabGrayR.gif"/>" width="3" height="16" align="absmiddle" />
+			<b>Create Subject</b><img src="<tags:imageUrl name="subTabGrayR.gif"/>" width="3" height="16" align="absmiddle" />
 			</span></a>
 			</td>
 			<td><img src="<tags:imageUrl name="subTabSpacer.gif"/>" width="7" height="1" /></td>
@@ -149,7 +149,7 @@
             <div class="row">
                 <div class="label">Search Criteria:</div>
                 <div class="value">
-                	<input id="searchText" name="searchText" type="text" value="" size="58"/>
+                	<input id="searchText" name="searchText" type="text" value="" size="25"/>
                 	<input type="button" value="Search" 
                 	onclick="new Ajax.Updater('subjectSearchResults','../registration/searchParticipant', {method:'post', postBody:Form.serialize('searchSubjectForm'), onSuccess:callbackSubject, onFailure:callbackSubjectFail});"/>
                 </div>	
@@ -189,11 +189,19 @@
 						<span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
 					</tr>
 					<tr>
-						<td align="right"><em></em> <b>Maiden Name:</b>&nbsp;</td>
-						<td align="left"><input id="maidenName" name="maidenName" type="text" value=""/>&nbsp;&nbsp;&nbsp;</td>
+						<td align="right"><b>Middle Name:</b>&nbsp;</td>
+						<td align="left"><input id="middleName" name="middleName" type="text" value=""/>&nbsp;&nbsp;&nbsp;</td>
 					</tr>
 					<tr>
-						<td align="right"><span class="red">*</span> <em></em> <b>Gender:</b>
+						<td align="right"><em></em> <b>Maiden Name:</b>&nbsp;</td>
+						<td align="left"><input id="maidenName" name="maidenName" type="text" value=""/>&nbsp;&nbsp;&nbsp;</td>
+					</tr>					
+				</table>
+				</td>
+				<td width="40%" valign="top">
+				<table width="100%" border="0" cellspacing="1" cellpadding="1" id="table1">
+										<tr>
+					<td align="right"><span class="red">*</span> <em></em> <b>Gender:</b>
 						&nbsp;</td>
 						<td align="left">
 							<select id="administrativeGenderCode" name="administrativeGenderCode" class="validate-notEmpty">
@@ -205,16 +213,6 @@
 								</c:forEach>
 							</select>		
 						</td>
-					</tr>					
-				</table>
-				</td>
-				<td width="40%" valign="top">
-				<table width="100%" border="0" cellspacing="1" cellpadding="1" id="table1">
-					<tr>
-						<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-							height="1" class="heightControl"></td>
-						<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-							height="1" class="heightControl"></td>
 					</tr>
 					<tr>
 						<td align="right"><span class="red">&nbsp;&nbsp;&nbsp;*</span><em></em><b>Birth Date: </b>&nbsp;</td>
@@ -254,9 +252,7 @@
 		
 		<!--start of adding identifiers-->		
 		<hr align="left" width="95%">
-		<p id="instructions">Add Identifiers associated with the Subject 
-			<a href="javascript:RowManager.addRow(instanceRowInserterProps);">
-			<img src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add another Identifier"></a><br>
+		<p><input id="addId" type="button" value="Add Identifiers" onclick="RowManager.addRow(instanceRowInserterProps);" />
 		</p>
 		<table id="mytable" border="0" cellspacing="0" cellpadding="0">
 			<tr>

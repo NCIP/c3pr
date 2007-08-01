@@ -16,11 +16,8 @@
 		
 </script>
 
-<tags:minimizablePanelBox title="Please Select An Epoch" boxId="Epochbox">
-<div id="staticMessage">
-Please select a Study First.
-</div>
-<div id="epochResults" style="display:none;">
+<tags:minimizablePanelBox title="Select An Epoch" boxId="Epochbox">
+<div id="epochResults">
 <!--In order to ensure that the decorator is not applied to the dynamically (AJAX)inserted jsp
 	add the mapping to the excludes section of decorators.xml -->
 </div>

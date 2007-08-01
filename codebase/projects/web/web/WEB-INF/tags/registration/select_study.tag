@@ -41,12 +41,13 @@
 		new Effect.SlideDown(resultDiv);;
 	}
 	
-	function postProcessStudySelection(id, siteName, studyName){
+	function postProcessStudySelection(id, siteName, studyName, identifier){
 		document.getElementById("studySite").value = id;
 		var url = "../registration/searchEpoch?studySiteId="+id;
 		new Ajax.Updater('epochResults',url, {onSuccess:callbackEpoch, onFailure:callbackEpochFail});
-		var message = "Selected: " +studyName+ " at " +siteName+ ".";
+		var message = "Selected Study: " +studyName+ " (" +identifier+ ") "  + " at " +siteName;
 		minimizeStudyBox(message);
+
 	}
 	
 	 function callbackEpochFail(t ){
@@ -54,21 +55,21 @@
 	}
 	
 	function callbackEpoch(t){
+		document.getElementById("Epoch").style.display="";
 		var resultDiv = document.getElementById("epochResults");
-		document.getElementById("staticMessage").style.display="none";
 		resultDiv.innerHTML = t.responseText;
-		new Effect.SlideDown(resultDiv);;		
+		new Effect.SlideDown(resultDiv);		
 	}
 	
 	function postProcessEpochSelection(id, name, type){
 		$("epoch").value = id;
-		var message = "Selected: " +name+ " of type " +type;
+		var message = "Selected Epoch: " +name+ " (" +type+ ") ";
 		minimizeEpochBox(message);
 	}
 </script>
 
 <!--tags:minimizablePanelBox title="${epoch.name} : ${epoch.descriptionText }"	boxId="${epoch.name}"-->
-<tags:minimizablePanelBox	title="Please Select A Study" boxId="Studybox">
+<tags:minimizablePanelBox	title="Select A Study" boxId="Studybox">
         <form id="searchstudyForm" action="" method="post">
             <input type="hidden" name="_selected" id="_selected" value="">
             <input type="hidden" name="_action" id="_action" value=""> 
@@ -94,7 +95,7 @@
                     Search Criteria:
                 </div>
                 <div class="value">
-                	<input id="searchText" name="searchText" type="text" value="" size="58"/>
+                	<input id="searchText" name="searchText" type="text" value="" size="25"/>
                 	<input type="button" value="Search" onclick="new Ajax.Updater('studySearchResults','../registration/searchStudy', {method:'post', postBody:Form.serialize('searchstudyForm'), onSuccess:callbackStudy, onFailure:callbackStudyFail});"/>
                 </div>		
             </div>

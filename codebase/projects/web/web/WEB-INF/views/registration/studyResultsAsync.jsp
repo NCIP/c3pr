@@ -47,7 +47,7 @@ function toggleImage(id){
 							new Element.toggle('studySites-table-${statusStudy.index }');toggleImage('image-open-${statusStudy.index }');
 						</c:when>
 						<c:otherwise>
-							postProcessStudySelection('${study.studySites[0].id}', '${study.studySites[0].healthcareSite.name}','${study.shortTitleText}');
+							postProcessStudySelection('${study.studySites[0].id}', '${study.studySites[0].healthcareSite.name}','${study.shortTitleText}','${study.identifiers[0].type}'+' - '+ '${study.identifiers[0].value}');
 						</c:otherwise>
 					</c:choose>
 				">

@@ -27,13 +27,13 @@
 </head>
 
 <body>
-<div id = "Subject">
+<div id="Subject">
 	<registrationTags:select_subject />
 </div>
-<div id = "Study">
+<div id="Study">
 	<registrationTags:select_study />
 </div>
-<div id = "Epoch">
+<div id="Epoch" style="display:none">
 	<registrationTags:select_epoch />
 </div>
 <form:form method="post">
