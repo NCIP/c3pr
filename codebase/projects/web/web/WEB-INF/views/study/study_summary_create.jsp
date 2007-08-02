@@ -54,11 +54,11 @@
         </tr>
         <tr>
             <td class="alt" align="left"><b>Blinded:</b></td>
-            <td class="alt" align="left"> ${command.randomizedIndicator}</td>
+            <td class="alt" align="left"> ${command.blindedIndicator}</td>
         </tr>
         <tr>
             <td class="alt" align="left"><b>Randomized:</b></td>
-            <td class="alt" align="left">${command.blindedIndicator}</td>
+            <td class="alt" align="left">${command.randomizedIndicator}</td>
         </tr>
     </table>
 </chrome:division>
