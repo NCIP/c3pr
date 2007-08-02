@@ -116,6 +116,10 @@ public class StudySubject extends AbstractMutableDomainObject {
 	}
 	
 	public void setScheduledEpoch(ScheduledEpoch scheduledEpoch) {
+		if(scheduledEpoch==null){
+			this.scheduledEpoch = scheduledEpoch;
+			return;
+		}
 		for(ScheduledEpoch scheduledEpoch2: getScheduledEpochs())
 			if(scheduledEpoch2.getId()==scheduledEpoch.getId())
 				this.scheduledEpoch = scheduledEpoch2;

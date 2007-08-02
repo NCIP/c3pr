@@ -96,18 +96,24 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject>{
 			}
 			return;
 		}
+		if(command.getParticipant()==null||command.getStudySite()==null)
+			return;
 		StudySubject exampleSS=new StudySubject(true);
 		exampleSS.setParticipant(command.getParticipant());
 		exampleSS.setStudySite(command.getStudySite());
 		List registrations=studySubjectDao.searchBySubjectAndStudySite(exampleSS);
-		if(registrations.size()>0)
+		if(registrations.size()>0){
+			command.setScheduledEpoch(null);
 			return;
-		Integer id=Integer.parseInt(request.getParameter("epoch"));
-		Epoch epoch=epochDao.getById(id);
-		for(ScheduledEpoch scheduledEpoch:command.getScheduledEpochs()){
-			if(scheduledEpoch.getEpoch().getId()==epoch.getId())
-				return;
 		}
+		Integer id;
+		try {
+			id=Integer.parseInt(request.getParameter("epoch"));
+		} catch (RuntimeException e) {
+			// TODO Auto-generated catch block
+			return;
+		}
+		Epoch epoch=epochDao.getById(id);
 		ScheduledEpoch scheduledEpoch;
 		if (epoch instanceof TreatmentEpoch) {
 			((TreatmentEpoch)epoch).getArms().size();
