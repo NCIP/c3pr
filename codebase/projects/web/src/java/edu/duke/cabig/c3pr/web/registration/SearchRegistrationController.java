@@ -148,14 +148,7 @@ public class SearchRegistrationController extends SimpleFormController {
 		this.configurationProperty = configurationProperty;
 	}
 
-	public StudySubjectDao getRegistrationDao() {
-		return studySubjectDao;
-	}
-
-	public void setRegistrationDao(StudySubjectDao studySubjectDao) {
-		this.studySubjectDao = studySubjectDao;
-	}
-
+	
 	public ParticipantDao getParticipantDao() {
 		return participantDao;
 	}
@@ -178,6 +171,14 @@ public class SearchRegistrationController extends SimpleFormController {
 
 	public void setStudySiteDao(StudySiteDao studySiteDao) {
 		this.studySiteDao = studySiteDao;
+	}
+
+	public StudySubjectDao getStudySubjectDao() {
+		return studySubjectDao;
+	}
+
+	public void setStudySubjectDao(StudySubjectDao studySubjectDao) {
+		this.studySubjectDao = studySubjectDao;
 	}
 
 }
