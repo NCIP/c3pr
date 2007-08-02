@@ -224,7 +224,7 @@ autoCompleters.push(sponsorSiteAutocompleterProps);
 			<c:choose>
 				<c:when test="${not empty command.id}">
 					<div class="row">
-					<div class="label">*Multi-Institution:</div>
+					<div class="label">*Multi-Institutional:</div>
 					<div class="value">${command.multiInstitutionIndicator=="true"?"Yes":"No"}</div>
 					</div>
 					<c:if test="${command.multiInstitutionIndicator=='true' }">
@@ -254,7 +254,7 @@ autoCompleters.push(sponsorSiteAutocompleterProps);
 				</c:when>
 				<c:otherwise>
 					<div class="row">
-					<div class="label">*Multi-Institution:</div>
+					<div class="label">*Multi-Institutional:</div>
 					<div class="value"><form:select path="multiInstitutionIndicator"
 						onchange="manageSelectBox(this);" cssClass="validate-notEmpty">
 						<option value="">--Please Select--</option>
