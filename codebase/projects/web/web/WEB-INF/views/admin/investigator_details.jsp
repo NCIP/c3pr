@@ -68,7 +68,8 @@ rowInserters.push(instanceRowInserterProps);
 										<div class="value">${param.fullName}</div>
 										</div>
 										<div class="row">
-										<input type="button" value ="Create another investigator" onclick="javascript:handleConfirmation()"></div>
+										<a href="javascript:handleConfirmation()">Click here to create
+								       another investigator</a></div>
 										</div>
 										</td>
 									</tr>
@@ -81,19 +82,14 @@ rowInserters.push(instanceRowInserterProps);
 
 							<table border="0" width="100%" cellspacing="0" cellpadding="0">
 								<tr>
-									<td><input id="addEpoch" type="button"
-										value="Add healthcare site(s) for the Investigator"
-										onclick="javascript:RowManager.addRow(instanceRowInserterProps);" />
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									<br>
-									<br>
+									<td>
 
 									<table id="mytable" width="40%" border="0" cellspacing="0"
 										cellpadding="0">
 										<tr>
-											<th class="alt" scope="col" align="left"><b>Site<span
-												class="red">*</span></b></th>
-											<th scope="col" align="left"><b>Status<span class="red">*</span></b></th>
+											<th class="alt" scope="col" align="left"><span
+												class="red">*</span><b>Site</b></th>
+											<th scope="col" align="left"><b><span class="red">*</span>Status</b></th>
 										</tr>
 										<c:forEach items="${command.healthcareSiteInvestigators}"
 											varStatus="status">
@@ -118,6 +114,14 @@ rowInserters.push(instanceRowInserterProps);
 											</tr>
 										</c:forEach>
 									</table>
+									</td>
+									<td valign="bottom" align="right">
+									<input id="addInvestigator" type="button"
+										value="Add healthcare site"
+										onclick="javascript:RowManager.addRow(instanceRowInserterProps);" />
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<br>
+									<br>
 									</td>
 								</tr>
 							</table>
