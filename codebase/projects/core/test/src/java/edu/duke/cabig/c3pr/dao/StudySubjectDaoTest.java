@@ -7,8 +7,10 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+
 import org.hibernate.proxy.HibernateProxyHelper;
 
+import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Participant;
@@ -24,11 +26,14 @@ import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 
+import static edu.duke.cabig.c3pr.C3PRUseCase.*;
+
 /**
  * JUnit Tests for ParticipantDao
  * @author Priyatam
  * @testType unit
  */
+@C3PRUseCases({ADD_DISEASE_SUBJECT,ASSIGN_EXISTING_PARTICIPANT,ASSIGN_REGISTERED_PARTICIPANT,CREATE_INCOMPLETE_REGISTERATION,CREATE_LOCAL_REGISTERATION,ASSIGN_ARM,UPDATE_REGISTERATION_STATUS})
 public class StudySubjectDaoTest extends DaoTestCase {
     private ParticipantDao dao;
     private StudySiteDao studySiteDao;
