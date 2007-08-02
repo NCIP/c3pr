@@ -150,7 +150,7 @@ function submitPostProcess(formElement, flag){
 
 		<hr align="left" width="95%">
 		
-		<input id="addEpoch" type="button" value="Add Identifiers associated with the Subject"
+		<input id="addEpoch" type="button" value="Add Identifier"
 			onclick="javascript:RowManager.addRow(instanceRowInserterProps);"  />
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br> <br>
 

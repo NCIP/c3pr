@@ -54,7 +54,7 @@ public class CreateInvestigatorController extends
 		SubFlow<Investigator> flow = new SubFlow<Investigator>("Create Investigator");
 
 		flow.addTab(new Tab<Investigator>("Enter Investigator Information",
-				"Investigator Details", "admin/investigator_details") {
+				"Investigator", "admin/investigator_details") {
 			public Map<String, Object> referenceData() {
 				Map<String, List<Lov>> configMap = configurationProperty
 						.getMap();

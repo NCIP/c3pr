@@ -10,7 +10,7 @@
 <tags:javascriptLink name="tabbedflow" />
 <tags:includeScriptaculous />
 <tags:dwrJavascriptLink objects="StudyAjaxFacade" />
-<script type="text/javascript">
+<script type="text/javascript"><!--
 
         Effect.OpenUp = function(element) {
             element = $(element);
@@ -25,15 +25,25 @@
 
         function manageSelectBox(box) {
             if (box.value == 'true') {
-                //		document.getElementById('cooperativeGroups').style.display='none';
                 Effect.OpenUp('cooperativeGroups');
             }
             if (box.value == 'false') {
-                //		document.getElementById('cooperativeGroups').style.display='none';
                 Effect.CloseDown('cooperativeGroups');
             }
         }
-        
+        submitPostProcess= function(formElement, continueSubmission){
+        	if(formElement.id="command"){
+        		box=document.getElementById('multiInstitutionIndicator');
+	            if (box!=null && box.value == 'false') {
+	            	new Element.update('cooperativeGroups','');
+//	            	if(${command.multiInstitutionIndicator}){
+//	            		$('deletionIndicator1').name="_deletedRow-studyCoordinatingCenters-0";
+//	            		$('deletionIndicator2').name="_deletedRow-identifiers-1";
+//	            	}
+	            }
+        	}
+        	return continueSubmission;
+        }
         
         function manageRandomizedIndicatorSelectBox(box) {
             if (box.value == 'true') {
@@ -45,7 +55,7 @@
                 Effect.CloseDown('randomizationType');
             }
         }
-        
+
 var sponsorSiteAutocompleterProps = {
 	basename: "healthcareSite",
     populator: function(autocompleter, text) {
@@ -80,7 +90,7 @@ autoCompleters.push(coCenterAutocompleterProps);
 autoCompleters.push(sponsorSiteAutocompleterProps);
 
 
-    </script>
+    --></script>
 
 </head>
 <body>
@@ -162,13 +172,15 @@ autoCompleters.push(sponsorSiteAutocompleterProps);
 				<form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
 			</form:select></div>
 			</div>
-			
+
 			<div class="row">
 			<div class="label">*Sponsor:</div>
-			<div class="value"><form:hidden id="healthcareSite-hidden" path="studyFundingSponsors[0].healthcareSite" /> <input
-				id="healthcareSite-input" size="50" type="text" name="identifiers[0].source" value="${not empty command.identifiers[0].source?command.identifiers[0].source:''}"
-				class="validate-notEmpty" /> <tags:indicator
-				id="healthcareSite-indicator" />
+			<div class="value"><form:hidden id="healthcareSite-hidden"
+				path="studyFundingSponsors[0].healthcareSite" /> <input
+				id="healthcareSite-input" size="50" type="text"
+				name="identifiers[0].source"
+				value="${command.identifiers[0].source}" class="validate-notEmpty" />
+			<tags:indicator id="healthcareSite-indicator" />
 			<div id="healthcareSite-choices" class="autocomplete"></div>
 			</div>
 			</div>
@@ -209,44 +221,83 @@ autoCompleters.push(sponsorSiteAutocompleterProps);
 
 
 		<chrome:division title="Multi-Institutional Details">
-
-
-			<div class="row">
-			<div class="label">*Multi-Institution:</div>
-			<div class="value"><form:select path="multiInstitutionIndicator"
-				onchange="manageSelectBox(this);" cssClass="validate-notEmpty">
-				<option value="">--Please Select--</option>
-				<form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
-			</form:select></div>
-			</div>
-			
-			
-			<div id="cooperativeGroups"
-				<c:if test="${ (empty command.multiInstitutionIndicator) || command.multiInstitutionIndicator=='false'}">style="display:none;"</c:if>>
+			<c:choose>
+				<c:when test="${not empty command.id}">
 					<div class="row">
-			<div class="label">*Coordinating Center:</div>
-			<div class="value"><form:hidden id="coCenter-hidden" path="studyCoordinatingCenters[0].healthcareSite" /> <input
-				id="coCenter-input" size="50" type="text" name="identifiers[1].source" value="${not empty command.identifiers[1].source?command.identifiers[1].source:''}"
-				class="validate-notEmpty" /> <tags:indicator
-				id="coCenter-indicator" />
-			<div id="coCenter-choices" class="autocomplete"></div>
-			</div>
-			</div>
-			
-			
-			<div class="row">
-			<div class="label"><span class="red">*</span> Coordinating Center
-			Study Identifier:</div>
-			<div class="value"><form:input path="identifiers[1].value" size="30"
-				maxlength="30" /> <input type="hidden" name="identifiers[1].type"
-				value="Coordinating Center Identifier" /></div>
-			</div>
-			</div>
+					<div class="label">*Multi-Institution:</div>
+					<div class="value">${command.multiInstitutionIndicator=="true"?"Yes":"No"}</div>
+					</div>
+					<c:if test="${command.multiInstitutionIndicator=='true' }">
+						<div class="row">
+						<div class="label">*Coordinating Center:</div>
+						<div class="value"><input type="hidden" id="coCenter-hidden"
+							name="studyCoordinatingCenters[0].healthcareSite"
+							value="${command.multiInstitutionIndicator=='true'?command.studyCoordinatingCenters[0].healthcareSite.id:'' }" />
+						<input id="coCenter-input" size="50" type="text"
+							name="identifiers[1].source"
+							value="${command.multiInstitutionIndicator=='true'?command.identifiers[1].source:''}" />
+						<tags:indicator id="coCenter-indicator" />
+						<div id="coCenter-choices" class="autocomplete"></div>
+						</div>
+						</div>
 
+						<div class="row">
+						<div class="label"><span class="red">*</span> Coordinating Center
+						Study Identifier:</div>
+						<div class="value"><input type="text" name="identifiers[1].value"
+							size="30" maxlength="30"
+							value="${command.multiInstitutionIndicator=='true'?command.identifiers[1].value:''}" />
+						<input type="hidden" name="identifiers[1].type"
+							value="Coordinating Center Identifier" /></div>
+						</div>
+					</c:if>
+				</c:when>
+				<c:otherwise>
+					<div class="row">
+					<div class="label">*Multi-Institution:</div>
+					<div class="value"><form:select path="multiInstitutionIndicator"
+						onchange="manageSelectBox(this);" cssClass="validate-notEmpty">
+						<option value="">--Please Select--</option>
+						<form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
+					</form:select></div>
+					</div>
+
+
+
+					<!-- <input type="hidden" id="deletionIndicator1" name="abc" />
+				<input type="hidden" id="deletionIndicator2" name="abc" /> -->
+					<div id="cooperativeGroups"
+						<c:if test="${ (empty command.multiInstitutionIndicator) || command.multiInstitutionIndicator=='false'}">style="display:none;"</c:if>>
+					<div class="row">
+					<div class="label">*Coordinating Center:</div>
+					<div class="value"><input type="hidden" id="coCenter-hidden"
+						name="studyCoordinatingCenters[0].healthcareSite"
+						value="${command.multiInstitutionIndicator=='true'?command.studyCoordinatingCenters[0].healthcareSite.id:'' }" />
+					<input id="coCenter-input" size="50" type="text"
+						name="identifiers[1].source"
+						value="${command.multiInstitutionIndicator=='true'?command.identifiers[1].source:''}" />
+					<tags:indicator id="coCenter-indicator" />
+					<div id="coCenter-choices" class="autocomplete"></div>
+					</div>
+					</div>
+
+					<div class="row">
+					<div class="label"><span class="red">*</span> Coordinating Center
+					Study Identifier:</div>
+					<div class="value"><input type="text" name="identifiers[1].value"
+						size="30" maxlength="30"
+						value="${command.multiInstitutionIndicator=='true'?command.identifiers[1].value:''}" />
+					<input type="hidden" name="identifiers[1].type"
+						value="Coordinating Center Identifier" /></div>
+					</div>
+					</div>
+				</c:otherwise>
+			</c:choose>
 		</chrome:division>
 		<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" />
 
 	</chrome:box>
 </form:form>
+</div>
 </body>
 </html>
