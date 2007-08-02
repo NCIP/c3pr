@@ -4,6 +4,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
+<%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
 
 <html>
 <head>
@@ -53,24 +54,40 @@ rowInserters.push(instanceRowInserterProps);
 							<!-- RIGHT CONTENT STARTS HERE --> <c:if
 								test="${param.type == 'confirm'}">
 								<div id="confirmationMessage">
-								<h3><font color="green"> You have successfully created an
-								investigator with name : ${param.fullName}</font></h3>
-								<br>
-								<a href="javascript:handleConfirmation()">Click here to create
-								another investigator</a></div>
+								<table width="100%" border="0">
+									<tr>
+										<td>
+										<div class="content">
+										<div class="row">
+										<div>
+										<h1>Invesitgator Succesfully Created</h1>
+										</div>
+										</div>
+										<div class="row">
+										<div class="label">Full Name:</div>
+										<div class="value">${param.fullName}</div>
+										</div>
+										<div class="row">
+										<input type="button" value ="Create another investigator" onclick="javascript:handleConfirmation()"></div>
+										</div>
+										</td>
+									</tr>
+								</table>
+								</div>
+								<div id="confirmationMessage">
 							</c:if>
 							<div id="createInv"
 								<c:if test="${param.type == 'confirm'}">style="display:none"</c:if>>
 
 							<table border="0" width="100%" cellspacing="0" cellpadding="0">
 								<tr>
-									<td>
-									<p id="instructions">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Please choose healthcare site(s) for the
-									Investigator <a
-										href="javascript:RowManager.addRow(instanceRowInserterProps);"><img
-										src="<tags:imageUrl name="checkyes.gif"/>" border="0"
-										alt="Add another Site"></a><br>
-									</p>
+									<td><input id="addEpoch" type="button"
+										value="Add healthcare site(s) for the Investigator"
+										onclick="javascript:RowManager.addRow(instanceRowInserterProps);" />
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<br>
+									<br>
+
 									<table id="mytable" width="40%" border="0" cellspacing="0"
 										cellpadding="0">
 										<tr>
@@ -138,7 +155,7 @@ rowInserters.push(instanceRowInserterProps);
 											<td align="right"><em></em> <b>Maiden Name:</b>&nbsp;</td>
 											<td align="left"><form:input path="maidenName" size="25" />&nbsp;&nbsp;&nbsp;</td>
 										</tr>
-										
+
 									</table>
 									</td>
 									<td width="350" valign="top">

@@ -31,21 +31,21 @@ function getCriteriaNumber(){
 	
 }
 function subjectCriteriaNumber(){
-	if(document.getElementById("SubjectOption").value=='N')
+	if(document.getElementById("subjectOption").value=='N')
 		return 0
-	else if(document.getElementById("SubjectOption").value=='Identifier')
+	else if(document.getElementById("subjectOption").value=='Identifier')
 		return 1
 	}
 	
 function studyCriteriaNumber(){
 
-	if(document.getElementById("StudyOption").value=='shortTitle')
+	if(document.getElementById("studyOption").value=='shortTitle')
 		return 2
-	else if(document.getElementById("StudyOption").value=='longTitle')
+	else if(document.getElementById("studyOption").value=='longTitle')
 		return 3
-	else if(document.getElementById("StudyOption").value=='status')
+	else if(document.getElementById("studyOption").value=='status')
 	{return 5}
-	else if(document.getElementById("StudyOption").value=='id')
+	else if(document.getElementById("studyOption").value=='id')
 	{
 	return 4
 	}
@@ -53,7 +53,7 @@ function studyCriteriaNumber(){
 	
 var registrationAutocompleterProps = {
     basename: "registration",
-    populator: function(autocompleter, text) {if (document.getElementById("select").value=="Study"){if(document.getElementById("StudyOption").value=='id') {
+    populator: function(autocompleter, text) {if (document.getElementById("select").value=="Study"){if(document.getElementById("studyOption").value=='id') {
 	(registrationDetails.matchStudyIdentifiers(text,getCriteriaNumber(),function(values) {
 	    autocompleter.setChoices(values)
 	}))
@@ -61,7 +61,7 @@ var registrationAutocompleterProps = {
 	(registrationDetails.matchStudies(text,getCriteriaNumber(),function(values) {
 	    autocompleter.setChoices(values)
 	}))
-    }}else if (document.getElementById("select").value=="Subject"){if(document.getElementById("SubjectOption").value=='Identifier') {
+    }}else if (document.getElementById("select").value=="Subject"){if(document.getElementById("subjectOption").value=='Identifier') {
 	(registrationDetails.matchParticipantIdentifiers(text,getCriteriaNumber(),function(values) {
 	    autocompleter.setChoices(values)
 	}))
@@ -77,17 +77,17 @@ var registrationAutocompleterProps = {
     valueSelector: function(obj) {
     if(document.getElementById("select").value=='Subject')
     { 
-    	if(document.getElementById("SubjectOption").value=='N')
-		return obj.lastName
-		else if(document.getElementById("SubjectOption").value=='Identifier'){
+    	if(document.getElementById("subjectOption").value=='N')
+		return (obj.lastName +" "+ obj.middleName+" "+obj.firstName)
+		else if(document.getElementById("subjectOption").value=='Identifier'){
 		return obj.value}
    }else if (document.getElementById("select").value=='Study')
     {
-    	if (document.getElementById("StudyOption").value=='shortTitle')
+    	if (document.getElementById("studyOption").value=='shortTitle')
     	return obj.shortTitleText
-    	else if (document.getElementById("StudyOption").value=='longTitle')
+    	else if (document.getElementById("studyOption").value=='longTitle')
     	return obj.longTitleText
-    	else if (document.getElementById("StudyOption").value=='status')
+    	else if (document.getElementById("studyOption").value=='status')
     	return obj.status
     	else return obj.value
     	
@@ -169,6 +169,10 @@ function manageSearchTypeMessage(message){
 	}
 }
 
+function submitPage(){
+	document.getElementById("searchForm").submit();
+}
+
 
 </script>
 </head>
@@ -176,13 +180,12 @@ function manageSearchTypeMessage(message){
 <chrome:search title="Search">
 	<form:form id="searchForm" name="searchForm" method="post">
 
-		<table border="0" id="table1" cellspacing="0" cellpadding="5"
+		<table border="0" id="table1" cellspacing="0" cellpadding="0"
 			width="100%">
-			<td width="15% valign="top"><b>Search for Registration by:</b></td>
 			<td>
-
 			<table border="0">
 				<tr>
+					<td width="20%" valign="top" align="right"><b>Search for Registration by:</b></td>
 					<td align="right" width="15%"><select name="select" id="select"
 						onChange="manageSelectBox(this);">
 						<option value="Subject">Subject</option>
@@ -192,13 +195,13 @@ function manageSearchTypeMessage(message){
 
 					<td align="left">
 					<div name="SubjectSearch" id="SubjectSearch"><select
-						name="SubjectOption" id="SubjectOption">
+						name="subjectOption" id="subjectOption">
 						<c:forEach items="${searchTypeRefDataPrt}" var="option">
 							<option value="${option.code }">${option.desc }</option>
 						</c:forEach>
 					</select></div>
 					<div name="StudySearch" id="StudySearch" style="display:none;"><select
-						name="StudyOption" id="StudyOption">
+						name="studyOption" id="studyOption">
 						<c:forEach items="${searchTypeRefDataStudy}" var="option">
 							<option value="${option.code }">${option.desc }</option>
 						</c:forEach>
@@ -207,6 +210,7 @@ function manageSearchTypeMessage(message){
 				</tr>
 
 				<tr>
+					<td width="20%" valign="top" align="right"><b>Search Criteria:</b></td>
 					<td colspan="2"><input type="hidden" id="registration" /> <input
 						id="registration-input" size="52" type="text" name="searchText"
 						class="validate-notEmpty" /> <tags:indicator
@@ -217,19 +221,21 @@ function manageSearchTypeMessage(message){
 					</td>
 				</tr>
 				<tr>
-					<td><input type="submit" value="Search" /> <input type="button"
+					<td width="20%"></td>
+					<td><input type="button" value="Search" onClick="submitPage();return false;"> <input type="button"
 						id="registration-clear" value="Clear" /></td>
 				</tr>
 				<tr>
+					<td width="20%"></td>
 					<td>
 					<div id="SubjectSearchMessage">
-					<p id="instructions">Please search a Subject</p>
+					<p id="instructions">Search for Subjects</p>
 					</div>
 					<div id="StudySearchMessage" style="display:none;">
-					<p id="instructions">Please search a Study</p>
+					<p id="instructions">Search for Studies</p>
 					</div>
 					<div id="IdentifierSearchMessage" style="display:none;">
-					<p id="instructions">Please search a Registration</p>
+					<p id="instructions">Search for Registrations</p>
 					</div>
 					</td>
 				</tr>
@@ -245,7 +251,7 @@ function manageSearchTypeMessage(message){
 	</form:form>
 	<registrationTags:searchResults registrations="${registrations }" />
 
-		<!-- MAIN BODY ENDS HERE -->
+	<!-- MAIN BODY ENDS HERE -->
 </chrome:search>
 </body>
 </html>
