@@ -185,7 +185,7 @@
     	  id="searchRegistrationController" lazy-init="true" class="edu.duke.cabig.c3pr.web.registration.SearchRegistrationController" autowire="byName">
         <property name="formView" value="registration/registration_search" />
         <property name="successView" value="registration/registration_search" />
-        <property name="commandClass" value="edu.duke.cabig.c3pr.web.SearchCommand" />
+        <property name="commandClass" value="edu.duke.cabig.c3pr.web.SearchRegistrationCommand" />
     </bean>
 
     <bean name="/registration/createRegistration"
