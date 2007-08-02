@@ -1,30 +1,32 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-"http://www.w3.org/TR/html4/loose.dtd">
-<%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
+<%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-
-    <meta name="displayTabs" content="hidden"/>
-
-    <title>Confirmation</title>
+<!--empty head-->
 </head>
 <body>
-<form:form name="createParticipantForm" method="post">
-    <div>
-        <tabs:division id="confirm-create-participant">
+    <chrome:box title="Confirmation">
 
-            <div><input type="hidden" name="_page" value="1"></div>
+          <table width="100%" border="0">
+              <tr><td>
+            <div class="content">
+                <div class="row">
+                    <div><h1>Subject Succesfully Created</h1></div>
+                </div>
+                <div class="row">
+                    <div class="label">Full Name:</div>
+                    <div class="value">${param.lastName} ${param.middleName} ${param.firstName} </div>
+                </div>
+                <div class="row">
+                    <div class="label">Primary Identifier:</div>
+                    <div class="value">${param.primaryIdentifier}</div>
+                </div>
+            </div>
+            </td></tr>
+         </table>
 
-            <h3> <font color="green"> You have successfully created Subject with name : ${param.firstName} ${param.lastName} </font></h3>
-        </tabs:division>
-    </div>
-</form:form>
+    </chrome:box>
+
 </body>
 </html>

@@ -49,11 +49,27 @@ function handleConfirmation(){
 								test="${type == 'confirm'}">
 
 								<div id="confirmationMessage">
-								<h3><font color="green"> You have successfully created a
-								research staff person with name : ${fullName}</font></h3>
-								<br>
-								<a href="javascript:handleConfirmation()">Click here to create
-								another research staff person</a></div>
+								<table width="100%" border="0">
+									<tr>
+										<td>
+										<div class="content">
+										<div class="row">
+										<div>
+										<h1>Research Staff member Succesfully Created</h1>
+										</div>
+										</div>
+										<div class="row">
+										<div class="label">Full Name:</div>
+										<div class="value">${param.fullName}</div>
+										</div>
+										<div class="row">
+										<input type="button" value ="Create another research Staff member" onclick="javascript:handleConfirmation()"></div>
+										</div>
+										</td>
+									</tr>
+								</table>
+								</div>
+								<div id="confirmationMessage">
 							</c:if>
 
 							<div id="createRS"
@@ -70,7 +86,7 @@ function handleConfirmation(){
 											<td width="75%"><img src="<tags:imageUrl name="spacer.gif"/>"
 												width="1" height="1" class="heightControl"></td>
 										</tr>
-										<p id="instructions">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Please choose a healthcare site</p>
+										<p id="instructions">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Choose a healthcare site</p>
 										<tr>
 											<td align="right"><b> <span class="red">*</span><em></em><b>Site:</b>&nbsp;</b></td>
 											<td><form:select path="healthcareSite"

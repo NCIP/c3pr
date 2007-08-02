@@ -201,7 +201,7 @@ public class CreateParticipantController extends
 			return null;
 		}
 		response.sendRedirect("confirmCreateParticipant?lastName="
-				+ command.getLastName()+ "&firstName="+ command.getFirstName() + "&type=confirm");
+				+ command.getLastName()+ "&firstName="+ command.getFirstName()+"&middleName="+command.getMiddleName()+"&primaryIdentifier="+command.getPrimaryIdentifier()+ "&type=confirm");
 		return null;
 	}
 
