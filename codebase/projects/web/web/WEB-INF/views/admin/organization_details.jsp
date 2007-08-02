@@ -29,7 +29,7 @@ function submitPage(){
 </head>
 <body>
 
-<tags:basicFormPanelBox tab="${tab}" flow="${flow}" title="Organization Details">
+<tags:basicFormPanelBox tab="${tab}" flow="${flow}" title="Organization">
 <br/>
 	<form:form id="organizationForm" method="post" action="createOrganization">
 		<input type="hidden" name="_action" value="">
@@ -50,11 +50,25 @@ function submitPage(){
 								<!-- RIGHT CONTENT STARTS HERE --> 
 								<c:if test="${type == 'confirm'}">
 									<div id="confirmationMessage">
-									<h3><font color="green"> You have successfully created an
-									Organization with the name : ${orgName}</font></h3>
-									<br>
-									<a href="javascript:handleConfirmation()">Click here to create
-									another Organization</a>
+										<table width="100%" border="0">
+											<tr>
+												<td>
+												<div class="content">
+												<div class="row">
+												<div>
+												<h1>Organization Succesfully Created</h1>
+												</div>
+												</div>
+												<div class="row">
+												<div class="label">Name:</div>
+												<div class="value">${orgName}</div>
+												</div>
+												<div class="row"><a href="javascript:handleConfirmation()">Click
+												here to create another organization</a></div>
+												</div>
+												</td>
+											</tr>
+										</table>
 									</div>
 								</c:if>
 								<div id="createOrg"
