@@ -149,10 +149,11 @@ function submitPostProcess(formElement, flag){
 		</table>
 
 		<hr align="left" width="95%">
+		
+		<input id="addEpoch" type="button" value="Add Identifiers associated with the Subject"
+			onclick="javascript:RowManager.addRow(instanceRowInserterProps);"  />
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br> <br>
 
-		<p id="instructions">Add Identifiers associated with the Subject  <a href="javascript:RowManager.addRow(instanceRowInserterProps);"><img
-                        src="<tags:imageUrl name="checkyes.gif"/>" border="0" alt="Add another Identifier"></a><br>
-		</p>
 		<table id="mytable" border="0" cellspacing="0" cellpadding="0">
 			<tr>
 				<th class="scope=" col" align="left"><b>Assigning Authority<span
