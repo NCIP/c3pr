@@ -35,25 +35,20 @@ function submitPage(){
 						<table width="100%" border="0" cellspacing="5" cellpadding="0"
 							id="table1">
 							<tr>
-								<td width="20%" align="left" class="label">Search Subjects By:</td>
+								<td width="30%" align="right" class="label"><b>Search Subjects By:</b></td>
 								<td align="left"><form:select path="searchType">
 									<form:options items="${searchTypeRefData}" itemLabel="desc"
 										itemValue="code" />
 								</form:select></td>
 							</tr>
 							<tr>
-								<td align="left" class="label">Search Criteria:</td>
-								<td align="left"><form:input path="searchText" /></td>
-							</tr>
-							<tr>
-								<td align="left" class="label">&nbsp;</td>
-								<td align="left" class="label">&nbsp;</td>
+								<td align="right" class="label"><b>Search Criteria:</b></td>
+								<td align="left"><form:input path="searchText" cssClass="validate-notEmpty"/></td>
 							</tr>
 							<tr>
 								<td></td>
-								<td align="left"><a href="" onClick="submitPage();return false;"><img
-									src="<tags:imageUrl name="b-search2.gif"/>" alt="Continue"
-									width="59" height="16" border="0"></a></td>
+								<td align="left"><input type="button" value="Search" onClick="submitPage();return false;">
+									</td>
 							</tr>
 						</table>
 						</td>
