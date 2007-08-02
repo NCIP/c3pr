@@ -112,7 +112,7 @@ public class StudySubjectDao extends
 			example.excludeProperty("doNotUse").enableLike(MatchMode.ANYWHERE);
 			registrationCriteria.add(example);
 			if (registration.getIdentifiers().size() > 0) {
-				registrationCriteria.createCriteria("identifiers").add(
+				registrationCriteria.createCriteria("identifiersInternal").add(
 						Restrictions.like("value", registration
 								.getIdentifiers().get(0).getValue()
 								+ "%"));
