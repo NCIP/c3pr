@@ -60,6 +60,8 @@ function handleConfirmation(){
 </c:if>
 
 <div id="createRS"	<c:if test="${type == 'confirm'}">style="display:none"</c:if>>
+
+<p>Choose a healthcare site</p>
 <table width="60%" border="0" cellspacing="1" cellpadding="1">
 	<tr>
 		<td align="right" width="20%"><b> <span class="red">*</span><em></em><b>Site:</b>&nbsp;</b></td>
