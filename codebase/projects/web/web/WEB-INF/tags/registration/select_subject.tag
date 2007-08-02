@@ -62,8 +62,8 @@
 		    var name=ret.substr(0,ret.indexOf("||"));
 		    var id=ret.substr(ret.indexOf("||")+2);
 			$('participant').value = id;	
-			document.getElementById("subject-message").innerHTML = "Selected Subject: " +name+ ".";
-			message="Selected Subject: " +name+ "."
+			document.getElementById("subject-message").innerHTML = "Selected Subject: " +name;
+			message="Selected Subject: " +name;
 			minimizeSubjectBox(message);
 			var elMsg = document.getElementById('succesfulCreateDiv');
 			var elDetails = document.getElementById('createSubjectDetailsDiv');

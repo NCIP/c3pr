@@ -197,7 +197,7 @@ public class CreateParticipantController extends
 
 		ModelAndView modelAndView = null;
 		if(request.getParameter("async")!=null){
-			response.getWriter().print(command.getFirstName()+" "+command.getLastName()+" (" + command.getIdentifiers().get(0).getType() +" "+command.getIdentifiers().get(0).getValue() + ")"
+			response.getWriter().print(command.getFirstName()+" "+command.getLastName()+" (" + command.getIdentifiers().get(0).getType() +" - "+command.getIdentifiers().get(0).getValue() + ")"
 					+"||"+command.getId());
 			return null;
 		}
