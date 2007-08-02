@@ -1,4 +1,3 @@
-
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -56,8 +55,7 @@ function handleConfirmation(){
 		</tr>
 	</table>
 	</div>
-	<div id="confirmationMessage">
-</c:if>
+	</c:if>
 
 <div id="createRS"	<c:if test="${type == 'confirm'}">style="display:none"</c:if>>
 
