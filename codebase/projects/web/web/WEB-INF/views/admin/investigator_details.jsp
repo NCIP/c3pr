@@ -120,8 +120,6 @@ rowInserters.push(instanceRowInserterProps);
 										value="Add healthcare site"
 										onclick="javascript:RowManager.addRow(instanceRowInserterProps);" />
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									<br>
-									<br>
 									</td>
 								</tr>
 							</table>
