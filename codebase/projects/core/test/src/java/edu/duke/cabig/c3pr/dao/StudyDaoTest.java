@@ -346,7 +346,7 @@ public class StudyDaoTest extends DaoTestCase {
      */
     public void testIdentifierUniqueResults(){
          Study studySearchCriteria = new Study();
-		studySearchCriteria.setId(1000);
+		studySearchCriteria.setShortTitleText("short_title_text2");
 		List<Study> results = dao.searchByExample(studySearchCriteria);
 		assertEquals("Wrong number of Studies", 1, results.size());
     }
