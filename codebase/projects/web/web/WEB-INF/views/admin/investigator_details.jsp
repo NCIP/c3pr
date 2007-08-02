@@ -82,6 +82,7 @@ rowInserters.push(instanceRowInserterProps);
 
 							<table border="0" width="100%" cellspacing="0" cellpadding="0">
 								<tr>
+								<td width="40"></td>
 									<td>
 
 									<table id="mytable" width="40%" border="0" cellspacing="0"
@@ -123,13 +124,13 @@ rowInserters.push(instanceRowInserterProps);
 									</td>
 								</tr>
 							</table>
-							<table width="600" border="0" cellspacing="0" cellpadding="0"
+							<table width="740" border="0" cellspacing="0" cellpadding="0"
 								id="details">
 								<hr align="left" width="95%">
 								<tr>
-									<td width="360" valign="top">
+									<td width="370" valign="top">
 
-									<table width="360" border="0" cellspacing="1" cellpadding="1"
+									<table width="370" border="0" cellspacing="1" cellpadding="1"
 										id="table1">
 										<tr>
 											<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
@@ -160,8 +161,8 @@ rowInserters.push(instanceRowInserterProps);
 
 									</table>
 									</td>
-									<td width="350" valign="top">
-									<table width="350" border="0" cellspacing="1" cellpadding="1"
+									<td width="370" valign="top">
+									<table width="370" border="0" cellspacing="1" cellpadding="1"
 										id="table1">
 										<tr>
 											<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
