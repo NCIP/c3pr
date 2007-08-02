@@ -54,12 +54,12 @@
 //
 // Callback Hooks:
 // The validation framework provides a callback hook for html pages to pre process and post process validations.
-// --> submitPreProcess(formElement)                        :   Any page that provides and implementation of submitPreProcess(formElement)
-//                                                              recieve a call back on the function. If the function return
-// 																true then the form will be validated else the form will be submitted.
-// --> submitPostProcess(formElement, continurSubmission)   :   Any page that provides and implementation of submitPostProcess(formElement, continurSubmission)
-//                                                              recieve a call back on the function. If the function return
-// 																true then the form will be submitted else the submit will be ignored.
+// --> submitPreProcess=function(formElement)                        :   Any page that provides and implementation of submitPreProcess(formElement)
+//                                                              		 recieve a call back on the function. If the function return
+// 																		 true then the form will be validated else the form will be submitted.
+// --> submitPostProcess= function(formElement, continurSubmission)   :   Any page that provides and implementation of submitPostProcess(formElement, continurSubmission)
+//                                                              		  recieve a call back on the function. If the function return
+// 																		  true then the form will be submitted else the submit will be ignored.
 //
 Event.observe(window, "load", function(){
 	$$('form').each(function(formVar){
