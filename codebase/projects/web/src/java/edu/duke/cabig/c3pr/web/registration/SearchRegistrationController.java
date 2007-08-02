@@ -27,7 +27,7 @@ import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
-import edu.duke.cabig.c3pr.web.SearchCommand;
+import edu.duke.cabig.c3pr.web.SearchRegistrationCommand;
 
 /**
  * 
@@ -49,7 +49,7 @@ public class SearchRegistrationController extends SimpleFormController {
 	private ConfigurationProperty configurationProperty;
 
 	public SearchRegistrationController() {
-		setCommandClass(SearchCommand.class);
+		setCommandClass(SearchRegistrationCommand.class);
 		this.setFormView("registration_search");
 		this.setSuccessView("registration_search_results");
 	}
@@ -58,7 +58,7 @@ public class SearchRegistrationController extends SimpleFormController {
 			HttpServletResponse response, Object oCommand, BindException errors)
 			throws Exception {
 
-		SearchCommand searchRegistrationCommand = (SearchCommand) oCommand;
+		SearchRegistrationCommand searchRegistrationCommand = (SearchRegistrationCommand) oCommand;
 		StudySubject registration = new StudySubject();
 		String text = searchRegistrationCommand.getSearchText();
 		String type = searchRegistrationCommand.getSearchType();
@@ -66,7 +66,7 @@ public class SearchRegistrationController extends SimpleFormController {
 		log.debug(" Search string is :" + text);
 		if (request.getParameter("select").equals("Subject")) {
 			Participant participant = new Participant();
-			if (request.getParameter("SubjectOption").equals("N"))
+			if (request.getParameter("subjectOption").equals("N"))
 				participant.setLastName(text);
 			else {
 				Identifier identifier = new Identifier();
@@ -84,13 +84,13 @@ public class SearchRegistrationController extends SimpleFormController {
 			}
 		} else if (request.getParameter("select").equals("Study")) {
 			Study study = new Study();
-			if (request.getParameter("StudyOption").equals("shortTitle")) {
+			if (request.getParameter("studyOption").equals("shortTitle")) {
 				study.setShortTitleText(text);
 
-			} else if (request.getParameter("StudyOption").equals("longTitle")) {
+			} else if (request.getParameter("studyOption").equals("longTitle")) {
 				study.setLongTitleText(text);
 
-			} else if (request.getParameter("StudyOption").equals("status")) {
+			} else if (request.getParameter("studyOption").equals("status")) {
 				study.setStatus(text);
 			} else {
 				Identifier identifier = new Identifier();
