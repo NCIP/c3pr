@@ -180,7 +180,7 @@ public class RegistrationAjaxFacade {
                     for (Participant participant : participants)
 
                         reducedParticipants.add(buildReduced(participant, Arrays
-                                .asList("id", "lastName")));
+                                .asList("id", "lastName","firstName","middleName")));
 
                     return reducedParticipants;
 
