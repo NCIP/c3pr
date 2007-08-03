@@ -144,7 +144,7 @@ function activateInPlaceEditing(arrayElements){
 				</tr>
 				<tr>
 					<td width="25%" class="labelR">Treating Physician:</td>
-					<td>${command.treatingPhysician.healthcareSiteInvestigator.investigator.fullName}&nbsp;</td>
+					<td>${command.treatingPhysicianFullName}&nbsp;</td>
 				</tr>
 			</table>
 			</div>

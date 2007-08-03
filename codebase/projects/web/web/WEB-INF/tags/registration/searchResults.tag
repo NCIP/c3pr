@@ -79,7 +79,7 @@ function submitLocalForm(formName, regId ,schEphId){
 					<td>${registration.studySite.healthcareSite.name}</td>
 					<td>${registration.registrationStatus}</td>
 					<td>${registration.informedConsentSignedDateStr}</td>
-					<td>${registration.treatingPhysician.healthcareSiteInvestigator.investigator.fullName}</td>
+					<td>${registration.treatingPhysicianFullName}</td>
 					</a>
 				</tr>
 				<c:set var="i" value="${i+1}"></c:set>

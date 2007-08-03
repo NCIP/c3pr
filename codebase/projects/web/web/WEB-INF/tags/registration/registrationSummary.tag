@@ -29,7 +29,7 @@
 	<tags:tdNameValue name="Site IRB Approval Date" value="${studySubject.studySite.irbApprovalDateStr }" columnAttrName="class='labelR'"/>		
 	<tags:tdNameValue name="Informed Consent Signed Date" value="${studySubject.informedConsentSignedDateStr }" columnAttrName="class='labelR'"/>
 	<tags:tdNameValue name="Informed Consent Version" value="${studySubject.informedConsentVersion }" columnAttrName="class='labelR'"/>		
-	<tags:tdNameValue name="Treating Physician" value="${studySubject.treatingPhysician.healthcareSiteInvestigator.investigator.fullName }" columnAttrName="class='labelR'"/>		
+	<tags:tdNameValue name="Treating Physician" value="${studySubject.treatingPhysicianFullName }" columnAttrName="class='labelR'"/>		
 	<tags:tdNameValue name="Disease" value="${studySubject.diseaseHistory.primaryDiseaseStr }" columnAttrName="class='labelR'"/>		
 	<tags:tdNameValue name="Disease Site" value="${studySubject.diseaseHistory.primaryDiseaseSiteStr }" columnAttrName="class='labelR'"/>
 	<c:if test="${studySubject.ifTreatmentScheduledEpoch}"><tags:tdNameValue name="Eligibility Indicator" value="${studySubject.scheduledEpoch.eligibilityIndicator }" columnAttrName="class='labelR'"/></c:if>

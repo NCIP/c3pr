@@ -56,10 +56,8 @@ public class CreateRegistrationController<C extends StudySubject> extends Regist
 	@Override
 	protected void intializeFlows(Flow flow) {
 		flow.addTab(new SearchStudySubjectTab());
-/*		flow.addTab(new SelectStudyTab());
-		flow.addTab(new SelectSubjectTab());
-*/		flow.addTab(new EnrollmentDetailsTab());
-		flow.addTab(new DiseasesDetailsTab());
+		flow.addTab(new EnrollmentDetailsTab());
+//		flow.addTab(new DiseasesDetailsTab());
 		flow.addTab(new EligibilityCriteriaTab());
 		flow.addTab(new StratificationTab());
 		flow.addTab(new RandomizationTab());

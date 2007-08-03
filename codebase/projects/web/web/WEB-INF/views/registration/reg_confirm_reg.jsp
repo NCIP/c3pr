@@ -74,7 +74,7 @@ function accessApp(url,app,targetWindow){
 		</tr>
 		<tr>
 			<td class="label">Treating Physician:</td>
-			<td>${command.treatingPhysician.healthcareSiteInvestigator.investigator.fullName}</td>
+			<td>${command.treatingPhysicianFullName}</td>
 		</tr>
 		<tr>
 			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
