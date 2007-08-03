@@ -53,6 +53,7 @@ public class StudySubject extends AbstractMutableDomainObject {
     private String informedConsentVersion;
     private String primaryIdentifier;
     private StudyInvestigator treatingPhysician;
+    private String otherTreatingPhysician;
     private String registrationStatus;
     private DiseaseHistory diseaseHistory;
     
@@ -327,5 +328,18 @@ public class StudySubject extends AbstractMutableDomainObject {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public String getOtherTreatingPhysician() {
+		return otherTreatingPhysician;
+	}
+	public void setOtherTreatingPhysician(String otherTreatingPhysician) {
+		this.otherTreatingPhysician = otherTreatingPhysician;
+	}
+	
+	@Transient
+	public String getTreatingPhysicianFullName(){
+		if(getTreatingPhysician()!=null)
+			return getTreatingPhysician().getHealthcareSiteInvestigator().getInvestigator().getFullName();
+		return getOtherTreatingPhysician();
 	}
 }
