@@ -438,6 +438,14 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		return studySubject;
 	}
 	
+	private Object bindEnrollmentDetailsOtherTreatingPhysician(Object command){
+		StudySubject studySubject=(StudySubject)command;
+		studySubject.setInformedConsentSignedDate(new Date());
+		studySubject.setInformedConsentVersion("1.0");
+		studySubject.setOtherTreatingPhysician("other treating physician");
+		return studySubject;
+	}
+
 	private Object bindDiseaseDetails(Object command){
 		StudySubject studySubject=(StudySubject)command;
 		studySubject.getDiseaseHistory().setAnatomicSite(anatomicSiteDao.getById(1000));
@@ -566,6 +574,56 @@ public class StudySubjectDaoTest extends DaoTestCase {
 				studySiteDao.reassociate(command.getStudySite());
 		}
 	}
+	/**
+     * Test Saving of a basic Study Subject
+     * @throws Exception
+     */
+    public void testCreateRegistrationOtherTreatingPhysician() throws Exception {
+        Integer savedId;
+        {
+        	//formbackingobject
+            Object command =formBackingObject();
+            
+            //binding process
+            Object afterBind=bind(command);
+            
+            //select study & subject
+            Object onBindFormObject=bindSelectSubjectStudy(afterBind);
+            interruptSession();
+            currentFormObject(onBindFormObject);
+            
+            Object onEnrollmentBindObject=bindEnrollmentDetailsOtherTreatingPhysician(afterBind);
+            interruptSession();
+            currentFormObject(onEnrollmentBindObject);
+            
+            Object saved= reviewAndSave(onEnrollmentBindObject);
+            
+            StudySubject studySubject=(StudySubject)saved;
+            
+            savedId= studySubject.getId().intValue();
+            assertNotNull("The registration didn't get an id", savedId);
+        }
 
+        interruptSession();
+        {
+        	StudySubject loaded = studySubjectDao.getById(savedId);
+        	assertNotNull("Could not reload registration with id " + savedId, loaded);
+        	assertEquals("Treating Physician not null", null, loaded.getTreatingPhysician());
+        	assertEquals("Other Treating Physician wrong", "other treating physician", loaded.getOtherTreatingPhysician());
+        	assertEquals("Wrong number of scheduled epochs", 1, loaded.getScheduledEpochs().size());
+        	assertEquals("Wrong number of scheduled treatment epochs", 1, loaded.getScheduledTreatmentEpochs().size());
+        	assertEquals("Wrong number of scheduled non treatment epochs", 0, loaded.getScheduledNonTreatmentEpochs().size());
+        	loaded.setScheduledEpoch(loaded.getScheduledEpochs().get(0));
+        	assertEquals("getIfTreatmentScheduledEpoch return is inconsistent", true, loaded.getIfTreatmentScheduledEpoch());
+        	ScheduledTreatmentEpoch scheduledTreatmentEpoch=(ScheduledTreatmentEpoch)loaded.getScheduledEpoch();
+        	assertEquals("Wrong eligibility indicator", false, scheduledTreatmentEpoch.getEligibilityIndicator().booleanValue());
+        	assertEquals("Wrong number of subject eligibility answers", 3, scheduledTreatmentEpoch.getSubjectEligibilityAnswers().size());
+        	assertEquals("Wrong number of subject inclusion eligibility answers", 2, scheduledTreatmentEpoch.getInclusionEligibilityAnswers().size());
+        	assertEquals("Wrong number of subject exclusion eligibility answers", 1, scheduledTreatmentEpoch.getExclusionEligibilityAnswers().size());
+        	assertEquals("Wrong number of subject stratification answers", 1, scheduledTreatmentEpoch.getSubjectStratificationAnswers().size());
+        	assertEquals("Wrong registration status", "Incomplete", loaded.getRegistrationStatus());
+        }
+        interruptSession();
+    }
 	
 }
