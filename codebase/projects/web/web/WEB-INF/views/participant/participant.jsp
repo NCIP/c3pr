@@ -156,10 +156,10 @@ function submitPostProcess(formElement, flag){
 
 		<table id="mytable" border="0" cellspacing="0" cellpadding="0">
 			<tr>
-				<th class="scope=" col" align="left"><b>Assigning Authority<span
-					class="red">*</span></b></th>
-				<th scope="col" align="left"><b>Identifier Type<span class="red">*</span></b></th>
-				<th scope="col" align="left"><b>Identifier<span class="red">*</span></b></th>
+				<th class="scope=" col" align="left"><b><span
+					class="red">*</span>Assigning Authority</b></th>
+				<th scope="col" align="left"><b><span class="red">*</span>Identifier Type</b></th>
+				<th scope="col" align="left"><b><span class="red">*</span>Identifier</b></th>
 				<th scope="col" align="left"><b>Primary&nbsp;Indicator</b></th>
 				<th class="specalt" scope="col" align="left"></th>
 			</tr>
