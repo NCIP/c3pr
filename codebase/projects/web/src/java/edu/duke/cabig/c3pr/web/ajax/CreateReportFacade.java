@@ -101,7 +101,7 @@ public class CreateReportFacade {
 
         Column columnInvestigatorFullName = model.getColumnInstance();
         columnInvestigatorFullName.setTitle("Treating Physician");
-        columnInvestigatorFullName.setProperty("treatingPhysician.healthcareSiteInvestigator.investigator.fullName");
+        columnInvestigatorFullName.setProperty("treatingPhysicianFullName");
         model.addColumn(columnInvestigatorFullName);
 
         return model.assemble();
