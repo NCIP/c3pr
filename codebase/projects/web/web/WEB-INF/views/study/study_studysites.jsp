@@ -31,7 +31,7 @@ var healthcareSiteAutocompleterProps = {
 }
 var instanceRowInserterProps = {
 
-    add_row_division_id: "mytable", 	        
+    add_row_division_id: "siteTable", 	        
     skeleton_row_division_id: "dummy-row",
     initialIndex: ${fn:length(command.studySites)},
     path: "studySites",
@@ -81,19 +81,19 @@ rowInserters.push(instanceRowInserterProps);
         <td>
 
             <br>
-            <table id="mytable" border="0" cellspacing="0" cellpadding="0">
-                <tr class="label">
-                    <th scope="col"><b>HealthCare Site</b></th>
-                    <th scope="col"><b>Status</b></th>
-                    <th scope="col"><b>Activation Date</b></th>
-                    <th scope="col"><b>IRB Approval Date</b></th>
-                    <th scope="col" class="specalt"></th>
+            <table id="siteTable" class="tablecontent" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <th><b>HealthCare Site</b></th>
+                    <th><b>Status</b></th>
+                    <th><b>Activation Date</b></th>
+                    <th><b>IRB Approval Date</b></th>
+                    <th></th>
                 </tr>
                 <c:forEach items="${command.studySites}" varStatus="status">
-                    <tr id="mytable-${status.index}">
+                    <tr id="siteTable-${status.index}">
                     
                     
-                     <td class="alt">
+                     <td>
                				<input type="hidden" id="healthcareSite${status.index}-hidden"
                         			name="studySites[${status.index}].healthcareSite"
                       				 value="${command.studySites[status.index].healthcareSite.id}"/>
@@ -106,7 +106,7 @@ rowInserters.push(instanceRowInserterProps);
                   			<div id="healthcareSite${status.index}-choices" class="autocomplete"></div>
            			 </td>
                                
-                       <td class="alt"><form:select path="studySites[${status.index}].statusCode"
+                       <td><form:select path="studySites[${status.index}].statusCode"
                                                      cssClass="validate-notEmpty">
                             <option value="">--Please Select--</option>
                             <form:options items="${studySiteStatusRefData}" itemLabel="desc"
@@ -116,13 +116,13 @@ rowInserters.push(instanceRowInserterProps);
 
                         </td>
 
-                        <td class="alt">
+                        <td>
                             <tags:dateInput path="studySites[${status.index}].startDate"/>
                         </td>
-                        <td class="alt">
+                        <td>
                             <tags:dateInput path="studySites[${status.index}].irbApprovalDate"/>
                         </td>
-                        <td class="specalt"><a
+                        <td><a
                                 href="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index});"><img
                                 src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 
@@ -143,9 +143,9 @@ rowInserters.push(instanceRowInserterProps);
 </tags:tabForm>
 <div id="dummy-row" style="display:none;">
     <table>
-        <tr id="mytable-PAGE.ROW.INDEX">
+        <tr id="siteTable-PAGE.ROW.INDEX">
                        
-            <td class="alt">
+            <td>
                 <input type="hidden" id="healthcareSitePAGE.ROW.INDEX-hidden"
                         name="studySites[PAGE.ROW.INDEX].healthcareSite"/>
                 <input class="validate-notEmpty" type="text" id="healthcareSitePAGE.ROW.INDEX-input"
@@ -158,20 +158,9 @@ rowInserters.push(instanceRowInserterProps);
             </td>
             
           
-            <td class="alt">
-                <select id="studySites[PAGE.ROW.INDEX].statusCode"
-                        name="studySites[PAGE.ROW.INDEX].statusCode"
-                        class="validate-notEmpty">
-                    <option value="">--Please Select--</option>
-                    <c:forEach items="${studySiteStatusRefData}" var="studySite">
-                        <option value="${studySite.desc}">${studySite.desc}</option>
-                    </c:forEach>
-                </select>
-                <input type="hidden" id="studySites[PAGE.ROW.INDEX].roleCode"
-                       name="studySites[PAGE.ROW.INDEX].roleCode" value="Affiliate Site"/>
-
+            <td>
             </td>
-            <td class="alt">
+            <td>
                 <input id="studySites[PAGE.ROW.INDEX].startDate"
                        name="studySites[PAGE.ROW.INDEX].startDate"
                        type="text"
@@ -180,7 +169,7 @@ rowInserters.push(instanceRowInserterProps);
                     <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>
                 </a>
             </td>
-            <td class="alt">
+            <td>
                 <input id="studySites[PAGE.ROW.INDEX].irbApprovalDate"
                        name="studySites[PAGE.ROW.INDEX].irbApprovalDate"
                        type="text"
@@ -189,7 +178,8 @@ rowInserters.push(instanceRowInserterProps);
                     <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle"/>
                 </a>
             </td>
-            <td  class="specalt"><a
+            <td>
+                <a
                     href="javascript:RowManager.deleteRow(instanceRowInserterProps,PAGE.ROW.INDEX);"><img
                     src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 
