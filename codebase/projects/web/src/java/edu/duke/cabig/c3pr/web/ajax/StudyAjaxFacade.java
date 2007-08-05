@@ -138,7 +138,7 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
 
         try {
             studies = studyDao.searchByExample(study, true);
-            return build(model, studies, "Search Result", action).toString();
+            return build(model, studies, "", action).toString();
         } catch (Exception e) {
             log.debug(e.getMessage());
         }
