@@ -66,8 +66,10 @@ public class SearchRegistrationController extends SimpleFormController {
 		log.debug(" Search string is :" + text);
 		if (request.getParameter("select").equals("Subject")) {
 			Participant participant = new Participant();
-			if (request.getParameter("subjectOption").equals("N"))
-				participant.setLastName(text);
+			if (request.getParameter("subjectOption").equals("N")){
+				participant.setLastName(text.split(" ")[0]);
+				participant.getLastName();
+			}
 			else {
 				Identifier identifier = new Identifier();
 				identifier.setValue(text);
