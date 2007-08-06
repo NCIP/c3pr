@@ -2,8 +2,7 @@ package edu.duke.cabig.c3pr.service.impl;
 
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.*;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.exception.StudyValidationException;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
@@ -34,7 +33,7 @@ import java.util.List;
  * Time: 1:18:10 PM
  * To change this template use File | Settings | File Templates.
  */
- 
+
 public class StudyXMLImporterService implements edu.duke.cabig.c3pr.service.StudyXMLImporterService {
 
     private StudyDao studyDao;
@@ -73,10 +72,24 @@ public class StudyXMLImporterService implements edu.duke.cabig.c3pr.service.Stud
                     this.validate(study);
                     // already checked in validator
                     for(StudySite site: study.getStudySites()){
-                        // Already checked in validator. Should only have one study site
+                        // Already checked in validator. Should only have one healthcare site for NCI Institute code
                         StudySite loadedSite = studySiteDao.getByNciInstituteCode(site.getHealthcareSite().getNciInstituteCode()).get(0);
                         study.removeStudySite(site);
                         study.addStudySite(loadedSite);
+                    }
+                    for(TreatmentEpoch epoch:study.getTreatmentEpochs()){
+                        epoch.setStudy(study);
+                        for(Arm arm:epoch.getArms()){
+                            arm.setTreatmentEpoch(epoch);
+                        }
+                    }
+
+                    for(NonTreatmentEpoch epoch:study.getNonTreatmentEpochs()){
+                        epoch.setStudy(study);
+                    }
+
+                    for(StudyDisease disease : study.getStudyDiseases()){
+                        disease.setStudy(study);
                     }
 
                     log.debug("Saving study with grid ID" + study.getGridId());
@@ -115,7 +128,7 @@ public class StudyXMLImporterService implements edu.duke.cabig.c3pr.service.Stud
         }
     }
 
-    //setters for spring
+//setters for spring
 
     public void setStudyDao(StudyDao studyDao) {
         this.studyDao = studyDao;

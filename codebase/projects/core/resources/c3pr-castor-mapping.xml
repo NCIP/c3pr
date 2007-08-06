@@ -106,6 +106,9 @@
         <field name="gridId" type="string">
             <bind-xml name="gridId" node="attribute"/>
         </field>
+        <field name="version" type="integer">
+            <bind-xml name="version" node="attribute"/>
+        </field>
         <field name="blindedIndicator" type="string">
             <bind-xml name="blindedIndicator" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain" />
         </field>
@@ -136,9 +139,6 @@
         <field name="type" type="string">
             <bind-xml name="type" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain" />
         </field>
-        <field name="primaryIdentifier" type="string">
-            <bind-xml name="primaryIdentifier" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain" />
-        </field>
         <field name="targetAccrualNumber" type="integer">
             <bind-xml name="targetAccrualNumber" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain" />
         </field>
@@ -152,24 +152,9 @@
             <bind-xml   auto-naming="deriveByClass" node="element"
                         xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
-        <field name="studyDiseases" type="edu.duke.cabig.c3pr.domain.StudyDisease"
-               collection="collection">
-            <bind-xml name="studyDisease" node="element"
-                      xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        </field>
         <field name="studySites" type="edu.duke.cabig.c3pr.domain.StudySite"
                collection="collection">
             <bind-xml name="studySite" node="element"
-                      xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        </field>
-         <field name="studyFundingSponsors" type="edu.duke.cabig.c3pr.domain.StudyFundingSponsor"
-               collection="collection">
-            <bind-xml name="StudyFundingSponsor" node="element"
-                      xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        </field>
-        <field name="studyCoordinatingCenters" type="edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter"
-               collection="collection">
-            <bind-xml name="studyCoordinatingCenter" node="element"
                       xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
     </class>
@@ -193,23 +178,23 @@
     </class>
 
     <class name="edu.duke.cabig.c3pr.domain.StudySite" extends="edu.duke.cabig.c3pr.domain.StudyOrganization">
-           <map-to xml="studySite" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain" />
-           <field name="irbApprovalDate" type="date">
-               <bind-xml name="irbApprovalDate" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain" />
-           </field>
-           <field name="roleCode" type="string">
-               <bind-xml name="roleCode" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain" />
-           </field>
-           <field name="startDate" type="date">
-               <bind-xml name="startDate"  node="element"  xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain" />
-           </field>
-           <field name="statusCode" type="string">
-               <bind-xml name="statusCode"  node="element"  xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain" />
-           </field>
-           <field name="endDate" type="date">
-               <bind-xml name="endDate"  node="element"  xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain" />
-           </field>
-       </class>
+        <map-to xml="studySite" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain" />
+        <field name="irbApprovalDate" type="date">
+            <bind-xml name="irbApprovalDate" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain" />
+        </field>
+        <field name="roleCode" type="string">
+            <bind-xml name="roleCode" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain" />
+        </field>
+        <field name="startDate" type="date">
+            <bind-xml name="startDate"  node="element"  xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain" />
+        </field>
+        <field name="statusCode" type="string">
+            <bind-xml name="statusCode"  node="element"  xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain" />
+        </field>
+        <field name="endDate" type="date">
+            <bind-xml name="endDate"  node="element"  xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain" />
+        </field>
+    </class>
 
 
     <class name="edu.duke.cabig.c3pr.domain.Epoch">
@@ -295,9 +280,9 @@
         <field name="medraCode" type="long">
             <bind-xml name="medraCode" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain" />
         </field>
-        <!--<field name="category" type="edu.duke.cabig.c3pr.domain.DiseaseCategory">-->
-        <!--<bind-xml name="category" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain" />-->
-        <!--</field>-->
+        <field name="category" type="edu.duke.cabig.c3pr.domain.DiseaseCategory">
+            <bind-xml name="category" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain" />
+        </field>
     </class>
 
     <class name="edu.duke.cabig.c3pr.domain.DiseaseCategory">
@@ -347,9 +332,6 @@
         </field>
         <field name="address" type="edu.duke.cabig.c3pr.domain.Address">
             <bind-xml name="address" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain" />
-        </field>
-        <field name="trimmedName" type="string">
-            <bind-xml name="trimmedName" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain" />
         </field>
     </class>
 

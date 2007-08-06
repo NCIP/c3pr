@@ -17,29 +17,31 @@ import gov.nih.nci.common.exception.XMLUtilityException;
  * To change this template use File | Settings | File Templates.
  */
 public class StudyHibernateObjectMarshallingTest extends DaoTestCase {
-    private StudyDao dao = (StudyDao) getApplicationContext().getBean("studyDao");
+    private StudyDao dao;
     XmlMarshaller marshaller;
 
 
-    public void testMarshallStudy() {
-        try {
+    protected void setUp() throws Exception {
+        super.setUp();    //To change body of overridden methods use File | Settings | File Templates.
+        dao = (StudyDao) getApplicationContext().getBean("studyDao");
+    }
+
+    public void testMarshallStudy()  throws Exception{
             Study study = dao.getById(1000);
+
             marshaller = new XmlMarshaller();
 
             String studyXML = marshaller.toXML(study);
+            System.out.println(studyXML);
             assertNotNull(studyXML);
 
             // make sure no hibernate proxy (garbage) is being serialized           
             assertFalse(studyXML.indexOf("proxy") > -1);
-
-        } catch (XMLUtilityException e) {
-            fail(e.getMessage());
-        }
-
-
+        
     }
 
-    // override default dataset filename
+
+    @Override
     protected String getClassNameWithoutPackage() {
         return "StudyDataset";
     }

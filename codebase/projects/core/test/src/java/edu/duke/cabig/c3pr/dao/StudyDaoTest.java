@@ -33,6 +33,7 @@ import edu.duke.cabig.c3pr.utils.DaoTestCase;
  * JUnit Tests for StudyDao
  * 
  * @author Priyatam
+ * @author kherm
  * @testType unit
  */
 public class StudyDaoTest extends DaoTestCase {
@@ -265,16 +266,17 @@ public class StudyDaoTest extends DaoTestCase {
 		Study study = dao.getById(1000);
 		List<Epoch> epochs = study.getEpochs();
 		assertEquals("Wrong number of Epochs", 6, epochs.size());
-		// List<Integer> ids = collectIds(epochs);
+		 List<Integer> ids = collectIds(epochs);
 
-		// assertContains("Missing expected Epoch", ids, 1000);
-		// assertContains("Missing expected Epoch", ids, 1001);
+		 assertContains("Missing expected Epoch", ids, 1000);
+		 assertContains("Missing expected Epoch", ids, 1001);
 	}
 
-	/*public void testGetTreatmentEpochs() throws Exception {
-		Study study = dao.getById(1000);
+	public void testGetTreatmentEpochs() throws Exception {
+
+        Study study = dao.getById(1000);
 		List<Epoch> el = study.getEpochs();
-		System.out.println(el);
+
 		TreatmentEpoch te = new TreatmentEpoch();
 		te.setName("test");
 		te.setStudy(study);
@@ -285,34 +287,21 @@ public class StudyDaoTest extends DaoTestCase {
 
 		interruptSession();
 		study = dao.getById(1000);
-		for (Epoch e : study.getEpochs()) {
-			System.out.println(e.getId());
-		}
 
-		// List<Epoch> epochs = study.getEpochs();
-		// assertEquals("Wrong number of Epochs", 2, epochs.size());
-		// List<Integer> ids = collectIds(epochs);
+		 List<Epoch> epochs = study.getEpochs();
+		 assertEquals("Wrong number of Epochs",7, epochs.size());
+		 List<Integer> ids = collectIds(epochs);
 
-		// assertContains("Missing expected Epoch", ids, 1000);
-		// assertContains("Missing expected Epoch", ids, 1001);
-	}*/
+		 assertContains("Missing expected Epoch", ids, 1000);
+		 assertContains("Missing expected Epoch", ids, 1001);
+    }
 
 	/**
 	 * Test for retrieving all Arms associated with this Studies' epochs
 	 * 
 	 * @throws Exception
 	 */
-	/*public void testGetArms() throws Exception {
-		List<Arm> actual = dao.getArmsForStudy(1000);
 
-		assertEquals("Wrong number of assigments", 8, actual.size());
-		List<Integer> ids = collectIds(actual);
-
-		assertContains("Missing expected Arm", ids, 1000);
-		assertContains("Missing expected Arm", ids, 1001);
-		assertContains("Missing expected Arm", ids, 1002);
-		assertContains("Missing expected Arm", ids, 1003);
-	}*/
 
 	/**
 	 * Test for Study Paticipant Assignments for a given Study
@@ -608,83 +597,6 @@ public class StudyDaoTest extends DaoTestCase {
 		assertEquals("Wrong number of Studies", 3, results.size());
 	}
 
-	/*public void testSaveStudyWithTreatmentEpochAndInclusionEligibilityCriteria()
-			throws Exception {
-		Integer savedId;
-		{
-			Study study = new Study();
-			study.setPrecisText("New study");
-			study.setShortTitleText("ShortTitleText");
-			study.setLongTitleText("LongTitleText");
-			study.setPhaseCode("PhaseCode");
-			study.setStatus("Status");
-			study.setTargetAccrualNumber(150);
-			study.setType("Type");
-			study.setMultiInstitutionIndicator("true");
-			TreatmentEpoch epoch = new TreatmentEpoch();
-			InclusionEligibilityCriteria incCrit = new InclusionEligibilityCriteria();
-			incCrit.setQuestionText("questionText");
-			incCrit.setQuestionNumber(1);
-			// incCrit.setStudy(study);
-			study.addInclusionEligibilityCriteria(incCrit);
-			epoch.addEligibilityCriterion(incCrit);
-			epoch.setName("Anoter Treatment Epoch");
-			study.addEpoch(epoch);
-			// getDao().save(epoch);
-			dao.save(study);
-			savedId = study.getId();
-		}
-
-		interruptSession();
-		{
-
-			Study loadedStudy = dao.getById(savedId);
-			TreatmentEpoch loadedEpoch = (TreatmentEpoch) loadedStudy
-					.getEpochs().get(0);
-			// TreatmentEpoch loaded = (TreatmentEpoch)
-			// getDao().getById(savedId);
-			assertNotNull("Could not reload epoch id " + savedId, loadedEpoch);
-			// assertNotNull("GridId not updated", loaded.getGridId());
-			assertEquals("Wrong question text:", "questionText", loadedEpoch
-					.getInclusionEligibilityCriteria().get(0).getQuestionText());
-		}
-
-	}
-
-	public void testSaveStudyWithInclusionEligibilityCriteria()
-			throws Exception {
-		Integer savedId;
-		{
-			Study study = new Study();
-			study.setPrecisText("New study");
-			study.setShortTitleText("ShortTitleText");
-			study.setLongTitleText("LongTitleText");
-			study.setPhaseCode("PhaseCode");
-			study.setStatus("Status");
-			study.setTargetAccrualNumber(150);
-			study.setType("Type");
-			study.setMultiInstitutionIndicator("true");
-			InclusionEligibilityCriteria incCrit = new InclusionEligibilityCriteria();
-			incCrit.setQuestionText("questionText");
-			incCrit.setQuestionNumber(1);
-			// incCrit.setStudy(study);
-			study.addInclusionEligibilityCriteria(incCrit);
-			// getDao().save(epoch);
-			dao.save(study);
-			savedId = study.getId();
-		}
-
-		interruptSession();
-		{
-
-			Study loadedStudy = dao.getById(savedId);
-			assertNotNull("Could not reload study:" + savedId, loadedStudy);
-			// assertNotNull("GridId not updated", loaded.getGridId());
-		//	assertEquals("Wrong question text:", "questionText", loadedStudy.getTreatmentEpochs().get(0).getInclusionEligibilityCriteria().get(0).getQuestionText());
-		}
-
-	}
-		
 	/**
 	 * Test for retrieving all study funding sponsors associated with this Study
 	 * 

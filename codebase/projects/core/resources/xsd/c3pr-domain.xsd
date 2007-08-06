@@ -113,11 +113,9 @@
             <xs:element ref="epoch" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="studyDisease" type="StudyDiseaseType" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="studySite" type="StudySiteType" minOccurs="0" maxOccurs="unbounded"/>
-            <!--<xs:element name="studyOrganization" type="StudyOrganizationType" minOccurs="0" maxOccurs="unbounded"/>-->
-            <xs:element name="studyFundingSponsors" type="StudyOrganizationType" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element name="studyCoordinatingCenters" type="StudyOrganizationType" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute name="gridId" type="xs:string"/>
+        <xs:attribute name="version" type="xs:integer"/>
     </xs:complexType>
 
     <xs:complexType name="StudyOrganizationType">
@@ -175,7 +173,6 @@
             <xs:element name="name" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="descriptionText" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="address" type="AddressType" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="trimmedName" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="nciInstituteCode" type="xs:string" minOccurs="0" maxOccurs="1"/>
         </xs:sequence>
         <xs:attribute name="gridId" type="xs:string"/>
