@@ -1,8 +1,8 @@
 package edu.duke.cabig.c3pr.service;
 
-import static edu.duke.cabig.c3pr.ant.C3PRUseCase.CREATE_EXPEDITED_REPORT;
-import static edu.duke.cabig.c3pr.ant.C3PRUseCase.CREATE_ROUTINE_REPORT;
-import edu.duke.cabig.c3pr.ant.C3PRUseCases;
+import edu.duke.cabig.c3pr.C3PRUseCases;
+import static edu.duke.cabig.c3pr.C3PRUseCase.*;
+
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.service.impl.StudyXMLImporterService;
@@ -19,7 +19,7 @@ import java.util.List;
  * Time: 2:33:16 PM
  * To change this template use File | Settings | File Templates.
  */
-@C3PRUseCases({ STUDY_EXPORT, STUDY_IMPORT })
+@C3PRUseCases({ EXPORT_STUDY, IMPORT_STUDY })
 public class StudyXMLImporterTestCase extends DaoTestCase {
 
 
