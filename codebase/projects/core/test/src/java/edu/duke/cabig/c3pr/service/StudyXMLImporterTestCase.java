@@ -19,7 +19,7 @@ import java.util.List;
  * Time: 2:33:16 PM
  * To change this template use File | Settings | File Templates.
  */
-@C3PRUseCases({ CREATE_EXPEDITED_REPORT, CREATE_ROUTINE_REPORT })
+@C3PRUseCases({ STUDY_EXPORT, STUDY_IMPORT })
 public class StudyXMLImporterTestCase extends DaoTestCase {
 
 

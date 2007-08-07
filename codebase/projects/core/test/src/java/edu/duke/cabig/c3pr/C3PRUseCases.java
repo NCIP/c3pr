@@ -4,7 +4,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * @author Rhett Sutphin
+ * @author kherm
  */
 @Retention(RetentionPolicy.SOURCE)
 public @interface C3PRUseCases {
