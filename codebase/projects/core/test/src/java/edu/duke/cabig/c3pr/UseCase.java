@@ -1,7 +1,7 @@
 package edu.duke.cabig.c3pr;
 
 /**
- * @author kherm
+ * @author Rhett Sutphin
  */
 public interface UseCase {
     int getMajor();
