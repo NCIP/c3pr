@@ -14,6 +14,11 @@
     <!-- layout info -->
     <property name="antfiles.dir" location="${basedir}/antfiles"/>
     <property name="management.dir" location="${antfiles.dir}/management"/>
+    <property name="management.build.dir" location="${management.dir}/build"/>
+    <property name="management.classes.dir" location="${management.build.dir}/classes"/>
+    <property name="management.jar.dir" location="${management.build.dir}/jars"/>
+    <property name="management.jarfile" location="${management.jar.dir}/c3pr-management-1.0.jar"/>
+
     <property name="projects.dir" location="${basedir}/projects"/>
     <property name="reports.dir" location="${basedir}/reports"/>
     <property name="share.dir" location="${basedir}/share"/>
@@ -47,6 +52,20 @@
             <include name="cobertura.jar"/>
             <include name="lib/**/*.jar"/>
         </fileset>
+
+    </path>
+
+    <path id="antfiles.compile.cp">
+        <fileset dir="${ant.home}/lib">
+            <include name="ant.jar"/>
+        </fileset>
+        <path refid="cobertura.classpath"/>
+        <fileset dir="${share.dir}/ctms-commons">
+            <include name="ctms-*.jar"/>
+        </fileset>
+        <fileset dir="${share.dir}/commons-io">
+            <include name="*.jar"/>
+        </fileset>
     </path>
 
     <taskdef resource="net/sf/antcontrib/antlib.xml">
@@ -79,35 +98,43 @@
     <!--                  DEFINE THE SUB PROJECTS THAT SUPPORT REPORTING                  -->
     <!-- ================================================================================ -->
     <!-- This should be a subset of the projects above -->
-    <property name="reportable.projects.list" value="web"/>
+    <property name="reportable.projects.list" value="core,web"/>
+
 
 
     <!-- =============================================================== -->
     <!-- Bootstrap the build by setting up the structure and building    -->
     <!-- our custom ant tasks.                                           -->
     <!-- =============================================================== -->
-    <target name="prepare">
+    <target name="prepare" depends="resolve-ctms-dependencies">
         <tstamp/>
-        <mkdir dir="${management.dir}/build"/>
-        <javac srcdir="${management.dir}/src" destdir="${management.dir}/build" debug="on" deprecation="off"
-               optimize="off">
-            <classpath>
-                <fileset dir="${ant.home}/lib">
-                    <include name="ant.jar"/>
-                </fileset>
-                <path refid="cobertura.classpath"/>
-            </classpath>
+        <mkdir dir="${management.build.dir}"/>
+        <mkdir dir="${management.classes.dir}"/>
+        <mkdir dir="${management.jar.dir}"/>
+
+        <!--compile custom ant tasks-->
+        <javac srcdir="${management.dir}/src" destdir="${management.classes.dir}" debug="on" deprecation="off"
+               classpathref="antfiles.compile.cp" optimize="off">
         </javac>
+
+        <copy file="${management.dir}/log4j.properties"
+              todir="${management.classes.dir}"/>
+
+        <jar jarfile="${management.jarfile}" basedir="${management.classes.dir}">
+            <manifest>
+                <attribute name="Built-By" value="${user.name}"/>
+            </manifest>
+        </jar>
 
         <typedef name="artifact" classname="gov.nih.nci.cagrid.ant.Artifact" loaderref="artifact">
             <classpath>
-                <pathelement location="${management.dir}/build"/>
+                <pathelement location="${management.classes.dir}"/>
                 <path refid="cobertura.classpath"/>
             </classpath>
         </typedef>
         <taskdef name="resolveDependencies" classname="gov.nih.nci.cagrid.ant.ResolveDependencies" loaderref="artifact">
             <classpath>
-                <pathelement location="${management.dir}/build"/>
+                <pathelement location="${management.classes.dir}"/>
                 <path refid="cobertura.classpath"/>
             </classpath>
         </taskdef>
@@ -117,13 +144,14 @@
     <!-- =============================================================== -->
     <!-- CORE                                                             -->
     <!-- =============================================================== -->
-    <target name="build-core" depends="prepare,resolve-ctms-dependencies" description="Builds the core project (Services, dao, domain">
+    <target name="build-core" depends="prepare" description="Builds the core project (Services, dao, domain">
         <resolveDependencies extdir="${projects.dir}/core/ext">
             <artifact refid="common.test.jars"/>
             <artifact refid="ctms-commons.jars"/>
             <artifact refid="ant-contrib.jars"/>
             <artifact refid="cacore.jars"/>
             <artifact refid="c3pr.esb-client.jars"/>
+            <artifact refid="c3pr.management.jars"/>
 
             <!-- get third party shared jars -->
             <artifact refid="collections-generic"/>
@@ -153,13 +181,14 @@
     <!-- =============================================================== -->
     <!-- WEB                                                             -->
     <!-- =============================================================== -->
-    <target name="build-web" depends="prepare,resolve-ctms-dependencies" description="Builds the web project">
+    <target name="build-web" depends="prepare" description="Builds the web project">
         <resolveDependencies extdir="${projects.dir}/web/ext">
             <artifact refid="security.lib.jars"/>
             <artifact refid="common.test.jars"/>
             <artifact refid="ctms-commons.jars"/>
             <artifact refid="c3pr.core.jars"/>
             <artifact refid="c3pr.core.lib.jars"/>
+            <artifact refid="c3pr.management.jars"/>
 
             <!-- get third party shared jars -->
             <artifact refid="jboss-j2ee.jars"/>
@@ -214,6 +243,7 @@
             <artifact refid="ant-contrib.jars"/>
             <artifact refid="c3pr.core.jars"/>
             <artifact refid="c3pr.core.lib.jars"/>
+            <artifact refid="c3pr.management.jars"/>
 
             <!-- get third party shared jars -->
             <artifact refid="jboss-j2ee.jars"/>
@@ -292,6 +322,8 @@
                 <ant dir="${projects.dir}/@{project.name}" inheritAll="false" antfile="build.xml" target="clean"/>
             </sequential>
         </for>
+
+        <delete dir="${management.build.dir}"/>
 
         <delete failonerror="false">
             <fileset dir="${junit.results.dir}">

@@ -213,6 +213,11 @@
         <!-- ================= -->
         <!-- project artifacts -->
         <!-- ================= -->
+        <artifact track="compile" type="jars" id="c3pr.management.jars">
+            <fileset dir="${management.jar.dir}">
+                <include name="*.jar"/>
+            </fileset>
+        </artifact>
 
         <artifact track="main" type="jars" id="c3pr.grid.jars">
             <antcall target="build-grid"/>

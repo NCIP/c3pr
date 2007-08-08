@@ -19,39 +19,62 @@ import org.apache.tools.ant.types.FileSet;
 
 public class Utils
 {
-	private Utils() { super(); }
-	
-	public static File[] getFiles(Project project, List fileSetList)
-	{
-		ArrayList<File> fileList = new ArrayList<File>();
-		
-		Iterator fileSets = fileSetList.iterator();
-		while (fileSets.hasNext()) {
-			FileSet fileSet = (FileSet) fileSets.next();
-			
-			DirectoryScanner ds = fileSet.getDirectoryScanner(project);
-			String[] files = ds.getIncludedFiles();
-			for (int i = 0; i < files.length; i++) {
-				fileList.add(new File(ds.getBasedir(), files[i]));
-			}
-		}
-		
-		return fileList.toArray(new File[0]);
-	}
-	
-	public static void copy(File src, File tgt)
-		throws IOException
-	{
-		BufferedInputStream is = new BufferedInputStream(new FileInputStream(src));
-		BufferedOutputStream os = new BufferedOutputStream(new FileOutputStream(tgt));
-		
-		byte[] buf = new byte[10240];
-		int count = 0;
-		while ((count = is.read(buf)) != -1) os.write(buf, 0, count);
-		
-		os.flush();
-		os.close();
-		is.close();
-	}
+    private Utils() { super(); }
+
+    public static File[] getFiles(Project project, List fileSetList)
+    {
+        ArrayList<File> fileList = new ArrayList<File>();
+
+        Iterator fileSets = fileSetList.iterator();
+        while (fileSets.hasNext()) {
+            FileSet fileSet = (FileSet) fileSets.next();
+
+            DirectoryScanner ds = fileSet.getDirectoryScanner(project);
+            String[] files = ds.getIncludedFiles();
+            for (int i = 0; i < files.length; i++) {
+                fileList.add(new File(ds.getBasedir(), files[i]));
+            }
+        }
+
+        return fileList.toArray(new File[0]);
+    }
+
+    public static void copy(File src, File tgt)
+            throws IOException
+    {
+        BufferedInputStream is = new BufferedInputStream(new FileInputStream(src));
+        BufferedOutputStream os = new BufferedOutputStream(new FileOutputStream(tgt));
+
+        byte[] buf = new byte[10240];
+        int count = 0;
+        while ((count = is.read(buf)) != -1) os.write(buf, 0, count);
+
+        os.flush();
+        os.close();
+        is.close();
+    }
+
+    /**
+     * <p>Joins the elements of the provided <code>Iterator</code> into
+     * a single String containing the provided elements.</p>
+     **/
+    public static String join( Iterator iterator, String separator )
+    {
+        if ( separator == null )
+        {
+            separator = "";
+        }
+        StringBuffer buf = new StringBuffer( 256 );  // Java default is 16, probably too small
+        while ( iterator.hasNext() )
+        {
+            buf.append( iterator.next() );
+            if ( iterator.hasNext() )
+            {
+                buf.append( separator );
+
+            }
+        }
+        return buf.toString();
+    }
 
 }
