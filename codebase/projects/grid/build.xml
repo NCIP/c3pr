@@ -33,15 +33,21 @@
     <property name="tomcat.webapps.home" value="${tomcat.home}/webapps"/>
     <property name="tomcat.wsrf.home" value="${tomcat.webapps.home}/wsrf"/>
 
-    <fileset dir="${ext.lib.dir}" id="ext.lib.jars">
-        <include name="*.jar"/>
-        <exclude name="ant-contrib.jar"/>
-    </fileset>
 
-    <fileset dir="${ext.test.lib.dir}" id="ext.test.lib.jars">
-        <include name="*.jar"/>
-    </fileset>
+    <path id="compile.cp">
+        <fileset dir="${ext.dir}/compile">
+            <include name="**/*.jar"/>
+        </fileset>
+        <fileset dir="${ext.lib.dir}" id="ext.lib.jars">
+            <include name="*.jar"/>
+            <exclude name="ant-contrib.jar"/>
+        </fileset>
 
+        <fileset dir="${ext.test.lib.dir}" id="ext.test.lib.jars">
+            <include name="*.jar"/>
+        </fileset>
+
+    </path>
 
     <!-- =============================================================== -->
     <!-- Bootstrap the build by setting up the structure and building    -->
@@ -50,15 +56,12 @@
     <target name="prepare">
         <mkdir dir="${build.dir}"/>
 
-        <typedef name="artifact" classname="gov.nih.nci.cagrid.ant.Artifact" loaderref="artifact">
-            <classpath>
-                <pathelement location="${c3pr.antfiles.dir}/management/build" />
-            </classpath>
+        <typedef name="artifact" classname="gov.nih.nci.cagrid.ant.Artifact"
+                 loaderref="artifact" classpathref="compile.cp">
         </typedef>
-        <taskdef name="resolveDependencies" classname="gov.nih.nci.cagrid.ant.ResolveDependencies" loaderref="artifact">
-            <classpath>
-                <pathelement location="${c3pr.antfiles.dir}/management/build" />
-            </classpath>
+
+        <taskdef name="resolveDependencies" classname="gov.nih.nci.cagrid.ant.ResolveDependencies"
+                 loaderref="artifact"  classpathref="compile.cp">
         </taskdef>
 
         <taskdef resource="net/sf/antcontrib/antlib.xml">
@@ -88,7 +91,7 @@
              antfile="build.xml" target="all"/>
     </target>
 
-    <target name="clean" depends="prepare" description="Clean the project">
+    <target name="clean"  description="Clean the project">
         <delete dir="${build.dir}"/>
         <delete dir="${test.dir}"/>
 

@@ -95,7 +95,7 @@
     <!-- The Test Classpath                                                   -->
     <!-- =============================================================== -->
     <path id="test.classpath">
-        <path refid="build.classpath"/>
+        <path refid="compile.classpath"/>
         <fileset dir="${jar.dir}">
             <include name="**/*.jar"/>
         </fileset>
