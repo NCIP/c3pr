@@ -1,5 +1,8 @@
 package edu.duke.cabig.c3pr.web.study;
 
+import static edu.duke.cabig.c3pr.C3PRUseCase.*;
+import edu.duke.cabig.c3pr.C3PRUseCases;
+
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.web.ajax.StudyAjaxFacade;
 import static org.easymock.EasyMock.expect;
@@ -15,6 +18,7 @@ import java.util.Map;
  *
  * @author kherm manav.kher@semanticbits.com
  */
+@C3PRUseCases({SEARCH_STUDY})
 public class StudyAjaxFacadeTest extends AbstractStudyControllerTest{
 
     StudyAjaxFacade facade;

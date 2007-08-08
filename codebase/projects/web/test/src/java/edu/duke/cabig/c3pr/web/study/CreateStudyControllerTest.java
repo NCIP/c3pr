@@ -1,5 +1,8 @@
 package edu.duke.cabig.c3pr.web.study;
 
+import static edu.duke.cabig.c3pr.C3PRUseCase.*;
+import edu.duke.cabig.c3pr.C3PRUseCases;
+
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
@@ -20,7 +23,7 @@ import java.util.List;
 /**
  * @author kherm manav.kher@semanticbits.com
  */
-
+@C3PRUseCases({ CREATE_STUDY })
 public class CreateStudyControllerTest extends AbstractStudyControllerTest {
 
     private edu.duke.cabig.c3pr.web.study.CreateStudyController controller;

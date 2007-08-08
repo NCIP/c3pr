@@ -1,17 +1,20 @@
 package edu.duke.cabig.c3pr.dao;
 
+import static edu.duke.cabig.c3pr.C3PRUseCase.SEARCH_SUBJECT;
+import static edu.duke.cabig.c3pr.C3PRUseCase.VERIFY_SUBJECT;
+import edu.duke.cabig.c3pr.C3PRUseCases;
+import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
 import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains;
 
 import java.util.List;
-
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
-import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
 
 /**
  * JUnit Tests for ResearchStaffDao
  * @author Priyatam
  * @testType unit
  */
+@C3PRUseCases({VERIFY_SUBJECT,SEARCH_SUBJECT})
 public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
 
 	/**

@@ -1,22 +1,18 @@
 package edu.duke.cabig.c3pr.xml;
 
+
+import static edu.duke.cabig.c3pr.C3PRUseCase.*;
+import edu.duke.cabig.c3pr.C3PRUseCases;
+
+import edu.duke.cabig.c3pr.domain.*;
+import gov.nih.nci.common.exception.XMLUtilityException;
+
 import java.io.ByteArrayInputStream;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import edu.duke.cabig.c3pr.domain.Epoch;
-import edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria;
-import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.Identifier;
-import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
-import edu.duke.cabig.c3pr.domain.StratificationCriterion;
-import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudySite;
-import gov.nih.nci.common.exception.XMLUtilityException;
 
 
 /**
@@ -30,6 +26,7 @@ import gov.nih.nci.common.exception.XMLUtilityException;
  * Time: 11:30:03 AM
  * To change this template use File | Settings | File Templates.
  */
+@C3PRUseCases(EXPORT_STUDY)
 public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
 
     String marshalledStudy;

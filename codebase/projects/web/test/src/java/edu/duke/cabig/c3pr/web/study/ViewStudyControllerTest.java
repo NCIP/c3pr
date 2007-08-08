@@ -1,5 +1,8 @@
 package edu.duke.cabig.c3pr.web.study;
 
+import static edu.duke.cabig.c3pr.C3PRUseCase.*;
+import edu.duke.cabig.c3pr.C3PRUseCases;
+
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 import org.easymock.classextension.EasyMock;
@@ -18,6 +21,7 @@ import java.io.Writer;
  *         Time: 1:48:37 PM
  *         To change this template use File | Settings | File Templates.
  */
+@C3PRUseCases({VIEW_STUDY})
 public class ViewStudyControllerTest extends AbstractStudyControllerTest {
 
     private ViewStudyController controller;

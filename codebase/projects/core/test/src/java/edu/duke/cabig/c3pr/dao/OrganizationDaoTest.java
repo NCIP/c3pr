@@ -1,9 +1,12 @@
 package edu.duke.cabig.c3pr.dao;
 
+import static edu.duke.cabig.c3pr.C3PRUseCase.CREATE_ORGANIZATION;
+import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
 
+@C3PRUseCases({CREATE_ORGANIZATION})
 public class OrganizationDaoTest extends ContextDaoTestCase<OrganizationDao> {
 	/**
 	 * Test for loading an Organization by Id

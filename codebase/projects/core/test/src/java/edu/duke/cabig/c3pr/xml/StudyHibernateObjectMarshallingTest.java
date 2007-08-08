@@ -1,9 +1,11 @@
 package edu.duke.cabig.c3pr.xml;
 
+import static edu.duke.cabig.c3pr.C3PRUseCase.*;
+import edu.duke.cabig.c3pr.C3PRUseCases;
+
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
-import gov.nih.nci.common.exception.XMLUtilityException;
 
 /**
  * Will test marshalling of a hibernate object.
@@ -16,6 +18,8 @@ import gov.nih.nci.common.exception.XMLUtilityException;
  * Time: 12:49:24 AM
  * To change this template use File | Settings | File Templates.
  */
+
+@C3PRUseCases({IMPORT_STUDY, EXPORT_STUDY})
 public class StudyHibernateObjectMarshallingTest extends DaoTestCase {
     private StudyDao dao;
     XmlMarshaller marshaller;

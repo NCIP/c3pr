@@ -1,33 +1,14 @@
 package edu.duke.cabig.c3pr.dao;
 
+import static edu.duke.cabig.c3pr.C3PRUseCase.*;
+import edu.duke.cabig.c3pr.C3PRUseCases;
+import edu.duke.cabig.c3pr.domain.*;
+import edu.duke.cabig.c3pr.utils.DaoTestCase;
 import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import edu.duke.cabig.c3pr.domain.Address;
-import edu.duke.cabig.c3pr.domain.Arm;
-import edu.duke.cabig.c3pr.domain.DiseaseCategory;
-import edu.duke.cabig.c3pr.domain.DiseaseTerm;
-import edu.duke.cabig.c3pr.domain.Epoch;
-import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
-import edu.duke.cabig.c3pr.domain.Identifier;
-import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
-import edu.duke.cabig.c3pr.domain.Investigator;
-import edu.duke.cabig.c3pr.domain.NonTreatmentEpoch;
-import edu.duke.cabig.c3pr.domain.StratificationCriterion;
-import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
-import edu.duke.cabig.c3pr.domain.StudyDisease;
-import edu.duke.cabig.c3pr.domain.StudyFundingSponsor;
-import edu.duke.cabig.c3pr.domain.StudyInvestigator;
-import edu.duke.cabig.c3pr.domain.StudySubject;
-import edu.duke.cabig.c3pr.domain.StudySite;
-import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
-import edu.duke.cabig.c3pr.utils.DaoTestCase;
 
 /**
  * JUnit Tests for StudyDao
@@ -36,6 +17,9 @@ import edu.duke.cabig.c3pr.utils.DaoTestCase;
  * @author kherm
  * @testType unit
  */
+
+@C3PRUseCases({ CREATE_STUDY,UPDATE_STUDY, SEARCH_STUDY, CREATE_STUDY_INVESTIGATOR,
+                 ADD_STRATIFICATION, ADD_DISEASE, VERIFY_SUBJECT })
 public class StudyDaoTest extends DaoTestCase {
 	private StudyDao dao = (StudyDao) getApplicationContext().getBean(
 			"studyDao");
