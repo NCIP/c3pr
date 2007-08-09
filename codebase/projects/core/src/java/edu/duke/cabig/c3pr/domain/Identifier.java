@@ -2,7 +2,10 @@ package edu.duke.cabig.c3pr.domain;
 
 import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -14,16 +17,19 @@ import org.hibernate.annotations.Parameter;
  * @author Priyatam
  */
 
+
+
 @Entity 
 @Table (name = "IDENTIFIERS")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @GenericGenerator (name="id-generator", strategy = "native",
 		parameters = {
 			@Parameter(name="sequence", value="IDENTIFIERS_ID_SEQ")
 		}
 )
-public class Identifier extends AbstractMutableDomainObject
+public abstract class Identifier extends AbstractMutableDomainObject
 {			
-	private String source;
+//	private String source;
 	private String type;
 	private String value;
 	private Boolean primaryIndicator = false;
@@ -36,15 +42,7 @@ public class Identifier extends AbstractMutableDomainObject
     public boolean isPrimary() {
         return getPrimaryIndicator() == null ? false : getPrimaryIndicator();
     }
-    
-	public String getSource() {
-		return source;
-	}
-
-	public void setSource(String source) {
-		this.source = source;
-	}
-
+   
 	public String getType() {
 		return type;
 	}
@@ -72,5 +70,15 @@ public class Identifier extends AbstractMutableDomainObject
 		}
 		this.primaryIndicator = primaryIndicator;
 	}
+/*
+	public String getSource() {
+		if(true)throw new UnsupportedOperationException("Not supported");
+		return source;
+	}
+
+	public void setSource(String source) {
+		if(true)throw new UnsupportedOperationException("Not supported");
+		this.source = source;
+	}*/
 		
 }
