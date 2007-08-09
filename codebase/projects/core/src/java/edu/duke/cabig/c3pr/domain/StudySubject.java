@@ -56,15 +56,23 @@ public class StudySubject extends AbstractMutableDomainObject {
     private String otherTreatingPhysician;
     private String registrationStatus;
     private DiseaseHistory diseaseHistory;
+    private List<Identifier> identifiers;
+
     
     public StudySubject() {
     	lazyListHelper=new LazyListHelper();
-    	lazyListHelper.add(Identifier.class, new InstantiateFactory<Identifier>(Identifier.class));
+    //	lazyListHelper.add(Identifier.class, new InstantiateFactory<Identifier>(Identifier.class));
         lazyListHelper.add(ScheduledTreatmentEpoch.class, new InstantiateFactory<ScheduledTreatmentEpoch>(ScheduledTreatmentEpoch.class));
         lazyListHelper.add(ScheduledNonTreatmentEpoch.class, new InstantiateFactory<ScheduledNonTreatmentEpoch>(ScheduledNonTreatmentEpoch.class));
         setScheduledEpochs(new ArrayList<ScheduledEpoch>());
     	this.startDate=new Date();
     	this.primaryIdentifier="SysGen";
+    	lazyListHelper = new LazyListHelper();
+        lazyListHelper.add(OrganizationAssignedIdentifier.class, new ParameterizedInstantiateFactory<OrganizationAssignedIdentifier>(OrganizationAssignedIdentifier.class));
+        lazyListHelper.add(SystemAssignedIdentifier.class, new ParameterizedInstantiateFactory<SystemAssignedIdentifier>(SystemAssignedIdentifier.class));
+        //   mandatory, so that the lazy-projected list is managed properly.
+        setIdentifiers(new ArrayList<Identifier>());
+
 	}
     /// BEAN PROPERTIES
     public StudySubject(boolean forExample) {
@@ -261,20 +269,34 @@ public class StudySubject extends AbstractMutableDomainObject {
 		}
 		return "";
 	}
-	
+
 	@OneToMany
     @Cascade({CascadeType.ALL,CascadeType.DELETE_ORPHAN})
     @JoinColumn(name = "SPA_ID")
-	public List<Identifier> getIdentifiersInternal() {
-		return lazyListHelper.getInternalList(Identifier.class);
-	}
-	public void setIdentifiersInternal(List<Identifier> identifiers) {
-		lazyListHelper.setInternalList(Identifier.class,identifiers);
-	}
-	@Transient
 	public List<Identifier> getIdentifiers() {
-		return lazyListHelper.getLazyList(Identifier.class);
+		return identifiers;
 	}
+	
+	public void setIdentifiers(List<Identifier> identifiers) {
+    	this.identifiers = identifiers;
+		//initialize projected list for OrganizationAssigned and SystemAssignedIdentifier
+		lazyListHelper.setInternalList(OrganizationAssignedIdentifier.class, 
+				new ProjectedList<OrganizationAssignedIdentifier>(this.identifiers, OrganizationAssignedIdentifier.class));
+		lazyListHelper.setInternalList(SystemAssignedIdentifier.class, 
+				new ProjectedList<SystemAssignedIdentifier>(this.identifiers, SystemAssignedIdentifier.class));
+    }
+	
+
+    @Transient
+    public List<SystemAssignedIdentifier> getSystemAssignedIdentifiers() {
+        return lazyListHelper.getLazyList(SystemAssignedIdentifier.class);
+    }
+    
+    @Transient
+    public List<OrganizationAssignedIdentifier> getOrganizationAssignedIdentifiers() {
+        return lazyListHelper.getLazyList(OrganizationAssignedIdentifier.class);
+    }
+
 	public void addIdentifier(Identifier identifier){
 		lazyListHelper.getLazyList(Identifier.class).add(identifier);
 	}

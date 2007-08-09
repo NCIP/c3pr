@@ -19,6 +19,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import edu.duke.cabig.c3pr.utils.DateUtil;
+import edu.duke.cabig.c3pr.utils.ProjectedList;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
 /**
@@ -37,10 +38,15 @@ public class Participant extends Person implements Comparable<Participant> {
 	private String maritalStatusCode;
 	private List<StudySubject> studySubjects = new ArrayList<StudySubject>();
 	private LazyListHelper lazyListHelper;
+	private List<Identifier> identifiers;
+
 	
 	public Participant() {
         lazyListHelper = new LazyListHelper();
-        lazyListHelper.add(Identifier.class, new InstantiateFactory<Identifier>(Identifier.class));
+        lazyListHelper.add(OrganizationAssignedIdentifier.class, new ParameterizedInstantiateFactory<OrganizationAssignedIdentifier>(OrganizationAssignedIdentifier.class));
+        lazyListHelper.add(SystemAssignedIdentifier.class, new ParameterizedInstantiateFactory<SystemAssignedIdentifier>(SystemAssignedIdentifier.class));
+        //   mandatory, so that the lazy-projected list is managed properly.
+        setIdentifiers(new ArrayList<Identifier>());
     }
 
 	public void addIdentifier(Identifier identifier) {
@@ -50,25 +56,31 @@ public class Participant extends Person implements Comparable<Participant> {
 	public void removeIdentifier(Identifier identifier) {
 		getIdentifiers().remove(identifier);
 	}
-	
-	 @Transient
-	    public List<Identifier> getIdentifiers() {
-	        return lazyListHelper.getLazyList(Identifier.class);
-	    }
 
 	@OneToMany(fetch = FetchType.LAZY)
 	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "PRT_ID")
-	public List<Identifier> getIdentifiersInternal() {
-		return lazyListHelper.getInternalList(Identifier.class);
+	public List<Identifier> getIdentifiers() {
+		return identifiers;
 	}
 	
-    public void setIdentifiersInternal(List<Identifier> identifiers) {
-        lazyListHelper.setInternalList(Identifier.class, identifiers);
-    }
-
     public void setIdentifiers(List<Identifier> identifiers) {
-        lazyListHelper.setInternalList(Identifier.class, identifiers);
+    	this.identifiers = identifiers;
+		//initialize projected list for OrganizationAssigned and SystemAssignedIdentifier
+		lazyListHelper.setInternalList(OrganizationAssignedIdentifier.class, 
+				new ProjectedList<OrganizationAssignedIdentifier>(this.identifiers, OrganizationAssignedIdentifier.class));
+		lazyListHelper.setInternalList(SystemAssignedIdentifier.class, 
+				new ProjectedList<SystemAssignedIdentifier>(this.identifiers, SystemAssignedIdentifier.class));
+    }
+  
+    @Transient
+    public List<SystemAssignedIdentifier> getSystemAssignedIdentifiers() {
+        return lazyListHelper.getLazyList(SystemAssignedIdentifier.class);
+    }
+    
+    @Transient
+    public List<OrganizationAssignedIdentifier> getOrganizationAssignedIdentifiers() {
+        return lazyListHelper.getLazyList(OrganizationAssignedIdentifier.class);
     }
 
 	@OneToMany(mappedBy = "participant", fetch = FetchType.LAZY)

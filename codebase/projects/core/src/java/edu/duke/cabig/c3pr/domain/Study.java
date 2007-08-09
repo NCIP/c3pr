@@ -20,6 +20,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Where;
 
 /**
  * A systematic evaluation of an observation or an
@@ -60,6 +61,7 @@ public class Study extends AbstractMutableDomainObject implements Comparable<Stu
     private RandomizationType randomizationType;
     private List<StudyDisease> studyDiseases = new ArrayList<StudyDisease>();
     private List<StudyOrganization> studyOrganizations;
+    private List<Identifier> identifiers;
 
    
     // TODO move into Command Object
@@ -67,11 +69,19 @@ public class Study extends AbstractMutableDomainObject implements Comparable<Stu
     private String diseaseCategoryAsText;
 
     private LazyListHelper lazyListHelper;
+    //private ParameterizedInstantiateFactory<Identifier> identifierFactory;
 
 
     public Study() {
         lazyListHelper = new LazyListHelper();
-        lazyListHelper.add(Identifier.class, new InstantiateFactory<Identifier>(Identifier.class));
+    //    identifierFactory = new ParameterizedInstantiateFactory();
+	/*	lazyListHelper.add(Identifier.class, identifierFactory);
+		lazyListHelper.add(SystemAssignedIdentifier.class,
+				new InstantiateFactory<SystemAssignedIdentifier>(
+						SystemAssignedIdentifier.class));
+		lazyListHelper.add(OrganizationAssignedIdentifier.class,
+				new InstantiateFactory<OrganizationAssignedIdentifier>(
+						OrganizationAssignedIdentifier.class));*/
    //     lazyListHelper.add(StudySite.class, new BiDirectionalInstantiateFactory<StudySite>(StudySite.class,this));
         lazyListHelper.add(StudySite.class, new ParameterizedBiDirectionalInstantiateFactory<StudySite>(StudySite.class,this));
 		lazyListHelper.add(StudyFundingSponsor.class, new ParameterizedBiDirectionalInstantiateFactory<StudyFundingSponsor>(StudyFundingSponsor.class,this));
@@ -80,10 +90,16 @@ public class Study extends AbstractMutableDomainObject implements Comparable<Stu
     //  lazyListHelper.add(Epoch.class, epochFactory);
         lazyListHelper.add(TreatmentEpoch.class, new ParameterizedBiDirectionalInstantiateFactory<TreatmentEpoch>(TreatmentEpoch.class,this));
         lazyListHelper.add(NonTreatmentEpoch.class, new ParameterizedBiDirectionalInstantiateFactory<NonTreatmentEpoch>(NonTreatmentEpoch.class,this));
+        lazyListHelper.add(SystemAssignedIdentifier.class,
+				new ParameterizedInstantiateFactory<SystemAssignedIdentifier>(SystemAssignedIdentifier.class));
+		lazyListHelper.add(OrganizationAssignedIdentifier.class,
+				new ParameterizedInstantiateFactory<OrganizationAssignedIdentifier>(OrganizationAssignedIdentifier.class
+						));
    //   mandatory, so that the lazy-projected list is managed properly.
         setStudyOrganizations(new ArrayList<StudyOrganization>());
         setEpochs(new ArrayList<Epoch>());
-
+        setIdentifiers(new ArrayList<Identifier>());
+          
        }
     @Transient
 	public List<Identifier> getLocalIdentifiers() {
@@ -196,12 +212,122 @@ public class Study extends AbstractMutableDomainObject implements Comparable<Stu
     public String getDiseaseCategoryAsText() {
         return diseaseCategoryAsText;
     }
-
-    @Transient
+    
+    @OneToMany
+    @Cascade({CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+    @JoinColumn(name = "STU_ID")
     public List<Identifier> getIdentifiers() {
-        return lazyListHelper.getLazyList(Identifier.class);
+        return identifiers;
     }
-      
+    
+    public void setIdentifiers(List<Identifier> identifiers) {
+    	this.identifiers=identifiers;
+        lazyListHelper.setInternalList(SystemAssignedIdentifier.class,new ProjectedList<SystemAssignedIdentifier>(this.identifiers, SystemAssignedIdentifier.class));
+   	 	lazyListHelper.setInternalList(OrganizationAssignedIdentifier.class,new ProjectedList<OrganizationAssignedIdentifier>(this.identifiers, OrganizationAssignedIdentifier.class));
+    }
+    
+    @Transient
+    public List<SystemAssignedIdentifier> getSystemAssignedIdentifiers()
+    {
+    	return lazyListHelper.getLazyList(SystemAssignedIdentifier.class);
+    }
+    
+    public void setSystemAssignedIdentifiers(ArrayList<SystemAssignedIdentifier> systemAssignedIdentifiers)
+    {
+    	// do nothing
+    }
+    
+    @Transient
+    public List<OrganizationAssignedIdentifier> getOrganizationAssignedIdentifiers()
+    {
+    	return lazyListHelper.getLazyList(OrganizationAssignedIdentifier.class);
+    }
+    
+    public void setOrganizationAssignedIdentifiers(ArrayList<OrganizationAssignedIdentifier> organizationAssignedIdentifiers)
+    {
+    	// do nothing
+    }
+    
+  /*
+    @OneToMany
+    @Cascade({CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+    @JoinColumn(name = "STU_ID")
+    public List<Identifier> getIdentifiersInternal() {
+        return lazyListHelper.getInternalList(Identifier.class);
+    }
+        
+	@Transient
+	public List<Identifier> getIdentifiers() {
+		return lazyListHelper.getLazyList(Identifier.class);
+	}
+
+
+	public void setIdentifiers(
+			List<Identifier> identifiers) {
+		lazyListHelper.setInternalList(Identifier.class,
+				identifiers);
+	}
+
+	public void setIdentifiersInternal(
+			List<Identifier> identifiers) {
+		lazyListHelper.setInternalList(Identifier.class,
+				identifiers);
+	}
+
+	@OneToMany(fetch = FetchType.LAZY)
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@JoinColumn(name = "STU_ID")
+	@Where(clause = "DTYPE = 'SAI'")
+	public List<SystemAssignedIdentifier> getSystemAssignedIdentifiersInternal() {
+		return lazyListHelper
+				.getInternalList(SystemAssignedIdentifier.class);
+	}
+
+	@Transient
+	public List<SystemAssignedIdentifier> getSystemAssignedIdentifiers() {
+		return lazyListHelper.getLazyList(SystemAssignedIdentifier.class);
+	}
+
+	public void setSystemAssignedIdentifiers(
+			List<SystemAssignedIdentifier> systemAssignedIdentifiers) {
+		lazyListHelper.setInternalList(SystemAssignedIdentifier.class,
+		systemAssignedIdentifiers);
+	}
+	
+	
+	public void setSystemAssignedIdentifiersInternal(
+			List<SystemAssignedIdentifier> systemAssignedIdentifiers) {
+		lazyListHelper.setInternalList(SystemAssignedIdentifier.class,
+				systemAssignedIdentifiers);
+
+	}
+	
+	@OneToMany(fetch = FetchType.LAZY)
+	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@JoinColumn(name = "STU_ID")
+	@Where(clause = "DTYPE = 'OAI'")
+	public List<OrganizationAssignedIdentifier> getOrganizationAssignedIdentifiersInternal() {
+		return lazyListHelper
+				.getInternalList(OrganizationAssignedIdentifier.class);
+	}
+
+	@Transient
+	public List<OrganizationAssignedIdentifier> getOrganizationAssignedIdentifiers() {
+		return lazyListHelper.getLazyList(OrganizationAssignedIdentifier.class);
+	}
+
+	public void setOrganizationAssignedIdentifiers(
+			List<OrganizationAssignedIdentifier> organizationAssignedIdentifiers) {
+		lazyListHelper.setInternalList(OrganizationAssignedIdentifier.class,
+		organizationAssignedIdentifiers);
+	}
+
+	public void setOrganizationAssignedIdentifiersInternal(
+			List<OrganizationAssignedIdentifier> organizationAssignedIdentifiers) {
+		lazyListHelper.setInternalList(OrganizationAssignedIdentifier.class,
+				organizationAssignedIdentifiers);
+
+	}*/
         
     @OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
     @Cascade(value = {CascadeType.ALL, CascadeType.DELETE_ORPHAN})
@@ -233,16 +359,6 @@ public class Study extends AbstractMutableDomainObject implements Comparable<Stu
     	// do nothing
 	}
 
-    @OneToMany
-    @Cascade({CascadeType.ALL, CascadeType.DELETE_ORPHAN})
-    @JoinColumn(name = "STU_ID")
-    public List<Identifier> getIdentifiersInternal() {
-        return lazyListHelper.getInternalList(Identifier.class);
-    }
-
-    public void setIdentifiersInternal(List<Identifier> identifiers) {
-        lazyListHelper.setInternalList(Identifier.class, identifiers);
-    }
 
     @OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
     @Cascade(value = {CascadeType.ALL, CascadeType.DELETE_ORPHAN})
@@ -262,10 +378,6 @@ public class Study extends AbstractMutableDomainObject implements Comparable<Stu
         this.diseaseCategoryAsText = diseaseCategoryAsText;
     }
    
-    public void setIdentifiers(List<Identifier> identifiers) {
-        lazyListHelper.setInternalList(Identifier.class, identifiers);
-    }
-
     public String getDescriptionText() {
         return descriptionText;
     }
