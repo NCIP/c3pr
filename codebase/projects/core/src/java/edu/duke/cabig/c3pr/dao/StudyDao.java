@@ -4,6 +4,7 @@ import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.emory.mathcs.backport.java.util.Collections;
 import edu.nwu.bioinformatics.commons.CollectionUtils;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
@@ -44,7 +45,7 @@ public class StudyDao extends GridIdentifiableDao<Study>
     }
 
     @SuppressWarnings("unchecked")
-    public Study getByIdentifier(Identifier identifier) {
+    public Study getByIdentifier(SystemAssignedIdentifier identifier) {
         Criteria criteria = getSession().createCriteria(domainClass());
         criteria = criteria.createCriteria("identifiers");
 
@@ -52,8 +53,8 @@ public class StudyDao extends GridIdentifiableDao<Study>
             criteria.add(Restrictions.eq("type", identifier.getType()));
         }
 
-        if(identifier.getSource() != null) {
-            criteria.add(Restrictions.eq("source", identifier.getSource()));
+        if(identifier.getSystemName() != null) {
+            criteria.add(Restrictions.eq("systemName", identifier.getSystemName()));
         }
 
         if(identifier.getValue() != null) {
@@ -105,8 +106,8 @@ public class StudyDao extends GridIdentifiableDao<Study>
                 example.excludeProperty("doNotUse").enableLike(MatchMode.ANYWHERE);
                 studyCriteria.add(example);
                 if (study.getIdentifiers().size() > 0) {
-                    studyCriteria.createCriteria("identifiersInternal")
-                            .add(Restrictions.like("value", study.getIdentifiersInternal().get(0)
+                    studyCriteria.createCriteria("identifiers")
+                            .add(Restrictions.like("value", study.getIdentifiers().get(0)
                                     .getValue() + "%"));
                 }
                 result =  studyCriteria.list();

@@ -14,6 +14,7 @@ import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 
 public class XMLUtils {
 
@@ -47,7 +48,7 @@ public class XMLUtils {
 		participant.addContent(new Element("lastName", "p1",ns).setText(StringUtils.getBlankIfNull(stPart.getLastName())));
 		participant.addContent(new Element("maritalStatusCode", "p1",ns).setText(""));
 		participant.addContent(new Element("raceCode", "p1",ns).setText(StringUtils.getBlankIfNull(stPart.getRaceCode())));
-		List<Identifier> identifiers= stPart.getIdentifiers();
+		List<SystemAssignedIdentifier> identifiers= stPart.getSystemAssignedIdentifiers();
 		if(identifiers.size()==0){
 			System.out.println("Participant Identifiers size is 0");
 			Element idTemp=new Element("identifier", "p1",ns);
@@ -58,9 +59,9 @@ public class XMLUtils {
 			participant.addContent(idTemp);
 		}		
 		for(int i=0 ; i<identifiers.size() ; i++){
-			Identifier id=identifiers.get(i);
+			SystemAssignedIdentifier id= identifiers.get(i);
 			Element idTemp=new Element("identifier", "p1",ns);
-			idTemp.addContent(new Element("source", "p1",ns).setText(StringUtils.getBlankIfNull(id.getSource())));
+			idTemp.addContent(new Element("systemName", "p1",ns).setText(StringUtils.getBlankIfNull(id.getSystemName())));
 			idTemp.addContent(new Element("type", "p1",ns).setText(StringUtils.getBlankIfNull(id.getType())));
 			idTemp.addContent(new Element("value", "p1",ns).setText(StringUtils.getBlankIfNull(id.getValue())));
 			idTemp.addContent(new Element("isprimary", "p1",ns).setText(StringUtils.getBlankIfNull(id.getPrimaryIndicator())));
@@ -78,7 +79,7 @@ public class XMLUtils {
 		
 		Study st=studySubject.getStudySite().getStudy();
 		Element study=new Element("study", "p1",ns);
-		identifiers= st.getIdentifiers();
+		identifiers= st.getSystemAssignedIdentifiers();
 		if(identifiers.size()==0){
 			System.out.println("Study Identifiers size is 0");
 			Element idTemp=new Element("identifier", "p1",ns);
@@ -89,9 +90,9 @@ public class XMLUtils {
 			study.addContent(idTemp);
 		}
 		for(int i=0 ; i<identifiers.size() ; i++){
-			Identifier id=identifiers.get(i);
+			SystemAssignedIdentifier id= identifiers.get(i);
 			Element idTemp=new Element("identifier", "p1",ns);
-			idTemp.addContent(new Element("source", "p1",ns).setText(StringUtils.getBlankIfNull(id.getSource())));
+			idTemp.addContent(new Element("systemName", "p1",ns).setText(StringUtils.getBlankIfNull(id.getSystemName())));
 			idTemp.addContent(new Element("type", "p1",ns).setText(StringUtils.getBlankIfNull(id.getType())));
 			idTemp.addContent(new Element("value", "p1",ns).setText(StringUtils.getBlankIfNull(id.getValue())));
 			idTemp.addContent(new Element("isprimary", "p1",ns).setText(StringUtils.getBlankIfNull(id.getPrimaryIndicator())));
@@ -105,11 +106,11 @@ public class XMLUtils {
 		identifier.addContent(new Element("value", "p1",ns).setText(StringUtils.getBlankIfNull(studySubject.getGridId())));
 		identifier.addContent(new Element("isprimary", "p1",ns).setText("false"));
 		rootElement.addContent(identifier);
-		identifiers=studySubject.getIdentifiers();
+		identifiers=studySubject.getSystemAssignedIdentifiers();
 		for(int i=0 ; i<identifiers.size() ; i++){
-			Identifier id=identifiers.get(i);
+			SystemAssignedIdentifier id= identifiers.get(i);
 			Element idTemp=new Element("identifier", "p1",ns);
-			idTemp.addContent(new Element("source", "p1",ns).setText(StringUtils.getBlankIfNull(id.getSource())));
+			idTemp.addContent(new Element("systemName", "p1",ns).setText(StringUtils.getBlankIfNull(id.getSystemName())));
 			idTemp.addContent(new Element("type", "p1",ns).setText(StringUtils.getBlankIfNull(id.getType())));
 			idTemp.addContent(new Element("value", "p1",ns).setText(StringUtils.getBlankIfNull(id.getValue())));
 			idTemp.addContent(new Element("isprimary", "p1",ns).setText(StringUtils.getBlankIfNull(id.getPrimaryIndicator())));

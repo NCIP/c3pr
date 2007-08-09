@@ -1,11 +1,19 @@
 package edu.duke.cabig.c3pr.dao;
 
+import static edu.duke.cabig.c3pr.C3PRUseCase.*;
 import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains;
 
+import java.util.Date;
 import java.util.List;
 
+import edu.duke.cabig.c3pr.C3PRUseCases;
+import edu.duke.cabig.c3pr.domain.Address;
+import edu.duke.cabig.c3pr.domain.ContactMechanism;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 
 /**
@@ -13,6 +21,7 @@ import edu.duke.cabig.c3pr.utils.DaoTestCase;
  * @author Priyatam
  * @testType unit
  */
+@C3PRUseCases({CREATE_PARTICIPANT,UPDATE_SUBJECT,VERIFY_SUBJECT,SEARCH_SUBJECT})
 public class ParticipantDaoTest extends DaoTestCase {
     private ParticipantDao dao = (ParticipantDao) getApplicationContext().getBean("participantDao");
     /**
@@ -75,4 +84,74 @@ public class ParticipantDaoTest extends DaoTestCase {
         List<Participant> results = dao.searchByExample(searchCriteria, true);
         assertEquals("Wrong number of Participants", 1, results.size());
     }
+    
+    public void testCreateParticipant() throws Exception{
+    	Participant participant = new Participant();
+    	participant.setLastName("Lewis");
+    	participant.setFirstName("Carrol");
+    	participant.setAdministrativeGenderCode("Male");
+    	Date birthDate = new Date();
+    	participant.setBirthDate(birthDate);
+    	Address add = new Address();
+    	add.setStreetAddress("350 Glen Dale Avenue");
+    	add.setCity("Charlotte");
+    	add.setStateCode("NC");
+    	add.setCountryCode("USA");
+    	dao.save(participant);
+    	
+    	interruptSession();
+    	
+    	Participant savedParticipant = dao.getById(participant.getId());
+    	assertEquals("Lewis",savedParticipant.getLastName());
+    	assertEquals("NC",savedParticipant.getAddress().getStateCode());
+    }
+    
+    
+    public void testCreateParticipantWithSystemAssignedIdentifier() throws Exception{
+    	Participant participant = new Participant();
+    	participant.setLastName("Ben");
+    	participant.setFirstName("Afflek");
+    	participant.setAdministrativeGenderCode("Male");
+    	Date birthDate = new Date();
+    	participant.setBirthDate(birthDate);
+    	SystemAssignedIdentifier systemIdentifier = new SystemAssignedIdentifier();
+    	systemIdentifier.setSystemName("localSystem");
+    	systemIdentifier.setValue("SysGenID");
+    	systemIdentifier.setType("MRN");
+    	participant.addIdentifier(systemIdentifier);
+    	
+    
+    	dao.save(participant);
+    	
+    	interruptSession();
+    	
+    	Participant savedParticipant = dao.getById(participant.getId());
+    	assertEquals("SysGenID",savedParticipant.getSystemAssignedIdentifiers().get(0).getValue());
+    	assertEquals("localSystem",savedParticipant.getSystemAssignedIdentifiers().get(0).getSystemName());
+    }
+    public void testCreateParticipantWithOrganizationAssignedIdentifier() throws Exception{
+    	Participant participant = new Participant();
+    	participant.setLastName("Barry");
+    	participant.setFirstName("Bonds");
+    	participant.setAdministrativeGenderCode("Male");
+    	Date birthDate = new Date();
+    	participant.setBirthDate(birthDate);
+    	OrganizationAssignedIdentifier systemIdentifier = new OrganizationAssignedIdentifier();
+    	HealthcareSite healthcareSite = new HealthcareSite();
+    	healthcareSite.setName("Local HealthcareSite Name");
+    	systemIdentifier.setHealthcareSite(healthcareSite);
+    	systemIdentifier.setValue("HealthcareSiteID");
+    	systemIdentifier.setType("MRN");
+    	participant.addIdentifier(systemIdentifier);
+    	
+    
+    	dao.save(participant);
+    	
+    	interruptSession();
+    	
+    	Participant savedParticipant = dao.getById(participant.getId());
+    	assertEquals("HealthcareSiteID",savedParticipant.getOrganizationAssignedIdentifiers().get(0).getValue());
+    	assertEquals("Local HealthcareSite Name",savedParticipant.getOrganizationAssignedIdentifiers().get(0).getHealthcareSite().getName());
+    }
+
 }
