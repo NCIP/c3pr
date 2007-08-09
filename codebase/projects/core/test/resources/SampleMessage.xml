@@ -1,6 +1,111 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<study xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"
-       gridId="testStudyGridId">
-
-    <multiInstitutionIndicator>tempStr</multiInstitutionIndicator>
-    <randomizedIndicator>tempStr</randomizedIndicator><shortTitleText>tempStr</shortTitleText><longTitleText>tempStr</longTitleText><descriptionText>tempStr</descriptionText><precisText>tempStr</precisText><phaseCode>tempStr</phaseCode><status>tempStr</status><type>tempStr</type><targetAccrualNumber>0</targetAccrualNumber><treatmentEpoch><name>Screening</name><arm><name>Screening</name><targetAccrualNumber>0</targetAccrualNumber></arm></treatmentEpoch><treatmentEpoch><name>Treatment</name><arm><name>Arm A</name><targetAccrualNumber>0</targetAccrualNumber></arm><arm><name>Arm B</name><targetAccrualNumber>0</targetAccrualNumber></arm><arm><name>Arm C</name><targetAccrualNumber>0</targetAccrualNumber></arm></treatmentEpoch><treatmentEpoch><name>Follow up</name><arm><name>Follow up</name><targetAccrualNumber>0</targetAccrualNumber></arm></treatmentEpoch><studySite gridId="tempStr"><irbApprovalDate>2009-01-20T00:00:00.000-05:00</irbApprovalDate><roleCode>tempStr</roleCode><startDate>2007-07-13T12:17:17.410-04:00</startDate></studySite><studySite><irbApprovalDate>2007-07-13T12:17:17.425-04:00</irbApprovalDate><roleCode>role</roleCode><startDate>2007-07-13T12:17:17.425-04:00</startDate><statusCode>active</statusCode><site><name>duke healthcare</name><descriptionText>duke healthcare</descriptionText><address><streetAddress>12359 Sunrise Valley Dr</streetAddress><city>Reston</city><stateCode>VA</stateCode><postalCode>20191</postalCode><countryCode>USA</countryCode></address><trimmedName>duke healthcare</trimmedName><nciInstituteCode>Nci duke</nciInstituteCode></site></studySite><identifier><source>tempStr</source><type>tempStr</type><isprimary>false</isprimary></identifier></study>
+<study xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain" version="1">
+    <blindedIndicator>1</blindedIndicator>
+    <multiInstitutionIndicator>1</multiInstitutionIndicator>
+    <randomizedIndicator>1</randomizedIndicator>
+    <shortTitleText>short_title_text</shortTitleText>
+    <longTitleText>long_title_text</longTitleText>
+    <descriptionText>description</descriptionText>
+    <precisText>precis_text</precisText>
+    <phaseCode>Ph</phaseCode>
+    <status>st</status>
+    <type>ty</type>
+    <targetAccrualNumber>123</targetAccrualNumber>
+    <identifier>
+        <source>nci</source>
+        <type>local</type>
+        <value>nci</value>
+        <isprimary>false</isprimary>
+    </identifier>
+    <treatmentEpoch>
+        <name>Treatment1000</name>
+        <descriptionText>treatement desc</descriptionText>
+        <arm>
+            <name>Arm 1000</name>
+            <descriptionText>Arm 1000 desc</descriptionText>
+            <targetAccrualNumber>1000</targetAccrualNumber>
+        </arm>
+        <arm>
+            <name>Arm 1001</name>
+            <descriptionText>Arm 1001 desc</descriptionText>
+            <targetAccrualNumber>1001</targetAccrualNumber>
+        </arm>
+        <incCriteria>
+            <questionNumber>1</questionNumber>
+            <questionText>inclusion question 1</questionText>
+        </incCriteria>
+        <incCriteria>
+            <questionNumber>2</questionNumber>
+            <questionText>inclusion question 2</questionText>
+        </incCriteria>
+        <excCriteria>
+            <questionNumber>3</questionNumber>
+            <questionText>exclusion question 1</questionText>
+        </excCriteria>
+    </treatmentEpoch>
+    <treatmentEpoch>
+        <name>Treatment1001</name>
+        <descriptionText>cancer desc</descriptionText>
+        <arm>
+            <name>Arm 1002</name>
+            <descriptionText>Arm 1002 desc</descriptionText>
+            <targetAccrualNumber>1002</targetAccrualNumber>
+        </arm>
+        <arm>
+            <name>Arm 1003</name>
+            <descriptionText>Arm 1003 desc</descriptionText>
+            <targetAccrualNumber>1003</targetAccrualNumber>
+        </arm>
+    </treatmentEpoch>
+    <treatmentEpoch>
+        <name>Treatment1002</name>
+        <descriptionText>treatement desc</descriptionText>
+        <arm>
+            <name>Arm 1004</name>
+            <descriptionText>Arm 1004 desc</descriptionText>
+            <targetAccrualNumber>1004</targetAccrualNumber>
+        </arm>
+        <arm>
+            <name>Arm 1005</name>
+            <descriptionText>Arm 1005 desc</descriptionText>
+            <targetAccrualNumber>1005</targetAccrualNumber>
+        </arm>
+    </treatmentEpoch>
+    <treatmentEpoch>
+        <name>Treatment1003</name>
+        <descriptionText>cancer desc</descriptionText>
+        <arm>
+            <name>Arm 1006</name>
+            <descriptionText>Arm 1006 desc</descriptionText>
+            <targetAccrualNumber>1006</targetAccrualNumber>
+        </arm>
+        <arm>
+            <name>Arm 1007</name>
+            <descriptionText>Arm 1007 desc</descriptionText>
+            <targetAccrualNumber>1007</targetAccrualNumber>
+        </arm>
+    </treatmentEpoch>
+    <nonTreatmentEpoch>
+        <name>NonTreatment1004</name>
+        <descriptionText>non treatement desc</descriptionText>
+        <accrualCeiling>0</accrualCeiling>
+    </nonTreatmentEpoch>
+    <nonTreatmentEpoch>
+        <name>NonTreatment1005</name>
+        <descriptionText>non treatment cancer desc</descriptionText>
+        <accrualCeiling>0</accrualCeiling>
+    </nonTreatmentEpoch>
+    <studySite>
+        <healthcareSite>
+            <name>duke healthcare</name>
+            <descriptionText>duke healthcare</descriptionText>
+            <address><streetAddress>12359 sunrise valley drive</streetAddress><city>Reston</city><stateCode>VA</stateCode><postalCode>20191</postalCode><countryCode>USA</countryCode></address>
+            <nciInstituteCode>code</nciInstituteCode>
+        </healthcareSite>
+        <irbApprovalDate>0006-06-23T00:00:00.000-05:00</irbApprovalDate>
+        <roleCode>role</roleCode>
+        <startDate>0006-06-24T00:00:00.000-05:00</startDate>
+        <statusCode>active</statusCode>
+        <endDate>0006-06-25T00:00:00.000-05:00</endDate>
+    </studySite>
+</study>
