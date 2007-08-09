@@ -130,7 +130,7 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
         if ("status".equals(type))
             study.setStatus(searchtext);
         else if ("id".equals(type)) {
-            Identifier id = new Identifier();
+            SystemAssignedIdentifier id = new SystemAssignedIdentifier();
             id.setValue(searchtext);
             study.addIdentifier(id);
         } else if ("shortTitle".equals(type))

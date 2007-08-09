@@ -14,6 +14,17 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.StratificationCriterion;
+import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import gov.nih.nci.common.exception.XMLUtilityException;
 
 /**
  * Test serialization for the Study object
@@ -157,8 +168,8 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
         studySiteObject.setIrbApprovalDate(dateValue);
         studySiteObject.setRoleCode(strValue);
 
-        Identifier identifierObject = new Identifier();
-        identifierObject.setSource(strValue);
+        SystemAssignedIdentifier identifierObject = new SystemAssignedIdentifier();
+        identifierObject.setSystemName(strValue);
         identifierObject.setType(strValue);
 
         studyObject.addIdentifier(identifierObject);

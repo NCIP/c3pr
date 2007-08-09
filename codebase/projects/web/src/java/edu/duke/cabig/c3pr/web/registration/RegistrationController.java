@@ -36,6 +36,7 @@ import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
@@ -189,8 +190,8 @@ public abstract class RegistrationController <C extends StudySubject> extends Au
 			String selected) {
 		if ("addIdentifier".equals(action)) {
 			log.debug("Requested Add Identifier");
-			Identifier id = new Identifier();
-			id.setSource("<enter value>");
+			SystemAssignedIdentifier id = new SystemAssignedIdentifier();
+			id.setSystemName("<enter value>");
 			id.setType("<enter value>");
 			id.setValue("<enter value>");
 			registration.addIdentifier(id);

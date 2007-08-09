@@ -124,9 +124,9 @@ function updateTargetPage(target){
 					<th scope="col" align="left">Identifier Type</th>
 					<th scope="col" align="left">Identifier</th>
 				</tr>
-				<c:forEach items="${command.identifiers}" var="identifier">
+				<c:forEach items="${command.systemAssignedIdentifiers}" var="identifier">
 					<tr class="results">
-						<td class="alt" align="left">${identifier.source}</td>
+						<td class="alt" align="left">${identifier.systemName}</td>
 						<td class="alt" align="left">${identifier.type}</td>
 						<td class="alt" align="left">${identifier.value}</td>
 					</tr>

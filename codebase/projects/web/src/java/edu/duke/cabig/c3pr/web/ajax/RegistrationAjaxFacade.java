@@ -7,6 +7,8 @@ import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Required;
@@ -55,16 +57,16 @@ public class RegistrationAjaxFacade {
         List<StudySubject> registrations = new ArrayList<StudySubject>();
         List<Identifier> identifiers = new ArrayList<Identifier>();
 
-        Identifier identifier = new Identifier();
+        SystemAssignedIdentifier identifier = new SystemAssignedIdentifier();
         identifier.setValue(text);
         StudySubject registrationObj = new StudySubject();
         registrationObj.addIdentifier(identifier);
         registrations = studySubjectDao.searchByExample(registrationObj);
-        List<Identifier> registrationIdentifiers = new ArrayList<Identifier>();
-        Identifier ident = new Identifier();
+        List<SystemAssignedIdentifier> registrationIdentifiers = new ArrayList<SystemAssignedIdentifier>();
+        SystemAssignedIdentifier ident = new SystemAssignedIdentifier();
         for (StudySubject registrationIter : registrations) {
-            registrationIdentifiers = registrationIter.getIdentifiers();
-            Iterator<Identifier> identifierIter = registrationIdentifiers.iterator();
+            registrationIdentifiers = registrationIter.getSystemAssignedIdentifiers();
+            Iterator<SystemAssignedIdentifier> identifierIter = registrationIdentifiers.iterator();
             while (identifierIter.hasNext()) {
                 ident = identifierIter.next();
                 if (ident.getValue().toUpperCase().contains(text.toUpperCase()))
@@ -115,13 +117,13 @@ public class RegistrationAjaxFacade {
         List<Study> studies = new ArrayList<Study>();
         List<Identifier> identifiers = new ArrayList<Identifier>();
 
-        Identifier identifier = new Identifier();
+        Identifier identifier = new SystemAssignedIdentifier();
         identifier.setValue(text);
         Study studyObj = new Study();
         studyObj.addIdentifier(identifier);
         studies = studyDao.searchByExample(studyObj);
         List<Identifier> studyIdentifiers = new ArrayList<Identifier>();
-        Identifier ident = new Identifier();
+        Identifier ident = new SystemAssignedIdentifier();
         for (Study studyIter : studies) {
 
             studyIdentifiers = studyIter.getIdentifiers();
@@ -143,16 +145,16 @@ public class RegistrationAjaxFacade {
         List<Participant> participants = new ArrayList<Participant>();
         List<Identifier> identifiers = new ArrayList<Identifier>();
 
-        Identifier identifier = new Identifier();
+        SystemAssignedIdentifier identifier = new SystemAssignedIdentifier();
         identifier.setValue(text);
         Participant participantObj = new Participant();
         participantObj.addIdentifier(identifier);
         participants = participantDao.searchByExample(participantObj);
-        List<Identifier> participantIdentifiers = new ArrayList<Identifier>();
-        Identifier ident = new Identifier();
+        List<SystemAssignedIdentifier> participantIdentifiers = new ArrayList<SystemAssignedIdentifier>();
+        SystemAssignedIdentifier ident = new SystemAssignedIdentifier();
         for (Participant participantIter : participants) {
-            participantIdentifiers = participantIter.getIdentifiers();
-            Iterator<Identifier> identifierIter = participantIdentifiers
+            participantIdentifiers = participantIter.getSystemAssignedIdentifiers();
+            Iterator<SystemAssignedIdentifier> identifierIter = participantIdentifiers
                     .iterator();
             while (identifierIter.hasNext()) {
                 ident = identifierIter.next();
@@ -186,7 +188,7 @@ public class RegistrationAjaxFacade {
 
                 case 1:
 
-                    Identifier identifier = new Identifier();
+                    SystemAssignedIdentifier identifier = new SystemAssignedIdentifier();
                     identifier.setValue(text);
                     Participant participant = new Participant();
                     participant.addIdentifier(identifier);

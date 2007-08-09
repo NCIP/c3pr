@@ -10,6 +10,30 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import edu.duke.cabig.c3pr.domain.Address;
+import edu.duke.cabig.c3pr.domain.Arm;
+import edu.duke.cabig.c3pr.domain.DiseaseCategory;
+import edu.duke.cabig.c3pr.domain.DiseaseTerm;
+import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
+import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.domain.NonTreatmentEpoch;
+import edu.duke.cabig.c3pr.domain.StratificationCriterion;
+import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
+import edu.duke.cabig.c3pr.domain.StudyDisease;
+import edu.duke.cabig.c3pr.domain.StudyFundingSponsor;
+import edu.duke.cabig.c3pr.domain.StudyInvestigator;
+import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
+import edu.duke.cabig.c3pr.utils.DaoTestCase;
+
 /**
  * JUnit Tests for StudyDao
  * 
@@ -182,9 +206,9 @@ public class StudyDaoTest extends DaoTestCase {
 			study.addEpoch(Epoch.create("Follow up"));
 
 			// Identifiers
-			Identifier id = new Identifier();
+			SystemAssignedIdentifier id = new SystemAssignedIdentifier();
 			id.setPrimaryIndicator(true);
-			id.setSource("nci");
+			id.setSystemName("nci");
 			id.setValue("123456");
 			id.setType("local");
 			study.addIdentifier(id);
@@ -375,14 +399,14 @@ public class StudyDaoTest extends DaoTestCase {
 		hcsi.addStudyInvestigator(studyInvestigator);
 
 		// Identifiers
-		List<Identifier> identifiers = new ArrayList<Identifier>();
-		Identifier id = new Identifier();
+		List<SystemAssignedIdentifier> identifiers = new ArrayList<SystemAssignedIdentifier>();
+		SystemAssignedIdentifier id = new SystemAssignedIdentifier();
 		id.setPrimaryIndicator(true);
-		id.setSource("nci");
+		id.setSystemName("nci");
 		id.setValue("123456");
 		id.setType("local");
 		identifiers.add(id);
-		study.setIdentifiers(identifiers);
+		study.getIdentifiers().addAll(identifiers);
 
 		// Diseases
 		DiseaseCategory disCat = new DiseaseCategory();

@@ -2,6 +2,8 @@ package edu.duke.cabig.c3pr.web.study;
 
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+
 import org.springframework.validation.Errors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,9 +38,9 @@ class StudyIdentifiersTab extends StudyTab {
 
         if ("addIdentifier".equals(action)) {
             log.debug("Requested Add Identifier");
-            Identifier id = new Identifier();
+            SystemAssignedIdentifier id = new SystemAssignedIdentifier();
             id.setValue("<enter value>");
-            id.setSource("<enter value>");
+            id.setSystemName("<enter value>");
             study.addIdentifier(id);
         } else if ("removeIdentifier".equals(action)) {
             int selected = Integer.parseInt(httpServletRequest.getParameter("_selected"));

@@ -25,6 +25,7 @@ import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.web.SearchRegistrationCommand;
@@ -71,7 +72,7 @@ public class SearchRegistrationController extends SimpleFormController {
 				participant.getLastName();
 			}
 			else {
-				Identifier identifier = new Identifier();
+				SystemAssignedIdentifier identifier = new SystemAssignedIdentifier();
 				identifier.setValue(text);
 				participant.addIdentifier(identifier);
 			}
@@ -95,7 +96,7 @@ public class SearchRegistrationController extends SimpleFormController {
 			} else if (request.getParameter("studyOption").equals("status")) {
 				study.setStatus(text);
 			} else {
-				Identifier identifier = new Identifier();
+				SystemAssignedIdentifier identifier = new SystemAssignedIdentifier();
 				identifier.setValue(text);
 				study.addIdentifier(identifier);
 			}
@@ -114,7 +115,7 @@ public class SearchRegistrationController extends SimpleFormController {
 				}
 			}
 		} else if (request.getParameter("select").equals("Id")) {
-			Identifier identifier = new Identifier();
+			SystemAssignedIdentifier identifier = new SystemAssignedIdentifier();
 			identifier.setValue(text);
 			registration.addIdentifier(identifier);
 			registrations = studySubjectDao.searchByExample(registration);

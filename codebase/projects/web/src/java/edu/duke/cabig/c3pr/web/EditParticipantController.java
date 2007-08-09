@@ -137,14 +137,14 @@ public class EditParticipantController<C extends Participant> extends
 			System.out.println(" Participant's ID is:" + participant.getId());
 		}
 
-		if (participant.getIdentifiers().size() == 0) {
+		/*if (participant.getIdentifiers().size() == 0) {
 			Identifier temp = new Identifier();
 			temp.setSource("<enter value>");
 			temp.setType("<enter value>");
 			temp.setValue("<enter value>");
 			temp.setPrimaryIndicator(false);
 			participant.addIdentifier(temp);
-		}
+		}*/
 		boolean contactMechanismEmailPresent = false, contactMechanismPhonePresent = false, contactMechanismFaxPresent = false;
 		for (ContactMechanism contactMechanism : participant
 				.getContactMechanisms()) {
@@ -184,15 +184,12 @@ public class EditParticipantController<C extends Participant> extends
 				new SimpleDateFormat("MM/dd/yyyy"), true));
 		binder.registerCustomEditor(HealthcareSite.class, new CustomDaoEditor(
 				healthcareSiteDao));
-	}
+		}
 
 	@Override
 	protected void postProcessPage(HttpServletRequest request, Object Command,
 			Errors errors, int page) {
 		Participant participant = (Participant) Command;
-
-		handleRowAction(participant, page, request.getParameter("_action"),
-				request.getParameter("_selected"));
 
 		if ("update".equals(request.getParameter("_action"))) {
 			try {
@@ -205,33 +202,7 @@ public class EditParticipantController<C extends Participant> extends
 		}
 	}
 
-	private void handleRowAction(Participant participant, int page,
-			String action, String selected) {
-		switch (page) {
-		case 0:
-			if ("addIdentifier".equals(action)) {
-				Identifier identifier = new Identifier();
-				participant.addIdentifier(identifier);
-			} else if ("removeIdentifier".equals(action)) {
-
-				participant.getIdentifiers().remove(Integer.parseInt(selected));
-
-				break;
-			}
-		case 1:
-			if ("addContact".equals(action)) {
-				ContactMechanism contactMechanism = new ContactMechanism();
-				participant.addContactMechanism(contactMechanism);
-			} else if ("removeContact".equals(action)) {
-				participant.getContactMechanisms().remove(
-						Integer.parseInt(selected));
-			}
-			break;
-		default:
-			// do Nothing
-
-		}
-	}
+	
 	
 	@Override
 	protected void onBind(HttpServletRequest request, Object command,

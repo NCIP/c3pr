@@ -54,7 +54,7 @@ public class RegistrationMarshallingTestCase extends AbstractXMLMarshalling {
         registration.setInformedConsentSignedDate(dateValue);
         registration.setStartDate(dateValue);
 
-        registration.setIdentifiersInternal(getIdentifiers());
+        registration.setIdentifiers(getIdentifiers());
 
         StudySite studySite = new StudySite();
 

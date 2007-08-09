@@ -12,6 +12,7 @@ import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.RowManager;
+import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import gov.nih.nci.cabig.ctms.web.tabs.AbstractTabbedFlowFormController;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
@@ -122,9 +123,9 @@ public class CreateParticipantController extends
 		// FIXME: small hack
 		Participant participant = (Participant) super
 				.formBackingObject(request);
-		Identifier temp = new Identifier();
+		/*Identifier temp = new Identifier();
 		temp.setPrimaryIndicator(false);
-		participant.addIdentifier(temp);
+		participant.addIdentifier(temp);*/
 		participant = createParticipantWithContacts(participant);
 		participant.setAddress(new Address());
 		return participant;
@@ -149,6 +150,8 @@ public class CreateParticipantController extends
 			ServletRequestDataBinder binder) throws Exception {
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(
 				new SimpleDateFormat("MM/dd/yyyy"), true));
+		binder.registerCustomEditor(healthcareSiteDao.domainClass(),
+				new CustomDaoEditor(healthcareSiteDao));
 	}
 
 	@Override

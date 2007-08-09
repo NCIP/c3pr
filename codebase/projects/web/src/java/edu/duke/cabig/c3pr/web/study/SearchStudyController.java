@@ -17,6 +17,7 @@ import org.springframework.web.util.WebUtils;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.web.SearchCommand;
@@ -49,7 +50,7 @@ public class SearchStudyController extends SimpleFormController {
         if ("status".equals(type))
             study.setStatus(searchtext);
         else if ("id".equals(type)) {
-            Identifier id = new Identifier();
+            SystemAssignedIdentifier id = new SystemAssignedIdentifier();
             id.setValue(searchtext);
             study.addIdentifier(id);
         } else if ("shortTitle".equals(type))

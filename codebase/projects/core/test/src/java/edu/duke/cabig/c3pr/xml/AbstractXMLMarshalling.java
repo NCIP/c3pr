@@ -70,9 +70,9 @@ public abstract class AbstractXMLMarshalling extends ApplicationTestCase {
         java.util.List<Identifier> identifiers = new ArrayList<Identifier>();
 
         for (int temp = 0; temp < 3; temp++) {
-            Identifier ident = new Identifier();
+            SystemAssignedIdentifier ident = new SystemAssignedIdentifier();
             ident.setPrimaryIndicator(boolValue);
-            ident.setSource(strValue + temp);
+            ident.setSystemName(strValue + temp);
             ident.setType(strValue + temp);
             ident.setValue(strValue + temp);
 
@@ -120,8 +120,8 @@ public abstract class AbstractXMLMarshalling extends ApplicationTestCase {
         studySiteObject.setIrbApprovalDate(dateValue);
         studySiteObject.setRoleCode(strValue);
 
-        Identifier identifierObject = new Identifier();
-        identifierObject.setSource(strValue);
+        SystemAssignedIdentifier identifierObject = new SystemAssignedIdentifier();
+        identifierObject.setSystemName(strValue);
         identifierObject.setType(strValue);
 
         studyObject.addIdentifier(identifierObject);

@@ -21,6 +21,7 @@ import org.springframework.web.util.WebUtils;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
 
@@ -54,7 +55,7 @@ private static Log log = LogFactory.getLog(SearchParticipantController.class);
     		participant.setLastName(text);
     	}
     	if ("Identifier".equals(type)) {
-			Identifier identifier = new Identifier();
+			SystemAssignedIdentifier identifier = new SystemAssignedIdentifier();
 			identifier.setValue(text);
 			//FIXME:
 			participant.addIdentifier(identifier);

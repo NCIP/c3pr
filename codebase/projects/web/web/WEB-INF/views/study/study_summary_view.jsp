@@ -73,13 +73,13 @@
 <chrome:division title="Identifiers">
     <table class="tablecontent">
         <tr>
-            <th scope="col" align="left">Source</th>
+            <th scope="col" align="left">System Name</th>
             <th scope="col" align="left">Type</th>
             <th scope="col" align="left">Identifier</th>
         </tr>
-        <c:forEach items="${command.identifiers}" var="identifier">
+        <c:forEach items="${command.systemAssignedIdentifiers}" var="identifier">
             <tr class="results">
-                <td class="alt" align="left">${identifier.source}</td>
+                <td class="alt" align="left">${identifier.systemName}</td>
                 <td class="alt" align="left">${identifier.type}</td>
                 <td class="alt" align="left">${identifier.value}</td>
             </tr>
