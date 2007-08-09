@@ -9,6 +9,16 @@ public class  ParameterizedInstantiateFactory<T extends DomainObject> implements
 
 	private  Class<? extends T> classToInstantiate;
 
+	public ParameterizedInstantiateFactory() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public ParameterizedInstantiateFactory(Class<? extends T> classToInstantiate) {
+		super();
+		this.classToInstantiate = classToInstantiate;
+	}
+
 	public T create() {
 		try {
 			return (T) classToInstantiate.newInstance();
