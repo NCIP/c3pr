@@ -25,8 +25,8 @@
     <STUDY_ORGANIZATIONS id="1003" version="1" irb_approval_date="01-01-2000" role_code="role2" status_code="inactive" start_date="01-01-2001" end_date="01-01-2002" study_id="1001"
     hcs_id="1001" type="SST"/>
     
-    <IDENTIFIERS id="1000" version="1" value="nci" type="local" source="nci" stu_id="1000" />
-    <IDENTIFIERS id="1001" version="1" value="grid" type="local" source="calgb" stu_id="1000" />    
+    <IDENTIFIERS id="1000" version="1" value="nci" type="local" system_name="nci" dtype="SAI" stu_id="1000" />
+    <IDENTIFIERS id="1001" version="1" value="grid" type="local" system_name="calgb" dtype="SAI" stu_id="1000" />    
     
     <EPOCHS id="1000" version="1" name="Treatment" description_text="treatement desc" stu_id="1000" type="TREATMENT" />
     <EPOCHS id="1001" version="1" name="Cancer" description_text="cancer desc" stu_id="1000" type="TREATMENT"/>
