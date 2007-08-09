@@ -344,7 +344,7 @@
         </property>
     </bean>
 
-    <!-- <bean id="exceptionResolver"
+     <bean id="exceptionResolver"
           class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
         <property name="exceptionMappings">
             <props>
@@ -354,5 +354,4 @@
             </props>
         </property>
     </bean>
--->
 </beans>

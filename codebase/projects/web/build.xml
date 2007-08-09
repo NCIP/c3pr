@@ -88,11 +88,18 @@
         </fileset>
     </path>
 
+    <path id="compile.classpath">
+        <fileset dir="${ext.dir}/compile/lib">
+            <include name="**/*.jar"/>
+        </fileset>
+        <path refid="build.classpath"/>
+    </path>
+
     <!-- =============================================================== -->
     <!-- The Test Classpath                                                   -->
     <!-- =============================================================== -->
     <path id="test.classpath">
-        <path refid="build.classpath"/>
+        <path refid="compile.classpath"/>
         <fileset dir="${jar.dir}">
             <include name="**/*.jar" />
         </fileset>

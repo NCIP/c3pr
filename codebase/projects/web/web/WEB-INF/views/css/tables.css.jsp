@@ -13,7 +13,6 @@
  
 #mytable caption {
 	padding: 0 0 5px 0;
-	width: 700px;	 
 	font: italic 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
 	text-align: right;
 }
@@ -44,7 +43,7 @@
 	background: #FFFFFF;
 	padding: 6px 6px 6px 12px;
 	color: #4f6b72;
-	font: normal 11px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;	
+	font: normal 11px auto "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
 }
 
 
