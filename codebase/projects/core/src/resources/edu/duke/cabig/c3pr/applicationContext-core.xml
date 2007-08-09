@@ -98,6 +98,8 @@
                 <value>edu.duke.cabig.c3pr.domain.ResearchStaff</value>
                 <value>edu.duke.cabig.c3pr.domain.Investigator</value>
                 <value>edu.duke.cabig.c3pr.domain.ScheduledArm</value>
+                <value>edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier</value>
+                <value>edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier</value>
                 <value>edu.duke.cabig.c3pr.domain.Identifier</value>
                 <value>edu.duke.cabig.c3pr.domain.EligibilityCriteria</value>
                 <value>edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer</value>
