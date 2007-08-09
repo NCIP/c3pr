@@ -144,7 +144,7 @@ ul.tabs li {
 .leftpanel {
     float: left;
     width:48%;
-    margin: 0 14px 14px -4em;
+    margin: 0 5px 5px -2em;
     padding: 5px;
 }
 
@@ -334,6 +334,7 @@ table.tablecontent {
 
 .tablecontent td {
     border-color: #888 #ddd;
+    border-bottom: 1px solid #C1DAD7;
     background-color: #fff;
 }
 
