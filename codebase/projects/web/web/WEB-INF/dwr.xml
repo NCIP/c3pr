@@ -6,9 +6,11 @@
         <create creator="spring" javascript="StudyAjaxFacade">
             <param name="beanName" value="studyAjaxFacade"/>
         </create>
-
         <create creator="spring" javascript="registrationDetails">
             <param name="beanName" value="registrationAjaxFacade"/>
+        </create>
+        <create creator="spring" javascript="ParticipantAjaxFacade">
+            <param name="beanName" value="participantAjaxFacade"/>
         </create>
         <create creator="spring" javascript="anatomicDiseaseSite">
             <param name="beanName" value="anatomicDiseaseSiteFacade"/>
