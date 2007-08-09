@@ -17,7 +17,7 @@
 		<thead>
 			<c:if test="${participants!=null}">
 				<tr>
-					<td class="tableHeader">Last Name, First Name</td>
+					<td class="tableHeader">Last Name, Middle Name, First Name</td>
 					<td class="tableHeader">Primary Identifier</td>
 					<td class="tableHeader">Gender</td>
 					<td class="tableHeader">Race</td>
@@ -51,7 +51,7 @@
 						</c:choose>
 					">
 					
-					<td>${participant.lastName},${participant.firstName}</td>
+					<td>${participant.lastName}, ${participant.middleName}, ${participant.firstName}</td>
 					<td>${participant.primaryIdentifier}</a></td>
 					<td>${participant.administrativeGenderCode}</td>
 					<td>${participant.raceCode}</td>
