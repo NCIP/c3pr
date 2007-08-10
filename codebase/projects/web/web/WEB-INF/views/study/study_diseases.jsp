@@ -266,18 +266,28 @@ Event.observe(window, "load", function() {
             <br><br>Diseases<br>
             <select multiple size="1" style="width:400px" id="disease-term">
                 <option value="">Please select a Category first</option>
-            </select> <span id="disease-selected-name"></span> <a
-                href="javascript:fireAction('addStudyDisease','0');"><img
-                src="<c:url value="/images/checkyes.gif"/>" border="0" alt="Add"></a> <br>
-
+            </select> <span id="disease-selected-name"></span>
             <select multiple size="10" id="disease-sel">
                 <option value="">No Selected Diseases</option>
             </select> <form:select id="disease-sel-hidden" size="1"
                                    path="diseaseTermIds">
         </form:select>
         </chrome:division>
-        <tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}"/>
+
+
+
+
+        <tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}">
+            <jsp:attribute name="localButtons">
+                <input type="button" value="Add Study Disease"
+                       onclick="fireAction('addStudyDisease','0');"
+                       alt="Add Study Disease"/>
+            </jsp:attribute>
+        </tags:tabControls>
+        
     </chrome:box>
+
+
 
     <chrome:box title="Selected Disease - ${fn:length(command.studyDiseases)}" id="diseases" cssClass="paired">
 
@@ -287,23 +297,23 @@ Event.observe(window, "load", function() {
             </c:when>
 
             <c:otherwise>
-                  <table border="0" width="100%" class="tablecontent">
-            <tr>
-                <th scope="col">Disease Term</th>
-                <th scope="col">Primary</th>
-            </tr>
-            <c:forEach items="${command.studyDiseases}" var="studyDisease"
-                       varStatus="status">
-                <tr>
-                    <td class="alt"><a href="javascript:fireAction('removeStudyDisease',${status.index});">
-                        <img src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="remove"></a>&nbsp;
-                            ${studyDisease.diseaseTerm.ctepTerm}</td>
-                    <td class="alt">
-                        <form:checkbox path="studyDiseases[${status.index}].leadDisease"/>
-                    </td>
-                </tr>
-            </c:forEach>
-        </table>
+                <table border="0" width="100%" class="tablecontent">
+                    <tr>
+                        <th scope="col">Disease Term</th>
+                        <th scope="col">Primary</th>
+                    </tr>
+                    <c:forEach items="${command.studyDiseases}" var="studyDisease"
+                               varStatus="status">
+                        <tr>
+                            <td class="alt"><a href="javascript:fireAction('removeStudyDisease',${status.index});">
+                                <img src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="remove"></a>&nbsp;
+                                    ${studyDisease.diseaseTerm.ctepTerm}</td>
+                            <td class="alt">
+                                <form:checkbox path="studyDiseases[${status.index}].leadDisease"/>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                </table>
             </c:otherwise>
         </c:choose>
 
