@@ -83,7 +83,7 @@ rowInserters.push(instanceRowInserterProps);
             <br>
             <table id="siteTable" class="tablecontent" border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                    <th><b>HealthCare Site</b></th>
+                    <th><b>Site</b></th>
                     <th><b>Status</b></th>
                     <th><b>Activation Date</b></th>
                     <th><b>IRB Approval Date</b></th>
@@ -98,7 +98,7 @@ rowInserters.push(instanceRowInserterProps);
                         			name="studySites[${status.index}].healthcareSite"
                       				 value="${command.studySites[status.index].healthcareSite.id}"/>
                 			<input class="validate-notEmpty" type="text" id="healthcareSite${status.index}-input"
-                       				size="50"
+                       				size="40"
                       				 value="${command.studySites[status.index].healthcareSite.name}"/>
                 				<input type="button" id="healthcareSite${status.index}-clear"
                        				 value="Clear"/>
@@ -149,16 +149,24 @@ rowInserters.push(instanceRowInserterProps);
                 <input type="hidden" id="healthcareSitePAGE.ROW.INDEX-hidden"
                         name="studySites[PAGE.ROW.INDEX].healthcareSite"/>
                 <input class="validate-notEmpty" type="text" id="healthcareSitePAGE.ROW.INDEX-input"
-                       size="50"
+                       size="40"
                        value="${command.studySites[PAGE.ROW.INDEX].healthcareSite.name}"/>
                 <input type="button" id="healthcareSitePAGE.ROW.INDEX-clear"
                         value="Clear"/>
                    <tags:indicator id="healthcareSitePAGE.ROW.INDEX-indicator"/>
                   <div id="healthcareSitePAGE.ROW.INDEX-choices" class="autocomplete"></div>
             </td>
-            
-          
             <td>
+                <select id="studySites[PAGE.ROW.INDEX].statusCode"
+                        name="studySites[PAGE.ROW.INDEX].statusCode"
+                        class="validate-notEmpty">
+                    <option value="">--Please Select--</option>
+                    <c:forEach items="${studySiteStatusRefData}" var="studySite">
+                        <option value="${studySite.desc}">${studySite.desc}</option>
+                    </c:forEach>
+                </select>
+                <input type="hidden" id="studySites[PAGE.ROW.INDEX].roleCode"
+                       name="studySites[PAGE.ROW.INDEX].roleCode" value="Affiliate Site"/>
             </td>
             <td>
                 <input id="studySites[PAGE.ROW.INDEX].startDate"

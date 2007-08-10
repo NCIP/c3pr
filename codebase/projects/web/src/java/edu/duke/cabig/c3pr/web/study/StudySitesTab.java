@@ -14,7 +14,7 @@ import java.util.Map;
 class StudySitesTab extends StudyTab {
 
     public StudySitesTab() {
-        super("Study Sites", "Sites", "study/study_studysites");
+        super("Sites", "Sites", "study/study_studysites");
     }
 
     @Override
