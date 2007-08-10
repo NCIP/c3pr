@@ -6,6 +6,7 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
 <html>
 <head>
 <link href="calendar-blue.css" rel="stylesheet" type="text/css" />
@@ -143,16 +144,16 @@ function submitPostProcess(formElement, flag){
 							class="red"><em></em></span></td>
 					</tr>
 					<tr>
-						<td align="right"><em></em><b>Ethnicity:</b> &nbsp;</td>
-						<td align="left"><form:select path="ethnicGroupCode">
+						<td align="right"><span class="red">&nbsp;&nbsp;&nbsp;*</span><em></em><b>Ethnicity:</b> &nbsp;</td>
+						<td align="left"><form:select path="ethnicGroupCode" cssClass="validate-notEmpty">
 							<option value="">--Please Select--</option>
 							<form:options items="${ethnicGroupCode}" itemLabel="desc"
 								itemValue="code" />
 						</form:select></td>
 					</tr>
 					<tr>
-						<td align="right"><em></em><b>Race(s):</b> &nbsp;</td>
-						<td align="left"><form:select path="raceCode">
+						<td align="right"><span class="red">&nbsp;&nbsp;&nbsp;*</span><em></em><b>Race(s):</b> &nbsp;</td>
+						<td align="left"><form:select path="raceCode" cssClass="validate-notEmpty">
 							<option value="">--Please Select--</option>
 							<form:options items="${raceCode}" itemLabel="desc"
 								itemValue="code" />
@@ -173,6 +174,7 @@ function submitPostProcess(formElement, flag){
 		<tr>	
 		
 		<td>
+		<chrome:division title="System Identifiers">
 
 		<table id="mytable" border="0" cellspacing="0" cellpadding="0">
 			<tr>
@@ -206,8 +208,7 @@ function submitPostProcess(formElement, flag){
 				</tr>
 			</c:forEach>
 		</table>
-		</td>
-		<td>
+		</chrome:division>
 		</td>
 		</tr>
 		<tr>
@@ -216,6 +217,10 @@ function submitPostProcess(formElement, flag){
 			<input id="addIdentifier" type="button" value="Add Organization Identifier"
 			onclick="javascript:RowManager.addRow(organizationIdentifierRowInserterProps);"  />
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br> <br>
+			
+			<td>
+			
+			<chrome:division title="Organization Identifiers">
 
 		<table id="mytable-organizationIdentifier" border="0" cellspacing="0" cellpadding="0" class="mytable">
 			<tr>
@@ -257,6 +262,9 @@ function submitPostProcess(formElement, flag){
 				</tr>
 			</c:forEach>
 		</table>
+		</chrome:division>
+		</td>
+		
 		</tr>
 		
 	</jsp:attribute>
