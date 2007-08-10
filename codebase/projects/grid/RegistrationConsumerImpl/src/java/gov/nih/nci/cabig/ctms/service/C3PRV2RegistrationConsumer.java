@@ -68,12 +68,12 @@ public class C3PRV2RegistrationConsumer implements RegistrationConsumer {
         if (partBean.getIdentifier() != null) {
             List<Identifier> identifiersList =  new ArrayList<Identifier>();
             for (IdentifierType identifierType : partBean.getIdentifier()) {
-                Identifier identifier = new Identifier();
-                identifier.setSource(identifierType.getSource());
-                identifier.setType(identifierType.getType());
-                identifier.setValue(identifierType.getValue());
-
-                identifiersList.add(identifier);
+//                Identifier identifier = new Identifier();
+//                identifier.setSource(identifierType.getSource());
+//                identifier.setType(identifierType.getType());
+//                identifier.setValue(identifierType.getValue());
+//
+//                identifiersList.add(identifier);
             }
             participant.setIdentifiers(identifiersList);
         }
