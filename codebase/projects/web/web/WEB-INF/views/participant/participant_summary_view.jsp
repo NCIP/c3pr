@@ -124,6 +124,22 @@ function updateTargetPage(target){
 				</c:forEach>
 			</table>
 		</chrome:division>
+		<chrome:division title="Organization Assigned Identifiers">
+			<table class="tablecontent">
+				<tr>
+					<th scope="col" align="left">Assigning Authority</th>
+					<th scope="col" align="left">Identifier Type</th>
+					<th scope="col" align="left">Identifier</th>
+				</tr>
+				<c:forEach items="${command.organizationAssignedIdentifiers}" var="orgIdentifier">
+					<tr class="results">
+						<td class="alt" align="left">${orgIdentifier.healthcareSite.name}</td>
+						<td class="alt" align="left">${orgIdentifier.type}</td>
+						<td class="alt" align="left">${orgIdentifier.value}</td>
+					</tr>
+				</c:forEach>
+			</table>
+		</chrome:division>
 		<chrome:division title="Registration Summary">
 			<registrationTags:searchResults registrations="${participantAssignments }"/>
 		</chrome:division>

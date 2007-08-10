@@ -117,10 +117,10 @@ function updateTargetPage(target){
 		
 
 
-		<chrome:division title="Identifiers">
+		<chrome:division title="System Assigned Identifiers">
 			<table class="tablecontent">
 				<tr>
-					<th scope="col" align="left">Assigning Authority</th>
+					<th scope="col" align="left">System Name</th>
 					<th scope="col" align="left">Identifier Type</th>
 					<th scope="col" align="left">Identifier</th>
 				</tr>
@@ -129,6 +129,23 @@ function updateTargetPage(target){
 						<td class="alt" align="left">${identifier.systemName}</td>
 						<td class="alt" align="left">${identifier.type}</td>
 						<td class="alt" align="left">${identifier.value}</td>
+					</tr>
+				</c:forEach>
+			</table>
+		</chrome:division>
+		
+		<chrome:division title="Organization Assigned Identifiers">
+			<table class="tablecontent">
+				<tr>
+					<th scope="col" align="left">Assigning Authority</th>
+					<th scope="col" align="left">Identifier Type</th>
+					<th scope="col" align="left">Identifier</th>
+				</tr>
+				<c:forEach items="${command.organizationAssignedIdentifiers}" var="orgIdentifier">
+					<tr class="results">
+						<td class="alt" align="left">${orgIdentifier.healthcareSite.name}</td>
+						<td class="alt" align="left">${orgIdentifier.type}</td>
+						<td class="alt" align="left">${orgIdentifier.value}</td>
 					</tr>
 				</c:forEach>
 			</table>
