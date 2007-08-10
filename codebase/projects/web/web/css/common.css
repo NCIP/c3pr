@@ -335,7 +335,7 @@ table.tablecontent {
 .tablecontent td {
     border-color: #888 #ddd;
     border-bottom: 1px solid #C1DAD7;
-    background-color: #fff;
+    /*background-color: #fff;*/
 }
 
 .red{
