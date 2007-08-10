@@ -71,20 +71,45 @@
 </chrome:division>
 
 <chrome:division title="Identifiers">
-    <table class="tablecontent">
-        <tr>
-            <th scope="col" align="left">System Name</th>
-            <th scope="col" align="left">Type</th>
-            <th scope="col" align="left">Identifier</th>
-        </tr>
-        <c:forEach items="${command.systemAssignedIdentifiers}" var="identifier">
-            <tr class="results">
-                <td class="alt" align="left">${identifier.systemName}</td>
-                <td class="alt" align="left">${identifier.type}</td>
-                <td class="alt" align="left">${identifier.value}</td>
-            </tr>
-        </c:forEach>
-    </table>
+    <h4>Organization Assigned Identifiers</h4>
+			<br>
+
+			<table class="tablecontent">
+				<tr>
+					<th scope="col" align="left">Assigning Authority</th>
+					<th scope="col" align="left">Identifier Type</th>
+					<th scope="col" align="left">Identifier</th>
+				</tr>
+				<c:forEach items="${command.organizationAssignedIdentifiers}"
+					var="orgIdentifier">
+					<tr class="results">
+						<td class="alt" align="left">${orgIdentifier.healthcareSite.name}</td>
+						<td class="alt" align="left">${orgIdentifier.type}</td>
+						<td class="alt" align="left">${orgIdentifier.value}</td>
+					</tr>
+				</c:forEach>
+			</table>
+			<br>
+			<br>
+			<h4>System Assigned Identifiers</h4>
+
+			<br>
+
+			<table class="tablecontent">
+				<tr>
+					<th scope="col" align="left">System Name</th>
+					<th scope="col" align="left">Identifier Type</th>
+					<th scope="col" align="left">Identifier</th>
+				</tr>
+				<c:forEach items="${command.systemAssignedIdentifiers}"
+					var="identifier">
+					<tr class="results">
+						<td class="alt" align="left">${identifier.systemName}</td>
+						<td class="alt" align="left">${identifier.type}</td>
+						<td class="alt" align="left">${identifier.value}</td>
+					</tr>
+				</c:forEach>
+			</table>
 </chrome:division>
 
 <chrome:division title="Sites">
