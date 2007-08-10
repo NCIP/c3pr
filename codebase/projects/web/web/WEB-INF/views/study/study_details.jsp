@@ -67,11 +67,11 @@
                 return obj.name
             },
             afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
-                hiddenField=sponsorSiteAutocompleterProps.basename+"-hidden"
-                hiddenField1=sponsorSiteAutocompleterProps.basename+"-hidden1"
-                $(hiddenField).value=selectedChoice.id;
-                $(hiddenField1).value=selectedChoice.id;
-            }
+    								hiddenField=sponsorSiteAutocompleterProps.basename+"-hidden"
+    								hiddenField1=sponsorSiteAutocompleterProps.basename+"-hidden1"
+	    							$(hiddenField).value=selectedChoice.id;
+									$(hiddenField1).value=selectedChoice.id;	    							  	    								    							
+			 }
         }
         var coCenterAutocompleterProps = {
             basename: "coCenter",
@@ -83,12 +83,12 @@
             valueSelector: function(obj) {
                 return obj.name
             },
-            afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
-                hiddenField=coCenterAutocompleterProps.basename+"-hidden"
-                hiddenField1=coCenterAutocompleterProps.basename+"-hidden1"
-                $(hiddenField).value=selectedChoice.id;
-                $(hiddenField1).value=selectedChoice.id;
-            }
+             afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+    								hiddenField=coCenterAutocompleterProps.basename+"-hidden"
+    								hiddenField1=coCenterAutocompleterProps.basename+"-hidden1"
+	    							$(hiddenField).value=selectedChoice.id;
+	    							$(hiddenField1).value=selectedChoice.id;
+			}
         }
         autoCompleters.push(coCenterAutocompleterProps);
         autoCompleters.push(sponsorSiteAutocompleterProps);
@@ -105,125 +105,125 @@
 
 <chrome:division id="study-details" title="Basic Details">
 
-<div class="leftpanel">
-    <div class="row">
-        <div class="label">
-            <span class="required-indicator">*</span>
-            Short Title:</div>
-        <div class="value"><form:input path="shortTitleText" size="41"
-                                       maxlength="30" cssClass="validate-notEmpty" /></div>
+    <div class="leftpanel">
+        <div class="row">
+            <div class="label">
+                <span class="required-indicator">*</span>
+                Short Title:</div>
+            <div class="value"><form:input path="shortTitleText" size="41"
+                                           maxlength="30" cssClass="validate-notEmpty" /></div>
+        </div>
+
+        <div class="row">
+            <div class="label">
+                <span class="required-indicator">*</span>
+                Long Title:</div>
+            <div class="value"><form:textarea path="longTitleText" rows="2"
+                                              cols="40" cssClass="validate-notEmpty&&maxlength200" /></div>
+        </div>
+
+        <div class="row">
+            <div class="label">Description:</div>
+            <div class="value"><form:textarea path="descriptionText" rows="2"
+                                              cols="40" cssClass="validate-maxlength2000" /></div>
+        </div>
+
+        <div class="row">
+            <div class="label">Precis:</div>
+            <div class="value"><form:textarea path="precisText" rows="2"
+                                              cols="40" cssClass="validate-maxlength200" /></div>
+        </div>
     </div>
 
-    <div class="row">
-        <div class="label">
-            <span class="required-indicator">*</span>
-            Long Title:</div>
-        <div class="value"><form:textarea path="longTitleText" rows="2"
-                                          cols="40" cssClass="validate-notEmpty&&maxlength200" /></div>
+    <div class="rightpanel">
+        <div class="row">
+            <div class="label">Target Accrual:</div>
+            <div class="value"><form:input path="targetAccrualNumber" size="10"
+                                           cssClass="validate-numeric" /></div>
+        </div>
+
+        <div class="row">
+            <div class="label">
+                <span class="required-indicator">*</span>
+                Type:</div>
+            <div class="value"><form:select path="type"
+                                            cssClass="validate-notEmpty">
+                <option value="">--Please Select--</option>
+                <form:options items="${typeRefData}" itemLabel="desc"
+                              itemValue="desc" />
+            </form:select></div>
+        </div>
+
+        <div class="row">
+            <div class="label">
+                <span class="required-indicator">*</span>
+                Status:</div>
+            <div class="value"><form:select path="status"
+                                            cssClass="validate-notEmpty">
+                <option value="">--Please Select--</option>
+                <form:options items="${statusRefData}" itemLabel="desc"
+                              itemValue="desc" />
+            </form:select></div>
+        </div>
+
+        <div class="row">
+            <div class="label">
+                <span class="required-indicator">*</span>
+                Phase:</div>
+            <div class="value"><form:select path="phaseCode"
+                                            cssClass="validate-notEmpty">
+                <option value="">--Please Select--</option>
+                <form:options items="${phaseCodeRefData}" itemLabel="desc"
+                              itemValue="desc" />
+            </form:select></div>
+        </div>
+
+        <div class="row">
+            <div class="label">Blinded:</div>
+            <div class="value"><form:select path="blindedIndicator">
+                <option value="">--Please Select--</option>
+                <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
+            </form:select></div>
+        </div>
+
     </div>
-
-    <div class="row">
-        <div class="label">Description:</div>
-        <div class="value"><form:textarea path="descriptionText" rows="3"
-                                          cols="40" cssClass="validate-maxlength2000" /></div>
-    </div>
-
-    <div class="row">
-
-        <div class="label">Precis:</div>
-        <div class="value"><form:textarea path="precisText" rows="2"
-                                          cols="40" cssClass="validate-maxlength200" /></div>
-    </div>
-</div>
-
-<div class="rightpanel">
-<div class="row">
-    <div class="label">Target Accrual:</div>
-    <div class="value"><form:input path="targetAccrualNumber" size="10"
-                                   cssClass="validate-numeric" /></div>
-</div>
-
-<div class="row">
-    <div class="label">
-        <span class="required-indicator">*</span>
-        Type:</div>
-    <div class="value"><form:select path="type"
-                                    cssClass="validate-notEmpty">
-        <option value="">--Please Select--</option>
-        <form:options items="${typeRefData}" itemLabel="desc"
-                      itemValue="desc" />
-    </form:select></div>
-</div>
-
-<div class="row">
-    <div class="label">
-        <span class="required-indicator">*</span>
-        Status:</div>
-    <div class="value"><form:select path="status"
-                                    cssClass="validate-notEmpty">
-        <option value="">--Please Select--</option>
-        <form:options items="${statusRefData}" itemLabel="desc"
-                      itemValue="desc" />
-    </form:select></div>
-</div>
-
-<div class="row">
-    <div class="label">
-        <span class="required-indicator">*</span>
-        Phase:</div>
-    <div class="value"><form:select path="phaseCode"
-                                    cssClass="validate-notEmpty">
-        <option value="">--Please Select--</option>
-        <form:options items="${phaseCodeRefData}" itemLabel="desc"
-                      itemValue="desc" />
-    </form:select></div>
-</div>
-
-<div class="row">
-    <div class="label">Blinded:</div>
-    <div class="value"><form:select path="blindedIndicator">
-        <option value="">--Please Select--</option>
-        <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
-    </form:select></div>
-</div>
 
 </chrome:division>
 
 <chrome:division title="Sponser Details">
-<div class="leftpanel">
+    <div class="leftpanel">
 
+        <div class="row">
+            <div class="label">
+                <span class="required-indicator">*</span>
+                Sponsor:</div>
+            <div class="value"><form:hidden id="healthcareSite-hidden"
+				path="studyFundingSponsors[0].healthcareSite" /><input type="hidden" id="healthcareSite-hidden1"
+                        				name="organizationAssignedIdentifiers[0].healthcareSite"
+                      					 value="${command.organizationAssignedIdentifiers[0].healthcareSite.id}"/> <input
+				id="healthcareSite-input" size="50" type="text"
+				name="organizationAssignedIdentifiers[0].healthcareSite.name"
+				value="${command.organizationAssignedIdentifiers[0].healthcareSite.name}" class="validate-notEmpty" />
+			<tags:indicator id="healthcareSite-indicator" />
+			<div id="healthcareSite-choices" class="autocomplete"></div>
+			</div>
+        </div>
 
-<div class="row">
-    <div class="label">
-        <span class="required-indicator">*</span>
-        Sponsor:</div>
-    <div class="value"><form:hidden id="healthcareSite-hidden"
-                                    path="studyFundingSponsors[0].healthcareSite" /><input type="hidden" id="healthcareSite-hidden1"
-                                                                                           name="organizationAssignedIdentifiers[0].healthcareSite"
-                                                                                           value="${command.organizationAssignedIdentifiers[0].healthcareSite.id}"/> <input
-            id="healthcareSite-input" size="41" type="text"
-            name="organizationAssignedIdentifiers[0].healthcareSite.name"
-            value="${command.organizationAssignedIdentifiers[0].healthcareSite.name}" class="validate-notEmpty" />
-        <tags:indicator id="healthcareSite-indicator" />
-        <div id="healthcareSite-choices" class="autocomplete"></div>
+        <div class="row">
+            <div class="label">
+                <span class="required-indicator">*</span>
+                Sponsor Study Identifier:</div>
+            <div class="value"><form:input path="organizationAssignedIdentifiers[0].value" size="30"
+				maxlength="30" cssClass="validate-notEmpty" /> <input type="hidden"
+				name="organizationAssignedIdentifiers[0].type" value="Protocol Authority Identifier" />
+			</div>
+        </div>
+
     </div>
-</div>
-
-<div class="row">
-    <div class="label">
-        <span class="required-indicator">*</span>
-        Sponsor Study Identifier:</div>
-    <div class="value"><form:input path="organizationAssignedIdentifiers[0].value" size="41"
-                                   maxlength="30" cssClass="validate-notEmpty" /> <input type="hidden"
-                                                                                         name="organizationAssignedIdentifiers[0].type" value="Protocol Authority Identifier" />
-    </div>
-</div>
-
 </chrome:division>
 
 <chrome:division title="Randomization Details">
     <div class="leftpanel">
-
 
         <div class="row">
             <div class="label">
@@ -245,16 +245,15 @@
                 <div class="label">Randomization Type:</div>
                 <div class="value"><form:select path="randomizationType">
                     <option value="">--Please Select--</option>
-                    <option value="">--Please Select--</option>
                     <option value="BOOK">Book</option>
                     <option value="CALL_OUT">Call Out</option>
                     <option value="PHONE_CALL">Phone Call</option>
-                </form:select></div>			</div>
+                </form:select></div>
+            </div>
         </div>
+
     </div>
-
 </chrome:division>
-
 
 <chrome:division title="Multi-Institutional Details">
     <div class="leftpanel">
@@ -269,32 +268,29 @@
                 </div>
                 <c:if test="${command.multiInstitutionIndicator=='true' }">
                     <div class="row">
-                        <div class="label">
-                            <span class="required-indicator">*</span>
-                            Coordinating Center:</div>
+                        <div class="label">*Coordinating Center:</div>
                         <div class="value"><input type="hidden" id="coCenter-hidden"
-                                                  name="studyCoordinatingCenters[0].healthcareSite"
-                                                  value="${command.multiInstitutionIndicator=='true'?command.studyCoordinatingCenters[0].healthcareSite.id:'' }" />
-                            <input type="hidden" id="coCenter-hidden1"
-                                   name="organizationAssignedIdentifiers[1].healthcareSite"
-                                   value="${command.multiInstitutionIndicator=='true'?command.organizationAssignedIdentifiers[1].healthcareSite.id:'' }" />
-                            <input id="coCenter-input" size="41" type="text"
-                                   name="organizationAssignedIdentifiers[1].healthcareSite.name"
-                                   value="${command.multiInstitutionIndicator=='true'?command.organizationAssignedIdentifiers[1].healthcareSite.name:''}" />
-                            <tags:indicator id="coCenter-indicator" />
-                            <div id="coCenter-choices" class="autocomplete"></div>
-                        </div>
+							name="studyCoordinatingCenters[0].healthcareSite"
+							value="${command.multiInstitutionIndicator=='true'?command.studyCoordinatingCenters[0].healthcareSite.id:'' }" />
+						<input type="hidden" id="coCenter-hidden1"
+							name="organizationAssignedIdentifiers[1].healthcareSite"
+							value="${command.multiInstitutionIndicator=='true'?command.organizationAssignedIdentifiers[1].healthcareSite.id:'' }" />
+						<input id="coCenter-input" size="50" type="text"
+							name="organizationAssignedIdentifiers[1].healthcareSite.name"
+							value="${command.multiInstitutionIndicator=='true'?command.organizationAssignedIdentifiers[1].healthcareSite.name:''}" />
+						<tags:indicator id="coCenter-indicator" />
+						<div id="coCenter-choices" class="autocomplete"></div>
+						</div>
                     </div>
 
                     <div class="row">
-                        <div class="label"><span class="red">*</span>
-                            Coordinating Center Study Identifier:
-                        </div>
+                        <div class="label"><span class="red">*</span> Coordinating Center
+                            Study Identifier:</div>
                         <div class="value"><input type="text" name="organizationAssignedIdentifiers[1].value"
-                                                  size="30" maxlength="30"
-                                                  value="${command.multiInstitutionIndicator=='true'?command.organizationAssignedIdentifiers[1].value:''}" />
-                            <input type="hidden" name="organizationAssignedIdentifiers[1].type"
-                                   value="Coordinating Center Identifier" /></div>
+							size="30" maxlength="30"
+							value="${command.multiInstitutionIndicator=='true'?command.organizationAssignedIdentifiers[1].value:''}" />
+						<input type="hidden" name="organizationAssignedIdentifiers[1].type"
+							value="Coordinating Center Identifier" /></div>
                     </div>
                 </c:if>
             </c:when>
@@ -310,51 +306,44 @@
                     </form:select></div>
                 </div>
 
-
-
-                <!-- <input type="hidden" id="deletionIndicator1" name="abc" />
-                <input type="hidden" id="deletionIndicator2" name="abc" /> -->
                 <div id="cooperativeGroups"
                         <c:if test="${ (empty command.multiInstitutionIndicator) || command.multiInstitutionIndicator=='false'}">style="display:none;"</c:if>>
                     <div class="row">
-                        <div class="label">
-                            <span class="required-indicator">*</span>
-                            Coordinating Center:</div>
+                        <div class="label">*Coordinating Center:</div>
                         <div class="value"><input type="hidden" id="coCenter-hidden"
-                                                  name="studyCoordinatingCenters[0].healthcareSite"
-                                                  value="${command.multiInstitutionIndicator=='true'?command.studyCoordinatingCenters[0].healthcareSite.id:'' }" />
-                            <input type="hidden" id="coCenter-hidden1"
-                                   name="organizationAssignedIdentifiers[1].healthcareSite"
-                                   value="${command.multiInstitutionIndicator=='true'?command.organizationAssignedIdentifiers[1].healthcareSite.id:'' }" />
-                            <input id="coCenter-input" size="41" type="text"
-                                   name="organizationAssignedIdentifiers[1].healthcareSite.name"
-                                   value="${command.multiInstitutionIndicator=='true'?command.organizationAssignedIdentifiers[1].healthcareSite.name:''}" />
-                            <tags:indicator id="coCenter-indicator" />
-                            <div id="coCenter-choices" class="autocomplete"></div>
-                        </div>
+						name="studyCoordinatingCenters[0].healthcareSite"
+						value="${command.multiInstitutionIndicator=='true'?command.studyCoordinatingCenters[0].healthcareSite.id:'' }" />
+					<input type="hidden" id="coCenter-hidden1"
+							name="organizationAssignedIdentifiers[1].healthcareSite"
+							value="${command.multiInstitutionIndicator=='true'?command.organizationAssignedIdentifiers[1].healthcareSite.id:'' }" />
+					<input id="coCenter-input" size="50" type="text"
+						name="organizationAssignedIdentifiers[1].healthcareSite.name"
+						value="${command.multiInstitutionIndicator=='true'?command.organizationAssignedIdentifiers[1].healthcareSite.name:''}" />
+					<tags:indicator id="coCenter-indicator" />
+					<div id="coCenter-choices" class="autocomplete"></div>
+					</div>
                     </div>
 
                     <div class="row">
-                        <div class="label">
-                            <span class="required-indicator">*</span>
-                            Coordinating Center
+                        <div class="label"><span class="red">*</span> Coordinating Center
                             Study Identifier:</div>
                         <div class="value"><input type="text" name="organizationAssignedIdentifiers[1].value"
-                                                  size="30" maxlength="30"
-                                                  value="${command.multiInstitutionIndicator=='true'?command.organizationAssignedIdentifiers[1].value:''}" />
-                            <input type="hidden" name="organizationAssignedIdentifiers[1].type"
-                                   value="Coordinating Center Identifier" /></div>
-                    </div>
+						size="30" maxlength="30"
+						value="${command.multiInstitutionIndicator=='true'?command.organizationAssignedIdentifiers[1].value:''}" />
+					<input type="hidden" name="organizationAssignedIdentifiers[1].type"
+						value="Coordinating Center Identifier" /></div>
+					</div>
                 </div>
             </c:otherwise>
         </c:choose>
+
     </div>
-    
 </chrome:division>
+
 <tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" />
 
 </chrome:box>
 </form:form>
-</div>
+
 </body>
 </html>
