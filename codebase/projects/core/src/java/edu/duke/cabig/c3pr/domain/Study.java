@@ -232,7 +232,7 @@ public class Study extends AbstractMutableDomainObject implements Comparable<Stu
     	return lazyListHelper.getLazyList(SystemAssignedIdentifier.class);
     }
     
-    public void setSystemAssignedIdentifiers(ArrayList<SystemAssignedIdentifier> systemAssignedIdentifiers)
+    public void setSystemAssignedIdentifiers(List<SystemAssignedIdentifier> systemAssignedIdentifiers)
     {
     	// do nothing
     }
@@ -243,7 +243,7 @@ public class Study extends AbstractMutableDomainObject implements Comparable<Stu
     	return lazyListHelper.getLazyList(OrganizationAssignedIdentifier.class);
     }
     
-    public void setOrganizationAssignedIdentifiers(ArrayList<OrganizationAssignedIdentifier> organizationAssignedIdentifiers)
+    public void setOrganizationAssignedIdentifiers(List<OrganizationAssignedIdentifier> organizationAssignedIdentifiers)
     {
     	// do nothing
     }
