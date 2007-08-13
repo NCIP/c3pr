@@ -11,12 +11,12 @@
     <status>st</status>
     <type>ty</type>
     <targetAccrualNumber>123</targetAccrualNumber>
-    <identifier>
-        <source>nci</source>
+    <systemAssignedIdentifier>
         <type>local</type>
         <value>nci</value>
-        <isprimary>false</isprimary>
-    </identifier>
+        <primaryIndicator>false</primaryIndicator>
+        <systemName>nci</systemName>
+    </systemAssignedIdentifier>
     <treatmentEpoch>
         <name>Treatment1000</name>
         <descriptionText>treatement desc</descriptionText>
@@ -99,7 +99,13 @@
         <healthcareSite>
             <name>duke healthcare</name>
             <descriptionText>duke healthcare</descriptionText>
-            <address><streetAddress>12359 sunrise valley drive</streetAddress><city>Reston</city><stateCode>VA</stateCode><postalCode>20191</postalCode><countryCode>USA</countryCode></address>
+            <address>
+                <streetAddress>12359 sunrise valley drive</streetAddress>
+                <city>Reston</city>
+                <stateCode>VA</stateCode>
+                <postalCode>20191</postalCode>
+                <countryCode>USA</countryCode>
+            </address>
             <nciInstituteCode>code</nciInstituteCode>
         </healthcareSite>
         <irbApprovalDate>0006-06-23T00:00:00.000-05:00</irbApprovalDate>

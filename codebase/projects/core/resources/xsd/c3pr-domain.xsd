@@ -39,14 +39,40 @@
         <xs:attribute name="gridId" type="xs:string" />
     </xs:complexType>
 
+    <xs:element name="identifier" abstract="true" type="IdentifierType"/>
+    <xs:element name="systemAssignedIdentifier"  substitutionGroup="identifier" type="SystemAssignedIdentifierType"/>
+    <xs:element name="organizationAssignedIdentifier" substitutionGroup="identifier" type="OrganizationAssignedIdentifierType"/>
+
     <xs:complexType name="IdentifierType">
         <xs:sequence>
             <xs:element name="source"   type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="type" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="value"   type="xs:string" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="isprimary"  type="xs:boolean" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="primaryIndicator"  type="xs:boolean" default="false" minOccurs="0" maxOccurs="1"/>
         </xs:sequence>
+        <xs:attribute name="gridId" type="xs:string"/>
     </xs:complexType>
+
+    <xs:complexType name="SystemAssignedIdentifierType">
+        <xs:complexContent>
+            <xs:extension base="IdentifierType" >
+                <xs:sequence>
+                    <xs:element name="systemName" type="xs:string" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="OrganizationAssignedIdentifierType">
+        <xs:complexContent>
+            <xs:extension base="IdentifierType" >
+                <xs:sequence>
+                    <xs:element name="healthcareSite" type="HealthcareSiteType" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
 
     <xs:complexType name="AddressType">
         <xs:sequence>
@@ -109,7 +135,7 @@
             <xs:element name="type"  type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="primaryIdentifier"  type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="targetAccrualNumber"  type="xs:integer" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="identifier" type="IdentifierType" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="identifier" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element ref="epoch" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="studyDisease" type="StudyDiseaseType" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="studySite" type="StudySiteType" minOccurs="0" maxOccurs="unbounded"/>

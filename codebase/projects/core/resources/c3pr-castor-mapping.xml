@@ -29,10 +29,10 @@
 
     <class name="edu.duke.cabig.c3pr.domain.Identifier">
         <map-to xml="identifer" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        <field name="source" type="string">
-            <bind-xml name="source" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"
-                    />
-        </field>
+        <!--<field name="source" type="string">-->
+            <!--<bind-xml name="source" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"-->
+                    <!--/>-->
+        <!--</field>-->
         <field name="type" type="string">
             <bind-xml name="type" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
@@ -40,8 +40,22 @@
             <bind-xml name="value" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
         <field name="primaryIndicator" type="boolean">
-            <bind-xml name="isprimary" node="element"
+            <bind-xml name="primaryIndicator" node="element"
                       xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
+        </field>
+    </class>
+
+    <class name="edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier" extends="edu.duke.cabig.c3pr.domain.Identifier">
+        <map-to xml="organizationAssignedIdentifier" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
+        <field name="healthcareSite" type="edu.duke.cabig.c3pr.domain.HealthcareSite">
+            <bind-xml name="healthcareSite" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain" />
+        </field>
+    </class>
+
+     <class name="edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier" extends="edu.duke.cabig.c3pr.domain.Identifier">
+        <map-to xml="systemAssignedIdentifier" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
+        <field name="systemName" type="string">
+            <bind-xml name="systemName" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain" />
         </field>
     </class>
 
@@ -144,7 +158,7 @@
         </field>
         <field name="identifiers" type="edu.duke.cabig.c3pr.domain.Identifier"
                collection="collection">
-            <bind-xml name="identifier" node="element"
+            <bind-xml  auto-naming="deriveByClass"  node="element"
                       xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
         <field name="epochs" type="edu.duke.cabig.c3pr.domain.Epoch"
