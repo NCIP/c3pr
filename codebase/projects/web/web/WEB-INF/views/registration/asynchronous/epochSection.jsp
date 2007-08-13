@@ -18,9 +18,9 @@
 			<c:when test="${epochType=='Treatment'}">
 				Type: Treatment<br>
 				<c:if test="${!alreadyRegistered}">
-					Requires eligibility check: ${requiresEligibility}<br>
-					Requires stratification: ${requiresStratification}<br>
-					Requires randomization: ${requiresRandomization}<br>
+					Requires eligibility check: ${requiresEligibility?"Yes":"No"}<br>
+					Requires stratification: ${requiresStratification?"Yes":"No"}<br>
+					Requires randomization: ${requiresRandomization?"Yes":"No"}<br>
 				</c:if>
 			</c:when>
 			<c:otherwise>
@@ -43,7 +43,7 @@
 					<div id="epochConfirmation-buttons-${epoch.id}">
 					<c:choose>
 						<c:when test="${requiresEligibility||requiresStratification||requiresRandomization}">
-							To complete registration, you need to fill more information.<br>Click ok to continue.
+							To complete registration, you need to fill in more information.<br>Click ok to continue.
 							<input type="button" onClick="registerSubject('create','${epoch.id }')" value="ok"><input type="button" onClick="reloadPage('${epoch.id }')" value="cancel">
 						</c:when>
 						<c:otherwise>

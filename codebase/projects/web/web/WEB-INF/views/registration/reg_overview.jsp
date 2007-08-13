@@ -175,6 +175,11 @@ function activateInPlaceEditing(arrayElements){
 				<br>
 				<strong>Check Eligibility </strong><br>
 				<div class="review">
+				<c:choose>
+				<c:when test="${fn:length(command.scheduledEpoch.inclusionEligibilityAnswers) == 0 && fn:length(command.scheduledEpoch.exclusionEligibilityAnswers) == 0}">
+				<span class="red"><strong>This epoch does not have eligibility check list</strong></span>
+				</c:when>
+				<c:otherwise>
 				<table width="50%" border="0" cellspacing="0" cellpadding="0" id="mytable">
 					<tr>
 						<td width="25%" class="labelR">Eligibility
@@ -182,11 +187,6 @@ function activateInPlaceEditing(arrayElements){
 						<td>${command.scheduledEpoch.eligibilityIndicator }</td>
 					</tr>
 				</table>
-				<c:choose>
-				<c:when test="${fn:length(command.scheduledEpoch.inclusionEligibilityAnswers) == 0 && fn:length(command.scheduledEpoch.exclusionEligibilityAnswers) == 0}">
-				There is no eligibility check list available for this subject
-				</c:when>
-				<c:otherwise>
 				<br><br>
 					<strong>Inclusion Criteria:</strong>
 					
@@ -233,7 +233,7 @@ function activateInPlaceEditing(arrayElements){
 				<c:when test="${fn:length(command.scheduledEpoch.subjectStratificationAnswers) == 0}">
 				<table width="50%" border="0" cellspacing="0" cellpadding="0" id="table1">
 					<tr>
-						<td class="label" align=left>The Selected Study does not have Stratification Factors</td>
+						<td class="label red" align=left>This epoch does not involve Stratification</td>
 					</tr>
 				</table>
 				</c:when>

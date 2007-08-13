@@ -22,7 +22,7 @@
 			</tr>
 		</c:when>
 		<c:otherwise>
-		<tr><td><strong>Please select an arm  </strong></td></tr>
+		<tr><td>Please select an arm</td></tr>
 		<tr>
 			<td class="label" width="80%">Select Arm:</td>
 			<td>
