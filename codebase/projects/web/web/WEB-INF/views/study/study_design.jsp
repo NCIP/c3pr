@@ -68,8 +68,12 @@
                 RowManager.getNestedRowInserter(treatmentEpochRowInserterProps,${treatmentEpochCount.index}).updateIndex(${fn:length(command.treatmentEpochs[treatmentEpochCount.index].arms)});
             </script>
 
-            <td><chrome:deletableDivision title="Treatment Epoch"
-                                          onclick="RowManager.deleteRow(treatmentEpochRowInserterProps,${treatmentEpochCount.index})">
+            <td><chrome:minimizableBox  id="treatmentEpochBox-${treatmentEpochCount.index}"
+                                        title="Treatment Epoch"
+                                        isDeletable="true"
+                                        onDelete="RowManager.deleteRow(treatmentEpochRowInserterProps,${treatmentEpochCount.index})">
+
+
                 <table>
                     <tr>
                         <td>
@@ -78,13 +82,13 @@
                                 <tr>
                                     <th>
                                         <span class="required-indicator">*</span>
-                                        <b>Name :</b>&nbsp;</th>
+                                        Name:
                                     <td align="left"><form:input
                                             path="treatmentEpochs[${treatmentEpochCount.index}].name"
                                             size="41" cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
                                 </tr>
                                 <tr>
-                                    <th><em></em> <b>Description:</b>&nbsp;</th>
+                                    <th>Description:</th>
                                     <td><form:textarea
                                             path="treatmentEpochs[${treatmentEpochCount.index}].descriptionText"
                                             rows="5" cols="40" />&nbsp;&nbsp;&nbsp;</td>
@@ -120,7 +124,7 @@
                         </td>
                     </tr>
                 </table>
-            </chrome:deletableDivision></td>
+            </chrome:minimizableBox></td>
         </tr>
     </c:forEach>
 </table>
@@ -134,65 +138,73 @@
 
         <tr id="nonTreatmentEpoch-${nonTreatmentEpochCount.index}">
 
-            <td><chrome:deletableDivision title="Non-Treatment Epoch"
-                                          onclick="RowManager.deleteRow(nonTreatmentEpochRowInserterProps,${nonTreatmentEpochCount.index})">
-                <div class="leftpanel">
-                    <div class="row">
-                        <div class="label">
-                            <span class="required-indicator">*</span>
-                            Name:</div>
-                        <div class="value"><form:input
-                                path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].name"
-                                size="41" cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span></div>
-                    </div>
-                    <div class="row">
-                        <div class="label">Description:</div>
-                        <div class="value"><form:textarea
-                                path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].descriptionText"
-                                rows="5" cols="40" />&nbsp;&nbsp;&nbsp;</div>
-                    </div>
-                </div>
+            <td><chrome:minimizableBox id="NonTreatmentEpochBox-${nonTreatmentEpochCount.index}" title="Non-Treatment Epoch"
+                                     isDeletable="true"
+                                     onDelete="RowManager.deleteRow(nonTreatmentEpochRowInserterProps,${nonTreatmentEpochCount.index})">
+                <table width="100%" border="0">
+                    <tr><td>
+                        <div class="leftpanel">
+                            <div class="row">
+                                <div class="label">
+                                    <span class="required-indicator">*</span>
+                                    Name:</div>
+                                <div class="value"><form:input
+                                        path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].name"
+                                        size="41" cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="label">Description:</div>
+                                <div class="value"><form:textarea
+                                        path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].descriptionText"
+                                        rows="5" cols="40" />&nbsp;&nbsp;&nbsp;</div>
+                            </div>
+                        </div>
 
-                <div class="rightpanel">
-                    <div class="row">
-                        <div class="label">Accrual Indicator:</div>
-                        <div class="value"><form:select
-                                path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].accrualIndicator"
-                                cssClass="validate-notEmpty">
-                            <option value="">--Please Select--</option>
-                            <form:options items="${fn:split('Yes,No',',')}" />
-                        </form:select></div>
-                    </div>
+                        <div class="rightpanel">
+                            <div class="row">
+                                <div class="label"><span class="required-indicator">*</span>
+                                    Accrual Indicator:</div>
+                                <div class="value"><form:select
+                                        path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].accrualIndicator"
+                                        cssClass="validate-notEmpty">
+                                    <option value="">--Please Select--</option>
+                                    <form:options items="${fn:split('Yes,No',',')}" />
+                                </form:select></div>
+                            </div>
 
-                    <div class="row">
-                        <div class="label">Accrual Ceiling:</div>
-                        <div class="value"><form:input
-                                path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].accrualCeiling"
-                                size="12" maxlength="10" cssClass="validate-numeric" /></div>
-                    </div>
+                            <div class="row">
+                                <div class="label">Accrual Ceiling:</div>
+                                <div class="value"><form:input
+                                        path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].accrualCeiling"
+                                        size="12" maxlength="10" cssClass="validate-numeric" /></div>
+                            </div>
 
-                    <div class="row">
-                        <div class="label">Enrollment Indicator:</div>
-                        <div class="value"><form:select
-                                id="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].enrollmentIndicator"
-                                path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].enrollmentIndicator"
-                                cssClass="validate-notEmpty">
-                            <option value="">--Please Select--</option>
-                            <form:options items="${fn:split('Yes,No',',')}" />
-                        </form:select></div>
-                    </div>
+                            <div class="row">
+                                <div class="label"> <span class="required-indicator">*</span>
+                                    Enrollment Indicator:</div>
+                                <div class="value"><form:select
+                                        id="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].enrollmentIndicator"
+                                        path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].enrollmentIndicator"
+                                        cssClass="validate-notEmpty">
+                                    <option value="">--Please Select--</option>
+                                    <form:options items="${fn:split('Yes,No',',')}" />
+                                </form:select></div>
+                            </div>
 
-                    <div class="row">
-                        <div class="label">Reservation Indicator:</div>
-                        <div class="value"><form:select
-                                path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].reservationIndicator"
-                                cssClass="validate-notEmpty">
-                            <option value="">--Please Select--</option>
-                            <form:options items="${fn:split('Yes,No',',')}" />
-                        </form:select></div>
-                    </div>
-                </div>
-            </chrome:deletableDivision></td>
+                            <div class="row">
+                                <div class="label"> <span class="required-indicator">*</span>
+                                    Reservation Indicator:</div>
+                                <div class="value"><form:select
+                                        path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].reservationIndicator"
+                                        cssClass="validate-notEmpty">
+                                    <option value="">--Please Select--</option>
+                                    <form:options items="${fn:split('Yes,No',',')}" />
+                                </form:select></div>
+                            </div>
+                        </div>
+                    </td></tr></table>
+            </chrome:minimizableBox></td>
 
         </tr>
         &nbsp;&nbsp;
@@ -208,23 +220,25 @@
 
     <table>
         <tr>
-            <td><chrome:deletableDivision title="New Treatment Epoch"
-                                          style="border:2px;"
-                                          onclick="RowManager.deleteRow(treatmentEpochRowInserterProps,PAGE.ROW.INDEX)">
+            <td><chrome:minimizableBox id="AddedTreatmentBox-PAGE.ROW.INDEX"
+                                     title="New Treatment Epoch"
+                                     isDeletable="true"
+                                     onDelete="RowManager.deleteRow(treatmentEpochRowInserterProps,PAGE.ROW.INDEX)">
                 <table>
                     <tr>
                         <td>
-                            <table width="50%" class="tablecontent">
+                            <table width="50%" class="tablecontent" style="border:none;">
                                 <tr>
                                     <th>
                                         <span class="required-indicator">*</span>
-                                        <b>Name:</b>&nbsp;</th>
+                                        Name:
+                                    </th>
                                     <td><input type="text"
                                                name="treatmentEpochs[PAGE.ROW.INDEX].name" size="41"
                                                class="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
                                 </tr>
                                 <tr>
-                                    <th><em></em> <b>Description:</b>&nbsp;</th>
+                                    <th>Description:</th>
                                     <td><textarea
                                             name="treatmentEpochs[PAGE.ROW.INDEX].descriptionText" rows="5"
                                             cols="40"></textarea></td>
@@ -244,7 +258,7 @@
                         </td>
                     </tr>
                 </table>
-            </chrome:deletableDivision></td>
+            </chrome:minimizableBox></td>
         </tr>
     </table>
 </div>
@@ -266,73 +280,81 @@
 </div>
 
 <div id="non-treatmentHtml" style="display:none">
-    <table border="10">
+    <table>
         <tr>
-            <td><chrome:deletableDivision title="New Non-Treatment Epoch"
-                                          onclick="RowManager.deleteRow(nonTreatmentEpochRowInserterProps,PAGE.ROW.INDEX)">
-                <div class="leftpanel">
-                    <div class="row">
-                        <div class="label">
-                            <span class="required-indicator">*</span>
-                            Name:</div>
-                        <div class="value"><input type="text" size="41"
-                                                  name="nonTreatmentEpochs[PAGE.ROW.INDEX].name"
-                                                  class="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span></div>
-                    </div>
+            <td><chrome:minimizableBox      id="AddedNonTreatmentEpochBox-PAGE.ROW.INDEX"
+                                          title="New Non-Treatment Epoch"
+                                          isDeletable="true"
+                                          onDelete="RowManager.deleteRow(nonTreatmentEpochRowInserterProps,PAGE.ROW.INDEX)">
+                <table width="100%" border="0">
+                    <tr><td>
+                        <div class="leftpanel">
+                            <div class="row">
+                                <div class="label">
+                                    <span class="required-indicator">*</span>
+                                    Name:</div>
+                                <div class="value"><input type="text" size="41"
+                                                          name="nonTreatmentEpochs[PAGE.ROW.INDEX].name"
+                                                          class="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span></div>
+                            </div>
 
-                    <div class="row">
-                        <div class="label">Description:</div>
-                        <div class="value"><textarea
-                                name="nonTreatmentEpochs[PAGE.ROW.INDEX].descriptionText" rows="5"
-                                cols="40"></textarea></div>
-                    </div>
-                </div>
+                            <div class="row">
+                                <div class="label">Description:</div>
+                                <div class="value"><textarea
+                                        name="nonTreatmentEpochs[PAGE.ROW.INDEX].descriptionText" rows="5"
+                                        cols="40"></textarea></div>
+                            </div>
+                        </div>
 
-                <div class="rightpanel">
-                    <div class="row">
-                        <div class="label">Accrual Indicator:</div>
-                        <div class="value"><select
-                                name="nonTreatmentEpochs[PAGE.ROW.INDEX].accrualIndicator"
-                                class="validate-notEmpty">
-                            <option value="">--Please Select--</option>
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                        </select></div>
-                    </div>
+                        <div class="rightpanel">
+                            <div class="row">
+                                <div class="label"><span class="required-indicator">*</span>
+                                    Accrual Indicator:</div>
+                                <div class="value"><select
+                                        name="nonTreatmentEpochs[PAGE.ROW.INDEX].accrualIndicator"
+                                        class="validate-notEmpty">
+                                    <option value="">--Please Select--</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select></div>
+                            </div>
 
-                    <div class="row">
-                        <div class="label">Accrual Ceiling:</div>
-                        <div class="value"><input type="text"
-                                                  id="nonTreatmentEpochs[PAGE.ROW.INDEX].accrualCeiling"
-                                                  name="nonTreatmentEpochs[PAGE.ROW.INDEX].accrualCeiling" size="12"
-                                                  maxlength="10" class="validate-numeric" /></div>
-                    </div>
+                            <div class="row">
+                                <div class="label">Accrual Ceiling:</div>
+                                <div class="value"><input type="text"
+                                                          id="nonTreatmentEpochs[PAGE.ROW.INDEX].accrualCeiling"
+                                                          name="nonTreatmentEpochs[PAGE.ROW.INDEX].accrualCeiling" size="12"
+                                                          maxlength="10" class="validate-numeric" /></div>
+                            </div>
 
-                    <div class="row">
-                        <div class="label">Enrollment Indicator:</div>
-                        <div class="value"><select
-                                id="nonTreatmentEpochs[PAGE.ROW.INDEX].enrollmentIndicator"
-                                name="nonTreatmentEpochs[PAGE.ROW.INDEX].enrollmentIndicator"
-                                class="validate-notEmpty">
-                            <option value="">--Please Select--</option>
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                        </select></div>
-                    </div>
+                            <div class="row">
+                                <div class="label"><span class="required-indicator">*</span>
+                                    Enrollment Indicator:</div>
+                                <div class="value"><select
+                                        id="nonTreatmentEpochs[PAGE.ROW.INDEX].enrollmentIndicator"
+                                        name="nonTreatmentEpochs[PAGE.ROW.INDEX].enrollmentIndicator"
+                                        class="validate-notEmpty">
+                                    <option value="">--Please Select--</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select></div>
+                            </div>
 
-                    <div class="row">
-                        <div class="label">Reservation Indicator:</div>
-                        <div class="value"><select
-                                id="nonTreatmentEpochs[PAGE.ROW.INDEX].reservationIndicator"
-                                name="nonTreatmentEpochs[PAGE.ROW.INDEX].reservationIndicator"
-                                class="validate-notEmpty">
-                            <option value="">--Please Select--</option>
-                            <option value="Yes">Yes</option>
-                            <option value="No">No</option>
-                        </select></div>
-                    </div>
-                </div>
-            </chrome:deletableDivision></td>
+                            <div class="row">
+                                <div class="label"><span class="required-indicator">*</span>
+                                    Reservation Indicator:</div>
+                                <div class="value"><select
+                                        id="nonTreatmentEpochs[PAGE.ROW.INDEX].reservationIndicator"
+                                        name="nonTreatmentEpochs[PAGE.ROW.INDEX].reservationIndicator"
+                                        class="validate-notEmpty">
+                                    <option value="">--Please Select--</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select></div>
+                            </div>
+                        </div>
+                    </td></tr></table>
+            </chrome:minimizableBox></td>
         </tr>
     </table>
 </div>

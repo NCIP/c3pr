@@ -10,8 +10,9 @@
 <body>
     <chrome:box title="Study Succesfully Created" autopad="true">
 
-
-
+          <table width="100%" border="0">
+              <tr><td>
+            <div class="content">
                 <div class="row">
                     <div class="label">Short Title:</div>
                     <div class="value">${command.trimmedShortTitleText}</div>
@@ -20,6 +21,9 @@
                     <div class="label">Primary Identifier:</div>
                     <div class="value">${command.primaryIdentifier}</div>
                 </div>
+            </div>
+            </td></tr>
+         </table>
 
 
 

@@ -2,7 +2,6 @@
     <decorator name="standard" page="standard.jsp">
         <pattern>/pages/*</pattern>
         <pattern>/public/*</pattern>
-        <pattern>/error.jsp</pattern>
         <pattern>/accessDenied.jsp</pattern>
         <pattern>/pages/registration/searchRegistration</pattern>
         <pattern>/pages/participant/searchParticipant</pattern>
@@ -26,6 +25,7 @@
         <pattern>/*/image/*</pattern>
         <pattern>/*/js/*</pattern>
         <pattern>/*/css/*</pattern>
+        <pattern>/error.jsp</pattern>
         <pattern>/pages/registration/searchStudy</pattern>
         <pattern>/pages/registration/searchParticipant</pattern>
         <pattern>/pages/registration/searchEpoch*</pattern>
