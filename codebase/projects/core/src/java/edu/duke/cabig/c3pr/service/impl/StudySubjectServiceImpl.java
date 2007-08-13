@@ -87,7 +87,7 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 		ScheduledEpoch current=studySubject.getScheduledEpoch();
 		if(studySubject.getInformedConsentSignedDateStr().equals("")){
 			return "Incomplete";
-		}else if(studySubject.getTreatingPhysician()==null){
+		}else if(studySubject.getTreatingPhysicianFullName()==null){
 			return "Incomplete";
 		}else if(!evaluateStratificationIndicator(studySubject)){
 			return "Incomplete";
