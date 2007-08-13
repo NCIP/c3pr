@@ -6,7 +6,7 @@ import java.util.Map;
 
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.utils.Lov;
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.SubFlowTab;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.WorkFlowTab;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,17 +21,5 @@ public class RandomizationTab extends RegistrationTab<StudySubject>{
 
 	public RandomizationTab() {
 		super("Randomize", "Randomize","registration/reg_randomize");
-	}
-
-	@Override
-	protected String postProcessAsynchronous(HttpServletRequest request, StudySubject command, Errors error) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected void postProcessSynchronous(HttpServletRequest request, StudySubject command, Errors error) {
-		// TODO Auto-generated method stub
-		
 	}
 }

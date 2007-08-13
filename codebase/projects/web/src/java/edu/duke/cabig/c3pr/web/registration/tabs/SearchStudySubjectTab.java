@@ -70,14 +70,9 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject>{
 		refdata.put("source", healthcareSiteDao.getAll());
 		return refdata;
 	}
-	@Override
-	protected String postProcessAsynchronous(HttpServletRequest request, StudySubject command, Errors error) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
-	protected void postProcessSynchronous(HttpServletRequest request, StudySubject command, Errors error) throws Exception{
+	public void postProcess(HttpServletRequest request, StudySubject command, Errors error) {
 		if(WebUtils.hasSubmitParameter(request, "registrationId")){
 			if(WebUtils.hasSubmitParameter(request, "epoch")){
 				ScheduledEpoch scheduledEpoch;
@@ -91,7 +86,6 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject>{
 				}
 				scheduledEpoch.setEpoch(epoch);
 				command.addScheduledEpoch(scheduledEpoch);
-				command.setScheduledEpoch(scheduledEpoch);
 				buildCommandObject(command);
 			}
 			return;
@@ -103,7 +97,6 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject>{
 		exampleSS.setStudySite(command.getStudySite());
 		List registrations=studySubjectDao.searchBySubjectAndStudySite(exampleSS);
 		if(registrations.size()>0){
-			command.setScheduledEpoch(null);
 			return;
 		}
 		Integer id;
@@ -123,9 +116,9 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject>{
 		}
 		scheduledEpoch.setEpoch(epoch);
 		command.getScheduledEpochs().add(0,scheduledEpoch);
-		command.setScheduledEpoch(scheduledEpoch);
 		buildCommandObject(command);
 	}
+
 	private void buildCommandObject(StudySubject studySubject){
 		if(studySubject.getIfTreatmentScheduledEpoch()){
 			ScheduledTreatmentEpoch scheduledTreatmentEpoch=(ScheduledTreatmentEpoch)studySubject.getScheduledEpoch();
@@ -148,6 +141,7 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject>{
 				subjectStratificationAnswer.setStratificationCriterion(stratificationCriterion);
 				scheduledTreatmentEpoch.addSubjectStratificationAnswers(subjectStratificationAnswer);
 			}
+			scheduledTreatmentEpoch.getScheduledArms().size();
 		}
 	}
 

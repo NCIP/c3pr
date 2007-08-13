@@ -2,7 +2,7 @@ package edu.duke.cabig.c3pr.web.registration.tabs;
 
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.InPlaceEditableTab;
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.SubFlowTab;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.WorkFlowTab;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,17 +17,5 @@ public class RegistrationOverviewTab<C extends StudySubject> extends InPlaceEdit
 
 	public RegistrationOverviewTab() {
 		super("Overview", "Overview", "registration/reg_overview");
-	}
-
-	@Override
-	protected String postProcessAsynchronously(HttpServletRequest request, C command, Errors error) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	protected void postProcessSynchronous(HttpServletRequest request, C command, Errors error) throws Exception {
-		// TODO Auto-generated method stub
-		
 	}
 }
