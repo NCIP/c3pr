@@ -27,7 +27,6 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-import org.hibernate.mapping.Collection;
 
 
 /**
@@ -43,8 +42,8 @@ import org.hibernate.mapping.Collection;
 )
 public class StudySubject extends AbstractMutableDomainObject {
 	private LazyListHelper lazyListHelper;
-	private ScheduledEpoch scheduledEpoch;
-	private List<ScheduledEpoch> scheduledEpochs;
+	//private ScheduledEpoch scheduledEpoch;
+	private List<ScheduledEpoch> scheduledEpochs=new ArrayList<ScheduledEpoch>();
 	private String name;
     private StudySite studySite;
     private Participant participant;
@@ -56,23 +55,18 @@ public class StudySubject extends AbstractMutableDomainObject {
     private String otherTreatingPhysician;
     private String registrationStatus;
     private DiseaseHistory diseaseHistory;
-    private List<Identifier> identifiers;
+    private List<Identifier> identifiers=new ArrayList<Identifier>();
 
     
     public StudySubject() {
     	lazyListHelper=new LazyListHelper();
-    //	lazyListHelper.add(Identifier.class, new InstantiateFactory<Identifier>(Identifier.class));
         lazyListHelper.add(ScheduledTreatmentEpoch.class, new InstantiateFactory<ScheduledTreatmentEpoch>(ScheduledTreatmentEpoch.class));
         lazyListHelper.add(ScheduledNonTreatmentEpoch.class, new InstantiateFactory<ScheduledNonTreatmentEpoch>(ScheduledNonTreatmentEpoch.class));
-        setScheduledEpochs(new ArrayList<ScheduledEpoch>());
     	this.startDate=new Date();
     	this.primaryIdentifier="SysGen";
-    	lazyListHelper = new LazyListHelper();
         lazyListHelper.add(OrganizationAssignedIdentifier.class, new ParameterizedInstantiateFactory<OrganizationAssignedIdentifier>(OrganizationAssignedIdentifier.class));
         lazyListHelper.add(SystemAssignedIdentifier.class, new ParameterizedInstantiateFactory<SystemAssignedIdentifier>(SystemAssignedIdentifier.class));
         //   mandatory, so that the lazy-projected list is managed properly.
-        setIdentifiers(new ArrayList<Identifier>());
-
 	}
     /// BEAN PROPERTIES
     public StudySubject(boolean forExample) {
@@ -80,7 +74,6 @@ public class StudySubject extends AbstractMutableDomainObject {
     	lazyListHelper.add(Identifier.class, new InstantiateFactory<Identifier>(Identifier.class));
         lazyListHelper.add(ScheduledTreatmentEpoch.class, new InstantiateFactory<ScheduledTreatmentEpoch>(ScheduledTreatmentEpoch.class));
         lazyListHelper.add(ScheduledNonTreatmentEpoch.class, new InstantiateFactory<ScheduledNonTreatmentEpoch>(ScheduledNonTreatmentEpoch.class));
-        setScheduledEpochs(new ArrayList<ScheduledEpoch>());
     	if(!forExample){
         	this.startDate=new Date();
         	this.primaryIdentifier="SysGen";
@@ -93,7 +86,8 @@ public class StudySubject extends AbstractMutableDomainObject {
     public List<ScheduledEpoch> getScheduledEpochs() {
 		return scheduledEpochs;
 	}
-	public void setScheduledEpochs(List<ScheduledEpoch> scheduledEpochs) {
+    
+	private void setScheduledEpochs(List<ScheduledEpoch> scheduledEpochs) {
     	this.scheduledEpochs=scheduledEpochs;
         lazyListHelper.setInternalList(ScheduledTreatmentEpoch.class,new ProjectedList<ScheduledTreatmentEpoch>(this.scheduledEpochs, ScheduledTreatmentEpoch.class));
    	 	lazyListHelper.setInternalList(ScheduledNonTreatmentEpoch.class,new ProjectedList<ScheduledNonTreatmentEpoch>(this.scheduledEpochs, ScheduledNonTreatmentEpoch.class));
@@ -121,18 +115,21 @@ public class StudySubject extends AbstractMutableDomainObject {
 	
 	@Transient
 	public ScheduledEpoch getScheduledEpoch() {
-		return scheduledEpoch;
+		return getCurrentScheduledEpoch();
 	}
 	
-	public void setScheduledEpoch(ScheduledEpoch scheduledEpoch) {
-		if(scheduledEpoch==null){
+	private void setScheduledEpoch(ScheduledEpoch scheduledEpoch) {
+		//getScheduledEpochs().add(scheduledEpoch);
+/*		if(scheduledEpoch==null||scheduledEpoch.getId()==null){
 			this.scheduledEpoch = scheduledEpoch;
 			return;
 		}
 		for(ScheduledEpoch scheduledEpoch2: getScheduledEpochs())
-			if(scheduledEpoch2.getId()==scheduledEpoch.getId())
+			if(scheduledEpoch2.getId()==scheduledEpoch.getId()){
 				this.scheduledEpoch = scheduledEpoch2;
-	}
+				return;
+			}
+*/	}
 
 	@Transient
 	public ScheduledEpoch getCurrentScheduledEpoch(){
@@ -181,7 +178,7 @@ public class StudySubject extends AbstractMutableDomainObject {
 
     @ManyToOne
     @JoinColumn(name = "STO_ID", nullable=false)
-    @Cascade (value={CascadeType.ALL})
+    @Cascade({CascadeType.LOCK})
     public StudySite getStudySite() {
         return studySite;
     }
@@ -192,6 +189,7 @@ public class StudySubject extends AbstractMutableDomainObject {
 
     @ManyToOne
     @JoinColumn(name = "PRT_ID", nullable=false)
+    @Cascade({CascadeType.LOCK})
     public Participant getParticipant() {
         return participant;
     }
@@ -271,13 +269,12 @@ public class StudySubject extends AbstractMutableDomainObject {
 	}
 
 	@OneToMany
-    @Cascade({CascadeType.ALL,CascadeType.DELETE_ORPHAN})
     @JoinColumn(name = "SPA_ID")
 	public List<Identifier> getIdentifiers() {
 		return identifiers;
 	}
 	
-	public void setIdentifiers(List<Identifier> identifiers) {
+	private void setIdentifiers(List<Identifier> identifiers) {
     	this.identifiers = identifiers;
 		//initialize projected list for OrganizationAssigned and SystemAssignedIdentifier
 		lazyListHelper.setInternalList(OrganizationAssignedIdentifier.class, 
@@ -335,7 +332,6 @@ public class StudySubject extends AbstractMutableDomainObject {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "STI_ID")
-    @Cascade (value={CascadeType.ALL})
 	public StudyInvestigator getTreatingPhysician() {
 		return treatingPhysician;
 	}

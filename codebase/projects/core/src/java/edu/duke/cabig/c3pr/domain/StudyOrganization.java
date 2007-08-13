@@ -32,7 +32,6 @@ public abstract class StudyOrganization extends AbstractMutableDomainObject {
 	private HealthcareSite healthcareSite;
 
 	@ManyToOne
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "hcs_id", nullable = false)
 	public HealthcareSite getHealthcareSite() {
 		return healthcareSite;
@@ -43,8 +42,8 @@ public abstract class StudyOrganization extends AbstractMutableDomainObject {
 	}
 
 	@ManyToOne
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "study_id", nullable = false)
+	@Cascade({CascadeType.LOCK})
 	public Study getStudy() {
 		return study;
 	}
