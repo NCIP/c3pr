@@ -4,7 +4,7 @@
 <script type="text/javascript">
 	 var editor_${path}=new Ajax.InPlaceEditor('${path}-id', document.URL, {
 	 														 callback: function(form, value) {
-	 														 		return 'asynchronous=true&in_place_edit_param=${path}&${path}=' + escape(value);
+	 														 		return '_asynchronous=true&_asyncMethodName=doInPlaceEdit&_ajaxInPlaceEditParam=${path}&${path}=' + escape(value);
 	 														  	}
 	 														  });
 </script>
