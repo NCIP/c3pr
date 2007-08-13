@@ -39,14 +39,14 @@ function clearField(field) {
             field.value = "";
         }
   var systemIdentifierRowInserterProps = {
-            add_row_division_id: "mytable", 	        /* this id belongs to element where the row would be appended to */
-            skeleton_row_division_id: "dummy-row",
+            add_row_division_id: "systemIdentifiersTable", 	        /* this id belongs to element where the row would be appended to */
+            skeleton_row_division_id: "dummy-systemIdentifierRow",
             initialIndex: ${fn:length(command.systemAssignedIdentifiers)},                            /* this is the initial count of the rows when the page is loaded  */
             path: "systemAssignedIdentifiers",                               /* this is the path of the collection that holds the rows  */
         };
    var organizationIdentifierRowInserterProps = {
-            add_row_division_id: "mytable-organizationIdentifier", 	        /* this id belongs to element where the row would be appended to */
-            skeleton_row_division_id: "dummy-row-organizationIdentifier",
+            add_row_division_id: "organizationIdentifiersTable", 	        /* this id belongs to element where the row would be appended to */
+            skeleton_row_division_id: "dummy-organizationIdentifierRow",
             initialIndex: ${fn:length(command.organizationAssignedIdentifiers)},                            /* this is the initial count of the rows when the page is loaded  */
             path: "organizationAssignedIdentifiers",                               /* this is the path of the collection that holds the rows  */
             postProcessRowInsertion: function(object){
@@ -96,14 +96,12 @@ function submitPostProcess(formElement, flag){
 							width="1" height="1" class="heightControl"></td>
 					</tr>
 					<tr>
-						<td align="right"><span class="red">*</span><em></em> <b>First
-						Name:&nbsp;</b></td>
+						<td align="right"><span class="required-indicator">*</span><em></em><b>First Name:&nbsp;</b></td>
 						<td align="left"><form:input path="firstName"
 							cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
 					</tr>
 					<tr>
-						<td align="right"><span class="red">*</span><em></em> <b>Last
-						Name:</b>&nbsp;</td>
+						<td align="right"><span class="required-indicator">*</span><em></em><b>Last Name:</b>&nbsp;</td>
 						<td align="left"><form:input path="lastName"
 							cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
 					</tr>
@@ -115,7 +113,7 @@ function submitPostProcess(formElement, flag){
 						<td align="right"><em></em> <b>Maiden Name:</b>&nbsp;</td>
 						<td align="left"><form:input path="maidenName" />&nbsp;&nbsp;&nbsp;</td>
 					</tr>
-										
+
 				</table>
 				</td>
 				<td width="40%" valign="top">
@@ -128,8 +126,7 @@ function submitPostProcess(formElement, flag){
 							height="1" class="heightControl"></td>
 					</tr>
 					<tr>
-						<td align="right"><span class="red">*</span> <em></em> <b>Gender:</b>
-						&nbsp;</td>
+						<td align="right"><span class="required-indicator">*</span><em></em><b>Gender:</b> &nbsp;</td>
 						<td align="left"><form:select path="administrativeGenderCode"
 							cssClass="validate-notEmpty">
 							<option value="">--Please Select--</option>
@@ -138,22 +135,24 @@ function submitPostProcess(formElement, flag){
 						</form:select></td>
 					</tr>
 					<tr>
-						<td align="right"><span class="red">&nbsp;&nbsp;&nbsp;*</span><em></em><b>Birth
-						Date: </b>&nbsp;</td>
+						<td align="right"><span class="required-indicator">*</span><em></em><b>Birth Date: </b>&nbsp;</td>
 						<td><form:input path="birthDate" cssClass="validate-date" />&nbsp;(mm/dd/yyyy)&nbsp;&nbsp;<span
 							class="red"><em></em></span></td>
 					</tr>
 					<tr>
-						<td align="right"><span class="red">&nbsp;&nbsp;&nbsp;*</span><em></em><b>Ethnicity:</b> &nbsp;</td>
-						<td align="left"><form:select path="ethnicGroupCode" cssClass="validate-notEmpty">
+						<td align="right"><span class="required-indicator">*</span><em></em>
+						<b>Ethnicity:</b> &nbsp;</td>
+						<td align="left"><form:select path="ethnicGroupCode"
+							cssClass="validate-notEmpty">
 							<option value="">--Please Select--</option>
 							<form:options items="${ethnicGroupCode}" itemLabel="desc"
 								itemValue="code" />
 						</form:select></td>
 					</tr>
 					<tr>
-						<td align="right"><span class="red">&nbsp;&nbsp;&nbsp;*</span><em></em><b>Race(s):</b> &nbsp;</td>
-						<td align="left"><form:select path="raceCode" cssClass="validate-notEmpty">
+						<td align="right"><span class="required-indicator">*</span><em></em><b>Race(s):</b> &nbsp;</td>
+						<td align="left"><form:select path="raceCode"
+							cssClass="validate-notEmpty">
 							<option value="">--Please Select--</option>
 							<form:options items="${raceCode}" itemLabel="desc"
 								itemValue="code" />
@@ -164,173 +163,190 @@ function submitPostProcess(formElement, flag){
 				</td>
 			</tr>
 		</table>
-
-		<hr align="left" width="95%">
 		
-		<input id="addIdentifier" type="button" value="Add System Identifier"
-			onclick="javascript:RowManager.addRow(systemIdentifierRowInserterProps);"  />
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br> <br>
-			
-		<tr>	
-		
-		<td>
-		<chrome:division title="System Identifiers">
-
-		<table id="mytable" border="0" cellspacing="0" cellpadding="0">
-			<tr>
-				<th class="scope=" col" align="left"><b><span
-					class="red">*</span>System Name</b></th>
-				<th scope="col" align="left"><b><span class="red">*</span>Identifier Type</b></th>
-				<th scope="col" align="left"><b><span class="red">*</span>Identifier</b></th>
-				<th scope="col" align="left"><b>Primary&nbsp;Indicator</b></th>
-				<th class="specalt" scope="col" align="left"></th>
-			</tr>
-			<c:forEach items="${command.systemAssignedIdentifiers}" varStatus="status">
-				 <tr id="mytable-${status.index}">
-					<td class="alt"><form:input
-						path="systemAssignedIdentifiers[${status.index}].systemName"
-						cssClass="validate-notEmpty"/>
-						</td>
-					<td class="alt"><form:select
-						path="systemAssignedIdentifiers[${status.index}].type"
-						cssClass="validate-notEmpty">
-						<option value="">--Please Select--</option>
-						<form:options items="${identifiersTypeRefData}" itemLabel="desc"
-							itemValue="desc" />
-					</form:select></td>
-					<td class="alt"><form:input
-						path="systemAssignedIdentifiers[${status.index}].value"
-						cssClass="validate-notEmpty" /></td>
-					<td class="alt"><form:radiobutton
-						path="systemAssignedIdentifiers[${status.index}].primaryIndicator" value="true" /></td>
-					<td class="alt"><a href="javascript:RowManager.deleteRow(systemIdentifierRowInserterProps,${status.index});"><img
-                                src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
-				</tr>
-			</c:forEach>
-		</table>
-		</chrome:division>
-		</td>
-		</tr>
 		<tr>
-		
-		<br> <br>
-			<input id="addIdentifier" type="button" value="Add Organization Identifier"
-			onclick="javascript:RowManager.addRow(organizationIdentifierRowInserterProps);"  />
-			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br> <br>
-			
-			<td>
-			
-			<chrome:division title="Organization Identifiers">
 
-		<table id="mytable-organizationIdentifier" border="0" cellspacing="0" cellpadding="0" class="mytable">
-			<tr>
-				<th class="scope=" col" align="left"><b><span
-					class="red">*</span>Assigning Authority</b></th>
-				<th scope="col" align="left"><b><span class="red">*</span>Identifier Type</b></th>
-				<th scope="col" align="left"><b><span class="red">*</span>Identifier</b></th>
-				<th scope="col" align="left"><b>Primary&nbsp;Indicator</b></th>
-				<th class="specalt" scope="col" align="left"></th>
-			</tr>
-			<c:forEach items="${command.organizationAssignedIdentifiers}" varStatus="organizationStatus">
-				 <tr id="mytable-organizationIdentifier-${organizationStatus.index}">
-					<td class="alt">
-   							<input type="hidden" id="healthcareSite${organizationStatus.index}-hidden"
-            				name="organizationAssignedIdentifiers[${organizationStatus.index}].healthcareSite"
-          					 value="${command.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.id}"/>
-    						<input class="validate-notEmpty" type="text" id="healthcareSite${organizationStatus.index}-input"
-           					size="50"
-          				 	value="${command.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.name}"/>
-    						<input type="button" id="healthcareSite${organizationStatus.index}-clear"
-           				 	value="Clear"/>
-      		 				<tags:indicator id="healthcareSite${organizationStatus.index}-indicator"/>
-      						<div id="healthcareSite${organizationStatus.index}-choices" class="autocomplete"></div>
-           			 </td>
-					<td class="alt"><form:select
-						path="organizationAssignedIdentifiers[${organizationStatus.index}].type"
-						cssClass="validate-notEmpty">
-						<option value="">--Please Select--</option>
-						<form:options items="${identifiersTypeRefData}" itemLabel="desc"
-							itemValue="desc" />
-					</form:select></td>
-					<td class="alt"><form:input
-						path="organizationAssignedIdentifiers[${organizationStatus.index}].value"
-						cssClass="validate-notEmpty" /></td>
-					<td class="alt"><form:radiobutton
-						path="organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator" value="true" /></td>
-					<td class="alt"><a href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,${organizationStatus.index});"><img
-                                src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
-				</tr>
-			</c:forEach>
-		</table>
-		</chrome:division>
-		</td>
-		
+			<td><chrome:division title="Organization Identifiers">
+
+				<table id="organizationIdentifiersTable" border="0"
+					cellspacing="0" cellpadding="0" class="tablecontent">
+					<tr>
+						<th><span
+							class="required-indicator">*</span>Assigning Authority</th>
+						<th><span class="required-indicator">*</span>Identifier
+						Type</th>
+						<th><span class="required-indicator">*</span>Identifier</th>
+						<th>Primary Indicator</th>
+						<th ></th>
+					</tr>
+					<c:forEach items="${command.organizationAssignedIdentifiers}"
+						varStatus="organizationStatus">
+						<tr
+							id="organizationIdentifiersTable-${organizationStatus.index}">
+							<td class="alt"><input type="hidden"
+								id="healthcareSite${organizationStatus.index}-hidden"
+								name="organizationAssignedIdentifiers[${organizationStatus.index}].healthcareSite"
+								value="${command.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.id}" />
+							<input class="validate-notEmpty" type="text"
+								id="healthcareSite${organizationStatus.index}-input" size="50"
+								value="${command.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.name}" />
+							<input type="button"
+								id="healthcareSite${organizationStatus.index}-clear"
+								value="Clear" /> <tags:indicator
+								id="healthcareSite${organizationStatus.index}-indicator" />
+							<div id="healthcareSite${organizationStatus.index}-choices"
+								class="autocomplete"></div>
+							</td>
+							<td class="alt"><form:select
+								path="organizationAssignedIdentifiers[${organizationStatus.index}].type"
+								cssClass="validate-notEmpty">
+								<option value="">--Please Select--</option>
+								<form:options items="${identifiersTypeRefData}" itemLabel="desc"
+									itemValue="desc" />
+							</form:select></td>
+							<td class="alt"><form:input
+								path="organizationAssignedIdentifiers[${organizationStatus.index}].value"
+								cssClass="validate-notEmpty" /></td>
+							<td class="alt"><form:radiobutton
+								path="organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator"
+								value="true" /></td>
+							<td class="alt"><a
+								href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,${organizationStatus.index});"><img
+								src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+						</tr>
+					</c:forEach>
+				</table>
+				<br>
+				<div align="right"><input id="addIdentifier" type="button"
+					value="Add Organization Identifier"
+					onclick="javascript:RowManager.addRow(organizationIdentifierRowInserterProps);" />
+				</div>
+			</chrome:division></td>
+
 		</tr>
 		
+		<tr>
+
+			<td><chrome:division title="System Identifiers">
+
+				<table id="systemIdentifiersTable" border="0" cellspacing="0" cellpadding="0"
+					class="tablecontent">
+					<tr>
+						<th><span
+							class="required-indicator">*</span>System Name</th>
+						<th><span class="required-indicator">*</span>Identifier
+						Type</th>
+						<th><span class="required-indicator">*</span>Identifier</th>
+						<th>Primary&nbsp;Indicator</th>
+						<th></th>
+					</tr>
+					<c:forEach items="${command.systemAssignedIdentifiers}"
+						varStatus="status">
+						<tr id="systemIdentifiersTable-${status.index}">
+							<td class="alt"><form:input
+								path="systemAssignedIdentifiers[${status.index}].systemName"
+								cssClass="validate-notEmpty" /></td>
+							<td class="alt"><form:select
+								path="systemAssignedIdentifiers[${status.index}].type"
+								cssClass="validate-notEmpty">
+								<option value="">--Please Select--</option>
+								<form:options items="${identifiersTypeRefData}" itemLabel="desc"
+									itemValue="desc" />
+							</form:select></td>
+							<td class="alt"><form:input
+								path="systemAssignedIdentifiers[${status.index}].value"
+								cssClass="validate-notEmpty" /></td>
+							<td class="alt"><form:radiobutton
+								path="systemAssignedIdentifiers[${status.index}].primaryIndicator"
+								value="true" /></td>
+							<td class="alt"><a
+								href="javascript:RowManager.deleteRow(systemIdentifierRowInserterProps,${status.index});"><img
+								src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+						</tr>
+					</c:forEach>
+				</table>
+				<br>
+				<div align="right"><input id="addIdentifier" type="button"
+					value="Add System Identifier"
+					onclick="javascript:RowManager.addRow(systemIdentifierRowInserterProps);" />
+				</div>
+			</chrome:division></td>
+		</tr>
+
 	</jsp:attribute>
 </tags:tabForm>
 
-<div id="dummy-row" style="display:none;">
-        <table>
-            <tr>
-                <td class="alt"><input id="systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName"
-                                        name="systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName"
-                                        class="validate-notEmpty"/>
-                </td>
-                <td class="alt"><select id="systemAssignedIdentifiers[PAGE.ROW.INDEX].type"
-                                        name="systemAssignedIdentifiers[PAGE.ROW.INDEX].type"
-                                        class="validate-notEmpty">
-                    <option value="">--Please Select--</option>
-                    <c:forEach items="${identifiersTypeRefData}" var="id">
-                        <option value="${id.desc}">${id.desc}</option>
-                    </c:forEach>
-                </select>
-                </td>
-                <td class="alt"><input id="systemAssignedIdentifiers[PAGE.ROW.INDEX].value" name="systemAssignedIdentifiers[PAGE.ROW.INDEX].value"
-                                       onfocus="javascript:clearField(this)" class="validate-notEmpty"/></td>
-                <td class="alt"><input type="radio" id="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" name="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator"
-                                       value="true"/></td>
-                <td class="alt"><a href="javascript:RowManager.deleteRow(systemIdentifierRowInserterProps,PAGE.ROW.INDEX);"><img
-                        src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
-            </tr>
-        </table>
-    </div>
-    
-    
-    <div id="dummy-row-organizationIdentifier" style="display:none;">
-        <table>
-            <tr>
-                              
-                 <td class="alt">
-                	<input type="hidden" id="healthcareSitePAGE.ROW.INDEX-hidden"
-                        name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].healthcareSite"/>
-                	<input class="validate-notEmpty" type="text" id="healthcareSitePAGE.ROW.INDEX-input"
-                       size="50"
-                       value="${command.organizationAssignedIdentifiers[PAGE.ROW.INDEX].healthcareSite.name}"/>
-                	<input type="button" id="healthcareSitePAGE.ROW.INDEX-clear"
-                        value="Clear"/>
-                   	<tags:indicator id="healthcareSitePAGE.ROW.INDEX-indicator"/>
-                  	<div id="healthcareSitePAGE.ROW.INDEX-choices" class="autocomplete"></div>
-            	</td>
-                
-                <td class="alt"><select id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].type"
-                                        name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].type"
-                                        class="validate-notEmpty">
-                    <option value="">--Please Select--</option>
-                    <c:forEach items="${identifiersTypeRefData}" var="id">
-                        <option value="${id.desc}">${id.desc}</option>
-                    </c:forEach>
-                </select>
-                </td>
-                <td class="alt"><input id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].value" name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].value"
-                                       onfocus="javascript:clearField(this)" class="validate-notEmpty"/></td>
-                <td class="alt"><input type="radio" id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator"
-                                       value="true"/></td>
-                <td class="alt"><a href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,PAGE.ROW.INDEX);"><img
-                        src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
-            </tr>
-        </table>
-    </div>
+<div id="dummy-systemIdentifierRow" style="display:none;">
+<table>
+	<tr>
+		<td class="alt"><input
+			id="systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName"
+			name="systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName"
+			class="validate-notEmpty" /></td>
+		<td class="alt"><select
+			id="systemAssignedIdentifiers[PAGE.ROW.INDEX].type"
+			name="systemAssignedIdentifiers[PAGE.ROW.INDEX].type"
+			class="validate-notEmpty">
+			<option value="">--Please Select--</option>
+			<c:forEach items="${identifiersTypeRefData}" var="id">
+				<option value="${id.desc}">${id.desc}</option>
+			</c:forEach>
+		</select></td>
+		<td class="alt"><input
+			id="systemAssignedIdentifiers[PAGE.ROW.INDEX].value"
+			name="systemAssignedIdentifiers[PAGE.ROW.INDEX].value"
+			onfocus="javascript:clearField(this)" class="validate-notEmpty" /></td>
+		<td class="alt"><input type="radio"
+			id="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator"
+			name="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator"
+			value="true" /></td>
+		<td class="alt"><a
+			href="javascript:RowManager.deleteRow(systemIdentifierRowInserterProps,PAGE.ROW.INDEX);"><img
+			src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+	</tr>
+</table>
+</div>
+
+
+<div id="dummy-organizationIdentifierRow" style="display:none;">
+<table>
+	<tr>
+
+		<td class="alt"><input type="hidden"
+			id="healthcareSitePAGE.ROW.INDEX-hidden"
+			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].healthcareSite" />
+		<input class="validate-notEmpty" type="text"
+			id="healthcareSitePAGE.ROW.INDEX-input" size="50"
+			value="${command.organizationAssignedIdentifiers[PAGE.ROW.INDEX].healthcareSite.name}" />
+		<input type="button" id="healthcareSitePAGE.ROW.INDEX-clear"
+			value="Clear" /> <tags:indicator
+			id="healthcareSitePAGE.ROW.INDEX-indicator" />
+		<div id="healthcareSitePAGE.ROW.INDEX-choices" class="autocomplete"></div>
+		</td>
+
+		<td class="alt"><select
+			id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].type"
+			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].type"
+			class="validate-notEmpty">
+			<option value="">--Please Select--</option>
+			<c:forEach items="${identifiersTypeRefData}" var="id">
+				<option value="${id.desc}">${id.desc}</option>
+			</c:forEach>
+		</select></td>
+		<td class="alt"><input
+			id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].value"
+			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].value"
+			onfocus="javascript:clearField(this)" class="validate-notEmpty" /></td>
+		<td class="alt"><input type="radio"
+			id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator"
+			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator"
+			value="true" /></td>
+		<td class="alt"><a
+			href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,PAGE.ROW.INDEX);"><img
+			src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+	</tr>
+</table>
+</div>
 
 
 </body>

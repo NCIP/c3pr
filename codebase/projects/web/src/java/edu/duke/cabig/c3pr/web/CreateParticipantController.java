@@ -150,7 +150,7 @@ public class CreateParticipantController extends
 			ServletRequestDataBinder binder) throws Exception {
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(
 				new SimpleDateFormat("MM/dd/yyyy"), true));
-		binder.registerCustomEditor(healthcareSiteDao.domainClass(),
+		binder.registerCustomEditor(HealthcareSite.class,
 				new CustomDaoEditor(healthcareSiteDao));
 	}
 

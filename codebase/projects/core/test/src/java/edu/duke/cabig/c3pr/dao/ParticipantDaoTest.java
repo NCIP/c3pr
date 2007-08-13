@@ -97,6 +97,7 @@ public class ParticipantDaoTest extends DaoTestCase {
     	add.setCity("Charlotte");
     	add.setStateCode("NC");
     	add.setCountryCode("USA");
+    	participant.setAddress(add);
     	dao.save(participant);
     	
     	interruptSession();
@@ -140,7 +141,7 @@ public class ParticipantDaoTest extends DaoTestCase {
     	HealthcareSite healthcareSite = new HealthcareSite();
     	healthcareSite.setName("Local HealthcareSite Name");
     	systemIdentifier.setHealthcareSite(healthcareSite);
-    	systemIdentifier.setValue("HealthcareSiteID");
+    	systemIdentifier.setValue("Identifier Value");
     	systemIdentifier.setType("MRN");
     	participant.addIdentifier(systemIdentifier);
     	
@@ -150,7 +151,7 @@ public class ParticipantDaoTest extends DaoTestCase {
     	interruptSession();
     	
     	Participant savedParticipant = dao.getById(participant.getId());
-    	assertEquals("HealthcareSiteID",savedParticipant.getOrganizationAssignedIdentifiers().get(0).getValue());
+    	assertEquals("Identifier Value",savedParticipant.getOrganizationAssignedIdentifiers().get(0).getValue());
     	assertEquals("Local HealthcareSite Name",savedParticipant.getOrganizationAssignedIdentifiers().get(0).getHealthcareSite().getName());
     }
 
