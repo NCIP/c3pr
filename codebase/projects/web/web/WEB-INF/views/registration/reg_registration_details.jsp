@@ -9,6 +9,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script type="text/javascript" src="/c3pr/js/CalendarPopup.js"></script>
+<tags:dwrJavascriptLink objects="anatomicDiseaseSite" />
 <script>
 function manageField(box){
 	if(box.value=='' && box.selectedIndex!=0){

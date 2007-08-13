@@ -5,45 +5,45 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
+<%@taglib prefix="registrationTags" tagdir="/WEB-INF/tags/registration"%>
+
 <html>
 <head>
 <style type="text/css">
         .label { width: 20em; text-align: right; padding: 2px; }
+		.epochDescription{
+			height: 30%;
+			width: 100%;
+		}
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script type="text/javascript" src="/c3pr/js/CalendarPopup.js"></script>
 <script>
 assignParticipant=function(element,epoch,event){
 	epochId=epoch.id.split("-")[1];
-	$('command')._target.name="_target"+${tab.number};
-	$('command')._target.value="${tab.number}";
-	new Element.hide("epochDropMessage-"+epochId);
-	postBodyString=Form.serialize('command')+'&asynchronous=true&epochId='+epochId;
-	new Ajax.Request(document.URL, {method:'post', postBody:postBodyString, onLoading:function(request){Element.show('indicator')}, onComplete:requiresWorkFlow, evalScripts:true, asynchronous:true})
+	new Element.update("dragDivision-"+epochId,"");
+	new Effect.SlideDown("epochConfirmation-"+epochId);
 }
-requiresWorkFlow=function(request){
-	Element.hide('indicator')
-	returnStrings=request.responseText.split("||");
-	alreadyRegistered=returnStrings[0];
-	requiresStratification=returnStrings[1];
-	idString=returnStrings[2];
-	if(alreadyRegistered=="true"){
-		alert("Subject already registered on this epoch. Please select a different epoch");
-		reloadPage(idString);
-		return;
-	}
-	if(requiresStratification=="true"){
-		$("create_epoch").value=idString;
-		confirm("This epoch requires eligibility check, stratifications and Randomization. Do you want to continue?")?$("create").submit():reloadPage(idString);
+function registerSubject(flowName,epochId){
+	if(flowName=="create"){
+		$("create_epoch").value=epochId;
+		$("create").submit();
 	}else{
-		$("manage_epoch").value=idString;
-		// write code to assign non treatment epoch
+		new Element.hide('epochConfirmation-buttons-'+epochId);
+		new Element.show('epochUpdate-'+epochId);		
+		$("manage_epoch").value=epochId;
+		<tags:tabMethod method="createNewScheduledEpochSubject" divElement="'epochConfirmation-'+epochId" />
 	}
 }
 function reloadPage(Id){
 	//write code to reload the page
-	new Element.show("epochDropMessage-"+Id);
-	new Element.update("dragDivision-"+Id,"");
+	new Element.update("dragDivision-"+Id,"<b>Please drag the participant here to assign him this epoch.</b>");
+	htmlString=$('mockDrag').innerHTML;
+	new Element.remove("participant1");
+	new Element.update("currentRegistration",htmlString);
+	new Effect.Appear('participant1');
+	new Draggable('participant1', {revert:false});
+	new Effect.SlideUp('epochConfirmation-'+Id);
 }
 </script>
 </head>
@@ -54,54 +54,33 @@ function reloadPage(Id){
 	<input type="hidden" name="registrationId" value="${command.id }"/>
 	<input type="hidden" name="epoch" id="create_epoch"/>
 </form>
-<tags:formPanelBox tab="${tab}" flow="${flow}">
+<form:form action="../registration/manageRegistration">
+<tags:tabFields tab="${tab}"/>
+<input type="hidden" name="epoch" id="manage_epoch"/>
+</form:form>
+<tags:panelBox title="Change Epoch">
 	To move subject between epochs drag and drop the subject to the appropriate epoch: <br><br>
-	<div id="indicator" style="display:none"><img src="<tags:imageUrl name="indicator.white.gif"/>"
-								alt="Indicator" align="absmiddle">Updating...</div>
 	<table border="0" cellspacing="0" cellpadding="0">
 		<tr>
 		<c:forEach items="${command.studySite.study.epochs}" var="epoch">
+		
 			<td>
-				<div class="TableLikeHeader">${epoch.name}: ${epoch.descriptionText}</div>
-				<div class="TableLikeColumn">
-					<div id="epoch-Info">
-						<c:choose>
-							<c:when test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
-								Type: Treatment<br>
-							</c:when>
-							<c:otherwise>
-								Type: Non-Treatment<br>
-								Accrual Ceiling: ${epoch.accrualCeiling}<br>
-								Accrual Indicator: ${epoch.accrualIndicator}<br>
-							</c:otherwise>
-						</c:choose>
-					</div>
-					<c:choose>
-						<c:when test="${epoch.id==command.currentScheduledEpoch.epoch.id}">
-							<span style='color:#EE3324'><strong>Current Registration</strong></span><br>
-							Registration Status: <strong>${command.registrationStatus}</strong>
-							<div id="participant1" class="participants" align="center">
-								<div><img src="<tags:imageUrl name="Subject.gif"/>"
-								alt="Subject" width="80" height="80" align="absmiddle"></div>
-								<div>${command.participant.firstName} ${command.participant.lastName }</div>
-							</div>
-  						    <script type="text/javascript">subjectDragger=new Draggable('participant1', {revert:true})</script>
-						</c:when>
-						<c:otherwise>
-						<div id="epochDropMessage-${epoch.id}">Please drag the participant here to assign him this epoch.</div>
-						<div id="dragDivision-${epoch.id}" class="DropDraggableArea">  
-						</div>
-						<script type="text/javascript">Droppables.add('dragDivision-${epoch.id}', {accept:'participants', onDrop:assignParticipant})
-						</script>
-						</c:otherwise>
-					</c:choose>
-				</div>
+				<div id="epochsSection-${epoch.id }"><img src="<tags:imageUrl name="indicator.white.gif"/>"
+								alt="Indicator" align="absmiddle">Updating...</div>
+				<script>
+					<tags:tabMethod method="getEpochSection" viewName="/registration/asynchronous/epochSection" divElement="'epochsSection-${epoch.id }'" params="epochId=${epoch.id}"/>
+				</script>
 			</td>
 		</c:forEach>
 		</tr>
 	</table>
-	<input type="hidden" name="epoch" id="manage_epoch"/>
-</tags:formPanelBox>
-<div id="message" style="display:none" />
+</tags:panelBox>
+<div id="mockDrag" style="display:none">
+	<div id="participant1" class="participants" align="center" style="display:none">
+		<div><img src="<tags:imageUrl name="Subject.gif"/>"
+		alt="Subject" width="80" height="80" align="absmiddle"></div>
+		<div>${command.participant.firstName} ${command.participant.lastName }</div>
+	</div>
+</div>
 </body>
 </html>

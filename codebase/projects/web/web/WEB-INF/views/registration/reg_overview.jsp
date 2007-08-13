@@ -224,9 +224,6 @@ function activateInPlaceEditing(arrayElements){
 				</c:otherwise>
 				</c:choose>
 				</div>
-				<c:if test="${empty editable}">
-					<tabs:tabButtonControls text="edit" target="5"/>
-				</c:if>
 	
 				<hr align="left" width="95%">
 				<br>
