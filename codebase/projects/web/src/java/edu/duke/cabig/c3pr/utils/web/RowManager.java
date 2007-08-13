@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.utils.web;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
@@ -36,14 +37,18 @@ public class RowManager {
 				e1.printStackTrace();
 				continue;
 			}
+			
             List<Integer> rowNums = table.get(path);
-            List temp = new ArrayList();
+            Collections.sort(rowNums);
+            for(int i=rowNums.size()-1 ; i>=0 ; i--)
+            	col.remove(rowNums.get(i).intValue());
+/*            List temp = new ArrayList();
             for (int i = 0; i < col.size(); i++) {
                 if (!rowNums.contains(new Integer(i)))
                     temp.add(col.get(i));
             }
             col.removeAll(col);
             col.addAll(temp);
-        }
+*/        }
     }
 }
