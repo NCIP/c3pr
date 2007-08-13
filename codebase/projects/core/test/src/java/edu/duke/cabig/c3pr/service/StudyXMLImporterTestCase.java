@@ -4,6 +4,7 @@ import static edu.duke.cabig.c3pr.C3PRUseCase.IMPORT_STUDY;
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.service.impl.StudyXMLImporterService;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 import edu.duke.cabig.c3pr.utils.StringUtils;
@@ -45,9 +46,19 @@ public class StudyXMLImporterTestCase extends DaoTestCase {
     public void testGetStudies() throws Exception {
         Study study = dao.getById(1000);
         String xmlStudy = marshaller.toXML(study);
+        System.out.println(xmlStudy);
         List<Study> studies = studyImporter.importStudies(StringUtils.getInputStream(xmlStudy));
         assertNotNull(studies);
         assertTrue(studies.size() > 0);
+
+        for(Study loadedStudy : studies){
+            assertNotNull(loadedStudy.getGridId());
+            assertEquals(loadedStudy.getStudyOrganizations().size(),3);
+
+            for(StudyOrganization organization: loadedStudy.getStudyOrganizations()){
+                assertNotNull(organization.getHealthcareSite());
+            }
+        }
 
     }
 

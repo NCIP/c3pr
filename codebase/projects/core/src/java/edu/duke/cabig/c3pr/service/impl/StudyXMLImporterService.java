@@ -1,13 +1,13 @@
 package edu.duke.cabig.c3pr.service.impl;
 
 import edu.duke.cabig.c3pr.dao.StudyDao;
-import edu.duke.cabig.c3pr.dao.StudySiteDao;
+import edu.duke.cabig.c3pr.dao.StudyOrganizationDao;
+import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.domain.*;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.exception.StudyValidationException;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 import org.apache.log4j.Logger;
-import org.springframework.transaction.annotation.Transactional;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -37,7 +37,7 @@ import java.util.List;
 public class StudyXMLImporterService implements edu.duke.cabig.c3pr.service.StudyXMLImporterService {
 
     private StudyDao studyDao;
-    private StudySiteDao studySiteDao;
+    private HealthcareSiteDao healthcareSiteDao;
     private StudyValidator studyValidator;
 
     private XmlMarshaller marshaller;
@@ -70,29 +70,14 @@ public class StudyXMLImporterService implements edu.duke.cabig.c3pr.service.Stud
                 try {
                     Study study = (Study)marshaller.fromXML(new StringReader(sr.getWriter().toString()));
                     this.validate(study);
-                    // already checked in validator
-                    for(StudySite site: study.getStudySites()){
-                        // Already checked in validator. Should only have one healthcare site for NCI Institute code
-                        StudySite loadedSite = studySiteDao.getByNciInstituteCode(site.getHealthcareSite().getNciInstituteCode()).get(0);
-                        study.removeStudySite(site);
-                        study.addStudySite(loadedSite);
-                    }
-                    for(TreatmentEpoch epoch:study.getTreatmentEpochs()){
-                        epoch.setStudy(study);
-                        for(Arm arm:epoch.getArms()){
-                            arm.setTreatmentEpoch(epoch);
-                        }
-                    }
-
-                    for(NonTreatmentEpoch epoch:study.getNonTreatmentEpochs()){
-                        epoch.setStudy(study);
-                    }
-
-                    for(StudyDisease disease : study.getStudyDiseases()){
-                        disease.setStudy(study);
-                    }
 
                     log.debug("Saving study with grid ID" + study.getGridId());
+
+                    for(StudyOrganization organization: study.getStudyOrganizations()){
+                        HealthcareSite loadedSite = healthcareSiteDao.getByNciInstituteCode(organization.getHealthcareSite().getNciInstituteCode());
+                        organization.setHealthcareSite(loadedSite);
+                    }
+
                     studyDao.save(study);
                     log.debug("Study saved with grid ID" + study.getGridId());
                     //once saved retreive persisted study
@@ -118,15 +103,14 @@ public class StudyXMLImporterService implements edu.duke.cabig.c3pr.service.Stud
                 throw new StudyValidationException("Study exists");
             }
         }
-        //make sure study sites are valid
-        for(StudySite site: study.getStudySites()){
-            if(site.getHealthcareSite().getNciInstituteCode()==null
-                    || studySiteDao.getByNciInstituteCode(site.getHealthcareSite().getNciInstituteCode()).size()<0)
-            {
-                throw new StudyValidationException("Site does not have a valid NCI Institute code or does not exist");
+
+        for(StudyOrganization organization: study.getStudyOrganizations()){
+            if(healthcareSiteDao.getByNciInstituteCode(organization.getHealthcareSite().getNciInstituteCode()) == null){
+                throw new StudyValidationException("HealthcareSite does not exit for Study");
             }
         }
     }
+
 
 //setters for spring
 
@@ -143,12 +127,13 @@ public class StudyXMLImporterService implements edu.duke.cabig.c3pr.service.Stud
         this.marshaller = marshaller;
     }
 
-    public StudySiteDao getStudySiteDao() {
-        return studySiteDao;
+
+    public HealthcareSiteDao getHealthcareSiteDao() {
+        return healthcareSiteDao;
     }
 
-    public void setStudySiteDao(StudySiteDao studySiteDao) {
-        this.studySiteDao = studySiteDao;
+    public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
+        this.healthcareSiteDao = healthcareSiteDao;
     }
 
     public StudyValidator getStudyValidator() {

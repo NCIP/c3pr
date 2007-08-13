@@ -137,12 +137,18 @@
             <xs:element name="targetAccrualNumber"  type="xs:integer" minOccurs="0" maxOccurs="1"/>
             <xs:element ref="identifier" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element ref="epoch" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element ref="studyOrganization" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="studyDisease" type="StudyDiseaseType" minOccurs="0" maxOccurs="unbounded"/>
-            <xs:element name="studySite" type="StudySiteType" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute name="gridId" type="xs:string"/>
         <xs:attribute name="version" type="xs:integer"/>
     </xs:complexType>
+
+
+    <xs:element name="studyOrganization" abstract="true" type="StudyOrganizationType"/>
+    <xs:element name="studySite"  substitutionGroup="studyOrganization" type="StudySiteType"/>
+    <xs:element name="studyFundingSponsor" substitutionGroup="studyOrganization" type="StudyFundingSponsorType"/>
+    <xs:element name="studyCoordinatingCenter" substitutionGroup="studyOrganization" type="StudyCoordinatingCenterType"/>
 
     <xs:complexType name="StudyOrganizationType">
         <xs:sequence>
@@ -150,6 +156,35 @@
         </xs:sequence>
         <xs:attribute name="gridId" type="xs:string"/>
     </xs:complexType>
+
+     <xs:complexType name="StudySiteType">
+        <xs:complexContent>
+            <xs:extension base="StudyOrganizationType" >
+                <xs:sequence>
+                    <xs:element name="irbApprovalDate" type="xs:dateTime" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="roleCode" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="startDate" type="xs:dateTime" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="statusCode" type="xs:string" minOccurs="0" maxOccurs="1"/>
+                    <xs:element name="endDate" type="xs:dateTime" minOccurs="0" maxOccurs="1"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+     <xs:complexType name="StudyFundingSponsorType">
+        <xs:complexContent>
+            <xs:extension base="StudyOrganizationType" >
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+     <xs:complexType name="StudyCoordinatingCenterType">
+        <xs:complexContent>
+            <xs:extension base="StudyOrganizationType" >
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
 
     <xs:complexType name="StudyDiseaseType">
         <xs:sequence>
@@ -169,8 +204,6 @@
     </xs:complexType>
 
 
-
-
     <xs:complexType name="ArmType">
         <xs:sequence>
             <xs:element name="name" type="xs:string" minOccurs="0" maxOccurs="1"/>
@@ -180,19 +213,7 @@
         <xs:attribute name="gridId" type="xs:string"/>
     </xs:complexType>
 
-    <xs:complexType name="StudySiteType">
-        <xs:complexContent>
-            <xs:extension base="StudyOrganizationType" >
-                <xs:sequence>
-                    <xs:element name="irbApprovalDate" type="xs:dateTime" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="roleCode" type="xs:string" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="startDate" type="xs:dateTime" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="statusCode" type="xs:string" minOccurs="0" maxOccurs="1"/>
-                    <xs:element name="endDate" type="xs:dateTime" minOccurs="0" maxOccurs="1"/>
-                </xs:sequence>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
+
 
     <xs:complexType name="HealthcareSiteType">
         <xs:sequence>
