@@ -139,15 +139,6 @@
 	border-bottom:1px solid #C1DAD7;
 	border-right:1px solid #C1DAD7;
 	border-top:1px solid #C1DAD7;
-	color:#000000;
-	font-family:"Trebuchet MS",Verdana,Arial,Helvetica,sans-serif;
-	font-size:11px;
-	font-size-adjust:none;
-	font-stretch:normal;
-	font-style:normal;
-	font-variant:normal;
-	font-weight:bold;
-	letter-spacing:2px;
 	line-height:normal;
 	padding:6px 6px 6px 12px;
 	text-align:left;
@@ -158,19 +149,21 @@
 	border-bottom:1px solid #C1DAD7;
 	border-right:1px solid #C1DAD7;
 	color:#4F6B72;
-	font-family:auto,"Trebuchet MS",Verdana,Arial,Helvetica,sans-serif;
-	font-size:11px;
-	font-size-adjust:none;
-	font-stretch:normal;
-	font-style:normal;
-	font-variant:normal;
-	font-weight:normal;
 	line-height:normal;
 	padding:6px 6px 6px 12px;
-	height: 180px;
+	height: 280px;
 	width: 300px
 }
 .DropDraggableArea{
-	height: 100%;
+	border-bottom:1px solid;
+	border-right:1px solid;
+	border-left:1px solid;
+	border-top:1px solid;
+	height: 50%;
 	width: 100%;
+	color:#000000
+}
+
+.greyed{
+	background:#736F6E;
 }
