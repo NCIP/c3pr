@@ -18,7 +18,7 @@
 		<c:choose>
 		<c:when test="${!command.ifTreatmentScheduledEpoch}">
 			<tr>
-				<td> The selected epoch does not involve randomization</td>
+				<td> The selected epoch does not involve Randomization</td>
 			</tr>
 		</c:when>
 		<c:otherwise>

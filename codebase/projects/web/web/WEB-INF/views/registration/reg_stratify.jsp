@@ -29,7 +29,7 @@ function markAsAnswered(id){
 	<c:choose>
 	<c:when test="${!command.ifTreatmentScheduledEpoch}">
 		<tr>
-			<td>The Selected Epoch does not have Stratification Factors</td>
+			<td>The selected epoch does not involve Stratification</td>
 		</tr>
 	</c:when>
 	<c:otherwise>
