@@ -95,7 +95,10 @@
     <!-- The Test Classpath                                                   -->
     <!-- =============================================================== -->
     <path id="test.classpath">
-        <path refid="compile.classpath"/>
+        <path refid="build.classpath"/>
+        <fileset dir="${ext.dir}/compile/lib">
+            <include name="c3pr-*.jar"/>
+        </fileset>
         <fileset dir="${jar.dir}">
             <include name="**/*.jar"/>
         </fileset>
@@ -252,22 +255,6 @@
                  migrationsDir="${db.scripts.dir}/bering"/>
 
     </target>
-
-    <!--for tests create an empty db-->
-    <target name="bering-migrate-test" description="migrate database schema to support tests"
-            depends="prepare-bering">
-
-        <migrate classpathRef="run.classpath"
-                 driver="${datasource.driver}"
-                 dialect="${bering.dialect}"
-                 url="${datasource.url}"
-                 userid="${datasource.username}"
-                 password="${datasource.password}"
-                 migrationsDir="${db.scripts.dir}/bering"
-                 targetVersion="1"/>
-
-    </target>
-
 
     <target name="tomcat.security" description="Automatically copies global (CSM/UPT) configuration files to Tomcat.">
         <fail message="Could not locate Tomcat.  Please set the catalina.home property (-Dcatalina.home=/path/to/tomcat).">
