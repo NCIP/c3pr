@@ -1,28 +1,23 @@
 package edu.duke.cabig.c3pr.utils.web.spring.tabbedflow;
 
-import gov.nih.nci.cabig.ctms.web.tabs.Tab;
-
 /**
  * @author Rhett Sutphin
 */
-public abstract class SubFlowTab<C> extends AjaxableTab<C>{
+public abstract class WorkFlowTab<C> extends ReflexiveAjaxableTab<C>{
 
     private String display="true";
     private String showSummary="true";
     private String showLink="true";
-    private String subFlow="false";
-
     
-	public SubFlowTab() {
-		super();
-	}
-	public SubFlowTab(String longTitle, String shortTitle, String viewName) {
+	public WorkFlowTab(String longTitle, String shortTitle, String viewName) {
 		super(longTitle, shortTitle, viewName);
     }
-    public SubFlowTab(String longTitle, String shortTitle) {
-    	super(longTitle, shortTitle, "");
+
+	public WorkFlowTab(String longTitle, String shortTitle, String viewName, Class[] params) {
+		super(longTitle, shortTitle, viewName, params);
     }
-	public SubFlowTab(String longTitle, String shortTitle, String viewName,String display) {
+
+	public WorkFlowTab(String longTitle, String shortTitle, String viewName,String display) {
 		super(longTitle, shortTitle, viewName);
 		this.display=display;
     }
@@ -45,11 +40,5 @@ public abstract class SubFlowTab<C> extends AjaxableTab<C>{
 	}
 	public void setShowLink(String showLink) {
 		this.showLink = showLink;
-	}
-    public String getSubFlow() {
-		return subFlow;
-	}
-	public void setSubFlow(String subFlow) {
-		this.subFlow = subFlow;
 	}
 }

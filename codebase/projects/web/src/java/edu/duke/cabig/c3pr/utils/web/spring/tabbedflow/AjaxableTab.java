@@ -5,6 +5,7 @@ import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.validation.Errors;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author Rhett Sutphin
@@ -21,14 +22,19 @@ public abstract class AjaxableTab<C> extends Tab<C>{
     	super(longTitle, shortTitle, "");
     }
     
-    @Override
-    public void postProcess(HttpServletRequest arg0, C arg1, Errors arg2) {
+    protected ModelAndView postProcessAsynchronous(HttpServletRequest request, C command, Errors error) throws Exception{
+    	return new ModelAndView(getAjaxViewName(request));
     }
     
-    protected abstract void postProcessSynchronous(HttpServletRequest request, C command, Errors error) throws Exception;
+    protected String getFreeTextModelName(){
+    	return "free_text";
+    }
     
-    //Note: If this method returns null- It would result in the view resolving done by spring.
-    //If the method returns a string then the string would be sent to the browser(client) and the
-    //response would be over i.e no spring base view resolution will take place.
-    protected abstract String postProcessAsynchronous(HttpServletRequest request, C command, Errors error) throws Exception;
+	protected String getAjaxViewName(HttpServletRequest request){
+		return request.getParameter(getAjaxViewParamName());
+	}
+
+	protected String getAjaxViewParamName(){
+		return "_asyncViewName";
+	}
 }

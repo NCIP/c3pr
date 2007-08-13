@@ -22,28 +22,36 @@ public abstract class AutomaticSaveAjaxableFormController<C, D extends MutableDo
 	@Override
 	protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
-		ModelAndView modelAndView= super.handleRequestInternal(request, response);
 		if(isAjaxRequest(request)){
-			if(isAjaxResponseFreeText(request)){
-				respondAjaxFreeText(request,response);
-				return null;
+			synchronized (this){
+				ModelAndView superModelAndView= super.handleRequestInternal(request, response);
+				ModelAndView modelAndView=getAjaxModelAndView(request);
+				modelAndView.getModel().putAll(superModelAndView.getModel());
+				if(isAjaxResponseFreeText(modelAndView)){
+					respondAjaxFreeText(modelAndView, response);
+					return null;
+				}
+				return modelAndView;
 			}
-			
 		}
-		return modelAndView;
-		
+		return super.handleRequestInternal(request, response);
 	}
 	@Override
     protected void postProcessPage(HttpServletRequest request, Object command, Errors errors, int page) throws Exception {
     	// TODO Auto-generated method stub
     	if(isAjaxRequest(request)){
-    		String freeText=((AjaxableTab<C>)getFlow((C)command).getTab(page)).postProcessAsynchronous(request, (C)command, errors);
-    		if(freeText!=null)
-    			setAjaxFreeText(request, freeText);
+    		AjaxableTab<C> ajaxTab=(AjaxableTab<C>)getFlow((C)command).getTab(page);
+    		ModelAndView modelAndView =ajaxTab.postProcessAsynchronous(request, (C)command, errors);
+   			setAjaxModelAndView(request, modelAndView);
+   	        if (!errors.hasErrors() && shouldSave(request, (C)command, getTab((C)command, page))) {
+   	        	C newCommand = save((C)command, errors);
+   	            if (newCommand != null) {
+   	                request.getSession().setAttribute(getReplacedCommandSessionAttributeName(request), newCommand);
+   	            }
+   	        }
     	}else{
-    		((AjaxableTab<C>)getFlow((C)command).getTab(page)).postProcessSynchronous(request, (C)command, errors);
+        	super.postProcessPage(request, command, errors, page);
     	}
-    	super.postProcessPage(request, command, errors, page);
     }
 	
     protected boolean isAjaxRequest(HttpServletRequest request){
@@ -52,40 +60,36 @@ public abstract class AutomaticSaveAjaxableFormController<C, D extends MutableDo
     	return false;
     }
     
-    protected void setAjaxFreeText(HttpServletRequest request, String text){
-    	request.setAttribute(getAjaxFreeTextAttr(), text);
+    protected void setAjaxModelAndView(HttpServletRequest request, ModelAndView modelAndView){
+    	request.setAttribute(getAjaxModelAndViewAttr(), modelAndView);
     }
     
-    protected String getAjaxFreeText(HttpServletRequest request){
-    	return (String)request.getAttribute(getAjaxFreeTextAttr());
+    protected ModelAndView getAjaxModelAndView(HttpServletRequest request){
+    	return (ModelAndView)request.getAttribute(getAjaxModelAndViewAttr());
     }
     
-    protected boolean isAjaxResponseFreeText(HttpServletRequest request){
-    	if(request.getAttribute(getAjaxFreeTextAttr())!=null){
+    protected boolean isAjaxResponseFreeText(ModelAndView modelAndView){
+    	if(StringUtils.getBlankIfNull(modelAndView.getViewName()).equals("")){
     		return true;
     	}
     	return false;
     }
     
-    protected String getAjaxViewName(HttpServletRequest request){
-    	return request.getParameter(getAjaxViewParamName());
-    }
- 
-    protected void respondAjaxFreeText(HttpServletRequest request, HttpServletResponse response)throws Exception{
+    protected void respondAjaxFreeText(ModelAndView modelAndView, HttpServletResponse response)throws Exception{
     	PrintWriter pr=response.getWriter();
-    	pr.println(getAjaxFreeText(request));
+    	pr.println(modelAndView.getModel().get(getFreeTextModelName()));
     	pr.flush();
     }
     
     protected String getAjaxRequestParamName(){
-    	return "asynchronous";
+    	return "_asynchronous";
     }
     
-    protected String getAjaxFreeTextAttr(){
-    	return "async_free_text";
+    protected String getAjaxModelAndViewAttr(){
+    	return "async_model_and_view";
     }
 
-    protected String getAjaxViewParamName(){
-    	return "asysnchronous_viewName";
+    protected String getFreeTextModelName(){
+    	return "free_text";
     }
 }

@@ -1,21 +1,21 @@
 package edu.duke.cabig.c3pr.utils.web.spring.tabbedflow;
 
-import gov.nih.nci.cabig.ctms.web.tabs.Tab;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.validation.Errors;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
 /**
  * @author Rhett Sutphin
 */
-public abstract class InPlaceEditableTab<C> extends AjaxableTab<C>{
+public abstract class InPlaceEditableTab<C> extends WorkFlowTab<C>{
 
-	private static final String IN_PLACE_PARAM_NAME="in_place_edit_param";
-	public InPlaceEditableTab() {
-		super();
-	}
+	private static final String IN_PLACE_PARAM_NAME="_ajaxInPlaceEditParam";
+
 	public InPlaceEditableTab(String longTitle, String shortTitle, String viewName) {
 		super(longTitle, shortTitle, viewName);
     }
@@ -23,19 +23,15 @@ public abstract class InPlaceEditableTab<C> extends AjaxableTab<C>{
     	super(longTitle, shortTitle, "");
     }
     
-    @Override
-    protected String postProcessAsynchronous(HttpServletRequest request, C command, Errors error) throws Exception {
-    	if(WebUtils.hasSubmitParameter(request, IN_PLACE_PARAM_NAME)){
-    		String name=request.getParameter(IN_PLACE_PARAM_NAME);
-    		String value=request.getParameter(name);
-    		return postProcessInPlaceEditing(request, command, name, value);
-    	}
-    	return postProcessAsynchronously(request, command, error);
+    public ModelAndView doInPlaceEdit(HttpServletRequest request, Object command, Errors error) throws Exception {
+		String name=request.getParameter(IN_PLACE_PARAM_NAME);
+		String value=request.getParameter(name);
+		return postProcessInPlaceEditing(request, (C)command, name, value);
     }
     
-    protected String postProcessInPlaceEditing(HttpServletRequest request, C command, String property, String value){
-    	return value;
+    protected ModelAndView postProcessInPlaceEditing(HttpServletRequest request, C command, String property, String value){
+    	Map<String, String> map=new HashMap<String, String>();
+    	map.put(getFreeTextModelName(), value);
+    	return new ModelAndView("",map);
     }
-    
-    protected abstract String postProcessAsynchronously(HttpServletRequest request, C command, Errors error);
 }
