@@ -59,7 +59,7 @@ function reloadPage(Id){
 <input type="hidden" name="epoch" id="manage_epoch"/>
 </form:form>
 <tags:panelBox title="Change Epoch">
-	To move subject between epochs drag and drop the subject to the appropriate epoch: <br><br>
+	To move subject between epochs, drag and drop the subject to the appropriate epoch <br><br>
 	<table border="0" cellspacing="0" cellpadding="0">
 		<tr>
 		<c:forEach items="${command.studySite.study.epochs}" var="epoch">
