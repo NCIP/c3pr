@@ -77,8 +77,10 @@ var registrationAutocompleterProps = {
     valueSelector: function(obj) {
     if(document.getElementById("select").value=='Subject')
     { 
-    	if(document.getElementById("subjectOption").value=='N')
+    	if(document.getElementById("subjectOption").value=='N'){
+    	if(obj.middleName !=null)
 		return (obj.lastName +" "+ obj.middleName+" "+obj.firstName)
+		else return (obj.lastName +" "+obj.firstName)}
 		else if(document.getElementById("subjectOption").value=='Identifier'){
 		return obj.value}
    }else if (document.getElementById("select").value=='Study')
