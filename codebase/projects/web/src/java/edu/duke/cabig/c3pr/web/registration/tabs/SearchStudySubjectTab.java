@@ -90,13 +90,16 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject>{
 			}
 			return;
 		}
-		if(command.getParticipant()==null||command.getStudySite()==null)
+		if(command.getParticipant()==null||command.getStudySite()==null){
+			request.setAttribute("alreadyRegistered", new Boolean(true));
 			return;
+		}
 		StudySubject exampleSS=new StudySubject(true);
 		exampleSS.setParticipant(command.getParticipant());
 		exampleSS.setStudySite(command.getStudySite());
 		List registrations=studySubjectDao.searchBySubjectAndStudySite(exampleSS);
 		if(registrations.size()>0){
+			request.setAttribute("alreadyRegistered", new Boolean(true));
 			return;
 		}
 		Integer id;

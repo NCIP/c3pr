@@ -65,13 +65,14 @@ submitPostProcess=function(formElement, flag){
 </head>
 <body>
 <c:choose>
-<c:when test="${empty command.scheduledEpoch}">
+<c:when test="${alreadyRegistered!=null}">
+<%System.out.println("In When"); %>
 <tags:panelBox>
 The participant is already registered on this epoch. If u want to move this subject to another epoch of this study. Please <a href="javascript:alert('Functionality under construction..');">click</a> here
 </tags:panelBox>
 </c:when>
 <c:otherwise>
-
+<%System.out.println("In otherwise"); %>
 <tags:formPanelBox tab="${tab}" flow="${flow}" action="createRegistration">
 <strong>Informed Consent Details </strong><br>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">

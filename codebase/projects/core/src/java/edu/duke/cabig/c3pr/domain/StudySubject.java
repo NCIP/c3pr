@@ -42,7 +42,6 @@ import org.hibernate.annotations.Parameter;
 )
 public class StudySubject extends AbstractMutableDomainObject {
 	private LazyListHelper lazyListHelper;
-	//private ScheduledEpoch scheduledEpoch;
 	private List<ScheduledEpoch> scheduledEpochs=new ArrayList<ScheduledEpoch>();
 	private String name;
     private StudySite studySite;
@@ -119,21 +118,13 @@ public class StudySubject extends AbstractMutableDomainObject {
 	}
 	
 	private void setScheduledEpoch(ScheduledEpoch scheduledEpoch) {
-		//getScheduledEpochs().add(scheduledEpoch);
-/*		if(scheduledEpoch==null||scheduledEpoch.getId()==null){
-			this.scheduledEpoch = scheduledEpoch;
-			return;
-		}
-		for(ScheduledEpoch scheduledEpoch2: getScheduledEpochs())
-			if(scheduledEpoch2.getId()==scheduledEpoch.getId()){
-				this.scheduledEpoch = scheduledEpoch2;
-				return;
-			}
-*/	}
+	}
 
 	@Transient
 	public ScheduledEpoch getCurrentScheduledEpoch(){
 		List<ScheduledEpoch> tempList=new ArrayList<ScheduledEpoch>();
+		if(tempList.size()==0)
+			return null;
 		tempList.addAll(getScheduledEpochs());
 		Collections.sort(tempList);
 		return tempList.get(tempList.size()-1);
