@@ -68,7 +68,7 @@ submitPostProcess=function(formElement, flag){
 <c:when test="${alreadyRegistered!=null}">
 <%System.out.println("In When"); %>
 <tags:panelBox>
-The participant is already registered on this epoch. If u want to move this subject to another epoch of this study. Please <a href="javascript:alert('Functionality under construction..');">click</a> here
+The participant is already registered on this epoch. If you want to move this subject to another epoch of this study. Please <a href="javascript:alert('Functionality under construction..');">click</a> here
 </tags:panelBox>
 </c:when>
 <c:otherwise>
