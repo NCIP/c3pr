@@ -48,13 +48,14 @@ var investigatorsAutocompleterProps = {
        afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=inputElement.id.split("-")[0]+"-hidden";
 	    							$(hiddenField).value=selectedChoice.id;
-								}
+								},
+		
 }
 var instanceRowInserterProps = {
        add_row_division_id: "mytable", 	        /* this id belongs to element where the row would be appended to */
        skeleton_row_division_id: "dummy-row",
-    //   initialIndex: ${fn:length(command.studySites[selected_site].studyInvestigators)},                            /* this is the initial count of the rows when the page is loaded  */
-    //   path: "studySites[${selected_site}].studyInvestigators",                            /* this is the path of the collection that holds the rows  */
+       initialIndex: ${fn:length(command.studySites[selected_site].studyInvestigators)},                            /* this is the initial count of the rows when the page is loaded  */
+       path: "studySites[${selected_site}].studyInvestigators",                            /* this is the path of the collection that holds the rows  */
     postProcessRowInsertion: function(object){
         clonedRowInserter=Object.clone(investigatorsAutocompleterProps);
 		clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;

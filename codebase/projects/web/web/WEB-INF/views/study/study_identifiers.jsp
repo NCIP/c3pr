@@ -28,36 +28,35 @@ var healthcareSiteAutocompleterProps = {
 									}
 }
 
-        function clearField(field) {
-            field.value = "";
-        }
+function clearField(field) {
+    field.value = "";
+}
 
               
-         var systemIdentifierRowInserterProps = {
-            add_row_division_id: "systemIdentifier", 	        /* this id belongs to element where the row would be appended to */
-            skeleton_row_division_id: "dummy-row-systemIdentifier",
-            initialIndex: ${fn:length(command.systemAssignedIdentifiers)},                            /* this is the initial count of the rows when the page is loaded  */
-            path: "systemAssignedIdentifiers",                               /* this is the path of the collection that holds the rows  */
-        };
-   		var organizationIdentifierRowInserterProps = {
-            add_row_division_id: "organizationIdentifier", 	        /* this id belongs to element where the row would be appended to */
-            skeleton_row_division_id: "dummy-row-organizationIdentifier",
-            initialIndex: ${fn:length(command.organizationAssignedIdentifiers)},                            /* this is the initial count of the rows when the page is loaded  */
-            path: "organizationAssignedIdentifiers",                               /* this is the path of the collection that holds the rows  */
-            postProcessRowInsertion: function(object){
-        
-        clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
-		clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;
-		registerAutoCompleter(clonedRowInserter);
-    },
-    onLoadRowInitialize: function(object, currentRowIndex){
-		clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
-		clonedRowInserter.basename=clonedRowInserter.basename+currentRowIndex;
-		registerAutoCompleter(clonedRowInserter);
-    },
-        };
-        rowInserters.push(systemIdentifierRowInserterProps);
-        rowInserters.push(organizationIdentifierRowInserterProps);
+var systemIdentifierRowInserterProps = {
+    add_row_division_id: "systemIdentifier", 	        /* this id belongs to element where the row would be appended to */
+    skeleton_row_division_id: "dummy-row-systemIdentifier",
+    initialIndex: ${fn:length(command.systemAssignedIdentifiers)},                            /* this is the initial count of the rows when the page is loaded  */
+    path: "systemAssignedIdentifiers",                               /* this is the path of the collection that holds the rows  */
+};
+var organizationIdentifierRowInserterProps = {
+       add_row_division_id: "organizationIdentifier", 	        /* this id belongs to element where the row would be appended to */
+       skeleton_row_division_id: "dummy-row-organizationIdentifier",
+       initialIndex: ${fn:length(command.organizationAssignedIdentifiers)},                            /* this is the initial count of the rows when the page is loaded  */
+       path: "organizationAssignedIdentifiers",                               /* this is the path of the collection that holds the rows  */
+       postProcessRowInsertion: function(object){
+	       clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
+		   clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;
+		   registerAutoCompleter(clonedRowInserter);
+	   },
+       onLoadRowInitialize: function(object, currentRowIndex){
+			clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
+			clonedRowInserter.basename=clonedRowInserter.basename+currentRowIndex;
+			registerAutoCompleter(clonedRowInserter);
+       },
+};
+rowInserters.push(systemIdentifierRowInserterProps);
+rowInserters.push(organizationIdentifierRowInserterProps);
 </script>
 </head>
 <body>
@@ -75,7 +74,7 @@ var healthcareSiteAutocompleterProps = {
 					<th></th>
 				</tr>
 				<c:forEach items="${command.organizationAssignedIdentifiers}"
-					begin="2" varStatus="organizationStatus">
+					begin="${fn:length(command.organizationAssignedIdentifiers)>1 && command.organizationAssignedIdentifiers[1].type=='Coordinating Center Identifier'?2:1}" varStatus="organizationStatus">
 					<tr id="organizationIdentifier-${organizationStatus.index}">
 						<td><input type="hidden"
 							id="healthcareSite${organizationStatus.index}-hidden"
@@ -129,9 +128,9 @@ var healthcareSiteAutocompleterProps = {
 					<th>Primary&nbsp;Indicator</th>
 					<th></th>
 				</tr>
-				<c:forEach items="${command.systemAssignedIdentifiers}" begin="0"
+				<c:forEach items="${command.systemAssignedIdentifiers}"
 					varStatus="status">
-					<tr id="systemIidentifier-${status.index}">
+					<tr id="systemIdentifier-${status.index}">
 						<td><form:input
 							path="systemAssignedIdentifiers[${status.index}].systemName"
 							cssClass="validate-notEmpty" /></td>
