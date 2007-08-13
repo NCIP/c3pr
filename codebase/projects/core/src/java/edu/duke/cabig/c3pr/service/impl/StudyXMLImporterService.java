@@ -1,7 +1,6 @@
 package edu.duke.cabig.c3pr.service.impl;
 
 import edu.duke.cabig.c3pr.dao.StudyDao;
-import edu.duke.cabig.c3pr.dao.StudyOrganizationDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.domain.*;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
