@@ -123,10 +123,10 @@ public class StudySubject extends AbstractMutableDomainObject {
 	@Transient
 	public ScheduledEpoch getCurrentScheduledEpoch(){
 		List<ScheduledEpoch> tempList=new ArrayList<ScheduledEpoch>();
-		if(tempList.size()==0)
-			return null;
 		tempList.addAll(getScheduledEpochs());
 		Collections.sort(tempList);
+		if(tempList.size()==0)
+			return null;
 		return tempList.get(tempList.size()-1);
 	}
 	

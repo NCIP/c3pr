@@ -70,7 +70,7 @@ public class CreateRegistrationController<C extends StudySubject> extends Regist
 		// TODO Auto-generated method stub
 		StudySubject studySubject=(StudySubject)command;
 		super.postProcessPage(request, command, errors, page);
-		if(request.getAttribute("alreadyRegistered")!=null&&!(Boolean)request.getAttribute("alreadyRegistered"))
+		if(request.getAttribute("alreadyRegistered")==null || !(Boolean)request.getAttribute("alreadyRegistered"))
 			studySubject.setRegistrationStatus(StudySubjectServiceImpl.evaluateStatus(studySubject));
 	}
 	
