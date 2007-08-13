@@ -13,21 +13,21 @@ function navRollOver(obj, state) {
 function submitLocalForm(formName, regId ,schEphId){
 	registrationElement=formName+'_registrationId';
 	$(registrationElement).value=regId;
-	schEphElement=formName+'_scheduledEpoch';
-	$(schEphElement).value=schEphId;
+//	schEphElement=formName+'_scheduledEpoch';
+//	$(schEphElement).value=schEphId;
 	$(formName).submit();
 }
 </script>
 <!-- REGISTRATION SEARCH RESULTS START HERE -->
 <form id="manage" name="manage" action="../registration/manageRegistration" method="get">
 	<input type="hidden" name="registrationId" id="manage_registrationId" value=""/>
-	<input type="hidden" name="scheduledEpoch" id="manage_scheduledEpoch" value=""/>
+	<!-- <input type="hidden" name="scheduledEpoch" id="manage_scheduledEpoch" value=""/>-->
 </form>
 <form action="../registration/createRegistration" method="post" id="create">
 	<input type="hidden" name="_page" id="_page0" value="0"/>
 	<input type="hidden" name="_target1" id="_target1" value="1"/>
 	<input type="hidden" name="registrationId" id="create_registrationId" value=""/>
-	<input type="hidden" name="scheduledEpoch" id="create_scheduledEpoch" value=""/>
+	<!-- <input type="hidden" name="scheduledEpoch" id="create_scheduledEpoch" value=""/>-->
 </form>
 <div class="eXtremeTable" >
 <table width="100%" border="0" cellspacing="0" cellpadding="0">

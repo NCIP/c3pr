@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
 
 import edu.duke.cabig.c3pr.dao.AnatomicSiteDao;
@@ -20,6 +21,7 @@ import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.ScheduledEpochDao;
 import edu.duke.cabig.c3pr.dao.StratificationCriterionAnswerDao;
+import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudyInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
@@ -43,7 +45,6 @@ import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.ObjectGraphBasedEditor;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AutomaticSaveAjaxableFormController;
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.SubFlow;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
@@ -80,6 +81,8 @@ public abstract class RegistrationController <C extends StudySubject> extends Au
 	protected StratificationCriterionAnswerDao stratificationAnswerDao;
 	
 	protected ScheduledEpochDao scheduledEpochDao;
+	
+	protected StudyDao studyDao;
 	
 	public ScheduledEpochDao getScheduledEpochDao() {
 		return scheduledEpochDao;
@@ -123,26 +126,25 @@ public abstract class RegistrationController <C extends StudySubject> extends Au
 
 	public RegistrationController(String flowName) {
 		setCommandClass(StudySubject.class);
-		Flow<StudySubject> flow = new SubFlow<StudySubject>(flowName);
+		Flow<StudySubject> flow = new Flow<StudySubject>(flowName);
 		intializeFlows(flow);
 	}
 	@Override
 	protected Object currentFormObject(HttpServletRequest request, Object sessionFormObject) throws Exception {
 		// TODO Auto-generated method stub
 		StudySubject command=(StudySubject) sessionFormObject;
-		if (sessionFormObject != null) {
+		if (command != null) {
 			if(command.getId()!=null){
-				getDao().reassociate(command);
-				if(command.getScheduledEpoch()!=null && command.getScheduledEpoch().getEpoch()!=null)
-					epochDao.reassociate(command.getScheduledEpoch().getEpoch());
-				return command;
+				return getDao().merge(command);
 			}
 			if(command.getParticipant()!=null)
 				getParticipantDao().reassociate(command.getParticipant());
-			if(command.getStudySite()!=null)
+			if(command.getStudySite()!=null){
 				getStudySiteDao().reassociate(command.getStudySite());
+				getStudyDao().reassociate(command.getStudySite().getStudy());
+			}
 		}
-		return sessionFormObject;
+		return command;
 	}
 	
 	@Override
@@ -157,6 +159,12 @@ public abstract class RegistrationController <C extends StudySubject> extends Au
 	@Override
 	protected StudySubject getPrimaryDomainObject(C command) {
 		 return command;
+	}
+	
+	@Override
+	protected C save(C command, Errors arg1) {
+		C merged=(C)getDao().merge(getPrimaryDomainObject(command));
+        return merged;
 	}
 	
     @Override
@@ -322,6 +330,16 @@ public abstract class RegistrationController <C extends StudySubject> extends Au
 
 	public void setEpochDao(EpochDao epochDao) {
 		this.epochDao = epochDao;
+	}
+
+
+	public StudyDao getStudyDao() {
+		return studyDao;
+	}
+
+
+	public void setStudyDao(StudyDao studyDao) {
+		this.studyDao = studyDao;
 	}
 
 }

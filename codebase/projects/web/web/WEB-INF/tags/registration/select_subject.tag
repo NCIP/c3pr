@@ -26,13 +26,13 @@
     	field.value = "";
     }
         
-  	var instanceRowInserterProps = {
-        add_row_division_id: "mytable", 	        		/* this id belongs to element where the row would be appended to */
-        skeleton_row_division_id: "dummy-row",
-        initialIndex: 1,    /* this is the initial count of the rows when the page is loaded  */
-        path: "identifiers",                                /* this is the path of the collection that holds the rows  */
-    };
-    rowInserters.push(instanceRowInserterProps);
+//  	var instanceRowInserterProps = {
+//       add_row_division_id: "mytable", 	        		/* this id belongs to element where the row would be appended to */
+//        skeleton_row_division_id: "dummy-row",
+//        initialIndex: 1,    /* this is the initial count of the rows when the page is loaded  */
+//        path: "identifiers",                                /* this is the path of the collection that holds the rows  */
+//    };
+//   rowInserters.push(instanceRowInserterProps);
   	
   	function moveToSearchSubject(){
   		document.getElementById('searchSubjectSpan').className="current";
@@ -252,44 +252,7 @@
 		
 		<!--start of adding identifiers-->		
 		<hr align="left" width="95%">
-		<p><input id="addId" type="button" value="Add Identifiers" onclick="RowManager.addRow(instanceRowInserterProps);" />
-		</p>
-		<table id="mytable" border="0" cellspacing="0" cellpadding="0">
-			<tr>
-				<th class="scope=" col" align="left"><b>Assigning Authority<span
-					class="red">*</span></b></th>
-				<th scope="col" align="left"><b>Identifier Type<span class="red">*</span></b></th>
-				<th scope="col" align="left"><b>Identifier<span class="red">*</span></b></th>
-				<th scope="col" align="left"><b>Primary&nbsp;Indicator</b></th>
-				<th class="specalt" scope="col" align="left"></th>
-			</tr>
-			 <tr id="mytable-0}">
-                <td class="alt">
-                <select id="identifiers[0].source" name="identifiers[0].source"
-                                        class="validate-notEmpty">
-                    <option value="">--Please Select--</option>
-                    <c:forEach items="${source}" var="id">
-                        <option value="${id.name}">${id.name}</option>
-                    </c:forEach>
-                </select>
-                </td>
-                <td class="alt">
-                <select id="identifiers[0].type" name="identifiers[0].type"
-                                        class="validate-notEmpty">
-                    <option value="">--Please Select--</option>
-                    <c:forEach items="${identifiersTypeRefData}" var="id">
-                        <option value="${id.desc}">${id.desc}</option>
-                    </c:forEach>
-                </select>
-                </td>
-                <td class="alt"><input id="identifiers[0].value" name="identifiers[0].value"
-                                       onfocus="javascript:clearField(this)" class="validate-notEmpty"/></td>
-                <td class="alt"><input type="radio" id="identifiers[0].primaryIndicator" name="identifiers[0].primaryIndicator"
-                                       value="true"/></td>
-                <td class="alt"><a href="javascript:RowManager.deleteRow(instanceRowInserterProps,0);"><img
-                        src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
-			</tr>
-		</table>		
+		<tags:identifiers identifiersTypes="${identifiersTypeRefData}" displaySys="false" />
 		<!--end of adding identifiers-->
 		
 		<!--start of address section-->
@@ -344,36 +307,7 @@
 	</form>
 	
 	<!--Identifiers section thats supposed to be outside the form-->
-	<div id="dummy-row" style="display:none;">
-        <table>
-            <tr>
-                <td class="alt">
-                <select id="identifiers[PAGE.ROW.INDEX].source" name="identifiers[PAGE.ROW.INDEX].source"
-                                        class="validate-notEmpty">
-                    <option value="">--Please Select--</option>
-                    <c:forEach items="${source}" var="id">
-                        <option value="${id.name}">${id.name}</option>
-                    </c:forEach>
-                </select>
-                </td>
-                <td class="alt">
-                <select id="identifiers[PAGE.ROW.INDEX].type" name="identifiers[PAGE.ROW.INDEX].type"
-                                        class="validate-notEmpty">
-                    <option value="">--Please Select--</option>
-                    <c:forEach items="${identifiersTypeRefData}" var="id">
-                        <option value="${id.desc}">${id.desc}</option>
-                    </c:forEach>
-                </select>
-                </td>
-                <td class="alt"><input id="identifiers[PAGE.ROW.INDEX].value" name="identifiers[PAGE.ROW.INDEX].value"
-                                       onfocus="javascript:clearField(this)" class="validate-notEmpty"/></td>
-                <td class="alt"><input type="radio" id="identifiers[PAGE.ROW.INDEX].primaryIndicator" name="identifiers[PAGE.ROW.INDEX].primaryIndicator"
-                                       value="true"/></td>
-                <td class="alt"><a href="javascript:RowManager.deleteRow(instanceRowInserterProps,PAGE.ROW.INDEX);"><img
-                        src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
-            </tr>
-        </table>
-   	</div>
+	<tags:identifiersDummyRows identifiersTypes="${identifiersTypeRefData}"/>
    	<!--Identifiers section thats supposed to be outside the form-->
 	</div>
 	<!--end of createSubjectDetailsDiv -->
@@ -385,5 +319,4 @@
 
 	</div>
 	<!--end of create subject div-->
-	
 </tags:minimizablePanelBox>
