@@ -12,9 +12,9 @@ import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.SubFlow;
 import edu.duke.cabig.c3pr.web.beans.DefaultObjectPropertyReader;
 import gov.nih.nci.cabig.ctms.web.tabs.AbstractTabbedFlowFormController;
+import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
 import java.util.ArrayList;
@@ -51,7 +51,7 @@ public class CreateInvestigatorController extends
 	public CreateInvestigatorController() {
 		setCommandClass(Investigator.class);
 
-		SubFlow<Investigator> flow = new SubFlow<Investigator>("Create Investigator");
+		Flow<Investigator> flow = new Flow<Investigator>("Create Investigator");
 
 		flow.addTab(new Tab<Investigator>("Enter Investigator Information",
 				"Investigator", "admin/investigator_details") {
