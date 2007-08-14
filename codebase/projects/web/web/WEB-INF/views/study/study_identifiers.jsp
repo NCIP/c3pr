@@ -67,9 +67,9 @@ rowInserters.push(organizationIdentifierRowInserterProps);
 		<chrome:division title="Organization Identifiers">
 			<table id="organizationIdentifier" class="tablecontent">
 				<tr>
-					<th>Assigning Authority<span class="required-indicator">*</span></th>
-					<th>Identifier Type<span class="required-indicator">*</span></th>
-					<th>Identifier<span class="required-indicator">*</span></th>
+					<th><span class="required-indicator">*</span>Assigning Authority</th>
+					<th><span class="required-indicator">*</span>Identifier Type</th>
+					<th><span class="required-indicator">*</span>Identifier</th>
 					<th>Primary&nbsp;Indicator</th>
 					<th></th>
 				</tr>
@@ -122,9 +122,9 @@ rowInserters.push(organizationIdentifierRowInserterProps);
 		<chrome:division title="System Identifiers">
 			<table id="systemIdentifier" class="tablecontent">
 				<tr>
-					<th>System Name<span class="required-indicator">*</span></th>
-					<th>Identifier Type<span class="required-indicator">*</span></th>
-					<th>Identifier<span class="required-indicator">*</span></th>
+					<th><span class="required-indicator">*</span>System Name</th>
+					<th><span class="required-indicator">*</span>Identifier Type</th>
+					<th><span class="required-indicator">*</span>Identifier</th>
 					<th>Primary&nbsp;Indicator</th>
 					<th></th>
 				</tr>
