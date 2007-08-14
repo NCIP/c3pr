@@ -123,9 +123,6 @@ public class CreateParticipantController extends
 		// FIXME: small hack
 		Participant participant = (Participant) super
 				.formBackingObject(request);
-		/*Identifier temp = new Identifier();
-		temp.setPrimaryIndicator(false);
-		participant.addIdentifier(temp);*/
 		participant = createParticipantWithContacts(participant);
 		participant.setAddress(new Address());
 		return participant;
