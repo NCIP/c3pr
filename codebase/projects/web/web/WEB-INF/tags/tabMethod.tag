@@ -4,6 +4,7 @@
 <%@attribute name="viewName"%>
 <%@attribute name="formName"%>
 <%@attribute name="params"%>
+<%@attribute name="javaScriptParam"%>
 <%@attribute name="onSuccess"%>
 <%@attribute name="onComplete"%>
 <%@attribute name="onFailure"%>
@@ -20,5 +21,5 @@
 </c:if>
 
 new Ajax.Updater(${divElement},$("${formId}").action, 
-					{parameters:"decorator=nullDecorator&_asynchronous=true&_asyncMethodName=${method}&_asyncViewName=${viewName}&"+Form.serialize('${formId}')+"&${params}",
+					{parameters:"decorator=nullDecorator&_asynchronous=true&_asyncMethodName=${method}&_asyncViewName=${viewName}&${params}&"+${javaScriptParam}+"&"+Form.serialize('${formId}'),
 					${callbackOpts} asynchronous:true, evalScripts:true});
