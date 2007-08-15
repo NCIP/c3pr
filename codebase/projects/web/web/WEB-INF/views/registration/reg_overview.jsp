@@ -132,7 +132,7 @@ function activateInPlaceEditing(arrayElements){
 			<table width="50%" border="0" cellspacing="0" cellpadding="0" id="mytable">
 				<tr>
 					<td class="labelR">Registration Start Date:</td>
-					<td><tags:inPlaceEdit value="${command.startDate }" path="startDate" /></td>
+					<td><tags:inPlaceEdit value="${command.startDateStr }" path="startDate" /></td>
 				</tr>
 				<tr>
 					<td class="labelR" width="25%">Informed Consent Signed Date:</td>
