@@ -2,12 +2,23 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
 <html>
 <head>
+<script>	
+		                
+	function getStratumGroups(epochCountIndex){
+		<tags:tabMethod method="generateStratumGroups" viewName="/study/asynchronous/strat_combinations" divElement="'sgCombinations_'+epochCountIndex" 
+		                javaScriptParam="'epochCountIndex='+epochCountIndex"  />        
+	}
+	
+	function clear(epochCountIndex){
+		<tags:tabMethod method="clearStratumGroups" viewName="/study/asynchronous/strat_combinations" divElement="'sgCombinations_'+epochCountIndex" 
+		                javaScriptParam="'epochCountIndex='+epochCountIndex"  /> 
+	}
+</script>
 </head>
 
-<body>
+<body onload="">
 <form:form method="post" name="form">
     <tags:tabFields tab="${tab}"/>
     <div>
@@ -24,6 +35,10 @@
                 initialIndex: 1,
                 row_index_indicator: "NESTED.PAGE.ROW.INDEX",
                 path: "treatmentEpochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers",
+                epochCountIndex: ${epochCount.index},
+                postProcessRowDeletion: function(object){
+                clear(object.epochCountIndex);                	
+			    },
             };
             var stratRowInserterProps_${epochCount.index} = {
                 nested_row_inserter: startAnsRowInserterProps_${epochCount.index},
@@ -31,6 +46,10 @@
                 skeleton_row_division_id: "dummy-strat-${epochCount.index}",
                 initialIndex: ${fn:length(command.treatmentEpochs[epochCount.index].stratificationCriteria)},
                 path: "treatmentEpochs[${epochCount.index }].stratificationCriteria",
+                epochCountIndex: ${epochCount.index},
+                postProcessRowInsertion: function(object){
+                clear(object.epochCountIndex);                	
+			    },
             };
             rowInserters.push(stratRowInserterProps_${epochCount.index});
             registerRowInserters();
@@ -38,7 +57,7 @@
         <tags:minimizablePanelBox title="${epoch.name}" boxId="${epoch.name}">
             <p id="instructions">
                 <input type="button"
-                       value="Add Stratatification Factor:"
+                       value="Add Stratification Factor:"
                        onclick="RowManager.addRow(stratRowInserterProps_${epochCount.index});"/>
             </p>
             <br>
@@ -90,10 +109,38 @@
                     </tr>
                 </c:forEach>
             </table>
-        </tags:minimizablePanelBox>
+        <br /><hr align="left" width="95%">    
+        <div id="stratumButton"><br/>    
+        <input type='button' onclick='getStratumGroups("${epochCount.index}")' value='Generate Stratum Groups'/>   
+		</div>	    
+		<!--stratum groups combinations display section-->
+		<script>
+			var stratumGroupRowInserter_${epochCount.index} = {
+			    add_row_division_id: "stratumGroupTable1_${epochCount.index}", 	        
+			    skeleton_row_division_id: "dummy-row",
+			    initialIndex: -1,
+			    path: "treatmentEpochs[${epochCount.index}].stratumGroups",
+			};
+		</script>
+		<br/>
+		<div id="sgCombinations_${epochCount.index}">		
+		</div>
+		<!--stratum groups combinations display section-->    
+        
+        </tags:minimizablePanelBox>               
+		
     </c:forEach>
     <tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
 </form:form>
+<!--
+<c:forEach items="${command.treatmentEpochs}" var="epoch" varStatus="epochCount">
+	<form:form id="1" name="1">
+		<script>
+			<tags:tabMethod method="generateStratumGroups" viewName="/study/asynchronous/strat_combinations" divElement="'sgCombinations_'${epochCount.index}" params="epochCountIndex=${epochCount.index}"  />
+		</script>
+	</form:form>
+</c:forEach>
+-->
 <c:forEach items="${command.treatmentEpochs}" var="epoch" varStatus="epochCount">
     <div id="dummy-strat-${epochCount.index }" style="display:none">
         <table>
