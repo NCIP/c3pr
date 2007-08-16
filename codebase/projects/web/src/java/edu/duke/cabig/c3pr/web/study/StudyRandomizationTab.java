@@ -14,6 +14,8 @@ import org.springframework.validation.Errors;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.BookRandomizationEntry;
+import edu.duke.cabig.c3pr.domain.Randomization;
+import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.StratumGroup;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
@@ -36,28 +38,34 @@ public class StudyRandomizationTab extends StudyTab {
 	    @Override
 	    public void postProcess(HttpServletRequest req, Study study, Errors errors) {
 	        	        
-	        ArrayList <String>reqParamArr = new ArrayList<String>();
-	        Enumeration e = req.getParameterNames();
-	        String temp;
-	        while(e.hasMoreElements()){
-	        	temp = e.nextElement().toString(); 
-	        	if(temp.startsWith("bookRandomizations")){
-	        		reqParamArr.add(temp);
-	        	}
-	        }
-	        String epochIndex, bookRandomizations;
-	        int selectedEpoch;
-	        for(String param : reqParamArr){
-	        	bookRandomizations = StringUtils.getBlankIfNull(req.getParameter(param));
-	        	if(!StringUtils.isEmpty(bookRandomizations)){
-			        epochIndex = param.substring(param.indexOf("-")+1);
-			        selectedEpoch = StringUtils.getBlankIfNull(epochIndex).equals("")?-1:Integer.parseInt(epochIndex);
-			        TreatmentEpoch tEpoch = study.getTreatmentEpochs().get(selectedEpoch);		        
-			        if(study.getRandomizationType().getName().equals("BOOK")){
-			        	parseBookRandomization(bookRandomizations, tEpoch);
-			        }
-	        	}
-	        }	        
+	    	if(study.getRandomizationType().equals(RandomizationType.CALL_OUT)){
+	    		return;
+	    	}
+	    	
+	    	if(study.getRandomizationType().equals(RandomizationType.BOOK)){
+		    	ArrayList <String>reqParamArr = new ArrayList<String>();
+		        Enumeration e = req.getParameterNames();
+		        String temp;
+		        while(e.hasMoreElements()){
+		        	temp = e.nextElement().toString(); 
+		        	if(temp.startsWith("bookRandomizations")){
+		        		reqParamArr.add(temp);
+		        	}
+		        }
+		        String epochIndex, bookRandomizations;
+		        int selectedEpoch;
+		        for(String param : reqParamArr){
+		        	bookRandomizations = StringUtils.getBlankIfNull(req.getParameter(param));
+		        	if(!StringUtils.isEmpty(bookRandomizations)){
+				        epochIndex = param.substring(param.indexOf("-")+1);
+				        selectedEpoch = StringUtils.getBlankIfNull(epochIndex).equals("")?-1:Integer.parseInt(epochIndex);
+				        TreatmentEpoch tEpoch = study.getTreatmentEpochs().get(selectedEpoch);		        
+				        if(study.getRandomizationType().getName().equals("BOOK")){
+				        	parseBookRandomization(bookRandomizations, tEpoch);
+				        }
+		        	}
+		        }
+	    	}
 	    }
 
 	    /*
@@ -72,7 +80,17 @@ public class StudyRandomizationTab extends StudyTab {
 	    private void parseBookRandomization(String bookRandomizations, TreatmentEpoch tEpoch){	    	
 	    		    	
 	    	try{
-	    		BookRandomization bRandomization = new BookRandomization();
+	    		//we do not create a new instance of bookRandomization, we use the existing instance which was created in StudyDesignTab.java
+	    		//based on the randomizationType selected on the study_details page.
+	    		Randomization randomization = tEpoch.getRandomization();
+	    		BookRandomization bRandomization;
+	    		if(randomization == null){
+	    			bRandomization = new BookRandomization();
+	    			tEpoch.setRandomization(bRandomization);
+	    		} else {
+	    			bRandomization = (BookRandomization)randomization;
+	    		}
+	    		
 	    		BookRandomizationEntry bookRandomizationEntry = new BookRandomizationEntry();
 	    		ArrayList <BookRandomizationEntry>breList = new ArrayList<BookRandomizationEntry>();
 	    		
