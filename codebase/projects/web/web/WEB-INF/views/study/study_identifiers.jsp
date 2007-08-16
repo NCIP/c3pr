@@ -37,7 +37,7 @@ var systemIdentifierRowInserterProps = {
     add_row_division_id: "systemIdentifier", 	        /* this id belongs to element where the row would be appended to */
     skeleton_row_division_id: "dummy-row-systemIdentifier",
     initialIndex: ${fn:length(command.systemAssignedIdentifiers)},                            /* this is the initial count of the rows when the page is loaded  */
-    path: "systemAssignedIdentifiers",                               /* this is the path of the collection that holds the rows  */
+    path: "systemAssignedIdentifiers"                               /* this is the path of the collection that holds the rows  */
 };
 var organizationIdentifierRowInserterProps = {
        add_row_division_id: "organizationIdentifier", 	        /* this id belongs to element where the row would be appended to */
@@ -47,16 +47,16 @@ var organizationIdentifierRowInserterProps = {
        postProcessRowInsertion: function(object){
 	       clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
 		   clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;
-		   registerAutoCompleter(clonedRowInserter);
+		   AutocompleterManager.registerAutoCompleter(clonedRowInserter);
 	   },
        onLoadRowInitialize: function(object, currentRowIndex){
 			clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
 			clonedRowInserter.basename=clonedRowInserter.basename+currentRowIndex;
-			registerAutoCompleter(clonedRowInserter);
-       },
+			AutocompleterManager.registerAutoCompleter(clonedRowInserter);
+       }
 };
-rowInserters.push(systemIdentifierRowInserterProps);
-rowInserters.push(organizationIdentifierRowInserterProps);
+RowManager.addRowInseter(systemIdentifierRowInserterProps);
+RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 </script>
 </head>
 <body>

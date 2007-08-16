@@ -9,7 +9,7 @@
 <body>
 <script>
 stratumGroupRowInserter_${epochCountIndex}.initialIndex= ${fn:length(command.treatmentEpochs[epochCountIndex].stratumGroups)};
-registerRowInserter(stratumGroupRowInserter_${epochCountIndex});
+RowManager.registerRowInserter(stratumGroupRowInserter_${epochCountIndex});
 </script>
 
 <table border="1" class="tablecontent" id="stratumGroupTable1_${epochCountIndex}" width="50%">

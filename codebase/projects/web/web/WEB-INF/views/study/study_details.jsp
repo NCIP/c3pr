@@ -31,7 +31,7 @@
                 Effect.CloseDown('cooperativeGroups');
             }
         }
-        submitPostProcess= function(formElement, continueSubmission){
+        ValidationManager.submitPostProcess= function(formElement, continueSubmission){
             if(formElement.id="command"){
                 box=document.getElementById('multiInstitutionIndicator');
                 if (box!=null && box.value == 'false') {
@@ -90,8 +90,8 @@
 	    							$(hiddenField1).value=selectedChoice.id;
 			}
         }
-        autoCompleters.push(coCenterAutocompleterProps);
-        autoCompleters.push(sponsorSiteAutocompleterProps);
+        AutocompleterManager.addAutocompleter(coCenterAutocompleterProps);
+        AutocompleterManager.addAutocompleter(sponsorSiteAutocompleterProps);
 
 
     </script>

@@ -37,8 +37,8 @@
                 path: "treatmentEpochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers",
                 epochCountIndex: ${epochCount.index},
                 postProcessRowDeletion: function(object){
-                clear(object.epochCountIndex);                	
-			    },
+	                clear(object.epochCountIndex);                	
+			    }
             };
             var stratRowInserterProps_${epochCount.index} = {
                 nested_row_inserter: startAnsRowInserterProps_${epochCount.index},
@@ -48,11 +48,11 @@
                 path: "treatmentEpochs[${epochCount.index }].stratificationCriteria",
                 epochCountIndex: ${epochCount.index},
                 postProcessRowInsertion: function(object){
-                clear(object.epochCountIndex);                	
-			    },
+                	clear(object.epochCountIndex);                	
+			    }
             };
-            rowInserters.push(stratRowInserterProps_${epochCount.index});
-            registerRowInserters();
+            RowManager.addRowInseter(stratRowInserterProps_${epochCount.index});
+            RowManager.registerRowInserters();
         </script>
         <tags:minimizablePanelBox title="${epoch.name}" boxId="${epoch.name}">
             <p id="instructions">

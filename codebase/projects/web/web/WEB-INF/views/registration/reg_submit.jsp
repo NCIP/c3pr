@@ -19,7 +19,7 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script>
-var submitPostProcess= function(formElement, continueSubmission){
+ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		registrationStatus="${command.registrationStatus}";
 		if(formElement.id!='command')
 			return continueSubmission;

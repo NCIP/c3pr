@@ -42,7 +42,7 @@ function clearField(field) {
             add_row_division_id: "systemIdentifiersTable", 	        /* this id belongs to element where the row would be appended to */
             skeleton_row_division_id: "dummy-systemIdentifierRow",
             initialIndex: ${fn:length(command.systemAssignedIdentifiers)},                            /* this is the initial count of the rows when the page is loaded  */
-            path: "systemAssignedIdentifiers",                               /* this is the path of the collection that holds the rows  */
+            path: "systemAssignedIdentifiers"                            /* this is the path of the collection that holds the rows  */
         };
    var organizationIdentifierRowInserterProps = {
             add_row_division_id: "organizationIdentifiersTable", 	        /* this id belongs to element where the row would be appended to */
@@ -50,20 +50,20 @@ function clearField(field) {
             initialIndex: ${fn:length(command.organizationAssignedIdentifiers)},                            /* this is the initial count of the rows when the page is loaded  */
             path: "organizationAssignedIdentifiers",                               /* this is the path of the collection that holds the rows  */
             postProcessRowInsertion: function(object){
-        clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
-		clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;
-		registerAutoCompleter(clonedRowInserter);
-    },
-    onLoadRowInitialize: function(object, currentRowIndex){
-		clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
-		clonedRowInserter.basename=clonedRowInserter.basename+currentRowIndex;
-		registerAutoCompleter(clonedRowInserter);
-    },
+				        clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
+						clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;
+						AutocompleterManager.registerAutoCompleter(clonedRowInserter);
+				    },
+		    onLoadRowInitialize: function(object, currentRowIndex){
+				clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
+				clonedRowInserter.basename=clonedRowInserter.basename+currentRowIndex;
+				AutocompleterManager.registerAutoCompleter(clonedRowInserter);
+		    }
         };
-        rowInserters.push(systemIdentifierRowInserterProps);
-        rowInserters.push(organizationIdentifierRowInserterProps);
+        RowManager.addRowInseter(systemIdentifierRowInserterProps);
+        RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 
-function submitPostProcess(formElement, flag){	
+ValidationManager.submitPostProcess= function(formElement, flag){	
 	if(formElement.id!='command')
 		return flag;
 	if(!flag)

@@ -78,8 +78,8 @@
                     initialIndex: ${fn:length(command.epochs[epochCount.index].exclusionEligibilityCriteria)},
                     path: "epochs[${epochCount.index }].exclusionEligibilityCriteria"
                 };
-                rowInserters.push(instanceInclusionRow_${epochCount.index});
-                rowInserters.push(instanceExclusionRow_${epochCount.index});
+                RowManager.addRowInseter(instanceInclusionRow_${epochCount.index});
+                RowManager.addRowInseter(instanceExclusionRow_${epochCount.index});
             </script>
 
 

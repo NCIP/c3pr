@@ -56,15 +56,15 @@ var instanceRowInserterProps = {
                 );
         clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
 		clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;
-		registerAutoCompleter(clonedRowInserter);
+		AutocompleterManager.registerAutoCompleter(clonedRowInserter);
     },
     onLoadRowInitialize: function(object, currentRowIndex){
 		clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
 		clonedRowInserter.basename=clonedRowInserter.basename+currentRowIndex;
-		registerAutoCompleter(clonedRowInserter);
-    },
+		AutocompleterManager.registerAutoCompleter(clonedRowInserter);
+    }
 };
-rowInserters.push(instanceRowInserterProps);
+RowManager.addRowInseter(instanceRowInserterProps);
 </script>
 </head>
 

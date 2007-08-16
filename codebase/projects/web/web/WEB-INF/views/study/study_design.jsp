@@ -16,24 +16,24 @@
             skeleton_row_division_id: "dummy-arm",
             initialIndex: ${fn:length(command.treatmentEpochs[treatmentEpochCount.index].arms)},
             row_index_indicator: "NESTED.PAGE.ROW.INDEX",
-            path: "treatmentEpochs[${treatmentEpochCount.index }].arms",
+            path: "treatmentEpochs[${treatmentEpochCount.index }].arms"
         };
         var treatmentEpochRowInserterProps= {
             nested_row_inserter: armInserterProps,
             add_row_division_id: "treatmentEpoch",
             skeleton_row_division_id: "dummy-treatmentEpoch",
             initialIndex: ${fn:length(command.treatmentEpochs)},
-            path: "treatmentEpochs",
+            path: "treatmentEpochs"
         };
         var nonTreatmentEpochRowInserterProps= {
             add_row_division_id: "nonTreatmentEpoch",
             skeleton_row_division_id: "dummy-nonTreatmentEpoch",
             initialIndex: ${fn:length(command.nonTreatmentEpochs)},
-            path: "nonTreatmentEpochs",
+            path: "nonTreatmentEpochs"
         };
-        rowInserters.push(treatmentEpochRowInserterProps);
-        rowInserters.push(nonTreatmentEpochRowInserterProps);
-        registerRowInserters();
+        RowManager.addRowInseter(treatmentEpochRowInserterProps);
+        RowManager.addRowInseter(nonTreatmentEpochRowInserterProps);
+        RowManager.registerRowInserters();
     </script>
 
 </head>

@@ -29,7 +29,7 @@ var systemIdentifierRowInserterProps = {
     add_row_division_id: "mytable", 	        /* this id belongs to element where the row would be appended to */
     skeleton_row_division_id: "dummy-row",
     initialIndex: ${fn:length(command.systemAssignedIdentifiers)},                            /* this is the initial count of the rows when the page is loaded  */
-    path: "systemAssignedIdentifiers",                               /* this is the path of the collection that holds the rows  */
+    path: "systemAssignedIdentifiers"                             /* this is the path of the collection that holds the rows  */
 };
 var organizationIdentifierRowInserterProps = {
     add_row_division_id: "mytable-organizationIdentifier", 	        /* this id belongs to element where the row would be appended to */
@@ -39,11 +39,11 @@ var organizationIdentifierRowInserterProps = {
     postProcessRowInsertion: function(object){
 	    clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
 		clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;
-		registerAutoCompleter(clonedRowInserter);
-	},
+		AutocompleterManager.registerAutoCompleter(clonedRowInserter);
+	}
 };
-rowInserters.push(systemIdentifierRowInserterProps);
-rowInserters.push(organizationIdentifierRowInserterProps);
+RowManager.addRowInseter(systemIdentifierRowInserterProps);
+RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 </script>
 <c:if test="${empty displaySys || displaySys!='false'}">
 <input id="addIdentifier" type="button" value="Add System Identifier"

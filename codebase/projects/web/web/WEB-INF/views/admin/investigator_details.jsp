@@ -27,9 +27,9 @@ var instanceRowInserterProps = {
 	add_row_division_id: "mytable", 	        /* this id belongs to element where the row would be appended to */
 	skeleton_row_division_id: "dummy-row",  	/* this id belongs to the element which hold the dummy row html to be inserted   */
 	initialIndex: ${fn:length(command.healthcareSiteInvestigators)},                            /* this is the initial count of the rows when the page is loaded  */
-	path: "healthcareSiteInvestigators",                               /* this is the path of the collection that holds the rows  */
+	path: "healthcareSiteInvestigators"                             /* this is the path of the collection that holds the rows  */
 };
-rowInserters.push(instanceRowInserterProps);
+RowManager.addRowInseter(instanceRowInserterProps);
 </script>
 
 </head>

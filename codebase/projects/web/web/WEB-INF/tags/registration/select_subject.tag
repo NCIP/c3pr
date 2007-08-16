@@ -32,7 +32,7 @@
 //        initialIndex: 1,    /* this is the initial count of the rows when the page is loaded  */
 //        path: "identifiers",                                /* this is the path of the collection that holds the rows  */
 //    };
-//   rowInserters.push(instanceRowInserterProps);
+//   RowManager.addRowInseter(instanceRowInserterProps);
   	
   	function moveToSearchSubject(){
   		document.getElementById('searchSubjectSpan').className="current";
@@ -97,16 +97,16 @@
 		minimizeSubjectBox("Selected Subject: " +name+ " (" + identifier + ")");	
 	}  	
 	
-	function submitPostProcess(formElement, flag){
+	ValidationManager.submitPostProcess= function(formElement, flag){
 		if(formElement.name == 'createSubForm'){
 			//for the create subject form we make an ajax submit and return false to avoid the html submit
 			if(flag){
 				new Ajax.Updater('temp','../participant/createParticipant', {method:'post', postBody:Form.serialize('createSubForm'),onSuccess:handlerFunc, onFailure:handlerFail});
 			}
 			return false;
-		} else {
+		}else{
 			//for all other forms(i.e. the main form on select_study_or_subject) we return true to ensure the html submit
-			return true;
+			return flag;
 		}		
 	}
 </script>
@@ -181,7 +181,7 @@
 					<tr>
 						<td align="right"><span class="red">*</span><em></em> <b>First Name: &nbsp;</b></td>
 						<td align="left"><input id="firstName" name="firstName" type="text" value="" class="validate-notEmpty"/>
-						<span class="red">&nbsp;&nbsp;&nbsp;</span></div><em></em></td>
+						<span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
 					</tr>
 					<tr>
 						<td align="right"><span class="red">*</span><em></em> <b>Last Name:</b>&nbsp;</td>

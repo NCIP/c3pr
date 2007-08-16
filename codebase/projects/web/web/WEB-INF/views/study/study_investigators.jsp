@@ -48,8 +48,7 @@ var investigatorsAutocompleterProps = {
        afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=inputElement.id.split("-")[0]+"-hidden";
 	    							$(hiddenField).value=selectedChoice.id;
-								},
-		
+								}
 }
 var instanceRowInserterProps = {
        add_row_division_id: "mytable", 	        /* this id belongs to element where the row would be appended to */
@@ -59,15 +58,15 @@ var instanceRowInserterProps = {
     postProcessRowInsertion: function(object){
         clonedRowInserter=Object.clone(investigatorsAutocompleterProps);
 		clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;
-		registerAutoCompleter(clonedRowInserter);
+		AutocompleterManager.registerAutoCompleter(clonedRowInserter);
     },
     onLoadRowInitialize: function(object, currentRowIndex){
 		clonedRowInserter=Object.clone(investigatorsAutocompleterProps);
 		clonedRowInserter.basename=clonedRowInserter.basename+currentRowIndex;
-		registerAutoCompleter(clonedRowInserter);
-    },
+		AutocompleterManager.registerAutoCompleter(clonedRowInserter);
+    }
 };
-rowInserters.push(instanceRowInserterProps);        
+RowManager.addRowInseter(instanceRowInserterProps);        
 </script>
 </head>
 

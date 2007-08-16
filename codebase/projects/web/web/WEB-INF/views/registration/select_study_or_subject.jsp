@@ -38,9 +38,11 @@
 </div>
 <form:form method="post">
 <tags:tabFields tab="${tab}"/>
-	<form:hidden path="studySite" />
-	<form:hidden path="participant" />
-	<input type="hidden" name="epoch" id="epoch" />
+	<div style="display:none">
+		<form:input path="studySite" cssClass="validate-notEmpty"/>
+		<form:input path="participant" cssClass="validate-notEmpty" />
+		<input type="text" id="epochElement" name="epoch"  class="validate-notEmpty"/>
+	</div>	
 	<tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
 </form:form>
 </body>

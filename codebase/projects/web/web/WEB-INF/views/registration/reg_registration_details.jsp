@@ -43,8 +43,8 @@ var diseaseSiteAutocompleterProps = {
 	    							ajaxDiseaseSite=selectedChoice.name;
 								}
 }
-autoCompleters.push(diseaseSiteAutocompleterProps);
-submitPostProcess=function(formElement, flag){
+AutocompleterManager.addAutocompleter(diseaseSiteAutocompleterProps);
+ValidationManager.submitPostProcess=function(formElement, flag){
 							if(formElement.id!='command' || !flag)
 								return flag;
 							if($('diseaseSite-input').value!=ajaxDiseaseSite){

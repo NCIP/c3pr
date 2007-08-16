@@ -61,7 +61,6 @@ function toggleImage(id){
 				<td>${study.identifiers[0].value}</td>
 				<td>${study.phaseCode}</td>
 				<td>${study.targetAccrualNumber}</td>
-				</a>
 			</tr>
 			<c:if test="${fn:length(study.studySites) > 1}">
 				<tr id="studySites-table-${statusStudy.index }" style="display:none;">
@@ -80,7 +79,7 @@ function toggleImage(id){
 							<% String currClassJ=j%2==0? "odd":"even"; %>
 								<tr align="center" id="row<%= j++ %>" class="<%= currClass %>" onMouseOver="this.className='highlight'"
 								onMouseOut="this.className='<%= currClass %>'" 
-								onClick="postProcessStudySelection('${site.id}','${site.healthcareSite.name}','${study.shortTitleText}')">
+								onClick="postProcessStudySelection('${site.id}','${site.healthcareSite.name}','${study.shortTitleText}','${study.identifiers[0].type}'+' - '+ '${study.identifiers[0].value}')">
 									<td>${site.healthcareSite.name}</td>
 									<td>${site.irbApprovalDateStr==null?'01/01/1970':site.irbApprovalDateStr}</td>
 								</tr>

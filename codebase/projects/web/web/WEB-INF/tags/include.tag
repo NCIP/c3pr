@@ -17,6 +17,7 @@
 
 
 <%--javascript sources--%>
+<tags:javascriptLink name="browser_details"/>
 <tags:javascriptLink name="calendar"/>
 <tags:javascriptLink name="prototype"/>
 <tags:javascriptLink name="common"/>

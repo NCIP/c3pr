@@ -158,7 +158,7 @@
         initialIndex: ${fn:length(command.studySites[selected_site].studyPersonnels)},                            /* this is the initial count of the rows when the page is loaded  */
         path: "studySites[${selected_site}].studyPersonnels"
     };
-    rowInserters.push(instanceRowInserterProps);
+    RowManager.addRowInseter(instanceRowInserterProps);
 
 
     function addRow(){

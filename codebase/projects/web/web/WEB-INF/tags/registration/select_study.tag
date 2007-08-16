@@ -62,7 +62,7 @@
 	}
 	
 	function postProcessEpochSelection(id, name, type){
-		$("epoch").value = id;
+		$("epochElement").value = id;
 		var message = "Selected Epoch: " +name+ " (" +type+ ") ";
 		minimizeEpochBox(message);
 	}

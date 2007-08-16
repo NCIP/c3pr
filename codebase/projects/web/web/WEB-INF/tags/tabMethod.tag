@@ -21,5 +21,5 @@
 </c:if>
 
 new Ajax.Updater(${divElement},$("${formId}").action, 
-					{parameters:"decorator=nullDecorator&_asynchronous=true&_asyncMethodName=${method}&_asyncViewName=${viewName}&${params}&"+${javaScriptParam}+"&"+Form.serialize('${formId}'),
+					{parameters:"decorator=nullDecorator&_asynchronous=true&_asyncMethodName=${method}&_asyncViewName=${viewName}&${params}&"+${empty javaScriptParam?"''":javaScriptParam}+"&"+Form.serialize('${formId}'),
 					${callbackOpts} asynchronous:true, evalScripts:true});
