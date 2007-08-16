@@ -6,7 +6,11 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 import org.apache.commons.collections15.functors.InstantiateFactory;
@@ -20,6 +24,7 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 @DiscriminatorValue(value = "TREATMENT")
 public class TreatmentEpoch extends Epoch {
 	private LazyListHelper lazyListHelper;
+	private Randomization randomization;
 
 	private ParameterizedInstantiateFactory<EligibilityCriteria> eligibilityFactory;
 
@@ -41,6 +46,8 @@ public class TreatmentEpoch extends Epoch {
 		lazyListHelper.add(ExclusionEligibilityCriteria.class,
 				new InstantiateFactory<ExclusionEligibilityCriteria>(
 						ExclusionEligibilityCriteria.class));
+		lazyListHelper.add(StratumGroup.class,
+				new InstantiateFactory<StratumGroup>(StratumGroup.class));		
 	}
 
 	public void addNewArm(String armName) {
@@ -59,8 +66,9 @@ public class TreatmentEpoch extends Epoch {
 		return getArms().size() > 1;
 	}
 
-	@OneToMany(mappedBy = "treatmentEpoch", fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@JoinColumn(name="eph_id")
 	public List<Arm> getArmsInternal() {
 		return lazyListHelper.getInternalList(Arm.class);
 	}
@@ -172,6 +180,27 @@ public class TreatmentEpoch extends Epoch {
 		return lazyListHelper
 				.getInternalList(InclusionEligibilityCriteria.class);
 	}
+	
+	@OneToMany (fetch=FetchType.LAZY)
+    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+    @JoinColumn(name = "epochs_id")
+	public List<StratumGroup> getStratumGroupsInternal() {
+		return lazyListHelper.getInternalList(StratumGroup.class);
+	}
+
+	public void setStratumGroupsInternal(
+			List<StratumGroup> stratumGroup) {
+		lazyListHelper.setInternalList(StratumGroup.class, stratumGroup);
+	}
+	
+	@Transient
+	public List<StratumGroup> getStratumGroups() {
+		return lazyListHelper.getLazyList(StratumGroup.class);
+	}
+
+	public void setStratumGroups(
+			List<StratumGroup> stratumGroup) {	
+	}	
 
 	@Transient
 	public List<InclusionEligibilityCriteria> getInclusionEligibilityCriteria() {
@@ -189,6 +218,20 @@ public class TreatmentEpoch extends Epoch {
 		lazyListHelper.setInternalList(InclusionEligibilityCriteria.class,
 				inclusionEligibilityCriteria);
 
+	}
+
+	@OneToOne
+	@JoinColumn(name = "rndm_id")
+/*	@JoinColumns ({
+        @JoinColumn(name="ID", referencedColumnName = "eph_id")
+    })
+*/	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	public Randomization getRandomization() {
+		return randomization;
+	}
+
+	public void setRandomization(Randomization randomization) {
+		this.randomization = randomization;
 	}
 
 
