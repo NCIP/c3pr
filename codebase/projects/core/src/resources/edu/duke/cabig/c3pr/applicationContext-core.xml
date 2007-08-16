@@ -116,7 +116,12 @@
                 <value>edu.duke.cabig.c3pr.domain.ContactMechanism</value>
                 <value>edu.duke.cabig.c3pr.domain.ScheduledEpoch</value>
                 <value>edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch</value>
-                <value>edu.duke.cabig.c3pr.domain.ScheduledNonTreatmentEpoch</value>
+                <value>edu.duke.cabig.c3pr.domain.ScheduledNonTreatmentEpoch</value>   
+                <value>edu.duke.cabig.c3pr.domain.StratumGroup</value>      
+                <value>edu.duke.cabig.c3pr.domain.BookRandomizationEntry</value>          
+                <value>edu.duke.cabig.c3pr.domain.Randomization</value>
+                <value>edu.duke.cabig.c3pr.domain.BookRandomization</value>
+                <value>edu.duke.cabig.c3pr.domain.StratificationCriterionAnswerCombination</value>
             </list>
         </property>
         <property name="entityInterceptor">
