@@ -84,6 +84,10 @@ public class ParticipantDaoTest extends DaoTestCase {
         List<Participant> results = dao.searchByExample(searchCriteria, true);
         assertEquals("Wrong number of Participants", 1, results.size());
     }
+    /**
+     * Test for Creating Participant with basic details and address
+     * @throws Exception
+     */
     
     public void testCreateParticipant() throws Exception{
     	Participant participant = new Participant();
@@ -92,13 +96,13 @@ public class ParticipantDaoTest extends DaoTestCase {
     	participant.setAdministrativeGenderCode("Male");
     	Date birthDate = new Date();
     	participant.setBirthDate(birthDate);
+    	participant.getAddress().setCity("Charlotte");
+    	participant.getAddress().setCountryCode("USA");
+    	participant.getAddress().setStateCode("NC");
+    	participant.getAddress().setStreetAddress("350 Glen Dale Avenue");
     	Address add = new Address();
-    	add.setStreetAddress("350 Glen Dale Avenue");
-    	add.setCity("Charlotte");
-    	add.setStateCode("NC");
-    	add.setCountryCode("USA");
-    	participant.setAddress(add);
-    	dao.save(participant);
+    	
+       	dao.save(participant);
     	
     	interruptSession();
     	
@@ -106,6 +110,13 @@ public class ParticipantDaoTest extends DaoTestCase {
     	assertEquals("Lewis",savedParticipant.getLastName());
     	assertEquals("NC",savedParticipant.getAddress().getStateCode());
     }
+    
+    
+    /**
+     * Test for Creating Participant with system assigned identifier
+     * @throws Exception
+     */
+    
     
     
     public void testCreateParticipantWithSystemAssignedIdentifier() throws Exception{
@@ -130,6 +141,12 @@ public class ParticipantDaoTest extends DaoTestCase {
     	assertEquals("SysGenID",savedParticipant.getSystemAssignedIdentifiers().get(0).getValue());
     	assertEquals("localSystem",savedParticipant.getSystemAssignedIdentifiers().get(0).getSystemName());
     }
+    
+    /**
+     * Test for Creating Participant with organization assigned identifier
+     * @throws Exception
+     */
+    
     public void testCreateParticipantWithOrganizationAssignedIdentifier() throws Exception{
     	Participant participant = new Participant();
     	participant.setLastName("Barry");

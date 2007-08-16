@@ -25,6 +25,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
@@ -45,7 +46,6 @@ import gov.nih.nci.cabig.ctms.web.tabs.AutomaticSaveFlowFormController;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
-
 /**
  * @author Ramakrishna
  * 
@@ -60,20 +60,20 @@ public class EditParticipantController<C extends Participant> extends
 	private HealthcareSiteDao healthcareSiteDao;
 
 	protected ConfigurationProperty configurationProperty;
-	
-	 public EditParticipantController() {
-		 setCommandClass(Participant.class);
-			Flow<C> flow = new Flow<C>("Edit Subject");
-			layoutTabs(flow);
-			setFlow(flow);
-	         setBindOnNewForm(true);
-	    }
-	
+
+	public EditParticipantController() {
+		setCommandClass(Participant.class);
+		Flow<C> flow = new Flow<C>("Edit Subject");
+		layoutTabs(flow);
+		setFlow(flow);
+		setBindOnNewForm(true);
+	}
+
 	protected void layoutTabs(Flow flow) {
-	        flow.addTab(new ParticipantDetailsTab());
-	        flow.addTab(new ParticipantAddressAndContactInfoTab());
-	        flow.addTab(new ParticipantSummaryTab());
-	       	    }
+		flow.addTab(new ParticipantDetailsTab());
+		flow.addTab(new ParticipantAddressAndContactInfoTab());
+		flow.addTab(new ParticipantSummaryTab());
+	}
 
 	@Override
 	protected ParticipantDao getDao() {
@@ -137,14 +137,6 @@ public class EditParticipantController<C extends Participant> extends
 			System.out.println(" Participant's ID is:" + participant.getId());
 		}
 
-		/*if (participant.getIdentifiers().size() == 0) {
-			Identifier temp = new Identifier();
-			temp.setSource("<enter value>");
-			temp.setType("<enter value>");
-			temp.setValue("<enter value>");
-			temp.setPrimaryIndicator(false);
-			participant.addIdentifier(temp);
-		}*/
 		boolean contactMechanismEmailPresent = false, contactMechanismPhonePresent = false, contactMechanismFaxPresent = false;
 		for (ContactMechanism contactMechanism : participant
 				.getContactMechanisms()) {
@@ -184,7 +176,7 @@ public class EditParticipantController<C extends Participant> extends
 				new SimpleDateFormat("MM/dd/yyyy"), true));
 		binder.registerCustomEditor(HealthcareSite.class, new CustomDaoEditor(
 				healthcareSiteDao));
-		}
+	}
 
 	@Override
 	protected void postProcessPage(HttpServletRequest request, Object Command,
@@ -200,10 +192,9 @@ public class EditParticipantController<C extends Participant> extends
 				e.printStackTrace();
 			}
 		}
+
 	}
 
-	
-	
 	@Override
 	protected void onBind(HttpServletRequest request, Object command,
 			BindException errors) throws Exception {
@@ -246,7 +237,6 @@ public class EditParticipantController<C extends Participant> extends
 		}
 	}
 
-
 	@Override
 	protected ModelAndView processFinish(HttpServletRequest request,
 			HttpServletResponse response, Object oCommand, BindException errors)
@@ -260,6 +250,7 @@ public class EditParticipantController<C extends Participant> extends
 			if (strUtil.isBlank(contactMechanism.getValue()))
 				cMIterator.remove();
 		}
+
 		participantDao.save(participant);
 		ModelAndView modelAndView = new ModelAndView(new RedirectView(
 				"searchparticipant.do"));

@@ -12,7 +12,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.apache.commons.collections15.functors.InstantiateFactory;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
@@ -30,6 +29,8 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 @Table(name = "participants")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "participants_id_seq") })
 public class Participant extends Person implements Comparable<Participant> {
+	
+
 	private Date birthDate;
 	private String birthDateStr;
 	private String administrativeGenderCode;
@@ -78,9 +79,19 @@ public class Participant extends Person implements Comparable<Participant> {
         return lazyListHelper.getLazyList(SystemAssignedIdentifier.class);
     }
     
+    public void setSystemAssignedIdentifiers(List<SystemAssignedIdentifier> systemAssignedIdentifiers)
+    {
+    	// do nothing
+    }
+    
     @Transient
     public List<OrganizationAssignedIdentifier> getOrganizationAssignedIdentifiers() {
         return lazyListHelper.getLazyList(OrganizationAssignedIdentifier.class);
+    }
+    
+    public void setOrganizationAssignedIdentifiers(List<OrganizationAssignedIdentifier> organizationAssignedIdentifiers)
+    {
+    	// do nothing
     }
 
 	@OneToMany(mappedBy = "participant", fetch = FetchType.LAZY)
@@ -131,7 +142,7 @@ public class Participant extends Person implements Comparable<Participant> {
 	public void setRaceCode(String raceCode) {
 		this.raceCode = raceCode;
 	}
-
+	
 	@Transient
 	public String getBirthDateStr() {
 		if (birthDate == null) {
@@ -168,7 +179,7 @@ public class Participant extends Person implements Comparable<Participant> {
 			StudySubject studySubject) {
 		studySubjects.remove(studySubject);
 	}
-
+	
 	public int compareTo(Participant o) {
 		if(this.equals((Participant)o))
 			return 0;

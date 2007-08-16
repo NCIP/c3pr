@@ -50,8 +50,14 @@
 							</c:otherwise>
 						</c:choose>
 					">
-					
-					<td>${participant.lastName}, ${participant.middleName}, ${participant.firstName}</td>
+					<c:choose>
+					<c:when test="${not empty participant.middleName }">
+					<td>${participant.lastName},${participant.middleName}, ${participant.firstName}</td>
+					</c:when>
+					<c:otherwise>
+					<td>${participant.lastName},${participant.firstName}</td>
+					</c:otherwise>
+					</c:choose>
 					<td>${participant.primaryIdentifier}</a></td>
 					<td>${participant.administrativeGenderCode}</td>
 					<td>${participant.raceCode}</td>
