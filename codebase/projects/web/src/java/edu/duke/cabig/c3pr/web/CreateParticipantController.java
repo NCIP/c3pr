@@ -124,7 +124,6 @@ public class CreateParticipantController extends
 		Participant participant = (Participant) super
 				.formBackingObject(request);
 		participant = createParticipantWithContacts(participant);
-		participant.setAddress(new Address());
 		return participant;
 	}
 
@@ -189,10 +188,6 @@ public class CreateParticipantController extends
 				cMIterator.remove();
 		}
 
-		if(StringUtils.getBlankIfNull(command.getAddress().getStreetAddress()).equals("")&&StringUtils.getBlankIfNull(command.getAddress().getCity()).equals("")
-				&&StringUtils.getBlankIfNull(command.getAddress().getCountryCode()).equals("")&&StringUtils.getBlankIfNull(command.getAddress().getPostalCode()).equals("")
-				&&StringUtils.getBlankIfNull(command.getAddress().getStateCode()).equals(""))
-			command.setAddress(null);
 		participantDao.save(command);
 
 		ModelAndView modelAndView = null;
