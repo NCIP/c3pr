@@ -96,12 +96,12 @@ function submitPostProcess(formElement, flag){
 							width="1" height="1" class="heightControl"></td>
 					</tr>
 					<tr>
-						<td align="right"><span class="required-indicator">*</span><em></em><b>First Name:&nbsp;</b></td>
+						<td align="right"><span class="required-indicator">*</span>&nbsp;<em></em><b>First Name:&nbsp;</b></td>
 						<td align="left"><form:input path="firstName"
 							cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
 					</tr>
 					<tr>
-						<td align="right"><span class="required-indicator">*</span><em></em><b>Last Name:</b>&nbsp;</td>
+						<td align="right"><span class="required-indicator">*</span>&nbsp;<em></em><b>Last Name:</b>&nbsp;</td>
 						<td align="left"><form:input path="lastName"
 							cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
 					</tr>
@@ -126,7 +126,7 @@ function submitPostProcess(formElement, flag){
 							height="1" class="heightControl"></td>
 					</tr>
 					<tr>
-						<td align="right"><span class="required-indicator">*</span><em></em><b>Gender:</b> &nbsp;</td>
+						<td align="right"><span class="required-indicator">*</span>&nbsp;<em></em><b>Gender:</b> &nbsp;</td>
 						<td align="left"><form:select path="administrativeGenderCode"
 							cssClass="validate-notEmpty">
 							<option value="">--Please Select--</option>
@@ -135,13 +135,12 @@ function submitPostProcess(formElement, flag){
 						</form:select></td>
 					</tr>
 					<tr>
-						<td align="right"><span class="required-indicator">*</span><em></em><b>Birth Date: </b>&nbsp;</td>
+						<td align="right"><span class="required-indicator">*</span>&nbsp;<em></em><b>Birth Date: </b>&nbsp;</td>
 						<td><form:input path="birthDate" cssClass="validate-date" />&nbsp;(mm/dd/yyyy)&nbsp;&nbsp;<span
 							class="red"><em></em></span></td>
 					</tr>
 					<tr>
-						<td align="right"><span class="required-indicator">*</span><em></em>
-						<b>Ethnicity:</b> &nbsp;</td>
+						<td align="right"><span class="required-indicator">*</span>&nbsp;<em></em><b>Ethnicity:</b> &nbsp;</td>
 						<td align="left"><form:select path="ethnicGroupCode"
 							cssClass="validate-notEmpty">
 							<option value="">--Please Select--</option>
@@ -150,7 +149,7 @@ function submitPostProcess(formElement, flag){
 						</form:select></td>
 					</tr>
 					<tr>
-						<td align="right"><span class="required-indicator">*</span><em></em><b>Race(s):</b> &nbsp;</td>
+						<td align="right"><span class="required-indicator">*</span>&nbsp;<em></em><b>Race(s):</b> &nbsp;</td>
 						<td align="left"><form:select path="raceCode"
 							cssClass="validate-notEmpty">
 							<option value="">--Please Select--</option>
@@ -172,7 +171,7 @@ function submitPostProcess(formElement, flag){
 					cellspacing="0" cellpadding="0" class="tablecontent">
 					<tr>
 						<th><span
-							class="required-indicator">*</span>Assigning Authority</th>
+							class="required-indicator">*</span> Assigning Authority</th>
 						<th><span class="required-indicator">*</span>Identifier
 						Type</th>
 						<th><span class="required-indicator">*</span>Identifier</th>
