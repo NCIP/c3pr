@@ -54,16 +54,40 @@ public abstract class Person extends AbstractMutableDomainObject
 		this.lastName = lastName;
 	}
 	
+	@Transient
+	public Address getAddress() {
+		if (this.address==null){
+		this.address=new Address();
+		}
+		return this.address;
+	}
+	
 	@OneToOne
 	@Cascade(value = { CascadeType.ALL})
     @JoinColumn(name="ADD_ID" ,nullable=true)
-    public Address getAddress() {
-        return address;
-    }
+	public Address getAddressInternal(){
 		
-	public void setAddress(Address address) {
+		if(this.getAddress().isBlank()) return null;
+		return this.address;
+		
+	}
+	
+	private void setAddressInternal(Address address){
+		this.address=address;
+	}
+		
+	private void setAddress(Address address) {
         this.address = address;
     }
+		
+	@Transient
+	public void fillAddress(Address address){
+		this.address.setStreetAddress(address.getStreetAddress());
+		this.address.setCity(address.getCity());
+		this.address.setStateCode(address.getStateCode());
+		this.address.setCountryCode(address.getCountryCode());
+		this.address.setPostalCode(address.getPostalCode());
+	}
 	
 	public void setContactMechanisms(List<ContactMechanism> contactMechanisms)
 	{
