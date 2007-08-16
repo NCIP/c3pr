@@ -22,10 +22,13 @@ registerRowInserter(stratumGroupRowInserter_${epochCountIndex});
  <c:forEach var="stratumGroup" varStatus="statusStratumGroup" items="${command.treatmentEpochs[epochCountIndex].stratumGroups}">
      <tr id="stratumGroupTable1_${epochCountIndex}-${statusStratumGroup.index }">
          <td class="alt">
-             <input type="text" id=""treatmentEpochs[${epochCountIndex}].stratumGroups[${statusStratumGroup.index}].stratumGroupNumber""
-                     name="treatmentEpochs[${epochCountIndex}].stratumGroups[${statusStratumGroup.index}].stratumGroupNumber"
-                     value="${command.treatmentEpochs[epochCountIndex].stratumGroups[statusStratumGroup.index].stratumGroupNumber}"
-                     size="1" class="validate-notEmpty"/></td>
+<!--     <input type="text" id="treatmentEpochs[${epochCountIndex}].stratumGroups[${statusStratumGroup.index}].stratumGroupNumber"
+             name="treatmentEpochs[${epochCountIndex}].stratumGroups[${statusStratumGroup.index}].stratumGroupNumber"
+             value="${command.treatmentEpochs[epochCountIndex].stratumGroups[statusStratumGroup.index].stratumGroupNumber}" size="1" class="validate-notEmpty"/> -->
+             
+             <tags:inPlaceEdit value="${command.treatmentEpochs[epochCountIndex].stratumGroups[statusStratumGroup.index].stratumGroupNumber}"
+             				   path="${command.treatmentEpochs[epochCountIndex].stratumGroups[statusStratumGroup.index].stratumGroupNumber}" />        
+                     </td>
          <td class="alt">
          	${command.treatmentEpochs[epochCountIndex].stratumGroups[statusStratumGroup.index].answerCombinations}
              </td>
