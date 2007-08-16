@@ -9,6 +9,10 @@ public abstract class WorkFlowTab<C> extends ReflexiveAjaxableTab<C>{
     private String showSummary="true";
     private String showLink="true";
     
+    public WorkFlowTab(){
+    	
+    }
+    
 	public WorkFlowTab(String longTitle, String shortTitle, String viewName) {
 		super(longTitle, shortTitle, viewName);
     }

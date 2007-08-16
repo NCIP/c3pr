@@ -16,6 +16,10 @@ public abstract class InPlaceEditableTab<C> extends WorkFlowTab<C>{
 
 	private static final String IN_PLACE_PARAM_NAME="_ajaxInPlaceEditParam";
 
+	public InPlaceEditableTab(){
+		
+	}
+	
 	public InPlaceEditableTab(String longTitle, String shortTitle, String viewName) {
 		super(longTitle, shortTitle, viewName);
     }

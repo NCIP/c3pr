@@ -17,6 +17,8 @@ import org.springframework.web.util.WebUtils;
 public abstract class ReflexiveAjaxableTab<C> extends AjaxableTab<C>{
 
 	private Class[] paramTypes;
+	public ReflexiveAjaxableTab(){
+	}	
 	
 	public ReflexiveAjaxableTab(String longTitle, String shortTitle, String viewName) {
 		this(longTitle, shortTitle, viewName, new Class[]{HttpServletRequest.class,Object.class, Errors.class});
