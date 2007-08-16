@@ -18,6 +18,7 @@ import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.BookRandomizationEntry;
+import edu.duke.cabig.c3pr.domain.CalloutRandomization;
 import edu.duke.cabig.c3pr.domain.DiseaseCategory;
 import edu.duke.cabig.c3pr.domain.DiseaseTerm;
 import edu.duke.cabig.c3pr.domain.Epoch;
@@ -25,6 +26,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.NonTreatmentEpoch;
+import edu.duke.cabig.c3pr.domain.Randomization;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionAnswerCombination;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
@@ -181,6 +183,37 @@ public class StudyDaoTest extends DaoTestCase {
 		return study;		
 	}	
 	
+	
+	public void testSaveCalloutRandomizations() throws Exception{
+		Integer savedId;
+		{
+			Study study = buildStudy();
+			Arm armA = new Arm();
+			armA.setName("A");
+			
+			TreatmentEpoch epoch1 = new TreatmentEpoch();
+			armA.setTreatmentEpoch(epoch1);
+			ArrayList <Arm> aList = new ArrayList<Arm>();
+			aList.add(armA);
+			epoch1.getArms().addAll(aList);
+			epoch1.setName("epoch1");
+			Randomization cRandomization = new CalloutRandomization();
+			((CalloutRandomization)cRandomization).setCalloutUrl("trialUrl.com");
+			epoch1.setRandomization(cRandomization);
+			study.addEpoch(epoch1);
+			study=dao.merge(study);
+			
+			savedId = study.getId(); 
+			assertNotNull("The saved study didn't get an id", savedId);			
+		}
+		interruptSession();
+		{
+			Study loaded = dao.getById(savedId);
+			CalloutRandomization cr = (CalloutRandomization)loaded.getTreatmentEpochs().get(0).getRandomization();
+			String i = cr.getCalloutUrl();
+			assertEquals(i, "trialUrl.com");
+		}
+	}
 	/**
 	 * Test Saving of a Study with all Randomization associations present 
 	 * @throws Exception
