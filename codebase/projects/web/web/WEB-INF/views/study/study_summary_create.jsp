@@ -60,6 +60,10 @@
             <td class="alt" align="left"><b>Randomized:</b></td>
             <td class="alt" align="left">${command.randomizedIndicator}</td>
         </tr>
+        <tr>
+            <td class="alt" align="left"><b>Randomization Type:</b></td>
+            <td class="alt" align="left">${command.randomizationType.displayName}</td>
+        </tr>
     </table>
 </chrome:division>
 

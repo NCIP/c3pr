@@ -134,7 +134,8 @@
 </form:form>
 <!--
 <c:forEach items="${command.treatmentEpochs}" var="epoch" varStatus="epochCount">
-	<form:form id="1" name="1">
+${epochCount.index}
+	<form:form id="id_${epochCount.index}" name="name_${epochCount.index}">
 		<script>
 			<tags:tabMethod method="generateStratumGroups" viewName="/study/asynchronous/strat_combinations" divElement="'sgCombinations_'${epochCount.index}" params="epochCountIndex=${epochCount.index}"  />
 		</script>

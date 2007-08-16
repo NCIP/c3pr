@@ -11,7 +11,6 @@
 <form:form method="post" name="form">
 <tags:tabFields tab="${tab}"/>
 <c:if test="${command.randomizationType.name == 'BOOK'}">
-	<!-- minimizable panes for book randomization per epoch-->
 	<c:forEach items="${command.treatmentEpochs}" var="epoch" varStatus="epochCount">
 		<tags:minimizablePanelBox title="${epoch.name}" boxId="${epoch.name}">
 	
@@ -27,7 +26,27 @@
 	     </table>
 	    </tags:minimizablePanelBox>
 	</c:forEach>
-	<!-- minimizable panes for book randomization per epoch-->
+</c:if>
+
+<c:if test="${command.randomizationType.name == 'CALL_OUT'}">
+	<c:forEach items="${command.treatmentEpochs}" var="epoch" varStatus="epochCount">
+		<tags:minimizablePanelBox title="${epoch.name}" boxId="${epoch.name}">
+		<br/>
+	     <table border="0" cellspacing="0" cellpadding="0" id="epoch-${epochCount.index }">         
+             <tr>
+                <td><b>Enter Call-Out Randomization URL:</b></td>
+				<td>
+				<!-- <input type="text" 
+				id="treatmentEpochs[${epochCountIndex}].stratumGroups[${statusStratumGroup.index}].stratumGroupNumber"
+				name="${command.treatmentEpochs[epochCount.index].randomization.calloutUrl}" 
+				value="${command.treatmentEpochs[epochCount.index].randomization.calloutUrl}" size="40"/> -->
+				<form:input path="treatmentEpochs[${epochCount.index}].randomization.calloutUrl" size="30" cssClass="validate-notEmpty"/>
+				</td>				
+             </tr>
+	     </table>
+	     <br/>
+	    </tags:minimizablePanelBox>
+	</c:forEach>
 </c:if>
 
 <tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
