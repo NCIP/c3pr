@@ -1,12 +1,18 @@
 package edu.duke.cabig.c3pr.web.study;
 
 import edu.duke.cabig.c3pr.domain.Arm;
+import edu.duke.cabig.c3pr.domain.BookRandomization;
+import edu.duke.cabig.c3pr.domain.CalloutRandomization;
 import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 import org.springframework.validation.Errors;
 
 import javax.servlet.http.HttpServletRequest;
+
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -41,7 +47,7 @@ class StudyDesignTab extends StudyTab {
 			if ("addEpoch".equals(action)) {
 				log.debug("Requested Add Epoch");
 				study.addEpoch(Epoch.createTreatmentEpoch(
-						"New Treatment Epoch", "Arm A", "Arm B", "Arm C"));
+						"New Treatment Epoch", "Arm A", "Arm B", "Arm C"));				
 			} else if ("addArm".equals(action)) {
 				log.debug("Requested Add Arm");
 				TreatmentEpoch epoch = (TreatmentEpoch) study
@@ -65,8 +71,28 @@ class StudyDesignTab extends StudyTab {
 				log.debug("Requested Add NonTreatmentEpoch");
 				study.addEpoch(Epoch
 						.createNonTreatmentEpoch("New Non Treatment Epoch"));
-			}
-
+			}			
 		}
+		//Instantiating the appropriate randomization class and setting it in the epoch.
+		ArrayList epochList = (ArrayList)study.getEpochs();
+		Epoch epoch;
+		TreatmentEpoch tEpoch;
+		Iterator iter = epochList.iterator();
+		while(iter.hasNext()){
+			epoch = (Epoch)iter.next();
+			if(epoch instanceof TreatmentEpoch){
+				tEpoch = (TreatmentEpoch)epoch;
+				if(study.getRandomizationType().equals(RandomizationType.BOOK)){
+					tEpoch.setRandomization(new BookRandomization());
+		    	}
+				if(study.getRandomizationType().equals(RandomizationType.CALL_OUT)){
+					tEpoch.setRandomization(new CalloutRandomization());
+		    	}
+				if(study.getRandomizationType().equals(RandomizationType.PHONE_CALL)){
+		    		//no class for this yet.
+		    	}
+			}
+		}
+		
 	}
 }
