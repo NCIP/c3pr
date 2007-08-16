@@ -37,6 +37,9 @@
         
     <STUDY_SUBJECTS id="1000" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="1000" sto_id="1000" sti_id="1000"/>
     <STUDY_SUBJECTS id="1001" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="1000" sto_id="1000" sti_id="1001"/>
+    
+    <RANDOMIZATIONS id="1001" version="1" dtype="BR"/>
+    
     <EPOCHS id="1000" version="1" name="Treatment1000" description_text="treatement desc" stu_id="1000" type="TREATMENT"/>
     <EPOCHS id="1001" version="1" name="Treatment1001" description_text="cancer desc" stu_id="1000" type="TREATMENT" />
     <EPOCHS id="1002" version="1" name="Treatment1002" description_text="treatement desc" stu_id="1000" type="TREATMENT" />
@@ -52,6 +55,9 @@
     <ARMS id="1005" version="1" name="Arm 1005" description_text="Arm 1005 desc" target_accrual_number="1005" eph_id="1002" />
     <ARMS id="1006" version="1" name="Arm 1006" description_text="Arm 1006 desc" target_accrual_number="1006" eph_id="1003" />
     <ARMS id="1007" version="1" name="Arm 1007" description_text="Arm 1007 desc" target_accrual_number="1007" eph_id="1003" />
+    
+    <STRATUM_GROUP id="1001" version="1" current_position="1" stratum_group_number="8" epochs_id="1000" />
+    <BOOK_RANDOMIZATION_ENTRY id="1001" version="1" position="1" str_grp_id="1001" arms_id="1000" rndm_id="1001" />        
         
     <RESEARCH_STAFFS id="1000" version="1" first_name="Research Bill" last_name="Staff2" hcs_id="1000"/>
     <RESEARCH_STAFFS id="1001" version="1" first_name="Research George" last_name="Staff2" hcs_id="1000"/>
@@ -84,6 +90,6 @@
     
     <STRATIFICATION_CRITERION id="1000" version="1" question_text="question" question_number="1"/>
     <STRATIFICATION_CRI_PER_ANS id="1000" version="1" permissible_answer="answer" str_cri_id="1000"/>
-  
+    <STRATIFICATION_CRITERION_ANSWER_COMBINATION id="1000" version="1" />
   	 
 </dataset>
