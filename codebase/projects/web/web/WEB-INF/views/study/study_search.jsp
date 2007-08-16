@@ -20,6 +20,15 @@
         function showTable(table) {
             document.getElementById('tableDiv').innerHTML=table;
         }
+        
+        function submitPostProcess(formElement, flag){
+        	if(formElement.id="searchForm"){
+        		if(flag)
+	        		buildTable('searchForm');
+    	    	return false;
+    	    }
+    	    return flag;
+        }
     </script>
 </head>
 <!-- MAIN BODY STARTS HERE -->
@@ -46,16 +55,16 @@
             </div>
             <div class="row">
                 <div class="label">
-                    Search Criteria:
+                    <span class="required-indicator">*</span>&nbsp;Search Criteria:
                 </div>
                 <div class="value">
-                    <form:input path="searchText"/>
+                    <form:input path="searchText" cssClass="validate-notEmpty"/>
                 </div>
             </div>
 
             <div class="row">
                 <div class="value">
-                    <input class='ibutton' type='button' onclick="buildTable('searchForm');" value='Search'  title='Search Study'/>
+                    <input class='ibutton' type='submit' value='Search'  title='Search Study'/>
                 </div>
             </div>
         </div>
