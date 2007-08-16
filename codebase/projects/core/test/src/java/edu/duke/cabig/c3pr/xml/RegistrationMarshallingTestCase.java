@@ -81,7 +81,7 @@ public class RegistrationMarshallingTestCase extends AbstractXMLMarshalling {
         registration.setParticipant(patient);
 
 
-        patient.setAddress(getAddress());
+        patient.fillAddress(getAddress());
 
         try {
             marshalledRegistration = marshaller.toXML(registration);
