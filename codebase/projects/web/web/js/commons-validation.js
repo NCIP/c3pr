@@ -8,14 +8,14 @@ function validateFields(formFields) {
    // loop thru all form elements
    for (var elementIndex = 0; elementIndex < formFields.length; elementIndex++) {
       var element = formFields[elementIndex];
-   	  removeError(element);
+   	  ValidationManager.removeError(element);
       // text and textarea types
       if (element.type == "text" || element.type == "textarea") {
          element.value = trimWhitespace(element.value)
          
          // required element
          if (element.required  && element.value == '') {
-            showError(element,element.requiredError);
+            ValidationManager.showError(element,element.requiredError);
             validForm=false;
             continue;
             
@@ -23,14 +23,14 @@ function validateFields(formFields) {
          
          // maximum length
          if (element.maxlength && isValidLength(element.value, 0, element.maxlength) == false) {
-            showError(element,element.maxlengthError);
+            ValidationManager.showError(element,element.maxlengthError);
             validForm=false;
             continue;
          }
 
          // minimum length
          if (element.minlength && isValidLength(element.value, element.minlength, Number.MAX_VALUE) == false) {
-            showError(element,element.minlengthError);
+            ValidationManager.showError(element,element.minlengthError);
             validForm=false;
             continue;
          }
@@ -49,7 +49,7 @@ function validateFields(formFields) {
                   (element.pattern.toLowerCase() == 'numeric' && isNumeric(element.value, true) == false) ||
                   (element.pattern.toLowerCase() == 'alphabetic' && isAlphabetic(element.value, true) == false) ||
                   (element.pattern.toLowerCase().indexOf('date') == 0 && isCorrectDate(element.value) == false)) {
-               showError(element,element.patternError);
+               ValidationManager.showError(element,element.patternError);
                validForm=false;
                continue;
             }
@@ -61,21 +61,21 @@ function validateFields(formFields) {
          
          // required element
          if (element.required  && element.value == '') {
-            showError(element,element.requiredError);
+            ValidationManager.showError(element,element.requiredError);
             validForm=false;
             continue;
          }
          
          // maximum length
          if (element.maxlength && isValidLength(element.value, 0, element.maxlength) == false) {
-            showError(element,element.maxLengthError);
+            ValidationManager.showError(element,element.maxLengthError);
             validForm=false;
             continue;
          }
 
          // minimum length
          if (element.minlength && isValidLength(element.value, element.minlength, Number.MAX_VALUE) == false) {
-            showError(element,element.minLengthError);
+            ValidationManager.showError(element,element.minLengthError);
             validForm=false;
             continue;
          }
@@ -86,7 +86,7 @@ function validateFields(formFields) {
          
          // required element
          if (element.required  && element.value == '') {
-            showError(element,element.requiredError);
+            ValidationManager.showError(element,element.requiredError);
             validForm=false;
             continue;
          }
@@ -97,14 +97,14 @@ function validateFields(formFields) {
 		//alert("12.4:select element")
          // required element
          if (element.required && (element.selectedIndex == -1 || element.options[element.selectedIndex].value == '')) {
-            showError(element,element.requiredError);
+            ValidationManager.showError(element,element.requiredError);
             validForm=false;
             continue;
          }
          
        // disallow empty value selection
          if (element.disallowEmptyValue && element.options[element.selectedIndex].value == '') {
-            showError(element,element.disallowEmptyValueError);
+            ValidationManager.showError(element,element.disallowEmptyValueError);
             validForm=false;
             continue;
          }
@@ -127,7 +127,7 @@ function validateFields(formFields) {
             
             // show error if required and flag group as having been tested
             if (checkedRadioButton == -1 && !radiogroup.tested) {
-               showError(element,radiogroup[0].requiredError);
+               ValidationManager.showError(element,radiogroup[0].requiredError);
                validForm=false;
                radiogroup.tested = true;
                continue;

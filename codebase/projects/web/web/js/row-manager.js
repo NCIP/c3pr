@@ -44,6 +44,7 @@
 //
 var RowManager = Class.create()
 var RowManager = {
+	rowInserters: new Array(),
 	addRow: function(inserter){this.execute(true,inserter,-1)},
 	deleteRow: function(inserter,delIndex){this.execute(false,inserter,delIndex)},
 	execute: function(isAddRow, inserter, deletionIndex){
@@ -60,30 +61,31 @@ var RowManager = {
 				},
 	getNestedRowInserter: function(inserter, index){
 								return inserter.cloned_nested_row_inserters[index]
+							},
+	addRowInseter: function (inserter){
+						this.rowInserters.push(inserter)
+					},
+	registerRowInserters: function(){
+								for(x=0 ; x<this.rowInserters.length ; x++){
+									if(this.rowInserters[x].isRegistered==null){
+										this.registerRowInserter(this.rowInserters[x])
+										//alert("registered "+rowInserters[x].add_row_division_id)
+									}
+								}
+							},
+	registerRowInserter: function(rowInserter){
+								clone=Object.clone(AbstractRowInserterProps);
+								Object.extend(clone,rowInserter)
+								Object.extend(rowInserter,clone)
+								rowInserter.init()
 							}
 }
-
-var rowInserters=new Array()
 Event.observe(window, "load", function() {
-	registerRowInserters();
+	RowManager.registerRowInserters();
 })
-function registerRowInserters(){
-	for(x=0 ; x<rowInserters.length ; x++){
-		if(rowInserters[x].isRegistered==null){
-			registerRowInserter(rowInserters[x])
-//			alert("registered "+rowInserters[x].add_row_division_id)
-		}
-	}
-}
-function registerRowInserter(rowInserter){
-	clone=Object.clone(AbstractRowInserterProps);
-	Object.extend(clone,rowInserter)
-	Object.extend(rowInserter,clone)
-	rowInserter.init()
-}
 /* Abstract Implementation of an row-inseter object*/
 var AbstractRowInserterProps = Class.create()
-temp=-1
+//temp=-1
 var AbstractRowInserterProps = {
 	add_row_division_id: "row-table",
 	skeleton_row_division_id: "dummy-row",
@@ -179,10 +181,17 @@ var AbstractRowInserterProps = {
 	preProcessRowDeletion: function(object,index){},
 	postProcessRowDeletion: function(object,index){},
     deleteRow: function(index){	
-    						temp=index
+    						//temp=index
 							new Insertion.Bottom(this.getColumnDivisionElement(index),"<input type='hidden' name='_deletedRow-"+this.replaceParentIndexes(this.path)+"-"+index+"'/>")
     						try{
-    							new Effect.Puff(this.getColumnDivisionElement(index))
+    							if(is_ie){
+    								//alert("browser is ie")
+	    							new Element.hide(this.getColumnDivisionElement(index))
+	    						}
+	    						else{
+    								//alert("browser is not ie")	    						
+    								new Effect.Puff(this.getColumnDivisionElement(index))
+    							}
     						}catch(e){
     							new Element.hide(this.getColumnDivisionElement(index))
     						}

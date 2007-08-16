@@ -54,114 +54,105 @@
 //
 // Callback Hooks:
 // The validation framework provides a callback hook for html pages to pre process and post process validations.
-// --> submitPreProcess=function(formElement)                        :   Any page that provides and implementation of submitPreProcess(formElement)
+// --> ValidationManager.submitPreProcess=function(formElement)                        :   Any page that provides and implementation of submitPreProcess(formElement)
 //                                                              		 recieve a call back on the function. If the function return
 // 																		 true then the form will be validated else the form will be submitted.
-// --> submitPostProcess= function(formElement, continurSubmission)   :   Any page that provides and implementation of submitPostProcess(formElement, continurSubmission)
+// --> ValidationManager.submitPostProcess= function(formElement, continurSubmission)   :   Any page that provides and implementation of submitPostProcess(formElement, continurSubmission)
 //                                                              		  recieve a call back on the function. If the function return
 // 																		  true then the form will be submitted else the submit will be ignored.
 //
+
+var ValidationManager = Class.create()
+var ValidationManager = {
+	ERROR_STRATEGY:"text",
+	ERROR_HIGHTLIGHT_COLOR:"red",
+	ERROR_MSG_REQUIRED:"required",
+	ERROR_MSG_PATTERN:"Incorrect format",
+	ERROR_MSG_MINLENGTH:"too short",
+	ERROR_MSG_MAXLENGTH:"too long",
+	ERROR_MSG_PHONE:"invalid phone number",
+
+	validateForm: function(submit){
+		formVar=submit?Event.element(submit):this
+		submit?Event.stop(submit):null
+		if(!ValidationManager.submitPreProcess(formVar)){
+			formVar._submit()
+			return
+		}
+		var fields=Form.getElements(formVar)
+		var checkFields=fields.findAll(function(field){
+							className=Element.classNames(field).detect(function(cls) {
+																var v=cls.indexOf('validate') == 0
+																return cls.indexOf('validate') == 0
+															})
+							return className==null?false:className.length>0
+						})
+		checkFields.each(ValidationManager.prepareField)
+		if(ValidationManager.afterPrepareFeilds(formVar)){
+			flag=validateFields(checkFields)
+			ValidationManager.submitPostProcess(formVar, flag)?formVar._submit():null
+		}
+	},
+	submitPostProcess: function(formElement, validationFlag){return validationFlag},
+	submitPreProcess: function(formElement){return true},
+	afterPrepareFeilds: function(formElement){return true},
+	
+	prepareField: function(element){
+		validationTypeStr=Element.classNames(element).detect(function(cls) {
+																var v=cls.indexOf('validate') == 0
+																return cls.indexOf('validate') == 0
+															})
+		validationTypeStr=validationTypeStr.substr(9)
+		validations=validationTypeStr.split("&&")
+		for(i=0 ; i<validations.length ; i++){
+			validationType=validations[i]
+			if(validationType.toUpperCase()=='NOTEMPTY'||validationType==''){
+				element.required = true
+				element.requiredError = ValidationManager.ERROR_MSG_REQUIRED
+			}else if(validationType.toUpperCase().indexOf('MINLENGTH')==0){
+				element.minlength = parseInt(validationType.substr(9))
+				element.minlengthError = ValidationManager.ERROR_MSG_MINLENGTH
+			}else if(validationType.toUpperCase().indexOf('MAXLENGTH')==0){
+				element.maxlength = parseInt(validationType.substr(9))
+				element.maxlengthError = ValidationManager.ERROR_MSG_MAXLENGTH
+										
+			}else {
+				element.pattern = validationType
+				element.patternError = ValidationManager.ERROR_MSG_PATTERN
+			}
+		}
+	},
+	showError: function(element,msg){
+		strategies=ValidationManager.ERROR_STRATEGY.split("&&")
+		for(i=0 ; i<strategies.length ; i++){
+		errorStrategy1=strategies[i]
+			if(errorStrategy1=="text"){
+				new Insertion.After(element, " <span id='"+element.name+"-msg'style='color:#EE3324'>*"+msg+"</span>")
+			}
+			if(errorStrategy1=="highlight") {
+				element.style._backgroundColor=element.style._backgroundColor?element.style._backgroundColor:element.style.backgroundColor
+				element.style.backgroundColor=ValidationManager.ERROR_HIGHTLIGHT_COLOR
+			}
+		}
+	},
+	removeError: function(element){
+		strategies=ValidationManager.ERROR_STRATEGY.split("&&")
+		for(i=0 ; i<strategies.length ; i++){
+		errorStrategy2=strategies[i]
+			if(errorStrategy2=="text"){
+				msgId=element.name+"-msg"
+			   	$(msgId)!=null?new Element.remove(msgId):null
+			}
+			if(errorStrategy2=="highlight") {
+				element.style.backgroundColor=element.style._backgroundColor?element.style._backgroundColor:element.style.backgroundColor
+			}
+		}
+	}
+}
 Event.observe(window, "load", function(){
 	$$('form').each(function(formVar){
 									formVar._submit= formVar.submit
-									formVar.submit = validateForm
-									Event.observe(formVar, "submit", validateForm)
+									formVar.submit = ValidationManager.validateForm
+									Event.observe(formVar, "submit", ValidationManager.validateForm)
 								})
 })
-validateForm=function(submit){
-	formVar=submit?Event.element(submit):this
-	submit?Event.stop(submit):null
-	if(!(submitPreProcess?submitPreProcess(formVar):true)){
-		formVar._submit()
-		return
-	}
-	var fields=Form.getElements(formVar)
-	var checkFields=fields.findAll(function(field){
-						className=Element.classNames(field).detect(function(cls) {
-															var v=cls.indexOf('validate') == 0
-															return cls.indexOf('validate') == 0
-														})
-						return className==null?false:className.length>0
-					})
-	checkFields.each(prepareField)
-	flag=validateFields(checkFields)
-	ret=(submitPostProcess?submitPostProcess(formVar, flag):flag)
-	ret?formVar._submit():null
-}
-var submitPostProcess
-var submitPreProcess
-
-var ERROR_STRATEGY
-var ERROR_HIGHTLIGHT_COLOR
-var	DEFAULT_ERROR_STRATEGY="text"
-var DEFAULT_ERROR_HIGHTLIGHT_COLOR="red"
-
-var ERROR_MSG_REQUIRED
-var ERROR_MSG_PATTERN
-var ERROR_MSG_MINLENGTH
-var ERROR_MSG_MAXLENGTH
-var ERROR_MSG_PHONE
-var	DEFAULT_ERROR_MSG_REQUIRED="required"
-var	DEFAULT_ERROR_MSG_PATTERN="Incorrect format"
-var	DEFAULT_ERROR_MSG_MINLENGTH="too short"
-var	DEFAULT_ERROR_MSG_MAXLENGTH="too long"	
-var	DEFAULT_ERROR_MSG_PHONE="The second phone number is not valid"	
-
-prepareField=function(element){
-	ERROR_MSG_REQUIRED=ERROR_MSG_REQUIRED?ERROR_MSG_REQUIRED:DEFAULT_ERROR_MSG_REQUIRED
-	ERROR_MSG_PATTERN=ERROR_MSG_PATTERN?ERROR_MSG_PATTERN:DEFAULT_ERROR_MSG_PATTERN
-	ERROR_MSG_MINLENGTH=ERROR_MSG_MINLENGTH?ERROR_MSG_REQUIRED:DEFAULT_ERROR_MSG_MINLENGTH
-	ERROR_MSG_MAXLENGTH=ERROR_MSG_MAXLENGTH?ERROR_MSG_MAXLENGTH:DEFAULT_ERROR_MSG_MAXLENGTH
-	ERROR_MSG_PHONE=ERROR_MSG_PHONE?ERROR_MSG_PHONE:DEFAULT_ERROR_MSG_PHONE
-	ERROR_STRATEGY=ERROR_STRATEGY?ERROR_STRATEGY:DEFAULT_ERROR_STRATEGY
-	ERROR_HIGHTLIGHT_COLOR=ERROR_HIGHTLIGHT_COLOR?ERROR_HIGHTLIGHT_COLOR:DEFAULT_ERROR_HIGHTLIGHT_COLOR		
-	validationTypeStr=Element.classNames(element).detect(function(cls) {
-															var v=cls.indexOf('validate') == 0
-															return cls.indexOf('validate') == 0
-														})
-	validationTypeStr=validationTypeStr.substr(9)
-	validations=validationTypeStr.split("&&")
-	for(i=0 ; i<validations.length ; i++){
-		validationType=validations[i]
-		if(validationType.toUpperCase()=='NOTEMPTY'||validationType==''){
-			element.required = true
-			element.requiredError = ERROR_MSG_REQUIRED
-		}else if(validationType.toUpperCase().indexOf('MINLENGTH')==0){
-			element.minlength = parseInt(validationType.substr(9))
-			element.minlengthError = ERROR_MSG_MINLENGTH
-		}else if(validationType.toUpperCase().indexOf('MAXLENGTH')==0){
-			element.maxlength = parseInt(validationType.substr(9))
-			element.maxlengthError = ERROR_MSG_MAXLENGTH
-									
-		}else {
-			element.pattern = validationType
-			element.patternError = ERROR_MSG_PATTERN
-		}
-	}
-}
-function showError(element,msg){
-	strategies=ERROR_STRATEGY.split("&&")
-	for(i=0 ; i<strategies.length ; i++){
-	errorStrategy1=strategies[i]
-		if(errorStrategy1=="text"){
-			new Insertion.After(element, " <span id='"+element.name+"-msg'style='color:#EE3324'>*"+msg+"</span>")
-		}
-		if(errorStrategy1=="highlight") {
-			element.style._backgroundColor=element.style._backgroundColor?element.style._backgroundColor:element.style.backgroundColor
-			element.style.backgroundColor=ERROR_HIGHTLIGHT_COLOR
-		}
-	}
-}
-function removeError(element){
-	strategies=ERROR_STRATEGY.split("&&")
-	for(i=0 ; i<strategies.length ; i++){
-	errorStrategy2=strategies[i]
-		if(errorStrategy2=="text"){
-			msgId=element.name+"-msg"
-		   	$(msgId)!=null?new Element.remove(msgId):null
-		}
-		if(errorStrategy2=="highlight") {
-			element.style.backgroundColor=element.style._backgroundColor?element.style._backgroundColor:element.style.backgroundColor
-		}
-	}
-}
