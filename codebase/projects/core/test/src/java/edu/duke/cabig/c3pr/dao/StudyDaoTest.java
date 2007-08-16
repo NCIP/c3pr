@@ -1,35 +1,41 @@
 package edu.duke.cabig.c3pr.dao;
 
-import static edu.duke.cabig.c3pr.C3PRUseCase.*;
-import edu.duke.cabig.c3pr.C3PRUseCases;
-import edu.duke.cabig.c3pr.domain.*;
-import edu.duke.cabig.c3pr.utils.DaoTestCase;
+import static edu.duke.cabig.c3pr.C3PRUseCase.ADD_DISEASE;
+import static edu.duke.cabig.c3pr.C3PRUseCase.ADD_STRATIFICATION;
+import static edu.duke.cabig.c3pr.C3PRUseCase.CREATE_STUDY;
+import static edu.duke.cabig.c3pr.C3PRUseCase.CREATE_STUDY_INVESTIGATOR;
+import static edu.duke.cabig.c3pr.C3PRUseCase.SEARCH_STUDY;
+import static edu.duke.cabig.c3pr.C3PRUseCase.UPDATE_STUDY;
+import static edu.duke.cabig.c3pr.C3PRUseCase.VERIFY_SUBJECT;
 import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.Arm;
+import edu.duke.cabig.c3pr.domain.BookRandomization;
+import edu.duke.cabig.c3pr.domain.BookRandomizationEntry;
 import edu.duke.cabig.c3pr.domain.DiseaseCategory;
 import edu.duke.cabig.c3pr.domain.DiseaseTerm;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
-import edu.duke.cabig.c3pr.domain.Identifier;
-import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.NonTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
+import edu.duke.cabig.c3pr.domain.StratificationCriterionAnswerCombination;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
+import edu.duke.cabig.c3pr.domain.StratumGroup;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyFundingSponsor;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
-import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
@@ -120,6 +126,223 @@ public class StudyDaoTest extends DaoTestCase {
 		}
 	}
 
+	public ArrayList<StratumGroup> buildStratumGroupWithScac(){
+		StratificationCriterionAnswerCombination scac = new StratificationCriterionAnswerCombination();
+		List <StratificationCriterionAnswerCombination> scacList = new ArrayList<StratificationCriterionAnswerCombination>();
+		scacList.add(scac);
+		
+		StratumGroup stratumGroup = new StratumGroup();
+		stratumGroup.getStratificationCriterionAnswerCombination().addAll(scacList);
+		stratumGroup.setCurrentPosition(1);
+		stratumGroup.setStratumGroupNumber(2);
+		ArrayList<StratumGroup> sgList = new ArrayList<StratumGroup>();
+		sgList.add(stratumGroup);		
+		return sgList;
+	}
+	
+	public void addStratumGroupToEpoch(TreatmentEpoch epoch1){
+		StratificationCriterion sc = new StratificationCriterion();
+		sc.setQuestionText("will I work?");
+		StratificationCriterionPermissibleAnswer scpa = new StratificationCriterionPermissibleAnswer();
+		scpa.setPermissibleAnswer("lets find out");
+		ArrayList scpaList = new ArrayList();
+		scpaList.add(scpa);
+		sc.setPermissibleAnswers(scpaList);
+		ArrayList scList = new ArrayList();
+		scList.add(sc);
+		epoch1.setStratificationCriteria(scList);
+		
+		StratificationCriterionAnswerCombination scac = new StratificationCriterionAnswerCombination();
+		scac.setStratificationCriterion(sc);
+		scac.setStratificationCriterionPermissibleAnswer(scpa);
+		List <StratificationCriterionAnswerCombination> scacList = new ArrayList<StratificationCriterionAnswerCombination>();
+		scacList.add(scac);
+		
+		StratumGroup stratumGroup = new StratumGroup();
+		stratumGroup.getStratificationCriterionAnswerCombination().addAll(scacList);
+		stratumGroup.setCurrentPosition(1);
+		stratumGroup.setStratumGroupNumber(2);
+		ArrayList<StratumGroup> sgList = new ArrayList<StratumGroup>();
+		sgList.add(stratumGroup);
+		
+		epoch1.getStratumGroups().addAll(sgList);
+	}
+	
+	public Study buildStudy(){
+		Study study = new Study();
+		study.setPrecisText("Study with randomization");
+		study.setShortTitleText("ShortTitleText1");
+		study.setLongTitleText("LongTitleText1");
+		study.setPhaseCode("PhaseCode1");
+		study.setStatus("Status One");
+		study.setTargetAccrualNumber(150);
+		study.setType("Type");
+		study.setMultiInstitutionIndicator("true");		
+		return study;		
+	}	
+	
+	/**
+	 * Test Saving of a Study with all Randomization associations present 
+	 * @throws Exception
+	 */
+	public void testSaveStudyWithRandomizations() throws Exception {
+		Integer savedId;
+		{
+			Study study = buildStudy();
+			Arm armA = new Arm();
+			armA.setName("A");
+			
+			TreatmentEpoch epoch1 = new TreatmentEpoch();
+			armA.setTreatmentEpoch(epoch1);
+			armA.setName("Arm name");
+			ArrayList <Arm> aList = new ArrayList<Arm>();
+			aList.add(armA);
+			epoch1.getArms().addAll(aList);
+			epoch1.setName("epoch1");
+			BookRandomization bRandomization = new BookRandomization();
+			BookRandomizationEntry bre = new BookRandomizationEntry();
+			bre.setPosition(10);
+			//
+			if(epoch1 != null){	    	
+		    	List<Arm> armList = epoch1.getArms();
+		    	for(Arm individualArm : armList){
+		    		if(individualArm.getName().equals("Arm name")){
+		    			bre.setArm(individualArm);
+		    		}
+		    	}
+	    	}
+			
+//			ArrayList <StratumGroup>sgList = buildStratumGroupWithScac();
+//			epoch1.getStratumGroups().add(sgList.get(0));
+			addStratumGroupToEpoch(epoch1);
+			bre.setStratumGroup(epoch1.getStratumGroups().get(0));			
+			
+			List <BookRandomizationEntry> breList = new ArrayList<BookRandomizationEntry>();
+			breList.add(bre);
+			
+			bRandomization.getBookRandomizationEntry().addAll(breList);
+			epoch1.setRandomization(bRandomization);
+//			StratificationCriterion sc = new StratificationCriterion();
+//			List <StratificationCriterion> scList = new ArrayList <StratificationCriterion>();
+//			scList.add(sc);
+//			epoch1.setStratificationCriteria(scList);			
+			study.addEpoch(epoch1);
+			//dao.save(study);
+			study=dao.merge(study);
+			savedId = study.getId(); 
+			assertNotNull("The saved study didn't get an id", savedId);
+		}
+		interruptSession();
+		{
+			Study loaded = dao.getById(savedId);
+			BookRandomization br = (BookRandomization)loaded.getTreatmentEpochs().get(0).getRandomization();
+			int  i = br.getBookRandomizationEntry().get(0).getStratumGroup().getCurrentPosition();
+			assertEquals(i, 1);
+			//assertNotNull("Could not reload study with id " + savedId, loaded);
+			//assertEquals("Wrong name", "ShortTitleText", loaded.getShortTitleText());
+		}
+	}
+
+	public void testComboGenerator(){
+
+		ArrayList <StratificationCriterion>scList = new ArrayList<StratificationCriterion>();
+		TreatmentEpoch te = new TreatmentEpoch();
+		StratificationCriterion sc = new StratificationCriterion();
+		ArrayList <StratificationCriterionPermissibleAnswer>scpaList = new ArrayList<StratificationCriterionPermissibleAnswer>();
+		StratificationCriterionPermissibleAnswer scpa1 = new StratificationCriterionPermissibleAnswer();
+		scpa1.setPermissibleAnswer("<65");
+		scpaList.add(scpa1);
+		StratificationCriterionPermissibleAnswer scpa2 = new StratificationCriterionPermissibleAnswer();
+		scpa2.setPermissibleAnswer("<45");
+		scpaList.add(scpa2);
+		StratificationCriterionPermissibleAnswer scpa3 = new StratificationCriterionPermissibleAnswer();
+		scpa3.setPermissibleAnswer(">18");
+		scpaList.add(scpa3);
+		
+		sc.setQuestionText("age?");
+		sc.setPermissibleAnswers(scpaList);
+		scList.add(sc);		
+
+		ArrayList <StratificationCriterionPermissibleAnswer>scpa2List = new ArrayList<StratificationCriterionPermissibleAnswer>();
+		StratificationCriterion sc2 = new StratificationCriterion();		 
+		StratificationCriterionPermissibleAnswer scpa4 = new StratificationCriterionPermissibleAnswer();
+		scpa4.setPermissibleAnswer("Male");
+		scpa2List.add(scpa4);
+		StratificationCriterionPermissibleAnswer scpa5 = new StratificationCriterionPermissibleAnswer();
+		scpa5.setPermissibleAnswer("Female");
+		scpa2List.add(scpa5);
+		
+		sc2.setQuestionText("gender?");
+		sc2.setPermissibleAnswers(scpa2List);
+		scList.add(sc2);
+		
+		te.setStratificationCriteria(scList);
+		//At this point we have a te with 2 sc each having a set of scpa's.
+		int scSize = te.getStratificationCriteria().size();
+		StratificationCriterionPermissibleAnswer doubleArr[][] = new StratificationCriterionPermissibleAnswer [scSize][];
+		List <StratificationCriterionPermissibleAnswer> tempList;
+		for(int i =0; i < scSize; i++ ){
+			tempList = te.getStratificationCriteria().get(i).getPermissibleAnswers();
+			doubleArr[i] = new StratificationCriterionPermissibleAnswer[tempList.size()];
+			for(int j =0; j < tempList.size(); j++){
+				doubleArr[i][j] = tempList.get(j);
+			}
+		}
+		//at this point we have a 2d array of answers.
+		ArrayList<StratumGroup> sgList = comboGenerator(te, doubleArr, 0, new ArrayList<StratumGroup>(), 
+				new ArrayList<StratificationCriterionAnswerCombination>());
+		System.out.println("");
+	}
+	
+			
+	public ArrayList<StratumGroup> comboGenerator(TreatmentEpoch te, StratificationCriterionPermissibleAnswer[][] myArr, int intRecurseLevel, 
+			ArrayList<StratumGroup> sgList, ArrayList<StratificationCriterionAnswerCombination> strLine){
+		StratificationCriterionAnswerCombination strPositionVal = new StratificationCriterionAnswerCombination();
+    	ArrayList <StratificationCriterionAnswerCombination> strMyLine = new ArrayList<StratificationCriterionAnswerCombination>();
+    	
+    	for(int i= 0; i< myArr[intRecurseLevel].length ; i++){
+    		strPositionVal.setStratificationCriterionPermissibleAnswer(myArr[intRecurseLevel][i]);
+    		strPositionVal.setStratificationCriterion(te.getStratificationCriteria().get(intRecurseLevel)); 
+    		strMyLine = new ArrayList<StratificationCriterionAnswerCombination>();
+    		if(!strLine.isEmpty()){
+    			strMyLine.addAll(strLine);
+    		}
+    		strMyLine.add(strPositionVal);
+ 		
+    		if(intRecurseLevel < myArr.length-1){
+    			sgList = comboGenerator(te, myArr, intRecurseLevel + 1, sgList, strMyLine);    			
+    		} else {
+    			StratumGroup sg = new StratumGroup();
+    			sg.getStratificationCriterionAnswerCombination().addAll(strMyLine);    			
+    			sgList.add(sg);
+    		}    	
+    	}
+    	return sgList;
+    }
+	
+	
+/*  //working version with simple strings
+	public String comboGenerator(String[][] myArr, int intRecurseLevel, String strResult, String strLine){
+    	String strPositionVal = "";
+    	String strMyLine = "";
+    	for(int i= 0; i< myArr[intRecurseLevel].length ; i++){
+    		strPositionVal = myArr[intRecurseLevel][i];
+    		if(strLine.length() > 0){
+    			strMyLine = strLine +"/"+ strPositionVal;
+    		} else {
+    			strMyLine = strPositionVal;
+    		}
+    		
+    		if(intRecurseLevel < myArr.length-1){
+    			strResult = comboGenerator(myArr, intRecurseLevel + 1, strResult, strMyLine);
+    		} else {
+    			strResult = strResult + "\n" + strMyLine;
+    		}    	
+    	}		
+		return strResult;
+    }*/
+
+	
 	/**
 	 * Test Saving of a Study with all associations present
 	 * 
