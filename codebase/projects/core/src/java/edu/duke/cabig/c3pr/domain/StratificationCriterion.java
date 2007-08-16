@@ -8,10 +8,12 @@ import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.commons.collections15.functors.InstantiateFactory;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
@@ -36,14 +38,14 @@ public class StratificationCriterion extends AbstractMutableDomainObject impleme
     public StratificationCriterion() {
     	lazyListHelper=new LazyListHelper();
     	this.questionNumber=new Integer(0);
-    	lazyListHelper.add(StratificationCriterionPermissibleAnswer.class,new BiDirectionalInstantiateFactory<StratificationCriterionPermissibleAnswer>(
-    			StratificationCriterionPermissibleAnswer.class,this));
+    	lazyListHelper.add(StratificationCriterionPermissibleAnswer.class,new InstantiateFactory<StratificationCriterionPermissibleAnswer>(
+    			StratificationCriterionPermissibleAnswer.class));
 	}
     /// LOGIC
 
 	public void addPermissibleAnswer(StratificationCriterionPermissibleAnswer answer){
 		getPermissibleAnswers().add(answer);
-		answer.setStratificationCriterion(this);
+//		answer.setStratificationCriterion(this);
 	}
 	
 	public void removePermissibleAnswer(StratificationCriterionPermissibleAnswer answer){
@@ -78,8 +80,9 @@ public class StratificationCriterion extends AbstractMutableDomainObject impleme
 		this.questionText = questionText;
 	}
 
-	@OneToMany (mappedBy="stratificationCriterion", fetch=FetchType.LAZY)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})	
+	@OneToMany (fetch=FetchType.LAZY)
+	@JoinColumn(name="str_cri_id", nullable=false)
+    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})
 	public List<StratificationCriterionPermissibleAnswer> getPermissibleAnswersInternal() {
 		return lazyListHelper.getInternalList(StratificationCriterionPermissibleAnswer.class);
 	}
@@ -98,6 +101,28 @@ public class StratificationCriterion extends AbstractMutableDomainObject impleme
 			List<StratificationCriterionPermissibleAnswer> permissibleAnswers) {
 		lazyListHelper.setInternalList(StratificationCriterionPermissibleAnswer.class, permissibleAnswers);
 	}
+	
+/*	@OneToMany (fetch=FetchType.LAZY)
+    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})	
+    @JoinColumn(name = "sc_id")
+	public List<StratificationCriterionAnswerCombination> getStratificationCriterionAnswerCombinationInternal() {
+		return lazyListHelper.getInternalList(StratificationCriterionAnswerCombination.class);
+	}
+
+	public void setStratificationCriterionAnswerCombinationInternal(
+			List<StratificationCriterionAnswerCombination> combinationAnswers) {
+		lazyListHelper.setInternalList(StratificationCriterionAnswerCombination.class, combinationAnswers);
+	}
+	
+	@Transient
+	public List<StratificationCriterionAnswerCombination> getStratificationCriterionAnswerCombination() {
+		return lazyListHelper.getLazyList(StratificationCriterionAnswerCombination.class);
+	}
+
+	public void setStratificationCriterionAnswerCombination(
+			List<StratificationCriterionAnswerCombination> combinationAnswers) {
+		
+	}*/
 
 	@Override
 	public int hashCode() {
