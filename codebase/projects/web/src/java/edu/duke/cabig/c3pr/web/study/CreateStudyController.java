@@ -42,6 +42,7 @@ public class CreateStudyController<C extends Study> extends StudyController<C> {
         flow.addTab(new StudyDesignTab());
         flow.addTab(new StudyEligibilityChecklistTab());
         flow.addTab(new StudyStratificationTab());
+        flow.addTab(new StudyRandomizationTab());
         flow.addTab(new StudyDiseasesTab());
         flow.addTab(new StudySitesTab());
         flow.addTab(new StudyIdentifiersTab());
@@ -62,7 +63,7 @@ public class CreateStudyController<C extends Study> extends StudyController<C> {
         Study study = (Study) command;
         
         studyService.merge(study);
-       // studyService.save(study);
+//        studyService.save(study);
 
         return new ModelAndView("forward:confirm?type=confirm", errors.getModel());
 
