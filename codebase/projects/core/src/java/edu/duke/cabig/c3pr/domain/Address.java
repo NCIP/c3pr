@@ -1,72 +1,87 @@
 package edu.duke.cabig.c3pr.domain;
 
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-
 /**
  * @author Ram Chilukuri
  */
- 
- @Entity
- @Table (name = "addresses")
- @GenericGenerator(name="id-generator", strategy = "native",
-     parameters = {
-         @Parameter(name="sequence", value="addresses_id_seq")
-     }
- )
+
+@Entity
+@Table(name = "addresses")
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "addresses_id_seq") })
 public class Address extends AbstractMutableDomainObject {
-    private String streetAddress;
-    private String city;
-    private String stateCode;
-    private String postalCode;
-    private String countryCode;
-    
-    public Address() {
-    }
+	private String streetAddress;
 
-    public void setStreetAddress(String streetAddress) {
-        this.streetAddress = streetAddress;
-    }
+	private String city;
 
-    public String getStreetAddress() {
-        return streetAddress;
-    }
+	private String stateCode;
 
-    public void setCity(String city) {
-        this.city = city;
-    }
+	private String postalCode;
 
-    public String getCity() {
-        return city;
-    }
+	private String countryCode;
 
-    public void setStateCode(String stateCode) {
-        this.stateCode = stateCode;
-    }
+	public Address() {
+	}
 
-    public String getStateCode() {
-        return stateCode;
-    }
+	public void setStreetAddress(String streetAddress) {
+		this.streetAddress = streetAddress;
+	}
 
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
-    }
+	public String getStreetAddress() {
+		return streetAddress;
+	}
 
-    public String getPostalCode() {
-        return postalCode;
-    }
+	public void setCity(String city) {
+		this.city = city;
+	}
 
-    public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
-    }
+	public String getCity() {
+		return city;
+	}
 
-    public String getCountryCode() {
-        return countryCode;
-    }
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
+	}
+
+	public String getStateCode() {
+		return stateCode;
+	}
+
+	public void setPostalCode(String postalCode) {
+		this.postalCode = postalCode;
+	}
+
+	public String getPostalCode() {
+		return postalCode;
+	}
+
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
+	}
+
+	public String getCountryCode() {
+		return countryCode;
+	}
+
+	@Transient
+	public boolean isBlank() {
+
+		if (StringUtils.getBlankIfNull(getStreetAddress()).equals("")
+				&& StringUtils.getBlankIfNull(getCity()).equals("")
+				&& StringUtils.getBlankIfNull(getCountryCode()).equals("")
+				&& StringUtils.getBlankIfNull(getPostalCode()).equals("")
+				&& StringUtils.getBlankIfNull(getStateCode()).equals("")) {
+			return true;
+		}
+		return false;
+
+	}
 }
