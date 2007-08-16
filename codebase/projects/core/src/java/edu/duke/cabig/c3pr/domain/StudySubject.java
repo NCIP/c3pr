@@ -280,10 +280,21 @@ public class StudySubject extends AbstractMutableDomainObject {
         return lazyListHelper.getLazyList(SystemAssignedIdentifier.class);
     }
     
+    public void setSystemAssignedIdentifiers(List<SystemAssignedIdentifier> systemAssignedIdentifiers)
+    {
+    	// do nothing
+    }
+    
     @Transient
     public List<OrganizationAssignedIdentifier> getOrganizationAssignedIdentifiers() {
         return lazyListHelper.getLazyList(OrganizationAssignedIdentifier.class);
     }
+    
+    public void setOrganizationAssignedIdentifiers(List<OrganizationAssignedIdentifier> organizationAssignedIdentifiers)
+    {
+    	// do nothing
+    }
+    
 
 	public void addIdentifier(Identifier identifier){
 		lazyListHelper.getLazyList(Identifier.class).add(identifier);
