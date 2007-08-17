@@ -127,7 +127,7 @@ function showTable(table) {
 						<b>DOB</b><tags:dateInput path="birthDate"/>
 					</div>
 				</td>
-				<td align="left"><b>Race(s)</b> &nbsp;
+				<td align="left"><b>Race</b> &nbsp;
 					<form:select path="raceCode">
 						<option value="">--Please Select--</option>
 						<form:options items="${raceCode}" itemLabel="desc" itemValue="code" />
