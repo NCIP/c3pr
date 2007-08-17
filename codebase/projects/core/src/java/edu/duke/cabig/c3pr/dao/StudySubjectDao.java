@@ -54,7 +54,7 @@ public class StudySubjectDao extends
 		Criteria participantCriteria = registrationCriteria.createCriteria("participant");
 		Criteria studyCriteria = studySiteCriteria.createCriteria("study");
 		Criteria siteCriteria = studySiteCriteria.createCriteria("healthcareSite");
-		Criteria identifiersCriteria = studyCriteria.createCriteria("identifiersInternal");
+		Criteria identifiersCriteria = studyCriteria.createCriteria("identifiers");
 		
 		//Study Criteria
 		if(registration.getStudySite().getStudy().getShortTitleText() != null && !registration.getStudySite().getStudy().getShortTitleText().equals("")){
