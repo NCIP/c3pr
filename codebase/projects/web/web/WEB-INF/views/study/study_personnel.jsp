@@ -124,6 +124,17 @@
 
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" formName="form">
 <jsp:attribute name="singleFields">
+<c:choose>
+	<c:when test="${fn:length(command.studySites) == 0}">
+        <tr>
+			<td>Choose a study site before adding study personnel</td>
+		</tr>
+    </c:when>
+    <c:otherwise>
+        <c:set var="selected_site" value="0"/>
+        <c:if test="${not empty selectedSite}">
+            <c:set var="selected_site" value="${selectedSite}"/>
+        </c:if>
 <div>
     <input type="hidden" name="_action" value="">
     <input type="hidden" name="_selected" value="">
@@ -132,23 +143,13 @@
 </div>
 
 <table border="0" id="table1" cellspacing="10" width="100%">
+
+    
 <tr>
 <td valign="top">
 <p id="instructions">
     Choose a study site first
 </p>
-
-<c:choose>
-    <c:when test="${fn:length(command.studySites) > 0}">
-        <c:set var="selected_site" value="0"/>
-        <c:if test="${not empty selectedSite}">
-            <c:set var="selected_site" value="${selectedSite}"/>
-        </c:if>
-    </c:when>
-    <c:otherwise>
-        <c:set var="selected_site" value="-1"/>
-    </c:otherwise>
-</c:choose>
 
 <script type="text/javascript">
     var instanceRowInserterProps = {
@@ -263,6 +264,8 @@
 </td>
 </tr>
 </table>
+        </c:otherwise>
+ </c:choose>
 </jsp:attribute>
 
 <jsp:attribute name="localButtons">
@@ -308,6 +311,7 @@
                 <a href="javascript:RowManager.deleteRow(instanceRowInserterProps,PAGE.ROW.INDEX);"><img
                         src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a></td>
         </tr>
+        
     </table>
 </div>
 </body>
