@@ -212,7 +212,7 @@ function submitPage(){
 				</tr>
 
 				<tr>
-					<td width="20%" valign="top" align="right"><span class="required-indicator">*</span>&nbsp;<b>Search Criteria:</b></td>
+					<td width="20%" valign="top" align="right"><span class="required-indicator"><b>Search Criteria:</b></span>&nbsp;</td>
 					<td colspan="2"><input type="hidden" id="registration" /> <input
 						id="registration-input" size="52" type="text" name="searchText"
 						class="validate-notEmpty" /> <tags:indicator
