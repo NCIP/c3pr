@@ -246,10 +246,6 @@ ul.tabs li {
 
 /**** REUSABLE PAGE ELEMENTS/CLASSES */
 
-.required-indicator {
-  color: #900; font-family: serif;
-}
-
 .error input {
   border-color: #c03;
 }
@@ -340,4 +336,8 @@ table.tablecontent {
 
 .red{
 	color:#EE3324;
+}
+
+.required-indicator:before{ 
+	content: "* ";color: #900; font-family: serif;
 }
