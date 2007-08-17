@@ -74,7 +74,7 @@
                                         onDelete="RowManager.deleteRow(treatmentEpochRowInserterProps,${treatmentEpochCount.index})">
 
 
-                <table width="100%">
+                <table>
                     <tr>
                         <td valign="top">
                             <table class="tablecontent">
@@ -223,10 +223,10 @@
                                      title="New Treatment Epoch"
                                      isDeletable="true"
                                      onDelete="RowManager.deleteRow(treatmentEpochRowInserterProps,PAGE.ROW.INDEX)">
-                <table width="80%">
+                <table>
                     <tr>
                         <td>
-                            <table width="60%" class="tablecontent" style="border:none;">
+                            <table  class="tablecontent" style="border:none;">
                                 <tr>
                                     <th>
                                         <span class="required-indicator">Name:</span>
@@ -244,9 +244,9 @@
                                 </tr>
                             </table>
                         </td>
-                        <td width="100" valign="top">
+                        <td valign="top">
                             <table  id="arm"
-                                    width="50%" class="tablecontent">
+                                     class="tablecontent">
                                 <tr>
                                     <th><span class="required-indicator">Arm </span></th>
                                     <th>Target&nbsp;Accrual&nbsp;Number</th>
