@@ -38,7 +38,8 @@ public class StudyRandomizationTab extends StudyTab {
 	    @Override
 	    public void postProcess(HttpServletRequest req, Study study, Errors errors) {
 	        	        
-	    	if(study.getRandomizationType().equals(RandomizationType.CALL_OUT)){
+	    	if(study.getRandomizationType().equals(RandomizationType.CALL_OUT) ||
+	    			study.getRandomizationType().equals(RandomizationType.PHONE_CALL)){
 	    		return;
 	    	}
 	    	

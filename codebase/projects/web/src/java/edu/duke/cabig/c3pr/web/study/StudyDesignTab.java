@@ -4,6 +4,7 @@ import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.CalloutRandomization;
 import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.PhonecallRandomization;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
@@ -89,7 +90,7 @@ class StudyDesignTab extends StudyTab {
 					tEpoch.setRandomization(new CalloutRandomization());
 		    	}
 				if(study.getRandomizationType().equals(RandomizationType.PHONE_CALL)){
-		    		//no class for this yet.
+					tEpoch.setRandomization(new PhonecallRandomization());
 		    	}
 			}
 		}

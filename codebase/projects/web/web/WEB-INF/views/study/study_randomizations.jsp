@@ -49,6 +49,24 @@
 	</c:forEach>
 </c:if>
 
+<c:if test="${command.randomizationType.name == 'PHONE_CALL'}">
+	<c:forEach items="${command.treatmentEpochs}" var="epoch" varStatus="epochCount">
+		<tags:minimizablePanelBox title="${epoch.name}" boxId="${epoch.name}">
+		<br/>
+	     <table border="0" cellspacing="0" cellpadding="0" id="epoch-${epochCount.index }">         
+             <tr>
+                <td><b>Enter Randomization PhoneNumber:</b></td>
+				<td>
+
+				<form:input path="treatmentEpochs[${epochCount.index}].randomization.phoneNumber" size="20" cssClass="validate-notEmpty"/>
+				</td>				
+             </tr>
+	     </table>
+	     <br/>
+	    </tags:minimizablePanelBox>
+	</c:forEach>
+</c:if>
+
 <tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
 </form:form>
 
