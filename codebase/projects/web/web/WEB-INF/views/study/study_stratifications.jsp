@@ -57,7 +57,7 @@
         <tags:minimizablePanelBox title="${epoch.name}" boxId="${epoch.name}">
             <p id="instructions">
                 <input type="button"
-                       value="Add Stratification Factor:"
+                       value="Add Stratification Factor"
                        onclick="RowManager.addRow(stratRowInserterProps_${epochCount.index});"/>
             </p>
             <br>
@@ -65,9 +65,9 @@
             <table id="epoch-${epochCount.index }" class="tablecontent">
                 <tr>
                     <th></th>
-                    <th>Stratification Factor<span class="required-indicator">*</span></th>
+                    <th><span class="required-indicator">Stratification Question</span></th>
                     <th></th>
-                    <th></th>
+                    <th><span class="required-indicator">Stratification Answer</span></th>
                 </tr>
                 <c:forEach items="${command.treatmentEpochs[epochCount.index].stratificationCriteria}" var="strat" varStatus="status">
                     <script>
@@ -89,7 +89,7 @@
                         <td>
                             <table class="tablecontent" id="table1" width="50%">
                                 <tr>
-                                    <th>Answer</th>
+                                    <th></th>
                                     <th></th>
                                 </tr>
                                 <c:forEach var="answer" varStatus="statusAns"
@@ -162,14 +162,14 @@ ${epochCount.index}
                 <td>
                     <table class="tablecontent" id="table1" width="50%">
                         <tr>
-                            <th>Answer</th>
+                            <th></th>
                             <th></th    >
                         </tr>
                         <tr id="table1-0">
-                            <td class="alt">
+                            <td>
                                 <input type="text" name="treatmentEpochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers[0].permissibleAnswer"
                                        size="30" class="validate-notEmpty"/></td>
-                            <td class="alt"><a
+                            <td><a
                                     href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},PAGE.ROW.INDEX),0);">
                                 <img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
                         </tr>

@@ -153,7 +153,7 @@
 <script type="text/javascript">
     var instanceRowInserterProps = {
 
-        add_row_division_id: "mytable", 	        /* this id belongs to element where the row would be appended to */
+        add_row_division_id: "studyPersonnelTable", 	        /* this id belongs to element where the row would be appended to */
         skeleton_row_division_id: "dummy-row",
         initialIndex: ${fn:length(command.studySites[selected_site].studyPersonnels)},                            /* this is the initial count of the rows when the page is loaded  */
         path: "studySites[${selected_site}].studyPersonnels"
@@ -170,7 +170,7 @@
 
 <table border="0" id="table1" cellspacing="0">
     <tr>
-        <td align="left"><b> <span class="red">*</span><em></em>Site:</b></td>
+        <td align="left"> <span class="required-indicator"><b>Site:</b></span></td>
         <td align="left">
             <select id="site" name="site" onchange="javascript:chooseSites();">
                 <c:forEach items="${command.studySites}" var="studySite" varStatus="status">
@@ -188,17 +188,17 @@
 <br>
 <hr>
 
-<table border="0" id="mytable" cellspacing="0">
+<table border="0" id="studyPersonnelTable" cellspacing="0" class="tablecontent">
     <tr>
-        <th scope="col" align="left"><b> <span class="red">*</span><em></em>Name:</b></th>
-        <th scope="col" align="left"><b> <span class="red">*</span><em></em>Role:</b></th>
-        <th scope="col" align="left"><b> <span class="red">*</span><em></em>Status:</b></th>
-        <th scope="col" align="left" class="specalt"></th>
+        <th><b> <span class="required-indicator">Name</span></th>
+        <th><b> <span class="required-indicator">Role</span></th>
+        <th><b> <span class="required-indicator">Status</span></th>
+        <th></th>
     </tr>
 
     <c:forEach varStatus="status" items="${command.studySites[selected_site].studyPersonnels}">
-        <tr id="mytable-${status.index}">
-            <td class="alt">
+        <tr id="studyPersonnelTable-${status.index}">
+            <td>
                 <form:hidden id="personnel${status.index}"
                              path="studySites[${selected_site}].studyPersonnels[${status.index}].researchStaff"/>
                 <input type="text" class="validate-notEmpty" id="personnel${status.index}-input" size="30"
@@ -207,19 +207,19 @@
                 <tags:indicator id="personnel${status.index}-indicator"/>
                 <div id="personnel${status.index}-choices" class="autocomplete"></div>
             </td>
-            <td class="alt">
+            <td>
                 <form:select path="studySites[${selected_site}].studyPersonnels[${status.index}].roleCode"
                              cssClass="validate-notEmpty">
                     <option value="">--Please Select--</option>
                     <form:options items="${studyPersonnelRoleRefData}" itemLabel="desc" itemValue="desc"/>
                 </form:select></td>
-            <td class="alt">
+            <td>
                 <form:select path="studySites[${selected_site}].studyPersonnels[${status.index}].statusCode"
                              cssClass="validate-notEmpty">
                     <option value="">--Please Select--</option>
                     <form:options items="${studyPersonnelStatusRefData}" itemLabel="desc" itemValue="desc"/>
                 </form:select></td>
-            <td class="alt">
+            <td>
                 <a href="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index});"><img
                         src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a></td>
         </tr>
@@ -273,8 +273,8 @@
 
 <div id="dummy-row" style="display:none;">
     <table>
-        <tr id="mytable-PAGE.ROW.INDEX">
-            <td class="alt">
+        <tr id="studyPersonnelTable-PAGE.ROW.INDEX">
+            <td>
                 <input type="hidden" id="personnelPAGE.ROW.INDEX"
                        name="studySites[${selected_site}].studyPersonnels[PAGE.ROW.INDEX].researchStaff"
                        value="studySites[${selected_site}].studyPersonnels[PAGE.ROW.INDEX].researchStaff"/>
@@ -284,7 +284,7 @@
                 <tags:indicator id="personnelPAGE.ROW.INDEX-indicator"/>
                 <div id="personnelPAGE.ROW.INDEX-choices" class="autocomplete"></div>
             </td>
-            <td class="alt">
+            <td>
                 <select id="studySites[${selected_site}].studyPersonnels[PAGE.ROW.INDEX].roleCode"
                         name="studySites[${selected_site}].studyPersonnels[PAGE.ROW.INDEX].roleCode"
                         class="validate-notEmpty">
@@ -294,7 +294,7 @@
                     </c:forEach>
                 </select>
             </td>
-            <td class="alt">
+            <td>
                 <select id="studySites[${selected_site}].studyPersonnels[PAGE.ROW.INDEX].statusCode"
                         name="studySites[${selected_site}].studyPersonnels[PAGE.ROW.INDEX].statusCode"
                         class="validate-notEmpty">
@@ -304,7 +304,7 @@
                     </c:forEach>
                 </select>
             </td>
-            <td class="alt">
+            <td>
                 <a href="javascript:RowManager.deleteRow(instanceRowInserterProps,PAGE.ROW.INDEX);"><img
                         src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a></td>
         </tr>

@@ -51,7 +51,7 @@ var investigatorsAutocompleterProps = {
 								}
 }
 var instanceRowInserterProps = {
-       add_row_division_id: "mytable", 	        /* this id belongs to element where the row would be appended to */
+       add_row_division_id: "investigatorsTable", 	        /* this id belongs to element where the row would be appended to */
        skeleton_row_division_id: "dummy-row",
        initialIndex: ${fn:length(command.studySites[selected_site].studyInvestigators)},                            /* this is the initial count of the rows when the page is loaded  */
        path: "studySites[${selected_site}].studyInvestigators",                            /* this is the path of the collection that holds the rows  */
@@ -91,7 +91,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 
     <table border="0" id="table1" cellspacing="0">
         <tr>
-            <td align="left"><b> <span class="red">*</span><em></em>Site:</b></td>
+            <td align="left"><span class="required-indicator"><b>Site:</b></span></td>
             <td align="left">
                 <select id="site" name="site" onchange="javascript:chooseSites();">
                     <c:forEach items="${command.studySites}" var="studySite" varStatus="status">
@@ -111,17 +111,17 @@ RowManager.addRowInseter(instanceRowInserterProps);
     <br>
     <hr>
 
-    <table border="0" id="mytable" cellspacing="0">
+    <table border="0" id="investigatorsTable" cellspacing="0" class="tablecontent">
         <tr>
-            <th scope="col" align="left"><b> <span class="red">*</span><em></em>Investigator:</b></th>
-            <th scope="col" align="left"><b> <span class="red">*</span><em></em>Role:</b></th>
-            <th scope="col" align="left"><b> <span class="red">*</span><em></em>Status:</b></th>
-            <th scope="col" class="specalt" align="left"><b></b></th>
+            <th><span class="required-indicator">Investigator</span></th>
+            <th><span class="required-indicator">Role</span></th>
+            <th><span class="required-indicator">Status</span></th>
+            <th></th>
         </tr>
 
         <c:forEach varStatus="status" items="${command.studySites[selected_site].studyInvestigators}">
-            <tr id="mytable-${status.index}">
-                <td class="alt">
+            <tr id="investigatorsTable-${status.index}">
+                <td>
                     <form:hidden id="investigator${status.index}-hidden"
                                  path="studySites[${selected_site}].studyInvestigators[${status.index}].healthcareSiteInvestigator"/>
                     <input class="validate-notEmpty" type="text" id="investigator${status.index}-input" size="30"
@@ -130,19 +130,19 @@ RowManager.addRowInseter(instanceRowInserterProps);
                     <tags:indicator id="investigator${status.index}-indicator"/>
                     <div id="investigator${status.index}-choices" class="autocomplete"></div>
                 </td>
-                <td class="alt">
+                <td>
                     <form:select path="studySites[${selected_site}].studyInvestigators[${status.index}].roleCode"
                                  cssClass="validate-notEmpty">
                         <option value="">--Please Select--</option>
                         <form:options items="${studyInvestigatorRoleRefData}" itemLabel="desc" itemValue="desc"/>
                     </form:select></td>
-                <td class="alt">
+                <td>
                     <form:select path="studySites[${selected_site}].studyInvestigators[${status.index}].statusCode"
                                  cssClass="validate-notEmpty">
                         <option value="">--Please Select--</option>
                         <form:options items="${studyInvestigatorStatusRefData}" itemLabel="desc" itemValue="desc"/>
                     </form:select></td>
-                <td class="alt">
+                <td>
                     <a href="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index});"><img
                             src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a></td>
             </tr>
@@ -197,8 +197,8 @@ RowManager.addRowInseter(instanceRowInserterProps);
 
 <div id="dummy-row" style="display:none;">
     <table>
-        <tr  id="mytable-PAGE.ROW.INDEX">
-            <td class="alt">
+        <tr  id="investigatorsTable-PAGE.ROW.INDEX">
+            <td>
                 <input type="hidden" id="investigatorPAGE.ROW.INDEX-hidden"
                         name="studySites[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].healthcareSiteInvestigator"
                        value="studySites[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].healthcareSiteInvestigator"/>
@@ -210,7 +210,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
                    <tags:indicator id="investigatorPAGE.ROW.INDEX-indicator"/>
                   <div id="investigatorPAGE.ROW.INDEX-choices" class="autocomplete"></div>
             </td>
-            <td class="alt">
+            <td>
                 <select id="studySites[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].roleCode"
                            name="studySites[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].roleCode"
                         class="validate-notEmpty">
@@ -220,7 +220,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
                     </c:forEach>
                 </select>
             </td>
-            <td class="alt">
+            <td>
                 <select id="studySites[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].statusCode"
                         name="studySites[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].statusCode"
                         class="validate-notEmpty">
@@ -230,7 +230,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
                     </c:forEach>
                 </select>
             </td>
-            <td class="alt">
+            <td>
                 <a href="javascript:RowManager.deleteRow(instanceRowInserterProps,PAGE.ROW.INDEX);"><img
                         src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a></td>
         </tr>

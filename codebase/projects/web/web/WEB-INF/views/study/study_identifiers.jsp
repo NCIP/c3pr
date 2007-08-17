@@ -67,9 +67,9 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 		<chrome:division title="Organization Identifiers">
 			<table id="organizationIdentifier" class="tablecontent">
 				<tr>
-					<th><span class="required-indicator">*</span>Assigning Authority</th>
-					<th><span class="required-indicator">*</span>Identifier Type</th>
-					<th><span class="required-indicator">*</span>Identifier</th>
+					<th><span class="required-indicator">Assigning Authority</span></th>
+					<th><span class="required-indicator">Identifier Type</span></th>
+					<th><span class="required-indicator">Identifier</span></th>
 					<th>Primary&nbsp;Indicator</th>
 					<th></th>
 				</tr>
@@ -122,9 +122,9 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 		<chrome:division title="System Identifiers">
 			<table id="systemIdentifier" class="tablecontent">
 				<tr>
-					<th><span class="required-indicator">*</span>System Name</th>
-					<th><span class="required-indicator">*</span>Identifier Type</th>
-					<th><span class="required-indicator">*</span>Identifier</th>
+					<th><span class="required-indicator">System Name</span></th>
+					<th><span class="required-indicator">Identifier Type</span></th>
+					<th><span class="required-indicator">Identifier</span></th>
 					<th>Primary&nbsp;Indicator</th>
 					<th></th>
 				</tr>

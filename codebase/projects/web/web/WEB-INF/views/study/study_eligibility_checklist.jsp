@@ -96,23 +96,23 @@
                                        onclick="RowManager.addRow(instanceInclusionRow_${epochCount.index});">
                             </p>
                             <table border="0" cellspacing="0" width="100%" cellpadding="0"
-                                   id="addInclusionRowTable-${epochCount.index}" class="mytable1">
+                                   id="addInclusionRowTable-${epochCount.index}" class="tablecontent">
                                 <tr>
-                                    <th class="alt" align="left">Question<span class="red">*</span></th>
-                                    <th class="alt" align="left">NA<span class="red">*</span></th>
-                                    <th class="alt"></th>
+                                    <th><span class="label required-indicator">Question</span></th>
+                                    <th>NA</th>
+                                    <th></th>
                                 </tr>
                                 <c:forEach varStatus="status"
                                            items="${command.epochs[epochCount.index].inclusionEligibilityCriteria}">
                                     <tr id="addInclusionRowTable-${epochCount.index}-${status.index}">
-                                        <td class="alt" align="left">
+                                        <td>
                                             <form:textarea
                                                     path="epochs[${epochCount.index }].inclusionEligibilityCriteria[${status.index}].questionText"
                                                     rows="1" cols="80" cssClass="validate-notEmpty" /></td>
-                                        <td class="alt" align="left"><form:checkbox
+                                        <td><form:checkbox
                                                 path="epochs[${epochCount.index }].inclusionEligibilityCriteria[${status.index}].notApplicableIndicator" />
                                         </td>
-                                        <td class="alt"><a
+                                        <td><a
                                                 href="javascript:RowManager.deleteRow(instanceInclusionRow_${epochCount.index},${status.index});"><img
                                                 src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
                                     </tr>
@@ -126,24 +126,24 @@
                                     <input type="button" value="Add Exclusion Criterion"
                                            onclick="RowManager.addRow(instanceExclusionRow_${epochCount.index});"/>
                                    </p>
-                                <table border="0" width="100%" cellspacing="0" cellpadding="0" class="mytable1" id="addExclusionRowTable-${epochCount.index}">
+                                <table border="0" width="100%" cellspacing="0" cellpadding="0" class="tablecontent" id="addExclusionRowTable-${epochCount.index}">
                                     <tr>
-                                        <th class="alt" align="left">Question<span class="red">*</span></th>
-                                        <th class="alt" align="left">NA<span class="red">*</span></th>
-                                        <th class="alt"></th>
+                                        <th><span class="label required-indicator">Question</span></th>
+                                        <th>NA</th>
+                                        <th></th>
 
                                     </tr>
                                     <c:forEach varStatus="status"
                                                items="${command.epochs[epochCount.index].exclusionEligibilityCriteria}">
                                         <tr id="addExclusionRowTable-${epochCount.index}-${status.index}">
-                                            <td class="alt" align="left">
+                                            <td>
                                                 <form:textarea
                                                         path="epochs[${epochCount.index }].exclusionEligibilityCriteria[${status.index}].questionText"
                                                         rows="1" cols="80" cssClass="validate-notEmpty" /></td>
-                                            <td class="alt" align="left"><form:checkbox
+                                            <td><form:checkbox
                                                     path="epochs[${epochCount.index }].exclusionEligibilityCriteria[${status.index}].notApplicableIndicator" />
                                             </td>
-                                            <td class="alt"><a
+                                            <td><a
                                                     href="javascript:RowManager.deleteRow(instanceExclusionRow_${epochCount.index},${status.index});"><img
                                                     src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
                                         </tr>
@@ -161,36 +161,36 @@
 <c:forEach items="${command.epochs}" var="epoch" varStatus="epochCount">
     <c:if test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch' }">
         <div id="dummy-inclusionRow-${epochCount.index}" style="display:none">
-            <table border="0" cellspacing="0" cellpadding="0" class="mytable1">
+            <table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
                 <tr>
-                    <td class="alt" align="left">
+                    <td>
                         <textarea
                                 id="epochs[${epochCount.index }].inclusionEligibilityCriteria[PAGE.ROW.INDEX].questionText"
                                 name="epochs[${epochCount.index }].inclusionEligibilityCriteria[PAGE.ROW.INDEX].questionText"
                                 rows="1" cols="80" class="validate-notEmpty"></textarea></td>
-                    <td class="alt" align="left"><input type="checkbox"
+                    <td><input type="checkbox"
                                                         id="epochs[${epochCount.index }].inclusionEligibilityCriteria[PAGE.ROW.INDEX].notApplicableIndicator"
                                                         name="epochs[${epochCount.index }].inclusionEligibilityCriteria[PAGE.ROW.INDEX].notApplicableIndicator" />
                     </td>
-                    <td class="alt"><a
+                    <td><a
                             href="javascript:RowManager.deleteRow(instanceInclusionRow_${epochCount.index},PAGE.ROW.INDEX);"><img
                             src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
                 </tr>
             </table>
         </div>
         <div id="dummy-exclusionRow-${epochCount.index}" style="display:none">
-            <table border="0" cellspacing="0" cellpadding="0" class="mytable1">
+            <table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
                 <tr>
-                    <td class="alt" align="left">
+                    <td>
                         <textarea
                                 id="epochs[${epochCount.index }].exclusionEligibilityCriteria[PAGE.ROW.INDEX].questionText"
                                 name="epochs[${epochCount.index }].exclusionEligibilityCriteria[PAGE.ROW.INDEX].questionText"
                                 rows="1" cols="80" class="validate-notEmpty"></textarea></td>
-                    <td class="alt" align="left"><input type="checkbox"
+                    <td><input type="checkbox"
                                                         id="epochs[${epochCount.index }].exclusionEligibilityCriteria[PAGE.ROW.INDEX].notApplicableIndicator"
                                                         name="epochs[${epochCount.index }].exclusionEligibilityCriteria[PAGE.ROW.INDEX].notApplicableIndicator" />
                     </td>
-                    <td class="alt"><a
+                    <td><a
                             href="javascript:RowManager.deleteRow(instanceExclusionRow_${epochCount.index},PAGE.ROW.INDEX);"><img
                             src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
                 </tr>

@@ -16,7 +16,7 @@
             skeleton_row_division_id: "dummy-arm",
             initialIndex: ${fn:length(command.treatmentEpochs[treatmentEpochCount.index].arms)},
             row_index_indicator: "NESTED.PAGE.ROW.INDEX",
-            path: "treatmentEpochs[${treatmentEpochCount.index }].arms"
+            path: "treatmentEpochs[PAGE.ROW.INDEX].arms"
         };
         var treatmentEpochRowInserterProps= {
             nested_row_inserter: armInserterProps,
@@ -74,15 +74,14 @@
                                         onDelete="RowManager.deleteRow(treatmentEpochRowInserterProps,${treatmentEpochCount.index})">
 
 
-                <table>
+                <table width="100%">
                     <tr>
-                        <td>
-                        <td width="50" valign="top">
-                            <table width="50%" class="tablecontent">
+                        <td valign="top">
+                            <table class="tablecontent">
                                 <tr>
                                     <th>
-                                        <span class="required-indicator">*</span>
-                                        Name:
+                                        <span class="required-indicator">Name:</span>
+                                        
                                     <td align="left"><form:input
                                             path="treatmentEpochs[${treatmentEpochCount.index}].name"
                                             size="41" cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
@@ -95,11 +94,11 @@
                                 </tr>
                             </table>
                         </td>
-                        <td width="100" valign="top">
+                        <td valign="top">
                             <table  id="arm"
-                                    width="50%" class="tablecontent">
+                                    class="tablecontent">
                                 <tr>
-                                    <th>Arm</th>
+                                    <th><span class="required-indicator">Arm </span></th>
                                     <th>Target&nbsp;Accrual&nbsp;Number</th>
                                     <th><input id="addArm" type="button"
                                                value="Add Arm"
@@ -146,8 +145,8 @@
                         <div class="leftpanel">
                             <div class="row">
                                 <div class="label">
-                                    <span class="required-indicator">*</span>
-                                    Name:</div>
+                                    <span class="required-indicator">Name:</span>
+                                    </div>
                                 <div class="value"><form:input
                                         path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].name"
                                         size="41" cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span>
@@ -163,8 +162,8 @@
 
                         <div class="rightpanel">
                             <div class="row">
-                                <div class="label"><span class="required-indicator">*</span>
-                                    Accrual Indicator:</div>
+                                <div class="label"><span class="required-indicator">Accrual Indicator:</span>
+                                    </div>
                                 <div class="value"><form:select
                                         path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].accrualIndicator"
                                         cssClass="validate-notEmpty">
@@ -193,8 +192,8 @@
                             </div>
 
                             <div class="row">
-                                <div class="label"> <span class="required-indicator">*</span>
-                                    Reservation Indicator:</div>
+                                <div class="label"> <span class="required-indicator">Reservation Indicator:</span>
+                                    </div>
                                 <div class="value"><form:select
                                         path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].reservationIndicator"
                                         cssClass="validate-notEmpty">
@@ -224,14 +223,14 @@
                                      title="New Treatment Epoch"
                                      isDeletable="true"
                                      onDelete="RowManager.deleteRow(treatmentEpochRowInserterProps,PAGE.ROW.INDEX)">
-                <table>
+                <table width="80%">
                     <tr>
                         <td>
-                            <table width="50%" class="tablecontent" style="border:none;">
+                            <table width="60%" class="tablecontent" style="border:none;">
                                 <tr>
                                     <th>
-                                        <span class="required-indicator">*</span>
-                                        Name:
+                                        <span class="required-indicator">Name:</span>
+                                        
                                     </th>
                                     <td><input type="text"
                                                name="treatmentEpochs[PAGE.ROW.INDEX].name" size="41"
@@ -249,10 +248,10 @@
                             <table  id="arm"
                                     width="50%" class="tablecontent">
                                 <tr>
-                                    <th>Arm</th>
+                                    <th><span class="required-indicator">Arm </span></th>
                                     <th>Target&nbsp;Accrual&nbsp;Number</th>
                                     <th><input id="addArm" type="button" value="Add Arm"
-                                               onclick="javascript:RowManager.addRow(RowManager.getNestedRowInserter(treatmentEpochRowInserterProps,PAGE.ROW.INDEX));" ;/></th>
+                                               onclick="javascript:RowManager.addRow(RowManager.getNestedRowInserter(treatmentEpochRowInserterProps,PAGE.ROW.INDEX));" /></th>
                                 </tr>
                             </table>
                         </td>
@@ -291,8 +290,8 @@
                         <div class="leftpanel">
                             <div class="row">
                                 <div class="label">
-                                    <span class="required-indicator">*</span>
-                                    Name:</div>
+                                    <span class="required-indicator">Name:</span>
+                                    </div>
                                 <div class="value"><input type="text" size="41"
                                                           name="nonTreatmentEpochs[PAGE.ROW.INDEX].name"
                                                           class="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span></div>
@@ -308,8 +307,8 @@
 
                         <div class="rightpanel">
                             <div class="row">
-                                <div class="label"><span class="required-indicator">*</span>
-                                    Accrual Indicator:</div>
+                                <div class="label"><span class="required-indicator">Accrual Indicator:</span>
+                                    </div>
                                 <div class="value"><select
                                         name="nonTreatmentEpochs[PAGE.ROW.INDEX].accrualIndicator"
                                         class="validate-notEmpty">
@@ -328,8 +327,8 @@
                             </div>
 
                             <div class="row">
-                                <div class="label"><span class="required-indicator">*</span>
-                                    Enrollment Indicator:</div>
+                                <div class="label"><span class="required-indicator">Enrollment Indicator:</span>
+                                    </div>
                                 <div class="value"><select
                                         id="nonTreatmentEpochs[PAGE.ROW.INDEX].enrollmentIndicator"
                                         name="nonTreatmentEpochs[PAGE.ROW.INDEX].enrollmentIndicator"
@@ -341,8 +340,8 @@
                             </div>
 
                             <div class="row">
-                                <div class="label"><span class="required-indicator">*</span>
-                                    Reservation Indicator:</div>
+                                <div class="label"><span class="required-indicator">Reservation Indicator:</span>
+                                    </div>
                                 <div class="value"><select
                                         id="nonTreatmentEpochs[PAGE.ROW.INDEX].reservationIndicator"
                                         name="nonTreatmentEpochs[PAGE.ROW.INDEX].reservationIndicator"
