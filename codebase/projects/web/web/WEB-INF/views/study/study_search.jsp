@@ -54,8 +54,8 @@
                 </div>
             </div>
             <div class="row">
-                <div class="label">
-                    <span class="required-indicator">*</span>&nbsp;Search Criteria:
+                <div class="label required-indicator">
+                    Search Criteria:
                 </div>
                 <div class="value">
                     <form:input path="searchText" cssClass="validate-notEmpty"/>
