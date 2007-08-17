@@ -177,6 +177,16 @@ public class EditParticipantController<C extends Participant> extends
 		binder.registerCustomEditor(HealthcareSite.class, new CustomDaoEditor(
 				healthcareSiteDao));
 	}
+	
+
+    @Override
+    protected Object currentFormObject(HttpServletRequest request, Object sessionFormObject) throws Exception {
+        if (sessionFormObject != null) {
+            getDao().reassociate((Participant) sessionFormObject);
+        }
+
+        return sessionFormObject;
+    }
 
 	@Override
 	protected void postProcessPage(HttpServletRequest request, Object Command,
