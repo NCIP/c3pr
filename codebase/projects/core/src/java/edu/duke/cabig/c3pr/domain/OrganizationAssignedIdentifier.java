@@ -15,8 +15,7 @@ public class OrganizationAssignedIdentifier extends Identifier{
 	
 	private HealthcareSite healthcareSite;
 	@ManyToOne
-	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-    @JoinColumn(name = "hcs_id")
+	@JoinColumn(name = "hcs_id")
 	public HealthcareSite getHealthcareSite() {
 		return healthcareSite;
 	}
