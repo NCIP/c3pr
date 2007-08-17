@@ -17,7 +17,7 @@
 	     <table border="0" cellspacing="0" cellpadding="0" id="epoch-${epochCount.index }" class="mytable">         
              <tr>
                 <div class="row">
-				<div class="label">*Enter Book Randomization Data:</div>
+				<div class="label required-indicator">Enter Book Randomization Data:</div>
 				<div class="value">
 					<TEXTAREA NAME="bookRandomizations-${epochCount.index}" COLS=40 ROWS=6 class="validate-notEmpty&&maxlength500"></TEXTAREA>
 				</div>

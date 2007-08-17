@@ -88,9 +88,8 @@ RowManager.addRowInseter(instanceRowInserterProps);
 									<table id="mytable" width="40%" border="0" cellspacing="0"
 										cellpadding="0">
 										<tr>
-											<th class="alt" scope="col" align="left"><span
-												class="red">*</span><b>Site</b></th>
-											<th scope="col" align="left"><b><span class="red">*</span>Status</b></th>
+											<th class="label required-indicator" scope="col" align="left"><b>Site</b></th>
+											<th class="label required-indicator" scope="col" align="left"><b>Status</b></th>
 										</tr>
 										<c:forEach items="${command.healthcareSiteInvestigators}"
 											varStatus="status">
@@ -139,13 +138,13 @@ RowManager.addRowInseter(instanceRowInserterProps);
 												width="1" height="1" class="heightControl"></td>
 										</tr>
 										<tr>
-											<td align="right"><span class="red">*</span><em></em> <b>First
+											<td class="label required-indicator" align="right"><em></em> <b>First
 											Name:&nbsp;</b></td>
 											<td align="left"><form:input path="firstName" size="25"
 												cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
 										</tr>
 										<tr>
-											<td align="right"><span class="red">*</span><em></em> <b>Last
+											<td class="label required-indicator" align="right"><em></em> <b>Last
 											Name:</b>&nbsp;</td>
 											<td align="left"><form:input path="lastName" size="25"
 												cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>

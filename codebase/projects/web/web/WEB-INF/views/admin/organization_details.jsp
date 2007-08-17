@@ -82,7 +82,7 @@ function submitPage(){
 													height="1" class="heightControl"></td>
 											</tr>
 											<tr valign="top">
-												<td align="right"><span class="red">*</span><b>Name:</b>&nbsp;</td>
+												<td class="label required-indicator" align="right"><b>Name:</b>&nbsp;</td>
 												<td><form:input size="60" path="name" cssClass="validate-notEmpty" /></td>
 											</tr>
 											<tr valign="top">
