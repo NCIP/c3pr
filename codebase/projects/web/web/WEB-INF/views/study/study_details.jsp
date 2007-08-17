@@ -107,16 +107,14 @@
 
     <div class="leftpanel">
         <div class="row">
-            <div class="label">
-                <span class="required-indicator">*</span>
+            <div class="label required-indicator">
                 Short Title:</div>
             <div class="value"><form:input path="shortTitleText" size="41"
                                            maxlength="30" cssClass="validate-notEmpty" /></div>
         </div>
 
         <div class="row">
-            <div class="label">
-                <span class="required-indicator">*</span>
+            <div class="label required-indicator">
                 Long Title:</div>
             <div class="value"><form:textarea path="longTitleText" rows="2"
                                               cols="40" cssClass="validate-notEmpty&&maxlength200" /></div>
@@ -143,8 +141,7 @@
         </div>
 
         <div class="row">
-            <div class="label">
-                <span class="required-indicator">*</span>
+            <div class="label required-indicator">
                 Type:</div>
             <div class="value"><form:select path="type"
                                             cssClass="validate-notEmpty">
@@ -155,8 +152,7 @@
         </div>
 
         <div class="row">
-            <div class="label">
-                <span class="required-indicator">*</span>
+            <div class="label required-indicator">
                 Status:</div>
             <div class="value"><form:select path="status"
                                             cssClass="validate-notEmpty">
@@ -167,8 +163,7 @@
         </div>
 
         <div class="row">
-            <div class="label">
-                <span class="required-indicator">*</span>
+            <div class="label required-indicator">
                 Phase:</div>
             <div class="value"><form:select path="phaseCode"
                                             cssClass="validate-notEmpty">
@@ -194,8 +189,7 @@
     <div class="leftpanel">
 
         <div class="row">
-            <div class="label">
-                <span class="required-indicator">*</span>
+            <div class="label required-indicator">
                 Sponsor:</div>
             <div class="value"><form:hidden id="healthcareSite-hidden"
 				path="studyFundingSponsors[0].healthcareSite" /><input type="hidden" id="healthcareSite-hidden1"
@@ -210,8 +204,7 @@
         </div>
 
         <div class="row">
-            <div class="label">
-                <span class="required-indicator">*</span>
+            <div class="label required-indicator">
                 Sponsor Study Identifier:</div>
             <div class="value"><form:input path="organizationAssignedIdentifiers[0].value" size="30"
 				maxlength="30" cssClass="validate-notEmpty" /> <input type="hidden"
@@ -226,8 +219,7 @@
     <div class="leftpanel">
 
         <div class="row">
-            <div class="label">
-                <span class="required-indicator">*</span>
+            <div class="label required-indicator">
                 Randomized:</div>
             <div class="value"><form:select path="randomizedIndicator"
                                             onchange="manageRandomizedIndicatorSelectBox(this);"
@@ -261,14 +253,13 @@
         <c:choose>
             <c:when test="${not empty command.id}">
                 <div class="row">
-                    <div class="label">
-                        <span class="required-indicator">*</span>
+                    <div class="label required-indicator">
                         Multi-Institutional:</div>
                     <div class="value">${command.multiInstitutionIndicator=="true"?"Yes":"No"}</div>
                 </div>
                 <c:if test="${command.multiInstitutionIndicator=='true' }">
                     <div class="row">
-                        <div class="label">*Coordinating Center:</div>
+                        <div class="label required-indicator">*Coordinating Center:</div>
                         <div class="value"><input type="hidden" id="coCenter-hidden"
 							name="studyCoordinatingCenters[0].healthcareSite"
 							value="${command.multiInstitutionIndicator=='true'?command.studyCoordinatingCenters[0].healthcareSite.id:'' }" />
@@ -284,7 +275,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="label"><span class="red">*</span> Coordinating Center
+                        <div class="label required-indicator">Coordinating Center
                             Study Identifier:</div>
                         <div class="value"><input type="text" name="organizationAssignedIdentifiers[1].value"
 							size="30" maxlength="30"
@@ -296,8 +287,7 @@
             </c:when>
             <c:otherwise>
                 <div class="row">
-                    <div class="label">
-                        <span class="required-indicator">*</span>
+                    <div class="label required-indicator">
                         Multi-Institutional:</div>
                     <div class="value"><form:select path="multiInstitutionIndicator"
                                                     onchange="manageSelectBox(this);" cssClass="validate-notEmpty">
@@ -309,7 +299,7 @@
                 <div id="cooperativeGroups"
                         <c:if test="${ (empty command.multiInstitutionIndicator) || command.multiInstitutionIndicator=='false'}">style="display:none;"</c:if>>
                     <div class="row">
-                        <div class="label">*Coordinating Center:</div>
+                        <div class="label required-indicator">Coordinating Center:</div>
                         <div class="value"><input type="hidden" id="coCenter-hidden"
 						name="studyCoordinatingCenters[0].healthcareSite"
 						value="${command.multiInstitutionIndicator=='true'?command.studyCoordinatingCenters[0].healthcareSite.id:'' }" />
@@ -325,7 +315,7 @@
                     </div>
 
                     <div class="row">
-                        <div class="label"><span class="red">*</span> Coordinating Center
+                        <div class="label required-indicator">Coordinating Center
                             Study Identifier:</div>
                         <div class="value"><input type="text" name="organizationAssignedIdentifiers[1].value"
 						size="30" maxlength="30"
