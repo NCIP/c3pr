@@ -236,10 +236,10 @@
             <div class="row">
                 <div class="label">Randomization Type:</div>
                 <div class="value"><form:select path="randomizationType">
-                    <option value="">--Please Select--</option>
-                    <option value="BOOK">Book</option>
-                    <option value="CALL_OUT">Call Out</option>
-                    <option value="PHONE_CALL">Phone Call</option>
+                    <form:option label="--Please Select--" value=""/>
+                    <form:option label="Book" value="BOOK"/>
+                    <form:option label="Call Out" value="CALL_OUT"/>
+                    <form:option label="Phone Call" value="PHONE_CALL"/>
                 </form:select></div>
             </div>
         </div>
