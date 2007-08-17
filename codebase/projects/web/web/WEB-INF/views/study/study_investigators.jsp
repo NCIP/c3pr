@@ -14,12 +14,7 @@
 <tags:dwrJavascriptLink objects="StudyAjaxFacade"/>
 
 <title>${tab.longTitle}</title>
-<c:choose>
-    <c:when test="${fn:length(command.studySites) > 0}">
-        <c:set var="selected_site" value="0"/>
-        <c:if test="${not empty selectedSite}">
-            <c:set var="selected_site" value="${selectedSite}"/>
-        </c:if>
+
     
 <script language="JavaScript" type="text/JavaScript">
 function chooseSites() {
@@ -73,7 +68,20 @@ RowManager.addRowInseter(instanceRowInserterProps);
 <body>
 
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" formName="form">
+
 <jsp:attribute name="singleFields">
+
+<c:choose>
+	<c:when test="${fn:length(command.studySites) == 0}">
+        <tr>
+			<td>Choose a study site before adding study personnel</td>
+		</tr>
+    </c:when>
+    <c:otherwise>
+        <c:set var="selected_site" value="0"/>
+        <c:if test="${not empty selectedSite}">
+            <c:set var="selected_site" value="${selectedSite}"/>
+        </c:if>
   <div>
       <input type="hidden" name="_action" value="">
       <input type="hidden" name="_selected" value="">
@@ -82,6 +90,8 @@ RowManager.addRowInseter(instanceRowInserterProps);
   </div>
 
 <table border="0" id="table1" cellspacing="10" width="100%">
+
+
 <tr>
 <td width="75%" valign="top">
 
@@ -187,11 +197,15 @@ RowManager.addRowInseter(instanceRowInserterProps);
 </tr>
 </table>
 
+  </c:otherwise>
+  </c:choose>
 </jsp:attribute>
 
     <jsp:attribute name="localButtons">
         <input type="button" onclick="RowManager.addRow(instanceRowInserterProps);" value="Add Investigators"/>
     </jsp:attribute>
+    
+   
 
 </tags:tabForm>
 
@@ -236,11 +250,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
         </tr>
     </table>
 </div>
-</c:when>
-    <c:otherwise>
-        <c:set var="selected_site" value="-1"/>
-    </c:otherwise>
-</c:choose>
+
 
 </body>
 </html>
