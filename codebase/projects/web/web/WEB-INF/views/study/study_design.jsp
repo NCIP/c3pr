@@ -180,8 +180,8 @@
                             </div>
 
                             <div class="row">
-                                <div class="label"> <span class="required-indicator">*</span>
-                                    Enrollment Indicator:</div>
+                                <div class="label"> <span class="required-indicator">Enrollment Indicator:</span>
+                                    </div>
                                 <div class="value"><form:select
                                         id="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].enrollmentIndicator"
                                         path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].enrollmentIndicator"
