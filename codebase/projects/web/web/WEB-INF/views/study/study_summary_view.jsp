@@ -176,7 +176,7 @@
     </table>
 </chrome:division>
 
-<chrome:division title="Stratifications">
+<chrome:division title="Stratification Factors">
     <table class="tablecontent">
         <tr>
             <th scope="col" align="left"><b>Strata</b></th>
@@ -220,7 +220,7 @@
     </table>
 </chrome:division>
 
-<chrome:division title="Study Design">
+<chrome:division title="Epochs and Arms">
     <table class="tablecontent">
         <tr>
             <th scope="col" align="left"><b>Epochs</b></th>
