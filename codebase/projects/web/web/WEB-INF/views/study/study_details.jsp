@@ -69,8 +69,8 @@
             afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=sponsorSiteAutocompleterProps.basename+"-hidden"
     								hiddenField1=sponsorSiteAutocompleterProps.basename+"-hidden1"
-	    							$(hiddenField).value=selectedChoice.id;
-									$(hiddenField1).value=selectedChoice.id;	    							  	    								    							
+    								$(hiddenField).value=selectedChoice.id;
+									$(hiddenField1).value=selectedChoice.id;	
 			 }
         }
         var coCenterAutocompleterProps = {
@@ -193,8 +193,10 @@
                 Sponsor:</div>
             <div class="value"><form:hidden id="healthcareSite-hidden"
 				path="studyFundingSponsors[0].healthcareSite" /><input type="hidden" id="healthcareSite-hidden1"
-                        				name="organizationAssignedIdentifiers[0].healthcareSite"
-                      					 value="${command.organizationAssignedIdentifiers[0].healthcareSite.id}"/> <input
+     				name="organizationAssignedIdentifiers[0].healthcareSite"
+   					 value="${command.organizationAssignedIdentifiers[0].healthcareSite.id}"/>
+   					<input type="hidden"  name="organizationAssignedIdentifiers[0].primaryIndicator"
+   					 value="true"/> <input
 				id="healthcareSite-input" size="50" type="text"
 				name="organizationAssignedIdentifiers[0].healthcareSite.name"
 				value="${command.organizationAssignedIdentifiers[0].healthcareSite.name}" class="validate-notEmpty" />
