@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <study xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"
-    gridId="aa2aac18-e123-1232-874f-95bd669a16bd" version="1">
+       gridId="aa2aac18-e123-1232-874f-95bd669a16bd" version="1">
     <blindedIndicator/>
     <multiInstitutionIndicator>false</multiInstitutionIndicator>
     <randomizedIndicator>false</randomizedIndicator>
@@ -18,6 +18,7 @@
         <healthcareSite gridId="NCI GRID ID">
             <name>Warren Grant Magnuson Clinical Center</name>
             <address><streetAddress>10 Center Drive Bldg 10</streetAddress><city>Bethesda</city><stateCode>MD</stateCode><postalCode>20892</postalCode><countryCode>USA</countryCode></address>
+            <nciInstituteCode>Warren</nciInstituteCode>
         </healthcareSite>
     </organizationAssignedIdentifier>
     <organizationAssignedIdentifier>
@@ -27,7 +28,7 @@
         <healthcareSite gridId="DUKE GRID ID">
             <name>Duke University Comprehensive Cancer Center</name>
             <address><streetAddress>512 South Magnum Street Suite 400</streetAddress><city>Durham</city><stateCode>NC</stateCode><postalCode>27710</postalCode><countryCode>USA</countryCode></address>
-            <nciInstituteCode>duke</nciInstituteCode>
+            <nciInstituteCode>Duke</nciInstituteCode>
         </healthcareSite>
     </organizationAssignedIdentifier>
     <systemAssignedIdentifier>
@@ -40,13 +41,14 @@
         <healthcareSite gridId="NCI GRID ID">
             <name>Warren Grant Magnuson Clinical Center</name>
             <address><streetAddress>10 Center Drive Bldg 10</streetAddress><city>Bethesda</city><stateCode>MD</stateCode><postalCode>20892</postalCode><countryCode>USA</countryCode></address>
+            <nciInstituteCode>Warren</nciInstituteCode>
         </healthcareSite>
     </studyFundingSponsor>
     <studySite gridId="13761ffc-ee91-4865-93e6-1950781fdfb3">
         <healthcareSite gridId="DUKE GRID ID">
             <name>Duke University Comprehensive Cancer Center</name>
             <address><streetAddress>512 South Magnum Street Suite 400</streetAddress><city>Durham</city><stateCode>NC</stateCode><postalCode>27710</postalCode><countryCode>USA</countryCode></address>
-            <nciInstituteCode>duke</nciInstituteCode>
+            <nciInstituteCode>Duke</nciInstituteCode>
         </healthcareSite>
         <irbApprovalDate>2007-08-21T00:00:00.000-04:00</irbApprovalDate>
         <roleCode>Affiliate Site</roleCode>

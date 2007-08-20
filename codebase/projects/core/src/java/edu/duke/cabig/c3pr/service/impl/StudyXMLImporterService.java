@@ -77,6 +77,11 @@ public class StudyXMLImporterService implements edu.duke.cabig.c3pr.service.Stud
                         organization.setHealthcareSite(loadedSite);
                     }
 
+                    for(OrganizationAssignedIdentifier identifier: study.getOrganizationAssignedIdentifiers()){
+                        HealthcareSite loadedSite = healthcareSiteDao.getByNciInstituteCode(identifier.getHealthcareSite().getNciInstituteCode());
+                        identifier.setHealthcareSite(loadedSite);
+                    }
+
                     studyDao.save(study);
                     log.debug("Study saved with grid ID" + study.getGridId());
                     //once saved retreive persisted study
