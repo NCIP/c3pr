@@ -24,7 +24,7 @@ function handleConfirmation(){
 }
 var instanceRowInserterProps = {
 
-	add_row_division_id: "mytable", 	        /* this id belongs to element where the row would be appended to */
+	add_row_division_id: "invesitgatorTable", 	        /* this id belongs to element where the row would be appended to */
 	skeleton_row_division_id: "dummy-row",  	/* this id belongs to the element which hold the dummy row html to be inserted   */
 	initialIndex: ${fn:length(command.healthcareSiteInvestigators)},                            /* this is the initial count of the rows when the page is loaded  */
 	path: "healthcareSiteInvestigators"                             /* this is the path of the collection that holds the rows  */
@@ -85,7 +85,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 								<td width="40"></td>
 									<td>
 
-									<table id="mytable" width="40%" border="0" cellspacing="0"
+									<table class="tablecontent" width="40%" border="0" cellspacing="0" id="invesitgatorTable"
 										cellpadding="0">
 										<tr>
 											<th class="label required-indicator" scope="col" align="left"><b>Site</b></th>
@@ -93,7 +93,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 										</tr>
 										<c:forEach items="${command.healthcareSiteInvestigators}"
 											varStatus="status">
-											<tr id="mytable-${status.index}">
+											<tr id="invesitgatorTable-${status.index}">
 												<td class="alt"><form:select
 													path="healthcareSiteInvestigators[${status.index}].healthcareSite"
 													cssClass="validate-notEmpty">
