@@ -25,6 +25,8 @@
 
         <artifact:dependencies filesetId="dependency.fileset" useScope="runtime">
             <remoteRepository refid="ctmsi.repository" />
+            <dependency groupId="gov.nih.nci.security.acegi" artifactId="acegi-csm"
+                        version="${ctmsi.commons.version}"/>
             <dependency groupId="gov.nih.nci.cabig.ctms" artifactId="ctms-commons-core"
                         version="${ctmsi.commons.version}"/>
             <dependency groupId="gov.nih.nci.cabig.ctms" artifactId="ctms-commons-lang"

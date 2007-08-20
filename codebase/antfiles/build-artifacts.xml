@@ -145,6 +145,7 @@
         <artifact track="main" type="jars" id="ctms-commons.jars">
             <fileset dir="${share.dir}/ctms-commons">
                 <include name="ctms-commons-*.jar"/>
+                <include name="acegi-*.jar"/>
             </fileset>
         </artifact>
 
