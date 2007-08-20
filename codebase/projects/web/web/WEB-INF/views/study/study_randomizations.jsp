@@ -14,14 +14,13 @@
 	<c:forEach items="${command.treatmentEpochs}" var="epoch" varStatus="epochCount">
 		<tags:minimizablePanelBox title="${epoch.name}" boxId="${epoch.name}">
 	
-	     <table border="0" cellspacing="0" cellpadding="0" id="epoch-${epochCount.index }" class="mytable">         
+	     <table border="0" cellspacing="0" cellpadding="0" id="epoch-${epochCount.index }">         
              <tr>
-                <div class="row">
-				<div class="label required-indicator">Enter Book Randomization Data:</div>
-				<div class="value">
+                <td><b>Randomization Book:</b>
+                	<br/>eg:Stratum Group Number, Position, Arm Name</td>
+				<td>
 					<TEXTAREA NAME="bookRandomizations-${epochCount.index}" COLS=40 ROWS=6 class="validate-notEmpty&&maxlength500"></TEXTAREA>
-				</div>
-				</div>
+				</td>				
              </tr>
 	     </table>
 	    </tags:minimizablePanelBox>
