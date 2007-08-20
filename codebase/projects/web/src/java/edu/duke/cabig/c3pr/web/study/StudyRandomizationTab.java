@@ -31,7 +31,7 @@ public class StudyRandomizationTab extends StudyTab {
 	 private static Log log = LogFactory.getLog(StudyRandomizationTab.class);
 		
 	    public StudyRandomizationTab() {
-	        super("Study Book Randomizations", "Randomizations", "study/study_randomizations");
+	        super("Study Book Randomizations", "Randomization", "study/study_randomizations");
 	    }
 
 
