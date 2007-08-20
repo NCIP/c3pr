@@ -19,7 +19,7 @@
                 </div>
                 <div class="row">
                     <div class="label">Sponsor Study Identifier:</div>
-                    <div class="value">${command.primaryIdentifier}</div>
+                    <div class="value">${command.organizationAssignedIdentifiers[0].value}</div>
                 </div>
             </div>
             </td></tr>
