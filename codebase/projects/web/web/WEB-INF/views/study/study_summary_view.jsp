@@ -33,7 +33,7 @@
         </tr>
         <tr>
             <td class="alt" align="left"><b>Sponsor Study Identifier:</b></td>
-            <td class="alt" align="left">${command.primaryIdentifier}</td>
+            <td class="alt" align="left">${command.organizationAssignedIdentifiers[0].value}</td>
         </tr>
         <tr>
             <td class="alt" align="left"><b>Target Accrual Number:</b></td>
@@ -223,8 +223,8 @@
 <chrome:division title="Epochs and Arms">
     <table class="tablecontent">
         <tr>
-            <th scope="col" align="left"><b>Epochs</b></th>
-            <th scope="col" align="left"><b>Arms</b>
+            <th><b>Epochs</b></th>
+            <th><b>Arms</b>
         </tr>
         <c:forEach items="${command.epochs}" var="epoch">
             <tr>
@@ -232,16 +232,16 @@
                 <td>
                     <c:if
                             test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
-                        <table border="0" cellspacing="0" cellpadding="0" id="mytable">
+                        <table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
                             <tr>
-                                <th scope="col" align="left"><b>Name</b></th>
-                                <th scope="col" align="left"><b>Target Accrual No.</b>
+                                <th><b>Name</b></th>
+                                <th><b>Target Accrual No</b>
                             </tr>
                             <tr>
                                 <c:forEach items="${epoch.arms}" var="arm">
                             <tr>
-                                <td class="alt" align="left">${arm.name}</td>
-                                <td class="alt" align="left">${arm.targetAccrualNumber}</td>
+                                <td>${arm.name}</td>
+                                <td>${arm.targetAccrualNumber}</td>
                             </tr>
                             </c:forEach>
                         </table>
