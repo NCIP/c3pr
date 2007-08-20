@@ -202,7 +202,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 </jsp:attribute>
 
     <jsp:attribute name="localButtons">
-        <input type="button" onclick="RowManager.addRow(instanceRowInserterProps);" value="Add Investigators"/>
+        <input type="button" onclick="RowManager.addRow(instanceRowInserterProps);" value="Add Investigator"/>
     </jsp:attribute>
     
    
