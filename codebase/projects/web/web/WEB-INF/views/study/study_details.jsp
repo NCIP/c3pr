@@ -185,7 +185,7 @@
 
 </chrome:division>
 
-<chrome:division title="Sponser Details">
+<chrome:division title="Sponsor Details">
     <div class="leftpanel">
 
         <div class="row">
