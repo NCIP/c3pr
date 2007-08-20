@@ -90,6 +90,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 										<tr>
 											<th class="label required-indicator" scope="col" align="left"><b>Site</b></th>
 											<th class="label required-indicator" scope="col" align="left"><b>Status</b></th>
+											<th></th>
 										</tr>
 										<c:forEach items="${command.healthcareSiteInvestigators}"
 											varStatus="status">
