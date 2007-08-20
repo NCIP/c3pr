@@ -18,7 +18,7 @@
                     <div class="value">${command.trimmedShortTitleText}</div>
                 </div>
                 <div class="row">
-                    <div class="label">Primary Identifier:</div>
+                    <div class="label">Sponsor Study Identifier:</div>
                     <div class="value">${command.primaryIdentifier}</div>
                 </div>
             </div>
