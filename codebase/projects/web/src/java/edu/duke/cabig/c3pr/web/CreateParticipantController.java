@@ -2,7 +2,6 @@ package edu.duke.cabig.c3pr.web;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
-import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
@@ -11,7 +10,6 @@ import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.StringUtils;
-import edu.duke.cabig.c3pr.utils.web.RowManager;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import gov.nih.nci.cabig.ctms.web.tabs.AbstractTabbedFlowFormController;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
@@ -160,7 +158,7 @@ public class CreateParticipantController extends
 			BindException errors) throws Exception {
 		// TODO Auto-generated method stub
 		super.onBind(request, command, errors);
-		new RowManager().handleRowDeletion(request, command);
+		//new RowManager().handleRowDeletion(request, command);
 	}
 
 	@Override

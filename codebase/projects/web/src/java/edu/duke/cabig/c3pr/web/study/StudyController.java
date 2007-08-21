@@ -1,28 +1,32 @@
 package edu.duke.cabig.c3pr.web.study;
 
-import edu.duke.cabig.c3pr.dao.*;
-import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.RandomizationType;
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
-import edu.duke.cabig.c3pr.service.StudyService;
-import edu.duke.cabig.c3pr.utils.web.ControllerTools;
-import edu.duke.cabig.c3pr.utils.web.RowManager;
-import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
-import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
-import edu.duke.cabig.c3pr.utils.web.propertyeditors.NullIdDaoBasedEditor;
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AutomaticSaveAjaxableFormController;
-import edu.duke.cabig.c3pr.web.beans.DefaultObjectPropertyReader;
-import gov.nih.nci.cabig.ctms.web.tabs.AutomaticSaveFlowFormController;
-import gov.nih.nci.cabig.ctms.web.tabs.Flow;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import edu.duke.cabig.c3pr.dao.DiseaseTermDao;
+import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
+import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
+import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.RandomizationType;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
+import edu.duke.cabig.c3pr.service.StudyService;
+import edu.duke.cabig.c3pr.utils.web.ControllerTools;
+import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
+import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
+import edu.duke.cabig.c3pr.utils.web.propertyeditors.NullIdDaoBasedEditor;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AutomaticSaveAjaxableFormController;
+import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 
 
 /**
@@ -34,7 +38,7 @@ import java.util.*;
  */
 public abstract class StudyController<C extends Study> extends AutomaticSaveAjaxableFormController<C, Study, StudyDao> {
     protected static final Log log = LogFactory.getLog(StudyController.class);
-    private RowManager rowManager;
+    //private RowManager rowManager;
     protected StudyService studyService;
     protected StudyDao studyDao;
     protected HealthcareSiteDao healthcareSiteDao;
@@ -50,7 +54,7 @@ public abstract class StudyController<C extends Study> extends AutomaticSaveAjax
         Flow<C> flow = new Flow<C>(title);
         layoutTabs(flow);
         setFlow(flow);
-        rowManager = new RowManager();
+        //rowManager = new RowManager();
     }
 
     @Override
@@ -68,7 +72,7 @@ public abstract class StudyController<C extends Study> extends AutomaticSaveAjax
         // TODO Auto-generated method stub
         super.onBind(request, command, errors);
 //        handleRowDeletion(request, command);
-        rowManager.handleRowDeletion(request, command);
+        //rowManager.handleRowDeletion(request, command);
     }
     /**
      * Template method to let the subclass decide the order of tab
