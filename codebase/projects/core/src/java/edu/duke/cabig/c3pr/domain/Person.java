@@ -76,17 +76,17 @@ public abstract class Person extends AbstractMutableDomainObject
 		this.address=address;
 	}
 		
-	private void setAddress(Address address) {
+	public void setAddress(Address address) {
         this.address = address;
     }
 		
 	@Transient
 	public void fillAddress(Address address){
-		this.address.setStreetAddress(address.getStreetAddress());
-		this.address.setCity(address.getCity());
-		this.address.setStateCode(address.getStateCode());
-		this.address.setCountryCode(address.getCountryCode());
-		this.address.setPostalCode(address.getPostalCode());
+		getAddress().setStreetAddress(address.getStreetAddress());
+		getAddress().setCity(address.getCity());
+		getAddress().setStateCode(address.getStateCode());
+		getAddress().setCountryCode(address.getCountryCode());
+		getAddress().setPostalCode(address.getPostalCode());
 	}
 	
 	public void setContactMechanisms(List<ContactMechanism> contactMechanisms)
