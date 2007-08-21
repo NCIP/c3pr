@@ -68,6 +68,7 @@
         </c:otherwise>
     </c:choose>
 </div>
+<tags:jsLogs debug="false"/>
 <div id="footer">
     <layout:footer/>
 </div>

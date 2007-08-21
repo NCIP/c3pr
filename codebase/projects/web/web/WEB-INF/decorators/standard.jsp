@@ -28,6 +28,6 @@
 </chrome:body>
 
  <layout:footer/>
-
+<tags:jsLogs debug="false"/>
 </body>
 </html>

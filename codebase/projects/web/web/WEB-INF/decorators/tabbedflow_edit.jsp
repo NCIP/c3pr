@@ -53,6 +53,6 @@
 <div id="footer">
     <layout:footer/>
 </div>
-
+<tags:jsLogs debug="false"/>
 </body>
 </html>

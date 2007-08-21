@@ -55,6 +55,7 @@
     </form:form>
 
 </div>
+<tags:jsLogs debug="false"/>
 <layout:footer/>
 </body>
 </html>
