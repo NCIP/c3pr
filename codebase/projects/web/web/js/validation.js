@@ -64,6 +64,9 @@
 
 var ValidationManager = Class.create()
 var ValidationManager = {
+	debug: false,
+	currentFormVar:"",
+	registeredInvokes: new Array(),
 	ERROR_STRATEGY:"text",
 	ERROR_HIGHTLIGHT_COLOR:"red",
 	ERROR_MSG_REQUIRED:"required",
@@ -90,7 +93,22 @@ var ValidationManager = {
 		checkFields.each(ValidationManager.prepareField)
 		if(ValidationManager.afterPrepareFeilds(formVar)){
 			flag=validateFields(checkFields)
-			ValidationManager.submitPostProcess(formVar, flag)?formVar._submit():null
+			if(ValidationManager.submitPostProcess(formVar, flag)){
+				ValidationManager.invokeAll(formVar)
+				if(ValidationManager.debug){
+					ValidationManager.currentFormVar=formVar
+					vLogString="------------------<br>"
+					vLogString+="Form not submitted...<br>"
+					vLogString+="Form submit params:<br>"
+					vSubmitParams= Form.serialize(formVar).split("&")
+					for(vI=0 ; vI<vSubmitParams.length ; vI++)
+						vLogString+=vSubmitParams[vI]+"<br>"
+					vLogString+="------------------<br>"
+					ValidationManager.log(vLogString)
+					ValidationManager.log("<input type='button' value='submit this form' onClick='ValidationManager.resumeSubmit()'/>")
+				}else
+					formVar._submit()
+			}
 		}
 	},
 	submitPostProcess: function(formElement, validationFlag){return validationFlag},
@@ -147,7 +165,33 @@ var ValidationManager = {
 				element.style.backgroundColor=element.style._backgroundColor?element.style._backgroundColor:element.style.backgroundColor
 			}
 		}
-	}
+	},
+	registerToInvoke: function(obj){
+							this.registeredInvokes.push(obj)
+						},
+	invokeAll: function(formElement){
+					for(vJ=0 ; vJ<this.registeredInvokes.length ; vJ++){
+						try{
+							this.registeredInvokes[vJ].onValidateSubmit(formElement)
+						}catch(error){
+							ValidationManager.log(error.message)
+						}
+					}
+				},
+	resumeSubmit: function(){
+						this.currentFormVar._submit()
+					},
+	loggerDiv: "ValidationManagerLog",
+	log: function(string){
+						if(ValidationManager.debug)
+							document.getElementById(ValidationManager.loggerDiv)!=null?new Insertion.Bottom(ValidationManager.loggerDiv,string):null
+					},
+	clearLog: function(){
+						document.getElementById(ValidationManager.loggerDiv)!=null?new Element.update(ValidationManager.loggerDiv,""):null
+					},
+	errorLog: function(str){
+					this.log("<br><span style='color:red;font-weight:bolder;'>----------------------<br>"+str+"<br>-------------------------</span><br>")
+				}
 }
 Event.observe(window, "load", function(){
 	$$('form').each(function(formVar){
