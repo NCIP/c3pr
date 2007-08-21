@@ -23,6 +23,8 @@
 // it works in accordance with the server side utility RowManager.java. Please read its reference for
 // more information
 // 
+// To enable logging, set RowManager.debug to true. Row Manager will look for a division with id 'workAreaLog' in the html document to log.
+// However this can be overriden by setting the RowManager.loggerDiv property.
 //
 // ROW TYPES:
 // This javascript library provides two strategies of adding row to on the html page.
@@ -44,9 +46,21 @@
 //
 var RowManager = Class.create()
 var RowManager = {
+	isSubmitted: false,
 	rowInserters: new Array(),
-	addRow: function(inserter){this.execute(true,inserter,-1)},
-	deleteRow: function(inserter,delIndex){this.execute(false,inserter,delIndex)},
+	rowInsertersForDeletion: new Array(),
+	debug: false,
+	addRow: function(inserter){!this.isSubmitted?this.execute(true,inserter,-1):this.errorLog("Row Manager inactivated")},
+	deleteRow: function(inserter,delIndex){
+					if(this.isSubmitted){
+						this.errorLog("Row Manager inactivated")
+						return
+					}
+					this.execute(false,inserter,delIndex)
+					inserter.deletedRows.push(delIndex)
+					if(!this.rowInsertersForDeletion.include(inserter))
+						this.rowInsertersForDeletion.push(inserter)
+				},
 	execute: function(isAddRow, inserter, deletionIndex){
 					if(isAddRow){
 					    inserter.preProcessRowInsertion(inserter)
@@ -55,7 +69,7 @@ var RowManager = {
 						inserter.localIndex++						
 					}else{
 						inserter.preProcessRowDeletion(inserter,deletionIndex)
-						inserter.deleteRow(deletionIndex)
+						inserter.removeRowFromDisplay(deletionIndex)
 						inserter.postProcessRowDeletion(inserter,deletionIndex)
 					}
 				},
@@ -78,14 +92,38 @@ var RowManager = {
 								Object.extend(clone,rowInserter)
 								Object.extend(rowInserter,clone)
 								rowInserter.init()
-							}
+							},
+	loggerDiv: "workAreaLog",
+	log: function(string){
+						if(RowManager.debug)
+							document.getElementById(RowManager.loggerDiv)!=null?new Insertion.Bottom(RowManager.loggerDiv,string):null
+					},
+	clearLog: function(){
+						document.getElementById(RowManager.loggerDiv)!=null?new Element.update(RowManager.loggerDiv,""):null
+					},
+	errorLog: function(str){
+					this.log("<br><span style='color:red;font-weight:bolder;'>----------------------<br>"+str+"<br>-------------------------</span><br>")
+				},
+	updateIndexesOfRows: function(){
+								if(this.isSubmitted){
+									this.errorLog("Row Manager inactivated")
+									return
+								}
+								for(k=0 ; k<this.rowInsertersForDeletion.length ; k++)
+									this.rowInsertersForDeletion[k].updateSubmitParamsRows()
+								this.isSubmitted=true
+							},
+	onValidateSubmit: function(formElement){
+							this.log("Updating Indexes of Rows")
+							this.updateIndexesOfRows()
+						}
 }
 Event.observe(window, "load", function() {
-	RowManager.registerRowInserters();
+	RowManager.registerRowInserters()
+	ValidationManager.registerToInvoke(RowManager)
 })
 /* Abstract Implementation of an row-inseter object*/
 var AbstractRowInserterProps = Class.create()
-//temp=-1
 var AbstractRowInserterProps = {
 	add_row_division_id: "row-table",
 	skeleton_row_division_id: "dummy-row",
@@ -95,6 +133,7 @@ var AbstractRowInserterProps = {
 	row_index_indicator: "PAGE.ROW.INDEX",
 	row_addition_startegy: "table",
 	cloned_nested_row_inserters: "",
+	deletedRows: "",
 	nested_row_inserter: "",
 	parent_row_inserter: "",
 	parent_row_index: -1,
@@ -118,6 +157,20 @@ var AbstractRowInserterProps = {
 							}
 							return element
 						},
+	getRowDivisionString: function(index){
+							elementString="'"+this.getColumnDivisionID(index)+"'"
+							if(this.havingParentRowInserter()){
+								elementString+=" in "+this.getTableString()
+							}
+							return elementString
+						},
+	getTableString: function(){
+							tableString= "'"+this.add_row_division_id+"'";
+							if(this.havingParentRowInserter()){
+								tableString+=" in '"+this.parent_row_inserter.getColumnDivisionID(this.parent_row_index)+"'"
+							}
+							return tableString
+						},						
     generateRowHtml: function() {
     				rowHtml=this.getRowHtml()
     				rowHtml= this.replaceIndexes(rwoHtml)    
@@ -180,24 +233,6 @@ var AbstractRowInserterProps = {
 	postProcessRowInsertion: function(object){},
 	preProcessRowDeletion: function(object,index){},
 	postProcessRowDeletion: function(object,index){},
-    deleteRow: function(index){	
-    						//temp=index
-							new Insertion.Bottom(this.getColumnDivisionElement(index),"<input type='hidden' name='_deletedRow-"+this.replaceParentIndexes(this.path)+"-"+index+"'/>")
-    						try{
-    							if(is_ie){
-    								//alert("browser is ie")
-	    							new Element.hide(this.getColumnDivisionElement(index))
-	    						}
-	    						else{
-    								//alert("browser is not ie")	    						
-    								new Effect.Puff(this.getColumnDivisionElement(index))
-    							}
-    						}catch(e){
-    							new Element.hide(this.getColumnDivisionElement(index))
-    						}
-    						new Element.update(this.getColumnDivisionElement(index),this.suppressValidation($(this.getColumnDivisionID(index)).innerHTML))
-    						rowHtml=this.getRowsDivisionHtml()
-    					},
     addDivision: function(htmlStr){
    									return "<div id='"+this.getColumnDivisionID(this.localIndex)+"'>"+htmlStr+"</div>"
     							},
@@ -210,6 +245,7 @@ var AbstractRowInserterProps = {
     init: function(){
     					this.updateIndex(this.initialIndex)
     					this.cloned_nested_row_inserters= new Array()
+    					this.deletedRows=new Array()
     					if(this.havingNestedRowInserter()){
 	    					for(a=0 ; a<this.initialIndex ; a++){
 								newInstance=Object.clone(AbstractRowInserterProps)
@@ -234,14 +270,92 @@ var AbstractRowInserterProps = {
    	havingParentRowInserter: function(){
    										return this.parent_row_inserter==""?false:true
    									},
-    suppressValidation: function(htmlString){
-    								return htmlString.gsub(this.getRegExValidationStr(),function(match){
-    																									return ""
-    																								})
-    							},
-    getRegExValidationStr: function(){
-    									//regEx="("+String.fromCharCode(34)+"|"+String.fromCharCode(39)+")"+this.validationCSSIndicator+"."+"("+String.fromCharCode(34)+"|"+String.fromCharCode(38)+")"
-    									regEx=this.validationCSSIndicator
-    									return regEx
-    								}
-}
+    removeRowFromDisplay: function(index){
+    						RowManager.log("------------------------<br>")
+							logString="Removing Row from display: "+this.getRowDivisionString(index)+"<div style='padding-left:20px;'>"
+							logString+="row inserter path:"+this.path+"<br>"
+							deletionMessage=""
+							if(RowManager.debug)
+								deletionMessage="<b>(deleted upon request)</b>"
+							new Element.update(this.getColumnDivisionElement(index),deletionMessage)
+							idString=this.getColumnDivisionElement(index).id
+							this.getColumnDivisionElement(index).id=idString.substring(0,idString.lastIndexOf("-"))+" "+idString.substring(idString.lastIndexOf("-")+1,idString.length)+" deleted"
+							RowManager.log(logString+"</div>")
+    						RowManager.log("------------------------<br>")							
+						},
+	updateSubmitParamsRows: function(){
+    						RowManager.log("------------------------<br>")
+							RowManager.log("Deleting Rows from "+this.getTableString()+"<br>")
+							elements=new Array()
+							try{
+								if(this.row_addition_startegy.toUpperCase()=="TABLE"){
+									elements=this.getRowDivisionElement().rows
+								}else{
+									elements=new Element.immediateDescendants(this.add_row_division_id)
+								}
+							}catch(error){
+								RowManager.errorLog(error.message+"<br>")
+								return
+							}
+							RowManager.log("no of rows in containing table: "+elements.length+"<br>")
+							for(l=0 ; l<this.deletedRows.length ; l++){
+								RowManager.log("deleting row number "+this.deletedRows[l]+"<br>")
+								this.updateSubmitParamRow(elements,this.deletedRows[l])
+							}
+    						RowManager.log("------------------------<br>")							
+						},
+	updateSubmitParamRow: function(rows,index){
+						RowManager.log("Row to delete : '"+this.getColumnDivisionID(index)+"'<br>")
+						logString="<div style='padding-left:20px;'>"
+						for(i=0 ; i<rows.length ; i++){
+							if(rows[i].id>this.getColumnDivisionID(index)){
+								logString+="Row to update index:"
+								logString+="{"+rows[i].id+"}"
+								logString+="<br>"
+							}else{
+								logString+="Row not to update index:"
+								logString+="{"+rows[i].id+"}"
+								logString+="<br>"							
+							}
+						}
+						logString+="updating indexes with regular expression: "+this.getRegEx()+"<br>"					
+						for(i=0 ; i<rows.length ; i++){
+							if(rows[i].id>this.getColumnDivisionID(index)){
+								logString+=("elements in row: "+rows[i].id+"<div style='padding-left:20px;'>")
+								subElements=new Element.descendants(rows[i])
+								for(j=0 ; j<subElements.length ; j++)
+									logString+=this.reduceIndexOfElement(subElements[j])
+								logString+="</div>"
+							}
+						}
+						logString+="</div>"
+						RowManager.log(logString)
+					},
+	getRegEx: function(){
+					props=this.path.split(".")
+					property=props[props.length-1]
+					return "("+property+")\\[(\\d)\\]"
+				},
+	reduceIndexOfElement: function(element, index){
+									if(element==null){
+										return
+									}
+									idLocal="undefined"
+									nameLocal="undefined"
+									if(element.id!=null){
+										idLocal=element.id
+										element.id=element.id.gsub(this.getRegEx(),function(matches){
+																				return matches[1]+"["+parseInt(matches[2]-1)+"]";
+																			}
+																	)
+									}
+									if(element.name!=null){
+										nameLocal=element.name
+										element.name=element.name.gsub(this.getRegEx(),function(matches){
+																				return matches[1]+"["+parseInt(matches[2]-1)+"]";
+																			}
+																	)
+									}
+									return "element: ["+idLocal+"] of type ["+element.type+"] and name ["+nameLocal+"]<br>"
+								},
+	}
