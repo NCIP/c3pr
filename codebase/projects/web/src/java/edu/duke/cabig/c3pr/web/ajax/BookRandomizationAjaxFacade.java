@@ -64,7 +64,7 @@ public class BookRandomizationAjaxFacade {
 		        try {
 		        	if(tEpoch != null){
 		        		List <BookRandomizationEntry>breList = ((BookRandomization)tEpoch.getRandomization()).getBookRandomizationEntry();
-		        		return build(model, breList, "Book Randomization Contents", action).toString();		        		
+		        		return build(model, breList, "Book Randomization :"+selectedEpoch, action).toString();		        		
 		        	}
 		        } catch (Exception e) {
 		            log.debug(e.getMessage());
@@ -176,13 +176,15 @@ public class BookRandomizationAjaxFacade {
 	  */
 	 public Object build(TableModel model, Collection bookRandomizationEntries, String title, String action) throws Exception {
 
+		 	String index = title.substring(title.indexOf(":")+1);
+		 	String tableId = "bookRandomizationEntries" + index;
 	        Table table = model.getTableInstance();
-			table.setTitle(title);
+			table.setTitle("Randomization Book");
 			table.setAutoIncludeParameters(true);
 			table.setAction(model.getContext().getContextPath() + action);
-			table.setTableId("bookRandomizationEntries");
+			table.setTableId(tableId);
 			table.setItems(bookRandomizationEntries);
-			table.setOnInvokeAction("uploadBook('bookRandomizationEntries', '')");
+			table.setOnInvokeAction("uploadBook('" + tableId + "', '" + index + "')");
 			table.setShowPagination(true);
 			table.setFilterable(false);
 			table.setImagePath(model.getContext().getContextPath() + "/images/table/*.gif");

@@ -37,9 +37,9 @@
 
 <!--BOOK RANDOMIZATION SECTION-->
 <c:if test="${command.randomizationType.name == 'BOOK'}">	
-<!--<table width="100%">-->
+
 	<c:forEach items="${command.treatmentEpochs}" var="epoch" varStatus="epochCount">
-<!--	<tr><td width="50%"> --><div id="book_container_${epochCount.index}" class="test">
+		<div id="book_container_${epochCount.index}" class="test">
 		<chrome:box title="${epoch.name}" id="book_${epochCount.index}" cssClass="paired"> 
 		<br/>
 	     <table border="0" cellspacing="0" cellpadding="0" id="epoch-${epochCount.index }">         
@@ -56,16 +56,16 @@
          	<input type='button' onclick='uploadBook("command", "${epochCount.index}")' value='Upload Randomization Book'/>   
 		 </div><br/> 
 	    </chrome:box>	    
-<!--	</td><td valign="top"> -->
+
 		<chrome:box title="${epoch.name}" id="book_results_${epochCount.index}" cssClass="paired">
 		    <div id="bookRandomizationsDisplay-${epochCount.index}">		    	
 		    </div>
 		</chrome:box>
 
-<!--		</td></tr>--></div>
+		</div>
 		<script>$('book_container_${epochCount.index}').style.height=new String((50+$('book_${epochCount.index}').offsetHeight)+"px")</script>		
 	</c:forEach>	
-<!--	</table> -->
+
 </c:if>
 <!--BOOK RANDOMIZATION SECTION-->
 
