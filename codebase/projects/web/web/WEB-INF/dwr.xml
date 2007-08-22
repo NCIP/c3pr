@@ -3,6 +3,10 @@
         "http://www.getahead.ltd.uk/dwr/dwr20.dtd">
 <dwr>
     <allow>
+     	<create creator="spring" javascript="BookRandomizationAjaxFacade">
+            <param name="beanName" value="bookRandomizationAjaxFacade"/>
+        </create>
+        
         <create creator="spring" javascript="StudyAjaxFacade">
             <param name="beanName" value="studyAjaxFacade"/>
         </create>

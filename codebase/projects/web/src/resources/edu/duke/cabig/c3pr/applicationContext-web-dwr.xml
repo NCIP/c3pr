@@ -7,6 +7,8 @@
 	<bean
 		class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor" />
 
+	<bean id="bookRandomizationAjaxFacade" autowire="byType"
+		class="edu.duke.cabig.c3pr.web.ajax.BookRandomizationAjaxFacade" />
 	<bean id="studyAjaxFacade" autowire="byType"
 		class="edu.duke.cabig.c3pr.web.ajax.StudyAjaxFacade" />
 	<bean id="participantAjaxFacade" autowire="byType"
