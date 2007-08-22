@@ -75,25 +75,28 @@ class StudyDesignTab extends StudyTab {
 			}			
 		}
 		//Instantiating the appropriate randomization class and setting it in the epoch.
-		ArrayList epochList = (ArrayList)study.getEpochs();
-		Epoch epoch;
-		TreatmentEpoch tEpoch;
-		Iterator iter = epochList.iterator();
-		while(iter.hasNext()){
-			epoch = (Epoch)iter.next();
-			if(epoch instanceof TreatmentEpoch){
-				tEpoch = (TreatmentEpoch)epoch;
-				if(study.getRandomizationType().equals(RandomizationType.BOOK)){
-					tEpoch.setRandomization(new BookRandomization());
-		    	}
-				if(study.getRandomizationType().equals(RandomizationType.CALL_OUT)){
-					tEpoch.setRandomization(new CalloutRandomization());
-		    	}
-				if(study.getRandomizationType().equals(RandomizationType.PHONE_CALL)){
-					tEpoch.setRandomization(new PhonecallRandomization());
-		    	}
+		
+			ArrayList epochList = (ArrayList)study.getEpochs();
+			Epoch epoch;
+			TreatmentEpoch tEpoch;
+			Iterator iter = epochList.iterator();
+			while(iter.hasNext()){
+				epoch = (Epoch)iter.next();
+				if(epoch instanceof TreatmentEpoch){
+					tEpoch = (TreatmentEpoch)epoch;
+					if(study.getRandomizationType() != null){
+						if(study.getRandomizationType().equals(RandomizationType.BOOK)){
+							tEpoch.setRandomization(new BookRandomization());
+				    	}
+						if(study.getRandomizationType().equals(RandomizationType.CALL_OUT)){
+							tEpoch.setRandomization(new CalloutRandomization());
+				    	}
+						if(study.getRandomizationType().equals(RandomizationType.PHONE_CALL)){
+							tEpoch.setRandomization(new PhonecallRandomization());
+				    	}
+					}
+				}
 			}
-		}
 		
 	}
 }
