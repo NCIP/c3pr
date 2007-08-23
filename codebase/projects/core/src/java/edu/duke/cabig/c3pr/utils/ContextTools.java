@@ -7,19 +7,19 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 //      "classpath*:/applicationContext-*.xml"
 public class ContextTools {
     public static ApplicationContext createDeployedApplicationContext() {
-    	  return new ClassPathXmlApplicationContext (new String[] {
-    			 "classpath*:edu/duke/cabig/c3pr/applicationContext-core.xml",
-    			 "classpath*:edu/duke/cabig/c3pr/applicationContext-configProperties.xml",
-    			 "classpath*:edu/duke/cabig/c3pr/applicationContext-web.xml",
-    			 
-    	  }); 
-     }
-       
+        return new ClassPathXmlApplicationContext (new String[] {
+                "classpath*:edu/duke/cabig/c3pr/applicationContext-*.xml",
+
+        });
+    }
+
     public static ApplicationContext createDeployedCoreApplicationContext() {
-  	  return new ClassPathXmlApplicationContext (new String[] {
-  			 "classpath*:edu/duke/cabig/c3pr/applicationContext-core.xml"
-  	  }); 
-   }
+        return new ClassPathXmlApplicationContext (new String[] {
+                "classpath*:edu/duke/cabig/c3pr/applicationContext-core-security.xml",
+                "classpath*:edu/duke/cabig/c3pr/applicationContext-core.xml",
+                "classpath*:edu/duke/cabig/c3pr/applicationContext-core-db.xml",
+        });
+    }
 
     private ContextTools() { }
 }
