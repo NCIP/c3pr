@@ -53,7 +53,7 @@ public abstract class C3PRBaseDao<T extends DomainObject>
 	/*
      * Saves a domain object
       */
-	public final void save(DomainObject domainObject) {
+	public void save(DomainObject domainObject) {
 		getHibernateTemplate().saveOrUpdate(domainObject);	 	
 		postProcessSave();
 	}	
