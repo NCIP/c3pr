@@ -9,10 +9,10 @@ package edu.duke.cabig.c3pr.exception;
  * Time: 1:30:38 PM
  * To change this template use File | Settings | File Templates.
  */
-public class StudyValidationException extends java.lang.Exception{
+public class StudyValidationException extends C3PRBaseException {
 
     public StudyValidationException() {
-        super();    //To change body of overridden methods use File | Settings | File Templates.
+        super("Invalid Study");    //To change body of overridden methods use File | Settings | File Templates.
     }
 
     public StudyValidationException(String s) {
