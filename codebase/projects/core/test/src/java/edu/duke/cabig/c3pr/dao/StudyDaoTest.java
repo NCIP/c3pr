@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.acegisecurity.AccessDeniedException;
+
 /**
  * JUnit Tests for StudyDao
  *
@@ -90,7 +92,7 @@ public class StudyDaoTest extends DaoTestCase {
                 dao.save(study);
                 fail("Should fail to Save study");
             } catch (Exception ex) {
-                fail("Failed to save study");
+                //expected
             }
             SecurityContextTestUtils.switchToSuperuser();
             dao.save(study);

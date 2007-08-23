@@ -19,4 +19,9 @@ public class C3PRBaseRuntimeException extends NestedRuntimeException {
     public C3PRBaseRuntimeException(String string, Throwable throwable) {
         super(string, throwable);
     }
+
+
+    public Throwable getRootCause() {
+         return super.getRootCause()==null?getCause():super.getRootCause();
+    }
 }

@@ -42,6 +42,7 @@
         <artifact track="compile" type="jars" id="bering.jars">
             <fileset dir="${share.dir}/bering">
                 <include name="*.jar"/>
+
             </fileset>
         </artifact>
 
@@ -146,6 +147,7 @@
             <fileset dir="${share.dir}/ctms-commons">
                 <include name="ctms-commons-*.jar"/>
                 <include name="acegi-*.jar"/>
+                <include name="aspectj*.jar"/>
             </fileset>
         </artifact>
 

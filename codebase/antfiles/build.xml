@@ -146,6 +146,7 @@
     <!-- =============================================================== -->
     <target name="build-core" depends="prepare" description="Builds the core project (Services, dao, domain">
         <resolveDependencies extdir="${projects.dir}/core/ext">
+            <artifact refid="security.lib.jars"/>
             <artifact refid="common.test.jars"/>
             <artifact refid="ctms-commons.jars"/>
             <artifact refid="ant-contrib.jars"/>

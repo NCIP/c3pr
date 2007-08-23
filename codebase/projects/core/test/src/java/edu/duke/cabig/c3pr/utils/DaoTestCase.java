@@ -1,14 +1,8 @@
 package edu.duke.cabig.c3pr.utils;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.sql.DataSource;
-
+import edu.nwu.bioinformatics.commons.StringUtils;
+import edu.nwu.bioinformatics.commons.testing.DbTestCase;
+import gov.nih.nci.cabig.ctms.domain.DomainObject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dbunit.database.DatabaseConnection;
@@ -23,12 +17,17 @@ import org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 
-import edu.nwu.bioinformatics.commons.StringUtils;
-import edu.nwu.bioinformatics.commons.testing.DbTestCase;
-import gov.nih.nci.cabig.ctms.domain.DomainObject;
+import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Base Dao Test Case for all dao level test cases
+ *
  * @author Rhett Sutphin, Priyatam
  */
 public abstract class DaoTestCase extends DbTestCase {
@@ -41,12 +40,14 @@ public abstract class DaoTestCase extends DbTestCase {
 
     protected void setUp() throws Exception {
         super.setUp();
+        SecurityContextTestUtils.switchToSuperuser();
         beginSession();
     }
 
     protected void tearDown() throws Exception {
-       // endSession();
+        // endSession();
         super.tearDown();
+        SecurityContextTestUtils.switchToNobody();
     }
 
     public void runBare() throws Throwable {
@@ -61,38 +62,38 @@ public abstract class DaoTestCase extends DbTestCase {
         }
     }
 
-   private void beginSession() {
+    private void beginSession() {
         log.info("-- beginning DaoTestCase interceptor session --");
         findOpenSessionInViewInterceptor().preHandle(webRequest);
-    } 
+    }
 
     private void endSession() {
         log.info("--    ending DaoTestCase interceptor session --");
         OpenSessionInViewInterceptor interceptor = findOpenSessionInViewInterceptor();
         if (shouldFlush) {
-            try{
-            	interceptor.postHandle(webRequest, null);
+            try {
+                interceptor.postHandle(webRequest, null);
             }
-            catch(Exception exception){
-    			if (exception instanceof HibernateJdbcException) {
-    				   if(exception != null) {
-    					   System.out.println(exception); // Log the exception
-    				         // Get cause if present
-    				         Throwable t = ((HibernateJdbcException)exception).getRootCause();
-    				       
-	    				         while(t != null) {
-	    				        	 System.out.println("*************Cause: " + t);
-	    				               t = t.getCause();
-	    				         // procees to the next exception
-	    				       //  exception = ((SQLGrammarException)exception).get
-	    				         }
-    				    
-    				   }
-    				}
-           }   
+            catch (Exception exception) {
+                if (exception instanceof HibernateJdbcException) {
+                    if (exception != null) {
+                        System.out.println(exception); // Log the exception
+                        // Get cause if present
+                        Throwable t = ((HibernateJdbcException) exception).getRootCause();
+
+                        while (t != null) {
+                            System.out.println("*************Cause: " + t);
+                            t = t.getCause();
+                            // procees to the next exception
+                            //  exception = ((SQLGrammarException)exception).get
+                        }
+
+                    }
+                }
+            }
         }
         interceptor.afterCompletion(webRequest, null);
-    } 
+    }
 
     protected void interruptSession() {
         endSession();
@@ -102,12 +103,12 @@ public abstract class DaoTestCase extends DbTestCase {
 
     private OpenSessionInViewInterceptor findOpenSessionInViewInterceptor() {
         return (OpenSessionInViewInterceptor) getApplicationContext().getBean("openSessionInViewInterceptor");
-    } 
+    }
 
     protected DataSource getDataSource() {
         return (DataSource) getApplicationContext().getBean("dataSource");
     }
-    
+
     protected IDatabaseConnection getConnection() throws Exception {
         DatabaseConnection databaseConnection = new DatabaseConnection(getDataSource().getConnection(), getSchema());
         databaseConnection.getConfig().setProperty("http://www.dbunit.org/properties/datatypeFactory", createDataTypeFactory());
@@ -115,15 +116,15 @@ public abstract class DaoTestCase extends DbTestCase {
     }
 
     /**
-     * For Oracle typically it is "C3PR_DEV" (note- upper case). For Postgres - "public". 
+     * For Oracle typically it is "C3PR_DEV" (note- upper case). For Postgres - "public".
      * Dont forget to override this depending on your database
+     *
      * @return
      */
-    protected String getSchema()
-    {
-    	return "public";
+    protected String getSchema() {
+        return "public";
     }
-    
+
     // Note - Comment of uncomment this based on the DB you are testing against.
     // By default, it is DELETE_ALL. Other options are DELETE, REFRESH
 //    protected DatabaseOperation getSetUpOperation() throws Exception
@@ -134,20 +135,21 @@ public abstract class DaoTestCase extends DbTestCase {
 //    protected DatabaseOperation getTearDownOperation() throws Exception {
 //        return DatabaseOperation.DELETE_ALL;
 //    }
-//    
+
+    //
     public static ApplicationContext getApplicationContext() {
         return ApplicationTestCase.getDeployedCoreApplicationContext();
     }
 
     protected final void dumpResults(String sql) {
         List<Map<String, String>> rows = new JdbcTemplate(getDataSource()).query(
-            sql,
-            new ColumnMapRowMapper() {
-                protected Object getColumnValue(ResultSet rs, int index) throws SQLException {
-                    Object value = super.getColumnValue(rs, index);
-                    return value == null ? "null" : value.toString();
+                sql,
+                new ColumnMapRowMapper() {
+                    protected Object getColumnValue(ResultSet rs, int index) throws SQLException {
+                        Object value = super.getColumnValue(rs, index);
+                        return value == null ? "null" : value.toString();
+                    }
                 }
-            }
         );
         StringBuffer dump = new StringBuffer(sql).append('\n');
         if (rows.size() > 0) {
@@ -177,7 +179,7 @@ public abstract class DaoTestCase extends DbTestCase {
 
         System.out.print(dump);
     }
-    
+
     public List<Integer> collectIds(List<? extends DomainObject> actual) {
         List<Integer> ids = new ArrayList<Integer>(actual.size());
         for (DomainObject object : actual) {

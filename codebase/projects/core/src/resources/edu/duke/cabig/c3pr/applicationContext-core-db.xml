@@ -1,0 +1,47 @@
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:p="http://www.springframework.org/schema/p"
+        xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    ">
+
+    <bean id="dataSourceTemplate" abstract="true"
+          class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="${datasource.driver}"/>
+        <!--set to no limit-->
+        <property name="maxActive" value="0"/>
+        <property name="maxIdle" value="-1"/>
+        <property name="maxWait" value="180000"/>
+        <property name="removeAbandoned" value="true"/>
+        <property name="removeAbandonedTimeout" value="300"/>
+        <property name="logAbandoned" value="true"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnReturn" value="true"/>
+        <property name="timeBetweenEvictionRunsMillis" value="300000"/>
+        <property name="minEvictableIdleTimeMillis" value="600000"/>
+    </bean>
+    <bean id="dataSource" parent="dataSourceTemplate">
+        <property name="url" value="${datasource.url}"/>
+        <property name="username" value="${datasource.username}"/>
+        <property name="password" value="${datasource.password}"/>
+    </bean>
+    <bean id="hibernateProperties"
+          class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="properties">
+            <props>
+                <prop key="hibernate.connection.pool_size">10</prop>
+                <prop key="hibernate.show_sql">${show_sql}</prop>
+                <prop key="hibernate.dialect">
+                    ${datasource.dialect}
+                </prop>
+                <prop key="hibernate.query.substitutions">
+                    true 1, false 0, yes 'Y', no 'N'
+                </prop>
+                <prop key="hibernate.jdbc.batch_size">30</prop>
+            </props>
+        </property>
+    </bean>
+
+
+</beans>

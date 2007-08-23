@@ -5,10 +5,13 @@ import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
+import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.service.impl.StudyXMLImporterService;
-import edu.duke.cabig.c3pr.utils.DaoTestCase;
+import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
+import edu.duke.cabig.c3pr.utils.SecurityContextTestUtils;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
+import org.acegisecurity.AccessDeniedException;
 
 import java.util.List;
 
@@ -19,43 +22,59 @@ import java.util.List;
  * Time: 2:33:16 PM
  * To change this template use File | Settings | File Templates.
  */
-@C3PRUseCases({ IMPORT_STUDY })
-public class StudyXMLImporterTestCase extends DaoTestCase {
+@C3PRUseCases({IMPORT_STUDY})
+public class StudyXMLImporterTestCase extends ContextDaoTestCase<StudyDao> {
 
 
     private StudyXMLImporterService studyImporter;
-    private StudyDao dao;
 
     XmlMarshaller marshaller;
 
     protected void setUp() throws Exception {
         super.setUp();    //To change body of overridden methods use File | Settings | File Templates.
         marshaller = new XmlMarshaller();
-        dao = (StudyDao) getApplicationContext().getBean("studyDao");
         studyImporter = (StudyXMLImporterService) getApplicationContext().getBean("studyXMLImporterService");
     }
 
 
-    public void testStudyValidation() throws Exception{
-        Study study = dao.getById(1000);
+    public void testStudyValidation() throws Exception {
+        Study study = getDao().getById(1000);
 
         studyImporter.validate(study);
     }
 
 
     public void testGetStudies() throws Exception {
-        Study study = dao.getById(1000);
+        Study study = getDao().getById(1000);
         String xmlStudy = marshaller.toXML(study);
         System.out.println(xmlStudy);
+
+        SecurityContextTestUtils.switchToNobody();
+
+        try {
+            studyImporter.importStudies(StringUtils.getInputStream(xmlStudy));
+            fail("Should not be able to import studies. User not authorized");
+        } catch (C3PRBaseRuntimeException e) {
+            if (e.getRootCause() instanceof AccessDeniedException) {
+
+                //expected
+
+            } else
+                fail("Could not import Study");
+        }
+
+
+        SecurityContextTestUtils.switchToSuperuser();
         List<Study> studies = studyImporter.importStudies(StringUtils.getInputStream(xmlStudy));
+
         assertNotNull(studies);
         assertTrue(studies.size() > 0);
 
-        for(Study loadedStudy : studies){
+        for (Study loadedStudy : studies) {
             assertNotNull(loadedStudy.getGridId());
-            assertEquals(loadedStudy.getStudyOrganizations().size(),3);
+            assertEquals(loadedStudy.getStudyOrganizations().size(), 3);
 
-            for(StudyOrganization organization: loadedStudy.getStudyOrganizations()){
+            for (StudyOrganization organization : loadedStudy.getStudyOrganizations()) {
                 assertNotNull(organization.getHealthcareSite());
             }
         }
@@ -63,20 +82,16 @@ public class StudyXMLImporterTestCase extends DaoTestCase {
     }
 
 
+    protected String getDaoBeanName() {
+        return "studyDao";
+    }
+
     public StudyXMLImporterService getStudyImporter() {
         return studyImporter;
     }
 
     public void setStudyImporter(StudyXMLImporterService studyImporter) {
         this.studyImporter = studyImporter;
-    }
-
-    public StudyDao getDao() {
-        return dao;
-    }
-
-    public void setDao(StudyDao dao) {
-        this.dao = dao;
     }
 
 

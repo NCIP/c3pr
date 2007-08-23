@@ -2,8 +2,12 @@
         xmlns="http://www.springframework.org/schema/beans"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:p="http://www.springframework.org/schema/p"
+        xmlns:aop="http://www.springframework.org/schema/aop"
+        xmlns:util="http://www.springframework.org/schema/util"
         xsi:schemaLocation="
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
     ">
 
 
@@ -15,11 +19,11 @@
 
     <bean id="booleanFromString"
           class="java.lang.Boolean">
-        <constructor-arg  value="${authorizationSwitch}"/>
+        <constructor-arg value="${authorizationSwitch}"/>
     </bean>
 
     <bean id="csmApplicationContextName" class="java.lang.String">
-        <constructor-arg value="${csm.context.name}" />
+        <constructor-arg value="${csm.context.name}"/>
     </bean>
 
 
@@ -29,7 +33,7 @@
         <property name="sessionFactory">
             <bean
                     class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
-                <property name="dataSource" ref="dataSource" />
+                <property name="dataSource" ref="dataSource"/>
                 <property name="mappingResources">
                     <list>
                         <value>
@@ -75,20 +79,180 @@
             </bean>
         </property>
         <property name="applicationContextName"
-                  ref="csmApplicationContextName" />
+                  ref="csmApplicationContextName"/>
     </bean>
 
 
     <bean id="csmUserProvisioningManager"
           class="gov.nih.nci.security.provisioning.UserProvisioningManagerImpl">
-        <property name="authorizationDAO" ref="csmAuthorizationDao" />
-        <constructor-arg ref="csmApplicationContextName"/>
+        <property name="authorizationDAO" ref="csmAuthorizationDao"/>
     </bean>
 
     <bean id="csmAuthenticationManager"
           class="gov.nih.nci.security.SecurityServiceProvider"
           factory-method="getAuthenticationManager">
-        <constructor-arg ref="csmApplicationContextName" />
+        <constructor-arg ref="csmApplicationContextName"/>
+    </bean>
+
+    <bean id="authenticationManager"
+          class="org.acegisecurity.providers.ProviderManager">
+        <property name="providers">
+            <list>
+                <ref bean="csmAuthenticationProvider"/>
+                <bean
+                        class="org.acegisecurity.providers.anonymous.AnonymousAuthenticationProvider">
+                    <property name="key" value="anonymousAuthKey"/>
+                </bean>
+            </list>
+        </property>
+
+    </bean>
+
+
+    <aop:aspectj-autoproxy/>
+    <aop:spring-configured/>
+
+    <aop:config>
+        <!-- pointcuts -->
+        <aop:pointcut id="daoSaveOrUpdatePointcut"
+                      expression="execution(public void edu.duke.cabig.c3pr.dao.C3PRBaseDao+.save(gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject+)) || execution(public void edu.duke.cabig.c3pr.dao.C3PRBaseDao+.merge(gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject+))"/>
+
+
+        <!-- advisors -->
+
+
+        <!-- aspects -->
+        <!--
+            <aop:aspect id="assignDomainObjectOwnershipAspect"
+            ref="assignDomainObjectOwnershipBean">
+            <aop:after-returning
+            pointcut-ref="daoSaveOrUpdatePointcut"
+            method="assignOwner"
+            returning="domainObject" />
+            </aop:aspect>
+        -->
+
+        <aop:aspect id="daoSecurityInterceptorAspect"
+                    ref="daoSecurityInterceptorAspectBean">
+            <aop:around pointcut-ref="daoSaveOrUpdatePointcut"
+                        method="advise"/>
+        </aop:aspect>
+
+
+    </aop:config>
+
+
+    <bean id="daoSecurityInterceptorAspectBean"
+          class="gov.nih.nci.security.acegi.csm.aop.SecurityInterceptorAspect">
+        <property name="securityInterceptor"
+                  ref="daoSecurity"/>
+    </bean>
+
+    <bean id="daoSecurityTemplate" abstract="true">
+        <property name="authenticationManager"
+                  ref="authenticationManager"/>
+    </bean>
+
+    <util:map id="joinPointObjectPrivilegeMap"
+              map-class="java.util.LinkedHashMap">
+
+        <entry key="execution(* save(edu.duke.cabig.c3pr.domain.Study))"
+               value="edu.duke.cabig.c3pr.domain.Study:CREATE"/>
+
+        <entry key="execution(* merge(edu.duke.cabig.c3pr.domain.Study))"
+               value="edu.duke.cabig.c3pr.domain.Study:UPDATE"/>
+
+    </util:map>
+
+    <bean id="joinPointPrivilegeAndObjectIdGenerator"
+          class="gov.nih.nci.security.acegi.csm.authorization.JoinPointPrivilegeAndObjectIdGenerator">
+        <property name="objectPrivilegeMap"
+                  ref="joinPointObjectPrivilegeMap"/>
+    </bean>
+
+    <bean id="daoAuthorizationCheck" autowire="byType"
+          class="gov.nih.nci.security.acegi.csm.authorization.DelegatingObjectPrivilegeCSMAuthorizationCheck">
+        <property name="csmAuthorizationCheck">
+            <bean
+                    class="gov.nih.nci.security.acegi.csm.authorization.CSMGroupAuthorizationCheck">
+                <property name="csmUserProvisioningManager"
+                          ref="csmUserProvisioningManager"/>
+                <property name="authorizationSwitch" ref="authorizationSwitch"/>
+            </bean>
+        </property>
+        <property name="objectIdGenerator"
+                  ref="joinPointPrivilegeAndObjectIdGenerator"/>
+        <property name="privilegeGenerator"
+                  ref="joinPointPrivilegeAndObjectIdGenerator"/>
+    </bean>
+
+    <bean id="daoSecurity" parent="daoSecurityTemplate"
+          class="org.acegisecurity.intercept.method.aspectj.AspectJSecurityInterceptor">
+        <property name="objectDefinitionSource">
+            <value>
+                edu.duke.cabig.c3pr.dao.StudyDao.*=CSM_AUTHN_CHECK
+            </value>
+        </property>
+        <property name="accessDecisionManager">
+            <bean class="org.acegisecurity.vote.AffirmativeBased">
+                <property name="allowIfAllAbstainDecisions">
+                    <value>false</value>
+                </property>
+                <property name="decisionVoters">
+                    <list>
+                        <bean
+                                class="gov.nih.nci.security.acegi.csm.vote.AuthorizationSwitchVoter">
+                            <property name="authorizationSwitch" ref="authorizationSwitch"/>
+                            <property name="requiresAuthentication" value="false"/>
+                        </bean>
+                        <bean
+                                class="gov.nih.nci.security.acegi.csm.vote.CSMAuthorizationCheckVoter">
+                            <property name="processConfigAttribute"
+                                      value="CSM_AUTHN_CHECK"/>
+                            <property name="authorizationCheck"
+                                      ref="daoAuthorizationCheck"/>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+
+    <bean id="csmAuthenticationProvider"
+          class="gov.nih.nci.security.acegi.csm.authentication.CSMAuthenticationProvider">
+
+        <property name="csmAuthenticationManager">
+            <bean class="gov.nih.nci.security.SecurityServiceProvider"
+                  factory-method="getAuthenticationManager">
+                <constructor-arg ref="csmApplicationContextName"/>
+            </bean>
+        </property>
+
+        <property name="userDetailsService">
+            <bean
+                    class="gov.nih.nci.security.acegi.csm.authorization.CSMUserDetailsService">
+                <property name="csmUserProvisioningManager"
+                          ref="csmUserProvisioningManager"/>
+            </bean>
+        </property>
+
+        <property name="userCache" ref="userCache"/>
+    </bean>
+
+    <bean id="userCache"
+          class="org.acegisecurity.providers.dao.cache.EhCacheBasedUserCache">
+        <property name="cache">
+            <bean
+                    class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+                <property name="cacheManager">
+                    <bean
+                            class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"/>
+                </property>
+                <property name="cacheName" value="userCache"/>
+
+            </bean>
+        </property>
     </bean>
 
 
