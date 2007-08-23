@@ -42,13 +42,8 @@ public class StudyXMLFileImportAjaxFacade extends BaseStudyAjaxFacade {
         String action = "/pages/admin/importStudy";
 
         Collection<Study> studies = null;
-        try {
-            studies = studyXMLImporterService.importStudies(studyXMLFile.getInputStream());
-            return build(model, studies, "Imported Studies", action).toString();
-        } catch (Exception e) {
-            log.debug(e.getMessage());
-        }
-          return "";
+        studies = studyXMLImporterService.importStudies(studyXMLFile.getInputStream());
+        return build(model, studies, "Imported Studies", action).toString();
     }
 
 
