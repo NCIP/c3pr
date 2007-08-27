@@ -15,15 +15,16 @@
              classpathref="maven-ant-tasks.classpath" />
 
     <artifact:remoteRepository id="ctmsi.repository" url="http://download.bioinformatics.northwestern.edu/maven2" />
+    <artifact:remoteRepository id="ibiblio.repository" url="http://mirrors.ibiblio.org/pub/mirrors/maven2" />
 
-
+    
     <target name="resolve-ctms-dependencies"
             description="Get CTMSI commons dependencies">
         <!--clean out previous artifacts-->
         <delete dir="${ctms.commons.dir}" failonerror="true"/>
         <mkdir dir="${ctms.commons.dir}"/>
 
-        <artifact:dependencies filesetId="dependency.fileset" useScope="runtime">
+        <artifact:dependencies filesetId="ctmsi.dependency.fileset">
             <remoteRepository refid="ctmsi.repository" />
             <dependency groupId="gov.nih.nci.security.acegi" artifactId="acegi-csm"
                         version="${ctmsi.commons.version}"/>
@@ -37,8 +38,19 @@
                         version="${ctmsi.commons.version}"/>
         </artifact:dependencies>
 
+
+        <artifact:dependencies filesetId="aspectj.dependency.fileset">
+            <remoteRepository refid="ibiblio.repository" />
+            <dependency groupId="aspectj" artifactId="aspectjrt"
+                        version="1.5.3"/>
+            <dependency groupId="aspectj" artifactId="aspectjweaver"
+                        version="1.5.3"/>
+        </artifact:dependencies>
+
+
         <copy todir="${ctms.commons.dir}">
-            <fileset refid="dependency.fileset"/>
+            <fileset refid="ctmsi.dependency.fileset"/>
+            <fileset refid="aspectj.dependency.fileset"/>
             <mapper type="flatten" />
         </copy>
 
