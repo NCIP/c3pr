@@ -17,10 +17,17 @@
 		class="edu.duke.cabig.c3pr.web.ajax.RegistrationAjaxFacade" />
 	<bean id="anatomicDiseaseSiteFacade" autowire="byType"
 		class="edu.duke.cabig.c3pr.web.ajax.AnatomicDiseaseSiteFacade" />
+		
 	<bean id="createReportFacade" autowire="byType"
 		class="edu.duke.cabig.c3pr.web.ajax.CreateReportFacade" />
 	<bean id="reportCommand" autowire="byType"
 		class="edu.duke.cabig.c3pr.web.report.ReportCommand" />
+		
+	<bean id="createStudyReportFacade" autowire="byType"
+		class="edu.duke.cabig.c3pr.web.ajax.CreateStudyReportFacade" />
+	<bean id="studyReportCommand" autowire="byType"
+		class="edu.duke.cabig.c3pr.web.report.StudyReportCommand" />
+		
     <bean id="studyXMLFileAjaxFacade" autowire="byType"
             class="edu.duke.cabig.c3pr.web.ajax.StudyXMLFileImportAjaxFacade" />
 

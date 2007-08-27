@@ -104,6 +104,14 @@
         <property name="formView" value="report/registration_search_report" />
         <property name="successView" value="report/registration_search_report" />
     </bean>
+    <bean name="/report/createStudyReport" id="createStudyReportController"
+          lazy-init="true" class="edu.duke.cabig.c3pr.web.report.CreateStudyReportController"
+          autowire="byName">
+        <property name="commandClass" value="edu.duke.cabig.c3pr.web.report.StudyReportCommand" />
+        <property name="formView" value="report/study_search_report" />
+        <property name="successView" value="report/study_search_report" />
+    </bean>    
+    
     <!-- mapping for REPORT task -->
 
 
@@ -337,6 +345,10 @@
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
                                     autowire="byType" p:displayName="Search Registration"
                                     p:linkName="createReportController" />
+                            <bean
+                                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+                                    autowire="byType" p:displayName="Search Study"
+                                    p:linkName="createStudyReportController" />
                         </list>
                     </property>
                 </bean>

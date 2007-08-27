@@ -29,6 +29,14 @@
             <param name="beanName" value="reportCommand"/>
             <include method="setParams"/>
         </create>
+        
+        <create creator="spring" javascript="createStudyReport">
+            <param name="beanName" value="createStudyReportFacade"/>            
+        </create>
+
+        <create creator="spring" javascript="studyReportCommand">
+            <param name="beanName" value="studyReportCommand"/>            
+        </create>
 
         <create creator="spring" javascript="StudyXMLFileImportAjaxFacade">
             <param name="beanName" value="studyXMLFileAjaxFacade"/>
