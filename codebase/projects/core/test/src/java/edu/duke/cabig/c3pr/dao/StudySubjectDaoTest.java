@@ -1,17 +1,21 @@
 package edu.duke.cabig.c3pr.dao;
 
+import static edu.duke.cabig.c3pr.C3PRUseCase.ADD_DISEASE_SUBJECT;
+import static edu.duke.cabig.c3pr.C3PRUseCase.ASSIGN_ARM;
+import static edu.duke.cabig.c3pr.C3PRUseCase.ASSIGN_EXISTING_PARTICIPANT;
+import static edu.duke.cabig.c3pr.C3PRUseCase.ASSIGN_REGISTERED_PARTICIPANT;
+import static edu.duke.cabig.c3pr.C3PRUseCase.CREATE_INCOMPLETE_REGISTERATION;
+import static edu.duke.cabig.c3pr.C3PRUseCase.CREATE_LOCAL_REGISTERATION;
+import static edu.duke.cabig.c3pr.C3PRUseCase.UPDATE_REGISTERATION_STATUS;
 import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-
-import org.hibernate.proxy.HibernateProxyHelper;
-
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
@@ -19,14 +23,14 @@ import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.ScheduledNonTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
+import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
 import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
+import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
-
-import static edu.duke.cabig.c3pr.C3PRUseCase.*;
 
 /**
  * JUnit Tests for ParticipantDao
@@ -55,6 +59,51 @@ public class StudySubjectDaoTest extends DaoTestCase {
         scheduledEpochDao= (ScheduledEpochDao) getApplicationContext().getBean("scheduledEpochDao");
         studyDao=(StudyDao) getApplicationContext().getBean("studyDao");
     }
+    
+	/*
+	 * Test for the advanced search for studies(reporting use case).
+	 */
+	public void testAdvancedStudySearch(){
+		List<StudySubject> ssList;
+		{
+			Study study = new Study();
+			study.setShortTitleText("");
+			
+			SystemAssignedIdentifier id = new SystemAssignedIdentifier();
+			id.setValue(null);
+		    study.addIdentifier(id);
+			
+			Participant participant = new Participant();
+			id = new SystemAssignedIdentifier();
+	        id.setValue(null);
+	        participant.addIdentifier(id);
+	
+			participant.setFirstName("Alfred");
+			participant.setLastName("");    
+	        
+	        StudySite studySite = new StudySite();
+	        studySite.setStudy(study);
+	        studySite.setHealthcareSite(new HealthcareSite());
+	        
+	        StudySubject studySubject = new StudySubject();
+	        studySubject.setStudySite(studySite);
+	        studySubject.setParticipant(participant);	        
+			
+			ssList = studySubjectDao.advancedStudySearch(studySubject);
+		}
+		interruptSession();
+		{
+			assertEquals(ssList.isEmpty(), false);
+			if(!ssList.isEmpty()){
+				StudySubject ss = ssList.get(0);
+				assertEquals(ss.getParticipant().getFirstName(), "");
+				assertEquals(ss.getParticipant().getLastName(), "");
+				assertEquals(ss.getStudySite().getStudy().getShortTitleText() ,"");
+			}
+		}
+	}
+	
+	
     /**
 	 * Test for loading a Study Subject by Id 
 	 * @throws Exception
