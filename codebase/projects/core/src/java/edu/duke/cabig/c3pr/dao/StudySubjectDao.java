@@ -92,6 +92,46 @@ public class StudySubjectDao extends
 
 	}
 
+    /*
+     * This is the advanced search method used for Study Reports generation.
+     */
+    public List<StudySubject> advancedStudySearch(StudySubject studySubject){
+		
+    	Criteria studySubjectCriteria = getHibernateTemplate().getSessionFactory().getCurrentSession().createCriteria(StudySubject.class);
+
+		Criteria studySiteCriteria = studySubjectCriteria.createCriteria("studySite");
+		Criteria participantCriteria = studySubjectCriteria.createCriteria("participant");
+		Criteria studyCriteria = studySiteCriteria.createCriteria("study");
+		Criteria identifiersCriteria = studyCriteria.createCriteria("identifiers");
+		
+		//Study Criteria
+		if(studySubject.getStudySite().getStudy().getShortTitleText() != null && !studySubject.getStudySite().getStudy().getShortTitleText().equals("")){
+			studyCriteria.add(Expression.like("shortTitleText", "%"+studySubject.getStudySite().getStudy().getShortTitleText()+"%"));
+		}
+        if(studySubject.getStudySite().getStudy().getIdentifiers().get(0).getValue() != null && 
+        		studySubject.getStudySite().getStudy().getIdentifiers().get(0).getValue() != "") {
+        	identifiersCriteria.add(Expression.like("value", "%"+studySubject.getStudySite().getStudy().getIdentifiers().get(0).getValue()+"%"));
+        }        
+		
+		//participant/subject criteria
+		if(studySubject.getParticipant().getFirstName() != null && !studySubject.getParticipant().getFirstName().equals("")){
+			participantCriteria.add(Expression.eq("firstName", "%"+studySubject.getParticipant().getFirstName()+"%"));
+		}
+		if(studySubject.getParticipant().getLastName() != null && !studySubject.getParticipant().getLastName().equals("")){
+			participantCriteria.add(Expression.eq("lastName", "%"+studySubject.getParticipant().getLastName()+"%"));
+		}		
+		if(studySubject.getParticipant().getIdentifiers().get(0).getValue() != null && 
+				!studySubject.getParticipant().getIdentifiers().get(0).getValue().equals("")){
+//		//		identifiersCriteria.add(Expression.eq("type","Coordinating Center Identifier"));
+			identifiersCriteria.add(Expression.eq("value", "%"+studySubject.getParticipant().getIdentifiers().get(0).getValue()+"%"));
+		}
+		
+		studySubjectCriteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY); 
+		//studySubjectCriteria.addOrder(Order.asc("id"));
+		return studySubjectCriteria.list();
+	}
+    
+
 	/**
 	 * *
 	 * 
