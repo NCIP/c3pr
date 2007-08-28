@@ -1,6 +1,10 @@
 package edu.duke.cabig.c3pr.web.study;
 
+import java.util.Iterator;
+import java.util.List;
+
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import org.apache.commons.logging.Log;
@@ -37,6 +41,13 @@ public class EditStudyController extends StudyController<Study> {
      */
     protected Object formBackingObject(HttpServletRequest request) throws ServletException {
         Study study = studyDao.getStudyDesignById(Integer.parseInt(request.getParameter("studyId")));
+//        List <TreatmentEpoch>eList = study.getTreatmentEpochs();
+//        Iterator iter = eList.iterator();
+//        TreatmentEpoch te;
+//        while(iter.hasNext()){
+//        	te = (TreatmentEpoch)iter.next();
+//        	te.getStratumGroups().get(0).getBookRandomizationEntry().size();
+//        }
         if (study != null) {
             log.debug("Retrieving Study Details for Id: " + study.getId());
         }
@@ -50,6 +61,7 @@ public class EditStudyController extends StudyController<Study> {
         flow.addTab(new StudyDesignTab());
         flow.addTab(new StudyEligibilityChecklistTab());
         flow.addTab(new StudyStratificationTab());
+        flow.addTab(new StudyRandomizationTab());
         flow.addTab(new StudyDiseasesTab());
         flow.addTab(new StudySitesTab());
         flow.addTab(new StudyIdentifiersTab());

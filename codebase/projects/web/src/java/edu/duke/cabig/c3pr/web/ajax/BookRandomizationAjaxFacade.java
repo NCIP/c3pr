@@ -18,6 +18,7 @@ import org.extremecomponents.table.context.HttpServletRequestContext;
 import org.extremecomponents.table.core.TableModel;
 import org.extremecomponents.table.core.TableModelImpl;
 
+import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.BookRandomizationEntry;
@@ -30,7 +31,8 @@ import edu.duke.cabig.c3pr.utils.StringUtils;
 
 public class BookRandomizationAjaxFacade {
 	
-	 private static Log log = LogFactory.getLog(BookRandomizationAjaxFacade.class);	
+	 private static Log log = LogFactory.getLog(BookRandomizationAjaxFacade.class);
+	 protected StudyDao studyDao;
 	
 	/* This is the method that is called from the study_randomization.jsp on clicking the "Upload Randomization Book"
 	 * button. This is also consequently called on clicking any of the table buttons like pagination.
@@ -43,12 +45,19 @@ public class BookRandomizationAjaxFacade {
 	 */
 	 public String getTable(Map<String, List> parameterMap, String content, String epochIndexString, HttpServletRequest req) {
 	        Context context = new HttpServletRequestContext(req, parameterMap);
-	        String action = "/pages/study/createStudy";	        
+	        String action = "/pages/study/createStudy";
 	        Study study = (Study)req.getSession().getAttribute("edu.duke.cabig.c3pr.web.study.CreateStudyController.FORM.command");
-
+	        if(study == null){
+	        	study = (Study)req.getSession().getAttribute("edu.duke.cabig.c3pr.web.study.EditStudyController.FORM.command");
+	        	action = "/pages/study/editStudy";	        	
+	        	    
+		        if(study != null && study instanceof Study){
+		        	studyDao.reassociate(study);
+		        }
+	        }
 	        TableModel model = new TableModelImpl(context);
 	        TreatmentEpoch tEpoch = null;
-	        if(study.getRandomizationType().equals(RandomizationType.BOOK)){
+	        if(study != null && study.getRandomizationType().equals(RandomizationType.BOOK)){
 		        String bookRandomizations;
 		        int selectedEpoch = StringUtils.getBlankIfNull(epochIndexString).equals("")?-1:Integer.parseInt(epochIndexString);
 		        tEpoch = study.getTreatmentEpochs().get(selectedEpoch);	
@@ -56,6 +65,10 @@ public class BookRandomizationAjaxFacade {
 	        	if(!StringUtils.isEmpty(bookRandomizations)){			        
 			        if(tEpoch != null){
 			        	parseBookRandomization(bookRandomizations, tEpoch);
+			        	if(action.equals("/pages/study/editStudy")){
+			        		study=studyDao.merge(study);
+			        		req.getSession().setAttribute("edu.duke.cabig.c3pr.web.study.EditStudyController.FORM.command", study);
+			        	}
 			        } else {
 			        	log.debug("Invalid epoch Index");
 			        }
@@ -63,6 +76,9 @@ public class BookRandomizationAjaxFacade {
 	    	
 		        try {
 		        	if(tEpoch != null){
+//		        		if(action.equals("/pages/study/editStudy")){
+//		        			studyDao.reassociate(study);
+//		    		    }
 		        		List <BookRandomizationEntry>breList = ((BookRandomization)tEpoch.getRandomization()).getBookRandomizationEntry();
 		        		return build(model, breList, "Book Randomization :"+selectedEpoch, action).toString();		        		
 		        	}
@@ -83,7 +99,7 @@ public class BookRandomizationAjaxFacade {
 	     * 		2, 1, B
 	     */
 	    private void parseBookRandomization(String bookRandomizations, TreatmentEpoch tEpoch){	    	
-	    		    	
+	    	
 	    	try{
 	    		//we do not create a new instance of bookRandomization, we use the existing instance which was created in StudyDesignTab.java
 	    		//based on the randomizationType selected on the study_details page.
@@ -215,4 +231,12 @@ public class BookRandomizationAjaxFacade {
 			
 			return model.assemble();
 		}
+
+	public StudyDao getStudyDao() {
+		return studyDao;
+	}
+
+	public void setStudyDao(StudyDao studyDao) {
+		this.studyDao = studyDao;
+	}
 }
