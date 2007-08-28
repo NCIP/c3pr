@@ -92,7 +92,7 @@ public class ManageEpochTab<C extends StudySubject> extends InPlaceEditableTab<C
 		scheduledEpoch.setEpoch(epoch);
 		command.addScheduledEpoch(scheduledEpoch);
 //		intializeEpochCollection(command);
-		map.put(getFreeTextModelName(), "Subject registered successfully..");
+		map.put(getFreeTextModelName(), "subject transferred successfully..");
 		return new ModelAndView("",map);
 	}
 	
