@@ -10,19 +10,46 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script type="text/javascript" src="/c3pr/js/CalendarPopup.js"></script>
 <script>
+
+	function randomize(){
+		var elmt = document.getElementById("scheduledEpoch.scheduledArms[0].arm");
+		if(elmt == null || elmt.value != ""){
+			<tags:tabMethod method="randomize" divElement="'randomizationMessage'" /> 
+		}
+		else {
+			new Insertion.After(elmt, "<span id='"+elmt.name+"-msg'style='color:#EE3324'>*"+required+"</span>")			
+		}			
+	}
+	
 </script>
 </head>
 <body>
 <tags:formPanelBox tab="${tab}" flow="${flow}">
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
 		<c:choose>
-		<c:when test="${!command.ifTreatmentScheduledEpoch}">
+		<c:when test="${!command.ifTreatmentScheduledEpoch || command.studySite.study.randomizedIndicator == 'false'}">
 			<tr>
 				<td> The selected epoch does not involve Randomization</td>
 			</tr>
 		</c:when>
+		<%-- BOOK  --%>		
+		<c:when test="${command.studySite.study.randomizationType.name == 'BOOK'}">
+			This epoch requires Book Randomization. Click <b>Randomize</b> to randomize the subject 
+			on the epoch.
+		</c:when>
+		<%-- BOOK --%>		
+		<%-- CALLOUT --%>		
+		<c:when test="${command.studySite.study.randomizationType.name == 'CALL_OUT'}">
+			
+		</c:when>
+		<%-- CALLOUT --%>		
+		<%-- PHONECALL --%>
 		<c:otherwise>
-		<tr><td>Please select an arm</td></tr>
+		<tr><td>This epoch requires Phone Call Randomization. Call ${command.scheduledEpoch.epoch.randomization.phoneNumber} to get the Arm assignment.</td></tr>
+		<tr>
+		<td class="label" width="80%">Stratum Group: </td>
+		<td>${command.stratumGroup}</td>
+		</tr>
 		<tr>
 			<td class="label" width="80%">Select Arm:</td>
 			<td>
@@ -35,8 +62,17 @@
 			</td>
 		</tr>
 		</c:otherwise>
-	</c:choose>
+		<%-- PHONECALL --%>	
+		</c:choose>
 	</table>
+	
+	<c:if test="${command.ifTreatmentScheduledEpoch && command.studySite.study.randomizedIndicator == 'true'}">
+		<div id="randomizationMessage">
+		</div>
+		
+		<input class='ibutton' type='button' onclick="randomize()" value='Randomize' title='Randomize'/>		
+	</c:if>
+		
 </tags:formPanelBox>
 </body>
 </html>

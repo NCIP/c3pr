@@ -27,7 +27,7 @@ public class BookRandomizationEntry extends AbstractMutableDomainObject{
 	
 	@ManyToOne
 	@JoinColumn(name = "ARMS_ID")
-	@Cascade(value = { CascadeType.ALL})	
+	@Cascade(value = { CascadeType.SAVE_UPDATE, CascadeType.MERGE})	
 	public Arm getArm() {
 		return arm;
 	}
@@ -43,7 +43,7 @@ public class BookRandomizationEntry extends AbstractMutableDomainObject{
 	
 	@ManyToOne
 	@JoinColumn(name = "str_grp_id", nullable=false)
-	@Cascade(value = { CascadeType.ALL})
+	@Cascade(value = { CascadeType.SAVE_UPDATE, CascadeType.MERGE})
 	public StratumGroup getStratumGroup() {
 		return stratumGroup;
 	}

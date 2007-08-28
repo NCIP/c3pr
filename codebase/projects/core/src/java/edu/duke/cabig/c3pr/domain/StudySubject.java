@@ -10,6 +10,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -362,4 +363,19 @@ public class StudySubject extends AbstractMutableDomainObject {
 			return getTreatingPhysician().getHealthcareSiteInvestigator().getInvestigator().getFullName();
 		return getOtherTreatingPhysician();
 	}
+	
+	@Transient
+	public StratumGroup getStratumGroup(){
+		List <SubjectStratificationAnswer> ssaList = ((ScheduledTreatmentEpoch)getScheduledEpoch()).getSubjectStratificationAnswers();
+		if(ssaList != null){
+			Iterator iter = ssaList.iterator();
+			List<StratificationCriterionAnswerCombination> scacList = new ArrayList<StratificationCriterionAnswerCombination>();
+			while(iter.hasNext()){
+				scacList.add(new StratificationCriterionAnswerCombination((SubjectStratificationAnswer)iter.next()));
+			}
+			return ((ScheduledTreatmentEpoch)getScheduledEpoch()).getTreatmentEpoch().getStratumGroupForAnsCombination(scacList);
+		}
+		return null;		
+	}
+
 }

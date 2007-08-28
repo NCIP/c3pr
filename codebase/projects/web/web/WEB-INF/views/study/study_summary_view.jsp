@@ -67,6 +67,11 @@
             <td class="alt" align="left"><b>Randomized:</b></td>
             <td class="alt" align="left">${command.randomizedIndicator}</td>
         </tr>
+        <tr>
+            <td class="alt" align="left"><b>Randomization Type:</b></td>
+            <td class="alt" align="left">${command.randomizationType.displayName}</td>
+        </tr>
+        
     </table>
 </chrome:division>
 
@@ -196,6 +201,29 @@
                                     </tr>
                                 </c:forEach>
                             </table>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </c:if>
+        </c:forEach>
+    </table>
+</chrome:division>
+
+<chrome:division title="Stratum Groups">
+    <table class="tablecontent">
+        <tr>
+            <th scope="col" align="left"><b>Stratum Group Number</b></th>
+            <th scope="col" align="left"><b>Answer Combination</b></th>
+
+        </tr>
+        <c:forEach items="${command.epochs}" var="epoch">
+            <c:if
+                    test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
+                <c:forEach items="${epoch.stratumGroups}" var="stratGrp">
+                    <tr>
+                        <td class="alt">${stratGrp.stratumGroupNumber}</td>
+                        <td class="alt">
+                            ${stratGrp.answerCombinations}
                         </td>
                     </tr>
                 </c:forEach>

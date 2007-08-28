@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
-import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.*;
+import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.getByClassAndCode;
+import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.register;
 import gov.nih.nci.cabig.ctms.domain.CodedEnum;
 
 public enum RandomizationType  implements CodedEnum<Integer> {

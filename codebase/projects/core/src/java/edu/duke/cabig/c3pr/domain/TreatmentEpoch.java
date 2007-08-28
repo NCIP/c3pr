@@ -1,14 +1,13 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Transient;
@@ -234,5 +233,27 @@ public class TreatmentEpoch extends Epoch {
 		this.randomization = randomization;
 	}
 
-
+	@Transient
+	/*
+	 * This method iterates thru the stratum groups for the treatmentEpoch and finds the
+	 * one that has the same stratificationCriAnsCombination as the one passed in and returns it.
+	 * returns null if no matching stratum group is found
+	 */
+	public StratumGroup getStratumGroupForAnsCombination(List<StratificationCriterionAnswerCombination> scacList){
+		StratumGroup sg = new StratumGroup();
+		sg.getStratificationCriterionAnswerCombination().addAll(scacList);
+		
+		List <StratumGroup>sgList;
+		sgList = this.getStratumGroups();
+		Iterator iter = sgList.iterator();
+		StratumGroup sgCurr;
+		while(iter.hasNext()){
+			sgCurr = (StratumGroup)iter.next();
+			if(sgCurr.equals(sg)){
+				return sgCurr;
+			}
+		}
+		return null;		
+	}		
+	
 }

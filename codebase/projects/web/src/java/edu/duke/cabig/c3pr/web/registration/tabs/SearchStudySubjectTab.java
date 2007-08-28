@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.web.registration.tabs;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,7 @@ import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.ScheduledNonTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
+import edu.duke.cabig.c3pr.domain.StratumGroup;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
 import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
@@ -145,6 +147,12 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject>{
 				scheduledTreatmentEpoch.addSubjectStratificationAnswers(subjectStratificationAnswer);
 			}
 			scheduledTreatmentEpoch.getScheduledArms().size();
+			scheduledTreatmentEpoch.getTreatmentEpoch().getStratumGroups().size();
+			Iterator <StratumGroup> iter=scheduledTreatmentEpoch.getTreatmentEpoch().getStratumGroups().iterator();
+			while(iter.hasNext()){
+				iter.next().getStratificationCriterionAnswerCombination().size();
+				iter.next().getBookRandomizationEntry().size();
+			}
 		}
 	}
 

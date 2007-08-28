@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -75,8 +76,8 @@ class StudyDesignTab extends StudyTab {
 			}			
 		}
 		//Instantiating the appropriate randomization class and setting it in the epoch.
-		
-			ArrayList epochList = (ArrayList)study.getEpochs();
+		if(study.getEpochs() instanceof List){
+			List epochList = study.getEpochs();
 			Epoch epoch;
 			TreatmentEpoch tEpoch;
 			Iterator iter = epochList.iterator();
@@ -84,9 +85,9 @@ class StudyDesignTab extends StudyTab {
 				epoch = (Epoch)iter.next();
 				if(epoch instanceof TreatmentEpoch){
 					tEpoch = (TreatmentEpoch)epoch;
-					if(study.getRandomizationType() != null){
+					if(study.getRandomizationType() != null && tEpoch.getRandomization() == null){
 						if(study.getRandomizationType().equals(RandomizationType.BOOK)){
-							tEpoch.setRandomization(new BookRandomization());
+							tEpoch.setRandomization(new BookRandomization());														
 				    	}
 						if(study.getRandomizationType().equals(RandomizationType.CALL_OUT)){
 							tEpoch.setRandomization(new CalloutRandomization());
@@ -97,6 +98,6 @@ class StudyDesignTab extends StudyTab {
 					}
 				}
 			}
-		
+		}
 	}
 }

@@ -21,7 +21,11 @@
 			globalIndex = index;
 		}
 		var str = "bookRandomizations-" + index;
-		var content = document.getElementById(str).value;
+		var content = "";
+		if(form == "command"){
+		//alert("command it is");
+			content = document.getElementById(str).value;
+		}
 		BookRandomizationAjaxFacade.getTable(parameterMap, content, index, uploadBookCallback);
 	}
 	
@@ -63,13 +67,15 @@
 		</chrome:box>
 
 		</div>
-		<script>$('book_container_${epochCount.index}').style.height=new String((50+$('book_${epochCount.index}').offsetHeight)+"px")</script>		
+		<script>$('book_container_${epochCount.index}').style.height=new String((50+$('book_${epochCount.index}').offsetHeight)+"px")</script>	
+			
 	</c:forEach>	
 
 </c:if>
 <!--BOOK RANDOMIZATION SECTION-->
 
 <form:form method="post">
+<input type="hidden" id="_action" name="_action" value="doNotSave">
 <tags:tabFields tab="${tab}"/>
 
 <!--CALLOUT RANDOMIZATION SECTION-->
@@ -114,6 +120,13 @@
 	</c:forEach>
 </c:if>
 <!--PHONECALL RANDOMIZATION SECTION-->
+
+<!--CALLING FOR AJAX ONLOAD : BOOK RANDOMIZATION SECTION-->
+<c:forEach items="${command.treatmentEpochs}" var="epoch" varStatus="epochCount">
+<script>uploadBook("command", "${epochCount.index}")</script>	
+</c:forEach>
+<!--BOOK RANDOMIZATION SECTION-->
+
 <tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
 </form:form>
 	     

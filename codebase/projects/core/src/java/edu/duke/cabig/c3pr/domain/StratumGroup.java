@@ -25,8 +25,8 @@ import org.hibernate.annotations.Parameter;
         parameters = {@Parameter(name = "sequence", value = "STRATUM_GROUP_ID_SEQ")})
 public class StratumGroup extends AbstractMutableDomainObject{
 	
-	private int currentPosition;
-	private int stratumGroupNumber;
+	private Integer currentPosition = new Integer(0);
+	private Integer stratumGroupNumber;
 	private LazyListHelper lazyListHelper;
 
 	public StratumGroup(){
@@ -60,6 +60,7 @@ public class StratumGroup extends AbstractMutableDomainObject{
 	}
 	
     @OneToMany (mappedBy = "stratumGroup", fetch=FetchType.LAZY)
+    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})	
 	public List<BookRandomizationEntry> getBookRandomizationEntryInternal() {
 		return lazyListHelper.getInternalList(BookRandomizationEntry.class);
 	}
@@ -79,33 +80,111 @@ public class StratumGroup extends AbstractMutableDomainObject{
 	
 	}	
 
-	public int getCurrentPosition() {
+	public Integer getCurrentPosition() {
 		return currentPosition;
 	}
 
-	public void setCurrentPosition(int currentPosition) {
+
+	public void setCurrentPosition(Integer currentPosition) {
 		this.currentPosition = currentPosition;
 	}
 
-	public int getStratumGroupNumber() {
+
+	public Integer getStratumGroupNumber() {
 		return stratumGroupNumber;
 	}
 
-	public void setStratumGroupNumber(int stratumGroupNumber) {
+
+	public void setStratumGroupNumber(Integer stratumGroupNumber) {
 		this.stratumGroupNumber = stratumGroupNumber;
 	}
-	
+
+
 	@Transient
 	public String getAnswerCombinations(){
 		String result = "";
 		Iterator iter = getStratificationCriterionAnswerCombination().iterator();
 		while(iter.hasNext()){
-			result+=" - "+((StratificationCriterionAnswerCombination)iter.next()).getStratificationCriterionPermissibleAnswer().getPermissibleAnswer();
-			
-			
+			result+=" - "+((StratificationCriterionAnswerCombination)iter.next()).getStratificationCriterionPermissibleAnswer().getPermissibleAnswer();			
 		}
 		result=result.substring(3);
 		return result;		
 	}
+	
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = super.hashCode();
+		int computedSum = 0;
+		Iterator iter = getStratificationCriterionAnswerCombination().iterator();
+		while(iter.hasNext()){
+			computedSum += ((StratificationCriterionAnswerCombination)iter.next()).hashCode();
+		}
+		result = PRIME
+				* result
+				+ computedSum;
+		return result;
+	}
+
+	/*
+	 * NOTE: As per this method two Stratum Groups are considered equal if they have the same question/answer combination.
+	 * In other words if they have the same stratification_cri_ans_combination.
+	 */
+	@Override	
+	public boolean equals(Object obj){
+		if (this == obj)
+			return true;
+//		if (!super.equals(obj))
+//			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		if(obj instanceof StratumGroup){
+			StratumGroup sg = (StratumGroup)obj;
+			List <StratificationCriterionAnswerCombination>scacList;
+			StratificationCriterionAnswerCombination scac;
+			
+			scacList = sg.getStratificationCriterionAnswerCombination();
+			Iterator iter = scacList.iterator();
+			while(iter.hasNext()){
+				scac = (StratificationCriterionAnswerCombination)iter.next();
+				if(this.getStratificationCriterionAnswerCombination().contains(scac)){
+					continue;
+				} else {
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
+	}
+	
+	/*
+	 * very basic toString method which is open to modifications.
+	 */
+	@Override
+	public String toString(){
+		return this.getStratumGroupNumber() +":"+ this.getAnswerCombinations();
+	}
+	
+	/*
+	 * 
+	 */
+	@Transient
+	public Arm getNextArm(){
+		Iterator <BookRandomizationEntry>iter = getBookRandomizationEntry().iterator();
+		BookRandomizationEntry breTemp;
+		while(iter.hasNext()){
+			breTemp = iter.next(); 
+			if(breTemp.getPosition() == this.currentPosition){
+				synchronized(this){
+					this.currentPosition++;
+					return breTemp.getArm();				
+				}
+			}
+		}
+		return null;		
+	}
+	
+	
 
 }
