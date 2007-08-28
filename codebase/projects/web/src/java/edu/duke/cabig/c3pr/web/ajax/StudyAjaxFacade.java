@@ -166,8 +166,15 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
                 .getBySubnames(extractSubnames(text), siteId);
         List<HealthcareSiteInvestigator> reducedInv = new ArrayList<HealthcareSiteInvestigator>(inv.size());
         for (HealthcareSiteInvestigator hcInv : inv) {
-            reducedInv.add(buildReduced(hcInv, Arrays.asList("id", "investigator"))
-            );
+        	//creating a new temp HSI and calling build reduced twice as Arrays.aslist doesnt understand
+        	//the dot operator (in other words...something like inv.firstName doesnt work)
+        	//Also calling build reduced with specific params instead of the whole HSI object to prevent
+        	//hibernate from retrieving every nested object.
+        	HealthcareSiteInvestigator temp;
+        	temp=buildReduced(hcInv, Arrays.asList("id"));
+        	temp.setInvestigator(buildReduced(hcInv.getInvestigator(), Arrays.asList("firstName","lastName","maidenName")));
+            reducedInv.add(temp);
+            
         }
 
         return reducedInv;
