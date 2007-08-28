@@ -136,6 +136,8 @@ public abstract class RegistrationController <C extends StudySubject> extends Au
 		if (command != null) {
 			if(command.getId()!=null){
 				return getDao().merge(command);
+			}else if(command.getScheduledEpoch()!=null&&command.getScheduledEpoch().getEpoch()!=null){
+				epochDao.reassociate(command.getScheduledEpoch().getEpoch());
 			}
 			if(command.getParticipant()!=null)
 				getParticipantDao().reassociate(command.getParticipant());
