@@ -175,19 +175,19 @@ RowManager.addRowInseter(instanceRowInserterProps);
 											<td align="left"><form:input path="nciIdentifier" size="25" />&nbsp;&nbsp;&nbsp;</td>
 										</tr>
 										<tr>
-											<td align="right"><em></em><em></em> <b>${command.contactMechanisms[0].type
+											<td align="right"><em></em><em></em> <b>${command.contactMechanisms[0].type.displayName
 											}:</b>&nbsp;</td>
 											<td align="left"><form:input
 												path="contactMechanisms[0].value" size="25" />&nbsp;&nbsp;&nbsp;</td>
 										</tr>
 										<tr>
-											<td align="right"><em></em><em></em> <b>${command.contactMechanisms[1].type
+											<td align="right"><em></em><em></em> <b>${command.contactMechanisms[1].type.displayName
 											}:</b>&nbsp;</td>
 											<td align="left"><form:input
 												path="contactMechanisms[1].value" size="25" />&nbsp;&nbsp;&nbsp;</td>
 										</tr>
 										<tr>
-											<td align="right"><em></em><em></em> <b>${command.contactMechanisms[2].type
+											<td align="right"><em></em><em></em> <b>${command.contactMechanisms[2].type.displayName
 											}:</b>&nbsp;</td>
 											<td align="left"><form:input
 												path="contactMechanisms[2].value" size="25" />&nbsp;&nbsp;&nbsp;</td>

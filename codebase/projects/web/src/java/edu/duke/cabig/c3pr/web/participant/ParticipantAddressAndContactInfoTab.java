@@ -20,9 +20,6 @@ public class ParticipantAddressAndContactInfoTab extends ParticipantTab {
 			Map<String, Object> refdata = new HashMap<String, Object>();
 			refdata.put("searchTypeRefData", configMap
 					.get("participantSearchType"));
-			refdata.put("contactMechanismType", configMap
-					.get("contactMechanismType"));
-
 			return refdata;
 		}
 

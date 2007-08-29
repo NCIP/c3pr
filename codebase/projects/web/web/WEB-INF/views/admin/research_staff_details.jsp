@@ -106,19 +106,19 @@ function handleConfirmation(){
 			</tr>
 
 			<tr>
-				<td align="right"><em></em><em></em> <b>${command.contactMechanisms[0].type
+				<td align="right"><em></em><em></em> <b>${command.contactMechanisms[0].type.displayName
 				}:</b>&nbsp;</td>
 				<td><form:input size="25"
 					path="contactMechanisms[0].value" />&nbsp;&nbsp;&nbsp;</td>
 			</tr>
 			<tr>
-				<td align="right"><em></em><em></em> <b>${command.contactMechanisms[1].type
+				<td align="right"><em></em><em></em> <b>${command.contactMechanisms[1].type.displayName
 				}:</b>&nbsp;</td>
 				<td><form:input size="25"
 					path="contactMechanisms[1].value" />&nbsp;&nbsp;&nbsp;</td>
 			</tr>
 			<tr>
-				<td align="right"><em></em><em></em> <b>${command.contactMechanisms[2].type
+				<td align="right"><em></em><em></em> <b>${command.contactMechanisms[2].type.displayName
 				}:</b>&nbsp;</td>
 				<td><form:input size="25"
 					path="contactMechanisms[2].value" />&nbsp;&nbsp;&nbsp;</td>

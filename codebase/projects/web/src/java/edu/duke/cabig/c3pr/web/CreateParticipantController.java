@@ -2,15 +2,13 @@ package edu.duke.cabig.c3pr.web;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
-import edu.duke.cabig.c3pr.domain.ContactMechanism;
-import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.Identifier;
-import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.*;
 import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
+import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
 import gov.nih.nci.cabig.ctms.web.tabs.AbstractTabbedFlowFormController;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
@@ -84,18 +82,7 @@ public class CreateParticipantController extends
 			}
 		});
 		flow.addTab(new Tab<Participant>("Address & Contact Info",
-				"Address & ContactInfo", "participant/participant_address") {
-			public Map<String, Object> referenceData() {
-				Map<String, List<Lov>> configMap = configurationProperty
-						.getMap();
-
-				Map<String, Object> refdata = new HashMap<String, Object>();
-				refdata.put("contactMechanismType", configMap
-						.get("contactMechanismType"));
-
-				return refdata;
-			}
-		});
+				"Address & ContactInfo", "participant/participant_address"));
 		flow.addTab(new Tab<Participant>("Review and Submit ",
 				"Review and Submit ", "participant/participant_submit"));
 
@@ -130,9 +117,9 @@ public class CreateParticipantController extends
 		ContactMechanism contactMechanismEmail = new ContactMechanism();
 		ContactMechanism contactMechanismPhone = new ContactMechanism();
 		ContactMechanism contactMechanismFax = new ContactMechanism();
-		contactMechanismEmail.setType("Email");
-		contactMechanismPhone.setType("Phone");
-		contactMechanismFax.setType("Fax");
+		contactMechanismEmail.setType(ContactMechanismType.EMAIL);
+		contactMechanismPhone.setType(ContactMechanismType.PHONE);
+		contactMechanismFax.setType(ContactMechanismType.Fax);
 		participant.addContactMechanism(contactMechanismEmail);
 		participant.addContactMechanism(contactMechanismPhone);
 		participant.addContactMechanism(contactMechanismFax);
@@ -146,7 +133,10 @@ public class CreateParticipantController extends
 				new SimpleDateFormat("MM/dd/yyyy"), true));
 		binder.registerCustomEditor(HealthcareSite.class,
 				new CustomDaoEditor(healthcareSiteDao));
-	}
+        binder.registerCustomEditor(ContactMechanismType.class,
+                new EnumByNameEditor(ContactMechanismType.class));
+
+    }
 
 	@Override
 	protected void postProcessPage(HttpServletRequest request, Object Command,

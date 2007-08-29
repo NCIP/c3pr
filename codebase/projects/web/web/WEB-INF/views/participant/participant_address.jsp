@@ -44,7 +44,8 @@ function fireAction(action, selected){
 			<td align="left"><form:input path="address.stateCode" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 			<b>Zip:</b>&nbsp;<form:input path="address.postalCode" /></td>
 		</tr>
-		<tr>
+        
+        <tr>
 			<td width="150" align="right"><em></em><em></em> <b>Country:</b>&nbsp;</td>
 			<td align="left"><form:input path="address.countryCode" />&nbsp;&nbsp;&nbsp;</td>
 		</tr>
@@ -56,15 +57,15 @@ function fireAction(action, selected){
 			<p id="instructions">Enter Contact Information for the Subject <br>
 			</p>
 		<tr>
-			<td width="150" align="right"><em></em><em></em> <b>${command.contactMechanisms[0].type }:</b>&nbsp;</td>
+			<td width="150" align="right"><em></em><em></em> <b>${command.contactMechanisms[0].type.displayName }:</b>&nbsp;</td>
 			<td align="left"><form:input path="contactMechanisms[0].value" />&nbsp;&nbsp;&nbsp;</td>
 		</tr>
 		<tr>
-			<td width="150" align="right"><em></em><em></em> <b>${command.contactMechanisms[1].type }:</b>&nbsp;</td>
+			<td width="150" align="right"><em></em><em></em> <b>${command.contactMechanisms[1].type.displayName }:</b>&nbsp;</td>
 			<td align="left"><form:input path="contactMechanisms[1].value" />&nbsp;&nbsp;&nbsp;</td>
 		</tr>
 		<tr>
-			<td width="150" align="right"><em></em><em></em> <b>${command.contactMechanisms[2].type }:</b>&nbsp;</td>
+			<td width="150" align="right"><em></em><em></em> <b>${command.contactMechanisms[2].type.displayName }:</b>&nbsp;</td>
 			<td align="left"><form:input path="contactMechanisms[2].value" />&nbsp;&nbsp;&nbsp;</td>
 		</tr>
 

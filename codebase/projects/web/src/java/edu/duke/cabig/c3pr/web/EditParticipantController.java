@@ -25,12 +25,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
-import edu.duke.cabig.c3pr.domain.Address;
-import edu.duke.cabig.c3pr.domain.ContactMechanism;
-import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.Identifier;
-import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.*;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.StringUtils;
@@ -140,29 +135,29 @@ public class EditParticipantController<C extends Participant> extends
 		boolean contactMechanismEmailPresent = false, contactMechanismPhonePresent = false, contactMechanismFaxPresent = false;
 		for (ContactMechanism contactMechanism : participant
 				.getContactMechanisms()) {
-			if (contactMechanism.getType().equals("Email"))
+			if (contactMechanism.getType().equals(ContactMechanismType.EMAIL))
 				contactMechanismEmailPresent = true;
 
-			if (contactMechanism.getType().equals("Phone"))
+			if (contactMechanism.getType().equals(ContactMechanismType.PHONE))
 				contactMechanismPhonePresent = true;
 
-			if (contactMechanism.getType().equals("Fax"))
+			if (contactMechanism.getType().equals(ContactMechanismType.Fax))
 				contactMechanismFaxPresent = true;
 
 		}
 		if (!contactMechanismEmailPresent) {
 			ContactMechanism contactMechanismEmail = new ContactMechanism();
-			contactMechanismEmail.setType("Email");
+			contactMechanismEmail.setType(ContactMechanismType.EMAIL);
 			participant.getContactMechanisms().add(0, contactMechanismEmail);
 		}
 		if (!contactMechanismPhonePresent) {
 			ContactMechanism contactMechanismPhone = new ContactMechanism();
-			contactMechanismPhone.setType("Phone");
+			contactMechanismPhone.setType(ContactMechanismType.PHONE);
 			participant.getContactMechanisms().add(1, contactMechanismPhone);
 		}
 		if (!contactMechanismFaxPresent) {
 			ContactMechanism contactMechanismFax = new ContactMechanism();
-			contactMechanismFax.setType("Fax");
+			contactMechanismFax.setType(ContactMechanismType.Fax);
 			participant.getContactMechanisms().add(2, contactMechanismFax);
 		}
 

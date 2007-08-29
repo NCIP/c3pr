@@ -99,7 +99,10 @@
     <!-- The Test Classpath                                                   -->
     <!-- =============================================================== -->
     <path id="test.classpath">
-        <path refid="compile.classpath"/>
+        <path refid="build.classpath"/>
+         <fileset dir="${ext.dir}/compile/lib">
+            <include name="c3pr-*.jar"/>
+        </fileset>
         <fileset dir="${jar.dir}">
             <include name="**/*.jar" />
         </fileset>
