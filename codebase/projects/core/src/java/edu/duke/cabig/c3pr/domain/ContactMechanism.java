@@ -20,14 +20,14 @@ import org.hibernate.annotations.Parameter;
 )
 public class ContactMechanism extends AbstractMutableDomainObject {
 
-	private String type;
+	private ContactMechanismType type;
 	private String value;
 		
-	public String getType() {
+	public ContactMechanismType getType() {
 		return type;
 	}
 	
-	public void setType(String type) {
+	public void setType(ContactMechanismType type) {
 		this.type = type;
 	}
 	

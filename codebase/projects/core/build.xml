@@ -47,6 +47,8 @@
 
     <!--db dir-->
     <property name="db.scripts.dir" value="${basedir}/db"/>
+    <property name="bering.migration.dir" value="${db.scripts.dir}/bering"/>
+
     <property name="oracle.db.script.dir" value="${db.scripts.dir}/oracle"/>
     <property name="postgresql.db.script.dir" value="${db.scripts.dir}/PostGreSQL"/>
     <property name="oracle.csm.db.scripts.dir" value="${oracle.db.script.dir}/csm"/>
@@ -76,7 +78,7 @@
         <fileset dir="${ext.dir}/compile/lib">
             <include name="**/*.jar"/>
         </fileset>
-          <path refid="build.classpath"/>
+        <path refid="build.classpath"/>
     </path>
 
     <!-- =============================================================== -->
@@ -226,24 +228,42 @@
     <!-- ============================================================== -->
     <target name="prepare-bering" depends="jar">
         <!--Taskdef. Has to be done inside since classpath is ext-->
-                <taskdef resource="edu/northwestern/bioinformatics/bering/antlib.xml"
-                        classpathref="compile.classpath"/>
+        <taskdef resource="edu/northwestern/bioinformatics/bering/antlib.xml"
+                 classpathref="compile.classpath"/>
 
-                <property name="oracle.keyword" value="Oracle"/>
-                <property name="postgresql.keyword" value="PostgreSQLDialect"/>
+        <property name="oracle.keyword" value="Oracle"/>
+        <property name="postgresql.keyword" value="PostgreSQLDialect"/>
 
-                <condition property="bering.dialect" value="edu.northwestern.bioinformatics.bering.dialect.PostgreSQL">
-                    <contains string="${datasource.dialect}" substring="${postgresql.keyword}"/>
-                </condition>
+        <condition property="bering.dialect" value="edu.northwestern.bioinformatics.bering.dialect.PostgreSQL">
+            <contains string="${datasource.dialect}" substring="${postgresql.keyword}"/>
+        </condition>
 
-                <condition property="bering.dialect" value="edu.northwestern.bioinformatics.bering.dialect.Oracle">
-                    <contains string="${datasource.dialect}" substring="${oracle.keyword}"/>
-                </condition>
+        <condition property="bering.dialect" value="edu.northwestern.bioinformatics.bering.dialect.Oracle">
+            <contains string="${datasource.dialect}" substring="${oracle.keyword}"/>
+        </condition>
 
     </target>
 
     <target name="bering-migrate" description="migrate database schema"
             depends="prepare-bering">
+
+
+        <migrate classpathRef="run.classpath"
+                 driver="${datasource.driver}"
+                 dialect="${bering.dialect}"
+                 url="${datasource.url}"
+                 userid="${datasource.username}"
+                 password="${datasource.password}"
+                 migrationsDir="${bering.migration.dir}"/>
+    </target>
+
+    <target name="bering-migrate-test" description="migrate database schema to run tests"
+            depends="prepare-bering">
+
+        <property name="test.script.name" value="006_c3pr_delete_static_data"/>
+
+        <move file="${bering.migration.dir}/001_construction_iteration4/${test.script.name}.template"
+              tofile="${bering.migration.dir}/001_construction_iteration4/${test.script.name}.groovy"/>
 
         <migrate classpathRef="run.classpath"
                  driver="${datasource.driver}"
@@ -253,7 +273,13 @@
                  password="${datasource.password}"
                  migrationsDir="${db.scripts.dir}/bering"/>
 
+        <move file="${bering.migration.dir}/001_construction_iteration4/${test.script.name}.groovy"
+              tofile="${bering.migration.dir}/001_construction_iteration4/${test.script.name}.template"/>
+
     </target>
+
+
+
 
     <target name="tomcat.security" description="Automatically copies global (CSM/UPT) configuration files to Tomcat.">
         <fail message="Could not locate Tomcat.  Please set the catalina.home property (-Dcatalina.home=/path/to/tomcat).">
