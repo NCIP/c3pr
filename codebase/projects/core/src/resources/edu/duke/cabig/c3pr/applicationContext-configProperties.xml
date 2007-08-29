@@ -429,22 +429,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                         </bean>
                      </list>
                 </entry>  
-                <entry key="contactMechanismType">
-                    <list>
-                      	<bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="Email" />
-                            <property name="desc" value="email" />
-                        </bean>                       
-                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="Phone" />
-                            <property name="desc" value="phone" />
-                        </bean>
-                       <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="Fax" />
-                            <property name="desc" value="fax" />
-                        </bean>
-                     </list>
-                </entry>     
                 
                 <!-- Study Investigators -->
                  <entry key="studyInvestigatorRoleRefData">

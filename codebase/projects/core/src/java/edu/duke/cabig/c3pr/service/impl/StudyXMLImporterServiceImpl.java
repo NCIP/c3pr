@@ -35,14 +35,14 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 
-public class StudyXMLImporterService implements edu.duke.cabig.c3pr.service.StudyXMLImporterService {
+public class StudyXMLImporterServiceImpl implements edu.duke.cabig.c3pr.service.StudyXMLImporterService {
 
     private StudyDao studyDao;
     private HealthcareSiteDao healthcareSiteDao;
     private StudyValidator studyValidator;
 
     private XmlMarshaller marshaller;
-    private  Logger log = Logger.getLogger(StudyXMLImporterService.class.getName());
+    private  Logger log = Logger.getLogger(StudyXMLImporterServiceImpl.class.getName());
 
     /**
      * Will parse an xml stream and create 1..many studies

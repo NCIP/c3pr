@@ -6,7 +6,7 @@ import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
-import edu.duke.cabig.c3pr.service.impl.StudyXMLImporterService;
+import edu.duke.cabig.c3pr.service.impl.StudyXMLImporterServiceImpl;
 import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
 import edu.duke.cabig.c3pr.utils.SecurityContextTestUtils;
 import edu.duke.cabig.c3pr.utils.StringUtils;
@@ -26,14 +26,14 @@ import java.util.List;
 public class StudyXMLImporterTestCase extends ContextDaoTestCase<StudyDao> {
 
 
-    private StudyXMLImporterService studyImporter;
+    private StudyXMLImporterServiceImpl studyImporter;
 
     XmlMarshaller marshaller;
 
     protected void setUp() throws Exception {
         super.setUp();    //To change body of overridden methods use File | Settings | File Templates.
         marshaller = new XmlMarshaller();
-        studyImporter = (StudyXMLImporterService) getApplicationContext().getBean("studyXMLImporterService");
+        studyImporter = (StudyXMLImporterServiceImpl) getApplicationContext().getBean("studyXMLImporterService");
     }
 
 
@@ -86,11 +86,11 @@ public class StudyXMLImporterTestCase extends ContextDaoTestCase<StudyDao> {
         return "studyDao";
     }
 
-    public StudyXMLImporterService getStudyImporter() {
+    public StudyXMLImporterServiceImpl getStudyImporter() {
         return studyImporter;
     }
 
-    public void setStudyImporter(StudyXMLImporterService studyImporter) {
+    public void setStudyImporter(StudyXMLImporterServiceImpl studyImporter) {
         this.studyImporter = studyImporter;
     }
 

@@ -339,6 +339,11 @@
         <ant dir="${projects.dir}/core" inheritall="false" target="bering-migrate"/>
     </target>
 
+    <target name="createOrUpdateDatabaseForTests" depends="build-core"
+            description="create or update the Database using bering to run tests">
+        <ant dir="${projects.dir}/core" inheritall="false" target="bering-migrate-test"/>
+    </target>
+
     <!--Update code from CVS. For developer use only-->
     <target name="cvsUpdate" description="Updates code from CVS. For developers use only">
         <!-- Assumes PKI setup for the following account-->

@@ -163,8 +163,10 @@
           autowire="byType">
         <property name="isBroadcastEnable" value="${broadcastEnable}"/>
     </bean>
-    <bean id="studyXMLImporterService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudyXMLImporterService"
+    <bean id="studyXMLImporterService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudyXMLImporterServiceImpl"
           autowire="byType"/>
+    <bean id="personnelService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.PersonnelServiceImpl"
+           autowire="byType"/>
 
     <!--Utilities-->
     <bean id="xmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
