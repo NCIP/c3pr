@@ -1,8 +1,4 @@
 
-#
-# The following entry is for c3pr application.
-#
-
 INSERT INTO csm_application(APPLICATION_ID,APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,UPDATE_DATE)
 VALUES (1,'c3pr','c3prv2 application',0,0,sysdate);
 select CSM_APPLICATI_APPLICATION__SEQ.nextval from dual;
@@ -25,7 +21,6 @@ values(1,'c3pr_admin',1,sysdate);
 insert into CSM_USER_GROUP(USER_GROUP_ID, USER_ID,GROUP_ID)
 values(1,1,1);
 
-# Entry for csm upt
 
 INSERT INTO csm_application(APPLICATION_ID,APPLICATION_NAME,APPLICATION_DESCRIPTION,DECLARATIVE_FLAG,ACTIVE_FLAG,UPDATE_DATE)
 VALUES (2,'csmupt','CSM UPT Super Admin Application',0,0,sysdate);
@@ -39,10 +34,6 @@ insert into csm_user_pe(USER_PROTECTION_ELEMENT_ID, PROTECTION_ELEMENT_ID,USER_I
 values(2,2,1,sysdate);
 select CSM_USER_PE_USER_PROTECTIO_SEQ.nextval from dual;
 
-
-#
-# The following entries are Common Set of Privileges
-#
 
 INSERT INTO csm_privilege (privilege_id, privilege_name, privilege_description, update_date)
 VALUES(1,'CREATE','This privilege grants permission to a user to create an entity. This entity can be an object, a database entry, or a resource such as a network connection', sysdate);

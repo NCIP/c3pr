@@ -69,70 +69,77 @@ insert into CSM_PROTECTION_GROUP(PROTECTION_GROUP_ID,
 insert into csm_protection_element(protection_element_id,
             protection_element_name,protection_element_description,
             object_id,application_id,update_date)
-            values(2,'edu.duke.cabig.c3pr.domain.Participant',
+            values(3,'edu.duke.cabig.c3pr.domain.Participant',
             'Participant Domain object','edu.duke.cabig.c3pr.domain.Participant',
             1,sysdate);
+select CSM_PROTECTIO_PROTECTION_E_SEQ.nextval from dual;
+
 
 insert into csm_protection_element(protection_element_id,
             protection_element_name,protection_element_description,
             object_id,application_id,update_date)
-            values(3,'edu.duke.cabig.c3pr.domain.Study',
+            values(4,'edu.duke.cabig.c3pr.domain.Study',
             'Study Domain object','edu.duke.cabig.c3pr.domain.Study',
             1,sysdate);
+select CSM_PROTECTIO_PROTECTION_E_SEQ.nextval from dual;
 
 
 insert into csm_protection_element(protection_element_id,
             protection_element_name,protection_element_description,
             object_id,application_id,update_date)
-            values(4,'edu.duke.cabig.c3pr.domain.Registration',
+            values(5,'edu.duke.cabig.c3pr.domain.Registration',
             'Registration Domain object','edu.duke.cabig.c3pr.domain.Registration',
             1,sysdate);
+select CSM_PROTECTIO_PROTECTION_E_SEQ.nextval from dual;
 
 insert into csm_protection_element(protection_element_id,
             protection_element_name,protection_element_description,
             object_id,application_id,update_date)
-            values(5,'edu.duke.cabig.c3pr.domain.Investigator',
+            values(6,'edu.duke.cabig.c3pr.domain.Investigator',
             'Investigator Domain object','edu.duke.cabig.c3pr.domain.Investigator',
             1,sysdate);
+select CSM_PROTECTIO_PROTECTION_E_SEQ.nextval from dual;
 
 insert into csm_protection_element(protection_element_id,
             protection_element_name,protection_element_description,
             object_id,application_id,update_date)
-            values(6,'edu.duke.cabig.c3pr.domain.ResearchStaff',
+            values(7,'edu.duke.cabig.c3pr.domain.ResearchStaff',
             'ResearchStaff Domain object','edu.duke.cabig.c3pr.domain.ResearchStaff',
             1,sysdate);
+select CSM_PROTECTIO_PROTECTION_E_SEQ.nextval from dual;
 
 insert into csm_protection_element(protection_element_id,
             protection_element_name,protection_element_description,
             object_id,application_id,update_date)
-            values(7,'edu.duke.cabig.c3pr.domain.HealthcareSite',
+            values(8,'edu.duke.cabig.c3pr.domain.HealthcareSite',
             'HealthCare Site Domain object','edu.duke.cabig.c3pr.domain.HealthcareSite',
             1,sysdate);
-            
+select CSM_PROTECTIO_PROTECTION_E_SEQ.nextval from dual;
+
 
 insert into csm_pg_pe(pg_pe_id,protection_group_id,
             protection_element_id)
-            values(1,1,2);
+            values(1,1,3);
 
 insert into csm_pg_pe(pg_pe_id,protection_group_id,
             protection_element_id)
-            values(2,2,3);
+            values(2,2,4);
 
 insert into csm_pg_pe(pg_pe_id,protection_group_id,
             protection_element_id)
-            values(3,3,4);
+            values(3,3,5);
 
 insert into csm_pg_pe(pg_pe_id,protection_group_id,
             protection_element_id)
-            values(4,4,5);
+            values(4,4,6);
 
 insert into csm_pg_pe(pg_pe_id,protection_group_id,
             protection_element_id)
-            values(5,5,6);
+            values(5,5,7);
 
 insert into csm_pg_pe(pg_pe_id,protection_group_id,
             protection_element_id)
-            values(6,6,7);
+            values(6,6,8);
 
 
 

@@ -1,15 +1,15 @@
 class CreateRandomization extends edu.northwestern.bioinformatics.bering.Migration {
     void up() {
  
- 		createTable("stratification_criterion_answer_combination") { t ->
+ 		createTable("strat_criterion_answer") { t ->
             t.addVersionColumn()
             t.addColumn("grid_id", "string")  
             t.addColumn("sc_id", "integer")
             t.addColumn("scpa_id", "integer")
             t.addColumn("str_grp_id", "integer")
         }
-       execute("ALTER TABLE stratification_criterion_answer_combination ADD CONSTRAINT FK_SCAC_SC FOREIGN KEY (SC_ID) REFERENCES STRATIFICATION_CRITERION(ID)");
-       execute("ALTER TABLE stratification_criterion_answer_combination ADD CONSTRAINT FK_SCAC_SCPA FOREIGN KEY (SCPA_ID) REFERENCES STRATIFICATION_CRI_PER_ANS(ID)");
+       execute("ALTER TABLE strat_criterion_answer ADD CONSTRAINT FK_SCAC_SC FOREIGN KEY (SC_ID) REFERENCES STRATIFICATION_CRITERION(ID)");
+       execute("ALTER TABLE strat_criterion_answer ADD CONSTRAINT FK_SCAC_SCPA FOREIGN KEY (SCPA_ID) REFERENCES STRATIFICATION_CRI_PER_ANS(ID)");
                            
 
        createTable("stratum_group") { t ->
@@ -23,8 +23,8 @@ class CreateRandomization extends edu.northwestern.bioinformatics.bering.Migrati
             t.addColumn("epochs_id", "integer")
         }       
        execute("ALTER TABLE stratum_group ADD CONSTRAINT FK_STR_GRP_EPOCHS FOREIGN KEY (epochs_id) REFERENCES EPOCHS(ID)");
-		//adding fk contraint to stratification_criterion_answer_combination
-       execute("ALTER TABLE stratification_criterion_answer_combination ADD CONSTRAINT FK_SCAC_STR_GRP FOREIGN KEY (STR_GRP_ID) REFERENCES STRATUM_GROUP(ID)");       
+		//adding fk contraint to strat_criterion_answer
+       execute("ALTER TABLE strat_criterion_answer ADD CONSTRAINT FK_SCAC_STR_GRP FOREIGN KEY (STR_GRP_ID) REFERENCES STRATUM_GROUP(ID)");
         
         createTable("book_randomization_entry") { t ->
             t.addVersionColumn()
@@ -67,7 +67,6 @@ class CreateRandomization extends edu.northwestern.bioinformatics.bering.Migrati
     	//setNullable('RANDOMIZATIONS', 'BRE_ID', false)
 	   	//setNullable('RANDOMIZATIONS', 'DTYPE', false) 
 	   	
-	   	setNullable('book_randomization_entry', 'str_grp_id', true)
 		//setNullable('book_randomization_entry', 'arms_id', true)
 		//execute("insert into arms('id') values ('100')")
 		execute("insert into stratum_group(id) values ('101')")
@@ -79,12 +78,12 @@ class CreateRandomization extends edu.northwestern.bioinformatics.bering.Migrati
 	   	
 	   	//Kruttik added this line
 	   	setNullable('ARMS', 'EPH_ID', true) 
-	   	setNullable('stratum_group', 'epochs_id', true)    
+	   	//setNullable('stratum_group', 'epochs_id', true)
     }
 
     void down() {
         
-        dropTable('stratification_criterion_answer_combination')
+        dropTable('strat_criterion_answer')
         dropTable('stratum_group')  
         dropColumn('epochs','rndm_id')
         dropTable('book_randomization_entry')

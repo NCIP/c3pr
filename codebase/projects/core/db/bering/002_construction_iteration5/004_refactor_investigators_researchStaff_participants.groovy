@@ -12,7 +12,7 @@ class RefactorInvestigatorsResearchStaffParticipants extends edu.northwestern.bi
 	    	execute("alter table PARTICIPANTS add Middle_Name VARCHAR2(200)")
 	    	execute("alter table RESEARCH_STAFFS add Middle_Name VARCHAR2(200)")
 	    	execute("alter table RESEARCH_STAFFS add NCI_IDENTIFIER VARCHAR2(200)")
-	    	execute("alter table STUDIES add RANDOMIZATION_TYPE(4)")
+	    	execute("alter table STUDIES add RANDOMIZATION_TYPE NUMBER(10)")
 	 	}
   
     }

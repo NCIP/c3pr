@@ -18,9 +18,9 @@ class CreateScheduledEpochsAndAssociations extends edu.northwestern.bioinformati
         dropColumn('scheduled_arms','spa_id');
         // ensure that the new constraint will be applicable
         execute("DELETE FROM scheduled_arms");
-        addColumn('scheduled_arms','sceph_id','string',nullable:false);
+        addColumn('scheduled_arms','sceph_id','integer',nullable:false);
         execute("ALTER TABLE SCHEDULED_ARMS ADD CONSTRAINT FK_SCA_SCEPH FOREIGN KEY (SCEPH_ID) REFERENCES SCHEDULED_EPOCHS (ID)");
-        
+
         dropColumn('SUBJECT_STRATIFICATION_ANSWERS','SPA_ID');
         dropColumn('SUBJECT_STRATIFICATION_ANSWERS','STR_CRI_ID');        
         // ensure that the new constraint will be applicable

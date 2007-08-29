@@ -7,7 +7,11 @@ class RefactorStudyOrganizations extends edu.northwestern.bioinformatics.bering.
 	    	execute("alter table STUDY_SUBJECTS drop constraint FK_SPA_STS")
 	    	 		
 	 		execute("alter table STUDY_SITES drop constraint PK_STUDY_SITES")
-	 		
+
+	 	    if (databaseMatches('oracle')) {
+	    	    execute("rename STUDY_SITES_ID_SEQ to seq_STUDY_SITES_ID")
+	 	    }
+
 			renameTable('STUDY_SITES', 'STUDY_ORGANIZATIONS')
 
 			if (databaseMatches('postgres')) {
@@ -22,11 +26,11 @@ class RefactorStudyOrganizations extends edu.northwestern.bioinformatics.bering.
 	    	execute("alter table STUDY_ORGANIZATIONS add constraint PK_STUDY_ORGANIZATIONS PRIMARY KEY (ID)")
 	    	
 	    	dropColumn('STUDY_INVESTIGATORS', "STS_ID")
-	    	addColumn('STUDY_INVESTIGATORS', "STO_ID", "string")
+	    	addColumn('STUDY_INVESTIGATORS', "STO_ID", "integer")
 	    	dropColumn('STUDY_PERSONNELS', "STS_ID")
-	    	addColumn('STUDY_PERSONNELS', "STO_ID", "string")
+	    	addColumn('STUDY_PERSONNELS', "STO_ID", "integer")
 	    	dropColumn('STUDY_SUBJECTS', "STS_ID")
-	    	addColumn('STUDY_SUBJECTS', "STO_ID", "string")
+	    	addColumn('STUDY_SUBJECTS', "STO_ID", "integer")
 	    	
 		    execute("alter table STUDY_INVESTIGATORS add constraint FK_STI_STO FOREIGN KEY (STO_ID) REFERENCES STUDY_ORGANIZATIONS (ID)")
 			execute("alter table STUDY_SUBJECTS add constraint FK_SPA_STO FOREIGN KEY (STO_ID) REFERENCES STUDY_ORGANIZATIONS (ID)")
