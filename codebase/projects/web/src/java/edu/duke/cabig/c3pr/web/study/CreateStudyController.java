@@ -48,6 +48,7 @@ public class CreateStudyController<C extends Study> extends StudyController<C> {
         flow.addTab(new StudyIdentifiersTab());
         flow.addTab(new StudyInvestigatorsTab());
         flow.addTab(new StudyPersonnelTab());
+        flow.addTab(new StudyAmendmentTab());
         flow.addTab(new StudyEmptyTab("Overview", "Overview", "study/study_summary_create"));
     }
 
