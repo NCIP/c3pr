@@ -26,7 +26,7 @@ var healthcareSiteAutocompleterProps = {
 									}
 }
 var systemIdentifierRowInserterProps = {
-    add_row_division_id: "mytable", 	        /* this id belongs to element where the row would be appended to */
+    add_row_division_id: "mytable-system", 	        /* this id belongs to element where the row would be appended to */
     skeleton_row_division_id: "dummy-row",
     initialIndex: ${fn:length(command.systemAssignedIdentifiers)},                            /* this is the initial count of the rows when the page is loaded  */
     path: "systemAssignedIdentifiers"                             /* this is the path of the collection that holds the rows  */
@@ -51,7 +51,7 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 <br> <br>
 		
 <chrome:division title="System Identifiers">
-<table id="mytable" border="0" cellspacing="0" cellpadding="0">
+<table id="mytable-system" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 	<tr>
 		<th class="scope=" col" align="left"><b><span
 			class="red">*</span>System Name</b></th>
@@ -61,7 +61,7 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 		<th class="specalt" scope="col" align="left"></th>
 	</tr>
 	<c:forEach items="${command.systemAssignedIdentifiers}" varStatus="status">
-		 <tr id="mytable-${status.index}">
+		 <tr id="mytable-system-${status.index}">
 			<td class="alt"><form:input
 				path="systemAssignedIdentifiers[${status.index}].systemName"
 				cssClass="validate-notEmpty"/>
@@ -92,7 +92,7 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 	onclick="javascript:RowManager.addRow(organizationIdentifierRowInserterProps);"  />
 <br> <br>
 <chrome:division title="Organization Identifiers">
-<table id="mytable-organizationIdentifier" border="0" cellspacing="0" cellpadding="0" class="mytable">
+<table id="mytable-organizationIdentifier" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 	<tr>
 		<th class="scope=" col" align="left"><b><span
 			class="red">*</span>Assigning Authority</b></th>
