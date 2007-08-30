@@ -26,7 +26,7 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
     }
 )
 //@AssociationOverride( name="contactMechanisms", joinColumns= @JoinColumn(name="INV_ID") )
-public class Investigator extends Person {
+public class Investigator extends C3PRUser {
     private String nciIdentifier;
     private LazyListHelper lazyListHelper;
     private String fullName;
