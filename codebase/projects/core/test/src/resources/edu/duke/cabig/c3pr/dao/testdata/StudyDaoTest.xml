@@ -95,6 +95,7 @@
     
     <STRATIFICATION_CRI_PER_ANS id="1000" version="1" permissible_answer="answer" str_cri_id="1000"/>   
     <SUBJECT_STRATIFICATION_ANSWERS id="1000" version="1" sceph_id="1000" str_cri_id="1000"/> 
-    <STRATIFICATION_CRITERION_ANSWER_COMBINATION id="1000" version="1" />
+    <STRAT_CRITERION_ANSWER id="1000" version="1" />
+    <STUDY_AMENDMENTS/>
   	 
 </dataset>
