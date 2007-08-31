@@ -20,12 +20,12 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 @Entity
-@Table(name = "stratum_group")
+@Table(name = "stratum_groups")
 @GenericGenerator(name = "id-generator", strategy = "native",
-        parameters = {@Parameter(name = "sequence", value = "STRATUM_GROUP_ID_SEQ")})
+        parameters = {@Parameter(name = "sequence", value = "STRATUM_GROUPS_ID_SEQ")})
 public class StratumGroup extends AbstractMutableDomainObject{
 	
-	private Integer currentPosition = new Integer(0);
+	private Integer currentPosition;
 	private Integer stratumGroupNumber;
 	private LazyListHelper lazyListHelper;
 
@@ -35,6 +35,7 @@ public class StratumGroup extends AbstractMutableDomainObject{
 				new InstantiateFactory<BookRandomizationEntry>(BookRandomizationEntry.class));
     	lazyListHelper.add(StratificationCriterionAnswerCombination.class,new InstantiateFactory<StratificationCriterionAnswerCombination>(
     			StratificationCriterionAnswerCombination.class));
+    	currentPosition = new Integer(0);
 	}
 	    
 	

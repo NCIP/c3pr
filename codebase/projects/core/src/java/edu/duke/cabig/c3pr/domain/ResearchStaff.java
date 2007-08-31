@@ -19,8 +19,8 @@ import org.hibernate.annotations.Parameter;
  * @author Priyatam
  */
 @Entity
-@Table(name = "research_staffs")
-@GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "research_staffs_id_seq") })
+@Table(name = "research_staff")
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "research_staff_id_seq") })
 // @AssociationOverride( name="contactMechanisms", joinColumns=
 // @JoinColumn(name="RS_ID") )
 public class ResearchStaff extends Person {

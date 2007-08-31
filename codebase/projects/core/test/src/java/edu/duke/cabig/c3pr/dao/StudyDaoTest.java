@@ -198,6 +198,103 @@ public class StudyDaoTest extends DaoTestCase {
         }
     }
 
+
+    /*
+     * specifically created to test if stratum groups are saved with all the ans combinations
+     */
+    public void testSaveStudyWithAnsComb()throws Exception{
+    	Integer savedId;
+    	{	
+	    	Study study = buildStudy();
+	        Arm armA = new Arm();
+	        armA.setName("A");
+	
+	        TreatmentEpoch epoch1 = new TreatmentEpoch();
+	        armA.setTreatmentEpoch(epoch1);
+	        armA.setName("Arm name");
+	        ArrayList<Arm> aList = new ArrayList<Arm>();
+	        aList.add(armA);
+	        epoch1.getArms().addAll(aList);
+	        epoch1.setName("epoch1");
+	        
+	        List <StratificationCriterionPermissibleAnswer> scpa1List= new ArrayList<StratificationCriterionPermissibleAnswer>();        
+	        StratificationCriterion sc1 = new StratificationCriterion();
+	        sc1.setQuestionText("q1");
+	        StratificationCriterionPermissibleAnswer scpa;
+	        for(int i=0;i<3;i++){
+	        	scpa = new StratificationCriterionPermissibleAnswer();
+	        	scpa.setPermissibleAnswer("a1"+i);
+	        	scpa1List.add(scpa);
+	        }
+	        sc1.getPermissibleAnswers().addAll(scpa1List);        
+	        
+	        List <StratificationCriterionPermissibleAnswer> scpa2List= new ArrayList<StratificationCriterionPermissibleAnswer>();
+	        StratificationCriterion sc2 = new StratificationCriterion();
+	        sc2.setQuestionText("q2");
+	        StratificationCriterionPermissibleAnswer scpa2;
+	        for(int i=0;i<3;i++){
+	        	scpa2 = new StratificationCriterionPermissibleAnswer();
+	        	scpa2.setPermissibleAnswer("a2"+i);
+	        	scpa2List.add(scpa2);
+	        }
+	        sc2.getPermissibleAnswers().addAll(scpa2List); 
+	        
+	        List <StratificationCriterion> scList= new ArrayList<StratificationCriterion>();
+	        scList.add(sc1);
+	        scList.add(sc2);
+	        
+	        List <StratificationCriterionAnswerCombination> scacList = new ArrayList<StratificationCriterionAnswerCombination>();
+	        
+	        StratificationCriterionAnswerCombination scac1 = new StratificationCriterionAnswerCombination();
+	        scac1.setStratificationCriterion(sc1);
+	        scac1.setStratificationCriterionPermissibleAnswer(sc1.getPermissibleAnswers().get(0));
+	        
+	        StratificationCriterionAnswerCombination scac2 = new StratificationCriterionAnswerCombination();
+	        scac1.setStratificationCriterion(sc1);
+	        scac1.setStratificationCriterionPermissibleAnswer(sc1.getPermissibleAnswers().get(1));
+	        
+	        StratificationCriterionAnswerCombination scac3 = new StratificationCriterionAnswerCombination();
+	        scac1.setStratificationCriterion(sc1);
+	        scac1.setStratificationCriterionPermissibleAnswer(sc1.getPermissibleAnswers().get(2));
+	        
+	        StratificationCriterionAnswerCombination scac4 = new StratificationCriterionAnswerCombination();
+	        scac1.setStratificationCriterion(sc2);
+	        scac1.setStratificationCriterionPermissibleAnswer(sc2.getPermissibleAnswers().get(0));
+	        
+	        StratificationCriterionAnswerCombination scac5 = new StratificationCriterionAnswerCombination();
+	        scac1.setStratificationCriterion(sc2);
+	        scac1.setStratificationCriterionPermissibleAnswer(sc2.getPermissibleAnswers().get(1));
+	        
+	        StratificationCriterionAnswerCombination scac6 = new StratificationCriterionAnswerCombination();
+	        scac1.setStratificationCriterion(sc2);
+	        scac1.setStratificationCriterionPermissibleAnswer(sc2.getPermissibleAnswers().get(2));
+	        
+	        scacList.add(scac1);
+	        //scacList.add(scac2);
+	        //scacList.add(scac3);
+	        scacList.add(scac4);
+	        //scacList.add(scac5);
+	        //scacList.add(scac6);
+	        
+	        StratumGroup sg = new StratumGroup();
+	        sg.getStratificationCriterionAnswerCombination().addAll(scacList);
+	        epoch1.getStratumGroups().add(sg);
+	        study.addEpoch(epoch1);
+	        study = dao.merge(study);
+	        savedId = study.getId();
+	    }
+        interruptSession();
+        {
+            /*Study loaded = dao.getById(savedId);
+            StratumGroup sg = ((TreatmentEpoch)loaded.getEpochs().get(0)).getStratumGroups().get(0);
+            
+            assertEquals(((TreatmentEpoch)loaded.getEpochs().get(0)).getStratumGroups().size(), 1);
+            assertNotNull(sg.getStratificationCriterionAnswerCombination());
+            assertEquals(sg.getStratificationCriterionAnswerCombination().size(), 4);*/
+            //assertEquals(sg.getStratificationCriterionAnswerCombination().get(0).getStratificationCriterionPermissibleAnswer().get);
+            
+        }       
+    }
     /**
      * Test Saving of a Study with all Randomization associations present
      *

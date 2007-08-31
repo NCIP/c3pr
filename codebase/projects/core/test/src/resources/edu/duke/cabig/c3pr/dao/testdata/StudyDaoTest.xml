@@ -46,7 +46,9 @@
     <EPOCHS id="1003" version="1" name="Treatment1003" description_text="cancer desc" stu_id="1000" type="TREATMENT" />
     <EPOCHS id="1004" version="1" name="NonTreatment1004" description_text="non treatement desc" stu_id="1000" type="NON-TREATMENT" />
     <EPOCHS id="1005" version="1" name="NonTreatment1005" description_text="non treatment cancer desc" stu_id="1000" type="NON-TREATMENT" />
+    
     <SCHEDULED_EPOCHS id="1000" version="1" start_date="01-01-2000" eligibility_indicator="true" ELIGIBILITY_WAIVER_REASON_TEXT="reason" spa_id="1000" type="TREATMENT" eph_id="1000"/>  
+    
     <ARMS id="1000" version="1" name="Arm 1000" description_text="Arm 1000 desc" target_accrual_number="1000" eph_id="1000" />
     <ARMS id="1001" version="1" name="Arm 1001" description_text="Arm 1001 desc" target_accrual_number="1001" eph_id="1000" />
     <ARMS id="1002" version="1" name="Arm 1002" description_text="Arm 1002 desc" target_accrual_number="1002" eph_id="1001" />
@@ -56,13 +58,14 @@
     <ARMS id="1006" version="1" name="Arm 1006" description_text="Arm 1006 desc" target_accrual_number="1006" eph_id="1003" />
     <ARMS id="1007" version="1" name="Arm 1007" description_text="Arm 1007 desc" target_accrual_number="1007" eph_id="1003" />
      
-    <STRATUM_GROUP id="1001" version="1" current_position="1" stratum_group_number="8" epochs_id="1000" />
-    <BOOK_RANDOMIZATION_ENTRY id="1001" version="1" position="1" str_grp_id="1001" arms_id="1000" rndm_id="1001" />        
+    <STRATUM_GROUPS id="1001" version="1" current_position="1" stratum_group_number="8" epochs_id="1000" />
+    
+    <BOOK_RNDM_ENTRY id="1001" version="1" position="1" str_grp_id="1001" arms_id="1000" rndm_id="1001" />        
         
-    <RESEARCH_STAFFS id="1000" version="1" first_name="Research Bill" last_name="Staff2" hcs_id="1000"/>
-    <RESEARCH_STAFFS id="1001" version="1" first_name="Research George" last_name="Staff2" hcs_id="1000"/>
-    <RESEARCH_STAFFS id="1002" version="1" first_name="Research Benjamin" last_name="Staff3" hcs_id="1001"/>    
-    <RESEARCH_STAFFS id="1003" version="1" first_name="Research JFK" last_name="Staff4" hcs_id="1001"/>
+    <RESEARCH_STAFF id="1000" version="1" first_name="Research Bill" last_name="Staff2" hcs_id="1000"/>
+    <RESEARCH_STAFF id="1001" version="1" first_name="Research George" last_name="Staff2" hcs_id="1000"/>
+    <RESEARCH_STAFF id="1002" version="1" first_name="Research Benjamin" last_name="Staff3" hcs_id="1001"/>    
+    <RESEARCH_STAFF id="1003" version="1" first_name="Research JFK" last_name="Staff4" hcs_id="1001"/>
     
     <INVESTIGATORS id="1000" version="1" first_name="Investigator Bill" last_name="Staff1"/>
     <INVESTIGATORS id="1001" version="1" first_name="Investigator George" last_name="Staff2"/>
@@ -83,19 +86,23 @@
     <DISEASE_TERMS id="1001" version="1" term="AIDS-related cervical cancer" ctep_term="AIDS-related cervical cancer" category_id="1000" medra_code="10008229"/>
    
     <STUDY_DISEASES id="1000" version="1" study_id="1000" disease_term_id="1000" lead_disease="1"/>
+    
     <DISEASE_HISTORY id="1000" version="1"/>
     
-    <ELIGIBILITY_CRITERIAS id="2000" version="1" question_number="1" eph_id="1000" question_text="inclusion question 1" dtype="I"/>
-    <ELIGIBILITY_CRITERIAS id="2001" version="1" question_number="2" eph_id="1000" question_text="inclusion question 2" dtype="I"/>
-    <ELIGIBILITY_CRITERIAS id="2002" version="1" question_number="3" eph_id="1000" question_text="exclusion question 1" dtype="E" />
+    <ELIGIBILITY_CRITERIA id="2000" version="1" question_number="1" eph_id="1000" question_text="inclusion question 1" dtype="I"/>
+    <ELIGIBILITY_CRITERIA id="2001" version="1" question_number="2" eph_id="1000" question_text="inclusion question 2" dtype="I"/>
+    <ELIGIBILITY_CRITERIA id="2002" version="1" question_number="3" eph_id="1000" question_text="exclusion question 1" dtype="E" />
     
+    <SUBJECT_ELIGIBILITY_ANS id="1000" version="1" sceph_id="1000" elgct_id="2000"/>
     
-    <SUBJECT_ELIGIBILITY_ANSWERS id="1000" version="1" sceph_id="1000" elgct_id="2000"/>
-    <STRATIFICATION_CRITERION id="1000" version="1" question_text="question" question_number="1"/>
+    <STRAT_CRITERIA id="1000" version="1" question_text="question" question_number="1"/>
     
-    <STRATIFICATION_CRI_PER_ANS id="1000" version="1" permissible_answer="answer" str_cri_id="1000"/>   
-    <SUBJECT_STRATIFICATION_ANSWERS id="1000" version="1" sceph_id="1000" str_cri_id="1000"/> 
-    <STRAT_CRITERION_ANSWER id="1000" version="1" />
-    <STUDY_AMENDMENTS/>
+    <STRAT_CRI_PER_ANS id="1000" version="1" permissible_answer="answer" str_cri_id="1000"/> 
+      
+    <SUBJECT_STRAT_ANS id="1000" version="1" sceph_id="1000" str_cri_id="1000"/> 
+    
+    <STRAT_CRI_ANS_CMB id="1000" version="1" />
+	
+	<STUDY_AMENDMENTS/>
   	 
 </dataset>

@@ -23,10 +23,10 @@ import org.hibernate.annotations.Parameter;
  * @author Priyatam
  */
 @Entity
-@Table (name = "stratification_criterion")
+@Table (name = "strat_criteria")
 @GenericGenerator(name="id-generator", strategy = "native",
     parameters = {
-        @Parameter(name="sequence", value="STRATIFICATION_CRI_ID_SEQ")
+        @Parameter(name="sequence", value="strat_criteria_ID_SEQ")
     }
 )
 public class StratificationCriterion extends AbstractMutableDomainObject implements Comparable<StratificationCriterion> {

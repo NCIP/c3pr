@@ -96,14 +96,15 @@ public class StudySubjectDao extends
      * This is the advanced search method used for Study Reports generation.
      */
     public List<StudySubject> advancedStudySearch(StudySubject studySubject){
-		
+    	Example example = Example.create(studySubject).excludeZeroes()
+		.ignoreCase();
     	Criteria studySubjectCriteria = getHibernateTemplate().getSessionFactory().getCurrentSession().createCriteria(StudySubject.class);
 
 		Criteria studySiteCriteria = studySubjectCriteria.createCriteria("studySite");
 		Criteria participantCriteria = studySubjectCriteria.createCriteria("participant");
 		Criteria studyCriteria = studySiteCriteria.createCriteria("study");
 		Criteria identifiersCriteria = studyCriteria.createCriteria("identifiers");
-		
+		studySubjectCriteria.add(example);
 		//Study Criteria
 		if(studySubject.getStudySite().getStudy().getShortTitleText() != null && !studySubject.getStudySite().getStudy().getShortTitleText().equals("")){
 			studyCriteria.add(Expression.like("shortTitleText", "%"+studySubject.getStudySite().getStudy().getShortTitleText()+"%"));

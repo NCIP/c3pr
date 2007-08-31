@@ -13,10 +13,10 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 @Entity
-@Table(name = "book_randomization_entry")
+@Table(name = "book_rndm_entry")
 @GenericGenerator(name = "id-generator", strategy = "native",
         parameters = {
-        @Parameter(name = "sequence", value = "BOOK_RANDOMIZATION_ENTRY_ID_SEQ")
+        @Parameter(name = "sequence", value = "book_rndm_entry_ID_SEQ")
                 }
 )
 public class BookRandomizationEntry extends AbstractMutableDomainObject{

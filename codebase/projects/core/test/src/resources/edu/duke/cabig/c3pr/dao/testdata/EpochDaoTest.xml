@@ -42,11 +42,11 @@
     <ARMS id="1006" version="1" name="Arm 1006" description_text="Arm 1006 desc" target_accrual_number="1006" eph_id="1003" />
     <ARMS id="1007" version="1" name="Arm 1007" description_text="Arm 1007 desc" target_accrual_number="1007" eph_id="1003" />
     
-    <ELIGIBILITY_CRITERIAS id="2000" version="1" question_number="1" eph_id="1000" question_text="inclusion question 1" dtype="I"/>
-    <ELIGIBILITY_CRITERIAS id="2001" version="1" question_number="2" eph_id="1000" question_text="inclusion question 2" dtype="I"/>
-    <ELIGIBILITY_CRITERIAS id="2002" version="1" question_number="3" eph_id="1000" question_text="exclusion question 1" dtype="E" />
+    <ELIGIBILITY_CRITERIA id="2000" version="1" question_number="1" eph_id="1000" question_text="inclusion question 1" dtype="I"/>
+    <ELIGIBILITY_CRITERIA id="2001" version="1" question_number="2" eph_id="1000" question_text="inclusion question 2" dtype="I"/>
+    <ELIGIBILITY_CRITERIA id="2002" version="1" question_number="3" eph_id="1000" question_text="exclusion question 1" dtype="E" />
     
-    <STRATIFICATION_CRITERION id="3000" version="1" question_number="1" eph_id="1000" question_text="inclusion question 1" />
+    <STRAT_CRITERIA id="3000" version="1" question_number="1" eph_id="1000" question_text="inclusion question 1" />
     
     
     

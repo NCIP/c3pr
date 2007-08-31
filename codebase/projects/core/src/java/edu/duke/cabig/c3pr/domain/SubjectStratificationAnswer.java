@@ -17,10 +17,10 @@ import org.hibernate.annotations.Parameter;
  * @author Kruttik
  */
  @Entity
- @Table (name = "subject_stratification_answers")
+ @Table (name = "subject_strat_ans")
  @GenericGenerator(name="id-generator", strategy = "native",
      parameters = {
-         @Parameter(name="sequence", value="prt_strat_ans_id_seq")
+         @Parameter(name="sequence", value="subject_strat_ans_id_seq")
      }
  )
 public class SubjectStratificationAnswer extends AbstractMutableDomainObject

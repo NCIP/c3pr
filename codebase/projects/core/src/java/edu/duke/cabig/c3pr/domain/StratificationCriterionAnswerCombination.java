@@ -14,10 +14,10 @@ import javax.persistence.*;
  * @author Vinay Gangoli
  */
 @Entity
-@Table (name = "strat_criterion_answer")
+@Table (name = "strat_cri_ans_cmb")
 @GenericGenerator(name="id-generator", strategy = "native",
     parameters = {
-        @Parameter(name="sequence", value="strat_criterion_answer_id_seq")
+        @Parameter(name="sequence", value="strat_cri_ans_cmb_id_seq")
     }
 )
 public class StratificationCriterionAnswerCombination extends AbstractMutableDomainObject {

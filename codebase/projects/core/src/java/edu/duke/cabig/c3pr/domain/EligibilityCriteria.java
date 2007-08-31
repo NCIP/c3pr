@@ -15,9 +15,9 @@ import org.hibernate.annotations.Parameter;
  * @author Priyatam
  */
 @Entity
-@Table(name = "eligibility_criterias")
+@Table(name = "eligibility_criteria")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "ELIGIBILITY_CRITERIAS_ID_SEQ") })
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "ELIGIBILITY_CRITERIA_ID_SEQ") })
 public abstract class EligibilityCriteria extends AbstractMutableDomainObject {
 	private Boolean notApplicableIndicator;
 

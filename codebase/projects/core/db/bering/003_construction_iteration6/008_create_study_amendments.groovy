@@ -11,7 +11,7 @@ class CreateStudyAmendments extends edu.northwestern.bioinformatics.bering.Migra
         		}
  				//now add the constraints
  				execute('alter table study_amendments add constraint fk_stuamnd_stu_id foreign key (stu_id) references studies (id)')
- 				execute("ALTER TABLE study_amendments ALTER COLUMN id SET DEFAULT nextval('study_amendments_id_seq'::regclass)")
+ 				//execute("ALTER TABLE study_amendments ALTER COLUMN id SET DEFAULT nextval('study_amendments_id_seq'::regclass)")
     }
 
     void down() {
