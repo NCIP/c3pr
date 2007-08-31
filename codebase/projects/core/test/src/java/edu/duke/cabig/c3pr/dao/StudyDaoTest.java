@@ -1,17 +1,47 @@
 package edu.duke.cabig.c3pr.dao;
 
-import static edu.duke.cabig.c3pr.C3PRUseCase.*;
-import edu.duke.cabig.c3pr.C3PRUseCases;
-import edu.duke.cabig.c3pr.domain.*;
-import edu.duke.cabig.c3pr.utils.DaoTestCase;
-import edu.duke.cabig.c3pr.utils.SecurityContextTestUtils;
+import static edu.duke.cabig.c3pr.C3PRUseCase.ADD_DISEASE;
+import static edu.duke.cabig.c3pr.C3PRUseCase.ADD_STRATIFICATION;
+import static edu.duke.cabig.c3pr.C3PRUseCase.CREATE_STUDY;
+import static edu.duke.cabig.c3pr.C3PRUseCase.CREATE_STUDY_INVESTIGATOR;
+import static edu.duke.cabig.c3pr.C3PRUseCase.SEARCH_STUDY;
+import static edu.duke.cabig.c3pr.C3PRUseCase.UPDATE_STUDY;
+import static edu.duke.cabig.c3pr.C3PRUseCase.VERIFY_SUBJECT;
 import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.acegisecurity.AccessDeniedException;
+import edu.duke.cabig.c3pr.C3PRUseCases;
+import edu.duke.cabig.c3pr.domain.Address;
+import edu.duke.cabig.c3pr.domain.Arm;
+import edu.duke.cabig.c3pr.domain.BookRandomization;
+import edu.duke.cabig.c3pr.domain.BookRandomizationEntry;
+import edu.duke.cabig.c3pr.domain.CalloutRandomization;
+import edu.duke.cabig.c3pr.domain.DiseaseCategory;
+import edu.duke.cabig.c3pr.domain.DiseaseTerm;
+import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
+import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.domain.NonTreatmentEpoch;
+import edu.duke.cabig.c3pr.domain.Randomization;
+import edu.duke.cabig.c3pr.domain.StratificationCriterion;
+import edu.duke.cabig.c3pr.domain.StratificationCriterionAnswerCombination;
+import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
+import edu.duke.cabig.c3pr.domain.StratumGroup;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
+import edu.duke.cabig.c3pr.domain.StudyDisease;
+import edu.duke.cabig.c3pr.domain.StudyFundingSponsor;
+import edu.duke.cabig.c3pr.domain.StudyInvestigator;
+import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
+import edu.duke.cabig.c3pr.utils.DaoTestCase;
+import edu.duke.cabig.c3pr.utils.SecurityContextTestUtils;
 
 /**
  * JUnit Tests for StudyDao
@@ -250,24 +280,24 @@ public class StudyDaoTest extends DaoTestCase {
 	        scac1.setStratificationCriterionPermissibleAnswer(sc1.getPermissibleAnswers().get(0));
 	        
 	        StratificationCriterionAnswerCombination scac2 = new StratificationCriterionAnswerCombination();
-	        scac1.setStratificationCriterion(sc1);
-	        scac1.setStratificationCriterionPermissibleAnswer(sc1.getPermissibleAnswers().get(1));
+	        scac2.setStratificationCriterion(sc1);
+	        scac2.setStratificationCriterionPermissibleAnswer(sc1.getPermissibleAnswers().get(1));
 	        
 	        StratificationCriterionAnswerCombination scac3 = new StratificationCriterionAnswerCombination();
-	        scac1.setStratificationCriterion(sc1);
-	        scac1.setStratificationCriterionPermissibleAnswer(sc1.getPermissibleAnswers().get(2));
+	        scac3.setStratificationCriterion(sc1);
+	        scac3.setStratificationCriterionPermissibleAnswer(sc1.getPermissibleAnswers().get(2));
 	        
 	        StratificationCriterionAnswerCombination scac4 = new StratificationCriterionAnswerCombination();
-	        scac1.setStratificationCriterion(sc2);
-	        scac1.setStratificationCriterionPermissibleAnswer(sc2.getPermissibleAnswers().get(0));
+	        scac4.setStratificationCriterion(sc2);
+	        scac4.setStratificationCriterionPermissibleAnswer(sc2.getPermissibleAnswers().get(0));
 	        
 	        StratificationCriterionAnswerCombination scac5 = new StratificationCriterionAnswerCombination();
-	        scac1.setStratificationCriterion(sc2);
-	        scac1.setStratificationCriterionPermissibleAnswer(sc2.getPermissibleAnswers().get(1));
+	        scac5.setStratificationCriterion(sc2);
+	        scac5.setStratificationCriterionPermissibleAnswer(sc2.getPermissibleAnswers().get(1));
 	        
 	        StratificationCriterionAnswerCombination scac6 = new StratificationCriterionAnswerCombination();
-	        scac1.setStratificationCriterion(sc2);
-	        scac1.setStratificationCriterionPermissibleAnswer(sc2.getPermissibleAnswers().get(2));
+	        scac6.setStratificationCriterion(sc2);
+	        scac6.setStratificationCriterionPermissibleAnswer(sc2.getPermissibleAnswers().get(2));
 	        
 	        scacList.add(scac1);
 	        //scacList.add(scac2);
@@ -285,13 +315,12 @@ public class StudyDaoTest extends DaoTestCase {
 	    }
         interruptSession();
         {
-            /*Study loaded = dao.getById(savedId);
+            Study loaded = dao.getById(savedId);
             StratumGroup sg = ((TreatmentEpoch)loaded.getEpochs().get(0)).getStratumGroups().get(0);
             
             assertEquals(((TreatmentEpoch)loaded.getEpochs().get(0)).getStratumGroups().size(), 1);
             assertNotNull(sg.getStratificationCriterionAnswerCombination());
-            assertEquals(sg.getStratificationCriterionAnswerCombination().size(), 4);*/
-            //assertEquals(sg.getStratificationCriterionAnswerCombination().get(0).getStratificationCriterionPermissibleAnswer().get);
+            assertEquals(sg.getStratificationCriterionAnswerCombination().size(), 2);       
             
         }       
     }
