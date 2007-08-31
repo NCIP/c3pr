@@ -17,7 +17,7 @@ import javax.persistence.*;
 @Table (name = "strat_criterion_answer")
 @GenericGenerator(name="id-generator", strategy = "native",
     parameters = {
-        @Parameter(name="sequence", value="STRAT_CRIT_ANSWER_ID_SEQ")
+        @Parameter(name="sequence", value="strat_criterion_answer_id_seq")
     }
 )
 public class StratificationCriterionAnswerCombination extends AbstractMutableDomainObject {
