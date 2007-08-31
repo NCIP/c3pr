@@ -63,6 +63,8 @@ public class Study extends AbstractMutableDomainObject implements
 	private String type;
 
 	private String primaryIdentifier;
+	
+	private String file;
 
 	private Integer targetAccrualNumber;
 
@@ -510,6 +512,15 @@ public class Study extends AbstractMutableDomainObject implements
 
 	public void setRandomizationType(RandomizationType randomizationType) {
 		this.randomizationType = randomizationType;
+	}
+
+	@Transient
+	public String getFile() {
+		return file;
+	}
+
+	public void setFile(String file) {
+		this.file = file;
 	}
 
 }
