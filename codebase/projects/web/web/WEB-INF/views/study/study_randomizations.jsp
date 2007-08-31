@@ -13,8 +13,12 @@
 <script>
 	var globalIndex;
 
-	function uploadBook(form, index){		
-		var parameterMap = getParameterMap(form);
+	function uploadBook(form, index){
+		var parameterMap;
+		if(form != ""){
+			parameterMap = getParameterMap(form);
+		}
+		
 		if(index == ""){
 			index = globalIndex;
 		} else {			
@@ -33,6 +37,17 @@
 		var str = "bookRandomizationsDisplay-"+ globalIndex; 
 		new Element.update(str, table)
 		//document.getElementById(str).innerHTML=table;
+	}	
+	
+	function uploadFile(index){
+		<tags:tabMethod method="parseFile" divElement="'bookRandomizationsDisplay-'+index" javaScriptParam="'index='+index"  formName="'epochForm_'+index"/>        
+	}
+	
+	ValidationManager.submitPostProcess= function(formElement, continueSubmission){
+		if(formElement.id.indexOf("epochForm_") != -1){
+			formElement._target.name = "temp";
+		}
+		return continueSubmission;
 	}	
 </script>
 </head>
@@ -58,15 +73,34 @@
 	     <br/>
 	     <div id="bookButton" align="center">    
          	<input type='button' onclick='uploadBook("command", "${epochCount.index}")' value='Upload Randomization Book'/>   
-		 </div><br/> 
+		 </div>
+		 <hr />
+		 	<form:form method="post" id="epochForm_${epochCount.index}" enctype="multipart/form-data">
+		    	<input type="hidden" name="index" value="${epochCount.index}"/>
+		    	<tags:tabFields tab="${tab}"/>
+			        <div class="content">
+			            <div class="row">
+			                <div class="label">Select file to Import:</div>
+			                <div class="value">
+			                    <div class="fileinputs"><input type="file" name="file" /></div>
+			                </div>
+			            </div>
+			        </div>
+			        <div id="bookButton" align="center">    
+			         	<input type='submit' value='Upload Randomization File'/>   
+					</div><br/> 		        
+		    </form:form>
 	    </chrome:box>	    
 
 		<chrome:box title="${epoch.name}" id="book_results_${epochCount.index}" cssClass="paired">
-		    <div id="bookRandomizationsDisplay-${epochCount.index}">		    	
+		     <div id="bookRandomizationsDisplay-${epochCount.index}">	
+		     	<c:out value="${bookRandomizationEntries[epochCount.index]}" escapeXml="false"/>	    	
 		    </div>
 		</chrome:box>
-
 		</div>
+		
+<%--	will call this to get display onload in edit mode. but currentl gives a hibernate exception
+		<script>uploadBook("", "${epochCount.index}");</script>		--%>		
 		<script>$('book_container_${epochCount.index}').style.height=new String((50+$('book_${epochCount.index}').offsetHeight)+"px")</script>	
 			
 	</c:forEach>	
@@ -87,10 +121,6 @@
              <tr>
                 <td><b>Enter Call-Out Randomization URL:</b></td>
 				<td>
-				<!-- <input type="text" 
-				id="treatmentEpochs[${epochCountIndex}].stratumGroups[${statusStratumGroup.index}].stratumGroupNumber"
-				name="${command.treatmentEpochs[epochCount.index].randomization.calloutUrl}" 
-				value="${command.treatmentEpochs[epochCount.index].randomization.calloutUrl}" size="40"/> -->
 				<form:input path="treatmentEpochs[${epochCount.index}].randomization.calloutUrl" size="30" cssClass="validate-notEmpty"/>
 				</td>				
              </tr>
@@ -109,9 +139,7 @@
 	     <table border="0" cellspacing="0" cellpadding="0" id="epoch-${epochCount.index }">         
              <tr>
                 <td><b>Enter Randomization PhoneNumber:</b></td>
-				<td>
-
-				<form:input path="treatmentEpochs[${epochCount.index}].randomization.phoneNumber" size="20" cssClass="validate-notEmpty"/>
+				<td><form:input path="treatmentEpochs[${epochCount.index}].randomization.phoneNumber" size="20" cssClass="validate-notEmpty"/>
 				</td>				
              </tr>
 	     </table>
@@ -121,11 +149,6 @@
 </c:if>
 <!--PHONECALL RANDOMIZATION SECTION-->
 
-<!--CALLING FOR AJAX ONLOAD : BOOK RANDOMIZATION SECTION-->
-<c:forEach items="${command.treatmentEpochs}" var="epoch" varStatus="epochCount">
-<script>uploadBook("command", "${epochCount.index}")</script>	
-</c:forEach>
-<!--BOOK RANDOMIZATION SECTION-->
 
 <tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
 </form:form>

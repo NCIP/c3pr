@@ -69,8 +69,7 @@
 	<c:if test="${command.ifTreatmentScheduledEpoch && command.studySite.study.randomizedIndicator == 'true'}">
 		<div id="randomizationMessage">
 		</div>
-		
-		<input class='ibutton' type='button' onclick="randomize()" value='Randomize' title='Randomize'/>		
+		<br/><input class='ibutton' type='button' onclick="randomize()" value='Randomize' title='Randomize'/>		
 	</c:if>
 		
 </tags:formPanelBox>

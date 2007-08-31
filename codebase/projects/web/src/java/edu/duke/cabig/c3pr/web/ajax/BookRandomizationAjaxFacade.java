@@ -204,7 +204,7 @@ public class BookRandomizationAjaxFacade {
 			table.setShowPagination(true);
 			table.setFilterable(false);
 			table.setImagePath(model.getContext().getContextPath() + "/images/table/*.gif");
-			table.setRowsDisplayed(12);
+			table.setRowsDisplayed(17);
 			model.addTable(table);
 			
 			Row row = model.getRowInstance();

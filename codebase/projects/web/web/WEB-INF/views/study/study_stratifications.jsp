@@ -4,8 +4,7 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <html>
 <head>
-<script>	
-		                
+<script>		                
 	function getStratumGroups(epochCountIndex){
 		<tags:tabMethod method="generateStratumGroups" viewName="/study/asynchronous/strat_combinations" divElement="'sgCombinations_'+epochCountIndex" 
 		                javaScriptParam="'epochCountIndex='+epochCountIndex"  />        
@@ -18,7 +17,7 @@
 </script>
 </head>
 
-<body onload="">
+<body>
 <form:form method="post" name="form">
     <tags:tabFields tab="${tab}"/>
     <div>
@@ -56,9 +55,7 @@
         </script>
         <tags:minimizablePanelBox title="${epoch.name}" boxId="${epoch.name}">
             <p id="instructions">
-                <input type="button"
-                       value="Add Stratification Factor"
-                       onclick="RowManager.addRow(stratRowInserterProps_${epochCount.index});"/>
+                <input type="button" value="Add Stratification Factor" onclick="RowManager.addRow(stratRowInserterProps_${epochCount.index});"/>
             </p>
             <br>
 
@@ -111,7 +108,7 @@
             </table>
         <br /><hr align="left" width="95%">    
         <div id="stratumButton"><br/>    
-        <input type='button' onclick='getStratumGroups("${epochCount.index}")' value='Generate Stratum Groups'/>   
+        	<input type='button' onclick='getStratumGroups("${epochCount.index}")' value='Generate Stratum Groups'/>   
 		</div>	    
 		<!--stratum groups combinations display section-->
 		<script>
@@ -121,27 +118,21 @@
 			    initialIndex: -1,
 			    path: "treatmentEpochs[${epochCount.index}].stratumGroups",
 			};
+			
+			<!-- will do this for edit flow to get tables on load 
+				getStratumGroups("${epochCount.index}"); -->
 		</script>
 		<br/>
 		<div id="sgCombinations_${epochCount.index}">		
 		</div>
 		<!--stratum groups combinations display section-->    
         
-        </tags:minimizablePanelBox>               
-		
+        </tags:minimizablePanelBox>
     </c:forEach>
+    
     <tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
 </form:form>
-<!--
-<c:forEach items="${command.treatmentEpochs}" var="epoch" varStatus="epochCount">
-${epochCount.index}
-	<form:form id="id_${epochCount.index}" name="name_${epochCount.index}">
-		<script>
-			<tags:tabMethod method="generateStratumGroups" viewName="/study/asynchronous/strat_combinations" divElement="'sgCombinations_'${epochCount.index}" params="epochCountIndex=${epochCount.index}"  />
-		</script>
-	</form:form>
-</c:forEach>
--->
+
 <c:forEach items="${command.treatmentEpochs}" var="epoch" varStatus="epochCount">
     <div id="dummy-strat-${epochCount.index }" style="display:none">
         <table>

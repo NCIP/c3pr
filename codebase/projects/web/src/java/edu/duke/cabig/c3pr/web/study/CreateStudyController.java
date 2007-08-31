@@ -3,6 +3,8 @@ package edu.duke.cabig.c3pr.web.study;
 import edu.duke.cabig.c3pr.domain.Study;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import org.springframework.validation.BindException;
+import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletException;
@@ -20,6 +22,7 @@ public class CreateStudyController<C extends Study> extends StudyController<C> {
 
     public CreateStudyController() {
         super("Create Study");
+        setBindOnNewForm(true);
     }
 
     /**
@@ -69,5 +72,6 @@ public class CreateStudyController<C extends Study> extends StudyController<C> {
         return new ModelAndView("forward:confirm?type=confirm", errors.getModel());
 
     }
+
 
 }
