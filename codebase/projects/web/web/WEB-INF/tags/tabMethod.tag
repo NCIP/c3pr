@@ -8,7 +8,6 @@
 <%@attribute name="onSuccess"%>
 <%@attribute name="onComplete"%>
 <%@attribute name="onFailure"%>
-<c:set var="formId" value="${empty formName?'command':formName}"></c:set>
 <c:set var="callbackOpts" value=""></c:set>
 <c:if test="${! empty onComplete}">
 <c:set var="callbackOpts" value="${callbackOpts}onComplete:${onComplete },"></c:set>
@@ -19,7 +18,15 @@
 <c:if test="${! empty onFailure}">
 <c:set var="callbackOpts" value="${callbackOpts}onFailure:${onFailure },"></c:set>
 </c:if>
-
-new Ajax.Updater(${divElement},$("${formId}").action, 
-					{parameters:"decorator=nullDecorator&_asynchronous=true&_asyncMethodName=${method}&_asyncViewName=${viewName}&${params}&"+${empty javaScriptParam?"''":javaScriptParam}+"&"+Form.serialize('${formId}'),
+<c:choose>
+<c:when test="${empty formName}">
+new Ajax.Updater(${divElement},$("command").action, 
+					{parameters:"decorator=nullDecorator&_asynchronous=true&_asyncMethodName=${method}&_asyncViewName=${viewName}&${params}&"+${empty javaScriptParam?"''":javaScriptParam}+"&"+Form.serialize('command'),
 					${callbackOpts} asynchronous:true, evalScripts:true});
+</c:when>
+<c:otherwise>
+new Ajax.Updater(${divElement},$(${formName}).action, 
+					{parameters:"decorator=nullDecorator&_asynchronous=true&_asyncMethodName=${method}&_asyncViewName=${viewName}&${params}&"+${empty javaScriptParam?"''":javaScriptParam}+"&"+Form.serialize(${formName}),
+					${callbackOpts} asynchronous:true, evalScripts:true});
+</c:otherwise>
+</c:choose>
