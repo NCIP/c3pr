@@ -15,7 +15,6 @@
     Object message = request.getAttribute("javax.servlet.error.message");
 %>
 
-<page:applyDecorator  name="standard">
 
 <html>
 <head>
@@ -184,4 +183,4 @@
 </div>
 </body>
 </html>
-</page:applyDecorator>
+

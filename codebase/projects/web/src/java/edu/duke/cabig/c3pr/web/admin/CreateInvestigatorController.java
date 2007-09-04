@@ -10,6 +10,7 @@ import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.web.beans.DefaultObjectPropertyReader;
+import edu.duke.cabig.c3pr.service.PersonnelService;
 import gov.nih.nci.cabig.ctms.web.tabs.AbstractTabbedFlowFormController;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
@@ -37,7 +38,9 @@ import org.springframework.web.servlet.ModelAndView;
 public class CreateInvestigatorController extends
 		AbstractTabbedFlowFormController<Investigator> {
 
-	private InvestigatorDao investigatorDao;
+    private PersonnelService personnelService;
+
+    private InvestigatorDao investigatorDao;
 
 	private HealthcareSiteDao healthcareSiteDao;
 
@@ -113,8 +116,10 @@ public class CreateInvestigatorController extends
 			if (strUtil.isBlank(contactMechanism.getValue()))
 				cMIterator.remove();
 		}
+        inv.addGroup(C3PRUserGroupType.INVESTIGATOR);
 
-		investigatorDao.save(inv);
+
+        personnelService.save(inv);
 		// response.sendRedirect("createInvestigator?fullName="
 		// + inv.getFullName() + "&type=confirm");
 		return new ModelAndView("forward:createInvestigator?fullName="
@@ -219,7 +224,17 @@ public class CreateInvestigatorController extends
 			col.addAll(temp);
 		}
 	}
-	public HealthcareSiteDao getHealthcareSiteDao() {
+
+
+    public PersonnelService getPersonnelService() {
+        return personnelService;
+    }
+
+    public void setPersonnelService(PersonnelService personnelService) {
+        this.personnelService = personnelService;
+    }
+
+    public HealthcareSiteDao getHealthcareSiteDao() {
 		return healthcareSiteDao;
 	}
 

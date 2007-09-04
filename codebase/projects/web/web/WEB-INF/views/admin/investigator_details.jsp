@@ -172,12 +172,12 @@ RowManager.addRowInseter(instanceRowInserterProps);
 												width="1" height="1" class="heightControl"></td>
 										</tr>
 										<tr>
-											<td align="right"><em></em><em></em> <b>NCI Identifier:</b>&nbsp;</td>
+											<td align="right" class="required-indicator"><em></em><em></em> <b>NCI Identifier:</b>&nbsp;</td>
 											<td align="left"><form:input path="nciIdentifier" size="25" />&nbsp;&nbsp;&nbsp;</td>
 										</tr>
 										<tr>
-											<td align="right"><em></em><em></em> <b>${command.contactMechanisms[0].type.displayName
-											}:</b>&nbsp;</td>
+											<td align="right" class="required-indicator"><em></em><em></em> <b>${command.contactMechanisms[0].type.displayName
+											} (Username):</b>&nbsp;</td>
 											<td align="left"><form:input
 												path="contactMechanisms[0].value" size="25" />&nbsp;&nbsp;&nbsp;</td>
 										</tr>
