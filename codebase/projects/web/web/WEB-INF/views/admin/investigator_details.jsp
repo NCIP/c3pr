@@ -79,6 +79,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 							</c:if>
 							<div id="createInv"
 								<c:if test="${param.type == 'confirm'}">style="display:none"</c:if>>
+								<br>
 
 							<table border="0" width="100%" cellspacing="0" cellpadding="0">
 								<tr>
@@ -88,8 +89,8 @@ RowManager.addRowInseter(instanceRowInserterProps);
 									<table class="tablecontent" width="40%" border="0" cellspacing="0" id="invesitgatorTable"
 										cellpadding="0">
 										<tr>
-											<th class="label required-indicator" scope="col" align="left"><b>Site</b></th>
-											<th class="label required-indicator" scope="col" align="left"><b>Status</b></th>
+											<th class="label required-indicator" scope="col" align="left"><b>Organization</b></th>
+											<th class="label required-indicator" scope="col" align="left"><b>Investigator Status</b></th>
 											<th></th>
 										</tr>
 										<c:forEach items="${command.healthcareSiteInvestigators}"
