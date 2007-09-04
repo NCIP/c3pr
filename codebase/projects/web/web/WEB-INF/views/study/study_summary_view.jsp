@@ -144,6 +144,8 @@
             <th scope="col" align="left">Investigator</th>
             <th scope="col" align="left">Role</th>
             <th scope="col" align="left">Status</th>
+            <th scope="col" align="left">Organization</th>
+            
         </tr>
         <c:forEach items="${command.studySites}" var="studySite"
                    varStatus="status">
@@ -154,6 +156,7 @@
                         align="left">${studyInvestigator.healthcareSiteInvestigator.investigator.fullName}</td>
                     <td class="alt" align="left">${studyInvestigator.roleCode}</td>
                     <td class="alt" align="left">${studyInvestigator.statusCode}</td>
+                    <td class="alt">${studyInvestigator.studySite.healthcareSite.name}</td>
                 </tr>
             </c:forEach>
         </c:forEach>
@@ -166,6 +169,7 @@
             <th scope="col" align="left">Name</th>
             <th scope="col" align="left">Role</th>
             <th scope="col" align="left">Status</th>
+            <th scope="col" align="left">Organization</th>
         </tr>
         <c:forEach items="${command.studySites}" var="studySite"
                    varStatus="status">
@@ -175,6 +179,7 @@
                     <td class="alt">${studyPersonnel.researchStaff.fullName}</td>
                     <td class="alt">${studyPersonnel.roleCode}</td>
                     <td class="alt">${studyPersonnel.statusCode}</td>
+                    <td class="alt">${studyPersonnel.studySite.healthcareSite.name}</td>
                 </tr>
             </c:forEach>
         </c:forEach>
@@ -276,6 +281,25 @@
                     </c:if>
                 </td>
 
+            </tr>
+        </c:forEach>
+    </table>
+</chrome:division>
+
+<chrome:division title="Amendments">
+    <table class="tablecontent">
+        <tr>
+            <th scope="col" align="left">Version #</th>
+            <th scope="col" align="left">Date</th>
+            <th scope="col" align="left">IRB Approval Date</th>
+            <th scope="col" align="left">Comments</th>
+        </tr>
+        <c:forEach items="${command.studyAmendments}" var="amendment">
+            <tr class="results">
+                <td class="alt" align="left">${amendment.amendmentVersion}</td>
+                <td class="alt" align="left">${amendment.amendmentDateStr}</td>
+                <td class="alt" align="left">${amendment.irbApprovalDateStr}</td>
+                <td class="alt" align="left">${amendment.comments}</td>
             </tr>
         </c:forEach>
     </table>
