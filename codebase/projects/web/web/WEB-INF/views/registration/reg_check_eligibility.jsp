@@ -38,8 +38,8 @@ function markAsAnswered(id){
 					<table width="100%" border="0">
 						<tr>
 							<td>&nbsp;</td>
-							<td align="left"><b>Question<span class="red">*</span></b></td>
-							<td align="left"><b>Answers</b></td>
+							<td align="left"><b>Question</b></td>
+							<td align="left"><b>Answer</b></td>
 						</tr>
 						<c:set var="index" value="0"/>
 						<c:forEach var="criteria" varStatus="status" items="${command.scheduledEpoch.treatmentEpoch.inclusionEligibilityCriteria}">

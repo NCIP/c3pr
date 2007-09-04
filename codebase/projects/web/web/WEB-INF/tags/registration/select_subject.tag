@@ -179,12 +179,12 @@
 				<table width="100%" border="0" cellspacing="1" cellpadding="1"
 					id="table1">
 					<tr>
-						<td align="right"><span class="red">*</span><em></em> <b>First Name: &nbsp;</b></td>
+						<td align="right"><span class="required-indicator"><b>First Name: &nbsp;</b></span></td>
 						<td align="left"><input id="firstName" name="firstName" type="text" value="" class="validate-notEmpty"/>
 						<span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
 					</tr>
 					<tr>
-						<td align="right"><span class="red">*</span><em></em> <b>Last Name:</b>&nbsp;</td>
+						<td align="right"><span class="required-indicator"><b>Last Name:</b>&nbsp;</span></td>
 						<td align="left"><input id="lastName" name="lastName" type="text" value="" class="validate-notEmpty"/>
 						<span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
 					</tr>
@@ -215,7 +215,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td align="right"><span class="red">&nbsp;&nbsp;&nbsp;*</span><em></em><b>Birth Date: </b>&nbsp;</td>
+						<td align="right"><span class="required-indicator">&nbsp;&nbsp;&nbsp;<b>Birth Date: </b>&nbsp;</span></td>
 						<td><input id="birthDate" name="birthDate" type="text" value="" class="validate-notEmpty"/>&nbsp;(mm/dd/yyyy)&nbsp;&nbsp;<span
 							class="red"><em></em></span></td>
 					</tr>

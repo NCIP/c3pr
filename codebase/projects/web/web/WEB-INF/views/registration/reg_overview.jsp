@@ -35,7 +35,7 @@ function activateInPlaceEditing(arrayElements){
 		<td valign="top">
 			<strong>Subject Information </strong><br>
 			<div class="review">
-			<table width="50%" border="0" cellspacing="0" cellpadding="0" id="mytable">
+			<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 				<tr>
 					<td width="25%" class="labelR">First Name:</td>
 					<td>${command.participant.firstName}</td>
@@ -71,7 +71,7 @@ function activateInPlaceEditing(arrayElements){
 			<br>
 			<div class="review">
 			<strong>Study Details:</strong><br>
-			<table width="50%" border="0" cellspacing="0" cellpadding="0" id="mytable">
+			<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 				<tr>
 					<td class="labelR"> Status:</td>
 					<td>${command.studySite.study.status}</td>
@@ -99,7 +99,7 @@ function activateInPlaceEditing(arrayElements){
 			</table>
 			<table width="70%"><tr><td><p style="border-bottom: 1px dotted #000000;">&nbsp;</p></td></tr></table>
 			<strong>Study Site Information:</strong><br>
-			<table width="50%" border="0" cellspacing="0" cellpadding="0" id="mytable">
+			<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 				<tr>
 					<td width="25%" class="labelR"> Name:</td>
 					<td>${command.studySite.healthcareSite.name}</td>
@@ -129,7 +129,7 @@ function activateInPlaceEditing(arrayElements){
 			<br>
 			<strong>Enrollment Information </strong><br>
 			<div class="review">
-			<table width="50%" border="0" cellspacing="0" cellpadding="0" id="mytable">
+			<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 				<tr>
 					<td class="labelR">Registration Start Date:</td>
 					<td><tags:inPlaceEdit value="${command.startDateStr }" path="startDate" /></td>
@@ -159,7 +159,7 @@ function activateInPlaceEditing(arrayElements){
 			<br>
 			<strong>Disease Information </strong><br>
 			<div class="review">
-			<table width="50%" border="0" cellspacing="0" cellpadding="0" id="mytable">
+			<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 				<tr>
 					<td width="25%" class="labelR">Primary Disease:</td>
 					<td>${command.diseaseHistory.primaryDiseaseStr }</td>
@@ -180,7 +180,7 @@ function activateInPlaceEditing(arrayElements){
 				<span class="red"><strong>This epoch does not have eligibility check list</strong></span>
 				</c:when>
 				<c:otherwise>
-				<table width="50%" border="0" cellspacing="0" cellpadding="0" id="mytable">
+				<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 					<tr>
 						<td width="25%" class="labelR">Eligibility
 						Indicator:</td>
@@ -191,7 +191,7 @@ function activateInPlaceEditing(arrayElements){
 					<strong>Inclusion Criteria:</strong>
 					
 					<div class="review">
-					<table border="0" cellspacing="0" cellpadding="0" id="mytable">
+					<table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 						<tr>
 							<th scope="col" align="left">Question</th>
 							<th scope="col" align="left">Answer</th>
@@ -208,7 +208,7 @@ function activateInPlaceEditing(arrayElements){
 					<strong>Exclusion Criteria:</strong>
 					
 					<div class="review">
-					<table border="0" cellspacing="0" cellpadding="0" id="mytable">
+					<table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 						<tr>
 							<th scope="col" align="left">Question</th>
 							<th scope="col" align="left">Answer</th>
@@ -239,7 +239,7 @@ function activateInPlaceEditing(arrayElements){
 				</c:when>
 				<c:otherwise>
 				<br>
-				<table border="0" cellspacing="0" cellpadding="0" id="mytable">
+				<table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 					<tr>
 						<th scope="col" align="left">Strata</th>
 						<th scope="col" align="left"><b>Answer</th>
@@ -258,7 +258,7 @@ function activateInPlaceEditing(arrayElements){
 				<br>
 				<strong>Randomization Information </strong><br>
 				<div class="review">
-				<table width="50%" border="0" cellspacing="0" cellpadding="0" id="mytable">
+				<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 					<tr>
 						<td width="25%" class="labelR">Arm:</td>
 						<td><c:if test="${!empty command.scheduledEpoch.scheduledArms[0].arm }">${command.scheduledEpoch.scheduledArms[0].arm.name }</c:if></td>
