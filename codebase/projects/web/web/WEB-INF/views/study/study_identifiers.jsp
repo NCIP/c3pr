@@ -63,6 +63,7 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}"
 	formName="studyIdentifiersForm">
 	<jsp:attribute name="singleFields">
+	<br>
 	<table width="100%"><tr><td>
 		<chrome:division title="Organization Identifiers">
 			<table id="organizationIdentifier" class="tablecontent">
