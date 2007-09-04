@@ -126,7 +126,7 @@
 		<div id="sgCombinations_${epochCount.index}">		
 		</div>
 		<!--stratum groups combinations display section-->    
-        
+        <script>getStratumGroups(0);</script>
         </tags:minimizablePanelBox>
     </c:forEach>
     

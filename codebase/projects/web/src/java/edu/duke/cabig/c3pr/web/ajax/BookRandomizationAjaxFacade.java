@@ -44,8 +44,14 @@ public class BookRandomizationAjaxFacade {
 	 * parameterMap - this is used by the table to run its own functionality like pagination. 
 	 */
 	 public String getTable(Map<String, List> parameterMap, String content, String epochIndexString, HttpServletRequest req) {
-	        Context context = new HttpServletRequestContext(req, parameterMap);
-	        String action = "/pages/study/createStudy";
+		 Context context;   
+		 if(parameterMap != null){
+	        	context = new HttpServletRequestContext(req, parameterMap);
+	        }else {
+	        	context = new HttpServletRequestContext(req);
+	        }
+		 
+		 	String action = "/pages/study/createStudy";
 	        Study study = (Study)req.getSession().getAttribute("edu.duke.cabig.c3pr.web.study.CreateStudyController.FORM.command");
 	        if(study == null){
 	        	study = (Study)req.getSession().getAttribute("edu.duke.cabig.c3pr.web.study.EditStudyController.FORM.command");

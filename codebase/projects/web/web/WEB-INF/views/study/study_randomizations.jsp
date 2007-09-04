@@ -99,12 +99,12 @@
 		</chrome:box>
 		</div>
 		
-<%--	will call this to get display onload in edit mode. but currentl gives a hibernate exception
+<%--	will call this to get display onload in edit mode. but currently gives a hibernate exception
 		<script>uploadBook("", "${epochCount.index}");</script>		--%>		
 		<script>$('book_container_${epochCount.index}').style.height=new String((50+$('book_${epochCount.index}').offsetHeight)+"px")</script>	
 			
 	</c:forEach>	
-
+	
 </c:if>
 <!--BOOK RANDOMIZATION SECTION-->
 
