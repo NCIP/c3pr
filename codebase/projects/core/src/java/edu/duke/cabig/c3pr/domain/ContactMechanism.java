@@ -3,6 +3,8 @@ package edu.duke.cabig.c3pr.domain;
 import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -23,6 +25,7 @@ public class ContactMechanism extends AbstractMutableDomainObject {
 	private ContactMechanismType type;
 	private String value;
 		
+	@Enumerated(EnumType.STRING)
 	public ContactMechanismType getType() {
 		return type;
 	}
