@@ -116,11 +116,11 @@
 			    add_row_division_id: "stratumGroupTable1_${epochCount.index}", 	        
 			    skeleton_row_division_id: "dummy-row",
 			    initialIndex: -1,
-			    path: "treatmentEpochs[${epochCount.index}].stratumGroups",
+			    path: "treatmentEpochs[${epochCount.index}].stratumGroups"
 			};
 			
-			<!-- will do this for edit flow to get tables on load 
-				getStratumGroups("${epochCount.index}"); -->
+			// will do this for edit flow to get tables on load 
+			//	getStratumGroups("${epochCount.index}"); 
 		</script>
 		<br/>
 		<div id="sgCombinations_${epochCount.index}">		
