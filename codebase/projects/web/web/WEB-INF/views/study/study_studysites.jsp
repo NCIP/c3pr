@@ -71,9 +71,15 @@ RowManager.addRowInseter(instanceRowInserterProps);
 <body>
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" formName="studySiteForm">
 
-
-
     <jsp:attribute name="singleFields">
+    <c:choose>
+	<c:when test="${ (empty command.multiInstitutionIndicator) || command.multiInstitutionIndicator=='false'}">
+        <tr>
+			<td>The study is not multi-institutional</td>
+		</tr>
+    </c:when>
+    <c:otherwise>
+        
 <tags:errors path="*" />
 
 <table border="0" cellspacing="0" cellpadding="0">
@@ -132,6 +138,8 @@ RowManager.addRowInseter(instanceRowInserterProps);
         </td>
     </tr>
 </table>
+ </c:otherwise>
+  </c:choose>
     	</jsp:attribute>
 
     	 <jsp:attribute name="localButtons">
