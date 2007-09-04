@@ -4,8 +4,10 @@ import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 import gov.nih.nci.cabig.ctms.domain.MutableDomainObject;
 import gov.nih.nci.cabig.ctms.web.tabs.AutomaticSaveFlowFormController;
+import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
 import java.io.PrintWriter;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,6 +37,16 @@ public abstract class AutomaticSaveAjaxableFormController<C, D extends MutableDo
 			}
 		}
 		return super.handleRequestInternal(request, response);
+	}
+	
+	@Override
+	protected Map referenceData(HttpServletRequest request, Object oCommand, Errors errors, int page) throws Exception {
+		// TODO Auto-generated method stub
+		C command = (C) oCommand;
+		Map refdata= super.referenceData(request, command, errors, page);
+		WorkFlowTab<C> current = (WorkFlowTab<C>)getFlow(command).getTab(page);
+		refdata.putAll(current.referenceData(request, (C)command));
+		return refdata;
 	}
 	@Override
     protected void postProcessPage(HttpServletRequest request, Object command, Errors errors, int page) throws Exception {

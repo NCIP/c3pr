@@ -1,5 +1,9 @@
 package edu.duke.cabig.c3pr.utils.web.spring.tabbedflow;
 
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author Rhett Sutphin
 */
@@ -44,5 +48,9 @@ public abstract class WorkFlowTab<C> extends ReflexiveAjaxableTab<C>{
 	}
 	public void setShowLink(String showLink) {
 		this.showLink = showLink;
+	}
+	
+	public Map referenceData(HttpServletRequest request, C command){
+		return referenceData();
 	}
 }
