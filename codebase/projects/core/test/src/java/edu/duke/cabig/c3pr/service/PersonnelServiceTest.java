@@ -5,6 +5,7 @@ import edu.duke.cabig.c3pr.dao.InvestigatorDaoTest;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.service.impl.PersonnelServiceImpl;
 import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
 import edu.nwu.bioinformatics.commons.ResourceRetriever;
@@ -28,6 +29,7 @@ public class PersonnelServiceTest extends ContextDaoTestCase<HealthcareSiteInves
 
     private PersonnelServiceImpl service;
     private UserProvisioningManager mockUPM;
+    Investigator inv;
 
 
 
@@ -38,12 +40,7 @@ public class PersonnelServiceTest extends ContextDaoTestCase<HealthcareSiteInves
 
         service.setUserProvisioningManager(mockUPM);
 
-    }
-
-    public void testCreateInvestigator() throws Exception{
-
-
-        Investigator inv = new Investigator();
+        inv = new Investigator();
         inv.setFirstName("Dummy");
         inv.setLastName("User");
 
@@ -53,11 +50,28 @@ public class PersonnelServiceTest extends ContextDaoTestCase<HealthcareSiteInves
 
         inv.addContactMechanism(cm);
 
+
+    }
+
+    public void testCreateUser() throws Exception{
+
         mockUPM.createUser(isA(User.class));
         replay(mockUPM);
 
         service.save(inv);
 
+        verify(mockUPM);
+    }
+
+    public void testAssignUserToGroup() throws Exception{
+        reset(mockUPM);
+
+        inv.setLoginId("email_id");
+        
+        mockUPM.assignUserToGroup(isA(String.class),isA(String.class));
+        replay(mockUPM);
+
+        service.assignUserToGroup(inv, C3PRUserGroupType.REGISTRAR);
         verify(mockUPM);
 
 

@@ -23,7 +23,7 @@ import org.hibernate.annotations.Parameter;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "research_staff_id_seq") })
 // @AssociationOverride( name="contactMechanisms", joinColumns=
 // @JoinColumn(name="RS_ID") )
-public class ResearchStaff extends Person {
+public class ResearchStaff extends C3PRUser {
 
 	private List<StudyPersonnel> studyPersonnels = new ArrayList<StudyPersonnel>();
 

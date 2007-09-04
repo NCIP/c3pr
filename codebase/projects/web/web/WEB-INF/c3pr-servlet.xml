@@ -230,7 +230,9 @@
           autowire="byName">
         <property name="commandClass"
                   value="edu.duke.cabig.c3pr.domain.ResearchStaff" />
+        <property name="successView" value="admin/research_staff_confirmation"/>
     </bean>
+    
     <bean name="/admin/viewInvestigator" id="viewInvestigatorController" autowire="byType"
           class="edu.duke.cabig.c3pr.web.admin.ViewInvestigatorController" >
     </bean>

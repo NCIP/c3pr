@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.service.impl;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
+import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
@@ -21,11 +22,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class PersonnelServiceImpl implements PersonnelService {
 
-    private HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
+    private ResearchStaffDao researchStaffDao;
     private UserProvisioningManager userProvisioningManager;
 
     public void save(C3PRUser c3prUser) throws C3PRBaseException {
-        healthcareSiteInvestigatorDao.save(c3prUser);
 
         gov.nih.nci.security.authorization.domainobjects.User csmUser = new gov.nih.nci.security.authorization.domainobjects.User();
         String emailId = null;
@@ -45,13 +45,17 @@ public class PersonnelServiceImpl implements PersonnelService {
 
         csmUser.setFirstName(c3prUser.getFirstName());
         csmUser.setLastName(c3prUser.getLastName());
-        //user.setOrganization();
+        //csmUser.setOrganization(c3prUser.get);
         csmUser.setPassword(c3prUser.getLastName());
 
         try {
             userProvisioningManager.createUser(csmUser);
+            for(C3PRUserGroupType group : c3prUser.getGroups()){
+                assignUserToGroup(c3prUser,group);
+            }
+
             c3prUser.setLoginId(emailId);
-            healthcareSiteInvestigatorDao.save(c3prUser);
+            researchStaffDao.save(c3prUser);
         } catch (CSTransactionException e) {
             throw new C3PRBaseException("Could not create user", e);
         }
@@ -60,7 +64,7 @@ public class PersonnelServiceImpl implements PersonnelService {
 
     public void assignUserToGroup(C3PRUser c3PRUser, C3PRUserGroupType groupName) throws C3PRBaseException {
         try {
-            userProvisioningManager.assignUserToGroup(c3PRUser.getLoginId(), groupName.name());
+            userProvisioningManager.assignUserToGroup(c3PRUser.getLoginId(), groupName.getCode());
         } catch (CSTransactionException e) {
             throw new C3PRBaseException("Could not add user to group", e);
         }
@@ -74,11 +78,12 @@ public class PersonnelServiceImpl implements PersonnelService {
         this.userProvisioningManager = userProvisioningManager;
     }
 
-    public HealthcareSiteInvestigatorDao getHealthcareSiteInvestigatorDao() {
-        return healthcareSiteInvestigatorDao;
+
+    public ResearchStaffDao getResearchStaffDao() {
+        return researchStaffDao;
     }
 
-    public void setHealthcareSiteInvestigatorDao(HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao) {
-        this.healthcareSiteInvestigatorDao = healthcareSiteInvestigatorDao;
+    public void setResearchStaffDao(ResearchStaffDao researchStaffDao) {
+        this.researchStaffDao = researchStaffDao;
     }
 }
