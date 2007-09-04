@@ -82,6 +82,7 @@ ValidationManager.submitPostProcess= function(formElement, flag){
 		<input type="hidden" name="_action" id="_action" value="">
 		<input type="hidden" name="_selected" id="_selected" value="">
 		<input type="hidden" name="_page" id="_page" value="0">
+		<br>
 
 		<table width="80%" border="0" cellspacing="0" cellpadding="0"
 			id="details">
@@ -162,6 +163,8 @@ ValidationManager.submitPostProcess= function(formElement, flag){
 				</td>
 			</tr>
 		</table>
+		<br>
+		<br>
 		
 		<tr>
 
