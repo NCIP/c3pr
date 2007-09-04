@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.web.ajax.BookRandomizationAjaxFacade;
 
@@ -31,7 +32,9 @@ public class StudyRandomizationTab extends StudyTab {
 
      @Override
      public void postProcess(HttpServletRequest req, Study study, Errors errors) {    	
-    	parseFile(req, study, errors);
+    	 if(study.getRandomizationType() != null && study.getRandomizationType().equals(RandomizationType.BOOK)){
+    		 parseFile(req, study, errors);
+    	 }    	 
      }
      
      
