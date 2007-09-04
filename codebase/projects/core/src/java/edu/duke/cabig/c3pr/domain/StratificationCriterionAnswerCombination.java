@@ -28,13 +28,18 @@ public class StratificationCriterionAnswerCombination extends AbstractMutableDom
 	public StratificationCriterionAnswerCombination(){		
 	}
 	
+	public StratificationCriterionAnswerCombination(StratificationCriterionAnswerCombination scac){		
+		this.stratificationCriterion = scac.getStratificationCriterion();
+		this.stratificationCriterionPermissibleAnswer = scac.getStratificationCriterionPermissibleAnswer();		
+	}
+	
 	public StratificationCriterionAnswerCombination(SubjectStratificationAnswer ssa){
 		this.stratificationCriterion = ssa.getStratificationCriterion();
 		this.stratificationCriterionPermissibleAnswer = ssa.getStratificationCriterionAnswer();
 	}
 	
 	
-	@ManyToOne (fetch=FetchType.LAZY)	
+	@ManyToOne
     @JoinColumn(name = "sc_id")
     @Cascade(value = { CascadeType.SAVE_UPDATE, CascadeType.MERGE})
 	public StratificationCriterion getStratificationCriterion() {
@@ -45,7 +50,7 @@ public class StratificationCriterionAnswerCombination extends AbstractMutableDom
 		this.stratificationCriterion = stratificationCriterion;
 	}
 	
-	@ManyToOne (fetch=FetchType.LAZY)	
+	@ManyToOne
     @JoinColumn(name = "scpa_id")
     @Cascade(value = { CascadeType.SAVE_UPDATE, CascadeType.MERGE})
 	public StratificationCriterionPermissibleAnswer getStratificationCriterionPermissibleAnswer() {
