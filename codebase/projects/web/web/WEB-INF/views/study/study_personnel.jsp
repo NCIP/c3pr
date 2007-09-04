@@ -148,7 +148,7 @@
 <tr>
 <td valign="top">
 <p id="instructions">
-    Choose a study site first
+    Choose an organization
 </p>
 
 <script type="text/javascript">
@@ -171,7 +171,7 @@
 
 <table border="0" id="table1" cellspacing="0">
     <tr>
-        <td align="left"> <span class="required-indicator"><b>Site:</b></span></td>
+        <td align="left"> <span class="required-indicator"><b>Organization:</b></span></td>
         <td align="left">
             <select id="site" name="site" onchange="javascript:chooseSites();">
                 <c:forEach items="${command.studySites}" var="studySite" varStatus="status">

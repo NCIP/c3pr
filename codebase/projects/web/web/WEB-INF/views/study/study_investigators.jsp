@@ -74,7 +74,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 <c:choose>
 	<c:when test="${fn:length(command.studySites) == 0}">
         <tr>
-			<td>Choose a study site before adding study personnel</td>
+			<td>Choose a study site before adding investigators</td>
 		</tr>
     </c:when>
     <c:otherwise>
@@ -96,12 +96,12 @@ RowManager.addRowInseter(instanceRowInserterProps);
 <td width="75%" valign="top">
 
     <p id="instructions">
-        Choose a study site first
+        Choose an organization
     </p>
 
     <table border="0" id="table1" cellspacing="0">
         <tr>
-            <td align="left"><span class="required-indicator"><b>Site:</b></span></td>
+            <td align="left"><span class="required-indicator"><b>Organization:</b></span></td>
             <td align="left">
                 <select id="site" name="site" onchange="javascript:chooseSites();">
                     <c:forEach items="${command.studySites}" var="studySite" varStatus="status">
