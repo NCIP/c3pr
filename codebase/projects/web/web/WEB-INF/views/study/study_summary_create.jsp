@@ -159,7 +159,7 @@
             <th scope="col" align="left">Status</th>
         </tr>
         <c:forEach items="${command.studySites}" var="studySite" varStatus="status">
-            <c:forEach items="${studySite.studyPersonnels}" var="studyPersonnel" varStatus="status">
+            <c:forEach items="${studySite.studyPersonnel}" var="studyPersonnel" varStatus="status">
                 <tr class="results">
                     <td class="alt">${studyPersonnel.researchStaff.fullName}</td>
                     <td class="alt">${studyPersonnel.roleCode}</td>
