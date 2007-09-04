@@ -51,7 +51,7 @@ public class StudySite extends StudyOrganization implements
     }
 
 	public void addStudyPersonnel(StudyPersonnel studyPersonnel) {
-		getStudyPersonnels().add(studyPersonnel);
+		getStudyPersonnel().add(studyPersonnel);
 		studyPersonnel.setStudySite(this);
 	}
 
@@ -134,21 +134,21 @@ public class StudySite extends StudyOrganization implements
 
     @OneToMany (mappedBy = "studySite")
     @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-    public List<StudyPersonnel> getStudyPersonnelsInternal() {
+    public List<StudyPersonnel> getStudyPersonnelInternal() {
         return lazyListHelper.getInternalList(StudyPersonnel.class);
     }
 
-    public void setStudyPersonnelsInternal(List<StudyPersonnel> studyPersonnels) {
-        lazyListHelper.setInternalList(StudyPersonnel.class, studyPersonnels);
+    public void setStudyPersonnelInternal(List<StudyPersonnel> studyPersonnel) {
+        lazyListHelper.setInternalList(StudyPersonnel.class, studyPersonnel);
     }
 
     @Transient
-    public List<StudyPersonnel> getStudyPersonnels() {
+    public List<StudyPersonnel> getStudyPersonnel() {
         return lazyListHelper.getLazyList(StudyPersonnel.class);
     }
 
-    public void setStudyPersonnels(List<StudyPersonnel> studyPersonnels) {
-       lazyListHelper.setInternalList(StudyPersonnel.class,studyPersonnels);
+    public void setStudyPersonnel(List<StudyPersonnel> studyPersonnel) {
+       lazyListHelper.setInternalList(StudyPersonnel.class,studyPersonnel);
     }
 
 

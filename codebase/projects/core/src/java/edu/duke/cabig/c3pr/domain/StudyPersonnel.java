@@ -32,7 +32,7 @@ public class StudyPersonnel extends AbstractMutableDomainObject {
 	private Date endDate;
 			
 	@ManyToOne
-    @JoinColumn(name = "research_staffs_id")
+    @JoinColumn(name = "research_staff_id")
 	public ResearchStaff getResearchStaff() {
 		return researchStaff;
 	}

@@ -108,5 +108,34 @@ public class Investigator extends C3PRUser {
 	{
 		this.contactMechanisms = contactMechanisms;
 	}
+	
+	public int compareTo(Object o) {
+		if (this.equals((Investigator)o)) return 0;
+		else return 1;
+	}
+		
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = super.hashCode();
+		result = PRIME * result + ((nciIdentifier == null) ? 0 : nciIdentifier.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final Investigator other = (Investigator) obj;
+		if (nciIdentifier == null) {
+			if (other.nciIdentifier != null)
+				return false;
+		} else if (!nciIdentifier.equals(other.nciIdentifier))
+			return false;
+		return true;
+	}
    
 }

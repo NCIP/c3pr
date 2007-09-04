@@ -115,5 +115,47 @@ public abstract class Person extends AbstractMutableDomainObject
 	public void setMiddleName(String middleName) {
 		this.middleName = middleName;
 	}
+
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = super.hashCode();
+		result = PRIME * result + ((firstName == null) ? 0 : firstName.hashCode());
+		result = PRIME * result + ((lastName == null) ? 0 : lastName.hashCode());
+		result = PRIME * result + ((maidenName == null) ? 0 : maidenName.hashCode());
+		result = PRIME * result + ((middleName == null) ? 0 : middleName.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (getClass() != obj.getClass())
+			return false;
+		final Person other = (Person) obj;
+		if (firstName == null) {
+			if (other.firstName != null)
+				return false;
+		} else if (!firstName.equals(other.firstName))
+			return false;
+		if (lastName == null) {
+			if (other.lastName != null)
+				return false;
+		} else if (!lastName.equals(other.lastName))
+			return false;
+		if (maidenName == null) {
+			if (other.maidenName != null)
+				return false;
+		} else if (!maidenName.equals(other.maidenName))
+			return false;
+		if (middleName == null) {
+			if (other.middleName != null)
+				return false;
+		} else if (!middleName.equals(other.middleName))
+			return false;
+		return true;
+	}
+
 	
 }

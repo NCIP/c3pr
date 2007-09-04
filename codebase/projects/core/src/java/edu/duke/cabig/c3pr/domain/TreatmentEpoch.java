@@ -56,6 +56,11 @@ public class TreatmentEpoch extends Epoch {
 	}
 
 	public void addArm(Arm arm) {
+		for (Arm armPresent : getArms()) {
+			if (armPresent.equals(arm)) {
+				throw new RuntimeException("arm with same name already exists in epoch");
+			}
+		}
 		getArms().add(arm);
 		arm.setTreatmentEpoch(this);
 	}

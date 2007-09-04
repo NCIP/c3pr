@@ -11,6 +11,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -19,7 +20,8 @@ import org.hibernate.annotations.Parameter;
  * @author Ram Chilukuri, Priyatam
  */
 @Entity
-@Table(name = "epochs")
+
+@Table(name = "epochs",uniqueConstraints = {@UniqueConstraint(columnNames={"stu_id", "name"})})
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "EPOCHS_ID_SEQ") })
@@ -91,24 +93,20 @@ public abstract class Epoch extends AbstractMutableDomainObject implements
 	}
 
 	public int compareTo(Epoch o) {
-		// TODO Auto-generated method stub
-		return 0;
+		if (this.equals((Epoch)o)) return 0;
+		else return 1;
 	}
-	
-
-	/*
-	 * @Override public int hashCode() { final int PRIME = 31; int result =
-	 * super.hashCode(); result = PRIME * result + ((arms == null) ? 0 :
-	 * arms.hashCode()); result = PRIME * result + ((name == null) ? 0 :
-	 * name.hashCode()); return result; }
-	 * 
-	 * @Override public boolean equals(Object obj) { if (this == obj) return
-	 * true; if (!super.equals(obj)) return false; if (getClass() !=
-	 * obj.getClass()) return false; final Epoch other = (Epoch) obj; if (arms ==
-	 * null) { if (other.arms != null) return false; } else if
-	 * (!arms.equals(other.arms)) return false; if (name == null) { if
-	 * (other.name != null) return false; } else if (!name.equals(other.name))
-	 * return false; return true; }
-	 */
+		
+	 @Override public int hashCode() { final int PRIME = 31; int result =
+	  super.hashCode(); result = PRIME * result;
+	  result = PRIME * result + ((name == null) ? 0 :
+	  name.hashCode()); return result; }
+	  
+	  @Override public boolean equals(Object obj) { if (this == obj) return
+	  true; if (getClass() !=
+	  obj.getClass()) return false; final Epoch other = (Epoch) obj; if (name == null) { if
+	  (other.name != null) return false; } else if (!name.equals(other.name))
+	  return false; return true; }
+	 
 
 }

@@ -181,7 +181,7 @@ public class Participant extends Person implements Comparable<Participant> {
 	}
 	
 	public int compareTo(Participant o) {
-		if(this.equals((Participant)o))
+		if(this.equals(o))
 			return 0;
 		return 1;
 	}

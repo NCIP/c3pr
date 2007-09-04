@@ -92,7 +92,7 @@ public class Arm extends AbstractMutableDomainObject implements Comparable<Arm> 
         final int PRIME = 31;
         int result = super.hashCode();
         result = PRIME * result + ((name == null) ? 0 : name.hashCode());
-        result = PRIME * result + ((targetAccrualNumber == null) ? 0 : targetAccrualNumber.hashCode());
+        result = PRIME * result;
         return result;
     }
 
@@ -100,9 +100,7 @@ public class Arm extends AbstractMutableDomainObject implements Comparable<Arm> 
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (!super.equals(obj))
-            return false;
-        if (getClass() != obj.getClass())
+       if (getClass() != obj.getClass())
             return false;
         final Arm other = (Arm) obj;
         if (name == null) {
@@ -110,12 +108,6 @@ public class Arm extends AbstractMutableDomainObject implements Comparable<Arm> 
                 return false;
         } else if (!name.equals(other.name))
             return false;
-        if (targetAccrualNumber == null) {
-            if (other.targetAccrualNumber != null)
-                return false;
-        } else if (!targetAccrualNumber.equals(other.targetAccrualNumber))
-            return false;
-
         return true;
     }
 }
