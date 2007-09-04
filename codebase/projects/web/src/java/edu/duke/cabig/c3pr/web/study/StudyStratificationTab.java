@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.web.study;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -115,12 +116,22 @@ public class StudyStratificationTab extends StudyTab {
     			
     			numOfSG = sgList.size();
     			sgList.add(numOfSG, new StratumGroup());
-    			sgList.get(numOfSG).getStratificationCriterionAnswerCombination().addAll(strMyLine);
+    			sgList.get(numOfSG).getStratificationCriterionAnswerCombination().addAll(cloneScac(strMyLine));
     			sgList.get(numOfSG).setStratumGroupNumber(numOfSG);
     		}    	
     	}
     	return sgList;
     }  
+	
+	public List<StratificationCriterionAnswerCombination> cloneScac(List<StratificationCriterionAnswerCombination> scacList){
+		
+		List <StratificationCriterionAnswerCombination>clonedList = new ArrayList<StratificationCriterionAnswerCombination>();		
+		Iterator <StratificationCriterionAnswerCombination>iter = scacList.iterator();
+		while(iter.hasNext()){
+			clonedList.add(new StratificationCriterionAnswerCombination(iter.next()));
+		}
+		return clonedList;
+	}
     
         
 }
