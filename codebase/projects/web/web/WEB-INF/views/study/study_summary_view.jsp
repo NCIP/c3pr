@@ -253,7 +253,7 @@
     </table>
 </chrome:division>
 
-<chrome:division title="Epochs and Arms">
+<chrome:division title="Epochs & Arms">
     <table class="tablecontent">
         <tr>
             <th><b>Epochs</b></th>
