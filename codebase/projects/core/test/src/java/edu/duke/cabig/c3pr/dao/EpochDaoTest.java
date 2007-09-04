@@ -27,6 +27,8 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
 
 	private EpochDao epochDao = (EpochDao) getApplicationContext().getBean(
 			"epochDao");
+	
+	
 
 	public void testSaveTreatmentEpochWithEligibilityCriteria()
 			throws Exception {
@@ -69,6 +71,9 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
 		}
 
 	}
+	
+	
+	
 
 	/**
 	 * Test for loading an Epoch by Id
@@ -209,7 +214,8 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
 			// assertNotNull("GridId not updated", loaded.getGridId());
 
 			assertEquals("Wrong question number:", 2, loadedEpoch
-					.getStratificationCriteria().get(0).getQuestionNumber().intValue());
+					.getStratificationCriteria().get(0).getQuestionNumber()
+					.intValue());
 			assertEquals("Wrong question text:",
 					"Stratificaiton question text", loadedEpoch
 							.getStratificationCriteria().get(0)
@@ -246,7 +252,48 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
 					loadedEpoch.getStratificationCriteria().get(1)
 							.getQuestionText());
 			assertEquals("Wrong question Number:", 2, loadedEpoch
-					.getStratificationCriteria().get(1).getQuestionNumber().intValue());
+					.getStratificationCriteria().get(1).getQuestionNumber()
+					.intValue());
+		}
+
+	}
+
+	
+	public void testFailureAddingArmsWithSameNameToTreatmentEpoch(){
+		TreatmentEpoch loadedEpoch = (TreatmentEpoch)getDao().getById(1000);
+		Arm arm = new Arm();
+		arm.setName("Arm 1001");
+		try{
+		loadedEpoch.addArm(arm);
+		}
+		catch(Exception e){
+		}
+		
+	}
+	
+	public void testFailureSavingTwoEpochsWithSameNameInOneStudy() throws Exception {
+		Integer savedId;
+		{
+
+			Study loadedStudy = studyDao.getById(1000);
+			TreatmentEpoch epoch = new TreatmentEpoch();
+
+			epoch.setName("Treatment");
+			epoch.setDescriptionText("descriptionText");
+			epoch.setStudy(loadedStudy);
+
+			getDao().save(epoch);
+						
+			savedId = epoch.getId();
+			
+			interruptSession();
+			
+			/*Epoch loadedEpoch = getDao().getById(savedId);
+			{
+				assertNull("Multiple epochs with same name were saved in one study "
+						+ savedId, loadedEpoch);
+			}*/
+
 		}
 
 	}
