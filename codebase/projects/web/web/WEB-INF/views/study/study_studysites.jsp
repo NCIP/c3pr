@@ -83,7 +83,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
             <br>
             <table id="siteTable" class="tablecontent" border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                    <th><b><span class="required-indicator">Site</span></b></th>
+                    <th><b><span class="required-indicator">Organization</span></b></th>
                     <th><b><span class="required-indicator">Status</span></b></th>
                     <th><b>Activation Date</b></th>
                     <th><b>IRB Approval Date</b></th>
