@@ -156,8 +156,8 @@
 
         add_row_division_id: "studyPersonnelTable", 	        /* this id belongs to element where the row would be appended to */
         skeleton_row_division_id: "dummy-row",
-        initialIndex: ${fn:length(command.studySites[selected_site].studyPersonnels)},                            /* this is the initial count of the rows when the page is loaded  */
-        path: "studySites[${selected_site}].studyPersonnels"
+        initialIndex: ${fn:length(command.studySites[selected_site].studyPersonnel)},                            /* this is the initial count of the rows when the page is loaded  */
+        path: "studySites[${selected_site}].studyPersonnel"
     };
     RowManager.addRowInseter(instanceRowInserterProps);
 
@@ -197,25 +197,25 @@
         <th></th>
     </tr>
 
-    <c:forEach varStatus="status" items="${command.studySites[selected_site].studyPersonnels}">
+    <c:forEach varStatus="status" items="${command.studySites[selected_site].studyPersonnel}">
         <tr id="studyPersonnelTable-${status.index}">
             <td>
                 <form:hidden id="personnel${status.index}"
-                             path="studySites[${selected_site}].studyPersonnels[${status.index}].researchStaff"/>
+                             path="studySites[${selected_site}].studyPersonnel[${status.index}].researchStaff"/>
                 <input type="text" class="validate-notEmpty" id="personnel${status.index}-input" size="30"
-                       value="${command.studySites[selected_site].studyPersonnels[status.index].researchStaff.fullName}"/>
+                       value="${command.studySites[selected_site].studyPersonnel[status.index].researchStaff.fullName}"/>
                 <input type="button" id="personnel${status.index}-clear" value="Clear"/>
                 <tags:indicator id="personnel${status.index}-indicator"/>
                 <div id="personnel${status.index}-choices" class="autocomplete"></div>
             </td>
             <td>
-                <form:select path="studySites[${selected_site}].studyPersonnels[${status.index}].roleCode"
+                <form:select path="studySites[${selected_site}].studyPersonnel[${status.index}].roleCode"
                              cssClass="validate-notEmpty">
                     <option value="">--Please Select--</option>
                     <form:options items="${studyPersonnelRoleRefData}" itemLabel="desc" itemValue="desc"/>
                 </form:select></td>
             <td>
-                <form:select path="studySites[${selected_site}].studyPersonnels[${status.index}].statusCode"
+                <form:select path="studySites[${selected_site}].studyPersonnel[${status.index}].statusCode"
                              cssClass="validate-notEmpty">
                     <option value="">--Please Select--</option>
                     <form:options items="${studyPersonnelStatusRefData}" itemLabel="desc" itemValue="desc"/>
@@ -243,7 +243,7 @@
                 </tr>
                 <tr>
                     <td>
-                        Personnel Assigned: <b> ${fn:length(studySite.studyPersonnels)} </b>
+                        Personnel Assigned: <b> ${fn:length(studySite.studyPersonnel)} </b>
                     </td>
                 </tr>
                 <tr>
@@ -279,17 +279,17 @@
         <tr id="studyPersonnelTable-PAGE.ROW.INDEX">
             <td>
                 <input type="hidden" id="personnelPAGE.ROW.INDEX"
-                       name="studySites[${selected_site}].studyPersonnels[PAGE.ROW.INDEX].researchStaff"
-                       value="studySites[${selected_site}].studyPersonnels[PAGE.ROW.INDEX].researchStaff"/>
+                       name="studySites[${selected_site}].studyPersonnel[PAGE.ROW.INDEX].researchStaff"
+                       value="studySites[${selected_site}].studyPersonnel[PAGE.ROW.INDEX].researchStaff"/>
                 <input type="text" class="validate-notEmpty" id="personnelPAGE.ROW.INDEX-input" size="30"
-                       value="${command.studySites[selected_site].studyPersonnels[PAGE.ROW.INDEX].researchStaff.fullName}"/>
+                       value="${command.studySites[selected_site].studyPersonnel[PAGE.ROW.INDEX].researchStaff.fullName}"/>
                 <input type="button" id="personnelPAGE.ROW.INDEX-clear" value="Clear"/>
                 <tags:indicator id="personnelPAGE.ROW.INDEX-indicator"/>
                 <div id="personnelPAGE.ROW.INDEX-choices" class="autocomplete"></div>
             </td>
             <td>
-                <select id="studySites[${selected_site}].studyPersonnels[PAGE.ROW.INDEX].roleCode"
-                        name="studySites[${selected_site}].studyPersonnels[PAGE.ROW.INDEX].roleCode"
+                <select id="studySites[${selected_site}].studyPersonnel[PAGE.ROW.INDEX].roleCode"
+                        name="studySites[${selected_site}].studyPersonnel[PAGE.ROW.INDEX].roleCode"
                         class="validate-notEmpty">
                     <option value="">--Please Select--</option>
                     <c:forEach items="${studyPersonnelRoleRefData}" var="role">
@@ -298,8 +298,8 @@
                 </select>
             </td>
             <td>
-                <select id="studySites[${selected_site}].studyPersonnels[PAGE.ROW.INDEX].statusCode"
-                        name="studySites[${selected_site}].studyPersonnels[PAGE.ROW.INDEX].statusCode"
+                <select id="studySites[${selected_site}].studyPersonnel[PAGE.ROW.INDEX].statusCode"
+                        name="studySites[${selected_site}].studyPersonnel[PAGE.ROW.INDEX].statusCode"
                         class="validate-notEmpty">
                     <option value="">--Please Select--</option>
                     <c:forEach items="${studyPersonnelStatusRefData}" var="status">
