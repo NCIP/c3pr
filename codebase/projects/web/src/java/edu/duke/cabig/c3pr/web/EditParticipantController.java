@@ -34,6 +34,7 @@ import edu.duke.cabig.c3pr.web.participant.ParticipantDetailsTab;
 import edu.duke.cabig.c3pr.web.participant.ParticipantAddressAndContactInfoTab;
 import edu.duke.cabig.c3pr.web.participant.ParticipantSummaryTab;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.ObjectGraphBasedEditor;
+import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
 
 import edu.duke.cabig.c3pr.web.beans.DefaultObjectPropertyReader;
 import gov.nih.nci.cabig.ctms.web.tabs.AbstractTabbedFlowFormController;
@@ -171,6 +172,8 @@ public class EditParticipantController<C extends Participant> extends
 				new SimpleDateFormat("MM/dd/yyyy"), true));
 		binder.registerCustomEditor(HealthcareSite.class, new CustomDaoEditor(
 				healthcareSiteDao));
+		binder.registerCustomEditor(ContactMechanismType.class,
+                new EnumByNameEditor(ContactMechanismType.class));
 	}
 	
 
