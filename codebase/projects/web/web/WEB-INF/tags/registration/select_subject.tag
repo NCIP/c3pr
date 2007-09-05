@@ -201,7 +201,7 @@
 				<td width="40%" valign="top">
 				<table width="100%" border="0" cellspacing="1" cellpadding="1" id="table1">
 										<tr>
-					<td align="right"><span class="red">*</span> <em></em> <b>Gender:</b>
+					<td align="right"><span class="required-indicator"><b>Gender:</b></span>
 						&nbsp;</td>
 						<td align="left">
 							<select id="administrativeGenderCode" name="administrativeGenderCode" class="validate-notEmpty">
@@ -215,7 +215,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td align="right"><span class="required-indicator">&nbsp;&nbsp;&nbsp;<b>Birth Date: </b>&nbsp;</span></td>
+						<td align="right"><span class="required-indicator"><b>Birth Date:</b></span>&nbsp;</td>
 						<td><input id="birthDate" name="birthDate" type="text" value="" class="validate-notEmpty"/>&nbsp;(mm/dd/yyyy)&nbsp;&nbsp;<span
 							class="red"><em></em></span></td>
 					</tr>
