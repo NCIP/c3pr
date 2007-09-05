@@ -50,7 +50,7 @@ function reloadPage(Id){
 <body>
 <form action="../registration/createRegistration" method="post" id="create">
 	<input type="hidden" name="_page" id="_page0" value="0"/>
-	<input type="hidden" name="_target3" id="_target3" value="3"/>
+	<input type="hidden" name="_target2" id="_target2" value="2"/>
 	<input type="hidden" name="registrationId" value="${command.id }"/>
 	<input type="hidden" name="epoch" id="create_epoch"/>
 </form>

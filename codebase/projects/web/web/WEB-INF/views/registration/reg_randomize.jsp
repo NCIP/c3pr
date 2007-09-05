@@ -27,10 +27,30 @@
 <tags:formPanelBox tab="${tab}" flow="${flow}">
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
 		<c:choose>
-		<c:when test="${!command.ifTreatmentScheduledEpoch || command.studySite.study.randomizedIndicator == 'false'}">
+		<c:when test="${!command.ifTreatmentScheduledEpoch}">
 			<tr>
-				<td> The selected epoch does not involve Randomization</td>
+				<td> The selected epoch does not involve Assigning Arm.</td>
 			</tr>
+		</c:when>
+		<c:when test="${command.studySite.study.randomizedIndicator == 'false'}">
+			<c:if test="${fn:length(command.scheduledEpoch.epoch.arms) > 0}">
+				<tr>
+				<td class="label" width="80%">Select Arm:</td>
+					<td>
+						<select name ="scheduledEpoch.scheduledArms[0].arm">
+							<option value="" selected>--Please Select--</option>
+							<c:forEach items="${command.scheduledEpoch.treatmentEpoch.arms}" var="arm">
+								<option value="${arm.id }" <c:if test="${!empty command.scheduledEpoch.scheduledArms[0].arm && arm.id== command.scheduledEpoch.scheduledArms[0].arm.id }">selected</c:if>>${arm.name}</option>
+							</c:forEach>
+						</select>
+					</td>
+				</tr>
+			</c:if>
+			<c:if test="${fn:length(command.scheduledEpoch.epoch.arms) == 0}">
+				<tr>
+					<td> The selected epoch does not involve Assigning Arm.</td>
+				</tr>
+			</c:if>			
 		</c:when>
 		<%-- BOOK  --%>		
 		<c:when test="${command.studySite.study.randomizationType.name == 'BOOK'}">
@@ -40,29 +60,34 @@
 		<%-- BOOK --%>		
 		<%-- CALLOUT --%>		
 		<c:when test="${command.studySite.study.randomizationType.name == 'CALL_OUT'}">
-			
+			This epoch requires Call Out Randomization.
 		</c:when>
 		<%-- CALLOUT --%>		
 		<%-- PHONECALL --%>
-		<c:otherwise>
-		<tr><td>This epoch requires Phone Call Randomization. Call ${command.scheduledEpoch.epoch.randomization.phoneNumber} to get the Arm assignment.</td></tr>
-		<tr>
-		<td class="label" width="80%">Stratum Group: </td>
-		<td>${command.stratumGroup}</td>
-		</tr>
-		<tr>
-			<td class="label" width="80%">Select Arm:</td>
-			<td>
-				<select name ="scheduledEpoch.scheduledArms[0].arm">
-					<option value="" selected>--Please Select--</option>
-					<c:forEach items="${command.scheduledEpoch.treatmentEpoch.arms}" var="arm">
-						<option value="${arm.id }" <c:if test="${!empty command.scheduledEpoch.scheduledArms[0].arm && arm.id== command.scheduledEpoch.scheduledArms[0].arm.id }">selected</c:if>>${arm.name}</option>
-					</c:forEach>
-				</select>
-			</td>
-		</tr>
-		</c:otherwise>
+		<c:when test="${command.studySite.study.randomizationType.name == 'PHONE_CALL'}">	
+			<tr><td>This epoch requires Phone Call Randomization. Call ${command.scheduledEpoch.epoch.randomization.phoneNumber} to get the Arm assignment.</td></tr>
+			<tr>
+			<td class="label" width="80%">Stratum Group: </td>
+			<td>${command.stratumGroup}</td>
+			</tr>
+			<tr>
+				<td class="label" width="80%">Select Arm:</td>
+				<td>
+					<select name ="scheduledEpoch.scheduledArms[0].arm">
+						<option value="" selected>--Please Select--</option>
+						<c:forEach items="${command.scheduledEpoch.treatmentEpoch.arms}" var="arm">
+							<option value="${arm.id }" <c:if test="${!empty command.scheduledEpoch.scheduledArms[0].arm && arm.id== command.scheduledEpoch.scheduledArms[0].arm.id }">selected</c:if>>${arm.name}</option>
+						</c:forEach>
+					</select>
+				</td>
+			</tr>
+		</c:when>
 		<%-- PHONECALL --%>	
+		<c:otherwise>
+			<tr>
+				<td>Invalid State.</td>
+			</tr>
+		</c:otherwise>
 		</c:choose>
 	</table>
 	

@@ -125,8 +125,11 @@
 		<br/>
 		<div id="sgCombinations_${epochCount.index}">		
 		</div>
-		<!--stratum groups combinations display section-->    
-        <script>getStratumGroups(0);</script>
+		<!--stratum groups combinations display section--> 
+		<c:if test="${fn:length(epoch.stratificationCriteria) > 0}">   
+        	<script>getStratumGroups(0);</script>
+        </c:if>
+        
         </tags:minimizablePanelBox>
     </c:forEach>
     
