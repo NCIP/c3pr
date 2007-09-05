@@ -71,10 +71,10 @@ public class BookRandomizationAjaxFacade {
 	        	if(!StringUtils.isEmpty(bookRandomizations)){			        
 			        if(tEpoch != null){
 			        	parseBookRandomization(bookRandomizations, tEpoch);
-			        	if(action.equals("/pages/study/editStudy")){
-			        		study=studyDao.merge(study);
-			        		req.getSession().setAttribute("edu.duke.cabig.c3pr.web.study.EditStudyController.FORM.command", study);
-			        	}
+//			        	if(action.equals("/pages/study/editStudy")){
+//			        		study=studyDao.merge(study);
+//			        		req.getSession().setAttribute("edu.duke.cabig.c3pr.web.study.EditStudyController.FORM.command", study);
+//			        	}
 			        } else {
 			        	log.debug("Invalid epoch Index");
 			        }
