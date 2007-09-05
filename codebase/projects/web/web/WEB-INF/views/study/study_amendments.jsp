@@ -65,7 +65,7 @@ RowManager.addRowInseter(studyAmendmentsRowInserterProps);
 							<tr id="studyAmendments-${status.index}">
 								<td><form:input
 									path="studyAmendments[${status.index}].amendmentVersion"
-									cssClass="validate-notEmpty" size="5" /></td>
+									cssClass="validate-notEmpty&&NUMERIC" size="5" /></td>
 								<td><tags:dateInput path="studyAmendments[${status.index}].amendmentDate"/></td>
 								<td><tags:dateInput path="studyAmendments[${status.index}].irbApprovalDate"/></td>
 								<td><form:textarea path="studyAmendments[${status.index}].comments" rows="2" cols="40"/></td>
@@ -92,7 +92,7 @@ RowManager.addRowInseter(studyAmendmentsRowInserterProps);
 <table>
 	<tr>
 		<td><input type="text" size="5" id="studyAmendments[PAGE.ROW.INDEX].amendmentVersion"
-			name="studyAmendments[PAGE.ROW.INDEX].amendmentVersion"
+			name="studyAmendments[PAGE.ROW.INDEX].amendmentVersion" class="validate-notEmpty&&NUMERIC"
 			 /></td>
 		<td><input id="studyAmendments[PAGE.ROW.INDEX].amendmentDate"
                        name="studyAmendments[PAGE.ROW.INDEX].amendmentDate"
