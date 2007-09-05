@@ -20,13 +20,29 @@
 </c:if>
 <c:choose>
 <c:when test="${empty formName}">
+tempTargetVar=$("command")._target!=null?$("command")._target.name:null;
+if(tempTargetVar!=null){
+	$("command")._target.name="notSubmitted";
+}
+
 new Ajax.Updater(${divElement},$("command").action, 
 					{parameters:"decorator=nullDecorator&_asynchronous=true&_asyncMethodName=${method}&_asyncViewName=${viewName}&${params}&"+${empty javaScriptParam?"''":javaScriptParam}+"&"+Form.serialize('command'),
 					${callbackOpts} asynchronous:true, evalScripts:true});
+if(tempTargetVar!=null){
+	$("command")._target.name=tempTargetVar;
+}
 </c:when>
 <c:otherwise>
+tempTargetVar=$(formName)._target!=null?$(formName)._target.name:null;
+if(tempTargetVar!=null){
+	$(formName)._target.name="notSubmitted";
+}
+
 new Ajax.Updater(${divElement},$(${formName}).action, 
 					{parameters:"decorator=nullDecorator&_asynchronous=true&_asyncMethodName=${method}&_asyncViewName=${viewName}&${params}&"+${empty javaScriptParam?"''":javaScriptParam}+"&"+Form.serialize(${formName}),
 					${callbackOpts} asynchronous:true, evalScripts:true});
+if(tempTargetVar!=null){
+	$(formName)._target.name=tempTargetVar;
+}
 </c:otherwise>
 </c:choose>

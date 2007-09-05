@@ -37,6 +37,9 @@
                 epochCountIndex: ${epochCount.index},
                 postProcessRowDeletion: function(object){
 	                clear(object.epochCountIndex);                	
+			    },
+			    postProcessRowInsertion: function(object){
+	                clear(object.epochCountIndex);                	
 			    }
             };
             var stratRowInserterProps_${epochCount.index} = {
@@ -46,7 +49,10 @@
                 initialIndex: ${fn:length(command.treatmentEpochs[epochCount.index].stratificationCriteria)},
                 path: "treatmentEpochs[${epochCount.index }].stratificationCriteria",
                 epochCountIndex: ${epochCount.index},
-                postProcessRowInsertion: function(object){
+                postProcessRowDeletion: function(object){
+	                clear(object.epochCountIndex);                	
+			    },
+			    postProcessRowInsertion: function(object){
                 	clear(object.epochCountIndex);                	
 			    }
             };

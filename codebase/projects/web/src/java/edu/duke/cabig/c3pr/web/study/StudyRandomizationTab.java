@@ -32,12 +32,14 @@ public class StudyRandomizationTab extends StudyTab {
 	@Override
 	public Map<String, Object> referenceData(HttpServletRequest request, Study study) {
 		// TODO Auto-generated method stub
-		Map <String, List>dummyMap = new HashMap<String, List>();
-		String []bookRandomizationEntries = new String[study.getEpochs().size()];
-        for(int i=0;i<study.getEpochs().size(); i++){
-        	bookRandomizationEntries[i]  = bookRandomizationAjaxFacade.getTable(dummyMap, "", i+"", request);
-        }
-        request.setAttribute("bookRandomizationEntries", bookRandomizationEntries);        
+		if(study.getRandomizedIndicator().equalsIgnoreCase("true")){
+			Map <String, List>dummyMap = new HashMap<String, List>();
+			String []bookRandomizationEntries = new String[study.getEpochs().size()];
+	        for(int i=0;i<study.getEpochs().size(); i++){
+	        	bookRandomizationEntries[i]  = bookRandomizationAjaxFacade.getTable(dummyMap, "", i+"", request);
+	        }
+	        request.setAttribute("bookRandomizationEntries", bookRandomizationEntries);
+		}
 		return super.referenceData();
 	}
 	
