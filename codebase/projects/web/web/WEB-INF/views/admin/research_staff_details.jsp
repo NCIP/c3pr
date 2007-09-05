@@ -65,7 +65,7 @@
             <div class="label required-indicator">
                 Last Name</div>
             <div class="value">
-                <form:input path="lastName" size="25" />
+                <form:input path="lastName" cssClass="validate-notEmpty" size="25" />
             </div>
         </div>
 
@@ -96,7 +96,7 @@
                 NCI Identifier:
             </div>
             <div class="value">
-                <form:input path="nciIdentifier" size="25" />
+                <form:input path="nciIdentifier" size="25" cssClass="validate-notEmpty" />
             </div>
         </div>
 
@@ -106,7 +106,7 @@
             </div>
             <div class="value">
                 <form:input size="25"
-                            path="contactMechanisms[0].value" />
+                            path="contactMechanisms[0].value" cssClass="validate-notEmpty" />
             </div>
         </div>
 
