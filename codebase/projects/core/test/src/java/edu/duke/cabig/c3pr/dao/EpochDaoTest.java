@@ -249,10 +249,10 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
 			assertNotNull("Could not reload epoch id " + savedId, loadedEpoch);
 			// assertNotNull("GridId not updated", loadedEpoch.getGridId());
 			assertEquals("Wrong question text:", "Stratification question",
-					loadedEpoch.getStratificationCriteria().get(1)
+					loadedEpoch.getStratificationCriteria().get(0)
 							.getQuestionText());
 			assertEquals("Wrong question Number:", 2, loadedEpoch
-					.getStratificationCriteria().get(1).getQuestionNumber()
+					.getStratificationCriteria().get(0).getQuestionNumber()
 					.intValue());
 		}
 
