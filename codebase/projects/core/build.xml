@@ -150,6 +150,11 @@
                 <filter token="esb.brokerUrl" value="${esb.brokerUrl}"/>
                 <filter token="authorizationSwitch" value="${authorizationSwitch}"/>
                 <filter token="csm.context.name" value="${csm.context.name}"/>
+
+                <filter token="outgoing.mail.server" value="${outgoing.mail.server}"/>
+                <filter token="outgoing.mail.username" value="${outgoing.mail.username}"/>
+                <filter token="outgoing.mail.password" value="${outgoing.mail.password}"/>
+                <filter token="outgoing.mail.from.address" value="${outgoing.mail.from.address}"/>
             </filterset>
         </copy>
 
@@ -257,30 +262,88 @@
                  migrationsDir="${bering.migration.dir}"/>
     </target>
 
+
     <target name="bering-migrate-test" description="migrate database schema to run tests"
             depends="prepare-bering">
 
         <property name="test.script.name" value="006_c3pr_delete_static_data"/>
 
-        <move file="${bering.migration.dir}/001_construction_iteration4/${test.script.name}.template"
-              tofile="${bering.migration.dir}/001_construction_iteration4/${test.script.name}.groovy"/>
+        <trycatch property="exception">
+            <try>
+                <move file="${bering.migration.dir}/001_construction_iteration4/${test.script.name}.template"
+                      tofile="${bering.migration.dir}/001_construction_iteration4/${test.script.name}.groovy"/>
 
-        <migrate classpathRef="run.classpath"
-                 driver="${datasource.driver}"
-                 dialect="${bering.dialect}"
-                 url="${datasource.url}"
-                 userid="${datasource.username}"
-                 password="${datasource.password}"
-                 migrationsDir="${db.scripts.dir}/bering"/>
+                <migrate classpathRef="run.classpath"
+                         driver="${datasource.driver}"
+                         dialect="${bering.dialect}"
+                         url="${datasource.url}"
+                         userid="${datasource.username}"
+                         password="${datasource.password}"
+                         migrationsDir="${db.scripts.dir}/bering"/>
 
-        <move file="${bering.migration.dir}/001_construction_iteration4/${test.script.name}.groovy"
-              tofile="${bering.migration.dir}/001_construction_iteration4/${test.script.name}.template"/>
+            </try>
+
+            <catch>
+                <echo message="Database update failed: ${exception}"/>
+            </catch>
+
+            <finally>
+                <move file="${bering.migration.dir}/001_construction_iteration4/${test.script.name}.groovy"
+                      tofile="${bering.migration.dir}/001_construction_iteration4/${test.script.name}.template"/>
+
+            </finally>
+        </trycatch>
 
     </target>
 
+    <target name="insert-static-data" depends="prepare-bering" 
+            description="Will insert static date into the database">
+
+        <sql driver="${datasource.driver}"
+             url="${datasource.url}"
+             userid="${datasource.username}"
+             password="${datasource.password}"
+             classpathref="run.classpath"
+             rdbms="oracle">
+            <transaction src="${oracle.db.script.dir}/static-data.sql"/>
+        </sql>
+
+        <sql driver="${datasource.driver}"
+             url="${datasource.url}"
+             userid="${datasource.username}"
+             password="${datasource.password}"
+             classpathref="run.classpath"
+             rdbms="postgres">
+            <transaction src="${postgresql.db.script.dir}/static-data.sql"/>
+        </sql>
+
+    </target>
+
+    <target name="delete-static-data" depends="prepare-bering"
+               description="Will insert static date into the database">
+
+           <sql driver="${datasource.driver}"
+                url="${datasource.url}"
+                userid="${datasource.username}"
+                password="${datasource.password}"
+                classpathref="run.classpath"
+                rdbms="oracle">
+               <transaction src="${oracle.db.script.dir}/static-data-delete.sql"/>
+           </sql>
+
+           <sql driver="${datasource.driver}"
+                url="${datasource.url}"
+                userid="${datasource.username}"
+                password="${datasource.password}"
+                classpathref="run.classpath"
+                rdbms="postgres">
+               <transaction src="${postgresql.db.script.dir}/static-data-delete.sql"/>
+           </sql>
+
+       </target>
 
 
-
+    
     <target name="tomcat.security" description="Automatically copies global (CSM/UPT) configuration files to Tomcat.">
         <fail message="Could not locate Tomcat.  Please set the catalina.home property (-Dcatalina.home=/path/to/tomcat).">
             <condition>

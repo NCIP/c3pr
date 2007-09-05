@@ -1,13 +1,10 @@
  class DeleteStaticData extends edu.northwestern.bioinformatics.bering.Migration {
      void up() {
-             execute("DELETE FROM disease_terms");
-             execute("DELETE FROM disease_categories");
-             execute("DELETE FROM anatomic_sites");
-             execute("DELETE FROM RESEARCH_STAFF");
-             execute("DELETE FROM HC_SITE_INVESTIGATORS");
-             execute("DELETE FROM INVESTIGATORS");
-             execute("DELETE FROM ORGANIZATIONS");
-             execute("DELETE FROM ADDRESSES");
+        if (databaseMatches('oracle')) {
+             external("../../oracle/static-data-delete.sql")
+        } else if (databaseMatches('postgresql')){
+             external("../../PostGreSQL/static-data-delete.sql")
+        }
      }
 
      void down() {
