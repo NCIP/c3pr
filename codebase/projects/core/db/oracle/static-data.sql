@@ -109,15 +109,5 @@ INSERT INTO anatomic_sites(
 INSERT INTO anatomic_sites(
             id, name, category, version)
     VALUES (10,'Colon','Gastrointestinal',1);
-    
-    INSERT INTO disease_categories(
-            id,  name, version)
-    VALUES (11,'Breast Neoplasm', 1);
-
-
-
-    
-    
-    
-    
-    
+ 
+     

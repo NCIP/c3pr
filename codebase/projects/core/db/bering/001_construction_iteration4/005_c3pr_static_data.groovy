@@ -8,8 +8,6 @@
      }
 
      void down() {
-             execute("DELETE FROM disease_terms");
-             execute("DELETE FROM disease_categories");
              execute("DELETE FROM anatomic_sites");
              execute("DELETE FROM RESEARCH_STAFF");
              execute("DELETE FROM HC_SITE_INVESTIGATORS");
