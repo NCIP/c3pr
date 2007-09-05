@@ -8,6 +8,10 @@ import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.service.impl.PersonnelServiceImpl;
 import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
+import edu.duke.cabig.c3pr.C3PRUseCases;
+import static edu.duke.cabig.c3pr.C3PRUseCase.CREATE_RESEARCH_STAFF;
+import static edu.duke.cabig.c3pr.C3PRUseCase.CREATE_STUDY_INVESTIGATOR;
+
 import edu.nwu.bioinformatics.commons.ResourceRetriever;
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.authorization.domainobjects.User;
@@ -25,6 +29,7 @@ import java.io.InputStream;
  * Time: 12:33:44 PM
  * To change this template use File | Settings | File Templates.
  */
+@C3PRUseCases({CREATE_RESEARCH_STAFF,CREATE_STUDY_INVESTIGATOR})
 public class PersonnelServiceTest extends ContextDaoTestCase<HealthcareSiteInvestigatorDao> {
 
     private PersonnelServiceImpl service;
