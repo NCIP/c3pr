@@ -82,32 +82,6 @@ VALUES ('10007', '1','RSTAFF3', 'Tom', 'Cruise', '10004');
 INSERT INTO RESEARCH_STAFF (ID,VERSION,GRID_ID,FIRST_NAME,LAST_NAME, HCS_ID)
 VALUES ('10008', '1','RSTAFF4', 'Angelina', 'Jolie', '10004');
 
-
-INSERT INTO DISEASE_CATEGORIES (ID,VERSION,NAME)
-VALUES ('1', '1','AIDS related Malignancy and Condition');
-INSERT INTO DISEASE_CATEGORIES (ID,VERSION,PARENT_ID,NAME)
-VALUES ('2', '1','1', 'AIDS-related Human Papillomavirus');
-INSERT INTO DISEASE_CATEGORIES (ID,VERSION,PARENT_ID,NAME)
-VALUES ('3', '1','1', 'AIDS-related Kaposi Sarcoma');
-INSERT INTO DISEASE_CATEGORIES (ID,VERSION,PARENT_ID,NAME)
-VALUES ('4', '1','1', 'AIDS-related Lymphoma');
-
-INSERT INTO DISEASE_TERMS (ID,VERSION,TERM,CTEP_TERM,CATEGORY_ID,MEDRA_CODE)
-VALUES ('1', '1','AIDS-related anal cancer', 'AIDS-related Lymphoma','2','10065860');
-INSERT INTO DISEASE_TERMS (ID,VERSION,TERM,CTEP_TERM,CATEGORY_ID,MEDRA_CODE)
-VALUES ('2', '1','AIDS-related cervical cancer', 'IDS-related cervical cancer','2','10008229');
-INSERT INTO DISEASE_TERMS (ID,VERSION,TERM,CTEP_TERM,CATEGORY_ID,MEDRA_CODE)
-VALUES ('3', '1','AIDS-related HPV infections', 'AIDS-related HPV infections','2','10063001');
-INSERT INTO DISEASE_TERMS (ID,VERSION,TERM,CTEP_TERM,CATEGORY_ID,MEDRA_CODE)
-VALUES ('4', '1','AIDS-related HPV-related cancer', 'AIDS-related HPV-related cancer','2','90600068');
-INSERT INTO DISEASE_TERMS (ID,VERSION,TERM,CTEP_TERM,CATEGORY_ID,MEDRA_CODE)
-VALUES ('5', '1','AIDS-related Kaposi sarcoma', 'AIDS-related Lymphoma','3','10023290');
-INSERT INTO DISEASE_TERMS (ID,VERSION,TERM,CTEP_TERM,CATEGORY_ID,MEDRA_CODE)
-VALUES ('6', '1','AIDS-related Hodgkin lymphoma', 'AIDS-related Lymphoma','4','90600076');
-INSERT INTO DISEASE_TERMS (ID,VERSION,TERM,CTEP_TERM,CATEGORY_ID,MEDRA_CODE)
-VALUES ('7', '1','AIDS-related NHL', 'AIDS-related NHL','4','90600308');
-
-
 INSERT INTO anatomic_sites(
             id, name, category, version)
     VALUES (2,'Peripheral blood','Bone Marrow',1);
@@ -140,36 +114,8 @@ INSERT INTO anatomic_sites(
             id,  name, version)
     VALUES (11,'Breast Neoplasm', 1);
 
-INSERT INTO disease_categories(
-            id,parent_id,  name, version)
-    VALUES (12,11,'Breast Cancer - In situ', 1);
-INSERT INTO disease_categories(
-            id,parent_id,  name, version)
-    VALUES (13,11,'Breast Cancer - Invasive', 1);
-INSERT INTO disease_categories(
-            id,parent_id,  name, version)
-    VALUES (14,11,'Breast Neoplasm, Miscellaneous', 1);
 
 
-INSERT INTO disease_terms(
-            id, term, ctep_term, category_id, medra_code, version)
-    VALUES (16, 'Ductal carcinoma in situ', 'Ductal carcinoma in situ', 12, 10013806, 1);
-INSERT INTO disease_terms(
-            id, term, ctep_term, category_id, medra_code, version)
-    VALUES (17, 'Lobular carcinoma in situ', 'Lobular carcinoma in situ', 12, 10024744, 1);
-INSERT INTO disease_terms(
-            id, term, ctep_term, category_id, medra_code, version)
-    VALUES (18, 'Cystosarcoma phylloides - breast', 'Cystosarcoma phylloides of the breast', 13, 10053130, 1);
-INSERT INTO disease_terms(
-            id, term, ctep_term, category_id, medra_code, version)
-    VALUES (19, 'Inflammatory breast carcinoma', 'Inflammatory breast carcinoma', 13, 10021980, 1);
-INSERT INTO disease_terms(
-            id, term, ctep_term, category_id, medra_code, version)
-    VALUES (20, 'Invasive breast carcinoma', 'Invasive breast carcinoma', 13,  10006190, 1);
-INSERT INTO disease_terms(
-            id, term, ctep_term, category_id, medra_code, version)
-    VALUES (21, 'Breast cancer, NOS', 'Breast cancer, NOS', 14, 10006285, 1);
-    
     
     
     
