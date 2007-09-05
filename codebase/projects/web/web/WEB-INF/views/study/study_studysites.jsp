@@ -12,7 +12,114 @@
 <head>
 <tags:includeScriptaculous />
 <tags:dwrJavascriptLink objects="StudyAjaxFacade" />
-<script language="JavaScript" type="text/JavaScript">
+
+</head>
+
+<body>
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" formName="studySiteForm">
+
+    <jsp:attribute name="singleFields">
+    <c:choose>
+	<c:when test="${ (empty command.multiInstitutionIndicator) || command.multiInstitutionIndicator=='false'}">
+	<script language="JavaScript" type="text/JavaScript">
+	
+var singleHealthcareSiteAutocompleterProps = {
+    basename: "healthcareSite",
+    populator: function(autocompleter, text) {
+
+        StudyAjaxFacade.matchHealthcareSites( text,function(values) {
+            autocompleter.setChoices(values)
+        })
+    },
+    valueSelector: function(obj) {
+        return obj.name
+    }
+}
+
+function acPostSelect(mode, selectedChoice) {
+    Element.update(mode.basename + "-selected-name", mode.valueSelector(selectedChoice))
+    $(mode.basename).value = selectedChoice.id;
+    $(mode.basename + '-selected').show()
+    new Effect.Highlight(mode.basename + "-selected")
+}
+
+function updateSelectedDisplay(mode) {
+    if ($(mode.basename).value) {
+	Element.update(mode.basename + "-selected-name", $(mode.basename + "-input").value)
+	$(mode.basename + '-selected').show()
+    }
+}
+
+function acCreate(mode) {
+	new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
+	mode.populator, {
+	valueSelector: mode.valueSelector,
+	afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+		hiddenField=inputElement.id.split("-")[0]+"-hidden";
+	    $(hiddenField).value=selectedChoice.id;
+	},
+	indicator: mode.basename + "-indicator"
+    })
+      Event.observe(mode.basename + "-clear", "click", function() {
+	$(mode.basename + "-selected").hide()
+	$(mode.basename).value = ""
+	$(mode.basename + "-input").value = ""
+    })
+}
+
+Event.observe(window, "load", function() {
+    acCreate(singleHealthcareSiteAutocompleterProps)
+    updateSelectedDisplay(singleHealthcareSiteAutocompleterProps)
+    // Element.update("flow-next", "Continue &raquo;")
+})
+</script>
+        <table id="siteTable" class="tablecontent" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <th><b><span class="required-indicator">Organization</span></b></th>
+                    <th><b><span class="required-indicator">Status</span></b></th>
+                    <th><b>Activation Date</b></th>
+                    <th><b>IRB Approval Date</b></th>
+                    <th></th>
+                </tr>
+                
+                    <tr>
+                 
+                     <td>
+               				<form:hidden id="healthcareSite-hidden"
+                        			path="studySites[0].healthcareSite"
+                      				 />
+                			<input class="validate-notEmpty" type="text" id="healthcareSite-input"
+                       				size="40"
+                      				 value="${command.studySites[0].healthcareSite.name}"/>
+                				<input type="button" id="healthcareSite-clear"
+                       				 value="Clear"/>
+                  		 	<tags:indicator id="healthcareSite-indicator"/>
+                  			<div id="healthcareSite-choices" class="autocomplete"></div>
+           			 </td>
+                               
+                       <td><form:select path="studySites[0].statusCode"
+                                                     cssClass="validate-notEmpty">
+                            <option value="">--Please Select--</option>
+                            <form:options items="${studySiteStatusRefData}" itemLabel="desc"
+                                          itemValue="desc"/>
+                        </form:select>
+                            <input type="hidden" name="studySites[0].roleCode" value="Affiliate Site"/>
+
+                        </td>
+
+                        <td>
+                            <tags:dateInput path="studySites[0].startDate"/>
+                        </td>
+                        <td>
+                            <tags:dateInput path="studySites[0].irbApprovalDate"/>
+                        </td>
+                        
+                    </tr>
+            </table>
+    </c:when>
+    <c:otherwise>
+    
+    <script language="JavaScript" type="text/JavaScript">
 var healthcareSiteAutocompleterProps = {
     basename: "healthcareSite",
     populator: function(autocompleter, text) {
@@ -66,19 +173,6 @@ var instanceRowInserterProps = {
 };
 RowManager.addRowInseter(instanceRowInserterProps);
 </script>
-</head>
-
-<body>
-<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" formName="studySiteForm">
-
-    <jsp:attribute name="singleFields">
-    <c:choose>
-	<c:when test="${ (empty command.multiInstitutionIndicator) || command.multiInstitutionIndicator=='false'}">
-        <tr>
-			<td>The study is not multi-institutional</td>
-		</tr>
-    </c:when>
-    <c:otherwise>
         
 <tags:errors path="*" />
 
