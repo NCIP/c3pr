@@ -95,7 +95,7 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 			ScheduledTreatmentEpoch scheduledTreatmentEpoch = (ScheduledTreatmentEpoch) current; 
 			if(!scheduledTreatmentEpoch.getEligibilityIndicator()){
 				return "Incomplete";
-			}else if(scheduledTreatmentEpoch.getScheduledArm()==null || scheduledTreatmentEpoch.getScheduledArm()==null){
+			}else if(scheduledTreatmentEpoch.getTreatmentEpoch().getArms().size()>0 && (scheduledTreatmentEpoch.getScheduledArm()== null || scheduledTreatmentEpoch.getScheduledArm().getArm()==null)){
 				return "Incomplete";
 			}
 		}
