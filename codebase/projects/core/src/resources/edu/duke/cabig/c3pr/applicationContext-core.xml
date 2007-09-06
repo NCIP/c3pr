@@ -167,9 +167,22 @@
     <bean id="studyXMLImporterService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudyXMLImporterServiceImpl"
           autowire="byType"/>
     <bean id="personnelService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.PersonnelServiceImpl"
-           autowire="byType"/>
+          autowire="byType"/>
 
     <!--Utilities-->
+
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="${outgoing.mail.server}"/>
+        <property name="password" value="${outgoing.mail.password}"/>
+        <property name="username" value="${outgoing.mail.username}"/>
+    </bean>
+
+    <!-- this is a template message that we can pre-load with default state -->
+    <bean id="accountCreatedTemplateMessage" class="org.springframework.mail.SimpleMailMessage">
+        <property name="from" value="${outgoing.mail.from.address}"/>
+        <property name="subject" value="Account created in c3pr"/>
+    </bean>
+
     <bean id="xmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
         <property name="mappingFile" value="c3pr-castor-mapping.xml"/>
     </bean>
