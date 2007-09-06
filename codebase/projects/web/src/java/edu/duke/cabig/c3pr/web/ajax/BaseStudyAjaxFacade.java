@@ -62,7 +62,6 @@ public class BaseStudyAjaxFacade {
 
         Column columnAccrual = model.getColumnInstance();
         columnAccrual.setProperty("targetAccrualNumber");
-
         model.addColumn(columnAccrual);
 
         return model.assemble();
