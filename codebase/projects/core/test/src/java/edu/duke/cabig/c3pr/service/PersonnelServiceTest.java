@@ -17,6 +17,8 @@ import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.authorization.domainobjects.User;
 import org.easymock.EasyMock;
 import static org.easymock.EasyMock.*;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.MailSender;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -35,16 +37,19 @@ public class PersonnelServiceTest extends ContextDaoTestCase<HealthcareSiteInves
     private PersonnelServiceImpl service;
     private UserProvisioningManager mockUPM;
     Investigator inv;
-
+    MailSender mockMailSender;
 
 
     protected void setUp() throws Exception {
         super.setUp();    //To change body of overridden methods use File | Settings | File Templates.
         service = (PersonnelServiceImpl)getApplicationContext().getBean("personnelService");
         mockUPM = EasyMock.createMock(UserProvisioningManager.class);
+        mockMailSender = EasyMock.createNiceMock(MailSender.class);
+
 
         service.setUserProvisioningManager(mockUPM);
-
+        service.setMailSender(mockMailSender);
+        
         inv = new Investigator();
         inv.setFirstName("Dummy");
         inv.setLastName("User");

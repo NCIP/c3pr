@@ -4,8 +4,14 @@ import static edu.duke.cabig.c3pr.C3PRUseCase.*;
 import edu.duke.cabig.c3pr.C3PRUseCases;
 
 import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.dao.InvestigatorDaoTest;
+import edu.duke.cabig.c3pr.dao.StudyDaoTest;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
+import edu.nwu.bioinformatics.commons.ResourceRetriever;
+
+import java.io.InputStream;
+import java.io.FileNotFoundException;
 
 /**
  * Will test marshalling of a hibernate object.
@@ -45,8 +51,14 @@ public class StudyHibernateObjectMarshallingTest extends DaoTestCase {
     }
 
 
-    @Override
+    //Mock to be some other test
+
+    protected InputStream handleTestDataFileNotFound() throws FileNotFoundException {
+        return ResourceRetriever.getResource(InvestigatorDaoTest.class.getPackage(),getTestDataFileName());
+    }
+
+
     protected String getClassNameWithoutPackage() {
-        return "StudyDataset";
+        return StudyDaoTest.class.getSimpleName();
     }
 }
