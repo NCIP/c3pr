@@ -21,17 +21,15 @@
 <script language="JavaScript" type="text/JavaScript">
 
 function updateTargetPage(target){
-	document.studyDesignForm._target0.value=s;
-	document.studyDesignForm.submit();
+	document.formName._target0.value=s;
+	document.formName.submit();
 }
 
 </script>
 </head>
 <body>
-<tags:tabForm tab="${tab}" flow="${flow}" title="Subject Overview"
-	willSave="false" formName="review">
-	<jsp:attribute name="repeatingFields">
-		<div><input type="hidden" name="_finish" value="true" /></div>
+<tags:panelBox title="Subject Overview">
+		
 		<chrome:division id="subject-details" title="Basic Details">
 			<table class="tablecontent">
 				<tr>
@@ -154,7 +152,11 @@ function updateTargetPage(target){
 		<chrome:division title="Registration Summary">
 			<registrationTags:searchResults registrations="${participantAssignments }"/>
 		</chrome:division>
-	</jsp:attribute>
-</tags:tabForm>
+	<form:form>
+	<tags:tabFields tab="${tab}"/>
+	<tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
+	<input type="hidden" name="_finish" value="true" />
+	</form:form>
+</tags:panelBox>
 </body>
 </html>
