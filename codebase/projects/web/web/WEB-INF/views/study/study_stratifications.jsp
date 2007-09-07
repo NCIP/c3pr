@@ -123,18 +123,47 @@
 			    skeleton_row_division_id: "dummy-row",
 			    initialIndex: -1,
 			    path: "treatmentEpochs[${epochCount.index}].stratumGroups"
-			};
-			
-			// will do this for edit flow to get tables on load 
-			//	getStratumGroups("${epochCount.index}"); 
+			};			
 		</script>
-		<br/>
-		<div id="sgCombinations_${epochCount.index}">		
+		<br/>	
+		<div id="sgCombinations_${epochCount.index}">
+				<!--This part is loaded onload and is updated with new content when generate str grps is clicked-->
+				<c:if test="${fn:length(epoch.stratificationCriteria) > 0}">
+				<script>
+					stratumGroupRowInserter_${epochCount.index}.initialIndex= ${fn:length(command.treatmentEpochs[epochCount.index].stratumGroups)};
+					RowManager.registerRowInserter(stratumGroupRowInserter_${epochCount.index});
+				</script>
+				
+				<table border="1" class="tablecontent" id="stratumGroupTable1_${epochCount.index}" width="50%">
+				 <tr>
+				     <th>Stratum Group Number</th>
+				     <th>Stratum Group</th>
+				     <th></th>
+				 </tr>				
+				 <c:forEach var="stratumGroup" varStatus="statusStratumGroup" items="${command.treatmentEpochs[epochCount.index].stratumGroups}">
+			     <tr id="stratumGroupTable1_${epochCount.index}-${statusStratumGroup.index }">
+			         <td class="alt">
+			             <tags:inPlaceEdit value="${command.treatmentEpochs[epochCount.index].stratumGroups[statusStratumGroup.index].stratumGroupNumber}"
+			             				   path="${command.treatmentEpochs[epochCount.index].stratumGroups[statusStratumGroup.index].stratumGroupNumber}" />        
+			                     </td>
+			         <td class="alt">
+			         	${command.treatmentEpochs[epochCount.index].stratumGroups[statusStratumGroup.index].answerCombinations}
+		             </td>
+			         <td class="alt"><a
+			                 href="javascript:RowManager.deleteRow(stratumGroupRowInserter_${epochCount.index},${statusStratumGroup.index });">
+			             <img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+			     </tr>
+				 </c:forEach>
+				 </table>
+				<br/>
+				</c:if>
+				<!--This part is loaded onload and is updated with new content when generate str grps is clicked-->
 		</div>
-		<!--stratum groups combinations display section--> 
+		
+		<!--stratum groups combinations display section 
 		<c:if test="${fn:length(epoch.stratificationCriteria) > 0}">   
-        	<script>getStratumGroups(0);</script>
-        </c:if>
+        	<script>getStratumGroups("${epochCount.index}");</script>
+        </c:if>-->
         
         </tags:minimizablePanelBox>
     </c:forEach>
