@@ -1,4 +1,4 @@
-class StudyUniqueConstraints extends edu.northwestern.bioinformatics.bering.Migration {
+class CaptureEpochOrder extends edu.northwestern.bioinformatics.bering.Migration {
     
     void up() {
     
