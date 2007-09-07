@@ -202,7 +202,7 @@
                             <table border="0" cellspacing="0" cellpadding="0" id="mytable">
                                 <c:forEach items="${strat.permissibleAnswers}" var="ans">
                                     <tr>
-                                        <td class="alt" align="left">${ans.permissibleAnswer}></td>
+                                        <td class="alt" align="left">${ans.permissibleAnswer}</td>
                                     </tr>
                                 </c:forEach>
                             </table>
