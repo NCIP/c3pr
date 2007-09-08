@@ -40,7 +40,7 @@ public class RegistrationMarshallingTestCase extends AbstractXMLMarshalling {
      */
     public void testSerializationDeserializationTest() {
         registrationSerializationTest();
-        // schemaValidationTest();
+        schemaValidationTest();
         registrationDeserializationTest();
     }
 

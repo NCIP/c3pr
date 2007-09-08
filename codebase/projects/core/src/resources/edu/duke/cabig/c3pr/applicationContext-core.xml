@@ -122,6 +122,7 @@
     <bean id="participantValidator" class="edu.duke.cabig.c3pr.domain.validator.ParticipantValidator"
           autowire="byName"/>
 
+    <!--Apply transactions based on annotation-->
     <tx:annotation-driven proxy-target-class="true"/>
 
     <!-- Daos -->
@@ -166,8 +167,17 @@
     </bean>
     <bean id="studyXMLImporterService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudyXMLImporterServiceImpl"
           autowire="byType"/>
-    <bean id="personnelService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.PersonnelServiceImpl"
-          autowire="byType"/>
+
+
+    <bean id="personnelService" lazy-init="true"
+          class="edu.duke.cabig.c3pr.service.impl.PersonnelServiceImpl" 
+         autowire="byType"/>
+
+    <bean id="organizationService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.OrganizationServiceImpl"
+          autowire="byType">
+        <property name="csmApplicationContextName"
+                  ref="csmApplicationContextName"/>
+    </bean>
 
     <!--Utilities-->
 

@@ -112,18 +112,15 @@
         <property name="successView" value="report/study_search_report" />
     </bean>    
     
-    <!-- mapping for REPORT task -->
-
-
     <!-- mapping for create organization task -->
     <bean name="/admin/createOrganization" id="createOrganizationController"
           lazy-init="true" class="edu.duke.cabig.c3pr.web.admin.CreateOrganizationController"
           autowire="byName">
+        <property name="commandName" value="command"/>
         <property name="commandClass" value="edu.duke.cabig.c3pr.domain.HealthcareSite" />
         <property name="formView" value="admin/organization_details" />
-        <property name="successView" value="admin/organization_details" />
+        <property name="successView" value="admin/organization_confirmation" />
     </bean>
-    <!-- mapping for create organization task -->
 
 
     <!--to autwire the tabs-->
@@ -223,13 +220,17 @@
           autowire="byName">
         <property name="commandClass"
                   value="edu.duke.cabig.c3pr.domain.Investigator" />
+        <property name="formView" value="admin/investigator_details"/>
+        <property name="successView" value="admin/investigator_confirmation"/>
     </bean>
+
     <bean name="/admin/createResearchStaff"
           id="createResearchStaffController" lazy-init="true"
           class="edu.duke.cabig.c3pr.web.admin.CreateResearchStaffController"
           autowire="byName">
         <property name="commandClass"
                   value="edu.duke.cabig.c3pr.domain.ResearchStaff" />
+        <property name="formView" value="admin/research_staff_details"/>
         <property name="successView" value="admin/research_staff_confirmation"/>
     </bean>
     

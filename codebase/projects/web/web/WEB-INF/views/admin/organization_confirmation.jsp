@@ -10,16 +10,16 @@
     <title>Confirmation</title>
 </head>
 <body>
-<chrome:box title="Research Staff Succesfully Created" autopad="true">
+<chrome:box title="Organization Succesfully Created" autopad="true">
 
     <table width="100%" border="0">
         <tr>
             <td>
                 <div class="content">
                     <div class="row">
-                        <div class="label">Fulll Name:</div>
+                        <div class="label">Name:</div>
                         <div class="value">
-                            <c:out value="${researchStaff.fullName}"/>
+                            <c:out value="${command.name}"/>
                         </div>
                     </div>
                 </div>

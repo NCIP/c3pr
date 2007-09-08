@@ -150,6 +150,7 @@
                 <filter token="esb.brokerUrl" value="${esb.brokerUrl}"/>
                 <filter token="authorizationSwitch" value="${authorizationSwitch}"/>
                 <filter token="csm.context.name" value="${csm.context.name}"/>
+                <filter token="show_sql" value="${show_sql}"/>
 
                 <filter token="outgoing.mail.server" value="${outgoing.mail.server}"/>
                 <filter token="outgoing.mail.username" value="${outgoing.mail.username}"/>
