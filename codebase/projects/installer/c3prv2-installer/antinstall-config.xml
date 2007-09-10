@@ -261,6 +261,26 @@ This is the install config for c3prv2 installer
 
     <page
             type="input"
+            name="email"
+            ifTarget="deploy-webapp"
+            displayText="Outgoing Email configuration">
+        <comment displayText="Needed for sending C3PR system notifications to users."/>
+        <text property="outgoing.mail.server"
+              defaultValue="smtp.my.org"
+              displayText="Outgoing Mail Server URL"/>
+        <text property="outgoing.mail.username"
+              defaultValue=""
+              displayText="Outgoing Mail Server Username"/>
+        <text property="outgoing.mail.password"
+              defaultValue=""
+              displayText="Outgoing Mail Server Password"/>
+        <text property="outgoing.mail.from.address"
+              defaultValue="c3pr-admin@my.org"
+              displayText="Outgoing Mail Server Password"/>
+    </page>
+
+    <page
+            type="input"
             name="hotlinks"
             displayText="CTMSi Hot Links">
         <text property="hotlinks.psc"
@@ -274,9 +294,11 @@ This is the install config for c3prv2 installer
               defaultValue="https://octrials-train.nci.nih.gov/opa45/rdclaunch.htm"/>
     </page>
 
+
     <page
             type="input"
             name="ESB"
+            ifTarget="deploy-webapp"
             displayText="ESB configuration">
         <select defaultValue="false"
                 displayText="Enable ESB"
@@ -297,6 +319,7 @@ This is the install config for c3prv2 installer
     <page
             type="input"
             name="Grid"
+            ifTarget="deploy-webapp"
             displayText="Grid Infrastructure">
         <text property="grid.idpUrl"
               displayText="IDP url"
