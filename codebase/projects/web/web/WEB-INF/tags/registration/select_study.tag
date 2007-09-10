@@ -36,6 +36,7 @@
 	}
 	
 	function callbackStudy(t){
+		new Element.hide('searchStudyInd');
 		var resultDiv = document.getElementById("studySearchResults");
 		resultDiv.innerHTML = t.responseText;
 		new Effect.SlideDown(resultDiv);;
@@ -96,7 +97,10 @@
                 </div>
                 <div class="value">
                 	<input id="searchText" name="searchText" type="text" value="" size="25"/>
-                	<input type="button" value="Search" onclick="new Ajax.Updater('studySearchResults','../registration/searchStudy', {method:'post', postBody:Form.serialize('searchstudyForm'), onSuccess:callbackStudy, onFailure:callbackStudyFail});"/>
+                	<input type="button" value="Search" onclick="new Element.show('searchStudyInd');new Ajax.Updater('studySearchResults','../registration/searchStudy', {method:'post', postBody:Form.serialize('searchstudyForm'), onSuccess:callbackStudy, onFailure:callbackStudyFail});"/>
+                	<img id="searchStudyInd" src="<tags:imageUrl name="indicator.white.gif"/>"
+								alt="Indicator" align="absmiddle">
+					<script>new Element.hide('searchStudyInd');</script>
                 </div>		
             </div>
         </div>

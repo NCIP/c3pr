@@ -81,6 +81,7 @@
 	
 	/* handlers for searchSubject flwo */
 	function callbackSubject(t){
+		new Element.hide('searchSubjectInd');
 		var resultDiv = document.getElementById("subjectSearchResults");
 		resultDiv.innerHTML = t.responseText;
 		new Effect.SlideDown(resultDiv);
@@ -151,7 +152,10 @@
                 <div class="value">
                 	<input id="searchText" name="searchText" type="text" value="" size="25"/>
                 	<input type="button" value="Search" 
-                	onclick="new Ajax.Updater('subjectSearchResults','../registration/searchParticipant', {method:'post', postBody:Form.serialize('searchSubjectForm'), onSuccess:callbackSubject, onFailure:callbackSubjectFail});"/>
+                	onclick="new Element.show('searchSubjectInd');new Ajax.Updater('subjectSearchResults','../registration/searchParticipant', {method:'post', postBody:Form.serialize('searchSubjectForm'), onSuccess:callbackSubject, onFailure:callbackSubjectFail});"/>
+                	<img id="searchSubjectInd" src="<tags:imageUrl name="indicator.white.gif"/>"
+								alt="Indicator" align="absmiddle">
+					<script>new Element.hide('searchSubjectInd');</script>
                 </div>	
             </div>
         </div>        
