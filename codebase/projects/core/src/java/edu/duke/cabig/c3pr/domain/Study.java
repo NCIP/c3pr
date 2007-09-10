@@ -246,7 +246,7 @@ public class Study extends AbstractMutableDomainObject implements
 	public OrganizationAssignedIdentifier getFundingSponsorAssignedIdentifier()
 	{
 		for (OrganizationAssignedIdentifier orgIdentifier:this.getOrganizationAssignedIdentifiers()){
-				if (orgIdentifier.getType().equals("Protocol Authority Identifier")) return orgIdentifier;
+				if ((orgIdentifier.getType()!=null)&& (orgIdentifier.getType().equals("Protocol Authority Identifier"))) return orgIdentifier;
 		}
 		return null;
 	}
