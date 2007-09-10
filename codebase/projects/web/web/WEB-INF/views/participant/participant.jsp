@@ -168,7 +168,7 @@ ValidationManager.submitPostProcess= function(formElement, flag){
 		
 		<tr>
 
-			<td><chrome:division title="Organization Identifiers">
+			<td><chrome:division title="Organization Assigned Identifiers">
 
 				<table id="organizationIdentifiersTable" border="0"
 					cellspacing="0" cellpadding="0" class="tablecontent">
@@ -220,7 +220,7 @@ ValidationManager.submitPostProcess= function(formElement, flag){
 				</table>
 				<br>
 				<div align="right"><input id="addIdentifier" type="button"
-					value="Add Organization Identifier"
+					value="Add Another Identifier"
 					onclick="javascript:RowManager.addRow(organizationIdentifierRowInserterProps);" />
 				</div>
 			</chrome:division></td>
@@ -229,7 +229,7 @@ ValidationManager.submitPostProcess= function(formElement, flag){
 		
 		<tr>
 
-			<td><chrome:division title="System Identifiers">
+			<td><chrome:division title="System Assigned Identifiers">
 
 				<table id="systemIdentifiersTable" border="0" cellspacing="0" cellpadding="0"
 					class="tablecontent">
@@ -269,7 +269,7 @@ ValidationManager.submitPostProcess= function(formElement, flag){
 				</table>
 				<br>
 				<div align="right"><input id="addIdentifier" type="button"
-					value="Add System Identifier"
+					value="Add Another Identifier"
 					onclick="javascript:RowManager.addRow(systemIdentifierRowInserterProps);" />
 				</div>
 			</chrome:division></td>
@@ -283,7 +283,7 @@ ValidationManager.submitPostProcess= function(formElement, flag){
 	<tr>
 		<td class="alt"><input
 			id="systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName"
-			name="systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName"
+			name="systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName" type="text"
 			class="validate-notEmpty" /></td>
 		<td class="alt"><select
 			id="systemAssignedIdentifiers[PAGE.ROW.INDEX].type"
@@ -296,7 +296,7 @@ ValidationManager.submitPostProcess= function(formElement, flag){
 		</select></td>
 		<td class="alt"><input
 			id="systemAssignedIdentifiers[PAGE.ROW.INDEX].value"
-			name="systemAssignedIdentifiers[PAGE.ROW.INDEX].value"
+			name="systemAssignedIdentifiers[PAGE.ROW.INDEX].value" type="text"
 			onfocus="javascript:clearField(this)" class="validate-notEmpty" /></td>
 		<td class="alt"><input type="radio"
 			id="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator"
@@ -337,7 +337,7 @@ ValidationManager.submitPostProcess= function(formElement, flag){
 		</select></td>
 		<td class="alt"><input
 			id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].value"
-			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].value"
+			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].value" type="text"
 			onfocus="javascript:clearField(this)" class="validate-notEmpty" /></td>
 		<td class="alt"><input type="radio"
 			id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator"

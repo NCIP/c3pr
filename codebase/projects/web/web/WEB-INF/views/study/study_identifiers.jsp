@@ -65,7 +65,7 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 	<jsp:attribute name="singleFields">
 	<br>
 	<table width="100%"><tr><td>
-		<chrome:division title="Organization Identifiers">
+		<chrome:division title="Organization Assigned Identifiers">
 			<table id="organizationIdentifier" class="tablecontent">
 				<tr>
 					<th><span class="required-indicator">Assigning Authority</span></th>
@@ -115,12 +115,12 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 			<div align="right">
 
 			<input id="addOrganizationIdentifier" type="button"
-				value="Add Organization Identifier"
+				value="Add Another Identifier"
 				onclick="javascript:RowManager.addRow(organizationIdentifierRowInserterProps);" />
 				</div>
 
 		</chrome:division>
-		<chrome:division title="System Identifiers">
+		<chrome:division title="System Assigned Identifiers">
 			<table id="systemIdentifier" class="tablecontent">
 				<tr>
 					<th><span class="required-indicator">System Name</span></th>
@@ -158,7 +158,7 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 			<br>
 <div align="right">
 			<input id="addSystemIdentifier" type="button"
-				value="Add System Identifier"
+				value="Add Another Identifier"
 				onclick="RowManager.addRow(systemIdentifierRowInserterProps);" />
 				</div>
 
@@ -172,7 +172,7 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 <table>
 	<tr>
 		<td><input id="systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName"
-			name="systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName"
+			name="systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName" type="text" 
 			class="validate-notEmpty" /></td>
 		<td><select id="systemAssignedIdentifiers[PAGE.ROW.INDEX].type"
 			name="systemAssignedIdentifiers[PAGE.ROW.INDEX].type"
