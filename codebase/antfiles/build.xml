@@ -172,7 +172,6 @@
 
             <!--security jars-->
             <artifact refid="acegi.jars"/>
-            <artifact refid="acegi-csm.jars"/>
             <artifact refid="csm.jars"/>
             <artifact refid="ehcache.jars"/>
         </resolveDependencies>
