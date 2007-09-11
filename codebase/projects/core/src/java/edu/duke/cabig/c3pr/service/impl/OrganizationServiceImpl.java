@@ -31,6 +31,14 @@ public class OrganizationServiceImpl implements OrganizationService {
         organizationDao.save(site);
     }
 
+    /*
+     * merge also calls save on the dao because he dao's save calls a saveOrUpdate which works just fine.
+     * thsi methiod was created so that we caould avoid calling createGroupForOrganization
+     * @see edu.duke.cabig.c3pr.service.OrganizationService#merge(edu.duke.cabig.c3pr.domain.HealthcareSite)
+     */
+    public void merge(HealthcareSite site) throws C3PRBaseException, C3PRBaseRuntimeException{
+    	organizationDao.save(site);
+    }
 
     public Group createGroupForOrganization(HealthcareSite organization) throws C3PRBaseException, C3PRBaseRuntimeException {
         Group org = new Group();

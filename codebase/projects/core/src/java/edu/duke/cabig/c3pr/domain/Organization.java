@@ -22,7 +22,7 @@ import org.hibernate.annotations.CascadeType;
  *         Kulasekaran
  */
 @MappedSuperclass
-public abstract class Organization extends AbstractMutableDomainObject {
+public abstract class Organization extends AbstractMutableDomainObject implements Comparable<HealthcareSite> {
 
     private String name;
 
@@ -97,12 +97,19 @@ public abstract class Organization extends AbstractMutableDomainObject {
         return StringUtils.getTrimmedText(name, 25);
     }
     
-    public int compareTo(Object o) {
-		if (this.equals((Organization)o))
+    public int compareTo(HealthcareSite o) {
+		if (this.equals((HealthcareSite)o))
 			return 0;
 
 		return 1;
 	}
+
+/*    public int compareTo(Object o) {
+		if (this.equals((Organization)o))
+			return 0;
+
+		return 1;
+	}*/
 
 	@Override
 	public int hashCode() {

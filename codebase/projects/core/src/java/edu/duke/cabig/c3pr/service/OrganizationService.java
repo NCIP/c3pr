@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.service;
 
+import edu.duke.cabig.c3pr.dao.OrganizationDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
@@ -15,7 +16,11 @@ import gov.nih.nci.security.authorization.domainobjects.Group;
 public interface OrganizationService {
 
     public void save(HealthcareSite organization) throws C3PRBaseException, C3PRBaseRuntimeException;
-
+    
+    public void merge(HealthcareSite organization) throws C3PRBaseException, C3PRBaseRuntimeException;
+    
     public Group createGroupForOrganization(HealthcareSite organization) throws C3PRBaseException, C3PRBaseRuntimeException;
+    
+    public OrganizationDao getOrganizationDao();
 
 }
