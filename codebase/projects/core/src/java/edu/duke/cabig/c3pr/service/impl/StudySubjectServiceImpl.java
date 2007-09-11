@@ -3,14 +3,23 @@ package edu.duke.cabig.c3pr.service.impl;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.springframework.transaction.annotation.Transactional;
 
+import edu.duke.cabig.c3pr.dao.StratumGroupDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
+import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
+import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
+import edu.duke.cabig.c3pr.domain.ScheduledArm;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
+import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
+import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
 import edu.duke.cabig.c3pr.esb.impl.MessageBroadcastServiceImpl;
+import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.XMLUtils;
 
 /**
@@ -22,8 +31,17 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 
 	private static final Logger logger = Logger.getLogger(StudySubjectServiceImpl.class);
 	StudySubjectDao studySubjectDao;
-	private String isBroadcastEnable="true";
+	private String isBroadcastEnable="false";
 	private MessageBroadcastServiceImpl messageBroadcaster;
+	private StratumGroupDao stratumGroupDao;
+
+	public StratumGroupDao getStratumGroupDao() {
+		return stratumGroupDao;
+	}
+
+	public void setStratumGroupDao(StratumGroupDao stratumGroupDao) {
+		this.stratumGroupDao = stratumGroupDao;
+	}
 
 	public MessageBroadcastServiceImpl getMessageBroadcaster() {
 		return messageBroadcaster;
@@ -50,68 +68,194 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 		this.studySubjectDao = studySubjectDao;
 	}
 
-	public StudySubject createRegistration(StudySubject studySubject) {
-		studySubject.setRegistrationStatus(evaluateStatus(studySubject));
-//        studySubject.getParticipant().addStudySubject(studySubject);
-//        studySubject.getStudySite().addStudySubject(studySubject);
-		ScheduledEpoch current=studySubject.getScheduledEpoch();
-		if (current instanceof ScheduledTreatmentEpoch) {
-			ScheduledTreatmentEpoch scheduledTreatmentEpoch = (ScheduledTreatmentEpoch) current;
-			if(scheduledTreatmentEpoch.getScheduledArm()!=null&&scheduledTreatmentEpoch.getScheduledArm().getArm()==null){
-				scheduledTreatmentEpoch.removeScheduledArm();
-			}
+	@Transactional
+	public StudySubject createRegistration(StudySubject studySubject) throws Exception{
+		studySubject.setRegDataEntryStatus(evaluateRegistrationDataEntryStatus(studySubject));
+		studySubject.getScheduledEpoch().setScEpochDataEntryStatus(evaluateScheduledEpochDataEntryStatus(studySubject));
+		//evaluate status
+		if(isCreatable(studySubject)){
+			manageSchEpochWorkFlowIfUnApp(studySubject, false, false);
+			manageRegWorkFlowIfUnReg(studySubject);
 		}
 		studySubject=studySubjectDao.merge(studySubject);
-		if(isBroadcastEnable.equalsIgnoreCase("true")){
-			String xml = "";
-			try {
-				xml = XMLUtils.toXml(studySubject);
-				if (logger.isDebugEnabled()) {
-					logger.debug(" - XML for Registration"); //$NON-NLS-1$
-				}
-				if (logger.isDebugEnabled()) {
-					logger.debug(" - " + xml); //$NON-NLS-1$
-				}
-				messageBroadcaster.initialize();
-				messageBroadcaster.broadcast(xml);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				logger.error("", e); //$NON-NLS-1$
-			}
+		return studySubject;
+	}
+	
+	public StudySubject registerSubject(StudySubject studySubject) throws Exception{
+		studySubject.setRegDataEntryStatus(evaluateRegistrationDataEntryStatus(studySubject));
+		studySubject.getScheduledEpoch().setScEpochDataEntryStatus(evaluateScheduledEpochDataEntryStatus(studySubject));
+		manageSchEpochWorkFlowIfUnApp(studySubject,true, true);
+		manageRegWorkFlowIfUnReg(studySubject);
+		return studySubjectDao.merge(studySubject);
+	}
+	
+	private StudySubject doLocalRandomization(StudySubject studySubject){
+		//randomize subject
+		switch(studySubject.getStudySite().getStudy().getRandomizationType()){
+		case PHONE_CALL: break;
+		case BOOK:  doBookRandomization(studySubject);
+					break;
+		case CALL_OUT:	break;
+		default: break;
 		}
 		return studySubject;
 	}
 	
-	public static String evaluateStatus(StudySubject studySubject){
-		String status="Complete";
-		ScheduledEpoch current=studySubject.getScheduledEpoch();
-		if(studySubject.getInformedConsentSignedDateStr().equals("")){
-			return "Incomplete";
-		}else if(studySubject.getTreatingPhysicianFullName()==null){
-			return "Incomplete";
-		}else if(!evaluateStratificationIndicator(studySubject)){
-			return "Incomplete";
-		}else if (studySubject.getIfTreatmentScheduledEpoch()) {
-			ScheduledTreatmentEpoch scheduledTreatmentEpoch = (ScheduledTreatmentEpoch) current; 
-			if(!scheduledTreatmentEpoch.getEligibilityIndicator()){
-				return "Incomplete";
-			}else if(scheduledTreatmentEpoch.getTreatmentEpoch().getArms().size()>0 && (scheduledTreatmentEpoch.getScheduledArm()== null || scheduledTreatmentEpoch.getScheduledArm().getArm()==null)){
-				return "Incomplete";
-			}
+	private StudySubject doBookRandomization(StudySubject studySubject){
+		ScheduledArm sa = new ScheduledArm();
+		ScheduledTreatmentEpoch ste = (ScheduledTreatmentEpoch)studySubject.getScheduledEpoch();
+		sa.setArm(studySubject.getStratumGroup().getNextArm());
+		if(sa.getArm()!=null){
+			ste.addScheduledArm(sa);
+			stratumGroupDao.merge(studySubject.getStratumGroup());
 		}
-		return status;
+		return studySubject;
 	}
-	private static boolean evaluateStratificationIndicator(StudySubject studySubject){
-		ScheduledEpoch current=studySubject.getScheduledEpoch();
-		if (studySubject.getIfTreatmentScheduledEpoch()) {
-			ScheduledTreatmentEpoch scheduledTreatmentEpoch = (ScheduledTreatmentEpoch) current; 
-			List<SubjectStratificationAnswer> answers=scheduledTreatmentEpoch.getSubjectStratificationAnswers();
-			for(SubjectStratificationAnswer subjectStratificationAnswer:answers){
-				if(subjectStratificationAnswer.getStratificationCriterionAnswer()==null){
-					return false;
+	public RegistrationDataEntryStatus evaluateRegistrationDataEntryStatus(StudySubject studySubject){
+		if(studySubject.getInformedConsentSignedDateStr().equals(""))
+			return RegistrationDataEntryStatus.INCOMPLETE;
+		if(StringUtils.getBlankIfNull(studySubject.getInformedConsentVersion()).equals(""))
+			return RegistrationDataEntryStatus.INCOMPLETE;
+		return RegistrationDataEntryStatus.COMPLETE;
+	}
+	
+	public ScheduledEpochDataEntryStatus evaluateScheduledEpochDataEntryStatus(StudySubject studySubject){
+		if(!studySubject.getIfTreatmentScheduledEpoch())
+			return ScheduledEpochDataEntryStatus.COMPLETE;
+		ScheduledTreatmentEpoch scheduledTreatmentEpoch = (ScheduledTreatmentEpoch) studySubject.getScheduledEpoch();
+		if(!evaluateStratificationIndicator(scheduledTreatmentEpoch)){
+			return ScheduledEpochDataEntryStatus.INCOMPLETE;
+		}
+		if(!scheduledTreatmentEpoch.getEligibilityIndicator()){
+			return ScheduledEpochDataEntryStatus.INCOMPLETE;
+		}
+		if(scheduledTreatmentEpoch.getRequiresArm()
+			&& !scheduledTreatmentEpoch.getRequiresRandomization()
+			&& (scheduledTreatmentEpoch.getScheduledArm()==null || scheduledTreatmentEpoch.getScheduledArm().getArm()==null)){
+			return ScheduledEpochDataEntryStatus.INCOMPLETE;
+		}
+			
+		return ScheduledEpochDataEntryStatus.COMPLETE;
+	}
+	
+	private void manageSchEpochWorkFlowIfUnApp(StudySubject studySubject, boolean triggerMultisite, boolean randomize) throws Exception{
+		if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus()!=ScheduledEpochWorkFlowStatus.UNAPPROVED){
+			throw new C3PRBaseException("Illegal Service Call: not a new Scheduled Epoch");
+		}
+		ScheduledEpoch scheduledEpoch=studySubject.getScheduledEpoch();
+		if(scheduledEpoch.getScEpochDataEntryStatus()==ScheduledEpochDataEntryStatus.COMPLETE &&
+				studySubject.getRegDataEntryStatus()==RegistrationDataEntryStatus.COMPLETE){
+			if(studySubject.getStudySite().getStudy().getMultiInstitutionIndicator().equalsIgnoreCase("true")){
+				//broadcase message to co-ordinating center
+				try {
+					if(triggerMultisite){
+						sendRegistrationRequest(studySubject);
+					}
+					scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING);
+				} catch (Exception e) {
+					scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.DISAPPROVED);
+					throw e;
 				}
+			}else{
+				if(studySubject.getScheduledEpoch().getRequiresRandomization()){
+					if(randomize){
+						doLocalRandomization(studySubject);
+						if(((ScheduledTreatmentEpoch)studySubject.getScheduledEpoch()).getScheduledArm()==null){
+							scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.UNAPPROVED);
+							throw new C3PRBaseException("Unable to assign arm");
+						}else{
+							//logic for accrual ceiling check
+							scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
+						}
+					}else{
+						scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.UNAPPROVED);
+					}
+				}else{
+					//logic for accrual ceiling check
+					scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
+				}
+			}
+		}else{
+			scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.UNAPPROVED);
+		}
+	}
+	
+	public void manageRegWorkFlowIfUnReg(StudySubject studySubject)throws Exception{
+		ScheduledEpoch scheduledEpoch=studySubject.getScheduledEpoch();	
+		if(studySubject.getRegDataEntryStatus()==RegistrationDataEntryStatus.COMPLETE){
+			if(scheduledEpoch.getScEpochWorkflowStatus()==ScheduledEpochWorkFlowStatus.DISAPPROVED){
+				studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.DISAPPROVED);
+			}else if(scheduledEpoch.getScEpochWorkflowStatus()==ScheduledEpochWorkFlowStatus.PENDING){
+				studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.PENDING);
+			}else if(scheduledEpoch.getScEpochWorkflowStatus()==ScheduledEpochWorkFlowStatus.APPROVED){
+	/*				//logic for accrual ceiling at study level
+				if(isAccrualCeilingReached()){
+					studySubject.setRegistrationWorkFlowStatus(RegistrationWorkFlowStatus.DISAPPROVED);
+				}else{
+					// continue Here
+				}
+	*/			if(scheduledEpoch.isReserving()){
+					studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.RESERVED);
+				}else if(scheduledEpoch.getEpoch().isEnrolling()){
+					studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED);
+				}else{
+					studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.UNREGISTERED);
+				}
+			}else{
+				studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.UNREGISTERED);
+			}
+		}else{
+			studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.UNREGISTERED);
+		}
+	}
+
+	private static boolean evaluateStratificationIndicator(ScheduledTreatmentEpoch scheduledTreatmentEpoch){
+		List<SubjectStratificationAnswer> answers=scheduledTreatmentEpoch.getSubjectStratificationAnswers();
+		for(SubjectStratificationAnswer subjectStratificationAnswer:answers){
+			if(subjectStratificationAnswer.getStratificationCriterionAnswer()==null){
+				return false;
 			}
 		}
 		return true;
+	}
+	
+	private void sendRegistrationRequest(StudySubject studySubject) throws Exception{
+		if(isBroadcastEnable.equalsIgnoreCase("true")){
+			String xml = "";
+			xml = XMLUtils.toXml(studySubject);
+			if (logger.isDebugEnabled()) {
+				logger.debug(" - XML for Registration"); //$NON-NLS-1$
+			}
+			if (logger.isDebugEnabled()) {
+				logger.debug(" - " + xml); //$NON-NLS-1$
+			}
+			messageBroadcaster.initialize();
+			messageBroadcaster.broadcast(xml);
+		}
+	}
+	
+	public boolean canRandomize(StudySubject studySubject){
+		return studySubject.getRegDataEntryStatus()==RegistrationDataEntryStatus.COMPLETE && studySubject.getScheduledEpoch().getScEpochDataEntryStatus()==ScheduledEpochDataEntryStatus.COMPLETE;
+	}
+
+	public boolean isRegisterable(StudySubject studySubject){
+		if(studySubject.getStudySite().getStudy().getMultiInstitutionIndicator().equalsIgnoreCase("false") 
+				&& studySubject.getRegWorkflowStatus()!=RegistrationWorkFlowStatus.REGISTERED
+				&& isCreatable(studySubject)){
+			return true;
+		}
+		return false;
+	}
+
+	private boolean isCreatable(StudySubject studySubject){
+		if(studySubject.getRegDataEntryStatus()==RegistrationDataEntryStatus.COMPLETE
+			&& studySubject.getScheduledEpoch().getScEpochDataEntryStatus()==ScheduledEpochDataEntryStatus.COMPLETE){
+			return true;
+		}
+		return false;
+	}
+	
+	public void manageSchEpochWorkFlowIfUnApp(StudySubject studySubject) throws Exception{
+		manageSchEpochWorkFlowIfUnApp(studySubject, true, true);
 	}
 }

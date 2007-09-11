@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.service;
 
+import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
+import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 
 /**
@@ -14,6 +16,20 @@ public interface StudySubjectService {
 		 * @return List of Participant objects based on the sample participant object
 		 * @throws Runtime exception 
 		 */
-	  public StudySubject createRegistration (StudySubject studySubject);
+	  public StudySubject createRegistration (StudySubject studySubject)throws Exception;
+	  
+	  public StudySubject registerSubject(StudySubject studySubject) throws Exception;
+	  
+	  public RegistrationDataEntryStatus evaluateRegistrationDataEntryStatus(StudySubject studySubject);
+	  
+	  public ScheduledEpochDataEntryStatus evaluateScheduledEpochDataEntryStatus(StudySubject studySubject);
+	  
+	  public boolean canRandomize(StudySubject studySubject);
+	  
+	  public void manageRegWorkFlowIfUnReg(StudySubject studySubject)throws Exception;
+	  
+	  public void manageSchEpochWorkFlowIfUnApp(StudySubject studySubject)throws Exception;
+	  
+	  public boolean isRegisterable(StudySubject studySubject);
 }
 
