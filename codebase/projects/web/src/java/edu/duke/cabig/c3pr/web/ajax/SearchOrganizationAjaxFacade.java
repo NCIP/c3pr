@@ -31,7 +31,7 @@ public class SearchOrganizationAjaxFacade {
         table.setTableId("assembler");
         table.setItems(studies);
         table.setAction(model.getContext().getContextPath() + "/pages/admin/createOrganization"); 
-        table.setTitle("Registrations");
+        table.setTitle("Organizations");
         table.setShowPagination(false);
         table.setOnInvokeAction("buildTable('assembler')");
         table.setImagePath(model.getContext().getContextPath() + "/images/table/*.gif");
