@@ -21,7 +21,7 @@ import edu.duke.cabig.c3pr.dao.OrganizationDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 
 public class SearchOrganizationAjaxFacade {
-    private static Log log = LogFactory.getLog(SearchOrganizationFacade.class);
+    private static Log log = LogFactory.getLog(SearchOrganizationAjaxFacade.class);
     private OrganizationDao organizationDao;
     
     public Object build(TableModel model, Collection studies) throws Exception {
