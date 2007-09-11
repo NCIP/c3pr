@@ -314,7 +314,15 @@
 
     <csmauthz:accesscontrol domainObject="${editAuthorizationTask}"
                             authorizationCheckName="taskAuthorizationCheck">
-        <input type="submit" value="Edit Study"/>
+    <c:choose>
+    	<c:when test="${!command.hasRegisteredParticipants}">
+    		<input type="submit" value="Edit Study"/>
+    	</c:when>
+    	<c:otherwise>
+    		<input type="button" value="Amend Study" onclick="alert('This feature has not yet been implemented.');"/>
+    	</c:otherwise>
+    </c:choose>
+
     </csmauthz:accesscontrol>
                     </span>
         </div>
