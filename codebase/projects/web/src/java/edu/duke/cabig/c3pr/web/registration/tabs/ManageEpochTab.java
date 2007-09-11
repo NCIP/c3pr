@@ -26,7 +26,7 @@ import org.springframework.web.util.WebUtils;
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:30:05 PM To
  * change this template use File | Settings | File Templates.
  */
-public class ManageEpochTab<C extends StudySubject> extends InPlaceEditableTab<C>{
+public class ManageEpochTab<C extends StudySubject> extends RegistrationTab<C>{
 
 	public ManageEpochTab() {
 		super("Manage Epochs", "Change Current Epoch", "registration/reg_manage_epochs");
@@ -61,7 +61,7 @@ public class ManageEpochTab<C extends StudySubject> extends InPlaceEditableTab<C
 			if(((TreatmentEpoch)epoch).getStratificationCriteria().size()>0){
 				map.put("requiresStratification", new Boolean(true));
 			}
-			if(((TreatmentEpoch)epoch).getArms().size()>1){
+			if(command.getStudySite().getStudy().getRandomizedIndicator().equals("true")){
 				map.put("requiresRandomization", new Boolean(true));
 			}
 		}
@@ -74,7 +74,6 @@ public class ManageEpochTab<C extends StudySubject> extends InPlaceEditableTab<C
 			map.put("isCurrentScheduledEpoch", new Boolean(true));
 		return new ModelAndView(getAjaxViewName(request),map);
 	}
-	
 	public ModelAndView createNewScheduledEpochSubject(HttpServletRequest request, Object commandObj, Errors error){
 		StudySubject command=(StudySubject)commandObj;
 		Map map=new HashMap();
@@ -92,7 +91,7 @@ public class ManageEpochTab<C extends StudySubject> extends InPlaceEditableTab<C
 		scheduledEpoch.setEpoch(epoch);
 		command.addScheduledEpoch(scheduledEpoch);
 //		intializeEpochCollection(command);
-		map.put(getFreeTextModelName(), "subject transferred successfully..");
+		map.put(getFreeTextModelName(), "Subject transferred successfully..");
 		return new ModelAndView("",map);
 	}
 	

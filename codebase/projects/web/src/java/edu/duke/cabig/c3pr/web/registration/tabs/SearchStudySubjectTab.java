@@ -150,8 +150,9 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject>{
 			scheduledTreatmentEpoch.getTreatmentEpoch().getStratumGroups().size();
 			Iterator <StratumGroup> iter=scheduledTreatmentEpoch.getTreatmentEpoch().getStratumGroups().iterator();
 			while(iter.hasNext()){
-				iter.next().getStratificationCriterionAnswerCombination().size();
-				iter.next().getBookRandomizationEntry().size();
+				StratumGroup stratumGroup=iter.next();
+				stratumGroup.getStratificationCriterionAnswerCombination().size();
+				stratumGroup.getBookRandomizationEntry().size();
 			}
 		}
 	}

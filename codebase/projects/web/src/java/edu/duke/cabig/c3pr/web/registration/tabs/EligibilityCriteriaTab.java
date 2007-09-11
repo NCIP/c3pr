@@ -7,6 +7,7 @@ import java.util.Map;
 import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
+import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.WorkFlowTab;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
@@ -25,6 +26,16 @@ public class EligibilityCriteriaTab extends RegistrationTab<StudySubject>{
 		super("Check Eligibility", "Check Eligibility","registration/reg_check_eligibility");
 	}
 
+	@Override
+	public Map<String, Object> referenceData(StudySubject command) {
+		Map ref=new HashMap();
+		boolean requiresEligibility=false;
+		if(command.getIfTreatmentScheduledEpoch())
+			if(((TreatmentEpoch)command.getScheduledEpoch().getEpoch()).getEligibilityCriteria().size()>0)
+				requiresEligibility=true;
+		ref.put("requiresEligibility", requiresEligibility);
+		return ref;
+	}
 	@Override
 	public void postProcess(HttpServletRequest request, StudySubject command, Errors error) {
 		// TODO Auto-generated method stub
@@ -54,5 +65,4 @@ public class EligibilityCriteriaTab extends RegistrationTab<StudySubject>{
 		}
 		return flag;
 	}
-
 }
