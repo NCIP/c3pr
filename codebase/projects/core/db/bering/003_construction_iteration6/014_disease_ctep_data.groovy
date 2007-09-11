@@ -1,5 +1,12 @@
 class AddCtcV2Terms extends edu.northwestern.bioinformatics.bering.Migration {
     void up() {
+    
+    
+     if (databaseMatches('oracle')) 
+     { 	execute("alter table DISEASE_TERMS modify version default 0")
+    	execute("alter table DISEASE_CATEGORIES modify version default 0")
+     }   
+    
     	// Have to break up the inserts so as not to exceed the java max method length
         m0()
         m1()
