@@ -19,6 +19,10 @@
     <decorator name="registration" page="registrationflow.jsp">
         <pattern>/pages/registration/*</pattern>
     </decorator>
+    <decorator name="standardContent" page="standardContent.jsp">
+        <pattern>/pages/admin/createOrganization</pattern>
+        <pattern>/pages/admin/searchOrganization</pattern>        
+    </decorator>
     <decorator name="nullDecorator" page="nullDecorator.jsp">
     </decorator>
     <excludes>
