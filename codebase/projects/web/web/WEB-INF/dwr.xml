@@ -19,6 +19,9 @@
         <create creator="spring" javascript="anatomicDiseaseSite">
             <param name="beanName" value="anatomicDiseaseSiteFacade"/>
         </create>
+         <create creator="spring" javascript="SearchOrganizationAjaxFacade">
+            <param name="beanName" value="searchOrganizationAjaxFacade"/>
+        </create>
 
         <create creator="spring" javascript="createReport">
             <param name="beanName" value="createReportFacade"/>

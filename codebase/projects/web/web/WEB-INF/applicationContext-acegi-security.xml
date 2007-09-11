@@ -144,6 +144,8 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                value="edu.duke.cabig.c3pr.domain.ResearchStaff:CREATE"/>
 		<entry key="/pages/admin/createOrganization.*"
                value="edu.duke.cabig.c3pr.domain.HealthcareSite:CREATE"/>
+        <entry key="/pages/admin/searchOrganization"  
+        	   value="edu.duke.cabig.c3pr.domain.HealthcareSite:READ"/>       
         <entry key="/pages/admin/importStudy.*"
                value="edu.duke.cabig.c3pr.domain.Study:CREATE"/>
 

@@ -8,8 +8,24 @@
 
 <html>
 <head>
+ <style type="text/css">
+        div.content {
+            padding: 5px 15px;
+        }
+ </style>
 </head>
 <body>
+<div class="tabpane">
+  <ul id="workflow-tabs" class="tabs autoclear">
+    <li class="tab"><div>
+        <a href="../admin/searchOrganization">Search Organization</a>
+    </div></li>
+    <li class="tab selected"><div>
+        <a href="../admin/createOrganization">Create Organization</a>
+    </div></li>
+  </ul>
+</div>
+<br />
 
 <tags:tabForm tab="${tab}" flow="${flow}" title="Organization" formName="createOrganization">
 
@@ -44,7 +60,7 @@
             NCI Institute Code:
         </div>
         <div class="value">
-            <form:input path="nciInstituteCode" size="20"/>
+            <form:input path="nciInstituteCode" size="20" cssClass="validate-notEmpty"/>
         </div>
     </div>
     </chrome:division>
