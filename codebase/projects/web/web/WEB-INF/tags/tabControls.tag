@@ -5,6 +5,8 @@
 <%@attribute name="tabNumber"%>
 <%@attribute name="isLast"%>
 <%@attribute name="willSave"%>
+<%-- added continueLabel attribute to customize the continue label display text. If not provided it will default to 'Save' or 'Save and Continue'--%>
+<%@attribute name="continueLabel"%>
 <%@attribute name="localButtons" fragment="true" %>
 <c:set var="tabNumber" value="${empty tabNumber ? tab.number : tabNumber}"/>
 <c:set var="isLast" value="${empty isLast ? not (tab.number < flow.tabCount - 1) : isLast}"/>
@@ -24,14 +26,15 @@
             <c:if test="${not isLast}">
                 <input type="submit" id="flow-update" class="tab${tabNumber}" value="${willSave ? 'Save' : 'Update'}"/>
             </c:if>
-
-            <c:set var="continueLabel" value="${isLast || willSave ? 'Save' : ''}"/>
-            <c:if test="${not empty continueLabel && not isLast}">
-                <c:set var="continueLabel" value="${continueLabel} &amp; "/>
-            </c:if>
-            <c:if test="${not isLast}">
-                <c:set var="continueLabel" value="${continueLabel}Continue"/>
-            </c:if>
+			<c:if test="${empty continueLabel || continueLabel==''}">
+	            <c:set var="continueLabel" value="${isLast || willSave ? 'Save' : ''}"/>
+	            <c:if test="${not empty continueLabel && not isLast}">
+	                <c:set var="continueLabel" value="${continueLabel} &amp; "/>
+	            </c:if>
+	            <c:if test="${not isLast}">
+	                <c:set var="continueLabel" value="${continueLabel}Continue"/>
+	            </c:if>
+			</c:if>            
             <input type="submit" id="flow-next" value="${continueLabel} &raquo;"/>
         </span>
     </div>

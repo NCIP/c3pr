@@ -7,12 +7,14 @@ import java.util.Date;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -31,18 +33,33 @@ public abstract class ScheduledEpoch extends AbstractMutableDomainObject impleme
 
 	private Date startDate;
 	
-	private String registrationStatus;
+	private ScheduledEpochDataEntryStatus scEpochDataEntryStatus;
 	
-	public String getRegistrationStatus() {
-		return registrationStatus;
+	private ScheduledEpochWorkFlowStatus scEpochWorkflowStatus;
+
+	@Enumerated(EnumType.STRING)
+	public ScheduledEpochDataEntryStatus getScEpochDataEntryStatus() {
+		return scEpochDataEntryStatus;
 	}
 
-	public void setRegistrationStatus(String registrationStatus) {
-		this.registrationStatus = registrationStatus;
+	public void setScEpochDataEntryStatus(
+			ScheduledEpochDataEntryStatus scheduledEpochDataEntryStatus) {
+		this.scEpochDataEntryStatus = scheduledEpochDataEntryStatus;
+	}
+
+	@Enumerated(EnumType.STRING)
+	public ScheduledEpochWorkFlowStatus getScEpochWorkflowStatus() {
+		return scEpochWorkflowStatus;
+	}
+
+	public void setScEpochWorkflowStatus(
+			ScheduledEpochWorkFlowStatus scheduledEpochWorkFlowStatus) {
+		this.scEpochWorkflowStatus = scheduledEpochWorkFlowStatus;
 	}
 
 	public ScheduledEpoch() {
 		this.startDate=new Date();
+		this.scEpochWorkflowStatus=ScheduledEpochWorkFlowStatus.UNAPPROVED;
 	}
 
 	@ManyToOne
@@ -80,5 +97,30 @@ public abstract class ScheduledEpoch extends AbstractMutableDomainObject impleme
 
 	public int compareTo(ScheduledEpoch scheduledEpoch) {
 		return this.startDate.compareTo(scheduledEpoch.getStartDate());
+	}
+	
+	@Transient
+	public boolean getRequiresArm(){
+		if (this instanceof ScheduledTreatmentEpoch) {
+			ScheduledTreatmentEpoch stEpoch = (ScheduledTreatmentEpoch) this;
+			return this.getRequiresRandomization()||stEpoch.getTreatmentEpoch().getArms().size()>0;
+		}
+		return false;
+	}
+	
+	@Transient
+	public boolean isReserving(){
+		if (this instanceof ScheduledNonTreatmentEpoch) {
+			ScheduledNonTreatmentEpoch sntEpoch = (ScheduledNonTreatmentEpoch) this;
+			return sntEpoch.getNonTreatmentEpoch().getReservationIndicator().equalsIgnoreCase("yes");
+		}
+		return false;
+	}
+	@Transient
+	public boolean getRequiresRandomization(){
+		if (this instanceof ScheduledTreatmentEpoch) {
+			return ((ScheduledTreatmentEpoch) this).getTreatmentEpoch().getRandomization()!=null;
+		}
+		return false;
 	}
 }

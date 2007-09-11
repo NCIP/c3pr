@@ -18,6 +18,7 @@
 
 <%--javascript sources--%>
 <tags:javascriptLink name="browser_details"/>
+<tags:javascriptLink name="ie7/ie7-standard-p"/>
 <tags:javascriptLink name="calendar"/>
 <tags:javascriptLink name="prototype"/>
 <tags:javascriptLink name="common"/>

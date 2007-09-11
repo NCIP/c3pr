@@ -11,6 +11,7 @@
 <%@attribute name="boxClass" %>
 <%@attribute name="action" %>
 <%@attribute name="localButtons" fragment="true" %>
+<%@attribute name="continueLabel"%>
 <c:if test="${not empty action}"><c:set var="actionString" value="action='${action}'"></c:set></c:if>
 <form:form name="${formName}" action="${action}" enctype="${enctype}">
 <tags:tabFields tab="${tab}"/>
@@ -22,6 +23,6 @@
             <tags:hasErrorsMessage/>
             <jsp:doBody/>
         </chrome:division>
-        <tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
+        <tags:tabControls continueLabel="${continueLabel}" tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
 </chrome:box>
 </form:form>
