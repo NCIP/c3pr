@@ -10,8 +10,13 @@ import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
+import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
+import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
+import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl;
+import edu.duke.cabig.c3pr.web.registration.tabs.AssignArmTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.DiseasesDetailsTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EligibilityCriteriaTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EnrollmentDetailsTab;
@@ -60,7 +65,7 @@ public class CreateRegistrationController<C extends StudySubject> extends Regist
 //		flow.addTab(new DiseasesDetailsTab());
 		flow.addTab(new EligibilityCriteriaTab());
 		flow.addTab(new StratificationTab());
-		flow.addTab(new RandomizationTab());
+		flow.addTab(new AssignArmTab());
 		flow.addTab(new ReviewSubmitTab());
 		setFlow(flow);
 	}
@@ -70,23 +75,23 @@ public class CreateRegistrationController<C extends StudySubject> extends Regist
 		// TODO Auto-generated method stub
 		StudySubject studySubject=(StudySubject)command;
 		super.postProcessPage(request, command, errors, page);
-		if(request.getAttribute("alreadyRegistered")==null || !(Boolean)request.getAttribute("alreadyRegistered"))
-			studySubject.setRegistrationStatus(StudySubjectServiceImpl.evaluateStatus(studySubject));
+		if(studySubject.getScheduledEpoch()!=null){
+			studySubject.setRegDataEntryStatus(this.studySubjectService.evaluateRegistrationDataEntryStatus(studySubject));
+			studySubject.getScheduledEpoch().setScEpochDataEntryStatus(this.studySubjectService.evaluateScheduledEpochDataEntryStatus(studySubject));
+		}
 	}
 	
 	@Override
 	protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors)
 			throws Exception {
-		// TODO Auto-generated method stub
 		StudySubject studySubject = (StudySubject) command;
 		studySubject=studySubjectService.createRegistration(studySubject);
 		if (logger.isDebugEnabled()) {
 			logger.debug("processFinish(HttpServletRequest, HttpServletResponse, Object, BindException) - registration service call over"); //$NON-NLS-1$
 		}
-		request.setAttribute("command", command);
+		/*request.setAttribute("command", command);
 		RequestDispatcher rd = request.getRequestDispatcher("confirm?type=confirm");
-    	rd.forward(request, response);
-    	return null;
-
+    	rd.forward(request, response);*/
+    	return new ModelAndView("redirect:confirm?registrationId="+studySubject.getId());
 	}
 }

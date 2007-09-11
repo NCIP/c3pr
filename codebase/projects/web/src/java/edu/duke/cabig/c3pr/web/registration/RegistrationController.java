@@ -30,21 +30,28 @@ import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.RandomizationType;
+import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
+import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
+import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
+import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
+import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.ObjectGraphBasedEditor;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AutomaticSaveAjaxableFormController;
+import edu.duke.cabig.c3pr.web.registration.tabs.RegistrationTab;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
@@ -76,7 +83,7 @@ public abstract class RegistrationController <C extends StudySubject> extends Au
 	
 	protected ConfigurationProperty configurationProperty;
 
-	protected StudySubjectServiceImpl studySubjectService;
+	protected StudySubjectService studySubjectService;
 	
 	protected StratificationCriterionAnswerDao stratificationAnswerDao;
 	
@@ -115,12 +122,7 @@ public abstract class RegistrationController <C extends StudySubject> extends Au
 	}
 
 
-	public StudySubjectServiceImpl getStudySubjectService() {
-		return studySubjectService;
-	}
-
-
-	public void setStudySubjectService(StudySubjectServiceImpl studySubjectService) {
+	public void setStudySubjectService(StudySubjectService studySubjectService) {
 		this.studySubjectService = studySubjectService;
 	}
 
@@ -257,6 +259,11 @@ public abstract class RegistrationController <C extends StudySubject> extends Au
 			studyInvestigatorDao));
 		binder.registerCustomEditor(ScheduledEpoch.class, new CustomDaoEditor(
 				scheduledEpochDao));
+        binder.registerCustomEditor(RandomizationType.class, new EnumByNameEditor(RandomizationType.class));
+        binder.registerCustomEditor(RegistrationDataEntryStatus.class, new EnumByNameEditor(RegistrationDataEntryStatus.class));
+        binder.registerCustomEditor(RegistrationWorkFlowStatus.class, new EnumByNameEditor(RegistrationWorkFlowStatus.class));
+        binder.registerCustomEditor(ScheduledEpochDataEntryStatus.class, new EnumByNameEditor(ScheduledEpochDataEntryStatus.class));
+        binder.registerCustomEditor(ScheduledEpochWorkFlowStatus.class, new EnumByNameEditor(ScheduledEpochWorkFlowStatus.class));
 	}
 
 	public ConfigurationProperty getConfigurationProperty() {
