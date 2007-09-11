@@ -6,6 +6,7 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -20,7 +21,6 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
-import org.hibernate.annotations.Where;
 
 /**
  * A systematic evaluation of an observation or an intervention (for example,
@@ -521,6 +521,24 @@ public class Study extends AbstractMutableDomainObject implements
 
 	public void setFile(String file) {
 		this.file = file;
+	}
+	
+	@Transient
+	public boolean getHasRegisteredParticipants(){
+		
+		if(getStudySites() != null && getStudySites().size() > 0){
+			Iterator iterSite = getStudySites().iterator();
+			StudySite studySite;
+			List <StudySubject> studySubjects;
+			while(iterSite.hasNext()){
+				studySite = (StudySite)iterSite.next();
+				studySubjects = studySite.getStudySubjects();
+				if(studySubjects.size() > 0){
+					return true;
+				}
+			}
+		}	
+		return false;
 	}
 
 }
