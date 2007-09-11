@@ -66,10 +66,14 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 <body>
 <c:choose>
 <c:when test="${alreadyRegistered!=null}">
-<%System.out.println("In When"); %>
-<tags:panelBox>
-The participant is already registered on this epoch. If you want to move this subject to another epoch of this study. Please <a href="javascript:alert('Functionality under construction..');">click</a> here
-</tags:panelBox>
+	<tags:panelBox>
+	<form id="manage" name="manage" action="../registration/manageRegistration" method="get">
+	<input type="hidden" name="registrationId" id="manage_registrationId" value=""/>
+	</form>
+	<font color="red">The participant is already registered on this epoch. If you want to move this subject to another epoch of this study, 
+	please use Manage Registration module.You can navigate to Manage Registration by searching the registration and then clicking on the registration record.
+	</font>
+	</tags:panelBox>
 </c:when>
 <c:otherwise>
 <%System.out.println("In otherwise"); %>

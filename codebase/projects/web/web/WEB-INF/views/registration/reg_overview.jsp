@@ -6,6 +6,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
+<%@ taglib prefix="registrationTags" tagdir="/WEB-INF/tags/registration"%>
 <html>
 <html>
 <head>
@@ -29,6 +30,9 @@ function activateInPlaceEditing(arrayElements){
 <form:form method="post">
 	<tags:tabFields tab="${tab}"/>
 </form:form>
+<c:if test="${actionRequired}">
+	<registrationTags:register registration="${command}" newReg="${newRegistration}" actionButtonLabel="${actionLabel}"/>
+</c:if>
 <tags:panelBox>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr>
@@ -96,6 +100,10 @@ function activateInPlaceEditing(arrayElements){
 					<td width="25%" class="labelR">Sponsor Code:</td>
 					<td>${command.studySite.study.identifiers[0].value}</td>
 				</tr>
+				<tr>
+					<td width="25%" class="labelR">Current Epoch:</td>
+					<td>${command.scheduledEpoch.epoch.name}</td>
+				</tr>
 			</table>
 			<table width="70%"><tr><td><p style="border-bottom: 1px dotted #000000;">&nbsp;</p></td></tr></table>
 			<strong>Study Site Information:</strong><br>
@@ -145,6 +153,14 @@ function activateInPlaceEditing(arrayElements){
 				<tr>
 					<td width="25%" class="labelR">Treating Physician:</td>
 					<td>${command.treatingPhysicianFullName}&nbsp;</td>
+				</tr>
+				<tr>
+					<td width="25%" class="labelR">Data Entry Status:</td>
+					<td>${command.dataEntryStatusString}&nbsp;</td>
+				</tr>
+				<tr>
+					<td width="25%" class="labelR">Workflow Status:</td>
+					<td>${command.regWorkflowStatus}&nbsp;</td>
 				</tr>
 			</table>
 			</div>
@@ -256,7 +272,7 @@ function activateInPlaceEditing(arrayElements){
 				</div>
 							<hr align="left" width="95%">					
 				<br>
-				<strong>Randomization Information </strong><br>
+				<strong>Assigned Arm </strong><br>
 				<div class="review">
 				<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 					<tr>

@@ -30,7 +30,7 @@
 			</c:otherwise>
 		</c:choose>
 		<c:if test="${isCurrentScheduledEpoch}">
-			Registration Status: <strong>${command.registrationStatus}</strong><br>
+			Registration Status: <strong>${command.regWorkflowStatus}</strong><br>
 			<span class="red"><strong>Current Registration</strong></span>
 		</c:if>
 	</div>

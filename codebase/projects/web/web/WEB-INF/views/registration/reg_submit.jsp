@@ -19,7 +19,7 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script>
-ValidationManager.submitPostProcess= function(formElement, continueSubmission){
+<%--ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		registrationStatus="${command.registrationStatus}";
 		if(formElement.id!='command')
 			return continueSubmission;
@@ -28,10 +28,11 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		}
 		return continueSubmission;
 	}
+--%>
 </script>
 </head>
 <body>
-<tags:formPanelBox tab="${tab}" flow="${flow}">
+<tags:formPanelBox tab="${tab}" flow="${flow}" continueLabel="${registerable?'Register':''}">
 	<input type="hidden" name="_finish" value="true"/>
 	<chrome:division id="Subject Information" title="Subject Information">
 	<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
@@ -230,14 +231,14 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		</c:otherwise>
 		</c:choose>
 		</chrome:division>
-		<chrome:division id="rendomization" title="Randomization Information">
+		<%--<chrome:division id="rendomization" title="Randomization Information">
 		<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 			<tr>
 				<td width="25%" class="labelR">Arm:</td>
 				<td><c:if test="${!empty command.scheduledEpoch.scheduledArms[0].arm }">${command.scheduledEpoch.scheduledArms[0].arm.name }</c:if></td>
 			</tr>
 		</table>
-		</chrome:division>
+		</chrome:division> --%>
 	</c:if>
 </tags:formPanelBox>
 </body>

@@ -16,14 +16,8 @@
 	<tags:tdNameValue name="Gender" value="${studySubject.id }" columnAttrName="class='labelR'"/>
 	<tags:tdNameValue name="Short Title" value="${studySubject.studySite.study.shortTitleText}" columnAttrName="class='labelR'"/>
 	<tags:tdNameValue name="Epoch" value="${studySubject.scheduledEpoch.epoch.name}" columnAttrName="class='labelR'"/>	
-	<c:choose>
-		<c:when test="${studySubject.ifTreatmentScheduledEpoch}">
-			<tags:tdNameValue name="Epoch Type" value="Treatment" columnAttrName="class='labelR'"/>	
-		</c:when>
-		<c:otherwise>
-			<tags:tdNameValue name="Epoch Type" value="Non Treatment" columnAttrName="class='labelR'"/>	
-		</c:otherwise>
-	</c:choose>
+	<tags:tdNameValue name="Epoch Type" value="${studySubject.ifTreatmentScheduledEpoch?'Treatment':'Non Treatment'}" columnAttrName="class='labelR'"/>	
+	<tags:tdNameValue name="Enrolling Epoch" value="${!studySubject.ifTreatmentScheduledEpoch?studySubject.scheduledEpoch.epoch.enrollmentIndicator:'Yes'}" columnAttrName="class='labelR'"/>			
 	<tags:tdNameValue name="Status" value="${studySubject.studySite.study.status }" columnAttrName="class='labelR'"/>
 	<tags:tdNameValue name="Study Site" value="${studySubject.studySite.healthcareSite.name }" columnAttrName="class='labelR'"/>
 	<tags:tdNameValue name="Site IRB Approval Date" value="${studySubject.studySite.irbApprovalDateStr }" columnAttrName="class='labelR'"/>		
@@ -33,7 +27,8 @@
 	<tags:tdNameValue name="Disease" value="${studySubject.diseaseHistory.primaryDiseaseStr }" columnAttrName="class='labelR'"/>		
 	<tags:tdNameValue name="Disease Site" value="${studySubject.diseaseHistory.primaryDiseaseSiteStr }" columnAttrName="class='labelR'"/>
 	<c:if test="${studySubject.ifTreatmentScheduledEpoch}"><tags:tdNameValue name="Eligibility Indicator" value="${studySubject.scheduledEpoch.eligibilityIndicator }" columnAttrName="class='labelR'"/></c:if>
-	<tags:tdNameValue name="Registration Status" value="${studySubject.registrationStatus }" columnAttrName="class='labelR'"/>		
+	<tags:tdNameValue name="Data Entry Status" value="${studySubject.dataEntryStatusString }" columnAttrName="class='labelR'"/>
+	<tags:tdNameValue name="Workflow Status" value="${studySubject.regWorkflowStatus }" columnAttrName="class='labelR'"/>
 	<tr>
 		<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"	height="1" class="heightControl"></td>
 	</tr>

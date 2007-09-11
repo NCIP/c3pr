@@ -59,7 +59,13 @@ function reloadPage(Id){
 <input type="hidden" name="epoch" id="manage_epoch"/>
 </form:form>
 <tags:panelBox title="Change Epoch">
-	To move subject between epochs, drag and drop the subject to the appropriate epoch <br><br>
+	<c:choose>
+		<c:when test="${command.scheduledEpoch.scEpochWorkflowStatus!='APPROVED'}">
+			Subject is not assigned to current epoch successfully. You can only transfer subjects when they are successfully assigned to an epoch.
+		</c:when>
+		<c:otherwise>To move subject between epochs, drag and drop the subject to the appropriate epoch</c:otherwise>
+	</c:choose>
+	<br><br>
 	<table border="0" cellspacing="0" cellpadding="0">
 		<tr>
 		<c:forEach items="${command.studySite.study.epochs}" var="epoch">
@@ -75,6 +81,7 @@ function reloadPage(Id){
 		</tr>
 	</table>
 </tags:panelBox>
+<c:if test="${command.scheduledEpoch.scEpochWorkflowStatus=='APPROVED'}">
 <div id="mockDrag" style="display:none">
 	<div id="participant1" class="participants" align="center" style="display:none">
 		<div><img src="<tags:imageUrl name="Subject.gif"/>"
@@ -82,5 +89,6 @@ function reloadPage(Id){
 		<div>${command.participant.firstName} ${command.participant.lastName }</div>
 	</div>
 </div>
+</c:if>
 </body>
 </html>

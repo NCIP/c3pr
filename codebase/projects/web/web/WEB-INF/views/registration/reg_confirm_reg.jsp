@@ -7,6 +7,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="registrationTags" tagdir="/WEB-INF/tags/registration"%>
 <html>
 <html>
 <head>
@@ -29,22 +30,57 @@ function accessApp(url,app,targetWindow){
 <body>
 <form name="navigationForm" id="navigationForm" method="post"><input
 	type="hidden" name="gridProxy" value="${proxy}"></form>
-<tags:panelBox title="Registration Confirmation Message" boxId="ConfMessage">
-	<c:choose><c:when test="${command.registrationStatus=='Incomplete'}">
-		<font color="Red"><!-- LEFT FORM STARTS HERE -->
-		<!-- RIGHT CONTENT STARTS HERE --> <input type="hidden"
-			name="nextView"> <strong>Subject Registration has
-		been saved in an Incomplete Status successfully.  </strong></font></c:when>
+<tags:panelBox title="Confirmation Message" boxId="ConfMessage">
+	<c:choose>
+	<c:when test="${newRegistration}">
+		<c:choose>
+		<c:when test="${reg_registered}">
+			<font color="Green"><!-- LEFT FORM STARTS HERE -->
+			<!-- RIGHT CONTENT STARTS HERE --> <strong>Subject has
+			been successfully Registered. Please <a href="javascript:doNothing()">print</a>
+			and save this confirmation in the subject study records </strong></font></c:when>
+		<c:when test="${reg_pending}">
+			<font color="Green"><!-- LEFT FORM STARTS HERE -->
+			<!-- RIGHT CONTENT STARTS HERE --> <strong>Subject Registration request has
+			been successfully sent to the Co-Ordinating center. </strong></font></c:when>
+		<c:when test="${reg_disapproved}">
+			<font color="Red"><!-- LEFT FORM STARTS HERE -->
+			<!-- RIGHT CONTENT STARTS HERE --> <<strong>Subject Registration request has
+			been disapproved by the Co-Ordinating center. </strong></font></c:when>
+		<c:when test="${reg_reserved}">
+			<font color="Green"><!-- LEFT FORM STARTS HERE -->
+			<!-- RIGHT CONTENT STARTS HERE --><strong>Subject has
+			been successfully Reserved. Please <a href="javascript:doNothing()">print</a>
+			and save this confirmation in the subject study records </strong></font></c:when>
+		<c:when test="${reg_unregistered}">
+			<font color="Red"><!-- LEFT FORM STARTS HERE -->
+			<!-- RIGHT CONTENT STARTS HERE --><strong>Subject not registered. Subject Registration record has
+			been successfully saved.</strong></font></c:when>
+		</c:choose>
+	</c:when>
 	<c:otherwise>
-		<font color="Green"><!-- LEFT FORM STARTS HERE -->
-		<!-- RIGHT CONTENT STARTS HERE --> <input type="hidden"
-			name="nextView"> <strong>Subject Registration has
-		been successfully completed. Please <a href="javascript:doNothing()">print</a>
-		and save this confirmation in the subject study records </strong></font>
-	</c:otherwise> </c:choose>
+		<c:choose>
+		<c:when test="${epoch_approved}">
+			<font color="Green"><!-- LEFT FORM STARTS HERE -->
+			<!-- RIGHT CONTENT STARTS HERE --><strong>Subject has
+			been successfully transferred.</strong></font></c:when>
+		<c:when test="${epoch_pending}">
+			<font color="Green"><!-- LEFT FORM STARTS HERE -->
+			<!-- RIGHT CONTENT STARTS HERE --><strong>Subject Transfer request has
+			been successfully sent to the Co-Ordinating center. </strong></font></c:when>
+		<c:when test="${epoch_disapproved}">
+			<font color="Red"><!-- LEFT FORM STARTS HERE -->
+			<!-- RIGHT CONTENT STARTS HERE --><strong>Subject Transfer request has
+			been disapproved by the Co-Ordinating center. </strong></font></c:when>
+		<c:when test="${epoch_unapproved}">
+			<font color="Red"><!-- LEFT FORM STARTS HERE -->
+			<!-- RIGHT CONTENT STARTS HERE --><strong>Subject not transferred. Subject Registration record has
+			been successfully saved.</strong></font></c:when>
+		</c:choose>
+	</c:otherwise>
+	</c:choose>
 	<br>
-	<table width="100%" border="0" cellspacing="0" cellpadding="0"
-		id="table1">
+	<table width="100%">
 		<tr>
 			<td width="20%"><img
 				src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
@@ -53,24 +89,42 @@ function accessApp(url,app,targetWindow){
 				height="1" class="heightControl"></td>
 		</tr>
 		<tr>
-			<td class="label">Study Primary Identifier:</td>
-			<td>${command.studySite.study.primaryIdentifier}</td>
+			<td class="label">Subject MRN:</td>
+			<td>${command.participant.primaryIdentifier}</td>
+		</tr>
+		<tr>
+			<td class="label">Study Sponsor Identifier:</td>
+			<td>${command.studySite.study.organizationAssignedIdentifiers[0].value}</td>
 		</tr>
 		<tr>
 			<td class="label">Study Short Title:</td>
 			<td valign="top">${command.studySite.study.shortTitleText}</td>
 		</tr>
 		<tr>
-			<td class="label">Subject MRN:</td>
-			<td>${command.participant.primaryIdentifier}</td>
+			<td class="label">Epoch:</td>
+			<td valign="top">${command.scheduledEpoch.epoch.name}</td>
+		</tr>
+		<c:if test="${!empty armAssigned}">
+			<tr>
+				<td class="label">${armAssignedLabel }:</td>
+				<td valign="top">${armAssigned}</td>
+			</tr>
+		</c:if>
+		<tr>
+			<td class="label">Data Entry Status:</td>
+			<td valign="top">${command.dataEntryStatusString }</td>
+		</tr>
+		<tr>
+			<td class="label">Workflow Status:</td>
+			<td valign="top">${command.regWorkflowStatus }</td>
+		</tr>		
+		<tr>
+			<td class="label">Site:</td>
+			<td>${command.studySite.healthcareSite.name}</td>
 		</tr>
 		<tr>
 			<td class="label">Registration Date:</td>
 			<td><fmt:formatDate type="date" value="${command.startDate }"/></td>
-		</tr>
-		<tr>
-			<td class="label">Site:</td>
-			<td>${command.studySite.healthcareSite.name}</td>
 		</tr>
 		<tr>
 			<td class="label">Treating Physician:</td>
@@ -85,8 +139,7 @@ function accessApp(url,app,targetWindow){
 	</table>
 	<br>
 	<hr align="left" width="95%">
-	<table width="60%" border="0" cellspacing="0" cellpadding="0"
-		id="details">
+	<table width="60%">
 		<tr>
 			<td>&nbsp;</td>
 		</tr>
@@ -120,5 +173,8 @@ function accessApp(url,app,targetWindow){
 
 	</table>
 </tags:panelBox>
+<c:if test="${actionRequired}">
+	<registrationTags:register registration="${command}" newReg="${newRegistration}" actionButtonLabel="${actionLabel}"/>
+</c:if>
 </body>
 </html>

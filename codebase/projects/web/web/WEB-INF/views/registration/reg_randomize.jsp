@@ -64,7 +64,7 @@
 		</c:when>
 		<%-- CALLOUT --%>		
 		<%-- PHONECALL --%>
-		<c:when test="${command.studySite.study.randomizationType.name == 'PHONE_CALL'}">	
+		<c:when test="${command.studySite.study.randomizationType.name == 'PHONE_CALL'}">
 			<tr><td>This epoch requires Phone Call Randomization. Call ${command.scheduledEpoch.epoch.randomization.phoneNumber} to get the Arm assignment.</td></tr>
 			<tr>
 			<td class="label" width="80%">Stratum Group: </td>
