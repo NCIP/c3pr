@@ -5,7 +5,6 @@ import java.util.List;
 import org.hibernate.LockMode;
 
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
-import edu.duke.cabig.c3pr.domain.StudySubject;
 
 /**
  * Hibernate implementation of EpochDao
