@@ -154,7 +154,7 @@
     <bean id="organizationDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.OrganizationDao" autowire="byType"/>
     <bean id="stratificationAnswerDao" parent="daoTemplate"
           class="edu.duke.cabig.c3pr.dao.StratificationCriterionAnswerDao" autowire="byType"/>
-
+    <bean id="stratumGroupDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StratumGroupDao" autowire="byType"/>
 
     <!-- Services -->
     <bean id="studyService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudyServiceImpl"
