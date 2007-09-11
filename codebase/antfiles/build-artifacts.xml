@@ -25,12 +25,6 @@
             </fileset>
         </artifact>
 
-        <artifact track="main" type="jars" id="acegi-csm.jars">
-            <fileset dir="${share.dir}/acegi-csm">
-                <include name="*.jar"/>
-            </fileset>
-        </artifact>
-
         <artifact track="main" type="jars" id="activemq.jars">
             <fileset dir="${share.dir}/activemq">
                 <include name="*.jar"/>
@@ -146,7 +140,6 @@
         <artifact track="main" type="jars" id="ctms-commons.jars">
             <fileset dir="${share.dir}/ctms-commons">
                 <include name="ctms-commons-*.jar"/>
-                <include name="acegi-*.jar"/>
                 <include name="aspectj*.jar"/>
             </fileset>
         </artifact>
