@@ -141,6 +141,7 @@
             <fileset dir="${share.dir}/ctms-commons">
                 <include name="ctms-commons-*.jar"/>
                 <include name="aspectj*.jar"/>
+                <include name="acegi-csm*.jar"/>
             </fileset>
         </artifact>
 
