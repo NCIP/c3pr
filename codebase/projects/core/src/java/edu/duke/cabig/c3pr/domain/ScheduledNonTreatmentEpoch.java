@@ -9,9 +9,10 @@ import javax.persistence.Transient;
 public class ScheduledNonTreatmentEpoch extends ScheduledEpoch {
 	public ScheduledNonTreatmentEpoch() {
 		super();
+		setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
 	}
 	@Transient
-	public NonTreatmentEpoch getTreatmentEpoch(){
+	public NonTreatmentEpoch getNonTreatmentEpoch(){
 		return (NonTreatmentEpoch)getEpoch();
 	}
 

@@ -30,6 +30,7 @@ public class ScheduledTreatmentEpoch extends ScheduledEpoch {
     	lazyListHelper.add(SubjectStratificationAnswer.class, new InstantiateFactory<SubjectStratificationAnswer>(SubjectStratificationAnswer.class));
     	lazyListHelper.add(ScheduledArm.class, new InstantiateFactory<ScheduledArm>(ScheduledArm.class));
     	eligibilityIndicator=false;
+    	setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.INCOMPLETE);
 	}
 	
 	@Transient
@@ -155,5 +156,4 @@ public class ScheduledTreatmentEpoch extends ScheduledEpoch {
 	public ScheduledArm removeScheduledArm() {
 		return getScheduledArms().remove(getScheduledArms().size()-1);
 	}
-
 }

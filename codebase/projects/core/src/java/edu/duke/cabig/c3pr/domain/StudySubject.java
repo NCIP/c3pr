@@ -15,6 +15,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -53,7 +55,8 @@ public class StudySubject extends AbstractMutableDomainObject {
     private String primaryIdentifier;
     private StudyInvestigator treatingPhysician;
     private String otherTreatingPhysician;
-    private String registrationStatus;
+    private RegistrationDataEntryStatus regDataEntryStatus;
+    private RegistrationWorkFlowStatus regWorkflowStatus;
     private DiseaseHistory diseaseHistory;
     private List<Identifier> identifiers=new ArrayList<Identifier>();
 
@@ -64,6 +67,8 @@ public class StudySubject extends AbstractMutableDomainObject {
         lazyListHelper.add(ScheduledNonTreatmentEpoch.class, new InstantiateFactory<ScheduledNonTreatmentEpoch>(ScheduledNonTreatmentEpoch.class));
     	this.startDate=new Date();
     	this.primaryIdentifier="SysGen";
+    	this.regDataEntryStatus=RegistrationDataEntryStatus.INCOMPLETE;
+    	this.regWorkflowStatus=RegistrationWorkFlowStatus.UNREGISTERED;
         lazyListHelper.add(OrganizationAssignedIdentifier.class, new ParameterizedInstantiateFactory<OrganizationAssignedIdentifier>(OrganizationAssignedIdentifier.class));
         lazyListHelper.add(SystemAssignedIdentifier.class, new ParameterizedInstantiateFactory<SystemAssignedIdentifier>(SystemAssignedIdentifier.class));
         //   mandatory, so that the lazy-projected list is managed properly.
@@ -325,14 +330,6 @@ public class StudySubject extends AbstractMutableDomainObject {
 		this.informedConsentVersion = informedConsentVersion;
 	}
 
-	public String getRegistrationStatus() {
-		return registrationStatus;
-	}
-
-	public void setRegistrationStatus(String registrationStatus) {
-		this.registrationStatus = registrationStatus;
-	}
-
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "STI_ID")
 	public StudyInvestigator getTreatingPhysician() {
@@ -364,6 +361,24 @@ public class StudySubject extends AbstractMutableDomainObject {
 		return getOtherTreatingPhysician();
 	}
 	
+	@Enumerated(EnumType.STRING)
+	public RegistrationWorkFlowStatus getRegWorkflowStatus() {
+		return regWorkflowStatus;
+	}
+	public void setRegWorkflowStatus(
+			RegistrationWorkFlowStatus registrationWorkFlowStatus) {
+		this.regWorkflowStatus = registrationWorkFlowStatus;
+	}
+	
+	@Enumerated(EnumType.STRING)
+	public RegistrationDataEntryStatus getRegDataEntryStatus() {
+		return regDataEntryStatus;
+	}
+	public void setRegDataEntryStatus(
+			RegistrationDataEntryStatus registrationDataEntryStatus) {
+		this.regDataEntryStatus = registrationDataEntryStatus;
+	}
+	
 	@Transient
 	public StratumGroup getStratumGroup(){
 		List <SubjectStratificationAnswer> ssaList = ((ScheduledTreatmentEpoch)getScheduledEpoch()).getSubjectStratificationAnswers();
@@ -377,5 +392,8 @@ public class StudySubject extends AbstractMutableDomainObject {
 		}
 		return null;		
 	}
-
+	@Transient
+	public String getDataEntryStatusString(){
+		return this.regDataEntryStatus==RegistrationDataEntryStatus.COMPLETE && this.getScheduledEpoch().getScEpochDataEntryStatus()==ScheduledEpochDataEntryStatus.COMPLETE?"Complete":"Incomplete";
+	}
 }

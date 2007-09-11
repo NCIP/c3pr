@@ -2,6 +2,9 @@ package edu.duke.cabig.c3pr.domain;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.Transient;
+
+import edu.duke.cabig.c3pr.utils.StringUtils;
 
 @Entity
 @DiscriminatorValue(value="NON-TREATMENT")
@@ -37,4 +40,9 @@ public class NonTreatmentEpoch extends Epoch{
 		this.reservationIndicator = reservationIndicator;
 	}
 	
+	@Override
+	@Transient
+	public boolean isEnrolling() {
+		return StringUtils.getBlankIfNull(this.enrollmentIndicator).equalsIgnoreCase("yes");
+	}
 }

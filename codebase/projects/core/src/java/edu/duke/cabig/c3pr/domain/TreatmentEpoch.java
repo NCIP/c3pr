@@ -1,6 +1,5 @@
 package edu.duke.cabig.c3pr.domain;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -261,4 +260,9 @@ public class TreatmentEpoch extends Epoch {
 		return null;		
 	}		
 	
+	@Override
+	@Transient
+	public boolean isEnrolling() {
+		return true;
+	}
 }

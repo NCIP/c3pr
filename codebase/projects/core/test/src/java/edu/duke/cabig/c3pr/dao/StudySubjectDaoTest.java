@@ -18,8 +18,12 @@ import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
+import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
+import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
+import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledNonTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
@@ -31,6 +35,7 @@ import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 
 /**
  * JUnit Tests for ParticipantDao
@@ -104,73 +109,6 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		}
 	}
 	
-	
-    /**
-	 * Test for loading a Study Subject by Id 
-	 * @throws Exception
-	 */
-    public void testMoveToNewScheduledEpoch() throws Exception {
-        Integer savedId;
-        {
-        	//formbackingobject
-            Object command =studySubjectDao.getById(1000);
-            
-            //add new scheduled epoch
-            Object onBindFormObject=bindNewScheduledEpoch(command);
-            interruptSession();
-            
-            //enrollment details
-            Object afterEnroll= bindEnrollmentDetails(currentFormObject(onBindFormObject));
-            interruptSession();
-            
-            //disease details
-            Object afterDisease= bindDiseaseDetails(currentFormObject(afterEnroll));
-            interruptSession();
-            
-            //eligibility details
-            Object afterElig= bindEligibility(currentFormObject(afterDisease));
-            interruptSession();
-            
-            //startification details
-            Object afterStrat= bindStratification(currentFormObject(afterElig));
-            interruptSession();
-
-            //randomization details
-            Object afterRan= bindRandomization(currentFormObject(afterStrat));
-            interruptSession();
-
-            //reviewsave details
-            Object saved= reviewAndSave(currentFormObject(afterRan));
-            
-            StudySubject studySubject=(StudySubject)saved;
-            
-            savedId= studySubject.getId().intValue();
-            assertNotNull("The registration didn't get an id", savedId);
-        }
-
-        interruptSession();
-        {
-        	StudySubject loaded = studySubjectDao.getById(savedId);
-        	assertNotNull("Could not reload registration with id " + savedId, loaded);
-        	assertEquals("Wrong number of scheduled epochs", 2, loaded.getScheduledEpochs().size());
-        	assertEquals("Wrong number of scheduled treatment epochs", 2, loaded.getScheduledTreatmentEpochs().size());
-        	assertEquals("Wrong number of scheduled non treatment epochs", 0, loaded.getScheduledNonTreatmentEpochs().size());
-        	assertEquals("getIfTreatmentScheduledEpoch return is inconsistent", true, loaded.getIfTreatmentScheduledEpoch());
-        	ScheduledTreatmentEpoch scheduledTreatmentEpoch=(ScheduledTreatmentEpoch)loaded.getScheduledEpoch();
-        	assertEquals("Wrong eligibility indicator", true, scheduledTreatmentEpoch.getEligibilityIndicator().booleanValue());
-        	assertEquals("Wrong number of subject eligibility answers", 3, scheduledTreatmentEpoch.getSubjectEligibilityAnswers().size());
-        	assertEquals("Wrong number of subject inclusion eligibility answers", 1, scheduledTreatmentEpoch.getInclusionEligibilityAnswers().size());
-        	assertEquals("Wrong number of subject exclusion eligibility answers", 2, scheduledTreatmentEpoch.getExclusionEligibilityAnswers().size());
-        	assertEquals("Wrong number of subject stratification answers", 1, scheduledTreatmentEpoch.getSubjectStratificationAnswers().size());
-        	assertEquals("Wrong registration status", "Complete", loaded.getRegistrationStatus());
-        	ScheduledEpoch currentScheduledEpoch=loaded.getCurrentScheduledEpoch();
-        	assertEquals("Wrong current scheduledEpoch", currentScheduledEpoch.getId(), scheduledTreatmentEpoch.getId());
-        }
-        interruptSession();
-    	
-
-    }
-
     public void testCurrentScheduledEpoch() throws Exception{
     	StudySubject studySubject=new StudySubject();
     	ScheduledEpoch scheduledEpoch1=new ScheduledTreatmentEpoch();
@@ -184,7 +122,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
      * Test Saving of a basic Study Subject
      * @throws Exception
      */
-    public void testCreateBasicRegistrationWeb() throws Exception {
+    public void testSaveBasicRegistrationWeb() throws Exception {
         Integer savedId;
         {
         	//formbackingobject
@@ -219,7 +157,8 @@ public class StudySubjectDaoTest extends DaoTestCase {
         	assertEquals("Wrong number of subject inclusion eligibility answers", 2, scheduledTreatmentEpoch.getInclusionEligibilityAnswers().size());
         	assertEquals("Wrong number of subject exclusion eligibility answers", 1, scheduledTreatmentEpoch.getExclusionEligibilityAnswers().size());
         	assertEquals("Wrong number of subject stratification answers", 1, scheduledTreatmentEpoch.getSubjectStratificationAnswers().size());
-        	assertEquals("Wrong registration status", "Incomplete", loaded.getRegistrationStatus());
+        	assertEquals("Wrong registration status", "INCOMPLETE", loaded.getRegDataEntryStatus().getName());
+        	assertEquals("Wrong epoch status", "INCOMPLETE", loaded.getScheduledEpoch().getScEpochDataEntryStatus().getName());        	
         }
         interruptSession();
     }
@@ -234,77 +173,6 @@ public class StudySubjectDaoTest extends DaoTestCase {
         assertEquals("Wrong last name", "Clooney", studySubject.getParticipant().getLastName());
     }
     
-    /**
-     * Test Saving of a Study Subject with all associations present
-     * @throws Exception
-     */
-    public void testCreateRegistrationWithAllAssociationsWeb() throws Exception {
-        Integer savedId;
-        {
-        	//formbackingobject
-            Object command =formBackingObject();
-            
-            //binding process
-            Object afterBind=bind(command);
-            
-            //select study & subject
-            Object onBindFormObject=bindSelectSubjectStudy(afterBind);
-            interruptSession();
-            
-            
-            //enrollment details
-            Object afterEnroll= bindEnrollmentDetails(currentFormObject(onBindFormObject));
-            interruptSession();
-            
-            
-            //disease details
-            Object afterDisease= bindDiseaseDetails(currentFormObject(afterEnroll));
-            interruptSession();
-            
-            
-            //eligibility details
-            Object afterElig= bindEligibility(currentFormObject(afterDisease));
-            interruptSession();
-            currentFormObject(afterElig);
-            
-            //startification details
-            Object afterStrat= bindStratification(afterElig);
-            interruptSession();
-            
-
-            //randomization details
-            Object afterRan= bindRandomization(currentFormObject(afterStrat));
-            interruptSession();
-            
-
-            //reviewsave details
-            Object saved= reviewAndSave(currentFormObject(afterRan));
-            
-            StudySubject studySubject=(StudySubject)saved;
-            
-            savedId= studySubject.getId().intValue();
-            assertNotNull("The registration didn't get an id", savedId);
-        }
-
-        interruptSession();
-        {
-        	StudySubject loaded = studySubjectDao.getById(savedId);
-        	assertNotNull("Could not reload registration with id " + savedId, loaded);
-        	assertEquals("Wrong number of scheduled epochs", 1, loaded.getScheduledEpochs().size());
-        	assertEquals("Wrong number of scheduled treatment epochs", 1, loaded.getScheduledTreatmentEpochs().size());
-        	assertEquals("Wrong number of scheduled non treatment epochs", 0, loaded.getScheduledNonTreatmentEpochs().size());
-        	assertEquals("getIfTreatmentScheduledEpoch return is inconsistent", true, loaded.getIfTreatmentScheduledEpoch());
-        	ScheduledTreatmentEpoch scheduledTreatmentEpoch=(ScheduledTreatmentEpoch)loaded.getScheduledEpoch();
-        	assertEquals("Wrong eligibility indicator", true, scheduledTreatmentEpoch.getEligibilityIndicator().booleanValue());
-        	assertEquals("Wrong number of subject eligibility answers", 3, scheduledTreatmentEpoch.getSubjectEligibilityAnswers().size());
-        	assertEquals("Wrong number of subject inclusion eligibility answers", 2, scheduledTreatmentEpoch.getInclusionEligibilityAnswers().size());
-        	assertEquals("Wrong number of subject exclusion eligibility answers", 1, scheduledTreatmentEpoch.getExclusionEligibilityAnswers().size());
-        	assertEquals("Wrong number of subject stratification answers", 1, scheduledTreatmentEpoch.getSubjectStratificationAnswers().size());
-        	assertEquals("Wrong registration status", "Complete", loaded.getRegistrationStatus());
-        }
-        interruptSession();
-    }
-
     /**
 	  * Test for loading all Study Subjects
 	  * @throws Exception
@@ -385,7 +253,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 			scheduledEpoch.addScheduledArm(new ScheduledArm());
 			ScheduledArm scheduledArm=scheduledEpoch.getScheduledArm();
 			scheduledArm.setArm(((TreatmentEpoch)scheduledEpoch.getTreatmentEpoch()).getArms().get(0));
-			studySubject.setRegistrationStatus(evaluateStatus(studySubject));
+			studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
 			
 //			dao.save(studySubject.getParticipant());
 			studySubject=studySubjectDao.merge(studySubject);
@@ -408,7 +276,6 @@ public class StudySubjectDaoTest extends DaoTestCase {
         	assertEquals("Wrong number of subject inclusion eligibility answers", 2, scheduledTreatmentEpoch.getInclusionEligibilityAnswers().size());
         	assertEquals("Wrong number of subject exclusion eligibility answers", 1, scheduledTreatmentEpoch.getExclusionEligibilityAnswers().size());
         	assertEquals("Wrong number of subject stratification answers", 1, scheduledTreatmentEpoch.getSubjectStratificationAnswers().size());
-        	assertEquals("Wrong registration status", "Complete", loaded.getRegistrationStatus());
         }
     }
 
@@ -525,7 +392,6 @@ public class StudySubjectDaoTest extends DaoTestCase {
 	
 	private Object reviewAndSave(Object command){
 		StudySubject studySubject=(StudySubject)command;
-		studySubject.setRegistrationStatus(evaluateStatus(studySubject));
 		return createRegistration(studySubject);
 	}
 	
@@ -553,8 +419,8 @@ public class StudySubjectDaoTest extends DaoTestCase {
 	}
 	
 	private Object createRegistration(StudySubject studySubject) {
-//        studySubject.getParticipant().addStudySubject(studySubject);
-//        studySubject.getStudySite().addStudySubject(studySubject);
+		studySubject.setRegDataEntryStatus(evaluateRegistrationDataEntryStatus(studySubject));
+		studySubject.getScheduledEpoch().setScEpochDataEntryStatus(evaluateScheduledEpochDataEntryStatus(studySubject));
 		ScheduledEpoch current=studySubject.getScheduledEpoch();
 		if (current instanceof ScheduledTreatmentEpoch) {
 			ScheduledTreatmentEpoch scheduledTreatmentEpoch = (ScheduledTreatmentEpoch) current;
@@ -562,39 +428,22 @@ public class StudySubjectDaoTest extends DaoTestCase {
 				scheduledTreatmentEpoch.removeScheduledArm();
 			}
 		}
-//		dao.save(studySubject.getParticipant());
-		StudySubject merged=studySubjectDao.merge(studySubject);
-		return merged;
+		//evaluate status
+		if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus()==ScheduledEpochWorkFlowStatus.UNAPPROVED){
+			manageSchEpochWorkFlowStatusIfUnApp(studySubject);
+		}
+		if(studySubject.getRegWorkflowStatus()==RegistrationWorkFlowStatus.UNREGISTERED){
+			manageRegWorkFlowIfUnReg(studySubject);
+		}
+		studySubject=studySubjectDao.merge(studySubject);
+		return studySubject;
 	}
 	
-	public static String evaluateStatus(StudySubject studySubject){
-		String status="Complete";
-		ScheduledEpoch current=studySubject.getScheduledEpoch();
-		if(studySubject.getInformedConsentSignedDateStr().equals("")){
-			return "Incomplete";
-		}else if(studySubject.getTreatingPhysician()==null){
-			return "Incomplete";
-		}else if(!evaluateStratificationIndicator(studySubject)){
-			return "Incomplete";
-		}else if (current instanceof ScheduledTreatmentEpoch) {
-			ScheduledTreatmentEpoch scheduledTreatmentEpoch = (ScheduledTreatmentEpoch) current; 
-			if(!scheduledTreatmentEpoch.getEligibilityIndicator()){
-				return "Incomplete";
-			}else if(scheduledTreatmentEpoch.getScheduledArm()==null || scheduledTreatmentEpoch.getScheduledArm()==null){
-				return "Incomplete";
-			}
-		}
-		return status;
-	}
-	private static boolean evaluateStratificationIndicator(StudySubject studySubject){
-		ScheduledEpoch current=studySubject.getScheduledEpoch();
-		if (current instanceof ScheduledTreatmentEpoch) {
-			ScheduledTreatmentEpoch scheduledTreatmentEpoch = (ScheduledTreatmentEpoch) current; 
-			List<SubjectStratificationAnswer> answers=scheduledTreatmentEpoch.getSubjectStratificationAnswers();
-			for(SubjectStratificationAnswer subjectStratificationAnswer:answers){
-				if(subjectStratificationAnswer.getStratificationCriterionAnswer()==null){
-					return false;
-				}
+	private static boolean evaluateStratificationIndicator(ScheduledTreatmentEpoch scheduledTreatmentEpoch){
+		List<SubjectStratificationAnswer> answers=scheduledTreatmentEpoch.getSubjectStratificationAnswers();
+		for(SubjectStratificationAnswer subjectStratificationAnswer:answers){
+			if(subjectStratificationAnswer.getStratificationCriterionAnswer()==null){
+				return false;
 			}
 		}
 		return true;
@@ -615,6 +464,75 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		}
 		return command;
 	}
+
+	public RegistrationDataEntryStatus evaluateRegistrationDataEntryStatus(StudySubject studySubject){
+		if(studySubject.getInformedConsentSignedDateStr().equals(""))
+			return RegistrationDataEntryStatus.INCOMPLETE;
+		if(StringUtils.getBlankIfNull(studySubject.getInformedConsentVersion()).equals(""))
+			return RegistrationDataEntryStatus.INCOMPLETE;
+		return RegistrationDataEntryStatus.COMPLETE;
+	}
+	
+	public ScheduledEpochDataEntryStatus evaluateScheduledEpochDataEntryStatus(StudySubject studySubject){
+		if(!studySubject.getIfTreatmentScheduledEpoch())
+			return ScheduledEpochDataEntryStatus.COMPLETE;
+		ScheduledTreatmentEpoch scheduledTreatmentEpoch = (ScheduledTreatmentEpoch) studySubject.getScheduledEpoch();
+		if(!evaluateStratificationIndicator(scheduledTreatmentEpoch)){
+			return ScheduledEpochDataEntryStatus.INCOMPLETE;
+		}
+		if(!scheduledTreatmentEpoch.getEligibilityIndicator()){
+			return ScheduledEpochDataEntryStatus.INCOMPLETE;
+		}
+		return ScheduledEpochDataEntryStatus.COMPLETE;
+	}
+	
+	private void manageSchEpochWorkFlowStatusIfUnApp(StudySubject studySubject){
+		ScheduledEpoch scheduledEpoch=studySubject.getScheduledEpoch();
+		if(scheduledEpoch.getScEpochDataEntryStatus()==ScheduledEpochDataEntryStatus.COMPLETE &&
+				studySubject.getRegDataEntryStatus()==RegistrationDataEntryStatus.COMPLETE){
+			if(studySubject.getStudySite().getStudy().getMultiInstitutionIndicator().equalsIgnoreCase("true")){
+				//broadcase message to co-ordinating center
+				try {
+					//sendRegistrationRequest(studySubject);
+					scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING);
+				} catch (Exception e) {
+					e.printStackTrace();
+					scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.DISAPPROVED);
+				}
+			}else{
+				if(studySubject.getScheduledEpoch().getRequiresArm() && ((ScheduledTreatmentEpoch)studySubject.getScheduledEpoch()).getScheduledArm()==null){
+					scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.UNAPPROVED);
+				}else{
+					//logic for accrual ceiling check
+					scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
+				}
+			}
+		}else{
+			scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.UNAPPROVED);
+		}
+	}
+	
+	private void manageRegWorkFlowIfUnReg(StudySubject studySubject){
+		ScheduledEpoch scheduledEpoch=studySubject.getScheduledEpoch();		
+		if(scheduledEpoch.getScEpochWorkflowStatus()==ScheduledEpochWorkFlowStatus.DISAPPROVED){
+			studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.DISAPPROVED);
+		}else if(scheduledEpoch.getScEpochWorkflowStatus()==ScheduledEpochWorkFlowStatus.PENDING){
+			studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.PENDING);
+		}else if(scheduledEpoch.getScEpochWorkflowStatus()==ScheduledEpochWorkFlowStatus.APPROVED){
+/*				//logic for accrual ceiling at study level
+			if(isAccrualCeilingReached()){
+				studySubject.setRegistrationWorkFlowStatus(RegistrationWorkFlowStatus.DISAPPROVED);
+			}else{
+				// continue Here
+			}
+*/				if(scheduledEpoch.isReserving()){
+				studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.RESERVED);
+			}else{
+				studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED);
+			}
+		}
+	}
+
 	/**
      * Test Saving of a basic Study Subject
      * @throws Exception
@@ -661,7 +579,8 @@ public class StudySubjectDaoTest extends DaoTestCase {
         	assertEquals("Wrong number of subject inclusion eligibility answers", 2, scheduledTreatmentEpoch.getInclusionEligibilityAnswers().size());
         	assertEquals("Wrong number of subject exclusion eligibility answers", 1, scheduledTreatmentEpoch.getExclusionEligibilityAnswers().size());
         	assertEquals("Wrong number of subject stratification answers", 1, scheduledTreatmentEpoch.getSubjectStratificationAnswers().size());
-        	assertEquals("Wrong registration status", "Incomplete", loaded.getRegistrationStatus());
+        	assertEquals("Wrong registration status", "COMPLETE", loaded.getRegDataEntryStatus().getName());
+        	assertEquals("Wrong epoch status", "COMPLETE", loaded.getScheduledEpoch().getScEpochDataEntryStatus().getName());        	
         }
         interruptSession();
     }
