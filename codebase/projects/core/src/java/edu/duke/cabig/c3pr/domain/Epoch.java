@@ -11,6 +11,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -96,7 +97,10 @@ public abstract class Epoch extends AbstractMutableDomainObject implements
 		if (this.equals((Epoch)o)) return 0;
 		else return 1;
 	}
-		
+	
+	@Transient
+	public abstract boolean isEnrolling();
+	
 	 @Override public int hashCode() { final int PRIME = 31; int result =
 	  super.hashCode(); result = PRIME * result;
 	  result = PRIME * result + ((name == null) ? 0 :
