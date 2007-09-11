@@ -218,8 +218,11 @@
 	</bean>    
     <bean name="/registration/confirm"
           id="confirmRegistrationController"
-          class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">
-        <property name="viewName" value="/registration/reg_confirm_reg" />
+          class="edu.duke.cabig.c3pr.web.registration.RegistrationConfirmAndRandomizeController" autowire="byName">
+		<property name="commandClass" value="edu.duke.cabig.c3pr.domain.StudySubject" />
+		<property name="commandName" value="command" />
+        <property name="formView" value="/registration/reg_confirm_reg" />
+        <property name="successView" value="/registration/reg_confirm_reg" />        
     </bean>
     <bean name="/admin/createInvestigator"
           id="createInvestigatorController" lazy-init="true"
