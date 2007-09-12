@@ -8,7 +8,7 @@
     <table>
         <tr>
             <td class="alt"><input id="systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName"
-                                    name="systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName"
+                                    name="systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName" type="text"
                                     class="validate-notEmpty"/>
             </td>
             <td class="alt"><select id="systemAssignedIdentifiers[PAGE.ROW.INDEX].type"
@@ -20,7 +20,7 @@
                 </c:forEach>
             </select>
             </td>
-            <td class="alt"><input id="systemAssignedIdentifiers[PAGE.ROW.INDEX].value" name="systemAssignedIdentifiers[PAGE.ROW.INDEX].value"
+            <td class="alt"><input id="systemAssignedIdentifiers[PAGE.ROW.INDEX].value" name="systemAssignedIdentifiers[PAGE.ROW.INDEX].value" type="text"
                                    onfocus="javascript:clearField(this)" class="validate-notEmpty"/></td>
             <td class="alt"><input type="radio" id="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" name="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator"
                                    value="true"/></td>
@@ -54,7 +54,7 @@
                 </c:forEach>
             </select>
             </td>
-            <td class="alt"><input id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].value" name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].value"
+            <td class="alt"><input id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].value" name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].value" type="text"
                                    onfocus="javascript:clearField(this)" class="validate-notEmpty"/></td>
             <td class="alt"><input type="radio" id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator"
                                    value="true"/></td>
