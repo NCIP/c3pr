@@ -193,16 +193,15 @@
             <th scope="col" align="left"><b>Permissible Answers</b></th>
         </tr>
         <c:forEach items="${command.epochs}" var="epoch">
-            <c:if
-                    test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
+            <c:if test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
                 <c:forEach items="${epoch.stratificationCriteria}" var="strat">
                     <tr>
                         <td class="alt">${strat.questionText}</td>
                         <td class="alt">
-                            <table border="0" cellspacing="0" cellpadding="0" id="mytable">
+                            <table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
                                 <c:forEach items="${strat.permissibleAnswers}" var="ans">
                                     <tr>
-                                        <td class="alt" align="left">${ans.permissibleAnswer}</td>
+                                        <td>${ans.permissibleAnswer}</td>
                                     </tr>
                                 </c:forEach>
                             </table>
