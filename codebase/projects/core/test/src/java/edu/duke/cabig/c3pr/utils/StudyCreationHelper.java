@@ -96,20 +96,26 @@ public class StudyCreationHelper {
     private void addStratumGroupToEpoch(TreatmentEpoch epoch1) {
         StratificationCriterion sc = new StratificationCriterion();
         sc.setQuestionText("will I work?");
-        StratificationCriterionPermissibleAnswer scpa = new StratificationCriterionPermissibleAnswer();
-        scpa.setPermissibleAnswer("lets find out");
+        StratificationCriterionPermissibleAnswer scpa1 = new StratificationCriterionPermissibleAnswer();
+        scpa1.setPermissibleAnswer("lets find out1");
+        StratificationCriterionPermissibleAnswer scpa2 = new StratificationCriterionPermissibleAnswer();
+        scpa2.setPermissibleAnswer("lets find out2");
         ArrayList scpaList = new ArrayList();
-        scpaList.add(scpa);
-        sc.setPermissibleAnswers(scpaList);
+        scpaList.add(scpa1);
+        scpaList.add(scpa2);
+        sc.getPermissibleAnswers().addAll(scpaList);
         ArrayList scList = new ArrayList();
         scList.add(sc);
-        epoch1.setStratificationCriteria(scList);
+        epoch1.getStratificationCriteria().addAll(scList);
 
-        StratificationCriterionAnswerCombination scac = new StratificationCriterionAnswerCombination();
-        scac.setStratificationCriterion(sc);
-        scac.setStratificationCriterionPermissibleAnswer(scpa);
+        StratificationCriterionAnswerCombination scac1 = new StratificationCriterionAnswerCombination();
+        scac1.setStratificationCriterion(sc);
+        scac1.setStratificationCriterionPermissibleAnswer(scpa1);
+        StratificationCriterionAnswerCombination scac2 = new StratificationCriterionAnswerCombination();
+        scac2.setStratificationCriterion(sc);
+        scac2.setStratificationCriterionPermissibleAnswer(scpa2);
         List<StratificationCriterionAnswerCombination> scacList = new ArrayList<StratificationCriterionAnswerCombination>();
-        scacList.add(scac);
+        scacList.add(scac1);
 
         StratumGroup stratumGroup = new StratumGroup();
         stratumGroup.getStratificationCriterionAnswerCombination().addAll(scacList);

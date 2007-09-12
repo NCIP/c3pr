@@ -32,6 +32,7 @@ import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
 import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
+import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 import edu.duke.cabig.c3pr.utils.StudyCreationHelper;
 
@@ -789,6 +790,40 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 
 	}
 
+	/* Test Cases for invalid stratum group
+	 */
+	public void testInvalidStratumGroup()throws Exception{
+		StudySubject studySubject=new StudySubject();
+		studySubject.setStudySite(getLocalRandomizedStudy(RandomizationType.BOOK).getStudySites().get(0));
+		studySubject.setParticipant(participantDao.getById(1000));
+        Integer savedId;
+        {
+            addScheduledEpoch(studySubject,true);
+            buildCommandObject(studySubject);
+            addEnrollmentDetails(studySubject);
+            bindEligibility(studySubject);
+            bindStratificationInvalid(studySubject);
+            StudySubject saved=studySubjectDao.merge(studySubject);
+            savedId= saved.getId().intValue();
+            assertNotNull("The registration didn't get an id", savedId);
+        }
+
+        interruptSession();
+        {
+        	StudySubject loaded = studySubjectDao.getById(savedId);
+            bindRandomization(loaded,RandomizationType.BOOK);
+            StudySubject saved=null;
+			try {
+				saved = studySubjectService.registerSubject(loaded);
+			} catch (C3PRBaseException e) {
+				assertEquals("Wrong Exception ", "No startum group found. Maybe the answer combination does not have a valid startum group", e.getMessage());
+				return;
+			}
+			assertNull(saved);
+        }
+        interruptSession();
+	}
+
 	private Study getMultiSiteRandomizedStudy(RandomizationType randomizationType)throws Exception{
 		Study study=studyCreationHelper.getMultiSiteRandomizedStudy(randomizationType);
 		StudySite studySite=new StudySite();
@@ -945,6 +980,14 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 			subjectStratificationAnswer.setStratificationCriterionAnswer(subjectStratificationAnswer.getStratificationCriterion().getPermissibleAnswers().get(0));
 		}
 	}
+	private void bindStratificationInvalid(Object command){
+		StudySubject studySubject=(StudySubject)command;
+		List<SubjectStratificationAnswer> subList1=((ScheduledTreatmentEpoch)studySubject.getScheduledEpoch()).getSubjectStratificationAnswers();
+		for(SubjectStratificationAnswer subjectStratificationAnswer: subList1){
+			subjectStratificationAnswer.setStratificationCriterionAnswer(subjectStratificationAnswer.getStratificationCriterion().getPermissibleAnswers().get(subjectStratificationAnswer.getStratificationCriterion().getPermissibleAnswers().size()-1));
+		}
+	}
+
 	private void bindRandomization(Object command, RandomizationType randomizationType){
 		if(randomizationType==RandomizationType.PHONE_CALL){
 			StudySubject studySubject=(StudySubject)command;
