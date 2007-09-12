@@ -94,10 +94,10 @@
 
     <DISEASE_HISTORY id="1000" version="1"/>
 
-    <STUDY_SUBJECTS id="1000" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="1000" sto_id="1000" sti_id="1000"/>
-    <STUDY_SUBJECTS id="1001" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="1000" sto_id="1000" sti_id="1001"/>
+    <STUDY_SUBJECTS reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE" id="1000" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="1000" sto_id="1000" sti_id="1000"/>
+    <STUDY_SUBJECTS reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE" id="1001" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="1000" sto_id="1000" sti_id="1001"/>
 
-    <SCHEDULED_EPOCHS id="1000" version="1" start_date="01-01-2000" eligibility_indicator="true" ELIGIBILITY_WAIVER_REASON_TEXT="reason" spa_id="1000" type="TREATMENT" eph_id="1000"/>  
+    <SCHEDULED_EPOCHS id="1000" version="1" start_date="01-01-2000" eligibility_indicator="true" ELIGIBILITY_WAIVER_REASON_TEXT="reason" spa_id="1000" type="TREATMENT" eph_id="1000" sc_epoch_workflow_status="INVALID" sc_epoch_data_entry_status="INCOMPLETE"/>  
 
 	<SUBJECT_STRAT_ANS id="1000" version="1" sceph_id="1000" str_cri_id="1000"/>
 	
