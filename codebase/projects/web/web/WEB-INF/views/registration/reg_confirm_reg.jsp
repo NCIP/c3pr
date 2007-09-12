@@ -110,8 +110,16 @@ function accessApp(url,app,targetWindow){
 			<td valign="top">${command.studySite.study.shortTitleText}</td>
 		</tr>
 		<tr>
-			<td class="label">Epoch:</td>
+			<td class="label">Registration Status:</td>
+			<td valign="top">${command.regWorkflowStatus }</td>
+		</tr>		
+		<tr>
+			<td class="label">Current Epoch:</td>
 			<td valign="top">${command.scheduledEpoch.epoch.name}</td>
+		</tr>
+		<tr>
+			<td class="label">Current Epoch Status:</td>
+			<td valign="top">${command.scheduledEpoch.scEpochWorkflowStatus}</td>
 		</tr>
 		<c:if test="${!empty armAssigned}">
 			<tr>
@@ -123,10 +131,6 @@ function accessApp(url,app,targetWindow){
 			<td class="label">Data Entry Status:</td>
 			<td valign="top">${command.dataEntryStatusString }</td>
 		</tr>
-		<tr>
-			<td class="label">Workflow Status:</td>
-			<td valign="top">${command.regWorkflowStatus }</td>
-		</tr>		
 		<tr>
 			<td class="label">Site:</td>
 			<td>${command.studySite.healthcareSite.name}</td>

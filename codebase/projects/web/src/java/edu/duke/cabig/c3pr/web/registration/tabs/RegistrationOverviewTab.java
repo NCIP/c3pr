@@ -6,6 +6,7 @@ import java.util.Map;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
+import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.InPlaceEditableTab;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.WorkFlowTab;
@@ -32,6 +33,13 @@ public class RegistrationOverviewTab<C extends StudySubject> extends Registratio
 		boolean actionRequired=false;
 		boolean newRegistration=false;
 		String actionLabel="";
+		String armAssigned="";
+		String armAssignedLabel="";
+		if(studySubject.getIfTreatmentScheduledEpoch() && ((ScheduledTreatmentEpoch)studySubject.getScheduledEpoch()).getScheduledArm()!=null
+				&& ((ScheduledTreatmentEpoch)studySubject.getScheduledEpoch()).getScheduledArm().getArm()!=null){
+			armAssigned=((ScheduledTreatmentEpoch)studySubject.getScheduledEpoch()).getScheduledArm().getArm().getName();
+			armAssignedLabel="Arm Assigned";
+		}
 		if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus()==ScheduledEpochWorkFlowStatus.UNAPPROVED
 				&& studySubject.getRegDataEntryStatus()==RegistrationDataEntryStatus.COMPLETE
 				&& studySubject.getScheduledEpoch().getScEpochDataEntryStatus()==ScheduledEpochDataEntryStatus.COMPLETE){
@@ -53,6 +61,8 @@ public class RegistrationOverviewTab<C extends StudySubject> extends Registratio
 		map.put("actionRequired", actionRequired);
 		map.put("actionLabel", actionLabel);
 		map.put("newRegistration", newRegistration);
+		map.put("armAssigned", armAssigned);
+		map.put("armAssignedLabel", armAssignedLabel);
 		return map;
 	}
 }

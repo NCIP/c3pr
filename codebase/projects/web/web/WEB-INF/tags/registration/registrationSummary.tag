@@ -15,9 +15,10 @@
 	<tags:tdNameValue name="Subject Primary Identifier" value="${studySubject.participant.primaryIdentifier }" columnAttrName="width='50%' class='labelR'"/>
 	<tags:tdNameValue name="Gender" value="${studySubject.id }" columnAttrName="class='labelR'"/>
 	<tags:tdNameValue name="Short Title" value="${studySubject.studySite.study.shortTitleText}" columnAttrName="class='labelR'"/>
-	<tags:tdNameValue name="Epoch" value="${studySubject.scheduledEpoch.epoch.name}" columnAttrName="class='labelR'"/>	
-	<tags:tdNameValue name="Epoch Type" value="${studySubject.ifTreatmentScheduledEpoch?'Treatment':'Non Treatment'}" columnAttrName="class='labelR'"/>	
-	<tags:tdNameValue name="Enrolling Epoch" value="${!studySubject.ifTreatmentScheduledEpoch?studySubject.scheduledEpoch.epoch.enrollmentIndicator:'Yes'}" columnAttrName="class='labelR'"/>			
+	<tags:tdNameValue name="Current Epoch" value="${studySubject.scheduledEpoch.epoch.name}" columnAttrName="class='labelR'"/>	
+	<tags:tdNameValue name="Current Epoch Type" value="${studySubject.ifTreatmentScheduledEpoch?'Treatment':'Non Treatment'}" columnAttrName="class='labelR'"/>	
+	<tags:tdNameValue name="Enrolling Epoch" value="${!studySubject.ifTreatmentScheduledEpoch?studySubject.scheduledEpoch.epoch.enrollmentIndicator:'Yes'}" columnAttrName="class='labelR'"/>
+	<tags:tdNameValue name="Current Epoch Status" value="${command.scheduledEpoch.scEpochWorkflowStatus}" columnAttrName="class='labelR'"/>				
 	<tags:tdNameValue name="Status" value="${studySubject.studySite.study.status }" columnAttrName="class='labelR'"/>
 	<tags:tdNameValue name="Study Site" value="${studySubject.studySite.healthcareSite.name }" columnAttrName="class='labelR'"/>
 	<tags:tdNameValue name="Site IRB Approval Date" value="${studySubject.studySite.irbApprovalDateStr }" columnAttrName="class='labelR'"/>		
@@ -28,7 +29,7 @@
 	<tags:tdNameValue name="Disease Site" value="${studySubject.diseaseHistory.primaryDiseaseSiteStr }" columnAttrName="class='labelR'"/>
 	<c:if test="${studySubject.ifTreatmentScheduledEpoch}"><tags:tdNameValue name="Eligibility Indicator" value="${studySubject.scheduledEpoch.eligibilityIndicator }" columnAttrName="class='labelR'"/></c:if>
 	<tags:tdNameValue name="Data Entry Status" value="${studySubject.dataEntryStatusString }" columnAttrName="class='labelR'"/>
-	<tags:tdNameValue name="Workflow Status" value="${studySubject.regWorkflowStatus }" columnAttrName="class='labelR'"/>
+	<tags:tdNameValue name="Registration Status" value="${studySubject.regWorkflowStatus }" columnAttrName="class='labelR'"/>
 	<tr>
 		<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"	height="1" class="heightControl"></td>
 	</tr>

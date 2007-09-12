@@ -75,7 +75,7 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 		//evaluate status
 		if(isCreatable(studySubject)){
 			manageSchEpochWorkFlowIfUnApp(studySubject, false, false);
-			manageRegWorkFlowIfUnReg(studySubject);
+			manageRegWorkFlow(studySubject);
 		}
 		studySubject=studySubjectDao.merge(studySubject);
 		return studySubject;
@@ -85,7 +85,7 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 		studySubject.setRegDataEntryStatus(evaluateRegistrationDataEntryStatus(studySubject));
 		studySubject.getScheduledEpoch().setScEpochDataEntryStatus(evaluateScheduledEpochDataEntryStatus(studySubject));
 		manageSchEpochWorkFlowIfUnApp(studySubject,true, true);
-		manageRegWorkFlowIfUnReg(studySubject);
+		manageRegWorkFlow(studySubject);
 		return studySubjectDao.merge(studySubject);
 	}
 	
@@ -140,7 +140,7 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 	
 	private void manageSchEpochWorkFlowIfUnApp(StudySubject studySubject, boolean triggerMultisite, boolean randomize) throws Exception{
 		if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus()!=ScheduledEpochWorkFlowStatus.UNAPPROVED){
-			throw new C3PRBaseException("Illegal Service Call: not a new Scheduled Epoch");
+			return;
 		}
 		ScheduledEpoch scheduledEpoch=studySubject.getScheduledEpoch();
 		if(scheduledEpoch.getScEpochDataEntryStatus()==ScheduledEpochDataEntryStatus.COMPLETE &&
@@ -180,7 +180,10 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 		}
 	}
 	
-	public void manageRegWorkFlowIfUnReg(StudySubject studySubject)throws Exception{
+	public void manageRegWorkFlow(StudySubject studySubject)throws Exception{
+		if(studySubject.getRegWorkflowStatus()==RegistrationWorkFlowStatus.REGISTERED){
+			return;
+		}
 		ScheduledEpoch scheduledEpoch=studySubject.getScheduledEpoch();	
 		if(studySubject.getRegDataEntryStatus()==RegistrationDataEntryStatus.COMPLETE){
 			if(scheduledEpoch.getScEpochWorkflowStatus()==ScheduledEpochWorkFlowStatus.DISAPPROVED){
@@ -255,7 +258,7 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 		return false;
 	}
 	
-	public void manageSchEpochWorkFlowIfUnApp(StudySubject studySubject) throws Exception{
+	public void manageSchEpochWorkFlow(StudySubject studySubject) throws Exception{
 		manageSchEpochWorkFlowIfUnApp(studySubject, true, true);
 	}
 }

@@ -143,6 +143,10 @@ function activateInPlaceEditing(arrayElements){
 					<td><tags:inPlaceEdit value="${command.startDateStr }" path="startDate" /></td>
 				</tr>
 				<tr>
+					<td width="25%" class="labelR">Registration Status:</td>
+					<td>${command.regWorkflowStatus}&nbsp;</td>
+				</tr>
+				<tr>
 					<td class="labelR" width="25%">Informed Consent Signed Date:</td>
 					<td><tags:inPlaceEdit value="${command.informedConsentSignedDateStr }" path="informedConsentSignedDate" /></td>
 				</tr>
@@ -151,16 +155,20 @@ function activateInPlaceEditing(arrayElements){
 					<td><tags:inPlaceEdit value="${command.informedConsentVersion}" path="informedConsentVersion" /></td>
 				</tr>
 				<tr>
+					<td width="25%" class="labelR">Current Epoch:</td>
+					<td >${command.scheduledEpoch.epoch.name}</td>
+				</tr>
+				<tr>
+					<td width="25%" class="labelR">Current Epoch Status:</td>
+					<td>${command.scheduledEpoch.scEpochWorkflowStatus}</td>
+				</tr>
+				<tr>
 					<td width="25%" class="labelR">Treating Physician:</td>
 					<td>${command.treatingPhysicianFullName}&nbsp;</td>
 				</tr>
 				<tr>
 					<td width="25%" class="labelR">Data Entry Status:</td>
 					<td>${command.dataEntryStatusString}&nbsp;</td>
-				</tr>
-				<tr>
-					<td width="25%" class="labelR">Workflow Status:</td>
-					<td>${command.regWorkflowStatus}&nbsp;</td>
 				</tr>
 			</table>
 			</div>
@@ -270,17 +278,19 @@ function activateInPlaceEditing(arrayElements){
 				</c:otherwise>
 				</c:choose>
 				</div>
-							<hr align="left" width="95%">					
+				<c:if test="${!empty armAssigned}">
+				<hr align="left" width="95%">					
 				<br>
 				<strong>Assigned Arm </strong><br>
 				<div class="review">
 				<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 					<tr>
-						<td width="25%" class="labelR">Arm:</td>
-						<td><c:if test="${!empty command.scheduledEpoch.scheduledArms[0].arm }">${command.scheduledEpoch.scheduledArms[0].arm.name }</c:if></td>
+						<td width="25%" class="labelR">${armAssignedLabel }:</td>
+						<td>${armAssigned}</td>
 					</tr>
 				</table>
 				</div>
+				</c:if>
 			</c:if>
 		</td>
 	</tr>

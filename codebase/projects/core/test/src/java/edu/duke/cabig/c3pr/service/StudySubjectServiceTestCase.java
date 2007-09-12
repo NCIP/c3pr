@@ -183,7 +183,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
         studySubject.addScheduledEpoch(new ScheduledNonTreatmentEpoch());
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.INCOMPLETE);
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
-        studySubjectService.manageSchEpochWorkFlowIfUnApp(studySubject);
+        studySubjectService.manageSchEpochWorkFlow(studySubject);
         assertEquals("Wrong Epoch WorkFlow Status",ScheduledEpochWorkFlowStatus.UNAPPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
 	}
 
@@ -203,7 +203,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
         studySubject.addScheduledEpoch(new ScheduledNonTreatmentEpoch());
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
-        studySubjectService.manageSchEpochWorkFlowIfUnApp(studySubject);
+        studySubjectService.manageSchEpochWorkFlow(studySubject);
         assertEquals("Wrong Epoch WorkFlow Status",ScheduledEpochWorkFlowStatus.APPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
 	}
 	
@@ -227,7 +227,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
         try {
-			studySubjectService.manageSchEpochWorkFlowIfUnApp(studySubject);
+			studySubjectService.manageSchEpochWorkFlow(studySubject);
 		} catch (Exception e) {
 		}
         assertEquals("Wrong Epoch WorkFlow Status",ScheduledEpochWorkFlowStatus.UNAPPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
@@ -254,7 +254,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
         bindRandomization(studySubject,RandomizationType.PHONE_CALL);
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
-        studySubjectService.manageSchEpochWorkFlowIfUnApp(studySubject);
+        studySubjectService.manageSchEpochWorkFlow(studySubject);
         assertEquals("Wrong Epoch WorkFlow Status",ScheduledEpochWorkFlowStatus.APPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
 	}
 
@@ -276,7 +276,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
         studySubject.addScheduledEpoch(scheduledEpochFirst);
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
-        studySubjectService.manageSchEpochWorkFlowIfUnApp(studySubject);
+        studySubjectService.manageSchEpochWorkFlow(studySubject);
         assertEquals("Wrong Epoch WorkFlow Status",ScheduledEpochWorkFlowStatus.APPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
 	}
 
@@ -299,7 +299,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
         try {
-			studySubjectService.manageSchEpochWorkFlowIfUnApp(studySubject);
+			studySubjectService.manageSchEpochWorkFlow(studySubject);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			assertEquals("Wrong Epoch WorkFlow Status",ScheduledEpochWorkFlowStatus.DISAPPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
@@ -317,7 +317,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
         studySubject.addScheduledEpoch(scheduledEpochFirst);
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.INCOMPLETE);
         studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.UNAPPROVED);
-        studySubjectService.manageRegWorkFlowIfUnReg(studySubject);
+        studySubjectService.manageRegWorkFlow(studySubject);
         assertEquals("Wrong Epoch WorkFlow Status",RegistrationWorkFlowStatus.UNREGISTERED, studySubject.getRegWorkflowStatus());
 	}
 	
@@ -331,7 +331,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
         studySubject.addScheduledEpoch(scheduledEpochFirst);
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
         studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.UNAPPROVED);
-        studySubjectService.manageRegWorkFlowIfUnReg(studySubject);
+        studySubjectService.manageRegWorkFlow(studySubject);
         assertEquals("Wrong Epoch WorkFlow Status",RegistrationWorkFlowStatus.UNREGISTERED, studySubject.getRegWorkflowStatus());
 	}
 
@@ -345,7 +345,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
         studySubject.addScheduledEpoch(scheduledEpochFirst);
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
         studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.DISAPPROVED);
-        studySubjectService.manageRegWorkFlowIfUnReg(studySubject);
+        studySubjectService.manageRegWorkFlow(studySubject);
         assertEquals("Wrong Epoch WorkFlow Status",RegistrationWorkFlowStatus.DISAPPROVED, studySubject.getRegWorkflowStatus());
 	}
 
@@ -359,7 +359,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
         studySubject.addScheduledEpoch(scheduledEpochFirst);
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
         studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING);
-        studySubjectService.manageRegWorkFlowIfUnReg(studySubject);
+        studySubjectService.manageRegWorkFlow(studySubject);
         assertEquals("Wrong Epoch WorkFlow Status",RegistrationWorkFlowStatus.PENDING, studySubject.getRegWorkflowStatus());
 	}
 
@@ -375,7 +375,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
         studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
         studySubject.getScheduledEpoch().setEpoch(new TreatmentEpoch());
-        studySubjectService.manageRegWorkFlowIfUnReg(studySubject);
+        studySubjectService.manageRegWorkFlow(studySubject);
         assertEquals("Wrong Epoch WorkFlow Status",RegistrationWorkFlowStatus.REGISTERED, studySubject.getRegWorkflowStatus());
 	}
 
@@ -393,7 +393,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
         studySubject.addScheduledEpoch(scheduledEpochFirst);
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
         studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
-        studySubjectService.manageRegWorkFlowIfUnReg(studySubject);
+        studySubjectService.manageRegWorkFlow(studySubject);
         assertEquals("Wrong Epoch WorkFlow Status",RegistrationWorkFlowStatus.RESERVED, studySubject.getRegWorkflowStatus());
 	}
 
@@ -411,7 +411,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
         studySubject.addScheduledEpoch(scheduledEpochFirst);
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
         studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
-        studySubjectService.manageRegWorkFlowIfUnReg(studySubject);
+        studySubjectService.manageRegWorkFlow(studySubject);
         assertEquals("Wrong Epoch WorkFlow Status",RegistrationWorkFlowStatus.UNREGISTERED, studySubject.getRegWorkflowStatus());
 	}
 
@@ -430,7 +430,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
         studySubject.addScheduledEpoch(scheduledEpochFirst);
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
         studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
-        studySubjectService.manageRegWorkFlowIfUnReg(studySubject);
+        studySubjectService.manageRegWorkFlow(studySubject);
         assertEquals("Wrong Epoch WorkFlow Status",RegistrationWorkFlowStatus.REGISTERED, studySubject.getRegWorkflowStatus());
 	}
 

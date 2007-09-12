@@ -26,9 +26,9 @@ public interface StudySubjectService {
 	  
 	  public boolean canRandomize(StudySubject studySubject);
 	  
-	  public void manageRegWorkFlowIfUnReg(StudySubject studySubject)throws Exception;
+	  public void manageRegWorkFlow(StudySubject studySubject)throws Exception;
 	  
-	  public void manageSchEpochWorkFlowIfUnApp(StudySubject studySubject)throws Exception;
+	  public void manageSchEpochWorkFlow(StudySubject studySubject)throws Exception;
 	  
 	  public boolean isRegisterable(StudySubject studySubject);
 }
