@@ -28,7 +28,7 @@ public class RandomizationTab extends RegistrationTab<StudySubject>{
 		return ref;
 	}
 
-	public ModelAndView randomize(HttpServletRequest request, Object commandObj, Errors error){
+/*	public ModelAndView randomize(HttpServletRequest request, Object commandObj, Errors error){
 		StudySubject ss = (StudySubject)commandObj;
 		ScheduledTreatmentEpoch ste = (ScheduledTreatmentEpoch)ss.getScheduledEpoch();
 		
@@ -59,5 +59,5 @@ public class RandomizationTab extends RegistrationTab<StudySubject>{
 		return new ModelAndView("",map);
 		
 	}
-	
+*/	
 }

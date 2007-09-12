@@ -21,6 +21,7 @@ import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 
@@ -90,12 +91,19 @@ public class RegistrationConfirmAndRandomizeController extends SimpleFormControl
 		if(!validSubmit(studySubject)){
 			throw new Exception("Subject is either already registered or the subject registration requires QC");
 		}
-		studySubject=studySubjectService.registerSubject(studySubject);
+		Map map=new HashMap();
+		map.put("actionRequired", false);
+		try {
+			studySubject=studySubjectService.registerSubject(studySubject);
+		} catch (C3PRBaseException e) {
+			map.put("registrationException", e);
+			return new ModelAndView(getSuccessView(),map);
+			
+		}
 		if (logger.isDebugEnabled()) {
 			logger.debug("onSubmit(HttpServletRequest, HttpServletResponse, Object, BindException) - registration service call over"); //$NON-NLS-1$
 		}
-		Map map=buildMap(studySubject);
-		map.put("actionRequired", false);
+		map.putAll(buildMap(studySubject));
 		map.put("command", command);
 		return new ModelAndView(getSuccessView(),map);
 	}
