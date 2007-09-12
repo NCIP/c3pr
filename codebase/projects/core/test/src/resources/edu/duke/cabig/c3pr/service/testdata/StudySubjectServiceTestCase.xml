@@ -50,7 +50,7 @@
 
     <DISEASE_HISTORY id="1100" version="1"/>
 
-    <STUDY_SUBJECTS id="1100" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="1100" sto_id="1100" sti_id="1100" reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE"/>
+    <STUDY_SUBJECTS reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE" id="1100" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="1100" sto_id="1100" sti_id="1100"/>
 
     <SCHEDULED_EPOCHS id="1100" version="1" start_date="01-01-2000" eligibility_indicator="true" ELIGIBILITY_WAIVER_REASON_TEXT="reason" spa_id="1100" type="TREATMENT" eph_id="1100" sc_epoch_workflow_status="INVALID" sc_epoch_data_entry_status="INCOMPLETE"/>  
 
