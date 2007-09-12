@@ -106,7 +106,7 @@
             </div>
             <div class="value">
                 <form:input size="25"
-                            path="contactMechanisms[0].value" cssClass="validate-notEmpty" />
+                            path="contactMechanisms[0].value" cssClass="validate-EMAIL" />
             </div>
         </div>
 
