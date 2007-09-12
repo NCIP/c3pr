@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.domain;
 
+import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
@@ -171,19 +172,23 @@ public class StratumGroup extends AbstractMutableDomainObject{
 	 * 
 	 */
 	@Transient
-	public Arm getNextArm(){
+	public Arm getNextArm() throws C3PRBaseException{
 		Iterator <BookRandomizationEntry>iter = getBookRandomizationEntry().iterator();
 		BookRandomizationEntry breTemp;
+		Arm arm=null;
 		while(iter.hasNext()){
 			breTemp = iter.next(); 
 			if(breTemp.getPosition() == this.currentPosition){
 				synchronized(this){
 					this.currentPosition++;
-					return breTemp.getArm();				
+					arm= breTemp.getArm();				
 				}
 			}
 		}
-		return null;		
+		if(arm==null){
+			throw new C3PRBaseException("No Arm avalibale for this stratum group. Maybe the Randomization Book is exhausted");
+		}
+		return arm;		
 	}
 	
 	

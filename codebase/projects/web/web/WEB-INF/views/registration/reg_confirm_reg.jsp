@@ -28,6 +28,15 @@ function accessApp(url,app,targetWindow){
 </script>
 </head>
 <body>
+<c:choose>
+<c:when test="${not empty registrationException}">
+<tags:panelBox title="Error Registering" boxId="ConfMessage">
+<font color="Red"> <strong>Error registering subject.<br> ${registrationException.message}</strong></font>
+</tags:panelBox>
+</c:when>
+<c:otherwise>
+</c:otherwise>
+</c:choose>
 <form name="navigationForm" id="navigationForm" method="post"><input
 	type="hidden" name="gridProxy" value="${proxy}"></form>
 <tags:panelBox title="Confirmation Message" boxId="ConfMessage">
@@ -45,7 +54,7 @@ function accessApp(url,app,targetWindow){
 			been successfully sent to the Co-Ordinating center. </strong></font></c:when>
 		<c:when test="${reg_disapproved}">
 			<font color="Red"><!-- LEFT FORM STARTS HERE -->
-			<!-- RIGHT CONTENT STARTS HERE --> <<strong>Subject Registration request has
+			<!-- RIGHT CONTENT STARTS HERE --> <strong>Subject Registration request has
 			been disapproved by the Co-Ordinating center. </strong></font></c:when>
 		<c:when test="${reg_reserved}">
 			<font color="Green"><!-- LEFT FORM STARTS HERE -->

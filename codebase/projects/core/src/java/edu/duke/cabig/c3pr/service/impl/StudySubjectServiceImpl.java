@@ -89,7 +89,7 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 		return studySubjectDao.merge(studySubject);
 	}
 	
-	private StudySubject doLocalRandomization(StudySubject studySubject){
+	private StudySubject doLocalRandomization(StudySubject studySubject)throws C3PRBaseException{
 		//randomize subject
 		switch(studySubject.getStudySite().getStudy().getRandomizationType()){
 		case PHONE_CALL: break;
@@ -101,7 +101,7 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 		return studySubject;
 	}
 	
-	private StudySubject doBookRandomization(StudySubject studySubject){
+	private StudySubject doBookRandomization(StudySubject studySubject) throws C3PRBaseException{
 		ScheduledArm sa = new ScheduledArm();
 		ScheduledTreatmentEpoch ste = (ScheduledTreatmentEpoch)studySubject.getScheduledEpoch();
 		sa.setArm(studySubject.getStratumGroup().getNextArm());

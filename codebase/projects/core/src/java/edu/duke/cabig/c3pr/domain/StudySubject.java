@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.domain;
 
+import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.utils.DateUtil;
 import edu.duke.cabig.c3pr.utils.ProjectedList;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
@@ -380,7 +381,7 @@ public class StudySubject extends AbstractMutableDomainObject {
 	}
 	
 	@Transient
-	public StratumGroup getStratumGroup(){
+	public StratumGroup getStratumGroup() throws C3PRBaseException{
 		List <SubjectStratificationAnswer> ssaList = ((ScheduledTreatmentEpoch)getScheduledEpoch()).getSubjectStratificationAnswers();
 		if(ssaList != null){
 			Iterator iter = ssaList.iterator();
@@ -388,7 +389,11 @@ public class StudySubject extends AbstractMutableDomainObject {
 			while(iter.hasNext()){
 				scacList.add(new StratificationCriterionAnswerCombination((SubjectStratificationAnswer)iter.next()));
 			}
-			return ((ScheduledTreatmentEpoch)getScheduledEpoch()).getTreatmentEpoch().getStratumGroupForAnsCombination(scacList);
+			StratumGroup stratumGroup=((ScheduledTreatmentEpoch)getScheduledEpoch()).getTreatmentEpoch().getStratumGroupForAnsCombination(scacList);
+			if(stratumGroup==null){
+				throw new C3PRBaseException("No startum group found. Maybe the answer combination does not have a valid startum group");
+			}
+			return stratumGroup;
 		}
 		return null;		
 	}
