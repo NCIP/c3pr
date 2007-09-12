@@ -19,7 +19,14 @@ public enum RandomizationType  implements CodedEnum<Integer> {
 	}
 
 	public String getDisplayName() {
-		return name();
+		String name = getName();
+		if(name.equals("PHONE_CALL")){
+			return "Phone Call";
+		}else if(name.equals("CALL_OUT")){
+			return "Call Out";
+		}else {
+			return "Book";
+		}
 	}
 
 	public String getName() {
