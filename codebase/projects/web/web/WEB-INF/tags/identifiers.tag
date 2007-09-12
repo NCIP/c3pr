@@ -46,11 +46,11 @@ RowManager.addRowInseter(systemIdentifierRowInserterProps);
 RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 </script>
 <c:if test="${empty displaySys || displaySys!='false'}">
-<input id="addIdentifier" type="button" value="Add System Identifier"
+<input id="addIdentifier" type="button" value="Add Another Identifier"
 	onclick="javascript:RowManager.addRow(systemIdentifierRowInserterProps);"  />
 <br> <br>
 		
-<chrome:division title="System Identifiers">
+<chrome:division title="System Assigned Identifiers">
 <table id="mytable-system" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 	<tr>
 		<th class="scope=" col" align="left"><b><span
@@ -88,10 +88,10 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 <br> <br>
 </c:if>
 <c:if test="${empty displayOrgs || displayOrgs!='false'}">
-<input id="addIdentifier" type="button" value="Add Organization Identifier"
+<input id="addIdentifier" type="button" value="Add Another Identifier"
 	onclick="javascript:RowManager.addRow(organizationIdentifierRowInserterProps);"  />
 <br> <br>
-<chrome:division title="Organization Identifiers">
+<chrome:division title="Organization Assigned Identifiers">
 <table id="mytable-organizationIdentifier" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 	<tr>
 		<th class="scope=" col" align="left"><b><span
