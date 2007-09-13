@@ -292,9 +292,16 @@ function activateInPlaceEditing(arrayElements){
 				</div>
 				</c:if>
 			</c:if>
+			<hr align="left" width="95%">					
+			<br>
+			<div align="right"><input type="button" value="Export" onClick="$('exportForm')._target.name='xxxx';$('exportForm').submit();"/></div>
 		</td>
 	</tr>
 </table>
 </tags:panelBox>
+<form:form id="exportForm" method="post">
+	<tags:tabFields tab="${tab}"/>
+	<input type="hidden" name="_action" value="export"/>
+</form:form>
 </body>
 </html>
