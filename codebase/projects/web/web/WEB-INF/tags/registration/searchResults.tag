@@ -60,7 +60,7 @@ function submitLocalForm(formName, regId ,schEphId){
 			<c:forEach items="${registrations}" var="registration">
 			<% String currClass=i%2==0? "odd":"even"; %>
 				<c:choose>
-				<c:when test="${registration.scheduledEpoch.scEpochDataEntryStatus=='INCOMPLETE'}">
+				<c:when test="${registration.dataEntryStatusString=='Incomplete'}">
 					<c:set var="formType"
 					value="create" />
 				</c:when>
