@@ -140,8 +140,12 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
          <entry key="/pages/registration/manageRegistration.*"
                value="edu.duke.cabig.c3pr.domain.Registration:UPDATE" />
 
+		<entry key="/pages/admin/searchInvestigator.*"
+               value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
         <entry key="/pages/admin/createInvestigator.*"
                value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
+        <entry key="/pages/admin/searchResearchStaff.*"
+               value="edu.duke.cabig.c3pr.domain.ResearchStaff:CREATE"/>		
         <entry key="/pages/admin/createResearchStaff.*"
                value="edu.duke.cabig.c3pr.domain.ResearchStaff:CREATE"/>
 		<entry key="/pages/admin/createOrganization.*"

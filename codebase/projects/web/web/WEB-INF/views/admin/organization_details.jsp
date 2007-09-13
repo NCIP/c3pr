@@ -32,7 +32,7 @@
 <jsp:attribute name="singleFields">
 <input type="hidden" name="_finish" value="true">
 <input type="hidden" name="type1" value="">
-    <tags:errors path="*"/>
+<tags:errors path="*"/>
 
 <chrome:division id="organization" title="Organization Details">
 <div class="leftpanel">

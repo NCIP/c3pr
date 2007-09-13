@@ -110,7 +110,14 @@ public class PersonnelServiceImpl implements PersonnelService {
         assignUserToGroup(staff, grp.getGroupName());
     }
 
-
+    public void merge(Investigator user) throws C3PRBaseException, C3PRBaseRuntimeException{
+    	 dao.save((C3PRUser)user);
+    }
+    
+    public void merge(ResearchStaff user) throws C3PRBaseException, C3PRBaseRuntimeException{
+   	 dao.save((C3PRUser)user);
+   }
+    
     private void assignUserToGroup(C3PRUser c3PRUser, String groupName) throws C3PRBaseException {
         try {
             userProvisioningManager.assignUserToGroup(c3PRUser.getLoginId(), groupName);

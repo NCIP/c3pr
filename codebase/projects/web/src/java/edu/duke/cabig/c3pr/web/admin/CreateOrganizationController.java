@@ -39,11 +39,11 @@ public class CreateOrganizationController extends SimpleFormController {
 		if (request.getParameter("nciIdentifier") != null) {
 			System.out.println(" Request URl  is:" + request.getRequestURL().toString());
 			hcs = organizationDao.getByNciIdentifier(request.getParameter("nciIdentifier")).get(0);
-			request.setAttribute(FLOW, EDIT_FLOW);
+			request.getSession().setAttribute(FLOW, EDIT_FLOW);
 			System.out.println(" HCS's ID is:" + hcs.getId());
 		} else {
 			hcs = new HealthcareSite();
-			request.setAttribute(FLOW, SAVE_FLOW);
+			request.getSession().setAttribute(FLOW, SAVE_FLOW);
 		}
 		return hcs;
 	}
@@ -67,7 +67,7 @@ public class CreateOrganizationController extends SimpleFormController {
             return new ModelAndView(getFormView());
         }
 
-        if(request.getAttribute(FLOW).equals(SAVE_FLOW)){
+        if(request.getSession().getAttribute(FLOW).equals(SAVE_FLOW)){
         	organizationService.save(organization);
         }else {
         	organizationService.merge(organization);

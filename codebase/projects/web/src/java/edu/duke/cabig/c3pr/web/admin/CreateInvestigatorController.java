@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.web.admin;
 
+import edu.duke.cabig.c3pr.dao.InvestigatorDao;
 import edu.duke.cabig.c3pr.domain.*;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
@@ -23,6 +24,10 @@ public class CreateInvestigatorController extends
         AbstractCreateC3PRUserController<Investigator> {
 
     private PersonnelService personnelService;
+    private InvestigatorDao investigatorDao;
+    private String EDIT_FLOW = "EDIT_FLOW";
+    private String SAVE_FLOW = "SAVE_FLOW";
+    private String FLOW = "FLOW";
 
     private Logger log = Logger.getLogger(CreateInvestigatorController.class);
 
@@ -32,14 +37,42 @@ public class CreateInvestigatorController extends
 
     /**
      * Create a nested object graph that Create Investigator Design needs
-     *
+     * Incase the flow is coming from search...we get the id and get the corresponding investigator obj.
      * @param request -
      *                HttpServletRequest
      * @throws ServletException
      */
     protected Object formBackingObject(HttpServletRequest request)
             throws ServletException {
-        return createInvestigatorWithDesign();
+    	Investigator inv;
+    	if (request.getParameter("id") != null && request.getParameter("id") != "") {
+			System.out.println(" Request URl  is:" + request.getRequestURL().toString());
+			inv = investigatorDao.getById(Integer.parseInt(request.getParameter("id")));
+			int cmSize = inv.getContactMechanisms().size();
+			if(cmSize == 0){
+				inv = createInvestigatorWithContacts(inv);
+			}
+			if(cmSize == 1){
+				ContactMechanism contactMechanismPhone = new ContactMechanism();
+		        ContactMechanism contactMechanismFax = new ContactMechanism();
+		        contactMechanismPhone.setType(ContactMechanismType.PHONE);
+		        contactMechanismFax.setType(ContactMechanismType.Fax);
+		        inv.addContactMechanism(contactMechanismPhone);
+		        inv.addContactMechanism(contactMechanismFax);
+			}
+			
+			if(cmSize == 2){
+				ContactMechanism contactMechanismFax = new ContactMechanism();
+		        contactMechanismFax.setType(ContactMechanismType.Fax);
+		        inv.addContactMechanism(contactMechanismFax);
+			}
+			request.getSession().setAttribute(FLOW, EDIT_FLOW);
+			System.out.println(" Investigator's ID is:" + inv.getId());			
+    	} else {
+    		inv = createInvestigatorWithDesign();
+    		request.getSession().setAttribute(FLOW, SAVE_FLOW);
+    	}
+        return inv;
     }
 
     /*
@@ -69,7 +102,12 @@ public class CreateInvestigatorController extends
 
 
         try {
-            personnelService.save(inv);
+        	if(request.getSession().getAttribute(FLOW).equals(SAVE_FLOW)){
+        		personnelService.save(inv);
+            }else {
+            	personnelService.merge(inv);
+            }
+            
         } catch (C3PRBaseException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (C3PRBaseRuntimeException e) {
@@ -78,10 +116,9 @@ public class CreateInvestigatorController extends
                 log.info("Error saving Research staff.Probably failed to send email", e);
             }
         }
-
-        ModelAndView mv = new ModelAndView(getSuccessView());
-        mv.addObject(inv);
-
+        Map map = errors.getModel();
+		map.put("command", inv); 
+        ModelAndView mv = new ModelAndView(getSuccessView(), map);
         return mv;
     }
 
@@ -156,6 +193,16 @@ public class CreateInvestigatorController extends
     public void setPersonnelService(PersonnelService personnelService) {
         this.personnelService = personnelService;
     }
+
+
+	public InvestigatorDao getInvestigatorDao() {
+		return investigatorDao;
+	}
+
+
+	public void setInvestigatorDao(InvestigatorDao investigatorDao) {
+		this.investigatorDao = investigatorDao;
+	}
 
 
 }

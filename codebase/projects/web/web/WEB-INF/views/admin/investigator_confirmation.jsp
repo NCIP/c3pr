@@ -10,16 +10,17 @@
     <title>Confirmation</title>
 </head>
 <body>
-<chrome:box title="Investigator Succesfully Created" autopad="true">
+<br/>
+<chrome:box title="Investigator Succesfully Saved" autopad="true">
 
     <table width="100%" border="0">
         <tr>
             <td>
                 <div class="content">
                     <div class="row">
-                        <div class="label">Fulll Name:</div>
+                        <div class="label">Full Name:</div>
                         <div class="value">
-                            <c:out value="${investigator.fullName}"/>
+                            <c:out value="${command.fullName}"/>
                         </div>
                     </div>
                 </div>

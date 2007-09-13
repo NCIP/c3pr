@@ -22,7 +22,12 @@
          <create creator="spring" javascript="SearchOrganizationAjaxFacade">
             <param name="beanName" value="searchOrganizationAjaxFacade"/>
         </create>
-
+        <create creator="spring" javascript="SearchResearchStaffAjaxFacade">
+            <param name="beanName" value="searchResearchStaffAjaxFacade"/>
+        </create>
+		<create creator="spring" javascript="SearchInvestigatorAjaxFacade">
+            <param name="beanName" value="searchInvestigatorAjaxFacade"/>
+        </create>
         <create creator="spring" javascript="createReport">
             <param name="beanName" value="createReportFacade"/>
             <include method="getTable"/>

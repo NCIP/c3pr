@@ -21,7 +21,11 @@
     </decorator>
     <decorator name="standardContent" page="standardContent.jsp">
         <pattern>/pages/admin/createOrganization</pattern>
-        <pattern>/pages/admin/searchOrganization</pattern>        
+        <pattern>/pages/admin/searchOrganization</pattern> 
+        <pattern>/pages/admin/createInvestigator</pattern>
+        <pattern>/pages/admin/searchInvestigator</pattern> 
+        <pattern>/pages/admin/createResearchStaff</pattern>
+        <pattern>/pages/admin/searchResearchStaff</pattern> 
     </decorator>
     <decorator name="nullDecorator" page="nullDecorator.jsp">
     </decorator>

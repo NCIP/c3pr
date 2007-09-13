@@ -17,11 +17,7 @@ function fireAction(action, selected){
 			document.getElementById("command").submit();
 		
 	}
-function handleConfirmation(){
-	new Effect.SlideDown('createInv');
-	new Effect.SlideUp('confirmationMessage');
-	new Effect.SlideDown('dispButton');
-}
+
 var instanceRowInserterProps = {
 
 	add_row_division_id: "invesitgatorTable", 	        /* this id belongs to element where the row would be appended to */
@@ -34,11 +30,23 @@ RowManager.addRowInseter(instanceRowInserterProps);
 
 </head>
 <body>
-<tags:basicFormPanelBox tab="${tab}" flow="${flow}"
+<div class="tabpane">
+  <ul id="workflow-tabs" class="tabs autoclear">
+    <li class="tab"><div>
+        <a href="../admin/searchInvestigator">Search Investigator</a>
+    </div></li>
+    <li class="tab selected"><div>
+        <a href="../admin/createInvestigator">Create Investigator</a>
+    </div></li>
+  </ul>
+</div>
+<br />
+<tags:basicFormPanelBox tab="${tab}" flow="${flow}" title="Organization"
 	action="createInvestigator">
 	<input type="hidden" name="_action" value="">
 	<input type="hidden" name="_selected" value="">
 	<input type="hidden" name="_finish" value="true">
+
 	<tags:errors path="*" />
 	<table width="100%" border="0" cellpadding="0" cellspacing="0">
 		<tr>
@@ -51,32 +59,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 						<tr>
 							<!-- LEFT CONTENT STARTS HERE -->
 							<td valign="top" class="additionals2"><!-- LEFT FORM STARTS HERE -->
-							<!-- RIGHT CONTENT STARTS HERE --> <c:if
-								test="${param.type == 'confirm'}">
-								<div id="confirmationMessage">
-								<table width="100%" border="0">
-									<tr>
-										<td>
-										<div class="content">
-										<div class="row">
-										<div>
-										<h1>Invesitgator Succesfully Created</h1>
-										</div>
-										</div>
-										<div class="row">
-										<div class="label">Full Name:</div>
-										<div class="value">${param.fullName}</div>
-										</div>
-										<div class="row">
-										<a href="javascript:handleConfirmation()">Click here to create
-								       another investigator</a></div>
-										</div>
-										</td>
-									</tr>
-								</table>
-								</div>
-								<div id="confirmationMessage">
-							</c:if>
+							<!-- RIGHT CONTENT STARTS HERE --> 
 							<div id="createInv"
 								<c:if test="${param.type == 'confirm'}">style="display:none"</c:if>>
 								<br>

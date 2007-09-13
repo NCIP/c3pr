@@ -8,23 +8,26 @@
 
 <html>
 <head>
-    <script>
-
-
-        function handleConfirmation(){
-            new Effect.SlideDown('createRS');
-            new Effect.SlideUp('confirmationMessage');
-            new Effect.SlideDown('dispButton');
-        }
-    </script>
 </head>
 <body>
+<div class="tabpane">
+  <ul id="workflow-tabs" class="tabs autoclear">
+    <li class="tab selected"><div>
+        <a href="../admin/searchResearchStaff">Search Research Staff</a>
+    </div></li>
+    <li class="tab"><div>
+        <a href="../admin/createResearchStaff">Create Research Staff</a>
+    </div></li>
+  </ul>
+</div>
+<br />
 
 <tags:tabForm tab="${tab}" flow="${flow}" title="Research Staff" formName="researchStaffForm">
 
 <jsp:attribute name="singleFields">
 <input type="hidden" name="_finish" value="true">
 <input type="hidden" name="type1" value="">
+
 <tags:errors path="*" />
 
 <chrome:division id="site" title="Organization">

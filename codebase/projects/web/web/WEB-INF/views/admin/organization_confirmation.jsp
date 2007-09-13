@@ -8,7 +8,8 @@
     <title>Confirmation</title>
 </head>
 <body>
-<chrome:box title="Organization Succesfully Created" autopad="true">
+<br/>
+<chrome:box title="Organization Succesfully Saved" autopad="true">
 
     <table width="100%" border="0">
         <tr>

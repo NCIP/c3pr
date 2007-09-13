@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.service;
 
+import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
@@ -31,5 +32,9 @@ public interface PersonnelService {
      * @throws C3PRBaseRuntimeException
      */
     public void save(ResearchStaff user) throws C3PRBaseException, C3PRBaseRuntimeException;
+    
+    public void merge(Investigator user) throws C3PRBaseException, C3PRBaseRuntimeException;
+    
+    public void merge(ResearchStaff user) throws C3PRBaseException, C3PRBaseRuntimeException;
 
 }

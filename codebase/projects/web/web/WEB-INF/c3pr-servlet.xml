@@ -126,6 +126,7 @@
 		<property name="commandClass" value="edu.duke.cabig.c3pr.domain.HealthcareSite" />        
         <property name="formView" value="admin/organization_details" />
         <property name="successView" value="admin/organization_confirmation" />   
+        <property name="sessionForm" value="true" />
     </bean>
     <!-- mapping for create ORGANIZATION task -->
 
@@ -224,6 +225,11 @@
         <property name="formView" value="/registration/reg_confirm_reg" />
         <property name="successView" value="/registration/reg_confirm_reg" />        
     </bean>
+    
+    <bean name="/admin/searchInvestigator" id="searchInvestigatorController" 
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">        
+          <property name="viewName" value="/admin/investigator_search" />
+    </bean>
     <bean name="/admin/createInvestigator"
           id="createInvestigatorController" lazy-init="true"
           class="edu.duke.cabig.c3pr.web.admin.CreateInvestigatorController"
@@ -232,8 +238,13 @@
                   value="edu.duke.cabig.c3pr.domain.Investigator" />
         <property name="formView" value="admin/investigator_details"/>
         <property name="successView" value="admin/investigator_confirmation"/>
+        <property name="sessionForm" value="true" />
     </bean>
 
+	<bean name="/admin/searchResearchStaff" id="searchResearchStaffController" 
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">        
+          <property name="viewName" value="/admin/research_staff_search" />
+    </bean>
     <bean name="/admin/createResearchStaff"
           id="createResearchStaffController" lazy-init="true"
           class="edu.duke.cabig.c3pr.web.admin.CreateResearchStaffController"
@@ -242,6 +253,7 @@
                   value="edu.duke.cabig.c3pr.domain.ResearchStaff" />
         <property name="formView" value="admin/research_staff_details"/>
         <property name="successView" value="admin/research_staff_confirmation"/>
+        <property name="sessionForm" value="true" />
     </bean>
     
     <bean name="/admin/viewInvestigator" id="viewInvestigatorController" autowire="byType"
@@ -324,19 +336,19 @@
                 <bean
                         class="edu.duke.cabig.c3pr.utils.web.navigation.Section"
                         autowire="byType" p:displayName="Administration"
-                        p:mainController="createInvestigatorController">
+                        p:mainController="searchInvestigatorController">
                     <property name="pathMapping" value="/admin/**" />
                     <property name="tasks">
                         <list>
                             <bean
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
-                                    autowire="byType" p:displayName="Create Investigator"
-                                    p:linkName="createInvestigatorController" />
+                                    autowire="byType" p:displayName="Investigator"
+                                    p:linkName="searchInvestigatorController" />
                             <bean
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
-                                    autowire="byType" p:displayName="Create Research Staff"
-                                    p:linkName="createResearchStaffController" />
-                            <bean
+                                    autowire="byType" p:displayName="Research Staff"
+                                    p:linkName="searchResearchStaffController" />
+							<bean
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
                                     autowire="byType" p:displayName="Organization"
                                     p:linkName="searchOrganizationController" />
