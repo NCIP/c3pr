@@ -23,27 +23,19 @@
             new Effect.BlindUp(element, arguments[1] || {});
         }
 
-        function manageSelectBox(box) {
-            if (box.value == 'true') {
-                Effect.OpenUp('cooperativeGroups');
-            }
-            if (box.value == 'false') {
-                Effect.CloseDown('cooperativeGroups');
-            }
-        }
-        ValidationManager.submitPostProcess= function(formElement, continueSubmission){
-            if(formElement.id="command"){
-                box=document.getElementById('multiInstitutionIndicator');
-                if (box!=null && box.value == 'false') {
-                    new Element.update('cooperativeGroups','');
+       // ValidationManager.submitPostProcess= function(formElement, continueSubmission){
+          //  if(formElement.id="command"){
+             //   box=document.getElementById('multiInstitutionIndicator');
+              //  if (box!=null && box.value == 'false') {
+                //    new Element.update('coordinatingCenter','');
                     //	            	if(${command.multiInstitutionIndicator}){
                     //	            		$('deletionIndicator1').name="_deletedRow-studyCoordinatingCenters-0";
                     //	            		$('deletionIndicator2').name="_deletedRow-organizationAssignedIdentifiers-1";
                     //	            	}
-                }
-            }
-            return continueSubmission;
-        }
+               // }
+           // }
+        //    return continueSubmission;
+       // }
 
         function manageRandomizedIndicatorSelectBox(box) {
             if (box.value == 'true') {
@@ -180,21 +172,42 @@
                 <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
             </form:select></div>
         </div>
+        
+         <c:choose>
+            <c:when test="${not empty command.id}">
+                <div class="row">
+                    <div class="label required-indicator">
+                        Multi-Institutional:</div>
+                    <div class="value">${command.multiInstitutionIndicator=="true"?"Yes":"No"}</div>
+                </div>
+            </c:when>
+            <c:otherwise>
+                <div class="row">
+                    <div class="label required-indicator">
+                        Multi-Institutional:</div>
+                    <div class="value"><form:select path="multiInstitutionIndicator"
+                                                   cssClass="validate-notEmpty">
+                        <option value="">--Please Select--</option>
+                        <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
+                    </form:select></div>
+                </div>
+            </c:otherwise>
+         </c:choose>
 
     </div>
 
 </chrome:division>
 
-<chrome:division title="Sponsor Details">
+<chrome:division title="Funding Sponsor Details">
     <div class="leftpanel">
 
         <div class="row">
             <div class="label required-indicator">
-                Sponsor:</div>
+                Funding Sponsor:</div>
             <div class="value"><form:hidden id="healthcareSite-hidden"
 				path="studyFundingSponsors[0].healthcareSite" /><input type="hidden" id="healthcareSite-hidden1"
                         				name="organizationAssignedIdentifiers[0].healthcareSite"
-                      					 value="${command.organizationAssignedIdentifiers[0].healthcareSite.id}"/> <input
+                      					 value="${command.organizationAssignedIdentifiers[0].healthcareSite.id}" class="validate-notEmpty" /> <input
 				id="healthcareSite-input" size="50" type="text"
 				name="organizationAssignedIdentifiers[0].healthcareSite.name"
 				value="${command.organizationAssignedIdentifiers[0].healthcareSite.name}" class="validate-notEmpty" />
@@ -205,7 +218,7 @@
 
         <div class="row">
             <div class="label required-indicator">
-                Sponsor Study Identifier:</div>
+                Funding Sponsor Study Identifier:</div>
             <div class="value"><form:input path="organizationAssignedIdentifiers[0].value" size="30"
 				maxlength="30" cssClass="validate-notEmpty" /> <input type="hidden"
 				name="organizationAssignedIdentifiers[0].type" value="Protocol Authority Identifier" />
@@ -247,85 +260,38 @@
     </div>
 </chrome:division>
 
-<chrome:division title="Multi-Institutional Details">
+<chrome:division title="Coordinating Center Details">
     <div class="leftpanel">
 
-        <c:choose>
-            <c:when test="${not empty command.id}">
-                <div class="row">
-                    <div class="label required-indicator">
-                        Multi-Institutional:</div>
-                    <div class="value">${command.multiInstitutionIndicator=="true"?"Yes":"No"}</div>
-                </div>
-                <c:if test="${command.multiInstitutionIndicator=='true' }">
-                    <div class="row">
-                        <div class="label required-indicator">*Coordinating Center:</div>
-                        <div class="value"><input type="hidden" id="coCenter-hidden"
-							name="studyCoordinatingCenters[0].healthcareSite"
-							value="${command.multiInstitutionIndicator=='true'?command.studyCoordinatingCenters[0].healthcareSite.id:'' }" />
-						<input type="hidden" id="coCenter-hidden1"
-							name="organizationAssignedIdentifiers[1].healthcareSite"
-							value="${command.multiInstitutionIndicator=='true'?command.organizationAssignedIdentifiers[1].healthcareSite.id:'' }" />
-						<input id="coCenter-input" size="50" type="text"
-							name="organizationAssignedIdentifiers[1].healthcareSite.name"
-							value="${command.multiInstitutionIndicator=='true'?command.organizationAssignedIdentifiers[1].healthcareSite.name:''}" />
-						<tags:indicator id="coCenter-indicator" />
-						<div id="coCenter-choices" class="autocomplete"></div>
-						</div>
+
+         <div id="coordinatingCenter">
+                	 <div class="row">
+		                        <div class="label required-indicator">Coordinating Center:</div>
+		                        <div class="value"><input type="hidden" id="coCenter-hidden"
+								name="studyCoordinatingCenters[0].healthcareSite"
+								value="${command.studyCoordinatingCenters[0].healthcareSite.id }" class="validate-notEmpty" />
+								<input type="hidden" id="coCenter-hidden1"
+									name="organizationAssignedIdentifiers[1].healthcareSite"
+									value="${command.organizationAssignedIdentifiers[1].healthcareSite.id}" />
+								<input id="coCenter-input" size="50" type="text"
+								name="organizationAssignedIdentifiers[1].healthcareSite.name"
+								value="${command.organizationAssignedIdentifiers[1].healthcareSite.name}" class="validate-notEmpty" />
+							<tags:indicator id="coCenter-indicator" />
+							<div id="coCenter-choices" class="autocomplete"></div>
+							</div>
                     </div>
 
                     <div class="row">
                         <div class="label required-indicator">Coordinating Center
                             Study Identifier:</div>
-                        <div class="value"><input type="text" name="organizationAssignedIdentifiers[1].value"
-							size="30" maxlength="30"
-							value="${command.multiInstitutionIndicator=='true'?command.organizationAssignedIdentifiers[1].value:''}" />
-						<input type="hidden" name="organizationAssignedIdentifiers[1].type"
-							value="Coordinating Center Identifier" /></div>
-                    </div>
-                </c:if>
-            </c:when>
-            <c:otherwise>
-                <div class="row">
-                    <div class="label required-indicator">
-                        Multi-Institutional:</div>
-                    <div class="value"><form:select path="multiInstitutionIndicator"
-                                                    onchange="manageSelectBox(this);" cssClass="validate-notEmpty">
-                        <option value="">--Please Select--</option>
-                        <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
-                    </form:select></div>
-                </div>
-
-                <div id="cooperativeGroups"
-                        <c:if test="${ (empty command.multiInstitutionIndicator) || command.multiInstitutionIndicator=='false'}">style="display:none;"</c:if>>
-                    <div class="row">
-                        <div class="label required-indicator">Coordinating Center:</div>
-                        <div class="value"><input type="hidden" id="coCenter-hidden"
-						name="studyCoordinatingCenters[0].healthcareSite"
-						value="${command.multiInstitutionIndicator=='true'?command.studyCoordinatingCenters[0].healthcareSite.id:'' }" />
-					<input type="hidden" id="coCenter-hidden1"
-							name="organizationAssignedIdentifiers[1].healthcareSite"
-							value="${command.multiInstitutionIndicator=='true'?command.organizationAssignedIdentifiers[1].healthcareSite.id:'' }" />
-					<input id="coCenter-input" size="50" type="text"
-						name="organizationAssignedIdentifiers[1].healthcareSite.name"
-						value="${command.multiInstitutionIndicator=='true'?command.organizationAssignedIdentifiers[1].healthcareSite.name:''}" />
-					<tags:indicator id="coCenter-indicator" />
-					<div id="coCenter-choices" class="autocomplete"></div>
-					</div>
-                    </div>
-
-                    <div class="row">
-                        <div class="label required-indicator">Coordinating Center
-                            Study Identifier:</div>
-                        <div class="value"><input type="text" name="organizationAssignedIdentifiers[1].value"
+                        <div class="value"><input type="text" name="organizationAssignedIdentifiers[1].value" 
 						size="30" maxlength="30"
-						value="${command.multiInstitutionIndicator=='true'?command.organizationAssignedIdentifiers[1].value:''}" />
+						value="${command.organizationAssignedIdentifiers[1].value}" class="validate-notEmpty" />
 					<input type="hidden" name="organizationAssignedIdentifiers[1].type"
-						value="Coordinating Center Identifier" /></div>
+						value="Coordinating Center Identifier"/></div>
 					</div>
-                </div>
-            </c:otherwise>
-        </c:choose>
+          </div>
+           
 
     </div>
 </chrome:division>
