@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * @author Rhett Sutphin
 */
-public abstract class WorkFlowTab<C> extends ReflexiveAjaxableTab<C>{
+public abstract class WorkFlowTab<C> extends RowManagableTab<C>{
 
     private String display="true";
     private String showSummary="true";

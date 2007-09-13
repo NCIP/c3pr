@@ -16,7 +16,8 @@ import org.springframework.web.util.WebUtils;
 */
 public abstract class ReflexiveAjaxableTab<C> extends AjaxableTab<C>{
 
-	private Class[] paramTypes;
+	protected Class[] paramTypes;
+	
 	public ReflexiveAjaxableTab(){
 	}	
 	

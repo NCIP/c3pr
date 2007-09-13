@@ -68,10 +68,8 @@ var RowManager = {
 						inserter.postProcessRowInsertion(inserter)
 						inserter.localIndex++						
 					}else{
-						if(!inserter.shouldDelete(inserter,deletionIndex))
-							return;
 						inserter.preProcessRowDeletion(inserter,deletionIndex)
-						inserter.handleRowRemoval(deletionIndex)
+						inserter.removeRowFromDisplay(deletionIndex)
 						inserter.postProcessRowDeletion(inserter,deletionIndex)
 					}
 				},
@@ -128,7 +126,6 @@ Event.observe(window, "load", function() {
 var AbstractRowInserterProps = Class.create()
 var AbstractRowInserterProps = {
 	add_row_division_id: "row-table",
-	path: "",
 	skeleton_row_division_id: "dummy-row",
 	initialIndex: 0,
 	localIndex: -1,
@@ -273,12 +270,6 @@ var AbstractRowInserterProps = {
    	havingParentRowInserter: function(){
    										return this.parent_row_inserter==""?false:true
    									},
-   	handleRowRemoval: function(index){
-   							this.removeRowFromDisplay(index)
-   							if(index<this.initialIndex){
-   								this.removeFromCommand(index)
-   							}
-   						},
     removeRowFromDisplay: function(index){
     						RowManager.log("------------------------<br>")
 							logString="Removing Row from display: "+this.getRowDivisionString(index)+"<div style='padding-left:20px;'>"
@@ -292,22 +283,6 @@ var AbstractRowInserterProps = {
 							RowManager.log(logString+"</div>")
     						RowManager.log("------------------------<br>")							
 						},
-	removeFromCommand: function(index){
-							$('rowDeletionForm').collection.value=this.path
-							$('rowDeletionForm').deleteIndex.value=index
-							new Ajax.Request($('rowDeletionForm').action, 
-								{parameters:"decorator=nullDecorator&_asynchronous=true&_asyncMethodName=deleteRow&"+Form.serialize('rowDeletionForm'),
-								onSuccess: this.onDeleteFromCommandSuccess, onFailure: this.onDeleteFromCommandError, asynchronous:true, evalScripts:true})
-						},
-	onDeleteFromCommandError: function(t){
-						alert("Error Deleting Row. Please refresh the page to reload the deleted row.")
-					},
-	onDeleteFromCommandSuccess: function(t){
-   						RowManager.log("Row deletion Message: "+t.responseText)							
-					},					
-	shouldDelete: function(inserter, index){
-						return true;
-					},
 	updateSubmitParamsRows: function(){
     						RowManager.log("------------------------<br>")
 							RowManager.log("Deleting Rows from "+this.getTableString()+"<br>")
