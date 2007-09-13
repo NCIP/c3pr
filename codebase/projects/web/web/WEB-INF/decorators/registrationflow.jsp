@@ -72,5 +72,6 @@
 <div id="footer">
     <layout:footer/>
 </div>
+<tags:enableRowDeletion/>
 </body>
 </html>

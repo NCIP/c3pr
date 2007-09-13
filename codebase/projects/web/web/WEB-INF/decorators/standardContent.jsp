@@ -26,5 +26,6 @@
 </div>
  <layout:footer/>
 <tags:jsLogs debug="false"/>
+<tags:enableRowDeletion/>
 </body>
 </html>

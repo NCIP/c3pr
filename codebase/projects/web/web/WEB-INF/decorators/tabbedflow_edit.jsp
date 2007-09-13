@@ -54,5 +54,6 @@
     <layout:footer/>
 </div>
 <tags:jsLogs debug="false"/>
+<tags:enableRowDeletion/>
 </body>
 </html>
