@@ -87,6 +87,12 @@ public class ViewStudyController extends StudyController<Study> {
         return refdata;
     }
 
+    /** Change access modifier for testing **/   
+    @Override
+    protected boolean isFormSubmission(HttpServletRequest httpServletRequest) {
+        return super.isFormSubmission(httpServletRequest);    //To change body of overridden methods use File | Settings | File Templates.
+    }
+
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
         // study export
