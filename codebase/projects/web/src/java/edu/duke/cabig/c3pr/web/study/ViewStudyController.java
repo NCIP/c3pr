@@ -88,15 +88,9 @@ public class ViewStudyController extends StudyController<Study> {
     }
 
     @Override
-    protected boolean isFormSubmission(HttpServletRequest httpServletRequest) {
-        Set<String> paramNames = httpServletRequest.getParameterMap().keySet();
-        return paramNames.contains("_action");
-    }
-
-    @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
         // study export
-        if (isFormSubmission(httpServletRequest)&&StringUtils.getBlankIfNull(httpServletRequest.getParameter("_action")).equalsIgnoreCase("export")) {
+        if (httpServletRequest.getParameterMap().keySet().contains("_action")&&StringUtils.getBlankIfNull(httpServletRequest.getParameter("_action")).equalsIgnoreCase("export")) {
             Study study = (Study) currentFormObject(httpServletRequest,httpServletRequest.getSession().getAttribute(getFormSessionAttributeName()));
             httpServletResponse.setContentType("application/xml");
             httpServletResponse.setHeader("Content-Disposition", "attachment; filename=study-" + study.getId() + ".xml");
