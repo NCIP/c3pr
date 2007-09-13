@@ -145,7 +145,8 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 		ScheduledEpoch scheduledEpoch=studySubject.getScheduledEpoch();
 		if(scheduledEpoch.getScEpochDataEntryStatus()==ScheduledEpochDataEntryStatus.COMPLETE &&
 				studySubject.getRegDataEntryStatus()==RegistrationDataEntryStatus.COMPLETE){
-			if(studySubject.getStudySite().getStudy().getMultiInstitutionIndicator().equalsIgnoreCase("true")){
+			if(studySubject.getStudySite().getStudy().getMultiInstitutionIndicator().equalsIgnoreCase("true")
+					&& studySubject.getScheduledEpoch().getEpoch().isEnrolling()){
 				//broadcase message to co-ordinating center
 				try {
 					if(triggerMultisite){
