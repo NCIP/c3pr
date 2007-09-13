@@ -58,5 +58,10 @@
 <tags:jsLogs debug="false"/>
 <tags:enableRowDeletion/>
 <layout:footer/>
+<c:if test="${!empty disableForm && disableForm}">
+<script type="text/javascript">
+new Element.descendants("main${hasSummary ? '' : '-no-summary'}-pane").each(function(e){e.disabled="true";});
+</script>
+</c:if>
 </body>
 </html>
