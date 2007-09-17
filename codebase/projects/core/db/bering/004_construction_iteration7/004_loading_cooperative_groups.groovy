@@ -67,7 +67,8 @@ class LoadingCooperativeGroups extends edu.northwestern.bioinformatics.bering.Mi
 
     void down() {
      	
-     	execute("DELETE from ORGANIZATIONS")	   	  	
+     	execute("DELETE from ORGANIZATIONS")
+     	execute("DELETE from ADDRESSES")	   	  	
       	
    	}
 	
