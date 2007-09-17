@@ -62,7 +62,7 @@ insert into CSM_PROTECTION_GROUP(PROTECTION_GROUP_ID,
             APPLICATION_ID, LARGE_ELEMENT_COUNT_FLAG,
             UPDATE_DATE)
             values(6,'edu.duke.cabig.c3pr.domain.HealthcareSite',
-            'Investigator protection group',1,0,'now');
+            'HealthcareSite protection group',1,0,'now');
 
 
 insert into csm_protection_element(protection_element_id,
