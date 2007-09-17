@@ -114,31 +114,20 @@
 
     <aop:config>
         <!-- pointcuts -->
-        <aop:pointcut id="daoSaveOrUpdatePointcut"
-                      expression="execution(public void edu.duke.cabig.c3pr.dao.C3PRBaseDao+.save(gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject+)) || execution(public void edu.duke.cabig.c3pr.dao.C3PRBaseDao+.merge(gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject+))"/>
-
-
-        <!-- advisors -->
-
+        <aop:pointcut id="daoMethodPointcut"
+                      expression="execution(public void edu.duke.cabig.c3pr.dao.C3PRBaseDao+.save(gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject+)) ||
+                      execution(public void edu.duke.cabig.c3pr.dao.C3PRBaseDao+.merge(gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject+))||
+                      execution(public * edu.duke.cabig.c3pr.dao.C3PRBaseDao+.search*(..))
+                      "/>
 
         <!-- aspects -->
-        <!--
-            <aop:aspect id="assignDomainObjectOwnershipAspect"
-            ref="assignDomainObjectOwnershipBean">
-            <aop:after-returning
-            pointcut-ref="daoSaveOrUpdatePointcut"
-            method="assignOwner"
-            returning="domainObject" />
-            </aop:aspect>
-        -->
-
-        <aop:aspect id="daoSecurityInterceptorAspect"
+        <aop:aspect id="daoSaveOrUpdateSecurityInterceptorAspect"
                     ref="daoSecurityInterceptorAspectBean">
-            <aop:around pointcut-ref="daoSaveOrUpdatePointcut"
+            <aop:around pointcut-ref="daoMethodPointcut"
                         method="advise"/>
+
+
         </aop:aspect>
-
-
     </aop:config>
 
 
@@ -162,6 +151,10 @@
         <entry key="execution(* merge(edu.duke.cabig.c3pr.domain.Study))"
                value="edu.duke.cabig.c3pr.domain.Study:UPDATE"/>
 
+        <entry key="execution(* edu.duke.cabig.c3pr.dao.StudyDao.search*(..))"
+               value="edu.duke.cabig.c3pr.domain.Study:READ"/>
+
+
     </util:map>
 
     <bean id="joinPointPrivilegeAndObjectIdGenerator"
@@ -170,15 +163,16 @@
                   ref="joinPointObjectPrivilegeMap"/>
     </bean>
 
+    <bean  id="csmGroupAuthorizationCheck"
+           class="gov.nih.nci.security.acegi.csm.authorization.CSMGroupAuthorizationCheck">
+        <property name="csmUserProvisioningManager"
+                  ref="csmUserProvisioningManager"/>
+        <property name="authorizationSwitch" ref="authorizationSwitch"/>
+    </bean>
+
     <bean id="daoAuthorizationCheck" autowire="byType"
           class="gov.nih.nci.security.acegi.csm.authorization.DelegatingObjectPrivilegeCSMAuthorizationCheck">
-        <property name="csmAuthorizationCheck">
-            <bean
-                    class="gov.nih.nci.security.acegi.csm.authorization.CSMGroupAuthorizationCheck">
-                <property name="csmUserProvisioningManager"
-                          ref="csmUserProvisioningManager"/>
-                <property name="authorizationSwitch" ref="authorizationSwitch"/>
-            </bean>
+        <property name="csmAuthorizationCheck" ref="csmGroupAuthorizationCheck">
         </property>
         <property name="objectIdGenerator"
                   ref="joinPointPrivilegeAndObjectIdGenerator"/>
@@ -191,6 +185,7 @@
         <property name="objectDefinitionSource">
             <value>
                 edu.duke.cabig.c3pr.dao.StudyDao.*=CSM_AUTHN_CHECK
+                edu.duke.cabig.c3pr.dao.StudySubjectDao.*=CSM_AUTHN_CHECK
             </value>
         </property>
         <property name="accessDecisionManager">
@@ -216,19 +211,35 @@
                 </property>
             </bean>
         </property>
+        <property name="afterInvocationManager"><ref bean="afterInvocationManager"/></property>
+    </bean>
+
+
+    <bean id="afterInvocationManager" class="org.acegisecurity.afterinvocation.AfterInvocationProviderManager">
+        <property name="providers">
+            <list>
+                <ref local="siteSecurityCollectionFilter"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="siteSecurityCollectionFilter" class="edu.duke.cabig.c3pr.accesscontrol.SiteSecurityAfterInvocationCollectionFilteringProvider">
+        <property name="processConfigAttribute"
+                  value="CSM_AUTHN_CHECK"/>
+        <property name="sitePrivilegeGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
+        <property name="siteObjectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
+        <property name="authorizationCheck" ref="csmGroupAuthorizationCheck"/>
     </bean>
 
 
     <bean id="csmAuthenticationProvider"
           class="gov.nih.nci.security.acegi.csm.authentication.CSMAuthenticationProvider">
-
         <property name="csmAuthenticationManager">
             <bean class="gov.nih.nci.security.SecurityServiceProvider"
                   factory-method="getAuthenticationManager">
                 <constructor-arg ref="csmApplicationContextName"/>
             </bean>
         </property>
-
         <property name="userDetailsService">
             <bean
                     class="gov.nih.nci.security.acegi.csm.authorization.CSMUserDetailsService">
@@ -236,7 +247,6 @@
                           ref="csmUserProvisioningManager"/>
             </bean>
         </property>
-
         <property name="userCache" ref="userCache"/>
     </bean>
 
@@ -254,6 +264,7 @@
             </bean>
         </property>
     </bean>
+
 
 
 </beans>

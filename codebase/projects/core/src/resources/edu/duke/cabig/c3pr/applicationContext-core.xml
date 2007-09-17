@@ -170,17 +170,30 @@
 
 
     <bean id="personnelService" lazy-init="true"
-          class="edu.duke.cabig.c3pr.service.impl.PersonnelServiceImpl" 
-         autowire="byType"/>
+          class="edu.duke.cabig.c3pr.service.impl.PersonnelServiceImpl"
+          autowire="byType">
+        <property name="userProvisioningManager" ref="csmUserProvisioningManager"/>
+        <property name="siteObjectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
+    </bean>
 
     <bean id="organizationService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.OrganizationServiceImpl"
           autowire="byType">
-        <property name="csmApplicationContextName"
-                  ref="csmApplicationContextName"/>
+        <property name="csmApplicationContextName" ref="csmApplicationContextName"/>
+        <property name="siteObjectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
+        <property name="siteProtectionGroupId">
+            <!--id for site protection group-->
+            <value>6</value>
+        </property>
     </bean>
 
-    <!--Utilities-->
+    <!--Should be in appContext-security and applied thru aop-->
+    <bean id="sitePrivilegeAndObjectIdGenerator" class="edu.duke.cabig.c3pr.security.SitePrivilegeAndObjectIdGenerator">
+        <property name="accessPrivilege" value="ACCESS"/>
+        <property name="pathSeperator" value="."/>
+    </bean>
 
+
+    <!--Utilities-->
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="${outgoing.mail.server}"/>
         <property name="password" value="${outgoing.mail.password}"/>
