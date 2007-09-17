@@ -60,6 +60,7 @@
         <artifact track="main" type="jars" id="csm.jars">
             <fileset dir="${share.dir}/cacore/csm">
                 <include name="*.jar"/>
+                <exclude name="csm*.jar"/>
             </fileset>
         </artifact>
 
@@ -142,6 +143,7 @@
                 <include name="ctms-commons-*.jar"/>
                 <include name="aspectj*.jar"/>
                 <include name="acegi-csm*.jar"/>
+                <include name="csmapi*.jar"/>
             </fileset>
         </artifact>
 
