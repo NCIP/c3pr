@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.web.security;
 
 import edu.duke.cabig.c3pr.utils.web.navigation.Section;
+import gov.nih.nci.security.acegi.csm.authorization.AbstractPrivilegeAndObjectIdGenerator;
 
 /**
  * Created by IntelliJ IDEA.

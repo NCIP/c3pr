@@ -2,13 +2,14 @@ package edu.duke.cabig.c3pr.web.security;
  
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import gov.nih.nci.security.acegi.csm.authorization.AbstractPrivilegeAndObjectIdGenerator;
 
 /**
  * @author <a href="mailto:joshua.phillips@semanticbits.com">Joshua Phillips</a>
  *
  */
 public class RegexPrivilegeAndObjectIdGenerator extends
-		AbstractPrivilegeAndObjectIdGenerator {
+        AbstractPrivilegeAndObjectIdGenerator {
 
 	private static final Log logger = LogFactory.getLog(RegexPrivilegeAndObjectIdGenerator.class);
 
