@@ -1,11 +1,9 @@
 package edu.duke.cabig.c3pr.service;
 
-import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service to handle C3PR Users management
@@ -17,8 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
  * To change this template use File | Settings | File Templates.
  */
 //ToDo refactor to different services for ResearchStaff and Investigator
-@Transactional(readOnly = false, rollbackFor = C3PRBaseException.class,
-        noRollbackFor = C3PRBaseRuntimeException.class)
 public interface PersonnelService {
 
 

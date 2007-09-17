@@ -4,7 +4,6 @@ import edu.duke.cabig.c3pr.dao.OrganizationDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
-import gov.nih.nci.security.authorization.domainobjects.Group;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,11 +15,14 @@ import gov.nih.nci.security.authorization.domainobjects.Group;
 public interface OrganizationService {
 
     public void save(HealthcareSite organization) throws C3PRBaseException, C3PRBaseRuntimeException;
-    
+
+    /*
+    * merge also calls save on the dao because he dao's save calls a saveOrUpdate which works just fine.
+    * thsi methiod was created so that we caould avoid calling createGroupForOrganization
+    * @see edu.duke.cabig.c3pr.service.OrganizationService#merge(edu.duke.cabig.c3pr.domain.HealthcareSite)
+    */
     public void merge(HealthcareSite organization) throws C3PRBaseException, C3PRBaseRuntimeException;
-    
-    public Group createGroupForOrganization(HealthcareSite organization) throws C3PRBaseException, C3PRBaseRuntimeException;
-    
+
     public OrganizationDao getOrganizationDao();
 
 }

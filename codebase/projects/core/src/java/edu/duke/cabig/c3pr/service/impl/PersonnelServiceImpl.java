@@ -4,17 +4,21 @@ import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.domain.*;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
-import edu.duke.cabig.c3pr.service.OrganizationService;
 import edu.duke.cabig.c3pr.service.PersonnelService;
 import gov.nih.nci.security.UserProvisioningManager;
+import gov.nih.nci.security.acegi.csm.authorization.CSMObjectIdGenerator;
 import gov.nih.nci.security.authorization.domainobjects.Group;
 import gov.nih.nci.security.authorization.domainobjects.User;
+import gov.nih.nci.security.dao.GroupSearchCriteria;
 import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
 import org.apache.log4j.Logger;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
@@ -27,8 +31,9 @@ import org.springframework.mail.SimpleMailMessage;
 public class PersonnelServiceImpl implements PersonnelService {
 
     private ResearchStaffDao dao;
-    private OrganizationService organizationService;
+
     private UserProvisioningManager userProvisioningManager;
+    private CSMObjectIdGenerator siteObjectIdGenerator;
 
     private MailSender mailSender;
     private SimpleMailMessage accountCreatedTemplateMessage;
@@ -50,24 +55,19 @@ public class PersonnelServiceImpl implements PersonnelService {
                 csmUser.setPhoneNumber(cm.getValue());
         }
 
-        if (emailId == null)
-            throw new C3PRBaseException("Email address is required");
-
         csmUser.setFirstName(c3prUser.getFirstName());
         csmUser.setLastName(c3prUser.getLastName());
         csmUser.setPassword(c3prUser.getLastName());
 
-
-        c3prUser.setLoginId(emailId);
-        log.debug("Saving c3pr user");
-        dao.save(c3prUser);
-
         //do this last. Any exception will rollback the c3pr transaction
         try {
             userProvisioningManager.createUser(csmUser);
+            c3prUser.setLoginId(csmUser.getUserId().toString());
+            log.debug("Saving c3pr user");
+            dao.save(c3prUser);
 
             for (C3PRUserGroupType group : c3prUser.getGroups()) {
-                assignUserToGroup(c3prUser, group.getCode());
+                assignUserToGroup(csmUser, group.getCode());
             }
         } catch (CSTransactionException e) {
             throw new C3PRBaseException("Could not create user", e);
@@ -83,8 +83,6 @@ public class PersonnelServiceImpl implements PersonnelService {
         } catch (MailException e) {
             throw new C3PRBaseRuntimeException("Could not send confirmation email to user", e);
         }
-
-
     }
 
     public void save(Investigator inv) throws C3PRBaseException, C3PRBaseRuntimeException {
@@ -95,35 +93,56 @@ public class PersonnelServiceImpl implements PersonnelService {
 
     public void save(ResearchStaff staff) throws C3PRBaseException, C3PRBaseRuntimeException {
         log.debug("Saving Research Staff");
-        save((C3PRUser) staff);
+        try {
+            save((C3PRUser) staff);
+        } catch (C3PRBaseRuntimeException e) {
+            //ignore because its a mail send exception
+        }
 
         try {
-            User csmUser = userProvisioningManager.getUserById(staff.getLoginId());
+            User csmUser = getCSMUser(staff);
             csmUser.setOrganization(staff.getHealthcareSite().getNciInstituteCode());
-
+            assignUserToGroup(csmUser,siteObjectIdGenerator.generateId(staff.getHealthcareSite()) );
+            log.debug("Successfully assigned user to organization group" + siteObjectIdGenerator.generateId(staff.getHealthcareSite()) );
         } catch (CSObjectNotFoundException e) {
             new C3PRBaseException("Could not assign user to organization group.");
         }
-        log.debug("Successfully assigned user to organization");
 
-        Group grp = organizationService.createGroupForOrganization(staff.getHealthcareSite());
-        assignUserToGroup(staff, grp.getGroupName());
     }
 
     public void merge(Investigator user) throws C3PRBaseException, C3PRBaseRuntimeException{
-    	 dao.save((C3PRUser)user);
+        dao.save((C3PRUser)user);
     }
-    
+
     public void merge(ResearchStaff user) throws C3PRBaseException, C3PRBaseRuntimeException{
-   	 dao.save((C3PRUser)user);
-   }
-    
-    private void assignUserToGroup(C3PRUser c3PRUser, String groupName) throws C3PRBaseException {
+        dao.save((C3PRUser)user);
+    }
+
+    private void assignUserToGroup(User csmUser, String groupName) throws C3PRBaseException {
+        Set<String> groups = new HashSet<String>();
         try {
-            userProvisioningManager.assignUserToGroup(c3PRUser.getLoginId(), groupName);
-        } catch (CSTransactionException e) {
+            Set<Group> existingSet = userProvisioningManager.getGroups(csmUser.getUserId().toString());
+            for(Group existingGroup: existingSet){
+                groups.add(existingGroup.getGroupId().toString());
+            }
+            groups.add(getGroupIdByName(groupName));
+
+            userProvisioningManager.assignGroupsToUser(csmUser.getUserId().toString(),groups.toArray(new String[groups.size()]));
+        } catch (Exception e) {
             throw new C3PRBaseException("Could not add user to group", e);
         }
+    }
+
+    private User getCSMUser(C3PRUser user) throws CSObjectNotFoundException{
+        return userProvisioningManager.getUserById(user.getLoginId());
+    }
+
+    private String getGroupIdByName(String groupName){
+        Group search = new Group();
+        search.setGroupName(groupName);
+        GroupSearchCriteria sc  = new GroupSearchCriteria(search);
+        Group returnGroup = (Group)userProvisioningManager.getObjects(sc).get(0);
+        return returnGroup.getGroupId().toString();
     }
 
 
@@ -145,12 +164,13 @@ public class PersonnelServiceImpl implements PersonnelService {
         this.dao = dao;
     }
 
-    public OrganizationService getOrganizationService() {
-        return organizationService;
+
+    public CSMObjectIdGenerator getSiteObjectIdGenerator() {
+        return siteObjectIdGenerator;
     }
 
-    public void setOrganizationService(OrganizationService organizationService) {
-        this.organizationService = organizationService;
+    public void setSiteObjectIdGenerator(CSMObjectIdGenerator siteObjectIdGenerator) {
+        this.siteObjectIdGenerator = siteObjectIdGenerator;
     }
 
     public MailSender getMailSender() {
