@@ -258,9 +258,9 @@
                handler="edu.duke.cabig.c3pr.xml.DateFieldHandler">
             <bind-xml name="startDate" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain" />
         </field>
-        <field name="registrationStatus" type="string">
-            <bind-xml name="registrationStatus" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain" />
-        </field>
+        <!--<field name="registrationStatus" type="string">-->
+            <!--<bind-xml name="registrationStatus" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain" />-->
+        <!--</field>-->
         <field name="epoch" type="edu.duke.cabig.c3pr.domain.Epoch">
             <bind-xml   auto-naming="deriveByClass" node="element"
                         xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
@@ -412,10 +412,10 @@
             <bind-xml name="primaryIdentifier" node="element"
                       xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
-        <field name="registrationStatus" type="string">
-            <bind-xml name="registrationStatus" node="element"
-                      xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        </field>
+        <!--<field name="registrationStatus" type="string">-->
+            <!--<bind-xml name="registrationStatus" node="element"-->
+                      <!--xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>-->
+        <!--</field>-->
         <field name="identifiers" type="edu.duke.cabig.c3pr.domain.Identifier"
                collection="collection">
             <bind-xml auto-naming="deriveByClass" node="element"

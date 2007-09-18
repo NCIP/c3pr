@@ -136,7 +136,7 @@
             <xs:element name="informedConsentFormSignedDate" type="xs:date" minOccurs="0" maxOccurs="1"/>
             <xs:element name="informedConsentVersion" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="primaryIdentifier" type="xs:string" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="registrationStatus" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <!--<xs:element name="registrationStatus" type="xs:string" minOccurs="0" maxOccurs="1"/>-->
             <xs:element ref="identifier" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element name="scheduledEpochs"  type="ScheduledEpochType" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
@@ -146,7 +146,7 @@
     <xs:complexType name="ScheduledEpochType">
                      <xs:sequence>
                     <xs:element name="startDate" type="xs:date" minOccurs="0"/>
-                         <xs:element name="registrationStatus" type="xs:string" minOccurs="0"/>
+                         <!--<xs:element name="registrationStatus" type="xs:string" minOccurs="0"/>-->
                          <xs:element name="epoch" type="EpochType" minOccurs="0"/>
                 </xs:sequence>
         <xs:attribute name="gridId" type="xs:string"/>
