@@ -12,10 +12,10 @@
 <body>
 <div class="tabpane">
   <ul id="workflow-tabs" class="tabs autoclear">
-    <li class="tab selected"><div>
+    <li class="tab"><div>
         <a href="../admin/searchResearchStaff">Search Research Staff</a>
     </div></li>
-    <li class="tab"><div>
+    <li class="tab selected"><div>
         <a href="../admin/createResearchStaff">Create Research Staff</a>
     </div></li>
   </ul>
@@ -26,7 +26,6 @@
 
 <jsp:attribute name="singleFields">
 <input type="hidden" name="_finish" value="true">
-<input type="hidden" name="type1" value="">
 
 <tags:errors path="*" />
 
