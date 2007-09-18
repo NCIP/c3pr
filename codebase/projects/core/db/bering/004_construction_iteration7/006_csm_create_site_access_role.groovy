@@ -4,6 +4,7 @@ class CSMCreateSiteAccessRole extends edu.northwestern.bioinformatics.bering.Mig
 	void up() {
 	    insert('CSM_ROLE',[role_id: 19, role_name:"edu.duke.cabig.c3pr.domain.HealthcareSite.ACCESS", role_description: "HealthcareSite access role", active_flag: 1, application_id: 1], primaryKey: false);
         insert('CSM_ROLE_PRIVILEGE',[role_privilege_id: 19, role_id: 19,privilege_id:2], primaryKey: false);
+        //assign to c3pr_admin group
         insert('csm_user_group_role_pg',[USER_GROUP_ROLE_PG_ID: 33, GROUP_ID: 1, ROLE_ID: 19, PROTECTION_GROUP_ID: 6], primaryKey: false);
 
 	}
