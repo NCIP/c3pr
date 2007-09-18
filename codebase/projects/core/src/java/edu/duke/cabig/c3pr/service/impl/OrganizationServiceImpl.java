@@ -34,6 +34,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     private String csmApplicationContextName;
     private String siteProtectionGroupId;
+    private String siteAccessRoleId;
+
     private CSMObjectIdGenerator siteObjectIdGenerator;
 
     private Logger log  = Logger.getLogger(OrganizationService.class);
@@ -75,7 +77,7 @@ public class OrganizationServiceImpl implements OrganizationService {
             log.debug("Creating Protection Element for new organization:" + siteId);
             ProtectionElement pe = new ProtectionElement();
             pe.setApplication(userProvisioningManager.getApplication(csmApplicationContextName));
-            pe.setObjectId(organization.getNciInstituteCode());
+            pe.setObjectId(siteId);
             pe.setProtectionElementName(siteId);
             pe.setProtectionElementDescription("Site Protection Element");
             Set pgs = new HashSet();
@@ -83,7 +85,7 @@ public class OrganizationServiceImpl implements OrganizationService {
             pe.setProtectionGroups(pgs);
             userProvisioningManager.createProtectionElement(pe);
 
-            userProvisioningManager.assignGroupRoleToProtectionGroup(pg.getProtectionGroupId().toString(),org.getGroupId().toString(),new String[]{siteProtectionGroupId});
+            userProvisioningManager.assignGroupRoleToProtectionGroup(pg.getProtectionGroupId().toString(),org.getGroupId().toString(),new String[]{siteAccessRoleId});
 
 
         } catch (CSObjectNotFoundException e) {
@@ -104,6 +106,15 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     public void setSiteObjectIdGenerator(CSMObjectIdGenerator siteObjectIdGenerator) {
         this.siteObjectIdGenerator = siteObjectIdGenerator;
+    }
+
+
+    public String getSiteAccessRoleId() {
+        return siteAccessRoleId;
+    }
+
+    public void setSiteAccessRoleId(String siteAccessRoleId) {
+        this.siteAccessRoleId = siteAccessRoleId;
     }
 
     public String getSiteProtectionGroupId() {

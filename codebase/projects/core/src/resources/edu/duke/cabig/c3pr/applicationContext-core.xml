@@ -184,6 +184,9 @@
             <!--id for site protection group-->
             <value>6</value>
         </property>
+        <property name="siteAccessRoleId">
+            <value>19</value>
+        </property>
     </bean>
 
     <!--Should be in appContext-security and applied thru aop-->
