@@ -28,7 +28,14 @@ public class StudyAmendment extends AbstractMutableDomainObject{
 	private Date irbApprovalDate;
 	private Date amendmentDateStr;
 	private Date irbApprovalDateStr;
-
+	
+	private Boolean epochAndArmsChangedIndicator; 
+	private Boolean stratificationChangedIndicator;
+	private Boolean consentChangedIndicator;
+	private Boolean eligibilityChangedIndicator;
+	private Boolean diseasesChangedIndicator;
+	private Boolean principalInvestigatorChangedIndicator;
+	
 
 	/// Mutators
 	public Integer getAmendmentVersion() {
@@ -77,6 +84,45 @@ public class StudyAmendment extends AbstractMutableDomainObject{
 	        }
 	        return "";
 	    }
+
+	public Boolean getConsentChangedIndicator() {
+		return consentChangedIndicator;
+	}
+	public void setConsentChangedIndicator(Boolean consentChangedIndicator) {
+		this.consentChangedIndicator = consentChangedIndicator;
+	}
+	public Boolean getDiseasesChangedIndicator() {
+		return diseasesChangedIndicator;
+	}
+	public void setDiseasesChangedIndicator(Boolean diseasesChangedIndicator) {
+		this.diseasesChangedIndicator = diseasesChangedIndicator;
+	}
+	public Boolean getEligibilityChangedIndicator() {
+		return eligibilityChangedIndicator;
+	}
+	public void setEligibilityChangedIndicator(Boolean eligibilityChangedIndicator) {
+		this.eligibilityChangedIndicator = eligibilityChangedIndicator;
+	}
+	public Boolean getEpochAndArmsChangedIndicator() {
+		return epochAndArmsChangedIndicator;
+	}
+	public void setEpochAndArmsChangedIndicator(Boolean epochAndArmsChangedIndicator) {
+		this.epochAndArmsChangedIndicator = epochAndArmsChangedIndicator;
+	}
+	public Boolean getStratificationChangedIndicator() {
+		return stratificationChangedIndicator;
+	}
+	public void setStratificationChangedIndicator(
+			Boolean stratificationChangedIndicator) {
+		this.stratificationChangedIndicator = stratificationChangedIndicator;
+	}
+	public Boolean getPrincipalInvestigatorChangedIndicator() {
+		return principalInvestigatorChangedIndicator;
+	}
+	public void setPrincipalInvestigatorChangedIndicator(
+			Boolean principalInvestigatorChangedIndicator) {
+		this.principalInvestigatorChangedIndicator = principalInvestigatorChangedIndicator;
+	}
 
 
 }
