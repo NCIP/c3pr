@@ -10,7 +10,6 @@ class StudyAmendmentColumnAdd extends edu.northwestern.bioinformatics.bering.Mig
    	 }
 
     void down() {
-    	dropColumn('randomizations','phone_number')  
     	dropColumn('study_amendments', 'epoch_and_arms_changed_indicator');
    		dropColumn('study_amendments', 'stratification_changed_indicator');
    		dropColumn('study_amendments', 'consent_changed_indicator');
