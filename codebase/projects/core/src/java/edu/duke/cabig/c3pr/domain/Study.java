@@ -10,6 +10,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -58,7 +60,7 @@ public class Study extends AbstractMutableDomainObject implements
 
 	private String phaseCode;
 
-	private String status;
+	//private String status;
 
 	private String type;
 
@@ -71,6 +73,10 @@ public class Study extends AbstractMutableDomainObject implements
 	private List<Epoch> epochs;
 
 	private RandomizationType randomizationType;
+	
+	private StudyDataEntryStatus dataEntryStatus;
+	
+	private CoordinatingCenterStudyStatus coordinatingCenterStudyStatus;
 
 	private List<StudyDisease> studyDiseases = new ArrayList<StudyDisease>();
 
@@ -329,6 +335,21 @@ public class Study extends AbstractMutableDomainObject implements
 	public List<StudyAmendment> getStudyAmendments() {
 		return lazyListHelper.getLazyList(StudyAmendment.class);
 	}
+	
+	@Transient
+	public List<StudyAmendment> getPastStudyAmendments() {
+		if(this.getStudyAmendments().size()>1){
+		return this.getStudyAmendments().subList(0, getStudyAmendments().size()-1);
+		}
+		else return null;
+	}
+	
+	@Transient
+	public StudyAmendment getCurrentStudyAmendment() {
+		if (this.getStudyAmendments().size()>0)
+		return this.getStudyAmendments().get(getStudyAmendments().size()-1);
+		else return null;
+	}
 
 	public void setStudyAmendments(final List<StudyAmendment> amendments) {
 		setStudyAmendmentsInternal(amendments);
@@ -420,13 +441,13 @@ public class Study extends AbstractMutableDomainObject implements
 		this.shortTitleText = shortTitleText;
 	}
 
-	public String getStatus() {
+	/*public String getStatus() {
 		return status;
 	}
 
 	public void setStatus(String status) {
 		this.status = status;
-	}
+	}*/
 
 	public Integer getTargetAccrualNumber() {
 		return targetAccrualNumber;
@@ -524,6 +545,60 @@ public class Study extends AbstractMutableDomainObject implements
 	}
 	
 	@Transient
+	public boolean hasEnrollingNonTreatmentEpoch(){
+		
+		if(this.getNonTreatmentEpochs()!=null){
+			NonTreatmentEpoch nonTreatmentEpoch;
+		Iterator<NonTreatmentEpoch> nonTreatmentEpochIter = this.getNonTreatmentEpochs().iterator();
+		while(nonTreatmentEpochIter.hasNext()){
+			nonTreatmentEpoch = nonTreatmentEpochIter.next();
+			if(nonTreatmentEpoch.getEnrollmentIndicator().equalsIgnoreCase("Yes"))
+				return true;				
+		}
+		}
+		return false;
+	}
+	
+	@Transient
+	public boolean hasElligibility(){
+
+		if(this.getTreatmentEpochs().size()>0){
+			TreatmentEpoch treatmentEpoch;
+		Iterator<TreatmentEpoch> treatmentEpochIter = this.getTreatmentEpochs().iterator();
+		while(treatmentEpochIter.hasNext()){
+			treatmentEpoch = treatmentEpochIter.next();
+			if(treatmentEpoch.getEligibilityCriteria().size()>0)
+				return true;				
+		}
+		}
+		return false;
+	}
+	
+	@Transient
+	public boolean hasStratification(){
+
+		if(this.getTreatmentEpochs().size()>0){
+			TreatmentEpoch treatmentEpoch;
+		Iterator<TreatmentEpoch> treatmentEpochIter = this.getTreatmentEpochs().iterator();
+		while(treatmentEpochIter.hasNext()){
+			treatmentEpoch = treatmentEpochIter.next();
+			if(treatmentEpoch.getStratificationCriteria().size()>0)
+				return true;				
+		}
+		}
+		return false;
+	}
+	
+	@Transient
+	public boolean hasEnrollingEpoch(){
+		
+		if (this.getTreatmentEpochs().size()>0 || (this.hasEnrollingNonTreatmentEpoch())){
+			return true;
+		}
+		return false;
+	}
+	
+	@Transient
 	public boolean getHasRegisteredParticipants(){
 		
 		if(getStudySites() != null && getStudySites().size() > 0){
@@ -539,6 +614,24 @@ public class Study extends AbstractMutableDomainObject implements
 			}
 		}	
 		return false;
+	}
+	@Enumerated(EnumType.STRING)
+	public StudyDataEntryStatus getDataEntryStatus() {
+		return dataEntryStatus;
+	}
+
+	public void setDataEntryStatus(StudyDataEntryStatus dataEntryStatus) {
+		this.dataEntryStatus = dataEntryStatus;
+	}
+	
+	@Enumerated(EnumType.STRING)
+	public CoordinatingCenterStudyStatus getCoordinatingCenterStudyStatus() {
+		return coordinatingCenterStudyStatus;
+	}
+
+	public void setCoordinatingCenterStudyStatus(
+			CoordinatingCenterStudyStatus coordinatingCenterStudyStatus) {
+		this.coordinatingCenterStudyStatus = coordinatingCenterStudyStatus;
 	}
 
 }
