@@ -3,22 +3,17 @@ package edu.duke.cabig.c3pr.service;
 import static edu.duke.cabig.c3pr.C3PRUseCase.IMPORT_STUDY;
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.dao.StudyDao;
-import edu.duke.cabig.c3pr.dao.InvestigatorDaoTest;
-import edu.duke.cabig.c3pr.dao.StudyDaoTest;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.service.impl.StudyXMLImporterServiceImpl;
-import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
+import edu.duke.cabig.c3pr.utils.MasqueradingDaoTestCase;
 import edu.duke.cabig.c3pr.utils.SecurityContextTestUtils;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
-import edu.nwu.bioinformatics.commons.ResourceRetriever;
 import org.acegisecurity.AccessDeniedException;
 
 import java.util.List;
-import java.io.InputStream;
-import java.io.FileNotFoundException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -28,7 +23,7 @@ import java.io.FileNotFoundException;
  * To change this template use File | Settings | File Templates.
  */
 @C3PRUseCases({IMPORT_STUDY})
-public class StudyXMLImporterTestCase extends ContextDaoTestCase<StudyDao> {
+public class StudyXMLImporterTestCase extends MasqueradingDaoTestCase<StudyDao> {
 
 
     private StudyXMLImporterServiceImpl studyImporter;
@@ -87,8 +82,13 @@ public class StudyXMLImporterTestCase extends ContextDaoTestCase<StudyDao> {
     }
 
 
-    protected String getDaoBeanName() {
-        return "studyDao";
+    /**
+     * What dao class is the test trying to Masquerade
+     *
+     * @return
+     */
+    public Class<StudyDao> getMasqueradingDaoClassName() {
+        return StudyDao.class;
     }
 
     public StudyXMLImporterServiceImpl getStudyImporter() {
@@ -108,14 +108,5 @@ public class StudyXMLImporterTestCase extends ContextDaoTestCase<StudyDao> {
         this.marshaller = marshaller;
     }
 
-  //Mock to be some other test
 
-    protected InputStream handleTestDataFileNotFound() throws FileNotFoundException {
-        return ResourceRetriever.getResource(InvestigatorDaoTest.class.getPackage(),getTestDataFileName());
-    }
-
-
-    protected String getClassNameWithoutPackage() {
-        return StudyDaoTest.class.getSimpleName();
-    }
 }

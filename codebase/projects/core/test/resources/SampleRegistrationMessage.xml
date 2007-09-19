@@ -1,48 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<registration xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain" studyGridId="testStudyGridId">
-    <name>tempStr</name>
-    <studySite>
-        <healthcareSite gridId="siteGridId">
-            <address/>
+<registration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain ../../dev/cvsroot/c3prv2/codebase/projects/core/resources/xsd/c3pr-domain.xsd"
+ xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"
+ gridId="132933e0-bdd5-43d1-bddf-62b88ff7a88e">
+    <studySite gridId="0fb4740d-6db8-40e4-abec-5bf165996c02">
+        <healthcareSite>
+            <name>duke healthcare</name>
+            <descriptionText>duke healthcare</descriptionText>
+            <address><streetAddress>12359 sunrise valley drive</streetAddress><city>Reston</city><stateCode>VA</stateCode><postalCode>20191</postalCode><countryCode>USA</countryCode></address>
+            <nciInstituteCode>code</nciInstituteCode>
         </healthcareSite>
-        <irbApprovalDate>2007-09-06T17:16:04.689-04:00</irbApprovalDate>
-        <startDate>2007-09-06T17:16:04.689-04:00</startDate>
+        <irbApprovalDate>2007-09-19</irbApprovalDate>
+        <startDate>2007-09-19</startDate>
     </studySite>
+    <studyGridId>42f9c29e-f196-4d85-9589-32e238d75867</studyGridId>
     <participant xmlns:ns1="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain">
-        <ns1:firstName>tempStr</ns1:firstName>
-        <ns1:lastName>tempStr</ns1:lastName>
+        <ns1:firstName>Rudolph</ns1:firstName>
+        <ns1:lastName>Clooney</ns1:lastName>
         <ns1:address>
-            <ns1:streetAddress>12359 Sunrise Valley Dr</ns1:streetAddress>
+            <ns1:streetAddress>12359 sunrise valley drive</ns1:streetAddress>
             <ns1:city>Reston</ns1:city>
             <ns1:stateCode>VA</ns1:stateCode>
             <ns1:postalCode>20191</ns1:postalCode>
             <ns1:countryCode>USA</ns1:countryCode>
         </ns1:address>
-        <ns1:administrativeGenderCode>tempStr</ns1:administrativeGenderCode>
-        <ns1:birthDate>2009-01-20</ns1:birthDate>
-        <ns1:ethnicGroupCode>tempStr</ns1:ethnicGroupCode>
-        <ns1:maritalStatusCode>tempStr</ns1:maritalStatusCode>
-        <ns1:raceCode>tempStr</ns1:raceCode>
-        <ns1:systemAssignedIdentifier>
-            <ns1:type>tempStr0</ns1:type>
-            <ns1:value>tempStr0</ns1:value>
-            <ns1:primaryIndicator>true</ns1:primaryIndicator>
-            <ns1:systemName>tempStr0</ns1:systemName>
-        </ns1:systemAssignedIdentifier>
-        <ns1:systemAssignedIdentifier>
-            <ns1:type>tempStr1</ns1:type>
-            <ns1:value>tempStr1</ns1:value>
-            <ns1:primaryIndicator>true</ns1:primaryIndicator>
-            <ns1:systemName>tempStr1</ns1:systemName>
-        </ns1:systemAssignedIdentifier>
-        <ns1:systemAssignedIdentifier>
-            <ns1:type>tempStr2</ns1:type>
-            <ns1:value>tempStr2</ns1:value>
-            <ns1:primaryIndicator>true</ns1:primaryIndicator>
-            <ns1:systemName>tempStr2</ns1:systemName>
-        </ns1:systemAssignedIdentifier>
+        <ns1:administrativeGenderCode>M</ns1:administrativeGenderCode>
+        <ns1:birthDate>0006-06-23</ns1:birthDate>
+        <ns1:raceCode>White</ns1:raceCode>
     </participant>
-    <startDate>2009-01-20</startDate>
-    <informedConsentFormSignedDate>2009-01-20</informedConsentFormSignedDate>
-    <primaryIdentifier>tempStr0</primaryIdentifier>
+    <startDate>2007-09-19</startDate>
+    <informedConsentFormSignedDate>2007-09-19</informedConsentFormSignedDate>
+    <informedConsentVersion>1.0</informedConsentVersion>
+    <scheduledTreatmentEpoch gridId="dae21a93-828f-4c5e-bb98-c1db00cd153e">
+        <startDate>2007-09-19</startDate>
+        <treatmentEpoch gridId="7bd88c55-a4bb-4f37-aaa4-03317bab728b">
+            <name>epoch1</name>
+            <stratificationCriteria>
+                <questionNumber>0</questionNumber>
+                <questionText>will I work?</questionText>
+                <permissibleAnswer>
+                    <permissibleAnswer>lets find out1</permissibleAnswer>
+                </permissibleAnswer>
+                <permissibleAnswer>
+                    <permissibleAnswer>lets find out2</permissibleAnswer>
+                </permissibleAnswer>
+            </stratificationCriteria>
+        </treatmentEpoch>
+    </scheduledTreatmentEpoch>
+    <stratumGroup>0:lets find out1</stratumGroup>
 </registration>

@@ -4,22 +4,16 @@ import static edu.duke.cabig.c3pr.C3PRUseCase.CREATE_RESEARCH_STAFF;
 import static edu.duke.cabig.c3pr.C3PRUseCase.CREATE_STUDY_INVESTIGATOR;
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
-import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDaoTest;
-import edu.duke.cabig.c3pr.dao.InvestigatorDaoTest;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.service.impl.PersonnelServiceImpl;
-import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
-import edu.nwu.bioinformatics.commons.ResourceRetriever;
+import edu.duke.cabig.c3pr.utils.MasqueradingDaoTestCase;
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.authorization.domainobjects.User;
 import org.easymock.EasyMock;
 import static org.easymock.EasyMock.*;
 import org.springframework.mail.MailSender;
-
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 
 
 /**
@@ -30,7 +24,7 @@ import java.io.InputStream;
  * To change this template use File | Settings | File Templates.
  */
 @C3PRUseCases({CREATE_RESEARCH_STAFF, CREATE_STUDY_INVESTIGATOR})
-public class PersonnelServiceTest extends ContextDaoTestCase<HealthcareSiteInvestigatorDao> {
+public class PersonnelServiceTest extends MasqueradingDaoTestCase<HealthcareSiteInvestigatorDao> {
 
     private PersonnelServiceImpl
             service;
@@ -72,14 +66,13 @@ public class PersonnelServiceTest extends ContextDaoTestCase<HealthcareSiteInves
         verify(mockUPM);
     }
 
-//Mock to be some other test
 
-    protected InputStream handleTestDataFileNotFound() throws FileNotFoundException {
-        return ResourceRetriever.getResource(InvestigatorDaoTest.class.getPackage(), getTestDataFileName());
-    }
-
-
-    protected String getClassNameWithoutPackage() {
-        return HealthcareSiteInvestigatorDaoTest.class.getSimpleName();
+    /**
+     * What dao class is the test trying to Masquerade
+     *
+     * @return
+     */
+    public Class<HealthcareSiteInvestigatorDao> getMasqueradingDaoClassName() {
+        return HealthcareSiteInvestigatorDao.class;
     }
 }

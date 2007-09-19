@@ -35,6 +35,7 @@ import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 import edu.duke.cabig.c3pr.utils.StudyCreationHelper;
+import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 
 /**
  * Created by IntelliJ IDEA.
@@ -644,9 +645,19 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
         }
         interruptSession();
 
-	}
+        XmlMarshaller marshaller = marshaller = new XmlMarshaller();
+        StudySubject loaded = studySubjectDao.getById(savedId);
+        String xml = marshaller.toXML(loaded);
+        System.out.println(xml);
+        assertNotNull(xml);
 
-	/* Test Cases for createRegistration
+
+    }
+
+
+
+
+    /* Test Cases for createRegistration
 	 * Local Trial
 	 * Non Randomized Treatment Epoch
 	 */
