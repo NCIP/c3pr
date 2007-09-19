@@ -36,6 +36,16 @@ public abstract class ScheduledEpoch extends AbstractMutableDomainObject impleme
 	private ScheduledEpochDataEntryStatus scEpochDataEntryStatus;
 	
 	private ScheduledEpochWorkFlowStatus scEpochWorkflowStatus;
+	
+	private String disapprovalReasonText;
+
+	public String getDisapprovalReasonText() {
+		return disapprovalReasonText;
+	}
+
+	public void setDisapprovalReasonText(String disapprovalReasonText) {
+		this.disapprovalReasonText = disapprovalReasonText;
+	}
 
 	@Enumerated(EnumType.STRING)
 	public ScheduledEpochDataEntryStatus getScEpochDataEntryStatus() {

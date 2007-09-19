@@ -1,13 +1,22 @@
 package edu.duke.cabig.c3pr.web.registration;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.validation.BindException;
+import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
+import edu.duke.cabig.c3pr.domain.ScheduledNonTreatmentEpoch;
+import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.web.registration.tabs.ManageEpochTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.RegistrationOverviewTab;
@@ -57,14 +66,24 @@ public class ManageRegistrationController<C extends StudySubject> extends Regist
 		return super.isFormSubmission(arg0);
 	}
 	@Override
-	protected ModelAndView processFinish(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2, BindException arg3) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
+		StudySubject studySubject = createNewScheduledEpochSubject(request, command, errors);
+		studySubject=studySubjectService.createRegistration(studySubject);
+		if (logger.isDebugEnabled()) {
+			logger.debug("processFinish(HttpServletRequest, HttpServletResponse, Object, BindException) - registration service call over"); //$NON-NLS-1$
+		}
+    	return new ModelAndView("redirect:confirm?registrationId="+studySubject.getId());
 	}
 	
-	@Override
-	protected void onBindOnNewForm(HttpServletRequest request, Object command) throws Exception {
-		// TODO Auto-generated method stub
-		super.onBindOnNewForm(request, command);
+	public StudySubject createNewScheduledEpochSubject(HttpServletRequest request, Object commandObj, Errors error){
+		StudySubject command=(StudySubject)commandObj;
+		Map map=new HashMap();
+		Integer id=Integer.parseInt(request.getParameter("epoch"));
+		Epoch epoch=epochDao.getById(id);
+		ScheduledNonTreatmentEpoch scheduledEpoch=new ScheduledNonTreatmentEpoch();
+		scheduledEpoch.setEpoch(epoch);
+		command.addScheduledEpoch(scheduledEpoch);
+		return command;
 	}
+
 }

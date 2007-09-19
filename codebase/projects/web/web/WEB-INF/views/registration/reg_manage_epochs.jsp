@@ -31,8 +31,8 @@ function registerSubject(flowName,epochId){
 	}else{
 		new Element.hide('epochConfirmation-buttons-'+epochId);
 		new Element.show('epochUpdate-'+epochId);		
-		$("manage_epoch").value=epochId;
-		<tags:tabMethod method="createNewScheduledEpochSubject" divElement="'epochConfirmation-'+epochId" />
+		$("m_manage_epoch").value=epochId;
+		$("manage").submit();
 	}
 }
 function reloadPage(Id){
@@ -58,8 +58,16 @@ function reloadPage(Id){
 <tags:tabFields tab="${tab}"/>
 <input type="hidden" name="epoch" id="manage_epoch"/>
 </form:form>
+<form:form action="../registration/manageRegistration" id="manage">
+<input type="hidden" name="_page" value="${tab.number}" id="_page"/>
+<input type="hidden" name="_finish" id="_finish"/>
+<input type="hidden" name="epoch" id="m_manage_epoch"/>
+</form:form>
 <tags:panelBox title="Change Epoch">
 	<c:choose>
+		<c:when test="${command.regWorkflowStatus=='OFF_STUDY'}">
+			Subject has been put to Off Study status. You can only transfer subjects when they are active on a study.
+		</c:when>
 		<c:when test="${command.scheduledEpoch.scEpochWorkflowStatus!='APPROVED'}">
 			Subject is not assigned to current epoch successfully. You can only transfer subjects when they are successfully assigned to an epoch.
 		</c:when>
@@ -81,7 +89,7 @@ function reloadPage(Id){
 		</tr>
 	</table>
 </tags:panelBox>
-<c:if test="${command.scheduledEpoch.scEpochWorkflowStatus=='APPROVED'}">
+<c:if test="${command.regWorkflowStatus!='OFF_STUDY' && command.scheduledEpoch.scEpochWorkflowStatus=='APPROVED'}">
 <div id="mockDrag" style="display:none">
 	<div id="participant1" class="participants" align="center" style="display:none">
 		<div><img src="<tags:imageUrl name="Subject.gif"/>"

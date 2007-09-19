@@ -23,6 +23,13 @@ function activateInPlaceEditing(arrayElements){
 	for(aE=0 ; aE<arrayElements.length ; aE++){
 		arrayElements[aE].enterEditMode('click');
 	}
+	new Effect.Appear('OffStudyDiv');
+}
+function show(){
+	new Effect.SlideDown('OffStudyStatus');
+}
+function hide(){
+	new Effect.SlideUp('OffStudyStatus');
 }
 </script>
 </head>
@@ -144,8 +151,36 @@ function activateInPlaceEditing(arrayElements){
 				</tr>
 				<tr>
 					<td width="25%" class="labelR">Registration Status:</td>
-					<td>${command.regWorkflowStatus}&nbsp;</td>
+					<td>${command.regWorkflowStatus}&nbsp;
+						<div id="OffStudyDiv">
+						<c:if test="${command.regWorkflowStatus=='REGISTERED' && command.scheduledEpoch.scEpochWorkflowStatus=='APPROVED'}">
+							<a href="javascript:show();"><em>Put subject Off Study</em></a>
+						</c:if>
+						<div id="OffStudyStatus">
+							<form:form id="offStudyStatusForm">
+								<input type="hidden" name="_page" value="${tab.number}" id="_page"/>
+								<input type="hidden" name="regWorkflowStatus" value="OFF_STUDY" id="regWorkflowStatus"/>
+								Off Study Reason: <form:textarea path="offStudyReasonText" rows="2" cols="40" cssClass="validate-notEmpty"></form:textarea><br>
+								Off Study Date: <tags:dateInput path="offStudyDate" cssClass="validate-notEmpty"/><em> (mm/dd/yyyy)</em><br>
+								<c:if test="${command.regWorkflowStatus!='OFF_STUDY'}"><input type="submit" value="ok"/>
+								<a href="javascript:hide();">cancel</a></c:if>
+							</form:form>
+						</div>
+						</div>
+						<script type="text/javascript">new Element.hide('OffStudyDiv');</script>
+						<script type="text/javascript">new Element.hide('OffStudyStatus');</script>
+					</td>
 				</tr>
+				<c:if test="${command.regWorkflowStatus=='OFF_STUDY'}">
+				<tr>
+					<td class="labelR" width="25%">Off Study Reason:</td>
+					<td>${command.offStudyReasonText }</td>
+				</tr>
+				<tr>
+					<td class="labelR" width="25%">Off Study Date:</td>
+					<td>${command.offStudyDate }</td>
+				</tr>
+				</c:if>
 				<tr>
 					<td class="labelR" width="25%">Informed Consent Signed Date:</td>
 					<td><tags:inPlaceEdit value="${command.informedConsentSignedDateStr }" path="informedConsentSignedDate" /></td>
@@ -178,7 +213,9 @@ function activateInPlaceEditing(arrayElements){
 			eArray.push(editor_informedConsentSignedDate);
 			eArray.push(editor_informedConsentVersion);
 			</script>
-			<input type="button" value="Edit" onclick="activateInPlaceEditing(eArray)"/>
+			<c:if test="${command.regWorkflowStatus!='OFF_STUDY'}">
+				<input type="button" value="Edit" onclick="activateInPlaceEditing(eArray)"/>
+			</c:if>
 			<hr align="left" width="95%">					
 			<br>
 			<strong>Disease Information </strong><br>

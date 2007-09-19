@@ -48,6 +48,8 @@ public class StudySubject extends AbstractMutableDomainObject {
 	private LazyListHelper lazyListHelper;
 	private List<ScheduledEpoch> scheduledEpochs=new ArrayList<ScheduledEpoch>();
 	private String name;
+	private String offStudyReasonText;
+	private Date offStudyDate;
     private StudySite studySite;
     private Participant participant;
     private Date startDate;
@@ -400,5 +402,17 @@ public class StudySubject extends AbstractMutableDomainObject {
 	@Transient
 	public String getDataEntryStatusString(){
 		return this.regDataEntryStatus==RegistrationDataEntryStatus.COMPLETE && this.getScheduledEpoch().getScEpochDataEntryStatus()==ScheduledEpochDataEntryStatus.COMPLETE?"Complete":"Incomplete";
+	}
+	public Date getOffStudyDate() {
+		return offStudyDate;
+	}
+	public void setOffStudyDate(Date offStudyDate) {
+		this.offStudyDate = offStudyDate;
+	}
+	public String getOffStudyReasonText() {
+		return offStudyReasonText;
+	}
+	public void setOffStudyReasonText(String offStudyReasonText) {
+		this.offStudyReasonText = offStudyReasonText;
 	}
 }

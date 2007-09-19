@@ -42,7 +42,7 @@
 				<div id="epochConfirmation-${epoch.id}" style="display:none">
 					<div id="epochConfirmation-buttons-${epoch.id}">
 					<c:choose>
-						<c:when test="${requiresEligibility||requiresStratification||requiresRandomization}">
+						<c:when test="${requiresArm||requiresEligibility||requiresStratification||requiresRandomization}">
 							To complete registration, you need to fill in more information.<br>Click ok to continue.
 							<input type="button" onClick="registerSubject('create','${epoch.id }')" value="ok"><input type="button" onClick="reloadPage('${epoch.id }')" value="cancel">
 						</c:when>
@@ -64,7 +64,9 @@
 					<div>${command.participant.firstName} ${command.participant.lastName }</div>
 				</div>
 			</div>
-			<script type="text/javascript">subjectDragger=new Draggable('participant1', {revert:false});</script>
+			<c:if test="${command.regWorkflowStatus!='OFF_STUDY' && command.scheduledEpoch.scEpochWorkflowStatus=='APPROVED'}">
+				<script type="text/javascript">subjectDragger=new Draggable('participant1', {revert:false});</script>
+			</c:if>
 		</c:when>
 		
 		<c:otherwise>

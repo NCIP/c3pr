@@ -53,6 +53,7 @@ public class ManageEpochTab<C extends StudySubject> extends RegistrationTab<C>{
 		map.put("requiresStratification", new Boolean(false));
 		map.put("requiresRandomization", new Boolean(false));
 		map.put("isCurrentScheduledEpoch", new Boolean(false));
+		map.put("requiresArm", new Boolean(false));
 		if (epoch instanceof TreatmentEpoch) {
 			map.put("epochType", "Treatment");
 			if(((TreatmentEpoch)epoch).getEligibilityCriteria().size()>0){
@@ -64,6 +65,9 @@ public class ManageEpochTab<C extends StudySubject> extends RegistrationTab<C>{
 			if(command.getStudySite().getStudy().getRandomizedIndicator().equals("true")){
 				map.put("requiresRandomization", new Boolean(true));
 			}
+			if(((TreatmentEpoch)epoch).getArms().size()>0){
+				map.put("requiresArm", new Boolean(true));
+			}
 		}
 		for(ScheduledEpoch scheduledEpoch:command.getScheduledEpochs()){
 			if(scheduledEpoch.getEpoch().getId()==epoch.getId()){
@@ -74,7 +78,7 @@ public class ManageEpochTab<C extends StudySubject> extends RegistrationTab<C>{
 			map.put("isCurrentScheduledEpoch", new Boolean(true));
 		return new ModelAndView(getAjaxViewName(request),map);
 	}
-	public ModelAndView createNewScheduledEpochSubject(HttpServletRequest request, Object commandObj, Errors error){
+	/*public ModelAndView createNewScheduledEpochSubject(HttpServletRequest request, Object commandObj, Errors error){
 		StudySubject command=(StudySubject)commandObj;
 		Map map=new HashMap();
 		ScheduledEpoch scheduledEpoch;
@@ -93,7 +97,7 @@ public class ManageEpochTab<C extends StudySubject> extends RegistrationTab<C>{
 //		intializeEpochCollection(command);
 		map.put(getFreeTextModelName(), "Subject transferred successfully..");
 		return new ModelAndView("",map);
-	}
+	}*/
 	
 	private void intializeEpochCollection(StudySubject ss){
 		if(ss.getIfTreatmentScheduledEpoch()){
