@@ -2,13 +2,13 @@
       
     <STUDIES id="1000" version="1" blinded_indicator="1" long_title_text="long_title_text" multi_institution_indicator="1"
    	phase_code="Ph" randomized_indicator="1" short_title_text="short_title_text" target_accrual_number="123" type="ty"
-    description_text="description" precis_text="precis_text" status="st" />
+    description_text="description" precis_text="precis_text" coordinating_center_study_status="ACTIVE" data_entry_status="COMPLETE" />
     <STUDIES id="1001" version="1" blinded_indicator="0" long_title_text="long_title_text2" multi_institution_indicator="1"
    	phase_code="Ph2" randomized_indicator="1" short_title_text="short_title_text2" target_accrual_number="123" type="ty"
-    description_text="description2" precis_text="precis_text2" status="st2" />
+    description_text="description2" precis_text="precis_text2" coordinating_center_study_status="ACTIVE" data_entry_status="COMPLETE" />
     <STUDIES id="1002" version="1" blinded_indicator="0"  long_title_text="long_title_text" multi_institution_indicator="1"
    	phase_code="Ph" randomized_indicator="1" short_title_text="short_title_text" target_accrual_number="123" type="ty"
-    description_text="description" precis_text="precis_text" status="st" />
+    description_text="description" precis_text="precis_text" coordinating_center_study_status="ACTIVE" data_entry_status="COMPLETE" />
    
     <ADDRESSES id="1000" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA" />
     <ADDRESSES id="1001" version="1" street_address="Coppermine Dr" city="Herndon" state_code="VA" postal_code="20171" country_code="USA" />
@@ -17,15 +17,15 @@
     <ORGANIZATIONS id="1001" version="1" name="duke healthcare" description_text="duke healthcare" address_id="1001" nci_institute_code="code" />  
     <ORGANIZATIONS id="1002" version="1" name="wake forest" description_text="wake forest" address_id="1001" nci_institute_code="code" />  
     
-    <STUDY_ORGANIZATIONS id="1000" version="1" irb_approval_date="01-01-2000" role_code="role" status_code="active" start_date="01-01-2001" end_date="01-01-2002" study_id="1000"
+    <STUDY_ORGANIZATIONS id="1000" version="1" irb_approval_date="01-01-2000" role_code="role" site_study_status="ACTIVE" start_date="01-01-2001" end_date="01-01-2002" study_id="1000"
     hcs_id="1000" type="SST"/>
-    <STUDY_ORGANIZATIONS id="1001" version="1" irb_approval_date="01-01-2000" role_code="role2" status_code="inactive" start_date="01-01-2001" end_date="01-01-2002" study_id="1000"
+    <STUDY_ORGANIZATIONS id="1001" version="1" irb_approval_date="01-01-2000" role_code="role2" site_study_status="ACTIVE" start_date="01-01-2001" end_date="01-01-2002" study_id="1000"
     hcs_id="1001" type="SST"/>
-    <STUDY_ORGANIZATIONS id="1002" version="1" irb_approval_date="01-01-2000" role_code="role" status_code="active" start_date="01-01-2001" end_date="01-01-2002" study_id="1001"
+    <STUDY_ORGANIZATIONS id="1002" version="1" irb_approval_date="01-01-2000" role_code="role" site_study_status="ACTIVE" start_date="01-01-2001" end_date="01-01-2002" study_id="1001"
     hcs_id="1000" type="SST"/>
-    <STUDY_ORGANIZATIONS id="1003" version="1" irb_approval_date="01-01-2000" role_code="role2" status_code="inactive" start_date="01-01-2001" end_date="01-01-2002" study_id="1001"
+    <STUDY_ORGANIZATIONS id="1003" version="1" irb_approval_date="01-01-2000" role_code="role2" site_study_status="ACTIVE" start_date="01-01-2001" end_date="01-01-2002" study_id="1001"
     hcs_id="1001" type="SST"/>
-    <STUDY_ORGANIZATIONS id="1010" version="1" irb_approval_date="01-01-2000" role_code="role2" status_code="inactive" start_date="01-01-2001" end_date="01-01-2002" study_id="1000"
+    <STUDY_ORGANIZATIONS id="1010" version="1" irb_approval_date="01-01-2000" role_code="role2" site_study_status="ACTIVE" start_date="01-01-2001" end_date="01-01-2002" study_id="1000"
     hcs_id="1002" type="SST"/>
         
     <EPOCHS id="1000" version="1" name="Treatment1000" description_text="treatement desc" stu_id="1000" type="TREATMENT"/>
