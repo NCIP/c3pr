@@ -28,7 +28,7 @@ public class StudyAmendment extends AbstractMutableDomainObject{
 	private Date irbApprovalDate;
 	private Date amendmentDateStr;
 	private Date irbApprovalDateStr;
-	
+		
 	private Boolean epochAndArmsChangedIndicator; 
 	private Boolean stratificationChangedIndicator;
 	private Boolean consentChangedIndicator;
@@ -83,6 +83,17 @@ public class StudyAmendment extends AbstractMutableDomainObject{
 	            //do nothing
 	        }
 	        return "";
+	    }
+	 @Transient
+	    public StudyDataEntryStatus getAmendmentStatus() {
+		 if((this.getIrbApprovalDate()==null)||(this.getVersion()==null) ){
+			 return StudyDataEntryStatus.INCOMPLETE;
+		 }
+	        if ((this.getConsentChangedIndicator()==true)||(this.getDiseasesChangedIndicator()==true)||(this.getEligibilityChangedIndicator()==true)||(this.getEpochAndArmsChangedIndicator()==true)
+	        		||(this.getStratificationChangedIndicator()==true)||(this.getPrincipalInvestigatorChangedIndicator()==true))
+	        return StudyDataEntryStatus.COMPLETE;
+	        
+	        return StudyDataEntryStatus.COMPLETE;
 	    }
 
 	public Boolean getConsentChangedIndicator() {
