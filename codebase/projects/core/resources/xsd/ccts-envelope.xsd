@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	 xmlns:ccts_jbi="http://gov.nih.nci/jbi/messaging/xml/Envelope"
+	 xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	 targetNamespace="http://gov.nih.nci/jbi/messaging/xml/Envelope"
+	 elementFormDefault="unqualified"
+	 attributeFormDefault="unqualified">
+	<annotation>
+		<documentation>
+            This XSD defines the message envelope. All servicess use this envelope XSD to create an envelope to 
+            carry a payload (body) through to a service.
+		</documentation>
+	</annotation>
+	<element name="Envelope">
+		<complexType>
+			<sequence>
+				<element name="Header" type="ccts_jbi:Header"/>
+				<element name="Body" type="xsd:string"/>
+			</sequence>
+		</complexType>
+	</element>
+	<complexType name="Header">
+		<sequence>
+			<element name="Security" type="ccts_jbi:Security" minOccurs="1"/>
+			<element name="Content" type="ccts_jbi:Content" minOccurs="1"/>
+			<element name="Routes" type="ccts_jbi:Routes" minOccurs="0" maxOccurs="1"/>			
+			<element name="Errors" type="ccts_jbi:Errors" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<complexType name="Security">
+		<sequence>
+			<element name="UserId" type="xsd:string" nillable="true"/>
+			<!-- Todo -->
+		</sequence>
+	</complexType>
+	<complexType name="Content">
+		<sequence>
+			<element name="Version" type="xsd:string"/>
+			<element name="Type" type="ccts_jbi:PayloadType"/>
+			<element name="Locale" type="ccts_jbi:Locale" minOccurs="0"/>
+			<element name="Transformations" type="ccts_jbi:Transformations" minOccurs="0" maxOccurs="1"/>
+		</sequence>
+	</complexType>
+	<complexType name="Transformations">
+		<annotation>
+			<documentation>
+                This is a way to provide transformations required 
+                to be done before the payLoad is sent out to recipients. 
+			</documentation>
+		</annotation>
+		<sequence>
+			<element name="Transformation" type="ccts_jbi:Transformation" minOccurs="1" maxOccurs="unbounded"/>
+		</sequence>
+	</complexType>
+	<complexType name="Transformation">
+		<sequence>
+			<element name="EndPoint" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+		</sequence>
+	</complexType>
+	<complexType name="Routes">
+		<annotation>
+			<documentation>
+                This is a way to provide a list of recipients 
+                the payLoad needs to be sent out to. 
+			</documentation>
+		</annotation>
+		<sequence>
+			<element name="Route" type="ccts_jbi:Route" minOccurs="1" maxOccurs="unbounded"/>
+		</sequence>
+	</complexType>
+	<complexType name="Route">
+		<sequence>
+			<element name="ApplicationName" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+			<element name="ServiceName" type="xsd:string"  minOccurs="0" maxOccurs="1"/>
+			<element name="EndPoint" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+		</sequence>
+	</complexType>
+	<complexType name="Errors">
+		<sequence>
+			<element name="Error" type="ccts_jbi:Error" maxOccurs="unbounded" minOccurs="0"/>
+		</sequence>
+	</complexType>
+	<complexType name="Error">
+		<sequence>
+			<element name="Code" type="xsd:integer" maxOccurs="1" minOccurs="1"/>
+			<element name="Description" type="xsd:string"/>
+			<element name="ServiceName" type="xsd:string" maxOccurs="1" minOccurs="1"/>
+			<element name="ProcessName" type="xsd:string"/>
+		</sequence>
+	</complexType>
+	<simpleType name="Locale">
+		<annotation>
+			<documentation>
+                This is a localized way to map this simple type definition
+                to a typesafe enum class. 
+			</documentation>
+		</annotation>
+		<restriction base="xsd:string">
+			<enumeration value="AU"/>
+			<enumeration value="CA"/>
+			<enumeration value="DE"/>
+			<enumeration value="FR"/>
+			<enumeration value="JA"/>
+			<enumeration value="MX"/>
+			<enumeration value="US"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="PayloadType">
+		<annotation>
+			<documentation>
+                This is a localized way to map this simple type definition
+                to a typesafe enum class. 
+			</documentation>
+		</annotation>
+		<restriction base="xsd:string">
+			<enumeration value="XML"/>
+			<enumeration value="BASE64_SERIALIZED_JAVA_OBJECT"/>
+		</restriction>
+	</simpleType>
+</schema>
