@@ -35,6 +35,7 @@ public class StudySite extends StudyOrganization implements
     private Date irbApprovalDate = Calendar.getInstance().getTime();
     private String roleCode;
  // private String statusCode;
+    private Integer targetAccrualNumber;
     private SiteStudyStatus siteStudyStatus;
     private Date startDate = Calendar.getInstance().getTime();
     private Date endDate;
@@ -248,4 +249,16 @@ public class StudySite extends StudyOrganization implements
 		this.siteStudyStatus = siteStudyStatus;
 	}
 
+	public Integer getTargetAccrualNumber() {
+		return targetAccrualNumber;
+	}
+
+	public void setTargetAccrualNumber(Integer targetAccrualNumber) {
+		this.targetAccrualNumber = targetAccrualNumber;
+	}
+
+	@Transient
+	public int getCurrentAccrualCount(){
+		return this.getStudySubjects().size();
+	}
 }
