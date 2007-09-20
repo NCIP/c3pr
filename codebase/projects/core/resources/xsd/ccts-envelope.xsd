@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <schema xmlns="http://www.w3.org/2001/XMLSchema"
-	 xmlns:ccts_jbi="http://gov.nih.nci/jbi/messaging/xml/Envelope"
+	 xmlns:ccts="gme://gov.nih.nci/ccts/1.0/messaging/Envelope"
 	 xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	 targetNamespace="http://gov.nih.nci/jbi/messaging/xml/Envelope"
+     xmlns:c3pr="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"
+     targetNamespace="gme://gov.nih.nci/ccts/1.0/messaging/Envelope"
 	 elementFormDefault="unqualified"
 	 attributeFormDefault="unqualified">
-	<annotation>
+	
+	<import  namespace="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain" schemaLocation="http://gforge.nci.nih.gov/plugins/scmcvs/cvsweb.php/~checkout~/c3prv2/codebase/projects/core/resources/xsd/c3pr-domain.xsd?rev=1.13;content-type=application%2Foctet-stream;cvsroot=c3prv2">
+		
+		</import>
+    <annotation>
 		<documentation>
             This XSD defines the message envelope. All servicess use this envelope XSD to create an envelope to 
             carry a payload (body) through to a service.
@@ -15,31 +20,25 @@
 	<element name="Envelope">
 		<complexType>
 			<sequence>
-				<element name="Header" type="ccts_jbi:Header"/>
+				<element name="Header" type="ccts:Header"/>
 				<element name="Body" type="xsd:string"/>
 			</sequence>
 		</complexType>
 	</element>
 	<complexType name="Header">
 		<sequence>
-			<element name="Security" type="ccts_jbi:Security" minOccurs="1"/>
-			<element name="Content" type="ccts_jbi:Content" minOccurs="1"/>
-			<element name="Routes" type="ccts_jbi:Routes" minOccurs="0" maxOccurs="1"/>			
-			<element name="Errors" type="ccts_jbi:Errors" minOccurs="0"/>
+			<element name="Content" type="ccts:Content" minOccurs="1"/>
+			<element name="Routes" type="ccts:Routes" minOccurs="0" maxOccurs="1"/>
+			<element name="Errors" type="ccts:Errors" minOccurs="0"/>
 		</sequence>
 	</complexType>
-	<complexType name="Security">
-		<sequence>
-			<element name="UserId" type="xsd:string" nillable="true"/>
-			<!-- Todo -->
-		</sequence>
-	</complexType>
+
 	<complexType name="Content">
 		<sequence>
 			<element name="Version" type="xsd:string"/>
-			<element name="Type" type="ccts_jbi:PayloadType"/>
-			<element name="Locale" type="ccts_jbi:Locale" minOccurs="0"/>
-			<element name="Transformations" type="ccts_jbi:Transformations" minOccurs="0" maxOccurs="1"/>
+			<element name="Type" type="ccts:PayloadType"/>
+			<element name="Locale" type="ccts:Locale" minOccurs="0"/>
+			<element name="Transformations" type="ccts:Transformations" minOccurs="0" maxOccurs="1"/>
 		</sequence>
 	</complexType>
 	<complexType name="Transformations">
@@ -50,7 +49,7 @@
 			</documentation>
 		</annotation>
 		<sequence>
-			<element name="Transformation" type="ccts_jbi:Transformation" minOccurs="1" maxOccurs="unbounded"/>
+			<element name="Transformation" type="ccts:Transformation" minOccurs="1" maxOccurs="unbounded"/>
 		</sequence>
 	</complexType>
 	<complexType name="Transformation">
@@ -66,7 +65,7 @@
 			</documentation>
 		</annotation>
 		<sequence>
-			<element name="Route" type="ccts_jbi:Route" minOccurs="1" maxOccurs="unbounded"/>
+			<element name="Route" type="ccts:Route" minOccurs="1" maxOccurs="unbounded"/>
 		</sequence>
 	</complexType>
 	<complexType name="Route">
@@ -78,7 +77,7 @@
 	</complexType>
 	<complexType name="Errors">
 		<sequence>
-			<element name="Error" type="ccts_jbi:Error" maxOccurs="unbounded" minOccurs="0"/>
+			<element name="Error" type="ccts:Error" maxOccurs="unbounded" minOccurs="0"/>
 		</sequence>
 	</complexType>
 	<complexType name="Error">
@@ -106,16 +105,16 @@
 			<enumeration value="US"/>
 		</restriction>
 	</simpleType>
-	<simpleType name="PayloadType">
+	<complexType name="PayloadType">
 		<annotation>
 			<documentation>
                 This is a localized way to map this simple type definition
                 to a typesafe enum class. 
 			</documentation>
 		</annotation>
-		<restriction base="xsd:string">
-			<enumeration value="XML"/>
-			<enumeration value="BASE64_SERIALIZED_JAVA_OBJECT"/>
-		</restriction>
-	</simpleType>
+        <choice>
+        	<element name="registration" type="c3pr:Registration"/>
+        	<element name="study" type="c3pr:Study"/>
+        </choice>
+    </complexType>
 </schema>
