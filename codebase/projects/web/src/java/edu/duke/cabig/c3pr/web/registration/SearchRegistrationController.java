@@ -20,6 +20,7 @@ import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
+import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -94,7 +95,7 @@ public class SearchRegistrationController extends SimpleFormController {
 				study.setLongTitleText(text);
 
 			} else if (request.getParameter("studyOption").equals("status")) {
-				study.setStatus(text);
+				study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
 			} else {
 				SystemAssignedIdentifier identifier = new SystemAssignedIdentifier();
 				identifier.setValue(text);
