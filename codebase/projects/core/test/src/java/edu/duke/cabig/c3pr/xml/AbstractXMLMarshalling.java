@@ -107,8 +107,8 @@ public abstract class AbstractXMLMarshalling extends ApplicationTestCase {
         studyObject.setLongTitleText(strValue);
         studyObject.setPhaseCode(strValue);
         studyObject.setPrecisText(strValue);
-        studyObject.setStatus(strValue);
-        studyObject.setStatus(strValue);
+        studyObject.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+		studyObject.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
         studyObject.setType(strValue);
         studyObject.setTargetAccrualNumber(intValue);
         studyObject.setVersion(intValue);
@@ -145,7 +145,7 @@ public abstract class AbstractXMLMarshalling extends ApplicationTestCase {
         studySite.setStartDate(dateValue);
         studySite.setIrbApprovalDate(dateValue);
         studySite.setRoleCode("role");
-        studySite.setStatusCode("active");
+        studySite.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
 
         StratificationCriterionPermissibleAnswer ans = new StratificationCriterionPermissibleAnswer();
         ans.setPermissibleAnswer("it is valid");

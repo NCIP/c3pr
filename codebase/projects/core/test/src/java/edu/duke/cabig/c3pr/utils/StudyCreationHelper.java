@@ -7,6 +7,7 @@ import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.BookRandomizationEntry;
 import edu.duke.cabig.c3pr.domain.CalloutRandomization;
+import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.NonTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.PhonecallRandomization;
 import edu.duke.cabig.c3pr.domain.Randomization;
@@ -16,6 +17,7 @@ import edu.duke.cabig.c3pr.domain.StratificationCriterionAnswerCombination;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.StratumGroup;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 
 public class StudyCreationHelper {
@@ -133,7 +135,8 @@ public class StudyCreationHelper {
         study.setShortTitleText("ShortTitleText1");
         study.setLongTitleText("LongTitleText1");
         study.setPhaseCode("PhaseCode1");
-        study.setStatus("Status One");
+        study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+		study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
         study.setTargetAccrualNumber(150);
         study.setType("Type");
         study.setMultiInstitutionIndicator(multiSite.toString());
