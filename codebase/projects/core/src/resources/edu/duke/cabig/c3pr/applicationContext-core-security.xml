@@ -223,12 +223,32 @@
         </property>
     </bean>
 
+    <bean id="studySiteSiteSecurityCSMGroupAuthorizationCheckProvider" class="edu.duke.cabig.c3pr.accesscontrol.StudySiteSiteSecurityCSMGroupAuthorizationCheckProvider">
+        <property name="siteObjectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
+        <property name="csmGroupAuthorizationCheck" ref="csmGroupAuthorizationCheck"/>
+    </bean>
+
+    <bean id="studySubjectSiteCSMGroupAuthorizationCheckProvider" class="edu.duke.cabig.c3pr.accesscontrol.StudySubjectSiteCSMGroupAuthorizationCheckProvider">
+        <property name="siteObjectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
+        <property name="csmGroupAuthorizationCheck" ref="csmGroupAuthorizationCheck"/>
+    </bean>
+
+
+    <util:map id="domainObjectSiteSecurityAuhthorizationCheckProvidersMap"
+              map-class="java.util.LinkedHashMap">
+
+        <entry key="edu.duke.cabig.c3pr.domain.Study"
+               value-ref="studySiteSiteSecurityCSMGroupAuthorizationCheckProvider"/>
+        <entry key="edu.duke.cabig.c3pr.domain.StudySubject"
+               value-ref="studySubjectSiteCSMGroupAuthorizationCheckProvider"/>
+
+    </util:map>
+
     <bean id="siteSecurityCollectionFilter" class="edu.duke.cabig.c3pr.accesscontrol.SiteSecurityAfterInvocationCollectionFilteringProvider">
         <property name="processConfigAttribute"
                   value="CSM_AUTHN_CHECK"/>
-        <property name="sitePrivilegeGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
-        <property name="siteObjectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
-        <property name="authorizationCheck" ref="csmGroupAuthorizationCheck"/>
+        <property name="domainObjectSiteSecurityAuhthorizationCheckProvidersMap"
+                  ref="domainObjectSiteSecurityAuhthorizationCheckProvidersMap"/>
     </bean>
 
 

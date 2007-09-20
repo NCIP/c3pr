@@ -1,18 +1,13 @@
 package edu.duke.cabig.c3pr.accesscontrol;
 
-import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudySite;
-import edu.duke.cabig.c3pr.domain.StudySubject;
-import gov.nih.nci.security.acegi.csm.authorization.CSMGroupAuthorizationCheck;
-import gov.nih.nci.security.acegi.csm.authorization.CSMObjectIdGenerator;
-import gov.nih.nci.security.acegi.csm.authorization.CSMPrivilegeGenerator;
+import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 import org.acegisecurity.*;
 import org.acegisecurity.afterinvocation.AfterInvocationProvider;
 import org.apache.log4j.Logger;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 
 /**
  * Will filter collection of c3pr domain objects
@@ -27,11 +22,8 @@ import java.util.Iterator;
  */
 public class SiteSecurityAfterInvocationCollectionFilteringProvider implements AfterInvocationProvider {
 
-    private CSMGroupAuthorizationCheck authorizationCheck;
     private String processConfigAttribute;
-
-    private CSMPrivilegeGenerator sitePrivilegeGenerator;
-    private CSMObjectIdGenerator siteObjectIdGenerator;
+    private LinkedHashMap domainObjectSiteSecurityAuhthorizationCheckProvidersMap;
 
     private Logger log = Logger.getLogger(SiteSecurityAfterInvocationCollectionFilteringProvider.class);
 
@@ -68,28 +60,12 @@ public class SiteSecurityAfterInvocationCollectionFilteringProvider implements A
 
             boolean hasPermission = false;
 
-            if (domainObject == null) {
+            if (domainObject == null  || !(domainObject instanceof AbstractMutableDomainObject)) {
                 hasPermission = true;
             }
 
-            else if(domainObject instanceof Study) {
-                Study study = (Study)domainObject;
-                for(StudySite site:study.getStudySites()){
-                    HealthcareSite hcs = site.getHealthcareSite();
-                    log.debug("### Checking permission for user on site:" + hcs.getNciInstituteCode());
-                    hasPermission = authorizationCheck.checkAuthorizationForObjectId(authentication,"ACCESS",siteObjectIdGenerator.generateId(hcs));
-                    //only needs permission on one of the sites
-                    if(hasPermission)
-                        break;
-                }
-            }
-            else if(domainObject instanceof StudySubject) {
-                StudySubject subject = (StudySubject)domainObject;
-                HealthcareSite hcs = subject.getStudySite().getHealthcareSite();
-                log.debug("### Checking permission for user on site:" + hcs.getNciInstituteCode());
-                hasPermission = authorizationCheck.checkAuthorizationForObjectId(authentication,"ACCESS",siteObjectIdGenerator.generateId(hcs));
-            }
-
+            DomainObjectSiteSecurityAuthorizationCheckProvider auth =  (DomainObjectSiteSecurityAuthorizationCheckProvider)domainObjectSiteSecurityAuhthorizationCheckProvidersMap.get(domainObject.getClass().getName());
+            hasPermission = auth.checkAuthorization(authentication,"ACCESS",(AbstractMutableDomainObject)domainObject);
 
             if (!hasPermission) {
                 filterer.remove(domainObject);
@@ -104,30 +80,6 @@ public class SiteSecurityAfterInvocationCollectionFilteringProvider implements A
     }
 
 
-    public CSMGroupAuthorizationCheck getAuthorizationCheck() {
-        return authorizationCheck;
-    }
-
-    public void setAuthorizationCheck(CSMGroupAuthorizationCheck authorizationCheck) {
-        this.authorizationCheck = authorizationCheck;
-    }
-
-
-    public CSMPrivilegeGenerator getSitePrivilegeGenerator() {
-        return sitePrivilegeGenerator;
-    }
-
-    public void setSitePrivilegeGenerator(CSMPrivilegeGenerator sitePrivilegeGenerator) {
-        this.sitePrivilegeGenerator = sitePrivilegeGenerator;
-    }
-
-    public CSMObjectIdGenerator getSiteObjectIdGenerator() {
-        return siteObjectIdGenerator;
-    }
-
-    public void setSiteObjectIdGenerator(CSMObjectIdGenerator siteObjectIdGenerator) {
-        this.siteObjectIdGenerator = siteObjectIdGenerator;
-    }
 
     public boolean supports(ConfigAttribute config) {
         return config.getAttribute().equals(getProcessConfigAttribute());
@@ -138,13 +90,20 @@ public class SiteSecurityAfterInvocationCollectionFilteringProvider implements A
     }
 
 
-
-
     public String getProcessConfigAttribute() {
         return processConfigAttribute;
     }
 
     public void setProcessConfigAttribute(String processConfigAttribute) {
         this.processConfigAttribute = processConfigAttribute;
+    }
+
+
+    public LinkedHashMap getDomainObjectSiteSecurityAuhthorizationCheckProvidersMap() {
+        return domainObjectSiteSecurityAuhthorizationCheckProvidersMap;
+    }
+
+    public void setDomainObjectSiteSecurityAuhthorizationCheckProvidersMap(LinkedHashMap domainObjectSiteSecurityAuhthorizationCheckProvidersMap) {
+        this.domainObjectSiteSecurityAuhthorizationCheckProvidersMap = domainObjectSiteSecurityAuhthorizationCheckProvidersMap;
     }
 }
