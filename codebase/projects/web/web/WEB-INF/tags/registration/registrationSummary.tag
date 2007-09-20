@@ -19,7 +19,7 @@
 	<tags:tdNameValue name="Current Epoch Type" value="${studySubject.ifTreatmentScheduledEpoch?'Treatment':'Non Treatment'}" columnAttrName="class='labelR'"/>	
 	<tags:tdNameValue name="Enrolling Epoch" value="${!studySubject.ifTreatmentScheduledEpoch?studySubject.scheduledEpoch.epoch.enrollmentIndicator:'Yes'}" columnAttrName="class='labelR'"/>
 	<tags:tdNameValue name="Current Epoch Status" value="${command.scheduledEpoch.scEpochWorkflowStatus}" columnAttrName="class='labelR'"/>				
-	<tags:tdNameValue name="Status" value="${studySubject.studySite.study.status }" columnAttrName="class='labelR'"/>
+	<tags:tdNameValue name="Status" value="${studySubject.studySite.study.coordinatingCenterStudyStatus }" columnAttrName="class='labelR'"/>
 	<tags:tdNameValue name="Study Site" value="${studySubject.studySite.healthcareSite.name }" columnAttrName="class='labelR'"/>
 	<tags:tdNameValue name="Site IRB Approval Date" value="${studySubject.studySite.irbApprovalDateStr }" columnAttrName="class='labelR'"/>		
 	<tags:tdNameValue name="Informed Consent Signed Date" value="${studySubject.informedConsentSignedDateStr }" columnAttrName="class='labelR'"/>

@@ -79,6 +79,7 @@ Event.observe(window, "load", function() {
                     <th><b><span class="required-indicator">Status</span></b></th>
                     <th><b>Activation Date</b></th>
                     <th><b>IRB Approval Date</b></th>
+                    <th><b>Target Accrual Number</b></th>
                     <th></th>
                 </tr>
                 
@@ -112,7 +113,9 @@ Event.observe(window, "load", function() {
                         <td>
                             <tags:dateInput path="studySites[0].irbApprovalDate"/>
                         </td>
-                        
+                        <td>
+                            <form:input path="studySites[0].targetAccrualNumber"/>
+                        </td>
                     </tr>
             </table>
     </c:when>
@@ -286,11 +289,15 @@ RowManager.addRowInseter(instanceRowInserterProps);
                     <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle"/>
                 </a>
             </td>
+			<td>
+                <input id="studySites[PAGE.ROW.INDEX].targetAccrualNumber"
+                       name="studySites[PAGE.ROW.INDEX].targetAccrualNumber"
+                       type="text"/>
+            </td>            
             <td>
                 <a
                     href="javascript:RowManager.deleteRow(instanceRowInserterProps,PAGE.ROW.INDEX);"><img
                     src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
-
         </tr>
     </table>
 </div>

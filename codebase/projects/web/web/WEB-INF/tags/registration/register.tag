@@ -6,6 +6,13 @@
 <%@attribute name="registration" required="true" type="edu.duke.cabig.c3pr.domain.StudySubject"%>
 <%@attribute  name="newReg" required="true"%>
 <%@attribute  name="actionButtonLabel" required="true"%>
+<script>
+function submitRandomization(){
+	if(${registration.regWorkflowStatus!='REGISTERERD' && !empty registration.studySite.targetAccrualNumber && registration.studySite.targetAccrualNumber<=registration.studySite.currentAccrualCount})
+		confirm("This registration will exceed the accrual ceiling at ${command.studySite.healthcareSite.name}. Do you want to continue?")?null:return;
+	$('randomization').submit();
+}
+</script>
 <tags:panelBox title="Message" boxId="RegHere">
 	<form id="randomization" action="confirm?registrationId=${registration.id}" method="post">
 		<c:choose>
@@ -44,7 +51,7 @@
 		<table width="100%">
 			<tr>
 				<td>
-					<input type="button" value="${actionLabel}" onClick="$('randomization').submit();"/>
+					<input type="button" value="${actionLabel}" onClick="submitRandomization();"/>
 				</td>
 			</tr>
 		</table>

@@ -19,16 +19,11 @@
 
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script>
-<%--ValidationManager.submitPostProcess= function(formElement, continueSubmission){
-		registrationStatus="${command.registrationStatus}";
-		if(formElement.id!='command')
-			return continueSubmission;
-		if(registrationStatus=='Incomplete'){
-			return confirm("Registration will be saved in Incomplete status since all the required fields are not filled in. Do you want to continue?");
-		}
-		return continueSubmission;
-	}
---%>
+ValidationManager.submitPostProcess= function(formElement, continueSubmission){
+	if(formElement.id=='command' && ${registerable && !empty command.studySite.targetAccrualNumber && command.studySite.targetAccrualNumber<=command.studySite.currentAccrualCount})
+		return confirm("This registration will exceed the accrual ceiling at ${command.studySite.healthcareSite.name}. Do you want to continue?");
+	return continueSubmission;
+}
 </script>
 </head>
 <body>
@@ -71,7 +66,7 @@
 	<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 		<tr>
 			<td class="labelR"> Status:</td>
-			<td>${command.studySite.study.status}</td>
+			<td>${command.studySite.study.coordinatingCenterStudyStatus}</td>
 	</tr>
 	<tr>
 		<td width="25%" class="labelR">Short Title:</td>
@@ -110,7 +105,7 @@
 	</tr>
 	<tr>
 		<td class="labelR"> Status Code:</td>
-		<td>${command.studySite.statusCode}</td>
+		<td>${command.studySite.siteStudyStatus}</td>
 	</tr>
 	<tr>
 		<td class="labelR"> NCI Institution Code:</td>
