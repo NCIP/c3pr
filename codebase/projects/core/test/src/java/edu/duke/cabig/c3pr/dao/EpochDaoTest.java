@@ -13,6 +13,8 @@ import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
+import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.domain.StudyDataEntryStatus;
 
 /**
  * JUnit Tests for EpochDao
@@ -39,7 +41,8 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
 			study.setShortTitleText("ShortTitleText");
 			study.setLongTitleText("LongTitleText");
 			study.setPhaseCode("PhaseCode");
-			study.setStatus("Status");
+			study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+			study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
 			study.setTargetAccrualNumber(150);
 			study.setType("Type");
 			study.setMultiInstitutionIndicator("true");
@@ -185,7 +188,8 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
 			study.setShortTitleText("ShortTitleText");
 			study.setLongTitleText("LongTitleText");
 			study.setPhaseCode("PhaseCode");
-			study.setStatus("Status");
+			study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+			study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
 			study.setTargetAccrualNumber(150);
 			study.setType("Type");
 			study.setMultiInstitutionIndicator("true");

@@ -45,6 +45,9 @@ import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 import edu.duke.cabig.c3pr.utils.SecurityContextTestUtils;
+import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.domain.StudyDataEntryStatus;
+import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 
 /**
  * JUnit Tests for StudyDao
@@ -111,6 +114,8 @@ public class StudyDaoTest extends DaoTestCase {
 		loadedStudy1.addAmendment(amendment);
 
 		dao.save(loadedStudy1);
+		
+		interruptSession();
 
 		Study amendedStudy = dao.getById(1002);
 		assertEquals("Could not save study with amendment", 1, amendedStudy
@@ -136,7 +141,8 @@ public class StudyDaoTest extends DaoTestCase {
 			study.setShortTitleText("ShortTitleText");
 			study.setLongTitleText("LongTitleText");
 			study.setPhaseCode("PhaseCode");
-			study.setStatus("Status");
+			study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+			study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
 			study.setTargetAccrualNumber(150);
 			study.setType("Type");
 			study.setMultiInstitutionIndicator("true");
@@ -215,7 +221,8 @@ public class StudyDaoTest extends DaoTestCase {
 		study.setShortTitleText("ShortTitleText1");
 		study.setLongTitleText("LongTitleText1");
 		study.setPhaseCode("PhaseCode1");
-		study.setStatus("Status One");
+		study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+		study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
 		study.setTargetAccrualNumber(150);
 		study.setType("Type");
 		study.setMultiInstitutionIndicator("true");
@@ -553,7 +560,8 @@ public class StudyDaoTest extends DaoTestCase {
 			study.setShortTitleText("ShortTitleText");
 			study.setLongTitleText("LongTitleText");
 			study.setPhaseCode("PhaseCode");
-			study.setStatus("Status");
+			study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+			study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
 			study.setTargetAccrualNumber(150);
 			study.setType("Type");
 			study.setMultiInstitutionIndicator("true");
@@ -614,7 +622,8 @@ public class StudyDaoTest extends DaoTestCase {
 			study.setShortTitleText("ShortTitleText");
 			study.setLongTitleText("LongTitleText");
 			study.setPhaseCode("PhaseCode");
-			study.setStatus("Status");
+			study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+			study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
 			study.setTargetAccrualNumber(150);
 			study.setType("Type");
 			study.setMultiInstitutionIndicator("true");
@@ -637,7 +646,8 @@ public class StudyDaoTest extends DaoTestCase {
 			StudySite studySite = new StudySite();
 			studySite.setHealthcareSite(hcsiteloaded);
 			studySite.setRoleCode("role");
-			studySite.setStatusCode("active");
+			study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+			study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
 
 			study.addStudySite(studySite);
 
@@ -800,7 +810,8 @@ public class StudyDaoTest extends DaoTestCase {
 		studySite.setStartDate(new Date());
 		studySite.setIrbApprovalDate(new Date());
 		studySite.setRoleCode("role");
-		studySite.setStatusCode("active");
+		study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+		study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
 
 		// HCSI
 		HealthcareSiteInvestigator hcsi = new HealthcareSiteInvestigator();
@@ -869,7 +880,8 @@ public class StudyDaoTest extends DaoTestCase {
 			study.setShortTitleText("ShortTitleText");
 			study.setLongTitleText("LongTitleText");
 			study.setPhaseCode("PhaseCode");
-			study.setStatus("Status");
+			study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+			study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
 			study.setTargetAccrualNumber(150);
 			study.setType("Type");
 			study.setMultiInstitutionIndicator("true");
@@ -909,7 +921,8 @@ public class StudyDaoTest extends DaoTestCase {
 			study.setShortTitleText("ShortTitleText");
 			study.setLongTitleText("LongTitleText");
 			study.setPhaseCode("PhaseCode");
-			study.setStatus("Status");
+			study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+			study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
 			study.setTargetAccrualNumber(150);
 			study.setType("Type");
 			study.setMultiInstitutionIndicator("true");
@@ -966,7 +979,8 @@ public class StudyDaoTest extends DaoTestCase {
 			study.setShortTitleText("ShortTitleText");
 			study.setLongTitleText("LongTitleText");
 			study.setPhaseCode("PhaseCode");
-			study.setStatus("Status");
+			study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+			study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
 			study.setTargetAccrualNumber(150);
 			study.setType("Type");
 			study.setMultiInstitutionIndicator("true");
@@ -1068,7 +1082,8 @@ public class StudyDaoTest extends DaoTestCase {
 			study.setShortTitleText("ShortTitleText");
 			study.setLongTitleText("LongTitleText");
 			study.setPhaseCode("PhaseCode");
-			study.setStatus("Status");
+			study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+			study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
 			study.setTargetAccrualNumber(150);
 			study.setType("Type");
 			study.setMultiInstitutionIndicator("true");
@@ -1077,7 +1092,7 @@ public class StudyDaoTest extends DaoTestCase {
 			StudySite studySite = new StudySite();
 			studySite.setHealthcareSite(site);
 			studySite.setRoleCode("role");
-			studySite.setStatusCode("active");
+			studySite.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
 
 			study.addStudySite(studySite);
 
@@ -1117,7 +1132,8 @@ public class StudyDaoTest extends DaoTestCase {
 			study.setShortTitleText("ShortTitleText");
 			study.setLongTitleText("LongTitleText");
 			study.setPhaseCode("PhaseCode");
-			study.setStatus("Status");
+			study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+			study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
 			study.setTargetAccrualNumber(150);
 			study.setType("Type");
 			study.setMultiInstitutionIndicator("true");
@@ -1126,7 +1142,7 @@ public class StudyDaoTest extends DaoTestCase {
 			StudySite studySite = new StudySite();
 			studySite.setHealthcareSite(site);
 			studySite.setRoleCode("role");
-			studySite.setStatusCode("active");
+			studySite.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
 
 			study.addStudySite(studySite);
 
@@ -1250,7 +1266,8 @@ public class StudyDaoTest extends DaoTestCase {
 		study.setShortTitleText("ShortTitleText");
 		study.setLongTitleText("LongTitleText");
 		study.setPhaseCode("PhaseCode");
-		study.setStatus("Status");
+		study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+		study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
 		study.setTargetAccrualNumber(150);
 		study.setType("Type");
 		study.setMultiInstitutionIndicator("true");
