@@ -84,8 +84,8 @@ public class StudyAmendment extends AbstractMutableDomainObject{
 	        }
 	        return "";
 	    }
-	 @Transient
-	    public StudyDataEntryStatus getAmendmentStatus() {
+/*	 @Transient
+	    public StudyDataEntryStatus getAmendmentDataEntryStatus() {
 		 if((this.getIrbApprovalDate()==null)||(this.getVersion()==null) ){
 			 return StudyDataEntryStatus.INCOMPLETE;
 		 }
@@ -94,7 +94,7 @@ public class StudyAmendment extends AbstractMutableDomainObject{
 	        return StudyDataEntryStatus.COMPLETE;
 	        
 	        return StudyDataEntryStatus.COMPLETE;
-	    }
+	    }*/
 
 	public Boolean getConsentChangedIndicator() {
 		return consentChangedIndicator;

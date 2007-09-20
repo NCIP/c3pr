@@ -337,17 +337,18 @@ public class Study extends AbstractMutableDomainObject implements
 	}
 	
 	@Transient
-	public List<StudyAmendment> getPastStudyAmendments() {
-		if(this.getStudyAmendments().size()>1){
+	public List<StudyAmendment> getPreviousStudyAmendments() {
+		if(this.getCoordinatingCenterStudyStatus()==CoordinatingCenterStudyStatus.AMENDMENT_PENDING){
 		return this.getStudyAmendments().subList(0, getStudyAmendments().size()-1);
 		}
-		else return null;
+		else return getStudyAmendments();
 	}
 	
 	@Transient
 	public StudyAmendment getCurrentStudyAmendment() {
-		if (this.getStudyAmendments().size()>0)
-		return this.getStudyAmendments().get(getStudyAmendments().size()-1);
+		if(this.getCoordinatingCenterStudyStatus()==CoordinatingCenterStudyStatus.AMENDMENT_PENDING){
+			return this.getStudyAmendments().get(getStudyAmendments().size()-1);
+			}
 		else return null;
 	}
 
@@ -552,7 +553,7 @@ public class Study extends AbstractMutableDomainObject implements
 		Iterator<NonTreatmentEpoch> nonTreatmentEpochIter = this.getNonTreatmentEpochs().iterator();
 		while(nonTreatmentEpochIter.hasNext()){
 			nonTreatmentEpoch = nonTreatmentEpochIter.next();
-			if(nonTreatmentEpoch.getEnrollmentIndicator().equalsIgnoreCase("Yes"))
+			if((nonTreatmentEpoch.getEnrollmentIndicator()!=null)&&(nonTreatmentEpoch.getEnrollmentIndicator().equalsIgnoreCase("Yes")))
 				return true;				
 		}
 		}

@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
@@ -32,7 +34,8 @@ public class StudySite extends StudyOrganization implements
 //    private Study study;
     private Date irbApprovalDate = Calendar.getInstance().getTime();
     private String roleCode;
-    private String statusCode;
+ // private String statusCode;
+    private SiteStudyStatus siteStudyStatus;
     private Date startDate = Calendar.getInstance().getTime();
     private Date endDate;
     private String irbApprovalDateStr;
@@ -168,13 +171,13 @@ public class StudySite extends StudyOrganization implements
         this.startDate = startDate;
     }
 
-    public String getStatusCode() {
+   /* public String getStatusCode() {
         return statusCode;
     }
 
     public void setStatusCode(String statusCode) {
         this.statusCode = statusCode;
-    }
+    }*/
 
     public String getRoleCode() {
         return roleCode;
@@ -235,5 +238,14 @@ public class StudySite extends StudyOrganization implements
         result = 29 * result + (studySubjects != null ? studySubjects.hashCode() : 0);
         return result;
     }
+    
+    @Enumerated(EnumType.STRING)
+	public SiteStudyStatus getSiteStudyStatus() {
+		return siteStudyStatus;
+	}
+
+	public void setSiteStudyStatus(SiteStudyStatus siteStudyStatus) {
+		this.siteStudyStatus = siteStudyStatus;
+	}
 
 }
