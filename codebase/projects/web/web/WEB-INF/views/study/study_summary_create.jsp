@@ -33,10 +33,6 @@
             <td class="alt" align="left">${command.targetAccrualNumber}</td>
         </tr>
         <tr>
-            <td class="alt" align="left"><b>Status:</b></td>
-            <td class="alt" align="left">${command.status}</td>
-        </tr>
-        <tr>
             <td class="alt" align="left"><b>Phase:</b></td>
             <td class="alt" align="left">${command.phaseCode}</td>
         </tr>
@@ -79,7 +75,7 @@
         <c:forEach items="${command.studySites}" var="studySite">
             <tr class="results">
                 <td class="alt" align="left">${studySite.healthcareSite.name}</td>
-                <td class="alt" align="left">${studySite.statusCode}</td>
+                <td class="alt" align="left">${studySite.siteStudyStatus}</td>
                 <td class="alt" align="left">${studySite.roleCode}</td>
                 <td class="alt" align="left">${studySite.startDateStr}</td>
                 <td class="alt" align="left">${studySite.irbApprovalDateStr}</td>

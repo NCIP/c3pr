@@ -143,17 +143,7 @@
             </form:select></div>
         </div>
 
-        <div class="row">
-            <div class="label required-indicator">
-                Status:</div>
-            <div class="value"><form:select path="status"
-                                            cssClass="validate-notEmpty">
-                <option value="">--Please Select--</option>
-                <form:options items="${statusRefData}" itemLabel="desc"
-                              itemValue="desc" />
-            </form:select></div>
-        </div>
-
+      
         <div class="row">
             <div class="label required-indicator">
                 Phase:</div>

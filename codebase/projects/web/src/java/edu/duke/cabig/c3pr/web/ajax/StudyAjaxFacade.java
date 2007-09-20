@@ -128,7 +128,7 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
         log.debug("search string = " + searchtext + "; type = " + type);
 
         if ("status".equals(type))
-            study.setStatus(searchtext);
+            study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
         else if ("id".equals(type)) {
             SystemAssignedIdentifier id = new SystemAssignedIdentifier();
             id.setValue(searchtext);

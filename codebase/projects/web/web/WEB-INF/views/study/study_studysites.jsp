@@ -97,12 +97,11 @@ Event.observe(window, "load", function() {
                   			<div id="healthcareSite-choices" class="autocomplete"></div>
            			 </td>
                                
-                       <td><form:select path="studySites[0].statusCode"
-                                                     cssClass="validate-notEmpty">
-                            <option value="">--Please Select--</option>
-                            <form:options items="${studySiteStatusRefData}" itemLabel="desc"
-                                          itemValue="desc"/>
-                        </form:select>
+                       <td><form:select path="studySites[0].siteStudyStatus">
+                    <form:option label="--Please Select--" value=""/>
+                    <form:option label="Pending" value="PENDING"/>
+                    <form:option label="Active" value="ACTIVE"/>
+                	</form:select>
                             <input type="hidden" name="studySites[0].roleCode" value="Affiliate Site"/>
 
                         </td>
@@ -206,11 +205,11 @@ RowManager.addRowInseter(instanceRowInserterProps);
                   			<div id="healthcareSite${status.index}-choices" class="autocomplete"></div>
            			 </td>
                                
-                       <td><form:select path="studySites[${status.index}].statusCode"
+                       <td><form:select path="studySites[${status.index}].siteStudyStatus"
                                                      cssClass="validate-notEmpty">
-                            <option value="">--Please Select--</option>
-                            <form:options items="${studySiteStatusRefData}" itemLabel="desc"
-                                          itemValue="desc"/>
+                           <form:option label="--Please Select--" value=""/>
+                    <form:option label="Pending" value="PENDING"/>
+                    <form:option label="Active" value="ACTIVE"/>
                         </form:select>
                             <input type="hidden" name="studySites[${status.index}].roleCode" value="Affiliate Site"/>
 
@@ -262,10 +261,9 @@ RowManager.addRowInseter(instanceRowInserterProps);
                 <select id="studySites[PAGE.ROW.INDEX].statusCode"
                         name="studySites[PAGE.ROW.INDEX].statusCode"
                         class="validate-notEmpty">
-                    <option value="">--Please Select--</option>
-                    <c:forEach items="${studySiteStatusRefData}" var="studySite">
-                        <option value="${studySite.desc}">${studySite.desc}</option>
-                    </c:forEach>
+                    <option label="--Please Select--" value=""/>
+                    <option label="Pending" value="PENDING"/>
+                    <option label="Active" value="ACTIVE"/>
                 </select>
                 <input type="hidden" id="studySites[PAGE.ROW.INDEX].roleCode"
                        name="studySites[PAGE.ROW.INDEX].roleCode" value="Affiliate Site"/>
