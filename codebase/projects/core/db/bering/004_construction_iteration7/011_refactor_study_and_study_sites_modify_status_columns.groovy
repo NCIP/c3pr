@@ -3,7 +3,6 @@ class RefactorStudyAndStudySitesModifyStatusColumns extends edu.northwestern.bio
     	addColumn('STUDIES','DATA_ENTRY_STATUS','string');
     	setNullable('STUDIES','DATA_ENTRY_STATUS',false);
 	   	addColumn('STUDIES','COORDINATING_CENTER_STUDY_STATUS','string');
-	   	setNullable('STUDIES','COORDINATING_CENTER_STUDY_STATUS',false);
     	addColumn('STUDY_ORGANIZATIONS','SITE_STUDY_STATUS','string');
     	dropColumn('STUDIES','STATUS');
     	dropColumn('STUDY_ORGANIZATIONS','STATUS_CODE');
