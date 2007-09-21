@@ -151,7 +151,7 @@
     <xs:complexType name="Registration">
         <xs:sequence>
             <xs:element name="studySite" type="StudySiteType" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="studyGridId" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="studyRef" type="studyRef" minOccurs="0" maxOccurs="1"/>
             <xs:element name="participant" type="ParticipantType" minOccurs="0" maxOccurs="1"/>
             <xs:element name="startDate" type="xs:date" minOccurs="0" maxOccurs="1"/>
             <xs:element name="informedConsentFormSignedDate" type="xs:date" minOccurs="0" maxOccurs="1"/>
@@ -159,6 +159,9 @@
             <xs:element ref="identifier" minOccurs="0" maxOccurs="unbounded"/>
             <xs:element ref="scheduledEpoch" minOccurs="0" maxOccurs="1"/>
             <xs:element name="stratumGroup" type="xs:string" minOccurs="0" maxOccurs="1"/>
+		<xs:element name="registrationStatus" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="offStudyReasonText" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="offStudyDate" type="xs:string" minOccurs="0" maxOccurs="1"/>
         </xs:sequence>
         <xs:attribute name="gridId" type="xs:string"/>
     </xs:complexType>
@@ -173,7 +176,6 @@
         <xs:sequence>
             <xs:element name="startDate" type="xs:date" minOccurs="0" maxOccurs="1"/>
             <xs:element ref="epoch" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="scheduledArm" type="ScheduledArmType" minOccurs="0" maxOccurs="1"/>
         </xs:sequence>
         <xs:attribute name="gridId" type="xs:string"/>
     </xs:complexType>
@@ -188,6 +190,9 @@
     <xs:complexType name="ScheduledTreatmentEpochType">
         <xs:complexContent>
             <xs:extension base="ScheduledEpochType">
+		    <xs:sequence>
+                    <xs:element name="scheduledArm" type="ScheduledArmType" minOccurs="0" maxOccurs="1"/>
+                </xs:sequence>
             </xs:extension>
         </xs:complexContent>
     </xs:complexType>
@@ -206,10 +211,7 @@
             <xs:element name="randomizedIndicator" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="shortTitleText" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="longTitleText" type="xs:string" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="descriptionText" type="xs:string" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="registrationStatus" type="xs:string" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="offStudyReasonText" type="xs:string" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="offStudyDate" type="xs:string" minOccurs="0" maxOccurs="1"/>                                    
+            <xs:element name="descriptionText" type="xs:string" minOccurs="0" maxOccurs="1"/>                                    
             <xs:element name="precisText" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="phaseCode" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="status" type="xs:string" minOccurs="0" maxOccurs="1"/>
@@ -223,6 +225,15 @@
         </xs:sequence>
         <xs:attribute name="gridId" type="xs:string"/>
         <xs:attribute name="version" type="xs:integer"/>
+    </xs:complexType>
+
+    <xs:complexType name="StudyRefType">
+        <xs:sequence>
+            <xs:element name="shortTitleText" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="longTitleText" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element ref="identifier" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="gridId" type="xs:string"/>
     </xs:complexType>
 
     <xs:complexType name="StudyOrganizationType">
