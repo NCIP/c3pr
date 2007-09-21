@@ -21,6 +21,10 @@
                     <div class="label">Sponsor Study Identifier:</div>
                     <div class="value">${command.organizationAssignedIdentifiers[0].value}</div>
                 </div>
+                <div class="row">
+                    <div class="label">Coordinating Center Study Status:</div>
+                    <div class="value">${command.coordinatingCenterStudyStatus}</div>
+                </div>
             </div>
             </td></tr>
          </table>
