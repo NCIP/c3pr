@@ -207,6 +207,9 @@
             <xs:element name="shortTitleText" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="longTitleText" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="descriptionText" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="registrationStatus" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="offStudyReasonText" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="offStudyDate" type="xs:string" minOccurs="0" maxOccurs="1"/>                                    
             <xs:element name="precisText" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="phaseCode" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="status" type="xs:string" minOccurs="0" maxOccurs="1"/>

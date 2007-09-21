@@ -420,6 +420,20 @@
             <bind-xml name="startDate" node="element"
                       xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
+        <field name="offStudyDate" type="string"
+               handler="edu.duke.cabig.c3pr.xml.DateFieldHandler">
+            <bind-xml name="offStudyDate" node="element"
+                      xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
+        </field>
+        <field name="offStudyReasonText" type="string">
+            <bind-xml name="offStudyReasonText" node="element"
+                      xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
+        </field>
+        <field name="regWorkflowStatus" type="string"
+               handler="edu.duke.cabig.c3pr.xml.RegistrationWorkFlowStatusFieldHandler">
+            <bind-xml name="registrationStatus" node="element"
+                      xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
+        </field>
         <field name="informedConsentSignedDate" type="string"
                handler="edu.duke.cabig.c3pr.xml.DateFieldHandler">
             <bind-xml name="informedConsentFormSignedDate" node="element"
