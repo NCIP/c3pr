@@ -35,6 +35,7 @@ public class StudyAmendment extends AbstractMutableDomainObject{
 	private Boolean eligibilityChangedIndicator;
 	private Boolean diseasesChangedIndicator;
 	private Boolean principalInvestigatorChangedIndicator;
+	private Boolean randomizationChangedIndicator;
 	
 
 	/// Mutators
@@ -133,6 +134,13 @@ public class StudyAmendment extends AbstractMutableDomainObject{
 	public void setPrincipalInvestigatorChangedIndicator(
 			Boolean principalInvestigatorChangedIndicator) {
 		this.principalInvestigatorChangedIndicator = principalInvestigatorChangedIndicator;
+	}
+	public Boolean getRandomizationChangedIndicator() {
+		return randomizationChangedIndicator;
+	}
+	public void setRandomizationChangedIndicator(
+			Boolean randomizationChangedIndicator) {
+		this.randomizationChangedIndicator = randomizationChangedIndicator;
 	}
 
 
