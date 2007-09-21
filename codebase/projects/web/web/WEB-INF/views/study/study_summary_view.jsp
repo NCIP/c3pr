@@ -42,6 +42,10 @@
         <tr>
             <td class="alt" align="left"><b>Phase:</b></td>
             <td class="alt" align="left">${command.phaseCode}</td>
+        </tr>        
+        <tr>
+            <td class="alt" align="left"><b>Status:</b></td>
+            <td> <tags:inPlaceEdit value= "${command.coordinatingCenterStudyStatus}" path="coordinatingCenterStudyStatus"/></td>
         </tr>
         <tr>
             <td class="alt" align="left"><b>Type:</b></td>
