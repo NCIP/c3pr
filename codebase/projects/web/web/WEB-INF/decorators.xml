@@ -12,6 +12,7 @@
         <pattern>/pages/study/createStudy</pattern>
         <pattern>/pages/study/editStudy</pattern>
         <pattern>/pages/study/viewStudy</pattern>
+        <pattern>/pages/study/amendStudy</pattern>
         <pattern>/pages/participant/createParticipant</pattern>
         <pattern>/pages/participant/editParticipant</pattern>
         <pattern>/pages/registration/manageRegistration*</pattern>

@@ -142,7 +142,10 @@
           class="edu.duke.cabig.c3pr.web.study.ConfirmStudyController" />
     <bean name="/study/editStudy" id="editStudyController"
           class="edu.duke.cabig.c3pr.web.study.EditStudyController" autowire="byName" />
-
+	<bean name="/study/amendStudy" id="amendStudyController"
+          class="edu.duke.cabig.c3pr.web.study.AmendStudyController" autowire="byName" />
+	
+	
     <bean name="/study/viewStudy" id="viewStudyController"
           class="edu.duke.cabig.c3pr.web.study.ViewStudyController" autowire="byName">
         <property name="editTask">

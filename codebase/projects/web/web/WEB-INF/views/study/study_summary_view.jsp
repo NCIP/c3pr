@@ -314,14 +314,17 @@
     <csmauthz:accesscontrol domainObject="${editAuthorizationTask}"
                             authorizationCheckName="taskAuthorizationCheck">
     <c:choose>
-    	<c:when test="${!command.hasRegisteredParticipants}">
+    	<c:when test="${command.coordinatingCenterStudyStatus == 'PENDING'}">
     		<input type="submit" value="Edit Study"/>
     	</c:when>
+    	<c:when test="${command.coordinatingCenterStudyStatus == 'ACTIVE' || 
+    					command.coordinatingCenterStudyStatus == 'AMENDMENT_PENDING'}">
+    		<input type="button" value="Amend Study" onclick="document.location='../study/amendStudy?studyId=${command.id}'"/>
+    	</c:when>
     	<c:otherwise>
-    		<input type="button" value="Amend Study" onclick="alert('This feature has not yet been implemented.');"/>
     	</c:otherwise>
     </c:choose>
-
+<%--	<input type="button" value="Amend Study" onclick="document.location='../study/amendStudy?studyId=${command.id}'"/> --%>
     </csmauthz:accesscontrol>
                     </span>
         </div>

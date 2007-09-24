@@ -70,12 +70,20 @@
                     add_row_division_id: "addInclusionRowTable-${epochCount.index}",
                     skeleton_row_division_id: "dummy-inclusionRow-${epochCount.index}",
                     initialIndex: ${fn:length(command.epochs[epochCount.index].inclusionEligibilityCriteria)},
+                    softDelete: ${flowType!='CREATE_STUDY'},
+                    onLoadRowInitialize: function(object, currentRowIndex){
+    							new Element.descendants(object.getColumnDivisionElement(currentRowIndex)).each(function(e){e.disabled="true";})
+    						},
                     path: "epochs[${epochCount.index }].inclusionEligibilityCriteria"
                 };
                 var instanceExclusionRow_${epochCount.index} = {
                     add_row_division_id: "addExclusionRowTable-${epochCount.index}",
                     skeleton_row_division_id: "dummy-exclusionRow-${epochCount.index}",
                     initialIndex: ${fn:length(command.epochs[epochCount.index].exclusionEligibilityCriteria)},
+					softDelete: ${flowType!='CREATE_STUDY'},
+					onLoadRowInitialize: function(object, currentRowIndex){
+    							new Element.descendants(object.getColumnDivisionElement(currentRowIndex)).each(function(e){e.disabled="true";})
+    						},
                     path: "epochs[${epochCount.index }].exclusionEligibilityCriteria"
                 };
                 RowManager.addRowInseter(instanceInclusionRow_${epochCount.index});
@@ -108,14 +116,15 @@
                                         <td>
                                             <form:textarea
                                                     path="epochs[${epochCount.index }].inclusionEligibilityCriteria[${status.index}].questionText"
-                                                    rows="1" cols="132" cssClass="validate-notEmpty" /></td>
+                                                    rows="1" cols="132" cssClass="validate-notEmpty"/></td>
                                         <td><form:checkbox
-                                                path="epochs[${epochCount.index }].inclusionEligibilityCriteria[${status.index}].notApplicableIndicator" />
+                                                path="epochs[${epochCount.index }].inclusionEligibilityCriteria[${status.index}].notApplicableIndicator"/>
                                         </td>
                                         <td><a
                                                 href="javascript:RowManager.deleteRow(instanceInclusionRow_${epochCount.index},${status.index});"><img
                                                 src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
                                     </tr>
+                                    
                                 </c:forEach>
                             </table>
                             </chrome:division></td></tr>
