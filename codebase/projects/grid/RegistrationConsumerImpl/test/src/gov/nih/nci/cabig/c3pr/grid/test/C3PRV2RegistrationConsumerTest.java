@@ -1,13 +1,12 @@
 package gov.nih.nci.cabig.c3pr.grid.test;
 
+import edu.duke.cabig.c3pr.service.StudyService;
+import edu.duke.cabig.c3pr.utils.ApplicationTestCase;
 import gov.nih.nci.cabig.ctms.service.C3PRV2RegistrationConsumer;
 import gov.nih.nci.cagrid.common.Utils;
 
-import java.io.*;
-
-import org.springframework.test.AbstractDependencyInjectionSpringContextTests;
-import edu.duke.cabig.c3pr.utils.ApplicationTestCase;
-import edu.duke.cabig.c3pr.service.StudyService;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 /**
  * Tests the grid service impl for c3prv2
@@ -24,11 +23,10 @@ public class C3PRV2RegistrationConsumerTest extends ApplicationTestCase {
     C3PRV2RegistrationConsumer gridService = new C3PRV2RegistrationConsumer();
 
     private String sampleMessage="SampleRegistrationMessage.xml";
-    private StudyService studyService;
 
 
     protected void setUp() throws Exception {
-        studyService = registerMockFor(StudyService.class);
+        StudyService studyService = registerMockFor(StudyService.class);
         gridService.setStudyService(studyService);
 
     }
@@ -38,9 +36,9 @@ public class C3PRV2RegistrationConsumerTest extends ApplicationTestCase {
             InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(sampleMessage);
             InputStreamReader reader = new InputStreamReader(is);
 
-            gov.nih.nci.cabig.ctms.grid.RegistrationType registrationMessage =
-                    (gov.nih.nci.cabig.ctms.grid.RegistrationType)
-                            Utils.deserializeObject(reader,gov.nih.nci.cabig.ctms.grid.RegistrationType.class);
+            gov.nih.nci.ccts.grid.Registration registrationMessage =
+                    (gov.nih.nci.ccts.grid.Registration)
+                            Utils.deserializeObject(reader,gov.nih.nci.ccts.grid.Registration.class);
             gridService.register(registrationMessage);
         } catch (Exception e) {
             fail(e.getMessage());
