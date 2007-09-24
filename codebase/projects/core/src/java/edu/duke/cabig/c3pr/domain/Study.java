@@ -339,7 +339,11 @@ public class Study extends AbstractMutableDomainObject implements
 	@Transient
 	public List<StudyAmendment> getPreviousStudyAmendments() {
 		if(this.getCoordinatingCenterStudyStatus()==CoordinatingCenterStudyStatus.AMENDMENT_PENDING){
-		return this.getStudyAmendments().subList(0, getStudyAmendments().size()-1);
+			if(getStudyAmendments().size()>1){
+				return this.getStudyAmendments().subList(0, getStudyAmendments().size()-1);
+			}else{
+				return null;
+			}
 		}
 		else return getStudyAmendments();
 	}
