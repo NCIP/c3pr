@@ -1,5 +1,4 @@
-<%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator"
-	prefix="decorator"%>
+<%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator"	prefix="decorator"%>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -7,115 +6,171 @@
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-
 <html>
 <head>
+<tags:stylesheetLink name="tabbedflow" />
+<tags:javascriptLink name="tabbedflow" />
 <tags:includeScriptaculous />
-<tags:dwrJavascriptLink objects="StudyAjaxFacade" />
-<script language="JavaScript" type="text/JavaScript">
-              
-var studyAmendmentsRowInserterProps = {
-    add_row_division_id: "studyAmendments", 	        /* this id belongs to element where the row would be appended to */
-    skeleton_row_division_id: "dummy-row-studyAmendment",
-    initialIndex: ${fn:length(command.studyAmendments)},                            /* this is the initial count of the rows when the page is loaded  */
-    path: "studyAmendments" ,                              /* this is the path of the collection that holds the rows  */
-    postProcessRowInsertion: function(object){
-        inputDateElementLocal="studyAmendments["+object.localIndex+"].amendmentDate";
-        inputDateElementLink="studyAmendments["+object.localIndex+"].amendmentDate-calbutton";
-        Calendar.setup(
-        {
-            inputField  : inputDateElementLocal,         // ID of the input field
-            ifFormat    : "%m/%d/%Y",    // the date format
-            button      : inputDateElementLink       // ID of the button
-        }
-                );
-        inputDateElementLocal="studyAmendments["+object.localIndex+"].irbApprovalDate";
-        inputDateElementLink="studyAmendments["+object.localIndex+"].irbApprovalDate-calbutton";
-        Calendar.setup(
-        {
-            inputField  : inputDateElementLocal,         // ID of the input field
-            ifFormat    : "%m/%d/%Y",    // the date format
-            button      : inputDateElementLink       // ID of the button
-        }
-                );
-       
-    },
-};
-
-RowManager.addRowInseter(studyAmendmentsRowInserterProps);
-</script>
 </head>
+
 <body>
-<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}"
-	formName="studyAmendmentsForm">
-	<jsp:attribute name="singleFields">
-		<table width="100%">
+<chrome:box title="Previous Amendments">
+<br/>	
+	<table id="studyAmendments" class="tablecontent">
 			<tr>
-				<td>
-					<table id="studyAmendments" class="tablecontent">
-						<tr>
-							<th>Version #</th>
-							<th>Date</th>
-							<th><span class="required-indicator">IRB Approval Date</span></th>
-							<th>Comments</th>
-							<th></th>
-						</tr>
-						<c:forEach items="${command.studyAmendments}"
-							varStatus="status">
-							<tr id="studyAmendments-${status.index}">
-								<td><form:input
-									path="studyAmendments[${status.index}].amendmentVersion"
-									cssClass="validate-notEmpty&&NUMERIC" size="5" /></td>
-								<td><tags:dateInput path="studyAmendments[${status.index}].amendmentDate"/></td>
-								<td><tags:dateInput path="studyAmendments[${status.index}].irbApprovalDate"/></td>
-								<td><form:textarea path="studyAmendments[${status.index}].comments" rows="2" cols="40"/></td>
-								<td><a href="javascript:RowManager.deleteRow(studyAmendmentsRowInserterProps,${status.index});"><img
-									src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
-							</tr>
-						</c:forEach>
-					</table>
-
-					<br>
-					<div align="right"><input id="addSystemIdentifier" type="button"
-						value="Add Amendment"
-						onclick="RowManager.addRow(studyAmendmentsRowInserterProps);" />
-					</div>
-
-				</td>
+				<th>Version #</th>
+				<th>Date</th>
+				<th><span class="required-indicator">IRB Approval Date</span></th>
+				<th>Comments</th>
 			</tr>
-		</table>
+			<c:forEach items="${command.previousStudyAmendments}"  var="studyAmendments" varStatus="status">
+			<tr id="studyAmendments-${status.index}">
+				<td>${studyAmendments.amendmentVersion}</td>
+				<td>${studyAmendments.amendmentDate}</td>
+				<td>${studyAmendments.irbApprovalDate}</td>
+				<td>${studyAmendments.comments}</td>
+			</tr>
+			</c:forEach>
+	</table>
+	<br />
+	
+</chrome:box>
+
+<c:choose>
+<c:when test="${command.coordinatingCenterStudyStatus == 'AMENDMENT_PENDING'}">
+AMENDMENT_PENDING
+	<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" title="New Amendment" formName="studyAmendmentsForm">
+	<jsp:attribute name="singleFields">
+		<input type="hidden" name="_action" value="_action"/>
+		
+		<chrome:division id="study-details" title="Basic Details">
+    	<div class="row">
+            <div class="label"><span class="required-indicator">Version# :</span></div>
+            <div class="value">
+                <form:input	path="studyAmendments[0].amendmentVersion" cssClass="validate-notEmpty&&NUMERIC" size="5" /> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="label">Date :</div>
+            <div class="value">
+                <tags:dateInput path="studyAmendments[0].amendmentDate"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="label"><span class="required-indicator">IRB Approval Date :</span></div>
+            <div class="value">
+            	<tags:dateInput path="studyAmendments[0].irbApprovalDate" cssClass="validate-notEmpty"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="label">Comments :</div>
+            <div class="value">
+                <form:textarea path="studyAmendments[0].comments" rows="2" cols="40"/>
+            </div>
+        </div> 
+        </chrome:division>
+        <br/>
+        
+        <chrome:division id="study-details" title="Reasons for Amendment (Minimum One):">
+        <table>
+        	<tr>
+        		<td width="20%"><b>Epoch & Arms :</b></td>
+        		<td width="5%"><form:checkbox path="studyAmendments[0].epochAndArmsChangedIndicator" value="true"/></td>        		
+        		<td width="20%"><b>Eligibility :</b></td>
+        		<td width="5%"><form:checkbox path="studyAmendments[0].eligibilityChangedIndicator" value="true"/></td>
+        	</tr>
+        	<tr>
+        		<td><b>Stratification :</b></td>
+        		<td><form:checkbox path="studyAmendments[0].stratificationChangedIndicator" value="true"/></td>
+        		<td><b>Diseases :</b></td>
+        		<td><form:checkbox path="studyAmendments[0].diseasesChangedIndicator" value="true"/></td>
+        	</tr>
+        	<tr>
+        		<td><b>Consent :</b></td>
+        		<td><form:checkbox path="studyAmendments[0].consentChangedIndicator" value="true"/></td>
+        		<td><b>Principal Investigator :</b></td>
+        		<td><form:checkbox path="studyAmendments[0].principalInvestigatorChangedIndicator" value="true"/></td>
+        	</tr>
+        	<tr>
+        		<td><b>Randomization :</b></td>
+        		<td><form:checkbox path="studyAmendments[0].randomizationChangedIndicator" value="true"/></td>
+        		<td></td>
+        		<td></td>
+        	</tr>
+        </table>        
+        </chrome:division>
 	</jsp:attribute>
+	</tags:tabForm>	
+</c:when>
 
-</tags:tabForm>
+<c:otherwise>
 
-<div id="dummy-row-studyAmendment" style="display:none;">
-<table>
-	<tr>
-		<td><input type="text" size="5" id="studyAmendments[PAGE.ROW.INDEX].amendmentVersion"
-			name="studyAmendments[PAGE.ROW.INDEX].amendmentVersion" class="validate-notEmpty&&NUMERIC"
-			 /></td>
-		<td><input id="studyAmendments[PAGE.ROW.INDEX].amendmentDate"
-                       name="studyAmendments[PAGE.ROW.INDEX].amendmentDate"
-                       type="text"
-                       class="date" />
-                <a href="#" id="studyAmendments[PAGE.ROW.INDEX].amendmentDate-calbutton">
-                    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>
-                </a></td>
-		<td><input id="studyAmendments[PAGE.ROW.INDEX].irbApprovalDate"
-                       name="studyAmendments[PAGE.ROW.INDEX].irbApprovalDate"
-                       type="text"
-                       class="validate-notEmpty date" />
-                <a href="#" id="studyAmendments[PAGE.ROW.INDEX].irbApprovalDate-calbutton">
-                    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>
-                </a></td>
-		<td><textarea id="studyAmendments[PAGE.ROW.INDEX].comments"
-			name="studyAmendments[PAGE.ROW.INDEX].comments" rows="2" cols="40"></textarea></td>
-		<td><a
-			href="javascript:RowManager.deleteRow(studyAmendmentsRowInserterProps,PAGE.ROW.INDEX);"><img
-			src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
-	</tr>
-</table>
-</div>
+NOT  AMENDMENT_PENDING
+	<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" title="New Amendment" formName="studyAmendmentsForm">
+	<jsp:attribute name="singleFields">
+		<input type="hidden" name="_action" value="_action"/>
+		
+		<chrome:division id="study-details" title="Basic Details">
+    	<div class="row">
+            <div class="label"><span class="required-indicator">Version# :</span></div>
+            <div class="value">
+                <input type="text" name="studyAmendments[0].amendmentVersion" cssClass="validate-notEmpty&&NUMERIC" size="5" /> 
+            </div>
+        </div>
+        <div class="row">
+            <div class="label">Date :</div>
+            <div class="value">
+                <input type="text" name="studyAmendments[0].amendmentDate"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="label"><span class="required-indicator">IRB Approval Date :</span></div>
+            <div class="value">
+            	<input type="text" name="studyAmendments[0].irbApprovalDate" cssClass="validate-notEmpty"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="label">Comments :</div>
+            <div class="value">
+                <input type="textarea" name="studyAmendments[0].comments" rows="2" cols="40"/>
+            </div>
+        </div> 
+        </chrome:division>
+        <br/>
+        
+        <chrome:division id="study-details" title="Reasons for Amendment (Minimum One):">
+        <table>
+        	<tr>
+        		<td width="20%"><b>Epoch & Arms :</b></td>
+        		<td width="5%"><input type="checkbox" name="studyAmendments[0].epochAndArmsChangedIndicator" value="true"/></td>        		
+        		<td width="20%"><b>Eligibility :</b></td>
+        		<td width="5%"><input type="checkbox" name="studyAmendments[0].eligibilityChangedIndicator" value="true"/></td>
+        	</tr>
+        	<tr>
+        		<td><b>Stratification :</b></td>
+        		<td><input type="checkbox" name="studyAmendments[0].stratificationChangedIndicator" value="true"/></td>
+        		<td><b>Diseases :</b></td>
+        		<td><input type="checkbox" name="studyAmendments[0].diseasesChangedIndicator" value="true"/></td>
+        	</tr>
+        	<tr>
+        		<td><b>Consent :</b></td>
+        		<td><input type="checkbox" name="studyAmendments[0].consentChangedIndicator" value="true"/></td>
+        		<td><b>Principal Investigator :</b></td>
+        		<td><input type="checkbox" name="studyAmendments[0].principalInvestigatorChangedIndicator" value="true"/></td>
+        	</tr>
+        	<tr>
+        		<td><b>Randomization :</b></td>
+        		<td><input type="checkbox" name="studyAmendments[0].randomizationChangedIndicator" value="true"/></td>
+        		<td></td>
+        		<td></td>
+        	</tr>
+        </table>        
+        </chrome:division>
+	</jsp:attribute>
+	</tags:tabForm>	
+</c:otherwise>
+</c:choose>
+
 
 </body>
 </html>

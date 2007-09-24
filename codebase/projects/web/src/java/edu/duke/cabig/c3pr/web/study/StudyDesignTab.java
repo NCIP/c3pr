@@ -1,5 +1,13 @@
 package edu.duke.cabig.c3pr.web.study;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.validation.Errors;
+
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.CalloutRandomization;
@@ -8,14 +16,6 @@ import edu.duke.cabig.c3pr.domain.PhonecallRandomization;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
-import org.springframework.validation.Errors;
-
-import javax.servlet.http.HttpServletRequest;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:30:05 PM To
@@ -27,15 +27,23 @@ class StudyDesignTab extends StudyTab {
 		super("Epochs and Arms", "Epochs & Arms", "study/study_design");
 	}
 
-	@Override
-	public Map<String, Object> referenceData(Study study) {
-		Map<String, Object> refdata = super.referenceData(study);
-		refdata.put("currentOperation", getConfigurationProperty().getMap()
-				.get("inclusion"));
 
+	@Override
+	public Map referenceData(HttpServletRequest request, Study study) {
+		Map<String, Object> refdata = super.referenceData(study);
+		refdata.put("currentOperation", getConfigurationProperty().getMap().get("inclusion"));
+		if(request.getAttribute("amendFlow") != null &&
+			request.getAttribute("amendFlow").toString().equals("true")) 
+		{
+			if(request.getSession().getAttribute(DISABLE_FORM_EPOCH_AND_ARMS) != null){
+				refdata.put("disableForm", request.getSession().getAttribute(DISABLE_FORM_EPOCH_AND_ARMS));
+			} else {
+				refdata.put("disableForm", new Boolean(false));
+			}
+		}
 		return refdata;
 	}
-
+	
 	@Override
 	public void postProcess(HttpServletRequest httpServletRequest, Study study,
 			Errors errors) {

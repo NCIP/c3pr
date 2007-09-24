@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.web.study;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
@@ -32,6 +33,10 @@ public class EditStudyController extends StudyController<Study> {
         setBindOnNewForm(true);
     }
 
+    public EditStudyController(String s) {
+        super(s);
+        setBindOnNewForm(true);
+    }
 
     /**
      * Create a nested object graph that Create Study Design needs
@@ -41,13 +46,6 @@ public class EditStudyController extends StudyController<Study> {
      */
     protected Object formBackingObject(HttpServletRequest request) throws ServletException {
         Study study = studyDao.getStudyDesignById(Integer.parseInt(request.getParameter("studyId")));
-//        List <TreatmentEpoch>eList = study.getTreatmentEpochs();
-//        Iterator iter = eList.iterator();
-//        TreatmentEpoch te;
-//        while(iter.hasNext()){
-//        	te = (TreatmentEpoch)iter.next();
-//        	te.getStratumGroups().get(0).getBookRandomizationEntry().size();
-//        }
         if (study != null) {
             log.debug("Retrieving Study Details for Id: " + study.getId());
         }
@@ -67,11 +65,16 @@ public class EditStudyController extends StudyController<Study> {
         flow.addTab(new StudyIdentifiersTab());
         flow.addTab(new StudyInvestigatorsTab());
         flow.addTab(new StudyPersonnelTab());
-        flow.addTab(new StudyAmendmentTab());
         flow.addTab(new StudyEmptyTab("Summary", "Summary", "study/study_summary_view"));
     }
 
-
+    @Override
+    protected Map referenceData(HttpServletRequest request, int arg1) throws Exception {
+    	// TODO Auto-generated method stub
+    	request.setAttribute("flowType", "EDIT_STUDY");
+    	return super.referenceData(request, arg1);
+    }
+    
     @Override
     protected boolean shouldSave(HttpServletRequest request, Study command, Tab<Study> tab) {
         return super.shouldSave(request, command, tab)

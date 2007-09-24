@@ -24,12 +24,20 @@ class StudyIdentifiersTab extends StudyTab {
     }
 
     @Override
-    public Map<String, Object> referenceData() {
+    public Map<String, Object> referenceData(HttpServletRequest request, Study study) {
         Map<String, Object> refdata = super.referenceData();
         addConfigMapToRefdata(refdata, "identifiersTypeRefData");
         refdata.put("identifiersSourceRefData", getHealthcareSiteDao().getAll());
-
-        return refdata;
+        if(request.getAttribute("amendFlow") != null &&
+    			request.getAttribute("amendFlow").toString().equals("true")) 
+    	{
+	        if(request.getSession().getAttribute(DISABLE_FORM_IDENTIFIERS) != null){
+				refdata.put("disableForm", request.getSession().getAttribute(DISABLE_FORM_IDENTIFIERS));
+			} else {
+				refdata.put("disableForm", new Boolean(false));
+			}
+    	}
+	    return refdata;
     }
 
     @Override

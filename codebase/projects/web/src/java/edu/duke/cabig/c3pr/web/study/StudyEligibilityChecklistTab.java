@@ -1,13 +1,12 @@
 package edu.duke.cabig.c3pr.web.study;
 
-import edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria;
-import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
-import org.springframework.validation.Errors;
-import edu.duke.cabig.c3pr.utils.StringUtils;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.validation.Errors;
+
+import edu.duke.cabig.c3pr.domain.Study;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,9 +18,23 @@ import javax.servlet.http.HttpServletRequest;
 class StudyEligibilityChecklistTab extends StudyTab {
 
     public StudyEligibilityChecklistTab() {
-        super("Study Eligibility Checklist", "Eligibility Checklist", "study/study_eligibility_checklist");
+        super("Study Eligibility Checklist", "Eligibility", "study/study_eligibility_checklist");
     }
 
+    @Override
+	public Map referenceData(HttpServletRequest request, Study study) {
+		Map<String, Object> refdata = super.referenceData(study);
+		if(request.getAttribute("amendFlow") != null &&
+    			request.getAttribute("amendFlow").toString().equals("true")) 
+    	{
+			if(request.getSession().getAttribute(DISABLE_FORM_ELIGIBILITY) != null){
+				refdata.put("disableForm", request.getSession().getAttribute(DISABLE_FORM_ELIGIBILITY));
+			} else {
+				refdata.put("disableForm", new Boolean(false));
+			}
+    	}
+		return refdata;
+	}
 
     @Override
     public void postProcess(HttpServletRequest httpServletRequest, Study study, Errors errors) {

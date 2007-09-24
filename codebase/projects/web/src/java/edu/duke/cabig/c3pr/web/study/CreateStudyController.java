@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.web.study;
 
+import java.util.Map;
+
 import edu.duke.cabig.c3pr.domain.Study;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import org.springframework.validation.BindException;
@@ -51,11 +53,17 @@ public class CreateStudyController<C extends Study> extends StudyController<C> {
         flow.addTab(new StudyIdentifiersTab());
         flow.addTab(new StudyInvestigatorsTab());
         flow.addTab(new StudyPersonnelTab());
-        flow.addTab(new StudyAmendmentTab());
+//        flow.addTab(new StudyAmendmentTab());
         flow.addTab(new StudyEmptyTab("Overview", "Overview", "study/study_summary_create"));
     }
 
-
+    @Override
+    protected Map referenceData(HttpServletRequest request, int arg1) throws Exception {
+    	// TODO Auto-generated method stub
+    	request.setAttribute("flowType", "CREATE_STUDY");
+    	return super.referenceData(request, arg1);
+    }
+    
     /* (non-Javadoc)
       * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#processFinish
       * (javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,

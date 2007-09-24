@@ -4,6 +4,8 @@ import edu.duke.cabig.c3pr.domain.Study;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * Created by IntelliJ IDEA.
  * User: kherm
@@ -18,7 +20,7 @@ class StudyDetailsTab extends StudyTab {
     }
 
     @Override
-    public Map<String, Object> referenceData(Study study) {
+    public Map<String, Object> referenceData(HttpServletRequest request, Study study) {
         Map<String, Object> refdata = super.referenceData();
         addConfigMapToRefdata(refdata, "studySearchType");
         addConfigMapToRefdata(refdata, "diseaseCodeRefData");
@@ -29,7 +31,18 @@ class StudyDetailsTab extends StudyTab {
         addConfigMapToRefdata(refdata, "typeRefData");
         addConfigMapToRefdata(refdata, "coordinatingCenters");
         addConfigMapToRefdata(refdata, "yesNo");
-        refdata.put("mandatory", "true");
+        
+        if(request.getAttribute("amendFlow") != null &&
+    			request.getAttribute("amendFlow").toString().equals("true")) 
+    	{
+	        if(request.getSession().getAttribute(DISABLE_FORM_DETAILS) != null){
+				refdata.put("disableForm", request.getSession().getAttribute(DISABLE_FORM_DETAILS));
+			} else {
+				refdata.put("disableForm", new Boolean(false));
+			}
+    	} else {
+    		refdata.put("mandatory", "true");
+    	}
         return refdata;
     }
 

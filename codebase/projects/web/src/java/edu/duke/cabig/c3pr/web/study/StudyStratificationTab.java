@@ -28,9 +28,23 @@ public class StudyStratificationTab extends StudyTab {
 
 	
     public StudyStratificationTab() {
-        super("Study Stratification Factors", "Stratification Factors", "study/study_stratifications");
+        super("Study Stratification Factors", "Stratification", "study/study_stratifications");
     }
 
+    @Override
+	public Map referenceData(HttpServletRequest request, Study study) {
+		Map<String, Object> refdata = super.referenceData(study);
+		if(request.getAttribute("amendFlow") != null &&
+    			request.getAttribute("amendFlow").toString().equals("true")) 
+    	{
+			if(request.getSession().getAttribute(DISABLE_FORM_STRATIFICATION) != null){
+				refdata.put("disableForm", request.getSession().getAttribute(DISABLE_FORM_STRATIFICATION));
+			} else {
+				refdata.put("disableForm", new Boolean(false));
+			}
+    	}	
+		return refdata;
+	}
 
     @Override
     public void postProcess(HttpServletRequest httpServletRequest, Study study, Errors errors) {

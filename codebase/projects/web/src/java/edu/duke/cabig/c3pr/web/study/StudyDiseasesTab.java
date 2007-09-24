@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.web.study;
 
+import java.util.Map;
+
 import edu.duke.cabig.c3pr.dao.DiseaseTermDao;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
@@ -22,6 +24,20 @@ class StudyDiseasesTab extends StudyTab {
         super("Study Diseases", "Diseases", "study/study_diseases");
     }
 
+    @Override
+	public Map referenceData(HttpServletRequest request, Study study) {
+		Map<String, Object> refdata = super.referenceData(study);
+		if(request.getAttribute("amendFlow") != null &&
+    			request.getAttribute("amendFlow").toString().equals("true")) 
+    	{
+			if(request.getSession().getAttribute(DISABLE_FORM_DISEASES) != null){
+				refdata.put("disableForm", request.getSession().getAttribute(DISABLE_FORM_DISEASES));
+			} else {
+				refdata.put("disableForm", new Boolean(false));
+			}
+    	}
+		return refdata;
+	}
 
     @Override
     public void postProcess(HttpServletRequest httpServletRequest, Study study, Errors errors) {
