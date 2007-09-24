@@ -26,9 +26,9 @@
     </participant>
     <startDate>0006-06-23</startDate>
     <informedConsentFormSignedDate>0006-06-23</informedConsentFormSignedDate>
-    <regDataEntryStatus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="java:java.lang.String">
+    <regDataEntryStatus>
         INCOMPLETE
     </regDataEntryStatus>
-    <regWorkflowStatus xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="java:java.lang.String">INVALID
+    <regWorkflowStatus>INVALID
     </regWorkflowStatus>
 </registration>
