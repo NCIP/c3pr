@@ -229,7 +229,13 @@ public class StudyServiceImpl implements StudyService {
     	
     	try{
     		study.setDataEntryStatus(evaluateDataEntryStatus(study));
+    		
+    		// For a new study, the coordingating center status should be set to Pending.
+    		if(study.getId()==null){
+    			study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
+    		} else {
     		study.setCoordinatingCenterStudyStatus(evaluateCoordinatingCenterStudyStatus(study));
+    		}
     		for(int i=0; i<study.getStudySites().size();i++){
     			study.getStudySites().get(i).setSiteStudyStatus(evaluateSiteStudyStatus(study.getStudySites().get(i)));
     		}
