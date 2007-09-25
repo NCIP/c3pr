@@ -519,12 +519,12 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 
 	/* Test Cases for createRegistration
 	 * Multi Site Trial
-	 * Non Treatment Epoch
+	 * Non Treatment Epoch, Non Reserving, Non Registering
 	 * Non Randomized
 	 */
 	public void testCreateRegistrationCase2()throws Exception{
 		StudySubject studySubject=new StudySubject();
-		studySubject.setStudySite(getMultiSiteNonRandomizedStudy(true, true).getStudySites().get(0));
+		studySubject.setStudySite(getMultiSiteNonRandomizedStudy(false, false).getStudySites().get(0));
 		studySubject.setParticipant(participantDao.getById(1000));
         Integer savedId;
         {
@@ -546,8 +546,8 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
         	assertEquals("getIfTreatmentScheduledEpoch return is inconsistent", false, loaded.getIfTreatmentScheduledEpoch());
         	assertEquals("Wrong registration data entry status", RegistrationDataEntryStatus.COMPLETE, loaded.getRegDataEntryStatus());
         	assertEquals("Wrong epoch data entry status", ScheduledEpochDataEntryStatus.COMPLETE, loaded.getScheduledEpoch().getScEpochDataEntryStatus());        	
-        	assertEquals("Wrong registration work flow status", RegistrationWorkFlowStatus.PENDING, loaded.getRegWorkflowStatus());
-        	assertEquals("Wrong epoch work flow status", ScheduledEpochWorkFlowStatus.PENDING, loaded.getScheduledEpoch().getScEpochWorkflowStatus());        	
+        	assertEquals("Wrong registration work flow status", RegistrationWorkFlowStatus.UNREGISTERED, loaded.getRegWorkflowStatus());
+        	assertEquals("Wrong epoch work flow status", ScheduledEpochWorkFlowStatus.APPROVED, loaded.getScheduledEpoch().getScEpochWorkflowStatus());        	
         }
         interruptSession();
 
@@ -645,13 +645,11 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
         }
         interruptSession();
 
-        XmlMarshaller marshaller = marshaller = new XmlMarshaller();
+        XmlMarshaller marshaller = new XmlMarshaller("ccts-registration-castor-mapping.xml");
         StudySubject loaded = studySubjectDao.getById(savedId);
         String xml = marshaller.toXML(loaded);
         System.out.println(xml);
         assertNotNull(xml);
-
-
     }
 
 
@@ -795,6 +793,42 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
         	assertEquals("Wrong registration data entry status", RegistrationDataEntryStatus.COMPLETE, loaded.getRegDataEntryStatus());
         	assertEquals("Wrong epoch data entry status", ScheduledEpochDataEntryStatus.COMPLETE, loaded.getScheduledEpoch().getScEpochDataEntryStatus());        	
         	assertEquals("Wrong registration work flow status", RegistrationWorkFlowStatus.UNREGISTERED, loaded.getRegWorkflowStatus());
+        	assertEquals("Wrong epoch work flow status", ScheduledEpochWorkFlowStatus.APPROVED, loaded.getScheduledEpoch().getScEpochWorkflowStatus());        	
+        }
+        interruptSession();
+
+	}
+
+	/* Test Cases for createRegistration
+	 * Multi Site Trial
+	 * Non Treatment Epoch, Reserving, Non Registering
+	 * Non Randomized
+	 */
+	public void testCreateRegistrationCase9()throws Exception{
+		StudySubject studySubject=new StudySubject();
+		studySubject.setStudySite(getMultiSiteNonRandomizedStudy(true, false).getStudySites().get(0));
+		studySubject.setParticipant(participantDao.getById(1000));
+        Integer savedId;
+        {
+            addScheduledEpoch(studySubject,false);
+            buildCommandObject(studySubject);
+            addEnrollmentDetails(studySubject);
+            StudySubject saved= studySubjectService.registerSubject(studySubject);
+            savedId= saved.getId().intValue();
+            assertNotNull("The registration didn't get an id", savedId);
+        }
+
+        interruptSession();
+        {
+        	StudySubject loaded = studySubjectDao.getById(savedId);
+        	assertNotNull("Could not reload registration with id " + savedId, loaded);
+        	assertEquals("Wrong number of scheduled epochs", 1, loaded.getScheduledEpochs().size());
+        	assertEquals("Wrong number of scheduled treatment epochs", 0, loaded.getScheduledTreatmentEpochs().size());
+        	assertEquals("Wrong number of scheduled non treatment epochs", 1, loaded.getScheduledNonTreatmentEpochs().size());
+        	assertEquals("getIfTreatmentScheduledEpoch return is inconsistent", false, loaded.getIfTreatmentScheduledEpoch());
+        	assertEquals("Wrong registration data entry status", RegistrationDataEntryStatus.COMPLETE, loaded.getRegDataEntryStatus());
+        	assertEquals("Wrong epoch data entry status", ScheduledEpochDataEntryStatus.COMPLETE, loaded.getScheduledEpoch().getScEpochDataEntryStatus());        	
+        	assertEquals("Wrong registration work flow status", RegistrationWorkFlowStatus.RESERVED, loaded.getRegWorkflowStatus());
         	assertEquals("Wrong epoch work flow status", ScheduledEpochWorkFlowStatus.APPROVED, loaded.getScheduledEpoch().getScEpochWorkflowStatus());        	
         }
         interruptSession();
