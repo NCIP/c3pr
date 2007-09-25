@@ -5,17 +5,12 @@ import gov.nih.nci.common.util.Marshaller;
 import gov.nih.nci.common.util.Unmarshaller;
 import gov.nih.nci.common.util.caCOREMarshaller;
 import gov.nih.nci.common.util.caCOREUnmarshaller;
-
-import java.io.File;
-import java.io.InputStream;
-import java.io.Reader;
-import java.io.StringWriter;
-import java.io.Writer;
-
 import org.apache.log4j.Logger;
 import org.exolab.castor.mapping.Mapping;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
+
+import java.io.*;
 
 /**
  * This is a utility class to

@@ -1,33 +1,34 @@
 package edu.duke.cabig.c3pr.xml;
 
-import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
-import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyDataEntryStatus;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.ValidityException;
 
 /**
  * Created by IntelliJ IDEA.
  * User: kherm
- * Date: Mar 19, 2007
- * Time: 12:21:07 AM
+ * Date: Sep 25, 2007
+ * Time: 10:31:43 AM
  * To change this template use File | Settings | File Templates.
  */
-public class RegistrationWorkFlowStatusFieldHandler implements FieldHandler {
+public class StudyDataEntryStatusFieldHandler implements FieldHandler {
 
 
     public Object getValue(Object object) throws IllegalStateException {
-        StudySubject registration = (StudySubject) object;
-        return registration.getRegWorkflowStatus().toString();
+        Study study = (Study)object;
+       return study.getDataEntryStatus().toString();
     }
 
     public void setValue(Object object, Object value) throws IllegalStateException, IllegalArgumentException {
-        StudySubject registration = (StudySubject) object;
-        registration.setRegWorkflowStatus(RegistrationWorkFlowStatus.valueOf((String)value));
+        Study study = (Study)object;
+        study.setDataEntryStatus(StudyDataEntryStatus.valueOf((String)value));
+
     }
 
     public void resetValue(Object object) throws IllegalStateException, IllegalArgumentException {
-        StudySubject registration = (StudySubject) object;
-        registration.setRegWorkflowStatus(null);
+        Study study = (Study)object;
+        study.setDataEntryStatus(null);        
     }
 
     /**

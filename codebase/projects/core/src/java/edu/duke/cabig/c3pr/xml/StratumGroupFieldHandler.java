@@ -1,11 +1,9 @@
 package edu.duke.cabig.c3pr.xml;
 
+import edu.duke.cabig.c3pr.domain.StudySubject;
+import org.apache.log4j.Logger;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.ValidityException;
-import org.apache.log4j.Logger;
-import edu.duke.cabig.c3pr.domain.StratumGroup;
-import edu.duke.cabig.c3pr.domain.StudySubject;
-import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 
 /**
  * Created by IntelliJ IDEA.
