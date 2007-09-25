@@ -47,9 +47,6 @@
         </field>
     </class>
 
-
-
-
     <class name="edu.duke.cabig.c3pr.domain.Epoch">
         <map-to xml="epoch" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         <field name="gridId" type="string">
@@ -208,10 +205,19 @@
     <class name="edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch"
            extends="edu.duke.cabig.c3pr.domain.ScheduledEpoch">
         <map-to xml="scheduledTreatmentEpoch" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
+        <field name="scheduledArm" type="edu.duke.cabig.c3pr.domain.ScheduledArm">
+            <bind-xml name="scheduledArm" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
+        </field>
     </class>
 
-
-
+	<class name="edu.duke.cabig.c3pr.domain.ScheduledArm">
+        <map-to xml="scheduledArm" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
+        <field name="arm" type="edu.duke.cabig.c3pr.domain.Arm">
+            <bind-xml name="arm" node="element"
+                      xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
+        </field>
+    </class>
+    
     <class name="edu.duke.cabig.c3pr.domain.Study">
         <map-to xml="study" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         <field name="gridId" type="string">

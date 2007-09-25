@@ -20,8 +20,10 @@
     <xs:element name="nonTreatmentEpoch" substitutionGroup="epoch" type="NonTreatmentEpochType"/>
 
     <xs:element name="scheduledEpoch" abstract="true" type="ScheduledEpochType"/>
+    
     <xs:element name="scheduledTreatmentEpoch" substitutionGroup="scheduledEpoch"
         type="ScheduledTreatmentEpochType"/>
+        
     <xs:element name="scheduledNonTreatmentEpoch" substitutionGroup="scheduledEpoch"
         type="ScheduledNonTreatmentEpochType"/>
 
@@ -166,7 +168,7 @@
                 maxOccurs="1"/>
             <xs:element name="regWorkflowStatus" type="RegWorkflowStatusType" minOccurs="0"
                 maxOccurs="1"/>
-            <xs:element ref="scheduledEpoch" minOccurs="0" maxOccurs="1"/>
+            <xs:element ref="scheduledEpoch" minOccurs="1" maxOccurs="1"/>
             <xs:element name="stratumGroup" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="offStudyReasonText" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="offStudyDate" type="xs:string" minOccurs="0" maxOccurs="1"/>
@@ -201,9 +203,8 @@
 
     <xs:complexType name="ScheduledEpochType">
         <xs:sequence>
-            <xs:element name="startDate" type="xs:date" minOccurs="0" maxOccurs="1"/>
-            <xs:element ref="epoch" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="scheduledArm" type="ScheduledArmType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="startDate" type="xs:date" minOccurs="1" maxOccurs="1"/>
+            <xs:element ref="epoch" minOccurs="1" maxOccurs="1"/>
         </xs:sequence>
         <xs:attribute name="gridId" type="xs:string"/>
     </xs:complexType>
@@ -216,7 +217,11 @@
 
     <xs:complexType name="ScheduledTreatmentEpochType">
         <xs:complexContent>
-            <xs:extension base="ScheduledEpochType"> </xs:extension>
+            <xs:extension base="ScheduledEpochType">
+            	<xs:sequence>
+	            	<xs:element name="scheduledArm" type="ScheduledArmType" minOccurs="1" maxOccurs="1"/>
+	            </xs:sequence>
+            </xs:extension>
         </xs:complexContent>
     </xs:complexType>
 
