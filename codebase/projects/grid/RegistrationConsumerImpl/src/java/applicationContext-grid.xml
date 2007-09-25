@@ -4,13 +4,8 @@
 
 <beans>
 
-    <import resource="context/applicationContext-core.xml"/>
-
 
     <bean id="registrationConsumer" class="gov.nih.nci.cabig.c3pr.grid.EchoRegistrationConsumer">
-        <property name="studyService">
-            <ref bean="studyService" />
-        </property>
     </bean>
     
 </beans>

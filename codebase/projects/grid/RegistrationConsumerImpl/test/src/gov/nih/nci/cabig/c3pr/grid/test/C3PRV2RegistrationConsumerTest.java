@@ -38,7 +38,7 @@ public class C3PRV2RegistrationConsumerTest extends ApplicationTestCase {
 
             gov.nih.nci.ccts.grid.Registration registrationMessage =
                     (gov.nih.nci.ccts.grid.Registration)
-                            Utils.deserializeObject(reader,gov.nih.nci.ccts.grid.Registration.class);
+                            Utils.deserializeDocument(reader,gov.nih.nci.ccts.grid.Registration.class);
             gridService.register(registrationMessage);
         } catch (Exception e) {
             fail(e.getMessage());

@@ -1,30 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<registration xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain">
+<registration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain ../../../../core/resources/xsd/c3pr-domain.xsd"
+    xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain">
     <studySite>
         <healthcareSite gridId="siteGridId"/>
-        <irbApprovalDate>2007-09-25T11:14:59.117-04:00</irbApprovalDate>
-        <startDate>2007-09-25T11:14:59.117-04:00</startDate>
+        <irbApprovalDate>2007-09-25</irbApprovalDate>
+        <startDate>2007-09-25</startDate>
     </studySite>
-    <studyRef gridId="testStudyGridId">
-        <systemAssignedIdentifier>
-            <type>tempStr0</type>
-            <value>tempStr0</value>
-            <primaryIndicator>true</primaryIndicator>
-            <systemName>tempStr0</systemName>
-        </systemAssignedIdentifier>
-        <systemAssignedIdentifier>
-            <type>tempStr1</type>
-            <value>tempStr1</value>
-            <primaryIndicator>true</primaryIndicator>
-            <systemName>tempStr1</systemName>
-        </systemAssignedIdentifier>
-        <systemAssignedIdentifier>
-            <type>tempStr2</type>
-            <value>tempStr2</value>
-            <primaryIndicator>true</primaryIndicator>
-            <systemName>tempStr2</systemName>
-        </systemAssignedIdentifier>
-    </studyRef>
+    <studyRef gridId="testStudyGridId"> </studyRef>
     <participant xmlns:ns1="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain">
         <ns1:firstName>tempStr</ns1:firstName>
         <ns1:lastName>tempStr</ns1:lastName>
@@ -39,46 +22,15 @@
         <ns1:birthDate>2009-01-20</ns1:birthDate>
         <ns1:ethnicGroupCode>tempStr</ns1:ethnicGroupCode>
         <ns1:maritalStatusCode>tempStr</ns1:maritalStatusCode>
-        <ns1:raceCode>tempStr</ns1:raceCode>
-        <ns1:systemAssignedIdentifier>
-            <ns1:type>tempStr0</ns1:type>
-            <ns1:value>tempStr0</ns1:value>
-            <ns1:primaryIndicator>true</ns1:primaryIndicator>
-            <ns1:systemName>tempStr0</ns1:systemName>
-        </ns1:systemAssignedIdentifier>
-        <ns1:systemAssignedIdentifier>
-            <ns1:type>tempStr1</ns1:type>
-            <ns1:value>tempStr1</ns1:value>
-            <ns1:primaryIndicator>true</ns1:primaryIndicator>
-            <ns1:systemName>tempStr1</ns1:systemName>
-        </ns1:systemAssignedIdentifier>
-        <ns1:systemAssignedIdentifier>
-            <ns1:type>tempStr2</ns1:type>
-            <ns1:value>tempStr2</ns1:value>
-            <ns1:primaryIndicator>true</ns1:primaryIndicator>
-            <ns1:systemName>tempStr2</ns1:systemName>
-        </ns1:systemAssignedIdentifier>
+        <ns1:raceCode>tempStr</ns1:raceCode>    
+        <ns1:identifier xsi:type="SystemAssignedIdentifierType">
+            <ns1:source>asd</ns1:source>
+            </ns1:identifier>
     </participant>
+   
     <startDate>2009-01-20</startDate>
     <informedConsentFormSignedDate>2009-01-20</informedConsentFormSignedDate>
-    <systemAssignedIdentifier>
-        <type>tempStr0</type>
-        <value>tempStr0</value>
-        <primaryIndicator>true</primaryIndicator>
-        <systemName>tempStr0</systemName>
-    </systemAssignedIdentifier>
-    <systemAssignedIdentifier>
-        <type>tempStr1</type>
-        <value>tempStr1</value>
-        <primaryIndicator>true</primaryIndicator>
-        <systemName>tempStr1</systemName>
-    </systemAssignedIdentifier>
-    <systemAssignedIdentifier>
-        <type>tempStr2</type>
-        <value>tempStr2</value>
-        <primaryIndicator>true</primaryIndicator>
-        <systemName>tempStr2</systemName>
-    </systemAssignedIdentifier>
+
     <regDataEntryStatus>INCOMPLETE</regDataEntryStatus>
     <regWorkflowStatus>UNREGISTERED</regWorkflowStatus>
 </registration>
