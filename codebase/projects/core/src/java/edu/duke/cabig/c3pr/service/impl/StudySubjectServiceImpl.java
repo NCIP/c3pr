@@ -20,7 +20,7 @@ import edu.duke.cabig.c3pr.esb.impl.MessageBroadcastServiceImpl;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.utils.StringUtils;
-import edu.duke.cabig.c3pr.utils.XMLUtils;
+import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 
 /**
  * @author Kulasekaran, Ramakrishna
@@ -34,6 +34,15 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 	private String isBroadcastEnable="false";
 	private MessageBroadcastServiceImpl messageBroadcaster;
 	private StratumGroupDao stratumGroupDao;
+	private XmlMarshaller xmlUtility;
+
+	public XmlMarshaller getXmlUtility() {
+		return xmlUtility;
+	}
+
+	public void setXmlUtility(XmlMarshaller xmlUtility) {
+		this.xmlUtility = xmlUtility;
+	}
 
 	public StratumGroupDao getStratumGroupDao() {
 		return stratumGroupDao;
@@ -202,6 +211,7 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 					studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.RESERVED);
 				}else if(scheduledEpoch.getEpoch().isEnrolling()){
 					studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED);
+					sendRegistrationEvent(studySubject);
 				}else{
 					studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.UNREGISTERED);
 				}
@@ -224,9 +234,13 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 	}
 	
 	private void sendRegistrationRequest(StudySubject studySubject) throws Exception{
+		//TODO send registration request to Co ordinating center
+	}
+	
+	private void sendRegistrationEvent(StudySubject studySubject) throws Exception{
 		if(isBroadcastEnable.equalsIgnoreCase("true")){
 			String xml = "";
-			xml = XMLUtils.toXml(studySubject);
+			xml = xmlUtility.toXML(studySubject);
 			if (logger.isDebugEnabled()) {
 				logger.debug(" - XML for Registration"); //$NON-NLS-1$
 			}
