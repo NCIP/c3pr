@@ -301,45 +301,45 @@
         <!--caGrid Library dependencies. Installed from local maven repos-->
         <dependency>
             <groupId>cagrid.jars</groupId>
-            <artifactId>caGrid-1.0-core.jar</artifactId>
-            <version>1.0</version>
+            <artifactId>caGrid-1.1-core.jar</artifactId>
+            <version>1.1</version>
             <scope>system</scope>
-            <systemPath>@ext.lib.path@/caGrid-1.0-core.jar</systemPath>
+            <systemPath>@ext.lib.path@/caGrid-1.1-core.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>cagrid.jars</groupId>
-            <artifactId>caGrid-1.0-metadata-common.jar</artifactId>
-            <version>1.0</version>
+            <artifactId>caGrid-1.1-metadata-common.jar</artifactId>
+            <version>1.1</version>
             <scope>system</scope>
-            <systemPath>@ext.lib.path@/caGrid-1.0-metadata-common.jar</systemPath>
+            <systemPath>@ext.lib.path@/caGrid-1.1-metadata-common.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>cagrid.jars</groupId>
-            <artifactId>caGrid-1.0-metadata-security.jar</artifactId>
-            <version>1.0</version>
+            <artifactId>caGrid-1.1-metadata-security.jar</artifactId>
+            <version>1.1</version>
             <scope>system</scope>
-            <systemPath>@ext.lib.path@/caGrid-1.0-metadata-security.jar</systemPath>
+            <systemPath>@ext.lib.path@/caGrid-1.1-metadata-security.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>cagrid.jars</groupId>
-            <artifactId>caGrid-1.0-ServiceSecurityProvider-client.jar</artifactId>
-            <version>1.0</version>
+            <artifactId>caGrid-1.1-ServiceSecurityProvider-client.jar</artifactId>
+            <version>1.1</version>
             <scope>system</scope>
-            <systemPath>@ext.lib.path@/caGrid-1.0-ServiceSecurityProvider-client.jar</systemPath>
+            <systemPath>@ext.lib.path@/caGrid-1.1-ServiceSecurityProvider-client.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>cagrid.jars</groupId>
-            <artifactId>caGrid-1.0-ServiceSecurityProvider-common.jar</artifactId>
-            <version>1.0</version>
+            <artifactId>caGrid-1.1-ServiceSecurityProvider-common.jar</artifactId>
+            <version>1.1</version>
             <scope>system</scope>
-            <systemPath>@ext.lib.path@/caGrid-1.0-ServiceSecurityProvider-common.jar</systemPath>
+            <systemPath>@ext.lib.path@/caGrid-1.1-ServiceSecurityProvider-common.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>cagrid.jars</groupId>
-            <artifactId>caGrid-1.0-ServiceSecurityProvider-stubs.jar</artifactId>
-            <version>1.0</version>
+            <artifactId>caGrid-1.1-ServiceSecurityProvider-stubs.jar</artifactId>
+            <version>1.1</version>
             <scope>system</scope>
-            <systemPath>@ext.lib.path@/caGrid-1.0-ServiceSecurityProvider-stubs.jar</systemPath>
+            <systemPath>@ext.lib.path@/caGrid-1.1-ServiceSecurityProvider-stubs.jar</systemPath>
         </dependency>
 
         <!-- Adverse Events consumer -->
