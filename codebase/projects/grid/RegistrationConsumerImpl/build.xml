@@ -106,6 +106,9 @@
             <fileset dir="${build.jar.dir}">
                 <include name="${jar.name}"/>
             </fileset>
+            <fileset dir="${ext.lib.dir}">
+                <include name="*.jar"/>
+            </fileset>
         </copy>
     </target>
 

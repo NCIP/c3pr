@@ -3,7 +3,6 @@
  */
 package gov.nih.nci.cabig.c3pr.grid;
 
-import edu.duke.cabig.c3pr.service.StudyService;
 import gov.nih.nci.cagrid.metadata.security.ServiceSecurityMetadata;
 import gov.nih.nci.ccts.grid.Registration;
 import gov.nih.nci.ccts.grid.common.RegistrationConsumer;
@@ -20,7 +19,6 @@ public class EchoRegistrationConsumer implements RegistrationConsumer {
     private static final Log logger = LogFactory.getLog(EchoRegistrationConsumer.class);
 
 
-    StudyService studyService;
 
     public EchoRegistrationConsumer() {
 
@@ -43,8 +41,4 @@ public class EchoRegistrationConsumer implements RegistrationConsumer {
     }
 
 
-    //for spring injection. Not used
-    public void setStudyService(StudyService studyService) {
-        this.studyService = studyService;
-    }
 }

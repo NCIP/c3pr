@@ -7,7 +7,8 @@ import javax.jbi.messaging.DeliveryChannel;
 import javax.jbi.messaging.NormalizedMessage;
 
 import gov.nih.nci.cagrid.common.Utils;
-import gov.nih.nci.cabig.ctms.client.RegistrationConsumerClient;
+import gov.nih.nci.ccts.grid.client.RegistrationConsumerClient;
+import gov.nih.nci.ccts.grid.Registration;
 
 import java.io.StringReader;
 import java.rmi.RemoteException;
@@ -34,10 +35,10 @@ public class CTMSRegistrationProcessor implements MessageExchangeProcessor {
 
         NormalizedMessage in = exchange.getMessage("in");
 
-        gov.nih.nci.cabig.ctms.grid.RegistrationType registration = (gov.nih.nci.cabig.ctms.grid.RegistrationType)
-                Utils.deserializeObject(new StringReader(new SourceTransformer().contentToString(in)),gov.nih.nci.cabig.ctms.grid.RegistrationType.class);
+        Registration registration =
+                (Registration)Utils.deserializeObject(new StringReader(new SourceTransformer().contentToString(in)),Registration.class);
 
-        System.out.println("Registration received with Grid ID " + registration.getStudyGridId());
+        System.out.println("Registration received with Grid ID " + registration.getGridId());
 
         String deliveryStatus=null;
         try {
@@ -50,7 +51,7 @@ public class CTMSRegistrationProcessor implements MessageExchangeProcessor {
           }
 
         NormalizedMessage confirmation = exchange.createMessage();
-        confirmation.setContent(new StringSource("<status>" + deliveryStatus + " at "+epr +"<registrationID>"+ registration.getStudyGridId()+"</registrationID></status>"));
+        confirmation.setContent(new StringSource("<status>" + deliveryStatus + " at "+epr +"<registrationID>"+ registration.getGridId()+"</registrationID></status>"));
         exchange.setMessage(confirmation, "out");
 ////        exchange.setStatus(javax.jbi.messaging.ExchangeStatus.DONE);
 //        channel.send(exchange);

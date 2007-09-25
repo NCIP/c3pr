@@ -16,7 +16,7 @@ import java.io.InputStreamReader;
  * Created by IntelliJ IDEA.
  * User: kherm
  * Date: Mar 14, 2007
- * Time: 12:08:09 AM
+ * Time: 12:08:09 AM                                        
  * To change this template use File | Settings | File Templates.
  */
 public class C3PRV2RegistrationConsumerTest extends ApplicationTestCase {

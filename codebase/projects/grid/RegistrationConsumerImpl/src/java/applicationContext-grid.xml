@@ -7,7 +7,7 @@
     <import resource="context/applicationContext-core.xml"/>
 
 
-    <bean id="registrationConsumer" class="gov.nih.nci.cabig.ctms.service.C3PRV2RegistrationConsumer">
+    <bean id="registrationConsumer" class="gov.nih.nci.cabig.c3pr.grid.EchoRegistrationConsumer">
         <property name="studyService">
             <ref bean="studyService" />
         </property>
