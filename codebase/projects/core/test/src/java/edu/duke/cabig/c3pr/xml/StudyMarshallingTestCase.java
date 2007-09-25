@@ -1,9 +1,8 @@
 package edu.duke.cabig.c3pr.xml;
 
 
-import static edu.duke.cabig.c3pr.C3PRUseCase.*;
+import static edu.duke.cabig.c3pr.C3PRUseCase.EXPORT_STUDY;
 import edu.duke.cabig.c3pr.C3PRUseCases;
-
 import edu.duke.cabig.c3pr.domain.*;
 import gov.nih.nci.common.exception.XMLUtilityException;
 
@@ -13,21 +12,6 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
-import edu.duke.cabig.c3pr.domain.Epoch;
-import edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria;
-import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.Identifier;
-import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
-import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
-import edu.duke.cabig.c3pr.domain.StratificationCriterion;
-import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyDataEntryStatus;
-import edu.duke.cabig.c3pr.domain.StudySite;
-import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
-import gov.nih.nci.common.exception.XMLUtilityException;
 
 /**
  * Test serialization for the Study object
@@ -71,7 +55,7 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
 
     private void studySerializationTest() {
         try {
-            marshalledStudy = marshaller.toXML(createDummyStudy(studyGridId));
+            marshalledStudy = getMarshaller().toXML(createDummyStudy(studyGridId));
             System.out.println(marshalledStudy);
             assertNotNull(marshalledStudy);
         } catch (XMLUtilityException e) {
@@ -100,7 +84,7 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
         Reader messageReader = new StringReader(marshalledStudy);
 
         try {
-            Study unmarshalledStudy = (Study) marshaller.fromXML(messageReader);
+            Study unmarshalledStudy = (Study) getMarshaller().fromXML(messageReader);
             assertNotNull(unmarshalledStudy);
 
             assertEquals(unmarshalledStudy.getGridId(), studyGridId);

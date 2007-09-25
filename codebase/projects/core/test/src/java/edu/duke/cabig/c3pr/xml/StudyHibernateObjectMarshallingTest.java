@@ -1,17 +1,17 @@
 package edu.duke.cabig.c3pr.xml;
 
-import static edu.duke.cabig.c3pr.C3PRUseCase.*;
+import static edu.duke.cabig.c3pr.C3PRUseCase.EXPORT_STUDY;
+import static edu.duke.cabig.c3pr.C3PRUseCase.IMPORT_STUDY;
 import edu.duke.cabig.c3pr.C3PRUseCases;
-
-import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.InvestigatorDaoTest;
+import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudyDaoTest;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 import edu.nwu.bioinformatics.commons.ResourceRetriever;
 
-import java.io.InputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 /**
  * Will test marshalling of a hibernate object.

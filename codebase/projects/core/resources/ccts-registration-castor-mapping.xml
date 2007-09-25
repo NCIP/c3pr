@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!-- mapping file for creating ccts registration message -->
+
 <!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
         "http://castor.org/mapping.dtd">
 
@@ -44,58 +47,8 @@
         </field>
     </class>
 
-    <class name="edu.duke.cabig.c3pr.domain.DiseaseCategory">
-        <map-to xml="category" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        <field name="name" type="string">
-            <bind-xml name="name" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        </field>
-        <field name="terms" type="edu.duke.cabig.c3pr.domain.DiseaseTerm"
-               collection="collection">
-            <bind-xml name="term" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        </field>
-        <field name="parentCategory" type="edu.duke.cabig.c3pr.domain.DiseaseCategory">
-            <bind-xml name="parentCategory" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        </field>
-        <field name="childCategories" type="edu.duke.cabig.c3pr.domain.DiseaseCategory"
-               collection="collection">
-            <bind-xml name="childCategory" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        </field>
-    </class>
 
-    <class name="edu.duke.cabig.c3pr.domain.DiseaseTerm">
-        <map-to xml="diseaseTerm" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        <field name="gridId" type="string">
-            <bind-xml name="gridId" node="attribute"/>
-        </field>
-        <field name="term" type="string">
-            <bind-xml name="term" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        </field>
-        <field name="ctepTerm" type="string">
-            <bind-xml name="ctepTerm" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        </field>
-        <field name="medraCode" type="long">
-            <bind-xml name="medraCode" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        </field>
-        <field name="category" type="edu.duke.cabig.c3pr.domain.DiseaseCategory">
-            <bind-xml name="category" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        </field>
-    </class>
 
-    <class name="edu.duke.cabig.c3pr.domain.EligibilityCriteria">
-        <map-to xml="eligibilityCriteria" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        <field name="gridId" type="string">
-            <bind-xml name="gridId" node="attribute"/>
-        </field>
-        <field name="notApplicableIndicator" type="boolean">
-            <bind-xml name="notApplicableIndicator" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        </field>
-        <field name="questionNumber" type="int">
-            <bind-xml name="questionNumber" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        </field>
-        <field name="questionText" type="string">
-            <bind-xml name="questionText" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        </field>
-    </class>
 
     <class name="edu.duke.cabig.c3pr.domain.Epoch">
         <map-to xml="epoch" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
@@ -110,10 +63,6 @@
         </field>
     </class>
 
-    <class name="edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria"
-           extends="edu.duke.cabig.c3pr.domain.EligibilityCriteria">
-        <map-to xml="excCriteria" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-    </class>
 
     <class name="edu.duke.cabig.c3pr.domain.HealthcareSite"
            extends="edu.duke.cabig.c3pr.domain.Organization">
@@ -125,10 +74,6 @@
 
     <class name="edu.duke.cabig.c3pr.domain.Identifier">
         <map-to xml="identifer" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        <!--<field name="source" type="string">-->
-        <!--<bind-xml name="source" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"-->
-        <!--/>-->
-        <!--</field>-->
         <field name="type" type="string">
             <bind-xml name="type" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
@@ -141,10 +86,6 @@
         </field>
     </class>
 
-    <class name="edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria"
-           extends="edu.duke.cabig.c3pr.domain.EligibilityCriteria">
-        <map-to xml="incCriteria" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-    </class>
 
     <class name="edu.duke.cabig.c3pr.domain.NonTreatmentEpoch" extends="edu.duke.cabig.c3pr.domain.Epoch">
         <map-to xml="nonTreatmentEpoch" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
@@ -168,15 +109,6 @@
         <map-to xml="organization" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         <field name="gridId" type="string">
             <bind-xml name="gridId" node="attribute"/>
-        </field>
-        <field name="name" type="string">
-            <bind-xml name="name" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        </field>
-        <field name="descriptionText" type="string">
-            <bind-xml name="descriptionText" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        </field>
-        <field name="address" type="edu.duke.cabig.c3pr.domain.Address">
-            <bind-xml name="address" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
     </class>
 
@@ -278,13 +210,6 @@
         <map-to xml="scheduledTreatmentEpoch" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
     </class>
 
-    <class name="edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer">
-        <map-to xml="permissibleAnswer" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        <field name="permissibleAnswer" type="string">
-            <bind-xml name="permissibleAnswer" node="element"
-                      xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        </field>
-    </class>
 
 
     <class name="edu.duke.cabig.c3pr.domain.Study">
@@ -292,48 +217,46 @@
         <field name="gridId" type="string">
             <bind-xml name="gridId" node="attribute"/>
         </field>
-        <field name="version" type="integer">
-            <bind-xml name="version" node="attribute"/>
-        </field>
-        <field name="blindedIndicator" type="string">
-            <bind-xml name="blindedIndicator" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        </field>
-        <field name="multiInstitutionIndicator" type="string">
-            <bind-xml name="multiInstitutionIndicator" node="element"
-                      xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        </field>
-        <field name="randomizedIndicator" type="string">
-            <bind-xml name="randomizedIndicator" node="element"
-                      xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        </field>
         <field name="shortTitleText" type="string">
             <bind-xml name="shortTitleText" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
         <field name="longTitleText" type="string">
             <bind-xml name="longTitleText" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
-        <field name="descriptionText" type="string">
-            <bind-xml name="descriptionText" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
+        <field name="identifiers" type="edu.duke.cabig.c3pr.domain.Identifier"
+               collection="collection">
+            <bind-xml auto-naming="deriveByClass" node="element"
+                      xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
-        <field name="precisText" type="string">
-            <bind-xml name="precisText" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
+    </class>
+
+    <class name="edu.duke.cabig.c3pr.domain.StudySubject">
+        <map-to xml="registration" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
+        <field name="gridId" type="string">
+            <bind-xml name="gridId" node="attribute"/>
         </field>
-        <field name="phaseCode" type="string">
-            <bind-xml name="phaseCode" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
+        <field name="studySite" type="edu.duke.cabig.c3pr.domain.StudySite">
+            <bind-xml name="studySite" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
-        <field name="dataEntryStatus" type="string"
-            handler="edu.duke.cabig.c3pr.xml.StudyDataEntryStatusFieldHandler">
-            <bind-xml name="dataEntryStatus" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
+        <field name="study" type="edu.duke.cabig.c3pr.domain.Study" handler="edu.duke.cabig.c3pr.xml.StudyFieldHandler">
+            <bind-xml name="studyRef" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
-          <field name="coordinatingCenterStudyStatus" type="string"
-                  handler="edu.duke.cabig.c3pr.xml.StudyCoordinatingCenterStudyStatusHandler">
-            <bind-xml name="coordinatingCenterStudyStatus" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
+        <field name="participant" type="edu.duke.cabig.c3pr.domain.Participant">
+            <bind-xml name="participant" node="element"
+                      xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
-        <field name="type" type="string">
-            <bind-xml name="type" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
+        <field name="startDate" type="string"
+               handler="edu.duke.cabig.c3pr.xml.DateFieldHandler">
+            <bind-xml name="startDate" node="element"
+                      xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
-        <field name="targetAccrualNumber" type="integer">
-            <bind-xml name="targetAccrualNumber" node="element"
+        <field name="informedConsentSignedDate" type="string"
+               handler="edu.duke.cabig.c3pr.xml.DateFieldHandler">
+            <bind-xml name="informedConsentFormSignedDate" node="element"
+                      xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
+        </field>
+        <field name="informedConsentVersion" type="string">
+            <bind-xml name="informedConsentVersion" node="element"
                       xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
         <field name="identifiers" type="edu.duke.cabig.c3pr.domain.Identifier"
@@ -341,28 +264,23 @@
             <bind-xml auto-naming="deriveByClass" node="element"
                       xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
-        <field name="epochs" type="edu.duke.cabig.c3pr.domain.Epoch"
-               collection="collection" get-method="getEpochs" set-method="addEpoch">
+        <field name="regDataEntryStatus" type="string"
+               handler="edu.duke.cabig.c3pr.xml.RegistrationDataEntryStatusFieldHandler">
+            <bind-xml name="regDataEntryStatus"  node="element"
+                      xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
+        </field>
+        <field name="regWorkflowStatus" type="string"
+               handler="edu.duke.cabig.c3pr.xml.RegistrationWorkFlowStatusFieldHandler">
+            <bind-xml name="regWorkflowStatus" node="element"
+                      xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
+        </field>
+        <field name="currentScheduledEpoch" type="edu.duke.cabig.c3pr.domain.ScheduledEpoch">
             <bind-xml auto-naming="deriveByClass" node="element"
                       xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
-        <field name="studyOrganizations" type="edu.duke.cabig.c3pr.domain.StudyOrganization"
-               collection="collection" get-method="getStudyOrganizations" set-method="addStudyOrganization">
-            <bind-xml auto-naming="deriveByClass" node="element"
+        <field name="stratumGroup" type="string" handler="edu.duke.cabig.c3pr.xml.StratumGroupFieldHandler">
+            <bind-xml name="stratumGroup" node="element"
                       xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        </field>
-    </class>
-
-    <class name="edu.duke.cabig.c3pr.domain.StudyDisease">
-        <map-to xml="studyDisease" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        <field name="gridId" type="string">
-            <bind-xml name="gridId" node="attribute"/>
-        </field>
-        <field name="leadDisease" type="boolean">
-            <bind-xml name="leadDisease" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        </field>
-        <field name="diseaseTerm" type="edu.duke.cabig.c3pr.domain.DiseaseTerm">
-            <bind-xml name="diseaseTerm" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
     </class>
 
@@ -401,7 +319,7 @@
         </field>
     </class>
 
-  
+
     <class name="edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier" extends="edu.duke.cabig.c3pr.domain.Identifier">
         <map-to xml="systemAssignedIdentifier" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         <field name="systemName" type="string">

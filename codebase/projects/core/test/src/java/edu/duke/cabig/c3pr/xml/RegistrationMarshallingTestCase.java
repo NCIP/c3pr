@@ -84,7 +84,7 @@ public class RegistrationMarshallingTestCase extends AbstractXMLMarshalling {
         patient.fillAddress(getAddress());
 
         try {
-            marshalledRegistration = marshaller.toXML(registration);
+            marshalledRegistration = getMarshaller().toXML(registration);
             System.out.println(marshalledRegistration);
             assertNotNull(marshalledRegistration);
         } catch (XMLUtilityException e) {
@@ -118,8 +118,7 @@ public class RegistrationMarshallingTestCase extends AbstractXMLMarshalling {
     private void registrationDeserializationTest() {
         Reader messageReader = new StringReader(marshalledRegistration);
         try {
-            StudySubject unmarshalledRegistration = (StudySubject) marshaller.fromXML(messageReader);
-            unmarshalledRegistration = (StudySubject) marshaller.fromXML(new StringReader(marshalledRegistration));
+            StudySubject unmarshalledRegistration = (StudySubject) getMarshaller().fromXML(messageReader);
             assertNotNull(unmarshalledRegistration);
 
             assertNotNull(unmarshalledRegistration.getParticipant());
@@ -133,4 +132,8 @@ public class RegistrationMarshallingTestCase extends AbstractXMLMarshalling {
     }
 
 
+    // subclasses can override the marshaller
+    public XmlMarshaller getMarshaller() {
+        return new XmlMarshaller("ccts-registration-castor-mapping.xml");
+    }
 }

@@ -31,9 +31,9 @@ public abstract class AbstractXMLMarshalling extends ApplicationTestCase {
 
     SchemaFactory schemaFactory;
     SAXParserFactory parserFactory;
-    protected XmlMarshaller marshaller;
+
     SAXParser parser;
-    final String schemaFileName = "c3pr-domain.xsd";
+    String schemaFileName = "c3pr-domain.xsd";
 
     String strValue;
     boolean boolValue;
@@ -44,7 +44,7 @@ public abstract class AbstractXMLMarshalling extends ApplicationTestCase {
     static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
     protected void setUp() throws Exception {
-        marshaller = new XmlMarshaller();
+
         //set values for parameters
         strValue = "tempStr";
         boolValue = true;
@@ -108,7 +108,7 @@ public abstract class AbstractXMLMarshalling extends ApplicationTestCase {
         studyObject.setPhaseCode(strValue);
         studyObject.setPrecisText(strValue);
         studyObject.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
-		studyObject.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
+        studyObject.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
         studyObject.setType(strValue);
         studyObject.setTargetAccrualNumber(intValue);
         studyObject.setVersion(intValue);
@@ -155,6 +155,11 @@ public abstract class AbstractXMLMarshalling extends ApplicationTestCase {
     }
 
 
+    // subclasses can override the marshaller
+    public XmlMarshaller getMarshaller() {
+            return new XmlMarshaller();
+    }
+
     /**
      * inner class. Will fail test if any
      * exception is thrown during parsing
@@ -171,4 +176,5 @@ public abstract class AbstractXMLMarshalling extends ApplicationTestCase {
             fail(saxParseException.getMessage());
         }
     }
+
 }
