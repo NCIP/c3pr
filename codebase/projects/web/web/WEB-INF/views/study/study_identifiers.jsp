@@ -37,6 +37,7 @@ var systemIdentifierRowInserterProps = {
     add_row_division_id: "systemIdentifier", 	        /* this id belongs to element where the row would be appended to */
     skeleton_row_division_id: "dummy-row-systemIdentifier",
     initialIndex: ${fn:length(command.systemAssignedIdentifiers)},                            /* this is the initial count of the rows when the page is loaded  */
+    softDelete: ${flowType!='CREATE_STUDY'},
     path: "systemAssignedIdentifiers"                               /* this is the path of the collection that holds the rows  */
 };
 var organizationIdentifierRowInserterProps = {
@@ -44,6 +45,7 @@ var organizationIdentifierRowInserterProps = {
        skeleton_row_division_id: "dummy-row-organizationIdentifier",
        initialIndex: ${fn:length(command.organizationAssignedIdentifiers)},                            /* this is the initial count of the rows when the page is loaded  */
        path: "organizationAssignedIdentifiers",                               /* this is the path of the collection that holds the rows  */
+       softDelete: ${flowType!='CREATE_STUDY'},
        postProcessRowInsertion: function(object){
 	       clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
 		   clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;

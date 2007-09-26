@@ -15,6 +15,7 @@
             add_row_division_id: "arm",
             skeleton_row_division_id: "dummy-arm",
             initialIndex: ${fn:length(command.treatmentEpochs[treatmentEpochCount.index].arms)},
+            softDelete: ${flowType!='CREATE_STUDY'},
             row_index_indicator: "NESTED.PAGE.ROW.INDEX",
             path: "treatmentEpochs[PAGE.ROW.INDEX].arms"
         };
@@ -23,12 +24,14 @@
             add_row_division_id: "treatmentEpoch",
             skeleton_row_division_id: "dummy-treatmentEpoch",
             initialIndex: ${fn:length(command.treatmentEpochs)},
+            softDelete: ${flowType!='CREATE_STUDY'},
             path: "treatmentEpochs"
         };
         var nonTreatmentEpochRowInserterProps= {
             add_row_division_id: "nonTreatmentEpoch",
             skeleton_row_division_id: "dummy-nonTreatmentEpoch",
             initialIndex: ${fn:length(command.nonTreatmentEpochs)},
+            softDelete: ${flowType!='CREATE_STUDY'},
             path: "nonTreatmentEpochs"
         };
         RowManager.addRowInseter(treatmentEpochRowInserterProps);

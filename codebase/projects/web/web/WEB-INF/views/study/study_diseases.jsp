@@ -47,6 +47,7 @@ var diseaseAutocompleterProps = {
             autocompleter.setChoices(values)
         })
     },
+    softDelete: ${flowType!='CREATE_STUDY'},
     valueSelector: function(obj) {
         return obj.name
         // + "<b> ::</b> " + obj.id

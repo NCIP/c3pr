@@ -143,6 +143,7 @@ var instanceRowInserterProps = {
     add_row_division_id: "siteTable", 	        
     skeleton_row_division_id: "dummy-row",
     initialIndex: ${fn:length(command.studySites)},
+    softDelete: ${flowType!='CREATE_STUDY'},
     path: "studySites",
     postProcessRowInsertion: function(object){
         inputDateElementLocal="studySites["+object.localIndex+"].startDate";

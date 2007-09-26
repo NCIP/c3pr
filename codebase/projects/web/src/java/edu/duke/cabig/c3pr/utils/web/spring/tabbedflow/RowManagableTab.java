@@ -52,8 +52,9 @@ public abstract class RowManagableTab<C> extends ReflexiveAjaxableTab<C>{
 			int index=Integer.parseInt(request.getParameter("deleteIndex"));
 			List col=null;
 			col = (List) new DefaultObjectPropertyReader(command, listPath).getPropertyValueFromPath();
+			
+			//Enabling the retitred_indicator
 	      	AbstractMutableDeletableDomainObject obj=(AbstractMutableDeletableDomainObject)col.get(index);
-	      	//TODO
 	      	obj.setRetiredIndicator("true");
 		}
 		Map<String, String> map=new HashMap<String, String>();

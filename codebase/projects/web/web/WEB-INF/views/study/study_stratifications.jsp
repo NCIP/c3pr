@@ -32,6 +32,7 @@
                 add_row_division_id: "table1",
                 skeleton_row_division_id: "dummy-strat-ans-${epochCount.index }",
                 initialIndex: 1,
+                softDelete: ${flowType!='CREATE_STUDY'},
                 row_index_indicator: "NESTED.PAGE.ROW.INDEX",
                 path: "treatmentEpochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers",
                 epochCountIndex: ${epochCount.index},
@@ -47,6 +48,7 @@
                 add_row_division_id: "epoch-${epochCount.index }",
                 skeleton_row_division_id: "dummy-strat-${epochCount.index}",
                 initialIndex: ${fn:length(command.treatmentEpochs[epochCount.index].stratificationCriteria)},
+                softDelete: ${flowType!='CREATE_STUDY'},
                 path: "treatmentEpochs[${epochCount.index }].stratificationCriteria",
                 epochCountIndex: ${epochCount.index},
                 postProcessRowDeletion: function(object){

@@ -72,7 +72,8 @@
 				"><img id="${id }-image" src="<tags:imageUrl name="${display=='false'||!empty url?'maximize':'minimize' }.gif"/>"
            border="0" alt="toggle button"></a>
                     <c:if test="${isDeletable}">
-                        <a href="javascript:onDelete('${id }');${onDelete}">
+                    	<c:if test="${empty onDelete}"><c:set var="onDelete" value="onDelete('${id }')"></c:set></c:if>
+                        <a href="javascript:${onDelete}">
                             <img src="<tags:imageUrl name="checkno.gif"/>"
                                  border="0" alt="close button"></a>
                     </c:if>

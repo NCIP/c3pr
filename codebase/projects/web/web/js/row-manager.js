@@ -56,8 +56,8 @@ var RowManager = {
 						this.errorLog("Row Manager inactivated")
 						return
 					}
-					this.execute(false,inserter,delIndex)
-					if(!inserter.softDelete){
+					flagDelLocal=this.execute(false,inserter,delIndex)
+					if(flagDelLocal && !inserter.softDelete){
 						inserter.deletedRows.push(delIndex)
 						if(!this.rowInsertersForDeletion.include(inserter))
 							this.rowInsertersForDeletion.push(inserter)
@@ -70,11 +70,13 @@ var RowManager = {
 						inserter.postProcessRowInsertion(inserter)
 						inserter.localIndex++						
 					}else{
-						if(!inserter.shouldDelete(inserter,deletionIndex))
-							return;
+						flagDel=inserter.shouldDelete(inserter,deletionIndex)
+						if(!flagDel)
+							return false;
 						inserter.preProcessRowDeletion(inserter,deletionIndex)
 						inserter.handleRowRemoval(deletionIndex)
 						inserter.postProcessRowDeletion(inserter,deletionIndex)
+						return true
 					}
 				},
 	getNestedRowInserter: function(inserter, index){
@@ -124,6 +126,9 @@ var RowManager = {
 }
 Event.observe(window, "load", function() {
 	RowManager.registerRowInserters()
+	for(x=0 ; x<RowManager.rowInserters.length ; x++){
+		RowManager.rowInserters[x].onLoadInitialize(RowManager.rowInserters[x])
+	}
 	ValidationManager.registerToInvoke(RowManager)
 })
 /* Abstract Implementation of an row-inseter object*/
@@ -147,6 +152,7 @@ var AbstractRowInserterProps = {
 	alertOnSoftDelete: true,
 	updateIndex: function(index){
 						this.localIndex=index
+						this.initialIndex=index
 					},
 	getRowDivisionElement: function(){
 							element=$(this.add_row_division_id)
@@ -269,6 +275,10 @@ var AbstractRowInserterProps = {
     				},
     onLoadRowInitialize: function(object, currentRowIndex){
     						},
+	onLoadInitialize: function(object){
+							for(localInd=0 ; localInd<this.initialIndex ; localInd++)
+								new Element.descendants(object.getColumnDivisionElement(localInd)).each(function(e){e.disabled="true";})
+						},    						
     getNestedRowInserter: function(index){
     								return cloned_nested_row_inserters[index]
     							},
@@ -295,8 +305,8 @@ var AbstractRowInserterProps = {
 							if(RowManager.debug)
 								deletionMessage="<b>(deleted upon request)</b>"
 							//new Element.descendants(this.getColumnDivisionElement(index)).each(function(e){e.style.backgroundColor="red";})
-							//new Element.descendants(this.getColumnDivisionElement(index)).each(function(e){e.style.backgroundColor="red";})
-							this.getColumnDivisionElement(index).style.background="url(/images/redStripes.jpg) repeat"
+							new Element.descendants(this.getColumnDivisionElement(index)).each(function(e){e.style.background="white url('../../images/redStripes.jpg') repeat";})
+							//this.getColumnDivisionElement(index).style.background="url(/images/redStripes.jpg) repeat"
 							RowManager.log(logString+"</div>")
     						RowManager.log("------------------------<br>")							
 						},
@@ -314,7 +324,7 @@ var AbstractRowInserterProps = {
     						RowManager.log("------------------------<br>")							
 						},
 	removeFromCommand: function(index){
-							$('rowDeletionForm').collection.value=this.path
+							$('rowDeletionForm').collection.value=this.replaceParentIndexes(this.path)
 							$('rowDeletionForm').deleteIndex.value=index
 							parameterString="decorator=nullDecorator&_asynchronous=true&_asyncMethodName=deleteRow&"+Form.serialize('rowDeletionForm');
 							if(this.softDelete)
