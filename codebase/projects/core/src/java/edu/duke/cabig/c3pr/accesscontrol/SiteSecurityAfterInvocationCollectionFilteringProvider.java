@@ -24,6 +24,7 @@ public class SiteSecurityAfterInvocationCollectionFilteringProvider implements A
 
     private String processConfigAttribute;
     private LinkedHashMap domainObjectSiteSecurityAuhthorizationCheckProvidersMap;
+    private Class processDomainObjectClass = AbstractMutableDomainObject.class;
 
     private Logger log = Logger.getLogger(SiteSecurityAfterInvocationCollectionFilteringProvider.class);
 
@@ -47,8 +48,10 @@ public class SiteSecurityAfterInvocationCollectionFilteringProvider implements A
             Object[] array = (Object[]) returnedObject;
             filterer = new ArrayFilterer(array);
         } else {
-            throw new AuthorizationServiceException("A Collection or an array (or null) was required as the "
-                    + "returnedObject, but the returnedObject was: " + returnedObject);
+            if (log.isDebugEnabled()) {
+                log.debug("Return object is not a collection, skipping");
+            }
+            return null;
         }
         // Locate unauthorised Collection elements
         Iterator collectionIter = filterer.iterator();
@@ -60,7 +63,7 @@ public class SiteSecurityAfterInvocationCollectionFilteringProvider implements A
 
             boolean hasPermission = false;
 
-            if (domainObject == null  || !(domainObject instanceof AbstractMutableDomainObject)) {
+            if (domainObject == null  || !getProcessDomainObjectClass().isAssignableFrom(returnedObject.getClass())) {
                 hasPermission = true;
             }
 
@@ -77,6 +80,10 @@ public class SiteSecurityAfterInvocationCollectionFilteringProvider implements A
         }
 
         return filterer.getFilteredObject();
+    }
+
+      public Class getProcessDomainObjectClass(){
+        return processDomainObjectClass;
     }
 
 

@@ -117,7 +117,8 @@
         <aop:pointcut id="daoMethodPointcut"
                       expression="execution(public void edu.duke.cabig.c3pr.dao.C3PRBaseDao+.save(gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject+)) ||
                       execution(public void edu.duke.cabig.c3pr.dao.C3PRBaseDao+.merge(gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject+))||
-                      execution(public * edu.duke.cabig.c3pr.dao.C3PRBaseDao+.search*(..))
+                      execution(public * edu.duke.cabig.c3pr.dao.C3PRBaseDao+.search*(..))||
+                      execution(public * edu.duke.cabig.c3pr.dao.C3PRBaseDao+.get*(..))
                       "/>
 
         <!-- aspects -->
@@ -154,6 +155,8 @@
         <entry key="execution(* edu.duke.cabig.c3pr.dao.StudyDao.search*(..))"
                value="edu.duke.cabig.c3pr.domain.Study:READ"/>
 
+         <entry key="execution(* edu.duke.cabig.c3pr.dao.StudyDao.get*(..))"
+               value="edu.duke.cabig.c3pr.domain.Study:READ"/>
 
     </util:map>
 
@@ -218,6 +221,7 @@
     <bean id="afterInvocationManager" class="org.acegisecurity.afterinvocation.AfterInvocationProviderManager">
         <property name="providers">
             <list>
+                <ref local="siteSecurityBasicAuthCheck"/>
                 <ref local="siteSecurityCollectionFilter"/>
             </list>
         </property>
@@ -245,6 +249,13 @@
     </util:map>
 
     <bean id="siteSecurityCollectionFilter" class="edu.duke.cabig.c3pr.accesscontrol.SiteSecurityAfterInvocationCollectionFilteringProvider">
+        <property name="processConfigAttribute"
+                  value="CSM_AUTHN_CHECK"/>
+        <property name="domainObjectSiteSecurityAuhthorizationCheckProvidersMap"
+                  ref="domainObjectSiteSecurityAuhthorizationCheckProvidersMap"/>
+    </bean>
+
+    <bean id="siteSecurityBasicAuthCheck" class="edu.duke.cabig.c3pr.accesscontrol.SiteSecurityAfterInvocationBasicAuthorizationCheckProvider">
         <property name="processConfigAttribute"
                   value="CSM_AUTHN_CHECK"/>
         <property name="domainObjectSiteSecurityAuhthorizationCheckProvidersMap"

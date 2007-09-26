@@ -56,8 +56,8 @@
                     searchParticipantController
                 </prop>
                 <prop key="/registration/searchStudy">
-					searchStudyController
-				</prop>
+                    searchStudyController
+                </prop>
             </props>
         </property>
     </bean>
@@ -85,16 +85,16 @@
     </bean>
 
     <bean id="multipartResolver"
-        class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 
         <!-- one of the properties available; the maximum file size in bytes -->
         <property name="maxUploadSize" value="100000"/>
     </bean>
 
-	<bean name="/registration/searchEpoch" id="searchEpochController"
-		lazy-init="true" class="edu.duke.cabig.c3pr.web.SearchEpochController"
-		autowire="byName">
-	</bean>
+    <bean name="/registration/searchEpoch" id="searchEpochController"
+          lazy-init="true" class="edu.duke.cabig.c3pr.web.SearchEpochController"
+          autowire="byName">
+    </bean>
 
     <!-- mapping for REPORT task -->
     <bean name="/report/createReport" id="createReportController"
@@ -110,22 +110,22 @@
         <property name="commandClass" value="edu.duke.cabig.c3pr.web.report.StudyReportCommand" />
         <property name="formView" value="report/study_search_report" />
         <property name="successView" value="report/study_search_report" />
-    </bean>    
+    </bean>
     <!-- mapping for REPORT task -->
 
     <!-- mapping for create/search ORGANIZATION task -->
-    <bean name="/admin/searchOrganization" id="searchOrganizationController" 
-          class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">        
-          <property name="viewName" value="/admin/organization_search" />
+    <bean name="/admin/searchOrganization" id="searchOrganizationController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">
+        <property name="viewName" value="/admin/organization_search" />
     </bean>
-    
+
     <bean name="/admin/createOrganization" id="createOrganizationController"
           lazy-init="true" class="edu.duke.cabig.c3pr.web.admin.CreateOrganizationController"
           autowire="byName">
-		<property name="commandName" value="command" />        
-		<property name="commandClass" value="edu.duke.cabig.c3pr.domain.HealthcareSite" />        
+        <property name="commandName" value="command" />
+        <property name="commandClass" value="edu.duke.cabig.c3pr.domain.HealthcareSite" />
         <property name="formView" value="admin/organization_details" />
-        <property name="successView" value="admin/organization_confirmation" />   
+        <property name="successView" value="admin/organization_confirmation" />
         <property name="sessionForm" value="true" />
     </bean>
     <!-- mapping for create ORGANIZATION task -->
@@ -142,10 +142,10 @@
           class="edu.duke.cabig.c3pr.web.study.ConfirmStudyController" />
     <bean name="/study/editStudy" id="editStudyController"
           class="edu.duke.cabig.c3pr.web.study.EditStudyController" autowire="byName" />
-	<bean name="/study/amendStudy" id="amendStudyController"
+    <bean name="/study/amendStudy" id="amendStudyController"
           class="edu.duke.cabig.c3pr.web.study.AmendStudyController" autowire="byName" />
-	
-	
+
+
     <bean name="/study/viewStudy" id="viewStudyController"
           class="edu.duke.cabig.c3pr.web.study.ViewStudyController" autowire="byName">
         <property name="editTask">
@@ -172,7 +172,7 @@
         <property name="commandClass"
                   value="edu.duke.cabig.c3pr.domain.Participant" />
         <property name="bindOnNewForm"
-                  value="true" />          
+                  value="true" />
         <!-- Set the pages in Controller -->
     </bean>
     <bean name="/participant/searchParticipant"
@@ -198,7 +198,7 @@
           class="edu.duke.cabig.c3pr.web.ConfirmCreateParticipantController" >
     </bean>
     <bean name="/registration/searchRegistration"
-    	  id="searchRegistrationController" lazy-init="true" class="edu.duke.cabig.c3pr.web.registration.SearchRegistrationController" autowire="byName">
+          id="searchRegistrationController" lazy-init="true" class="edu.duke.cabig.c3pr.web.registration.SearchRegistrationController" autowire="byName">
         <property name="formView" value="registration/registration_search" />
         <property name="successView" value="registration/registration_search" />
         <property name="commandClass" value="edu.duke.cabig.c3pr.web.SearchRegistrationCommand" />
@@ -213,25 +213,25 @@
         <property name="commandName" value="command" />
         <property name="sessionForm" value="true" />
     </bean>
-	<bean name="/registration/manageRegistration" id="manageRegistrationController" 
-		class="edu.duke.cabig.c3pr.web.registration.ManageRegistrationController" autowire="byName">
-		<property name="commandClass" value="edu.duke.cabig.c3pr.domain.StudySubject" />
-		<property name="commandName" value="command" />
-		<property name="sessionForm" value="true" />
-		<!-- <property name="bindOnNewForm" value="true" />-->
-	</bean>    
+    <bean name="/registration/manageRegistration" id="manageRegistrationController"
+          class="edu.duke.cabig.c3pr.web.registration.ManageRegistrationController" autowire="byName">
+        <property name="commandClass" value="edu.duke.cabig.c3pr.domain.StudySubject" />
+        <property name="commandName" value="command" />
+        <property name="sessionForm" value="true" />
+        <!-- <property name="bindOnNewForm" value="true" />-->
+    </bean>
     <bean name="/registration/confirm"
           id="confirmRegistrationController"
           class="edu.duke.cabig.c3pr.web.registration.RegistrationConfirmAndRandomizeController" autowire="byName">
-		<property name="commandClass" value="edu.duke.cabig.c3pr.domain.StudySubject" />
-		<property name="commandName" value="command" />
+        <property name="commandClass" value="edu.duke.cabig.c3pr.domain.StudySubject" />
+        <property name="commandName" value="command" />
         <property name="formView" value="/registration/reg_confirm_reg" />
-        <property name="successView" value="/registration/reg_confirm_reg" />        
+        <property name="successView" value="/registration/reg_confirm_reg" />
     </bean>
-    
-    <bean name="/admin/searchInvestigator" id="searchInvestigatorController" 
-          class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">        
-          <property name="viewName" value="/admin/investigator_search" />
+
+    <bean name="/admin/searchInvestigator" id="searchInvestigatorController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">
+        <property name="viewName" value="/admin/investigator_search" />
     </bean>
     <bean name="/admin/createInvestigator"
           id="createInvestigatorController" lazy-init="true"
@@ -244,9 +244,9 @@
         <property name="sessionForm" value="true" />
     </bean>
 
-	<bean name="/admin/searchResearchStaff" id="searchResearchStaffController" 
-          class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">        
-          <property name="viewName" value="/admin/research_staff_search" />
+    <bean name="/admin/searchResearchStaff" id="searchResearchStaffController"
+          class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">
+        <property name="viewName" value="/admin/research_staff_search" />
     </bean>
     <bean name="/admin/createResearchStaff"
           id="createResearchStaffController" lazy-init="true"
@@ -258,7 +258,7 @@
         <property name="successView" value="admin/research_staff_confirmation"/>
         <property name="sessionForm" value="true" />
     </bean>
-    
+
     <bean name="/admin/viewInvestigator" id="viewInvestigatorController" autowire="byType"
           class="edu.duke.cabig.c3pr.web.admin.ViewInvestigatorController" >
     </bean>
@@ -267,7 +267,7 @@
           class="edu.duke.cabig.c3pr.web.admin.ViewResearchStaffController" >
     </bean>
 
-     <bean  name="/admin/importStudy"
+    <bean  name="/admin/importStudy"
            id="studyXMLFileUploadController"
            class="edu.duke.cabig.c3pr.web.admin.StudyXMLFileUploadController"
            autowire="byName">
@@ -351,7 +351,7 @@
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
                                     autowire="byType" p:displayName="Research Staff"
                                     p:linkName="searchResearchStaffController" />
-							<bean
+                            <bean
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
                                     autowire="byType" p:displayName="Organization"
                                     p:linkName="searchOrganizationController" />
@@ -384,10 +384,13 @@
         </property>
     </bean>
 
-     <bean id="exceptionResolver"
+    <bean id="exceptionResolver"
           class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
         <property name="exceptionMappings">
             <props>
+                <prop key="org.acegisecurity.AccessDeniedException">
+                    forward:/accessDenied.jsp
+                </prop>
                 <prop key="java.lang.Exception">
                     forward:/error.jsp
                 </prop>

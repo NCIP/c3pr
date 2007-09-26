@@ -165,7 +165,7 @@
                 <include name="**/*.xml"/>
             </fileset>
             <fileset dir="${resources.dir}">
-                <include name="c3pr-castor-mapping.xml"/>
+                <include name="*-castor-mapping.xml"/>
             </fileset>
             <fileset dir="${resources.dir}/xsd">
                 <include name="c3pr-domain.xsd"/>
