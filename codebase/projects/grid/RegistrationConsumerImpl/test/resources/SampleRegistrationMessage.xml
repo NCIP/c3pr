@@ -7,7 +7,12 @@
         <irbApprovalDate>2007-09-25</irbApprovalDate>
         <startDate>2007-09-25</startDate>
     </studySite>
-    <studyRef gridId="testStudyGridId"> </studyRef>
+    <studyRef gridId="testStudyGridId">
+        <identifier xsi:type="SystemAssignedIdentifierType">
+            <source>asd</source>
+            </identifier>
+        
+            </studyRef>
     <participant xmlns:ns1="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain">
         <ns1:firstName>tempStr</ns1:firstName>
         <ns1:lastName>tempStr</ns1:lastName>
@@ -27,7 +32,10 @@
             <ns1:source>asd</ns1:source>
             </ns1:identifier>
     </participant>
-   
+
+        <identifier xsi:type="SystemAssignedIdentifierType">
+            <source>asd</source>
+            </identifier>
     <startDate>2009-01-20</startDate>
     <informedConsentFormSignedDate>2009-01-20</informedConsentFormSignedDate>
 

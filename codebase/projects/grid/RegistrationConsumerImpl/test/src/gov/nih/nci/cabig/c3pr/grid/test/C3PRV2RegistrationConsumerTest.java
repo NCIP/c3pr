@@ -4,6 +4,7 @@ import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.utils.ApplicationTestCase;
 import gov.nih.nci.cabig.ctms.service.C3PRV2RegistrationConsumer;
 import gov.nih.nci.cagrid.common.Utils;
+import gov.nih.nci.ccts.grid.client.RegistrationConsumerClient;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -35,10 +36,11 @@ public class C3PRV2RegistrationConsumerTest extends ApplicationTestCase {
         try {
             InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(sampleMessage);
             InputStreamReader reader = new InputStreamReader(is);
+            InputStream resourceAsStream =Thread.currentThread().getContextClassLoader().getResourceAsStream("gov/nih/nci/ccts/grid/client/client-config.wsdd");
 
             gov.nih.nci.ccts.grid.Registration registrationMessage =
                     (gov.nih.nci.ccts.grid.Registration)
-                            Utils.deserializeDocument(reader,gov.nih.nci.ccts.grid.Registration.class);
+                            Utils.deserializeObject(reader,gov.nih.nci.ccts.grid.Registration.class,resourceAsStream);
             gridService.register(registrationMessage);
         } catch (Exception e) {
             fail(e.getMessage());
