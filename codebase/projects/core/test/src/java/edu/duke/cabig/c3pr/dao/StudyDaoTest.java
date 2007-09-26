@@ -79,6 +79,15 @@ public class StudyDaoTest extends DaoTestCase {
 	private DiseaseCategoryDao diseaseCategoryDao = (DiseaseCategoryDao) getApplicationContext()
 			.getBean("diseaseCategoryDao");
 
+/* Test the where retired indicator clause for inclusionCriteria.
+*/
+	public void testWhereAndWhere() throws Exception{
+		
+		Study loadedStudy = dao.getById(1000);
+		List list = loadedStudy.getTreatmentEpochs().get(0).getInclusionEligibilityCriteriaInternal();
+		assertTrue(list.size()>0);
+	}
+	
 	/**
 	 * Test for loading a Study by Id
 	 * 
