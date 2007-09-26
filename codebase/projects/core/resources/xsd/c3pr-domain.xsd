@@ -6,28 +6,28 @@
         </xs:documentation>
     </xs:annotation>
 
-    <xs:element name="identifier" abstract="true" type="IdentifierType"/>
+    <xs:element name="identifier" type="IdentifierType"/>
     <xs:element name="organizationAssignedIdentifier" substitutionGroup="identifier"
         type="OrganizationAssignedIdentifierType"/>
-    <xs:element name="registration" type="Registration"/>
-    <xs:element name="study" type="Study"/>
     <xs:element name="systemAssignedIdentifier" substitutionGroup="identifier"
         type="SystemAssignedIdentifierType"/>
 
-    <xs:element name="eligibilityCriteria" abstract="true" type="EligibilityCriteriaType"/>
-    <xs:element name="epoch" abstract="true" type="EpochType"/>
+
+    <xs:element name="registration" type="Registration"/>
+    <xs:element name="study" type="Study"/>
+    <xs:element name="eligibilityCriteria"  type="EligibilityCriteriaType"/>
+
+    <xs:element name="epoch" type="EpochType"/>
     <xs:element name="treatmentEpoch" substitutionGroup="epoch" type="TreatmentEpochType"/>
     <xs:element name="nonTreatmentEpoch" substitutionGroup="epoch" type="NonTreatmentEpochType"/>
 
-    <xs:element name="scheduledEpoch" abstract="true" type="ScheduledEpochType"/>
-    
+    <xs:element name="scheduledEpoch" type="ScheduledEpochType"/>
     <xs:element name="scheduledTreatmentEpoch" substitutionGroup="scheduledEpoch"
         type="ScheduledTreatmentEpochType"/>
-        
     <xs:element name="scheduledNonTreatmentEpoch" substitutionGroup="scheduledEpoch"
         type="ScheduledNonTreatmentEpochType"/>
 
-    <xs:element name="studyOrganization" abstract="true" type="StudyOrganizationType"/>
+    <xs:element name="studyOrganization" type="StudyOrganizationType"/>
     <xs:element name="studySite" substitutionGroup="studyOrganization" type="StudySiteType"/>
     <xs:element name="studyFundingSponsor" substitutionGroup="studyOrganization"
         type="StudyFundingSponsorType"/>
@@ -72,7 +72,7 @@
         <xs:attribute name="gridId" type="xs:string"/>
     </xs:complexType>
 
-    <xs:complexType name="EpochType">
+    <xs:complexType name="EpochType" abstract="true">
         <xs:sequence>
             <xs:element name="name" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="descriptionText" type="xs:string" minOccurs="0" maxOccurs="1"/>
@@ -103,7 +103,7 @@
     </xs:complexType>
 
 
-    <xs:complexType name="IdentifierType">
+    <xs:complexType name="IdentifierType" abstract="true">
         <xs:sequence>
             <xs:element name="source" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="type" type="xs:string" minOccurs="0" maxOccurs="1"/>
@@ -201,7 +201,7 @@
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="ScheduledEpochType">
+    <xs:complexType name="ScheduledEpochType" abstract="true">
         <xs:sequence>
             <xs:element name="startDate" type="xs:date" minOccurs="1" maxOccurs="1"/>
             <xs:element ref="epoch" minOccurs="1" maxOccurs="1"/>
@@ -289,7 +289,7 @@
     </xs:simpleType>
 
 
-    <xs:complexType name="StudyOrganizationType">
+    <xs:complexType name="StudyOrganizationType" abstract="true">
         <xs:sequence>
             <xs:element name="healthcareSite" type="HealthcareSiteType" minOccurs="0"
                 maxOccurs="unbounded"/>
