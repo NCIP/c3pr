@@ -30,8 +30,8 @@
                     <wsrf:component>
                         <wsrf:endpoints>
                             <wsrf:endpoint service="test:service" endpoint="endpoint"
-                                           exchangeProcessor="#aeProcessor"
-                                               epr="https://10.10.10.2:9018/wsrf/services/cagrid/AdverseEventConsumer"/>
+                                           exchangeProcessor="#registrationProcessor"
+                                               epr="http://localhost:9080/wsrf/services/cagrid/RegistrationConsumer"/>
                         </wsrf:endpoints>
                     </wsrf:component>
                 </sm:component>

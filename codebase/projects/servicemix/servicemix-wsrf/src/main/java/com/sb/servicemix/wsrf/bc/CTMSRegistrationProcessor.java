@@ -11,6 +11,7 @@ import gov.nih.nci.ccts.grid.client.RegistrationConsumerClient;
 import gov.nih.nci.ccts.grid.Registration;
 
 import java.io.StringReader;
+import java.io.InputStream;
 import java.rmi.RemoteException;
 
 import org.apache.servicemix.jbi.jaxp.SourceTransformer;
@@ -34,9 +35,11 @@ public class CTMSRegistrationProcessor implements MessageExchangeProcessor {
 
 
         NormalizedMessage in = exchange.getMessage("in");
+        InputStream resourceAsStream =Thread.currentThread().getContextClassLoader().getResourceAsStream("gov/nih/nci/ccts/grid/client/client-config.wsdd");
+
 
         Registration registration =
-                (Registration)Utils.deserializeObject(new StringReader(new SourceTransformer().contentToString(in)),Registration.class);
+                (Registration)Utils.deserializeObject(new StringReader(new SourceTransformer().contentToString(in)),Registration.class,resourceAsStream);
 
         System.out.println("Registration received with Grid ID " + registration.getGridId());
 
