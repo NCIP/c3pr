@@ -269,25 +269,6 @@
     </table>
 </chrome:division>
 
-<chrome:division title="Amendments">
-    <table class="tablecontent">
-        <tr>
-            <th scope="col" align="left">Version #</th>
-            <th scope="col" align="left">Date</th>
-            <th scope="col" align="left">IRB Approval Date</th>
-            <th scope="col" align="left">Comments</th>
-        </tr>
-        <c:forEach items="${command.studyAmendments}" var="amendment">
-            <tr class="results">
-                <td class="alt" align="left">${amendment.amendmentVersion}</td>
-                <td class="alt" align="left">${amendment.amendmentDateStr}</td>
-                <td class="alt" align="left">${amendment.irbApprovalDateStr}</td>
-                <td class="alt" align="left">${amendment.comments}</td>
-            </tr>
-        </c:forEach>
-    </table>
-</chrome:division>
-
    </jsp:attribute>
 </tags:tabForm>
 </body>

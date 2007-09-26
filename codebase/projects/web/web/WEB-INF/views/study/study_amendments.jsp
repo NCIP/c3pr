@@ -14,12 +14,13 @@
 </head>
 
 <body>
-<chrome:box title="Previous Amendments">
+<chrome:box title="Amendments">
+<chrome:division id="study-details" title="Previous Amendments">
 <br/>	
 	<table id="studyAmendments" class="tablecontent">
 			<tr>
 				<th>Version #</th>
-				<th>Date</th>
+				<th>Amendment Date</th>
 				<th><span class="required-indicator">IRB Approval Date</span></th>
 				<th>Comments</th>
 			</tr>
@@ -33,12 +34,12 @@
 			</c:forEach>
 	</table>
 	<br />
-	
+</chrome:division>
 </chrome:box>
 
 <c:choose>
 <c:when test="${command.coordinatingCenterStudyStatus == 'AMENDMENT_PENDING'}">
-AMENDMENT_PENDING
+SPRING TAGS
 	<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" title="New Amendment" formName="studyAmendmentsForm">
 	<jsp:attribute name="singleFields">
 		<input type="hidden" name="_action" value="_action"/>
@@ -51,13 +52,13 @@ AMENDMENT_PENDING
             </div>
         </div>
         <div class="row">
-            <div class="label">Date :</div>
+            <div class="label">Amendment Date :</div>
             <div class="value">
                 <tags:dateInput path="studyAmendments[0].amendmentDate"/>
             </div>
         </div>
         <div class="row">
-            <div class="label"><span class="required-indicator">IRB Approval Date :</span></div>
+            <div class="label"><span class="required-indicator">IRB Approval Date:</span></div>
             <div class="value">
             	<tags:dateInput path="studyAmendments[0].irbApprovalDate" cssClass="validate-notEmpty"/>
             </div>
@@ -105,7 +106,7 @@ AMENDMENT_PENDING
 
 <c:otherwise>
 
-NOT  AMENDMENT_PENDING
+HTML TAGS
 	<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" title="New Amendment" formName="studyAmendmentsForm">
 	<jsp:attribute name="singleFields">
 		<input type="hidden" name="_action" value="_action"/>
@@ -118,13 +119,13 @@ NOT  AMENDMENT_PENDING
             </div>
         </div>
         <div class="row">
-            <div class="label">Date :</div>
+            <div class="label">Amendment Date :</div>
             <div class="value">
                 <input type="text" name="studyAmendments[0].amendmentDate"/>
             </div>
         </div>
         <div class="row">
-            <div class="label"><span class="required-indicator">IRB Approval Date :</span></div>
+            <div class="label"><span class="required-indicator">IRB Approval Date:</span></div>
             <div class="value">
             	<input type="text" name="studyAmendments[0].irbApprovalDate" cssClass="validate-notEmpty"/>
             </div>
@@ -132,7 +133,7 @@ NOT  AMENDMENT_PENDING
         <div class="row">
             <div class="label">Comments :</div>
             <div class="value">
-                <input type="textarea" name="studyAmendments[0].comments" rows="2" cols="40"/>
+                <textarea name="studyAmendments[0].comments" rows="2" cols="40"></textarea>
             </div>
         </div> 
         </chrome:division>
