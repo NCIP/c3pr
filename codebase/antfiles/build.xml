@@ -189,6 +189,7 @@
             <artifact refid="c3pr.core.jars"/>
             <artifact refid="c3pr.core.lib.jars"/>
             <artifact refid="c3pr.management.jars"/>
+            <artifact refid="cagrid.jars"/>
 
             <!-- get third party shared jars -->
             <artifact refid="jboss-j2ee.jars"/>
