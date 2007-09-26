@@ -144,6 +144,7 @@ var AbstractRowInserterProps = {
 	parent_row_index: -1,
 	isRegistered: true,
 	softDelete: false,
+	alertOnSoftDelete: true,
 	updateIndex: function(index){
 						this.localIndex=index
 					},
@@ -293,7 +294,9 @@ var AbstractRowInserterProps = {
 							deletionMessage=""
 							if(RowManager.debug)
 								deletionMessage="<b>(deleted upon request)</b>"
-							new Element.descendants(this.getColumnDivisionElement(index)).each(function(e){e.style.backgroundColor="red";})
+							//new Element.descendants(this.getColumnDivisionElement(index)).each(function(e){e.style.backgroundColor="red";})
+							//new Element.descendants(this.getColumnDivisionElement(index)).each(function(e){e.style.backgroundColor="red";})
+							this.getColumnDivisionElement(index).style.background="url(/images/redStripes.jpg) repeat"
 							RowManager.log(logString+"</div>")
     						RowManager.log("------------------------<br>")							
 						},
@@ -327,7 +330,10 @@ var AbstractRowInserterProps = {
    						RowManager.log("Row deletion Message: "+t.responseText)							
 					},					
 	shouldDelete: function(inserter, index){
-						return true;
+						if(index<this.initialIndex && this.softDelete && this.alertOnSoftDelete){
+							return confirm("Are you sure you want to delete this row?")
+						}
+						return true
 					},
 	updateSubmitParamsRows: function(){
     						RowManager.log("------------------------<br>")
