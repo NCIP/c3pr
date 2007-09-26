@@ -51,7 +51,7 @@ public class SiteSecurityAfterInvocationCollectionFilteringProvider implements A
             if (log.isDebugEnabled()) {
                 log.debug("Return object is not a collection, skipping");
             }
-            return null;
+            return returnedObject;
         }
         // Locate unauthorised Collection elements
         Iterator collectionIter = filterer.iterator();
@@ -82,7 +82,7 @@ public class SiteSecurityAfterInvocationCollectionFilteringProvider implements A
         return filterer.getFilteredObject();
     }
 
-      public Class getProcessDomainObjectClass(){
+    public Class getProcessDomainObjectClass(){
         return processDomainObjectClass;
     }
 
