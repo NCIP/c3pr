@@ -1,7 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
 
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
@@ -20,7 +20,7 @@ import javax.persistence.*;
         @Parameter(name="sequence", value="strat_cri_ans_cmb_id_seq")
     }
 )
-public class StratificationCriterionAnswerCombination extends AbstractMutableDomainObject {
+public class StratificationCriterionAnswerCombination extends AbstractMutableDeletableDomainObject {
 	
 	private StratificationCriterion stratificationCriterion;
 	private StratificationCriterionPermissibleAnswer stratificationCriterionPermissibleAnswer;

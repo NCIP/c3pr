@@ -4,7 +4,7 @@ import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.utils.DateUtil;
 import edu.duke.cabig.c3pr.utils.ProjectedList;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
 import gov.nih.nci.cabig.ctms.domain.DomainObjectTools;
 
 import java.text.ParseException;
@@ -44,7 +44,7 @@ import org.hibernate.annotations.Parameter;
         @Parameter(name="sequence", value="STUDY_SUBJECTS_ID_SEQ")
     }
 )
-public class StudySubject extends AbstractMutableDomainObject {
+public class StudySubject extends AbstractMutableDeletableDomainObject {
 	private LazyListHelper lazyListHelper;
 	private List<ScheduledEpoch> scheduledEpochs=new ArrayList<ScheduledEpoch>();
 	private String name;

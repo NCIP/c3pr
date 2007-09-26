@@ -1,7 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
 import edu.duke.cabig.c3pr.utils.StringUtils;
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,7 +26,7 @@ import org.hibernate.annotations.Parameter;
         @Parameter(name="sequence", value="disease_history_id_seq")
     }
 )
-public class DiseaseHistory extends AbstractMutableDomainObject
+public class DiseaseHistory extends AbstractMutableDeletableDomainObject
 {			
 	private String otherPrimaryDiseaseCode;
 	private String otherPrimaryDiseaseSiteCode;

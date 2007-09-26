@@ -2,7 +2,7 @@ package edu.duke.cabig.c3pr.domain;
 
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
 
 import java.util.Iterator;
 import java.util.List;
@@ -24,7 +24,7 @@ import org.hibernate.annotations.Parameter;
 @Table(name = "stratum_groups")
 @GenericGenerator(name = "id-generator", strategy = "native",
         parameters = {@Parameter(name = "sequence", value = "STRATUM_GROUPS_ID_SEQ")})
-public class StratumGroup extends AbstractMutableDomainObject{
+public class StratumGroup extends AbstractMutableDeletableDomainObject{
 	
 	private Integer currentPosition;
 	private Integer stratumGroupNumber;

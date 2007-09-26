@@ -1,6 +1,6 @@
 package edu.duke.cabig.c3pr.domain;
 
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
 
 import java.util.Date;
 
@@ -27,7 +27,7 @@ import org.hibernate.annotations.Parameter;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "SCHEDULED_EPOCHS_ID_SEQ") })
-public abstract class ScheduledEpoch extends AbstractMutableDomainObject implements Comparable<ScheduledEpoch>{
+public abstract class ScheduledEpoch extends AbstractMutableDeletableDomainObject implements Comparable<ScheduledEpoch>{
 
 	private Epoch epoch;
 

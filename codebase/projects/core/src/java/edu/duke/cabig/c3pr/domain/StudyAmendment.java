@@ -11,7 +11,7 @@ import org.hibernate.annotations.Parameter;
 
 import edu.duke.cabig.c3pr.utils.DateUtil;
 
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
 
 @Entity
 @Table(name = "study_amendments")
@@ -20,7 +20,7 @@ import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 		parameters = { @Parameter(name = "sequence", value = "STUDY_AMENDMENTS_ID_SEQ") }
 )
 
-public class StudyAmendment extends AbstractMutableDomainObject{
+public class StudyAmendment extends AbstractMutableDeletableDomainObject{
 
 	private Integer amendmentVersion;
 	private Date amendmentDate;

@@ -1,6 +1,6 @@
 package edu.duke.cabig.c3pr.domain;
 
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -20,7 +20,7 @@ import org.hibernate.annotations.Parameter;
         @Parameter(name="sequence", value="CONTACT_MECHANISMS_ID_SEQ")
     }
 )
-public class ContactMechanism extends AbstractMutableDomainObject {
+public class ContactMechanism extends AbstractMutableDeletableDomainObject {
 
 	private ContactMechanismType type;
 	private String value;

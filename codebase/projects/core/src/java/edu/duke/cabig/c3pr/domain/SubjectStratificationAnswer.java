@@ -1,6 +1,6 @@
 package edu.duke.cabig.c3pr.domain;
 
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -23,7 +23,7 @@ import org.hibernate.annotations.Parameter;
          @Parameter(name="sequence", value="subject_strat_ans_id_seq")
      }
  )
-public class SubjectStratificationAnswer extends AbstractMutableDomainObject
+public class SubjectStratificationAnswer extends AbstractMutableDeletableDomainObject
 {			
 	private StratificationCriterion stratificationCriterion;
 	private StratificationCriterionPermissibleAnswer stratificationCriterionAnswer;

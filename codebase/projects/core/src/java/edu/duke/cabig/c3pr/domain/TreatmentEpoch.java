@@ -72,6 +72,7 @@ public class TreatmentEpoch extends Epoch {
 	@OneToMany(fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name="eph_id")
+	@Where(clause = "retired_indicator = 'false'")
 	public List<Arm> getArmsInternal() {
 		return lazyListHelper.getInternalList(Arm.class);
 	}
@@ -121,7 +122,7 @@ public class TreatmentEpoch extends Epoch {
 	@OneToMany(fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "EPH_ID")
-	@Where(clause = "DTYPE = 'E'")
+	@Where(clause = "DTYPE = 'E' and retired_indicator = 'false'")
 	public List<ExclusionEligibilityCriteria> getExclusionEligibilityCriteriaInternal() {
 		return lazyListHelper
 				.getInternalList(ExclusionEligibilityCriteria.class);
@@ -148,6 +149,7 @@ public class TreatmentEpoch extends Epoch {
 	@OneToMany(fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "EPH_ID")
+	@Where(clause = "retired_indicator = 'false'")
 	public List<StratificationCriterion> getStratificationCriteriaInternal() {
 		return lazyListHelper.getInternalList(StratificationCriterion.class);
 	}
@@ -178,7 +180,7 @@ public class TreatmentEpoch extends Epoch {
 	@OneToMany(fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "EPH_ID")
-	@Where(clause = "DTYPE = 'I'")
+	@Where(clause = "DTYPE = 'I' and retired_indicator = 'false'")
 	public List<InclusionEligibilityCriteria> getInclusionEligibilityCriteriaInternal() {
 		return lazyListHelper
 				.getInternalList(InclusionEligibilityCriteria.class);
@@ -187,6 +189,7 @@ public class TreatmentEpoch extends Epoch {
 	@OneToMany (fetch=FetchType.LAZY)
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})
     @JoinColumn(name = "epochs_id")
+    @Where(clause = "retired_indicator = 'false'")
 	public List<StratumGroup> getStratumGroupsInternal() {
 		return lazyListHelper.getInternalList(StratumGroup.class);
 	}

@@ -1,7 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
 import edu.duke.cabig.c3pr.utils.StringUtils;
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -20,7 +20,7 @@ import org.hibernate.annotations.Parameter;
         @Parameter(name="sequence", value="strat_cri_per_ans_ID_SEQ")
     }
 )
-public class StratificationCriterionPermissibleAnswer extends AbstractMutableDomainObject implements Comparable<StratificationCriterionPermissibleAnswer> {
+public class StratificationCriterionPermissibleAnswer extends AbstractMutableDeletableDomainObject implements Comparable<StratificationCriterionPermissibleAnswer> {
 
     private String permissibleAnswer;
 //  private StratificationCriterion stratificationCriterion;

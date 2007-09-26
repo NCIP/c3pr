@@ -1,6 +1,6 @@
 package edu.duke.cabig.c3pr.domain;
 
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
 
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -27,7 +27,7 @@ import org.hibernate.annotations.Parameter;
 			@Parameter(name="sequence", value="IDENTIFIERS_ID_SEQ")
 		}
 )
-public abstract class Identifier extends AbstractMutableDomainObject
+public abstract class Identifier extends AbstractMutableDeletableDomainObject
 {			
 //	private String source;
 	private String type;

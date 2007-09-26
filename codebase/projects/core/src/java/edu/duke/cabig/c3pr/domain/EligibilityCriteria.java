@@ -1,6 +1,6 @@
 package edu.duke.cabig.c3pr.domain;
 
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
 
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
@@ -18,7 +18,7 @@ import org.hibernate.annotations.Parameter;
 @Table(name = "eligibility_criteria")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "ELIGIBILITY_CRITERIA_ID_SEQ") })
-public abstract class EligibilityCriteria extends AbstractMutableDomainObject {
+public abstract class EligibilityCriteria extends AbstractMutableDeletableDomainObject {
 	private Boolean notApplicableIndicator;
 
 	private Integer questionNumber;

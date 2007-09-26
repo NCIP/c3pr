@@ -1,6 +1,6 @@
 package edu.duke.cabig.c3pr.domain;
 
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -24,7 +24,7 @@ import org.hibernate.annotations.Parameter;
         @Parameter(name="sequence", value="STUDY_DISEASES_ID_SEQ")
     }
 )
-public class StudyDisease extends AbstractMutableDomainObject {
+public class StudyDisease extends AbstractMutableDeletableDomainObject {
 	
 	private Study study;
 	private DiseaseTerm diseaseTerm;

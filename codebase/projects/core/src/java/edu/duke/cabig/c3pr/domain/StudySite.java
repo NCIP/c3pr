@@ -15,6 +15,7 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Where;
 
 import edu.duke.cabig.c3pr.utils.DateUtil;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
@@ -117,6 +118,7 @@ public class StudySite extends StudyOrganization implements
 
     @OneToMany (mappedBy = "studySite")
     @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @Where(clause = "retired_indicator = 'false'")
     public List<StudyInvestigator> getStudyInvestigatorsInternal(){
         return lazyListHelper.getInternalList(StudyInvestigator.class);
     }
@@ -138,6 +140,7 @@ public class StudySite extends StudyOrganization implements
 
     @OneToMany (mappedBy = "studySite")
     @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @Where(clause = "retired_indicator = 'false'")
     public List<StudyPersonnel> getStudyPersonnelInternal() {
         return lazyListHelper.getInternalList(StudyPersonnel.class);
     }

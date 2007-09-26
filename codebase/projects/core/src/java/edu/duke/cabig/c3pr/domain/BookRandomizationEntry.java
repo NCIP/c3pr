@@ -1,6 +1,6 @@
 package edu.duke.cabig.c3pr.domain;
 
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -19,7 +19,7 @@ import org.hibernate.annotations.Parameter;
         @Parameter(name = "sequence", value = "book_rndm_entry_ID_SEQ")
                 }
 )
-public class BookRandomizationEntry extends AbstractMutableDomainObject{
+public class BookRandomizationEntry extends AbstractMutableDeletableDomainObject{
 	
 	private int position;
 	private Arm arm;

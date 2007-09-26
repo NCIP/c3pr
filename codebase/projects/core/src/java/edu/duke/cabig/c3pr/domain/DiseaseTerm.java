@@ -1,6 +1,6 @@
 package edu.duke.cabig.c3pr.domain;
 
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,7 +21,7 @@ import org.hibernate.annotations.Parameter;
         @Parameter(name="sequence", value="DISEASE_TERMS_ID_SEQ")
     }
 )
-public class DiseaseTerm extends AbstractMutableDomainObject {
+public class DiseaseTerm extends AbstractMutableDeletableDomainObject {
     private String term;
     //private String select;
     private String ctepTerm;

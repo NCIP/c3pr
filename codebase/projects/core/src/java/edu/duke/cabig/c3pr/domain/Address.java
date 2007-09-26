@@ -1,7 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
 import edu.duke.cabig.c3pr.utils.StringUtils;
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -17,7 +17,7 @@ import org.hibernate.annotations.Parameter;
 @Entity
 @Table(name = "addresses")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "addresses_id_seq") })
-public class Address extends AbstractMutableDomainObject {
+public class Address extends AbstractMutableDeletableDomainObject {
 	private String streetAddress;
 
 	private String city;

@@ -1,7 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
 import edu.duke.cabig.c3pr.utils.StringUtils;
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ import org.hibernate.annotations.CascadeType;
  *         Kulasekaran
  */
 @MappedSuperclass
-public abstract class Organization extends AbstractMutableDomainObject implements Comparable<HealthcareSite> {
+public abstract class Organization extends AbstractMutableDeletableDomainObject implements Comparable<HealthcareSite> {
 
     private String name;
 

@@ -1,6 +1,6 @@
 package edu.duke.cabig.c3pr.domain;
 
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
 
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -26,7 +26,7 @@ import org.hibernate.annotations.Parameter;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="type")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "STUDY_ORGANIZATIONS_ID_SEQ") })
-public abstract class StudyOrganization extends AbstractMutableDomainObject {
+public abstract class StudyOrganization extends AbstractMutableDeletableDomainObject {
 
 	private Study study;
 	private HealthcareSite healthcareSite;

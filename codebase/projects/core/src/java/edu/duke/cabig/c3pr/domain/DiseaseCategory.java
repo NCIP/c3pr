@@ -1,6 +1,6 @@
 package edu.duke.cabig.c3pr.domain;
 
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ import org.hibernate.annotations.Parameter;
         @Parameter(name="sequence", value="DISEASE_CATEGORIES_ID_SEQ")
     }
 )
-public class DiseaseCategory extends AbstractMutableDomainObject {
+public class DiseaseCategory extends AbstractMutableDeletableDomainObject {
     private String name;
     private List<DiseaseTerm> terms = new ArrayList<DiseaseTerm>();
     private DiseaseCategory parentCategory;

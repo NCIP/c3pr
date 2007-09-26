@@ -3,7 +3,7 @@ package edu.duke.cabig.c3pr.domain;
 import edu.duke.cabig.c3pr.utils.ProjectedList;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -23,6 +23,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Where;
 
 /**
  * A systematic evaluation of an observation or an intervention (for example,
@@ -41,7 +42,7 @@ import org.hibernate.annotations.Parameter;
 @Entity
 @Table(name = "STUDIES")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "STUDIES_ID_SEQ") })
-public class Study extends AbstractMutableDomainObject implements
+public class Study extends AbstractMutableDeletableDomainObject implements
 		Comparable<Study> {
 
 	private String blindedIndicator;
@@ -274,6 +275,7 @@ public class Study extends AbstractMutableDomainObject implements
 	@OneToMany
 	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "STU_ID")
+	@Where(clause = "retired_indicator = 'false'")
 	public List<Identifier> getIdentifiers() {
 		return identifiers;
 	}
@@ -312,6 +314,7 @@ public class Study extends AbstractMutableDomainObject implements
 
 	@OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@Where(clause = "retired_indicator = 'false'")
 	public List<Epoch> getEpochs() {
 		return epochs;
 	}

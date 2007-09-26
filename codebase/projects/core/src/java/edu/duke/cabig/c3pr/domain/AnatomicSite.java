@@ -1,6 +1,6 @@
 package edu.duke.cabig.c3pr.domain;
 
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -19,7 +19,7 @@ import org.hibernate.annotations.Parameter;
         @Parameter(name="sequence", value="anatomic_sites_id_seq")
     }
 )
-public class AnatomicSite extends AbstractMutableDomainObject
+public class AnatomicSite extends AbstractMutableDeletableDomainObject
 {			
 	private String name;
 	private String category;

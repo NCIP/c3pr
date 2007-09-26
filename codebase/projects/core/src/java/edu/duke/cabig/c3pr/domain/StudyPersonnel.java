@@ -1,6 +1,6 @@
 package edu.duke.cabig.c3pr.domain;
 
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
 
 import java.util.Date;
 
@@ -22,7 +22,7 @@ import org.hibernate.annotations.Parameter;
         @Parameter(name="sequence", value="study_personnel_id_seq")
     }
 )
-public class StudyPersonnel extends AbstractMutableDomainObject {
+public class StudyPersonnel extends AbstractMutableDeletableDomainObject {
 		
 	private ResearchStaff researchStaff;
 	private StudySite studySite;

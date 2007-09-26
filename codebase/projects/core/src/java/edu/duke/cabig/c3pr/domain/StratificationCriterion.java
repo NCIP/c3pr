@@ -2,7 +2,7 @@ package edu.duke.cabig.c3pr.domain;
 
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
 
 import java.util.List;
 
@@ -18,6 +18,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Where;
 
 /**
  * @author Priyatam
@@ -29,7 +30,7 @@ import org.hibernate.annotations.Parameter;
         @Parameter(name="sequence", value="strat_criteria_ID_SEQ")
     }
 )
-public class StratificationCriterion extends AbstractMutableDomainObject implements Comparable<StratificationCriterion> {
+public class StratificationCriterion extends AbstractMutableDeletableDomainObject implements Comparable<StratificationCriterion> {
 
 	private LazyListHelper lazyListHelper;
 	private Integer questionNumber=new Integer(0);
@@ -83,6 +84,7 @@ public class StratificationCriterion extends AbstractMutableDomainObject impleme
 	@OneToMany (fetch=FetchType.LAZY)
 	@JoinColumn(name="str_cri_id", nullable=false)
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+    @Where(clause = "retired_indicator = 'false'")
 	public List<StratificationCriterionPermissibleAnswer> getPermissibleAnswersInternal() {
 		return lazyListHelper.getInternalList(StratificationCriterionPermissibleAnswer.class);
 	}

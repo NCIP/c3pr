@@ -1,6 +1,6 @@
 package edu.duke.cabig.c3pr.domain;
 
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -22,7 +22,7 @@ import org.hibernate.annotations.Parameter;
          @Parameter(name="sequence", value="subject_eligibility_ans_id_seq")
      }
  )
-public class SubjectEligibilityAnswer extends AbstractMutableDomainObject
+public class SubjectEligibilityAnswer extends AbstractMutableDeletableDomainObject
 {			
 	private String answerText;
 	private EligibilityCriteria eligibilityCriteria;
