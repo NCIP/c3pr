@@ -85,7 +85,7 @@
 
 
     <class name="edu.duke.cabig.c3pr.domain.NonTreatmentEpoch" extends="edu.duke.cabig.c3pr.domain.Epoch">
-        <map-to xml="nonTreatmentEpoch" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
+        <map-to xml="NonTreatmentEpochType" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         <field name="accrualCeiling" type="int">
             <bind-xml name="accrualCeiling" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
@@ -111,7 +111,9 @@
 
     <class name="edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier"
            extends="edu.duke.cabig.c3pr.domain.Identifier">
-        <map-to xml="organizationAssignedIdentifier" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
+        <field name="value" type="string">
+            <bind-xml name="type" node="attribute" QName-prefix="xsi"/>
+        </field>
         <field name="healthcareSite" type="edu.duke.cabig.c3pr.domain.HealthcareSite">
             <bind-xml name="healthcareSite" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
@@ -166,7 +168,7 @@
         </field>
         <field name="identifiers" type="edu.duke.cabig.c3pr.domain.Identifier"
                collection="collection">
-            <bind-xml auto-naming="deriveByClass" node="element"
+            <bind-xml name="identifier" node="element"
                       xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
     </class>
@@ -192,19 +194,19 @@
             <bind-xml name="startDate" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
         <field name="epoch" type="edu.duke.cabig.c3pr.domain.Epoch">
-            <bind-xml auto-naming="deriveByClass" node="element"
+            <bind-xml name="epoch" node="element"
                       xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
     </class>
 
     <class name="edu.duke.cabig.c3pr.domain.ScheduledNonTreatmentEpoch"
            extends="edu.duke.cabig.c3pr.domain.ScheduledEpoch">
-        <map-to xml="scheduledNonTreatmentEpoch" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
+        <map-to xml="ScheduledNonTreatmentEpochType" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
     </class>
 
     <class name="edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch"
            extends="edu.duke.cabig.c3pr.domain.ScheduledEpoch">
-        <map-to xml="scheduledTreatmentEpoch" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
+        <map-to xml="ScheduledTreatmentEpochType" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         <field name="scheduledArm" type="edu.duke.cabig.c3pr.domain.ScheduledArm">
             <bind-xml name="scheduledArm" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
@@ -231,7 +233,7 @@
         </field>
         <field name="identifiers" type="edu.duke.cabig.c3pr.domain.Identifier"
                collection="collection">
-            <bind-xml auto-naming="deriveByClass" node="element"
+            <bind-xml name="identifier" node="element"
                       xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
     </class>
@@ -267,7 +269,7 @@
         </field>
         <field name="identifiers" type="edu.duke.cabig.c3pr.domain.Identifier"
                collection="collection">
-            <bind-xml auto-naming="deriveByClass" node="element"
+            <bind-xml name="identifier" node="element"
                       xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
         <field name="regDataEntryStatus" type="string"
@@ -281,7 +283,7 @@
                       xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
         <field name="currentScheduledEpoch" type="edu.duke.cabig.c3pr.domain.ScheduledEpoch">
-            <bind-xml auto-naming="deriveByClass" node="element"
+            <bind-xml name="ScheduledEpoch" node="element"
                       xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
         <field name="stratumGroup" type="string" handler="edu.duke.cabig.c3pr.xml.StratumGroupFieldHandler">
@@ -327,8 +329,10 @@
 
 
     <class name="edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier" extends="edu.duke.cabig.c3pr.domain.Identifier">
-        <map-to xml="systemAssignedIdentifier" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
+        <map-to xml="SystemAssignedIdentifierType" 
+                ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         <field name="systemName" type="string">
+
             <bind-xml name="systemName" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
     </class>
@@ -350,22 +354,6 @@
         </field>
     </class>
 
-    <class name="edu.duke.cabig.c3pr.domain.TreatmentEpoch" extends="edu.duke.cabig.c3pr.domain.Epoch">
-        <map-to xml="treatmentEpoch" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        <field name="arms" type="edu.duke.cabig.c3pr.domain.Arm"
-               collection="collection" set-method="addArm">
-            <bind-xml name="arm" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        </field>
-        <field name="eligibilityCriteria" type="edu.duke.cabig.c3pr.domain.EligibilityCriteria"
-               collection="collection">
-            <bind-xml auto-naming="deriveByClass" node="element"
-                      xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        </field>
-        <field name="stratificationCriteria" type="edu.duke.cabig.c3pr.domain.StratificationCriterion"
-               collection="collection">
-            <bind-xml name="stratificationCriteria" node="element"
-                      xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        </field>
-    </class>
+
 
 </mapping>
