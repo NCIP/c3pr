@@ -9,12 +9,13 @@
     <xs:element name="identifier" abstract="true" type="IdentifierType"/>
     <xs:element name="organizationAssignedIdentifier" substitutionGroup="identifier"
         type="OrganizationAssignedIdentifierType"/>
-    <xs:element name="registration" type="Registration"/>
-    <xs:element name="study" type="Study"/>
     <xs:element name="systemAssignedIdentifier" substitutionGroup="identifier"
         type="SystemAssignedIdentifierType"/>
 
+    <xs:element name="registration" type="Registration"/>
+    <xs:element name="study" type="Study"/>
     <xs:element name="eligibilityCriteria" abstract="true" type="EligibilityCriteriaType"/>
+
     <xs:element name="epoch" abstract="true" type="EpochType"/>
     <xs:element name="treatmentEpoch" substitutionGroup="epoch" type="TreatmentEpochType"/>
     <xs:element name="nonTreatmentEpoch" substitutionGroup="epoch" type="NonTreatmentEpochType"/>
@@ -70,7 +71,7 @@
         <xs:attribute name="gridId" type="xs:string"/>
     </xs:complexType>
 
-    <xs:complexType name="EpochType">
+    <xs:complexType name="EpochType" abstract="true">
         <xs:sequence>
             <xs:element name="name" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="descriptionText" type="xs:string" minOccurs="0" maxOccurs="1"/>
@@ -101,7 +102,7 @@
     </xs:complexType>
 
 
-    <xs:complexType name="IdentifierType">
+    <xs:complexType name="IdentifierType" abstract="true">
         <xs:sequence>
             <xs:element name="source" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="type" type="xs:string" minOccurs="0" maxOccurs="1"/>
@@ -166,7 +167,7 @@
                 maxOccurs="1"/>
             <xs:element name="regWorkflowStatus" type="RegWorkflowStatusType" minOccurs="0"
                 maxOccurs="1"/>
-            <xs:element ref="scheduledEpoch" minOccurs="0" maxOccurs="1"/>
+            <xs:element ref="scheduledEpoch" minOccurs="1" maxOccurs="1"/>
             <xs:element name="stratumGroup" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="offStudyReasonText" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="offStudyDate" type="xs:string" minOccurs="0" maxOccurs="1"/>
@@ -199,11 +200,10 @@
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="ScheduledEpochType">
+    <xs:complexType name="ScheduledEpochType" abstract="true">
         <xs:sequence>
-            <xs:element name="startDate" type="xs:date" minOccurs="0" maxOccurs="1"/>
-            <xs:element ref="epoch" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="scheduledArm" type="ScheduledArmType" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="startDate" type="xs:date" minOccurs="1" maxOccurs="1"/>
+            <xs:element ref="epoch" minOccurs="1" maxOccurs="1"/>
         </xs:sequence>
         <xs:attribute name="gridId" type="xs:string"/>
     </xs:complexType>
@@ -216,7 +216,11 @@
 
     <xs:complexType name="ScheduledTreatmentEpochType">
         <xs:complexContent>
-            <xs:extension base="ScheduledEpochType"> </xs:extension>
+            <xs:extension base="ScheduledEpochType">
+            	<xs:sequence>
+	            	<xs:element name="scheduledArm" type="ScheduledArmType" minOccurs="1" maxOccurs="1"/>
+	            </xs:sequence>
+            </xs:extension>
         </xs:complexContent>
     </xs:complexType>
 
@@ -284,7 +288,7 @@
     </xs:simpleType>
 
 
-    <xs:complexType name="StudyOrganizationType">
+    <xs:complexType name="StudyOrganizationType" abstract="true">
         <xs:sequence>
             <xs:element name="healthcareSite" type="HealthcareSiteType" minOccurs="0"
                 maxOccurs="unbounded"/>

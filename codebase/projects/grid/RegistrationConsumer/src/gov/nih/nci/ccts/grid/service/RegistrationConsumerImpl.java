@@ -34,7 +34,7 @@ public class RegistrationConsumerImpl extends RegistrationConsumerImplBase {
         this.consumer = (RegistrationConsumer) ctx.getBean(bean);
     }
 
-    public gov.nih.nci.ccts.grid.Registration register(gov.nih.nci.ccts.grid.Registration registration) throws RemoteException, gov.nih.nci.ccts.grid.stubs.types.InvalidRegistrationException, gov.nih.nci.ccts.grid.stubs.types.RegistrationConsumptionException {
+  public gov.nih.nci.ccts.grid.Registration register(gov.nih.nci.ccts.grid.Registration registration) throws RemoteException, gov.nih.nci.ccts.grid.stubs.types.InvalidRegistrationException, gov.nih.nci.ccts.grid.stubs.types.RegistrationConsumptionException {
         return this.consumer.register(registration);
     }
 

@@ -13,7 +13,7 @@ import java.rmi.RemoteException;
 public interface RegistrationConsumer {
 
   /**
-   * Register a Study Subject
+   * Register a Patient to a Study
    *
    * @param registration
    * @throws InvalidRegistrationException
