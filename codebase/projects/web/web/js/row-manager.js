@@ -57,9 +57,11 @@ var RowManager = {
 						return
 					}
 					this.execute(false,inserter,delIndex)
-					inserter.deletedRows.push(delIndex)
-					if(!this.rowInsertersForDeletion.include(inserter))
-						this.rowInsertersForDeletion.push(inserter)
+					if(!inserter.softDelete){
+						inserter.deletedRows.push(delIndex)
+						if(!this.rowInsertersForDeletion.include(inserter))
+							this.rowInsertersForDeletion.push(inserter)
+					}
 				},
 	execute: function(isAddRow, inserter, deletionIndex){
 					if(isAddRow){
@@ -141,6 +143,7 @@ var AbstractRowInserterProps = {
 	parent_row_inserter: "",
 	parent_row_index: -1,
 	isRegistered: true,
+	softDelete: false,
 	updateIndex: function(index){
 						this.localIndex=index
 					},
@@ -263,7 +266,8 @@ var AbstractRowInserterProps = {
     						this.onLoadRowInitialize(this,initRow)
     					}
     				},
-    onLoadRowInitialize: function(object, currentRowIndex){},
+    onLoadRowInitialize: function(object, currentRowIndex){
+    						},
     getNestedRowInserter: function(index){
     								return cloned_nested_row_inserters[index]
     							},
@@ -274,11 +278,25 @@ var AbstractRowInserterProps = {
    										return this.parent_row_inserter==""?false:true
    									},
    	handleRowRemoval: function(index){
-   							this.removeRowFromDisplay(index)
+   							
    							if(index<this.initialIndex){
    								this.removeFromCommand(index)
+   								this.softDelete?this.disableRow(index):this.removeRowFromDisplay(index)
+   							}else{
+   								this.removeRowFromDisplay(index)
    							}
    						},
+    disableRow: function(index){
+    						RowManager.log("------------------------<br>")
+							logString="Disabling Row in display: "+this.getRowDivisionString(index)+"<div style='padding-left:20px;'>"
+							logString+="row inserter path:"+this.path+"<br>"
+							deletionMessage=""
+							if(RowManager.debug)
+								deletionMessage="<b>(deleted upon request)</b>"
+							new Element.descendants(this.getColumnDivisionElement(index)).each(function(e){e.style.backgroundColor="red";})
+							RowManager.log(logString+"</div>")
+    						RowManager.log("------------------------<br>")							
+						},
     removeRowFromDisplay: function(index){
     						RowManager.log("------------------------<br>")
 							logString="Removing Row from display: "+this.getRowDivisionString(index)+"<div style='padding-left:20px;'>"
@@ -295,8 +313,11 @@ var AbstractRowInserterProps = {
 	removeFromCommand: function(index){
 							$('rowDeletionForm').collection.value=this.path
 							$('rowDeletionForm').deleteIndex.value=index
+							parameterString="decorator=nullDecorator&_asynchronous=true&_asyncMethodName=deleteRow&"+Form.serialize('rowDeletionForm');
+							if(this.softDelete)
+								parameterString="softDelete=true&"+parameterString
 							new Ajax.Request($('rowDeletionForm').action, 
-								{parameters:"decorator=nullDecorator&_asynchronous=true&_asyncMethodName=deleteRow&"+Form.serialize('rowDeletionForm'),
+								{parameters:parameterString,
 								onSuccess: this.onDeleteFromCommandSuccess, onFailure: this.onDeleteFromCommandError, asynchronous:true, evalScripts:true})
 						},
 	onDeleteFromCommandError: function(t){
