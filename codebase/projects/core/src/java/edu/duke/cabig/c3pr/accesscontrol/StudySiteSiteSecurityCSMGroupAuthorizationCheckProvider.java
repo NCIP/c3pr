@@ -6,6 +6,7 @@ import edu.duke.cabig.c3pr.domain.StudySite;
 import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 import gov.nih.nci.security.acegi.csm.authorization.CSMGroupAuthorizationCheck;
 import gov.nih.nci.security.acegi.csm.authorization.CSMObjectIdGenerator;
+import gov.nih.nci.security.acegi.csm.authorization.CSMAuthorizationCheck;
 import org.acegisecurity.Authentication;
 import org.apache.log4j.Logger;
 
@@ -16,7 +17,7 @@ import org.apache.log4j.Logger;
  * Time: 11:35:32 AM
  * To change this template use File | Settings | File Templates.
  */
-public class StudySiteSiteSecurityCSMGroupAuthorizationCheckProvider implements DomainObjectSiteSecurityAuthorizationCheckProvider {
+public class StudySiteSiteSecurityCSMGroupAuthorizationCheckProvider implements CSMAuthorizationCheck {
 
     private CSMObjectIdGenerator siteObjectIdGenerator;
     private CSMGroupAuthorizationCheck csmGroupAuthorizationCheck;
@@ -24,8 +25,8 @@ public class StudySiteSiteSecurityCSMGroupAuthorizationCheckProvider implements 
     private Logger log = Logger.getLogger(StudySiteSiteSecurityCSMGroupAuthorizationCheckProvider.class);
 
 
-    public boolean checkAuthorization(Authentication authentication, String permission, AbstractMutableDomainObject domainObject) {
-        boolean hasPermission = false;
+    public boolean checkAuthorization(Authentication authentication, String permission, Object domainObject) {
+           boolean hasPermission = false;
         log.debug("Invoking checkPermission on StudySiteSiteSecurityCSMGroupAuthorizationCheckProvider");
 
         if(domainObject instanceof Study) {
@@ -47,6 +48,15 @@ public class StudySiteSiteSecurityCSMGroupAuthorizationCheckProvider implements 
 
         }
         return hasPermission;
+    }
+
+    public boolean checkAuthorizationForObjectId(Authentication authentication, String permission, String objectId) {
+        return csmGroupAuthorizationCheck.checkAuthorizationForObjectId(authentication,permission,objectId);
+
+    }
+
+    public boolean checkAuthorizationForObjectIds(Authentication authentication, String permission, String[] objectIds) {
+        return csmGroupAuthorizationCheck.checkAuthorizationForObjectIds(authentication,permission,objectIds);
     }
 
 

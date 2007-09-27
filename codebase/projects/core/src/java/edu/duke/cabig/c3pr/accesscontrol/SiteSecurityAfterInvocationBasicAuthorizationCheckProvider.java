@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import java.util.LinkedHashMap;
 
 import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+import gov.nih.nci.security.acegi.csm.authorization.CSMAuthorizationCheck;
 
 /**
  * Created by IntelliJ IDEA.
@@ -45,8 +46,8 @@ public class SiteSecurityAfterInvocationBasicAuthorizationCheckProvider implemen
             return returnedObject;
         }
 
-        DomainObjectSiteSecurityAuthorizationCheckProvider auth =  (DomainObjectSiteSecurityAuthorizationCheckProvider)domainObjectSiteSecurityAuhthorizationCheckProvidersMap.get(returnedObject.getClass().getName());
-       boolean hasPermission = auth.checkAuthorization(authentication,"ACCESS",(AbstractMutableDomainObject)returnedObject);
+        CSMAuthorizationCheck auth =  (CSMAuthorizationCheck)domainObjectSiteSecurityAuhthorizationCheckProvidersMap.get(returnedObject.getClass().getName());
+       boolean hasPermission = auth.checkAuthorization(authentication,"ACCESS",returnedObject);
 
         if (hasPermission) {
             return returnedObject;

@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.accesscontrol;
 
 import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+import gov.nih.nci.security.acegi.csm.authorization.CSMAuthorizationCheck;
 import org.acegisecurity.*;
 import org.acegisecurity.afterinvocation.AfterInvocationProvider;
 import org.apache.log4j.Logger;
@@ -67,8 +68,8 @@ public class SiteSecurityAfterInvocationCollectionFilteringProvider implements A
                 hasPermission = true;
             }
 
-            DomainObjectSiteSecurityAuthorizationCheckProvider auth =  (DomainObjectSiteSecurityAuthorizationCheckProvider)domainObjectSiteSecurityAuhthorizationCheckProvidersMap.get(domainObject.getClass().getName());
-            hasPermission = auth.checkAuthorization(authentication,"ACCESS",(AbstractMutableDomainObject)domainObject);
+            CSMAuthorizationCheck auth =  (CSMAuthorizationCheck)domainObjectSiteSecurityAuhthorizationCheckProvidersMap.get(domainObject.getClass().getName());
+            hasPermission = auth.checkAuthorization(authentication,"ACCESS",domainObject);
 
             if (!hasPermission) {
                 filterer.remove(domainObject);
