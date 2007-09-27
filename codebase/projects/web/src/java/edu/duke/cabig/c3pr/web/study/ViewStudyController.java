@@ -42,7 +42,7 @@ public class ViewStudyController extends StudyController<Study> {
      * @throws javax.servlet.ServletException
      */
     protected Object formBackingObject(HttpServletRequest request) throws ServletException {
-        Study study = studyDao.getStudyDesignById(Integer.parseInt(request.getParameter("studyId")));
+        Study study = studyDao.getById(Integer.parseInt(request.getParameter("studyId")));
         if (study != null) {
             log.debug("Retrieving Study Details for Id: " + study.getId());
         }
