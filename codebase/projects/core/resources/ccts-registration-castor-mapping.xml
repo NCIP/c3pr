@@ -354,6 +354,13 @@
         </field>
     </class>
 
+    <class name="edu.duke.cabig.c3pr.domain.TreatmentEpoch" extends="edu.duke.cabig.c3pr.domain.Epoch">
+        <map-to xml="TreatmentEpochType" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
+        <field name="arms" type="edu.duke.cabig.c3pr.domain.Arm"
+               collection="collection" set-method="addArm">
+            <bind-xml name="arm" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
+        </field>
+    </class>
 
 
 </mapping>
