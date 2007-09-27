@@ -20,6 +20,8 @@ import gov.nih.nci.security.acegi.csm.authorization.CSMAuthorizationCheck;
  * To change this template use File | Settings | File Templates.
  */
 public class SiteSecurityAfterInvocationBasicAuthorizationCheckProvider implements AfterInvocationProvider {
+
+    private String accessPrivilege = "Access";
     private String processConfigAttribute;
     private LinkedHashMap domainObjectSiteSecurityAuhthorizationCheckProvidersMap;
     private Class processDomainObjectClass = AbstractMutableDomainObject.class;
@@ -28,8 +30,7 @@ public class SiteSecurityAfterInvocationBasicAuthorizationCheckProvider implemen
 
 
     public Object decide(Authentication authentication, Object object, ConfigAttributeDefinition configAttributeDefinition, Object returnedObject) throws AccessDeniedException {
-       log.debug("Checking authorization on object " + returnedObject.getClass().getName());
-        
+
         if (returnedObject == null) {
             if (log.isDebugEnabled()) {
                 log.debug("Return object is null, skipping");
@@ -38,6 +39,8 @@ public class SiteSecurityAfterInvocationBasicAuthorizationCheckProvider implemen
             return null;
         }
 
+        log.debug("Checking authorization on object " + returnedObject.getClass().getName());
+             
         if (!getProcessDomainObjectClass().isAssignableFrom(returnedObject.getClass())) {
             if (log.isDebugEnabled()) {
                 log.debug("Return object is not applicable for this provider, skipping");
@@ -47,7 +50,7 @@ public class SiteSecurityAfterInvocationBasicAuthorizationCheckProvider implemen
         }
 
         CSMAuthorizationCheck auth =  (CSMAuthorizationCheck)domainObjectSiteSecurityAuhthorizationCheckProvidersMap.get(returnedObject.getClass().getName());
-       boolean hasPermission = auth.checkAuthorization(authentication,"ACCESS",returnedObject);
+       boolean hasPermission = auth.checkAuthorization(authentication,accessPrivilege,returnedObject);
 
         if (hasPermission) {
             return returnedObject;
@@ -60,6 +63,15 @@ public class SiteSecurityAfterInvocationBasicAuthorizationCheckProvider implemen
                     "User does not have permission to view to this Study Site"
                     );
         }
+    }
+
+
+    public String getAccessPrivilege() {
+        return accessPrivilege;
+    }
+
+    public void setAccessPrivilege(String accessPrivilege) {
+        this.accessPrivilege = accessPrivilege;
     }
 
     public Class getProcessDomainObjectClass(){

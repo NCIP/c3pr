@@ -20,11 +20,11 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <entry key="/pages/participant/createParticipant" value="edu.duke.cabig.c3pr.domain.Participant:CREATE"/>
         <entry key="/pages/participant/confirmCreateParticipant" value="edu.duke.cabig.c3pr.domain.Participant:CREATE"/>
 
-		<entry key="/pages/admin/searchInvestigator" value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
+        <entry key="/pages/admin/searchInvestigator" value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
         <entry key="/pages/admin/createInvestigator" value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
         <entry key="/pages/admin/searchResearchStaff" value="edu.duke.cabig.c3pr.domain.ResearchStaff:CREATE"/>
         <entry key="/pages/admin/createResearchStaff" value="edu.duke.cabig.c3pr.domain.ResearchStaff:CREATE"/>
-		<entry key="/pages/admin/createOrganization"  value="edu.duke.cabig.c3pr.domain.HealthcareSite:CREATE"/>
+        <entry key="/pages/admin/createOrganization"  value="edu.duke.cabig.c3pr.domain.HealthcareSite:CREATE"/>
         <entry key="/pages/admin/searchOrganization"  value="edu.duke.cabig.c3pr.domain.HealthcareSite:READ"/>
         <entry key="/pages/admin/importStudy"  value="edu.duke.cabig.c3pr.domain.Study:CREATE"/>
 
@@ -33,26 +33,19 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     </util:map>
 
 
-    <bean id="taskPrivilegeAndObjectIdGenerator"
-          class="edu.duke.cabig.c3pr.web.security.TaskPrivilegeAndObjectIdGenerator">
-        <property name="objectPrivilegeMap"
-                  ref="taskObjectPrivilegeMap" />
-    </bean>
-
     <bean id="taskAuthorizationCheck"
           class="gov.nih.nci.security.acegi.csm.authorization.DelegatingObjectPrivilegeCSMAuthorizationCheck">
         <property name="authorizationSwitch" ref="authorizationSwitch"/>
-        <property name="csmAuthorizationCheck">
-            <bean
-                    class="gov.nih.nci.security.acegi.csm.authorization.CSMGroupAuthorizationCheck">
-                <property name="csmUserProvisioningManager" ref="csmUserProvisioningManager" />
-                <property name="authorizationSwitch" ref="authorizationSwitch"/>
-            </bean>
-        </property>
+        <property name="csmAuthorizationCheck" ref="csmGroupAuthorizationCheck"/>
         <property name="objectIdGenerator"
                   ref="taskPrivilegeAndObjectIdGenerator" />
-        <property name="privilegeGenerator"
-                  ref="taskPrivilegeAndObjectIdGenerator" />
+        <property name="privilegeGenerator">
+            <bean id="taskPrivilegeAndObjectIdGenerator"
+                  class="edu.duke.cabig.c3pr.web.security.TaskPrivilegeAndObjectIdGenerator">
+                <property name="objectPrivilegeMap"
+                          ref="taskObjectPrivilegeMap" />
+            </bean>
+        </property>
     </bean>
 
     <util:map id="sectionObjectPrivilegeMap">
@@ -68,38 +61,28 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <entry key="/pages/report/createStudyReport" value="edu.duke.cabig.c3pr.domain.Study:READ"/>
     </util:map>
 
-    <bean id="sectionPrivilegeAndObjectIdGenerator"
-          class="edu.duke.cabig.c3pr.web.security.SectionPrivilegeAndObjectIdGenerator">
-        <property name="objectPrivilegeMap"
-                  ref="sectionObjectPrivilegeMap" />
-    </bean>
+
 
     <bean id="sectionAuthorizationCheck"
           class="gov.nih.nci.security.acegi.csm.authorization.DelegatingObjectPrivilegeCSMAuthorizationCheck">
         <property name="authorizationSwitch" ref="authorizationSwitch"/>
-        <property name="csmAuthorizationCheck">
-            <bean class="gov.nih.nci.security.acegi.csm.authorization.CSMGroupAuthorizationCheck">
-                <property name="csmUserProvisioningManager"
-                          ref="csmUserProvisioningManager" />
-                <property name="authorizationSwitch" ref="authorizationSwitch"/>
-            </bean>
+        <property name="csmAuthorizationCheck" ref="csmGroupAuthorizationCheck">
         </property>
         <property name="objectIdGenerator"
                   ref="sectionPrivilegeAndObjectIdGenerator" />
-        <property name="privilegeGenerator"
-                  ref="sectionPrivilegeAndObjectIdGenerator" />
-    </bean>
-
-     <bean id="siteAuthorizationCheck"
-          class="gov.nih.nci.security.acegi.csm.authorization.DelegatingObjectPrivilegeCSMAuthorizationCheck">
-        <property name="authorizationSwitch" ref="authorizationSwitch"/>
-        <property name="csmAuthorizationCheck">
-            <bean class="gov.nih.nci.security.acegi.csm.authorization.CSMGroupAuthorizationCheck">
-                <property name="csmUserProvisioningManager"
-                          ref="csmUserProvisioningManager" />
-                <property name="authorizationSwitch" ref="authorizationSwitch"/>
+        <property name="privilegeGenerator">
+            <bean id="sectionPrivilegeAndObjectIdGenerator"
+                  class="edu.duke.cabig.c3pr.web.security.SectionPrivilegeAndObjectIdGenerator">
+                <property name="objectPrivilegeMap"
+                          ref="sectionObjectPrivilegeMap" />
             </bean>
         </property>
+    </bean>
+
+    <bean id="siteAuthorizationCheck"
+          class="gov.nih.nci.security.acegi.csm.authorization.DelegatingObjectPrivilegeCSMAuthorizationCheck">
+        <property name="authorizationSwitch" ref="authorizationSwitch"/>
+        <property name="csmAuthorizationCheck" ref="csmGroupAuthorizationCheck"/>
         <property name="objectIdGenerator"
                   ref="sitePrivilegeAndObjectIdGenerator" />
         <property name="privilegeGenerator"

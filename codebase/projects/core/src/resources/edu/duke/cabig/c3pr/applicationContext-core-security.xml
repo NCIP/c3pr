@@ -155,7 +155,7 @@
         <entry key="execution(* edu.duke.cabig.c3pr.dao.StudyDao.search*(..))"
                value="edu.duke.cabig.c3pr.domain.Study:READ"/>
 
-         <entry key="execution(* edu.duke.cabig.c3pr.dao.StudyDao.get*(..))"
+        <entry key="execution(* edu.duke.cabig.c3pr.dao.StudyDao.get*(..))"
                value="edu.duke.cabig.c3pr.domain.Study:READ"/>
 
     </util:map>
@@ -251,6 +251,7 @@
     <bean id="siteSecurityCollectionFilter" class="edu.duke.cabig.c3pr.accesscontrol.SiteSecurityAfterInvocationCollectionFilteringProvider">
         <property name="processConfigAttribute"
                   value="CSM_AUTHN_CHECK"/>
+        <property name="accessPrivilege" value="ACCESS_PRIVILEGE"/>
         <property name="domainObjectSiteSecurityAuhthorizationCheckProvidersMap"
                   ref="domainObjectSiteSecurityAuhthorizationCheckProvidersMap"/>
     </bean>
@@ -258,6 +259,7 @@
     <bean id="siteSecurityBasicAuthCheck" class="edu.duke.cabig.c3pr.accesscontrol.SiteSecurityAfterInvocationBasicAuthorizationCheckProvider">
         <property name="processConfigAttribute"
                   value="CSM_AUTHN_CHECK"/>
+        <property name="accessPrivilege" value="ACCESS_PRIVILEGE"/>
         <property name="domainObjectSiteSecurityAuhthorizationCheckProvidersMap"
                   ref="domainObjectSiteSecurityAuhthorizationCheckProvidersMap"/>
     </bean>

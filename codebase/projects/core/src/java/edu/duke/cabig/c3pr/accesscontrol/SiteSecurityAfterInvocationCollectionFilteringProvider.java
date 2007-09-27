@@ -23,6 +23,8 @@ import java.util.LinkedHashMap;
  */
 public class SiteSecurityAfterInvocationCollectionFilteringProvider implements AfterInvocationProvider {
 
+    private String accessPrivilege = "Access";
+
     private String processConfigAttribute;
     private LinkedHashMap domainObjectSiteSecurityAuhthorizationCheckProvidersMap;
     private Class processDomainObjectClass = AbstractMutableDomainObject.class;
@@ -69,7 +71,7 @@ public class SiteSecurityAfterInvocationCollectionFilteringProvider implements A
             }
 
             CSMAuthorizationCheck auth =  (CSMAuthorizationCheck)domainObjectSiteSecurityAuhthorizationCheckProvidersMap.get(domainObject.getClass().getName());
-            hasPermission = auth.checkAuthorization(authentication,"ACCESS",domainObject);
+            hasPermission = auth.checkAuthorization(authentication,accessPrivilege,domainObject);
 
             if (!hasPermission) {
                 filterer.remove(domainObject);
@@ -88,6 +90,13 @@ public class SiteSecurityAfterInvocationCollectionFilteringProvider implements A
     }
 
 
+    public String getAccessPrivilege() {
+        return accessPrivilege;
+    }
+
+    public void setAccessPrivilege(String accessPrivilege) {
+        this.accessPrivilege = accessPrivilege;
+    }
 
     public boolean supports(ConfigAttribute config) {
         return config.getAttribute().equals(getProcessConfigAttribute());

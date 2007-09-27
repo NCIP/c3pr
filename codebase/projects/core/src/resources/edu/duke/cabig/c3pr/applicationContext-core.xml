@@ -178,7 +178,7 @@
 
     <bean id="organizationService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.OrganizationServiceImpl"
           autowire="byType">
-        <property name="csmApplicationContextName" ref="csmApplicationContextName"/>
+        <property name="csmApplicationContextName" ref="${csm.context.name}"/>
         <property name="siteObjectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
         <property name="siteProtectionGroupId">
             <!--id for site protection group-->
@@ -189,12 +189,15 @@
         </property>
     </bean>
 
-    <!--Should be in appContext-security and applied thru aop-->
-    <bean id="sitePrivilegeAndObjectIdGenerator" class="edu.duke.cabig.c3pr.security.SitePrivilegeAndObjectIdGenerator">
-        <property name="accessPrivilege" value="ACCESS"/>
-        <property name="pathSeperator" value="."/>
+    <bean name="ACCESS_PRIVILEGE" class="java.lang.String">
+        <constructor-arg value="Access"/>
     </bean>
 
+    <!--Should be in appContext-security and applied thru aop-->
+    <bean id="sitePrivilegeAndObjectIdGenerator" class="edu.duke.cabig.c3pr.security.SitePrivilegeAndObjectIdGenerator">
+        <property name="accessPrivilege" value="ACCESS_PRIVILEGE"/>
+        <property name="pathSeperator" value="."/>
+    </bean>
 
     <!--Utilities-->
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">

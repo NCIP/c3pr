@@ -30,7 +30,7 @@ public class StudySubjectSiteCSMGroupAuthorizationCheckProvider implements CSMAu
             StudySubject subject = (StudySubject)domainObject;
             HealthcareSite hcs = subject.getStudySite().getHealthcareSite();
             log.debug("### Checking permission for user on site:" + hcs.getNciInstituteCode());
-            return csmGroupAuthorizationCheck.checkAuthorizationForObjectId(authentication,"ACCESS",siteObjectIdGenerator.generateId(hcs));
+            return csmGroupAuthorizationCheck.checkAuthorizationForObjectId(authentication,permission,siteObjectIdGenerator.generateId(hcs));
 
         }
         return false;
