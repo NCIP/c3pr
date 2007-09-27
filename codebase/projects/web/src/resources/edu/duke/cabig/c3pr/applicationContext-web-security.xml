@@ -41,19 +41,13 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 
     <bean id="taskAuthorizationCheck"
           class="gov.nih.nci.security.acegi.csm.authorization.DelegatingObjectPrivilegeCSMAuthorizationCheck">
-
         <property name="authorizationSwitch" ref="authorizationSwitch"/>
-
         <property name="csmAuthorizationCheck">
-            <!--
-               <bean class="gov.nih.nci.cabig.caaers.web.security.RoleCheck"/>
-            -->
             <bean
                     class="gov.nih.nci.security.acegi.csm.authorization.CSMGroupAuthorizationCheck">
                 <property name="csmUserProvisioningManager" ref="csmUserProvisioningManager" />
                 <property name="authorizationSwitch" ref="authorizationSwitch"/>
             </bean>
-
         </property>
         <property name="objectIdGenerator"
                   ref="taskPrivilegeAndObjectIdGenerator" />
@@ -82,21 +76,34 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 
     <bean id="sectionAuthorizationCheck"
           class="gov.nih.nci.security.acegi.csm.authorization.DelegatingObjectPrivilegeCSMAuthorizationCheck">
-
         <property name="authorizationSwitch" ref="authorizationSwitch"/>
-
         <property name="csmAuthorizationCheck">
             <bean class="gov.nih.nci.security.acegi.csm.authorization.CSMGroupAuthorizationCheck">
                 <property name="csmUserProvisioningManager"
                           ref="csmUserProvisioningManager" />
                 <property name="authorizationSwitch" ref="authorizationSwitch"/>
             </bean>
-
         </property>
         <property name="objectIdGenerator"
                   ref="sectionPrivilegeAndObjectIdGenerator" />
         <property name="privilegeGenerator"
                   ref="sectionPrivilegeAndObjectIdGenerator" />
+    </bean>
+
+     <bean id="siteAuthorizationCheck"
+          class="gov.nih.nci.security.acegi.csm.authorization.DelegatingObjectPrivilegeCSMAuthorizationCheck">
+        <property name="authorizationSwitch" ref="authorizationSwitch"/>
+        <property name="csmAuthorizationCheck">
+            <bean class="gov.nih.nci.security.acegi.csm.authorization.CSMGroupAuthorizationCheck">
+                <property name="csmUserProvisioningManager"
+                          ref="csmUserProvisioningManager" />
+                <property name="authorizationSwitch" ref="authorizationSwitch"/>
+            </bean>
+        </property>
+        <property name="objectIdGenerator"
+                  ref="sitePrivilegeAndObjectIdGenerator" />
+        <property name="privilegeGenerator"
+                  ref="sitePrivilegeAndObjectIdGenerator" />
     </bean>
 
 </beans>

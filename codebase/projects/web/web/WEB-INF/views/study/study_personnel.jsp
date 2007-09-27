@@ -6,6 +6,8 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="studyTags" tagdir="/WEB-INF/tags/study" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
+<%@ taglib prefix="csmauthz" uri="http://csm.ncicb.nci.nih.gov/authz" %>
+
 
 <html>
 <head>
@@ -176,12 +178,15 @@
         <td align="left">
             <select id="site" name="site" onchange="javascript:chooseSites();">
                 <c:forEach items="${command.studySites}" var="studySite" varStatus="status">
+                    <csmauthz:accesscontrol domainObject="${studySite.healthcareSite}"
+                                                  hasPrivileges="ACCESS"  authorizationCheckName="siteAuthorizationCheck">
                     <c:if test="${selected_site == status.index }">
                         <option selected="true" value=${status.index}>${studySite.healthcareSite.name}</option>
                     </c:if>
                     <c:if test="${selected_site != status.index }">
                         <option value=${status.index}>${studySite.healthcareSite.name}</option>
                     </c:if>
+                        </csmauthz:accesscontrol>
                 </c:forEach>
             </select>
         </td>
