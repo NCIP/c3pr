@@ -220,5 +220,8 @@
         <property name="mappingFile" value="c3pr-castor-mapping.xml"/>
     </bean>
 
+	<bean id="registrationXmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
+        <property name="mappingFile" value="ccts-registration-castor-mapping.xml"/>
+    </bean>
 
 </beans>

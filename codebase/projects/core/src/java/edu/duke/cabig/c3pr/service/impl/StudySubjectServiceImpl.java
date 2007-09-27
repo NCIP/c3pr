@@ -34,14 +34,14 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 	private String isBroadcastEnable="false";
 	private MessageBroadcastServiceImpl messageBroadcaster;
 	private StratumGroupDao stratumGroupDao;
-	private XmlMarshaller xmlUtility;
+	private XmlMarshaller registrationXmlUtility;
 
-	public XmlMarshaller getXmlUtility() {
-		return xmlUtility;
+	public XmlMarshaller getRegistrationXmlUtility() {
+		return registrationXmlUtility;
 	}
 
-	public void setXmlUtility(XmlMarshaller xmlUtility) {
-		this.xmlUtility = xmlUtility;
+	public void setRegistrationXmlUtility(XmlMarshaller registrationXmlUtility) {
+		this.registrationXmlUtility = registrationXmlUtility;
 	}
 
 	public StratumGroupDao getStratumGroupDao() {
@@ -240,7 +240,7 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 	private void sendRegistrationEvent(StudySubject studySubject) throws Exception{
 		if(isBroadcastEnable.equalsIgnoreCase("true")){
 			String xml = "";
-			xml = xmlUtility.toXML(studySubject);
+			xml = registrationXmlUtility.toXML(studySubject);
 			if (logger.isDebugEnabled()) {
 				logger.debug(" - XML for Registration"); //$NON-NLS-1$
 			}
