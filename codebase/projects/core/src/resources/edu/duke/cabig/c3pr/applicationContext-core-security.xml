@@ -22,11 +22,6 @@
         <constructor-arg value="${authorizationSwitch}"/>
     </bean>
 
-    <bean id="csmApplicationContextName" class="java.lang.String">
-        <constructor-arg value="${csm.context.name}"/>
-    </bean>
-
-
     <bean id="csmAuthorizationDao"
           class="gov.nih.nci.security.dao.DIAuthorizationDao"
           init-method="init">

@@ -32,6 +32,11 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <entry key="/pages/report/createStudyReport" value="edu.duke.cabig.c3pr.domain.Study:READ"/>
     </util:map>
 
+    <bean id="taskPrivilegeAndObjectIdGenerator"
+          class="edu.duke.cabig.c3pr.web.security.TaskPrivilegeAndObjectIdGenerator">
+        <property name="objectPrivilegeMap"
+                  ref="taskObjectPrivilegeMap" />
+    </bean>
 
     <bean id="taskAuthorizationCheck"
           class="gov.nih.nci.security.acegi.csm.authorization.DelegatingObjectPrivilegeCSMAuthorizationCheck">
@@ -39,13 +44,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <property name="csmAuthorizationCheck" ref="csmGroupAuthorizationCheck"/>
         <property name="objectIdGenerator"
                   ref="taskPrivilegeAndObjectIdGenerator" />
-        <property name="privilegeGenerator">
-            <bean id="taskPrivilegeAndObjectIdGenerator"
-                  class="edu.duke.cabig.c3pr.web.security.TaskPrivilegeAndObjectIdGenerator">
-                <property name="objectPrivilegeMap"
-                          ref="taskObjectPrivilegeMap" />
-            </bean>
-        </property>
+        <property name="privilegeGenerator" ref="taskPrivilegeAndObjectIdGenerator"/>
     </bean>
 
     <util:map id="sectionObjectPrivilegeMap">
@@ -62,6 +61,11 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     </util:map>
 
 
+    <bean id="sectionPrivilegeAndObjectIdGenerator"
+          class="edu.duke.cabig.c3pr.web.security.SectionPrivilegeAndObjectIdGenerator">
+        <property name="objectPrivilegeMap"
+                  ref="sectionObjectPrivilegeMap" />
+    </bean>
 
     <bean id="sectionAuthorizationCheck"
           class="gov.nih.nci.security.acegi.csm.authorization.DelegatingObjectPrivilegeCSMAuthorizationCheck">
@@ -70,12 +74,8 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         </property>
         <property name="objectIdGenerator"
                   ref="sectionPrivilegeAndObjectIdGenerator" />
-        <property name="privilegeGenerator">
-            <bean id="sectionPrivilegeAndObjectIdGenerator"
-                  class="edu.duke.cabig.c3pr.web.security.SectionPrivilegeAndObjectIdGenerator">
-                <property name="objectPrivilegeMap"
-                          ref="sectionObjectPrivilegeMap" />
-            </bean>
+        <property name="privilegeGenerator" ref="sectionPrivilegeAndObjectIdGenerator">
+
         </property>
     </bean>
 

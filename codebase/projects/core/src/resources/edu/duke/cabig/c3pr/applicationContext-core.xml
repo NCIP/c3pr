@@ -15,6 +15,10 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
+    <bean id="csmApplicationContextName" class="java.lang.String">
+           <constructor-arg value="${csm.context.name}"/>
+       </bean>
+
 
     <bean id="corePropertyConfigurer"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -178,7 +182,7 @@
 
     <bean id="organizationService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.OrganizationServiceImpl"
           autowire="byType">
-        <property name="csmApplicationContextName" ref="${csm.context.name}"/>
+        <property name="csmApplicationContextName" ref="csmApplicationContextName"/>
         <property name="siteObjectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
         <property name="siteProtectionGroupId">
             <!--id for site protection group-->
