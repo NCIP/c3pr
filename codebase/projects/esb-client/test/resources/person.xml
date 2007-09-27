@@ -1,3 +1,0 @@
-<tns:GetPerson  xmlns:tns="http://servicemix.apache.org/samples/wsdl-first/types">
-	<tns:personId>world</tns:personId>
-</tns:GetPerson>
