@@ -85,7 +85,7 @@ function hide(){
 			<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 				<tr>
 					<td class="labelR"> Status:</td>
-					<td>${command.studySite.study.status}</td>
+					<td>${command.studySite.study.coordinatingCenterStudyStatus}</td>
 				</tr>
 				<tr>
 					<td width="25%" class="labelR">Short Title:</td>
@@ -128,7 +128,7 @@ function hide(){
 				</tr>
 				<tr>
 					<td class="labelR"> Status Code:</td>
-					<td>${command.studySite.statusCode}</td>
+					<td>${command.studySite.siteStudyStatus}</td>
 				</tr>
 				<tr>
 					<td class="labelR"> NCI Institution Code:</td>
@@ -199,7 +199,27 @@ function hide(){
 				</tr>
 				<tr>
 					<td width="25%" class="labelR">Treating Physician:</td>
-					<td>${command.treatingPhysicianFullName}&nbsp;</td>
+					<c:set var="options" value=""></c:set>
+					<c:set var="values" value=""></c:set>
+					
+					<%--<c:forEach items="${command.studySite.studyInvestigators}" var="physician" varStatus="status">
+						<c:if test="${status.index>0}">
+							<c:set var="options" value="${options},"></c:set>
+							<c:set var="values" value="${values},"></c:set>
+						</c:if>
+						<c:set var="options" value="${options}'${physician.healthcareSiteInvestigator.investigator.fullName}'"></c:set>
+						<c:set var="values" value="${values}${physician.id}"></c:set>
+					</c:forEach>--%>
+					<c:set var="commanSepOptVal" value="["></c:set>
+					<c:forEach items="${command.studySite.studyInvestigators}" var="physician" varStatus="temp">
+						<c:set var="commanSepOptVal" value="${commanSepOptVal}[${physician.id},'${physician.healthcareSiteInvestigator.investigator.fullName}']"></c:set>
+						<c:if test="${!temp.last}">
+							<c:set var="commanSepOptVal" value="${commanSepOptVal},"></c:set>
+						</c:if>
+					</c:forEach>
+					<c:set var="commanSepOptVal" value="${commanSepOptVal}]"></c:set>
+					<td><tags:inPlaceSelect value="${command.treatingPhysicianFullName}" path="treatingPhysician" 
+											commanSepOptVal="${commanSepOptVal}" pathToGet="treatingPhysicianFullName"/>&nbsp;</td>
 				</tr>
 				<tr>
 					<td width="25%" class="labelR">Data Entry Status:</td>
@@ -212,6 +232,7 @@ function hide(){
 			eArray.push(editor_startDate);
 			eArray.push(editor_informedConsentSignedDate);
 			eArray.push(editor_informedConsentVersion);
+			eArray.push(editor_treatingPhysician);
 			</script>
 			<c:if test="${command.regWorkflowStatus!='OFF_STUDY'}">
 				<input type="button" value="Edit" onclick="activateInPlaceEditing(eArray)"/>
