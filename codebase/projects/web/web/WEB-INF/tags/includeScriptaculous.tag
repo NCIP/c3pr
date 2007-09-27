@@ -6,4 +6,4 @@
 <tags:javascriptLink name="scriptaculous/slider"/>
 <tags:javascriptLink name="common-scriptaculous"/>
 <tags:javascriptLink name="autocomplete"/>
-<tags:javascriptLink name="inPlaceEdit"/>
+<tags:javascriptLink name="inPlaceSelect"/>
