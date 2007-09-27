@@ -55,7 +55,7 @@ public abstract class RowManagableTab<C> extends ReflexiveAjaxableTab<C>{
 			
 			//Enabling the retitred_indicator
 	      	AbstractMutableDeletableDomainObject obj=(AbstractMutableDeletableDomainObject)col.get(index);
-	      	obj.setRetiredIndicator("true");
+	      	obj.setRetiredIndicatorAsTrue();
 		}
 		Map<String, String> map=new HashMap<String, String>();
 		map.put(getFreeTextModelName(), "deleted");

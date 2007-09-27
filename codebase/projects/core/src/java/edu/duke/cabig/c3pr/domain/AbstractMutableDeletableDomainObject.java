@@ -15,9 +15,15 @@ public class AbstractMutableDeletableDomainObject extends
 		return retiredIndicator;
 	}
 
-	public void setRetiredIndicator(String retiredIndicator) {
+	private void setRetiredIndicator(String retiredIndicator) {
 		this.retiredIndicator = retiredIndicator;
 	}
 
+	public void setRetiredIndicatorAsTrue(){
+		this.setRetiredIndicator("true");
+	}
 	
+	public void setRetiredIndicatorAsFalse(){
+		this.setRetiredIndicator("false");
+	}
 }

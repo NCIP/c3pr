@@ -39,7 +39,6 @@
 
 <c:choose>
 <c:when test="${command.coordinatingCenterStudyStatus == 'AMENDMENT_PENDING'}">
-SPRING TAGS
 	<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" title="New Amendment" >
 	<jsp:attribute name="singleFields">
 		<input type="hidden" name="_action" value="_action"/>
@@ -72,7 +71,7 @@ SPRING TAGS
         </chrome:division>
         <br/>
         
-        <chrome:division id="study-details" title="Reasons for Amendment (Minimum One):">
+        <chrome:division id="study-details" title="Reasons for Amendment (Minimum One)">
         <table>
         	<tr>
         		<td width="20%"><b>Epoch & Arms :</b></td>
@@ -106,8 +105,7 @@ SPRING TAGS
 
 <c:otherwise>
 <c:set var="amendmentSize" value="${fn:length(command.studyAmendments)}" scope="request" />
-<c:out value='${amendmentSize}' />
-HTML TAGS
+
 	<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" title="New Amendment" >
 	<jsp:attribute name="singleFields">
 		<input type="hidden" name="_action" value="_action"/>
