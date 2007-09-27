@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<registration xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"
+	gridId="faddb1d4-9770-45e2-bebe-4261580c2894">
+	<studySite gridId="2f12be79-e7cd-4d93-b70c-1becefb14c36">
+		<healthcareSite>
+			<nciInstituteCode>code</nciInstituteCode>
+		</healthcareSite>
+		<irbApprovalDate>2007-09-25T18:00:35.703-04:00</irbApprovalDate>
+		<startDate>2007-09-25T18:00:35.703-04:00</startDate>
+	</studySite>
+	<studyRef gridId="4caecda7-06e6-4df3-addb-fb1a6cc23e93">
+		<shortTitleText>ShortTitleText1</shortTitleText>
+		<longTitleText>LongTitleText1</longTitleText>
+	</studyRef>
+	<participant>
+		<firstName>Rudolph</firstName>
+		<lastName>Clooney</lastName>
+		<address>
+			<streetAddress>12359 sunrise valley drive</streetAddress>
+			<city>Reston</city>
+			<stateCode>VA</stateCode>
+			<postalCode>20191</postalCode>
+			<countryCode>USA</countryCode>
+		</address>
+		<administrativeGenderCode>M</administrativeGenderCode>
+		<birthDate>0006-06-23</birthDate>
+		<raceCode>White</raceCode>
+	</participant>
+	<startDate>2007-09-25</startDate>
+	<informedConsentFormSignedDate>		2007-09-25	</informedConsentFormSignedDate>
+	<informedConsentVersion>1.0</informedConsentVersion>
+	<regDataEntryStatus>COMPLETE</regDataEntryStatus>
+	<regWorkflowStatus>REGISTERED</regWorkflowStatus>
+	<scheduledTreatmentEpoch
+		gridId="bc52e4fd-cb91-4f87-9377-fc269c3b41ee">
+		<startDate>2007-09-25</startDate>
+		<treatmentEpoch gridId="188e9d9e-a03c-4c30-9c70-1f4c197648d0">
+			<name>epoch1</name>
+			<stratificationCriteria>
+				<questionNumber>0</questionNumber>
+				<questionText>will I work?</questionText>
+				<permissibleAnswer xmlns="">
+					<permissible-answer>						lets find out1					</permissible-answer>
+					<trimmed-permissible-answer>						lets find out1					</trimmed-permissible-answer>
+					<grid-id>						3e05c926-12ea-4de5-875f-bf7aaa70f20a					</grid-id>
+					<version>0</version>
+					<id>43</id>
+				</permissibleAnswer>
+				<permissibleAnswer xmlns="">
+					<permissible-answer>						lets find out2					</permissible-answer>
+					<trimmed-permissible-answer>						lets find out2					</trimmed-permissible-answer>
+					<grid-id>						42fcf72b-2d40-426e-9d52-f6afc71518d0					</grid-id>
+					<version>0</version>
+					<id>44</id>
+				</permissibleAnswer>
+			</stratificationCriteria>
+		</treatmentEpoch>
+		<scheduledArm>
+			<arm gridId="e4934177-a979-419f-b247-8302562d791e">
+				<name>A</name>
+			</arm>
+		</scheduledArm>
+	</scheduledTreatmentEpoch>
+	<stratumGroup>0:lets find out1</stratumGroup>
+</registration>
