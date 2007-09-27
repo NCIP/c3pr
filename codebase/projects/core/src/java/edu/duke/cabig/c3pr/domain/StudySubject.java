@@ -364,6 +364,9 @@ public class StudySubject extends AbstractMutableDeletableDomainObject {
 		return getOtherTreatingPhysician();
 	}
 	
+	public void setTreatingPhysicianFullName(String s){
+		
+	}
 	@Enumerated(EnumType.STRING)
 	public RegistrationWorkFlowStatus getRegWorkflowStatus() {
 		return regWorkflowStatus;
