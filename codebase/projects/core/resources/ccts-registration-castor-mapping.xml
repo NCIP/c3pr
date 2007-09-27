@@ -283,7 +283,7 @@
                       xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
         <field name="currentScheduledEpoch" type="edu.duke.cabig.c3pr.domain.ScheduledEpoch">
-            <bind-xml name="ScheduledEpoch" node="element"
+            <bind-xml name="scheduledEpoch" node="element"
                       xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
         <field name="stratumGroup" type="string" handler="edu.duke.cabig.c3pr.xml.StratumGroupFieldHandler">
