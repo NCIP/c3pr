@@ -22,7 +22,7 @@ import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
 
 public class StudyAmendment extends AbstractMutableDeletableDomainObject{
 
-	private Integer amendmentVersion;
+	private String amendmentVersion;
 	private Date amendmentDate;
 	private String comments;
 	private Date irbApprovalDate;
@@ -39,12 +39,6 @@ public class StudyAmendment extends AbstractMutableDeletableDomainObject{
 	
 
 	/// Mutators
-	public Integer getAmendmentVersion() {
-		return amendmentVersion;
-	}
-	public void setAmendmentVersion(Integer amendmentVersion) {
-		this.amendmentVersion = amendmentVersion;
-	}
 	public Date getAmendmentDate() {
 		return amendmentDate;
 	}
@@ -141,6 +135,12 @@ public class StudyAmendment extends AbstractMutableDeletableDomainObject{
 	public void setRandomizationChangedIndicator(
 			Boolean randomizationChangedIndicator) {
 		this.randomizationChangedIndicator = randomizationChangedIndicator;
+	}
+	public void setAmendmentVersion(String amendmentVersion) {
+		this.amendmentVersion = amendmentVersion;
+	}
+	public String getAmendmentVersion() {
+		return amendmentVersion;
 	}
 
 
