@@ -45,6 +45,10 @@
             <td class="alt" align="left">${command.phaseCode}</td>
         </tr>
         <tr>
+            <td class="alt" align="left"><b>Coordinating Center Study Status:</b></td>
+            <td>PENDING</td>
+        </tr>
+        <tr>
             <td class="alt" align="left"><b>Multi Institution:</b></td>
             <td class="alt" align="left">${command.multiInstitutionIndicator}</td>
         </tr>
