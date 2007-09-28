@@ -15,8 +15,8 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.Where;
 
+import org.hibernate.annotations.Where;
 import edu.duke.cabig.c3pr.utils.DateUtil;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
@@ -37,7 +37,7 @@ public class StudySite extends StudyOrganization implements
     private String roleCode;
  // private String statusCode;
     private Integer targetAccrualNumber;
-    private SiteStudyStatus siteStudyStatus;
+    private SiteStudyStatus siteStudyStatus = SiteStudyStatus.PENDING;
     private Date startDate = Calendar.getInstance().getTime();
     private Date endDate;
     private String irbApprovalDateStr;
@@ -48,22 +48,8 @@ public class StudySite extends StudyOrganization implements
     private LazyListHelper lazyListHelper;
 
 
-    public StudySite() {
-        lazyListHelper = new LazyListHelper();
-        lazyListHelper.add(StudyInvestigator.class, new BiDirectionalInstantiateFactory<StudyInvestigator>(StudyInvestigator.class,this));
-        lazyListHelper.add(StudyPersonnel.class, new BiDirectionalInstantiateFactory<StudyPersonnel>(StudyPersonnel.class,this));
 
-    }
-
-	public void addStudyPersonnel(StudyPersonnel studyPersonnel) {
-		getStudyPersonnel().add(studyPersonnel);
-		studyPersonnel.setStudySite(this);
-	}
-
-	public void addStudyInvestigator(StudyInvestigator studyInvestigator) {
-		getStudyInvestigators().add(studyInvestigator);
-		studyInvestigator.setStudySite(this);
-	}
+	
 
     public void addStudySubject(StudySubject spAssignments)
     {
@@ -115,49 +101,6 @@ public class StudySite extends StudyOrganization implements
     public List<StudySubject> getStudySubjects() {
         return studySubjects;
     }
-
-    @OneToMany (mappedBy = "studySite")
-    @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-    @Where(clause = "retired_indicator = 'false'")
-    public List<StudyInvestigator> getStudyInvestigatorsInternal(){
-        return lazyListHelper.getInternalList(StudyInvestigator.class);
-    }
-
-    public void setStudyInvestigatorsInternal(List<StudyInvestigator> studyInvestigators){
-        lazyListHelper.setInternalList(StudyInvestigator.class, studyInvestigators);
-    }
-
-
-    @Transient
-    public List<StudyInvestigator> getStudyInvestigators() {
-        return lazyListHelper.getLazyList(StudyInvestigator.class);
-    }
-
-
-    public void setStudyInvestigators(List<StudyInvestigator> studyInvestigators) {
-        lazyListHelper.setInternalList(StudyInvestigator.class,studyInvestigators);
-    }
-
-    @OneToMany (mappedBy = "studySite")
-    @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-    @Where(clause = "retired_indicator = 'false'")
-    public List<StudyPersonnel> getStudyPersonnelInternal() {
-        return lazyListHelper.getInternalList(StudyPersonnel.class);
-    }
-
-    public void setStudyPersonnelInternal(List<StudyPersonnel> studyPersonnel) {
-        lazyListHelper.setInternalList(StudyPersonnel.class, studyPersonnel);
-    }
-
-    @Transient
-    public List<StudyPersonnel> getStudyPersonnel() {
-        return lazyListHelper.getLazyList(StudyPersonnel.class);
-    }
-
-    public void setStudyPersonnel(List<StudyPersonnel> studyPersonnel) {
-       lazyListHelper.setInternalList(StudyPersonnel.class,studyPersonnel);
-    }
-
 
     public void setIrbApprovalDate(Date irbApprovalDate) {
         this.irbApprovalDate = irbApprovalDate;
