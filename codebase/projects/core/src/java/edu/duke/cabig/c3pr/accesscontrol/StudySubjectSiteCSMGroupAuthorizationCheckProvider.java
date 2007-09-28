@@ -26,6 +26,9 @@ public class StudySubjectSiteCSMGroupAuthorizationCheckProvider implements CSMAu
 
 
     public boolean checkAuthorization(Authentication authentication, String permission, Object domainObject) {
+        boolean hasPermission = false;
+        log.debug("Invoking checkPermission on StudySubjectSiteCSMGroupAuthorizationCheckProvider");
+
         if(domainObject instanceof StudySubject) {
             StudySubject subject = (StudySubject)domainObject;
             HealthcareSite hcs = subject.getStudySite().getHealthcareSite();
@@ -33,7 +36,12 @@ public class StudySubjectSiteCSMGroupAuthorizationCheckProvider implements CSMAu
             return csmGroupAuthorizationCheck.checkAuthorizationForObjectId(authentication,permission,siteObjectIdGenerator.generateId(hcs));
 
         }
-        return false;
+        else{
+            log.debug("Unsupported object sent to StudySubjectSiteCSMGroupAuthorizationCheckProvider. Expecting StudySubject object found " + domainObject.getClass().getName());
+            hasPermission = true;
+        }
+
+        return hasPermission;
     }
 
     public boolean checkAuthorizationForObjectId(Authentication authentication, String permission, String objectId) {

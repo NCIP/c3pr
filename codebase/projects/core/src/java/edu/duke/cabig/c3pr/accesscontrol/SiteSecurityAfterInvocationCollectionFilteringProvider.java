@@ -69,9 +69,10 @@ public class SiteSecurityAfterInvocationCollectionFilteringProvider implements A
             if (domainObject == null  || !getProcessDomainObjectClass().isAssignableFrom(returnedObject.getClass())) {
                 hasPermission = true;
             }
-
-            CSMAuthorizationCheck auth =  (CSMAuthorizationCheck)domainObjectSiteSecurityAuhthorizationCheckProvidersMap.get(domainObject.getClass().getName());
-            hasPermission = auth.checkAuthorization(authentication,accessPrivilege,domainObject);
+            else{
+                CSMAuthorizationCheck auth =  (CSMAuthorizationCheck)domainObjectSiteSecurityAuhthorizationCheckProvidersMap.get(domainObject.getClass().getName());
+                hasPermission = auth.checkAuthorization(authentication,accessPrivilege,domainObject);
+            }
 
             if (!hasPermission) {
                 filterer.remove(domainObject);
