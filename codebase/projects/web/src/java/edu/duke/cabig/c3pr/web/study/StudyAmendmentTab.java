@@ -88,7 +88,11 @@ public class StudyAmendmentTab extends StudyTab {
 			//Change the status from Active to Pending_amendment.
 			StudyServiceImpl ssImpl = new StudyServiceImpl(); 
 			try{
-				study.setCoordinatingCenterStudyStatus(ssImpl.evaluateCoordinatingCenterStudyStatus(study));
+				//Changing the status only if ti is currently Active.
+				if(study.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.ACTIVE){
+					study.setCoordinatingCenterStudyStatus(ssImpl.evaluateCoordinatingCenterStudyStatus(study));
+				}
+				
 			}catch(Exception e){
 				log.error("Unable to eval status" +e.getMessage());
 			}
