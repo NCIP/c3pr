@@ -6,6 +6,7 @@
 
 <html>
 <head>
+	<c:set var="sponIndex" value="${command.fundingSponsorIdentifierIndex==-1?fn:length(command.organizationAssignedIdentifiers):command.fundingSponsorIdentifierIndex}"></c:set>
     <tags:stylesheetLink name="tabbedflow" />
     <tags:javascriptLink name="tabbedflow" />
     <tags:includeScriptaculous />
@@ -23,19 +24,21 @@
             new Effect.BlindUp(element, arguments[1] || {});
         }
 
-       // ValidationManager.submitPostProcess= function(formElement, continueSubmission){
-          //  if(formElement.id="command"){
-             //   box=document.getElementById('multiInstitutionIndicator');
-              //  if (box!=null && box.value == 'false') {
-                //    new Element.update('coordinatingCenter','');
-                    //	            	if(${command.multiInstitutionIndicator}){
-                    //	            		$('deletionIndicator1').name="_deletedRow-studyCoordinatingCenters-0";
-                    //	            		$('deletionIndicator2').name="_deletedRow-organizationAssignedIdentifiers-1";
-                    //	            	}
-               // }
-           // }
-        //    return continueSubmission;
-       // }
+        ValidationManager.submitPostProcess= function(formElement, continueSubmission){
+           if(formElement.id="command"){
+                 box1=document.getElementById('healthcareSite-input');
+               
+                 if((box1==null)||box1.value == '')
+                 	new Element.update('fundingSponsor',"<input type='hidden' name='deletedSponsor'/>");
+                 else{
+             	   box2=document.getElementById('organizationAssignedIdentifiers[${sponIndex==0?1:sponIndex}].value');
+	                 if ((box2==null)||box2.value == '') {
+	                     new Element.update('fundingSponId',"<input type='hidden' name='deletedSponsorIdentifier'/>");
+	                 }
+	             }
+             }
+             return continueSubmission;
+         } 
 
         function manageRandomizedIndicatorSelectBox(box) {
             if (box.value == 'true') {
@@ -60,9 +63,9 @@
             },
             afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=sponsorSiteAutocompleterProps.basename+"-hidden"
-    								hiddenField1=sponsorSiteAutocompleterProps.basename+"-hidden1"
 	    							$(hiddenField).value=selectedChoice.id;
-									$(hiddenField1).value=selectedChoice.id;	    							  	    								    							
+	    							hiddenField1=sponsorSiteAutocompleterProps.basename+"-hidden1"
+	    							$(hiddenField1).value=selectedChoice.id;
 			 }
         }
         var coCenterAutocompleterProps = {
@@ -188,35 +191,44 @@
 
 </chrome:division>
 
-<chrome:division title="Funding Sponsor Details">
+
+<chrome:division title="Coordinating Center Details">
     <div class="leftpanel">
 
-        <div class="row">
-            <div class="label required-indicator">
-                Funding Sponsor:</div>
-            <div class="value"><form:hidden id="healthcareSite-hidden"
-				path="studyFundingSponsors[0].healthcareSite" /><input type="hidden" id="healthcareSite-hidden1"
-                        				name="organizationAssignedIdentifiers[0].healthcareSite"
-                      					 value="${command.organizationAssignedIdentifiers[0].healthcareSite.id}" class="validate-notEmpty" /> <input
-				id="healthcareSite-input" size="50" type="text"
-				name="organizationAssignedIdentifiers[0].healthcareSite.name"
-				value="${command.organizationAssignedIdentifiers[0].healthcareSite.name}" class="validate-notEmpty" />
-			<tags:indicator id="healthcareSite-indicator" />
-			<div id="healthcareSite-choices" class="autocomplete"></div>
-			</div>
-        </div>
 
-        <div class="row">
-            <div class="label required-indicator">
-                Funding Sponsor Study Identifier:</div>
-            <div class="value"><form:input path="organizationAssignedIdentifiers[0].value" size="30"
-				maxlength="30" cssClass="validate-notEmpty" /> <input type="hidden"
-				name="organizationAssignedIdentifiers[0].type" value="Protocol Authority Identifier" />
-			</div>
-        </div>
+         <div id="coordinatingCenter">
+                	 <div class="row">
+		                        <div class="label required-indicator">Coordinating Center:</div>
+		                        <div class="value"><input type="hidden" id="coCenter-hidden"
+								name="studyCoordinatingCenters[0].healthcareSite"
+								value="${command.studyCoordinatingCenters[0].healthcareSite.id }" class="validate-notEmpty" />
+								<input type="hidden" id="coCenter-hidden1"
+									name="organizationAssignedIdentifiers[0].healthcareSite"
+									value="${command.organizationAssignedIdentifiers[0].healthcareSite.id}" />
+								<input id="coCenter-input" size="50" type="text"
+								name="organizationAssignedIdentifiers[0].healthcareSite.name"
+								value="${command.organizationAssignedIdentifiers[0].healthcareSite.name}" class="validate-notEmpty" />
+							<tags:indicator id="coCenter-indicator" />
+							<div id="coCenter-choices" class="autocomplete"></div>
+							</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="label required-indicator">Coordinating Center
+                            Study Identifier:</div>
+                        <div class="value"><input type="text" name="organizationAssignedIdentifiers[0].value" 
+						size="30" maxlength="30"
+						value="${command.organizationAssignedIdentifiers[0].value}" class="validate-notEmpty" />
+					<input type="hidden" name="organizationAssignedIdentifiers[0].type"
+						value="Coordinating Center Identifier"/>
+						<input type="hidden" name="organizationAssignedIdentifiers[0].primaryIndicator" value="true"/></div>
+					</div>
+          </div>
+           
 
     </div>
 </chrome:division>
+
 
 <chrome:division title="Randomization Details">
     <div class="leftpanel">
@@ -250,41 +262,47 @@
     </div>
 </chrome:division>
 
-<chrome:division title="Coordinating Center Details">
+<chrome:division title="Funding Sponsor Details">
     <div class="leftpanel">
+     <div id="fundingSponsor">
+        <div class="row">
+            <div class="label">
+                Funding Sponsor:</div>
+            <div class="value">
+            	<input type="text" id="healthcareSite-input" size="50"
+            		name="aaaxxx"
+            		value="${fn:length(command.studyFundingSponsors)>0?command.studyFundingSponsors[0].healthcareSite.name:''}"/>
+				<input type="hidden" id="healthcareSite-hidden"
+            		name="studyFundingSponsors[0].healthcareSite"
+            		value="${fn:length(command.studyFundingSponsors)>0?command.studyFundingSponsors[0].healthcareSite.id:''}"/>            		
+			<tags:indicator id="healthcareSite-indicator" />
+			<div id="healthcareSite-choices" class="autocomplete"></div>
+			</div>
+        </div>
 
-
-         <div id="coordinatingCenter">
-                	 <div class="row">
-		                        <div class="label required-indicator">Coordinating Center:</div>
-		                        <div class="value"><input type="hidden" id="coCenter-hidden"
-								name="studyCoordinatingCenters[0].healthcareSite"
-								value="${command.studyCoordinatingCenters[0].healthcareSite.id }" class="validate-notEmpty" />
-								<input type="hidden" id="coCenter-hidden1"
-									name="organizationAssignedIdentifiers[1].healthcareSite"
-									value="${command.organizationAssignedIdentifiers[1].healthcareSite.id}" />
-								<input id="coCenter-input" size="50" type="text"
-								name="organizationAssignedIdentifiers[1].healthcareSite.name"
-								value="${command.organizationAssignedIdentifiers[1].healthcareSite.name}" class="validate-notEmpty" />
-							<tags:indicator id="coCenter-indicator" />
-							<div id="coCenter-choices" class="autocomplete"></div>
-							</div>
-                    </div>
-
-                    <div class="row">
-                        <div class="label required-indicator">Coordinating Center
-                            Study Identifier:</div>
-                        <div class="value"><input type="text" name="organizationAssignedIdentifiers[1].value" 
-						size="30" maxlength="30"
-						value="${command.organizationAssignedIdentifiers[1].value}" class="validate-notEmpty" />
-					<input type="hidden" name="organizationAssignedIdentifiers[1].type"
-						value="Coordinating Center Identifier"/></div>
-					</div>
-          </div>
-           
+        <div class="row">
+            <div class="label">
+                Funding Sponsor Study Identifier:</div>
+            <div class="value">
+            	<div id="fundingSponId">
+	            	<input type="text" name="organizationAssignedIdentifiers[${sponIndex==0?1:sponIndex}].value" size="30"
+						maxlength="30" value="${command.fundingSponsorIdentifierIndex==-1?'':command.organizationAssignedIdentifiers[sponIndex==0?1:sponIndex].value}"
+						id="organizationAssignedIdentifiers[${sponIndex==0?1:sponIndex}].value" />
+					<input type="hidden" id="healthcareSite-hidden1"
+	                    name="organizationAssignedIdentifiers[${sponIndex==0?1:sponIndex}].healthcareSite"
+	                    value="${command.fundingSponsorIdentifierIndex==-1?'':command.organizationAssignedIdentifiers[sponIndex==0?1:sponIndex].healthcareSite.id}" />
+					<input type="hidden" 
+						name="organizationAssignedIdentifiers[${sponIndex==0?1:sponIndex}].type" value="Protocol Authority Identifier" />
+				</div>
+			</div>
+        </div>
+        </div>
 
     </div>
 </chrome:division>
+
+
+
 
 <tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" />
 
