@@ -9,6 +9,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.validation.BindException;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.web.multipart.support.StringMultipartFileEditor;
@@ -18,8 +19,10 @@ import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
+import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.service.StudyService;
@@ -58,6 +61,7 @@ public abstract class StudyController<C extends Study> extends AutomaticSaveAjax
         setFlow(flow);
         //rowManager = new RowManager();
     }
+    
 
     @Override
     protected Study getPrimaryDomainObject(C command) {
@@ -92,6 +96,8 @@ public abstract class StudyController<C extends Study> extends AutomaticSaveAjax
         binder.registerCustomEditor(researchStaffDao.domainClass(),
                 new NullIdDaoBasedEditor(researchStaffDao));
         binder.registerCustomEditor(RandomizationType.class, new EnumByNameEditor(RandomizationType.class));
+        binder.registerCustomEditor(CoordinatingCenterStudyStatus.class, new EnumByNameEditor(CoordinatingCenterStudyStatus.class));
+        binder.registerCustomEditor(SiteStudyStatus.class, new EnumByNameEditor(SiteStudyStatus.class));
         binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class,true));
         binder.registerCustomEditor(String.class, "file", new StringMultipartFileEditor());
     }
