@@ -32,6 +32,14 @@ public interface StudyService {
     
     public SiteStudyStatus evaluateSiteStudyStatus(StudySite studySite) throws Exception;
     
+    public void setSiteStudyStatuses(Study study) throws Exception;
+    
+    public void setDataEntryStatus(Study study) throws Exception;
+    
+    public Study setStatuses(Study study) throws Exception;
+    
+    public Study setStatuses(Study study,CoordinatingCenterStudyStatus status) throws Exception;
+    
     
     public Study merge(Study study);
 

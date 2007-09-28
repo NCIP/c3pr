@@ -61,12 +61,12 @@ public class Study extends AbstractMutableDeletableDomainObject implements
 
 	private String phaseCode;
 
-	//private String status;
+	// private String status;
 
 	private String type;
 
 	private String primaryIdentifier;
-	
+
 	private String file;
 
 	private Integer targetAccrualNumber;
@@ -74,9 +74,9 @@ public class Study extends AbstractMutableDeletableDomainObject implements
 	private List<Epoch> epochs;
 
 	private RandomizationType randomizationType;
-	
+
 	private StudyDataEntryStatus dataEntryStatus;
-	
+
 	private CoordinatingCenterStudyStatus coordinatingCenterStudyStatus;
 
 	private List<StudyDisease> studyDiseases = new ArrayList<StudyDisease>();
@@ -91,6 +91,7 @@ public class Study extends AbstractMutableDeletableDomainObject implements
 	private String diseaseCategoryAsText;
 
 	private LazyListHelper lazyListHelper;
+	
 
 	// private ParameterizedInstantiateFactory<Identifier> identifierFactory;
 
@@ -129,7 +130,8 @@ public class Study extends AbstractMutableDeletableDomainObject implements
 						OrganizationAssignedIdentifier.class,
 						new ParameterizedInstantiateFactory<OrganizationAssignedIdentifier>(
 								OrganizationAssignedIdentifier.class));
-		lazyListHelper.add(StudyAmendment.class, new InstantiateFactory<StudyAmendment>(StudyAmendment.class));
+		lazyListHelper.add(StudyAmendment.class,
+				new InstantiateFactory<StudyAmendment>(StudyAmendment.class));
 		// mandatory, so that the lazy-projected list is managed properly.
 		setStudyOrganizations(new ArrayList<StudyOrganization>());
 		setEpochs(new ArrayList<Epoch>());
@@ -216,7 +218,8 @@ public class Study extends AbstractMutableDeletableDomainObject implements
 	public void addEpoch(Epoch epoch) throws RuntimeException {
 		for (Epoch epochPresent : getEpochs()) {
 			if (epochPresent.equals(epoch)) {
-				throw new RuntimeException("epoch with same name already exists in study");
+				throw new RuntimeException(
+						"epoch with same name already exists in study");
 			}
 		}
 		epoch.setStudy(this);
@@ -248,12 +251,15 @@ public class Study extends AbstractMutableDeletableDomainObject implements
 	public void removeIdentifier(Identifier identifier) {
 		getIdentifiers().remove(identifier);
 	}
-	
+
 	@Transient
-	public OrganizationAssignedIdentifier getFundingSponsorAssignedIdentifier()
-	{
-		for (OrganizationAssignedIdentifier orgIdentifier:this.getOrganizationAssignedIdentifiers()){
-				if ((orgIdentifier.getType()!=null)&& (orgIdentifier.getType().equals("Protocol Authority Identifier"))) return orgIdentifier;
+	public OrganizationAssignedIdentifier getFundingSponsorAssignedIdentifier() {
+		for (OrganizationAssignedIdentifier orgIdentifier : this
+				.getOrganizationAssignedIdentifiers()) {
+			if ((orgIdentifier.getType() != null)
+					&& (orgIdentifier.getType()
+							.equals("Protocol Authority Identifier")))
+				return orgIdentifier;
 		}
 		return null;
 	}
@@ -275,7 +281,7 @@ public class Study extends AbstractMutableDeletableDomainObject implements
 	@OneToMany
 	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "STU_ID")
-	@Where(clause = "retired_indicator = 'false'")
+	@Where(clause = "retired_indicator <> 'true'")
 	public List<Identifier> getIdentifiers() {
 		return identifiers;
 	}
@@ -314,15 +320,15 @@ public class Study extends AbstractMutableDeletableDomainObject implements
 
 	@OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-	@Where(clause = "retired_indicator = 'false'")
+	@Where(clause = "retired_indicator <> 'true'")
 	public List<Epoch> getEpochs() {
 		return epochs;
 	}
-	
+
 	public void addAmendment(final StudyAmendment amendment) {
 		getStudyAmendments().add(amendment);
 	}
-	
+
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "stu_id", nullable = false)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
@@ -338,25 +344,27 @@ public class Study extends AbstractMutableDeletableDomainObject implements
 	public List<StudyAmendment> getStudyAmendments() {
 		return lazyListHelper.getLazyList(StudyAmendment.class);
 	}
-	
+
 	@Transient
 	public List<StudyAmendment> getPreviousStudyAmendments() {
-		if(this.getCoordinatingCenterStudyStatus()==CoordinatingCenterStudyStatus.AMENDMENT_PENDING){
-			if(getStudyAmendments().size()>1){
-				return this.getStudyAmendments().subList(0, getStudyAmendments().size()-1);
-			}else{
+		if (this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.AMENDMENT_PENDING) {
+			if (getStudyAmendments().size() > 1) {
+				return this.getStudyAmendments().subList(0,
+						getStudyAmendments().size() - 1);
+			} else {
 				return null;
 			}
-		}
-		else return getStudyAmendments();
+		} else
+			return getStudyAmendments();
 	}
-	
+
 	@Transient
 	public StudyAmendment getCurrentStudyAmendment() {
-		if(this.getCoordinatingCenterStudyStatus()==CoordinatingCenterStudyStatus.AMENDMENT_PENDING){
-			return this.getStudyAmendments().get(getStudyAmendments().size()-1);
-			}
-		else return null;
+		if (this.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.AMENDMENT_PENDING) {
+			return this.getStudyAmendments().get(
+					getStudyAmendments().size() - 1);
+		} else
+			return null;
 	}
 
 	public void setStudyAmendments(final List<StudyAmendment> amendments) {
@@ -449,13 +457,11 @@ public class Study extends AbstractMutableDeletableDomainObject implements
 		this.shortTitleText = shortTitleText;
 	}
 
-	/*public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}*/
+	/*
+	 * public String getStatus() { return status; }
+	 * 
+	 * public void setStatus(String status) { this.status = status; }
+	 */
 
 	public Integer getTargetAccrualNumber() {
 		return targetAccrualNumber;
@@ -480,20 +486,37 @@ public class Study extends AbstractMutableDeletableDomainObject implements
 		return 1;
 	}
 
-	
-	  @Override public int hashCode() { final int PRIME = 31; int result=super.hashCode(); result = PRIME * result + ((getFundingSponsorAssignedIdentifier() == null) ? 0 :
-		  getFundingSponsorAssignedIdentifier().hashCode()); return result; }
-	
-	
-	  @Override public boolean equals(Object obj) { if (this == obj) return
-	  true;  if (getClass() !=
-	  obj.getClass()) return false; final Study other = (Study) obj; 
-	  if ((this.getFundingSponsorAssignedIdentifier() == null)|| (other.getFundingSponsorAssignedIdentifier()==null)) {
-		return false;} 
-	  else if (!((this.getFundingSponsorAssignedIdentifier().getValue()).equals(other.getFundingSponsorAssignedIdentifier().getValue()))) {return false;}
-	  else if (!((this.getFundingSponsorAssignedIdentifier().getHealthcareSite()).equals(other.getFundingSponsorAssignedIdentifier().getHealthcareSite()))) {return false;}
-	   return true; }
-	 
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = super.hashCode();
+		result = PRIME
+				* result
+				+ ((getFundingSponsorAssignedIdentifier() == null) ? 0
+						: getFundingSponsorAssignedIdentifier().hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (getClass() != obj.getClass())
+			return false;
+		final Study other = (Study) obj;
+		if ((this.getFundingSponsorAssignedIdentifier() == null)
+				|| (other.getFundingSponsorAssignedIdentifier() == null)) {
+			return false;
+		} else if (!((this.getFundingSponsorAssignedIdentifier().getValue())
+				.equals(other.getFundingSponsorAssignedIdentifier().getValue()))) {
+			return false;
+		} else if (!((this.getFundingSponsorAssignedIdentifier()
+				.getHealthcareSite()).equals(other
+				.getFundingSponsorAssignedIdentifier().getHealthcareSite()))) {
+			return false;
+		}
+		return true;
+	}
 
 	@Transient
 	public String getTrimmedShortTitleText() {
@@ -551,78 +574,104 @@ public class Study extends AbstractMutableDeletableDomainObject implements
 	public void setFile(String file) {
 		this.file = file;
 	}
-	
+
 	@Transient
-	public boolean hasEnrollingNonTreatmentEpoch(){
-		
-		if(this.getNonTreatmentEpochs()!=null){
+	public int getFundingSponsorIdentifierIndex() {
+
+		if (this.getOrganizationAssignedIdentifiers().size() > 0) {
+			{
+				for (int index = 0; index < this.getOrganizationAssignedIdentifiers().size(); index++) {
+					if ((this.getOrganizationAssignedIdentifiers().get(index)
+							.getType() != null)
+							&& (this.getOrganizationAssignedIdentifiers().get(
+									index).getType()
+									.equalsIgnoreCase("Protocol Authority Identifier"))) {
+						return index;
+					}
+				}
+			}
+		}
+		return -1;
+	}
+
+	@Transient
+	public boolean hasEnrollingNonTreatmentEpoch() {
+
+		if (this.getNonTreatmentEpochs() != null) {
 			NonTreatmentEpoch nonTreatmentEpoch;
-		Iterator<NonTreatmentEpoch> nonTreatmentEpochIter = this.getNonTreatmentEpochs().iterator();
-		while(nonTreatmentEpochIter.hasNext()){
-			nonTreatmentEpoch = nonTreatmentEpochIter.next();
-			if((nonTreatmentEpoch.getEnrollmentIndicator()!=null)&&(nonTreatmentEpoch.getEnrollmentIndicator().equalsIgnoreCase("Yes")))
-				return true;				
-		}
+			Iterator<NonTreatmentEpoch> nonTreatmentEpochIter = this
+					.getNonTreatmentEpochs().iterator();
+			while (nonTreatmentEpochIter.hasNext()) {
+				nonTreatmentEpoch = nonTreatmentEpochIter.next();
+				if ((nonTreatmentEpoch.getEnrollmentIndicator() != null)
+						&& (nonTreatmentEpoch.getEnrollmentIndicator()
+								.equalsIgnoreCase("Yes")))
+					return true;
+			}
 		}
 		return false;
 	}
-	
-	@Transient
-	public boolean hasElligibility(){
 
-		if(this.getTreatmentEpochs().size()>0){
-			TreatmentEpoch treatmentEpoch;
-		Iterator<TreatmentEpoch> treatmentEpochIter = this.getTreatmentEpochs().iterator();
-		while(treatmentEpochIter.hasNext()){
-			treatmentEpoch = treatmentEpochIter.next();
-			if(treatmentEpoch.getEligibilityCriteria().size()>0)
-				return true;				
-		}
-		}
-		return false;
-	}
-	
 	@Transient
-	public boolean hasStratification(){
+	public boolean hasElligibility() {
 
-		if(this.getTreatmentEpochs().size()>0){
+		if (this.getTreatmentEpochs().size() > 0) {
 			TreatmentEpoch treatmentEpoch;
-		Iterator<TreatmentEpoch> treatmentEpochIter = this.getTreatmentEpochs().iterator();
-		while(treatmentEpochIter.hasNext()){
-			treatmentEpoch = treatmentEpochIter.next();
-			if(treatmentEpoch.getStratificationCriteria().size()>0)
-				return true;				
-		}
+			Iterator<TreatmentEpoch> treatmentEpochIter = this
+					.getTreatmentEpochs().iterator();
+			while (treatmentEpochIter.hasNext()) {
+				treatmentEpoch = treatmentEpochIter.next();
+				if (treatmentEpoch.getEligibilityCriteria().size() > 0)
+					return true;
+			}
 		}
 		return false;
 	}
-	
+
 	@Transient
-	public boolean hasEnrollingEpoch(){
-		
-		if (this.getTreatmentEpochs().size()>0 || (this.hasEnrollingNonTreatmentEpoch())){
+	public boolean hasStratification() {
+
+		if (this.getTreatmentEpochs().size() > 0) {
+			TreatmentEpoch treatmentEpoch;
+			Iterator<TreatmentEpoch> treatmentEpochIter = this
+					.getTreatmentEpochs().iterator();
+			while (treatmentEpochIter.hasNext()) {
+				treatmentEpoch = treatmentEpochIter.next();
+				if (treatmentEpoch.getStratificationCriteria().size() > 0)
+					return true;
+			}
+		}
+		return false;
+	}
+
+	@Transient
+	public boolean hasEnrollingEpoch() {
+
+		if (this.getTreatmentEpochs().size() > 0
+				|| (this.hasEnrollingNonTreatmentEpoch())) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	@Transient
-	public boolean getHasRegisteredParticipants(){
-		
-		if(getStudySites() != null && getStudySites().size() > 0){
+	public boolean getHasRegisteredParticipants() {
+
+		if (getStudySites() != null && getStudySites().size() > 0) {
 			Iterator iterSite = getStudySites().iterator();
 			StudySite studySite;
-			List <StudySubject> studySubjects;
-			while(iterSite.hasNext()){
-				studySite = (StudySite)iterSite.next();
+			List<StudySubject> studySubjects;
+			while (iterSite.hasNext()) {
+				studySite = (StudySite) iterSite.next();
 				studySubjects = studySite.getStudySubjects();
-				if(studySubjects.size() > 0){
+				if (studySubjects.size() > 0) {
 					return true;
 				}
 			}
-		}	
+		}
 		return false;
 	}
+
 	@Enumerated(EnumType.STRING)
 	public StudyDataEntryStatus getDataEntryStatus() {
 		return dataEntryStatus;
@@ -631,7 +680,7 @@ public class Study extends AbstractMutableDeletableDomainObject implements
 	public void setDataEntryStatus(StudyDataEntryStatus dataEntryStatus) {
 		this.dataEntryStatus = dataEntryStatus;
 	}
-	
+
 	@Enumerated(EnumType.STRING)
 	public CoordinatingCenterStudyStatus getCoordinatingCenterStudyStatus() {
 		return coordinatingCenterStudyStatus;

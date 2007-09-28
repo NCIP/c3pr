@@ -29,13 +29,13 @@ public class StudyAmendment extends AbstractMutableDeletableDomainObject{
 	private Date amendmentDateStr;
 	private Date irbApprovalDateStr;
 		
-	private Boolean epochAndArmsChangedIndicator; 
-	private Boolean stratificationChangedIndicator;
-	private Boolean consentChangedIndicator;
-	private Boolean eligibilityChangedIndicator;
-	private Boolean diseasesChangedIndicator;
-	private Boolean principalInvestigatorChangedIndicator;
-	private Boolean randomizationChangedIndicator;
+	private Boolean epochAndArmsChangedIndicator = false; 
+	private Boolean stratificationChangedIndicator = false;
+	private Boolean consentChangedIndicator = false;
+	private Boolean eligibilityChangedIndicator = false;
+	private Boolean diseasesChangedIndicator = false;
+	private Boolean principalInvestigatorChangedIndicator =false;
+	private Boolean randomizationChangedIndicator =false;
 	
 
 	/// Mutators

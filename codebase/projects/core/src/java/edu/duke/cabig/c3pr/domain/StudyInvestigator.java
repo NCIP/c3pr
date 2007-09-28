@@ -25,7 +25,7 @@ import org.hibernate.annotations.Parameter;
 public class StudyInvestigator extends AbstractMutableDeletableDomainObject {
 	
 	private HealthcareSiteInvestigator healthcareSiteInvestigator;
-	private StudySite studySite;
+	private StudyOrganization studyOrganization;
 	private String roleCode;
 	private String statusCode;
 	private Date startDate;
@@ -80,12 +80,12 @@ public class StudyInvestigator extends AbstractMutableDeletableDomainObject {
 		
 	@ManyToOne
     @JoinColumn(name = "sto_id")    	
-	public StudySite getStudySite() {
-		return studySite;
+	public StudyOrganization getStudyOrganization() {
+		return studyOrganization;
 	}
 
-	public void setStudySite(StudySite studySite) {
-		this.studySite = studySite;
+	public void setStudyOrganization(StudyOrganization studyOrganization) {
+		this.studyOrganization = studyOrganization;
 	}
 	
 }

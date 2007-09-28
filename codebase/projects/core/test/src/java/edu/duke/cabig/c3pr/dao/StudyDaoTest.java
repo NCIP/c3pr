@@ -1298,5 +1298,5 @@ public class StudyDaoTest extends DaoTestCase {
 						.getStudyAmendments().get(0).getComments());
 
 	}
-
+	
 }
