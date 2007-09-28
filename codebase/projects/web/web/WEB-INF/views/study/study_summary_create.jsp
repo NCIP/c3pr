@@ -50,11 +50,11 @@ eArray.push(editor_coordinatingCenterStudyStatus);
         </tr>
          <tr>
             <td class="alt" align="left"><b>Data Entry Status:</b></td>
-            <td class="alt" align="left">${command.dataEntryStatus}</td>
+            <td class="alt" align="left">${command.dataEntryStatus.code}</td>
         </tr> 
          <tr>
             <td class="alt" align="left"><b>Coordinating Center Status:</b></td>
-            <td class="alt" align="left">${command.coordinatingCenterStudyStatus}</td>
+            <td class="alt" align="left">${command.coordinatingCenterStudyStatus.code}</td>
         </tr>
         <tr>
             <td class="alt" align="left"><b>Phase:</b></td>
@@ -103,7 +103,7 @@ eArray.push(editor_coordinatingCenterStudyStatus);
         <c:forEach items="${command.studySites}" var="studySite">
             <tr class="results">
                 <td class="alt" align="left">${studySite.healthcareSite.name}</td>
-                <td class="alt" align="left">${studySite.siteStudyStatus}</td>
+                <td class="alt" align="left">${studySite.siteStudyStatus.code}</td>
                 <td class="alt" align="left">${studySite.roleCode}</td>
                 <td class="alt" align="left">${studySite.startDateStr}</td>
                 <td class="alt" align="left">${studySite.irbApprovalDateStr}</td>
