@@ -16,8 +16,8 @@
     </bean>
 
     <bean id="csmApplicationContextName" class="java.lang.String">
-           <constructor-arg value="${csm.context.name}"/>
-       </bean>
+        <constructor-arg value="${csm.context.name}"/>
+    </bean>
 
 
     <bean id="corePropertyConfigurer"
@@ -168,6 +168,11 @@
     <bean id="studySubjectService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl"
           autowire="byName">
         <property name="isBroadcastEnable" value="${broadcastEnable}"/>
+        <property name="registrationXmlUtility">
+            <bean id="registrationXmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
+                <property name="mappingFile" value="ccts-registration-castor-mapping.xml"/>
+            </bean>
+        </property>
     </bean>
     <bean id="studyXMLImporterService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudyXMLImporterServiceImpl"
           autowire="byType"/>
@@ -218,10 +223,6 @@
 
     <bean id="xmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
         <property name="mappingFile" value="c3pr-castor-mapping.xml"/>
-    </bean>
-
-	<bean id="registrationXmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
-        <property name="mappingFile" value="ccts-registration-castor-mapping.xml"/>
     </bean>
 
 </beans>
