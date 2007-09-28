@@ -281,7 +281,7 @@ public class Study extends AbstractMutableDeletableDomainObject implements
 	@OneToMany
 	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "STU_ID")
-	@Where(clause = "retired_indicator <> 'true'")
+	@Where(clause = "retired_indicator  = 'false'")
 	public List<Identifier> getIdentifiers() {
 		return identifiers;
 	}
@@ -320,7 +320,7 @@ public class Study extends AbstractMutableDeletableDomainObject implements
 
 	@OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-	@Where(clause = "retired_indicator <> 'true'")
+	@Where(clause = "retired_indicator  = 'false'")
 	public List<Epoch> getEpochs() {
 		return epochs;
 	}
