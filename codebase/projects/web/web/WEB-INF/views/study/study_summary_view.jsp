@@ -43,7 +43,7 @@
 				</tr>
 				<tr>
 					<td class="alt" align="left"><b>Data Entry Status:</b></td>
-					<td class="alt" align="left">${command.dataEntryStatus}</td>
+					<td class="alt" align="left">${command.dataEntryStatus.code}</td>
 				</tr>
 				<tr>
 					<td class="alt" align="left" rows="2"><b>Coordinating Center Status:</b></td>
@@ -140,7 +140,7 @@
 					varStatus="status">
 					<tr class="results">
 						<td class="alt" align="left">${studySite.healthcareSite.name}</td>
-						<td class="alt" align="left">${studySite.siteStudyStatus}</td>
+						<td class="alt" align="left">${studySite.siteStudyStatus.code}</td>
 						<td class="alt" align="left">${studySite.roleCode}</td>
 						<td class="alt" align="left">${studySite.startDateStr}</td>
 						<td class="alt" align="left">${studySite.irbApprovalDateStr}</td>
