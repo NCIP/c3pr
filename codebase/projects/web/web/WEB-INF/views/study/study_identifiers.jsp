@@ -65,9 +65,13 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}"
 	formName="studyIdentifiersForm">
 	<jsp:attribute name="singleFields">
+		
 	<br>
 	<table width="100%"><tr><td>
 		<chrome:division title="Organization Assigned Identifiers">
+		
+				<br>
+			
 			<table id="organizationIdentifier" class="tablecontent">
 				<tr>
 					<th><span class="required-indicator">Assigning Authority</span></th>
@@ -76,8 +80,19 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 					<th>Primary&nbsp;Indicator</th>
 					<th></th>
 				</tr>
-				<c:forEach items="${command.organizationAssignedIdentifiers}"
-					begin="${fn:length(command.organizationAssignedIdentifiers)>1 && command.organizationAssignedIdentifiers[1].type=='Coordinating Center Identifier'?2:1}" varStatus="organizationStatus">
+				<c:forEach var="orgIdentifier" items="${command.organizationAssignedIdentifiers}"
+					begin="0" varStatus="organizationStatus">
+					<c:choose>
+					<c:when test="${(orgIdentifier.type eq 'Protocol Authority Identifier') || (orgIdentifier.type eq 'Coordinating Center Identifier')}">
+					<tr>
+						<td>${orgIdentifier.healthcareSite.name}</td>
+						<td>${orgIdentifier.type}</td>
+						<td>${orgIdentifier.value}</td>
+						<td>${orgIdentifier.primaryIndicator}</td>
+					</tr>
+					</c:when>
+					<c:otherwise>
+					
 					<tr id="organizationIdentifier-${organizationStatus.index}">
 						<td><input type="hidden"
 							id="healthcareSite${organizationStatus.index}-hidden"
@@ -110,6 +125,9 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 							href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,${organizationStatus.index});"><img
 							src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 					</tr>
+					</c:otherwise>
+					</c:choose>
+					
 				</c:forEach>
 			</table>
 
