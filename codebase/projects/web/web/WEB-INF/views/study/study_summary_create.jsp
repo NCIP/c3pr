@@ -7,6 +7,15 @@
 <html>
 <head>
 
+<script>
+function activateInPlaceEditing(arrayElements){
+	for(aE=0 ; aE<arrayElements.length ; aE++){
+		arrayElements[aE].enterEditMode('click');
+	}
+	new Effect.Appear('OffStudyDiv');
+}
+</script>
+
 </head>
 
 <body>
@@ -17,6 +26,13 @@
     <input type="hidden" name="_finish" value="true"/>
 </div>
 
+<script>
+eArray=new Array();
+eArray.push(editor_coordinatingCenterStudyStatus);
+</script>
+<c:if test="true">
+	<input type="button" value="Edit" onclick="activateInPlaceEditing(eArray)"/>
+</c:if>
 
 <chrome:division id="study-details" title="Basic Details" >
     <table class="tablecontent">
@@ -31,6 +47,14 @@
         <tr>
             <td class="alt" align="left"><b>Target Accrual Number:</b></td>
             <td class="alt" align="left">${command.targetAccrualNumber}</td>
+        </tr>
+         <tr>
+            <td class="alt" align="left"><b>Data Entry Status:</b></td>
+            <td class="alt" align="left">${command.dataEntryStatus}</td>
+        </tr> 
+         <tr>
+            <td class="alt" align="left"><b>Coordinating Center Status:</b></td>
+            <td class="alt" align="left">${command.coordinatingCenterStudyStatus}</td>
         </tr>
         <tr>
             <td class="alt" align="left"><b>Phase:</b></td>
@@ -139,14 +163,14 @@
             <th scope="col" align="left">Status</th>
             <th scope="col" align="left">Organization</th>
         </tr>
-        <c:forEach items="${command.studySites}" var="studySite" varStatus="status">
-            <c:forEach items="${studySite.studyInvestigators}" var="studyInvestigator" varStatus="status">
+        <c:forEach items="${command.studyOrganizations}" var="studyOrganization" varStatus="status">
+            <c:forEach items="${studyOrganization.studyInvestigators}" var="studyInvestigator" varStatus="status">
                 <tr class="results">
                     <td class="alt"
                         align="left">${studyInvestigator.healthcareSiteInvestigator.investigator.fullName}</td>
                     <td class="alt" align="left">${studyInvestigator.roleCode}</td>
                     <td class="alt" align="left">${studyInvestigator.statusCode}</td>
-                    <td class="alt">${studyInvestigator.studySite.healthcareSite.name}</td>
+                    <td class="alt">${studyInvestigator.studyOrganization.healthcareSite.name}</td>
                 </tr>
             </c:forEach>
         </c:forEach>
@@ -161,13 +185,13 @@
             <th scope="col" align="left">Status</th>
             <th scope="col" align="left">Organization</th>
         </tr>
-        <c:forEach items="${command.studySites}" var="studySite" varStatus="status">
-            <c:forEach items="${studySite.studyPersonnel}" var="studyPersonnel" varStatus="status">
+        <c:forEach items="${command.studyOrganizations}" var="studyOrganization" varStatus="status">
+            <c:forEach items="${studyOrganization.studyPersonnel}" var="studyPersonnel" varStatus="status">
                 <tr class="results">
                     <td class="alt">${studyPersonnel.researchStaff.fullName}</td>
                     <td class="alt">${studyPersonnel.roleCode}</td>
                     <td class="alt">${studyPersonnel.statusCode}</td>
-                    <td class="alt">${studyPersonnel.studySite.healthcareSite.name}</td>
+                    <td class="alt">${studyPersonnel.studyOrganization.healthcareSite.name}</td>
                 </tr>
             </c:forEach>
         </c:forEach>
