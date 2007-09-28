@@ -7,14 +7,6 @@
 <html>
 <head>
 
-<script>
-function activateInPlaceEditing(arrayElements){
-	for(aE=0 ; aE<arrayElements.length ; aE++){
-		arrayElements[aE].enterEditMode('click');
-	}
-	new Effect.Appear('OffStudyDiv');
-}
-</script>
 
 </head>
 
@@ -25,14 +17,6 @@ function activateInPlaceEditing(arrayElements){
 <div>
     <input type="hidden" name="_finish" value="true"/>
 </div>
-
-<script>
-eArray=new Array();
-eArray.push(editor_coordinatingCenterStudyStatus);
-</script>
-<c:if test="true">
-	<input type="button" value="Edit" onclick="activateInPlaceEditing(eArray)"/>
-</c:if>
 
 <chrome:division id="study-details" title="Basic Details" >
     <table class="tablecontent">
@@ -67,10 +51,6 @@ eArray.push(editor_coordinatingCenterStudyStatus);
         <tr>
             <td class="alt" align="left"><b>Phase:</b></td>
             <td class="alt" align="left">${command.phaseCode}</td>
-        </tr>
-        <tr>
-            <td class="alt" align="left"><b>Coordinating Center Study Status:</b></td>
-            <td>PENDING</td>
         </tr>
         <tr>
             <td class="alt" align="left"><b>Multi Institution:</b></td>
