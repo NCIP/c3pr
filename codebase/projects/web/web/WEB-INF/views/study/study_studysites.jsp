@@ -76,11 +76,9 @@ Event.observe(window, "load", function() {
         <table id="siteTable" class="tablecontent" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                     <th><b><span class="required-indicator">Organization</span></b></th>
-                    <th><b><span class="required-indicator">Status</span></b></th>
                     <th><b>Activation Date</b></th>
                     <th><b>IRB Approval Date</b></th>
                     <th><b>Target Accrual Number</b></th>
-                    <th></th>
                 </tr>
                 
                     <tr>
@@ -97,17 +95,9 @@ Event.observe(window, "load", function() {
                   		 	<tags:indicator id="healthcareSite-indicator"/>
                   			<div id="healthcareSite-choices" class="autocomplete"></div>
            			 </td>
-                               
-                       <td><form:select path="studySites[0].siteStudyStatus">
-                    <form:option label="--Please Select--" value=""/>
-                    <form:option label="Pending" value="PENDING"/>
-                    <form:option label="Active" value="ACTIVE"/>
-                	</form:select>
-                            <input type="hidden" name="studySites[0].roleCode" value="Affiliate Site"/>
-
-                        </td>
 
                         <td>
+                        <input type="hidden" name="studySites[0].roleCode" value="Affiliate Site"/>
                             <tags:dateInput path="studySites[0].startDate"/>
                         </td>
                         <td>
@@ -187,9 +177,9 @@ RowManager.addRowInseter(instanceRowInserterProps);
             <table id="siteTable" class="tablecontent" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                     <th><b><span class="required-indicator">Organization</span></b></th>
-                    <th><b><span class="required-indicator">Status</span></b></th>
                     <th><b>Activation Date</b></th>
                     <th><b>IRB Approval Date</b></th>
+                    <th><b>Target Accrual Number</b></th>
                     <th></th>
                 </tr>
                 <c:forEach items="${command.studySites}" varStatus="status">
@@ -208,23 +198,18 @@ RowManager.addRowInseter(instanceRowInserterProps);
                   		 	<tags:indicator id="healthcareSite${status.index}-indicator"/>
                   			<div id="healthcareSite${status.index}-choices" class="autocomplete"></div>
            			 </td>
-                               
-                       <td><form:select path="studySites[${status.index}].siteStudyStatus"
-                                                     cssClass="validate-notEmpty">
-                           <form:option label="--Please Select--" value=""/>
-                    <form:option label="Pending" value="PENDING"/>
-                    <form:option label="Active" value="ACTIVE"/>
-                        </form:select>
-                            <input type="hidden" name="studySites[${status.index}].roleCode" value="Affiliate Site"/>
-
-                        </td>
 
                         <td>
+                        	<input type="hidden" name="studySites[${status.index}].roleCode" value="Affiliate Site"/>
                             <tags:dateInput path="studySites[${status.index}].startDate"/>
                         </td>
                         <td>
                             <tags:dateInput path="studySites[${status.index}].irbApprovalDate"/>
                         </td>
+                        <td> <input id="studySites[${status.index}].targetAccrualNumber"
+                      	 	name="studySites[${status.index}].targetAccrualNumber"
+                       		type="text"/>
+            			</td>  
                         <td><a
                                 href="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index});"><img
                                 src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
@@ -261,18 +246,9 @@ RowManager.addRowInseter(instanceRowInserterProps);
                    <tags:indicator id="healthcareSitePAGE.ROW.INDEX-indicator"/>
                   <div id="healthcareSitePAGE.ROW.INDEX-choices" class="autocomplete"></div>
             </td>
+            
             <td>
-                <select id="studySites[PAGE.ROW.INDEX].statusCode"
-                        name="studySites[PAGE.ROW.INDEX].statusCode"
-                        class="validate-notEmpty">
-                    <option label="--Please Select--" value=""/>
-                    <option label="Pending" value="PENDING"/>
-                    <option label="Active" value="ACTIVE"/>
-                </select>
-                <input type="hidden" id="studySites[PAGE.ROW.INDEX].roleCode"
-                       name="studySites[PAGE.ROW.INDEX].roleCode" value="Affiliate Site"/>
-            </td>
-            <td>
+            <input type="hidden" name="studySites[PAGE.ROW.INDEX].roleCode" value="Affiliate Site"/>
                 <input id="studySites[PAGE.ROW.INDEX].startDate"
                        name="studySites[PAGE.ROW.INDEX].startDate"
                        type="text"
