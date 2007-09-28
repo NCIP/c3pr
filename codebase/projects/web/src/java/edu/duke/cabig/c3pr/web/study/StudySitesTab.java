@@ -1,10 +1,13 @@
 package edu.duke.cabig.c3pr.web.study;
 
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.service.StudyService;
 
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.validation.Errors;
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
  * To change this template use File | Settings | File Templates.
  */
 class StudySitesTab extends StudyTab {
+	
+	private StudyService studyService;
 
     public StudySitesTab() {
         super("Sites", "Sites", "study/study_studysites");
@@ -37,6 +42,26 @@ class StudySitesTab extends StudyTab {
         return refdata;
 
     }
+    
+
+	@Override
+	public void postProcess(HttpServletRequest request, Study study,
+			Errors errors) {
+		try {
+			studyService.setSiteStudyStatuses(study);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public StudyService getStudyService() {
+		return studyService;
+	}
+
+	public void setStudyService(StudyService studyService) {
+		this.studyService = studyService;
+	}
 
 }
 
