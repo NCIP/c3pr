@@ -209,7 +209,7 @@
                 </property>
             </bean>
         </property>
-        <property name="afterInvocationManager"><ref bean="afterInvocationManager"/></property>
+       <!--   <property name="afterInvocationManager"><ref bean="afterInvocationManager"/></property> -->
     </bean>
 
 
