@@ -213,14 +213,14 @@
     </bean>
 
 
-    <bean id="afterInvocationManager" class="org.acegisecurity.afterinvocation.AfterInvocationProviderManager">
+    <!-- <bean id="afterInvocationManager" class="org.acegisecurity.afterinvocation.AfterInvocationProviderManager">
         <property name="providers">
             <list>
                 <ref local="siteSecurityBasicAuthCheck"/>
                 <ref local="siteSecurityCollectionFilter"/>
             </list>
         </property>
-    </bean>
+    </bean>-->
 
     <bean id="studySiteSiteSecurityCSMGroupAuthorizationCheckProvider" class="edu.duke.cabig.c3pr.accesscontrol.StudySiteSiteSecurityCSMGroupAuthorizationCheckProvider">
         <property name="siteObjectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
