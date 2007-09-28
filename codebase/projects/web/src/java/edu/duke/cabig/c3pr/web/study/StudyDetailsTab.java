@@ -56,9 +56,7 @@ class StudyDetailsTab extends StudyTab {
 				study.getOrganizationAssignedIdentifiers().remove(
 						study.getFundingSponsorIdentifierIndex());
 			}
-			if ((study.getStudyFundingSponsors().get(0) != null)
-					&& (study.getStudyFundingSponsors().get(0)
-							.getHealthcareSite() != null)) {
+			if ((study.getStudyFundingSponsors().size() > 0)) {
 				study.getStudyFundingSponsors().remove(0);
 			}
 		} else if (request.getParameter("deletedSponsorIdentifier") != null) {
