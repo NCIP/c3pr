@@ -111,7 +111,7 @@
 
     <class name="edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier"
            extends="edu.duke.cabig.c3pr.domain.Identifier">
-        <map-to xml="organizationAssignedIdentifier" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
+        <map-to xml="OrganizationAssignedIdentifierType" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         <field name="value" type="string">
             <bind-xml name="type" node="attribute" QName-prefix="xsi"/>
         </field>
