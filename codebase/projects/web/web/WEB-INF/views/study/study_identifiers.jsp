@@ -70,8 +70,6 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 	<table width="100%"><tr><td>
 		<chrome:division title="Organization Assigned Identifiers">
 		
-				<br>
-			
 			<table id="organizationIdentifier" class="tablecontent">
 				<tr>
 					<th><span class="required-indicator">Assigning Authority</span></th>
