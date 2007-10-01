@@ -387,7 +387,7 @@ public class StudyServiceImpl implements StudyService {
 		} else if (status == SiteStudyStatus.PENDING) {
 			if ((evaluateSiteStudyStatus(studySite) == SiteStudyStatus.ACTIVE)
 					|| (evaluateSiteStudyStatus(studySite) == SiteStudyStatus.PENDING)) {
-				studySite.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
+				studySite.setSiteStudyStatus(SiteStudyStatus.PENDING);
 			}
 		} else if (status == evaluateSiteStudyStatus(studySite)) {
 			studySite.setSiteStudyStatus(status);
