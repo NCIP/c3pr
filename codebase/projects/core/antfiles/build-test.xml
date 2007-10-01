@@ -36,8 +36,8 @@
 					<exclude name="**/DaoTestCase.java"/>
 					<exclude name="**/ContextDaoTestCase.java"/>
 					<exclude name="**/ApplicationTestCase.java"/>
-						
-				</fileset>
+                    <exclude name="**/MasqueradingDaoTestCase.java"/>
+                </fileset>
 			</batchtest>
 		</junit>
         <fail message="Tests failed! Check test reports." if="test.failed" />
