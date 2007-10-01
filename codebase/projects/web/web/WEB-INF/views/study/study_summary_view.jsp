@@ -136,11 +136,19 @@
 					<th scope="col" align="left">Start Date</th>
 					<th scope="col" align="left">IRB Approval Date</th>
 				</tr>
+					<c:set var="commanSepOptValSite"
+						value="[['Active','Active'],['Pending','Pending'],['Amendment Pending','Amendment Pending'],
+						['Closed To Accrual And Treatment','Closed To Accrual And Treatment'],['Closed To Accrual','Closed To Accrual'],
+						['Temporarily Closed To Accrual And Treatment','Temporarily Closed To Accrual And Treatment'],
+						['Temporarily Closed To Accrual','Temporarily Closed To Accrual']]"></c:set>
 				<c:forEach items="${command.studySites}" var="studySite"
 					varStatus="status">
 					<tr class="results">
 						<td class="alt" align="left">${studySite.healthcareSite.name}</td>
-						<td class="alt" align="left">${studySite.siteStudyStatus.code}</td>
+						<td><tags:inPlaceSelect
+						value="${command.studySites[status.index].siteStudyStatus.code}"
+						path="changedSiteStudyStatus_${status.index}"
+						commanSepOptVal="${commanSepOptValSite}" />&nbsp;</td>
 						<td class="alt" align="left">${studySite.roleCode}</td>
 						<td class="alt" align="left">${studySite.startDateStr}</td>
 						<td class="alt" align="left">${studySite.irbApprovalDateStr}</td>
