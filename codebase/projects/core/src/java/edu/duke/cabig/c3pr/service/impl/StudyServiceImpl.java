@@ -129,6 +129,10 @@ public class StudyServiceImpl implements StudyService {
 					|| (latestAmendment.getVersion() == null)) {
 				return StudyDataEntryStatus.INCOMPLETE;
 			}
+			if ((latestAmendment.getIrbApprovalDate() != null)
+					&& (latestAmendment.getIrbApprovalDate().after(new Date()))) {
+				return StudyDataEntryStatus.INCOMPLETE;
+			}
 			if ((latestAmendment.getConsentChangedIndicator() == true)
 					|| (latestAmendment.getDiseasesChangedIndicator() == true)
 					|| (latestAmendment.getEligibilityChangedIndicator() == true)
@@ -290,7 +294,8 @@ public class StudyServiceImpl implements StudyService {
 			CoordinatingCenterStudyStatus targetStatus) throws Exception {
 
 		study.setDataEntryStatus(evaluateDataEntryStatus(study));
-		CoordinatingCenterStudyStatus oldStatus = study.getCoordinatingCenterStudyStatus();
+		CoordinatingCenterStudyStatus oldStatus = study
+				.getCoordinatingCenterStudyStatus();
 
 		// For a new study, the coordingating center status should be set to
 		// Pending.
@@ -300,7 +305,7 @@ public class StudyServiceImpl implements StudyService {
 		} else {
 			if (statusSettable(study, targetStatus) == true) {
 				study.setCoordinatingCenterStudyStatus(targetStatus);
-			}  else {
+			} else {
 				study.setCoordinatingCenterStudyStatus(oldStatus);
 			}
 
@@ -322,58 +327,73 @@ public class StudyServiceImpl implements StudyService {
 			if (study.getId() == null) {
 				return false;
 			}
-			
+
 			CoordinatingCenterStudyStatus evaluatedStatus = evaluateCoordinatingCenterStudyStatus(study);
-			System.out.println ("--------- /n evaluated status is " + evaluateCoordinatingCenterStudyStatus(study).getCode()+ "/n----------");
 			if (newCoordinatingCenterStatus == CoordinatingCenterStudyStatus.ACTIVE) {
-				
-				System.out.println ("-------- In active ) /n  ----------");
-				
+
 				if (((evaluateCoordinatingCenterStudyStatus(study)) == (CoordinatingCenterStudyStatus.PENDING))
 						|| ((evaluatedStatus) == (CoordinatingCenterStudyStatus.AMENDMENT_PENDING))
 						|| ((evaluatedStatus) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL))
 						|| ((evaluatedStatus) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT))) {
 					return false;
-				} else return true;
+				} else
+					return true;
 			}
 			if (newCoordinatingCenterStatus == CoordinatingCenterStudyStatus.AMENDMENT_PENDING) {
-				
-				
-				System.out.println ("-------- In amendment pending ) /n  ----------");
-				
+
 				if (((evaluateCoordinatingCenterStudyStatus(study)) == (CoordinatingCenterStudyStatus.PENDING))
 						|| ((evaluateCoordinatingCenterStudyStatus(study)) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL))
-						|| ((evaluatedStatus) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT))) {
+						|| ((evaluatedStatus) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT))
+						|| ((evaluatedStatus) == (CoordinatingCenterStudyStatus.ACTIVE))) {
 					return false;
-				} else return true;
+				} else
+					return true;
 			}
 
 			if ((newCoordinatingCenterStatus == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL)
 					|| (newCoordinatingCenterStatus == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT)
 					|| (newCoordinatingCenterStatus == CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL)
 					|| (newCoordinatingCenterStatus == CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT)) {
-				System.out.println ("-------- In closed to accrual ) /n  ----------");
 				if (((evaluatedStatus) == (CoordinatingCenterStudyStatus.PENDING))
 						|| ((evaluatedStatus) == (CoordinatingCenterStudyStatus.AMENDMENT_PENDING))) {
 					return false;
-				} else return true;
+				} else
+					return true;
 			}
 
 			if ((newCoordinatingCenterStatus == CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL)
 					|| (newCoordinatingCenterStatus == CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT)) {
-				System.out.println ("-------- In temporarily closed to accrual ) /n  ----------");
 				if (((evaluatedStatus) == (CoordinatingCenterStudyStatus.PENDING))
 						|| ((evaluatedStatus) == (CoordinatingCenterStudyStatus.AMENDMENT_PENDING))
 						|| ((evaluatedStatus) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL))
 						|| ((evaluatedStatus) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT))) {
 					return false;
-				} else return true;
+				} else
+					return true;
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 
 		return true;
+	}
+
+	public Study setSiteStudyStatus(Study study, StudySite studySite,
+			SiteStudyStatus status) throws Exception {
+		if (status == SiteStudyStatus.ACTIVE) {
+			if (evaluateSiteStudyStatus(studySite) == SiteStudyStatus.ACTIVE) {
+				studySite.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
+			}
+		} else if (status == SiteStudyStatus.PENDING) {
+			if ((evaluateSiteStudyStatus(studySite) == SiteStudyStatus.ACTIVE)
+					|| (evaluateSiteStudyStatus(studySite) == SiteStudyStatus.PENDING)) {
+				studySite.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
+			}
+		} else if (status == evaluateSiteStudyStatus(studySite)) {
+			studySite.setSiteStudyStatus(status);
+		}
+
+		return study;
 	}
 
 	public Study merge(Study study) {
