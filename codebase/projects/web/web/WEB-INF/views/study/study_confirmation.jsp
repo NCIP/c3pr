@@ -18,7 +18,7 @@
                     <div class="value">${command.trimmedShortTitleText}</div>
                 </div>
                 <div class="row">
-                    <div class="label">Coordinate Center Study Identifier:</div>
+                    <div class="label">Coordinating Center Study Identifier:</div>
                     <div class="value">${command.organizationAssignedIdentifiers[0].value}</div>
                 </div>
                 <div class="row">
