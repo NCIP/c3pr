@@ -47,7 +47,7 @@
     	<div class="row">
             <div class="label"><span class="required-indicator">Version# :</span></div>
             <div class="value">
-                <form:input	path="currentStudyAmendment.amendmentVersion" cssClass="validate-notEmpty&&NUMERIC" size="5" /> 
+                <form:input	path="currentStudyAmendment.amendmentVersion" cssClass="validate-notEmpty" size="5" /> 
             </div>
         </div>
         <div class="row">
@@ -114,7 +114,7 @@
     	<div class="row">
             <div class="label"><span class="required-indicator">Version# :</span></div>
             <div class="value">
-                <input type="text" name="studyAmendments[${amendmentSize}].amendmentVersion" class="validate-notEmpty&&NUMERIC" size="5" /> 
+                <input type="text" name="studyAmendments[${amendmentSize}].amendmentVersion" class="validate-notEmpty" size="5" /> 
             </div>
         </div>
         <div class="row">
