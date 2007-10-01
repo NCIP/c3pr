@@ -40,6 +40,7 @@ public interface StudyService {
     
     public Study setStatuses(Study study,CoordinatingCenterStudyStatus status) throws Exception;
     
+    public Study setSiteStudyStatus(Study study,StudySite studySite, SiteStudyStatus status) throws Exception;
     
     public Study merge(Study study);
 
