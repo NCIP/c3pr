@@ -31,7 +31,7 @@
             var startAnsRowInserterProps_${epochCount.index}= {
                 add_row_division_id: "table1",
                 skeleton_row_division_id: "dummy-strat-ans-${epochCount.index }",
-                initialIndex: 1,
+                initialIndex: 2,
                 softDelete: ${flowType!='CREATE_STUDY'},
                 row_index_indicator: "NESTED.PAGE.ROW.INDEX",
                 path: "treatmentEpochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers",
@@ -202,6 +202,14 @@
                                        size="30" class="validate-notEmpty"/></td>
                             <td><a
                                     href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},PAGE.ROW.INDEX),0);">
+                                <img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+                        </tr>
+                         <tr id="table1-1">
+                            <td>
+                                <input type="text" name="treatmentEpochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers[1].permissibleAnswer"
+                                       size="30" class="validate-notEmpty"/></td>
+                            <td><a
+                                    href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},PAGE.ROW.INDEX),1);">
                                 <img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
                         </tr>
                     </table>
