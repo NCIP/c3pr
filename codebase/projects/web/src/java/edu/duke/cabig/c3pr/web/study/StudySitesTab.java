@@ -18,7 +18,7 @@ import org.springframework.validation.Errors;
  */
 class StudySitesTab extends StudyTab {
 	
-	private StudyService studyService;
+	/*private StudyService studyService;*/
 
     public StudySitesTab() {
         super("Sites", "Sites", "study/study_studysites");
@@ -44,7 +44,7 @@ class StudySitesTab extends StudyTab {
     }
     
 
-	@Override
+	/*@Override
 	public void postProcess(HttpServletRequest request, Study study,
 			Errors errors) {
 		try {
@@ -61,7 +61,7 @@ class StudySitesTab extends StudyTab {
 
 	public void setStudyService(StudyService studyService) {
 		this.studyService = studyService;
-	}
+	}*/
 
 }
 

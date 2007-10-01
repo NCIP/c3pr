@@ -10,6 +10,8 @@ import org.springframework.web.servlet.ModelAndView;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
+import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 
 /**
@@ -29,18 +31,36 @@ class StudyEmptyTab extends StudyTab {
 	protected ModelAndView postProcessInPlaceEditing(
 			HttpServletRequest request, Study command, String property,
 			String value) {
+		
 		Map<String, String> map = new HashMap<String, String>();
-		CoordinatingCenterStudyStatus statusObject = CoordinatingCenterStudyStatus.getByCode(value);
-			
+		
+		
+		if (property.startsWith("changedSiteStudyStatus")){
+			SiteStudyStatus statusObject = SiteStudyStatus.getByCode(value);
+			int studySiteIndex = Integer.parseInt(property.split("_")[1]);
 			try {
-				studyService.setStatuses(command, statusObject);
+				studyService.setSiteStudyStatus(command,command.getStudySites().get(studySiteIndex),statusObject);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}finally{
+				map.put(getFreeTextModelName(), (command).getStudySites().get(studySiteIndex).getSiteStudyStatus().getCode());
 			}
+			
+		} else{
+			CoordinatingCenterStudyStatus statusObject = CoordinatingCenterStudyStatus.getByCode(value);
 		
+			try {
+				studyService.setStatuses(command, statusObject);
+				map.put(getFreeTextModelName(), (command).getCoordinatingCenterStudyStatus().getCode());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} finally{
+				map.put(getFreeTextModelName(), (command).getCoordinatingCenterStudyStatus().getCode());
+			}
+		}
 		
-		map.put(getFreeTextModelName(), (command).getCoordinatingCenterStudyStatus().getCode());
 		return new ModelAndView("", map);
 	}
 
