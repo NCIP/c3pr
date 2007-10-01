@@ -10,6 +10,28 @@
 <head>
     <link rel="stylesheet" type="text/css" href="/c3pr/public/css/tables1" />
     <script type="text/javascript">
+    
+     function manageAccrualIndicatorSelectBox(box) {
+            if (box.value == 'Yes') {
+                //		document.getElementById('accrualCeiling').style.display='show';
+                Effect.OpenUp('accrualCeiling');
+            }
+            if (box.value == 'No') {
+                	//	document.getElementById('accrualCeiling').style.display='none';
+                Effect.CloseDown('accrualCeiling');
+            }
+        }
+        
+         function manageEnrollingIndicatorSelectBox(box) {
+            if (box.value == 'No') {
+                		//document.getElementById('reservationIndicator').style.display='show';
+                Effect.OpenUp('reservationIndicator');
+            }
+            if (box.value == 'Yes') {
+                		//document.getElementById('reservationIndicator').style.display='none';
+                Effect.CloseDown('reservationIndicator');
+            }
+        }
 
         var armInserterProps= {
             add_row_division_id: "arm",
@@ -174,12 +196,18 @@
                                     <form:options items="${fn:split('Yes,No',',')}" />
                                 </form:select></div>
                             </div>
+                            
+                            <div  id="" <c:if test="${command.nonTreatmentEpochs[nonTreatmentEpochCount.index].enrollmentIndicator=='No'}">
+                                      style="display:none;"
+                           </c:if> >
 
                             <div class="row">
                                 <div class="label">Accrual Ceiling:</div>
                                 <div class="value"><form:input
                                         path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].accrualCeiling"
                                         size="12" maxlength="10" cssClass="validate-numeric" /></div>
+                            </div>
+                            
                             </div>
 
                             <div class="row">
@@ -193,7 +221,9 @@
                                     <form:options items="${fn:split('Yes,No',',')}" />
                                 </form:select></div>
                             </div>
-
+                            
+                            <div
+                             <c:if test="${command.nonTreatmentEpochs[nonTreatmentEpochCount.index].enrollmentIndicator=='Yes'}">style="display:none;"</c:if>>
                             <div class="row">
                                 <div class="label"> <span class="required-indicator">Reservation Indicator:</span>
                                     </div>
@@ -203,6 +233,7 @@
                                     <option value="">--Please Select--</option>
                                     <form:options items="${fn:split('Yes,No',',')}" />
                                 </form:select></div>
+                            </div>
                             </div>
                         </div>
                     </td></tr></table>
@@ -313,14 +344,15 @@
                                 <div class="label"><span class="required-indicator">Accrual Indicator:</span>
                                     </div>
                                 <div class="value"><select
-                                        name="nonTreatmentEpochs[PAGE.ROW.INDEX].accrualIndicator"
+                                        name="nonTreatmentEpochs[PAGE.ROW.INDEX].accrualIndicator" onchange="manageAccrualIndicatorSelectBox(this);"
                                         class="validate-notEmpty">
                                     <option value="">--Please Select--</option>
                                     <option value="Yes">Yes</option>
                                     <option value="No">No</option>
                                 </select></div>
                             </div>
-
+                            
+                            <div id="accrualCeiling" style="display:none">
                             <div class="row">
                                 <div class="label">Accrual Ceiling:</div>
                                 <div class="value"><input type="text"
@@ -328,31 +360,33 @@
                                                           name="nonTreatmentEpochs[PAGE.ROW.INDEX].accrualCeiling" size="12"
                                                           maxlength="10" class="validate-numeric" /></div>
                             </div>
+                            </div>
 
                             <div class="row">
                                 <div class="label"><span class="required-indicator">Enrollment Indicator:</span>
                                     </div>
                                 <div class="value"><select
                                         id="nonTreatmentEpochs[PAGE.ROW.INDEX].enrollmentIndicator"
-                                        name="nonTreatmentEpochs[PAGE.ROW.INDEX].enrollmentIndicator"
+                                        name="nonTreatmentEpochs[PAGE.ROW.INDEX].enrollmentIndicator" onchange="manageEnrollingIndicatorSelectBox(this);"
                                         class="validate-notEmpty">
                                     <option value="">--Please Select--</option>
                                     <option value="Yes">Yes</option>
                                     <option value="No">No</option>
                                 </select></div>
                             </div>
-
+                            
+                            <div id="reservationIndicator" style="display:none">
                             <div class="row">
-                                <div class="label"><span class="required-indicator">Reservation Indicator:</span>
+                                <div class="label"><span>Reservation Indicator:</span>
                                     </div>
                                 <div class="value"><select
                                         id="nonTreatmentEpochs[PAGE.ROW.INDEX].reservationIndicator"
-                                        name="nonTreatmentEpochs[PAGE.ROW.INDEX].reservationIndicator"
-                                        class="validate-notEmpty">
+                                        name="nonTreatmentEpochs[PAGE.ROW.INDEX].reservationIndicator">
                                     <option value="">--Please Select--</option>
                                     <option value="Yes">Yes</option>
                                     <option value="No">No</option>
                                 </select></div>
+                            </div>
                             </div>
                         </div>
                     </td></tr></table>
