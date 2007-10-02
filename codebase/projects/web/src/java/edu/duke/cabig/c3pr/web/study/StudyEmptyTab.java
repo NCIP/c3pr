@@ -52,7 +52,6 @@ class StudyEmptyTab extends StudyTab {
 		
 			try {
 				studyService.setStatuses(command, statusObject);
-				map.put(getFreeTextModelName(), (command).getCoordinatingCenterStudyStatus().getCode());
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

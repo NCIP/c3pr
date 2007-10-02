@@ -310,10 +310,6 @@ public class StudyServiceImpl implements StudyService {
 			}
 
 		}
-		for (int i = 0; i < study.getStudySites().size(); i++) {
-			study.getStudySites().get(i).setSiteStudyStatus(
-					evaluateSiteStudyStatus(study.getStudySites().get(i)));
-		}
 
 		return study;
 	}
@@ -322,40 +318,21 @@ public class StudyServiceImpl implements StudyService {
 			CoordinatingCenterStudyStatus newCoordinatingCenterStatus) {
 
 		try {
-			// For a new study, the coordingating center status should be set to
-			// Pending.
+			// For a new study, the coordingating center status should not be
+			// settable.
 			if (study.getId() == null) {
 				return false;
 			}
 
 			CoordinatingCenterStudyStatus evaluatedStatus = evaluateCoordinatingCenterStudyStatus(study);
+			CoordinatingCenterStudyStatus currentStatus = study
+					.getCoordinatingCenterStudyStatus();
 			if (newCoordinatingCenterStatus == CoordinatingCenterStudyStatus.ACTIVE) {
 
-				if (((evaluateCoordinatingCenterStudyStatus(study)) == (CoordinatingCenterStudyStatus.PENDING))
-						|| ((evaluatedStatus) == (CoordinatingCenterStudyStatus.AMENDMENT_PENDING))
-						|| ((evaluatedStatus) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL))
-						|| ((evaluatedStatus) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT))) {
-					return false;
-				} else
-					return true;
-			}
-			if (newCoordinatingCenterStatus == CoordinatingCenterStudyStatus.AMENDMENT_PENDING) {
-
-				if (((evaluateCoordinatingCenterStudyStatus(study)) == (CoordinatingCenterStudyStatus.PENDING))
-						|| ((evaluateCoordinatingCenterStudyStatus(study)) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL))
-						|| ((evaluatedStatus) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT))
-						|| ((evaluatedStatus) == (CoordinatingCenterStudyStatus.ACTIVE))) {
-					return false;
-				} else
-					return true;
-			}
-
-			if ((newCoordinatingCenterStatus == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL)
-					|| (newCoordinatingCenterStatus == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT)
-					|| (newCoordinatingCenterStatus == CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL)
-					|| (newCoordinatingCenterStatus == CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT)) {
 				if (((evaluatedStatus) == (CoordinatingCenterStudyStatus.PENDING))
-						|| ((evaluatedStatus) == (CoordinatingCenterStudyStatus.AMENDMENT_PENDING))) {
+						|| ((evaluatedStatus) == (CoordinatingCenterStudyStatus.AMENDMENT_PENDING))
+						|| ((currentStatus) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL))
+						|| ((currentStatus) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT))) {
 					return false;
 				} else
 					return true;
@@ -363,10 +340,20 @@ public class StudyServiceImpl implements StudyService {
 
 			if ((newCoordinatingCenterStatus == CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL)
 					|| (newCoordinatingCenterStatus == CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT)) {
-				if (((evaluatedStatus) == (CoordinatingCenterStudyStatus.PENDING))
-						|| ((evaluatedStatus) == (CoordinatingCenterStudyStatus.AMENDMENT_PENDING))
-						|| ((evaluatedStatus) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL))
-						|| ((evaluatedStatus) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT))) {
+				if (((currentStatus) == (CoordinatingCenterStudyStatus.PENDING))
+						|| ((currentStatus) == (CoordinatingCenterStudyStatus.AMENDMENT_PENDING))
+						|| ((currentStatus) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL))
+						|| ((currentStatus) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT))) {
+					return false;
+				} else
+					return true;
+			}
+
+			if ((newCoordinatingCenterStatus == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL)
+					|| (newCoordinatingCenterStatus == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT)) {
+				if (((currentStatus) == (CoordinatingCenterStudyStatus.PENDING))
+						|| ((currentStatus) == (CoordinatingCenterStudyStatus.AMENDMENT_PENDING))
+						|| ((currentStatus) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT))) {
 					return false;
 				} else
 					return true;
@@ -380,19 +367,23 @@ public class StudyServiceImpl implements StudyService {
 
 	public Study setSiteStudyStatus(Study study, StudySite studySite,
 			SiteStudyStatus status) throws Exception {
-		if (status == SiteStudyStatus.ACTIVE) {
-			if (evaluateSiteStudyStatus(studySite) == SiteStudyStatus.ACTIVE) {
-				studySite.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
+		SiteStudyStatus currentSiteStatus = studySite.getSiteStudyStatus();
+		if ((status == SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL)
+				|| (status == SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT)) {
+			if (((currentSiteStatus) == (SiteStudyStatus.ACTIVE))||((currentSiteStatus) == (SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL))){
+				studySite.setSiteStudyStatus(status);
 			}
-		} else if (status == SiteStudyStatus.PENDING) {
-			if ((evaluateSiteStudyStatus(studySite) == SiteStudyStatus.ACTIVE)
-					|| (evaluateSiteStudyStatus(studySite) == SiteStudyStatus.PENDING)) {
-				studySite.setSiteStudyStatus(SiteStudyStatus.PENDING);
-			}
+		} else if ((status == SiteStudyStatus.CLOSED_TO_ACCRUAL)
+				|| (status == SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT)) {
+			if (((currentSiteStatus) == (SiteStudyStatus.PENDING))
+					|| ((currentSiteStatus) == (SiteStudyStatus.AMENDMENT_PENDING))
+					|| ((currentSiteStatus) == (SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT))) {
+				return study;
+			} else
+				studySite.setSiteStudyStatus(status);
 		} else if (status == evaluateSiteStudyStatus(studySite)) {
 			studySite.setSiteStudyStatus(status);
 		}
-
 		return study;
 	}
 
