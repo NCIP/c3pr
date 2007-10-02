@@ -1,0 +1,100 @@
+
+<beans
+        xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:p="http://www.springframework.org/schema/p"
+        xmlns:aop="http://www.springframework.org/schema/aop"
+        xmlns:util="http://www.springframework.org/schema/util"
+        xsi:schemaLocation="
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd
+    ">
+
+    <bean id="csmApplicationContextName" class="java.lang.String">
+        <constructor-arg value="${csm.context.name}"/>
+    </bean>
+
+    <bean name="ACCESS_PRIVILEGE" class="java.lang.String">
+        <constructor-arg value="ACCESS"/>
+    </bean>
+
+    <bean id="authorizationSwitch"
+          class="gov.nih.nci.security.acegi.csm.authorization.AuthorizationSwitch">
+        <property name="on" ref="booleanFromString">
+        </property>
+    </bean>
+
+    <bean id="booleanFromString"
+          class="java.lang.Boolean">
+        <constructor-arg value="${authorizationSwitch}"/>
+    </bean>
+
+    <bean id="csmAuthorizationDao"
+          class="gov.nih.nci.security.dao.DIAuthorizationDao"
+          init-method="init">
+        <property name="sessionFactory">
+            <bean
+                    class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+                <property name="dataSource" ref="dataSource"/>
+                <property name="mappingResources">
+                    <list>
+                        <value>
+                            gov/nih/nci/security/authorization/domainobjects/Privilege.hbm.xml
+                        </value>
+                        <value>
+                            gov/nih/nci/security/authorization/domainobjects/Application.hbm.xml
+                        </value>
+                        <value>
+                            gov/nih/nci/security/authorization/domainobjects/Role.hbm.xml
+                        </value>
+                        <value>
+                            gov/nih/nci/security/dao/hibernate/RolePrivilege.hbm.xml
+                        </value>
+                        <value>
+                            gov/nih/nci/security/dao/hibernate/UserGroup.hbm.xml
+                        </value>
+                        <value>
+                            gov/nih/nci/security/dao/hibernate/ProtectionGroupProtectionElement.hbm.xml
+                        </value>
+                        <value>
+                            gov/nih/nci/security/authorization/domainobjects/Group.hbm.xml
+                        </value>
+                        <value>
+                            gov/nih/nci/security/authorization/domainobjects/User.hbm.xml
+                        </value>
+                        <value>
+                            gov/nih/nci/security/authorization/domainobjects/ProtectionGroup.hbm.xml
+                        </value>
+                        <value>
+                            gov/nih/nci/security/authorization/domainobjects/ProtectionElement.hbm.xml
+                        </value>
+                        <value>
+                            gov/nih/nci/security/authorization/domainobjects/UserGroupRoleProtectionGroup.hbm.xml
+                        </value>
+                        <value>
+                            gov/nih/nci/security/authorization/domainobjects/UserProtectionElement.hbm.xml
+                        </value>
+                    </list>
+                </property>
+                <property name="hibernateProperties" ref="hibernateProperties">
+                </property>
+            </bean>
+        </property>
+        <property name="applicationContextName"
+                  ref="csmApplicationContextName"/>
+    </bean>
+
+
+    <bean id="csmUserProvisioningManager"
+          class="gov.nih.nci.security.provisioning.UserProvisioningManagerImpl">
+        <property name="authorizationDAO" ref="csmAuthorizationDao"/>
+    </bean>
+
+    <bean id="csmAuthenticationManager"
+          class="gov.nih.nci.security.SecurityServiceProvider"
+          factory-method="getAuthenticationManager">
+        <constructor-arg ref="csmApplicationContextName"/>
+    </bean>
+
+</beans>

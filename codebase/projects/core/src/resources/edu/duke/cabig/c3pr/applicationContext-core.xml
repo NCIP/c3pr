@@ -15,11 +15,6 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <bean id="csmApplicationContextName" class="java.lang.String">
-        <constructor-arg value="${csm.context.name}"/>
-    </bean>
-
-
     <bean id="corePropertyConfigurer"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="ignoreUnresolvablePlaceholders" value="true"/>
@@ -198,13 +193,10 @@
         </property>
     </bean>
 
-    <bean name="ACCESS_PRIVILEGE" class="java.lang.String">
-        <constructor-arg value="Access"/>
-    </bean>
 
     <!--Should be in appContext-security and applied thru aop-->
     <bean id="sitePrivilegeAndObjectIdGenerator" class="edu.duke.cabig.c3pr.security.SitePrivilegeAndObjectIdGenerator">
-        <property name="accessPrivilege" value="ACCESS_PRIVILEGE"/>
+        <property name="accessPrivilege" ref="ACCESS_PRIVILEGE"/>
         <property name="pathSeperator" value="."/>
     </bean>
 
