@@ -48,7 +48,7 @@
 				<tr>
 					<td class="alt" align="left" rows="2"><b>Coordinating Center Status:</b></td>
 					<c:set var="commanSepOptVal"
-						value="[['Active','Active'],['Pending','Pending'],['Amendment Pending','Amendment Pending'],
+						value="[['Active','Active'],
 						['Closed To Accrual And Treatment','Closed To Accrual And Treatment'],['Closed To Accrual','Closed To Accrual'],
 						['Temporarily Closed To Accrual And Treatment','Temporarily Closed To Accrual And Treatment'],
 						['Temporarily Closed To Accrual','Temporarily Closed To Accrual']]"></c:set>
@@ -137,7 +137,7 @@
 					<th scope="col" align="left">IRB Approval Date</th>
 				</tr>
 					<c:set var="commanSepOptValSite"
-						value="[['Active','Active'],['Pending','Pending'],['Amendment Pending','Amendment Pending'],
+						value="[['Active','Active'],
 						['Closed To Accrual And Treatment','Closed To Accrual And Treatment'],['Closed To Accrual','Closed To Accrual'],
 						['Temporarily Closed To Accrual And Treatment','Temporarily Closed To Accrual And Treatment'],
 						['Temporarily Closed To Accrual','Temporarily Closed To Accrual']]"></c:set>
