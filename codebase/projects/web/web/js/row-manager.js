@@ -276,8 +276,10 @@ var AbstractRowInserterProps = {
     onLoadRowInitialize: function(object, currentRowIndex){
     						},
 	onLoadInitialize: function(object){
-							for(localInd=0 ; localInd<this.initialIndex ; localInd++)
-								new Element.descendants(object.getColumnDivisionElement(localInd)).each(function(e){e.disabled="true";})
+							if(this.softDelete){
+								for(localInd=0 ; localInd<this.initialIndex ; localInd++)
+									new Element.descendants(object.getColumnDivisionElement(localInd)).each(function(e){e.disabled="true";})
+							}							
 						},    						
     getNestedRowInserter: function(index){
     								return cloned_nested_row_inserters[index]
