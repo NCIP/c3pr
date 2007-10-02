@@ -25,6 +25,7 @@
 	
 var singleHealthcareSiteAutocompleterProps = {
     basename: "healthcareSite",
+     softDelete: ${flowType!='CREATE_STUDY'},
     populator: function(autocompleter, text) {
 
         StudyAjaxFacade.matchHealthcareSites( text,function(values) {
@@ -84,18 +85,17 @@ Event.observe(window, "load", function() {
                     <tr>
                  
                      <td>
-               				<form:hidden id="healthcareSite-hidden"
-                        			path="studySites[0].healthcareSite"
-                      				 />
-                			<input class="validate-notEmpty" type="text" id="healthcareSite-input"
-                       				size="40"
-                      				 value="${command.studySites[0].healthcareSite.name}"/>
+                     		<input type="text" id="healthcareSite-input"
+                       				size="40" class="validate-notEmpty" name="abc"
+                      				/>
+               				<input type="hidden" id="healthcareSite-hidden"
+                        			name="studySites[0].healthcareSite" />
                 				<input type="button" id="healthcareSite-clear"
                        				 value="Clear"/>
                   		 	<tags:indicator id="healthcareSite-indicator"/>
                   			<div id="healthcareSite-choices" class="autocomplete"></div>
            			 </td>
-
+           			 
                         <td>
                         <input type="hidden" name="studySites[0].roleCode" value="Affiliate Site"/>
                             <tags:dateInput path="studySites[0].startDate"/>
@@ -104,8 +104,10 @@ Event.observe(window, "load", function() {
                             <tags:dateInput path="studySites[0].irbApprovalDate"/>
                         </td>
                         <td>
-                            <form:input path="studySites[0].targetAccrualNumber"/>
+                            <form:input id="studySites[0].targetAccrualNumber" path="studySites[0].targetAccrualNumber" 
+                             />
                         </td>
+                        
                     </tr>
             </table>
     </c:when>
@@ -206,9 +208,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
                         <td>
                             <tags:dateInput path="studySites[${status.index}].irbApprovalDate"/>
                         </td>
-                        <td> <input id="studySites[${status.index}].targetAccrualNumber"
-                      	 	name="studySites[${status.index}].targetAccrualNumber"
-                       		type="text"/>
+                        <td> <form:input path="studySites[${status.index}].targetAccrualNumber"/>
             			</td>  
                         <td><a
                                 href="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index});"><img
