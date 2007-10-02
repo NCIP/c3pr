@@ -31,6 +31,7 @@ import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
 import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
+import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
@@ -647,6 +648,11 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 
         XmlMarshaller marshaller = new XmlMarshaller("ccts-registration-castor-mapping.xml");
         StudySubject loaded = studySubjectDao.getById(savedId);
+        SystemAssignedIdentifier systemAssignedIdentifier=new SystemAssignedIdentifier();
+        systemAssignedIdentifier.setType("MRN");
+        systemAssignedIdentifier.setValue("MRN-12A!2121");
+        systemAssignedIdentifier.setSystemName("C3PR");
+        loaded.getParticipant().getSystemAssignedIdentifiers().add(systemAssignedIdentifier);
         String xml = marshaller.toXML(loaded);
         System.out.println(xml);
         assertNotNull(xml);
