@@ -25,8 +25,7 @@
         </property>
 
     </bean>
-
-
+ 
     <aop:aspectj-autoproxy/>
     <aop:spring-configured/>
 
@@ -53,10 +52,10 @@
     <bean id="daoSecurityInterceptorAspectBean"
           class="gov.nih.nci.security.acegi.csm.aop.SecurityInterceptorAspect">
         <property name="securityInterceptor"
-                  ref="daoSecurity"/>
+                  ref="daoSecurityInterceptor"/>
     </bean>
 
-    <bean id="daoSecurityTemplate" abstract="true">
+    <bean id="daoSecurityInterceptorTemplate" abstract="true">
         <property name="authenticationManager"
                   ref="authenticationManager"/>
     </bean>
@@ -75,6 +74,28 @@
 
         <entry key="execution(* edu.duke.cabig.c3pr.dao.StudyDao.get*(..))"
                value="edu.duke.cabig.c3pr.domain.Study:READ"/>
+
+        <entry key="execution(* save(edu.duke.cabig.c3pr.domain.StudySubject))"
+               value="edu.duke.cabig.c3pr.domain.Registration:CREATE"/>
+
+        <entry key="execution(* merge(edu.duke.cabig.c3pr.domain.StudySubject))"
+               value="edu.duke.cabig.c3pr.domain.Registration:UPDATE"/>
+
+        <entry key="execution(* reassociate(edu.duke.cabig.c3pr.domain.StudySubject))"
+               value="edu.duke.cabig.c3pr.domain.Registration:UPDATE"/>
+
+        <entry key="execution(* edu.duke.cabig.c3pr.dao.StudySubjectDao.get*(..))"
+               value="edu.duke.cabig.c3pr.domain.Study:READ"/>
+
+        <entry key="execution(* edu.duke.cabig.c3pr.dao.StudySubjectDao.search*(..))"
+               value="edu.duke.cabig.c3pr.domain.Registration:READ"/>
+
+        <entry key="execution(* edu.duke.cabig.c3pr.dao.StudySubjectDao.advancedSearch(..))"
+               value="edu.duke.cabig.c3pr.domain.Registration:READ"/>
+
+        <entry key="execution(* edu.duke.cabig.c3pr.dao.StudySubjectDao.advancedStudySearch()(..))"
+               value="edu.duke.cabig.c3pr.domain.Study:READ"/>
+
 
     </util:map>
 
@@ -101,7 +122,7 @@
                   ref="joinPointPrivilegeAndObjectIdGenerator"/>
     </bean>
 
-    <bean id="daoSecurity" parent="daoSecurityTemplate"
+    <bean id="daoSecurityInterceptor" parent="daoSecurityInterceptorTemplate"
           class="org.acegisecurity.intercept.method.aspectj.AspectJSecurityInterceptor">
         <property name="objectDefinitionSource">
             <value>
@@ -132,7 +153,7 @@
                 </property>
             </bean>
         </property>
-        <!--<property name="afterInvocationManager"><ref bean="afterInvocationManager"/></property>-->
+        <property name="afterInvocationManager"><ref bean="afterInvocationManager"/></property>
     </bean>
 
 
