@@ -46,7 +46,7 @@
 					<td class="alt" align="left">${command.dataEntryStatus.code}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left" rows="2"><b>Coordinating Center Status:</b></td>
+					<td class="alt" align="left" rows="2"><b>Study Status:</b></td>
 					<c:set var="commanSepOptVal"
 						value="[['Active','Active'],
 						['Closed To Accrual And Treatment','Closed To Accrual And Treatment'],['Closed To Accrual','Closed To Accrual'],
