@@ -41,7 +41,7 @@ public class UserEmailConfirmationAspect {
                     this.mailSender.send(msg);
                 } catch (MailException e) {
                     log.debug("Could not send email due to  " + e.getMessage());
-                    throw e;
+                    //just log it for now
                 }
 
             }
