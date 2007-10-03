@@ -96,6 +96,7 @@
                     Search Criteria:
                 </div>
                 <div class="value">
+                	<input type="hidden" id="activeOnly" name="activeOnly" value="true"/>
                 	<input id="searchText" name="searchText" type="text" value="" size="25"/>
                 	<input type="button" value="Search" onclick="new Element.show('searchStudyInd');new Ajax.Updater('studySearchResults','../registration/searchStudy', {method:'post', postBody:Form.serialize('searchstudyForm'), onSuccess:callbackStudy, onFailure:callbackStudyFail});"/>
                 	<img id="searchStudyInd" src="<tags:imageUrl name="indicator.white.gif"/>"

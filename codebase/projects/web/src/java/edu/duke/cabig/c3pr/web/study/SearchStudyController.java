@@ -57,6 +57,11 @@ public class SearchStudyController extends SimpleFormController {
         } else if ("shortTitle".equals(type))
             study.setShortTitleText(searchtext);
 
+        if(WebUtils.hasSubmitParameter(request, "activeOnly")){
+        	if(request.getParameter("activeOnly").toString().equalsIgnoreCase("true")){
+        		study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+        	}
+        }
         List<Study> studies = studyDao.searchByExample(study, true);
         log.debug("Search results size " + studies.size());
         Map<String, List<Lov>> configMap = configurationProperty.getMap();
