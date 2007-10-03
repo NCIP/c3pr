@@ -138,8 +138,9 @@ public class StudyServiceImpl implements StudyService {
 					|| (latestAmendment.getEligibilityChangedIndicator())
 					|| (latestAmendment.getEpochAndArmsChangedIndicator())
 					|| (latestAmendment.getStratificationChangedIndicator())
-					|| (latestAmendment
-							.getPrincipalInvestigatorChangedIndicator())) {
+					|| (latestAmendment.getPrincipalInvestigatorChangedIndicator())
+							|| (latestAmendment
+									.getRandomizationChangedIndicator())) {
 				return StudyDataEntryStatus.COMPLETE;
 			} else {
 				return StudyDataEntryStatus.INCOMPLETE;
