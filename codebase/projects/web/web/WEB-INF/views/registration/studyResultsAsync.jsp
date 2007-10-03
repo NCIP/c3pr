@@ -57,7 +57,7 @@ function toggleImage(id){
 				</td>
 				<td>${study.primaryIdentifier}</td>
 				<td>${study.trimmedShortTitleText}</td>
-				<td>${study.coordinatingCenterStudyStatus}</td>
+				<td>${study.coordinatingCenterStudyStatus.code}</td>
 				<td>${study.identifiers[0].value}</td>
 				<td>${study.phaseCode}</td>
 				<td>${study.targetAccrualNumber}</td>

@@ -53,7 +53,8 @@ public class BaseStudyAjaxFacade {
         model.addColumn(columnIdentifier);
 
         Column columnStatus = model.getColumnInstance();
-        columnStatus.setProperty("coordinatingCenterStudyStatus");
+        columnStatus.setTitle("Status");
+        columnStatus.setProperty("coordinatingCenterStudyStatus.code");
         model.addColumn(columnStatus);
 
         Column columnAccrual = model.getColumnInstance();
