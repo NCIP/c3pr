@@ -9,11 +9,11 @@ import org.springframework.validation.Errors;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyAmendment;
-import edu.duke.cabig.c3pr.service.impl.StudyServiceImpl;
+import edu.duke.cabig.c3pr.service.StudyService;
 
 public class StudyAmendmentTab extends StudyTab {
 
-
+	private StudyService studyService;
 	public StudyAmendmentTab() {
 		super("Amendment details", "Amendments", "study/study_amendments");
 	}
@@ -86,11 +86,10 @@ public class StudyAmendmentTab extends StudyTab {
 			}
 
 			//Change the status from Active to Pending_amendment.
-			StudyServiceImpl ssImpl = new StudyServiceImpl(); 
 			try{
 				//Changing the status only if ti is currently Active.
 				if(study.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.ACTIVE){
-					study.setCoordinatingCenterStudyStatus(ssImpl.evaluateCoordinatingCenterStudyStatus(study));
+					studyService.setStatuses(study);
 				}
 				
 			}catch(Exception e){
@@ -99,6 +98,14 @@ public class StudyAmendmentTab extends StudyTab {
 			
 		}
 				
+	}
+
+	public StudyService getStudyService() {
+		return studyService;
+	}
+
+	public void setStudyService(StudyService studyService) {
+		this.studyService = studyService;
 	}
 
 }
