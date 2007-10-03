@@ -98,8 +98,6 @@ public class CreateInvestigatorController extends
             if (strUtil.isBlank(contactMechanism.getValue()))
                 cMIterator.remove();
         }
-        inv.addGroup(C3PRUserGroupType.INVESTIGATOR);
-
 
         try {
         	if(request.getSession().getAttribute(FLOW).equals(SAVE_FLOW)){

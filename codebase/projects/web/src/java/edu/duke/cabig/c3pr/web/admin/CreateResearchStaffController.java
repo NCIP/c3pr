@@ -71,15 +71,22 @@ public class CreateResearchStaffController extends AbstractCreateC3PRUserControl
 				rs.addGroup(C3PRUserGroupType.C3PR_ADMIN);
 	            rs.addGroup(C3PRUserGroupType.REGISTRAR);
 	            rs.addGroup(C3PRUserGroupType.STUDY_COORDINATOR);
-			}
+                rs.addGroup(C3PRUserGroupType.SITE_COORDINATOR);
+            }
 			if(gSize == 1){
 				rs.addGroup(C3PRUserGroupType.REGISTRAR);
-	            rs.addGroup(C3PRUserGroupType.STUDY_COORDINATOR);   
-			}			
+	            rs.addGroup(C3PRUserGroupType.STUDY_COORDINATOR);
+                rs.addGroup(C3PRUserGroupType.SITE_COORDINATOR);
+            }
 			if(gSize == 2){
-				rs.addGroup(C3PRUserGroupType.STUDY_COORDINATOR);   
-			}
-			request.getSession().setAttribute(FLOW, EDIT_FLOW);
+				rs.addGroup(C3PRUserGroupType.STUDY_COORDINATOR);
+                rs.addGroup(C3PRUserGroupType.SITE_COORDINATOR);
+            }
+            if(gSize == 1){
+                rs.addGroup(C3PRUserGroupType.SITE_COORDINATOR);
+            }
+            
+            request.getSession().setAttribute(FLOW, EDIT_FLOW);
         } else {
         	rs = new ResearchStaff();
         	rs.setVersion(Integer.parseInt("1"));
@@ -87,7 +94,8 @@ public class CreateResearchStaffController extends AbstractCreateC3PRUserControl
         	addContactsToResearchStaff(rs);
             rs.addGroup(C3PRUserGroupType.C3PR_ADMIN);
             rs.addGroup(C3PRUserGroupType.REGISTRAR);
-            rs.addGroup(C3PRUserGroupType.STUDY_COORDINATOR);            
+            rs.addGroup(C3PRUserGroupType.STUDY_COORDINATOR);
+            rs.addGroup(C3PRUserGroupType.SITE_COORDINATOR);
             request.getSession().setAttribute(FLOW, SAVE_FLOW);
         }        
 

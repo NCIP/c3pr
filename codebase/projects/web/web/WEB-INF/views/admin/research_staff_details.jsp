@@ -169,6 +169,16 @@
             </div>
         </div>
 
+          <div class="row">
+            <div class="label">
+                    ${command.groups[3].displayName}:
+            </div>
+            <div class="value">
+                <form:checkbox
+                            path="groups[3]" value="${command.groups[3].code}"/>
+            </div>
+        </div>
+
 
     </div>
 

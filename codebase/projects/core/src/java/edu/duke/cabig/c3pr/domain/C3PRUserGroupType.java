@@ -16,7 +16,8 @@ public enum C3PRUserGroupType implements CodedEnum<String> {
     C3PR_ADMIN ("c3pr_admin"),
     STUDY_COORDINATOR("study_coordinator"),
     REGISTRAR("registrar"),
-    INVESTIGATOR("investigator")
+    SITE_COORDINATOR("site_coordinator")
+
     ;
 
     private String code;
