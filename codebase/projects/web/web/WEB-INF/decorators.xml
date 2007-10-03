@@ -34,7 +34,7 @@
         <pattern>/*/image/*</pattern>
         <pattern>/*/js/*</pattern>
         <pattern>/*/css/*</pattern>
-        <pattern>/decorated-error.jsp</pattern>
+        <pattern>/*/decorated-error.jsp</pattern>
         <pattern>/pages/registration/searchStudy</pattern>
         <pattern>/pages/registration/searchParticipant</pattern>
         <pattern>/pages/registration/searchEpoch*</pattern>
