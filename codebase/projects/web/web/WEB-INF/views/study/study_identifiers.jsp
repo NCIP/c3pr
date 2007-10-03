@@ -52,9 +52,11 @@ var organizationIdentifierRowInserterProps = {
 		   AutocompleterManager.registerAutoCompleter(clonedRowInserter);
 	   },
        onLoadRowInitialize: function(object, currentRowIndex){
-			clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
-			clonedRowInserter.basename=clonedRowInserter.basename+currentRowIndex;
-			AutocompleterManager.registerAutoCompleter(clonedRowInserter);
+       		if(currentRowIndex>object.initialIndex){
+				clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
+				clonedRowInserter.basename=clonedRowInserter.basename+currentRowIndex;
+				AutocompleterManager.registerAutoCompleter(clonedRowInserter);
+			}
        }
 };
 RowManager.addRowInseter(systemIdentifierRowInserterProps);
@@ -82,7 +84,7 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 					begin="0" varStatus="organizationStatus">
 					<c:choose>
 					<c:when test="${(orgIdentifier.type eq 'Protocol Authority Identifier') || (orgIdentifier.type eq 'Coordinating Center Identifier')}">
-					<tr>
+					<tr id="organizationIdentifier-${organizationStatus.index}">
 						<td>${orgIdentifier.healthcareSite.name}</td>
 						<td>${orgIdentifier.type}</td>
 						<td>${orgIdentifier.value}</td>
