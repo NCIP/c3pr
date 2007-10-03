@@ -7,6 +7,9 @@ class RefactorStudyParticipantAssignment extends edu.northwestern.bioinformatics
 	    	execute("rename study_participant_assig_id_seq to seq_study_participant_assig_id")
 	 	}
         renameTable('study_participant_assignments', 'study_subjects')
+        if (databaseMatches('oracle')) {
+	    	    execute("rename seq_study_subjects_ID to study_subjects_ID_SEQ")
+	 	    }
         dropColumn('study_subjects','eligibility_indicator')
         dropColumn('study_subjects','eligibility_waiver_reason_text')   
         dropColumn('study_subjects','study_participant_identifier')   
