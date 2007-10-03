@@ -1,8 +1,8 @@
 package edu.duke.cabig.c3pr.accesscontrol;
 
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+import gov.nih.nci.cabig.ctms.domain.MutableDomainObject;
 import gov.nih.nci.security.acegi.csm.authorization.CSMAuthorizationCheck;
-import org.acegisecurity.*;
+import gov.nih.nci.security.constants.Constants;
 import org.acegisecurity.afterinvocation.AfterInvocationProvider;
 import org.apache.log4j.Logger;
 
@@ -23,11 +23,11 @@ import java.util.LinkedHashMap;
  */
 public class SiteSecurityAfterInvocationCollectionFilteringProvider implements AfterInvocationProvider {
 
-    private String accessPrivilege = "Access";
+    private String accessPrivilege = Constants.CSM_ACCESS_PRIVILEGE;
 
     private String processConfigAttribute;
     private LinkedHashMap domainObjectSiteSecurityAuhthorizationCheckProvidersMap;
-    private Class processDomainObjectClass = AbstractMutableDomainObject.class;
+    private Class processDomainObjectClass = MutableDomainObject.class;
 
     private Logger log = Logger.getLogger(SiteSecurityAfterInvocationCollectionFilteringProvider.class);
 
@@ -66,7 +66,8 @@ public class SiteSecurityAfterInvocationCollectionFilteringProvider implements A
 
             boolean hasPermission = false;
 
-            if (domainObject == null  || !getProcessDomainObjectClass().isAssignableFrom(returnedObject.getClass())) {
+            if (domainObject == null  || !getProcessDomainObjectClass().isAssignableFrom(domainObject.getClass())) {
+                log.debug("Unsupported domain object in collection. Skipping authorization check");
                 hasPermission = true;
             }
             else{

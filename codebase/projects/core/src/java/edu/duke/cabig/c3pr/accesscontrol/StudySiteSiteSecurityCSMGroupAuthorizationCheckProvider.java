@@ -3,10 +3,9 @@ package edu.duke.cabig.c3pr.accesscontrol;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
-import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
+import gov.nih.nci.security.acegi.csm.authorization.CSMAuthorizationCheck;
 import gov.nih.nci.security.acegi.csm.authorization.CSMGroupAuthorizationCheck;
 import gov.nih.nci.security.acegi.csm.authorization.CSMObjectIdGenerator;
-import gov.nih.nci.security.acegi.csm.authorization.CSMAuthorizationCheck;
 import org.acegisecurity.Authentication;
 import org.apache.log4j.Logger;
 
@@ -41,11 +40,13 @@ public class StudySiteSiteSecurityCSMGroupAuthorizationCheckProvider implements 
                     if(hasPermission)
                         break;
                 }
-            }else{
-                log.debug("Unsupported object sent to StudySiteSiteSecurityCSMGroupAuthorizationCheckProvider. Expecting Study object found " + domainObject.getClass().getName());
+            }
+            else{
                 hasPermission = true;
             }
-
+        }
+        else{
+                log.debug("Unsupported object sent to StudySiteSiteSecurityCSMGroupAuthorizationCheckProvider. Expecting Study object found " + domainObject.getClass().getName());
         }
         return hasPermission;
     }
