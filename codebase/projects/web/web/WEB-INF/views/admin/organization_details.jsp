@@ -60,7 +60,12 @@
             NCI Institute Code:
         </div>
         <div class="value">
-            <form:input path="nciInstituteCode" size="20" cssClass="validate-notEmpty"/>
+	        <c:if test="${FLOW == 'EDIT_FLOW'}">
+	            <form:input path="nciInstituteCode" size="20" cssClass="validate-notEmpty" disabled="true"/>
+	        </c:if>
+	        <c:if test="${FLOW == 'SAVE_FLOW'}">
+                <form:input path="nciInstituteCode" size="20" cssClass="validate-notEmpty"/>
+	        </c:if>
         </div>
     </div>
     </chrome:division>

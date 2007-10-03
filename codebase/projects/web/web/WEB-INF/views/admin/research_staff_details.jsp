@@ -38,12 +38,22 @@
                 Choose an Organization
             </div>
             <div class="value">
-                <form:select path="healthcareSite"
-                             id="selectedHealthcareSite" cssClass="validate-notEmpty">
-                    <option value="">--Please Select--</option>
-                    <form:options items="${healthcareSites}" itemLabel="name"
-                                  itemValue="id" />
-                </form:select>
+            	<c:if test="${FLOW == 'EDIT_FLOW'}">
+		            <form:select path="healthcareSite"
+	                             id="selectedHealthcareSite" cssClass="validate-notEmpty" disabled="true">
+	                    <option value="">--Please Select--</option>
+	                    <form:options items="${healthcareSites}" itemLabel="name"
+	                                  itemValue="id" />
+	                </form:select> 
+		        </c:if>
+		        <c:if test="${FLOW == 'SAVE_FLOW'}">
+	                <form:select path="healthcareSite"
+	                             id="selectedHealthcareSite" cssClass="validate-notEmpty">
+	                    <option value="">--Please Select--</option>
+	                    <form:options items="${healthcareSites}" itemLabel="name"
+	                                  itemValue="id" />
+	                </form:select> 
+		        </c:if>
             </div>
         </div>
     </div>
