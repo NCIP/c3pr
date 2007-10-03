@@ -133,13 +133,13 @@ public class StudyServiceImpl implements StudyService {
 					&& (latestAmendment.getIrbApprovalDate().after(new Date()))) {
 				return StudyDataEntryStatus.INCOMPLETE;
 			}
-			if ((latestAmendment.getConsentChangedIndicator() == true)
-					|| (latestAmendment.getDiseasesChangedIndicator() == true)
-					|| (latestAmendment.getEligibilityChangedIndicator() == true)
-					|| (latestAmendment.getEpochAndArmsChangedIndicator() == true)
-					|| (latestAmendment.getStratificationChangedIndicator() == true)
+			if ((latestAmendment.getConsentChangedIndicator())
+					|| (latestAmendment.getDiseasesChangedIndicator())
+					|| (latestAmendment.getEligibilityChangedIndicator())
+					|| (latestAmendment.getEpochAndArmsChangedIndicator())
+					|| (latestAmendment.getStratificationChangedIndicator())
 					|| (latestAmendment
-							.getPrincipalInvestigatorChangedIndicator() == true)) {
+							.getPrincipalInvestigatorChangedIndicator())) {
 				return StudyDataEntryStatus.COMPLETE;
 			} else {
 				return StudyDataEntryStatus.INCOMPLETE;
@@ -183,7 +183,8 @@ public class StudyServiceImpl implements StudyService {
 			return SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT;
 		}
 
-		if (studySite.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.AMENDMENT_PENDING) {
+		if ((studySite.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.AMENDMENT_PENDING)
+				&& (studySite.getSiteStudyStatus() == SiteStudyStatus.ACTIVE)) {
 			return SiteStudyStatus.AMENDMENT_PENDING;
 		}
 		if (studySite.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.ACTIVE) {
@@ -303,7 +304,7 @@ public class StudyServiceImpl implements StudyService {
 			study
 					.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
 		} else {
-			if (statusSettable(study, targetStatus) == true) {
+			if (statusSettable(study, targetStatus)) {
 				study.setCoordinatingCenterStudyStatus(targetStatus);
 			} else {
 				study.setCoordinatingCenterStudyStatus(oldStatus);
@@ -370,7 +371,8 @@ public class StudyServiceImpl implements StudyService {
 		SiteStudyStatus currentSiteStatus = studySite.getSiteStudyStatus();
 		if ((status == SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL)
 				|| (status == SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT)) {
-			if (((currentSiteStatus) == (SiteStudyStatus.ACTIVE))||((currentSiteStatus) == (SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL))){
+			if (((currentSiteStatus) == (SiteStudyStatus.ACTIVE))
+					|| ((currentSiteStatus) == (SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL))) {
 				studySite.setSiteStudyStatus(status);
 			}
 		} else if ((status == SiteStudyStatus.CLOSED_TO_ACCRUAL)
