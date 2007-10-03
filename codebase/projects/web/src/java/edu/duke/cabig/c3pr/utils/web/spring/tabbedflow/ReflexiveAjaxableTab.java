@@ -2,14 +2,13 @@ package edu.duke.cabig.c3pr.utils.web.spring.tabbedflow;
 
 import java.lang.reflect.Method;
 
-import edu.duke.cabig.c3pr.utils.web.CustomMethodInvocater;
-import gov.nih.nci.cabig.ctms.web.tabs.Tab;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
+
+import edu.duke.cabig.c3pr.utils.web.CustomMethodInvocater;
 
 /**
  * @author Rhett Sutphin

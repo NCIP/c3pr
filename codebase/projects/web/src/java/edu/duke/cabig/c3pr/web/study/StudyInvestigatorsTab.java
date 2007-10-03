@@ -1,12 +1,12 @@
 package edu.duke.cabig.c3pr.web.study;
 
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyInvestigator;
-import edu.duke.cabig.c3pr.domain.StudySite;
-import org.springframework.validation.Errors;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
+
+import org.springframework.validation.Errors;
+
+import edu.duke.cabig.c3pr.domain.Study;
 
 /**
  * Created by IntelliJ IDEA.
