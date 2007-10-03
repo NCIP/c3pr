@@ -87,6 +87,7 @@ Event.observe(window, "load", function() {
                      <td>
                      		<input type="text" id="healthcareSite-input"
                        				size="40" class="validate-notEmpty" name="abc"
+                       				value="${command.studySites[0].healthcareSite.name}"
                       				/>
                				<input type="hidden" id="healthcareSite-hidden"
                         			name="studySites[0].healthcareSite" />
