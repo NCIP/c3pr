@@ -13,6 +13,10 @@ class RefactorStudyOrganizations extends edu.northwestern.bioinformatics.bering.
 	 	    }
 
 			renameTable('STUDY_SITES', 'STUDY_ORGANIZATIONS')
+			
+			 if (databaseMatches('oracle')) {
+	    	    execute("rename seq_STUDY_ORGANIZATIONS_ID to STUDY_ORGANIZATIONS_ID_SEQ")
+	 	    }
 
 			if (databaseMatches('postgres')) {
 	 		 execute("ALTER TABLE STUDY_ORGANIZATIONS ALTER COLUMN id SET DEFAULT nextval('STUDY_ORGANIZATIONS_ID_SEQ'::regclass)")	   
