@@ -85,12 +85,12 @@ Event.observe(window, "load", function() {
                     <tr>
                  
                      <td>
-                     		<input type="text" id="healthcareSite-input"
-                       				size="40" class="validate-notEmpty" name="abc"
-                       				value="${command.studySites[0].healthcareSite.name}"
-                      				/>
-               				<input type="hidden" id="healthcareSite-hidden"
-                        			name="studySites[0].healthcareSite" />
+               				<form:hidden id="healthcareSite-hidden"
+                        			path="studySites[0].healthcareSite"
+                      				 />
+                			<input class="validate-notEmpty" type="text" id="healthcareSite-input"
+                       				size="40"
+                      				 value="${command.studySites[0].healthcareSite.name}"/>
                 				<input type="button" id="healthcareSite-clear"
                        				 value="Clear"/>
                   		 	<tags:indicator id="healthcareSite-indicator"/>
