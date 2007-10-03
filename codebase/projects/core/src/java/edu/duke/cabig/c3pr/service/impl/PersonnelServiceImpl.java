@@ -3,7 +3,6 @@ package edu.duke.cabig.c3pr.service.impl;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.domain.*;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
-import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.service.PersonnelService;
 import gov.nih.nci.security.UserProvisioningManager;
 import gov.nih.nci.security.acegi.csm.authorization.CSMObjectIdGenerator;
@@ -14,8 +13,6 @@ import gov.nih.nci.security.exceptions.CSObjectNotFoundException;
 import gov.nih.nci.security.exceptions.CSTransactionException;
 import org.apache.log4j.Logger;
 import org.springframework.mail.MailException;
-import org.springframework.mail.MailSender;
-import org.springframework.mail.SimpleMailMessage;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -31,40 +28,29 @@ import java.util.Set;
 public class PersonnelServiceImpl implements PersonnelService {
 
     private ResearchStaffDao dao;
-
     private UserProvisioningManager userProvisioningManager;
     private CSMObjectIdGenerator siteObjectIdGenerator;
 
-    private MailSender mailSender;
-    private SimpleMailMessage accountCreatedTemplateMessage;
 
     private Logger log = Logger.getLogger(PersonnelServiceImpl.class);
 
-    private void save(C3PRUser c3prUser) throws C3PRBaseException, C3PRBaseRuntimeException {
-
-        gov.nih.nci.security.authorization.domainobjects.User csmUser = new gov.nih.nci.security.authorization.domainobjects.User();
-        String emailId = null;
-
-        for (ContactMechanism cm : c3prUser.getContactMechanisms()) {
-            if (cm.getType().equals(ContactMechanismType.EMAIL)) {
-                emailId = cm.getValue();
-                csmUser.setLoginName(emailId);
-                csmUser.setEmailId(emailId);
-                c3prUser.setLoginId(csmUser.getLoginName());
-            } else if (cm.getType().equals(ContactMechanismType.PHONE))
-                csmUser.setPhoneNumber(cm.getValue());
-        }
-
-        csmUser.setFirstName(c3prUser.getFirstName());
-        csmUser.setLastName(c3prUser.getLastName());
-        csmUser.setPassword(c3prUser.getLastName());
-
-        //do this last. Any exception will rollback the c3pr transaction
+    private void save(C3PRUser c3prUser, gov.nih.nci.security.authorization.domainobjects.User csmUser)
+            throws C3PRBaseException, MailException {
         try {
-            userProvisioningManager.createUser(csmUser);
-            c3prUser.setLoginId(csmUser.getUserId().toString());
+            if(csmUser == null){
+                csmUser = new gov.nih.nci.security.authorization.domainobjects.User();
+                populateCSMUser(c3prUser,csmUser);
+                userProvisioningManager.createUser(csmUser);
+            }
+
+            else{
+                populateCSMUser(c3prUser,csmUser);
+                userProvisioningManager.modifyUser(csmUser);
+            }
+
             log.debug("Saving c3pr user");
             dao.save(c3prUser);
+            c3prUser.setLoginId(csmUser.getUserId().toString());
 
             for (C3PRUserGroupType group : c3prUser.getGroups()) {
                 assignUserToGroup(csmUser, group.getCode());
@@ -72,32 +58,18 @@ public class PersonnelServiceImpl implements PersonnelService {
         } catch (CSTransactionException e) {
             throw new C3PRBaseException("Could not create user", e);
         }
-
-        try {
-            SimpleMailMessage msg = new SimpleMailMessage(this.accountCreatedTemplateMessage);
-            msg.setTo(emailId);
-            msg.setText("An account has been created for you.\n" +
-                    " Username:" + csmUser.getLoginName() + " Password:" + csmUser.getPassword() + "" +
-                    "\n -c3pr admin");
-            this.mailSender.send(msg);
-        } catch (MailException e) {
-            throw new C3PRBaseRuntimeException("Could not send confirmation email to user", e);
-        }
     }
 
-    public void save(Investigator inv) throws C3PRBaseException, C3PRBaseRuntimeException {
+
+
+    public void save(Investigator inv) throws C3PRBaseException {
         log.debug("Saving Investigator");
-        save((C3PRUser) inv);
+        dao.save(inv);
     }
 
 
-    public void save(ResearchStaff staff) throws C3PRBaseException, C3PRBaseRuntimeException {
-        log.debug("Saving Research Staff");
-        try {
-            save((C3PRUser) staff);
-        } catch (C3PRBaseRuntimeException e) {
-            //ignore because its a mail send exception
-        }
+    public void save(ResearchStaff staff) throws C3PRBaseException {
+        save(staff,null);
 
         try {
             User csmUser = getCSMUser(staff);
@@ -107,15 +79,20 @@ public class PersonnelServiceImpl implements PersonnelService {
         } catch (CSObjectNotFoundException e) {
             new C3PRBaseException("Could not assign user to organization group.");
         }
-
     }
 
-    public void merge(Investigator user) throws C3PRBaseException, C3PRBaseRuntimeException{
+    public void merge(Investigator user) throws C3PRBaseException {
         dao.save((C3PRUser)user);
     }
 
-    public void merge(ResearchStaff user) throws C3PRBaseException, C3PRBaseRuntimeException{
-        dao.save((C3PRUser)user);
+    public void merge(ResearchStaff staff) throws C3PRBaseException {
+        try {
+            User csmUser = getCSMUser(staff);
+            save(staff, csmUser);
+        } catch (CSObjectNotFoundException e) {
+            new C3PRBaseException("Could not save Research staff" + e.getMessage());
+        }
+
     }
 
     private void assignUserToGroup(User csmUser, String groupName) throws C3PRBaseException {
@@ -146,6 +123,20 @@ public class PersonnelServiceImpl implements PersonnelService {
     }
 
 
+    private  void populateCSMUser(C3PRUser c3prUser,gov.nih.nci.security.authorization.domainobjects.User csmUser){
+        csmUser.setFirstName(c3prUser.getFirstName());
+        csmUser.setLastName(c3prUser.getLastName());
+        csmUser.setPassword(c3prUser.getLastName());
+
+
+        for (ContactMechanism cm : c3prUser.getContactMechanisms()) {
+            if (cm.getType().equals(ContactMechanismType.EMAIL)) {
+                csmUser.setLoginName(cm.getValue());
+                csmUser.setEmailId(cm.getValue());
+            }
+        }
+    }
+
     //spring settters
     public UserProvisioningManager getUserProvisioningManager() {
         return userProvisioningManager;
@@ -173,19 +164,5 @@ public class PersonnelServiceImpl implements PersonnelService {
         this.siteObjectIdGenerator = siteObjectIdGenerator;
     }
 
-    public MailSender getMailSender() {
-        return mailSender;
-    }
 
-    public void setMailSender(MailSender mailSender) {
-        this.mailSender = mailSender;
-    }
-
-    public SimpleMailMessage getAccountCreatedTemplateMessage() {
-        return accountCreatedTemplateMessage;
-    }
-
-    public void setAccountCreatedTemplateMessage(SimpleMailMessage accountCreatedTemplateMessage) {
-        this.accountCreatedTemplateMessage = accountCreatedTemplateMessage;
-    }
 }

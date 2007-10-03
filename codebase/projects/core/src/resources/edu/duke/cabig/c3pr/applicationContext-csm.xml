@@ -77,7 +77,8 @@
                         </value>
                     </list>
                 </property>
-                <property name="hibernateProperties" ref="hibernateProperties">
+                <property name="hibernateProperties">
+                    <ref bean="hibernateProperties"/>
                 </property>
             </bean>
         </property>

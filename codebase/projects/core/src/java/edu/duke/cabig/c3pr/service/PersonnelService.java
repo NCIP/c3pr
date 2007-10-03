@@ -18,19 +18,29 @@ import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 public interface PersonnelService {
 
 
-    public void save(Investigator user) throws C3PRBaseException, C3PRBaseRuntimeException;
+    public void save(Investigator user) throws C3PRBaseException;
 
     /**
      * Will save Research Staff and add appropriate data into CSM
      *
-     * @param user
+     * @param staff
      * @throws C3PRBaseException
      * @throws C3PRBaseRuntimeException
      */
-    public void save(ResearchStaff user) throws C3PRBaseException, C3PRBaseRuntimeException;
-    
-    public void merge(Investigator user) throws C3PRBaseException, C3PRBaseRuntimeException;
-    
-    public void merge(ResearchStaff user) throws C3PRBaseException, C3PRBaseRuntimeException;
+    public void save(ResearchStaff staff) throws C3PRBaseException;
+
+    /**
+     * Used to update Investigator domain object
+     * @param user
+     * @throws C3PRBaseException
+     */
+    public void merge(Investigator user) throws C3PRBaseException;
+
+    /**
+     * Used to update ResearchStaff domain object
+     * @param staff
+     * @throws C3PRBaseException
+     */
+    public void merge(ResearchStaff staff) throws C3PRBaseException;
 
 }

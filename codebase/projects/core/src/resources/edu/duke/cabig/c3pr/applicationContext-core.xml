@@ -207,6 +207,9 @@
         <property name="username" value="${outgoing.mail.username}"/>
     </bean>
 
+    <bean id="confirmationEmailer" class="edu.duke.cabig.c3pr.aspects.UserEmailConfirmationAspect"
+        autowire="byType"/>
+
     <!-- this is a template message that we can pre-load with default state -->
     <bean id="accountCreatedTemplateMessage" class="org.springframework.mail.SimpleMailMessage">
         <property name="from" value="${outgoing.mail.from.address}"/>
