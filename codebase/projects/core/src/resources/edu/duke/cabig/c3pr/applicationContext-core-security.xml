@@ -190,7 +190,7 @@
     <bean id="siteSecurityCollectionFilter" class="edu.duke.cabig.c3pr.accesscontrol.SiteSecurityAfterInvocationCollectionFilteringProvider">
         <property name="processConfigAttribute"
                   value="CSM_AUTHN_CHECK"/>
-        <property name="accessPrivilege" value="ACCESS_PRIVILEGE"/>
+        <property name="accessPrivilege" ref="ACCESS_PRIVILEGE"/>
         <property name="domainObjectSiteSecurityAuhthorizationCheckProvidersMap"
                   ref="domainObjectSiteSecurityAuhthorizationCheckProvidersMap"/>
     </bean>
@@ -198,7 +198,7 @@
     <bean id="siteSecurityBasicAuthCheck" class="edu.duke.cabig.c3pr.accesscontrol.SiteSecurityAfterInvocationBasicAuthorizationCheckProvider">
         <property name="processConfigAttribute"
                   value="CSM_AUTHN_CHECK"/>
-        <property name="accessPrivilege" value="ACCESS_PRIVILEGE"/>
+        <property name="accessPrivilege" ref="ACCESS_PRIVILEGE"/>
         <property name="domainObjectSiteSecurityAuhthorizationCheckProvidersMap"
                   ref="domainObjectSiteSecurityAuhthorizationCheckProvidersMap"/>
     </bean>
