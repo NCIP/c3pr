@@ -4,6 +4,10 @@ import gov.nih.nci.cabig.ctms.domain.MutableDomainObject;
 import gov.nih.nci.security.acegi.csm.authorization.CSMAuthorizationCheck;
 import gov.nih.nci.security.constants.Constants;
 import org.acegisecurity.afterinvocation.AfterInvocationProvider;
+import org.acegisecurity.AccessDeniedException;
+import org.acegisecurity.Authentication;
+import org.acegisecurity.ConfigAttributeDefinition;
+import org.acegisecurity.ConfigAttribute;
 import org.apache.log4j.Logger;
 
 import java.util.Collection;
