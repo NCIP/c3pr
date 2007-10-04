@@ -17,6 +17,7 @@ import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.NonTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
@@ -583,5 +584,11 @@ public class StudySubjectDaoTest extends DaoTestCase {
         }
         interruptSession();
     }
-	
+    
+    public void testScheduledEpochSearchByExample() throws Exception{
+		ScheduledNonTreatmentEpoch scheduledEpoch=new ScheduledNonTreatmentEpoch(true);
+		scheduledEpoch.setNonTreatmentEpoch((NonTreatmentEpoch)epochDao.getById(1005));
+		List<StudySubject> list=studySubjectDao.searchByScheduledEpoch(scheduledEpoch);
+		assertEquals("Wrong number of scheduled epochs", 1, list.size());
+	}
 }
