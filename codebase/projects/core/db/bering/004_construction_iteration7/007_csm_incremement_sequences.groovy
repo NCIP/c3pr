@@ -20,8 +20,8 @@ class CSMIncrememntCSMSequences extends edu.northwestern.bioinformatics.bering.M
             execute("DROP SEQUENCE CSM_PROTECTIO_PROTECTION_E_SEQ");
             execute("CREATE SEQUENCE CSM_PROTECTIO_PROTECTION_E_SEQ start with 9 increment by 1 NOMAXVALUE minvalue 1 nocycle nocache noorder");
 
-            execute("DROP SEQUENCE CSM_PG_PE_ID_SEQ");
-            execute("CREATE SEQUENCE CSM_PG_PE_ID_SEQ start with 9 increment by 1 NOMAXVALUE minvalue 1 nocycle nocache noorder");
+            execute("DROP SEQUENCE CSM_PG_PE_PG_PE_ID_SEQ");
+            execute("CREATE SEQUENCE CSM_PG_PE_PG_PE_ID_SEQ start with 9 increment by 1 NOMAXVALUE minvalue 1 nocycle nocache noorder");
 
             execute("DROP SEQUENCE CSM_USER_GROU_USER_GROUP_R_SEQ");
             execute("CREATE SEQUENCE CSM_USER_GROU_USER_GROUP_R_SEQ start with 34 increment by 1 NOMAXVALUE minvalue 1 nocycle nocache noorder");
