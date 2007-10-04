@@ -70,7 +70,7 @@ function toggleImage(id){
 						<table width="50%" height="0" border="0" cellspacing="0" cellpadding="0" class="tableRegion">
 							<thead>
 							<tr>
-								<td class="tableHeader">Healthcare Site</td>
+								<td class="tableHeader">Site</td>
 								<td class="tableHeader">IRB Approval Date</td>
 							</tr>
 							</thead>

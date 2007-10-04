@@ -29,7 +29,7 @@
 		<c:choose>
 		<c:when test="${!command.scheduledEpoch.requiresArm}">
 			<tr>
-				<td> The selected epoch does not involve Assigning Arm.</td>
+				<td><br/><b>The selected epoch does not involve assigning an arm.</b></td>
 			</tr>
 		</c:when>
 		<c:when test="${!command.scheduledEpoch.requiresRandomization}">
