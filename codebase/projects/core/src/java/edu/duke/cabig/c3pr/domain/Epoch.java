@@ -1,7 +1,5 @@
 package edu.duke.cabig.c3pr.domain;
 
-import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
-
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
@@ -66,7 +64,31 @@ public abstract class Epoch extends AbstractMutableDeletableDomainObject impleme
 		epoch.setName(epochName);
 		return epoch;
 	}
-
+	
+	@Transient
+	public boolean getRequiresArm(){
+		if (this instanceof TreatmentEpoch) {
+			TreatmentEpoch epoch = (TreatmentEpoch) this;
+			return this.getRequiresRandomization()||epoch.getArms().size()>0;
+		}
+		return false;
+	}
+	
+	@Transient
+	public boolean isReserving(){
+		if (this instanceof NonTreatmentEpoch) {
+			NonTreatmentEpoch epoch = (NonTreatmentEpoch) this;
+			return epoch.getReservationIndicator().equalsIgnoreCase("yes");
+		}
+		return false;
+	}
+	@Transient
+	public boolean getRequiresRandomization(){
+		if (this instanceof TreatmentEpoch) {
+			return ((TreatmentEpoch)this).getRandomization()!=null;
+		}
+		return false;
+	}
 	public String getName() {
 		return name;
 	}

@@ -43,6 +43,18 @@ public abstract class ScheduledEpoch extends AbstractMutableDeletableDomainObjec
 		return disapprovalReasonText;
 	}
 
+	public ScheduledEpoch() {
+		this.startDate=new Date();
+		this.scEpochWorkflowStatus=ScheduledEpochWorkFlowStatus.UNAPPROVED;
+	}
+
+	public ScheduledEpoch(boolean forExample) {
+		if(!forExample){
+			this.startDate=new Date();
+			this.scEpochWorkflowStatus=ScheduledEpochWorkFlowStatus.UNAPPROVED;
+		}
+	}
+
 	public void setDisapprovalReasonText(String disapprovalReasonText) {
 		this.disapprovalReasonText = disapprovalReasonText;
 	}
@@ -67,13 +79,8 @@ public abstract class ScheduledEpoch extends AbstractMutableDeletableDomainObjec
 		this.scEpochWorkflowStatus = scheduledEpochWorkFlowStatus;
 	}
 
-	public ScheduledEpoch() {
-		this.startDate=new Date();
-		this.scEpochWorkflowStatus=ScheduledEpochWorkFlowStatus.UNAPPROVED;
-	}
-
 	@ManyToOne
-	@JoinColumn(name = "eph_id", nullable = false)
+	@JoinColumn(name = "eph_id")
 	public Epoch getEpoch() {
 		return epoch;
 	}
@@ -111,26 +118,15 @@ public abstract class ScheduledEpoch extends AbstractMutableDeletableDomainObjec
 	
 	@Transient
 	public boolean getRequiresArm(){
-		if (this instanceof ScheduledTreatmentEpoch) {
-			ScheduledTreatmentEpoch stEpoch = (ScheduledTreatmentEpoch) this;
-			return this.getRequiresRandomization()||stEpoch.getTreatmentEpoch().getArms().size()>0;
-		}
-		return false;
+		return this.getEpoch().getRequiresArm();
 	}
 	
 	@Transient
 	public boolean isReserving(){
-		if (this instanceof ScheduledNonTreatmentEpoch) {
-			ScheduledNonTreatmentEpoch sntEpoch = (ScheduledNonTreatmentEpoch) this;
-			return sntEpoch.getNonTreatmentEpoch().getReservationIndicator().equalsIgnoreCase("yes");
-		}
-		return false;
+		return this.getEpoch().isReserving();
 	}
 	@Transient
 	public boolean getRequiresRandomization(){
-		if (this instanceof ScheduledTreatmentEpoch) {
-			return ((ScheduledTreatmentEpoch) this).getTreatmentEpoch().getRandomization()!=null;
-		}
-		return false;
+		return this.getEpoch().getRequiresRandomization();
 	}
 }

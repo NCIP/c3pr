@@ -11,6 +11,11 @@ public class ScheduledNonTreatmentEpoch extends ScheduledEpoch {
 		super();
 		setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
 	}
+	
+	public ScheduledNonTreatmentEpoch(boolean forExample) {
+		super(forExample);
+	}
+	
 	@Transient
 	public NonTreatmentEpoch getNonTreatmentEpoch(){
 		return (NonTreatmentEpoch)getEpoch();

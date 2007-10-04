@@ -32,6 +32,9 @@ public class ScheduledTreatmentEpoch extends ScheduledEpoch {
     	eligibilityIndicator=false;
     	setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.INCOMPLETE);
 	}
+	public ScheduledTreatmentEpoch(boolean forExample) {
+		super(forExample);
+	}
 	
 	@Transient
 	public TreatmentEpoch getTreatmentEpoch(){
