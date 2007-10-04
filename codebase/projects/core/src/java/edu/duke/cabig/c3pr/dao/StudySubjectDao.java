@@ -14,6 +14,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
 
 import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.emory.mathcs.backport.java.util.Collections;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
@@ -186,6 +187,20 @@ public class StudySubjectDao extends
 						Restrictions.like("id", registration.getParticipant().getId()));
 		registrationCriteria.createCriteria("studySite").add(
 				Restrictions.like("id", registration.getStudySite().getId()));
+		return registrationCriteria.list();
+
+	}
+	
+	public List<StudySubject> searchByScheduledEpoch(ScheduledEpoch scheduledEpoch) {
+
+		StudySubject registration=new StudySubject(true);
+		Example example = Example.create(registration).excludeZeroes()
+				.ignoreCase();
+		Criteria registrationCriteria = getHibernateTemplate()
+				.getSessionFactory().getCurrentSession().createCriteria(
+						StudySubject.class);
+		registrationCriteria.add(example);
+		registrationCriteria.createCriteria("scheduledEpochs").createCriteria("epoch").add(Restrictions.like("id", scheduledEpoch.getEpoch().getId()));
 		return registrationCriteria.list();
 
 	}
