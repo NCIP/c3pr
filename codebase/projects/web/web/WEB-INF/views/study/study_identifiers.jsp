@@ -61,6 +61,11 @@ var organizationIdentifierRowInserterProps = {
 };
 RowManager.addRowInseter(systemIdentifierRowInserterProps);
 RowManager.addRowInseter(organizationIdentifierRowInserterProps);
+function manageIdentifierRadio(element){
+	$$(".identifierRadios").each(function(e){e.checked=false;e.value="false"});
+	element.checked=true;
+	element.value="true";
+}
 </script>
 </head>
 <body>
@@ -88,7 +93,7 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 						<td>${orgIdentifier.healthcareSite.name}</td>
 						<td>${orgIdentifier.type}</td>
 						<td>${orgIdentifier.value}</td>
-						<td>${orgIdentifier.primaryIndicator}</td>
+						<td>${orgIdentifier.primaryIndicator}<form:radiobutton cssClass="identifierRadios" path="command.organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator"/></td>
 					</tr>
 					</c:when>
 					<c:otherwise>
@@ -120,7 +125,7 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 							onfocus="clearField(this)" cssClass="validate-notEmpty" /></td>
 						<td><form:radiobutton
 							path="organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator"
-							value="true" /></td>
+							value="true" cssClass="identifierRadios" onclick="manageIdentifierRadio(this);"/></td>
 						<td><a
 							href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,${organizationStatus.index});"><img
 							src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
@@ -167,7 +172,7 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 							onfocus="clearField(this)" cssClass="validate-notEmpty" /></td>
 						<td><form:radiobutton
 							path="systemAssignedIdentifiers[${status.index}].primaryIndicator"
-							value="true" /></td>
+							value="true" cssClass="identifierRadios" onclick="manageIdentifierRadio(this);"/></td>
 						<td><a
 							href="javascript:RowManager.deleteRow(systemIdentifierRowInserterProps,${status.index});"><img
 							src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
@@ -207,9 +212,9 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 			onfocus="javascript:clearField(this)" type="text"
 			class="validate-notEmpty" /></td>
 		<td><input type="radio"
-			id="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator"
-			name="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator"
-			value="true" /></td>
+			id="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" class="identifierRadios"
+			name="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" onclick="manageIdentifierRadio(this);"
+			 /></td>
 		<td><a
 			href="javascript:RowManager.deleteRow(systemIdentifierRowInserterProps,PAGE.ROW.INDEX);"><img
 			src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
@@ -243,9 +248,9 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 			onfocus="javascript:clearField(this)" type="text"
 			class="validate-notEmpty" /></td>
 		<td><input type="radio"
-			id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator"
-			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator"
-			value="true" /></td>
+			id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" class="identifierRadios"
+			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" onclick="manageIdentifierRadio(this);"
+			 /></td>
 		<td><a
 			href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,PAGE.ROW.INDEX);"><img
 			src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
