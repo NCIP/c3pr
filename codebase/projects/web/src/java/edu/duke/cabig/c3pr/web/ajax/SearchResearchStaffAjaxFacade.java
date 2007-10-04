@@ -44,13 +44,13 @@ public class SearchResearchStaffAjaxFacade {
         model.addRow(row);
 
         Column columnFirstName = model.getColumnInstance();
-        columnFirstName.setTitle("firstName");
+        columnFirstName.setTitle("First Name");
         columnFirstName.setProperty("firstName");
         columnFirstName.setCell((ResearchStaffLinkDisplayCell.class).getName());
         model.addColumn(columnFirstName);
         
         Column columnLastName = model.getColumnInstance();
-        columnLastName.setTitle("lastName");
+        columnLastName.setTitle("Last Name");
         columnLastName.setProperty("lastName");
         columnLastName.setCell((ResearchStaffLinkDisplayCell.class).getName());
         model.addColumn(columnLastName);
