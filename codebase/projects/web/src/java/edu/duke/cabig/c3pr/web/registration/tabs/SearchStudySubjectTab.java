@@ -9,10 +9,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.validation.Errors;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.dao.EpochDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.dao.ScheduledEpochDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
@@ -40,7 +42,12 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject>{
 
 	private StudySubjectDao studySubjectDao;
 	private HealthcareSiteDao healthcareSiteDao;
+	private ScheduledEpochDao scheduledEpochDao;
 	
+	public void setScheduledEpochDao(ScheduledEpochDao scheduledEpochDao) {
+		this.scheduledEpochDao = scheduledEpochDao;
+	}
+
 	public EpochDao getEpochDao() {
 		return epochDao;
 	}
@@ -171,5 +178,22 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject>{
 
 	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
 		this.healthcareSiteDao = healthcareSiteDao;
+	}
+	
+	public ModelAndView checkEpochAccrualCeiling(HttpServletRequest request, Object commandObj, Errors error){
+		Map<String, Boolean> map=new HashMap<String, Boolean>();
+		Boolean alertForCeiling=new Boolean(false);
+		Epoch epoch=epochDao.getById(Integer.parseInt(request.getParameter("epochId")));
+		if (epoch.isReserving()) {
+			ScheduledEpoch scheduledEpoch=new ScheduledNonTreatmentEpoch(true);
+			scheduledEpoch.setEpoch(epoch);
+			List<StudySubject> list=studySubjectDao.searchByScheduledEpoch(scheduledEpoch);
+			NonTreatmentEpoch nEpoch=(NonTreatmentEpoch)epoch;
+			if(nEpoch.getAccrualCeiling()!=null && list.size()>=nEpoch.getAccrualCeiling().intValue()){
+				alertForCeiling=new Boolean(true);
+			}
+		}
+		map.put("alertForCeiling", alertForCeiling);
+		return new ModelAndView(getAjaxViewName(request),map);
 	}
 }
