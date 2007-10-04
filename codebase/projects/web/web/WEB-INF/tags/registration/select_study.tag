@@ -17,16 +17,6 @@
 		new Effect.Pulsate(element);
 	}
 	
-	function minimizeEpochBox(msg){
-		PanelCombo('Epochbox');
-		localClassString="#Epoch .header h2";
-		element=$$(localClassString)[0];
-		htmlStr=msg;
-		new Element.update(element,htmlStr);
-		new Effect.Pulsate(element);
-	}
-	
-	
     function navRollOver(obj, state) {
         document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
     }		
@@ -60,12 +50,6 @@
 		var resultDiv = document.getElementById("epochResults");
 		resultDiv.innerHTML = t.responseText;
 		new Effect.SlideDown(resultDiv);		
-	}
-	
-	function postProcessEpochSelection(id, name, type){
-		$("epochElement").value = id;
-		var message = "Selected Epoch: " +name+ " (" +type+ ") ";
-		minimizeEpochBox(message);
 	}
 </script>
 
