@@ -31,6 +31,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Where;
 
 
 /**
@@ -61,7 +62,7 @@ public class StudySubject extends AbstractMutableDeletableDomainObject {
     private RegistrationDataEntryStatus regDataEntryStatus;
     private RegistrationWorkFlowStatus regWorkflowStatus;
     private DiseaseHistory diseaseHistory;
-    private List<Identifier> identifiers=new ArrayList<Identifier>();
+    private List<Identifier> identifiers;
 
     
     public StudySubject() {
@@ -74,6 +75,7 @@ public class StudySubject extends AbstractMutableDeletableDomainObject {
     	this.regWorkflowStatus=RegistrationWorkFlowStatus.UNREGISTERED;
         lazyListHelper.add(OrganizationAssignedIdentifier.class, new ParameterizedInstantiateFactory<OrganizationAssignedIdentifier>(OrganizationAssignedIdentifier.class));
         lazyListHelper.add(SystemAssignedIdentifier.class, new ParameterizedInstantiateFactory<SystemAssignedIdentifier>(SystemAssignedIdentifier.class));
+        setIdentifiers(new ArrayList<Identifier>());
         //   mandatory, so that the lazy-projected list is managed properly.
 	}
     /// BEAN PROPERTIES
@@ -269,7 +271,9 @@ public class StudySubject extends AbstractMutableDeletableDomainObject {
 	}
 
 	@OneToMany
-    @JoinColumn(name = "SPA_ID")
+    @Cascade( { CascadeType.MERGE, CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @JoinColumn(name = "SPA_ID", nullable=false)
+	@Where(clause = "retired_indicator  = 'false'")
 	public List<Identifier> getIdentifiers() {
 		return identifiers;
 	}
@@ -406,6 +410,21 @@ public class StudySubject extends AbstractMutableDeletableDomainObject {
 	public String getDataEntryStatusString(){
 		return this.regDataEntryStatus==RegistrationDataEntryStatus.COMPLETE && this.getScheduledEpoch().getScEpochDataEntryStatus()==ScheduledEpochDataEntryStatus.COMPLETE?"Complete":"Incomplete";
 	}
+	
+	@Transient
+	public String getCoOrdinatingCenterIdentifier(){
+		if(getOrganizationAssignedIdentifiers().size()==0)
+			return null;
+		return getOrganizationAssignedIdentifiers().get(0).getValue();
+	}
+	
+	public void setCoOrdinatingCenterIdentifier(String value){
+		OrganizationAssignedIdentifier identifier=getOrganizationAssignedIdentifiers().get(0);
+		identifier.setHealthcareSite(this.getStudySite().getStudy().getStudyCoordinatingCenters().get(0).getHealthcareSite());
+		identifier.setType("Coordinating Center Identifier");
+		identifier.setValue(value);
+	}
+	
 	public Date getOffStudyDate() {
 		return offStudyDate;
 	}
