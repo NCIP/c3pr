@@ -92,6 +92,10 @@ function hide(){
 					<td>${command.studySite.study.shortTitleText}</td>
 				</tr>
 				<tr>
+					<td class="labelR">Coordinating Ceter:</td>
+					<td>${command.studySite.study.studyCoordinatingCenters[0].healthcareSite.name}</td>
+				</tr>
+				<tr>
 					<td class="labelR">Randomized Indicator:</td>
 					<td>${command.studySite.study.randomizedIndicator}</td>
 				</tr>
@@ -201,15 +205,6 @@ function hide(){
 					<td width="25%" class="labelR">Treating Physician:</td>
 					<c:set var="options" value=""></c:set>
 					<c:set var="values" value=""></c:set>
-					
-					<%--<c:forEach items="${command.studySite.studyInvestigators}" var="physician" varStatus="status">
-						<c:if test="${status.index>0}">
-							<c:set var="options" value="${options},"></c:set>
-							<c:set var="values" value="${values},"></c:set>
-						</c:if>
-						<c:set var="options" value="${options}'${physician.healthcareSiteInvestigator.investigator.fullName}'"></c:set>
-						<c:set var="values" value="${values}${physician.id}"></c:set>
-					</c:forEach>--%>
 					<c:set var="commanSepOptVal" value="["></c:set>
 					<c:forEach items="${command.studySite.studyInvestigators}" var="physician" varStatus="temp">
 						<c:set var="commanSepOptVal" value="${commanSepOptVal}[${physician.id},'${physician.healthcareSiteInvestigator.investigator.fullName}']"></c:set>
@@ -222,8 +217,8 @@ function hide(){
 											commanSepOptVal="${commanSepOptVal}" pathToGet="treatingPhysicianFullName"/>&nbsp;</td>
 				</tr>
 				<tr>
-					<td width="25%" class="labelR">Data Entry Status:</td>
-					<td>${command.dataEntryStatusString}&nbsp;</td>
+					<td width="25%" class="labelR">Coordinating Center Identifier:</td>
+					<td><tags:inPlaceEdit value="${command.coOrdinatingCenterIdentifier}" path="coOrdinatingCenterIdentifier" />&nbsp;</td>
 				</tr>
 			</table>
 			</div>
@@ -233,10 +228,46 @@ function hide(){
 			eArray.push(editor_informedConsentSignedDate);
 			eArray.push(editor_informedConsentVersion);
 			eArray.push(editor_treatingPhysician);
+			eArray.push(editor_coOrdinatingCenterIdentifier);
 			</script>
 			<c:if test="${command.regWorkflowStatus!='OFF_STUDY'}">
 				<input type="button" value="Edit" onclick="activateInPlaceEditing(eArray)"/>
 			</c:if>
+			<hr align="left" width="95%">					
+			<br>
+			<strong>Identifiers </strong><br>
+			<div class="review">
+			<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
+				<tr><td>
+					<table class="tablecontent">
+						<tr>
+							<th><span class="required-indicator">Assigning Authority</span></th>
+							<th><span class="required-indicator">Identifier Type</span></th>
+							<th><span class="required-indicator">Identifier</span></th>
+							<th>Primary&nbsp;Indicator</th>
+							<th></th>
+						</tr>
+						<c:forEach var="orgIdentifier" items="${command.organizationAssignedIdentifiers}"
+							begin="1" varStatus="organizationStatus">
+							<tr>
+								<td>${orgIdentifier.healthcareSite.name}</td>
+								<td>${orgIdentifier.type}</td>
+								<td>${orgIdentifier.value}</td>
+								<td>${orgIdentifier.primaryIndicator}<form:radiobutton value="true" cssClass="identifierRadios" path="command.organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator"/></td>
+							</tr>
+						</c:forEach>
+						<c:forEach items="${command.systemAssignedIdentifiers}"	varStatus="status" var="sysIdentifier">
+							<tr>
+								<td>${sysIdentifier.systemName}</td>
+								<td>${sysIdentifier.type}</td>
+								<td>${orgIsysIdentifierdentifier.value}</td>
+								<td>${sysIdentifier.primaryIndicator}<form:radiobutton value="true" cssClass="identifierRadios" path="command.systemAssignedIdentifiers[${status.index}].primaryIndicator"/></td>
+							</tr>
+						</c:forEach>
+					</table>
+				</td></tr>
+			</table>
+			</div>
 			<hr align="left" width="95%">					
 			<br>
 			<strong>Disease Information </strong><br>
