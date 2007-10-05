@@ -110,6 +110,16 @@
 			return flag;
 		}		
 	}
+	
+	function searchStudy(){
+
+		if($("searchSubjectText").value != null && $("searchSubjectText").value != ""){
+			new Element.show('searchSubjectInd');
+			new Ajax.Updater('subjectSearchResults','../registration/searchParticipant', {method:'post', postBody:Form.serialize('searchSubjectForm'), onSuccess:callbackSubject, onFailure:callbackSubjectFail});	
+		} else {
+			ValidationManager.showError($("searchSubjectText"), "required");
+		}		
+	}
 </script>
 
 <tags:minimizablePanelBox title="Select A Subject" boxId="SubjectBox">
@@ -148,11 +158,11 @@
                 </div>		
             </div>
             <div class="row">
-                <div class="label">Search Criteria:</div>
+                <div class="label"><span class="required-indicator">Search Criteria:</span></div>
                 <div class="value">
-                	<input id="searchText" name="searchText" type="text" value="" size="25"/>
+                	<input id="searchSubjectText" name="searchText" type="text" value="" size="25" class="validate-notEmpty" />
                 	<input type="button" value="Search" 
-                	onclick="new Element.show('searchSubjectInd');new Ajax.Updater('subjectSearchResults','../registration/searchParticipant', {method:'post', postBody:Form.serialize('searchSubjectForm'), onSuccess:callbackSubject, onFailure:callbackSubjectFail});"/>
+                	onclick="searchStudy()"/>
                 	<img id="searchSubjectInd" src="<tags:imageUrl name="indicator.white.gif"/>"
 								alt="Indicator" align="absmiddle">
 					<script>new Element.hide('searchSubjectInd');</script>
