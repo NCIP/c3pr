@@ -274,6 +274,8 @@ function isNumeric(string, ignoreWhiteSpace) {
 // Check that a string contains only numbers
 function isCorrectDate(string) {
    DEFAULT_DATE_FORMAT="mm/dd/yyyy";
+   if(string=="")
+   	return true;
    string=trimWhitespace(string);
    if(string.indexOf("(")>0 && string.indexOf(")")>string.lastIndexOf("(")){
    	   format=string.substring(string.indexOf("(")+1,tring.lastIndexOf("(")-1);
