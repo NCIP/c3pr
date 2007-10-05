@@ -213,12 +213,12 @@ function hide(){
 						</c:if>
 					</c:forEach>
 					<c:set var="commanSepOptVal" value="${commanSepOptVal}]"></c:set>
-					<td><tags:inPlaceSelect value="${command.treatingPhysicianFullName}" path="treatingPhysician" 
+					<td><tags:inPlaceSelect value="${command.treatingPhysicianFullName}" path="treatingPhysician"
 											commanSepOptVal="${commanSepOptVal}" pathToGet="treatingPhysicianFullName"/>&nbsp;</td>
 				</tr>
 				<tr>
 					<td width="25%" class="labelR">Coordinating Center Identifier:</td>
-					<td><tags:inPlaceEdit value="${command.coOrdinatingCenterIdentifier}" path="coOrdinatingCenterIdentifier" />&nbsp;</td>
+					<td><tags:inPlaceEdit value="${command.coOrdinatingCenterIdentifier}" path="coOrdinatingCenterIdentifier" required="true"/>&nbsp;</td>
 				</tr>
 			</table>
 			</div>

@@ -3,10 +3,12 @@
 <%@attribute name="commanSepOptVal" required="true"%>
 <%@attribute name="value" required="true"%>
 <%@attribute name="pathToGet"%>
+<%@attribute name="required"%>
+<c:set var="required" value="${! empty required?required:'false'}"></c:set>
 <span id="${path}-id">${value}</span>
 <script type="text/javascript">
 	var editor_${path}=new Ajax.InPlaceCollectionEditor('${path}-id', document.URL,
-								{collection: ${commanSepOptVal},
+								{collection: ${commanSepOptVal}, requiredIndicator:${required},
 			  						callback: function(form, value) {
 	 														 		return '_asynchronous=true&_asyncMethodName=doInPlaceEdit&_ajaxInPlaceEditParam=${path}&_pathToGet=${pathToGet}&${path}=' + escape(value);
 	 														  	}
