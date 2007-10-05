@@ -25,6 +25,8 @@
     </div></li>
   </ul>
 </div>
+
+<div id="main">
 <br />
 
 <tags:tabForm tab="${tab}" flow="${flow}" title="Organization" formName="createOrganization">
@@ -127,4 +129,6 @@
 
     </jsp:attribute>
     </tags:tabForm>
+    </div>
+    </body>
 </html>

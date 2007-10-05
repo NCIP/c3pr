@@ -20,19 +20,17 @@
     </div></li>
   </ul>
 </div>
-<br />
 
+<div id="main">
+<br/>
 <tags:tabForm tab="${tab}" flow="${flow}" title="Research Staff" formName="researchStaffForm">
 
 <jsp:attribute name="singleFields">
 <input type="hidden" name="_finish" value="true">
-
 <tags:errors path="*" />
 
 <chrome:division id="site" title="Organization">
-
     <div class="leftpanel">
-
         <div class="row">
             <div class="label required-indicator">
                 Choose an Organization
@@ -57,13 +55,10 @@
             </div>
         </div>
     </div>
-
 </chrome:division>
 
 <chrome:division id="staff-details" title="Research Staff Details">
-
     <div class="leftpanel">
-
         <div class="row">
             <div class="label required-indicator">
                 First Name</div>
@@ -72,7 +67,6 @@
                             cssClass="validate-notEmpty" />
             </div>
         </div>
-
         <div class="row">
             <div class="label required-indicator">
                 Last Name</div>
@@ -80,7 +74,6 @@
                 <form:input path="lastName" cssClass="validate-notEmpty" size="25" />
             </div>
         </div>
-
         <div class="row">
             <div class="label">
                 Middle Name</div>
@@ -88,7 +81,6 @@
                 <form:input path="middleName" size="25" />
             </div>
         </div>
-
         <div class="row">
             <div class="label">
                 Maiden Name</div>
@@ -96,13 +88,9 @@
                 <form:input path="maidenName" size="25" />
             </div>
         </div>
-
-
-
     </div>
 
     <div class="rightpanel">
-
         <div class="row">
             <div class="label required-indicator">
                 NCI Identifier:
@@ -111,7 +99,6 @@
                 <form:input path="nciIdentifier" size="25" cssClass="validate-notEmpty" />
             </div>
         </div>
-
         <div class="row">
             <div class="label required-indicator">
                     ${command.contactMechanisms[0].type.displayName} (Username):
@@ -121,7 +108,6 @@
                             path="contactMechanisms[0].value" cssClass="validate-EMAIL" />
             </div>
         </div>
-
         <div class="row">
             <div class="label">
                     ${command.contactMechanisms[1].type.displayName}:
@@ -131,8 +117,6 @@
                             path="contactMechanisms[1].value" />
             </div>
         </div>
-
-
         <div class="row">
             <div class="label">
                     ${command.contactMechanisms[2].type.displayName}:
@@ -142,15 +126,11 @@
                             path="contactMechanisms[2].value" />
             </div>
         </div>
-
     </div>
-
 </chrome:division>
 
 <chrome:division id="staff-details" title="User Role (Check all that apply)">
-
     <div class="leftpanel">
-
         <div class="row">
             <div class="label">
                     ${command.groups[0].displayName}:
@@ -179,7 +159,7 @@
             </div>
         </div>
 
-          <div class="row">
+        <div class="row">
             <div class="label">
                     ${command.groups[3].displayName}:
             </div>
@@ -188,15 +168,11 @@
                             path="groups[3]" value="${command.groups[3].code}"/>
             </div>
         </div>
-
-
     </div>
-
 </chrome:division>
-
-
-
 </jsp:attribute>
+
 </tags:tabForm>
+</div>
 </body>
 </html>

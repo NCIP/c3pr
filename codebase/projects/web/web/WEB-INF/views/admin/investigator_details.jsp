@@ -40,6 +40,8 @@ RowManager.addRowInseter(instanceRowInserterProps);
     </div></li>
   </ul>
 </div>
+
+<div id="main">
 <br />
 <tags:basicFormPanelBox tab="${tab}" flow="${flow}" title="Organization"
 	action="createInvestigator">
@@ -224,6 +226,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 			src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 	</tr>
 </table>
+</div>
 </div>
 </body>
 </html>
