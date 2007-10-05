@@ -1,195 +1,204 @@
-<%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
+<%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator"
+	prefix="decorator"%>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
+
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<title>C3Pr V2</title>
-<link href="resources/styles.css" rel="stylesheet" type="text/css">
-<link href="resources/search.css" rel="stylesheet" type="text/css">
-<script>
-function navRollOver(obj, state) {
-  document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
-}
-function getPage(s){
-	parent.window.location="reg_patient_search.htm";
-}
-function add(){
-var action = confirm ("You have not completed adding this protocol.\r\rStarting over will lose current protocol data?")
-if (action){
-	parent.window.location="reg_enroll_patient.htm";
-}}
-function validatePage(){
-	return true;
-}
-function clearField(field){
-field.value="";
-}
-function updateTargetPage(action, selected,s){
-	if(validatePage()){
-		document.IdentifierForm._action.value=action;
-		document.IdentifierForm._selected.value=selected;
-		document.getElementById("nextView").value=s;
-		document.IdentifierForm.submit();
+<tags:includeScriptaculous />
+<tags:dwrJavascriptLink objects="StudyAjaxFacade" />
+<script language="JavaScript" type="text/JavaScript">
+var healthcareSiteAutocompleterProps = {
+    basename: "healthcareSite",
+    populator: function(autocompleter, text) {
 
-	}
+        StudyAjaxFacade.matchHealthcareSites( text,function(values) {
+            autocompleter.setChoices(values)
+        })
+    },
+    valueSelector: function(obj) {
+        return obj.name
+    },
+    afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+    								hiddenField=inputElement.id.split("-")[0]+"-hidden";
+	    							$(hiddenField).value=selectedChoice.id;
+									}
+}
+
+function clearField(field) {
+    field.value = "";
+}
+
+              
+var systemIdentifierRowInserterProps = {
+    add_row_division_id: "systemIdentifier", 	        /* this id belongs to element where the row would be appended to */
+    skeleton_row_division_id: "dummy-row-systemIdentifier",
+    initialIndex: ${fn:length(command.systemAssignedIdentifiers)},                            /* this is the initial count of the rows when the page is loaded  */
+    softDelete: true,
+    path: "systemAssignedIdentifiers"                               /* this is the path of the collection that holds the rows  */
+};
+var organizationIdentifierRowInserterProps = {
+       add_row_division_id: "organizationIdentifier", 	        /* this id belongs to element where the row would be appended to */
+       skeleton_row_division_id: "dummy-row-organizationIdentifier",
+       initialIndex: ${fn:length(command.organizationAssignedIdentifiers)},                            /* this is the initial count of the rows when the page is loaded  */
+       path: "organizationAssignedIdentifiers",                               /* this is the path of the collection that holds the rows  */
+       softDelete: ${flowType!='CREATE_STUDY'},
+       postProcessRowInsertion: function(object){
+	       clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
+		   clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;
+		   AutocompleterManager.registerAutoCompleter(clonedRowInserter);
+	   },
+       onLoadRowInitialize: function(object, currentRowIndex){
+       		if(currentRowIndex>object.initialIndex){
+				clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
+				clonedRowInserter.basename=clonedRowInserter.basename+currentRowIndex;
+				AutocompleterManager.registerAutoCompleter(clonedRowInserter);
+			}
+       }
+};
+RowManager.addRowInseter(systemIdentifierRowInserterProps);
+RowManager.addRowInseter(organizationIdentifierRowInserterProps);
+function manageIdentifierRadio(element){
+	$$(".identifierRadios").each(function(e){e.checked=false;e.value="false"});
+	element.checked=true;
+	element.value="true";
 }
 </script>
 </head>
 <body>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}"
+	formName="studyIdentifiersForm">
+	<jsp:attribute name="singleFields">
+		
+	<br>
+	<table width="100%"><tr><td>
+		<chrome:division title="Organization Assigned Identifiers">
+		
+			<table id="organizationIdentifier" class="tablecontent">
+				<tr>
+					<th><span class="required-indicator">Assigning Authority</span></th>
+					<th><span class="required-indicator">Identifier Type</span></th>
+					<th><span class="required-indicator">Identifier</span></th>
+					<th>Primary&nbsp;Indicator</th>
+					<th></th>
+				</tr>
+				<c:forEach var="orgIdentifier" items="${command.organizationAssignedIdentifiers}"
+					begin="0" varStatus="organizationStatus">
+					<tr id="organizationIdentifier-${organizationStatus.index}">
+						<td>${orgIdentifier.healthcareSite.name}</td>
+						<td>${orgIdentifier.type}</td>
+						<td>${orgIdentifier.value}</td>
+						<td>${orgIdentifier.primaryIndicator}<form:radiobutton value="true" cssClass="identifierRadios" path="command.organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator"/></td>
+					</tr>
+				</c:forEach>
+			</table>
+
+			<br>
+			<div align="right">
+
+			<input id="addOrganizationIdentifier" type="button"
+				value="Add Another Identifier"
+				onclick="javascript:RowManager.addRow(organizationIdentifierRowInserterProps);" />
+				</div>
+
+		</chrome:division>
+		<chrome:division title="System Assigned Identifiers">
+			<table id="systemIdentifier" class="tablecontent">
+				<tr>
+					<th><span class="required-indicator">System Name</span></th>
+					<th><span class="required-indicator">Identifier Type</span></th>
+					<th><span class="required-indicator">Identifier</span></th>
+					<th>Primary&nbsp;Indicator</th>
+					<th></th>
+				</tr>
+				<c:forEach items="${command.systemAssignedIdentifiers}"	varStatus="status" var="sysIdentifier">
+					<tr id="systemIdentifier-${status.index}">
+						<td>${sysIdentifier.systemName}</td>
+						<td>${sysIdentifier.type}</td>
+						<td>${orgIsysIdentifierdentifier.value}</td>
+						<td>${sysIdentifier.primaryIndicator}<form:radiobutton value="true" cssClass="identifierRadios" path="command.systemAssignedIdentifiers[${status.index}].primaryIndicator"/></td>
+					</tr>
+				</c:forEach>
+			</table>
+
+			<br>
+<div align="right">
+			<input id="addSystemIdentifier" type="button"
+				value="Add Another Identifier"
+				onclick="RowManager.addRow(systemIdentifierRowInserterProps);" />
+				</div>
+
+		</chrome:division>
+</td></tr></table>
+	</jsp:attribute>
+
+</tags:tabForm>
+
+<div id="dummy-row-systemIdentifier" style="display:none;">
+<table>
 	<tr>
-		<td class="display">
-		<table width="100%" border="0" cellpadding="0" cellspacing="0">
-			<tr>
-				<td>
-				<table width="100%" border="0" cellspacing="0" cellpadding="0"
-					class="tabs">
-					<tr>
-						<td width="100%" id="tabDisplay"><span class="tab"> <img
-							src="<tags:imageUrl name="tabWhiteR.gif"/>" width="3" height="16"
-							align="absmiddle"> 1. Select Study <img
-							src="<tags:imageUrl name="tabWhiteR.gif"/>" width="3" height="16"
-							align="absmiddle"><img src="<tags:imageUrl name="tabGrayL.gif"/>" width="3"
-							height="16" align="absmiddle"> 2. Select Subject <img
-							src="<tags:imageUrl name="tabGrayR.gif"/>" width="3" height="16" align="absmiddle"><img
-							src="<tags:imageUrl name="tabGrayL.gif"/>" width="3" height="16" align="absmiddle">
-						3. Enrollment Details <img src="<tags:imageUrl name="tabGrayR.gif"/>" width="3"
-							height="16" align="absmiddle"><img
-							src="<tags:imageUrl name="tabGrayL.gif"/>" width="3" height="16" align="absmiddle">
-						4. Check Eligibility <img src="<tags:imageUrl name="tabGrayR.gif"/>" width="3"
-							height="16" align="absmiddle"><img
-							src="<tags:imageUrl name="tabGrayL.gif"/>" width="3" height="16" align="absmiddle">
-						5. Stratify <img src="<tags:imageUrl name="tabGrayR.gif"/>" width="3" height="16"
-							align="absmiddle"><img src="<tags:imageUrl name="tabGrayL.gif"/>" width="3"
-							height="16" align="absmiddle"> 6. Review and Submit <img
-							src="<tags:imageUrl name="tabGrayR.gif"/>" width="3" height="16" align="absmiddle"><img
-							src="<tags:imageUrl name="tabGrayL.gif"/>" width="3" height="16" align="absmiddle">
-						7. Confirmation <img src="<tags:imageUrl name="tabGrayR.gif"/>" width="3"
-							height="16" align="absmiddle"><img
-							src="<tags:imageUrl name="tabGrayL.gif"/>" width="3" height="16" align="absmiddle">
-						8. Randomize <img src="<tags:imageUrl name="tabGrayR.gif"/>" width="3" height="16"
-							align="absmiddle"><span class="current"><img
-							src="<tags:imageUrl name="tabGrayL.gif"/>" width="3" height="16" align="absmiddle">
-						9. Identifiers <img src="<tags:imageUrl name="tabGrayR.gif"/>" width="3"
-							height="16" align="absmiddle"></span></td>
-						<td><img src="<tags:imageUrl name="spacer.gif"/>" width="7" height="1"></td>
-					</tr>
-					<tr>
-						<td colspan="2" class="tabBotL"><img src="<tags:imageUrl name="spacer.gif"/>"
-							width="1" height="7"></td>
-					</tr>
-				</table>
-				</td>
-			</tr>
-			<!-- MAIN BODY STARTS HERE -->
-			<tr>
-				<td>
-				<div class="workArea"><img src="<tags:imageUrl name="tabWhiteR.gif"/>"
-					width="3" height="16" align="absmiddle"> <img
-					src="<tags:imageUrl name="tabWhiteR.gif"/>" width="3" height="16" align="absmiddle">
-				<table width="100%" border="0" cellspacing="0" cellpadding="0">
-					<form:form name="IdentifierForm" method="post">
-						<input type="hidden" name="_action" value="">
-						<input type="hidden" name="_selected" value="">
-						<input type="hidden" name="nextView" value="">
-						<tr>
-							<!-- CURRENT DRIVER/UNIT TITLE STARTS HERE -->
-
-							<td id="current">Identifiers for
-							${command.participant.firstName} ${command.participant.lastName}
-							on ${command.studySite.study.trimmedShortTitleText}</td>
-							<!-- CURRENT DRIVER/UNIT TITLE ENDS HERE -->
-						</tr>
-						<tr>
-
-							<td class="display"><!-- TABS LEFT START HERE -->
-							<table width="70%" border="0" cellspacing="0" cellpadding="0"
-								id="details">
-								<tr>
-									<td width="100%" valign="top">
-									<table width="50%" border="0" cellspacing="10" cellpadding="0"
-										id="table1">
-
-										<tr align="center" class="label">
-											<td width="20%" align="center">Source<span class="red">*</span></td>
-											<td width="20%" align="center">Identifier Type<span
-												class="red">*</span></td>
-											<td width="20%" align="center">Identifier<span
-												class="red">*</span></td>
-											<td width="25%" align="center">Primary Indicator</td>
-											<td>&nbsp;</td>
-										</tr>
-										<c:forEach items="${command.identifiers}" varStatus="status">
-											<tr align="center" class="results">
-												<td width="20%"><form:select
-													path="identifiers[${status.index}].source">
-													<option value="">--Please Select-- <form:options
-														items="${identifiersSourceRefData}" itemLabel="desc"
-														itemValue="code" />
-												</form:select></td>
-												<td width="20%"><form:select
-													path="identifiers[${status.index}].type">
-													<option value="">--Please Select-- <form:options
-														items="${identifiersTypeRefData}" itemLabel="desc"
-														itemValue="code" />
-												</form:select></td>
-												<td width="20%"><form:input
-													path="identifiers[${status.index}].value"
-													onclick="javascript:clearField(this)();" /></td>
-												<td width="25%" aligh="center"><form:radiobutton
-													path="identifiers[${status.index}].primaryIndicator" /></td>
-												<td width="10%"><a
-													href="javascript:updateTargetPage('removeIdentifier',${status.index},'identifiersView');"><img
-													src="<tags:imageUrl name="b-delete.gif"/>" border="0"></a></td>
-											</tr>
-										</c:forEach>
-										<tr align="center" class="label">
-											<td colspan='4' width="10%" align="center"><a
-												href="javascript:updateTargetPage('addIdentifier','0','identifiersView');"><img
-												src="<tags:imageUrl name="b-addLine.gif"/>" border="0"
-												alt="Add another Identifier"></a></td>
-										</tr>
-									</table>
-									</td>
-								<tr>
-									<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
-										class="heightControl"></td>
-								</tr>
-								<tr>
-									<td align="center" colspan="3"><!-- action buttons begins -->
-									<table cellpadding="4" cellspacing="0" border="0">
-										<tr>
-											<td colspan=2 valign="top"><br>
-											<br>
-											<a href=""
-												onClick="updateTargetPage('none','none','processFinish');return false;"><img
-												src="images/b-update.gif" alt="Save" width="59" height="16"
-												border="0"></a> <a href="/c3pr/registration/searchAndRegister"><img
-												src="images/b-cancel.gif" alt="Start Over" width="67"
-												height="16" border="0"></a></td>
-										</tr>
-									</table>
-									</td>
-								</tr>
-							</table>
-
-							</td>
-
-						</tr>
-					</form:form>
-				</table>
-				</td>
-			</tr>
-		</table>
-		</td>
+		<td><input id="systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName"
+			name="systemAssignedIdentifiers[PAGE.ROW.INDEX].systemName" type="text" 
+			class="validate-notEmpty" /></td>
+		<td><select id="systemAssignedIdentifiers[PAGE.ROW.INDEX].type"
+			name="systemAssignedIdentifiers[PAGE.ROW.INDEX].type"
+			class="validate-notEmpty">
+			<option value="">--Please Select--</option>
+			<c:forEach items="${identifiersTypeRefData}" var="id">
+				<option value="${id.desc}">${id.desc}</option>
+			</c:forEach>
+		</select></td>
+		<td><input id="systemAssignedIdentifiers[PAGE.ROW.INDEX].value"
+			name="systemAssignedIdentifiers[PAGE.ROW.INDEX].value"
+			onfocus="javascript:clearField(this)" type="text"
+			class="validate-notEmpty" /></td>
+		<td><input type="radio"
+			id="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" class="identifierRadios"
+			name="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" onclick="manageIdentifierRadio(this);"/></td>
+		<td><a
+			href="javascript:RowManager.deleteRow(systemIdentifierRowInserterProps,PAGE.ROW.INDEX);"><img
+			src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 	</tr>
 </table>
-<div id="copyright"></div>
 </div>
-<!-- MAIN BODY ENDS HERE -->
+
+<div id="dummy-row-organizationIdentifier" style="display:none;">
+<table>
+	<tr>
+		<td><input type="hidden" id="healthcareSitePAGE.ROW.INDEX-hidden"
+			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].healthcareSite" />
+		<input class="validate-notEmpty" type="text"
+			id="healthcareSitePAGE.ROW.INDEX-input" size="50"
+			value="${command.organizationAssignedIdentifiers[PAGE.ROW.INDEX].healthcareSite.name}" />
+		<input type="button" id="healthcareSitePAGE.ROW.INDEX-clear"
+			value="Clear" /> <tags:indicator
+			id="healthcareSitePAGE.ROW.INDEX-indicator" />
+		<div id="healthcareSitePAGE.ROW.INDEX-choices" class="autocomplete">
+		</td>
+		<td><select id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].type"
+			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].type"
+			class="validate-notEmpty">
+			<option value="">--Please Select--</option>
+			<c:forEach items="${identifiersTypeRefData}" var="id">
+				<option value="${id.desc}">${id.desc}</option>
+			</c:forEach>
+		</select></td>
+		<td><input id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].value"
+			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].value"
+			onfocus="javascript:clearField(this)" type="text"
+			class="validate-notEmpty" /></td>
+		<td><input type="radio"
+			id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" class="identifierRadios"
+			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" onclick="manageIdentifierRadio(this);"/></td>
+		<td><a
+			href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,PAGE.ROW.INDEX);"><img
+			src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+	</tr>
+</table>
+</div>
+
 </body>
 </html>
