@@ -151,7 +151,7 @@ function hide(){
 			<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 				<tr>
 					<td class="labelR">Registration Start Date:</td>
-					<td><tags:inPlaceEdit value="${command.startDateStr }" path="startDate" /></td>
+					<td><tags:inPlaceEdit value="${command.startDateStr }" path="startDate" required="true"/></td>
 				</tr>
 				<tr>
 					<td width="25%" class="labelR">Registration Status:</td>
@@ -187,11 +187,11 @@ function hide(){
 				</c:if>
 				<tr>
 					<td class="labelR" width="25%">Informed Consent Signed Date:</td>
-					<td><tags:inPlaceEdit value="${command.informedConsentSignedDateStr }" path="informedConsentSignedDate" /></td>
+					<td><tags:inPlaceEdit value="${command.informedConsentSignedDateStr }" path="informedConsentSignedDate" required="true"/></td>
 				</tr>
 				<tr>
 					<td class="labelR">Informed Consent Version:</td>
-					<td><tags:inPlaceEdit value="${command.informedConsentVersion}" path="informedConsentVersion" /></td>
+					<td><tags:inPlaceEdit value="${command.informedConsentVersion}" path="informedConsentVersion" required="true"/></td>
 				</tr>
 				<tr>
 					<td width="25%" class="labelR">Current Epoch:</td>
