@@ -14,6 +14,7 @@ import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.NonTreatmentEpoch;
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.PhonecallRandomization;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
@@ -570,8 +571,25 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
             addEnrollmentDetails(studySubject);
             bindEligibility(studySubject);
             bindStratification(studySubject);
+            OrganizationAssignedIdentifier id=studySubject.getOrganizationAssignedIdentifiers().get(0);
+            id.setHealthcareSite(healthcareSitedao.getById(1002));
+            id.setType("Test1");
+            id.setValue("Test1");
             StudySubject saved=studySubjectDao.merge(studySubject);
             savedId= saved.getId().intValue();
+            assertNotNull("The registration didn't get an id", savedId);
+        }
+
+        interruptSession();
+        {
+            StudySubject loaded = studySubjectDao.getById(savedId);
+            OrganizationAssignedIdentifier id=loaded.getOrganizationAssignedIdentifiers().get(1);
+            id.setHealthcareSite(healthcareSitedao.getById(1002));
+            id.setType("Test2");
+            id.setValue("Test2");
+            //studySubjectDao.reassociate(loaded);
+            loaded=studySubjectDao.merge(loaded);
+            savedId= loaded.getId().intValue();
             assertNotNull("The registration didn't get an id", savedId);
         }
 
@@ -593,6 +611,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
         	assertEquals("getIfTreatmentScheduledEpoch return is inconsistent", true, loaded.getIfTreatmentScheduledEpoch());
         	ScheduledTreatmentEpoch scheduledTreatmentEpoch=(ScheduledTreatmentEpoch)loaded.getScheduledEpoch();
         	assertEquals("Wrong eligibility indicator", true, scheduledTreatmentEpoch.getEligibilityIndicator().booleanValue());
+        	assertEquals("Wrong number of identifier", 2, loaded.getIdentifiers().size());        	
         	assertEquals("Wrong registration data entry status", RegistrationDataEntryStatus.COMPLETE, loaded.getRegDataEntryStatus());
         	assertEquals("Wrong epoch data entry status", ScheduledEpochDataEntryStatus.COMPLETE, loaded.getScheduledEpoch().getScEpochDataEntryStatus());
         	assertEquals("Wrong registration work flow status", RegistrationWorkFlowStatus.REGISTERED, loaded.getRegWorkflowStatus());

@@ -18,6 +18,7 @@ import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.NonTreatmentEpoch;
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
@@ -52,6 +53,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
     private AnatomicSiteDao anatomicSiteDao;
     private StudySubjectDao studySubjectDao;
     private ScheduledEpochDao scheduledEpochDao;
+    private HealthcareSiteDao healthcareSiteDao;
     
     @Override
     protected void setUp() throws Exception {
@@ -64,6 +66,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
         studySubjectDao = (StudySubjectDao) getApplicationContext().getBean("studySubjectDao");
         scheduledEpochDao= (ScheduledEpochDao) getApplicationContext().getBean("scheduledEpochDao");
         studyDao=(StudyDao) getApplicationContext().getBean("studyDao");
+        healthcareSiteDao=(HealthcareSiteDao) getApplicationContext().getBean("healthcareSiteDao");
     }
     
 	/*
@@ -136,6 +139,11 @@ public class StudySubjectDaoTest extends DaoTestCase {
             Object onBindFormObject=bindSelectSubjectStudy(afterBind);
             interruptSession();
             
+            StudySubject studySubject1=(StudySubject) onBindFormObject;
+            OrganizationAssignedIdentifier id=studySubject1.getOrganizationAssignedIdentifiers().get(0);
+            id.setHealthcareSite(healthcareSiteDao.getById(1002));
+            id.setType("Test");
+            id.setValue("Test");
             Object saved= reviewAndSave(currentFormObject(onBindFormObject));
             
             StudySubject studySubject=(StudySubject)saved;
@@ -158,6 +166,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
         	assertEquals("Wrong number of subject inclusion eligibility answers", 2, scheduledTreatmentEpoch.getInclusionEligibilityAnswers().size());
         	assertEquals("Wrong number of subject exclusion eligibility answers", 1, scheduledTreatmentEpoch.getExclusionEligibilityAnswers().size());
         	assertEquals("Wrong number of subject stratification answers", 1, scheduledTreatmentEpoch.getSubjectStratificationAnswers().size());
+        	assertEquals("Wrong number of identifier", 1, loaded.getIdentifiers().size());
         	assertEquals("Wrong registration status", "INCOMPLETE", loaded.getRegDataEntryStatus().getName());
         	assertEquals("Wrong epoch status", "INCOMPLETE", loaded.getScheduledEpoch().getScEpochDataEntryStatus().getName());        	
         }
