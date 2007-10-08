@@ -62,15 +62,3 @@ Element.observe(window, "load", function() {
     })
 });
 
-////// SSO
-
-Event.observe(window, "load", function() {
-    $$("a.sso").each(function(a) {
-        Event.observe(a, "click", function(e) {
-            Event.stop(e)
-            var ssoForm = $('sso-form')
-            ssoForm.action = a.href
-            ssoForm.submit()
-        })
-    })
-})

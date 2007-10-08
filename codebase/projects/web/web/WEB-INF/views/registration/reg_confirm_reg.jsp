@@ -37,8 +37,7 @@ function accessApp(url,app,targetWindow){
 <c:otherwise>
 </c:otherwise>
 </c:choose>
-<form name="navigationForm" id="navigationForm" method="post"><input
-	type="hidden" name="gridProxy" value="${proxy}"></form>
+<form name="navigationForm" id="navigationForm" method="post"></form>
 <tags:panelBox title="Confirmation Message" boxId="ConfMessage">
 	<c:choose>
 	<c:when test="${newRegistration}">
