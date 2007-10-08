@@ -1,11 +1,11 @@
 <!-- =============================================================== -->
-<!-- Define the build artifacts (created/used by projects) here      -->
-<!--                                                                 -->
-<!-- NOTE:  These should be all of the files necessary to "depend" on-->
-<!-- the project (not just the built files).  Make a separate        -->
-<!-- artifact for groups of files that will probably be copied to    -->
-<!-- separate directoris (e.g. jars and conf files)                  -->
-<!-- =============================================================== -->
+        <!-- Define the build artifacts (created/used by projects) here      -->
+        <!--                                                                 -->
+        <!-- NOTE:  These should be all of the files necessary to "depend" on-->
+        <!-- the project (not just the built files).  Make a separate        -->
+        <!-- artifact for groups of files that will probably be copied to    -->
+        <!-- separate directoris (e.g. jars and conf files)                  -->
+        <!-- =============================================================== -->
 <project name="c3pr-2.0-artifacts" basedir=".">
 
     <target name="defineArtifacts" description="Defines artifacts that can be imported into projects.">
@@ -57,22 +57,8 @@
             </fileset>
         </artifact>
 
-        <artifact track="main" type="jars" id="csm.jars">
-            <fileset dir="${share.dir}/cacore/csm">
-                <include name="*.jar"/>
-                <exclude name="csm*.jar"/>
-            </fileset>
-        </artifact>
-
-
         <artifact track="main" type="jars" id="globus.jars">
-            <fileset dir="${share.dir}/globus/lib">
-                <include name="*.jar"/>
-            </fileset>
-        </artifact>
-
-        <artifact track="main" type="jars" id="globus.security.jars">
-            <fileset dir="${share.dir}/globus/security/lib">
+            <fileset dir="${ext.globus.dir}/lib">
                 <include name="*.jar"/>
             </fileset>
         </artifact>
@@ -144,6 +130,8 @@
                 <include name="aspectj*.jar"/>
                 <include name="acegi-csm*.jar"/>
                 <include name="csmapi*.jar"/>
+                <include name="clm*.jar"/>
+                <include name="c3p0*.jar"/>
             </fileset>
         </artifact>
 
@@ -193,12 +181,6 @@
 
         <artifact track="main" type="jars" id="security.lib.jars">
             <fileset dir="${share.dir}/security/lib">
-                <include name="*.jar"/>
-            </fileset>
-        </artifact>
-
-        <artifact track="main" type="jars" id="web-sso.jars">
-            <fileset dir="${share.dir}/web-sso">
                 <include name="*.jar"/>
             </fileset>
         </artifact>

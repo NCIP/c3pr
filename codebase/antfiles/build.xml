@@ -146,7 +146,6 @@
     <!-- =============================================================== -->
     <target name="build-core" depends="prepare" description="Builds the core project (Services, dao, domain">
         <resolveDependencies extdir="${projects.dir}/core/ext">
-            <artifact refid="security.lib.jars"/>
             <artifact refid="common.test.jars"/>
             <artifact refid="ctms-commons.jars"/>
             <artifact refid="ant-contrib.jars"/>
@@ -172,7 +171,6 @@
 
             <!--security jars-->
             <artifact refid="acegi.jars"/>
-            <artifact refid="csm.jars"/>
             <artifact refid="ehcache.jars"/>
         </resolveDependencies>
         <ant dir="${projects.dir}/core" inheritAll="false" antfile="build.xml" target="all"/>
@@ -183,13 +181,11 @@
     <!-- =============================================================== -->
     <target name="build-web" depends="prepare" description="Builds the web project">
         <resolveDependencies extdir="${projects.dir}/web/ext">
-            <artifact refid="security.lib.jars"/>
             <artifact refid="common.test.jars"/>
             <artifact refid="ctms-commons.jars"/>
             <artifact refid="c3pr.core.jars"/>
             <artifact refid="c3pr.core.lib.jars"/>
             <artifact refid="c3pr.management.jars"/>
-            <artifact refid="cagrid.jars"/>
 
             <!-- get third party shared jars -->
             <artifact refid="jboss-j2ee.jars"/>
@@ -208,7 +204,6 @@
 
             <artifact refid="jdom.jars"/>
             <artifact refid="dom4j.jars"/>
-            <artifact refid="web-sso.jars"/>
             <artifact refid="extremeComponents.jars"/>
             <artifact refid="c3pr.build.properties"/>
         </resolveDependencies>
@@ -268,7 +263,7 @@
     <!-- =============================================================== -->
     <!-- c3pr Installer  project                                    -->
     <!-- =============================================================== -->
-    <target name="build-installer" depends="prepare" description="Builds the installer project">
+    <target name="build-installer" depends="clean" description="Builds the installer project">
         <property name="project.archive" value="c3prv2-installpack.zip"/>
         <mkdir dir="${projects.dir}/installer/ext"/>
         <zip destfile="${projects.dir}/installer/ext/${project.archive}">
@@ -289,12 +284,11 @@
     <!-- =============================================================== -->
     <!-- c3pr JBI Integration project                                    -->
     <!-- =============================================================== -->
-    <target name="build-servicemix" depends="prepare" description="Builds servicemix with c3p3v2 extensions ">
+    <target name="build-servicemix" depends="prepare,checkGlobus" description="Builds servicemix with c3p3v2 extensions ">
         <resolveDependencies extdir="${projects.dir}/servicemix/ext">
             <artifact refid="ant-contrib.jars"/>
             <artifact refid="cagrid.jars"/>
             <artifact refid="globus.jars"/>
-            <artifact refid="globus.security.jars"/>
             <artifact refid="c3pr.grid.jars"/>
         </resolveDependencies>
         <ant dir="${projects.dir}/servicemix" inheritAll="false" antfile="build.xml" target="all"/>
@@ -449,15 +443,17 @@
         </ant>
     </target>
 
+     <!-- ====================================================================== -->
+    <!-- UnDeploys the webapp (note:- only web + core projects )in CATALINA_HOME  -->
     <!-- ====================================================================== -->
-    <!-- Will build the esb integration project  -->
-    <!-- ====================================================================== -->
-    <target name="buildESB" depends="build-servicemix" description="Will build the esb project">
-        <echo message="Built. Call deploESB"/>
+    <target name="war" depends="checkTomcat" description="Will build the c3prv2 war archive in the current directory">
+        <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="war">
+            <property name="war.file" value="${antfiles.dir}/c3prv2.war"/>
+        </ant>
     </target>
 
 
-    <target name="deployESB" description="Will deploy and make ready the ctms esb engine (servicemix)">
+    <target name="deployESB" depends="build-servicemix" description="Will build and deploy and make ready the ctms esb engine (servicemix)">
 
         <property name="servicemix.toolkit.home" value="${servicemix.project.home}/servicemix-toolkit"/>
 
