@@ -49,11 +49,11 @@
     </div>
 
     <div class="row">
-        <div class="label">
+        <div class="label required-indicator">
             Description
         </div>
         <div class="value">
-            <form:textarea rows="3" cols="45" path="descriptionText"/>
+            <form:textarea rows="3" cols="45" path="descriptionText" cssClass="validate-notEmpty"/>
         </div>
     </div>
 
