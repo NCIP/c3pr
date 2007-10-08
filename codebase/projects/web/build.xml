@@ -48,9 +48,6 @@
     <property name="test.logs.dir" location="${test.dir}/logs" />
     <property name="test.project.jar" location="${jar.dir}/c3pr-2.0-${project.name}-tests-${project.version}.jar" />
 
-    <!-- core properties -->
-    <property name="web.properties.file" value="${basedir}/conf/web.properties"/>
-
     <!-- Load common util path -->
     <import file="antfiles/build-test.xml" />
 
@@ -127,22 +124,6 @@
     </target>
 
     <target name="resources" depends="prepare">
-        <!--load ext property files-->
-        <property file="${ext.resources.dir}/build.properties"/>
-
-        <copy file="${web.properties.file}"
-              tofile="${classes.dir}/context/web.properties"
-              overwrite="true"
-              filtering="true">
-            <filterset>
-                <filter token="hotlinks.psc" value='${hotlinks.psc}'/>
-                <filter token="hotlinks.caaers" value="${hotlinks.caaers}"/>
-                <filter token="hotlinks.c3d" value="${hotlinks.c3d}"/>
-                <filter token="grid.idpUrl" value="${grid.idpUrl}"/>
-                <filter token="grid.ifsUrl" value="${grid.ifsUrl}"/>
-                <filter token="broadcastEnable" value="${broadcastEnable}"/>
-            </filterset>
-        </copy>
 
         <copy todir="${classes.dir}">
             <fileset dir="${src.resources.dir}">

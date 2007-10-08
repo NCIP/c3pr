@@ -21,6 +21,8 @@
     <!--build dirs-->
     <property name="build.dir" value="${basedir}/build"/>
     <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="build.context.dir" value="${classes.dir}/context"/>
+    
     <property name="jar.dir" value="${build.dir}/jars"/>
     <property name="project.jarfile" value="${jar.dir}/c3pr-2.0-${project.name}-${project.version}.jar"/>
 
@@ -54,8 +56,7 @@
     <property name="oracle.csm.db.scripts.dir" value="${oracle.db.script.dir}/csm"/>
     <property name="postgresql.csm.db.scripts.dir" value="${postgresql.db.script.dir}/csm"/>
 
-    <!-- core properties -->
-    <property name="core.properties.file" value="${conf.dir}/core.properties"/>
+    <property name="c3pr.properties.file" value="c3pr.properties"/>
 
     <property name="csm.conf.dir" value="${conf.dir}/csm"/>
 
@@ -132,35 +133,19 @@
     </target>
 
     <target name="resources" description="Copy resources into classpath" depends="prepare">
-        <!--load ext property files-->
+
         <property file="${ext.resources.dir}/build.properties"/>
 
-        <copy file="${core.properties.file}"
-              tofile="${classes.dir}/context/core.properties"
-              overwrite="true"
-              filtering="true">
-            <filterset>
-                <filter token="datasource.url" value='${datasource.url}'/>
-                <filter token="datasource.username" value="${datasource.username}"/>
-                <filter token="webapp.project.name" value="${project.name}"/>
-                <filter token="datasource.password" value="${datasource.password}"/>
-                <filter token="datasource.schema" value="${datasource.schema}"/>
-                <filter token="datasource.driver" value="${datasource.driver}"/>
-                <filter token="datasource.dialect" value="${datasource.dialect}"/>
-                <filter token="esb.brokerUrl" value="${esb.brokerUrl}"/>
-                <filter token="authorizationSwitch" value="${authorizationSwitch}"/>
-                <filter token="csm.context.name" value="${csm.context.name}"/>
-                <filter token="show_sql" value="${log_sql}"/>
-
-                <filter token="outgoing.mail.server" value="${outgoing.mail.server}"/>
-                <filter token="outgoing.mail.username" value="${outgoing.mail.username}"/>
-                <filter token="outgoing.mail.password" value="${outgoing.mail.password}"/>
-                <filter token="outgoing.mail.from.address" value="${outgoing.mail.from.address}"/>
-            </filterset>
-        </copy>
+        <!--copy the properties file-->
+        <copy file="${ext.resources.dir}/build.properties"
+        tofile="${build.context.dir}/${c3pr.properties.file}"/>
 
         <!--copy the castor mapping file-->
-        <copy todir="${classes.dir}">
+        <copy todir="${classes.dir}" filtering="true">
+            <filterset>
+                <filter token="catalina.home" value="${catalina.home}"/>
+                <filter token="user.home" value="${user.home}"/>
+            </filterset>
             <fileset dir="${src.resources.dir}">
                 <include name="**/*.xml"/>
             </fileset>
