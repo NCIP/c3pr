@@ -167,12 +167,16 @@
             <artifact refid="net-handle.jars"/>
             <artifact refid="xerces.jars"/>
             <artifact refid="xercesImpl.jars"/>
-            <artifact refid="c3pr.build.properties"/>
 
             <!--security jars-->
             <artifact refid="acegi.jars"/>
             <artifact refid="ehcache.jars"/>
+
+            <!--property files-->
+            <artifact refid="c3pr.log4j.properties"/>
+            <artifact refid="c3pr.build.properties"/>
         </resolveDependencies>
+
         <ant dir="${projects.dir}/core" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
 

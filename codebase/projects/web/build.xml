@@ -229,15 +229,7 @@
                 <exclude name="*-tests*.jar" />
             </fileset>
         </copy>
-        <!-- copy log4j -->
-        <copy file="${conf.dir}\log4j.properties"
-              tofile="${webinf.dir}/log4j.properties"
-              overwrite="true"
-              filtering="true">
-            <filterset>
-                <filter token="log4j.file" value='${tomcat.home}/logs/${log4j.filename}'/>
-            </filterset>
-        </copy>
+     
     </target>
 
     <!-- ====================================================================== -->

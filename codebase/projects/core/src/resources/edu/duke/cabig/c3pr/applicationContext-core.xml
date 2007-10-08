@@ -222,6 +222,11 @@
         <property name="host" value="${outgoing.mail.server}"/>
         <property name="password" value="${outgoing.mail.password}"/>
         <property name="username" value="${outgoing.mail.username}"/>
+        <property name="javaMailProperties">
+            <value>
+                mail.smtp.auth=${outgoing.smtp.auth}
+            </value>
+        </property>
     </bean>
 
     <bean id="confirmationEmailer" class="edu.duke.cabig.c3pr.aspects.UserEmailConfirmationAspect"

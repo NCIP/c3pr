@@ -140,6 +140,18 @@
         <copy file="${ext.resources.dir}/build.properties"
         tofile="${build.context.dir}/${c3pr.properties.file}"/>
 
+        <!-- copy log4j -->
+        <copy file="${ext.resources.dir}/c3pr-log4j.properties"
+              tofile="${classes.dir}/log4j.properties"
+              overwrite="true"
+              filtering="true">
+            <filterset>
+                <filter token="catalina.home" value="${catalina.home}"/>
+                <filter token="log4j.filename" value='${log4j.filename}'/>
+            </filterset>
+        </copy>
+
+
         <!--copy the castor mapping file-->
         <copy todir="${classes.dir}" filtering="true">
             <filterset>

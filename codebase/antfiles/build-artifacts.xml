@@ -277,6 +277,12 @@
             </fileset>
         </artifact>
 
+        <artifact track="main" type="resources" id="c3pr.log4j.properties">
+            <fileset dir="${antfiles.dir}">
+                <include name="c3pr-log4j.properties"/>
+            </fileset>
+        </artifact>
+
     </target>
 
 </project>
