@@ -73,7 +73,7 @@ public abstract class StudyTab extends InPlaceEditableTab<Study> {
     	request.getSession().setAttribute(DISABLE_FORM_RANDOMIZATION, new Boolean(true));
     	request.getSession().setAttribute(DISABLE_FORM_DISEASES, new Boolean(true));
     	request.getSession().setAttribute(DISABLE_FORM_SITES, new Boolean(true));
-    	request.getSession().setAttribute(DISABLE_FORM_IDENTIFIERS, new Boolean(true));
+//    	request.getSession().setAttribute(DISABLE_FORM_IDENTIFIERS, new Boolean(true));
 //    	request.getSession().setAttribute(DISABLE_FORM_INVESTIGATORS, new Boolean(true));
 //    	request.getSession().setAttribute(DISABLE_FORM_PERSONNEL, new Boolean(true));
     }
