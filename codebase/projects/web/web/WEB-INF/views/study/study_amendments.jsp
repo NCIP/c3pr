@@ -11,6 +11,33 @@
 <tags:stylesheetLink name="tabbedflow" />
 <tags:javascriptLink name="tabbedflow" />
 <tags:includeScriptaculous />
+<script>	
+	Effect.OpenUp = function(element) {
+        element = $(element);
+        new Effect.BlindDown(element, arguments[1] || {});
+    }
+
+    Effect.CloseDown = function(element) {
+        element = $(element);
+        new Effect.BlindUp(element, arguments[1] || {});
+    }
+        
+    function manageConsentVersionCheckBox(box, num){
+    	if (box.checked) {
+    		if(num == 1){
+    			Effect.OpenUp('consentVersion1');
+    		}else {
+    			Effect.OpenUp('consentVersion2');
+    		}            
+        }else {
+        	if(num == 1){
+    			Effect.CloseDown('consentVersion1');
+    		}else {
+    			Effect.CloseDown('consentVersion2');
+    		}             
+        }
+    }    
+</script>
 </head>
 
 <body>
@@ -61,7 +88,8 @@
             <div class="value">
             	<tags:dateInput path="currentStudyAmendment.irbApprovalDate" cssClass="validate-notEmpty"/>
             </div>
-        </div>
+        </div>       
+        
         <div class="row">
             <div class="label">Comments :</div>
             <div class="value">
@@ -75,29 +103,39 @@
         <table>
         	<tr>
         		<td width="20%"><b>Epoch & Arms :</b></td>
-        		<td width="5%"><form:checkbox path="currentStudyAmendment.epochAndArmsChangedIndicator" value="true"/></td>        		
+        		<td width="5%"><form:checkbox path="currentStudyAmendment.eaChangedIndicator" value="true"/></td>        		
         		<td width="20%"><b>Eligibility :</b></td>
         		<td width="5%"><form:checkbox path="currentStudyAmendment.eligibilityChangedIndicator" value="true"/></td>
         	</tr>
         	<tr>
         		<td><b>Stratification :</b></td>
-        		<td><form:checkbox path="currentStudyAmendment.stratificationChangedIndicator" value="true"/></td>
+        		<td><form:checkbox path="currentStudyAmendment.stratChangedIndicator" value="true"/></td>
         		<td><b>Diseases :</b></td>
         		<td><form:checkbox path="currentStudyAmendment.diseasesChangedIndicator" value="true"/></td>
         	</tr>
-        	<tr>
-        		<td><b>Consent :</b></td>
-        		<td><form:checkbox path="currentStudyAmendment.consentChangedIndicator" value="true"/></td>
-        		<td><b>Principal Investigator :</b></td>
-        		<td><form:checkbox path="currentStudyAmendment.principalInvestigatorChangedIndicator" value="true"/></td>
-        	</tr>
+        	
         	<tr>
         		<td><b>Randomization :</b></td>
         		<td><form:checkbox path="currentStudyAmendment.randomizationChangedIndicator" value="true"/></td>
-        		<td></td>
-        		<td></td>
+        		<td><b>Principal Investigator :</b></td>
+        		<td><form:checkbox path="currentStudyAmendment.piChangedIndicator" value="true"/></td>
         	</tr>
-        </table>        
+        	
+        	<tr>
+        		<td><b>Update Consent :</b></td>
+        		<td><form:checkbox path="currentStudyAmendment.consentChangedIndicator" value="true" onclick="manageConsentVersionCheckBox(this, 1);"/></td>
+        		<td></td>
+        		<td></td>
+        	</tr>        	
+        </table>
+        
+        <div id="consentVersion1"
+                <c:if test="${ empty command.currentStudyAmendment.consentChangedIndicator || 
+                command.currentStudyAmendment.consentChangedIndicator == '' || 
+                !command.currentStudyAmendment.consentChangedIndicator}">style="display:none;"</c:if>>
+         <b>&nbsp;Consent Version :</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         <form:input path="consentVersion" size="20" />
+        </div>               
         </chrome:division>
 	</jsp:attribute>
 	</tags:tabForm>	
@@ -140,7 +178,8 @@
             <div class="value">
                 <textarea name="studyAmendments[${amendmentSize}].comments" rows="2" cols="40"></textarea>
             </div>
-        </div> 
+        </div>        
+       
         </chrome:division>
         <br/>
         
@@ -148,29 +187,34 @@
         <table>
         	<tr>
         		<td width="20%"><b>Epoch & Arms :</b></td>
-        		<td width="5%"><input type="checkbox" name="studyAmendments[${amendmentSize}].epochAndArmsChangedIndicator" value="true"/></td>        		
+        		<td width="5%"><input type="checkbox" name="studyAmendments[${amendmentSize}].eaChangedIndicator" value="true"/></td>        		
         		<td width="20%"><b>Eligibility :</b></td>
         		<td width="5%"><input type="checkbox" name="studyAmendments[${amendmentSize}].eligibilityChangedIndicator" value="true"/></td>
         	</tr>
         	<tr>
         		<td><b>Stratification :</b></td>
-        		<td><input type="checkbox" name="studyAmendments[${amendmentSize}].stratificationChangedIndicator" value="true"/></td>
+        		<td><input type="checkbox" name="studyAmendments[${amendmentSize}].stratChangedIndicator" value="true"/></td>
         		<td><b>Diseases :</b></td>
         		<td><input type="checkbox" name="studyAmendments[${amendmentSize}].diseasesChangedIndicator" value="true"/></td>
         	</tr>
         	<tr>
-        		<td><b>Consent :</b></td>
-        		<td><input type="checkbox" name="studyAmendments[${amendmentSize}].consentChangedIndicator" value="true"/></td>
-        		<td><b>Principal Investigator :</b></td>
-        		<td><input type="checkbox" name="studyAmendments[${amendmentSize}].principalInvestigatorChangedIndicator" value="true"/></td>
-        	</tr>
-        	<tr>
         		<td><b>Randomization :</b></td>
         		<td><input type="checkbox" name="studyAmendments[${amendmentSize}].randomizationChangedIndicator" value="true"/></td>
-        		<td></td>
-        		<td></td>
+        		<td><b>Principal Investigator :</b></td>
+        		<td><input type="checkbox" name="studyAmendments[${amendmentSize}].piChangedIndicator" value="true"/></td>
         	</tr>
-        </table>        
+        	<tr>
+        		<td><b>Update Consent :</b></td>
+        		<td><input type="checkbox" name="studyAmendments[${amendmentSize}].consentChangedIndicator" value="true" onclick="manageConsentVersionCheckBox(this, 2);"/></td>
+        		<td></td>
+        		<td></td>
+        	</tr>     	
+        </table> 
+
+        <div id="consentVersion2" style="display:none;">
+         <b>&nbsp;Consent Version :</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         <input type="text" name="consentVersion" id="consentVersion" size="20"  />
+        </div>       
         </chrome:division>
 	</jsp:attribute>
 	</tags:tabForm>	

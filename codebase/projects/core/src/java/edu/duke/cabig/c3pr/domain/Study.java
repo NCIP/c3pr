@@ -89,6 +89,8 @@ public class Study extends AbstractMutableDeletableDomainObject implements
 	private String[] diseaseTermIds;
 
 	private String diseaseCategoryAsText;
+	
+	private String consentVersion;
 
 	private LazyListHelper lazyListHelper;
 	
@@ -689,6 +691,14 @@ public class Study extends AbstractMutableDeletableDomainObject implements
 	public void setCoordinatingCenterStudyStatus(
 			CoordinatingCenterStudyStatus coordinatingCenterStudyStatus) {
 		this.coordinatingCenterStudyStatus = coordinatingCenterStudyStatus;
+	}
+
+	public String getConsentVersion() {
+		return consentVersion;
+	}
+
+	public void setConsentVersion(String consentVersion) {
+		this.consentVersion = consentVersion;
 	}
 
 }
