@@ -23,7 +23,7 @@
                 </div>
                 <div class="row">
                     <div class="label">Coordinating Center Study Status:</div>
-                    <div class="value">${command.coordinatingCenterStudyStatus}</div>
+                    <div class="value">${command.coordinatingCenterStudyStatus.code}</div>
                 </div>
             </div>
             </td></tr>
