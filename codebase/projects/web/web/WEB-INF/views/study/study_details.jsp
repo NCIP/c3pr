@@ -50,6 +50,8 @@
                 Effect.CloseDown('randomizationType');
             }
         }
+        
+
 
         var sponsorSiteAutocompleterProps = {
             basename: "healthcareSite",
@@ -96,6 +98,8 @@
 <%-- Can't use tags:tabForm b/c there are two boxes in the form --%>
 <form:form method="post" name="studyDetails" cssClass="standard">
 <tags:tabFields tab="${tab}" />
+
+<c:set var="disabled" value="${flowType != 'CREATE_STUDY'}" scope="request" />
 <chrome:box title="${tab.shortTitle}">
 
 <chrome:division id="study-details" title="Basic Details">
@@ -105,26 +109,26 @@
             <div class="label required-indicator">
                 Short Title:</div>
             <div class="value"><form:input path="shortTitleText" size="41"
-                                           maxlength="30" cssClass="validate-notEmpty" /></div>
+                                           maxlength="30" cssClass="validate-notEmpty" disabled="${disabled}"/></div>
         </div>
 
         <div class="row">
             <div class="label required-indicator">
                 Long Title:</div>
             <div class="value"><form:textarea path="longTitleText" rows="2"
-                                              cols="40" cssClass="validate-notEmpty&&maxlength200" /></div>
+                                              cols="40" cssClass="validate-notEmpty&&maxlength200" disabled="${disabled}"/></div>
         </div>
 
         <div class="row">
             <div class="label">Description:</div>
             <div class="value"><form:textarea path="descriptionText" rows="2"
-                                              cols="40" cssClass="validate-maxlength2000" /></div>
+                                              cols="40" cssClass="validate-maxlength2000" disabled="${disabled}"/></div>
         </div>
 
         <div class="row">
             <div class="label">Precis:</div>
             <div class="value"><form:textarea path="precisText" rows="2"
-                                              cols="40" cssClass="validate-maxlength200" /></div>
+                                              cols="40" cssClass="validate-maxlength200" disabled="${disabled}"/></div>
         </div>
     </div>
 
@@ -132,14 +136,14 @@
         <div class="row">
             <div class="label">Target Accrual:</div>
             <div class="value"><form:input path="targetAccrualNumber" size="10"
-                                           cssClass="validate-numeric" /></div>
+                                           cssClass="validate-numeric" disabled="${disabled}"/></div>
         </div>
 
         <div class="row">
             <div class="label required-indicator">
                 Type:</div>
             <div class="value"><form:select path="type"
-                                            cssClass="validate-notEmpty">
+                                            cssClass="validate-notEmpty" disabled="${disabled}">
                 <option value="">--Please Select--</option>
                 <form:options items="${typeRefData}" itemLabel="desc"
                               itemValue="desc" />
@@ -151,7 +155,7 @@
             <div class="label required-indicator">
                 Phase:</div>
             <div class="value"><form:select path="phaseCode"
-                                            cssClass="validate-notEmpty">
+                                            cssClass="validate-notEmpty" disabled="${disabled}">
                 <option value="">--Please Select--</option>
                 <form:options items="${phaseCodeRefData}" itemLabel="desc"
                               itemValue="desc" />
@@ -160,7 +164,7 @@
 
         <div class="row">
             <div class="label">Blinded:</div>
-            <div class="value"><form:select path="blindedIndicator">
+            <div class="value"><form:select path="blindedIndicator" disabled="${disabled}">
                 <option value="">--Please Select--</option>
                 <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
             </form:select></div>
@@ -179,7 +183,7 @@
                     <div class="label required-indicator">
                         Multi-Institutional:</div>
                     <div class="value"><form:select path="multiInstitutionIndicator"
-                                                   cssClass="validate-notEmpty">
+                                                   cssClass="validate-notEmpty" disabled="${disabled}">
                         <option value="">--Please Select--</option>
                         <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
                     </form:select></div>
@@ -187,8 +191,14 @@
             </c:otherwise>
          </c:choose>
 
+        <div id="consentVersion">
+            <div class="row">
+                <div class="label required-indicator">Consent Version:</div>
+                <div class="value"><form:input path="consentVersion" size="10" cssClass="validate-notEmpty" disabled="${disabled}"/></div>
+            </div>
+        </div>
+        
     </div>
-
 </chrome:division>
 
 
@@ -207,7 +217,7 @@
 									value="${command.organizationAssignedIdentifiers[0].healthcareSite.id}" />
 								<input id="coCenter-input" size="50" type="text"
 								name="organizationAssignedIdentifiers[0].healthcareSite.name"
-								value="${command.organizationAssignedIdentifiers[0].healthcareSite.name}" class="validate-notEmpty" />
+								value="${command.organizationAssignedIdentifiers[0].healthcareSite.name}" class="validate-notEmpty" disabled="${disabled}"/>
 							<tags:indicator id="coCenter-indicator" />
 							<div id="coCenter-choices" class="autocomplete"></div>
 							</div>
@@ -218,7 +228,7 @@
                             Study Identifier:</div>
                         <div class="value"><input type="text" name="organizationAssignedIdentifiers[0].value" 
 						size="30" maxlength="30"
-						value="${command.organizationAssignedIdentifiers[0].value}" class="validate-notEmpty" />
+						value="${command.organizationAssignedIdentifiers[0].value}" class="validate-notEmpty" disabled="${disabled}"/>
 					<input type="hidden" name="organizationAssignedIdentifiers[0].type"
 						value="Coordinating Center Identifier"/>
 						<input type="hidden" name="organizationAssignedIdentifiers[0].primaryIndicator" value="true"/></div>
@@ -238,7 +248,7 @@
                 Randomized:</div>
             <div class="value"><form:select path="randomizedIndicator"
                                             onchange="manageRandomizedIndicatorSelectBox(this);"
-                                            cssClass="validate-notEmpty">
+                                            cssClass="validate-notEmpty" disabled="${disabled}">
                 <option value="">--Please Select--</option>
                 <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
             </form:select></div>
@@ -250,7 +260,7 @@
 
             <div class="row">
                 <div class="label">Randomization Type:</div>
-                <div class="value"><form:select path="randomizationType">
+                <div class="value"><form:select path="randomizationType" disabled="${disabled}">
                     <form:option label="--Please Select--" value=""/>
                     <form:option label="Book" value="BOOK"/>
                     <form:option label="Call Out" value="CALL_OUT"/>
@@ -270,7 +280,7 @@
                 Funding Sponsor:</div>
             <div class="value">
             	<input type="text" id="healthcareSite-input" size="50"
-            		name="aaaxxx"
+            		name="aaaxxx" disabled="${disabled}"
             		value="${fn:length(command.studyFundingSponsors)>0?command.studyFundingSponsors[0].healthcareSite.name:''}"/>
 				<input type="hidden" id="healthcareSite-hidden"
             		name="studyFundingSponsors[0].healthcareSite"
@@ -287,7 +297,7 @@
             	<div id="fundingSponId">
 	            	<input type="text" name="organizationAssignedIdentifiers[${sponIndex==0?1:sponIndex}].value" size="30"
 						maxlength="30" value="${command.fundingSponsorIdentifierIndex==-1?'':command.organizationAssignedIdentifiers[sponIndex==0?1:sponIndex].value}"
-						id="organizationAssignedIdentifiers[${sponIndex==0?1:sponIndex}].value" />
+						id="organizationAssignedIdentifiers[${sponIndex==0?1:sponIndex}].value" disabled="${disabled}"/>
 					<input type="hidden" id="healthcareSite-hidden1"
 	                    name="organizationAssignedIdentifiers[${sponIndex==0?1:sponIndex}].healthcareSite"
 	                    value="${command.fundingSponsorIdentifierIndex==-1?'':command.organizationAssignedIdentifiers[sponIndex==0?1:sponIndex].healthcareSite.id}" />
