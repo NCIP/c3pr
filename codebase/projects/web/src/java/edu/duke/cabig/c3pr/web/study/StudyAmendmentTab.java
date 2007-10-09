@@ -43,11 +43,11 @@ public class StudyAmendmentTab extends StudyTab {
 			//In case the epochsIndicator is not null and its value is true.....set the disable for that tab to false.
 			//Else(epochsIndicator is null which corresponds to false or not checking the checkbox) set the disable for that tab to true and
 			//explicitly set the epochsIndicator in the studyAmendment instance to false.
-			if(sAmendment.getEpochAndArmsChangedIndicator() != null && sAmendment.getEpochAndArmsChangedIndicator()){				
+			if(sAmendment.getEaChangedIndicator() != null && sAmendment.getEaChangedIndicator()){				
 				request.getSession().setAttribute(DISABLE_FORM_EPOCH_AND_ARMS, new Boolean(false));
 			}else {
 				request.getSession().setAttribute(DISABLE_FORM_EPOCH_AND_ARMS, new Boolean(true));
-				sAmendment.setEpochAndArmsChangedIndicator(false);
+				sAmendment.setEaChangedIndicator(false);
 			}			
 
 			if(sAmendment.getEligibilityChangedIndicator() != null && sAmendment.getEligibilityChangedIndicator()){
@@ -57,11 +57,11 @@ public class StudyAmendmentTab extends StudyTab {
 				sAmendment.setEligibilityChangedIndicator(false);
 			}		
 			
-			if(sAmendment.getStratificationChangedIndicator() != null && sAmendment.getStratificationChangedIndicator()){
+			if(sAmendment.getStratChangedIndicator() != null && sAmendment.getStratChangedIndicator()){
 				request.getSession().setAttribute(DISABLE_FORM_STRATIFICATION, new Boolean(false));
 			}else {
 				request.getSession().setAttribute(DISABLE_FORM_STRATIFICATION, new Boolean(true));
-				sAmendment.setStratificationChangedIndicator(false);
+				sAmendment.setStratChangedIndicator(false);
 			}						
 			
 			if(sAmendment.getDiseasesChangedIndicator() != null && sAmendment.getDiseasesChangedIndicator()){
@@ -78,12 +78,12 @@ public class StudyAmendmentTab extends StudyTab {
 				sAmendment.setRandomizationChangedIndicator(false); 
 			}	
 			
-			if(sAmendment.getConsentChangedIndicator() != null && sAmendment.getConsentChangedIndicator()){
+//			if(sAmendment.getConsentChangedIndicator() != null && sAmendment.getConsentChangedIndicator()){
 		//		request.getSession().setAttribute(DISABLE_FORM_EPOCH_AND_ARMS, new Boolean(false));
 //			}else {
 //				request.getSession().setAttribute(DISABLE_FORM_EPOCH_AND_ARMS, new Boolean(true));
 //				sAmendment.setConsentChangedIndicator(false);
-			}
+//			}
 
 			//Change the status from Active to Pending_amendment.
 			try{

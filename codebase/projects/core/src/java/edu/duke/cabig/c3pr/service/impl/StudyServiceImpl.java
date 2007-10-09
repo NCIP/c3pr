@@ -136,9 +136,9 @@ public class StudyServiceImpl implements StudyService {
 			if ((latestAmendment.getConsentChangedIndicator())
 					|| (latestAmendment.getDiseasesChangedIndicator())
 					|| (latestAmendment.getEligibilityChangedIndicator())
-					|| (latestAmendment.getEpochAndArmsChangedIndicator())
-					|| (latestAmendment.getStratificationChangedIndicator())
-					|| (latestAmendment.getPrincipalInvestigatorChangedIndicator())
+					|| (latestAmendment.getEaChangedIndicator())
+					|| (latestAmendment.getStratChangedIndicator())
+					|| (latestAmendment.getPiChangedIndicator())
 							|| (latestAmendment
 									.getRandomizationChangedIndicator())) {
 				return StudyDataEntryStatus.COMPLETE;
