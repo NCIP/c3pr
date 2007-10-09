@@ -1,9 +1,9 @@
 class PopulateAnatomicSite extends edu.northwestern.bioinformatics.bering.Migration {
     void up() {
-    if databaseMatches('oracle'){
+    if (databaseMatches('oracle')){
     execute("alter table anatomic_sites modify version number default 0")
     }
-           
+    
         // Have to break up the inserts so as not to exceed the java max method length
         m0()
         m1()
