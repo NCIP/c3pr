@@ -33,7 +33,7 @@ class StudyDetailsTab extends StudyTab {
 		addConfigMapToRefdata(refdata, "yesNo");
 
 		if (request.getAttribute("amendFlow") != null
-				&& request.getAttribute("amendFlow").toString().equals("true")) {
+				&& request.getAttribute("amendFlow").toString().equalsIgnoreCase("true")) {
 			if (request.getSession().getAttribute(DISABLE_FORM_DETAILS) != null) {
 				refdata.put("disableForm", request.getSession().getAttribute(
 						DISABLE_FORM_DETAILS));

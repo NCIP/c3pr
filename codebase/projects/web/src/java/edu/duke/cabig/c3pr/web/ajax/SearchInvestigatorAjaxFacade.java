@@ -43,17 +43,17 @@ public class SearchInvestigatorAjaxFacade {
         row.setHighlightRow(Boolean.TRUE);
         model.addRow(row);
 
-        Column columnFirstName = model.getColumnInstance();
-        columnFirstName.setTitle("First Name");
-        columnFirstName.setProperty("firstName");
-        columnFirstName.setCell((InvestigatorLinkDisplayCell.class).getName());
-        model.addColumn(columnFirstName);
+        Column columnName = model.getColumnInstance();
+        columnName.setTitle("Name");
+        columnName.setProperty("fullName");
+        columnName.setCell((InvestigatorLinkDisplayCell.class).getName());
+        model.addColumn(columnName);
         
-        Column columnLastName = model.getColumnInstance();
-        columnLastName.setTitle("Last Name");
-        columnLastName.setProperty("lastName");
-        columnLastName.setCell((InvestigatorLinkDisplayCell.class).getName());
-        model.addColumn(columnLastName);
+//        Column columnLastName = model.getColumnInstance();
+//        columnLastName.setTitle("Last Name");
+//        columnLastName.setProperty("lastName");
+//        columnLastName.setCell((InvestigatorLinkDisplayCell.class).getName());
+//        model.addColumn(columnLastName);
 
         Column columnNci = model.getColumnInstance();
         columnNci.setTitle("NCI Identifier");

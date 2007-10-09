@@ -43,17 +43,16 @@ public class SearchResearchStaffAjaxFacade {
         row.setHighlightRow(Boolean.TRUE);
         model.addRow(row);
 
-        Column columnFirstName = model.getColumnInstance();
-        columnFirstName.setTitle("First Name");
-        columnFirstName.setProperty("firstName");
-        columnFirstName.setCell((ResearchStaffLinkDisplayCell.class).getName());
-        model.addColumn(columnFirstName);
+        Column columnName = model.getColumnInstance();
+        columnName.setTitle("Name");
+        columnName.setProperty("fullName");
+        columnName.setCell((ResearchStaffLinkDisplayCell.class).getName());
+        model.addColumn(columnName);
         
-        Column columnLastName = model.getColumnInstance();
-        columnLastName.setTitle("Last Name");
-        columnLastName.setProperty("lastName");
-        columnLastName.setCell((ResearchStaffLinkDisplayCell.class).getName());
-        model.addColumn(columnLastName);
+        Column columnSite = model.getColumnInstance();
+        columnSite.setTitle("Site");
+        columnSite.setProperty("healthcareSite.name");
+        model.addColumn(columnSite);
 
         Column columnNci = model.getColumnInstance();
         columnNci.setTitle("NCI Identifier");
