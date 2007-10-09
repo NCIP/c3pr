@@ -63,7 +63,7 @@ public class BookRandomizationAjaxFacade {
 	        }
 	        TableModel model = new TableModelImpl(context);
 	        TreatmentEpoch tEpoch = null;
-	        if(study != null && study.getRandomizationType().equals(RandomizationType.BOOK)){
+	        if(study != null && study.getRandomizationType()!= null && study.getRandomizationType().equals(RandomizationType.BOOK)){
 		        String bookRandomizations;
 		        int selectedEpoch = StringUtils.getBlankIfNull(epochIndexString).equals("")?-1:Integer.parseInt(epochIndexString);
 		        tEpoch = study.getTreatmentEpochs().get(selectedEpoch);	
