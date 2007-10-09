@@ -29,12 +29,12 @@ public class StudyAmendment extends AbstractMutableDeletableDomainObject{
 	private Date amendmentDateStr;
 	private Date irbApprovalDateStr;
 		
-	private Boolean epochAndArmsChangedIndicator = false; 
-	private Boolean stratificationChangedIndicator = false;
+	private Boolean eaChangedIndicator = false; 
+	private Boolean stratChangedIndicator = false;
 	private Boolean consentChangedIndicator = false;
 	private Boolean eligibilityChangedIndicator = false;
 	private Boolean diseasesChangedIndicator = false;
-	private Boolean principalInvestigatorChangedIndicator =false;
+	private Boolean piChangedIndicator =false;
 	private Boolean randomizationChangedIndicator =false;
 	
 
@@ -109,26 +109,6 @@ public class StudyAmendment extends AbstractMutableDeletableDomainObject{
 	public void setEligibilityChangedIndicator(Boolean eligibilityChangedIndicator) {
 		this.eligibilityChangedIndicator = eligibilityChangedIndicator;
 	}
-	public Boolean getEpochAndArmsChangedIndicator() {
-		return epochAndArmsChangedIndicator;
-	}
-	public void setEpochAndArmsChangedIndicator(Boolean epochAndArmsChangedIndicator) {
-		this.epochAndArmsChangedIndicator = epochAndArmsChangedIndicator;
-	}
-	public Boolean getStratificationChangedIndicator() {
-		return stratificationChangedIndicator;
-	}
-	public void setStratificationChangedIndicator(
-			Boolean stratificationChangedIndicator) {
-		this.stratificationChangedIndicator = stratificationChangedIndicator;
-	}
-	public Boolean getPrincipalInvestigatorChangedIndicator() {
-		return principalInvestigatorChangedIndicator;
-	}
-	public void setPrincipalInvestigatorChangedIndicator(
-			Boolean principalInvestigatorChangedIndicator) {
-		this.principalInvestigatorChangedIndicator = principalInvestigatorChangedIndicator;
-	}
 	public Boolean getRandomizationChangedIndicator() {
 		return randomizationChangedIndicator;
 	}
@@ -141,6 +121,24 @@ public class StudyAmendment extends AbstractMutableDeletableDomainObject{
 	}
 	public String getAmendmentVersion() {
 		return amendmentVersion;
+	}
+	public Boolean getEaChangedIndicator() {
+		return eaChangedIndicator;
+	}
+	public void setEaChangedIndicator(Boolean eaChangedIndicator) {
+		this.eaChangedIndicator = eaChangedIndicator;
+	}
+	public Boolean getPiChangedIndicator() {
+		return piChangedIndicator;
+	}
+	public void setPiChangedIndicator(Boolean piChangedIndicator) {
+		this.piChangedIndicator = piChangedIndicator;
+	}
+	public Boolean getStratChangedIndicator() {
+		return stratChangedIndicator;
+	}
+	public void setStratChangedIndicator(Boolean stratChangedIndicator) {
+		this.stratChangedIndicator = stratChangedIndicator;
 	}
 
 
