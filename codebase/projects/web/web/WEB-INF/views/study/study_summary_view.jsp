@@ -328,10 +328,11 @@
 				value="Export Study" onclick="doExportAction();" /> <csmauthz:accesscontrol
 				domainObject="${editAuthorizationTask}"
 				authorizationCheckName="taskAuthorizationCheck">
+				<input type="submit" value="Edit Study" />
 				<c:choose>
 					<c:when
 						test="${command.coordinatingCenterStudyStatus == 'PENDING'}">
-						<input type="submit" value="Edit Study" />
+					<%--	<input type="submit" value="Edit Study" /> --%>
 					</c:when>
 					<c:when
 						test="${command.coordinatingCenterStudyStatus == 'ACTIVE' || 
