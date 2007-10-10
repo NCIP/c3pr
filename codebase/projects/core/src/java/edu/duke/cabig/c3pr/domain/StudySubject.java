@@ -272,7 +272,7 @@ public class StudySubject extends AbstractMutableDeletableDomainObject {
 
 	@OneToMany
     @Cascade( { CascadeType.MERGE, CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-    @JoinColumn(name = "SPA_ID", nullable=false)
+    @JoinColumn(name = "SPA_ID")
 	@Where(clause = "retired_indicator  = 'false'")
 	public List<Identifier> getIdentifiers() {
 		return identifiers;
