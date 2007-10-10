@@ -31,5 +31,7 @@ public interface StudySubjectService {
 	  public void manageSchEpochWorkFlow(StudySubject studySubject)throws Exception;
 	  
 	  public boolean isRegisterable(StudySubject studySubject);
+	  
+	  public void setHostedMode(boolean hostedMode);
 }
 

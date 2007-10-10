@@ -598,6 +598,6 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		ScheduledNonTreatmentEpoch scheduledEpoch=new ScheduledNonTreatmentEpoch(true);
 		scheduledEpoch.setNonTreatmentEpoch((NonTreatmentEpoch)epochDao.getById(1005));
 		List<StudySubject> list=studySubjectDao.searchByScheduledEpoch(scheduledEpoch);
-		assertEquals("Wrong number of scheduled epochs", 1, list.size());
+		assertEquals("Wrong number of study subjects", 1, list.size());
 	}
 }
