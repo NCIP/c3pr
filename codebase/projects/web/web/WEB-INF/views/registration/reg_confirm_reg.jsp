@@ -50,11 +50,11 @@ function accessApp(url,app,targetWindow){
 		<c:when test="${reg_pending}">
 			<font color="Green"><!-- LEFT FORM STARTS HERE -->
 			<!-- RIGHT CONTENT STARTS HERE --> <strong>Subject Registration request has
-			been successfully sent to the Co-Ordinating center. </strong></font></c:when>
+			been successfully sent to the Coordinating center. </strong></font></c:when>
 		<c:when test="${reg_disapproved}">
 			<font color="Red"><!-- LEFT FORM STARTS HERE -->
 			<!-- RIGHT CONTENT STARTS HERE --> <strong>Subject Registration request has
-			been disapproved by the Co-Ordinating center. </strong></font></c:when>
+			been disapproved by the Coordinating center. </strong></font></c:when>
 		<c:when test="${reg_reserved}">
 			<font color="Green"><!-- LEFT FORM STARTS HERE -->
 			<!-- RIGHT CONTENT STARTS HERE --><strong>Subject has
@@ -75,11 +75,11 @@ function accessApp(url,app,targetWindow){
 		<c:when test="${epoch_pending}">
 			<font color="Green"><!-- LEFT FORM STARTS HERE -->
 			<!-- RIGHT CONTENT STARTS HERE --><strong>Subject Transfer request has
-			been successfully sent to the Co-Ordinating center. </strong></font></c:when>
+			been successfully sent to the Coordinating center. </strong></font></c:when>
 		<c:when test="${epoch_disapproved}">
 			<font color="Red"><!-- LEFT FORM STARTS HERE -->
 			<!-- RIGHT CONTENT STARTS HERE --><strong>Subject Transfer request has
-			been disapproved by the Co-Ordinating center. </strong></font></c:when>
+			been disapproved by the Coordinating center. </strong></font></c:when>
 		<c:when test="${epoch_unapproved}">
 			<font color="Red"><!-- LEFT FORM STARTS HERE -->
 			<!-- RIGHT CONTENT STARTS HERE --><strong>Subject not transferred. Subject Registration record has
@@ -110,7 +110,7 @@ function accessApp(url,app,targetWindow){
 		</tr>
 		<tr>
 			<td class="label">Registration Status:</td>
-			<td valign="top">${command.regWorkflowStatus }</td>
+			<td valign="top">${command.regWorkflowStatus.code }</td>
 		</tr>		
 		<tr>
 			<td class="label">Current Epoch:</td>
@@ -118,7 +118,7 @@ function accessApp(url,app,targetWindow){
 		</tr>
 		<tr>
 			<td class="label">Current Epoch Status:</td>
-			<td valign="top">${command.scheduledEpoch.scEpochWorkflowStatus}</td>
+			<td valign="top">${command.scheduledEpoch.scEpochWorkflowStatus.code}</td>
 		</tr>
 		<c:if test="${!empty armAssigned}">
 			<tr>
