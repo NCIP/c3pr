@@ -32,6 +32,7 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 	private static final Logger logger = Logger.getLogger(StudySubjectServiceImpl.class);
 	StudySubjectDao studySubjectDao;
 	private String isBroadcastEnable="false";
+	private boolean hostedMode=true;
 	private MessageBroadcastServiceImpl messageBroadcaster;
 	private StratumGroupDao stratumGroupDao;
 	private XmlMarshaller registrationXmlUtility;
@@ -154,8 +155,7 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 		ScheduledEpoch scheduledEpoch=studySubject.getScheduledEpoch();
 		if(scheduledEpoch.getScEpochDataEntryStatus()==ScheduledEpochDataEntryStatus.COMPLETE &&
 				studySubject.getRegDataEntryStatus()==RegistrationDataEntryStatus.COMPLETE){
-			if(studySubject.getStudySite().getStudy().getMultiInstitutionIndicator().equalsIgnoreCase("true")
-					&& studySubject.getScheduledEpoch().getEpoch().isEnrolling()){
+			if(this.requiresCoordinatingCenterApproval(studySubject)){
 				//broadcase message to co-ordinating center
 				try {
 					if(triggerMultisite){
@@ -257,7 +257,7 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 	}
 
 	public boolean isRegisterable(StudySubject studySubject){
-		if(studySubject.getStudySite().getStudy().getMultiInstitutionIndicator().equalsIgnoreCase("false") 
+		if(!this.requiresCoordinatingCenterApproval(studySubject)
 				&& studySubject.getRegWorkflowStatus()!=RegistrationWorkFlowStatus.REGISTERED
 				&& isCreatable(studySubject)){
 			return true;
@@ -265,6 +265,11 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 		return false;
 	}
 
+	private boolean requiresCoordinatingCenterApproval(StudySubject studySubject){
+		return studySubject.getStudySite().getStudy().getMultiInstitutionIndicator().equalsIgnoreCase("true")
+				&& !isHostedMode()
+				&& studySubject.getScheduledEpoch().getEpoch().isEnrolling();
+	}
 	private boolean isCreatable(StudySubject studySubject){
 		if(studySubject.getRegDataEntryStatus()==RegistrationDataEntryStatus.COMPLETE
 			&& studySubject.getScheduledEpoch().getScEpochDataEntryStatus()==ScheduledEpochDataEntryStatus.COMPLETE){
@@ -275,5 +280,13 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 	
 	public void manageSchEpochWorkFlow(StudySubject studySubject) throws Exception{
 		manageSchEpochWorkFlowIfUnApp(studySubject, true, true);
+	}
+
+	public boolean isHostedMode() {
+		return hostedMode;
+	}
+
+	public void setHostedMode(boolean hostedMode) {
+		this.hostedMode = hostedMode;
 	}
 }
