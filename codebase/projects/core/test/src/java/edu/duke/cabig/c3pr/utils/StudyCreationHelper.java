@@ -33,8 +33,8 @@ public class StudyCreationHelper {
 		Study study=buildBasicStudy(true, null);
 		NonTreatmentEpoch epoch=new NonTreatmentEpoch();
 		epoch.setName("screening");
-		epoch.setReservationIndicator(reserving.toString());
-		epoch.setEnrollmentIndicator(enrolling.toString());
+		epoch.setReservationIndicator(reserving?"yes":"no");
+		epoch.setEnrollmentIndicator(enrolling?"yes":"no");
         study.addEpoch(epoch);
 		return study;
 	}

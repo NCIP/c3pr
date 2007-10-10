@@ -204,6 +204,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 		site.setStudy(study);
         studySubject.setStudySite(site);
         studySubject.addScheduledEpoch(new ScheduledNonTreatmentEpoch());
+        studySubject.getScheduledEpoch().setEpoch(new NonTreatmentEpoch());
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
         studySubjectService.manageSchEpochWorkFlow(studySubject);
@@ -286,6 +287,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 	/**	Epoch Workflow Status test
 	 * Multi Site Trial
 	 * Randomized Treatment Epoch
+	 * not Hosted Mode
 	 * Epoch Data Entry Status: Complete 	 
 	 * Registration Data Entry Status: Complete
 	*/	
@@ -302,6 +304,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
         try {
+        	studySubjectService.setHostedMode(false);
 			studySubjectService.manageSchEpochWorkFlow(studySubject);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -310,6 +313,38 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
         assertEquals("Wrong Epoch WorkFlow Status",ScheduledEpochWorkFlowStatus.PENDING, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
 	}
 
+	/**	Epoch Workflow Status test
+	 * Multi Site Trial
+	 * Hosted Mode
+	 * Randomized Treatment Epoch
+	 * Epoch Data Entry Status: Complete 	 
+	 * Registration Data Entry Status: Complete
+	*/	
+	public void testManageSchEpochWorkFlowStatusIfUnAppCase6()throws Exception{
+		StudySubject studySubject=new StudySubject();
+		StudySite site=new StudySite();
+		Study study=new Study();
+		study.setMultiInstitutionIndicator("true");
+		study.setRandomizationType(RandomizationType.PHONE_CALL);
+		site.setStudy(study);
+        studySubject.setStudySite(site);
+        ScheduledEpoch scheduledEpochFirst=new ScheduledTreatmentEpoch();
+        scheduledEpochFirst.setEpoch(createTestTreatmentEpoch(true));
+        studySubject.addScheduledEpoch(scheduledEpochFirst);
+        bindRandomization(studySubject,RandomizationType.PHONE_CALL);
+        studySubject.getScheduledEpoch().setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
+        studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
+        try {
+        	studySubjectService.setHostedMode(true);
+			studySubjectService.manageSchEpochWorkFlow(studySubject);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			assertEquals("Wrong Epoch WorkFlow Status",ScheduledEpochWorkFlowStatus.DISAPPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+		}
+		assertEquals("Wrong Epoch WorkFlow Status",ScheduledEpochWorkFlowStatus.APPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+	}
+	
 	/**	Regisrtation Workflow Status test
 	 * Epoch Workflow Status: Unapproved 	 
 	 * Registration Data Entry Status: Incomplete
@@ -439,6 +474,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 
 	/* Test Cases for createRegistration
 	 * Multi Site Trial
+	 * Multi Site Mode
 	 * Treatment Epoch
 	 * Book Randomization
 	 */
@@ -446,6 +482,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 		StudySubject studySubject=new StudySubject();
 		studySubject.setStudySite(getMultiSiteRandomizedStudy(RandomizationType.BOOK).getStudySites().get(0));
 		studySubject.setParticipant(participantDao.getById(1000));
+		studySubjectService.setHostedMode(false);
         Integer savedId;
         {
             addScheduledEpoch(studySubject,true);
@@ -480,10 +517,12 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 
 	/* Test Cases for createRegistration
 	 * Multi Site Trial
+	 * Multi Site Mode
 	 * Treatment Epoch
 	 * Callout Randomization
 	 */
 	public void testCreateRegistrationCase1()throws Exception{
+		studySubjectService.setHostedMode(false);
 		StudySubject studySubject=new StudySubject();
 		studySubject.setStudySite(getMultiSiteRandomizedStudy(RandomizationType.CALL_OUT).getStudySites().get(0));
 		studySubject.setParticipant(participantDao.getById(1000));
@@ -521,10 +560,12 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 
 	/* Test Cases for createRegistration
 	 * Multi Site Trial
+	 * Multi Site Mode
 	 * Non Treatment Epoch, Non Reserving, Non Registering
 	 * Non Randomized
 	 */
 	public void testCreateRegistrationCase2()throws Exception{
+		studySubjectService.setHostedMode(false);
 		StudySubject studySubject=new StudySubject();
 		studySubject.setStudySite(getMultiSiteNonRandomizedStudy(false, false).getStudySites().get(0));
 		studySubject.setParticipant(participantDao.getById(1000));
@@ -677,14 +718,12 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
         assertNotNull(xml);
     }
 
-
-
-
     /* Test Cases for createRegistration
 	 * Local Trial
 	 * Non Randomized Treatment Epoch
 	 */
 	public void testCreateRegistrationCase5()throws Exception{
+		//interruptSession();
 		StudySubject studySubject=new StudySubject();
 		studySubject.setStudySite(getLocalNonRandomizedWithArmStudy().getStudySites().get(0));
 		studySubject.setParticipant(participantDao.getById(1000));
@@ -826,10 +865,12 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 
 	/* Test Cases for createRegistration
 	 * Multi Site Trial
+	 * Multi Site Mode
 	 * Non Treatment Epoch, Reserving, Non Registering
 	 * Non Randomized
 	 */
 	public void testCreateRegistrationCase9()throws Exception{
+		studySubjectService.setHostedMode(false);
 		StudySubject studySubject=new StudySubject();
 		studySubject.setStudySite(getMultiSiteNonRandomizedStudy(true, false).getStudySites().get(0));
 		studySubject.setParticipant(participantDao.getById(1000));
@@ -860,6 +901,125 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 
 	}
 
+	/* Test Cases for createRegistration
+	 * Multi Site Trial
+	 * Hosted Mode
+	 * Treatment Epoch
+	 * Book Randomization
+	 */
+	public void testCreateRegistrationCase10()throws Exception{
+		StudySubject studySubject=new StudySubject();
+		studySubject.setStudySite(getMultiSiteRandomizedStudy(RandomizationType.BOOK).getStudySites().get(0));
+		studySubject.setParticipant(participantDao.getById(1000));
+		studySubjectService.setHostedMode(true);
+        Integer savedId;
+        {
+            addScheduledEpoch(studySubject,true);
+            buildCommandObject(studySubject);
+            addEnrollmentDetails(studySubject);
+            bindEligibility(studySubject);
+            bindStratification(studySubject);
+            bindRandomization(studySubject,RandomizationType.BOOK);
+            StudySubject saved= studySubjectService.registerSubject(studySubject);
+            savedId= saved.getId().intValue();
+            assertNotNull("The registration didn't get an id", savedId);
+        }
+
+        interruptSession();
+        {
+        	StudySubject loaded = studySubjectDao.getById(savedId);
+        	assertNotNull("Could not reload registration with id " + savedId, loaded);
+        	assertEquals("Wrong number of scheduled epochs", 1, loaded.getScheduledEpochs().size());
+        	assertEquals("Wrong number of scheduled treatment epochs", 1, loaded.getScheduledTreatmentEpochs().size());
+        	assertEquals("Wrong number of scheduled non treatment epochs", 0, loaded.getScheduledNonTreatmentEpochs().size());
+        	assertEquals("getIfTreatmentScheduledEpoch return is inconsistent", true, loaded.getIfTreatmentScheduledEpoch());
+        	ScheduledTreatmentEpoch scheduledTreatmentEpoch=(ScheduledTreatmentEpoch)loaded.getScheduledEpoch();
+        	assertEquals("Wrong eligibility indicator", true, scheduledTreatmentEpoch.getEligibilityIndicator().booleanValue());
+        	assertEquals("Wrong registration data entry status", RegistrationDataEntryStatus.COMPLETE, loaded.getRegDataEntryStatus());
+        	assertEquals("Wrong epoch data entry status", ScheduledEpochDataEntryStatus.COMPLETE, loaded.getScheduledEpoch().getScEpochDataEntryStatus());        	
+        	assertEquals("Wrong registration work flow status", RegistrationWorkFlowStatus.REGISTERED, loaded.getRegWorkflowStatus());
+        	assertEquals("Wrong epoch work flow status", ScheduledEpochWorkFlowStatus.APPROVED, loaded.getScheduledEpoch().getScEpochWorkflowStatus());        	
+        }
+        interruptSession();
+
+	}
+
+	/* Test Cases for createRegistration
+	 * Multi Site Trial
+	 * Hosted Mode
+	 * Non Treatment Epoch, Non Reserving, Non Registering
+	 * Non Randomized
+	 */
+	public void testCreateRegistrationCase11()throws Exception{
+		studySubjectService.setHostedMode(true);
+		StudySubject studySubject=new StudySubject();
+		studySubject.setStudySite(getMultiSiteNonRandomizedStudy(false, false).getStudySites().get(0));
+		studySubject.setParticipant(participantDao.getById(1000));
+        Integer savedId;
+        {
+            addScheduledEpoch(studySubject,false);
+            buildCommandObject(studySubject);
+            addEnrollmentDetails(studySubject);
+            StudySubject saved= studySubjectService.registerSubject(studySubject);
+            savedId= saved.getId().intValue();
+            assertNotNull("The registration didn't get an id", savedId);
+        }
+
+        interruptSession();
+        {
+        	StudySubject loaded = studySubjectDao.getById(savedId);
+        	assertNotNull("Could not reload registration with id " + savedId, loaded);
+        	assertEquals("Wrong number of scheduled epochs", 1, loaded.getScheduledEpochs().size());
+        	assertEquals("Wrong number of scheduled treatment epochs", 0, loaded.getScheduledTreatmentEpochs().size());
+        	assertEquals("Wrong number of scheduled non treatment epochs", 1, loaded.getScheduledNonTreatmentEpochs().size());
+        	assertEquals("getIfTreatmentScheduledEpoch return is inconsistent", false, loaded.getIfTreatmentScheduledEpoch());
+        	assertEquals("Wrong registration data entry status", RegistrationDataEntryStatus.COMPLETE, loaded.getRegDataEntryStatus());
+        	assertEquals("Wrong epoch data entry status", ScheduledEpochDataEntryStatus.COMPLETE, loaded.getScheduledEpoch().getScEpochDataEntryStatus());        	
+        	assertEquals("Wrong registration work flow status", RegistrationWorkFlowStatus.UNREGISTERED, loaded.getRegWorkflowStatus());
+        	assertEquals("Wrong epoch work flow status", ScheduledEpochWorkFlowStatus.APPROVED, loaded.getScheduledEpoch().getScEpochWorkflowStatus());        	
+        }
+        interruptSession();
+
+	}
+
+	/* Test Cases for createRegistration
+	 * Multi Site Trial
+	 * Hosted Mode
+	 * Non Treatment Epoch, Reserving, Non Registering
+	 * Non Randomized
+	 */
+	public void testCreateRegistrationCase12()throws Exception{
+		studySubjectService.setHostedMode(true);
+		StudySubject studySubject=new StudySubject();
+		studySubject.setStudySite(getMultiSiteNonRandomizedStudy(true, false).getStudySites().get(0));
+		studySubject.setParticipant(participantDao.getById(1000));
+        Integer savedId;
+        {
+            addScheduledEpoch(studySubject,false);
+            buildCommandObject(studySubject);
+            addEnrollmentDetails(studySubject);
+            StudySubject saved= studySubjectService.registerSubject(studySubject);
+            savedId= saved.getId().intValue();
+            assertNotNull("The registration didn't get an id", savedId);
+        }
+
+        interruptSession();
+        {
+        	StudySubject loaded = studySubjectDao.getById(savedId);
+        	assertNotNull("Could not reload registration with id " + savedId, loaded);
+        	assertEquals("Wrong number of scheduled epochs", 1, loaded.getScheduledEpochs().size());
+        	assertEquals("Wrong number of scheduled treatment epochs", 0, loaded.getScheduledTreatmentEpochs().size());
+        	assertEquals("Wrong number of scheduled non treatment epochs", 1, loaded.getScheduledNonTreatmentEpochs().size());
+        	assertEquals("getIfTreatmentScheduledEpoch return is inconsistent", false, loaded.getIfTreatmentScheduledEpoch());
+        	assertEquals("Wrong registration data entry status", RegistrationDataEntryStatus.COMPLETE, loaded.getRegDataEntryStatus());
+        	assertEquals("Wrong epoch data entry status", ScheduledEpochDataEntryStatus.COMPLETE, loaded.getScheduledEpoch().getScEpochDataEntryStatus());        	
+        	assertEquals("Wrong registration work flow status", RegistrationWorkFlowStatus.RESERVED, loaded.getRegWorkflowStatus());
+        	assertEquals("Wrong epoch work flow status", ScheduledEpochWorkFlowStatus.APPROVED, loaded.getScheduledEpoch().getScEpochWorkflowStatus());        	
+        }
+        interruptSession();
+
+	}
+	
 	/* Test Cases for invalid stratum group
 	 */
 	public void testInvalidStratumGroup()throws Exception{
