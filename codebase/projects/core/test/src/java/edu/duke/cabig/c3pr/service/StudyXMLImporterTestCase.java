@@ -47,24 +47,10 @@ public class StudyXMLImporterTestCase extends MasqueradingDaoTestCase<StudyDao> 
     public void testGetStudies() throws Exception {
         Study study = getDao().getById(1000);
         String xmlStudy = marshaller.toXML(study);
+
         System.out.println(xmlStudy);
+        studyImporter.importStudies(StringUtils.getInputStream(xmlStudy));
 
-        SecurityContextTestUtils.switchToNobody();
-
-        try {
-            studyImporter.importStudies(StringUtils.getInputStream(xmlStudy));
-            fail("Should not be able to import studies. User not authorized");
-        } catch (C3PRBaseRuntimeException e) {
-            if (e.getRootCause() instanceof AccessDeniedException) {
-
-                //expected
-
-            } else
-                fail("Could not import Study");
-        }
-
-
-        SecurityContextTestUtils.switchToSuperuser();
         List<Study> studies = studyImporter.importStudies(StringUtils.getInputStream(xmlStudy));
 
         assertNotNull(studies);

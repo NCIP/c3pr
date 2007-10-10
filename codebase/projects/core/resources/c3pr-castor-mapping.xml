@@ -387,16 +387,16 @@
 
     <class name="edu.duke.cabig.c3pr.domain.StudySite" extends="edu.duke.cabig.c3pr.domain.StudyOrganization">
         <map-to xml="studySite" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        <field name="irbApprovalDate" type="date">
+        <field name="irbApprovalDate" type="string" handler="edu.duke.cabig.c3pr.xml.DateFieldHandler">
             <bind-xml name="irbApprovalDate" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
         <field name="roleCode" type="string">
             <bind-xml name="roleCode" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
-        <field name="startDate" type="date">
+        <field name="startDate" type="string" handler="edu.duke.cabig.c3pr.xml.DateFieldHandler">
             <bind-xml name="startDate" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
-        <field name="endDate" type="date">
+        <field name="endDate" type="string" handler="edu.duke.cabig.c3pr.xml.DateFieldHandler">
             <bind-xml name="endDate" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
     </class>
