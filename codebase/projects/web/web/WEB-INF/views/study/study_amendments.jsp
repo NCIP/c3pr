@@ -37,6 +37,45 @@
     		}             
         }
     }    
+    
+    ValidationManager.submitPostProcess= function(formElement, continueSubmission){
+       
+       if(formElement.id="command"){
+             box1=document.getElementById('currentStudyAmendment.amendmentVersion');
+             box2=document.getElementById('currentStudyAmendment.amendmentDate');
+             box3=document.getElementById('amendmentVersion');
+             box4=document.getElementById('amendmentDate');
+           
+             if(box1 != null){
+             	if(box1.value != ''){
+             		return true;
+             	}
+             }
+             if(box2 != null){
+             	if(box2.value != ''){
+             		return true;
+             	}
+             }
+             if(box3 != null){
+             	if(box3.value != ''){
+             		return true;
+             	}
+             }
+             if(box4 != null){
+             	if(box4.value != ''){
+             		return true;
+             	}
+             }
+             
+             elmt1 = document.getElementById('errorMsg1');
+             if(elmt1 != null){
+             	elmt1.style.display='';
+             } else {
+             	document.getElementById('errorMsg2').style.display='';
+             }
+         	return false;            
+         }         
+     } 
 </script>
 </head>
 
@@ -64,6 +103,8 @@
 </chrome:division>
 </chrome:box>
 
+
+
 <c:choose>
 <c:when test="${command.coordinatingCenterStudyStatus == 'AMENDMENT_PENDING'}">
 	<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" title="New Amendment" >
@@ -71,10 +112,16 @@
 		<input type="hidden" name="_action" value="_action"/>
 		
 		<chrome:division id="study-details" title="Basic Details">
+		<div class="row">
+			<div id="errorMsg1" style="display:none">
+				<span id='sid1' style='color:#EE3324'>Please enter the Version# or Amendment Date.</span><br/> 	
+			</div>
+		</div>
+		
     	<div class="row">
-            <div class="label"><span class="required-indicator">Version# :</span></div>
+            <div class="label">Version# :</div>
             <div class="value">
-                <form:input	path="currentStudyAmendment.amendmentVersion" cssClass="validate-notEmpty" size="5" /> 
+                <form:input	path="currentStudyAmendment.amendmentVersion" size="5" /> 
             </div>
         </div>
         <div class="row">
@@ -83,12 +130,6 @@
                 <tags:dateInput path="currentStudyAmendment.amendmentDate"/>
             </div>
         </div>
-        <div class="row">
-            <div class="label"><span class="required-indicator">IRB Approval Date:</span></div>
-            <div class="value">
-            	<tags:dateInput path="currentStudyAmendment.irbApprovalDate" cssClass="validate-notEmpty"/>
-            </div>
-        </div>       
         
         <div class="row">
             <div class="label">Comments :</div>
@@ -149,30 +190,28 @@
 		<input type="hidden" name="_action" value="_action"/>
 		
 		<chrome:division id="study-details" title="Basic Details">
+		<div class="row">
+			<div id="errorMsg2" style="display:none">
+				<span id='sid2' style='color:#EE3324'>Please enter the Version# or Amendment Date.</span><br/> 	
+			</div>
+		</div>
+		
     	<div class="row">
-            <div class="label"><span class="required-indicator">Version# :</span></div>
+            <div class="label">Version# :</div>
             <div class="value">
-                <input type="text" name="studyAmendments[${amendmentSize}].amendmentVersion" class="validate-notEmpty" size="5" /> 
+                <input type="text" name="studyAmendments[${amendmentSize}].amendmentVersion" id="amendmentVersion" size="5" /> 
             </div>
         </div>
         <div class="row">
             <div class="label">Amendment Date :</div>
             <div class="value">
-                <input type="text" name="studyAmendments[${amendmentSize}].amendmentDate" id="studyAmendments[${amendmentSize}].amendmentDate" class="date"/>
+                <input type="text" name="studyAmendments[${amendmentSize}].amendmentDate" id="amendmentDate" class="date"/>
                 <a href="#" id="studyAmendments[${amendmentSize}].amendmentDate-calbutton">
 				    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
 				</a>
             </div>
         </div>
-        <div class="row">
-            <div class="label"><span class="required-indicator">IRB Approval Date:</span></div>
-            <div class="value">
-            	<input type="text" name="studyAmendments[${amendmentSize}].irbApprovalDate" class="date validate-notEmpty" id="studyAmendments[${amendmentSize}].irbApprovalDate"/>
-                <a href="#" id="studyAmendments[${amendmentSize}].irbApprovalDate-calbutton">
-				    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
-				</a>
-            </div>
-        </div>
+
         <div class="row">
             <div class="label">Comments :</div>
             <div class="value">
