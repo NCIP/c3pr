@@ -17,8 +17,11 @@ public class C3PRStudyConsumerImpl extends C3PRStudyConsumerImplBase {
     public C3PRStudyConsumerImpl() throws RemoteException {
         super();
         // glue code       
-        ApplicationContext ctx = new ClassPathXmlApplicationContext(new String[] {
-                "classpath*:edu/duke/cabig/c3pr/applicationContext-*.xml",
+        ApplicationContext ctx =    new ClassPathXmlApplicationContext (new String[] {
+                "classpath*:edu/duke/cabig/c3pr/applicationContext-core.xml",
+                "classpath*:edu/duke/cabig/c3pr/applicationContext-core-db.xml",
+                "classpath*:edu/duke/cabig/c3pr/applicationContext-csm.xml",
+
         });
         service = (StudyXMLImporterService) ctx.getBean("studyXMLImporterService");
 
