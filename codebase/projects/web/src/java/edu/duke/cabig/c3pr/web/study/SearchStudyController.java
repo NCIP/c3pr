@@ -47,9 +47,7 @@ public class SearchStudyController extends SimpleFormController {
 
         log.debug("search string = " + searchtext + "; type = " + type);
 
-        if ("status".equals(type))
-            study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
-        else if ("id".equals(type)) {
+        if ("id".equals(type)) {
             SystemAssignedIdentifier id = new SystemAssignedIdentifier();
             id.setValue(searchtext);
             study.addIdentifier(id);
