@@ -164,4 +164,9 @@ public class StudyDao extends GridIdentifiableDao<Study>
     public void reassociate(Study s) {
         getHibernateTemplate().update(s);
     }
+    
+    @Transactional (readOnly = false)
+    public void refresh(Study s) {
+        getHibernateTemplate().refresh(s);
+    }
 }
