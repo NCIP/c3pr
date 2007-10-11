@@ -294,7 +294,8 @@ var AbstractRowInserterProps = {
    							
    							if(index<this.initialIndex){
    								this.removeFromCommand(index)
-   								this.softDelete?this.disableRow(index):this.removeRowFromDisplay(index)
+   								//this.softDelete?this.disableRow(index):this.removeRowFromDisplay(index)
+   								this.removeRowFromDisplay(index)
    							}else{
    								this.removeRowFromDisplay(index)
    							}
