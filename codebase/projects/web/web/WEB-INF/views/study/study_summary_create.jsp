@@ -192,10 +192,10 @@
                     <tr>
                         <td class="alt">${strat.questionText}</td>
                         <td class="alt">
-                            <table border="0" cellspacing="0" cellpadding="0" id="mytable">
+                            <table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
                                 <c:forEach items="${strat.permissibleAnswers}" var="ans">
                                     <tr>
-                                        <td class="alt" align="left">${ans.permissibleAnswer}></td>
+                                        <td class="alt" align="left">${ans.permissibleAnswer}</td>
                                     </tr>
                                 </c:forEach>
                             </table>
