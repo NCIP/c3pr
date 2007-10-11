@@ -44,6 +44,7 @@ public class BaseStudyAjaxFacade {
         model.addRow(row);
 
         Column columnTitle = model.getColumnInstance();
+        columnTitle.setTitle("Short Title");
         columnTitle.setProperty("shortTitleText");
         columnTitle.setCell((ViewStudyLinkCustomCell.class).getName());
         model.addColumn(columnTitle);
@@ -51,15 +52,18 @@ public class BaseStudyAjaxFacade {
         Column columnIdentifier = model.getColumnInstance();
         columnIdentifier.setProperty("primaryIdentifier");
         model.addColumn(columnIdentifier);
+        
+        Column columnPhase = model.getColumnInstance();
+        columnPhase.setTitle("Phase");
+        columnPhase.setProperty("phaseCode");
+        model.addColumn(columnPhase);
 
         Column columnStatus = model.getColumnInstance();
         columnStatus.setTitle("Status");
         columnStatus.setProperty("coordinatingCenterStudyStatus.code");
         model.addColumn(columnStatus);
 
-        Column columnAccrual = model.getColumnInstance();
-        columnAccrual.setProperty("targetAccrualNumber");
-        model.addColumn(columnAccrual);
+     
 
         return model.assemble();
     }
