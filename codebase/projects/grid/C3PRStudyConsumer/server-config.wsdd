@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:aggr="http://mds.globus.org/aggregator/types" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="defaultServerConfig">
+    <service name="SERVICE-INSTANCE-PREFIX/C3PRStudyConsumer" provider="Handler" use="literal" style="document">
+        <parameter name="className" value="edu.duke.cabig.c3pr.grid.service.globus.C3PRStudyConsumerProviderImpl" />
+        <wsdlFile>share/schema/C3PRStudyConsumer/C3PRStudyConsumer_service.wsdl</wsdlFile>
+        <parameter name="securityDescriptor" value="ETC-PATH/C3PRStudyConsumer-security-desc.xml" />
+        <parameter name="allowedMethods" value="*" />
+        <parameter name="handlerClass" value="org.globus.axis.providers.RPCProvider" />
+        <parameter name="scope" value="Application" />
+        <parameter name="providers" value="GetRPProvider GetMRPProvider QueryRPProvider gov.nih.nci.cagrid.introduce.security.service.globus.ServiceSecurityProviderImpl" />
+        <parameter name="loadOnStartup" value="true" />
+        <parameter name="securityMetadata" value="ETC-PATH/C3PRStudyConsumer-security-metadata.xml" />
+        <parameter name="castorMapping" value="c3pr-castor-mapping.xml"/>
+    </service>
+    <typeMapping name="AggregatorContent" qname="aggr:AggregatorContent" type="java:org.globus.mds.aggregator.types.AggregatorContent" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="" />
+    <!-- START INTRODUCE TYPEMAPPINGS -->
+    <ns3:typeMapping encodingStyle=""
+                     serializer="gov.nih.nci.cagrid.encoding.SDKSerializerFactory"
+                     deserializer="gov.nih.nci.cagrid.encoding.SDKDeserializerFactory"
+                     type="ns1:edu.duke.cabig.c3pr.domain.Study"
+                     qname="ns2:study"
+                     xmlns:ns1="http://xml.apache.org/axis/wsdd/providers/java"
+                     xmlns:ns2="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"
+                     xmlns:ns3="http://xml.apache.org/axis/wsdd/"/>
+
+    <ns3:typeMapping encodingStyle=""
+                     serializer="gov.nih.nci.cagrid.encoding.SDKSerializerFactory"
+                     deserializer="gov.nih.nci.cagrid.encoding.SDKDeserializerFactory"
+                     type="ns1:edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier"
+                     qname="ns2:organizationAssignedIdentifier"
+                     xmlns:ns1="http://xml.apache.org/axis/wsdd/providers/java"
+                     xmlns:ns2="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"
+                     xmlns:ns3="http://xml.apache.org/axis/wsdd/"/>
+
+    <ns3:typeMapping encodingStyle=""
+                     serializer="gov.nih.nci.cagrid.encoding.SDKSerializerFactory"
+                     deserializer="gov.nih.nci.cagrid.encoding.SDKDeserializerFactory"
+                     type="ns1:edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier"
+                     qname="ns2:systemAssignedIdentifier"
+                     xmlns:ns1="http://xml.apache.org/axis/wsdd/providers/java"
+                     xmlns:ns2="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"
+                     xmlns:ns3="http://xml.apache.org/axis/wsdd/"/>
+
+    <ns3:typeMapping encodingStyle=""
+                     serializer="gov.nih.nci.cagrid.encoding.SDKSerializerFactory"
+                     deserializer="gov.nih.nci.cagrid.encoding.SDKDeserializerFactory"
+                     type="ns1:edu.duke.cabig.c3pr.domain.NonTreatmentEpoch"
+                     qname="ns2:nonTreatmentEpoch"
+                     xmlns:ns1="http://xml.apache.org/axis/wsdd/providers/java"
+                     xmlns:ns2="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"
+                     xmlns:ns3="http://xml.apache.org/axis/wsdd/"/>
+
+    <ns3:typeMapping encodingStyle=""
+                     serializer="gov.nih.nci.cagrid.encoding.SDKSerializerFactory"
+                     deserializer="gov.nih.nci.cagrid.encoding.SDKDeserializerFactory"
+                     type="ns1:edu.duke.cabig.c3pr.domain.TreatmentEpoch"
+                     qname="ns2:treatmentEpoch"
+                     xmlns:ns1="http://xml.apache.org/axis/wsdd/providers/java"
+                     xmlns:ns2="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"
+                     xmlns:ns3="http://xml.apache.org/axis/wsdd/"/>
+
+    <ns3:typeMapping encodingStyle=""
+                     serializer="gov.nih.nci.cagrid.encoding.SDKSerializerFactory"
+                     deserializer="gov.nih.nci.cagrid.encoding.SDKDeserializerFactory"
+                     type="ns1:edu.duke.cabig.c3pr.domain.ScheduledNonTreatmentEpoch"
+                     qname="ns2:scheduledNonTreatmentEpoch"
+                     xmlns:ns1="http://xml.apache.org/axis/wsdd/providers/java"
+                     xmlns:ns2="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"
+                     xmlns:ns3="http://xml.apache.org/axis/wsdd/"/>
+
+    <ns3:typeMapping encodingStyle=""
+                     serializer="gov.nih.nci.cagrid.encoding.SDKSerializerFactory"
+                     deserializer="gov.nih.nci.cagrid.encoding.SDKDeserializerFactory"
+                     type="ns1:edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch"
+                     qname="ns2:scheduledTreatmentEpoch"
+                     xmlns:ns1="http://xml.apache.org/axis/wsdd/providers/java"
+                     xmlns:ns2="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"
+                     xmlns:ns3="http://xml.apache.org/axis/wsdd/"/>
+
+
+
