@@ -124,7 +124,7 @@
                                     class="tablecontent">
                                 <tr>
                                     <th><span class="required-indicator">Arm </span></th>
-                                    <th>Target&nbsp;Accrual&nbsp;Number</th>
+                                    <th>Accrual Ceiling</th>
                                     <th><input id="addArm" type="button"
                                                value="Add Arm"
                                                onclick="javascript:RowManager.addRow(RowManager.getNestedRowInserter(treatmentEpochRowInserterProps,${treatmentEpochCount.index}));" /></th>
@@ -283,7 +283,7 @@
                                      class="tablecontent">
                                 <tr>
                                     <th><span class="required-indicator">Arm </span></th>
-                                    <th>Target&nbsp;Accrual&nbsp;Number</th>
+                                    <th>Accrual Ceiling</th>
                                     <th><input id="addArm" type="button" value="Add Arm"
                                                onclick="javascript:RowManager.addRow(RowManager.getNestedRowInserter(treatmentEpochRowInserterProps,PAGE.ROW.INDEX));" /></th>
                                 </tr>
