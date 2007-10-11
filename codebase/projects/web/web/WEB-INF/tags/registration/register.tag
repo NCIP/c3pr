@@ -8,8 +8,11 @@
 <%@attribute  name="actionButtonLabel" required="true"%>
 <script>
 function submitRandomization(){
-	if(${registration.regWorkflowStatus!='REGISTERERD' && !empty registration.studySite.targetAccrualNumber && registration.studySite.targetAccrualNumber<=registration.studySite.currentAccrualCount})
-		confirm("This registration will exceed the accrual ceiling at ${command.studySite.healthcareSite.name}. Do you want to continue?")?null:return;
+	if(${registration.regWorkflowStatus!='REGISTERERD' && !empty registration.studySite.targetAccrualNumber && registration.studySite.targetAccrualNumber<=registration.studySite.currentAccrualCount}){
+		confirmFlag=confirm("This registration will exceed the accrual ceiling at ${command.studySite.healthcareSite.name}. Do you want to continue?");
+		if(!confirmFlag)
+			return;
+	}
 	$('randomization').submit();
 }
 </script>
