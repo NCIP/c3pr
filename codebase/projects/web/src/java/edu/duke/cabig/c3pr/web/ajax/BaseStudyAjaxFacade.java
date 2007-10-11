@@ -53,9 +53,10 @@ public class BaseStudyAjaxFacade {
         columnIdentifier.setProperty("primaryIdentifier");
         model.addColumn(columnIdentifier);
 
-        Column columnAccrual = model.getColumnInstance();
-        columnAccrual.setProperty("phaseCode");
-        model.addColumn(columnAccrual);
+        Column columnPhase = model.getColumnInstance();
+        columnPhase.setTitle("Phase");
+        columnPhase.setProperty("phaseCode");
+        model.addColumn(columnPhase);
 
         Column columnStatus = model.getColumnInstance();
         columnStatus.setTitle("Status");
