@@ -87,14 +87,12 @@
 			<tr>
 				<th>Version #</th>
 				<th>Amendment Date</th>
-				<th><span class="required-indicator">IRB Approval Date</span></th>
 				<th>Comments</th>
 			</tr>
 			<c:forEach items="${command.previousStudyAmendments}"  var="studyAmendments" varStatus="status">
 			<tr id="studyAmendments-${status.index}">
 				<td>${studyAmendments.amendmentVersion}</td>
-				<td>${studyAmendments.amendmentDate}</td>
-				<td>${studyAmendments.irbApprovalDate}</td>
+				<td>${studyAmendments.amendmentDateStr}</td>
 				<td>${studyAmendments.comments}</td>
 			</tr>
 			</c:forEach>
@@ -119,7 +117,7 @@
 		</div>
 		
     	<div class="row">
-            <div class="label">Version# :</div>
+            <div class="label">Version #:</div>
             <div class="value">
                 <form:input	path="currentStudyAmendment.amendmentVersion" size="5" /> 
             </div>
@@ -197,7 +195,7 @@
 		</div>
 		
     	<div class="row">
-            <div class="label">Version# :</div>
+            <div class="label">Version #:</div>
             <div class="value">
                 <input type="text" name="studyAmendments[${amendmentSize}].amendmentVersion" id="amendmentVersion" size="5" /> 
             </div>
@@ -205,7 +203,8 @@
         <div class="row">
             <div class="label">Amendment Date :</div>
             <div class="value">
-                <input type="text" name="studyAmendments[${amendmentSize}].amendmentDate" id="amendmentDate" class="date"/>
+                <input type="text" name="studyAmendments[${amendmentSize}].amendmentDate" id="amendmentDate" class="date" />
+                
                 <a href="#" id="studyAmendments[${amendmentSize}].amendmentDate-calbutton">
 				    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
 				</a>
@@ -252,7 +251,7 @@
 
         <div id="consentVersion2" style="display:none;">
          <b>&nbsp;Consent Version :</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-         <input type="text" name="consentVersion" id="consentVersion" size="20"  />
+         <input type="text" name="consentVersion" id="consentVersion" size="20"  value="${command.consentVersion}"/>
         </div>       
         </chrome:division>
 	</jsp:attribute>

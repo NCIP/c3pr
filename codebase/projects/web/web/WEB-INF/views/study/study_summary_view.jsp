@@ -133,8 +133,7 @@
 					<th scope="col" align="left">Study Site</th>
 					<th scope="col" align="left">Status</th>
 					<th scope="col" align="left">Role</th>
-					<th scope="col" align="left">Start Date</th>
-					<th scope="col" align="left">IRB Approval Date</th>
+					<th scope="col" align="left">Start Date</th>					
 				</tr>
 					<c:set var="commanSepOptValSite"
 						value="[['Active','Active'],
@@ -150,8 +149,7 @@
 						path="changedSiteStudyStatus_${status.index}"
 						commanSepOptVal="${commanSepOptValSite}" />&nbsp;</td>
 						<td class="alt" align="left">${studySite.roleCode}</td>
-						<td class="alt" align="left">${studySite.startDateStr}</td>
-						<td class="alt" align="left">${studySite.irbApprovalDateStr}</td>
+						<td class="alt" align="left">${studySite.startDateStr}</td>						
 					</tr>
 				</c:forEach>
 			</table>
@@ -306,15 +304,13 @@
 			<table class="tablecontent">
 				<tr>
 					<th scope="col" align="left">Version #</th>
-					<th scope="col" align="left">Date</th>
-					<th scope="col" align="left">IRB Approval Date</th>
+					<th scope="col" align="left">Amendment Date</th>
 					<th scope="col" align="left">Comments</th>
 				</tr>
 				<c:forEach items="${command.studyAmendments}" var="amendment">
 					<tr class="results">
 						<td class="alt" align="left">${amendment.amendmentVersion}</td>
 						<td class="alt" align="left">${amendment.amendmentDateStr}</td>
-						<td class="alt" align="left">${amendment.irbApprovalDateStr}</td>
 						<td class="alt" align="left">${amendment.comments}</td>
 					</tr>
 				</c:forEach>
