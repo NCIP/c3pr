@@ -205,6 +205,12 @@ public class StudySite extends StudyOrganization implements
 
 	@Transient
 	public int getCurrentAccrualCount(){
-		return this.getStudySubjects().size();
+		int count=0;
+		for(StudySubject s: this.getStudySubjects()){
+			if(s.getRegWorkflowStatus()==RegistrationWorkFlowStatus.REGISTERED
+					|| s.getRegWorkflowStatus()==RegistrationWorkFlowStatus.RESERVED)
+				count++;
+		}
+		return count;
 	}
 }
