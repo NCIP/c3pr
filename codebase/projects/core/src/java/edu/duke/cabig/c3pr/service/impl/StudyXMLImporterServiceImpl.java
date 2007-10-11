@@ -76,18 +76,7 @@ public class StudyXMLImporterServiceImpl implements edu.duke.cabig.c3pr.service.
 
                         log.debug("Saving study with grid ID" + study.getGridId());
 
-                        for(StudyOrganization organization: study.getStudyOrganizations()){
-                            HealthcareSite loadedSite = healthcareSiteDao.getByNciInstituteCode(organization.getHealthcareSite().getNciInstituteCode());
-                            organization.setHealthcareSite(loadedSite);
-                        }
-
-                        for(OrganizationAssignedIdentifier identifier: study.getOrganizationAssignedIdentifiers()){
-                            HealthcareSite loadedSite = healthcareSiteDao.getByNciInstituteCode(identifier.getHealthcareSite().getNciInstituteCode());
-                            identifier.setHealthcareSite(loadedSite);
-                        }
-
-                        studyDao.save(study);
-                        log.debug("Study saved with grid ID" + study.getGridId());
+                        importStudy(study);
                         //once saved retreive persisted study
                         studyList.add(studyDao.getByGridId(study.getGridId()));
                     } catch(AccessDeniedException e){
@@ -104,6 +93,22 @@ public class StudyXMLImporterServiceImpl implements edu.duke.cabig.c3pr.service.
             throw new C3PRBaseRuntimeException("Could not import study",e);
         }
         return studyList;
+    }
+
+    public void importStudy(Study study) throws Exception{
+
+        for(StudyOrganization organization: study.getStudyOrganizations()){
+            HealthcareSite loadedSite = healthcareSiteDao.getByNciInstituteCode(organization.getHealthcareSite().getNciInstituteCode());
+            organization.setHealthcareSite(loadedSite);
+        }
+
+        for(OrganizationAssignedIdentifier identifier: study.getOrganizationAssignedIdentifiers()){
+            HealthcareSite loadedSite = healthcareSiteDao.getByNciInstituteCode(identifier.getHealthcareSite().getNciInstituteCode());
+            identifier.setHealthcareSite(loadedSite);
+        }
+
+        studyDao.save(study);
+        log.debug("Study saved with grid ID" + study.getGridId());
     }
 
     /**

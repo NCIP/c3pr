@@ -16,6 +16,8 @@ import java.io.Reader;
 public interface StudyXMLImporterService {
     List<Study> importStudies(InputStream xmlStream) throws C3PRBaseRuntimeException;
 
+    public void importStudy(Study study) throws Exception;
+
     void validate(Study study) throws StudyValidationException;
 
 }
