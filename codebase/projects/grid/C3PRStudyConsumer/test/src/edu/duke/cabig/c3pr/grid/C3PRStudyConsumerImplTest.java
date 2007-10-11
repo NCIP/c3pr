@@ -8,8 +8,7 @@ import java.rmi.RemoteException;
 
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.grid.service.C3PRStudyConsumerImpl;
-import edu.duke.cabig.c3pr.service.StudyService;
-import edu.duke.cabig.c3pr.utils.ApplicationTestCase;
+import edu.duke.cabig.c3pr.utils.DaoTestCase;
 import org.xml.sax.SAXException;
 import org.globus.wsrf.encoding.DeserializationException;
 
@@ -20,11 +19,11 @@ import org.globus.wsrf.encoding.DeserializationException;
  * Time: 9:58:03 PM
  * To change this template use File | Settings | File Templates.
  */
-public class C3PRStudyConsumerImplTest extends ApplicationTestCase {
+public class C3PRStudyConsumerImplTest extends DaoTestCase  {
 
 
     C3PRStudyConsumerImpl gridService;
-    private String sampleMessage="SampleStudy.xml";
+    private String sampleMessage= "SampleStudy.xml";
 
 
     protected void setUp() throws Exception {
@@ -35,7 +34,7 @@ public class C3PRStudyConsumerImplTest extends ApplicationTestCase {
 
 
         try {
-            InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(sampleMessage);
+            InputStream is = getClass().getResourceAsStream(sampleMessage);
             InputStreamReader reader = new InputStreamReader(is);
             InputStream resourceAsStream =Thread.currentThread().getContextClassLoader().getResourceAsStream("edu/duke/cabig/c3pr/grid/client/client-config.wsdd");
 
@@ -53,6 +52,4 @@ public class C3PRStudyConsumerImplTest extends ApplicationTestCase {
 
 
     }
-
-
 }
