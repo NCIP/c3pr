@@ -27,6 +27,7 @@ public class C3PRStudyConsumerImplTest extends DaoTestCase  {
 
 
     protected void setUp() throws Exception {
+        super.setUp();
         gridService = new C3PRStudyConsumerImpl();
     }
 
@@ -42,12 +43,8 @@ public class C3PRStudyConsumerImplTest extends DaoTestCase  {
                     (Study)
                             Utils.deserializeObject(reader, Study.class,resourceAsStream);
             gridService.createOrUpdate(study);
-        } catch (SAXException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (DeserializationException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (RemoteException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (Exception e) {
+            fail(e.getMessage());
         }
 
 
