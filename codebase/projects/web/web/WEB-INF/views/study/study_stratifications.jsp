@@ -62,9 +62,7 @@
             RowManager.registerRowInserters();
         </script>
         <tags:minimizablePanelBox title="${epoch.name}" boxId="${epoch.name}">
-            <p id="instructions">
-                <input type="button" value="Add Stratification Factor" onclick="RowManager.addRow(stratRowInserterProps_${epochCount.index});"/>
-            </p>
+            
             <br>
 
             <table id="epoch-${epochCount.index }" class="tablecontent">
@@ -114,10 +112,11 @@
                     </tr>
                 </c:forEach>
             </table>
+            <p id="instructions">
+                <input type="button" value="Add Stratification Factor" onclick="RowManager.addRow(stratRowInserterProps_${epochCount.index});"/>
+            </p>
         <br /><hr align="left" width="95%">    
-        <div id="stratumButton"><br/>    
-        	<input type='button' onclick='getStratumGroups("${epochCount.index}")' value='Generate Stratum Groups'/>   
-		</div>	    
+       	    
 		<!--stratum groups combinations display section-->
 		<script>
 			var stratumGroupRowInserter_${epochCount.index} = {
@@ -161,7 +160,9 @@
 				</c:if>
 				<!--This part is loaded onload and is updated with new content when generate str grps is clicked-->
 		</div>
-		
+		 <div id="stratumButton"><br/>    
+        	<input type='button' onclick='getStratumGroups("${epochCount.index}")' value='Generate Stratum Groups'/>   
+		</div>
 		<!--stratum groups combinations display section 
 		<c:if test="${fn:length(epoch.stratificationCriteria) > 0}">   
         	<script>getStratumGroups("${epochCount.index}");</script>

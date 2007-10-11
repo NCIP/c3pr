@@ -93,10 +93,7 @@
                                 Yes and No are permissible answers</p>
                             <p>
                                 <chrome:division title="Inclusion Criteria">
-                            <p>
-                                <input type="button" value="Add Inclusion Criterion"
-                                       onclick="RowManager.addRow(instanceInclusionRow_${epochCount.index});">
-                            </p>
+                            
                             <table border="0" cellspacing="0" width="100%" cellpadding="0"
                                    id="addInclusionRowTable-${epochCount.index}" class="tablecontent">
                                 <tr>
@@ -121,14 +118,15 @@
                                     
                                 </c:forEach>
                             </table>
+                            <p align="right">
+                                <input type="button" value="Add Inclusion Criterion"
+                                       onclick="RowManager.addRow(instanceInclusionRow_${epochCount.index});">
+                            </p>
                             </chrome:division></td></tr>
                     <tr>
                         <td valign="top">
                             <chrome:division title="Exclusion Criteria">
-                                <p>
-                                    <input type="button" value="Add Exclusion Criterion"
-                                           onclick="RowManager.addRow(instanceExclusionRow_${epochCount.index});"/>
-                                   </p>
+                                
                                 <table border="0" width="100%" cellspacing="0" cellpadding="0" class="tablecontent" id="addExclusionRowTable-${epochCount.index}">
                                     <tr>
                                         <th><span class="label required-indicator">Question</span></th>
@@ -152,6 +150,10 @@
                                         </tr>
                                     </c:forEach>
                                 </table>
+                                <p align="right">
+                                    <input type="button" value="Add Exclusion Criterion"
+                                           onclick="RowManager.addRow(instanceExclusionRow_${epochCount.index});"/>
+                                   </p>
                             </chrome:division></td>
                     </tr>
                 </table>
