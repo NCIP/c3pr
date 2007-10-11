@@ -101,7 +101,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 			<form:select path="treatingPhysician" onchange="managePhysicianField(this)">
 				<option value="">--Please Select--</option>
 				<form:options
-					items="${command.studySite.studyInvestigators}" itemLabel="healthcareSiteInvestigator.investigator.fullName" itemValue="id" />
+					items="${command.studySite.activeStudyInvestigators}" itemLabel="healthcareSiteInvestigator.investigator.fullName" itemValue="id" />
 				<option value="">Other</option>
 			</form:select>
 			<c:if test="${empty command.otherTreatingPhysician }">

@@ -206,7 +206,7 @@ function hide(){
 					<c:set var="options" value=""></c:set>
 					<c:set var="values" value=""></c:set>
 					<c:set var="commanSepOptVal" value="["></c:set>
-					<c:forEach items="${command.studySite.studyInvestigators}" var="physician" varStatus="temp">
+					<c:forEach items="${command.studySite.activeStudyInvestigators}" var="physician" varStatus="temp">
 						<c:set var="commanSepOptVal" value="${commanSepOptVal}[${physician.id},'${physician.healthcareSiteInvestigator.investigator.fullName}']"></c:set>
 						<c:if test="${!temp.last}">
 							<c:set var="commanSepOptVal" value="${commanSepOptVal},"></c:set>

@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
@@ -72,6 +73,16 @@ public abstract class StudyOrganization extends AbstractMutableDeletableDomainOb
 	        return lazyListHelper.getLazyList(StudyInvestigator.class);
 	    }
 
+	    @Transient
+	    public List<StudyInvestigator> getActiveStudyInvestigators() {
+	    	List<StudyInvestigator> list=getStudyInvestigators();
+	    	List<StudyInvestigator> retList=new ArrayList<StudyInvestigator>();
+	    	for(StudyInvestigator s: list){
+	    		if(s.getStatusCode().equalsIgnoreCase("Active"))
+	    			retList.add(s);
+	    	}
+	        return retList;
+	    }
 
 	    public void setStudyInvestigators(List<StudyInvestigator> studyInvestigators) {
 	        lazyListHelper.setInternalList(StudyInvestigator.class,studyInvestigators);
