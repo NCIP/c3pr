@@ -27,8 +27,8 @@ class StudySitesTab extends StudyTab {
         addConfigMapToRefdata(refdata, "studySiteStatusRefData");
         addConfigMapToRefdata(refdata, "studySiteRoleCodeRefData");
         refdata.put("healthCareSites", getHealthcareSiteDao().getAll());
-        if(request.getAttribute("amendFlow") != null &&
-    			request.getAttribute("amendFlow").toString().equals("true")) 
+        if( (request.getAttribute("amendFlow") != null && request.getAttribute("amendFlow").toString().equals("true")) ||
+    		    (request.getAttribute("editFlow") != null && request.getAttribute("editFlow").toString().equals("true")) )  
     	{
         	if(request.getSession().getAttribute(DISABLE_FORM_SITES) != null){
 				refdata.put("disableForm", request.getSession().getAttribute(DISABLE_FORM_SITES));

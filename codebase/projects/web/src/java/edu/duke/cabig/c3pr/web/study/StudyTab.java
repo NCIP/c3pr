@@ -65,7 +65,6 @@ public abstract class StudyTab extends InPlaceEditableTab<Study> {
     }
     
     public void disableAll(HttpServletRequest request){
-//    	request.getSession().setAttribute(DISABLE_FORM_DESIGN, new Boolean(true));
     	request.getSession().setAttribute(DISABLE_FORM_DETAILS, new Boolean(true));
     	request.getSession().setAttribute(DISABLE_FORM_EPOCH_AND_ARMS, new Boolean(true));
     	request.getSession().setAttribute(DISABLE_FORM_ELIGIBILITY, new Boolean(true));
@@ -76,5 +75,19 @@ public abstract class StudyTab extends InPlaceEditableTab<Study> {
 //    	request.getSession().setAttribute(DISABLE_FORM_IDENTIFIERS, new Boolean(true));
 //    	request.getSession().setAttribute(DISABLE_FORM_INVESTIGATORS, new Boolean(true));
 //    	request.getSession().setAttribute(DISABLE_FORM_PERSONNEL, new Boolean(true));
+    }
+    
+    
+    public void enableAll(HttpServletRequest request){
+    	request.getSession().setAttribute(DISABLE_FORM_DETAILS, new Boolean(false));
+    	request.getSession().setAttribute(DISABLE_FORM_EPOCH_AND_ARMS, new Boolean(false));
+    	request.getSession().setAttribute(DISABLE_FORM_ELIGIBILITY, new Boolean(false));
+    	request.getSession().setAttribute(DISABLE_FORM_STRATIFICATION, new Boolean(false));
+    	request.getSession().setAttribute(DISABLE_FORM_RANDOMIZATION, new Boolean(false));
+    	request.getSession().setAttribute(DISABLE_FORM_DISEASES, new Boolean(false));
+    	request.getSession().setAttribute(DISABLE_FORM_SITES, new Boolean(false));
+//    	request.getSession().setAttribute(DISABLE_FORM_IDENTIFIERS, new Boolean(false));
+//    	request.getSession().setAttribute(DISABLE_FORM_INVESTIGATORS, new Boolean(false));
+//    	request.getSession().setAttribute(DISABLE_FORM_PERSONNEL, new Boolean(false));
     }
 }

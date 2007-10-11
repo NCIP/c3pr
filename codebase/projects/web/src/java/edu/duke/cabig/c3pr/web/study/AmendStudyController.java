@@ -76,8 +76,9 @@ public class AmendStudyController extends StudyController<Study> {
     
     @Override
     protected boolean shouldSave(HttpServletRequest request, Study command, Tab<Study> tab) {
-        return super.shouldSave(request, command, tab)
-                && (request.getParameter("_action") == null || "".equals(request.getParameter("_action")));
+    	return true;
+//        return super.shouldSave(request, command, tab)
+//                && (request.getParameter("_action") == null || "".equals(request.getParameter("_action")));
     }
 
 
@@ -89,7 +90,8 @@ public class AmendStudyController extends StudyController<Study> {
     @Override
     protected Object currentFormObject(HttpServletRequest request, Object sessionFormObject) throws Exception {
         if (sessionFormObject != null) {
-        	getDao().reassociate((Study) sessionFormObject);        	
+        	getDao().reassociate((Study) sessionFormObject); 
+        	getDao().refresh((Study) sessionFormObject);
         }
         return sessionFormObject;
     }

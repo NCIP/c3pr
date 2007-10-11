@@ -40,8 +40,8 @@ public class StudyRandomizationTab extends StudyTab {
 	        request.setAttribute("bookRandomizationEntries", bookRandomizationEntries);
 		}
 		Map<String, Object> refdata = super.referenceData(study);
-		if(request.getAttribute("amendFlow") != null &&
-    			request.getAttribute("amendFlow").toString().equals("true")) 
+		if( (request.getAttribute("amendFlow") != null && request.getAttribute("amendFlow").toString().equals("true")) ||
+			    (request.getAttribute("editFlow") != null && request.getAttribute("editFlow").toString().equals("true")) )  
     	{
 			if(request.getSession().getAttribute(DISABLE_FORM_RANDOMIZATION) != null){
 				refdata.put("disableForm", request.getSession().getAttribute(DISABLE_FORM_RANDOMIZATION));

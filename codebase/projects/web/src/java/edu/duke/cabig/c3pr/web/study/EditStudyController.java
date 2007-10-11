@@ -70,6 +70,7 @@ public class EditStudyController extends StudyController<Study> {
     protected Map referenceData(HttpServletRequest request, int arg1) throws Exception {
     	// TODO Auto-generated method stub
     	request.setAttribute("flowType", "EDIT_STUDY");
+    	request.setAttribute("editFlow", "true");
     	return super.referenceData(request, arg1);
     }
     
@@ -89,6 +90,7 @@ public class EditStudyController extends StudyController<Study> {
     protected Object currentFormObject(HttpServletRequest request, Object sessionFormObject) throws Exception {
         if (sessionFormObject != null) {
             getDao().reassociate((Study) sessionFormObject);
+            getDao().refresh((Study) sessionFormObject);
         }
 
         return sessionFormObject;

@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.web.study;
 
+import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 
 import java.util.Map;
@@ -34,15 +35,38 @@ class StudyDetailsTab extends StudyTab {
 
 		if (request.getAttribute("amendFlow") != null
 				&& request.getAttribute("amendFlow").toString().equalsIgnoreCase("true")) {
+			//amend-flow: set the disableForm refData for the amend flow.
 			if (request.getSession().getAttribute(DISABLE_FORM_DETAILS) != null) {
 				refdata.put("disableForm", request.getSession().getAttribute(
 						DISABLE_FORM_DETAILS));
 			} else {
 				refdata.put("disableForm", new Boolean(false));
+				refdata.put("mandatory", "true");
+			}
+		} else if (request.getAttribute("editFlow") != null
+				&& request.getAttribute("editFlow").toString().equalsIgnoreCase("true")){
+			//edit-flow: disable all unless in PENDING STATE.
+			if(!(study.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.PENDING)){
+				disableAll(request);
+			} else { 
+				//all states other than pending
+				enableAll(request);
+				refdata.put("mandatory", "true");
+			}
+			//set the disableForm refData for the edit flow.
+			if (request.getSession().getAttribute(DISABLE_FORM_DETAILS) != null) {
+				refdata.put("disableForm", request.getSession().getAttribute(
+						DISABLE_FORM_DETAILS));
+			} else {
+				refdata.put("disableForm", new Boolean(false));
+				refdata.put("mandatory", "true");
 			}
 		} else {
+			//this must be the create flow
+			enableAll(request);
 			refdata.put("mandatory", "true");
 		}
+		
 		return refdata;
 	}
 
