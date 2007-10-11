@@ -51,7 +51,7 @@ public class OrganizationServiceTest extends AbstractAnnotationAwareTransactiona
 
     public void testUPM() throws Exception {
         service.save(dummySite);
-        assertEquals(1, jdbcTemplate.queryForInt("Select count(*) from csm_group where group_name='" + dummySite.getNciInstituteCode() + "'"));
+        assertEquals(1, jdbcTemplate.queryForInt("Select count(*) from csm_group where group_name='edu.duke.cabig.c3pr.domain.HealthcareSite." + dummySite.getNciInstituteCode() + "'"));
 
     }
 
