@@ -209,6 +209,9 @@
             <artifact refid="jdom.jars"/>
             <artifact refid="dom4j.jars"/>
             <artifact refid="extremeComponents.jars"/>
+
+            <!--property files-->
+            <artifact refid="c3pr.log4j.properties"/>
             <artifact refid="c3pr.build.properties"/>
         </resolveDependencies>
         <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="all"/>
@@ -267,7 +270,7 @@
     <!-- =============================================================== -->
     <!-- c3pr Installer  project                                    -->
     <!-- =============================================================== -->
-    <target name="build-installer" depends="clean" description="Builds the installer project">
+    <target name="build-installer" depends="prepare" description="Builds the installer project">
         <property name="project.archive" value="c3prv2-installpack.zip"/>
         <mkdir dir="${projects.dir}/installer/ext"/>
         <zip destfile="${projects.dir}/installer/ext/${project.archive}">
