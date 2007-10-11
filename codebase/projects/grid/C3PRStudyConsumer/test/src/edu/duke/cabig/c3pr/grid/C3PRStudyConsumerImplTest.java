@@ -4,11 +4,14 @@ import gov.nih.nci.cagrid.common.Utils;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.rmi.RemoteException;
 
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.grid.service.C3PRStudyConsumerImpl;
 import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.utils.ApplicationTestCase;
+import org.xml.sax.SAXException;
+import org.globus.wsrf.encoding.DeserializationException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -29,9 +32,9 @@ public class C3PRStudyConsumerImplTest extends ApplicationTestCase {
     }
 
     public void testCreateOrUpdateStudy(){
+
+
         try {
-
-
             InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(sampleMessage);
             InputStreamReader reader = new InputStreamReader(is);
             InputStream resourceAsStream =Thread.currentThread().getContextClassLoader().getResourceAsStream("edu/duke/cabig/c3pr/grid/client/client-config.wsdd");
@@ -40,9 +43,14 @@ public class C3PRStudyConsumerImplTest extends ApplicationTestCase {
                     (Study)
                             Utils.deserializeObject(reader, Study.class,resourceAsStream);
             gridService.createOrUpdate(study);
-        } catch (Exception e) {
-            fail(e.getMessage());
+        } catch (SAXException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (DeserializationException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (RemoteException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
+
 
     }
 

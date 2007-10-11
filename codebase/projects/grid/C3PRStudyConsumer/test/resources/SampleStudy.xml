@@ -12,7 +12,7 @@
     <coordinatingCenterStudyStatus>ACTIVE</coordinatingCenterStudyStatus>
     <type>tempStr</type>
     <targetAccrualNumber>0</targetAccrualNumber>
-   
+
     <treatmentEpoch>
         <name>Screening</name>
     </treatmentEpoch>
@@ -23,6 +23,12 @@
         <name>Follow up</name>
     </treatmentEpoch>
     <studySite gridId="tempStr">
+        <healthcareSite>
+            <name>duke healthcare</name>
+            <descriptionText>duke healthcare</descriptionText>
+            <address><streetAddress>12359 Sunrise Valley Dr</streetAddress><city>Reston</city><stateCode>VA</stateCode><postalCode>20191</postalCode><countryCode>USA</countryCode></address>
+            <nciInstituteCode>Duke</nciInstituteCode>
+        </healthcareSite>
         <irbApprovalDate>2009-01-20</irbApprovalDate>
         <roleCode>tempStr</roleCode>
         <startDate>2007-10-10</startDate>
@@ -32,7 +38,7 @@
             <name>duke healthcare</name>
             <descriptionText>duke healthcare</descriptionText>
             <address><streetAddress>12359 Sunrise Valley Dr</streetAddress><city>Reston</city><stateCode>VA</stateCode><postalCode>20191</postalCode><countryCode>USA</countryCode></address>
-            <nciInstituteCode>Nci duke</nciInstituteCode>
+            <nciInstituteCode>Duke</nciInstituteCode>
         </healthcareSite>
         <irbApprovalDate>2007-10-10</irbApprovalDate>
         <roleCode>role</roleCode>
