@@ -125,12 +125,12 @@ public class StudyServiceImpl implements StudyService {
 			StudyAmendment latestAmendment = study.getStudyAmendments().get(
 					study.getStudyAmendments().size() - 1);
 
-			if ((latestAmendment.getIrbApprovalDate() == null)
+			if ((latestAmendment.getAmendmentDate() == null)
 					|| (latestAmendment.getVersion() == null)) {
 				return StudyDataEntryStatus.INCOMPLETE;
 			}
-			if ((latestAmendment.getIrbApprovalDate() != null)
-					&& (latestAmendment.getIrbApprovalDate().after(new Date()))) {
+			if ((latestAmendment.getAmendmentDate() != null)
+					&& (latestAmendment.getAmendmentDate().after(new Date()))) {
 				return StudyDataEntryStatus.INCOMPLETE;
 			}
 			if ((latestAmendment.getConsentChangedIndicator())

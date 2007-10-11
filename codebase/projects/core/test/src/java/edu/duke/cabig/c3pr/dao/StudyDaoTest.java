@@ -118,7 +118,7 @@ public class StudyDaoTest extends DaoTestCase {
 	StudyAmendment amendment = new StudyAmendment();
 		Date amendmentDate = new Date();
 		amendment.setAmendmentDate(amendmentDate);
-		amendment.setIrbApprovalDate(new Date());
+//		amendment.setIrbApprovalDate(new Date());
 		amendment.setComments("This is the first change in the study");
 		loadedStudy1.addAmendment(amendment);
 
@@ -1283,7 +1283,7 @@ public class StudyDaoTest extends DaoTestCase {
 		StudyAmendment amendment = new StudyAmendment();
 		Date amendmentDate = new Date();
 		amendment.setAmendmentDate(amendmentDate);
-		amendment.setIrbApprovalDate(new Date());
+//		samendment.setIrbApprovalDate(new Date());
 		amendment.setComments("Capturing a study with an existing amendment");
 		study.addAmendment(amendment);
 
