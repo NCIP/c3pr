@@ -33,8 +33,8 @@ public class StudyPersonnelDao extends GridIdentifiableDao<StudyPersonnel> {
 	 * (non-Javadoc)
 	 * @see edu.duke.cabig.c3pr.dao.HealthcareSiteDao#getAll()
 	 */
-	 public List<HealthcareSite> getAll() {
-		 return getHibernateTemplate().find("from HealthcareSiteInvestigator");
+	 public List<StudyPersonnel> getAll() {
+		 return getHibernateTemplate().find("from StudyPersonnel");
 	 }
 
 	 public List<StudyPersonnel> getBySubnames(String[] subnames, int healthcareSite) {
