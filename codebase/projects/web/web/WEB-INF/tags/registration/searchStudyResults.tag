@@ -5,6 +5,7 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="csmauthz" uri="http://csm.ncicb.nci.nih.gov/authz" %>
 <script>
 function toggleImage(id){
 	imageStr=document.getElementById(id).src;
@@ -81,13 +82,16 @@ function toggleImage(id){
 						</thead>
 						<%int j=i*100; %>
 						<c:forEach items="${study.studySites}" var="site" varStatus="siteIndex">
-						<% String currClassJ=j%2==0? "odd":"even"; %>
+						<csmauthz:accesscontrol domainObject="${site.healthcareSite}"
+                                                  hasPrivileges="ACCESS"  authorizationCheckName="siteAuthorizationCheck">
+							<% String currClassJ=j%2==0? "odd":"even"; %>
 							<tr align="center" id="row<%= j++ %>" class="<%= currClass %>" onMouseOver="this.className='highlight'"
-									onMouseOut="this.className='<%= currClass %>'" 
-							onClick="document.location='${documentLocation }${site.id }'">
+										onMouseOut="this.className='<%= currClass %>'" 
+								onClick="document.location='${documentLocation }${site.id }'">
 								<td>${site.site.name}</td>
 								<td>${site.irbApprovalDateStr==null?'01/01/1970':site.irbApprovalDateStr}</td>
 							</tr>
+						</csmauthz:accesscontrol>
 						</c:forEach>
 					</table>
 					</div>
