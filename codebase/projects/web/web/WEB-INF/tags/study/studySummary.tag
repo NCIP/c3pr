@@ -30,7 +30,7 @@
 	<td><b>Status:</b></td>
 </tr>
 <tr>
-	<td>${command.status}</td>
+	<td>${command.coordinatingCenterStudyStatus.code}</td>
 </tr>
 <tr>
 	<td><b>Sponsor:</b></td>
