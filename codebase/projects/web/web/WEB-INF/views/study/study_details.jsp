@@ -99,7 +99,6 @@
 <form:form method="post" name="studyDetails" cssClass="standard">
 <tags:tabFields tab="${tab}" />
 
-<c:set var="disabled" value="${flowType != 'CREATE_STUDY'}" scope="request" />
 <chrome:box title="${tab.shortTitle}">
 
 <chrome:division id="study-details" title="Basic Details">
