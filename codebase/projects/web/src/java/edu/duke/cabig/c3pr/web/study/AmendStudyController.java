@@ -36,6 +36,7 @@ public class AmendStudyController extends StudyController<Study> {
     	// TODO Auto-generated method stub
     	request.setAttribute("flowType", "AMEND_STUDY");
     	request.setAttribute("amendFlow", "true");
+    	request.setAttribute("softDelete", "true");
     	return super.referenceData(request, arg1);
     }
     

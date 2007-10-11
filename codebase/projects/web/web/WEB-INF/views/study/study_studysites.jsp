@@ -25,7 +25,7 @@
 	
 var singleHealthcareSiteAutocompleterProps = {
     basename: "healthcareSite",
-     softDelete: ${flowType!='CREATE_STUDY'},
+     softDelete: ${softDelete == 'true'},
     populator: function(autocompleter, text) {
 
         StudyAjaxFacade.matchHealthcareSites( text,function(values) {
@@ -136,7 +136,7 @@ var instanceRowInserterProps = {
     add_row_division_id: "siteTable", 	        
     skeleton_row_division_id: "dummy-row",
     initialIndex: ${fn:length(command.studySites)},
-    softDelete: ${flowType!='CREATE_STUDY'},
+    softDelete: ${softDelete == 'true'},
     path: "studySites",
     postProcessRowInsertion: function(object){
         inputDateElementLocal="studySites["+object.localIndex+"].startDate";

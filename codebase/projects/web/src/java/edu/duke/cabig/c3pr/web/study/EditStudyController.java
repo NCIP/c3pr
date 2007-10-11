@@ -9,9 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.validation.BindException;
+import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
@@ -66,12 +68,26 @@ public class EditStudyController extends StudyController<Study> {
         flow.addTab(new StudyEmptyTab("Summary", "Summary", "study/study_summary_view"));
     }
 
+//    @Override
+//    protected Map referenceData(HttpServletRequest request, int arg1) throws Exception {
+//    	// TODO Auto-generated method stub
+//    	request.setAttribute("flowType", "EDIT_STUDY");
+//    	request.setAttribute("editFlow", "true");
+//    	return super.referenceData(request, arg1);
+//    }
+
     @Override
-    protected Map referenceData(HttpServletRequest request, int arg1) throws Exception {
+    protected Map referenceData(HttpServletRequest request, Object o, Errors e, int arg1) throws Exception {
     	// TODO Auto-generated method stub
+    	
+    	String softDelete = "false";
     	request.setAttribute("flowType", "EDIT_STUDY");
     	request.setAttribute("editFlow", "true");
-    	return super.referenceData(request, arg1);
+    	if(((Study)o).getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.PENDING){
+    		softDelete = "true";
+    	}
+    	request.setAttribute("softDelete", softDelete);
+    	return super.referenceData(request,  o,  e, arg1);
     }
     
     @Override

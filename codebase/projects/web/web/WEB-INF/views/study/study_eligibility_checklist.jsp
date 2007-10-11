@@ -70,14 +70,14 @@
                     add_row_division_id: "addInclusionRowTable-${epochCount.index}",
                     skeleton_row_division_id: "dummy-inclusionRow-${epochCount.index}",
                     initialIndex: ${fn:length(command.epochs[epochCount.index].inclusionEligibilityCriteria)},
-                    softDelete: ${flowType!='CREATE_STUDY'},
+                    softDelete: ${softDelete == 'true'},
                     path: "epochs[${epochCount.index }].inclusionEligibilityCriteria"
                 };
                 var instanceExclusionRow_${epochCount.index} = {
                     add_row_division_id: "addExclusionRowTable-${epochCount.index}",
                     skeleton_row_division_id: "dummy-exclusionRow-${epochCount.index}",
                     initialIndex: ${fn:length(command.epochs[epochCount.index].exclusionEligibilityCriteria)},
-					softDelete: ${flowType!='CREATE_STUDY'},
+					softDelete: ${softDelete == 'true'},
                     path: "epochs[${epochCount.index }].exclusionEligibilityCriteria"
                 };
                 RowManager.addRowInseter(instanceInclusionRow_${epochCount.index});
