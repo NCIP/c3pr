@@ -173,7 +173,8 @@
                 command.currentStudyAmendment.consentChangedIndicator == '' || 
                 !command.currentStudyAmendment.consentChangedIndicator}">style="display:none;"</c:if>>
          <b>&nbsp;Consent Version :</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-         <form:input path="consentVersion" size="20" />
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         <form:input path="consentVersion" size="10" />
         </div>               
         </chrome:division>
 	</jsp:attribute>
@@ -203,10 +204,9 @@
         <div class="row">
             <div class="label">Amendment Date :</div>
             <div class="value">
-                <input type="text" name="studyAmendments[${amendmentSize}].amendmentDate" id="amendmentDate" class="date" />
-                
+                <input type="text" name="studyAmendments[${amendmentSize}].amendmentDate" id="studyAmendments[${amendmentSize}].amendmentDate" class="date" />                
                 <a href="#" id="studyAmendments[${amendmentSize}].amendmentDate-calbutton">
-				    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
+				    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="middle" />
 				</a>
             </div>
         </div>
@@ -251,7 +251,8 @@
 
         <div id="consentVersion2" style="display:none;">
          <b>&nbsp;Consent Version :</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-         <input type="text" name="consentVersion" id="consentVersion" size="20"  value="${command.consentVersion}"/>
+         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         <input type="text" name="consentVersion" id="consentVersion" size="10" value="${command.consentVersion}"/>
         </div>       
         </chrome:division>
 	</jsp:attribute>
