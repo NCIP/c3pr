@@ -25,9 +25,7 @@ public class StudyAmendment extends AbstractMutableDeletableDomainObject{
 	private String amendmentVersion;
 	private Date amendmentDate;
 	private String comments;
-//	private Date irbApprovalDate;
-	private Date amendmentDateStr;
-//	private Date irbApprovalDateStr;
+
 		
 	private Boolean eaChangedIndicator = false; 
 	private Boolean stratChangedIndicator = false;
@@ -51,12 +49,6 @@ public class StudyAmendment extends AbstractMutableDeletableDomainObject{
 	public void setComments(String comments) {
 		this.comments = comments;
 	}
-//	public Date getIrbApprovalDate() {
-//		return irbApprovalDate;
-//	}
-//	public void setIrbApprovalDate(Date irbApprovalDate) {
-//		this.irbApprovalDate = irbApprovalDate;
-//	}
 	
 	 @Transient
 	    public String getAmendmentDateStr() {
@@ -68,28 +60,6 @@ public class StudyAmendment extends AbstractMutableDeletableDomainObject{
 	        }
 	        return "";
 	    }
-	 
-//	 @Transient
-//	    public String getIrbApprovalDateStr() {
-//	        try {
-//	            return DateUtil.formatDate(irbApprovalDate, "MM/dd/yyyy");
-//	        }
-//	        catch(Exception e){
-//	            //do nothing
-//	        }
-//	        return "";
-//	    }
-/*	 @Transient
-	    public StudyDataEntryStatus getAmendmentDataEntryStatus() {
-		 if((this.getIrbApprovalDate()==null)||(this.getVersion()==null) ){
-			 return StudyDataEntryStatus.INCOMPLETE;
-		 }
-	        if ((this.getConsentChangedIndicator()==true)||(this.getDiseasesChangedIndicator()==true)||(this.getEligibilityChangedIndicator()==true)||(this.getEpochAndArmsChangedIndicator()==true)
-	        		||(this.getStratificationChangedIndicator()==true)||(this.getPrincipalInvestigatorChangedIndicator()==true))
-	        return StudyDataEntryStatus.COMPLETE;
-	        
-	        return StudyDataEntryStatus.COMPLETE;
-	    }*/
 
 	public Boolean getConsentChangedIndicator() {
 		return consentChangedIndicator;
