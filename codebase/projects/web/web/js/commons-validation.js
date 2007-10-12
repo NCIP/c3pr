@@ -227,6 +227,10 @@ function isValidPostalcode(postalcode) {
 function isValidUSPhoneNumber(areaCode, prefixNumber, suffixNumber) {
    if (arguments.length == 1) {
       var phoneNumber = arguments[0];
+      //return true if no value is entered.
+      if(phoneNumber.length == 0){
+      	return true;
+      }
       phoneNumber = phoneNumber.replace(/\D+/g, '');
       var length = phoneNumber.length;
       if (phoneNumber.length >= 7) {
