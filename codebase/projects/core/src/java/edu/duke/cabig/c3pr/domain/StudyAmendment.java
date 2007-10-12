@@ -25,7 +25,7 @@ public class StudyAmendment extends AbstractMutableDeletableDomainObject{
 	private String amendmentVersion;
 	private Date amendmentDate;
 	private String comments;
-
+	private Date amendmentDateStr;
 		
 	private Boolean eaChangedIndicator = false; 
 	private Boolean stratChangedIndicator = false;
@@ -60,6 +60,7 @@ public class StudyAmendment extends AbstractMutableDeletableDomainObject{
 	        }
 	        return "";
 	    }
+
 
 	public Boolean getConsentChangedIndicator() {
 		return consentChangedIndicator;
