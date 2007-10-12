@@ -45,7 +45,8 @@ public class StudyXMLImporterTestCase extends MasqueradingDaoTestCase<StudyDao> 
 
 
     public void testGetStudies() throws Exception {
-        Study study = getDao().getById(1000);
+       for(int i = 1000; i<1003;i++){
+        Study study = getDao().getById(i);
         String xmlStudy = marshaller.toXML(study);
 
         System.out.println(xmlStudy);
@@ -58,13 +59,13 @@ public class StudyXMLImporterTestCase extends MasqueradingDaoTestCase<StudyDao> 
 
         for (Study loadedStudy : studies) {
             assertNotNull(loadedStudy.getGridId());
-            assertEquals(loadedStudy.getStudyOrganizations().size(), 3);
+            assertEquals(loadedStudy.getStudyOrganizations().size(), study.getStudyOrganizations().size());
 
             for (StudyOrganization organization : loadedStudy.getStudyOrganizations()) {
                 assertNotNull(organization.getHealthcareSite());
             }
         }
-
+       }
     }
 
 
