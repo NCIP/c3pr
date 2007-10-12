@@ -11,25 +11,25 @@
     <link rel="stylesheet" type="text/css" href="/c3pr/public/css/tables1" />
     <script type="text/javascript">
     
-     function manageAccrualIndicatorSelectBox(box) {
+     function manageAccrualIndicatorSelectBox(box,index) {
             if (box.value == 'Yes') {
-                //		document.getElementById('accrualCeiling').style.display='show';
-                Effect.OpenUp('accrualCeiling');
+                //		document.getElementById('accrualCeiling-index').style.display='show';
+                Effect.OpenUp('accrualCeiling-'+index);
             }
             if (box.value == 'No') {
-                	//	document.getElementById('accrualCeiling').style.display='none';
-                Effect.CloseDown('accrualCeiling');
+                	//	document.getElementById('accrualCeiling-index').style.display='none';
+                Effect.CloseDown('accrualCeiling-'+index);
             }
         }
         
-         function manageEnrollingIndicatorSelectBox(box) {
+         function manageEnrollingIndicatorSelectBox(box,index) {
             if (box.value == 'No') {
                 		//document.getElementById('reservationIndicator').style.display='show';
-                Effect.OpenUp('reservationIndicator');
+                Effect.OpenUp('reservationIndicator-'+index);
             }
             if (box.value == 'Yes') {
                 		//document.getElementById('reservationIndicator').style.display='none';
-                Effect.CloseDown('reservationIndicator');
+                Effect.CloseDown('reservationIndicator-'+index);
             }
         }
         
@@ -64,18 +64,8 @@
 </head>
 
 <body>
-<tags:tabForm tab="${tab}" flow="${flow}" formName="studyDesignForm">
-<jsp:attribute name="localButtons">
-    <input id="addEpoch" type="button" value="Add Treatment Epoch"
-           onclick="$('dummy-treatmentEpoch').innerHTML=$('treatmentHtml').innerHTML;RowManager.addRow(treatmentEpochRowInserterProps)" />
+<tags:formPanelBox tab="${tab}" flow="${flow}" formName="studyDesignForm">
 
-    <input id="addEpoch" type="button" value="Add Non-Treatment Epoch"
-           onclick="$('dummy-nonTreatmentEpoch').innerHTML=$('non-treatmentHtml').innerHTML;RowManager.addRow(nonTreatmentEpochRowInserterProps)" />
-    <br>
-
-</jsp:attribute>
-
-<jsp:attribute name="singleFields">
 <div><input type="hidden" name="_action" value=""> <input
         type="hidden" name="_selectedEpoch" value=""> <input type="hidden"
                                                              name="_selectedArm" value=""></div>
@@ -97,7 +87,6 @@
                                         title="Treatment Epoch"
                                         isDeletable="true"
                                         onDelete="RowManager.deleteRow(treatmentEpochRowInserterProps,${treatmentEpochCount.index})">
-
 
                 <table>
                     <tr>
@@ -191,23 +180,23 @@
                                     </div>
                                 <div class="value"><form:select
                                         path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].accrualIndicator"
+                                        onchange="manageAccrualIndicatorSelectBox(this,${nonTreatmentEpochCount.index});"
                                         cssClass="validate-notEmpty">
                                     <option value="">--Please Select--</option>
                                     <form:options items="${fn:split('Yes,No',',')}" />
                                 </form:select></div>
                             </div>
                             
-                            <div  id="" <c:if test="${command.nonTreatmentEpochs[nonTreatmentEpochCount.index].enrollmentIndicator=='No'}">
-                                      style="display:none;"
-                           </c:if> >
-
+                            <div id="accrualCeiling-${nonTreatmentEpochCount.index}">
+                            <div  <c:if test="${command.nonTreatmentEpochs[nonTreatmentEpochCount.index].accrualIndicator=='No'}">
+                                      style="display:none;"</c:if> >
                             <div class="row">
                                 <div class="label">Accrual Ceiling:</div>
                                 <div class="value"><form:input
                                         path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].accrualCeiling"
                                         size="12" maxlength="10" cssClass="validate-numeric" /></div>
                             </div>
-                            
+                            </div>
                             </div>
 
                             <div class="row">
@@ -216,14 +205,15 @@
                                 <div class="value"><form:select
                                         id="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].enrollmentIndicator"
                                         path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].enrollmentIndicator"
+                                        onchange="manageEnrollingIndicatorSelectBox(this,${nonTreatmentEpochCount.index});"
                                         cssClass="validate-notEmpty">
                                     <option value="">--Please Select--</option>
                                     <form:options items="${fn:split('Yes,No',',')}" />
                                 </form:select></div>
                             </div>
                             
-                            <div
-                             <c:if test="${command.nonTreatmentEpochs[nonTreatmentEpochCount.index].enrollmentIndicator=='Yes'}">style="display:none;"</c:if>>
+                            <div id="reservationIndicator-${nonTreatmentEpochCount.index}">
+                            <div <c:if test="${command.nonTreatmentEpochs[nonTreatmentEpochCount.index].enrollmentIndicator=='Yes'}">style="display:none;"</c:if>>
                             <div class="row">
                                 <div class="label"> <span class="required-indicator">Reservation Indicator:</span>
                                     </div>
@@ -235,6 +225,7 @@
                                 </form:select></div>
                             </div>
                             </div>
+                            </div>
                         </div>
                     </td></tr></table>
             </chrome:minimizableBox></td>
@@ -243,8 +234,16 @@
         &nbsp;&nbsp;
     </c:forEach>
 </table>
-</jsp:attribute>
-</tags:tabForm>
+<div align="right">
+    <input id="addEpoch" type="button" value="Add Treatment Epoch"
+           onclick="$('dummy-treatmentEpoch').innerHTML=$('treatmentHtml').innerHTML;RowManager.addRow(treatmentEpochRowInserterProps)" />
+
+    <input id="addEpoch" type="button" value="Add Non-Treatment Epoch"
+           onclick="$('dummy-nonTreatmentEpoch').innerHTML=$('non-treatmentHtml').innerHTML;RowManager.addRow(nonTreatmentEpochRowInserterProps)" />
+    <br>
+    </div>
+
+</tags:formPanelBox>
 <div id="dummy-treatmentEpoch" style="display:none"></div>
 
 <div id="dummy-nonTreatmentEpoch" style="display:none"></div>
@@ -344,7 +343,7 @@
                                 <div class="label"><span class="required-indicator">Accrual Indicator:</span>
                                     </div>
                                 <div class="value"><select
-                                        name="nonTreatmentEpochs[PAGE.ROW.INDEX].accrualIndicator" onchange="manageAccrualIndicatorSelectBox(this);"
+                                        name="nonTreatmentEpochs[PAGE.ROW.INDEX].accrualIndicator" onchange="manageAccrualIndicatorSelectBox(this,PAGE.ROW.INDEX);"
                                         class="validate-notEmpty">
                                     <option value="">--Please Select--</option>
                                     <option value="Yes">Yes</option>
@@ -352,7 +351,7 @@
                                 </select></div>
                             </div>
                             
-                            <div id="accrualCeiling" style="display:none">
+                            <div id="accrualCeiling-PAGE.ROW.INDEX" style="display:none">
                             <div class="row">
                                 <div class="label">Accrual Ceiling:</div>
                                 <div class="value"><input type="text"
@@ -367,7 +366,7 @@
                                     </div>
                                 <div class="value"><select
                                         id="nonTreatmentEpochs[PAGE.ROW.INDEX].enrollmentIndicator"
-                                        name="nonTreatmentEpochs[PAGE.ROW.INDEX].enrollmentIndicator" onchange="manageEnrollingIndicatorSelectBox(this);"
+                                        name="nonTreatmentEpochs[PAGE.ROW.INDEX].enrollmentIndicator" onchange="manageEnrollingIndicatorSelectBox(this,PAGE.ROW.INDEX);"
                                         class="validate-notEmpty">
                                     <option value="">--Please Select--</option>
                                     <option value="Yes">Yes</option>
@@ -375,7 +374,7 @@
                                 </select></div>
                             </div>
                             
-                            <div id="reservationIndicator" style="display:none">
+                            <div id="reservationIndicator-PAGE.ROW.INDEX" style="display:none">
                             <div class="row">
                                 <div class="label"><span>Reservation Indicator:</span>
                                     </div>
