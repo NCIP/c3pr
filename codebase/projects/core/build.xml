@@ -75,7 +75,7 @@
         </fileset>
     </path>
 
-    <path id="compile.classpath">
+    <path id="bering.classpath">
         <fileset dir="${ext.dir}/compile/lib">
             <include name="**/*.jar"/>
         </fileset>
@@ -147,13 +147,13 @@
               filtering="true">
             <filterset>
                 <filter token="catalina.home" value="${catalina.home}"/>
-                <filter token="log4j.filename" value='${log4j.filename}'/>
+                <filter token="log4j.file" value="${log4j.filename}"/>
             </filterset>
         </copy>
 
 
         <!--copy the castor mapping file-->
-        <copy todir="${classes.dir}" filtering="true">
+        <copy todir="${classes.dir}" filtering="true" overwrite="true">
             <filterset>
                 <filter token="catalina.home" value="${catalina.home}"/>
                 <filter token="user.home" value="${user.home}"/>
@@ -172,6 +172,23 @@
         <echo>All database ops for this build will use ${datasource.url}</echo>
 
     </target>
+
+<target name="compileaspects" depends="compile"  description="Compile AspectJ source files">
+
+	  <taskdef resource="org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties">
+	    <classpath>
+	  		<path refid="build.classpath"/>
+	    </classpath>
+	  </taskdef>
+
+	  <iajc inpath="${classes.dir}" source="1.5" target="1.5" destDir="${classes.dir}"
+    	  aspectpath="${ext.lib.dir}/spring-aspects.jar"
+    	  classpathRef="build.classpath"
+    	  debug="on"
+	    	verbose="true">
+	  </iajc>
+
+	</target>
 
     <!-- =============================================================== -->
     <!-- Compiles the source code                                        -->
@@ -229,10 +246,15 @@
     <!-- ============================================================== -->
     <!-- Bering migration task                                          -->
     <!-- ============================================================== -->
-    <target name="prepare-bering" depends="jar">
+    <target name="prepare-bering">
+        <property file="${catalina.home}/conf/c3pr.properties"/>
+        <property file="${user.home}/.c3pr/c3pr.properties"/>
+        <property file="${ext.resources.dir}/build.properties"/>
+
+    
         <!--Taskdef. Has to be done inside since classpath is ext-->
         <taskdef resource="edu/northwestern/bioinformatics/bering/antlib.xml"
-                 classpathref="compile.classpath"/>
+                 classpathref="bering.classpath"/>
 
         <property name="oracle.keyword" value="Oracle"/>
         <property name="postgresql.keyword" value="PostgreSQLDialect"/>
@@ -251,7 +273,7 @@
             depends="prepare-bering">
 
 
-        <migrate classpathRef="run.classpath"
+        <migrate classpathRef="bering.classpath"
                  driver="${datasource.driver}"
                  dialect="${bering.dialect}"
                  url="${datasource.url}"
@@ -271,7 +293,7 @@
                 <move file="${bering.migration.dir}/001_construction_iteration4/${test.script.name}.template"
                       tofile="${bering.migration.dir}/001_construction_iteration4/${test.script.name}.groovy"/>
 
-                <migrate classpathRef="run.classpath"
+                <migrate classpathRef="bering.classpath"
                          driver="${datasource.driver}"
                          dialect="${bering.dialect}"
                          url="${datasource.url}"
