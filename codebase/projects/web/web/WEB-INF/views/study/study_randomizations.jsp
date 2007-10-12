@@ -121,7 +121,7 @@
              <tr>
                 <td><b>Call-Out URL:</b></td>
 				<td>
-				<form:input path="treatmentEpochs[${epochCount.index}].randomization.calloutUrl" size="30" cssClass="validate-notEmpty"/>
+				<form:input path="treatmentEpochs[${epochCount.index}].randomization.calloutUrl" size="30" />
 				</td>				
              </tr>
 	     </table>
@@ -139,7 +139,7 @@
 	     <table border="0" cellspacing="0" cellpadding="0" id="epoch-${epochCount.index }">         
              <tr>
                 <td><b>Phone Number:</b></td>
-				<td><form:input path="treatmentEpochs[${epochCount.index}].randomization.phoneNumber" size="20" cssClass="validate-notEmpty"/>
+				<td><form:input path="treatmentEpochs[${epochCount.index}].randomization.phoneNumber" size="20" cssClass="validate-US_PHONE_NO"/>
 				</td>				
              </tr>
 	     </table>
