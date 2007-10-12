@@ -187,15 +187,13 @@
                                 </form:select></div>
                             </div>
                             
-                            <div id="accrualCeiling-${nonTreatmentEpochCount.index}">
-                            <div  <c:if test="${command.nonTreatmentEpochs[nonTreatmentEpochCount.index].accrualIndicator=='No'}">
+                            <div  id="accrualCeiling-${nonTreatmentEpochCount.index}" <c:if test="${command.nonTreatmentEpochs[nonTreatmentEpochCount.index].accrualIndicator=='No'}">
                                       style="display:none;"</c:if> >
                             <div class="row">
                                 <div class="label">Accrual Ceiling:</div>
                                 <div class="value"><form:input
                                         path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].accrualCeiling"
                                         size="12" maxlength="10" cssClass="validate-numeric" /></div>
-                            </div>
                             </div>
                             </div>
 
@@ -212,8 +210,7 @@
                                 </form:select></div>
                             </div>
                             
-                            <div id="reservationIndicator-${nonTreatmentEpochCount.index}">
-                            <div <c:if test="${command.nonTreatmentEpochs[nonTreatmentEpochCount.index].enrollmentIndicator=='Yes'}">style="display:none;"</c:if>>
+                            <div id="reservationIndicator-${nonTreatmentEpochCount.index}" <c:if test="${command.nonTreatmentEpochs[nonTreatmentEpochCount.index].enrollmentIndicator=='Yes'}">style="display:none;"</c:if>>
                             <div class="row">
                                 <div class="label"> <span class="required-indicator">Reservation Indicator:</span>
                                     </div>
@@ -223,7 +220,6 @@
                                     <option value="">--Please Select--</option>
                                     <form:options items="${fn:split('Yes,No',',')}" />
                                 </form:select></div>
-                            </div>
                             </div>
                             </div>
                         </div>
