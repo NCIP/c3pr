@@ -1,0 +1,93 @@
+
+<project name="c3prv2 custom ant tasks" basedir="." default="">
+
+    <property name="management.dir" location="${antfiles.dir}/management"/>
+    <property name="management.src.dir" location="${management.dir}/src"/>
+    <property name="management.build.dir" location="${management.dir}/build"/>
+    <property name="management.classes.dir" location="${management.build.dir}/classes"/>
+    <property name="management.jar.dir" location="${management.build.dir}/jars"/>
+    <property name="management.jarfile" location="${management.jar.dir}/c3pr-management-1.0.jar"/>
+
+    <!-- define global properties -->
+    <property name="cobertura.home" location="${basedir}/share/cobertura-1.8"/>
+    <path id="cobertura.classpath">
+        <fileset dir="${cobertura.home}">
+            <include name="cobertura.jar"/>
+            <include name="lib/**/*.jar"/>
+        </fileset>
+        <fileset dir="${share.dir}/ctms-commons">
+            <include name="ctms-*.jar"/>
+        </fileset>
+    </path>
+
+    <path id="ant.tasks.compile.cp">
+        <fileset dir="${ant.home}/lib">
+            <include name="ant.jar"/>
+        </fileset>
+        <path refid="cobertura.classpath"/>
+        <fileset dir="${share.dir}/commons-io">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+
+    <path id="ant.tasks.cp">
+        <path refid="ant.tasks.compile.cp"/>
+        <fileset dir="${management.jar.dir}">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+
+
+    <target name="check-anttask-rebuild-needed">
+        <condition property="have.anttasks">
+            <and>
+                <available file="${management.jarfile}">       
+                </available>
+            </and>
+        </condition>
+    </target>
+
+    <target name="build-ant-tasks" unless="have.anttasks" depends="check-anttask-rebuild-needed">
+        <delete dir="${management.classes.dir}" />
+        <delete dir="${management.jar.dir}" />
+
+        <mkdir dir="${management.classes.dir}" />
+        <mkdir dir="${management.jar.dir}" />
+
+        <!--no option but to call this target-->
+        <echo message="BULLSHIT SHOULD NOT HAPPEN"/>
+        <antcall target="resolve-ctms-dependencies"/>
+
+        <javac srcdir="${management.src.dir}" destdir="${management.classes.dir}" debug="on" deprecation="off" optimize="off">
+            <classpath refid="ant.tasks.cp" />
+        </javac>
+
+        <jar jarfile="${management.jarfile}" basedir="${management.classes.dir}">
+            <manifest>
+                <attribute name="Built-By" value="${user.name}"/>
+            </manifest>
+        </jar>
+    </target>
+
+
+    <target name="define-custom-ant-tasks" unless="defined.anttasks" depends="build-ant-tasks">
+
+        <taskdef resource="net/sf/antcontrib/antlib.xml">
+            <classpath>
+                <pathelement location="${share.dir}/ant-contrib/ant-contrib.jar"/>
+            </classpath>
+        </taskdef>
+
+        <typedef name="artifact" classname="gov.nih.nci.cagrid.ant.Artifact" loaderref="artifact">
+            <classpath>
+                <pathelement location="${management.classes.dir}"/>
+            </classpath>
+        </typedef>
+        <taskdef name="resolveDependencies" classname="gov.nih.nci.cagrid.ant.ResolveDependencies" loaderref="artifact">
+            <classpath>
+                <pathelement location="${management.classes.dir}"/>
+            </classpath>
+        </taskdef>
+
+    </target>
+</project>

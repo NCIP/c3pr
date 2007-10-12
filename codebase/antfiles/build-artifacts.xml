@@ -125,6 +125,7 @@
 
         <!--jars from the ctms commons project-->
         <artifact track="main" type="jars" id="ctms-commons.jars">
+            <antcall target="resolve-ctms-dependencies"/>
             <fileset dir="${share.dir}/ctms-commons">
                 <include name="ctms-commons-*.jar"/>
                 <include name="aspectj*.jar"/>

@@ -13,30 +13,17 @@
 
     <!-- layout info -->
     <property name="antfiles.dir" location="${basedir}/antfiles"/>
-    <property name="management.dir" location="${antfiles.dir}/management"/>
-    <property name="management.build.dir" location="${management.dir}/build"/>
-    <property name="management.classes.dir" location="${management.build.dir}/classes"/>
-    <property name="management.jar.dir" location="${management.build.dir}/jars"/>
-    <property name="management.jarfile" location="${management.jar.dir}/c3pr-management-1.0.jar"/>
-
     <property name="projects.dir" location="${basedir}/projects"/>
     <property name="reports.dir" location="${basedir}/reports"/>
     <property name="share.dir" location="${basedir}/share"/>
     <property name="test.dir" location="${basedir}/test"/>
     <property name="junit.dir" location="${share.dir}/junit-3.8.1"/>
-    <property name="cagrid.dir" location="${share.dir}/cagrid"/>
-    <property name="xmlbeans.dir" location="${share.dir}/xmlbeans"/>
     <property name="junit.results.dir" location="${test.dir}/logs"/>
 
     <!--ESB deploy directory. Defaults to scratch-->
     <property name="esb.deploy.dir" location="${basedir}/scratch"/>
-
-    <property name="webapp.name" value="c3pr" />
-
     <property name="servicemix.project.home" value="${projects.dir}/servicemix"/>
 
-    <!-- import testing properties -->
-    <property file="${antfiles.dir}/test.properties"/>
 
     <!-- import other ant scripts -->
     <import file="${antfiles.dir}/build-artifacts.xml"/>
@@ -44,43 +31,16 @@
     <import file="${antfiles.dir}/build-reports.xml"/>
     <import file="${antfiles.dir}/build-codedrop.xml"/>
     <import file="${antfiles.dir}/build-utilities.xml"/>
-
-    <!-- define global properties -->
-    <property name="cobertura.home" location="${basedir}/share/cobertura-1.8"/>
-    <path id="cobertura.classpath">
-        <fileset dir="${cobertura.home}">
-            <include name="cobertura.jar"/>
-            <include name="lib/**/*.jar"/>
-        </fileset>
-
-    </path>
-
-    <path id="antfiles.compile.cp">
-        <fileset dir="${ant.home}/lib">
-            <include name="ant.jar"/>
-        </fileset>
-        <path refid="cobertura.classpath"/>
-        <fileset dir="${share.dir}/ctms-commons">
-            <include name="ctms-*.jar"/>
-        </fileset>
-        <fileset dir="${share.dir}/commons-io">
-            <include name="*.jar"/>
-        </fileset>
-    </path>
-
-    <taskdef resource="net/sf/antcontrib/antlib.xml">
-        <classpath>
-            <pathelement location="${share.dir}/ant-contrib/ant-contrib.jar"/>
-        </classpath>
-    </taskdef>
-
+    <import file="${antfiles.dir}/build-ant-tasks.xml"/>
     <import file="${antfiles.dir}/build-ctmsi-commons.xml"/>
+
 
     <!-- ================================================================================ -->
     <!--                          DEFINE THE SUB PROJECTS                                 -->
     <!-- ================================================================================ -->
     <!-- The name should be the path relative from projects.dir.  Its strongly encouraged you use a flat layout caTissueCAEDataService, caTissueCoreDataService,  -->
-    <property name="projects.list" value="core, web, grid, esb-client, installer, servicemix, test-system"/>
+    <property name="projects.list"
+        value="core, web, grid, esb-client, installer, servicemix, test-system"/>
 
     <!-- ================================================================================ -->
     <!--                  DEFINE THE SUB PROJECTS THAT SUPPORT TESTING                    -->
@@ -101,50 +61,13 @@
     <property name="reportable.projects.list" value="core,web"/>
 
 
-
-    <!-- =============================================================== -->
-    <!-- Bootstrap the build by setting up the structure and building    -->
-    <!-- our custom ant tasks.                                           -->
-    <!-- =============================================================== -->
-    <target name="prepare" depends="resolve-ctms-dependencies">
-        <tstamp/>
-        <mkdir dir="${management.build.dir}"/>
-        <mkdir dir="${management.classes.dir}"/>
-        <mkdir dir="${management.jar.dir}"/>
-
-        <!--compile custom ant tasks-->
-        <javac srcdir="${management.dir}/src" destdir="${management.classes.dir}" debug="on" deprecation="off"
-               classpathref="antfiles.compile.cp" optimize="off">
-        </javac>
-
-        <copy file="${management.dir}/log4j.properties"
-              todir="${management.classes.dir}"/>
-
-        <jar jarfile="${management.jarfile}" basedir="${management.classes.dir}">
-            <manifest>
-                <attribute name="Built-By" value="${user.name}"/>
-            </manifest>
-        </jar>
-
-        <typedef name="artifact" classname="gov.nih.nci.cagrid.ant.Artifact" loaderref="artifact">
-            <classpath>
-                <pathelement location="${management.classes.dir}"/>
-                <path refid="cobertura.classpath"/>
-            </classpath>
-        </typedef>
-        <taskdef name="resolveDependencies" classname="gov.nih.nci.cagrid.ant.ResolveDependencies" loaderref="artifact">
-            <classpath>
-                <pathelement location="${management.classes.dir}"/>
-                <path refid="cobertura.classpath"/>
-            </classpath>
-        </taskdef>
-
-    </target>
+    <target name="prepare" depends="define-custom-ant-tasks"> </target>
 
     <!-- =============================================================== -->
     <!-- CORE                                                             -->
     <!-- =============================================================== -->
-    <target name="build-core" depends="prepare" description="Builds the core project (Services, dao, domain">
+    <target name="build-core" depends="prepare"
+        description="Builds the core project (Services, dao, domain">
         <resolveDependencies extdir="${projects.dir}/core/ext">
             <artifact refid="common.test.jars"/>
             <artifact refid="ctms-commons.jars"/>
@@ -218,7 +141,8 @@
     </target>
 
     <!--Does a local build. For Developers use only -->
-    <target name="deploy-webapp-local" depends="build-web" description="Deploys webapp on your web/web local">
+    <target name="deploy-webapp-local" depends="build-web"
+        description="Deploys webapp on your web/web local">
         <ant dir="${projects.dir}/web" inheritall="false" target="deployLocal"/>
     </target>
 
@@ -241,7 +165,8 @@
     <!-- =============================================================== -->
     <!-- c3pr Protocol Ingestion Grid Service                            -->
     <!-- =============================================================== -->
-    <target name="build-grid" depends="prepare" description="Builds the c3p3 Registration Consumer grid node">
+    <target name="build-grid" depends="prepare"
+        description="Builds the c3p3 Registration Consumer grid node">
         <resolveDependencies extdir="${projects.dir}/grid/ext">
             <artifact refid="ant-contrib.jars"/>
             <artifact refid="c3pr.core.jars"/>
@@ -291,7 +216,8 @@
     <!-- =============================================================== -->
     <!-- c3pr JBI Integration project                                    -->
     <!-- =============================================================== -->
-    <target name="build-servicemix" depends="prepare,checkGlobus" description="Builds servicemix with c3p3v2 extensions ">
+    <target name="build-servicemix" depends="prepare,checkGlobus,checkMaven"
+        description="Builds servicemix with c3p3v2 extensions ">
         <resolveDependencies extdir="${projects.dir}/servicemix/ext">
             <artifact refid="ant-contrib.jars"/>
             <artifact refid="cagrid.jars"/>
@@ -316,16 +242,15 @@
     <!-- ============================================================== -->
     <!-- Cleans up generated stuff                                      -->
     <!-- ============================================================== -->
-    <target name="clean" description="Cleans all projects.">
+    <target name="clean" depends="prepare" description="Cleans all projects.">
         <for list="${projects.list}" parallel="true" param="project.name" trim="true">
             <sequential>
                 <echo message="Cleaning project @{project.name}."/>
                 <delete dir="${projects.dir}/@{project.name}/ext"/>
-                <ant dir="${projects.dir}/@{project.name}" inheritAll="false" antfile="build.xml" target="clean"/>
+                <ant dir="${projects.dir}/@{project.name}" inheritAll="false" antfile="build.xml"
+                    target="clean"/>
             </sequential>
         </for>
-
-        <delete dir="${management.build.dir}"/>
 
         <delete failonerror="false">
             <fileset dir="${junit.results.dir}">
@@ -335,27 +260,23 @@
 
     </target>
 
-    <target name="createOrUpdateDatabase" depends="build-core"
-            description="create or update the Database using bering">
+    <target name="createOrUpdateDatabase" description="create or update the Database using bering">
         <ant dir="${projects.dir}/core" inheritall="false" target="bering-migrate"/>
     </target>
 
-    <target name="createOrUpdateDatabaseForTests" depends="build-core"
-            description="create or update the Database using bering to run tests">
+    <target name="createOrUpdateDatabaseForTests"
+        description="create or update the Database using bering to run tests">
         <ant dir="${projects.dir}/core" inheritall="false" target="bering-migrate-test"/>
     </target>
 
     <!--Update code from CVS. For developer use only-->
     <target name="cvsUpdate" description="Updates code from CVS. For developers use only">
         <!-- Assumes PKI setup for the following account-->
-        <property name="c3prv2.cvs.root" value=":ext:kherm@cbiocvs2.nci.nih.gov:/share/content/gforge/c3prv2"/>
+        <property name="c3prv2.cvs.root"
+            value=":ext:kherm@cbiocvs2.nci.nih.gov:/share/content/gforge/c3prv2"/>
 
-        <cvs cvsroot="${c3prv2.cvs.root}"
-             command="update -PAd"
-             cvsrsh="ssh"
-             quiet="false"
-             failonerror="true"
-             dest="${basedir}"/>
+        <cvs cvsroot="${c3prv2.cvs.root}" command="update -PAd" cvsrsh="ssh" quiet="false"
+            failonerror="true" dest="${basedir}"/>
     </target>
 
 
@@ -366,21 +287,23 @@
     <!-- ============================================================== -->
     <!-- Generate schemas and castor mappings using cacore               -->
     <!-- ============================================================== -->
-    <target name="regenerateSchemaAndMappings" description="Will regenerate the xml schemas and castor mapping
+    <target name="regenerateSchemaAndMappings"
+        description="Will regenerate the xml schemas and castor mapping
                                     files. Needs cacore.home set"
-            depends="checkcacoreToolkit">
+        depends="checkcacoreToolkit">
 
         <property name="c3pr.core.resources.dir" value="${projects.dir}/core/resources"/>
         <property name="c3pr.core.xmi.dir" value="${c3pr.core.resources.dir}/xmi"/>
         <property name="c3pr.core.xsd.dir" value="${c3pr.core.resources.dir}/xsd"/>
         <property name="c3pr.model.filename" value="c3pr.xmi"/>
-        <property name="cacore.toolkit.output.dir" value="${ext.cacore.toolkit.home}/output/example/src"/>
+        <property name="cacore.toolkit.output.dir"
+            value="${ext.cacore.toolkit.home}/output/example/src"/>
 
         <ant dir="${ext.cacore.toolkit.home}" target="clean-all" inheritall="false"/>
 
         <!--copy our model file over-->
-        <copy file="${c3pr.core.xmi.dir}/${c3pr.model.filename}" todir="${ext.cacore.toolkit.home}/models"
-              overwrite="true"/>
+        <copy file="${c3pr.core.xmi.dir}/${c3pr.model.filename}"
+            todir="${ext.cacore.toolkit.home}/models" overwrite="true"/>
 
         <!--generate xml schemas-->
         <ant dir="${ext.cacore.toolkit.home}" target="generate-schemas" inheritall="false">
@@ -389,8 +312,7 @@
         </ant>
 
         <!--Copy the xml schmas over-->
-        <copy  todir="${c3pr.core.xsd.dir}"
-               overwrite="true">
+        <copy todir="${c3pr.core.xsd.dir}" overwrite="true">
             <fileset dir="${cacore.toolkit.output.dir}">
                 <include name="*.xsd"/>
             </fileset>
@@ -402,11 +324,8 @@
             <property name="fixed_filename" value="fixed-${c3pr.model.filename}"/>
         </ant>
 
-        <copy
-                tofile="${c3pr.core.resources.dir}/c3pr-xml-mapping.xml"
-                overwrite="true" file="${cacore.toolkit.output.dir}/xml-mapping.xml">
-
-        </copy>
+        <copy tofile="${c3pr.core.resources.dir}/c3pr-xml-mapping.xml" overwrite="true"
+            file="${cacore.toolkit.output.dir}/xml-mapping.xml"> </copy>
 
 
 
@@ -435,7 +354,8 @@
     <!-- ====================================================================== -->
     <!-- Deploys the webapp (note:- only web + core projects )in Catalina_home  -->
     <!-- ====================================================================== -->
-    <target name="deploy-webapp" depends="checkTomcat,build-web" description="Deploy web application to tomcat">
+    <target name="deploy-webapp" depends="checkTomcat,build-web"
+        description="Deploy web application to tomcat">
         <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="deploy">
             <property name="catalina.home" value="${ext.tomcat.dir}"/>
         </ant>
@@ -450,19 +370,22 @@
         </ant>
     </target>
 
-     <!-- ====================================================================== -->
+    <!-- ====================================================================== -->
     <!-- UnDeploys the webapp (note:- only web + core projects )in CATALINA_HOME  -->
     <!-- ====================================================================== -->
-    <target name="war" depends="checkTomcat" description="Will build the c3prv2 war archive in the current directory">
+    <target name="war" depends="checkTomcat"
+        description="Will build the c3prv2 war archive in the current directory">
         <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="war">
             <property name="war.file" value="${antfiles.dir}/c3prv2.war"/>
         </ant>
     </target>
 
 
-    <target name="deployESB" depends="build-servicemix" description="Will build and deploy and make ready the ctms esb engine (servicemix)">
+    <target name="deployESB" depends="build-servicemix"
+        description="Will build and deploy and make ready the ctms esb engine (servicemix)">
 
-        <property name="servicemix.toolkit.home" value="${servicemix.project.home}/servicemix-toolkit"/>
+        <property name="servicemix.toolkit.home"
+            value="${servicemix.project.home}/servicemix-toolkit"/>
 
         <!-- call the servicemix project deploy target -->
         <ant dir="${servicemix.project.home}" antfile="build.xml" inheritall="false" target="deploy"/>
@@ -496,7 +419,6 @@
     <!-- ============================================================== -->
     <!-- Builds C3PR  from scratch                                     -->
     <!-- ============================================================== -->
-    <target name="all" depends="checkMaven, checkGlobus, clean, build" description="Cleans and builds all the projects."/>
+    <target name="all" depends="clean, build" description="Cleans and builds all the projects."/>
 
 </project>
-

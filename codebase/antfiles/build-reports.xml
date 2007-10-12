@@ -292,11 +292,11 @@
     <!-- Use Case Tracibility Matrix Report                             -->
     <!-- =============================================================== -->
 
-    <target name="uctrace-report" depends="prepare">
+    <target name="uctrace-report" depends="prepare" description="Tracebility matrix report">
         <taskdef name="useCaseTraceabilityReport" classname="edu.duke.cabig.c3pr.ant.UseCaseTraceabilityReport">
             <classpath>
                 <pathelement location="${management.classes.dir}"/>
-                <path refid="antfiles.compile.cp"/>
+                <path refid="ant.tasks.cp"/>
             </classpath>
         </taskdef>
 
