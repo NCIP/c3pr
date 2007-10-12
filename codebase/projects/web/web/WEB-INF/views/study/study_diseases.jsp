@@ -47,7 +47,6 @@ var diseaseAutocompleterProps = {
             autocompleter.setChoices(values)
         })
     },
-    softDelete: ${softDelete == 'true'},
     valueSelector: function(obj) {
         return obj.name
         // + "<b> ::</b> " + obj.id

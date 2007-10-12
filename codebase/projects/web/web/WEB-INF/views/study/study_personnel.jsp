@@ -159,7 +159,7 @@
         add_row_division_id: "studyPersonnelTable", 	        /* this id belongs to element where the row would be appended to */
         skeleton_row_division_id: "dummy-row",
         initialIndex: ${fn:length(command.studySites[selected_site].studyPersonnel)},            /* this is the initial count of the rows when the page is loaded  */
-        softDelete: ${flowType!='CREATE_STUDY'},
+        softDelete: ${softDelete == 'true'},
     	path: "studySites[${selected_site}].studyPersonnel"
     };
     RowManager.addRowInseter(instanceRowInserterProps);

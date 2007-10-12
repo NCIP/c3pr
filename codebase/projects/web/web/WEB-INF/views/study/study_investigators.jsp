@@ -39,7 +39,6 @@ var investigatorsAutocompleterProps = {
                autocompleter.setChoices(values)
            })
        },
-       softDelete: ${flowType!='CREATE_STUDY'},
        valueSelector: function(obj) {
            return obj.investigator.fullName
        },
@@ -52,7 +51,7 @@ var instanceRowInserterProps = {
        add_row_division_id: "investigatorsTable", 	        /* this id belongs to element where the row would be appended to */
        skeleton_row_division_id: "dummy-row",
        initialIndex: ${fn:length(command.studySites[selected_site].studyInvestigators)},   /* this is the initial count of the rows when the page is loaded  */
-       softDelete: ${flowType!='CREATE_STUDY'},
+       softDelete: ${softDelete == 'true'},
 	   path: "studySites[${selected_site}].studyInvestigators",                            /* this is the path of the collection that holds the rows  */
     	postProcessRowInsertion: function(object){
         clonedRowInserter=Object.clone(investigatorsAutocompleterProps);
