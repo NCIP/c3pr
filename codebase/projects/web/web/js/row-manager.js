@@ -343,7 +343,7 @@ var AbstractRowInserterProps = {
    						RowManager.log("Row deletion Message: "+t.responseText)							
 					},					
 	shouldDelete: function(inserter, index){
-						if(index<this.initialIndex && this.softDelete && this.alertOnSoftDelete){
+						if(index<this.initialIndex && this.alertOnSoftDelete){
 							return confirm("Are you sure you want to delete this row?")
 						}
 						return true
