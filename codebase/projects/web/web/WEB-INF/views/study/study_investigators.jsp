@@ -50,10 +50,10 @@ var investigatorsAutocompleterProps = {
 var instanceRowInserterProps = {
        add_row_division_id: "investigatorsTable", 	        /* this id belongs to element where the row would be appended to */
        skeleton_row_division_id: "dummy-row",
-       initialIndex: ${fn:length(command.studySites[selected_site].studyInvestigators)},   /* this is the initial count of the rows when the page is loaded  */
+       initialIndex: ${fn:length(command.studyOrganizations[selected_site].studyInvestigators)},   /* this is the initial count of the rows when the page is loaded  */
        softDelete: ${softDelete == 'true'},
-	   path: "studySites[${selected_site}].studyInvestigators",                            /* this is the path of the collection that holds the rows  */
-    	postProcessRowInsertion: function(object){
+	   path: "studyOrganizations[${selected_site}].studyInvestigators",                            /* this is the path of the collection that holds the rows  */
+       postProcessRowInsertion: function(object){
         clonedRowInserter=Object.clone(investigatorsAutocompleterProps);
 		clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;
 		AutocompleterManager.registerAutoCompleter(clonedRowInserter);
@@ -75,7 +75,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 <jsp:attribute name="singleFields">
 
 <c:choose>
-	<c:when test="${fn:length(command.studySites) == 0}">
+	<c:when test="${fn:length(command.studyOrganizations) == 0}">
         <tr>
 			<td>Choose a study site before adding investigators</td>
 		</tr>
@@ -107,7 +107,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
             <td align="left"><span class="required-indicator"><b>Organization:</b></span></td>
             <td align="left">
                 <select id="site" name="site" onchange="javascript:chooseSites();">
-                    <c:forEach items="${command.studySites}" var="studySite" varStatus="status">
+                    <c:forEach items="${command.studyOrganizations}" var="studySite" varStatus="status">
                         <csmauthz:accesscontrol domainObject="${studySite.healthcareSite}"
                                                       hasPrivileges="ACCESS"  authorizationCheckName="siteAuthorizationCheck">
                         <c:if test="${selected_site == status.index }">
@@ -135,25 +135,25 @@ RowManager.addRowInseter(instanceRowInserterProps);
             <th></th>
         </tr>
 
-        <c:forEach varStatus="status" items="${command.studySites[selected_site].studyInvestigators}">
+        <c:forEach varStatus="status" items="${command.studyOrganizations[selected_site].studyInvestigators}">
             <tr id="investigatorsTable-${status.index}">
                 <td>
                     <form:hidden id="investigator${status.index}-hidden"
-                                 path="studySites[${selected_site}].studyInvestigators[${status.index}].healthcareSiteInvestigator"/>
+                                 path="studyOrganizations[${selected_site}].studyInvestigators[${status.index}].healthcareSiteInvestigator"/>
                     <input class="validate-notEmpty" type="text" id="investigator${status.index}-input" size="30"
-                           value="${command.studySites[selected_site].studyInvestigators[status.index].healthcareSiteInvestigator.investigator.fullName}"/>
+                           value="${command.studyOrganizations[selected_site].studyInvestigators[status.index].healthcareSiteInvestigator.investigator.fullName}"/>
                     <input type="button" id="investigator${status.index}-clear" value="Clear"/>
                     <tags:indicator id="investigator${status.index}-indicator"/>
                     <div id="investigator${status.index}-choices" class="autocomplete"></div>
                 </td>
                 <td>
-                    <form:select path="studySites[${selected_site}].studyInvestigators[${status.index}].roleCode"
+                    <form:select path="studyOrganizations[${selected_site}].studyInvestigators[${status.index}].roleCode"
                                  cssClass="validate-notEmpty">
                         <option value="">--Please Select--</option>
                         <form:options items="${studyInvestigatorRoleRefData}" itemLabel="desc" itemValue="desc"/>
                     </form:select></td>
                 <td>
-                    <form:select path="studySites[${selected_site}].studyInvestigators[${status.index}].statusCode"
+                    <form:select path="studyOrganizations[${selected_site}].studyInvestigators[${status.index}].statusCode"
                                  cssClass="validate-notEmpty">
                         <option value="">--Please Select--</option>
                         <form:options items="${studyInvestigatorStatusRefData}" itemLabel="desc" itemValue="desc"/>
@@ -171,7 +171,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
         <font size="2"><b> Study Sites </b> </font>
         <br><br>
         <table border="0" id="table1" cellspacing="0" cellpadding="0" width="100%">
-            <c:forEach var="studySite" varStatus="status" items="${command.studySites}">
+            <c:forEach var="studySite" varStatus="status" items="${command.studyOrganizations}">
                 <tr>
                     <td>
                         <a onclick="javascript:chooseSitesFromSummary(${status.index});"
@@ -220,19 +220,19 @@ RowManager.addRowInseter(instanceRowInserterProps);
         <tr  id="investigatorsTable-PAGE.ROW.INDEX">
             <td>
                 <input type="hidden" id="investigatorPAGE.ROW.INDEX-hidden"
-                        name="studySites[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].healthcareSiteInvestigator"
-                       value="studySites[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].healthcareSiteInvestigator"/>
+                        name="studyOrganizations[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].healthcareSiteInvestigator"
+                       value="studyOrganizations[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].healthcareSiteInvestigator"/>
                 <input class="validate-notEmpty" type="text" id="investigatorPAGE.ROW.INDEX-input"
                        size="30"
-                       value="${command.studySites[selected_site].studyInvestigators[PAGE.ROW.INDEX].healthcareSiteInvestigator.investigator.fullName}"/>
+                       value="${command.studyOrganizations[selected_site].studyInvestigators[PAGE.ROW.INDEX].healthcareSiteInvestigator.investigator.fullName}"/>
                 <input type="button" id="investigatorPAGE.ROW.INDEX-clear"
                         value="Clear"/>
                    <tags:indicator id="investigatorPAGE.ROW.INDEX-indicator"/>
                   <div id="investigatorPAGE.ROW.INDEX-choices" class="autocomplete"></div>
             </td>
             <td>
-                <select id="studySites[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].roleCode"
-                           name="studySites[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].roleCode"
+                <select id="studyOrganizations[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].roleCode"
+                           name="studyOrganizations[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].roleCode"
                         class="validate-notEmpty">
                     <option value="">--Please Select--</option>
                     <c:forEach items="${studyInvestigatorRoleRefData}" var="studyInvRole">
@@ -241,8 +241,8 @@ RowManager.addRowInseter(instanceRowInserterProps);
                 </select>
             </td>
             <td>
-                <select id="studySites[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].statusCode"
-                        name="studySites[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].statusCode"
+                <select id="studyOrganizations[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].statusCode"
+                        name="studyOrganizations[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].statusCode"
                         class="validate-notEmpty">
                     <option value="">--Please Select--</option>
                     <c:forEach items="${studyInvestigatorStatusRefData}" var="studyInvStatus">
