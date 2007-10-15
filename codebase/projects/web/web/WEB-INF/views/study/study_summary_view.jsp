@@ -133,7 +133,8 @@
 					<th scope="col" align="left">Study Site</th>
 					<th scope="col" align="left">Status</th>
 					<th scope="col" align="left">Role</th>
-					<th scope="col" align="left">Start Date</th>					
+					<th scope="col" align="left">Start Date</th>	
+					<th scope="col" align="left">IRB Approval Date</th>				
 				</tr>
 					<c:set var="commanSepOptValSite"
 						value="[['Active','Active'],
@@ -149,7 +150,8 @@
 						path="changedSiteStudyStatus_${status.index}"
 						commanSepOptVal="${commanSepOptValSite}" />&nbsp;</td>
 						<td class="alt" align="left">${studySite.roleCode}</td>
-						<td class="alt" align="left">${studySite.startDateStr}</td>						
+						<td class="alt" align="left">${studySite.startDateStr}</td>	
+						<td class="alt" align="left">${studySite.irbApprovalDateStr}</td>					
 					</tr>
 				</c:forEach>
 			</table>
