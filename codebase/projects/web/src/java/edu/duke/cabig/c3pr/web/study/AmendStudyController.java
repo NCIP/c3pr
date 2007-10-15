@@ -31,6 +31,11 @@ public class AmendStudyController extends StudyController<Study> {
         setBindOnNewForm(true);
     }
     
+    public AmendStudyController(String s) {
+        super(s);
+        setBindOnNewForm(true);
+    }
+    
     @Override
     protected Map referenceData(HttpServletRequest request, int arg1) throws Exception {
     	// TODO Auto-generated method stub
@@ -42,7 +47,7 @@ public class AmendStudyController extends StudyController<Study> {
     
     @Override
     protected void layoutTabs(Flow flow) {
-        
+    	boolean editMode = false;
         flow.addTab(new StudyAmendmentTab());
         flow.addTab(new StudyDetailsTab());
         flow.addTab(new StudyDesignTab());
@@ -60,6 +65,7 @@ public class AmendStudyController extends StudyController<Study> {
     @Override
 	protected void initBinder(HttpServletRequest req,
 			ServletRequestDataBinder binder) throws Exception {
+    	super.initBinder(req, binder);
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(
 				new SimpleDateFormat("MM/dd/yyyy"), true));
 		binder.registerCustomEditor(Boolean.class, "epochAndArmsIndicator", new CustomBooleanEditor(false));
