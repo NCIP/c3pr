@@ -247,12 +247,20 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
         if (sessionFormObject == null) {
             formAttrName = getFormSessionAttributeNameAgain();
             sessionFormObject = session.getAttribute(formAttrName);
+            if (sessionFormObject == null) {
+            	formAttrName = getFormSessionAttributeNameAmend();
+                sessionFormObject = session.getAttribute(formAttrName);
+            }            
             return sessionFormObject;
         }
 
         return sessionFormObject;
     }
-
+    
+    private String getFormSessionAttributeNameAmend() {
+        return "edu.duke.cabig.c3pr.web.study.AmendStudyController.FORM.command";
+    }
+    
     private String getFormSessionAttributeName() {
         return "edu.duke.cabig.c3pr.web.study.CreateStudyController.FORM.command";
     }
