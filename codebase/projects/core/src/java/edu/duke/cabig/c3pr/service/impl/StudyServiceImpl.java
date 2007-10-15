@@ -93,8 +93,8 @@ public class StudyServiceImpl implements StudyService {
 				Randomization randomization = treatmentEpoch.getRandomization();
 				if (randomization instanceof PhonecallRandomization) {
 					if ((((PhonecallRandomization) randomization)
-							.getPhoneNumber()) != null) {
-						return StudyDataEntryStatus.COMPLETE;
+							.getPhoneNumber()) == null) {
+						return StudyDataEntryStatus.INCOMPLETE;
 					}
 				}
 			}
@@ -104,8 +104,8 @@ public class StudyServiceImpl implements StudyService {
 			for (TreatmentEpoch treatmentEpoch : study.getTreatmentEpochs()) {
 				Randomization randomization = treatmentEpoch.getRandomization();
 				if (randomization instanceof PhonecallRandomization) {
-					if ((((CalloutRandomization) randomization).getCalloutUrl()) != null) {
-						return StudyDataEntryStatus.COMPLETE;
+					if ((((CalloutRandomization) randomization).getCalloutUrl()) == null) {
+						return StudyDataEntryStatus.INCOMPLETE;
 					}
 				}
 			}
@@ -190,14 +190,12 @@ public class StudyServiceImpl implements StudyService {
 		}
 		if (studySite.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.ACTIVE) {
 			Date currentDate = new Date();
-			if (((studySite.getIrbApprovalDate()) != null)
-					&& (studySite.getIrbApprovalDate().after(currentDate))) {
+			if (((studySite.getIrbApprovalDate()) == null)
+					|| (studySite.getIrbApprovalDate().after(currentDate))) {
 				return SiteStudyStatus.PENDING;
 			}
-			if (studySite.getStartDate() != null) {
-				if (studySite.getStartDate().after(currentDate)) {
+			if ((studySite.getStartDate() == null)||(studySite.getStartDate().after(currentDate))) {
 					return SiteStudyStatus.PENDING;
-				}
 			}
 			return SiteStudyStatus.ACTIVE;
 		}
