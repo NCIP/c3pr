@@ -13,7 +13,13 @@
             document.viewDetails.submit();
             document.viewDetails._action.value = "";
         }
-    </script>
+        
+    function activateInPlaceEditing(arrayElements){
+	for(aE=0 ; aE<arrayElements.length ; aE++){
+		arrayElements[aE].enterEditMode('click');
+	}
+}
+</script>
 </head>
 
 <body>
@@ -55,7 +61,7 @@
 					<td><tags:inPlaceSelect
 						value="${command.coordinatingCenterStudyStatus.code}"
 						path="changedCoordinatingCenterStudyStatus"
-						commanSepOptVal="${commanSepOptVal}" />&nbsp;</td>
+						commanSepOptVal="${commanSepOptVal}" />&nbsp; <input type="button" value="Change Status" onclick="editor_changedCoordinatingCenterStudyStatus.enterEditMode('click')"/></td>
 				</tr>
 				<tr>
 					<td class="alt" align="left"><b>Type:</b></td>
@@ -84,6 +90,13 @@
 
 			</table>
 		</chrome:division>
+			<script>
+			eArray=new Array();
+			eArray.push(editor_coordinatingCenterStudyStatus);
+			</script>
+				<input type="button" value="Edit" onclick="activateInPlaceEditing(eArray)"/>
+			<hr align="left" width="95%">					
+			<br>
 
 		<chrome:division title="Identifiers">
 			<h4>Organization Assigned Identifiers</h4>
@@ -148,7 +161,7 @@
 						<td><tags:inPlaceSelect
 						value="${command.studySites[status.index].siteStudyStatus.code}"
 						path="changedSiteStudyStatus_${status.index}"
-						commanSepOptVal="${commanSepOptValSite}" />&nbsp;</td>
+						commanSepOptVal="${commanSepOptValSite}" />&nbsp;<input type="button" value="Change Status" onclick="editor_changedSiteStudyStatus_${status.index}.enterEditMode('click')"/></td>
 						<td class="alt" align="left">${studySite.roleCode}</td>
 						<td class="alt" align="left">${studySite.startDateStr}</td>	
 						<td class="alt" align="left">${studySite.irbApprovalDateStr}</td>					
