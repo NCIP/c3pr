@@ -100,14 +100,70 @@
             </list>
         </property>
         <property name="entityInterceptor">
-            <bean
+			        <ref local="chainedInterceptor"/>
+        <!--    <bean
                     class="edu.duke.cabig.c3pr.utils.GridIdentifierInterceptor"
-                    autowire="byName"/>
+                    autowire="byName"/> -->
+        </property> 
+  		<property name="hibernateProperties">
+            <ref bean="hibernateProperties"/>
+        </property>
+    </bean>		<!-- Auditing related beans definition start here-->
+    
+    <bean id="auditOpenSessionInViewInterceptor" class="org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor">
+		<property name="sessionFactory"><ref local="auditSessionFactory"/></property>
+		<property name="singleSession"><value>true</value></property>
+		<property name="flushModeName"><value>FLUSH_AUTO</value></property>
+	</bean>
+    
+	
+    <bean id="auditSessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean" autowire="byName" >
+       <property name="namingStrategy">
+            <bean class="org.hibernate.cfg.ImprovedNamingStrategy"/>
         </property>
         <property name="hibernateProperties">
             <ref bean="hibernateProperties"/>
         </property>
-    </bean>
+        
+        <property name="annotatedClasses">
+            <list>
+    			<value>gov.nih.nci.cabig.ctms.audit.domain.DataAuditEventValue</value>
+                <value>gov.nih.nci.cabig.ctms.audit.domain.DataAuditEvent</value>            
+            </list>
+        </property>
+     </bean>
+    
+    <bean id="chainedInterceptor" class="gov.nih.nci.cabig.ctms.audit.ChainedInterceptor" >
+		<property name="interceptors">
+			<list>
+				<ref local="gridIdentifierInterceptor"/>
+				<ref local="auditInterceptor"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="auditInterceptor" class="gov.nih.nci.cabig.ctms.audit.AuditInterceptorImpl">
+		<property name="dataAuditRepository" ref="dataAuditRepository"></property>
+		<!--<property name="auditableEntities">
+			<list>
+				 <value>edu.duke.cabig.c3pr.domain.Study</value>                
+                <value>edu.duke.cabig.c3pr.domain.StudyAmendment</value>         
+			</list>
+		</property> -->
+		<property name="auditAll"><value>true</value></property>
+	</bean>
+        
+    <bean name="dataAuditRepository" class="gov.nih.nci.cabig.ctms.audit.dao.DataAuditRepository">
+		<property name="sessionFactory">
+			<ref local="auditSessionFactory" />
+		</property>
+	</bean>    
+    <!-- auditing beans definition end here -->
+
+	<bean id="gridIdentifierInterceptor" class="edu.duke.cabig.c3pr.utils.GridIdentifierInterceptor"
+                    autowire="byName" />
+                   
+      
     <bean id="hibernateTemplate"
           class="org.springframework.orm.hibernate3.HibernateTemplate">
         <property name="checkWriteOperations" value="true"/>
@@ -126,7 +182,11 @@
           autowire="byName">
         <property name="singleSession" value="true"/>
         <property name="flushModeName" value="FLUSH_AUTO"/>
-    </bean>
+        <property name="sessionFactory">
+            <ref bean="sessionFactory"/>
+        </property>
+    </bean>    
+    
     <bean id="gridIdentifierCreator" class="edu.duke.cabig.c3pr.utils.LocalGridIdentifierCreator"/>
 
     <!--validators for domain objects   -->
@@ -142,35 +202,32 @@
     <tx:annotation-driven proxy-target-class="true"/>
 
     <!-- Daos -->
-    <bean id="studyDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyDao" autowire="byType"/>
-    <bean id="studySubjectDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudySubjectDao" autowire="byType"/>
-    <bean id="studySiteDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudySiteDao" autowire="byType"/>
-    <bean id="epochDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.EpochDao" autowire="byType"/>
-    <bean id="scheduledEpochDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ScheduledEpochDao"
-          autowire="byType"/>
-    <bean id="armDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ArmDao" autowire="byType"/>
-    <bean id="participantDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ParticipantDao" autowire="byType"/>
-    <bean id="healthcareSiteDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.HealthcareSiteDao"
-          autowire="byType"/>
-    <bean id="healthcareSiteInvestigatorDao" parent="daoTemplate"
-          class="edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao" autowire="byType"/>
-    <bean id="studyPersonnelDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyPersonnelDao"
-          autowire="byType"/>
-    <bean id="researchStaffDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ResearchStaffDao"
-          autowire="byType"/>
-    <bean id="investigatorDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.InvestigatorDao" autowire="byType"/>
-    <bean id="diseaseCategoryDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.DiseaseCategoryDao"
-          autowire="byType"/>
-    <bean id="diseaseTermDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.DiseaseTermDao" autowire="byType"/>
-    <bean id="studyInvestigatorDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyInvestigatorDao"
-          autowire="byType"/>
+    <bean id="studyDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyDao">
+    </bean>
+    <bean id="studySubjectDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudySubjectDao" autowire="byName"  />
+    <bean id="studySiteDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudySiteDao" autowire="byName" />
+    <bean id="epochDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.EpochDao"  autowire="byName"/>
+    <bean id="scheduledEpochDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ScheduledEpochDao" autowire="byName"/>
+    <bean id="armDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ArmDao"  autowire="byName" />
+    <bean id="participantDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ParticipantDao" autowire="byName"  />
+    <bean id="healthcareSiteDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.HealthcareSiteDao"  autowire="byName"/>
+    <bean id="healthcareSiteInvestigatorDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao"  autowire="byName" />
+    <bean id="studyPersonnelDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyPersonnelDao" autowire="byName" />
+    <bean id="researchStaffDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.ResearchStaffDao"  autowire="byName"
+           />
+    <bean id="investigatorDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.InvestigatorDao"  autowire="byName" />
+    <bean id="diseaseCategoryDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.DiseaseCategoryDao" autowire="byName"
+           />
+    <bean id="diseaseTermDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.DiseaseTermDao"   autowire="byName"/>
+    <bean id="studyInvestigatorDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyInvestigatorDao" autowire="byName"
+           />
     <bean id="StratificationCriterionDao" parent="daoTemplate"
-          class="edu.duke.cabig.c3pr.dao.StratificationCriterionDao" autowire="byType"/>
-    <bean id="anatomicSiteDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.AnatomicSiteDao" autowire="byType"/>
-    <bean id="organizationDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.OrganizationDao" autowire="byType"/>
+          class="edu.duke.cabig.c3pr.dao.StratificationCriterionDao"  autowire="byName"  />
+    <bean id="anatomicSiteDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.AnatomicSiteDao"  autowire="byName"  />
+    <bean id="organizationDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.OrganizationDao"  autowire="byName" />
     <bean id="stratificationAnswerDao" parent="daoTemplate"
-          class="edu.duke.cabig.c3pr.dao.StratificationCriterionAnswerDao" autowire="byType"/>
-    <bean id="stratumGroupDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StratumGroupDao" autowire="byType"/>
+          class="edu.duke.cabig.c3pr.dao.StratificationCriterionAnswerDao"  autowire="byName" />
+    <bean id="stratumGroupDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StratumGroupDao"  autowire="byName" />
 
     <!-- Services -->
     <bean id="studyService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudyServiceImpl"

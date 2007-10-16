@@ -89,6 +89,29 @@
     </filter-mapping>
 
     <filter>
+  		<filter-name>AuditInfoFilter</filter-name>
+  		<filter-class>edu.duke.cabig.c3pr.utils.web.AuditInfoFilter</filter-class>
+	</filter>
+    <filter-mapping>
+        <filter-name>AuditInfoFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+    <filter>
+		<filter-name>AuditOpenSessionInViewInterceptorFilter</filter-name>
+		<filter-class>edu.duke.cabig.c3pr.utils.web.OpenSessionInViewInterceptorFilter</filter-class>
+	<init-param>
+		<param-name>interceptorBeanName</param-name>
+		<param-value>auditOpenSessionInViewInterceptor</param-value>
+	</init-param>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>AuditOpenSessionInViewInterceptorFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+    <filter>
         <filter-name>OpenSessionInViewInterceptorFilter</filter-name>
         <filter-class> edu.duke.cabig.c3pr.utils.web.OpenSessionInViewInterceptorFilter</filter-class>
         <init-param>
@@ -100,9 +123,8 @@
     <filter-mapping>
         <filter-name>OpenSessionInViewInterceptorFilter</filter-name>
         <url-pattern>/*</url-pattern>
-    </filter-mapping>
-
-
+    </filter-mapping>	
+	
 	<filter>
 	  <filter-name>eXtremeExport</filter-name>
 	  <filter-class>org.extremecomponents.table.filter.ExportFilter</filter-class>

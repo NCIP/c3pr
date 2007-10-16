@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.utils;
 
 import edu.nwu.bioinformatics.commons.StringUtils;
 import edu.nwu.bioinformatics.commons.testing.DbTestCase;
+import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
 import gov.nih.nci.cabig.ctms.domain.DomainObject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -21,6 +22,7 @@ import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,9 +40,12 @@ public abstract class DaoTestCase extends DbTestCase {
     protected WebRequest webRequest = new ServletWebRequest(request);
     private boolean shouldFlush = true;
 
+    private static final DataAuditInfo INFO=new DataAuditInfo("user","127.0.0.0",DateUtil.createDate(2004,Calendar.NOVEMBER,2), "c3pr/study");
+    
     protected void setUp() throws Exception {
         super.setUp();
         SecurityContextTestUtils.switchToSuperuser();
+        DataAuditInfo.setLocal(INFO);
         beginSession();
     }
 
@@ -48,6 +53,7 @@ public abstract class DaoTestCase extends DbTestCase {
         // endSession();
         super.tearDown();
         SecurityContextTestUtils.switchToNobody();
+        DataAuditInfo.setLocal(null);
     }
 
     public void runBare() throws Throwable {
