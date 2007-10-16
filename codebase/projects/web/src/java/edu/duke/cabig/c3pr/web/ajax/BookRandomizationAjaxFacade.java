@@ -56,7 +56,10 @@ public class BookRandomizationAjaxFacade {
 	        if(study == null){
 	        	study = (Study)req.getSession().getAttribute("edu.duke.cabig.c3pr.web.study.EditStudyController.FORM.command");
 	        	action = "/pages/study/editStudy";	        	
-	        	    
+	        	if(study == null){
+	        		study = (Study)req.getSession().getAttribute("edu.duke.cabig.c3pr.web.study.AmendStudyController.FORM.command");
+		        	action = "/pages/study/amendStudy";
+	        	}
 		        if(study != null && study instanceof Study){
 		        	studyDao.reassociate(study);
 		        }

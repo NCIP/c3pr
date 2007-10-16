@@ -67,7 +67,9 @@ public class StudyRandomizationTab extends StudyTab {
     		 request.getSession().setAttribute("edu.duke.cabig.c3pr.web.study.CreateStudyController.FORM.command" ,commandObj);
     	 } else if (getFlow().getName().equals("Edit Study")){
     		 request.getSession().setAttribute("edu.duke.cabig.c3pr.web.study.EditStudyController.FORM.command" ,commandObj);
-    	 }    	 
+    	 } else if(getFlow().getName().equals("Amend Study")){
+    		 request.getSession().setAttribute("edu.duke.cabig.c3pr.web.study.AmendStudyController.FORM.command" ,commandObj);
+    	 }
     	 
     	 Map map=new HashMap();    	 
          try {
