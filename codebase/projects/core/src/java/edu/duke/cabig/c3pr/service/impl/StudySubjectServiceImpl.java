@@ -5,14 +5,18 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 
+import edu.duke.cabig.c3pr.dao.EpochDao;
 import edu.duke.cabig.c3pr.dao.StratumGroupDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
+import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.NonTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
+import edu.duke.cabig.c3pr.domain.ScheduledNonTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
@@ -30,7 +34,8 @@ import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 public class StudySubjectServiceImpl implements StudySubjectService {
 
 	private static final Logger logger = Logger.getLogger(StudySubjectServiceImpl.class);
-	StudySubjectDao studySubjectDao;
+	private StudySubjectDao studySubjectDao;
+	private EpochDao epochDao;
 	private String isBroadcastEnable="false";
 	private boolean hostedMode=true;
 	private MessageBroadcastServiceImpl messageBroadcaster;
@@ -300,5 +305,28 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 		StudySubject studySubject=studySubjectDao.getByGridId(studySubjectGridId);
 		studySubject.setCoOrdinatingCenterIdentifier(identifierValue);
 		studySubjectDao.merge(studySubject);
+	}
+
+	public boolean isEpochAccrualCeilingReached(int epochId) {
+		// TODO Auto-generated method stub
+		Epoch epoch=epochDao.getById(epochId);
+		if (epoch.isReserving()) {
+			ScheduledEpoch scheduledEpoch=new ScheduledNonTreatmentEpoch(true);
+			scheduledEpoch.setEpoch(epoch);
+			List<StudySubject> list=studySubjectDao.searchByScheduledEpoch(scheduledEpoch);
+			NonTreatmentEpoch nEpoch=(NonTreatmentEpoch)epoch;
+			if(nEpoch.getAccrualCeiling()!=null && list.size()>=nEpoch.getAccrualCeiling().intValue()){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public EpochDao getEpochDao() {
+		return epochDao;
+	}
+
+	public void setEpochDao(EpochDao epochDao) {
+		this.epochDao = epochDao;
 	}
 }

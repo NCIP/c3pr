@@ -68,10 +68,12 @@
 				<script type="text/javascript">subjectDragger=new Draggable('participant1', {revert:false});</script>
 			</c:if>
 		</c:when>
-		
-		<c:otherwise>
-				<div id="dragDivision-${epoch.id}" class="DropDraggableArea greyed"><b>Cannot assign subject to this epoch since he has already been registered once on the epoch.</b></div>
-		</c:otherwise>
+		<c:when test="${alreadyRegistered}">
+			<div id="dragDivision-${epoch.id}" class="DropDraggableArea greyed"><b>Cannot assign subject to this epoch since he has already been registered once on the epoch.</b></div>
+		</c:when>
+		<c:when test="${acrrualCeilingReached}">
+			<div id="dragDivision-${epoch.id}" class="DropDraggableArea greyed"><b>Accrual Ceiling for this Epoch alreay reached. Cannot enroll any more subjects on this Epoch.</b></div>
+		</c:when>
 	</c:choose>
 </div>
 </body>

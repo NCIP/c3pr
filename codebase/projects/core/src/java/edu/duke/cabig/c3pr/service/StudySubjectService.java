@@ -37,5 +37,7 @@ public interface StudySubjectService {
 	  public void assignC3DIdentifier(String studySubjectGridId, String c3dIdentifierValue);
 	  
 	  public void assignCoOrdinatingCenterIdentifier(String studySubjectGridId, String identifierValue);
+	  
+	  public boolean isEpochAccrualCeilingReached(int epochId);
 }
 

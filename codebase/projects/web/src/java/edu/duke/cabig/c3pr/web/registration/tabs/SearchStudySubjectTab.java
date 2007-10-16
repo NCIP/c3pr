@@ -28,6 +28,7 @@ import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
 import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
+import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.web.registration.CreateRegistrationController;
 
@@ -39,14 +40,9 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject>{
 	
 	private static final Logger logger = Logger.getLogger(SearchStudySubjectTab.class);
 	private EpochDao epochDao;
-
+	private StudySubjectService studySubjectService;
 	private StudySubjectDao studySubjectDao;
 	private HealthcareSiteDao healthcareSiteDao;
-	private ScheduledEpochDao scheduledEpochDao;
-	
-	public void setScheduledEpochDao(ScheduledEpochDao scheduledEpochDao) {
-		this.scheduledEpochDao = scheduledEpochDao;
-	}
 
 	public EpochDao getEpochDao() {
 		return epochDao;
@@ -182,18 +178,16 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject>{
 	
 	public ModelAndView checkEpochAccrualCeiling(HttpServletRequest request, Object commandObj, Errors error){
 		Map<String, Boolean> map=new HashMap<String, Boolean>();
-		Boolean alertForCeiling=new Boolean(false);
-		Epoch epoch=epochDao.getById(Integer.parseInt(request.getParameter("epochId")));
-		if (epoch.isReserving()) {
-			ScheduledEpoch scheduledEpoch=new ScheduledNonTreatmentEpoch(true);
-			scheduledEpoch.setEpoch(epoch);
-			List<StudySubject> list=studySubjectDao.searchByScheduledEpoch(scheduledEpoch);
-			NonTreatmentEpoch nEpoch=(NonTreatmentEpoch)epoch;
-			if(nEpoch.getAccrualCeiling()!=null && list.size()>=nEpoch.getAccrualCeiling().intValue()){
-				alertForCeiling=new Boolean(true);
-			}
-		}
-		map.put("alertForCeiling", alertForCeiling);
+		int id=Integer.parseInt(request.getParameter("epochId"));
+		map.put("alertForCeiling", new Boolean(studySubjectService.isEpochAccrualCeilingReached(id)));
 		return new ModelAndView(getAjaxViewName(request),map);
+	}
+
+	public StudySubjectService getStudySubjectService() {
+		return studySubjectService;
+	}
+
+	public void setStudySubjectService(StudySubjectService studySubjectService) {
+		this.studySubjectService = studySubjectService;
 	}
 }

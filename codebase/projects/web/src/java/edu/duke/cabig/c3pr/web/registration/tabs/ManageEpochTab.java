@@ -54,6 +54,7 @@ public class ManageEpochTab<C extends StudySubject> extends RegistrationTab<C>{
 		map.put("requiresRandomization", new Boolean(false));
 		map.put("isCurrentScheduledEpoch", new Boolean(false));
 		map.put("requiresArm", new Boolean(false));
+		map.put("acrrualCeilingReached", new Boolean(studySubjectService.isEpochAccrualCeilingReached(id)));
 		if (epoch instanceof TreatmentEpoch) {
 			map.put("epochType", "Treatment");
 			if(((TreatmentEpoch)epoch).getEligibilityCriteria().size()>0){
@@ -78,27 +79,7 @@ public class ManageEpochTab<C extends StudySubject> extends RegistrationTab<C>{
 			map.put("isCurrentScheduledEpoch", new Boolean(true));
 		return new ModelAndView(getAjaxViewName(request),map);
 	}
-	/*public ModelAndView createNewScheduledEpochSubject(HttpServletRequest request, Object commandObj, Errors error){
-		StudySubject command=(StudySubject)commandObj;
-		Map map=new HashMap();
-		ScheduledEpoch scheduledEpoch;
-		Integer id=Integer.parseInt(request.getParameter("epoch"));
-		Epoch epoch=epochDao.getById(id);
-		if (epoch instanceof TreatmentEpoch) {
-			scheduledEpoch=new ScheduledTreatmentEpoch();
-			if(((TreatmentEpoch)epoch).getArms().size()==1){
-				((ScheduledTreatmentEpoch)scheduledEpoch).getScheduledArms().get(0).setArm(((TreatmentEpoch)epoch).getArms().get(0));
-			}
-		}else{
-			scheduledEpoch=new ScheduledNonTreatmentEpoch();
-		}
-		scheduledEpoch.setEpoch(epoch);
-		command.addScheduledEpoch(scheduledEpoch);
-//		intializeEpochCollection(command);
-		map.put(getFreeTextModelName(), "Subject transferred successfully..");
-		return new ModelAndView("",map);
-	}*/
-	
+/*
 	private void intializeEpochCollection(StudySubject ss){
 		if(ss.getIfTreatmentScheduledEpoch()){
 			TreatmentEpoch te=(TreatmentEpoch)ss.getScheduledEpoch().getEpoch();
@@ -107,4 +88,4 @@ public class ManageEpochTab<C extends StudySubject> extends RegistrationTab<C>{
 			te.getStratificationCriteria().size();
 		}
 	}
-}
+*/}
