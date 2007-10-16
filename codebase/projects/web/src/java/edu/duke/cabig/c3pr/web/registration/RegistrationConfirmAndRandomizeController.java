@@ -79,6 +79,7 @@ public class RegistrationConfirmAndRandomizeController extends SimpleFormControl
 		}
 		map.put("actionRequired", actionRequired);
 		map.put("actionLabel", actionLabel);
+		map.put("requiresMultiSite", studySubjectService.requiresCoordinatingCenterApproval(studySubject));
 		return map;
 	}
 	@Override

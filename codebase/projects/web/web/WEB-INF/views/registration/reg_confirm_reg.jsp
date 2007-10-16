@@ -189,7 +189,7 @@ function accessApp(url,app,targetWindow){
 	</table>
 </tags:panelBox>
 <c:if test="${actionRequired}">
-	<registrationTags:register registration="${command}" newReg="${newRegistration}" actionButtonLabel="${actionLabel}"/>
+	<registrationTags:register registration="${command}" newReg="${newRegistration}" actionButtonLabel="${actionLabel}" requiresMultiSite="${requiresMultiSite}"/>
 </c:if>
 </body>
 </html>

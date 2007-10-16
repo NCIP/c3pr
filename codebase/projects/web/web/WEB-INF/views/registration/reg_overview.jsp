@@ -38,7 +38,7 @@ function hide(){
 	<tags:tabFields tab="${tab}"/>
 </form:form>
 <c:if test="${actionRequired}">
-	<registrationTags:register registration="${command}" newReg="${newRegistration}" actionButtonLabel="${actionLabel}"/>
+	<registrationTags:register registration="${command}" newReg="${newRegistration}" actionButtonLabel="${actionLabel}" requiresMultiSite="${requiresMultiSite}"/>
 </c:if>
 <tags:panelBox>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">

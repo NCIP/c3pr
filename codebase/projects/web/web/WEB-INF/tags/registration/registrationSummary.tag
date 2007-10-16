@@ -17,7 +17,7 @@
 	<tags:tdNameValue name="Short Title" value="${studySubject.studySite.study.shortTitleText}" columnAttrName="class='labelR'"/>
 	<tags:tdNameValue name="Current Epoch" value="${studySubject.scheduledEpoch.epoch.name}" columnAttrName="class='labelR'"/>	
 	<tags:tdNameValue name="Current Epoch Type" value="${studySubject.ifTreatmentScheduledEpoch?'Treatment':'Non Treatment'}" columnAttrName="class='labelR'"/>	
-	<tags:tdNameValue name="Enrolling Epoch" value="${!studySubject.ifTreatmentScheduledEpoch?studySubject.scheduledEpoch.epoch.enrollmentIndicator:'Yes'}" columnAttrName="class='labelR'"/>
+	<tags:tdNameValue name="Enrolling Epoch" value="${!studySubject.ifTreatmentScheduledEpoch?studySubject.scheduledEpoch.epoch.enrollmentIndicator:'true'}" columnAttrName="class='labelR'"/>
 	<tags:tdNameValue name="Current Epoch Status" value="${command.scheduledEpoch.scEpochWorkflowStatus}" columnAttrName="class='labelR'"/>				
 	<tags:tdNameValue name="Status" value="${studySubject.studySite.study.coordinatingCenterStudyStatus }" columnAttrName="class='labelR'"/>
 	<tags:tdNameValue name="Study Site" value="${studySubject.studySite.healthcareSite.name }" columnAttrName="class='labelR'"/>

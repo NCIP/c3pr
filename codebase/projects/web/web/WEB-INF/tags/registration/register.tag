@@ -6,6 +6,7 @@
 <%@attribute name="registration" required="true" type="edu.duke.cabig.c3pr.domain.StudySubject"%>
 <%@attribute  name="newReg" required="true"%>
 <%@attribute  name="actionButtonLabel" required="true"%>
+<%@attribute  name="requiresMultiSite" required="true"%>
 <script>
 function submitRandomization(){
 	if(${registration.regWorkflowStatus!='REGISTERERD' && !empty registration.studySite.targetAccrualNumber && registration.studySite.targetAccrualNumber<=registration.studySite.currentAccrualCount}){
@@ -19,7 +20,7 @@ function submitRandomization(){
 <tags:panelBox title="Message" boxId="RegHere">
 	<form id="randomization" action="confirm?registrationId=${registration.id}" method="post">
 		<c:choose>
-		<c:when test="${registration.studySite.study.multiInstitutionIndicator=='true'}">
+		<c:when test="${requiresMultiSite}">
 			<font color="Green"><strong>Subject ${newRegistration?"registration":"transfer"} requires co-ordinationg 
 			center approval. <c:if test="${registration.scheduledEpoch.requiresArm}">Arm assignment would take place at co-ordinating center.</c:if> <strong></font>
 			<br>

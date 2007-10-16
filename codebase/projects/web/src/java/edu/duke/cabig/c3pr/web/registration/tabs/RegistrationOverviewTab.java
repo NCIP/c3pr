@@ -63,6 +63,7 @@ public class RegistrationOverviewTab<C extends StudySubject> extends Registratio
 		map.put("newRegistration", newRegistration);
 		map.put("armAssigned", armAssigned);
 		map.put("armAssignedLabel", armAssignedLabel);
+		map.put("requiresMultiSite", studySubjectService.requiresCoordinatingCenterApproval(studySubject));
 		return map;
 	}
 }
