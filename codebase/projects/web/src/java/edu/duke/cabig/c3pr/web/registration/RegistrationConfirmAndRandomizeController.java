@@ -17,6 +17,7 @@ import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
+import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
@@ -116,11 +117,15 @@ public class RegistrationConfirmAndRandomizeController extends SimpleFormControl
 		boolean reg_pending=false;
 		boolean reg_reserved=false;
 		boolean reg_disapproved=false;
+		boolean reg_nonenrolled=true;
+		boolean reg_unrandomized=false;
 		boolean epoch_unapproved=false;
 		boolean epoch_pending=false;
 		boolean epoch_approved=false;
+		boolean epoch_nonenrolled=true;
+		boolean epoch_unrandomized=false;
 		boolean epoch_disapproved=false;
-		boolean newRegistration=false;
+		boolean newRegistration=true;
 		String armAssigned="";
 		String armAssignedLabel="";
 		if(studySubject.getIfTreatmentScheduledEpoch() && ((ScheduledTreatmentEpoch)studySubject.getScheduledEpoch()).getScheduledArm()!=null
@@ -128,8 +133,21 @@ public class RegistrationConfirmAndRandomizeController extends SimpleFormControl
 			armAssigned=((ScheduledTreatmentEpoch)studySubject.getScheduledEpoch()).getScheduledArm().getArm().getName();
 			armAssignedLabel="Arm Assigned";
 		}
-		if(studySubject.getScheduledEpochs().size()==1){
-			newRegistration=true;
+		int count=0;
+		for(ScheduledEpoch scheduledEpoch: studySubject.getScheduledEpochs()){
+			if(scheduledEpoch.getEpoch().isEnrolling())
+				count++;
+		}
+		if(studySubject.getScheduledEpoch().getEpoch().isEnrolling()){
+			count--;
+			reg_nonenrolled=false;
+			epoch_nonenrolled=false;
+		}
+		if(count>0)
+			newRegistration=false;
+		if(studySubject.getScheduledEpoch().getRequiresRandomization()){
+			reg_unrandomized=true;
+			epoch_unrandomized=true;
 		}
 		switch(studySubject.getRegWorkflowStatus()){
 			case UNREGISTERED: reg_unregistered=true;
@@ -166,6 +184,10 @@ public class RegistrationConfirmAndRandomizeController extends SimpleFormControl
 		map.put("newRegistration", newRegistration);
 		map.put("armAssigned", armAssigned);
 		map.put("armAssignedLabel", armAssignedLabel);
+		map.put("reg_nonenrolled", reg_nonenrolled);
+		map.put("reg_unrandomized", reg_unrandomized);
+		map.put("epoch_nonenrolled", epoch_nonenrolled);
+		map.put("epoch_unrandomized", epoch_unrandomized);
 		return map;
 	}
 	
