@@ -19,7 +19,7 @@ public class ScheduledArm extends AbstractMutableDeletableDomainObject {
 
 	private Date startDate;
 
-	private String eligibilityIndicator;
+	private Boolean eligibilityIndicator;
 
 	private String eligibilityWaiverReasonText;
 
@@ -27,7 +27,7 @@ public class ScheduledArm extends AbstractMutableDeletableDomainObject {
 
 	public ScheduledArm() {
 		this.startDate=new Date();
-		this.eligibilityIndicator="true";
+		this.eligibilityIndicator=Boolean.TRUE;
 	}
 
 	@ManyToOne
@@ -40,14 +40,13 @@ public class ScheduledArm extends AbstractMutableDeletableDomainObject {
 		this.arm = arm;
 	}
 
-	public String getEligibilityIndicator() {
+	public Boolean getEligibilityIndicator() {
 		return eligibilityIndicator;
 	}
 
-	public void setEligibilityIndicator(String eligibilityIndicator) {
+	public void setEligibilityIndicator(Boolean eligibilityIndicator) {
 		this.eligibilityIndicator = eligibilityIndicator;
 	}
-
 
 	public Date getStartDate() {
 		return startDate;

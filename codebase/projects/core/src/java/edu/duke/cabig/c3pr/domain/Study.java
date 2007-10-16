@@ -45,11 +45,11 @@ import org.hibernate.annotations.Where;
 public class Study extends AbstractMutableDeletableDomainObject implements
 		Comparable<Study> {
 
-	private String blindedIndicator;
+	private Boolean blindedIndicator = false;
 
-	private String multiInstitutionIndicator;
+	private Boolean multiInstitutionIndicator = false;
 
-	private String randomizedIndicator;
+	private Boolean randomizedIndicator = false;
 
 	private String shortTitleText;
 
@@ -536,29 +536,30 @@ public class Study extends AbstractMutableDeletableDomainObject implements
 		return primaryIdentifier;
 	}
 
-	public String getBlindedIndicator() {
+	public Boolean getBlindedIndicator() {
 		return blindedIndicator;
 	}
 
-	public void setBlindedIndicator(String blindedIndicator) {
+	public void setBlindedIndicator(Boolean blindedIndicator) {
 		this.blindedIndicator = blindedIndicator;
 	}
 
-	public String getMultiInstitutionIndicator() {
-		return multiInstitutionIndicator;
-	}
-
-	public void setMultiInstitutionIndicator(String multiInstitutionIndicator) {
-		this.multiInstitutionIndicator = multiInstitutionIndicator;
-	}
-
-	public String getRandomizedIndicator() {
+	public Boolean getRandomizedIndicator() {
 		return randomizedIndicator;
 	}
 
-	public void setRandomizedIndicator(String randomizedIndicator) {
+	public void setRandomizedIndicator(Boolean randomizedIndicator) {
 		this.randomizedIndicator = randomizedIndicator;
 	}
+
+	public Boolean getMultiInstitutionIndicator() {
+		return multiInstitutionIndicator;
+	}
+
+	public void setMultiInstitutionIndicator(Boolean multiInstitutionIndicator) {
+		this.multiInstitutionIndicator = multiInstitutionIndicator;
+	}
+
 
 	public RandomizationType getRandomizationType() {
 		return randomizationType;
@@ -607,7 +608,7 @@ public class Study extends AbstractMutableDeletableDomainObject implements
 				nonTreatmentEpoch = nonTreatmentEpochIter.next();
 				if ((nonTreatmentEpoch.getEnrollmentIndicator() != null)
 						&& (nonTreatmentEpoch.getEnrollmentIndicator()
-								.equalsIgnoreCase("Yes")))
+								))
 					return true;
 			}
 		}

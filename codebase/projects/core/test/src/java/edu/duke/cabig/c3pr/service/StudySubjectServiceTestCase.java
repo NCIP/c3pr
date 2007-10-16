@@ -180,7 +180,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 		StudySubject studySubject=new StudySubject();
 		StudySite site=new StudySite();
 		Study study=new Study();
-		study.setMultiInstitutionIndicator("false");
+		study.setMultiInstitutionIndicator(Boolean.TRUE);
 		site.setStudy(study);
         studySubject.setStudySite(site);
         studySubject.addScheduledEpoch(new ScheduledNonTreatmentEpoch());
@@ -200,7 +200,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 		StudySubject studySubject=new StudySubject();
 		StudySite site=new StudySite();
 		Study study=new Study();
-		study.setMultiInstitutionIndicator("false");
+		study.setMultiInstitutionIndicator(Boolean.FALSE);
 		site.setStudy(study);
         studySubject.setStudySite(site);
         studySubject.addScheduledEpoch(new ScheduledNonTreatmentEpoch());
@@ -222,7 +222,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 		StudySubject studySubject=new StudySubject();
 		StudySite site=new StudySite();
 		Study study=new Study();
-		study.setMultiInstitutionIndicator("false");
+		study.setMultiInstitutionIndicator(Boolean.FALSE);
 		site.setStudy(study);
         studySubject.setStudySite(site);
         ScheduledEpoch scheduledEpochFirst=new ScheduledTreatmentEpoch();
@@ -248,7 +248,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 		StudySubject studySubject=new StudySubject();
 		StudySite site=new StudySite();
 		Study study=new Study();
-		study.setMultiInstitutionIndicator("false");
+		study.setMultiInstitutionIndicator(Boolean.FALSE);
 		study.setRandomizationType(RandomizationType.PHONE_CALL);
 		site.setStudy(study);
         studySubject.setStudySite(site);
@@ -272,7 +272,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 		StudySubject studySubject=new StudySubject();
 		StudySite site=new StudySite();
 		Study study=new Study();
-		study.setMultiInstitutionIndicator("false");
+		study.setMultiInstitutionIndicator(Boolean.FALSE);
 		site.setStudy(study);
         studySubject.setStudySite(site);
         ScheduledEpoch scheduledEpochFirst=new ScheduledTreatmentEpoch();
@@ -295,7 +295,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 		StudySubject studySubject=new StudySubject();
 		StudySite site=new StudySite();
 		Study study=new Study();
-		study.setMultiInstitutionIndicator("true");
+		study.setMultiInstitutionIndicator(Boolean.TRUE);
 		site.setStudy(study);
         studySubject.setStudySite(site);
         ScheduledEpoch scheduledEpochFirst=new ScheduledTreatmentEpoch();
@@ -324,7 +324,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 		StudySubject studySubject=new StudySubject();
 		StudySite site=new StudySite();
 		Study study=new Study();
-		study.setMultiInstitutionIndicator("true");
+		study.setMultiInstitutionIndicator(Boolean.TRUE);
 		study.setRandomizationType(RandomizationType.PHONE_CALL);
 		site.setStudy(study);
         studySubject.setStudySite(site);
@@ -426,7 +426,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 		StudySubject studySubject=new StudySubject();
         ScheduledNonTreatmentEpoch scheduledEpochFirst=new ScheduledNonTreatmentEpoch();
         NonTreatmentEpoch nonTreatmentEpoch=new NonTreatmentEpoch();
-        nonTreatmentEpoch.setReservationIndicator("yes");
+        nonTreatmentEpoch.setReservationIndicator(Boolean.TRUE);
         scheduledEpochFirst.setEpoch(nonTreatmentEpoch);
         studySubject.addScheduledEpoch(scheduledEpochFirst);
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
@@ -444,7 +444,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 		StudySubject studySubject=new StudySubject();
         ScheduledNonTreatmentEpoch scheduledEpochFirst=new ScheduledNonTreatmentEpoch();
         NonTreatmentEpoch nonTreatmentEpoch=new NonTreatmentEpoch();
-        nonTreatmentEpoch.setReservationIndicator("no");
+        nonTreatmentEpoch.setReservationIndicator(Boolean.FALSE);
         scheduledEpochFirst.setEpoch(nonTreatmentEpoch);
         studySubject.addScheduledEpoch(scheduledEpochFirst);
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
@@ -462,8 +462,8 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 		StudySubject studySubject=new StudySubject();
         ScheduledNonTreatmentEpoch scheduledEpochFirst=new ScheduledNonTreatmentEpoch();
         NonTreatmentEpoch nonTreatmentEpoch=new NonTreatmentEpoch();
-        nonTreatmentEpoch.setReservationIndicator("no");
-        nonTreatmentEpoch.setEnrollmentIndicator("yes");
+        nonTreatmentEpoch.setReservationIndicator(Boolean.FALSE);
+        nonTreatmentEpoch.setEnrollmentIndicator(Boolean.TRUE);
         scheduledEpochFirst.setEpoch(nonTreatmentEpoch);
         studySubject.addScheduledEpoch(scheduledEpochFirst);
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);

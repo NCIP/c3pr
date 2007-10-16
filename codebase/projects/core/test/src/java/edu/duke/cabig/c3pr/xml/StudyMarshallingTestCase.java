@@ -137,8 +137,8 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
 
         studyObject.setGridId(gridId);
         studyObject.setShortTitleText(strValue);
-        studyObject.setRandomizedIndicator(strValue);
-        studyObject.setMultiInstitutionIndicator(strValue);
+        studyObject.setRandomizedIndicator(new Boolean(boolValue));
+        studyObject.setMultiInstitutionIndicator(new Boolean(boolValue));
         studyObject.setLongTitleText(strValue);
         studyObject.setPhaseCode(strValue);
         studyObject.setPrecisText(strValue);

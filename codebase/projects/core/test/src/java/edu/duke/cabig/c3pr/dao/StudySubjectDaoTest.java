@@ -500,7 +500,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
 		ScheduledEpoch scheduledEpoch=studySubject.getScheduledEpoch();
 		if(scheduledEpoch.getScEpochDataEntryStatus()==ScheduledEpochDataEntryStatus.COMPLETE &&
 				studySubject.getRegDataEntryStatus()==RegistrationDataEntryStatus.COMPLETE){
-			if(studySubject.getStudySite().getStudy().getMultiInstitutionIndicator().equalsIgnoreCase("true")){
+			if(studySubject.getStudySite().getStudy().getMultiInstitutionIndicator()){
 				//broadcase message to co-ordinating center
 				try {
 					//sendRegistrationRequest(studySubject);

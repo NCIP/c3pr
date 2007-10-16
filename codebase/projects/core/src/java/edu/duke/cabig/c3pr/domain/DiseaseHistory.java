@@ -36,7 +36,6 @@ public class DiseaseHistory extends AbstractMutableDeletableDomainObject
 
 	@OneToOne
 	@JoinColumn(name="anatomic_site_id")
-	@Cascade(value = { CascadeType.ALL })
 	public AnatomicSite getAnatomicSite() {
 		return anatomicSite;
 	}

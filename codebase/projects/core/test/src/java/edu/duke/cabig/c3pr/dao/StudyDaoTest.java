@@ -154,7 +154,7 @@ public class StudyDaoTest extends DaoTestCase {
 			study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
 			study.setTargetAccrualNumber(150);
 			study.setType("Type");
-			study.setMultiInstitutionIndicator("true");
+			study.setMultiInstitutionIndicator(Boolean.TRUE);
 			SecurityContextTestUtils.switchToNobody();
 
 			try {
@@ -234,7 +234,7 @@ public class StudyDaoTest extends DaoTestCase {
 		study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
 		study.setTargetAccrualNumber(150);
 		study.setType("Type");
-		study.setMultiInstitutionIndicator("true");
+		study.setMultiInstitutionIndicator(Boolean.TRUE);
 		return study;
 	}
 
@@ -573,7 +573,7 @@ public class StudyDaoTest extends DaoTestCase {
 			study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
 			study.setTargetAccrualNumber(150);
 			study.setType("Type");
-			study.setMultiInstitutionIndicator("true");
+			study.setMultiInstitutionIndicator(Boolean.TRUE);
 
 			createDefaultStudyWithDesign(study);
 			dao.save(study);
@@ -635,7 +635,7 @@ public class StudyDaoTest extends DaoTestCase {
 			study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
 			study.setTargetAccrualNumber(150);
 			study.setType("Type");
-			study.setMultiInstitutionIndicator("true");
+			study.setMultiInstitutionIndicator(Boolean.TRUE);
 
 			study.addEpoch(Epoch.create("Screening"));
 			study
@@ -893,7 +893,7 @@ public class StudyDaoTest extends DaoTestCase {
 			study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
 			study.setTargetAccrualNumber(150);
 			study.setType("Type");
-			study.setMultiInstitutionIndicator("true");
+			study.setMultiInstitutionIndicator(Boolean.TRUE);
 
 			study.addEpoch(Epoch.createTreatmentEpoch("TestTreatmentEpoch1",
 					"Arm A", "Arm B", "Arm C"));
@@ -934,16 +934,16 @@ public class StudyDaoTest extends DaoTestCase {
 			study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
 			study.setTargetAccrualNumber(150);
 			study.setType("Type");
-			study.setMultiInstitutionIndicator("true");
+			study.setMultiInstitutionIndicator(Boolean.TRUE);
 
 			study.addEpoch(Epoch.createNonTreatmentEpoch("TestTreatmentEpoch"));
 
 			NonTreatmentEpoch newEpoch = new NonTreatmentEpoch();
 			newEpoch.setName("Test Non Treatment Epoch");
 			newEpoch.setAccrualCeiling(10);
-			newEpoch.setAccrualIndicator("YES");
-			newEpoch.setReservationIndicator("NO");
-			newEpoch.setEnrollmentIndicator("NO");
+			newEpoch.setAccrualIndicator(Boolean.TRUE);
+			newEpoch.setReservationIndicator(Boolean.TRUE);
+			newEpoch.setEnrollmentIndicator(Boolean.FALSE);
 			study.addEpoch(newEpoch);
 
 			dao.save(study);
@@ -965,13 +965,13 @@ public class StudyDaoTest extends DaoTestCase {
 						"edu.duke.cabig.c3pr.domain.NonTreatmentEpoch",
 						newEpoch.getClass().getName());
 			}
-			assertEquals("Wrong enrollment indicator", "NO",
+			assertEquals("Wrong enrollment indicator",Boolean.FALSE,
 					((NonTreatmentEpoch) newNonTreatmentEpochs.get(1))
 							.getEnrollmentIndicator());
-			assertEquals("Wrong accrual indicator", "YES",
+			assertEquals("Wrong accrual indicator",Boolean.TRUE,
 					((NonTreatmentEpoch) newNonTreatmentEpochs.get(1))
 							.getAccrualIndicator());
-			assertEquals("Wrong reservation indicator", "NO",
+			assertEquals("Wrong reservation indicator", Boolean.TRUE,
 					((NonTreatmentEpoch) newNonTreatmentEpochs.get(1))
 							.getReservationIndicator());
 			assertEquals("Wrong accrual ceiling", 10,
@@ -992,7 +992,7 @@ public class StudyDaoTest extends DaoTestCase {
 			study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
 			study.setTargetAccrualNumber(150);
 			study.setType("Type");
-			study.setMultiInstitutionIndicator("true");
+			study.setMultiInstitutionIndicator(Boolean.TRUE);
 
 			study.addEpoch(Epoch.createTreatmentEpoch("TestTreatmentEpoch1",
 					"Arm A", "Arm B", "Arm C"));
@@ -1095,7 +1095,7 @@ public class StudyDaoTest extends DaoTestCase {
 			study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
 			study.setTargetAccrualNumber(150);
 			study.setType("Type");
-			study.setMultiInstitutionIndicator("true");
+			study.setMultiInstitutionIndicator(Boolean.TRUE);
 
 			// Study Site
 			StudySite studySite = new StudySite();
@@ -1145,7 +1145,7 @@ public class StudyDaoTest extends DaoTestCase {
 			study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
 			study.setTargetAccrualNumber(150);
 			study.setType("Type");
-			study.setMultiInstitutionIndicator("true");
+			study.setMultiInstitutionIndicator(Boolean.TRUE);
 
 			// Study Site
 			StudySite studySite = new StudySite();
@@ -1279,7 +1279,7 @@ public class StudyDaoTest extends DaoTestCase {
 		study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
 		study.setTargetAccrualNumber(150);
 		study.setType("Type");
-		study.setMultiInstitutionIndicator("true");
+		study.setMultiInstitutionIndicator(Boolean.TRUE);
 		StudyAmendment amendment = new StudyAmendment();
 		Date amendmentDate = new Date();
 		amendment.setAmendmentDate(amendmentDate);

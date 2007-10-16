@@ -45,7 +45,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
 			study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
 			study.setTargetAccrualNumber(150);
 			study.setType("Type");
-			study.setMultiInstitutionIndicator("true");
+			study.setMultiInstitutionIndicator(Boolean.TRUE);
 			TreatmentEpoch epoch = new TreatmentEpoch();
 			InclusionEligibilityCriteria incCrit = new InclusionEligibilityCriteria();
 			incCrit.setQuestionText("questionText");
@@ -192,7 +192,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
 			study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
 			study.setTargetAccrualNumber(150);
 			study.setType("Type");
-			study.setMultiInstitutionIndicator("true");
+			study.setMultiInstitutionIndicator(Boolean.TRUE);
 			TreatmentEpoch epoch = new TreatmentEpoch();
 			StratificationCriterion stratCrit = new StratificationCriterion();
 			stratCrit.setQuestionText("Stratificaiton question text");

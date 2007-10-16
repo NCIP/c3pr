@@ -95,7 +95,7 @@ public class StudyDao extends GridIdentifiableDao<Study>
     public List<Study> searchByExample(Study study, boolean isWildCard) {
         List<Study> result = new ArrayList<Study>();
 
-        Example example = Example.create(study).excludeZeroes().ignoreCase();
+        Example example = Example.create(study).excludeZeroes().ignoreCase().excludeProperty("multiInstitutionIndicator").excludeProperty("randomizedIndicator").excludeProperty("blindedIndicator");
         try {
             Criteria studyCriteria = getSession().createCriteria(Study.class);
             studyCriteria.addOrder(Order.asc("shortTitleText"));

@@ -11,9 +11,9 @@ import edu.duke.cabig.c3pr.utils.StringUtils;
 //@Where(clause="type='NON-TREATMENT'")
 public class NonTreatmentEpoch extends Epoch{
 	private Integer accrualCeiling;
-	private String accrualIndicator;
-	private String reservationIndicator;
-	private String enrollmentIndicator;
+	private Boolean accrualIndicator = false;
+	private Boolean reservationIndicator = false;
+	private Boolean enrollmentIndicator = false;
 	
 	public Integer getAccrualCeiling() {
 		return accrualCeiling;
@@ -21,25 +21,25 @@ public class NonTreatmentEpoch extends Epoch{
 	public void setAccrualCeiling(Integer accrualCeiling) {
 		this.accrualCeiling = accrualCeiling;
 	}
-	public String getAccrualIndicator() {
+	
+	public Boolean getAccrualIndicator() {
 		return accrualIndicator;
 	}
-	public void setAccrualIndicator(String accrualIndicator) {
+	public void setAccrualIndicator(Boolean accrualIndicator) {
 		this.accrualIndicator = accrualIndicator;
 	}
-	public String getEnrollmentIndicator() {
+	public Boolean getEnrollmentIndicator() {
 		return enrollmentIndicator;
 	}
-	public void setEnrollmentIndicator(String enrollmentIndicator) {
+	public void setEnrollmentIndicator(Boolean enrollmentIndicator) {
 		this.enrollmentIndicator = enrollmentIndicator;
 	}
-	public String getReservationIndicator() {
+	public Boolean getReservationIndicator() {
 		return reservationIndicator;
 	}
-	public void setReservationIndicator(String reservationIndicator) {
+	public void setReservationIndicator(Boolean reservationIndicator) {
 		this.reservationIndicator = reservationIndicator;
 	}
-	
 	@Override
 	@Transient
 	public boolean isEnrolling() {

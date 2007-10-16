@@ -53,7 +53,6 @@ public class StudyDisease extends AbstractMutableDeletableDomainObject {
 	
 	@ManyToOne
     @JoinColumn(name = "disease_term_id")
-    @Cascade(value = { CascadeType.ALL })
 	public DiseaseTerm getDiseaseTerm() {
 		return diseaseTerm;
 	}

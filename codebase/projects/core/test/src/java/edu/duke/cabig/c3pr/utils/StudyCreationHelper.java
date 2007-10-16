@@ -33,8 +33,8 @@ public class StudyCreationHelper {
 		Study study=buildBasicStudy(true, null);
 		NonTreatmentEpoch epoch=new NonTreatmentEpoch();
 		epoch.setName("screening");
-		epoch.setReservationIndicator(reserving?"yes":"no");
-		epoch.setEnrollmentIndicator(enrolling?"yes":"no");
+		epoch.setReservationIndicator(reserving);
+		epoch.setEnrollmentIndicator(enrolling);
         study.addEpoch(epoch);
 		return study;
 	}
@@ -57,8 +57,8 @@ public class StudyCreationHelper {
 		Study study=buildBasicStudy(false, null);
 		NonTreatmentEpoch epoch=new NonTreatmentEpoch();
 		epoch.setName("screening");
-		epoch.setReservationIndicator(reserving?"yes":"no");
-		epoch.setEnrollmentIndicator(enrolling?"yes":"no");
+		epoch.setReservationIndicator(reserving);
+		epoch.setEnrollmentIndicator(enrolling);
         study.addEpoch(epoch);
 		return study;
 	}
@@ -139,12 +139,12 @@ public class StudyCreationHelper {
 		study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
         study.setTargetAccrualNumber(150);
         study.setType("Type");
-        study.setMultiInstitutionIndicator(multiSite.toString());
+        study.setMultiInstitutionIndicator(multiSite);
         if(randomizationType!=null){
-        	study.setRandomizedIndicator("true");
+        	study.setRandomizedIndicator(Boolean.TRUE);
         	study.setRandomizationType(randomizationType);
         }else{
-        	study.setRandomizedIndicator("false");
+        	study.setRandomizedIndicator(Boolean.FALSE);
         }
         return study;
     }

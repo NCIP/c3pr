@@ -78,7 +78,7 @@ public abstract class Epoch extends AbstractMutableDeletableDomainObject impleme
 	public boolean isReserving(){
 		if (this instanceof NonTreatmentEpoch) {
 			NonTreatmentEpoch epoch = (NonTreatmentEpoch) this;
-			return epoch.getReservationIndicator().equalsIgnoreCase("yes");
+			return epoch.getReservationIndicator();
 		}
 		return false;
 	}
