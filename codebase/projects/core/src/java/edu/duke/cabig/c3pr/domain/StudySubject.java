@@ -424,7 +424,20 @@ public class StudySubject extends AbstractMutableDeletableDomainObject {
 		identifier.setType("Coordinating Center Identifier");
 		identifier.setValue(value);
 	}
+	@Transient
+	public String getC3DIdentifier(){
+		if(getSystemAssignedIdentifiers().size()==0)
+			return null;
+		return getSystemAssignedIdentifiers().get(0).getValue();
+	}
 	
+	public void setC3DIdentifier(String value){
+		SystemAssignedIdentifier identifier=getSystemAssignedIdentifiers().get(0);
+		identifier.setSystemName("C3D");
+		identifier.setType("C3D Identifier");
+		identifier.setValue(value);
+	}
+
 	public Date getOffStudyDate() {
 		return offStudyDate;
 	}

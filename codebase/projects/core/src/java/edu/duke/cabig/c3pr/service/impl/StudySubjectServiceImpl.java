@@ -289,4 +289,16 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 	public void setHostedMode(boolean hostedMode) {
 		this.hostedMode = hostedMode;
 	}
+
+	public void assignC3DIdentifier(String studySubjectGridId, String c3dIdentifierValue) {
+		StudySubject studySubject=studySubjectDao.getByGridId(studySubjectGridId);
+		studySubject.setC3DIdentifier(c3dIdentifierValue);
+		studySubjectDao.merge(studySubject);
+	}
+
+	public void assignCoOrdinatingCenterIdentifier(String studySubjectGridId, String identifierValue) {
+		StudySubject studySubject=studySubjectDao.getByGridId(studySubjectGridId);
+		studySubject.setCoOrdinatingCenterIdentifier(identifierValue);
+		studySubjectDao.merge(studySubject);
+	}
 }
