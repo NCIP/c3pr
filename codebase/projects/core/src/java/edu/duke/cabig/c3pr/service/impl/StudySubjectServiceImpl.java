@@ -270,7 +270,7 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 		return false;
 	}
 
-	private boolean requiresCoordinatingCenterApproval(StudySubject studySubject){
+	public boolean requiresCoordinatingCenterApproval(StudySubject studySubject){
 		return studySubject.getStudySite().getStudy().getMultiInstitutionIndicator()
 				&& !isHostedMode()
 				&& studySubject.getScheduledEpoch().getEpoch().isEnrolling();

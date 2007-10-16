@@ -39,5 +39,7 @@ public interface StudySubjectService {
 	  public void assignCoOrdinatingCenterIdentifier(String studySubjectGridId, String identifierValue);
 	  
 	  public boolean isEpochAccrualCeilingReached(int epochId);
+	  
+	  public boolean requiresCoordinatingCenterApproval(StudySubject studySubject);
 }
 
