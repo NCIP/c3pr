@@ -31,7 +31,7 @@ public class StudyRandomizationTab extends StudyTab {
 	@Override
 	public Map<String, Object> referenceData(HttpServletRequest request, Study study) {
 		// TODO Auto-generated method stub
-		if(study.getRandomizedIndicator().equalsIgnoreCase("true")&&study.getRandomizationType()==RandomizationType.BOOK){
+		if(study.getRandomizedIndicator()&&study.getRandomizationType()==RandomizationType.BOOK){
 			Map <String, List>dummyMap = new HashMap<String, List>();
 			String []bookRandomizationEntries = new String[study.getTreatmentEpochs().size()];
 	        for(int i=0;i<study.getTreatmentEpochs().size(); i++){
