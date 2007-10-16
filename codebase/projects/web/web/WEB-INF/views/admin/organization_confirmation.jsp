@@ -21,11 +21,14 @@
 
 <div id="main">
 <br />
-<chrome:box title="Organization Succesfully Saved" autopad="true">
+<chrome:box title="Confirmation" autopad="true">
     <table width="100%" border="0">
         <tr>
             <td>
                 <div class="content">
+                	<div class="row">
+	                    <div><h1>Organization Succesfully Created</h1></div>
+	                </div>
                     <div class="row">
                         <div class="label">Name :</div>
                         <div class="value"><c:out value="${command.name}"/></div>

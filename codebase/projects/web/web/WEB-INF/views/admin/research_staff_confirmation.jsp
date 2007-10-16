@@ -23,12 +23,15 @@
 
 <div id="main">
 <br/>
-<chrome:box title="Research Staff Succesfully Saved" autopad="true">
+<chrome:box title="Confirmation" autopad="true">
 
     <table width="100%" border="0">
         <tr>
             <td>
                 <div class="content">
+                	<div class="row">
+	                    <div><h1>Research Staff Succesfully Created</h1></div>
+	                </div>
                     <div class="row">
                         <div class="label">Full Name:</div>
                         <div class="value">
