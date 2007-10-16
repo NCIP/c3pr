@@ -88,7 +88,7 @@
           class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 
         <!-- one of the properties available; the maximum file size in bytes -->
-        <property name="maxUploadSize" value="100000"/>
+        <property name="maxUploadSize" value="500000"/>
     </bean>
 
     <bean name="/registration/searchEpoch" id="searchEpochController"
@@ -274,7 +274,11 @@
         <property name="commandClass" value="edu.duke.cabig.c3pr.web.beans.StudyXMLFileBean"/>
         <property name="formView" value="admin/upload_study" />
         <property name="successView" value="admin/upload_study" />
+        <property name="validator">
+            <bean class="edu.duke.cabig.c3pr.utils.web.validators.StudyXMLFileValidator" autowire="byName"/>
+        </property>
     </bean>
+
 
     <bean id="sectionInterceptor"
           class="edu.duke.cabig.c3pr.utils.web.navigation.SectionInterceptor">

@@ -295,8 +295,12 @@
         <property name="subject" value="Account created in c3pr"/>
     </bean>
 
-    <bean id="xmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
-        <property name="mappingFile" value="c3pr-castor-mapping.xml"/>
+  <bean id="xmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
+        <constructor-arg value="c3pr-castor-mapping.xml"/>
+    </bean>
+
+    <bean id="xmlParser" class="edu.duke.cabig.c3pr.xml.XMLParser" lazy-init="true">
+        <constructor-arg value="c3pr-domain.xsd"/>
     </bean>
 
 </beans>

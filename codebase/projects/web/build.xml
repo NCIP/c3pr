@@ -130,6 +130,20 @@
                 <include name="**/*"/>
             </fileset>
         </copy>
+
+        <property file="${ext.resources.dir}/build.properties"/>
+
+        <!-- copy log4j -->
+        <copy file="${ext.resources.dir}/c3pr-log4j.properties"
+              tofile="${webinf.dir}/log4j.properties"
+              overwrite="true"
+              filtering="true">
+            <filterset>
+                <filter token="catalina.home" value="${tomcat.home}"/>
+                <filter token="log4j.filename" value="${log4j.filename}"/>
+            </filterset>
+        </copy>
+
     </target>
 
     <!-- =============================================================== -->
