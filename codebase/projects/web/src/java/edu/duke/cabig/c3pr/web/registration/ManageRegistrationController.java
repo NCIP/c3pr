@@ -85,5 +85,11 @@ public class ManageRegistrationController<C extends StudySubject> extends Regist
 		command.addScheduledEpoch(scheduledEpoch);
 		return command;
 	}
+	
+	@Override
+	protected C save(C command, Errors arg1) {
+		getDao().save(getPrimaryDomainObject(command));
+		return command;
+	}
 
 }
