@@ -13,10 +13,10 @@
 <div class="tabpane">
   <ul id="workflow-tabs" class="tabs autoclear">
     <li class="tab"><div>
-        <a href="../admin/searchResearchStaff">Search Research Staff</a>
+        <a href="../admin/searchInvestigator">Search Investigator</a>
     </div></li>
     <li class="tab selected"><div>
-        <a href="../admin/createResearchStaff">Create Research Staff</a>
+        <a href="../admin/createInvestigator">Create Investigator</a>
     </div></li>
   </ul>
 </div>
