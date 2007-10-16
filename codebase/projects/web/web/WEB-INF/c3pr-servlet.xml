@@ -12,7 +12,7 @@
 
     <bean id="messageSource"
           class="org.springframework.context.support.ResourceBundleMessageSource">
-        <property name="basename" value="messages" />
+        <property name="basename" value="edu.duke.cabig.c3pr.messages" />
     </bean>
 
     <bean id="noCacheTemplate" abstract="true">
@@ -384,7 +384,7 @@
         </property>
     </bean>
 
-    <bean id="exceptionResolver"
+    <!-- <bean id="exceptionResolver"
           class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
         <property name="exceptionMappings">
             <props>
@@ -396,5 +396,5 @@
                 </prop>
             </props>
         </property>
-    </bean>
+    </bean>-->
 </beans>

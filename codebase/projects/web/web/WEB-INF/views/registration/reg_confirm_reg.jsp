@@ -39,51 +39,54 @@ function accessApp(url,app,targetWindow){
 </c:choose>
 <form name="navigationForm" id="navigationForm" method="post"></form>
 <tags:panelBox title="Confirmation Message" boxId="ConfMessage">
+	<!-- newRegistration: ${newRegistration}<br>
+	reg_registered :${reg_registered }<br>
+	reg_nonenrolled:${reg_nonenrolled }<br>
+	reg_pending:${reg_pending }<br>
+	reg_disapproved:${ reg_disapproved}<br>
+	reg_reserved:${reg_reserved }<br>
+	reg_unregistered:${reg_unregistered }<br>
+	reg_unrandomized:${ reg_unrandomized}<br>
+	epoch_registered :${epoch_approved }<br>
+	epoch_nonenrolled:${epoch_nonenrolled }<br>
+	epoch_pending:${epoch_pending }<br>
+	epoch_disapproved:${ epoch_disapproved}<br>
+	epoch_unapproved:${epoch_unapproved }<br>
+	epoch_unrandomized:${ epoch_unrandomized}<br>-->
 	<c:choose>
 	<c:when test="${newRegistration}">
 		<c:choose>
 		<c:when test="${reg_registered}">
-			<font color="Green"><!-- LEFT FORM STARTS HERE -->
-			<!-- RIGHT CONTENT STARTS HERE --> <strong>Subject has
-			been successfully Registered. Please <a href="javascript:doNothing()">print</a>
+			<font color='<fmt:message key="REGISTRATION.SUCCESS.COLOR"/>'><strong><fmt:message key="REGISTRATION.SUCCESS"/> Please <a href="javascript:doNothing()">print</a>
 			and save this confirmation in the subject study records </strong></font></c:when>
 		<c:when test="${reg_pending}">
-			<font color="Green"><!-- LEFT FORM STARTS HERE -->
-			<!-- RIGHT CONTENT STARTS HERE --> <strong>Subject Registration request has
-			been successfully sent to the Coordinating center. </strong></font></c:when>
+			<font color='<fmt:message key="REGISTRATION.PENDING.COLOR"/>'><strong><fmt:message key="REGISTRATION.PENDING"/> </strong></font></c:when>
+		<c:when test="${reg_nonenrolled}">
+			<font color='<fmt:message key="REGISTRATION.NONENROLLED.COLOR"/>'><strong><fmt:message key="REGISTRATION.NONENROLLED"/></strong></font></c:when>			
 		<c:when test="${reg_disapproved}">
-			<font color="Red"><!-- LEFT FORM STARTS HERE -->
-			<!-- RIGHT CONTENT STARTS HERE --> <strong>Subject Registration request has
-			been disapproved by the Coordinating center. </strong></font></c:when>
+			<font color='<fmt:message key="REGISTRATION.DISAPPROVED.COLOR"/>'><strong><fmt:message key="REGISTRATION.DISAPPROVED"/> </strong></font></c:when>
 		<c:when test="${reg_reserved}">
-			<font color="Green"><!-- LEFT FORM STARTS HERE -->
-			<!-- RIGHT CONTENT STARTS HERE --><strong>Subject has
-			been successfully Reserved. Please <a href="javascript:doNothing()">print</a>
-			and save this confirmation in the subject study records </strong></font></c:when>
+			<font color='<fmt:message key="REGISTRATION.RESERVED.COLOR"/>'><strong><fmt:message key="REGISTRATION.RESERVED"/> </strong></font></c:when>
+		<c:when test="${reg_unrandomized}">
+			<font color='<fmt:message key="REGISTRATION.UNRANDOMIZED.COLOR"/>'><strong><fmt:message key="REGISTRATION.UNRANDOMIZED"/></strong></font></c:when>			
 		<c:when test="${reg_unregistered}">
-			<font color="Red"><!-- LEFT FORM STARTS HERE -->
-			<!-- RIGHT CONTENT STARTS HERE --><strong>Subject not registered. Subject Registration record has
-			been successfully saved.</strong></font></c:when>
+			<font color='<fmt:message key="REGISTRATION.INCOMPLETE.COLOR"/>'><strong><fmt:message key="REGISTRATION.INCOMPLETE"/></strong></font></c:when>
 		</c:choose>
 	</c:when>
 	<c:otherwise>
 		<c:choose>
 		<c:when test="${epoch_approved}">
-			<font color="Green"><!-- LEFT FORM STARTS HERE -->
-			<!-- RIGHT CONTENT STARTS HERE --><strong>Subject has
-			been successfully transferred.</strong></font></c:when>
+			<font color='<fmt:message key="TRANSFER.SUCCESS.COLOR"/>'><strong><fmt:message key="TRANSFER.SUCCESS"/></strong></font></c:when>
 		<c:when test="${epoch_pending}">
-			<font color="Green"><!-- LEFT FORM STARTS HERE -->
-			<!-- RIGHT CONTENT STARTS HERE --><strong>Subject Transfer request has
-			been successfully sent to the Coordinating center. </strong></font></c:when>
+			<font color='<fmt:message key="TRANSFER.PENDING.COLOR"/>'><strong><fmt:message key="TRANSFER.PENDING"/></strong></font></c:when>
+		<c:when test="${epoch_nonenrolled}">
+			<font color='<fmt:message key="TRANSFER.NONENROLLED.COLOR"/>'><strong><fmt:message key="TRANSFER.NONENROLLED"/></strong></font></c:when>
 		<c:when test="${epoch_disapproved}">
-			<font color="Red"><!-- LEFT FORM STARTS HERE -->
-			<!-- RIGHT CONTENT STARTS HERE --><strong>Subject Transfer request has
-			been disapproved by the Coordinating center. </strong></font></c:when>
+			<font color='<fmt:message key="TRANSFER.DISAPPROVED.COLOR"/>'><strong><fmt:message key="TRANSFER.DISAPPROVED"/></strong></font></c:when>
+		<c:when test="${epoch_unapproved && epoch_unrandomiized}">
+			<font color='<fmt:message key="TRANSFER.UNRANDOMIZED.COLOR"/>'><strong><fmt:message key="TRANSFER.UNRANDOMIZED"/></strong></font></c:when>
 		<c:when test="${epoch_unapproved}">
-			<font color="Red"><!-- LEFT FORM STARTS HERE -->
-			<!-- RIGHT CONTENT STARTS HERE --><strong>Subject not transferred. Subject Registration record has
-			been successfully saved.</strong></font></c:when>
+			<font color='<fmt:message key="TRANSFER.INCOMPLETE.COLOR"/>'><strong><fmt:message key="TRANSFER.INCOMPLETE"/></strong></font></c:when>
 		</c:choose>
 	</c:otherwise>
 	</c:choose>
