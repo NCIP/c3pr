@@ -240,14 +240,7 @@ public class TreatmentEpoch extends Epoch {
 	public void setRandomization(Randomization randomization) {
 		this.randomization = randomization;
 	}
-	@Transient
-	public boolean hasStratumGroups(){
-		if(this.getStratumGroups().size()>0){
-				return true;				
-		}
-		return false;
-	}
-	
+		
 	@Transient
 	public boolean hasBookRandomizationEntry(){
 		
@@ -283,6 +276,16 @@ public class TreatmentEpoch extends Epoch {
 		}
 		return null;		
 	}		
+	
+	@Transient
+	public boolean hasStratification(){
+	return (getStratificationCriteria().size()>0);
+	}
+	
+	@Transient
+	public boolean hasStratumGroups(){
+		return (getStratumGroups().size()>0);
+	}
 	
 	@Override
 	@Transient
