@@ -4,6 +4,7 @@ import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -44,6 +45,19 @@ public class StratificationCriterion extends AbstractMutableDeletableDomainObjec
 	}
     /// LOGIC
 
+    @Override
+	@Transient
+	public void setRetiredIndicatorAsTrue(){
+		super.setRetiredIndicatorAsTrue();
+		List<StratificationCriterionPermissibleAnswer> scpaList = this.getPermissibleAnswers();
+		StratificationCriterionPermissibleAnswer scpa;
+		Iterator scpaIter = scpaList.iterator();
+		while(scpaIter.hasNext()){
+			scpa = (StratificationCriterionPermissibleAnswer)scpaIter.next();
+			scpa.setRetiredIndicatorAsTrue();
+		}
+	}
+    
 	public void addPermissibleAnswer(StratificationCriterionPermissibleAnswer answer){
 		getPermissibleAnswers().add(answer);
 //		answer.setStratificationCriterion(this);

@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.DiscriminatorValue;
@@ -46,6 +47,19 @@ public class BookRandomization extends Randomization {
 
 	public void setBookRandomizationEntry(
 			List<BookRandomizationEntry> bookRandomizationEntry) {
+	}
+	
+	@Override
+	@Transient
+	public void setRetiredIndicatorAsTrue(){
+		super.setRetiredIndicatorAsTrue();
+		List<BookRandomizationEntry> breList = this.getBookRandomizationEntry();;
+		BookRandomizationEntry bre;
+		Iterator breIter = breList.iterator();
+		while(breIter.hasNext()){
+			bre = (BookRandomizationEntry)breIter.next();
+			bre.setRetiredIndicatorAsTrue();
+		}		
 	}
 
 }

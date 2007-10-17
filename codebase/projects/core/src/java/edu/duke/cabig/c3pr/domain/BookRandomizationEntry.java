@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -50,4 +51,10 @@ public class BookRandomizationEntry extends AbstractMutableDeletableDomainObject
 	public void setStratumGroup(StratumGroup stratumGroup) {
 		this.stratumGroup = stratumGroup;
 	} 
+	
+	@Override
+	@Transient
+	public void setRetiredIndicatorAsTrue(){
+		super.setRetiredIndicatorAsTrue();		
+	}
 }

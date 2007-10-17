@@ -31,6 +31,12 @@ public class Arm extends AbstractMutableDeletableDomainObject implements Compara
 
     /// LOGIC
 
+    @Override
+    @Transient
+    public void setRetiredIndicatorAsTrue(){
+    	super.setRetiredIndicatorAsTrue();  
+    }
+    
     @Transient
     public String getQualifiedName() {
         StringBuilder sb = new StringBuilder();

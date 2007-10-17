@@ -28,6 +28,12 @@ public abstract class EligibilityCriteria extends AbstractMutableDeletableDomain
 	private String name;
 
 	
+	@Override
+	@Transient
+	public void setRetiredIndicatorAsTrue(){
+		super.setRetiredIndicatorAsTrue();		
+	}
+	
 	public Boolean getNotApplicableIndicator() {
 		return notApplicableIndicator;
 	}

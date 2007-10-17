@@ -38,7 +38,19 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject{
     			StratificationCriterionAnswerCombination.class));
     	currentPosition = new Integer(0);
 	}
-	    
+	 
+	@Override
+	@Transient
+	public void setRetiredIndicatorAsTrue(){
+		super.setRetiredIndicatorAsTrue();
+		List<StratificationCriterionAnswerCombination> scacList = this.getStratificationCriterionAnswerCombination();
+		StratificationCriterionAnswerCombination scac;
+		Iterator scacIter = scacList.iterator();
+		while(scacIter.hasNext()){
+			scac = (StratificationCriterionAnswerCombination)scacIter.next();
+			scac.setRetiredIndicatorAsTrue();
+		}
+	}
 	
 	@OneToMany (fetch=FetchType.LAZY)
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})	

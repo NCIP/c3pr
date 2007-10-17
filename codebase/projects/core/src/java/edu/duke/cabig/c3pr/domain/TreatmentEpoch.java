@@ -64,6 +64,68 @@ public class TreatmentEpoch extends Epoch {
 		getArms().add(arm);
 		arm.setTreatmentEpoch(this);
 	}
+	
+	@Override
+	@Transient
+	/*
+	 * settting the retired_indicator for every child object to true
+	 */
+	public void setRetiredIndicatorAsTrue(){
+		//setting the indicator for epoch
+		super.setRetiredIndicatorAsTrue();
+		//setting the indicator for its arms
+		List<Arm> armList = this.getArms();
+		Arm arm;
+		Iterator armIter = armList.iterator();
+		while(armIter.hasNext()){
+			arm = (Arm)armIter.next();
+			arm.setRetiredIndicatorAsTrue();
+		}
+		//setting the indicator for its eligibilityCriteria
+		List<EligibilityCriteria> ecList = this.getEligibilityCriteria();
+		EligibilityCriteria ec;
+		Iterator ecIter = ecList.iterator();
+		while(ecIter.hasNext()){
+			ec = (EligibilityCriteria)ecIter.next();
+			ec.setRetiredIndicatorAsTrue();
+		}
+		
+		List<InclusionEligibilityCriteria> iecList = this.getInclusionEligibilityCriteria();
+		InclusionEligibilityCriteria iec;
+		Iterator iecIter = iecList.iterator();
+		while(iecIter.hasNext()){
+			iec = (InclusionEligibilityCriteria)iecIter.next();
+			iec.setRetiredIndicatorAsTrue();
+		}
+		
+		List<ExclusionEligibilityCriteria> eecList = this.getExclusionEligibilityCriteria();
+		ExclusionEligibilityCriteria eec;
+		Iterator eecIter = eecList.iterator();
+		while(eecIter.hasNext()){
+			eec = (ExclusionEligibilityCriteria)eecIter.next();
+			eec.setRetiredIndicatorAsTrue();
+		}
+		
+		//set strGrps and Randomizations
+		this.getRandomization().setRetiredIndicatorAsTrue();
+		//set strCri
+		List<StratificationCriterion> scList = this.getStratificationCriteria();
+		StratificationCriterion sc;
+		Iterator scIter = scList.iterator();
+		while(scIter.hasNext()){
+			sc = (StratificationCriterion)scIter.next();
+			sc.setRetiredIndicatorAsTrue();
+		}
+		
+		List<StratumGroup> sgList = this.getStratumGroups();
+		StratumGroup sg;
+		Iterator sgIter = sgList.iterator();
+		while(sgIter.hasNext()){
+			sg = (StratumGroup)sgIter.next();
+			sg.setRetiredIndicatorAsTrue();
+		}
+	}
+	
 
 	@Transient
 	public boolean isMultipleArms() {
@@ -103,6 +165,7 @@ public class TreatmentEpoch extends Epoch {
 	@OneToMany(fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "EPH_ID")
+	@Where(clause = "retired_indicator  = 'false'")
 	public List<EligibilityCriteria> getEligibilityCriteriaInternal() {
 		return lazyListHelper.getInternalList(EligibilityCriteria.class);
 	}
