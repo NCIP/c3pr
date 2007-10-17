@@ -15,6 +15,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.service.StudyService;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
@@ -126,5 +127,11 @@ public class EditStudyController extends StudyController<Study> {
         return modelAndView;
     }
 
+	@Override
+	protected void postProcessPage(HttpServletRequest request, Object command, Errors errors, int page) throws Exception {
+		// TODO Auto-generated method stub
+		super.postProcessPage(request, command, errors, page);
+		studyService.setDataEntryStatus((Study)command);
+	}
 
 }
