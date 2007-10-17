@@ -1,12 +1,11 @@
 package edu.duke.cabig.c3pr.service.impl;
 
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
+import java.util.GregorianCalendar;
 
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
-import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.CalloutRandomization;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
@@ -21,8 +20,8 @@ import edu.duke.cabig.c3pr.domain.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
-import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.service.StudyService;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 
 /**
  * Services for Study related domain object
@@ -59,7 +58,7 @@ public class StudyServiceImpl implements StudyService {
 		if (evaluateAmendmentStatus(study) != StudyDataEntryStatus.COMPLETE) {
 			return CoordinatingCenterStudyStatus.AMENDMENT_PENDING;
 		}
-		if (study.getRandomizedIndicator().equals("true")) {
+		if (study.getRandomizedIndicator()) {
 			if (evaluateRandomizationDataEntryStatus(study) != StudyDataEntryStatus.COMPLETE) {
 				return CoordinatingCenterStudyStatus.PENDING;
 			}
@@ -70,8 +69,21 @@ public class StudyServiceImpl implements StudyService {
 	public StudyDataEntryStatus evaluateStratificationDataEntryStatus(
 			Study study) throws Exception {
 		if (study.hasStratification()) {
-			return StudyDataEntryStatus.COMPLETE;
+			for (TreatmentEpoch treatmentEpoch : study.getTreatmentEpochs()) {
+				if (treatmentEpoch.hasStratification()) {
+					if (!treatmentEpoch.hasStratumGroups())
+						return StudyDataEntryStatus.INCOMPLETE;
+				}
+			}
 		}
+		
+		for (TreatmentEpoch treatmentEpoch : study.getTreatmentEpochs()) {
+			if (treatmentEpoch.getRandomizedIndicator()==Boolean.TRUE) {
+				if (!treatmentEpoch.hasStratification()||!treatmentEpoch.hasStratumGroups())
+					return StudyDataEntryStatus.INCOMPLETE;
+			}
+		}
+
 		return StudyDataEntryStatus.COMPLETE;
 	}
 
@@ -92,8 +104,9 @@ public class StudyServiceImpl implements StudyService {
 			for (TreatmentEpoch treatmentEpoch : study.getTreatmentEpochs()) {
 				Randomization randomization = treatmentEpoch.getRandomization();
 				if (randomization instanceof PhonecallRandomization) {
-					if ((((PhonecallRandomization) randomization)
-							.getPhoneNumber()) == null) {
+					if (StringUtils
+							.isBlank(((PhonecallRandomization) randomization)
+									.getPhoneNumber())) {
 						return StudyDataEntryStatus.INCOMPLETE;
 					}
 				}
@@ -104,7 +117,9 @@ public class StudyServiceImpl implements StudyService {
 			for (TreatmentEpoch treatmentEpoch : study.getTreatmentEpochs()) {
 				Randomization randomization = treatmentEpoch.getRandomization();
 				if (randomization instanceof PhonecallRandomization) {
-					if ((((CalloutRandomization) randomization).getCalloutUrl()) == null) {
+					if (StringUtils
+							.isBlank(((CalloutRandomization) randomization)
+									.getCalloutUrl())) {
 						return StudyDataEntryStatus.INCOMPLETE;
 					}
 				}
@@ -139,8 +154,7 @@ public class StudyServiceImpl implements StudyService {
 					|| (latestAmendment.getEaChangedIndicator())
 					|| (latestAmendment.getStratChangedIndicator())
 					|| (latestAmendment.getPiChangedIndicator())
-							|| (latestAmendment
-									.getRandomizationChangedIndicator())) {
+					|| (latestAmendment.getRandomizationChangedIndicator())) {
 				return StudyDataEntryStatus.COMPLETE;
 			} else {
 				return StudyDataEntryStatus.INCOMPLETE;
@@ -189,13 +203,18 @@ public class StudyServiceImpl implements StudyService {
 			return SiteStudyStatus.AMENDMENT_PENDING;
 		}
 		if (studySite.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.ACTIVE) {
+			
 			Date currentDate = new Date();
+			GregorianCalendar calendar = new GregorianCalendar(); 
+			calendar.setTime(currentDate);
+			calendar.add(calendar.YEAR, -1);
 			if (((studySite.getIrbApprovalDate()) == null)
-					|| (studySite.getIrbApprovalDate().after(currentDate))) {
+					|| (studySite.getIrbApprovalDate().after(currentDate))||(studySite.getIrbApprovalDate().before(calendar.getTime()))) {
 				return SiteStudyStatus.PENDING;
 			}
-			if ((studySite.getStartDate() == null)||(studySite.getStartDate().after(currentDate))) {
-					return SiteStudyStatus.PENDING;
+			if ((studySite.getStartDate() == null)
+					|| (studySite.getStartDate().after(currentDate))) {
+				return SiteStudyStatus.PENDING;
 			}
 			return SiteStudyStatus.ACTIVE;
 		}
@@ -334,8 +353,7 @@ public class StudyServiceImpl implements StudyService {
 						|| ((currentStatus) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL))
 						|| ((currentStatus) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT))) {
 					return false;
-				} else
-					return true;
+				} 
 			}
 
 			if ((newCoordinatingCenterStatus == CoordinatingCenterStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL)
@@ -345,8 +363,7 @@ public class StudyServiceImpl implements StudyService {
 						|| ((currentStatus) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL))
 						|| ((currentStatus) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT))) {
 					return false;
-				} else
-					return true;
+				} 
 			}
 
 			if ((newCoordinatingCenterStatus == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL)
@@ -355,8 +372,7 @@ public class StudyServiceImpl implements StudyService {
 						|| ((currentStatus) == (CoordinatingCenterStudyStatus.AMENDMENT_PENDING))
 						|| ((currentStatus) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT))) {
 					return false;
-				} else
-					return true;
+				} 
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
