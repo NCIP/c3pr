@@ -91,11 +91,6 @@
 
 			</table>
 		</chrome:division>
-			<script>
-			eArray=new Array();
-			eArray.push(editor_coordinatingCenterStudyStatus);
-			</script>
-				<input type="button" value="Edit" onclick="activateInPlaceEditing(eArray)"/>
 			<hr align="left" width="95%">					
 			<br>
 
