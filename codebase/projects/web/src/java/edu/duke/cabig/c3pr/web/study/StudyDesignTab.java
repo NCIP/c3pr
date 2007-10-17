@@ -32,6 +32,7 @@ class StudyDesignTab extends StudyTab {
 	public Map referenceData(HttpServletRequest request, Study study) {
 		Map<String, Object> refdata = super.referenceData(study);
 		refdata.put("currentOperation", getConfigurationProperty().getMap().get("inclusion"));
+		addConfigMapToRefdata(refdata, "yesNo");
 		if( (request.getAttribute("amendFlow") != null && request.getAttribute("amendFlow").toString().equals("true")) ||
 		    (request.getAttribute("editFlow") != null && request.getAttribute("editFlow").toString().equals("true")) ) 
 		{
