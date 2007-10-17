@@ -106,6 +106,26 @@
                                             path="treatmentEpochs[${treatmentEpochCount.index}].descriptionText"
                                             rows="5" cols="40" />&nbsp;&nbsp;&nbsp;</td>
                                 </tr>
+                                 <tr>
+                                    <th>
+                                        <span class="required-indicator">Epoch Order:</span>
+                                        
+                                    </th>
+                                    <td><form:input path="treatmentEpochs[${treatmentEpochCount.index}].epochOrder" size="5"
+                                               cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
+                                </tr>
+                                 <tr>
+                                    <th>
+                                        <span class="required-indicator">Randomization Indicator:</span>
+                                        
+                                    </th>
+                                    <td><form:select
+                                        path="treatmentEpochs[${treatmentEpochCount.index}].randomizedIndicator"
+                                        cssClass="validate-notEmpty">
+                                   <option value="">--Please Select--</option>
+                                     <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
+                                </form:select><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
+                                </tr>
                             </table>
                         </td>
                         <td valign="top">
@@ -171,6 +191,14 @@
                                 <div class="value"><form:textarea
                                         path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].descriptionText"
                                         rows="5" cols="40" />&nbsp;&nbsp;&nbsp;</div>
+                            </div>
+                            <div class="row">
+                                <div class="label">
+                                    <span class="required-indicator">Epoch Order:</span>
+                                    </div>
+                                <div class="value"><form:input size="5"
+                                                          path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].epochOrder"
+                                                          cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span></div>
                             </div>
                         </div>
 
@@ -271,6 +299,28 @@
                                             name="treatmentEpochs[PAGE.ROW.INDEX].descriptionText" rows="5"
                                             cols="40"></textarea></td>
                                 </tr>
+                                <tr>
+                                    <th>
+                                        <span class="required-indicator">Epoch Order:</span>
+                                        
+                                    </th>
+                                    <td><input type="text"
+                                               name="treatmentEpochs[PAGE.ROW.INDEX].epochOrder" size="5"
+                                               class="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
+                                </tr>
+                                 <tr>
+                                    <th>
+                                        <span class="required-indicator">Randomization Indicator:</span>
+                                        
+                                    </th>
+                                    <td><select
+                                        name="nonTreatmentEpochs[PAGE.ROW.INDEX].randomizedIndicator" 
+                                        class="validate-notEmpty">
+                                    <option value="">--Please Select--</option>
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
+                                </select><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
+                                </tr>
                             </table>
                         </td>
                         <td valign="top">
@@ -310,12 +360,13 @@
 <div id="non-treatmentHtml" style="display:none">
     <table>
         <tr>
-            <td><chrome:minimizableBox      id="AddedNonTreatmentEpochBox-PAGE.ROW.INDEX"
+            <td><chrome:minimizableBox  id="AddedNonTreatmentEpochBox-PAGE.ROW.INDEX"
                                           title="New Non-Treatment Epoch"
                                           isDeletable="true"
                                           onDelete="RowManager.deleteRow(nonTreatmentEpochRowInserterProps,PAGE.ROW.INDEX)">
                 <table width="100%" border="0">
                     <tr><td>
+                    
                         <div class="leftpanel">
                             <div class="row">
                                 <div class="label">
@@ -331,6 +382,14 @@
                                 <div class="value"><textarea
                                         name="nonTreatmentEpochs[PAGE.ROW.INDEX].descriptionText" rows="5"
                                         cols="40"></textarea></div>
+                            </div>
+                            <div class="row">
+                                <div class="label">
+                                    <span class="required-indicator">Epoch Order:</span>
+                                    </div>
+                                <div class="value"><input type="text" size="5"
+                                                          name="nonTreatmentEpochs[PAGE.ROW.INDEX].epochOrder"
+                                                          class="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span></div>
                             </div>
                         </div>
 
