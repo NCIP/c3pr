@@ -32,6 +32,8 @@ public abstract class Epoch extends AbstractMutableDeletableDomainObject impleme
 	private String descriptionText;
 
 	private Study study;
+	
+	private Integer epochOrder;
 
 	/**
 	 * Factory method
@@ -133,6 +135,14 @@ public abstract class Epoch extends AbstractMutableDeletableDomainObject impleme
 	  obj.getClass()) return false; final Epoch other = (Epoch) obj; if (name == null) { if
 	  (other.name != null) return false; } else if (!name.equals(other.name))
 	  return false; return true; }
+
+	public Integer getEpochOrder() {
+		return epochOrder;
+	}
+
+	public void setEpochOrder(Integer epochOrder) {
+		this.epochOrder = epochOrder;
+	}
 	 
 
 }
