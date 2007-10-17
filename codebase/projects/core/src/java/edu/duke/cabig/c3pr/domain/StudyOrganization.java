@@ -112,6 +112,7 @@ public abstract class StudyOrganization extends AbstractMutableDeletableDomainOb
 
 	@ManyToOne
 	@JoinColumn(name = "hcs_id", nullable = false)
+	@Cascade(value={CascadeType.LOCK})
 	public HealthcareSite getHealthcareSite() {
 		return healthcareSite;
 	}
