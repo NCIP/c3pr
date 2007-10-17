@@ -173,23 +173,6 @@
 
     </target>
 
-<target name="compileaspects" depends="compile"  description="Compile AspectJ source files">
-
-	  <taskdef resource="org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties">
-	    <classpath>
-	  		<path refid="build.classpath"/>
-	    </classpath>
-	  </taskdef>
-
-	  <iajc inpath="${classes.dir}" source="1.5" target="1.5" destDir="${classes.dir}"
-    	  aspectpath="${ext.lib.dir}/spring-aspects.jar"
-    	  classpathRef="build.classpath"
-    	  debug="on"
-	    	verbose="true">
-	  </iajc>
-
-	</target>
-
     <!-- =============================================================== -->
     <!-- Compiles the source code                                        -->
     <!-- =============================================================== -->
@@ -251,7 +234,7 @@
         <property file="${user.home}/.c3pr/c3pr.properties"/>
         <property file="${ext.resources.dir}/build.properties"/>
 
-    
+
         <!--Taskdef. Has to be done inside since classpath is ext-->
         <taskdef resource="edu/northwestern/bioinformatics/bering/antlib.xml"
                  classpathref="bering.classpath"/>
