@@ -54,15 +54,15 @@
         </tr>
         <tr>
             <td class="alt" align="left"><b>Multi Institution:</b></td>
-            <td class="alt" align="left">${command.multiInstitutionIndicator}</td>
+            <td class="alt" align="left">${command.multiInstitutionIndicator=="true"?"Yes":"No"}</td>
         </tr>
         <tr>
             <td class="alt" align="left"><b>Blinded:</b></td>
-            <td class="alt" align="left"> ${command.blindedIndicator}</td>
+            <td class="alt" align="left">${command.blindedIndicator=="true"?"Yes":"No"}</td>
         </tr>
         <tr>
             <td class="alt" align="left"><b>Randomized:</b></td>
-            <td class="alt" align="left">${command.randomizedIndicator}</td>
+            <td class="alt" align="left">${command.randomizedIndicator=="true"?"Yes":"No"}</td>
         </tr>
         <tr>
             <td class="alt" align="left"><b>Randomization Type:</b></td>

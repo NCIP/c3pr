@@ -12,22 +12,22 @@
     <script type="text/javascript">
     
      function manageAccrualIndicatorSelectBox(box,index) {
-            if (box.value == 'Yes') {
+            if (box.value == 'true') {
                 //		document.getElementById('accrualCeiling-index').style.display='show';
                 Effect.OpenUp('accrualCeiling-'+index);
             }
-            if (box.value == 'No') {
+            if (box.value == 'false') {
                 	//	document.getElementById('accrualCeiling-index').style.display='none';
                 Effect.CloseDown('accrualCeiling-'+index);
             }
         }
         
          function manageEnrollingIndicatorSelectBox(box,index) {
-            if (box.value == 'No') {
+            if (box.value == 'false') {
                 		//document.getElementById('reservationIndicator').style.display='show';
                 Effect.OpenUp('reservationIndicator-'+index);
             }
-            if (box.value == 'Yes') {
+            if (box.value == 'true') {
                 		//document.getElementById('reservationIndicator').style.display='none';
                 Effect.CloseDown('reservationIndicator-'+index);
             }
@@ -183,11 +183,11 @@
                                         onchange="manageAccrualIndicatorSelectBox(this,${nonTreatmentEpochCount.index});"
                                         cssClass="validate-notEmpty">
                                     <option value="">--Please Select--</option>
-                                    <form:options items="${fn:split('Yes,No',',')}" />
+                                     <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
                                 </form:select></div>
                             </div>
                             
-                            <div  id="accrualCeiling-${nonTreatmentEpochCount.index}" <c:if test="${command.nonTreatmentEpochs[nonTreatmentEpochCount.index].accrualIndicator=='No'}">
+                            <div  id="accrualCeiling-${nonTreatmentEpochCount.index}" <c:if test="${command.nonTreatmentEpochs[nonTreatmentEpochCount.index].accrualIndicator==false}">
                                       style="display:none;"</c:if> >
                             <div class="row">
                                 <div class="label">Accrual Ceiling:</div>
@@ -206,11 +206,11 @@
                                         onchange="manageEnrollingIndicatorSelectBox(this,${nonTreatmentEpochCount.index});"
                                         cssClass="validate-notEmpty">
                                     <option value="">--Please Select--</option>
-                                    <form:options items="${fn:split('Yes,No',',')}" />
+                                    <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
                                 </form:select></div>
                             </div>
                             
-                            <div id="reservationIndicator-${nonTreatmentEpochCount.index}" <c:if test="${command.nonTreatmentEpochs[nonTreatmentEpochCount.index].enrollmentIndicator=='Yes'}">style="display:none;"</c:if>>
+                            <div id="reservationIndicator-${nonTreatmentEpochCount.index}" <c:if test="${command.nonTreatmentEpochs[nonTreatmentEpochCount.index].enrollmentIndicator==true}">style="display:none;"</c:if>>
                             <div class="row">
                                 <div class="label"> <span class="required-indicator">Reservation Indicator:</span>
                                     </div>
@@ -218,7 +218,7 @@
                                         path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].reservationIndicator"
                                         cssClass="validate-notEmpty">
                                     <option value="">--Please Select--</option>
-                                    <form:options items="${fn:split('Yes,No',',')}" />
+                                     <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
                                 </form:select></div>
                             </div>
                             </div>
@@ -342,8 +342,8 @@
                                         name="nonTreatmentEpochs[PAGE.ROW.INDEX].accrualIndicator" onchange="manageAccrualIndicatorSelectBox(this,PAGE.ROW.INDEX);"
                                         class="validate-notEmpty">
                                     <option value="">--Please Select--</option>
-                                    <option value="Yes">Yes</option>
-                                    <option value="No">No</option>
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
                                 </select></div>
                             </div>
                             
@@ -365,8 +365,8 @@
                                         name="nonTreatmentEpochs[PAGE.ROW.INDEX].enrollmentIndicator" onchange="manageEnrollingIndicatorSelectBox(this,PAGE.ROW.INDEX);"
                                         class="validate-notEmpty">
                                     <option value="">--Please Select--</option>
-                                    <option value="Yes">Yes</option>
-                                    <option value="No">No</option>
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
                                 </select></div>
                             </div>
                             
@@ -378,8 +378,8 @@
                                         id="nonTreatmentEpochs[PAGE.ROW.INDEX].reservationIndicator"
                                         name="nonTreatmentEpochs[PAGE.ROW.INDEX].reservationIndicator">
                                     <option value="">--Please Select--</option>
-                                    <option value="Yes">Yes</option>
-                                    <option value="No">No</option>
+                                    <option value="true">Yes</option>
+                                    <option value="false">No</option>
                                 </select></div>
                             </div>
                             </div>
