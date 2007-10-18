@@ -1,10 +1,5 @@
 package edu.duke.cabig.c3pr.domain;
 
-import edu.duke.cabig.c3pr.utils.ProjectedList;
-import edu.duke.cabig.c3pr.utils.StringUtils;
-import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
-import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -15,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -24,6 +20,10 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Where;
+
+import edu.duke.cabig.c3pr.utils.ProjectedList;
+import edu.duke.cabig.c3pr.utils.StringUtils;
+import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
 /**
  * A systematic evaluation of an observation or an intervention (for example,
@@ -323,6 +323,7 @@ public class Study extends AbstractMutableDeletableDomainObject implements
 	@OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@Where(clause = "retired_indicator  = 'false'")
+	@OrderBy("epochOrder")
 	public List<Epoch> getEpochs() {
 		return epochs;
 	}
