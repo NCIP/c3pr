@@ -40,7 +40,7 @@ public abstract class DaoTestCase extends DbTestCase {
     protected WebRequest webRequest = new ServletWebRequest(request);
     private boolean shouldFlush = true;
 
-    private static final DataAuditInfo INFO=new DataAuditInfo("user","127.0.0.0",DateUtil.createDate(2004,Calendar.NOVEMBER,2), "c3pr/study");
+    public static final DataAuditInfo INFO=new DataAuditInfo("user","127.0.0.0",DateUtil.createDate(2004,Calendar.NOVEMBER,2), "c3pr/study");
     
     protected void setUp() throws Exception {
         super.setUp();
