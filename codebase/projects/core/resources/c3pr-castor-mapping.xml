@@ -151,14 +151,14 @@
         <field name="accrualCeiling" type="int">
             <bind-xml name="accrualCeiling" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
-        <field name="accrualIndicator" type="string">
+        <field name="accrualIndicator" type="boolean">
             <bind-xml name="accrualIndicator" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
-        <field name="reservationIndicator" type="string">
+        <field name="reservationIndicator" type="boolean">
             <bind-xml name="reservationIndicator" node="element"
                       xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
-        <field name="enrollmentIndicator" type="string">
+        <field name="enrollmentIndicator" type="boolean">
             <bind-xml name="enrollmentIndicator" node="element"
                       xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
@@ -295,14 +295,14 @@
         <field name="version" type="integer">
             <bind-xml name="version" node="attribute"/>
         </field>
-        <field name="blindedIndicator" type="string">
+        <field name="blindedIndicator" type="boolean">
             <bind-xml name="blindedIndicator" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
-        <field name="multiInstitutionIndicator" type="string">
+        <field name="multiInstitutionIndicator" type="boolean">
             <bind-xml name="multiInstitutionIndicator" node="element"
                       xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
-        <field name="randomizedIndicator" type="string">
+        <field name="randomizedIndicator" type="boolean">
             <bind-xml name="randomizedIndicator" node="element"
                       xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>

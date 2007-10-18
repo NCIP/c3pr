@@ -89,14 +89,14 @@
         <field name="accrualCeiling" type="int">
             <bind-xml name="accrualCeiling" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
-        <field name="accrualIndicator" type="string">
+        <field name="accrualIndicator" type="boolean">
             <bind-xml name="accrualIndicator" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
-        <field name="reservationIndicator" type="string">
+        <field name="reservationIndicator" type="boolean">
             <bind-xml name="reservationIndicator" node="element"
                       xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
-        <field name="enrollmentIndicator" type="string">
+        <field name="enrollmentIndicator" type="boolean">
             <bind-xml name="enrollmentIndicator" node="element"
                       xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
