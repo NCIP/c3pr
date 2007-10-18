@@ -12,6 +12,27 @@
     <tags:includeScriptaculous />
     <tags:dwrJavascriptLink objects="StudyAjaxFacade" />
     <script type="text/javascript">
+    
+    function blindedRandomization(){
+    	var bIndicator=document.getElementById('blindedIndicator');
+    	var rIndicator=document.getElementById('randomizedIndicator');
+    	var rType=document.getElementById('randomizationType');
+    	var rTypeDiv=document.getElementById('randomizationTypeDiv');
+
+    	if(bIndicator.value == 'true'){
+    		rIndicator.value = 'true';
+    		rIndicator.disabled = true;
+    		rTypeDiv.style.display = "";
+    		rType.value="PHONE_CALL";
+    		rType.disabled = true;
+    	} else {
+    		rIndicator.value = 'false';
+    		rIndicator.disabled = false;
+    		rTypeDiv.style.display = "none";
+    		rType.value="";
+    		rType.disabled = false;
+    	}
+    }
 
         Effect.OpenUp = function(element) {
             element = $(element);
@@ -42,12 +63,12 @@
 
         function manageRandomizedIndicatorSelectBox(box) {
             if (box.value == 'true') {
-                //		document.getElementById('randomizationType').style.display='none';
-                Effect.OpenUp('randomizationType');
+                //		document.getElementById('randomizationTypeDiv').style.display='none';
+                Effect.OpenUp('randomizationTypeDiv');
             }
             if (box.value == 'false') {
-                //		document.getElementById('randomizationType').style.display='none';
-                Effect.CloseDown('randomizationType');
+                //		document.getElementById('randomizationTypeDiv').style.display='none';
+                Effect.CloseDown('randomizationTypeDiv');
             }
         }
         
@@ -161,13 +182,24 @@
             </form:select></div>
         </div>
 
-        <div class="row">
-            <div class="label">Blinded:</div>
-            <div class="value"><form:select path="blindedIndicator" >
-                <option value="">--Please Select--</option>
-                <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
-            </form:select></div>
-        </div>
+		<c:choose>
+            <c:when test="${not empty command.id}">
+                <div class="row">
+                    <div class="label">
+                        Blinded:</div>
+                    <div class="value">${command.blindedIndicator=="true"?"Yes":"No"}</div>
+                </div>
+            </c:when>
+            <c:otherwise>
+		        <div class="row">
+		            <div class="label">Blinded:</div>
+		            <div class="value"><form:select path="blindedIndicator" onchange="blindedRandomization();">
+		                <option value="">--Please Select--</option>
+		                <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
+		            </form:select></div>
+		        </div>
+        	</c:otherwise>
+        </c:choose>
         
          <c:choose>
             <c:when test="${not empty command.id}">
@@ -247,19 +279,21 @@
                 Randomized:</div>
             <div class="value"><form:select path="randomizedIndicator"
                                             onchange="manageRandomizedIndicatorSelectBox(this);"
-                                            cssClass="validate-notEmpty" >
+                                            cssClass="validate-notEmpty"
+                                            disabled="${command.blindedIndicator == 'true'}" >
                 <option value="">--Please Select--</option>
                 <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
             </form:select></div>
         </div>
 
 
-        <div id="randomizationType"
-                <c:if test="${ (empty command.randomizedIndicator) || command.randomizedIndicator=='false'}">style="display:none;"</c:if>>
+        <div id="randomizationTypeDiv"
+                <c:if test="${ ((empty command.randomizedIndicator) || command.randomizedIndicator=='false') && 
+                						command.blindedIndicator == 'false'}">style="display:none;"</c:if>>
 
             <div class="row">
                 <div class="label">Randomization Type:</div>
-                <div class="value"><form:select path="randomizationType" >
+                <div class="value"><form:select path="randomizationType" disabled="${command.blindedIndicator == 'true'}">
                     <form:option label="--Please Select--" value=""/>
                     <form:option label="Book" value="BOOK"/>
                     <form:option label="Call Out" value="CALL_OUT"/>
