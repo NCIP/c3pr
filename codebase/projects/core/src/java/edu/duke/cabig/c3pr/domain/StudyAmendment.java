@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.domain;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -80,6 +81,7 @@ public class StudyAmendment extends AbstractMutableDeletableDomainObject{
 	public void setEligibilityChangedIndicator(Boolean eligibilityChangedIndicator) {
 		this.eligibilityChangedIndicator = eligibilityChangedIndicator;
 	}
+	@Column(name="rndm_changed_indicator")
 	public Boolean getRandomizationChangedIndicator() {
 		return randomizationChangedIndicator;
 	}
