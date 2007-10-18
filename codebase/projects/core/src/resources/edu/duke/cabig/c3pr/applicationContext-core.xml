@@ -122,7 +122,7 @@
             <bean class="org.hibernate.cfg.ImprovedNamingStrategy"/>
         </property>
         <property name="hibernateProperties">
-            <ref bean="hibernateProperties"/>
+            <ref bean="auditHibernateProperties"/>
         </property>
         
         <property name="annotatedClasses">
