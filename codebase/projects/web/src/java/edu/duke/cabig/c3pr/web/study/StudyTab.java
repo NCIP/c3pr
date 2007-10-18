@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.web.study;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,7 +10,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.domain.BookRandomization;
+import edu.duke.cabig.c3pr.domain.CalloutRandomization;
+import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.PhonecallRandomization;
+import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.InPlaceEditableTab;
 
@@ -42,6 +50,57 @@ public abstract class StudyTab extends InPlaceEditableTab<Study> {
     
     public StudyTab(String longTitle, String shortTitle, String viewName) {
         super(longTitle, shortTitle, viewName);
+    }
+    
+    /*
+     * This method sets the study.randomizationIndicator, study.RandomizationType 
+     * and epoch.randomization nased on teh values selected. This can be called from 
+     * both the details and the design tab. 
+     */
+    public void updateRandomization(Study study){
+    	if(study.getBlindedIndicator()){
+			study.setRandomizedIndicator(true);
+			study.setRandomizationType(RandomizationType.PHONE_CALL);
+		} 
+		
+		if(!study.getRandomizedIndicator()){
+			study.setRandomizationType(null);
+//			if(study.getEpochs() instanceof List){
+//				List epochList = study.getEpochs();
+//				Epoch epoch;
+//				TreatmentEpoch tEpoch;
+//				Iterator iter = epochList.iterator();
+//				while(iter.hasNext()){
+//					epoch = (Epoch)iter.next();
+//					if(epoch instanceof TreatmentEpoch){
+//						tEpoch = (TreatmentEpoch)epoch;
+//						tEpoch.setRandomization(null);
+//					}
+//				}
+//			}
+		}
+//    	Instantiating the appropriate randomization class and setting it in the epoch.
+		if(study.getEpochs() instanceof List){
+			List epochList = study.getTreatmentEpochs();
+			TreatmentEpoch tEpoch;
+			Iterator iter = epochList.iterator();
+			while(iter.hasNext()){
+					tEpoch = (TreatmentEpoch)iter.next();
+					if(study.getRandomizedIndicator() && study.getRandomizationType() != null && tEpoch.getRandomizedIndicator()){
+						if(study.getRandomizationType().equals(RandomizationType.BOOK)){
+							tEpoch.setRandomization(new BookRandomization());														
+				    	}
+						if(study.getRandomizationType().equals(RandomizationType.CALL_OUT)){
+							tEpoch.setRandomization(new CalloutRandomization());
+				    	}
+						if(study.getRandomizationType().equals(RandomizationType.PHONE_CALL)){
+							tEpoch.setRandomization(new PhonecallRandomization());
+				    	}
+					} else {
+						tEpoch.setRandomization(null);
+					}
+			}
+		}
     }
 
     public ConfigurationProperty getConfigurationProperty() {

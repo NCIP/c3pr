@@ -94,28 +94,8 @@ class StudyDetailsTab extends StudyTab {
 						study.getFundingSponsorIdentifierIndex());
 			}
 
-		}
-		if(study.getBlindedIndicator()){
-			study.setRandomizedIndicator(true);
-			study.setRandomizationType(RandomizationType.PHONE_CALL);
-		} 
-		
-		if(!study.getRandomizedIndicator()){
-			study.setRandomizationType(null);
-			if(study.getEpochs() instanceof List){
-				List epochList = study.getEpochs();
-				Epoch epoch;
-				TreatmentEpoch tEpoch;
-				Iterator iter = epochList.iterator();
-				while(iter.hasNext()){
-					epoch = (Epoch)iter.next();
-					if(epoch instanceof TreatmentEpoch){
-						tEpoch = (TreatmentEpoch)epoch;
-						tEpoch.setRandomization(null);
-					}
-				}
-			}
-		}
+		}		
+		updateRandomization(study);		
 	}
 
 }
