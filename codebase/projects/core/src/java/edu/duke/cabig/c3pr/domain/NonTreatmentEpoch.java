@@ -43,6 +43,12 @@ public class NonTreatmentEpoch extends Epoch{
 	@Override
 	@Transient
 	public boolean isEnrolling() {
-		return StringUtils.getBlankIfNull(this.enrollmentIndicator).equalsIgnoreCase("yes");
+		return this.enrollmentIndicator;
+	}
+	
+	@Override
+	@Transient
+	public boolean getRequiresRandomization() {
+		return false;
 	}
 }

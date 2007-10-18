@@ -23,7 +23,7 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 public class TreatmentEpoch extends Epoch {
 	private LazyListHelper lazyListHelper;
 	private Randomization randomization;
-	private Boolean randomizedIndicator = true;
+	private Boolean randomizedIndicator;
 
 	private ParameterizedInstantiateFactory<EligibilityCriteria> eligibilityFactory;
 
@@ -362,5 +362,11 @@ public class TreatmentEpoch extends Epoch {
 
 	public void setRandomizedIndicator(Boolean randomizedIndicator) {
 		this.randomizedIndicator = randomizedIndicator;
+	}
+
+	@Override
+	@Transient
+	public boolean getRequiresRandomization() {
+		return this.randomizedIndicator;
 	}
 }

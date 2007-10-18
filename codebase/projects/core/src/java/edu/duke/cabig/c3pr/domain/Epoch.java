@@ -85,12 +85,8 @@ public abstract class Epoch extends AbstractMutableDeletableDomainObject impleme
 		return false;
 	}
 	@Transient
-	public boolean getRequiresRandomization(){
-		if (this instanceof TreatmentEpoch) {
-			return ((TreatmentEpoch)this).getRandomization()!=null;
-		}
-		return false;
-	}
+	public abstract boolean getRequiresRandomization();
+	
 	public String getName() {
 		return name;
 	}
