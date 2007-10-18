@@ -160,7 +160,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
 			incCrit.setQuestionText("questionText");
 			incCrit.setQuestionNumber(1);
 			// incCrit.setStudy(study);
-			epoch.addEligibilityCriterion(incCrit);
+			epoch.getInclusionEligibilityCriteria().add(incCrit);
 			epoch.setName("Anoter Treatment Epoch");
 			study.addEpoch(epoch);
 			// getDao().save(epoch);
@@ -307,7 +307,7 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
 			stratCrit.setQuestionText("Stratificaiton question text");
 			stratCrit.setQuestionNumber(2);
 			// incCrit.setStudy(study);
-			epoch.addStratificationCriterion(stratCrit);
+			epoch.getStratificationCriteria().add(stratCrit);
 			epoch.setName("Stratified Treatment Epoch");
 			study.addEpoch(epoch);
 			// getDao().save(epoch);
@@ -341,13 +341,26 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
 			throws Exception {
 		Integer savedId;
 		{
-			Study study = studyDao.getById(1000);
+			Study study = new Study();
+			study.setPrecisText("New study");
+			study.setShortTitleText("ShortTitleText");
+			study.setLongTitleText("LongTitleText");
+			study.setPhaseCode("PhaseCode");
+			study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+			study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
+			study.setTargetAccrualNumber(150);
+			study.setType("Type");
+			study.setMultiInstitutionIndicator(Boolean.TRUE);
 
-			TreatmentEpoch epoch = study.getTreatmentEpochs().get(0);
+			TreatmentEpoch epoch = new TreatmentEpoch();
+			epoch.setName("epoch Name");
+			epoch.setStudy(study);
 			StratificationCriterion stratCrit = new StratificationCriterion();
 			stratCrit.setQuestionText("Stratification question");
 			stratCrit.setQuestionNumber(2);
-			epoch.addStratificationCriterion(stratCrit);
+			epoch.getStratificationCriteria().add(stratCrit);
+			study.getTreatmentEpochs().add(epoch);
+			
 			studyDao.save(study);
 			savedId = study.getId();
 			
