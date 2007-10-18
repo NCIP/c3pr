@@ -40,12 +40,12 @@
     
     <RANDOMIZATIONS id="1001" version="1" dtype="BR" retired_indicator = "false" />
     
-    <EPOCHS id="1000" version="1" name="Treatment1000" description_text="treatement desc" stu_id="1000" type="TREATMENT" retired_indicator = "false" />
-    <EPOCHS id="1001" version="1" name="Treatment1001" description_text="cancer desc" stu_id="1000" type="TREATMENT"  retired_indicator = "false" />
-    <EPOCHS id="1002" version="1" name="Treatment1002" description_text="treatement desc" stu_id="1000" type="TREATMENT"  retired_indicator = "false" />
-    <EPOCHS id="1003" version="1" name="Treatment1003" description_text="cancer desc" stu_id="1000" type="TREATMENT"  retired_indicator = "false" />
-    <EPOCHS id="1004" version="1" name="NonTreatment1004" description_text="non treatement desc" stu_id="1000" type="NON-TREATMENT"  retired_indicator = "false" />
-    <EPOCHS id="1005" version="1" name="NonTreatment1005" description_text="non treatment cancer desc" stu_id="1000" type="NON-TREATMENT"  retired_indicator = "false" />
+    <EPOCHS id="1000" version="1" name="Treatment1000" description_text="treatement desc" stu_id="1000" type="TREATMENT" retired_indicator = "false" epoch_order="0"/>
+    <EPOCHS id="1001" version="1" name="Treatment1001" description_text="cancer desc" stu_id="1000" type="TREATMENT"  retired_indicator = "false" epoch_order="4"/>
+    <EPOCHS id="1002" version="1" name="Treatment1002" description_text="treatement desc" stu_id="1000" type="TREATMENT"  retired_indicator = "false" epoch_order="5"/>
+    <EPOCHS id="1003" version="1" name="Treatment1003" description_text="cancer desc" stu_id="1000" type="TREATMENT"  retired_indicator = "false" epoch_order="2"/>
+    <EPOCHS id="1004" version="1" name="NonTreatment1004" description_text="non treatement desc" stu_id="1000" type="NON-TREATMENT"  retired_indicator = "false" epoch_order="1"/>
+    <EPOCHS id="1005" version="1" name="NonTreatment1005" description_text="non treatment cancer desc" stu_id="1000" type="NON-TREATMENT"  retired_indicator = "false" epoch_order="3"/>
     
     <SCHEDULED_EPOCHS id="1000" version="1" start_date="01-01-2000" eligibility_indicator="true" ELIGIBILITY_WAIVER_REASON_TEXT="reason" spa_id="1000" type="TREATMENT" eph_id="1000" retired_indicator = "false" />  
     

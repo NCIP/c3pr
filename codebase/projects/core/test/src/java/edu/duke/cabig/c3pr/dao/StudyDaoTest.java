@@ -1299,4 +1299,14 @@ public class StudyDaoTest extends DaoTestCase {
 
 	}
 	
+	public void testEpochOrder(){
+		Study study = dao.getById(1000);
+		assertEquals("Wrong Epoch order", "Treatment1000", study.getEpochs().get(0).getName());
+		assertEquals("Wrong Epoch order", "NonTreatment1004", study.getEpochs().get(1).getName());
+		assertEquals("Wrong Epoch order", "Treatment1003", study.getEpochs().get(2).getName());
+		assertEquals("Wrong Epoch order", "NonTreatment1005", study.getEpochs().get(3).getName());
+		assertEquals("Wrong Epoch order", "Treatment1001", study.getEpochs().get(4).getName());
+		assertEquals("Wrong Epoch order", "Treatment1002", study.getEpochs().get(5).getName());
+	}
+	
 }
