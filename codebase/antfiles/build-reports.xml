@@ -289,6 +289,52 @@
     </target>
 
     <!-- =============================================================== -->
+    <!-- Javadoc Generation                                              -->
+    <!-- =============================================================== -->
+
+    <target name="reports-javadoc" depends="prepare" description="Generates javadoc">
+
+        <property name="javadoc.dir" value="${reports.dir}/javadoc"/>
+        <!-- clean -->
+        <delete dir="${javadoc.dir}"/>
+        <mkdir dir="${javadoc.dir}"/>
+
+
+        <for list="${reportable.projects.list}" parallel="false" param="project.name" trim="true">
+            <sequential>
+                <echo message="Generating javadoc for project @{project.name}"/>
+                <javadoc sourcepath="${projects.dir}/@{project.name}/src/java"
+                         destdir="${reports.dir}/javadoc"
+                         author="true"
+                         version="true"
+                         use="true"
+                         windowtitle="C3PRV2 API">
+                    <classpath>
+                        <fileset dir="${management.jar.dir}">
+                            <include name="*.jar"/>
+                        </fileset>
+                        <fileset dir="${projects.dir}/@{project.name}/ext/lib">
+                            <include name="*.jar"/>
+                        </fileset>
+                        <fileset dir="${projects.dir}/@{project.name}/ext/test/lib">
+                            <include name="*.jar"/>
+                        </fileset>
+                        <fileset dir="${projects.dir}/@{project.name}/test/lib">
+                            <include name="*.jar"/>
+                        </fileset>
+                        <fileset dir="${projects.dir}/@{project.name}/lib">
+                            <include name="*.jar"/>
+                        </fileset>
+                    </classpath>
+                </javadoc>
+
+            </sequential>
+        </for>
+
+    </target>
+
+
+    <!-- =============================================================== -->
     <!-- Use Case Tracibility Matrix Report                             -->
     <!-- =============================================================== -->
 
