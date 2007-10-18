@@ -58,6 +58,7 @@
 <c:if test="${command.randomizationType.name == 'BOOK'}">	
 
 	<c:forEach items="${command.treatmentEpochs}" var="epoch" varStatus="epochCount">
+		<c:if test="${epoch.randomizedIndicator}">
 		<div id="book_container_${epochCount.index}" class="test">
 		<chrome:box title="${epoch.name}" id="book_${epochCount.index}" cssClass="paired"> 
 		<br/>
@@ -102,7 +103,7 @@
 <%--	will call this to get display onload in edit mode. but currently gives a hibernate exception
 		<script>uploadBook("", "${epochCount.index}");</script>		--%>		
 		<script>$('book_container_${epochCount.index}').style.height=new String((50+$('book_${epochCount.index}').offsetHeight)+"px")</script>	
-			
+		</c:if>	
 	</c:forEach>	
 	
 </c:if>
@@ -115,6 +116,7 @@
 <!--CALLOUT RANDOMIZATION SECTION-->
 <c:if test="${command.randomizationType.name == 'CALL_OUT'}">
 	<c:forEach items="${command.treatmentEpochs}" var="epoch" varStatus="epochCount">
+	<c:if test="${epoch.randomizedIndicator}">
 		<tags:minimizablePanelBox title="${epoch.name}" boxId="${epoch.name}">
 		<br/>
 	     <table border="0" cellspacing="0" cellpadding="0" id="epoch-${epochCount.index }">         
@@ -127,6 +129,7 @@
 	     </table>
 	     <br/>
 	    </tags:minimizablePanelBox>
+	</c:if>
 	</c:forEach>
 </c:if>
 <!--CALLOUT RANDOMIZATION SECTION-->
@@ -134,6 +137,7 @@
 <!--PHONECALL RANDOMIZATION SECTION-->
 <c:if test="${command.randomizationType.name == 'PHONE_CALL'}">
 	<c:forEach items="${command.treatmentEpochs}" var="epoch" varStatus="epochCount">
+	<c:if test="${epoch.randomizedIndicator}">
 		<tags:minimizablePanelBox title="${epoch.name}" boxId="${epoch.name}">
 		<br/>
 	     <table border="0" cellspacing="0" cellpadding="0" id="epoch-${epochCount.index }">         
@@ -145,6 +149,7 @@
 	     </table>
 	     <br/>
 	    </tags:minimizablePanelBox>
+	</c:if>
 	</c:forEach>
 </c:if>
 <!--PHONECALL RANDOMIZATION SECTION-->
