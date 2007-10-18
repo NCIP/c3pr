@@ -1259,6 +1259,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 		stratificationCriterion.addPermissibleAnswer(new StratificationCriterionPermissibleAnswer());
 		epoch.addStratificationCriterion(stratificationCriterion);
 		epoch.addArm(new Arm());
+		epoch.setRandomizedIndicator(randomized);
 		if(randomized){
 			epoch.setRandomization(new PhonecallRandomization());
 		}

@@ -79,6 +79,7 @@ public class StudyCreationHelper {
         aList.add(armA);
         epoch.getArms().addAll(aList);
         epoch.setName("epoch1");
+        epoch.setRandomizedIndicator(false);
         return epoch;
 	}
     private ArrayList<StratumGroup> buildStratumGroupWithScac() {
@@ -150,7 +151,8 @@ public class StudyCreationHelper {
     }
 
     private void addRandomization(RandomizationType randomizationType, TreatmentEpoch epoch)throws Exception{
-		if(randomizationType==RandomizationType.BOOK)
+    	epoch.setRandomizedIndicator(true);
+    	if(randomizationType==RandomizationType.BOOK)
 			addBookRandomization(epoch);
 		else if(randomizationType==RandomizationType.CALL_OUT)
 			addCalloutRandomization(epoch);
