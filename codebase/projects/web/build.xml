@@ -97,7 +97,7 @@
     <!-- =============================================================== -->
     <path id="test.classpath">
         <path refid="build.classpath"/>
-         <fileset dir="${ext.dir}/compile/lib">
+        <fileset dir="${ext.dir}/compile/lib">
             <include name="c3pr-*.jar"/>
         </fileset>
         <fileset dir="${jar.dir}">
@@ -133,13 +133,18 @@
 
         <property file="${ext.resources.dir}/build.properties"/>
 
+        <!--Unix works for all environments -->
+        <pathconvert targetos="unix" property="tomcat.home.unix">
+            <path location="${tomcat.home}"/>
+        </pathconvert>
+
         <!-- copy log4j -->
         <copy file="${ext.resources.dir}/c3pr-log4j.properties"
               tofile="${webinf.dir}/log4j.properties"
               overwrite="true"
               filtering="true">
             <filterset>
-                <filter token="catalina.home" value="${tomcat.home}"/>
+                <filter token="catalina.home" value="${tomcat.home.unix}"/>
                 <filter token="log4j.filename" value="${log4j.filename}"/>
             </filterset>
         </copy>
@@ -243,7 +248,7 @@
                 <exclude name="*-tests*.jar" />
             </fileset>
         </copy>
-     
+
     </target>
 
     <!-- ====================================================================== -->

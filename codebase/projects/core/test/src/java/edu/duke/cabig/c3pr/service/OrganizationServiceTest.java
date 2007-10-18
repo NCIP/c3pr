@@ -6,7 +6,10 @@ import edu.duke.cabig.c3pr.dao.OrganizationDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.utils.ContextTools;
+import edu.duke.cabig.c3pr.utils.DaoTestCase;
 import gov.nih.nci.security.UserProvisioningManager;
+import gov.nih.nci.security.dao.DIAuthorizationDao;
+import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.test.annotation.AbstractAnnotationAwareTransactionalTests;
 import org.springframework.test.annotation.ExpectedException;
@@ -24,14 +27,14 @@ import org.springframework.test.annotation.ExpectedException;
         })
 public class OrganizationServiceTest extends AbstractAnnotationAwareTransactionalTests {
 
-    private OrganizationService service;
-    private UserProvisioningManager upm;
+    private OrganizationService organizationService;
+    private DIAuthorizationDao csmAuthorizationDao;
     private HealthcareSite dummySite;
-    private OrganizationDao dao;
+    private OrganizationDao organizationDao;
 
     public OrganizationServiceTest() {
-        setAutowireMode(AUTOWIRE_BY_TYPE);
-        String strValue = "test" + String.valueOf(Math.random()).substring(0, 5);
+        setAutowireMode(AUTOWIRE_BY_NAME);
+        String strValue = "test" + String.valueOf(Math.random());
 
 
         dummySite = new HealthcareSite();
@@ -42,24 +45,36 @@ public class OrganizationServiceTest extends AbstractAnnotationAwareTransactiona
     }
 
 
+    protected void onSetUp() throws Exception {
+        super.onSetUp();    //To change body of overridden methods use File | Settings | File Templates.
+        DataAuditInfo.setLocal(DaoTestCase.INFO);
+
+    }
+
+
+    protected void onTearDown() throws Exception {
+        super.onTearDown();    //To change body of overridden methods use File | Settings | File Templates.
+        DataAuditInfo.setLocal(null);
+    }
+
     public void testCreateOrganization() throws Exception {
-        int initialSize = dao.getAll().size();
-        service.save(dummySite);
-        assertEquals(initialSize, dao.getAll().size() - 1);
+        int initialSize = organizationDao.getAll().size();
+        organizationService.save(dummySite);
+        assertEquals(initialSize, organizationDao.getAll().size() - 1);
     }
 
 
     public void testUPM() throws Exception {
-        service.save(dummySite);
+        organizationService.save(dummySite);
         assertEquals(1, jdbcTemplate.queryForInt("Select count(*) from csm_group where group_name='edu.duke.cabig.c3pr.domain.HealthcareSite." + dummySite.getNciInstituteCode() + "'"));
 
     }
 
     @ExpectedException(C3PRBaseException.class)
     public void testDuplicatesNotAllowed() throws Exception {
-        service.save(dummySite);
+        organizationService.save(dummySite);
 
-        service.save(dummySite);
+        organizationService.save(dummySite);
         fail("Should not save duplicate site");
 
     }
@@ -67,7 +82,7 @@ public class OrganizationServiceTest extends AbstractAnnotationAwareTransactiona
 //    @ExpectedException(C3PRBaseException.class)
 //    public void testTransactionCapability() throws Exception{
 //        dummySite.setNciInstituteCode(null);
-//        service.save(dummySite);
+//        organizationService.save(dummySite);
 //        fail("Should not save site");
 //    }
 //
@@ -81,28 +96,28 @@ public class OrganizationServiceTest extends AbstractAnnotationAwareTransactiona
     }
 
 
-    public OrganizationService getService() {
-        return service;
+    public OrganizationService getOrganizationService() {
+        return organizationService;
     }
 
-    public void setService(OrganizationService service) {
-        this.service = service;
-    }
-
-    public UserProvisioningManager getUpm() {
-        return upm;
-    }
-
-    public void setUpm(UserProvisioningManager upm) {
-        this.upm = upm;
+    public void setOrganizationService(OrganizationService organizationService) {
+        this.organizationService = organizationService;
     }
 
 
-    public OrganizationDao getDao() {
-        return dao;
+    public DIAuthorizationDao getCsmAuthorizationDao() {
+        return csmAuthorizationDao;
     }
 
-    public void setDao(OrganizationDao dao) {
-        this.dao = dao;
+    public void setCsmAuthorizationDao(DIAuthorizationDao csmAuthorizationDao) {
+        this.csmAuthorizationDao = csmAuthorizationDao;
+    }
+
+    public OrganizationDao getOrganizationDao() {
+        return organizationDao;
+    }
+
+    public void setOrganizationDao(OrganizationDao organizationDao) {
+        this.organizationDao = organizationDao;
     }
 }
