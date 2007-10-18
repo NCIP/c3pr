@@ -101,6 +101,7 @@ class StudyDetailsTab extends StudyTab {
 		} 
 		
 		if(!study.getRandomizedIndicator()){
+			study.setRandomizationType(null);
 			if(study.getEpochs() instanceof List){
 				List epochList = study.getEpochs();
 				Epoch epoch;
