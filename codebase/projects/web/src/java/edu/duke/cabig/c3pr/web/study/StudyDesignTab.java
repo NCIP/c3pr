@@ -94,7 +94,7 @@ class StudyDesignTab extends StudyTab {
 				epoch = (Epoch)iter.next();
 				if(epoch instanceof TreatmentEpoch){
 					tEpoch = (TreatmentEpoch)epoch;
-					if(study.getRandomizationType() != null && tEpoch.getRandomization() == null){
+					if(study.getRandomizedIndicator() && study.getRandomizationType() != null && tEpoch.getRandomizedIndicator()){
 						if(study.getRandomizationType().equals(RandomizationType.BOOK)){
 							tEpoch.setRandomization(new BookRandomization());														
 				    	}

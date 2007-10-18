@@ -1,8 +1,13 @@
 package edu.duke.cabig.c3pr.web.study;
 
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -89,6 +94,26 @@ class StudyDetailsTab extends StudyTab {
 						study.getFundingSponsorIdentifierIndex());
 			}
 
+		}
+		if(study.getBlindedIndicator()){
+			study.setRandomizedIndicator(true);
+			study.setRandomizationType(RandomizationType.PHONE_CALL);
+		} 
+		
+		if(!study.getRandomizedIndicator()){
+			if(study.getEpochs() instanceof List){
+				List epochList = study.getEpochs();
+				Epoch epoch;
+				TreatmentEpoch tEpoch;
+				Iterator iter = epochList.iterator();
+				while(iter.hasNext()){
+					epoch = (Epoch)iter.next();
+					if(epoch instanceof TreatmentEpoch){
+						tEpoch = (TreatmentEpoch)epoch;
+						tEpoch.setRandomization(null);
+					}
+				}
+			}
 		}
 	}
 
