@@ -28,18 +28,27 @@ function submitRandomization(){
 		</c:when>
 		<c:otherwise>
 			<c:if test="${registration.studySite.study.randomizationType.name == 'PHONE_CALL'}">
-				<font color="Green"><strong>This epoch requires Phone Call Randomization. To randomize, please call the number give below and provide the stratum group.</strong></font><br><br>
+				<font color="Green"><strong>This epoch requires Phone Call Randomization. To randomize, please call the number given below and provide the stratum group.</strong></font><br><br>
 				Phone Number: <strong>${registration.scheduledEpoch.epoch.randomization.phoneNumber}</strong>
 				<br>
 				Stratum Group: <strong>${registration.stratumGroup}</strong><br>
 				<br>
-				Select Arm: 
-				<select name ="scheduledEpoch.scheduledArms[0].arm" class="validate-notEmpty">
-					<option value="" selected>--Please Select--</option>
-					<c:forEach items="${registration.scheduledEpoch.treatmentEpoch.arms}" var="arm">
-					<option value="${arm.id}">${arm.name }</option>
-					</c:forEach>
-				</select>
+				<c:choose>
+					<c:when test="${registration.studySite.study.blindedIndicator}">
+						Enter Kit Number:  
+						<input type="text" name="scheduledEpoch.scheduledArms[0].kitNumber" id="kitNumber" size="20" class="validate-notEmpty"/> 
+					</c:when>
+					<c:otherwise>
+						Select Arm: 
+						<select name ="scheduledEpoch.scheduledArms[0].arm" class="validate-notEmpty">
+							<option value="" selected>--Please Select--</option>
+							<c:forEach items="${registration.scheduledEpoch.treatmentEpoch.arms}" var="arm">
+							<option value="${arm.id}">${arm.name }</option>
+							</c:forEach>
+						</select>
+					</c:otherwise>
+				</c:choose>
+				
 			</c:if>
 			<c:if test="${registration.studySite.study.randomizationType.name == 'BOOK'}">
 				<font color="Green"><strong>This epoch requires Book Randomization. </strong></font>
