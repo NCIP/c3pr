@@ -8,9 +8,11 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionAnswerCombination;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.StratumGroup;
@@ -77,6 +79,14 @@ public class StudyStratificationTab extends StudyTab {
     	//creating groups from the questions & answers for the selected treatemtn epoch
 
 		te = study.getTreatmentEpochs().get(epochCountIndex);
+		//checking for blank qs/ans and returning an error msg if so.
+		if(hasBlankQuestionOrAnswer(te)){
+			String message = "No blank Questions or Answers allowed";
+			Map map=new HashMap();
+	    	map.put(getFreeTextModelName(), message);
+	    	return new ModelAndView("",map);
+		}
+		
 		//clear the existing groups first.(incase the user cilcks on generate twice)
 		te.getStratumGroups().clear();
 		
@@ -136,6 +146,31 @@ public class StudyStratificationTab extends StudyTab {
     	}
     	return sgList;
     }  
+	
+	public boolean hasBlankQuestionOrAnswer(TreatmentEpoch te){
+		List<StratificationCriterion> scList = te.getStratificationCriteria();
+		List<StratificationCriterionPermissibleAnswer> scpaList;
+		Iterator scIter = scList.iterator();
+		Iterator scpaIter;
+		StratificationCriterion sc;
+		StratificationCriterionPermissibleAnswer scpa;
+		while(scIter.hasNext()){
+			sc = (StratificationCriterion)scIter.next();
+			if(StringUtils.isEmpty(sc.getQuestionText())){
+				return true;
+			}
+			scpaList = sc.getPermissibleAnswers();
+			scpaIter = scpaList.iterator();
+			while(scpaIter.hasNext()){
+				scpa = (StratificationCriterionPermissibleAnswer)scpaIter.next();
+				if(StringUtils.isEmpty(scpa.getPermissibleAnswer())){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
 	
 	public List<StratificationCriterionAnswerCombination> cloneScac(List<StratificationCriterionAnswerCombination> scacList){
 		
