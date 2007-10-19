@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -684,7 +685,8 @@ public class Study extends AbstractMutableDeletableDomainObject implements
 	public void setDataEntryStatus(StudyDataEntryStatus dataEntryStatus) {
 		this.dataEntryStatus = dataEntryStatus;
 	}
-
+	
+	@Column(name="status")
 	@Enumerated(EnumType.STRING)
 	public CoordinatingCenterStudyStatus getCoordinatingCenterStudyStatus() {
 		return coordinatingCenterStudyStatus;
