@@ -24,6 +24,8 @@ public class ScheduledArm extends AbstractMutableDeletableDomainObject {
 	private String eligibilityWaiverReasonText;
 
 	private Arm arm;
+	
+	private String kitNumber;
 
 	public ScheduledArm() {
 		this.startDate=new Date();
@@ -62,5 +64,13 @@ public class ScheduledArm extends AbstractMutableDeletableDomainObject {
 
 	public void setEligibilityWaiverReasonText(String eligibilityWaiverReasonText) {
 		this.eligibilityWaiverReasonText = eligibilityWaiverReasonText;
+	}
+
+	public String getKitNumber() {
+		return kitNumber;
+	}
+
+	public void setKitNumber(String kitNumber) {
+		this.kitNumber = kitNumber;
 	}
 }
