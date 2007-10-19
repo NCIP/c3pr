@@ -168,7 +168,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 </td>
 <td valign="top">
     <chrome:box id="Summary" title="Investigators Summary">
-        <font size="2"><b> Study Sites </b> </font>
+        <font size="2"><b> Study Organizations </b> </font>
         <br><br>
         <table border="0" id="table1" cellspacing="0" cellpadding="0" width="100%">
             <c:forEach var="studySite" varStatus="status" items="${command.studyOrganizations}">

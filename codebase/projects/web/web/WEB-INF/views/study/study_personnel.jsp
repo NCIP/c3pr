@@ -10,6 +10,10 @@
 
 
 <html>
+<c:set var="selected_site" value="0"/>
+<c:if test="${not empty selectedSite}">
+	<c:set var="selected_site" value="${selectedSite}"/>
+</c:if>
 <head>
 <style type="text/css">
     .label {
@@ -57,68 +61,33 @@
         },
         valueSelector: function(obj) {
             return obj.fullName
-        }
+        },
+          afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+    								hiddenField=inputElement.id.split("-")[0]+"-hidden";
+	    							$(hiddenField).value=selectedChoice.id;
+								}
     }
-
-
-    function acPostSelect(mode, selectedChoice) {
-        $(mode.basename).value = selectedChoice.id;
+    
+  var instanceRowInserterProps = {
+       add_row_division_id: "studyPersonnelTable", 	        /* this id belongs to element where the row would be appended to */
+       skeleton_row_division_id: "dummy-row",
+       initialIndex: ${fn:length(command.studyOrganizations[selected_site].studyPersonnel)},   /* this is the initial count of the rows when the page is loaded  */
+       softDelete: ${softDelete == 'true'},
+	   path: "studyOrganizations[${selected_site}].studyPersonnel",                            /* this is the path of the collection that holds the rows  */
+       postProcessRowInsertion: function(object){
+        clonedRowInserter=Object.clone(personnelAutocompleterProps);
+		clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;
+		AutocompleterManager.registerAutoCompleter(clonedRowInserter);
+    },
+    onLoadRowInitialize: function(object, currentRowIndex){
+		clonedRowInserter=Object.clone(personnelAutocompleterProps);
+		clonedRowInserter.basename=clonedRowInserter.basename+currentRowIndex;
+		AutocompleterManager.registerAutoCompleter(clonedRowInserter);
     }
+};
+RowManager.addRowInseter(instanceRowInserterProps); 
 
-    function updateSelectedDisplay(mode) {
 
-        if ($(mode.basename).value) {
-            Element.update(mode.basename + "-selected-name", $(mode.basename + "-input").value)
-            $(mode.basename + '-selected').show()
-        }
-    }
-
-    function acCreate(mode) {
-        new Autocompleter.DWR(mode.basename + "-input", mode.basename + "-choices",
-                mode.populator, {
-            valueSelector: mode.valueSelector,
-            afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
-                acPostSelect(mode, selectedChoice)
-            },
-            indicator: mode.basename + "-indicator"
-        })
-        Event.observe(mode.basename + "-clear", "click", function() {
-            //$(mode.basename + "-selected").hide()
-            $(mode.basename).value = ""
-            $(mode.basename + "-input").value = ""
-        })
-    }
-
-    function fireListeners(count)
-    {
-        index = 0;
-        autoCompleteId = 'personnel' + index;
-        for (i = 0; i < count; i++)
-        {
-            // change the basename property to agent0 ,agent1 ...
-            personnelAutocompleterProps.basename = autoCompleteId
-            acCreate(personnelAutocompleterProps)
-            index++
-            autoCompleteId = 'personnel' + index;
-        }
-
-        personnelAutocompleterProps.basename = 'personnel' + count;
-        acCreate(personnelAutocompleterProps);
-    }
-
-    Event.observe(window, "load", function() {
-        index = 0;
-        autoCompleteId = 'personnel' + index;
-        while ($(autoCompleteId))
-        {
-            // change the basename property to personnel0 ,personnel1 ...
-            personnelAutocompleterProps.basename = autoCompleteId
-            acCreate(personnelAutocompleterProps)
-            index++
-            autoCompleteId = 'personnel' + index;
-        }
-        //Element.update("flow-next", "Continue &raquo;")
-    })
 
 </script>
 </head>
@@ -153,25 +122,6 @@
     Choose an organization
 </p>
 
-<script type="text/javascript">
-    var instanceRowInserterProps = {
-
-        add_row_division_id: "studyPersonnelTable", 	        /* this id belongs to element where the row would be appended to */
-        skeleton_row_division_id: "dummy-row",
-        initialIndex: ${fn:length(command.studyOrganizations[selected_site].studyPersonnel)},            /* this is the initial count of the rows when the page is loaded  */
-        softDelete: ${softDelete == 'true'},
-    	path: "studyOrganizations[${selected_site}].studyPersonnel"
-    };
-    RowManager.addRowInseter(instanceRowInserterProps);
-
-
-    function addRow(){
-        RowManager.addRow(instanceRowInserterProps);
-        var indexValue = instanceRowInserterProps.localIndex - 1;
-        fireListeners(indexValue);
-    }
-</script>
-
 <table border="0" id="table1" cellspacing="0">
     <tr>
         <td align="left"> <span class="required-indicator"><b>Organization:</b></span></td>
@@ -192,6 +142,7 @@
         </td>
     </tr>
 </table>
+<input type="hidden" id="selectedStudySite" value="${selectedStudySite }"/>
 <br>
 <hr>
 
@@ -206,7 +157,7 @@
     <c:forEach varStatus="status" items="${command.studyOrganizations[selected_site].studyPersonnel}">
         <tr id="studyPersonnelTable-${status.index}">
             <td>
-                <form:hidden id="personnel${status.index}"
+                <form:hidden id="personnel${status.index}-hidden"
                              path="studyOrganizations[${selected_site}].studyPersonnel[${status.index}].researchStaff"/>
                 <input type="text" class="validate-notEmpty" id="personnel${status.index}-input" size="30"
                        value="${command.studyOrganizations[selected_site].studyPersonnel[status.index].researchStaff.fullName}"/>
@@ -226,9 +177,9 @@
                     <option value="">--Please Select--</option>
                     <form:options items="${studyPersonnelStatusRefData}" itemLabel="desc" itemValue="desc"/>
                 </form:select></td>
-            <td>
-                <a href="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index});"><img
-                        src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a></td>
+           <td>
+                    <a href="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index});"><img
+                            src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a></td>
         </tr>
     </c:forEach>
 </table>
@@ -236,7 +187,7 @@
 
 <td valign="top" width="25%">
     <chrome:box id="Summary" title="Personnel Summary">
-        <font size="2"><b> Study Sites </b> </font>
+        <font size="2"><b> Study Organizations </b> </font>
         <br><br>
         <table border="0" id="table1" cellspacing="0" cellpadding="0" width="100%">
             <c:forEach var="studySite" varStatus="status" items="${command.studyOrganizations}">
@@ -275,8 +226,8 @@
 </jsp:attribute>
 
 <jsp:attribute name="localButtons">
-    <input type="button" onclick="addRow();" value="Add Research Staff"/>
-</jsp:attribute>
+        <input type="button" onclick="RowManager.addRow(instanceRowInserterProps);" value="Add Research Staff Person"/>
+    </jsp:attribute>
 
 </tags:tabForm>
 
@@ -284,7 +235,7 @@
     <table>
         <tr id="studyPersonnelTable-PAGE.ROW.INDEX">
             <td>
-                <input type="hidden" id="personnelPAGE.ROW.INDEX"
+                <input type="hidden" id="personnelPAGE.ROW.INDEX-hidden"
                        name="studyOrganizations[${selected_site}].studyPersonnel[PAGE.ROW.INDEX].researchStaff"
                        value="studyOrganizations[${selected_site}].studyPersonnel[PAGE.ROW.INDEX].researchStaff"/>
                 <input type="text" class="validate-notEmpty" id="personnelPAGE.ROW.INDEX-input" size="30"
