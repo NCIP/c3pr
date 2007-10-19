@@ -28,6 +28,7 @@ function accessApp(url,app,targetWindow){
 </script>
 </head>
 <body>
+<div id="main">
 <c:choose>
 <c:when test="${not empty registrationException}">
 <tags:panelBox title="Error Registering" boxId="ConfMessage">
@@ -39,6 +40,7 @@ function accessApp(url,app,targetWindow){
 </c:choose>
 <form name="navigationForm" id="navigationForm" method="post"></form>
 <tags:panelBox title="Confirmation Message" boxId="ConfMessage">
+<br/>
 	<!-- newRegistration: ${newRegistration}<br>
 	reg_registered :${reg_registered }<br>
 	reg_nonenrolled:${reg_nonenrolled }<br>
@@ -156,9 +158,6 @@ function accessApp(url,app,targetWindow){
 	<hr align="left" width="95%">
 	<table width="60%">
 		<tr>
-			<td>&nbsp;</td>
-		</tr>
-		<tr>
 			<td class="label" align="left"><a
 				href="javascript:accessApp('http://10.10.10.2:8030','caaers/pages/ae/list?assignment=${command.gridId }','_caaers');">
 			<b>Adverse Event Reporting</a> </b></td>
@@ -191,5 +190,6 @@ function accessApp(url,app,targetWindow){
 <c:if test="${actionRequired}">
 	<registrationTags:register registration="${command}" newReg="${newRegistration}" actionButtonLabel="${actionLabel}" requiresMultiSite="${requiresMultiSite}"/>
 </c:if>
+</div>
 </body>
 </html>
