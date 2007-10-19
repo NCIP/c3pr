@@ -11,6 +11,10 @@
 
 
 <html>
+<c:set var="selected_site" value="0"/>
+<c:if test="${not empty selectedSite}">
+	<c:set var="selected_site" value="${selectedSite}"/>
+</c:if>
 <head>
 <tags:includeScriptaculous/>
 <tags:dwrJavascriptLink objects="StudyAjaxFacade"/>
@@ -81,10 +85,6 @@ RowManager.addRowInseter(instanceRowInserterProps);
 		</tr>
     </c:when>
     <c:otherwise>
-        <c:set var="selected_site" value="0"/>
-        <c:if test="${not empty selectedSite}">
-            <c:set var="selected_site" value="${selectedSite}"/>
-        </c:if>
   <div>
       <input type="hidden" name="_action" value="">
       <input type="hidden" name="_selected" value="">
@@ -129,7 +129,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 
     <table border="0" id="investigatorsTable" cellspacing="0" class="tablecontent">
         <tr>
-            <th><span class="required-indicator">Investigator</span></th>
+            <th><span class="required-indicator">Investigator-${fn:length(command.studyOrganizations[selected_site].studyInvestigators)}</span></th>
             <th><span class="required-indicator">Role</span></th>
             <th><span class="required-indicator">Status</span></th>
             <th></th>
