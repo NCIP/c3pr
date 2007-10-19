@@ -304,7 +304,7 @@
             <sequential>
                 <echo message="Generating javadoc for project @{project.name}"/>
                 <javadoc sourcepath="${projects.dir}/@{project.name}/src/java"
-                         destdir="${reports.dir}/javadoc"
+                         destdir="${reports.dir}/javadoc/@{project.name}"
                          author="true"
                          version="true"
                          use="true"
