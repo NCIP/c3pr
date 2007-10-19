@@ -4,7 +4,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <html>
 <head>
@@ -314,7 +313,7 @@
                                         
                                     </th>
                                     <td><select
-                                        name="nonTreatmentEpochs[PAGE.ROW.INDEX].randomizedIndicator" 
+                                        name="treatmentEpochs[PAGE.ROW.INDEX].randomizedIndicator" 
                                         class="validate-notEmpty">
                                     <option value="">--Please Select--</option>
                                     <option value="true">Yes</option>
