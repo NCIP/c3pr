@@ -52,11 +52,9 @@ var organizationIdentifierRowInserterProps = {
 		   AutocompleterManager.registerAutoCompleter(clonedRowInserter);
 	   },
        onLoadRowInitialize: function(object, currentRowIndex){
-       		if(currentRowIndex>object.initialIndex){
-				clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
-				clonedRowInserter.basename=clonedRowInserter.basename+currentRowIndex;
-				AutocompleterManager.registerAutoCompleter(clonedRowInserter);
-			}
+			clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
+			clonedRowInserter.basename=clonedRowInserter.basename+currentRowIndex;
+			AutocompleterManager.registerAutoCompleter(clonedRowInserter);
        }
 };
 RowManager.addRowInseter(systemIdentifierRowInserterProps);
@@ -85,54 +83,68 @@ function manageIdentifierRadio(element){
 					<th>Primary&nbsp;Indicator</th>
 					<th></th>
 				</tr>
+				<tr>
+					<td>${command.organizationAssignedIdentifiers[0].healthcareSite.name}</td>
+					<td>${command.organizationAssignedIdentifiers[0].type}</td>
+					<td>${command.organizationAssignedIdentifiers[0].value}</td>
+					<td><form:radiobutton cssClass="identifierRadios" value="true" disabled="true" path="organizationAssignedIdentifiers[0].primaryIndicator"/></td>
+				</tr>
+				<c:if test="${!empty command.fundingSponsorAssignedIdentifier}">
+				<tr>
+					<td>${command.fundingSponsorAssignedIdentifier.healthcareSite.name}</td>
+					<td>${command.fundingSponsorAssignedIdentifier.type}</td>
+					<td>${command.fundingSponsorAssignedIdentifier.value}</td>
+					<td><form:radiobutton cssClass="identifierRadios" value="true" disabled="true" path="organizationAssignedIdentifiers[${command.fundingSponsorIdentifierIndex}].primaryIndicator"/></td>
+				</tr>
+				</c:if>
 				<c:forEach var="orgIdentifier" items="${command.organizationAssignedIdentifiers}"
 					begin="0" varStatus="organizationStatus">
-					<c:choose>
-					<c:when test="${(orgIdentifier.type eq 'Protocol Authority Identifier') || (orgIdentifier.type eq 'Coordinating Center Identifier')}">
+					<c:if test="${(orgIdentifier.type eq 'Protocol Authority Identifier') || (orgIdentifier.type eq 'Coordinating Center Identifier')}">
+						<c:set var="handleDifferently" value="true"></c:set>
+					</c:if>
 					<tr id="organizationIdentifier-${organizationStatus.index}">
-						<td>${orgIdentifier.healthcareSite.name}</td>
-						<td>${orgIdentifier.type}</td>
-						<td>${orgIdentifier.value}</td>
-						<td><form:radiobutton cssClass="identifierRadios" value="true" disabled="true" path="organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator"/></td>
-					</tr>
-					</c:when>
-					<c:otherwise>
-					
-					<tr id="organizationIdentifier-${organizationStatus.index}">
-						<td><input type="hidden"
-							id="healthcareSite${organizationStatus.index}-hidden"
-							name="organizationAssignedIdentifiers[${organizationStatus.index}].healthcareSite"
-							value="${command.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.id}" />
+						<td><form:hidden id="healthcareSite${organizationStatus.index}-hidden"
+							path="organizationAssignedIdentifiers[${organizationStatus.index}].healthcareSite"
+							 />
 						<input class="validate-notEmpty" type="text"
 							id="healthcareSite${organizationStatus.index}-input" size="50"
 							value="${command.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.name}" />
-						<input type="button"
-							id="healthcareSite${organizationStatus.index}-clear"
+						<input type="button" id="healthcareSite${organizationStatus.index}-clear"
 							value="Clear" /> <tags:indicator
 							id="healthcareSite${organizationStatus.index}-indicator" />
 						<div id="healthcareSite${organizationStatus.index}-choices"
 							class="autocomplete"></div>
 						</td>
-						<td><form:select
-							path="organizationAssignedIdentifiers[${organizationStatus.index}].type"
-							cssClass="validate-notEmpty">
-							<option value="">--Please Select--</option>
-							<form:options items="${identifiersTypeRefData}" itemLabel="desc"
-								itemValue="desc" />
-						</form:select></td>
+						<td>
+						<c:choose>
+						<c:when test="${handleDifferently}">
+							<form:input path="organizationAssignedIdentifiers[${organizationStatus.index}].type" cssClass="validate-notEmpty"/>
+						</c:when>
+						<c:otherwise>
+							<form:select
+								path="organizationAssignedIdentifiers[${organizationStatus.index}].type"
+								cssClass="validate-notEmpty">
+								<option value="">--Please Select--</option>
+								<form:options items="${identifiersTypeRefData}" itemLabel="desc"
+									itemValue="desc" />
+							</form:select>
+						</c:otherwise>
+						</c:choose>
+						</td>
 						<td><form:input
 							path="organizationAssignedIdentifiers[${organizationStatus.index}].value"
 							onfocus="clearField(this)" cssClass="validate-notEmpty" /></td>
 						<td><form:radiobutton
 							path="organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator"
-							value="true" cssClass="identifierRadios" onclick="manageIdentifierRadio(this);"/></td>
+							value="true" cssClass="${handleDifferently?'identifierRadios':''}" onclick="manageIdentifierRadio(this);"/></td>
 						<td><a
 							href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,${organizationStatus.index});"><img
 							src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 					</tr>
-					</c:otherwise>
-					</c:choose>
-					
+					<c:if test="${handleDifferently}">
+						<script>new Element.hide("organizationIdentifier-${organizationStatus.index}");</script>
+					</c:if>
+					<c:set var="handleDifferently" value="false"></c:set>
 				</c:forEach>
 			</table>
 
