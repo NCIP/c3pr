@@ -23,57 +23,75 @@ import edu.emory.mathcs.backport.java.util.Collections;
  * @author Priyatam
  */
 public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
-	
-	private static Log log = LogFactory.getLog(InvestigatorDao.class);
-	private static final List<String> SUBSTRING_MATCH_PROPERTIES	
-		= Arrays.asList("firstName", "lastName");
-	private static final List<String> EXACT_MATCH_PROPERTIES
-		= Collections.emptyList();
-	private static final List<Object> EXTRA_PARAMS
-		= Collections.emptyList();
-		
-	@Override
-	public Class<ResearchStaff> domainClass() {
-		return ResearchStaff.class;
-	 }
-	
-	/*
-	 * Returns all ResearchStaff objects
-	 */
-	 public List<ResearchStaff> getAll() {
-		 return getHibernateTemplate().find("from ResearchStaff");
-	 }
-	 
-	 public List<ResearchStaff> getBySubnames(String[] subnames, int healthcareSite) {
-	        return findBySubname(subnames,"o.healthcareSite.id = '"+healthcareSite+"'",EXTRA_PARAMS,
-	            SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
-	 }	
-	 	 
-	 public List<ResearchStaff> searchByExample(ResearchStaff inv, boolean isWildCard) {
-	        List<ResearchStaff> result = new ArrayList<ResearchStaff>();
 
-	        Example example = Example.create(inv).excludeZeroes().ignoreCase();
-	        try {
-	            Criteria criteria = getSession().createCriteria(ResearchStaff.class);
-	            criteria.addOrder(Order.asc("nciIdentifier"));
-	            criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
-	            
-	            if (isWildCard)
-	            {
-	                example.enableLike(MatchMode.ANYWHERE);
-	                criteria.add(example);
-	                result =  criteria.list();
-	            }else{
-	            	result =  criteria.add(example).list();
-	            }
-	            
-	        } catch (DataAccessResourceFailureException e) {
-	            log.error(e.getMessage());
-	        } catch (IllegalStateException e) {
-	            e.printStackTrace(); 
-	        } catch (HibernateException e) {
-	            log.error(e.getMessage());
-	        }
-	        return result;
-	    }
+    private static Log log = LogFactory.getLog(InvestigatorDao.class);
+    private static final List<String> SUBSTRING_MATCH_PROPERTIES
+            = Arrays.asList("firstName", "lastName");
+    private static final List<String> EXACT_MATCH_PROPERTIES
+            = Collections.emptyList();
+    private static final List<Object> EXTRA_PARAMS
+            = Collections.emptyList();
+
+    @Override
+    public Class<ResearchStaff> domainClass() {
+        return ResearchStaff.class;
+    }
+
+    /*
+      * Returns all ResearchStaff objects
+      */
+    public List<ResearchStaff> getAll() {
+        return getHibernateTemplate().find("from ResearchStaff");
+    }
+
+    public List<ResearchStaff> getBySubnames(String[] subnames, int healthcareSite) {
+        return findBySubname(subnames,"o.healthcareSite.id = '"+healthcareSite+"'",EXTRA_PARAMS,
+                SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
+    }
+
+    public List<ResearchStaff> searchByExample(ResearchStaff staff, boolean isWildCard) {
+        List<ResearchStaff> result = new ArrayList<ResearchStaff>();
+
+        Example example = Example.create(staff).excludeZeroes().ignoreCase();
+        try {
+            Criteria criteria = getSession().createCriteria(ResearchStaff.class);
+            criteria.addOrder(Order.asc("nciIdentifier"));
+            criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+
+            if (isWildCard)
+            {
+                example.enableLike(MatchMode.ANYWHERE);
+                criteria.add(example);
+                result =  criteria.list();
+            }else{
+                result =  criteria.add(example).list();
+            }
+
+        } catch (DataAccessResourceFailureException e) {
+            log.error(e.getMessage());
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        } catch (HibernateException e) {
+            log.error(e.getMessage());
+        }
+        return result;
+    }
+
+    
+
+    public ResearchStaff getByNciIdentifier(String nciIdentifier){
+        ResearchStaff result = null;
+
+        ResearchStaff staff = new ResearchStaff();
+        staff.setNciIdentifier(nciIdentifier);
+
+        try {
+            result = searchByExample(staff,false).get(0);
+        } catch (Exception e) {
+            log.debug("User with nciIdentifier " + nciIdentifier + " does not exist. Returning null");
+        }
+
+        return result;
+    }
+
 }

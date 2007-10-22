@@ -257,6 +257,10 @@
         <property name="formView" value="admin/research_staff_details"/>
         <property name="successView" value="admin/research_staff_confirmation"/>
         <property name="sessionForm" value="true" />
+        <property name="validator">
+            <bean class="edu.duke.cabig.c3pr.utils.web.validators.UsernameDuplicateValidator"
+                  autowire="byType"/>
+        </property>
     </bean>
 
     <bean name="/admin/viewInvestigator" id="viewInvestigatorController" autowire="byType"
