@@ -55,7 +55,6 @@
         <mkdir dir="${management.jar.dir}" />
 
         <!--no option but to call this target-->
-        <echo message="BULLSHIT SHOULD NOT HAPPEN"/>
         <antcall target="resolve-ctms-dependencies"/>
 
         <javac srcdir="${management.src.dir}" destdir="${management.classes.dir}" debug="on" deprecation="off" optimize="off">
