@@ -15,13 +15,13 @@
             <or>
                 <not>
                     <isset property="ext.cacore.toolkit.home"/>
-                 </not>
-                    <equals arg1="${ext.cacore.toolkit.home}" arg2=""/>
+                </not>
+                <equals arg1="${ext.cacore.toolkit.home}" arg2=""/>
             </or>
         </condition>
         <fail message="cacore toolkit home not set.
         Please set environment variable CACORE_TOOLKIT_HOME or property ext.cacore.toolkit.home"
-                    if="cacore.toolkit.not.found"/>
+              if="cacore.toolkit.not.found"/>
         <echo message="cacore.toolkit: ${ext.cacore.toolkit.home}"/>
     </target>
 
@@ -74,21 +74,28 @@
     <!-- ============================================================== -->
 
     <target name="checkMaven" depends="setMaven">
-          <condition property="maven.not.found">
-              <or>
-                  <not><isset property="ext.maven.dir"/></not>
-                  <equals arg1="${ext.maven.dir}" arg2=""/>
-              </or>
-          </condition>
-          <fail message="Maven directory is not set in either MAVEN_HOME or ext.maven.dir" if="maven.not.found"/>
-          <echo message="Maven: ${ext.maven.dir}"/>
-      </target>
-      <target name="setMaven" if="env.MAVEN_HOME">
-          <property name="ext.maven.dir" value="${env.MAVEN_HOME}"/>
-      </target>
+        <condition property="maven.not.found">
+            <or>
+                <not><isset property="ext.maven.dir"/></not>
+                <equals arg1="${ext.maven.dir}" arg2=""/>
+            </or>
+        </condition>
+        <fail message="Maven directory is not set in either MAVEN_HOME or ext.maven.dir" if="maven.not.found"/>
+        <echo message="Maven: ${ext.maven.dir}"/>
+    </target>
+    <target name="setMaven" if="env.MAVEN_HOME">
+        <property name="ext.maven.dir" value="${env.MAVEN_HOME}"/>
+    </target>
 
-      <!-- ============================================================== -->
+    <!-- ============================================================== -->
 
+
+    <target name="deployGlobus" depends="checkGlobus,checkTomcat">
+        <ant dir="${ext.globus.dir}\share\globus_wsrf_common\tomcat"
+             antfile="tomcat.xml"  target="deployTomcat">
+            <property name="tomcat.dir" value="${ext.tomcat.dir}"/>
+        </ant>
+    </target>
 
     <target name="instructions" description="Default Target">
         <echo message="============= Don't execute directly ============"/>
