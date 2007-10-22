@@ -113,10 +113,10 @@
                                     <td><form:input path="treatmentEpochs[${treatmentEpochCount.index}].epochOrder" size="5"
                                                cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
                                 </tr>
+                                <c:if test="${command.randomizedIndicator== true}">
                                  <tr>
                                     <th>
                                         <span class="required-indicator">Randomization Indicator:</span>
-                                        
                                     </th>
                                     <td><form:select
                                         path="treatmentEpochs[${treatmentEpochCount.index}].randomizedIndicator"
@@ -125,6 +125,7 @@
                                      <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
                                 </form:select><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
                                 </tr>
+                                </c:if>
                             </table>
                         </td>
                         <td valign="top">
@@ -307,6 +308,7 @@
                                                name="treatmentEpochs[PAGE.ROW.INDEX].epochOrder" size="5"
                                                class="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
                                 </tr>
+                                 <c:if test="${command.randomizedIndicator== true}">
                                  <tr>
                                     <th>
                                         <span class="required-indicator">Randomization Indicator:</span>
@@ -320,6 +322,7 @@
                                     <option value="false">No</option>
                                 </select><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
                                 </tr>
+                                </c:if>
                             </table>
                         </td>
                         <td valign="top">
