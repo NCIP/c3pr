@@ -34,7 +34,7 @@ This is the install config for c3prv2 installer
             displayText="License Agreement"
             resource="/resources/c3prv2_license.txt"/>
 
-    <page
+    <page   target="prepare"
             type="input"
             name="DeployDir"
             displayText="Installation directory">
@@ -84,7 +84,41 @@ This is the install config for c3prv2 installer
                 checkExists="true"/>
     </page>
 
-    <page type="text"
+    <!--Select what to install-->
+    <page   type="input"
+            name="selectComponents"
+            displayText="Components to install">
+        <comment
+                displayText="Choose the components you want to install"
+                bold="true"/>
+        <target
+                displayText="C3PRV2 Web Application"
+                target="deploy-webapp"
+                defaultValue="true"
+                />
+        <target
+                displayText="C3PRV2 Source Code"
+                target="deploy-codebase"
+                defaultValue="false"
+                />
+        <comment displayText="Note:Source code will be installed in ${install.dir}/codebase"/>
+
+        <comment displayText=""/>
+        <target
+                displayText="C3PRV2 Study Consumer Grid Service"
+                target="deploy-grid-C3PRStudyConsumer"
+                defaultValue="false"
+                />
+        <target
+                displayText="C3PRV2 Registration Consumer Grid Service"
+                target="deploy-grid-C3PRStudyConsumer"
+                defaultValue="false"
+                />
+        <comment displayText="Globus/caGrid should be deployed prior to deploying the grid services."/>
+
+    </page>
+
+     <page type="text"
           name="existingTomcatInstructions"
           ifTarget="installExistingTomcat"
           htmlResource="/resources/Existing_Tomcat_Instructions.html"
@@ -109,30 +143,6 @@ This is the install config for c3prv2 installer
                 bold="true"/>
     </page>
 
-    <!--Select what to install-->
-    <page
-            type="input"
-            name="selectComponents"
-            displayText="Components to install">
-        <comment
-                displayText="Choose the components you want to install"
-                bold="true"/>
-        <target
-                displayText="C3PRV2 Web Application"
-                target="deploy-webapp"
-                defaultValue="true"
-                force="true"
-                />
-        <target
-                displayText="C3PRV2 Source Code"
-                target="deploy-codebase"
-                defaultValue="true"
-                />
-        <comment displayText="Note:Source code will be installed in ${install.dir}/codebase"/>
-
-    </page>
-
-
     <!--CSM configure-->
     <page
             type="input"
@@ -149,8 +159,6 @@ This is the install config for c3prv2 installer
         <comment
                 displayText="Note: Unselect only if you know what you are doing."
                 bold="true"/>
-        <!--set this property anyway-->
-        <hidden property="csm.context.name" value="c3pr"/>
     </page>
 
     <page
@@ -179,17 +187,6 @@ This is the install config for c3prv2 installer
             <option text="PostgreSQL" value="postgres"/>
             <option text="Other/none" value="none"/>
         </select>
-    </page>
-
-    <page type="input"
-          name="createDatabaseChoice"
-          displayText="Create Database"
-          ifProperty="${database.type}!=none">
-        <target
-                displayText="Create/Update Database"
-                target="database.migrate"
-                defaultValue="true"
-                />
     </page>
 
     <page
@@ -259,6 +256,19 @@ This is the install config for c3prv2 installer
                 value="org.hibernate.dialect.PostgreSQLDialect"/>
     </page>
 
+    <page type="input"
+          name="createDatabaseChoice"
+          displayText="Create Database"
+          ifTarget="deploy-webapp"
+          ifProperty="${database.type}!=none">
+        <target
+                displayText="Create/Update Database"
+                target="database.migrate"
+                defaultValue="true"
+                />
+    </page>
+
+    
     <page
             type="input"
             name="email"
@@ -282,6 +292,7 @@ This is the install config for c3prv2 installer
     <page
             type="input"
             name="hotlinks"
+            ifTarget="deploy-webapp"
             displayText="CTMSi Hot Links">
         <text property="hotlinks.psc"
               displayText="PSC Hotlink"

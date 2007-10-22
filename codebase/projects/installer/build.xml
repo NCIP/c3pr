@@ -73,28 +73,48 @@ ant -buildfile build-c3prv2.xml
     </target>
 
 
+    <!-- ================================================================= -->
+       <!-- Builds the offline version of installer                        -->
+       <!-- ============================================================== -->
+       <target name="build-offline-installer"
+               depends="prepare"
+               description="Builds c3prv2 self extracting installer">
+
+
+           <installer file="${c3prv2.installer.artifact}" compress="true"
+                      extractType="NonExtractor"
+                      installConfig="${c3prv2.installer.dir}/antinstall-config.xml"
+                      buildFile="${c3prv2.installer.dir}/build-offline.xml"
+                      antInstallLib="${basedir}/lib"
+                      antLib="${basedir}/antlib${ant.lib.version}"
+                      icons="eclipse">
+               <fileset dir="${ext.dir}">
+                   <include name="*.zip"/>
+               </fileset>
+               <fileset dir="${basedir}" includes="resources/*"/>
+               <!--include bundled software -->
+               <fileset dir="${software.dir}" includes="*"/>
+               <fileset dir="${c3prv2.installer.dir}" includes="*.properties"/>
+           </installer>
+
+       </target>
+
     <!-- ============================================================== -->
-    <!-- Builds the installer                                           -->
+    <!-- Builds the online(default) version of installer                -->
     <!-- ============================================================== -->
     <target name="build-installer"
             depends="prepare"
             description="Builds c3prv2 self extracting installer">
 
-
         <installer file="${c3prv2.installer.artifact}" compress="true"
                    extractType="NonExtractor"
                    installConfig="${c3prv2.installer.dir}/antinstall-config.xml"
-                   buildFile="${c3prv2.installer.dir}/build.xml"
+                   buildFile="${c3prv2.installer.dir}/build-online.xml"
                    antInstallLib="${basedir}/lib"
                    antLib="${basedir}/antlib${ant.lib.version}"
                    icons="eclipse">
-            <fileset dir="${ext.dir}">
-                <include name="*.zip"/>
-            </fileset>
             <fileset dir="${basedir}" includes="resources/*"/>
-            <!--include bundled software -->
-            <fileset dir="${software.dir}" includes="*"/>
-
+            <fileset dir="${c3prv2.installer.dir}" includes="*.properties"/>
         </installer>
 
     </target>

@@ -40,7 +40,7 @@
     <!-- ================================================================================ -->
     <!-- The name should be the path relative from projects.dir.  Its strongly encouraged you use a flat layout caTissueCAEDataService, caTissueCoreDataService,  -->
     <property name="projects.list"
-        value="core, web, grid, esb-client, installer, servicemix, test-system"/>
+              value="core, web, grid, esb-client, installer, servicemix, test-system"/>
 
     <!-- ================================================================================ -->
     <!--                  DEFINE THE SUB PROJECTS THAT SUPPORT TESTING                    -->
@@ -67,7 +67,7 @@
     <!-- CORE                                                             -->
     <!-- =============================================================== -->
     <target name="build-core" depends="prepare"
-        description="Builds the core project (Services, dao, domain">
+            description="Builds the core project (Services, dao, domain">
         <resolveDependencies extdir="${projects.dir}/core/ext">
             <artifact refid="common.test.jars"/>
             <artifact refid="ctms-commons.jars"/>
@@ -142,7 +142,7 @@
 
     <!--Does a local build. For Developers use only -->
     <target name="deploy-webapp-local" depends="build-web"
-        description="Deploys webapp on your web/web local">
+            description="Deploys webapp on your web/web local">
         <ant dir="${projects.dir}/web" inheritall="false" target="deployLocal"/>
     </target>
 
@@ -161,12 +161,11 @@
         <ant dir="${projects.dir}/esb-client" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
 
-
     <!-- =============================================================== -->
     <!-- c3pr Protocol Ingestion Grid Service                            -->
     <!-- =============================================================== -->
     <target name="build-grid" depends="prepare"
-        description="Builds the c3p3 Registration Consumer grid node">
+            description="Builds the c3p3 Registration Consumer grid node">
         <resolveDependencies extdir="${projects.dir}/grid/ext">
             <artifact refid="ant-contrib.jars"/>
             <artifact refid="c3pr.core.jars"/>
@@ -192,10 +191,7 @@
         <ant dir="${projects.dir}/grid" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
 
-    <!-- =============================================================== -->
-    <!-- c3pr Installer  project                                    -->
-    <!-- =============================================================== -->
-    <target name="build-installer" depends="prepare" description="Builds the installer project">
+    <target name="prepareInstaller" depends="prepare,clean">
         <property name="project.archive" value="c3prv2-installpack.zip"/>
         <mkdir dir="${projects.dir}/installer/ext"/>
         <zip destfile="${projects.dir}/installer/ext/${project.archive}">
@@ -203,6 +199,7 @@
             <zipfileset dir="${projects.dir}/core" prefix="projects/core"/>
             <zipfileset dir="${projects.dir}/web" prefix="projects/web"/>
             <zipfileset dir="${projects.dir}/esb-client" prefix="projects/esb-client"/>
+            <zipfileset dir="${projects.dir}/grid" prefix="projects/grid"/>
             <zipfileset dir="${share.dir}" prefix="share"/>
         </zip>
 
@@ -210,14 +207,31 @@
             <artifact refid="common.test.jars"/>
         </resolveDependencies>
 
+    </target>
+
+    <!-- =============================================================== -->
+    <!-- c3pr Installer  project                                    -->
+    <!-- =============================================================== -->
+    <target name="build-installer" depends="prepareInstaller"
+            description="Builds the installer project">
         <ant dir="${projects.dir}/installer" inheritAll="false" target="all"/>
     </target>
+
+
+    <!-- =============================================================== -->
+    <!-- c3pr Installer  project                                    -->
+    <!-- =============================================================== -->
+    <target name="build-offline-installer" depends="prepareInstaller"
+            description="Builds the offline version of the installer">
+        <ant dir="${projects.dir}/installer" inheritAll="false" target="build-offline-installer"/>
+    </target>
+
 
     <!-- =============================================================== -->
     <!-- c3pr JBI Integration project                                    -->
     <!-- =============================================================== -->
     <target name="build-servicemix" depends="prepare,checkGlobus,checkMaven"
-        description="Builds servicemix with c3p3v2 extensions ">
+            description="Builds servicemix with c3p3v2 extensions ">
         <resolveDependencies extdir="${projects.dir}/servicemix/ext">
             <artifact refid="ant-contrib.jars"/>
             <artifact refid="cagrid.jars"/>
@@ -248,7 +262,7 @@
                 <echo message="Cleaning project @{project.name}."/>
                 <delete dir="${projects.dir}/@{project.name}/ext"/>
                 <ant dir="${projects.dir}/@{project.name}" inheritAll="false" antfile="build.xml"
-                    target="clean"/>
+                     target="clean"/>
             </sequential>
         </for>
 
@@ -265,7 +279,7 @@
     </target>
 
     <target name="createOrUpdateDatabaseForTests"
-        description="create or update the Database using bering to run tests">
+            description="create or update the Database using bering to run tests">
         <ant dir="${projects.dir}/core" inheritall="false" target="bering-migrate-test"/>
     </target>
 
@@ -273,10 +287,10 @@
     <target name="cvsUpdate" description="Updates code from CVS. For developers use only">
         <!-- Assumes PKI setup for the following account-->
         <property name="c3prv2.cvs.root"
-            value=":ext:kherm@cbiocvs2.nci.nih.gov:/share/content/gforge/c3prv2"/>
+                  value=":ext:kherm@cbiocvs2.nci.nih.gov:/share/content/gforge/c3prv2"/>
 
         <cvs cvsroot="${c3prv2.cvs.root}" command="update -PAd" cvsrsh="ssh" quiet="false"
-            failonerror="true" dest="${basedir}"/>
+             failonerror="true" dest="${basedir}"/>
     </target>
 
 
@@ -288,22 +302,22 @@
     <!-- Generate schemas and castor mappings using cacore               -->
     <!-- ============================================================== -->
     <target name="regenerateSchemaAndMappings"
-        description="Will regenerate the xml schemas and castor mapping
+            description="Will regenerate the xml schemas and castor mapping
                                     files. Needs cacore.home set"
-        depends="checkcacoreToolkit">
+            depends="checkcacoreToolkit">
 
         <property name="c3pr.core.resources.dir" value="${projects.dir}/core/resources"/>
         <property name="c3pr.core.xmi.dir" value="${c3pr.core.resources.dir}/xmi"/>
         <property name="c3pr.core.xsd.dir" value="${c3pr.core.resources.dir}/xsd"/>
         <property name="c3pr.model.filename" value="c3pr.xmi"/>
         <property name="cacore.toolkit.output.dir"
-            value="${ext.cacore.toolkit.home}/output/example/src"/>
+                  value="${ext.cacore.toolkit.home}/output/example/src"/>
 
         <ant dir="${ext.cacore.toolkit.home}" target="clean-all" inheritall="false"/>
 
         <!--copy our model file over-->
         <copy file="${c3pr.core.xmi.dir}/${c3pr.model.filename}"
-            todir="${ext.cacore.toolkit.home}/models" overwrite="true"/>
+              todir="${ext.cacore.toolkit.home}/models" overwrite="true"/>
 
         <!--generate xml schemas-->
         <ant dir="${ext.cacore.toolkit.home}" target="generate-schemas" inheritall="false">
@@ -325,7 +339,7 @@
         </ant>
 
         <copy tofile="${c3pr.core.resources.dir}/c3pr-xml-mapping.xml" overwrite="true"
-            file="${cacore.toolkit.output.dir}/xml-mapping.xml"> </copy>
+              file="${cacore.toolkit.output.dir}/xml-mapping.xml"> </copy>
 
 
 
@@ -345,17 +359,31 @@
         </for>
     </target>
 
-    <target name="tomcat.security" depends="checkTomcat,build-core" description="Configure CSM">
+    <target name="tomcat.security" depends="checkTomcat" description="Configure CSM">
         <ant dir="${projects.dir}/core" inheritall="false" target="tomcat.security">
             <property name="catalina.home" value="${ext.tomcat.dir}"/>
         </ant>
     </target>
 
+
+    <target name="deploy-grid-RegistrationConsumer" depends="prepare,checkGlobus,checkTomcat"
+            description="Will deploy the RegistrationConsumer grid service">
+        <ant dir="${projects.dir}/grid" antfile="build.xml" inheritall="false"
+             target="deployTomcat-RegistrationConsumer"/>
+    </target>
+
+    <target name="deploy-grid-C3PRStudyConsumer"  depends="prepare,checkGlobus,checkTomcat"
+            description="Will deploy the RegistrationConsumer grid service">
+        <ant dir="${projects.dir}/grid" antfile="build.xml" inheritall="false"
+             target="deployTomcat-C3PRStudyConsumer"/>
+    </target>
+
+
     <!-- ====================================================================== -->
     <!-- Deploys the webapp (note:- only web + core projects )in Catalina_home  -->
     <!-- ====================================================================== -->
     <target name="deploy-webapp" depends="checkTomcat,build-web"
-        description="Deploy web application to tomcat">
+            description="Deploy web application to tomcat">
         <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="deploy">
             <property name="catalina.home" value="${ext.tomcat.dir}"/>
         </ant>
@@ -374,7 +402,7 @@
     <!-- UnDeploys the webapp (note:- only web + core projects )in CATALINA_HOME  -->
     <!-- ====================================================================== -->
     <target name="war" depends="checkTomcat"
-        description="Will build the c3prv2 war archive in the current directory">
+            description="Will build the c3prv2 war archive in the current directory">
         <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="war">
             <property name="war.file" value="${antfiles.dir}/c3prv2.war"/>
         </ant>
@@ -382,10 +410,10 @@
 
 
     <target name="deployESB" depends="build-servicemix"
-        description="Will build and deploy and make ready the ctms esb engine (servicemix)">
+            description="Will build and deploy and make ready the ctms esb engine (servicemix)">
 
         <property name="servicemix.toolkit.home"
-            value="${servicemix.project.home}/servicemix-toolkit"/>
+                  value="${servicemix.project.home}/servicemix-toolkit"/>
 
         <!-- call the servicemix project deploy target -->
         <ant dir="${servicemix.project.home}" antfile="build.xml" inheritall="false" target="deploy"/>

@@ -4,28 +4,58 @@
 
     <!-- this is required to pick up the properties generated during the install pages -->
     <property file="${basedir}/ant.install.properties"/>
-
+    <property name="installer.properties" value="installer.properties"/>
     <property name="c3prv2.install.artifact" value="c3prv2-installpack.zip"/>
-    <property name="ext.dir" value="${basedir}/ext"/>
-    <!--ToDo should come from a property file-->
-    <property name="tomcat.artifact" value="apache-tomcat-5.5.23.zip"/>
 
     <!--properties from the GUI installer-->
     <property name="base.codebase.dir" value="${basedir}/codebase"/>
     <property name="install.codebase.dir" value="${install.dir}/codebase"/>
 
-
     <!--c3pr src folders-->
     <property name="c3pr.core.dir" value="${base.codebase.dir}/projects/core"/>
 
 
-    <target name="installNewTomcat">
+    <target name="prepare" depends="downloadSoftware">
+        <copy todir="${install.codebase.dir}">
+            <fileset dir="${base.codebase.dir}"/>
+        </copy>
+    </target>
+
+
+    <target name="downloadSoftware" description="Will always be called">
+
         <unzip src="${antinstaller.jar}" dest="${basedir}"
                overwrite="true">
             <patternset>
-                <include name="${tomcat.artifact}"/>
+                <include name="${installer.properties}"/>
             </patternset>
         </unzip>
+
+        <!--source the properties-->
+        <property file="${basedir}/${installer.properties}"/>
+
+        <!--get the archive-->
+        <echo message="Downloading c3prv2"/>
+        <get src="${installer.zip.url}"
+             dest="${basedir}/${c3prv2.install.artifact}"/>
+
+        <echo message="Unzipping archive"/>
+
+        <unzip src="${basedir}/${c3prv2.install.artifact}"
+               dest="${base.codebase.dir}"
+               overwrite="true"/>
+
+        <!--override build.properties with installers-->
+        <copy file="${basedir}/ant.install.properties"
+              tofile="${base.codebase.dir}/antfiles/build.properties"
+                />
+
+    </target>
+
+    <target name="installNewTomcat">
+        <echo message="Downloading Tomcat"/>
+        <get src="${bundled.tomcat.url}"
+             dest="${basedir}/${tomcat.artifact}"/>
 
         <unzip src="${basedir}/${tomcat.artifact}"
                dest="${tomcat.home}"
@@ -57,22 +87,6 @@
     </target>
 
     <target name="deploy-webapp">
-        <unzip src="${antinstaller.jar}" dest="${basedir}"
-               overwrite="true">
-            <patternset>
-                <include name="${c3prv2.install.artifact}"/>
-            </patternset>
-        </unzip>
-
-        <unzip src="${basedir}/${c3prv2.install.artifact}"
-               dest="${base.codebase.dir}"
-               overwrite="true"/>
-
-        <!--override build.properties with installers-->
-        <copy file="${basedir}/ant.install.properties"
-              tofile="${base.codebase.dir}/antfiles/build.properties"
-                />
-
 
         <!--Works for all OS-->
         <pathconvert targetos="unix" property="tomcat.webapp.dir">
@@ -97,6 +111,36 @@
         </ant>
     </target>
 
+    <target name="build-grid">
+        <ant dir="${base.codebase.dir}" antfile="antfiles/build.xml"
+             inheritall="false" target="build-grid">
+            <property name="basedir" value="${base.codebase.dir}"/>
+            <property name="ext.tomcat.dir" value="${tomcat.home}"/>
+        </ant>
+    </target>
+
+    <target name="deployGlobus">
+        <ant dir="${base.codebase.dir}" antfile="antfiles/build.xml"
+             inheritall="false" target="deployGlobus">
+            <property name="ext.tomcat.dir" value="${tomcat.home}"/>
+        </ant>
+    </target>
+
+    <target name="deploy-grid-C3PRStudyConsumer" depends="build-grid,deployGlobus">
+        <ant dir="${base.codebase.dir}" antfile="antfiles/build.xml"
+             inheritall="false" target="deploy-grid-C3PRStudyConsumer">
+            <property name="basedir" value="${base.codebase.dir}"/>
+            <property name="ext.tomcat.dir" value="${tomcat.home}"/>
+        </ant>
+    </target>
+
+    <target name="deploy-grid-RegistrationConsumer" depends="build-grid,deployGlobus">
+        <ant dir="${base.codebase.dir}" antfile="antfiles/build.xml"
+             inheritall="false" target="deploy-grid-RegistrationConsumer">
+            <property name="basedir" value="${base.codebase.dir}"/>
+            <property name="ext.tomcat.dir" value="${tomcat.home}"/>
+        </ant>
+    </target>
 
 
     <!--create/update datbase-->
@@ -123,7 +167,8 @@
         <!--does nothing-->
     </target>
 
-    <target name="cleanUp">
+    <target name="cleanUp" unless="deploy.codebase">
+        <!--<delete dir="${install.codebase.dir}"/>-->
     </target>
 
 </project>
