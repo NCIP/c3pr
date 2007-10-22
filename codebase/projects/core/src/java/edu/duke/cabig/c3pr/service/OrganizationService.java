@@ -4,6 +4,7 @@ import edu.duke.cabig.c3pr.dao.OrganizationDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,6 +13,9 @@ import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
  * Time: 1:31:17 PM
  * To change this template use File | Settings | File Templates.
  */
+@Transactional(readOnly = false, rollbackFor = C3PRBaseException.class,
+        noRollbackFor = C3PRBaseRuntimeException.class)
+
 public interface OrganizationService {
 
     public void save(HealthcareSite organization) throws C3PRBaseException, C3PRBaseRuntimeException;
