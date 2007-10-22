@@ -22,7 +22,7 @@
     <property name="build.dir" value="${basedir}/build"/>
     <property name="classes.dir" value="${build.dir}/classes"/>
     <property name="build.context.dir" value="${classes.dir}/context"/>
-    
+
     <property name="jar.dir" value="${build.dir}/jars"/>
     <property name="project.jarfile" value="${jar.dir}/c3pr-2.0-${project.name}-${project.version}.jar"/>
 
@@ -138,7 +138,7 @@
 
         <!--copy the properties file-->
         <copy file="${ext.resources.dir}/build.properties"
-        tofile="${build.context.dir}/${c3pr.properties.file}"/>
+              tofile="${build.context.dir}/${c3pr.properties.file}"/>
 
         <!-- copy log4j -->
         <copy file="${ext.resources.dir}/c3pr-log4j.properties"
@@ -226,14 +226,16 @@
     </target>
 
 
-    <!-- ============================================================== -->
-    <!-- Bering migration task                                          -->
-    <!-- ============================================================== -->
-    <target name="prepare-bering">
+    <target name="sourceProperties">
         <property file="${catalina.home}/conf/c3pr.properties"/>
         <property file="${user.home}/.c3pr/c3pr.properties"/>
         <property file="${ext.resources.dir}/build.properties"/>
+    </target>
 
+    <!-- ============================================================== -->
+    <!-- Bering migration task                                          -->
+    <!-- ============================================================== -->
+    <target name="prepare-bering" depends="sourceProperties">
 
         <!--Taskdef. Has to be done inside since classpath is ext-->
         <taskdef resource="edu/northwestern/bioinformatics/bering/antlib.xml"
@@ -299,7 +301,7 @@
 
     </target>
 
-    <target name="insert-static-data" depends="prepare-bering" 
+    <target name="insert-static-data" depends="prepare-bering"
             description="Will insert static date into the database">
 
         <sql driver="${datasource.driver}"
@@ -323,31 +325,32 @@
     </target>
 
     <target name="delete-static-data" depends="prepare-bering"
-               description="Will insert static date into the database">
+            description="Will insert static date into the database">
 
-           <sql driver="${datasource.driver}"
-                url="${datasource.url}"
-                userid="${datasource.username}"
-                password="${datasource.password}"
-                classpathref="run.classpath"
-                rdbms="oracle">
-               <transaction src="${oracle.db.script.dir}/static-data-delete.sql"/>
-           </sql>
+        <sql driver="${datasource.driver}"
+             url="${datasource.url}"
+             userid="${datasource.username}"
+             password="${datasource.password}"
+             classpathref="run.classpath"
+             rdbms="oracle">
+            <transaction src="${oracle.db.script.dir}/static-data-delete.sql"/>
+        </sql>
 
-           <sql driver="${datasource.driver}"
-                url="${datasource.url}"
-                userid="${datasource.username}"
-                password="${datasource.password}"
-                classpathref="run.classpath"
-                rdbms="postgres">
-               <transaction src="${postgresql.db.script.dir}/static-data-delete.sql"/>
-           </sql>
+        <sql driver="${datasource.driver}"
+             url="${datasource.url}"
+             userid="${datasource.username}"
+             password="${datasource.password}"
+             classpathref="run.classpath"
+             rdbms="postgres">
+            <transaction src="${postgresql.db.script.dir}/static-data-delete.sql"/>
+        </sql>
 
-       </target>
+    </target>
 
 
-    
-    <target name="tomcat.security" description="Automatically copies global (CSM/UPT) configuration files to Tomcat.">
+
+    <target name="tomcat.security" depends="sourceProperties" 
+            description="Automatically copies global (CSM/UPT) configuration files to Tomcat.">
         <fail message="Could not locate Tomcat.  Please set the catalina.home property (-Dcatalina.home=/path/to/tomcat).">
             <condition>
                 <not>
