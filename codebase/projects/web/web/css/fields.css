@@ -25,7 +25,7 @@ input[type=button]:active, input[type=submit]:active, input[type=reset]:active {
     Styles for scriptaculous-generated autocompleters
  */
 div.autocomplete {
-	z-index: 10;
+	z-index: 30;
     position: absolute;
     background-color: white;
     border: 1px solid #888;
@@ -35,12 +35,14 @@ div.autocomplete {
 }
 div.autocomplete ul {
     list-style-type: none;
+    z-index: 30;
     margin: 0;
     padding: 0;
 }
 div.autocomplete ul li.selected { background-color: #ffb;}
 div.autocomplete ul li {
     list-style-type: none;
+    z-index: 30;
     display: block;
     margin: 0;
     padding: 2px;
