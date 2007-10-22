@@ -3,8 +3,6 @@
 <project name="grid" default="all" basedir=".">
 
    <property environment="env"/>
-    <property name="c3pr.dir" value="../../"/>
-    <property name="c3pr.antfiles.dir" value="${c3pr.dir}/antfiles"/>
     <property name="projects.dir" value="${basedir}"/>
     <property name="antfiles.dir" value="${basedir}/antfiles"/>
     <property name="ext.dir" value="${basedir}/ext"/>
@@ -127,11 +125,11 @@
          grid service. Skeleton service is implemented by individual
          ctmsi applications.
     -->
-    <target name="deploySkeletonRegistrationGridService" depends="all"
+    <target name="deploySkeletonRegistrationGridService" depends="prepare"
             description="Deploys the Registration Consumer Grid service Skeleton">
 
         <!--override tomcat env variable to write out to temp location-->
-        <ant antfile="${projects.dir}/RegistrationConsumer/build.xml"
+        <ant dir="${projects.dir}/RegistrationConsumer" antfile="build.xml"
              inheritall="false" target="deployTomcat"/>
 
         <echo message="======================================"/>
@@ -142,7 +140,7 @@
     <!--will deploy the RegistrationConsumer grid service
         for c3prv2 application
      -->
-    <target name="deployTomcat" depends="deploySkeletonRegistrationGridService"
+    <target name="deployTomcat-RegistrationConsumer" depends="deploySkeletonRegistrationGridService"
             description="Deploys the c3pr Registration consumer grid service Implementation">
 
         <ant antfile="${projects.dir}/RegistrationConsumerImpl/build.xml" inheritall="false" target="deployTomcat"/>
@@ -156,6 +154,26 @@
         <echo message="============================================================================="/>
 
     </target>
+
+      <!--will deploy the C3PRStudyConsumer grid service
+        for c3prv2 application
+     -->
+    <target name="deployTomcat-C3PRStudyConsumer" depends="prepare"
+            description="Deploys the c3pr Study Consumer grid service Implementation">
+
+        <ant dir="${projects.dir}/C3PRStudyConsumer" antfile="build.xml" inheritall="false" target="deployTomcat"/>
+        <!--copy the ext folder-->
+        <copy todir="${tomcat.wsrf.home}/WEB-INF/lib" overwrite="true">
+            <fileset refid="ext.lib.jars"/>
+        </copy>
+
+        <echo message="============================================================================="/>
+        <echo message="======Study Consumer Grid service deployed to ${tomcat.home}" />
+        <echo message="============================================================================="/>
+
+    </target>
+
+
 
 </project>
 
