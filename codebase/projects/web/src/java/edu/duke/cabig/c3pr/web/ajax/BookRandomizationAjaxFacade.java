@@ -137,7 +137,13 @@ public class BookRandomizationAjaxFacade {
 	    			sGroup = getStratumGroupByNumber(tEpoch, entries[0].trim());
 	    			bookRandomizationEntry.setStratumGroup(sGroup);
 		    		//set the position
-	    			bookRandomizationEntry.setPosition(Integer.parseInt(entries[1].trim()));		    		
+	    			Integer position = null;
+	    			try{
+	    				position = Integer.valueOf(entries[1].trim());
+	    	    	}catch(NumberFormatException nfe){
+	    	    		log.debug("Illegal Position Entered.");	    	    		
+	    	    	}
+	    			bookRandomizationEntry.setPosition(position);		    		
 	    			//find the arm with this id and set it here even if its null
 	    			//Empty stratum groups with negetive stratum Group Numbers and arms are checked for while generating the table and 
 	    			//replaced with a string "Invalid Entry" so the user can see which entries are incorrect.
@@ -187,7 +193,7 @@ public class BookRandomizationAjaxFacade {
 	    	try{
 	    		sgNumber = Integer.parseInt(sgPos);
 	    	}catch(NumberFormatException nfe){
-	    		log.debug("Illegal Stratum Group Position Entered.");
+	    		log.debug("Illegal Stratum Group Number Entered.");
 	    		return selectedStratumGroup;
 	    	}
 	    	
@@ -199,7 +205,7 @@ public class BookRandomizationAjaxFacade {
 		    		}
 		    	}
 	    	}
-	    	log.debug("Invalid Stratum Group Position Entered.");
+	    	log.debug("Invalid Stratum Group Number Entered.");
 	    	return selectedStratumGroup;
 	    }
 	    
