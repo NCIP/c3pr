@@ -22,7 +22,7 @@ import org.hibernate.annotations.Parameter;
 )
 public class BookRandomizationEntry extends AbstractMutableDeletableDomainObject{
 	
-	private int position;
+	private Integer position;
 	private Arm arm;
 	private StratumGroup stratumGroup;
 	
@@ -34,12 +34,6 @@ public class BookRandomizationEntry extends AbstractMutableDeletableDomainObject
 	}
 	public void setArm(Arm arm) {
 		this.arm = arm;
-	}
-	public int getPosition() {
-		return position;
-	}
-	public void setPosition(int position) {
-		this.position = position;
 	}
 	
 	@ManyToOne
@@ -56,5 +50,11 @@ public class BookRandomizationEntry extends AbstractMutableDeletableDomainObject
 	@Transient
 	public void setRetiredIndicatorAsTrue(){
 		super.setRetiredIndicatorAsTrue();		
+	}
+	public void setPosition(Integer position) {
+		this.position = position;
+	}
+	public Integer getPosition() {
+		return position;
 	}
 }
