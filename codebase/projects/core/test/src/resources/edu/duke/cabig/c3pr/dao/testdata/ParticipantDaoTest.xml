@@ -2,13 +2,13 @@
     
     <STUDIES id="1000" version="1" blinded_indicator="true" long_title_text="long_title_text" multi_institution_indicator="true"
    	phase_code="Ph" randomized_indicator="true" short_title_text="short_title_text" target_accrual_number="123" type="ty"
-    description_text="description" precis_text="precis_text" coordinating_center_study_status="ACTIVE" data_entry_status="COMPLETE" randomization_type="2"  retired_indicator = "false" />
+    description_text="description" precis_text="precis_text" status="ACTIVE" data_entry_status="COMPLETE" randomization_type="2"  retired_indicator = "false" />
     <STUDIES id="1001" version="1" blinded_indicator="false" long_title_text="long_title_text2" multi_institution_indicator="true"
    	phase_code="Ph2" randomized_indicator="true" short_title_text="short_title_text2" target_accrual_number="123" type="ty"
-    description_text="description2" precis_text="precis_text2" coordinating_center_study_status="ACTIVE" data_entry_status="COMPLETE"  retired_indicator = "false" />
+    description_text="description2" precis_text="precis_text2" status="ACTIVE" data_entry_status="COMPLETE"  retired_indicator = "false" />
     <STUDIES id="1002" version="1" blinded_indicator="false"  long_title_text="long_title_text" multi_institution_indicator="true"
    	phase_code="Ph" randomized_indicator="true" short_title_text="short_title_text" target_accrual_number="123" type="ty"
-    description_text="description" precis_text="precis_text" coordinating_center_study_status="ACTIVE" data_entry_status="COMPLETE"  retired_indicator = "false" />
+    description_text="description" precis_text="precis_text" status="ACTIVE" data_entry_status="COMPLETE"  retired_indicator = "false" />
    
     <ADDRESSES id="1000" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA"  retired_indicator = "false" />
     <ADDRESSES id="1001" version="1" street_address="Coppermine Dr" city="Herndon" state_code="VA" postal_code="20171" country_code="USA"  retired_indicator = "false" />
