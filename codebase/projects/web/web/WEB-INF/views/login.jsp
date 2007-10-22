@@ -57,14 +57,6 @@
             <div>
                 <a href="javascript:login('c3pr_admin')">Log in as Admin</a>
             </div>
-
-            <div>
-                <a href="javascript:login('c3pr_registrar')">Log in as Registrar</a>
-            </div>
-
-            <div>
-                <a href="javascript:login('c3pr_study_coordinator')">Log in as Study Coordinator</a>
-            </div>
         </div>
     </form>
 </chrome:box>
