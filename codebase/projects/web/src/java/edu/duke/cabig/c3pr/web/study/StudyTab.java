@@ -88,13 +88,25 @@ public abstract class StudyTab extends InPlaceEditableTab<Study> {
 					tEpoch = (TreatmentEpoch)iter.next();
 					if(study.getRandomizedIndicator() && study.getRandomizationType() != null && tEpoch.getRandomizedIndicator()){
 						if(study.getRandomizationType().equals(RandomizationType.BOOK)){
-							tEpoch.setRandomization(new BookRandomization());														
+							if(tEpoch.getRandomization() instanceof BookRandomization){
+								//do nothing. This happens if nothing is chnaged during the edit flow
+							} else {
+								tEpoch.setRandomization(new BookRandomization());
+							}														
 				    	}
 						if(study.getRandomizationType().equals(RandomizationType.CALL_OUT)){
-							tEpoch.setRandomization(new CalloutRandomization());
+							if(tEpoch.getRandomization() instanceof CalloutRandomization){
+								//do nothing. This happens if nothing is chnaged during the edit flow
+							} else {
+								tEpoch.setRandomization(new CalloutRandomization());
+							}
 				    	}
 						if(study.getRandomizationType().equals(RandomizationType.PHONE_CALL)){
-							tEpoch.setRandomization(new PhonecallRandomization());
+							if(tEpoch.getRandomization() instanceof PhonecallRandomization){
+								//do nothing. This happens if nothing is chnaged during the edit flow
+							} else {
+								tEpoch.setRandomization(new PhonecallRandomization());
+							}
 				    	}
 					} else {
 						tEpoch.setRandomization(null);
