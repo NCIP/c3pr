@@ -60,9 +60,14 @@ var organizationIdentifierRowInserterProps = {
 RowManager.addRowInseter(systemIdentifierRowInserterProps);
 RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 function manageIdentifierRadio(element){
-	$$(".identifierRadios").each(function(e){e.checked=false;e.value="false"});
+	$$("form .identifierRadios").each(function(e)
+										{
+											e.checked=false;
+											$(e.id.split("-")[0]).value="false"
+										}
+									);
 	element.checked=true;
-	element.value="true";
+	$(element.id.split("-")[0]).value="true";
 }
 </script>
 </head>
@@ -87,14 +92,14 @@ function manageIdentifierRadio(element){
 					<td>${command.organizationAssignedIdentifiers[0].healthcareSite.name}</td>
 					<td>${command.organizationAssignedIdentifiers[0].type}</td>
 					<td>${command.organizationAssignedIdentifiers[0].value}</td>
-					<td><form:radiobutton cssClass="identifierRadios" value="true" disabled="true" path="organizationAssignedIdentifiers[0].primaryIndicator"/></td>
+					<td><input type="radio" class="identifierRadios" value="${command.organizationAssignedIdentifiers[0].primaryIndicator}" disabled="true" id="organizationAssignedIdentifiers[0].primaryIndicator-radio"/></td>
 				</tr>
 				<c:if test="${!empty command.fundingSponsorAssignedIdentifier}">
 				<tr>
 					<td>${command.fundingSponsorAssignedIdentifier.healthcareSite.name}</td>
 					<td>${command.fundingSponsorAssignedIdentifier.type}</td>
 					<td>${command.fundingSponsorAssignedIdentifier.value}</td>
-					<td><form:radiobutton cssClass="identifierRadios" value="true" disabled="true" path="organizationAssignedIdentifiers[${command.fundingSponsorIdentifierIndex}].primaryIndicator"/></td>
+					<td><input type="radio" class="identifierRadios" value="${command.organizationAssignedIdentifiers[command.fundingSponsorIdentifierIndex].primaryIndicator }" disabled="true" id="organizationAssignedIdentifiers[${command.fundingSponsorIdentifierIndex}].primaryIndicator-radio"/></td>
 				</tr>
 				</c:if>
 				<c:forEach var="orgIdentifier" items="${command.organizationAssignedIdentifiers}"
@@ -134,9 +139,9 @@ function manageIdentifierRadio(element){
 						<td><form:input
 							path="organizationAssignedIdentifiers[${organizationStatus.index}].value"
 							onfocus="clearField(this)" cssClass="validate-notEmpty" /></td>
-						<td><form:radiobutton
-							path="organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator"
-							value="true" cssClass="${handleDifferently?'identifierRadios':''}" onclick="manageIdentifierRadio(this);"/></td>
+						<td><input type="radio"	id="organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator-radio"
+							value="${command.organizationAssignedIdentifiers[organizationStatus.index].primaryIndicator }" class="${!handleDifferently?'identifierRadios':''}" onclick="manageIdentifierRadio(this);"/>
+							<form:hidden path="organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator"/></td>
 						<td><a
 							href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,${organizationStatus.index});"><img
 							src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
@@ -182,9 +187,9 @@ function manageIdentifierRadio(element){
 						<td><form:input
 							path="systemAssignedIdentifiers[${status.index}].value"
 							onfocus="clearField(this)" cssClass="validate-notEmpty" /></td>
-						<td><form:radiobutton
-							path="systemAssignedIdentifiers[${status.index}].primaryIndicator"
-							value="true" cssClass="identifierRadios" onclick="manageIdentifierRadio(this);"/></td>
+						<td><input type="radio"	id="systemAssignedIdentifiers[${status.index}].primaryIndicatorr-radio"
+							value="${command.systemAssignedIdentifiers[status.index].primaryIndicator }" class="identifierRadios" onclick="manageIdentifierRadio(this);"/>
+							<form:hidden path="systemAssignedIdentifiers[${status.index}].primaryIndicator"/></td>
 						<td><a
 							href="javascript:RowManager.deleteRow(systemIdentifierRowInserterProps,${status.index});"><img
 							src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
@@ -201,10 +206,18 @@ function manageIdentifierRadio(element){
 
 		</chrome:division>
 </td></tr></table>
+	
 	</jsp:attribute>
 
 </tags:tabForm>
-
+	<script>
+		$$("form .identifierRadios").each(function(e)
+										{
+											if(e.value=="true")
+												e.checked=true;
+										}
+									);
+	</script>
 <div id="dummy-row-systemIdentifier" style="display:none;">
 <table>
 	<tr>
@@ -223,10 +236,9 @@ function manageIdentifierRadio(element){
 			name="systemAssignedIdentifiers[PAGE.ROW.INDEX].value"
 			onfocus="javascript:clearField(this)" type="text"
 			class="validate-notEmpty" /></td>
-		<td><input type="radio"
-			id="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" class="identifierRadios"
-			name="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" onclick="manageIdentifierRadio(this);"
-			 /></td>
+		<td><input type="radio"	id="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator-radio"
+			value="false" class="identifierRadios" onclick="manageIdentifierRadio(this);"/>
+			<input type="hidden" id="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" name="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator"/></td>
 		<td><a
 			href="javascript:RowManager.deleteRow(systemIdentifierRowInserterProps,PAGE.ROW.INDEX);"><img
 			src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
@@ -259,10 +271,9 @@ function manageIdentifierRadio(element){
 			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].value"
 			onfocus="javascript:clearField(this)" type="text"
 			class="validate-notEmpty" /></td>
-		<td><input type="radio"
-			id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" class="identifierRadios"
-			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" onclick="manageIdentifierRadio(this);"
-			 /></td>
+		<td><input type="radio"	id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator-radio"
+			value="false" class="identifierRadios" onclick="manageIdentifierRadio(this);"/>
+			<input type="hidden" name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator"/></td>
 		<td><a
 			href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,PAGE.ROW.INDEX);"><img
 			src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
