@@ -73,7 +73,7 @@ ValidationManager.submitPostProcess= function(formElement, flag){
 	return false;
 }
 function manageIdentifierRadio(element){
-		$$("form.identifierRadios").each(function(e)
+		$$("form .identifierRadios").each(function(e)
 											{
 												e.checked=false;
 												$(e.id.split("-")[0]).value="false"
@@ -286,6 +286,14 @@ function manageIdentifierRadio(element){
 
 	</jsp:attribute>
 </tags:tabForm>
+<script>
+		$$("form .identifierRadios").each(function(e)
+										{
+											if(e.value=="true")
+												e.checked=true;
+										}
+									);
+	</script>
 
 <div id="dummy-systemIdentifierRow" style="display:none;">
 <table>
