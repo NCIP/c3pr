@@ -61,6 +61,16 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 							}
 							return flag;
 						}
+						
+		function setVersion(box){
+			cv = document.getElementById('consentVersion');
+			icv = document.getElementById('informedConsentVersion');
+	    	if (box.checked) {
+	    		icv.value=cv.value;       
+	        }else {
+	        	icv.value="";             
+	        }       
+	    }    						
 </script>
 </head>
 <body>
@@ -79,6 +89,10 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 <%System.out.println("In otherwise"); %>
 <tags:formPanelBox tab="${tab}" flow="${flow}" action="createRegistration">
 <strong>Informed Consent Details </strong><br>
+
+<input type="hidden" name="consentVersion" id="consentVersion" value="${command.studySite.study.consentVersion}"/>
+<form:hidden path="informedConsentVersion"/>
+
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
 	<tr><td colspan="2">&nbsp;</td></tr>
 	<tr>
@@ -86,8 +100,9 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 		<td><tags:dateInput path="informedConsentSignedDate" /><em> (mm/dd/yyyy)</em></td>
 	</tr>
 	<tr>
-		<td class="label">Informed Consent Version:</td>
-		<td><form:input path="informedConsentVersion"/></td>
+		<td class="label">Current Consent Version is <em>${command.studySite.study.consentVersion}</em>:</td>
+		<td><input type="checkbox" name="currentVersionIndicator" value="true" onclick="setVersion(this);" 
+				<c:if test="${!empty command.informedConsentVersion}"> checked </c:if>/></td>
 	</tr>
 </table>
 <hr align="left" width="95%">
