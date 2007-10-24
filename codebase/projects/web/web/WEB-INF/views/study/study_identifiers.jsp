@@ -92,14 +92,14 @@ function manageIdentifierRadio(element){
 					<td>${command.organizationAssignedIdentifiers[0].healthcareSite.name}</td>
 					<td>${command.organizationAssignedIdentifiers[0].type}</td>
 					<td>${command.organizationAssignedIdentifiers[0].value}</td>
-					<td><input type="radio" class="identifierRadios" value="${command.organizationAssignedIdentifiers[0].primaryIndicator}" disabled="true" id="organizationAssignedIdentifiers[0].primaryIndicator-radio"/></td>
+					<td><input type="radio" class="identifierRadios" value="${command.organizationAssignedIdentifiers[0].primaryIndicator}" id="organizationAssignedIdentifiers[0].primaryIndicator-radio" onclick="manageIdentifierRadio(this);"/></td>
 				</tr>
 				<c:if test="${!empty command.fundingSponsorAssignedIdentifier}">
 				<tr>
 					<td>${command.fundingSponsorAssignedIdentifier.healthcareSite.name}</td>
 					<td>${command.fundingSponsorAssignedIdentifier.type}</td>
 					<td>${command.fundingSponsorAssignedIdentifier.value}</td>
-					<td><input type="radio" class="identifierRadios" value="${command.organizationAssignedIdentifiers[command.fundingSponsorIdentifierIndex].primaryIndicator }" disabled="true" id="organizationAssignedIdentifiers[${command.fundingSponsorIdentifierIndex}].primaryIndicator-radio"/></td>
+					<td><input type="radio" class="identifierRadios" value="${command.organizationAssignedIdentifiers[command.fundingSponsorIdentifierIndex].primaryIndicator }" id="organizationAssignedIdentifiers[${command.fundingSponsorIdentifierIndex}].primaryIndicator-radio" onclick="manageIdentifierRadio(this);"/></td>
 				</tr>
 				</c:if>
 				<c:forEach var="orgIdentifier" items="${command.organizationAssignedIdentifiers}"
@@ -187,7 +187,7 @@ function manageIdentifierRadio(element){
 						<td><form:input
 							path="systemAssignedIdentifiers[${status.index}].value"
 							onfocus="clearField(this)" cssClass="validate-notEmpty" /></td>
-						<td><input type="radio"	id="systemAssignedIdentifiers[${status.index}].primaryIndicatorr-radio"
+						<td><input type="radio"	id="systemAssignedIdentifiers[${status.index}].primaryIndicator-radio"
 							value="${command.systemAssignedIdentifiers[status.index].primaryIndicator }" class="identifierRadios" onclick="manageIdentifierRadio(this);"/>
 							<form:hidden path="systemAssignedIdentifiers[${status.index}].primaryIndicator"/></td>
 						<td><a
