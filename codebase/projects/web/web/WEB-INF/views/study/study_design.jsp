@@ -24,11 +24,13 @@
          function manageEnrollingIndicatorSelectBox(box,index) {
             if (box.value == 'false') {
                 		//document.getElementById('reservationIndicator').style.display='show';
+           //   Form.reset('reservationIndicator-'+index);
                 Effect.OpenUp('reservationIndicator-'+index);
             }
             if (box.value == 'true') {
                 		//document.getElementById('reservationIndicator').style.display='none';
                 Effect.CloseDown('reservationIndicator-'+index);
+             $('nonTreatmentEpochs['+index+'].reservationIndicator').value=false;
             }
         }
         
@@ -437,7 +439,8 @@
                                     </div>
                                 <div class="value"><select
                                         id="nonTreatmentEpochs[PAGE.ROW.INDEX].reservationIndicator"
-                                        name="nonTreatmentEpochs[PAGE.ROW.INDEX].reservationIndicator">
+                                        name="nonTreatmentEpochs[PAGE.ROW.INDEX].reservationIndicator"
+                                        class="validate-notEmpty">
                                     <option value="">--Please Select--</option>
                                     <option value="true">Yes</option>
                                     <option value="false">No</option>
