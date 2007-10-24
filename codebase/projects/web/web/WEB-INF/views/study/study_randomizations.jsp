@@ -78,7 +78,6 @@
 		 <hr />
 		 	<form:form method="post" id="epochForm_${epochCount.index}" enctype="multipart/form-data">
 		    	<input type="hidden" name="index" value="${epochCount.index}"/>
-		    	<tags:tabFields tab="${tab}"/>
 			        <div class="content">
 			            <div class="row">
 			                <div class="label">Select file to Import:</div>
