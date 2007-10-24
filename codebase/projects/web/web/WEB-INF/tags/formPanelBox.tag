@@ -20,7 +20,7 @@
     <chrome:flashMessage/>
         <chrome:division id="single-fields">
 
-            <tags:hasErrorsMessage/>
+            <tags:errors path="*"/>
             <jsp:doBody/>
         </chrome:division>
         <tags:tabControls continueLabel="${continueLabel}" tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
