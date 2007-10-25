@@ -767,7 +767,7 @@ public class StudyDaoTest extends DaoTestCase {
 	 * @throws Exception
 	 */
 	public void testSearchStudySimple() {
-		Study studySearchCriteria = new Study();
+		Study studySearchCriteria = new Study(true);
 		studySearchCriteria.setShortTitleText("short_title_text");
 		List<Study> results = dao.searchByExample(studySearchCriteria);
 		assertEquals("Wrong number of Studies", 2, results.size());
@@ -779,7 +779,7 @@ public class StudyDaoTest extends DaoTestCase {
 	 * Make sure DAO returns unique results
 	 */
 	public void testIdentifierUniqueResults() {
-		Study studySearchCriteria = new Study();
+		Study studySearchCriteria = new Study(true);
 		studySearchCriteria.setShortTitleText("short_title_text2");
 		List<Study> results = dao.searchByExample(studySearchCriteria);
 		assertEquals("Wrong number of Studies", 1, results.size());
@@ -1041,7 +1041,7 @@ public class StudyDaoTest extends DaoTestCase {
 	 * @throws Exception
 	 */
 	public void testSearchStudyByWildCards() throws Exception {
-		Study studySearchCriteria = new Study();
+		Study studySearchCriteria = new Study(true);
 		studySearchCriteria.setShortTitleText("ti%e");
 		List<Study> results = dao.searchByExample(studySearchCriteria, true);
 		assertEquals("Wrong number of Studies", 3, results.size());
