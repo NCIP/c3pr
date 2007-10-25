@@ -19,7 +19,7 @@
     <chrome:flashMessage/>
         <chrome:division id="single-fields">
 
-            <tags:hasErrorsMessage/>
+            <tags:errors path="*"/>
             <jsp:doBody/>
         </chrome:division>
         

@@ -22,7 +22,7 @@
         <tags:tabFields tab="${tab}"/>
         <chrome:division id="single-fields">
             <c:if test="${not empty instructions}"><p class="instructions"><jsp:invoke fragment="instructions"/></p></c:if>
-            <tags:hasErrorsMessage/>
+            <tags:errors path="*"/>
             <jsp:invoke fragment="singleFields"/>
         </chrome:division>
         <jsp:invoke fragment="repeatingFields"/>
