@@ -143,7 +143,7 @@ public abstract class DaoTestCase extends DbTestCase {
 //    }
 
     //
-    public static ApplicationContext getApplicationContext() {
+    public ApplicationContext getApplicationContext() {
         return ApplicationTestCase.getDeployedCoreApplicationContext();
     }
 
