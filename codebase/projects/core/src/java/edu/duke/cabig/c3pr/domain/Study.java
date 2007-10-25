@@ -46,11 +46,11 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 public class Study extends AbstractMutableDeletableDomainObject implements
 		Comparable<Study> {
 
-	private Boolean blindedIndicator = false;
+	private Boolean blindedIndicator;
 
-	private Boolean multiInstitutionIndicator = false;
+	private Boolean multiInstitutionIndicator;
 
-	private Boolean randomizedIndicator = false;
+	private Boolean randomizedIndicator;
 
 	private String shortTitleText;
 
@@ -99,6 +99,10 @@ public class Study extends AbstractMutableDeletableDomainObject implements
 	// private ParameterizedInstantiateFactory<Identifier> identifierFactory;
 
 	public Study() {
+		blindedIndicator = false;
+		multiInstitutionIndicator = false;
+		multiInstitutionIndicator = false;
+		
 		lazyListHelper = new LazyListHelper();
 		lazyListHelper.add(StudySite.class,
 				new ParameterizedBiDirectionalInstantiateFactory<StudySite>(
@@ -140,6 +144,56 @@ public class Study extends AbstractMutableDeletableDomainObject implements
 		setEpochs(new ArrayList<Epoch>());
 		setIdentifiers(new ArrayList<Identifier>());
 
+	}
+	
+	public Study(boolean forSearchByExample){
+		
+		lazyListHelper = new LazyListHelper();
+		lazyListHelper.add(StudySite.class,
+				new ParameterizedBiDirectionalInstantiateFactory<StudySite>(
+						StudySite.class, this));
+		lazyListHelper
+				.add(
+						StudyFundingSponsor.class,
+						new ParameterizedBiDirectionalInstantiateFactory<StudyFundingSponsor>(
+								StudyFundingSponsor.class, this));
+		lazyListHelper
+				.add(
+						StudyCoordinatingCenter.class,
+						new ParameterizedBiDirectionalInstantiateFactory<StudyCoordinatingCenter>(
+								StudyCoordinatingCenter.class, this));
+
+		// lazyListHelper.add(Epoch.class, epochFactory);
+		lazyListHelper
+				.add(
+						TreatmentEpoch.class,
+						new ParameterizedBiDirectionalInstantiateFactory<TreatmentEpoch>(
+								TreatmentEpoch.class, this));
+		lazyListHelper
+				.add(
+						NonTreatmentEpoch.class,
+						new ParameterizedBiDirectionalInstantiateFactory<NonTreatmentEpoch>(
+								NonTreatmentEpoch.class, this));
+		lazyListHelper.add(SystemAssignedIdentifier.class,
+				new ParameterizedInstantiateFactory<SystemAssignedIdentifier>(
+						SystemAssignedIdentifier.class));
+		lazyListHelper
+				.add(
+						OrganizationAssignedIdentifier.class,
+						new ParameterizedInstantiateFactory<OrganizationAssignedIdentifier>(
+								OrganizationAssignedIdentifier.class));
+		lazyListHelper.add(StudyAmendment.class,
+				new InstantiateFactory<StudyAmendment>(StudyAmendment.class));
+		// mandatory, so that the lazy-projected list is managed properly.
+		setStudyOrganizations(new ArrayList<StudyOrganization>());
+		setEpochs(new ArrayList<Epoch>());
+		setIdentifiers(new ArrayList<Identifier>());
+		if(!forSearchByExample){
+			blindedIndicator = false;
+			multiInstitutionIndicator = false;
+			multiInstitutionIndicator = false;
+		}
+		
 	}
 
 	@Transient
