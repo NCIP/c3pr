@@ -64,7 +64,7 @@ Element.setOpacity = function(element, value){
   if (value == 1){
     element.setStyle({ opacity: 
       (/Gecko/.test(navigator.userAgent) && !/Konqueror|Safari|KHTML/.test(navigator.userAgent)) ? 
-      0.999999 : 1.0 });
+     1.0 : 1.0 });
     if(/MSIE/.test(navigator.userAgent) && !window.opera)  
       element.setStyle({filter: Element.getStyle(element,'filter').replace(/alpha\([^\)]*\)/gi,'')});  
   } else {  
