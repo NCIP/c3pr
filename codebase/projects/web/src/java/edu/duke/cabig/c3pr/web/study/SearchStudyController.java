@@ -41,7 +41,7 @@ public class SearchStudyController extends SimpleFormController {
 
     protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object oCommand, BindException errors) throws Exception {
         SearchCommand searchStudyCommand = (SearchCommand) oCommand;
-        Study study = new Study();
+        Study study = new Study(true);
         String type = searchStudyCommand.getSearchType();
         String searchtext = searchStudyCommand.getSearchText().trim();
 

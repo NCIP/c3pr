@@ -51,7 +51,7 @@ public class CreateStudyReportFacade extends BaseStudyAjaxFacade{
         Participant participant;
 		SystemAssignedIdentifier id;
 		
-    	Study study = new Study();
+    	Study study = new Study(true);
     	if(!StringUtils.isEmpty(params[0].toString())){
     		study.setShortTitleText(params[0].toString());
     	}

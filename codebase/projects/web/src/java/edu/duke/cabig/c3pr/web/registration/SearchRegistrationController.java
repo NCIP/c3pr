@@ -87,7 +87,7 @@ public class SearchRegistrationController extends SimpleFormController {
 				registrations = partVar.getStudySubjects();
 			}
 		} else if (request.getParameter("select").equals("Study")) {
-			Study study = new Study();
+			Study study = new Study(true);
 			if (request.getParameter("studyOption").equals("shortTitle")) {
 				study.setShortTitleText(text);
 

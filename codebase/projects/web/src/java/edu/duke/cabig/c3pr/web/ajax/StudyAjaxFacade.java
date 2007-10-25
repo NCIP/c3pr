@@ -121,7 +121,7 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
         Collection<Study> studies = null;
 
         //do a new search
-        Study study = new Study();
+        Study study = new Study(true);
         String type = ((List) parameterMap.get("searchType")).get(0).toString();
         String searchtext = ((List) parameterMap.get("searchText")).get(0).toString();
 

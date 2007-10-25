@@ -119,7 +119,7 @@ public class RegistrationAjaxFacade {
 
         Identifier identifier = new SystemAssignedIdentifier();
         identifier.setValue(text);
-        Study studyObj = new Study();
+        Study studyObj = new Study(true);
         studyObj.addIdentifier(identifier);
         studies = studyDao.searchByExample(studyObj);
         List<Identifier> studyIdentifiers = new ArrayList<Identifier>();

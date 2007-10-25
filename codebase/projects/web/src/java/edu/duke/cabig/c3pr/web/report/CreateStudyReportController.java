@@ -93,7 +93,7 @@ public class CreateStudyReportController extends SimpleFormController {
 		TableModel model = new TableModelImpl(context);
 		String [] params = studyReportCommand.getParams();
 		
-		Study study = new Study();
+		Study study = new Study(true);
     	if(!StringUtils.isEmpty(params[0].toString())){
     		study.setShortTitleText(params[0].toString());
     	}
