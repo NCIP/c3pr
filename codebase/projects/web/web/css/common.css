@@ -187,7 +187,7 @@ ul.tabs li {
 }
 
 .box h3 {
-  position: static;
+  position: relative;
   border-top: solid 1px #000;
   background-color: #D7E7ED;
   padding: 4px 8px;
