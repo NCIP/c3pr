@@ -81,9 +81,11 @@ public class StudySubject extends AbstractMutableDeletableDomainObject {
     /// BEAN PROPERTIES
     public StudySubject(boolean forExample) {
     	lazyListHelper=new LazyListHelper();
-    	lazyListHelper.add(Identifier.class, new InstantiateFactory<Identifier>(Identifier.class));
         lazyListHelper.add(ScheduledTreatmentEpoch.class, new InstantiateFactory<ScheduledTreatmentEpoch>(ScheduledTreatmentEpoch.class));
         lazyListHelper.add(ScheduledNonTreatmentEpoch.class, new InstantiateFactory<ScheduledNonTreatmentEpoch>(ScheduledNonTreatmentEpoch.class));
+        lazyListHelper.add(OrganizationAssignedIdentifier.class, new ParameterizedInstantiateFactory<OrganizationAssignedIdentifier>(OrganizationAssignedIdentifier.class));
+        lazyListHelper.add(SystemAssignedIdentifier.class, new ParameterizedInstantiateFactory<SystemAssignedIdentifier>(SystemAssignedIdentifier.class));
+        setIdentifiers(new ArrayList<Identifier>());
     	if(!forExample){
         	this.startDate=new Date();
         	this.primaryIdentifier="SysGen";
