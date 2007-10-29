@@ -3,13 +3,16 @@ package edu.duke.cabig.c3pr.service.impl;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.springframework.context.MessageSource;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.duke.cabig.c3pr.dao.EpochDao;
+import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StratumGroupDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.NonTreatmentEpoch;
+import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
@@ -22,6 +25,8 @@ import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
 import edu.duke.cabig.c3pr.esb.impl.MessageBroadcastServiceImpl;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
+import edu.duke.cabig.c3pr.exception.C3PRCodedException;
+import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
@@ -35,12 +40,28 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 
 	private static final Logger logger = Logger.getLogger(StudySubjectServiceImpl.class);
 	private StudySubjectDao studySubjectDao;
+	private ParticipantDao participantDao;
 	private EpochDao epochDao;
 	private String isBroadcastEnable="false";
 	private boolean hostedMode=true;
 	private MessageBroadcastServiceImpl messageBroadcaster;
 	private StratumGroupDao stratumGroupDao;
 	private XmlMarshaller registrationXmlUtility;
+	private String localInstanceNCICode;
+	private C3PRExceptionHelper exceptionHelper;
+	private MessageSource c3prErrorMessages;
+	
+	public void setC3prErrorMessages(MessageSource errorMessages) {
+		c3prErrorMessages = errorMessages;
+	}
+
+	public void setExceptionHelper(C3PRExceptionHelper exceptionHelper) {
+		this.exceptionHelper = exceptionHelper;
+	}
+
+	public void setLocalInstanceNCICode(String localInstanceNCICode) {
+		this.localInstanceNCICode = localInstanceNCICode;
+	}
 
 	public XmlMarshaller getRegistrationXmlUtility() {
 		return registrationXmlUtility;
@@ -84,27 +105,46 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 	}
 
 	@Transactional
-	public StudySubject createRegistration(StudySubject studySubject) throws Exception{
+	public StudySubject createRegistration(StudySubject studySubject) throws C3PRCodedException{
 		studySubject.setRegDataEntryStatus(evaluateRegistrationDataEntryStatus(studySubject));
 		studySubject.getScheduledEpoch().setScEpochDataEntryStatus(evaluateScheduledEpochDataEntryStatus(studySubject));
 		//evaluate status
 		if(isCreatable(studySubject)){
-			manageSchEpochWorkFlowIfUnApp(studySubject, false, false);
+			manageSchEpochWorkFlow(studySubject, false, false, false);
 			manageRegWorkFlow(studySubject);
 		}
 		studySubject=studySubjectDao.merge(studySubject);
 		return studySubject;
 	}
 	
-	public StudySubject registerSubject(StudySubject studySubject) throws Exception{
+	@Transactional
+	public StudySubject registerSubject(StudySubject studySubject) throws C3PRCodedException{
 		studySubject.setRegDataEntryStatus(evaluateRegistrationDataEntryStatus(studySubject));
 		studySubject.getScheduledEpoch().setScEpochDataEntryStatus(evaluateScheduledEpochDataEntryStatus(studySubject));
-		manageSchEpochWorkFlowIfUnApp(studySubject,true, true);
+		manageSchEpochWorkFlow(studySubject,true, true, false);
 		manageRegWorkFlow(studySubject);
 		return studySubjectDao.merge(studySubject);
 	}
 	
-	private StudySubject doLocalRandomization(StudySubject studySubject)throws C3PRBaseException{
+	@Transactional
+	public StudySubject processAffliateSiteRegistrationRequest(StudySubject studySubject) throws Exception {
+		if(studySubject.getParticipant().getId()==null){
+			participantDao.save(studySubject.getParticipant());
+		}
+		studySubject.setRegDataEntryStatus(evaluateRegistrationDataEntryStatus(studySubject));
+		studySubject.getScheduledEpoch().setScEpochDataEntryStatus(evaluateScheduledEpochDataEntryStatus(studySubject));
+		if(studySubject.getRegDataEntryStatus()==RegistrationDataEntryStatus.INCOMPLETE){
+			throw new Exception("Registration data entry status evalutes to incomplete");
+		}
+		if(studySubject.getScheduledEpoch().getScEpochDataEntryStatus()==ScheduledEpochDataEntryStatus.INCOMPLETE){
+			throw new Exception("Scheduled epoch data entry status evalutes to incomplete");
+		}
+		manageSchEpochWorkFlow(studySubject,true, true, true);
+		manageRegWorkFlow(studySubject);
+		return studySubjectDao.merge(studySubject);
+	}
+	
+	private StudySubject doRandomization(StudySubject studySubject)throws C3PRBaseException{
 		//randomize subject
 		switch(studySubject.getStudySite().getStudy().getRandomizationType()){
 		case PHONE_CALL: break;
@@ -138,7 +178,7 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 		if(!studySubject.getIfTreatmentScheduledEpoch())
 			return ScheduledEpochDataEntryStatus.COMPLETE;
 		ScheduledTreatmentEpoch scheduledTreatmentEpoch = (ScheduledTreatmentEpoch) studySubject.getScheduledEpoch();
-		if(!evaluateStratificationIndicator(scheduledTreatmentEpoch)){
+		if(!evaluateStratificationIndicator(studySubject)){
 			return ScheduledEpochDataEntryStatus.INCOMPLETE;
 		}
 		if(!scheduledTreatmentEpoch.getEligibilityIndicator()){
@@ -153,14 +193,14 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 		return ScheduledEpochDataEntryStatus.COMPLETE;
 	}
 	
-	private void manageSchEpochWorkFlowIfUnApp(StudySubject studySubject, boolean triggerMultisite, boolean randomize) throws Exception{
+	private void manageSchEpochWorkFlow(StudySubject studySubject, boolean triggerMultisite, boolean randomize, boolean affiliateSiteRequest) throws C3PRCodedException{
 		if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus()!=ScheduledEpochWorkFlowStatus.UNAPPROVED){
 			return;
 		}
 		ScheduledEpoch scheduledEpoch=studySubject.getScheduledEpoch();
 		if(scheduledEpoch.getScEpochDataEntryStatus()==ScheduledEpochDataEntryStatus.COMPLETE &&
 				studySubject.getRegDataEntryStatus()==RegistrationDataEntryStatus.COMPLETE){
-			if(this.requiresCoordinatingCenterApproval(studySubject)){
+			if(this.requiresCoordinatingCenterApproval(studySubject) && !isLocalSiteCoOrdinatingCenterForStudy(studySubject)){
 				//broadcase message to co-ordinating center
 				try {
 					if(triggerMultisite){
@@ -169,15 +209,21 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 					scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING);
 				} catch (Exception e) {
 					scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.DISAPPROVED);
-					throw e;
+					throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.ERROR_SEND_REGISTRATION.CODE"),e.getMessage());
 				}
 			}else{
 				if(studySubject.getScheduledEpoch().getRequiresRandomization()){
 					if(randomize){
-						doLocalRandomization(studySubject);
+						try {
+							doRandomization(studySubject);
+						} catch (Exception e) {
+							throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.RANDOMIZATION.CODE"),e.getMessage());
+						}
 						if(((ScheduledTreatmentEpoch)studySubject.getScheduledEpoch()).getScheduledArm()==null){
 							scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.UNAPPROVED);
-							throw new C3PRBaseException("Unable to assign arm");
+							if(affiliateSiteRequest && studySubject.getStudySite().getStudy().getRandomizationType()!=RandomizationType.PHONE_CALL){
+								throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.CANNOT_ASSIGN_ARM.CODE"));
+							}
 						}else{
 							//logic for accrual ceiling check
 							scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
@@ -195,7 +241,7 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 		}
 	}
 	
-	public void manageRegWorkFlow(StudySubject studySubject)throws Exception{
+	public void manageRegWorkFlow(StudySubject studySubject)throws C3PRCodedException{
 		if(studySubject.getRegWorkflowStatus()==RegistrationWorkFlowStatus.REGISTERED){
 			return;
 		}
@@ -216,7 +262,11 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 					studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.RESERVED);
 				}else if(scheduledEpoch.getEpoch().isEnrolling()){
 					studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED);
-					sendRegistrationEvent(studySubject);
+					try {
+						sendRegistrationEvent(studySubject);
+					} catch (Exception e) {
+						throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.ERROR_SEND_REGISTRATION.CODE"),e.getMessage());
+					}
 				}else{
 					studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.UNREGISTERED);
 				}
@@ -228,7 +278,10 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 		}
 	}
 
-	private static boolean evaluateStratificationIndicator(ScheduledTreatmentEpoch scheduledTreatmentEpoch){
+	private static boolean evaluateStratificationIndicator(StudySubject studySubject){
+		if(studySubject.getStratumGroupNumber()!=null)
+			return true;
+		ScheduledTreatmentEpoch scheduledTreatmentEpoch=(ScheduledTreatmentEpoch)studySubject.getScheduledEpoch();
 		List<SubjectStratificationAnswer> answers=scheduledTreatmentEpoch.getSubjectStratificationAnswers();
 		for(SubjectStratificationAnswer subjectStratificationAnswer:answers){
 			if(subjectStratificationAnswer.getStratificationCriterionAnswer()==null){
@@ -275,6 +328,15 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 				&& !isHostedMode()
 				&& studySubject.getScheduledEpoch().getEpoch().isEnrolling();
 	}
+	
+	private boolean isLocalSiteCoOrdinatingCenterForStudy(StudySubject studySubject){
+		return studySubject.getStudySite().getStudy().getStudyCoordinatingCenters().get(0).getHealthcareSite().getNciInstituteCode().equals(this.localInstanceNCICode);
+	}
+
+	private boolean isLocalinstanceStudySite(StudySubject studySubject){
+		return studySubject.getStudySite().getHealthcareSite().getNciInstituteCode().equals(this.localInstanceNCICode);
+	}
+
 	private boolean isCreatable(StudySubject studySubject){
 		if(studySubject.getRegDataEntryStatus()==RegistrationDataEntryStatus.COMPLETE
 			&& studySubject.getScheduledEpoch().getScEpochDataEntryStatus()==ScheduledEpochDataEntryStatus.COMPLETE){
@@ -283,8 +345,8 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 		return false;
 	}
 	
-	public void manageSchEpochWorkFlow(StudySubject studySubject) throws Exception{
-		manageSchEpochWorkFlowIfUnApp(studySubject, true, true);
+	public void manageSchEpochWorkFlow(StudySubject studySubject) throws C3PRCodedException{
+		manageSchEpochWorkFlow(studySubject, true, true, false);
 	}
 
 	public boolean isHostedMode() {
@@ -328,5 +390,13 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 
 	public void setEpochDao(EpochDao epochDao) {
 		this.epochDao = epochDao;
+	}
+
+	public void setParticipantDao(ParticipantDao participantDao) {
+		this.participantDao = participantDao;
+	}
+
+	private int getCode(String errortypeString){
+		return Integer.parseInt(this.c3prErrorMessages.getMessage(errortypeString, null, null));
 	}
 }
