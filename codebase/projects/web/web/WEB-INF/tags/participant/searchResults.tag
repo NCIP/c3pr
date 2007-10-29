@@ -46,7 +46,7 @@
 								document.location='searchStudy?inRegistration=true&subjectId=${participant.id}'
 							</c:when>
 							<c:otherwise>
-								document.location='editParticipant?participantId=${participant.id}'
+								document.location='viewParticipant?participantId=${participant.id}'
 							</c:otherwise>
 						</c:choose>
 					">
