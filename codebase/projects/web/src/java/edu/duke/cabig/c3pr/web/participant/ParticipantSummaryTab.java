@@ -10,14 +10,14 @@ public class ParticipantSummaryTab extends ParticipantTab{
 	 private ParticipantDao participantDao;
 	
 	public ParticipantSummaryTab() {
-		super("Summary&Registrations", "Summary & Registrations", "participant/participant_summary_view");
+		super("Summary", "Summary", "participant/participant_summary_view");
 	}
 	
 	@Override
     public Map<String, Object> referenceData(Participant participant) {
         Map<String, Object> refdata = super.referenceData(participant);
-        refdata.put("participantAssignments", this.getParticipantDao().getById(participant.getId()).getStudySubjects());
-
+      //  refdata.put("participantAssignments", this.getParticipantDao().getById(participant.getId()).getStudySubjects());
+        
         return refdata;
     }
 
