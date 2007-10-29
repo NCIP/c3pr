@@ -60,7 +60,7 @@ function submitPage(){
 		<br>
 		<br>
 		<br>
-		<participantTags:searchResults url="editParticipant" />
+		<participantTags:searchResults url="viewParticipant" />
 		<!-- MAIN BODY ENDS HERE -->
 		</div>
 	</form:form>
