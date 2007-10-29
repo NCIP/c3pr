@@ -237,6 +237,8 @@
     <bean id="studySubjectService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl"
           autowire="byName">
         <property name="isBroadcastEnable" value="${broadcastEnable}"/>
+        <property name="hostedMode" value="${hostedMode}"/>
+        <property name="localInstanceNCICode" value="${localInstanceNCIInstituteCode}"/>
         <property name="registrationXmlUtility">
             <bean id="registrationXmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
                 <property name="mappingFile" value="ccts-registration-castor-mapping.xml"/>
@@ -302,5 +304,19 @@
     <bean id="xmlParser" class="edu.duke.cabig.c3pr.xml.XMLParser" lazy-init="true">
         <constructor-arg value="c3pr-domain.xsd"/>
     </bean>
+    <bean id="c3prErrorMessages" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="error_messages_c3pr"/>
+		<property name="parentMessageSource"><ref bean="multsiteErrorMessageSource"/></property>
+	</bean>
+	
+	<bean id="multsiteErrorMessageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="error_messages_multisite"/>
+	</bean>
+	
+	<bean id="exceptionHelper" class="edu.duke.cabig.c3pr.exception.C3PRExceptionHelper">
+		<property name="errorMessages">
+			<ref bean="multsiteErrorMessageSource"/>
+		</property>
+	</bean>
 
 </beans>
