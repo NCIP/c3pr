@@ -7,13 +7,16 @@ import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
+import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.NonTreatmentEpoch;
+import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.PhonecallRandomization;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
@@ -28,6 +31,8 @@ import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
+import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
@@ -295,6 +300,12 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 		StudySubject studySubject=new StudySubject();
 		StudySite site=new StudySite();
 		Study study=new Study();
+		StudyCoordinatingCenter stC=study.getStudyCoordinatingCenters().get(0);
+		stC.setStudy(study);
+		HealthcareSite healthcareSite=new HealthcareSite();
+		healthcareSite.setName("test name");
+		healthcareSite.setNciInstituteCode("test code");
+		stC.setHealthcareSite(healthcareSite);
 		study.setMultiInstitutionIndicator(Boolean.TRUE);
 		site.setStudy(study);
         studySubject.setStudySite(site);
@@ -307,7 +318,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
         	studySubjectService.setHostedMode(false);
 			studySubjectService.manageSchEpochWorkFlow(studySubject);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
 			assertEquals("Wrong Epoch WorkFlow Status",ScheduledEpochWorkFlowStatus.DISAPPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
 		}
         assertEquals("Wrong Epoch WorkFlow Status",ScheduledEpochWorkFlowStatus.PENDING, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
@@ -480,7 +491,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 	 */
 	public void testCreateRegistrationCase0()throws Exception{
 		StudySubject studySubject=new StudySubject();
-		studySubject.setStudySite(getMultiSiteRandomizedStudy(RandomizationType.BOOK).getStudySites().get(0));
+		studySubject.setStudySite(getMultiSiteRandomizedStudy(RandomizationType.BOOK, false).getStudySites().get(0));
 		studySubject.setParticipant(participantDao.getById(1000));
 		studySubjectService.setHostedMode(false);
         Integer savedId;
@@ -524,7 +535,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 	public void testCreateRegistrationCase1()throws Exception{
 		studySubjectService.setHostedMode(false);
 		StudySubject studySubject=new StudySubject();
-		studySubject.setStudySite(getMultiSiteRandomizedStudy(RandomizationType.CALL_OUT).getStudySites().get(0));
+		studySubject.setStudySite(getMultiSiteRandomizedStudy(RandomizationType.CALL_OUT, false).getStudySites().get(0));
 		studySubject.setParticipant(participantDao.getById(1000));
         Integer savedId;
         {
@@ -567,7 +578,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 	public void testCreateRegistrationCase2()throws Exception{
 		studySubjectService.setHostedMode(false);
 		StudySubject studySubject=new StudySubject();
-		studySubject.setStudySite(getMultiSiteNonRandomizedStudy(false, false).getStudySites().get(0));
+		studySubject.setStudySite(getMultiSiteNonRandomizedStudy(false, false, false).getStudySites().get(0));
 		studySubject.setParticipant(participantDao.getById(1000));
         Integer savedId;
         {
@@ -603,7 +614,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 	 */
 	public void testCreateRegistrationCase3()throws Exception{
 		StudySubject studySubject=new StudySubject();
-		studySubject.setStudySite(getLocalRandomizedStudy(RandomizationType.PHONE_CALL).getStudySites().get(0));
+		studySubject.setStudySite(getLocalRandomizedStudy(RandomizationType.PHONE_CALL, false).getStudySites().get(0));
 		studySubject.setParticipant(participantDao.getById(1000));
         Integer savedId;
         {
@@ -667,7 +678,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 	 */
 	public void testCreateRegistrationCase4()throws Exception{
 		StudySubject studySubject=new StudySubject();
-		studySubject.setStudySite(getLocalRandomizedStudy(RandomizationType.BOOK).getStudySites().get(0));
+		studySubject.setStudySite(getLocalRandomizedStudy(RandomizationType.BOOK, false).getStudySites().get(0));
 		studySubject.setParticipant(participantDao.getById(1000));
         Integer savedId;
         {
@@ -725,7 +736,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 	public void testCreateRegistrationCase5()throws Exception{
 		//interruptSession();
 		StudySubject studySubject=new StudySubject();
-		studySubject.setStudySite(getLocalNonRandomizedWithArmStudy().getStudySites().get(0));
+		studySubject.setStudySite(getLocalNonRandomizedWithArmStudy(false).getStudySites().get(0));
 		studySubject.setParticipant(participantDao.getById(1000));
         Integer savedId;
         addScheduledEpoch(studySubject,true);
@@ -765,7 +776,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 	 */
 	public void testCreateRegistrationCase6()throws Exception{
 		StudySubject studySubject=new StudySubject();
-		studySubject.setStudySite(getLocalNonRandomizedStudy(true, false).getStudySites().get(0));
+		studySubject.setStudySite(getLocalNonRandomizedStudy(true, false, false).getStudySites().get(0));
 		studySubject.setParticipant(participantDao.getById(1000));
         Integer savedId;
         addScheduledEpoch(studySubject,false);
@@ -800,7 +811,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 	 */
 	public void testCreateRegistrationCase7()throws Exception{
 		StudySubject studySubject=new StudySubject();
-		studySubject.setStudySite(getLocalNonRandomizedStudy(false, true).getStudySites().get(0));
+		studySubject.setStudySite(getLocalNonRandomizedStudy(false, true, false).getStudySites().get(0));
 		studySubject.setParticipant(participantDao.getById(1000));
         Integer savedId;
         addScheduledEpoch(studySubject,false);
@@ -835,7 +846,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 	 */
 	public void testCreateRegistrationCase8()throws Exception{
 		StudySubject studySubject=new StudySubject();
-		studySubject.setStudySite(getLocalNonRandomizedStudy(false, false).getStudySites().get(0));
+		studySubject.setStudySite(getLocalNonRandomizedStudy(false, false, false).getStudySites().get(0));
 		studySubject.setParticipant(participantDao.getById(1000));
         Integer savedId;
         addScheduledEpoch(studySubject,false);
@@ -872,7 +883,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 	public void testCreateRegistrationCase9()throws Exception{
 		studySubjectService.setHostedMode(false);
 		StudySubject studySubject=new StudySubject();
-		studySubject.setStudySite(getMultiSiteNonRandomizedStudy(true, false).getStudySites().get(0));
+		studySubject.setStudySite(getMultiSiteNonRandomizedStudy(true, false, false).getStudySites().get(0));
 		studySubject.setParticipant(participantDao.getById(1000));
         Integer savedId;
         {
@@ -909,7 +920,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 	 */
 	public void testCreateRegistrationCase10()throws Exception{
 		StudySubject studySubject=new StudySubject();
-		studySubject.setStudySite(getMultiSiteRandomizedStudy(RandomizationType.BOOK).getStudySites().get(0));
+		studySubject.setStudySite(getMultiSiteRandomizedStudy(RandomizationType.BOOK, false).getStudySites().get(0));
 		studySubject.setParticipant(participantDao.getById(1000));
 		studySubjectService.setHostedMode(true);
         Integer savedId;
@@ -953,7 +964,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 	public void testCreateRegistrationCase11()throws Exception{
 		studySubjectService.setHostedMode(true);
 		StudySubject studySubject=new StudySubject();
-		studySubject.setStudySite(getMultiSiteNonRandomizedStudy(false, false).getStudySites().get(0));
+		studySubject.setStudySite(getMultiSiteNonRandomizedStudy(false, false, false).getStudySites().get(0));
 		studySubject.setParticipant(participantDao.getById(1000));
         Integer savedId;
         {
@@ -991,7 +1002,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 	public void testCreateRegistrationCase12()throws Exception{
 		studySubjectService.setHostedMode(true);
 		StudySubject studySubject=new StudySubject();
-		studySubject.setStudySite(getMultiSiteNonRandomizedStudy(true, false).getStudySites().get(0));
+		studySubject.setStudySite(getMultiSiteNonRandomizedStudy(true, false, false).getStudySites().get(0));
 		studySubject.setParticipant(participantDao.getById(1000));
         Integer savedId;
         {
@@ -1020,11 +1031,61 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 
 	}
 	
+	/* Test Cases for createRegistration
+	 * Multi Site Trial
+	 * Multi Site Mode
+	 * Treatment Epoch
+	 * Book Randomization
+	 * Study Site is Co Ordinating Center
+	 */
+	public void testCreateRegistrationCase13()throws Exception{
+		StudySubject studySubject=new StudySubject();
+		studySubject.setStudySite(getMultiSiteRandomizedStudy(RandomizationType.BOOK, true).getStudySites().get(0));
+		studySubject.setParticipant(participantDao.getById(1000));
+        Integer savedId;
+        {
+            addScheduledEpoch(studySubject,true);
+            buildCommandObject(studySubject);
+            addEnrollmentDetails(studySubject);
+            bindEligibility(studySubject);
+            bindStratification(studySubject);
+            StudySubject saved=studySubjectDao.merge(studySubject);
+            savedId= saved.getId().intValue();
+            assertNotNull("The registration didn't get an id", savedId);
+        }
+
+        interruptSession();
+        {
+        	StudySubject loaded = studySubjectDao.getById(savedId);
+            bindRandomization(loaded,RandomizationType.BOOK);
+            StudySubject saved= studySubjectService.registerSubject(loaded);
+            savedId= saved.getId().intValue();
+            assertNotNull("The registration didn't get an id", savedId);
+        }
+        interruptSession();
+        {
+        	StudySubject loaded = studySubjectDao.getById(savedId);
+        	assertNotNull("Could not reload registration with id " + savedId, loaded);
+        	assertEquals("Wrong number of scheduled epochs", 1, loaded.getScheduledEpochs().size());
+        	assertEquals("Wrong number of scheduled treatment epochs", 1, loaded.getScheduledTreatmentEpochs().size());
+        	assertEquals("Wrong number of scheduled non treatment epochs", 0, loaded.getScheduledNonTreatmentEpochs().size());
+        	assertEquals("getIfTreatmentScheduledEpoch return is inconsistent", true, loaded.getIfTreatmentScheduledEpoch());
+        	ScheduledTreatmentEpoch scheduledTreatmentEpoch=(ScheduledTreatmentEpoch)loaded.getScheduledEpoch();
+        	assertEquals("Wrong eligibility indicator", true, scheduledTreatmentEpoch.getEligibilityIndicator().booleanValue());
+        	assertEquals("Wrong registration data entry status", RegistrationDataEntryStatus.COMPLETE, loaded.getRegDataEntryStatus());
+        	assertEquals("Wrong epoch data entry status", ScheduledEpochDataEntryStatus.COMPLETE, loaded.getScheduledEpoch().getScEpochDataEntryStatus());        	
+        	assertEquals("Wrong registration work flow status", RegistrationWorkFlowStatus.REGISTERED, loaded.getRegWorkflowStatus());
+        	assertEquals("Wrong epoch work flow status", ScheduledEpochWorkFlowStatus.APPROVED, loaded.getScheduledEpoch().getScEpochWorkflowStatus());
+        }
+        interruptSession();
+
+	}
+	
 	/* Test Cases for invalid stratum group
 	 */
 	public void testInvalidStratumGroup()throws Exception{
 		StudySubject studySubject=new StudySubject();
-		studySubject.setStudySite(getLocalRandomizedStudy(RandomizationType.BOOK).getStudySites().get(0));
+		studySubject.setStudySite(getLocalRandomizedStudy(RandomizationType.BOOK, false).getStudySites().get(0));
 		studySubject.setParticipant(participantDao.getById(1000));
         Integer savedId;
         {
@@ -1054,116 +1115,32 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
         interruptSession();
 	}
 
-	private Study getMultiSiteRandomizedStudy(RandomizationType randomizationType)throws Exception{
+	private Study getMultiSiteRandomizedStudy(RandomizationType randomizationType, boolean makeStudysiteCoCenter)throws Exception{
 		Study study=studyCreationHelper.getMultiSiteRandomizedStudy(randomizationType);
-		StudySite studySite=new StudySite();
-		studySite.setHealthcareSite(healthcareSitedao.getById(1000));
-		studySite.setStudy(study);
-		study.getStudySites().add(studySite);
-		Integer savedId;
-		{
-			study = dao.merge(study);
-
-            savedId = study.getId();
-        }
-		interruptSession();
-        {
-            Study loaded = dao.getById(savedId);
-            return loaded;
-        }
+		return addStudySiteCoCenterAndSave(study, makeStudysiteCoCenter);
 	}
 	
-	private Study getMultiSiteNonRandomizedStudy(Boolean reserving, Boolean enrolling){
+	private Study getMultiSiteNonRandomizedStudy(Boolean reserving, Boolean enrolling, boolean makeStudysiteCoCenter){
 		Study study=studyCreationHelper.getMultiSiteNonRandomizedStudy(reserving, enrolling);
-		StudySite studySite=new StudySite();
-		studySite.setHealthcareSite(healthcareSitedao.getById(1000));
-		studySite.setStudy(study);
-		study.getStudySites().add(studySite);
-		Integer savedId;
-		{
-			study = dao.merge(study);
-
-            savedId = study.getId();
-        }
-		interruptSession();
-        {
-            Study loaded = dao.getById(savedId);
-            return loaded;
-        }
+		return addStudySiteCoCenterAndSave(study, makeStudysiteCoCenter);
 	}
 	
-	private Study getMultiSiteNonRandomizedWithArmStudy(){
+	private Study getMultiSiteNonRandomizedWithArmStudy(boolean makeStudysiteCoCenter){
 		Study study=studyCreationHelper.getMultiSiteNonRandomizedWithArmStudy();
-		StudySite studySite=new StudySite();
-		studySite.setHealthcareSite(healthcareSitedao.getById(1000));
-		studySite.setStudy(study);
-		study.getStudySites().add(studySite);
-		Integer savedId;
-		{
-			study = dao.merge(study);
-
-            savedId = study.getId();
-        }
-		interruptSession();
-        {
-            Study loaded = dao.getById(savedId);
-            return loaded;
-        }
+		return addStudySiteCoCenterAndSave(study, makeStudysiteCoCenter);
 	}
 	
-	private Study getLocalRandomizedStudy(RandomizationType randomizationType)throws Exception{
+	private Study getLocalRandomizedStudy(RandomizationType randomizationType, boolean makeStudysiteCoCenter)throws Exception{
 		Study study=studyCreationHelper.getLocalRandomizedStudy(randomizationType);
-		StudySite studySite=new StudySite();
-		studySite.setHealthcareSite(healthcareSitedao.getById(1000));
-		studySite.setStudy(study);
-		study.getStudySites().add(studySite);
-		Integer savedId;
-		{
-			study = dao.merge(study);
-
-            savedId = study.getId();
-        }
-		interruptSession();
-        {
-            Study loaded = dao.getById(savedId);
-            return loaded;
-        }
+		return addStudySiteCoCenterAndSave(study, makeStudysiteCoCenter);
 	}
-	private Study getLocalNonRandomizedStudy(Boolean reserving, Boolean enrolling){
+	private Study getLocalNonRandomizedStudy(Boolean reserving, Boolean enrolling, boolean makeStudysiteCoCenter){
 		Study study=studyCreationHelper.getLocalNonRandomizedStudy(reserving, enrolling);
-		StudySite studySite=new StudySite();
-		studySite.setHealthcareSite(healthcareSitedao.getById(1000));
-		studySite.setStudy(study);
-		study.getStudySites().add(studySite);
-		Integer savedId;
-		{
-			study = dao.merge(study);
-
-            savedId = study.getId();
-        }
-		interruptSession();
-        {
-            Study loaded = dao.getById(savedId);
-            return loaded;
-        }
+		return addStudySiteCoCenterAndSave(study, makeStudysiteCoCenter);
 	}
-	private Study getLocalNonRandomizedWithArmStudy(){
+	private Study getLocalNonRandomizedWithArmStudy(boolean makeStudysiteCoCenter){
 		Study study=studyCreationHelper.getLocalNonRandomizedWithArmStudy();
-		StudySite studySite=new StudySite();
-		studySite.setHealthcareSite(healthcareSitedao.getById(1000));
-		studySite.setStudy(study);
-		study.getStudySites().add(studySite);
-		Integer savedId;
-		{
-			study = dao.merge(study);
-
-            savedId = study.getId();
-        }
-		interruptSession();
-        {
-            Study loaded = dao.getById(savedId);
-            return loaded;
-        }
+		return addStudySiteCoCenterAndSave(study, makeStudysiteCoCenter);
 	}
 
 	private void buildCommandObject(StudySubject studySubject){
@@ -1276,6 +1253,50 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
 		studySubject.setInformedConsentSignedDate(new Date());
 		studySubject.setInformedConsentVersion("1.0");
 		studySubject.setOtherTreatingPhysician("Other T P");
+	}
+	
+	private Study addStudySiteCoCenterAndSave(Study study, boolean makeStudysiteCoCenter){
+		StudySite studySite=new StudySite();
+		studySite.setHealthcareSite(healthcareSitedao.getById(1000));
+		studySite.setStudy(study);
+		study.getStudySites().add(studySite);
+		Integer id;
+		{
+			HealthcareSite healthcaresite = new HealthcareSite();
+			Address address = new Address();
+			address.setCity("Chicago");
+			address.setCountryCode("USA");
+			address.setPostalCode("83929");
+			address.setStateCode("IL");
+			address.setStreetAddress("123 Lake Shore Dr");
+	
+			healthcaresite.setAddress(address);
+			healthcaresite.setName("Northwestern Memorial Hospital");
+			healthcaresite.setDescriptionText("NU healthcare");
+			if(makeStudysiteCoCenter)
+				healthcaresite.setNciInstituteCode(studySite.getHealthcareSite().getNciInstituteCode());
+			else
+				healthcaresite.setNciInstituteCode("NCI northwestern");
+			healthcareSitedao.save(healthcaresite);
+			id = healthcaresite.getId();
+		}
+		interruptSession();
+		assertNotNull("The saved organization didn't get an id", id);
+		HealthcareSite healthcareSite=healthcareSitedao.getById(id);
+		StudyCoordinatingCenter stC=study.getStudyCoordinatingCenters().get(0);
+		stC.setStudy(study);
+		stC.setHealthcareSite(healthcareSite);
+		Integer savedId;
+		{
+			study = dao.merge(study);
+
+            savedId = study.getId();
+        }
+		interruptSession();
+        {
+            Study loaded = dao.getById(savedId);
+            return loaded;
+        }
 	}
 	
 }
