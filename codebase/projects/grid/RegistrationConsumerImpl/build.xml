@@ -88,6 +88,11 @@
         <javac srcdir="${test.src.dir}" destdir="${test.classes.dir}" debug="true">
             <classpath refid="test.compile.cp"/>
         </javac>
+        <copy todir="${test.classes.dir}">
+	        <fileset dir="${test.resources.dir}">
+	            <include name="**/*.xml"/>
+	        </fileset>
+        </copy>
     </target>
 
     <target name="jar" depends="compile">
