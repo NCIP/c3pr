@@ -386,7 +386,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                       	<bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="N" />
                             <property name="desc" value="Last Name" />
-                        </bean>                       
+                        </bean>    
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="F" />
+                            <property name="desc" value="First Name" />
+                        </bean>                    
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="Identifier" />
                             <property name="desc" value="Identifier" />
