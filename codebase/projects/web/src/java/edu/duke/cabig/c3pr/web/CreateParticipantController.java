@@ -9,7 +9,11 @@ import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
+import edu.duke.cabig.c3pr.web.participant.ParticipantAddressAndContactInfoTab;
+import edu.duke.cabig.c3pr.web.participant.ParticipantDetailsTab;
+import edu.duke.cabig.c3pr.web.participant.ParticipantSubmitTab;
 import gov.nih.nci.cabig.ctms.web.tabs.AbstractTabbedFlowFormController;
+import gov.nih.nci.cabig.ctms.web.tabs.AutomaticSaveFlowFormController;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
@@ -36,8 +40,9 @@ import org.springframework.web.servlet.ModelAndView;
  * @author Kulasekaran, Priyatam
  * 
  */
-public class CreateParticipantController extends
-		AbstractTabbedFlowFormController<Participant> {
+
+public class CreateParticipantController<C extends Participant> extends
+AutomaticSaveFlowFormController<C, Participant, ParticipantDao> {
 
 	protected static final Log log = LogFactory
 			.getLog(CreateParticipantController.class);
@@ -52,53 +57,20 @@ public class CreateParticipantController extends
 
 	public CreateParticipantController() {
 		setCommandClass(Participant.class);
-		Flow<Participant> flow = new Flow<Participant>("Create Subject");
-		intializeFlows(flow);
-	}
-
-	protected void intializeFlows(Flow<Participant> flow) {
-		flow.addTab(new Tab<Participant>("Details", "Details",
-				"participant/participant") {
-			public Map<String, Object> referenceData() {
-				Map<String, List<Lov>> configMap = configurationProperty
-						.getMap();
-
-				Map<String, Object> refdata = new HashMap<String, Object>();
-
-				refdata.put("administrativeGenderCode", configMap
-						.get("administrativeGenderCode"));
-				refdata
-						.put("ethnicGroupCode", configMap
-								.get("ethnicGroupCode"));
-				refdata.put("raceCode", configMap.get("raceCode"));
-				refdata.put("source", getHealthcareSites());
-				refdata.put("searchTypeRefData", configMap
-						.get("participantSearchType"));
-				refdata.put("identifiersTypeRefData", configMap
-						.get("participantIdentifiersType"));
-				refdata.put("action", "createParticipant");
-
-				return refdata;
-			}
-		});
-		flow.addTab(new Tab<Participant>("Address & Contact Info",
-				"Address & ContactInfo", "participant/participant_address"));
-		flow.addTab(new Tab<Participant>("Review and Submit ",
-				"Review and Submit ", "participant/participant_submit"));
-
+		Flow<C> flow = new Flow<C>("Create Subject");
+		layoutTabs(flow);
 		setFlow(flow);
+		setBindOnNewForm(true);
 	}
-
+	
 	@Override
-	protected Map<String, Object> referenceData(
-			HttpServletRequest httpServletRequest, int page) throws Exception {
-		// Currently the static data is a hack, once DB design is approved for
-		// an LOV this will be
-		// replaced with LOVDao to get the static data from individual tables
-		System.out.println("------------Create Reference Data-------------");
-		Map<String, Object> refdata = new HashMap<String, Object>();
-		Map<String, List<Lov>> configMap = configurationProperty.getMap();
-		return refdata;
+	protected ParticipantDao getDao() {
+		return participantDao;
+	}
+	
+	@Override
+	protected Participant getPrimaryDomainObject(C command) {
+		return command;
 	}
 
 	@Override
@@ -110,6 +82,12 @@ public class CreateParticipantController extends
 				.formBackingObject(request);
 		participant = createParticipantWithContacts(participant);
 		return participant;
+	}
+	
+	protected void layoutTabs(Flow flow) {
+		flow.addTab(new ParticipantDetailsTab());
+		flow.addTab(new ParticipantAddressAndContactInfoTab());
+		flow.addTab(new ParticipantSubmitTab());
 	}
 
 	private Participant createParticipantWithContacts(Participant participant) {
