@@ -90,31 +90,6 @@ public class EditParticipantController<C extends Participant> extends
 		return false;
 	}
 
-	@Override
-	protected Map<String, Object> referenceData(
-			HttpServletRequest httpServletRequest, int page) throws Exception {
-		// Currently the static data is a hack, once DB design is approved for
-		// an LOV this will be
-		// replaced with LOVDao to get the static data from individual tables
-		Map<String, Object> refdata = new HashMap<String, Object>();
-		Map<String, List<Lov>> configMap = configurationProperty.getMap();
-		if (("update")
-				.equals((httpServletRequest.getParameter("_updateaction"))))
-			switch (page) {
-			case 0:
-				refdata.put("updateMessageRefData", configMap.get(
-						"editParticipantMessages").get(0));
-				break;
-			case 1:
-				refdata.put("updateMessageRefData", configMap.get(
-						"editParticipantMessages").get(1));
-				break;
-			default:
-			}
-
-		return refdata;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -126,11 +101,9 @@ public class EditParticipantController<C extends Participant> extends
 		Participant participant = null;
 
 		if (request.getParameter("participantId") != null) {
-			System.out.println(" Request URl  is:"
-					+ request.getRequestURL().toString());
 			participant = participantDao.getById(Integer.parseInt(request
 					.getParameter("participantId")), true);
-			System.out.println(" Participant's ID is:" + participant.getId());
+			log.debug(" Participant's ID is:" + participant.getId());
 		}
 
 		boolean contactMechanismEmailPresent = false, contactMechanismPhonePresent = false, contactMechanismFaxPresent = false;
@@ -180,6 +153,7 @@ public class EditParticipantController<C extends Participant> extends
     @Override
     protected Object currentFormObject(HttpServletRequest request, Object sessionFormObject) throws Exception {
         if (sessionFormObject != null) {
+        	Participant participant = (Participant) sessionFormObject;
             getDao().reassociate((Participant) sessionFormObject);
         }
 
