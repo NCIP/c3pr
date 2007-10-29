@@ -111,6 +111,8 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                value="edu.duke.cabig.c3pr.domain.Participant:CREATE" />
         <entry key="/pages/participant/edit.*"
                value="edu.duke.cabig.c3pr.domain.Participant:UPDATE" />
+        <entry key="/pages/participant/view.*"
+               value="edu.duke.cabig.c3pr.domain.Participant:READ" />
         <entry key="/pages/participant/search.*"
                value="edu.duke.cabig.c3pr.domain.Participant:READ" />
         <entry key="/pages/participant/confirm.*"
