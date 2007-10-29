@@ -3,9 +3,9 @@
         "http://www.springframework.org/dtd/spring-beans.dtd">
 
 <beans>
+	<import resource="classpath*:edu/duke/cabig/c3pr/applicationContext-core.xml"/>
+	<import resource="classpath*:edu/duke/cabig/c3pr/applicationContext-core-db.xml"/>
+	<import resource="classpath*:edu/duke/cabig/c3pr/applicationContext-csm.xml"/>		
 
-
-    <bean id="registrationConsumer" class="gov.nih.nci.cabig.c3pr.grid.EchoRegistrationConsumer">
-    </bean>
-    
+    <bean id="registrationConsumer" class="gov.nih.nci.cabig.c3pr.grid.CoOrdinatingSiteRegistrationConsumer" autowire="byName" />
 </beans>
