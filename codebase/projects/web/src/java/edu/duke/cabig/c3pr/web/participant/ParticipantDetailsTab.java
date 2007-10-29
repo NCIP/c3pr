@@ -29,6 +29,7 @@ public class ParticipantDetailsTab extends ParticipantTab {
 				.get("participantSearchType"));
 		refdata.put("identifiersTypeRefData", configMap
 				.get("participantIdentifiersType"));
+		refdata.put("mandatory", "true");
 		;
 
 		return refdata;
