@@ -54,6 +54,9 @@ private static Log log = LogFactory.getLog(SearchParticipantController.class);
     	if ("N".equals(type)){
     		participant.setLastName(text);
     	}
+    	if ("F".equals(type)){
+    		participant.setFirstName(text);
+    	}
     	if ("Identifier".equals(type)) {
 			SystemAssignedIdentifier identifier = new SystemAssignedIdentifier();
 			identifier.setValue(text);
