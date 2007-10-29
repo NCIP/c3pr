@@ -6,27 +6,28 @@
         </xs:documentation>
     </xs:annotation>
 
-    <xs:element name="identifier" abstract="true" type="IdentifierType"/>
+    <xs:element name="identifier" type="IdentifierType"/>
     <xs:element name="organizationAssignedIdentifier" substitutionGroup="identifier"
         type="OrganizationAssignedIdentifierType"/>
     <xs:element name="systemAssignedIdentifier" substitutionGroup="identifier"
         type="SystemAssignedIdentifierType"/>
 
+
     <xs:element name="registration" type="Registration"/>
     <xs:element name="study" type="Study"/>
-    <xs:element name="eligibilityCriteria" abstract="true" type="EligibilityCriteriaType"/>
+    <xs:element name="eligibilityCriteria"  type="EligibilityCriteriaType"/>
 
-    <xs:element name="epoch" abstract="true" type="EpochType"/>
+    <xs:element name="epoch" type="EpochType"/>
     <xs:element name="treatmentEpoch" substitutionGroup="epoch" type="TreatmentEpochType"/>
     <xs:element name="nonTreatmentEpoch" substitutionGroup="epoch" type="NonTreatmentEpochType"/>
 
-    <xs:element name="scheduledEpoch" abstract="true" type="ScheduledEpochType"/>
+    <xs:element name="scheduledEpoch" type="ScheduledEpochType"/>
     <xs:element name="scheduledTreatmentEpoch" substitutionGroup="scheduledEpoch"
         type="ScheduledTreatmentEpochType"/>
     <xs:element name="scheduledNonTreatmentEpoch" substitutionGroup="scheduledEpoch"
         type="ScheduledNonTreatmentEpochType"/>
 
-    <xs:element name="studyOrganization" abstract="true" type="StudyOrganizationType"/>
+    <xs:element name="studyOrganization" type="StudyOrganizationType"/>
     <xs:element name="studySite" substitutionGroup="studyOrganization" type="StudySiteType"/>
     <xs:element name="studyFundingSponsor" substitutionGroup="studyOrganization"
         type="StudyFundingSponsorType"/>
@@ -219,6 +220,7 @@
             <xs:extension base="ScheduledEpochType">
             	<xs:sequence>
 	            	<xs:element name="scheduledArm" type="ScheduledArmType" minOccurs="1" maxOccurs="1"/>
+       	            <xs:element name="eligibilityIndicator" type="xs:boolean" minOccurs="1" maxOccurs="1"/>
 	            </xs:sequence>
             </xs:extension>
         </xs:complexContent>
