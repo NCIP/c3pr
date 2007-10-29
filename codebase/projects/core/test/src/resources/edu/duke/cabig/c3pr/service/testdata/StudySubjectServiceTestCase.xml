@@ -2,7 +2,7 @@
       
     <STUDIES id="1100" version="1" blinded_indicator="true" long_title_text="long_title_text" multi_institution_indicator="true"
    	phase_code="Ph" randomized_indicator="true" short_title_text="short_title_text" target_accrual_number="123" type="ty"
-    description_text="description" precis_text="precis_text" coordinating_center_study_status="ACTIVE" data_entry_status="COMPLETE" />
+    description_text="description" precis_text="precis_text" status="ACTIVE" data_entry_status="COMPLETE" />
    
 	<ADDRESSES id="1100" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA" />
   
