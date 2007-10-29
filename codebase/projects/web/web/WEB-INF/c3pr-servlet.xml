@@ -194,6 +194,14 @@
                   value="edu.duke.cabig.c3pr.domain.Participant" />
         <property name="commandName" value="command" />
     </bean>
+     <bean name="/participant/viewParticipant"
+          id="viewParticipantController" lazy-init="true"
+          class="edu.duke.cabig.c3pr.web.ViewParticipantController"
+          autowire="byName">
+        <property name="commandClass"
+                  value="edu.duke.cabig.c3pr.domain.Participant" />
+        <property name="commandName" value="command" />
+    </bean>
     <bean name="/participant/confirmCreateParticipant" id="confirmCreateParticipantController" autowire="byType"
           class="edu.duke.cabig.c3pr.web.ConfirmCreateParticipantController" >
     </bean>
