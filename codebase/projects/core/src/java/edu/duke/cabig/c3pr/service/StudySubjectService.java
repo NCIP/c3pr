@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.service;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 
 /**
  * @author Kulasekaran,Ramakrishna
@@ -16,9 +17,9 @@ public interface StudySubjectService {
 		 * @return List of Participant objects based on the sample participant object
 		 * @throws Runtime exception 
 		 */
-	  public StudySubject createRegistration (StudySubject studySubject)throws Exception;
+	  public StudySubject createRegistration (StudySubject studySubject)throws C3PRCodedException;
 	  
-	  public StudySubject registerSubject(StudySubject studySubject) throws Exception;
+	  public StudySubject registerSubject(StudySubject studySubject) throws C3PRCodedException;
 	  
 	  public RegistrationDataEntryStatus evaluateRegistrationDataEntryStatus(StudySubject studySubject);
 	  
@@ -26,9 +27,9 @@ public interface StudySubjectService {
 	  
 	  public boolean canRandomize(StudySubject studySubject);
 	  
-	  public void manageRegWorkFlow(StudySubject studySubject)throws Exception;
+	  public void manageRegWorkFlow(StudySubject studySubject)throws C3PRCodedException;
 	  
-	  public void manageSchEpochWorkFlow(StudySubject studySubject)throws Exception;
+	  public void manageSchEpochWorkFlow(StudySubject studySubject)throws C3PRCodedException;
 	  
 	  public boolean isRegisterable(StudySubject studySubject);
 	  
@@ -41,5 +42,7 @@ public interface StudySubjectService {
 	  public boolean isEpochAccrualCeilingReached(int epochId);
 	  
 	  public boolean requiresCoordinatingCenterApproval(StudySubject studySubject);
+	  
+	  public StudySubject processAffliateSiteRegistrationRequest(StudySubject studySubject) throws Exception;
 }
 
