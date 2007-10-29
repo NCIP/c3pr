@@ -63,9 +63,10 @@ public class StudySubject extends AbstractMutableDeletableDomainObject {
     private RegistrationWorkFlowStatus regWorkflowStatus;
     private DiseaseHistory diseaseHistory;
     private List<Identifier> identifiers;
+    private Integer stratumGroupNumber;
 
     
-    public StudySubject() {
+	public StudySubject() {
     	lazyListHelper=new LazyListHelper();
         lazyListHelper.add(ScheduledTreatmentEpoch.class, new InstantiateFactory<ScheduledTreatmentEpoch>(ScheduledTreatmentEpoch.class));
         lazyListHelper.add(ScheduledNonTreatmentEpoch.class, new InstantiateFactory<ScheduledNonTreatmentEpoch>(ScheduledNonTreatmentEpoch.class));
@@ -393,20 +394,24 @@ public class StudySubject extends AbstractMutableDeletableDomainObject {
 	
 	@Transient
 	public StratumGroup getStratumGroup() throws C3PRBaseException{
-		List <SubjectStratificationAnswer> ssaList = ((ScheduledTreatmentEpoch)getScheduledEpoch()).getSubjectStratificationAnswers();
-		if(ssaList != null){
-			Iterator iter = ssaList.iterator();
-			List<StratificationCriterionAnswerCombination> scacList = new ArrayList<StratificationCriterionAnswerCombination>();
-			while(iter.hasNext()){
-				scacList.add(new StratificationCriterionAnswerCombination((SubjectStratificationAnswer)iter.next()));
+		StratumGroup stratumGroup=null;
+		if(this.stratumGroupNumber!=null){
+			stratumGroup=((ScheduledTreatmentEpoch)getScheduledEpoch()).getTreatmentEpoch().getStratumGroupByNumber(this.stratumGroupNumber); 
+		}else{
+			List <SubjectStratificationAnswer> ssaList = ((ScheduledTreatmentEpoch)getScheduledEpoch()).getSubjectStratificationAnswers();
+			if(ssaList != null){
+				Iterator iter = ssaList.iterator();
+				List<StratificationCriterionAnswerCombination> scacList = new ArrayList<StratificationCriterionAnswerCombination>();
+				while(iter.hasNext()){
+					scacList.add(new StratificationCriterionAnswerCombination((SubjectStratificationAnswer)iter.next()));
+				}
+				stratumGroup=((ScheduledTreatmentEpoch)getScheduledEpoch()).getTreatmentEpoch().getStratumGroupForAnsCombination(scacList);
 			}
-			StratumGroup stratumGroup=((ScheduledTreatmentEpoch)getScheduledEpoch()).getTreatmentEpoch().getStratumGroupForAnsCombination(scacList);
-			if(stratumGroup==null){
-				throw new C3PRBaseException("No startum group found. Maybe the answer combination does not have a valid startum group");
-			}
-			return stratumGroup;
 		}
-		return null;		
+		if(stratumGroup==null){
+			throw new C3PRBaseException("No startum group found. Maybe the answer combination does not have a valid startum group");
+		}
+		return stratumGroup;		
 	}
 	@Transient
 	public String getDataEntryStatusString(){
@@ -452,4 +457,11 @@ public class StudySubject extends AbstractMutableDeletableDomainObject {
 	public void setOffStudyReasonText(String offStudyReasonText) {
 		this.offStudyReasonText = offStudyReasonText;
 	}
+    public Integer getStratumGroupNumber() {
+		return stratumGroupNumber;
+	}
+	public void setStratumGroupNumber(Integer stratumGroupNumber) {
+		this.stratumGroupNumber = stratumGroupNumber;
+	}
+
 }
