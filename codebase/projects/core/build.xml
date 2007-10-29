@@ -159,7 +159,7 @@
                 <filter token="user.home" value="${user.home}"/>
             </filterset>
             <fileset dir="${src.resources.dir}">
-                <include name="**/*.xml"/>
+                <include name="**/*.*"/>
             </fileset>
             <fileset dir="${resources.dir}">
                 <include name="*-castor-mapping.xml"/>
