@@ -190,7 +190,7 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject{
 		Arm arm=null;
 		while(iter.hasNext()){
 			breTemp = iter.next(); 
-			if(breTemp.getPosition() == this.currentPosition){
+			if(breTemp.getPosition().equals(this.currentPosition)){
 				synchronized(this){
 					this.currentPosition++;
 					arm= breTemp.getArm();				
