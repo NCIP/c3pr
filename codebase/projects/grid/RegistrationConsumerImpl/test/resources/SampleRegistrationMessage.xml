@@ -2,7 +2,7 @@
 <registration xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain">
 	<studySite gridId="26eea1eb-e603-4cce-9b41-0edaa23b79c7">
 		<healthcareSite gridId="WF GRID ID">
-			<nciInstituteCode>Wake</nciInstituteCode>
+			<nciInstituteCode>duke healthcare nci</nciInstituteCode>
 		</healthcareSite>
 		<irbApprovalDate>2007-10-01T00:00:00.000-04:00</irbApprovalDate>
 		<roleCode>Affiliate Site</roleCode>
@@ -18,7 +18,7 @@
 			<value>CDR000007829</value>
 			<primaryIndicator>true</primaryIndicator>
 			<healthcareSite gridId="WF GRID ID">
-				<nciInstituteCode>Wake</nciInstituteCode>
+				<nciInstituteCode>duke healthcare nci</nciInstituteCode>
 			</healthcareSite>
 		</identifier>
 		<identifier
@@ -51,7 +51,7 @@
 			<ns1:value>MRN-1212332</ns1:value>
 			<ns1:primaryIndicator>true</ns1:primaryIndicator>
 			<ns1:healthcareSite gridId="WF GRID ID">
-				<ns1:nciInstituteCode>Wake</ns1:nciInstituteCode>
+				<ns1:nciInstituteCode>duke healthcare nci</ns1:nciInstituteCode>
 			</ns1:healthcareSite>
 		</ns1:identifier>
 	</participant>
@@ -75,6 +75,7 @@
 				<targetAccrualNumber>300</targetAccrualNumber>
 			</arm>
 		</scheduledArm>
+		<eligibilityIndicator>true</eligibilityIndicator>
 	</scheduledEpoch>
 	<stratumGroup>3:between 20 and 45 - &lt;120</stratumGroup>
 </registration>
