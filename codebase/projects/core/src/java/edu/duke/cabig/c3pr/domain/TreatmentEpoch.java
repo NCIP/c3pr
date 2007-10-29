@@ -341,6 +341,22 @@ public class TreatmentEpoch extends Epoch {
 	}		
 	
 	@Transient
+	/*
+	 * This method iterates thru the stratum groups for the treatmentEpoch and finds the
+	 * one that has the same stratum group number as the one passed in and returns it.
+	 * returns null if no matching stratum group is found
+	 */
+	public StratumGroup getStratumGroupByNumber(Integer number){
+		StratumGroup sg = new StratumGroup();
+		for(StratumGroup sgCurr:this.getStratumGroups()){
+			if(sgCurr.getStratumGroupNumber().equals(number)){
+				return sgCurr;
+			}
+		}
+		return null;		
+	}		
+
+	@Transient
 	public boolean hasStratification(){
 	return (getStratificationCriteria().size()>0);
 	}
