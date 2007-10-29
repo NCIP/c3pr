@@ -8,7 +8,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
 <%@ taglib prefix="participanttags" tagdir="/WEB-INF/tags/participant"%>
-<%@ taglib prefix="registrationTags" tagdir="/WEB-INF/tags/registration" %>
+<%@ taglib prefix="registrationTags" tagdir="/WEB-INF/tags/registration"%>
 
 <html>
 <head>
@@ -28,8 +28,13 @@ function updateTargetPage(target){
 </script>
 </head>
 <body>
-<tags:panelBox title="Subject Overview">
-		
+<form:form>
+	<tags:tabFields tab="${tab}" />
+
+	<chrome:box title="Subject Summary">
+		<div><input type="hidden" name="_finish" value="true" /> <input
+			type="hidden" name="_action" value=""></div>
+
 		<chrome:division id="subject-details" title="Basic Details">
 			<table class="tablecontent">
 				<tr>
@@ -106,7 +111,7 @@ function updateTargetPage(target){
 				</tr>
 			</table>
 		</chrome:division>
-		
+
 		<chrome:division title="Identifiers">
 
 			<h4>Organization Assigned Identifiers</h4>
@@ -149,14 +154,17 @@ function updateTargetPage(target){
 				</c:forEach>
 			</table>
 		</chrome:division>
-		<chrome:division title="Registration Summary">
-			<registrationTags:searchResults registrations="${participantAssignments }"/>
-		</chrome:division>
-	<form:form>
-	<tags:tabFields tab="${tab}"/>
-	<tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
-	<input type="hidden" name="_finish" value="true" />
-	</form:form>
-</tags:panelBox>
+		<c:if test="${flowType == 'VIEW_SUBJECT'}">
+			<div class="content buttons autoclear">
+			<div class="flow-buttons"><span class="next"> <input type="button"
+				value="Edit Subject"
+				onclick="document.location='editParticipant?participantId=${command.id}'" />
+			</span></div>
+		</div>
+		</c:if>
+
+
+	</chrome:box>
+</form:form>
 </body>
 </html>
