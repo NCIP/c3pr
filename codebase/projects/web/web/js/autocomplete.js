@@ -74,7 +74,8 @@ var AutocompleterManager= {
 				    new Autocompleter.DWR(mode.inputElement(), mode.displayChoices(),
 											mode.populator, {valueSelector: mode.valueSelector,
 															 	afterUpdateElement: mode.afterUpdateElement,
-															 	indicator: mode.indicator()
+															 	indicator: mode.indicator(),
+															 	isFreeTextAllowed: mode.isFreeTextAllowed
 				    										 })
 				    clearElement=document.getElementById(mode.basename + "-clear")
 				    if(clearElement!=null){
@@ -103,6 +104,7 @@ var AbstractAutocompleterProps = {
 			    	},
     afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {	},
     inputElement: function(){ return this.basename+"-input"},
-    displayChoices: function(){ return this.basename+"-choices"}, 
+    displayChoices: function(){ return this.basename+"-choices"},
+    isFreeTextAllowed: false, 
     indicator: function(){ return this.basename+"-indicator"}
 }
