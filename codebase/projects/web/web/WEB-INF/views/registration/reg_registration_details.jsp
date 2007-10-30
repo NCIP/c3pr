@@ -29,6 +29,7 @@ function managePhysicianField(box){
 var ajaxDiseaseSite="";
 var diseaseSiteAutocompleterProps = {
 	basename: "diseaseSite",
+	isFreeTextAllowed: true,
     populator: function(autocompleter, text) {
 			        anatomicDiseaseSite.matchDiseaseSites(text, function(values) {
 																    	autocompleter.setChoices(values)
@@ -47,12 +48,6 @@ AutocompleterManager.addAutocompleter(diseaseSiteAutocompleterProps);
 ValidationManager.submitPostProcess=function(formElement, flag){
 							if(formElement.id!='command' || !flag)
 								return flag;
-							if($('diseaseSite-input').value!=ajaxDiseaseSite){
-								$('otherDiseaseSite-hidden').value=$('diseaseSite-input').value;
-								$('diseaseSite-hidden').value="";
-							}else{
-								$('otherDiseaseSite-hidden').value='';
-							}
 							if($("treatingPhysician").value!=""){
 								$('otherTreatingPhysician').value="";
 							}
@@ -148,9 +143,8 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 	<tr>
 		<td class="label" width="40%">Primary Disease Site:</td>
 		<td>
-			<input id="diseaseSite-input" type="text" value="${command.diseaseHistory.anatomicSite==null?command.diseaseHistory.otherPrimaryDiseaseSiteCode:command.diseaseHistory.anatomicSite.name }"/>
+			<form:input id="diseaseSite-input" path="diseaseHistory.otherPrimaryDiseaseSiteCode"/>
 			<form:hidden id="diseaseSite-hidden" path="diseaseHistory.anatomicSite"/>
-			<form:hidden id="otherDiseaseSite-hidden" path="diseaseHistory.otherPrimaryDiseaseSiteCode"/>
 			<input type="button" id="diseaseSite-clear" value="Clear" onclick="$('diseaseSite-hidden').value='';"/>
 			<tags:indicator id="diseaseSite-indicator"/>
 			<div id="diseaseSite-choices" class="autocomplete"></div>
