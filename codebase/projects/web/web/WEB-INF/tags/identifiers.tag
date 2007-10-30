@@ -107,7 +107,7 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
  							<input type="hidden" id="healthcareSite${organizationStatus.index}-hidden"
           				name="organizationAssignedIdentifiers[${organizationStatus.index}].healthcareSite"
         					 value="${command.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.id}"/>
-  						<input class="validate-notEmpty" type="text" id="healthcareSite${organizationStatus.index}-input"
+  						<input class="autocomplete validate-notEmpty" type="text" id="healthcareSite${organizationStatus.index}-input"
          					size="50"
         				 	value="${command.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.name}"/>
   						<input type="button" id="healthcareSite${organizationStatus.index}-clear"

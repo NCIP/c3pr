@@ -53,6 +53,7 @@ function studyCriteriaNumber(){
 	
 var registrationAutocompleterProps = {
     basename: "registration",
+    isFreeTextAllowed: true,
     populator: function(autocompleter, text) {if (document.getElementById("select").value=="Study"){if(document.getElementById("studyOption").value=='id') {
 	(registrationDetails.matchStudyIdentifiers(text,getCriteriaNumber(),function(values) {
 	    autocompleter.setChoices(values)
@@ -215,7 +216,7 @@ function submitPage(){
 					<td width="20%" valign="top" align="right"><span class="required-indicator"><b>Search Criteria:</b></span>&nbsp;</td>
 					<td colspan="2"><input type="hidden" id="registration" /> <input
 						id="registration-input" size="52" type="text" name="searchText"
-						class="validate-notEmpty" /> <tags:indicator
+						class="autocomplete validate-notEmpty" /> <tags:indicator
 						id="registration-indicator" />
 					<div id="registration-choices" class="autocomplete"></div>
 					<p id="registration-selected" style="display: none">You've selected

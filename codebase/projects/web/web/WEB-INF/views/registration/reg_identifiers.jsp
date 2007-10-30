@@ -170,7 +170,7 @@ function manageIdentifierRadio(element){
 	<tr>
 		<td><input type="hidden" id="healthcareSitePAGE.ROW.INDEX-hidden"
 			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].healthcareSite" />
-		<input class="validate-notEmpty" type="text"
+		<input class="autocomplete validate-notEmpty" type="text"
 			id="healthcareSitePAGE.ROW.INDEX-input" size="50"
 			value="${command.organizationAssignedIdentifiers[PAGE.ROW.INDEX].healthcareSite.name}" />
 		<input type="button" id="healthcareSitePAGE.ROW.INDEX-clear"

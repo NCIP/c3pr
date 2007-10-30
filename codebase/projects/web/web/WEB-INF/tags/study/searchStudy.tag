@@ -73,7 +73,7 @@ Event.observe(window, "load", function() {
 			<tr>
 				<td align="right" width="90%">
 					<input type="hidden" id="study"/>
-					<input type=text id="study-input" size="60" name="searchText"/>
+					<input type=text id="study-input" size="60" name="searchText" class="autocomplete"/>
 					<tags:indicator id="study-indicator"/>
 					<div id="study-choices" class="autocomplete"></div>
 					<p id="study-selected" style="display: none">

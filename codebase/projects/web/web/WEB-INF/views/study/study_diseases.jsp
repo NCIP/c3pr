@@ -42,6 +42,7 @@ function hover(index)
 
 var diseaseAutocompleterProps = {
     basename: "disease",
+    isFreeTextAllowed: true,
     populator: function(autocompleter, text) {
         StudyAjaxFacade.matchDiseaseCategories(text, '', function(values) {
             autocompleter.setChoices(values)
@@ -251,7 +252,7 @@ Event.observe(window, "load", function() {
         <chrome:division title="Disease" id="disease">
             Search for a Disease Category<br>
             <input:hidden id="disease"/>
-            <form:input size="45" id="disease-input" path="diseaseCategoryAsText"/>
+            <form:input size="45" id="disease-input" path="diseaseCategoryAsText" cssClass="autocomplete"/>
             <tags:indicator id="disease-indicator"/>
             <div id="disease-choices" class="autocomplete"></div>
             <input type="button" id="disease-clear" value="Clear"/>

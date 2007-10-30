@@ -241,14 +241,16 @@
                 	 <div class="row">
 		                        <div class="label required-indicator">Coordinating Center:</div>
 		                        <div class="value"><input type="hidden" id="coCenter-hidden"
-								name="studyCoordinatingCenters[0].healthcareSite"
-								value="${command.studyCoordinatingCenters[0].healthcareSite.id }" class="validate-notEmpty" />
+								name="studyCoordinatingCenters[0].healthcareSite" 
+								value="${command.studyCoordinatingCenters[0].healthcareSite.id }" />
 								<input type="hidden" id="coCenter-hidden1"
 									name="organizationAssignedIdentifiers[0].healthcareSite"
 									value="${command.organizationAssignedIdentifiers[0].healthcareSite.id}" />
+						
 								<input id="coCenter-input" size="50" type="text"
 								name="studyCoordinatingCenters[0].healthcareSite.name"
-								value="${command.studyCoordinatingCenters[0].healthcareSite.name}" class="validate-notEmpty" />
+								value="${command.studyCoordinatingCenters[0].healthcareSite.name}" class="autocomplete validate-notEmpty" />
+							
 							<tags:indicator id="coCenter-indicator" />
 							<div id="coCenter-choices" class="autocomplete"></div>
 							</div>
@@ -314,7 +316,8 @@
             <div class="value">
             	<input type="text" id="healthcareSite-input" size="50"
             		name="aaaxxx" 
-            		value="${fn:length(command.studyFundingSponsors)>0?command.studyFundingSponsors[0].healthcareSite.name:''}"/>
+            		value="${fn:length(command.studyFundingSponsors)>0?command.studyFundingSponsors[0].healthcareSite.name:''}"
+            		class="autocomplete" />
 				<input type="hidden" id="healthcareSite-hidden"
             		name="studyFundingSponsors[0].healthcareSite"
             		value="${fn:length(command.studyFundingSponsors)>0?command.studyFundingSponsors[0].healthcareSite.id:''}"/>            		

@@ -11,8 +11,7 @@
 	}
 	
 	function clear(epochCountIndex){
-		<tags:tabMethod method="clearStratumGroups" viewName="/study/asynchronous/strat_combinations" divElement="'sgCombinations_'+epochCountIndex" 
-		                javaScriptParam="'epochCountIndex='+epochCountIndex"  /> 
+		
 	}
 </script>
 </head>

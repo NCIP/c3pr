@@ -88,7 +88,7 @@ Event.observe(window, "load", function() {
                				<form:hidden id="healthcareSite-hidden"
                         			path="studySites[0].healthcareSite"
                       				 />
-                			<input class="validate-notEmpty" type="text" id="healthcareSite-input"
+                			<input class="autocomplete validate-notEmpty" type="text" id="healthcareSite-input"
                        				size="40"
                       				 value="${command.studySites[0].healthcareSite.name}"/>
                 				<input type="button" id="healthcareSite-clear"
@@ -193,7 +193,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
                				<input type="hidden" id="healthcareSite${status.index}-hidden"
                         			name="studySites[${status.index}].healthcareSite"
                       				 value="${command.studySites[status.index].healthcareSite.id}"/>
-                			<input class="validate-notEmpty" type="text" id="healthcareSite${status.index}-input"
+                			<input class="autocomplete validate-notEmpty" type="text" id="healthcareSite${status.index}-input"
                        				size="40"
                       				 value="${command.studySites[status.index].healthcareSite.name}"/>
                 				<input type="button" id="healthcareSite${status.index}-clear"
@@ -239,7 +239,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
             <td>
                 <input type="hidden" id="healthcareSitePAGE.ROW.INDEX-hidden"
                         name="studySites[PAGE.ROW.INDEX].healthcareSite"/>
-                <input class="validate-notEmpty" type="text" id="healthcareSitePAGE.ROW.INDEX-input"
+                <input class="autocomplete validate-notEmpty" type="text" id="healthcareSitePAGE.ROW.INDEX-input"
                        size="40"
                        value="${command.studySites[PAGE.ROW.INDEX].healthcareSite.name}"/>
                 <input type="button" id="healthcareSitePAGE.ROW.INDEX-clear"

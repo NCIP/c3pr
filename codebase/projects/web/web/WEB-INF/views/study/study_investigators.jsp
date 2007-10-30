@@ -140,8 +140,9 @@ RowManager.addRowInseter(instanceRowInserterProps);
                 <td>
                     <form:hidden id="investigator${status.index}-hidden"
                                  path="studyOrganizations[${selected_site}].studyInvestigators[${status.index}].healthcareSiteInvestigator"/>
-                    <input class="validate-notEmpty" type="text" id="investigator${status.index}-input" size="30"
-                           value="${command.studyOrganizations[selected_site].studyInvestigators[status.index].healthcareSiteInvestigator.investigator.fullName}"/>
+                    <input class="autocomplete validate-notEmpty" type="text" id="investigator${status.index}-input" size="30"
+                           value="${command.studyOrganizations[selected_site].studyInvestigators[status.index].healthcareSiteInvestigator.investigator.fullName}"
+                           class="autocomplete"/>
                     <input type="button" id="investigator${status.index}-clear" value="Clear"/>
                     <tags:indicator id="investigator${status.index}-indicator"/>
                     <div id="investigator${status.index}-choices" class="autocomplete"></div>
@@ -222,7 +223,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
                 <input type="hidden" id="investigatorPAGE.ROW.INDEX-hidden"
                         name="studyOrganizations[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].healthcareSiteInvestigator"
                        value="studyOrganizations[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].healthcareSiteInvestigator"/>
-                <input class="validate-notEmpty" type="text" id="investigatorPAGE.ROW.INDEX-input"
+                <input class="autocomplete validate-notEmpty" type="text" id="investigatorPAGE.ROW.INDEX-input"
                        size="30"
                        value="${command.studyOrganizations[selected_site].studyInvestigators[PAGE.ROW.INDEX].healthcareSiteInvestigator.investigator.fullName}"/>
                 <input type="button" id="investigatorPAGE.ROW.INDEX-clear"

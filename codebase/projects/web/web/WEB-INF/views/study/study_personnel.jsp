@@ -159,8 +159,9 @@ RowManager.addRowInseter(instanceRowInserterProps);
             <td>
                 <form:hidden id="personnel${status.index}-hidden"
                              path="studyOrganizations[${selected_site}].studyPersonnel[${status.index}].researchStaff"/>
-                <input type="text" class="validate-notEmpty" id="personnel${status.index}-input" size="30"
-                       value="${command.studyOrganizations[selected_site].studyPersonnel[status.index].researchStaff.fullName}"/>
+                <input type="text" class="autocomplete validate-notEmpty" id="personnel${status.index}-input" size="30"
+                       value="${command.studyOrganizations[selected_site].studyPersonnel[status.index].researchStaff.fullName}"
+                       class="autocomplete"/>
                 <input type="button" id="personnel${status.index}-clear" value="Clear"/>
                 <tags:indicator id="personnel${status.index}-indicator"/>
                 <div id="personnel${status.index}-choices" class="autocomplete"></div>
@@ -238,7 +239,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
                 <input type="hidden" id="personnelPAGE.ROW.INDEX-hidden"
                        name="studyOrganizations[${selected_site}].studyPersonnel[PAGE.ROW.INDEX].researchStaff"
                        value="studyOrganizations[${selected_site}].studyPersonnel[PAGE.ROW.INDEX].researchStaff"/>
-                <input type="text" class="validate-notEmpty" id="personnelPAGE.ROW.INDEX-input" size="30"
+                <input type="text" class="autocomplete validate-notEmpty" id="personnelPAGE.ROW.INDEX-input" size="30"
                        value="${command.studyOrganizations[selected_site].studyPersonnel[PAGE.ROW.INDEX].researchStaff.fullName}"/>
                 <input type="button" id="personnelPAGE.ROW.INDEX-clear" value="Clear"/>
                 <tags:indicator id="personnelPAGE.ROW.INDEX-indicator"/>

@@ -198,7 +198,7 @@ function manageIdentifierRadio(element){
 								id="healthcareSite${organizationStatus.index}-hidden"
 								name="organizationAssignedIdentifiers[${organizationStatus.index}].healthcareSite"
 								value="${command.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.id}" />
-							<input class="validate-notEmpty" type="text"
+							<input class="autocomplete validate-notEmpty" type="text"
 								id="healthcareSite${organizationStatus.index}-input" size="50"
 								value="${command.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.name}" />
 							<input type="button"
@@ -333,7 +333,7 @@ function manageIdentifierRadio(element){
 		<td class="alt"><input type="hidden"
 			id="healthcareSitePAGE.ROW.INDEX-hidden"
 			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].healthcareSite" />
-		<input class="validate-notEmpty" type="text"
+		<input class="autocomplete validate-notEmpty" type="text"
 			id="healthcareSitePAGE.ROW.INDEX-input" size="50"
 			value="${command.organizationAssignedIdentifiers[PAGE.ROW.INDEX].healthcareSite.name}" />
 		<input type="button" id="healthcareSitePAGE.ROW.INDEX-clear"

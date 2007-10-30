@@ -143,7 +143,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 	<tr>
 		<td class="label" width="40%">Primary Disease Site:</td>
 		<td>
-			<form:input id="diseaseSite-input" path="diseaseHistory.otherPrimaryDiseaseSiteCode"/>
+			<form:input id="diseaseSite-input" path="diseaseHistory.otherPrimaryDiseaseSiteCode" cssClass="autocomplete"/>
 			<form:hidden id="diseaseSite-hidden" path="diseaseHistory.anatomicSite"/>
 			<input type="button" id="diseaseSite-clear" value="Clear" onclick="$('diseaseSite-hidden').value='';"/>
 			<tags:indicator id="diseaseSite-indicator"/>
