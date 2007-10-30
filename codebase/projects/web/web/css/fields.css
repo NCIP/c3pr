@@ -52,7 +52,9 @@ div.autocomplete ul li {
     cursor: pointer;
     
 }
-
+input.autocomplete{
+	background-color: #CCE6FF;
+}
 /*
     SELECT-equivalent groups of radio buttons
  */
