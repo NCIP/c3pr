@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -61,6 +62,7 @@ public class Participant extends Person implements Comparable<Participant> {
 	@OneToMany(fetch = FetchType.LAZY)
 	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "PRT_ID")
+	@OrderBy
 	public List<Identifier> getIdentifiers() {
 		return identifiers;
 	}

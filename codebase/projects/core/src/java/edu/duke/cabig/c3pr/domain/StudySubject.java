@@ -23,6 +23,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -277,6 +278,7 @@ public class StudySubject extends AbstractMutableDeletableDomainObject {
     @Cascade( { CascadeType.MERGE, CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     @JoinColumn(name = "SPA_ID")
 	@Where(clause = "retired_indicator  = 'false'")
+	@OrderBy
 	public List<Identifier> getIdentifiers() {
 		return identifiers;
 	}
