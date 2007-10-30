@@ -242,6 +242,7 @@ public class Study extends AbstractMutableDeletableDomainObject implements
 
 	@OneToMany(mappedBy = "study", fetch = FetchType.LAZY)
 	@Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+	@OrderBy
 	public List<StudyOrganization> getStudyOrganizations() {
 		return studyOrganizations;
 	}
@@ -339,6 +340,7 @@ public class Study extends AbstractMutableDeletableDomainObject implements
 	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "STU_ID")
 	@Where(clause = "retired_indicator  = 'false'")
+	@OrderBy
 	public List<Identifier> getIdentifiers() {
 		return identifiers;
 	}
