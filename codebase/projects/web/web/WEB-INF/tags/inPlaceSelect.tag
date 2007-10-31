@@ -11,12 +11,11 @@
 <script type="text/javascript">
 	var cheatVar;
 	var editor_${path}=new Ajax.InPlaceCollectionEditor('${path}-id', document.URL,
-								{collection: ${commanSepOptVal}, requiredIndicator:${required},
+								{collection: ${commanSepOptVal}, requiredIndicator:${required}, ajaxOptions:{evalScripts:true},
 			  						callback: function(form, value) {
 			  									cheatVar = value;
 	 														 		return '_asynchronous=true&_asyncMethodName=doInPlaceEdit&_ajaxInPlaceEditParam=${path}&_pathToGet=${pathToGet}&${path}=' + escape(value);
-	 														  	},
-	 								onComplete: function(){window.location.reload( true );}
+	 														  	}
 								}
 							);    						
 </script>
