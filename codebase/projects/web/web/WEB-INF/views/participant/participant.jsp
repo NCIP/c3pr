@@ -47,7 +47,7 @@ function clearField(field) {
    var organizationIdentifierRowInserterProps = {
             add_row_division_id: "organizationIdentifiersTable", 	        /* this id belongs to element where the row would be appended to */
             skeleton_row_division_id: "dummy-organizationIdentifierRow",
-            initialIndex: ${fn:length(command.organizationAssignedIdentifiers)},                            /* this is the initial count of the rows when the page is loaded  */
+            initialIndex: ${command.MRN?fn:length(command.organizationAssignedIdentifiers):fn:length(command.organizationAssignedIdentifiers)+1},                            /* this is the initial count of the rows when the page is loaded  */
             path: "organizationAssignedIdentifiers",                               /* this is the path of the collection that holds the rows  */
             postProcessRowInsertion: function(object){
 				        clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
@@ -60,6 +60,22 @@ function clearField(field) {
 				AutocompleterManager.registerAutoCompleter(clonedRowInserter);
 		    }
         };
+         var mrnAutocompleterProps = {
+            basename: "mrnOrganization",
+            populator: function(autocompleter, text) {
+                 ParticipantAjaxFacade.matchHealthcareSites( text,function(values) {
+                    autocompleter.setChoices(values)
+                })
+            },
+            valueSelector: function(obj) {
+                return obj.name
+            },
+             afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+    								hiddenField=inputElement.id.split("-")[0]+"-hidden";
+	    							$(hiddenField).value=selectedChoice.id;
+			}
+        };
+        AutocompleterManager.addAutocompleter(mrnAutocompleterProps);
         RowManager.addRowInseter(systemIdentifierRowInserterProps);
         RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 ValidationManager.submitPostProcess= function(formElement, flag){	
@@ -175,6 +191,36 @@ function manageIdentifierRadio(element){
 		<br>
 		<br>
 		
+		
+		<chrome:division title="MRN">
+    		<div class="leftpanel">
+         		<div id="mrnDetails">
+                	 <div class="row">
+		                        <div class="label required-indicator">Organization:</div>
+		                        <div class="value">
+								<input type="hidden" id="mrnOrganization-hidden"
+									name="organizationAssignedIdentifiers[0].healthcareSite"
+									value="${command.organizationAssignedIdentifiers[0].healthcareSite.id}" />
+								<input id="mrnOrganization-input" size="50" type="text"
+								name="organizationAssignedIdentifiers[0].healthcareSite.name"
+								value="${command.organizationAssignedIdentifiers[0].healthcareSite.name}" class="autocomplete validate-notEmpty" />
+								<tags:indicator id="mrnOrganization-indicator" />
+								<div id="mrnOrganization-choices" class="autocomplete"></div>
+							    </div>
+                    </div>
+                    <div class="row">
+		                        <div class="label required-indicator">Identifier:</div>
+		                        <div class="value"><input type="text" name="organizationAssignedIdentifiers[0].value" 
+								size="30" maxlength="30"
+								value="${command.organizationAssignedIdentifiers[0].value}" class="validate-notEmpty" />
+							     <input type="hidden" name="organizationAssignedIdentifiers[0].type"
+								value="MRN"/>
+								<input type="hidden" name="organizationAssignedIdentifiers[0].primaryIndicator" value="true"/></div>
+					</div>
+          		</div>
+    		</div>
+		</chrome:division>
+		
 		<tr>
 
 			<td><chrome:division title="Organization Assigned Identifiers">
@@ -190,7 +236,7 @@ function manageIdentifierRadio(element){
 						<th>Primary Indicator</th>
 						<th ></th>
 					</tr>
-					<c:forEach items="${command.organizationAssignedIdentifiers}"
+					<c:forEach items="${command.organizationAssignedIdentifiers}" begin="1"
 						varStatus="organizationStatus">
 						<tr
 							id="organizationIdentifiersTable-${organizationStatus.index}">
