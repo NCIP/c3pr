@@ -52,6 +52,9 @@ class StudyEmptyTab extends StudyTab {
 		
 			try {
 				studyService.setStatuses(command, statusObject);
+				//adding a callback incase the status change is successful
+				//this callback is used to dynamically display/hide the amend study button
+				retValue="<script>statusChangeCallback('"+command.getCoordinatingCenterStudyStatus().getCode()+"')</script>";
 			}catch (Exception e) {
 				retValue="<script>alert('"+e.getMessage()+"')</script>";
 				e.printStackTrace();

@@ -15,10 +15,19 @@
         }
         
     function activateInPlaceEditing(arrayElements){
-	for(aE=0 ; aE<arrayElements.length ; aE++){
-		arrayElements[aE].enterEditMode('click');
+		for(aE=0 ; aE<arrayElements.length ; aE++){
+			arrayElements[aE].enterEditMode('click');
+		}
 	}
-}
+
+	function statusChangeCallback(statusCode){
+		elmt = document.getElementById('amendButtonDisplayDiv');
+		if(statusCode == 'Active' || statusCode == 'Amendment Pending'){
+			elmt.style.display = "";
+		} else {
+			elmt.style.display = "none";
+		}
+	}
 </script>
 </head>
 
@@ -336,21 +345,12 @@
 				domainObject="${editAuthorizationTask}"
 				authorizationCheckName="taskAuthorizationCheck">
 				<input type="submit" value="Edit Study" />
-				<c:choose>
-					<c:when
-						test="${command.coordinatingCenterStudyStatus == 'PENDING'}">
-					<%--	<input type="submit" value="Edit Study" /> --%>
-					</c:when>
-					<c:when
-						test="${command.coordinatingCenterStudyStatus == 'ACTIVE' || 
-    					command.coordinatingCenterStudyStatus == 'AMENDMENT_PENDING'}">
-						<input type="button" value="Amend Study"
-							onclick="document.location='../study/amendStudy?studyId=${command.id}'" />
-					</c:when>
-					<c:otherwise>
-					</c:otherwise>
-				</c:choose>
-				<%--	<input type="button" value="Amend Study" onclick="document.location='../study/amendStudy?studyId=${command.id}'"/> --%>
+
+				<input type="button" value="Amend Study" id="amendButtonDisplayDiv"
+				    <c:if test="${command.coordinatingCenterStudyStatus != 'ACTIVE' && 
+  							command.coordinatingCenterStudyStatus != 'AMENDMENT_PENDING'}">style="display:none"</c:if>
+					onclick="document.location='../study/amendStudy?studyId=${command.id}'" />
+
 			</csmauthz:accesscontrol> </span></div>
 			</div>
 
