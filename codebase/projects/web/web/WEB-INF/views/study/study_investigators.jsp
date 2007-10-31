@@ -39,7 +39,7 @@ function chooseSitesFromSummary(selected) {
 var investigatorsAutocompleterProps = {
        basename: "investigator",
        populator: function(autocompleter, text) {
-           StudyAjaxFacade.matchSiteInvestigators(text, document.getElementById('site').value, function(values) {
+           StudyAjaxFacade.matchStudyOrganizationInvestigators(text, document.getElementById('site').value, function(values) {
                autocompleter.setChoices(values)
            })
        },
@@ -81,7 +81,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 <c:choose>
 	<c:when test="${fn:length(command.studyOrganizations) == 0}">
         <tr>
-			<td>Choose a study site before adding investigators</td>
+			<td>Choose a study organization before adding investigators</td>
 		</tr>
     </c:when>
     <c:otherwise>
@@ -130,29 +130,34 @@ RowManager.addRowInseter(instanceRowInserterProps);
     <table border="0" id="investigatorsTable" cellspacing="0" class="tablecontent">
         <tr>
             <th><span class="required-indicator">Investigator</span></th>
-            <th><span class="required-indicator">Role</span></th>
             <th><span class="required-indicator">Status</span></th>
             <th></th>
         </tr>
 
-        <c:forEach varStatus="status" items="${command.studyOrganizations[selected_site].studyInvestigators}">
+        <c:forEach varStatus="status" var="studyInvestigator" items="${command.studyOrganizations[selected_site].studyInvestigators}">
+        <c:choose>
+        <c:when test="${(studyInvestigator.roleCode eq 'Principal Investigator')}">
+         <tr>
+                <td>
+                   ${command.studyOrganizations[selected_site].studyInvestigators[status.index].healthcareSiteInvestigator.investigator.fullName}
+                </td>
+                <td>
+                    ${command.studyOrganizations[selected_site].studyInvestigators[status.index].statusCode}
+            </tr>
+        </c:when>
+        <c:otherwise>
             <tr id="investigatorsTable-${status.index}">
                 <td>
                     <form:hidden id="investigator${status.index}-hidden"
                                  path="studyOrganizations[${selected_site}].studyInvestigators[${status.index}].healthcareSiteInvestigator"/>
                     <input class="autocomplete validate-notEmpty" type="text" id="investigator${status.index}-input" size="30"
-                           value="${command.studyOrganizations[selected_site].studyInvestigators[status.index].healthcareSiteInvestigator.investigator.fullName}"
-                           class="autocomplete"/>
+                           value="${command.studyOrganizations[selected_site].studyInvestigators[status.index].healthcareSiteInvestigator.investigator.fullName}"/>
                     <input type="button" id="investigator${status.index}-clear" value="Clear"/>
                     <tags:indicator id="investigator${status.index}-indicator"/>
                     <div id="investigator${status.index}-choices" class="autocomplete"></div>
+                    <input type="hidden" name="studyOrganizations[${selected_site}].studyInvestigators[${status.index}].roleCode"
+                    value="Site Investigator"/>
                 </td>
-                <td>
-                    <form:select path="studyOrganizations[${selected_site}].studyInvestigators[${status.index}].roleCode"
-                                 cssClass="validate-notEmpty">
-                        <option value="">--Please Select--</option>
-                        <form:options items="${studyInvestigatorRoleRefData}" itemLabel="desc" itemValue="desc"/>
-                    </form:select></td>
                 <td>
                     <form:select path="studyOrganizations[${selected_site}].studyInvestigators[${status.index}].statusCode"
                                  cssClass="validate-notEmpty">
@@ -163,6 +168,8 @@ RowManager.addRowInseter(instanceRowInserterProps);
                     <a href="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index});"><img
                             src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a></td>
             </tr>
+            </c:otherwise>
+        </c:choose>
         </c:forEach>
 
     </table>
@@ -230,16 +237,9 @@ RowManager.addRowInseter(instanceRowInserterProps);
                         value="Clear"/>
                    <tags:indicator id="investigatorPAGE.ROW.INDEX-indicator"/>
                   <div id="investigatorPAGE.ROW.INDEX-choices" class="autocomplete"></div>
-            </td>
-            <td>
-                <select id="studyOrganizations[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].roleCode"
-                           name="studyOrganizations[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].roleCode"
-                        class="validate-notEmpty">
-                    <option value="">--Please Select--</option>
-                    <c:forEach items="${studyInvestigatorRoleRefData}" var="studyInvRole">
-                        <option value="${studyInvRole.desc}">${studyInvRole.desc}</option>
-                    </c:forEach>
-                </select>
+                  <input type="hidden" id="studyOrganizations[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].roleCode"
+                  name="studyOrganizations[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].roleCode"
+                    value="Site Investigator"/>
             </td>
             <td>
                 <select id="studyOrganizations[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].statusCode"
