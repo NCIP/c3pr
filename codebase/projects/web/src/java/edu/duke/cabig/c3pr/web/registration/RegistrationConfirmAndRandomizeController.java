@@ -129,10 +129,15 @@ public class RegistrationConfirmAndRandomizeController extends SimpleFormControl
 		boolean newRegistration=true;
 		String armAssigned="";
 		String armAssignedLabel="";
-		if(studySubject.getIfTreatmentScheduledEpoch() && ((ScheduledTreatmentEpoch)studySubject.getScheduledEpoch()).getScheduledArm()!=null
-				&& ((ScheduledTreatmentEpoch)studySubject.getScheduledEpoch()).getScheduledArm().getArm()!=null){
-			armAssigned=((ScheduledTreatmentEpoch)studySubject.getScheduledEpoch()).getScheduledArm().getArm().getName();
-			armAssignedLabel="Arm Assigned";
+		if(studySubject.getIfTreatmentScheduledEpoch() && ((ScheduledTreatmentEpoch)studySubject.getScheduledEpoch()).getScheduledArm()!=null){
+			if(studySubject.getStudySite().getStudy().getBlindedIndicator()){
+				armAssigned=((ScheduledTreatmentEpoch)studySubject.getScheduledEpoch()).getScheduledArm().getKitNumber();
+				armAssignedLabel="Kit Assigned";
+			} else if (((ScheduledTreatmentEpoch)studySubject.getScheduledEpoch()).getScheduledArm().getArm()!=null){
+				armAssigned=((ScheduledTreatmentEpoch)studySubject.getScheduledEpoch()).getScheduledArm().getArm().getName();
+				armAssignedLabel="Arm Assigned";
+			}
+			
 		}
 		int count=0;
 		for(ScheduledEpoch scheduledEpoch: studySubject.getScheduledEpochs()){
