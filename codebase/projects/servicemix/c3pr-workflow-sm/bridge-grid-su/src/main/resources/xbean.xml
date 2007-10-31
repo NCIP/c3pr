@@ -34,7 +34,7 @@
 
 	<wsrf:endpoint service="ctms:psc-adverse-event-grid-service"
 		endpoint="endpoint" exchangeProcessor="#aeProcessor"
-		epr="https://10.10.10.2:9018/wsrf/services/cagrid/AdverseEventConsumer" />
+		epr="http://10.10.10.2:9018/wsrf/services/cagrid/AdverseEventConsumer" />
 
 	<wsrf:endpoint service="ctms:caaers-adverse-event-grid-service"
 		endpoint="endpoint" exchangeProcessor="#createCandidateProcessor"
