@@ -108,8 +108,43 @@
 	    							$(hiddenField1).value=selectedChoice.id;
 			}
         }
+        var principalInvestigatorSiteAutocompleterProps = {
+            basename: "principalInvestigatorSite",
+            populator: function(autocompleter, text) {
+                StudyAjaxFacade.matchHealthcareSites(text,function(values) {
+                    autocompleter.setChoices(values)
+                })
+            },
+            valueSelector: function(obj) {
+                return obj.name
+            },
+             afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+    								hiddenField=principalInvestigatorSiteAutocompleterProps.basename+"-hidden"
+	    							$(hiddenField).value=selectedChoice.id;
+			}
+        }
+        var principalInvestigatorAutocompleterProps = {
+            basename: "investigator0",
+            populator: function(autocompleter, text) {
+                StudyAjaxFacade.matchStudySiteInvestigators(text,document.getElementById("principalInvestigatorSite-hidden").value, function(values) {
+                    autocompleter.setChoices(values)
+                })
+            },
+            valueSelector: function(obj) {
+                return obj.investigator.fullName
+            },
+             afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+    								hiddenField=principalInvestigatorAutocompleterProps.basename+"-hidden"
+	    							$(hiddenField).value=selectedChoice.id;
+			}
+        }
+        
         AutocompleterManager.addAutocompleter(coCenterAutocompleterProps);
         AutocompleterManager.addAutocompleter(sponsorSiteAutocompleterProps);
+        if (${flowType=='CREATE_STUDY'}){
+	        AutocompleterManager.addAutocompleter(principalInvestigatorSiteAutocompleterProps);
+	        AutocompleterManager.addAutocompleter(principalInvestigatorAutocompleterProps);
+        }
 
 
     </script>
@@ -241,16 +276,14 @@
                 	 <div class="row">
 		                        <div class="label required-indicator">Coordinating Center:</div>
 		                        <div class="value"><input type="hidden" id="coCenter-hidden"
-								name="studyCoordinatingCenters[0].healthcareSite" 
+								name="studyCoordinatingCenters[0].healthcareSite"
 								value="${command.studyCoordinatingCenters[0].healthcareSite.id }" />
 								<input type="hidden" id="coCenter-hidden1"
 									name="organizationAssignedIdentifiers[0].healthcareSite"
 									value="${command.organizationAssignedIdentifiers[0].healthcareSite.id}" />
-						
 								<input id="coCenter-input" size="50" type="text"
 								name="studyCoordinatingCenters[0].healthcareSite.name"
 								value="${command.studyCoordinatingCenters[0].healthcareSite.name}" class="autocomplete validate-notEmpty" />
-							
 							<tags:indicator id="coCenter-indicator" />
 							<div id="coCenter-choices" class="autocomplete"></div>
 							</div>
@@ -272,6 +305,56 @@
     </div>
 </chrome:division>
 
+<chrome:division title="Principal Investigator Details">
+    <div class="leftpanel">
+         <div id="principalInvestigatorDetails">
+         <c:choose>
+            <c:when test="${not empty command.id}">
+                	 <div class="row">
+		                        <div class="label required-indicator">Organization:</div>
+		                        <div class="value">${command.studySites[0].healthcareSite.name}</div>
+							</div>
+                    </div>
+                    <div class="row">
+		                        <div class="label required-indicator">Principal Investigator:</div>
+		                       <div class="value"> ${command.studySites[0].studyInvestigators[0].healthcareSiteInvestigator.investigator.fullName}</div>
+                    </div>
+                     </c:when>
+            <c:otherwise>
+            		 <div class="row">
+		                        <div class="label required-indicator">Organization:</div>
+		                        <div class="value"><input type="hidden" id="principalInvestigatorSite-hidden"
+								name="studySites[0].healthcareSite"
+								value="${command.studySites[0].healthcareSite.id }" />
+								<input id="principalInvestigatorSite-input" size="50" type="text"
+								name="studySites[0].healthcareSite.name"
+								value="${command.studySites[0].healthcareSite.name}" class="autocomplete validate-notEmpty" />
+							<tags:indicator id="principalInvestigatorSite-indicator"/>
+							<div id="principalInvestigatorSite-choices" class="autocomplete"></div>
+							</div>
+                    </div>
+                    <div class="row">
+		                        <div class="label required-indicator">Principal Investigator:</div>
+		                       <div class="value"> <form:hidden id="investigator0-hidden"
+                                 path="studySites[0].studyInvestigators[0].healthcareSiteInvestigator"/>
+                    <input type="text" id="investigator0-input" size="30"
+                           value="${command.studySites[0].studyInvestigators[0].healthcareSiteInvestigator.investigator.fullName}" class="autocomplete validate-notEmpty"/>
+                    <tags:indicator id="investigator0-indicator"/>
+                    <div id="investigator0-choices" class="autocomplete"></div>
+                    <input type="hidden" name="studySites[0].studyInvestigators[0].roleCode"
+						value="Principal Investigator"/>
+						<input type="hidden" name="studySites[0].studyInvestigators[0].statusCode" value="Active"/>
+                    </div>
+            
+            
+             </c:otherwise>
+         </c:choose>
+
+          </div>
+           
+
+    </div>
+</chrome:division>
 
 <chrome:division title="Randomization Details">
     <div class="leftpanel">
