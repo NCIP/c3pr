@@ -161,7 +161,7 @@ public class Participant extends Person implements Comparable<Participant> {
 	}
 	
 	@Transient
-	public boolean getHasMRN(){
+	public boolean getMRN(){
 		for (OrganizationAssignedIdentifier orgIdentifier: this.getOrganizationAssignedIdentifiers()){
 			if (orgIdentifier.getType()!=null && orgIdentifier.getType().equals("MRN"))
 			return true;
