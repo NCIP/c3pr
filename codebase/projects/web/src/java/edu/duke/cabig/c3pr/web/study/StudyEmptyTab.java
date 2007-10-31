@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.service.StudyService;
 
 /**
@@ -31,7 +32,7 @@ class StudyEmptyTab extends StudyTab {
 			String value) {
 		
 		Map<String, String> map = new HashMap<String, String>();
-		
+		String retValue="";
 		
 		if (property.startsWith("changedSiteStudyStatus")){
 			SiteStudyStatus statusObject = SiteStudyStatus.getByCode(value);
@@ -40,9 +41,10 @@ class StudyEmptyTab extends StudyTab {
 				studyService.setSiteStudyStatus(command,command.getStudySites().get(studySiteIndex),statusObject);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
+				retValue="<script>alert('"+e.getMessage()+"')</script>";
 				e.printStackTrace();
 			}finally{
-				map.put(getFreeTextModelName(), (command).getStudySites().get(studySiteIndex).getSiteStudyStatus().getCode());
+				retValue += command.getStudySites().get(studySiteIndex).getSiteStudyStatus().getCode();
 			}
 			
 		} else{
@@ -50,14 +52,14 @@ class StudyEmptyTab extends StudyTab {
 		
 			try {
 				studyService.setStatuses(command, statusObject);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
+			}catch (Exception e) {
+				retValue="<script>alert('"+e.getMessage()+"')</script>";
 				e.printStackTrace();
 			} finally{
-				map.put(getFreeTextModelName(), (command).getCoordinatingCenterStudyStatus().getCode());
+				retValue+=command.getCoordinatingCenterStudyStatus().getCode();
 			}
 		}
-		
+		map.put(getFreeTextModelName(), retValue);
 		return new ModelAndView("", map);
 	}
 
