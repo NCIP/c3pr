@@ -1,9 +1,8 @@
-<%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
-<%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
+<%@taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
+<%@taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
 <html>
 <head>
@@ -29,7 +28,7 @@
 		<c:choose>
 		<c:when test="${!command.scheduledEpoch.requiresArm}">
 			<tr>
-				<td><br/><b>The selected epoch does not involve assigning an arm.</b></td>
+				<td><br/><strong><fmt:message key="REGISTRATION.NO_ARM_ASSIGNMENT_INVOLVED"/></strong></td>
 			</tr>
 		</c:when>
 		<c:when test="${!command.scheduledEpoch.requiresRandomization}">
@@ -45,9 +44,14 @@
 				</td>
 			</tr>
 		</c:when>
+		<c:when test="${command.studySite.study.blindedIndicator}">
+			<tr>
+				<td><strong><fmt:message key="REGISTRATION.BLINDED_ARM_ASSIGNMENT"/></strong></td>
+			</tr>
+		</c:when>
 		<c:otherwise>
 			<tr>
-				<td>Arm will be assigned after Randomization. Please save the registration record and then randomize</td>
+				<td><strong><fmt:message key="REGISTRATION.DFAULT_ARM_ASSIGNMENT"/></strong></td>
 			</tr>
 		</c:otherwise>
 		</c:choose>
