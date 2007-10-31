@@ -24,7 +24,7 @@ public class StudyRandomizationTab extends StudyTab {
 	String []bookRandomizationEntries;
 	
 	public StudyRandomizationTab() {
-        super("Study Book Randomizations", "Randomization", "study/study_randomizations");
+        super("Study Randomizations", "Randomization", "study/study_randomizations");
         bookRandomizationEntries = new String[10];
      }
 
