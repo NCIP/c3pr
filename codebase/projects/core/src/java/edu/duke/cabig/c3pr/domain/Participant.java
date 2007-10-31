@@ -159,6 +159,15 @@ public class Participant extends Person implements Comparable<Participant> {
 		}
 		return "";
 	}
+	
+	@Transient
+	public boolean getHasMRN(){
+		for (OrganizationAssignedIdentifier orgIdentifier: this.getOrganizationAssignedIdentifiers()){
+			if (orgIdentifier.getType()!=null && orgIdentifier.getType().equals("MRN"))
+			return true;
+		}
+		return false;
+	}
 
 	public String getMaritalStatusCode() {
 		return maritalStatusCode;
