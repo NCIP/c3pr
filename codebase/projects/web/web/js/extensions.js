@@ -50,7 +50,7 @@ Autocompleter.Base.prototype = Object.extend(Autocompleter.Base.prototype, {
 			var hiddenElmtId = this.element.id.substring(0, this.element.id.lastIndexOf('-input')) + "-hidden";	
 			if($(hiddenElmtId) != null ){
 				if($(hiddenElmtId).value == null || $(hiddenElmtId).value == '')
-					$(this.element.id).value="Invalid Text Entered";
+					$(this.element.id).value="";
 			}
 		}
 				
