@@ -209,7 +209,7 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 					scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING);
 				} catch (Exception e) {
 					scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.DISAPPROVED);
-					throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.ERROR_SEND_REGISTRATION.CODE"),e.getMessage());
+					throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.ERROR_SEND_REGISTRATION.CODE"),e);
 				}
 			}else{
 				if(studySubject.getScheduledEpoch().getRequiresRandomization()){
@@ -217,7 +217,7 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 						try {
 							doRandomization(studySubject);
 						} catch (Exception e) {
-							throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.RANDOMIZATION.CODE"),e.getMessage());
+							throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.RANDOMIZATION.CODE"),e);
 						}
 						if(((ScheduledTreatmentEpoch)studySubject.getScheduledEpoch()).getScheduledArm()==null){
 							scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.UNAPPROVED);
@@ -265,7 +265,7 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 					try {
 						sendRegistrationEvent(studySubject);
 					} catch (Exception e) {
-						throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.ERROR_SEND_REGISTRATION.CODE"),e.getMessage());
+						throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.ERROR_SEND_REGISTRATION.CODE"),e);
 					}
 				}else{
 					studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.UNREGISTERED);
