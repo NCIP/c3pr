@@ -86,7 +86,8 @@ public abstract class StudyTab extends InPlaceEditableTab<Study> {
 			Iterator iter = epochList.iterator();
 			while(iter.hasNext()){
 					tEpoch = (TreatmentEpoch)iter.next();
-					if(study.getRandomizedIndicator() && study.getRandomizationType() != null && tEpoch.getRandomizedIndicator()){
+					if(study.getRandomizedIndicator() && study.getRandomizationType() != null && 
+							tEpoch.getRandomizedIndicator() != null && tEpoch.getRandomizedIndicator()){
 						if(study.getRandomizationType().equals(RandomizationType.BOOK)){
 							if(tEpoch.getRandomization() instanceof BookRandomization){
 								//do nothing. This happens if nothing is chnaged during the edit flow
