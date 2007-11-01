@@ -31,23 +31,4 @@ class StudyIdentifiersTab extends StudyTab {
 	    return refdata;
     }
 
-    @Override
-    public void postProcess(HttpServletRequest httpServletRequest, Study study, Errors errors) {
-        String action = httpServletRequest.getParameter("_action");
-
-        if ("addIdentifier".equals(action)) {
-            log.debug("Requested Add Identifier");
-            SystemAssignedIdentifier id = new SystemAssignedIdentifier();
-            id.setValue("<enter value>");
-            id.setSystemName("<enter value>");
-            study.addIdentifier(id);
-        } else if ("removeIdentifier".equals(action)) {
-            int selected = Integer.parseInt(httpServletRequest.getParameter("_selected"));
-            log.debug("Requested Remove Identifier");
-            Identifier id = study.getIdentifiers().get(selected);
-            study.removeIdentifier(id);
-        }
-    }
-
-
 }
