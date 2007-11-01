@@ -8,6 +8,10 @@
         >
     <bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"/>
 
+    <bean id="userDuplicateValidator" class="edu.duke.cabig.c3pr.utils.web.validators.UsernameDuplicateValidator"
+               autowire="byType"/>
+
+
 
     
 </beans>

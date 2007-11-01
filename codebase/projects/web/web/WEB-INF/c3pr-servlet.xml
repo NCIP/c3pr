@@ -194,7 +194,7 @@
                   value="edu.duke.cabig.c3pr.domain.Participant" />
         <property name="commandName" value="command" />
     </bean>
-     <bean name="/participant/viewParticipant"
+    <bean name="/participant/viewParticipant"
           id="viewParticipantController" lazy-init="true"
           class="edu.duke.cabig.c3pr.web.ViewParticipantController"
           autowire="byName">
@@ -250,6 +250,9 @@
         <property name="formView" value="admin/investigator_details"/>
         <property name="successView" value="admin/investigator_confirmation"/>
         <property name="sessionForm" value="true" />
+        <property name="validator">
+            <ref bean="userDuplicateValidator"/>
+        </property>
     </bean>
 
     <bean name="/admin/searchResearchStaff" id="searchResearchStaffController"
@@ -266,10 +269,10 @@
         <property name="successView" value="admin/research_staff_confirmation"/>
         <property name="sessionForm" value="true" />
         <property name="validator">
-            <bean class="edu.duke.cabig.c3pr.utils.web.validators.UsernameDuplicateValidator"
-                  autowire="byType"/>
+            <ref bean="userDuplicateValidator"/>
         </property>
     </bean>
+
 
     <bean name="/admin/viewInvestigator" id="viewInvestigatorController" autowire="byType"
           class="edu.duke.cabig.c3pr.web.admin.ViewInvestigatorController" >
