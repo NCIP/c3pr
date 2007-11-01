@@ -14,14 +14,8 @@ public class C3PRCodedException extends C3PRBaseException {
 	private int exceptionCode;
 	private String exceptionMesssage;
 	
-    public C3PRCodedException(int exceptionCode, String exceptionMessage, String string, Throwable throwable) {
-        super(string, throwable);
-        this.exceptionCode=exceptionCode;
-        this.exceptionMesssage=exceptionMessage;
-    }
-    
-    public C3PRCodedException(int exceptionCode, String exceptionMessage, String string) {
-        super(string);
+    public C3PRCodedException(int exceptionCode, String exceptionMessage, Throwable throwable) {
+        super("",throwable);
         this.exceptionCode=exceptionCode;
         this.exceptionMesssage=exceptionMessage;
     }
