@@ -16,12 +16,18 @@ import edu.duke.cabig.c3pr.domain.PhonecallRandomization;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
+import edu.duke.cabig.c3pr.domain.validator.EpochValidator;
+import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
+
 
 /**
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:30:05 PM To
  * change this template use File | Settings | File Templates.
  */
 class StudyDesignTab extends StudyTab {
+	
+	private EpochValidator epochValidator;
+	private StudyValidator studyValidator;
 
 	public StudyDesignTab() {
 		super("Epochs and Arms", "Epochs & Arms", "study/study_design");
@@ -48,42 +54,32 @@ class StudyDesignTab extends StudyTab {
 	@Override
 	public void postProcess(HttpServletRequest httpServletRequest, Study study,
 			Errors errors) {
-
-		String selectedEpoch = httpServletRequest
-				.getParameter("_selectedEpoch");
-		String action = httpServletRequest.getParameter("_action");
-		String selectedArm = httpServletRequest.getParameter("_selectedArm");
-
-		{
-			if ("addEpoch".equals(action)) {
-				log.debug("Requested Add Epoch");
-				study.addEpoch(Epoch.createTreatmentEpoch(
-						"New Treatment Epoch", "Arm A", "Arm B", "Arm C"));				
-			} else if ("addArm".equals(action)) {
-				log.debug("Requested Add Arm");
-				TreatmentEpoch epoch = (TreatmentEpoch) study
-						.getTreatmentEpochs().get(
-								Integer.parseInt(selectedEpoch));
-				if (epoch.getName().equals("") || (epoch.getName() == null)) {
-					epoch.setName("Treatment Epoch");
-				}
-				Arm newArm = new Arm();
-				newArm.setName("New Arm");
-				epoch.addArm(newArm);
-			} else if ("removeEpoch".equals(action)) {
-				log.debug("Requested Remove Epoch");
-				study.getEpochs().remove(Integer.parseInt(selectedEpoch));
-			} else if ("removeArm".equals(action)) {
-				log.debug("Requested Remove Arm");
-				TreatmentEpoch epoch = (TreatmentEpoch) study.getEpochs().get(
-						Integer.parseInt(selectedEpoch));
-				epoch.getArms().remove(Integer.parseInt(selectedArm));
-			} else if ("addNonTreatmentEpoch".equals(action)) {
-				log.debug("Requested Add NonTreatmentEpoch");
-				study.addEpoch(Epoch
-						.createNonTreatmentEpoch("New Non Treatment Epoch"));
-			}			
-		}
 		updateRandomization(study);
+	}
+
+	@Override
+	public void validate(Study study, Errors errors) {
+		// TODO Auto-generated method stub
+		super.validate(study, errors);
+		this.studyValidator.validateStudyDesign(study, errors);
+	}
+
+	public EpochValidator getEpochValidator() {
+		return epochValidator;
+	}
+
+
+	public void setEpochValidator(EpochValidator epochValidator) {
+		this.epochValidator = epochValidator;
+	}
+
+
+	public StudyValidator getStudyValidator() {
+		return studyValidator;
+	}
+
+
+	public void setStudyValidator(StudyValidator studyValidator) {
+		this.studyValidator = studyValidator;
 	}
 }

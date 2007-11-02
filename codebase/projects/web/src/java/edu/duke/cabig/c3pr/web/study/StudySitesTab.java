@@ -4,7 +4,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.validation.Errors;
+
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,7 +18,7 @@ import edu.duke.cabig.c3pr.domain.Study;
  */
 class StudySitesTab extends StudyTab {
 	
-	/*private StudyService studyService;*/
+	private StudyValidator studyValidator;
 
     public StudySitesTab() {
         super("Sites", "Sites", "study/study_studysites");
@@ -39,6 +42,21 @@ class StudySitesTab extends StudyTab {
         return refdata;
 
     }
+    
+    @Override
+	public void validate(Study study, Errors errors) {
+		// TODO Auto-generated method stub
+		super.validate(study, errors);
+		this.studyValidator.validateStudySites(study, errors);
+	}
+
+	public StudyValidator getStudyValidator() {
+		return studyValidator;
+	}
+
+	public void setStudyValidator(StudyValidator studyValidator) {
+		this.studyValidator = studyValidator;
+	}
     
 
 	/*@Override

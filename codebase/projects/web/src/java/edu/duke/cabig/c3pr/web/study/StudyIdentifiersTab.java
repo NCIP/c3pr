@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.web.study;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 
 import org.springframework.validation.Errors;
 
@@ -17,6 +18,8 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 class StudyIdentifiersTab extends StudyTab {
+	
+	private StudyValidator studyValidator;
 
 
     public StudyIdentifiersTab() {
@@ -31,4 +34,19 @@ class StudyIdentifiersTab extends StudyTab {
 	    return refdata;
     }
 
+	@Override
+	public void validate(Study study, Errors errors) {
+		// TODO Auto-generated method stub
+		super.validate(study, errors);
+		this.studyValidator.validateStudyIdentifiers(study, errors);
+		
+	}
+
+	public StudyValidator getStudyValidator() {
+		return studyValidator;
+	}
+
+	public void setStudyValidator(StudyValidator studyValidator) {
+		this.studyValidator = studyValidator;
+	}
 }

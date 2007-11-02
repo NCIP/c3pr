@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.validation.Errors;
 
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,6 +17,8 @@ import edu.duke.cabig.c3pr.domain.Study;
  * To change this template use File | Settings | File Templates.
  */
 class StudyInvestigatorsTab extends StudyTab {
+	
+	private StudyValidator studyValidator;
 
     public StudyInvestigatorsTab() {
         this(false);
@@ -34,7 +37,14 @@ class StudyInvestigatorsTab extends StudyTab {
         return refdata;
     }
 
-
+    
+    @Override
+	public void validate(Study study, Errors errors) {
+		// TODO Auto-generated method stub
+		super.validate(study, errors);
+		this.studyValidator.validateStudyInvestigators(study, errors);
+	}
+    
     @Override
     public void postProcess(HttpServletRequest httpServletRequest, Study study, Errors errors) {
         if ("siteChange".equals(httpServletRequest.getParameter("_action"))) {
@@ -42,6 +52,14 @@ class StudyInvestigatorsTab extends StudyTab {
         }
 
     }
+
+	public StudyValidator getStudyValidator() {
+		return studyValidator;
+	}
+
+	public void setStudyValidator(StudyValidator studyValidator) {
+		this.studyValidator = studyValidator;
+	}
 
     
 }
