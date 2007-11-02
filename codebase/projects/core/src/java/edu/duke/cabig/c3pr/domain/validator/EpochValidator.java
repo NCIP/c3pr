@@ -21,32 +21,35 @@ public class EpochValidator implements Validator {
 	}
 
 	public void validate(Object target, Errors errors) {
-		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "required",
+		/*ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "required",
 				"required field");
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "required",
-				"required field");
+				"required field");*/
+		validateArms(target,errors);
 	}
 
-	public void valiateArms(Object target, Errors errors) {
+	public void validateArms(Object target, Errors errors) {
 		Epoch epoch = (Epoch) target;
 		if (epoch instanceof TreatmentEpoch) {
 			List<Arm> allArms = ((TreatmentEpoch) epoch).getArms();
 
 			try {
-				errors.pushNestedPath("arms");
-				for (Arm arm : allArms) {
-					ValidationUtils.invokeValidator(this.armValidator, arm,
+				
+				for (int armIndex=0; armIndex<allArms.size();armIndex++) {
+					errors.pushNestedPath("arms["+armIndex+"]");
+					ValidationUtils.invokeValidator(this.armValidator, allArms.get(armIndex),
 							errors);
+					errors.popNestedPath();
 				}
 
 				Set uniqueArms = new TreeSet<Arm>();
 				uniqueArms.addAll(allArms);
 				if (allArms.size() > uniqueArms.size()) {
-					errors.reject("Arm alredy exists");
+					errors.reject("tempProperty","Arm with same name already exists");
 				}
 
 			} finally {
-				errors.popNestedPath();
+				
 			}
 		}
 	}

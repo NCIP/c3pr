@@ -113,7 +113,7 @@
                                         
                                     </th>
                                     <td><form:input path="treatmentEpochs[${treatmentEpochCount.index}].epochOrder" size="5"
-                                               cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
+                                               cssClass="validate-notEmpty&&numeric" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
                                 </tr>
                                 <c:if test="${command.randomizedIndicator== true}">
                                  <tr>
@@ -200,7 +200,7 @@
                                     </div>
                                 <div class="value"><form:input size="5"
                                                           path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].epochOrder"
-                                                          cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span></div>
+                                                          cssClass="validate-notEmpty&&numeric" /><span class="red">&nbsp;&nbsp;&nbsp;</span></div>
                             </div>
                         </div>
 
@@ -308,7 +308,7 @@
                                     </th>
                                     <td><input type="text"
                                                name="treatmentEpochs[PAGE.ROW.INDEX].epochOrder" size="5"
-                                               class="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
+                                               class="validate-notEmpty&&numeric" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
                                 </tr>
                                  <c:if test="${command.randomizedIndicator== true}">
                                  <tr>
@@ -393,7 +393,7 @@
                                     </div>
                                 <div class="value"><input type="text" size="5"
                                                           name="nonTreatmentEpochs[PAGE.ROW.INDEX].epochOrder"
-                                                          class="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span></div>
+                                                          class="validate-notEmpty&&numeric" /><span class="red">&nbsp;&nbsp;&nbsp;</span></div>
                             </div>
                         </div>
 
@@ -435,7 +435,7 @@
                             
                             <div id="reservationIndicator-PAGE.ROW.INDEX" style="display:none">
                             <div class="row">
-                                <div class="label"><span>Reservation Indicator:</span>
+                                <div class="label"><span class="required-indicator">Reservation Indicator:</span>
                                     </div>
                                 <div class="value"><select
                                         id="nonTreatmentEpochs[PAGE.ROW.INDEX].reservationIndicator"
