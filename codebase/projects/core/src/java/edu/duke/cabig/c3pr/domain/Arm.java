@@ -89,8 +89,8 @@ public class Arm extends AbstractMutableDeletableDomainObject implements Compara
     }
 
     public int compareTo(Arm o) {
-        // TODO Auto-generated method stub
-        return 0;
+    	if (this.equals(o)) return 0;
+		else return 1;
     }
 
     @Override
@@ -112,7 +112,7 @@ public class Arm extends AbstractMutableDeletableDomainObject implements Compara
         if (name == null) {
             if (other.name != null)
                 return false;
-        } else if (!name.equals(other.name))
+        } else if (!name.equalsIgnoreCase(other.name))
             return false;
         return true;
     }

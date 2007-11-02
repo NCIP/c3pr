@@ -117,7 +117,8 @@ public class Investigator extends C3PRUser {
 	@Override
 	public int hashCode() {
 		final int PRIME = 31;
-		int result = super.hashCode();
+	//	int result = super.hashCode();
+		int result = 1;
 		result = PRIME * result + ((nciIdentifier == null) ? 0 : nciIdentifier.hashCode());
 		return result;
 	}
@@ -125,15 +126,15 @@ public class Investigator extends C3PRUser {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
-			return false;
+		/*if (!super.equals(obj))
+			return false;*/
 		if (getClass() != obj.getClass())
 			return false;
 		final Investigator other = (Investigator) obj;
 		if (nciIdentifier == null) {
 			if (other.nciIdentifier != null)
 				return false;
-		} else if (!nciIdentifier.equals(other.nciIdentifier))
+		} else if (!nciIdentifier.equalsIgnoreCase(other.nciIdentifier))
 			return false;
 		return true;
 	}

@@ -161,12 +161,12 @@ public class Participant extends Person implements Comparable<Participant> {
 	}
 	
 	@Transient
-	public boolean getMRN(){
+	public OrganizationAssignedIdentifier getMRN(){
 		for (OrganizationAssignedIdentifier orgIdentifier: this.getOrganizationAssignedIdentifiers()){
-			if (orgIdentifier.getType()!=null && orgIdentifier.getType().equals("MRN"))
-			return true;
+			if (orgIdentifier.getType()!=null && orgIdentifier.getType().equalsIgnoreCase("MRN"))
+			return orgIdentifier;
 		}
-		return false;
+		return null;
 	}
 
 	public String getMaritalStatusCode() {
@@ -201,12 +201,10 @@ public class Participant extends Person implements Comparable<Participant> {
 	public int hashCode() {
 		final int PRIME = 31;
 		int result = super.hashCode();
-		result = PRIME * result
-				+ ((getIdentifiers() == null) ? 0 : getIdentifiers().hashCode());
 		result = PRIME
 				* result
-				+ ((studySubjects == null) ? 0
-						: studySubjects.hashCode());
+				+ ((getMRN() == null) ? 0
+						: getMRN().hashCode());
 		return result;
 	}
 
@@ -214,25 +212,22 @@ public class Participant extends Person implements Comparable<Participant> {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
-			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		final Participant other = (Participant) obj;
-		if (getIdentifiers() == null) {
-			if (other.getIdentifiers() != null)
-				return false;
-		} else if (!getIdentifiers().equals(other.getIdentifiers()))
+		if ((this.getMRN() == null)
+				|| (other.getMRN()== null)) {
 			return false;
-		if (studySubjects == null) {
-			if (other.studySubjects != null)
-				return false;
-		} else if (!studySubjects
-				.equals(other.studySubjects))
+		} else if (!((this.getMRN().getValue())
+				.equalsIgnoreCase(other.getMRN().getValue()))) {
 			return false;
+		} else if (!(this.getMRN()
+				.equals(other
+				.getMRN()))) {
+			return false;
+		}
 		return true;
 	}
-
 	@Transient
 	public String getPrimaryIdentifier() {
 		for (Identifier identifier : getIdentifiers()) {

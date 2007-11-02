@@ -47,10 +47,6 @@ public class StudySite extends StudyOrganization implements
 
     private LazyListHelper lazyListHelper;
 
-
-
-	
-
     public void addStudySubject(StudySubject spAssignments)
     {
         studySubjects.add(spAssignments);
@@ -143,8 +139,8 @@ public class StudySite extends StudyOrganization implements
     }
 
     public int compareTo(StudySite o) {
-        // TODO Auto-generated method stub
-        return 0;
+    	if (this.equals(o)) return 0;
+		else return 1;
     }
 
     @Transient
@@ -169,24 +165,27 @@ public class StudySite extends StudyOrganization implements
         return "";
     }
 
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (!(obj instanceof StudySite)) return false;
-        final StudySite studySite = (StudySite) obj;
-        Study study = studySite.getStudy();
-        HealthcareSite site = studySite.getHealthcareSite();
-        if (!getHealthcareSite().equals(site)) return false;
-        return true;
-    }
-
-    public int hashCode() {
-        int result;
-        result = (getHealthcareSite() != null ? getHealthcareSite().hashCode() : 0);
-        result = 29 * result + (studySubjects != null ? studySubjects.hashCode() : 0);
-        return result;
-    }
     
-    @Enumerated(EnumType.STRING)
+    @Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = super.hashCode();
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final StudySite other = (StudySite) obj;
+		return true;
+	}
+
+	@Enumerated(EnumType.STRING)
 	public SiteStudyStatus getSiteStudyStatus() {
 		return siteStudyStatus;
 	}

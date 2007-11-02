@@ -11,7 +11,7 @@ import org.hibernate.annotations.CascadeType;
 
 @Entity
 @DiscriminatorValue("OAI")
-public class OrganizationAssignedIdentifier extends Identifier{
+public class OrganizationAssignedIdentifier extends Identifier implements Comparable<OrganizationAssignedIdentifier>{
 	
 	private HealthcareSite healthcareSite;
 	@ManyToOne
@@ -23,11 +23,16 @@ public class OrganizationAssignedIdentifier extends Identifier{
 	public void setHealthcareSite(HealthcareSite healthcareSite) {
 		this.healthcareSite = healthcareSite;
 	}
+	
+	public int compareTo(OrganizationAssignedIdentifier o) {
+		if (this.equals(o)) return 0;
+		else return 1;
+	}
 
 	@Override
 	public int hashCode() {
 		final int PRIME = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = PRIME * result + ((healthcareSite == null) ? 0 : healthcareSite.hashCode());
 		return result;
 	}
@@ -36,7 +41,7 @@ public class OrganizationAssignedIdentifier extends Identifier{
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;

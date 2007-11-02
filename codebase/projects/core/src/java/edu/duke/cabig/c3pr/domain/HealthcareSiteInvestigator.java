@@ -90,6 +90,37 @@ public class HealthcareSiteInvestigator extends AbstractMutableDeletableDomainOb
 		return statusDate;
 	}
 	
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = 1;
+		result = PRIME * result + ((healthcareSite == null) ? 0 : healthcareSite.hashCode());
+		result = PRIME * result + ((investigator == null) ? 0 : investigator.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final HealthcareSiteInvestigator other = (HealthcareSiteInvestigator) obj;
+		if (healthcareSite == null) {
+			if (other.healthcareSite != null)
+				return false;
+		} else if (!healthcareSite.equals(other.healthcareSite))
+			return false;
+		if (investigator == null) {
+			if (other.investigator != null)
+				return false;
+		} else if (!investigator.equals(other.investigator))
+			return false;
+		return true;
+	}
+
 	public void setStatusDate(Date statusDate) {
 		this.statusDate = statusDate;
 	}        

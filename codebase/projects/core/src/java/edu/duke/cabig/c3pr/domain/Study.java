@@ -316,7 +316,19 @@ public class Study extends AbstractMutableDeletableDomainObject implements
 				.getOrganizationAssignedIdentifiers()) {
 			if ((orgIdentifier.getType() != null)
 					&& (orgIdentifier.getType()
-							.equals("Protocol Authority Identifier")))
+							.equalsIgnoreCase("Protocol Authority Identifier")))
+				return orgIdentifier;
+		}
+		return null;
+	}
+	
+	@Transient
+	public OrganizationAssignedIdentifier getCoordinatingCenterAssignedIdentifier() {
+		for (OrganizationAssignedIdentifier orgIdentifier : this
+				.getOrganizationAssignedIdentifiers()) {
+			if ((orgIdentifier.getType() != null)
+					&& (orgIdentifier.getType()
+							.equalsIgnoreCase("Coordinating Center Identifier")))
 				return orgIdentifier;
 		}
 		return null;
@@ -552,8 +564,8 @@ public class Study extends AbstractMutableDeletableDomainObject implements
 		int result = super.hashCode();
 		result = PRIME
 				* result
-				+ ((getFundingSponsorAssignedIdentifier() == null) ? 0
-						: getFundingSponsorAssignedIdentifier().hashCode());
+				+ ((getCoordinatingCenterAssignedIdentifier() == null) ? 0
+						: getCoordinatingCenterAssignedIdentifier().hashCode());
 		return result;
 	}
 
@@ -564,15 +576,15 @@ public class Study extends AbstractMutableDeletableDomainObject implements
 		if (getClass() != obj.getClass())
 			return false;
 		final Study other = (Study) obj;
-		if ((this.getFundingSponsorAssignedIdentifier() == null)
-				|| (other.getFundingSponsorAssignedIdentifier() == null)) {
+		if ((this.getCoordinatingCenterAssignedIdentifier() == null)
+				|| (other.getCoordinatingCenterAssignedIdentifier() == null)) {
 			return false;
-		} else if (!((this.getFundingSponsorAssignedIdentifier().getValue())
-				.equals(other.getFundingSponsorAssignedIdentifier().getValue()))) {
+		} else if (!((this.getCoordinatingCenterAssignedIdentifier().getValue())
+				.equalsIgnoreCase(other.getCoordinatingCenterAssignedIdentifier().getValue()))) {
 			return false;
-		} else if (!((this.getFundingSponsorAssignedIdentifier()
-				.getHealthcareSite()).equals(other
-				.getFundingSponsorAssignedIdentifier().getHealthcareSite()))) {
+		} else if (!(this.getCoordinatingCenterAssignedIdentifier()
+				.equals(other
+				.getCoordinatingCenterAssignedIdentifier()))) {
 			return false;
 		}
 		return true;

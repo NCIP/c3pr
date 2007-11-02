@@ -366,6 +366,11 @@ public class TreatmentEpoch extends Epoch {
 		return (getStratumGroups().size()>0);
 	}
 	
+	@Transient
+	public boolean hasEligibility(){
+		return (getEligibilityCriteria().size()>0);
+	}
+	
 	@Override
 	@Transient
 	public boolean isEnrolling() {

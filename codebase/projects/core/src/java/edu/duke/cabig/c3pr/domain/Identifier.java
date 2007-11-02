@@ -29,7 +29,8 @@ import org.hibernate.annotations.Parameter;
 )
 public abstract class Identifier extends AbstractMutableDeletableDomainObject
 {			
-//	private String source;
+
+	//	private String source;
 	private String type;
 	private String value;
 	private Boolean primaryIndicator = false;
@@ -80,13 +81,13 @@ public abstract class Identifier extends AbstractMutableDeletableDomainObject
 		if(true)throw new UnsupportedOperationException("Not supported");
 		this.source = source;
 	}*/
+	
 
 	@Override
 	public int hashCode() {
 		final int PRIME = 31;
 		int result = 1;
 		result = PRIME * result + ((type == null) ? 0 : type.hashCode());
-		result = PRIME * result + ((value == null) ? 0 : value.hashCode());
 		return result;
 	}
 
@@ -102,12 +103,7 @@ public abstract class Identifier extends AbstractMutableDeletableDomainObject
 		if (type == null) {
 			if (other.type != null)
 				return false;
-		} else if (!type.equals(other.type))
-			return false;
-		if (value == null) {
-			if (other.value != null)
-				return false;
-		} else if (!value.equals(other.value))
+		} else if (!type.equalsIgnoreCase(other.type))
 			return false;
 		return true;
 	}

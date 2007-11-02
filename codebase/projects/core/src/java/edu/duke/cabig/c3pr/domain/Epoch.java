@@ -114,7 +114,7 @@ public abstract class Epoch extends AbstractMutableDeletableDomainObject impleme
 	}
 
 	public int compareTo(Epoch o) {
-		if (this.equals((Epoch)o)) return 0;
+		if (this.equals(o)) return 0;
 		else return 1;
 	}
 	
@@ -129,7 +129,7 @@ public abstract class Epoch extends AbstractMutableDeletableDomainObject impleme
 	  @Override public boolean equals(Object obj) { if (this == obj) return
 	  true; if (getClass() !=
 	  obj.getClass()) return false; final Epoch other = (Epoch) obj; if (name == null) { if
-	  (other.name != null) return false; } else if (!name.equals(other.name))
+	  (other.name != null) return false; } else if (!name.equalsIgnoreCase(other.name))
 	  return false; return true; }
 
 	public Integer getEpochOrder() {

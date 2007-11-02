@@ -22,7 +22,7 @@ import org.hibernate.annotations.Parameter;
         @Parameter(name="sequence", value="study_investigators_id_seq")
     }
 )
-public class StudyInvestigator extends AbstractMutableDeletableDomainObject {
+public class StudyInvestigator extends AbstractMutableDeletableDomainObject implements Comparable<StudyInvestigator>{
 	
 	private HealthcareSiteInvestigator healthcareSiteInvestigator;
 	private StudyOrganization studyOrganization;
@@ -86,6 +86,49 @@ public class StudyInvestigator extends AbstractMutableDeletableDomainObject {
 
 	public void setStudyOrganization(StudyOrganization studyOrganization) {
 		this.studyOrganization = studyOrganization;
+	}
+	
+	public int compareTo(StudyInvestigator o) {
+		if(this.equals(o))
+			return 0;
+		return 1;
+	}
+
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = 1;
+		result = PRIME * result + ((healthcareSiteInvestigator == null) ? 0 : healthcareSiteInvestigator.hashCode());
+		result = PRIME * result + ((roleCode == null) ? 0 : roleCode.hashCode());
+		result = PRIME * result + ((studyOrganization == null) ? 0 : studyOrganization.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final StudyInvestigator other = (StudyInvestigator) obj;
+		if (healthcareSiteInvestigator == null) {
+			if (other.healthcareSiteInvestigator != null)
+				return false;
+		} else if (!healthcareSiteInvestigator.equals(other.healthcareSiteInvestigator))
+			return false;
+		if (roleCode == null) {
+			if (other.roleCode != null)
+				return false;
+		} else if (!roleCode.equals(other.roleCode))
+			return false;
+		if (studyOrganization == null) {
+			if (other.studyOrganization != null)
+				return false;
+		} else if (!studyOrganization.equals(other.studyOrganization))
+			return false;
+		return true;
 	}
 	
 }

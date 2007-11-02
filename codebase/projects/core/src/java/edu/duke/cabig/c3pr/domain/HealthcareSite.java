@@ -77,9 +77,10 @@ public class HealthcareSite extends Organization implements
 		this.nciInstituteCode = nciInstituteCode;
 	}
 
+	@Override
 	public int compareTo(HealthcareSite o) {
-		// TODO Auto-generated method stub
-		return 0;
+		if (this.equals((HealthcareSite)o)) return 0;
+		else return 1;
 	}
 
 	@Override
