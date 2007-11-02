@@ -186,7 +186,7 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
 		return reducedInv;
 	}
 
-	public List<HealthcareSiteInvestigator> matchStudySiteInvestigators(
+	public List<HealthcareSiteInvestigator> matchStudyOrganizationInvestigatorsGivenOrganizationId(
 			String text, int organizationId, HttpServletRequest request)
 			throws Exception {
 		Study study = (Study) getCommandOnly(request);
