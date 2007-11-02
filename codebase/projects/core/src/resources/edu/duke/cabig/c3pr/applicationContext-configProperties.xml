@@ -433,14 +433,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                 <!-- Study Investigators -->
                  <entry key="studyInvestigatorRoleRefData">
                     <list>
-                    	<bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="PI" />
-                            <property name="desc" value="Principal Investigator" />
-                        </bean> 
-                      	<bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="PI" />
-                            <property name="desc" value="Site Study PI" />
-                        </bean>   
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="SI" />
                             <property name="desc" value="Site Investigator" />
