@@ -127,8 +127,7 @@ public abstract class Epoch extends AbstractMutableDeletableDomainObject impleme
 	  name.hashCode()); return result; }
 	  
 	  @Override public boolean equals(Object obj) { if (this == obj) return
-	  true; if (getClass() !=
-	  obj.getClass()) return false; final Epoch other = (Epoch) obj; if (name == null) { if
+	  true; final Epoch other = (Epoch) obj; if (name == null) { if
 	  (other.name != null) return false; } else if (!name.equalsIgnoreCase(other.name))
 	  return false; return true; }
 
