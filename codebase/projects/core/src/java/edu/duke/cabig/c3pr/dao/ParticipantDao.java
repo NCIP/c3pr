@@ -13,9 +13,11 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
 
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.emory.mathcs.backport.java.util.Collections;
+import edu.nwu.bioinformatics.commons.CollectionUtils;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 
 /**
@@ -88,6 +90,16 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements 
 	 */
 	public List<Participant> getAll() throws DataAccessException {
 		return getHibernateTemplate().find("from Participant");
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public List<Identifier> getSubjectIdentifiersWithMRN(String MRN) throws DataAccessException {
+		return (List<Identifier>) getHibernateTemplate().
+                find("from Identifier I where I.prt_id is not null and I.type='MRN' and I.value = ?", MRN);
 	}
 
 	/**
