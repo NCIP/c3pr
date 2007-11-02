@@ -250,9 +250,6 @@
         <property name="formView" value="admin/investigator_details"/>
         <property name="successView" value="admin/investigator_confirmation"/>
         <property name="sessionForm" value="true" />
-        <property name="validator">
-            <ref bean="userDuplicateValidator"/>
-        </property>
     </bean>
 
     <bean name="/admin/searchResearchStaff" id="searchResearchStaffController"
