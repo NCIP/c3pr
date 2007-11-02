@@ -135,16 +135,6 @@ AutomaticSaveFlowFormController<C, Participant, ParticipantDao> {
 			throws Exception {
 		Participant command = (Participant) oCommand;
 
-		Iterator<Identifier> iterator = command.getIdentifiers().iterator();
-
-		while (iterator.hasNext()) {
-			Identifier identifier = iterator.next();
-			if (identifier.getType().trim().length() == 0
-					|| identifier.getValue().trim().length() == 0) {
-				iterator.remove();
-			}
-		}
-
 		Iterator<ContactMechanism> cMIterator = command.getContactMechanisms()
 				.iterator();
 		StringUtils strUtil = new StringUtils();
