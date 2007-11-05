@@ -4,9 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.validation.Errors;
+
+import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
 import edu.duke.cabig.c3pr.utils.Lov;
 
 public class ParticipantDetailsTab extends ParticipantTab {
+	
+	private ParticipantValidator participantValidator;
 
 	public ParticipantDetailsTab() {
 		super("Details", "Details", "participant/participant");
@@ -33,6 +39,22 @@ public class ParticipantDetailsTab extends ParticipantTab {
 		;
 
 		return refdata;
+	}
+
+	@Override
+	public void validate(Participant participant, Errors errors) {
+		// TODO Auto-generated method stub
+		super.validate(participant, errors);
+		participantValidator.validateParticipantMRN(participant,errors);
+		
+	}
+
+	public ParticipantValidator getParticipantValidator() {
+		return participantValidator;
+	}
+
+	public void setParticipantValidator(ParticipantValidator participantValidator) {
+		this.participantValidator = participantValidator;
 	}
 
 }
