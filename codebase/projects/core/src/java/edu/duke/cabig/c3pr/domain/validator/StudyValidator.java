@@ -14,6 +14,7 @@ import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
+import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
@@ -126,18 +127,34 @@ public class StudyValidator implements Validator {
 	
 	public void validateStudyInvestigators(Object target, Errors errors) {
 		Study study = (Study) target;
-		List<StudyInvestigator> allStudyInvestigators = null;
-		for(StudyOrganization studyOrganizaiton:study.getStudyOrganizations()){
-			if (studyOrganizaiton.getStudyInvestigators().size()>0)
-			allStudyInvestigators.addAll(studyOrganizaiton.getStudyInvestigators());
-		}
+		List<StudyInvestigator> allStudyInvestigators = new ArrayList<StudyInvestigator>();
+		
 		try {
+			for(StudyOrganization studyOrganizaiton:study.getStudyOrganizations()){
+				allStudyInvestigators.addAll(studyOrganizaiton.getStudyInvestigators());
+			}
 			Set<StudyInvestigator> uniqueStudyInvestigators = new TreeSet<StudyInvestigator>();
-			if (allStudyInvestigators.size()>0){
 			uniqueStudyInvestigators.addAll(allStudyInvestigators);
 			if(allStudyInvestigators.size()>uniqueStudyInvestigators.size()){
-				errors.reject("tempProperty","Study Investigator already exists in the same role");
+				errors.reject("tempProperty","Study Investigator with same role already exists");
 			}
+		} finally {
+			//TODO
+		}
+	}
+	
+	public void validateStudyPersonnel(Object target, Errors errors) {
+		Study study = (Study) target;
+		List<StudyPersonnel> allStudyPersonnel = new ArrayList<StudyPersonnel>();
+		
+		try {
+			for(StudyOrganization studyOrganizaiton:study.getStudyOrganizations()){
+				allStudyPersonnel.addAll(studyOrganizaiton.getStudyPersonnel());
+			}
+			Set<StudyPersonnel> uniqueStudyPersonnel = new TreeSet<StudyPersonnel>();
+			uniqueStudyPersonnel.addAll(allStudyPersonnel);
+			if(allStudyPersonnel.size()>uniqueStudyPersonnel.size()){
+				errors.reject("tempProperty","Study Person with same role already exists");
 			}
 		} finally {
 			//TODO
