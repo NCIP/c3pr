@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.dao;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import org.springframework.dao.DataAccessException;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.emory.mathcs.backport.java.util.Collections;
 import edu.nwu.bioinformatics.commons.CollectionUtils;
@@ -97,9 +99,15 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements 
 	 * @return
 	 * @throws DataAccessException
 	 */
-	public List<Identifier> getSubjectIdentifiersWithMRN(String MRN) throws DataAccessException {
-		return (List<Identifier>) getHibernateTemplate().
-                find("from Identifier I where I.prt_id is not null and I.type='MRN' and I.value = ?", MRN);
+	public List<OrganizationAssignedIdentifier> getSubjectIdentifiersWithMRN(String MRN,  HealthcareSite site) throws DataAccessException {
+		List<OrganizationAssignedIdentifier> orgAssignedIdentifiers = (List<OrganizationAssignedIdentifier>) getHibernateTemplate().
+                find("from Identifier I where I.type='MRN' and I.healthcareSite = ?",site);
+		List<OrganizationAssignedIdentifier> subIdentifiers = new ArrayList<OrganizationAssignedIdentifier>();
+		for(OrganizationAssignedIdentifier subIdent:orgAssignedIdentifiers ){
+			if (subIdent.getValue().equalsIgnoreCase(MRN))
+				subIdentifiers.add(subIdent);
+		}
+		return subIdentifiers;
 	}
 
 	/**
