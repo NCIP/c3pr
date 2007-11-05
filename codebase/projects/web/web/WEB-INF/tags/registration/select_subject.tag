@@ -178,6 +178,25 @@
 	</div>    
 	<!-- end of search subject div-->	
 	
+	<script>
+	    var mrnAutocompleterProps = {
+            basename: "mrnOrganization",
+            populator: function(autocompleter, text) {
+                 ParticipantAjaxFacade.matchHealthcareSites( text,function(values) {
+                    autocompleter.setChoices(values)
+                })
+            },
+            valueSelector: function(obj) {
+                return obj.name
+            },
+             afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+    								hiddenField=inputElement.id.split("-")[0]+"-hidden";
+	    							$(hiddenField).value=selectedChoice.id;
+			}
+        };
+        AutocompleterManager.addAutocompleter(mrnAutocompleterProps);
+	</script>
+	
 	<!--start of create subject div-->
 	<div id="createSubjectDiv" style="display:none;">
 	<div id="createSubjectDetailsDiv">		
