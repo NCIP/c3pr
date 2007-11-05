@@ -127,7 +127,7 @@ public class ResearchStaff extends C3PRUser {
 		if (nciIdentifier == null) {
 			if (other.nciIdentifier != null)
 				return false;
-		} else if (!nciIdentifier.equals(other.nciIdentifier))
+		} else if (!nciIdentifier.equalsIgnoreCase(other.nciIdentifier))
 			return false;
 		return true;
 	}
