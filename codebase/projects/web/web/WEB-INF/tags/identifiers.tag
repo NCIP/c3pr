@@ -28,13 +28,13 @@ var healthcareSiteAutocompleterProps = {
 var systemIdentifierRowInserterProps = {
     add_row_division_id: "mytable-system", 	        /* this id belongs to element where the row would be appended to */
     skeleton_row_division_id: "dummy-row",
-    initialIndex: ${fn:length(command.systemAssignedIdentifiers)},                            /* this is the initial count of the rows when the page is loaded  */
+    initialIndex: 0,                            /* this is the initial count of the rows when the page is loaded  */
     path: "systemAssignedIdentifiers"                             /* this is the path of the collection that holds the rows  */
 };
 var organizationIdentifierRowInserterProps = {
     add_row_division_id: "mytable-organizationIdentifier", 	        /* this id belongs to element where the row would be appended to */
     skeleton_row_division_id: "dummy-row-organizationIdentifier",
-   initialIndex:${fn:length(command.organizationAssignedIdentifiers)+1},                            /* this is the initial count of the rows when the page is loaded  */
+   initialIndex:1,                            /* this is the initial count of the rows when the page is loaded  */
     path: "organizationAssignedIdentifiers",                               /* this is the path of the collection that holds the rows  */
     postProcessRowInsertion: function(object){
 	    clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
@@ -52,11 +52,9 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 		                        <div class="label required-indicator">Organization:</div>
 		                        <div class="value">
 								<input type="hidden" id="mrnOrganization-hidden"
-									name="organizationAssignedIdentifiers[0].healthcareSite"
-									value="${command.organizationAssignedIdentifiers[0].healthcareSite.id}" />
+									name="organizationAssignedIdentifiers[0].healthcareSite" />
 								<input id="mrnOrganization-input" size="50" type="text"
-								name="organizationAssignedIdentifiers[0].healthcareSite.name"
-								value="${command.organizationAssignedIdentifiers[0].healthcareSite.name}" class="autocomplete validate-notEmpty" />
+								name="organizationAssignedIdentifiers[0].healthcareSite.name" class="autocomplete validate-notEmpty" />
 								<tags:indicator id="mrnOrganization-indicator" />
 								<div id="mrnOrganization-choices" class="autocomplete"></div>
 							    </div>
@@ -64,8 +62,7 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
                     <div class="row">
 		                        <div class="label required-indicator">Identifier:</div>
 		                        <div class="value"><input type="text" name="organizationAssignedIdentifiers[0].value" 
-								size="30" maxlength="30"
-								value="${command.organizationAssignedIdentifiers[0].value}" class="validate-notEmpty" />
+								size="30" maxlength="30" class="validate-notEmpty" />
 							     <input type="hidden" name="organizationAssignedIdentifiers[0].type"
 								value="MRN"/>
 								<input type="hidden" name="organizationAssignedIdentifiers[0].primaryIndicator" value="true"/></div>
@@ -88,36 +85,6 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 		<th scope="col" align="left"><b>Primary&nbsp;Indicator</b></th>
 		<th class="specalt" scope="col" align="left"></th>
 	</tr>
-	<c:forEach items="${command.organizationAssignedIdentifiers}" begin="1" varStatus="organizationStatus" >  
-		 <tr id="mytable-organizationIdentifier-${organizationStatus.index}">
-			<td class="alt">
- 							<input type="hidden" id="healthcareSite${organizationStatus.index}-hidden"
-          				name="organizationAssignedIdentifiers[${organizationStatus.index}].healthcareSite"
-        					 value="${command.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.id}"/>
-  						<input class="autocomplete validate-notEmpty" type="text" id="healthcareSite${organizationStatus.index}-input"
-         					size="50"
-        				 	value="${command.organizationAssignedIdentifiers[organizationStatus.index].healthcareSite.name}"/>
-  						<input type="button" id="healthcareSite${organizationStatus.index}-clear"
-         				 	value="Clear"/>
-    		 				<tags:indicator id="healthcareSite${organizationStatus.index}-indicator"/>
-    						<div id="healthcareSite${organizationStatus.index}-choices" class="autocomplete"></div>
-         			 </td>
-			<td class="alt"><form:select
-				path="organizationAssignedIdentifiers[${organizationStatus.index}].type"
-				cssClass="validate-notEmpty">
-				<option value="">--Please Select--</option>
-				<form:options items="${identifiersTypes}" itemLabel="desc"
-					itemValue="desc" />
-			</form:select></td>
-			<td class="alt"><form:input
-				path="organizationAssignedIdentifiers[${organizationStatus.index}].value"
-				cssClass="validate-notEmpty" /></td>
-			<td class="alt"><form:radiobutton
-				path="organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator" value="true" /></td>
-			<td class="alt"><a href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,${organizationStatus.index});"><img
-                              src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
-		</tr>
-	</c:forEach>
 </table>
 <div align="right">
 <input id="addIdentifier" type="button" value="Add Another Identifier"
@@ -140,28 +107,6 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 		<th scope="col" align="left"><b>Primary&nbsp;Indicator</b></th>
 		<th class="specalt" scope="col" align="left"></th>
 	</tr>
-	<c:forEach items="${command.systemAssignedIdentifiers}" varStatus="status">
-		 <tr id="mytable-system-${status.index}">
-			<td class="alt"><form:input
-				path="systemAssignedIdentifiers[${status.index}].systemName"
-				cssClass="validate-notEmpty"/>
-				</td>
-			<td class="alt"><form:select
-				path="systemAssignedIdentifiers[${status.index}].type"
-				cssClass="validate-notEmpty">
-				<option value="">--Please Select--</option>
-				<form:options items="${identifiersTypes}" itemLabel="desc"
-					itemValue="desc" />
-			</form:select></td>
-			<td class="alt"><form:input
-				path="systemAssignedIdentifiers[${status.index}].value"
-				cssClass="validate-notEmpty" /></td>
-			<td class="alt"><form:radiobutton
-				path="systemAssignedIdentifiers[${status.index}].primaryIndicator" value="true" /></td>
-			<td class="alt"><a href="javascript:RowManager.deleteRow(systemIdentifierRowInserterProps,${status.index});"><img
-                              src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
-		</tr>
-	</c:forEach>
 </table>
 	<div align="right">
 		<input id="addIdentifier" type="button" value="Add Another Identifier"
