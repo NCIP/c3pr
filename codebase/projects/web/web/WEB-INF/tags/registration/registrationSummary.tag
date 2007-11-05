@@ -13,7 +13,7 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0"id="table1">
 	<tags:tdNameValue name="Full Name" value="${studySubject.participant.firstName} ${studySubject.participant.lastName }" columnAttrName="class='labelR'"/>
 	<tags:tdNameValue name="Subject Primary Identifier" value="${studySubject.participant.primaryIdentifier }" columnAttrName="width='50%' class='labelR'"/>
-	<tags:tdNameValue name="Gender" value="${studySubject.id }" columnAttrName="class='labelR'"/>
+	<tags:tdNameValue name="Gender" value="${studySubject.participant.administrativeGenderCode }" columnAttrName="class='labelR'"/>
 	<tags:tdNameValue name="Short Title" value="${studySubject.studySite.study.shortTitleText}" columnAttrName="class='labelR'"/>
 	<tags:tdNameValue name="Current Epoch" value="${studySubject.scheduledEpoch.epoch.name}" columnAttrName="class='labelR'"/>	
 	<tags:tdNameValue name="Current Epoch Type" value="${studySubject.ifTreatmentScheduledEpoch?'Treatment':'Non Treatment'}" columnAttrName="class='labelR'"/>	
