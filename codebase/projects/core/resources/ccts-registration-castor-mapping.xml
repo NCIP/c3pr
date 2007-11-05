@@ -211,9 +211,6 @@
         <field name="scheduledArm" type="edu.duke.cabig.c3pr.domain.ScheduledArm">
             <bind-xml name="scheduledArm" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
-        <field name="eligibilityIndicator" type="boolean">
-            <bind-xml name="eligibilityIndicator" node="attribute"/>
-        </field>
     </class>
 
     <class name="edu.duke.cabig.c3pr.domain.ScheduledArm">

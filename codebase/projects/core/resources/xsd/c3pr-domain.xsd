@@ -220,7 +220,6 @@
             <xs:extension base="ScheduledEpochType">
             	<xs:sequence>
 	            	<xs:element name="scheduledArm" type="ScheduledArmType" minOccurs="1" maxOccurs="1"/>
-       	            <xs:element name="eligibilityIndicator" type="xs:boolean" minOccurs="1" maxOccurs="1"/>
 	            </xs:sequence>
             </xs:extension>
         </xs:complexContent>
