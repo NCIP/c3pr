@@ -82,4 +82,41 @@ public class StudyPersonnel extends AbstractMutableDeletableDomainObject {
 	public void setStatusCode(String statusCode) {
 		this.statusCode = statusCode;
 	}
+
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = super.hashCode();
+		result = PRIME * result + ((researchStaff == null) ? 0 : researchStaff.hashCode());
+		result = PRIME * result + ((roleCode == null) ? 0 : roleCode.hashCode());
+		result = PRIME * result + ((studyOrganization == null) ? 0 : studyOrganization.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final StudyPersonnel other = (StudyPersonnel) obj;
+		if (researchStaff == null) {
+			if (other.researchStaff != null)
+				return false;
+		} else if (!researchStaff.equals(other.researchStaff))
+			return false;
+		if (roleCode == null) {
+			if (other.roleCode != null)
+				return false;
+		} else if (!roleCode.equals(other.roleCode))
+			return false;
+		if (studyOrganization == null) {
+			if (other.studyOrganization != null)
+				return false;
+		} else if (!studyOrganization.equals(other.studyOrganization))
+			return false;
+		return true;
+	}
 }
