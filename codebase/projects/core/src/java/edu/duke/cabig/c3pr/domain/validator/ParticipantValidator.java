@@ -1,12 +1,19 @@
 package edu.duke.cabig.c3pr.domain.validator;
 
+import java.util.List;
+
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import edu.duke.cabig.c3pr.dao.ParticipantDao;
+import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 
 public class ParticipantValidator implements Validator {
+	
+	private ParticipantDao participantDao;
 
 	public boolean supports(Class clazz) {
 		return Participant.class.equals(clazz);
@@ -37,6 +44,31 @@ public class ParticipantValidator implements Validator {
 		ValidationUtils.rejectIfEmpty(errors, "address.countryCode",
 				"required", "required field");
 
+	}
+	
+	public void validateParticipantMRN(Object target, Errors errors) {
+		
+		Participant participant = (Participant) target;
+		OrganizationAssignedIdentifier mrn = participant.getMRN();
+		
+		
+		if ((mrn!=null)&&(mrn.getHealthcareSite()!=null)){
+			List<OrganizationAssignedIdentifier> participantsWithMRN = participantDao.getSubjectIdentifiersWithMRN(mrn.getValue(),mrn.getHealthcareSite());
+			if (participantsWithMRN.size() > 0){
+				if ((participant.getId()==null)||(participantsWithMRN.size()>1)){
+				errors.reject("tempProperty","Participant with this MRN already exists");
+				}
+			}
+		}
+		
+	}
+
+	public ParticipantDao getParticipantDao() {
+		return participantDao;
+	}
+
+	public void setParticipantDao(ParticipantDao participantDao) {
+		this.participantDao = participantDao;
 	}
 
 }
