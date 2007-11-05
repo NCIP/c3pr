@@ -109,7 +109,7 @@
 <!--BOOK RANDOMIZATION SECTION-->
 
 <form:form method="post">
-<input type="hidden" id="_action" name="_action" value="doNotSave">
+<input type="hidden" id="_action" name="_action" value="">
 <tags:tabFields tab="${tab}"/>
 
 <!--CALLOUT RANDOMIZATION SECTION-->
@@ -152,7 +152,6 @@
 	</c:forEach>
 </c:if>
 <!--PHONECALL RANDOMIZATION SECTION-->
-
 
 <tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
 </form:form>
