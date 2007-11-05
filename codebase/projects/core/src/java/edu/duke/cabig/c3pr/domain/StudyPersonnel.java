@@ -22,7 +22,7 @@ import org.hibernate.annotations.Parameter;
         @Parameter(name="sequence", value="study_personnel_id_seq")
     }
 )
-public class StudyPersonnel extends AbstractMutableDeletableDomainObject {
+public class StudyPersonnel extends AbstractMutableDeletableDomainObject implements Comparable<StudyPersonnel>{
 		
 	private ResearchStaff researchStaff;
 	private StudyOrganization studyOrganization;
@@ -81,6 +81,12 @@ public class StudyPersonnel extends AbstractMutableDeletableDomainObject {
 
 	public void setStatusCode(String statusCode) {
 		this.statusCode = statusCode;
+	}
+	
+	public int compareTo(StudyPersonnel o) {
+		if(this.equals(o))
+			return 0;
+		return 1;
 	}
 
 	@Override
