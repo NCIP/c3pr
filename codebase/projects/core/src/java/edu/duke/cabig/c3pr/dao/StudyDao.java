@@ -1,7 +1,9 @@
 package edu.duke.cabig.c3pr.dao;
 
 import edu.duke.cabig.c3pr.domain.Arm;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
@@ -13,6 +15,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.criterion.*;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -122,6 +125,31 @@ public class StudyDao extends GridIdentifiableDao<Study>
         }
         return result;
     }
+    
+    public List<OrganizationAssignedIdentifier> getCoordinatingCenterIdentifiersWithValue(String coordinatingCetnerIdentifierValue,  HealthcareSite site) throws DataAccessException {
+		List<OrganizationAssignedIdentifier> orgAssignedIdentifiers = (List<OrganizationAssignedIdentifier>) getHibernateTemplate().
+                find("from Identifier I where I.type='Coordinating Center Identifier' and I.healthcareSite = ?",site);
+		List<OrganizationAssignedIdentifier> subIdentifiers = new ArrayList<OrganizationAssignedIdentifier>();
+		for(OrganizationAssignedIdentifier subIdent:orgAssignedIdentifiers ){
+			if (subIdent.getValue().equalsIgnoreCase(coordinatingCetnerIdentifierValue)){
+				subIdentifiers.add(subIdent);
+			}
+		}
+		return subIdentifiers;
+	}
+
+    public List<OrganizationAssignedIdentifier> getFundingSponsorIdentifiersWithValue(String fundingSponsorIdentifierValue,  HealthcareSite site) throws DataAccessException {
+		List<OrganizationAssignedIdentifier> orgAssignedIdentifiers = (List<OrganizationAssignedIdentifier>) getHibernateTemplate().
+                find("from Identifier I where I.type='Protocol Authority Identifier' and I.healthcareSite = ?",site);
+		List<OrganizationAssignedIdentifier> subIdentifiers = new ArrayList<OrganizationAssignedIdentifier>();
+		for(OrganizationAssignedIdentifier subIdent:orgAssignedIdentifiers ){
+			if (subIdent.getValue().equalsIgnoreCase(fundingSponsorIdentifierValue)){
+				subIdentifiers.add(subIdent);
+			}
+		}
+		return subIdentifiers;
+	}
+
 
     /**
      * Default Search without a Wildchar
