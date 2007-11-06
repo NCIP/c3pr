@@ -44,7 +44,7 @@ class StudyEmptyTab extends StudyTab {
 				retValue="<script>alert('"+e.getMessage()+"')</script>";
 				e.printStackTrace();
 			}finally{
-				retValue += command.getStudySites().get(studySiteIndex).getSiteStudyStatus().getCode();
+				retValue+=command.getStudySites().get(studySiteIndex).getSiteStudyStatus().getCode();
 			}
 			
 		} else{
