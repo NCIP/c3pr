@@ -104,8 +104,9 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements 
                 find("from Identifier I where I.type='MRN' and I.healthcareSite = ?",site);
 		List<OrganizationAssignedIdentifier> subIdentifiers = new ArrayList<OrganizationAssignedIdentifier>();
 		for(OrganizationAssignedIdentifier subIdent:orgAssignedIdentifiers ){
-			if (subIdent.getValue().equalsIgnoreCase(MRN))
+			if (subIdent.getValue().equalsIgnoreCase(MRN)){
 				subIdentifiers.add(subIdent);
+			}
 		}
 		return subIdentifiers;
 	}
