@@ -15,19 +15,19 @@
     <property name="schema.path" value="${introduce.skeleton.service.name}" />
 
     <!--c3pr extension-->
-    <property name="ext.dir" value="ext"/>
+    <property name="ext.dir" value="${basedir}/ext"/>
     <property name="ext.lib.dir" value="${ext.dir}/lib"/>
     <property name="ext.test.dir" value="${ext.dir}/test"/>
     <property name="ext.test.lib.dir" value="${ext.test.dir}/lib"/>
 
 
     <!-- Important directories and files -->
-    <property name="src.dir" value="src" />
-    <property name="lib.dir" value="lib" />
-    <property name="etc.dir" value="etc" />
+    <property name="src.dir" value="${basedir}/src" />
+    <property name="lib.dir" value="${basedir}/lib" />
+    <property name="etc.dir" value="${basedir}/etc" />
     <property name="tools.dir" value="tools" />
-    <property name="tools.lib.dir" value="tools/lib" />
-    <property name="schema.dir" value="schema" />
+    <property name="tools.lib.dir" value="${basedir}/tools/lib" />
+    <property name="schema.dir" value="${basedir}/schema" />
     <property name="mappings.file" value="${basedir}/namespace2package.mappings" />
 
     <!--import developers targets and properties (which can be overridden)-->
@@ -42,17 +42,17 @@
     <property name="test.jar.name" value="${jar.prefix}-tests.jar" />
 
     <!-- Important test directories and files -->
-    <property name="test.dir" value="test" />
+    <property name="test.dir" value="${basedir}/test" />
     <property name="test.src.dir" value="${test.dir}/src" />
     <property name="test.lib.dir" value="${test.dir}/lib" />
-    <property name="test.log.dir" value="test/logs" />
+    <property name="test.log.dir" value="${basedir}/test/logs" />
     <property name="junit.results.dir" value="${test.log.dir}/junit" />
 
 
     <!-- Basic Build directories -->
 
     <!-- Auxiliary directory where all the intermediate files will be placed -->
-    <property name="build.dir" location="build" />
+    <property name="build.dir" location="${basedir}/build" />
     <!-- Directory for compiled service classes -->
     <property name="build.dest" location="${build.dir}/classes" />
     <property name="test.build.dest" value="${build.dir}/test/classes" />
