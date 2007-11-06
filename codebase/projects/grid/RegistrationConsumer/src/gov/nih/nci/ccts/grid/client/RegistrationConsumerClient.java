@@ -19,7 +19,6 @@ import org.globus.gsi.GlobusCredential;
 import gov.nih.nci.ccts.grid.stubs.RegistrationConsumerPortType;
 import gov.nih.nci.ccts.grid.stubs.service.RegistrationConsumerServiceAddressingLocator;
 import gov.nih.nci.ccts.grid.common.RegistrationConsumer;
-import gov.nih.nci.ccts.grid.Registration;
 import gov.nih.nci.cagrid.introduce.security.client.ServiceSecurityClient;
 import gov.nih.nci.cagrid.common.Utils;
 
@@ -126,16 +125,38 @@ public class RegistrationConsumerClient extends ServiceSecurityClient implements
 
     }
 
-    public gov.nih.nci.ccts.grid.Registration register(gov.nih.nci.ccts.grid.Registration registration) throws RemoteException, gov.nih.nci.ccts.grid.stubs.types.InvalidRegistrationException, gov.nih.nci.ccts.grid.stubs.types.RegistrationConsumptionException {
-        synchronized(portTypeMutex){
-            configureStubSecurity((Stub)portType,"register");
-            gov.nih.nci.ccts.grid.stubs.RegisterRequest params = new gov.nih.nci.ccts.grid.stubs.RegisterRequest();
-            gov.nih.nci.ccts.grid.stubs.RegisterRequestRegistration registrationContainer = new gov.nih.nci.ccts.grid.stubs.RegisterRequestRegistration();
-            registrationContainer.setRegistration(registration);
-            params.setRegistration(registrationContainer);
-            gov.nih.nci.ccts.grid.stubs.RegisterResponse boxedResult = portType.register(params);
-            return boxedResult.getRegistration();
-        }
+  public void rollback(gov.nih.nci.ccts.grid.Registration registration) throws RemoteException, gov.nih.nci.ccts.grid.stubs.types.InvalidRegistrationException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"rollback");
+    gov.nih.nci.ccts.grid.stubs.RollbackRequest params = new gov.nih.nci.ccts.grid.stubs.RollbackRequest();
+    gov.nih.nci.ccts.grid.stubs.RollbackRequestRegistration registrationContainer = new gov.nih.nci.ccts.grid.stubs.RollbackRequestRegistration();
+    registrationContainer.setRegistration(registration);
+    params.setRegistration(registrationContainer);
+    gov.nih.nci.ccts.grid.stubs.RollbackResponse boxedResult = portType.rollback(params);
     }
+  }
+
+  public void commit(gov.nih.nci.ccts.grid.Registration registration) throws RemoteException, gov.nih.nci.ccts.grid.stubs.types.InvalidRegistrationException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"commit");
+    gov.nih.nci.ccts.grid.stubs.CommitRequest params = new gov.nih.nci.ccts.grid.stubs.CommitRequest();
+    gov.nih.nci.ccts.grid.stubs.CommitRequestRegistration registrationContainer = new gov.nih.nci.ccts.grid.stubs.CommitRequestRegistration();
+    registrationContainer.setRegistration(registration);
+    params.setRegistration(registrationContainer);
+    gov.nih.nci.ccts.grid.stubs.CommitResponse boxedResult = portType.commit(params);
+    }
+  }
+
+  public gov.nih.nci.ccts.grid.Registration register(gov.nih.nci.ccts.grid.Registration registration) throws RemoteException, gov.nih.nci.ccts.grid.stubs.types.InvalidRegistrationException, gov.nih.nci.ccts.grid.stubs.types.RegistrationConsumptionException {
+    synchronized(portTypeMutex){
+      configureStubSecurity((Stub)portType,"register");
+    gov.nih.nci.ccts.grid.stubs.RegisterRequest params = new gov.nih.nci.ccts.grid.stubs.RegisterRequest();
+    gov.nih.nci.ccts.grid.stubs.RegisterRequestRegistration registrationContainer = new gov.nih.nci.ccts.grid.stubs.RegisterRequestRegistration();
+    registrationContainer.setRegistration(registration);
+    params.setRegistration(registrationContainer);
+    gov.nih.nci.ccts.grid.stubs.RegisterResponse boxedResult = portType.register(params);
+    return boxedResult.getRegistration();
+    }
+  }
 
 }

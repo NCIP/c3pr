@@ -1,6 +1,6 @@
 <ns1:ServiceDescription introduceVersion="1.1" xmlns:ns1="gme://gov.nih.nci.cagrid/1/Introduce">
  <ns2:Namespaces xsi:type="ns2:NamespacesType" xmlns:ns2="gme://gov.nih.nci.cagrid.introduce/1/Namespace" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <ns2:Namespace location="./c3pr-domain.xsd" namespace="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain" packageName="gov.nih.nci.ccts.grid" xsi:type="ns2:NamespaceType">
+  <ns2:Namespace location="./c3pr-domain.xsd" namespace="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain" packageName="gov.nih.nci.ccts.grid" xsi:type="ns2:NamespaceType">
    <ns2:SchemaElement type="identifier" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="organizationAssignedIdentifier" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="systemAssignedIdentifier" xsi:type="ns2:SchemaElementType"/>
@@ -95,22 +95,40 @@
     </ns4:Method>
     <ns4:Method description="Register a Patient to a Study" isImported="false" isProvided="false" name="register" xsi:type="ns4:MethodType">
      <ns4:Inputs>
-      <ns4:Input qName="ns6:registration" description="" isArray="false" name="registration" xmlns:ns6="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
+      <ns4:Input qName="ns6:registration" description="" isArray="false" name="registration" xmlns:ns6="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
      </ns4:Inputs>
-     <ns4:Output qName="ns7:registration" description="" isArray="false" xmlns:ns7="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
+     <ns4:Output qName="ns7:registration" description="" isArray="false" xmlns:ns7="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
      <ns4:Exceptions>
       <ns4:Exception description="" name="InvalidRegistrationException" qname="ns8:InvalidRegistrationException" xmlns:ns8="http://ccts.nci.nih.gov/RegistrationConsumer/types"/>
       <ns4:Exception description="" name="RegistrationConsumptionException" qname="ns9:RegistrationConsumptionException" xmlns:ns9="http://ccts.nci.nih.gov/RegistrationConsumer/types"/>
      </ns4:Exceptions>
     </ns4:Method>
+    <ns4:Method description="Rollback (delete) the Registration" isImported="false" isProvided="false" name="rollback" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns10:registration" description="" isArray="false" name="registration" xmlns:ns10="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+     </ns4:Inputs>
+     <ns4:Output qName="void" description="" isArray="false"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="InvalidRegistrationException" qname="ns11:InvalidRegistrationException" xmlns:ns11="http://ccts.nci.nih.gov/RegistrationConsumer/types"/>
+     </ns4:Exceptions>
+    </ns4:Method>
+    <ns4:Method description="commit the Registration" isImported="false" isProvided="false" name="commit" xsi:type="ns4:MethodType">
+     <ns4:Inputs>
+      <ns4:Input qName="ns12:registration" description="" isArray="false" name="registration" xmlns:ns12="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+     </ns4:Inputs>
+     <ns4:Output qName="void" description="" isArray="false"/>
+     <ns4:Exceptions>
+      <ns4:Exception description="" name="InvalidRegistrationException" qname="ns13:InvalidRegistrationException" xmlns:ns13="http://ccts.nci.nih.gov/RegistrationConsumer/types"/>
+     </ns4:Exceptions>
+    </ns4:Method>
    </ns4:Methods>
-   <ns10:ResourcePropertiesList xsi:type="ns10:ResourcePropertiesListType" xmlns:ns10="gme://gov.nih.nci.cagrid.introduce/1/Resources">
-    <ns10:ResourceProperty qName="ns11:ServiceMetadata" description="" fileLocation="serviceMetadata.xml" populateFromFile="true" register="true" xsi:type="ns10:ResourcePropertyType" xmlns:ns11="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata"/>
-   </ns10:ResourcePropertiesList>
+   <ns14:ResourcePropertiesList xsi:type="ns14:ResourcePropertiesListType" xmlns:ns14="gme://gov.nih.nci.cagrid.introduce/1/Resources">
+    <ns14:ResourceProperty qName="ns15:ServiceMetadata" description="" fileLocation="serviceMetadata.xml" populateFromFile="true" register="true" xsi:type="ns14:ResourcePropertyType" xmlns:ns15="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata"/>
+   </ns14:ResourcePropertiesList>
    <ns3:description xsi:type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"></ns3:description>
   </ns3:Service>
  </ns3:Services>
- <ns12:Extensions xsi:type="ns12:ExtensionsType" xmlns:ns12="gme://gov.nih.nci.cagrid.introduce/1/Extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <ns12:Extension name="cagrid_metadata" version="1.1" xsi:type="ns12:ExtensionType"/>
- </ns12:Extensions>
+ <ns16:Extensions xsi:type="ns16:ExtensionsType" xmlns:ns16="gme://gov.nih.nci.cagrid.introduce/1/Extension" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ns16:Extension name="cagrid_metadata" version="1.1" xsi:type="ns16:ExtensionType"/>
+ </ns16:Extensions>
 </ns1:ServiceDescription>

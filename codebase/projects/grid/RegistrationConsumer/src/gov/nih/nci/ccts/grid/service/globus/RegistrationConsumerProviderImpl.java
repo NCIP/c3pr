@@ -26,6 +26,18 @@ public class RegistrationConsumerProviderImpl{
 	}
 	
 
+    public gov.nih.nci.ccts.grid.stubs.RollbackResponse rollback(gov.nih.nci.ccts.grid.stubs.RollbackRequest params) throws RemoteException, gov.nih.nci.ccts.grid.stubs.types.InvalidRegistrationException {
+    gov.nih.nci.ccts.grid.stubs.RollbackResponse boxedResult = new gov.nih.nci.ccts.grid.stubs.RollbackResponse();
+    impl.rollback(params.getRegistration().getRegistration());
+    return boxedResult;
+  }
+
+    public gov.nih.nci.ccts.grid.stubs.CommitResponse commit(gov.nih.nci.ccts.grid.stubs.CommitRequest params) throws RemoteException, gov.nih.nci.ccts.grid.stubs.types.InvalidRegistrationException {
+    gov.nih.nci.ccts.grid.stubs.CommitResponse boxedResult = new gov.nih.nci.ccts.grid.stubs.CommitResponse();
+    impl.commit(params.getRegistration().getRegistration());
+    return boxedResult;
+  }
+
     public gov.nih.nci.ccts.grid.stubs.RegisterResponse register(gov.nih.nci.ccts.grid.stubs.RegisterRequest params) throws RemoteException, gov.nih.nci.ccts.grid.stubs.types.InvalidRegistrationException, gov.nih.nci.ccts.grid.stubs.types.RegistrationConsumptionException {
     gov.nih.nci.ccts.grid.stubs.RegisterResponse boxedResult = new gov.nih.nci.ccts.grid.stubs.RegisterResponse();
     boxedResult.setRegistration(impl.register(params.getRegistration().getRegistration()));

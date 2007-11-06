@@ -57,6 +57,16 @@ public class RegistrationConsumerAuthorization implements PDP {
 		
 		
 	}
+					
+	public static void authorizeRollback() throws RemoteException {
+		
+		
+	}
+					
+	public static void authorizeCommit() throws RemoteException {
+		
+		
+	}
 	
 	
 	public boolean isPermitted(Subject peerSubject, MessageContext context, QName operation)
@@ -76,6 +86,22 @@ public class RegistrationConsumerAuthorization implements PDP {
 		} else if(operation.getLocalPart().equals("register")){
 			try{
 				authorizeRegister();
+				return true;
+			} catch (Exception e){
+				e.printStackTrace();
+				return false;
+			}
+		} else if(operation.getLocalPart().equals("rollback")){
+			try{
+				authorizeRollback();
+				return true;
+			} catch (Exception e){
+				e.printStackTrace();
+				return false;
+			}
+		} else if(operation.getLocalPart().equals("commit")){
+			try{
+				authorizeCommit();
 				return true;
 			} catch (Exception e){
 				e.printStackTrace();

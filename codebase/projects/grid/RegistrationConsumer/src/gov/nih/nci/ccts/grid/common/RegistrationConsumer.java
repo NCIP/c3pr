@@ -13,6 +13,24 @@ import java.rmi.RemoteException;
 public interface RegistrationConsumer {
 
   /**
+   * Rollback (delete) the Registration
+   *
+   * @param registration
+   * @throws InvalidRegistrationException
+   *	
+   */
+  public void rollback(gov.nih.nci.ccts.grid.Registration registration) throws RemoteException, gov.nih.nci.ccts.grid.stubs.types.InvalidRegistrationException ;
+
+  /**
+   * commit the Registration
+   *
+   * @param registration
+   * @throws InvalidRegistrationException
+   *	
+   */
+  public void commit(gov.nih.nci.ccts.grid.Registration registration) throws RemoteException, gov.nih.nci.ccts.grid.stubs.types.InvalidRegistrationException ;
+
+  /**
    * Register a Patient to a Study
    *
    * @param registration
