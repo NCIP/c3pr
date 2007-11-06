@@ -2,9 +2,11 @@ package edu.duke.cabig.c3pr.web.study;
 
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
+import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 
 import java.util.Iterator;
 import java.util.List;
@@ -19,6 +21,8 @@ import org.springframework.validation.Errors;
  * change this template use File | Settings | File Templates.
  */
 class StudyDetailsTab extends StudyTab {
+	
+	private StudyValidator studyValidator;
 
 	public StudyDetailsTab() {
 		super("Study Details", "Details", "study/study_details");
@@ -97,5 +101,23 @@ class StudyDetailsTab extends StudyTab {
 		}		
 		updateRandomization(study);		
 	}
+	
+	@Override
+	public void validate(Study study, Errors errors) {
+		// TODO Auto-generated method stub
+		super.validate(study, errors);
+	//	studyValidator.validateStudyCoordinatingCetnterIdentifier(study,errors);
+	//	studyValidator.validateStudyFundingSponsorIdentifier(study,errors);
+		
+	}
+
+	public StudyValidator getStudyValidator() {
+		return studyValidator;
+	}
+
+	public void setStudyValidator(StudyValidator studyValidator) {
+		this.studyValidator = studyValidator;
+	}
+
 
 }
