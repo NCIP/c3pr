@@ -89,7 +89,7 @@ public class StudyAmendmentTab extends StudyTab {
 			try{
 				//Changing the status only if ti is currently Active.
 				if(study.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.ACTIVE){
-					studyService.setStatuses(study,false);
+					study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.AMENDMENT_PENDING);
 				}
 				
 			}catch(Exception e){
