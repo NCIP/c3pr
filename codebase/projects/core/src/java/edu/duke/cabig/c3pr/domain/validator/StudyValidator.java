@@ -9,9 +9,11 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudyPersonnel;
@@ -23,6 +25,7 @@ public class StudyValidator implements Validator {
 	private StudySiteValidator studySiteValidator;
 	private IdentifierValidator identifierValidator;
 	private EpochValidator epochValidator;
+	private StudyDao studyDao;
 
 	public boolean supports(Class clazz) {
 		return Study.class.isAssignableFrom(clazz);
@@ -128,14 +131,22 @@ public class StudyValidator implements Validator {
 	public void validateStudyInvestigators(Object target, Errors errors) {
 		Study study = (Study) target;
 		List<StudyInvestigator> allStudyInvestigators = new ArrayList<StudyInvestigator>();
-		
 		try {
-			for(StudyOrganization studyOrganizaiton:study.getStudyOrganizations()){
-				allStudyInvestigators.addAll(studyOrganizaiton.getStudyInvestigators());
+			for(StudyOrganization studyOrganization:study.getStudyOrganizations()){
+				allStudyInvestigators.addAll(studyOrganization.getStudyInvestigators());
 			}
 			Set<StudyInvestigator> uniqueStudyInvestigators = new TreeSet<StudyInvestigator>();
-			uniqueStudyInvestigators.addAll(allStudyInvestigators);
-			if(allStudyInvestigators.size()>uniqueStudyInvestigators.size()){
+			List<StudyInvestigator> notNullInvestigatorsList = new ArrayList<StudyInvestigator>();
+			if (notNullInvestigatorsList.contains(null)){
+				notNullInvestigatorsList.remove(null);
+			}
+				
+			for(StudyInvestigator studyInv:allStudyInvestigators){
+				if (studyInv!=null)
+					notNullInvestigatorsList.add(studyInv);
+			}
+			uniqueStudyInvestigators.addAll(notNullInvestigatorsList);
+			if(notNullInvestigatorsList.size()>uniqueStudyInvestigators.size()){
 				errors.reject("tempProperty","Study Investigator with same role already exists");
 			}
 		} finally {
@@ -148,12 +159,20 @@ public class StudyValidator implements Validator {
 		List<StudyPersonnel> allStudyPersonnel = new ArrayList<StudyPersonnel>();
 		
 		try {
-			for(StudyOrganization studyOrganizaiton:study.getStudyOrganizations()){
-				allStudyPersonnel.addAll(studyOrganizaiton.getStudyPersonnel());
+			for(StudyOrganization studyOrganization:study.getStudyOrganizations()){
+				allStudyPersonnel.addAll(studyOrganization.getStudyPersonnel());
 			}
 			Set<StudyPersonnel> uniqueStudyPersonnel = new TreeSet<StudyPersonnel>();
-			uniqueStudyPersonnel.addAll(allStudyPersonnel);
-			if(allStudyPersonnel.size()>uniqueStudyPersonnel.size()){
+			List<StudyPersonnel> notNullPersonnelList = new ArrayList<StudyPersonnel>();
+			if (notNullPersonnelList.contains(null)){
+				notNullPersonnelList.remove(null);
+			}
+			for(StudyPersonnel studyPerson:allStudyPersonnel){
+				if (studyPerson!=null)
+					notNullPersonnelList.add(studyPerson);
+			}
+			uniqueStudyPersonnel.addAll(notNullPersonnelList);
+			if(notNullPersonnelList.size()>uniqueStudyPersonnel.size()){
 				errors.reject("tempProperty","Study Person with same role already exists");
 			}
 		} finally {
@@ -182,6 +201,40 @@ public class StudyValidator implements Validator {
 			
 		}
 	}
+	
+
+	public void validateStudyCoordinatingCetnterIdentifier(Object target, Errors errors) {
+		
+		Study study = (Study) target;
+		OrganizationAssignedIdentifier coCenterIdentifier = study.getCoordinatingCenterAssignedIdentifier();
+		
+		if ((coCenterIdentifier!=null)&&(coCenterIdentifier.getHealthcareSite()!=null)){
+			List<OrganizationAssignedIdentifier> coCenterIdentifiers = studyDao.getCoordinatingCenterIdentifiersWithValue(coCenterIdentifier.getValue(),coCenterIdentifier.getHealthcareSite());
+			if (coCenterIdentifiers.size() > 0){
+				if ((study.getId()==null)||(coCenterIdentifiers.size()>1)){
+				errors.reject("tempProperty","Study with this Coordinating center identifier already exists for the same Organization");
+				}
+			}
+		}
+		
+	}
+
+	public void validateStudyFundingSponsorIdentifier(Object target, Errors errors) {
+		
+		Study study = (Study) target;
+		OrganizationAssignedIdentifier funSponIdentifier = study.getFundingSponsorAssignedIdentifier();
+		
+		if ((funSponIdentifier!=null)&&(funSponIdentifier.getHealthcareSite()!=null)){
+			List<OrganizationAssignedIdentifier> funSponIdentifiers = studyDao.getFundingSponsorIdentifiersWithValue(funSponIdentifier.getValue(),funSponIdentifier.getHealthcareSite());
+			if (funSponIdentifiers.size() > 0){
+				if ((study.getId()==null)||(funSponIdentifiers.size()>1)){
+				errors.reject("tempProperty","Study with this Funding sponsor idenfier already exists for the same Organization");
+				}
+			}
+		}
+		
+	}
+
 
 	public EpochValidator getEpochValidator() {
 		return epochValidator;
@@ -205,6 +258,14 @@ public class StudyValidator implements Validator {
 
 	public void setIdentifierValidator(IdentifierValidator identifierValidator) {
 		this.identifierValidator = identifierValidator;
+	}
+
+	public StudyDao getStudyDao() {
+		return studyDao;
+	}
+
+	public void setStudyDao(StudyDao studyDao) {
+		this.studyDao = studyDao;
 	}
 
 }
