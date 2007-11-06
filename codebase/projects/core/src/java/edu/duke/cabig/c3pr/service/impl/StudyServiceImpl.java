@@ -99,8 +99,15 @@ public class StudyServiceImpl implements StudyService {
 		
 		for (TreatmentEpoch treatmentEpoch : study.getTreatmentEpochs()) {
 			if (treatmentEpoch.getRandomizedIndicator()==Boolean.TRUE) {
-				if (!treatmentEpoch.hasStratification()||!treatmentEpoch.hasStratumGroups())
+				if (!treatmentEpoch.hasStratification()||!treatmentEpoch.hasStratumGroups()){
+					if ((!treatmentEpoch.hasStratification())&&(study.getId()!=null)){
+						throw new Exception("There is no stratification criteria for treatment epoch: "+treatmentEpoch.getName());
+					}
+					if ((!treatmentEpoch.hasStratumGroups())&&(study.getId()!=null)){
+						throw new Exception("There are no stratum groups for treatment epoch: "+treatmentEpoch.getName());
+					}
 					return StudyDataEntryStatus.INCOMPLETE;
+				}
 			}
 		}
 
@@ -142,11 +149,12 @@ public class StudyServiceImpl implements StudyService {
 		if (study.getRandomizationType() == (RandomizationType.BOOK)) {
 			for (TreatmentEpoch treatmentEpoch : study.getTreatmentEpochs()) {
 				if (treatmentEpoch.hasBookRandomizationEntry()) {
-					if (!treatmentEpoch.hasStratumGroups())
+					if (!treatmentEpoch.hasStratumGroups()){
 						if (study.getId()!=null){
 							throw new Exception("Stratum groups are missing for treatment epoch: " + treatmentEpoch.getName());
 							}
 						return StudyDataEntryStatus.INCOMPLETE;
+					}
 				}
 			}
 			return StudyDataEntryStatus.COMPLETE;
