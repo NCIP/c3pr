@@ -56,7 +56,7 @@ public class ParticipantValidator implements Validator {
 			List<OrganizationAssignedIdentifier> participantsWithMRN = participantDao.getSubjectIdentifiersWithMRN(mrn.getValue(),mrn.getHealthcareSite());
 			if (participantsWithMRN.size() > 0){
 				if ((participant.getId()==null)||(participantsWithMRN.size()>1)){
-				errors.reject("tempProperty","Participant with this MRN already exists");
+				errors.reject("tempProperty","Participant with this MRN already exists for the same Organization");
 				}
 			}
 		}
