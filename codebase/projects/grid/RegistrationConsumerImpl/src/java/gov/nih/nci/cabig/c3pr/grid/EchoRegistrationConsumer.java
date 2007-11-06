@@ -36,6 +36,14 @@ public class EchoRegistrationConsumer implements RegistrationConsumer {
         return registration;
     }
 
+    public void rollback(Registration registration) throws RemoteException, InvalidRegistrationException {
+        throw new UnsupportedOperationException("Transaction support not implemented");
+    }
+
+    public void commit(Registration registration) throws RemoteException, InvalidRegistrationException {
+        throw new UnsupportedOperationException("Transaction support not implemented");
+    }
+
     public ServiceSecurityMetadata getServiceSecurityMetadata() throws RemoteException {
         throw new UnsupportedOperationException("Not implemented");
     }

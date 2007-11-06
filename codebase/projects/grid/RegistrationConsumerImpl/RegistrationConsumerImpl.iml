@@ -1265,6 +1265,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="RegistrationConsumer" />
     <orderEntryProperties />
   </component>
 </module>
