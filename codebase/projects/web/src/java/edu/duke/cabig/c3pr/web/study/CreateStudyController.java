@@ -62,7 +62,7 @@ public class CreateStudyController<C extends Study> extends StudyController<C> {
 		// TODO Auto-generated method stub
 		Study study=(Study)command;
 		super.postProcessPage(request, command, errors, page);
-		studyService.setStatuses(study);
+		studyService.setStatuses(study,false);
 	}
 
     @Override
