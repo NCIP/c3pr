@@ -10,6 +10,7 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 
 /**
  * Interface for Services on Study related domain object
@@ -24,7 +25,7 @@ public interface StudyService {
      * @param study the study object
      * @throws Exception runtime exception object
      */
-    public void save(Study study) throws Exception;
+    public void save(Study study) throws C3PRCodedException;
     
     public StudyDataEntryStatus evaluateDataEntryStatus(Study study) throws Exception;
     
@@ -34,9 +35,9 @@ public interface StudyService {
     
     public void setSiteStudyStatuses(Study study) throws Exception;
     
-    public void setDataEntryStatus(Study study) throws Exception;
+    public void setDataEntryStatus(Study study, boolean throwException) throws Exception;
     
-    public Study setStatuses(Study study) throws Exception;
+    public Study setStatuses(Study study, boolean throwException) throws Exception;
     
     public Study setStatuses(Study study,CoordinatingCenterStudyStatus status) throws Exception;
     
