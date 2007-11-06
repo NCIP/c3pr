@@ -1,6 +1,6 @@
 <ns1:ServiceDescription introduceVersion="1.1" xmlns:ns1="gme://gov.nih.nci.cagrid/1/Introduce">
  <ns2:Namespaces xsi:type="ns2:NamespacesType" xmlns:ns2="gme://gov.nih.nci.cagrid.introduce/1/Namespace" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <ns2:Namespace location="./c3pr-domain.xsd" namespace="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain" packageName="gov.nih.nci.ccts.grid" xsi:type="ns2:NamespaceType">
+  <ns2:Namespace location="./ccts-domain.xsd" namespace="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain" packageName="gov.nih.nci.ccts.grid" xsi:type="ns2:NamespaceType">
    <ns2:SchemaElement type="identifier" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="organizationAssignedIdentifier" xsi:type="ns2:SchemaElementType"/>
    <ns2:SchemaElement type="systemAssignedIdentifier" xsi:type="ns2:SchemaElementType"/>

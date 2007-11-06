@@ -14,7 +14,7 @@
       <import namespace="http://ccts.nci.nih.gov/RegistrationConsumer/types" schemaLocation="./RegistrationConsumerTypes.xsd" />
       <import namespace="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata" schemaLocation="./cagrid/types/caGridMetadata.xsd" />
       <import namespace="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata.security" schemaLocation="./xsd/security.xsd" />
-      <import namespace="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain" schemaLocation="./c3pr-domain.xsd" />
+      <import namespace="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain" schemaLocation="./ccts-domain.xsd" />
       <element name="RegisterRequest">
         <complexType>
           <sequence>
