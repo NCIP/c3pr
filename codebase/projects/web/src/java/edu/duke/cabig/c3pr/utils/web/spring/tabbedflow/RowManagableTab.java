@@ -21,6 +21,18 @@ public abstract class RowManagableTab<C> extends ReflexiveAjaxableTab<C>{
 	protected String getSoftDeleteParamName(){
 		return "softDelete";
 	}
+	
+	protected String getDeleteIndexParamName(){
+		return "deleteIndex";
+	}
+
+	protected String getDeleteHashCodeParamName(){
+		return "deleteHashCode";
+	}
+	
+	protected String getCollectionParamName(){
+		return "collection";
+	}
 		//override this method for soft deletes
 	protected boolean shouldDelete(HttpServletRequest request, Object command, Errors error) {
 		return !WebUtils.hasSubmitParameter(request, this.getSoftDeleteParamName());
@@ -39,24 +51,25 @@ public abstract class RowManagableTab<C> extends ReflexiveAjaxableTab<C>{
     }
 
 	public ModelAndView deleteRow(HttpServletRequest request, Object command, Errors error)throws Exception{
+		String listPath=request.getParameter(getCollectionParamName());
+		List col= (List) new DefaultObjectPropertyReader(command, listPath).getPropertyValueFromPath();
+		int hashCode=Integer.parseInt(request.getParameter(getDeleteHashCodeParamName()));
+		Integer index=null;
+		for(int i=0 ; i<col.size() ; i++){
+			if(col.get(i).hashCode()==hashCode){
+				index=i;
+				break;
+			}
+		}
 		if(this.shouldDelete(request, command, error)){
-			String listPath=request.getParameter("collection");
-			int index=Integer.parseInt(request.getParameter("deleteIndex"));
-			List col=null;
-			col = (List) new DefaultObjectPropertyReader(command, listPath).getPropertyValueFromPath();
-	      	col.remove(index);
+	      	col.remove(index.intValue());
 		}else{
-			String listPath=request.getParameter("collection");
-			int index=Integer.parseInt(request.getParameter("deleteIndex"));
-			List col=null;
-			col = (List) new DefaultObjectPropertyReader(command, listPath).getPropertyValueFromPath();
-			
 			//Enabling the retitred_indicator
 	      	AbstractMutableDeletableDomainObject obj=(AbstractMutableDeletableDomainObject)col.get(index);
 	      	obj.setRetiredIndicatorAsTrue();
 		}
 		Map<String, String> map=new HashMap<String, String>();
-		map.put(getFreeTextModelName(), "deleted");
+		map.put(getFreeTextModelName(), "deletedIndex="+request.getParameter(getDeleteIndexParamName())+"||hashCode="+request.getParameter(getDeleteHashCodeParamName())+"||");
 		return new ModelAndView("", map);
 	}
 }

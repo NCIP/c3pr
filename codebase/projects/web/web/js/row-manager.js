@@ -50,20 +50,20 @@ var RowManager = {
 	rowInserters: new Array(),
 	rowInsertersForDeletion: new Array(),
 	debug: false,
-	addRow: function(inserter){!this.isSubmitted?this.execute(true,inserter,-1):this.errorLog("Row Manager inactivated")},
-	deleteRow: function(inserter,delIndex){
+	addRow: function(inserter){!this.isSubmitted?this.execute(true,inserter,-1,-1):this.errorLog("Row Manager inactivated")},
+	deleteRow: function(inserter,delIndex,hashCode){
 					if(this.isSubmitted){
 						this.errorLog("Row Manager inactivated")
 						return
 					}
-					flagDelLocal=this.execute(false,inserter,delIndex)
+					flagDelLocal=this.execute(false,inserter,delIndex,hashCode)
 					if(flagDelLocal && !inserter.softDelete){
 						inserter.deletedRows.push(delIndex)
 						if(!this.rowInsertersForDeletion.include(inserter))
 							this.rowInsertersForDeletion.push(inserter)
 					}
 				},
-	execute: function(isAddRow, inserter, deletionIndex){
+	execute: function(isAddRow, inserter, deletionIndex,hashCode){
 					if(isAddRow){
 					    inserter.preProcessRowInsertion(inserter)
 						inserter.insertRow()
@@ -74,7 +74,7 @@ var RowManager = {
 						if(!flagDel)
 							return false;
 						inserter.preProcessRowDeletion(inserter,deletionIndex)
-						inserter.handleRowRemoval(deletionIndex)
+						inserter.handleRowRemoval(deletionIndex,hashCode)
 						inserter.postProcessRowDeletion(inserter,deletionIndex)
 						return true
 					}
@@ -246,6 +246,7 @@ var AbstractRowInserterProps = {
 	postProcessRowInsertion: function(object){},
 	preProcessRowDeletion: function(object,index){},
 	postProcessRowDeletion: function(object,index){},
+	//postProcessCommandUpdate: function(object,index,hashCode){},	
     addDivision: function(htmlStr){
    									return "<div id='"+this.getColumnDivisionID(this.localIndex)+"'>"+htmlStr+"</div>"
     							},
@@ -290,10 +291,10 @@ var AbstractRowInserterProps = {
    	havingParentRowInserter: function(){
    										return this.parent_row_inserter==""?false:true
    									},
-   	handleRowRemoval: function(index){
+   	handleRowRemoval: function(index,hashCode){
    							
    							if(index<this.initialIndex){
-   								this.removeFromCommand(index)
+   								this.removeFromCommand(index,hashCode)
    								//this.softDelete?this.disableRow(index):this.removeRowFromDisplay(index)
    								this.removeRowFromDisplay(index)
    							}else{
@@ -326,9 +327,10 @@ var AbstractRowInserterProps = {
 							RowManager.log(logString+"</div>")
     						RowManager.log("------------------------<br>")							
 						},
-	removeFromCommand: function(index){
+	removeFromCommand: function(index,hashCode){
 							$('rowDeletionForm').collection.value=this.replaceParentIndexes(this.path)
 							$('rowDeletionForm').deleteIndex.value=index
+							$('rowDeletionForm').deleteHashCode.value=hashCode
 							parameterString="decorator=nullDecorator&_asynchronous=true&_asyncMethodName=deleteRow&"+Form.serialize('rowDeletionForm');
 							if(this.softDelete)
 								parameterString="softDelete=true&"+parameterString
@@ -340,7 +342,10 @@ var AbstractRowInserterProps = {
 						alert("Error Deleting Row. Please refresh the page to reload the deleted row.")
 					},
 	onDeleteFromCommandSuccess: function(t){
-   						RowManager.log("Row deletion Message: "+t.responseText)							
+   						RowManager.log("Row deletion Message: "+t.responseText)
+   						alert("in onDeleteFromCommandSuccess")
+   						rets=t.responseText.split("||")
+   						//this.postProcessCommandUpdate(this,rets[0].split("=")[1],rets[1].split("=")[1])
 					},					
 	shouldDelete: function(inserter, index){
 						if(index<this.initialIndex && this.alertOnSoftDelete){
