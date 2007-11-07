@@ -97,7 +97,7 @@
              antfile="build.xml" target="all"/>
     </target>
 
-    <target name="clean"  description="Clean the project">
+    <target name="clean"  depends="prepare"  description="Clean the project">
         <delete dir="${build.dir}"/>
         <delete dir="${test.dir}"/>
 
@@ -168,8 +168,8 @@
            grid service. Skeleton service is implemented by individual
            ctmsi applications.
       -->
-      <target name="deploySkeletonStudynGridService" depends="prepare"
-              description="Deploys the Stidu Consumer Grid service Skeleton">
+      <target name="deploySkeletonStudyGridService" depends="prepare"
+              description="Deploys the Study Consumer Grid service Skeleton">
 
           <!--override tomcat env variable to write out to temp location-->
           <ant dir="${projects.dir}/StudyConsumer" antfile="build.xml"
