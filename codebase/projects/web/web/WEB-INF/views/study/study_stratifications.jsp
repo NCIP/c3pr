@@ -11,7 +11,8 @@
 	}
 	
 	function clear(epochCountIndex){
-		
+		<tags:tabMethod method="clearStratumGroups" viewName="/study/asynchronous/strat_combinations" divElement="'sgCombinations_'+epochCountIndex" 
+		                javaScriptParam="'epochCountIndex='+epochCountIndex" formName="'tabMethodForm'"/> 
 	}
 </script>
 </head>
@@ -35,8 +36,8 @@
                 row_index_indicator: "NESTED.PAGE.ROW.INDEX",
                 path: "treatmentEpochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers",
                 epochCountIndex: ${epochCount.index},
-                postProcessRowDeletion: function(object){
-	                clear(object.epochCountIndex);                	
+                onDeleteFromCommandSuccess: function(t){
+	                clear(${epochCount.index});                	
 			    },
 			    postProcessRowInsertion: function(object){
 	                clear(object.epochCountIndex);                	
@@ -50,8 +51,8 @@
                 softDelete: ${softDelete == 'true'},
                 path: "treatmentEpochs[${epochCount.index }].stratificationCriteria",
                 epochCountIndex: ${epochCount.index},
-                postProcessRowDeletion: function(object){
-	                clear(object.epochCountIndex);                	
+                onDeleteFromCommandSuccess: function(t){
+	                clear(${epochCount.index});                	
 			    },
 			    postProcessRowInsertion: function(object){
                 	clear(object.epochCountIndex);                	
@@ -77,7 +78,7 @@
                     </script>
 					<tr id="epoch-${epochCount.index }-${status.index }">
 						<td class="alt"><a
-							href="javascript:RowManager.deleteRow(stratRowInserterProps_${epochCount.index},${status.index });">
+							href="javascript:RowManager.deleteRow(stratRowInserterProps_${epochCount.index},${status.index },${strat.hashCode });">
 						<img src="<tags:imageUrl name="checkno.gif"/>" border="0"
 							alt="Delete"></a></td>
 						<td><form:textarea
@@ -103,7 +104,7 @@
 										</c:when>
 										<c:otherwise>
 											<td class="alt"><a
-												href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},${status.index}),${statusAns.index });">
+												href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},${status.index}),${statusAns.index },${answer.hashCode});">
 											<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 										</c:otherwise>
 									</c:choose>
@@ -156,7 +157,7 @@
 							${command.treatmentEpochs[epochCount.index].stratumGroups[statusStratumGroup.index].answerCombinations}
 							</td>
 							<td class="alt"><a
-								href="javascript:RowManager.deleteRow(stratumGroupRowInserter_${epochCount.index},${statusStratumGroup.index });">
+								href="javascript:RowManager.deleteRow(stratumGroupRowInserter_${epochCount.index},${statusStratumGroup.index },${stratumGroup.hashCode });">
 							<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 						</tr>
 					</c:forEach>
@@ -187,7 +188,7 @@
 	<table>
 		<tr>
 			<td><a
-				href="javascript:RowManager.deleteRow(stratRowInserterProps_${epochCount.index},PAGE.ROW.INDEX);">
+				href="javascript:RowManager.deleteRow(stratRowInserterProps_${epochCount.index},PAGE.ROW.INDEX,-1);">
 			<img src="<tags:imageUrl name="checkno.gif"/>" border="0"
 				alt="Delete"></a></td>
 			<td><input type="hidden"
@@ -227,7 +228,7 @@
 				name="treatmentEpochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers[NESTED.PAGE.ROW.INDEX].permissibleAnswer"
 				size="30" class="validate-notEmpty" /></td>
 			<td><a
-				href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},PAGE.ROW.INDEX),NESTED.PAGE.ROW.INDEX);">
+				href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},PAGE.ROW.INDEX),NESTED.PAGE.ROW.INDEX,-1);">
 			<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 		</tr>
 	</table>
