@@ -185,7 +185,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
                     <th><b>Target Accrual Number</b></th>
                     <th></th>
                 </tr>
-                <c:forEach items="${command.studySites}" varStatus="status">
+                <c:forEach items="${command.studySites}" varStatus="status" var="site">
                     <tr id="siteTable-${status.index}">
                     
                     
@@ -212,7 +212,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
                         <td> <form:input path="studySites[${status.index}].targetAccrualNumber"/>
             			</td>  
                         <td><a
-                                href="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index});"><img
+                                href="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index},${site.hashCode});"><img
                                 src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 
                     </tr>
@@ -274,7 +274,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
             </td>            
             <td>
                 <a
-                    href="javascript:RowManager.deleteRow(instanceRowInserterProps,PAGE.ROW.INDEX);"><img
+                    href="javascript:RowManager.deleteRow(instanceRowInserterProps,PAGE.ROW.INDEX, -1);"><img
                     src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
         </tr>
     </table>

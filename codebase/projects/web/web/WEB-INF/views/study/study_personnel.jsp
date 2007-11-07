@@ -155,7 +155,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
         <th></th>
     </tr>
 
-    <c:forEach varStatus="status" items="${command.studyOrganizations[selected_site].studyPersonnel}">
+    <c:forEach varStatus="status" items="${command.studyOrganizations[selected_site].studyPersonnel}" var="sPersonnel">
         <tr id="studyPersonnelTable-${status.index}">
             <td>
                 <form:hidden id="personnel${status.index}-hidden"
@@ -180,7 +180,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
                     <form:options items="${studyPersonnelStatusRefData}" itemLabel="desc" itemValue="desc"/>
                 </form:select></td>
            <td>
-                    <a href="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index});"><img
+                    <a href="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index},${sPersonnel.hashCode});"><img
                             src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a></td>
         </tr>
     </c:forEach>
@@ -268,7 +268,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
                 </select>
             </td>
             <td>
-                <a href="javascript:RowManager.deleteRow(instanceRowInserterProps,PAGE.ROW.INDEX);"><img
+                <a href="javascript:RowManager.deleteRow(instanceRowInserterProps,PAGE.ROW.INDEX, -1);"><img
                         src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a></td>
         </tr>
         

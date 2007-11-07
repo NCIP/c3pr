@@ -101,7 +101,7 @@
                                     <th>NA</th>
                                     <th></th>
                                 </tr>
-                                <c:forEach varStatus="status"
+                                <c:forEach varStatus="status" var="ieCrit"
                                            items="${command.epochs[epochCount.index].inclusionEligibilityCriteria}">
                                     <tr id="addInclusionRowTable-${epochCount.index}-${status.index}">
                                         <td>
@@ -112,7 +112,7 @@
                                                 path="epochs[${epochCount.index }].inclusionEligibilityCriteria[${status.index}].notApplicableIndicator"/>
                                         </td>
                                         <td><a
-                                                href="javascript:RowManager.deleteRow(instanceInclusionRow_${epochCount.index},${status.index});"><img
+                                                href="javascript:RowManager.deleteRow(instanceInclusionRow_${epochCount.index},${status.index},${ieCrit.hashCode});"><img
                                                 src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
                                     </tr>
                                     
@@ -134,7 +134,7 @@
                                         <th></th>
 
                                     </tr>
-                                    <c:forEach varStatus="status"
+                                    <c:forEach varStatus="status" var="eeCrit"
                                                items="${command.epochs[epochCount.index].exclusionEligibilityCriteria}">
                                         <tr id="addExclusionRowTable-${epochCount.index}-${status.index}">
                                             <td>
@@ -145,7 +145,7 @@
                                                     path="epochs[${epochCount.index }].exclusionEligibilityCriteria[${status.index}].notApplicableIndicator" />
                                             </td>
                                             <td><a
-                                                    href="javascript:RowManager.deleteRow(instanceExclusionRow_${epochCount.index},${status.index});"><img
+                                                    href="javascript:RowManager.deleteRow(instanceExclusionRow_${epochCount.index},${status.index},${eeCrit.hashCode});"><img
                                                     src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
                                         </tr>
                                     </c:forEach>
@@ -161,6 +161,7 @@
         </c:if>
     </c:forEach>
     <!-- MAIN BODY ENDS HERE -->
+
     <tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
 </form:form>
 <c:forEach items="${command.epochs}" var="epoch" varStatus="epochCount">
@@ -178,7 +179,7 @@
                                                         name="epochs[${epochCount.index }].inclusionEligibilityCriteria[PAGE.ROW.INDEX].notApplicableIndicator" />
                     </td>
                     <td><a
-                            href="javascript:RowManager.deleteRow(instanceInclusionRow_${epochCount.index},PAGE.ROW.INDEX);"><img
+                            href="javascript:RowManager.deleteRow(instanceInclusionRow_${epochCount.index},PAGE.ROW.INDEX,-1);"><img
                             src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
                 </tr>
             </table>
@@ -196,7 +197,7 @@
                                                         name="epochs[${epochCount.index }].exclusionEligibilityCriteria[PAGE.ROW.INDEX].notApplicableIndicator" />
                     </td>
                     <td><a
-                            href="javascript:RowManager.deleteRow(instanceExclusionRow_${epochCount.index},PAGE.ROW.INDEX);"><img
+                            href="javascript:RowManager.deleteRow(instanceExclusionRow_${epochCount.index},PAGE.ROW.INDEX,-1);"><img
                             src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
                 </tr>
             </table>

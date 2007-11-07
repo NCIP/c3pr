@@ -166,7 +166,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
                         <form:options items="${studyInvestigatorStatusRefData}" itemLabel="desc" itemValue="desc"/>
                     </form:select></td>
                 <td>
-                    <a href="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index});"><img
+                    <a href="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index},${studyInvestigator.hashCode});"><img
                             src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a></td>
             </tr>
             </c:otherwise>
@@ -254,7 +254,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
                 </select>
             </td>
             <td>
-                <a href="javascript:RowManager.deleteRow(instanceRowInserterProps,PAGE.ROW.INDEX);"><img
+                <a href="javascript:RowManager.deleteRow(instanceRowInserterProps,PAGE.ROW.INDEX, -1);"><img
                         src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a></td>
         </tr>
     </table>
