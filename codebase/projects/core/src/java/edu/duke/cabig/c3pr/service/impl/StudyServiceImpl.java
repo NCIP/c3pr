@@ -196,14 +196,18 @@ public class StudyServiceImpl implements StudyService {
 
 	public StudyDataEntryStatus evaluateEligibilityDataEntryStatus(Study study)
 			throws Exception {
-		if (study.hasElligibility()){
+		
+		//TODO  //Disabled unless more information is obtained on managing the eligibility criteria for all epochs and study
+		
+		/*if (study.hasElligibility()){
 			return StudyDataEntryStatus.COMPLETE;
 		} else {
 			if (study.getId()!=null){
 				throw new Exception("Study needs eligibility criteria");
 				}
 			return StudyDataEntryStatus.INCOMPLETE;
-		}
+		}*/
+		return StudyDataEntryStatus.COMPLETE;
 		
 	}
 
@@ -454,9 +458,7 @@ public class StudyServiceImpl implements StudyService {
 			} else {
 				study.setCoordinatingCenterStudyStatus(oldStatus);
 			}
-
 		}
-
 		return study;
 	}
 
