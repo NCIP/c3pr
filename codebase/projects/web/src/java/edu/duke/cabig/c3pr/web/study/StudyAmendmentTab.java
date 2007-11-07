@@ -7,7 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.validation.Errors;
 
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudyAmendment;
 import edu.duke.cabig.c3pr.service.StudyService;
 
@@ -90,6 +92,11 @@ public class StudyAmendmentTab extends StudyTab {
 				//Changing the status only if ti is currently Active.
 				if(study.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.ACTIVE){
 					study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.AMENDMENT_PENDING);
+					for(StudySite studySite:study.getStudySites()){
+						if (studySite.getSiteStudyStatus()==SiteStudyStatus.ACTIVE){
+							studySite.setSiteStudyStatus(SiteStudyStatus.AMENDMENT_PENDING);
+						}
+					}
 				}
 				
 			}catch(Exception e){
