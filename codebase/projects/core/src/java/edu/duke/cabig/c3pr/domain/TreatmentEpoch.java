@@ -23,7 +23,7 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 public class TreatmentEpoch extends Epoch {
 	private LazyListHelper lazyListHelper;
 	private Randomization randomization;
-	private Boolean randomizedIndicator;
+	private Boolean randomizedIndicator = false;
 
 	private ParameterizedInstantiateFactory<EligibilityCriteria> eligibilityFactory;
 
