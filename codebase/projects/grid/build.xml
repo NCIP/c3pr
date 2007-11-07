@@ -22,7 +22,7 @@
 
 
     <!-- projects-->
-    <property name="projects.list" value="RegistrationConsumer, RegistrationConsumerImpl,C3PRStudyConsumer"/>
+    <property name="projects.list" value="RegistrationConsumer, RegistrationConsumerImpl,StudyConsumer,C3PRStudyConsumer"/>
 
     <property name="testable.projects.list" value="RegistrationConsumerImpl"/>
 
@@ -71,6 +71,11 @@
             </classpath>
         </taskdef>
 
+    </target>
+
+     <target name="build-StudyConsumer" depends="prepare">
+        <ant dir="${projects.dir}/StudyConsumer" inheritall="false"
+             antfile="build.xml" target="all"/>
     </target>
 
     <target name="build-RegistrationConsumer" depends="prepare">
@@ -158,6 +163,23 @@
         <echo message="============================================================================="/>
 
     </target>
+
+    <!-- Will build and deploy the StudyConsumer Skeleton
+           grid service. Skeleton service is implemented by individual
+           ctmsi applications.
+      -->
+      <target name="deploySkeletonStudynGridService" depends="prepare"
+              description="Deploys the Stidu Consumer Grid service Skeleton">
+
+          <!--override tomcat env variable to write out to temp location-->
+          <ant dir="${projects.dir}/StudyConsumer" antfile="build.xml"
+               inheritall="false" target="deployTomcat"/>
+
+          <echo message="======================================"/>
+          <echo message="======Skeleton grid service deployed to ${tomcat.home}" />
+          <echo message="======================================"/>
+      </target>
+
 
       <!--will deploy the C3PRStudyConsumer grid service
         for c3prv2 application
