@@ -25,10 +25,12 @@
 	<property name="tomcat.dir" value="${env.CATALINA_HOME}" />
 	
 	<property name="jboss.dir" value="${env.JBOSS_HOME}" />
-	
+
+    <!--added by ccts. To support multiple globus installs in the same container-->
+    <property name="wsrf.webapp" value="wsrf"/>
 
 
-	<target name="setDeploymentProperties">
+    <target name="setDeploymentProperties">
 		<property file="deploy.properties" />
 		<property name="service.deployment.path" value="${service.deployment.prefix}/${introduce.skeleton.service.name}" />
 		<pathconvert dirsep="_" property="service.deployment.dir.name">
@@ -87,9 +89,9 @@
 		<echo message="Deploying service ${service.deployment.path} under Tomcat at ${tomcat.dir}" />
 
 		<property name="webapp.dir" value="${tomcat.dir}" />
-		<property name="webapp.deploy.dir" value="${webapp.dir}/webapps/wsrf/WEB-INF" />
+		<property name="webapp.deploy.dir" value="${webapp.dir}/webapps/${wsrf.webapp}/WEB-INF" />
 		<property name="webapp.deploy.lib.dir" value="${webapp.deploy.dir}/lib" />
-		<property name="webapp.wsrf.schema.dir" value="${webapp.dir}/webapps/wsrf/share/schema" />
+		<property name="webapp.wsrf.schema.dir" value="${webapp.dir}/webapps/${wsrf.webapp}/share/schema" />
 
 		<echo message="Deploying service ${service.deployment.path} under Tomcat at ${webapp.dir}" />
 

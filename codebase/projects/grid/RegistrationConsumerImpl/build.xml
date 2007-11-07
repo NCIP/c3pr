@@ -26,7 +26,8 @@
     <property name="test.jar.dir" value="${test.build.dir}/jars"/>
     <property name="test.jar.name" value="${project.name}-test.jar"/>
 
-    <property name="tomcat.deploy.dir" value="${env.CATALINA_HOME}/webapps/wsrf/WEB-INF/lib"/>
+    <property name="wsrf.webapp" value="wsrf"/>
+    <property name="tomcat.deploy.dir" value="${env.CATALINA_HOME}/webapps/${wsrf.webapp}/WEB-INF/lib"/>
 
     <import file="${basedir}/antfiles/build-test.xml"/>
 
