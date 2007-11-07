@@ -73,5 +73,6 @@
     <layout:footer/>
 </div>
 <tags:enableRowDeletion/>
+<tags:tabMethodForm/>
 </body>
 </html>

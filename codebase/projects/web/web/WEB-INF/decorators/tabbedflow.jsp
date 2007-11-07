@@ -57,6 +57,7 @@
 </div>
 <tags:jsLogs debug="false"/>
 <tags:enableRowDeletion/>
+<tags:tabMethodForm/>
 <layout:footer/>
 <c:if test="${!empty disableForm && disableForm}">
 <tags:disableForm/>

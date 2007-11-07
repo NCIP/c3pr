@@ -55,5 +55,6 @@
 </div>
 <tags:jsLogs debug="false"/>
 <tags:enableRowDeletion/>
+<tags:tabMethodForm/>
 </body>
 </html>
