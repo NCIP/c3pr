@@ -37,7 +37,7 @@ public class EchoRegistrationConsumer implements RegistrationConsumer {
     }
 
     public void rollback(Registration registration) throws RemoteException, InvalidRegistrationException {
-        throw new UnsupportedOperationException("Transaction support not implemented");
+        //do nothing
     }
 
     public void commit(Registration registration) throws RemoteException, InvalidRegistrationException {
