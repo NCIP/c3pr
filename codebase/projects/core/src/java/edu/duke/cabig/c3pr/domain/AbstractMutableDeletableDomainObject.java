@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
@@ -25,5 +26,10 @@ public class AbstractMutableDeletableDomainObject extends
 	
 	public void setRetiredIndicatorAsFalse(){
 		this.setRetiredIndicator("false");
+	}
+	
+	@Transient
+	public int getHashCode(){
+		return this.hashCode();
 	}
 }
