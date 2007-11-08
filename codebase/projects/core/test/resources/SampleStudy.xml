@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<study xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain" version="1">
+<study xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain" version="1">
     <blindedIndicator>1</blindedIndicator>
     <multiInstitutionIndicator>1</multiInstitutionIndicator>
     <randomizedIndicator>1</randomizedIndicator>
