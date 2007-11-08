@@ -9,6 +9,7 @@ import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AutomaticSaveAjaxableFormController;
 import edu.duke.cabig.c3pr.web.participant.ParticipantAddressAndContactInfoTab;
 import edu.duke.cabig.c3pr.web.participant.ParticipantDetailsTab;
 import edu.duke.cabig.c3pr.web.participant.ParticipantSubmitTab;
@@ -42,7 +43,7 @@ import org.springframework.web.servlet.ModelAndView;
  */
 
 public class CreateParticipantController<C extends Participant> extends
-AutomaticSaveFlowFormController<C, Participant, ParticipantDao> {
+AutomaticSaveAjaxableFormController<C, Participant, ParticipantDao> {
 
 	protected static final Log log = LogFactory
 			.getLog(CreateParticipantController.class);
@@ -115,11 +116,6 @@ AutomaticSaveFlowFormController<C, Participant, ParticipantDao> {
                 new EnumByNameEditor(ContactMechanismType.class));
 
     }
-
-	@Override
-	protected void postProcessPage(HttpServletRequest request, Object Command,
-			Errors errors, int page) {
-	}
 
 	@Override
 	protected void onBind(HttpServletRequest request, Object command,
