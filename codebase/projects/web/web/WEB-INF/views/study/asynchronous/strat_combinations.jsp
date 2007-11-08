@@ -33,7 +33,7 @@ RowManager.registerRowInserter(stratumGroupRowInserter_${epochCountIndex});
          	${command.treatmentEpochs[epochCountIndex].stratumGroups[statusStratumGroup.index].answerCombinations}
              </td>
          <td class="alt"><a
-                 href="javascript:RowManager.deleteRow(stratumGroupRowInserter_${epochCountIndex},${statusStratumGroup.index });">
+                 href="javascript:RowManager.deleteRow(stratumGroupRowInserter_${epochCountIndex},${statusStratumGroup.index},${stratumGroup.hashCode});">
              <img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
      </tr>
  </c:forEach>
