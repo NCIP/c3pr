@@ -77,30 +77,30 @@ ant -buildfile build-c3prv2.xml
 
 
     <!-- ================================================================= -->
-       <!-- Builds the offline version of installer                        -->
-       <!-- ============================================================== -->
-       <target name="build-offline-installer"
-               depends="prepare"
-               description="Builds c3prv2 self extracting installer">
+    <!-- Builds the offline version of installer                        -->
+    <!-- ============================================================== -->
+    <target name="build-offline-installer"
+            depends="prepare"
+            description="Builds c3prv2 self extracting installer">
 
 
-           <installer file="${c3prv2.offline.installer.artifact}" compress="true"
-                      extractType="NonExtractor"
-                      installConfig="${c3prv2.installer.dir}/antinstall-config.xml"
-                      buildFile="${c3prv2.installer.dir}/build-offline.xml"
-                      antInstallLib="${basedir}/lib"
-                      antLib="${basedir}/antlib${ant.lib.version}"
-                      icons="eclipse">
-               <fileset dir="${ext.dir}">
-                   <include name="*.zip"/>
-               </fileset>
-               <fileset dir="${basedir}" includes="resources/*"/>
-               <!--include bundled software -->
-               <fileset dir="${software.dir}" includes="*"/>
-               <fileset dir="${c3prv2.installer.dir}" includes="*.properties"/>
-           </installer>
+        <installer file="${c3prv2.offline.installer.artifact}" compress="true"
+                   extractType="NonExtractor"
+                   installConfig="${c3prv2.installer.dir}/antinstall-config.xml"
+                   buildFile="${c3prv2.installer.dir}/build-offline.xml"
+                   antInstallLib="${basedir}/lib"
+                   antLib="${basedir}/antlib${ant.lib.version}"
+                   icons="eclipse">
+            <fileset dir="${ext.dir}">
+                <include name="*.zip"/>
+            </fileset>
+            <fileset dir="${basedir}" includes="resources/*"/>
+            <!--include bundled software -->
+            <fileset dir="${software.dir}" includes="*"/>
+            <fileset dir="${c3prv2.installer.dir}" includes="*.properties"/>
+        </installer>
 
-       </target>
+    </target>
 
     <!-- ============================================================== -->
     <!-- Builds the online(default) version of installer                -->
@@ -122,11 +122,33 @@ ant -buildfile build-c3prv2.xml
 
     </target>
 
+
     <!--runs the installer-->
     <target name="run-installer" description="Will run a previously built installer">
-        <java jar="${c3prv2.installer.artifact}" fork="true"/>
+        <available property="offline.installer"
+                   file="${c3prv2.offline.installer.artifact}" />
+
+        <available property="online.installer"
+                   file="${c3prv2.online.installer.artifact}" />
+
+        <antcall target="run-offline-installer">
+        </antcall>
+
+        <antcall  target="run-online-installer" inheritall="true">
+        </antcall>
+
     </target>
 
+    <target name="run-offline-installer" if="offline.installer">
+        <echo message="running offline installer"/>
+        <java jar="${c3prv2.offline.installer.artifact}" fork="true"/>
+    </target>
+
+    <target name="run-online-installer" if="online.installer">
+        <echo message="running online installer"/>
+        <java jar="${c3prv2.online.installer.artifact}" fork="true"/>
+
+    </target>
 
     <target name="clean">
         <delete dir="${build.dir}"/>

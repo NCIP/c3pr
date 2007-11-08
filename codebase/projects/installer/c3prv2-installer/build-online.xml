@@ -100,6 +100,12 @@
             <property name="ext.tomcat.dir" value="${tomcat.home}"/>
         </ant>
 
+
+        <!--copy c3pr.properties to $CATALINA_HOME/conf-->
+        <copy file="${basedir}/ant.install.properties"
+              tofile="${tomcat.home}/conf/c3pr.properties"
+                />
+
     </target>
 
     <!--will only be run if deploy-webapp has been run-->

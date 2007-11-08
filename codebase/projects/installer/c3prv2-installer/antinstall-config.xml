@@ -76,7 +76,7 @@ This is the install config for c3prv2 installer
             type="input"
             name="selectExistingTomcat"
             displayText="Select Tomcat Directory"
-            ifTarget="installExistingTomcat">
+        ifTarget="installExistingTomcat">
         <directory
                 property="tomcat.home"
                 displayText="Tomcat Directory"
@@ -163,6 +163,7 @@ This is the install config for c3prv2 installer
         <hidden property="csm.context.name" value="c3pr"/>
     </page>
 
+    
     <page
             type="input"
             name="selectAuthorizationSwitch"
@@ -270,7 +271,27 @@ This is the install config for c3prv2 installer
                 />
     </page>
 
-    
+    <page type="input"
+          name="hostedMode"
+          ifTarget="deploy-webapp"
+        displayText="Hosted Mode">
+    <select property="hostedMode" displayText="Run C3PRv2 in hosted mode?"
+            defaultValue="true">
+            <option text="true" value="true"/>
+            <option text="false" value="false"/>
+        </select>
+    </page>
+
+
+    <page type="input"
+           name="localNCIInstituteCode"
+            ifTarget="deploy-webapp"
+            displayText="Local NCI Intitute code">
+        <text property="localInstanceNCIInstituteCode"
+                defaultValue="Duke"
+                displayText="NCI Institute Code"/>
+    </page>
+
     <page
             type="input"
             name="email"
