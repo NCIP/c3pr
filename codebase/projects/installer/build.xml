@@ -23,6 +23,9 @@ ant -buildfile build-c3prv2.xml
 
     <property name="c3prv2.installer.dir" value="${basedir}/c3prv2-installer"/>
     <property name="c3prv2.installer.artifact" value="${build.jar.dir}/${project.name}-${project.version}.jar"/>
+    <property name="c3prv2.offline.installer.artifact" value="${build.jar.dir}/${project.name}-offline-${project.version}.jar"/>
+    <property name="c3prv2.online.installer.artifact" value="${build.jar.dir}/${project.name}-online-${project.version}.jar"/>
+
     <property name="resources.dir" value="${basedir}/resources"/>
     <property name="software.dir" value="${resources.dir}/software"/>
 
@@ -81,7 +84,7 @@ ant -buildfile build-c3prv2.xml
                description="Builds c3prv2 self extracting installer">
 
 
-           <installer file="${c3prv2.installer.artifact}" compress="true"
+           <installer file="${c3prv2.offline.installer.artifact}" compress="true"
                       extractType="NonExtractor"
                       installConfig="${c3prv2.installer.dir}/antinstall-config.xml"
                       buildFile="${c3prv2.installer.dir}/build-offline.xml"
@@ -106,7 +109,7 @@ ant -buildfile build-c3prv2.xml
             depends="prepare"
             description="Builds c3prv2 self extracting installer">
 
-        <installer file="${c3prv2.installer.artifact}" compress="true"
+        <installer file="${c3prv2.online.installer.artifact}" compress="true"
                    extractType="NonExtractor"
                    installConfig="${c3prv2.installer.dir}/antinstall-config.xml"
                    buildFile="${c3prv2.installer.dir}/build-online.xml"
