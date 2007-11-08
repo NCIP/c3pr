@@ -40,7 +40,7 @@ public class SiteSecurityAfterInvocationBasicAuthorizationCheckProvider implemen
         }
 
         log.debug("Checking authorization on object " + returnedObject.getClass().getName());
-             
+
         if (!getProcessDomainObjectClass().isAssignableFrom(returnedObject.getClass())) {
             if (log.isDebugEnabled()) {
                 log.debug("Return object is not applicable for this provider, skipping");
@@ -49,8 +49,13 @@ public class SiteSecurityAfterInvocationBasicAuthorizationCheckProvider implemen
             return returnedObject;
         }
 
+        if(!domainObjectSiteSecurityAuhthorizationCheckProvidersMap.containsKey(returnedObject.getClass().getName())){
+            log.warn("Slipping Authorization. No appropriate CSMAuthorizationCheck object found for object type: " +  returnedObject.getClass().getName());
+            return returnedObject;
+        }
+
         CSMAuthorizationCheck auth =  (CSMAuthorizationCheck)domainObjectSiteSecurityAuhthorizationCheckProvidersMap.get(returnedObject.getClass().getName());
-       boolean hasPermission = auth.checkAuthorization(authentication,accessPrivilege,returnedObject);
+        boolean hasPermission = auth.checkAuthorization(authentication,accessPrivilege,returnedObject);
 
         if (hasPermission) {
             return returnedObject;
@@ -61,7 +66,7 @@ public class SiteSecurityAfterInvocationBasicAuthorizationCheckProvider implemen
 
             throw new AccessDeniedException(
                     "User does not have permission to view to this Study Site"
-                    );
+            );
         }
     }
 

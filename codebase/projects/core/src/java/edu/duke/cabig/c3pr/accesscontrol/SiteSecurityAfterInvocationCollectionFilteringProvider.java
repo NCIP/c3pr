@@ -75,8 +75,16 @@ public class SiteSecurityAfterInvocationCollectionFilteringProvider implements A
                 hasPermission = true;
             }
             else{
-                CSMAuthorizationCheck auth =  (CSMAuthorizationCheck)domainObjectSiteSecurityAuhthorizationCheckProvidersMap.get(domainObject.getClass().getName());
-                hasPermission = auth.checkAuthorization(authentication,accessPrivilege,domainObject);
+
+                if(!domainObjectSiteSecurityAuhthorizationCheckProvidersMap.containsKey(returnedObject.getClass().getName())){
+                    log.warn("Skipping Authorization. No appropriate CSMAuthorizationCheck object found for object type: " +  returnedObject.getClass().getName());
+                    hasPermission = true;
+                }
+
+                else{
+                    CSMAuthorizationCheck auth =  (CSMAuthorizationCheck)domainObjectSiteSecurityAuhthorizationCheckProvidersMap.get(domainObject.getClass().getName());
+                    hasPermission = auth.checkAuthorization(authentication,accessPrivilege,domainObject);
+                }
             }
 
             if (!hasPermission) {
