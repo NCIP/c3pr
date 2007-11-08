@@ -157,7 +157,7 @@
         </user-data-constraint>
     </security-constraint>
 
-
+<!-- 
     <error-page>
         <error-code>500</error-code>
         <location>/decorated-error.jsp</location>
@@ -165,6 +165,6 @@
     <error-page>
         <exception-type>java.lang.Throwable</exception-type>
         <location>/decorated-error.jsp</location>
-    </error-page>
+    </error-page> -->
 
 </web-app>
