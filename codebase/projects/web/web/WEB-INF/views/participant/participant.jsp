@@ -237,7 +237,7 @@ function manageIdentifierRadio(element){
 						<th ></th>
 					</tr>
 					<c:forEach items="${command.organizationAssignedIdentifiers}" begin="1"
-						varStatus="organizationStatus">
+						varStatus="organizationStatus" var="orgId">
 						<tr
 							id="organizationIdentifiersTable-${organizationStatus.index}">
 							<td class="alt"><input type="hidden"
@@ -268,7 +268,7 @@ function manageIdentifierRadio(element){
 							value="${command.organizationAssignedIdentifiers[organizationStatus.index].primaryIndicator}" class="identifierRadios" onclick="manageIdentifierRadio(this);"/>
 							<form:hidden path="organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator"/></td>
 							<td class="alt"><a
-								href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,${organizationStatus.index});"><img
+								href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,${organizationStatus.index},${orgId.hashCode});"><img
 								src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 						</tr>
 					</c:forEach>
@@ -298,7 +298,7 @@ function manageIdentifierRadio(element){
 						<th></th>
 					</tr>
 					<c:forEach items="${command.systemAssignedIdentifiers}"
-						varStatus="status">
+						varStatus="status" var="sysId">
 						<tr id="systemIdentifiersTable-${status.index}">
 							<td class="alt"><form:input
 								path="systemAssignedIdentifiers[${status.index}].systemName"
@@ -317,7 +317,7 @@ function manageIdentifierRadio(element){
 							value="${command.systemAssignedIdentifiers[status.index].primaryIndicator}" class="identifierRadios" onclick="manageIdentifierRadio(this);"/>
 							<form:hidden path="systemAssignedIdentifiers[${status.index}].primaryIndicator"/></td>
 							<td class="alt"><a
-								href="javascript:RowManager.deleteRow(systemIdentifierRowInserterProps,${status.index});"><img
+								href="javascript:RowManager.deleteRow(systemIdentifierRowInserterProps,${status.index},${sysId.hashCode});"><img
 								src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 						</tr>
 					</c:forEach>
@@ -365,7 +365,7 @@ function manageIdentifierRadio(element){
 			value="false" class="identifierRadios" onclick="manageIdentifierRadio(this);"/>
 			<input type="hidden" id="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" name="systemAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator"/></td>
 		<td class="alt"><a
-			href="javascript:RowManager.deleteRow(systemIdentifierRowInserterProps,PAGE.ROW.INDEX);"><img
+			href="javascript:RowManager.deleteRow(systemIdentifierRowInserterProps,PAGE.ROW.INDEX,-1);"><img
 			src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 	</tr>
 </table>
@@ -405,7 +405,7 @@ function manageIdentifierRadio(element){
 			value="false" class="identifierRadios" onclick="manageIdentifierRadio(this);"/>
 			<input type="hidden" name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator" id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].primaryIndicator"/></td>
 		<td class="alt"><a
-			href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,PAGE.ROW.INDEX);"><img
+			href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,PAGE.ROW.INDEX,-1);"><img
 			src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 	</tr>
 </table>
