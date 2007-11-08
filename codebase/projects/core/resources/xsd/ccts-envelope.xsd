@@ -3,12 +3,12 @@
 <schema xmlns="http://www.w3.org/2001/XMLSchema"
 	 xmlns:ccts="gme://gov.nih.nci/ccts/1.0/messaging/Envelope"
 	 xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-     xmlns:c3pr="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"
+     xmlns:c3pr="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"
      targetNamespace="gme://gov.nih.nci/ccts/1.0/messaging/Envelope"
 	 elementFormDefault="unqualified"
 	 attributeFormDefault="unqualified">
 	
-	<import  namespace="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain" schemaLocation="http://gforge.nci.nih.gov/plugins/scmcvs/cvsweb.php/~checkout~/c3prv2/codebase/projects/core/resources/xsd/c3pr-domain.xsd?rev=1.13;content-type=application%2Foctet-stream;cvsroot=c3prv2">
+	<import  namespace="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain" schemaLocation="http://gforge.nci.nih.gov/plugins/scmcvs/cvsweb.php/~checkout~/c3prv2/codebase/projects/core/resources/xsd/c3pr-domain.xsd?rev=1.13;content-type=application%2Foctet-stream;cvsroot=c3prv2">
 		
 		</import>
     <annotation>
