@@ -5,6 +5,8 @@
    <property environment="env"/>
     <property name="projects.dir" value="${basedir}"/>
     <property name="antfiles.dir" value="${basedir}/antfiles"/>
+    <property name="lib.dir" value="${basedir}/lib"/>
+
     <property name="ext.dir" value="${basedir}/ext"/>
     <property name="ext.lib.dir" value="${ext.dir}/lib"/>
     <property name="ext.test.dir" value="${ext.dir}/test"/>
@@ -50,6 +52,13 @@
 
     </path>
 
+    <taskdef resource="net/sf/antcontrib/antlib.xml">
+        <classpath>
+            <pathelement location="${lib.dir}/ant-contrib.jar"/>
+        </classpath>
+    </taskdef>
+
+
     <!-- =============================================================== -->
     <!-- Bootstrap the build by setting up the structure and building    -->
     <!-- our custom ant tasks.                                           -->
@@ -65,11 +74,6 @@
                  loaderref="artifact"  classpathref="compile.cp">
         </taskdef>
 
-        <taskdef resource="net/sf/antcontrib/antlib.xml">
-            <classpath>
-                <pathelement location="${ext.lib.dir}/ant-contrib.jar"/>
-            </classpath>
-        </taskdef>
 
     </target>
 
@@ -97,7 +101,7 @@
              antfile="build.xml" target="all"/>
     </target>
 
-    <target name="clean"  depends="prepare"  description="Clean the project">
+    <target name="clean" description="Clean the project">
         <delete dir="${build.dir}"/>
         <delete dir="${test.dir}"/>
 
