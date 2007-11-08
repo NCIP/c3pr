@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.web.participant;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.WorkFlowTab;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
 import java.util.Map;
@@ -9,7 +10,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public abstract class ParticipantTab extends Tab<Participant> {
+public abstract class ParticipantTab extends WorkFlowTab<Participant> {
     protected ConfigurationProperty configurationProperty;
     protected HealthcareSiteDao healthcareSiteDao;
     protected static final Log log = LogFactory.getLog(ParticipantTab.class);
