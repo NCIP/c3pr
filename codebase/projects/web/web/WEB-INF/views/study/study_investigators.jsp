@@ -111,12 +111,13 @@ RowManager.addRowInseter(instanceRowInserterProps);
                         <csmauthz:accesscontrol domainObject="${studySite.healthcareSite}"
                                                       hasPrivileges="ACCESS"  authorizationCheckName="siteAuthorizationCheck">
                         <c:if test="${selected_site == status.index }">
-                            <option selected="true" value=${status.index}>${studySite.healthcareSite.name}</option>
+                            <option selected="true" value=${status.index}>${studySite.healthcareSite.name}<c:if test="${studySite.class eq 'class edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter' }"> (Coordinating Center) </c:if>
+                            <c:if test="${studySite.class eq 'class edu.duke.cabig.c3pr.domain.StudyFundingSponsor' }"> (Funding Sponsor) </c:if> <c:if test="${studySite.class eq 'class edu.duke.cabig.c3pr.domain.StudySite' }"> (Site) </c:if></option>
                             <c:set var="selectedStudySite" value="${studySite.id}"></c:set>
                         </c:if>
                         <c:if test="${selected_site != status.index }">
-                            <option value=${status.index}>${studySite.healthcareSite.name} <c:if test="${studySite.class eq 'class edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter' }"> (Study Coordinating Center) </c:if>
-                            <c:if test="${studySite.class eq 'class edu.duke.cabig.c3pr.domain.StudyFundingSponsor' }"> (Study Funding Sponsor) </c:if></option>
+                            <option value=${status.index}>${studySite.healthcareSite.name} <c:if test="${studySite.class eq 'class edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter' }"> (Coordinating Center) </c:if>
+                            <c:if test="${studySite.class eq 'class edu.duke.cabig.c3pr.domain.StudyFundingSponsor' }"> (Funding Sponsor) </c:if> <c:if test="${studySite.class eq 'class edu.duke.cabig.c3pr.domain.StudySite' }"> (Site) </c:if></option>
                         </c:if>
                         </csmauthz:accesscontrol>
                     </c:forEach>
@@ -185,8 +186,8 @@ RowManager.addRowInseter(instanceRowInserterProps);
                     <td>
                         <a onclick="javascript:chooseSitesFromSummary(${status.index});"
                            title="click here to edit investigator assigned to study"> <font size="2">
-                            <b> ${studySite.healthcareSite.name}<c:if test="${studySite.class eq 'class edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter' }"> (Study Coordinating Center) </c:if>
-                            <c:if test="${studySite.class eq 'class edu.duke.cabig.c3pr.domain.StudyFundingSponsor' }"> (Study Funding Sponsor) </c:if></b> </font> </a>
+                            <b> ${studySite.healthcareSite.name}<c:if test="${studySite.class eq 'class edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter' }"> (Coordinating Center) </c:if>
+                            <c:if test="${studySite.class eq 'class edu.duke.cabig.c3pr.domain.StudyFundingSponsor' }"> (Funding Sponsor) </c:if> <c:if test="${studySite.class eq 'class edu.duke.cabig.c3pr.domain.StudySite' }"> (Site) </c:if></b> </font> </a>
                     </td>
                 </tr>
                 <tr>
