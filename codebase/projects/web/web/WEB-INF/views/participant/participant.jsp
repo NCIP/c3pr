@@ -101,98 +101,70 @@ function manageIdentifierRadio(element){
 </script>
 </head>
 <body>
-<tags:tabForm tab="${tab}" flow="${flow}"
-	formName="participantDetailsForm">
-	<jsp:attribute name="singleFields">
-		<input type="hidden" name="_action" id="_action" value="">
-		<input type="hidden" name="_selected" id="_selected" value="">
-		<input type="hidden" name="_page" id="_page" value="0">
-		<br>
 
-		<table width="80%" border="0" cellspacing="0" cellpadding="0"
-			id="details">
-			<tr>
-				<td width="40%" valign="top">
-				<table width="100%" border="0" cellspacing="1" cellpadding="1"
-					id="table1">
-					<tr>
-						<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-							height="1" class="heightControl"></td>
-						<td width="70%"><img src="<tags:imageUrl name="spacer.gif"/>"
-							width="1" height="1" class="heightControl"></td>
-					</tr>
-					<tr>
-						<td align="right"><span class="required-indicator"><b>First Name:&nbsp;</b></span></td>
-						<td align="left"><form:input path="firstName"
-							cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
-					</tr>
-					<tr>
-						<td align="right"><span class="required-indicator"><b>Last Name:</b></span>&nbsp;</td>
-						<td align="left"><form:input path="lastName"
-							cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
-					</tr>
-					<tr>
-						<td align="right"><em></em> <b>Middle Name:</b>&nbsp;</td>
-						<td align="left"><form:input path="middleName" />&nbsp;&nbsp;&nbsp;</td>
-					</tr>
-					<tr>
-						<td align="right"><em></em> <b>Maiden Name:</b>&nbsp;</td>
-						<td align="left"><form:input path="maidenName" />&nbsp;&nbsp;&nbsp;</td>
-					</tr>
+<form:form method="post" name="participantDetailsForm" cssClass="standard">
+<tags:tabFields tab="${tab}" />
 
-				</table>
-				</td>
-				<td width="40%" valign="top">
-				<table width="100%" border="0" cellspacing="1" cellpadding="1"
-					id="table1">
-					<tr>
-						<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-							height="1" class="heightControl"></td>
-						<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-							height="1" class="heightControl"></td>
-					</tr>
-					<tr>
-						<td align="right"><span class="required-indicator"><b>Gender:</b>&nbsp;</span></td>
-						<td align="left"><form:select path="administrativeGenderCode"
+<chrome:box title="${tab.shortTitle}">
+
+<chrome:division id="participant-details" title="Basic Details">
+				<div class="leftpanel">
+					<div class="row">
+						<div class="label required-indicator">First Name:</div>
+						<div class="value"><form:input path="firstName"
+							cssClass="validate-notEmpty" /></div>
+					</div>
+					<div class="row">
+						<div class="label required-indicator">Last Name:</div>
+						<div class="value"><form:input path="lastName"
+							cssClass="validate-notEmpty" /></div>
+					</div>
+					<div class="row">
+						<div class="label">Middle Name:</div>
+						<div class="value"><form:input path="middleName" /></div>
+					</div>
+					<div class="row">
+						<div class="label">Maiden Name:</div>
+						<div class="value"><form:input path="maidenName" /></div>
+					</div>
+				</div>
+				<div class="rightpanel">
+					<div class="row">
+						<div class="label required-indicator">Gender:</div>
+						<div class="value"><form:select path="administrativeGenderCode"
 							cssClass="validate-notEmpty">
 							<option value="">--Please Select--</option>
 							<form:options items="${administrativeGenderCode}"
 								itemLabel="desc" itemValue="code" />
-						</form:select></td>
-					</tr>
-					<tr>
-						<td align="right"><span class="required-indicator"><b>Birth Date: </b></span></td>
-						<td><form:input path="birthDate" cssClass="validate-date" />&nbsp;(mm/dd/yyyy)&nbsp;&nbsp;<span
-							class="red"><em></em></span></td>
-					</tr>
-					<tr>
-						<td align="right"><span class="required-indicator"><b>Ethnicity:</b>&nbsp;</span></td>
-						<td align="left"><form:select path="ethnicGroupCode"
+						</form:select></div>
+					</div>
+					<div class="row">
+						<div class="label required-indicator">Birth Date:</div>
+						<div class="value"><form:input path="birthDate" cssClass="validate-date" /> (mm/dd/yyyy)&nbsp;</div>
+					</div>
+					<div class="row">
+						<div class="label required-indicator">Ethnicity:</div>
+						<div class="value"><form:select path="ethnicGroupCode"
 							cssClass="validate-notEmpty">
 							<option value="">--Please Select--</option>
 							<form:options items="${ethnicGroupCode}" itemLabel="desc"
 								itemValue="code" />
-						</form:select></td>
-					</tr>
-					<tr>
-						<td align="right"><span class="required-indicator"><b>Race(s):</b> &nbsp;</span></td>
-						<td align="left"><form:select path="raceCode"
+						</form:select></div>
+					</div>
+					<div class="row">
+						<div class="label required-indicator">Race(s):</div>
+						<div class="value"><form:select path="raceCode"
 							cssClass="validate-notEmpty">
 							<option value="">--Please Select--</option>
 							<form:options items="${raceCode}" itemLabel="desc"
 								itemValue="code" />
-						</form:select></td>
-					</tr>
-
-				</table>
-				</td>
-			</tr>
-		</table>
-		<br>
-		<br>
-		
+						</form:select></div>
+					</div>
+					</div>
+		</chrome:division>
 		
 		<chrome:division title="MRN">
+		<tags:errors path="*"/>
     		<div class="leftpanel">
          		<div id="mrnDetails">
                 	 <div class="row">
@@ -221,9 +193,7 @@ function manageIdentifierRadio(element){
     		</div>
 		</chrome:division>
 		
-		<tr>
-
-			<td><chrome:division title="Organization Assigned Identifiers">
+		<chrome:division title="Organization Assigned Identifiers">
 
 				<table id="organizationIdentifiersTable" border="0"
 					cellspacing="0" cellpadding="0" class="tablecontent">
@@ -280,11 +250,7 @@ function manageIdentifierRadio(element){
 				</div>
 			</chrome:division></td>
 
-		</tr>
-		
-		<tr>
-
-			<td><chrome:division title="System Assigned Identifiers">
+			<chrome:division title="System Assigned Identifiers">
 
 				<table id="systemIdentifiersTable" border="0" cellspacing="0" cellpadding="0"
 					class="tablecontent">
@@ -328,10 +294,11 @@ function manageIdentifierRadio(element){
 					onclick="javascript:RowManager.addRow(systemIdentifierRowInserterProps);" />
 				</div>
 			</chrome:division></td>
-		</tr>
 
-	</jsp:attribute>
-</tags:tabForm>
+<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" />
+
+</chrome:box>
+</form:form>
 <script>
 		$$("form .identifierRadios").each(function(e)
 										{
