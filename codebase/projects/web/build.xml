@@ -56,8 +56,8 @@
 
     <!-- Warning, your environment variable for tomcat should be set in your OS (Windows/Linux),
        else it wont deploy -->
-    <property name="tomcat.home" value="${env.CATALINA_HOME}" />
-    <property name="deploy.path" value="${tomcat.home}/webapps" />
+    <property name="catalina.home" value="${env.CATALINA_HOME}" />
+    <property name="deploy.path" value="${catalina.home}/webapps" />
 
     <!-- =============================================================== -->
     <!-- The Build Classpath                                             -->
@@ -69,7 +69,7 @@
         <fileset dir="${ext.lib.dir}">
             <include name="**/*.jar" />
         </fileset>
-        <fileset dir="${tomcat.home}/common/lib">
+        <fileset dir="${catalina.home}/common/lib">
             <include name="**/*.jar" />
         </fileset>
     </path>
@@ -134,8 +134,8 @@
         <property file="${ext.resources.dir}/build.properties"/>
 
         <!--Unix works for all environments -->
-        <pathconvert targetos="unix" property="tomcat.home.unix">
-            <path location="${tomcat.home}"/>
+        <pathconvert targetos="unix" property="catalina.home.unix">
+            <path location="${catalina.home}"/>
         </pathconvert>
 
         <!-- copy log4j -->
@@ -144,7 +144,7 @@
               overwrite="true"
               filtering="true">
             <filterset>
-                <filter token="catalina.home" value="${tomcat.home.unix}"/>
+                <filter token="catalina.home" value="${catalina.home.unix}"/>
                 <filter token="log4j.filename" value="${log4j.filename}"/>
             </filterset>
         </copy>
