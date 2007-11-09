@@ -106,8 +106,8 @@ class StudyDetailsTab extends StudyTab {
 	public void validate(Study study, Errors errors) {
 		// TODO Auto-generated method stub
 		super.validate(study, errors);
-	//	studyValidator.validateStudyCoordinatingCetnterIdentifier(study,errors);
-	//	studyValidator.validateStudyFundingSponsorIdentifier(study,errors);
+		studyValidator.validateStudyCoordinatingCetnterIdentifier(study,errors);
+		studyValidator.validateStudyFundingSponsorIdentifier(study,errors);
 		
 	}
 

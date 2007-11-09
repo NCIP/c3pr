@@ -250,6 +250,7 @@
 
 
 <chrome:division title="Coordinating Center Details">
+<tags:errors path="*"/>
     <div class="leftpanel">
 
 
@@ -338,6 +339,7 @@
 </chrome:division>
 
 <chrome:division title="Funding Sponsor Details">
+<tags:errors path="*"/>
     <div class="leftpanel">
      <div id="fundingSponsor">
         <div class="row">
@@ -376,9 +378,6 @@
 
     </div>
 </chrome:division>
-
-
-
 
 <tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" />
 
