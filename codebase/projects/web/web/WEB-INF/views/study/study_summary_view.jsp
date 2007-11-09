@@ -168,8 +168,8 @@
 						path="changedSiteStudyStatus_${status.index}"
 						commanSepOptVal="${commanSepOptValSite}" />&nbsp;<input type="button" value="Change Status" onclick="editor_changedSiteStudyStatus_${status.index}.enterEditMode('click')"/></td>
 						<td class="alt" align="left">${studySite.roleCode}</td>
-						<td class="alt" align="left">${studySite.startDateStr}</td>	
-						<td class="alt" align="left">${studySite.irbApprovalDateStr}</td>					
+						<td><tags:inPlaceEdit value="${studySite.startDateStr}" path="changedSiteStudyStartDate_${status.index}" required="true"/>&nbsp;</td>
+						<td><tags:inPlaceEdit value="${studySite.irbApprovalDateStr}" path="changedSiteStudyIrbApprovalDate_${status.index}" required="true"/>&nbsp;</td>
 					</tr>
 				</c:forEach>
 			</table>
