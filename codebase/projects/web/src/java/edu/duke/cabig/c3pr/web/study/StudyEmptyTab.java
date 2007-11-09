@@ -1,5 +1,8 @@
 package edu.duke.cabig.c3pr.web.study;
 
+import java.util.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,20 +37,46 @@ class StudyEmptyTab extends StudyTab {
 		Map<String, String> map = new HashMap<String, String>();
 		String retValue="";
 		
-		if (property.startsWith("changedSiteStudyStatus")){
-			SiteStudyStatus statusObject = SiteStudyStatus.getByCode(value);
-			int studySiteIndex = Integer.parseInt(property.split("_")[1]);
-			try {
-				studyService.setSiteStudyStatus(command,command.getStudySites().get(studySiteIndex),statusObject);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				retValue="<script>alert('"+e.getMessage()+"')</script>";
-				e.printStackTrace();
-			}finally{
-				retValue+=command.getStudySites().get(studySiteIndex).getSiteStudyStatus().getCode();
-			}
+		if (property.startsWith("changedSiteStudy")){
 			
-		} else{
+			int studySiteIndex = Integer.parseInt(property.split("_")[1]);
+			
+			if(property.startsWith("changedSiteStudyStatus")){
+				
+				SiteStudyStatus statusObject = SiteStudyStatus.getByCode(value);
+				try {
+					studyService.setSiteStudyStatus(command,command.getStudySites().get(studySiteIndex),statusObject);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					retValue="<script>alert('"+e.getMessage()+"')</script>";
+					e.printStackTrace();
+				}finally{
+					retValue+=command.getStudySites().get(studySiteIndex).getSiteStudyStatus().getCode();
+				}
+				
+			}else if(property.startsWith("changedSiteStudyStartDate")){
+				
+				try {
+					Date startDate = new SimpleDateFormat("mm/dd/yyyy").parse(value);
+					command.getStudySites().get(studySiteIndex).setStartDate(startDate);
+					retValue+=command.getStudySites().get(studySiteIndex).getStartDateStr();
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}else if (property.startsWith("changedSiteStudyIrbApprovalDate")){
+				try {
+					Date irbApprovalDate = new SimpleDateFormat("mm/dd/yyyy").parse(value);
+					command.getStudySites().get(studySiteIndex).setIrbApprovalDate(irbApprovalDate);
+					retValue+=command.getStudySites().get(studySiteIndex).getIrbApprovalDateStr();
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}				
+			}
+		
+		} else if (property.startsWith("changedCoordinatingCenterStudyStatus")){
 			CoordinatingCenterStudyStatus statusObject = CoordinatingCenterStudyStatus.getByCode(value);
 		
 			try {
@@ -61,6 +90,8 @@ class StudyEmptyTab extends StudyTab {
 			} finally{
 				retValue+=command.getCoordinatingCenterStudyStatus().getCode();
 			}
+		}else{
+			retValue+=command.getCoordinatingCenterStudyStatus().getCode();
 		}
 		map.put(getFreeTextModelName(), retValue);
 		return new ModelAndView("", map);
