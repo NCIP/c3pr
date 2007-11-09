@@ -110,7 +110,8 @@ public class ResearchStaff extends C3PRUser {
 	@Override
 	public int hashCode() {
 		final int PRIME = 31;
-		int result = super.hashCode();
+	//	int result = super.hashCode();
+		int result = 1 ;
 		result = PRIME * result + ((nciIdentifier == null) ? 0 : nciIdentifier.hashCode());
 		return result;
 	}
@@ -119,8 +120,8 @@ public class ResearchStaff extends C3PRUser {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
-			return false;
+		/*if (!super.equals(obj))
+			return false;*/
 		if (getClass() != obj.getClass())
 			return false;
 		final ResearchStaff other = (ResearchStaff) obj;

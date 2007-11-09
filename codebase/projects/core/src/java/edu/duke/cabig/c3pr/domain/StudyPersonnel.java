@@ -92,7 +92,7 @@ public class StudyPersonnel extends AbstractMutableDeletableDomainObject impleme
 	@Override
 	public int hashCode() {
 		final int PRIME = 31;
-		int result = super.hashCode();
+		int result = 1;
 		result = PRIME * result + ((researchStaff == null) ? 0 : researchStaff.hashCode());
 		result = PRIME * result + ((roleCode == null) ? 0 : roleCode.hashCode());
 		result = PRIME * result + ((studyOrganization == null) ? 0 : studyOrganization.hashCode());
@@ -103,8 +103,6 @@ public class StudyPersonnel extends AbstractMutableDeletableDomainObject impleme
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
-			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		final StudyPersonnel other = (StudyPersonnel) obj;
