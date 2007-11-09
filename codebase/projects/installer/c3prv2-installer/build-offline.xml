@@ -35,6 +35,9 @@
             </patternset>
         </unzip>
 
+        <!--delete previous install-->
+        <delete dir="${base.codebase.dir}" failonerror="false"/>
+
         <unzip src="${basedir}/${c3prv2.install.artifact}"
                dest="${base.codebase.dir}"
                overwrite="true"/>
@@ -95,6 +98,7 @@
             <property name="deploy.path" value="${tomcat.webapp.dir}"/>
             <property name="basedir" value="${base.codebase.dir}"/>
             <property name="ext.tomcat.dir" value="${tomcat.home}"/>
+            <property name="env.CATALINA_HOME" value="${tomcat.home}"/>
         </ant>
 
         <!--copy c3pr.properties to $CATALINA_HOME/conf-->
