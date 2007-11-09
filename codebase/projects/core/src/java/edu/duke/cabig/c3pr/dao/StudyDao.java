@@ -129,25 +129,25 @@ public class StudyDao extends GridIdentifiableDao<Study>
     public List<OrganizationAssignedIdentifier> getCoordinatingCenterIdentifiersWithValue(String coordinatingCetnerIdentifierValue,  HealthcareSite site) throws DataAccessException {
 		List<OrganizationAssignedIdentifier> orgAssignedIdentifiers = (List<OrganizationAssignedIdentifier>) getHibernateTemplate().
                 find("from Identifier I where I.type='Coordinating Center Identifier' and I.healthcareSite = ?",site);
-		List<OrganizationAssignedIdentifier> subIdentifiers = new ArrayList<OrganizationAssignedIdentifier>();
-		for(OrganizationAssignedIdentifier subIdent:orgAssignedIdentifiers ){
-			if (subIdent.getValue().equalsIgnoreCase(coordinatingCetnerIdentifierValue)){
-				subIdentifiers.add(subIdent);
+		List<OrganizationAssignedIdentifier> ccIdentifiers = new ArrayList<OrganizationAssignedIdentifier>();
+		for(OrganizationAssignedIdentifier studyIdent:orgAssignedIdentifiers){
+			if (studyIdent.getValue().equalsIgnoreCase(coordinatingCetnerIdentifierValue)){
+				ccIdentifiers.add(studyIdent);
 			}
 		}
-		return subIdentifiers;
+		return ccIdentifiers;
 	}
 
     public List<OrganizationAssignedIdentifier> getFundingSponsorIdentifiersWithValue(String fundingSponsorIdentifierValue,  HealthcareSite site) throws DataAccessException {
 		List<OrganizationAssignedIdentifier> orgAssignedIdentifiers = (List<OrganizationAssignedIdentifier>) getHibernateTemplate().
                 find("from Identifier I where I.type='Protocol Authority Identifier' and I.healthcareSite = ?",site);
-		List<OrganizationAssignedIdentifier> subIdentifiers = new ArrayList<OrganizationAssignedIdentifier>();
-		for(OrganizationAssignedIdentifier subIdent:orgAssignedIdentifiers ){
+		List<OrganizationAssignedIdentifier> fsIdentifiers = new ArrayList<OrganizationAssignedIdentifier>();
+		for(OrganizationAssignedIdentifier subIdent:orgAssignedIdentifiers){
 			if (subIdent.getValue().equalsIgnoreCase(fundingSponsorIdentifierValue)){
-				subIdentifiers.add(subIdent);
+				fsIdentifiers.add(subIdent);
 			}
 		}
-		return subIdentifiers;
+		return fsIdentifiers;
 	}
 
 
