@@ -201,7 +201,6 @@ public class StudyValidator implements Validator {
 			
 		}
 	}
-	
 
 	public void validateStudyCoordinatingCetnterIdentifier(Object target, Errors errors) {
 		
@@ -212,7 +211,7 @@ public class StudyValidator implements Validator {
 			List<OrganizationAssignedIdentifier> coCenterIdentifiers = studyDao.getCoordinatingCenterIdentifiersWithValue(coCenterIdentifier.getValue(),coCenterIdentifier.getHealthcareSite());
 			if (coCenterIdentifiers.size() > 0){
 				if ((study.getId()==null)||(coCenterIdentifiers.size()>1)){
-				errors.reject("tempProperty","Study with this Coordinating center identifier already exists for the same Organization");
+				errors.reject("ccProperty","The Coordinating Center has already assigned this identifier to another Study");
 				}
 			}
 		}
@@ -228,7 +227,7 @@ public class StudyValidator implements Validator {
 			List<OrganizationAssignedIdentifier> funSponIdentifiers = studyDao.getFundingSponsorIdentifiersWithValue(funSponIdentifier.getValue(),funSponIdentifier.getHealthcareSite());
 			if (funSponIdentifiers.size() > 0){
 				if ((study.getId()==null)||(funSponIdentifiers.size()>1)){
-				errors.reject("tempProperty","Study with this Funding sponsor idenfier already exists for the same Organization");
+				errors.reject("fsProperty","The Funding Sponsor has already assigned this identifier to another Study");
 				}
 			}
 		}
