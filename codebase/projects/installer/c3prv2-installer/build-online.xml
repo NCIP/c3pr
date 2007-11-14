@@ -98,6 +98,7 @@
             <property name="deploy.path" value="${tomcat.webapp.dir}"/>
             <property name="basedir" value="${base.codebase.dir}"/>
             <property name="ext.tomcat.dir" value="${tomcat.home}"/>
+            <property name="env.CATALINA_HOME" value="${tomcat.home}"/>
         </ant>
 
 
