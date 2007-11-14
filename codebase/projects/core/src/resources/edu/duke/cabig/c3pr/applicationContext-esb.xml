@@ -36,6 +36,9 @@
 		<property name="recvQueue">
 			<ref bean="recvQueueDestination" />
 		</property>
+		<property name="messageConsumer">
+			<ref bean="studySubjectService" />
+		</property>
 	</bean>
 
 </beans>
