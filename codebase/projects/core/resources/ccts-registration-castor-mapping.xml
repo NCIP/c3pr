@@ -208,7 +208,7 @@
     <class name="edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch"
            extends="edu.duke.cabig.c3pr.domain.ScheduledEpoch">
         <map-to xml="ScheduledTreatmentEpochType" ns-uri="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
-        <field name="scheduledArm" type="edu.duke.cabig.c3pr.domain.ScheduledArm">
+        <field name="scheduledArm" type="edu.duke.cabig.c3pr.domain.ScheduledArm" handler="edu.duke.cabig.c3pr.xml.ScheduledArmFieldHandler">
             <bind-xml name="scheduledArm" node="element" xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
     </class>
@@ -283,7 +283,7 @@
             <bind-xml name="regWorkflowStatus" node="element"
                       xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
-        <field name="currentScheduledEpoch" type="edu.duke.cabig.c3pr.domain.ScheduledEpoch">
+        <field name="currentScheduledEpoch" type="edu.duke.cabig.c3pr.domain.ScheduledEpoch" handler="edu.duke.cabig.c3pr.xml.ScheduledEpochFieldHandler">
             <bind-xml name="scheduledEpoch" node="element"
                       xmlns="gme://c3pr.cabig/2.0/edu.duke.cabig.c3pr.domain"/>
         </field>
