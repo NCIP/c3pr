@@ -3,10 +3,20 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="studyTags" tagdir="/WEB-INF/tags/study" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@attribute name="registration" required="true" type="edu.duke.cabig.c3pr.domain.StudySubject"%>
 <%@attribute  name="newReg" required="true"%>
 <%@attribute  name="actionButtonLabel" required="true"%>
 <%@attribute  name="requiresMultiSite" required="true"%>
+<style type="text/css">
+        .labelR { text-align: right; padding: 4px;  font-weight: bold;}
+</style>
+<style type="text/css">
+        .labelL { text-align: left; padding: 4px; font-weight: bold;}
+</style>
+<style type="text/css">
+        .labelC { text-align: center; padding: 4px; font-weight: bold;}
+</style>
 <script>
 function submitRandomization(){
 	if(${registration.regWorkflowStatus!='REGISTERERD' && !empty registration.studySite.targetAccrualNumber && registration.studySite.targetAccrualNumber<=registration.studySite.currentAccrualCount}){
@@ -17,56 +27,50 @@ function submitRandomization(){
 	$('randomization').submit();
 }
 </script>
-<tags:panelBox title="Message" boxId="RegHere">
+<tags:panelBox title="Randomize" boxId="RegHere">
 	<form id="randomization" action="confirm?registrationId=${registration.id}" method="post">
 		<c:choose>
 		<c:when test="${requiresMultiSite}">
-			<font color="Green"><strong>Subject ${newRegistration?"registration":"transfer"} requires co-ordinationg 
-			center approval. <c:if test="${registration.scheduledEpoch.requiresArm}">Arm assignment would take place at co-ordinating center.</c:if> <strong></font>
+			<strong>Subject ${newRegistration?"registration":"transfer"} requires co-ordinationg 
+			center approval. <c:if test="${registration.scheduledEpoch.requiresArm}">Arm assignment would take place at co-ordinating center.</c:if> <strong>
 			<br>
 			Please click on the button to send registration request. 
 		</c:when>
 		<c:otherwise>
+			<table width="25%" border="0" cellspacing="0" cellpadding="0" id="table1">
 			<c:if test="${registration.studySite.study.randomizationType.name == 'PHONE_CALL'}">
-				<font color="Green"><strong>This epoch requires Phone Call Randomization. To randomize, please call the number given below and provide the stratum group.</strong></font><br><br>
-				Phone Number: <strong>${registration.scheduledEpoch.epoch.randomization.phoneNumber}</strong>
-				<br>
-				Stratum Group: <strong>${registration.stratumGroup}</strong><br>
-				<br>
+				<strong><fmt:message key="REGISTRATION.RANDOMIZATION.PHONE_CALL"/></strong>
+				<tr>
+				<td class="labelR">Phone Number:</td><td>${registration.scheduledEpoch.epoch.randomization.phoneNumber}</td>
+				</tr><tr>
+				<td class="labelR">Stratum Group:</td><td> ${registration.stratumGroup}</td>
+				<tr>
 				<c:choose>
 					<c:when test="${registration.studySite.study.blindedIndicator}">
-						Enter Kit Number:  
-						<input type="text" name="scheduledEpoch.scheduledArms[0].kitNumber" id="kitNumber" size="20" class="validate-notEmpty"/> 
+						<td class="labelR">Enter Kit Number</td><td><input type="text" name="scheduledEpoch.scheduledArms[0].kitNumber" id="kitNumber" size="20" class="validate-notEmpty"/></td>
 					</c:when>
 					<c:otherwise>
-						Select Arm: 
+						<td class="labelR">Select Arm:</td><td>
 						<select name ="scheduledEpoch.scheduledArms[0].arm" class="validate-notEmpty">
 							<option value="" selected>--Please Select--</option>
 							<c:forEach items="${registration.scheduledEpoch.treatmentEpoch.arms}" var="arm">
 							<option value="${arm.id}">${arm.name }</option>
 							</c:forEach>
-						</select>
+						</select></td>
 					</c:otherwise>
 				</c:choose>
-				
+				</tr>
 			</c:if>
 			<c:if test="${registration.studySite.study.randomizationType.name == 'BOOK'}">
-				<font color="Green"><strong>This epoch requires Book Randomization. </strong></font>
-				<br>
-				Stratum Group: <strong>${registration.stratumGroup}</strong>
+				<font color="Green"><strong><fmt:message key="REGISTRATION.RANDOMIZATION.BOOK"/> </strong></font>
+				<tr><td class="labelR">Stratum Group:</td><td>${registration.stratumGroup}</td></tr>
 			</c:if>
-			<br>
-			<br>
-			Please click on the button to randomize and complete registration.			
+			</table>
 		</c:otherwise>
 		</c:choose>
-		</strong></font>
-		<table width="100%">
-			<tr>
-				<td>
-					<input type="button" value="${actionLabel}" onClick="submitRandomization();"/>
-				</td>
-			</tr>
-		</table>
+		</strong>
+		<div style="float:right;"><input type="button" value="${actionLabel}" onClick="submitRandomization();"/></div>
+		<br>
+		
 	</form>
 </tags:panelBox>

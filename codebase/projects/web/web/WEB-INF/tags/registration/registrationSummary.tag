@@ -17,9 +17,9 @@
 	<tags:tdNameValue name="Short Title" value="${studySubject.studySite.study.shortTitleText}" columnAttrName="class='labelR'"/>
 	<tags:tdNameValue name="Current Epoch" value="${studySubject.scheduledEpoch.epoch.name}" columnAttrName="class='labelR'"/>	
 	<tags:tdNameValue name="Current Epoch Type" value="${studySubject.ifTreatmentScheduledEpoch?'Treatment':'Non Treatment'}" columnAttrName="class='labelR'"/>	
-	<tags:tdNameValue name="Enrolling Epoch" value="${!studySubject.ifTreatmentScheduledEpoch?studySubject.scheduledEpoch.epoch.enrollmentIndicator:'true'}" columnAttrName="class='labelR'"/>
-	<tags:tdNameValue name="Current Epoch Status" value="${command.scheduledEpoch.scEpochWorkflowStatus}" columnAttrName="class='labelR'"/>				
-	<tags:tdNameValue name="Status" value="${studySubject.studySite.study.coordinatingCenterStudyStatus }" columnAttrName="class='labelR'"/>
+	<tags:tdNameValue name="Enrolling Epoch" value="${!studySubject.ifTreatmentScheduledEpoch?studySubject.scheduledEpoch.epoch.enrollmentIndicator:'True'}" columnAttrName="class='labelR'"/>
+	<tags:tdNameValue name="Current Epoch Status" value="${studySubject.scheduledEpoch.scEpochWorkflowStatus.code}" columnAttrName="class='labelR'"/>				
+	<tags:tdNameValue name="Study Status" value="${studySubject.studySite.study.coordinatingCenterStudyStatus.code }" columnAttrName="class='labelR'"/>
 	<tags:tdNameValue name="Study Site" value="${studySubject.studySite.healthcareSite.name }" columnAttrName="class='labelR'"/>
 	<tags:tdNameValue name="Site IRB Approval Date" value="${studySubject.studySite.irbApprovalDateStr }" columnAttrName="class='labelR'"/>		
 	<tags:tdNameValue name="Informed Consent Signed Date" value="${studySubject.informedConsentSignedDateStr }" columnAttrName="class='labelR'"/>
@@ -27,9 +27,9 @@
 	<tags:tdNameValue name="Treating Physician" value="${studySubject.treatingPhysicianFullName }" columnAttrName="class='labelR'"/>		
 	<tags:tdNameValue name="Disease" value="${studySubject.diseaseHistory.primaryDiseaseStr }" columnAttrName="class='labelR'"/>		
 	<tags:tdNameValue name="Disease Site" value="${studySubject.diseaseHistory.primaryDiseaseSiteStr }" columnAttrName="class='labelR'"/>
-	<c:if test="${studySubject.ifTreatmentScheduledEpoch}"><tags:tdNameValue name="Eligibility Indicator" value="${studySubject.scheduledEpoch.eligibilityIndicator }" columnAttrName="class='labelR'"/></c:if>
+	<c:if test="${studySubject.ifTreatmentScheduledEpoch}"><tags:tdNameValue name="Eligibility Indicator" value="${studySubject.scheduledEpoch.eligibilityIndicator?'True':'False' }" columnAttrName="class='labelR'"/></c:if>
 	<tags:tdNameValue name="Data Entry Status" value="${studySubject.dataEntryStatusString }" columnAttrName="class='labelR'"/>
-	<tags:tdNameValue name="Registration Status" value="${studySubject.regWorkflowStatus }" columnAttrName="class='labelR'"/>
+	<tags:tdNameValue name="Registration Status" value="${studySubject.regWorkflowStatus.code }" columnAttrName="class='labelR'"/>
 	<tr>
 		<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"	height="1" class="heightControl"></td>
 	</tr>
