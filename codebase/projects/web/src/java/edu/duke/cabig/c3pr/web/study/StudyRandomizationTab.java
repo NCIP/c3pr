@@ -30,7 +30,7 @@ public class StudyRandomizationTab extends StudyTab {
 
 	@Override
 	public Map<String, Object> referenceData(HttpServletRequest request, Study study) {
-		// TODO Auto-generated method stub
+		Map<String, Object> refdata = super.referenceData(study);
 		if(study.getRandomizedIndicator()&&study.getRandomizationType()==RandomizationType.BOOK){
 			Map <String, List>dummyMap = new HashMap<String, List>();
 			String []bookRandomizationEntries = new String[study.getTreatmentEpochs().size()];
@@ -39,7 +39,6 @@ public class StudyRandomizationTab extends StudyTab {
 	        }
 	        request.setAttribute("bookRandomizationEntries", bookRandomizationEntries);
 		}
-		Map<String, Object> refdata = super.referenceData(study);
 		if( (request.getAttribute("amendFlow") != null && request.getAttribute("amendFlow").toString().equals("true")) ||
 			    (request.getAttribute("editFlow") != null && request.getAttribute("editFlow").toString().equals("true")) )  
     	{
