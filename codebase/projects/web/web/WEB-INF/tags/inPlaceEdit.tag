@@ -6,7 +6,7 @@
 <c:set var="required" value="${! empty required?required:'false'}"></c:set>
 <span id="${path}-id">${value}</span>
 <script type="text/javascript">
-	 var editor_${path}=new Ajax.InPlaceEditor('${path}-id', document.URL, { requiredIndicator:${required},
+	 var editor_${path}=new Ajax.InPlaceEditor('${path}-id', document.URL, { requiredIndicator:${required}, cancelLink:false, cancelButton:true, okText:'ok', cancelText:'cancel',
 	 														 callback: function(form, value) {
 	 														 		return '_asynchronous=true&_asyncMethodName=doInPlaceEdit&_ajaxInPlaceEditParam=${path}&_pathToGet=${pathToGet}&${path}=' + escape(value);
 	 														  	}

@@ -3,6 +3,7 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <script>
 function toggleImage(id){
 	imageStr=document.getElementById(id).src;
@@ -23,7 +24,6 @@ function toggleImage(id){
 			<td class="tableHeader"></td>
 			<td class="tableHeader">Primary Identifier</td>				
 			<td class="tableHeader">Short Title</td>
-
 			<td class="tableHeader">Sponsor</td>
 			<td class="tableHeader">Phase</td>			
 			<td class="tableHeader">Target Accrual</td>
