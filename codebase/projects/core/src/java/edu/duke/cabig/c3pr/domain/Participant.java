@@ -230,12 +230,20 @@ public class Participant extends Person implements Comparable<Participant> {
 	}
 	@Transient
 	public String getPrimaryIdentifier() {
+		Identifier id=this.getMedicalRecordNumber();
+		if(id==null)
+			return "";
+		return id.getValue();
+	}
+
+	@Transient
+	public Identifier getMedicalRecordNumber() {
 		for (Identifier identifier : getIdentifiers()) {
 			if (identifier.getPrimaryIndicator().booleanValue() == true) {
-				return identifier.getValue();
+				return identifier;
 			}
 		}
-		return "";
+		return null;
 	}
 
 	public void setPrimaryIdentifier(String primaryIdentifier) {
