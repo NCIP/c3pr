@@ -1,5 +1,8 @@
 package edu.duke.cabig.c3pr.service.impl;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.StringWriter;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -7,11 +10,17 @@ import org.springframework.context.MessageSource;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.duke.cabig.c3pr.dao.EpochDao;
+import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StratumGroupDao;
+import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.NonTreatmentEpoch;
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
@@ -21,8 +30,12 @@ import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledNonTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
+import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import edu.duke.cabig.c3pr.esb.ESBMessageConsumer;
 import edu.duke.cabig.c3pr.esb.impl.MessageBroadcastServiceImpl;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
@@ -30,13 +43,14 @@ import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
+import gov.nih.nci.common.exception.XMLUtilityException;
 
 /**
  * @author Kulasekaran, Ramakrishna
  * @version 1.0
  *
  */
-public class StudySubjectServiceImpl implements StudySubjectService {
+public class StudySubjectServiceImpl implements StudySubjectService, ESBMessageConsumer{
 
 	private static final Logger logger = Logger.getLogger(StudySubjectServiceImpl.class);
 	private StudySubjectDao studySubjectDao;
@@ -50,7 +64,24 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 	private String localInstanceNCICode;
 	private C3PRExceptionHelper exceptionHelper;
 	private MessageSource c3prErrorMessages;
+	private XmlMarshaller xmlUtility;
+	private final String identifierTypeValueStr = "Coordinating Center Identifier";
+	private final String prtIdentifierTypeValueStr = "MRN";
+	private HealthcareSiteDao healthcareSiteDao;
+	private StudyDao studyDao;
 	
+	public void setStudyDao(StudyDao studyDao) {
+		this.studyDao = studyDao;
+	}
+
+	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
+		this.healthcareSiteDao = healthcareSiteDao;
+	}
+
+	public void setXmlUtility(XmlMarshaller xmlUtility) {
+		this.xmlUtility = xmlUtility;
+	}
+
 	public void setC3prErrorMessages(MessageSource errorMessages) {
 		c3prErrorMessages = errorMessages;
 	}
@@ -204,6 +235,8 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 				//broadcase message to co-ordinating center
 				try {
 					if(triggerMultisite){
+						Integer id=studySubjectDao.merge(studySubject).getId();
+						studySubject=studySubjectDao.getById(id);
 						sendRegistrationRequest(studySubject);
 					}
 					scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING);
@@ -263,6 +296,8 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 				}else if(scheduledEpoch.getEpoch().isEnrolling()){
 					studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED);
 					try {
+						Integer id=studySubjectDao.merge(studySubject).getId();
+						studySubject=studySubjectDao.getById(id);
 						sendRegistrationEvent(studySubject);
 					} catch (Exception e) {
 						throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.ERROR_SEND_REGISTRATION.CODE"),e);
@@ -357,10 +392,9 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 		this.hostedMode = hostedMode;
 	}
 
-	public void assignC3DIdentifier(String studySubjectGridId, String c3dIdentifierValue) {
-		StudySubject studySubject=studySubjectDao.getByGridId(studySubjectGridId);
+	public void assignC3DIdentifier(StudySubject studySubject, String c3dIdentifierValue) {
 		studySubject.setC3DIdentifier(c3dIdentifierValue);
-		studySubjectDao.merge(studySubject);
+		studySubjectDao.save(studySubject);
 	}
 
 	public void assignCoOrdinatingCenterIdentifier(String studySubjectGridId, String identifierValue) {
@@ -399,4 +433,107 @@ public class StudySubjectServiceImpl implements StudySubjectService {
 	private int getCode(String errortypeString){
 		return Integer.parseInt(this.c3prErrorMessages.getMessage(errortypeString, null, null));
 	}
+
+	public void processMessage(String message) {
+		StudySubject cctsStudySubject=new StudySubject(true);
+		StringWriter sw=new StringWriter();
+		sw.write(message);
+		try {
+			this.xmlUtility.toXML(cctsStudySubject, sw);
+		} catch (XMLUtilityException e) {
+			e.printStackTrace();
+			return;
+		}
+		StudySubject studySubject=new StudySubject(true);
+		try {
+			studySubject.setStudySite(getPersistedStudySite(cctsStudySubject));
+			studySubject.setParticipant(getPersistedParticipant(cctsStudySubject));
+		} catch (C3PRCodedException e) {
+			e.printStackTrace();
+			return;
+		}
+		List<StudySubject> list=studySubjectDao.searchBySubjectAndStudySite(studySubject);
+		if(list.size()>1)
+			throw new RuntimeException("Error processing esb message. More than one registration found.");
+		if(list.size()==0)
+			throw new RuntimeException("Error processing esb message. No registration found.");
+		studySubject=list.get(0);
+		if(isC3DResponse(cctsStudySubject)){
+			for(Identifier identifier:cctsStudySubject.getIdentifiers()){
+				if (identifier instanceof SystemAssignedIdentifier) {
+					SystemAssignedIdentifier sId = (SystemAssignedIdentifier) identifier;
+					if(sId.getSystemName().equalsIgnoreCase("C3D") && sId.getType().equals("Patient Position")){
+						assignC3DIdentifier(studySubject, sId.getValue());
+					}
+				}
+			}
+		}
+	}
+	
+	private boolean isC3DResponse(StudySubject studySubject){
+		for(Identifier identifier:studySubject.getIdentifiers()){
+			if (identifier instanceof SystemAssignedIdentifier) {
+				SystemAssignedIdentifier sId = (SystemAssignedIdentifier) identifier;
+				if(sId.getSystemName().equalsIgnoreCase("C3D") && sId.getType().equals("Patient Position"))
+					return true;
+			}
+		}
+		return false;
+	}
+
+	private StudySite getPersistedStudySite(StudySubject studySubject) throws C3PRCodedException{
+		for (OrganizationAssignedIdentifier identifierType : studySubject.getOrganizationAssignedIdentifiers()) {
+			if (identifierType.getType().equals(this.identifierTypeValueStr)) {
+				HealthcareSite healthcareSite = this.healthcareSiteDao.getByNciInstituteCode(identifierType.getHealthcareSite().getNciInstituteCode());
+				if (healthcareSite == null) {
+					throw this.exceptionHelper.getException(getCode("MULTISITE.EXCEPTION.NOTFOUND.HEALTHCARESITE_STUDY_CO_IDENTIFIER.CODE")
+							,new String[]{identifierType.getHealthcareSite().getNciInstituteCode()});
+				}
+				identifierType.setHealthcareSite(healthcareSite);
+				Study example=new Study(true);
+				List<Study> studies = studyDao.searchByExample(example, true);
+				if (studies.size() == 0) {
+					throw this.exceptionHelper.getException(getCode("MULTISITE.EXCEPTION.NOTFOUND.STUDY_WITH_IDENTIFIER.CODE")
+							,new String[]{identifierType.getHealthcareSite().getNciInstituteCode(),this.identifierTypeValueStr});
+				}
+				if (studies.size() > 1) {
+					throw this.exceptionHelper.getException(getCode("MULTISITE.EXCEPTION.MULTIPLE.STUDY_SAME_CO_IDENTIFIER.CODE")
+							,new String[]{identifierType.getHealthcareSite().getNciInstituteCode(),this.identifierTypeValueStr});
+				}
+				Study study = studies.get(0);
+				for (StudySite temp : study.getStudySites()) {
+					if (temp.getHealthcareSite().getNciInstituteCode().equals(studySubject.getStudySite().getHealthcareSite().getNciInstituteCode())) {
+						return temp;
+					}
+				}
+			}
+		}
+		throw this.exceptionHelper.getException(-1);
+		
+	}
+	private Participant getPersistedParticipant(StudySubject studySubject) throws C3PRCodedException{
+		for (OrganizationAssignedIdentifier identifierType : studySubject.getParticipant().getOrganizationAssignedIdentifiers()) {
+			if (identifierType.getType().equals(this.prtIdentifierTypeValueStr)) {
+				HealthcareSite healthcareSite = this.healthcareSiteDao.getByNciInstituteCode(identifierType.getHealthcareSite().getNciInstituteCode());
+				if (healthcareSite == null) {
+					throw this.exceptionHelper.getException(getCode("MULTISITE.EXCEPTION.INVALID.HEALTHCARESITE_SUBJECT_IDENTIFIER.CODE")
+							,new String[]{healthcareSite.getNciInstituteCode(), this.prtIdentifierTypeValueStr});
+				}
+				identifierType.setHealthcareSite(healthcareSite);
+				Participant temp=new Participant();
+				temp.addIdentifier(identifierType);
+				List<Participant> paList = participantDao.searchByExample(temp, true);
+				if (paList.size() > 1) {
+					throw this.exceptionHelper.getException(getCode("MULTISITE.EXCEPTION.MULTIPLE.SUBJECTS_SAME_MRN.CODE")
+							,new String[]{identifierType.getValue()});
+				}
+				if (paList.size() == 1) {
+					System.out.println("Participant with the same MRN found in the database");
+					return temp;
+				}
+			}
+		}
+		throw this.exceptionHelper.getException(-1);
+	}
+
 }

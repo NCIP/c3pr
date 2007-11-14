@@ -6,11 +6,13 @@ import java.util.GregorianCalendar;
 
 import org.springframework.context.MessageSource;
 
+import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.CalloutRandomization;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.PhonecallRandomization;
 import edu.duke.cabig.c3pr.domain.Randomization;
@@ -22,6 +24,7 @@ import edu.duke.cabig.c3pr.domain.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
+import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.service.StudyService;
@@ -35,6 +38,16 @@ import edu.duke.cabig.c3pr.utils.StringUtils;
  */
 public class StudyServiceImpl implements StudyService {
 	
+	private C3PRExceptionHelper exceptionHelper;
+	private MessageSource c3prErrorMessages;
+	public void setC3prErrorMessages(MessageSource errorMessages) {
+		c3prErrorMessages = errorMessages;
+	}
+
+	public void setExceptionHelper(C3PRExceptionHelper exceptionHelper) {
+		this.exceptionHelper = exceptionHelper;
+	}
+
 	public void setSiteStudyStatuses(Study study) throws Exception {
 		for (int i = 0; i < study.getStudySites().size(); i++) {
 			study.getStudySites().get(i).setSiteStudyStatus(
@@ -46,9 +59,15 @@ public class StudyServiceImpl implements StudyService {
 	StudyDao studyDao;
 
 	StudySubjectDao studySubjectDao;
+	
+	private HealthcareSiteDao healthcareSiteDao;
 
 	// TODO hook esb call
 	// ProtocolBroadcastService esbCreateProtocol;
+
+	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
+		this.healthcareSiteDao = healthcareSiteDao;
+	}
 
 	public void setDataEntryStatus(Study study, boolean throwException) throws Exception {
 		
@@ -559,6 +578,19 @@ public class StudyServiceImpl implements StudyService {
 
 	public void setStudySubjectDao(StudySubjectDao studySubjectDao) {
 		this.studySubjectDao = studySubjectDao;
+	}
+	
+    public List<Study> searchByCoOrdinatingCenterId(OrganizationAssignedIdentifier identifier)throws C3PRCodedException{
+    	HealthcareSite healthcareSite = this.healthcareSiteDao.getByNciInstituteCode(identifier.getHealthcareSite().getNciInstituteCode());
+		if (healthcareSite == null) {
+			throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.INVALID.HEALTHCARESITE_SUBJECT_IDENTIFIER.CODE")
+                    ,new String[]{identifier.getHealthcareSite().getNciInstituteCode(), identifier.getType()});
+		}
+		identifier.setHealthcareSite(healthcareSite);
+    	return studyDao.searchByOrgIdentifier(identifier);
+    }
+	private int getCode(String errortypeString){
+		return Integer.parseInt(this.c3prErrorMessages.getMessage(errortypeString, null, null));
 	}
 
 }
