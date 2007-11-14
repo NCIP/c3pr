@@ -231,16 +231,16 @@
 
     <!-- Services -->
     <bean id="studyService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudyServiceImpl"
-          autowire="byType"/>
+          autowire="byName"/>
     <bean id="participantService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.ParticipantServiceImpl"
-          autowire="byType"/>
+          autowire="byName"/>
     <bean id="studySubjectService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl"
           autowire="byName">
         <property name="isBroadcastEnable" value="${broadcastEnable}"/>
         <property name="hostedMode" value="${hostedMode}"/>
         <property name="localInstanceNCICode" value="${localInstanceNCIInstituteCode}"/>
         <property name="registrationXmlUtility">
-            <bean id="registrationXmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
+            <bean id="registrationXmlUtility2" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
                 <property name="mappingFile" value="ccts-registration-castor-mapping.xml"/>
             </bean>
         </property>
@@ -248,6 +248,14 @@
     <bean id="studyXMLImporterService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudyXMLImporterServiceImpl"
           autowire="byType"/>
 
+	<bean id="studySubjectXMLImporterService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudySubjectXMLImporterServiceImpl"
+          autowire="byName">
+          <property name="marshaller">
+            <bean id="registrationXmlUtility1" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
+                <property name="mappingFile" value="ccts-registration-castor-mapping.xml"/>
+            </bean>
+        </property>
+    </bean>
 
     <bean id="personnelService" lazy-init="true"
           class="edu.duke.cabig.c3pr.service.impl.PersonnelServiceImpl"
@@ -315,7 +323,7 @@
 	
 	<bean id="exceptionHelper" class="edu.duke.cabig.c3pr.exception.C3PRExceptionHelper">
 		<property name="errorMessages">
-			<ref bean="multsiteErrorMessageSource"/>
+			<ref bean="c3prErrorMessages"/>
 		</property>
 	</bean>
 
