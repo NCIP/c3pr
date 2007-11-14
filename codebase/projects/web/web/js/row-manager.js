@@ -150,6 +150,7 @@ var AbstractRowInserterProps = {
 	isRegistered: true,
 	softDelete: false,
 	alertOnSoftDelete: true,
+	callRemoveFromCommand: false,
 	updateIndex: function(index){
 						this.localIndex=index
 						this.initialIndex=index
@@ -291,14 +292,12 @@ var AbstractRowInserterProps = {
    	havingParentRowInserter: function(){
    										return this.parent_row_inserter==""?false:true
    									},
-   	handleRowRemoval: function(index,hashCode){
-   							
-   							if(index<this.initialIndex){
-   								this.removeFromCommand(index,hashCode)
-   								//this.softDelete?this.disableRow(index):this.removeRowFromDisplay(index)
-   								this.removeRowFromDisplay(index)
-   							}else{
-   								this.removeRowFromDisplay(index)
+   	handleRowRemoval: function(index,hashCode){ 
+   	  						this.removeRowFromDisplay(index)	
+   							if(index<this.initialIndex || this.callRemoveFromCommand){
+   								if(hashCode != -1){
+   									this.removeFromCommand(index,hashCode)   								
+   								}
    							}
    						},
     disableRow: function(index){
@@ -343,7 +342,7 @@ var AbstractRowInserterProps = {
 					},
 	onDeleteFromCommandSuccess: function(t){
    						RowManager.log("Row deletion Message: "+t.responseText)
-   						alert("in onDeleteFromCommandSuccess")
+   						//alert("in onDeleteFromCommandSuccess")
    						rets=t.responseText.split("||")
    						//this.postProcessCommandUpdate(this,rets[0].split("=")[1],rets[1].split("=")[1])
 					},					
