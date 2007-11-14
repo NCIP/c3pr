@@ -1,9 +1,11 @@
 package edu.duke.cabig.c3pr.xml;
 
-import edu.duke.cabig.c3pr.domain.StudySubject;
 import org.apache.log4j.Logger;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.ValidityException;
+
+import edu.duke.cabig.c3pr.domain.ScheduledArm;
+import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,14 +14,14 @@ import org.exolab.castor.mapping.ValidityException;
  * Time: 3:29:25 PM
  * To change this template use File | Settings | File Templates.
  */
-public class StratumGroupFieldHandler implements FieldHandler {
+public class ScheduledArmFieldHandler implements FieldHandler {
 
-    Logger log = Logger.getLogger(StratumGroupFieldHandler.class);
+    Logger log = Logger.getLogger(ScheduledArmFieldHandler.class);
 
     public Object getValue(Object object) throws IllegalStateException {
-        StudySubject registration = (StudySubject)object;
+        ScheduledTreatmentEpoch scheduledTreatmentEpoch = (ScheduledTreatmentEpoch)object;
         try {
-            return registration.getStratumGroup().toString();
+            return scheduledTreatmentEpoch.getScheduledArm();
         } catch (Exception e) {
             log.warn(e);
         }
@@ -27,11 +29,9 @@ public class StratumGroupFieldHandler implements FieldHandler {
     }
 
     public void setValue(Object object, Object value) throws IllegalStateException, IllegalArgumentException {
-    	StudySubject registration = (StudySubject) object;
-    	String s=(String)value;
-		int i=Integer.parseInt(s.split(":")[0].trim());
-		registration.setStratumGroupNumber(i);
-
+    	ScheduledTreatmentEpoch scheduledTreatmentEpoch = (ScheduledTreatmentEpoch)object;
+    	ScheduledArm scheduledArm=(ScheduledArm)value;
+    	scheduledTreatmentEpoch.addScheduledArm(scheduledArm);
     }
 
     public void resetValue(Object object) throws IllegalStateException, IllegalArgumentException {

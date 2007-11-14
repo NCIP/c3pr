@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.xml;
 
+import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import org.apache.log4j.Logger;
 import org.exolab.castor.mapping.FieldHandler;
@@ -12,14 +13,14 @@ import org.exolab.castor.mapping.ValidityException;
  * Time: 3:29:25 PM
  * To change this template use File | Settings | File Templates.
  */
-public class StratumGroupFieldHandler implements FieldHandler {
+public class ScheduledEpochFieldHandler implements FieldHandler {
 
-    Logger log = Logger.getLogger(StratumGroupFieldHandler.class);
+    Logger log = Logger.getLogger(ScheduledEpochFieldHandler.class);
 
     public Object getValue(Object object) throws IllegalStateException {
         StudySubject registration = (StudySubject)object;
         try {
-            return registration.getStratumGroup().toString();
+            return registration.getScheduledEpoch();
         } catch (Exception e) {
             log.warn(e);
         }
@@ -28,10 +29,8 @@ public class StratumGroupFieldHandler implements FieldHandler {
 
     public void setValue(Object object, Object value) throws IllegalStateException, IllegalArgumentException {
     	StudySubject registration = (StudySubject) object;
-    	String s=(String)value;
-		int i=Integer.parseInt(s.split(":")[0].trim());
-		registration.setStratumGroupNumber(i);
-
+    	ScheduledEpoch scheduledEpoch=(ScheduledEpoch)value;
+		registration.addScheduledEpoch(scheduledEpoch);
     }
 
     public void resetValue(Object object) throws IllegalStateException, IllegalArgumentException {
