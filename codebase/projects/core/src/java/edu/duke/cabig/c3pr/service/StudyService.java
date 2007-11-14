@@ -1,15 +1,18 @@
 package edu.duke.cabig.c3pr.service;
 
 import java.util.Date;
+import java.util.List;
 
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 
 /**
@@ -44,6 +47,8 @@ public interface StudyService {
     public Study setSiteStudyStatus(Study study,StudySite studySite, SiteStudyStatus status) throws Exception;
     
     public Study merge(Study study);
+    
+    public List<Study> searchByCoOrdinatingCenterId(OrganizationAssignedIdentifier identifier)throws C3PRCodedException;
 
 
     /**
