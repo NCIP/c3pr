@@ -35,7 +35,7 @@ public interface StudySubjectService {
 	  
 	  public void setHostedMode(boolean hostedMode);
 	  
-	  public void assignC3DIdentifier(String studySubjectGridId, String c3dIdentifierValue);
+	  public void assignC3DIdentifier(StudySubject studySubject, String c3dIdentifierValue);
 	  
 	  public void assignCoOrdinatingCenterIdentifier(String studySubjectGridId, String identifierValue);
 	  
