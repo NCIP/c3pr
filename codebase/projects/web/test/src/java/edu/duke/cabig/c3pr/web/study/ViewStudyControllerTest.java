@@ -57,10 +57,10 @@ public class ViewStudyControllerTest extends AbstractStudyControllerTest {
         assertFalse(controller.shouldSave(request, null, null));
 
         //as expected not a form submission to start with
-        assertFalse(controller.isFormSubmission(request));
-        request.addParameter("_action", "export");
+//        assertFalse(controller.isFormSubmission(request));
+//        request.addParameter("_action", "export");
         //should now be a form submission
-        assertTrue(controller.isFormSubmission(request));
+//        assertTrue(controller.isFormSubmission(request));
     }
 
     /**
