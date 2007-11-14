@@ -1,5 +1,8 @@
 package edu.duke.cabig.c3pr.service;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.Date;
 import java.util.List;
 
@@ -9,15 +12,14 @@ import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.Arm;
-import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.NonTreatmentEpoch;
-import edu.duke.cabig.c3pr.domain.Organization;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.PhonecallRandomization;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
@@ -32,13 +34,13 @@ import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
-import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SubjectEligibilityAnswer;
 import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
+import edu.duke.cabig.c3pr.esb.ESBMessageConsumer;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 import edu.duke.cabig.c3pr.utils.StudyCreationHelper;
@@ -60,6 +62,8 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
     private HealthcareSiteDao healthcareSitedao = (HealthcareSiteDao) getApplicationContext().getBean("healthcareSiteDao");
     private ParticipantDao participantDao = (ParticipantDao) getApplicationContext().getBean("participantDao");
     private StudySubjectDao studySubjectDao=(StudySubjectDao) getApplicationContext().getBean("studySubjectDao");
+	private final String identifierTypeValueStr = "Coordinating Center Identifier";
+	private final String prtIdentifierTypeValueStr = "MRN";
     protected void setUp() throws Exception {
         super.setUp();    
         studySubjectService = (StudySubjectService) getApplicationContext().getBean("studySubjectService");
@@ -1115,6 +1119,46 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
         interruptSession();
 	}
 
+	/*
+	 * Test case for processing C3D response
+	 * with patient position
+	 */
+	/*public void testProcessMessage() throws Exception{
+		StudySubject studySubject=new StudySubject();
+		studySubject.setStudySite(getLocalNonRandomizedStudy(false, true, false).getStudySites().get(0));
+		OrganizationAssignedIdentifier id=studySubject.getStudySite().getStudy().getOrganizationAssignedIdentifiers().get(0);
+		id.setHealthcareSite(studySubject.getStudySite().getHealthcareSite());
+		id.setType(this.identifierTypeValueStr);
+		id.setValue("CDR000007829");
+		dao.save(studySubject.getStudySite().getStudy());
+		Participant subject=participantDao.getById(1000);
+		studySubject.setParticipant(subject);
+        Integer savedId;
+        addScheduledEpoch(studySubject,false);
+        addEnrollmentDetails(studySubject);
+        buildCommandObject(studySubject);
+        {
+	        StudySubject saved= studySubjectService.registerSubject(studySubject);
+	        savedId= saved.getId().intValue();
+	        assertNotNull("The registration didn't get an id", savedId);
+        }
+        interruptSession();
+        {
+        	StudySubject loaded = studySubjectDao.getById(savedId);
+        	assertNotNull("Could not reload registration with id " + savedId, loaded);
+        	assertEquals("Wrong number of scheduled epochs", 1, loaded.getScheduledEpochs().size());
+        	assertEquals("Wrong number of scheduled treatment epochs", 0, loaded.getScheduledTreatmentEpochs().size());
+        	assertEquals("Wrong number of scheduled non treatment epochs", 1, loaded.getScheduledNonTreatmentEpochs().size());
+        	assertEquals("getIfTreatmentScheduledEpoch return is inconsistent", false, loaded.getIfTreatmentScheduledEpoch());
+        	assertEquals("Wrong registration data entry status", RegistrationDataEntryStatus.COMPLETE, loaded.getRegDataEntryStatus());
+        	assertEquals("Wrong epoch data entry status", ScheduledEpochDataEntryStatus.COMPLETE, loaded.getScheduledEpoch().getScEpochDataEntryStatus());        	
+        	assertEquals("Wrong registration work flow status", RegistrationWorkFlowStatus.REGISTERED, loaded.getRegWorkflowStatus());
+        	assertEquals("Wrong epoch work flow status", ScheduledEpochWorkFlowStatus.APPROVED, loaded.getScheduledEpoch().getScEpochWorkflowStatus());        	
+        }
+        interruptSession();
+        ESBMessageConsumer esbConsumer=(ESBMessageConsumer)studySubjectService;
+        esbConsumer.processMessage(readFileAsString("bin/SampleRegistrationMessage.xml"));
+	}*/
 	private Study getMultiSiteRandomizedStudy(RandomizationType randomizationType, boolean makeStudysiteCoCenter)throws Exception{
 		Study study=studyCreationHelper.getMultiSiteRandomizedStudy(randomizationType);
 		return addStudySiteCoCenterAndSave(study, makeStudysiteCoCenter);
@@ -1298,5 +1342,20 @@ public class StudySubjectServiceTestCase extends DaoTestCase{
             return loaded;
         }
 	}
-	
+	/** @param filePath the name of the file to open. Not sure if it can accept URLs or just filenames. Path handling could be better, and buffer sizes are hardcoded
+	    */ 
+	 private String readFileAsString(String filePath) throws java.io.IOException{
+	     String fileData = "";
+	     File f=new File(filePath);
+	     System.out.println(f.getAbsolutePath());
+	     BufferedReader reader = new BufferedReader(
+	             new FileReader(filePath));
+	     String line;
+	     while ((line = reader.readLine()) != null) {
+	    	 fileData+=line;
+	     }
+	     reader.close();
+	     return fileData;
+	 }
+
 }
