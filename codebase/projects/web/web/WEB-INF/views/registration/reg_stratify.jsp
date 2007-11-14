@@ -5,6 +5,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -25,20 +26,18 @@ function markAsAnswered(id){
 </head>
 <body>
 <tags:formPanelBox tab="${tab}" flow="${flow}">
-<table width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
+
 	<c:choose>
 	<c:when test="${!command.ifTreatmentScheduledEpoch}">
-		<tr>
-			<td><br/><b>The selected epoch does not involve stratification.</b></td>
-		</tr>
+		<b><br><fmt:message key="REGISTRATION.NO_STRATIFICATION"/>
 	</c:when>
 	<c:otherwise>
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 		<tr>
 			<td>&nbsp;</td>
-			<td align="left"><b>Criteria<span class="red">*</span></b></td>
-			<td align="left"><b>Answers</b></td>
+			<th align="left"><b>Criteria</b></th>
+			<th align="left"><b>Answers</b></th>
 		</tr>
-		<tr><td colspan="3">&nbsp;</td></tr>
 		<c:forEach var="criteria" varStatus="status" items="${command.scheduledEpoch.subjectStratificationAnswers}">
 			<tr>
 				<td width="5%">
@@ -51,19 +50,18 @@ function markAsAnswered(id){
 				</td>
 				<td width="15%">
 					<form:select path="scheduledEpoch.subjectStratificationAnswers[${status.index}].stratificationCriterionAnswer" onchange="markAsAnswered('${status.index }')">
-					<option value="">--Please Select---</option>
+					<option value="">Please select</option>
 					<c:forEach items="${criteria.stratificationCriterion.permissibleAnswers}" var="option">
 						<option value="${option.id }" <c:if test="${option.id== command.scheduledEpoch.subjectStratificationAnswers[status.index].stratificationCriterionAnswer.id}">selected</c:if>>${option.permissibleAnswer }</option>
 					</c:forEach>
 					</form:select>
 				</td>
 			</tr>
-			<tr><td colspan="3"><hr align="left" width="100%"></td></tr>
 			
 		</c:forEach>
+		</table>
 	</c:otherwise>
 	</c:choose>
-</table>
 </tags:formPanelBox>
 <!-- MAIN BODY ENDS HERE -->
 </body>

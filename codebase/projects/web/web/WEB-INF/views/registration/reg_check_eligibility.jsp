@@ -5,6 +5,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -28,18 +29,18 @@ function markAsAnswered(id){
 <tags:tabFields tab="${tab}"/>
 <c:choose>
 	<c:when test="${!command.ifTreatmentScheduledEpoch || fn:length(command.scheduledEpoch.subjectEligibilityAnswers) == 0}">
-			<tags:panelBox><br/><b>The selected epoch does not have eligibility criteria.</b></tags:panelBox>
+			<tags:panelBox><br/><b><fmt:message key="REGISTRATION.NO_ELIGIBILITY"/></b></tags:panelBox>
 	</c:when>
 	<c:otherwise>
 		<table id="" width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
 			<tr>
 				<td>
 				<tags:minimizablePanelBox boxId="Inclusion" title="Inclusion Criteria">
-					<table width="100%" border="0">
+					<table width="100%" border="0" class="tablecontent">
 						<tr>
 							<td>&nbsp;</td>
-							<td align="left"><b>Question</b></td>
-							<td align="left"><b>Answer</b></td>
+							<th align="left"><b>Question</b></th>
+							<th align="left"><b>Answer</b></th>
 						</tr>
 						<c:set var="index" value="0"/>
 						<c:forEach var="criteria" varStatus="status" items="${command.scheduledEpoch.treatmentEpoch.inclusionEligibilityCriteria}">
@@ -52,9 +53,9 @@ function markAsAnswered(id){
 								<td width="80%">
 									${criteria.questionText}
 								</td>
-								<td width="15%">
+								<td width="15%" valign="center">
 									<form:select id="scheduledEpoch.subjectEligibilityAnswers[${index}].answerText" path="scheduledEpoch.subjectEligibilityAnswers[${index}].answerText" onchange="markAsAnswered('${index }')">
-										<option value="">--Please Select---</option>
+										<option value="">Please select</option>
 										<form:option value="Yes" />
 										<form:option value="No" />
 										<c:if test="${criteria.notApplicableIndicator}"><form:option value="NA" label="Not Applicable"/></c:if>
@@ -71,11 +72,11 @@ function markAsAnswered(id){
 			<tr>
 				<td>
 				<tags:minimizablePanelBox boxId="Exclusion" title="Exclusion Criteria">
-					<table width="100%" border="0">
+					<table width="100%" border="0" class="tablecontent">
 						<tr>
 							<td>&nbsp;</td>
-							<td align="left"><b>Question<span class="red">*</span></b></td>
-							<td align="left"><b>Answers</b></td>
+							<th align="left"><b>Question</b></th>
+							<th align="left"><b>Answer</b></th>
 						</tr>
 						<c:forEach var="criteria" varStatus="status" items="${command.scheduledEpoch.treatmentEpoch.exclusionEligibilityCriteria}">
 							<tr>
@@ -87,9 +88,9 @@ function markAsAnswered(id){
 								<td width="80%">
 									${criteria.questionText}
 								</td>
-								<td width="15%">
+								<td width="15%" valign="center">
 									<form:select id="scheduledEpoch.subjectEligibilityAnswers[${index}].answerText" path="scheduledEpoch.subjectEligibilityAnswers[${index}].answerText" onchange="markAsAnswered('${index }')">
-										<option value="">--Please Select---</option>
+										<option value="">Please select</option>
 										<form:option value="Yes" />
 										<form:option value="No" />
 										<c:if test="${criteria.notApplicableIndicator}"><form:option value="NA" label="Not Applicable"/></c:if>

@@ -5,6 +5,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
@@ -83,8 +84,6 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 <c:otherwise>
 <%System.out.println("In otherwise"); %>
 <tags:formPanelBox tab="${tab}" flow="${flow}" action="createRegistration">
-<strong>Informed Consent Details </strong><br>
-
 <input type="hidden" name="consentVersion" id="consentVersion" value="${command.studySite.study.consentVersion}"/>
 <form:hidden path="informedConsentVersion"/>
 
@@ -99,12 +98,6 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 		<td><input type="checkbox" name="currentVersionIndicator" value="true" onclick="setVersion(this);" 
 				<c:if test="${!empty command.informedConsentVersion}"> checked </c:if>/></td>
 	</tr>
-</table>
-<hr align="left" width="95%">
-
-<strong>Enrolling Physician Details </strong><br>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-	<tr><td colspan='2'>&nbsp;</td></tr>
 	<tr>
 		<td class="label" width="50%"><em></em>Enrolling Physician:</td>
 		<td>
@@ -120,12 +113,6 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 			<form:input path="otherTreatingPhysician" cssStyle="${physicianStyle}"/>
 		<td>
 	</tr>
-</table>
-<hr align="left" width="95%">
-
-<strong>Select Disease and Disease Site </strong><br>
-<table width="100%" border="0" cellspacing="0" cellpadding="0">
-	<tr><td colspan="2">&nbsp;</td></tr>
 	<tr>
 		<td class="label" width="40%">Primary Disease:</td>
 		<td>

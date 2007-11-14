@@ -7,6 +7,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <html>
 <head>
@@ -32,119 +33,141 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 	<chrome:division id="Subject Information" title="Subject Information">
 	<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 		<tr>
-			<td width="25%" class="labelR">First Name:</td>
+			<td width="25%" class="labelR">First Name</td>
 			<td>${command.participant.firstName}</td>
 	</tr>
 	<tr>
-		<td class="labelR">Last Name:</td>
+		<td class="labelR">Last Name</td>
 		<td>${command.participant.lastName}</td>
 	</tr>
 	<tr>
-		<td class="labelR">Gender:</td>
+		<td class="labelR">Gender</td>
 		<td>${command.participant.administrativeGenderCode}</td>
 	</tr>
 	<tr>
-		<td class="labelR">Subject MRN:</td>
-		<td>${command.participant.primaryIdentifier }</td>
+		<td class="labelR">Subject MRN</td>
+		<td>${command.participant.medicalRecordNumber.value }</td>
 	</tr>
 	<tr>
-		<td width="25%" class="labelR">Birth Date:</td>
+		<td class="labelR">Assigning Authority</td>
+		<td>${command.participant.medicalRecordNumber.healthcareSite.name }</td>
+	</tr>
+		<td width="25%" class="labelR">Birth Date</td>
 		<td>${command.participant.birthDateStr}</td>
 	</tr>
 	<tr>
-		<td class="labelR">Ethnicity:</td>
+		<td class="labelR">Ethnicity</td>
 		<td>${command.participant.ethnicGroupCode}</td>
 	</tr>
 	<tr>
-		<td class="labelR">Race(s):</td>
+		<td class="labelR">Race(s)</td>
 		<td>${command.participant.raceCode}</td>
 		</tr>
 	</table>
 	</chrome:division>
 	<chrome:division id="Study Information" title="Study Information">
-	<strong>Study Details:</strong><br>
 	<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 		<tr>
-			<td class="labelR"> Status:</td>
-			<td>${command.studySite.study.coordinatingCenterStudyStatus}</td>
+			<td class="labelR">Status</td>
+			<td>${command.studySite.study.coordinatingCenterStudyStatus.code}</td>
 	</tr>
 	<tr>
-		<td width="25%" class="labelR">Short Title:</td>
+		<td width="25%" class="labelR">Short Title</td>
 		<td>${command.studySite.study.shortTitleText}</td>
 	</tr>
 	<tr>
-		<td class="labelR">Randomized Indicator:</td>
-		<td>${command.studySite.study.randomizedIndicator}</td>
+		<td width="25%" class="labelR">Long Title</td>
+		<td>${command.studySite.study.longTitleText}</td>
 	</tr>
 	<tr>
-		<td class="labelR">Multi Institution:</td>
-		<td>${command.studySite.study.multiInstitutionIndicator}</td>
+		<td class="labelR">Randomized Indicator</td>
+		<td>${command.studySite.study.randomizedIndicator?'True':'False'}</td>
 	</tr>
 	<tr>
-		<td class="labelR"> Phase Code:</td>
+		<td class="labelR">Multi Institutional</td>
+		<td>${command.studySite.study.multiInstitutionIndicator?'True':'False'}</td>
+	</tr>
+	<tr>
+		<td class="labelR"> Phase Code</td>
 		<td>${command.studySite.study.phaseCode}</td>
 	</tr>
 	<tr>
-		<td width="25%" class="labelR">Sponsor Code:</td>
+		<td width="25%" class="labelR">Sponsor Code</td>
 		<td>${command.studySite.study.identifiers[0].value}</td>
 		</tr>
 	</table>
-	<table width="70%"><tr><td><p style="border-bottom: 1px dotted #000000;">&nbsp;</p></td></tr></table>
-	<strong>Study Site Information:</strong><br>
+	</chrome:division>
+	<chrome:division id="Study Site Information:" title="Study Site Information:">
 	<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 		<tr>
-			<td width="25%" class="labelR"> Name:</td>
+			<td width="25%" class="labelR">Name</td>
 			<td>${command.studySite.healthcareSite.name}</td>
 	</tr>
 	<tr>
-		<td class="labelR">Address:</td>
+		<td class="labelR">Address</td>
 		<td>${command.studySite.healthcareSite.address.streetAddress},
 	${command.studySite.healthcareSite.address.city},
 	${command.studySite.healthcareSite.address.stateCode},
 	${command.studySite.healthcareSite.address.postalCode}</td>
 	</tr>
 	<tr>
-		<td class="labelR"> Status Code:</td>
-		<td>${command.studySite.siteStudyStatus}</td>
+		<td class="labelR">Status Code</td>
+		<td>${command.studySite.siteStudyStatus.code}</td>
 	</tr>
 	<tr>
-		<td class="labelR"> NCI Institution Code:</td>
+		<td class="labelR">NCI Institution Code</td>
 		<td>${command.studySite.healthcareSite.nciInstituteCode}</td>
 	</tr>
 	<tr>
-		<td class="labelR">IRB Approval Date:</td>
+		<td class="labelR">IRB Approval Date</td>
 		<td>${command.studySite.irbApprovalDateStr}</td>
 		</tr>
+	</table>
+	</chrome:division>
+	<chrome:division id="Current Epoch Information" title="Current Epoch Information">
+	<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
+		<tr>
+			<td width="25%" class="labelR">Current Epoch</td>
+			<td>${command.scheduledEpoch.epoch.name}</td>
+	</tr>
+	<tr>
+		<td class="labelR">Type</td>
+		<td>${command.ifTreatmentScheduledEpoch?'Treatment':'Non Treatment'}</td>
+	</tr>
+	<tr>
+		<td class="labelR">Enrolling</td>
+		<td>${!command.ifTreatmentScheduledEpoch?command.scheduledEpoch.epoch.enrollmentIndicator:'True'}</td>
+	</tr>
+	<tr>
+		<td class="labelR">Epoch Status</td>
+		<td>${command.scheduledEpoch.scEpochWorkflowStatus.code}</td>
+	</tr>
 	</table>
 	</chrome:division>
 	<chrome:division id="enrollment" title="Enrollment Details">
 	<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 		<tr>
-			<td class="labelR">Registration Start Date:</td>
+			<td class="labelR">Registration Start Date</td>
 			<td>${command.startDate }</td>
 	</tr>
 	<tr>
-		<td class="labelR" width="25%">Informed Consent Signed Date:</td>
+		<td class="labelR" width="35%">Informed Consent Signed Date</td>
 		<td>${command.informedConsentSignedDateStr}</td>
 	</tr>
 	<tr>
-		<td class="labelR">Informed Consent Version:</td>
+		<td class="labelR">Informed Consent Version</td>
 		<td>${command.informedConsentVersion}</td>
 	</tr>
 	<tr>
-		<td width="25%" class="labelR">Treating Physician:</td>
+		<td width="25%" class="labelR">Treating Physician</td>
 		<td>${command.treatingPhysicianFullName}&nbsp;</td>
-		</tr>
-	</table>
-	</chrome:division>
-	<chrome:division id="disease" title="Disease Information">
-	<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
-		<tr>
-			<td width="25%" class="labelR">Primary Disease:</td>
-			<td>${command.diseaseHistory.primaryDiseaseStr }</td>
 	</tr>
 	<tr>
-		<td width="20%" class="labelR">Primary Disease Site:</td>
+		<td width="25%" class="labelR">Primary Disease</td>
+		<td>${command.diseaseHistory.primaryDiseaseStr }</td>
+	</tr>
+	<tr>
+		<td width="20%" class="labelR">Primary Disease Site</td>
 		<td>${command.diseaseHistory.primaryDiseaseSiteStr }</td>
 		</tr>
 	</table>
@@ -154,8 +177,8 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 			<tr>
 				<td width="25%" class="labelR">Eligibility
-				Indicator:</td>
-				<td>${command.scheduledEpoch.eligibilityIndicator }</td>
+				Indicator</td>
+				<td>${command.scheduledEpoch.eligibilityIndicator?'True':'False' }</td>
 			</tr>
 		</table>
 		<c:choose>
@@ -163,11 +186,11 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		There is no eligibility check list available for this epoch
 		</c:when>
 		<c:otherwise>
-		<br><br>
+		<br>
 			<strong>Inclusion Criteria:</strong>
 			
 			<div class="review">
-			<table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
+			<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 				<tr>
 					<th scope="col" align="left">Question</th>
 					<th scope="col" align="left">Answer</th>
@@ -180,11 +203,11 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		</c:forEach>
 		</table>
 		</div>
-		<br><br>
+		<br>
 		<strong>Exclusion Criteria:</strong>
 		
 		<div class="review">
-		<table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
+		<table border="0" cellspacing="0" cellpadding="0"  width="50%" class="tablecontent">
 			<tr>
 				<th scope="col" align="left">Question</th>
 				<th scope="col" align="left">Answer</th>
@@ -210,8 +233,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		</table>
 		</c:when>
 		<c:otherwise>
-		<br>
-		<table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
+		<table border="0" cellspacing="0" cellpadding="0" class="tablecontent"  width="50%">
 			<tr>
 				<th scope="col" align="left">Strata</th>
 				<th scope="col" align="left"><b>Answer</th>
@@ -226,14 +248,6 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		</c:otherwise>
 		</c:choose>
 		</chrome:division>
-		<%--<chrome:division id="rendomization" title="Randomization Information">
-		<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
-			<tr>
-				<td width="25%" class="labelR">Arm:</td>
-				<td><c:if test="${!empty command.scheduledEpoch.scheduledArms[0].arm }">${command.scheduledEpoch.scheduledArms[0].arm.name }</c:if></td>
-			</tr>
-		</table>
-		</chrome:division> --%>
 	</c:if>
 </tags:formPanelBox>
 </body>

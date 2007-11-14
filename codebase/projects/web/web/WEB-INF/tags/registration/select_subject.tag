@@ -150,7 +150,6 @@
                 <div class="label">Search Subjects By:</div>
                 <div class="value">
                 	<select id="searchType" name="searchType">
-						<option value="">--Please Select--</option>
 						<c:forEach items="${searchTypeRefDataPrt}" var="searchTypePrt">
 						 	<option value="${searchTypePrt.code}">${searchTypePrt.desc}</option>
 						</c:forEach>

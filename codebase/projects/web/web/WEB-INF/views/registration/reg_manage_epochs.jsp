@@ -6,7 +6,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
 <%@taglib prefix="registrationTags" tagdir="/WEB-INF/tags/registration"%>
-
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <html>
 <head>
 <style type="text/css">
@@ -66,18 +66,19 @@ function reloadPage(Id){
 <tags:panelBox title="Change Epoch">
 	<c:choose>
 		<c:when test="${command.regWorkflowStatus=='OFF_STUDY'}">
-			Subject has been put to Off Study status. You can only transfer subjects when they are active on a study.
+			<fmt:message key="REGISTRATION.OFF_STUDY"/>
 		</c:when>
 		<c:when test="${command.scheduledEpoch.scEpochWorkflowStatus!='APPROVED'}">
-			Subject is not assigned to current epoch successfully. You can only transfer subjects when they are successfully assigned to an epoch.
+			<fmt:message key="REGISTRATION.UNAPPROVED_CURRENT_EPOCH"/>
 		</c:when>
 		<c:otherwise>To move subject between epochs, drag and drop the subject to the appropriate epoch</c:otherwise>
 	</c:choose>
 	<br><br>
 	<table border="0" cellspacing="0" cellpadding="0">
-		<tr>
-		<c:forEach items="${command.studySite.study.epochs}" var="epoch">
-		
+		<c:forEach items="${command.studySite.study.epochs}" var="epoch" varStatus="epochStatus">
+			<c:if test="${epochStatus.index%3==0}">
+				<tr>
+			</c:if>
 			<td>
 				<div id="epochsSection-${epoch.id }"><img src="<tags:imageUrl name="indicator.white.gif"/>"
 								alt="Indicator" align="absmiddle">Updating...</div>
@@ -85,8 +86,10 @@ function reloadPage(Id){
 					<tags:tabMethod method="getEpochSection" viewName="/registration/asynchronous/epochSection" divElement="'epochsSection-${epoch.id }'" params="epochId=${epoch.id}"/>
 				</script>
 			</td>
+			<c:if test="${epochStatus.index%3==2}">
+				</tr>
+			</c:if>
 		</c:forEach>
-		</tr>
 	</table>
 </tags:panelBox>
 <c:if test="${command.regWorkflowStatus!='OFF_STUDY' && command.scheduledEpoch.scEpochWorkflowStatus=='APPROVED'}">

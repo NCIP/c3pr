@@ -66,7 +66,6 @@
                 </div>
                 <div class="value">
                 	<select id="searchType" name="searchType">
-							<option value="">--Please Select--</option>
 						<c:forEach items="${searchTypeRefDataStudy}" var="searchTypeRefDataStudy">
 						<c:if test="${!empty searchTypeRefDataStudy.desc}">
 							<option value="${searchTypeRefDataStudy.code}">${searchTypeRefDataStudy.desc}</option>

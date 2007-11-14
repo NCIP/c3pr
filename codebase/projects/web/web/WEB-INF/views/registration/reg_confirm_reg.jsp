@@ -63,16 +63,16 @@ function accessApp(url,app,targetWindow){
 			and save this confirmation in the subject study records </strong></font></c:when>
 		<c:when test="${reg_pending}">
 			<font color='<fmt:message key="REGISTRATION.PENDING.COLOR"/>'><strong><fmt:message key="REGISTRATION.PENDING"/> </strong></font></c:when>
-		<c:when test="${reg_nonenrolled}">
-			<font color='<fmt:message key="REGISTRATION.NONENROLLED.COLOR"/>'><strong><fmt:message key="REGISTRATION.NONENROLLED"/></strong></font></c:when>			
 		<c:when test="${reg_disapproved}">
 			<font color='<fmt:message key="REGISTRATION.DISAPPROVED.COLOR"/>'><strong><fmt:message key="REGISTRATION.DISAPPROVED"/> </strong></font></c:when>
 		<c:when test="${reg_reserved}">
 			<font color='<fmt:message key="REGISTRATION.RESERVED.COLOR"/>'><strong><fmt:message key="REGISTRATION.RESERVED"/> </strong></font></c:when>
+		<c:when test="${reg_nonenrolled }">
+			<font color='<fmt:message key="REGISTRATION.NONENROLLED.COLOR"/>'><strong><fmt:message key="REGISTRATION.NONENROLLED"/></strong></font></c:when>			
 		<c:when test="${reg_unrandomized}">
 			<font color='<fmt:message key="REGISTRATION.UNRANDOMIZED.COLOR"/>'><strong><fmt:message key="REGISTRATION.UNRANDOMIZED"/></strong></font></c:when>			
-		<c:when test="${reg_unregistered}">
-			<font color='<fmt:message key="REGISTRATION.INCOMPLETE.COLOR"/>'><strong><fmt:message key="REGISTRATION.INCOMPLETE"/></strong></font></c:when>
+		<c:otherwise>
+			<font color='<fmt:message key="REGISTRATION.INCOMPLETE.COLOR"/>'><strong><fmt:message key="REGISTRATION.INCOMPLETE"/></strong></font></c:otherwise>
 		</c:choose>
 	</c:when>
 	<c:otherwise>
@@ -81,26 +81,19 @@ function accessApp(url,app,targetWindow){
 			<font color='<fmt:message key="TRANSFER.SUCCESS.COLOR"/>'><strong><fmt:message key="TRANSFER.SUCCESS"/></strong></font></c:when>
 		<c:when test="${epoch_pending}">
 			<font color='<fmt:message key="TRANSFER.PENDING.COLOR"/>'><strong><fmt:message key="TRANSFER.PENDING"/></strong></font></c:when>
-		<c:when test="${epoch_nonenrolled}">
-			<font color='<fmt:message key="TRANSFER.NONENROLLED.COLOR"/>'><strong><fmt:message key="TRANSFER.NONENROLLED"/></strong></font></c:when>
 		<c:when test="${epoch_disapproved}">
 			<font color='<fmt:message key="TRANSFER.DISAPPROVED.COLOR"/>'><strong><fmt:message key="TRANSFER.DISAPPROVED"/></strong></font></c:when>
-		<c:when test="${epoch_unapproved && epoch_unrandomiized}">
+		<c:when test="${epoch_nonenrolled}">
+			<font color='<fmt:message key="TRANSFER.NONENROLLED.COLOR"/>'><strong><fmt:message key="TRANSFER.NONENROLLED"/></strong></font></c:when>
+		<c:when test="${epoch_unrandomiized}">
 			<font color='<fmt:message key="TRANSFER.UNRANDOMIZED.COLOR"/>'><strong><fmt:message key="TRANSFER.UNRANDOMIZED"/></strong></font></c:when>
-		<c:when test="${epoch_unapproved}">
-			<font color='<fmt:message key="TRANSFER.INCOMPLETE.COLOR"/>'><strong><fmt:message key="TRANSFER.INCOMPLETE"/></strong></font></c:when>
+		<c:otherwise>
+			<font color='<fmt:message key="TRANSFER.INCOMPLETE.COLOR"/>'><strong><fmt:message key="TRANSFER.INCOMPLETE"/></strong></font></c:otherwise>
 		</c:choose>
 	</c:otherwise>
 	</c:choose>
-	<br>
-	<table width="100%">
-		<tr>
-			<td width="20%"><img
-				src="<tags:imageUrl name="spacer.gif"/>" width="1" height="1"
-				class="heightControl"></td>
-			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-				height="1" class="heightControl"></td>
-		</tr>
+	<br><br>
+	<table width="100%" class="tablecontent">
 		<tr>
 			<td class="label">Subject MRN:</td>
 			<td>${command.participant.primaryIdentifier}</td>
@@ -141,21 +134,14 @@ function accessApp(url,app,targetWindow){
 		</tr>
 		<tr>
 			<td class="label">Registration Date:</td>
-			<td><fmt:formatDate type="date" value="${command.startDate }"/></td>
+			<td>${command.startDate }</td>
 		</tr>
 		<tr>
 			<td class="label">Treating Physician:</td>
 			<td>${command.treatingPhysicianFullName}</td>
 		</tr>
-		<tr>
-			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-				height="1" class="heightControl"></td>
-			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
-				height="1" class="heightControl"></td>
-		</tr>
 	</table>
 	<br>
-	<hr align="left" width="95%">
 	<table width="60%">
 		<tr>
 			<td class="label" align="left"><a
