@@ -2,9 +2,12 @@
 
 <project name="grid" default="all" basedir=".">
 
-   <property environment="env"/>
+    <property environment="env"/>
     <property name="projects.dir" value="${basedir}"/>
     <property name="antfiles.dir" value="${basedir}/antfiles"/>
+
+    <property name="share.dir" value="${basedir}/../../share"/>
+
     <property name="lib.dir" value="${basedir}/lib"/>
 
     <property name="ext.dir" value="${basedir}/ext"/>
@@ -19,8 +22,8 @@
     <property name="build.dir" value="${basedir}/build"/>
     <property name="zip.filename" value="${project.name}.zip"/>
 
-     <import file="${antfiles.dir}/build-test.xml" />
-     <import file="${antfiles.dir}/artifacts.xml" />
+    <import file="${antfiles.dir}/build-test.xml" />
+    <import file="${antfiles.dir}/artifacts.xml" />
 
 
     <!-- projects-->
@@ -74,10 +77,9 @@
                  loaderref="artifact"  classpathref="compile.cp">
         </taskdef>
 
-
     </target>
 
-     <target name="build-StudyConsumer" depends="prepare">
+    <target name="build-StudyConsumer" depends="prepare">
         <ant dir="${projects.dir}/StudyConsumer" inheritall="false"
              antfile="build.xml" target="all"/>
     </target>
@@ -114,7 +116,20 @@
         </for>
     </target>
 
-    <target name="all" depends="prepare" description="Default target to build all sub projects within JBI">
+    <target name="prepareIntroduceService" depends="prepare"
+            description="Copy required caGrid jars">
+        <for list="${projects.list}" parallel="false" param="project.name" trim="true">
+            <sequential>
+                <resolveDependencies extdir="${projects.dir}/@{project.name}/ext">
+                    <artifact refid="cagrid-introduce.jars"/>
+                </resolveDependencies>
+            </sequential>
+        </for>
+    </target>
+
+
+    <!--default target to support main build-->
+    <target name="all" depends="prepareIntroduceService" description="Default target to build all sub projects within JBI">
         <for list="${projects.list}" parallel="false" param="project.name" trim="true">
             <sequential>
                 <echo message="Building sub-project @{project.name}."/>
@@ -137,7 +152,7 @@
          grid service. Skeleton service is implemented by individual
          ctmsi applications.
     -->
-    <target name="deploySkeletonRegistrationGridService" depends="prepare"
+    <target name="deploySkeletonRegistrationGridService" depends="prepareIntroduceService"
             description="Deploys the Registration Consumer Grid service Skeleton">
 
         <!--override tomcat env variable to write out to temp location-->
@@ -155,7 +170,7 @@
     <target name="deployTomcat-RegistrationConsumer" depends="deploySkeletonRegistrationGridService"
             description="Deploys the c3pr Registration consumer grid service Implementation">
 
-        <ant dir="${projects.dir}/RegistrationConsumerImpl" antfile="build.xml" 
+        <ant dir="${projects.dir}/RegistrationConsumerImpl" antfile="build.xml"
              inheritall="false" target="deployTomcat"/>
         <!--copy the ext folder-->
         <copy todir="${tomcat.wsrf.home}/WEB-INF/lib" overwrite="true">
@@ -172,23 +187,23 @@
            grid service. Skeleton service is implemented by individual
            ctmsi applications.
       -->
-      <target name="deploySkeletonStudyGridService" depends="prepare"
-              description="Deploys the Study Consumer Grid service Skeleton">
+    <target name="deploySkeletonStudyGridService" depends="prepareIntroduceService"
+            description="Deploys the Study Consumer Grid service Skeleton">
 
-          <!--override tomcat env variable to write out to temp location-->
-          <ant dir="${projects.dir}/StudyConsumer" antfile="build.xml"
-               inheritall="false" target="deployTomcat"/>
+        <!--override tomcat env variable to write out to temp location-->
+        <ant dir="${projects.dir}/StudyConsumer" antfile="build.xml"
+             inheritall="false" target="deployTomcat"/>
 
-          <echo message="======================================"/>
-          <echo message="======Skeleton grid service deployed to ${tomcat.home}" />
-          <echo message="======================================"/>
-      </target>
+        <echo message="======================================"/>
+        <echo message="======Skeleton grid service deployed to ${tomcat.home}" />
+        <echo message="======================================"/>
+    </target>
 
 
-      <!--will deploy the C3PRStudyConsumer grid service
-        for c3prv2 application
-     -->
-    <target name="deployTomcat-C3PRStudyConsumer" depends="prepare"
+    <!--will deploy the C3PRStudyConsumer grid service
+       for c3prv2 application
+    -->
+    <target name="deployTomcat-C3PRStudyConsumer" depends="all"
             description="Deploys the c3pr Study Consumer grid service Implementation">
 
         <ant dir="${projects.dir}/C3PRStudyConsumer" antfile="build.xml" inheritall="false" target="deployTomcat"/>
