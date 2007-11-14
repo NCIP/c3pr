@@ -2,7 +2,10 @@ package edu.duke.cabig.c3pr.service;
 
 import java.util.List;
 
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.exception.C3PRBaseException;
+import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 
 /**
  * @author Kulasekaran,Ramakrishna
@@ -17,6 +20,8 @@ public interface ParticipantService {
 		 * @throws Runtime exception 
 		 */
 	  public List <Participant> search (Participant participant) throws Exception;
+	  
+	  public List<Participant> searchByMRN(OrganizationAssignedIdentifier identifier)throws C3PRCodedException;
 	  
 }
 
