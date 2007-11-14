@@ -177,8 +177,7 @@
     <!-- Compiles the source code                                        -->
     <!-- =============================================================== -->
     <target name="compile" depends="prepare, resources" description="compiles">
-        <javac srcdir="${src.java.dir}" destdir="${classes.dir}" debug="${debug}" target="1.5" deprecation="off"
-               optimize="off" failonerror="true">
+        <javac srcdir="${src.java.dir}" destdir="${classes.dir}" debug="${debug}" source="1.5" target="1.5"> 
             <classpath refid="build.classpath"/>
         </javac>
     </target>
