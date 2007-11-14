@@ -18,6 +18,8 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.emory.mathcs.backport.java.util.Collections;
 import edu.nwu.bioinformatics.commons.CollectionUtils;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
@@ -32,6 +34,16 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements 
 	private List<String> EXACT_MATCH_PROPERTIES = Collections.emptyList();
 
 	private static Log log = LogFactory.getLog(ParticipantDao.class);
+	
+	private HealthcareSiteDao healthcareSiteDao;
+
+	public HealthcareSiteDao getHealthcareSiteDao() {
+		return healthcareSiteDao;
+	}
+
+	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
+		this.healthcareSiteDao = healthcareSiteDao;
+	}
 
 	public Class<Participant> domainClass() {
 		return Participant.class;
@@ -72,6 +84,11 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements 
 		return participantCriteria.add(example).list();
 
 	}
+    @SuppressWarnings("unchecked")
+    public List<Participant> searchByOrgIdentifier(OrganizationAssignedIdentifier id) {
+    	return (List<Participant>) getHibernateTemplate().find("select P from Participant P, Identifier I where I.healthcareSite.id=?" +
+    			" and I.value=? and I.type=? and I=any elements(P.identifiers)",new Object[]{id.getHealthcareSite().getId(),id.getValue(),id.getType()});
+    }
 
 	/**
 	 * Default Search without a Wildchar
@@ -162,4 +179,5 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements 
 	public void save(Participant obj) {
 		getHibernateTemplate().saveOrUpdate(obj);
 	}
+	
 }

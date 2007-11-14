@@ -4,9 +4,12 @@ import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import edu.duke.cabig.c3pr.exception.C3PRBaseException;
+import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.emory.mathcs.backport.java.util.Collections;
 import edu.nwu.bioinformatics.commons.CollectionUtils;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
@@ -37,8 +40,13 @@ public class StudyDao extends GridIdentifiableDao<Study>
     private static final List<String> EXACT_MATCH_PROPERTIES
             = Collections.emptyList();
     private static Log log = LogFactory.getLog(StudyDao.class);
+    private HealthcareSiteDao healthcareSiteDao;
 
-    @Override
+    public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
+		this.healthcareSiteDao = healthcareSiteDao;
+	}
+
+	@Override
     public Class<Study> domainClass() {
         return Study.class;
     }
@@ -65,7 +73,12 @@ public class StudyDao extends GridIdentifiableDao<Study>
         }
         return (Study) CollectionUtils.firstElement(criteria.list());
     }
-
+    
+    @SuppressWarnings("unchecked")
+    public List<Study> searchByOrgIdentifier(OrganizationAssignedIdentifier id) {
+    	return (List<Study>) getHibernateTemplate().find("select S from Study S, Identifier I where I.healthcareSite.id=?" +
+    			" and I.value=? and I.type=? and I=any elements(S.identifiers)",new Object[]{id.getHealthcareSite().getId(),id.getValue(),id.getType()});
+    }
     @Transactional (readOnly = false)
     public Study merge(Study study) {
         return (Study)getHibernateTemplate().merge(study);
