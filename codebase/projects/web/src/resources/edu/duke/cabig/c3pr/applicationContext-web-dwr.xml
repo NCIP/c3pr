@@ -36,5 +36,7 @@
 		
     <bean id="studyXMLFileAjaxFacade" autowire="byType"
             class="edu.duke.cabig.c3pr.web.ajax.StudyXMLFileImportAjaxFacade" />
+    <bean id="studySubjectXMLFileAjaxFacade" autowire="byType"
+            class="edu.duke.cabig.c3pr.web.ajax.StudySubjectXMLFileImportAjaxFacade" />
 
 </beans>

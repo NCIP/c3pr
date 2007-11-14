@@ -283,12 +283,21 @@
            id="studyXMLFileUploadController"
            class="edu.duke.cabig.c3pr.web.admin.StudyXMLFileUploadController"
            autowire="byName">
-        <property name="commandClass" value="edu.duke.cabig.c3pr.web.beans.StudyXMLFileBean"/>
+        <property name="commandClass" value="edu.duke.cabig.c3pr.web.beans.FileBean"/>
         <property name="formView" value="admin/upload_study" />
         <property name="successView" value="admin/upload_study" />
         <property name="validator">
             <bean class="edu.duke.cabig.c3pr.utils.web.validators.StudyXMLFileValidator" autowire="byName"/>
         </property>
+    </bean>
+
+    <bean  name="/admin/importRegistration"
+           id="studySubjectXMLFileUploadController"
+           class="edu.duke.cabig.c3pr.web.admin.StudySubjectXMLFileUploadController"
+           autowire="byName">
+        <property name="commandClass" value="edu.duke.cabig.c3pr.web.beans.FileBean"/>
+        <property name="formView" value="admin/upload_registrations" />
+        <property name="successView" value="admin/upload_registrations" />
     </bean>
 
 
@@ -375,6 +384,10 @@
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
                                     autowire="byType" p:displayName="Import Study"
                                     p:linkName="studyXMLFileUploadController" />
+                            <bean
+                                    class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
+                                    autowire="byType" p:displayName="Import Registration"
+                                    p:linkName="studySubjectXMLFileUploadController" />
                         </list>
                     </property>
                 </bean>

@@ -50,6 +50,10 @@
             <param name="beanName" value="studyXMLFileAjaxFacade"/>
         </create>
 
+		<create creator="spring" javascript="StudySubjectXMLFileImportAjaxFacade">
+            <param name="beanName" value="studySubjectXMLFileAjaxFacade"/>
+        </create>
+        
         <create creator="new" javascript="date">
             <param name="class" value="java.util.Date"/>
         </create>
