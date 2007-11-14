@@ -9,12 +9,12 @@ import java.io.*;
  * Time: 10:48:34 AM
  * To change this template use File | Settings | File Templates.
  */
-public class StudyXMLFileBean {
+public class FileBean {
 
 
     private byte[] file;
 
-    public StudyXMLFileBean() {
+    public FileBean() {
     }
 
     public void setFile(byte[] file) {

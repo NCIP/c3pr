@@ -1,7 +1,7 @@
 package edu.duke.cabig.c3pr.utils.web.validators;
 
 import edu.duke.cabig.c3pr.exception.XMLValidationException;
-import edu.duke.cabig.c3pr.web.beans.StudyXMLFileBean;
+import edu.duke.cabig.c3pr.web.beans.FileBean;
 import edu.duke.cabig.c3pr.xml.XMLParser;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -20,11 +20,11 @@ public class StudyXMLFileValidator implements Validator {
     public XMLParser xmlParser;
 
     public boolean supports(Class aClass) {
-        return aClass.isAssignableFrom(StudyXMLFileBean.class);
+        return aClass.isAssignableFrom(FileBean.class);
     }
 
     public void validate(Object object, Errors errors) {
-        StudyXMLFileBean xmlBean = (StudyXMLFileBean) object;
+        FileBean xmlBean = (FileBean) object;
         try {
             xmlParser.validate(xmlBean.getFile());
         } catch (XMLValidationException e) {

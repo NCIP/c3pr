@@ -1,7 +1,7 @@
 package edu.duke.cabig.c3pr.web.ajax;
 
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.web.beans.StudyXMLFileBean;
+import edu.duke.cabig.c3pr.web.beans.FileBean;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.extremecomponents.table.context.Context;
@@ -30,7 +30,7 @@ public class StudyXMLFileImportAjaxFacade extends BaseStudyAjaxFacade {
     public String getTable(Map parameterMap, HttpServletRequest request)
             throws Exception {
 
-        StudyXMLFileBean studyXMLFile = (StudyXMLFileBean) getCommandOnly(request);
+        FileBean studyXMLFile = (FileBean) getCommandOnly(request);
         Context context = null;
         if (parameterMap == null) {
             context = new HttpServletRequestContext(request);
