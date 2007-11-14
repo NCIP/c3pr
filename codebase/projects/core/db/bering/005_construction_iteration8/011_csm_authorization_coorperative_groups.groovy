@@ -1,6 +1,11 @@
 class LoadingCooperativeGroups extends edu.northwestern.bioinformatics.bering.Migration {
 
     void up() {
+    
+    if (databaseMatches('oracle')) {
+            execute("DROP SEQUENCE CSM_PG_PE_PG_PE_ID_SEQ");
+            execute("CREATE SEQUENCE CSM_PG_PE_PG_PE_ID_SEQ start with 12 increment by 1 NOMAXVALUE minvalue 1 nocycle nocache noorder");
+         }
 
     	m0()
         m1()
@@ -20,7 +25,7 @@ class LoadingCooperativeGroups extends edu.northwestern.bioinformatics.bering.Mi
         insert('csm_group',[GROUP_ID: -1016,GROUP_NAME:"edu.duke.cabig.c3pr.domain.HealthcareSite.ACOSOG",GROUP_DESC: "American College of Surgeons Oncology Trials Group",application_id: 1], primaryKey: false);
         insert('csm_protection_element',[protection_element_id: -1016,protection_element_name:"edu.duke.cabig.c3pr.domain.HealthcareSite.ACOSOG", object_id: "edu.duke.cabig.c3pr.domain.HealthcareSite.ACOSOG",application_id: 1], primaryKey: false);
         insert('CSM_PROTECTION_GROUP',[PROTECTION_GROUP_ID: -1016,PROTECTION_GROUP_NAME:"edu.duke.cabig.c3pr.domain.HealthcareSite.ACOSOG", PARENT_PROTECTION_GROUP_ID:6, application_id: 1, LARGE_ELEMENT_COUNT_FLAG:0], primaryKey: false);
-        insert('csm_pg_pe',[pg_pe_id: -1016,protection_group_id: -1016, protection_element_id: -1016], primaryKey: false);
+        insert('csm_pg_pe',[protection_group_id: -1016, protection_element_id: -1016], primaryKey: false);
         //organization group has ACCESS to organization
         insert('csm_user_group_role_pg',[USER_GROUP_ROLE_PG_ID: -1016,GROUP_ID: -1016, PROTECTION_GROUP_ID: -1016, ROLE_ID: 19], primaryKey: false);
       	 }
