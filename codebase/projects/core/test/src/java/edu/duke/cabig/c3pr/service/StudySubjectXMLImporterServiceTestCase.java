@@ -136,6 +136,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase{
 	 * Multi Site Trial
 	 * Treatment Epoch
 	 * Phone call Randomization
+	 * No Arm assigned
 	 */
 	public void testImportRegistrationCase1()throws Exception{
 		StudySubject studySubject=new StudySubject();
@@ -159,7 +160,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase{
 			studySubjectXMLImporterService.importStudySubject(xml);
 		}catch (C3PRCodedException e) {
 			e.printStackTrace();
-			assertEquals("Exception Code unmatched", getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.NOTFOUND.ARM_NAME.CODE"), e.getExceptionCode());
+			assertEquals("Exception Code unmatched", getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.NOTFOUND.ARM.CODE"), e.getExceptionCode());
 			return;
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -187,6 +188,8 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase{
 		studySubject.setStudySite(getMultiSiteNonRandomizedStudy(false, false, false).getStudySites().get(0));
 		participant=participantDao.getById(prtId);
 		studySubject.setParticipant(participant);
+		addEnrollmentDetails(studySubject);
+		addScheduledEpoch(studySubject, false);
 		String xml=xmlUtility.toXML(studySubject);
         Integer savedId;
         {
@@ -274,6 +277,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase{
     /* Test Cases for import registration
 	 * Local Trial
 	 * Non Randomized Treatment Epoch
+	 * Wrong Arm Name
 	 */
 	public void testImportRegistrationCase4()throws Exception{
 		StudySubject studySubject=new StudySubject();
@@ -288,6 +292,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase{
         addScheduledEpoch(studySubject,true);
         buildCommandObject(studySubject);
         addEnrollmentDetails(studySubject);
+        assignInvalidArm(studySubject);
         bindEligibility(studySubject);
         bindStratification(studySubject);
 		participant=participantDao.getById(prtId);
@@ -461,7 +466,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase{
 	 * Book Randomization
 	 * Study Site is Co Ordinating Center
 	 */
-	public void testImportRegistrationCase13()throws Exception{
+	public void testImportRegistrationCase8()throws Exception{
 		StudySubject studySubject=new StudySubject();
 		Participant participant=addMRNIdentifier(addMRNIdentifier(participantDao.getById(1000)));
 		Integer prtId=null;
@@ -598,6 +603,14 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase{
 		scheduledArm.setArm(((TreatmentEpoch)scheduledEpoch.getTreatmentEpoch()).getArms().get(0));
 	}
 
+	private void assignInvalidArm(StudySubject studySubject){
+		ScheduledTreatmentEpoch scheduledEpoch=((ScheduledTreatmentEpoch)studySubject.getScheduledEpoch());
+		scheduledEpoch.addScheduledArm(new ScheduledArm());
+		ScheduledArm scheduledArm=scheduledEpoch.getScheduledArm();
+		scheduledArm.setArm(new Arm());
+		scheduledArm.getArm().setName("Invalid Name");
+	}
+	
 	private boolean evaluateEligibilityIndicator(StudySubject studySubject){
 		boolean flag=true;
 		List<SubjectEligibilityAnswer> answers=((ScheduledTreatmentEpoch)studySubject.getScheduledEpoch()).getInclusionEligibilityAnswers();
