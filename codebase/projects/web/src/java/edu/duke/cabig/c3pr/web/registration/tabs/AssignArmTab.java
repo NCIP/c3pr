@@ -19,6 +19,6 @@ import edu.duke.cabig.c3pr.domain.StudySubject;
 public class AssignArmTab extends RegistrationTab<StudySubject>{
 
 	public AssignArmTab() {
-		super("Assign Arm", "Assign Arm","registration/reg_assignArm");
+		super("Select Arm", "Select Arm","registration/reg_assignArm");
 	}
 }

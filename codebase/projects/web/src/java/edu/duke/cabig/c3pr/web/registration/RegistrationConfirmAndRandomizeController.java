@@ -118,12 +118,12 @@ public class RegistrationConfirmAndRandomizeController extends SimpleFormControl
 		boolean reg_pending=false;
 		boolean reg_reserved=false;
 		boolean reg_disapproved=false;
-		boolean reg_nonenrolled=true;
+		boolean reg_nonenrolled=false;
 		boolean reg_unrandomized=false;
 		boolean epoch_unapproved=false;
 		boolean epoch_pending=false;
 		boolean epoch_approved=false;
-		boolean epoch_nonenrolled=true;
+		boolean epoch_nonenrolled=false;
 		boolean epoch_unrandomized=false;
 		boolean epoch_disapproved=false;
 		boolean newRegistration=true;
@@ -146,12 +146,16 @@ public class RegistrationConfirmAndRandomizeController extends SimpleFormControl
 		}
 		if(studySubject.getScheduledEpoch().getEpoch().isEnrolling()){
 			count--;
-			reg_nonenrolled=false;
-			epoch_nonenrolled=false;
+		}else if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus()==ScheduledEpochWorkFlowStatus.APPROVED){
+			reg_nonenrolled=true;
+			epoch_nonenrolled=true;
 		}
 		if(count>0)
 			newRegistration=false;
-		if(studySubject.getScheduledEpoch().getRequiresRandomization()){
+		if(studySubject.getRegDataEntryStatus()==RegistrationDataEntryStatus.COMPLETE&&
+				studySubject.getScheduledEpoch().getScEpochDataEntryStatus()==ScheduledEpochDataEntryStatus.COMPLETE&&
+				studySubject.getScheduledEpoch().getRequiresRandomization()&&
+				studySubject.getScheduledEpoch().getScEpochWorkflowStatus()==ScheduledEpochWorkFlowStatus.UNAPPROVED){
 			reg_unrandomized=true;
 			epoch_unrandomized=true;
 		}
