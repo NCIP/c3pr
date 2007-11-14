@@ -24,6 +24,7 @@ import edu.duke.cabig.c3pr.utils.DaoTestCase;
 @C3PRUseCases({CREATE_PARTICIPANT,UPDATE_SUBJECT,VERIFY_SUBJECT,SEARCH_SUBJECT})
 public class ParticipantDaoTest extends DaoTestCase {
     private ParticipantDao dao = (ParticipantDao) getApplicationContext().getBean("participantDao");
+    private HealthcareSiteDao healthcareSiteDao=(HealthcareSiteDao) getApplicationContext().getBean("healthcareSiteDao");
     /**
 	 * Test for loading a Participant by Id 
 	 * @throws Exception
@@ -170,6 +171,41 @@ public class ParticipantDaoTest extends DaoTestCase {
     	Participant savedParticipant = dao.getById(participant.getId());
     	assertEquals("Identifier Value",savedParticipant.getOrganizationAssignedIdentifiers().get(0).getValue());
     	assertEquals("Local HealthcareSite Name",savedParticipant.getOrganizationAssignedIdentifiers().get(0).getHealthcareSite().getName());
+    }
+    
+    /**
+     * Test for Retrieving Participant with organization assigned identifier
+     * @throws Exception
+     */
+    
+    public void testSearchParticipantWithOrganizationAssignedIdentifier() throws Exception{
+    	Participant participant = new Participant();
+    	participant.setLastName("Barry");
+    	participant.setFirstName("Bonds");
+    	participant.setAdministrativeGenderCode("Male");
+    	Date birthDate = new Date();
+    	participant.setBirthDate(birthDate);
+    	OrganizationAssignedIdentifier systemIdentifier = new OrganizationAssignedIdentifier();
+    	systemIdentifier.setHealthcareSite(healthcareSiteDao.getById(1001));
+    	systemIdentifier.setValue("Identifier Value");
+    	systemIdentifier.setType("MRN");
+    	participant.addIdentifier(systemIdentifier);
+    	
+    
+    	dao.save(participant);
+    	
+    	interruptSession();
+    	
+    	Participant savedParticipant = dao.getById(participant.getId());
+    	assertEquals("Identifier Value",savedParticipant.getOrganizationAssignedIdentifiers().get(0).getValue());
+    	
+    	interruptSession();
+    	OrganizationAssignedIdentifier organizationAssignedIdentifier = new OrganizationAssignedIdentifier();
+    	organizationAssignedIdentifier.setHealthcareSite(healthcareSiteDao.getById(1001));
+    	organizationAssignedIdentifier.setValue("Identifier Value");
+    	organizationAssignedIdentifier.setType("MRN");
+    	List<Participant> pList=dao.searchByOrgIdentifier(organizationAssignedIdentifier);
+    	assertEquals("wrong size of list",1,pList.size());
     }
 
 }
