@@ -69,6 +69,12 @@
             </fileset>
         </artifact>
 
+        <artifact track="main" type="jars" id="cagrid-introduce.jars">
+            <fileset dir="${share.dir}/cagrid/introduce/lib">
+                <include name="*.jar"/>
+            </fileset>
+        </artifact>
+
         <artifact track="main" type="jars" id="ant-contrib.jars">
             <fileset dir="${share.dir}/ant-contrib">
                 <include name="*.jar"/>
@@ -101,6 +107,12 @@
 
         <artifact track="main" type="jars" id="log4j.jars">
             <fileset dir="${share.dir}/log4j-1.2.13">
+                <include name="*.jar"/>
+            </fileset>
+        </artifact>
+
+         <artifact track="main" type="jars" id="caXchange.jars">
+            <fileset dir="${share.dir}/caXchange">
                 <include name="*.jar"/>
             </fileset>
         </artifact>

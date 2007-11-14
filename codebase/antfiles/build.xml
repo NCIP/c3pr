@@ -150,13 +150,16 @@
     <!-- =============================================================== -->
     <!-- c3pr ESB client service                                         -->
     <!-- =============================================================== -->
-    <target name="build-esb-client" depends="prepare" description="Builds the esb-client">
+    <target name="build-esb-client" depends="prepare,checkGlobus" description="Builds the esb-client">
         <resolveDependencies extdir="${projects.dir}/esb-client/ext">
             <artifact refid="activemq.jars"/>
             <artifact refid="commons-logging.jars"/>
             <artifact refid="jdom.jars"/>
             <artifact refid="log4j.jars"/>
             <artifact refid="jboss-j2ee.jars"/>
+            <artifact refid="globus.jars"/>
+            <artifact refid="cagrid-introduce.jars"/>
+            <artifact refid="caXchange.jars"/>
         </resolveDependencies>
         <ant dir="${projects.dir}/esb-client" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
