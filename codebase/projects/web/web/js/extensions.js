@@ -37,6 +37,38 @@ Ajax.InPlaceEditor.prototype = Object.extend(Ajax.InPlaceEditor.prototype, {
     },
 });
 
+//InPlaceCollectionEditor extension that adds a cancel button .
+Ajax.InPlaceCollectionEditor.prototype.__createForm = Ajax.InPlaceCollectionEditor.prototype.createForm;
+Ajax.InPlaceCollectionEditor.prototype = Object.extend(Ajax.InPlaceCollectionEditor.prototype, {
+    createForm: function(){
+		this.__createForm();
+		if (this.options.cancelButton) {
+          cancelButton = document.createElement("input");
+	      cancelButton.type = "button";
+   	      cancelButton.onclick = this.onclickCancel.bind(this);
+	      cancelButton.value = this.options.cancelText;
+	      cancelButton.className = 'editor_ok_button';
+	      this.form.appendChild(cancelButton);
+        }
+    },
+});
+
+//InPlaceEditor extension that adds a cancel button .
+Ajax.InPlaceEditor.prototype.__createForm = Ajax.InPlaceEditor.prototype.createForm;
+Ajax.InPlaceEditor.prototype = Object.extend(Ajax.InPlaceEditor.prototype, {
+    createForm: function(){
+		this.__createForm();
+		if (this.options.cancelButton) {
+          cancelButton = document.createElement("input");
+	      cancelButton.type = "button";
+   	      cancelButton.onclick = this.onclickCancel.bind(this);
+	      cancelButton.value = this.options.cancelText;
+	      cancelButton.className = 'editor_ok_button';
+	      this.form.appendChild(cancelButton);
+        }
+    },
+});
+
 Autocompleter.Base.prototype.__onBlur = Autocompleter.Base.prototype.onBlur;
 Autocompleter.Base.prototype = Object.extend(Autocompleter.Base.prototype, {
 	onBlur: function(){
