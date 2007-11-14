@@ -14,8 +14,12 @@ public class JmsService implements MessageListener{
 	public Vector messages=new Vector();
     private MessageConsumer consumer = null;
     private MessageProducer producer = null;
+    private ESBMessageConsumer messageConsumer;
 
-    public void sendJms(String xml) throws BroadcastException{
+    public void setMessageConsumer(ESBMessageConsumer messageConsumer) {
+		this.messageConsumer = messageConsumer;
+	}
+	public void sendJms(String xml) throws BroadcastException{
         /*
          * Create sender and text message.
          */
@@ -51,6 +55,11 @@ public class JmsService implements MessageListener{
 	        try {
 				System.out.println(message.getText());
 				messages.add(message.getText());
+				if(this.messageConsumer!=null){
+					this.messageConsumer.processMessage(message.getText());
+				}else{
+					System.out.println("No Message Consumer Provided...");
+				}
 			} catch (JMSException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -61,6 +70,8 @@ public class JmsService implements MessageListener{
 	}
 	
 	public void initialize() throws BroadcastException{
+		if(this.session!=null)
+			return;
         System.out.println("initializing esb jms client....");
 		if(connectionFactory==null){
 			throw new BroadcastException("JMS Connection Factory not provided..");
