@@ -1,7 +1,5 @@
 package edu.duke.cabig.c3pr.domain;
 
-import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,6 +10,8 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+
+import edu.duke.cabig.c3pr.utils.StringUtils;
 
 /**
  * Base Class for Person
@@ -114,6 +114,11 @@ public abstract class Person extends AbstractMutableDeletableDomainObject
 
 	public void setMiddleName(String middleName) {
 		this.middleName = middleName;
+	}
+	
+	@Transient
+	public String getFullName(){
+		return this.getLastName()+ " "+this.getLastName()+", "+StringUtils.getBlankIfNull(this.getMiddleName());
 	}
 
 	@Override
