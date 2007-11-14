@@ -23,6 +23,7 @@ import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.Arm;
+import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
@@ -34,6 +35,7 @@ import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledNonTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
+import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
@@ -107,11 +109,11 @@ public class StudySubjectXMLImporterServiceImpl implements StudySubjectXMLImport
                     try {
                         StudySubject studySubject = importStudySubject(sr.getWriter().toString());
                         //once saved retreive persisted study
-                        studySubjectList.add(studySubjectDao.getByGridId(studySubject.getGridId()));
+                        studySubjectList.add(studySubject);
                     } catch(AccessDeniedException e){
                     	throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.ACCESSDENIED"),e);
                     } catch (Exception e) {
-                        //ignore any other problem and continue to import
+                        e.printStackTrace();
                         log.debug(e.getMessage());
                     }
                 }
@@ -131,7 +133,7 @@ public class StudySubjectXMLImporterServiceImpl implements StudySubjectXMLImport
 			throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.ERROR_MARSHALLING"),e);
 		}
         this.validate(studySubject);
-        log.debug("Saving study with grid ID" + studySubject.getGridId());
+        log.debug("Saving study subject with grid ID" + studySubject.getGridId());
         return importStudySubject(studySubject);
     }
 
@@ -149,6 +151,8 @@ public class StudySubjectXMLImporterServiceImpl implements StudySubjectXMLImport
 			studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.RESERVED);
 		}else if(studySubject.getScheduledEpoch().getEpoch().isEnrolling()){
 			studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED);
+		}else{
+			studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.UNREGISTERED);
 		}
 		studySubjectDao.save(studySubject);
         log.debug("Study saved with grid ID" + studySubject.getGridId());
@@ -275,12 +279,20 @@ public class StudySubjectXMLImporterServiceImpl implements StudySubjectXMLImport
             throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.MULTIPLE.STUDY_SAME_CO_IDENTIFIER.CODE")
                     ,new String[]{identifier.getHealthcareSite().getNciInstituteCode(),this.identifierTypeValueStr});
         }
+        if(studies.get(0).getCoordinatingCenterStudyStatus()!=CoordinatingCenterStudyStatus.ACTIVE){
+        	throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.STUDY_NOT_ACTIVE")
+                    ,new String[]{identifier.getHealthcareSite().getNciInstituteCode(),this.identifierTypeValueStr});
+        }
         return studies.get(0);
 	}
 
 	private StudySite buildStudySite(StudySite studySite, Study study) throws C3PRCodedException{
 		for (StudySite temp : study.getStudySites()) {
             if (temp.getHealthcareSite().getNciInstituteCode().equals(studySite.getHealthcareSite().getNciInstituteCode())) {
+            	if(temp.getSiteStudyStatus()!=SiteStudyStatus.ACTIVE){
+            		throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.STUDYSITE_NOT_ACTIVE")
+                            ,new String[]{temp.getHealthcareSite().getNciInstituteCode()});
+            	}
                 return temp;
             }
         }

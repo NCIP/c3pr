@@ -77,8 +77,8 @@ function submitLocalForm(formName, regId ,schEphId){
 					<td>${registration.participant.lastName}</td>
 					<td>${registration.participant.primaryIdentifier}</td>
 					<td>${registration.studySite.healthcareSite.name}</td>
-					<td>${registration.regWorkflowStatus}</td>
-					<td>${registration.informedConsentSignedDateStr}</td>
+					<td>${registration.regWorkflowStatus.code}</td>
+					<td>${registration.startDateStr}</td>
 					<td>${registration.treatingPhysicianFullName}</td>
 					</a>
 				</tr>
