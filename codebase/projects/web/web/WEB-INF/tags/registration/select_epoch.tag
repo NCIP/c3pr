@@ -18,7 +18,7 @@
 	epochType="";
 	function afterCheckEpochAccrual(){
 		$("epochElement").value = epochId;
-		var message = "Selected Epoch: " +epochName+ " (" +epochType+ ") ";
+		var message = "Selected epoch: " +epochName+ " (" +epochType+ ") ";
 		minimizeEpochBox();
 		displayEpochMessage(message, true);
 	}
@@ -26,7 +26,7 @@
 		epochId=id;
 		epochName=name;
 		epochType=type;
-		displayEpochMessage("Select An Epoch", false);
+		displayEpochMessage("Select an epoch", false);
 		<tags:tabMethod method="checkEpochAccrualCeiling" viewName="/registration/asynchronous/checkCeiling" divElement="'epochAccrualCeilingResponse'" javaScriptParam="'epochId='+id"  formName="'accrualForm'"/>
 	}
 	function minimizeEpochBox(){
@@ -40,7 +40,7 @@
 	}
 </script>
 
-<tags:minimizablePanelBox title="Select An Epoch" boxId="Epochbox">
+<tags:minimizablePanelBox title="Select an epoch" boxId="Epochbox">
 <div id="epochResults">
 <!--In order to ensure that the decorator is not applied to the dynamically (AJAX)inserted jsp
 	add the mapping to the excludes section of decorators.xml -->

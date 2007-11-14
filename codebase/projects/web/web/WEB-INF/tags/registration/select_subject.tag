@@ -15,10 +15,10 @@
 	function toggleAddressSection(){
 		var el = document.getElementById('addressSection');
 		if ( el.style.display != 'none' ) {
-			new Element.hide(el);
+			new Effect.BlindUp(el);
 		}
 		else {
-			new Effect.Grow(el);
+			new Effect.BlindDown(el);
 		}
   	}
   	
@@ -62,8 +62,8 @@
 		    var name=ret.substr(0,ret.indexOf("||"));
 		    var id=ret.substr(ret.indexOf("||")+2);
 			$('participant').value = id;	
-			document.getElementById("subject-message").innerHTML = "Selected Subject: " +name;
-			message="Selected Subject: " +name;
+			document.getElementById("subject-message").innerHTML = "Selected subject: " +name;
+			message="Selected subject: " +name;
 			minimizeSubjectBox(message);
 			var elMsg = document.getElementById('succesfulCreateDiv');
 			var elDetails = document.getElementById('createSubjectDetailsDiv');
@@ -95,7 +95,7 @@
 	  	
 	function postProcessSubjectSelection(id, name, identifier){
 		$("participant").value = id;
-		minimizeSubjectBox("Selected Subject: " +name+ " (" + identifier + ")");	
+		minimizeSubjectBox("Selected subject: " +name+ " (" + identifier + ")");	
 	}  	
 	
 	ValidationManager.submitPostProcess= function(formElement, flag){
@@ -122,7 +122,7 @@
 	}
 </script>
 
-<tags:minimizablePanelBox title="Select A Subject" boxId="SubjectBox">
+<tags:minimizablePanelBox title="Select a subject" boxId="SubjectBox">
 	<!-- subTabbedflow-->
 	<table width="100%" border="0" cellspacing="0" cellpadding="0"	class="subFlowTabs">
 		<tr>
@@ -206,134 +206,132 @@
 	<input type="hidden" name="async" id="async" value="async">
 	<div class="division " id="single-fields" >
     <div class="content">
-		<table width="80%" border="0" cellspacing="0" cellpadding="0" id="details">
+		<table width="60%" border="0" cellspacing="0" cellpadding="0" id="details">
 			<tr>
-				<td width="40%" valign="top">
-				<table width="100%" border="0" cellspacing="1" cellpadding="1"
-					id="table1">
-					<tr>
-						<td align="right"><span class="required-indicator"><b>First Name: &nbsp;</b></span></td>
-						<td align="left"><input id="firstName" name="firstName" type="text" value="" class="validate-notEmpty"/>
-						<span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
-					</tr>
-					<tr>
-						<td align="right"><span class="required-indicator"><b>Last Name:</b>&nbsp;</span></td>
-						<td align="left"><input id="lastName" name="lastName" type="text" value="" class="validate-notEmpty"/>
-						<span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
-					</tr>
-					<tr>
-						<td align="right"><b>Middle Name:</b>&nbsp;</td>
-						<td align="left"><input id="middleName" name="middleName" type="text" value=""/>&nbsp;&nbsp;&nbsp;</td>
-					</tr>
-					<tr>
-						<td align="right"><em></em> <b>Maiden Name:</b>&nbsp;</td>
-						<td align="left"><input id="maidenName" name="maidenName" type="text" value=""/>&nbsp;&nbsp;&nbsp;</td>
-					</tr>					
-				</table>
+				<td width="50%" valign="top">
+					<table width="100%" border="0" cellspacing="1" cellpadding="1"
+						id="table1">
+						<tr>
+							<td align="right"><span class="required-indicator"><b>First Name:</b>&nbsp;</span></td>
+							<td align="left"><input id="firstName" name="firstName" type="text" value="" class="validate-notEmpty"/>
+							<span class="red">&nbsp;&nbsp;&nbsp;</span></td>
+						</tr>
+						<tr>
+							<td align="right"><span class="required-indicator"><b>Last Name:</b>&nbsp;</span></td>
+							<td align="left"><input id="lastName" name="lastName" type="text" value="" class="validate-notEmpty"/>
+							<span class="red">&nbsp;&nbsp;&nbsp;</span></td>
+						</tr>
+						<tr>
+							<td align="right"><b>Middle Name:</b>&nbsp;</td>
+							<td align="left"><input id="middleName" name="middleName" type="text" value=""/>&nbsp;&nbsp;&nbsp;</td>
+						</tr>
+						<tr>
+							<td align="right"><b>Maiden Name:</b>&nbsp;</td>
+							<td align="left"><input id="maidenName" name="maidenName" type="text" value=""/>&nbsp;&nbsp;&nbsp;</td>
+						</tr>					
+					</table>
 				</td>
-				<td width="40%" valign="top">
-				<table width="100%" border="0" cellspacing="1" cellpadding="1" id="table1">
-										<tr>
-					<td align="right"><span class="required-indicator"><b>Gender:</b></span>
-						&nbsp;</td>
-						<td align="left">
-							<select id="administrativeGenderCode" name="administrativeGenderCode" class="validate-notEmpty">
-									<option value="">--Please Select--</option>
-								<c:forEach items="${administrativeGenderCode}" var="administrativeGenderCode" varStatus="loop">
-								<c:if test="${!empty administrativeGenderCode.desc}">
-									<option value="${administrativeGenderCode.code}">${administrativeGenderCode.desc}</option>
-								</c:if>									
-								</c:forEach>
-							</select>		
-						</td>
-					</tr>
-					<tr>
-						<td align="right"><span class="required-indicator"><b>Birth Date:</b></span>&nbsp;</td>
-						<td><input id="birthDate" name="birthDate" type="text" value="" class="validate-notEmpty"/>&nbsp;(mm/dd/yyyy)&nbsp;&nbsp;<span
-							class="red"><em></em></span></td>
-					</tr>
-					<tr>
-						<td align="right"><em></em><b>Ethnicity:</b> &nbsp;</td>
-						<td align="left">							
-							<select id="ethnicGroupCode" name="ethnicGroupCode">
-									<option value="">--Please Select--</option>
-								<c:forEach items="${ethnicGroupCode}" var="ethnicGroupCode" varStatus="loop">
-								<c:if test="${!empty ethnicGroupCode.desc}">
-									<option value="${ethnicGroupCode.code}">${ethnicGroupCode.desc}</option>
-								</c:if>									
-								</c:forEach>
-							</select>						
-						</td>
-					</tr>
-					<tr>
-						<td align="right"><em></em><b>Race(s):</b> &nbsp;</td>
-						<td align="left">
-							<select id="raceCode" name="raceCode">
-									<option value="">--Please Select--</option>
-								<c:forEach items="${raceCode}" var="raceCode" varStatus="loop">
-								<c:if test="${!empty raceCode.desc}">
-									<option value="${raceCode.code}">${raceCode.desc}</option>
-								</c:if>									
-								</c:forEach>
-							</select>		
-						</td>
-					</tr>
-				</table>
+				<td width="50%" valign="top">
+					<table width="100%" border="0" cellspacing="1" cellpadding="1" id="table1">
+						<tr>
+						<td align="right"><span class="required-indicator"><b>Gender:</b></span>&nbsp;</td>
+							<td align="left">
+								<select id="administrativeGenderCode" name="administrativeGenderCode" class="validate-notEmpty">
+										<option value="">Please select</option>
+									<c:forEach items="${administrativeGenderCode}" var="administrativeGenderCode" varStatus="loop">
+									<c:if test="${!empty administrativeGenderCode.desc}">
+										<option value="${administrativeGenderCode.code}">${administrativeGenderCode.desc}</option>
+									</c:if>									
+									</c:forEach>
+								</select>		
+							</td>
+						</tr>
+						<tr>
+							<td align="right"><span class="required-indicator"><b>Birth Date:</b></span>&nbsp;</td>
+							<td align="left"><input id="birthDate" name="birthDate" type="text" value="" class="validate-notEmpty"/>&nbsp;(mm/dd/yyyy)&nbsp;&nbsp;<span
+								class="red"></span></td>
+						</tr>
+						<tr>
+							<td align="right"><b>Ethnicity:</b>&nbsp;</td>
+							<td align="left">							
+								<select id="ethnicGroupCode" name="ethnicGroupCode">
+										<option value="">Please select</option>
+									<c:forEach items="${ethnicGroupCode}" var="ethnicGroupCode" varStatus="loop">
+									<c:if test="${!empty ethnicGroupCode.desc}">
+										<option value="${ethnicGroupCode.code}">${ethnicGroupCode.desc}</option>
+									</c:if>									
+									</c:forEach>
+								</select>						
+							</td>
+						</tr>
+						<tr>
+							<td align="right"><b>Race(s):</b>&nbsp;</td>
+							<td align="left">
+								<select id="raceCode" name="raceCode">
+										<option value="">Please select</option>
+									<c:forEach items="${raceCode}" var="raceCode" varStatus="loop">
+									<c:if test="${!empty raceCode.desc}">
+										<option value="${raceCode.code}">${raceCode.desc}</option>
+									</c:if>									
+									</c:forEach>
+								</select>		
+							</td>
+						</tr>
+					</table>
 				</td>
 			</tr>
 		</table>
 		
 		<!--start of adding identifiers-->		
-		<hr align="left" width="95%">
+		<br>
 		<tags:identifiers identifiersTypes="${identifiersTypeRefData}" displaySys="false" />
 		<!--end of adding identifiers-->
 		
-		<!--start of address section-->
-		<p id="instructions"><a href="#" onclick="toggleAddressSection()">Address & Contact Info</a></p>
+		<!--start of address section
+		<p id="instructions"><a href="#" onclick="toggleAddressSection()">Address & Contact Info</a></p>-->
+		<chrome:division title="<a href='#' onclick='toggleAddressSection()'>Address & Contact Info</a>">
 		<div id="addressSection" style="display:none;">
 		<div class="division " id="single-fields" >
-		<div class="content">
-		<table width="80%" border="0" cellspacing="1" cellpadding="1" id="table1">
+
+		<table width="75%" border="0" cellspacing="1" cellpadding="1" id="table1">
 			<tr>
-				<td width="150" align="right"><em></em> <b>Street Address:</b>&nbsp;</td>
-				<td width align="left"><input id="streetAddress" name="streetAddress" type="text" value="" size="58"/>&nbsp;&nbsp;&nbsp;</td>
-			</tr>
-			<tr>
-				<td width="150" align="right"><em></em> <b>City:</b>&nbsp;</td>
-				<td align="left"><input id="city" name="city" type="text" value=""/>&nbsp;&nbsp;&nbsp;</td>
-			</tr>
-			<tr>
-				<td width="150" align="right"><span class="data"><em></em> <b>State:</b>&nbsp;</span></td>
-				<td align="left"><input id="stateCode" name="stateCode" type="text" value=""/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<b>Zip:</b>&nbsp;<input id="postalCode" name="postalCode" type="text" value=""/></td>
-			</tr>
-			<tr>
-				<td width="150" align="right"><em></em><em></em> <b>Country:</b>&nbsp;</td>
-				<td align="left"><input id="countryCode" name="countryCode" type="text" value=""/>&nbsp;&nbsp;&nbsp;</td>
+				<td width="125" align="right"><b>Street Address:</b>&nbsp;</td>
+				<td align="left"><input id="streetAddress" name="streetAddress" type="text" value="" size="45"/>&nbsp;&nbsp;&nbsp;</td>
 			</tr>
 		</table>
-
-		<table border="0" width="60%" cellspacing="1" cellpadding="1">
+		<table width="58%" border="0" cellspacing="1" cellpadding="1" id="table1">	
 			<tr>
-				<td width="150" align="right"><em></em><em></em> <b>Email:</b>&nbsp;</td>
-				<td align="left"><input id="email" name="email" type="text" value=""/>&nbsp;&nbsp;&nbsp;</td>
+				<td width="125" align="right"><b>City:</b>&nbsp;</td>
+				<td align="left"><input id="city" name="city" type="text" value=""/>&nbsp;&nbsp;&nbsp;</td>
+				<td width="30" align="right"><span class="data"><b>State:</b>&nbsp;</span></td>
+				<td align="left"><input id="stateCode" name="stateCode" type="text" value=""/>
 			</tr>
 			<tr>
-				<td width="150" align="right"><em></em><em></em> <b>Phone:</b>&nbsp;</td>
+				<td width="125" align="right"><b>Country:</b>&nbsp;</td>
+				<td align="left"><input id="countryCode" name="countryCode" type="text" value=""/>&nbsp;&nbsp;&nbsp;</td>
+				<td width="30" align="right"><b>Zip:</b>&nbsp;</td>
+				<td><input id="postalCode" name="postalCode" type="text" value=""/></td>
+			</tr>
+			<tr>				
+				<td width="125" align="right"><b>Fax:</b>&nbsp;</td>
+				<td align="left"><input id="fax" name="fax" type="text" value=""/>&nbsp;&nbsp;&nbsp;</td>
+				<td width="30" align="right"><b>Phone:</b>&nbsp;</td>
 				<td align="left"><input id="phone" name="phone" type="text" value=""/>&nbsp;&nbsp;&nbsp;</td>
 			</tr>
 			<tr>
-				<td width="150" align="right"><em></em><em></em> <b>Fax:</b>&nbsp;</td>
-				<td align="left"><input id="fax" name="fax" type="text" value=""/>&nbsp;&nbsp;&nbsp;</td>
+				<td width="125" align="right"><b>Email:</b>&nbsp;</td>
+				<td align="left"><input id="email" name="email" type="text" value=""/>&nbsp;&nbsp;&nbsp;</td>
+				<td width="30" align="right"></td>
+				<td align="left"></td>
 			</tr>
 		</table>
 		</div>
-		</div>
 		</div> 
+		</chrome:division>
 		<!--end of div id="addressSection"-->
 		
-		<div align="center">
-		<input type="button" class="tab0" value="Save" onclick="document.createSubForm.submit();"/>
+		<div align="right">
+			<input type="button" class="tab0" value="Save" onclick="document.createSubForm.submit();"/>
 		</div>
     </div>
 	</div>	

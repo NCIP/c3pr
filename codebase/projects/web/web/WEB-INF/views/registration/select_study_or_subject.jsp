@@ -27,6 +27,7 @@
 </head>
 
 <body>
+<div id="main">
 <div id="Subject">
 	<registrationTags:select_subject />
 </div>
@@ -45,5 +46,6 @@
 	</div>	
 	<tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
 </form:form>
+</div>
 </body>
 </html>

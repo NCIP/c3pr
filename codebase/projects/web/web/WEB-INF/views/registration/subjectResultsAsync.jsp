@@ -11,7 +11,8 @@
 			<c:if test="${participants!=null}">
 				<tr>
 					<td class="tableHeader">Last Name, First Name</td>
-					<td class="tableHeader">Primary Identifier</td>
+					<td class="tableHeader">Medical Record Number</td>
+					<td class="tableHeader">Assigning Authority</td>
 					<td class="tableHeader">Gender</td>
 					<td class="tableHeader">Race</td>
 					<td class="tableHeader">Birth Date</td>
@@ -32,7 +33,8 @@
 				onMouseOut="this.className='<%= currClass %>'"
 				onClick="postProcessSubjectSelection('${participant.id}','${participant.lastName} ${participant.firstName}','${participant.identifiers[0].type}'+' - '+ '${participant.identifiers[0].value}')">					
 					<td>${participant.lastName},${participant.firstName}</td>
-					<td>${participant.primaryIdentifier}</a></td>
+					<td>${participant.MRN.value}</a></td>
+					<td><c:if test="${! empty participant.MRN}">${participant.MRN.healthcareSite.name}</c:if></a></td>
 					<td>${participant.administrativeGenderCode}</td>
 					<td>${participant.raceCode}</td>
 					<td>${participant.birthDateStr}</td>

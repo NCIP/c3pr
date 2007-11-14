@@ -36,7 +36,7 @@
 		document.getElementById("studySite").value = id;
 		var url = "../registration/searchEpoch?studySiteId="+id;
 		new Ajax.Updater('epochResults',url, {onSuccess:callbackEpoch, onFailure:callbackEpochFail});
-		var message = "Selected Study: " +studyName+ " (" +identifier+ ") "  + " at " +siteName;
+		var message = "Selected study: " +studyName+ " (" +identifier+ ") "  + " at " +siteName;
 		minimizeStudyBox(message);
 
 	}
@@ -54,7 +54,7 @@
 </script>
 
 <!--tags:minimizablePanelBox title="${epoch.name} : ${epoch.descriptionText }"	boxId="${epoch.name}"-->
-<tags:minimizablePanelBox	title="Select A Study" boxId="Studybox">
+<tags:minimizablePanelBox	title="Select a study" boxId="Studybox">
         <form id="searchstudyForm" action="" method="post">
             <input type="hidden" name="_selected" id="_selected" value="">
             <input type="hidden" name="_action" id="_action" value=""> 
