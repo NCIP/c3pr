@@ -1,6 +1,7 @@
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="csmauthz" uri="http://csm.ncicb.nci.nih.gov/authz" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <div id="header">
     <div class="background-R">
         <a href="<c:url value="/"/>">
@@ -26,6 +27,7 @@
 
         <div id="taskbar">
             <c:if test="${not empty currentSection.tasks}">
+               	<span width="80%" style="float:left;">
                 Tasks:
                 <c:forEach items="${currentSection.tasks}" var="task">
                     <csmauthz:accesscontrol domainObject="${task}" authorizationCheckName="taskAuthorizationCheck">
@@ -39,7 +41,9 @@
                         </c:choose>
                     </csmauthz:accesscontrol>
                 </c:forEach>
+                </span>
             </c:if>
+            <span style="float:right;">Iteration <fmt:message key="ITERATION_NUMBER"/> [${iterationNumber}]</span>
         </div>
     </div>
 </div>
