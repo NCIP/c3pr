@@ -30,7 +30,7 @@ public class C3PRCodedException extends C3PRBaseException {
 		return exceptionCode;
 	}
 	
-	public String getExceptionMesssage() {
+	public String getCodedExceptionMesssage() {
 		return exceptionMesssage;
 	}
 
