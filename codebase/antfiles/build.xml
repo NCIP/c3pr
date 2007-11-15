@@ -164,11 +164,7 @@
         <ant dir="${projects.dir}/esb-client" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
 
-    <!-- =============================================================== -->
-    <!-- c3pr Protocol Ingestion Grid Service                            -->
-    <!-- =============================================================== -->
-    <target name="build-grid" depends="prepare"
-            description="Builds the c3p3 Registration Consumer grid node">
+    <target name="prepare-grid" depends="prepare" description="Prep the grid project with required jars">
         <resolveDependencies extdir="${projects.dir}/grid/ext">
             <artifact refid="ant-contrib.jars"/>
             <artifact refid="c3pr.core.jars"/>
@@ -187,10 +183,16 @@
             <artifact refid="xerces.jars"/>
             <artifact refid="xercesImpl.jars"/>
             <artifact refid="c3pr.build.properties"/>
-
             <artifact refid="c3pr.core.test.jars"/>
             <artifact refid="common.test.jars"/>
         </resolveDependencies>
+    </target>
+
+    <!-- =============================================================== -->
+    <!-- c3pr Protocol Ingestion Grid Service                            -->
+    <!-- =============================================================== -->
+    <target name="build-grid" depends="prepare-grid"
+            description="Builds the c3p3 Registration Consumer grid node">
         <ant dir="${projects.dir}/grid" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
 

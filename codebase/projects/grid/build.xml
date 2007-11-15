@@ -79,17 +79,17 @@
 
     </target>
 
-    <target name="build-StudyConsumer" depends="prepare">
+    <target name="build-StudyConsumer" depends="prepareIntroduceService">
         <ant dir="${projects.dir}/StudyConsumer" inheritall="false"
              antfile="build.xml" target="all"/>
     </target>
 
-    <target name="build-RegistrationConsumer" depends="prepare">
+    <target name="build-RegistrationConsumer" depends="prepareIntroduceService">
         <ant dir="${projects.dir}/RegistrationConsumer" inheritall="false"
              antfile="build.xml" target="all"/>
     </target>
 
-    <target name="build-RegistrationConsumerImpl" depends="prepare">
+    <target name="build-RegistrationConsumerImpl" depends="prepareIntroduceService">
         <resolveDependencies extdir="${projects.dir}/RegistrationConsumerImpl/ext">
             <artifact refid="registration.consumer.grid.service"/>
         </resolveDependencies>
@@ -118,11 +118,17 @@
 
     <target name="prepareIntroduceService" depends="prepare"
             description="Copy required caGrid jars">
+     
         <for list="${projects.list}" parallel="false" param="project.name" trim="true">
             <sequential>
                 <resolveDependencies extdir="${projects.dir}/@{project.name}/ext">
                     <artifact refid="cagrid-introduce.jars"/>
                 </resolveDependencies>
+                <copy todir="${projects.dir}/@{project.name}/ext/lib">
+                    <fileset dir="${ext.lib.dir}">
+                        <include name="spring*.jar"/>
+                    </fileset>
+                </copy>
             </sequential>
         </for>
     </target>
