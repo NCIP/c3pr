@@ -3,15 +3,15 @@ package edu.duke.cabig.c3pr.esb;
 /**
  * Will be thrown when message cannot
  * be broadcasted to the ESB
- *
- * 
+ * <p/>
+ * <p/>
  * Created by IntelliJ IDEA.
  * User: kherm
  * Date: Dec 11, 2006
  * Time: 10:52:21 AM
  * To change this template use File | Settings | File Templates.
  */
-public class BroadcastException extends java.lang.Exception{
+public class BroadcastException extends java.lang.Exception {
 
 
     public BroadcastException() {
