@@ -35,6 +35,7 @@ import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SubjectStratificationAnswer;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import edu.duke.cabig.c3pr.esb.BroadcastException;
 import edu.duke.cabig.c3pr.esb.ESBMessageConsumer;
 import edu.duke.cabig.c3pr.esb.impl.MessageBroadcastServiceImpl;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
@@ -295,12 +296,15 @@ public class StudySubjectServiceImpl implements StudySubjectService, ESBMessageC
 					studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.RESERVED);
 				}else if(scheduledEpoch.getEpoch().isEnrolling()){
 					studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED);
+					Integer id=studySubjectDao.merge(studySubject).getId();
+					studySubject=studySubjectDao.getById(id);
 					try {
-						Integer id=studySubjectDao.merge(studySubject).getId();
-						studySubject=studySubjectDao.getById(id);
 						sendRegistrationEvent(studySubject);
-					} catch (Exception e) {
-						throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.ERROR_SEND_REGISTRATION.CODE"),e);
+					} catch (C3PRCodedException e) {
+						if(e.getExceptionCode()!=227)
+							throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.ERROR_SEND_REGISTRATION.CODE"),e);
+						else
+							e.printStackTrace();
 					}
 				}else{
 					studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.UNREGISTERED);
@@ -326,22 +330,34 @@ public class StudySubjectServiceImpl implements StudySubjectService, ESBMessageC
 		return true;
 	}
 	
-	private void sendRegistrationRequest(StudySubject studySubject) throws Exception{
+	public void sendRegistrationRequest(StudySubject studySubject) throws C3PRCodedException{
 		//TODO send registration request to Co ordinating center
 	}
 	
-	private void sendRegistrationEvent(StudySubject studySubject) throws Exception{
+	public void sendRegistrationEvent(StudySubject studySubject) throws C3PRCodedException{
 		if(isBroadcastEnable.equalsIgnoreCase("true")){
 			String xml = "";
-			xml = registrationXmlUtility.toXML(studySubject);
+			try {
+				xml = registrationXmlUtility.toXML(studySubject);
+			} catch (XMLUtilityException e) {
+				e.printStackTrace();
+				throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.BROADCAST.XML_ERROR"),e);
+			}
 			if (logger.isDebugEnabled()) {
 				logger.debug(" - XML for Registration"); //$NON-NLS-1$
 			}
 			if (logger.isDebugEnabled()) {
 				logger.debug(" - " + xml); //$NON-NLS-1$
 			}
-			messageBroadcaster.initialize();
-			messageBroadcaster.broadcast(xml);
+			try {
+				messageBroadcaster.initialize();
+				messageBroadcaster.broadcast(xml);
+			} catch (BroadcastException e) {
+				e.printStackTrace();
+				throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.BROADCAST.SEND_ERROR"),e);
+			}
+		}else{
+			throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.BROADCAST.DISABLED"));
 		}
 	}
 	
