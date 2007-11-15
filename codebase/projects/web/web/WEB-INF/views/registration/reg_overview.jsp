@@ -33,6 +33,9 @@ function show(){
 function hide(){
 	new Effect.SlideUp('OffStudyStatus');
 }
+function broadcastRegistration(){
+	<tags:tabMethod method="broadcastRegistration" viewName="/registration/asynchronous/broadcast_res" divElement="'broadcastResponse'" formName="'tabMethodForm'"/> 
+}
 </script>
 </head>
 <body>
@@ -355,7 +358,13 @@ function hide(){
 		</chrome:division>
 		</c:if>
 	</c:if>
-	<div align="right"><input type="button" value="Export" onClick="$('exportForm')._target.name='xxxx';$('exportForm').submit();"/></div>
+	<div align="right">
+		<input type="button" value="Export" onClick="$('exportForm')._target.name='xxxx';$('exportForm').submit();"/>
+		<input type="button" value="Send Registration Message" onClick="broadcastRegistration();"/>
+	</div>
+	<div align="right" id="broadcastResponse">
+	</div>
+
 </tags:panelBox>
 <form:form id="exportForm" method="post">
 	<tags:tabFields tab="${tab}"/>
