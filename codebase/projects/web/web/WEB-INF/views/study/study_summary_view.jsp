@@ -166,10 +166,17 @@
 						<td><tags:inPlaceSelect
 						value="${command.studySites[status.index].siteStudyStatus.code}"
 						path="changedSiteStudyStatus_${status.index}"
-						commanSepOptVal="${commanSepOptValSite}" />&nbsp;<input type="button" value="Change Status" onclick="editor_changedSiteStudyStatus_${status.index}.enterEditMode('click')"/></td>
+						commanSepOptVal="${commanSepOptValSite}" />&nbsp;</td>
 						<td class="alt" align="left">${studySite.roleCode}</td>
 						<td><tags:inPlaceEdit value="${studySite.startDateStr}" path="changedSiteStudyStartDate_${status.index}" required="true"/>&nbsp;</td>
 						<td><tags:inPlaceEdit value="${studySite.irbApprovalDateStr}" path="changedSiteStudyIrbApprovalDate_${status.index}" required="true"/>&nbsp;</td>
+						<td><input type="button" value="Edit" onclick="activateInPlaceEditing(eArray_${status.index})"/>
+	<script>
+	eArray_${status.index}=new Array();
+	eArray_${status.index}.push(editor_changedSiteStudyStatus_${status.index});
+	eArray_${status.index}.push(editor_changedSiteStudyStartDate_${status.index});
+	eArray_${status.index}.push(editor_changedSiteStudyIrbApprovalDate_${status.index});
+	</script> </td>
 					</tr>
 				</c:forEach>
 			</table>
