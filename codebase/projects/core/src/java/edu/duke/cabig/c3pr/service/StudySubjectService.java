@@ -48,5 +48,7 @@ public interface StudySubjectService {
 	  public void sendRegistrationRequest(StudySubject studySubject) throws C3PRCodedException;
 	  
 	  public void sendRegistrationEvent(StudySubject studySubject) throws C3PRCodedException;
+	  
+	  public StudySubject buildStudySubject(StudySubject deserializedStudySubject) throws C3PRCodedException;
 }
 

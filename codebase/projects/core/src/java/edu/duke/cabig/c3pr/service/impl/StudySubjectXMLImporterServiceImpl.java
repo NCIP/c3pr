@@ -18,35 +18,17 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
-import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
-import edu.duke.cabig.c3pr.domain.Arm;
-import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
-import edu.duke.cabig.c3pr.domain.Epoch;
-import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
-import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
-import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
-import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
-import edu.duke.cabig.c3pr.domain.ScheduledNonTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
-import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
-import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
-import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.exception.StudyValidationException;
-import edu.duke.cabig.c3pr.service.ParticipantService;
-import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.service.StudySubjectXMLImporterService;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
@@ -66,17 +48,11 @@ import gov.nih.nci.common.exception.XMLUtilityException;
 
 public class StudySubjectXMLImporterServiceImpl implements StudySubjectXMLImporterService {
 
-    private HealthcareSiteDao healthcareSiteDao;
     private StudySubjectDao studySubjectDao;
 	private C3PRExceptionHelper exceptionHelper;
 	private MessageSource c3prErrorMessages;
 	private ParticipantDao participantDao;
-    private final String identifierTypeValueStr = "Coordinating Center Identifier";
-    private StudyService studyService;
-    private final String prtIdentifierTypeValueStr = "MRN";
-    private ParticipantService participantService;
     private StudySubjectService studySubjectService;
-
     private XmlMarshaller marshaller;
     private  Logger log = Logger.getLogger(StudySubjectXMLImporterServiceImpl.class.getName());
 
@@ -138,7 +114,28 @@ public class StudySubjectXMLImporterServiceImpl implements StudySubjectXMLImport
     }
 
     public StudySubject importStudySubject(StudySubject deserialedStudySubject) throws C3PRCodedException{
-    	StudySubject studySubject=buildStudySubject(deserialedStudySubject);
+    	StudySubject studySubject=studySubjectService.buildStudySubject(deserialedStudySubject);
+        if (studySubject.getParticipant().getId() != null) {
+            StudySubject exampleSS = new StudySubject(true);
+            exampleSS.setParticipant(studySubject.getParticipant());
+            exampleSS.setStudySite(studySubject.getStudySite());
+            List<StudySubject> registrations = studySubjectDao.searchBySubjectAndStudySite(exampleSS);
+            if (registrations.size() > 0) {
+                throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.STUDYSUBJECTS_ALREADY_EXISTS.CODE"));
+            }
+        } else {
+            participantDao.save(studySubject.getParticipant());
+        }
+    	/*if(studySubject.getScheduledEpoch().getRequiresRandomization()){
+            throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.RANDOMIZEDSTUDY.ARM_PROVIDED.CODE"));
+    	}*/
+        if(studySubject.getScheduledEpoch().getEpoch().getRequiresArm()){
+        	ScheduledTreatmentEpoch scheduledTreatmentEpoch=(ScheduledTreatmentEpoch)studySubject.getScheduledEpoch();
+        	if(scheduledTreatmentEpoch.getScheduledArm()==null || 
+        			scheduledTreatmentEpoch.getScheduledArm().getArm()==null ||
+        			scheduledTreatmentEpoch.getScheduledArm().getArm().getId()==null)
+        	throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.NOTFOUND.ARM.CODE"));
+        }
 		studySubject.setRegDataEntryStatus(studySubjectService.evaluateRegistrationDataEntryStatus(studySubject));
 		studySubject.getScheduledEpoch().setScEpochDataEntryStatus(studySubjectService.evaluateScheduledEpochDataEntryStatus(studySubject));
 		if(studySubject.getRegDataEntryStatus()==RegistrationDataEntryStatus.INCOMPLETE){
@@ -180,14 +177,6 @@ public class StudySubjectXMLImporterServiceImpl implements StudySubjectXMLImport
     }
 
 
-    public HealthcareSiteDao getHealthcareSiteDao() {
-        return healthcareSiteDao;
-    }
-
-    public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
-        this.healthcareSiteDao = healthcareSiteDao;
-    }
-
 	public void setC3prErrorMessages(MessageSource errorMessages) {
 		c3prErrorMessages = errorMessages;
 	}
@@ -203,168 +192,12 @@ public class StudySubjectXMLImporterServiceImpl implements StudySubjectXMLImport
 		this.studySubjectDao = studySubjectDao;
 	}
 
-	private StudySubject buildStudySubject(StudySubject studySubject) throws C3PRCodedException{
-		StudySubject built=new StudySubject();
-		Participant participant=buildParticipant(studySubject.getParticipant());
-		StudySite studySite=buildStudySite(studySubject.getStudySite(),buildStudy(studySubject.getStudySite().getStudy()));
-        if (participant.getId() != null) {
-            StudySubject exampleSS = new StudySubject(true);
-            exampleSS.setParticipant(participant);
-            exampleSS.setStudySite(studySite);
-            List<StudySubject> registrations = studySubjectDao.searchBySubjectAndStudySite(exampleSS);
-            if (registrations.size() > 0) {
-                throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.STUDYSUBJECTS_ALREADY_EXISTS.CODE"));
-            }
-        } else {
-            participantDao.save(participant);
-        }
-        built.setStudySite(studySite);
-        built.setParticipant(participant);
-        Epoch epoch = buildEpoch(studySite.getStudy().getEpochs(), studySubject.getScheduledEpoch());
-        ScheduledEpoch scheduledEpoch=buildScheduledEpoch(studySubject.getScheduledEpoch(), epoch);
-        built.getScheduledEpochs().add(0, scheduledEpoch);
-        fillStudySubjectDetails(built, studySubject);
-        return built;
+
+	public void setStudySubjectService(StudySubjectService studySubjectService) {
+		this.studySubjectService = studySubjectService;
 	}
 
 	public void setParticipantDao(ParticipantDao participantDao) {
 		this.participantDao = participantDao;
-	}
-	
-	private Participant buildParticipant(Participant participant)throws C3PRCodedException{
-		if (participant.getIdentifiers()==null || participant.getIdentifiers().size() == 0) {
-            throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.MISSING.SUBJECT_IDENTIFIER.CODE"));
-        }
-        for (OrganizationAssignedIdentifier organizationAssignedIdentifier: participant.getOrganizationAssignedIdentifiers()) {
-            if (organizationAssignedIdentifier.getType().equals(this.prtIdentifierTypeValueStr)) {
-                List<Participant> paList = participantService.searchByMRN(organizationAssignedIdentifier);
-                if (paList.size() > 1) {
-                    throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.MULTIPLE.SUBJECTS_SAME_MRN.CODE")
-                            ,new String[]{organizationAssignedIdentifier.getValue()});
-                }else if (paList.size() == 1) {
-                    System.out.println("Participant with the same MRN found in the database");
-                    Participant temp = paList.get(0);
-                    if (temp.getFirstName().equals(participant.getFirstName())
-                            && temp.getLastName().equals(participant.getLastName())
-                            && temp.getBirthDate().getTime()==participant.getBirthDate().getTime()) {
-                        return temp;
-                    }
-                }
-            }
-        }
-        return participant;
-	}
-	
-	private Study buildStudy(Study study) throws C3PRCodedException{
-        if(study.getIdentifiers()==null){
-            throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.MISSING.STUDY_IDENTIFIER.CODE"));
-        }
-        List<Study> studies = null;
-        OrganizationAssignedIdentifier identifier=null;
-        for (OrganizationAssignedIdentifier organizationAssignedIdentifier: study.getOrganizationAssignedIdentifiers()) {
-            if (organizationAssignedIdentifier.getType().equals(this.identifierTypeValueStr)) {
-            	identifier=organizationAssignedIdentifier;
-            	studies=studyService.searchByCoOrdinatingCenterId(organizationAssignedIdentifier);
-                break;
-            }
-        }
-        if(studies==null){
-            throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.MISSING.STUDY_IDENTIFIER.CODE"));
-        }
-        if (studies.size() == 0) {
-            throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.NOTFOUND.STUDY_WITH_IDENTIFIER.CODE")
-                    ,new String[]{identifier.getHealthcareSite().getNciInstituteCode(),this.identifierTypeValueStr});
-        }
-        if (studies.size() > 1) {
-            throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.MULTIPLE.STUDY_SAME_CO_IDENTIFIER.CODE")
-                    ,new String[]{identifier.getHealthcareSite().getNciInstituteCode(),this.identifierTypeValueStr});
-        }
-        if(studies.get(0).getCoordinatingCenterStudyStatus()!=CoordinatingCenterStudyStatus.ACTIVE){
-        	throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.STUDY_NOT_ACTIVE")
-                    ,new String[]{identifier.getHealthcareSite().getNciInstituteCode(),this.identifierTypeValueStr});
-        }
-        return studies.get(0);
-	}
-
-	private StudySite buildStudySite(StudySite studySite, Study study) throws C3PRCodedException{
-		for (StudySite temp : study.getStudySites()) {
-            if (temp.getHealthcareSite().getNciInstituteCode().equals(studySite.getHealthcareSite().getNciInstituteCode())) {
-            	if(temp.getSiteStudyStatus()!=SiteStudyStatus.ACTIVE){
-            		throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.STUDYSITE_NOT_ACTIVE")
-                            ,new String[]{temp.getHealthcareSite().getNciInstituteCode()});
-            	}
-                return temp;
-            }
-        }
-        throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.NOTFOUND.STUDYSITE_WITH_NCICODE.CODE")
-                ,new String[]{studySite.getHealthcareSite().getNciInstituteCode()});
-	}
-	
-	private Epoch buildEpoch(List<Epoch> epochs,ScheduledEpoch scheduledEpoch)throws C3PRCodedException{
-		for (Epoch epochCurr : epochs) {
-            if (epochCurr.getName().equalsIgnoreCase(scheduledEpoch.getEpoch().getName())) {
-                return epochCurr;
-            }
-        }
-        throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.NOTFOUND.EPOCH_NAME.CODE")
-                ,new String[]{scheduledEpoch.getEpoch().getName()});
-	}
-	
-	private ScheduledEpoch buildScheduledEpoch(ScheduledEpoch source, Epoch epoch) throws C3PRCodedException{
-		ScheduledEpoch scheduledEpoch=null;
-        if (epoch instanceof TreatmentEpoch) {
-            ScheduledTreatmentEpoch scheduledTreatmentEpochSource=(ScheduledTreatmentEpoch) source;
-            scheduledEpoch=new ScheduledTreatmentEpoch();
-            ScheduledTreatmentEpoch scheduledTreatmentEpoch=(ScheduledTreatmentEpoch) scheduledEpoch;
-//            scheduledTreatmentEpoch.setEligibilityIndicator(scheduledTreatmentEpochSource.getEligibilityIndicator());
-            scheduledTreatmentEpoch.setEligibilityIndicator(true);
-            if(epoch.getRequiresArm()){
-	            if(scheduledTreatmentEpochSource.getScheduledArm()!=null
-	                    &&scheduledTreatmentEpochSource.getScheduledArm().getArm()!=null
-	                    &&scheduledTreatmentEpochSource.getScheduledArm().getArm().getName()!=null){
-	/*            	if(epoch.getRequiresRandomization()){
-	                    throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.RANDOMIZEDSTUDY.ARM_PROVIDED.CODE"));
-	            	}
-	*/                Arm arm=null;
-	                for(Arm a: ((TreatmentEpoch)epoch).getArms()){
-	                    if(a.getName().equals(scheduledTreatmentEpochSource.getScheduledArm().getArm().getName())){
-	                        arm=a;
-	                    }
-	                }
-	                if(arm==null){
-	                    throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.NOTFOUND.ARM_NAME.CODE")
-	                            ,new String[]{scheduledTreatmentEpochSource.getScheduledArm().getArm().getName(),scheduledTreatmentEpochSource.getEpoch().getName()});
-	                }
-	                scheduledTreatmentEpoch.getScheduledArms().get(0).setArm(arm);
-	
-	            }else{
-                    throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.NOTFOUND.ARM.CODE"));
-	            }
-            }
-        } else {
-        	scheduledEpoch=new ScheduledNonTreatmentEpoch();
-        }
-        scheduledEpoch.setEpoch(epoch);
-        scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
-        return scheduledEpoch;
-
-	}
-	private void fillStudySubjectDetails(StudySubject studySubject, StudySubject source) {
-		studySubject.setInformedConsentSignedDate(source.getInformedConsentSignedDate());
-		studySubject.setInformedConsentVersion(source.getInformedConsentVersion());
-		studySubject.setStartDate(source.getStartDate());
-		studySubject.setStratumGroupNumber(source.getStratumGroupNumber());
-		studySubject.getIdentifiers().addAll(source.getIdentifiers());
-	}
-	public void setParticipantService(ParticipantService participantService) {
-		this.participantService = participantService;
-	}
-
-	public void setStudyService(StudyService studyService) {
-		this.studyService = studyService;
-	}
-
-	public void setStudySubjectService(StudySubjectService studySubjectService) {
-		this.studySubjectService = studySubjectService;
 	}
 }

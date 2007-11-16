@@ -33,6 +33,7 @@ import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledNonTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
+import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -160,11 +161,14 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase{
 			studySubjectXMLImporterService.importStudySubject(xml);
 		}catch (C3PRCodedException e) {
 			e.printStackTrace();
+			interruptSession();
 			assertEquals("Exception Code unmatched", getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.NOTFOUND.ARM.CODE"), e.getExceptionCode());
 			return;
 		}catch (Exception e) {
 			e.printStackTrace();
+			interruptSession();
 			fail("Wrong Exception Type.");
+			return;
 		}
 		fail("Should have thrown C3PR Coded Exception.");
         interruptSession();
@@ -177,6 +181,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase{
 	 * Non Randomized
 	 */
 	public void testImportRegistrationCase2()throws Exception{
+		interruptSession();
 		StudySubject studySubject=new StudySubject();
 		Participant participant=addMRNIdentifier(addMRNIdentifier(participantDao.getById(1000)));
 		Integer prtId=null;
@@ -198,7 +203,10 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase{
 				saved = studySubjectXMLImporterService.importStudySubject(xml);
 			} catch (Exception e) {
 				e.printStackTrace();
+				interruptSession();
 				fail("shouldnt have thrown exception.");
+			}finally{
+				interruptSession();
 			}
             savedId= saved.getId();
             assertNotNull("The registration didn't get an id", savedId);
@@ -252,6 +260,8 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase{
 			} catch (Exception e) {
 				e.printStackTrace();
 				fail("shouldnt have thrown exception.");
+			}finally{
+				interruptSession();
 			}
             savedId= saved.getId();
             assertNotNull("The registration didn't get an id", savedId);
@@ -307,6 +317,8 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase{
 		}catch (Exception e) {
 			e.printStackTrace();
 			fail("Wrong Exception Type.");
+		}finally{
+			interruptSession();
 		}
 		fail("Should have thrown C3PR Coded Exception.");
         interruptSession();
@@ -340,6 +352,8 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase{
 			} catch (Exception e) {
 				e.printStackTrace();
 				fail("shouldnt have thrown exception.");
+			}finally{
+				interruptSession();
 			}
             savedId= saved.getId();
             assertNotNull("The registration didn't get an id", savedId);
@@ -390,6 +404,8 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase{
 			} catch (Exception e) {
 				e.printStackTrace();
 				fail("shouldnt have thrown exception.");
+			}finally{
+				interruptSession();
 			}
             savedId= saved.getId();
             assertNotNull("The registration didn't get an id", savedId);
@@ -439,6 +455,8 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase{
 			} catch (Exception e) {
 				e.printStackTrace();
 				fail("shouldnt have thrown exception.");
+			}finally{
+				interruptSession();
 			}
             savedId= saved.getId();
             assertNotNull("The registration didn't get an id", savedId);
@@ -493,6 +511,8 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase{
 			} catch (Exception e) {
 				e.printStackTrace();
 				fail("shouldnt have thrown exception.");
+			}finally{
+				interruptSession();
 			}
             savedId= saved.getId();
             assertNotNull("The registration didn't get an id", savedId);
@@ -516,6 +536,60 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase{
 
 	}
 	
+	/* Test Cases for import registration
+	 * Multi Site Trial
+	 * New Subject
+	 * Treatment Epoch
+	 * Book Randomization
+	 */
+	public void testImportRegistrationCase9()throws Exception{
+		StudySubject studySubject=new StudySubject();
+		Participant participant=createNewParticipant();
+		participant=addMRNIdentifier(addMRNIdentifier(participant));
+		studySubject.setStudySite(getMultiSiteRandomizedStudy(RandomizationType.BOOK, false).getStudySites().get(0));
+		
+		studySubject.setParticipant(participant);
+        addScheduledEpoch(studySubject,true);
+        buildCommandObject(studySubject);
+        addEnrollmentDetails(studySubject);
+        bindEligibility(studySubject);
+        bindStratification(studySubject);
+        assignArm(studySubject);
+        String xml=xmlUtility.toXML(studySubject);
+        Integer savedId;
+        {
+            StudySubject saved=null;
+			try {
+				saved = studySubjectXMLImporterService.importStudySubject(xml);
+			} catch (Exception e) {
+				e.printStackTrace();
+				fail("shouldnt have thrown exception.");
+			}finally{
+				interruptSession();
+			}
+            savedId= saved.getId();
+            assertNotNull("The registration didn't get an id", savedId);
+        }
+
+        interruptSession();
+        {
+        	StudySubject loaded = studySubjectDao.getById(savedId);
+        	assertNotNull("Could not reload registration with id " + savedId, loaded);
+        	assertEquals("Wrong number of scheduled epochs", 1, loaded.getScheduledEpochs().size());
+        	assertEquals("Wrong number of scheduled treatment epochs", 1, loaded.getScheduledTreatmentEpochs().size());
+        	assertEquals("Wrong number of scheduled non treatment epochs", 0, loaded.getScheduledNonTreatmentEpochs().size());
+        	assertEquals("getIfTreatmentScheduledEpoch return is inconsistent", true, loaded.getIfTreatmentScheduledEpoch());
+        	ScheduledTreatmentEpoch scheduledTreatmentEpoch=(ScheduledTreatmentEpoch)loaded.getScheduledEpoch();
+        	assertEquals("Wrong eligibility indicator", true, scheduledTreatmentEpoch.getEligibilityIndicator().booleanValue());
+        	assertEquals("Wrong registration data entry status", RegistrationDataEntryStatus.COMPLETE, loaded.getRegDataEntryStatus());
+        	assertEquals("Wrong epoch data entry status", ScheduledEpochDataEntryStatus.COMPLETE, loaded.getScheduledEpoch().getScEpochDataEntryStatus());        	
+        	assertEquals("Wrong registration work flow status", RegistrationWorkFlowStatus.REGISTERED, loaded.getRegWorkflowStatus());
+        	assertEquals("Wrong epoch work flow status", ScheduledEpochWorkFlowStatus.APPROVED, loaded.getScheduledEpoch().getScEpochWorkflowStatus());        	
+        }
+        interruptSession();
+
+	}
+
 	private Study getMultiSiteRandomizedStudy(RandomizationType randomizationType, boolean makeStudysiteCoCenter)throws Exception{
 		Study study=studyCreationHelper.getMultiSiteRandomizedStudy(randomizationType);
 		return addStudySiteCoCenterAndSave(study, makeStudysiteCoCenter);
@@ -665,6 +739,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase{
 		StudySite studySite=new StudySite();
 		studySite.setHealthcareSite(healthcareSitedao.getById(1000));
 		studySite.setStudy(study);
+		studySite.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
 		study.getStudySites().add(studySite);
 		Integer id;
 		{
@@ -693,7 +768,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase{
 		stC.setStudy(study);
 		stC.setHealthcareSite(healthcareSite);
 		OrganizationAssignedIdentifier identifier=study.getOrganizationAssignedIdentifiers().get(0);
-		identifier.setHealthcareSite(healthcareSite);
+		identifier.setHealthcareSite(makeStudysiteCoCenter?studySite.getHealthcareSite():healthcareSite);
 		identifier.setType(this.identifierTypeValueStr);
 		identifier.setValue("Some Test Value");
 		identifier.setPrimaryIndicator(true);
@@ -733,6 +808,15 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase{
 		organizationAssignedIdentifier.setType("MRN");
 		organizationAssignedIdentifier.setHealthcareSite(healthcareSitedao.getById(1100));
 		organizationAssignedIdentifier.setValue("MRN-temp");
+		return participant;
+	 }
+	 
+	 private Participant createNewParticipant(){
+		Participant participant=new Participant();
+		participant.setFirstName("test first name");
+		participant.setLastName("test last name");
+		participant.setBirthDate(new Date());
+		participant.setAdministrativeGenderCode("M");
 		return participant;
 	 }
 }
