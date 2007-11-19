@@ -18,6 +18,7 @@ import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.StratumGroup;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
+import edu.duke.cabig.c3pr.service.StudyService;
 
 /**
  * Created by IntelliJ IDEA.
@@ -28,7 +29,8 @@ import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
  */
 public class StudyStratificationTab extends StudyTab {
 
-	
+    protected StudyService studyService;
+    
     public StudyStratificationTab() {
         super("Study Stratification Factors", "Stratification", "study/study_stratifications");
     }
@@ -47,9 +49,46 @@ public class StudyStratificationTab extends StudyTab {
     	}	
 		return refdata;
 	}
-
-    @Override
-    public void postProcess(HttpServletRequest httpServletRequest, Study study, Errors errors) {
+    
+    /* This method gets the serialized string that has the order of the re-ordered Stratum Groups.
+     * Use this to update the str grp number of the str groups in the collection. 
+     * We chose to do this instead of deleting and creating new ones as this would cascade and 
+     * delete the book randomization entries. 
+     */
+    public ModelAndView reorderStratumGroups(HttpServletRequest request, Object commandObj, Errors error){
+    	
+    	Study study = (Study)commandObj;
+    	String serializedString = request.getParameter("serializedString").toString();
+    	String[] serStrArr = serializedString.split("&");
+    	int indexOfEpochNumber = new Integer(String.valueOf(serStrArr[0].charAt(serStrArr[0].indexOf("_")+1))).intValue();
+    	TreatmentEpoch tEpoch = study.getTreatmentEpochs().get(indexOfEpochNumber);
+    	
+    	List <Integer> positionList = new ArrayList<Integer>();
+    	for(int i = 0; i < serStrArr.length; i++){
+    		positionList.add(i, new Integer(String.valueOf(serStrArr[i].charAt(serStrArr[i].length() - 1))));
+    	}
+    	//so if the order initially was 0123 and was changed to 1023 then the position list 
+    	//will contain 1023.
+    	
+    	StratumGroup sGroup[] = new StratumGroup[tEpoch.getStratumGroups().size()];
+    	//get the sGroups by their sGroupNumbers and put them in a array.
+    	//then iterate thru the array and update their numbers.
+    	//we need this array because if we update the group number immediately 
+    	//then we can end up with 2 grps having the same str group number at one point in time.
+    	//Then we wouldnt be able to retrieve them by the strGroupnumber.
+    	for(int i = 0; i < positionList.size(); i++){
+//    		get the group and put it as per the new order in an array
+    		sGroup[i] = tEpoch.getStratumGroupByNumber(positionList.get(i));    		
+    	}
+    	
+    	for(int i = 0; i < positionList.size(); i++){
+//    		get the group and update its number as per the for loop iter
+    		tEpoch.getStratumGroupByNumber(sGroup[i].getStratumGroupNumber()).setStratumGroupNumber(new Integer(i));    		
+    	}
+    	
+    	HashMap map = new HashMap();
+    	map.put(this.getFreeTextModelName(),serializedString);
+    	return new ModelAndView("", map);
     }
     
     public ModelAndView clearStratumGroups(HttpServletRequest request, Object commandObj, Errors error){
@@ -59,6 +98,13 @@ public class StudyStratificationTab extends StudyTab {
     	TreatmentEpoch te = study.getTreatmentEpochs().get(epochCountIndex);
     	if(!te.getStratumGroups().isEmpty()){
     		te.getStratumGroups().clear();
+    		if( (request.getAttribute("amendFlow") != null && request.getAttribute("amendFlow").toString().equals("true")) ||
+    			    (request.getAttribute("editFlow") != null && request.getAttribute("editFlow").toString().equals("true")) ) 	{
+    			if (study != null) {
+	                getStudyService().reassociate(study);
+	                getStudyService().refresh(study);
+	            }
+    		}
     		message = "Generate stratum groups again.";
     	}    	   
     	
@@ -67,24 +113,35 @@ public class StudyStratificationTab extends StudyTab {
     	return new ModelAndView("",map);
     }
     
+    @Override
+    public void postProcess(HttpServletRequest req, Study study, Errors errors) {
+    	// TODO Auto-generated method stub
+    	super.postProcess(req, study, errors);
+    	if(req.getParameter("epochCountIndex") != null && req.getParameter("generateGroups").toString().equalsIgnoreCase("true")){
+    		generateStratumGroups(req, study, errors);
+    	}
+    	
+    }
     
-    public ModelAndView generateStratumGroups(HttpServletRequest request, Object commandObj, Errors error){
+    public void generateStratumGroups(HttpServletRequest request, Object commandObj, Errors error){
     	int scSize;
     	TreatmentEpoch te;
     	ArrayList<StratumGroup> sgList;
     	Study study = (Study)commandObj;
     	int epochCountIndex = Integer.parseInt(request.getParameter("epochCountIndex"));
     	request.setAttribute("epochCountIndex", epochCountIndex);
-    	
+      	
+      	
     	//creating groups from the questions & answers for the selected treatemtn epoch
 
 		te = study.getTreatmentEpochs().get(epochCountIndex);
 		//checking for blank qs/ans and returning an error msg if so.
 		if(hasBlankQuestionOrAnswer(te)){
 			String message = "No blank Questions or Answers allowed";
-			Map map=new HashMap();
-	    	map.put(getFreeTextModelName(), message);
-	    	return new ModelAndView("",map);
+			return;
+//			Map map=new HashMap();
+//	    	map.put(getFreeTextModelName(), message);
+//	    	return new ModelAndView("",map);
 		}
 		
 		//clear the existing groups first.(incase the user cilcks on generate twice)
@@ -107,8 +164,15 @@ public class StudyStratificationTab extends StudyTab {
 			sgList = comboGenerator(te, doubleArr, 0, new ArrayList<StratumGroup>(),new ArrayList<StratificationCriterionAnswerCombination>());
 			te.getStratumGroups().addAll(sgList);
 		}
-    	Map map=new HashMap();
-    	return new ModelAndView(getAjaxViewName(request),map);
+		if( (request.getAttribute("amendFlow") != null && request.getAttribute("amendFlow").toString().equals("true")) ||
+			    (request.getAttribute("editFlow") != null && request.getAttribute("editFlow").toString().equals("true")) ) 	{
+			if (study != null) {
+                getStudyService().reassociate(study);
+                getStudyService().refresh(study);
+            }
+		}
+//    	Map map=new HashMap();
+//    	return new ModelAndView(getAjaxViewName(request),map);
     }
     
     //recursive method which computes all possible combinations
@@ -180,6 +244,14 @@ public class StudyStratificationTab extends StudyTab {
 			clonedList.add(new StratificationCriterionAnswerCombination(iter.next()));
 		}
 		return clonedList;
+	}
+
+	public StudyService getStudyService() {
+		return studyService;
+	}
+
+	public void setStudyService(StudyService studyService) {
+		this.studyService = studyService;
 	}
     
         

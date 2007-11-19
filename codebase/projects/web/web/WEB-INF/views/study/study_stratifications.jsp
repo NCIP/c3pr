@@ -5,16 +5,37 @@
 <html>
 <head>
 <script>		                
-	function getStratumGroups(epochCountIndex){
-		<tags:tabMethod method="generateStratumGroups" viewName="/study/asynchronous/strat_combinations" divElement="'sgCombinations_'+epochCountIndex" 
-		                javaScriptParam="'epochCountIndex='+epochCountIndex"  />        
-	}
-	
 	function clear(epochCountIndex){
 		<tags:tabMethod method="clearStratumGroups" viewName="/study/asynchronous/strat_combinations" divElement="'sgCombinations_'+epochCountIndex" 
 		                javaScriptParam="'epochCountIndex='+epochCountIndex" formName="'tabMethodForm'"/> 
 	}
-</script>
+
+	function postProcessDragDrop(e){  			
+		//gettting the epochIndex from the table id.
+		var id = e.id;
+		var pos = id.indexOf("_");
+		var epochCountIndex = id.substring(pos + 1, id.length);
+		
+		//calling the function that will rearrange the numbers against the stratum groups
+		reorderStratumGroupNumbers(epochCountIndex);
+		
+		var serializedString = escape(Sortable.serialize('sortablelist_'+epochCountIndex));
+		<tags:tabMethod method="reorderStratumGroups"  divElement="'dummyDiv'" 
+						javaScriptParam="'serializedString='+serializedString" formName="'tabMethodForm'"/>
+	}
+			
+	function reorderStratumGroupNumbers(epochCountIndex){
+		var table = document.getElementById('sgCombinationsTable_'+epochCountIndex);
+		var length = table.rows.length;
+		var newIndex = 0;
+		for(var i = 0; i < length; i++){
+			if(table.rows[i].id.indexOf('deleted') == -1){
+				table.rows[i].cells[0].innerHTML = newIndex;
+				newIndex++;
+			}
+		}
+	}
+	</script>
 </head>
 
 <body>
@@ -33,6 +54,7 @@
                 skeleton_row_division_id: "dummy-strat-ans-${epochCount.index }",
                 initialIndex: 2,
                 softDelete: ${softDelete == 'true'},
+                callRemoveFromCommand:"true",
                 row_index_indicator: "NESTED.PAGE.ROW.INDEX",
                 path: "treatmentEpochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers",
                 epochCountIndex: ${epochCount.index},
@@ -49,13 +71,14 @@
                 skeleton_row_division_id: "dummy-strat-${epochCount.index}",
                 initialIndex: ${fn:length(command.treatmentEpochs[epochCount.index].stratificationCriteria)},
                 softDelete: ${softDelete == 'true'},
+                callRemoveFromCommand:"true",
                 path: "treatmentEpochs[${epochCount.index }].stratificationCriteria",
                 epochCountIndex: ${epochCount.index},
                 onDeleteFromCommandSuccess: function(t){
 	                clear(${epochCount.index});                	
 			    },
 			    postProcessRowInsertion: function(object){
-                	clear(object.epochCountIndex);                	
+                	clear(object.epochCountIndex);
 			    }
             };
             RowManager.addRowInseter(stratRowInserterProps_${epochCount.index});
@@ -64,6 +87,8 @@
 		<tags:minimizablePanelBox title="${epoch.name}" boxId="${epoch.name}">
 
 			<table id="epoch-${epochCount.index }" class="tablecontent">
+			<input type="hidden" name="epochCountIndex" value="${epochCount.index}"/>
+			<input type="hidden" name="generateGroups" value="false"/>
 				<tr>
 					<th></th>
 					<th><span class="required-indicator">Stratification Question</span></th>
@@ -78,7 +103,7 @@
                     </script>
 					<tr id="epoch-${epochCount.index }-${status.index }">
 						<td class="alt"><a
-							href="javascript:RowManager.deleteRow(stratRowInserterProps_${epochCount.index},${status.index },${strat.hashCode });">
+							href="javascript:RowManager.deleteRow(stratRowInserterProps_${epochCount.index},${status.index },${strat.hashCode});">
 						<img src="<tags:imageUrl name="checkno.gif"/>" border="0"
 							alt="Delete"></a></td>
 						<td><form:textarea
@@ -125,61 +150,59 @@
 			<script>
 			var stratumGroupRowInserter_${epochCount.index} = {
 			    add_row_division_id: "stratumGroupTable1_${epochCount.index}", 	        
-			    skeleton_row_division_id: "dummy-row",
+			    skeleton_row_division_id: "dummy-strat-strGrp-${epochCount.index}",
 			    initialIndex: -1,
+			    postProcessRowDeletion: function(t){
+	                reorderStratumGroupNumbers(${epochCount.index});                	
+			    },
 			    path: "treatmentEpochs[${epochCount.index}].stratumGroups"
-			};			
-		</script>
+			};		
+			</script>
+			
 			<br />
 			<div id="sgCombinations_${epochCount.index}"><!--This part is loaded onload and is updated with new content when generate str grps is clicked-->
 			<c:if test="${fn:length(epoch.stratificationCriteria) > 0}">
 				<script>
 					stratumGroupRowInserter_${epochCount.index}.initialIndex= ${fn:length(command.treatmentEpochs[epochCount.index].stratumGroups)};
 					RowManager.registerRowInserter(stratumGroupRowInserter_${epochCount.index});
-				</script>
-
-				<table border="1" class="tablecontent"
-					id="stratumGroupTable1_${epochCount.index}" width="50%">
-					<tr>
-						<th>Stratum Group Number</th>
-						<th>Stratum Group</th>
-						<th></th>
-					</tr>
-					<c:forEach var="stratumGroup" varStatus="statusStratumGroup"
-						items="${command.treatmentEpochs[epochCount.index].stratumGroups}">
-						<tr
-							id="stratumGroupTable1_${epochCount.index}-${statusStratumGroup.index }">
-							<td class="alt"><tags:inPlaceEdit
-								value="${command.treatmentEpochs[epochCount.index].stratumGroups[statusStratumGroup.index].stratumGroupNumber}"
-								path="${command.treatmentEpochs[epochCount.index].stratumGroups[statusStratumGroup.index].stratumGroupNumber}" />
-							</td>
-							<td class="alt">
-							${command.treatmentEpochs[epochCount.index].stratumGroups[statusStratumGroup.index].answerCombinations}
-							</td>
-							<td class="alt"><a
-								href="javascript:RowManager.deleteRow(stratumGroupRowInserter_${epochCount.index},${statusStratumGroup.index },${stratumGroup.hashCode });">
-							<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
-						</tr>
-					</c:forEach>
+				</script>				
+				<table border="1" class="tablecontent"  width="30%">
+				<tr>
+					<th width="30%">Number</th>					
+					<th width="60%">Stratum Group</th>
+					<th width="10%"></th>
+				</tr>
 				</table>
-				<br />
+				<table id="sgCombinationsTable_${epochCount.index}" border="1" class="tablecontent"  width="30%">
+					<tbody id="sortablelist_${epochCount.index}">
+						
+						<c:forEach var="stratumGroup" varStatus="statusStratumGroup"
+							items="${command.treatmentEpochs[epochCount.index].stratumGroups}">	
+							<tr id="stratumGroupTable1_${epochCount.index}-${statusStratumGroup.index}">
+								<td width="30%">${statusStratumGroup.index}</td>					
+								<td width="60%">${command.treatmentEpochs[epochCount.index].stratumGroups[statusStratumGroup.index].answerCombinations}</td>
+								<td width="10%"><a href="javascript:RowManager.deleteRow(stratumGroupRowInserter_${epochCount.index},${statusStratumGroup.index},${stratumGroup.hashCode});">
+									<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>					
+							</tr>
+						</c:forEach>					
+					</tbody>
+				</table>
+
 			</c:if> <!--This part is loaded onload and is updated with new content when generate str grps is clicked-->
 			</div>
 			<br>
-			<div id="stratumButton" align="right"><input type='button'
-				onclick='getStratumGroups("${epochCount.index}")'
-				value='Generate Stratum Groups' /></div>
-
-			<!--stratum groups combinations display section 
-		<c:if test="${fn:length(epoch.stratificationCriteria) > 0}">   
-        	<script>getStratumGroups("${epochCount.index}");</script>
-        </c:if>-->
-
+			<div id="stratumButton" align="right">
+				<input type='submit' onclick="${'_target'}.name = 'xyz';${'generateGroups'}.value='true'" value='Generate Stratum Groups' />
+			</div>
+			<script type="text/javascript" language="javascript">
+		  		Sortable.create('sortablelist_${epochCount.index}',{tag:'TR',constraint:false,onUpdate:postProcessDragDrop});
+			</script>
 		</tags:minimizablePanelBox>
 	</c:forEach>
+	<div id="dummyDiv" style="display:none">
+	</div>
 
-	<tags:tabControls tab="${tab}" flow="${flow}"
-		localButtons="${localButtons}" willSave="${willSave}" />
+	<tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}" />
 </form:form>
 
 <c:forEach items="${command.treatmentEpochs}" var="epoch"
@@ -214,7 +237,6 @@
 					<td><input type="text"
 						name="treatmentEpochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers[1].permissibleAnswer"
 						size="30" class="validate-notEmpty" /></td>
-
 				</tr>
 			</table>
 			</td>
@@ -229,6 +251,20 @@
 				size="30" class="validate-notEmpty" /></td>
 			<td><a
 				href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},PAGE.ROW.INDEX),NESTED.PAGE.ROW.INDEX,-1);">
+			<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+		</tr>
+	</table>
+	</div>
+	
+	<div id="dummy-strat-strGrp-${epochCount.index }" style="display:none">
+	<table>
+		<tr>
+			<td><input type="text"
+				name="treatmentEpochs[${epochCount.index}].stratumGroups[PAGE.ROW.INDEX].stratumGroupNumber"
+				size="30" class="validate-notEmpty" /></td>
+				<td></td>
+			<td><a
+				href="javascript:RowManager.deleteRow(sratumGroupRowInserter_${epochCount.index},PAGE.ROW.INDEX,-1);">
 			<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 		</tr>
 	</table>
