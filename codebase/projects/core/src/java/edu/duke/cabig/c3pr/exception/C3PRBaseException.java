@@ -15,8 +15,10 @@ public class C3PRBaseException extends NestedCheckedException {
     public C3PRBaseException(String string) {
         super(string);
     }
-    
+
     public C3PRBaseException(String string, Throwable throwable) {
         super(string, throwable);
     }
+
+
 }

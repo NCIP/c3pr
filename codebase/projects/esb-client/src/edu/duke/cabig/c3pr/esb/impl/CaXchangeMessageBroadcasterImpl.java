@@ -20,7 +20,7 @@ import java.util.concurrent.*;
 /**
  * Sends messages to caXchange. Also, will notify of the message status
  * by impelementing CCTSMessageWorkflowNotifier
- *
+ * <p/>
  * Created by IntelliJ IDEA.
  * User: kherm
  * Date: Nov 13, 2007
@@ -29,9 +29,8 @@ import java.util.concurrent.*;
  */
 public class CaXchangeMessageBroadcasterImpl implements MessageBroadcastService, CCTSMessageWorkflowNotifier {
 
-    private CaXchangeRequestProcessorClient caXchangeClient;
+    private String caXchangeURL;
     //default valut. Should not change
-    private static final String PROCESS_OPERATION = "PROCESS";
     private Map messageTypesMapping;
 
     private Logger log = Logger.getLogger(CaXchangeMessageBroadcasterImpl.class);
@@ -45,6 +44,13 @@ public class CaXchangeMessageBroadcasterImpl implements MessageBroadcastService,
      * @throws BroadcastException
      */
     public void broadcast(String cctsDomainObjectXML) throws BroadcastException {
+
+        CaXchangeRequestProcessorClient caXchangeClient = null;
+        try {
+            caXchangeClient = new CaXchangeRequestProcessorClient(caXchangeURL);
+        } catch (Exception e) {
+            throw new BroadcastException("caXchange could not initialize caExchange client. Using URL " + caXchangeURL, e);
+        }
 
         //marshall the bean
         Document messageDOM = null;
@@ -63,12 +69,11 @@ public class CaXchangeMessageBroadcasterImpl implements MessageBroadcastService,
         CaXchangeResponseServiceReference responseRef = null;
         try {
             Message xchangeMessage = CaXchangeMessageHelper.createXchangeMessage(messageDOM);
-            Metadata mData  = new Metadata();
+            Metadata mData = new Metadata();
             mData.setOperation(Operations.PROCESS);
-            mData.setMessageType(MessageTypes.fromString((String)messageTypesMapping.get(messageDOM.getDocumentElement().getLocalName())));
+            mData.setMessageType(MessageTypes.fromString((String) messageTypesMapping.get(messageDOM.getDocumentElement().getLocalName())));
 
             xchangeMessage.setMetadata(mData);
-
             responseRef = caXchangeClient.processRequestAsynchronously(xchangeMessage);
             if (messageWorkflowCallback != null) {
                 messageWorkflowCallback.messageSendSuccessful(cctsDomainObjectXML);
@@ -96,12 +101,13 @@ public class CaXchangeMessageBroadcasterImpl implements MessageBroadcastService,
         }
     }
 
-    public CaXchangeRequestProcessorClient getCaXchangeClient() {
-        return caXchangeClient;
+
+    public String getCaXchangeURL() {
+        return caXchangeURL;
     }
 
-    public void setCaXchangeClient(CaXchangeRequestProcessorClient caXchangeClient) {
-        this.caXchangeClient = caXchangeClient;
+    public void setCaXchangeURL(String caXchangeURL) {
+        this.caXchangeURL = caXchangeURL;
     }
 
     public void setNotificationHandler(CCTSMessageWorkflowCallback handler) {
@@ -127,7 +133,7 @@ public class CaXchangeMessageBroadcasterImpl implements MessageBroadcastService,
         protected void done() {
             try {
                 ResponseMessage response = (ResponseMessage) get();
-                if(response.getResponse().getResponseStatus().equals(Statuses._SUCCESS)){
+                if (response.getResponse().getResponseStatus().equals(Statuses._SUCCESS)) {
                     messageWorkflowCallback.messageSendSuccessful(response.getResponseMetadata().getExternalIdentifier());
                 }
 
