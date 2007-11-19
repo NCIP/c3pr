@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 
 import org.apache.commons.collections15.functors.InstantiateFactory;
@@ -254,6 +255,7 @@ public class TreatmentEpoch extends Epoch {
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})
     @JoinColumn(name = "epochs_id")
     @Where(clause = "retired_indicator  = 'false'")
+    @OrderBy("stratumGroupNumber")
 	public List<StratumGroup> getStratumGroupsInternal() {
 		return lazyListHelper.getInternalList(StratumGroup.class);
 	}
