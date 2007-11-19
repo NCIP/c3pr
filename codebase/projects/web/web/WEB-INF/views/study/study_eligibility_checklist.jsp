@@ -107,7 +107,7 @@
                                         <td>
                                             <form:textarea
                                                     path="epochs[${epochCount.index }].inclusionEligibilityCriteria[${status.index}].questionText"
-                                                    rows="1" cols="132" cssClass="validate-notEmpty"/></td>
+                                                    rows="1" cols="95" cssClass="validate-notEmpty"/></td>
                                         <td><form:checkbox
                                                 path="epochs[${epochCount.index }].inclusionEligibilityCriteria[${status.index}].notApplicableIndicator"/>
                                         </td>
@@ -140,7 +140,7 @@
                                             <td>
                                                 <form:textarea
                                                         path="epochs[${epochCount.index }].exclusionEligibilityCriteria[${status.index}].questionText"
-                                                        rows="1" cols="132" cssClass="validate-notEmpty" /></td>
+                                                        rows="1" cols="95" cssClass="validate-notEmpty" /></td>
                                             <td><form:checkbox
                                                     path="epochs[${epochCount.index }].exclusionEligibilityCriteria[${status.index}].notApplicableIndicator" />
                                             </td>
@@ -173,7 +173,7 @@
                         <textarea
                                 id="epochs[${epochCount.index }].inclusionEligibilityCriteria[PAGE.ROW.INDEX].questionText"
                                 name="epochs[${epochCount.index }].inclusionEligibilityCriteria[PAGE.ROW.INDEX].questionText"
-                                rows="1" cols="132" class="validate-notEmpty"></textarea></td>
+                                rows="1" cols="95" class="validate-notEmpty"></textarea></td>
                     <td><input type="checkbox"
                                                         id="epochs[${epochCount.index }].inclusionEligibilityCriteria[PAGE.ROW.INDEX].notApplicableIndicator"
                                                         name="epochs[${epochCount.index }].inclusionEligibilityCriteria[PAGE.ROW.INDEX].notApplicableIndicator" />
@@ -191,7 +191,7 @@
                         <textarea
                                 id="epochs[${epochCount.index }].exclusionEligibilityCriteria[PAGE.ROW.INDEX].questionText"
                                 name="epochs[${epochCount.index }].exclusionEligibilityCriteria[PAGE.ROW.INDEX].questionText"
-                                rows="1" cols="132" class="validate-notEmpty"></textarea></td>
+                                rows="1" cols="95" class="validate-notEmpty"></textarea></td>
                     <td><input type="checkbox"
                                                         id="epochs[${epochCount.index }].exclusionEligibilityCriteria[PAGE.ROW.INDEX].notApplicableIndicator"
                                                         name="epochs[${epochCount.index }].exclusionEligibilityCriteria[PAGE.ROW.INDEX].notApplicableIndicator" />
