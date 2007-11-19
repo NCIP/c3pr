@@ -253,7 +253,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
                 <input id="studySites[PAGE.ROW.INDEX].startDate"
                        name="studySites[PAGE.ROW.INDEX].startDate"
                        type="text"
-                       class="date" />
+                       class="date validate-DATE" />
                 <a href="#" id="studySites[PAGE.ROW.INDEX].startDate-calbutton">
                     <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>
                 </a>
@@ -262,7 +262,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
                 <input id="studySites[PAGE.ROW.INDEX].irbApprovalDate"
                        name="studySites[PAGE.ROW.INDEX].irbApprovalDate"
                        type="text"
-                       class="date" />
+                       class="date validate-DATE" />
                 <a href="#" id="studySites[PAGE.ROW.INDEX].irbApprovalDate-calbutton">
                     <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle"/>
                 </a>
