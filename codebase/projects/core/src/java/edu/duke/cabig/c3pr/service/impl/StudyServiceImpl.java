@@ -571,6 +571,18 @@ public class StudyServiceImpl implements StudyService {
 	public Study merge(Study study) {
 		return studyDao.merge(study);
 	}
+	
+	public Study reassociate(Study study) {
+		studyDao.reassociate(study);
+		return study;
+	}
+	
+	public Study refresh(Study study) {
+		studyDao.refresh(study);
+		return study;
+	}
+	
+	
 
 	public StudySubjectDao getStudySubjectDao() {
 		return studySubjectDao;
