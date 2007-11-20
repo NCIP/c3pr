@@ -55,7 +55,7 @@ insert into CSM_PROTECTION_GROUP(PROTECTION_GROUP_ID,
             APPLICATION_ID, LARGE_ELEMENT_COUNT_FLAG,
             UPDATE_DATE)
             values(5,'edu.duke.cabig.c3pr.domain.ResearchStaff',
-            'Investigator protection group',1,0,'now');
+            'Research staff protection group',1,0,'now');
 
 insert into CSM_PROTECTION_GROUP(PROTECTION_GROUP_ID,
             PROTECTION_GROUP_NAME, PROTECTION_GROUP_DESCRIPTION,
