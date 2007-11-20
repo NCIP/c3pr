@@ -85,7 +85,7 @@ public class StudySubjectDao extends
 		
 		if(ccId != null && !ccId.equals("")){
 //				identifiersCriteria.add(Expression.eq("type","Coordinating Center Identifier"));
-			identifiersCriteria.add(Expression.eq("value", ccId));
+			identifiersCriteria.add(Expression.like("value", ccId));
 		}
 		registrationCriteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY); 
 		registrationCriteria.addOrder(Order.asc("id"));
