@@ -71,7 +71,7 @@
 		</epoch>
 		<scheduledArm>
 			<arm gridId="de3a0ef0-1f02-4da6-afdc-cc9042cdb594">
-				<name>invalid arm</name>
+				<name>Invalid Arm</name>
 				<targetAccrualNumber>300</targetAccrualNumber>
 			</arm>
 		</scheduledArm>

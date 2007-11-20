@@ -6,8 +6,12 @@ import java.io.InputStreamReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 import gov.nih.nci.cagrid.common.Utils;
@@ -27,6 +31,9 @@ import gov.nih.nci.ccts.grid.stubs.types.InvalidRegistrationException;
  */
 public class CoOrdinatingSiteRegistrationConsumerTest extends DaoTestCase {
     RegistrationConsumer gridService;
+    ParticipantDao participantDao;
+    HealthcareSiteDao healthcareSiteDao;
+    private final String prtIdentifierTypeValueStr = "MRN";
     ApplicationContext ctx =    new ClassPathXmlApplicationContext (new String[] {
             "classpath*:applicationContext-grid.xml",
     	});
@@ -35,6 +42,8 @@ public class CoOrdinatingSiteRegistrationConsumerTest extends DaoTestCase {
     protected void setUp() throws Exception {
     	super.setUp();
     	gridService= (RegistrationConsumer)ctx.getBean("registrationConsumer");
+    	participantDao= (ParticipantDao)ctx.getBean("participantDao");
+    	healthcareSiteDao= (HealthcareSiteDao)ctx.getBean("healthcareSiteDao");
     }
    
     /*
@@ -52,7 +61,7 @@ public class CoOrdinatingSiteRegistrationConsumerTest extends DaoTestCase {
             gridService.register(registrationMessage);
         } catch (InvalidRegistrationException e) {
         	e.printStackTrace();
-        	assertEquals("Wrong exception code-","100", e.getFaultCode().getLocalPart());
+        	assertEquals("Wrong exception code-","204", e.getFaultCode().getLocalPart());
         	return;
         } catch (Exception e) {
         	e.printStackTrace();
@@ -78,7 +87,7 @@ public class CoOrdinatingSiteRegistrationConsumerTest extends DaoTestCase {
             gridService.register(registrationMessage);
         } catch (InvalidRegistrationException e) {
         	e.printStackTrace();
-        	assertEquals("Wrong exception code-","101", e.getFaultCode().getLocalPart());
+        	assertEquals("Wrong exception code-","205", e.getFaultCode().getLocalPart());
         	return;
         } catch (Exception e) {
         	e.printStackTrace();
@@ -93,6 +102,8 @@ public class CoOrdinatingSiteRegistrationConsumerTest extends DaoTestCase {
      * Multiple Participant with same MRN
      */
     public void testRegisterCase2(){
+    	addMRN("MRN-SAME-121",participantDao.getById(2100),healthcareSiteDao.getById(1100));
+    	addMRN("MRN-SAME-121",participantDao.getById(2101),healthcareSiteDao.getById(1100));
         try {
             InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("SampleRegistrationMessage-2.xml");
             InputStreamReader reader = new InputStreamReader(is);
@@ -104,7 +115,7 @@ public class CoOrdinatingSiteRegistrationConsumerTest extends DaoTestCase {
             gridService.register(registrationMessage);
         } catch (InvalidRegistrationException e) {
         	e.printStackTrace();
-        	assertEquals("Wrong exception code-","102", e.getFaultCode().getLocalPart());
+        	assertEquals("Wrong exception code-","228", e.getFaultCode().getLocalPart());
         	return;
         } catch (Exception e) {
         	e.printStackTrace();
@@ -118,6 +129,7 @@ public class CoOrdinatingSiteRegistrationConsumerTest extends DaoTestCase {
      * Different Participant with same MRN
      */
     public void testRegisterCase3(){
+    	addMRN("MRN-AAACCCBB",participantDao.getById(1100),healthcareSiteDao.getById(1100));
         try {
             InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("SampleRegistrationMessage-3.xml");
             InputStreamReader reader = new InputStreamReader(is);
@@ -129,7 +141,7 @@ public class CoOrdinatingSiteRegistrationConsumerTest extends DaoTestCase {
             gridService.register(registrationMessage);
         } catch (InvalidRegistrationException e) {
         	e.printStackTrace();
-        	assertEquals("Wrong exception code-","103", e.getFaultCode().getLocalPart());
+        	assertEquals("Wrong exception code-","207", e.getFaultCode().getLocalPart());
         	return;
         } catch (Exception e) {
         	e.printStackTrace();
@@ -154,7 +166,7 @@ public class CoOrdinatingSiteRegistrationConsumerTest extends DaoTestCase {
             gridService.register(registrationMessage);
         } catch (InvalidRegistrationException e) {
         	e.printStackTrace();
-        	assertEquals("Wrong exception code-","104", e.getFaultCode().getLocalPart());
+        	assertEquals("Wrong exception code-","205", e.getFaultCode().getLocalPart());
         	return;
         } catch (Exception e) {
         	e.printStackTrace();
@@ -179,7 +191,7 @@ public class CoOrdinatingSiteRegistrationConsumerTest extends DaoTestCase {
             gridService.register(registrationMessage);
         } catch (InvalidRegistrationException e) {
         	e.printStackTrace();
-        	assertEquals("Wrong exception code-","105", e.getFaultCode().getLocalPart());
+        	assertEquals("Wrong exception code-","206", e.getFaultCode().getLocalPart());
         	return;
         } catch (Exception e) {
         	e.printStackTrace();
@@ -203,7 +215,7 @@ public class CoOrdinatingSiteRegistrationConsumerTest extends DaoTestCase {
             gridService.register(registrationMessage);
         } catch (InvalidRegistrationException e) {
         	e.printStackTrace();
-        	assertEquals("Wrong exception code-","106", e.getFaultCode().getLocalPart());
+        	assertEquals("Wrong exception code-","210", e.getFaultCode().getLocalPart());
         	return;
         } catch (Exception e) {
         	e.printStackTrace();
@@ -229,7 +241,7 @@ public class CoOrdinatingSiteRegistrationConsumerTest extends DaoTestCase {
             gridService.register(registrationMessage);
         } catch (InvalidRegistrationException e) {
         	e.printStackTrace();
-        	assertEquals("Wrong exception code-","107", e.getFaultCode().getLocalPart());
+        	assertEquals("Wrong exception code-","211", e.getFaultCode().getLocalPart());
         	return;
         } catch (Exception e) {
         	e.printStackTrace();
@@ -254,7 +266,7 @@ public class CoOrdinatingSiteRegistrationConsumerTest extends DaoTestCase {
             gridService.register(registrationMessage);
         }catch (InvalidRegistrationException e) {
         	e.printStackTrace();
-        	assertEquals("Wrong exception code-","108", e.getFaultCode().getLocalPart());
+        	assertEquals("Wrong exception code-","212", e.getFaultCode().getLocalPart());
         	return;
         } catch (Exception e) {
         	e.printStackTrace();
@@ -267,6 +279,7 @@ public class CoOrdinatingSiteRegistrationConsumerTest extends DaoTestCase {
      * Multiple study subjects with same participant at same study site
      */
     public void testRegisterCase9(){
+    	addMRN("MRN-SAME-121",participantDao.getById(2101),healthcareSiteDao.getById(1100));
         try {
             InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("SampleRegistrationMessage-9.xml");
             InputStreamReader reader = new InputStreamReader(is);
@@ -278,7 +291,7 @@ public class CoOrdinatingSiteRegistrationConsumerTest extends DaoTestCase {
             gridService.register(registrationMessage);
         } catch (InvalidRegistrationException e) {
         	e.printStackTrace();
-        	assertEquals("Wrong exception code-","109", e.getFaultCode().getLocalPart());
+        	assertEquals("Wrong exception code-","213", e.getFaultCode().getLocalPart());
         	return;
         } catch (Exception e) {
         	e.printStackTrace();
@@ -304,7 +317,7 @@ public class CoOrdinatingSiteRegistrationConsumerTest extends DaoTestCase {
             gridService.register(registrationMessage);
         } catch (InvalidRegistrationException e) {
         	e.printStackTrace();
-        	assertEquals("Wrong exception code-","111", e.getFaultCode().getLocalPart());
+        	assertEquals("Wrong exception code-","215", e.getFaultCode().getLocalPart());
         	return;
         } catch (Exception e) {
         	e.printStackTrace();
@@ -328,7 +341,7 @@ public class CoOrdinatingSiteRegistrationConsumerTest extends DaoTestCase {
             gridService.register(registrationMessage);
         } catch (InvalidRegistrationException e) {
         	e.printStackTrace();
-        	assertEquals("Wrong exception code-","112", e.getFaultCode().getLocalPart());
+        	assertEquals("Wrong exception code-","216", e.getFaultCode().getLocalPart());
         	return;
         } catch (Exception e) {
         	e.printStackTrace();
@@ -360,5 +373,13 @@ public class CoOrdinatingSiteRegistrationConsumerTest extends DaoTestCase {
     	return ctx;
     }
 
+    public void addMRN(String value, Participant participant, HealthcareSite healthcareSite){
+    	OrganizationAssignedIdentifier id=participant.getOrganizationAssignedIdentifiers().get(participant.getOrganizationAssignedIdentifiers().size());
+    	id.setValue(value);
+    	id.setType(this.prtIdentifierTypeValueStr);
+    	id.setHealthcareSite(healthcareSite);
+    	participantDao.save(participant);
+    	interruptSession();
+    }
 
 }

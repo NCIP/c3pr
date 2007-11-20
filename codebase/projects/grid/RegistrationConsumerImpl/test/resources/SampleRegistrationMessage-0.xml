@@ -64,7 +64,6 @@
 				<targetAccrualNumber>300</targetAccrualNumber>
 			</arm>
 		</scheduledArm>
-		<eligibilityIndicator>true</eligibilityIndicator>
 	</scheduledEpoch>
 	<stratumGroup>3:between 20 and 45 - &lt;120</stratumGroup>
 </registration>

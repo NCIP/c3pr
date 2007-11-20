@@ -7,5 +7,11 @@
 	<import resource="classpath*:edu/duke/cabig/c3pr/applicationContext-core-db.xml"/>
 	<import resource="classpath*:edu/duke/cabig/c3pr/applicationContext-csm.xml"/>		
 
-    <bean id="registrationConsumer" class="gov.nih.nci.cabig.c3pr.grid.EchoRegistrationConsumer" autowire="byName" />
+    <bean id="registrationConsumer" class="gov.nih.nci.cabig.c3pr.grid.CoOrdinatingSiteRegistrationConsumer" autowire="byName">
+	    <property name="marshaller">
+            <bean id="registrationXmlUtility1" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
+                <property name="mappingFile" value="ccts-registration-castor-mapping.xml"/>
+            </bean>
+        </property>
+   </bean>
 </beans>

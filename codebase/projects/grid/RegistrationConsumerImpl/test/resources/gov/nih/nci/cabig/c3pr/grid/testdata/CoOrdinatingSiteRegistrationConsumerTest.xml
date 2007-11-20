@@ -52,11 +52,11 @@
     
     <BOOK_RNDM_ENTRY id="1100" version="1" position="1" str_grp_id="1100" arms_id="1100" rndm_id="1100"  retired_indicator="false"/>             
 
-   	<PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="M" race_code="White" add_id="1100" grid_id="AAAAA11111GridID" retired_indicator="false"/>
-   	<PARTICIPANTS id="1100" version="1" first_name="Rudolph" last_name="Hitler" birth_date="01-01-2000" administrative_gender_code="M" race_code="White" add_id="1100" grid_id="OTHERGRIDID" retired_indicator="false"/>
-   	<PARTICIPANTS id="2100" version="1" first_name="David" last_name="Blaine" birth_date="01-01-1990" administrative_gender_code="M" race_code="White" add_id="1100" grid_id="OTHERGRIDID-1" retired_indicator="false"/>
-   	<PARTICIPANTS id="2101" version="1" first_name="Raj" last_name="Singh" birth_date="01-01-1991" administrative_gender_code="M" race_code="White" add_id="1100" grid_id="OTHERGRIDID-2" retired_indicator="false"/>   	
-   	<PARTICIPANTS id="2102" version="1" first_name="Rahul" last_name="Verma" birth_date="01-01-1991" administrative_gender_code="M" race_code="White" add_id="1100" grid_id="OTHERGRIDID-3" retired_indicator="false"/>   	   	
+   	<PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="1991-01-01" administrative_gender_code="M" race_code="White" add_id="1100" grid_id="AAAAA11111GridID" retired_indicator="false"/>
+   	<PARTICIPANTS id="1100" version="1" first_name="Rudolph" last_name="Hitler" birth_date="1991-01-01" administrative_gender_code="M" race_code="White" add_id="1100" grid_id="OTHERGRIDID" retired_indicator="false"/>
+   	<PARTICIPANTS id="2100" version="1" first_name="David" last_name="Blaine" birth_date="1991-01-01" administrative_gender_code="M" race_code="White" add_id="1100" grid_id="OTHERGRIDID-1" retired_indicator="false"/>
+   	<PARTICIPANTS id="2101" version="1" first_name="Raj" last_name="Singh" birth_date="1991-01-01" administrative_gender_code="M" race_code="White" add_id="1100" grid_id="OTHERGRIDID-2" retired_indicator="false"/>   	
+   	<PARTICIPANTS id="2102" version="1" first_name="Rahul" last_name="Verma" birth_date="1991-01-01" administrative_gender_code="M" race_code="White" add_id="1100" grid_id="OTHERGRIDID-3" retired_indicator="false"/>   	   	
    	   	
 
     <ANATOMIC_SITES id="1100" version="1" name="Skin" category="skin"  retired_indicator="false"/>     
@@ -64,7 +64,7 @@
     <DISEASE_HISTORY id="1100" version="1" retired_indicator="false"/>
 
     <STUDY_SUBJECTS reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE" id="1100" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="1100" sto_id="1100" sti_id="1100" retired_indicator="false"/>
-    <STUDY_SUBJECTS reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE" id="1101" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="2102" sto_id="1101" sti_id="1100" retired_indicator="false"/>
+    <STUDY_SUBJECTS reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE" id="1101" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="2101" sto_id="1100" sti_id="1100" retired_indicator="false"/>
     <STUDY_SUBJECTS reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE" id="1102" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="2102" sto_id="1101" sti_id="1100" retired_indicator="false"/>
 
     <SCHEDULED_EPOCHS id="1100" version="1" start_date="01-01-2000" eligibility_indicator="true" ELIGIBILITY_WAIVER_REASON_TEXT="reason" spa_id="1100" type="TREATMENT" eph_id="1100" sc_epoch_workflow_status="INVALID" sc_epoch_data_entry_status="INCOMPLETE" retired_indicator="false"/>  
@@ -83,9 +83,6 @@
     <IDENTIFIERS id="1102" version="1" value="Multi-12123" type="Coordinating Center Identifier" hcs_id="1100" dtype="OAI" stu_id="2100" primary_indicator="false" retired_indicator="false"/>    
     <IDENTIFIERS id="1103" version="1" value="Multi-12123" type="Coordinating Center Identifier" hcs_id="1100" dtype="OAI" stu_id="2101" primary_indicator="false" retired_indicator="false"/>        
     <IDENTIFIERS id="1100" version="1" value="nci" type="local" system_name="nci" dtype="SAI" stu_id="1100" retired_indicator="false"/>
-    <IDENTIFIERS id="1000" version="1" value="MRN-AAACCCBB" type="MRN" hcs_id="1000" dtype="OAI" prt_id="1100" retired_indicator="false"/>
-    <IDENTIFIERS id="2100" version="1" value="MRN-SAME-121" type="MRN" hcs_id="1000" dtype="OAI" prt_id="2100" retired_indicator="false"/>
-    <IDENTIFIERS id="2101" version="1" value="MRN-SAME-121" type="MRN" hcs_id="1000" dtype="OAI" prt_id="2101" retired_indicator="false"/>
     <IDENTIFIERS id="2102" version="1" value="MRN-121A" type="MRN" hcs_id="1000" dtype="OAI" prt_id="2102" retired_indicator="false"/>    
 </dataset>
 

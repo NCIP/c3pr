@@ -571,7 +571,7 @@ public class StudyServiceImpl implements StudyService {
 	public Study merge(Study study) {
 		return studyDao.merge(study);
 	}
-	
+
 	public Study reassociate(Study study) {
 		studyDao.reassociate(study);
 		return study;
@@ -581,9 +581,6 @@ public class StudyServiceImpl implements StudyService {
 		studyDao.refresh(study);
 		return study;
 	}
-	
-	
-
 	public StudySubjectDao getStudySubjectDao() {
 		return studySubjectDao;
 	}
@@ -595,7 +592,7 @@ public class StudyServiceImpl implements StudyService {
     public List<Study> searchByCoOrdinatingCenterId(OrganizationAssignedIdentifier identifier)throws C3PRCodedException{
     	HealthcareSite healthcareSite = this.healthcareSiteDao.getByNciInstituteCode(identifier.getHealthcareSite().getNciInstituteCode());
 		if (healthcareSite == null) {
-			throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.INVALID.HEALTHCARESITE_SUBJECT_IDENTIFIER.CODE")
+			throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.INVALID.HEALTHCARESITE_IDENTIFIER.CODE")
                     ,new String[]{identifier.getHealthcareSite().getNciInstituteCode(), identifier.getType()});
 		}
 		identifier.setHealthcareSite(healthcareSite);

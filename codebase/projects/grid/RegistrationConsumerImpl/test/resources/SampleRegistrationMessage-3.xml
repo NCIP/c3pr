@@ -40,7 +40,7 @@
 		<ns1:lastName>Elliot</ns1:lastName>
 		<ns1:address />
 		<ns1:administrativeGenderCode>Male</ns1:administrativeGenderCode>
-		<ns1:birthDate>01-01-2000</ns1:birthDate>
+		<ns1:birthDate>2000-01-01</ns1:birthDate>
 		<ns1:raceCode>White</ns1:raceCode>
 		<ns1:identifier
 			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"

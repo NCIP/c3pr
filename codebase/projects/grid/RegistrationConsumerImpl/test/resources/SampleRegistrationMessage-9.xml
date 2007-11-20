@@ -36,11 +36,11 @@
 		xmlns:ns1="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"
 		ns1:gridId="50113a1a-4c3e-4418-8c37-7383cba1aaf8">
 		<ns1:gridId>50113a1a-4c3e-4418-8c37-7383cba1aaf8</ns1:gridId>
-		<ns1:firstName>Geoge</ns1:firstName>
-		<ns1:lastName>Elliot</ns1:lastName>
+		<ns1:firstName>Raj</ns1:firstName>
+		<ns1:lastName>Singh</ns1:lastName>
 		<ns1:address />
 		<ns1:administrativeGenderCode>Male</ns1:administrativeGenderCode>
-		<ns1:birthDate>1971-01-01</ns1:birthDate>
+		<ns1:birthDate>1991-01-01</ns1:birthDate>
 		<ns1:ethnicGroupCode>Hispanic or Latino</ns1:ethnicGroupCode>
 		<ns1:raceCode>Asian</ns1:raceCode>
 		<ns1:identifier
@@ -48,7 +48,7 @@
 			type="MRN-1212332"
 			xsi:type="ns1:OrganizationAssignedIdentifierType">
 			<ns1:type>MRN</ns1:type>
-			<ns1:value>MRN-1212332</ns1:value>
+			<ns1:value>MRN-SAME-121</ns1:value>
 			<ns1:primaryIndicator>true</ns1:primaryIndicator>
 			<ns1:healthcareSite gridId="WF GRID ID">
 				<ns1:nciInstituteCode>duke healthcare nci</ns1:nciInstituteCode>
