@@ -48,8 +48,11 @@ public interface StudyService {
     
     public Study merge(Study study);
     
-    public List<Study> searchByCoOrdinatingCenterId(OrganizationAssignedIdentifier identifier)throws C3PRCodedException;
+    public Study refresh(Study study);
+    
+    public Study reassociate(Study study);
 
+    public List<Study> searchByCoOrdinatingCenterId(OrganizationAssignedIdentifier identifier)throws C3PRCodedException;
 
     /**
      * @param study
