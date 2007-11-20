@@ -210,7 +210,6 @@
 		        <div class="row">
 		            <div class="label">Blinded:</div>
 		            <div class="value"><form:select path="blindedIndicator" onchange="blindedRandomization();">
-		                <option value="">--Please Select--</option>
 		                <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
 		            </form:select></div>
 		        </div>
