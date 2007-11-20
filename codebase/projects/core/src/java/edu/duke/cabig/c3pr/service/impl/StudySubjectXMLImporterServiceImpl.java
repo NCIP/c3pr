@@ -95,8 +95,10 @@ public class StudySubjectXMLImporterServiceImpl implements StudySubjectXMLImport
                 }
 
             }
-        } catch (Exception e) {
-            throw new C3PRBaseRuntimeException("Could not import study",e);
+        }catch (C3PRCodedException e) {
+        	throw e;
+        }catch (Exception e) {
+        	throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.ERROR_UNMARSHALLING"),e);
         }
         return studySubjectList;
     }
@@ -106,10 +108,9 @@ public class StudySubjectXMLImporterServiceImpl implements StudySubjectXMLImport
 		try {
 			studySubject = (StudySubject)marshaller.fromXML(new StringReader(registrationXml));
 		} catch (XMLUtilityException e) {
-			throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.ERROR_MARSHALLING"),e);
+			throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.ERROR_UNMARSHALLING"),e);
 		}
         this.validate(studySubject);
-        log.debug("Saving study subject with grid ID" + studySubject.getGridId());
         return importStudySubject(studySubject);
     }
 
@@ -121,7 +122,7 @@ public class StudySubjectXMLImporterServiceImpl implements StudySubjectXMLImport
             exampleSS.setStudySite(studySubject.getStudySite());
             List<StudySubject> registrations = studySubjectDao.searchBySubjectAndStudySite(exampleSS);
             if (registrations.size() > 0) {
-                throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.STUDYSUBJECTS_ALREADY_EXISTS.CODE"));
+                throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.STUDYSUBJECTS_ALREADY_EXISTS.CODE"));
             }
         } else {
             participantDao.save(studySubject.getParticipant());
@@ -134,7 +135,7 @@ public class StudySubjectXMLImporterServiceImpl implements StudySubjectXMLImport
         	if(scheduledTreatmentEpoch.getScheduledArm()==null || 
         			scheduledTreatmentEpoch.getScheduledArm().getArm()==null ||
         			scheduledTreatmentEpoch.getScheduledArm().getArm().getId()==null)
-        	throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.NOTFOUND.ARM.CODE"));
+        	throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.REQUIRED.ARM.NOTFOUND.CODE"));
         }
 		studySubject.setRegDataEntryStatus(studySubjectService.evaluateRegistrationDataEntryStatus(studySubject));
 		studySubject.getScheduledEpoch().setScEpochDataEntryStatus(studySubjectService.evaluateScheduledEpochDataEntryStatus(studySubject));
@@ -152,7 +153,7 @@ public class StudySubjectXMLImporterServiceImpl implements StudySubjectXMLImport
 			studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.UNREGISTERED);
 		}
 		studySubjectDao.save(studySubject);
-        log.debug("Study saved with grid ID" + studySubject.getGridId());
+        log.debug("Registration saved with grid ID" + studySubject.getGridId());
         return studySubject;
     }
 

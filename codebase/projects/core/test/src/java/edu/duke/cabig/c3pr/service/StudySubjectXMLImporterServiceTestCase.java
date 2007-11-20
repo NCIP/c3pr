@@ -162,7 +162,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase{
 		}catch (C3PRCodedException e) {
 			e.printStackTrace();
 			interruptSession();
-			assertEquals("Exception Code unmatched", getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.NOTFOUND.ARM.CODE"), e.getExceptionCode());
+			assertEquals("Exception Code unmatched", getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.REQUIRED.ARM.NOTFOUND.CODE"), e.getExceptionCode());
 			return;
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -312,7 +312,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase{
 			studySubjectXMLImporterService.importStudySubject(xml);
 		}catch (C3PRCodedException e) {
 			e.printStackTrace();
-			assertEquals("Exception Code unmatched", getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.NOTFOUND.ARM_NAME.CODE"), e.getExceptionCode());
+			assertEquals("Exception Code unmatched", getCode("C3PR.EXCEPTION.REGISTRATION.NOTFOUND.ARM_NAME.CODE"), e.getExceptionCode());
 			return;
 		}catch (Exception e) {
 			e.printStackTrace();

@@ -43,7 +43,7 @@ public interface StudySubjectService {
 	  
 	  public boolean requiresCoordinatingCenterApproval(StudySubject studySubject);
 	  
-	  public StudySubject processAffliateSiteRegistrationRequest(StudySubject studySubject) throws Exception;
+	  public StudySubject processAffliateSiteRegistrationRequest(StudySubject studySubject) throws C3PRCodedException;
 	  
 	  public void sendRegistrationRequest(StudySubject studySubject) throws C3PRCodedException;
 	  
