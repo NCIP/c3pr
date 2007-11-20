@@ -61,7 +61,7 @@
     <property name="reportable.projects.list" value="core,web"/>
 
 
-    <target name="prepare" depends="define-custom-ant-tasks"> </target>
+    <target name="prepare" depends="define-custom-ant-tasks"></target>
 
     <!-- =============================================================== -->
     <!-- CORE                                                             -->
@@ -196,39 +196,16 @@
         <ant dir="${projects.dir}/grid" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
 
-    <target name="prepareInstaller" depends="prepare,clean">
-        <property name="project.archive" value="c3prv2-installpack.zip"/>
-        <mkdir dir="${projects.dir}/installer/ext"/>
-        <zip destfile="${projects.dir}/installer/ext/${project.archive}">
-            <zipfileset dir="${antfiles.dir}" prefix="antfiles"/>
-            <zipfileset dir="${projects.dir}/core" prefix="projects/core"/>
-            <zipfileset dir="${projects.dir}/web" prefix="projects/web"/>
-            <zipfileset dir="${projects.dir}/esb-client" prefix="projects/esb-client"/>
-            <zipfileset dir="${projects.dir}/grid" prefix="projects/grid"/>
-            <zipfileset dir="${share.dir}" prefix="share"/>
-        </zip>
 
+    <!-- =============================================================== -->
+    <!-- c3pr Installer  project                                    -->
+    <!-- =============================================================== -->
+    <target name="build-installer" depends="prepare"
+            description="Builds the installer project">
         <resolveDependencies extdir="${projects.dir}/installer/ext">
             <artifact refid="common.test.jars"/>
         </resolveDependencies>
-
-    </target>
-
-    <!-- =============================================================== -->
-    <!-- c3pr Installer  project                                    -->
-    <!-- =============================================================== -->
-    <target name="build-installer" depends="prepareInstaller"
-            description="Builds the installer project">
         <ant dir="${projects.dir}/installer" inheritAll="false" target="all"/>
-    </target>
-
-
-    <!-- =============================================================== -->
-    <!-- c3pr Installer  project                                    -->
-    <!-- =============================================================== -->
-    <target name="build-offline-installer" depends="prepareInstaller"
-            description="Builds the offline version of the installer">
-        <ant dir="${projects.dir}/installer" inheritAll="false" target="build-offline-installer"/>
     </target>
 
 
@@ -288,6 +265,40 @@
         <ant dir="${projects.dir}/core" inheritall="false" target="bering-migrate-test"/>
     </target>
 
+
+    <!-- =============================================================== -->
+    <!-- create target to create a release of Installer  project          -->
+    <!-- =============================================================== -->
+    <target name="prepareInstallerForRelease" depends="clean">
+        <property name="project.archive" value="c3prv2-installpack.zip"/>
+        <mkdir dir="${projects.dir}/installer/ext"/>
+        <zip destfile="${projects.dir}/installer/ext/${project.archive}">
+            <zipfileset dir="${antfiles.dir}" prefix="antfiles"/>
+            <zipfileset dir="${projects.dir}/core" prefix="projects/core"/>
+            <zipfileset dir="${projects.dir}/web" prefix="projects/web"/>
+            <zipfileset dir="${projects.dir}/esb-client" prefix="projects/esb-client"/>
+            <zipfileset dir="${projects.dir}/grid" prefix="projects/grid"/>
+            <zipfileset dir="${share.dir}" prefix="share"/>
+        </zip>
+
+        <resolveDependencies extdir="${projects.dir}/installer/ext">
+            <artifact refid="common.test.jars"/>
+        </resolveDependencies>
+
+    </target>
+
+    <target name="create-online-installer" depends="prepareInstallerForRelease"
+            description="Builds the installer project">
+        <ant dir="${projects.dir}/installer" inheritAll="false" target="all"/>
+    </target>
+
+
+    <target name="create-offline-installer" depends="prepareInstallerForRelease"
+            description="Builds the offline version of the installer">
+        <ant dir="${projects.dir}/installer" inheritAll="false" target="build-offline-installer"/>
+    </target>
+
+
     <!--Update code from CVS. For developer use only-->
     <target name="cvsUpdate" description="Updates code from CVS. For developers use only">
         <!-- Assumes PKI setup for the following account-->
@@ -344,8 +355,7 @@
         </ant>
 
         <copy tofile="${c3pr.core.resources.dir}/c3pr-xml-mapping.xml" overwrite="true"
-              file="${cacore.toolkit.output.dir}/xml-mapping.xml"> </copy>
-
+              file="${cacore.toolkit.output.dir}/xml-mapping.xml"></copy>
 
 
     </target>
@@ -377,7 +387,7 @@
              target="deployTomcat-RegistrationConsumer"/>
     </target>
 
-    <target name="deploy-grid-C3PRStudyConsumer"  depends="prepare,checkGlobus,checkTomcat"
+    <target name="deploy-grid-C3PRStudyConsumer" depends="prepare,checkGlobus,checkTomcat"
             description="Will deploy the RegistrationConsumer grid service">
         <ant dir="${projects.dir}/grid" antfile="build.xml" inheritall="false"
              target="deployTomcat-C3PRStudyConsumer"/>
