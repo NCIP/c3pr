@@ -36,24 +36,24 @@
 <input type="hidden" name="type1" value="">
 <tags:errors path="*"/>
 
-<chrome:division id="organization" title="Organization Details">
+<chrome:division id="organization" title="Details">
 <div class="leftpanel">
 
     <div class="row">
         <div class="label required-indicator">
-            Name
+            Name:
         </div>
         <div class="value">
-            <form:input size="46" path="name" cssClass="validate-notEmpty"/>
+            <form:input size="60" path="name" cssClass="validate-notEmpty"/>
         </div>
     </div>
 
     <div class="row">
-        <div class="label required-indicator">
-            Description
+        <div class="label">
+            Description:
         </div>
         <div class="value">
-            <form:textarea rows="3" cols="45" path="descriptionText" cssClass="validate-notEmpty"/>
+            <form:textarea rows="3" cols="45" path="descriptionText"/>
         </div>
     </div>
 
@@ -72,7 +72,7 @@
     </div>
     </chrome:division>
 
-    <chrome:division id="address" title="Organization Address">
+    <chrome:division id="address" title="Address">
     <div class="leftpanel">
 
 

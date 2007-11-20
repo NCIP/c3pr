@@ -8,37 +8,38 @@
     <title>Confirmation</title>
 </head>
 <body>
-<div class="tabpane">
-  <ul id="workflow-tabs" class="tabs autoclear">
-    <li class="tab"><div>
-        <a href="../admin/searchOrganization">Search Organization</a>
-    </div></li>
-    <li class="tab selected"><div>
-        <a href="../admin/createOrganization">Create Organization</a>
-    </div></li>
-  </ul>
-</div>
+	<div class="tabpane">
+	  <ul id="workflow-tabs" class="tabs autoclear">
+	    <li class="tab"><div>
+	        <a href="../admin/searchOrganization">Search Organization</a>
+	    </div></li>
+	    <li class="tab selected"><div>
+	        <a href="../admin/createOrganization">Create Organization</a>
+	    </div></li>
+	  </ul>
+	</div>
 
-<div id="main">
-<br />
-<chrome:box title="Confirmation" autopad="true">
-    <table width="100%" border="0">
-        <tr>
-            <td>
-                <div class="content">
-                	<div class="row">
-	                    <div><h1>Organization Succesfully Created</h1></div>
-	                </div>
-                    <div class="row">
-                        <div class="label">Name :</div>
-                        <div class="value"><c:out value="${command.name}"/></div>
-                    </div>
+	<div id="main">
+	<br />
+		<chrome:box title="Confirmation" autopad="true">
+               	<div class="row" >
+                    <h2><font color="green">Organization successfully created.</font></h2>
                 </div>
-            </td>
-        </tr>
-    </table>
-</chrome:box>
-</div>
+                 <div class="row" >
+                 	<table class="tablecontent">
+						<tr>
+							<td class="alt" align="right"><b>Name:<b></td>
+							<td class="alt" align="left">${command.name}</td>
+						</tr>
+						<tr>
+							<td class="alt" align="right"><b>NCI Institue Code:<b></td>
+							<td class="alt" align="left">${command.nciInstituteCode}</td>
+						</tr>
+					</table>
+                 </div>
+		<br/>
+		</chrome:box>
+	</div>	
 
 </body>
 </html>
