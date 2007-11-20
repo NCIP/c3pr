@@ -95,38 +95,5 @@ public class StudyRandomizationTab extends StudyTab {
 			BookRandomizationAjaxFacade bookRandomizationAjaxFacade) {
 		this.bookRandomizationAjaxFacade = bookRandomizationAjaxFacade;
 	}
-
-
-  	        
 	    
-/*  		if(study.getRandomizationType().equals(RandomizationType.CALL_OUT) ||
-	    			study.getRandomizationType().equals(RandomizationType.PHONE_CALL)){
-	    		return;
-	    	}
-	    	
-	    	if(study.getRandomizationType().equals(RandomizationType.BOOK)){
-		    	ArrayList <String>reqParamArr = new ArrayList<String>();
-		        Enumeration e = req.getParameterNames();
-		        String temp;
-		        while(e.hasMoreElements()){
-		        	temp = e.nextElement().toString(); 
-		        	if(temp.startsWith("bookRandomizations")){
-		        		reqParamArr.add(temp);
-		        	}
-		        }
-		        String epochIndex, bookRandomizations;
-		        int selectedEpoch;
-		        for(String param : reqParamArr){
-		        	bookRandomizations = StringUtils.getBlankIfNull(req.getParameter(param));
-		        	if(!StringUtils.isEmpty(bookRandomizations)){
-				        epochIndex = param.substring(param.indexOf("-")+1);
-				        selectedEpoch = StringUtils.getBlankIfNull(epochIndex).equals("")?-1:Integer.parseInt(epochIndex);
-				        TreatmentEpoch tEpoch = study.getTreatmentEpochs().get(selectedEpoch);		        
-				        if(study.getRandomizationType().getName().equals("BOOK")){
-				        	parseBookRandomization(bookRandomizations, tEpoch);
-				        }
-		        	}
-		        }
-	    	}
-	    }*/	    
 }
