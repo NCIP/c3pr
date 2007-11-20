@@ -16,17 +16,21 @@ public class StudyCoordinatingCenterStudyStatusHandler implements FieldHandler {
 
 
     public Object getValue(Object object) throws IllegalStateException {
-        Study study = (Study)object;
-        return study.getCoordinatingCenterStudyStatus().toString();
+        Study study = (Study) object;
+        try {
+            return study.getCoordinatingCenterStudyStatus().toString();
+        } catch (Exception e) {
+            return "";
+        }
     }
 
     public void setValue(Object object, Object value) throws IllegalStateException, IllegalArgumentException {
-        Study study = (Study)object;
-        study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.valueOf((String)value));
+        Study study = (Study) object;
+        study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.valueOf((String) value));
     }
 
     public void resetValue(Object object) throws IllegalStateException, IllegalArgumentException {
-        Study study = (Study)object;
+        Study study = (Study) object;
         study.setCoordinatingCenterStudyStatus(null);
     }
 
