@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.web.ajax;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -74,6 +75,7 @@ public class BookRandomizationAjaxFacade {
 	        	if(!StringUtils.isEmpty(bookRandomizations)){			        
 			        if(tEpoch != null){
 			        	parseBookRandomization(bookRandomizations, tEpoch);
+			        	validatePositions(((BookRandomization)tEpoch.getRandomization()).getBookRandomizationEntry());
 //			        	if(action.equals("/pages/study/editStudy")){
 //			        		study=studyDao.merge(study);
 //			        		req.getSession().setAttribute("edu.duke.cabig.c3pr.web.study.EditStudyController.FORM.command", study);
@@ -97,6 +99,24 @@ public class BookRandomizationAjaxFacade {
 	        }
 	        return "";
 	    }
+	 
+	 /*
+	  * This method goes thru the positions and ensures they start with 0 and increnment by 1.
+	  * if any incorrect number is found it is replaced by null.
+	  * the buildTable replaces blank stringa with "Invalid Entry".
+	  */
+	 void validatePositions(List<BookRandomizationEntry> breList){		 
+		 Iterator iter = breList.iterator();
+		 BookRandomizationEntry bre;
+		 int i = 0;
+		 while(iter.hasNext()){
+			 bre = (BookRandomizationEntry)iter.next();
+			 if(bre.getPosition() != null && bre.getPosition().intValue() != i){
+				 bre.setPosition(null); 
+			 }
+			 ++i;
+		 }
+	 }
 
 	 /*
 	     * This method accepts the comma seperated string which is the formatted content for book randomization 
