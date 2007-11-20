@@ -45,8 +45,8 @@
 					<td class="alt" align="left">${command.shortTitleText}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b>Sponsor Study Identifier:</b></td>
-					<td class="alt" align="left">${command.organizationAssignedIdentifiers[0].value}</td>
+					<td class="alt" align="left"><b>Primary Identifier:</b></td>
+					<td class="alt" align="left">${command.primaryIdentifier}</td>
 				</tr>
 				<tr>
 					<td class="alt" align="left"><b>Target Accrual Number:</b></td>
