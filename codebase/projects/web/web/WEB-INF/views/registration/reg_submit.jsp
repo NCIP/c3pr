@@ -152,11 +152,11 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 	</tr>
 	<tr>
 		<td class="labelR" width="35%">Informed Consent Signed Date</td>
-		<td>${command.informedConsentSignedDateStr}</td>
+		<td><tags:requiredFieldEmptyIndicator value='${command.informedConsentSignedDateStr}' workflow='registration'/></td>
 	</tr>
 	<tr>
 		<td class="labelR">Informed Consent Version</td>
-		<td>${command.informedConsentVersion}</td>
+		<td><tags:requiredFieldEmptyIndicator value='${command.informedConsentVersion}' workflow='registration'/></td>
 	</tr>
 	<tr>
 		<td width="25%" class="labelR">Treating Physician</td>
@@ -178,7 +178,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 			<tr>
 				<td width="25%" class="labelR">Eligibility
 				Indicator</td>
-				<td>${command.scheduledEpoch.eligibilityIndicator?'True':'False' }</td>
+				<td><tags:requiredFieldInvalidIndicator value='${command.scheduledEpoch.eligibilityIndicator?"True":"False" }' workflow='registration' compareWith='True'/></td>
 			</tr>
 		</table>
 		<c:choose>
@@ -198,7 +198,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 				<c:forEach items="${command.scheduledEpoch.inclusionEligibilityAnswers}" var="criteria">
 			<tr class="results">
 				<td class="alt" align="left">${ criteria.eligibilityCriteria.questionText}</td>
-				<td class="alt" align="left">${criteria.answerText==''?'<span class="red"><b>Unanswered</span>':criteria.answerText }</td>
+				<td class="alt" align="left"><tags:requiredFieldEmptyIndicator value='${criteria.answerText}' workflow='registration'/></td>
 			</tr>
 		</c:forEach>
 		</table>
@@ -215,7 +215,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 			<c:forEach items="${command.scheduledEpoch.exclusionEligibilityAnswers}" var="criteria">
 			<tr class="results">
 				<td class="alt" align="left">${ criteria.eligibilityCriteria.questionText}</td>
-				<td class="alt" align="left">${criteria.answerText==''?'<span class="red"><b>Unanswered</span>':criteria.answerText }</td>
+				<td class="alt" align="left"><tags:requiredFieldEmptyIndicator value='${criteria.answerText}' workflow='registration'/></td>
 			</tr>
 		</c:forEach>
 		</table>
@@ -241,7 +241,8 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 			<c:forEach items="${command.scheduledEpoch.subjectStratificationAnswers}" var="criteria">
 				<tr class="results">
 					<td class="alt" align="left">${criteria.stratificationCriterion.questionText}</td>
-					<td class="alt" align="left">${criteria.stratificationCriterionAnswer.permissibleAnswer==''?'<span class="red"><b>Unanswered</span>':criteria.stratificationCriterionAnswer.permissibleAnswer }</td>
+					<td class="alt" align="left">
+					<tags:requiredFieldEmptyIndicator value='${criteria.stratificationCriterionAnswer.permissibleAnswer}' workflow='registration'/></td>
 				</tr>
 			</c:forEach>
 		</table>
