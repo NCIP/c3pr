@@ -2,11 +2,13 @@ input, label, select, textarea {
   vertical-align: middle;
   margin: 0; padding: 0;
   margin-left: 2pt;
+  font-family: arial;
+  font-size: 13px;
 }
 input[type=text], input[type=password], select, textarea {
   background-color: #f4f4f5;
   border: 1px inset #ccc;
-  padding: 2px;
+  padding: 2px;  
 }
 input[disabled], select[disabled], textarea[disabled] {
   border-color: #ddc;

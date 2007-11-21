@@ -63,11 +63,9 @@
 
         function manageRandomizedIndicatorSelectBox(box) {
             if (box.value == 'true') {
-                //		document.getElementById('randomizationTypeDiv').style.display='none';
                 Effect.OpenUp('randomizationTypeDiv');
             }
             if (box.value == 'false') {
-                //		document.getElementById('randomizationTypeDiv').style.display='none';
                 Effect.CloseDown('randomizationTypeDiv');
             }
         }
@@ -105,7 +103,25 @@
 	    							$(hiddenField).value=selectedChoice.id;
 	    							$(hiddenField1).value=selectedChoice.id;
 			}
+		}
+		
+		var piCoCenterAutocompleterProps = {
+            basename: "piCoCenter",
+            populator: function(autocompleter, text) {
+                StudyAjaxFacade.matchHealthcareSites(text,function(values) {
+                    autocompleter.setChoices(values)
+                })
+            },
+            valueSelector: function(obj) {
+                return obj.name
+            },
+             afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+    								hiddenField=piCoCenterAutocompleterProps.basename+"-hidden"
+    								hiddenField1=piCoCenterAutocompleterProps.basename+"-hidden1"
+	    							$(hiddenField).value=selectedChoice.id;
+	    							$(hiddenField1).value=selectedChoice.id;
 			}
+		}
        
         var principalInvestigatorAutocompleterProps = {
             basename: "investigator0",
@@ -125,6 +141,7 @@
         
         AutocompleterManager.addAutocompleter(coCenterAutocompleterProps);
         AutocompleterManager.addAutocompleter(sponsorSiteAutocompleterProps);
+        AutocompleterManager.addAutocompleter(piCoCenterAutocompleterProps);
 	    AutocompleterManager.addAutocompleter(principalInvestigatorAutocompleterProps);
 
 
@@ -144,7 +161,7 @@
         <div class="row">
             <div class="label required-indicator">
                 Short Title:</div>
-            <div class="value"><form:input path="shortTitleText" size="41"
+            <div class="value"><form:input path="shortTitleText" size="43"
                                            maxlength="30" cssClass="validate-notEmpty" /></div>
         </div>
 
@@ -180,7 +197,7 @@
                 Type:</div>
             <div class="value"><form:select path="type"
                                             cssClass="validate-notEmpty" >
-                <option value="">--Please Select--</option>
+                <option value="">Please Select</option>
                 <form:options items="${typeRefData}" itemLabel="desc"
                               itemValue="desc" />
             </form:select></div>
@@ -192,7 +209,7 @@
                 Phase:</div>
             <div class="value"><form:select path="phaseCode"
                                             cssClass="validate-notEmpty" >
-                <option value="">--Please Select--</option>
+                <option value="">Please Select</option>
                 <form:options items="${phaseCodeRefData}" itemLabel="desc"
                               itemValue="desc" />
             </form:select></div>
@@ -230,7 +247,7 @@
                         Multi-Institutional:</div>
                     <div class="value"><form:select path="multiInstitutionIndicator"
                                                    cssClass="validate-notEmpty" >
-                        <option value="">--Please Select--</option>
+                        <option value="">Please Select</option>
                         <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
                     </form:select></div>
                 </div>
@@ -247,15 +264,47 @@
     </div>
 </chrome:division>
 
-
-<chrome:division title="Coordinating Center Details">
-<tags:errors path="*"/>
+<chrome:division title="Randomization">
     <div class="leftpanel">
 
+        <div class="row">
+            <div class="label required-indicator">
+                Randomized:</div>
+            <div class="value"><form:select path="randomizedIndicator"
+                                            onchange="manageRandomizedIndicatorSelectBox(this);"
+                                            cssClass="validate-notEmpty"
+                                            disabled="${command.blindedIndicator == 'true'}" >
+                <option value="">Please Select</option>
+                <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
+            </form:select></div>
+        </div>
+    </div>
+	<div class="rightpanel">
+        <div id="randomizationTypeDiv"
+                <c:if test="${ ((empty command.randomizedIndicator) || command.randomizedIndicator=='false') && 
+                						command.blindedIndicator == 'false'}">style="display:none;"</c:if>>
+
+            <div class="row">
+                <div class="label">Type:</div>
+                <div class="value"><form:select path="randomizationType" disabled="${command.blindedIndicator == 'true'}">
+                    <form:option label="Please Select" value=""/>
+                    <form:option label="Book" value="BOOK"/>
+                    <form:option label="Call Out" value="CALL_OUT"/>
+                    <form:option label="Phone Call" value="PHONE_CALL"/>
+                </form:select></div>
+            </div>
+        </div>
+     
+    </div>
+</chrome:division>
+
+<chrome:division title="Coordinating Center">
+<tags:errors path="*"/> 
 
          <div id="coordinatingCenter">
+            	<div class="leftpanel">
                 	 <div class="row">
-		                        <div class="label required-indicator">Coordinating Center:</div>
+		                        <div class="label required-indicator">Name:</div>
 		                        <div class="value"><input type="hidden" id="coCenter-hidden"
 								name="studyCoordinatingCenters[0].healthcareSite"
 								value="${command.studyCoordinatingCenters[0].healthcareSite.id }" />
@@ -269,81 +318,32 @@
 							<div id="coCenter-choices" class="autocomplete"></div>
 							</div>
                     </div>
-
+			    </div>
+				<div class="rightpanel">
                     <div class="row">
-                        <div class="label required-indicator">Coordinating Center
-                            Study Identifier:</div>
-                        <div class="value"><input type="text" name="organizationAssignedIdentifiers[0].value" 
-						size="30" maxlength="30"
-						value="${command.organizationAssignedIdentifiers[0].value}" class="validate-notEmpty" />
-					<input type="hidden" name="organizationAssignedIdentifiers[0].type"
-						value="Coordinating Center Identifier"/>
-						<c:if test="${empty command.id}">
-						<input type="hidden" name="organizationAssignedIdentifiers[0].primaryIndicator" value="true"/>
-						</c:if>
+                        <div class="label required-indicator">Identifier:</div>
+                        <div class="value">
+                        	<input type="text" name="organizationAssignedIdentifiers[0].value" 
+								size="30" maxlength="30"
+								value="${command.organizationAssignedIdentifiers[0].value}" class="validate-notEmpty" />
+							<input type="hidden" name="organizationAssignedIdentifiers[0].type"
+								value="Coordinating Center Identifier"/>
+							<c:if test="${empty command.id}">
+								<input type="hidden" name="organizationAssignedIdentifiers[0].primaryIndicator" value="true"/>
+							</c:if>
 						</div>
-					</div>
-					
-					 <div class="row">
-		                        <div class="label required-indicator">Principal Investigator:</div>
-		                       <div class="value"> <form:hidden id="investigator0-hidden"
-                                 path="studyCoordinatingCenters[0].studyInvestigators[0].healthcareSiteInvestigator"/>
-                    <input type="text" id="investigator0-input" size="30"
-                           value="${command.studyCoordinatingCenters[0].studyInvestigators[0].healthcareSiteInvestigator.investigator.fullName}" class="autocomplete validate-notEmpty"/>
-                    <tags:indicator id="investigator0-indicator"/>
-                    <div id="investigator0-choices" class="autocomplete"></div>
-                    <input type="hidden" name="studyCoordinatingCenters[0].studyInvestigators[0].roleCode"
-						value="Principal Investigator"/>
-						<input type="hidden" name="studyCoordinatingCenters[0].studyInvestigators[0].statusCode" value="Active"/>
-                    </div>
-            
-          </div>
-           
-
-    </div>
+					</div>            
+          		</div>
+    	</div>
 </chrome:division>
 
-<chrome:division title="Randomization Details">
-    <div class="leftpanel">
-
-        <div class="row">
-            <div class="label required-indicator">
-                Randomized:</div>
-            <div class="value"><form:select path="randomizedIndicator"
-                                            onchange="manageRandomizedIndicatorSelectBox(this);"
-                                            cssClass="validate-notEmpty"
-                                            disabled="${command.blindedIndicator == 'true'}" >
-                <option value="">--Please Select--</option>
-                <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
-            </form:select></div>
-        </div>
-
-
-        <div id="randomizationTypeDiv"
-                <c:if test="${ ((empty command.randomizedIndicator) || command.randomizedIndicator=='false') && 
-                						command.blindedIndicator == 'false'}">style="display:none;"</c:if>>
-
-            <div class="row">
-                <div class="label">Randomization Type:</div>
-                <div class="value"><form:select path="randomizationType" disabled="${command.blindedIndicator == 'true'}">
-                    <form:option label="--Please Select--" value=""/>
-                    <form:option label="Book" value="BOOK"/>
-                    <form:option label="Call Out" value="CALL_OUT"/>
-                    <form:option label="Phone Call" value="PHONE_CALL"/>
-                </form:select></div>
-            </div>
-        </div>
-
-    </div>
-</chrome:division>
-
-<chrome:division title="Funding Sponsor Details">
+<chrome:division title="Funding Sponsor">
 <tags:errors path="*"/>
-    <div class="leftpanel">
-     <div id="fundingSponsor">
+
+   <div id="fundingSponsor">
+     <div class="leftpanel">
         <div class="row">
-            <div class="label">
-                Funding Sponsor:</div>
+            <div class="label">Name:</div>
             <div class="value">
             	<input type="text" id="healthcareSite-input" size="50"
             		name="aaaxxx" 
@@ -356,10 +356,10 @@
 			<div id="healthcareSite-choices" class="autocomplete"></div>
 			</div>
         </div>
-
+	</div>
+	<div class="rightpanel">
         <div class="row">
-            <div class="label">
-                Funding Sponsor Study Identifier:</div>
+            <div class="label">Identifier:</div>
             <div class="value">
             	<div id="fundingSponId">
 	            	<input type="text" name="organizationAssignedIdentifiers[${sponIndex==0?1:sponIndex}].value" size="30"
@@ -373,10 +373,48 @@
 				</div>
 			</div>
         </div>
-        </div>
+     </div>
+   </div>
+</chrome:division>
 
+<chrome:division title="Principal Investigator">
+    <div id="principalInvestigator">
+    <div class="leftpanel">
+<%--   				<div class="row">
+                        <div class="label">Name:</div>
+                        <div class="value"><input type="hidden" id="piCoCenter-hidden"
+						name="studyCoordinatingCenters[0].healthcareSite"
+						value="${command.studyCoordinatingCenters[0].healthcareSite.id }" />
+						<input type="hidden" id="piCoCenter-hidden1"
+							name="organizationAssignedIdentifiers[0].healthcareSite"
+							value="${command.organizationAssignedIdentifiers[0].healthcareSite.id}" />
+						<input id="piCoCenter-input" size="50" type="text"
+						name="studyCoordinatingCenters[0].healthcareSite.name"
+						value="${command.studyCoordinatingCenters[0].healthcareSite.name}" class="autocomplete" />
+						<tags:indicator id="piCoCenter-indicator" />
+						<div id="piCoCenter-choices" class="autocomplete"></div>
+						</div>
+                   </div> 
+--%>
+    </div>
+	<div class="rightpanel">               
+         					
+				 <div class="row">
+	                        <div class="label">Principal Investigator:</div>
+	                       <div class="value"> <form:hidden id="investigator0-hidden"
+                                path="studyCoordinatingCenters[0].studyInvestigators[0].healthcareSiteInvestigator"/>
+                   <input type="text" id="investigator0-input" size="30"
+                          value="${command.studyCoordinatingCenters[0].studyInvestigators[0].healthcareSiteInvestigator.investigator.fullName}" class="autocomplete"/>
+                   <tags:indicator id="investigator0-indicator"/>
+                   <div id="investigator0-choices" class="autocomplete"></div>
+                   <input type="hidden" name="studyCoordinatingCenters[0].studyInvestigators[0].roleCode"
+					value="Principal Investigator"/>
+					<input type="hidden" name="studyCoordinatingCenters[0].studyInvestigators[0].statusCode" value="Active"/>
+                   </div>            
+          </div>
     </div>
 </chrome:division>
+
 
 <tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" />
 
