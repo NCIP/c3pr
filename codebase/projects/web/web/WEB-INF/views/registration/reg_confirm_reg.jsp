@@ -40,6 +40,7 @@ function accessApp(url,app,targetWindow){
 </c:choose>
 <form name="navigationForm" id="navigationForm" method="post"></form>
 <tags:panelBox title="Confirmation Message" boxId="ConfMessage">
+
 <br/>
 	<!-- newRegistration: ${newRegistration}<br>
 	reg_registered :${reg_registered }<br>
@@ -55,18 +56,20 @@ function accessApp(url,app,targetWindow){
 	epoch_disapproved:${ epoch_disapproved}<br>
 	epoch_unapproved:${epoch_unapproved }<br>
 	epoch_unrandomized:${ epoch_unrandomized}<br>-->
+	<div id="printable">
 	<c:choose>
 	<c:when test="${newRegistration}">
 		<c:choose>
 		<c:when test="${reg_registered}">
-			<font color='<fmt:message key="REGISTRATION.SUCCESS.COLOR"/>'><strong><fmt:message key="REGISTRATION.SUCCESS"/> Please <a href="javascript:doNothing()">print</a>
+			<font color='<fmt:message key="REGISTRATION.SUCCESS.COLOR"/>'><strong><fmt:message key="REGISTRATION.SUCCESS"/> Please <a href="javascript:C3PR.printElement('printable');">print</a>
 			and save this confirmation in the subject study records </strong></font></c:when>
 		<c:when test="${reg_pending}">
 			<font color='<fmt:message key="REGISTRATION.PENDING.COLOR"/>'><strong><fmt:message key="REGISTRATION.PENDING"/> </strong></font></c:when>
 		<c:when test="${reg_disapproved}">
 			<font color='<fmt:message key="REGISTRATION.DISAPPROVED.COLOR"/>'><strong><fmt:message key="REGISTRATION.DISAPPROVED"/> </strong></font></c:when>
 		<c:when test="${reg_reserved}">
-			<font color='<fmt:message key="REGISTRATION.RESERVED.COLOR"/>'><strong><fmt:message key="REGISTRATION.RESERVED"/> </strong></font></c:when>
+			<font color='<fmt:message key="REGISTRATION.RESERVED.COLOR"/>'><strong><fmt:message key="REGISTRATION.RESERVED"/> Please <a href="javascript:C3PR.printElement('printable');">print</a>
+			and save this confirmation in the subject study records </strong></font></c:when>
 		<c:when test="${reg_nonenrolled }">
 			<font color='<fmt:message key="REGISTRATION.NONENROLLED.COLOR"/>'><strong><fmt:message key="REGISTRATION.NONENROLLED"/></strong></font></c:when>			
 		<c:when test="${reg_unrandomized}">
@@ -142,6 +145,7 @@ function accessApp(url,app,targetWindow){
 		</tr>
 	</table>
 	<br>
+	</div>
 	<table width="60%">
 		<tr>
 			<td class="label" align="left"><a

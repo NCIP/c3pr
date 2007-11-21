@@ -24,13 +24,13 @@
 </head>
 <body>
 <tags:formPanelBox tab="${tab}" flow="${flow}">
+	<c:choose>
+	<c:when test="${!command.scheduledEpoch.requiresArm}">
+			<br/><br><div align="center"><fmt:message key="REGISTRATION.NO_ARM_ASSIGNMENT_INVOLVED"/></div><br><br>
+	</c:when>
+	<c:otherwise>
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
 		<c:choose>
-		<c:when test="${!command.scheduledEpoch.requiresArm}">
-			<tr>
-				<td><br/><strong><fmt:message key="REGISTRATION.NO_ARM_ASSIGNMENT_INVOLVED"/></strong></td>
-			</tr>
-		</c:when>
 		<c:when test="${!command.scheduledEpoch.requiresRandomization}">
 			<tr>
 			<td class="label" width="80%">Select Arm:</td>
@@ -56,6 +56,8 @@
 		</c:otherwise>
 		</c:choose>
 	</table>
+	</c:otherwise>
+	</c:choose>
 </tags:formPanelBox>
 </body>
 </html>

@@ -29,7 +29,7 @@ function markAsAnswered(id){
 
 	<c:choose>
 	<c:when test="${!command.ifTreatmentScheduledEpoch}">
-		<b><br><fmt:message key="REGISTRATION.NO_STRATIFICATION"/>
+		<br/><br><div align="center"><fmt:message key="REGISTRATION.NO_STRATIFICATION"/></div><br><br>
 	</c:when>
 	<c:otherwise>
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">

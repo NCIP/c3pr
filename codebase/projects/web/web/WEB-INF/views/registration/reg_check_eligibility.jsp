@@ -29,7 +29,8 @@ function markAsAnswered(id){
 <tags:tabFields tab="${tab}"/>
 <c:choose>
 	<c:when test="${!command.ifTreatmentScheduledEpoch || fn:length(command.scheduledEpoch.subjectEligibilityAnswers) == 0}">
-			<tags:panelBox><br/><b><fmt:message key="REGISTRATION.NO_ELIGIBILITY"/></b></tags:panelBox>
+			<tags:formPanelBox tab="${tab}" flow="${flow}"><br/><br><div align="center"><fmt:message key="REGISTRATION.NO_ELIGIBILITY"/></div><br><br>
+			</tags:formPanelBox>
 	</c:when>
 	<c:otherwise>
 		<table id="" width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
@@ -104,10 +105,11 @@ function markAsAnswered(id){
 				</td>
 			</tr>
 		</table>
+		<tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
 	</c:otherwise>
 </c:choose>
 <!-- MAIN BODY ENDS HERE -->
-<tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
+
 </form:form>
 	</body>
 </html>

@@ -166,9 +166,8 @@ function broadcastRegistration(){
 		<tr>
 			<td width="25%" class="labelR">Registration Status</td>
 			<td>${command.regWorkflowStatus.code}&nbsp;
-				<div id="OffStudyDiv">
 				<c:if test="${command.regWorkflowStatus=='REGISTERED' && command.scheduledEpoch.scEpochWorkflowStatus=='APPROVED'}">
-					<a href="javascript:show();"><em>Put subject Off Study</em></a>
+					<input type="button" value="Take subject off study" onclick="new Effect.SlideDown('OffStudyStatus')">
 				</c:if>
 				<div id="OffStudyStatus">
 					<form:form id="offStudyStatusForm">
@@ -177,11 +176,9 @@ function broadcastRegistration(){
 						Off Study Reason: <form:textarea path="offStudyReasonText" rows="2" cols="40" cssClass="validate-notEmpty"></form:textarea><br>
 						Off Study Date: <tags:dateInput path="offStudyDate" cssClass="validate-notEmpty"/><em> (mm/dd/yyyy)</em><br>
 						<c:if test="${command.regWorkflowStatus!='OFF_STUDY'}"><input type="submit" value="ok"/>
-						<a href="javascript:hide();">cancel</a></c:if>
+							<input type="button" value="cancel" onclick="new Effect.SlideUp('OffStudyStatus')"/></c:if>
 					</form:form>
 				</div>
-				</div>
-				<script type="text/javascript">new Element.hide('OffStudyDiv');</script>
 				<script type="text/javascript">new Element.hide('OffStudyStatus');</script>
 			</td>
 		</tr>
@@ -232,7 +229,7 @@ function broadcastRegistration(){
 		</tr>
 	</table>
 	<c:if test="${command.regWorkflowStatus!='OFF_STUDY'}">	<br>
-		<input type="button" value="Edit" onclick="activateInPlaceEditing(eArray)"/>
+		<div align="right"><input type="button" value="Edit" onclick="activateInPlaceEditing(eArray)"/></div>
 	</c:if>
 	<script>
 	eArray=new Array();
