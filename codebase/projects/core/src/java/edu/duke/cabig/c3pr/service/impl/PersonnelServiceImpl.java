@@ -14,7 +14,9 @@ import gov.nih.nci.security.exceptions.CSTransactionException;
 import org.apache.log4j.Logger;
 import org.springframework.mail.MailException;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -37,14 +39,12 @@ public class PersonnelServiceImpl implements PersonnelService {
     private void save(C3PRUser c3prUser, gov.nih.nci.security.authorization.domainobjects.User csmUser)
             throws C3PRBaseException, MailException {
         try {
-            if(csmUser == null){
+            if (csmUser == null) {
                 csmUser = new gov.nih.nci.security.authorization.domainobjects.User();
-                populateCSMUser(c3prUser,csmUser);
+                populateCSMUser(c3prUser, csmUser);
                 userProvisioningManager.createUser(csmUser);
-            }
-
-            else{
-                populateCSMUser(c3prUser,csmUser);
+            } else {
+                populateCSMUser(c3prUser, csmUser);
                 userProvisioningManager.modifyUser(csmUser);
             }
 
@@ -61,7 +61,6 @@ public class PersonnelServiceImpl implements PersonnelService {
     }
 
 
-
     public void save(Investigator inv) throws C3PRBaseException {
         log.debug("Saving Investigator");
         dao.save(inv);
@@ -69,20 +68,20 @@ public class PersonnelServiceImpl implements PersonnelService {
 
 
     public void save(ResearchStaff staff) throws C3PRBaseException {
-        save(staff,null);
+        save(staff, null);
 
         try {
             User csmUser = getCSMUser(staff);
             csmUser.setOrganization(staff.getHealthcareSite().getNciInstituteCode());
-            assignUserToGroup(csmUser,siteObjectIdGenerator.generateId(staff.getHealthcareSite()) );
-            log.debug("Successfully assigned user to organization group" + siteObjectIdGenerator.generateId(staff.getHealthcareSite()) );
+            assignUserToGroup(csmUser, siteObjectIdGenerator.generateId(staff.getHealthcareSite()));
+            log.debug("Successfully assigned user to organization group" + siteObjectIdGenerator.generateId(staff.getHealthcareSite()));
         } catch (CSObjectNotFoundException e) {
             new C3PRBaseException("Could not assign user to organization group.");
         }
     }
 
     public void merge(Investigator user) throws C3PRBaseException {
-        dao.save((C3PRUser)user);
+        dao.save((C3PRUser) user);
     }
 
     public void merge(ResearchStaff staff) throws C3PRBaseException {
@@ -99,31 +98,47 @@ public class PersonnelServiceImpl implements PersonnelService {
         Set<String> groups = new HashSet<String>();
         try {
             Set<Group> existingSet = userProvisioningManager.getGroups(csmUser.getUserId().toString());
-            for(Group existingGroup: existingSet){
+            for (Group existingGroup : existingSet) {
                 groups.add(existingGroup.getGroupId().toString());
             }
             groups.add(getGroupIdByName(groupName));
 
-            userProvisioningManager.assignGroupsToUser(csmUser.getUserId().toString(),groups.toArray(new String[groups.size()]));
+            userProvisioningManager.assignGroupsToUser(csmUser.getUserId().toString(), groups.toArray(new String[groups.size()]));
         } catch (Exception e) {
             throw new C3PRBaseException("Could not add user to group", e);
         }
     }
 
-    private User getCSMUser(C3PRUser user) throws CSObjectNotFoundException{
+    private User getCSMUser(C3PRUser user) throws CSObjectNotFoundException {
         return userProvisioningManager.getUserById(user.getLoginId());
     }
 
-    private String getGroupIdByName(String groupName){
+    public List<C3PRUserGroupType> getGroups(C3PRUser user) throws C3PRBaseException {
+        List<C3PRUserGroupType> groups = new ArrayList<C3PRUserGroupType>();
+
+        try {
+            Set<Group> csmGroups = getCSMUser(user).getGroups();
+            for (Group csmGroup : csmGroups) {
+                groups.add(C3PRUserGroupType.getByCode(csmGroup.getGroupId().toString()));
+            }
+        } catch (CSObjectNotFoundException e) {
+            throw new C3PRBaseException("Error getting groups from CSM", e);
+        }
+
+        return groups;
+
+    }
+
+    private String getGroupIdByName(String groupName) {
         Group search = new Group();
         search.setGroupName(groupName);
-        GroupSearchCriteria sc  = new GroupSearchCriteria(search);
-        Group returnGroup = (Group)userProvisioningManager.getObjects(sc).get(0);
+        GroupSearchCriteria sc = new GroupSearchCriteria(search);
+        Group returnGroup = (Group) userProvisioningManager.getObjects(sc).get(0);
         return returnGroup.getGroupId().toString();
     }
 
 
-    private  void populateCSMUser(C3PRUser c3prUser,gov.nih.nci.security.authorization.domainobjects.User csmUser){
+    private void populateCSMUser(C3PRUser c3prUser, gov.nih.nci.security.authorization.domainobjects.User csmUser) {
         csmUser.setFirstName(c3prUser.getFirstName());
         csmUser.setLastName(c3prUser.getLastName());
         csmUser.setPassword(c3prUser.getLastName());

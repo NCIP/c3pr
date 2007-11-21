@@ -1,10 +1,14 @@
 package edu.duke.cabig.c3pr.service;
 
+import edu.duke.cabig.c3pr.domain.C3PRUser;
+import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Service to handle C3PR Users management
@@ -33,6 +37,7 @@ public interface PersonnelService {
 
     /**
      * Used to update Investigator domain object
+     *
      * @param user
      * @throws C3PRBaseException
      */
@@ -40,9 +45,20 @@ public interface PersonnelService {
 
     /**
      * Used to update ResearchStaff domain object
+     *
      * @param staff
      * @throws C3PRBaseException
      */
     public void merge(ResearchStaff staff) throws C3PRBaseException;
+
+    /**
+     * Get a list of csm groups for the user
+     *
+     * @param user
+     * @return
+     * @throws C3PRBaseException
+     */
+    public List<C3PRUserGroupType> getGroups(C3PRUser user) throws C3PRBaseException;
+
 
 }
