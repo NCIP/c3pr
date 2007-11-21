@@ -1,15 +1,14 @@
 package edu.duke.cabig.c3pr.xml;
 
-import org.xml.sax.helpers.DefaultHandler;
-import org.xml.sax.SAXException;
+import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
+import edu.duke.cabig.c3pr.exception.XMLValidationException;
 import org.apache.log4j.Logger;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+import org.xml.sax.helpers.DefaultHandler;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-
-import edu.duke.cabig.c3pr.exception.XMLValidationException;
-import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
@@ -45,18 +44,28 @@ public class XMLParser {
         parser.setProperty(JAXP_SCHEMA_SOURCE, in);
     }
 
-    public void validate(byte[] messageBytes) throws XMLValidationException, C3PRBaseRuntimeException{
+    public void validate(byte[] messageBytes) throws XMLValidationException, C3PRBaseRuntimeException {
         try {
-            parser.parse(new ByteArrayInputStream(messageBytes), new DefaultHandler());
+            parser.parse(new ByteArrayInputStream(messageBytes), new XMLParserErrorHandler());
         } catch (SAXException e) {
             log.warn("Invalid XML imported" + e.getMessage());
-            throw new XMLValidationException("XML is invalid against the expected schema",e);
+            throw new XMLValidationException("XML is invalid against the expected schema", e);
         } catch (IOException e) {
-            throw new C3PRBaseRuntimeException("Runtime exception",e);
+            throw new C3PRBaseRuntimeException("Runtime exception", e);
         }
 
     }
 
 
-    
+    private class XMLParserErrorHandler extends DefaultHandler {
+
+        public void error(SAXParseException saxParseException) throws SAXException {
+            throw saxParseException;
+        }
+
+
+        public void fatalError(SAXParseException saxParseException) throws SAXException {
+            throw saxParseException;
+        }
+    }
 }
