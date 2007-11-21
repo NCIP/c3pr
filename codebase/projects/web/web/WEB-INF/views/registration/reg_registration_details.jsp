@@ -102,7 +102,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 		<td class="label" width="50%"><em></em>Enrolling Physician:</td>
 		<td>
 			<form:select path="treatingPhysician" onchange="managePhysicianField(this)">
-				<option value="">--Please Select--</option>
+				<option value="">Please Select</option>
 				<form:options
 					items="${command.studySite.activeStudyInvestigators}" itemLabel="healthcareSiteInvestigator.investigator.fullName" itemValue="id" />
 				<option value="">Other</option>
@@ -117,7 +117,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 		<td class="label" width="40%">Primary Disease:</td>
 		<td>
 			<form:select id="stuydDiseaseSelect" path="diseaseHistory.studyDisease" onchange="manageField(this);">
-				<option value="">--Please Select--</option>
+				<option value="">Please Select</option>
 				<form:options items="${command.studySite.study.studyDiseases}" itemLabel="diseaseTerm.term" itemValue="id"/>
 				<option value="">Other</option>
 			</form:select>
