@@ -89,10 +89,8 @@
                 <table border="0" width="100%" id="table1" cellspacing="5">
                     <tr>
                         <td valign="top">
-                            <p id="instructions">*NA - Allow Not Applicable answer<br>
-                                Yes and No are permissible answers</p>
-                            <p>
-                                <chrome:division title="Inclusion Criteria">
+                            <br /><p>
+                            <chrome:division title="Inclusion Criteria">
                             
                             <table border="0" cellspacing="0" width="100%" cellpadding="0"
                                    id="addInclusionRowTable-${epochCount.index}" class="tablecontent">
@@ -154,8 +152,11 @@
                                     <input type="button" value="Add Exclusion Criterion"
                                            onclick="RowManager.addRow(instanceExclusionRow_${epochCount.index});"/>
                                    </p>
-                            </chrome:division></td>
+                            </chrome:division></td>                            
                     </tr>
+                    <tr><td>
+                    	<span id="instructions">&nbsp;&nbsp;*NA - Allow not applicable answer.</span>
+                    </td></tr>
                 </table>
             </tags:minimizablePanelBox>
         </c:if>
