@@ -3,7 +3,7 @@ package edu.duke.cabig.c3pr.utils;
 import edu.duke.cabig.c3pr.dao.C3PRBaseDao;
 import edu.duke.cabig.c3pr.domain.CCTSAbstractMutableDeletableDomainObject;
 import edu.duke.cabig.c3pr.domain.CCTSWorkflowStatusType;
-import edu.duke.cabig.c3pr.esb.CCTSMessageWorkflowCallback;
+import edu.duke.cabig.c3pr.esb.MessageWorkflowCallback;
 
 /**
  * Will track the CCTS message worfklow for a "given" domain object
@@ -22,7 +22,7 @@ public class DefaultCCTSMessageWorkflowCallbackFactory {
 
     private C3PRBaseDao dao;
 
-    public CCTSMessageWorkflowCallback createWorkflowCallback(CCTSAbstractMutableDeletableDomainObject domainObject) {
+    public MessageWorkflowCallback createWorkflowCallback(CCTSAbstractMutableDeletableDomainObject domainObject) {
         DefaultCCTSMessageWorkflowCallbackImpl callback = new DefaultCCTSMessageWorkflowCallbackImpl(domainObject);
         callback.setDao(dao);
         return callback;
@@ -38,7 +38,7 @@ public class DefaultCCTSMessageWorkflowCallbackFactory {
     }
 
 
-    private class DefaultCCTSMessageWorkflowCallbackImpl implements CCTSMessageWorkflowCallback {
+    private class DefaultCCTSMessageWorkflowCallbackImpl implements MessageWorkflowCallback {
 
         private C3PRBaseDao dao;
         private CCTSAbstractMutableDeletableDomainObject domainObject;

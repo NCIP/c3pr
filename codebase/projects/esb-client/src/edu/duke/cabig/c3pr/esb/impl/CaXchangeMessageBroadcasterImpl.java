@@ -1,6 +1,9 @@
 package edu.duke.cabig.c3pr.esb.impl;
 
-import edu.duke.cabig.c3pr.esb.*;
+import edu.duke.cabig.c3pr.esb.BroadcastException;
+import edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster;
+import edu.duke.cabig.c3pr.esb.CaXchangeMessageHelper;
+import edu.duke.cabig.c3pr.esb.MessageWorkflowCallback;
 import gov.nih.nci.cagrid.caxchange.client.CaXchangeRequestProcessorClient;
 import gov.nih.nci.cagrid.caxchange.context.client.CaXchangeResponseServiceClient;
 import gov.nih.nci.cagrid.caxchange.context.stubs.types.CaXchangeResponseServiceReference;
@@ -8,18 +11,21 @@ import gov.nih.nci.caxchange.*;
 import org.apache.axis.types.URI;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.io.StringReader;
 import java.rmi.RemoteException;
 import java.util.Map;
 import java.util.concurrent.*;
 
 /**
  * Sends messages to caXchange. Also, will notify of the message status
- * by impelementing CCTSMessageWorkflowNotifier
+ * by impelementing MessageWorkflowNotifier
+ * <p/>
  * <p/>
  * Created by IntelliJ IDEA.
  * User: kherm
@@ -27,14 +33,14 @@ import java.util.concurrent.*;
  * Time: 3:40:56 PM
  * To change this template use File | Settings | File Templates.
  */
-public class CaXchangeMessageBroadcasterImpl implements MessageBroadcastService, CCTSMessageWorkflowNotifier {
+public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster {
 
     private String caXchangeURL;
     //default valut. Should not change
     private Map messageTypesMapping;
 
     private Logger log = Logger.getLogger(CaXchangeMessageBroadcasterImpl.class);
-    private CCTSMessageWorkflowCallback messageWorkflowCallback;
+    private MessageWorkflowCallback messageWorkflowCallback;
 
 
     /**
@@ -56,7 +62,7 @@ public class CaXchangeMessageBroadcasterImpl implements MessageBroadcastService,
         Document messageDOM = null;
 
         try {
-            messageDOM = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(cctsDomainObjectXML);
+            messageDOM = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new StringReader(cctsDomainObjectXML)));
         } catch (SAXException e) {
             throw new BroadcastException("caXchange could not serialize domain object", e);
         } catch (IOException e) {
@@ -71,7 +77,7 @@ public class CaXchangeMessageBroadcasterImpl implements MessageBroadcastService,
             Message xchangeMessage = CaXchangeMessageHelper.createXchangeMessage(messageDOM);
             Metadata mData = new Metadata();
             mData.setOperation(Operations.PROCESS);
-            mData.setMessageType(MessageTypes.fromString((String) messageTypesMapping.get(messageDOM.getDocumentElement().getLocalName())));
+            mData.setMessageType(MessageTypes.fromString((String) messageTypesMapping.get(messageDOM.getDocumentElement().getNodeName())));
 
             xchangeMessage.setMetadata(mData);
             responseRef = caXchangeClient.processRequestAsynchronously(xchangeMessage);
@@ -83,6 +89,7 @@ public class CaXchangeMessageBroadcasterImpl implements MessageBroadcastService,
             if (messageWorkflowCallback != null) {
                 messageWorkflowCallback.messageSendFailed(cctsDomainObjectXML);
             }
+            throw new BroadcastException("caXchange could not process message", e);
         }
 
         //check on the response asynchronously
@@ -110,7 +117,7 @@ public class CaXchangeMessageBroadcasterImpl implements MessageBroadcastService,
         this.caXchangeURL = caXchangeURL;
     }
 
-    public void setNotificationHandler(CCTSMessageWorkflowCallback handler) {
+    public void setNotificationHandler(MessageWorkflowCallback handler) {
         this.messageWorkflowCallback = handler;
     }
 

@@ -5,13 +5,14 @@ package edu.duke.cabig.c3pr.esb;
  * the ESB
  * <p/>
  * <p/>
+ * <p/>
  * Created by IntelliJ IDEA.
  * User: kherm
  * Date: Nov 15, 2007
  * Time: 11:28:07 AM
  * To change this template use File | Settings | File Templates.
  */
-public interface CCTSMessageWorkflowCallback {
+public interface MessageWorkflowCallback {
 
     /**
      * Handle message sent to ESB successfully
@@ -26,7 +27,7 @@ public interface CCTSMessageWorkflowCallback {
      * Confirm that message was sent to CCTS Hub and confirmation
      * was received
      *
-      * @param objectIdentifier id of the domain object
+     * @param objectIdentifier id of the domain object
      */
     public void messageSendConfirmed(String objectIdentifier);
 }

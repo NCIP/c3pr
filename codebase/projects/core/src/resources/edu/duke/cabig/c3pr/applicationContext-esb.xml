@@ -17,6 +17,8 @@
                value="STUDY_CREATION"/>
     </util:map>
 
+    <!--default implementation will just track status and
+    set it appropriately for the domain object sent as ccts message-->
     <bean id="cctsMessageWorkflowCallbackFactory"
           class="edu.duke.cabig.c3pr.utils.DefaultCCTSMessageWorkflowCallbackFactory">
         <property name="dao" ref="studySubjectDao"/>
@@ -25,8 +27,7 @@
     <bean id="messageBroadcaster"
           class="edu.duke.cabig.c3pr.esb.impl.CaXchangeMessageBroadcasterImpl">
         <property name="caXchangeURL" value="${esb.brokerUrl}"/>
-        <property name="messageTypesMapping" ref="messageTypesMapping">
-        </property>
+        <property name="messageTypesMapping" ref="messageTypesMapping"/>
     </bean>
 
 </beans>
