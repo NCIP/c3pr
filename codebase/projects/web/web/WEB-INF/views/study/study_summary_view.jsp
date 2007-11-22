@@ -1,369 +1,397 @@
-<%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
-<%@ taglib prefix="csmauthz" uri="http://csm.ncicb.nci.nih.gov/authz"%>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
+<%@ taglib prefix="csmauthz" uri="http://csm.ncicb.nci.nih.gov/authz" %>
 
 
 <html>
 <head>
-<script language="JavaScript" type="text/JavaScript">
+    <script language="JavaScript" type="text/JavaScript">
         function doExportAction() {
             document.viewDetails._action.value = "export";
             document.viewDetails.submit();
             document.viewDetails._action.value = "";
         }
-        
-    function activateInPlaceEditing(arrayElements){
-		for(aE=0 ; aE<arrayElements.length ; aE++){
-			arrayElements[aE].enterEditMode('click');
-		}
-	}
 
-	function statusChangeCallback(statusCode){
-		elmt = document.getElementById('amendButtonDisplayDiv');
-		if(statusCode == 'Active' || statusCode == 'Amendment Pending'){
-			elmt.style.display = "";
-		} else {
-			elmt.style.display = "none";
-		}
-	}
-</script>
+        function doSendMessageToESB() {
+        <tags:tabMethod method="sendMessageToESB" viewName="/study/asynchronous/broadcast_res" divElement="'broadcastResponse'" formName="'tabMethodForm'"/>
+        }
+
+
+        function activateInPlaceEditing(arrayElements) {
+            for (aE = 0; aE < arrayElements.length; aE++) {
+                arrayElements[aE].enterEditMode('click');
+            }
+        }
+
+        function statusChangeCallback(statusCode) {
+            elmt = document.getElementById('amendButtonDisplayDiv');
+            if (statusCode == 'Active' || statusCode == 'Amendment Pending') {
+                elmt.style.display = "";
+            } else {
+                elmt.style.display = "none";
+            }
+        }
+    </script>
 </head>
 
 <body>
 <form:form name="viewDetails">
-	<tags:tabFields tab="${tab}" />
-	<chrome:box title="Study Summary">
-		<div><input type="hidden" name="_finish" value="true" /> <input
-			type="hidden" name="_action" value=""></div>
+<tags:tabFields tab="${tab}"/>
+<chrome:box title="Study Summary">
+<div><input type="hidden" name="_finish" value="true"/> <input
+        type="hidden" name="_action" value=""></div>
 
-		<chrome:division id="study-details" title="Study Details">
-			<table class="tablecontent">
-				<tr>
-					<td class="alt" align="left"><b>Short Title:</b></td>
-					<td class="alt" align="left">${command.shortTitleText}</td>
-				</tr>
-				<tr>
-					<td class="alt" align="left"><b>Primary Identifier:</b></td>
-					<td class="alt" align="left">${command.primaryIdentifier}</td>
-				</tr>
-				<tr>
-					<td class="alt" align="left"><b>Target Accrual Number:</b></td>
-					<td class="alt" align="left">${command.targetAccrualNumber}</td>
-				</tr>
-				<tr>
-					<td class="alt" align="left"><b>Phase:</b></td>
-					<td class="alt" align="left">${command.phaseCode}</td>
-				</tr>
-				<tr>
-					<td class="alt" align="left"><b>Data Entry Status:</b></td>
-					<td class="alt" align="left">${command.dataEntryStatus.code}</td>
-				</tr>
-				<tr>
-					<td class="alt" align="left" rows="2"><b>Study Status:</b></td>
-					<c:set var="commanSepOptVal"
-						value="[['Active','Active'],
+<chrome:division id="study-details" title="Study Details">
+    <table class="tablecontent">
+        <tr>
+            <td class="alt" align="left"><b>Short Title:</b></td>
+            <td class="alt" align="left">${command.shortTitleText}</td>
+        </tr>
+        <tr>
+            <td class="alt" align="left"><b>Primary Identifier:</b></td>
+            <td class="alt" align="left">${command.primaryIdentifier}</td>
+        </tr>
+        <tr>
+            <td class="alt" align="left"><b>Target Accrual Number:</b></td>
+            <td class="alt" align="left">${command.targetAccrualNumber}</td>
+        </tr>
+        <tr>
+            <td class="alt" align="left"><b>Phase:</b></td>
+            <td class="alt" align="left">${command.phaseCode}</td>
+        </tr>
+        <tr>
+            <td class="alt" align="left"><b>Data Entry Status:</b></td>
+            <td class="alt" align="left">${command.dataEntryStatus.code}</td>
+        </tr>
+        <tr>
+            <td class="alt" align="left" rows="2"><b>Study Status:</b></td>
+            <c:set var="commanSepOptVal"
+                   value="[['Active','Active'],
 						['Closed To Accrual And Treatment','Closed To Accrual And Treatment'],['Closed To Accrual','Closed To Accrual'],
 						['Temporarily Closed To Accrual And Treatment','Temporarily Closed To Accrual And Treatment'],
 						['Temporarily Closed To Accrual','Temporarily Closed To Accrual']]"></c:set>
-					<td><tags:inPlaceSelect
-						value="${command.coordinatingCenterStudyStatus.code}"
-						path="changedCoordinatingCenterStudyStatus"
-						commanSepOptVal="${commanSepOptVal}" />&nbsp; <input type="button" value="Change Status" onclick="editor_changedCoordinatingCenterStudyStatus.enterEditMode('click')"/></td>
-				</tr>
-				<tr>
-					<td class="alt" align="left"><b>Type:</b></td>
-					<td class="alt" align="left">${command.type}</td>
-				</tr>
-				<tr>
-					<td class="alt" align="left"><b>Phase:</b></td>
-					<td class="alt" align="left">${command.phaseCode}</td>
-				</tr>
-				<tr>
-					<td class="alt" align="left"><b>Multi Institution:</b></td>
-					<td class="alt" align="left">${command.multiInstitutionIndicator=="true"?"Yes":"No"}</td>
-				</tr>
-				
-				<tr>
-					<td class="alt" align="left"><b>Blinded:</b></td>
-					<td class="alt" align="left">${command.blindedIndicator=="true"?"Yes":"No"}</td>
-				</tr>
-				<tr>
-					<td class="alt" align="left"><b>Randomized:</b></td>
-					<td class="alt" align="left">${command.randomizedIndicator=="true"?"Yes":"No"}</td>
-				</tr>
-				<tr>
-					<td class="alt" align="left"><b>Randomization Type:</b></td>
-					<td class="alt" align="left">${command.randomizationType.displayName}</td>
-				</tr>
+            <td>
+                <tags:inPlaceSelect
+                        value="${command.coordinatingCenterStudyStatus.code}"
+                        path="changedCoordinatingCenterStudyStatus"
+                        commanSepOptVal="${commanSepOptVal}"/>
+                &nbsp; <input type="button" value="Change Status"
+                              onclick="editor_changedCoordinatingCenterStudyStatus.enterEditMode('click')"/></td>
+        </tr>
+        <tr>
+            <td class="alt" align="left"><b>Type:</b></td>
+            <td class="alt" align="left">${command.type}</td>
+        </tr>
+        <tr>
+            <td class="alt" align="left"><b>Phase:</b></td>
+            <td class="alt" align="left">${command.phaseCode}</td>
+        </tr>
+        <tr>
+            <td class="alt" align="left"><b>Multi Institution:</b></td>
+            <td class="alt" align="left">${command.multiInstitutionIndicator=="true"?"Yes":"No"}</td>
+        </tr>
 
-			</table>
-		</chrome:division>
-			<hr align="left" width="95%">					
-			<br>
+        <tr>
+            <td class="alt" align="left"><b>Blinded:</b></td>
+            <td class="alt" align="left">${command.blindedIndicator=="true"?"Yes":"No"}</td>
+        </tr>
+        <tr>
+            <td class="alt" align="left"><b>Randomized:</b></td>
+            <td class="alt" align="left">${command.randomizedIndicator=="true"?"Yes":"No"}</td>
+        </tr>
+        <tr>
+            <td class="alt" align="left"><b>Randomization Type:</b></td>
+            <td class="alt" align="left">${command.randomizationType.displayName}</td>
+        </tr>
 
-		<chrome:division title="Identifiers">
-			<h4>Organization Assigned Identifiers</h4>
-			<br>
+    </table>
+</chrome:division>
+<hr align="left" width="95%">
+<br>
 
-			<table class="tablecontent">
-				<tr>
-					<th scope="col" align="left">Assigning Authority</th>
-					<th scope="col" align="left">Identifier Type</th>
-					<th scope="col" align="left">Identifier</th>
-				</tr>
-				<c:forEach items="${command.organizationAssignedIdentifiers}"
-					var="orgIdentifier">
-					<tr class="results">
-						<td class="alt" align="left">${orgIdentifier.healthcareSite.name}</td>
-						<td class="alt" align="left">${orgIdentifier.type}</td>
-						<td class="alt" align="left">${orgIdentifier.value}</td>
-					</tr>
-				</c:forEach>
-			</table>
-			<br>
-			<br>
-			<h4>System Assigned Identifiers</h4>
+<chrome:division title="Identifiers">
+    <h4>Organization Assigned Identifiers</h4>
+    <br>
 
-			<br>
+    <table class="tablecontent">
+        <tr>
+            <th scope="col" align="left">Assigning Authority</th>
+            <th scope="col" align="left">Identifier Type</th>
+            <th scope="col" align="left">Identifier</th>
+        </tr>
+        <c:forEach items="${command.organizationAssignedIdentifiers}"
+                   var="orgIdentifier">
+            <tr class="results">
+                <td class="alt" align="left">${orgIdentifier.healthcareSite.name}</td>
+                <td class="alt" align="left">${orgIdentifier.type}</td>
+                <td class="alt" align="left">${orgIdentifier.value}</td>
+            </tr>
+        </c:forEach>
+    </table>
+    <br>
+    <br>
+    <h4>System Assigned Identifiers</h4>
 
-			<table class="tablecontent">
-				<tr>
-					<th scope="col" align="left">System Name</th>
-					<th scope="col" align="left">Identifier Type</th>
-					<th scope="col" align="left">Identifier</th>
-				</tr>
-				<c:forEach items="${command.systemAssignedIdentifiers}"
-					var="identifier">
-					<tr class="results">
-						<td class="alt" align="left">${identifier.systemName}</td>
-						<td class="alt" align="left">${identifier.type}</td>
-						<td class="alt" align="left">${identifier.value}</td>
-					</tr>
-				</c:forEach>
-			</table>
-		</chrome:division>
+    <br>
 
-		<chrome:division title="Sites">
-			<table class="tablecontent">
-				<tr>
-					<th scope="col" align="left">Study Site</th>
-					<th scope="col" align="left">Status</th>
-					<th scope="col" align="left">Role</th>
-					<th scope="col" align="left">Start Date</th>	
-					<th scope="col" align="left">IRB Approval Date</th>				
-				</tr>
-					<c:set var="commanSepOptValSite"
-						value="[['Active','Active'],
+    <table class="tablecontent">
+        <tr>
+            <th scope="col" align="left">System Name</th>
+            <th scope="col" align="left">Identifier Type</th>
+            <th scope="col" align="left">Identifier</th>
+        </tr>
+        <c:forEach items="${command.systemAssignedIdentifiers}"
+                   var="identifier">
+            <tr class="results">
+                <td class="alt" align="left">${identifier.systemName}</td>
+                <td class="alt" align="left">${identifier.type}</td>
+                <td class="alt" align="left">${identifier.value}</td>
+            </tr>
+        </c:forEach>
+    </table>
+</chrome:division>
+
+<chrome:division title="Sites">
+    <table class="tablecontent">
+        <tr>
+            <th scope="col" align="left">Study Site</th>
+            <th scope="col" align="left">Status</th>
+            <th scope="col" align="left">Role</th>
+            <th scope="col" align="left">Start Date</th>
+            <th scope="col" align="left">IRB Approval Date</th>
+        </tr>
+        <c:set var="commanSepOptValSite"
+               value="[['Active','Active'],
 						['Closed To Accrual And Treatment','Closed To Accrual And Treatment'],['Closed To Accrual','Closed To Accrual'],
 						['Temporarily Closed To Accrual And Treatment','Temporarily Closed To Accrual And Treatment'],
 						['Temporarily Closed To Accrual','Temporarily Closed To Accrual']]"></c:set>
-				<c:forEach items="${command.studySites}" var="studySite"
-					varStatus="status">
-					<tr class="results">
-						<td class="alt" align="left">${studySite.healthcareSite.name}</td>
-						<td><tags:inPlaceSelect
-						value="${command.studySites[status.index].siteStudyStatus.code}"
-						path="changedSiteStudyStatus_${status.index}"
-						commanSepOptVal="${commanSepOptValSite}" />&nbsp;</td>
-						<td class="alt" align="left">${studySite.roleCode}</td>
-						<td><tags:inPlaceEdit value="${studySite.startDateStr}" path="changedSiteStudyStartDate_${status.index}" required="true"/>&nbsp;</td>
-						<td><tags:inPlaceEdit value="${studySite.irbApprovalDateStr}" path="changedSiteStudyIrbApprovalDate_${status.index}" required="true"/>&nbsp;</td>
-						<td><input type="button" value="Edit" onclick="activateInPlaceEditing(eArray_${status.index})"/>
-	<script>
-	eArray_${status.index}=new Array();
-	eArray_${status.index}.push(editor_changedSiteStudyStatus_${status.index});
-	eArray_${status.index}.push(editor_changedSiteStudyStartDate_${status.index});
-	eArray_${status.index}.push(editor_changedSiteStudyIrbApprovalDate_${status.index});
-	</script> </td>
-					</tr>
-				</c:forEach>
-			</table>
-		</chrome:division>
+        <c:forEach items="${command.studySites}" var="studySite"
+                   varStatus="status">
+            <tr class="results">
+                <td class="alt" align="left">${studySite.healthcareSite.name}</td>
+                <td>
+                    <tags:inPlaceSelect
+                            value="${command.studySites[status.index].siteStudyStatus.code}"
+                            path="changedSiteStudyStatus_${status.index}"
+                            commanSepOptVal="${commanSepOptValSite}"/>
+                    &nbsp;</td>
+                <td class="alt" align="left">${studySite.roleCode}</td>
+                <td>
+                    <tags:inPlaceEdit value="${studySite.startDateStr}" path="changedSiteStudyStartDate_${status.index}"
+                                      required="true"/>
+                    &nbsp;</td>
+                <td>
+                    <tags:inPlaceEdit value="${studySite.irbApprovalDateStr}"
+                                      path="changedSiteStudyIrbApprovalDate_${status.index}" required="true"/>
+                    &nbsp;</td>
+                <td><input type="button" value="Edit" onclick="activateInPlaceEditing(eArray_${status.index})"/>
+                    <script>
+                        eArray_${status.index} = new Array();
+                        eArray_${status.index}.push(editor_changedSiteStudyStatus_${status.index});
+                        eArray_${status.index}.push(editor_changedSiteStudyStartDate_${status.index});
+                        eArray_${status.index}.push(editor_changedSiteStudyIrbApprovalDate_${status.index});
+                    </script>
+                </td>
+            </tr>
+        </c:forEach>
+    </table>
+</chrome:division>
 
-		<chrome:division title="Investigators">
-			<table class="tablecontent">
-				<tr>
-					<th scope="col" align="left">Investigator</th>
-					<th scope="col" align="left">Role</th>
-					<th scope="col" align="left">Status</th>
-					<th scope="col" align="left">Organization</th>
+<chrome:division title="Investigators">
+    <table class="tablecontent">
+        <tr>
+            <th scope="col" align="left">Investigator</th>
+            <th scope="col" align="left">Role</th>
+            <th scope="col" align="left">Status</th>
+            <th scope="col" align="left">Organization</th>
 
-				</tr>
-				<c:forEach items="${command.studyOrganizations}"
-					var="studyOrganization" varStatus="status">
-					<c:forEach items="${studyOrganization.studyInvestigators}"
-						var="studyInvestigator" varStatus="status">
-						<tr class="results">
-							<td class="alt" align="left">${studyInvestigator.healthcareSiteInvestigator.investigator.fullName}</td>
-							<td class="alt" align="left">${studyInvestigator.roleCode}</td>
-							<td class="alt" align="left">${studyInvestigator.statusCode}</td>
-							<td class="alt">${studyInvestigator.studyOrganization.healthcareSite.name}</td>
-						</tr>
-					</c:forEach>
-				</c:forEach>
-			</table>
-		</chrome:division>
+        </tr>
+        <c:forEach items="${command.studyOrganizations}"
+                   var="studyOrganization" varStatus="status">
+            <c:forEach items="${studyOrganization.studyInvestigators}"
+                       var="studyInvestigator" varStatus="status">
+                <tr class="results">
+                    <td class="alt"
+                        align="left">${studyInvestigator.healthcareSiteInvestigator.investigator.fullName}</td>
+                    <td class="alt" align="left">${studyInvestigator.roleCode}</td>
+                    <td class="alt" align="left">${studyInvestigator.statusCode}</td>
+                    <td class="alt">${studyInvestigator.studyOrganization.healthcareSite.name}</td>
+                </tr>
+            </c:forEach>
+        </c:forEach>
+    </table>
+</chrome:division>
 
-		<chrome:division title="Personnel">
-			<table class="tablecontent">
-				<tr>
-					<th scope="col" align="left">Name</th>
-					<th scope="col" align="left">Role</th>
-					<th scope="col" align="left">Status</th>
-					<th scope="col" align="left">Organization</th>
-				</tr>
-				<c:forEach items="${command.studyOrganizations}"
-					var="studyOrganization" varStatus="status">
-					<c:forEach items="${studyOrganization.studyPersonnel}"
-						var="studyPersonnel" varStatus="status">
-						<tr class="results">
-							<td class="alt">${studyPersonnel.researchStaff.fullName}</td>
-							<td class="alt">${studyPersonnel.roleCode}</td>
-							<td class="alt">${studyPersonnel.statusCode}</td>
-							<td class="alt">${studyPersonnel.studyOrganization.healthcareSite.name}</td>
-						</tr>
-					</c:forEach>
-				</c:forEach>
-			</table>
-		</chrome:division>
+<chrome:division title="Personnel">
+    <table class="tablecontent">
+        <tr>
+            <th scope="col" align="left">Name</th>
+            <th scope="col" align="left">Role</th>
+            <th scope="col" align="left">Status</th>
+            <th scope="col" align="left">Organization</th>
+        </tr>
+        <c:forEach items="${command.studyOrganizations}"
+                   var="studyOrganization" varStatus="status">
+            <c:forEach items="${studyOrganization.studyPersonnel}"
+                       var="studyPersonnel" varStatus="status">
+                <tr class="results">
+                    <td class="alt">${studyPersonnel.researchStaff.fullName}</td>
+                    <td class="alt">${studyPersonnel.roleCode}</td>
+                    <td class="alt">${studyPersonnel.statusCode}</td>
+                    <td class="alt">${studyPersonnel.studyOrganization.healthcareSite.name}</td>
+                </tr>
+            </c:forEach>
+        </c:forEach>
+    </table>
+</chrome:division>
 
-		<chrome:division title="Stratification Factors">
-			<table class="tablecontent">
-				<tr>
-					<th scope="col" align="left"><b>Strata</b></th>
-					<th scope="col" align="left"><b>Permissible Answers</b></th>
-				</tr>
-				<c:forEach items="${command.epochs}" var="epoch">
-					<c:if
-						test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
-						<c:forEach items="${epoch.stratificationCriteria}" var="strat">
-							<tr>
-								<td class="alt">${strat.questionText}</td>
-								<td class="alt">
-								<table border="0" cellspacing="0" cellpadding="0"
-									class="tablecontent">
-									<c:forEach items="${strat.permissibleAnswers}" var="ans">
-										<tr>
-											<td>${ans.permissibleAnswer}</td>
-										</tr>
-									</c:forEach>
-								</table>
-								</td>
-							</tr>
-						</c:forEach>
-					</c:if>
-				</c:forEach>
-			</table>
-		</chrome:division>
+<chrome:division title="Stratification Factors">
+    <table class="tablecontent">
+        <tr>
+            <th scope="col" align="left"><b>Strata</b></th>
+            <th scope="col" align="left"><b>Permissible Answers</b></th>
+        </tr>
+        <c:forEach items="${command.epochs}" var="epoch">
+            <c:if
+                    test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
+                <c:forEach items="${epoch.stratificationCriteria}" var="strat">
+                    <tr>
+                        <td class="alt">${strat.questionText}</td>
+                        <td class="alt">
+                            <table border="0" cellspacing="0" cellpadding="0"
+                                   class="tablecontent">
+                                <c:forEach items="${strat.permissibleAnswers}" var="ans">
+                                    <tr>
+                                        <td>${ans.permissibleAnswer}</td>
+                                    </tr>
+                                </c:forEach>
+                            </table>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </c:if>
+        </c:forEach>
+    </table>
+</chrome:division>
 
-		<chrome:division title="Stratum Groups">
-			<table class="tablecontent">
-				<tr>
-					<th scope="col" align="left"><b>Stratum Group Number</b></th>
-					<th scope="col" align="left"><b>Answer Combination</b></th>
+<chrome:division title="Stratum Groups">
+    <table class="tablecontent">
+        <tr>
+            <th scope="col" align="left"><b>Stratum Group Number</b></th>
+            <th scope="col" align="left"><b>Answer Combination</b></th>
 
-				</tr>
-				<c:forEach items="${command.epochs}" var="epoch">
-					<c:if
-						test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
-						<c:forEach items="${epoch.stratumGroups}" var="stratGrp">
-							<tr>
-								<td class="alt">${stratGrp.stratumGroupNumber}</td>
-								<td class="alt">${stratGrp.answerCombinations}</td>
-							</tr>
-						</c:forEach>
-					</c:if>
-				</c:forEach>
-			</table>
-		</chrome:division>
+        </tr>
+        <c:forEach items="${command.epochs}" var="epoch">
+            <c:if
+                    test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
+                <c:forEach items="${epoch.stratumGroups}" var="stratGrp">
+                    <tr>
+                        <td class="alt">${stratGrp.stratumGroupNumber}</td>
+                        <td class="alt">${stratGrp.answerCombinations}</td>
+                    </tr>
+                </c:forEach>
+            </c:if>
+        </c:forEach>
+    </table>
+</chrome:division>
 
-		<chrome:division title="Diseases">
-			<table class="tablecontent">
-				<tr>
-					<th scope="col" align="left"><b>Disease Term</b></th>
-					<th scope="col" align="left"><b>Primary</b></th>
-				</tr>
-				<c:forEach items="${command.studyDiseases}" var="studyDisease"
-					varStatus="status">
-					<tr class="results">
-						<td class="alt">${studyDisease.diseaseTerm.ctepTerm}</td>
-						<td class="alt">${studyDiseases[status.index].leadDisease}</td>
-					</tr>
-				</c:forEach>
-			</table>
-		</chrome:division>
+<chrome:division title="Diseases">
+    <table class="tablecontent">
+        <tr>
+            <th scope="col" align="left"><b>Disease Term</b></th>
+            <th scope="col" align="left"><b>Primary</b></th>
+        </tr>
+        <c:forEach items="${command.studyDiseases}" var="studyDisease"
+                   varStatus="status">
+            <tr class="results">
+                <td class="alt">${studyDisease.diseaseTerm.ctepTerm}</td>
+                <td class="alt">${studyDiseases[status.index].leadDisease}</td>
+            </tr>
+        </c:forEach>
+    </table>
+</chrome:division>
 
-		<chrome:division title="Epochs & Arms">
-			<table class="tablecontent">
-				<tr>
-					<th><b>Epochs</b></th>
-					<th><b>Arms</b>
-				</tr>
-				<c:forEach items="${command.epochs}" var="epoch">
-					<tr>
-						<td class="alt">${epoch.name}</td>
-						<td><c:if
-							test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
-							<table border="0" cellspacing="0" cellpadding="0"
-								class="tablecontent">
-								<tr>
-									<th><b>Name</b></th>
-									<th><b>Target Accrual No</b>
-								</tr>
-								<tr>
-									<c:forEach items="${epoch.arms}" var="arm">
-										<tr>
-											<td>${arm.name}</td>
-											<td>${arm.targetAccrualNumber}</td>
-										</tr>
-									</c:forEach>
-							</table>
-						</c:if></td>
+<chrome:division title="Epochs & Arms">
+    <table class="tablecontent">
+        <tr>
+            <th><b>Epochs</b></th>
+            <th><b>Arms</b>
+        </tr>
+        <c:forEach items="${command.epochs}" var="epoch">
+            <tr>
+                <td class="alt">${epoch.name}</td>
+                <td>
+                    <c:if
+                            test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
+                        <table border="0" cellspacing="0" cellpadding="0"
+                               class="tablecontent">
+                            <tr>
+                                <th><b>Name</b></th>
+                                <th><b>Target Accrual No</b>
+                            </tr>
+                            <tr>
+                                <c:forEach items="${epoch.arms}" var="arm">
+                            <tr>
+                                <td>${arm.name}</td>
+                                <td>${arm.targetAccrualNumber}</td>
+                            </tr>
+                            </c:forEach>
+                        </table>
+                    </c:if>
+                </td>
 
-					</tr>
-				</c:forEach>
-			</table>
-		</chrome:division>
+            </tr>
+        </c:forEach>
+    </table>
+</chrome:division>
 
-		<chrome:division title="Amendments">
-			<table class="tablecontent">
-				<tr>
-					<th scope="col" align="left">Version #</th>
-					<th scope="col" align="left">Amendment Date</th>
-					<th scope="col" align="left">Comments</th>
-				</tr>
-				<c:forEach items="${command.studyAmendments}" var="amendment">
-					<tr class="results">
-						<td class="alt" align="left">${amendment.amendmentVersion}</td>
-						<td class="alt" align="left">${amendment.amendmentDateStr}</td>
-						<td class="alt" align="left">${amendment.comments}</td>
-					</tr>
-				</c:forEach>
-			</table>
-		</chrome:division>
+<chrome:division title="Amendments">
+    <table class="tablecontent">
+        <tr>
+            <th scope="col" align="left">Version #</th>
+            <th scope="col" align="left">Amendment Date</th>
+            <th scope="col" align="left">Comments</th>
+        </tr>
+        <c:forEach items="${command.studyAmendments}" var="amendment">
+            <tr class="results">
+                <td class="alt" align="left">${amendment.amendmentVersion}</td>
+                <td class="alt" align="left">${amendment.amendmentDateStr}</td>
+                <td class="alt" align="left">${amendment.comments}</td>
+            </tr>
+        </c:forEach>
+    </table>
+</chrome:division>
 
-		<%--Optionally display edit mode buttons--%>
-		<c:if test="${not empty editAuthorizationTask}">
-			<div class="content buttons autoclear">
-			<div class="flow-buttons"><span class="next"> <input type="button"
-				value="Export Study" onclick="doExportAction();" /> <csmauthz:accesscontrol
-				domainObject="${editAuthorizationTask}"
-				authorizationCheckName="taskAuthorizationCheck">
-				<input type="submit" value="Edit Study" />
+<%--Optionally display edit mode buttons--%>
+<c:if test="${not empty editAuthorizationTask}">
+    <div class="content buttons autoclear">
+        <div class="flow-buttons"><span class="next">
+            <!--export study-->
+                <input type="button"
+                       value="Export Study" onclick="doExportAction();"/>
+            <!--ccts messaging-->
+            <input type="button" id="cctsBroadcastBtn"
+                   value="Broadcast CCTS Message" onclick="doSendMessageToESB();"/>
+                <csmauthz:accesscontrol
+                        domainObject="${editAuthorizationTask}"
+                        authorizationCheckName="taskAuthorizationCheck">
+                    <input type="submit" value="Edit Study"/>
 
-				<input type="button" value="Amend Study" id="amendButtonDisplayDiv"
-				    <c:if test="${command.coordinatingCenterStudyStatus != 'ACTIVE' && 
-  							command.coordinatingCenterStudyStatus != 'AMENDMENT_PENDING'}">style="display:none"</c:if>
-					onclick="document.location='../study/amendStudy?studyId=${command.id}'" />
 
-			</csmauthz:accesscontrol> </span></div>
-			</div>
+                    <input type="button" value="Amend Study" id="amendButtonDisplayDiv"
+                            <c:if test="${command.coordinatingCenterStudyStatus != 'ACTIVE' &&
+  							command.coordinatingCenterStudyStatus != 'AMENDMENT_PENDING'}">style="display:none"
+                            </c:if>
+                           onclick="document.location='../study/amendStudy?studyId=${command.id}'"/>
 
-		</c:if>
+                </csmauthz:accesscontrol> </span></div>
+    </div>
 
-	</chrome:box>
+</c:if>
+
+</chrome:box>
 </form:form>
 </body>
 </html>
