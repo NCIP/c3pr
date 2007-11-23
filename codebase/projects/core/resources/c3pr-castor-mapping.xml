@@ -119,11 +119,12 @@
            extends="edu.duke.cabig.c3pr.domain.Organization">
         <map-to xml="HealthcareSiteType" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         <field name="nciInstituteCode" type="string">
-            <bind-xml name="nciInstituteCode" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+            <bind-xml name="nciInstituteCode" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
     </class>
 
-      <class name="edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator">
+    <class name="edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator">
         <map-to xml="healthcareSiteInvestigator" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         <field name="investigator" type="edu.duke.cabig.c3pr.domain.Investigator">
             <bind-xml name="investigator" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
@@ -169,7 +170,8 @@
             <bind-xml name="accrualCeiling" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
         <field name="accrualIndicator" type="boolean">
-            <bind-xml name="accrualIndicator" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+            <bind-xml name="accrualIndicator" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
         <field name="reservationIndicator" type="boolean">
             <bind-xml name="reservationIndicator" node="element"
@@ -229,8 +231,7 @@
     <class name="edu.duke.cabig.c3pr.domain.Participant" extends="edu.duke.cabig.c3pr.domain.Person">
         <map-to xml="participant" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         <field name="gridId" type="string">
-            <bind-xml name="gridId" node="attribute"
-                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+            <bind-xml name="gridId" node="attribute"/>
         </field>
         <field name="administrativeGenderCode" type="string">
             <bind-xml name="administrativeGenderCode" node="element"
@@ -313,7 +314,8 @@
             <bind-xml name="version" node="attribute"/>
         </field>
         <field name="blindedIndicator" type="boolean">
-            <bind-xml name="blindedIndicator" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+            <bind-xml name="blindedIndicator" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
         <field name="multiInstitutionIndicator" type="boolean">
             <bind-xml name="multiInstitutionIndicator" node="element"
@@ -344,7 +346,8 @@
         </field>
         <field name="coordinatingCenterStudyStatus" type="string"
                handler="edu.duke.cabig.c3pr.xml.StudyCoordinatingCenterStudyStatusHandler">
-            <bind-xml name="coordinatingCenterStudyStatus" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+            <bind-xml name="coordinatingCenterStudyStatus" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
         <field name="type" type="string">
             <bind-xml name="type" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
@@ -391,9 +394,10 @@
         <field name="healthcareSite" type="edu.duke.cabig.c3pr.domain.HealthcareSite">
             <bind-xml name="healthcareSite" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
-        <field name="studyInvestigators"  type="edu.duke.cabig.c3pr.domain.StudyInvestigator"
-               collection="collection" >
-            <bind-xml name="studyInvestigator" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        <field name="studyInvestigators" type="edu.duke.cabig.c3pr.domain.StudyInvestigator"
+               collection="collection">
+            <bind-xml name="studyInvestigator" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
     </class>
 
@@ -428,7 +432,7 @@
             <bind-xml name="roleCode" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
         <field name="statusCode" type="string">
-            <bind-xml name="statusCode" node="element"  xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+            <bind-xml name="statusCode" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
         <field name="startDate" type="string" handler="edu.duke.cabig.c3pr.xml.DateFieldHandler">
             <bind-xml name="startDate" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
@@ -437,7 +441,8 @@
             <bind-xml name="endDate" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
         <field name="healthcareSiteInvestigator" type="edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator">
-            <bind-xml name="healthcareSiteInvestigator" node="element"  xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+            <bind-xml name="healthcareSiteInvestigator" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
     </class>
 

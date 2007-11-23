@@ -65,7 +65,8 @@
            extends="edu.duke.cabig.c3pr.domain.Organization">
         <map-to xml="site" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         <field name="nciInstituteCode" type="string">
-            <bind-xml name="nciInstituteCode" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+            <bind-xml name="nciInstituteCode" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
     </class>
 
@@ -90,7 +91,8 @@
             <bind-xml name="accrualCeiling" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
         <field name="accrualIndicator" type="boolean">
-            <bind-xml name="accrualIndicator" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+            <bind-xml name="accrualIndicator" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
         <field name="reservationIndicator" type="boolean">
             <bind-xml name="reservationIndicator" node="element"
@@ -144,8 +146,7 @@
     <class name="edu.duke.cabig.c3pr.domain.Participant" extends="edu.duke.cabig.c3pr.domain.Person">
         <map-to xml="participant" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         <field name="gridId" type="string">
-            <bind-xml name="gridId" node="attribute"
-                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+            <bind-xml name="gridId" node="attribute"/>
         </field>
         <field name="administrativeGenderCode" type="string">
             <bind-xml name="administrativeGenderCode" node="element"
@@ -208,7 +209,8 @@
     <class name="edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch"
            extends="edu.duke.cabig.c3pr.domain.ScheduledEpoch">
         <map-to xml="ScheduledTreatmentEpochType" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        <field name="scheduledArm" type="edu.duke.cabig.c3pr.domain.ScheduledArm" handler="edu.duke.cabig.c3pr.xml.ScheduledArmFieldHandler">
+        <field name="scheduledArm" type="edu.duke.cabig.c3pr.domain.ScheduledArm"
+               handler="edu.duke.cabig.c3pr.xml.ScheduledArmFieldHandler">
             <bind-xml name="scheduledArm" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
         <field name="eligibilityIndicator" type="boolean">
@@ -279,7 +281,7 @@
         </field>
         <field name="regDataEntryStatus" type="string"
                handler="edu.duke.cabig.c3pr.xml.RegistrationDataEntryStatusFieldHandler">
-            <bind-xml name="regDataEntryStatus"  node="element"
+            <bind-xml name="regDataEntryStatus" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
         <field name="regWorkflowStatus" type="string"
@@ -287,7 +289,8 @@
             <bind-xml name="regWorkflowStatus" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
-        <field name="currentScheduledEpoch" type="edu.duke.cabig.c3pr.domain.ScheduledEpoch" handler="edu.duke.cabig.c3pr.xml.ScheduledEpochFieldHandler">
+        <field name="currentScheduledEpoch" type="edu.duke.cabig.c3pr.domain.ScheduledEpoch"
+               handler="edu.duke.cabig.c3pr.xml.ScheduledEpochFieldHandler">
             <bind-xml name="scheduledEpoch" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
