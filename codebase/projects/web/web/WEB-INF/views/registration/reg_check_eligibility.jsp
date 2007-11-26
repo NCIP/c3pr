@@ -36,7 +36,7 @@ function markAsAnswered(id){
 		<table id="" width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
 			<tr>
 				<td>
-				<tags:minimizablePanelBox boxId="Inclusion" title="Inclusion Criteria">
+				<tags:minimizablePanelBox boxId="Inclusion" title="Inclusion Criteria (<i>Expected answer 'yes'</i>)">
 					<table width="100%" border="0" class="tablecontent">
 						<tr>
 							<td>&nbsp;</td>
@@ -72,7 +72,7 @@ function markAsAnswered(id){
 			<tr><td>&nbsp;</td></tr>
 			<tr>
 				<td>
-				<tags:minimizablePanelBox boxId="Exclusion" title="Exclusion Criteria">
+				<tags:minimizablePanelBox boxId="Exclusion" title="Exclusion Criteria (<i>Expected answer 'no'</i>)">
 					<table width="100%" border="0" class="tablecontent">
 						<tr>
 							<td>&nbsp;</td>
