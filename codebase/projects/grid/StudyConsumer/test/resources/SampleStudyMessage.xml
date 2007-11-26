@@ -29,7 +29,7 @@
             <name>duke healthcare</name>
             <descriptionText>duke healthcare</descriptionText>
             <address><streetAddress>12359 sunrise valley drive</streetAddress><city>Reston</city><stateCode>VA</stateCode><postalCode>20191</postalCode><countryCode>USA</countryCode></address>
-            <nciInstituteCode>code</nciInstituteCode>
+            <nciInstituteCode>duke code</nciInstituteCode>
         </healthcareSite>
     </identifier>
     <epoch xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TreatmentEpochType">
@@ -116,7 +116,7 @@
             <name>duke healthcare</name>
             <descriptionText>duke healthcare</descriptionText>
             <address><streetAddress>12359 sunrise valley drive</streetAddress><city>Reston</city><stateCode>VA</stateCode><postalCode>20191</postalCode><countryCode>USA</countryCode></address>
-            <nciInstituteCode>code</nciInstituteCode>
+            <nciInstituteCode>duke code</nciInstituteCode>
         </healthcareSite>
         <studyInvestigator>
             <roleCode>role1</roleCode>
@@ -151,7 +151,7 @@
             <name>National Cancer Institute</name>
             <descriptionText>National Cancer Institute</descriptionText>
             <address><streetAddress>Coppermine Dr</streetAddress><city>Herndon</city><stateCode>VA</stateCode><postalCode>20171</postalCode><countryCode>USA</countryCode></address>
-            <nciInstituteCode>code</nciInstituteCode>
+            <nciInstituteCode>nci code</nciInstituteCode>
         </healthcareSite>
     </studyOrganization>
     <studyOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -160,7 +160,7 @@
             <name>CALGB</name>
             <descriptionText>CALGB</descriptionText>
             <address><streetAddress>12359 sunrise valley drive</streetAddress><city>Reston</city><stateCode>VA</stateCode><postalCode>20191</postalCode><countryCode>USA</countryCode></address>
-            <nciInstituteCode>code</nciInstituteCode>
+            <nciInstituteCode>calgb code</nciInstituteCode>
         </healthcareSite>
     </studyOrganization>
 </study>
