@@ -18,7 +18,7 @@ import edu.duke.cabig.c3pr.domain.Study;
 class StudyEligibilityChecklistTab extends StudyTab {
 
     public StudyEligibilityChecklistTab() {
-        super("Study Eligibility Checklist", "Eligibility", "study/study_eligibility_checklist");
+        super("Eligibility Checklist", "Eligibility", "study/study_eligibility_checklist");
     }
 
     @Override

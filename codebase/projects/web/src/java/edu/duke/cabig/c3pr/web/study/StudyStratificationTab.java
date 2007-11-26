@@ -32,7 +32,7 @@ public class StudyStratificationTab extends StudyTab {
     protected StudyService studyService;
     
     public StudyStratificationTab() {
-        super("Study Stratification Factors", "Stratification", "study/study_stratifications");
+        super("Stratification Factors", "Stratification", "study/study_stratifications");
     }
 
     @Override

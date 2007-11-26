@@ -21,7 +21,7 @@ class StudyDiseasesTab extends StudyTab {
     private DiseaseTermDao diseaseTermDao;
 
     public StudyDiseasesTab() {
-        super("Study Diseases", "Diseases", "study/study_diseases");
+        super("Diseases", "Diseases", "study/study_diseases");
     }
 
     @Override

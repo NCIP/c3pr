@@ -23,7 +23,7 @@ class StudyIdentifiersTab extends StudyTab {
 
 
     public StudyIdentifiersTab() {
-        super("Study Identifier", "Identifiers", "study/study_identifiers");
+        super("Identifiers", "Identifiers", "study/study_identifiers");
     }
 
     @Override
