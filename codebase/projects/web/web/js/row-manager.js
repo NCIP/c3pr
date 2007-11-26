@@ -151,6 +151,7 @@ var AbstractRowInserterProps = {
 	softDelete: false,
 	alertOnSoftDelete: true,
 	callRemoveFromCommand: false,
+	deleteMsgPrefix:"",
 	updateIndex: function(index){
 						this.localIndex=index
 						this.initialIndex=index
@@ -348,7 +349,7 @@ var AbstractRowInserterProps = {
 					},					
 	shouldDelete: function(inserter, index){
 						if(index<this.initialIndex && this.alertOnSoftDelete){
-							return confirm("Are you sure you want to delete this row?")
+							return confirm(this.deleteMsgPrefix+ " Are you sure you want to delete this row?")
 						}
 						return true
 					},
