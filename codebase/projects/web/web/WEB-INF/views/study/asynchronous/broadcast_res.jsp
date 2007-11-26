@@ -1,3 +1,4 @@
+${broadcastResponse }
 <script>
-    ${'cctsBroadcastBtn'}.value = '${broadcastResponse}';
+new Effect.Pulsate('broadcastResponse');
 </script>

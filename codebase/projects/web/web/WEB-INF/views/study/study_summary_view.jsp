@@ -388,7 +388,7 @@
 
                 </csmauthz:accesscontrol> </span></div>
     </div>
-
+	<div id="broadcastResponse" align="right"/>
 </c:if>
 
 </chrome:box>

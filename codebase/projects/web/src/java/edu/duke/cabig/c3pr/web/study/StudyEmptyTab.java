@@ -22,7 +22,7 @@ import java.util.Map;
  * IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:38:59 PM To change this
  * template use File | Settings | File Templates.
  */
-class StudyEmptyTab extends StudyTab {
+public class StudyEmptyTab extends StudyTab {
     protected StudyService studyService;
     private edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster messageBroadcaster;
     private XmlMarshaller xmlUtility;
@@ -33,7 +33,7 @@ class StudyEmptyTab extends StudyTab {
         super(longTitle, shortTitle, viewName);
     }
 
-    public ModelAndView broadcastRegistration(HttpServletRequest request, Object commandObj, Errors error) {
+    public ModelAndView sendMessageToESB(HttpServletRequest request, Object commandObj, Errors error) {
         String responseMessage = "Study message successfully broadcasted.";
         try {
             log.debug("Sending message to CCTS esb");
