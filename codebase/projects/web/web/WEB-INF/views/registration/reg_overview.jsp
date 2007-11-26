@@ -357,7 +357,9 @@ function broadcastRegistration(){
 	</c:if>
 	<div align="right">
 		<input type="button" value="Export" onClick="$('exportForm')._target.name='xxxx';$('exportForm').submit();"/>
-		<input type="button" value="Send Registration Message" onClick="broadcastRegistration();"/>
+		<c:if test="${command.regWorkflowStatus=='REGISTERED' && command.scheduledEpoch.scEpochWorkflowStatus=='APPROVED'}">
+			<input type="button" value="Send Registration Message" onClick="broadcastRegistration();"/>
+		</c:if>
 	</div>
 	<div align="right" id="broadcastResponse">
 	</div>
