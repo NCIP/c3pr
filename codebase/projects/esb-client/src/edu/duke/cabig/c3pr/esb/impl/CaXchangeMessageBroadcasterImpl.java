@@ -1,9 +1,6 @@
 package edu.duke.cabig.c3pr.esb.impl;
 
-import edu.duke.cabig.c3pr.esb.BroadcastException;
-import edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster;
-import edu.duke.cabig.c3pr.esb.CaXchangeMessageHelper;
-import edu.duke.cabig.c3pr.esb.MessageWorkflowCallback;
+import edu.duke.cabig.c3pr.esb.*;
 import gov.nih.nci.cagrid.caxchange.client.CaXchangeRequestProcessorClient;
 import gov.nih.nci.cagrid.caxchange.context.client.CaXchangeResponseServiceClient;
 import gov.nih.nci.cagrid.caxchange.context.stubs.types.CaXchangeResponseServiceReference;
@@ -33,11 +30,13 @@ import java.util.concurrent.*;
  * Time: 3:40:56 PM
  * To change this template use File | Settings | File Templates.
  */
-public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster {
+public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, CaXchangeMessageResponseNotifier {
 
     private String caXchangeURL;
     //default valut. Should not change
     private Map messageTypesMapping;
+
+    private CaXchangeMessageResponseHandlerSet messageResponseHandlers = new CaXchangeMessageResponseHandlerSet();
 
     private Logger log = Logger.getLogger(CaXchangeMessageBroadcasterImpl.class);
     private MessageWorkflowCallback messageWorkflowCallback;
@@ -109,6 +108,10 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster {
     }
 
 
+    public void addResponseHandler(CaXchangeMessageResponseHandler handler) {
+        messageResponseHandlers.add(handler);
+    }
+
     public String getCaXchangeURL() {
         return caXchangeURL;
     }
@@ -141,10 +144,13 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster {
             try {
                 ResponseMessage response = (ResponseMessage) get();
                 if (response.getResponse().getResponseStatus().equals(Statuses._SUCCESS)) {
-                    messageWorkflowCallback.messageSendSuccessful(response.getResponseMetadata().getExternalIdentifier());
+                    String objectId = response.getResponseMetadata().getExternalIdentifier();
+
+                    messageWorkflowCallback.messageSendSuccessful(objectId);
+                    // notify response handlers
+                    messageResponseHandlers.notifyAll(objectId, response.getResponse());
                 }
 
-                //call some response handlers here
             } catch (InterruptedException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             } catch (ExecutionException e) {

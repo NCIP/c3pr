@@ -9,5 +9,6 @@ package edu.duke.cabig.c3pr.esb;
  * Time: 8:03:51 PM
  * To change this template use File | Settings | File Templates.
  */
-public interface CCTSMessageBroadcaster extends MessageBroadcastService, MessageWorkflowNotifier {
+public interface CCTSMessageBroadcaster extends
+        MessageBroadcastService, MessageWorkflowNotifier {
 }
