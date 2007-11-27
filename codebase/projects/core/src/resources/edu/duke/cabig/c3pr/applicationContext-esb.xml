@@ -19,8 +19,12 @@
 
     <bean id="c3dPatientPositionResponseHandler"
           class="edu.duke.cabig.c3pr.utils.C3DPatientPositionResponseHandler"
-          autowire="byType" lazy-init="true">
-    </bean>
+          autowire="byType"/>
+
+    <util:set id="caXchangeMessageResponseHandlerSet"
+              set-class="edu.duke.cabig.c3pr.esb.CaXchangeMessageResponseHandlerSet">
+        <ref local="c3dPatientPositionResponseHandler"/>
+    </util:set>
 
     <!--default implementation will just track status and
 set it appropriately for the domain object sent as ccts message-->
@@ -34,6 +38,7 @@ set it appropriately for the domain object sent as ccts message-->
           lazy-init="true">
         <property name="caXchangeURL" value="${esb.brokerUrl}"/>
         <property name="messageTypesMapping" ref="messageTypesMapping"/>
+        <property name="messageResponseHandlers" ref="caXchangeMessageResponseHandlerSet"/>
     </bean>
 
 </beans>
