@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.domain;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,6 +17,8 @@ public class CCTSAbstractMutableDeletableDomainObject extends AbstractMutableDel
 
 
     private CCTSWorkflowStatusType cctsWorkflowStatus;
+    private boolean importErrorFlag;
+    private String importErrorString;
 
 
     @Enumerated(EnumType.STRING)
@@ -25,5 +28,41 @@ public class CCTSAbstractMutableDeletableDomainObject extends AbstractMutableDel
 
     public void setCctsWorkflowStatus(CCTSWorkflowStatusType cctsWorkflowStatus) {
         this.cctsWorkflowStatus = cctsWorkflowStatus;
+    }
+
+
+    /**
+     * Flag is set to True if there is any
+     * error duing import
+     *
+     * @return
+     */
+    @Transient
+    public boolean isImportErrorFlag() {
+        return importErrorFlag;
+    }
+
+    public void setImportErrorFlag(boolean importErrorFlag) {
+        this.importErrorFlag = importErrorFlag;
+    }
+
+    /**
+     * Used to manage import process and passing
+     * error messages. Will only return the first
+     * 100 characters of the error message
+     *
+     * @return
+     */
+    @Transient
+    public String getImportErrorString() {
+        if (importErrorString.length() > 100)
+            importErrorString = importErrorString.substring(0, 100);
+
+        return importErrorString;
+    }
+
+    public void setImportErrorString(String importErrorString) {
+        setImportErrorFlag(true);
+        this.importErrorString = importErrorString;
     }
 }
