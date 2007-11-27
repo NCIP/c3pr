@@ -1,7 +1,6 @@
 package edu.duke.cabig.c3pr.web.ajax;
 
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.web.beans.FileBean;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.extremecomponents.table.context.Context;
@@ -12,7 +11,7 @@ import org.springframework.web.HttpSessionRequiredException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,7 +29,6 @@ public class StudyXMLFileImportAjaxFacade extends BaseStudyAjaxFacade {
     public String getTable(Map parameterMap, HttpServletRequest request)
             throws Exception {
 
-        FileBean studyXMLFile = (FileBean) getCommandOnly(request);
         Context context = null;
         if (parameterMap == null) {
             context = new HttpServletRequestContext(request);
@@ -41,8 +39,7 @@ public class StudyXMLFileImportAjaxFacade extends BaseStudyAjaxFacade {
         TableModel model = new TableModelImpl(context);
         String action = "/pages/admin/importStudy";
 
-        Collection<Study> studies = null;
-        studies = studyXMLImporterService.importStudies(studyXMLFile.getInputStream());
+        List<Study> studies = (List<Study>) getCommandOnly(request);
         return build(model, studies, "Imported Studies", action).toString();
     }
 
@@ -58,11 +55,5 @@ public class StudyXMLFileImportAjaxFacade extends BaseStudyAjaxFacade {
         return sessionFormObject;
     }
 
-    public edu.duke.cabig.c3pr.service.StudyXMLImporterService getStudyXMLImporterService() {
-        return studyXMLImporterService;
-    }
 
-    public void setStudyXMLImporterService(edu.duke.cabig.c3pr.service.StudyXMLImporterService studyXMLImporterService) {
-        this.studyXMLImporterService = studyXMLImporterService;
-    }
 }
