@@ -4,73 +4,73 @@
 <!-- ================================================================= -->
 <project name="c3pr-2.0-web" default="all" basedir=".">
     <!-- Environment -->
-    <property environment="env" />
-    <property file="${basedir}/build.properties" />
-    <property file="${user.dir}/build.properties" />
+    <property environment="env"/>
+    <property file="${basedir}/build.properties"/>
+    <property file="${user.dir}/build.properties"/>
 
     <!-- Information -->
-    <property name="project.name" value="c3pr-2.0-web" />
-    <property name="project.version" value="1.0" />
+    <property name="project.name" value="c3pr-2.0-web"/>
+    <property name="project.version" value="1.0"/>
 
     <!--src dirs-->
-    <property name="src.dir" value="${basedir}/src" />
-    <property name="src.java.dir" value="${src.dir}/java" />
-    <property name="src.resources.dir" value="${src.dir}/resources" />
+    <property name="src.dir" value="${basedir}/src"/>
+    <property name="src.java.dir" value="${src.dir}/java"/>
+    <property name="src.resources.dir" value="${src.dir}/resources"/>
 
     <!--build -->
-    <property name="build.dir" value="${basedir}/build" />
-    <property name="classes.dir" value="${build.dir}/classes" />
-    <property name="jar.dir" value="${build.dir}/jars" />
-    <property name="project.jarfile" value="${jar.dir}/${project.name}-${project.version}.jar" />
-    <property name="lib.dir" value="${basedir}/lib" />
-    <property name="conf.dir" value="${basedir}/conf" />
-    <property name="war.file" location="${build.dir}/c3prv2.war" />
-    <property name="webapp.name" value="c3pr" />
+    <property name="build.dir" value="${basedir}/build"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="jar.dir" value="${build.dir}/jars"/>
+    <property name="project.jarfile" value="${jar.dir}/${project.name}-${project.version}.jar"/>
+    <property name="lib.dir" value="${basedir}/lib"/>
+    <property name="conf.dir" value="${basedir}/conf"/>
+    <property name="war.file" location="${build.dir}/c3prv2.war"/>
+    <property name="webapp.name" value="c3pr"/>
 
     <!--ext dirs-->
     <property name="ext.dir" value="${basedir}/ext"/>
-    <property name="ext.lib.dir" value="${ext.dir}/lib" />
-    <property name="ext.test.lib.dir" location="${ext.dir}/test/lib" />
+    <property name="ext.lib.dir" value="${ext.dir}/lib"/>
+    <property name="ext.test.lib.dir" location="${ext.dir}/test/lib"/>
     <property name="ext.resources.dir" location="${ext.dir}/resources"/>
 
-    <property name="web.dir" location="${basedir}/web" />
+    <property name="web.dir" location="${basedir}/web"/>
     <property name="webinf.dir" value="${web.dir}/WEB-INF"/>
     <property name="webinfviews.dir" value="${web.dir}/WEB-INF/views"/>
     <property name="webinf.lib.dir" value="${webinf.dir}/lib"/>
     <property name="webinf.classes.dir" value="${webinf.dir}/classes"/>
 
     <!-- test dirs -->
-    <property name="test.dir" location="${basedir}/test" />
-    <property name="test.src.dir" location="${test.dir}/src" />
-    <property name="test.src.java.dir" location="${test.src.dir}/java" />
-    <property name="test.classes.dir" location="${build.dir}/classes-test" />
-    <property name="test.lib.dir" location="${test.dir}/lib" />
-    <property name="test.logs.dir" location="${test.dir}/logs" />
-    <property name="test.project.jar" location="${jar.dir}/c3pr-2.0-${project.name}-tests-${project.version}.jar" />
+    <property name="test.dir" location="${basedir}/test"/>
+    <property name="test.src.dir" location="${test.dir}/src"/>
+    <property name="test.src.java.dir" location="${test.src.dir}/java"/>
+    <property name="test.classes.dir" location="${build.dir}/classes-test"/>
+    <property name="test.lib.dir" location="${test.dir}/lib"/>
+    <property name="test.logs.dir" location="${test.dir}/logs"/>
+    <property name="test.project.jar" location="${jar.dir}/c3pr-2.0-${project.name}-tests-${project.version}.jar"/>
 
     <!-- Load common util path -->
-    <import file="antfiles/build-test.xml" />
+    <import file="antfiles/build-test.xml"/>
 
     <!-- build properties -->
-    <property name="debug" value="on" />
+    <property name="debug" value="on"/>
 
     <!-- Warning, your environment variable for tomcat should be set in your OS (Windows/Linux),
        else it wont deploy -->
-    <property name="catalina.home" value="${env.CATALINA_HOME}" />
-    <property name="deploy.path" value="${catalina.home}/webapps" />
+    <property name="catalina.home" value="${env.CATALINA_HOME}"/>
+    <property name="deploy.path" value="${catalina.home}/webapps"/>
 
     <!-- =============================================================== -->
     <!-- The Build Classpath                                             -->
     <!-- =============================================================== -->
     <path id="build.classpath">
         <fileset dir="${lib.dir}">
-            <include name="**/*.jar" />
+            <include name="**/*.jar"/>
         </fileset>
         <fileset dir="${ext.lib.dir}">
-            <include name="**/*.jar" />
+            <include name="**/*.jar"/>
         </fileset>
         <fileset dir="${catalina.home}/common/lib">
-            <include name="**/*.jar" />
+            <include name="**/*.jar"/>
         </fileset>
     </path>
 
@@ -80,8 +80,8 @@
     <path id="run.classpath">
         <path refid="build.classpath"/>
         <fileset dir="${jar.dir}">
-            <include name="**/*.jar" />
-            <exclude name="**/*test*.jar" />
+            <include name="**/*.jar"/>
+            <exclude name="**/*test*.jar"/>
         </fileset>
     </path>
 
@@ -101,13 +101,13 @@
             <include name="c3pr-*.jar"/>
         </fileset>
         <fileset dir="${jar.dir}">
-            <include name="**/*.jar" />
+            <include name="**/*.jar"/>
         </fileset>
         <fileset dir="${test.lib.dir}">
-            <include name="**/*.jar" />
+            <include name="**/*.jar"/>
         </fileset>
         <fileset dir="${ext.test.lib.dir}">
-            <include name="**/*.jar" />
+            <include name="**/*.jar"/>
         </fileset>
     </path>
 
@@ -115,11 +115,11 @@
     <!-- Prepares the build directory                                    -->
     <!-- =============================================================== -->
     <target name="prepare">
-        <tstamp />
-        <mkdir dir="${build.dir}" />
-        <mkdir dir="${test.lib.dir}" />
-        <mkdir dir="${jar.dir}" />
-        <mkdir dir="${test.classes.dir}" />
+        <tstamp/>
+        <mkdir dir="${build.dir}"/>
+        <mkdir dir="${test.lib.dir}"/>
+        <mkdir dir="${jar.dir}"/>
+        <mkdir dir="${test.classes.dir}"/>
         <mkdir dir="${webinf.lib.dir}"/>
     </target>
 
@@ -156,7 +156,7 @@
     <!-- =============================================================== -->
     <target name="compile" depends="prepare, resources">
         <javac srcdir="${src.dir}" destdir="${classes.dir}" debug="${debug}" deprecation="off" optimize="off">
-            <classpath refid="build.classpath" />
+            <classpath refid="build.classpath"/>
         </javac>
     </target>
 
@@ -164,8 +164,9 @@
     <!-- Compiles the test source code                                        -->
     <!-- =============================================================== -->
     <target name="compile-tests" depends="prepare">
-        <javac srcdir="${test.src.java.dir}" destdir="${test.classes.dir}" debug="${debug}" deprecation="off" optimize="off">
-            <classpath refid="test.classpath" />
+        <javac srcdir="${test.src.java.dir}" destdir="${test.classes.dir}" debug="${debug}" deprecation="off"
+               optimize="off">
+            <classpath refid="test.classpath"/>
         </javac>
 
     </target>
@@ -174,7 +175,7 @@
     <!-- Cleans up generated stuff                                      -->
     <!-- ============================================================== -->
     <target name="clean" depends="" description="Removes generated files.">
-        <delete dir="${build.dir}" />
+        <delete dir="${build.dir}"/>
         <delete dir="${webinf.lib.dir}"/>
     </target>
 
@@ -184,8 +185,8 @@
     <target name="jar" depends="compile">
         <jar jarfile="${project.jarfile}" basedir="${classes.dir}">
             <manifest>
-                <attribute name="Built-By" value="${user.name}" />
-                <attribute name="Main-Class" value="${main.class}" />
+                <attribute name="Built-By" value="${user.name}"/>
+                <attribute name="Main-Class" value="${main.class}"/>
             </manifest>
         </jar>
     </target>
@@ -196,7 +197,7 @@
     <target name="jar-tests" depends="compile-tests">
         <jar jarfile="${test.project.jar}" basedir="${test.classes.dir}">
             <manifest>
-                <attribute name="Built-By" value="${user.name}" />
+                <attribute name="Built-By" value="${user.name}"/>
             </manifest>
         </jar>
     </target>
@@ -207,23 +208,23 @@
     <target name="war" depends="jar" description="Builds the war files">
         <war destfile="${war.file}" webxml="${web.dir}/WEB-INF/web.xml">
             <webinf dir="${web.dir}/WEB-INF">
-                <include name="**/*" />
-                <exclude name="web.xml" />
-                <exclude name="lib" />
+                <include name="**/*"/>
+                <exclude name="web.xml"/>
+                <exclude name="lib"/>
             </webinf>
             <fileset dir="${web.dir}">
-                <include name="**/*" />
-                <exclude name="WEB-INF/**" />
+                <include name="**/*"/>
+                <exclude name="WEB-INF/**"/>
             </fileset>
-            <lib file="${project.jarfile}" />
+            <lib file="${project.jarfile}"/>
             <lib dir="${ext.lib.dir}">
-                <include name="**/*.jar" />
+                <include name="**/*.jar"/>
             </lib>
             <lib dir="${web.dir}/WEB-INF/lib">
-                <include name="**/*.jar" />
+                <include name="**/*.jar"/>
             </lib>
             <manifest>
-                <attribute name="Built-By" value="${user.name}" />
+                <attribute name="Built-By" value="${user.name}"/>
             </manifest>
         </war>
     </target>
@@ -231,24 +232,25 @@
     <!-- ============================================================== -->
     <!-- Builds from scratch                                                -->
     <!-- ============================================================== -->
-    <target name="all" description="Builds the entire application" depends="jar,jar-tests" />
+    <target name="all" description="Builds the entire application" depends="jar,jar-tests"/>
 
-    <target name="deployLocal" depends="jar" description="Deploy web application to local folders">
-
-
+    <target name="deploy-prebuilt" depends="prepare" description="Deploys a prebuild webapp">
         <copy todir="${webinf.lib.dir}" preservelastmodified="true">
             <fileset dir="${ext.lib.dir}">
-                <include name="**/*.jar" />
+                <include name="**/*.jar"/>
             </fileset>
             <fileset dir="${lib.dir}">
-                <include name="**/*.jar" />
+                <include name="**/*.jar"/>
             </fileset>
             <fileset dir="${jar.dir}">
-                <include name="**/*.jar" />
-                <exclude name="*-tests*.jar" />
+                <include name="**/*.jar"/>
+                <exclude name="*-tests*.jar"/>
             </fileset>
         </copy>
 
+    </target>
+
+    <target name="deployLocal" depends="jar,deploy-prebuilt" description="Deploy web application to local folders">
     </target>
 
     <!-- ====================================================================== -->
@@ -261,7 +263,7 @@
     </target>
 
     <target name="undeploy-web" description="Cleans the web folder.">
-        <delete dir="${deploy.path}/${webapp.name}" failonerror="true" />
+        <delete dir="${deploy.path}/${webapp.name}" failonerror="true"/>
     </target>
 
     <target name="copy-views" description="Explicitly copy the views folder ">
