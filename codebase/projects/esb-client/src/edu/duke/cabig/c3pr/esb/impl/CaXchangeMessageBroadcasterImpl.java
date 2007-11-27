@@ -112,6 +112,15 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
         messageResponseHandlers.add(handler);
     }
 
+
+    public CaXchangeMessageResponseHandlerSet getMessageResponseHandlers() {
+        return messageResponseHandlers;
+    }
+
+    public void setMessageResponseHandlers(CaXchangeMessageResponseHandlerSet messageResponseHandlers) {
+        this.messageResponseHandlers = messageResponseHandlers;
+    }
+
     public String getCaXchangeURL() {
         return caXchangeURL;
     }
