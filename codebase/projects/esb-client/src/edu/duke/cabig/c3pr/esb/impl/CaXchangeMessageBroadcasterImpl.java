@@ -92,18 +92,21 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
         }
 
         //check on the response asynchronously
-
-        try {
-            FutureTask asyncTask = new AsynchronousResponseRetreiver(new SynchronousResponseProcessor(responseRef));
-            //ToDo make this like a global service not single thread executor
-            ExecutorService es = Executors.newSingleThreadExecutor();
-            es.submit(asyncTask);
-            es.shutdown();
-            //these exceptions do not mean a message send failure
-        } catch (URI.MalformedURIException e) {
-            log.error(e);
-        } catch (RemoteException e) {
-            log.error(e);
+        //only if someone is interested
+        if (messageWorkflowCallback != null || messageResponseHandlers.size() > 0) {
+            log.debug("Will track response from caXchange");
+            try {
+                FutureTask asyncTask = new AsynchronousResponseRetreiver(new SynchronousResponseProcessor(responseRef));
+                //ToDo make this like a global service not single thread executor
+                ExecutorService es = Executors.newSingleThreadExecutor();
+                es.submit(asyncTask);
+                es.shutdown();
+                //these exceptions do not mean a message send failure
+            } catch (URI.MalformedURIException e) {
+                log.error(e);
+            } catch (RemoteException e) {
+                log.error(e);
+            }
         }
     }
 
