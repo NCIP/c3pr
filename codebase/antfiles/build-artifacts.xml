@@ -142,6 +142,7 @@
                 <include name="ctms-commons-*.jar"/>
                 <include name="aspectj*.jar"/>
                 <include name="acegi-csm*.jar"/>
+                <include name="commons-*.jar"/>
                 <include name="csmapi*.jar"/>
                 <include name="clm*.jar"/>
                 <include name="c3p0*.jar"/>
