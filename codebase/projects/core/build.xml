@@ -133,12 +133,16 @@
     </target>
 
     <target name="resources" description="Copy resources into classpath" depends="prepare">
-
         <property file="${ext.resources.dir}/build.properties"/>
 
         <!--copy the properties file-->
         <copy file="${ext.resources.dir}/build.properties"
               tofile="${build.context.dir}/${c3pr.properties.file}"/>
+
+        <!--Unix works for all environments -->
+        <pathconvert targetos="unix" property="catalina.home.unix">
+            <path location="${catalina.home}"/>
+        </pathconvert>
 
         <!-- copy log4j -->
         <copy file="${ext.resources.dir}/c3pr-log4j.properties"
@@ -146,16 +150,15 @@
               overwrite="true"
               filtering="true">
             <filterset>
-                <filter token="catalina.home" value="${catalina.home}"/>
-                <filter token="log4j.file" value="${log4j.filename}"/>
+                <filter token="catalina.home" value="${catalina.home.unix}"/>
+                <filter token="log4j.filename" value="${log4j.filename}"/>
             </filterset>
         </copy>
-
 
         <!--copy the castor mapping file-->
         <copy todir="${classes.dir}" filtering="true" overwrite="true">
             <filterset>
-                <filter token="catalina.home" value="${catalina.home}"/>
+                <filter token="catalina.home" value="${catalina.home.unix}"/>
                 <filter token="user.home" value="${user.home}"/>
             </filterset>
             <fileset dir="${src.resources.dir}">
@@ -177,7 +180,7 @@
     <!-- Compiles the source code                                        -->
     <!-- =============================================================== -->
     <target name="compile" depends="prepare, resources" description="compiles">
-        <javac srcdir="${src.java.dir}" destdir="${classes.dir}" debug="${debug}" source="1.5" target="1.5"> 
+        <javac srcdir="${src.java.dir}" destdir="${classes.dir}" debug="${debug}" source="1.5" target="1.5">
             <classpath refid="build.classpath"/>
         </javac>
     </target>
@@ -185,7 +188,8 @@
     <!-- Compiles the test source code                                        -->
     <!-- =============================================================== -->
     <target name="compile-tests" depends="prepare, resources" description="compiles.">
-        <javac srcdir="${test.src.java.dir}" destdir="${test.classes.dir}" debug="${debug}" deprecation="off" optimize="off">
+        <javac srcdir="${test.src.java.dir}" destdir="${test.classes.dir}" debug="${debug}" deprecation="off"
+               optimize="off">
             <classpath refid="test.classpath"/>
         </javac>
         <copy todir="${test.classes.dir}">
@@ -347,8 +351,7 @@
     </target>
 
 
-
-    <target name="tomcat.security" depends="sourceProperties" 
+    <target name="tomcat.security" depends="sourceProperties"
             description="Automatically copies global (CSM/UPT) configuration files to Tomcat.">
         <fail message="Could not locate Tomcat.  Please set the catalina.home property (-Dcatalina.home=/path/to/tomcat).">
             <condition>
