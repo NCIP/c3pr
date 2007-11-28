@@ -76,7 +76,7 @@ public class StudyServiceImpl implements StudyService {
 			study.setDataEntryStatus(evaluateDataEntryStatus(study));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+		//	e.printStackTrace();
 		}
 		} else {
 			study.setDataEntryStatus(evaluateDataEntryStatus(study));
