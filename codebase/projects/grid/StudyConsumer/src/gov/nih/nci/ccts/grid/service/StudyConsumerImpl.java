@@ -35,15 +35,15 @@ public class StudyConsumerImpl extends StudyConsumerImplBase {
     }
 
 
-    public void createStudy(gov.nih.nci.ccts.grid.Study study) throws RemoteException, gov.nih.nci.ccts.grid.stubs.types.InvalidStudyException, gov.nih.nci.ccts.grid.stubs.types.StudyCreationException {
+    public void createStudy(gov.nih.nci.ccts.grid.Study study) throws RemoteException, gov.nih.nci.ccts.grid.studyconsumer.stubs.types.InvalidStudyException, gov.nih.nci.ccts.grid.studyconsumer.stubs.types.StudyCreationException {
         this.consumer.createStudy(study);
     }
 
-    public void commit(gov.nih.nci.ccts.grid.Study study) throws RemoteException, gov.nih.nci.ccts.grid.stubs.types.InvalidStudyException {
+    public void commit(gov.nih.nci.ccts.grid.Study study) throws RemoteException, gov.nih.nci.ccts.grid.studyconsumer.stubs.types.InvalidStudyException {
         this.consumer.commit(study);
     }
 
-    public void rollback(gov.nih.nci.ccts.grid.Study study) throws RemoteException, gov.nih.nci.ccts.grid.stubs.types.InvalidStudyException {
+    public void rollback(gov.nih.nci.ccts.grid.Study study) throws RemoteException, gov.nih.nci.ccts.grid.studyconsumer.stubs.types.InvalidStudyException {
         this.consumer.rollback(study);
     }
 
