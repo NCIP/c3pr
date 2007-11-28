@@ -105,7 +105,7 @@ public abstract class AbstractXMLMarshalling extends ApplicationTestCase {
         studyObject.setRandomizedIndicator(new Boolean(boolValue));
         studyObject.setMultiInstitutionIndicator(new Boolean(boolValue));
         studyObject.setLongTitleText(strValue);
-        studyObject.setPhaseCode(strValue);
+        studyObject.setPhaseCode("0");
         studyObject.setPrecisText(strValue);
         studyObject.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
         studyObject.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
@@ -157,7 +157,7 @@ public abstract class AbstractXMLMarshalling extends ApplicationTestCase {
 
     // subclasses can override the marshaller
     public XmlMarshaller getMarshaller() {
-            return new XmlMarshaller();
+        return new XmlMarshaller();
     }
 
     /**

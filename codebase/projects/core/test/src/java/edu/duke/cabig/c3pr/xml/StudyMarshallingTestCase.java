@@ -42,15 +42,13 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
     /**
      * @throws Throwable
      * @Test main test method. Runs methods in a sequence.
-     *
      */
-    public void testSerializationDeserializationTest(){
+    public void testSerializationDeserializationTest() {
         //have to be run in order
         studySerializationTest();
         schemaValidationTest();
         studyDeserializationTest();
     }
-
 
 
     private void studySerializationTest() {
@@ -69,7 +67,7 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
      */
     private void schemaValidationTest() {
 
-        try{
+        try {
             //validate the marshalled message
             byte[] messageBytes = marshalledStudy.getBytes();
             parser.parse(new ByteArrayInputStream(messageBytes), new MyHandler());
@@ -97,11 +95,10 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
     }
 
 
-
-    private List<InclusionEligibilityCriteria> getInclusionEligibilityCriterias(){
+    private List<InclusionEligibilityCriteria> getInclusionEligibilityCriterias() {
         List<InclusionEligibilityCriteria> criterias = new ArrayList<InclusionEligibilityCriteria>();
 
-        for(int i =0; i<=2;i++){
+        for (int i = 0; i <= 2; i++) {
             InclusionEligibilityCriteria criteria = new InclusionEligibilityCriteria();
             criteria.setGridId(strValue);
             criteria.setName(strValue);
@@ -112,10 +109,10 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
         return criterias;
     }
 
-    private List<ExclusionEligibilityCriteria> getExclusionEligibilityCriterias(){
+    private List<ExclusionEligibilityCriteria> getExclusionEligibilityCriterias() {
         List<ExclusionEligibilityCriteria> criterias = new ArrayList<ExclusionEligibilityCriteria>();
 
-        for(int i =1; i<=2;i++){
+        for (int i = 1; i <= 2; i++) {
             ExclusionEligibilityCriteria criteria = new ExclusionEligibilityCriteria();
             criteria.setGridId(strValue);
             criteria.setName(strValue);
@@ -129,10 +126,11 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
 
     /**
      * Will create a dummy study for the provided gridId
+     *
      * @param gridId
      * @return
      */
-    protected Study createDummyStudy(String gridId){
+    protected Study createDummyStudy(String gridId) {
         Study studyObject = new Study();
 
         studyObject.setGridId(gridId);
@@ -140,10 +138,10 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
         studyObject.setRandomizedIndicator(new Boolean(boolValue));
         studyObject.setMultiInstitutionIndicator(new Boolean(boolValue));
         studyObject.setLongTitleText(strValue);
-        studyObject.setPhaseCode(strValue);
+        studyObject.setPhaseCode("0");
         studyObject.setPrecisText(strValue);
         studyObject.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
-		studyObject.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
+        studyObject.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
         studyObject.setType(strValue);
         studyObject.setTargetAccrualNumber(intValue);
         studyObject.setVersion(intValue);
@@ -188,7 +186,6 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
         ans.setPermissibleAnswer("it is valid");
         return studyObject;
     }
-
 
 
 }
