@@ -101,7 +101,7 @@ public class BookRandomizationAjaxFacade {
 	    }
 	 
 	 /*
-	  * This method goes thru the positions and ensures they start with 0 and increnment by 1.
+	  * This method goes thru the positions and ensures they start with 0 and increment by 1 for every str group number.
 	  * if any incorrect number is found it is replaced by null.
 	  * the buildTable replaces blank stringa with "Invalid Entry".
 	  */
@@ -109,8 +109,15 @@ public class BookRandomizationAjaxFacade {
 		 Iterator iter = breList.iterator();
 		 BookRandomizationEntry bre;
 		 int i = 0;
+		 int strGroupNumber = 0;
 		 while(iter.hasNext()){
 			 bre = (BookRandomizationEntry)iter.next();
+			 if(bre.getStratumGroup()!=null &&
+				bre.getStratumGroup().getStratumGroupNumber() != null &&
+				bre.getStratumGroup().getStratumGroupNumber().intValue() != strGroupNumber){
+				 i = 0;
+			 }			 
+			 strGroupNumber = bre.getStratumGroup().getStratumGroupNumber().intValue();
 			 if(bre.getPosition() != null && bre.getPosition().intValue() != i){
 				 bre.setPosition(null); 
 			 }
