@@ -1,5 +1,10 @@
 package edu.duke.cabig.c3pr.web.study;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.validation.Errors;
+
+import edu.duke.cabig.c3pr.domain.Study;
 /**
  * Created by IntelliJ IDEA.
  * User: kherm
@@ -12,4 +17,6 @@ class StudySummaryTab extends StudyTab {
     public StudySummaryTab() {
         super("Study Summary", "Summary", "study/study_reviewsummary");
     }
+
+		 
 }

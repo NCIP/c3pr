@@ -61,6 +61,7 @@ public class CreateStudyController<C extends Study> extends StudyController<C> {
 	protected void postProcessPage(HttpServletRequest request, Object command, Errors errors, int page) throws Exception {
 		// TODO Auto-generated method stub
 		Study study=(Study)command;
+		studyService.setDataEntryStatus(study, false);
 		super.postProcessPage(request, command, errors, page);
 		studyService.setStatuses(study,false);
 	}
@@ -72,6 +73,14 @@ public class CreateStudyController<C extends Study> extends StudyController<C> {
     	return super.referenceData(request, arg1);
     }
     
+    @Override
+    protected boolean suppressValidation(HttpServletRequest request, Object study) {
+		if (request.getParameter("_finish")!=null && request.getParameter("_finish").equals("true") && request.getParameter("_activate")!=null && request.getParameter("_activate").equals("false")){
+			return true;
+		}
+		return false;
+	}
+
     /* (non-Javadoc)
       * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#processFinish
       * (javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
@@ -81,7 +90,6 @@ public class CreateStudyController<C extends Study> extends StudyController<C> {
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
                                          Object command, BindException errors) throws Exception {
         Study study = (Study) command;
-        
         studyService.merge(study);
 //        studyService.save(study);
 
@@ -89,6 +97,4 @@ public class CreateStudyController<C extends Study> extends StudyController<C> {
 
     }
     
-	
-
 }

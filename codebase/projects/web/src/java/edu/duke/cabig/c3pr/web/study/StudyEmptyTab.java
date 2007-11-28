@@ -71,7 +71,7 @@ public class StudyEmptyTab extends StudyTab {
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
                     retValue = "<script>alert('" + e.getMessage() + "')</script>";
-                    e.printStackTrace();
+                   // e.printStackTrace();
                 } finally {
                     retValue += command.getStudySites().get(studySiteIndex).getSiteStudyStatus().getCode();
                 }
@@ -83,8 +83,8 @@ public class StudyEmptyTab extends StudyTab {
                     command.getStudySites().get(studySiteIndex).setStartDate(startDate);
                     retValue += command.getStudySites().get(studySiteIndex).getStartDateStr();
                 } catch (ParseException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                	retValue="<script>alert('"+e.getMessage()+"')</script>";
+                   // e.printStackTrace();
                 }
 
             } else if (property.startsWith("changedSiteStudyIrbApprovalDate")) {
@@ -93,8 +93,8 @@ public class StudyEmptyTab extends StudyTab {
                     command.getStudySites().get(studySiteIndex).setIrbApprovalDate(irbApprovalDate);
                     retValue += command.getStudySites().get(studySiteIndex).getIrbApprovalDateStr();
                 } catch (ParseException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                	retValue="<script>alert('"+e.getMessage()+"')</script>";
+                  //  e.printStackTrace();
                 }
             }
 
@@ -108,7 +108,7 @@ public class StudyEmptyTab extends StudyTab {
                 retValue = "<script>statusChangeCallback('" + command.getCoordinatingCenterStudyStatus().getCode() + "')</script>";
             } catch (Exception e) {
                 retValue = "<script>alert('" + e.getMessage() + "')</script>";
-                e.printStackTrace();
+               // e.printStackTrace();
             } finally {
                 retValue += command.getCoordinatingCenterStudyStatus().getCode();
             }
@@ -118,6 +118,24 @@ public class StudyEmptyTab extends StudyTab {
         map.put(getFreeTextModelName(), retValue);
         return new ModelAndView("", map);
     }
+    
+    @Override
+	public void validate(Study study, Errors errors) {
+		super.validate(study, errors);
+			try {
+				studyService.setDataEntryStatus(study, true);
+				study.setCoordinatingCenterStudyStatus(studyService.evaluateCoordinatingCenterStudyStatus(study));
+			} catch (Exception e) {
+				errors.reject("tempProperty",e.getMessage());
+			}
+		}
+	protected boolean suppressValidation(HttpServletRequest request, Object study) {
+		if (request.getParameter("_activate")!=null && request.getParameter("_activate").equals("true")){
+			return false;
+		}
+		return true;
+	}
+
 
     public StudyService getStudyService() {
         return studyService;
