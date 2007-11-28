@@ -6,6 +6,15 @@
 
 <html>
 <head>
+<script>
+
+function activateAndSaveStudy(){
+document.getElementById("_activate").value="true";
+document.getElementById("command").submit();
+}
+
+</script>
+
 
 
 </head>
@@ -16,6 +25,9 @@
 <jsp:attribute name="repeatingFields">
 <div>
     <input type="hidden" name="_finish" value="true"/>
+    <div>
+    <input type="hidden" name="_activate" id="_activate" value="false"/>
+</div>
 </div>
 
 <chrome:division id="study-details" title="Basic Details" >
@@ -25,8 +37,8 @@
             <td class="alt" align="left">${command.shortTitleText}</td>
         </tr>
         <tr>
-            <td class="alt" align="left"><b>Sponsor Study Identifier:</b></td>
-            <td class="alt" align="left">${command.organizationAssignedIdentifiers[0].value}</td>
+            <td class="alt" align="left"><b>Primary Identifier:</b></td>
+            <td class="alt" align="left">${command.primaryIdentifier}</td>
         </tr>
         <tr>
             <td class="alt" align="left"><b>Target Accrual Number:</b></td>
@@ -276,6 +288,11 @@
         </c:forEach>
     </table>
 </chrome:division>
+			<div class="content buttons autoclear">
+			<div class="flow-buttons"><span class="next"> 
+				<input type="button" value="Save and Activate" id="saveActiveButtonDisplayDiv" onclick="activateAndSaveStudy();return false;"/>
+ </span></div>
+			</div>
 
    </jsp:attribute>
 </tags:tabForm>

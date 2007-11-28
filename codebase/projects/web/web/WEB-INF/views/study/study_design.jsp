@@ -92,40 +92,41 @@
                 <table>
                     <tr>
                         <td valign="top">
-                            <table class="tablecontent">
+                            <table>
                                 <tr>
-                                    <th>
-                                        <span class="required-indicator">Name:</span>
+                                    <td align="right">
+                                        <span class="required-indicator"><b>Name:</b></span>
+                                    </td>
                                         
                                     <td align="left"><form:input
                                             path="treatmentEpochs[${treatmentEpochCount.index}].name"
-                                            size="41" cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
+                                            size="41" cssClass="validate-notEmpty" /></td>
                                 </tr>
                                 <tr>
-                                    <th>Description:</th>
+                                    <td align="right"><b>Description:</b></td>
                                     <td><form:textarea
                                             path="treatmentEpochs[${treatmentEpochCount.index}].descriptionText"
-                                            rows="5" cols="40" />&nbsp;&nbsp;&nbsp;</td>
+                                            rows="5" cols="40" /></td>
                                 </tr>
                                  <tr>
-                                    <th>
-                                        <span class="required-indicator">Epoch Order:</span>
+                                    <td align="right">
+                                        <span class="required-indicator"><b>Order:</b></span>
                                         
-                                    </th>
+                                    </td>
                                     <td><form:input path="treatmentEpochs[${treatmentEpochCount.index}].epochOrder" size="5"
-                                               cssClass="validate-notEmpty&&numeric" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
+                                               cssClass="validate-notEmpty&&numeric" /></td>
                                 </tr>
                                 <c:if test="${command.randomizedIndicator== true}">
                                  <tr>
-                                    <th>
-                                        <span class="required-indicator">Randomization Indicator:</span>
-                                    </th>
+                                    <td align="right">
+                                        <span class="required-indicator"><b>Randomization Indicator:</b></span>
+                                    </td>
                                     <td><form:select
                                         path="treatmentEpochs[${treatmentEpochCount.index}].randomizedIndicator"
                                         cssClass="validate-notEmpty">
-                                   <option value="">--Please Select--</option>
+                                   <option value="">Please Select</option>
                                      <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
-                                </form:select><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
+                                </form:select></td>
                                 </tr>
                                 </c:if>
                             </table>
@@ -135,6 +136,7 @@
                                     class="tablecontent">
                                 <tr>
                                     <th><span class="required-indicator">Arm </span></th>
+                                    <th>Description</th>
                                     <th>Accrual Ceiling</th>
                                     <th><input id="addArm" type="button"
                                                value="Add Arm"
@@ -144,13 +146,16 @@
                                 <c:forEach items="${treatmentEpoch.arms}" var="arm"
                                            varStatus="statusArms">
                                     <tr id="arm-${statusArms.index}">
-                                        <td><form:input
-                                                path="treatmentEpochs[${treatmentEpochCount.index}].arms[${statusArms.index}].name"
+                                        <td valign="top"><form:input
+                                                path="treatmentEpochs[${treatmentEpochCount.index}].arms[${statusArms.index}].name" size="12"
                                                 cssClass="validate-notEmpty" /></td>
-                                        <td><form:input
+                                        <td valign="top"><form:textarea
+                                                path="treatmentEpochs[${treatmentEpochCount.index}].arms[${statusArms.index}].descriptionText"
+                      					 rows="3" cols="20" /></td>
+                                        <td valign="top"><form:input
                                                 path="treatmentEpochs[${treatmentEpochCount.index}].arms[${statusArms.index}].targetAccrualNumber"
-                                                size="12" maxlength="10" cssClass="validate-numeric" /></td>
-                                        <td><a
+                                                size="6" maxlength="8" cssClass="validate-numeric" /></td>
+                                        <td valign="top"><a
                                                 href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(treatmentEpochRowInserterProps,${treatmentEpochCount.index}),${statusArms.index });"><img
                                                 src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
                                     </tr>
@@ -185,22 +190,22 @@
                                     </div>
                                 <div class="value"><form:input
                                         path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].name"
-                                        size="41" cssClass="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span>
+                                        size="41" cssClass="validate-notEmpty" />
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="label">Description:</div>
                                 <div class="value"><form:textarea
                                         path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].descriptionText"
-                                        rows="5" cols="40" />&nbsp;&nbsp;&nbsp;</div>
+                                        rows="5" cols="40" /></div>
                             </div>
                             <div class="row">
                                 <div class="label">
-                                    <span class="required-indicator">Epoch Order:</span>
+                                    <span class="required-indicator">Order:</span>
                                     </div>
                                 <div class="value"><form:input size="5"
                                                           path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].epochOrder"
-                                                          cssClass="validate-notEmpty&&numeric" /><span class="red">&nbsp;&nbsp;&nbsp;</span></div>
+                                                          cssClass="validate-notEmpty&&numeric" /></div>
                             </div>
                         </div>
 
@@ -212,7 +217,7 @@
                                         path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].accrualIndicator"
                                         onchange="manageAccrualIndicatorSelectBox(this,${nonTreatmentEpochCount.index});"
                                         cssClass="validate-notEmpty">
-                                    <option value="">--Please Select--</option>
+                                    <option value="">Please Select</option>
                                      <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
                                 </form:select></div>
                             </div>
@@ -235,7 +240,7 @@
                                         path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].enrollmentIndicator"
                                         onchange="manageEnrollingIndicatorSelectBox(this,${nonTreatmentEpochCount.index});"
                                         cssClass="validate-notEmpty">
-                                    <option value="">--Please Select--</option>
+                                    <option value="">Please Select</option>
                                     <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
                                 </form:select></div>
                             </div>
@@ -247,7 +252,7 @@
                                 <div class="value"><form:select
                                         path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].reservationIndicator"
                                         cssClass="validate-notEmpty">
-                                    <option value="">--Please Select--</option>
+                                    <option value="">Please Select</option>
                                      <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
                                 </form:select></div>
                             </div>
@@ -277,52 +282,52 @@
 <div id="treatmentHtml" style="display:none">
 
     <table>
-        <tr>
+        <tr valign="top">
             <td><chrome:minimizableBox id="AddedTreatmentBox-PAGE.ROW.INDEX"
-                                     title="New Treatment Epoch"
+                                     title="Treatment Epoch"
                                      isDeletable="true"
                                      onDelete="RowManager.deleteRow(treatmentEpochRowInserterProps,PAGE.ROW.INDEX)">
                 <table>
                     <tr>
                         <td>
-                            <table  class="tablecontent" style="border:none;">
+                            <table style="border:none;">
                                 <tr>
-                                    <th>
-                                        <span class="required-indicator">Name:</span>
+                                    <td align="right">
+                                        <span class="required-indicator"><b>Name:</b></span>
                                         
-                                    </th>
+                                    </td>
                                     <td><input type="text"
                                                name="treatmentEpochs[PAGE.ROW.INDEX].name" size="41"
-                                               class="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
+                                               class="validate-notEmpty" /></td>
                                 </tr>
                                 <tr>
-                                    <th>Description:</th>
+                                    <td align="right"><b>Description:<b></td>
                                     <td><textarea
                                             name="treatmentEpochs[PAGE.ROW.INDEX].descriptionText" rows="5"
                                             cols="40"></textarea></td>
                                 </tr>
                                 <tr>
-                                    <th>
-                                        <span class="required-indicator">Epoch Order:</span>
+                                    <td align="right">
+                                        <span class="required-indicator"><b>Order:<b></span>
                                         
-                                    </th>
+                                    </td>
                                     <td><input type="text"
                                                name="treatmentEpochs[PAGE.ROW.INDEX].epochOrder" size="5"
-                                               class="validate-notEmpty&&numeric" /><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
+                                               class="validate-notEmpty&&numeric" /></td>
                                 </tr>
                                  <c:if test="${command.randomizedIndicator== true}">
                                  <tr>
-                                    <th>
-                                        <span class="required-indicator">Randomization Indicator:</span>
+                                    <td align="right">
+                                        <span class="required-indicator"><b>Randomization Indicator:<b></span>
                                         
-                                    </th>
+                                    </td>
                                     <td><select
                                         name="treatmentEpochs[PAGE.ROW.INDEX].randomizedIndicator" 
                                         class="validate-notEmpty">
-                                    <option value="">--Please Select--</option>
+                                    <option value="">Please Select</option>
                                     <option value="true">Yes</option>
                                     <option value="false">No</option>
-                                </select><span class="red">&nbsp;&nbsp;&nbsp;</span><em></em></td>
+                                </select></td>
                                 </tr>
                                 </c:if>
                             </table>
@@ -331,7 +336,8 @@
                             <table  id="arm"
                                      class="tablecontent">
                                 <tr>
-                                    <th><span class="required-indicator">Arm </span></th>
+                                    <th><span class="required-indicator">Arm</span></th>
+                                    <th>Description</th>
                                     <th>Accrual Ceiling</th>
                                     <th><input id="addArm" type="button" value="Add Arm"
                                                onclick="javascript:RowManager.addRow(RowManager.getNestedRowInserter(treatmentEpochRowInserterProps,PAGE.ROW.INDEX));" /></th>
@@ -348,13 +354,16 @@
 <div id="dummy-arm" style="display:none">
     <table id="arm" class="tablecontent" width="50%">
         <tr>
-            <td><input type="text"
+            <td valign="top"><input type="text" size="12"
                        name="treatmentEpochs[PAGE.ROW.INDEX].arms[NESTED.PAGE.ROW.INDEX].name"
                        class="validate-notEmpty" value="Arm A" /></td>
-            <td><input type="text"
+            <td><textarea
+                       name="treatmentEpochs[PAGE.ROW.INDEX].arms[NESTED.PAGE.ROW.INDEX].descriptionText"
+                       rows="3" cols="20"></textarea></td>
+            <td valign="top"><input type="text"
                        name="treatmentEpochs[PAGE.ROW.INDEX].arms[NESTED.PAGE.ROW.INDEX].targetAccrualNumber"
-                       size="12" maxlength="10" class="validate-numeric" /></td>
-            <td><a
+                       size="6" maxlength="8" class="validate-numeric" /></td>
+            <td valign="top"><a
                     href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(treatmentEpochRowInserterProps,PAGE.ROW.INDEX),NESTED.PAGE.ROW.INDEX);"><img
                     src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
         </tr>
@@ -365,7 +374,7 @@
     <table>
         <tr>
             <td><chrome:minimizableBox  id="AddedNonTreatmentEpochBox-PAGE.ROW.INDEX"
-                                          title="New Non-Treatment Epoch"
+                                          title="Non-Treatment Epoch"
                                           isDeletable="true"
                                           onDelete="RowManager.deleteRow(nonTreatmentEpochRowInserterProps,PAGE.ROW.INDEX)">
                 <table width="100%" border="0">
@@ -378,7 +387,7 @@
                                     </div>
                                 <div class="value"><input type="text" size="41"
                                                           name="nonTreatmentEpochs[PAGE.ROW.INDEX].name"
-                                                          class="validate-notEmpty" /><span class="red">&nbsp;&nbsp;&nbsp;</span></div>
+                                                          class="validate-notEmpty" /></div>
                             </div>
 
                             <div class="row">
@@ -389,11 +398,11 @@
                             </div>
                             <div class="row">
                                 <div class="label">
-                                    <span class="required-indicator">Epoch Order:</span>
+                                    <span class="required-indicator">Order:</span>
                                     </div>
                                 <div class="value"><input type="text" size="5"
                                                           name="nonTreatmentEpochs[PAGE.ROW.INDEX].epochOrder"
-                                                          class="validate-notEmpty&&numeric" /><span class="red">&nbsp;&nbsp;&nbsp;</span></div>
+                                                          class="validate-notEmpty&&numeric" /></div>
                             </div>
                         </div>
 
@@ -404,7 +413,7 @@
                                 <div class="value"><select
                                         name="nonTreatmentEpochs[PAGE.ROW.INDEX].accrualIndicator" onchange="manageAccrualIndicatorSelectBox(this,PAGE.ROW.INDEX);"
                                         class="validate-notEmpty">
-                                    <option value="">--Please Select--</option>
+                                    <option value="">Please Select</option>
                                     <option value="true">Yes</option>
                                     <option value="false">No</option>
                                 </select></div>
@@ -427,7 +436,7 @@
                                         id="nonTreatmentEpochs[PAGE.ROW.INDEX].enrollmentIndicator"
                                         name="nonTreatmentEpochs[PAGE.ROW.INDEX].enrollmentIndicator" onchange="manageEnrollingIndicatorSelectBox(this,PAGE.ROW.INDEX);"
                                         class="validate-notEmpty">
-                                    <option value="">--Please Select--</option>
+                                    <option value="">Please Select</option>
                                     <option value="true">Yes</option>
                                     <option value="false">No</option>
                                 </select></div>
@@ -441,7 +450,7 @@
                                         id="nonTreatmentEpochs[PAGE.ROW.INDEX].reservationIndicator"
                                         name="nonTreatmentEpochs[PAGE.ROW.INDEX].reservationIndicator"
                                         class="validate-notEmpty">
-                                    <option value="">--Please Select--</option>
+                                    <option value="">Please Select</option>
                                     <option value="true">Yes</option>
                                     <option value="false">No</option>
                                 </select></div>

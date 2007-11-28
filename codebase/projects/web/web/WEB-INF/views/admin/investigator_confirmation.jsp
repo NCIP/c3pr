@@ -24,23 +24,47 @@
 <div id="main">
 <br/>
 <chrome:box title="Confirmation" autopad="true">
+
     <table width="100%" border="0">
         <tr>
             <td>
                 <div class="content">
+                  <c:if test="${FLOW == 'EDIT_FLOW'}">
                 	<div class="row">
-	                    <div><h1>Investigator Succesfully Created</h1></div>
+                	 	<h2><font color="green">Investigator successfully updated.</font></h2>
 	                </div>
+                </c:if>
+                <c:if test="${FLOW == 'SAVE_FLOW'}">
+                	<div class="row">
+                	 	<h2><font color="green">Investigator successfully saved.</font></h2>
+	                </div>
+                </c:if>
+                
                     <div class="row">
-                        <div class="label">Full Name:</div>
-                        <div class="value">
-                            <c:out value="${command.fullName}"/>
-                        </div>
+	                 	<table class="tablecontent">
+							<tr>
+								<td class="alt" align="right"><b>First Name:<b></td>
+								<td class="alt" align="left">${command.firstName}</td>
+							</tr>
+							<tr>
+								<td class="alt" align="right"><b>Last Name:<b></td>
+								<td class="alt" align="left">${command.lastName}</td>
+							</tr>
+							<tr>
+								<td class="alt" align="right"><b>NCI Identifier:<b></td>
+								<td class="alt" align="left">${command.nciIdentifier}</td>
+							</tr>
+							<tr>
+								<td class="alt" align="right"><b>E-mail:<b></td>
+								<td class="alt" align="left">${command.contactMechanisms[0].value}</td>
+							</tr>
+						</table>
                     </div>
                 </div>
             </td>
         </tr>
     </table>
+
 </chrome:box>
 </div>
 

@@ -8,6 +8,26 @@
 
 <html>
 <head>
+<tags:includeScriptaculous />
+<tags:dwrJavascriptLink objects="ResearchStaffAjaxFacade" />
+<script language="JavaScript" type="text/JavaScript">
+  var sponsorSiteAutocompleterProps = {
+            basename: "healthcareSite",
+            populator: function(autocompleter, text) {
+                ResearchStaffAjaxFacade.matchHealthcareSites(text,function(values) {
+                    autocompleter.setChoices(values)
+                })
+            },
+            valueSelector: function(obj) {
+                return (obj.name+" ("+obj.nciInstituteCode+")")
+            },
+            afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+    								hiddenField=sponsorSiteAutocompleterProps.basename+"-hidden"
+	    							$(hiddenField).value=selectedChoice.id;
+			 }
+        }
+         AutocompleterManager.addAutocompleter(sponsorSiteAutocompleterProps);
+</script>
 </head>
 <body>
 <div class="tabpane">
@@ -33,35 +53,40 @@
     <div class="leftpanel">
         <div class="row">
             <div class="label required-indicator">
-                Choose an Organization
+               Organization:
             </div>
             <div class="value">
-                <c:if test="${FLOW == 'EDIT_FLOW'}">
-                    <form:select path="healthcareSite"
-                                 id="selectedHealthcareSite" cssClass="validate-notEmpty" disabled="true">
-                        <option value="">--Please Select--</option>
-                        <form:options items="${healthcareSites}" itemLabel="name"
-                                      itemValue="id" />
-                    </form:select>
+            
+             <c:if test="${FLOW == 'EDIT_FLOW'}">
+                    <input type="hidden" id="healthcareSite-hidden"
+								name="healthcareSite"
+								value="${command.healthcareSite.id }" />
+								<input id="healthcareSite-input" size="50" type="text"
+								name="healthcareSite.name"
+								value="${command.healthcareSite.name}" class="autocomplete validate-notEmpty" disabled="true" />
+							<tags:indicator id="healthcareSite-indicator" />
+							<div id="healthcareSite-choices" class="autocomplete"></div>
                 </c:if>
                 <c:if test="${FLOW == 'SAVE_FLOW'}">
-                    <form:select path="healthcareSite"
-                                 id="selectedHealthcareSite" cssClass="validate-notEmpty">
-                        <option value="">--Please Select--</option>
-                        <form:options items="${healthcareSites}" itemLabel="name"
-                                      itemValue="id" />
-                    </form:select>
+                 <input type="hidden" id="healthcareSite-hidden"
+								name="healthcareSite"
+								value="${command.healthcareSite.id }" />
+								<input id="healthcareSite-input" size="50" type="text"
+								name="healthcareSite.name"
+								value="${command.healthcareSite.name}" class="autocomplete validate-notEmpty" />
+							<tags:indicator id="healthcareSite-indicator" />
+							<div id="healthcareSite-choices" class="autocomplete"></div>
                 </c:if>
             </div>
         </div>
     </div>
 </chrome:division>
 
-<chrome:division id="staff-details" title="Research Staff Details">
+<chrome:division id="staff-details" title="Basic Details">
     <div class="leftpanel">
         <div class="row">
             <div class="label required-indicator">
-                First Name</div>
+                First Name:</div>
             <div class="value">
                 <form:input size="25" path="firstName"
                             cssClass="validate-notEmpty" />
@@ -69,21 +94,21 @@
         </div>
         <div class="row">
             <div class="label required-indicator">
-                Last Name</div>
+                Last Name:</div>
             <div class="value">
                 <form:input path="lastName" cssClass="validate-notEmpty" size="25" />
             </div>
         </div>
         <div class="row">
             <div class="label">
-                Middle Name</div>
+                Middle Name:</div>
             <div class="value">
                 <form:input path="middleName" size="25" />
             </div>
         </div>
         <div class="row">
             <div class="label">
-                Maiden Name</div>
+                Maiden Name:</div>
             <div class="value">
                 <form:input path="maidenName" size="25" />
             </div>
@@ -105,7 +130,7 @@
                     ${command.contactMechanisms[0].type.displayName} (Username):
             </div>
             <div class="value">
-                <form:input size="25"
+                <form:input size="30"
                             path="contactMechanisms[0].value" cssClass="validate-EMAIL" />
             </div>
         </div>
