@@ -76,7 +76,7 @@ public class StudyServiceImpl implements StudyService {
 			study.setDataEntryStatus(evaluateDataEntryStatus(study));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
 		} else {
 			study.setDataEntryStatus(evaluateDataEntryStatus(study));
@@ -88,8 +88,10 @@ public class StudyServiceImpl implements StudyService {
 		if (evaluateDataEntryStatus(study) != StudyDataEntryStatus.COMPLETE) {
 			return CoordinatingCenterStudyStatus.PENDING;
 		}
-		if (evaluateAmendmentStatus(study) != StudyDataEntryStatus.COMPLETE) {
-			return CoordinatingCenterStudyStatus.AMENDMENT_PENDING;
+		if(study.getId()!=null){
+			if (evaluateAmendmentStatus(study) != StudyDataEntryStatus.COMPLETE) {
+				return CoordinatingCenterStudyStatus.AMENDMENT_PENDING;
+			}
 		}
 		
 		return CoordinatingCenterStudyStatus.ACTIVE;
@@ -101,13 +103,13 @@ public class StudyServiceImpl implements StudyService {
 			for (TreatmentEpoch treatmentEpoch : study.getTreatmentEpochs()) {
 				if (treatmentEpoch.getRandomizedIndicator()) {
 					if((treatmentEpoch.getArms().size()<2)||(!treatmentEpoch.hasStratumGroups())||(treatmentEpoch.getRandomization()==null)){
-						if ((treatmentEpoch.getArms().size()<2)&&(study.getId()!=null)){
+						if (treatmentEpoch.getArms().size()<2){
 							throw new Exception("There should be at least 2 arms for randomization for treatment epoch: "+treatmentEpoch.getName());
 						}
-						if ((!treatmentEpoch.hasStratumGroups())&&(study.getId()!=null)){
+						if (!treatmentEpoch.hasStratumGroups()){
 							throw new Exception("There are no stratum groups for treatment epoch: "+treatmentEpoch.getName());
 						}
-						if ((treatmentEpoch.getRandomization()==null)&&(study.getId()!=null)){
+						if (treatmentEpoch.getRandomization()==null){
 							throw new Exception("There are no radomization entries for treatment epoch: "+treatmentEpoch.getName());
 						}
 						return StudyDataEntryStatus.INCOMPLETE;
@@ -115,21 +117,6 @@ public class StudyServiceImpl implements StudyService {
 				}
 			}
 		}
-		
-		for (TreatmentEpoch treatmentEpoch : study.getTreatmentEpochs()) {
-			if (treatmentEpoch.getRandomizedIndicator()==Boolean.TRUE) {
-				if (!treatmentEpoch.hasStratification()||!treatmentEpoch.hasStratumGroups()){
-					if ((!treatmentEpoch.hasStratification())&&(study.getId()!=null)){
-						throw new Exception("There is no stratification criteria for treatment epoch: "+treatmentEpoch.getName());
-					}
-					if ((!treatmentEpoch.hasStratumGroups())&&(study.getId()!=null)){
-						throw new Exception("There are no stratum groups for treatment epoch: "+treatmentEpoch.getName());
-					}
-					return StudyDataEntryStatus.INCOMPLETE;
-				}
-			}
-		}
-
 		return StudyDataEntryStatus.COMPLETE;
 	}
 
@@ -139,10 +126,7 @@ public class StudyServiceImpl implements StudyService {
 			for (TreatmentEpoch treatmentEpoch : study.getTreatmentEpochs()) {
 				if (treatmentEpoch.hasStratification()) {
 					if (!treatmentEpoch.hasStratumGroups()){
-						if (study.getId()!=null){
 						throw new Exception("There are no stratum groups for treatment epoch: " + treatmentEpoch.getName());
-						}
-						return StudyDataEntryStatus.INCOMPLETE;
 					}
 				}
 			}
@@ -151,10 +135,7 @@ public class StudyServiceImpl implements StudyService {
 		for (TreatmentEpoch treatmentEpoch : study.getTreatmentEpochs()) {
 			if (treatmentEpoch.getRandomizedIndicator()==Boolean.TRUE) {
 				if (!treatmentEpoch.hasStratification()||!treatmentEpoch.hasStratumGroups()){
-					if (study.getId()!=null){
 						throw new Exception("Stratification or/and stratum groups are missing for treatment epoch: " + treatmentEpoch.getName());
-						}
-					return StudyDataEntryStatus.INCOMPLETE;
 				}
 			}
 		}
@@ -169,10 +150,7 @@ public class StudyServiceImpl implements StudyService {
 			for (TreatmentEpoch treatmentEpoch : study.getTreatmentEpochs()) {
 				if (treatmentEpoch.hasBookRandomizationEntry()) {
 					if (!treatmentEpoch.hasStratumGroups()){
-						if (study.getId()!=null){
 							throw new Exception("Stratum groups are missing for treatment epoch: " + treatmentEpoch.getName());
-							}
-						return StudyDataEntryStatus.INCOMPLETE;
 					}
 				}
 			}
@@ -186,10 +164,7 @@ public class StudyServiceImpl implements StudyService {
 					if (StringUtils
 							.isBlank(((PhonecallRandomization) randomization)
 									.getPhoneNumber())) {
-						if (study.getId()!=null){
 							throw new Exception("Treatment epoch: " + treatmentEpoch.getName() + " needs phone number for randomization");
-							}
-						return StudyDataEntryStatus.INCOMPLETE;
 					}
 				}
 			}
@@ -202,10 +177,7 @@ public class StudyServiceImpl implements StudyService {
 					if (StringUtils
 							.isBlank(((CalloutRandomization) randomization)
 									.getCalloutUrl())) {
-						if (study.getId()!=null){
 							throw new Exception("Treatment epoch: " + treatmentEpoch.getName() + " needs call out URL for randomization");
-							}
-						return StudyDataEntryStatus.INCOMPLETE;
 					}
 				}
 			}
@@ -216,7 +188,7 @@ public class StudyServiceImpl implements StudyService {
 	public StudyDataEntryStatus evaluateEligibilityDataEntryStatus(Study study)
 			throws Exception {
 		
-		//TODO  //Disabled unless more information is obtained on managing the eligibility criteria for all epochs and study
+		//TODO  //Disabled unless more information is obtained on managing the eligibility criteria for all epochs
 		
 		/*if (study.hasElligibility()){
 			return StudyDataEntryStatus.COMPLETE;
@@ -277,10 +249,10 @@ public class StudyServiceImpl implements StudyService {
 			throws Exception {
 
 		if ((study.getStudySites().size() == 0) || (!study.hasEnrollingEpoch())){
-			if ((study.getId()!=null)&&(study.getStudySites().size() == 0)){
+			if ((study.getStudySites().size() == 0)){
 				throw new Exception("Study does not have a study site");
 				}
-			if ((study.getId()!=null)&&(!study.hasEnrollingEpoch())){
+			if ((!study.hasEnrollingEpoch())){
 				throw new Exception("Study needs an enrolling epoch");
 				}
 			return StudyDataEntryStatus.INCOMPLETE;
@@ -418,8 +390,16 @@ public class StudyServiceImpl implements StudyService {
 	}
 
 	public Study setStatuses(Study study, boolean throwException) throws Exception {
-
-		study.setDataEntryStatus(evaluateDataEntryStatus(study));
+		if (!throwException){
+		try {
+			study.setDataEntryStatus(evaluateDataEntryStatus(study));
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			// e1.printStackTrace();
+		}
+		} else {
+			study.setDataEntryStatus(evaluateDataEntryStatus(study));
+		}
 
 		// For a new study, the coordingating center status should be set to
 		// Pending.
@@ -427,7 +407,7 @@ public class StudyServiceImpl implements StudyService {
 			study
 					.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
 		} else {
-			if (throwException==false){
+			if (!throwException){
 				try {
 					study.setCoordinatingCenterStudyStatus(evaluateCoordinatingCenterStudyStatus(study));
 				} catch (Exception e) {
@@ -439,13 +419,13 @@ public class StudyServiceImpl implements StudyService {
 			}
 		}
 		
-		if (throwException==false){
+		if (!throwException){
 		try {
 			for (int i = 0; i < study.getStudySites().size(); i++) {
 				study.getStudySites().get(i).setSiteStudyStatus(
 						evaluateSiteStudyStatus(study.getStudySites().get(i)));
 			}
-		} catch (RuntimeException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -572,6 +552,13 @@ public class StudyServiceImpl implements StudyService {
 		return studyDao.merge(study);
 	}
 
+	public StudySubjectDao getStudySubjectDao() {
+		return studySubjectDao;
+	}
+
+	public void setStudySubjectDao(StudySubjectDao studySubjectDao) {
+		this.studySubjectDao = studySubjectDao;
+	}
 	public Study reassociate(Study study) {
 		studyDao.reassociate(study);
 		return study;
@@ -580,13 +567,6 @@ public class StudyServiceImpl implements StudyService {
 	public Study refresh(Study study) {
 		studyDao.refresh(study);
 		return study;
-	}
-	public StudySubjectDao getStudySubjectDao() {
-		return studySubjectDao;
-	}
-
-	public void setStudySubjectDao(StudySubjectDao studySubjectDao) {
-		this.studySubjectDao = studySubjectDao;
 	}
 	
     public List<Study> searchByCoOrdinatingCenterId(OrganizationAssignedIdentifier identifier)throws C3PRCodedException{
