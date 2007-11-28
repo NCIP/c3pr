@@ -193,12 +193,13 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject{
 			if(breTemp.getPosition().equals(this.currentPosition)){
 				synchronized(this){
 					this.currentPosition++;
-					arm= breTemp.getArm();				
+					arm= breTemp.getArm();
+					break;
 				}
 			}
 		}
 		if(arm==null){
-			throw new C3PRBaseException("No Arm avalibale for this stratum group. Maybe the Randomization Book is exhausted");
+			throw new C3PRBaseException("No Arm avalable for this stratum group. Maybe the Randomization Book is exhausted");
 		}
 		return arm;		
 	}
