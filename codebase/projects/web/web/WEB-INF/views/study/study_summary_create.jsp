@@ -49,7 +49,7 @@ document.getElementById("command").submit();
             <td class="alt" align="left">${command.dataEntryStatus.code}</td>
         </tr> 
          <tr>
-            <td class="alt" align="left"><b>Study Status:</b></td>
+            <td class="alt" align="left"><b>Status:</b></td>
             <td class="alt" align="left">${command.coordinatingCenterStudyStatus.code}</td>
         </tr>
         <tr>

@@ -72,7 +72,7 @@
             <td class="alt" align="left">${command.dataEntryStatus.code}</td>
         </tr>
         <tr>
-            <td class="alt" align="left" rows="2"><b>Study Status:</b></td>
+            <td class="alt" align="left" rows="2"><b>Status:</b></td>
             <c:set var="commanSepOptVal"
                    value="[['Active','Active'],
 						['Closed To Accrual And Treatment','Closed To Accrual And Treatment'],['Closed To Accrual','Closed To Accrual'],
@@ -390,7 +390,7 @@
                 <csmauthz:accesscontrol
                         domainObject="${editAuthorizationTask}"
                         authorizationCheckName="taskAuthorizationCheck">
-                    <input type="submit" value="Edit Study"/>
+                    <input type="button" value="Edit Study" onclick="document.location='../study/editStudy?studyId=${command.id}'"/>
 
 
                     <input type="button" value="Amend Study" id="amendButtonDisplayDiv"
