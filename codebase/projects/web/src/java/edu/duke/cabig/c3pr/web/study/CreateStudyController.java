@@ -61,7 +61,6 @@ public class CreateStudyController<C extends Study> extends StudyController<C> {
 	protected void postProcessPage(HttpServletRequest request, Object command, Errors errors, int page) throws Exception {
 		// TODO Auto-generated method stub
 		Study study=(Study)command;
-		studyService.setDataEntryStatus(study, false);
 		super.postProcessPage(request, command, errors, page);
 		studyService.setStatuses(study,false);
 	}
