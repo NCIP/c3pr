@@ -44,7 +44,7 @@
             Name:
         </div>
         <div class="value">
-            <form:input size="60" path="name" cssClass="validate-notEmpty"/>
+            <form:input size="48" path="name" cssClass="validate-notEmpty"/>
         </div>
     </div>
 
