@@ -4,6 +4,7 @@ import edu.duke.cabig.c3pr.dao.C3PRBaseDao;
 import edu.duke.cabig.c3pr.domain.CCTSAbstractMutableDeletableDomainObject;
 import edu.duke.cabig.c3pr.domain.CCTSWorkflowStatusType;
 import edu.duke.cabig.c3pr.esb.MessageWorkflowCallback;
+import org.apache.log4j.Logger;
 
 /**
  * Will track the CCTS message worfklow for a "given" domain object
@@ -21,6 +22,8 @@ import edu.duke.cabig.c3pr.esb.MessageWorkflowCallback;
 public class DefaultCCTSMessageWorkflowCallbackFactory {
 
     private C3PRBaseDao dao;
+    private Logger log = Logger.getLogger(DefaultCCTSMessageWorkflowCallbackFactory.class);
+
 
     public MessageWorkflowCallback createWorkflowCallback(CCTSAbstractMutableDeletableDomainObject domainObject) {
         DefaultCCTSMessageWorkflowCallbackImpl callback = new DefaultCCTSMessageWorkflowCallbackImpl(domainObject);
@@ -50,14 +53,16 @@ public class DefaultCCTSMessageWorkflowCallbackFactory {
         /**
          * Handle message sent to ESB successfully
          *
-         * @param message
+         * @param objectId
          */
-        public void messageSendSuccessful(String message) {
+        public void messageSendSuccessful(String objectId) {
+            log.debug("Recording successful send for objectId" + objectId);
             domainObject.setCctsWorkflowStatus(CCTSWorkflowStatusType.MESSAGE_SEND);
             dao.save(domainObject);
         }
 
-        public void messageSendFailed(String message) {
+        public void messageSendFailed(String objectId) {
+            log.debug("Recording send failed for objectId" + objectId);
             domainObject.setCctsWorkflowStatus(CCTSWorkflowStatusType.MESSAGE_SEND_FAILED);
             dao.save(domainObject);
         }
@@ -66,9 +71,10 @@ public class DefaultCCTSMessageWorkflowCallbackFactory {
          * Confirm that message was sent to CCTS Hub and confirmation
          * was received
          *
-         * @param objectIdentifier id of the domain object
+         * @param objectId id of the domain object
          */
-        public void messageSendConfirmed(String objectIdentifier) {
+        public void messageSendConfirmed(String objectId) {
+            log.debug("Recording send confirmed for objectId" + objectId);
             domainObject.setCctsWorkflowStatus(CCTSWorkflowStatusType.MESSAGE_SEND_CONFIRMED);
             dao.save(domainObject);
         }
