@@ -22,6 +22,11 @@ public class MessageBroadcastServiceImpl extends JmsService implements MessageBr
         }
     }
 
+
+    public void broadcast(String message, String externalId) throws BroadcastException {
+        broadcast(message, DUMMY_ID);
+    }
+
     public Vector getBroadcastStatus() {
         // TODO Auto-generated method stub
         if (!isConsumer()) {

@@ -17,17 +17,22 @@ public interface MessageWorkflowCallback {
     /**
      * Handle message sent to ESB successfully
      *
-     * @param message
+     * @param objectId id of the domain object (external Identifier)
      */
-    public void messageSendSuccessful(String message);
+    public void messageSendSuccessful(String objectId);
 
-    public void messageSendFailed(String message);
+    /**
+     * Message failed
+     *
+     * @param objectId id of the domain object (external Identifier)
+     */
+    public void messageSendFailed(String objectId);
 
     /**
      * Confirm that message was sent to CCTS Hub and confirmation
      * was received
      *
-     * @param objectIdentifier id of the domain object
+     * @param objectId id of the domain object (external Identifier)
      */
-    public void messageSendConfirmed(String objectIdentifier);
+    public void messageSendConfirmed(String objectId);
 }

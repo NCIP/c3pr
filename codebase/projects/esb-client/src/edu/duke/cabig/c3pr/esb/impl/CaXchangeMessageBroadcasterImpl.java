@@ -99,7 +99,7 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
             log.debug("Sending message to caXchange");
             responseRef = caXchangeClient.processRequestAsynchronously(xchangeMessage);
             if (messageWorkflowCallback != null) {
-                messageWorkflowCallback.messageSendSuccessful(cctsDomainObjectXML);
+                messageWorkflowCallback.messageSendSuccessful(externalId);
             }
         } catch (RemoteException e) {
             log.error("caXchange could not process request", e);
