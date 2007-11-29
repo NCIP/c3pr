@@ -90,6 +90,7 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
         blindedIndicator = false;
         multiInstitutionIndicator = false;
         multiInstitutionIndicator = false;
+        dataEntryStatus = StudyDataEntryStatus.INCOMPLETE;
 
         lazyListHelper = new LazyListHelper();
         lazyListHelper.add(StudySite.class,
@@ -321,6 +322,33 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
         }
         return null;
     }
+    
+    @Transient
+    public String getPrincipalInvestigatorFullName() {
+        for (StudyOrganization studyOrganization : this
+                .getStudyOrganizations()) {
+        	for(StudyInvestigator studyInvestigator : studyOrganization.getStudyInvestigators()){
+        		if (studyInvestigator.getRoleCode().equals("Principal Investigator")){
+        			return studyInvestigator.getHealthcareSiteInvestigator().getInvestigator().getFullName();
+        		}
+        	}
+        }
+        return null;
+    }
+    
+    @Transient
+    public StudyOrganization getPrincipalInvestigatorStudyOrganization() {
+        for (StudyOrganization studyOrganization : this
+                .getStudyOrganizations()) {
+        	for(StudyInvestigator studyInvestigator : studyOrganization.getStudyInvestigators()){
+        		if (studyInvestigator.getRoleCode().equals("Principal Investigator")){
+        			return studyInvestigator.getStudyOrganization();
+        		}
+        	}
+        }
+        return null;
+    }
+    
 
     // / BEAN PROPERTIES
 
