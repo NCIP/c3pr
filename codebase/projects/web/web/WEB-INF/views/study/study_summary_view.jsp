@@ -15,7 +15,13 @@
         }
 
         function doSendMessageToESB() {
-        <tags:tabMethod method="sendMessageToESB" viewName="/study/asynchronous/broadcast_res" divElement="'broadcastResponse'" formName="'tabMethodForm'"/>
+        <tags:tabMethod method="sendMessageToESB" onComplete="onBroadcastComplete"
+            viewName="/study/asynchronous/broadcast_res" divElement="'broadcastResponse'"
+            formName="'tabMethodForm'"/>
+        }
+
+        function onBroadcastComplete() {
+            $('cctsWorkflowStatus').innerHTML = $('broadcastResponse').innerHTML;
         }
 
 
@@ -105,8 +111,15 @@
             <td class="alt" align="left"><b>Randomization Type:</b></td>
             <td class="alt" align="left">${command.randomizationType.displayName}</td>
         </tr>
+        <tr>
+            <td class="alt" align="left"><b>CCTS Broadcast Status:</b></td>
+            <td class="alt" id="cctsWorkflowStatus" align="left">
+                    ${command.cctsWorkflowStatus.displayName}
+            </td>
+        </tr>
 
     </table>
+
 </chrome:division>
 <hr align="left" width="95%">
 <br>
@@ -373,7 +386,7 @@
                        value="Export Study" onclick="doExportAction();"/>
             <!--ccts messaging-->
             <input type="button" id="cctsBroadcastBtn"
-                   value="Broadcast CCTS Message" onclick="doSendMessageToESB();"/>
+                   value="Broadcast Study" onclick="doSendMessageToESB();"/>
                 <csmauthz:accesscontrol
                         domainObject="${editAuthorizationTask}"
                         authorizationCheckName="taskAuthorizationCheck">
@@ -388,7 +401,9 @@
 
                 </csmauthz:accesscontrol> </span></div>
     </div>
-	<div id="broadcastResponse" align="right"/>
+    <!--broadcast status flashing alert-->
+    <div id="broadcastResponse" align="right"/>
+
 </c:if>
 
 </chrome:box>
