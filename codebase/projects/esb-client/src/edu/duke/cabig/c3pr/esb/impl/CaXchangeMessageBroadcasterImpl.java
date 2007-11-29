@@ -43,12 +43,22 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
 
 
     /**
+     * Will just use a dummy id to broadcast message
+     *
+     * @param message
+     * @throws BroadcastException
+     */
+    public void broadcast(String message) throws BroadcastException {
+        broadcast(message, DUMMY_ID);
+    }
+
+    /**
      * will broadcast the domain object to caXchange
      *
      * @param cctsDomainObjectXML
      * @throws BroadcastException
      */
-    public void broadcast(String cctsDomainObjectXML) throws BroadcastException {
+    public void broadcast(String cctsDomainObjectXML, String externalId) throws BroadcastException {
 
         CaXchangeRequestProcessorClient caXchangeClient = null;
         try {
@@ -77,8 +87,16 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
             Metadata mData = new Metadata();
             mData.setOperation(Operations.PROCESS);
             mData.setMessageType(MessageTypes.fromString((String) messageTypesMapping.get(messageDOM.getDocumentElement().getNodeName())));
+            mData.setExternalIdentifier(externalId);
+
+            //will be removed. temp
+            Credentials creds = new Credentials();
+            creds.setUserName("hmarwaha");
+            creds.setPassword("password");
+            mData.setCredentials(creds);
 
             xchangeMessage.setMetadata(mData);
+            log.debug("Sending message to caXchange");
             responseRef = caXchangeClient.processRequestAsynchronously(xchangeMessage);
             if (messageWorkflowCallback != null) {
                 messageWorkflowCallback.messageSendSuccessful(cctsDomainObjectXML);
@@ -155,18 +173,28 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
         protected void done() {
             try {
                 ResponseMessage response = (ResponseMessage) get();
+                log.debug("Received response from caXchange");
+                String objectId = response.getResponseMetadata().getExternalIdentifier();
+                log.debug("Received response from caXchange for externalId" + objectId);
+
                 if (response.getResponse().getResponseStatus().equals(Statuses._SUCCESS)) {
-                    String objectId = response.getResponseMetadata().getExternalIdentifier();
+                    log.debug("Successfully received response from caXchange");
 
                     messageWorkflowCallback.messageSendSuccessful(objectId);
                     // notify response handlers
                     messageResponseHandlers.notifyAll(objectId, response.getResponse());
                 }
+                if (response.getResponse().getResponseStatus().equals(Statuses.FAILURE)) {
+                    log.debug("Received failure from caXchange");
+                    messageWorkflowCallback.messageSendFailed(objectId);
+                }
+
 
             } catch (InterruptedException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                log.warn(e);
             } catch (ExecutionException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                log.warn(e);
             }
             //call handlers for the result
         }
@@ -183,11 +211,19 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
 
         public ResponseMessage call() throws Exception {
             try {
+                log.debug("Checking caXchange for response");
                 return responseService.getResponse();
             } catch (RemoteException e) {
+                log.debug("Will check caXchange for response again");
                 return call();
             }
         }
 
+
+        protected void finalize() throws Throwable {
+            log.debug("Killing listening thread");
+            super.finalize();    //To change body of overridden methods use File | Settings | File Templates.
+        }
     }
+
 }
