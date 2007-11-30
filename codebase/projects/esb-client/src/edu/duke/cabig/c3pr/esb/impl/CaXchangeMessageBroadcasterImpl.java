@@ -104,7 +104,7 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
         } catch (RemoteException e) {
             log.error("caXchange could not process request", e);
             if (messageWorkflowCallback != null) {
-                messageWorkflowCallback.messageSendFailed(cctsDomainObjectXML);
+                messageWorkflowCallback.messageSendFailed(externalId);
             }
             throw new BroadcastException("caXchange could not process message", e);
         }
