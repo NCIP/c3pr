@@ -33,15 +33,30 @@ public class StudyEmptyTab extends StudyTab {
         super(longTitle, shortTitle, viewName);
     }
 
+    public ModelAndView getMessageBroadcastStatus(HttpServletRequest request, Object commandObj, Errors error){
+        Study study = (Study) commandObj;
+        String responseMessage = null;
+        try {
+            log.debug("Getting status for study");
+            responseMessage =  studyService.getCCTSWofkflowStatus(study).getDisplayName();
+        } catch (Exception e) {
+            log.error(e);
+            responseMessage = "Error getting status";
+        }
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("broadcastResponse", responseMessage);
+        return new ModelAndView(getAjaxViewName(request), map);
+    }
+
     public ModelAndView sendMessageToESB(HttpServletRequest request, Object commandObj, Errors error) {
-        String responseMessage = "Study message successfully broadcasted.";
+        String responseMessage = "Message send successful";
         try {
             log.debug("Sending message to CCTS esb");
             Study study = (Study) commandObj;
             messageBroadcaster.setNotificationHandler(cctsMessageWorkflowCallbackFactory.createWorkflowCallback(study));
             messageBroadcaster.broadcast(xmlUtility.toXML(study), study.getGridId());
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e);
             responseMessage = "Message send Failed!";
         }
         Map<String, Object> map = new HashMap<String, Object>();

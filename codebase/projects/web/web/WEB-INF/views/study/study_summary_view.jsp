@@ -15,13 +15,19 @@
         }
 
         function doSendMessageToESB() {
-        <tags:tabMethod method="sendMessageToESB" onComplete="onBroadcastComplete"
+        <tags:tabMethod method="sendMessageToESB"onComplete="onBroadcastComplete"
             viewName="/study/asynchronous/broadcast_res" divElement="'broadcastResponse'"
             formName="'tabMethodForm'"/>
         }
 
         function onBroadcastComplete() {
-            $('cctsWorkflowStatus').innerHTML = $('broadcastResponse').innerHTML;
+            $('cctsWorkflowStatusText').innerHTML = $('broadcastResponse').innerHTML;
+        }
+
+        function getBroadcastStatus(){
+        <tags:tabMethod method="getMessageBroadcastStatus"  
+        viewName="/study/asynchronous/broadcast_res" divElement="'cctsWorkflowStatusText'"
+        formName="'tabMethodForm'"/>
         }
 
 
@@ -114,7 +120,14 @@
         <tr>
             <td class="alt" align="left"><b>CCTS Broadcast Status:</b></td>
             <td class="alt" id="cctsWorkflowStatus" align="left">
-                    ${command.cctsWorkflowStatus.displayName}
+
+                <span id="cctsWorkflowStatusText">
+                        ${command.cctsWorkflowStatus.displayName}
+                </span>
+
+                <input type="button" value="Refresh" onclick="getBroadcastStatus()"/>
+
+
             </td>
         </tr>
 

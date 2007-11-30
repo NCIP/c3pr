@@ -9,21 +9,7 @@ import org.springframework.context.MessageSource;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
-import edu.duke.cabig.c3pr.domain.CalloutRandomization;
-import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
-import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
-import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.PhonecallRandomization;
-import edu.duke.cabig.c3pr.domain.Randomization;
-import edu.duke.cabig.c3pr.domain.RandomizationType;
-import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyAmendment;
-import edu.duke.cabig.c3pr.domain.StudyDataEntryStatus;
-import edu.duke.cabig.c3pr.domain.StudySite;
-import edu.duke.cabig.c3pr.domain.StudySubject;
-import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
+import edu.duke.cabig.c3pr.domain.*;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
@@ -83,7 +69,14 @@ public class StudyServiceImpl implements StudyService {
 		}
 	}
 
-	public CoordinatingCenterStudyStatus evaluateCoordinatingCenterStudyStatus(
+    public CCTSWorkflowStatusType getCCTSWofkflowStatus(Study study){
+        // study shld exist
+            Study loadedStudy = studyDao.getByGridId(study.getGridId());
+        return loadedStudy.getCctsWorkflowStatus();
+
+    }
+
+    public CoordinatingCenterStudyStatus evaluateCoordinatingCenterStudyStatus(
 			Study study) throws Exception {
 		if (evaluateDataEntryStatus(study) != StudyDataEntryStatus.COMPLETE) {
 			return CoordinatingCenterStudyStatus.PENDING;

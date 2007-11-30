@@ -3,15 +3,7 @@ package edu.duke.cabig.c3pr.service;
 import java.util.Date;
 import java.util.List;
 
-import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
-import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
-import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyDataEntryStatus;
-import edu.duke.cabig.c3pr.domain.StudySite;
-import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.*;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 
@@ -30,6 +22,8 @@ public interface StudyService {
      */
     public void save(Study study) throws C3PRCodedException;
     
+    public CCTSWorkflowStatusType getCCTSWofkflowStatus(Study study) throws Exception;
+
     public StudyDataEntryStatus evaluateDataEntryStatus(Study study) throws Exception;
     
     public CoordinatingCenterStudyStatus evaluateCoordinatingCenterStudyStatus(Study study) throws Exception;
