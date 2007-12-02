@@ -1,7 +1,14 @@
 package edu.duke.cabig.c3pr.web.ajax;
 
-import edu.duke.cabig.c3pr.dao.*;
-import edu.duke.cabig.c3pr.domain.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.extremecomponents.table.bean.Export;
@@ -15,9 +22,23 @@ import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.HttpSessionRequiredException;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.*;
+import edu.duke.cabig.c3pr.dao.DiseaseCategoryDao;
+import edu.duke.cabig.c3pr.dao.DiseaseTermDao;
+import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
+import edu.duke.cabig.c3pr.dao.OrganizationDao;
+import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
+import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.dao.StudyPersonnelDao;
+import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.domain.DiseaseCategory;
+import edu.duke.cabig.c3pr.domain.DiseaseTerm;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
+import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyPersonnel;
+import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 
 /**
  * @author Priyatam
@@ -189,7 +210,6 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
 	public List<HealthcareSiteInvestigator> matchStudyOrganizationInvestigatorsGivenOrganizationId(
 			String text, int organizationId, HttpServletRequest request)
 			throws Exception {
-		Study study = (Study) getCommandOnly(request);
 		List<HealthcareSiteInvestigator> inv = healthcareSiteInvestigatorDao
 				.getBySubnames(extractSubnames(text), organizationId);
 		List<HealthcareSiteInvestigator> reducedInv = new ArrayList<HealthcareSiteInvestigator>(
