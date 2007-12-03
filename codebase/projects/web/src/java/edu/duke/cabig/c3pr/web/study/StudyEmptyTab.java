@@ -3,10 +3,7 @@ package edu.duke.cabig.c3pr.web.study;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster;
 import edu.duke.cabig.c3pr.service.StudyService;
-import edu.duke.cabig.c3pr.utils.DefaultCCTSMessageWorkflowCallbackFactory;
-import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -24,21 +21,18 @@ import java.util.Map;
  */
 public class StudyEmptyTab extends StudyTab {
     protected StudyService studyService;
-    private edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster messageBroadcaster;
-    private XmlMarshaller xmlUtility;
-    private DefaultCCTSMessageWorkflowCallbackFactory cctsMessageWorkflowCallbackFactory;
 
 
     public StudyEmptyTab(String longTitle, String shortTitle, String viewName) {
         super(longTitle, shortTitle, viewName);
     }
 
-    public ModelAndView getMessageBroadcastStatus(HttpServletRequest request, Object commandObj, Errors error){
+    public ModelAndView getMessageBroadcastStatus(HttpServletRequest request, Object commandObj, Errors error) {
         Study study = (Study) commandObj;
         String responseMessage = null;
         try {
             log.debug("Getting status for study");
-            responseMessage =  studyService.getCCTSWofkflowStatus(study).getDisplayName();
+            responseMessage = studyService.getCCTSWofkflowStatus(study).getDisplayName();
         } catch (Exception e) {
             log.error(e);
             responseMessage = "Error getting status";
@@ -53,8 +47,7 @@ public class StudyEmptyTab extends StudyTab {
         try {
             log.debug("Sending message to CCTS esb");
             Study study = (Study) commandObj;
-            messageBroadcaster.setNotificationHandler(cctsMessageWorkflowCallbackFactory.createWorkflowCallback(study));
-            messageBroadcaster.broadcast(xmlUtility.toXML(study), study.getGridId());
+            studyService.broadcastStudyMessage(study);
         } catch (Exception e) {
             log.error(e);
             responseMessage = "Message send Failed!";
@@ -162,27 +155,4 @@ public class StudyEmptyTab extends StudyTab {
     }
 
 
-    public CCTSMessageBroadcaster getMessageBroadcaster() {
-        return messageBroadcaster;
-    }
-
-    public void setMessageBroadcaster(CCTSMessageBroadcaster messageBroadcaster) {
-        this.messageBroadcaster = messageBroadcaster;
-    }
-
-    public XmlMarshaller getXmlUtility() {
-        return xmlUtility;
-    }
-
-    public void setXmlUtility(XmlMarshaller xmlUtility) {
-        this.xmlUtility = xmlUtility;
-    }
-
-    public DefaultCCTSMessageWorkflowCallbackFactory getCctsMessageWorkflowCallbackFactory() {
-        return cctsMessageWorkflowCallbackFactory;
-    }
-
-    public void setCctsMessageWorkflowCallbackFactory(DefaultCCTSMessageWorkflowCallbackFactory cctsMessageWorkflowCallbackFactory) {
-        this.cctsMessageWorkflowCallbackFactory = cctsMessageWorkflowCallbackFactory;
-    }
 }

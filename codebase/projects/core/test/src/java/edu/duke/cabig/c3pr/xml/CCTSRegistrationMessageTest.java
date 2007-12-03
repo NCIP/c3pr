@@ -11,17 +11,17 @@ import edu.duke.cabig.c3pr.utils.MasqueradingDaoTestCase;
  * Time: 2:34:51 PM
  * To change this template use File | Settings | File Templates.
  */
-public class CCTSRegistrationMessageTest  extends MasqueradingDaoTestCase<StudySubjectDao> {
+public class CCTSRegistrationMessageTest extends MasqueradingDaoTestCase<StudySubjectDao> {
 
     XmlMarshaller marshaller;
 
     protected void setUp() throws Exception {
         super.setUp();    //To change body of overridden methods use File | Settings | File Templates.
-        marshaller = new XmlMarshaller("ccts-registration-castor-mapping.xml");
+        marshaller = (XmlMarshaller) getApplicationContext().getBean("xmlUtility");
     }
 
-    public void testSerialization() throws Exception{
-        for(StudySubject subject: getDao().getAll()){
+    public void testSerialization() throws Exception {
+        for (StudySubject subject : getDao().getAll()) {
             System.out.println(marshaller.toXML(subject));
         }
     }

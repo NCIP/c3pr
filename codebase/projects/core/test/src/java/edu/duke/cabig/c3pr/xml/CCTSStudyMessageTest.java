@@ -16,13 +16,15 @@ public class CCTSStudyMessageTest extends MasqueradingDaoTestCase<StudyDao> {
 
     protected void setUp() throws Exception {
         super.setUp();    //To change body of overridden methods use File | Settings | File Templates.
-        marshaller = new XmlMarshaller("c3pr-castor-mapping.xml");
+        marshaller = (XmlMarshaller) getApplicationContext().getBean("xmlUtility");
     }
 
 
     public void testSerialization() throws Exception {
         for (Study study : getDao().getAll()) {
-            assertNotNull(marshaller.toXML(study));
+            String marshalledStudy = marshaller.toXML(study);
+            assertNotNull(marshalledStudy);
+            System.out.println(marshalledStudy);
         }
     }
 

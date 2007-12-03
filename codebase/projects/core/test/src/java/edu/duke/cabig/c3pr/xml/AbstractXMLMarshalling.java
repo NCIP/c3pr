@@ -157,6 +157,7 @@ public abstract class AbstractXMLMarshalling extends ApplicationTestCase {
 
     // subclasses can override the marshaller
     public XmlMarshaller getMarshaller() {
+        XmlMarshaller marshaller = (XmlMarshaller) getDeployedCoreApplicationContext().getBean("xmlUtility");
         return new XmlMarshaller();
     }
 

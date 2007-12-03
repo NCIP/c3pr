@@ -33,7 +33,7 @@ public class XmlMarshaller implements Marshaller, Unmarshaller {
     gov.nih.nci.common.util.caCOREUnmarshaller unmarshaller;
 
     // Override the default by calling setMappingFile
-    private String mappingFile = "c3pr-castor-mapping.xml";
+    private String mappingFile = "c3pr-xml-castor-mapping.xml";
 
 
     public XmlMarshaller() {
