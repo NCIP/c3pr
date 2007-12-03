@@ -8,30 +8,27 @@
 </head>
 
 <body>
-    <chrome:box title="Study Succesfully Created" autopad="true">
-
-          <table width="100%" border="0">
-              <tr><td>
-            <div class="content">
-                <div class="row">
-                    <div class="label">Short Title:</div>
-                    <div class="value">${command.trimmedShortTitleText}</div>
+    <chrome:box title="Confirmation" autopad="true">
+            	<div class="row" >
+                    <h2><font color="green">Study successfully created.</font></h2>
                 </div>
-                <div class="row">
-                    <div class="label">Coordinating Center Study Identifier:</div>
-                    <div class="value">${command.organizationAssignedIdentifiers[0].value}</div>
-                </div>
-                <div class="row">
-                    <div class="label">Coordinating Center Study Status:</div>
-                    <div class="value">${command.coordinatingCenterStudyStatus.code}</div>
-                </div>
-            </div>
-            </td></tr>
-         </table>
-
-
-
+                 <div class="row" >
+                 	<table class="tablecontent">
+						<tr>
+							<td class="alt" align="left"><b>Short Title:<b></td>
+							<td class="alt" align="left">${command.trimmedShortTitleText}</td>
+						</tr>
+						<tr>
+							<td class="alt" align="left"><b>Coordinating Center Study Identifier:<b></td>
+							<td class="alt" align="left">${command.organizationAssignedIdentifiers[0].value}</td>
+						</tr>
+						<tr>
+							<td class="alt" align="left"><b>Study Status:<b></td>
+							<td class="alt" align="left">${command.coordinatingCenterStudyStatus.code}</td>
+						</tr>
+					</table>
+                 </div>
+		<br/>
     </chrome:box>
-
 </body>
 </html>
