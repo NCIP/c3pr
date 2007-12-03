@@ -317,8 +317,9 @@
 							<tags:indicator id="coCenter-indicator" />
 							<div id="coCenter-choices" class="autocomplete"></div>
 							</div>
-                    </div>
+                    </div>				 
 			    </div>
+			    
 				<div class="rightpanel">
                     <div class="row">
                         <div class="label required-indicator">Identifier:</div>
@@ -334,7 +335,23 @@
 						</div>
 					</div>            
           		</div>
-    	</div>
+          		
+          		<div class="leftpanel">
+          			<div class="row">
+	                       <div class="label">Principal Investigator:</div>
+	                       <div class="value"> <form:hidden id="investigator0-hidden"
+                                path="studyCoordinatingCenters[0].studyInvestigators[0].healthcareSiteInvestigator"/>
+		                   		<input type="text" id="investigator0-input" size="30"
+		                          		value="${command.studyCoordinatingCenters[0].studyInvestigators[0].healthcareSiteInvestigator.investigator.fullName}" class="autocomplete"/>
+		                   		<tags:indicator id="investigator0-indicator"/>
+		                   		<div id="investigator0-choices" class="autocomplete"></div>
+		                   		<input type="hidden" name="studyCoordinatingCenters[0].studyInvestigators[0].roleCode"
+								  		value="Principal Investigator"/>
+						   		<input type="hidden" name="studyCoordinatingCenters[0].studyInvestigators[0].statusCode" value="Active"/>
+	                		</div>
+	            	</div>
+    			</div>
+			</div>
 </chrome:division>
 
 <chrome:division title="Funding Sponsor">
@@ -377,10 +394,10 @@
    </div>
 </chrome:division>
 
-<chrome:division title="Principal Investigator">
+<%-- <chrome:division title="Principal Investigator">
     <div id="principalInvestigator">
     <div class="leftpanel">
-<%--   				<div class="row">
+  				<div class="row">
                         <div class="label">Name:</div>
                         <div class="value"><input type="hidden" id="piCoCenter-hidden"
 						name="studyCoordinatingCenters[0].healthcareSite"
@@ -395,7 +412,7 @@
 						<div id="piCoCenter-choices" class="autocomplete"></div>
 						</div>
                    </div> 
---%>
+
     </div>
 	<div class="rightpanel">               
          					
@@ -414,7 +431,7 @@
           </div>
     </div>
 </chrome:division>
-
+--%>
 
 <tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}" />
 
