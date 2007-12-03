@@ -82,6 +82,9 @@ var RowManager = {
 	getNestedRowInserter: function(inserter, index){
 								return inserter.cloned_nested_row_inserters[index]
 							},
+	getSecondaryNestedRowInserter: function(inserter, index){
+								return inserter.secondary_cloned_nested_row_inserters[index]
+							},
 	addRowInseter: function (inserter){
 						this.rowInserters.push(inserter)
 					},
@@ -143,8 +146,10 @@ var AbstractRowInserterProps = {
 	row_index_indicator: "PAGE.ROW.INDEX",
 	row_addition_startegy: "table",
 	cloned_nested_row_inserters: "",
+	secondary_cloned_nested_row_inserters: "",
 	deletedRows: "",
 	nested_row_inserter: "",
+	secondary_nested_row_inserter: "",
 	parent_row_inserter: "",
 	parent_row_index: -1,
 	isRegistered: true,
@@ -243,6 +248,14 @@ var AbstractRowInserterProps = {
 								this.cloned_nested_row_inserters.push(inNewInstance)
 								inNewInstance.parent_row_inserter=this
     						}
+    						if(this.havingSecondaryNestedRowInserter()){
+								inNewInstance=Object.clone(AbstractRowInserterProps)
+								Object.extend(inNewInstance,Object.clone(this.secondary_nested_row_inserter))
+								inNewInstance.parent_row_index=this.localIndex
+								inNewInstance.init()
+								this.secondary_cloned_nested_row_inserters.push(inNewInstance)
+								inNewInstance.parent_row_inserter=this
+    						}
     					},
 	preProcessRowInsertion: function(object){},
 	postProcessRowInsertion: function(object){},
@@ -272,6 +285,17 @@ var AbstractRowInserterProps = {
 								newInstance.init()
     						}
     					}
+    					this.secondary_cloned_nested_row_inserters= new Array()
+    					if(this.havingSecondaryNestedRowInserter()){
+	    					for(a=0 ; a<this.initialIndex ; a++){
+								newInstance=Object.clone(AbstractRowInserterProps)
+								Object.extend(newInstance,Object.clone(this.secondary_nested_row_inserter))
+								newInstance.parent_row_inserter=this
+								newInstance.parent_row_index=a
+								this.secondary_cloned_nested_row_inserters.push(newInstance)
+								newInstance.init()
+    						}
+    					}
     					for(initRow=0 ; initRow<this.localIndex ; initRow++){
     						this.onLoadRowInitialize(this,initRow)
     					}
@@ -287,8 +311,14 @@ var AbstractRowInserterProps = {
     getNestedRowInserter: function(index){
     								return cloned_nested_row_inserters[index]
     							},
+	getSecondaryNestedRowInserter: function(index){
+    								return secondary_cloned_nested_row_inserters[index]
+    							},    							
    	havingNestedRowInserter: function(){
    										return this.nested_row_inserter==""?false:true
+   									},
+   	havingSecondaryNestedRowInserter: function(){
+   										return this.secondary_nested_row_inserter==""?false:true
    									},
    	havingParentRowInserter: function(){
    										return this.parent_row_inserter==""?false:true
