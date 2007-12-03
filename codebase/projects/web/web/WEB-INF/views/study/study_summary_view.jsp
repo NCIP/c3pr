@@ -30,7 +30,6 @@
         formName="'tabMethodForm'"/>
         }
 
-
         function activateInPlaceEditing(arrayElements) {
             for (aE = 0; aE < arrayElements.length; aE++) {
                 arrayElements[aE].enterEditMode('click');
@@ -51,34 +50,34 @@
 <body>
 <form:form name="viewDetails">
 <tags:tabFields tab="${tab}"/>
-<chrome:box title="Study Summary">
+<chrome:box title="Study Summary" autopad="true">
 <div><input type="hidden" name="_finish" value="true"/> <input
         type="hidden" name="_action" value=""></div>
 
 <chrome:division id="study-details" title="Study Details">
     <table class="tablecontent">
         <tr>
-            <td class="alt" align="left"><b>Short Title:</b></td>
+            <td class="alt" align="left"><b>Short Title</b></td>
             <td class="alt" align="left">${command.shortTitleText}</td>
         </tr>
         <tr>
-            <td class="alt" align="left"><b>Primary Identifier:</b></td>
+            <td class="alt" align="left"><b>Primary Identifier</b></td>
             <td class="alt" align="left">${command.primaryIdentifier}</td>
         </tr>
         <tr>
-            <td class="alt" align="left"><b>Target Accrual Number:</b></td>
+            <td class="alt" align="left"><b>Target Accrual Number</b></td>
             <td class="alt" align="left">${command.targetAccrualNumber}</td>
         </tr>
         <tr>
-            <td class="alt" align="left"><b>Phase:</b></td>
+            <td class="alt" align="left"><b>Phase</b></td>
             <td class="alt" align="left">${command.phaseCode}</td>
         </tr>
         <tr>
-            <td class="alt" align="left"><b>Data Entry Status:</b></td>
+            <td class="alt" align="left"><b>Data Entry Status</b></td>
             <td class="alt" align="left">${command.dataEntryStatus.code}</td>
         </tr>
         <tr>
-            <td class="alt" align="left" rows="2"><b>Status:</b></td>
+            <td class="alt" align="left" rows="2"><b>Status</b></td>
             <c:set var="commanSepOptVal"
                    value="[['Active','Active'],
 						['Closed To Accrual And Treatment','Closed To Accrual And Treatment'],['Closed To Accrual','Closed To Accrual'],
@@ -93,28 +92,28 @@
                               onclick="editor_changedCoordinatingCenterStudyStatus.enterEditMode('click')"/></td>
         </tr>
         <tr>
-            <td class="alt" align="left"><b>Type:</b></td>
+            <td class="alt" align="left"><b>Type</b></td>
             <td class="alt" align="left">${command.type}</td>
         </tr>
         <tr>
-            <td class="alt" align="left"><b>Phase:</b></td>
+            <td class="alt" align="left"><b>Phase</b></td>
             <td class="alt" align="left">${command.phaseCode}</td>
         </tr>
         <tr>
-            <td class="alt" align="left"><b>Multi Institution:</b></td>
+            <td class="alt" align="left"><b>Multi Institution</b></td>
             <td class="alt" align="left">${command.multiInstitutionIndicator=="true"?"Yes":"No"}</td>
         </tr>
 
         <tr>
-            <td class="alt" align="left"><b>Blinded:</b></td>
+            <td class="alt" align="left"><b>Blinded</b></td>
             <td class="alt" align="left">${command.blindedIndicator=="true"?"Yes":"No"}</td>
         </tr>
         <tr>
-            <td class="alt" align="left"><b>Randomized:</b></td>
+            <td class="alt" align="left"><b>Randomized</b></td>
             <td class="alt" align="left">${command.randomizedIndicator=="true"?"Yes":"No"}</td>
         </tr>
         <tr>
-            <td class="alt" align="left"><b>Randomization Type:</b></td>
+            <td class="alt" align="left"><b>Randomization Type</b></td>
             <td class="alt" align="left">${command.randomizationType.displayName}</td>
         </tr>
         <tr>
@@ -134,13 +133,11 @@
     </table>
 
 </chrome:division>
-<hr align="left" width="95%">
 <br>
 
 <chrome:division title="Identifiers">
     <h4>Organization Assigned Identifiers</h4>
     <br>
-
     <table class="tablecontent">
         <tr>
             <th scope="col" align="left">Assigning Authority</th>
@@ -157,11 +154,10 @@
         </c:forEach>
     </table>
     <br>
+    <hr>
     <br>
     <h4>System Assigned Identifiers</h4>
-
     <br>
-
     <table class="tablecontent">
         <tr>
             <th scope="col" align="left">System Name</th>
