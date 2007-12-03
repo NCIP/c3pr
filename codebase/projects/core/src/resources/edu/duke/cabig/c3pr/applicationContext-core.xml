@@ -9,12 +9,30 @@
     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
 
+    <!--Castor mapping files-->
+    <!--Todo combine all these into 1 castor mapping-->
+    <bean id="c3pr-xml-castorMapping" class="java.lang.String">
+        <constructor-arg value="c3pr-xml-castor-mapping.xml"/>
+    </bean>
+
+    <bean id="ccts-study-castorMapping" class="java.lang.String">
+        <constructor-arg value="ccts-study-castor-mapping.xml"/>
+    </bean>
+
+    <bean id="ccts-registration-castorMapping" class="java.lang.String">
+        <constructor-arg value="ccts-registration-castor-mapping.xml"/>
+    </bean>
+
+
     <!--Transaction support-->
     <bean id="transactionManager"
           class="org.springframework.orm.hibernate3.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
+    <bean class="org.springframework.transaction.aspectj.AnnotationTransactionAspect" factory-method="aspectOf" dependency-check="none" lazy-init="false">
+        <property name="transactionManager" ref="transactionManager"/>
+    </bean>
 
     <!--Properties file for c3pr are expected to be in the
     following locations (in order of preference)
@@ -235,7 +253,14 @@
 
     <!-- Services -->
     <bean id="studyService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudyServiceImpl"
-          autowire="byName"/>
+          autowire="byName">
+        <property name="xmlUtility">
+            <bean class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
+                <constructor-arg ref="ccts-study-castorMapping"/>
+            </bean>
+        </property>
+    </bean>
+
     <bean id="participantService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.ParticipantServiceImpl"
           autowire="byName"/>
     <bean id="studySubjectService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl"
@@ -245,7 +270,7 @@
         <property name="localInstanceNCICode" value="${localInstanceNCIInstituteCode}"/>
         <property name="registrationXmlUtility">
             <bean id="registrationXmlUtility2" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
-                <property name="mappingFile" value="ccts-registration-castor-mapping.xml"/>
+                <property name="mappingFile" ref="ccts-registration-castorMapping"/>
             </bean>
         </property>
     </bean>
@@ -256,7 +281,7 @@
           autowire="byName">
           <property name="marshaller">
             <bean id="registrationXmlUtility1" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
-                <property name="mappingFile" value="ccts-registration-castor-mapping.xml"/>
+                <property name="mappingFile" ref="ccts-registration-castorMapping"/>
             </bean>
         </property>
     </bean>
@@ -294,11 +319,6 @@
         <property name="port" value="${outgoing.mail.server.port}"/>
         <property name="password" value="${outgoing.mail.password}"/>
         <property name="username" value="${outgoing.mail.username}"/>
-        <property name="javaMailProperties">
-            <value>
-                mail.smtp.auth=${outgoing.smtp.auth}
-            </value>
-        </property>
     </bean>
 
     <bean id="confirmationEmailer" class="edu.duke.cabig.c3pr.aspects.UserEmailConfirmationAspect"
@@ -312,8 +332,8 @@
         <property name="subject" value="Account created in c3pr"/>
     </bean>
 
-  <bean id="xmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
-        <constructor-arg value="c3pr-castor-mapping.xml"/>
+    <bean id="xmlUtility" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
+        <constructor-arg ref="c3pr-xml-castorMapping"/>
     </bean>
 
     <bean id="xmlParser" class="edu.duke.cabig.c3pr.xml.XMLParser" lazy-init="true">
