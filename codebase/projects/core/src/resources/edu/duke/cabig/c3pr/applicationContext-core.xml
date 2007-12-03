@@ -97,6 +97,10 @@
                 <value>edu.duke.cabig.c3pr.domain.PhonecallRandomization</value>
                 <value>edu.duke.cabig.c3pr.domain.StratificationCriterionAnswerCombination</value>
                 <value>edu.duke.cabig.c3pr.domain.StudyAmendment</value>
+                <value>edu.duke.cabig.c3pr.domain.Notification</value>
+                <value>edu.duke.cabig.c3pr.domain.Recepient</value>
+                <value>edu.duke.cabig.c3pr.domain.EmailBasedRecepient</value>
+                <value>edu.duke.cabig.c3pr.domain.RoleBasedRecepient</value>
             </list>
         </property>
         <property name="entityInterceptor">
@@ -287,6 +291,7 @@
     <!--Utilities-->
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="${outgoing.mail.server}"/>
+        <property name="port" value="${outgoing.mail.server.port}"/>
         <property name="password" value="${outgoing.mail.password}"/>
         <property name="username" value="${outgoing.mail.username}"/>
         <property name="javaMailProperties">
@@ -297,6 +302,8 @@
     </bean>
 
     <bean id="confirmationEmailer" class="edu.duke.cabig.c3pr.aspects.UserEmailConfirmationAspect"
+          autowire="byType"/>
+     <bean id="notificationEmailer" class="edu.duke.cabig.c3pr.aspects.StudyTargetAccrualNotificationEmailAspect"
           autowire="byType"/>
 
     <!-- this is a template message that we can pre-load with default state -->

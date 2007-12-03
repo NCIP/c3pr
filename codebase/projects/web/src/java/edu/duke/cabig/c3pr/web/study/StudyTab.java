@@ -12,7 +12,6 @@ import org.apache.commons.logging.LogFactory;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.CalloutRandomization;
-import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.PhonecallRandomization;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -41,6 +40,7 @@ public abstract class StudyTab extends InPlaceEditableTab<Study> {
     public static final String DISABLE_FORM_DISEASES = "DISABLE_FORM_DISEASES";
     public static final String DISABLE_FORM_SITES = "DISABLE_FORM_SITES";
     public static final String DISABLE_FORM_IDENTIFIERS = "DISABLE_FORM_IDENTIFIERS";
+    public static final String DISABLE_FORM_NOTIFICATION = "DISABLE_FORM_NOTIFICATION";
 //    public static final String DISABLE_FORM_INVESTIGATORS = "DISABLE_FORM_INVESTIGATORS";
 //    public static final String DISABLE_FORM_PERSONNEL = "DISABLE_FORM_PERSONNEL";
     
@@ -144,7 +144,7 @@ public abstract class StudyTab extends InPlaceEditableTab<Study> {
     	request.getSession().setAttribute(DISABLE_FORM_RANDOMIZATION, new Boolean(true));
     	request.getSession().setAttribute(DISABLE_FORM_DISEASES, new Boolean(true));
     	request.getSession().setAttribute(DISABLE_FORM_SITES, new Boolean(true));
-//    	request.getSession().setAttribute(DISABLE_FORM_IDENTIFIERS, new Boolean(true));
+    	request.getSession().setAttribute(DISABLE_FORM_NOTIFICATION, new Boolean(true));
 //    	request.getSession().setAttribute(DISABLE_FORM_INVESTIGATORS, new Boolean(true));
 //    	request.getSession().setAttribute(DISABLE_FORM_PERSONNEL, new Boolean(true));
     }
@@ -158,7 +158,7 @@ public abstract class StudyTab extends InPlaceEditableTab<Study> {
     	request.getSession().setAttribute(DISABLE_FORM_RANDOMIZATION, new Boolean(false));
     	request.getSession().setAttribute(DISABLE_FORM_DISEASES, new Boolean(false));
     	request.getSession().setAttribute(DISABLE_FORM_SITES, new Boolean(false));
-//    	request.getSession().setAttribute(DISABLE_FORM_IDENTIFIERS, new Boolean(false));
+    	request.getSession().setAttribute(DISABLE_FORM_NOTIFICATION, new Boolean(false));
 //    	request.getSession().setAttribute(DISABLE_FORM_INVESTIGATORS, new Boolean(false));
 //    	request.getSession().setAttribute(DISABLE_FORM_PERSONNEL, new Boolean(false));
     }

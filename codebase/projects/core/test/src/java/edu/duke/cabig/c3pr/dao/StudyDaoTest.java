@@ -20,15 +20,21 @@ import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.BookRandomizationEntry;
 import edu.duke.cabig.c3pr.domain.CalloutRandomization;
+import edu.duke.cabig.c3pr.domain.ContactMechanism;
+import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.DiseaseCategory;
 import edu.duke.cabig.c3pr.domain.DiseaseTerm;
+import edu.duke.cabig.c3pr.domain.EmailBasedRecepient;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.NonTreatmentEpoch;
+import edu.duke.cabig.c3pr.domain.Notification;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Randomization;
+import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.RoleBasedRecepient;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionAnswerCombination;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
@@ -347,16 +353,9 @@ public class StudyDaoTest extends DaoTestCase {
 		        scac2List.add(scac5);
 		        
 		        StratumGroup sg1 = new StratumGroup();
-		        sg1.getStratificationCriterionAnswerCombination().addAll(cloneScac(scac1List));
-		        
-	//	        sg1.getStratificationCriterionAnswerCombination().add(scac1);
-	//	        sg1.getStratificationCriterionAnswerCombination().add(scac4);
-		        
+		        sg1.getStratificationCriterionAnswerCombination().addAll(cloneScac(scac1List));	        
 		        StratumGroup sg2 = new StratumGroup();
 		        sg2.getStratificationCriterionAnswerCombination().addAll(cloneScac(scac2List));
-		        
-	//	        sg2.getStratificationCriterionAnswerCombination().add(scac1);
-	//	        sg2.getStratificationCriterionAnswerCombination().add(scac5);	        
 		        
 		        epoch1.getStratumGroups().add(sg1);
 		        epoch1.getStratumGroups().add(sg2);
@@ -368,8 +367,7 @@ public class StudyDaoTest extends DaoTestCase {
 	        {
 	            Study loaded = dao.getById(savedId);
 	            StratumGroup sg1 = ((TreatmentEpoch)loaded.getEpochs().get(0)).getStratumGroups().get(0);
-	            StratumGroup sg2 = ((TreatmentEpoch)loaded.getEpochs().get(0)).getStratumGroups().get(1);
-	            
+	            StratumGroup sg2 = ((TreatmentEpoch)loaded.getEpochs().get(0)).getStratumGroups().get(1);	            
 	            
 	            assertEquals(((TreatmentEpoch)loaded.getEpochs().get(0)).getStratumGroups().size(), 2);
 	            assertNotNull(sg1.getStratificationCriterionAnswerCombination());
@@ -392,7 +390,6 @@ public class StudyDaoTest extends DaoTestCase {
 
 	/**
 	 * Test Saving of a Study with all Randomization associations present
-	 * 
 	 * @throws Exception
 	 */
 	public void testSaveStudyWithRandomizations() throws Exception {
@@ -587,6 +584,58 @@ public class StudyDaoTest extends DaoTestCase {
 			assertNotNull("Could not reload study with id " + savedId, loaded);
 			// assertNotNull("GridId not updated", loaded.getGridId());
 			assertEquals("Wrong name", "New study", loaded.getPrecisText());
+		}
+	}
+	
+	public void testSaveStudyWithNotifications() throws Exception {
+		Integer savedId;
+		{
+			Study study = new Study();
+			study.setPrecisText("Study with Notifications");
+			study.setShortTitleText("ShortTitleText");
+			study.setLongTitleText("LongTitleText");
+			study.setPhaseCode("PhaseCode");
+			study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+			study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
+			study.setTargetAccrualNumber(100);
+			study.setType("Type");
+			study.setMultiInstitutionIndicator(Boolean.TRUE);
+
+			createDefaultStudyWithDesign(study);
+			
+			//notification specific code.
+			EmailBasedRecepient ebr = new EmailBasedRecepient();
+			ebr.setEmailAddress("vinay.gangoli@semanticbits.com");			
+			RoleBasedRecepient rbr = new RoleBasedRecepient();
+			rbr.setRole("admin");
+			
+			/*ResearchStaff rs = new ResearchStaff();
+			rs.setLastName("Gangoli-Admin");
+			rs.setFirstName("Vinay-Admin");
+			
+			ContactMechanism cm = new ContactMechanism();
+			cm.setType(ContactMechanismType.EMAIL);
+			cm.setValue("vinay.gangoli@semanticbits.com");
+			List<ContactMechanism> contactMechanisms = new ArrayList<ContactMechanism>();
+			contactMechanisms.add(cm);
+			rs.setContactMechanisms(contactMechanisms);*/
+			
+			Notification notification = new Notification();
+			notification.setThreshold(90);
+			notification.getEmailBasedRecepient().add(ebr);
+			notification.getRoleBasedRecepient().add(rbr);
+			study.getNotifications().add(notification);
+			dao.save(study);
+			savedId = study.getId();
+			assertNotNull("The saved study didn't get an id", savedId);
+		}
+		interruptSession();
+		{
+			Study loaded = dao.getById(savedId);
+			assertNotNull("Could not reload study with id " + savedId, loaded);
+			assertEquals("Wrong Threshold", 90, loaded.getNotifications().get(0).getThreshold().intValue());
+			assertEquals("Wrong role", "admin", loaded.getNotifications().get(0).getRoleBasedRecepient().get(0).getRole());
+			assertEquals("Wrong emailAddress", "vinay.gangoli@semanticbits.com", loaded.getNotifications().get(0).getEmailBasedRecepient().get(0).getEmailAddress());
 		}
 	}
 

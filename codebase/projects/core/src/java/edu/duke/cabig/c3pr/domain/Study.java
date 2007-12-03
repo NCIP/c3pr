@@ -128,6 +128,8 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
                                 OrganizationAssignedIdentifier.class));
         lazyListHelper.add(StudyAmendment.class,
                 new InstantiateFactory<StudyAmendment>(StudyAmendment.class));
+        lazyListHelper.add(Notification.class,
+                new InstantiateFactory<Notification>(Notification.class));
         // mandatory, so that the lazy-projected list is managed properly.
         setStudyOrganizations(new ArrayList<StudyOrganization>());
         setEpochs(new ArrayList<Epoch>());
@@ -173,6 +175,8 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
                                 OrganizationAssignedIdentifier.class));
         lazyListHelper.add(StudyAmendment.class,
                 new InstantiateFactory<StudyAmendment>(StudyAmendment.class));
+        lazyListHelper.add(Notification.class,
+                new InstantiateFactory<Notification>(Notification.class));
         // mandatory, so that the lazy-projected list is managed properly.
         setStudyOrganizations(new ArrayList<StudyOrganization>());
         setEpochs(new ArrayList<Epoch>());
@@ -459,6 +463,26 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
     public void setStudyAmendments(final List<StudyAmendment> amendments) {
         setStudyAmendmentsInternal(amendments);
     }
+    
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "stu_id", nullable=false)
+    @Cascade(value = {CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+    @Where(clause = "retired_indicator  = 'false'")
+    public List<Notification> getNotificationsInternal() {
+        return lazyListHelper.getInternalList(Notification.class);
+    }
+
+    public void setNotificationsInternal(final List<Notification> notifications) {
+        lazyListHelper.setInternalList(Notification.class, notifications);
+    }
+    
+    @Transient
+    public List<Notification> getNotifications() {
+        return lazyListHelper.getLazyList(Notification.class);
+    }
+    
+    public void setNotifications(final List<Notification> notifications) {
+    }    
 
     public void setEpochs(List<Epoch> epochs) {
         this.epochs = epochs;

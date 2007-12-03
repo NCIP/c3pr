@@ -174,7 +174,7 @@
 	                reorderStratumGroupNumbers(${epochCount.index});                	
 			    },
 			    path: "treatmentEpochs[${epochCount.index}].stratumGroups"
-			};		
+			};
 			</script>
 			
 			<br />

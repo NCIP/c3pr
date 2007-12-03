@@ -87,7 +87,7 @@
             <td><chrome:minimizableBox  id="treatmentEpochBox-${treatmentEpochCount.index}"
                                         title="Treatment Epoch"
                                         isDeletable="true"
-                                        onDelete="RowManager.deleteRow(treatmentEpochRowInserterProps,${treatmentEpochCount.index})">
+                                        onDelete="RowManager.deleteRow(treatmentEpochRowInserterProps,${treatmentEpochCount.index},${treatmentEpoch.hashCode})">
 
                 <table>
                     <tr>
@@ -156,7 +156,7 @@
                                                 path="treatmentEpochs[${treatmentEpochCount.index}].arms[${statusArms.index}].targetAccrualNumber"
                                                 size="6" maxlength="8" cssClass="validate-numeric" /></td>
                                         <td valign="top"><a
-                                                href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(treatmentEpochRowInserterProps,${treatmentEpochCount.index}),${statusArms.index });"><img
+                                                href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(treatmentEpochRowInserterProps,${treatmentEpochCount.index}),${statusArms.index },${arm.hashCode});"><img
                                                 src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
                                     </tr>
                                 </c:forEach>
@@ -180,7 +180,7 @@
 
             <td><chrome:minimizableBox id="NonTreatmentEpochBox-${nonTreatmentEpochCount.index}" title="Non-Treatment Epoch"
                                      isDeletable="true"
-                                     onDelete="RowManager.deleteRow(nonTreatmentEpochRowInserterProps,${nonTreatmentEpochCount.index})">
+                                     onDelete="RowManager.deleteRow(nonTreatmentEpochRowInserterProps,${nonTreatmentEpochCount.index},${treatmentEpoch.hashCode} })">
                 <table width="100%" border="0">
                     <tr><td>
                         <div class="leftpanel">
@@ -286,7 +286,7 @@
             <td><chrome:minimizableBox id="AddedTreatmentBox-PAGE.ROW.INDEX"
                                      title="Treatment Epoch"
                                      isDeletable="true"
-                                     onDelete="RowManager.deleteRow(treatmentEpochRowInserterProps,PAGE.ROW.INDEX)">
+                                     onDelete="RowManager.deleteRow(treatmentEpochRowInserterProps,PAGE.ROW.INDEX,-1)">
                 <table>
                     <tr>
                         <td>
@@ -364,7 +364,7 @@
                        name="treatmentEpochs[PAGE.ROW.INDEX].arms[NESTED.PAGE.ROW.INDEX].targetAccrualNumber"
                        size="6" maxlength="8" class="validate-numeric" /></td>
             <td valign="top"><a
-                    href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(treatmentEpochRowInserterProps,PAGE.ROW.INDEX),NESTED.PAGE.ROW.INDEX);"><img
+                    href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(treatmentEpochRowInserterProps,PAGE.ROW.INDEX),NESTED.PAGE.ROW.INDEX,-1);"><img
                     src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
         </tr>
     </table>
@@ -376,7 +376,7 @@
             <td><chrome:minimizableBox  id="AddedNonTreatmentEpochBox-PAGE.ROW.INDEX"
                                           title="Non-Treatment Epoch"
                                           isDeletable="true"
-                                          onDelete="RowManager.deleteRow(nonTreatmentEpochRowInserterProps,PAGE.ROW.INDEX)">
+                                          onDelete="RowManager.deleteRow(nonTreatmentEpochRowInserterProps,PAGE.ROW.INDEX,-1)">
                 <table width="100%" border="0">
                     <tr><td>
                     
