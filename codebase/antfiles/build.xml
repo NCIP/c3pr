@@ -11,6 +11,11 @@
 
     <property name="ant.home" value="${env.ANT_HOME}"/>
 
+    <property name="project.name" value="c3pr"></property>
+    <property name="project.version" value="2.0"></property>
+    
+    <property name="project.war.archive" value="${project.name}-${project.version}.war"/>
+    
     <!-- layout info -->
     <property name="antfiles.dir" location="${basedir}/antfiles"/>
     <property name="projects.dir" location="${basedir}/projects"/>
@@ -77,6 +82,7 @@
             <artifact refid="c3pr.management.jars"/>
 
             <!-- get third party shared jars -->
+            <artifact refid="cagrid.jars"/>
             <artifact refid="collections-generic"/>
             <artifact refid="jboss-j2ee.jars"/>
             <artifact refid="bering.jars"/>
@@ -164,7 +170,7 @@
         <ant dir="${projects.dir}/esb-client" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
 
-    <target name="prepare-grid" depends="prepare" description="Prep the grid project with required jars">
+    <target name="prepare-grid" depends="prepare"> 
         <resolveDependencies extdir="${projects.dir}/grid/ext">
             <artifact refid="ant-contrib.jars"/>
             <artifact refid="c3pr.core.jars"/>
@@ -187,6 +193,11 @@
             <artifact refid="common.test.jars"/>
         </resolveDependencies>
     </target>
+    
+    <target name="prepareIntroduceServices" depends="prepare-grid"
+        description="Prepare all Introduce generated services">
+        <ant antfile="build.xml" dir="${projects.dir}/grid" target="prepareIntroduceServices"></ant>
+        </target>
 
     <!-- =============================================================== -->
     <!-- c3pr Protocol Ingestion Grid Service                            -->
@@ -393,6 +404,18 @@
              target="deployTomcat-C3PRStudyConsumer"/>
     </target>
 
+    <target name="deploySkeletonRegistrationGridService" depends="prepare-grid,checkGlobus,checkTomcat"
+            description="Will deploy the Skeleton RegistrationConsumer grid service">
+        <ant dir="${projects.dir}/grid" antfile="build.xml" inheritall="false"
+             target="deploySkeletonRegistrationGridService"/>
+    </target>
+
+    <target name="deploySkeletonStudyGridService" depends="prepare-grid,checkGlobus,checkTomcat"
+            description="Will deploy the Skeleton RegistrationConsumer grid service">
+        <ant dir="${projects.dir}/grid" antfile="build.xml" inheritall="false"
+             target="deploySkeletonStudyGridService"/>
+    </target>
+
 
     <!-- ====================================================================== -->
     <!-- Deploys the webapp (note:- only web + core projects )in Catalina_home  -->
@@ -419,8 +442,13 @@
     <target name="war" depends="checkTomcat"
             description="Will build the c3prv2 war archive in the current directory">
         <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="war">
-            <property name="war.file" value="${antfiles.dir}/c3prv2.war"/>
+            <property name="war.file" value="${project.war.archive}"/>
         </ant>
+    </target>
+
+    <target name="deploy-war" depends="war"
+            description="Will build and deploy the c3prv2 war archive in the tomcat">
+        <copy file="${project.war.archive}" todir="${ext.tomcat.dir}/webapps"/>
     </target>
 
 
