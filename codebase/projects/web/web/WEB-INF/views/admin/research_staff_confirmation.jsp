@@ -24,10 +24,6 @@
 <div id="main">
 <br/>
 <chrome:box title="Confirmation" autopad="true">
-
-    <table width="100%" border="0">
-        <tr>
-            <td>
                 <div class="content">
                   <c:if test="${FLOW == 'EDIT_FLOW'}">
                 	<div class="row">
@@ -43,28 +39,24 @@
                     <div class="row">
 	                 	<table class="tablecontent">
 							<tr>
-								<td class="alt" align="right"><b>First Name:<b></td>
+								<td class="alt" align="left"><b>First Name<b></td>
 								<td class="alt" align="left">${command.firstName}</td>
 							</tr>
 							<tr>
-								<td class="alt" align="right"><b>Last Name:<b></td>
+								<td class="alt" align="left"><b>Last Name<b></td>
 								<td class="alt" align="left">${command.lastName}</td>
 							</tr>
 							<tr>
-								<td class="alt" align="right"><b>NCI Identifier:<b></td>
+								<td class="alt" align="left"><b>NCI Identifier<b></td>
 								<td class="alt" align="left">${command.nciIdentifier}</td>
 							</tr>
 							<tr>
-								<td class="alt" align="right"><b>E-mail:<b></td>
+								<td class="alt" align="left"><b>E-mail<b></td>
 								<td class="alt" align="left">${command.contactMechanisms[0].value}</td>
 							</tr>
 						</table>
                     </div>
                 </div>
-            </td>
-        </tr>
-    </table>
-
 </chrome:box>
 </div>
 </body>
