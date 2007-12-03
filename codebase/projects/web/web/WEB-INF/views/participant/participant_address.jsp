@@ -29,7 +29,8 @@ function fireAction(action, selected){
 	<jsp:attribute name="singleFields">
 	<input type="hidden" name="_action" value="">
 	<input type="hidden" name="_selected" value="">
-	<br>
+	<p id="instructions">Address<br>
+			</p>
 	<table width="80%" border="0" cellspacing="1" cellpadding="1" id="table1">
 		<tr>
 			<td width="150" align="right"><em></em> <b>Street Address:</b>&nbsp;</td>
@@ -54,8 +55,7 @@ function fireAction(action, selected){
 	<hr align="left" width="95%">
 	<table border="0" width="60%" cellspacing="1" cellpadding="1">
 		<tr>
-
-			<p id="instructions">Enter Contact Information for the Subject <br>
+			<p id="instructions">Contact Information<br>
 			</p>
 		<tr>
 			<td width="150" align="right"><em></em><em></em> <b>${command.contactMechanisms[0].type.displayName }:</b>&nbsp;</td>

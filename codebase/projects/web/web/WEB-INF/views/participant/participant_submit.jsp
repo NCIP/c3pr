@@ -34,68 +34,72 @@ function updateTargetPage(target){
 		<chrome:division id="subject-details" title="Basic Details">
 			<table class="tablecontent">
 				<tr>
-					<td class="alt" align="left"><b>First Name:<b></td>
+					<td class="alt" align="left"><b>First Name<b></td>
 					<td class="alt" align="left">${command.firstName}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b>Last Name:<b></td>
+					<td class="alt" align="left"><b>Last Name<b></td>
 					<td class="alt" align="left">${command.lastName}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b>Middle Name:<b></td>
+					<td class="alt" align="left"><b>Middle Name<b></td>
 					<td class="alt" align="left">${command.middleName}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b>Maiden Name:<b></td>
+					<td class="alt" align="left"><b>Maiden Name<b></td>
 					<td class="alt" align="left">${command.maidenName}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b>Gender:</b></td>
+					<td class="alt" align="left"><b>Gender</b></td>
 					<td class="alt" align="left">${command.administrativeGenderCode}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b>Birth Date:</b></td>
+					<td class="alt" align="left"><b>Birth Date</b></td>
 					<td class="alt" align="left">${command.birthDateStr}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b>Ethnicity:<b></td>
+					<td class="alt" align="left"><b>Ethnicity<b></td>
 					<td class="alt" align="left">${command.ethnicGroupCode}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b>Race(s):<b></td>
+					<td class="alt" align="left"><b>Race(s)<b></td>
 					<td class="alt" align="left">${command.raceCode}</td>
 				</tr>
 			</table>
+			
+			<div align="right">
+				<tabs:tabButtonControls text="edit" target="0" />
+			</div>
 		</chrome:division>
-
-		<tabs:tabButtonControls text="edit" target="0" />
 
 		<chrome:division title="Address">
 			<table class="tablecontent">
 				<tr>
-					<td class="alt" align="left"><b>Street Address:<b></td>
+					<td class="alt" align="left"><b>Street Address<b></td>
 					<td class="alt" align="left">${command.address.streetAddress}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b>City:<b></td>
+					<td class="alt" align="left"><b>City<b></td>
 					<td class="alt" align="left">${command.address.city}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b>State:</b></td>
+					<td class="alt" align="left"><b>State</b></td>
 					<td class="alt" align="left">${command.address.stateCode}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b>Country:</b></td>
+					<td class="alt" align="left"><b>Country</b></td>
 					<td class="alt" align="left">${command.address.countryCode}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b>Zip:<b></td>
+					<td class="alt" align="left"><b>Zip<b></td>
 					<td class="alt" align="left">${command.address.postalCode}</td>
 				</tr>
 			</table>
+			
+			<div align="right">
+				<tabs:tabButtonControls text="edit" target="1" />
+			</div>
 		</chrome:division>
-
-		<tabs:tabButtonControls text="edit" target="1" />
 
 		<chrome:division title="Contact Information">
 			<table class="tablecontent">
@@ -111,10 +115,12 @@ function updateTargetPage(target){
 					</c:forEach>
 				</tr>
 			</table>
+			
+			<div align="right">
+				<tabs:tabButtonControls text="edit" target="1" />
+			</div>
 		</chrome:division>
-
-		<tabs:tabButtonControls text="edit" target="1" />
-
+		
 		<chrome:division title="Identifiers">
 
 			<h4>Organization Assigned Identifiers</h4>
@@ -136,11 +142,10 @@ function updateTargetPage(target){
 				</c:forEach>
 			</table>
 			<br>
+			<hr>
 			<br>
 			<h4>System Assigned Identifiers</h4>
-
 			<br>
-
 			<table class="tablecontent">
 				<tr>
 					<th scope="col" align="left">System Name</th>
@@ -156,12 +161,13 @@ function updateTargetPage(target){
 					</tr>
 				</c:forEach>
 			</table>
-
-
+			
+			<div align="right">
+				<tabs:tabButtonControls text="edit" target="0" />
+			</div>
 		</chrome:division>
 
-		<tabs:tabButtonControls text="edit" target="0" />
-
+		
 
 	</jsp:attribute>
 </tags:tabForm>

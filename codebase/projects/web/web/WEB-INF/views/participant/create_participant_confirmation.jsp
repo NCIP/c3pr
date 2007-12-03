@@ -6,27 +6,23 @@
 <!--empty head-->
 </head>
 <body>
-    <chrome:box title="Confirmation">
-
-          <table width="100%" border="0">
-              <tr><td>
-            <div class="content">
-                <div class="row">
-                    <div><h1>Subject Succesfully Created</h1></div>
+    <chrome:box title="Confirmation" autopad="true">
+            	<div class="row" >
+                    <h2><font color="green">Subject successfully created.</font></h2>
                 </div>
-                <div class="row">
-                    <div class="label">Full Name:</div>
-                    <div class="value">${param.lastName} ${param.middleName} ${param.firstName} </div>
-                </div>
-                <div class="row">
-                    <div class="label">Primary Identifier:</div>
-                    <div class="value">${param.primaryIdentifier}</div>
-                </div>
-            </div>
-            </td></tr>
-         </table>
-
+                 <div class="row" >
+                 	<table class="tablecontent">
+						<tr>
+							<td class="alt" align="left"><b>Full Name<b></td>
+							<td class="alt" align="left">${param.lastName} ${param.middleName} ${param.firstName} </td>
+						</tr>
+						<tr>
+							<td class="alt" align="left"><b>Primary Identifier<b></td>
+							<td class="alt" align="left">${param.primaryIdentifier}</td>
+						</tr>
+					</table>
+                 </div>
+		<br/>
     </chrome:box>
-
 </body>
 </html>
