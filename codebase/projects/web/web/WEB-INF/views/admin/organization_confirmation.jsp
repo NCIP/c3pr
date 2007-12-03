@@ -28,11 +28,11 @@
                  <div class="row" >
                  	<table class="tablecontent">
 						<tr>
-							<td class="alt" align="right"><b>Name:<b></td>
+							<td class="alt" align="left"><b>Name<b></td>
 							<td class="alt" align="left">${command.name}</td>
 						</tr>
 						<tr>
-							<td class="alt" align="right"><b>NCI Institue Code:<b></td>
+							<td class="alt" align="left"><b>NCI Institue Code<b></td>
 							<td class="alt" align="left">${command.nciInstituteCode}</td>
 						</tr>
 					</table>
