@@ -184,12 +184,12 @@
 
     <xs:simpleType name="PhaseCodeType">
         <xs:restriction base="xs:string">
-            <xs:enumeration value="0"/>
-            <xs:enumeration value="I"/>
-            <xs:enumeration value="I/II"/>
-            <xs:enumeration value="II"/>
-            <xs:enumeration value="III"/>
-            <xs:enumeration value="IV"/>
+            <xs:enumeration value="Phase 0 Trial"/>
+            <xs:enumeration value="Phase I Trial"/>
+            <xs:enumeration value="Phase I/II Trial"/>
+            <xs:enumeration value="Phase II Trial"/>
+            <xs:enumeration value="Phase III Trial"/>
+            <xs:enumeration value="Phase IV Trial"/>
         </xs:restriction>
     </xs:simpleType>
 
