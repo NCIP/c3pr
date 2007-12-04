@@ -91,8 +91,9 @@ public class CreateStudyController<C extends Study> extends StudyController<C> {
         Study study = (Study) command;
         studyService.merge(study);
 //        studyService.save(study);
-
-        return new ModelAndView("forward:confirm?type=confirm", errors.getModel());
+        response.sendRedirect("confirm?trimmedShortTitleText="+ study.getTrimmedShortTitleText()+ "&primaryIdentifier="
+        		+study.getPrimaryIdentifier()+"&coordinatingCenterStudyStatusCode="+study.getCoordinatingCenterStudyStatus().getCode()+ "&type=confirm");
+        return null;
 
     }
     
