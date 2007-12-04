@@ -279,14 +279,14 @@ public class StudySubjectServiceImpl implements StudySubjectService, ESBMessageC
                     studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED);
                     Integer id = studySubjectDao.merge(studySubject).getId();
                     studySubject = studySubjectDao.getById(id);
-                    try {
-                        sendRegistrationEvent(studySubject);
-                    } catch (C3PRCodedException e) {
-                        if (e.getExceptionCode() != 227)
-                            throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.ERROR_SEND_REGISTRATION.CODE"), e);
-                        else
-                            e.printStackTrace();
-                    }
+//                    try {
+//                        sendRegistrationEvent(studySubject);
+//                    } catch (C3PRCodedException e) {
+//                        if (e.getExceptionCode() != 227)
+//                            throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.ERROR_SEND_REGISTRATION.CODE"), e);
+//                        else
+//                            e.printStackTrace();
+//                    }
                 } else {
                     studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.UNREGISTERED);
                 }

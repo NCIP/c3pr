@@ -33,6 +33,8 @@ public class C3DPatientPositionResponseHandler implements CaXchangeMessageRespon
 
 
     public void handleMessageResponse(String string, Response response) {
+        log.debug("Looking for c3d identifier");
+
         for (TargetResponseMessage tResponse : response.getTargetResponse()) {
 
             if (tResponse.getTargetServiceIdentifier().indexOf("c3d") > -1) {
