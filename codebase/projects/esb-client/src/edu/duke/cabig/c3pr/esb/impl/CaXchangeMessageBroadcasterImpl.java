@@ -177,7 +177,7 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
                 String objectId = response.getResponseMetadata().getExternalIdentifier();
                 log.debug("Received response from caXchange for externalId" + objectId);
 
-                if (response.getResponse().getResponseStatus().equals(Statuses._SUCCESS)) {
+                if (response.getResponse().getResponseStatus().equals(Statuses.SUCCESS)) {
                     log.debug("Successfully received response from caXchange");
 
                     messageWorkflowCallback.messageSendSuccessful(objectId);
