@@ -47,6 +47,8 @@ public class StudySubjectServiceImpl implements StudySubjectService, ESBMessageC
     private StudyService studyService;
     private ParticipantService participantService;
 
+    private Logger log = Logger.getLogger(StudySubjectService.class);
+
     public void setStudyDao(StudyDao studyDao) {
         this.studyDao = studyDao;
     }
@@ -279,14 +281,14 @@ public class StudySubjectServiceImpl implements StudySubjectService, ESBMessageC
                     studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED);
                     Integer id = studySubjectDao.merge(studySubject).getId();
                     studySubject = studySubjectDao.getById(id);
-//                    try {
-//                        sendRegistrationEvent(studySubject);
-//                    } catch (C3PRCodedException e) {
-//                        if (e.getExceptionCode() != 227)
-//                            throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.ERROR_SEND_REGISTRATION.CODE"), e);
-//                        else
-//                            e.printStackTrace();
-//                    }
+                    try {
+                        sendRegistrationEvent(studySubject);
+                    } catch (C3PRCodedException e) {
+                        if (e.getExceptionCode() != 227)
+                            throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.ERROR_SEND_REGISTRATION.CODE"), e);
+                        else
+                            e.printStackTrace();
+                    }
                 } else {
                     studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.UNREGISTERED);
                 }
@@ -334,7 +336,7 @@ public class StudySubjectServiceImpl implements StudySubjectService, ESBMessageC
                 //messageBroadcaster.initialize();
                 messageBroadcaster.broadcast(xml, studySubject.getGridId());
             } catch (BroadcastException e) {
-                e.printStackTrace();
+                log.error("Could not broadcast registration", e);
                 throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.BROADCAST.SEND_ERROR"), e);
             }
         } else {
