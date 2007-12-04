@@ -51,14 +51,16 @@
         </field>
         <field name="terms" type="edu.duke.cabig.c3pr.domain.DiseaseTerm"
                collection="collection">
-            <bind-xml auto-naming="deriveByClass" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+            <bind-xml auto-naming="deriveByClass" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
         <field name="parentCategory" type="edu.duke.cabig.c3pr.domain.DiseaseCategory">
             <bind-xml name="parentCategory" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
         <field name="childCategories" type="edu.duke.cabig.c3pr.domain.DiseaseCategory"
                collection="collection">
-            <bind-xml auto-naming="deriveByClass" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+            <bind-xml auto-naming="deriveByClass" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
     </class>
 
@@ -255,9 +257,9 @@
         </field>
         <field name="identifiers" type="edu.duke.cabig.c3pr.domain.Identifier"
                collection="collection">
-            <bind-xml  node="element"
-                       auto-naming="deriveByClass"
-                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+            <bind-xml node="element"
+                      auto-naming="deriveByClass"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
     </class>
 
@@ -399,10 +401,11 @@
             <bind-xml name="healthcareSite" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
         <field name="studyInvestigators" type="edu.duke.cabig.c3pr.domain.StudyInvestigator"
+               get-method="getStudyInvestigators" set-method="addStudyInvestigator"
                collection="collection">
-            <bind-xml  node="element"
-                       auto-naming="deriveByClass"
-                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+            <bind-xml node="element"
+                      auto-naming="deriveByClass"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
     </class>
 
@@ -470,9 +473,9 @@
         </field>
         <field name="permissibleAnswers" type="edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer"
                collection="collection">
-            <bind-xml  node="element"
-                       auto-naming="deriveByClass"
-                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+            <bind-xml node="element"
+                      auto-naming="deriveByClass"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
     </class>
 
@@ -480,19 +483,20 @@
         <map-to xml="treatmentEpoch" ns-uri="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         <field name="arms" type="edu.duke.cabig.c3pr.domain.Arm"
                collection="collection" set-method="addArm" get-method="getArms">
-            <bind-xml auto-naming="deriveByClass" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+            <bind-xml auto-naming="deriveByClass" node="element"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
         <field name="eligibilityCriteria" type="edu.duke.cabig.c3pr.domain.EligibilityCriteria"
                collection="collection">
-            <bind-xml  node="element"
-                       auto-naming="deriveByClass"
-                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+            <bind-xml node="element"
+                      auto-naming="deriveByClass"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
         <field name="stratificationCriteria" type="edu.duke.cabig.c3pr.domain.StratificationCriterion"
                collection="collection">
-            <bind-xml  node="element"
-                       auto-naming="deriveByClass"
-                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+            <bind-xml node="element"
+                      auto-naming="deriveByClass"
+                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
     </class>
 

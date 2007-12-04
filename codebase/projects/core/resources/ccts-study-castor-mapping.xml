@@ -395,6 +395,7 @@
             <bind-xml name="healthcareSite" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
         <field name="studyInvestigators" type="edu.duke.cabig.c3pr.domain.StudyInvestigator"
+               get-method="getStudyInvestigators" set-method="addStudyInvestigator"
                collection="collection">
             <bind-xml name="studyInvestigator" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>

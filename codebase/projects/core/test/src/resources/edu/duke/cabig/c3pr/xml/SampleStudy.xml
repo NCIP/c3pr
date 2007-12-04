@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<study xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain" version="1">
+<study xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain ../../../../../../../../resources/xsd/c3pr-domain.xsd"
+       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"
+       version="1">
     <blindedIndicator>1</blindedIndicator>
     <multiInstitutionIndicator>1</multiInstitutionIndicator>
     <randomizedIndicator>1</randomizedIndicator>
@@ -7,7 +10,7 @@
     <longTitleText>long_title_text</longTitleText>
     <descriptionText>description</descriptionText>
     <precisText>precis_text</precisText>
-    <phaseCode>0</phaseCode>
+    <phaseCode>Phase 0 Trial</phaseCode>
     <dataEntryStatus>COMPLETE</dataEntryStatus>
     <coordinatingCenterStudyStatus>ACTIVE</coordinatingCenterStudyStatus>
     <type>ty</type>
@@ -130,8 +133,8 @@
     </studyFundingSponsor>
     <studyCoordinatingCenter>
         <healthcareSite>
-            <name>CALGB</name>
-            <descriptionText>CALGB</descriptionText>
+            <name>Duke</name>
+            <descriptionText>Duke</descriptionText>
             <address>
                 <streetAddress>12359 sunrise valley drive</streetAddress>
                 <city>Reston</city>
@@ -139,7 +142,16 @@
                 <postalCode>20191</postalCode>
                 <countryCode>USA</countryCode>
             </address>
-            <nciInstituteCode>CALGB</nciInstituteCode>
+            <nciInstituteCode>Duke</nciInstituteCode>
         </healthcareSite>
+        <studyInvestigator>
+            <roleCode>Coordinating Site</roleCode>
+            <healthcareSiteInvestigator>
+                <investigator>
+                    <nciIdentifier>bill</nciIdentifier>
+                </investigator>
+            </healthcareSiteInvestigator>
+        </studyInvestigator>
+
     </studyCoordinatingCenter>
 </study>

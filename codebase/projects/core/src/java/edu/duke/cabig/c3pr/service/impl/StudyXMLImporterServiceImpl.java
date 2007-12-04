@@ -1,11 +1,10 @@
 package edu.duke.cabig.c3pr.service.impl;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
+import edu.duke.cabig.c3pr.dao.InvestigatorDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
-import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyOrganization;
+import edu.duke.cabig.c3pr.domain.*;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.exception.StudyValidationException;
@@ -44,6 +43,8 @@ public class StudyXMLImporterServiceImpl implements edu.duke.cabig.c3pr.service.
 
     private StudyDao studyDao;
     private HealthcareSiteDao healthcareSiteDao;
+    private InvestigatorDao investigatorDao;
+    private HealthcareSiteInvestigatorDao healthcareInvestigatorDao;
 
     private StudyValidator studyValidator;
 
@@ -115,10 +116,31 @@ public class StudyXMLImporterServiceImpl implements edu.duke.cabig.c3pr.service.
         // load study orgs from db  Not to be imported
         for (StudyOrganization organization : study.getStudyOrganizations()) {
             HealthcareSite loadedSite = healthcareSiteDao.getByNciInstituteCode(organization.getHealthcareSite().getNciInstituteCode());
+            if (loadedSite == null) {
+                throw new C3PRBaseRuntimeException("Could not load HealthcareSite from database for given NCI Institute code" + organization.getHealthcareSite().getNciInstituteCode());
+            }
             organization.setHealthcareSite(loadedSite);
 
-            //reset the StudyInvestigators. Not importing right now
-            organization.setStudyInvestigators(new ArrayList());
+            // load Investigators from DB
+            for (StudyInvestigator sInv : organization.getStudyInvestigators()) {
+                Investigator inv = sInv.getHealthcareSiteInvestigator().getInvestigator();
+                Investigator loadedInv = investigatorDao.getByNciInstituteCode(inv.getNciIdentifier());
+                if (loadedInv == null) {
+                    throw new C3PRBaseRuntimeException("Could not load Investigator from database for given NCI Identifier " + inv.getNciIdentifier());
+
+                }
+                HealthcareSiteInvestigator loadedSiteInv = healthcareInvestigatorDao.getSiteInvestigator(loadedSite, loadedInv);
+
+                if (loadedSiteInv == null) {
+                    throw new C3PRBaseRuntimeException("Could not load HealthcareSiteInvestigator. No Investigator:"
+                            + loadedInv.getNciIdentifier() + " exists for HealthcareSite:" + loadedSite.getNciInstituteCode());
+                }
+                sInv.setHealthcareSiteInvestigator(loadedSiteInv);
+                sInv.setSiteInvestigator(loadedSiteInv);
+
+
+            }
+
         }
 
         for (OrganizationAssignedIdentifier identifier : study.getOrganizationAssignedIdentifiers()) {
@@ -181,5 +203,22 @@ public class StudyXMLImporterServiceImpl implements edu.duke.cabig.c3pr.service.
 
     public void setStudyValidator(StudyValidator studyValidator) {
         this.studyValidator = studyValidator;
+    }
+
+    public InvestigatorDao getInvestigatorDao() {
+        return investigatorDao;
+    }
+
+    public void setInvestigatorDao(InvestigatorDao investigatorDao) {
+        this.investigatorDao = investigatorDao;
+    }
+
+
+    public HealthcareSiteInvestigatorDao getHealthcareInvestigatorDao() {
+        return healthcareInvestigatorDao;
+    }
+
+    public void setHealthcareInvestigatorDao(HealthcareSiteInvestigatorDao healthcareInvestigatorDao) {
+        this.healthcareInvestigatorDao = healthcareInvestigatorDao;
     }
 }

@@ -119,7 +119,7 @@
 
     <xs:complexType name="InvestigatorType">
         <xs:sequence>
-            <xs:element name="nciIdentifier" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="nciIdentifier" type="xs:string" minOccurs="1" maxOccurs="1"/>
             <xs:element name="fullName" type="xs:string" minOccurs="0" maxOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
@@ -339,7 +339,7 @@
 
     <xs:complexType name="StudyInvestigatorType">
         <xs:sequence>
-            <xs:element name="roleCode" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="roleCode" type="xs:string" minOccurs="1" maxOccurs="1"/>
             <xs:element name="statusCode" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="startDate" type="xs:date" minOccurs="0" maxOccurs="1"/>
             <xs:element name="endDate" type="xs:date" minOccurs="0" maxOccurs="1"/>
