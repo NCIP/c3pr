@@ -1,7 +1,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 
-
 <html>
 <head>
 <!--empty head-->
@@ -15,15 +14,15 @@
                  	<table class="tablecontent">
 						<tr>
 							<td class="alt" align="left"><b>Short Title<b></td>
-							<td class="alt" align="left">${command.trimmedShortTitleText}</td>
+							<td class="alt" align="left">${param.trimmedShortTitleText}</td>
 						</tr>
 						<tr>
 							<td class="alt" align="left"><b>Coordinating Center Study Identifier<b></td>
-							<td class="alt" align="left">${command.organizationAssignedIdentifiers[0].value}</td>
+							<td class="alt" align="left">${param.primaryIdentifier}</td>
 						</tr>
 						<tr>
 							<td class="alt" align="left"><b>Study Status<b></td>
-							<td class="alt" align="left">${command.coordinatingCenterStudyStatus.code}</td>
+							<td class="alt" align="left">${param.coordinatingCenterStudyStatusCode}</td>
 						</tr>
 					</table>
                  </div>
