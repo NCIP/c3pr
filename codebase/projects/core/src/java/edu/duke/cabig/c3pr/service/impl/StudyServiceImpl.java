@@ -159,16 +159,29 @@ public class StudyServiceImpl implements StudyService {
 
     public StudyDataEntryStatus evaluateRandomizationDataEntryStatus(Study study)
             throws Exception {
+    	
+    	if(study.getRandomizedIndicator()){
+    		if(!study.hasRandomizedEpoch()){
+        		throw new Exception("At least 1 randomized treatment epoch is required");
+        	}
+    	}
 
         if (study.getRandomizationType() == (RandomizationType.BOOK)) {
             for (TreatmentEpoch treatmentEpoch : study.getTreatmentEpochs()) {
-                if (treatmentEpoch.hasBookRandomizationEntry()) {
-                    if (!treatmentEpoch.hasStratumGroups()) {
-                        throw new Exception("Stratum groups are missing for treatment epoch: " + treatmentEpoch.getName());
-                    }
-                }
+				if (treatmentEpoch.getRandomizedIndicator()) {
+					if (treatmentEpoch.hasBookRandomizationEntry()) {
+						if (!treatmentEpoch.hasStratumGroups()) {
+							throw new Exception(
+									"Stratum groups are missing for treatment epoch: "
+											+ treatmentEpoch.getName());
+						}
+					}else {
+						throw new Exception(
+								"Book randomization entries are required for treatment epoch: "
+										+ treatmentEpoch.getName());
+					}
+				}                
             }
-            return StudyDataEntryStatus.COMPLETE;
         }
 
         if (study.getRandomizationType() == (RandomizationType.PHONE_CALL)) {
@@ -196,7 +209,9 @@ public class StudyServiceImpl implements StudyService {
                 }
             }
         }
-        return StudyDataEntryStatus.COMPLETE;
+    	
+    	return StudyDataEntryStatus.COMPLETE;
+        
     }
 
     public StudyDataEntryStatus evaluateEligibilityDataEntryStatus(Study study)
