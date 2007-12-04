@@ -132,7 +132,9 @@ public class StudyEmptyTab extends StudyTab {
         super.validate(study, errors);
         try {
             studyService.setDataEntryStatus(study, true);
-            study.setCoordinatingCenterStudyStatus(studyService.evaluateCoordinatingCenterStudyStatus(study));
+            if(study.getId()==null){
+            	study.setCoordinatingCenterStudyStatus(studyService.evaluateCoordinatingCenterStudyStatus(study));
+            }
         } catch (Exception e) {
             errors.reject("tempProperty", e.getMessage());
         }
