@@ -20,8 +20,7 @@ public class StudyNotificationTab extends StudyTab {
 
     @Override
 	public Map referenceData(HttpServletRequest request, Study study) {
-        Map<String, Object> refdata = super.referenceData(study);
-        refdata.put("mandatory", "true");
+        Map<String, Object> refdata = super.referenceData(study);        
         if( (request.getAttribute("amendFlow") != null && request.getAttribute("amendFlow").toString().equals("true")) ||
     		    (request.getAttribute("editFlow") != null && request.getAttribute("editFlow").toString().equals("true")) ) 
     		{
@@ -29,6 +28,7 @@ public class StudyNotificationTab extends StudyTab {
     				refdata.put("disableForm", request.getSession().getAttribute(DISABLE_FORM_NOTIFICATION));
     			} else {
     				refdata.put("disableForm", new Boolean(false));
+    				refdata.put("mandatory", "true");
     			}
     		}
         return refdata;
