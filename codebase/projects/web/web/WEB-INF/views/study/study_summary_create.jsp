@@ -286,6 +286,24 @@ document.getElementById("command").submit();
         </c:forEach>
     </table>
 </chrome:division>
+
+<chrome:division title="Notifications">
+    <table class="tablecontent">
+        <tr>
+            <th scope="col" align="left"><b>Threshold</b></th>
+            <th scope="col" align="left"><b>Email</b></th>
+            <th scope="col" align="left"><b>Role</b></th>
+        </tr>
+        <c:forEach items="${command.notifications}" var="notification">
+            <tr>
+                <td class="alt">${notification.threshold}</td>
+                <td class="alt">${notification.emailAddresses}</td>
+                <td class="alt">${notification.roles}</td>
+   	        </tr>	           
+        </c:forEach>
+    </table>
+</chrome:division>
+
 			<div class="content buttons autoclear">
 			<div class="flow-buttons"><span class="next"> 
 				<input type="button" value="Save and Activate" id="saveActiveButtonDisplayDiv" onclick="activateAndSaveStudy();return false;"/>
