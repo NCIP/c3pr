@@ -757,6 +757,21 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
         }
         return false;
     }
+    
+    @Transient
+    public boolean hasRandomizedEpoch() {
+        if (this.getTreatmentEpochs().size() > 0) {
+            TreatmentEpoch treatmentEpoch;
+            Iterator<TreatmentEpoch> treatmentEpochIter = this
+                    .getTreatmentEpochs().iterator();
+            while (treatmentEpochIter.hasNext()) {
+                treatmentEpoch = treatmentEpochIter.next();
+                if (treatmentEpoch.getRandomizedIndicator())
+                    return true;
+            }
+        }
+        return false;
+    }
 
     @Transient
     public boolean hasEnrollingEpoch() {
