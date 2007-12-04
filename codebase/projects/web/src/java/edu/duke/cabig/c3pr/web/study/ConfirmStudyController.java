@@ -10,15 +10,13 @@ import java.util.HashMap;
 public class ConfirmStudyController extends ParameterizableViewController {
 
     public ConfirmStudyController() {
-        setViewName("study_confirmation");
+        setViewName("study/study_confirmation");
     }
 
     public ModelAndView handleRequestInternal(HttpServletRequest request,
                                               HttpServletResponse response) throws Exception {
-        setViewName("study_confirmation");
-        HashMap map = new HashMap();
-        map.put("command", request.getAttribute("command"));
-        ModelAndView mav = new ModelAndView("study/study_confirmation", map);
+        setViewName("study/study_confirmation");
+        ModelAndView mav = new ModelAndView("study/study_confirmation");
         return mav;
     }
 }
