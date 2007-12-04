@@ -118,18 +118,19 @@ public class StudyStratificationTab extends StudyTab {
     public void postProcess(HttpServletRequest req, Study study, Errors errors) {
     	// TODO Auto-generated method stub
     	super.postProcess(req, study, errors);
-    	if(req.getParameter("epochCountIndex") != null && req.getParameter("generateGroups").toString().equalsIgnoreCase("true")){
-    		generateStratumGroups(req, study, errors);
+    	if(req.getParameter("epochCountIndex") != null && !req.getParameter("generateGroups").toString().equalsIgnoreCase("false")){
+    		int epochCountIndex = Integer.parseInt(req.getParameter("generateGroups"));
+    		generateStratumGroups(req, study, errors, epochCountIndex);
     	}
     	
     }
     
-    public void generateStratumGroups(HttpServletRequest request, Object commandObj, Errors error){
+    public void generateStratumGroups(HttpServletRequest request, Object commandObj, Errors error, int epochCountIndex){
     	int scSize;
     	TreatmentEpoch te;
     	ArrayList<StratumGroup> sgList;
     	Study study = (Study)commandObj;
-    	int epochCountIndex = Integer.parseInt(request.getParameter("epochCountIndex"));
+    	//int epochCountIndex = Integer.parseInt(request.getParameter("epochCountIndex"));
     	request.setAttribute("epochCountIndex", epochCountIndex);
       	
       	

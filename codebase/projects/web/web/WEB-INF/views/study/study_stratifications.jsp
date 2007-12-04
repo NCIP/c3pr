@@ -5,7 +5,15 @@
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <html>
 <head>
-<script>		                
+<script>		           
+
+	function preProcessGenerateGroups(epochCountIndex){
+		var x = document.getElementById('generateGroups');
+		x.value=epochCountIndex;
+		var y = document.getElementById('_target');
+		y.name = 'abc';
+	}
+	     
 	function clear(epochCountIndex){
 		<tags:tabMethod method="clearStratumGroups" viewName="/study/asynchronous/strat_combinations" divElement="'sgCombinations_'+epochCountIndex" 
 		                javaScriptParam="'epochCountIndex='+epochCountIndex" formName="'tabMethodForm'"/> 
@@ -54,11 +62,12 @@
 <body>
 <form:form method="post" name="form">
 	<tags:tabFields tab="${tab}" />
-	<div><input type="hidden" id="_action" name="_action" value=""> <input
-		type="hidden" id="_selectedEpoch" name="_selectedEpoch" value=""> <input
-		type="hidden" id="_selectedStratification"
-		name="_selectedStratification" value=""> <input type="hidden"
-		id="_selectedAnswer" name="_selectedAnswer" value=""></div>
+	<div><input type="hidden" id="_action" name="_action" value=""> 
+		<input type="hidden" id="_selectedEpoch" name="_selectedEpoch" value=""> 
+		<input	type="hidden" id="_selectedStratification" name="_selectedStratification" value=""> 
+		<input type="hidden" id="_selectedAnswer" name="_selectedAnswer" value="">
+		<input type="hidden" id="generateGroups" name="generateGroups" value="false"/>
+	</div>
 	<c:forEach items="${command.treatmentEpochs}" var="epoch"
 		varStatus="epochCount">
 		<script>
@@ -103,7 +112,6 @@
 
 			<table id="epoch-${epochCount.index }" class="tablecontent">
 			<input type="hidden" name="epochCountIndex" value="${epochCount.index}"/>
-			<input type="hidden" name="generateGroups" value="false"/>
 			<div id="criteriaHeader" 
 			style=<c:if test="${fn:length(command.treatmentEpochs[epochCount.index].stratificationCriteria) == 0}">"display:none"</c:if>>
 				<tr>					
@@ -210,7 +218,7 @@
 			</div>
 			<br>
 			<div id="stratumButton" align="right">
-				<input type='submit' onclick="${'_target'}.name = 'xyz';${'generateGroups'}.value='true'" value='Generate Stratum Groups' />
+				<input type='submit' onclick="preProcessGenerateGroups(${epochCount.index})" value='Generate Stratum Groups' />
 			</div>
 			<script type="text/javascript" language="javascript">
 		  		Sortable.create('sortablelist_${epochCount.index}',{tag:'TR',constraint:false,onUpdate:postProcessDragDrop});
