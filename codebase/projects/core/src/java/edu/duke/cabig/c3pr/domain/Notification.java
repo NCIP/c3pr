@@ -94,4 +94,22 @@ public class Notification extends AbstractMutableDeletableDomainObject{
 		this.threshold = threshold;
 	}
 
+	@Transient
+	public String getEmailAddresses(){
+		String emailAddresses = "";
+		for(EmailBasedRecepient eRec : getEmailBasedRecepient() ){
+			emailAddresses += eRec.getEmailAddress() + " <br/> ";
+		}
+		return emailAddresses;
+	}
+	
+	@Transient
+	public String getRoles(){
+		String roles = "";
+		for(RoleBasedRecepient rRec : getRoleBasedRecepient() ){
+			roles += rRec.getRole() + " <br/> ";
+		}
+		return roles;
+	}	
+	
 }
