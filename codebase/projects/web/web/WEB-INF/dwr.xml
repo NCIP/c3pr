@@ -36,7 +36,6 @@
         </create>
         <create creator="spring" javascript="createReport">
             <param name="beanName" value="createReportFacade"/>
-            <include method="getTable"/>
         </create>
 
         <create creator="spring" javascript="reportCommand">
@@ -77,7 +76,7 @@
 		       import edu.duke.cabig.c3pr.web.ajax.CreateReportFacade;
 		       import javax.servlet.http.HttpServletRequest;
 		       import java.lang.String;
-		       CreateReportFacade.getTable(Map parameterMap, String[] params, HttpServletRequest request);
+		       CreateReportFacade.getTable(Map<String, List> parameterMap, String[] params, HttpServletRequest request);
 		       ]]>
 
         <![CDATA[
