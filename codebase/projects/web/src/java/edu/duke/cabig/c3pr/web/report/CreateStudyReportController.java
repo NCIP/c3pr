@@ -143,8 +143,15 @@ public class CreateStudyReportController extends SimpleFormController {
         }      
         
 		Object viewData = null;
+		List <Study> studyList = new ArrayList<Study>();
+        Iterator iter = studySubjectResults.iterator();
+        StudySubject ss;
+        while(iter.hasNext()){
+        	ss = (StudySubject)iter.next();
+        	studyList.add(ss.getStudySite().getStudy());
+        }
 		try {
-			viewData = studyReportFacade.build(model, studySubjectResults);
+			viewData = studyReportFacade.build(model, studyList);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 			
