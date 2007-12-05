@@ -120,6 +120,8 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 
         <entry key="/pages/study/create.*"
                value="edu.duke.cabig.c3pr.domain.Study:CREATE" />
+        <entry key="/pages/study/confirm.*"
+               value="edu.duke.cabig.c3pr.domain.Study:CREATE" />
         <entry key="/pages/study/edit.*"
                value="edu.duke.cabig.c3pr.domain.Study:UPDATE" />
         <entry key="/pages/study/search.*"
