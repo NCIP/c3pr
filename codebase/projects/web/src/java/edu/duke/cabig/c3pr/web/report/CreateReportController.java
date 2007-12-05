@@ -226,6 +226,16 @@ public class CreateReportController extends SimpleFormController {
 	public void setReportCommand(ReportCommand reportCommand) {
 		this.reportCommand = reportCommand;
 	}
+
+
+	public StudySubjectDao getStudySubjectDao() {
+		return studySubjectDao;
+	}
+
+
+	public void setStudySubjectDao(StudySubjectDao studySubjectDao) {
+		this.studySubjectDao = studySubjectDao;
+	}
    	
 	
 }
