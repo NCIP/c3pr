@@ -55,8 +55,9 @@ public class CCTSAbstractMutableDeletableDomainObject extends AbstractMutableDel
      */
     @Transient
     public String getImportErrorString() {
-        if (importErrorString.length() > 100)
-            importErrorString = importErrorString.substring(0, 100);
+    		if ((importErrorString !=null)&& (importErrorString.length() > 100)){
+    			importErrorString = importErrorString.substring(0, 100);
+    		}
 
         return importErrorString;
     }
