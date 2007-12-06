@@ -3,7 +3,7 @@
 <%@attribute name="workflow" type="java.lang.String" required="true"%>
 <c:choose>
 	<c:when test="${value==null||value==''}">
-		<font color="Red"><i>* Required Feild to successfully complete ${workflow}</i></font>
+		<font color="Red"><i>* Required Field to successfully complete ${workflow}</i></font>
 	</c:when>
 	<c:otherwise>
 		${value }
