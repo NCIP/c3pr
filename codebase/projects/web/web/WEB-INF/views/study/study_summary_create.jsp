@@ -124,8 +124,6 @@ document.getElementById("command").submit();
 			</c:forEach>
 		</table>
 	<br>
- 		<hr>
-	<br>
 <h4>System Assigned Identifiers</h4>
 <br>
 	<table class="tablecontent">

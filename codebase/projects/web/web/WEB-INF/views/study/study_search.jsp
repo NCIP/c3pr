@@ -45,7 +45,7 @@
         <div class="content">
             <div class="row">
                 <div class="label">
-                    Search Studies By:
+                    Search By:
                 </div>
                 <div class="value">
                     <form:select path="searchType">
