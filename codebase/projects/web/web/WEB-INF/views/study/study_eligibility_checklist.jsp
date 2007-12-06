@@ -89,7 +89,7 @@
                 <table border="0" width="100%" id="table1" cellspacing="5">
                     <tr>
                         <td valign="top">
-                            <br /><p>
+                            <p>
                             <chrome:division title="Inclusion Criteria">
                             
                             <table border="0" cellspacing="0" width="100%" cellpadding="0"
