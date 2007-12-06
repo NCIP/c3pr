@@ -78,6 +78,15 @@
 		       import java.lang.String;
 		       CreateReportFacade.getTable(Map<String, List> parameterMap, String[] params, HttpServletRequest request);
 		       ]]>
+		 <![CDATA[
+		       import java.util.Map;
+		       import java.util.List;
+		       import edu.duke.cabig.c3pr.web.report.CreateStudyReportController;
+		       import edu.duke.cabig.c3pr.web.ajax.CreateStudyReportFacade;
+		       import javax.servlet.http.HttpServletRequest;
+		       import java.lang.String;
+		       CreateStudyReportFacade.getTable(Map<String, List> parameterMap, String[] params, HttpServletRequest request);
+		       ]]>
 
         <![CDATA[
 		       import java.lang.String;
