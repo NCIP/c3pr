@@ -96,6 +96,7 @@ public class StudyTargetAccrualNotificationEmailAspect {
     			try {
     				groupList = personnelServiceImpl.getGroups(sp.getResearchStaff());
     			} catch(C3PRBaseException e){
+    				log.error("StudyTargetAccrualNotificationAspect - personnelServiceImpl.getGroups():FAILED");
     				log.error(e.getMessage());
     			}
 	    		if(groupList != null){
