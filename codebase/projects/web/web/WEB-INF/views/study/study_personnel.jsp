@@ -171,13 +171,13 @@ RowManager.addRowInseter(instanceRowInserterProps);
             <td>
                 <form:select path="studyOrganizations[${selected_site}].studyPersonnel[${status.index}].roleCode"
                              cssClass="validate-notEmpty">
-                    <option value="">--Please Select--</option>
+                    <option value="">Please Select</option>
                     <form:options items="${studyPersonnelRoleRefData}" itemLabel="desc" itemValue="desc"/>
                 </form:select></td>
             <td>
                 <form:select path="studyOrganizations[${selected_site}].studyPersonnel[${status.index}].statusCode"
                              cssClass="validate-notEmpty">
-                    <option value="">--Please Select--</option>
+                    <option value="">Please Select</option>
                     <form:options items="${studyPersonnelStatusRefData}" itemLabel="desc" itemValue="desc"/>
                 </form:select></td>
            <td>
@@ -252,7 +252,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
                 <select id="studyOrganizations[${selected_site}].studyPersonnel[PAGE.ROW.INDEX].roleCode"
                         name="studyOrganizations[${selected_site}].studyPersonnel[PAGE.ROW.INDEX].roleCode"
                         class="validate-notEmpty">
-                    <option value="">--Please Select--</option>
+                    <option value="">Please Select</option>
                     <c:forEach items="${studyPersonnelRoleRefData}" var="role">
                         <option value="${role.desc}">${role.desc}</option>
                     </c:forEach>
@@ -262,7 +262,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
                 <select id="studyOrganizations[${selected_site}].studyPersonnel[PAGE.ROW.INDEX].statusCode"
                         name="studyOrganizations[${selected_site}].studyPersonnel[PAGE.ROW.INDEX].statusCode"
                         class="validate-notEmpty">
-                    <option value="">--Please Select--</option>
+                    <option value="">Please Select</option>
                     <c:forEach items="${studyPersonnelStatusRefData}" var="status">
                         <option value="${status.desc}">${status.desc}</option>
                     </c:forEach>
