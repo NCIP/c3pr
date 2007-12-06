@@ -109,7 +109,7 @@
             RowManager.registerRowInserters();
         </script>
 		<tags:minimizablePanelBox title="${epoch.name}" boxId="${epoch.name}">
-
+		<br/>
 			<table id="epoch-${epochCount.index }" class="tablecontent">
 			<input type="hidden" name="epochCountIndex" value="${epochCount.index}"/>
 			<div id="criteriaHeader" 
@@ -170,7 +170,7 @@
 				value="Add Stratification Factor"
 				onclick="stratumGroupAlert('${epochCount.index}');RowManager.addRow(stratRowInserterProps_${epochCount.index});" />
 			</div>
-			
+			<br/>
 			<!--stratum groups combinations display section-->
 			<chrome:division title="Stratum Groups">
 			<script>
