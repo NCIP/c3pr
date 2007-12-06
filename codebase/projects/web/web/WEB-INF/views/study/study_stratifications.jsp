@@ -110,6 +110,9 @@
         </script>
 		<tags:minimizablePanelBox title="${epoch.name}" boxId="${epoch.name}">
 		<br/>
+		
+		<chrome:division title="Questions and Answers">
+		<br/>
 			<table id="epoch-${epochCount.index }" class="tablecontent">
 			<input type="hidden" name="epochCountIndex" value="${epochCount.index}"/>
 			<div id="criteriaHeader" 
@@ -170,9 +173,10 @@
 				value="Add Stratification Factor"
 				onclick="stratumGroupAlert('${epochCount.index}');RowManager.addRow(stratRowInserterProps_${epochCount.index});" />
 			</div>
+			</chrome:division>
 			<br/>
 			<!--stratum groups combinations display section-->
-			<chrome:division title="Stratum Groups">
+			<chrome:division title="Stratum Groups (Drag/Drop the groups to re-order.)">
 			<script>
 			var stratumGroupRowInserter_${epochCount.index} = {
 			    add_row_division_id: "stratumGroupTable1_${epochCount.index}", 	        
@@ -203,8 +207,8 @@
 					<tbody id="sortablelist_${epochCount.index}">
 						
 						<c:forEach var="stratumGroup" varStatus="statusStratumGroup"
-							items="${command.treatmentEpochs[epochCount.index].stratumGroups}">	
-							<tr id="stratumGroupTable1_${epochCount.index}-${statusStratumGroup.index}">
+							items="${command.treatmentEpochs[epochCount.index].stratumGroups}">						
+							<tr id="stratumGroupTable1_${epochCount.index}-${statusStratumGroup.index}" style="cursor:move">
 								<td width="20%">${statusStratumGroup.index}</td>					
 								<td width="75%">${command.treatmentEpochs[epochCount.index].stratumGroups[statusStratumGroup.index].answerCombinations}</td>
 								<td width="5%"><a href="javascript:RowManager.deleteRow(stratumGroupRowInserter_${epochCount.index},${statusStratumGroup.index},${stratumGroup.hashCode});">
