@@ -15,7 +15,7 @@ import edu.duke.cabig.c3pr.domain.Study;
 public class StudyNotificationTab extends StudyTab {
 
     public StudyNotificationTab(){
-		super("Notification", "Notification", "study/study_notification");
+		super("Notifications", "Notifications", "study/study_notification");
 	}
 
     @Override
