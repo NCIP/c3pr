@@ -59,15 +59,15 @@ public class StudySubjectDao extends
 		
 		//Study Criteria
 		if(registration.getStudySite().getStudy().getShortTitleText() != null && !registration.getStudySite().getStudy().getShortTitleText().equals("")){
-			studyCriteria.add(Expression.like("shortTitleText", "%"+registration.getStudySite().getStudy().getShortTitleText()+"%"));
+			studyCriteria.add(Expression.ilike("shortTitleText", "%"+registration.getStudySite().getStudy().getShortTitleText()+"%"));
 		}
 		
 		//Site criteria
 		if(registration.getStudySite().getHealthcareSite().getName() != null && !registration.getStudySite().getHealthcareSite().getName().equals("")){
-			siteCriteria.add(Expression.like("name", "%"+registration.getStudySite().getHealthcareSite().getName()+"%"));
+			siteCriteria.add(Expression.ilike("name", "%"+registration.getStudySite().getHealthcareSite().getName()+"%"));
 		}
 		if(registration.getStudySite().getHealthcareSite().getNciInstituteCode() != null && !registration.getStudySite().getHealthcareSite().getNciInstituteCode().equals("")){
-			siteCriteria.add(Expression.like("nciInstituteCode", "%"+registration.getStudySite().getHealthcareSite().getNciInstituteCode()+"%"));
+			siteCriteria.add(Expression.ilike("nciInstituteCode", "%"+registration.getStudySite().getHealthcareSite().getNciInstituteCode()+"%"));
 		}
 					
 		//registration criteria
@@ -85,7 +85,7 @@ public class StudySubjectDao extends
 		
 		if(ccId != null && !ccId.equals("")){
 //				identifiersCriteria.add(Expression.eq("type","Coordinating Center Identifier"));
-			identifiersCriteria.add(Expression.like("value", ccId));
+			identifiersCriteria.add(Expression.ilike("value", "%"+ccId+"%"));
 		}
 		registrationCriteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY); 
 		registrationCriteria.addOrder(Order.asc("id"));
@@ -106,26 +106,26 @@ public class StudySubjectDao extends
 		
 		//Study Criteria
 		if(studySubject.getStudySite().getStudy().getShortTitleText() != null && !studySubject.getStudySite().getStudy().getShortTitleText().equals("")){
-			studyCriteria.add(Expression.like("shortTitleText", "%"+studySubject.getStudySite().getStudy().getShortTitleText()+"%"));
+			studyCriteria.add(Expression.ilike("shortTitleText", "%"+studySubject.getStudySite().getStudy().getShortTitleText()+"%"));
 		}
 		if(studySubject.getStudySite().getStudy().getIdentifiers().size() > 0){
 			if(studySubject.getStudySite().getStudy().getIdentifiers().get(0).getValue() != null && 
 	        		studySubject.getStudySite().getStudy().getIdentifiers().get(0).getValue() != "") {
-	        	identifiersCriteria.add(Expression.like("value", "%"+studySubject.getStudySite().getStudy().getIdentifiers().get(0).getValue()+"%"));
+	        	identifiersCriteria.add(Expression.ilike("value", "%"+studySubject.getStudySite().getStudy().getIdentifiers().get(0).getValue()+"%"));
 	        }
 		}
         
 		//participant/subject criteria
 		if(studySubject.getParticipant().getFirstName() != null && !studySubject.getParticipant().getFirstName().equals("")){
-			participantCriteria.add(Expression.like("firstName", "%"+studySubject.getParticipant().getFirstName()+"%"));
+			participantCriteria.add(Expression.ilike("firstName", "%"+studySubject.getParticipant().getFirstName()+"%"));
 		}
 		if(studySubject.getParticipant().getLastName() != null && !studySubject.getParticipant().getLastName().equals("")){
-			participantCriteria.add(Expression.like("lastName", "%"+studySubject.getParticipant().getLastName()+"%"));
+			participantCriteria.add(Expression.ilike("lastName", "%"+studySubject.getParticipant().getLastName()+"%"));
 		}		
 		if(studySubject.getParticipant().getIdentifiers().size() > 0){
 			if(studySubject.getParticipant().getIdentifiers().get(0).getValue() != null && 
 					!studySubject.getParticipant().getIdentifiers().get(0).getValue().equals("")){
-				identifiersCriteria.add(Expression.like("value", "%"+studySubject.getParticipant().getIdentifiers().get(0).getValue()+"%"));
+				identifiersCriteria.add(Expression.ilike("value", "%"+studySubject.getParticipant().getIdentifiers().get(0).getValue()+"%"));
 			}
 		}
 		
