@@ -92,8 +92,10 @@
 								items="${command.notifications[nStatus.index].roleBasedRecepient}">
 								<tr id="table2-${roleStatus.index}">
 									<td class="alt">
-									<form:input	path="notifications[${nStatus.index }].roleBasedRecepient[${roleStatus.index}].role"
-										size="30" cssClass="validate-notEmpty" /></td>
+									<form:select path="notifications[${nStatus.index }].roleBasedRecepient[${roleStatus.index}].role" >
+						                <option value="">Please Select</option>
+						                <form:options items="${notificationPersonnelRoleRefData}" itemLabel="desc" itemValue="desc" />
+						            </form:select>									
 									<td class="alt"><a
 										href="javascript:RowManager.deleteRow(RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}),${roleStatus.index},${role.hashCode});">
 									<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>										
@@ -168,8 +170,15 @@
 			<table>
 			<tr>
 				<td class="alt">
-				<input type="text" name="notifications[PAGE.ROW.INDEX].roleBasedRecepient[SECONDARY.NESTED.PAGE.ROW.INDEX].role"
-					size="30" class="validate-notEmpty" /></td>
+				
+				<select id="notifications[PAGE.ROW.INDEX].roleBasedRecepient[SECONDARY.NESTED.PAGE.ROW.INDEX].role"
+                        name="notifications[PAGE.ROW.INDEX].roleBasedRecepient[SECONDARY.NESTED.PAGE.ROW.INDEX].role">
+                    <option value="">Please Select</option>
+                    <c:forEach items="${notificationPersonnelRoleRefData}" var="role">
+                        <option value="${role.desc}">${role.desc}</option>
+                    </c:forEach>
+                </select>
+				</td>
 				<td class="alt"><a
 					href="javascript:RowManager.deleteRow(RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX),SECONDARY.NESTED.PAGE.ROW.INDEX,-1);">
 				<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>										

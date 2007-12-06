@@ -20,7 +20,9 @@ public class StudyNotificationTab extends StudyTab {
 
     @Override
 	public Map referenceData(HttpServletRequest request, Study study) {
-        Map<String, Object> refdata = super.referenceData(study);        
+        Map<String, Object> refdata = super.referenceData(study); 
+        addConfigMapToRefdata(refdata, "notificationPersonnelRoleRefData");
+        
         if( (request.getAttribute("amendFlow") != null && request.getAttribute("amendFlow").toString().equals("true")) ||
     		    (request.getAttribute("editFlow") != null && request.getAttribute("editFlow").toString().equals("true")) ) 
     		{
