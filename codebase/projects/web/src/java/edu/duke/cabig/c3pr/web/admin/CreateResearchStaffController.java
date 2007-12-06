@@ -68,7 +68,7 @@ public class CreateResearchStaffController extends AbstractCreateC3PRUserControl
                 rs.addContactMechanism(contactMechanismFax);
             }
 
-
+//            rs.setGroups(personnelService.getGroups(rs));
             request.getSession().setAttribute(FLOW, EDIT_FLOW);
         } else {
             rs = new ResearchStaff();
