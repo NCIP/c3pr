@@ -4,14 +4,10 @@ import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.*;
-import edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster;
-import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.service.StudyService;
-import edu.duke.cabig.c3pr.utils.DefaultCCTSMessageWorkflowCallbackFactory;
 import edu.duke.cabig.c3pr.utils.StringUtils;
-import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
 
@@ -25,16 +21,17 @@ import java.util.List;
  * @author Priyatam
  * @see edu.duke.cabig.c3pr.service.StudyService
  */
-public class StudyServiceImpl implements StudyService {
+public class StudyServiceImpl extends CCTSWorkflowServiceImpl implements StudyService {
+
+    private StudyDao studyDao;
+    private StudySubjectDao studySubjectDao;
+    private HealthcareSiteDao healthcareSiteDao;
 
     private C3PRExceptionHelper exceptionHelper;
     private MessageSource c3prErrorMessages;
 
-    private edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster messageBroadcaster;
-    private XmlMarshaller xmlUtility;
-    private DefaultCCTSMessageWorkflowCallbackFactory cctsMessageWorkflowCallbackFactory;
-
     private Logger log = Logger.getLogger(StudyService.class);
+
 
     public void setC3prErrorMessages(MessageSource errorMessages) {
         c3prErrorMessages = errorMessages;
@@ -51,15 +48,6 @@ public class StudyServiceImpl implements StudyService {
         }
 
     }
-
-    StudyDao studyDao;
-
-    StudySubjectDao studySubjectDao;
-
-    private HealthcareSiteDao healthcareSiteDao;
-
-    // TODO hook esb call
-    // ProtocolBroadcastService esbCreateProtocol;
 
     public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
         this.healthcareSiteDao = healthcareSiteDao;
@@ -79,23 +67,6 @@ public class StudyServiceImpl implements StudyService {
         }
     }
 
-    public CCTSWorkflowStatusType getCCTSWofkflowStatus(Study study) {
-        // study shld exist
-        Study loadedStudy = studyDao.getByGridId(study.getGridId());
-        return loadedStudy.getCctsWorkflowStatus();
-
-    }
-
-
-    public void broadcastStudyMessage(Study study) throws C3PRBaseException {
-        messageBroadcaster.setNotificationHandler(cctsMessageWorkflowCallbackFactory.createWorkflowCallback(study));
-        try {
-            messageBroadcaster.broadcast(xmlUtility.toXML(study), study.getGridId());
-        } catch (Exception e) {
-            log.error("Could not send message to ESB", e);
-            throw new C3PRBaseException(e.getMessage());
-        }
-    }
 
     public CoordinatingCenterStudyStatus evaluateCoordinatingCenterStudyStatus(
             Study study) throws Exception {
@@ -159,28 +130,28 @@ public class StudyServiceImpl implements StudyService {
 
     public StudyDataEntryStatus evaluateRandomizationDataEntryStatus(Study study)
             throws Exception {
-    	
-    	if(study.getRandomizedIndicator()){
-    		if(!study.hasRandomizedEpoch()){
-        		throw new Exception("At least 1 randomized treatment epoch is required");
-        	}
-    	}
+
+        if (study.getRandomizedIndicator()) {
+            if (!study.hasRandomizedEpoch()) {
+                throw new Exception("At least 1 randomized treatment epoch is required");
+            }
+        }
 
         if (study.getRandomizationType() == (RandomizationType.BOOK)) {
             for (TreatmentEpoch treatmentEpoch : study.getTreatmentEpochs()) {
-				if (treatmentEpoch.getRandomizedIndicator()) {
-					if (treatmentEpoch.hasBookRandomizationEntry()) {
-						if (!treatmentEpoch.hasStratumGroups()) {
-							throw new Exception(
-									"Stratum groups are missing for treatment epoch: "
-											+ treatmentEpoch.getName());
-						}
-					}else {
-						throw new Exception(
-								"Book randomization entries are required for treatment epoch: "
-										+ treatmentEpoch.getName());
-					}
-				}                
+                if (treatmentEpoch.getRandomizedIndicator()) {
+                    if (treatmentEpoch.hasBookRandomizationEntry()) {
+                        if (!treatmentEpoch.hasStratumGroups()) {
+                            throw new Exception(
+                                    "Stratum groups are missing for treatment epoch: "
+                                            + treatmentEpoch.getName());
+                        }
+                    } else {
+                        throw new Exception(
+                                "Book randomization entries are required for treatment epoch: "
+                                        + treatmentEpoch.getName());
+                    }
+                }
             }
         }
 
@@ -209,9 +180,9 @@ public class StudyServiceImpl implements StudyService {
                 }
             }
         }
-    	
-    	return StudyDataEntryStatus.COMPLETE;
-        
+
+        return StudyDataEntryStatus.COMPLETE;
+
     }
 
     public StudyDataEntryStatus evaluateEligibilityDataEntryStatus(Study study)
@@ -608,31 +579,6 @@ public class StudyServiceImpl implements StudyService {
         return Integer.parseInt(this.c3prErrorMessages.getMessage(errortypeString, null, null));
     }
 
-
-    public CCTSMessageBroadcaster getMessageBroadcaster() {
-        return messageBroadcaster;
-    }
-
-    public void setMessageBroadcaster(CCTSMessageBroadcaster messageBroadcaster) {
-        this.messageBroadcaster = messageBroadcaster;
-    }
-
-    public XmlMarshaller getXmlUtility() {
-        return xmlUtility;
-    }
-
-    public void setXmlUtility(XmlMarshaller xmlUtility) {
-        this.xmlUtility = xmlUtility;
-    }
-
-
-    public DefaultCCTSMessageWorkflowCallbackFactory getCctsMessageWorkflowCallbackFactory() {
-        return cctsMessageWorkflowCallbackFactory;
-    }
-
-    public void setCctsMessageWorkflowCallbackFactory(DefaultCCTSMessageWorkflowCallbackFactory cctsMessageWorkflowCallbackFactory) {
-        this.cctsMessageWorkflowCallbackFactory = cctsMessageWorkflowCallbackFactory;
-    }
 }
 
 

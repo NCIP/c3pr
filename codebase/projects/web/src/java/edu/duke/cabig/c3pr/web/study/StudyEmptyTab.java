@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.web.study;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.service.StudyService;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
@@ -38,23 +39,21 @@ public class StudyEmptyTab extends StudyTab {
             responseMessage = "Error getting status";
         }
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("broadcastResponse", responseMessage);
+        map.put("responseMessage", responseMessage);
         return new ModelAndView(getAjaxViewName(request), map);
     }
 
     public ModelAndView sendMessageToESB(HttpServletRequest request, Object commandObj, Errors error) {
-        String responseMessage = "Message send successful";
         try {
             log.debug("Sending message to CCTS esb");
             Study study = (Study) commandObj;
-            studyService.broadcastStudyMessage(study);
-        } catch (Exception e) {
-            log.error(e);
-            responseMessage = "Message send Failed!";
+            studyService.broadcastMessage(study);
+            return getMessageBroadcastStatus(request, commandObj, error);
+        } catch (C3PRBaseException e) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("responseMessage", e.getMessage());
+            return new ModelAndView(getAjaxViewName(request), map);
         }
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("broadcastResponse", responseMessage);
-        return new ModelAndView(getAjaxViewName(request), map);
     }
 
 
@@ -132,8 +131,8 @@ public class StudyEmptyTab extends StudyTab {
         super.validate(study, errors);
         try {
             studyService.setDataEntryStatus(study, true);
-            if(study.getId()==null){
-            	study.setCoordinatingCenterStudyStatus(studyService.evaluateCoordinatingCenterStudyStatus(study));
+            if (study.getId() == null) {
+                study.setCoordinatingCenterStudyStatus(studyService.evaluateCoordinatingCenterStudyStatus(study));
             }
         } catch (Exception e) {
             errors.reject("tempProperty", e.getMessage());

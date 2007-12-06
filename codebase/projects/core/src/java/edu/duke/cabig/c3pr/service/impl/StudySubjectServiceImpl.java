@@ -2,9 +2,6 @@ package edu.duke.cabig.c3pr.service.impl;
 
 import edu.duke.cabig.c3pr.dao.*;
 import edu.duke.cabig.c3pr.domain.*;
-import edu.duke.cabig.c3pr.esb.BroadcastException;
-import edu.duke.cabig.c3pr.esb.ESBMessageConsumer;
-import edu.duke.cabig.c3pr.esb.MessageBroadcastService;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
@@ -12,34 +9,28 @@ import edu.duke.cabig.c3pr.service.ParticipantService;
 import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.utils.StringUtils;
-import edu.duke.cabig.c3pr.xml.XmlMarshaller;
-import gov.nih.nci.common.exception.XMLUtilityException;
 import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.StringWriter;
 import java.util.List;
 
 /**
  * @author Kulasekaran, Ramakrishna
  * @version 1.0
  */
-public class StudySubjectServiceImpl implements StudySubjectService, ESBMessageConsumer {
+public class StudySubjectServiceImpl extends CCTSWorkflowServiceImpl
+        implements StudySubjectService {
 
     private static final Logger logger = Logger.getLogger(StudySubjectServiceImpl.class);
     private StudySubjectDao studySubjectDao;
     private ParticipantDao participantDao;
     private EpochDao epochDao;
-    private String isBroadcastEnable = "false";
     private boolean hostedMode = true;
-    private MessageBroadcastService messageBroadcaster;
     private StratumGroupDao stratumGroupDao;
-    private XmlMarshaller registrationXmlUtility;
     private String localInstanceNCICode;
     private C3PRExceptionHelper exceptionHelper;
     private MessageSource c3prErrorMessages;
-    private XmlMarshaller xmlUtility;
     private final String identifierTypeValueStr = "Coordinating Center Identifier";
     private final String prtIdentifierTypeValueStr = "MRN";
     private HealthcareSiteDao healthcareSiteDao;
@@ -49,16 +40,13 @@ public class StudySubjectServiceImpl implements StudySubjectService, ESBMessageC
 
     private Logger log = Logger.getLogger(StudySubjectService.class);
 
+
     public void setStudyDao(StudyDao studyDao) {
         this.studyDao = studyDao;
     }
 
     public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
         this.healthcareSiteDao = healthcareSiteDao;
-    }
-
-    public void setXmlUtility(XmlMarshaller xmlUtility) {
-        this.xmlUtility = xmlUtility;
     }
 
     public void setC3prErrorMessages(MessageSource errorMessages) {
@@ -73,13 +61,6 @@ public class StudySubjectServiceImpl implements StudySubjectService, ESBMessageC
         this.localInstanceNCICode = localInstanceNCICode;
     }
 
-    public XmlMarshaller getRegistrationXmlUtility() {
-        return registrationXmlUtility;
-    }
-
-    public void setRegistrationXmlUtility(XmlMarshaller registrationXmlUtility) {
-        this.registrationXmlUtility = registrationXmlUtility;
-    }
 
     public StratumGroupDao getStratumGroupDao() {
         return stratumGroupDao;
@@ -89,13 +70,6 @@ public class StudySubjectServiceImpl implements StudySubjectService, ESBMessageC
         this.stratumGroupDao = stratumGroupDao;
     }
 
-    public String getIsBroadcastEnable() {
-        return isBroadcastEnable;
-    }
-
-    public void setIsBroadcastEnable(String isBroadcastEnable) {
-        this.isBroadcastEnable = isBroadcastEnable;
-    }
 
     public StudySubjectDao getStudySubjectDao() {
         return studySubjectDao;
@@ -282,12 +256,9 @@ public class StudySubjectServiceImpl implements StudySubjectService, ESBMessageC
                     Integer id = studySubjectDao.merge(studySubject).getId();
                     studySubject = studySubjectDao.getById(id);
                     try {
-                        sendRegistrationEvent(studySubject);
-                    } catch (C3PRCodedException e) {
-                        if (e.getExceptionCode() != 227)
-                            throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.ERROR_SEND_REGISTRATION.CODE"), e);
-                        else
-                            e.printStackTrace();
+                        broadcastMessage(studySubject);
+                    } catch (C3PRBaseException e) {
+                        throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.ERROR_SEND_REGISTRATION.CODE"), e);
                     }
                 } else {
                     studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.UNREGISTERED);
@@ -317,32 +288,6 @@ public class StudySubjectServiceImpl implements StudySubjectService, ESBMessageC
         //TODO send registration request to Co ordinating center
     }
 
-    public void sendRegistrationEvent(StudySubject studySubject) throws C3PRCodedException {
-        if (isBroadcastEnable.equalsIgnoreCase("true")) {
-            String xml = "";
-            try {
-                xml = registrationXmlUtility.toXML(studySubject);
-            } catch (XMLUtilityException e) {
-                e.printStackTrace();
-                throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.BROADCAST.XML_ERROR"), e);
-            }
-            if (logger.isDebugEnabled()) {
-                logger.debug(" - XML for Registration"); //$NON-NLS-1$
-            }
-            if (logger.isDebugEnabled()) {
-                logger.debug(" - " + xml); //$NON-NLS-1$
-            }
-            try {
-                //messageBroadcaster.initialize();
-                messageBroadcaster.broadcast(xml, studySubject.getGridId());
-            } catch (BroadcastException e) {
-                log.error("Could not broadcast registration", e);
-                throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.BROADCAST.SEND_ERROR"), e);
-            }
-        } else {
-            throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.BROADCAST.DISABLED"));
-        }
-    }
 
     public boolean canRandomize(StudySubject studySubject) {
         return studySubject.getRegDataEntryStatus() == RegistrationDataEntryStatus.COMPLETE && studySubject.getScheduledEpoch().getScEpochDataEntryStatus() == ScheduledEpochDataEntryStatus.COMPLETE;
@@ -433,41 +378,6 @@ public class StudySubjectServiceImpl implements StudySubjectService, ESBMessageC
         return Integer.parseInt(this.c3prErrorMessages.getMessage(errortypeString, null, null));
     }
 
-    public void processMessage(String message) {
-        StudySubject cctsStudySubject = new StudySubject(true);
-        StringWriter sw = new StringWriter();
-        sw.write(message);
-        try {
-            this.xmlUtility.toXML(cctsStudySubject, sw);
-        } catch (XMLUtilityException e) {
-            e.printStackTrace();
-            return;
-        }
-        StudySubject studySubject = new StudySubject(true);
-        try {
-            studySubject.setStudySite(getPersistedStudySite(cctsStudySubject));
-            studySubject.setParticipant(getPersistedParticipant(cctsStudySubject));
-        } catch (C3PRCodedException e) {
-            e.printStackTrace();
-            return;
-        }
-        List<StudySubject> list = studySubjectDao.searchBySubjectAndStudySite(studySubject);
-        if (list.size() > 1)
-            throw new RuntimeException("Error processing esb message. More than one registration found.");
-        if (list.size() == 0)
-            throw new RuntimeException("Error processing esb message. No registration found.");
-        studySubject = list.get(0);
-        if (isC3DResponse(cctsStudySubject)) {
-            for (Identifier identifier : cctsStudySubject.getIdentifiers()) {
-                if (identifier instanceof SystemAssignedIdentifier) {
-                    SystemAssignedIdentifier sId = (SystemAssignedIdentifier) identifier;
-                    if (sId.getSystemName().equalsIgnoreCase("C3D") && sId.getType().equals("Patient Position")) {
-                        assignC3DIdentifier(studySubject, sId.getValue());
-                    }
-                }
-            }
-        }
-    }
 
     private boolean isC3DResponse(StudySubject studySubject) {
         for (Identifier identifier : studySubject.getIdentifiers()) {
@@ -528,7 +438,7 @@ public class StudySubjectServiceImpl implements StudySubjectService, ESBMessageC
                             , new String[]{identifierType.getValue()});
                 }
                 if (paList.size() == 1) {
-                    System.out.println("Participant with the same MRN found in the database");
+                    log.warn("Participant with the same MRN found in the database");
                     return temp;
                 }
             }
@@ -560,7 +470,7 @@ public class StudySubjectServiceImpl implements StudySubjectService, ESBMessageC
                     throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.MULTIPLE.SUBJECTS_SAME_MRN.CODE")
                             , new String[]{organizationAssignedIdentifier.getValue()});
                 } else if (paList.size() == 1) {
-                    System.out.println("Participant with the same MRN found in the database");
+                    log.warn("Participant with the same MRN found in the database");
                     Participant temp = paList.get(0);
                     if (temp.getFirstName().equals(participant.getFirstName())
                             && temp.getLastName().equals(participant.getLastName())
@@ -685,8 +595,5 @@ public class StudySubjectServiceImpl implements StudySubjectService, ESBMessageC
         this.studyService = studyService;
     }
 
-    public void setMessageBroadcaster(MessageBroadcastService messageBroadcaster) {
-        this.messageBroadcaster = messageBroadcaster;
-    }
 
 }

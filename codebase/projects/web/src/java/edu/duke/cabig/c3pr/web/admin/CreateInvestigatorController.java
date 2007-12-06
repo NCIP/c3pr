@@ -1,7 +1,10 @@
 package edu.duke.cabig.c3pr.web.admin;
 
 import edu.duke.cabig.c3pr.dao.InvestigatorDao;
-import edu.duke.cabig.c3pr.domain.*;
+import edu.duke.cabig.c3pr.domain.ContactMechanism;
+import edu.duke.cabig.c3pr.domain.ContactMechanismType;
+import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
+import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.service.PersonnelService;
@@ -38,40 +41,41 @@ public class CreateInvestigatorController extends
     /**
      * Create a nested object graph that Create Investigator Design needs
      * Incase the flow is coming from search...we get the id and get the corresponding investigator obj.
+     *
      * @param request -
      *                HttpServletRequest
      * @throws ServletException
      */
     protected Object formBackingObject(HttpServletRequest request)
             throws ServletException {
-    	Investigator inv;
-    	if (request.getParameter("id") != null && request.getParameter("id") != "") {
-			System.out.println(" Request URl  is:" + request.getRequestURL().toString());
-			inv = investigatorDao.getById(Integer.parseInt(request.getParameter("id")));
-			int cmSize = inv.getContactMechanisms().size();
-			if(cmSize == 0){
-				inv = createInvestigatorWithContacts(inv);
-			}
-			if(cmSize == 1){
-				ContactMechanism contactMechanismPhone = new ContactMechanism();
-		        ContactMechanism contactMechanismFax = new ContactMechanism();
-		        contactMechanismPhone.setType(ContactMechanismType.PHONE);
-		        contactMechanismFax.setType(ContactMechanismType.Fax);
-		        inv.addContactMechanism(contactMechanismPhone);
-		        inv.addContactMechanism(contactMechanismFax);
-			}
-			
-			if(cmSize == 2){
-				ContactMechanism contactMechanismFax = new ContactMechanism();
-		        contactMechanismFax.setType(ContactMechanismType.Fax);
-		        inv.addContactMechanism(contactMechanismFax);
-			}
-			request.getSession().setAttribute(FLOW, EDIT_FLOW);
-			System.out.println(" Investigator's ID is:" + inv.getId());			
-    	} else {
-    		inv = createInvestigatorWithDesign();
-    		request.getSession().setAttribute(FLOW, SAVE_FLOW);
-    	}
+        Investigator inv;
+        if (request.getParameter("id") != null && request.getParameter("id") != "") {
+            log.info(" Request URl  is:" + request.getRequestURL().toString());
+            inv = investigatorDao.getById(Integer.parseInt(request.getParameter("id")));
+            int cmSize = inv.getContactMechanisms().size();
+            if (cmSize == 0) {
+                inv = createInvestigatorWithContacts(inv);
+            }
+            if (cmSize == 1) {
+                ContactMechanism contactMechanismPhone = new ContactMechanism();
+                ContactMechanism contactMechanismFax = new ContactMechanism();
+                contactMechanismPhone.setType(ContactMechanismType.PHONE);
+                contactMechanismFax.setType(ContactMechanismType.Fax);
+                inv.addContactMechanism(contactMechanismPhone);
+                inv.addContactMechanism(contactMechanismFax);
+            }
+
+            if (cmSize == 2) {
+                ContactMechanism contactMechanismFax = new ContactMechanism();
+                contactMechanismFax.setType(ContactMechanismType.Fax);
+                inv.addContactMechanism(contactMechanismFax);
+            }
+            request.getSession().setAttribute(FLOW, EDIT_FLOW);
+            log.info(" Investigator's ID is:" + inv.getId());
+        } else {
+            inv = createInvestigatorWithDesign();
+            request.getSession().setAttribute(FLOW, SAVE_FLOW);
+        }
         return inv;
     }
 
@@ -100,12 +104,12 @@ public class CreateInvestigatorController extends
         }
 
         try {
-        	if(request.getSession().getAttribute(FLOW).equals(SAVE_FLOW)){
-        		personnelService.save(inv);
-            }else {
-            	personnelService.merge(inv);
+            if (request.getSession().getAttribute(FLOW).equals(SAVE_FLOW)) {
+                personnelService.save(inv);
+            } else {
+                personnelService.merge(inv);
             }
-            
+
         } catch (C3PRBaseException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (C3PRBaseRuntimeException e) {
@@ -115,7 +119,7 @@ public class CreateInvestigatorController extends
             }
         }
         Map map = errors.getModel();
-		map.put("command", inv); 
+        map.put("command", inv);
         ModelAndView mv = new ModelAndView(getSuccessView(), map);
         return mv;
     }
@@ -193,14 +197,14 @@ public class CreateInvestigatorController extends
     }
 
 
-	public InvestigatorDao getInvestigatorDao() {
-		return investigatorDao;
-	}
+    public InvestigatorDao getInvestigatorDao() {
+        return investigatorDao;
+    }
 
 
-	public void setInvestigatorDao(InvestigatorDao investigatorDao) {
-		this.investigatorDao = investigatorDao;
-	}
+    public void setInvestigatorDao(InvestigatorDao investigatorDao) {
+        this.investigatorDao = investigatorDao;
+    }
 
 
 }

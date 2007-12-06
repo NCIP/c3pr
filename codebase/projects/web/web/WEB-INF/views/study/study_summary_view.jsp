@@ -14,21 +14,34 @@
             document.viewDetails._action.value = "";
         }
 
+
+        function getBroadcastStatus() {
+
+            $('viewDetails').disable('broadcastBtn');
+            $('viewDetails').disable('broadcastStatusBtn');
+
+        <tags:tabMethod method="getMessageBroadcastStatus" onComplete="onBroadcastComplete"
+            viewName="/ajax/broadcast_res" divElement="'broadcastResponse'"
+            formName="'viewDetails'"/>
+        }
+
         function doSendMessageToESB() {
-        <tags:tabMethod method="sendMessageToESB"onComplete="onBroadcastComplete"
-            viewName="/study/asynchronous/broadcast_res" divElement="'broadcastResponse'"
-            formName="'tabMethodForm'"/>
+            $('broadcastResponse').innerHTML = 'Sending Message...';
+
+
+            $('viewDetails').disable('broadcastBtn');
+            $('viewDetails').disable('broadcastStatusBtn');
+
+        <tags:tabMethod method="sendMessageToESB" onComplete="onBroadcastComplete"
+            viewName="/ajax/broadcast_res" divElement="'broadcastResponse'"
+            formName="'viewDetails'"/>
         }
 
         function onBroadcastComplete() {
-            $('cctsWorkflowStatusText').innerHTML = $('broadcastResponse').innerHTML;
+            $('viewDetails').enable('broadcastBtn');
+            $('viewDetails').enable('broadcastStatusBtn');
         }
 
-        function getBroadcastStatus(){
-        <tags:tabMethod method="getMessageBroadcastStatus"  
-        viewName="/study/asynchronous/broadcast_res" divElement="'cctsWorkflowStatusText'"
-        formName="'tabMethodForm'"/>
-        }
 
         function activateInPlaceEditing(arrayElements) {
             for (aE = 0; aE < arrayElements.length; aE++) {
@@ -48,7 +61,7 @@
 </head>
 
 <body>
-<form:form name="viewDetails">
+<form:form id="viewDetails" name="viewDetails">
 <tags:tabFields tab="${tab}"/>
 <chrome:box title="Study Summary" autopad="true">
 <div><input type="hidden" name="_finish" value="true"/> <input
@@ -57,7 +70,7 @@
 <chrome:division id="study-details" title="Study Details">
     <table class="tablecontent" width="60%">
         <tr>
-            <td width="35%"class="alt" align="left"><b>Short Title</b></td>
+            <td width="35%" class="alt" align="left"><b>Short Title</b></td>
             <td class="alt" align="left">${command.shortTitleText}</td>
         </tr>
         <tr>
@@ -396,9 +409,29 @@
                 <td class="alt">${notification.threshold}</td>
                 <td class="alt">${notification.emailAddresses}</td>
                 <td class="alt">${notification.roles}</td>
-   	        </tr>	           
+            </tr>
         </c:forEach>
     </table>
+</chrome:division>
+
+<chrome:division title="CCTS Workflow">
+    <div class="content">
+        <div class="row">
+            <div class="label">
+                Broadcast Status:
+            </div>
+
+            <div class="value">
+                <span id="broadcastResponse">
+                        ${command.cctsWorkflowStatus.displayName}
+                </span>
+                <input type="button" id="broadcastStatusBtn" value="Refresh"
+                       onclick="getBroadcastStatus()"/>
+                <input type="button" id="broadcastBtn" value="Broadcast"
+                       onclick="doSendMessageToESB()"/>
+            </div>
+        </div>
+    </div>
 </chrome:division>
 
 <%--Optionally display edit mode buttons--%>
@@ -408,13 +441,11 @@
             <!--export study-->
                 <input type="button"
                        value="Export Study" onclick="doExportAction();"/>
-            <!--ccts messaging-->
-            <input type="button" id="cctsBroadcastBtn"
-                   value="Broadcast Study" onclick="doSendMessageToESB();"/>
                 <csmauthz:accesscontrol
                         domainObject="${editAuthorizationTask}"
                         authorizationCheckName="taskAuthorizationCheck">
-                    <input type="button" value="Edit Study" onclick="document.location='../study/editStudy?studyId=${command.id}'"/>
+                    <input type="button" value="Edit Study"
+                           onclick="document.location='../study/editStudy?studyId=${command.id}'"/>
 
 
                     <input type="button" value="Amend Study" id="amendButtonDisplayDiv"
@@ -425,8 +456,6 @@
 
                 </csmauthz:accesscontrol> </span></div>
     </div>
-    <!--broadcast status flashing alert-->
-    <div id="broadcastResponse" align="right"/>
 
 </c:if>
 

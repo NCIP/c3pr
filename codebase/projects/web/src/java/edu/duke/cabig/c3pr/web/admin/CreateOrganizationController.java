@@ -1,19 +1,17 @@
 package edu.duke.cabig.c3pr.web.admin;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import edu.duke.cabig.c3pr.dao.OrganizationDao;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.service.OrganizationService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 
-import edu.duke.cabig.c3pr.dao.OrganizationDao;
-import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.service.OrganizationService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 /*
  * @author Vinay Gangoli
@@ -30,23 +28,23 @@ public class CreateOrganizationController extends SimpleFormController {
     private String EDIT_FLOW = "EDIT_FLOW";
     private String SAVE_FLOW = "SAVE_FLOW";
     private String FLOW = "FLOW";
-    
-	@Override
-	protected Object formBackingObject(HttpServletRequest request)
-			throws Exception {
-		HealthcareSite hcs = null;
 
-		if (request.getParameter("nciIdentifier") != null) {
-			System.out.println(" Request URl  is:" + request.getRequestURL().toString());
-			hcs = organizationDao.getByNciIdentifier(request.getParameter("nciIdentifier")).get(0);
-			request.getSession().setAttribute(FLOW, EDIT_FLOW);
-			System.out.println(" HCS's ID is:" + hcs.getId());
-		} else {
-			hcs = new HealthcareSite();
-			request.getSession().setAttribute(FLOW, SAVE_FLOW);
-		}
-		return hcs;
-	}
+    @Override
+    protected Object formBackingObject(HttpServletRequest request)
+            throws Exception {
+        HealthcareSite hcs = null;
+
+        if (request.getParameter("nciIdentifier") != null) {
+            log.info(" Request URl  is:" + request.getRequestURL().toString());
+            hcs = organizationDao.getByNciIdentifier(request.getParameter("nciIdentifier")).get(0);
+            request.getSession().setAttribute(FLOW, EDIT_FLOW);
+            log.info(" HCS's ID is:" + hcs.getId());
+        } else {
+            hcs = new HealthcareSite();
+            request.getSession().setAttribute(FLOW, SAVE_FLOW);
+        }
+        return hcs;
+    }
 
     /*
       * This is the method that gets called on form submission.
@@ -67,13 +65,13 @@ public class CreateOrganizationController extends SimpleFormController {
             return new ModelAndView(getFormView());
         }
 
-        if(request.getSession().getAttribute(FLOW).equals(SAVE_FLOW)){
-        	organizationService.save(organization);
-        }else {
-        	organizationService.merge(organization);
+        if (request.getSession().getAttribute(FLOW).equals(SAVE_FLOW)) {
+            organizationService.save(organization);
+        } else {
+            organizationService.merge(organization);
         }
         Map map = errors.getModel();
-		map.put("command", organization); 
+        map.put("command", organization);
         ModelAndView mv = new ModelAndView(getSuccessView(), map);
         return mv;
     }
@@ -87,11 +85,11 @@ public class CreateOrganizationController extends SimpleFormController {
         this.organizationService = organizationService;
     }
 
-	public OrganizationDao getOrganizationDao() {
-		return organizationDao;
-	}
+    public OrganizationDao getOrganizationDao() {
+        return organizationDao;
+    }
 
-	public void setOrganizationDao(OrganizationDao organizationDao) {
-		this.organizationDao = organizationDao;
-	}
+    public void setOrganizationDao(OrganizationDao organizationDao) {
+        this.organizationDao = organizationDao;
+    }
 }

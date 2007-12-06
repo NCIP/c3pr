@@ -1,7 +1,6 @@
 package edu.duke.cabig.c3pr.service;
 
 import edu.duke.cabig.c3pr.domain.*;
-import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 
 import java.util.Date;
@@ -12,7 +11,7 @@ import java.util.List;
  *
  * @author priyatam
  */
-public interface StudyService {
+public interface StudyService extends CCTSWorkflowService {
 
     /**
      * Saves a study object
@@ -21,10 +20,6 @@ public interface StudyService {
      * @throws Exception runtime exception object
      */
     public void save(Study study) throws C3PRCodedException;
-
-    public void broadcastStudyMessage(Study study) throws C3PRBaseException;
-
-    public CCTSWorkflowStatusType getCCTSWofkflowStatus(Study study) throws Exception;
 
     public StudyDataEntryStatus evaluateDataEntryStatus(Study study) throws Exception;
 
