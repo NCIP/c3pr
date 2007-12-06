@@ -100,7 +100,7 @@
                                         
                                     <td align="left"><form:input
                                             path="treatmentEpochs[${treatmentEpochCount.index}].name"
-                                            size="41" cssClass="validate-notEmpty" /></td>
+                                            size="43" cssClass="validate-notEmpty" /></td>
                                 </tr>
                                 <tr>
                                     <td align="right"><b>Description:</b></td>
@@ -119,7 +119,7 @@
                                 <c:if test="${command.randomizedIndicator== true}">
                                  <tr>
                                     <td align="right">
-                                        <span class="required-indicator"><b>Randomization Indicator:</b></span>
+                                        <span class="required-indicator"><b>Randomized:</b></span>
                                     </td>
                                     <td><form:select
                                         path="treatmentEpochs[${treatmentEpochCount.index}].randomizedIndicator"
@@ -297,7 +297,7 @@
                                         
                                     </td>
                                     <td><input type="text"
-                                               name="treatmentEpochs[PAGE.ROW.INDEX].name" size="41"
+                                               name="treatmentEpochs[PAGE.ROW.INDEX].name" size="43"
                                                class="validate-notEmpty" /></td>
                                 </tr>
                                 <tr>
@@ -318,7 +318,7 @@
                                  <c:if test="${command.randomizedIndicator== true}">
                                  <tr>
                                     <td align="right">
-                                        <span class="required-indicator"><b>Randomization Indicator:<b></span>
+                                        <span class="required-indicator"><b>Randomized:<b></span>
                                         
                                     </td>
                                     <td><select

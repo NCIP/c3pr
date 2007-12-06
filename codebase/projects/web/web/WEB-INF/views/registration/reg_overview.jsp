@@ -49,31 +49,31 @@ function broadcastRegistration(){
 	<chrome:division id="Subject Information" title="Subject Information">
 	<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 		<tr>
-			<td width="25%" class="labelR">First Name</td>
+			<td width="25%" class="label">First Name</td>
 			<td>${command.participant.firstName}</td>
 		</tr>
 		<tr>
-			<td class="labelR">Last Name</td>
+			<td class="label">Last Name</td>
 			<td>${command.participant.lastName}</td>
 		</tr>
 		<tr>
-			<td class="labelR">Gender</td>
+			<td class="label">Gender</td>
 			<td>${command.participant.administrativeGenderCode}</td>
 		</tr>
 		<tr>
-			<td class="labelR">Subject MRN</td>
+			<td class="label">Subject MRN</td>
 			<td>${command.participant.primaryIdentifier }</td>
 		</tr>
 		<tr>
-			<td width="25%" class="labelR">Birth Date</td>
+			<td width="25%" class="label">Birth Date</td>
 			<td>${command.participant.birthDateStr}</td>
 		</tr>
 		<tr>
-			<td class="labelR">Ethnicity</td>
+			<td class="label">Ethnicity</td>
 			<td>${command.participant.ethnicGroupCode}</td>
 		</tr>
 		<tr>
-			<td class="labelR">Race(s)</td>
+			<td class="label">Race(s)</td>
 			<td>${command.participant.raceCode}</td>
 		</tr>
 	</table>
@@ -81,31 +81,31 @@ function broadcastRegistration(){
 	<chrome:division id="Study Information" title="Study Information">
 	<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 		<tr>
-			<td class="labelR">Status</td>
+			<td class="label">Status</td>
 			<td>${command.studySite.study.coordinatingCenterStudyStatus.code}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="labelR">Short Title</td>
+			<td width="25%" class="label">Short Title</td>
 			<td>${command.studySite.study.shortTitleText}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="labelR">Long Title</td>
+			<td width="25%" class="label">Long Title</td>
 			<td>${command.studySite.study.longTitleText}</td>
 		</tr>
 		<tr>
-			<td class="labelR">Randomized Indicator</td>
+			<td class="label">Randomized Indicator</td>
 			<td>${command.studySite.study.randomizedIndicator?'True':'False'}</td>
 		</tr>
 		<tr>
-			<td class="labelR">Multi Institutional</td>
+			<td class="label">Multi Institutional</td>
 			<td>${command.studySite.study.multiInstitutionIndicator?'True':'False'}</td>
 		</tr>
 		<tr>
-			<td class="labelR"> Phase Code</td>
+			<td class="label"> Phase Code</td>
 			<td>${command.studySite.study.phaseCode}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="labelR">Sponsor Code</td>
+			<td width="25%" class="label">Sponsor Code</td>
 			<td>${command.studySite.study.identifiers[0].value}</td>
 		</tr>
 	</table>
@@ -113,26 +113,26 @@ function broadcastRegistration(){
 	<chrome:division id="Study Site Information:" title="Study Site Information:">
 	<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 		<tr>
-			<td width="25%" class="labelR">Name</td>
+			<td width="25%" class="label">Name</td>
 			<td>${command.studySite.healthcareSite.name}</td>
 		</tr>
 		<tr>
-			<td class="labelR">Address</td>
+			<td class="label">Address</td>
 			<td>${command.studySite.healthcareSite.address.streetAddress},
 			${command.studySite.healthcareSite.address.city},
 			${command.studySite.healthcareSite.address.stateCode},
 			${command.studySite.healthcareSite.address.postalCode}</td>
 		</tr>
 		<tr>
-			<td class="labelR">Status Code</td>
+			<td class="label">Status Code</td>
 			<td>${command.studySite.siteStudyStatus}</td>
 		</tr>
 		<tr>
-			<td class="labelR">NCI Institution Code</td>
+			<td class="label">NCI Institution Code</td>
 			<td>${command.studySite.healthcareSite.nciInstituteCode}</td>
 		</tr>
 		<tr>
-			<td class="labelR">IRB Approval Date</td>
+			<td class="label">IRB Approval Date</td>
 			<td>${command.studySite.irbApprovalDateStr}</td>
 		</tr>
 	</table>
@@ -140,19 +140,19 @@ function broadcastRegistration(){
 	<chrome:division id="Current Epoch Information" title="Current Epoch Information">
 	<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 		<tr>
-			<td width="25%" class="labelR">Current Epoch</td>
+			<td width="25%" class="label">Current Epoch</td>
 			<td>${command.scheduledEpoch.epoch.name}</td>
 	</tr>
 	<tr>
-		<td class="labelR">Type</td>
+		<td class="label">Type</td>
 		<td>${command.ifTreatmentScheduledEpoch?'Treatment':'Non Treatment'}</td>
 	</tr>
 	<tr>
-		<td class="labelR">Enrolling</td>
+		<td class="label">Enrolling</td>
 		<td>${!command.ifTreatmentScheduledEpoch?studySubject.scheduledEpoch.epoch.enrollmentIndicator:'True'}</td>
 	</tr>
 	<tr>
-		<td class="labelR">Epoch Status</td>
+		<td class="label">Epoch Status</td>
 		<td>${command.scheduledEpoch.scEpochWorkflowStatus.code}</td>
 	</tr>
 	</table>
@@ -160,11 +160,11 @@ function broadcastRegistration(){
 	<chrome:division id="enrollment" title="Enrollment Details">
 	<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 		<tr>
-			<td class="labelR">Registration Start Date</td>
+			<td class="label">Registration Start Date</td>
 			<td><tags:inPlaceEdit value="${command.startDate }" path="startDate" required="true"/></td>
 		</tr>
 		<tr>
-			<td width="25%" class="labelR">Registration Status</td>
+			<td width="25%" class="label">Registration Status</td>
 			<td>${command.regWorkflowStatus.code}&nbsp;
 				<c:if test="${command.regWorkflowStatus=='REGISTERED' && command.scheduledEpoch.scEpochWorkflowStatus=='APPROVED'}">
 					<input type="button" value="Take subject off study" onclick="new Effect.SlideDown('OffStudyStatus')">
@@ -173,8 +173,8 @@ function broadcastRegistration(){
 					<form:form id="offStudyStatusForm">
 						<input type="hidden" name="_page" value="${tab.number}" id="_page"/>
 						<input type="hidden" name="regWorkflowStatus" value="OFF_STUDY" id="regWorkflowStatus"/>
-						Off Study Reason: <form:textarea path="offStudyReasonText" rows="2" cols="40" cssClass="validate-notEmpty"></form:textarea><br>
-						Off Study Date: <tags:dateInput path="offStudyDate" cssClass="validate-notEmpty"/><em> (mm/dd/yyyy)</em><br>
+						Reason: <form:textarea path="offStudyReasonText" rows="2" cols="40" cssClass="validate-notEmpty"></form:textarea><br>
+						Date: &nbsp;&nbsp;&nbsp;<tags:dateInput path="offStudyDate" cssClass="validate-notEmpty"/><em> (mm/dd/yyyy)</em><br>
 						<c:if test="${command.regWorkflowStatus!='OFF_STUDY'}"><input type="submit" value="ok"/>
 							<input type="button" value="cancel" onclick="new Effect.SlideUp('OffStudyStatus')"/></c:if>
 					</form:form>
@@ -184,24 +184,24 @@ function broadcastRegistration(){
 		</tr>
 		<c:if test="${command.regWorkflowStatus=='OFF_STUDY'}">
 		<tr>
-			<td class="labelR" width="25%">Off Study Reason</td>
+			<td class="label" width="25%">Off Study Reason</td>
 			<td>${command.offStudyReasonText }</td>
 		</tr>
 		<tr>
-			<td class="labelR" width="25%">Off Study Date</td>
+			<td class="label" width="25%">Off Study Date</td>
 			<td>${command.offStudyDate }</td>
 		</tr>
 		</c:if>
 		<tr>
-			<td class="labelR" width="25%">Informed Consent Signed Date</td>
+			<td class="label" width="25%">Informed Consent Signed Date</td>
 			<td><tags:inPlaceEdit value="${command.informedConsentSignedDateStr }" path="informedConsentSignedDate" required="true"/></td>
 		</tr>
 		<tr>
-			<td class="labelR">Informed Consent Version</td>
+			<td class="label">Informed Consent Version</td>
 			<td><tags:inPlaceEdit value="${command.informedConsentVersion}" path="informedConsentVersion" required="true"/></td>
 		</tr>
 		<tr>
-			<td width="25%" class="labelR">Treating Physician</td>
+			<td width="25%" class="label">Treating Physician</td>
 			<c:set var="options" value=""></c:set>
 			<c:set var="values" value=""></c:set>
 			<c:set var="commanSepOptVal" value="["></c:set>
@@ -216,15 +216,15 @@ function broadcastRegistration(){
 									commanSepOptVal="${commanSepOptVal}" pathToGet="treatingPhysicianFullName"/>&nbsp;</td>
 		</tr>
 		<tr>
-			<td width="25%" class="labelR">Coordinating Center Identifier</td>
+			<td width="25%" class="label">Coordinating Center Identifier</td>
 			<td><tags:inPlaceEdit value="${command.coOrdinatingCenterIdentifier}" path="coOrdinatingCenterIdentifier" required="true"/>&nbsp;</td>
 		</tr>
 		<tr>
-			<td width="25%" class="labelR">Primary Disease</td>
+			<td width="25%" class="label">Primary Disease</td>
 			<td>${command.diseaseHistory.primaryDiseaseStr }</td>
 		</tr>
 		<tr>
-			<td width="20%" class="labelR">Primary Disease Site</td>
+			<td width="20%" class="label">Primary Disease Site</td>
 			<td>${command.diseaseHistory.primaryDiseaseSiteStr }</td>
 		</tr>
 	</table>
@@ -272,7 +272,7 @@ function broadcastRegistration(){
 		<chrome:division id="Eligibility" title="Eligibility information">
 		<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 			<tr>
-				<td width="25%" class="labelR">Eligibility
+				<td width="25%" class="label">Eligibility
 				Indicator</td>
 				<td>${command.scheduledEpoch.eligibilityIndicator?'True':'False' }</td>
 			</tr>
@@ -348,7 +348,7 @@ function broadcastRegistration(){
 		<chrome:division id="${armAssignedLabel }" title="${armAssignedLabel }">
 		<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 			<tr>
-				<td width="25%" class="labelR">${armAssignedLabel }</td>
+				<td width="25%" class="label">${armAssignedLabel }</td>
 				<td>${armAssigned}</td>
 			</tr>
 		</table>
