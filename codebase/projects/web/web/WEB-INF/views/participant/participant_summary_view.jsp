@@ -36,9 +36,9 @@ function updateTargetPage(target){
 			type="hidden" name="_action" value=""></div>
 
 		<chrome:division id="subject-details" title="Basic Details">
-			<table class="tablecontent">
+			<table class="tablecontent" width="60%">
 				<tr>
-					<td class="alt" align="left"><b>First Name<b></td>
+					<td width="35%" class="alt" align="left"><b>First Name<b></td>
 					<td class="alt" align="left">${command.firstName}</td>
 				</tr>
 				<tr>
@@ -73,9 +73,9 @@ function updateTargetPage(target){
 		</chrome:division>
 
 		<chrome:division title="Address">
-			<table class="tablecontent">
+			<table class="tablecontent" width="60%">
 				<tr>
-					<td class="alt" align="left"><b>Street Address<b></td>
+					<td width="35%" class="alt" align="left"><b>Street Address<b></td>
 					<td class="alt" align="left">${command.address.streetAddress}</td>
 				</tr>
 				<tr>
@@ -97,11 +97,11 @@ function updateTargetPage(target){
 			</table>
 		</chrome:division>
 		<chrome:division title="Contact Information">
-			<table class="tablecontent">
+			<table class="tablecontent" width="60%">
 				<tr>
-					<th scope="col" align="left">Email</th>
-					<th scope="col" align="left">Phone</th>
-					<th scope="col" align="left">Fax</th>
+					<th width="40%" scope="col" align="left">Email</th>
+					<th width="30%" scope="col" align="left">Phone</th>
+					<th width="30%" scope="col" align="left">Fax</th>
 				</tr>
 				<tr class="results">
 					<c:forEach items="${command.contactMechanisms}"
@@ -117,11 +117,11 @@ function updateTargetPage(target){
 			<h4>Organization Assigned Identifiers</h4>
 			<br>
 
-			<table class="tablecontent">
+			<table class="tablecontent" width="60%">
 				<tr>
-					<th scope="col" align="left">Assigning Authority</th>
-					<th scope="col" align="left">Identifier Type</th>
-					<th scope="col" align="left">Identifier</th>
+					<th width="50%" scope="col" align="left">Assigning Authority</th>
+					<th width="35%" scope="col" align="left">Identifier Type</th>
+					<th width="15%" scope="col" align="left">Identifier</th>
 				</tr>
 				<c:forEach items="${command.organizationAssignedIdentifiers}"
 					var="orgIdentifier">
@@ -133,17 +133,15 @@ function updateTargetPage(target){
 				</c:forEach>
 			</table>
 			<br>
-		    <hr>
-		    <br>
 			<h4>System Assigned Identifiers</h4>
 
 			<br>
 
-			<table class="tablecontent">
+			<table class="tablecontent" width="60%">
 				<tr>
-					<th scope="col" align="left">System Name</th>
-					<th scope="col" align="left">Identifier Type</th>
-					<th scope="col" align="left">Identifier</th>
+					<th width="50%" scope="col" align="left">System Name</th>
+					<th width="35%" scope="col" align="left">Identifier Type</th>
+					<th width="15%" scope="col" align="left">Identifier</th>
 				</tr>
 				<c:forEach items="${command.systemAssignedIdentifiers}"
 					var="identifier">

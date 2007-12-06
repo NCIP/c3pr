@@ -11,17 +11,17 @@
                     <h2><font color="green">Study successfully created.</font></h2>
                 </div>
                  <div class="row" >
-                 	<table class="tablecontent">
+                 	<table class="tablecontent" width="60%">
 						<tr>
-							<td class="alt" align="left"><b>Short Title<b></td>
+							<td width="35%" class="alt" align="left"><b>Short Title<b></td>
 							<td class="alt" align="left">${param.trimmedShortTitleText}</td>
 						</tr>
 						<tr>
-							<td class="alt" align="left"><b>Coordinating Center Study Identifier<b></td>
+							<td width="35%" class="alt" align="left"><b>Coordinating Center Study Identifier<b></td>
 							<td class="alt" align="left">${param.primaryIdentifier}</td>
 						</tr>
 						<tr>
-							<td class="alt" align="left"><b>Study Status<b></td>
+							<td width="35%" class="alt" align="left"><b>Study Status<b></td>
 							<td class="alt" align="left">${param.coordinatingCenterStudyStatusCode}</td>
 						</tr>
 					</table>

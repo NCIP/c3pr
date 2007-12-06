@@ -37,21 +37,21 @@
                 </c:if>
                 
                     <div class="row">
-	                 	<table class="tablecontent">
+	                 	<table class="tablecontent" width="60%">
 							<tr>
-								<td class="alt" align="left"><b>First Name<b></td>
+								<td width="35%" class="alt" align="left"><b>First Name<b></td>
 								<td class="alt" align="left">${command.firstName}</td>
 							</tr>
 							<tr>
-								<td class="alt" align="left"><b>Last Name<b></td>
+								<td width="35%" class="alt" align="left"><b>Last Name<b></td>
 								<td class="alt" align="left">${command.lastName}</td>
 							</tr>
 							<tr>
-								<td class="alt" align="left"><b>NCI Identifier<b></td>
+								<td width="35%" class="alt" align="left"><b>NCI Identifier<b></td>
 								<td class="alt" align="left">${command.nciIdentifier}</td>
 							</tr>
 							<tr>
-								<td class="alt" align="left"><b>E-mail<b></td>
+								<td width="35%" class="alt" align="left"><b>E-mail<b></td>
 								<td class="alt" align="left">${command.contactMechanisms[0].value}</td>
 							</tr>
 						</table>

@@ -11,9 +11,9 @@
                     <h2><font color="green">Subject successfully created.</font></h2>
                 </div>
                  <div class="row" >
-                 	<table class="tablecontent">
+                 	<table class="tablecontent" width="60%">
 						<tr>
-							<td class="alt" align="left"><b>Full Name<b></td>
+							<td width="35%" class="alt" align="left"><b>Full Name<b></td>
 							<td class="alt" align="left">${param.lastName} ${param.middleName} ${param.firstName} </td>
 						</tr>
 						<tr>
