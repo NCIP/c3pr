@@ -31,9 +31,9 @@ document.getElementById("command").submit();
 </div>
 
 <chrome:division id="study-details" title="Basic Details" >
-    <table class="tablecontent">
+    <table class="tablecontent" width="60%">
         <tr>
-            <td class="alt" align="left"><b>Short Title</b></td>
+            <td width="35%" class="alt" align="left"><b>Short Title</b></td>
             <td class="alt" align="left">${command.shortTitleText}</td>
         </tr>
         <tr>
@@ -84,13 +84,13 @@ document.getElementById("command").submit();
 </chrome:division>
 
 <chrome:division title="Sites">
-    <table class="tablecontent">
+    <table class="tablecontent" width="60%">
         <tr>
-            <th scope="col" align="left">Study Site</th>
-            <th scope="col" align="left">Status</th>
-            <th scope="col" align="left">Role</th>
-            <th scope="col" align="left">Start Date</th>
-            <th scope="col" align="left">IRB Approval Date</th>
+            <th width="40%" scope="col" align="left">Study Site</th>
+            <th width="15%" scope="col" align="left">Status</th>
+            <th width="15%" scope="col" align="left">Role</th>
+            <th width="10%" scope="col" align="left">Start Date</th>
+            <th width="20%" scope="col" align="left">IRB Approval Date</th>
         </tr>
         <c:forEach items="${command.studySites}" var="studySite">
             <tr class="results">
@@ -108,11 +108,11 @@ document.getElementById("command").submit();
 <h4>Organization Assigned Identifiers</h4>
 	<br>
 
-		<table class="tablecontent">
+		<table class="tablecontent" width="60%">
 			<tr>
-				<th scope="col" align="left">Assigning Authority</th>
-				<th scope="col" align="left">Identifier Type</th>
-				<th scope="col" align="left">Identifier</th>
+				<th width="50%" scope="col" align="left">Assigning Authority</th>
+	            <th width="35%" scope="col" align="left">Identifier Type</th>
+	            <th scope="col" align="left">Identifier</th>
 			</tr>
 			<c:forEach items="${command.organizationAssignedIdentifiers}"
 				var="orgIdentifier">
@@ -126,11 +126,11 @@ document.getElementById("command").submit();
 	<br>
 <h4>System Assigned Identifiers</h4>
 <br>
-	<table class="tablecontent">
+	<table class="tablecontent" width="60%">
 		<tr>
-			<th scope="col" align="left">System Name</th>
-			<th scope="col" align="left">Identifier Type</th>
-			<th scope="col" align="left">Identifier</th>
+			<th width="50%" scope="col" align="left">System Name</th>
+            <th width="35%" scope="col" align="left">Identifier Type</th>
+            <th scope="col" align="left">Identifier</th>
 		</tr>
 		<c:forEach items="${command.systemAssignedIdentifiers}"
 		var="identifier">
@@ -144,12 +144,12 @@ document.getElementById("command").submit();
 </chrome:division>
 
 <chrome:division title="Investigators">
-    <table class="tablecontent">
+    <table class="tablecontent" width="60%">
         <tr>
-            <th scope="col" align="left">Investigator</th>
-            <th scope="col" align="left">Role</th>
-            <th scope="col" align="left">Status</th>
-            <th scope="col" align="left">Organization</th>
+            <th width="20%" scope="col" align="left">Name</th>
+            <th width="18%" scope="col" align="left">Role</th>
+            <th width="17%" scope="col" align="left">Status</th>
+            <th width="45%" scope="col" align="left">Organization</th>
         </tr>
         <c:forEach items="${command.studyOrganizations}" var="studyOrganization" varStatus="status">
             <c:forEach items="${studyOrganization.studyInvestigators}" var="studyInvestigator" varStatus="status">
@@ -166,12 +166,12 @@ document.getElementById("command").submit();
 </chrome:division>
 
 <chrome:division title="Personnel">
-    <table class="tablecontent">
+    <table class="tablecontent" width="60%">
         <tr>
-            <th scope="col" align="left">Name</th>
-            <th scope="col" align="left">Role</th>
-            <th scope="col" align="left">Status</th>
-            <th scope="col" align="left">Organization</th>
+            <th width="20%" scope="col" align="left">Name</th>
+            <th width="18%" scope="col" align="left">Role</th>
+            <th width="17%" scope="col" align="left">Status</th>
+            <th width="45%" scope="col" align="left">Organization</th>
         </tr>
         <c:forEach items="${command.studyOrganizations}" var="studyOrganization" varStatus="status">
             <c:forEach items="${studyOrganization.studyPersonnel}" var="studyPersonnel" varStatus="status">
@@ -187,9 +187,9 @@ document.getElementById("command").submit();
 </chrome:division>
 
 <chrome:division title="Stratification Factors">
-    <table class="tablecontent">
+    <table class="tablecontent" width="60%">
         <tr>
-            <th scope="col" align="left"><b>Strata</b></th>
+            <th width="50%" scope="col" align="left"><b>Strata</b></th>
             <th scope="col" align="left"><b>Permissible Answers</b></th>
 
         </tr>
@@ -216,9 +216,9 @@ document.getElementById("command").submit();
 </chrome:division>
 
 <chrome:division title="Stratum Groups">
-    <table class="tablecontent">
+    <table class="tablecontent" width="60%">
         <tr>
-            <th scope="col" align="left"><b>Stratum Group Number</b></th>
+            <th width="50%" scope="col" align="left"><b>Stratum Group Number</b></th>
             <th scope="col" align="left"><b>Answer Combination</b></th>
 
         </tr>
@@ -239,9 +239,9 @@ document.getElementById("command").submit();
 </chrome:division>
 
 <chrome:division title="Diseases">
-    <table class="tablecontent">
+    <table class="tablecontent" width="60%">
         <tr>
-            <th scope="col" align="left"><b>Disease Term</b></th>
+            <th width="50%" scope="col" align="left"><b>Disease Term</b></th>
             <th scope="col" align="left"><b>Primary</b></th>
         </tr>
         <c:forEach items="${command.studyDiseases}" var="studyDisease" varStatus="status">
@@ -254,9 +254,9 @@ document.getElementById("command").submit();
 </chrome:division>
 
 <chrome:division title="Epochs & Arms">
-    <table class="tablecontent">
+    <table class="tablecontent" width="60%">
         <tr>
-            <th><b>Epochs</b></th>
+            <th width="50%"><b>Epochs</b></th>
             <th><b>Arms</b>
         </tr>
         <c:forEach items="${command.epochs}" var="epoch">
@@ -286,11 +286,11 @@ document.getElementById("command").submit();
 </chrome:division>
 
 <chrome:division title="Notifications">
-    <table class="tablecontent">
+    <table class="tablecontent" width="60%">
         <tr>
-            <th scope="col" align="left"><b>Threshold</b></th>
-            <th scope="col" align="left"><b>Email</b></th>
-            <th scope="col" align="left"><b>Role</b></th>
+            <th width="15%" scope="col" align="left"><b>Threshold</b></th>
+            <th width="45%" scope="col" align="left"><b>Email</b></th>
+            <th width="40%" scope="col" align="left"><b>Role</b></th>
         </tr>
         <c:forEach items="${command.notifications}" var="notification">
             <tr>
