@@ -33,34 +33,34 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 	<chrome:division id="Subject Information" title="Subject Information">
 	<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 		<tr>
-			<td width="25%" class="labelR">First Name</td>
+			<td width="35%"  align="left"><b>First Name</b></td>
 			<td>${command.participant.firstName}</td>
 	</tr>
 	<tr>
-		<td class="labelR">Last Name</td>
+		<td align="left"><b>Last Name</b></td>
 		<td>${command.participant.lastName}</td>
 	</tr>
 	<tr>
-		<td class="labelR">Gender</td>
+		<td align="left"><b>Gender</b></td>
 		<td>${command.participant.administrativeGenderCode}</td>
 	</tr>
 	<tr>
-		<td class="labelR">Subject MRN</td>
+		<td align="left"><b>MRN</b></td>
 		<td>${command.participant.medicalRecordNumber.value }</td>
 	</tr>
 	<tr>
-		<td class="labelR">Assigning Authority</td>
+		<td align="left"><b>Assigning Authority</b></td>
 		<td>${command.participant.medicalRecordNumber.healthcareSite.name }</td>
 	</tr>
-		<td width="25%" class="labelR">Birth Date</td>
+		<td align="left"><b>Birth Date</b></td>
 		<td>${command.participant.birthDateStr}</td>
 	</tr>
 	<tr>
-		<td class="labelR">Ethnicity</td>
+		<td align="left"><b>Ethnicity</b></td>
 		<td>${command.participant.ethnicGroupCode}</td>
 	</tr>
 	<tr>
-		<td class="labelR">Race(s)</td>
+		<td align="left"><b>Race(s)</b></td>
 		<td>${command.participant.raceCode}</td>
 		</tr>
 	</table>
@@ -68,31 +68,31 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 	<chrome:division id="Study Information" title="Study Information">
 	<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 		<tr>
-			<td class="labelR">Status</td>
+			<td align="left" width="35%"><b>Status</b></td>
 			<td>${command.studySite.study.coordinatingCenterStudyStatus.code}</td>
 	</tr>
 	<tr>
-		<td width="25%" class="labelR">Short Title</td>
+		<td align="left"><b>Short Title</b></td>
 		<td>${command.studySite.study.shortTitleText}</td>
 	</tr>
 	<tr>
-		<td width="25%" class="labelR">Long Title</td>
+		<td align="left"><b>Long Title</b></td>
 		<td>${command.studySite.study.longTitleText}</td>
 	</tr>
 	<tr>
-		<td class="labelR">Randomized Indicator</td>
-		<td>${command.studySite.study.randomizedIndicator?'True':'False'}</td>
+		<td align="left"><b>Randomized</b></td>
+		<td>${command.studySite.study.randomizedIndicator?'Yes':'No'}</td>
 	</tr>
 	<tr>
-		<td class="labelR">Multi Institutional</td>
-		<td>${command.studySite.study.multiInstitutionIndicator?'True':'False'}</td>
+		<td align="left"><b>Multi Institutional</b></td>
+		<td>${command.studySite.study.multiInstitutionIndicator?'Yes':'No'}</td>
 	</tr>
 	<tr>
-		<td class="labelR"> Phase Code</td>
+		<td align="left"><b>Phase</b></td>
 		<td>${command.studySite.study.phaseCode}</td>
 	</tr>
 	<tr>
-		<td width="25%" class="labelR">Sponsor Code</td>
+		<td align="left"><b>Coordinating Center Identifier</b></td>
 		<td>${command.studySite.study.identifiers[0].value}</td>
 		</tr>
 	</table>
@@ -100,26 +100,26 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 	<chrome:division id="Study Site Information:" title="Study Site Information:">
 	<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 		<tr>
-			<td width="25%" class="labelR">Name</td>
+			<td width="35%" align="left"><b>Name</b></td>
 			<td>${command.studySite.healthcareSite.name}</td>
 	</tr>
 	<tr>
-		<td class="labelR">Address</td>
+		<td align="left"><b>Address</b></td>
 		<td>${command.studySite.healthcareSite.address.streetAddress},
 	${command.studySite.healthcareSite.address.city},
 	${command.studySite.healthcareSite.address.stateCode},
 	${command.studySite.healthcareSite.address.postalCode}</td>
 	</tr>
 	<tr>
-		<td class="labelR">Status Code</td>
+		<td align="left"><b>Status</b></td>
 		<td>${command.studySite.siteStudyStatus.code}</td>
 	</tr>
 	<tr>
-		<td class="labelR">NCI Institution Code</td>
+		<td align="left"><b>NCI Institution Code</b></td>
 		<td>${command.studySite.healthcareSite.nciInstituteCode}</td>
 	</tr>
 	<tr>
-		<td class="labelR">IRB Approval Date</td>
+		<td align="left"><b>IRB Approval Date</b></td>
 		<td>${command.studySite.irbApprovalDateStr}</td>
 		</tr>
 	</table>
@@ -127,19 +127,19 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 	<chrome:division id="Current Epoch Information" title="Current Epoch Information">
 	<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 		<tr>
-			<td width="25%" class="labelR">Current Epoch</td>
+			<td align="left" width="35%"><b>Current Epoch</b></td>
 			<td>${command.scheduledEpoch.epoch.name}</td>
 	</tr>
 	<tr>
-		<td class="labelR">Type</td>
+		<td align="left"><b>Type</b></td>
 		<td>${command.ifTreatmentScheduledEpoch?'Treatment':'Non Treatment'}</td>
 	</tr>
 	<tr>
-		<td class="labelR">Enrolling</td>
-		<td>${!command.ifTreatmentScheduledEpoch?command.scheduledEpoch.epoch.enrollmentIndicator:'True'}</td>
+		<td align="left"><b>Enrolling</b></td>
+		<td>${!command.ifTreatmentScheduledEpoch?command.scheduledEpoch.epoch.enrollmentIndicator:'Yes'}</td>
 	</tr>
 	<tr>
-		<td class="labelR">Epoch Status</td>
+		<td align="left"><b>Epoch Status</b></td>
 		<td>${command.scheduledEpoch.scEpochWorkflowStatus.code}</td>
 	</tr>
 	</table>
@@ -147,27 +147,27 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 	<chrome:division id="enrollment" title="Enrollment Details">
 	<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 		<tr>
-			<td class="labelR">Registration Start Date</td>
+			<td align="left"><b>Registration Start Date</b></td>
 			<td>${command.startDate }</td>
 	</tr>
 	<tr>
-		<td class="labelR" width="35%">Informed Consent Signed Date</td>
+		<td align="left" width="35%"><b>Informed Consent Signed Date</b></td>
 		<td><tags:requiredFieldEmptyIndicator value='${command.informedConsentSignedDateStr}' workflow='registration'/></td>
 	</tr>
 	<tr>
-		<td class="labelR">Informed Consent Version</td>
+		<td align="left"><b>Informed Consent Version</b></td>
 		<td><tags:requiredFieldEmptyIndicator value='${command.informedConsentVersion}' workflow='registration'/></td>
 	</tr>
 	<tr>
-		<td width="25%" class="labelR">Treating Physician</td>
+		<td align="left"><b>Treating Physician</b></td>
 		<td>${command.treatingPhysicianFullName}&nbsp;</td>
 	</tr>
 	<tr>
-		<td width="25%" class="labelR">Primary Disease</td>
+		<td align="left"><b>Primary Disease</b></td>
 		<td>${command.diseaseHistory.primaryDiseaseStr }</td>
 	</tr>
 	<tr>
-		<td width="20%" class="labelR">Primary Disease Site</td>
+		<td align="left"><b>Primary Disease Site</b></td>
 		<td>${command.diseaseHistory.primaryDiseaseSiteStr }</td>
 		</tr>
 	</table>
@@ -176,8 +176,8 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		<chrome:division id="Eligibility" title="Eligibility information">
 		<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 			<tr>
-				<td width="25%" class="labelR">Eligibility
-				Indicator</td>
+				<td width="35%" align="left"><b>Eligible</b>
+				</td>
 				<td><tags:requiredFieldInvalidIndicator value='${command.scheduledEpoch.eligibilityIndicator?"True":"False" }' workflow='registration' compareWith='True'/></td>
 			</tr>
 		</table>
@@ -235,7 +235,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		<c:otherwise>
 		<table border="0" cellspacing="0" cellpadding="0" class="tablecontent"  width="50%">
 			<tr>
-				<th scope="col" align="left">Strata</th>
+				<th width="35%" scope="col" align="left">Strata</th>
 				<th scope="col" align="left"><b>Answer</th>
 			</tr>
 			<c:forEach items="${command.scheduledEpoch.subjectStratificationAnswers}" var="criteria">

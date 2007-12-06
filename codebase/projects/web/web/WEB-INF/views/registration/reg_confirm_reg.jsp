@@ -96,51 +96,51 @@ function accessApp(url,app,targetWindow){
 	</c:otherwise>
 	</c:choose>
 	<br><br>
-	<table width="100%" class="tablecontent">
+	<table width="50%" class="tablecontent">
 		<tr>
-			<td class="label">Subject MRN:</td>
+			<td width="35%" align="left"><b>Subject MRN</b></td>
 			<td>${command.participant.primaryIdentifier}</td>
 		</tr>
 		<tr>
-			<td class="label">Study Sponsor Identifier:</td>
+			<td align="left"><b>Study Sponsor Identifier</b></td>
 			<td>${command.studySite.study.organizationAssignedIdentifiers[0].value}</td>
 		</tr>
 		<tr>
-			<td class="label">Study Short Title:</td>
+			<td align="left"><b>Study Short Title</b></td>
 			<td valign="top">${command.studySite.study.shortTitleText}</td>
 		</tr>
 		<tr>
-			<td class="label">Registration Status:</td>
+			<td align="left"><b>Registration Status</b></td>
 			<td valign="top">${command.regWorkflowStatus.code }</td>
 		</tr>		
 		<tr>
-			<td class="label">Current Epoch:</td>
+			<td align="left"><b>Current Epoch</b></td>
 			<td valign="top">${command.scheduledEpoch.epoch.name}</td>
 		</tr>
 		<tr>
-			<td class="label">Current Epoch Status:</td>
+			<td align="left"><b>Current Epoch Status</b></td>
 			<td valign="top">${command.scheduledEpoch.scEpochWorkflowStatus.code}</td>
 		</tr>
 		<c:if test="${!empty armAssigned}">
 			<tr>
-				<td class="label">${armAssignedLabel }:</td>
+				<td align="left"><b>${armAssignedLabel }</b></td>
 				<td valign="top">${armAssigned}</td>
 			</tr>
 		</c:if>
 		<tr>
-			<td class="label">Data Entry Status:</td>
+			<td align="left"><b>Data Entry Status</b></td>
 			<td valign="top">${command.dataEntryStatusString }</td>
 		</tr>
 		<tr>
-			<td class="label">Site:</td>
+			<td align="left"><b>Site</b></td>
 			<td>${command.studySite.healthcareSite.name}</td>
 		</tr>
 		<tr>
-			<td class="label">Registration Date:</td>
+			<td align="left"><b>Registration Date</b></td>
 			<td>${command.startDate }</td>
 		</tr>
 		<tr>
-			<td class="label">Treating Physician:</td>
+			<td align="left"><b>Treating Physician</b></td>
 			<td>${command.treatingPhysicianFullName}</td>
 		</tr>
 	</table>
@@ -148,7 +148,7 @@ function accessApp(url,app,targetWindow){
 	</div>
 	<table width="60%">
 		<tr>
-			<td class="label" align="left"><a
+			<td align="left"><a
 				href="javascript:accessApp('http://10.10.10.2:8030','caaers/pages/ae/list?assignment=${command.gridId }','_caaers');">
 			<b>Adverse Event Reporting</a> </b></td>
 		</tr>
@@ -159,7 +159,7 @@ function accessApp(url,app,targetWindow){
 				height="1" class="heightControl"></td>
 		</tr>
 		<tr>
-			<td class="label" align="left"><a
+			<td align="left"><a
 				href="javascript:accessApp('http://10.10.10.2:8041','studycalendar/pages/schedule?assignment=${command.gridId }','_psc');">
 			<b>Study Calendar</a></b></td>
 		</tr>
@@ -170,7 +170,7 @@ function accessApp(url,app,targetWindow){
 				height="1" class="heightControl"></td>
 		</tr>
 		<tr>
-			<td class="label" align="left"><a
+			<td align="left"><a
 				href="javascript:accessApp('https://octrials-train.nci.nih.gov','/opa45/rdclaunch.htm','_c3d');">
 			<b>Clinical Database</a></b></td>
 		</tr>

@@ -49,7 +49,7 @@ function broadcastRegistration(){
 	<chrome:division id="Subject Information" title="Subject Information">
 	<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 		<tr>
-			<td width="25%" class="label">First Name</td>
+			<td width="35%" class="label">First Name</td>
 			<td>${command.participant.firstName}</td>
 		</tr>
 		<tr>
@@ -65,7 +65,7 @@ function broadcastRegistration(){
 			<td>${command.participant.primaryIdentifier }</td>
 		</tr>
 		<tr>
-			<td width="25%" class="label">Birth Date</td>
+			<td class="label">Birth Date</td>
 			<td>${command.participant.birthDateStr}</td>
 		</tr>
 		<tr>
@@ -85,27 +85,27 @@ function broadcastRegistration(){
 			<td>${command.studySite.study.coordinatingCenterStudyStatus.code}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="label">Short Title</td>
+			<td width="35%" class="label">Short Title</td>
 			<td>${command.studySite.study.shortTitleText}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="label">Long Title</td>
+			<td class="label">Long Title</td>
 			<td>${command.studySite.study.longTitleText}</td>
 		</tr>
 		<tr>
-			<td class="label">Randomized Indicator</td>
-			<td>${command.studySite.study.randomizedIndicator?'True':'False'}</td>
+			<td class="label">Randomized</td>
+			<td>${command.studySite.study.randomizedIndicator?'Yes':'No'}</td>
 		</tr>
 		<tr>
 			<td class="label">Multi Institutional</td>
-			<td>${command.studySite.study.multiInstitutionIndicator?'True':'False'}</td>
+			<td>${command.studySite.study.multiInstitutionIndicator?'Yes':'No'}</td>
 		</tr>
 		<tr>
-			<td class="label"> Phase Code</td>
+			<td class="label"> Phase</td>
 			<td>${command.studySite.study.phaseCode}</td>
 		</tr>
 		<tr>
-			<td width="25%" class="label">Sponsor Code</td>
+			<td width="25%" class="label">Coordinating Center Identifier</td>
 			<td>${command.studySite.study.identifiers[0].value}</td>
 		</tr>
 	</table>
@@ -113,7 +113,7 @@ function broadcastRegistration(){
 	<chrome:division id="Study Site Information:" title="Study Site Information:">
 	<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 		<tr>
-			<td width="25%" class="label">Name</td>
+			<td width="35%" class="label">Name</td>
 			<td>${command.studySite.healthcareSite.name}</td>
 		</tr>
 		<tr>
@@ -124,8 +124,8 @@ function broadcastRegistration(){
 			${command.studySite.healthcareSite.address.postalCode}</td>
 		</tr>
 		<tr>
-			<td class="label">Status Code</td>
-			<td>${command.studySite.siteStudyStatus}</td>
+			<td class="label">Status</td>
+			<td>${command.studySite.siteStudyStatus.code}</td>
 		</tr>
 		<tr>
 			<td class="label">NCI Institution Code</td>
@@ -140,7 +140,7 @@ function broadcastRegistration(){
 	<chrome:division id="Current Epoch Information" title="Current Epoch Information">
 	<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 		<tr>
-			<td width="25%" class="label">Current Epoch</td>
+			<td width="35%" class="label">Current Epoch</td>
 			<td>${command.scheduledEpoch.epoch.name}</td>
 	</tr>
 	<tr>
@@ -164,7 +164,7 @@ function broadcastRegistration(){
 			<td><tags:inPlaceEdit value="${command.startDate }" path="startDate" required="true"/></td>
 		</tr>
 		<tr>
-			<td width="25%" class="label">Registration Status</td>
+			<td width="35%" class="label">Registration Status</td>
 			<td>${command.regWorkflowStatus.code}&nbsp;
 				<c:if test="${command.regWorkflowStatus=='REGISTERED' && command.scheduledEpoch.scEpochWorkflowStatus=='APPROVED'}">
 					<input type="button" value="Take subject off study" onclick="new Effect.SlideDown('OffStudyStatus')">
@@ -184,16 +184,16 @@ function broadcastRegistration(){
 		</tr>
 		<c:if test="${command.regWorkflowStatus=='OFF_STUDY'}">
 		<tr>
-			<td class="label" width="25%">Off Study Reason</td>
+			<td class="label" width="35%">Off Study Reason</td>
 			<td>${command.offStudyReasonText }</td>
 		</tr>
 		<tr>
-			<td class="label" width="25%">Off Study Date</td>
+			<td class="label">Off Study Date</td>
 			<td>${command.offStudyDate }</td>
 		</tr>
 		</c:if>
 		<tr>
-			<td class="label" width="25%">Informed Consent Signed Date</td>
+			<td class="label">Informed Consent Signed Date</td>
 			<td><tags:inPlaceEdit value="${command.informedConsentSignedDateStr }" path="informedConsentSignedDate" required="true"/></td>
 		</tr>
 		<tr>
@@ -201,7 +201,7 @@ function broadcastRegistration(){
 			<td><tags:inPlaceEdit value="${command.informedConsentVersion}" path="informedConsentVersion" required="true"/></td>
 		</tr>
 		<tr>
-			<td width="25%" class="label">Treating Physician</td>
+			<td width="35%" class="label">Treating Physician</td>
 			<c:set var="options" value=""></c:set>
 			<c:set var="values" value=""></c:set>
 			<c:set var="commanSepOptVal" value="["></c:set>
@@ -216,15 +216,15 @@ function broadcastRegistration(){
 									commanSepOptVal="${commanSepOptVal}" pathToGet="treatingPhysicianFullName"/>&nbsp;</td>
 		</tr>
 		<tr>
-			<td width="25%" class="label">Coordinating Center Identifier</td>
+			<td width="35%" class="label">Coordinating Center Identifier</td>
 			<td><tags:inPlaceEdit value="${command.coOrdinatingCenterIdentifier}" path="coOrdinatingCenterIdentifier" required="true"/>&nbsp;</td>
 		</tr>
 		<tr>
-			<td width="25%" class="label">Primary Disease</td>
+			<td class="label">Primary Disease</td>
 			<td>${command.diseaseHistory.primaryDiseaseStr }</td>
 		</tr>
 		<tr>
-			<td width="20%" class="label">Primary Disease Site</td>
+			<td class="label">Primary Disease Site</td>
 			<td>${command.diseaseHistory.primaryDiseaseSiteStr }</td>
 		</tr>
 	</table>
@@ -272,8 +272,8 @@ function broadcastRegistration(){
 		<chrome:division id="Eligibility" title="Eligibility information">
 		<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 			<tr>
-				<td width="25%" class="label">Eligibility
-				Indicator</td>
+				<td width="35%" class="label">Eligibile
+				</td>
 				<td>${command.scheduledEpoch.eligibilityIndicator?'True':'False' }</td>
 			</tr>
 		</table>
@@ -331,7 +331,7 @@ function broadcastRegistration(){
 		<c:otherwise>
 		<table border="0" cellspacing="0" cellpadding="0" class="tablecontent"  width="50%">
 			<tr>
-				<th scope="col" align="left">Strata</th>
+				<th width="35%"scope="col" align="left">Strata</th>
 				<th scope="col" align="left"><b>Answer</th>
 			</tr>
 			<c:forEach items="${command.scheduledEpoch.subjectStratificationAnswers}" var="criteria">
@@ -348,7 +348,7 @@ function broadcastRegistration(){
 		<chrome:division id="${armAssignedLabel }" title="${armAssignedLabel }">
 		<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 			<tr>
-				<td width="25%" class="label">${armAssignedLabel }</td>
+				<td width="35%" class="label">${armAssignedLabel }</td>
 				<td>${armAssigned}</td>
 			</tr>
 		</table>
