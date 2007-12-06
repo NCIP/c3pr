@@ -35,7 +35,7 @@ function submitPage(){
 						<table width="100%" border="0" cellspacing="5" cellpadding="0"
 							id="table1">
 							<tr>
-								<td width="30%" align="right" class="label"><b>Search Subjects By:</b></td>
+								<td width="30%" align="right" class="label"><b>Search By:</b></td>
 								<td align="left"><form:select path="searchType">
 									<form:options items="${searchTypeRefData}" itemLabel="desc"
 										itemValue="code" />
