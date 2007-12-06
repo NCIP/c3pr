@@ -188,7 +188,7 @@ function submitPage(){
 			<td>
 			<table border="0">
 				<tr>
-					<td width="20%" valign="top" align="right"><b>Search for Registration by:</b></td>
+					<td width="20%" valign="top" align="right"><b>Search By:</b></td>
 					<td align="right" width="15%"><select name="select" id="select"
 						onChange="manageSelectBox(this);">
 						<option value="Subject">Subject</option>
