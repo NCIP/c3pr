@@ -48,7 +48,9 @@
         ValidationManager.submitPostProcess= function(formElement, continueSubmission){
            if(formElement.id="command"){
                  box1=document.getElementById('healthcareSite-input');
-               
+               	if(document.getElementById('randomizedIndicator').value =='false'){
+               	new Element.update('randomizationTypeDiv','');
+               	};
                  if((box1==null)||box1.value == '')
                  	new Element.update('fundingSponsor',"<input type='hidden' name='deletedSponsor'/>");
                  else{
@@ -265,18 +267,18 @@
 
 <chrome:division title="Randomization">
     <div class="leftpanel">
-
-        <div class="row">
-            <div class="label required-indicator">
-                Randomized:</div>
-            <div class="value"><form:select path="randomizedIndicator"
-                                            onchange="manageRandomizedIndicatorSelectBox(this);"
-                                            cssClass="validate-notEmpty"
-                                            disabled="${command.blindedIndicator == 'true'}" >
-                <option value="">Please Select</option>
-                <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
-            </form:select></div>
-        </div>
+	        <div class="row">
+		            <div class="label required-indicator">
+		                Randomized:</div>
+		            <div class="value"><form:select path="randomizedIndicator"
+		                                            onchange="manageRandomizedIndicatorSelectBox(this);"
+		                                            cssClass="validate-notEmpty"
+		                                            disabled="${command.blindedIndicator == 'true'}" >
+		                <option value="">Please Select</option>
+		                <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
+		            </form:select>
+		            </div>
+	            </div>
     </div>
 	<div class="rightpanel">
         <div id="randomizationTypeDiv"
@@ -284,8 +286,8 @@
                 						command.blindedIndicator == 'false'}">style="display:none;"</c:if>>
 
             <div class="row">
-                <div class="label">Type:</div>
-                <div class="value"><form:select path="randomizationType" disabled="${command.blindedIndicator == 'true'}">
+                <div class="label required-indicator">Type:</div>
+                <div class="value"><form:select path="randomizationType" disabled="${command.blindedIndicator == 'true'}" cssClass="validate-notEmpty">
                     <form:option label="Please Select" value=""/>
                     <form:option label="Book" value="BOOK"/>
                     <form:option label="Call Out" value="CALL_OUT"/>
