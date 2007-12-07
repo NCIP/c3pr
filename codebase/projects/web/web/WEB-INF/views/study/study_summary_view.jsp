@@ -129,20 +129,6 @@
             <td class="alt" align="left"><b>Randomization Type</b></td>
             <td class="alt" align="left">${command.randomizationType.displayName}</td>
         </tr>
-        <tr>
-            <td class="alt" align="left"><b>CCTS Broadcast Status</b></td>
-            <td class="alt" id="cctsWorkflowStatus" align="left">
-
-                <span id="cctsWorkflowStatusText">
-                        ${command.cctsWorkflowStatus.displayName}
-                </span>
-
-                <input type="button" value="Refresh" onclick="getBroadcastStatus()"/>
-
-
-            </td>
-        </tr>
-
     </table>
 
 </chrome:division>
