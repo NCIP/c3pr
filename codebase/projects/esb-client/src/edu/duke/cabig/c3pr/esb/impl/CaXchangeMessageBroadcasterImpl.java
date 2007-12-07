@@ -178,11 +178,14 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
                 log.debug("Received response from caXchange for externalId" + objectId);
 
                 if (response.getResponse().getResponseStatus().equals(Statuses.SUCCESS)) {
-                    log.debug("Successfully received response from caXchange");
+                    log.debug("Received delivery confirmation from caXchange");
 
-                    messageWorkflowCallback.messageSendSuccessful(objectId);
+                    messageWorkflowCallback.messageSendConfirmed(objectId);
+
                     // notify response handlers
+                    log.debug("Notifying " + messageResponseHandlers.size() + " handlers");
                     messageResponseHandlers.notifyAll(objectId, response.getResponse());
+
                 }
                 if (response.getResponse().getResponseStatus().equals(Statuses.FAILURE)) {
                     log.debug("Received failure from caXchange");
