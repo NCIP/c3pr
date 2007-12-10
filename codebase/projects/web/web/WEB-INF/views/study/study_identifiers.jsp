@@ -129,7 +129,7 @@ function manageIdentifierRadio(element){
 							<form:select
 								path="organizationAssignedIdentifiers[${organizationStatus.index}].type"
 								cssClass="validate-notEmpty">
-								<option value="">--Please Select--</option>
+								<option value="">Please Select</option>
 								<form:options items="${identifiersTypeRefData}" itemLabel="desc"
 									itemValue="desc" />
 							</form:select>
@@ -180,7 +180,7 @@ function manageIdentifierRadio(element){
 						<td><form:select
 							path="systemAssignedIdentifiers[${status.index}].type"
 							cssClass="validate-notEmpty">
-							<option value="">--Please Select--</option>
+							<option value="">Please Select</option>
 							<form:options items="${identifiersTypeRefData}" itemLabel="desc"
 								itemValue="desc" />
 						</form:select></td>
@@ -227,7 +227,7 @@ function manageIdentifierRadio(element){
 		<td><select id="systemAssignedIdentifiers[PAGE.ROW.INDEX].type"
 			name="systemAssignedIdentifiers[PAGE.ROW.INDEX].type"
 			class="validate-notEmpty">
-			<option value="">--Please Select--</option>
+			<option value="">Please Select</option>
 			<c:forEach items="${identifiersTypeRefData}" var="id">
 				<option value="${id.desc}">${id.desc}</option>
 			</c:forEach>
@@ -262,7 +262,7 @@ function manageIdentifierRadio(element){
 		<td><select id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].type"
 			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].type"
 			class="validate-notEmpty">
-			<option value="">--Please Select--</option>
+			<option value="">Please Select</option>
 			<c:forEach items="${identifiersTypeRefData}" var="id">
 				<option value="${id.desc}">${id.desc}</option>
 			</c:forEach>

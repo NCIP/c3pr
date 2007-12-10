@@ -163,7 +163,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
                 <td>
                     <form:select path="studyOrganizations[${selected_site}].studyInvestigators[${status.index}].statusCode"
                                  cssClass="validate-notEmpty">
-                        <option value="">--Please Select--</option>
+                        <option value="">Please Select</option>
                         <form:options items="${studyInvestigatorStatusRefData}" itemLabel="desc" itemValue="desc"/>
                     </form:select></td>
                 <td>
@@ -248,7 +248,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
                 <select id="studyOrganizations[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].statusCode"
                         name="studyOrganizations[${selected_site}].studyInvestigators[PAGE.ROW.INDEX].statusCode"
                         class="validate-notEmpty">
-                    <option value="">--Please Select--</option>
+                    <option value="">Please Select</option>
                     <c:forEach items="${studyInvestigatorStatusRefData}" var="studyInvStatus">
                         <option value="${studyInvStatus.desc}">${studyInvStatus.desc}</option>
                     </c:forEach>
