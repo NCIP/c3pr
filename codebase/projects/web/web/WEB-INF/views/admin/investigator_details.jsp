@@ -84,7 +84,7 @@ function fireAction(action, selected){
 			<th class="label required-indicator" scope="col" align="left"><b>Investigator Status</b></th>
 			<th></th>
 		</tr>
-		<c:forEach items="${command.healthcareSiteInvestigators}"
+		<c:forEach items="${command.healthcareSiteInvestigators}" var="hcsInv"
 			varStatus="status">
 			<tr id="invesitgatorTable-${status.index}">
 				<td class="alt"><input type="hidden"
@@ -107,7 +107,7 @@ function fireAction(action, selected){
 							itemLabel="desc" itemValue="code" />
 					</form:select></td>
 					<td class="tdalt"><a
-						href="javascript:RowManager.deleteRow(investigatorAutocompleterProps,${status.index});"><img
+						href="javascript:RowManager.deleteRow(investigatorAutocompleterProps,${status.index},${command.healthcareSiteInvestigators[status.index].hashCode});"><img
 						src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 			</tr>
 		</c:forEach>
@@ -223,7 +223,7 @@ function fireAction(action, selected){
 			</c:forEach>
 		</select></td>
 		<td class="tdalt"><a
-			href="javascript:RowManager.deleteRow(investigatorAutocompleterProps,PAGE.ROW.INDEX);"><img
+			href="javascript:RowManager.deleteRow(investigatorAutocompleterProps,PAGE.ROW.INDEX,-1);"><img
 			src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 	</tr>
 </table>
