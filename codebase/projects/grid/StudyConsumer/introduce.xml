@@ -153,6 +153,18 @@
                                        populateFromFile="true" register="true" xsi:type="ns13:ResourcePropertyType"
                                        xmlns:ns14="gme://caGrid.caBIG/1.0/gov.nih.nci.cagrid.metadata"/>
             </ns13:ResourcePropertiesList>
+            <ns16:ServiceSecurity xsi:type="ns16:ServiceSecurity"
+                                  xmlns:ns16="gme://gov.nih.nci.cagrid.introduce/1/Security">
+                <ns16:SecuritySetting xsi:type="ns16:SecuritySetting">Custom</ns16:SecuritySetting>
+                <ns16:TransportLevelSecurity xsi:type="ns16:TransportLevelSecurity">
+                    <ns16:CommunicationMethod xsi:type="ns16:CommunicationMethod">Privacy</ns16:CommunicationMethod>
+                </ns16:TransportLevelSecurity>
+                <ns16:RunAsMode xsi:type="ns16:RunAsMode">System</ns16:RunAsMode>
+                <ns16:AnonymousClients xsi:type="ns16:AnonymousCommunication">No</ns16:AnonymousClients>
+                <ns16:ServiceAuthorization xsi:type="ns16:ServiceAuthorization">
+                    <ns16:NoAuthorization xsi:type="ns16:NoAuthorization"/>
+                </ns16:ServiceAuthorization>
+            </ns16:ServiceSecurity>
             <ns3:description xsi:type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema"></ns3:description>
         </ns3:Service>
     </ns3:Services>
