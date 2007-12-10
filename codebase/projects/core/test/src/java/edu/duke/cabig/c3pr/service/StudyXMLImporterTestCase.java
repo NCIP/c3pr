@@ -5,13 +5,10 @@ import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
-import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.service.impl.StudyXMLImporterServiceImpl;
 import edu.duke.cabig.c3pr.utils.MasqueradingDaoTestCase;
-import edu.duke.cabig.c3pr.utils.SecurityContextTestUtils;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
-import org.acegisecurity.AccessDeniedException;
 
 import java.util.List;
 
@@ -45,27 +42,27 @@ public class StudyXMLImporterTestCase extends MasqueradingDaoTestCase<StudyDao> 
 
 
     public void testGetStudies() throws Exception {
-       for(int i = 1000; i<1003;i++){
-        Study study = getDao().getById(i);
-        String xmlStudy = marshaller.toXML(study);
+        for (int i = 1000; i < 1003; i++) {
+            Study study = getDao().getById(i);
+            String xmlStudy = marshaller.toXML(study);
 
-        System.out.println(xmlStudy);
-        studyImporter.importStudies(StringUtils.getInputStream(xmlStudy));
+            System.out.println(xmlStudy);
+            studyImporter.importStudies(StringUtils.getInputStream(xmlStudy));
 
-        List<Study> studies = studyImporter.importStudies(StringUtils.getInputStream(xmlStudy));
+            List<Study> studies = studyImporter.importStudies(StringUtils.getInputStream(xmlStudy));
 
-        assertNotNull(studies);
-        assertTrue(studies.size() > 0);
+            assertNotNull(studies);
+            assertTrue(studies.size() > 0);
 
-        for (Study loadedStudy : studies) {
-            assertNotNull(loadedStudy.getGridId());
-            assertEquals(loadedStudy.getStudyOrganizations().size(), study.getStudyOrganizations().size());
+            for (Study loadedStudy : studies) {
+                assertNotNull(loadedStudy);
+                assertEquals(loadedStudy.getStudyOrganizations().size(), study.getStudyOrganizations().size());
 
-            for (StudyOrganization organization : loadedStudy.getStudyOrganizations()) {
-                assertNotNull(organization.getHealthcareSite());
+                for (StudyOrganization organization : loadedStudy.getStudyOrganizations()) {
+                    assertNotNull(organization.getHealthcareSite());
+                }
             }
         }
-       }
     }
 
 
