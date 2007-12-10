@@ -40,7 +40,7 @@ function toggleImage(id){
 	<c:forEach items="${studyResults}" var="study" varStatus="statusStudy">		
 			<% String currClass=i%2==0? "odd":"even"; %>
 			<tr align="center" id="row<%= i++ %>" class="<%= currClass %>" onMouseOver="this.className='highlight'"
-				onMouseOut="this.className='<%= currClass %>'" 
+				onMouseOut="this.className='<%= currClass %>'" style="cursor:pointer"
 				onClick="
 					<c:choose>
 						<c:when test="${fn:length(study.studySites) > 1}">

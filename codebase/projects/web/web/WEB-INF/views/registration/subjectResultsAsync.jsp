@@ -29,8 +29,8 @@
 			<c:forEach items="${participants}" var="participant">
 				  <% String currClass=i%2==0? "odd":"even"; %>
 
-            <tr id="row<%= i++ %>" class="<%= currClass %>" onMouseOver="this.className='highlight'"
-				onMouseOut="this.className='<%= currClass %>'"
+            <tr id="row<%= i++ %>" class="<%= currClass %>" onMouseOver="this.className='highlight'" style="cursor:pointer"
+				onMouseOut="this.className='<%= currClass %>'" 
 				onClick="postProcessSubjectSelection('${participant.id}','${participant.lastName} ${participant.firstName}','${participant.identifiers[0].type}'+' - '+ '${participant.identifiers[0].value}')">					
 					<td>${participant.lastName},${participant.firstName}</td>
 					<td>${participant.MRN.value}</a></td>

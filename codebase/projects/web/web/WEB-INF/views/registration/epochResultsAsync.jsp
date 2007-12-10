@@ -27,7 +27,7 @@
 			<% String currClass=i%2==0? "odd":"even"; %>
 
             <tr id="row<%= i++ %>" class="<%= currClass %>" onMouseOver="this.className='highlight'"
-				onMouseOut="this.className='<%= currClass %>'"
+				onMouseOut="this.className='<%= currClass %>'" style="cursor:pointer"
 				onClick="postProcessEpochSelection('${epoch.id}','${epoch.name}', '${epoch.class.name=="edu.duke.cabig.c3pr.domain.TreatmentEpoch"?"Treatment":"Non Treatment"}')">					
 					<td>${epoch.name}</td>
 					<td>${epoch.descriptionText}</a></td>
