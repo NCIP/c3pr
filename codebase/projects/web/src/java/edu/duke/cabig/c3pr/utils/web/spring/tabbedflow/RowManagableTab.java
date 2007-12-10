@@ -61,15 +61,22 @@ public abstract class RowManagableTab<C> extends ReflexiveAjaxableTab<C>{
 				break;
 			}
 		}
+		
+		Map<String, String> map=new HashMap<String, String>();
 		if(this.shouldDelete(request, command, error)){
-	      	col.remove(index.intValue());
+			if(index == null){
+				map.put(getFreeTextModelName(), "Unmatched hashCode="+hashCode);
+			}else {
+				col.remove(index.intValue());
+	      		map.put(getFreeTextModelName(), "deletedIndex="+request.getParameter(getDeleteIndexParamName())+"||hashCode="+request.getParameter(getDeleteHashCodeParamName())+"||");
+			}
 		}else{
 			//Enabling the retitred_indicator
 	      	AbstractMutableDeletableDomainObject obj=(AbstractMutableDeletableDomainObject)col.get(index);
 	      	obj.setRetiredIndicatorAsTrue();
 		}
-		Map<String, String> map=new HashMap<String, String>();
-		map.put(getFreeTextModelName(), "deletedIndex="+request.getParameter(getDeleteIndexParamName())+"||hashCode="+request.getParameter(getDeleteHashCodeParamName())+"||");
+		
+		
 		return new ModelAndView("", map);
 	}
 }
