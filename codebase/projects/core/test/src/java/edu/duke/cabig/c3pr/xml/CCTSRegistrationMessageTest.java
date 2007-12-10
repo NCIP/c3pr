@@ -18,6 +18,7 @@ public class CCTSRegistrationMessageTest extends MasqueradingDaoTestCase<StudySu
     protected void setUp() throws Exception {
         super.setUp();    //To change body of overridden methods use File | Settings | File Templates.
         marshaller = (XmlMarshaller) getApplicationContext().getBean("xmlUtility");
+        marshaller.setMappingFile((String) getApplicationContext().getBean("ccts-registration-castorMapping"));
     }
 
     public void testSerialization() throws Exception {
