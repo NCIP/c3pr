@@ -143,6 +143,36 @@ public class ParticipantDaoTest extends DaoTestCase {
     	assertEquals("localSystem",savedParticipant.getSystemAssignedIdentifiers().get(0).getSystemName());
     }
     
+    public void testSearchParticipantWithOrganizationAssignedIdentifier() throws Exception{
+    	Participant participant = new Participant();
+    	participant.setLastName("Barry");
+    	participant.setFirstName("Bonds");
+    	participant.setAdministrativeGenderCode("Male");
+    	Date birthDate = new Date();
+    	participant.setBirthDate(birthDate);
+    	OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
+    	orgIdentifier.setHealthcareSite(healthcareSiteDao.getById(1001));
+    	orgIdentifier.setValue("Identifier Value");
+    	orgIdentifier.setType("MRN");
+    	participant.addIdentifier(orgIdentifier);
+    	
+    
+    	dao.save(participant);
+    	
+    	interruptSession();
+    	
+    	Participant savedParticipant = dao.getById(participant.getId());
+    	assertEquals("Identifier Value",savedParticipant.getOrganizationAssignedIdentifiers().get(0).getValue());
+    	
+    	interruptSession();
+    	OrganizationAssignedIdentifier organizationAssignedIdentifier = new OrganizationAssignedIdentifier();
+    	organizationAssignedIdentifier.setHealthcareSite(healthcareSiteDao.getById(1001));
+    	organizationAssignedIdentifier.setValue("Identifier Value");
+    	organizationAssignedIdentifier.setType("MRN");
+    	List<Participant> pList=dao.searchByOrgIdentifier(organizationAssignedIdentifier);
+    	assertEquals("wrong size of list",1,pList.size());
+    }
+    
     /**
      * Test for Creating Participant with organization assigned identifier
      * @throws Exception
@@ -178,34 +208,5 @@ public class ParticipantDaoTest extends DaoTestCase {
      * @throws Exception
      */
     
-    public void testSearchParticipantWithOrganizationAssignedIdentifier() throws Exception{
-    	Participant participant = new Participant();
-    	participant.setLastName("Barry");
-    	participant.setFirstName("Bonds");
-    	participant.setAdministrativeGenderCode("Male");
-    	Date birthDate = new Date();
-    	participant.setBirthDate(birthDate);
-    	OrganizationAssignedIdentifier systemIdentifier = new OrganizationAssignedIdentifier();
-    	systemIdentifier.setHealthcareSite(healthcareSiteDao.getById(1001));
-    	systemIdentifier.setValue("Identifier Value");
-    	systemIdentifier.setType("MRN");
-    	participant.addIdentifier(systemIdentifier);
-    	
-    
-    	dao.save(participant);
-    	
-    	interruptSession();
-    	
-    	Participant savedParticipant = dao.getById(participant.getId());
-    	assertEquals("Identifier Value",savedParticipant.getOrganizationAssignedIdentifiers().get(0).getValue());
-    	
-    	interruptSession();
-    	OrganizationAssignedIdentifier organizationAssignedIdentifier = new OrganizationAssignedIdentifier();
-    	organizationAssignedIdentifier.setHealthcareSite(healthcareSiteDao.getById(1001));
-    	organizationAssignedIdentifier.setValue("Identifier Value");
-    	organizationAssignedIdentifier.setType("MRN");
-    	List<Participant> pList=dao.searchByOrgIdentifier(organizationAssignedIdentifier);
-    	assertEquals("wrong size of list",1,pList.size());
-    }
 
 }
