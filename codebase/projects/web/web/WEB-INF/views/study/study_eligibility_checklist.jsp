@@ -57,6 +57,22 @@
             } else
                 document.getElementById(id).style.display = 'none';
         }
+        
+        function toggleCriteria(section){
+        	var el;
+        	if(section == 1){
+        		el = document.getElementById('inclusionCriteria');
+        	} else if(section == 2) {
+        		el = document.getElementById('exclusionCriteria');
+        	}
+
+			if ( el.style.display != 'none' ) {
+				new Effect.BlindUp(el);
+			}
+			else {
+				new Effect.BlindDown(el);
+			}
+        }
     </script>
 </head>
 <body>
@@ -90,8 +106,8 @@
                     <tr>
                         <td valign="top">
                             <p>
-                            <chrome:division title="Inclusion Criteria">
-                            
+                            <chrome:division title="<a href='#' onclick='toggleCriteria(1)'>Inclusion Criteria</a>">
+                            <div id="inclusionCriteria">
                             <table border="0" cellspacing="0" width="100%" cellpadding="0"
                                    id="addInclusionRowTable-${epochCount.index}" class="tablecontent">
                                 <tr>
@@ -120,11 +136,13 @@
                                 <input type="button" value="Add Inclusion Criterion"
                                        onclick="RowManager.addRow(instanceInclusionRow_${epochCount.index});">
                             </p>
-                            </chrome:division></td></tr>
+                            </div>
+                            </chrome:division>
+                            </td></tr>
                     <tr>
                         <td valign="top">
-                            <chrome:division title="Exclusion Criteria">
-                                
+                            <chrome:division title="<a href='#' onclick='toggleCriteria(2)'>Exclusion Criteria</a>">
+                            <div id="exclusionCriteria">  
                                 <table border="0" width="100%" cellspacing="0" cellpadding="0" class="tablecontent" id="addExclusionRowTable-${epochCount.index}">
                                     <tr>
                                         <th><span class="label required-indicator">Question</span></th>
@@ -152,6 +170,7 @@
                                     <input type="button" value="Add Exclusion Criterion"
                                            onclick="RowManager.addRow(instanceExclusionRow_${epochCount.index});"/>
                                    </p>
+                            </div>
                             </chrome:division></td>                            
                     </tr>
                     <tr><td>
