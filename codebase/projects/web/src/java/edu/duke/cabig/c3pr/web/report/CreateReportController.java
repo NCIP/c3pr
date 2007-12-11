@@ -122,6 +122,13 @@ public class CreateReportController extends SimpleFormController {
 		String birthDate = "";
 		String raceCode = "";
 		
+		Map map = errors.getModel();
+		map.put("raceCode", getConfigurationProperty().getMap().get("raceCode"));  
+    	ModelAndView modelAndView= new ModelAndView(getSuccessView(), map);
+    	if(params == null){
+    		return modelAndView;
+    	}
+    	
 		if(params[0] != null && params[0].length() > 0){
 			studyShortTitle = params[0].toString();
 		}
@@ -203,9 +210,7 @@ public class CreateReportController extends SimpleFormController {
 		} 			
 		request.setAttribute("assembler", viewData);		
 		
-		Map map = errors.getModel();
-		map.put("raceCode", getConfigurationProperty().getMap().get("raceCode"));  
-    	ModelAndView modelAndView= new ModelAndView(getSuccessView(), map);
+		
     	return modelAndView;
 	}			
 

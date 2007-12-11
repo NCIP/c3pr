@@ -93,6 +93,12 @@ public class CreateStudyReportController extends SimpleFormController {
 		TableModel model = new TableModelImpl(context);
 		String [] params = studyReportCommand.getParams();
 		
+		Map map = errors.getModel();
+    	ModelAndView modelAndView= new ModelAndView(getSuccessView(), map);
+		if(params == null){
+    		return modelAndView;
+    	}
+		
 		Study study = new Study(true);
     	if(!StringUtils.isEmpty(params[0].toString())){
     		study.setShortTitleText(params[0].toString());
@@ -157,8 +163,6 @@ public class CreateStudyReportController extends SimpleFormController {
 		} 			
 		request.setAttribute("assembler", viewData);		
 		
-		Map map = errors.getModel();
-    	ModelAndView modelAndView= new ModelAndView(getSuccessView(), map);
     	return modelAndView;
 	}			
 
