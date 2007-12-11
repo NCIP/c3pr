@@ -74,7 +74,7 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements 
 			participantCriteria.add(example);
 			if (participant.getIdentifiers().size() > 0) {
 				participantCriteria.createCriteria("identifiers").add(
-						Restrictions.like("value", participant.getIdentifiers()
+						Restrictions.ilike("value", "%" + participant.getIdentifiers()
 								.get(0).getValue()
 								+ "%"));
 			}

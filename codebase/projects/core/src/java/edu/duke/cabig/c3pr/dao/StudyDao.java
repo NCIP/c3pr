@@ -123,7 +123,7 @@ public class StudyDao extends GridIdentifiableDao<Study>
                 studyCriteria.add(example);
                 if (study.getIdentifiers().size() > 0) {
                     studyCriteria.createCriteria("identifiers")
-                            .add(Restrictions.like("value", study.getIdentifiers().get(0)
+                            .add(Restrictions.ilike("value", "%" + study.getIdentifiers().get(0)
                                     .getValue() + "%"));
                 }
                 result =  studyCriteria.list();
