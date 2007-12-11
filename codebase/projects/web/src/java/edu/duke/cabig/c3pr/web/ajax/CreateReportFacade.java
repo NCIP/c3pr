@@ -52,7 +52,7 @@ public class CreateReportFacade {
         export.setViewResolver(TableConstants.VIEW_XLS);
         export.setImageName(TableConstants.VIEW_XLS);
         export.setText(TableConstants.VIEW_XLS);
-        export.setFileName("output.xls");
+        export.setFileName("registration_report.xls");
         model.addExport(export);
 
         Row row = model.getRowInstance();
