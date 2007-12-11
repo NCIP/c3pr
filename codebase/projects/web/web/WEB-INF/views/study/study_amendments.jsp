@@ -81,8 +81,8 @@
 
 <body>
 <chrome:box title="Amendments">
-<chrome:division id="study-details" title="Previous Amendments">
 <br/>	
+<chrome:division id="study-details" title="Previous Amendments">
 	<table id="studyAmendments" class="tablecontent">
 			<tr>
 				<th>Version #</th>
@@ -108,7 +108,7 @@
 	<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" title="New Amendment" >
 	<jsp:attribute name="singleFields">
 		<input type="hidden" name="_action" value="_action"/>
-		
+		<br/>
 		<chrome:division id="study-details" title="Basic Details">
 		<div class="row">
 			<div id="errorMsg1" style="display:none">
@@ -132,7 +132,7 @@
         <div class="row">
             <div class="label">Comments :</div>
             <div class="value">
-                <form:textarea path="currentStudyAmendment.comments" rows="2" cols="40"/>
+                <form:textarea path="currentStudyAmendment.comments" rows="2" cols="44"/>
             </div>
         </div> 
         </chrome:division>
@@ -141,10 +141,10 @@
         <chrome:division id="study-details" title="Reasons for Amendment (Minimum One)">
         <table>
         	<tr>
-        		<td width="20%"><b>Epoch & Arms :</b></td>
-        		<td width="5%"><form:checkbox path="currentStudyAmendment.eaChangedIndicator" value="true"/></td>        		
-        		<td width="20%"><b>Eligibility :</b></td>
-        		<td width="5%"><form:checkbox path="currentStudyAmendment.eligibilityChangedIndicator" value="true"/></td>
+        		<td width="25%"><b>Epoch & Arms :</b></td>
+        		<td width="25%"><form:checkbox path="currentStudyAmendment.eaChangedIndicator" value="true"/></td>        		
+        		<td width="25%"><b>Eligibility :</b></td>
+        		<td width="25%"><form:checkbox path="currentStudyAmendment.eligibilityChangedIndicator" value="true"/></td>
         	</tr>
         	<tr>
         		<td><b>Stratification :</b></td>
@@ -161,7 +161,7 @@
         	</tr>
         	
         	<tr>
-        		<td><b>Update Consent :</b></td>
+        		<td><b>Consent :</b></td>
         		<td><form:checkbox path="currentStudyAmendment.consentChangedIndicator" value="true" onclick="manageConsentVersionCheckBox(this, 1);"/></td>
         		<td></td>
         		<td></td>
@@ -172,9 +172,8 @@
                 <c:if test="${ empty command.currentStudyAmendment.consentChangedIndicator || 
                 command.currentStudyAmendment.consentChangedIndicator == '' || 
                 !command.currentStudyAmendment.consentChangedIndicator}">style="display:none;"</c:if>>
-         <b>&nbsp;Consent Version :</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-         <form:input path="consentVersion" size="10" />
+         <b>&nbsp;Consent Version :</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         <form:input path="consentVersion" size="5" />
         </div>               
         </chrome:division>
 	</jsp:attribute>
@@ -214,7 +213,7 @@
         <div class="row">
             <div class="label">Comments :</div>
             <div class="value">
-                <textarea name="studyAmendments[${amendmentSize}].comments" rows="2" cols="40"></textarea>
+                <textarea name="studyAmendments[${amendmentSize}].comments" rows="2" cols="44"></textarea>
             </div>
         </div>        
        
@@ -224,10 +223,10 @@
         <chrome:division id="study-details" title="Reasons for Amendment (Minimum One)">
         <table>
         	<tr>
-        		<td width="20%"><b>Epoch & Arms :</b></td>
-        		<td width="5%"><input type="checkbox" name="studyAmendments[${amendmentSize}].eaChangedIndicator" value="true"/></td>        		
-        		<td width="20%"><b>Eligibility :</b></td>
-        		<td width="5%"><input type="checkbox" name="studyAmendments[${amendmentSize}].eligibilityChangedIndicator" value="true"/></td>
+        		<td width="25%"><b>Epoch & Arms :</b></td>
+        		<td width="25%"><input type="checkbox" name="studyAmendments[${amendmentSize}].eaChangedIndicator" value="true"/></td>        		
+        		<td width="25%"><b>Eligibility :</b></td>
+        		<td width="25%"><input type="checkbox" name="studyAmendments[${amendmentSize}].eligibilityChangedIndicator" value="true"/></td>
         	</tr>
         	<tr>
         		<td><b>Stratification :</b></td>
@@ -242,7 +241,7 @@
         		<td><input type="checkbox" name="studyAmendments[${amendmentSize}].piChangedIndicator" value="true"/></td>
         	</tr>
         	<tr>
-        		<td><b>Update Consent :</b></td>
+        		<td><b>Consent :</b></td>
         		<td><input type="checkbox" name="studyAmendments[${amendmentSize}].consentChangedIndicator" value="true" onclick="manageConsentVersionCheckBox(this, 2);"/></td>
         		<td></td>
         		<td></td>
@@ -250,9 +249,8 @@
         </table> 
 
         <div id="consentVersion2" style="display:none;">
-         <b>&nbsp;Consent Version :</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-         <input type="text" name="consentVersion" id="consentVersion" size="10" value="${command.consentVersion}"/>
+         <b>&nbsp;Consent Version :</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         <input type="text" name="consentVersion" id="consentVersion" size="5" value="${command.consentVersion}"/>
         </div>       
         </chrome:division>
 	</jsp:attribute>
