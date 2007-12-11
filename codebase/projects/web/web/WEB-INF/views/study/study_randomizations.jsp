@@ -13,7 +13,7 @@
 <script>
 	var globalIndex;
 
-	function uploadBook(form, index){
+	function uploadBook(form, index, flowType){
 		var parameterMap;
 		if(form != ""){
 			parameterMap = getParameterMap(form);
@@ -30,7 +30,7 @@
 		//alert("command it is");
 			content = document.getElementById(str).value;
 		}
-		BookRandomizationAjaxFacade.getTable(parameterMap, content, index, uploadBookCallback);
+		BookRandomizationAjaxFacade.getTable(parameterMap, content, index, flowType, uploadBookCallback);
 	}
 	
 	function uploadBookCallback(table){
@@ -45,7 +45,9 @@
 	
 	ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		if(formElement.id.indexOf("epochForm_") != -1){
-			formElement._target.name = "temp";
+			if(formElement._target != null){
+				formElement._target.name = "temp";
+			}			
 		}
 		return continueSubmission;
 	}	
@@ -73,7 +75,7 @@
 	     </table>
 	     <br/>
 	     <div id="bookButton" align="center">    
-         	<input type='button' onclick='uploadBook("command", "${epochCount.index}")' value='Upload Randomization Book'/>   
+         	<input type='button' onclick='uploadBook("command", "${epochCount.index}", "${flowType}")' value='Upload Randomization Book'/>   
 		 </div>
 		 <hr />
 		 	<form:form method="post" id="epochForm_${epochCount.index}" enctype="multipart/form-data">

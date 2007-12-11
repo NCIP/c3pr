@@ -13,6 +13,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.propertyeditors.CustomBooleanEditor;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.BindException;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
@@ -84,9 +85,9 @@ public class AmendStudyController extends StudyController<Study> {
     
     @Override
     protected boolean shouldSave(HttpServletRequest request, Study command, Tab<Study> tab) {
-    	return true;
-//        return super.shouldSave(request, command, tab)
-//                && (request.getParameter("_action") == null || "".equals(request.getParameter("_action")));
+//    	return true;
+        return super.shouldSave(request, command, tab)
+                && (request.getParameter("_action") == null || "".equals(request.getParameter("_action")));
     }
 
 
@@ -112,5 +113,11 @@ public class AmendStudyController extends StudyController<Study> {
         ModelAndView modelAndView = new ModelAndView(new RedirectView("searchStudy"));
         return modelAndView;
     }
+    
+    @Override
+	protected void postProcessPage(HttpServletRequest request, Object command, Errors errors, int page) throws Exception {
+		// TODO Auto-generated method stub
+		super.postProcessPage(request, command, errors, page);
+	}
     
 }

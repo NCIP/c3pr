@@ -44,7 +44,7 @@ public class BookRandomizationAjaxFacade {
 	 * content  -  This is the data pasted in the textarea by the user.
 	 * parameterMap - this is used by the table to run its own functionality like pagination. 
 	 */
-	 public String getTable(Map<String, List> parameterMap, String content, String epochIndexString, HttpServletRequest req) {
+	 public String getTable(Map<String, List> parameterMap, String content, String epochIndexString, HttpServletRequest req, String flowType) {
 		 Context context;   
 		 if(parameterMap != null){
 	        	context = new HttpServletRequestContext(req, parameterMap);
@@ -55,11 +55,12 @@ public class BookRandomizationAjaxFacade {
 		 	String action = "/pages/study/createStudy";
 	        Study study = (Study)req.getSession().getAttribute("edu.duke.cabig.c3pr.web.study.CreateStudyController.FORM.command");
 	        if(study == null){
-	        	study = (Study)req.getSession().getAttribute("edu.duke.cabig.c3pr.web.study.EditStudyController.FORM.command");
-	        	action = "/pages/study/editStudy";	        	
-	        	if(study == null){
+	        	if(flowType.equals("AMEND_STUDY")){
 	        		study = (Study)req.getSession().getAttribute("edu.duke.cabig.c3pr.web.study.AmendStudyController.FORM.command");
 		        	action = "/pages/study/amendStudy";
+	        	}else {
+	        		study = (Study)req.getSession().getAttribute("edu.duke.cabig.c3pr.web.study.EditStudyController.FORM.command");
+		        	action = "/pages/study/editStudy";	
 	        	}
 		        if(study != null && study instanceof Study){
 		        	studyDao.reassociate(study);
@@ -87,7 +88,7 @@ public class BookRandomizationAjaxFacade {
 	    	
 		        try {
 		        	if(tEpoch != null){
-//		        		if(action.equals("/pages/study/editStudy")){
+//		        		if(action.equals("/pages/study/editStudy") || action.equals("/pages/study/amendStudy")){
 //		        			studyDao.reassociate(study);
 //		    		    }
 		        		List <BookRandomizationEntry>breList = ((BookRandomization)tEpoch.getRandomization()).getBookRandomizationEntry();
