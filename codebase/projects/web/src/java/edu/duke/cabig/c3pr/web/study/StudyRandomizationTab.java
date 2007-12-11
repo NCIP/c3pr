@@ -31,11 +31,19 @@ public class StudyRandomizationTab extends StudyTab {
 	@Override
 	public Map<String, Object> referenceData(HttpServletRequest request, Study study) {
 		Map<String, Object> refdata = super.referenceData(study);
+		String flowType="";
+	   	 if(getFlow().getName().equals("Create Study")){
+	   		 flowType = "CREATE_STUDY";
+	   	 } else if (getFlow().getName().equals("Edit Study")){
+	   		 flowType = "EDIT_STUDY";
+	   	 } else if(getFlow().getName().equals("Amend Study")){
+	   		 flowType = "AMEND_STUDY";
+	   	 }
 		if(study.getRandomizedIndicator()&&study.getRandomizationType()==RandomizationType.BOOK){
 			Map <String, List>dummyMap = new HashMap<String, List>();
 			String []bookRandomizationEntries = new String[study.getTreatmentEpochs().size()];
 	        for(int i=0;i<study.getTreatmentEpochs().size(); i++){
-	        	bookRandomizationEntries[i]  = bookRandomizationAjaxFacade.getTable(dummyMap, "", i+"", request);
+	        	bookRandomizationEntries[i]  = bookRandomizationAjaxFacade.getTable(dummyMap, "", i+"", request, flowType);
 	        }
 	        request.setAttribute("bookRandomizationEntries", bookRandomizationEntries);
 		}
@@ -62,12 +70,16 @@ public class StudyRandomizationTab extends StudyTab {
      
      public ModelAndView parseFile(HttpServletRequest request, Object commandObj, Errors error){    	 
     	 //save it to session
+    	 String flowType="";
     	 if(getFlow().getName().equals("Create Study")){
     		 request.getSession().setAttribute("edu.duke.cabig.c3pr.web.study.CreateStudyController.FORM.command" ,commandObj);
+    		 flowType = "CREATE_STUDY";
     	 } else if (getFlow().getName().equals("Edit Study")){
     		 request.getSession().setAttribute("edu.duke.cabig.c3pr.web.study.EditStudyController.FORM.command" ,commandObj);
+    		 flowType = "EDIT_STUDY";
     	 } else if(getFlow().getName().equals("Amend Study")){
     		 request.getSession().setAttribute("edu.duke.cabig.c3pr.web.study.AmendStudyController.FORM.command" ,commandObj);
+    		 flowType = "AMEND_STUDY";
     	 }
     	 
     	 Map map=new HashMap();    	 
@@ -75,7 +87,7 @@ public class StudyRandomizationTab extends StudyTab {
         	 String index = request.getParameter("index").toString();
         	 Study study = (Study)(commandObj);
         	 
-             Object viewData = bookRandomizationAjaxFacade.getTable(new HashMap<String, List>(), study.getFile(), index, request);             
+             Object viewData = bookRandomizationAjaxFacade.getTable(new HashMap<String, List>(), study.getFile(), index, request, flowType);             
              bookRandomizationEntries[Integer.parseInt(index)] = viewData.toString();
              request.setAttribute("bookRandomizationEntries", bookRandomizationEntries);             
              map.put(getFreeTextModelName(), viewData.toString());             
