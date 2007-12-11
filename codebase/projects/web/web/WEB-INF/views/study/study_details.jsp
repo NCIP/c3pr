@@ -189,9 +189,9 @@
 
     <div class="rightpanel">
         <div class="row">
-            <div class="label">Target Accrual:</div>
+            <div class="label required-indicator">Target Accrual:</div>
             <div class="value"><form:input path="targetAccrualNumber" size="10"
-                                           cssClass="validate-numeric" /></div>
+                                           cssClass="validate-notEmpty&&numeric" /></div>
         </div>
 
         <div class="row">
