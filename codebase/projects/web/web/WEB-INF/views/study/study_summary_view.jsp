@@ -79,7 +79,10 @@
         </tr>
         <tr>
             <td class="alt" align="left"><b>Target Accrual Number</b></td>
-            <td class="alt" align="left">${command.targetAccrualNumber}</td>
+            <td class="alt" align="left">
+            <tags:inPlaceEdit value="${command.targetAccrualNumber}" path="changedTargetAccrualNumber_${status.index}"
+                              required="true"/>
+            </td>
         </tr>
         <tr>
             <td class="alt" align="left"><b>Phase</b></td>

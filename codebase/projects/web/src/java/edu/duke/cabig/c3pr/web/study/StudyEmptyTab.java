@@ -119,6 +119,9 @@ public class StudyEmptyTab extends StudyTab {
             } finally {
                 retValue += command.getCoordinatingCenterStudyStatus().getCode();
             }
+        } else if(property.startsWith("changedTargetAccrualNumber")){
+        	command.setTargetAccrualNumber(new Integer(value));
+        	retValue = command.getTargetAccrualNumber().toString();
         } else {
             retValue += command.getCoordinatingCenterStudyStatus().getCode();
         }
