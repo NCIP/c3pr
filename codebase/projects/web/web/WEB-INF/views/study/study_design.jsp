@@ -90,8 +90,8 @@
                                         onDelete="RowManager.deleteRow(treatmentEpochRowInserterProps,${treatmentEpochCount.index},${treatmentEpoch.hashCode})">
 
                 <table>
-                    <tr>
-                        <td valign="top">
+                    <tr align="center">
+                        <td width="50%" valign="top">
                             <table>
                                 <tr>
                                     <td align="right">
@@ -131,7 +131,7 @@
                                 </c:if>
                             </table>
                         </td>
-                        <td valign="top">
+                        <td width="50%" valign="top">
                             <table  id="arm"
                                     class="tablecontent">
                                 <tr>
