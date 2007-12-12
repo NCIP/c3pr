@@ -32,13 +32,13 @@ public class CreateReportFacade {
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
 
-    public Object build(TableModel model, Collection studies) throws Exception {
+    public Object build(TableModel model, Collection studySubjects) throws Exception {
 
         Table table = model.getTableInstance();
         table.setAutoIncludeParameters(false);
         table.setTableId("assembler");
-        table.setItems(studies);
-        table.setAction(model.getContext().getContextPath() + "/pages/report/createReport"); //......./pages/report/createReport
+        table.setItems(studySubjects);
+        table.setAction(model.getContext().getContextPath() + "/pages/report/createReport");
         table.setTitle("Registrations");
         table.setShowPagination(false);
         table.setOnInvokeAction("buildTable('assembler')");
@@ -59,14 +59,16 @@ public class CreateReportFacade {
         row.setHighlightRow(Boolean.TRUE);
         model.addRow(row);
 
-        Column columnPrimaryIdentifier = model.getColumnInstance();
-        columnPrimaryIdentifier.setTitle("Registration Identifier");
-        columnPrimaryIdentifier.setProperty("primaryIdentifier");
-        model.addColumn(columnPrimaryIdentifier);
+//        Column columnPrimaryIdentifier = model.getColumnInstance();
+//        columnPrimaryIdentifier.setTitle("Registration Identifier");
+//        columnPrimaryIdentifier.setProperty("primaryIdentifier");
+//        columnPrimaryIdentifier.setCell((ViewRegistrationLinkCustomCell.class).getName());
+//        model.addColumn(columnPrimaryIdentifier);
 
         Column columnShortTitle = model.getColumnInstance();
         columnShortTitle.setTitle("Study Short Title");
         columnShortTitle.setProperty("studySite.study.trimmedShortTitleText");
+        columnShortTitle.setCell((ViewRegistrationLinkCustomCell.class).getName());
         model.addColumn(columnShortTitle);
 
         Column columnStudyPrimaryIdentifier = model.getColumnInstance();
