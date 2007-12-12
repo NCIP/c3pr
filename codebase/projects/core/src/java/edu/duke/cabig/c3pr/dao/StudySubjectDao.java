@@ -102,7 +102,8 @@ public class StudySubjectDao extends
 		Criteria studySiteCriteria = studySubjectCriteria.createCriteria("studySite");
 		Criteria participantCriteria = studySubjectCriteria.createCriteria("participant");
 		Criteria studyCriteria = studySiteCriteria.createCriteria("study");
-		Criteria identifiersCriteria = studyCriteria.createCriteria("identifiers");
+		Criteria sIdentifiersCriteria = studyCriteria.createCriteria("identifiers");
+		Criteria pIdentifiersCriteria = participantCriteria.createCriteria("identifiers");
 		
 		//Study Criteria
 		if(studySubject.getStudySite().getStudy().getShortTitleText() != null && !studySubject.getStudySite().getStudy().getShortTitleText().equals("")){
@@ -111,7 +112,7 @@ public class StudySubjectDao extends
 		if(studySubject.getStudySite().getStudy().getIdentifiers().size() > 0){
 			if(studySubject.getStudySite().getStudy().getIdentifiers().get(0).getValue() != null && 
 	        		studySubject.getStudySite().getStudy().getIdentifiers().get(0).getValue() != "") {
-	        	identifiersCriteria.add(Expression.ilike("value", "%"+studySubject.getStudySite().getStudy().getIdentifiers().get(0).getValue()+"%"));
+				sIdentifiersCriteria.add(Expression.ilike("value", "%"+studySubject.getStudySite().getStudy().getIdentifiers().get(0).getValue()+"%"));
 	        }
 		}
         
@@ -125,7 +126,7 @@ public class StudySubjectDao extends
 		if(studySubject.getParticipant().getIdentifiers().size() > 0){
 			if(studySubject.getParticipant().getIdentifiers().get(0).getValue() != null && 
 					!studySubject.getParticipant().getIdentifiers().get(0).getValue().equals("")){
-				identifiersCriteria.add(Expression.ilike("value", "%"+studySubject.getParticipant().getIdentifiers().get(0).getValue()+"%"));
+				pIdentifiersCriteria.add(Expression.ilike("value", "%"+studySubject.getParticipant().getIdentifiers().get(0).getValue()+"%"));
 			}
 		}
 		
