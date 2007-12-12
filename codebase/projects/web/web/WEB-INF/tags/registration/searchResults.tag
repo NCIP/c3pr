@@ -70,7 +70,7 @@ function submitLocalForm(formName, regId ,schEphId){
 				</c:otherwise>
 				</c:choose>
 				<tr id="row<%= i++ %>" class="<%= currClass %>" onMouseOver="this.className='highlight'"
-				onMouseOut="this.className='<%= currClass %>'"
+				onMouseOut="this.className='<%= currClass %>'" style="cursor:pointer"
 					onClick='submitLocalForm("${formType}","${registration.id}","${registration.currentScheduledEpoch.id}")'>
 					<td>${registration.studySite.study.trimmedShortTitleText}</td>
 					<td>${registration.studySite.study.primaryIdentifier}</td>
