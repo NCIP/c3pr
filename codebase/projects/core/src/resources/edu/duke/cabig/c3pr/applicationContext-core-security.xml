@@ -11,12 +11,11 @@
     ">
 
 
-
     <bean id="authenticationManager"
           class="org.acegisecurity.providers.ProviderManager">
         <property name="providers">
             <list>
-                <ref bean="csmAuthenticationProvider"/>
+                <ref bean="${authenticationMode}AuthenticationProvider"/>
                 <bean
                         class="org.acegisecurity.providers.anonymous.AnonymousAuthenticationProvider">
                     <property name="key" value="anonymousAuthKey"/>
@@ -25,7 +24,7 @@
         </property>
 
     </bean>
- 
+
     <aop:aspectj-autoproxy/>
     <aop:spring-configured/>
 
@@ -105,8 +104,8 @@
                   ref="joinPointObjectPrivilegeMap"/>
     </bean>
 
-    <bean  id="csmGroupAuthorizationCheck"
-           class="gov.nih.nci.security.acegi.csm.authorization.CSMGroupAuthorizationCheck">
+    <bean id="csmGroupAuthorizationCheck"
+          class="gov.nih.nci.security.acegi.csm.authorization.CSMGroupAuthorizationCheck">
         <property name="csmUserProvisioningManager"
                   ref="csmUserProvisioningManager"/>
         <property name="authorizationSwitch" ref="authorizationSwitch"/>
@@ -153,7 +152,9 @@
                 </property>
             </bean>
         </property>
-        <property name="afterInvocationManager"><ref bean="afterInvocationManager"/></property>
+        <property name="afterInvocationManager">
+            <ref bean="afterInvocationManager"/>
+        </property>
     </bean>
 
 
@@ -166,12 +167,14 @@
         </property>
     </bean>
 
-    <bean id="studySiteSiteSecurityCSMGroupAuthorizationCheckProvider" class="edu.duke.cabig.c3pr.accesscontrol.StudySiteSiteSecurityCSMGroupAuthorizationCheckProvider">
+    <bean id="studySiteSiteSecurityCSMGroupAuthorizationCheckProvider"
+          class="edu.duke.cabig.c3pr.accesscontrol.StudySiteSiteSecurityCSMGroupAuthorizationCheckProvider">
         <property name="siteObjectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
         <property name="csmGroupAuthorizationCheck" ref="csmGroupAuthorizationCheck"/>
     </bean>
 
-    <bean id="studySubjectSiteCSMGroupAuthorizationCheckProvider" class="edu.duke.cabig.c3pr.accesscontrol.StudySubjectSiteCSMGroupAuthorizationCheckProvider">
+    <bean id="studySubjectSiteCSMGroupAuthorizationCheckProvider"
+          class="edu.duke.cabig.c3pr.accesscontrol.StudySubjectSiteCSMGroupAuthorizationCheckProvider">
         <property name="siteObjectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
         <property name="csmGroupAuthorizationCheck" ref="csmGroupAuthorizationCheck"/>
     </bean>
@@ -187,7 +190,8 @@
 
     </util:map>
 
-    <bean id="siteSecurityCollectionFilter" class="edu.duke.cabig.c3pr.accesscontrol.SiteSecurityAfterInvocationCollectionFilteringProvider">
+    <bean id="siteSecurityCollectionFilter"
+          class="edu.duke.cabig.c3pr.accesscontrol.SiteSecurityAfterInvocationCollectionFilteringProvider">
         <property name="processConfigAttribute"
                   value="CSM_AUTHN_CHECK"/>
         <property name="accessPrivilege" ref="ACCESS_PRIVILEGE"/>
@@ -195,7 +199,8 @@
                   ref="domainObjectSiteSecurityAuhthorizationCheckProvidersMap"/>
     </bean>
 
-    <bean id="siteSecurityBasicAuthCheck" class="edu.duke.cabig.c3pr.accesscontrol.SiteSecurityAfterInvocationBasicAuthorizationCheckProvider">
+    <bean id="siteSecurityBasicAuthCheck"
+          class="edu.duke.cabig.c3pr.accesscontrol.SiteSecurityAfterInvocationBasicAuthorizationCheckProvider">
         <property name="processConfigAttribute"
                   value="CSM_AUTHN_CHECK"/>
         <property name="accessPrivilege" ref="ACCESS_PRIVILEGE"/>
@@ -203,6 +208,11 @@
                   ref="domainObjectSiteSecurityAuhthorizationCheckProvidersMap"/>
     </bean>
 
+    <bean id="csmUserDetailsService"
+          class="gov.nih.nci.security.acegi.csm.authorization.CSMUserDetailsService">
+        <property name="csmUserProvisioningManager"
+                  ref="csmUserProvisioningManager"/>
+    </bean>
 
     <bean id="csmAuthenticationProvider"
           class="gov.nih.nci.security.acegi.csm.authentication.CSMAuthenticationProvider">
@@ -213,11 +223,7 @@
             </bean>
         </property>
         <property name="userDetailsService">
-            <bean
-                    class="gov.nih.nci.security.acegi.csm.authorization.CSMUserDetailsService">
-                <property name="csmUserProvisioningManager"
-                          ref="csmUserProvisioningManager"/>
-            </bean>
+            <ref local="csmUserDetailsService"/>
         </property>
         <property name="userCache" ref="userCache"/>
     </bean>
@@ -227,16 +233,73 @@
         <property name="cache">
             <bean
                     class="org.springframework.cache.ehcache.EhCacheFactoryBean">
-                <property name="cacheManager">
-                    <bean
-                            class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"/>
-                </property>
+                <property name="cacheManager" ref="cacheManager"/>
                 <property name="cacheName" value="userCache"/>
 
             </bean>
         </property>
     </bean>
 
+    <!--CAS Configuration-->
+    <bean id="webSSOAuthenticationProvider" class="org.acegisecurity.providers.cas.CasAuthenticationProvider">
+        <property name="casAuthoritiesPopulator">
+            <ref local="casAuthoritiesPopulator"/>
+        </property>
+        <property name="casProxyDecider">
+            <ref local="casProxyDecider"/>
+        </property>
+        <property name="ticketValidator">
+            <ref local="casProxyTicketValidator"/>
+        </property>
+        <property name="statelessTicketCache">
+            <ref local="statelessTicketCache"/>
+        </property>
+        <property name="key">
+            <value>my_password_for_this_auth_provider_only</value>
+        </property>
+    </bean>
 
+    <bean id="casProxyTicketValidator" class="org.acegisecurity.providers.cas.ticketvalidator.CasProxyTicketValidator">
+        <property name="casValidate" value="${ccts.websso.base_url}/proxyValidate"/>
+        <property name="serviceProperties">
+            <ref local="serviceProperties"/>
+        </property>
+        <property name="trustStore" value="${ccts.websso.cert_file}"/>
+    </bean>
+
+    <bean id="serviceProperties" class="org.acegisecurity.ui.cas.ServiceProperties">
+        <property name="service" value="${c3pr.webapp.url}/j_acegi_cas_security_check"></property>
+        <property name="sendRenew">
+            <value>false</value>
+        </property>
+    </bean>
+
+    <bean id="casAuthoritiesPopulator" class="edu.duke.cabig.c3pr.accesscontrol.WebSSOAuthoritiesPopulator">
+        <property name="hostCertificate" value="${hostCertificate}"></property>
+        <property name="hostKey" value="${hostKey}"/>
+        <property name="userDetailsService">
+            <ref local="csmUserDetailsService"/>
+        </property>
+    </bean>
+
+    <bean id="casProxyDecider" class="org.acegisecurity.providers.cas.proxy.RejectProxyTickets">
+    </bean>
+
+    <bean id="statelessTicketCache" class="org.acegisecurity.providers.cas.cache.EhCacheBasedTicketCache">
+        <property name="cache">
+            <ref local="ticketCacheBackend"/>
+        </property>
+    </bean>
+
+    <bean id="ticketCacheBackend" class="org.springframework.cache.ehcache.EhCacheFactoryBean">
+        <property name="cacheManager">
+            <ref local="cacheManager"/>
+        </property>
+        <property name="cacheName">
+            <value>ticketCache</value>
+        </property>
+    </bean>
+
+    <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"/>
 
 </beans>
