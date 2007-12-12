@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Transient;
 
 import org.apache.commons.collections15.functors.InstantiateFactory;
@@ -30,7 +31,8 @@ public class BookRandomization extends Randomization {
 
 	@OneToMany (fetch=FetchType.LAZY)
 	@JoinColumn(name = "rndm_id", nullable=false)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})	
+    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+    @OrderBy("stratumGroup, position")
 	public List<BookRandomizationEntry> getBookRandomizationEntryInternal() {
 		return lazyListHelper.getInternalList(BookRandomizationEntry.class);
 	}

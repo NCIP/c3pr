@@ -5,6 +5,7 @@ import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -39,6 +40,7 @@ public class BookRandomizationEntry extends AbstractMutableDeletableDomainObject
 	@ManyToOne
 	@JoinColumn(name = "str_grp_id", nullable=false)
 	@Cascade(value = { CascadeType.SAVE_UPDATE, CascadeType.MERGE})
+	@OrderBy("stratumGroupNumber")
 	public StratumGroup getStratumGroup() {
 		return stratumGroup;
 	}
