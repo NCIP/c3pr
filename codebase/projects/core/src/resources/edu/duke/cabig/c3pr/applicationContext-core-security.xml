@@ -214,7 +214,7 @@
                   ref="csmUserProvisioningManager"/>
     </bean>
 
-    <bean id="csmAuthenticationProvider"
+    <bean id="localAuthenticationProvider"
           class="gov.nih.nci.security.acegi.csm.authentication.CSMAuthenticationProvider">
         <property name="csmAuthenticationManager">
             <bean class="gov.nih.nci.security.SecurityServiceProvider"

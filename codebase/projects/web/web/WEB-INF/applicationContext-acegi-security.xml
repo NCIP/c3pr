@@ -13,7 +13,8 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
             <value>
                 CONVERT_URL_TO_LOWERCASE_BEFORE_COMPARISON
                 PATTERN_TYPE_APACHE_ANT
-                /**=channelProcessingFilter,httpSessionContextIntegrationFilter,logoutFilter,authenticationProcessingFilter,securityContextHolderAwareRequestFilter,exceptionTranslationFilter,filterInvocationInterceptor
+                /**=channelProcessingFilter,httpSessionContextIntegrationFilter,logoutFilter,
+                ${authenticationMode}ProcessingFilter,securityContextHolderAwareRequestFilter,exceptionTranslationFilter,filterInvocationInterceptor
             </value>
 
         </property>
@@ -22,7 +23,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     <bean id="channelProcessingFilter"
           class="org.acegisecurity.securechannel.ChannelProcessingFilter">
         <property name="channelDecisionManager">
-            <ref local="channelDecisionManager" />
+            <ref local="channelDecisionManager"/>
         </property>
         <property name="filterInvocationDefinitionSource">
             <value>
@@ -36,70 +37,89 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
           class="org.acegisecurity.securechannel.ChannelDecisionManagerImpl">
         <property name="channelProcessors">
             <list>
-                <ref local="secureChannelProcessor" />
-                <ref local="insecureChannelProcessor" />
+                <ref local="secureChannelProcessor"/>
+                <ref local="insecureChannelProcessor"/>
             </list>
         </property>
     </bean>
 
     <bean id="secureChannelProcessor"
-          class="org.acegisecurity.securechannel.SecureChannelProcessor" />
+          class="org.acegisecurity.securechannel.SecureChannelProcessor"/>
     <bean id="insecureChannelProcessor"
-          class="org.acegisecurity.securechannel.InsecureChannelProcessor" />
+          class="org.acegisecurity.securechannel.InsecureChannelProcessor"/>
 
+    <!--cas configuration-->
+    <bean id="webSSOProcessingFilter" class="org.acegisecurity.ui.cas.CasProcessingFilter">
+        <property name="authenticationManager">
+            <ref bean="authenticationManager"/>
+        </property>
+        <property name="authenticationFailureUrl">
+            <value>/decorated-error.jsp</value>
+        </property>
+        <property name="defaultTargetUrl">
+            <value>/</value>
+        </property>
+        <property name="filterProcessesUrl">
+            <value>/j_acegi_cas_security_check</value>
+        </property>
+    </bean>
+
+    <bean id="casProcessingFilterEntryPoint" class="org.acegisecurity.ui.cas.CasProcessingFilterEntryPoint">
+        <property name="loginUrl" value="${ccts.websso.base_url}"/>
+        <property name="serviceProperties">
+            <ref bean="serviceProperties"/>
+        </property>
+    </bean>
 
     <bean id="httpSessionContextIntegrationFilter"
-          class="org.acegisecurity.context.HttpSessionContextIntegrationFilter" />
+          class="org.acegisecurity.context.HttpSessionContextIntegrationFilter"/>
 
     <bean id="logoutFilter"
           class="org.acegisecurity.ui.logout.LogoutFilter">
-        <constructor-arg value="/index.jsp" />
-        <!-- URL redirected to after logout -->
+        <constructor-arg value="/index.jsp"/>
         <constructor-arg>
             <list>
                 <bean
-                        class="org.acegisecurity.ui.logout.SecurityContextLogoutHandler" />
+                        class="org.acegisecurity.ui.logout.SecurityContextLogoutHandler"/>
             </list>
         </constructor-arg>
     </bean>
 
-    <bean id="authenticationProcessingFilter"
+    <bean id="localProcessingFilter"
           class="org.acegisecurity.ui.webapp.AuthenticationProcessingFilter">
         <property name="authenticationManager"
-                  ref="authenticationManager" />
-        <property name="authenticationFailureUrl" value="/public/login?login_error=1" />
-        <property name="defaultTargetUrl" value="/" />
+                  ref="authenticationManager"/>
+        <property name="authenticationFailureUrl" value="/public/login?login_error=1"/>
+        <property name="defaultTargetUrl" value="/"/>
         <property name="filterProcessesUrl"
-                  value="/j_acegi_security_check" />
+                  value="/j_acegi_security_check"/>
     </bean>
 
     <bean id="authenticationProcessingFilterEntryPoint"
           class="org.acegisecurity.ui.webapp.AuthenticationProcessingFilterEntryPoint">
-        <property name="loginFormUrl" value="/public/login" />
-        <property name="forceHttps" value="false" />
+        <property name="loginFormUrl" value="/public/login"/>
+        <property name="forceHttps" value="false"/>
     </bean>
 
 
-
-
     <bean id="securityContextHolderAwareRequestFilter"
-          class="org.acegisecurity.wrapper.SecurityContextHolderAwareRequestFilter" />
+          class="org.acegisecurity.wrapper.SecurityContextHolderAwareRequestFilter"/>
 
     <bean id="anonymousProcessingFilter"
           class="org.acegisecurity.providers.anonymous.AnonymousProcessingFilter">
-        <property name="key" value="anonymousAuthKey" />
+        <property name="key" value="anonymousAuthKey"/>
         <property name="userAttribute"
-                  value="anonymousUser,ROLE_ANONYMOUS" />
+                  value="anonymousUser,ROLE_ANONYMOUS"/>
     </bean>
 
     <bean id="exceptionTranslationFilter"
           class="org.acegisecurity.ui.ExceptionTranslationFilter">
         <property name="authenticationEntryPoint"
-                  ref="authenticationProcessingFilterEntryPoint" />
+                  ref="casProcessingFilterEntryPoint"/>
         <property name="accessDeniedHandler">
             <bean
                     class="org.acegisecurity.ui.AccessDeniedHandlerImpl">
-                <property name="errorPage" value="/accessDenied.jsp" />
+                <property name="errorPage" value="/accessDenied.jsp"/>
             </bean>
         </property>
     </bean>
@@ -108,71 +128,71 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
               map-class="java.util.LinkedHashMap">
         <!-- TODO: set up correct default -->
         <entry key="/pages/participant/create.*"
-               value="edu.duke.cabig.c3pr.domain.Participant:CREATE" />
+               value="edu.duke.cabig.c3pr.domain.Participant:CREATE"/>
         <entry key="/pages/participant/edit.*"
-               value="edu.duke.cabig.c3pr.domain.Participant:UPDATE" />
+               value="edu.duke.cabig.c3pr.domain.Participant:UPDATE"/>
         <entry key="/pages/participant/view.*"
-               value="edu.duke.cabig.c3pr.domain.Participant:READ" />
+               value="edu.duke.cabig.c3pr.domain.Participant:READ"/>
         <entry key="/pages/participant/search.*"
-               value="edu.duke.cabig.c3pr.domain.Participant:READ" />
+               value="edu.duke.cabig.c3pr.domain.Participant:READ"/>
         <entry key="/pages/participant/confirm.*"
-               value="edu.duke.cabig.c3pr.domain.Participant:CREATE" />
+               value="edu.duke.cabig.c3pr.domain.Participant:CREATE"/>
 
         <entry key="/pages/study/create.*"
-               value="edu.duke.cabig.c3pr.domain.Study:CREATE" />
+               value="edu.duke.cabig.c3pr.domain.Study:CREATE"/>
         <entry key="/pages/study/confirm.*"
-               value="edu.duke.cabig.c3pr.domain.Study:CREATE" />
+               value="edu.duke.cabig.c3pr.domain.Study:CREATE"/>
         <entry key="/pages/study/edit.*"
-               value="edu.duke.cabig.c3pr.domain.Study:UPDATE" />
+               value="edu.duke.cabig.c3pr.domain.Study:UPDATE"/>
         <entry key="/pages/study/search.*"
-               value="edu.duke.cabig.c3pr.domain.Study:READ" />
+               value="edu.duke.cabig.c3pr.domain.Study:READ"/>
         <entry key="/pages/study/view.*"
-               value="edu.duke.cabig.c3pr.domain.Study:READ" />
-		<entry key="/pages/study/amend.*"
-               value="edu.duke.cabig.c3pr.domain.Study:READ" />
+               value="edu.duke.cabig.c3pr.domain.Study:READ"/>
+        <entry key="/pages/study/amend.*"
+               value="edu.duke.cabig.c3pr.domain.Study:READ"/>
 
         <entry key="/pages/registration/create.*"
-               value="edu.duke.cabig.c3pr.domain.Registration:CREATE" />
+               value="edu.duke.cabig.c3pr.domain.Registration:CREATE"/>
         <entry key="/pages/registration/confirm.*"
-               value="edu.duke.cabig.c3pr.domain.Registration:CREATE" />
+               value="edu.duke.cabig.c3pr.domain.Registration:CREATE"/>
         <entry key="/pages/registration/edit.*"
-               value="edu.duke.cabig.c3pr.domain.Registration:UPDATE" />
+               value="edu.duke.cabig.c3pr.domain.Registration:UPDATE"/>
         <entry key="/pages/registration/search.*"
-               value="edu.duke.cabig.c3pr.domain.Registration:READ" />
+               value="edu.duke.cabig.c3pr.domain.Registration:READ"/>
         <entry key="/pages/registration/registrationDetails.*"
-               value="edu.duke.cabig.c3pr.domain.Registration:READ" />
+               value="edu.duke.cabig.c3pr.domain.Registration:READ"/>
         <entry key="/pages/registration/overview.*"
-               value="edu.duke.cabig.c3pr.domain.Registration:READ" />
-         <entry key="/pages/registration/manageRegistration.*"
-               value="edu.duke.cabig.c3pr.domain.Registration:UPDATE" />
+               value="edu.duke.cabig.c3pr.domain.Registration:READ"/>
+        <entry key="/pages/registration/manageRegistration.*"
+               value="edu.duke.cabig.c3pr.domain.Registration:UPDATE"/>
 
-		<entry key="/pages/admin/searchInvestigator.*"
+        <entry key="/pages/admin/searchInvestigator.*"
                value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
         <entry key="/pages/admin/createInvestigator.*"
                value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
         <entry key="/pages/admin/searchResearchStaff.*"
-               value="edu.duke.cabig.c3pr.domain.ResearchStaff:CREATE"/>		
+               value="edu.duke.cabig.c3pr.domain.ResearchStaff:CREATE"/>
         <entry key="/pages/admin/createResearchStaff.*"
                value="edu.duke.cabig.c3pr.domain.ResearchStaff:CREATE"/>
-		<entry key="/pages/admin/createOrganization.*"
+        <entry key="/pages/admin/createOrganization.*"
                value="edu.duke.cabig.c3pr.domain.HealthcareSite:CREATE"/>
-        <entry key="/pages/admin/searchOrganization"  
-        	   value="edu.duke.cabig.c3pr.domain.HealthcareSite:READ"/>       
+        <entry key="/pages/admin/searchOrganization"
+               value="edu.duke.cabig.c3pr.domain.HealthcareSite:READ"/>
         <entry key="/pages/admin/importStudy.*"
                value="edu.duke.cabig.c3pr.domain.Study:CREATE"/>
 
         <entry key="/pages/report/createReport.*"
-               value="edu.duke.cabig.c3pr.domain.Registration:READ" />
+               value="edu.duke.cabig.c3pr.domain.Registration:READ"/>
         <entry key="/pages/report/createStudyReport.*"
-               value="edu.duke.cabig.c3pr.domain.Study:READ" />
-      
+               value="edu.duke.cabig.c3pr.domain.Study:READ"/>
+
     </util:map>
 
 
     <bean id="filterPrivilegeAndObjectIdGenerator"
           class="edu.duke.cabig.c3pr.web.security.FilterInvocationPrivilegeAndObjectIdGenerator">
         <property name="objectPrivilegeMap"
-                  ref="filterObjectPrivilegeMap" />
+                  ref="filterObjectPrivilegeMap"/>
     </bean>
 
     <bean id="filterAuthorizationCheck" autowire="byType"
@@ -181,12 +201,12 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
             <bean
                     class="gov.nih.nci.security.acegi.csm.authorization.CSMGroupAuthorizationCheck">
                 <property name="csmUserProvisioningManager"
-                          ref="csmUserProvisioningManager" />
+                          ref="csmUserProvisioningManager"/>
                 <property name="authorizationSwitch" ref="authorizationSwitch"/>
             </bean>
         </property>
         <property name="objectIdGenerator"
-                  ref="filterPrivilegeAndObjectIdGenerator" />
+                  ref="filterPrivilegeAndObjectIdGenerator"/>
         <property name="privilegeGenerator"
                   ref="filterPrivilegeAndObjectIdGenerator"/>
     </bean>
@@ -195,26 +215,26 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     <bean id="filterInvocationInterceptor"
           class="org.acegisecurity.intercept.web.FilterSecurityInterceptor">
         <property name="authenticationManager"
-                  ref="authenticationManager" />
+                  ref="authenticationManager"/>
         <property name="accessDecisionManager">
             <bean class="org.acegisecurity.vote.AffirmativeBased">
                 <property name="allowIfAllAbstainDecisions"
-                          value="false" />
+                          value="false"/>
                 <property name="decisionVoters">
 
                     <list>
                         <bean
                                 class="gov.nih.nci.security.acegi.csm.vote.AuthorizationSwitchVoter">
                             <property name="authorizationSwitch"
-                                      ref="authorizationSwitch" />
+                                      ref="authorizationSwitch"/>
                         </bean>
 
                         <bean
                                 class="gov.nih.nci.security.acegi.csm.vote.CSMAuthorizationCheckVoter">
                             <property name="processConfigAttribute"
-                                      value="CSM_FILTER_CHECK" />
+                                      value="CSM_FILTER_CHECK"/>
                             <property name="authorizationCheck"
-                                      ref="filterAuthorizationCheck" />
+                                      ref="filterAuthorizationCheck"/>
                         </bean>
 
                     </list>
