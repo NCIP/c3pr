@@ -63,7 +63,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         </property>
     </bean>
 
-    <bean id="casProcessingFilterEntryPoint" class="org.acegisecurity.ui.cas.CasProcessingFilterEntryPoint">
+    <bean id="webSSOProcessingFilterEntryPoint" class="org.acegisecurity.ui.cas.CasProcessingFilterEntryPoint">
         <property name="loginUrl" value="${ccts.websso.base_url}"/>
         <property name="serviceProperties">
             <ref bean="serviceProperties"/>
@@ -94,7 +94,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                   value="/j_acegi_security_check"/>
     </bean>
 
-    <bean id="authenticationProcessingFilterEntryPoint"
+    <bean id="localProcessingFilterEntryPoint"
           class="org.acegisecurity.ui.webapp.AuthenticationProcessingFilterEntryPoint">
         <property name="loginFormUrl" value="/public/login"/>
         <property name="forceHttps" value="false"/>
@@ -114,7 +114,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     <bean id="exceptionTranslationFilter"
           class="org.acegisecurity.ui.ExceptionTranslationFilter">
         <property name="authenticationEntryPoint"
-                  ref="casProcessingFilterEntryPoint"/>
+                  ref="${authenticationMode}ProcessingFilterEntryPoint"/>
         <property name="accessDeniedHandler">
             <bean
                     class="org.acegisecurity.ui.AccessDeniedHandlerImpl">
