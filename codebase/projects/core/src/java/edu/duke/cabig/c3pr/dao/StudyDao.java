@@ -139,6 +139,7 @@ public class StudyDao extends GridIdentifiableDao<Study>
         return result;
     }
     
+    @Transactional(readOnly = false)
     public List<OrganizationAssignedIdentifier> getCoordinatingCenterIdentifiersWithValue(String coordinatingCetnerIdentifierValue,  HealthcareSite site) throws DataAccessException {
 		List<OrganizationAssignedIdentifier> orgAssignedIdentifiers = (List<OrganizationAssignedIdentifier>) getHibernateTemplate().
                 find("from Identifier I where I.type='Coordinating Center Identifier' and I.healthcareSite = ?",site);
@@ -151,6 +152,7 @@ public class StudyDao extends GridIdentifiableDao<Study>
 		return ccIdentifiers;
 	}
 
+    @Transactional(readOnly = false)
     public List<OrganizationAssignedIdentifier> getFundingSponsorIdentifiersWithValue(String fundingSponsorIdentifierValue,  HealthcareSite site) throws DataAccessException {
 		List<OrganizationAssignedIdentifier> orgAssignedIdentifiers = (List<OrganizationAssignedIdentifier>) getHibernateTemplate().
                 find("from Identifier I where I.type='Protocol Authority Identifier' and I.healthcareSite = ?",site);
