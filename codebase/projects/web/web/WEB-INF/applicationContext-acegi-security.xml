@@ -13,8 +13,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
             <value>
                 CONVERT_URL_TO_LOWERCASE_BEFORE_COMPARISON
                 PATTERN_TYPE_APACHE_ANT
-                /**=channelProcessingFilter,httpSessionContextIntegrationFilter,logoutFilter,
-                ${authenticationMode}ProcessingFilter,securityContextHolderAwareRequestFilter,exceptionTranslationFilter,filterInvocationInterceptor
+                /**=channelProcessingFilter,httpSessionContextIntegrationFilter,logoutFilter,${authenticationMode}ProcessingFilter,securityContextHolderAwareRequestFilter,exceptionTranslationFilter,filterInvocationInterceptor
             </value>
 
         </property>
