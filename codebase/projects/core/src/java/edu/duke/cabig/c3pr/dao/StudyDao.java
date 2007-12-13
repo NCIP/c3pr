@@ -1,31 +1,36 @@
 package edu.duke.cabig.c3pr.dao;
 
-import edu.duke.cabig.c3pr.domain.Arm;
-import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.Identifier;
-import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
-import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudySubject;
-import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
-import edu.duke.cabig.c3pr.exception.C3PRBaseException;
-import edu.duke.cabig.c3pr.exception.C3PRCodedException;
-import edu.emory.mathcs.backport.java.util.Collections;
-import edu.nwu.bioinformatics.commons.CollectionUtils;
-import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.hibernate.Criteria;
-import org.hibernate.HibernateException;
-import org.hibernate.criterion.*;
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataAccessResourceFailureException;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
+import org.hibernate.criterion.CriteriaSpecification;
+import org.hibernate.criterion.Example;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.transaction.annotation.Transactional;
+
+import edu.duke.cabig.c3pr.domain.Arm;
+import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.StratificationCriterion;
+import edu.duke.cabig.c3pr.domain.StratumGroup;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyOrganization;
+import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
+import edu.emory.mathcs.backport.java.util.Collections;
+import edu.nwu.bioinformatics.commons.CollectionUtils;
+import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 
 /**
  * Hibernate implementation of StudyDao
@@ -88,8 +93,61 @@ public class StudyDao extends GridIdentifiableDao<Study>
     public void save(Study study) {
         getHibernateTemplate().saveOrUpdate(study);
     }
+    
+    @Transactional (readOnly = false)
+    public void initialize(Study study) throws DataAccessException {
+    	getHibernateTemplate().initialize(study.getEpochs());
+    	for(Epoch epoch: study.getEpochs()){
+			if (epoch instanceof TreatmentEpoch) {
+				TreatmentEpoch treatmentEpoch = (TreatmentEpoch)epoch;
+				if (treatmentEpoch != null) {
+					getHibernateTemplate().initialize(
+							treatmentEpoch.getArmsInternal());
+					getHibernateTemplate().initialize(
+							treatmentEpoch
+									.getExclusionEligibilityCriteriaInternal());
+					getHibernateTemplate().initialize(
+							treatmentEpoch
+									.getInclusionEligibilityCriteriaInternal());
+					getHibernateTemplate().initialize(
+							treatmentEpoch.getStratificationCriteriaInternal());
+					for (StratificationCriterion stratficationCriterion : treatmentEpoch
+							.getStratificationCriteriaInternal()) {
+						if (stratficationCriterion != null) {
+							getHibernateTemplate().initialize(
+									stratficationCriterion
+											.getPermissibleAnswersInternal());
+						}
+					}
+					getHibernateTemplate().initialize(
+							treatmentEpoch.getStratumGroupsInternal());
+					for (StratumGroup stratumGroup : treatmentEpoch
+							.getStratumGroupsInternal()) {
 
-
+						if (stratumGroup != null) {
+							getHibernateTemplate()
+									.initialize(
+											stratumGroup
+													.getBookRandomizationEntryInternal());
+						}
+					}
+				}
+			}    		
+     	}
+    	getHibernateTemplate().initialize(study.getStudyAmendmentsInternal());
+    	getHibernateTemplate().initialize(study.getStudyDiseases());
+    	getHibernateTemplate().initialize(study.getStudyOrganizations());
+    	getHibernateTemplate().initialize(study.getIdentifiers());
+    	getHibernateTemplate().initialize(study.getNotificationsInternal());
+    	 for(StudyOrganization studyOrganization: study.getStudyOrganizations()){
+			if (studyOrganization!=null) {
+				getHibernateTemplate().initialize(
+						studyOrganization.getStudyInvestigators());
+				getHibernateTemplate().initialize(
+						studyOrganization.getStudyPersonnel());
+			}	    	
+    	}
+    }
 
     public List<Study> getBySubnames(String[] subnames) {
         return findBySubname(subnames,
@@ -139,6 +197,19 @@ public class StudyDao extends GridIdentifiableDao<Study>
         return result;
     }
     
+    @Transactional(readOnly = true)
+    public List<Study> searchByExample(Study study,String searchText, boolean isWildCard) {
+    	
+        List<Study> result = new ArrayList<Study>();
+        if(isWildCard){
+        	result = (List<Study>)getHibernateTemplate().find("from Study where status like '%" +  searchText.toUpperCase() + "%'");
+        }
+        else {
+        	result = (List<Study>)getHibernateTemplate().find("from Study where status like '?", searchText.toUpperCase());
+        }
+        return result;
+    }
+    
     @Transactional(readOnly = false)
     public List<OrganizationAssignedIdentifier> getCoordinatingCenterIdentifiersWithValue(String coordinatingCetnerIdentifierValue,  HealthcareSite site) throws DataAccessException {
 		List<OrganizationAssignedIdentifier> orgAssignedIdentifiers = (List<OrganizationAssignedIdentifier>) getHibernateTemplate().
@@ -151,8 +222,8 @@ public class StudyDao extends GridIdentifiableDao<Study>
 		}
 		return ccIdentifiers;
 	}
-
-    @Transactional(readOnly = false)
+	
+	@Transactional(readOnly = false)
     public List<OrganizationAssignedIdentifier> getFundingSponsorIdentifiersWithValue(String fundingSponsorIdentifierValue,  HealthcareSite site) throws DataAccessException {
 		List<OrganizationAssignedIdentifier> orgAssignedIdentifiers = (List<OrganizationAssignedIdentifier>) getHibernateTemplate().
                 find("from Identifier I where I.type='Protocol Authority Identifier' and I.healthcareSite = ?",site);
