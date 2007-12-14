@@ -10,6 +10,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.multipart.support.ByteArrayMultipartFileEditor;
 import org.springframework.web.multipart.support.StringMultipartFileEditor;
 
 import edu.duke.cabig.c3pr.dao.DiseaseTermDao;
@@ -98,6 +99,7 @@ public abstract class StudyController<C extends Study> extends AutomaticSaveAjax
         binder.registerCustomEditor(SiteStudyStatus.class, new EnumByNameEditor(SiteStudyStatus.class));
         binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class,true));
         binder.registerCustomEditor(String.class, "file", new StringMultipartFileEditor());
+        binder.registerCustomEditor(byte[].class, "criteriaFile", new ByteArrayMultipartFileEditor());
     }
 
     @Override

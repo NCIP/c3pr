@@ -11,6 +11,12 @@ import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -57,7 +63,11 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 
     private String primaryIdentifier;
 
+    //This is for the bookRandomizationEntried File
     private String file;
+    
+    //This is for the CADSR exclusion/inclusion criteria file
+    private byte[] criteriaFile;
 
     private Integer targetAccrualNumber;
 
@@ -828,5 +838,40 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
     public void setConsentVersion(String consentVersion) {
         this.consentVersion = consentVersion;
     }
+
+    @Transient
+	public byte[] getCriteriaFile() {
+		return criteriaFile;
+	}
+
+	public void setCriteriaFile(byte[] criteriaFile) {
+		this.criteriaFile = criteriaFile;
+	}
+	
+	 @Transient
+	public Reader getCriteriaReader() {
+        return new BufferedReader(new InputStreamReader(
+                new ByteArrayInputStream(criteriaFile)));
+    }
+	 @Transient
+    public InputStream getCriteriaInputStream() {
+        return new ByteArrayInputStream(criteriaFile);
+    }
+	 
+	 @Transient
+	 public TreatmentEpoch getTreatmentEpochByName(String name){
+		 List <Epoch> epochList = getEpochs();
+		 Epoch epoch = null;
+		 Iterator eIter = epochList.iterator();
+		 while(eIter.hasNext()){
+			 epoch = (Epoch)eIter.next();
+			 if(epoch instanceof TreatmentEpoch){
+				 if(epoch.getName().equalsIgnoreCase(name)){
+					 return (TreatmentEpoch)epoch;
+				 }
+			 }
+		 }
+		 return null;
+	 }
 
 }
