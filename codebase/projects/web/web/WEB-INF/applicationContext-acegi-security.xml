@@ -13,7 +13,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
             <value>
                 CONVERT_URL_TO_LOWERCASE_BEFORE_COMPARISON
                 PATTERN_TYPE_APACHE_ANT
-                /**=channelProcessingFilter,httpSessionContextIntegrationFilter,logoutFilter,${authenticationMode}ProcessingFilter,securityContextHolderAwareRequestFilter,exceptionTranslationFilter,filterInvocationInterceptor
+                /**=channelProcessingFilter,httpSessionContextIntegrationFilter,${authenticationMode}LogoutFilter,${authenticationMode}ProcessingFilter,securityContextHolderAwareRequestFilter,exceptionTranslationFilter,filterInvocationInterceptor
             </value>
 
         </property>
@@ -70,16 +70,28 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         </property>
     </bean>
 
+     <bean id="webSSOLogoutFilter"
+          class="org.acegisecurity.ui.logout.LogoutFilter">
+        <constructor-arg value="${ccts.websso.base_url}/logout"/>
+        <constructor-arg>
+            <list>
+                  <ref local="securityContextLogoutHandler"/>
+            </list>
+        </constructor-arg>
+    </bean>
+
+     <bean id="securityContextLogoutHandler"
+                        class="org.acegisecurity.ui.logout.SecurityContextLogoutHandler"/>
+
     <bean id="httpSessionContextIntegrationFilter"
           class="org.acegisecurity.context.HttpSessionContextIntegrationFilter"/>
 
-    <bean id="logoutFilter"
+    <bean id="localLogoutFilter"
           class="org.acegisecurity.ui.logout.LogoutFilter">
         <constructor-arg value="/index.jsp"/>
         <constructor-arg>
             <list>
-                <bean
-                        class="org.acegisecurity.ui.logout.SecurityContextLogoutHandler"/>
+                <ref local="securityContextLogoutHandler"/>
             </list>
         </constructor-arg>
     </bean>
@@ -179,6 +191,9 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                value="edu.duke.cabig.c3pr.domain.HealthcareSite:READ"/>
         <entry key="/pages/admin/importStudy.*"
                value="edu.duke.cabig.c3pr.domain.Study:CREATE"/>
+        <entry key="/admin/importRegistration"
+               value="edu.duke.cabig.c3pr.domain.Registration:CREATE"/>
+
 
         <entry key="/pages/report/createReport.*"
                value="edu.duke.cabig.c3pr.domain.Registration:READ"/>

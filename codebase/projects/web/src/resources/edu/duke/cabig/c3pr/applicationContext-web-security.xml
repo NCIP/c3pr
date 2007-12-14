@@ -28,6 +28,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <entry key="/pages/admin/createOrganization" value="edu.duke.cabig.c3pr.domain.HealthcareSite:CREATE"/>
         <entry key="/pages/admin/searchOrganization" value="edu.duke.cabig.c3pr.domain.HealthcareSite:READ"/>
         <entry key="/pages/admin/importStudy" value="edu.duke.cabig.c3pr.domain.Study:CREATE"/>
+        <entry key="/pages/admin/importRegistration" value="edu.duke.cabig.c3pr.domain.Registration:CREATE"/>
 
         <entry key="/pages/report/createReport" value="edu.duke.cabig.c3pr.domain.Registration:READ"/>
         <entry key="/pages/report/createStudyReport" value="edu.duke.cabig.c3pr.domain.Study:READ"/>
