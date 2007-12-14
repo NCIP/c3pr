@@ -117,7 +117,7 @@ public class PersonnelServiceImpl implements PersonnelService {
         List<C3PRUserGroupType> groups = new ArrayList<C3PRUserGroupType>();
 
         try {
-            Set<Group> csmGroups = getCSMUser(user).getGroups();
+            Set<Group> csmGroups = userProvisioningManager.getGroups(user.getLoginId().toString());
             for (Group csmGroup : csmGroups) {
                 groups.add(C3PRUserGroupType.getByCode(csmGroup.getGroupId().toString()));
             }

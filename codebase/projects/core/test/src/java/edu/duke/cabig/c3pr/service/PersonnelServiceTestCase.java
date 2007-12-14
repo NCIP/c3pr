@@ -64,13 +64,21 @@ public class PersonnelServiceTestCase extends AbstractAnnotationAwareTransaction
         staff.addContactMechanism(email);
         staff.setNciIdentifier("changed");
         service.merge(staff);
+
+        assertNotNull(service.getGroups(staff));
     }
 
 
+
     protected void onTearDownAfterTransaction() throws Exception {
-        jdbcTemplate.execute("delete from csm_user where login_name='" + email.getValue() + "'");
-        jdbcTemplate.execute("delete from csm_user where login_name='" + email.getValue() + "'");
-        
+        jdbcTemplate.execute("delete from csm_user_group");
+        jdbcTemplate.execute("delete from csm_user");
+        jdbcTemplate.execute("delete from csm_user_group_role_pg");
+
+        jdbcTemplate.execute("delete from csm_group");
+        jdbcTemplate.execute("delete from csm_pg_pe");
+        jdbcTemplate.execute("delete from csm_protection_element");
+        jdbcTemplate.execute("delete from csm_protection_group");
     }
 
     protected ConfigurableApplicationContext loadContext(Object object) throws Exception {
