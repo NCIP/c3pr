@@ -58,12 +58,14 @@
                 document.getElementById(id).style.display = 'none';
         }
         
-        function toggleCriteria(section){
+        function toggleCriteria(section, index){
         	var el;
         	if(section == 1){
-        		el = document.getElementById('inclusionCriteria');
+        		el = document.getElementById('inclusionCriteria-'+index);
         	} else if(section == 2) {
-        		el = document.getElementById('exclusionCriteria');
+        		el = document.getElementById('exclusionCriteria-'+index);
+        	} else if(section == 0){
+        		el = document.getElementById('uploadFile-'+index);
         	}
 
 			if ( el.style.display != 'none' ) {
@@ -72,13 +74,43 @@
 			else {
 				new Effect.BlindDown(el);
 			}
-        }
+        }     
     </script>
 </head>
 <body>
-<form:form method="post" name="form">
-    <tags:tabFields tab="${tab}"/>
 
+	<tags:minimizablePanelBox title="upload criteria" boxId="criteria">
+		<br/>	
+			<form:form method="post" id="eligibilityForm_${epochCount.index}" enctype="multipart/form-data">	
+			<table border="0" width="50%" id="table0" cellspacing="5">
+           		<tr><td width="35%" align="right" class="required-indicator">
+				          <b>Select Treatment Epoch:</b>	
+				     </td>
+				     <td width="65%">		                
+	                    <select name="name" class="validate-notEmpty">
+	                    	<option value="">Please Select</option>
+	                     	<c:forEach items="${command.epochs}" var="epoch" varStatus="epochCount">
+		                      	<c:if test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
+							  		<option value="${epoch.name}">${epoch.name}</option>
+							  	</c:if>	
+						 	</c:forEach>
+						</select>				            
+					 </td>
+				</tr>
+				<tr><td width="35%" align="right">
+			            <b>Select CADSR File to Import:</b>	
+				     </td>
+				     <td>		                
+	                    <input type="file" name="criteriaFile" />&nbsp;
+	                    <input type='submit' value='Upload CADSR File'/>  				           
+					 </td>
+				</tr>
+			</table>
+			</form:form>
+	</tags:minimizablePanelBox>
+
+    <form:form method="post" name="form">
+    <tags:tabFields tab="${tab}"/>
     <c:forEach items="${command.epochs}" var="epoch" varStatus="epochCount">
         <c:if test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch' }">
             <script>
@@ -100,90 +132,103 @@
                 RowManager.addRowInseter(instanceExclusionRow_${epochCount.index});
             </script>
 
-
             <tags:minimizablePanelBox	title="${epoch.name}"	boxId="${epoch.name}">
-                <table border="0" width="100%" id="table1" cellspacing="5">
+            <br/>
+            	<table border="0" width="100%" id="table1" cellspacing="5">
                     <tr>
                         <td valign="top">
-                            <p>
-                            <chrome:division title="<a href='#' onclick='toggleCriteria(1)'>Inclusion Criteria</a>">
-                            <div id="inclusionCriteria">
-                            <table border="0" cellspacing="0" width="100%" cellpadding="0"
-                                   id="addInclusionRowTable-${epochCount.index}" class="tablecontent">
-                                <tr>
-                                    <th><span class="label required-indicator">Question</span></th>
-                                    <th>NA</th>
-                                    <th></th>
-                                </tr>
-                                <c:forEach varStatus="status" var="ieCrit"
-                                           items="${command.epochs[epochCount.index].inclusionEligibilityCriteria}">
-                                    <tr id="addInclusionRowTable-${epochCount.index}-${status.index}">
-                                        <td>
-                                            <form:textarea
-                                                    path="epochs[${epochCount.index }].inclusionEligibilityCriteria[${status.index}].questionText"
-                                                    rows="1" cols="95" cssClass="validate-notEmpty"/></td>
-                                        <td><form:checkbox
-                                                path="epochs[${epochCount.index }].inclusionEligibilityCriteria[${status.index}].notApplicableIndicator"/>
-                                        </td>
-                                        <td><a
-                                                href="javascript:RowManager.deleteRow(instanceInclusionRow_${epochCount.index},${status.index},${ieCrit.hashCode});"><img
-                                                src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
-                                    </tr>
-                                    
-                                </c:forEach>
+                            <p>                            
+                            <chrome:division title="<a style='cursor:pointer' onclick='toggleCriteria(1, ${epochCount.index})'>Inclusion Criteria</a>">
+                            <div id="inclusionCriteria-${epochCount.index}">
+                            <table width="100%">
+	                            <tr><td>
+		                            <table border="0" cellspacing="0" width="95%" cellpadding="0"
+		                                   id="addInclusionRowTable-${epochCount.index}" class="tablecontent">
+		                                <tr>
+		                                    <th><span class="label required-indicator">Question</span></th>
+		                                    <th>N/A</th>
+		                                    <th></th>
+		                                </tr>
+		                                <c:forEach varStatus="status" var="ieCrit"
+		                                           items="${command.epochs[epochCount.index].inclusionEligibilityCriteria}">
+		                                    <tr id="addInclusionRowTable-${epochCount.index}-${status.index}">
+		                                        <td><form:textarea
+		                                                    path="epochs[${epochCount.index }].inclusionEligibilityCriteria[${status.index}].questionText"
+		                                                    rows="1" cols="95" cssClass="validate-notEmpty"/></td>
+		                                        <td><form:checkbox
+		                                                path="epochs[${epochCount.index }].inclusionEligibilityCriteria[${status.index}].notApplicableIndicator"/>
+		                                        </td>
+		                                        <td><a href="javascript:RowManager.deleteRow(instanceInclusionRow_${epochCount.index},${status.index},${ieCrit.hashCode});"><img
+		                                                src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+		                                    </tr>		                                    
+		                                </c:forEach>
+		                            </table>
+	                            </td>
+	                            <td>
+		                            <table width="5%">
+			                            <tr><td>	                            
+			                                <input type="button" value="Add Inclusion Criterion"
+			                                       onclick="RowManager.addRow(instanceInclusionRow_${epochCount.index});">	                            
+			                            </td></tr>
+		                            </table>
+	                            </td></tr>
                             </table>
-                            <p align="right">
-                                <input type="button" value="Add Inclusion Criterion"
-                                       onclick="RowManager.addRow(instanceInclusionRow_${epochCount.index});">
-                            </p>
                             </div>
                             </chrome:division>
-                            </td></tr>
-                    <tr>
+                            </td>
+                        </tr>
+                    	<tr>
                         <td valign="top">
-                            <chrome:division title="<a href='#' onclick='toggleCriteria(2)'>Exclusion Criteria</a>">
-                            <div id="exclusionCriteria">  
-                                <table border="0" width="100%" cellspacing="0" cellpadding="0" class="tablecontent" id="addExclusionRowTable-${epochCount.index}">
+                            <chrome:division title="<a style='cursor:pointer' onclick='toggleCriteria(2, ${epochCount.index})'>Exclusion Criteria</a>">
+                            <div id="exclusionCriteria-${epochCount.index}">
+                             <table width="100%"><tr><td>  
+                                <table border="0" width="95%" cellspacing="0" cellpadding="0" class="tablecontent" id="addExclusionRowTable-${epochCount.index}">
                                     <tr>
                                         <th><span class="label required-indicator">Question</span></th>
-                                        <th>NA</th>
+                                        <th>N/A</th>
                                         <th></th>
-
                                     </tr>
                                     <c:forEach varStatus="status" var="eeCrit"
                                                items="${command.epochs[epochCount.index].exclusionEligibilityCriteria}">
                                         <tr id="addExclusionRowTable-${epochCount.index}-${status.index}">
-                                            <td>
-                                                <form:textarea
+                                            <td><form:textarea
                                                         path="epochs[${epochCount.index }].exclusionEligibilityCriteria[${status.index}].questionText"
                                                         rows="1" cols="95" cssClass="validate-notEmpty" /></td>
                                             <td><form:checkbox
                                                     path="epochs[${epochCount.index }].exclusionEligibilityCriteria[${status.index}].notApplicableIndicator" />
                                             </td>
-                                            <td><a
-                                                    href="javascript:RowManager.deleteRow(instanceExclusionRow_${epochCount.index},${status.index},${eeCrit.hashCode});"><img
-                                                    src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+                                            <td><a href="javascript:RowManager.deleteRow(instanceExclusionRow_${epochCount.index},${status.index},${eeCrit.hashCode});">
+                                            	<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
                                         </tr>
                                     </c:forEach>
                                 </table>
-                                <p align="right">
-                                    <input type="button" value="Add Exclusion Criterion"
-                                           onclick="RowManager.addRow(instanceExclusionRow_${epochCount.index});"/>
-                                   </p>
+                                 </td>
+                            <td>
+	                            <table width="5%">
+		                            <tr><td>	                            
+		                                <input type="button" value="Add Exclusion Criterion"
+                                           onclick="RowManager.addRow(instanceExclusionRow_${epochCount.index});"/>	                            
+		                            </td></tr>
+	                            </table>
+                            </td></tr>
+                            </table>
+                                
                             </div>
                             </chrome:division></td>                            
                     </tr>
                     <tr><td>
-                    	<span id="instructions">&nbsp;&nbsp;*NA - Allow not applicable answer.</span>
+                    	<span id="instructions">&nbsp;&nbsp;*N/A - Allow not applicable answer.</span>
                     </td></tr>
                 </table>
+                
             </tags:minimizablePanelBox>
         </c:if>
     </c:forEach>
+    <tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
+	</form:form>
     <!-- MAIN BODY ENDS HERE -->
 
-    <tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
-</form:form>
+   
 <c:forEach items="${command.epochs}" var="epoch" varStatus="epochCount">
     <c:if test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch' }">
         <div id="dummy-inclusionRow-${epochCount.index}" style="display:none">
