@@ -10,5 +10,5 @@ package edu.duke.cabig.c3pr.esb;
  * To change this template use File | Settings | File Templates.
  */
 public interface CCTSMessageBroadcaster extends
-        MessageBroadcastService, MessageWorkflowNotifier {
+        SecureMessageBroadcastService, MessageWorkflowNotifier {
 }

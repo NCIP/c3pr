@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.globus.gsi.GlobusCredential;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -37,6 +38,7 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
     private Map messageTypesMapping;
 
     private CaXchangeMessageResponseHandlerSet messageResponseHandlers = new CaXchangeMessageResponseHandlerSet();
+    private CredentialProvider credentialProvider;
 
     private Logger log = Logger.getLogger(CaXchangeMessageBroadcasterImpl.class);
     private MessageWorkflowCallback messageWorkflowCallback;
@@ -49,7 +51,7 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
      * @throws BroadcastException
      */
     public void broadcast(String message) throws BroadcastException {
-        broadcast(message, DUMMY_ID);
+        broadcast(message, "DUMMY_ID");
     }
 
     /**
@@ -62,7 +64,15 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
 
         CaXchangeRequestProcessorClient caXchangeClient = null;
         try {
-            caXchangeClient = new CaXchangeRequestProcessorClient(caXchangeURL);
+
+
+            GlobusCredential proxy = null;
+            // if a provider is registered then use it to get credentials
+            if(credentialProvider!=null){
+                proxy = credentialProvider.provideCredentials();
+            }
+            caXchangeClient = new CaXchangeRequestProcessorClient(caXchangeURL,proxy);
+
         } catch (Exception e) {
             throw new BroadcastException("caXchange could not initialize caExchange client. Using URL " + caXchangeURL, e);
         }
@@ -128,6 +138,10 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
         }
     }
 
+
+    public void setCredentialProvider(CredentialProvider credentialProvider) {
+        this.credentialProvider = credentialProvider;
+    }
 
     public void addResponseHandler(CaXchangeMessageResponseHandler handler) {
         messageResponseHandlers.add(handler);
