@@ -17,9 +17,9 @@
     </util:map>
 
 
-    <bean id="credentialProvider"
-        class="edu.duke.cabig.c3pr.accesscontrol.GridCredentialProvider"/>
-    
+    <bean id="delegatedCredentialProvider"
+          class="edu.duke.cabig.c3pr.accesscontrol.SecurityContextCredentialProvider"/>
+
     <bean id="c3dPatientPositionResponseHandler"
           class="edu.duke.cabig.c3pr.utils.C3DPatientPositionResponseHandler"
           autowire="byType"/>
@@ -42,7 +42,7 @@ set it appropriately for the domain object sent as ccts message-->
         <property name="caXchangeURL" value="${esb.brokerUrl}"/>
         <property name="messageTypesMapping" ref="messageTypesMapping"/>
         <property name="messageResponseHandlers" ref="caXchangeMessageResponseHandlerSet"/>
-        <property name="credentialProvider"  ref="credentialProvider"/>
+        <property name="delegatedCredentialProvider" ref="delegatedCredentialProvider"/>
     </bean>
 
 </beans>

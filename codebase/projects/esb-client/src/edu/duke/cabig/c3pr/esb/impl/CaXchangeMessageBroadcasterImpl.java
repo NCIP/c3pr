@@ -7,10 +7,10 @@ import gov.nih.nci.cagrid.caxchange.context.stubs.types.CaXchangeResponseService
 import gov.nih.nci.caxchange.*;
 import org.apache.axis.types.URI;
 import org.apache.log4j.Logger;
+import org.globus.gsi.GlobusCredential;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.globus.gsi.GlobusCredential;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -38,7 +38,7 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
     private Map messageTypesMapping;
 
     private CaXchangeMessageResponseHandlerSet messageResponseHandlers = new CaXchangeMessageResponseHandlerSet();
-    private CredentialProvider credentialProvider;
+    private DelegatedCredentialProvider delegatedCredentialProvider;
 
     private Logger log = Logger.getLogger(CaXchangeMessageBroadcasterImpl.class);
     private MessageWorkflowCallback messageWorkflowCallback;
@@ -55,23 +55,35 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
     }
 
     /**
-     * will broadcast the domain object to caXchange
+     * * will broadcast the domain object to caXchange
      *
-     * @param cctsDomainObjectXML
+     * @param cctsDomainObjectXML xml message
+     * @param externalId          business id of the message. You can track messages by this id
      * @throws BroadcastException
      */
     public void broadcast(String cctsDomainObjectXML, String externalId) throws BroadcastException {
 
         CaXchangeRequestProcessorClient caXchangeClient = null;
+        Credentials creds = new Credentials();
+        creds.setUserName("hmarwaha");
+        creds.setPassword("password");
+
         try {
 
 
             GlobusCredential proxy = null;
             // if a provider is registered then use it to get credentials
-            if(credentialProvider!=null){
-                proxy = credentialProvider.provideCredentials();
+            if (delegatedCredentialProvider != null) {
+                log.debug("Using delegated crential provider to set credentials");
+                DelegatedCredential cred = delegatedCredentialProvider.provideDelegatedCredentials();
+                if (cred != null) {
+                    proxy = cred.getCredential();
+                    log.debug("Found valid proxy. Using it for esb communication");
+                    //set the delegated epr.
+                    creds.setDelegatedCredentialReference(cred.getDelegatedEPR());
+                }
             }
-            caXchangeClient = new CaXchangeRequestProcessorClient(caXchangeURL,proxy);
+            caXchangeClient = new CaXchangeRequestProcessorClient(caXchangeURL, proxy);
 
         } catch (Exception e) {
             throw new BroadcastException("caXchange could not initialize caExchange client. Using URL " + caXchangeURL, e);
@@ -100,9 +112,6 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
             mData.setExternalIdentifier(externalId);
 
             //will be removed. temp
-            Credentials creds = new Credentials();
-            creds.setUserName("hmarwaha");
-            creds.setPassword("password");
             mData.setCredentials(creds);
 
             xchangeMessage.setMetadata(mData);
@@ -139,8 +148,8 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
     }
 
 
-    public void setCredentialProvider(CredentialProvider credentialProvider) {
-        this.credentialProvider = credentialProvider;
+    public void setDelegatedCredentialProvider(DelegatedCredentialProvider delegatedCredentialProvider) {
+        this.delegatedCredentialProvider = delegatedCredentialProvider;
     }
 
     public void addResponseHandler(CaXchangeMessageResponseHandler handler) {

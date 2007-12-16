@@ -1,7 +1,5 @@
 package edu.duke.cabig.c3pr.esb;
 
-import org.globus.gsi.GlobusCredential;
-
 /**
  * Created by IntelliJ IDEA.
  * User: kherm
@@ -11,7 +9,7 @@ import org.globus.gsi.GlobusCredential;
  */
 public interface SecureMessageBroadcastService extends MessageBroadcastService {
 
-    public void setCredentialProvider(CredentialProvider credentialProvider);
+    public void setDelegatedCredentialProvider(DelegatedCredentialProvider delegatedCredentialProvider);
 
 
 }
