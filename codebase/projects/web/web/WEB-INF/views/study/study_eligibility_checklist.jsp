@@ -98,11 +98,11 @@
 					 </td>
 				</tr>
 				<tr><td width="35%" align="right">
-			            <b>Select CADSR File to Import:</b>	
+			            <b>Select caDSR File to Import:</b>	
 				     </td>
 				     <td>		                
-	                    <input type="file" name="criteriaFile" />&nbsp;
-	                    <input type='submit' value='Upload CADSR File'/>  				           
+	                    <input type="file" name="criteriaFile" />
+	                    <input type='submit' value='Upload'/>  				           
 					 </td>
 				</tr>
 			</table>
@@ -133,7 +133,6 @@
             </script>
 
             <tags:minimizablePanelBox	title="${epoch.name}"	boxId="${epoch.name}">
-            <br/>
             	<table border="0" width="100%" id="table1" cellspacing="5">
                     <tr>
                         <td valign="top">
