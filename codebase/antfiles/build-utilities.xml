@@ -5,7 +5,7 @@
 <!-- ================================================================= -->
 <project name="c3pr-2.0-utilities" default="instructions" basedir=".">
 
-    <property environment="env" />
+    <property environment="env"/>
 
     <!-- ============================================================== -->
     <!-- cacore toolkit properties                                      -->
@@ -36,7 +36,9 @@
     <target name="checkTomcat" depends="setTomcat">
         <condition property="tomcat.not.found">
             <or>
-                <not><isset property="ext.tomcat.dir"/></not>
+                <not>
+                    <isset property="ext.tomcat.dir"/>
+                </not>
                 <equals arg1="${ext.tomcat.dir}" arg2=""/>
             </or>
         </condition>
@@ -54,18 +56,21 @@
     <target name="checkGlobus" depends="setGlobus">
         <condition property="globus.not.found">
             <or>
-                <not><isset property="ext.globus.dir"/></not>
+                <not>
+                    <isset property="ext.globus.dir"/>
+                </not>
                 <equals arg1="${ext.globus.dir}" arg2=""/>
             </or>
         </condition>
-        <fail message="Globus installation is not set in either GLOBUS_LOCATION or ext.globus.dir" if="globus.not.found"/>
+        <fail message="Globus installation is not set in either GLOBUS_LOCATION or ext.globus.dir"
+              if="globus.not.found"/>
         <echo message="Globus: ${ext.globus.dir}"/>
     </target>
 
     <target name="setGlobus" if="env.GLOBUS_LOCATION">
         <property name="ext.globus.dir" value="${env.GLOBUS_LOCATION}"/>
-        <property name="build.stubs" location="${ext.globus.dir}/share/globus_wsrf_tools/build-stubs.xml" />
-        <property name="schema.src" location="${ext.globus.dir}/share/schema" />
+        <property name="build.stubs" location="${ext.globus.dir}/share/globus_wsrf_tools/build-stubs.xml"/>
+        <property name="schema.src" location="${ext.globus.dir}/share/schema"/>
     </target>
 
 
@@ -76,7 +81,9 @@
     <target name="checkMaven" depends="setMaven">
         <condition property="maven.not.found">
             <or>
-                <not><isset property="ext.maven.dir"/></not>
+                <not>
+                    <isset property="ext.maven.dir"/>
+                </not>
                 <equals arg1="${ext.maven.dir}" arg2=""/>
             </or>
         </condition>
@@ -92,13 +99,22 @@
 
     <target name="deployGlobus" depends="checkGlobus,checkTomcat">
         <ant dir="${ext.globus.dir}\share\globus_wsrf_common\tomcat"
-             antfile="tomcat.xml"  target="deployTomcat">
+             antfile="tomcat.xml" target="deployTomcat">
             <property name="tomcat.dir" value="${ext.tomcat.dir}"/>
         </ant>
     </target>
 
+    <target name="deploySecureGlobus" depends="checkGlobus,checkTomcat">
+        <ant dir="${ext.globus.dir}\share\globus_wsrf_common\tomcat"
+             antfile="tomcat.xml" target="deploySecureTomcat">
+            <property name="tomcat.dir" value="${ext.tomcat.dir}"/>
+        </ant>
+    </target>
+
+
     <target name="instructions" description="Default Target">
         <echo message="============= Don't execute directly ============"/>
     </target>
+
 
 </project>
