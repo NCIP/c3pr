@@ -58,23 +58,7 @@
                 document.getElementById(id).style.display = 'none';
         }
         
-        function toggleCriteria(section, index){
-        	var el;
-        	if(section == 1){
-        		el = document.getElementById('inclusionCriteria-'+index);
-        	} else if(section == 2) {
-        		el = document.getElementById('exclusionCriteria-'+index);
-        	} else if(section == 0){
-        		el = document.getElementById('uploadFile-'+index);
-        	}
-
-			if ( el.style.display != 'none' ) {
-				new Effect.BlindUp(el);
-			}
-			else {
-				new Effect.BlindDown(el);
-			}
-        }     
+        
     </script>
 </head>
 <body>
@@ -137,7 +121,7 @@
                     <tr>
                         <td valign="top">
                             <p>                            
-                            <chrome:division title="<a style='cursor:pointer' onclick='toggleCriteria(1, ${epochCount.index})'>Inclusion Criteria</a>">
+                            <chrome:division title="Inclusion Criteria" minimize="true" divIdToBeMinimized="inclusionCriteria-${epochCount.index}">
                             <div id="inclusionCriteria-${epochCount.index}">
                             <table width="100%">
 	                            <tr><td>
@@ -178,7 +162,7 @@
                         </tr>
                     	<tr>
                         <td valign="top">
-                            <chrome:division title="<a style='cursor:pointer' onclick='toggleCriteria(2, ${epochCount.index})'>Exclusion Criteria</a>">
+                            <chrome:division title="Exclusion Criteria" minimize="true" divIdToBeMinimized="exclusionCriteria-${epochCount.index}">
                             <div id="exclusionCriteria-${epochCount.index}">
                              <table width="100%"><tr><td>  
                                 <table border="0" width="95%" cellspacing="0" cellpadding="0" class="tablecontent" id="addExclusionRowTable-${epochCount.index}">
