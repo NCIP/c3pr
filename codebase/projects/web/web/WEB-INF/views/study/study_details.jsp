@@ -290,7 +290,6 @@
                 <div class="value"><form:select path="randomizationType" disabled="${command.blindedIndicator == 'true'}" cssClass="validate-notEmpty">
                     <form:option label="Please Select" value=""/>
                     <form:option label="Book" value="BOOK"/>
-                    <form:option label="Call Out" value="CALL_OUT"/>
                     <form:option label="Phone Call" value="PHONE_CALL"/>
                 </form:select></div>
             </div>
