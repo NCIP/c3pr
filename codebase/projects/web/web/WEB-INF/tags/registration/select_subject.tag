@@ -12,16 +12,6 @@
 		new Effect.Pulsate(element);
 	}
 	
-	function toggleAddressSection(){
-		var el = document.getElementById('addressSection');
-		if ( el.style.display != 'none' ) {
-			new Effect.BlindUp(el);
-		}
-		else {
-			new Effect.BlindDown(el);
-		}
-  	}
-  	
   	function clearField(field) {
     	field.value = "";
     }
@@ -288,7 +278,7 @@
 		
 		<!--start of address section
 		<p id="instructions"><a href="#" onclick="toggleAddressSection()">Address & Contact Info</a></p>-->
-		<chrome:division title="<a href='#' onclick='toggleAddressSection()'>Address & Contact Info</a>">
+		<chrome:division title="Address & Contact Info" minimize="true" divIdToBeMinimized="addressSection">
 		<div id="addressSection" style="display:none;">
 		<div class="division " id="single-fields" >
 
