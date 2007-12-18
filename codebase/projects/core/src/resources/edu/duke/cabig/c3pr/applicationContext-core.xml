@@ -116,10 +116,12 @@
                 <value>edu.duke.cabig.c3pr.domain.PhonecallRandomization</value>
                 <value>edu.duke.cabig.c3pr.domain.StratificationCriterionAnswerCombination</value>
                 <value>edu.duke.cabig.c3pr.domain.StudyAmendment</value>
-                <value>edu.duke.cabig.c3pr.domain.Notification</value>
+				<value>edu.duke.cabig.c3pr.domain.Notification</value>
                 <value>edu.duke.cabig.c3pr.domain.Recepient</value>
                 <value>edu.duke.cabig.c3pr.domain.EmailBasedRecepient</value>
                 <value>edu.duke.cabig.c3pr.domain.RoleBasedRecepient</value>
+             	<value>edu.duke.cabig.c3pr.domain.InvestigatorGroup</value>
+                <value>edu.duke.cabig.c3pr.domain.SiteInvestigatorGroupAffiliation</value>
             </list>
         </property>
         <property name="entityInterceptor">
