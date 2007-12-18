@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
+import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -26,10 +29,14 @@ public class HealthcareSite extends Organization implements
 		Comparable<HealthcareSite> {
 
 	private String nciInstituteCode;
-
 	private List<HealthcareSiteInvestigator> healthcareSiteInvestigators = new ArrayList<HealthcareSiteInvestigator>();
-
 	private List<ResearchStaff> researchStaffs = new ArrayList<ResearchStaff>();
+	private LazyListHelper lazyListHelper;
+	
+	public HealthcareSite() {
+    	lazyListHelper=new LazyListHelper();
+    	lazyListHelper.add(InvestigatorGroup.class, new BiDirectionalInstantiateFactory<InvestigatorGroup>(InvestigatorGroup.class,this));
+	}
 
 	public void addHealthcareSiteInvestigator(HealthcareSiteInvestigator hcsi) {
 		healthcareSiteInvestigators.add(hcsi);
@@ -108,6 +115,23 @@ public class HealthcareSite extends Organization implements
 		} else if (!nciInstituteCode.equals(other.nciInstituteCode))
 			return false;
 		return true;
+	}
+	@OneToMany(mappedBy = "healthcareSite", fetch = FetchType.LAZY)
+	@Cascade(value = {CascadeType.ALL,CascadeType.DELETE_ORPHAN})
+	public List<InvestigatorGroup> getInvestigatorGroupsInternal() {
+		return lazyListHelper.getInternalList(InvestigatorGroup.class);
+	}
+
+	public void setInvestigatorGroupsInternal(List<InvestigatorGroup> investigatorGroups) {
+		this.lazyListHelper.setInternalList(InvestigatorGroup.class,investigatorGroups);
+	}
+	
+	@Transient
+	public List<InvestigatorGroup> getInvestigatorGroups() {
+		return lazyListHelper.getLazyList(InvestigatorGroup.class);
+	}
+
+	public void setInvestigatorGroups(List<InvestigatorGroup> investigatorGroups) {
 	}
 
 }

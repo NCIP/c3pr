@@ -36,6 +36,7 @@ public class HealthcareSiteInvestigator extends AbstractMutableDeletableDomainOb
     private String statusCode;
     private Date statusDate;
     private List<StudyInvestigator> studyInvestigators = new ArrayList<StudyInvestigator>();
+    private List<SiteInvestigatorGroupAffiliation> siteInvestigatorGroupAffiliations = new ArrayList<SiteInvestigatorGroupAffiliation>();
     
     public void addStudyInvestigator(StudyInvestigator si)
 	{
@@ -128,4 +129,15 @@ public class HealthcareSiteInvestigator extends AbstractMutableDeletableDomainOb
 	public String toString(){
 		return investigator.getFullName();
 	}
+	@OneToMany(mappedBy="healthcareSiteInvestigator", fetch = FetchType.LAZY)
+	@Cascade (value = {CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+	public List<SiteInvestigatorGroupAffiliation> getSiteInvestigatorGroupAffiliations() {
+		return siteInvestigatorGroupAffiliations;
+	}
+
+	public void setSiteInvestigatorGroupAffiliations(
+			List<SiteInvestigatorGroupAffiliation> siteInvestigatorGroupAffiliations) {
+		this.siteInvestigatorGroupAffiliations = siteInvestigatorGroupAffiliations;
+	}
+
 }
