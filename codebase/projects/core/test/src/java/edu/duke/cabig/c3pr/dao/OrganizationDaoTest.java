@@ -4,6 +4,7 @@ import static edu.duke.cabig.c3pr.C3PRUseCase.CREATE_ORGANIZATION;
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.InvestigatorGroup;
 import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
 
 @C3PRUseCases({CREATE_ORGANIZATION})
@@ -48,5 +49,22 @@ public class OrganizationDaoTest extends ContextDaoTestCase<OrganizationDao> {
 			assertEquals("Wrong name", "Northwestern Memorial Hospital", loaded.getName());
 			assertEquals("Wrong city", "Chicago", loaded.getAddress().getCity());
 		}
+	}
+	public void testNumberOfInvestigatorGroups() throws Exception {
+		HealthcareSite org = getDao().getById(1000);
+		assertEquals("Expected 2 investigator groups",2, org.getInvestigatorGroups().size());
+	}
+	public void testAddInvestigatorGroupToHealthcareSite() throws Exception {
+		{
+		HealthcareSite org = getDao().getById(1000);
+	//	InvestigatorGroup invGroup = new InvestigatorGroup();
+	//	invGroup.setName("Physicians Group");
+	//	invGroup.setHealthcareSite(org);
+		org.getInvestigatorGroups().get(2).setName("Physicians Group");
+		}
+		interruptSession();
+		HealthcareSite loadedOrg = getDao().getById(1000);
+		
+		assertEquals("Expected 3 investigator groups",3, loadedOrg.getInvestigatorGroups().size());
 	}
 }

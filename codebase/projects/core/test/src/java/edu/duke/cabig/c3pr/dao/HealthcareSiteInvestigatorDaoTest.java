@@ -7,6 +7,8 @@ import java.util.List;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.domain.InvestigatorGroup;
+import edu.duke.cabig.c3pr.domain.SiteInvestigatorGroupAffiliation;
 import edu.duke.cabig.c3pr.utils.ContextDaoTestCase;
 
 /**
@@ -69,7 +71,7 @@ public class HealthcareSiteInvestigatorDaoTest extends
         assertEquals("Wrong match", 1001, (int) actual.get(0).getId());
     }
     
-    public void testFailureAddAnInvestigatorTwoTimesToOrganization() throws Exception{
+    public void testFailureAddDuplicateInvestigatorToOrganization() throws Exception{
     	
     	HealthcareSite loadedHealthcareSite = healthcareSiteDao.getById(1000);
     	Investigator inv1 = new Investigator();
@@ -101,6 +103,33 @@ public class HealthcareSiteInvestigatorDaoTest extends
     	
     	interruptSession();
     	
+    }
+    
+    public void testGetSiteInvestigatorGroupAffiliations() throws Exception {
+        HealthcareSiteInvestigator siteInvestigator = getDao().getById(1000);
+        assertEquals("Wrong number of matches", 1, siteInvestigator.getSiteInvestigatorGroupAffiliations().size());
+    }
+    
+    public void testAddSiteInvestigatorGroupAffiliationsSiteInvestigator() throws Exception {
+    	{
+        HealthcareSiteInvestigator siteInvestigator = getDao().getById(1002);
+        assertEquals("Wrong number of matches", 0, siteInvestigator.getSiteInvestigatorGroupAffiliations().size());
+        HealthcareSite org = healthcareSiteDao.getById(1001);
+        InvestigatorGroup invGroup = new InvestigatorGroup();
+        invGroup.setName("New investigator group");
+        invGroup.setHealthcareSite(org);
+        org.getInvestigatorGroups().add(invGroup);
+        SiteInvestigatorGroupAffiliation siteInvGrAffiliation = new SiteInvestigatorGroupAffiliation();
+        siteInvGrAffiliation.setHealthcareSiteInvestigator(siteInvestigator);
+        siteInvGrAffiliation.setInvestigatorGroup(invGroup);
+        invGroup.getSiteInvestigatorGroupAffiliations().add(siteInvGrAffiliation);
+        //siteInvestigator.getSiteInvestigatorGroupAffiliations().add(siteInvGrAffiliation);
+        healthcareSiteDao.save(org);
+    	}
+    	interruptSession();
+        
+    	HealthcareSiteInvestigator loadedSiteInvestigator = getDao().getById(1002);
+        assertEquals("Wrong number of matches", 1, loadedSiteInvestigator.getSiteInvestigatorGroupAffiliations().size());
     }
     
 }
