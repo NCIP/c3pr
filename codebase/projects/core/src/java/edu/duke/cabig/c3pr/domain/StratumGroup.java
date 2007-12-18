@@ -24,7 +24,7 @@ import org.hibernate.annotations.Parameter;
 @Table(name = "stratum_groups")
 @GenericGenerator(name = "id-generator", strategy = "native",
         parameters = {@Parameter(name = "sequence", value = "STRATUM_GROUPS_ID_SEQ")})
-public class StratumGroup extends AbstractMutableDeletableDomainObject{
+public class StratumGroup extends AbstractMutableDeletableDomainObject implements Comparable{
 	
 	private Integer currentPosition;
 	private Integer stratumGroupNumber;
@@ -204,6 +204,18 @@ public class StratumGroup extends AbstractMutableDeletableDomainObject{
 		return arm;		
 	}
 	
+	@Transient
+	public StratumGroup clone(){
+		StratumGroup sgClone = new StratumGroup();
+		sgClone.getStratificationCriterionAnswerCombination().addAll(this.getStratificationCriterionAnswerCombination());
+		sgClone.setStratumGroupNumber(this.getStratumGroupNumber());
+		return sgClone;
+	}
 	
+	@Transient
+	public int compareTo(Object obj) throws ClassCastException{
+		StratumGroup sg = (StratumGroup)obj;		
+		return this.stratumGroupNumber - sg.getStratumGroupNumber();		
+	}
 
 }
