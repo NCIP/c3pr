@@ -5,5 +5,9 @@
    
     <ORGANIZATIONS id="1000" version="1" name="Duke Comprehensive Cancer Center" description_text="duke healthcare" address_id="1000" nci_institute_code="du code"  retired_indicator = "false" />
     <ORGANIZATIONS id="1001" version="1" name="Wake Forest Comprehensive Cancer Center" description_text="wake healthcare" address_id="1001" nci_institute_code="wf code"  retired_indicator = "false" />
+    
+    <INVESTIGATOR_GROUPS id="1000" version="1" name="MD GROUP" description_text="this is md group" hcs_id="1000" retired_indicator = "false" />
+    <INVESTIGATOR_GROUPS id="1001" version="1" name="BREAST CANCER GROUP" hcs_id="1001" description_text="this is breast cancer group" retired_indicator = "false" />
+    <INVESTIGATOR_GROUPS id="1002" version="1" name="LEUKEMIA GROUP" hcs_id="1000" description_text="this is leukemia group" retired_indicator = "false" />
         
  </dataset>
