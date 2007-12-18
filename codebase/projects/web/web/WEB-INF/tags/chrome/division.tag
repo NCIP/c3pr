@@ -9,7 +9,10 @@
 <%@attribute name="style"%>
 <script>
 	function toggleCriteria(divIdToBeMinimized){
-       	var el = document.getElementById(divIdToBeMinimized);       	
+       	var el = document.getElementById(divIdToBeMinimized); 
+       	if(el == null){
+       		alert("division.tag - Could not find div Element to minimize.");
+       	}      	
 		if ( el.style.display != 'none' ) {
 			new Effect.BlindUp(el);
 		}
