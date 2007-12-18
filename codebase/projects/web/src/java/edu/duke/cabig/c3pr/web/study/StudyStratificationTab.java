@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.web.study;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -30,6 +31,7 @@ import edu.duke.cabig.c3pr.service.StudyService;
 public class StudyStratificationTab extends StudyTab {
 
     protected StudyService studyService;
+    public List <List<StratumGroup>>tEpochsListForReorderedGroups = new ArrayList<List<StratumGroup>>();
     
     public StudyStratificationTab() {
         super("Stratification Factors", "Stratification", "study/study_stratifications");
@@ -64,6 +66,7 @@ public class StudyStratificationTab extends StudyTab {
     	int indexOfEpochNumber = new Integer(String.valueOf(serStrArr[0].charAt(serStrArr[0].indexOf("_")+1))).intValue();
     	TreatmentEpoch tEpoch = study.getTreatmentEpochs().get(indexOfEpochNumber);
     	
+    	
     	List <Integer> positionList = new ArrayList<Integer>();
     	for(int i = 0; i < serStrArr.length; i++){
     		positionList.add(i, new Integer(String.valueOf(serStrArr[i].charAt(serStrArr[i].length() - 1))));
@@ -71,25 +74,50 @@ public class StudyStratificationTab extends StudyTab {
     	//so if the order initially was 0123 and was changed to 1023 then the position list 
     	//will contain 1023.
     	
-    	StratumGroup sGroup[] = new StratumGroup[tEpoch.getStratumGroups().size()];
-    	//get the sGroups by their sGroupNumbers and put them in a array.
-    	//then iterate thru the array and update their numbers.
-    	//we need this array because if we update the group number immediately 
-    	//then we can end up with 2 grps having the same str group number at one point in time.
-    	//Then we wouldnt be able to retrieve them by the strGroupnumber.
+    	List <StratumGroup> sgList = new ArrayList<StratumGroup>();
+    	//create a new list of stratum groups that contain dummy sg objects
+    	//which only have stratumGroupNumber and AnswerCOmbinations as attributes.
+    	//This sgList will have the cloned groups in the new order.
+    	//this list is re-created everytime the user updates (i.e reorders) the groups.
+    	//It is then stored in the tEpochsListForReorderedGroups list which is maintained as an instance var.
+    	//on save the studyObject(command obj) is updated with the final order which is maintained in the sglist 
+    	//in the tEpochsListForReorderedGroups
     	for(int i = 0; i < positionList.size(); i++){
-//    		get the group and put it as per the new order in an array
-    		sGroup[i] = tEpoch.getStratumGroupByNumber(positionList.get(i));    		
+//    		get the group and put it as per the new order in the sg list
+    		sgList.add(i,tEpoch.getStratumGroupByNumber(positionList.get(i)).clone());    		
     	}
-    	
-    	for(int i = 0; i < positionList.size(); i++){
-//    		get the group and update its number as per the for loop iter
-    		tEpoch.getStratumGroupByNumber(sGroup[i].getStratumGroupNumber()).setStratumGroupNumber(new Integer(i));    		
+    	if(tEpochsListForReorderedGroups.size() > indexOfEpochNumber && tEpochsListForReorderedGroups.get(indexOfEpochNumber) != null){
+    		tEpochsListForReorderedGroups.remove(indexOfEpochNumber);
     	}
-    	
-    	HashMap map = new HashMap();
+    	tEpochsListForReorderedGroups.add(indexOfEpochNumber, sgList);
+    		
+    	HashMap<String, String> map = new HashMap<String, String>();
     	map.put(this.getFreeTextModelName(),serializedString);
     	return new ModelAndView("", map);
+    }
+    
+    /*In this method we update the stratumGroupsNumbers based on the new order(after re-ordering) that
+     * is maintained in the tEpochsListForReorderedGroups list. 
+     */
+    public void finalizeReoderedGroups(Study study, boolean isCreate){
+    	List <StratumGroup>sgList;
+    	TreatmentEpoch tEpoch;
+    	StratumGroup sg = null;
+    	List <StratumGroup> sgListTemp = new ArrayList<StratumGroup>();;
+    	for(int i=0; i < tEpochsListForReorderedGroups.size(); i++){
+    		tEpoch = study.getTreatmentEpochs().get(i);
+    		sgList = tEpochsListForReorderedGroups.get(i);
+    		for(int j = 0; j < sgList.size(); j++){
+//        		get the group and update its number as per the for loop iter
+        		sg = tEpoch.getStratumGroupForAnsCombination(sgList.get(j).getStratificationCriterionAnswerCombination());
+        		if(sg != null){
+        			sg.setStratumGroupNumber(new Integer(j));
+        		}
+        		sgListTemp.add(sg);
+        	}
+        	Collections.sort(tEpoch.getStratumGroups());
+    	}   
+    	
     }
     
     public ModelAndView clearStratumGroups(HttpServletRequest request, Object commandObj, Errors error){
@@ -122,7 +150,12 @@ public class StudyStratificationTab extends StudyTab {
     		int epochCountIndex = Integer.parseInt(req.getParameter("generateGroups"));
     		generateStratumGroups(req, study, errors, epochCountIndex);
     	}
+    	boolean isCreate = false;
     	
+    	if(req.getParameter("flowType") != null && req.getParameter("flowType").toString().equalsIgnoreCase("CREATE_STUDY")){
+    		isCreate = true;
+    	}
+    	finalizeReoderedGroups(study, isCreate);    	
     }
     
     public void generateStratumGroups(HttpServletRequest request, Object commandObj, Errors error, int epochCountIndex){

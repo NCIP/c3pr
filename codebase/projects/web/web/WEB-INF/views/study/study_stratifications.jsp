@@ -162,7 +162,7 @@
 							</table>
 						</td>
 						<td class="alt"><a
-							href="javascript:RowManager.deleteRow(stratRowInserterProps_${epochCount.index},${status.index },${strat.hashCode});">
+							href="javascript:RowManager.deleteRow(stratRowInserterProps_${epochCount.index},${status.index},${strat.hashCode});">
 						<img src="<tags:imageUrl name="checkno.gif"/>" border="0"
 							alt="Delete"></a></td>
 					</tr>
@@ -198,8 +198,9 @@
 				</script>				
 				<table border="1" class="tablecontent"  width="50%">
 				<tr>
-					<th width="20%">Number</th>					
-					<th width="75%">Stratum Group</th>
+					<th width="20%">Group Number</th>					
+					<th width="75%">Answer Combination</th>
+<!--  				<th width="20%">Stratum Group#</th>-->
 					<th width="5%"></th>
 				</tr>
 				</table>
@@ -209,10 +210,14 @@
 						<c:forEach var="stratumGroup" varStatus="statusStratumGroup"
 							items="${command.treatmentEpochs[epochCount.index].stratumGroups}">						
 							<tr id="stratumGroupTable1_${epochCount.index}-${statusStratumGroup.index}" style="cursor:move">
-								<td width="20%">${statusStratumGroup.index}</td>					
-								<td width="75%">${command.treatmentEpochs[epochCount.index].stratumGroups[statusStratumGroup.index].answerCombinations}</td>
-								<td width="5%"><a href="javascript:RowManager.deleteRow(stratumGroupRowInserter_${epochCount.index},${statusStratumGroup.index},${stratumGroup.hashCode});">
-									<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>					
+								<td width="20%">${stratumGroup.stratumGroupNumber}</td>					
+								<td width="75%">${stratumGroup.answerCombinations}</td>
+								<!-- <td>${stratumGroup.stratumGroupNumber}</td> -->
+								<td width="5%">
+								<a href="<c:if test="false">javascript:RowManager.deleteRow(stratumGroupRowInserter_${epochCount.index},${statusStratumGroup.index},${stratumGroup.hashCode});</c:if>">
+									<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
+									
+								</td>					
 							</tr>
 						</c:forEach>					
 					</tbody>
@@ -232,7 +237,7 @@
 	</c:forEach>
 	<div id="dummyDiv" style="display:none">
 	</div>
-
+	<input type="hidden" name="flowType" value="${flowType}">
 	<tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}" />
 </form:form>
 
