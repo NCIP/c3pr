@@ -24,12 +24,12 @@ public class Configuration extends DatabaseBackedConfiguration {
     public static final ConfigurationProperty<String> ESB_ENABLE
     	= PROPERTIES.add(new ConfigurationProperty.Text("esbEnable"));
 
-    public static final ConfigurationProperty<String> GRID_IDP_URL
+/*    public static final ConfigurationProperty<String> GRID_IDP_URL
     	= PROPERTIES.add(new ConfigurationProperty.Text("gridIdpUrl"));
     public static final ConfigurationProperty<String> GRID_IFS_URL
 		= PROPERTIES.add(new ConfigurationProperty.Text("gridIfsUrl"));
-    public static final ConfigurationProperty<String> AUTHORIZATION_ENABLE
-		= PROPERTIES.add(new ConfigurationProperty.Text("authorizationEnable"));
+*/    public static final ConfigurationProperty<String> AUTHORIZATION_ENABLE
+		= PROPERTIES.add(new ConfigurationProperty.Text("authorizationSwitch"));
     public static final ConfigurationProperty<String> LOCAL_NCI_INSTITUTE_CODE
 		= PROPERTIES.add(new ConfigurationProperty.Text("localNciInstituteCode"));
 

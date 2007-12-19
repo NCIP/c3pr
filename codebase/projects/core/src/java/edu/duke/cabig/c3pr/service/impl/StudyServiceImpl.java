@@ -574,11 +574,6 @@ public class StudyServiceImpl extends CCTSWorkflowServiceImpl implements StudySe
         identifier.setHealthcareSite(healthcareSite);
         return studyDao.searchByOrgIdentifier(identifier);
     }
-
-    private int getCode(String errortypeString) {
-        return Integer.parseInt(this.c3prErrorMessages.getMessage(errortypeString, null, null));
-    }
-
 }
 
 

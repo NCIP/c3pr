@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.service;
 import edu.duke.cabig.c3pr.domain.CCTSAbstractMutableDeletableDomainObject;
 import edu.duke.cabig.c3pr.domain.CCTSWorkflowStatusType;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
+import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,7 +16,7 @@ public interface CCTSWorkflowService<C extends CCTSAbstractMutableDeletableDomai
 
     public CCTSWorkflowStatusType getCCTSWofkflowStatus(C cctsObject);
 
-    public void broadcastMessage(C cctsDomainObject) throws C3PRBaseException;
+    public void broadcastMessage(C cctsDomainObject) throws C3PRCodedException;
 
 
 }
