@@ -20,6 +20,7 @@ import org.w3c.dom.NodeList;
 
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
+import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
@@ -31,6 +32,7 @@ import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.exception.StudyValidationException;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.service.StudySubjectXMLImporterService;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 import gov.nih.nci.common.exception.XMLUtilityException;
 
@@ -125,7 +127,11 @@ public class StudySubjectXMLImporterServiceImpl implements StudySubjectXMLImport
                 throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.STUDYSUBJECTS_ALREADY_EXISTS.CODE"));
             }
         } else {
-            participantDao.save(studySubject.getParticipant());
+        	if(validateParticipant(studySubject.getParticipant()))
+        		participantDao.save(studySubject.getParticipant());
+        	else{
+        		throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.SUBJECTS_INVALID_DETAILS.CODE"));
+        	}
         }
     	/*if(studySubject.getScheduledEpoch().getRequiresRandomization()){
             throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.RANDOMIZEDSTUDY.ARM_PROVIDED.CODE"));
@@ -157,6 +163,15 @@ public class StudySubjectXMLImporterServiceImpl implements StudySubjectXMLImport
         return studySubject;
     }
 
+    public boolean validateParticipant(Participant participant){
+    	if(StringUtils.getBlankIfNull(participant.getFirstName()).equals("")
+    			|| StringUtils.getBlankIfNull(participant.getLastName()).equals("")
+    			|| participant.getBirthDate()==null
+    			|| StringUtils.getBlankIfNull(participant.getAdministrativeGenderCode()).equals("")
+    			|| !(participant.getAdministrativeGenderCode().equalsIgnoreCase("Male")||participant.getAdministrativeGenderCode().equalsIgnoreCase("Female")))
+    		return false;
+    	return true;
+    }
     /**
      * Validate a study against a set of validation rules
      * @param study
