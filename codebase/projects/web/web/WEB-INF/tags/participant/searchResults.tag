@@ -35,7 +35,7 @@
 			<c:forEach items="${participants}" var="participant">
 				  <% String currClass=i%2==0? "odd":"even"; %>
 
-            <tr id="row<%= i++ %>" class="<%= currClass %>" onMouseOver="this.className='highlight'"
+            <tr id="row<%= i++ %>" class="<%= currClass %>" onMouseOver="this.className='highlight'" style="cursor:pointer"
 				onMouseOut="this.className='<%= currClass %>'"
 					onClick="
 						<c:choose>
