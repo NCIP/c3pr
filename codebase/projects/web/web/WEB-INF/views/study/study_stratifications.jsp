@@ -230,7 +230,7 @@
 				<input type='submit' onclick="preProcessGenerateGroups(${epochCount.index})" value='Generate Stratum Groups' />
 			</div>
 			<script type="text/javascript" language="javascript">
-		  		Sortable.create('sortablelist_${epochCount.index}',{tag:'TR',constraint:false,onUpdate:postProcessDragDrop});
+		  		Sortable.create('sortablelist_${epochCount.index}',{tag:'TR',constraint:false,onUpdate:postProcessDragDrop,ghosting:true});
 			</script>
 			</chrome:division>
 		</tags:minimizablePanelBox>
