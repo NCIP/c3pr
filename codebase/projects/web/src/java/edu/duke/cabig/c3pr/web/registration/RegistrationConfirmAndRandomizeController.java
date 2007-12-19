@@ -24,6 +24,7 @@ import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl;
+import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 
 public class RegistrationConfirmAndRandomizeController extends SimpleFormController {
@@ -31,6 +32,8 @@ public class RegistrationConfirmAndRandomizeController extends SimpleFormControl
 	private StudySubjectDao studySubjectDao;
 	
 	private StudySubjectServiceImpl studySubjectService;
+	
+	private Configuration configuration;
 	
 	private ArmDao armDao;
 	
@@ -80,6 +83,7 @@ public class RegistrationConfirmAndRandomizeController extends SimpleFormControl
 		map.put("actionRequired", actionRequired);
 		map.put("actionLabel", actionLabel);
 		map.put("requiresMultiSite", studySubjectService.requiresCoordinatingCenterApproval(studySubject));
+		addAppUrls(map);
 		return map;
 	}
 	@Override
@@ -107,6 +111,7 @@ public class RegistrationConfirmAndRandomizeController extends SimpleFormControl
 		}
 		map.putAll(buildMap(studySubject));
 		map.put("command", command);
+		addAppUrls(map);
 		return new ModelAndView(getSuccessView(),map);
 	}
 	
@@ -201,6 +206,12 @@ public class RegistrationConfirmAndRandomizeController extends SimpleFormControl
 		return map;
 	}
 	
+	private void addAppUrls(Map<String, Object> map){
+		map.put("pscBaseUrl", this.configuration.get(this.configuration.PSC_BASE_URL));
+		map.put("caaersBaseUrl", this.configuration.get(this.configuration.CAAERS_BASE_URL));
+		map.put("c3dBaseUrl", this.configuration.get(this.configuration.C3D_BASE_URL));
+	}
+
 	private boolean validSubmit(StudySubject studySubject){
 		return studySubject.getScheduledEpoch().getScEpochWorkflowStatus()==ScheduledEpochWorkFlowStatus.UNAPPROVED;
 	}
@@ -211,5 +222,9 @@ public class RegistrationConfirmAndRandomizeController extends SimpleFormControl
 
 	public void setArmDao(ArmDao armDao) {
 		this.armDao = armDao;
+	}
+
+	public void setConfiguration(Configuration configuration) {
+		this.configuration = configuration;
 	}
 }

@@ -272,7 +272,8 @@
         </property>
     </bean>
 
-
+	<bean name="/admin/configure" id="configurationController" autowire="byName"
+          class="edu.duke.cabig.c3pr.web.admin.ConfigurationController"/>
     <bean name="/admin/viewInvestigator" id="viewInvestigatorController" autowire="byType"
           class="edu.duke.cabig.c3pr.web.admin.ViewInvestigatorController">
     </bean>
@@ -366,10 +367,13 @@
                 <bean
                         class="edu.duke.cabig.c3pr.utils.web.navigation.Section"
                         autowire="byType" p:displayName="Administration"
-                        p:mainController="searchInvestigatorController">
+                        p:mainController="configurationController">
                     <property name="pathMapping" value="/admin/**"/>
                     <property name="tasks">
                         <list>
+                            <bean 
+	                            	class="edu.duke.cabig.c3pr.utils.web.navigation.Task" autowire="byType"
+	                                p:displayName="Configure C3PR" p:linkName="configurationController"/>
                             <bean
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
                                     autowire="byType" p:displayName="Investigator"

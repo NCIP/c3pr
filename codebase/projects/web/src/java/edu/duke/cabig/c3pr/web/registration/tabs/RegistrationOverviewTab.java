@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.web.registration.tabs;
 
 import edu.duke.cabig.c3pr.domain.*;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
+import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
@@ -82,7 +83,7 @@ public class RegistrationOverviewTab<C extends StudySubject> extends Registratio
         try {
             this.studySubjectService.broadcastMessage(command);
             return getMessageBroadcastStatus(request, commandObj, error);
-        } catch (C3PRBaseException e) {
+        } catch (C3PRCodedException e) {
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("responseMessage", e.getMessage());
             return new ModelAndView(getAjaxViewName(request), map);

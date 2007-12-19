@@ -43,7 +43,7 @@
     if the above two files are not found, then the application bundled properties
     file is used.
     -->
-    <bean id="c3prPropertyConfigurer"
+    <!-- <bean id="c3prPropertyConfigurer"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="ignoreUnresolvablePlaceholders" value="true"/>
         <property name="ignoreResourceNotFound" value="true"/>
@@ -54,7 +54,7 @@
                 <value>file:@catalina.home@/conf/c3pr.properties</value>
             </list>
         </property>
-    </bean>
+    </bean>-->
 
 
     <bean
@@ -116,7 +116,8 @@
                 <value>edu.duke.cabig.c3pr.domain.PhonecallRandomization</value>
                 <value>edu.duke.cabig.c3pr.domain.StratificationCriterionAnswerCombination</value>
                 <value>edu.duke.cabig.c3pr.domain.StudyAmendment</value>
-				<value>edu.duke.cabig.c3pr.domain.Notification</value>
+                <value>gov.nih.nci.cabig.ctms.tools.configuration.ConfigurationEntry</value>
+                <value>edu.duke.cabig.c3pr.domain.Notification</value>
                 <value>edu.duke.cabig.c3pr.domain.Recepient</value>
                 <value>edu.duke.cabig.c3pr.domain.EmailBasedRecepient</value>
                 <value>edu.duke.cabig.c3pr.domain.RoleBasedRecepient</value>
@@ -134,7 +135,11 @@
             <ref bean="hibernateProperties"/>
         </property>
     </bean>
-    <!-- Auditing related beans definition start here-->
+
+    <bean id="configuration" parent="daoTemplate"
+      class="edu.duke.cabig.c3pr.tools.Configuration"/>
+
+	<!-- Auditing related beans definition start here-->
 
     <bean id="auditOpenSessionInViewInterceptor"
           class="org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor">
@@ -166,15 +171,15 @@
             </list>
         </property>
     </bean>
-
-    <bean id="chainedInterceptor" class="gov.nih.nci.cabig.ctms.audit.ChainedInterceptor">
-        <property name="interceptors">
-            <list>
-                <ref local="gridIdentifierInterceptor"/>
-                <!-- <ref local="auditInterceptor"/> -->
-            </list>
-        </property>
-    </bean>
+    
+    <bean id="chainedInterceptor" class="gov.nih.nci.cabig.ctms.audit.ChainedInterceptor" >
+		<property name="interceptors">
+			<list>
+				<ref local="gridIdentifierInterceptor"/>
+				<!-- <ref local="auditInterceptor"/> -->
+			</list>
+		</property>
+	</bean>
 
     <bean id="auditInterceptor" class="gov.nih.nci.cabig.ctms.audit.AuditInterceptorImpl">
         <property name="dataAuditRepository" ref="dataAuditRepository"></property>
@@ -274,8 +279,8 @@
     <!-- Services -->
     <bean id="cctsWorkflowService" class="edu.duke.cabig.c3pr.service.impl.CCTSWorkflowServiceImpl"
           abstract="true" autowire="byType">
-        <property name="broadcastEnable" value="${broadcastEnable}"/>
         <property name="dao" ref="studySubjectDao"/>
+        <property name="exceptionHelper" ref="exceptionHelper"/>
     </bean>
 
     <bean id="studyService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudyServiceImpl"
@@ -291,8 +296,9 @@
           autowire="byName"/>
     <bean id="studySubjectService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl"
           autowire="byName" parent="cctsWorkflowService">
-        <property name="hostedMode" value="${hostedMode}"/>
-        <property name="localInstanceNCICode" value="${localInstanceNCIInstituteCode}"/>
+        <property name="hostedMode">
+	        <value type="boolean">${hostedMode}</value>
+        </property>
         <property name="xmlUtility">
             <bean class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
                 <property name="mappingFile" ref="ccts-registration-castorMapping"/>
@@ -342,10 +348,14 @@
 
     <!--Utilities-->
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <property name="host" value="${outgoing.mail.server}"/>
-        <property name="port" value="${outgoing.mail.server.port}"/>
-        <property name="password" value="${outgoing.mail.password}"/>
-        <property name="username" value="${outgoing.mail.username}"/>
+        <property name="host" value="${smtpAddress}"/>
+        <property name="password" value="${smtpPassword}"/>
+        <property name="username" value="${smtpUser}"/>
+        <property name="javaMailProperties">
+            <value>
+                mail.smtp.auth=${smtpAuth}
+            </value>
+        </property>
     </bean>
 
     <bean id="confirmationEmailer" class="edu.duke.cabig.c3pr.aspects.UserEmailConfirmationAspect"
@@ -355,7 +365,7 @@
 
     <!-- this is a template message that we can pre-load with default state -->
     <bean id="accountCreatedTemplateMessage" class="org.springframework.mail.SimpleMailMessage">
-        <property name="from" value="${outgoing.mail.from.address}"/>
+        <property name="from" value="${systemFromEmail}"/>
         <property name="subject" value="Account created in c3pr"/>
     </bean>
 
@@ -368,19 +378,16 @@
     </bean>
     <bean id="c3prErrorMessages" class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basename" value="error_messages_c3pr"/>
-        <property name="parentMessageSource">
-            <ref bean="multsiteErrorMessageSource"/>
-        </property>
-    </bean>
-
-    <bean id="multsiteErrorMessageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-        <property name="basename" value="error_messages_multisite"/>
-    </bean>
-
-    <bean id="exceptionHelper" class="edu.duke.cabig.c3pr.exception.C3PRExceptionHelper">
-        <property name="errorMessages">
-            <ref bean="c3prErrorMessages"/>
-        </property>
-    </bean>
+        <property name="parentMessageSource" ref="multsiteErrorMessageSource"/>
+	</bean>
+	<bean id="multsiteErrorMessageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="error_messages_multisite"/>
+	</bean>
+	
+	<bean id="exceptionHelper" class="edu.duke.cabig.c3pr.exception.C3PRExceptionHelper">
+		<property name="errorMessages">
+			<ref bean="c3prErrorMessages"/>
+		</property>
+	</bean>
 
 </beans>
