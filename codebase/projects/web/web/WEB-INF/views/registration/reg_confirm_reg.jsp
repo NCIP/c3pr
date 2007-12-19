@@ -16,14 +16,10 @@
 <link href="resources/styles.css" rel="stylesheet" type="text/css">
 <link href="resources/search.css" rel="stylesheet" type="text/css">
 <script>
-function accessApp(url,app,targetWindow){
-//	alert("in");
-	if(url=="")
-		document.caaersForm.action="/"+app;
-	else
-		document.caaersForm.action=url+"/"+app;
-	document.caaersForm.target=targetWindow;
-	document.caaersForm.submit();
+function accessApp(url,targetWindow){
+	$('hotlinksForm').target=targetWindow;
+	$('hotlinksForm').action=url;
+	$('hotlinksForm').submit();
 }
 </script>
 </head>
@@ -56,7 +52,7 @@ function accessApp(url,app,targetWindow){
 	epoch_disapproved:${ epoch_disapproved}<br>
 	epoch_unapproved:${epoch_unapproved }<br>
 	epoch_unrandomized:${ epoch_unrandomized}<br>-->
-	<div id="printable">
+	
 	<c:choose>
 	<c:when test="${newRegistration}">
 		<c:choose>
@@ -96,6 +92,7 @@ function accessApp(url,app,targetWindow){
 	</c:otherwise>
 	</c:choose>
 	<br><br>
+	<div id="printable">
 	<table width="50%" class="tablecontent">
 		<tr>
 			<td width="35%" align="left"><b>Subject MRN</b></td>
@@ -149,7 +146,7 @@ function accessApp(url,app,targetWindow){
 	<table width="60%">
 		<tr>
 			<td align="left"><a
-				href="javascript:accessApp('http://10.10.10.2:8030','caaers/pages/ae/list?assignment=${command.gridId }','_caaers');">
+				href="javascript:accessApp('${caaersBaseUrl }','_caaers');">
 			<b>Adverse Event Reporting</a> </b></td>
 		</tr>
 		<tr>
@@ -160,7 +157,7 @@ function accessApp(url,app,targetWindow){
 		</tr>
 		<tr>
 			<td align="left"><a
-				href="javascript:accessApp('http://10.10.10.2:8041','studycalendar/pages/schedule?assignment=${command.gridId }','_psc');">
+				href="javascript:accessApp('${pscBaseUrl },'_psc');">
 			<b>Study Calendar</a></b></td>
 		</tr>
 		<tr>
@@ -171,12 +168,15 @@ function accessApp(url,app,targetWindow){
 		</tr>
 		<tr>
 			<td align="left"><a
-				href="javascript:accessApp('https://octrials-train.nci.nih.gov','/opa45/rdclaunch.htm','_c3d');">
+				href="javascript:accessApp('${c3dBaseUrl }','_c3d');">
 			<b>Clinical Database</a></b></td>
 		</tr>
 
 	</table>
 </tags:panelBox>
+<form id="hotlinksForm" action="" method="get">
+<input type="hidden" name="assignment" value="${command.gridId }"/>
+</form>
 <c:if test="${actionRequired}">
 	<registrationTags:register registration="${command}" newReg="${newRegistration}" actionButtonLabel="${actionLabel}" requiresMultiSite="${requiresMultiSite}"/>
 </c:if>
