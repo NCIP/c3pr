@@ -186,8 +186,12 @@ public class StudySubjectServiceImpl extends CCTSWorkflowServiceImpl
 				//broadcase message to co-ordinating center
 				try {
 					if(triggerMultisite){
-						Integer id=studySubjectDao.merge(studySubject).getId();
-						studySubject=studySubjectDao.getById(id);
+						if(studySubject.getId()!=null){
+							Integer id=studySubjectDao.merge(studySubject).getId();
+							studySubject=studySubjectDao.getById(id);
+						}else{
+							studySubjectDao.save(studySubject);
+						}
 						sendRegistrationRequest(studySubject);
 					}
 					scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING);
@@ -246,8 +250,12 @@ public class StudySubjectServiceImpl extends CCTSWorkflowServiceImpl
 					studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.RESERVED);
 				}else if(scheduledEpoch.getEpoch().isEnrolling()){
 					studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED);
-					Integer id=studySubjectDao.merge(studySubject).getId();
-					studySubject=studySubjectDao.getById(id);
+					if(studySubject.getId()!=null){
+						Integer id=studySubjectDao.merge(studySubject).getId();
+						studySubject=studySubjectDao.getById(id);
+					}else{
+						studySubjectDao.save(studySubject);
+					}
 					try {
 						broadcastMessage(studySubject);
 					} catch (C3PRCodedException e) {
@@ -339,7 +347,7 @@ public class StudySubjectServiceImpl extends CCTSWorkflowServiceImpl
 	public void assignCoOrdinatingCenterIdentifier(String studySubjectGridId, String identifierValue) {
 		StudySubject studySubject=studySubjectDao.getByGridId(studySubjectGridId);
 		studySubject.setCoOrdinatingCenterIdentifier(identifierValue);
-		studySubjectDao.merge(studySubject);
+		studySubjectDao.save(studySubject);
 	}
 
 	public boolean isEpochAccrualCeilingReached(int epochId) {
