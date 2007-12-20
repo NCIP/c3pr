@@ -193,6 +193,8 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                value="edu.duke.cabig.c3pr.domain.Study:CREATE"/>
         <entry key="/admin/importRegistration"
                value="edu.duke.cabig.c3pr.domain.Registration:CREATE"/>
+        <entry key="/pages/admin/configure.*"
+               value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
 
 
         <entry key="/pages/report/createReport.*"
