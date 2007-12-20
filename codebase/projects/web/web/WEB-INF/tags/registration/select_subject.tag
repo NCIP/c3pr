@@ -241,9 +241,9 @@
 								class="red"></span></td>
 						</tr>
 						<tr>
-							<td align="right"><b>Ethnicity:</b>&nbsp;</td>
+							<td align="right"><span class="required-indicator"><b>Ethnicity:</b></span>&nbsp;</td>
 							<td align="left">							
-								<select id="ethnicGroupCode" name="ethnicGroupCode">
+								<select id="ethnicGroupCode" name="ethnicGroupCode" class="validate-notEmpty">
 										<option value="">Please select</option>
 									<c:forEach items="${ethnicGroupCode}" var="ethnicGroupCode" varStatus="loop">
 									<c:if test="${!empty ethnicGroupCode.desc}">
@@ -254,9 +254,9 @@
 							</td>
 						</tr>
 						<tr>
-							<td align="right"><b>Race(s):</b>&nbsp;</td>
+							<td align="right"><span class="required-indicator"><b>Race(s):</b></span>&nbsp;</td>
 							<td align="left">
-								<select id="raceCode" name="raceCode">
+								<select id="raceCode" name="raceCode" class="validate-notEmpty">
 										<option value="">Please select</option>
 									<c:forEach items="${raceCode}" var="raceCode" varStatus="loop">
 									<c:if test="${!empty raceCode.desc}">

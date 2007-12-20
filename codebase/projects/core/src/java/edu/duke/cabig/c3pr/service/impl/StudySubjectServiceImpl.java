@@ -10,6 +10,7 @@ import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StratumGroupDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.Arm;
+import edu.duke.cabig.c3pr.domain.CCTSWorkflowStatusType;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.NonTreatmentEpoch;
@@ -259,10 +260,8 @@ public class StudySubjectServiceImpl extends CCTSWorkflowServiceImpl
 					try {
 						broadcastMessage(studySubject);
 					} catch (C3PRCodedException e) {
-						if(e.getExceptionCode()!=227)
-							throw getExceptionHelper().getException(getCode("C3PR.EXCEPTION.REGISTRATION.ERROR_SEND_REGISTRATION.CODE"),e);
-						else
-							e.printStackTrace();
+						e.printStackTrace();
+						studySubject.setCctsWorkflowStatus(CCTSWorkflowStatusType.MESSAGE_SEND_FAILED);
 					}
 				}else{
 					studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.UNREGISTERED);

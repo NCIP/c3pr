@@ -49,6 +49,7 @@ public class ManageEpochTab<C extends StudySubject> extends RegistrationTab<C>{
 		Epoch epoch=epochDao.getById(id);
 		map.put("epoch", epoch);
 		map.put("alreadyRegistered", new Boolean(false));
+		map.put("notRegistrable", new Boolean(false));		
 		map.put("requiresEligibility", new Boolean(false));
 		map.put("requiresStratification", new Boolean(false));
 		map.put("requiresRandomization", new Boolean(false));
@@ -77,6 +78,12 @@ public class ManageEpochTab<C extends StudySubject> extends RegistrationTab<C>{
 		}
 		if(command.getCurrentScheduledEpoch().getEpoch().getId()==epoch.getId())
 			map.put("isCurrentScheduledEpoch", new Boolean(true));
+		if(epoch.getEpochOrder()<command.getCurrentScheduledEpoch().getEpoch().getEpochOrder()){
+			map.put("notRegistrable", new Boolean(true));
+		}else if(epoch.getEpochOrder()==command.getCurrentScheduledEpoch().getEpoch().getEpochOrder()
+					&& command.getCurrentScheduledEpoch().getEpoch().getId()!=epoch.getId()){
+			map.put("notRegistrable", new Boolean(true));
+		}
 		return new ModelAndView(getAjaxViewName(request),map);
 	}
 /*

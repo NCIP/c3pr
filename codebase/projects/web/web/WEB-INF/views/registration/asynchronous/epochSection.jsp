@@ -35,7 +35,28 @@
 		</c:if>
 	</div>
 	<c:choose>
-		<c:when test="${!alreadyRegistered}">
+		<c:when test="${isCurrentScheduledEpoch}">
+			<div id="currentRegistration">
+				<div id="participant1" class="participants" align="center">
+					<div><img src="<tags:imageUrl name="Subject.gif"/>"
+					alt="Subject" width="80" height="80" align="absmiddle"></div>
+					<div>${command.participant.firstName} ${command.participant.lastName }</div>
+				</div>
+			</div>
+			<c:if test="${command.regWorkflowStatus!='OFF_STUDY' && command.scheduledEpoch.scEpochWorkflowStatus=='APPROVED'}">
+				<script type="text/javascript">subjectDragger=new Draggable('participant1', {revert:false});</script>
+			</c:if>
+		</c:when>
+		<c:when test="${alreadyRegistered}">
+			<div id="dragDivision-${epoch.id}" class="DropDraggableArea greyed"><b>Cannot assign subject to this epoch since he has already been registered once on the epoch.</b></div>
+		</c:when>
+		<c:when test="${acrrualCeilingReached}">
+			<div id="dragDivision-${epoch.id}" class="DropDraggableArea greyed"><b>Accrual Ceiling for this Epoch alreay reached. Cannot enroll any more subjects on this epoch.</b></div>
+		</c:when>
+		<c:when test="${notRegistrable}">
+			<div id="dragDivision-${epoch.id}" class="DropDraggableArea greyed"><b>Cannot assign subject to this epoch.</b></div>
+		</c:when>		
+		<c:otherwise>
 				<div id="dragDivision-${epoch.id}" class="DropDraggableArea"><b>Please drag the participant here to assign him this epoch.</b></div>
 				<script type="text/javascript">Droppables.add('dragDivision-${epoch.id}', {accept:'participants', onDrop:assignParticipant})
 				</script>
@@ -55,25 +76,7 @@
 					<div id="epochUpdate-${epoch.id }" style="display:none"><img src="<tags:imageUrl name="indicator.white.gif"/>"
 									alt="Indicator" align="absmiddle">Updating...</div>
 				</div>
-		</c:when>
-		<c:when test="${isCurrentScheduledEpoch}">
-			<div id="currentRegistration">
-				<div id="participant1" class="participants" align="center">
-					<div><img src="<tags:imageUrl name="Subject.gif"/>"
-					alt="Subject" width="80" height="80" align="absmiddle"></div>
-					<div>${command.participant.firstName} ${command.participant.lastName }</div>
-				</div>
-			</div>
-			<c:if test="${command.regWorkflowStatus!='OFF_STUDY' && command.scheduledEpoch.scEpochWorkflowStatus=='APPROVED'}">
-				<script type="text/javascript">subjectDragger=new Draggable('participant1', {revert:false});</script>
-			</c:if>
-		</c:when>
-		<c:when test="${alreadyRegistered}">
-			<div id="dragDivision-${epoch.id}" class="DropDraggableArea greyed"><b>Cannot assign subject to this epoch since he has already been registered once on the epoch.</b></div>
-		</c:when>
-		<c:when test="${acrrualCeilingReached}">
-			<div id="dragDivision-${epoch.id}" class="DropDraggableArea greyed"><b>Accrual Ceiling for this Epoch alreay reached. Cannot enroll any more subjects on this Epoch.</b></div>
-		</c:when>
+		</c:otherwise>
 	</c:choose>
 </div>
 </body>
