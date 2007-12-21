@@ -17,7 +17,6 @@
 	    <property name="locations">
             <list>
                 <value>classpath:context/c3pr.properties</value>
-                <value>file:@user.home@/.c3pr/c3pr.properties</value>
                 <value>file:@catalina.home@/conf/c3pr.properties</value>
             </list>
         </property>
