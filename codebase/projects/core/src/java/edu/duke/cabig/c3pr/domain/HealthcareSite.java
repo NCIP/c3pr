@@ -42,9 +42,21 @@ public class HealthcareSite extends Organization implements
 		healthcareSiteInvestigators.add(hcsi);
 		hcsi.setHealthcareSite(this);
 	}
+	
+	public void addInvestigatorGroup(InvestigatorGroup invGroup) {
+		this.getInvestigatorGroups().add(invGroup);
+	}
 
 	public void removeHealthcareSiteInvestigator(HealthcareSiteInvestigator hcsi) {
 		healthcareSiteInvestigators.remove(hcsi);
+	}
+	@Transient
+	public int getUnsavedInvestigatorGroupsLastIndex() {
+		if ((this.getInvestigatorGroups().size()>0) && (this.getInvestigatorGroups().get(this.getInvestigatorGroups().size()-1).getName())== null)
+		{
+			return this.getInvestigatorGroups().size()-1;
+		}
+		return -1;
 	}
 
 	@OneToMany(mappedBy = "healthcareSite", fetch = FetchType.LAZY)
