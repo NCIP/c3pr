@@ -28,6 +28,7 @@
         <pattern>/pages/admin/searchInvestigator</pattern> 
         <pattern>/pages/admin/createResearchStaff</pattern>
         <pattern>/pages/admin/searchResearchStaff</pattern> 
+        <pattern>/pages/admin/createInvestigatorGroups</pattern>
     </decorator>
     <decorator name="nullDecorator" page="nullDecorator.jsp">
     </decorator>
