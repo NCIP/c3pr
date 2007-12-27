@@ -139,7 +139,7 @@ public class SearchRegistrationController extends SimpleFormController {
 
 		refdata.put("searchTypeRefDataPrt", configMap
 				.get("participantSearchType"));
-		refdata.put("searchTypeRefDataStudy", configMap.get("studySearchType"));
+		refdata.put("searchTypeRefDataStudy", configMap.get("studySearchTypeForRegistration"));
 		return refdata;
 	}
 
