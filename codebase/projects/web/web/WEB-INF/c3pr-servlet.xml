@@ -253,6 +253,19 @@
         <property name="successView" value="admin/investigator_confirmation"/>
         <property name="sessionForm" value="true"/>
     </bean>
+    <bean name="/admin/createInvestigatorGroups"
+          id="createInvestigatorGroupsController" lazy-init="true"
+          class="edu.duke.cabig.c3pr.web.admin.CreateInvestigatorGroupsController"
+          autowire="byName">
+        <property name="commandClass"
+                  value="edu.duke.cabig.c3pr.web.admin.InvestigatorGroupsCommand"/>
+        <property name="formView" value="admin/investigator_groups_create"/>
+   		<property name="successView" value="admin/investigator_groups_confirm"/> 
+        <property name="sessionForm" value="true"/>
+    </bean>
+    
+     <bean id="c3PRDefaultTabConfigurer" class="edu.duke.cabig.c3pr.web.admin.C3PRDefaultTabConfigurer"
+               autowire="byName"/>
 
     <bean name="/admin/searchResearchStaff" id="searchResearchStaffController"
           class="org.springframework.web.servlet.mvc.ParameterizableViewController" autowire="byType">
@@ -271,13 +284,14 @@
             <ref bean="userDuplicateValidator"/>
         </property>
     </bean>
+    
 
 	<bean name="/admin/configure" id="configurationController" autowire="byName"
           class="edu.duke.cabig.c3pr.web.admin.ConfigurationController"/>
     <bean name="/admin/viewInvestigator" id="viewInvestigatorController" autowire="byType"
           class="edu.duke.cabig.c3pr.web.admin.ViewInvestigatorController">
     </bean>
-
+    
     <bean name="/admin/viewResearchStaff" id="viewResearchStaffController" autowire="byType"
           class="edu.duke.cabig.c3pr.web.admin.ViewResearchStaffController">
     </bean>
