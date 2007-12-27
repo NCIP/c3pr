@@ -17,6 +17,8 @@
 		class="edu.duke.cabig.c3pr.web.ajax.InvestigatorAjaxFacade" />
 	<bean id="researchStaffAjaxFacade" autowire="byType"
 		class="edu.duke.cabig.c3pr.web.ajax.ResearchStaffAjaxFacade" />
+	<bean id="organizationAjaxFacade" autowire="byType"
+		class="edu.duke.cabig.c3pr.web.ajax.OrganizationAjaxFacade" />
 	<bean id="searchOrganizationAjaxFacade" autowire="byType"
 		class="edu.duke.cabig.c3pr.web.ajax.SearchOrganizationAjaxFacade" />
 	<bean id="searchInvestigatorAjaxFacade" autowire="byType"
@@ -27,7 +29,6 @@
 		class="edu.duke.cabig.c3pr.web.ajax.RegistrationAjaxFacade" />
 	<bean id="anatomicDiseaseSiteFacade" autowire="byType"
 		class="edu.duke.cabig.c3pr.web.ajax.AnatomicDiseaseSiteFacade" />
-		
 	<bean id="createReportFacade" autowire="byType"
 		class="edu.duke.cabig.c3pr.web.ajax.CreateReportFacade" />
 	<bean id="reportCommand" autowire="byType"
