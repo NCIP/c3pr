@@ -29,7 +29,7 @@ public abstract class ReflexiveAjaxableTab<C> extends AjaxableTab<C> {
         this.paramTypes = params;
     }
 
-    protected ModelAndView postProcessAsynchronous(HttpServletRequest request, C command, Errors error) throws Exception {
+    public ModelAndView postProcessAsynchronous(HttpServletRequest request, C command, Errors error) throws Exception {
         if (methodInvocationRequest(request)) {
             Method method = getMethod(this, getMethodName(request));
             return (ModelAndView) new CustomMethodInvocater(this, method, new Object[]{request, command, error}).invoke();
