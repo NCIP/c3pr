@@ -19,6 +19,7 @@ import org.extremecomponents.table.core.TableModel;
 import org.extremecomponents.table.core.TableModelImpl;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.HttpSessionRequiredException;
 
@@ -26,6 +27,8 @@ import edu.duke.cabig.c3pr.dao.DiseaseCategoryDao;
 import edu.duke.cabig.c3pr.dao.DiseaseTermDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
+import edu.duke.cabig.c3pr.dao.InvestigatorDao;
+import edu.duke.cabig.c3pr.dao.InvestigatorGroupDao;
 import edu.duke.cabig.c3pr.dao.OrganizationDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
@@ -35,7 +38,10 @@ import edu.duke.cabig.c3pr.domain.DiseaseCategory;
 import edu.duke.cabig.c3pr.domain.DiseaseTerm;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
+import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.domain.InvestigatorGroup;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import edu.duke.cabig.c3pr.domain.SiteInvestigatorGroupAffiliation;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
@@ -52,6 +58,9 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
 	private DiseaseTermDao diseaseTermDao;
 	private OrganizationDao organizationDao;
 	private HealthcareSiteDao healthcareSiteDao;
+	private InvestigatorGroupDao investigatorGroupDao;
+	private InvestigatorDao investigatorDao;
+	
 	private static Log log = LogFactory.getLog(StudyAjaxFacade.class);
 
 	@SuppressWarnings("unchecked")
@@ -67,12 +76,31 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
 			throw new RuntimeException("Failed to instantiate "
 					+ src.getClass().getName(), e);
 		}
-
+		
 		BeanWrapper source = new BeanWrapperImpl(src);
 		BeanWrapper destination = new BeanWrapperImpl(dst);
 		for (String property : properties) {
-			destination.setPropertyValue(property, source
-					.getPropertyValue(property));
+			//only for nested props
+			String[] individualProps = property.split("\\.");
+			String temp = "";
+			
+			for(int i=0; i < individualProps.length - 1; i++){				
+				temp += (i != 0?".":"") +  individualProps[i];
+				Object o = source.getPropertyValue(temp);
+				if(destination.getPropertyValue(temp) == null){
+					try {
+						destination.setPropertyValue(temp, o.getClass().newInstance());
+					} catch (BeansException e) {
+						log.error(e.getMessage());
+					} catch (InstantiationException e) {
+						log.error(e.getMessage());
+					} catch (IllegalAccessException e) {
+						log.error(e.getMessage());
+					}					
+				}
+			}			
+			//for single and nested props
+			destination.setPropertyValue(property, source.getPropertyValue(property));
 		}
 		return dst;
 	}
@@ -285,7 +313,42 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
 		List<DiseaseTerm> diseaseTerms = diseaseTermDao
 				.getByCategoryId(categoryId);
 		return diseaseTerms;
+	}	
+	
+	public List<InvestigatorGroup> matchGroupsByOrganizationId(Integer organizationId, HttpServletRequest request) throws Exception{
+		HealthcareSite hcs = healthcareSiteDao.getById(organizationId);
+		List<InvestigatorGroup> invGroups = hcs.getInvestigatorGroups();
+		List<InvestigatorGroup> reducedInvGroups = new ArrayList<InvestigatorGroup>(); 
+		for (InvestigatorGroup iGrp : invGroups) {
+			reducedInvGroups.add(buildReduced(iGrp, Arrays.asList("id","name")));
+		}
+		return reducedInvGroups;
 	}
+	
+	public List<HealthcareSiteInvestigator> matchInvestigatorsByGroupId(Integer groupId, HttpServletRequest request) throws Exception{
+		
+		InvestigatorGroup iGrp = investigatorGroupDao.getById(groupId);
+		List <SiteInvestigatorGroupAffiliation> sigaList = null; 
+		HealthcareSiteInvestigator inv = null;
+		sigaList = iGrp.getSiteInvestigatorGroupAffiliations();
+		List <HealthcareSiteInvestigator> reducedInvList = new ArrayList<HealthcareSiteInvestigator>();
+		for (SiteInvestigatorGroupAffiliation siga : sigaList) {
+			inv = siga.getHealthcareSiteInvestigator();
+			reducedInvList.add(buildReduced(inv, Arrays.asList("id","investigator.firstName","investigator.lastName")));
+		}
+		return reducedInvList;
+	}
+	
+	public List<Investigator> getAllInvestigators(Integer healthcareSiteId) throws Exception{
+		
+		List <Investigator> invList = investigatorDao.getAll();
+		List <Investigator> reducedInvList = new ArrayList<Investigator>();
+		for (Investigator inv : invList) {
+			reducedInvList.add(buildReduced(inv, Arrays.asList("id", "firstName", "lastName")));
+		}
+		return reducedInvList;
+	}
+	
 
 	public List<HealthcareSite> matchHealthcareSites(String text)
 			throws Exception {
@@ -399,6 +462,30 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
 
 	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
 		this.healthcareSiteDao = healthcareSiteDao;
+	}
+
+	public OrganizationDao getOrganizationDao() {
+		return organizationDao;
+	}
+
+	public void setOrganizationDao(OrganizationDao organizationDao) {
+		this.organizationDao = organizationDao;
+	}
+
+	public InvestigatorGroupDao getInvestigatorGroupDao() {
+		return investigatorGroupDao;
+	}
+
+	public void setInvestigatorGroupDao(InvestigatorGroupDao investigatorGroupDao) {
+		this.investigatorGroupDao = investigatorGroupDao;
+	}
+
+	public InvestigatorDao getInvestigatorDao() {
+		return investigatorDao;
+	}
+
+	public void setInvestigatorDao(InvestigatorDao investigatorDao) {
+		this.investigatorDao = investigatorDao;
 	}
 
 }
