@@ -119,7 +119,9 @@ public class PersonnelServiceImpl implements PersonnelService {
         try {
             Set<Group> csmGroups = userProvisioningManager.getGroups(user.getLoginId().toString());
             for (Group csmGroup : csmGroups) {
-                groups.add(C3PRUserGroupType.getByCode(csmGroup.getGroupId().toString()));
+            	if(C3PRUserGroupType.getByCode(csmGroup.getGroupName())!=null){
+            		groups.add(C3PRUserGroupType.getByCode(csmGroup.getGroupName()));
+            	}
             }
         } catch (CSObjectNotFoundException e) {
             throw new C3PRBaseException("Error getting groups from CSM", e);
