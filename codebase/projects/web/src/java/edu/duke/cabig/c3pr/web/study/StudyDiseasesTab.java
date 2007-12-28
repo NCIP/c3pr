@@ -43,7 +43,7 @@ class StudyDiseasesTab extends StudyTab {
     public void postProcess(HttpServletRequest httpServletRequest, Study study, Errors errors) {
 
         String selected = httpServletRequest.getParameter("_selected");
-        String action = httpServletRequest.getParameter("_action");
+        String action = httpServletRequest.getParameter("_actionx");
 
         if ("addStudyDisease".equals(action)) {
             String[] diseases = study.getDiseaseTermIds();
