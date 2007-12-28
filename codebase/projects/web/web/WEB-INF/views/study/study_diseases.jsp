@@ -23,7 +23,7 @@ function fireAction(action, selected) {
     if (validatePage()) {
         addDiseasesToCart()
         document.getElementById('command')._target.name = '_noname';
-        document.studyDiseasesForm._action.value = action;
+        document.studyDiseasesForm._actionx.value = action;
         document.studyDiseasesForm._selected.value = selected;
         document.studyDiseasesForm.submit();
     }
@@ -242,10 +242,14 @@ Event.observe(window, "load", function() {
 <%-- Can't use tags:tabForm b/c there are two boxes in the form --%>
 <form:form method="post" name="studyDiseasesForm" cssClass="standard">
     <tags:tabFields tab="${tab}"/>
-    <chrome:box title="${tab.shortTitle}" cssClass="paired">
+    
+    <table border="0" id="table1" cellspacing="10" width="100%">
+    <tr>
+    <td valign="top" width="45%">
+    <chrome:box title="${tab.shortTitle}">
 
         <div>
-            <input type="hidden" name="_action" value="">
+            <input type="hidden" name="_actionx" value="">
             <input type="hidden" name="_selected" value="">
         </div>
 
@@ -273,30 +277,18 @@ Event.observe(window, "load", function() {
             </select> <form:select id="disease-sel-hidden" size="1"
                                    path="diseaseTermIds">
         </form:select>
-        </chrome:division>
-
-
-
-
-        <tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}">
-            <jsp:attribute name="localButtons">
-                <input type="button" value="Add Study Disease"
-                       onclick="fireAction('addStudyDisease','0');"
-                       alt="Add Study Disease"/>
-            </jsp:attribute>
-        </tags:tabControls>
-        
+        </chrome:division>		
     </chrome:box>
-
-
-
-    <chrome:box title="Selected Disease - ${fn:length(command.studyDiseases)}" id="diseases" cssClass="paired">
-
+	</td>
+	
+	<td valign="middle"><input type="button" value="Add Study Disease >>" onclick="fireAction('addStudyDisease','0');" alt="Add Study Disease"/></td>
+	
+	<td valign="top" width="45%">
+    <chrome:box title="Selected Disease - ${fn:length(command.studyDiseases)}" id="diseases">
         <c:choose>
             <c:when test="${fn:length(command.studyDiseases) == 0}">
                 No Diseases Selected
             </c:when>
-
             <c:otherwise>
                 <table border="0" width="100%" class="tablecontent">
                     <tr>
@@ -317,11 +309,14 @@ Event.observe(window, "load", function() {
                 </table>
             </c:otherwise>
         </c:choose>
-
-
-
-
     </chrome:box>
+    </td>
+    </tr>
+    
+    <tr><td colspan="3"><tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}"/></td>
+    </tr>
+    </table>
+    
 </form:form>
 <!-- MAIN BODY ENDS HERE -->
 </body>

@@ -39,6 +39,9 @@ public abstract class StudyOrganization extends AbstractMutableDeletableDomainOb
 	private HealthcareSite healthcareSite;
 	private LazyListHelper lazyListHelper;
 	
+    // TODO move into Command Object
+    private String[] studyInvestigatorIds;
+	
 	 public StudyOrganization() {
 	        lazyListHelper = new LazyListHelper();
 	        lazyListHelper.add(StudyInvestigator.class, new BiDirectionalInstantiateFactory<StudyInvestigator>(StudyInvestigator.class,this,"StudyOrganization", StudyOrganization.class));
@@ -161,5 +164,14 @@ public abstract class StudyOrganization extends AbstractMutableDeletableDomainOb
 	
 	public void setStudy(Study study) {
 		this.study = study;
+	}
+
+	@Transient
+	public String[] getStudyInvestigatorIds() {
+		return studyInvestigatorIds;
+	}
+
+	public void setStudyInvestigatorIds(String[] studyInvestigatorIds) {
+		this.studyInvestigatorIds = studyInvestigatorIds;
 	}
 }
