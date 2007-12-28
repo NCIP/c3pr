@@ -38,7 +38,6 @@ import edu.duke.cabig.c3pr.domain.DiseaseCategory;
 import edu.duke.cabig.c3pr.domain.DiseaseTerm;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
-import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.InvestigatorGroup;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.SiteInvestigatorGroupAffiliation;
@@ -315,8 +314,8 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
 		return diseaseTerms;
 	}	
 	
-	public List<InvestigatorGroup> matchGroupsByOrganizationId(Integer organizationId, HttpServletRequest request) throws Exception{
-		HealthcareSite hcs = healthcareSiteDao.getById(organizationId);
+	public List<InvestigatorGroup> matchGroupsByOrganizationId(Integer hcsId, HttpServletRequest request) throws Exception{
+		HealthcareSite hcs = healthcareSiteDao.getById(hcsId);
 		List<InvestigatorGroup> invGroups = hcs.getInvestigatorGroups();
 		List<InvestigatorGroup> reducedInvGroups = new ArrayList<InvestigatorGroup>(); 
 		for (InvestigatorGroup iGrp : invGroups) {
@@ -339,14 +338,15 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
 		return reducedInvList;
 	}
 	
-	public List<Investigator> getAllInvestigators(Integer healthcareSiteId) throws Exception{
+	public List<HealthcareSiteInvestigator> getAllInvestigators(Integer hcsId) throws Exception{
 		
-		List <Investigator> invList = investigatorDao.getAll();
-		List <Investigator> reducedInvList = new ArrayList<Investigator>();
-		for (Investigator inv : invList) {
-			reducedInvList.add(buildReduced(inv, Arrays.asList("id", "firstName", "lastName")));
+		HealthcareSite hcs = healthcareSiteDao.getById(hcsId);
+		List <HealthcareSiteInvestigator> hcsInvList = hcs.getHealthcareSiteInvestigators();
+		List <HealthcareSiteInvestigator> reducedHcsInvList = new ArrayList<HealthcareSiteInvestigator>();
+		for (HealthcareSiteInvestigator inv : hcsInvList) {
+			reducedHcsInvList.add(buildReduced(inv, Arrays.asList("id", "investigator.firstName","investigator.lastName")));
 		}
-		return reducedInvList;
+		return reducedHcsInvList;
 	}
 	
 
