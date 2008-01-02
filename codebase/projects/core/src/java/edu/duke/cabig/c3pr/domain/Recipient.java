@@ -11,10 +11,10 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 @Entity
-@Table(name = "recepients")
+@Table(name = "recipients")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = 
-{ @Parameter(name = "sequence", value = "RECEPIENTS_ID_SEQ") })
+{ @Parameter(name = "sequence", value = "RECIPIENTS_ID_SEQ") })
 public abstract class Recipient extends AbstractMutableDeletableDomainObject{
 	
 
