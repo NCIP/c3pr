@@ -158,9 +158,9 @@ public class StudyServiceImpl extends CCTSWorkflowServiceImpl implements StudySe
         if (study.getRandomizationType() == (RandomizationType.PHONE_CALL)) {
             for (TreatmentEpoch treatmentEpoch : study.getTreatmentEpochs()) {
                 Randomization randomization = treatmentEpoch.getRandomization();
-                if (randomization instanceof PhonecallRandomization) {
+                if (randomization instanceof PhoneCallRandomization) {
                     if (StringUtils
-                            .isBlank(((PhonecallRandomization) randomization)
+                            .isBlank(((PhoneCallRandomization) randomization)
                                     .getPhoneNumber())) {
                         throw new Exception("Treatment epoch: " + treatmentEpoch.getName() + " needs phone number for randomization");
                     }

@@ -12,7 +12,7 @@ import org.apache.commons.logging.LogFactory;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.CalloutRandomization;
-import edu.duke.cabig.c3pr.domain.PhonecallRandomization;
+import edu.duke.cabig.c3pr.domain.PhoneCallRandomization;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
@@ -103,10 +103,10 @@ public abstract class StudyTab extends InPlaceEditableTab<Study> {
 							}
 				    	}
 						if(study.getRandomizationType().equals(RandomizationType.PHONE_CALL)){
-							if(tEpoch.getRandomization() instanceof PhonecallRandomization){
+							if(tEpoch.getRandomization() instanceof PhoneCallRandomization){
 								//do nothing. This happens if nothing is chnaged during the edit flow
 							} else {
-								tEpoch.setRandomization(new PhonecallRandomization());
+								tEpoch.setRandomization(new PhoneCallRandomization());
 							}
 				    	}
 					} else {

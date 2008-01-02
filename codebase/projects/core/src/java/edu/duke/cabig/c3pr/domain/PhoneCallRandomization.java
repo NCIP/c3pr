@@ -6,7 +6,7 @@ import javax.persistence.Transient;
 
 @Entity
 @DiscriminatorValue(value = "PR")
-public class PhonecallRandomization extends Randomization {
+public class PhoneCallRandomization extends Randomization {
 
 	private String phoneNumber;
 

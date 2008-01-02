@@ -12,7 +12,7 @@ import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.CalloutRandomization;
 import edu.duke.cabig.c3pr.domain.Epoch;
-import edu.duke.cabig.c3pr.domain.PhonecallRandomization;
+import edu.duke.cabig.c3pr.domain.PhoneCallRandomization;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
