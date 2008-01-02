@@ -6,11 +6,15 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+
+import edu.duke.cabig.c3pr.utils.DateUtil;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 
 @Entity
 @Table(name="org_inv_gr_affiliations")
@@ -24,6 +28,8 @@ public class SiteInvestigatorGroupAffiliation extends AbstractMutableDeletableDo
 	private Date endDate;
 	private HealthcareSiteInvestigator healthcareSiteInvestigator;
 	private InvestigatorGroup investigatorGroup;
+	private String startDateStr;
+	private String endDateStr;
 	
 	@ManyToOne
 	@JoinColumn(name = "ing_id")
@@ -56,5 +62,27 @@ public class SiteInvestigatorGroupAffiliation extends AbstractMutableDeletableDo
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
+	
+	 @Transient
+	    public String getStartDateStr() {
+	        try {
+	            return DateUtil.formatDate(startDate, "MM/dd/yyyy");
+	        }
+	        catch(Exception e){
+	            //do nothing
+	        }
+	        return "";
+	    }
+	 
+	 @Transient
+	    public String getEndDateStr() {
+	        try {
+	            return DateUtil.formatDate(endDate, "MM/dd/yyyy");
+	        }
+	        catch(Exception e){
+	            //do nothing
+	        }
+	        return "";
+	    }
 
 }

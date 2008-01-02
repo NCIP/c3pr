@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.domain;
 
+import edu.duke.cabig.c3pr.utils.DateUtil;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
 import java.util.ArrayList;
@@ -34,6 +36,8 @@ public class InvestigatorGroup extends AbstractMutableDeletableDomainObject {
 	private Date endDate;
 	private HealthcareSite healthcareSite;
 	private LazyListHelper lazyListHelper;
+	private String startDateStr;
+	private String endDateStr;
 	
 	public InvestigatorGroup(){
 		lazyListHelper = new LazyListHelper();
@@ -100,5 +104,26 @@ public class InvestigatorGroup extends AbstractMutableDeletableDomainObject {
 	public void setSiteInvestigatorGroupAffiliations(
 			List<SiteInvestigatorGroupAffiliation> siteInvestigatorGroupAffiliations) {
 	}
+	 @Transient
+	    public String getStartDateStr() {
+	        try {
+	            return DateUtil.formatDate(startDate, "MM/dd/yyyy");
+	        }
+	        catch(Exception e){
+	            //do nothing
+	        }
+	        return "";
+	    }
+	 
+	 @Transient
+	    public String getEndDateStr() {
+	        try {
+	            return DateUtil.formatDate(endDate, "MM/dd/yyyy");
+	        }
+	        catch(Exception e){
+	            //do nothing
+	        }
+	        return "";
+	    }
 
 }
