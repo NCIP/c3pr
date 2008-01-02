@@ -34,7 +34,7 @@ public class Configuration extends DatabaseBackedConfiguration {
 		= PROPERTIES.add(new ConfigurationProperty.Text("localNciInstituteCode"));
 
     
-    public static final ConfigurationProperty<String> SMTP_ADDRESS
+/*    public static final ConfigurationProperty<String> SMTP_ADDRESS
         = PROPERTIES.add(new ConfigurationProperty.Text("smtpAddress"));
     public static final ConfigurationProperty<Integer> SMTP_PORT
         = PROPERTIES.add(new ConfigurationProperty.Int("smtpPort"));
@@ -43,7 +43,18 @@ public class Configuration extends DatabaseBackedConfiguration {
     public static final ConfigurationProperty<String> SMTP_PASSWORD
         = PROPERTIES.add(new ConfigurationProperty.Text("smtpPassword"));
     public static final ConfigurationProperty<String> SYSTEM_FROM_EMAIL
-        = PROPERTIES.add(new ConfigurationProperty.Text("systemFromEmail"));
+        = PROPERTIES.add(new ConfigurationProperty.Text("systemFromEmail"));*/
+    
+    public static final ConfigurationProperty<String> OUTGOING_MAIL_SERVER
+    = PROPERTIES.add(new ConfigurationProperty.Text("outgoingMailServer"));
+	public static final ConfigurationProperty<String> OUTGOING_MAIL_SERVER_PORT
+	    = PROPERTIES.add(new ConfigurationProperty.Text("outgoingMailServerPort"));
+	public static final ConfigurationProperty<String> OUTGOING_MAIL_USERNAME
+	    = PROPERTIES.add(new ConfigurationProperty.Text("outgoingMailUsername"));
+	public static final ConfigurationProperty<String> OUTGOING_MAIL_PASSWORD
+	    = PROPERTIES.add(new ConfigurationProperty.Text("outgoingMailPassword"));
+	public static final ConfigurationProperty<String> OUTGOING_MAIL_FROM_ADDRESS
+	    = PROPERTIES.add(new ConfigurationProperty.Text("outgoingMailFromAddress"));
 
     @Override
     public ConfigurationProperties getProperties() {
