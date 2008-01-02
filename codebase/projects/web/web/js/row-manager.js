@@ -157,6 +157,10 @@ var AbstractRowInserterProps = {
 	alertOnSoftDelete: true,
 	callRemoveFromCommand: false,
 	deleteMsgPrefix:"",
+	reset: function(index){
+					this.initialIndex=index
+					this.init();
+				},
 	updateIndex: function(index){
 						this.localIndex=index
 						this.initialIndex=index
