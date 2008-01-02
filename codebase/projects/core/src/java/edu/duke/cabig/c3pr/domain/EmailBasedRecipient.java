@@ -5,17 +5,17 @@ import javax.persistence.Entity;
 import javax.persistence.Transient;
 
 @Entity
-@DiscriminatorValue(value = "RR")
-public class RoleBasedRecepient extends Recepient {
+@DiscriminatorValue(value = "ER")
+public class EmailBasedRecipient extends Recipient {
 
-	private String role;
+	private String emailAddress;
 
-	public String getRole() {
-		return role;
+	public String getEmailAddress() {
+		return emailAddress;
 	}
 	
-	public void setRole(String role) {
-		this.role = role;
+	public void setEmailAddress(String emailAddress) {
+		this.emailAddress = emailAddress;
 	}
 
 	@Override

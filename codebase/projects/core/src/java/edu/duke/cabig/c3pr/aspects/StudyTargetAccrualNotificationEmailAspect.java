@@ -14,10 +14,10 @@ import org.springframework.mail.SimpleMailMessage;
 import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
-import edu.duke.cabig.c3pr.domain.EmailBasedRecepient;
+import edu.duke.cabig.c3pr.domain.EmailBasedRecipient;
 import edu.duke.cabig.c3pr.domain.Notification;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
-import edu.duke.cabig.c3pr.domain.RoleBasedRecepient;
+import edu.duke.cabig.c3pr.domain.RoleBasedRecipient;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.StudySite;
@@ -76,17 +76,17 @@ public class StudyTargetAccrualNotificationEmailAspect {
     	
     	List<String> finalList = new ArrayList<String>();
     	
-    	for (EmailBasedRecepient er : nf.getEmailBasedRecepient()){
+    	for (EmailBasedRecipient er : nf.getEmailBasedRecipient()){
     		finalList.add(er.getEmailAddress());
     	}    	
-    	for (RoleBasedRecepient rr : nf.getRoleBasedRecepient()){
-    		finalList.addAll(getEmailsFromRoleBasedRecepient(study, rr));
+    	for (RoleBasedRecipient rr : nf.getRoleBasedRecipient()){
+    		finalList.addAll(getEmailsFromRoleBasedRecipient(study, rr));
     	}
     	
     	return finalList;
     }
     
-    public List<String> getEmailsFromRoleBasedRecepient(Study study, RoleBasedRecepient rr){
+    public List<String> getEmailsFromRoleBasedRecipient(Study study, RoleBasedRecipient rr){
     	List <StudySite> studySiteList = study.getStudySites();
     	List <String> returnList = new ArrayList<String>();
     	List <C3PRUserGroupType> groupList = null;

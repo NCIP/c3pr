@@ -15,7 +15,7 @@ import org.hibernate.annotations.Parameter;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = 
 { @Parameter(name = "sequence", value = "RECEPIENTS_ID_SEQ") })
-public abstract class Recepient extends AbstractMutableDeletableDomainObject{
+public abstract class Recipient extends AbstractMutableDeletableDomainObject{
 	
 
 }

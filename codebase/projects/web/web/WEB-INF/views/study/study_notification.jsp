@@ -16,18 +16,18 @@
             var roleRowInserterProps= {
                 add_row_division_id: "table2",
                 skeleton_row_division_id: "dummy-roleRow",
-                initialIndex: ${fn:length(command.notifications[nStatus.index].roleBasedRecepient)},
+                initialIndex: ${fn:length(command.notifications[nStatus.index].roleBasedRecipient)},
                 softDelete: ${softDelete == 'true'},
                 row_index_indicator: "SECONDARY.NESTED.PAGE.ROW.INDEX",
-                path: "notifications[PAGE.ROW.INDEX].roleBasedRecepient"
+                path: "notifications[PAGE.ROW.INDEX].roleBasedRecipient"
            };
             var emailRowInserterProps= {
                 add_row_division_id: "table1",
                 skeleton_row_division_id: "dummy-emailRow",
-                initialIndex: ${fn:length(command.notifications[nStatus.index].emailBasedRecepient)},
+                initialIndex: ${fn:length(command.notifications[nStatus.index].emailBasedRecipient)},
                 softDelete: ${softDelete == 'true'},
                 row_index_indicator: "NESTED.PAGE.ROW.INDEX",
-                path: "notifications[PAGE.ROW.INDEX].emailBasedRecepient"
+                path: "notifications[PAGE.ROW.INDEX].emailBasedRecipient"
             };
             var notificationRowInserterProps = {
                 nested_row_inserter: emailRowInserterProps,
@@ -54,8 +54,8 @@
 			</div>
 			<c:forEach items="${command.notifications}" var="notification" varStatus="nStatus">
 				<script>
-                    RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}).updateIndex(${fn:length(command.notifications[nStatus.index].emailBasedRecepient)});
-                    RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}).updateIndex(${fn:length(command.notifications[nStatus.index].roleBasedRecepient)});
+                    RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}).updateIndex(${fn:length(command.notifications[nStatus.index].emailBasedRecipient)});
+                    RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}).updateIndex(${fn:length(command.notifications[nStatus.index].roleBasedRecipient)});
                 </script>
 				<tr id="notification-${nStatus.index}">						
 					<td><form:input size="5" path="notifications[${nStatus.index}].threshold" cssClass="validate-notEmpty" /></td>
@@ -68,10 +68,10 @@
 								</th>
 							</tr>
 							<c:forEach var="email" varStatus="emailStatus"
-								items="${command.notifications[nStatus.index].emailBasedRecepient}">
+								items="${command.notifications[nStatus.index].emailBasedRecipient}">
 								<tr id="table1-${emailStatus.index}">
 									<td class="alt">
-									<form:input	path="notifications[${nStatus.index }].emailBasedRecepient[${emailStatus.index}].emailAddress"
+									<form:input	path="notifications[${nStatus.index }].emailBasedRecipient[${emailStatus.index}].emailAddress"
 										size="30" cssClass="validate-notEmpty" /></td>
 									<td class="alt"><a
 										href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}),${emailStatus.index},${email.hashCode});">
@@ -89,10 +89,10 @@
 								</th>
 							</tr>
 							<c:forEach var="role" varStatus="roleStatus"
-								items="${command.notifications[nStatus.index].roleBasedRecepient}">
+								items="${command.notifications[nStatus.index].roleBasedRecipient}">
 								<tr id="table2-${roleStatus.index}">
 									<td class="alt">
-									<form:select path="notifications[${nStatus.index }].roleBasedRecepient[${roleStatus.index}].role" >
+									<form:select path="notifications[${nStatus.index }].roleBasedRecipient[${roleStatus.index}].role" >
 						                <option value="">Please Select</option>
 						                <form:options items="${notificationPersonnelRoleRefData}" itemLabel="desc" itemValue="desc" />
 						            </form:select>									
@@ -157,7 +157,7 @@
 			<table>
 			<tr>
 				<td class="alt">
-				<input type="text" name="notifications[PAGE.ROW.INDEX].emailBasedRecepient[NESTED.PAGE.ROW.INDEX].emailAddress"
+				<input type="text" name="notifications[PAGE.ROW.INDEX].emailBasedRecipient[NESTED.PAGE.ROW.INDEX].emailAddress"
 					size="30" class="validate-notEmpty" /></td>
 				<td class="alt"><a
 					href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX),NESTED.PAGE.ROW.INDEX,-1);">
@@ -171,8 +171,8 @@
 			<tr>
 				<td class="alt">
 				
-				<select id="notifications[PAGE.ROW.INDEX].roleBasedRecepient[SECONDARY.NESTED.PAGE.ROW.INDEX].role"
-                        name="notifications[PAGE.ROW.INDEX].roleBasedRecepient[SECONDARY.NESTED.PAGE.ROW.INDEX].role">
+				<select id="notifications[PAGE.ROW.INDEX].roleBasedRecipient[SECONDARY.NESTED.PAGE.ROW.INDEX].role"
+                        name="notifications[PAGE.ROW.INDEX].roleBasedRecipient[SECONDARY.NESTED.PAGE.ROW.INDEX].role">
                     <option value="">Please Select</option>
                     <c:forEach items="${notificationPersonnelRoleRefData}" var="role">
                         <option value="${role.desc}">${role.desc}</option>

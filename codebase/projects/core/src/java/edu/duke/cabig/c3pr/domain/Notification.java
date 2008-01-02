@@ -29,10 +29,10 @@ public class Notification extends AbstractMutableDeletableDomainObject{
 
 	public Notification(){
 		lazyListHelper = new LazyListHelper();
-		lazyListHelper.add(EmailBasedRecepient.class,
-				new InstantiateFactory<EmailBasedRecepient>(EmailBasedRecepient.class));
-		lazyListHelper.add(RoleBasedRecepient.class,
-				new InstantiateFactory<RoleBasedRecepient>(RoleBasedRecepient.class));
+		lazyListHelper.add(EmailBasedRecipient.class,
+				new InstantiateFactory<EmailBasedRecipient>(EmailBasedRecipient.class));
+		lazyListHelper.add(RoleBasedRecipient.class,
+				new InstantiateFactory<RoleBasedRecipient>(RoleBasedRecipient.class));
 	}
 	 
 	@Override
@@ -45,22 +45,22 @@ public class Notification extends AbstractMutableDeletableDomainObject{
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})	
     @JoinColumn(name = "NOTIFICATIONS_ID", nullable=false)
     @Where(clause = "DTYPE = 'ER' and retired_indicator  = 'false'")
-	public List<EmailBasedRecepient> getEmailBasedRecepientInternal() {
-		return lazyListHelper.getInternalList(EmailBasedRecepient.class);
+	public List<EmailBasedRecipient> getEmailBasedRecipientInternal() {
+		return lazyListHelper.getInternalList(EmailBasedRecipient.class);
 	}
 
-	public void setEmailBasedRecepientInternal(
-			List<EmailBasedRecepient> emailBasedRecepient) {
-		lazyListHelper.setInternalList(EmailBasedRecepient.class, emailBasedRecepient);
+	public void setEmailBasedRecipientInternal(
+			List<EmailBasedRecipient> emailBasedRecipient) {
+		lazyListHelper.setInternalList(EmailBasedRecipient.class, emailBasedRecipient);
 	}
 	
 	@Transient
-	public List<EmailBasedRecepient> getEmailBasedRecepient() {
-		return lazyListHelper.getLazyList(EmailBasedRecepient.class);
+	public List<EmailBasedRecipient> getEmailBasedRecipient() {
+		return lazyListHelper.getLazyList(EmailBasedRecipient.class);
 	}
 
-	public void setEmailBasedRecepient(
-			List<EmailBasedRecepient> emailBasedRecepient) {
+	public void setEmailBasedRecipient(
+			List<EmailBasedRecipient> emailBasedRecipient) {
 	}
 	
 	
@@ -68,22 +68,22 @@ public class Notification extends AbstractMutableDeletableDomainObject{
     @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})	
     @JoinColumn(name = "NOTIFICATIONS_ID", nullable=false)
     @Where(clause = "DTYPE = 'RR' and retired_indicator  = 'false'")
-	public List<RoleBasedRecepient> getRoleBasedRecepientInternal() {
-		return lazyListHelper.getInternalList(RoleBasedRecepient.class);
+	public List<RoleBasedRecipient> getRoleBasedRecipientInternal() {
+		return lazyListHelper.getInternalList(RoleBasedRecipient.class);
 	}
 
-	public void setRoleBasedRecepientInternal(
-			List<RoleBasedRecepient> roleBasedRecepient) {
-		lazyListHelper.setInternalList(RoleBasedRecepient.class, roleBasedRecepient);
+	public void setRoleBasedRecipientInternal(
+			List<RoleBasedRecipient> roleBasedRecipient) {
+		lazyListHelper.setInternalList(RoleBasedRecipient.class, roleBasedRecipient);
 	}
 	
 	@Transient
-	public List<RoleBasedRecepient> getRoleBasedRecepient() {
-		return lazyListHelper.getLazyList(RoleBasedRecepient.class);
+	public List<RoleBasedRecipient> getRoleBasedRecipient() {
+		return lazyListHelper.getLazyList(RoleBasedRecipient.class);
 	}
 
-	public void setRoleBasedRecepient(
-			List<RoleBasedRecepient> roleBasedRecepient) {
+	public void setRoleBasedRecipient(
+			List<RoleBasedRecipient> roleBasedRecipient) {
 	}
 
 	public Integer getThreshold() {
@@ -97,7 +97,7 @@ public class Notification extends AbstractMutableDeletableDomainObject{
 	@Transient
 	public String getEmailAddresses(){
 		String emailAddresses = "";
-		for(EmailBasedRecepient eRec : getEmailBasedRecepient() ){
+		for(EmailBasedRecipient eRec : getEmailBasedRecipient() ){
 			emailAddresses += eRec.getEmailAddress() + " <br/> ";
 		}
 		return emailAddresses;
@@ -106,7 +106,7 @@ public class Notification extends AbstractMutableDeletableDomainObject{
 	@Transient
 	public String getRoles(){
 		String roles = "";
-		for(RoleBasedRecepient rRec : getRoleBasedRecepient() ){
+		for(RoleBasedRecipient rRec : getRoleBasedRecipient() ){
 			roles += rRec.getRole() + " <br/> ";
 		}
 		return roles;

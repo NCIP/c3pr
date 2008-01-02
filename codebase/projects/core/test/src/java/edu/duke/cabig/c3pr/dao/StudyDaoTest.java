@@ -24,7 +24,7 @@ import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.DiseaseCategory;
 import edu.duke.cabig.c3pr.domain.DiseaseTerm;
-import edu.duke.cabig.c3pr.domain.EmailBasedRecepient;
+import edu.duke.cabig.c3pr.domain.EmailBasedRecipient;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
@@ -34,7 +34,7 @@ import edu.duke.cabig.c3pr.domain.Notification;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Randomization;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
-import edu.duke.cabig.c3pr.domain.RoleBasedRecepient;
+import edu.duke.cabig.c3pr.domain.RoleBasedRecipient;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionAnswerCombination;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
@@ -604,9 +604,9 @@ public class StudyDaoTest extends DaoTestCase {
 			createDefaultStudyWithDesign(study);
 			
 			//notification specific code.
-			EmailBasedRecepient ebr = new EmailBasedRecepient();
+			EmailBasedRecipient ebr = new EmailBasedRecipient();
 			ebr.setEmailAddress("vinay.gangoli@semanticbits.com");			
-			RoleBasedRecepient rbr = new RoleBasedRecepient();
+			RoleBasedRecipient rbr = new RoleBasedRecipient();
 			rbr.setRole("admin");
 			
 			/*ResearchStaff rs = new ResearchStaff();
@@ -622,8 +622,8 @@ public class StudyDaoTest extends DaoTestCase {
 			
 			Notification notification = new Notification();
 			notification.setThreshold(90);
-			notification.getEmailBasedRecepient().add(ebr);
-			notification.getRoleBasedRecepient().add(rbr);
+			notification.getEmailBasedRecipient().add(ebr);
+			notification.getRoleBasedRecipient().add(rbr);
 			study.getNotifications().add(notification);
 			dao.save(study);
 			savedId = study.getId();
@@ -634,8 +634,8 @@ public class StudyDaoTest extends DaoTestCase {
 			Study loaded = dao.getById(savedId);
 			assertNotNull("Could not reload study with id " + savedId, loaded);
 			assertEquals("Wrong Threshold", 90, loaded.getNotifications().get(0).getThreshold().intValue());
-			assertEquals("Wrong role", "admin", loaded.getNotifications().get(0).getRoleBasedRecepient().get(0).getRole());
-			assertEquals("Wrong emailAddress", "vinay.gangoli@semanticbits.com", loaded.getNotifications().get(0).getEmailBasedRecepient().get(0).getEmailAddress());
+			assertEquals("Wrong role", "admin", loaded.getNotifications().get(0).getRoleBasedRecipient().get(0).getRole());
+			assertEquals("Wrong emailAddress", "vinay.gangoli@semanticbits.com", loaded.getNotifications().get(0).getEmailBasedRecipient().get(0).getEmailAddress());
 		}
 	}
 
