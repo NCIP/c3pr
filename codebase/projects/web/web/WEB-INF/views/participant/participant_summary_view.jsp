@@ -34,7 +34,7 @@ function updateTargetPage(target){
 	<chrome:box title="Subject Summary" autopad="true">
 		<div><input type="hidden" name="_finish" value="true" /> <input
 			type="hidden" name="_action" value=""></div>
-
+		<div id="printable">
 		<chrome:division id="subject-details" title="Basic Details">
 			<table class="tablecontent" width="60%">
 				<tr>
@@ -158,6 +158,7 @@ function updateTargetPage(target){
 			<div class="flow-buttons"><span class="next"> <input type="button"
 				value="Edit Subject"
 				onclick="document.location='editParticipant?participantId=${command.id}'" />
+				<input type="button" value="Print" onClick="javascript:C3PR.printElement('printable');"/>
 			</span></div>
 		</div>
 		</c:if>

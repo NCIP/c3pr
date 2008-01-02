@@ -67,6 +67,7 @@
 <div><input type="hidden" name="_finish" value="true"/> <input
         type="hidden" name="_action" value=""></div>
 
+<div id="printable">
 <chrome:division id="study-details" title="Study Details">
     <table class="tablecontent" width="60%">
         <tr>
@@ -402,6 +403,7 @@
         </c:forEach>
     </table>
 </chrome:division>
+</div>
 
 <chrome:division title="CCTS Workflow">
     <div class="content">
@@ -447,8 +449,12 @@
     </div>
 
 </c:if>
-
+<br/>
+<div align="right">
+	<input type="button" value="Print" onClick="javascript:C3PR.printElement('printable');"/>
+</div>
 </chrome:box>
+
 </form:form>
 </body>
 </html>

@@ -29,7 +29,7 @@ document.getElementById("command").submit();
     <input type="hidden" name="_activate" id="_activate" value="false"/>
 </div>
 </div>
-
+<div id="printable">
 <chrome:division id="study-details" title="Basic Details" >
     <table class="tablecontent" width="60%">
         <tr>
@@ -301,11 +301,12 @@ document.getElementById("command").submit();
         </c:forEach>
     </table>
 </chrome:division>
-
+</div>
 			<div class="content buttons autoclear">
 			<div class="flow-buttons"><span class="next"> 
 				<input type="button" value="Save and Activate" id="saveActiveButtonDisplayDiv" onclick="activateAndSaveStudy();return false;"/>
- </span></div>
+				<input type="button" value="Print" onClick="javascript:C3PR.printElement('printable');"/>
+ 			</span></div>
 			</div>
 
    </jsp:attribute>

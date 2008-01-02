@@ -78,6 +78,7 @@
                                requiresMultiSite="${requiresMultiSite}"/>
 </c:if>
 <tags:panelBox>
+<div id="printable">
 <chrome:division id="Subject Information" title="Subject Information">
     <table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
         <tr>
@@ -415,7 +416,7 @@
         </chrome:division>
     </c:if>
 </c:if>
-
+</div>
 <c:if test="${command.regWorkflowStatus=='REGISTERED' && command.scheduledEpoch.scEpochWorkflowStatus=='APPROVED'}">
     <chrome:division title="CCTS Workflow">
         <form:form id="viewDetails" name="viewDetails">
@@ -441,6 +442,7 @@
 </c:if>
 
 <div align="right">
+	<input type="button" value="Print" onClick="javascript:C3PR.printElement('printable');"/>
     <input type="button" value="Export" onClick="$('exportForm')._target.name='xxxx';$('exportForm').submit();"/>
 </div>
 
