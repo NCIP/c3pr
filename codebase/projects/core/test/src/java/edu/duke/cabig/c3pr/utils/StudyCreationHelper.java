@@ -9,7 +9,7 @@ import edu.duke.cabig.c3pr.domain.BookRandomizationEntry;
 import edu.duke.cabig.c3pr.domain.CalloutRandomization;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.NonTreatmentEpoch;
-import edu.duke.cabig.c3pr.domain.PhonecallRandomization;
+import edu.duke.cabig.c3pr.domain.PhoneCallRandomization;
 import edu.duke.cabig.c3pr.domain.Randomization;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
@@ -193,8 +193,8 @@ public class StudyCreationHelper {
     }
     
     private void addPhoneCallRandomization(TreatmentEpoch epoch){
-    	Randomization pRandomization = new PhonecallRandomization();
-        ((PhonecallRandomization) pRandomization).setPhoneNumber("777 777 7777");
+    	Randomization pRandomization = new PhoneCallRandomization();
+        ((PhoneCallRandomization) pRandomization).setPhoneNumber("777 777 7777");
         epoch.setRandomization(pRandomization);
     }
 }

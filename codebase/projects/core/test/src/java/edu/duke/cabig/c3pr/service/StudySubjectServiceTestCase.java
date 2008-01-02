@@ -1280,7 +1280,7 @@ public class StudySubjectServiceTestCase extends DaoTestCase {
         epoch.addArm(new Arm());
         epoch.setRandomizedIndicator(randomized);
         if (randomized) {
-            epoch.setRandomization(new PhonecallRandomization());
+            epoch.setRandomization(new PhoneCallRandomization());
         }
         return epoch;
     }
