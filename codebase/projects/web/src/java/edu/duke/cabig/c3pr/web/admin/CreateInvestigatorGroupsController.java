@@ -27,7 +27,7 @@ public class CreateInvestigatorGroupsController extends SimpleFormController{
 	InvestigatorGroupDao investigatorGroupDao;
 	HealthcareSiteDao healthcareSiteDao;
 	private HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
-	private Logger log;
+	private Logger log = Logger.getLogger(CreateInvestigatorGroupsController.class);
 	
 	public HealthcareSiteInvestigatorDao getHealthcareSiteInvestigatorDao() {
 		return healthcareSiteInvestigatorDao;
