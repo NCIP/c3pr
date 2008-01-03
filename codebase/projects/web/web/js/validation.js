@@ -191,12 +191,15 @@ var ValidationManager = {
 					},
 	errorLog: function(str){
 					this.log("<br><span style='color:red;font-weight:bolder;'>----------------------<br>"+str+"<br>-------------------------</span><br>")
+				},
+	registerForm: function(formVariable){
+					formVariable._submit= formVariable.submit
+					formVariable.submit = ValidationManager.validateForm
+					Event.observe(formVariable, "submit", ValidationManager.validateForm)
 				}
 }
 Event.observe(window, "load", function(){
 	$$('form').each(function(formVar){
-									formVar._submit= formVar.submit
-									formVar.submit = ValidationManager.validateForm
-									Event.observe(formVar, "submit", ValidationManager.validateForm)
+									ValidationManager.registerForm(formVar)
 								})
 })
