@@ -33,6 +33,7 @@
             afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=sponsorSiteAutocompleterProps.basename+"-hidden"
 	    							$(hiddenField).value=selectedChoice.id;
+	    							$('flashMessage').hide();
 	    							updateGroups(selectedChoice.id,"",false);
 			 }
         }
@@ -108,7 +109,11 @@ RowManager.addRowInseter(instanceRowInserterProps);
 		         	sel.options[0].selected = true;
 		         }
 		        showAffiliations(saveEvent)
-		        }
+		        } else {
+		        		$("disease-sub-category").options.length=0;
+		        			new Element.update($("groupDisplay"),'');
+		        	}
+		        
 	    	})
 		};
 		
@@ -124,9 +129,14 @@ RowManager.addRowInseter(instanceRowInserterProps);
 		}
 		
 	function handleAddGroup(){
+	if($('healthcareSite-hidden').value != ""){
 		new Ajax.Updater('groupDisplay', 'getGroup', {method:"get", asynchronous:true, evalScripts:true, onComplete:function(){ new Effect.Highlight('groupDisplay');}, 
 		    												parameters: { decorator:"nullDecorator", healthcareSite: $(sponsorSiteAutocompleterProps.basename+"-hidden").value}
 		    											});
+		} else {
+				$('flashMessage').show()
+				new Effect.Highlight('flashMessage');
+		}
 	}
 
 	Event.observe(window, "load", function() {
@@ -148,6 +158,13 @@ RowManager.addRowInseter(instanceRowInserterProps);
 																		}
 															});
 								 return false;
+	}
+	function handleHealthcarSiteClear(){
+		$("healthcareSite-input").value="";
+		$("healthcareSite-hidden").value="";
+		$("disease-sub-category").options.length=0;
+			
+			new Element.update($("groupDisplay"),'');
 	}
 </script>
 <script type="text/javascript" src="/c3pr/js/CalendarPopup.js"></script>	
@@ -185,21 +202,21 @@ RowManager.addRowInseter(instanceRowInserterProps);
 		
 
  <chrome:division title="Organization" id="disease">
-          Search for an Organization<br>
+          Organization<br>
           <input type="hidden" id="healthcareSite-hidden"
 					name="healthcareSite" value="${command.healthcareSite.id}" /> <input
 					id="healthcareSite-input" size="60" type="text" name="xyz"
 					value="${command.healthcareSite.name}"
 					class="autocomplete validate-notEmpty" /> 
-					<input type="button" id="healthcareSite-clear"
+					<input type="button" onclick="handleHealthcarSiteClear()"
                         value="Clear"/>
 					<tags:indicator	id="healthcareSite-indicator" />
 				<div id="healthcareSite-choices" class="autocomplete"></div>
-				 <p id="disease-selected" style="display: none"></p>
+				 <p id="flashMessage" style="display: none">Search for an Organization first
+					</p>
 
           <br><br>Select a Group<br>
           <select multiple size="1" style="width:400px" id="disease-sub-category">
-              <option value="">Please select a Group first</option>
           </select>
           
           <div align="right"><input type="button" value="Add Group" onclick="handleAddGroup()"/></div>
@@ -208,7 +225,6 @@ RowManager.addRowInseter(instanceRowInserterProps);
 		
 <div id="groupDisplay"/>
 </tags:panelBox></div>
-
 </body>
 </html>
 

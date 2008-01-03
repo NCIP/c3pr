@@ -51,7 +51,7 @@
 		          		<c:forEach items="${command.healthcareSite.investigatorGroups[groupIndex].siteInvestigatorGroupAffiliations}" var="aff">
 		              		<option>${aff.healthcareSiteInvestigator.investigator.fullName }</option> 
 		              	</c:forEach>
-		          </select> <span id="disease-selected-name"></span>
+		          </select> 
 	          </c:if>
 	          
 	          
