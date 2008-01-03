@@ -86,16 +86,11 @@
 RowManager.addRowInseter(instanceRowInserterProps);  
   AutocompleterManager.addAutocompleter(sponsorSiteAutocompleterProps);
 
-		function hover()
-		{
-		    //var sel = $("disease-sub-category")
-		    //alert (sel.value)
-		
-		};
 		function updateGroups(id,selectedId,saveEvent){
 		
 			OrganizationAjaxFacade.getInvestigatorGroups(id, function(categories) {
 		        var sel = $("disease-sub-category")
+		       if(categories!=null && categories.length > 0){
 		        sel.size = categories.length < 10 ? categories.length + 2 : 10;
 		        //sel.size= 10
 		        sel.options.length = 0
@@ -113,6 +108,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 		         	sel.options[0].selected = true;
 		         }
 		        showAffiliations(saveEvent)
+		        }
 	    	})
 		};
 		
@@ -202,7 +198,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 				 <p id="disease-selected" style="display: none"></p>
 
           <br><br>Select a Group<br>
-          <select multiple size="1" onmouseover="javascript:hover()" style="width:400px" id="disease-sub-category">
+          <select multiple size="1" style="width:400px" id="disease-sub-category">
               <option value="">Please select a Group first</option>
           </select>
           
