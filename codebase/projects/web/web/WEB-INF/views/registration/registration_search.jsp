@@ -104,13 +104,13 @@ var registrationAutocompleterProps = {
 
 function acPostSelect(mode, selectedChoice) {
     Element.update(mode.basename + "-selected-name", mode.valueSelector(selectedChoice))
-    $(mode.basename).value = selectedChoice.id;
+    $(mode.basename + "-hidden").value = selectedChoice.id;
     $(mode.basename + '-selected').show()
     new Effect.Highlight(mode.basename + "-selected")
 }
 
 function updateSelectedDisplay(mode) {
-    if ($(mode.basename).value) {
+    if ($(mode.basename + "-hidden").value) {
 	Element.update(mode.basename + "-selected-name", $(mode.basename + "-input").value)
 	$(mode.basename + '-selected').show()
     }
@@ -214,7 +214,7 @@ function submitPage(){
 
 				<tr>
 					<td width="20%" valign="top" align="right"><span class="required-indicator"><b>Search Criteria:</b></span>&nbsp;</td>
-					<td colspan="2"><input type="hidden" id="registration" /> <input
+					<td colspan="2"><input type="hidden" id="registration-hidden" /> <input
 						id="registration-input" size="52" type="text" name="searchText"
 						class="autocomplete validate-notEmpty" /> <tags:indicator
 						id="registration-indicator" />
