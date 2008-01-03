@@ -350,7 +350,7 @@
     <!--Utilities-->
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="${outgoingMailServer}"/>
-        <property name="port" value="25"/>
+        <property name="port" value="${outgoingMailServerPort}"/>
         <property name="password" value="${outgoingMailPassword}"/>
         <property name="username" value="${outgoingMailUsername}"/>
         <property name="javaMailProperties" value="${smtpAuth}" />
