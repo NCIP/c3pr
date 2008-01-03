@@ -21,7 +21,7 @@
 	        			<table>
 	        				<tr>
 	        					<td align="right"><span class="required-indicator"></span><b>Name:</b></td>
-	        					<td><input type="text" name="healthcareSite.investigatorGroups[${groupIndex }].name" value="${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].name}" cssClass="validate-notEmpty"/></td>
+	        					<td><input type="text" name="healthcareSite.investigatorGroups[${groupIndex }].name" value="${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].name}" class="validate-notEmpty"/></td>
 	        				</tr>
 	        				<tr>
 	        					<td align="right"><b>Start Date:</b></td> 
@@ -41,7 +41,7 @@
 	        		</td> 
 	        		<td align="right"><b>Description:</b></td>
 	        		<td><textarea name="healthcareSite.investigatorGroups[${groupIndex }].descriptionText" rows="5" cols="50"
-	        					 value="${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].descriptionText}">${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].descriptionText}</textarea></td>      
+	        					 value="${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].descriptionText}" cssClass="validate-notEmpty">${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].descriptionText}</textarea></td>      
 	        	</tr>
         	</table>
         		<c:if test="${!newGroup && fn:length(command.healthcareSite.investigatorGroups[groupIndex].siteInvestigatorGroupAffiliations)>0}">
@@ -74,7 +74,7 @@
     <br>
     <div class="content buttons">
 	    <div align="right">
-	        <input type="button" value="Save" onclick="submitGroupForm();"/>
+	        <input value="Save" type="submit"/>
 	    </div>
 	    <div  align="right" id="savingIndicator">
 	    	<tags:indicator id="ind"/> Saving...
@@ -132,4 +132,12 @@ Calendar.setup(
    );
    new Element.hide("savingIndicator");
    new Element.hide("savedIndicator");
+   ValidationManager.submitPostProcess= function(formElement, flag){	
+   if(flag==true)
+   		{
+			submitGroupForm();
+		}
+	return false;
+	}
+	ValidationManager.registerForm($("groupForm"));
 </script>
