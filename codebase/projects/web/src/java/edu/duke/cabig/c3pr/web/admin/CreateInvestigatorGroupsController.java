@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -19,7 +20,6 @@ import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.InvestigatorGroupDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
-import edu.duke.cabig.c3pr.domain.InvestigatorGroup;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 
@@ -27,6 +27,7 @@ public class CreateInvestigatorGroupsController extends SimpleFormController{
 	InvestigatorGroupDao investigatorGroupDao;
 	HealthcareSiteDao healthcareSiteDao;
 	private HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
+	private Logger log;
 	
 	public HealthcareSiteInvestigatorDao getHealthcareSiteInvestigatorDao() {
 		return healthcareSiteInvestigatorDao;
@@ -51,7 +52,6 @@ public class CreateInvestigatorGroupsController extends SimpleFormController{
 			binder.registerCustomEditor(HealthcareSite.class, new CustomDaoEditor(healthcareSiteDao));
 			binder.registerCustomEditor(HealthcareSiteInvestigator.class, new CustomDaoEditor(
 					healthcareSiteInvestigatorDao));
-//			binder.registerCustomEditor(InvestigatorGroup.class, new CustomDaoEditor(investigatorGroupDao));
 	 	}
 	@Override
 	protected Map referenceData(HttpServletRequest request, Object command, Errors error) throws Exception {
@@ -81,7 +81,7 @@ public class CreateInvestigatorGroupsController extends SimpleFormController{
 		int id;
 		if(WebUtils.hasSubmitParameter(request, "groupId")){
 			id=Integer.parseInt(request.getParameter("groupId"));
-			System.out.println("groupId:"+id);
+			log.debug("groupId:"+id);
 			response.getWriter().println(id);
 			response.getWriter().close();
 		}
