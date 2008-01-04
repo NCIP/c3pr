@@ -58,13 +58,13 @@ var diseaseAutocompleterProps = {
 function acPostSelect(mode, selectedChoice) {
     //Element.update(mode.basename + "-selected-name", mode.valueSelector(selectedChoice))
     updateCategories(selectedChoice.id);
-    //$(mode.basename).value = selectedChoice.id;
+    $(mode.basename + "-hidden").value = selectedChoice.id;
     //$(mode.basename + '-selected').show()
     //new Effect.Highlight(mode.basename + "-selected")
 }
 
 function updateSelectedDisplay(mode) {
-    if ($(mode.basename).value) {
+    if ($(mode.basename + "-hidden").value) {
         Element.update(mode.basename + "-selected-name", $(mode.basename + "-input").value)
         $(mode.basename + '-selected').show()
     }
@@ -81,7 +81,7 @@ function acCreate(mode) {
     })
     Event.observe(mode.basename + "-clear", "click", function() {
         $(mode.basename + "-selected").hide()
-        $(mode.basename).value = ""
+        $(mode.basename + "-hidden").value = ""
         $(mode.basename + "-input").value = ""
     })
 }
@@ -255,7 +255,8 @@ Event.observe(window, "load", function() {
 
         <chrome:division title="Disease" id="disease">
             Search for a Disease Category<br>
-            <input:hidden id="disease"/>
+            
+            <input type="hidden" id="disease-hidden"/>
             <form:input size="45" id="disease-input" path="diseaseCategoryAsText" cssClass="autocomplete"/>
             <tags:indicator id="disease-indicator"/>
             <div id="disease-choices" class="autocomplete"></div>
