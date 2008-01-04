@@ -52,7 +52,7 @@ function submitRandomization(){
 					<c:otherwise>
 						<td class="labelR">Select Arm:</td><td>
 						<select name ="scheduledEpoch.scheduledArms[0].arm" class="validate-notEmpty">
-							<option value="" selected>--Please Select--</option>
+							<option value="" selected>Please Select</option>
 							<c:forEach items="${registration.scheduledEpoch.treatmentEpoch.arms}" var="arm">
 							<option value="${arm.id}">${arm.name }</option>
 							</c:forEach>

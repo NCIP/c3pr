@@ -133,7 +133,7 @@ function manageIdentifierRadio(element){
 						<div class="label required-indicator">Gender:</div>
 						<div class="value"><form:select path="administrativeGenderCode"
 							cssClass="validate-notEmpty">
-							<option value="">--Please Select--</option>
+							<option value="">Please Select</option>
 							<form:options items="${administrativeGenderCode}"
 								itemLabel="desc" itemValue="code" />
 						</form:select></div>
@@ -146,7 +146,7 @@ function manageIdentifierRadio(element){
 						<div class="label required-indicator">Ethnicity:</div>
 						<div class="value"><form:select path="ethnicGroupCode"
 							cssClass="validate-notEmpty">
-							<option value="">--Please Select--</option>
+							<option value="">Please Select</option>
 							<form:options items="${ethnicGroupCode}" itemLabel="desc"
 								itemValue="code" />
 						</form:select></div>
@@ -155,7 +155,7 @@ function manageIdentifierRadio(element){
 						<div class="label required-indicator">Race(s):</div>
 						<div class="value"><form:select path="raceCode"
 							cssClass="validate-notEmpty">
-							<option value="">--Please Select--</option>
+							<option value="">Please Select</option>
 							<form:options items="${raceCode}" itemLabel="desc"
 								itemValue="code" />
 						</form:select></div>
@@ -227,7 +227,7 @@ function manageIdentifierRadio(element){
 							<td class="alt"><form:select
 								path="organizationAssignedIdentifiers[${organizationStatus.index}].type"
 								cssClass="validate-notEmpty">
-								<option value="">--Please Select--</option>
+								<option value="">Please Select</option>
 								<form:options items="${identifiersTypeRefData}" itemLabel="desc"
 									itemValue="desc" />
 							</form:select></td>
@@ -272,7 +272,7 @@ function manageIdentifierRadio(element){
 							<td class="alt"><form:select
 								path="systemAssignedIdentifiers[${status.index}].type"
 								cssClass="validate-notEmpty">
-								<option value="">--Please Select--</option>
+								<option value="">Please Select</option>
 								<form:options items="${identifiersTypeRefData}" itemLabel="desc"
 									itemValue="desc" />
 							</form:select></td>
@@ -319,7 +319,7 @@ function manageIdentifierRadio(element){
 			id="systemAssignedIdentifiers[PAGE.ROW.INDEX].type"
 			name="systemAssignedIdentifiers[PAGE.ROW.INDEX].type"
 			class="validate-notEmpty">
-			<option value="">--Please Select--</option>
+			<option value="">Please Select</option>
 			<c:forEach items="${identifiersTypeRefData}" var="id">
 				<option value="${id.desc}">${id.desc}</option>
 			</c:forEach>
@@ -359,7 +359,7 @@ function manageIdentifierRadio(element){
 			id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].type"
 			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].type"
 			class="validate-notEmpty">
-			<option value="">--Please Select--</option>
+			<option value="">Please Select</option>
 			<c:forEach items="${identifiersTypeRefData}" var="id">
 				<option value="${id.desc}">${id.desc}</option>
 			</c:forEach>

@@ -129,7 +129,7 @@ function showTable(table) {
 				</td>
 				<td align="left"><b>Race</b> &nbsp;
 					<form:select path="raceCode">
-						<option value="">--Please Select--</option>
+						<option value="">Please Select</option>
 						<form:options items="${raceCode}" itemLabel="desc" itemValue="code" />
 					</form:select>
 				</td>
