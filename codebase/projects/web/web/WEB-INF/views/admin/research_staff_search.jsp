@@ -6,14 +6,32 @@
 
 <html>
 <head>
-   <script type="text/javascript" src="<c:url value="/js/extremecomponents.js"/>"></script>        
+   <script type="text/javascript" src="<c:url value="/js/extremecomponents.js"/>"></script>  
+    <tags:includeScriptaculous />       
    <tags:dwrJavascriptLink objects="SearchResearchStaffAjaxFacade"/>
+    <tags:dwrJavascriptLink objects="OrganizationAjaxFacade"/>
    <style type="text/css">
         div.content {
             padding: 5px 15px;
         }
    </style>
     <script type="text/javascript">
+    	var sponsorSiteAutocompleterProps = {
+            basename: "healthcareSite",
+            populator: function(autocompleter, text) {
+                OrganizationAjaxFacade.matchHealthcareSites(text,function(values) {
+                    autocompleter.setChoices(values)
+                })
+            },
+            valueSelector: function(obj) {
+                return (obj.name+" ("+obj.nciInstituteCode+")")
+            },
+            afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+    								hiddenField=sponsorSiteAutocompleterProps.basename+"-hidden"
+	    							$(hiddenField).value=selectedChoice.id;
+			 }
+        }
+        AutocompleterManager.addAutocompleter(sponsorSiteAutocompleterProps);
         function buildTable(form) {
         	params = new Array(3);
 			var parameterMap = getParameterMap(form);
@@ -21,6 +39,7 @@
             params[0] = document.getElementById("firstName").value;
             params[1] = document.getElementById("lastName").value;
             params[2] = document.getElementById("nciIdentifier").value;
+            params[3] = document.getElementById("healthcareSite-hidden").value;
             
             SearchResearchStaffAjaxFacade.getTable(parameterMap, params, showTable);
         }
@@ -76,7 +95,22 @@
                     <input type="text" name="nciIdentifier" id="nciIdentifier"/>
                 </div>
             </div>
-
+            <div class="row">
+                <div class="label">
+                    Organization:
+                </div>
+                <div class="value">
+                	 <input type="hidden" id="healthcareSite-hidden"
+					name="healthcareSite" value="${command.healthcareSite.id}" /> <input
+					id="healthcareSite-input" size="60" type="text" name="xyz"
+					value="${command.healthcareSite.name}"
+					class="autocomplete validate-notEmpty" /> 
+					<input type="button" id="healthcareSite-clear"
+                        value="Clear"/>
+					<tags:indicator	id="healthcareSite-indicator" />
+				<div id="healthcareSite-choices" class="autocomplete"></div>
+                </div>
+            </div>
             <div class="row">
                 <div class="value">
                     <input type='button' onClick="buildTable('searchForm');" value='Search' title='Search'/>
