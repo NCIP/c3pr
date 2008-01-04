@@ -66,7 +66,7 @@ function updateTargetPage(target){
 					<td class="alt" align="left">${command.ethnicGroupCode}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b>Race(s)<b></td>
+					<td class="alt" align="left"><b>Race<b></td>
 					<td class="alt" align="left">${command.raceCode}</td>
 				</tr>
 			</table>

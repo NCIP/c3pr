@@ -152,7 +152,7 @@ function manageIdentifierRadio(element){
 						</form:select></div>
 					</div>
 					<div class="row">
-						<div class="label required-indicator">Race(s):</div>
+						<div class="label required-indicator">Race:</div>
 						<div class="value"><form:select path="raceCode"
 							cssClass="validate-notEmpty">
 							<option value="">Please Select</option>
