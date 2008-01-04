@@ -15,13 +15,11 @@ document.getElementById("command").submit();
 
 </script>
 
-
-
 </head>
 
 <body>
-<tags:tabForm tab="${tab}" flow="${flow}"
-              title="Study Overview" willSave="${willSave}" formName="review">
+<tags:c3prCustomTabForm tab="${tab}" flow="${flow}"
+              title="Study Overview" willSave="${willSave}" formName="review" needReset="false">
 <jsp:attribute name="repeatingFields">
 <div>
     <input type="hidden" name="_finish" value="true"/>
@@ -310,6 +308,6 @@ document.getElementById("command").submit();
 			</div>
 
    </jsp:attribute>
-</tags:tabForm>
+</tags:c3prCustomTabForm>
 </body>
 </html>

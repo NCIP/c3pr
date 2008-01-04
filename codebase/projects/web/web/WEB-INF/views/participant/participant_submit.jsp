@@ -26,8 +26,8 @@ function updateTargetPage(target){
 </script>
 </head>
 <body>
-<tags:tabForm tab="${tab}" flow="${flow}" title="Subject Overview"
-	willSave="false" formName="review">
+<tags:c3prCustomTabForm tab="${tab}" flow="${flow}" title="Subject Overview"
+	willSave="false" formName="review" needReset="false">
 	<jsp:attribute name="repeatingFields">
 		<div><input type="hidden" name="_finish" value="true" /></div>
 
@@ -62,7 +62,7 @@ function updateTargetPage(target){
 					<td class="alt" align="left">${command.ethnicGroupCode}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b>Race(s)<b></td>
+					<td class="alt" align="left"><b>Race<b></td>
 					<td class="alt" align="left">${command.raceCode}</td>
 				</tr>
 			</table>
@@ -165,9 +165,7 @@ function updateTargetPage(target){
 			</div>
 		</chrome:division>
 
-		
-
 	</jsp:attribute>
-</tags:tabForm>
+</tags:c3prCustomTabForm>
 </body>
 </html>
