@@ -92,7 +92,7 @@ public class BookRandomizationAjaxFacade {
 //		        			studyDao.reassociate(study);
 //		    		    }
 		        		List <BookRandomizationEntry>breList = ((BookRandomization)tEpoch.getRandomization()).getBookRandomizationEntry();
-		        		return build(model, breList, "Book Randomization :"+selectedEpoch, action).toString();		        		
+		        		return build(model, breList, "Book Randomization :"+selectedEpoch, action, flowType).toString();		        		
 		        	}
 		        } catch (Exception e) {
 		            log.debug(e.getMessage());
@@ -243,7 +243,7 @@ public class BookRandomizationAjaxFacade {
 	  * We use the BookRandomizationCustomCell to check for null arms/groups and add the "invalid entry"
 	  * string in such cases.
 	  */
-	 public Object build(TableModel model, Collection bookRandomizationEntries, String title, String action) throws Exception {
+	 public Object build(TableModel model, Collection bookRandomizationEntries, String title, String action, String flowType) throws Exception {
 
 		 	String index = title.substring(title.indexOf(":")+1);
 		 	String tableId = "bookRandomizationEntries" + index;
@@ -253,7 +253,7 @@ public class BookRandomizationAjaxFacade {
 			table.setAction(model.getContext().getContextPath() + action);
 			table.setTableId(tableId);
 			table.setItems(bookRandomizationEntries);
-			table.setOnInvokeAction("uploadBook('" + tableId + "', '" + index + "')");
+			table.setOnInvokeAction("uploadBook('" + tableId + "', '" + index + "','"+ flowType + "')");
 			table.setShowPagination(true);
 			table.setFilterable(false);
 			table.setImagePath(model.getContext().getContextPath() + "/images/table/*.gif");
