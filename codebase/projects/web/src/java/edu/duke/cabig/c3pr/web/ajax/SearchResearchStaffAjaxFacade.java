@@ -17,12 +17,15 @@ import org.extremecomponents.table.context.HttpServletRequestContext;
 import org.extremecomponents.table.core.TableModel;
 import org.extremecomponents.table.core.TableModelImpl;
 
+import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 
 public class SearchResearchStaffAjaxFacade {
     private static Log log = LogFactory.getLog(SearchResearchStaffAjaxFacade.class);
     private ResearchStaffDao researchStaffDao;
+    private HealthcareSiteDao healthcareSiteDao;
     
     public Object build(TableModel model, Collection rStaffResults) throws Exception {
 
@@ -74,6 +77,10 @@ public class SearchResearchStaffAjaxFacade {
         if(!StringUtils.isEmpty(params[2])){
         	rStaff.setNciIdentifier(params[2]);
         }
+        if(!StringUtils.isEmpty(params[3])){
+        	HealthcareSite healthcareSite= healthcareSiteDao.getById(Integer.parseInt(params[3]));
+        	rStaff.setHealthcareSite(healthcareSite);
+        }
         
         List<ResearchStaff> rStaffResults = researchStaffDao.searchByExample(rStaff, true);
 
@@ -101,6 +108,14 @@ public class SearchResearchStaffAjaxFacade {
 
 	public void setResearchStaffDao(ResearchStaffDao researchStaffDao) {
 		this.researchStaffDao = researchStaffDao;
+	}
+
+	public HealthcareSiteDao getHealthcareSiteDao() {
+		return healthcareSiteDao;
+	}
+
+	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
+		this.healthcareSiteDao = healthcareSiteDao;
 	}
 
 }
