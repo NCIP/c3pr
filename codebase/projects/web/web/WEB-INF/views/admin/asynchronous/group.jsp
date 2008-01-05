@@ -63,6 +63,7 @@
             <th><span class="required-indicator">Investigator</span></th>
             <th>Start Date</span></th>
             <th>End Date</span></th>
+            <th></th>
         </tr>
 
     </table>
@@ -114,6 +115,9 @@
                     <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle"/>
                 </a>
             </td>
+            <td>
+                <a href="javascript:RowManager.deleteRow(instanceRowInserterProps,PAGE.ROW.INDEX, -1);"><img
+                        src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a></td> 
         </tr>
     </table>
 </div> 
