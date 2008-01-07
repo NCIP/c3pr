@@ -294,6 +294,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                 </entry>    
                 
                 <!-- Search Criteria -->
+                
                 <entry key="studySearchType">
                     <list>                      	
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
@@ -304,8 +305,25 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                             <property name="code" value="shortTitle" />
                             <property name="desc" value="Short Title" />
                         </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="status" />
+                            <property name="desc" value="Status" />
+                        </bean>
                      </list>
-                </entry>     
+                </entry> 
+                
+                <entry key="studySearchTypeForRegistration">
+                    <list>                      	
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="id" />
+                            <property name="desc" value="Identifier" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="shortTitle" />
+                            <property name="desc" value="Short Title" />
+                        </bean>
+                     </list>
+                </entry>      
                                                
                 <!-- For Participant -->
                 
