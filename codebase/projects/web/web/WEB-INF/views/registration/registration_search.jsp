@@ -31,10 +31,14 @@ function getCriteriaNumber(){
 	
 }
 function subjectCriteriaNumber(){
-	if(document.getElementById("subjectOption").value=='N')
-		return 0
-	else if(document.getElementById("subjectOption").value=='Identifier')
-		return 1
+	if(document.getElementById("subjectOption").value=='N'){
+			return 0
+		}else if(document.getElementById("subjectOption").value=='Identifier'){
+					return 1 
+				}
+		 else if(document.getElementById("subjectOption").value=='F'){
+					return 6
+				}
 	}
 	
 function studyCriteriaNumber(){
@@ -78,7 +82,7 @@ var registrationAutocompleterProps = {
     valueSelector: function(obj) {
     if(document.getElementById("select").value=='Subject')
     { 
-    	if(document.getElementById("subjectOption").value=='N')
+    	if(document.getElementById("subjectOption").value=='N'|| document.getElementById("subjectOption").value=='F')
     	
 		return (obj.lastName +" "+ (obj.middleName==null?'':obj.middleName)+" "+obj.firstName)
 		
