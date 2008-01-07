@@ -22,6 +22,7 @@ import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
@@ -68,15 +69,18 @@ public class SearchRegistrationController extends SimpleFormController {
 		log.debug(" Search string is :" + text);
 		if (request.getParameter("select").equals("Subject")) {
 			Participant participant = new Participant();
-			if (request.getParameter("subjectOption").equals("N")){
+			if (request.getParameter("subjectOption").equals("N") ||request.getParameter("subjectOption").equals("F") ){
 				participant.setLastName(text.split(" ")[0]);
-				participant.getLastName();
-			}
-			else {
-				SystemAssignedIdentifier identifier = new SystemAssignedIdentifier();
-				identifier.setValue(text);
-				participant.addIdentifier(identifier);
-			}
+				participant.setFirstName(text.split(" ")[text.split(" ").length-1]);
+			} else {
+				OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
+				orgIdentifier.setValue(text);
+				participant.addIdentifier(orgIdentifier);
+				SystemAssignedIdentifier sysIdentifier = new SystemAssignedIdentifier();
+				sysIdentifier.setValue(text);
+				participant.addIdentifier(sysIdentifier);
+			} 
+			
 			List<Participant> participants = participantDao
 					.searchByExample(participant);
 			Set<Participant> participantSet = new TreeSet<Participant>();
@@ -97,9 +101,12 @@ public class SearchRegistrationController extends SimpleFormController {
 			} else if (request.getParameter("studyOption").equals("status")) {
 				study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
 			} else {
-				SystemAssignedIdentifier identifier = new SystemAssignedIdentifier();
-				identifier.setValue(text);
-				study.addIdentifier(identifier);
+				OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
+				orgIdentifier.setValue(text);
+				study.addIdentifier(orgIdentifier);
+				SystemAssignedIdentifier sysIdentifier = new SystemAssignedIdentifier();
+				sysIdentifier.setValue(text);
+				study.addIdentifier(sysIdentifier);
 			}
 
 			List<Study> studies = studyDao.searchByExample(study, true);
@@ -127,7 +134,7 @@ public class SearchRegistrationController extends SimpleFormController {
 		Map map = errors.getModel();
 		map.put("registrations", registrations);
 		map.put("searchTypeRefDataPrt", configMap.get("participantSearchType"));
-		map.put("searchTypeRefDataStudy", configMap.get("studySearchType"));
+		map.put("searchTypeRefDataStudy", configMap.get("studySearchTypeForRegistration"));
 		ModelAndView modelAndView = new ModelAndView(getSuccessView(), map);
 		return modelAndView;
 	}
