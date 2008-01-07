@@ -12,6 +12,7 @@ import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessResourceFailureException;
 
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
@@ -62,6 +63,12 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
             {
                 example.enableLike(MatchMode.ANYWHERE);
                 criteria.add(example);
+                if (staff.getHealthcareSite() != null) {
+                	criteria.createCriteria("healthcareSite")
+                            .add(Restrictions.ilike("name", "%" + staff.getHealthcareSite().getName() + "%"
+                                   ));
+                }
+                
                 result =  criteria.list();
             }else{
                 result =  criteria.add(example).list();
