@@ -179,11 +179,16 @@ public class StudyDao extends GridIdentifiableDao<Study>
             {
                 example.excludeProperty("doNotUse").enableLike(MatchMode.ANYWHERE);
                 studyCriteria.add(example);
-                if (study.getIdentifiers().size() > 0) {
+                if (study.getIdentifiers().size() > 1) {
                     studyCriteria.createCriteria("identifiers")
                             .add(Restrictions.ilike("value", "%" + study.getIdentifiers().get(0)
-                                    .getValue() + "%"));
-                }
+                                    .getValue() + "%")) .add(Restrictions.ilike("value", "%" + study.getIdentifiers().get(1)
+                                            .getValue() + "%"));
+                } else  if (study.getIdentifiers().size() > 0) {
+                    studyCriteria.createCriteria("identifiers")
+                    .add(Restrictions.ilike("value", "%" + study.getIdentifiers().get(0)
+                            .getValue() + "%"));
+        }
                 result =  studyCriteria.list();
             }
             result =  studyCriteria.add(example).list();
