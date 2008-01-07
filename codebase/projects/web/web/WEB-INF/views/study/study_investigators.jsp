@@ -245,6 +245,7 @@ and the controller gets the selected index via the hidden variable _selectedSite
 		<table border="0" id="table1" cellspacing="10" width="100%">
 			<tr>
 			<td valign="top" width="45%">
+			<tags:errors path="*"/> 
 				<chrome:box title="${tab.shortTitle}">
 					<div>
 			            <br/>&nbsp;<b>Select an Organization</b><br>
