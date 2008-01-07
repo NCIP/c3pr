@@ -27,21 +27,10 @@ public class StudyServiceImpl extends CCTSWorkflowServiceImpl implements StudySe
     private StudySubjectDao studySubjectDao;
     private HealthcareSiteDao healthcareSiteDao;
 
-    private C3PRExceptionHelper exceptionHelper;
-    private MessageSource c3prErrorMessages;
 
     private Logger log = Logger.getLogger(StudyService.class);
 
-
-    public void setC3prErrorMessages(MessageSource errorMessages) {
-        c3prErrorMessages = errorMessages;
-    }
-
-    public void setExceptionHelper(C3PRExceptionHelper exceptionHelper) {
-        this.exceptionHelper = exceptionHelper;
-    }
-
-    public void setSiteStudyStatuses(Study study) throws Exception {
+    public void setSiteStudyStatuses(Study study) throws C3PRCodedException {
         for (int i = 0; i < study.getStudySites().size(); i++) {
             study.getStudySites().get(i).setSiteStudyStatus(
                     evaluateSiteStudyStatus(study.getStudySites().get(i)));
@@ -53,7 +42,7 @@ public class StudyServiceImpl extends CCTSWorkflowServiceImpl implements StudySe
         this.healthcareSiteDao = healthcareSiteDao;
     }
 
-    public void setDataEntryStatus(Study study, boolean throwException) throws Exception {
+    public void setDataEntryStatus(Study study, boolean throwException) throws C3PRCodedException {
 
         if (throwException == false) {
             try {
@@ -69,7 +58,7 @@ public class StudyServiceImpl extends CCTSWorkflowServiceImpl implements StudySe
 
 
     public CoordinatingCenterStudyStatus evaluateCoordinatingCenterStudyStatus(
-            Study study) throws Exception {
+            Study study) throws C3PRCodedException {
         if (evaluateDataEntryStatus(study) != StudyDataEntryStatus.COMPLETE) {
             return CoordinatingCenterStudyStatus.PENDING;
         }
@@ -83,19 +72,22 @@ public class StudyServiceImpl extends CCTSWorkflowServiceImpl implements StudySe
     }
 
     public StudyDataEntryStatus evaluateTreatmentEpochDataEntryStatus(
-            Study study) throws Exception {
+            Study study) throws C3PRCodedException {
         if (study.getTreatmentEpochs().size() > 0) {
             for (TreatmentEpoch treatmentEpoch : study.getTreatmentEpochs()) {
                 if (treatmentEpoch.getRandomizedIndicator()) {
                     if ((treatmentEpoch.getArms().size() < 2) || (!treatmentEpoch.hasStratumGroups()) || (treatmentEpoch.getRandomization() == null)) {
                         if (treatmentEpoch.getArms().size() < 2) {
-                            throw new Exception("There should be at least 2 arms for randomization for treatment epoch: " + treatmentEpoch.getName());
+                        	throw getExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.ATLEAST_2_ARMS_FOR_RANDOMIZED_EPOCH.CODE")
+                                    , new String[]{treatmentEpoch.getName()});
                         }
                         if (!treatmentEpoch.hasStratumGroups()) {
-                            throw new Exception("There are no stratum groups for treatment epoch: " + treatmentEpoch.getName());
+                        	throw getExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATIFICATION_CRITERIA_OR_STRATUM_GROUPS_FOR_RANDOMIZED_EPOCH.CODE")
+                                    , new String[]{treatmentEpoch.getName()});
                         }
                         if (treatmentEpoch.getRandomization() == null) {
-                            throw new Exception("There are no radomization entries for treatment epoch: " + treatmentEpoch.getName());
+                        	throw getExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.RANDOMIZATION_FOR_RANDOMIZED_EPOCH.CODE")
+                                    , new String[]{treatmentEpoch.getName()});
                         }
                         return StudyDataEntryStatus.INCOMPLETE;
                     }
@@ -106,12 +98,13 @@ public class StudyServiceImpl extends CCTSWorkflowServiceImpl implements StudySe
     }
 
     public StudyDataEntryStatus evaluateStratificationDataEntryStatus(
-            Study study) throws Exception {
+            Study study) throws C3PRCodedException {
         if (study.hasStratification()) {
             for (TreatmentEpoch treatmentEpoch : study.getTreatmentEpochs()) {
                 if (treatmentEpoch.hasStratification()) {
                     if (!treatmentEpoch.hasStratumGroups()) {
-                        throw new Exception("There are no stratum groups for treatment epoch: " + treatmentEpoch.getName());
+                    	throw getExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATUM_GROUPS_FOR_TREATMENT_EPOCH.CODE")
+                                , new String[]{treatmentEpoch.getName()});
                     }
                 }
             }
@@ -120,7 +113,8 @@ public class StudyServiceImpl extends CCTSWorkflowServiceImpl implements StudySe
         for (TreatmentEpoch treatmentEpoch : study.getTreatmentEpochs()) {
             if (treatmentEpoch.getRandomizedIndicator() == Boolean.TRUE) {
                 if (!treatmentEpoch.hasStratification() || !treatmentEpoch.hasStratumGroups()) {
-                    throw new Exception("Stratification or/and stratum groups are missing for treatment epoch: " + treatmentEpoch.getName());
+                	throw getExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATIFICATION_CRITERIA_OR_STRATUM_GROUPS_FOR_RANDOMIZED_EPOCH.CODE")
+                            , new String[]{treatmentEpoch.getName()});
                 }
             }
         }
@@ -129,11 +123,11 @@ public class StudyServiceImpl extends CCTSWorkflowServiceImpl implements StudySe
     }
 
     public StudyDataEntryStatus evaluateRandomizationDataEntryStatus(Study study)
-            throws Exception {
+            throws C3PRCodedException {
 
         if (study.getRandomizedIndicator()) {
             if (!study.hasRandomizedEpoch()) {
-                throw new Exception("At least 1 randomized treatment epoch is required");
+            	throw getExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.RANDOMIZED_EPOCH_FOR_RANDOMIZED_STUDY.CODE"));
             }
         }
 
@@ -142,14 +136,12 @@ public class StudyServiceImpl extends CCTSWorkflowServiceImpl implements StudySe
                 if (treatmentEpoch.getRandomizedIndicator()) {
                     if (treatmentEpoch.hasBookRandomizationEntry()) {
                         if (!treatmentEpoch.hasStratumGroups()) {
-                            throw new Exception(
-                                    "Stratum groups are missing for treatment epoch: "
-                                            + treatmentEpoch.getName());
+                        	throw getExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATIFICATION_CRITERIA_OR_STRATUM_GROUPS_FOR_RANDOMIZED_EPOCH.CODE")
+                                    , new String[]{treatmentEpoch.getName()});
                         }
                     } else {
-                        throw new Exception(
-                                "Book randomization entries are required for treatment epoch: "
-                                        + treatmentEpoch.getName());
+                    	throw getExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.BOOK_ENTRIES_FOR_BOOK_RANDOMIZED_EPOCH.CODE")
+                                , new String[]{treatmentEpoch.getName()});
                     }
                 }
             }
@@ -162,7 +154,8 @@ public class StudyServiceImpl extends CCTSWorkflowServiceImpl implements StudySe
                     if (StringUtils
                             .isBlank(((PhoneCallRandomization) randomization)
                                     .getPhoneNumber())) {
-                        throw new Exception("Treatment epoch: " + treatmentEpoch.getName() + " needs phone number for randomization");
+                    	throw getExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.PHONE_NUMBER_FOR_PHONE_CALL_RANDOMIZED_EPOCH.CODE")
+                                , new String[]{treatmentEpoch.getName()});
                     }
                 }
             }
@@ -175,7 +168,8 @@ public class StudyServiceImpl extends CCTSWorkflowServiceImpl implements StudySe
                     if (StringUtils
                             .isBlank(((CalloutRandomization) randomization)
                                     .getCalloutUrl())) {
-                        throw new Exception("Treatment epoch: " + treatmentEpoch.getName() + " needs call out URL for randomization");
+                    	throw getExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.CALL_OUT_URL_FOR_CALL_OUT_RANDOMIZED_EPOCH.CODE")
+                                , new String[]{treatmentEpoch.getName()});
                     }
                 }
             }
@@ -186,7 +180,7 @@ public class StudyServiceImpl extends CCTSWorkflowServiceImpl implements StudySe
     }
 
     public StudyDataEntryStatus evaluateEligibilityDataEntryStatus(Study study)
-            throws Exception {
+            throws C3PRCodedException {
 
         //TODO  //Disabled unless more information is obtained on managing the eligibility criteria for all epochs
 
@@ -203,7 +197,7 @@ public class StudyServiceImpl extends CCTSWorkflowServiceImpl implements StudySe
     }
 
     public StudyDataEntryStatus evaluateAmendmentStatus(Study study)
-            throws Exception {
+            throws C3PRCodedException {
 
         if (study.getStudyAmendments().size() > 0) {
             StudyAmendment latestAmendment = study.getStudyAmendments().get(
@@ -212,17 +206,17 @@ public class StudyServiceImpl extends CCTSWorkflowServiceImpl implements StudySe
             if ((latestAmendment.getAmendmentDate() == null)
                     || (latestAmendment.getVersion() == null)) {
                 if ((study.getId() != null && (latestAmendment.getAmendmentDate() == null))) {
-                    throw new Exception("The latest amendment needs amendment date");
+                	throw getExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.AMENDMENT.MISSING.INVALID_AMENDMENT_DATE.CODE"));
                 }
                 if ((study.getId() != null && (latestAmendment.getVersion() == null))) {
-                    throw new Exception("The latest amendment needs version");
+                	throw getExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.AMENDMENT.MISSING.VERSION.CODE"));
                 }
                 return StudyDataEntryStatus.INCOMPLETE;
             }
             if ((latestAmendment.getAmendmentDate() != null)
                     && (latestAmendment.getAmendmentDate().after(new Date()))) {
                 if ((study.getId() != null)) {
-                    throw new Exception("The latest amendment does not have an amendment date or is invalid");
+                	throw getExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.AMENDMENT.MISSING.INVALID.EXPIRED.AMENDMENT_DATE.CODE"));
                 }
                 return StudyDataEntryStatus.INCOMPLETE;
             }
@@ -236,7 +230,7 @@ public class StudyServiceImpl extends CCTSWorkflowServiceImpl implements StudySe
                 return StudyDataEntryStatus.COMPLETE;
             } else {
                 if ((study.getId() != null)) {
-                    throw new Exception("At least one item should be marked as changeable for amendment");
+                	throw getExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.AMENDMENT.MISSING.AMENDED_ITEMS.CODE"));
                 }
                 return StudyDataEntryStatus.INCOMPLETE;
             }
@@ -246,14 +240,14 @@ public class StudyServiceImpl extends CCTSWorkflowServiceImpl implements StudySe
     }
 
     public StudyDataEntryStatus evaluateDataEntryStatus(Study study)
-            throws Exception {
+            throws C3PRCodedException {
 
         if ((study.getStudySites().size() == 0) || (!study.hasEnrollingEpoch())) {
             if ((study.getStudySites().size() == 0)) {
-                throw new Exception("Study does not have a study site");
+            	throw getExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STUDY_SITE.CODE"));
             }
             if ((!study.hasEnrollingEpoch())) {
-                throw new Exception("Study needs an enrolling epoch");
+                throw getExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.ENROLLING_EPOCH.CODE"));
             }
             return StudyDataEntryStatus.INCOMPLETE;
         }
@@ -277,7 +271,7 @@ public class StudyServiceImpl extends CCTSWorkflowServiceImpl implements StudySe
         return StudyDataEntryStatus.COMPLETE;
     }
 
-    public SiteStudyStatus evaluateSiteStudyStatus(StudySite studySite) throws Exception {
+    public SiteStudyStatus evaluateSiteStudyStatus(StudySite studySite) throws C3PRCodedException {
 
         if (studySite.getStudy().getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL) {
             return SiteStudyStatus.CLOSED_TO_ACCRUAL;
@@ -306,14 +300,16 @@ public class StudyServiceImpl extends CCTSWorkflowServiceImpl implements StudySe
             if (((studySite.getIrbApprovalDate()) == null)
                     || (studySite.getIrbApprovalDate().after(currentDate)) || (studySite.getIrbApprovalDate().before(calendar.getTime()))) {
                 if ((studySite.getId() != null)) {
-                    throw new Exception("Study site: " + studySite.getHealthcareSite().getName() + " does not have an IRB approval date or is invalid");
+                	throw getExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.MISSING.INVALID.EXPIRED.IRB_APPROVAL_DATE.CODE")
+                            , new String[]{studySite.getHealthcareSite().getName()});
                 }
                 return SiteStudyStatus.PENDING;
             }
             if ((studySite.getStartDate() == null)
                     || (studySite.getStartDate().after(currentDate))) {
                 if ((studySite.getId() != null)) {
-                    throw new Exception("Study site: " + studySite.getHealthcareSite().getName() + " does not have a start date or is invalid");
+                	throw getExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.MISSING.INVALID.START_DATE.CODE")
+                            , new String[]{studySite.getHealthcareSite().getName()});
                 }
                 return SiteStudyStatus.PENDING;
             }
@@ -385,7 +381,7 @@ public class StudyServiceImpl extends CCTSWorkflowServiceImpl implements StudySe
         return assignment;
     }
 
-    public Study setStatuses(Study study, boolean throwException) throws Exception {
+    public Study setStatuses(Study study, boolean throwException) throws C3PRCodedException {
         if (!throwException) {
             try {
                 study.setDataEntryStatus(evaluateDataEntryStatus(study));
@@ -435,7 +431,7 @@ public class StudyServiceImpl extends CCTSWorkflowServiceImpl implements StudySe
     }
 
     public Study setStatuses(Study study,
-                             CoordinatingCenterStudyStatus targetStatus) throws Exception {
+                             CoordinatingCenterStudyStatus targetStatus) throws C3PRCodedException {
 
         study.setDataEntryStatus(evaluateDataEntryStatus(study));
         CoordinatingCenterStudyStatus oldStatus = study
@@ -457,7 +453,7 @@ public class StudyServiceImpl extends CCTSWorkflowServiceImpl implements StudySe
     }
 
     public boolean statusSettable(Study study,
-                                  CoordinatingCenterStudyStatus newCoordinatingCenterStatus) throws Exception {
+                                  CoordinatingCenterStudyStatus newCoordinatingCenterStatus) throws C3PRCodedException {
 
         // For a new study, the coordingating center status should not be
         // settable.
@@ -476,7 +472,8 @@ public class StudyServiceImpl extends CCTSWorkflowServiceImpl implements StudySe
                     || ((currentStatus) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT))) {
                 {
                     if ((study.getId() != null)) {
-                        throw new Exception("Cannot set status to Active from " + currentStatus.getDisplayName());
+                    	throw getExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.STATUS_CANNOT_SET_TO_ACTIVE.CODE")
+                                , new String[]{currentStatus.getDisplayName()});
                     }
                     return false;
                 }
@@ -490,7 +487,8 @@ public class StudyServiceImpl extends CCTSWorkflowServiceImpl implements StudySe
                     || ((currentStatus) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL))
                     || ((currentStatus) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT))) {
                 if ((study.getId() != null)) {
-                    throw new Exception("The study status has to be in Active status before setting it to: " + newCoordinatingCenterStatus.getDisplayName());
+                	throw getExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE")
+                            , new String[]{currentStatus.getDisplayName()});
                 }
                 return false;
             }
@@ -502,7 +500,8 @@ public class StudyServiceImpl extends CCTSWorkflowServiceImpl implements StudySe
                     || ((currentStatus) == (CoordinatingCenterStudyStatus.AMENDMENT_PENDING))
                     || ((currentStatus) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT))) {
                 if ((study.getId() != null)) {
-                    throw new Exception("The Study status has to be Active or Temporarily Closed before setting it to: " + newCoordinatingCenterStatus.getDisplayName());
+                	throw getExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_OR_TEMPORARILY_CLOSED_FIRST.CODE")
+                            , new String[]{currentStatus.getDisplayName()});
                 }
                 return false;
             }
@@ -512,7 +511,7 @@ public class StudyServiceImpl extends CCTSWorkflowServiceImpl implements StudySe
     }
 
     public Study setSiteStudyStatus(Study study, StudySite studySite,
-                                    SiteStudyStatus status) throws Exception {
+                                    SiteStudyStatus status) throws C3PRCodedException {
         SiteStudyStatus currentSiteStatus = studySite.getSiteStudyStatus();
         if ((status == SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL)
                 || (status == SiteStudyStatus.TEMPORARILY_CLOSED_TO_ACCRUAL_AND_TREATMENT)) {
@@ -526,7 +525,8 @@ public class StudyServiceImpl extends CCTSWorkflowServiceImpl implements StudySe
                     || ((currentSiteStatus) == (SiteStudyStatus.AMENDMENT_PENDING))
                     || ((currentSiteStatus) == (SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT))) {
                 if ((study.getId() != null)) {
-                    throw new Exception("The Site Study status has to be Active before setting it to: " + status.getDisplayName());
+                	throw getExceptionHelper().getException(getCode("C3PR.EXCEPTION.SITE.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE")
+                            , new String[]{status.getDisplayName()});
                 }
                 return study;
             } else
@@ -536,7 +536,8 @@ public class StudyServiceImpl extends CCTSWorkflowServiceImpl implements StudySe
                 studySite.setSiteStudyStatus(status);
             } else {
                 if ((study.getId() != null)) {
-                    throw new Exception("The site study status cannot be set to: " + status.getDisplayName() + " when the coordinating center status is: " + study.getCoordinatingCenterStudyStatus().getDisplayName());
+                	throw getExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE")
+                            , new String[]{status.getDisplayName(),study.getCoordinatingCenterStudyStatus().getDisplayName()});
                 }
             }
         }
@@ -568,7 +569,7 @@ public class StudyServiceImpl extends CCTSWorkflowServiceImpl implements StudySe
     public List<Study> searchByCoOrdinatingCenterId(OrganizationAssignedIdentifier identifier) throws C3PRCodedException {
         HealthcareSite healthcareSite = this.healthcareSiteDao.getByNciInstituteCode(identifier.getHealthcareSite().getNciInstituteCode());
         if (healthcareSite == null) {
-            throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.INVALID.HEALTHCARESITE_IDENTIFIER.CODE")
+            throw getExceptionHelper().getException(getCode("C3PR.EXCEPTION.REGISTRATION.INVALID.HEALTHCARESITE_IDENTIFIER.CODE")
                     , new String[]{identifier.getHealthcareSite().getNciInstituteCode(), identifier.getType()});
         }
         identifier.setHealthcareSite(healthcareSite);
