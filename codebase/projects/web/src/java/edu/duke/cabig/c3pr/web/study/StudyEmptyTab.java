@@ -4,6 +4,7 @@ import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
+import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.service.StudyService;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
@@ -75,7 +76,7 @@ public class StudyEmptyTab extends StudyTab {
                 SiteStudyStatus statusObject = SiteStudyStatus.getByCode(value);
                 try {
                     studyService.setSiteStudyStatus(command, command.getStudySites().get(studySiteIndex), statusObject);
-                } catch (Exception e) {
+                } catch (C3PRCodedException e) {
                     // TODO Auto-generated catch block
                     retValue = "<script>alert('" + e.getMessage() + "')</script>";
                     // e.printStackTrace();
@@ -113,7 +114,7 @@ public class StudyEmptyTab extends StudyTab {
                 //adding a callback incase the status change is successful
                 //this callback is used to dynamically display/hide the amend study button
                 retValue = "<script>statusChangeCallback('" + command.getCoordinatingCenterStudyStatus().getCode() + "')</script>";
-            } catch (Exception e) {
+            } catch (C3PRCodedException e) {
                 retValue = "<script>alert('" + e.getMessage() + "')</script>";
                 // e.printStackTrace();
             } finally {
