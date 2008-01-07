@@ -12,6 +12,7 @@ import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
@@ -72,12 +73,20 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements 
 		if (isWildCard) {
 			example.excludeProperty("doNotUse").enableLike(MatchMode.ANYWHERE);
 			participantCriteria.add(example);
-			if (participant.getIdentifiers().size() > 0) {
+			if (participant.getIdentifiers().size() > 1) {
+				participantCriteria.createCriteria("identifiers").add(
+						Restrictions.ilike("value", "%" + participant.getIdentifiers()
+								.get(0).getValue()
+								+ "%")).add(
+										Restrictions.ilike("value", "%" + participant.getIdentifiers()
+												.get(1).getValue()
+												+ "%"));
+			} else if (participant.getIdentifiers().size() > 0) {
 				participantCriteria.createCriteria("identifiers").add(
 						Restrictions.ilike("value", "%" + participant.getIdentifiers()
 								.get(0).getValue()
 								+ "%"));
-			}
+			} 
 			return participantCriteria.list();
 
 		}
@@ -127,6 +136,8 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements 
 		}
 		return subIdentifiers;
 	}
+	
+	
 
 	/**
 	 * An overloaded method to return Participant Object along with the
@@ -157,6 +168,11 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements 
 	//	participant.getStudySubjects().size();
 		return participant;
 	}
+	
+	 @Transactional (readOnly = false)
+	    public void refresh(Participant participant) {
+	        getHibernateTemplate().refresh(participant);
+	    }
 
 	public List<Participant> getBySubnames(String[] subnames,
 			int criterionSelector) {
@@ -167,7 +183,9 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements 
 			break;
 		case 1:
 			SUBSTRING_MATCH_PROPERTIES = Arrays.asList("identifiers");
-
+			break;
+		case 6:
+			SUBSTRING_MATCH_PROPERTIES = Arrays.asList("firstName");
 		}
 		return findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES,
 				EXACT_MATCH_PROPERTIES);
