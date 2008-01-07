@@ -157,7 +157,7 @@ function accessApp(url,targetWindow){
 		</tr>
 		<tr>
 			<td align="left"><a
-				href="javascript:accessApp('${pscBaseUrl },'_psc');">
+				href="javascript:accessApp('${pscBaseUrl }','_psc');">
 			<b>Study Calendar</a></b></td>
 		</tr>
 		<tr>
