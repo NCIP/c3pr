@@ -14,7 +14,12 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 
 public class EpochValidator implements Validator {
-	ArmValidator armValidator;
+	private ArmValidator armValidator;
+	private StudyValidator studyValidator;
+
+	public void setStudyValidator(StudyValidator studyValidator) {
+		this.studyValidator = studyValidator;
+	}
 
 	public boolean supports(Class clazz) {
 		return Epoch.class.isAssignableFrom(clazz);
@@ -45,7 +50,7 @@ public class EpochValidator implements Validator {
 				Set uniqueArms = new TreeSet<Arm>();
 				uniqueArms.addAll(allArms);
 				if (allArms.size() > uniqueArms.size()) {
-					errors.reject("tempProperty","Arm with same name already exists");
+					errors.reject("tempProperty",studyValidator.getMessageFromCode(studyValidator.getCode("C3PR.STUDY.DUPLICATE.ARM.ERROR"),null,null));
 				}
 
 			} finally {

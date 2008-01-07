@@ -692,7 +692,11 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 
     @Transient
     public String getFile() {
-        return file;
+    	
+		if (file!=null) {
+			return file;
+		}   
+		return null;
     }
 
     public void setFile(String file) {
@@ -850,12 +854,18 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 	
 	 @Transient
 	public Reader getCriteriaReader() {
-        return new BufferedReader(new InputStreamReader(
-                new ByteArrayInputStream(criteriaFile)));
+		if (criteriaFile!=null) {
+			return new BufferedReader(new InputStreamReader(
+					new ByteArrayInputStream(criteriaFile)));
+		}  
+		return null;
     }
 	 @Transient
     public InputStream getCriteriaInputStream() {
-        return new ByteArrayInputStream(criteriaFile);
+		 if (criteriaFile != null){
+			 return new ByteArrayInputStream(criteriaFile);
+		 }
+		 return null;
     }
 	 
 	 @Transient

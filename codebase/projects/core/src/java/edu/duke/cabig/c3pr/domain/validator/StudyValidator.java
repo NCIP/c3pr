@@ -2,9 +2,12 @@ package edu.duke.cabig.c3pr.domain.validator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.springframework.context.MessageSource;
+import org.springframework.context.NoSuchMessageException;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -20,12 +23,16 @@ import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import edu.duke.cabig.c3pr.exception.C3PRCodedException;
+import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
+import edu.duke.cabig.c3pr.tools.Configuration;
 
 public class StudyValidator implements Validator {
 	private StudySiteValidator studySiteValidator;
 	private IdentifierValidator identifierValidator;
 	private EpochValidator epochValidator;
 	private StudyDao studyDao;
+    private MessageSource c3prErrorMessages;
 
 	public boolean supports(Class clazz) {
 		return Study.class.isAssignableFrom(clazz);
@@ -65,7 +72,7 @@ public class StudyValidator implements Validator {
 			Set<OrganizationAssignedIdentifier> uniqueOrgIdentifiers = new TreeSet<OrganizationAssignedIdentifier>();
 			uniqueOrgIdentifiers.addAll(allOrganizationAssigedIdentitiers);
 			if(allOrganizationAssigedIdentitiers.size()>uniqueOrgIdentifiers.size()){
-				errors.reject("tempProperty","Organization Assigned Identifier already exists");
+				errors.reject("tempProperty",getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.ORGANIZATION_ASSIGNED_IDENTIFIER.ERROR"),null,null));
 			}
 		} finally {
 			//TODO
@@ -81,7 +88,7 @@ public class StudyValidator implements Validator {
 			Set<SystemAssignedIdentifier> uniqueSysIdentifiers = new TreeSet<SystemAssignedIdentifier>();
 			uniqueSysIdentifiers.addAll(allSystemAssigedIdentitiers);
 			if(allSystemAssigedIdentitiers.size()>uniqueSysIdentifiers.size()){
-				errors.reject("tempProperty","System Assigned Identifier already exists");
+				errors.reject("tempProperty",getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.SYSTEM_ASSIGNED_IDENTIFIER.ERROR"),null,null));
 			}
 			
 		} finally {
@@ -121,7 +128,7 @@ public class StudyValidator implements Validator {
 			Set<StudySite> uniqueStudySites = new TreeSet<StudySite>();
 			uniqueStudySites.addAll(allStudySites);
 			if(allStudySites.size()>uniqueStudySites.size()){
-				errors.reject("tempProperty","Study Site already exists");
+				errors.reject("tempProperty",getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.STUDY_SITE.ERROR"),null,null));
 			}
 		} finally {
 			//TODO
@@ -147,7 +154,7 @@ public class StudyValidator implements Validator {
 			}
 			uniqueStudyInvestigators.addAll(notNullInvestigatorsList);
 			if(notNullInvestigatorsList.size()>uniqueStudyInvestigators.size()){
-				errors.reject("tempProperty","Study Investigator with same role already exists");
+				errors.reject("tempProperty",getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.STUDY.INVESTIGATOR.ROLE.ERROR"),null,null));
 			}
 		} finally {
 			//TODO
@@ -173,7 +180,7 @@ public class StudyValidator implements Validator {
 			}
 			uniqueStudyPersonnel.addAll(notNullPersonnelList);
 			if(notNullPersonnelList.size()>uniqueStudyPersonnel.size()){
-				errors.reject("tempProperty","Study Person with same role already exists");
+				errors.reject("tempProperty",getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.STUDY.PERSON.ROLE.ERROR"),null,null));
 			}
 		} finally {
 			//TODO
@@ -194,7 +201,7 @@ public class StudyValidator implements Validator {
 			Set<Epoch> uniqueEpochs = new TreeSet<Epoch>();
 			uniqueEpochs.addAll(allEpochs);
 			if (allEpochs.size() > uniqueEpochs.size()) {
-				errors.reject("tempProperty","Epoch with same name already exists");
+				errors.reject("tempProperty",getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.EPOCH.ERROR"),null,null));
 			}
 			
 		} finally {
@@ -211,7 +218,7 @@ public class StudyValidator implements Validator {
 			List<OrganizationAssignedIdentifier> coCenterIdentifiers = studyDao.getCoordinatingCenterIdentifiersWithValue(coCenterIdentifier.getValue(),coCenterIdentifier.getHealthcareSite());
 			if (coCenterIdentifiers.size() > 0){
 				if ((study.getId()==null)||(coCenterIdentifiers.size()>1)){
-				errors.reject("ccProperty","The Coordinating Center has already assigned this identifier to another Study");
+					errors.reject("tempProperty",getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.STUDY.COORDINATING.CENTER.IDENTIFIER.ERROR"),null,null));
 				}
 			}
 		}
@@ -227,7 +234,7 @@ public class StudyValidator implements Validator {
 			List<OrganizationAssignedIdentifier> funSponIdentifiers = studyDao.getFundingSponsorIdentifiersWithValue(funSponIdentifier.getValue(),funSponIdentifier.getHealthcareSite());
 			if (funSponIdentifiers.size() > 0){
 				if ((study.getId()==null)||(funSponIdentifiers.size()>1)){
-				errors.reject("fsProperty","The Funding Sponsor has already assigned this identifier to another Study");
+					errors.reject("tempProperty",getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.STUDY.FUNDING.SPONSOR.IDENTIFIER.ERROR"),null,null));
 				}
 			}
 		}
@@ -265,6 +272,32 @@ public class StudyValidator implements Validator {
 
 	public void setStudyDao(StudyDao studyDao) {
 		this.studyDao = studyDao;
+	}
+
+	public MessageSource getC3prErrorMessages() {
+		return c3prErrorMessages;
+	}
+
+	public void setC3prErrorMessages(MessageSource errorMessages) {
+		c3prErrorMessages = errorMessages;
+	}
+
+	public int getCode(String errortypeString){
+		return Integer.parseInt(this.c3prErrorMessages.getMessage(errortypeString, null, null));
+	}
+	
+	public String getMessageFromCode(int code, Object[] params, Locale locale){
+		String msg="";
+		try {
+			msg = c3prErrorMessages.getMessage(code + "", params, locale);
+		} catch (NoSuchMessageException e) {
+			try {
+				msg = c3prErrorMessages.getMessage(-1 + "", null, null);
+			} catch (NoSuchMessageException e1) {
+				msg="Exception Code property file missing";
+			}
+		}
+		return msg;
 	}
 
 }
