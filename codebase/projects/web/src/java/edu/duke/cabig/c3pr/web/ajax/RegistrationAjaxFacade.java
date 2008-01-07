@@ -4,6 +4,7 @@ import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.Identifier;
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
@@ -116,64 +117,97 @@ public class RegistrationAjaxFacade {
 
         List<Study> studies = new ArrayList<Study>();
         List<Identifier> identifiers = new ArrayList<Identifier>();
+        List<Identifier> reducedIdentifiers = new ArrayList<Identifier>();
 
-        Identifier identifier = new SystemAssignedIdentifier();
-        identifier.setValue(text);
+        Identifier orgIdentifier = new OrganizationAssignedIdentifier();
+        orgIdentifier.setValue(text);
         Study studyObj = new Study(true);
-        studyObj.addIdentifier(identifier);
-        studies = studyDao.searchByExample(studyObj);
-        List<Identifier> studyIdentifiers = new ArrayList<Identifier>();
-        Identifier ident = new SystemAssignedIdentifier();
+        studyObj.addIdentifier(orgIdentifier);
+        studies = studyDao.searchByExample(studyObj,true);
+        List<OrganizationAssignedIdentifier> studyOrgIdentifiers = new ArrayList<OrganizationAssignedIdentifier>();
+        Identifier orgIdent = new OrganizationAssignedIdentifier();
         for (Study studyIter : studies) {
-
-            studyIdentifiers = studyIter.getIdentifiers();
-            Iterator<Identifier> identifierIter = studyIdentifiers.iterator();
+            studyOrgIdentifiers = studyIter.getOrganizationAssignedIdentifiers();
+            Iterator<OrganizationAssignedIdentifier> identifierIter = studyOrgIdentifiers.iterator();
             while (identifierIter.hasNext()) {
-                ident = identifierIter.next();
-                if (ident.getValue().toUpperCase().contains(text.toUpperCase()))
-                    identifiers.add(ident);
-
+                orgIdent = identifierIter.next();
+                if (orgIdent.getValue().toUpperCase().contains(text.toUpperCase()))
+                    identifiers.add(orgIdent);
+                reducedIdentifiers.add(buildReduced(orgIdent, Arrays.asList("id","value")));
             }
         }
-
-        return identifiers;
+        
+        
+        List<Study> studiesSys = new ArrayList<Study>();
+        Identifier sysIdentifier = new OrganizationAssignedIdentifier();
+        sysIdentifier.setValue(text);
+        Study study = new Study(true);
+        study.addIdentifier(sysIdentifier);
+        studiesSys = studyDao.searchByExample(study,true);
+        List<SystemAssignedIdentifier> studySysIdentifiers = new ArrayList<SystemAssignedIdentifier>();
+        Identifier sysIdent = new SystemAssignedIdentifier();
+        for (Study studyIter : studiesSys) {
+            studySysIdentifiers = studyIter.getSystemAssignedIdentifiers();
+            Iterator<SystemAssignedIdentifier> identifierIter = studySysIdentifiers.iterator();
+            while (identifierIter.hasNext()) {
+            	sysIdent = identifierIter.next();
+                if (sysIdent.getValue().toUpperCase().contains(text.toUpperCase()))
+                    identifiers.add(sysIdent);
+                reducedIdentifiers.add(buildReduced(sysIdent, Arrays.asList("id","value")));
+            }
+        }
+        return reducedIdentifiers;
     }
 
     public List<Identifier> matchParticipantIdentifiers(String text,
                                                         int criterionSelector) {
 
-        List<Participant> participants = new ArrayList<Participant>();
-        List<Identifier> identifiers = new ArrayList<Identifier>();
+    	 List<Participant> participants = new ArrayList<Participant>();
+         List<Identifier> identifiers = new ArrayList<Identifier>();
+         List<Identifier> reducedIdentifiers = new ArrayList<Identifier>();
 
-        SystemAssignedIdentifier identifier = new SystemAssignedIdentifier();
-        identifier.setValue(text);
-        Participant participantObj = new Participant();
-        participantObj.addIdentifier(identifier);
-        participants = participantDao.searchByExample(participantObj);
-        List<SystemAssignedIdentifier> participantIdentifiers = new ArrayList<SystemAssignedIdentifier>();
-        SystemAssignedIdentifier ident = new SystemAssignedIdentifier();
-        for (Participant participantIter : participants) {
-            participantIdentifiers = participantIter.getSystemAssignedIdentifiers();
-            Iterator<SystemAssignedIdentifier> identifierIter = participantIdentifiers
-                    .iterator();
-            while (identifierIter.hasNext()) {
-                ident = identifierIter.next();
-                if (ident.getValue().toUpperCase().contains(text.toUpperCase()))
-                    identifiers.add(ident);
-
-            }
-        }
-
-        return identifiers;
+         Identifier orgIdentifier = new OrganizationAssignedIdentifier();
+         orgIdentifier.setValue(text);
+         Participant participantObj = new Participant();
+         participantObj.addIdentifier(orgIdentifier);
+         participants = participantDao.searchByExample(participantObj);
+         List<OrganizationAssignedIdentifier> participantOrgIdentifiers = new ArrayList<OrganizationAssignedIdentifier>();
+         Identifier orgIdent = new OrganizationAssignedIdentifier();
+         for (Participant participantIter : participants) {
+        	 participantOrgIdentifiers = participantIter.getOrganizationAssignedIdentifiers();
+             Iterator<OrganizationAssignedIdentifier> identifierIter = participantOrgIdentifiers.iterator();
+             while (identifierIter.hasNext()) {
+                 orgIdent = identifierIter.next();
+                 if (orgIdent.getValue().toUpperCase().contains(text.toUpperCase()))
+                     identifiers.add(orgIdent);
+                 reducedIdentifiers.add(buildReduced(orgIdent, Arrays.asList("id","value")));
+             }
+         }
+         
+         List<Participant> participantsSys = new ArrayList<Participant>();
+         Identifier sysIdentifier = new OrganizationAssignedIdentifier();
+         sysIdentifier.setValue(text);
+         Participant participant = new Participant();
+         participant.addIdentifier(sysIdentifier);
+         participantsSys = participantDao.searchByExample(participant);
+         List<SystemAssignedIdentifier> participantSysIdentifiers = new ArrayList<SystemAssignedIdentifier>();
+         Identifier sysIdent = new SystemAssignedIdentifier();
+         for (Participant participantIter : participantsSys) {
+        	 participantSysIdentifiers = participantIter.getSystemAssignedIdentifiers();
+             Iterator<SystemAssignedIdentifier> identifierIter = participantSysIdentifiers.iterator();
+             while (identifierIter.hasNext()) {
+            	 sysIdent = identifierIter.next();
+                 if (sysIdent.getValue().toUpperCase().contains(text.toUpperCase()))
+                     identifiers.add(sysIdent);
+                 reducedIdentifiers.add(buildReduced(sysIdent, Arrays.asList("id","value")));
+             }
+         }
+         return reducedIdentifiers;
     }
 
     public List<Participant> matchParticipants(String text,
                                                int criterionSelector) {
 
-        {
-
-            switch (criterionSelector) {
-                case 0:
                     List<Participant> participants = participantDao.getBySubnames(
                             extractSubnames(text), criterionSelector);
                     // cut down objects for serialization
@@ -185,24 +219,6 @@ public class RegistrationAjaxFacade {
                                 .asList("id", "lastName","firstName","middleName")));
 
                     return reducedParticipants;
-
-                case 1:
-
-                    SystemAssignedIdentifier identifier = new SystemAssignedIdentifier();
-                    identifier.setValue(text);
-                    Participant participant = new Participant();
-                    participant.addIdentifier(identifier);
-                    participants = participantDao.searchByExample(participant);
-                    List<Participant> reducedParts = new ArrayList<Participant>(
-                            participants.size());
-                    for (Participant part : participants)
-                        reducedParts.add(buildReduced(part, Arrays.asList("id",
-                                "primaryIdentifier")));
-                    return reducedParts;
-            }
-
-        }
-        return null;
     }
 
     private final Object getCommandOnly(HttpServletRequest request)
