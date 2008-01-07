@@ -21,21 +21,21 @@ public interface StudyService extends CCTSWorkflowService {
      */
     public void save(Study study) throws C3PRCodedException;
 
-    public StudyDataEntryStatus evaluateDataEntryStatus(Study study) throws Exception;
+    public StudyDataEntryStatus evaluateDataEntryStatus(Study study) throws C3PRCodedException;
 
-    public CoordinatingCenterStudyStatus evaluateCoordinatingCenterStudyStatus(Study study) throws Exception;
+    public CoordinatingCenterStudyStatus evaluateCoordinatingCenterStudyStatus(Study study) throws C3PRCodedException;
 
-    public SiteStudyStatus evaluateSiteStudyStatus(StudySite studySite) throws Exception;
+    public SiteStudyStatus evaluateSiteStudyStatus(StudySite studySite) throws C3PRCodedException;
 
-    public void setSiteStudyStatuses(Study study) throws Exception;
+    public void setSiteStudyStatuses(Study study) throws C3PRCodedException;
 
-    public void setDataEntryStatus(Study study, boolean throwException) throws Exception;
+    public void setDataEntryStatus(Study study, boolean throwException) throws C3PRCodedException;
 
-    public Study setStatuses(Study study, boolean throwException) throws Exception;
+    public Study setStatuses(Study study, boolean throwException) throws C3PRCodedException;
 
-    public Study setStatuses(Study study, CoordinatingCenterStudyStatus status) throws Exception;
+    public Study setStatuses(Study study, CoordinatingCenterStudyStatus status) throws C3PRCodedException;
 
-    public Study setSiteStudyStatus(Study study, StudySite studySite, SiteStudyStatus status) throws Exception;
+    public Study setSiteStudyStatus(Study study, StudySite studySite, SiteStudyStatus status) throws C3PRCodedException;
 
     public Study merge(Study study);
 
