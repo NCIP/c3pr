@@ -82,12 +82,14 @@ public class EditStudyController extends StudyController<Study> {
     protected Map referenceData(HttpServletRequest request, Object o, Errors e, int arg1) throws Exception {
     	// TODO Auto-generated method stub
     	
+    	String softDelete = "false";
     	request.setAttribute("flowType", "EDIT_STUDY");
     	request.setAttribute("editFlow", "true");
     	
-    	//even is the status is Pending softDel is true coz cant allow hardDeletes of Arms as book Entries referrign to it might already be created.
-    	//This is similar to the blinded randomization dropdown which is not editable in edit flow
-    	request.setAttribute("softDelete", "true");
+    	if(((Study)o).getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.PENDING){
+    		softDelete = "true";
+    	}
+    	request.setAttribute("softDelete", softDelete);
     	return super.referenceData(request,  o,  e, arg1);
     }
     
