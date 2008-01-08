@@ -166,6 +166,6 @@
     <STUDY_AMENDMENTS stu_id="1000" retired_indicator="false"/>
 
     <NOTIFICATIONS id="1000" stu_id="1000" retired_indicator="false" threshold="50"/>
-    <RECEPIENTS notifications_id="1000" retired_indicator="false"/>
+    <RECIPIENTS notifications_id="1000" retired_indicator="false"/>
 
 </dataset>
