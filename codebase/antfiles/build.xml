@@ -66,7 +66,14 @@
     <property name="reportable.projects.list" value="core,web"/>
 
 
-    <target name="prepare" depends="define-custom-ant-tasks"></target>
+    <target name="prepare" depends="define-custom-ant-tasks">
+		<java classname="com.semanticbits.java.classpath.tools.ClassPathModifier">
+			<arg value="${share.dir}/java/tools.jar"/>
+			<classpath>
+				<pathelement location="${antfiles.dir}/lib/classpath-modifier.jar"/>
+			</classpath>
+		</java>
+    </target>
 
     <!-- =============================================================== -->
     <!-- CORE                                                             -->
