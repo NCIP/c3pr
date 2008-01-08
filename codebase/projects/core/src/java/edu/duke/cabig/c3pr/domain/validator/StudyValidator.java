@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.domain.validator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -13,11 +14,14 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import edu.duke.cabig.c3pr.dao.StudyDao;
+import edu.duke.cabig.c3pr.domain.DiseaseCategory;
+import edu.duke.cabig.c3pr.domain.DiseaseTerm;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.StudySite;
@@ -205,7 +209,22 @@ public class StudyValidator implements Validator {
 			}
 			
 		} finally {
+					//TODO
+		}
+	}
+	
+	public void validateStudyDiseases(Object target, Errors errors) {
+		Study study = (Study) target;
+		List<StudyDisease> allDiseases = study.getStudyDiseases();
+		try {
+			Set<StudyDisease> uniqueDiseases = new TreeSet<StudyDisease>();
+			uniqueDiseases.addAll(allDiseases);
+			if (allDiseases.size() > uniqueDiseases.size()) {
+				errors.reject("tempProperty",getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.DISEASE.ERROR"),null,null));
+			}
 			
+		} finally {
+					//TODO
 		}
 	}
 
