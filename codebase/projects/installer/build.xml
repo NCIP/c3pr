@@ -8,7 +8,7 @@ run with ...
 ant -buildfile build-c3prv2.xml
 
 -->
-<project name="Create C3PRV2 Installer Build"  default="build-installer"  basedir=".">
+<project name="Create C3PRV2 Installer Build" default="build-installer" basedir=".">
 
     <!-- Information -->
     <property name="project.name" value="c3prv2-installer"/>
@@ -23,8 +23,10 @@ ant -buildfile build-c3prv2.xml
 
     <property name="c3prv2.installer.dir" value="${basedir}/c3prv2-installer"/>
     <property name="c3prv2.installer.artifact" value="${build.jar.dir}/${project.name}-${project.version}.jar"/>
-    <property name="c3prv2.offline.installer.artifact" value="${build.jar.dir}/${project.name}-offline-${project.version}.jar"/>
-    <property name="c3prv2.online.installer.artifact" value="${build.jar.dir}/${project.name}-online-${project.version}.jar"/>
+    <property name="c3prv2.offline.installer.artifact"
+              value="${build.jar.dir}/${project.name}-offline-${project.version}.jar"/>
+    <property name="c3prv2.online.installer.artifact"
+              value="${build.jar.dir}/${project.name}-online-${project.version}.jar"/>
 
     <property name="resources.dir" value="${basedir}/resources"/>
     <property name="software.dir" value="${resources.dir}/software"/>
@@ -52,7 +54,7 @@ ant -buildfile build-c3prv2.xml
 
     <path id="test.classpath">
         <path refid="build.classpath"/>
-        <pathelement  location="${c3prv2.installer.dir}"/>
+        <pathelement location="${c3prv2.installer.dir}"/>
         <fileset dir="${basedir}/antlib">
             <include name="**/*.jar"/>
         </fileset>
@@ -126,15 +128,19 @@ ant -buildfile build-c3prv2.xml
     <!--runs the installer-->
     <target name="run-installer" description="Will run a previously built installer">
         <available property="offline.installer"
-                   file="${c3prv2.offline.installer.artifact}" />
+                   file="${c3prv2.offline.installer.artifact}"/>
+
 
         <available property="online.installer"
-                   file="${c3prv2.online.installer.artifact}" />
+                   file="${c3prv2.online.installer.artifact}"/>
+
+        <echo message="${offline.installer}"/>
+        <echo message="${online.installer}"/>
 
         <antcall target="run-offline-installer">
         </antcall>
 
-        <antcall  target="run-online-installer" inheritall="true">
+        <antcall target="run-online-installer">
         </antcall>
 
     </target>
@@ -177,8 +183,6 @@ ant -buildfile build-c3prv2.xml
             </manifest>
         </jar>
     </target>
-
-
 
 
     <target name="all" depends="build-installer,jar-tests">

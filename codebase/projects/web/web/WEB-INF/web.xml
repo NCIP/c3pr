@@ -20,6 +20,14 @@
     </context-param>
 
     <context-param>
+        <param-name>beringContextConfigLocation</param-name>
+        <param-value>
+            classpath*:edu/duke/cabig/c3pr/applicationContext-core-db.xml
+            classpath*:edu/duke/cabig/c3pr/applicationContext-config.xml
+        </param-value>
+    </context-param>
+
+    <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
             classpath*:edu/duke/cabig/c3pr/applicationContext*.xml
@@ -33,11 +41,17 @@
     </context-param>
 
     <listener>
-        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+        <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+    </listener>
+
+    <!--will run bering migrate on startup-->
+    <listener>
+        <listener-class>edu.northwestern.bioinformatics.bering.servlet.SeparateApplicationContextBeringContextListener
+        </listener-class>
     </listener>
 
     <listener>
-        <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
     <servlet>

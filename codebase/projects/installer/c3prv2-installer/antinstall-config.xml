@@ -34,10 +34,10 @@ This is the install config for c3prv2 installer
             displayText="License Agreement"
             resource="/resources/c3prv2_license.txt"/>
 
-    <page   target="prepare"
-            type="input"
-            name="DeployDir"
-            displayText="Installation directory">
+    <page target="prepare"
+          type="input"
+          name="DeployDir"
+          displayText="Installation directory">
         <directory
                 property="install.dir"
                 defaultValue="/tmp/c3prv2"
@@ -76,7 +76,7 @@ This is the install config for c3prv2 installer
             type="input"
             name="selectExistingTomcat"
             displayText="Select Tomcat Directory"
-        ifTarget="installExistingTomcat">
+            ifTarget="installExistingTomcat">
         <directory
                 property="tomcat.home"
                 displayText="Tomcat Directory"
@@ -85,9 +85,9 @@ This is the install config for c3prv2 installer
     </page>
 
     <!--Select what to install-->
-    <page   type="input"
-            name="selectComponents"
-            displayText="Components to install">
+    <page type="input"
+          name="selectComponents"
+          displayText="Components to install">
         <comment
                 displayText="Choose the components you want to install"
                 bold="true"/>
@@ -118,7 +118,7 @@ This is the install config for c3prv2 installer
 
     </page>
 
-     <page type="text"
+    <page type="text"
           name="existingTomcatInstructions"
           ifTarget="installExistingTomcat"
           htmlResource="/resources/Existing_Tomcat_Instructions.html"
@@ -141,7 +141,7 @@ This is the install config for c3prv2 installer
         <comment
                 displayText="Note: Logs will be created in ${tomcat.home}/logs"
                 bold="true"/>
-       <hidden property="ctmsi.commons.version" value="0.5"/>
+        <hidden property="ctmsi.commons.version" value="0.5"/>
     </page>
 
     <!--CSM configure-->
@@ -163,7 +163,7 @@ This is the install config for c3prv2 installer
         <hidden property="csm.context.name" value="c3pr"/>
     </page>
 
-    
+
     <page
             type="input"
             name="selectAuthorizationSwitch"
@@ -257,114 +257,6 @@ This is the install config for c3prv2 installer
         <hidden
                 property="datasource.dialect"
                 value="org.hibernate.dialect.PostgreSQLDialect"/>
-    </page>
-
-    <page type="input"
-          name="createDatabaseChoice"
-          displayText="Create Database"
-          ifTarget="deploy-webapp"
-          ifProperty="${database.type}!=none">
-        <target
-                displayText="Create/Update Database"
-                target="database.migrate"
-                defaultValue="true"
-                />
-    </page>
-
-    <page type="input"
-          name="hostedMode"
-          ifTarget="deploy-webapp"
-        displayText="Hosted Mode">
-    <select property="hostedMode" displayText="Run C3PRv2 in hosted mode?"
-            defaultValue="true">
-            <option text="true" value="true"/>
-            <option text="false" value="false"/>
-        </select>
-    </page>
-
-
-    <page type="input"
-           name="localNCIInstituteCode"
-            ifTarget="deploy-webapp"
-            displayText="Local NCI Intitute code">
-        <text property="localInstanceNCIInstituteCode"
-                defaultValue="Duke"
-                displayText="NCI Institute Code"/>
-    </page>
-
-    <page
-            type="input"
-            name="email"
-            ifTarget="deploy-webapp"
-            displayText="Outgoing Email configuration">
-        <comment displayText="Needed for sending C3PR system notifications to users."/>
-        <text property="outgoing.mail.server"
-              defaultValue="smtp.my.org"
-              displayText="Outgoing Mail Server URL"/>
-        <text property="outgoing.mail.username"
-              defaultValue=""
-              displayText="Outgoing Mail Server Username"/>
-        <text property="outgoing.mail.password"
-              defaultValue=""
-              displayText="Outgoing Mail Server Password"/>
-        <text property="outgoing.mail.from.address"
-              defaultValue="c3pr-admin@my.org"
-              displayText="Outgoing Mail Server Password"/>
-    </page>
-
-    <page
-            type="input"
-            name="hotlinks"
-            ifTarget="deploy-webapp"
-            displayText="CTMSi Hot Links">
-        <text property="hotlinks.psc"
-              displayText="PSC Hotlink"
-              defaultValue="http://localhost:8041/studycalendar/pages/schedule"/>
-        <text property="hotlinks.caaers"
-              displayText="CAAERS Hotlink"
-              defaultValue="http://localhost:8030/caaers/pages/ae/list"/>
-        <text property="hotlinks.c3d"
-              displayText="C3D Hotlink"
-              defaultValue="https://octrials-train.nci.nih.gov/opa45/rdclaunch.htm"/>
-    </page>
-
-
-    <page
-            type="input"
-            name="ESB"
-            ifTarget="deploy-webapp"
-            displayText="ESB configuration">
-        <select defaultValue="false"
-                displayText="Enable ESB"
-                property="broadcastEnable">
-            <option text="true" value="true"/>
-            <option text="false" value="false"/>
-        </select>
-    </page>
-
-    <page
-            type="input"
-            ifProperty="broadcastEnable==true">
-        <text property="esb.brokerUrl"
-              defaultValue="tcp://localhost:61616"
-              displayText="ESB url"/>
-    </page>
-
-    <page
-            type="input"
-            name="Grid"
-            ifTarget="deploy-webapp"
-            displayText="Grid Infrastructure">
-        <text property="grid.idpUrl"
-              displayText="IDP url"
-              defaultValue="https://localhost:8446/wsrf/services/cagrid/AuthenticationService"
-                />
-        <text property="grid.ifsUrl"
-              displayText="IFS url"
-              defaultValue="https://localhost:8443/wsrf/services/cagrid/Dorian"
-                />
-        <!--no need for this-->
-        <hidden property="enableLogin" value="false"/>
     </page>
 
     <page
