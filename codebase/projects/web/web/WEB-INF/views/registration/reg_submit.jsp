@@ -30,7 +30,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 <body>
 <tags:formPanelBox tab="${tab}" flow="${flow}" continueLabel="${registerable?'Register':''}">
 	<input type="hidden" name="_finish" value="true"/>
-	<chrome:division id="Subject Information" title="Subject Information">
+	<chrome:division id="Subject Information" title="Subject">
 	<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 		<tr>
 			<td width="35%"  align="left"><b>First Name</b></td>
@@ -60,12 +60,12 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		<td>${command.participant.ethnicGroupCode}</td>
 	</tr>
 	<tr>
-		<td align="left"><b>Race(s)</b></td>
+		<td align="left"><b>Race</b></td>
 		<td>${command.participant.raceCode}</td>
 		</tr>
 	</table>
 	</chrome:division>
-	<chrome:division id="Study Information" title="Study Information">
+	<chrome:division id="Study Information" title="Study">
 	<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 		<tr>
 			<td align="left" width="35%"><b>Status</b></td>
@@ -97,7 +97,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		</tr>
 	</table>
 	</chrome:division>
-	<chrome:division id="Study Site Information:" title="Study Site Information:">
+	<chrome:division id="Study Site Information" title="Study Site">
 	<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 		<tr>
 			<td width="35%" align="left"><b>Name</b></td>
@@ -124,7 +124,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		</tr>
 	</table>
 	</chrome:division>
-	<chrome:division id="Current Epoch Information" title="Current Epoch Information">
+	<chrome:division id="Current Epoch Information" title="Current Epoch">
 	<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 		<tr>
 			<td align="left" width="35%"><b>Current Epoch</b></td>
@@ -173,7 +173,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 	</table>
 	</chrome:division>
 	<c:if test="${command.ifTreatmentScheduledEpoch}">
-		<chrome:division id="Eligibility" title="Eligibility information">
+		<chrome:division id="Eligibility" title="Eligibility">
 		<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 			<tr>
 				<td width="35%" align="left"><b>Eligible</b>
@@ -187,7 +187,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		</c:when>
 		<c:otherwise>
 		<br>
-			<strong>Inclusion Criteria:</strong>
+			<strong>Inclusion Criteria</strong>
 			
 			<div class="review">
 			<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
@@ -204,7 +204,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		</table>
 		</div>
 		<br>
-		<strong>Exclusion Criteria:</strong>
+		<strong>Exclusion Criteria</strong>
 		
 		<div class="review">
 		<table border="0" cellspacing="0" cellpadding="0"  width="50%" class="tablecontent">
