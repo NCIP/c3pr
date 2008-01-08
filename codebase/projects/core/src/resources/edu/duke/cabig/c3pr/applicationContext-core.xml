@@ -353,7 +353,7 @@
         <property name="port" value="${outgoingMailServerPort}"/>
         <property name="password" value="${outgoingMailPassword}"/>
         <property name="username" value="${outgoingMailUsername}"/>
-        <property name="javaMailProperties" value="${smtpAuth}" />
+        <property name="javaMailProperties" value="${outgoingMailAuth}" />
     </bean>
 
     <bean id="confirmationEmailer" class="edu.duke.cabig.c3pr.aspects.UserEmailConfirmationAspect"

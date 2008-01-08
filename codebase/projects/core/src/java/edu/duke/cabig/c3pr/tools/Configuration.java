@@ -22,8 +22,21 @@ public class Configuration extends DatabaseBackedConfiguration {
     public static final ConfigurationProperty<String> ESB_URL
         = PROPERTIES.add(new ConfigurationProperty.Text("esbUrl"));
     public static final ConfigurationProperty<String> ESB_ENABLE
-    	= PROPERTIES.add(new ConfigurationProperty.Text("esbEnable"));
+	= PROPERTIES.add(new ConfigurationProperty.Text("esbEnable"));    
+    public static final ConfigurationProperty<String> CCTS_WEBSSO_BASE_URL
+    	= PROPERTIES.add(new ConfigurationProperty.Text("ccts.websso.base_url"));
+    public static final ConfigurationProperty<String> CCTS_WEBSSO_CERT_FILE
+	= PROPERTIES.add(new ConfigurationProperty.Text("ccts.websso.cert_file"));
+    public static final ConfigurationProperty<String> HOST_CERT
+	= PROPERTIES.add(new ConfigurationProperty.Text("hostCertificate"));
+    public static final ConfigurationProperty<String> HOST_KEY
+	= PROPERTIES.add(new ConfigurationProperty.Text("hostKey"));
+    public static final ConfigurationProperty<String> C3PR_WEBAPP_URL
+	= PROPERTIES.add(new ConfigurationProperty.Text("c3pr.webapp.url"));
+    public static final ConfigurationProperty<String> AUTHENTICATION_MODEL
+	= PROPERTIES.add(new ConfigurationProperty.Text("authenticationMode"));
 
+    
 /*    public static final ConfigurationProperty<String> GRID_IDP_URL
     	= PROPERTIES.add(new ConfigurationProperty.Text("gridIdpUrl"));
     public static final ConfigurationProperty<String> GRID_IFS_URL
@@ -33,17 +46,6 @@ public class Configuration extends DatabaseBackedConfiguration {
     public static final ConfigurationProperty<String> LOCAL_NCI_INSTITUTE_CODE
 		= PROPERTIES.add(new ConfigurationProperty.Text("localNciInstituteCode"));
 
-    
-/*    public static final ConfigurationProperty<String> SMTP_ADDRESS
-        = PROPERTIES.add(new ConfigurationProperty.Text("smtpAddress"));
-    public static final ConfigurationProperty<Integer> SMTP_PORT
-        = PROPERTIES.add(new ConfigurationProperty.Int("smtpPort"));
-    public static final ConfigurationProperty<String> SMTP_USER
-        = PROPERTIES.add(new ConfigurationProperty.Text("smtpUser"));
-    public static final ConfigurationProperty<String> SMTP_PASSWORD
-        = PROPERTIES.add(new ConfigurationProperty.Text("smtpPassword"));
-    public static final ConfigurationProperty<String> SYSTEM_FROM_EMAIL
-        = PROPERTIES.add(new ConfigurationProperty.Text("systemFromEmail"));*/
     
     public static final ConfigurationProperty<String> OUTGOING_MAIL_SERVER
     = PROPERTIES.add(new ConfigurationProperty.Text("outgoingMailServer"));
@@ -55,6 +57,8 @@ public class Configuration extends DatabaseBackedConfiguration {
 	    = PROPERTIES.add(new ConfigurationProperty.Text("outgoingMailPassword"));
 	public static final ConfigurationProperty<String> OUTGOING_MAIL_FROM_ADDRESS
 	    = PROPERTIES.add(new ConfigurationProperty.Text("outgoingMailFromAddress"));
+	public static final ConfigurationProperty<String> OUTGOING_MAIL_AUTH
+    = PROPERTIES.add(new ConfigurationProperty.Text("outgoingMailAuth"));
 
     @Override
     public ConfigurationProperties getProperties() {

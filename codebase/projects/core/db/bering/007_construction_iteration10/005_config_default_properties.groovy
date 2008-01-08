@@ -8,6 +8,12 @@ class ConfigDefaultProperties extends edu.northwestern.bioinformatics.bering.Mig
 		insert('configuration', [ key:"esbEnable", value:"false" ], primaryKey: false)
 		insert('configuration', [ key:"outgoingMailServer", value:"smtp.comcast.net" ], primaryKey: false)
 		insert('configuration', [ key:"outgoingMailServerPort", value:"25" ], primaryKey: false)
+		insert('configuration', [ key:"outgoingMailAuth", value:"true" ], primaryKey: false)
+		insert('configuration', [ key:"ccts.websso.base_url", value:"https://cbvapp-d1017.nci.nih.gov:48443/cas" ], primaryKey: false)
+		insert('configuration', [ key:"ccts.websso.cert_file", value:"/System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Home/lib/security/cacerts" ], primaryKey: false)
+		insert('configuration', [ key:"hostCertificate", value:"/Users/kherm/certs/manav.local-cert.pem" ], primaryKey: false)
+		insert('configuration', [ key:"hostKey", value:"/Users/kherm/certs/manav.local-key.pem" ], primaryKey: false)
+		insert('configuration', [ key:"authenticationMode", value:"local" ], primaryKey: false)
 	}
 
 	void down(){
