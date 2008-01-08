@@ -5,6 +5,8 @@ import java.util.Map;
 import edu.duke.cabig.c3pr.dao.DiseaseTermDao;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyDisease;
+import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
+
 import org.springframework.validation.Errors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,8 +21,13 @@ import javax.servlet.http.HttpServletRequest;
 class StudyDiseasesTab extends StudyTab {
 
     private DiseaseTermDao diseaseTermDao;
+    private StudyValidator studyValidator;
 
-    public StudyDiseasesTab() {
+    public void setStudyValidator(StudyValidator studyValidator) {
+		this.studyValidator = studyValidator;
+	}
+
+	public StudyDiseasesTab() {
         super("Diseases", "Diseases", "study/study_diseases");
     }
 
@@ -37,6 +44,14 @@ class StudyDiseasesTab extends StudyTab {
 			}
     	}
 		return refdata;
+	}
+    
+    
+    @Override
+	public void validate(Study study, Errors errors) {
+		// TODO Auto-generated method stub
+		super.validate(study, errors);
+		this.studyValidator.validateStudyDiseases(study, errors);
 	}
 
     @Override
