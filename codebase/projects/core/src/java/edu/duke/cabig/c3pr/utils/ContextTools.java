@@ -18,6 +18,7 @@ public class ContextTools {
                 "classpath*:edu/duke/cabig/c3pr/applicationContext-core.xml",
                 "classpath*:edu/duke/cabig/c3pr/applicationContext-core-db.xml",
                 "classpath*:edu/duke/cabig/c3pr/applicationContext-csm.xml",
+                "classpath*:edu/duke/cabig/c3pr/applicationContext-config.xml",
 
         });
     }
