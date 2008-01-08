@@ -24,7 +24,7 @@ import org.hibernate.annotations.Parameter;
         @Parameter(name="sequence", value="STUDY_DISEASES_ID_SEQ")
     }
 )
-public class StudyDisease extends AbstractMutableDeletableDomainObject {
+public class StudyDisease extends AbstractMutableDeletableDomainObject implements Comparable<StudyDisease> {
 	
 	private Study study;
 	private DiseaseTerm diseaseTerm;
@@ -116,6 +116,11 @@ public class StudyDisease extends AbstractMutableDeletableDomainObject {
 		result = (diseaseTerm != null ? diseaseTerm.hashCode() : 0);
 		result = 29 * result + (study != null ? study.hashCode() : 0);
 		return result;
+	}
+
+	public int compareTo(StudyDisease o) {
+		if (this.equals(o)){return 0;}
+			else return 1;
 	}
 
 }
