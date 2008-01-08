@@ -254,6 +254,7 @@ Event.observe(window, "load", function() {
         </div>
 
         <chrome:division title="Disease" id="disease">
+        	<tags:errors path="*"/> 
             Search for a Disease Category<br>
             
             <input type="hidden" id="disease-hidden"/>
