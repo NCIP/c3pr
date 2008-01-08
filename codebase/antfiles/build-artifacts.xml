@@ -33,7 +33,7 @@
 
         <!--Libs are in a compile track. Only needed to run db scripts.
             But jars conflict with runtime jars-->
-        <artifact track="compile" type="jars" id="bering.jars">
+        <artifact track="main" type="jars" id="bering.jars">
             <fileset dir="${share.dir}/bering">
                 <include name="*.jar"/>
 
@@ -111,7 +111,7 @@
             </fileset>
         </artifact>
 
-         <artifact track="main" type="jars" id="caXchange.jars">
+        <artifact track="main" type="jars" id="caXchange.jars">
             <fileset dir="${share.dir}/caXchange">
                 <include name="*.jar"/>
             </fileset>

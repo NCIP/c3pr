@@ -48,7 +48,8 @@
     <property name="conf.dir" value="${basedir}/conf/"/>
 
     <!--db dir-->
-    <property name="db.scripts.dir" value="${basedir}/db"/>
+    <property name="db.scripts.basedir" value="db"/>
+    <property name="db.scripts.dir" value="${basedir}/${db.scripts.basedir}"/>
     <property name="bering.migration.dir" value="${db.scripts.dir}/bering"/>
 
     <property name="oracle.db.script.dir" value="${db.scripts.dir}/oracle"/>
@@ -72,6 +73,9 @@
         </fileset>
         <fileset dir="${ext.lib.dir}">
             <include name="**/*.jar"/>
+        </fileset>
+        <fileset dir="${env.JAVA_HOME}">
+            <include name="**/tools.jar"/>
         </fileset>
     </path>
 
@@ -170,6 +174,11 @@
             <fileset dir="${resources.dir}/xsd">
                 <include name="c3pr-domain.xsd"/>
             </fileset>
+        </copy>
+
+        <!--copy bering migrate scripts-->
+        <copy todir="${classes.dir}/${db.scripts.basedir}" overwrite="true">
+            <fileset dir="${db.scripts.dir}"/>
         </copy>
 
         <echo>All database ops for this build will use ${datasource.url}</echo>

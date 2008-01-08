@@ -42,7 +42,7 @@
             </props>
         </property>
     </bean>
-    
+
     <bean id="auditHibernateProperties"
           class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="properties">
@@ -58,6 +58,12 @@
                 <prop key="hibernate.jdbc.batch_size">30</prop>
             </props>
         </property>
+    </bean>
+
+    <bean id="beringMigrator" class="edu.northwestern.bioinformatics.bering.servlet.DeployedMigrator">
+        <!-- We can't use the local pool data source because its validation query is dependent on bering having run at least once. -->
+        <property name="dataSource" ref="fileLoadedDatasource"/>
+        <property name="resourcePath" value="db/bering"/>
     </bean>
 
 

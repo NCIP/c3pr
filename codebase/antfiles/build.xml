@@ -326,7 +326,7 @@
 
 
     <target name="run-installer" description="Runs a previously built installer">
-        <ant dir="${projects.dir}/installer" target="run-installer"/>
+        <ant dir="${projects.dir}/installer" target="run-installer" inheritall="false"/>
     </target>
 
     <!-- ============================================================== -->

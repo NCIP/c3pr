@@ -1,65 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-  <bean id="c3prPropertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-    <property name="propertiesArray">
-      <list>
-         <ref bean="c3prPropertyConfigurerFromFile"/>
-         <ref bean="c3prPropertyConfigurerFromDB"/>
-      </list>
-    </property>
-    <property name="ignoreUnresolvablePlaceholders" value="true"/>
-    <property name="ignoreResourceNotFound" value="true"/>
-  </bean>
-  
-  <bean id="c3prPropertyConfigurerFromFile"
-    class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-	    <property name="locations">
+    <bean id="c3prPropertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="propertiesArray">
+            <list>
+                <ref bean="c3prPropertyConfigurerFromFile"/>
+                <ref bean="c3prPropertyConfigurerFromDB"/>
+            </list>
+        </property>
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="ignoreResourceNotFound" value="true"/>
+    </bean>
+
+    <bean id="c3prPropertyConfigurerFromFile"
+          class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="locations">
             <list>
                 <value>classpath:context/c3pr.properties</value>
                 <value>file:@catalina.home@/conf/c3pr.properties</value>
             </list>
         </property>
         <property name="ignoreResourceNotFound" value="true"/>
-  </bean>
-  
-  <bean id="c3prPropertyConfigurerFromDB" class="org.apache.commons.configuration.ConfigurationConverter" factory-method="getProperties">
-    <constructor-arg>
-      <bean class="org.apache.commons.configuration.DatabaseConfiguration">
+    </bean>
+
+    <bean id="fileLoadedDatasource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" ref="c3prPropertyConfigurerFromFile[datasource.driver]"/>
+        <property name="url" ref="c3prPropertyConfigurerFromFile[datasource.url]"/>
+        <property name="username" ref="c3prPropertyConfigurerFromFile[datasource.username]"/>
+        <property name="password" ref="c3prPropertyConfigurerFromFile[datasource.password]"/>
+    </bean>
+
+
+    <bean id="c3prPropertyConfigurerFromDB" class="org.apache.commons.configuration.ConfigurationConverter"
+          lazy-init="true"
+          factory-method="getProperties">
         <constructor-arg>
-          <bean id="ds1" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-            <property name="driverClassName" ref="c3prPropertyConfigurerFromFile[datasource.driver]"/>
-            <property name="url" ref="c3prPropertyConfigurerFromFile[datasource.url]"/>
-            <property name="username" ref="c3prPropertyConfigurerFromFile[datasource.username]"/>
-            <property name="password" ref="c3prPropertyConfigurerFromFile[datasource.password]"/>
-          </bean>
+            <bean class="org.apache.commons.configuration.DatabaseConfiguration">
+                <constructor-arg ref="fileLoadedDatasource"/>
+                <constructor-arg value="configuration"/>
+                <constructor-arg value="key"/>
+                <constructor-arg value="value"/>
+            </bean>
         </constructor-arg>
-        <constructor-arg ref="c3prPropertyConfigurerFromFile[config.table]"/>
-        <constructor-arg ref="c3prPropertyConfigurerFromFile[config.keyColumn]"/>
-        <constructor-arg ref="c3prPropertyConfigurerFromFile[config.valueColumn]"/>
-      </bean>
-    </constructor-arg>
-  </bean>
+    </bean>
 
-  <bean name="c3prPropertyConfigurerFromFile[datasource.driver]"
-    class="edu.duke.cabig.c3pr.tools.PropertiesGetterFactoryBean"/>
-    
-  <bean name="c3prPropertyConfigurerFromFile[datasource.url]"
-    class="edu.duke.cabig.c3pr.tools.PropertiesGetterFactoryBean"/>    
+    <bean name="c3prPropertyConfigurerFromFile[datasource.driver]"
+          class="edu.duke.cabig.c3pr.tools.PropertiesGetterFactoryBean"/>
 
-  <bean name="c3prPropertyConfigurerFromFile[datasource.username]"
-    class="edu.duke.cabig.c3pr.tools.PropertiesGetterFactoryBean"/>
+    <bean name="c3prPropertyConfigurerFromFile[datasource.url]"
+          class="edu.duke.cabig.c3pr.tools.PropertiesGetterFactoryBean"/>
 
-  <bean name="c3prPropertyConfigurerFromFile[datasource.password]"
-    class="edu.duke.cabig.c3pr.tools.PropertiesGetterFactoryBean"/>
+    <bean name="c3prPropertyConfigurerFromFile[datasource.username]"
+          class="edu.duke.cabig.c3pr.tools.PropertiesGetterFactoryBean"/>
 
-  <bean name="c3prPropertyConfigurerFromFile[config.table]"
-    class="edu.duke.cabig.c3pr.tools.PropertiesGetterFactoryBean"/>
+    <bean name="c3prPropertyConfigurerFromFile[datasource.password]"
+          class="edu.duke.cabig.c3pr.tools.PropertiesGetterFactoryBean"/>
 
-  <bean name="c3prPropertyConfigurerFromFile[config.keyColumn]"
-    class="edu.duke.cabig.c3pr.tools.PropertiesGetterFactoryBean"/>
 
-  <bean name="c3prPropertyConfigurerFromFile[config.valueColumn]"
-    class="edu.duke.cabig.c3pr.tools.PropertiesGetterFactoryBean"/>    
-    
 </beans>
