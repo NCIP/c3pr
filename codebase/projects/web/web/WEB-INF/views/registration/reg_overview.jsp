@@ -78,8 +78,9 @@
                                requiresMultiSite="${requiresMultiSite}"/>
 </c:if>
 <tags:panelBox>
+<br/>
 <div id="printable">
-<chrome:division id="Subject Information" title="Subject Information">
+<chrome:division id="Subject Information" title="Subject">
     <table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
         <tr>
             <td width="35%" class="label">First Name</td>
@@ -94,7 +95,7 @@
             <td>${command.participant.administrativeGenderCode}</td>
         </tr>
         <tr>
-            <td class="label">Subject MRN</td>
+            <td class="label">MRN</td>
             <td>${command.participant.primaryIdentifier }</td>
         </tr>
         <tr>
@@ -106,12 +107,12 @@
             <td>${command.participant.ethnicGroupCode}</td>
         </tr>
         <tr>
-            <td class="label">Race(s)</td>
+            <td class="label">Race</td>
             <td>${command.participant.raceCode}</td>
         </tr>
     </table>
 </chrome:division>
-<chrome:division id="Study Information" title="Study Information">
+<chrome:division id="Study Information" title="Study">
     <table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
         <tr>
             <td class="label">Status</td>
@@ -143,7 +144,7 @@
         </tr>
     </table>
 </chrome:division>
-<chrome:division id="Study Site Information:" title="Study Site Information:">
+<chrome:division id="Study Site Information:" title="Study Site">
     <table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
         <tr>
             <td width="35%" class="label">Name</td>
@@ -170,7 +171,7 @@
         </tr>
     </table>
 </chrome:division>
-<chrome:division id="Current Epoch Information" title="Current Epoch Information">
+<chrome:division id="Current Epoch Information" title="Current Epoch">
     <table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
         <tr>
             <td width="35%" class="label">Current Epoch</td>
@@ -204,7 +205,7 @@
                 <c:if test="${command.regWorkflowStatus=='REGISTERED' && command.scheduledEpoch.scEpochWorkflowStatus=='APPROVED'}">
                     <input type="button" value="Take subject off study"
                            onclick="new Effect.SlideDown('OffStudyStatus')">
-                </c:if>
+                </c:if><br/><br/>
                 <div id="OffStudyStatus">
                     <form:form id="offStudyStatusForm">
                         <input type="hidden" name="_page" value="${tab.number}" id="_page"/>
@@ -212,10 +213,10 @@
                         Reason:
                         <form:textarea path="offStudyReasonText" rows="2" cols="40"
                                        cssClass="validate-notEmpty"></form:textarea>
-                        <br>
+                        <br /><br />
                         Date: &nbsp;&nbsp;&nbsp;
                         <tags:dateInput path="offStudyDate" cssClass="validate-notEmpty"/>
-                        <em> (mm/dd/yyyy)</em><br>
+                        <em> (mm/dd/yyyy)</em><br /><br />
                         <c:if test="${command.regWorkflowStatus!='OFF_STUDY'}"><input type="submit" value="ok"/>
                             <input type="button" value="cancel" onclick="new Effect.SlideUp('OffStudyStatus')"/></c:if>
                     </form:form>
@@ -327,10 +328,10 @@
     </table>
 </chrome:division>
 <c:if test="${command.ifTreatmentScheduledEpoch}">
-    <chrome:division id="Eligibility" title="Eligibility information">
+    <chrome:division id="Eligibility" title="Eligibility">
         <table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
             <tr>
-                <td width="35%" class="label">Eligibile
+                <td width="35%" class="label">Eligible
                 </td>
                 <td>${command.scheduledEpoch.eligibilityIndicator?'True':'False' }</td>
             </tr>
@@ -341,7 +342,7 @@
             </c:when>
             <c:otherwise>
                 <br>
-                <strong>Inclusion Criteria:</strong>
+                <strong>Inclusion Criteria</strong>
 
                 <div class="review">
                     <table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
@@ -359,7 +360,7 @@
                     </table>
                 </div>
                 <br>
-                <strong>Exclusion Criteria:</strong>
+                <strong>Exclusion Criteria</strong>
 
                 <div class="review">
                     <table border="0" cellspacing="0" cellpadding="0" width="50%" class="tablecontent">
@@ -379,7 +380,7 @@
             </c:otherwise>
         </c:choose>
     </chrome:division>
-    <chrome:division id="stratification" title="Stratification Information">
+    <chrome:division id="stratification" title="Stratification">
         <c:choose>
             <c:when test="${fn:length(command.scheduledEpoch.subjectStratificationAnswers) == 0}">
                 <table width="50%" border="0" cellspacing="0" cellpadding="0" id="table1">
