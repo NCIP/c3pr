@@ -142,6 +142,7 @@ This is the install config for c3prv2 installer
                 displayText="Note: Logs will be created in ${tomcat.home}/logs"
                 bold="true"/>
         <hidden property="ctmsi.commons.version" value="0.5"/>
+        <hidden property="hostedMode" value="true"/>
     </page>
 
     <!--CSM configure-->
