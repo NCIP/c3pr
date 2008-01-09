@@ -1,9 +1,13 @@
 class RenameRecepients extends edu.northwestern.bioinformatics.bering.Migration {
     void up() {
+    
+		if (databaseMatches('oracle')) {
+	   		execute("rename recepients_ID_SEQ to SEQ_recepients_ID")
+ 	    }
 		renameTable('RECEPIENTS', 'RECIPIENTS')
 		
 		if (databaseMatches('oracle')) {
-	   		execute("rename recepients_ID_SEQ to recipients_ID_SEQ")
+	   		execute("rename SEQ_recipients_ID to recipients_ID_SEQ")
  	    }
  	    if (databaseMatches('postgres')) {
     	    //execute("alter table seq_recepients_ID rename to seq_recipients_ID")
