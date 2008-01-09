@@ -4,6 +4,8 @@ import edu.duke.cabig.c3pr.domain.*;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
+import edu.duke.cabig.c3pr.tools.Configuration;
+
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -18,9 +20,13 @@ import java.util.Map;
 public class RegistrationOverviewTab<C extends StudySubject> extends RegistrationTab<C> {
 
     private StudySubjectService studySubjectService;
+    private Configuration configuration;
 
+    public void setConfiguration(Configuration configuration) {
+		this.configuration = configuration;
+	}
 
-    public RegistrationOverviewTab() {
+	public RegistrationOverviewTab() {
         super("Overview", "Overview", "registration/reg_overview");
     }
 
@@ -62,6 +68,7 @@ public class RegistrationOverviewTab<C extends StudySubject> extends Registratio
         map.put("armAssigned", armAssigned);
         map.put("armAssignedLabel", armAssignedLabel);
         map.put("requiresMultiSite", studySubjectService.requiresCoordinatingCenterApproval(studySubject));
+        addAppUrls(map);
         return map;
     }
 
@@ -98,4 +105,10 @@ public class RegistrationOverviewTab<C extends StudySubject> extends Registratio
     public void setStudySubjectService(StudySubjectService studySubjectService) {
         this.studySubjectService = studySubjectService;
     }
+    
+	private void addAppUrls(Map<String, Object> map){
+		map.put("pscBaseUrl", this.configuration.get(this.configuration.PSC_BASE_URL));
+		map.put("caaersBaseUrl", this.configuration.get(this.configuration.CAAERS_BASE_URL));
+		map.put("c3dBaseUrl", this.configuration.get(this.configuration.C3D_BASE_URL));
+	}
 }
