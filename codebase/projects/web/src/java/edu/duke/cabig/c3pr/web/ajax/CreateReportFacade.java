@@ -1,3 +1,4 @@
+
 package edu.duke.cabig.c3pr.web.ajax;
 
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
@@ -93,7 +94,7 @@ public class CreateReportFacade {
 
         Column columnRegistrationStatus = model.getColumnInstance();
         columnRegistrationStatus.setTitle("Registration Status");
-        columnRegistrationStatus.setProperty("registrationStatus");
+        columnRegistrationStatus.setProperty("regWorkflowStatus.displayName");
         model.addColumn(columnRegistrationStatus);
 
         Column columnInformedConsentSignedDateStr = model.getColumnInstance();
