@@ -10,6 +10,11 @@
     <link rel="stylesheet" type="text/css" href="/c3pr/public/css/tables1" />
     <script type="text/javascript">
     
+     function deleteEntries(epochCountIndex){
+     	<tags:tabMethod method="cleanBookRandomizationEntries" divElement="'dummyDiv'" 
+		                javaScriptParam="'epochCountIndex='+epochCountIndex" formName="'tabMethodForm'"/>
+     }
+     
      function manageAccrualIndicatorSelectBox(box,index) {
             if (box.value == 'true') {
                 //		document.getElementById('accrualCeiling-index').style.display='show';
@@ -40,6 +45,10 @@
             initialIndex: ${fn:length(command.treatmentEpochs[treatmentEpochCount.index].arms)},
             softDelete: ${softDelete == 'true'},
             row_index_indicator: "NESTED.PAGE.ROW.INDEX",
+            deleteMsgPrefix: "Book Randomization Entries(if any) for this Treatment Epoch will be deleted.",
+            preProcessRowDeletion: function(t){
+	                deleteEntries(t.parent_row_index);              	
+			    },
             path: "treatmentEpochs[PAGE.ROW.INDEX].arms"
         };
         var treatmentEpochRowInserterProps= {
@@ -155,15 +164,17 @@
                                         <td valign="top"><form:input
                                                 path="treatmentEpochs[${treatmentEpochCount.index}].arms[${statusArms.index}].targetAccrualNumber"
                                                 size="6" maxlength="8" cssClass="validate-numeric" /></td>
-                                        <td valign="top"><a
-                                                href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(treatmentEpochRowInserterProps,${treatmentEpochCount.index}),${statusArms.index },${arm.hashCode});"><img
-                                                src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+                                        <td valign="top">
+                                        	<a href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(treatmentEpochRowInserterProps,${treatmentEpochCount.index}),${statusArms.index },${arm.hashCode});">
+                                        	<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
+                                        </td>
                                     </tr>
                                 </c:forEach>
                             </table>
                         </td>
                     </tr>
                 </table>
+                <div id="dummyDiv"></div>
             </chrome:minimizableBox></td>
         </tr>
     </c:forEach>
@@ -180,7 +191,7 @@
 
             <td><chrome:minimizableBox id="NonTreatmentEpochBox-${nonTreatmentEpochCount.index}" title="Non-Treatment Epoch"
                                      isDeletable="true"
-                                     onDelete="RowManager.deleteRow(nonTreatmentEpochRowInserterProps,${nonTreatmentEpochCount.index},${treatmentEpoch.hashCode} })">
+                                     onDelete="RowManager.deleteRow(nonTreatmentEpochRowInserterProps,${nonTreatmentEpochCount.index},${nonTreatmentEpoch.hashCode} })">
                 <table width="100%" border="0">
                     <tr><td>
                         <div class="leftpanel">
