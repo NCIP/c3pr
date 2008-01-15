@@ -12,7 +12,6 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<title>C3Pr V2</title>
 <link href="resources/styles.css" rel="stylesheet" type="text/css">
 <link href="resources/search.css" rel="stylesheet" type="text/css">
 <script>
@@ -24,7 +23,6 @@ function accessApp(url,targetWindow){
 </script>
 </head>
 <body>
-<div id="main">
 <c:choose>
 <c:when test="${not empty registrationException}">
 <tags:panelBox title="Error Registering" boxId="ConfMessage">
@@ -180,6 +178,5 @@ function accessApp(url,targetWindow){
 <c:if test="${actionRequired}">
 	<registrationTags:register registration="${command}" newReg="${newRegistration}" actionButtonLabel="${actionLabel}" requiresMultiSite="${requiresMultiSite}"/>
 </c:if>
-</div>
 </body>
 </html>
