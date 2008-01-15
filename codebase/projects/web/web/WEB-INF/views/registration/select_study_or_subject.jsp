@@ -42,10 +42,19 @@
 	<div style="display:none">
 		<form:input path="studySite" cssClass="validate-notEmpty"/>
 		<form:input path="participant" cssClass="validate-notEmpty" />
-		<input type="text" id="epochElement" name="epoch"  class="validate-notEmpty"/>
+		<input type="text" id="epochElement" name="epoch" value="${!empty command.scheduledEpoch?command.scheduledEpoch.epoch.id:''}" class="validate-notEmpty"/>
 	</div>	
 	<tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}"/>
 </form:form>
 </div>
+<c:if test="${command.studySite.id!=null && command.participant.id!=null}">
+	<script>
+		new Element.show('Epoch');
+		minimizeEpochBox();
+		displayEpochMessage("Selected epoch: ${command.scheduledEpoch.epoch.name}",true);
+		minimizeStudyBox("Selected study: ${command.studySite.study.shortTitleText} (${command.studySite.study.coordinatingCenterAssignedIdentifier.value}) at ${command.studySite.healthcareSite.name}");
+		minimizeSubjectBox("Selected subject: ${command.participant.fullName} ");
+	</script>
+</c:if>
 </body>
 </html>

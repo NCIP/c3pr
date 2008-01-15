@@ -10,11 +10,14 @@
 
 	function minimizeStudyBox(msg){
 		PanelCombo('Studybox');
+		displayStudyMessage(msg,true);
+	}
+	
+	function displayStudyMessage(message,pulsateFlag){
 		localClassString="#Study .header h2";
 		element=$$(localClassString)[0];
-		htmlStr=msg;
-		new Element.update(element,htmlStr);
-		new Effect.Pulsate(element);
+		new Element.update(element,message);
+		pulsateFlag?new Effect.Pulsate(element):null;
 	}
 	
     function navRollOver(obj, state) {

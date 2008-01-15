@@ -7,9 +7,13 @@
 <script>
 		function minimizeSubjectBox(msg){
 		PanelCombo('SubjectBox');
+		displaySubjectMessage(msg,true);
+	}
+	
+	function displaySubjectMessage(message,pulsateFlag){
 		element=$$("#Subject .header h2")[0];
-		new Element.update(element,msg);
-		new Effect.Pulsate(element);
+		new Element.update(element,message);
+		pulsateFlag?new Effect.Pulsate(element):null;
 	}
 	
   	function clearField(field) {
