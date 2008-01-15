@@ -53,12 +53,13 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject>{
 	}
 
 	public SearchStudySubjectTab() {
-		super("Search Subject or Study", "Select Subject & Study","registration/select_study_or_subject");
+		super("Select Subject & Study", "Select Subject & Study","registration/select_study_or_subject");
 		setShowSummary("false");
 	}
 	
 	@Override
-	public Map<String, Object> referenceData() {
+	public Map<String, Object> referenceData(StudySubject command) {
+		// TODO Auto-generated method stub
 		Map<String, Object> refdata = new HashMap<String, Object>();
 		Map<String, List<Lov>> configMap = configurationProperty.getMap();
 
@@ -74,7 +75,11 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject>{
 		refdata.put("identifiersTypeRefData", configMap.get("participantIdentifiersType"));
 		refdata.put("source", healthcareSiteDao.getAll());
 		refdata.put("mandatory", "true");
+		if(command.getId()!=null){
+			refdata.put("disableForm", new Boolean(true));
+		}
 		return refdata;
+
 	}
 
 	@Override
