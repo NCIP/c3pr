@@ -13,15 +13,6 @@
 function navRollOver(obj, state) {
   document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
 }
-function markAsAnswered(id){
-	selectBox='scheduledEpoch.subjectEligibilityAnswers['+id+'].answerText';
-	tick='tick-'+id;
-	if(document.getElementById(selectBox).value==''){
-		document.getElementById(tick).style.display='none';
-	}else{
-		document.getElementById(tick).style.display='block';
-	}
-}
 </script>
 </head>
 <body>
@@ -39,23 +30,17 @@ function markAsAnswered(id){
 				<tags:minimizablePanelBox boxId="Inclusion" title="Inclusion Criteria (<i>Expected answer 'yes'</i>)">
 					<table width="100%" border="0" class="tablecontent">
 						<tr>
-							<td>&nbsp;</td>
 							<th align="left"><b>Question</b></th>
 							<th align="left"><b>Answer</b></th>
 						</tr>
 						<c:set var="index" value="0"/>
 						<c:forEach var="criteria" varStatus="status" items="${command.scheduledEpoch.treatmentEpoch.inclusionEligibilityCriteria}">
 							<tr>
-								<td width="5%">
-									<div id="tick-${index }" <c:if test="${command.scheduledEpoch.subjectEligibilityAnswers[index].answerText==null||command.scheduledEpoch.subjectEligibilityAnswers[index].answerText=='' }">style="display:none;"</c:if>>
-										<img src="<tags:imageUrl name="checkbox.gif"/>" border="0" alt="answered" height="20" width="20">												
-									</div>
-								</td>
-								<td width="80%">
+								<td width="85%">
 									${criteria.questionText}
 								</td>
 								<td width="15%" valign="center">
-									<form:select id="scheduledEpoch.subjectEligibilityAnswers[${index}].answerText" path="scheduledEpoch.subjectEligibilityAnswers[${index}].answerText" onchange="markAsAnswered('${index }')">
+									<form:select id="scheduledEpoch.subjectEligibilityAnswers[${index}].answerText" path="scheduledEpoch.subjectEligibilityAnswers[${index}].answerText">
 										<option value="">Please select</option>
 										<form:option value="Yes" />
 										<form:option value="No" />
@@ -75,22 +60,16 @@ function markAsAnswered(id){
 				<tags:minimizablePanelBox boxId="Exclusion" title="Exclusion Criteria (<i>Expected answer 'no'</i>)">
 					<table width="100%" border="0" class="tablecontent">
 						<tr>
-							<td>&nbsp;</td>
 							<th align="left"><b>Question</b></th>
 							<th align="left"><b>Answer</b></th>
 						</tr>
 						<c:forEach var="criteria" varStatus="status" items="${command.scheduledEpoch.treatmentEpoch.exclusionEligibilityCriteria}">
 							<tr>
-								<td width="5%">
-									<div id="tick-${index }" <c:if test="${command.scheduledEpoch.subjectEligibilityAnswers[index].answerText==null||command.scheduledEpoch.subjectEligibilityAnswers[index].answerText=='' }">style="display:none;"</c:if>>
-										<img src="<tags:imageUrl name="checkbox.gif"/>" border="0" alt="answered" height="20" width="20">												
-									</div>
-								</td>
-								<td width="80%">
+								<td width="85%">
 									${criteria.questionText}
 								</td>
 								<td width="15%" valign="center">
-									<form:select id="scheduledEpoch.subjectEligibilityAnswers[${index}].answerText" path="scheduledEpoch.subjectEligibilityAnswers[${index}].answerText" onchange="markAsAnswered('${index }')">
+									<form:select id="scheduledEpoch.subjectEligibilityAnswers[${index}].answerText" path="scheduledEpoch.subjectEligibilityAnswers[${index}].answerText">
 										<option value="">Please select</option>
 										<form:option value="Yes" />
 										<form:option value="No" />
