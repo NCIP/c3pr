@@ -147,7 +147,7 @@
 		                                </c:forEach>
 		                            </table>
 	                            </td>
-	                            <td>
+	                            <td valign="bottom">
 		                            <table width="5%">
 			                            <tr><td>	                            
 			                                <input type="button" value="Add Inclusion Criterion"
@@ -186,7 +186,7 @@
                                     </c:forEach>
                                 </table>
                                  </td>
-                            <td>
+                            <td valign="bottom">
 	                            <table width="5%">
 		                            <tr><td>	                            
 		                                <input type="button" value="Add Exclusion Criterion"
