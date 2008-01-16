@@ -3,11 +3,11 @@ package edu.duke.cabig.c3pr.accesscontrol;
 import gov.nih.nci.cabig.ctms.domain.MutableDomainObject;
 import gov.nih.nci.security.acegi.csm.authorization.CSMAuthorizationCheck;
 import gov.nih.nci.security.constants.Constants;
-import org.acegisecurity.afterinvocation.AfterInvocationProvider;
 import org.acegisecurity.AccessDeniedException;
 import org.acegisecurity.Authentication;
-import org.acegisecurity.ConfigAttributeDefinition;
 import org.acegisecurity.ConfigAttribute;
+import org.acegisecurity.ConfigAttributeDefinition;
+import org.acegisecurity.afterinvocation.AfterInvocationProvider;
 import org.apache.log4j.Logger;
 
 import java.util.Collection;
@@ -17,8 +17,8 @@ import java.util.LinkedHashMap;
 /**
  * Will filter collection of c3pr domain objects
  * based on Site permissions.
- *
- *
+ * <p/>
+ * <p/>
  * Created by IntelliJ IDEA.
  * User: kherm
  * Date: Sep 9, 2007
@@ -70,20 +70,17 @@ public class SiteSecurityAfterInvocationCollectionFilteringProvider implements A
 
             boolean hasPermission = false;
 
-            if (domainObject == null  || !getProcessDomainObjectClass().isAssignableFrom(domainObject.getClass())) {
+            if (domainObject == null || !getProcessDomainObjectClass().isAssignableFrom(domainObject.getClass())) {
                 log.debug("Unsupported domain object in collection. Skipping authorization check");
                 hasPermission = true;
-            }
-            else{
+            } else {
 
-                if(!domainObjectSiteSecurityAuhthorizationCheckProvidersMap.containsKey(returnedObject.getClass().getName())){
-                    log.warn("Skipping Authorization. No appropriate CSMAuthorizationCheck object found for object type: " +  returnedObject.getClass().getName());
+                if (!domainObjectSiteSecurityAuhthorizationCheckProvidersMap.containsKey(domainObject.getClass().getName())) {
+                    log.warn("Skipping Authorization. No appropriate CSMAuthorizationCheck object found for object type: " + returnedObject.getClass().getName());
                     hasPermission = true;
-                }
-
-                else{
-                    CSMAuthorizationCheck auth =  (CSMAuthorizationCheck)domainObjectSiteSecurityAuhthorizationCheckProvidersMap.get(domainObject.getClass().getName());
-                    hasPermission = auth.checkAuthorization(authentication,accessPrivilege,domainObject);
+                } else {
+                    CSMAuthorizationCheck auth = (CSMAuthorizationCheck) domainObjectSiteSecurityAuhthorizationCheckProvidersMap.get(domainObject.getClass().getName());
+                    hasPermission = auth.checkAuthorization(authentication, accessPrivilege, domainObject);
                 }
             }
 
@@ -99,7 +96,7 @@ public class SiteSecurityAfterInvocationCollectionFilteringProvider implements A
         return filterer.getFilteredObject();
     }
 
-    public Class getProcessDomainObjectClass(){
+    public Class getProcessDomainObjectClass() {
         return processDomainObjectClass;
     }
 
