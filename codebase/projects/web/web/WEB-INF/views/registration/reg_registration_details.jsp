@@ -101,17 +101,23 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 	<tr>
 		<td class="label" width="50%"><em></em>Enrolling Physician:</td>
 		<td>
-			<form:select path="treatingPhysician" onchange="managePhysicianField(this)">
+		<c:choose>
+		<c:when test="${fn:length(command.studySite.activeStudyInvestigators)>0}">
+			<form:select path="treatingPhysician">
 				<option value="">Please Select</option>
 				<form:options
 					items="${command.studySite.activeStudyInvestigators}" itemLabel="healthcareSiteInvestigator.investigator.fullName" itemValue="id" />
-				<option value="">Other</option>
 			</form:select>
 			<c:if test="${empty command.otherTreatingPhysician }">
 				<c:set var="physicianStyle" value="display: none;"></c:set>			 
 			</c:if>
 			<form:input path="otherTreatingPhysician" cssStyle="${physicianStyle}"/>
-		<td>
+		</c:when>
+		<c:otherwise>
+		No active physician found
+		</c:otherwise>
+		</c:choose>
+		</td>
 	</tr>
 	<tr>
 		<td class="label" width="40%">Primary Disease:</td>
