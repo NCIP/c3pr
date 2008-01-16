@@ -336,7 +336,7 @@
                                         name="treatmentEpochs[PAGE.ROW.INDEX].randomizedIndicator" 
                                         class="validate-notEmpty">
                                     <option value="">Please Select</option>
-                                    <option value="true">Yes</option>
+                                    <option value="true" selected="selected">Yes</option>
                                     <option value="false">No</option>
                                 </select></td>
                                 </tr>
