@@ -6,14 +6,9 @@
 	<classpathentry kind="src" path="src/java"/>
 	<classpathentry kind="src" path="src/resources"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry exported="true" kind="lib" path="lib/asm.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/asm-attrs.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/castor-0.9.9.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/cglib-2.1.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-beanutils-1.7.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-collections-3.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-dbcp-1.2.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-lang-2.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/fop.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jstl.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jta.jar"/>
@@ -38,7 +33,6 @@
 	<classpathentry exported="true" kind="lib" path="ext/lib/jboss-jsr77.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/jdom.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/log4j-1.2.13.jar"/>
-	<classpathentry exported="true" kind="lib" path="ext/lib/spring2.0.2.jar" sourcepath="/Users/priyatam/dev/spring-framework-2.0.4/src"/>
 	<classpathentry exported="true" kind="lib" path="/share/junit-3.8.1/junit-3.8.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="/share/spring-2.0/testing/spring-mock.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/backport-util-concurrent-2.1.jar"/>
@@ -49,9 +43,77 @@
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/esb-client"/>
 	<classpathentry exported="true" kind="lib" path="/share/dom4j-1.6.1/dom4j-1.6.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/antlr-2.7.6.jar"/>
-	<classpathentry kind="lib" path="/share/ctms-commons/ctms-commons-core-0.2-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="/share/ctms-commons/ctms-commons-lang-0.2-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="/share/collections-generic/collections-generic-4.01.jar"/>
-	<classpathentry kind="lib" path="/share/cacore/csm/csmapi-3.2.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="ext/lib/asm-2.2.3.jar"/>
+	<classpathentry kind="lib" path="ext/lib/asm-attrs-1.5.3.jar"/>
+	<classpathentry kind="lib" path="ext/lib/castor-0.9.9.jar"/>
+	<classpathentry kind="lib" path="ext/lib/cglib-nodep-2.1_3.jar"/>
+	<classpathentry kind="lib" path="ext/lib/commons-lang-2.3.jar"/>
+	<classpathentry kind="lib" path="ext/lib/csmapi-3.2.1-ctms00.jar"/>
+	<classpathentry kind="lib" path="ext/lib/ctms-commons-base-0.5.jar"/>
+	<classpathentry kind="lib" path="ext/lib/ctms-commons-core-0.5.jar"/>
+	<classpathentry kind="lib" path="ext/lib/ctms-commons-lang-0.5.jar"/>
+	<classpathentry kind="lib" path="ext/lib/spring.jar"/>
+	<classpathentry kind="lib" path="ext/compile/lib/c3pr-management-1.0.jar"/>
+	<classpathentry kind="lib" path="ext/lib/acegi-csm-0.5.jar"/>
+	<classpathentry kind="lib" path="ext/lib/acegi-security-1.0.3.jar"/>
+	<classpathentry kind="lib" path="ext/lib/acegi-security-cas-1.0.3.jar"/>
+	<classpathentry kind="lib" path="ext/lib/jdom-1.0.jar"/>
+	<classpathentry kind="lib" path="ext/lib/cog-jglobus.jar"/>
+	<classpathentry kind="lib" path="ext/lib/caGrid-1.1-advertisement.jar"/>
+	<classpathentry kind="lib" path="ext/lib/caGrid-1.1-core.jar"/>
+	<classpathentry kind="lib" path="ext/lib/caGrid-1.1-Introduce-1.1-serviceTools.jar"/>
+	<classpathentry kind="lib" path="ext/lib/caGrid-1.1-metadata-common.jar"/>
+	<classpathentry kind="lib" path="ext/lib/caGrid-1.1-metadata-data.jar"/>
+	<classpathentry kind="lib" path="ext/lib/caGrid-1.1-metadata-security.jar"/>
+	<classpathentry kind="lib" path="ext/lib/caGrid-1.1-metadataUtils.jar"/>
+	<classpathentry kind="lib" path="ext/lib/caGrid-1.1-ServiceSecurityProvider-client.jar"/>
+	<classpathentry kind="lib" path="ext/lib/caGrid-1.1-ServiceSecurityProvider-common.jar"/>
+	<classpathentry kind="lib" path="ext/lib/caGrid-1.1-ServiceSecurityProvider-service.jar"/>
+	<classpathentry kind="lib" path="ext/lib/caGrid-1.1-ServiceSecurityProvider-stubs.jar"/>
+	<classpathentry kind="lib" path="ext/lib/caGrid-1.2M1-cds-client.jar"/>
+	<classpathentry kind="lib" path="ext/lib/caGrid-1.2M1-cds-common.jar"/>
+	<classpathentry kind="lib" path="ext/lib/caGrid-1.2M1-cds-stubs.jar"/>
+	<classpathentry kind="lib" path="ext/lib/CaXchangeRequestProcessor-client.jar"/>
+	<classpathentry kind="lib" path="ext/lib/CaXchangeRequestProcessor-common.jar"/>
+	<classpathentry kind="lib" path="ext/lib/CaXchangeRequestProcessor-stubs.jar"/>
+	<classpathentry kind="lib" path="ext/lib/cog-axis.jar"/>
+	<classpathentry kind="lib" path="ext/lib/cog-tomcat.jar"/>
+	<classpathentry kind="lib" path="ext/lib/cog-url.jar"/>
+	<classpathentry kind="lib" path="ext/lib/globus_usage_core.jar"/>
+	<classpathentry kind="lib" path="ext/lib/globus_usage_packets_common.jar"/>
+	<classpathentry kind="lib" path="ext/lib/globus_wsrf_mds_aggregator_stubs.jar"/>
+	<classpathentry kind="lib" path="ext/lib/globus_wsrf_mds_aggregator.jar"/>
+	<classpathentry kind="lib" path="ext/lib/globus_wsrf_servicegroup_stubs.jar"/>
+	<classpathentry kind="lib" path="ext/lib/globus_wsrf_servicegroup.jar"/>
+	<classpathentry kind="lib" path="ext/lib/globus_wsrf_tools_test.jar"/>
+	<classpathentry kind="lib" path="ext/lib/wsrf_common.jar"/>
+	<classpathentry kind="lib" path="ext/lib/wsrf_core_registry_stubs.jar"/>
+	<classpathentry kind="lib" path="ext/lib/wsrf_core_registry.jar"/>
+	<classpathentry kind="lib" path="ext/lib/wsrf_core_samples_authzService_stubs.jar"/>
+	<classpathentry kind="lib" path="ext/lib/wsrf_core_samples_authzService.jar"/>
+	<classpathentry kind="lib" path="ext/lib/wsrf_core_samples_counter_stubs.jar"/>
+	<classpathentry kind="lib" path="ext/lib/wsrf_core_samples_counter.jar"/>
+	<classpathentry kind="lib" path="ext/lib/wsrf_core_samples_mgmt_stubs.jar"/>
+	<classpathentry kind="lib" path="ext/lib/wsrf_core_samples_mgmt.jar"/>
+	<classpathentry kind="lib" path="ext/lib/wsrf_core_stubs.jar"/>
+	<classpathentry kind="lib" path="ext/lib/wsrf_core.jar"/>
+	<classpathentry kind="lib" path="ext/lib/wsrf_provider_jce.jar"/>
+	<classpathentry kind="lib" path="ext/lib/wsrf_test_interop_stubs.jar"/>
+	<classpathentry kind="lib" path="ext/lib/wsrf_test_interop.jar"/>
+	<classpathentry kind="lib" path="ext/lib/wsrf_test_unit_stubs.jar"/>
+	<classpathentry kind="lib" path="ext/lib/wsrf_test_unit.jar"/>
+	<classpathentry kind="lib" path="ext/lib/wsrf_test.jar"/>
+	<classpathentry kind="lib" path="ext/lib/wsrf_tools.jar"/>
+	<classpathentry kind="lib" path="ext/lib/wss4j.jar"/>
+	<classpathentry kind="lib" path="ext/lib/axis.jar"/>
+	<classpathentry kind="lib" path="ext/lib/axis-url.jar"/>
+	<classpathentry kind="lib" path="ext/lib/aspectjrt-1.5.3.jar"/>
+	<classpathentry kind="lib" path="ext/lib/aspectjweaver-1.5.3.jar"/>
+	<classpathentry kind="lib" path="ext/lib/xalan.jar"/>
+	<classpathentry kind="lib" path="ext/lib/xerces-2.6.2.jar"/>
+	<classpathentry kind="lib" path="ext/lib/xercesImpl.jar"/>
+	<classpathentry kind="lib" path="ext/lib/xml-apis.jar"/>
+	<classpathentry kind="lib" path="ext/lib/xmlsec.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

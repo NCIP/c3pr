@@ -12,12 +12,9 @@
 	<classpathentry exported="true" kind="lib" path="lib/sitemesh-2.2.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/c3pr-2.0-esb-client-1.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/client.jar"/>
-	<classpathentry exported="true" kind="lib" path="ext/lib/commons-lang-2.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/commons-logging.jar"/>
-	<classpathentry exported="true" kind="lib" path="ext/lib/grid-security-plugin-1.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/jdom.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/log4j-1.2.13.jar"/>
-	<classpathentry exported="true" kind="lib" path="ext/lib/spring2.0.2.jar" sourcepath="/spring-src"/>
 	<classpathentry exported="true" kind="lib" path="test/lib/core-commons-testing.jar"/>
 	<classpathentry exported="true" kind="lib" path="test/lib/easymockclassextension.jar"/>
 	<classpathentry exported="true" kind="lib" path="test/lib/servlet-api.jar"/>
@@ -26,27 +23,29 @@
 	<classpathentry exported="true" kind="lib" path="ext/lib/globus_wsrf_mds_aggregator.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/globus_wsrf_servicegroup_stubs.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/globus_wsrf_servicegroup.jar"/>
-	<classpathentry exported="true" kind="lib" path="ext/lib/caGrid-1.0-core.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/cog-jglobus.jar"/>
-	<classpathentry exported="true" kind="lib" path="ext/lib/cglib-2.1.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="ext/lib/asm.jar"/>
-	<classpathentry exported="true" kind="lib" path="ext/lib/asm-attrs.jar"/>
-	<classpathentry exported="true" kind="lib" path="ext/lib/caGrid-1.0-gridca.jar"/>
-	<classpathentry exported="true" kind="lib" path="ext/lib/ctms-web-sso.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/northwestern-core-commons.jar"/>
 	<classpathentry exported="true" kind="lib" path="ext/lib/c3pr-2.0-core-1.0.jar" sourcepath="/core/src"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/core"/>
-	<classpathentry kind="lib" path="/share/cacore/csm/csmapi-3.2.1-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="/share/cacore/csm/c3p0-0.8.5.2.jar"/>
-	<classpathentry kind="lib" path="/share/acegi-csm/acegi-csm-1.0-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="/share/acegi-csm/acegi-grid-1.0-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="/share/spring-2.0/acegi/acegi-security-1.0.3.jar"/>
-	<classpathentry kind="lib" path="/share/spring-2.0/acegi/acegi-security-cas-1.0.3.jar"/>
-	<classpathentry kind="lib" path="/share/spring-2.0/acegi/acegi-security-tiger-1.0.3.jar"/>
 	<classpathentry kind="lib" path="ext/lib/extremecomponents-1.0.1.jar"/>
-	<classpathentry kind="lib" path="ext/lib/ctms-commons-base-0.3.jar"/>
-	<classpathentry kind="lib" path="ext/lib/ctms-commons-core-0.3.jar"/>
-	<classpathentry kind="lib" path="ext/lib/ctms-commons-lang-0.3.jar"/>
-	<classpathentry kind="lib" path="ext/lib/ctms-commons-web-0.3.jar"/>
+	<classpathentry kind="lib" path="ext/lib/acegi-csm-0.5.jar"/>
+	<classpathentry kind="lib" path="ext/lib/acegi-security-1.0.3.jar"/>
+	<classpathentry kind="lib" path="ext/lib/acegi-security-cas-1.0.3.jar"/>
+	<classpathentry kind="lib" path="ext/lib/acegi-security-tiger-1.0.3.jar"/>
+	<classpathentry kind="lib" path="ext/lib/asm-2.2.3.jar"/>
+	<classpathentry kind="lib" path="ext/lib/asm-attrs-1.5.3.jar"/>
+	<classpathentry kind="lib" path="ext/lib/c3p0-0.8.5.2.jar"/>
+	<classpathentry kind="lib" path="ext/lib/cglib-nodep-2.1_3.jar"/>
+	<classpathentry kind="lib" path="ext/lib/commons-lang-2.3.jar"/>
+	<classpathentry kind="lib" path="ext/lib/csmapi-3.2.1-ctms00.jar"/>
+	<classpathentry kind="lib" path="ext/lib/ctms-commons-base-0.5.jar"/>
+	<classpathentry kind="lib" path="ext/lib/ctms-commons-core-0.5.jar"/>
+	<classpathentry kind="lib" path="ext/lib/ctms-commons-lang-0.5.jar"/>
+	<classpathentry kind="lib" path="ext/lib/ctms-commons-web-0.5.jar"/>
+	<classpathentry kind="lib" path="ext/lib/spring.jar"/>
+	<classpathentry kind="lib" path="ext/lib/poi-3.0-rc4-20070503.jar"/>
+	<classpathentry kind="lib" path="ext/lib/poi-contrib-3.0-rc4-20070503.jar"/>
+	<classpathentry kind="lib" path="ext/lib/poi-scratchpad-3.0-rc4-20070503.jar"/>
+	<classpathentry kind="lib" path="ext/compile/lib/c3pr-management-1.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
