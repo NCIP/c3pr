@@ -141,7 +141,9 @@ function accessApp(url,targetWindow){
 	</table>
 	<br>
 	</div>
+	<c:if test="${hotlinkEnable}">
 	<table width="60%">
+		<c:if test="${!empty caaersBaseUrl}">
 		<tr>
 			<td align="left"><a
 				href="javascript:accessApp('${caaersBaseUrl }','_caaers');">
@@ -153,6 +155,8 @@ function accessApp(url,targetWindow){
 			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
 				height="1" class="heightControl"></td>
 		</tr>
+		</c:if>
+		<c:if test="${!empty pscBaseUrl}">
 		<tr>
 			<td align="left"><a
 				href="javascript:accessApp('${pscBaseUrl }','_psc');">
@@ -164,13 +168,16 @@ function accessApp(url,targetWindow){
 			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
 				height="1" class="heightControl"></td>
 		</tr>
+		</c:if>
+		<c:if test="${!empty c3dBaseUrl}">
 		<tr>
 			<td align="left"><a
 				href="javascript:accessApp('${c3dBaseUrl }','_c3d');">
 			<b>Clinical Database</a></b></td>
 		</tr>
-
+		</c:if>
 	</table>
+	</c:if>
 </tags:panelBox>
 <form id="hotlinksForm" action="" method="get">
 <input type="hidden" name="assignment" value="${command.gridId }"/>

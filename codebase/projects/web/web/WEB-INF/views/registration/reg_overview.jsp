@@ -66,10 +66,17 @@
             $('viewDetails').enable('broadcastBtn');
             $('viewDetails').enable('broadcastStatusBtn');
         }
-
+		function accessApp(url,targetWindow){
+			$('hotlinksForm').target=targetWindow;
+			$('hotlinksForm').action=url;
+			$('hotlinksForm').submit();
+		}
     </script>
 </head>
 <body>
+<form id="hotlinksForm" action="" method="get">
+<input type="hidden" name="assignment" value="${command.gridId }"/>
+</form>
 <form:form method="post">
     <tags:tabFields tab="${tab}"/>
 </form:form>
@@ -418,7 +425,7 @@
     </c:if>
 </c:if>
 </div>
-<c:if test="${command.regWorkflowStatus=='REGISTERED' && command.scheduledEpoch.scEpochWorkflowStatus=='APPROVED'}">
+<c:if test="${command.regWorkflowStatus=='REGISTERED' && hotlinkEnable}">
     <chrome:division title="CCTS Workflow">
         <form:form id="viewDetails" name="viewDetails">
             <div class="content">
@@ -440,6 +447,41 @@
             </div>
         </form:form>
     </chrome:division>
+    <table width="60%">
+		<c:if test="${!empty caaersBaseUrl}">
+		<tr>
+			<td align="left"><a
+				href="javascript:accessApp('${caaersBaseUrl }','_caaers');">
+			<b>Adverse Event Reporting</a> </b></td>
+		</tr>
+		<tr>
+			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+				height="1" class="heightControl"></td>
+			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+				height="1" class="heightControl"></td>
+		</tr>
+		</c:if>
+		<c:if test="${!empty pscBaseUrl}">
+		<tr>
+			<td align="left"><a
+				href="javascript:accessApp('${pscBaseUrl }','_psc');">
+			<b>Study Calendar</a></b></td>
+		</tr>
+		<tr>
+			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+				height="1" class="heightControl"></td>
+			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
+				height="1" class="heightControl"></td>
+		</tr>
+		</c:if>
+		<c:if test="${!empty c3dBaseUrl}">
+		<tr>
+			<td align="left"><a
+				href="javascript:accessApp('${c3dBaseUrl }','_c3d');">
+			<b>Clinical Database</a></b></td>
+		</tr>
+		</c:if>
+	</table>
 </c:if>
 
 <div align="right">

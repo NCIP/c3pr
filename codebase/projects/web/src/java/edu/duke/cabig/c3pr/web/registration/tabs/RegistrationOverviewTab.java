@@ -5,6 +5,7 @@ import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.tools.Configuration;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
@@ -106,9 +107,20 @@ public class RegistrationOverviewTab<C extends StudySubject> extends Registratio
         this.studySubjectService = studySubjectService;
     }
     
-	private void addAppUrls(Map<String, Object> map){
-		map.put("pscBaseUrl", this.configuration.get(this.configuration.PSC_BASE_URL));
-		map.put("caaersBaseUrl", this.configuration.get(this.configuration.CAAERS_BASE_URL));
-		map.put("c3dBaseUrl", this.configuration.get(this.configuration.C3D_BASE_URL));
+    private void addAppUrls(Map<String, Object> map){
+		if(this.configuration.get(this.configuration.AUTHENTICATION_MODEL).equals("webSSO")){
+			map.put("hotlinkEnable", new Boolean(true));
+			if(!StringUtils.getBlankIfNull(this.configuration.get(this.configuration.PSC_BASE_URL)).equalsIgnoreCase("")){
+				map.put("pscBaseUrl", this.configuration.get(this.configuration.PSC_BASE_URL));
+			}
+			if(!StringUtils.getBlankIfNull(this.configuration.get(this.configuration.CAAERS_BASE_URL)).equalsIgnoreCase("")){
+				map.put("caaersBaseUrl", this.configuration.get(this.configuration.CAAERS_BASE_URL));
+			}
+			if(!StringUtils.getBlankIfNull(this.configuration.get(this.configuration.C3D_BASE_URL)).equalsIgnoreCase("")){
+				map.put("c3dBaseUrl", this.configuration.get(this.configuration.C3D_BASE_URL));
+			}
+		}else{
+			map.put("hotlinkEnable", new Boolean(false));
+		}
 	}
 }

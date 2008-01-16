@@ -25,6 +25,7 @@ import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl;
 import edu.duke.cabig.c3pr.tools.Configuration;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 
 public class RegistrationConfirmAndRandomizeController extends SimpleFormController {
@@ -207,9 +208,20 @@ public class RegistrationConfirmAndRandomizeController extends SimpleFormControl
 	}
 	
 	private void addAppUrls(Map<String, Object> map){
-		map.put("pscBaseUrl", this.configuration.get(this.configuration.PSC_BASE_URL));
-		map.put("caaersBaseUrl", this.configuration.get(this.configuration.CAAERS_BASE_URL));
-		map.put("c3dBaseUrl", this.configuration.get(this.configuration.C3D_BASE_URL));
+		if(this.configuration.get(this.configuration.AUTHENTICATION_MODEL).equals("webSSO")){
+			map.put("hotlinkEnable", new Boolean(true));
+			if(!StringUtils.getBlankIfNull(this.configuration.get(this.configuration.PSC_BASE_URL)).equalsIgnoreCase("")){
+				map.put("pscBaseUrl", this.configuration.get(this.configuration.PSC_BASE_URL));
+			}
+			if(!StringUtils.getBlankIfNull(this.configuration.get(this.configuration.CAAERS_BASE_URL)).equalsIgnoreCase("")){
+				map.put("caaersBaseUrl", this.configuration.get(this.configuration.CAAERS_BASE_URL));
+			}
+			if(!StringUtils.getBlankIfNull(this.configuration.get(this.configuration.C3D_BASE_URL)).equalsIgnoreCase("")){
+				map.put("c3dBaseUrl", this.configuration.get(this.configuration.C3D_BASE_URL));
+			}
+		}else{
+			map.put("hotlinkEnable", new Boolean(false));
+		}
 	}
 
 	private boolean validSubmit(StudySubject studySubject){
