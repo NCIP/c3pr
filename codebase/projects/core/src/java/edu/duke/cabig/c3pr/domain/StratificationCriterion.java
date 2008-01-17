@@ -144,7 +144,9 @@ public class StratificationCriterion extends AbstractMutableDeletableDomainObjec
 	public int hashCode() {
 		final int PRIME = 31;
 		int result = super.hashCode();
-		result = PRIME * result + ((getPermissibleAnswers() == null) ? 0 : getPermissibleAnswers().hashCode());
+		for(StratificationCriterionPermissibleAnswer scpa: getPermissibleAnswers()){
+			result = PRIME * result + ((scpa == null) ? 0 : scpa.getPermissibleAnswer().hashCode());
+		}		
 		result = PRIME * result + ((questionNumber == null) ? 0 : questionNumber.hashCode());
 		result = PRIME * result + ((questionText == null) ? 0 : questionText.hashCode());
 		return result;
