@@ -16,7 +16,7 @@
 	     
 	function clear(epochCountIndex){
 		<tags:tabMethod method="clearStratumGroups" viewName="/study/asynchronous/strat_combinations" divElement="'sgCombinations_'+epochCountIndex" 
-		                javaScriptParam="'epochCountIndex='+epochCountIndex" formName="'tabMethodForm'"/> 
+		                javaScriptParam="'epochCountIndex=' + epochCountIndex" formName="'tabMethodForm'"/> 
 	}
 
 	function postProcessDragDrop(e){  			
@@ -53,9 +53,16 @@
 		}
 		
 		if(length > 0){
-			confirm("Stratum Groups will be deleted. Do you want to proceed.");
+			return confirm("Stratum Groups and Book Randomization Entries(if any) will be deleted. Do you want to proceed.");
+		} else {
+			return true;
 		}
 	}
+	
+	function deleteEntries(epochCountIndex){
+     	<tags:tabMethod method="cleanBookRandomizationEntries" divElement="'dummyDiv'" 
+		                javaScriptParam="'epochCountIndex='+epochCountIndex" formName="'tabMethodForm'"/>
+     }
 	</script>
 </head>
 
@@ -80,12 +87,13 @@
                 row_index_indicator: "NESTED.PAGE.ROW.INDEX",
                 path: "treatmentEpochs[${epochCount.index }].stratificationCriteria[PAGE.ROW.INDEX].permissibleAnswers",
                 epochCountIndex: ${epochCount.index},
-                deleteMsgPrefix: "Stratum Groups will be deleted.",
+                deleteMsgPrefix: "Stratum Groups and Book Randomization Entries(if any) will be deleted.",
                 onDeleteFromCommandSuccess: function(t){
-	                clear(${epochCount.index});                	
-			    },
+                	var sgdiv = document.getElementById("sgCombinations_"+${epochCount.index});
+                	sgdiv.innerHTML = "Generate Stratum Groups again.";
+                },
 			    postProcessRowInsertion: function(object){
-	                clear(object.epochCountIndex);                	
+	                clear(object.epochCountIndex );                	
 			    }
             };
             var stratRowInserterProps_${epochCount.index} = {
@@ -97,11 +105,12 @@
                 callRemoveFromCommand:"true",
                 path: "treatmentEpochs[${epochCount.index }].stratificationCriteria",
                 epochCountIndex: ${epochCount.index},
-                deleteMsgPrefix: "Stratum Groups will be deleted.",
+                deleteMsgPrefix: "Stratum Groups and Book Randomization Entries(if any) will be deleted.",
                 onDeleteFromCommandSuccess: function(t){
-	                clear(${epochCount.index});                	
-			    },
-			    postProcessRowInsertion: function(object){
+                	var sgdiv = document.getElementById("sgCombinations_"+${epochCount.index});
+                	sgdiv.innerHTML = "Generate Stratum Groups again.";
+                },
+                postProcessRowInsertion: function(object){
                 	clear(object.epochCountIndex);
 			    }
             };
@@ -139,7 +148,7 @@
 								<tr>
 									<th></th>
 									<th><input type="button" value="Add Answer"
-										onclick="stratumGroupAlert('${epochCount.index}');RowManager.addRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},${status.index}));" />
+										onclick="if(stratumGroupAlert('${epochCount.index}')){RowManager.addRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},${status.index}));}" />
 										</th>
 								</tr>
 								<c:forEach var="answer" varStatus="statusAns"
@@ -171,7 +180,7 @@
 			<br>
 			<div align="right"><input type="button"
 				value="Add Stratification Factor"
-				onclick="stratumGroupAlert('${epochCount.index}');RowManager.addRow(stratRowInserterProps_${epochCount.index});" />
+				onclick="if(stratumGroupAlert('${epochCount.index}')){RowManager.addRow(stratRowInserterProps_${epochCount.index});}" />
 			</div>
 			</chrome:division>
 			<br/>
@@ -182,7 +191,10 @@
 			    add_row_division_id: "stratumGroupTable1_${epochCount.index}", 	        
 			    skeleton_row_division_id: "dummy-strat-strGrp-${epochCount.index}",
 			    initialIndex: -1,
+			    callRemoveFromCommand:"true",
+			    deleteMsgPrefix: "Book Randomization Entries(if any) will be deleted.",
 			    postProcessRowDeletion: function(t){
+			    	deleteEntries(${epochCount.index});
 	                reorderStratumGroupNumbers(${epochCount.index});                	
 			    },
 			    path: "treatmentEpochs[${epochCount.index}].stratumGroups"
@@ -214,7 +226,7 @@
 								<td width="75%">${stratumGroup.answerCombinations}</td>
 								<!-- <td>${stratumGroup.stratumGroupNumber}</td> -->
 								<td width="5%">
-								<a href="<c:if test="false">javascript:RowManager.deleteRow(stratumGroupRowInserter_${epochCount.index},${statusStratumGroup.index},${stratumGroup.hashCode});</c:if>">
+								<a href="javascript:RowManager.deleteRow(stratumGroupRowInserter_${epochCount.index},${statusStratumGroup.index},${stratumGroup.hashCode});">
 									<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
 									
 								</td>					
