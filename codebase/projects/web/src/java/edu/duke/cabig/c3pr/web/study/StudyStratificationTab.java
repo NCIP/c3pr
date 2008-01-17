@@ -13,13 +13,15 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.duke.cabig.c3pr.domain.BookRandomization;
+import edu.duke.cabig.c3pr.domain.Randomization;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionAnswerCombination;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.StratumGroup;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
-import edu.duke.cabig.c3pr.service.StudyService;
+import edu.duke.cabig.c3pr.web.beans.DefaultObjectPropertyReader;
 
 /**
  * Created by IntelliJ IDEA.
@@ -30,7 +32,6 @@ import edu.duke.cabig.c3pr.service.StudyService;
  */
 public class StudyStratificationTab extends StudyTab {
 
-    protected StudyService studyService;
     public List <List<StratumGroup>>tEpochsListForReorderedGroups = new ArrayList<List<StratumGroup>>();
     
     public StudyStratificationTab() {
@@ -103,7 +104,7 @@ public class StudyStratificationTab extends StudyTab {
     	List <StratumGroup>sgList;
     	TreatmentEpoch tEpoch;
     	StratumGroup sg = null;
-    	List <StratumGroup> sgListTemp = new ArrayList<StratumGroup>();;
+    	List <StratumGroup> sgListTemp = new ArrayList<StratumGroup>();
     	for(int i=0; i < tEpochsListForReorderedGroups.size(); i++){
     		tEpoch = study.getTreatmentEpochs().get(i);
     		sgList = tEpochsListForReorderedGroups.get(i);
@@ -116,19 +117,31 @@ public class StudyStratificationTab extends StudyTab {
         		sgListTemp.add(sg);
         	}
         	Collections.sort(tEpoch.getStratumGroups());
-    	}   
-    	
+    	}  
     }
     
+    /*
+     * Clear the stratum groups and the book entries (if any)corresponding to the tratemtn epoch.
+     * called by the rowInserter from the row manager
+     */
     public ModelAndView clearStratumGroups(HttpServletRequest request, Object commandObj, Errors error){
     	String message = "";
     	Study study = (Study)commandObj;
     	int epochCountIndex = Integer.parseInt(request.getParameter("epochCountIndex"));
     	TreatmentEpoch te = study.getTreatmentEpochs().get(epochCountIndex);
     	if(!te.getStratumGroups().isEmpty()){
-    		te.getStratumGroups().clear();
+    		//clearing the bre's
+    		Randomization randomization = te.getRandomization();
+        	if(randomization instanceof BookRandomization){
+        		BookRandomization bRandomization = (BookRandomization)randomization;
+        		bRandomization.getBookRandomizationEntry().clear();
+        	}
+        	//clearing the stratum groups.
+        	te.getStratumGroups().clear();
+        	
+        	//reassociating the object.(Should try to remove this from here.)
     		if( (request.getAttribute("amendFlow") != null && request.getAttribute("amendFlow").toString().equals("true")) ||
-    			    (request.getAttribute("editFlow") != null && request.getAttribute("editFlow").toString().equals("true")) ) 	{
+    			    (request.getAttribute("editFlow") != null && request.getAttribute("editFlow").toString().equals("true"))){
     			if (study != null) {
 	                getStudyService().reassociate(study);
 	                getStudyService().refresh(study);
@@ -142,12 +155,49 @@ public class StudyStratificationTab extends StudyTab {
     	return new ModelAndView("",map);
     }
     
+    /*
+     * Clear the stratum groups and the book entries (if any)corresponding to the tratemtn epoch.
+     * Call by the deleteRow of the row manager.
+     */
+    @Override
+    public ModelAndView deleteRow(HttpServletRequest request, Object command, Errors error)throws Exception{
+    	
+    	String listPath = request.getParameter(getCollectionParamName());
+    	listPath = listPath.substring(0, listPath.indexOf("."));
+    	TreatmentEpoch te = (TreatmentEpoch) new DefaultObjectPropertyReader(command, listPath).getPropertyValueFromPath();
+		
+    	if(!te.getStratumGroups().isEmpty()){
+    		//clearing all the qs and ans references from the scac so that they are not re-saved by cascade
+    		List <StratumGroup>sgList = te.getStratumGroups();
+    		for(StratumGroup sg: sgList){
+    			List <StratificationCriterionAnswerCombination>scacList = sg.getStratificationCriterionAnswerCombination();
+    			for(StratificationCriterionAnswerCombination scac: scacList){
+    				scac.setStratificationCriterion(null);
+    				scac.setStratificationCriterionPermissibleAnswer(null);
+    			}
+    		}    		
+    		
+    		//clearing the bre's
+    		Randomization randomization = te.getRandomization();
+        	if(randomization instanceof BookRandomization){
+        		BookRandomization bRandomization = (BookRandomization)randomization;
+        		bRandomization.getBookRandomizationEntry().clear();
+        	}
+        	
+        	//finally clearing the stratum groups
+        	te.getStratumGroups().clear();    		
+    	}
+    	return super.deleteRow(request, command, error);
+    }
+
+
     @Override
     public void postProcess(HttpServletRequest req, Study study, Errors errors) {
     	// TODO Auto-generated method stub
+    	int epochCountIndex = -1;
     	super.postProcess(req, study, errors);
     	if(req.getParameter("epochCountIndex") != null && !req.getParameter("generateGroups").toString().equalsIgnoreCase("false")){
-    		int epochCountIndex = Integer.parseInt(req.getParameter("generateGroups"));
+    		epochCountIndex = Integer.parseInt(req.getParameter("epochCountIndex"));
     		generateStratumGroups(req, study, errors, epochCountIndex);
     	}
     	boolean isCreate = false;
@@ -155,7 +205,17 @@ public class StudyStratificationTab extends StudyTab {
     	if(req.getParameter("flowType") != null && req.getParameter("flowType").toString().equalsIgnoreCase("CREATE_STUDY")){
     		isCreate = true;
     	}
-    	finalizeReoderedGroups(study, isCreate);    	
+    	finalizeReoderedGroups(study, isCreate);
+    	
+    	//just renumber the groups as something may have been deleted.
+    	if(req.getParameter("epochCountIndex") != null){
+    		TreatmentEpoch te = study.getTreatmentEpochs().get(Integer.parseInt(req.getParameter("epochCountIndex")));
+        	List<StratumGroup> sgList = te.getStratumGroups();
+        	for(int i = 0; i < sgList.size(); i++){
+        		sgList.get(i).setStratumGroupNumber(new Integer(i));
+        	}
+    	}
+    	
     }
     
     public void generateStratumGroups(HttpServletRequest request, Object commandObj, Errors error, int epochCountIndex){
@@ -279,15 +339,6 @@ public class StudyStratificationTab extends StudyTab {
 			clonedList.add(new StratificationCriterionAnswerCombination(iter.next()));
 		}
 		return clonedList;
-	}
-
-	public StudyService getStudyService() {
-		return studyService;
-	}
-
-	public void setStudyService(StudyService studyService) {
-		this.studyService = studyService;
-	}
-    
+	}    
         
 }

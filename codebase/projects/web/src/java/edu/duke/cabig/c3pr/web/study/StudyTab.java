@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.web.study;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -8,14 +9,18 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.validation.Errors;
+import org.springframework.web.servlet.ModelAndView;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.CalloutRandomization;
 import edu.duke.cabig.c3pr.domain.PhoneCallRandomization;
+import edu.duke.cabig.c3pr.domain.Randomization;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
+import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.InPlaceEditableTab;
 
@@ -29,6 +34,8 @@ import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.InPlaceEditableTab;
 public abstract class StudyTab extends InPlaceEditableTab<Study> {
     protected ConfigurationProperty configurationProperty;
     private HealthcareSiteDao healthcareSiteDao;
+    protected StudyService studyService;
+    
     protected static final Log log = LogFactory.getLog(StudyTab.class);
     
 //    public static final String DISABLE_FORM_DESIGN = "DISABLE_FORM_DESIGN";
@@ -115,6 +122,36 @@ public abstract class StudyTab extends InPlaceEditableTab<Study> {
 			}
 		}
     }
+    
+	/*
+	 * This method deletes all the bookRandomizationEntries for the selected TreatmentEpoch.
+	 * This is done whe the user deletes an Arm on the study_design page.
+	 * This is also done when the user deletes a str qs/ans or stratum group on the study_stratification page.
+	 */
+	public ModelAndView cleanBookRandomizationEntries(HttpServletRequest request, Object commandObj, Errors error){
+	    	
+	    Study study = (Study)commandObj;
+	    int epochCountIndex = Integer.parseInt(request.getParameter("epochCountIndex"));
+    	TreatmentEpoch te = study.getTreatmentEpochs().get(epochCountIndex);
+    	Randomization randomization = te.getRandomization();
+    	if(randomization instanceof BookRandomization){
+    		BookRandomization bRandomization = (BookRandomization)randomization;
+    		bRandomization.getBookRandomizationEntry().clear();
+    	}
+    	if( (request.getAttribute("amendFlow") != null && request.getAttribute("amendFlow").toString().equals("true")) ||
+			    (request.getAttribute("editFlow") != null && request.getAttribute("editFlow").toString().equals("true")) ) 	{
+			if (study != null) {
+                getStudyService().reassociate(study);
+                getStudyService().refresh(study);
+            }
+		}
+	    
+	    Map map=new HashMap();
+    	map.put(getFreeTextModelName(), "");
+    	return new ModelAndView("",map);
+	}    	
+	
+	
 
     public ConfigurationProperty getConfigurationProperty() {
         return configurationProperty;
@@ -162,4 +199,12 @@ public abstract class StudyTab extends InPlaceEditableTab<Study> {
 //    	request.getSession().setAttribute(DISABLE_FORM_INVESTIGATORS, new Boolean(false));
 //    	request.getSession().setAttribute(DISABLE_FORM_PERSONNEL, new Boolean(false));
     }
+
+	public StudyService getStudyService() {
+		return studyService;
+	}
+
+	public void setStudyService(StudyService studyService) {
+		this.studyService = studyService;
+	}
 }

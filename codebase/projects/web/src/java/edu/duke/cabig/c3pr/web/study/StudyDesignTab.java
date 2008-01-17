@@ -1,21 +1,12 @@
 package edu.duke.cabig.c3pr.web.study;
 
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.validation.Errors;
 
-import edu.duke.cabig.c3pr.domain.Arm;
-import edu.duke.cabig.c3pr.domain.BookRandomization;
-import edu.duke.cabig.c3pr.domain.CalloutRandomization;
-import edu.duke.cabig.c3pr.domain.Epoch;
-import edu.duke.cabig.c3pr.domain.PhoneCallRandomization;
-import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.validator.EpochValidator;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 
@@ -24,7 +15,7 @@ import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
  * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:30:05 PM To
  * change this template use File | Settings | File Templates.
  */
-class StudyDesignTab extends StudyTab {
+public class StudyDesignTab extends StudyTab {
 	
 	private EpochValidator epochValidator;
 	private StudyValidator studyValidator;
@@ -56,6 +47,7 @@ class StudyDesignTab extends StudyTab {
 			Errors errors) {
 		updateRandomization(study);
 	}
+
 
 	@Override
 	public void validate(Study study, Errors errors) {
