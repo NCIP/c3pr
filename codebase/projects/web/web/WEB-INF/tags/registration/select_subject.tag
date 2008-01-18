@@ -282,7 +282,7 @@
 		
 		<!--start of address section
 		<p id="instructions"><a href="#" onclick="toggleAddressSection()">Address & Contact Info</a></p>-->
-		<chrome:division title="Address & Contact Info" minimize="true" divIdToBeMinimized="addressSection">
+		<chrome:division title="<a href='javascript:return;'>Address & Contact Info</a>" minimize="true" divIdToBeMinimized="addressSection">
 		<div id="addressSection" style="display:none;">
 		<div class="division " id="single-fields" >
 

@@ -56,7 +56,7 @@ RowManager.addRowInseter(systemIdentifierRowInserterProps);
 RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 </script>
 
-<chrome:division title="Medical Record Number">
+<chrome:division title="Assigned Identifier">
 	<table width="47%" border="0" cellspacing="1" cellpadding="1" id="table1">
 		<tr>
 			<td align="right"><span class="required-indicator"><b>Organization:</b></span></td>
