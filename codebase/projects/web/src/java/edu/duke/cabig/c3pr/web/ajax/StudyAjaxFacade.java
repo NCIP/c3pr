@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.web.ajax;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -314,17 +315,19 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
 		return diseaseTerms;
 	}	
 	
-	public List<InvestigatorGroup> matchGroupsByOrganizationId(Integer hcsId, HttpServletRequest request) throws Exception{
+	public List<InvestigatorGroup> matchActiveGroupsByOrganizationId(Integer hcsId, HttpServletRequest request) throws Exception{
 		HealthcareSite hcs = healthcareSiteDao.getById(hcsId);
 		List<InvestigatorGroup> invGroups = hcs.getInvestigatorGroups();
 		List<InvestigatorGroup> reducedInvGroups = new ArrayList<InvestigatorGroup>(); 
 		for (InvestigatorGroup iGrp : invGroups) {
-			reducedInvGroups.add(buildReduced(iGrp, Arrays.asList("id","name")));
+			if(iGrp.getEndDate()==null || iGrp.getEndDate().after(new Date())){
+				reducedInvGroups.add(buildReduced(iGrp, Arrays.asList("id","name")));
+			}
 		}
 		return reducedInvGroups;
 	}
 	
-	public List<HealthcareSiteInvestigator> matchInvestigatorsByGroupId(Integer groupId, HttpServletRequest request) throws Exception{
+	public List<HealthcareSiteInvestigator> matchActiveInvestigatorsByGroupId(Integer groupId, HttpServletRequest request) throws Exception{
 		
 		InvestigatorGroup iGrp = investigatorGroupDao.getById(groupId);
 		List <SiteInvestigatorGroupAffiliation> sigaList = null; 
@@ -332,19 +335,23 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
 		sigaList = iGrp.getSiteInvestigatorGroupAffiliations();
 		List <HealthcareSiteInvestigator> reducedInvList = new ArrayList<HealthcareSiteInvestigator>();
 		for (SiteInvestigatorGroupAffiliation siga : sigaList) {
-			inv = siga.getHealthcareSiteInvestigator();
-			reducedInvList.add(buildReduced(inv, Arrays.asList("id","investigator.firstName","investigator.lastName")));
+			if(siga.getEndDate()== null || siga.getEndDate().after(new Date())){
+				inv = siga.getHealthcareSiteInvestigator();
+				reducedInvList.add(buildReduced(inv, Arrays.asList("id","investigator.firstName","investigator.lastName")));
+			}
 		}
 		return reducedInvList;
 	}
 	
-	public List<HealthcareSiteInvestigator> getAllInvestigators(Integer hcsId) throws Exception{
+	public List<HealthcareSiteInvestigator> getActiveSiteInvestigators(Integer hcsId) throws Exception{
 		
 		HealthcareSite hcs = healthcareSiteDao.getById(hcsId);
 		List <HealthcareSiteInvestigator> hcsInvList = hcs.getHealthcareSiteInvestigators();
 		List <HealthcareSiteInvestigator> reducedHcsInvList = new ArrayList<HealthcareSiteInvestigator>();
 		for (HealthcareSiteInvestigator inv : hcsInvList) {
-			reducedHcsInvList.add(buildReduced(inv, Arrays.asList("id", "investigator.firstName","investigator.lastName")));
+			if(inv.getStatusCode().equals("AC")){
+				reducedHcsInvList.add(buildReduced(inv, Arrays.asList("id", "investigator.firstName","investigator.lastName")));
+			}
 		}
 		return reducedHcsInvList;
 	}
