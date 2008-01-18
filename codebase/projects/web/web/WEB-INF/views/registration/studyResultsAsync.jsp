@@ -4,6 +4,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="java.util.*" %>
 <script>
 function toggleImage(id){
 	imageStr=document.getElementById(id).src;
@@ -75,13 +76,29 @@ function toggleImage(id){
 							</thead>
 							<%int j=i*100; %>
 							<c:forEach items="${study.studySites}" var="site" varStatus="siteIndex">
-							<% String currClassJ=j%2==0? "odd":"even"; %>
-								<tr align="center" id="row<%= j++ %>" class="<%= currClass %>" onMouseOver="this.className='highlight'"
-								onMouseOut="this.className='<%= currClass %>'" 
-								onClick="postProcessStudySelection('${site.id}','${site.healthcareSite.name}','${study.shortTitleText}','${study.identifiers[0].type}'+' - '+ '${study.identifiers[0].value}')">
-									<td align="left">${site.healthcareSite.name}</td>
-									<td align="left">${site.irbApprovalDateStr==null?'01/01/1970':site.irbApprovalDateStr}</td>
-								</tr>
+								<c:if test='${site.siteStudyStatus.code=="Active"}'>
+								<%
+									Calendar yearOld=Calendar.getInstance();
+									yearOld.add(Calendar.YEAR, -1);
+									pageContext.setAttribute("yearOld",yearOld);
+								%>
+								<c:set var="expiredIrb" value="${site.irbApprovalDate.time le yearOld.timeInMillis}"></c:set>
+								<c:set var="javLink" value="postProcessStudySelection('${site.id}','${site.healthcareSite.name}','${study.shortTitleText}','${study.identifiers[0].type}'+' - '+ '${study.identifiers[0].value}')"/>
+								<c:if test="${expiredIrb}">
+									<c:set var="javLink" value="alert('The IRB approval date for this site has expired. Its more than an year old');"/>
+								</c:if>
+								<csmauthz:accesscontrol domainObject="${site.healthcareSite}"
+		                                                  hasPrivileges="ACCESS"  authorizationCheckName="siteAuthorizationCheck">
+		                            <% System.out.println("11----"); %>
+									<% String currClassJ=j%2==0? "odd":"even"; %>
+									<tr align="center" id="row<%= j++ %>" class="<%= currClass %>" onMouseOver="this.className='highlight'"
+												onMouseOut="this.className='<%= currClass %>'" 
+										onClick="${javLink }">
+										<td>${site.healthcareSite.name}</td>
+										<td>${site.irbApprovalDateStr}<c:if test="${expiredIrb}"><font color='Red'><i>(expired)</i></font></c:if></td>
+									</tr>
+								</csmauthz:accesscontrol>
+								</c:if>
 							</c:forEach>
 						</table>
 						</div>
