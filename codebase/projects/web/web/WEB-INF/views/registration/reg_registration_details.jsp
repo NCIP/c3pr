@@ -49,9 +49,9 @@ AutocompleterManager.addAutocompleter(diseaseSiteAutocompleterProps);
 ValidationManager.submitPostProcess=function(formElement, flag){
 							if(formElement.id!='command' || !flag)
 								return flag;
-							if($("treatingPhysician").value!=""){
-								$('otherTreatingPhysician').value="";
-							}
+							//if($("treatingPhysician").value!=""){
+							//	$('otherTreatingPhysician').value="";
+							//}
 							if($("stuydDiseaseSelect").value!=""){
 								$('otherDisease').value="";
 							}
