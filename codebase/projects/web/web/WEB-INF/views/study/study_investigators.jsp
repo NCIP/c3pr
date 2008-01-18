@@ -75,7 +75,7 @@ function updateCategories(id) {
 	if(id  == null || id  == ''){
 		id = document.getElementById('site').value;
 	}
-    StudyAjaxFacade.matchGroupsByOrganizationId(id, function(categories) {
+    StudyAjaxFacade.matchActiveGroupsByOrganizationId(id, function(categories) {
         var sel = $("disease-sub-category")
         sel.size = categories.length < 10 ? categories.length + 2 : 10;
         //sel.size= 10
@@ -105,7 +105,7 @@ function showDiseases() {
         //call the getAll method for the selected organization instead of calling getInvestigatorsById() for every group.
         //for (i = 0; i < siteSelect.length; i++) {
             var catId = siteSelect
-	        StudyAjaxFacade.getAllInvestigators(catId, function(diseases) {
+	        StudyAjaxFacade.getActiveSiteInvestigators(catId, function(diseases) {
 	              diseases.each(function(cat) {
 	               	var name = cat.investigator.firstName + " " +  cat.investigator.lastName;
 	                var opt = new Option(name, cat.id)
@@ -115,7 +115,7 @@ function showDiseases() {
 	    //}
     }
     else {
-        StudyAjaxFacade.matchInvestigatorsByGroupId(categoryId, function(diseases) {
+        StudyAjaxFacade.matchActiveInvestigatorsByGroupId(categoryId, function(diseases) {
             var sel = $("disease-term")
             sel.size = diseases.length + 2;
             sel.options.length = 0
