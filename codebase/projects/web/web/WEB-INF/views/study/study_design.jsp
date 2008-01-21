@@ -183,7 +183,7 @@
 
             <td><chrome:minimizableBox id="NonTreatmentEpochBox-${nonTreatmentEpochCount.index}" title="Non-Treatment Epoch"
                                      isDeletable="true"
-                                     onDelete="RowManager.deleteRow(nonTreatmentEpochRowInserterProps,${nonTreatmentEpochCount.index},${nonTreatmentEpoch.hashCode} })">
+                                     onDelete="RowManager.deleteRow(nonTreatmentEpochRowInserterProps,${nonTreatmentEpochCount.index},${nonTreatmentEpoch.hashCode})">
                 <table width="100%" border="0">
                     <tr><td>
                         <div class="leftpanel">
