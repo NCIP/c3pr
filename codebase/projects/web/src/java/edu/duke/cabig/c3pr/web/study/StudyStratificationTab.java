@@ -218,8 +218,8 @@ public class StudyStratificationTab extends StudyTab {
     	finalizeReoderedGroups(study, isCreate);
     	
     	//just renumber the groups as something may have been deleted.
-    	if(req.getParameter("epochCountIndex") != null){
-    		TreatmentEpoch te = study.getTreatmentEpochs().get(Integer.parseInt(req.getParameter("epochCountIndex")));
+    	List<TreatmentEpoch> teList = study.getTreatmentEpochs();
+    	for(TreatmentEpoch te: teList){
         	List<StratumGroup> sgList = te.getStratumGroups();
         	for(int i = 0; i < sgList.size(); i++){
         		sgList.get(i).setStratumGroupNumber(new Integer(i));

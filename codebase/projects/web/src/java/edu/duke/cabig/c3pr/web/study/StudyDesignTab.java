@@ -57,19 +57,22 @@ public class StudyDesignTab extends StudyTab {
     public ModelAndView deleteRow(HttpServletRequest request, Object command, Errors error)throws Exception{
     	
     	String listPath = request.getParameter(getCollectionParamName());
-    	listPath = listPath.substring(0, listPath.indexOf("."));
-    	TreatmentEpoch te = (TreatmentEpoch) new DefaultObjectPropertyReader(command, listPath).getPropertyValueFromPath();
-    	
-    	Randomization randomization = te.getRandomization();
-    	if(randomization instanceof BookRandomization){
-    		BookRandomization bRandomization = (BookRandomization)randomization;
-    		bRandomization.getBookRandomizationEntry().clear();
-    		
-    		List <StratumGroup>sgList = te.getStratumGroups();
-    		for(StratumGroup sg: sgList){
-    			sg.getBookRandomizationEntry().clear();
-    		} 
-    	} 
+    	//If treatementEpochs are deleted we directly call the super.deleteRow()
+    	if(listPath.indexOf(".") > 0){
+	    	listPath = listPath.substring(0, listPath.indexOf("."));
+	    	TreatmentEpoch te = (TreatmentEpoch) new DefaultObjectPropertyReader(command, listPath).getPropertyValueFromPath();
+	    	
+	    	Randomization randomization = te.getRandomization();
+	    	if(randomization instanceof BookRandomization){
+	    		BookRandomization bRandomization = (BookRandomization)randomization;
+	    		bRandomization.getBookRandomizationEntry().clear();
+	    		
+	    		List <StratumGroup>sgList = te.getStratumGroups();
+	    		for(StratumGroup sg: sgList){
+	    			sg.getBookRandomizationEntry().clear();
+	    		} 
+	    	} 
+    	}
     	return super.deleteRow(request, command, error);
     }
     
