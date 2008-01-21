@@ -21,7 +21,7 @@
             </c:if>
         </span>
         <span class="next">
-            <input type="reset" value="Reset tab"/>
+            <%-- <input type="reset" value="Reset tab"/> --%>
 
             <c:if test="${not isLast}">
                 <input type="submit" id="flow-update" class="tab${tabNumber}" value="${willSave ? 'Save' : 'Update'}"/>
