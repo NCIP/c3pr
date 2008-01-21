@@ -58,11 +58,6 @@
 			return true;
 		}
 	}
-	
-	function deleteEntries(epochCountIndex){
-     	<tags:tabMethod method="cleanBookRandomizationEntries" divElement="'dummyDiv'" 
-		                javaScriptParam="'epochCountIndex='+epochCountIndex" formName="'tabMethodForm'"/>
-     }
 	</script>
 </head>
 
@@ -194,7 +189,6 @@
 			    callRemoveFromCommand:"true",
 			    deleteMsgPrefix: "Book Randomization Entries(if any) will be deleted.",
 			    postProcessRowDeletion: function(t){
-			    	deleteEntries(${epochCount.index});
 	                reorderStratumGroupNumbers(${epochCount.index});                	
 			    },
 			    path: "treatmentEpochs[${epochCount.index}].stratumGroups"

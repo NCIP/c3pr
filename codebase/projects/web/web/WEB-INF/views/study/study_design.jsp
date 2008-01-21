@@ -9,11 +9,6 @@
 <head>
     <link rel="stylesheet" type="text/css" href="/c3pr/public/css/tables1" />
     <script type="text/javascript">
-    
-     function deleteEntries(epochCountIndex){
-     	<tags:tabMethod method="cleanBookRandomizationEntries" divElement="'dummyDiv'" 
-		                javaScriptParam="'epochCountIndex='+epochCountIndex" formName="'tabMethodForm'"/>
-     }
      
      function manageAccrualIndicatorSelectBox(box,index) {
             if (box.value == 'true') {
@@ -33,7 +28,7 @@
                 Effect.OpenUp('reservationIndicator-'+index);
             }
             if (box.value == 'true') {
-                		//document.getElementById('reservationIndicator').style.display='none';
+             	//document.getElementById('reservationIndicator').style.display='none';
                 Effect.CloseDown('reservationIndicator-'+index);
              $('nonTreatmentEpochs['+index+'].reservationIndicator').value=false;
             }
@@ -46,9 +41,6 @@
             softDelete: ${softDelete == 'true'},
             row_index_indicator: "NESTED.PAGE.ROW.INDEX",
             deleteMsgPrefix: "Book Randomization Entries(if any) for this Treatment Epoch will be deleted.",
-            preProcessRowDeletion: function(t){
-	                deleteEntries(t.parent_row_index);              	
-			    },
             path: "treatmentEpochs[PAGE.ROW.INDEX].arms"
         };
         var treatmentEpochRowInserterProps= {

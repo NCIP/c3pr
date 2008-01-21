@@ -1,14 +1,21 @@
 package edu.duke.cabig.c3pr.web.study;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.validation.Errors;
+import org.springframework.web.servlet.ModelAndView;
 
+import edu.duke.cabig.c3pr.domain.BookRandomization;
+import edu.duke.cabig.c3pr.domain.Randomization;
+import edu.duke.cabig.c3pr.domain.StratumGroup;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.validator.EpochValidator;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
+import edu.duke.cabig.c3pr.web.beans.DefaultObjectPropertyReader;
 
 
 /**
@@ -41,6 +48,31 @@ public class StudyDesignTab extends StudyTab {
 		}
 		return refdata;
 	}
+	
+    /*
+     * Clear the book entries (if any) corresponding to the treatment epoch.
+     * Called by the deleteRow of the row manager.
+     */
+    @Override
+    public ModelAndView deleteRow(HttpServletRequest request, Object command, Errors error)throws Exception{
+    	
+    	String listPath = request.getParameter(getCollectionParamName());
+    	listPath = listPath.substring(0, listPath.indexOf("."));
+    	TreatmentEpoch te = (TreatmentEpoch) new DefaultObjectPropertyReader(command, listPath).getPropertyValueFromPath();
+    	
+    	Randomization randomization = te.getRandomization();
+    	if(randomization instanceof BookRandomization){
+    		BookRandomization bRandomization = (BookRandomization)randomization;
+    		bRandomization.getBookRandomizationEntry().clear();
+    		
+    		List <StratumGroup>sgList = te.getStratumGroups();
+    		for(StratumGroup sg: sgList){
+    			sg.getBookRandomizationEntry().clear();
+    		} 
+    	} 
+    	return super.deleteRow(request, command, error);
+    }
+    
 	
 	@Override
 	public void postProcess(HttpServletRequest httpServletRequest, Study study,

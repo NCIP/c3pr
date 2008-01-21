@@ -18,6 +18,7 @@ import edu.duke.cabig.c3pr.domain.CalloutRandomization;
 import edu.duke.cabig.c3pr.domain.PhoneCallRandomization;
 import edu.duke.cabig.c3pr.domain.Randomization;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
+import edu.duke.cabig.c3pr.domain.StratumGroup;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 import edu.duke.cabig.c3pr.service.StudyService;
@@ -123,36 +124,6 @@ public abstract class StudyTab extends InPlaceEditableTab<Study> {
 		}
     }
     
-	/*
-	 * This method deletes all the bookRandomizationEntries for the selected TreatmentEpoch.
-	 * This is done whe the user deletes an Arm on the study_design page.
-	 * This is also done when the user deletes a str qs/ans or stratum group on the study_stratification page.
-	 */
-	public ModelAndView cleanBookRandomizationEntries(HttpServletRequest request, Object commandObj, Errors error){
-	    	
-	    Study study = (Study)commandObj;
-	    int epochCountIndex = Integer.parseInt(request.getParameter("epochCountIndex"));
-    	TreatmentEpoch te = study.getTreatmentEpochs().get(epochCountIndex);
-    	Randomization randomization = te.getRandomization();
-    	if(randomization instanceof BookRandomization){
-    		BookRandomization bRandomization = (BookRandomization)randomization;
-    		bRandomization.getBookRandomizationEntry().clear();
-    	}
-    	if( (request.getAttribute("amendFlow") != null && request.getAttribute("amendFlow").toString().equals("true")) ||
-			    (request.getAttribute("editFlow") != null && request.getAttribute("editFlow").toString().equals("true")) ) 	{
-			if (study != null) {
-                getStudyService().reassociate(study);
-                getStudyService().refresh(study);
-            }
-		}
-	    
-	    Map map=new HashMap();
-    	map.put(getFreeTextModelName(), "");
-    	return new ModelAndView("",map);
-	}    	
-	
-	
-
     public ConfigurationProperty getConfigurationProperty() {
         return configurationProperty;
     }

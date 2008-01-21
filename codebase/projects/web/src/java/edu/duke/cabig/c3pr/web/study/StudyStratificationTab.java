@@ -90,6 +90,9 @@ public class StudyStratificationTab extends StudyTab {
     	if(tEpochsListForReorderedGroups.size() > indexOfEpochNumber && tEpochsListForReorderedGroups.get(indexOfEpochNumber) != null){
     		tEpochsListForReorderedGroups.remove(indexOfEpochNumber);
     	}
+//    	for(int i=tEpochsListForReorderedGroups.size(); i < indexOfEpochNumber; i++){
+//    		tEpochsListForReorderedGroups.add(i, null);
+//    	}
     	tEpochsListForReorderedGroups.add(indexOfEpochNumber, sgList);
     		
     	HashMap<String, String> map = new HashMap<String, String>();
@@ -163,10 +166,25 @@ public class StudyStratificationTab extends StudyTab {
     public ModelAndView deleteRow(HttpServletRequest request, Object command, Errors error)throws Exception{
     	
     	String listPath = request.getParameter(getCollectionParamName());
+    	//run this piece of code only if str Qs or Ans are being deleted.
+    	
     	listPath = listPath.substring(0, listPath.indexOf("."));
     	TreatmentEpoch te = (TreatmentEpoch) new DefaultObjectPropertyReader(command, listPath).getPropertyValueFromPath();
-		
-    	if(!te.getStratumGroups().isEmpty()){
+    	
+    	//Clearing the book entries from Randomization object.
+    	Randomization randomization = te.getRandomization();
+    	if(randomization instanceof BookRandomization){
+    		BookRandomization bRandomization = (BookRandomization)randomization;
+    		bRandomization.getBookRandomizationEntry().clear();
+    	}
+    	
+    	if(request.getParameter(getCollectionParamName()).toString().endsWith("stratumGroups")){
+    		//clearing all the Book entries from the scac so that they are not re-saved by cascade
+    		List <StratumGroup>sgList = te.getStratumGroups();
+    		for(StratumGroup sg: sgList){
+    			sg.getBookRandomizationEntry().clear();
+    		}   
+    	} else if(!te.getStratumGroups().isEmpty()){
     		//clearing all the qs and ans references from the scac so that they are not re-saved by cascade
     		List <StratumGroup>sgList = te.getStratumGroups();
     		for(StratumGroup sg: sgList){
@@ -176,28 +194,20 @@ public class StudyStratificationTab extends StudyTab {
     				scac.setStratificationCriterionPermissibleAnswer(null);
     			}
     		}    		
-    		
-    		//clearing the bre's
-    		Randomization randomization = te.getRandomization();
-        	if(randomization instanceof BookRandomization){
-        		BookRandomization bRandomization = (BookRandomization)randomization;
-        		bRandomization.getBookRandomizationEntry().clear();
-        	}
-        	
         	//finally clearing the stratum groups
-        	te.getStratumGroups().clear();    		
+    		te.getStratumGroups().clear();
     	}
+    	
     	return super.deleteRow(request, command, error);
     }
 
 
     @Override
     public void postProcess(HttpServletRequest req, Study study, Errors errors) {
-    	// TODO Auto-generated method stub
     	int epochCountIndex = -1;
     	super.postProcess(req, study, errors);
     	if(req.getParameter("epochCountIndex") != null && !req.getParameter("generateGroups").toString().equalsIgnoreCase("false")){
-    		epochCountIndex = Integer.parseInt(req.getParameter("epochCountIndex"));
+    		epochCountIndex = Integer.parseInt(req.getParameter("generateGroups"));
     		generateStratumGroups(req, study, errors, epochCountIndex);
     	}
     	boolean isCreate = false;
@@ -231,13 +241,10 @@ public class StudyStratificationTab extends StudyTab {
 
 		te = study.getTreatmentEpochs().get(epochCountIndex);
 		//checking for blank qs/ans and returning an error msg if so.
-		if(hasBlankQuestionOrAnswer(te)){
-			String message = "No blank Questions or Answers allowed";
-			return;
-//			Map map=new HashMap();
-//	    	map.put(getFreeTextModelName(), message);
-//	    	return new ModelAndView("",map);
-		}
+//		if(hasBlankQuestionOrAnswer(te)){
+//			String message = "No blank Questions or Answers allowed";
+//			return;
+//		}
 		
 		//clear the existing groups first.(incase the user cilcks on generate twice)
 		te.getStratumGroups().clear();
