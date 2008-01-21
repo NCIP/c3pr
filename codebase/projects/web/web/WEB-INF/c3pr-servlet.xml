@@ -12,7 +12,12 @@
 
     <bean id="messageSource"
           class="org.springframework.context.support.ResourceBundleMessageSource">
-        <property name="basename" value="edu.duke.cabig.c3pr.messages"/>
+        <property name="basenames">
+	        <list>
+		        <value>edu.duke.cabig.c3pr.messages</value>
+		        <value>edu.duke.cabig.c3pr.hints</value>
+	        </list>
+        </property>
     </bean>
 
     <bean id="noCacheTemplate" abstract="true">
