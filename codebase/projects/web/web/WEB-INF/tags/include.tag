@@ -11,6 +11,7 @@
 <tags:stylesheetLink name="fields"/>
 <tags:parsedStylesheetLink name="tables"/>
 <tags:stylesheetLink name="tabbedflow"/>
+<tags:stylesheetLink name="hint"/>
 <!--[if IE]>
 <tags:stylesheetLink name="ie"/>
 <![endif]-->
