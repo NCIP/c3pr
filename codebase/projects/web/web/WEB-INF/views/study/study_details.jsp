@@ -148,29 +148,6 @@
 
 
     </script>
-<style type="text/css">
-/* The hint to Hide and Show */
-.hint {
-   	display: none;
-    position: absolute;
-    width: 200px;
-    margin-top: -4px;
-    border: 1px solid #c93;
-    padding: 10px 12px;
-    opacity:.75;
-    background: #ffc url(pointer.gif) no-repeat -10px 5px;
-}
-
-/* The pointer image is hadded by using another span */
-.hint .hint-pointer {
-    position: absolute;
-    left: -10px;
-    top: 5px;
-    width: 10px;
-    height: 19px;
-    background: url(/c3pr/images/pointer.gif) left top no-repeat;
-}
-</style>
 </head>
 <body>
 <%-- Can't use tags:tabForm b/c there are two boxes in the form --%>
