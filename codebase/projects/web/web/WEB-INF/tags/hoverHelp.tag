@@ -2,7 +2,7 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <%@attribute name="path" required="true" %>
-<a id="${path}-help-control" href="javascript:Effect.Combo('${path}-help-content')" 
+<a id="${path}-help-control" 
 	onmouseover="$('${path}-help-content').style.display='inline'" onmouseout="$('${path}-help-content').style.display='none'">
     <img src="<tags:imageUrl name='q.gif'/>" alt="Help">
 </a>&nbsp;&nbsp;&nbsp;
