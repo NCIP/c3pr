@@ -28,7 +28,7 @@ function markAsAnswered(id){
 <tags:formPanelBox tab="${tab}" flow="${flow}">
 
 	<c:choose>
-	<c:when test="${!command.ifTreatmentScheduledEpoch}">
+	<c:when test="${!command.ifTreatmentScheduledEpoch || fn:length(command.scheduledEpoch.subjectStratificationAnswers)==0}">
 		<br/><br><div align="center"><fmt:message key="REGISTRATION.NO_STRATIFICATION"/></div><br><br>
 	</c:when>
 	<c:otherwise>
