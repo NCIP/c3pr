@@ -135,7 +135,7 @@ function accessApp(url,targetWindow){
 			<td>${command.startDate }</td>
 		</tr>
 		<tr>
-			<td align="left"><b>Treating Physician</b></td>
+			<td align="left"><b>Enrolling Physician</b></td>
 			<td>${command.treatingPhysicianFullName}</td>
 		</tr>
 	</table>
