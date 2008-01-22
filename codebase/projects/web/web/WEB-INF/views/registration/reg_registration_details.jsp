@@ -99,6 +99,10 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 				<c:if test="${!empty command.informedConsentVersion}"> checked </c:if>/></td>
 	</tr>
 	<tr>
+		<td class="label" width="50%">Registration Start Date:</td>
+		<td><tags:dateInput path="startDate" /><em> (mm/dd/yyyy)</em></td>
+	</tr>
+	<tr>
 		<td class="label" width="50%"><em></em>Enrolling Physician:</td>
 		<td>
 		<c:choose>

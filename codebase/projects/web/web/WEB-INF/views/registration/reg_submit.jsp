@@ -148,7 +148,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 	<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 		<tr>
 			<td align="left"><b>Registration Start Date</b></td>
-			<td>${command.startDate }</td>
+			<td><tags:requiredFieldEmptyIndicator value='${command.startDateStr }' workflow='registration'/></td>
 	</tr>
 	<tr>
 		<td align="left" width="35%"><b>Informed Consent Signed Date</b></td>
