@@ -13,6 +13,7 @@ import org.hibernate.Criteria;
 import org.hibernate.FetchMode;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.orm.hibernate3.HibernateTemplate;
 
 /**
  * Abstract BaseDao implementing BaseDao. Provides convenient methods for
@@ -107,8 +108,9 @@ public abstract class C3PRBaseDao<T extends DomainObject>
             if (i < subnames.length - 1) query.append(" and ");
         }
                 
-        log.debug("query string = " +query);        
-        return getHibernateTemplate().find(query.toString(), params.toArray());
+        log.debug("query string = " +query);
+        this.getHibernateTemplate().setMaxResults(30);
+        return (getHibernateTemplate()).find(query.toString(), params.toArray());
     }
 
     protected void buildSubnameQuery(
