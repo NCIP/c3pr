@@ -164,7 +164,7 @@
                 Short Title:</div>
             <div class="value"><form:input path="shortTitleText" size="43"
                                            maxlength="30" cssClass="validate-notEmpty" />
-            <tags:hoverHelp path="shortTitleText"/>
+            <tags:hoverHint path="shortTitleText"/>
             </div>
             
         </div>
@@ -174,7 +174,6 @@
                 Long Title:</div>
             <div class="value"><form:textarea path="longTitleText" rows="2"
                                               cols="40" cssClass="validate-notEmpty&&maxlength200" />
-            <tags:inlineHelp path="longTitleText"/>
             </div>
             
         </div>
