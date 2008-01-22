@@ -196,28 +196,30 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
         protected void done() {
             try {
                 ResponseMessage response = (ResponseMessage) get();
-                log.debug("Received response from caXchange");
-                String objectId = response.getResponseMetadata().getExternalIdentifier();
-                log.debug("Received response from caXchange for externalId" + objectId);
+                if (response != null) {
 
-                if (response.getResponse().getResponseStatus().equals(Statuses.SUCCESS)) {
-                    log.debug("Received delivery confirmation from caXchange");
+                    log.debug("Received response from caXchange");
+                    String objectId = response.getResponseMetadata().getExternalIdentifier();
+                    log.debug("Received response from caXchange for externalId" + objectId);
 
-                    messageWorkflowCallback.messageSendConfirmed(objectId);
+                    if (response.getResponse().getResponseStatus().equals(Statuses.SUCCESS)) {
+                        log.debug("Received delivery confirmation from caXchange");
 
-                    // notify response handlers
-                    log.debug("Notifying " + messageResponseHandlers.size() + " handlers");
-                    messageResponseHandlers.notifyAll(objectId, response.getResponse());
+                        messageWorkflowCallback.messageSendConfirmed(objectId);
 
-                }
-                if (response.getResponse().getResponseStatus().equals(Statuses.FAILURE)) {
-                    log.debug("Received failure from caXchange");
-                    messageWorkflowCallback.messageSendFailed(objectId);
+                        // notify response handlers
+                        log.debug("Notifying " + messageResponseHandlers.size() + " handlers");
+                        messageResponseHandlers.notifyAll(objectId, response.getResponse());
+
+                    }
+                    if (response.getResponse().getResponseStatus().equals(Statuses.FAILURE)) {
+                        log.debug("Received failure from caXchange");
+                        messageWorkflowCallback.messageSendFailed(objectId);
+                    }
                 }
 
 
             } catch (InterruptedException e) {
-                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                 log.warn(e);
             } catch (ExecutionException e) {
                 log.warn(e);
@@ -229,6 +231,7 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
     class SynchronousResponseProcessor implements Callable {
 
         CaXchangeResponseServiceClient responseService;
+        private long startTime;
 
         public SynchronousResponseProcessor(CaXchangeResponseServiceReference responseRef) throws org.apache.axis.types.URI.MalformedURIException, RemoteException {
             responseService = new CaXchangeResponseServiceClient(responseRef.getEndpointReference());
@@ -236,11 +239,23 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
 
 
         public ResponseMessage call() throws Exception {
+            //only run this for 60 seconds
+            if (startTime == 0l) {
+                startTime = System.currentTimeMillis();
+            }
+            long elapsedTime = (System.currentTimeMillis() - startTime) / 1000;
+            log.debug("Elapsed time : " + elapsedTime + " seconds");
+            if (elapsedTime > 60) {
+                log.debug("Giving up. caXchange never returned a response for more than 60 seconds.");
+                return null;
+            }
+
             try {
                 log.debug("Checking caXchange for response");
                 return responseService.getResponse();
             } catch (RemoteException e) {
-                log.debug("Will check caXchange for response again");
+                //sleep for 3 seconds and check again
+                Thread.sleep(3000);
                 return call();
             }
         }
