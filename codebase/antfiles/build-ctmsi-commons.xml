@@ -1,23 +1,22 @@
-
 <project xmlns:artifact="urn:maven-artifact-ant">
     <!--Get ctmsi commons project artifacts-->
 
     <!--default value will be overriden by build.properties-->
     <property file="${antfiles.dir}/build.properties"/>
-    <property name="ctmsi.commons.version" value="0.5"/>
+    <property name="ctmsi.commons.version" value="0.8-SNAPSHOT"/>
 
     <property name="antfiles.lib.dir" value="${antfiles.dir}/lib"/>
     <property name="ctms.commons.dir" value="${share.dir}/ctms-commons"/>
 
-    <path id="maven-ant-tasks.classpath" path="${antfiles.lib.dir}/maven-ant-tasks-2.0.7.jar" />
+    <path id="maven-ant-tasks.classpath" path="${antfiles.lib.dir}/maven-ant-tasks-2.0.7.jar"/>
 
     <typedef resource="org/apache/maven/artifact/ant/antlib.xml" uri="urn:maven-artifact-ant"
-             classpathref="maven-ant-tasks.classpath" />
+             classpathref="maven-ant-tasks.classpath"/>
 
-    <artifact:remoteRepository id="ctmsi.repository" url="http://download.bioinformatics.northwestern.edu/maven2" />
-    <artifact:remoteRepository id="ibiblio.repository" url="http://mirrors.ibiblio.org/pub/mirrors/maven2" />
+    <artifact:remoteRepository id="ctmsi.repository" url="http://download.bioinformatics.northwestern.edu/maven2"/>
+    <artifact:remoteRepository id="ibiblio.repository" url="http://mirrors.ibiblio.org/pub/mirrors/maven2"/>
 
-    
+
     <target name="resolve-ctms-dependencies"
             description="Get CTMSI commons dependencies">
         <!--clean out previous artifacts-->
@@ -25,7 +24,7 @@
         <mkdir dir="${ctms.commons.dir}"/>
 
         <artifact:dependencies filesetId="ctmsi.dependency.fileset">
-            <remoteRepository refid="ctmsi.repository" />
+            <remoteRepository refid="ctmsi.repository"/>
             <dependency groupId="gov.nih.nci.security.acegi" artifactId="acegi-csm"
                         version="${ctmsi.commons.version}"/>
             <dependency groupId="gov.nih.nci.cabig.ctms" artifactId="ctms-commons-core"
@@ -40,7 +39,7 @@
 
 
         <artifact:dependencies filesetId="aspectj.dependency.fileset">
-            <remoteRepository refid="ibiblio.repository" />
+            <remoteRepository refid="ibiblio.repository"/>
             <dependency groupId="aspectj" artifactId="aspectjrt"
                         version="1.5.3"/>
             <dependency groupId="aspectj" artifactId="aspectjweaver"
@@ -51,7 +50,7 @@
         <copy todir="${ctms.commons.dir}">
             <fileset refid="ctmsi.dependency.fileset"/>
             <fileset refid="aspectj.dependency.fileset"/>
-            <mapper type="flatten" />
+            <mapper type="flatten"/>
         </copy>
 
     </target>
