@@ -72,6 +72,9 @@
         <fileset dir="${catalina.home}/common/lib">
             <include name="**/*.jar"/>
         </fileset>
+        <fileset dir="${env.JAVA_HOME}">
+            <include name="**/tools.jar"/>
+        </fileset>
     </path>
 
     <!-- =============================================================== -->
@@ -228,6 +231,11 @@
             </manifest>
         </war>
     </target>
+
+    <target name="deploy-war" description="Will deploy a pre-built war file to Tomcat">
+        <copy file="${war.file}" todir="${deploy.path}"/>
+    </target>
+
 
     <!-- ============================================================== -->
     <!-- Builds from scratch                                                -->
