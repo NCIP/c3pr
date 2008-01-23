@@ -246,6 +246,7 @@
         <copy todir="${webinf.lib.dir}" preservelastmodified="true">
             <fileset dir="${ext.lib.dir}">
                 <include name="**/*.jar"/>
+                <exclude name="cog-jglobus.jar"/>
             </fileset>
             <fileset dir="${lib.dir}">
                 <include name="**/*.jar"/>
@@ -254,6 +255,14 @@
                 <include name="**/*.jar"/>
                 <exclude name="*-tests*.jar"/>
             </fileset>
+        </copy>
+
+        <!--copy jglobus to $CATALINA_HOME/common-->
+        <copy todir="${catalina.home}/common/lib" overwrite="false">
+            <fileset dir="${ext.lib.dir}">
+                <include name="cog-jglobus.jar"/>
+            </fileset>
+
         </copy>
 
     </target>
