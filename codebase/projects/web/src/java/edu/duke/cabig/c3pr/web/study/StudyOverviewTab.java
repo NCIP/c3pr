@@ -17,15 +17,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Tab that adds no additional refdata or does any processing <p/> Created by
+ * Tab for Study Overview/Summary page
+ * <p/> Created by
  * IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:38:59 PM To change this
  * template use File | Settings | File Templates.
  */
-public class StudyEmptyTab extends StudyTab {
+public class StudyOverviewTab extends StudyTab {
     protected StudyService studyService;
 
 
-    public StudyEmptyTab(String longTitle, String shortTitle, String viewName) {
+    public StudyOverviewTab(String longTitle, String shortTitle, String viewName) {
         super(longTitle, shortTitle, viewName);
     }
 
@@ -37,7 +38,7 @@ public class StudyEmptyTab extends StudyTab {
             responseMessage = studyService.getCCTSWofkflowStatus(study).getDisplayName();
         } catch (Exception e) {
             log.error(e);
-            responseMessage = "Error getting status";
+            responseMessage = "error";
         }
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("responseMessage", responseMessage);
@@ -120,9 +121,9 @@ public class StudyEmptyTab extends StudyTab {
             } finally {
                 retValue += command.getCoordinatingCenterStudyStatus().getCode();
             }
-        } else if(property.startsWith("changedTargetAccrualNumber")){
-        	command.setTargetAccrualNumber(new Integer(value));
-        	retValue = command.getTargetAccrualNumber().toString();
+        } else if (property.startsWith("changedTargetAccrualNumber")) {
+            command.setTargetAccrualNumber(new Integer(value));
+            retValue = command.getTargetAccrualNumber().toString();
         } else {
             retValue += command.getCoordinatingCenterStudyStatus().getCode();
         }

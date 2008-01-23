@@ -1,11 +1,9 @@
 package edu.duke.cabig.c3pr.web.study;
 
-import java.util.Map;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.domain.Study;
+import gov.nih.nci.cabig.ctms.web.tabs.Flow;
+import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.validation.BindException;
@@ -13,11 +11,10 @@ import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.service.StudyService;
-import gov.nih.nci.cabig.ctms.web.tabs.Flow;
-import gov.nih.nci.cabig.ctms.web.tabs.Tab;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 /**
  * Controller class to handle the work flow in the Updation of a Study Design
@@ -67,7 +64,7 @@ public class EditStudyController extends StudyController<Study> {
         flow.addTab(new StudyInvestigatorsTab());
         flow.addTab(new StudyPersonnelTab());
         flow.addTab(new StudyNotificationTab());
-        flow.addTab(new StudyEmptyTab("Summary", "Summary", "study/study_summary_view"));
+        flow.addTab(new StudyOverviewTab("Summary", "Summary", "study/study_summary_view"));
     }
 
 //    @Override
@@ -80,19 +77,19 @@ public class EditStudyController extends StudyController<Study> {
 
     @Override
     protected Map referenceData(HttpServletRequest request, Object o, Errors e, int arg1) throws Exception {
-    	// TODO Auto-generated method stub
-    	
-    	String softDelete = "false";
-    	request.setAttribute("flowType", "EDIT_STUDY");
-    	request.setAttribute("editFlow", "true");
-    	
-    	if(((Study)o).getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.PENDING){
-    		softDelete = "true";
-    	}
-    	request.setAttribute("softDelete", softDelete);
-    	return super.referenceData(request,  o,  e, arg1);
+        // TODO Auto-generated method stub
+
+        String softDelete = "false";
+        request.setAttribute("flowType", "EDIT_STUDY");
+        request.setAttribute("editFlow", "true");
+
+        if (((Study) o).getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.PENDING) {
+            softDelete = "true";
+        }
+        request.setAttribute("softDelete", softDelete);
+        return super.referenceData(request, o, e, arg1);
     }
-    
+
     @Override
     protected boolean shouldSave(HttpServletRequest request, Study command, Tab<Study> tab) {
         return super.shouldSave(request, command, tab)
@@ -129,11 +126,11 @@ public class EditStudyController extends StudyController<Study> {
         return modelAndView;
     }
 
-	@Override
-	protected void postProcessPage(HttpServletRequest request, Object command, Errors errors, int page) throws Exception {
-		// TODO Auto-generated method stub
-		super.postProcessPage(request, command, errors, page);
-		studyService.setDataEntryStatus((Study)command, false);
-	}
+    @Override
+    protected void postProcessPage(HttpServletRequest request, Object command, Errors errors, int page) throws Exception {
+        // TODO Auto-generated method stub
+        super.postProcessPage(request, command, errors, page);
+        studyService.setDataEntryStatus((Study) command, false);
+    }
 
 }

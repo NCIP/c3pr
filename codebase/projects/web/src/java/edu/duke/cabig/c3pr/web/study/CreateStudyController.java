@@ -1,17 +1,15 @@
 package edu.duke.cabig.c3pr.web.study;
 
-import java.util.Map;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import edu.duke.cabig.c3pr.domain.Study;
+import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
-import edu.duke.cabig.c3pr.domain.Study;
-import gov.nih.nci.cabig.ctms.web.tabs.Flow;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 /**
  * Controller class to handle the work flow in the Creation of a Study Design
@@ -54,31 +52,31 @@ public class CreateStudyController<C extends Study> extends StudyController<C> {
         flow.addTab(new StudyInvestigatorsTab());
         flow.addTab(new StudyPersonnelTab());
         flow.addTab(new StudyNotificationTab());
-        flow.addTab(new StudyEmptyTab("Overview", "Overview", "study/study_summary_create"));
+        flow.addTab(new StudyOverviewTab("Overview", "Overview", "study/study_summary_create"));
     }
-    
+
     @Override
-	protected void postProcessPage(HttpServletRequest request, Object command, Errors errors, int page) throws Exception {
-		// TODO Auto-generated method stub
-		Study study=(Study)command;
-		super.postProcessPage(request, command, errors, page);
-		studyService.setStatuses(study,false);
-	}
+    protected void postProcessPage(HttpServletRequest request, Object command, Errors errors, int page) throws Exception {
+        // TODO Auto-generated method stub
+        Study study = (Study) command;
+        super.postProcessPage(request, command, errors, page);
+        studyService.setStatuses(study, false);
+    }
 
     @Override
     protected Map referenceData(HttpServletRequest request, int arg1) throws Exception {
-    	// TODO Auto-generated method stub
-    	request.setAttribute("flowType", "CREATE_STUDY");
-    	return super.referenceData(request, arg1);
+        // TODO Auto-generated method stub
+        request.setAttribute("flowType", "CREATE_STUDY");
+        return super.referenceData(request, arg1);
     }
-    
+
     @Override
     protected boolean suppressValidation(HttpServletRequest request, Object study) {
-		if (request.getParameter("_finish")!=null && request.getParameter("_finish").equals("true") && request.getParameter("_activate")!=null && request.getParameter("_activate").equals("false")){
-			return true;
-		}
-		return false;
-	}
+        if (request.getParameter("_finish") != null && request.getParameter("_finish").equals("true") && request.getParameter("_activate") != null && request.getParameter("_activate").equals("false")) {
+            return true;
+        }
+        return false;
+    }
 
     /* (non-Javadoc)
       * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#processFinish
@@ -91,10 +89,10 @@ public class CreateStudyController<C extends Study> extends StudyController<C> {
         Study study = (Study) command;
         studyService.merge(study);
 //        studyService.save(study);
-        response.sendRedirect("confirm?trimmedShortTitleText="+ study.getTrimmedShortTitleText()+ "&primaryIdentifier="
-        		+study.getPrimaryIdentifier()+"&coordinatingCenterStudyStatusCode="+study.getCoordinatingCenterStudyStatus().getCode()+ "&type=confirm");
+        response.sendRedirect("confirm?trimmedShortTitleText=" + study.getTrimmedShortTitleText() + "&primaryIdentifier="
+                + study.getPrimaryIdentifier() + "&coordinatingCenterStudyStatusCode=" + study.getCoordinatingCenterStudyStatus().getCode() + "&type=confirm");
         return null;
 
     }
-    
+
 }

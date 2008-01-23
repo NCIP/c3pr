@@ -1,22 +1,20 @@
 package edu.duke.cabig.c3pr.web.study;
 
-import java.util.Map;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.validation.BindException;
-import org.springframework.validation.Errors;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
-
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.navigation.Task;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
+import org.springframework.validation.BindException;
+import org.springframework.validation.Errors;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -57,7 +55,7 @@ public class ViewStudyController extends StudyController<Study> {
 
     @Override
     protected void layoutTabs(Flow flow) {
-        flow.addTab(new StudyEmptyTab("Summary", "Summary", "study/study_summary_view"));
+        flow.addTab(new StudyOverviewTab("Summary", "Summary", "study/study_summary_view"));
         flow.addTab(new StudyRegistrationsTab());
 
     }
@@ -87,7 +85,9 @@ public class ViewStudyController extends StudyController<Study> {
         return refdata;
     }
 
-    /** Change access modifier for testing **/   
+    /**
+     * Change access modifier for testing *
+     */
     @Override
     protected boolean isFormSubmission(HttpServletRequest httpServletRequest) {
         return super.isFormSubmission(httpServletRequest);    //To change body of overridden methods use File | Settings | File Templates.
@@ -96,8 +96,8 @@ public class ViewStudyController extends StudyController<Study> {
     @Override
     protected ModelAndView handleRequestInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
         // study export
-        if (httpServletRequest.getParameterMap().keySet().contains("_action")&&StringUtils.getBlankIfNull(httpServletRequest.getParameter("_action")).equalsIgnoreCase("export")) {
-            Study study = (Study) currentFormObject(httpServletRequest,httpServletRequest.getSession().getAttribute(getFormSessionAttributeName()));
+        if (httpServletRequest.getParameterMap().keySet().contains("_action") && StringUtils.getBlankIfNull(httpServletRequest.getParameter("_action")).equalsIgnoreCase("export")) {
+            Study study = (Study) currentFormObject(httpServletRequest, httpServletRequest.getSession().getAttribute(getFormSessionAttributeName()));
             httpServletResponse.setContentType("application/xml");
             httpServletResponse.setHeader("Content-Disposition", "attachment; filename=study-" + study.getId() + ".xml");
             xmlUtility.toXML(study, httpServletResponse.getWriter());
