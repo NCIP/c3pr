@@ -35,7 +35,8 @@ public class Configuration extends DatabaseBackedConfiguration {
 	= PROPERTIES.add(new ConfigurationProperty.Text("c3pr.webapp.url"));
     public static final ConfigurationProperty<String> AUTHENTICATION_MODEL
 	= PROPERTIES.add(new ConfigurationProperty.Text("authenticationMode"));
-
+    public static final ConfigurationProperty<String> HOSTED_MODE
+    = PROPERTIES.add(new ConfigurationProperty.Text("hostedMode"));
     
 /*    public static final ConfigurationProperty<String> GRID_IDP_URL
     	= PROPERTIES.add(new ConfigurationProperty.Text("gridIdpUrl"));
