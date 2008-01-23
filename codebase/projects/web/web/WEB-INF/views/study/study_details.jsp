@@ -164,7 +164,7 @@
                 Short Title:</div>
             <div class="value"><form:input path="shortTitleText" size="43"
                                            maxlength="30" cssClass="validate-notEmpty" />
-            <tags:hoverHint path="shortTitleText"/>
+            <tags:hoverHint keyProp="shortTitleText"/>
             </div>
             
         </div>
