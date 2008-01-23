@@ -11,6 +11,23 @@
 <tags:includeScriptaculous />
 <tags:dwrJavascriptLink objects="ResearchStaffAjaxFacade" />
 <script language="JavaScript" type="text/JavaScript">
+	ValidationManager.submitPostProcess= function(formElement, continurSubmission){
+		var error = document.getElementById("errorMsg1");
+		
+		var groups_0 = document.getElementById("groups_0");
+		var groups_1 = document.getElementById("groups_1");
+		var groups_2 = document.getElementById("groups_2");
+		var groups_3 = document.getElementById("groups_3");
+		
+		if(groups_0.checked == true || groups_1.checked == true || groups_2.checked == true || groups_3.checked == true){
+			return true;
+		} else {
+			error.style.display = "";
+			return false;
+		}
+	}
+
+
   var sponsorSiteAutocompleterProps = {
             basename: "healthcareSite",
             populator: function(autocompleter, text) {
@@ -157,16 +174,19 @@
 </chrome:division>
 
 
-<chrome:division id="staff-details" title="User Role (Check all that apply)">
+<chrome:division id="staff-details" title="User Role (Minimum One - Check all that apply)">
+	<div id="errorMsg1" style="display:none">
+		<span id='sid1' style='color:#EE3324'>Please select atleast one role.</span><br/> 	
+	</div>
+	   
     <div class="leftpanel">
-        <c:forEach items="${groups}" var="group">
+        <c:forEach items="${groups}" var="group" varStatus="status">
             <div class="row">
                 <div class="label">
                         ${group.displayName}:
                 </div>
                 <div class="value">
-                    <form:checkbox
-                            path="groups" value="${group}" />
+                    <form:checkbox id="groups_${status.index}" path="groups" value="${group}" />
                 </div>
             </div>
         </c:forEach>
