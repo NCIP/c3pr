@@ -9,12 +9,13 @@
 <body>
 <form:form name="form" method="post">
     <tags:tabFields tab="${tab}"/>
+</form:form>
     <chrome:box title="${tab.shortTitle}">
         <chrome:division title="Registrations" id="registration">
             <registrationTags:searchResults registrations="${participantAssignments }"/>
         </chrome:division>
     </chrome:box>
-</form:form>
+
 </body>
 <!-- MAIN BODY ENDS HERE -->
 </html>

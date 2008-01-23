@@ -30,12 +30,13 @@ function updateTargetPage(target){
 <body>
 <form:form>
 <tags:tabFields tab="${tab}"/>
+</form:form>
 <chrome:box title="Subject Summary">
 		<chrome:division title="Registration Summary">
 			<registrationTags:searchResults registrations="${participantAssignments }"/>
 		</chrome:division>
 </chrome:box>
-</form:form>
+
 </body>
 </html>
 
