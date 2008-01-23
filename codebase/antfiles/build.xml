@@ -14,7 +14,7 @@
     <property name="project.name" value="c3pr"></property>
     <property name="project.version" value="2.0"></property>
 
-    <property name="project.war.archive" value="${project.name}-${project.version}.war"/>
+    <property name="project.war.archive" value="${project.name}.war"/>
 
     <!-- layout info -->
     <property name="antfiles.dir" location="${basedir}/antfiles"/>
@@ -67,12 +67,12 @@
 
 
     <target name="prepare" depends="define-custom-ant-tasks">
-		<java classname="com.semanticbits.java.classpath.tools.ClassPathModifier">
-			<arg value="${share.dir}/java/tools.jar"/>
-			<classpath>
-				<pathelement location="${antfiles.dir}/lib/classpath-modifier.jar"/>
-			</classpath>
-		</java>
+        <java classname="com.semanticbits.java.classpath.tools.ClassPathModifier">
+            <arg value="${share.dir}/java/tools.jar"/>
+            <classpath>
+                <pathelement location="${antfiles.dir}/lib/classpath-modifier.jar"/>
+            </classpath>
+        </java>
     </target>
 
     <!-- =============================================================== -->
@@ -457,9 +457,11 @@
         </ant>
     </target>
 
-    <target name="deploy-war" depends="war"
+    <target name="deploy-war"
             description="Will build and deploy the c3prv2 war archive in the tomcat">
-        <copy file="${project.war.archive}" todir="${ext.tomcat.dir}/webapps"/>
+        <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="deploy-war">
+            <property name="war.file" value="${project.war.archive}"/>
+        </ant>
     </target>
 
 
