@@ -1,15 +1,22 @@
 package edu.duke.cabig.c3pr.web.admin;
 
+import edu.duke.cabig.c3pr.dao.C3PRBaseDao;
 import edu.duke.cabig.c3pr.dao.InvestigatorDao;
+import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.service.PersonnelService;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.web.beans.DefaultObjectPropertyReader;
+import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
+import gov.nih.nci.cabig.ctms.domain.MutableDomainObject;
+import gov.nih.nci.cabig.ctms.web.tabs.Tab;
+
 import org.apache.log4j.Logger;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,8 +30,7 @@ import java.util.*;
  * @author Ramakrishna
  * @author kherm
  */
-public class CreateInvestigatorController extends
-        AbstractCreateC3PRUserController<Investigator> {
+public class CreateInvestigatorController<C extends Investigator> extends AbstractCreateC3PRUserController<C, C3PRBaseDao<C>> {
 
     private PersonnelService personnelService;
     private InvestigatorDao investigatorDao;
@@ -78,6 +84,12 @@ public class CreateInvestigatorController extends
         }
         return inv;
     }
+    
+    @Override
+    protected boolean shouldSave(HttpServletRequest request, Investigator command) {
+        return true;
+    }
+    
 
     /*
     * (non-Javadoc)
@@ -87,8 +99,9 @@ public class CreateInvestigatorController extends
     *      javax.servlet.http.HttpServletResponse, java.lang.Object,
     *      org.springframework.validation.BindException)
     */
+
     @Override
-    protected ModelAndView processFormSubmission(HttpServletRequest request,
+    protected ModelAndView onSynchronousSubmit(HttpServletRequest request,
                                                  HttpServletResponse response, Object command, BindException errors)
             throws Exception {
 
@@ -149,45 +162,6 @@ public class CreateInvestigatorController extends
         return inv;
     }
 
-    @Override
-    protected void onBind(HttpServletRequest request, Object command, BindException errors) throws Exception {
-        // TODO Auto-generated method stub
-        super.onBind(request, command, errors);
-        handleRowDeletion(request, command);
-    }
-
-    public void handleRowDeletion(HttpServletRequest request, Object command) throws Exception {
-        Enumeration enumeration = request.getParameterNames();
-        Hashtable<String, List<Integer>> table = new Hashtable<String, List<Integer>>();
-        while (enumeration.hasMoreElements()) {
-            String param = (String) enumeration.nextElement();
-            if (param.startsWith("_deletedRow-")) {
-                String[] params = param.split("-");
-                if (table.get(params[1]) == null)
-                    table.put(params[1], new ArrayList<Integer>());
-                table.get(params[1]).add(new Integer(params[2]));
-            }
-        }
-        deleteRows(command, table);
-    }
-
-    public void deleteRows(Object command, Hashtable<String, List<Integer>> table) throws Exception {
-        Enumeration<String> e = table.keys();
-        while (e.hasMoreElements()) {
-            String path = e.nextElement();
-            List col = (List) new DefaultObjectPropertyReader(command, path).getPropertyValueFromPath();
-            List<Integer> rowNums = table.get(path);
-            List temp = new ArrayList();
-            for (int i = 0; i < col.size(); i++) {
-                if (!rowNums.contains(new Integer(i)))
-                    temp.add(col.get(i));
-            }
-            col.removeAll(col);
-            col.addAll(temp);
-        }
-    }
-
-
     public PersonnelService getPersonnelService() {
         return personnelService;
     }
@@ -207,4 +181,15 @@ public class CreateInvestigatorController extends
     }
 
 
+	@Override
+	protected C3PRBaseDao getDao() {
+		return this.investigatorDao;
+	}
+
+
+	@Override
+	protected C getPrimaryDomainObject(C command) {
+		return command;
+	}
+	
 }

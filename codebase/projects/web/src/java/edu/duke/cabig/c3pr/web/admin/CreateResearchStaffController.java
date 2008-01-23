@@ -1,9 +1,11 @@
 package edu.duke.cabig.c3pr.web.admin;
 
+import edu.duke.cabig.c3pr.dao.C3PRBaseDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
+import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
@@ -23,7 +25,7 @@ import java.util.HashMap;
 /**
  * @author Ramakrishna
  */
-public class CreateResearchStaffController extends AbstractCreateC3PRUserController<ResearchStaff> {
+public class CreateResearchStaffController <C extends ResearchStaff> extends AbstractCreateC3PRUserController<C, C3PRBaseDao<C>> {
 
     private PersonnelService personnelService;
     private ResearchStaffDao researchStaffDao;
@@ -110,7 +112,7 @@ public class CreateResearchStaffController extends AbstractCreateC3PRUserControl
     */
 
     @Override
-    protected ModelAndView onSubmit(HttpServletRequest request,
+    protected ModelAndView onSynchronousSubmit(HttpServletRequest request,
                                     HttpServletResponse response, Object command, BindException errors)
             throws Exception {
         ResearchStaff researchStaff = (ResearchStaff) command;
@@ -165,4 +167,16 @@ public class CreateResearchStaffController extends AbstractCreateC3PRUserControl
     public void setResearchStaffDao(ResearchStaffDao researchStaffDao) {
         this.researchStaffDao = researchStaffDao;
     }
+
+	@Override
+	protected C3PRBaseDao getDao() {
+		// TODO Auto-generated method stub
+		return this.researchStaffDao;
+	}
+	
+	@Override
+	protected C getPrimaryDomainObject(C command) {
+		return command;
+	}
+	
 }

@@ -39,6 +39,7 @@ public abstract class RowManagableTab<C> extends ReflexiveAjaxableTab<C>{
 	}
 
 	public RowManagableTab(){
+		super.paramTypes=new Class[]{HttpServletRequest.class,Object.class, Errors.class};
 	}	
 	
 	public RowManagableTab(String longTitle, String shortTitle, String viewName) {

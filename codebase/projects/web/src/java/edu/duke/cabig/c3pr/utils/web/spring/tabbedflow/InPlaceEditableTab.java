@@ -14,7 +14,7 @@ import edu.duke.cabig.c3pr.web.beans.DefaultObjectPropertyReader;
 /**
  * @author Rhett Sutphin
 */
-public abstract class InPlaceEditableTab<C> extends WorkFlowTab<C>{
+public class InPlaceEditableTab<C> extends WorkFlowTab<C>{
 
 	private static final String IN_PLACE_PARAM_NAME="_ajaxInPlaceEditParam";
 	private static final String PATH_TO_GET="_pathToGet";

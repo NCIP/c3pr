@@ -1,18 +1,21 @@
 package edu.duke.cabig.c3pr.web.admin;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.web.bind.ServletRequestDataBinder;
+
+import edu.duke.cabig.c3pr.dao.C3PRBaseDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
-import org.springframework.web.bind.ServletRequestDataBinder;
-import org.springframework.web.servlet.mvc.SimpleFormController;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.SimpleFormAjaxableController;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,7 +24,7 @@ import java.util.Map;
  * Time: 7:11:37 PM
  * To change this template use File | Settings | File Templates.
  */
-public class AbstractCreateC3PRUserController<D extends C3PRUser> extends SimpleFormController {
+public abstract class AbstractCreateC3PRUserController<X extends C3PRUser, D extends C3PRBaseDao<X>> extends SimpleFormAjaxableController<X,D> {
 
     private HealthcareSiteDao healthcareSiteDao;
     private ConfigurationProperty configurationProperty;
