@@ -58,6 +58,15 @@ public abstract class C3PRBaseDao<T extends DomainObject>
 		getHibernateTemplate().saveOrUpdate(domainObject);	 	
 		postProcessSave();
 	}	
+	
+
+	/*
+     * Saves a domain object
+      */
+	public void merge(DomainObject domainObject) {
+		getHibernateTemplate().merge(domainObject);	 	
+		postProcessSave();
+	}
 
 	/**
 	 * To be implemented by subclasses for custom extension of save
