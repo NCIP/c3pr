@@ -66,9 +66,11 @@
         function manageRandomizedIndicatorSelectBox(box) {
             if (box.value == 'true') {
                 Effect.OpenUp('randomizationTypeDiv');
+                document.getElementById("randomizationType").className="validate-notEmpty";
             }
             if (box.value == 'false') {
                 Effect.CloseDown('randomizationTypeDiv');
+                document.getElementById("randomizationType").className="";
             }
         }
         
@@ -291,7 +293,7 @@
 
             <div class="row">
                 <div class="label required-indicator">Type:</div>
-                <div class="value"><form:select path="randomizationType" disabled="${command.blindedIndicator == 'true'}" cssClass="validate-notEmpty">
+                <div class="value"><form:select id="randomizationType" path="randomizationType" disabled="${command.blindedIndicator == 'true'}">
                     <form:option label="Please Select" value=""/>
                     <form:option label="Book" value="BOOK"/>
                     <form:option label="Phone Call" value="PHONE_CALL"/>
