@@ -52,9 +52,10 @@ public class PersonnelServiceImpl implements PersonnelService {
             dao.save(c3prUser);
             c3prUser.setLoginId(csmUser.getUserId().toString());
 
-            for (C3PRUserGroupType group : c3prUser.getGroups()) {
-                assignUserToGroup(csmUser, group.getCode());
-            }
+//            for (C3PRUserGroupType group : c3prUser.getGroups()) {
+//                assignUserToGroup(csmUser, group.getCode());
+//            }
+            assignUsersToGroup(csmUser, c3prUser.getGroups());
         } catch (CSTransactionException e) {
             throw new C3PRBaseException("Could not create user", e);
         }
@@ -91,9 +92,24 @@ public class PersonnelServiceImpl implements PersonnelService {
         } catch (CSObjectNotFoundException e) {
             new C3PRBaseException("Could not save Research staff" + e.getMessage());
         }
-
     }
 
+    /*
+     * Takes the whole list of groups instead of one ata time .Thsi was crated so the unchecked groups could be deleted.
+     */
+    private void assignUsersToGroup(User csmUser, List<C3PRUserGroupType> groupList) throws C3PRBaseException {
+        Set<String> groups = new HashSet<String>();
+        try {
+        	for (C3PRUserGroupType group : groupList) {
+        		groups.add(getGroupIdByName(group.getCode()));
+            }
+            
+            userProvisioningManager.assignGroupsToUser(csmUser.getUserId().toString(), groups.toArray(new String[groups.size()]));
+        } catch (Exception e) {
+            throw new C3PRBaseException("Could not add user to group", e);
+        }
+    }
+    
     private void assignUserToGroup(User csmUser, String groupName) throws C3PRBaseException {
         Set<String> groups = new HashSet<String>();
         try {
@@ -102,7 +118,6 @@ public class PersonnelServiceImpl implements PersonnelService {
                 groups.add(existingGroup.getGroupId().toString());
             }
             groups.add(getGroupIdByName(groupName));
-
             userProvisioningManager.assignGroupsToUser(csmUser.getUserId().toString(), groups.toArray(new String[groups.size()]));
         } catch (Exception e) {
             throw new C3PRBaseException("Could not add user to group", e);
