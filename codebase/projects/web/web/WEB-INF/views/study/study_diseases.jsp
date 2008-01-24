@@ -259,6 +259,7 @@ Event.observe(window, "load", function() {
             
             <input type="hidden" id="disease-hidden"/>
             <form:input size="45" id="disease-input" path="diseaseCategoryAsText" cssClass="autocomplete"/>
+            <tags:hoverHint keyProp="study.diseaseCategoryAsText"/>
             <tags:indicator id="disease-indicator"/>
             <div id="disease-choices" class="autocomplete"></div>
             <input type="button" id="disease-clear" value="Clear"/>

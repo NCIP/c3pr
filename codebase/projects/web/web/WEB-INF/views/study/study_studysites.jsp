@@ -76,10 +76,11 @@ Event.observe(window, "load", function() {
 </script>
         <table id="siteTable" class="tablecontent" border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                    <th><b><span class="required-indicator">Organization</span></b></th>
-                    <th><b>Activation Date</b></th>
-                    <th><b>IRB Approval Date</b></th>
-                    <th><b>Target Accrual Number</b></th>
+                    <th><b><span class="required-indicator">Organization</span></b>
+                    &nbsp;<tags:hoverHint keyProp="study.healthcareSite.name"/></th>
+                    <th><b>Activation Date</b>&nbsp;<tags:hoverHint keyProp="study.healthcareSite.startDate"/></th>
+                    <th><b>IRB Approval Date</b>&nbsp;<tags:hoverHint keyProp="study.healthcareSite.irbApprovalDate"/></th>
+                    <th><b>Target Accrual Number</b>&nbsp;<tags:hoverHint keyProp="study.healthcareSite.targetAccrualNumber"/></th>
                 </tr>
                 
                     <tr>
@@ -179,12 +180,13 @@ RowManager.addRowInseter(instanceRowInserterProps);
             <br>
             <table id="siteTable" class="tablecontent" border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                    <th><b><span class="required-indicator">Organization</span></b></th>
-                    <th><b>Activation Date</b></th>
-                    <th><b>IRB Approval Date</b></th>
-                    <th><b>Target Accrual Number</b></th>
+                    <th><b><span class="required-indicator">Organization</span></b><tags:hoverHint keyProp="study.healthcareSite.name"/></th>
+                    <th><b>Activation Date</b><tags:hoverHint keyProp="study.healthcareSite.startDate"/></th>
+                    <th><b>IRB Approval Date</b><tags:hoverHint keyProp="study.healthcareSite.irbApprovalDate"/></th>
+                    <th><b>Target Accrual Number</b><tags:hoverHint keyProp="study.healthcareSite.targetAccrualNumber"/></th>
                     <th></th>
                 </tr>
+                    
                 <c:forEach items="${command.studySites}" varStatus="status" var="site">
                     <tr id="siteTable-${status.index}">
                     

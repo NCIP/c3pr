@@ -128,7 +128,7 @@
 		                            <table border="0" cellspacing="0" width="95%" cellpadding="0"
 		                                   id="addInclusionRowTable-${epochCount.index}" class="tablecontent">
 		                                <tr>
-		                                    <th><span class="label required-indicator">Question</span></th>
+		                                    <th><span class="label required-indicator">Question</span>&nbsp;<tags:hoverHint keyProp="study.inclusionEligibilityCriteria.questionText"/></th>
 		                                    <th>N/A</th>
 		                                    <th></th>
 		                                </tr>
@@ -167,7 +167,7 @@
                              <table width="100%"><tr><td>  
                                 <table border="0" width="95%" cellspacing="0" cellpadding="0" class="tablecontent" id="addExclusionRowTable-${epochCount.index}">
                                     <tr>
-                                        <th><span class="label required-indicator">Question</span></th>
+                                        <th><span class="label required-indicator">Question</span>&nbsp;<tags:hoverHint keyProp="study.exclusionEligibilityCriteria.questionText"/></th>
                                         <th>N/A</th>
                                         <th></th>
                                     </tr>

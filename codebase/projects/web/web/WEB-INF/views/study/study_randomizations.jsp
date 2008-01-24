@@ -66,7 +66,7 @@
 		<br/>
 	     <table border="0" cellspacing="0" cellpadding="0" id="epoch-${epochCount.index }">         
              <tr>
-                <td><b> Randomization Book:</b>
+                <td><b> Randomization Book:</b><tags:hoverHint keyProp="study.bookRandomizations.text"/>
                 	<br/> eg: Stratum Group Number, Position, Arm Name</td>
 				<td>
 					<TEXTAREA name="bookRandomizations-${epochCount.index}" id="bookRandomizations-${epochCount.index}" cols=25 rows=12 class="validate-notEmpty&&maxlength500"></TEXTAREA>
@@ -84,7 +84,7 @@
 			            <div class="row">
 			                <div class="label">Select file to Import:</div>
 			                <div class="value">
-			                    <div class="fileinputs"><input type="file" name="file" /></div>
+			                    <div class="fileinputs"><input type="file" name="file" /><tags:hoverHint keyProp="study.bookRandomizations.file"/></div>
 			                </div>
 			            </div>
 			        </div>

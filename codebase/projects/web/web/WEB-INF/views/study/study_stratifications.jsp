@@ -204,8 +204,8 @@
 				</script>				
 				<table border="1" class="tablecontent"  width="50%">
 				<tr>
-					<th width="20%">Group Number</th>					
-					<th width="75%">Answer Combination</th>
+					<th width="25%">Group Number&nbsp;<tags:hoverHint keyProp="study.stratumGroup.stratumGroupNumber"/></th>					
+					<th width="70%">Answer Combination&nbsp;<tags:hoverHint keyProp="study.stratumGroup.answerCombinations"/></th>
 <!--  				<th width="20%">Stratum Group#</th>-->
 					<th width="5%"></th>
 				</tr>
@@ -216,8 +216,8 @@
 						<c:forEach var="stratumGroup" varStatus="statusStratumGroup"
 							items="${command.treatmentEpochs[epochCount.index].stratumGroups}">						
 							<tr id="stratumGroupTable1_${epochCount.index}-${statusStratumGroup.index}" style="cursor:move">
-								<td width="20%">${stratumGroup.stratumGroupNumber}</td>					
-								<td width="75%">${stratumGroup.answerCombinations}</td>
+								<td width="25%">${stratumGroup.stratumGroupNumber}</td>					
+								<td width="70%">${stratumGroup.answerCombinations}</td>
 								<!-- <td>${stratumGroup.stratumGroupNumber}</td> -->
 								<td width="5%">
 								<a href="javascript:RowManager.deleteRow(stratumGroupRowInserter_${epochCount.index},${statusStratumGroup.index},${stratumGroup.hashCode});">

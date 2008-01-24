@@ -101,7 +101,8 @@
                                         
                                     <td align="left"><form:input
                                             path="treatmentEpochs[${treatmentEpochCount.index}].name"
-                                            size="43" cssClass="validate-notEmpty" /></td>
+                                            size="43" cssClass="validate-notEmpty" />
+                                    <tags:hoverHint keyProp="study.treatmentEpoch.name"/></td>
                                 </tr>
                                 <tr>
                                     <td align="right"><b>Description:</b></td>
@@ -115,7 +116,8 @@
                                         
                                     </td>
                                     <td><form:input path="treatmentEpochs[${treatmentEpochCount.index}].epochOrder" size="5"
-                                               cssClass="validate-notEmpty&&numeric" /></td>
+                                               cssClass="validate-notEmpty&&numeric" />
+                                        <tags:hoverHint keyProp="study.treatmentEpoch.epochOrder"/></td>
                                 </tr>
                                 <c:if test="${command.randomizedIndicator== true}">
                                  <tr>
@@ -127,7 +129,7 @@
                                         cssClass="validate-notEmpty">
                                    <option value="">Please Select</option>
                                      <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
-                                </form:select></td>
+                                </form:select><tags:hoverHint keyProp="study.treatmentEpoch.randomizedIndicator"/></td>
                                 </tr>
                                 </c:if>
                             </table>
@@ -136,9 +138,9 @@
                             <table  id="arm"
                                     class="tablecontent">
                                 <tr>
-                                    <th><span class="required-indicator">Arm </span></th>
+                                    <th><span class="required-indicator">Arm </span>&nbsp;<tags:hoverHint keyProp="study.arm.name"/></th>
                                     <th>Description</th>
-                                    <th>Accrual Ceiling</th>
+                                    <th>Accrual Ceiling&nbsp;<tags:hoverHint keyProp="study.arm.targetAccrualNumber"/></th>
                                     <th><input id="addArm" type="button"
                                                value="Add Arm"
                                                onclick="javascript:RowManager.addRow(RowManager.getNestedRowInserter(treatmentEpochRowInserterProps,${treatmentEpochCount.index}));" /></th>
@@ -194,6 +196,7 @@
                                 <div class="value"><form:input
                                         path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].name"
                                         size="41" cssClass="validate-notEmpty" />
+                                <tags:hoverHint keyProp="study.nonTreatmentEpoch.name"/>
                                 </div>
                             </div>
                             <div class="row">
@@ -208,7 +211,8 @@
                                     </div>
                                 <div class="value"><form:input size="5"
                                                           path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].epochOrder"
-                                                          cssClass="validate-notEmpty&&numeric" /></div>
+                                                          cssClass="validate-notEmpty&&numeric" />
+                                <tags:hoverHint keyProp="study.nonTreatmentEpoch.epochOrder"/></div>
                             </div>
                         </div>
 
@@ -222,7 +226,7 @@
                                         cssClass="validate-notEmpty">
                                     <option value="">Please Select</option>
                                      <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
-                                </form:select></div>
+                                </form:select><tags:hoverHint keyProp="study.nonTreatmentEpoch.accrualIndicator"/></div>
                             </div>
                             
                             <div  id="accrualCeiling-${nonTreatmentEpochCount.index}" <c:if test="${command.nonTreatmentEpochs[nonTreatmentEpochCount.index].accrualIndicator==false}">
@@ -231,7 +235,8 @@
                                 <div class="label">Accrual Ceiling:</div>
                                 <div class="value"><form:input
                                         path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].accrualCeiling"
-                                        size="12" maxlength="10" cssClass="validate-numeric" /></div>
+                                        size="12" maxlength="10" cssClass="validate-numeric" />
+                                        <tags:hoverHint keyProp="study.nonTreatmentEpoch.accrualCeiling"/></div>
                             </div>
                             </div>
 
@@ -245,7 +250,7 @@
                                         cssClass="validate-notEmpty">
                                     <option value="">Please Select</option>
                                     <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
-                                </form:select></div>
+                                </form:select><tags:hoverHint keyProp="study.nonTreatmentEpoch.enrollmentIndicator"/></div>
                             </div>
                             
                             <div id="reservationIndicator-${nonTreatmentEpochCount.index}" <c:if test="${command.nonTreatmentEpochs[nonTreatmentEpochCount.index].enrollmentIndicator==true}">style="display:none;"</c:if>>
@@ -257,7 +262,7 @@
                                         cssClass="validate-notEmpty">
                                     <option value="">Please Select</option>
                                      <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
-                                </form:select></div>
+                                </form:select><tags:hoverHint keyProp="study.nonTreatmentEpoch.reservationIndicator"/></div>
                             </div>
                             </div>
                         </div>
@@ -301,7 +306,7 @@
                                     </td>
                                     <td><input type="text"
                                                name="treatmentEpochs[PAGE.ROW.INDEX].name" size="43"
-                                               class="validate-notEmpty" /></td>
+                                               class="validate-notEmpty" /><tags:hoverHint keyProp="study.treatmentEpoch.name"/></td>
                                 </tr>
                                 <tr>
                                     <td align="right"><b>Description:<b></td>
@@ -316,7 +321,7 @@
                                     </td>
                                     <td><input type="text"
                                                name="treatmentEpochs[PAGE.ROW.INDEX].epochOrder" size="5"
-                                               class="validate-notEmpty&&numeric" /></td>
+                                               class="validate-notEmpty&&numeric" /><tags:hoverHint keyProp="study.treatmentEpoch.epochOrder"/></td>
                                 </tr>
                                  <c:if test="${command.randomizedIndicator== true}">
                                  <tr>
@@ -330,7 +335,7 @@
                                     <option value="">Please Select</option>
                                     <option value="true" selected="selected">Yes</option>
                                     <option value="false">No</option>
-                                </select></td>
+                                </select><tags:hoverHint keyProp="study.treatmentEpoch.randomizedIndicator"/></td>
                                 </tr>
                                 </c:if>
                             </table>
@@ -390,7 +395,8 @@
                                     </div>
                                 <div class="value"><input type="text" size="41"
                                                           name="nonTreatmentEpochs[PAGE.ROW.INDEX].name"
-                                                          class="validate-notEmpty" /></div>
+                                                          class="validate-notEmpty" />
+                                <tags:hoverHint keyProp="study.nonTreatmentEpoch.name"/></div>
                             </div>
 
                             <div class="row">
@@ -405,7 +411,8 @@
                                     </div>
                                 <div class="value"><input type="text" size="5"
                                                           name="nonTreatmentEpochs[PAGE.ROW.INDEX].epochOrder"
-                                                          class="validate-notEmpty&&numeric" /></div>
+                                                          class="validate-notEmpty&&numeric" />
+                                <tags:hoverHint keyProp="study.nonTreatmentEpoch.epochOrder"/></div>
                             </div>
                         </div>
 
@@ -419,7 +426,7 @@
                                     <option value="">Please Select</option>
                                     <option value="true">Yes</option>
                                     <option value="false">No</option>
-                                </select></div>
+                                </select><tags:hoverHint keyProp="study.nonTreatmentEpoch.accrualIndicator"/></div>
                             </div>
                             
                             <div id="accrualCeiling-PAGE.ROW.INDEX" style="display:none">
@@ -428,7 +435,8 @@
                                 <div class="value"><input type="text"
                                                           id="nonTreatmentEpochs[PAGE.ROW.INDEX].accrualCeiling"
                                                           name="nonTreatmentEpochs[PAGE.ROW.INDEX].accrualCeiling" size="12"
-                                                          maxlength="10" class="validate-numeric" /></div>
+                                                          maxlength="10" class="validate-numeric" />
+                                <tags:hoverHint keyProp="study.nonTreatmentEpoch.accrualCeiling"/></div>
                             </div>
                             </div>
 
@@ -442,7 +450,7 @@
                                     <option value="">Please Select</option>
                                     <option value="true">Yes</option>
                                     <option value="false">No</option>
-                                </select></div>
+                                </select><tags:hoverHint keyProp="study.nonTreatmentEpoch.enrollmentIndicator"/></div>
                             </div>
                             
                             <div id="reservationIndicator-PAGE.ROW.INDEX" style="display:none">
@@ -456,7 +464,7 @@
                                     <option value="">Please Select</option>
                                     <option value="true">Yes</option>
                                     <option value="false">No</option>
-                                </select></div>
+                                </select><tags:hoverHint keyProp="study.nonTreatmentEpoch.reservationIndicator"/></div>
                             </div>
                             </div>
                         </div>

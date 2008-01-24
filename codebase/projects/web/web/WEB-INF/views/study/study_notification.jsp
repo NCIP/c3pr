@@ -46,7 +46,7 @@
 			<table id="notification" class="tablecontent">
 			<div id="notificationHeader" style=<c:if test="${fn:length(command.notifications) == 0}">"display:none"</c:if>>
 				<tr>					
-					<th><span class="required-indicator">Threshold</span></th>
+					<th><span class="required-indicator">Threshold</span><tags:hoverHint keyProp="study.notification.threshold"/></th>
 					<th>Email</th>
 					<th>Role</th>
 					<th></th>

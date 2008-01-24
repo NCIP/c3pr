@@ -306,7 +306,7 @@ and the controller gets the selected index via the hidden variable _selectedSite
 			            <c:otherwise>
 			                <table border="1" class="tablecontent" >
 			                    <tr>
-			                        <th scope="col">Name</th>			                        
+			                        <th scope="col">Name</th>
 			                        <th width="20%">Status</th>
 			                        <th width="5%"></th>
 			                    </tr>
