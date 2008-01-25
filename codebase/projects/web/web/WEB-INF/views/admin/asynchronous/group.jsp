@@ -11,11 +11,13 @@
 <script type="text/javascript" src="/c3pr/js/CalendarPopup.js"></script>
 <chrome:division title="Group">
 <form:form id="groupForm">
+<div id="errorsDiv">
+</div>
 	<c:if test="${!newGroup}">
 		<input type="hidden" name="groupId" id="groupId" value="${command.healthcareSite.investigatorGroups[groupIndex].id }"/>
 	</c:if>
 	<input type="hidden" name="decorator" value="nullDecorator"/>
-        	<table border="0" width="80%">
+        	<table border="0" width="100%">
 	        	<tr id="editGroup">
 	        		<td>
 	        			<table>
@@ -24,15 +26,15 @@
 	        					<td><input type="text" name="healthcareSite.investigatorGroups[${groupIndex }].name" value="${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].name}" class="validate-notEmpty"/></td>
 	        				</tr>
 	        				<tr>
-	        					<td align="right"><b>Start Date:</b></td> 
-	        					<td><input type="text" id="formStartDate" name="healthcareSite.investigatorGroups[${groupIndex }].startDate" value="${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].startDateStr}"/>
+	        					<td align="right"><span class="required-indicator"></span><b>Start Date:</b></td> 
+	        					<td><input type="text" id="formStartDate" name="healthcareSite.investigatorGroups[${groupIndex }].startDate" value="${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].startDateStr}" class="validate-notEmpty&&DATE"/>
 	        					 <a href="#" id="linkStartDate">
 			                    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>
 			                	</a></td>
 			                </tr>
 	        				<tr>
 	        					<td align="right"><b>End Date:</b></td>
-	        					<td><input type="text" id="formEndDate" name="healthcareSite.investigatorGroups[${groupIndex }].endDate" value="${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].endDateStr}"/>
+	        					<td><input type="text" id="formEndDate" name="healthcareSite.investigatorGroups[${groupIndex }].endDate" value="${newGroup?'':command.healthcareSite.investigatorGroups[groupIndex].endDateStr}" class="validate-DATE"/>
 	        					 <a href="#" id="linkEndDate">
 			                    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>
 			                	</a></td>
@@ -41,28 +43,47 @@
 	        		</td> 
 	        		<td align="right"><b>Description:</b></td>
 	        		<td><textarea name="healthcareSite.investigatorGroups[${groupIndex }].descriptionText" rows="5" cols="50"
-	        					 value="${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].descriptionText}" cssClass="validate-notEmpty">${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].descriptionText}</textarea></td>      
+	        					 value="${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].descriptionText}">${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].descriptionText}</textarea></td>      
 	        	</tr>
         	</table>
         		<c:if test="${!newGroup && fn:length(command.healthcareSite.investigatorGroups[groupIndex].siteInvestigatorGroupAffiliations)>0}">
-	        		
-		           <br><br>Investigators <br>
-		          <select multiple size="10" style="width:400px" id="abc">
-		          		<c:forEach items="${command.healthcareSite.investigatorGroups[groupIndex].siteInvestigatorGroupAffiliations}" var="aff">
-		              		<option>${aff.healthcareSiteInvestigator.investigator.fullName }</option> 
-		              	</c:forEach>
-		          </select> 
+		           <br><br>Existing Investigators <br>
+				<table width="50%" class="tablecontent">
+					<tr>
+			            <th><span class="required-indicator"></span>Investigator</th>
+			            <th><span class="required-indicator"></span>Start Date</th>
+			            <th>End Date</th>
+	        		</tr>
+				<c:forEach items="${command.healthcareSite.investigatorGroups[groupIndex].siteInvestigatorGroupAffiliations}" var="aff" varStatus="status">
+			        <tr  id="investigatorsTableGroup">
+			        <c:if test="${aff.healthcareSiteInvestigator.statusCode eq 'AC'}">
+			            <td>
+			                ${aff.healthcareSiteInvestigator.investigator.fullName }
+			            </td>
+			            <td>
+			               ${aff.startDateStr }
+			            </td>
+			            <td>
+	               			 <tags:inPlaceEdit value="${command.healthcareSite.investigatorGroups[groupIndex].siteInvestigatorGroupAffiliations[status.index].endDateStr}"
+	                        path="changedCoordinatingCenterStudyStatus_${ status.index}"/>
+	                		&nbsp;
+	                   </td>
+	                   </c:if>
+			        </tr>
+			     </c:forEach>
+			    </table>
 	          </c:if>
 	          
 	          
 	<br>    
 	<br>
     <div id="investigators">
+      <br><br>New Investigators <br>
      <table border="0" id="investigatorsTable" cellspacing="0" class="tablecontent">
         <tr>
-            <th><span class="required-indicator">Investigator</span></th>
-            <th>Start Date</span></th>
-            <th>End Date</span></th>
+            <th><span class="required-indicator"></span>Investigator</th>
+            <th><span class="required-indicator"></span>Start Date</th>
+            <th>End Date</th>
             <th></th>
         </tr>
 
@@ -102,7 +123,7 @@
             <td>
                 <input type="text" id="investigators[PAGE.ROW.INDEX].startDate"
                         name="healthcareSite.investigatorGroups[${groupIndex}].siteInvestigatorGroupAffiliations[PAGE.ROW.INDEX].startDate"
-                        class="date validate-DATE">
+                        class="validate-notEmpty&&DATE">
                  <a href="#" id="investigators[PAGE.ROW.INDEX].startDate-calbutton">
                     <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle"/>
                 </a>
@@ -110,7 +131,7 @@
             <td>
                 <input type="text" id="investigators[PAGE.ROW.INDEX].endDate"
                         name="healthcareSite.investigatorGroups[${groupIndex}].siteInvestigatorGroupAffiliations[PAGE.ROW.INDEX].endDate"
-                        class="date validate-DATE">
+                        class="validate-DATE">
                  <a href="#" id="investigators[PAGE.ROW.INDEX].endDate-calbutton">
                     <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle"/>
                 </a>
