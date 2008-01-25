@@ -59,7 +59,7 @@ public class CreateInvestigatorController<C extends Investigator> extends Abstra
         Investigator inv;
         if (request.getParameter("id") != null && request.getParameter("id") != "") {
             log.info(" Request URl  is:" + request.getRequestURL().toString());
-            inv = investigatorDao.getById(Integer.parseInt(request.getParameter("id")));
+            inv = investigatorDao.getLoadedInvestigatorById(Integer.parseInt(request.getParameter("id")));
             int cmSize = inv.getContactMechanisms().size();
             if (cmSize == 0) {
                 inv = createInvestigatorWithContacts(inv);
