@@ -122,8 +122,8 @@
 			<div id="criteriaHeader" 
 			style=<c:if test="${fn:length(command.treatmentEpochs[epochCount.index].stratificationCriteria) == 0}">"display:none"</c:if>>
 				<tr>					
-					<th><span class="required-indicator">Question</span></th>
-					<th><span class="required-indicator">Answer</span></th>
+					<th><span class="required-indicator">Question</span><tags:hoverHint keyProp="study.treatmentEpochs.stratificationCriteria"/></th>
+					<th><span class="required-indicator">Answer</span><tags:hoverHint keyProp="study.treatmentEpochs.stratificationCriteria.permissibleAnswers"/></th>
 					<th></th>
 				</tr>
 			</div>

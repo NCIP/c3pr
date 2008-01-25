@@ -184,7 +184,8 @@
         <div class="row">
             <div class="label">Description:</div>
             <div class="value"><form:textarea path="descriptionText" rows="2"
-                                              cols="40" cssClass="validate-maxlength2000" /></div>
+                                              cols="40" cssClass="validate-maxlength2000" />
+            <tags:hoverHint keyProp="study.description"/></div>
         </div>
 
         <div class="row">
@@ -233,7 +234,7 @@
                 <div class="row">
                     <div class="label">
                         Blinded:</div>
-                    <div class="value">${command.blindedIndicator=="true"?"Yes":"No"}</div>
+                    <div class="value">${command.blindedIndicator=="true"?"Yes":"No"}&nbsp;<tags:hoverHint keyProp="study.blindedIndicator"/></div>
                 </div>
             </c:when>
             <c:otherwise>
@@ -252,7 +253,7 @@
                 <div class="row">
                     <div class="label required-indicator">
                         Multi-Institutional:</div>
-                    <div class="value">${command.multiInstitutionIndicator=="true"?"Yes":"No"}</div>
+                    <div class="value">${command.multiInstitutionIndicator=="true"?"Yes":"No"}&nbsp;<tags:hoverHint keyProp="study.multiInstitutionIndicator"/></div>
                 </div>
             </c:when>
             <c:otherwise>
@@ -363,6 +364,7 @@
 							<c:if test="${empty command.id}">
 								<input type="hidden" name="organizationAssignedIdentifiers[0].primaryIndicator" value="true"/>
 							</c:if>
+							<tags:hoverHint keyProp="study.coordinatingcenter.identifier"/>
 						</div>
 					</div>            
           		</div>
@@ -407,6 +409,7 @@
 	                    value="${command.fundingSponsorIdentifierIndex==-1?'':command.organizationAssignedIdentifiers[sponIndex==0?1:sponIndex].healthcareSite.id}" />
 					<input type="hidden" 
 						name="organizationAssignedIdentifiers[${sponIndex==0?1:sponIndex}].type" value="Protocol Authority Identifier" />
+					<tags:hoverHint keyProp="study.fundingsponsor.identifier"/>
 				</div>
 			</div>
         </div>

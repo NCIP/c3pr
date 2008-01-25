@@ -307,7 +307,7 @@ and the controller gets the selected index via the hidden variable _selectedSite
 			                <table border="1" class="tablecontent" >
 			                    <tr>
 			                        <th scope="col">Name</th>
-			                        <th width="20%">Status</th>
+			                        <th width="20%">Status<tags:hoverHint keyProp="study.investigator.status"/></th>
 			                        <th width="5%"></th>
 			                    </tr>
 			                    <c:forEach items="${command.studyOrganizations[selected_site].studyInvestigators}" var="studyInvestigator"

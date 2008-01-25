@@ -82,10 +82,10 @@ function manageIdentifierRadio(element){
 		
 			<table id="organizationIdentifier" class="tablecontent">
 				<tr>
-					<th><span class="required-indicator">Assigning Authority</span>&nbsp;<tags:hoverHint keyProp="study.healthcareSite.name"/></th>
-					<th><span class="required-indicator">Identifier Type</span>&nbsp;<tags:hoverHint keyProp="study.healthcareSite.identifierType"/></th>
-					<th><span class="required-indicator">Identifier</span></th>
-					<th>Primary Indicator&nbsp;<tags:hoverHint keyProp="study.healthcareSite.primaryIndicator"/></th>
+					<th><span class="required-indicator">Assigning Authority</span><tags:hoverHint keyProp="study.healthcareSite.name"/></th>
+					<th><span class="required-indicator">Identifier Type</span><tags:hoverHint keyProp="study.healthcareSite.identifierType"/></th>
+					<th><span class="required-indicator">Identifier</span><tags:hoverHint keyProp="study.coordinatingcenter.identifier"/></th>
+					<th>Primary Indicator<tags:hoverHint keyProp="study.healthcareSite.primaryIndicator"/></th>
 					<th></th>
 				</tr>
 				<tr>
@@ -167,7 +167,7 @@ function manageIdentifierRadio(element){
 				<tr>
 					<th><span class="required-indicator">System Name</span><tags:hoverHint keyProp="study.systemAssignedIdentifier.systemName"/></th>
 					<th><span class="required-indicator">Identifier Type</span><tags:hoverHint keyProp="study.systemAssignedIdentifier.identifierType"/></th>
-					<th><span class="required-indicator">Identifier</span></th>
+					<th><span class="required-indicator">Identifier</span><tags:hoverHint keyProp="study.coordinatingcenter.identifier"/></th>
 					<th>Primary Indicator<tags:hoverHint keyProp="study.systemAssignedIdentifier.primaryIndicator"/></th>
 					<th></th>
 				</tr>

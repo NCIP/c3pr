@@ -86,7 +86,8 @@
 				     </td>
 				     <td>		                
 	                    <input type="file" name="criteriaFile" />
-	                    <input type='submit' value='Upload'/>  				           
+	                    <input type='submit' value='Upload'/>  
+	                    <tags:hoverHint keyProp="study.criteriafile"/>		           
 					 </td>
 				</tr>
 			</table>

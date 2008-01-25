@@ -102,13 +102,14 @@
                                     <td align="left"><form:input
                                             path="treatmentEpochs[${treatmentEpochCount.index}].name"
                                             size="43" cssClass="validate-notEmpty" />
-                                    <tags:hoverHint keyProp="study.treatmentEpoch.name"/></td>
+                                        <tags:hoverHint keyProp="study.treatmentEpoch.name"/></td>
                                 </tr>
                                 <tr>
                                     <td align="right"><b>Description:</b></td>
                                     <td><form:textarea
                                             path="treatmentEpochs[${treatmentEpochCount.index}].descriptionText"
-                                            rows="5" cols="40" /></td>
+                                            rows="5" cols="40" />
+                                        <tags:hoverHint keyProp="study.treatmentEpoch.description"/></td>
                                 </tr>
                                  <tr>
                                     <td align="right">
@@ -138,9 +139,9 @@
                             <table  id="arm"
                                     class="tablecontent">
                                 <tr>
-                                    <th><span class="required-indicator">Arm </span>&nbsp;<tags:hoverHint keyProp="study.arm.name"/></th>
-                                    <th>Description</th>
-                                    <th>Accrual Ceiling&nbsp;<tags:hoverHint keyProp="study.arm.targetAccrualNumber"/></th>
+                                    <th><span class="required-indicator">Arm </span><tags:hoverHint keyProp="study.arm.name"/></th>
+                                    <th>Description<tags:hoverHint keyProp="study.arm.description"/></th>
+                                    <th>Accrual Ceiling<tags:hoverHint keyProp="study.arm.targetAccrualNumber"/></th>
                                     <th><input id="addArm" type="button"
                                                value="Add Arm"
                                                onclick="javascript:RowManager.addRow(RowManager.getNestedRowInserter(treatmentEpochRowInserterProps,${treatmentEpochCount.index}));" /></th>
@@ -312,7 +313,7 @@
                                     <td align="right"><b>Description:<b></td>
                                     <td><textarea
                                             name="treatmentEpochs[PAGE.ROW.INDEX].descriptionText" rows="5"
-                                            cols="40"></textarea></td>
+                                            cols="40"></textarea><tags:hoverHint keyProp="study.treatmentEpoch.description"/></td>
                                 </tr>
                                 <tr>
                                     <td align="right">

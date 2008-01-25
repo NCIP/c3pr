@@ -151,8 +151,8 @@ RowManager.addRowInseter(instanceRowInserterProps);
 <table border="0" id="studyPersonnelTable" cellspacing="0" class="tablecontent">
     <tr>
         <th><b> <span class="required-indicator">Name</span><tags:hoverHint keyProp="study.personnel.name"/></th>
-        <th><b> <span class="required-indicator">Role</span></th>
-        <th><b> <span class="required-indicator">Status</span></th>
+        <th><b> <span class="required-indicator">Role</span><tags:hoverHint keyProp="study.personnel.role"/></th>
+        <th><b> <span class="required-indicator">Status</span><tags:hoverHint keyProp="study.personnel.status"/></th>
         <th></th>
     </tr>
 
