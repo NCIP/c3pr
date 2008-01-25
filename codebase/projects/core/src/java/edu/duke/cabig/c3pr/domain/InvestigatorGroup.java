@@ -28,7 +28,7 @@ import org.hibernate.annotations.Parameter;
         @Parameter(name="sequence", value="investigator_groups_id_seq")
     }
 )
-public class InvestigatorGroup extends AbstractMutableDeletableDomainObject {
+public class InvestigatorGroup extends AbstractMutableDeletableDomainObject implements Comparable<InvestigatorGroup> {
 
 	private String name;
 	private String descriptionText;
@@ -125,5 +125,35 @@ public class InvestigatorGroup extends AbstractMutableDeletableDomainObject {
 	        }
 	        return "";
 	    }
+
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = 1;
+		result = PRIME * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final InvestigatorGroup other = (InvestigatorGroup) obj;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
+	}
+
+	public int compareTo(InvestigatorGroup o) {
+		if (this.equals(o)) return 0;
+		return 1;
+	}
 
 }

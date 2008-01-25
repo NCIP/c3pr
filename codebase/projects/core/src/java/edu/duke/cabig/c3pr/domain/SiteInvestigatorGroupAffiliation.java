@@ -23,7 +23,7 @@ import edu.duke.cabig.c3pr.utils.StringUtils;
         @Parameter(name="sequence", value="org_inv_gr_affiliations_id_seq")
     }
 )
-public class SiteInvestigatorGroupAffiliation extends AbstractMutableDeletableDomainObject{
+public class SiteInvestigatorGroupAffiliation extends AbstractMutableDeletableDomainObject implements Comparable<SiteInvestigatorGroupAffiliation>{
 	private Date startDate;
 	private Date endDate;
 	private HealthcareSiteInvestigator healthcareSiteInvestigator;
@@ -84,5 +84,38 @@ public class SiteInvestigatorGroupAffiliation extends AbstractMutableDeletableDo
 	        }
 	        return "";
 	    }
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = 1;
+		result = PRIME * result + ((healthcareSiteInvestigator == null) ? 0 : healthcareSiteInvestigator.hashCode());
+		result = PRIME * result + ((investigatorGroup == null) ? 0 : investigatorGroup.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final SiteInvestigatorGroupAffiliation other = (SiteInvestigatorGroupAffiliation) obj;
+		if (healthcareSiteInvestigator == null) {
+			if (other.healthcareSiteInvestigator != null)
+				return false;
+		} else if (!healthcareSiteInvestigator.equals(other.healthcareSiteInvestigator))
+			return false;
+		if (investigatorGroup == null) {
+			if (other.investigatorGroup != null)
+				return false;
+		} else if (!investigatorGroup.equals(other.investigatorGroup))
+			return false;
+		return true;
+	}
+	public int compareTo(SiteInvestigatorGroupAffiliation o) {
+		if (this.equals(o)) return 0;
+		return 1;
+	}
 
 }
