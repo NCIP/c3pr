@@ -12,7 +12,6 @@ import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.HttpSessionRequiredException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,28 +54,43 @@ public class RegistrationAjaxFacade {
     public List<Identifier> matchRegistrationIdentifiers(
             String text, int criterionSelector) {
 
-        List<StudySubject> registrations = new ArrayList<StudySubject>();
-        List<Identifier> identifiers = new ArrayList<Identifier>();
+    	 List<StudySubject> registrations = new ArrayList<StudySubject>();
+         List<Identifier> reducedIdentifiers = new ArrayList<Identifier>();
 
-        SystemAssignedIdentifier identifier = new SystemAssignedIdentifier();
-        identifier.setValue(text);
-        StudySubject registrationObj = new StudySubject();
-        registrationObj.addIdentifier(identifier);
-        registrations = studySubjectDao.searchByExample(registrationObj);
-        List<SystemAssignedIdentifier> registrationIdentifiers = new ArrayList<SystemAssignedIdentifier>();
-        SystemAssignedIdentifier ident = new SystemAssignedIdentifier();
-        for (StudySubject registrationIter : registrations) {
-            registrationIdentifiers = registrationIter.getSystemAssignedIdentifiers();
-            Iterator<SystemAssignedIdentifier> identifierIter = registrationIdentifiers.iterator();
-            while (identifierIter.hasNext()) {
-                ident = identifierIter.next();
-                if (ident.getValue().toUpperCase().contains(text.toUpperCase()))
-                    identifiers.add(ident);
-
-            }
-        }
-
-        return identifiers;
+         Identifier orgIdentifier = new OrganizationAssignedIdentifier();
+         orgIdentifier.setValue(text);
+         StudySubject studySubjectObj = new StudySubject(true);
+         studySubjectObj.addIdentifier(orgIdentifier);
+         registrations = studySubjectDao.searchByExample(studySubjectObj,true);
+         List<OrganizationAssignedIdentifier> studySubjectOrgIdentifiers = new ArrayList<OrganizationAssignedIdentifier>();
+         Identifier orgIdent = new OrganizationAssignedIdentifier();
+         for (StudySubject studySubjectIter : registrations) {
+             studySubjectOrgIdentifiers = studySubjectIter.getOrganizationAssignedIdentifiers();
+             Iterator<OrganizationAssignedIdentifier> identifierIter = studySubjectOrgIdentifiers.iterator();
+             while (identifierIter.hasNext()) {
+                 orgIdent = identifierIter.next();
+                 reducedIdentifiers.add(buildReduced(orgIdent, Arrays.asList("id","value")));
+             }
+         }
+         
+         
+         List<StudySubject> registrationsSys = new ArrayList<StudySubject>();
+         Identifier sysIdentifier = new OrganizationAssignedIdentifier();
+         sysIdentifier.setValue(text);
+         StudySubject studySubject = new StudySubject(true);
+         studySubject.addIdentifier(sysIdentifier);
+         registrationsSys = studySubjectDao.searchByExample(studySubject,true);
+         List<SystemAssignedIdentifier> studySubjectSysIdentifiers = new ArrayList<SystemAssignedIdentifier>();
+         Identifier sysIdent = new SystemAssignedIdentifier();
+         for (StudySubject studySubjectIter : registrationsSys) {
+             studySubjectSysIdentifiers = studySubjectIter.getSystemAssignedIdentifiers();
+             Iterator<SystemAssignedIdentifier> identifierIter = studySubjectSysIdentifiers.iterator();
+             while (identifierIter.hasNext()) {
+             	sysIdent = identifierIter.next();
+                 reducedIdentifiers.add(buildReduced(sysIdent, Arrays.asList("id","value")));
+             }
+         }
+         return reducedIdentifiers;
     }
 
     public List<Study> matchStudies(String text, int criterionSelector) {
@@ -116,7 +130,6 @@ public class RegistrationAjaxFacade {
                                                   int criterionSelector) {
 
         List<Study> studies = new ArrayList<Study>();
-        List<Identifier> identifiers = new ArrayList<Identifier>();
         List<Identifier> reducedIdentifiers = new ArrayList<Identifier>();
 
         Identifier orgIdentifier = new OrganizationAssignedIdentifier();
@@ -131,8 +144,6 @@ public class RegistrationAjaxFacade {
             Iterator<OrganizationAssignedIdentifier> identifierIter = studyOrgIdentifiers.iterator();
             while (identifierIter.hasNext()) {
                 orgIdent = identifierIter.next();
-                if (orgIdent.getValue().toUpperCase().contains(text.toUpperCase()))
-                    identifiers.add(orgIdent);
                 reducedIdentifiers.add(buildReduced(orgIdent, Arrays.asList("id","value")));
             }
         }
@@ -151,8 +162,6 @@ public class RegistrationAjaxFacade {
             Iterator<SystemAssignedIdentifier> identifierIter = studySysIdentifiers.iterator();
             while (identifierIter.hasNext()) {
             	sysIdent = identifierIter.next();
-                if (sysIdent.getValue().toUpperCase().contains(text.toUpperCase()))
-                    identifiers.add(sysIdent);
                 reducedIdentifiers.add(buildReduced(sysIdent, Arrays.asList("id","value")));
             }
         }
@@ -163,7 +172,6 @@ public class RegistrationAjaxFacade {
                                                         int criterionSelector) {
 
     	 List<Participant> participants = new ArrayList<Participant>();
-         List<Identifier> identifiers = new ArrayList<Identifier>();
          List<Identifier> reducedIdentifiers = new ArrayList<Identifier>();
 
          Identifier orgIdentifier = new OrganizationAssignedIdentifier();
@@ -178,8 +186,6 @@ public class RegistrationAjaxFacade {
              Iterator<OrganizationAssignedIdentifier> identifierIter = participantOrgIdentifiers.iterator();
              while (identifierIter.hasNext()) {
                  orgIdent = identifierIter.next();
-                 if (orgIdent.getValue().toUpperCase().contains(text.toUpperCase()))
-                     identifiers.add(orgIdent);
                  reducedIdentifiers.add(buildReduced(orgIdent, Arrays.asList("id","value")));
              }
          }
@@ -197,8 +203,6 @@ public class RegistrationAjaxFacade {
              Iterator<SystemAssignedIdentifier> identifierIter = participantSysIdentifiers.iterator();
              while (identifierIter.hasNext()) {
             	 sysIdent = identifierIter.next();
-                 if (sysIdent.getValue().toUpperCase().contains(text.toUpperCase()))
-                     identifiers.add(sysIdent);
                  reducedIdentifiers.add(buildReduced(sysIdent, Arrays.asList("id","value")));
              }
          }
@@ -253,14 +257,6 @@ public class RegistrationAjaxFacade {
 
     // //// CONFIGURATION
 
-    @Required
-    public void setRegistrationDao(StudySubjectDao studySubjectDao) {
-        this.studySubjectDao = studySubjectDao;
-    }
-
-    public StudySubjectDao getRegistrationDao() {
-        return studySubjectDao;
-    }
 
     public ParticipantDao getParticipantDao() {
         return participantDao;
@@ -277,5 +273,13 @@ public class RegistrationAjaxFacade {
     public void setStudyDao(StudyDao studyDao) {
         this.studyDao = studyDao;
     }
+
+	public StudySubjectDao getStudySubjectDao() {
+		return studySubjectDao;
+	}
+
+	public void setStudySubjectDao(StudySubjectDao studySubjectDao) {
+		this.studySubjectDao = studySubjectDao;
+	}
 
 }
