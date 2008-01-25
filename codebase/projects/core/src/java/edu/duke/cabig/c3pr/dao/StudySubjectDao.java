@@ -1,20 +1,27 @@
 package edu.duke.cabig.c3pr.dao;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
 import org.hibernate.LockMode;
+import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataAccessResourceFailureException;
 
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
+import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.emory.mathcs.backport.java.util.Collections;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
@@ -27,6 +34,8 @@ public class StudySubjectDao extends
 			.asList("studySite.study.shortTitleText");
 
 	private List<String> EXACT_MATCH_PROPERTIES = Collections.emptyList();
+	
+	 private static Log log = LogFactory.getLog(StudySubjectDao.class);
 
 	public StudySubjectDao() {
 	}
@@ -146,26 +155,38 @@ public class StudySubjectDao extends
 	 */
 	public List<StudySubject> searchByExample(
 			StudySubject registration, boolean isWildCard) {
+		List<StudySubject> result = new ArrayList<StudySubject>();
 
-		Example example = Example.create(registration).excludeZeroes()
-				.ignoreCase();
-		Criteria registrationCriteria = getHibernateTemplate()
-				.getSessionFactory().getCurrentSession().createCriteria(
-						StudySubject.class);
-		if (isWildCard) {
-			example.excludeProperty("doNotUse").enableLike(MatchMode.ANYWHERE);
-			registrationCriteria.add(example);
-			if (registration.getIdentifiers().size() > 0) {
-				registrationCriteria.createCriteria("identifiers").add(
-						Restrictions.like("value", registration
-								.getIdentifiers().get(0).getValue()
-								+ "%"));
-			} 
-			return registrationCriteria.list();
-
-		}
-		return registrationCriteria.add(example).list();
-
+        Example example = Example.create(registration).excludeZeroes().ignoreCase();
+        try {
+            Criteria studySubjectCriteria = getSession().createCriteria(StudySubject.class);
+            studySubjectCriteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+            
+            if (isWildCard)
+            {
+                example.excludeProperty("doNotUse").enableLike(MatchMode.ANYWHERE);
+                studySubjectCriteria.add(example);
+                if (registration.getIdentifiers().size() > 1) {
+                    studySubjectCriteria.createCriteria("identifiers")
+                            .add(Restrictions.ilike("value", "%" + registration.getIdentifiers().get(0)
+                                    .getValue() + "%")) .add(Restrictions.ilike("value", "%" + registration.getIdentifiers().get(1)
+                                            .getValue() + "%"));
+                } else  if (registration.getIdentifiers().size() > 0) {
+                    studySubjectCriteria.createCriteria("identifiers")
+                    .add(Restrictions.ilike("value", "%" + registration.getIdentifiers().get(0)
+                            .getValue() + "%"));
+        }
+                result =  studySubjectCriteria.list();
+            }
+            result =  studySubjectCriteria.add(example).list();
+        } catch (DataAccessResourceFailureException e) {
+            log.error(e.getMessage());
+        } catch (IllegalStateException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (HibernateException e) {
+            log.error(e.getMessage());
+        }
+        return result;
 	}
 	/**
 	 * *
