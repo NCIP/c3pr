@@ -297,11 +297,11 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
 
 
     public void addIdentifier(Identifier identifier) {
-        lazyListHelper.getLazyList(Identifier.class).add(identifier);
+    	 getIdentifiers().add(identifier);
     }
 
     public void removeIdentifier(Identifier identifier) {
-        lazyListHelper.getLazyList(Identifier.class).remove(identifier);
+    	 getIdentifiers().remove(identifier);
     }
 
     @Transient
