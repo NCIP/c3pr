@@ -204,7 +204,8 @@
                                 <div class="label">Description:</div>
                                 <div class="value"><form:textarea
                                         path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].descriptionText"
-                                        rows="5" cols="40" /></div>
+                                        rows="5" cols="40" />
+                                 <tags:hoverHint keyProp="study.nonTreatmentEpoch.description"/></div>
                             </div>
                             <div class="row">
                                 <div class="label">
@@ -404,7 +405,8 @@
                                 <div class="label">Description:</div>
                                 <div class="value"><textarea
                                         name="nonTreatmentEpochs[PAGE.ROW.INDEX].descriptionText" rows="5"
-                                        cols="40"></textarea></div>
+                                        cols="40"></textarea>
+                                <tags:hoverHint keyProp="study.nonTreatmentEpoch.description"/></div>
                             </div>
                             <div class="row">
                                 <div class="label">
