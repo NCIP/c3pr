@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.web.ajax;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -85,11 +86,13 @@ public class OrganizationAjaxFacade {
 		List<HealthcareSiteInvestigator> reducedInv = new ArrayList<HealthcareSiteInvestigator>(
 				inv.size());
 		for (HealthcareSiteInvestigator hcInv : inv) {
-			HealthcareSiteInvestigator temp;
-			temp = buildReduced(hcInv, Arrays.asList("id"));
-			temp.setInvestigator(buildReduced(hcInv.getInvestigator(), Arrays
-					.asList("firstName", "lastName", "maidenName")));
-			reducedInv.add(temp);
+			if(hcInv.getStatusCode()!=null && hcInv.getStatusCode().equals("AC")){
+				HealthcareSiteInvestigator temp;
+				temp = buildReduced(hcInv, Arrays.asList("id"));
+				temp.setInvestigator(buildReduced(hcInv.getInvestigator(), Arrays
+						.asList("firstName", "lastName", "maidenName")));
+				reducedInv.add(temp);
+			}
 
 		}
 
@@ -121,10 +124,12 @@ public class OrganizationAjaxFacade {
 		List<Investigator> reducedInvestigators = new ArrayList<Investigator>();
 		for (SiteInvestigatorGroupAffiliation siteInvestigatorGroupAffiliation : investigatorGroupDao
 				.getAffiliationsByGroupId(groupId)) {
-			reducedInvestigators.add(buildReduced(
-					siteInvestigatorGroupAffiliation
-							.getHealthcareSiteInvestigator().getInvestigator(),
-					Arrays.asList("lastName","firstName", "id")));
+			if(siteInvestigatorGroupAffiliation.getHealthcareSiteInvestigator().getStatusCode()!=null && siteInvestigatorGroupAffiliation.getHealthcareSiteInvestigator().getStatusCode().equals("AC")){
+				reducedInvestigators.add(buildReduced(
+						siteInvestigatorGroupAffiliation
+								.getHealthcareSiteInvestigator().getInvestigator(),
+						Arrays.asList("lastName","firstName", "id")));
+			}
 		}
 		return reducedInvestigators;
 	}
