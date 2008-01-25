@@ -21,7 +21,6 @@ import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
-import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -123,10 +122,13 @@ public class SearchRegistrationController extends SimpleFormController {
 				}
 			}
 		} else if (request.getParameter("select").equals("Id")) {
-			SystemAssignedIdentifier identifier = new SystemAssignedIdentifier();
-			identifier.setValue(text);
-			registration.addIdentifier(identifier);
-			registrations = studySubjectDao.searchByExample(registration);
+			OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
+			orgIdentifier.setValue(text);
+			registration.addIdentifier(orgIdentifier);
+			SystemAssignedIdentifier sysIdentifier = new SystemAssignedIdentifier();
+			sysIdentifier.setValue(text);
+			registration.addIdentifier(sysIdentifier);
+			registrations = studySubjectDao.searchByExample(registration,true);
 		}
 
 		log.debug("Search registrations result size: " + registrations.size());
@@ -183,7 +185,7 @@ public class SearchRegistrationController extends SimpleFormController {
 	public void setStudySiteDao(StudySiteDao studySiteDao) {
 		this.studySiteDao = studySiteDao;
 	}
-
+	
 	public StudySubjectDao getStudySubjectDao() {
 		return studySubjectDao;
 	}
