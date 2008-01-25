@@ -226,6 +226,8 @@
             description="Builds the installer project">
         <resolveDependencies extdir="${projects.dir}/installer/ext">
             <artifact refid="common.test.jars"/>
+            <!--build properties-->
+            <artifact refid="c3pr.build.properties"/>
         </resolveDependencies>
         <ant dir="${projects.dir}/installer" inheritAll="false" target="all"/>
     </target>
@@ -305,6 +307,8 @@
 
         <resolveDependencies extdir="${projects.dir}/installer/ext">
             <artifact refid="common.test.jars"/>
+            <!--c3pr properties file-->
+            <artifact refid="c3pr.build.properties"/>
         </resolveDependencies>
 
     </target>
