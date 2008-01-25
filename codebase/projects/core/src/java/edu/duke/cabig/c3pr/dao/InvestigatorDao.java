@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.dao;
 
+import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.emory.mathcs.backport.java.util.Collections;
 import edu.nwu.bioinformatics.commons.CollectionUtils;
@@ -42,7 +43,16 @@ public class InvestigatorDao extends GridIdentifiableDao<Investigator> {
     public List<Investigator> getAll() throws DataAccessException {
         return getHibernateTemplate().find("from Investigator");
     }
-
+    
+    public Investigator getLoadedInvestigatorById(int id){
+    	Investigator inv = (Investigator)getHibernateTemplate().get(domainClass(), id);
+    	for(HealthcareSiteInvestigator hcsInv :inv.getHealthcareSiteInvestigators()){
+    		hcsInv.getSiteInvestigatorGroupAffiliations().size();
+    		hcsInv.getStudyInvestigators().size();
+    	}
+    	return inv;
+    }
+    
     public List<Investigator> getBySubnames(String[] subnames) {
         return findBySubname(subnames,
                 SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
