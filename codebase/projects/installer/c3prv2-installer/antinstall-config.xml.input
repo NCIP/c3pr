@@ -1,0 +1,273 @@
+<?xml version="1.0"?>
+<!DOCTYPE installer PUBLIC "-//tp23 //DTD Ant Installer Config//EN" "http://antinstaller.sf.net/dtd/antinstall-config-0.7.dtd">
+<!--
+
+This is the install config for c3prv2 installer
+-->
+
+<installer
+        ui="swing,text"
+        verbose="false"
+        lookAndFeel="jgoodies"
+        name="C3PRV2 Installer"
+        windowIcon="/resources/c3prv2_installer_icon-32.gif"
+        defaultImageResource="/resources/installer_banner.gif"
+        antialiased="true"
+        minJavaVersion="1.5">
+
+    <!--Introduction Screen-->
+    <page
+            type="input"
+            name="intro"
+            displayText="Welcome to the C3PRV2 installer program">
+        <comment
+                displayText="This will help you Install/Uninstall C3PRV2 Application"
+                />
+
+        <hidden property="application_name" value="@application_name@"/>
+        <hidden property="iteration_number" value="@iteration_number@"/>
+
+    </page>
+
+
+    <!--License-->
+    <page
+            type="license"
+            name="License"
+            displayText="License Agreement"
+            resource="/resources/c3prv2_license.txt"/>
+
+    <page target="prepare"
+          type="input"
+          name="DeployDir"
+          displayText="Installation directory">
+        <directory
+                property="install.dir"
+                defaultValue="/tmp/c3prv2"
+                defaultValueWin="${env.ProgramFiles}\c3prv2"
+                displayText="Select an installation directory"
+                create="true"/>
+    </page>
+
+    <page
+            type="input"
+            displayText="Install Tomcat"
+            name="installTomcat">
+        <target-select displayText="Select" property="install.new.tomcat"
+                       defaultValue="installNewTomcat">
+            <option text="Install new Tomcat" value="installNewTomcat"/>
+            <option text="Choose Existing" value="installExistingTomcat"/>
+        </target-select>
+    </page>
+
+    <page
+            type="input"
+            name="selectTomcatInstallDir"
+            displayText="Select Directory to install Tomcat"
+            ifTarget="installNewTomcat">
+        <directory
+                property="tomcat.home"
+                displayText="Tomcat Directory"
+                defaultValue="${install.dir}/apache-tomcat-5.5.23"
+                checkExists="true"
+                create="true"
+                />
+    </page>
+
+    <!--Select Tomcat-->
+    <page
+            type="input"
+            name="selectExistingTomcat"
+            displayText="Select Tomcat Directory"
+            ifTarget="installExistingTomcat">
+        <directory
+                property="tomcat.home"
+                displayText="Tomcat Directory"
+                defaultValue="${env.CATALINA_HOME}"
+                checkExists="true"/>
+    </page>
+
+    <!--Select what to install-->
+    <page type="input"
+          name="selectComponents"
+          displayText="Components to install">
+        <comment
+                displayText="Choose the components you want to install"
+                bold="true"/>
+        <target
+                displayText="C3PRV2 Web Application"
+                target="deploy-webapp"
+                defaultValue="true"
+                />
+        <target
+                displayText="C3PRV2 Source Code"
+                target="deploy-codebase"
+                defaultValue="true"
+                />
+        <comment displayText="Note:Source code will be installed in ${install.dir}/codebase"/>
+
+        <comment displayText=""/>
+        <target
+                displayText="C3PRV2 Study Consumer Grid Service"
+                target="deploy-grid-C3PRStudyConsumer"
+                defaultValue="false"
+                />
+        <target
+                displayText="C3PRV2 Registration Consumer Grid Service"
+                target="deploy-grid-C3PRStudyConsumer"
+                defaultValue="false"
+                />
+        <comment displayText="Globus/caGrid should be deployed prior to deploying the grid services."/>
+
+    </page>
+
+    <page type="text"
+          name="existingTomcatInstructions"
+          ifTarget="installExistingTomcat"
+          htmlResource="/resources/Existing_Tomcat_Instructions.html"
+          displayText="Configure tomcat">
+        <comment bold="true" displayText="Replace"/>
+    </page>
+
+    <page
+            type="input"
+            name="selectLogFilename"
+            displayText="Select Log File name"
+            ifTarget="deploy-webapp">
+        <text
+                property="log4j.filename"
+                displayText="Log Filename"
+                defaultValue="c3pr.log"/>
+
+        <comment/>
+
+        <comment
+                displayText="Note: Logs will be created in ${tomcat.home}/logs"
+                bold="true"/>
+        <hidden property="ctmsi.commons.version" value="@ctmsi.commons.version@"/>
+    </page>
+
+    <!--CSM configure-->
+    <page
+            type="input"
+            name="configureCSM"
+            displayText="Configure CSM"
+            ifTarget="deploy-webapp">
+
+        <target
+                displayText="Configure CSM"
+                target="tomcat.security"
+                defaultValue="true"
+                />
+        <comment/>
+        <comment
+                displayText="Note: Unselect only if you know what you are doing."
+                bold="true"/>
+        <hidden property="csm.context.name" value="@csm.context.name@"/>
+    </page>
+
+
+    <page
+            type="input"
+            name="selectAuthorizationSwitch"
+            displayText="Enable/Disable Authorization"
+            ifTarget="tomcat.security">
+        <select property="authorizationSwitch" displayText="Select Option" defaultValue="true">
+            <option text="Enable Authorization" value="true"/>
+            <option text="Disable Authorization" value="false"/>
+        </select>
+    </page>
+
+
+    <!--Database properties-->
+    <page
+            type="input"
+            name="selectDatabase"
+            displayText="Select Database"
+            ifTarget="deploy-webapp">
+        <select
+                property="database.type"
+                displayText="Select your Database type"
+                defaultValue="oracle">
+            <option text="Oracle" value="oracle"/>
+            <option text="PostgreSQL" value="postgres"/>
+            <option text="Other/none" value="none"/>
+        </select>
+    </page>
+
+    <page
+            type="input"
+            name="oracleProperties"
+            displayText="Oracle Properties"
+            ifProperty="${database.type}==oracle">
+        <text
+                property="datasource.url"
+                displayText="Database URL"
+                defaultValue="jdbc:oracle:thin:@localhost:1522:c3pr_dev"
+                />
+        <text
+                property="datasource.username"
+                displayText="Database Username"
+                defaultValue="c3pr_dev"
+                regex="*"/>
+        <text
+                property="datasource.password"
+                displayText="Database Password"
+                defaultValue="c3pr_dev"
+                />
+        <text
+                property="datasource.schema"
+                displayText="Database Schema"
+                defaultValue="c3pr_dev"
+                />
+        <hidden
+                property="datasource.driver"
+                value="oracle.jdbc.OracleDriver"
+                />
+        <hidden
+                property="datasource.dialect"
+                value="org.hibernate.dialect.Oracle9Dialect"
+                />
+    </page>
+
+
+    <page
+            name="postgresProperties"
+            type="input"
+            displayText="PostgreSQL Properties"
+            ifProperty="${database.type}==postgres">
+        <text
+                property="datasource.url"
+                displayText="Database URL"
+                defaultValue="jdbc:postgresql://localhost:5432/c3pr_dev"
+                />
+
+        <text
+                property="datasource.username"
+                displayText="Database Username"
+                defaultValue="pg"
+                />
+        <text
+                property="datasource.password"
+                displayText="Database Password"
+                defaultValue="pguser"
+                />
+
+        <hidden
+                property="datasource.driver"
+                value="org.postgresql.Driver"/>
+
+        <hidden
+                property="datasource.dialect"
+                value="org.hibernate.dialect.PostgreSQLDialect"/>
+    </page>
+
+    <page
+            type="progress"
+            name="progress"
+            showTargets="true"
+            displayText="C3PRV2 Installation progress"
+            target="cleanUp">
+    </page>
+
+</installer>

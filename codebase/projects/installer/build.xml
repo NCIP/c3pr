@@ -17,6 +17,7 @@ ant -buildfile build-c3prv2.xml
 
 
     <property name="ext.dir" value="${basedir}/ext"/>
+    <property name="ext.resources.dir" value="${ext.dir}/resources"/>
     <property name="build.dir" value="${basedir}/build"/>
     <property name="build.jar.dir" value="${build.dir}/jars"/>
 
@@ -41,6 +42,9 @@ ant -buildfile build-c3prv2.xml
     <property name="test.classes.dir" value="${build.dir}/classes-test"/>
     <property name="test.jar.name" value="${build.jar.dir}/${project.name}-tests-${project.version}.jar"/>
     <property name="test.logs.dir" value="${test.dir}/logs"/>
+
+    <property name="antinstall.config.filename" value="antinstall-config.xml"/>
+    <property name="antinstall.config.filename.input" value="antinstall-config.xml.input"/>
 
     <import file="antfiles/build-test.xml"/>
 
@@ -75,6 +79,21 @@ ant -buildfile build-c3prv2.xml
         <mkdir dir="${build.dir}"/>
         <mkdir dir="${test.classes.dir}"/>
         <mkdir dir="${build.jar.dir}"/>
+
+        <property file="${ext.resources.dir}/build.properties"/>
+
+        <copy
+                file="${c3prv2.installer.dir}/${antinstall.config.filename.input}"
+                tofile="${c3prv2.installer.dir}/${antinstall.config.filename}"
+                overwrite="true">
+            <filterset>
+                <filter token="application_name" value="${application_name}"/>
+                <filter token="iteration_number" value="${iteration_number}"/>
+                <filter token="ctmsi.commons.version" value="${ctmsi.commons.version}"/>
+                <filter token="csm.context.name" value="${csm.context.name}"/>
+            </filterset>
+
+        </copy>
     </target>
 
 
@@ -88,7 +107,7 @@ ant -buildfile build-c3prv2.xml
 
         <installer file="${c3prv2.offline.installer.artifact}" compress="true"
                    extractType="NonExtractor"
-                   installConfig="${c3prv2.installer.dir}/antinstall-config.xml"
+                   installConfig="${c3prv2.installer.dir}/${antinstall.config.filename}"
                    buildFile="${c3prv2.installer.dir}/build-offline.xml"
                    antInstallLib="${basedir}/lib"
                    antLib="${basedir}/antlib${ant.lib.version}"
@@ -113,7 +132,7 @@ ant -buildfile build-c3prv2.xml
 
         <installer file="${c3prv2.online.installer.artifact}" compress="true"
                    extractType="NonExtractor"
-                   installConfig="${c3prv2.installer.dir}/antinstall-config.xml"
+                   installConfig="${c3prv2.installer.dir}/${antinstall.config.filename}"
                    buildFile="${c3prv2.installer.dir}/build-online.xml"
                    antInstallLib="${basedir}/lib"
                    antLib="${basedir}/antlib${ant.lib.version}"
@@ -160,6 +179,7 @@ ant -buildfile build-c3prv2.xml
         <delete dir="${build.dir}"/>
         <delete dir="${test.logs.dir}"/>
         <delete dir="${test.logs.dir}"/>
+        <delete file="${c3prv2.installer.dir}/${antinstall.config.filename}"/>
     </target>
 
     <!-- ============================================================== -->
