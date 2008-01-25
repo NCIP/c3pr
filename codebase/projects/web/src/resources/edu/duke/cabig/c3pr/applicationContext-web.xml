@@ -9,9 +9,17 @@
     <bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"/>
 
     <bean id="userDuplicateValidator" class="edu.duke.cabig.c3pr.utils.web.validators.UsernameDuplicateValidator"
-               autowire="byType"/>
+          autowire="byType"/>
 
 
+    <bean id="buildInfo" class="gov.nih.nci.cabig.ctms.tools.BuildInfo">
+        <property name="applicationName">
+            <value>@application_name@</value>
+        </property>
+        <property name="versionNumber">
+            <value>@iteration_number@</value>
+        </property>
+        <!--<property name="timestamp"><value>2007-02-05 13:18:08</value></property>-->
+    </bean>
 
-    
 </beans>

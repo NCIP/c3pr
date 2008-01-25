@@ -152,6 +152,18 @@
             </filterset>
         </copy>
 
+
+        <!--copy the castor mapping file-->
+        <copy todir="${classes.dir}" filtering="true" overwrite="true">
+            <filterset>
+                <filter token="iteration_number" value="${iteration_number}"/>
+                <filter token="application_name" value="${application_name}"/>
+            </filterset>
+            <fileset dir="${src.resources.dir}">
+                <include name="**/*.*"/>
+            </fileset>
+        </copy>
+
     </target>
 
     <!-- =============================================================== -->
