@@ -141,6 +141,10 @@ RowManager.addRowInseter(instanceRowInserterProps);
 
 	Event.observe(window, "load", function() {
 	    Event.observe("disease-sub-category", "change", function() {
+	    	e1 = document.getElementById("errorsDiv");
+	    	if(e1!=null){
+				e1.innerHTML='';
+			}
 	        showAffiliations('true');
 	    })
 	//    populateSelectsOnLoad();
@@ -148,13 +152,31 @@ RowManager.addRowInseter(instanceRowInserterProps);
 	    // Element.update("flow-next", "Continue &raquo;")
 	})
 	function submitGroupForm(){
+		if(($('formEndDate').value)== '' ||($('formEndDate').value)== null) {
+			$('formEndDate').value = null;
+			};
 		new Element.show("savingIndicator");
 		new Ajax.Request($('groupForm').action, {method:'post', asynchronous:true, parameters:Form.serialize('groupForm'),  evalScripts:true,
 																	onSuccess:function(t)
-																		{ 
+																		{ 	
 																			new Element.hide("savingIndicator")
-																			new Element.show("savedIndicator");
-																			updateGroups($(sponsorSiteAutocompleterProps.basename+'-hidden').value, t.responseText, true);
+																			if(t.responseText.split("/*")[1] == 'yes'){
+																				for(count=0;count<t.responseText.split("/*")[2];count++){
+																					error = t.responseText.split("/*")[4+2*count];
+																					e1 = document.getElementById("errorsDiv");
+																					if((e1!=null && error!=null)){
+																						e1.innerHTML=' <ul class="errors"> <li>'+ error + '</li> </ul>'	
+																					}
+																				}
+																				
+																			} else if(t.responseText.split("/*")[1] == 'no'){
+																					e1 = document.getElementById("errorsDiv");
+																					if(e1!=null){
+																						e1.innerHTML='';
+																					}
+																					new Element.show("savedIndicator");
+																					updateGroups($(sponsorSiteAutocompleterProps.basename+'-hidden').value, t.responseText.split("/*")[0], true);
+																			}
 																		}
 															});
 								 return false;
@@ -222,7 +244,6 @@ RowManager.addRowInseter(instanceRowInserterProps);
           <div align="right"><input type="button" value="Add Group" onclick="handleAddGroup()"/></div>
 
       </chrome:division>
-		
 <div id="groupDisplay"/>
 </tags:panelBox></div>
 </body>
