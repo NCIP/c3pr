@@ -7,7 +7,9 @@ import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.domain.SiteInvestigatorGroupAffiliation;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.service.PersonnelService;
@@ -119,7 +121,19 @@ public class CreateInvestigatorController<C extends Investigator> extends Abstra
         try {
             if (request.getSession().getAttribute(FLOW).equals(SAVE_FLOW)) {
                 personnelService.save(inv);
-            } else {
+            } else { 
+	            	for(HealthcareSiteInvestigator hcsInv:inv.getHealthcareSiteInvestigators()){
+		            	if(hcsInv.getStatusCode()!=null && !hcsInv.getStatusCode().equals("AC")){
+		            		for(SiteInvestigatorGroupAffiliation sInvGrAff: hcsInv.getSiteInvestigatorGroupAffiliations()){
+		            			sInvGrAff.setEndDate(new Date());
+		            		}
+		            		for(StudyInvestigator studyInv:hcsInv.getStudyInvestigators()){
+		            			studyInv.setEndDate(new Date());
+		            		}
+		            	}
+	            	}
+            	
+            	
                 personnelService.merge(inv);
             }
 
