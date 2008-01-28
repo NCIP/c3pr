@@ -145,7 +145,7 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
 		Collection<Study> studies = (Collection<Study>) parameterMap
 				.get("studyResults");
 		try {
-			return build(model, studies, "Search Result", null).toString();
+			return build(model, studies, "Search Result", "/pages/study/searchStudy").toString();
 		} catch (Exception e) {
 			log.debug(e.getMessage());
 		}
