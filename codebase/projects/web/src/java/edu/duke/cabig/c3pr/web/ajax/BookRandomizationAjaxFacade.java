@@ -46,7 +46,7 @@ public class BookRandomizationAjaxFacade {
 	 */
 	 public String getTable(Map<String, List> parameterMap, String content, String epochIndexString, HttpServletRequest req, String flowType) {
 		 Context context;   
-		 if(parameterMap != null){
+		 	if(parameterMap != null){
 	        	context = new HttpServletRequestContext(req, parameterMap);
 	        }else {
 	        	context = new HttpServletRequestContext(req);
@@ -74,29 +74,28 @@ public class BookRandomizationAjaxFacade {
 		        tEpoch = study.getTreatmentEpochs().get(selectedEpoch);	
 	        	bookRandomizations = StringUtils.getBlankIfNull(content);
 	        	if(!StringUtils.isEmpty(bookRandomizations)){			        
-			        if(tEpoch != null){
-			        	parseBookRandomization(bookRandomizations, tEpoch);
+			        if(tEpoch != null){	        	
+			        	try{
+			        		parseBookRandomization(bookRandomizations, tEpoch);
+			        	} catch(Exception e){
+			        		log.error("Error while calling parseBookRandomization: " +e.getMessage());
+			        		return "";
+			        	}
+			        	
 			        	validatePositions(((BookRandomization)tEpoch.getRandomization()).getBookRandomizationEntry());
-//			        	if(action.equals("/pages/study/editStudy")){
-//			        		study=studyDao.merge(study);
-//			        		req.getSession().setAttribute("edu.duke.cabig.c3pr.web.study.EditStudyController.FORM.command", study);
-//			        	}
 			        } else {
-			        	log.debug("Invalid epoch Index");
+			        	log.error("Invalid epoch Index");
 			        }
-	        	}
-	    	
-		        try {
-		        	if(tEpoch != null){
-//		        		if(action.equals("/pages/study/editStudy") || action.equals("/pages/study/amendStudy")){
-//		        			studyDao.reassociate(study);
-//		    		    }
-		        		List <BookRandomizationEntry>breList = ((BookRandomization)tEpoch.getRandomization()).getBookRandomizationEntry();
-		        		return build(model, breList, "Book Randomization :"+selectedEpoch, action, flowType).toString();		        		
-		        	}
-		        } catch (Exception e) {
-		            log.debug(e.getMessage());
-		        }
+	        	}	    	
+		        
+	        	if(tEpoch != null){
+	        		List <BookRandomizationEntry>breList = ((BookRandomization)tEpoch.getRandomization()).getBookRandomizationEntry();
+	        		try {
+	        			return build(model, breList, "Book Randomization :"+selectedEpoch, action, flowType).toString();
+	        		} catch (Exception e) {
+			            log.error(e.getMessage());
+			        }
+	        	}		        
 	        }
 	        return "";
 	    }
@@ -135,7 +134,7 @@ public class BookRandomizationAjaxFacade {
 	     * 		1, 0, A
 	     * 		2, 1, B
 	     */
-	    private void parseBookRandomization(String bookRandomizations, TreatmentEpoch tEpoch){	    	
+	    private void parseBookRandomization(String bookRandomizations, TreatmentEpoch tEpoch) throws Exception{	    	
 	    	
 	    	try{
 	    		//we do not create a new instance of bookRandomization, we use the existing instance which was created in StudyDesignTab.java
@@ -189,6 +188,7 @@ public class BookRandomizationAjaxFacade {
 	    	} catch(Exception e){
 	    		log.error("parseBookRandomizatrion Failed");
 	    		log.error(e.getMessage());
+	    		throw e;
 	    	}
 	    }
 
