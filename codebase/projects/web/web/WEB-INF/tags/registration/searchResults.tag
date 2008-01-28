@@ -55,10 +55,13 @@ function submitLocalForm(formName, regId ,schEphId){
 				</tr>
 			</c:if>
 			</thead>
-			<tbody class="tableBody">
+            <tbody class="tableBody">
 			<%int i=0; %>
 			<c:forEach items="${registrations}" var="registration">
-			<% String currClass=i%2==0? "odd":"even"; %>
+                <csmauthz:accesscontrol domainObject="${registration.studySite.healthcareSite}"
+                                                      hasPrivileges="ACCESS"  authorizationCheckName="siteAuthorizationCheck">
+
+            <% String currClass=i%2==0? "odd":"even"; %>
 				<c:choose>
 				<c:when test="${registration.dataEntryStatusString=='Incomplete'}">
 					<c:set var="formType"
@@ -80,10 +83,11 @@ function submitLocalForm(formName, regId ,schEphId){
 					<td>${registration.regWorkflowStatus.code}</td>
 					<td>${registration.startDateStr}</td>
 					<td>${registration.treatingPhysicianFullName}</td>
-					</a>
 				</tr>
 				<c:set var="i" value="${i+1}"></c:set>
-			</c:forEach>
+                    
+                </csmauthz:accesscontrol>
+            </c:forEach>
 			</tbody>
 		</table>
 		</td>

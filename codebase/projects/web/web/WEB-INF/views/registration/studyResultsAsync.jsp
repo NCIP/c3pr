@@ -4,7 +4,9 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page import="java.util.*" %>
+<%@ taglib prefix="csmauthz" uri="http://csm.ncicb.nci.nih.gov/authz" %>
+
+<%@ page import="java.util.Calendar" %>
 <script>
 function toggleImage(id){
 	imageStr=document.getElementById(id).src;
