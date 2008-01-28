@@ -63,7 +63,7 @@
 </head>
 <body>
 
-	<tags:minimizablePanelBox title="upload criteria" boxId="criteria">
+	<tags:minimizablePanelBox title="Upload Criteria" boxId="criteria">
 		<br/>	
 			<form:form method="post" id="eligibilityForm_${epochCount.index}" enctype="multipart/form-data">	
 			<table border="0" width="50%" id="table0" cellspacing="5">
