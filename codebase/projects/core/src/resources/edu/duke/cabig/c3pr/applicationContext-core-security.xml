@@ -62,8 +62,10 @@
     <util:map id="joinPointObjectPrivilegeMap"
               map-class="java.util.LinkedHashMap">
 
+        <!--study permissions-->
+        <!--set to UPDATE because save is called on edit study also-->
         <entry key="execution(* save(edu.duke.cabig.c3pr.domain.Study))"
-               value="edu.duke.cabig.c3pr.domain.Study:CREATE"/>
+               value="edu.duke.cabig.c3pr.domain.Study:UPDATE"/>
 
         <entry key="execution(* merge(edu.duke.cabig.c3pr.domain.Study))"
                value="edu.duke.cabig.c3pr.domain.Study:UPDATE"/>
@@ -74,6 +76,7 @@
         <entry key="execution(* edu.duke.cabig.c3pr.dao.StudyDao.get*(..))"
                value="edu.duke.cabig.c3pr.domain.Study:READ"/>
 
+        <!--registration permissions-->
         <entry key="execution(* save(edu.duke.cabig.c3pr.domain.StudySubject))"
                value="edu.duke.cabig.c3pr.domain.Registration:CREATE"/>
 
@@ -92,7 +95,7 @@
         <entry key="execution(* edu.duke.cabig.c3pr.dao.StudySubjectDao.advancedSearch(..))"
                value="edu.duke.cabig.c3pr.domain.Registration:READ"/>
 
-        <entry key="execution(* edu.duke.cabig.c3pr.dao.StudySubjectDao.advancedStudySearch()(..))"
+        <entry key="execution(* edu.duke.cabig.c3pr.dao.StudySubjectDao.advancedStudySearch(..))"
                value="edu.duke.cabig.c3pr.domain.Study:READ"/>
 
 
