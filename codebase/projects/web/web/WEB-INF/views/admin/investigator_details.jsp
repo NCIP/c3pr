@@ -109,9 +109,17 @@ function fireAction(action, selected){
 						<form:options items="${studySiteStatusRefData}"
 							itemLabel="desc" itemValue="code" />
 					</form:select></td>
-					<td class="tdalt"><a
+					
+				<c:choose>
+					<c:when test="${(status.index == 0) || (not empty hcsInv.id)}">
+					</c:when>
+					<c:otherwise>
+						<td class="alt"><a
 						href="javascript:RowManager.deleteRow(investigatorAutocompleterProps,${status.index},${command.healthcareSiteInvestigators[status.index].hashCode});"><img
-						src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+						src="<tags:imageUrl name="checkno.gif"/>"></a></td>
+					</c:otherwise>
+				</c:choose>
+					
 			</tr>
 		</c:forEach>
 	</table>
