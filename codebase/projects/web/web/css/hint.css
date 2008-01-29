@@ -6,7 +6,7 @@
     margin-top: -4px;
     border: 1px solid #c93;
     padding: 10px 12px;
-    opacity:.75;
+    opacity:1.0;
     z-index:30;
     background: #ffc url(pointer.gif) no-repeat -10px 5px;
 }
