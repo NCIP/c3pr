@@ -51,6 +51,19 @@
 
             <div class="row">
                 <div class="value">
+                   <tags:downloadClasspathResource filename="c3pr-domain.xsd" label="Schema File"/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="value">
+                   <tags:downloadClasspathResource filename="C3PR-SampleStudy.xml" label="Sample XML File"/>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="value">
                     <spring:hasBindErrors name="command">
                         <ul class="errors">
                             <spring:bind path="command.*">
@@ -62,6 +75,7 @@
                     </spring:hasBindErrors>
                 </div>
             </div>
+
         </div>
     </form>
 

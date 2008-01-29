@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<registration xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
+    <studySite>
+        <healthcareSite>
+            <nciInstituteCode>Duke</nciInstituteCode>
+        </healthcareSite>
+        <irbApprovalDate>2007-01-05T00:00:00.000-01:00</irbApprovalDate>
+        <roleCode>Affiliate Site</roleCode>
+        <startDate>1967-01-11T00:00:00.000-02:00</startDate>
+    </studySite>
+    <studyRef>
+        <shortTitleText>test design page</shortTitleText>
+        <longTitleText> long title </longTitleText>
+        <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="CDR000007829"
+            xsi:type="OrganizationAssignedIdentifierType">
+            <type>Coordinating Center Identifier</type>
+            <value>2390</value>
+            <primaryIndicator>true</primaryIndicator>
+            <healthcareSite>
+                <nciInstituteCode>Warren</nciInstituteCode>
+            </healthcareSite>
+        </identifier>
+        <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="NCT00018980"
+            xsi:type="OrganizationAssignedIdentifierType">
+            <type>Protocol Authority Identifier</type>
+            <value>NCT00018980</value>
+            <primaryIndicator>false</primaryIndicator>
+            <healthcareSite>
+                <nciInstituteCode>NCCTG</nciInstituteCode>
+            </healthcareSite>
+        </identifier>
+    </studyRef>
+    <participant>
+        <firstName>Geoge</firstName>
+        <lastName>Elliot</lastName>
+        <address/>
+        <administrativeGenderCode> Male </administrativeGenderCode>
+        <birthDate>1971-01-01</birthDate>
+        <ethnicGroupCode>Hispanic or Latino</ethnicGroupCode>
+        <raceCode>Asian</raceCode>
+        <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="CDR000007829"
+            xsi:type="OrganizationAssignedIdentifierType">
+            <type>MRN</type>
+            <value>mrn006</value>
+            <primaryIndicator>true</primaryIndicator>
+            <healthcareSite>
+                <nciInstituteCode>Duke</nciInstituteCode>
+            </healthcareSite>
+        </identifier>
+    </participant>
+    <startDate>2007-10-01</startDate>
+    <informedConsentFormSignedDate> 2007-10-09 </informedConsentFormSignedDate>
+    <informedConsentVersion>1.0</informedConsentVersion>
+    <regDataEntryStatus>COMPLETE</regDataEntryStatus>
+    <regWorkflowStatus>REGISTERED</regWorkflowStatus>
+    <scheduledEpoch xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:type="ScheduledTreatmentEpochType">
+        <startDate>2007-10-01</startDate>
+        <epoch xsi:type="TreatmentEpochType">
+            <name>epoch</name>
+            <descriptionText/>
+        </epoch>
+        <scheduledArm>
+            <arm>
+                <name>Arm A</name>
+                <targetAccrualNumber>300</targetAccrualNumber>
+            </arm>
+        </scheduledArm>
+    </scheduledEpoch>
+    <stratumGroup>3:no - 150</stratumGroup>
+</registration>

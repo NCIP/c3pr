@@ -291,6 +291,24 @@
             </fileset>
         </artifact>
 
+        <artifact track="main" type="resources" id="c3pr-domain.xsd">
+            <fileset dir="${projects.dir}/core/resources/xsd">
+                <include name="c3pr-domain.xsd"/>
+            </fileset>
+        </artifact>
+
+        <artifact track="main" type="resources" id="c3pr-xml-samples">
+            <fileset dir="${projects.dir}/core/resources/samples">
+                <include name="*.xml"/>
+            </fileset>
+        </artifact>
+
+        <artifact track="main" type="resources" id="c3pr-domain.xsd">
+            <fileset dir="${projects.dir}/core/resources/xsd">
+                <include name="c3pr-domain.xsd"/>
+            </fileset>
+        </artifact>
+
         <artifact track="main" type="resources" id="c3pr.log4j.properties">
             <fileset dir="${antfiles.dir}">
                 <include name="c3pr-log4j.properties"/>

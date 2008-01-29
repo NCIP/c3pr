@@ -150,6 +150,10 @@
             <!--property files-->
             <artifact refid="c3pr.log4j.properties"/>
             <artifact refid="c3pr.build.properties"/>
+
+            <!--xsd and xml sample files-->
+            <artifact refid="c3pr-domain.xsd"/>
+            <artifact refid="c3pr-xml-samples"/>
         </resolveDependencies>
         <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="all"/>
     </target>

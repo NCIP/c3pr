@@ -371,6 +371,13 @@ img.indicator {
     visibility: hidden;
 }
 
+.downloadLinks {
+    font-weight: bold;
+    float: left;
+    margin-left: 0.2em;
+    font-size:0.95em;
+}
+
 /*
   Styles for Table Data
 */

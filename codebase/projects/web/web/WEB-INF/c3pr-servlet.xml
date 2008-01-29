@@ -97,6 +97,11 @@
         <property name="maxUploadSize" value="2097152"/>
     </bean>
 
+    <bean name="/admin/downloadClasspathResource" id="downloadClasspathResource"
+            lazy-init="true" class="edu.duke.cabig.c3pr.web.ClasspathResourceDownloadController"
+            autowire="byName">
+    </bean>
+
     <bean name="/registration/searchEpoch" id="searchEpochController"
           lazy-init="true" class="edu.duke.cabig.c3pr.web.SearchEpochController"
           autowire="byName">
