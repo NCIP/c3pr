@@ -343,6 +343,9 @@
         <field name="phaseCode" type="string">
             <bind-xml name="phaseCode" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
+         <field name="consentVersion" type="string">
+            <bind-xml name="consentVersion" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
+        </field>
         <field name="dataEntryStatus" type="string"
                handler="edu.duke.cabig.c3pr.xml.StudyDataEntryStatusFieldHandler">
             <bind-xml name="dataEntryStatus" node="element" xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
