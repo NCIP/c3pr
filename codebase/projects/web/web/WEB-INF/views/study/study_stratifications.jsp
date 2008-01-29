@@ -122,8 +122,8 @@
 			<div id="criteriaHeader" 
 			style=<c:if test="${fn:length(command.treatmentEpochs[epochCount.index].stratificationCriteria) == 0}">"display:none"</c:if>>
 				<tr>					
-					<th><span class="required-indicator">Question</span><tags:hoverHint keyProp="study.treatmentEpochs.stratificationCriteria"/></th>
-					<th><span class="required-indicator">Answer</span><tags:hoverHint keyProp="study.treatmentEpochs.stratificationCriteria.permissibleAnswers"/></th>
+					<th><span class="required-indicator">Question</span><tags:hoverHint id="study.treatmentEpochs.stratificationCriteria-${epochCount.index}" keyProp="study.treatmentEpochs.stratificationCriteria"/></th>
+					<th><span class="required-indicator">Answer</span><tags:hoverHint id="study.treatmentEpochs.stratificationCriteria.permissibleAnswers-${epochCount.index}" keyProp="study.treatmentEpochs.stratificationCriteria.permissibleAnswers"/></th>
 					<th></th>
 				</tr>
 			</div>
@@ -204,8 +204,8 @@
 				</script>				
 				<table border="1" class="tablecontent"  width="50%">
 				<tr>
-					<th width="25%">Group Number&nbsp;<tags:hoverHint keyProp="study.stratumGroup.stratumGroupNumber"/></th>					
-					<th width="70%">Answer Combination&nbsp;<tags:hoverHint keyProp="study.stratumGroup.answerCombinations"/></th>
+					<th width="25%">Group Number&nbsp;<tags:hoverHint id="study.stratumGroup.stratumGroupNumber-${epochCount.index}" keyProp="study.stratumGroup.stratumGroupNumber"/></th>					
+					<th width="70%">Answer Combination&nbsp;<tags:hoverHint id="study.stratumGroup.answerCombinations-${epochCount.index}" keyProp="study.stratumGroup.answerCombinations"/></th>
 <!--  				<th width="20%">Stratum Group#</th>-->
 					<th width="5%"></th>
 				</tr>
