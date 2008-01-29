@@ -43,7 +43,6 @@
                 </c:forEach>
                 </span>
             </c:if>
-            <span style="float:right;">Iteration <fmt:message key="ITERATION_NUMBER"/></span>
         </div>
     </div>
 </div>
