@@ -54,7 +54,6 @@ public class C3DPatientPositionResponseHandler implements CaXchangeMessageRespon
                 } catch (XMLUtilityException e) {
                     log.error("Could not deserialize c3d response." + e.getMessage());
                 }
-                log.debug("Assigned c3d patient position sucessfully");
             }
 
         }
