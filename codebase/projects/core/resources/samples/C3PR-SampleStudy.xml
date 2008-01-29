@@ -12,7 +12,7 @@
     <consentVersion>1</consentVersion>
     <dataEntryStatus>INCOMPLETE</dataEntryStatus>
     <coordinatingCenterStudyStatus>PENDING</coordinatingCenterStudyStatus>
-    <type>ty</type>
+    <type>Primary Treatment</type>
     <targetAccrualNumber>123</targetAccrualNumber>
     <systemAssignedIdentifier>
         <type>local</type>

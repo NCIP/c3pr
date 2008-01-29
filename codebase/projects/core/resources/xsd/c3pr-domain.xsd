@@ -288,7 +288,7 @@
                         maxOccurs="1"/>
             <xs:element name="coordinatingCenterStudyStatus"
                         type="CoordinatingCenterStudyStatusType" minOccurs="0" maxOccurs="1"/>
-            <xs:element name="type" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="type" type="studyType" minOccurs="0" maxOccurs="1"/>
             <xs:element name="primaryIdentifier" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="targetAccrualNumber" type="xs:integer" minOccurs="0" maxOccurs="1"/>
             <xs:element ref="identifier" minOccurs="0" maxOccurs="unbounded"/>
@@ -314,6 +314,19 @@
             <xs:enumeration value="COMPLETE"/>
         </xs:restriction>
     </xs:simpleType>
+
+    <xs:simpleType name="studyType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Diagnostic"/>
+            <xs:enumeration value="Genetic Non-therapeutic"/>
+            <xs:enumeration value="Genetic Therapeutic"/>
+            <xs:enumeration value="Primary Treatment"/>
+            <xs:enumeration value="Supportive"/>
+            <xs:enumeration value="Preventive"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
 
     <xs:simpleType name="CoordinatingCenterStudyStatusType">
         <xs:restriction base="xs:string">
