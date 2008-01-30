@@ -11,7 +11,10 @@
 <tags:stylesheetLink name="tabbedflow" />
 <tags:javascriptLink name="tabbedflow" />
 <tags:includeScriptaculous />
-<script>	
+<script>
+	Calendar.setup({inputField:"consentVersionx", ifFormat:"%", button:"consentVersionx-calbutton"});
+    Calendar.setup({inputField:"consentVersiony", ifFormat:"%", button:"consentVersiony-calbutton"});
+	
 	Effect.OpenUp = function(element) {
         element = $(element);
         new Effect.BlindDown(element, arguments[1] || {});
@@ -172,8 +175,11 @@
                 <c:if test="${ empty command.currentStudyAmendment.consentChangedIndicator || 
                 command.currentStudyAmendment.consentChangedIndicator == '' || 
                 !command.currentStudyAmendment.consentChangedIndicator}">style="display:none;"</c:if>>
-         <b>&nbsp;Consent Version :</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-         <form:input path="consentVersion" size="5" />
+         <b>&nbsp;Consent Version/Date:</b>
+         <form:input id="consentVersionx" path="consentVersion" size="9" cssClass="date"/>
+         <a href="#" id="consentVersionx-calbutton">
+		    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
+		</a>
         </div>               
         </chrome:division>
 	</jsp:attribute>
@@ -249,8 +255,11 @@
         </table> 
 
         <div id="consentVersion2" style="display:none;">
-         <b>&nbsp;Consent Version :</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-         <input type="text" name="consentVersion" id="consentVersion" size="5" value="${command.consentVersion}"/>
+         <b>&nbsp;Consent Version/Date:</b>
+         <input type="text" name="consentVersion" id="consentVersiony" size="9" value="${command.consentVersion}" class="date"/>
+         <a href="#" id="consentVersiony-calbutton">
+		    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
+		</a>
         </div>       
         </chrome:division>
 	</jsp:attribute>

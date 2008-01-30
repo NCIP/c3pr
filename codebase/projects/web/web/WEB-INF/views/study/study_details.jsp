@@ -12,6 +12,8 @@
     <tags:includeScriptaculous />
     <tags:dwrJavascriptLink objects="StudyAjaxFacade" />
     <script type="text/javascript">
+	Calendar.setup({inputField:"consentVersion", ifFormat:"%", button:"consentVersion-calbutton"});
+    
     
     function blindedRandomization(){
     	var bIndicator=document.getElementById('blindedIndicator');
@@ -271,8 +273,13 @@
 
         <div id="consentVersion">
             <div class="row">
-                <div class="label required-indicator">Consent Version:</div>
-                <div class="value"><form:input path="consentVersion" size="10" cssClass="validate-notEmpty" />
+                <div class="label required-indicator">Consent Version/Date:</div>
+                <div class="value">
+                
+                <form:input id="consentVersion" path="consentVersion" cssClass="date"/>
+				<a href="#" id="consentVersion-calbutton">
+				    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
+				</a>
                 <tags:hoverHint keyProp="study.consentVersion"/></div>
             </div>
         </div>
