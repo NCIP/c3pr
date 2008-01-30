@@ -19,7 +19,7 @@
  * than modifying calendar.js itself).
  */
 
-// $Id: calendar-setup.js,v 1.1 2007-03-19 05:08:04 priyatam Exp $
+// $Id: calendar-setup.js,v 1.2 2008-01-30 21:36:07 vinayg Exp $
 
 /**
  *  This function "patches" an input field (or other element) to use a calendar
@@ -98,7 +98,12 @@ Calendar.setup = function (params) {
 		}
 	}
 	if (!(params.flat || params.multiple || params.inputField || params.displayArea || params.button)) {
-		alert("Calendar.setup:\n  Nothing to setup (no fields found).  Please check your code");
+		if(params.ifFormat == "%"){
+			//do nothing...this is for the case when you want to allow a date field to accept regular strings as well.
+			//e.g: consent Version on study_details.jsp
+		}else{
+			alert("Calendar.setup:\n  Nothing to setup (no fields found).  Please check your code");		
+		}
 		return false;
 	}
 
