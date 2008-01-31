@@ -254,7 +254,8 @@
 										<option value="${ethnicGroupCode.code}">${ethnicGroupCode.desc}</option>
 									</c:if>									
 									</c:forEach>
-								</select>						
+								</select>	
+								<tags:hoverHint keyProp="subject.ethnicGroupCode"/>					
 							</td>
 						</tr>
 						<tr>
@@ -267,7 +268,8 @@
 										<option value="${raceCode.code}">${raceCode.desc}</option>
 									</c:if>									
 									</c:forEach>
-								</select>		
+								</select>
+								<tags:hoverHint keyProp="subject.raceCode"/>		
 							</td>
 						</tr>
 					</table>
