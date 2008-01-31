@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -36,9 +37,21 @@ import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.SimpleFormAjaxableController;
 import edu.duke.cabig.c3pr.web.beans.DefaultObjectPropertyReader;
+import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 
-public class CreateInvestigatorGroupsController extends SimpleFormController{
+public class CreateInvestigatorGroupsController extends SimpleFormAjaxableController<HealthcareSite, HealthcareSiteDao>{
+	
+//	private C3PRDefaultTabConfigurer c3PRDefaultTabConfigurer;
+//	private Flow<InvestigatorGroupsCommand> flow;
+
+	/*public CreateInvestigatorGroupsController() {
+		 super();
+		 flow = new Flow<InvestigatorGroupsCommand>("Investigator Groups");
+		 flow.addTab(new InvestigatorsGroupsTab<InvestigatorGroupsCommand>("Investigator Groups","Investigator Groups","admin/investigator_groups_create"));
+	}*/
+	
 	InvestigatorGroupDao investigatorGroupDao;
 	HealthcareSiteDao healthcareSiteDao;
 	private HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
@@ -49,6 +62,10 @@ public class CreateInvestigatorGroupsController extends SimpleFormController{
 			InvestigatorGroupsValidator investigatorGroupsValidator) {
 		this.investigatorGroupsValidator = investigatorGroupsValidator;
 	}*/
+
+	public CreateInvestigatorGroupsController() {
+		super();
+	}
 
 	public HealthcareSiteInvestigatorDao getHealthcareSiteInvestigatorDao() {
 		return healthcareSiteInvestigatorDao;
@@ -78,21 +95,24 @@ public class CreateInvestigatorGroupsController extends SimpleFormController{
 	protected Map referenceData(HttpServletRequest request, Object command, Errors error) throws Exception {
 		Map map=new HashMap();
 		InvestigatorGroupsCommand investigatorGroupsCommand=(InvestigatorGroupsCommand)command;
-		if(investigatorGroupsCommand.getHealthcareSite().getId()!=null && request.getParameter("groupId")!="" && request.getParameter("groupId")!=null){
-			for(int i=0 ; i<investigatorGroupsCommand.getHealthcareSite().getInvestigatorGroups().size() ; i++){
-				if(investigatorGroupsCommand.getHealthcareSite().getInvestigatorGroups().get(i).getId().equals(Integer.parseInt(request.getParameter("groupId")))){
-					map.put("groupIndex", i);
-					map.put("newGroup", new Boolean(false));
-					return map;
+		if(investigatorGroupsCommand.getHealthcareSite()!=null){
+			if(investigatorGroupsCommand.getHealthcareSite().getId()!=null && request.getParameter("groupId")!="" && request.getParameter("groupId")!=null){
+				for(int i=0 ; i<investigatorGroupsCommand.getHealthcareSite().getInvestigatorGroups().size() ; i++){
+					if(investigatorGroupsCommand.getHealthcareSite().getInvestigatorGroups().get(i).getId().equals(Integer.parseInt(request.getParameter("groupId")))){
+						map.put("groupIndex", i);
+						map.put("newGroup", new Boolean(false));
+						return map;
+					}
 				}
 			}
+			map.put("groupIndex", investigatorGroupsCommand.getHealthcareSite().getInvestigatorGroups().size());
+			map.put("newGroup", new Boolean(true));
 		}
-		map.put("groupIndex", investigatorGroupsCommand.getHealthcareSite().getInvestigatorGroups().size());
-		map.put("newGroup", new Boolean(true));
 		return map;
 	}
 	@Override
 	protected Object formBackingObject(HttpServletRequest request) throws Exception {
+		//this.c3PRDefaultTabConfigurer.injectDependencies(this.getPage());
 		return super.formBackingObject(request);
 	}
 	
@@ -126,32 +146,11 @@ public class CreateInvestigatorGroupsController extends SimpleFormController{
 		return null;
 	}
 	
-	
-	private static final String IN_PLACE_PARAM_NAME="_ajaxInPlaceEditParam";
-	private static final String PATH_TO_GET="_pathToGet";
-    
-    public ModelAndView doInPlaceEdit(HttpServletRequest request, Object command, Errors error) throws Exception {
-		String name=request.getParameter(IN_PLACE_PARAM_NAME);
-		String value=request.getParameter(name);
-		return postProcessInPlaceEditing(request,command, name, value);
-    }
-    
-    protected ModelAndView postProcessInPlaceEditing(HttpServletRequest request, Object command, String property, String value) throws Exception{
-    	Map<String, String> map=new HashMap<String, String>();
-    	String pathToGet=request.getParameter(PATH_TO_GET);
-    	System.out.println("/n Value is:" + value + "/n");
-    	map.put(getFreeTextModelName(), value);
-    	return new ModelAndView("",map);
-    }
-    
-    protected String getFreeTextModelName(){
-    	return "free_text";
-    }
-
-	@Override
+	/*@Override
 	protected void onBindAndValidate(HttpServletRequest request, Object command, BindException errors) throws Exception {
 		int id;
 		super.onBindAndValidate(request, command, errors);
+		if(((InvestigatorGroupsCommand)command).getHealthcareSite()!=null){
 		if(((InvestigatorGroupsCommand)command).getHealthcareSite().getId()!=null && WebUtils.hasSubmitParameter(request, "groupId")){
 			for(int i=0 ; i<((InvestigatorGroupsCommand)command).getHealthcareSite().getInvestigatorGroups().size() ; i++){
 				if(((InvestigatorGroupsCommand)command).getHealthcareSite().getInvestigatorGroups().get(i).getId().equals(Integer.parseInt(request.getParameter("groupId")))){
@@ -162,7 +161,8 @@ public class CreateInvestigatorGroupsController extends SimpleFormController{
 				}
 			}
 		}
-	}
+		}
+	}*/
 	
 	public void validateInvestigatorGroup(HealthcareSite healthcareSite, InvestigatorGroup investigatorGroup, Errors errors) {
 		if ((investigatorGroup.getStartDate()!=null && investigatorGroup.getEndDate()!=null && investigatorGroup.getStartDate().after(investigatorGroup.getEndDate()))) {
@@ -182,7 +182,7 @@ public class CreateInvestigatorGroupsController extends SimpleFormController{
 
 	public void validateSiteInvestigatorGroupAffiliations(InvestigatorGroup investigatorGroup, Errors errors) {
 		for (SiteInvestigatorGroupAffiliation siteInvGrAffiliation : investigatorGroup.getSiteInvestigatorGroupAffiliations()) {
-			if (siteInvGrAffiliation.getStartDate()!=null && investigatorGroup.getStartDate()!=null && siteInvGrAffiliation.getStartDate().after(investigatorGroup.getStartDate())){
+			if (siteInvGrAffiliation.getStartDate()!=null && investigatorGroup.getStartDate()!=null && siteInvGrAffiliation.getStartDate().before(investigatorGroup.getStartDate())){
 				errors.reject("tempProperty", "/*Start date of the investigator group affiliation cannot be earlier than the start date of the investigator group/*");
 			}
 			if (siteInvGrAffiliation.getStartDate()!=null && siteInvGrAffiliation.getEndDate()!=null && siteInvGrAffiliation.getStartDate().after(siteInvGrAffiliation.getEndDate())){
@@ -201,5 +201,33 @@ public class CreateInvestigatorGroupsController extends SimpleFormController{
 				//TODO
 			}
 		}
+	
+/*	public C3PRDefaultTabConfigurer getC3PRDefaultTabConfigurer() {
+		return c3PRDefaultTabConfigurer;
+	}
+	
+	@Required
+	public void setC3PRDefaultTabConfigurer(
+			C3PRDefaultTabConfigurer c3PRDefaultTabConfigurer) {
+		this.c3PRDefaultTabConfigurer = c3PRDefaultTabConfigurer;
+	}*/
+
+	@Override
+	protected HealthcareSiteDao getDao() {
+		return healthcareSiteDao;
+	}
+
+	@Override
+	protected HealthcareSite getPrimaryDomainObject(HealthcareSite command) {
+		return command;
+	}
+
+	/*public Flow<InvestigatorGroupsCommand> getFlow() {
+		return flow;
+	}
+
+	public void setFlow(Flow<InvestigatorGroupsCommand> flow) {
+		this.flow = flow;
+	}*/
 	}
 	
