@@ -23,27 +23,27 @@
 	        			<table>
 	        				<tr>
 	        					<td align="right"><span class="required-indicator"></span><b>Name:</b></td>
-	        					<td><input type="text" name="healthcareSite.investigatorGroups[${groupIndex }].name" value="${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].name}" class="validate-notEmpty"/></td>
+	        					<td><input type="text" name="healthcareSite.investigatorGroups[${groupIndex }].name" value="${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].name}" class="validate-notEmpty"/><tags:hoverHint keyProp="investigatorGroup.name"/></td>
 	        				</tr>
 	        				<tr>
 	        					<td align="right"><span class="required-indicator"></span><b>Start Date:</b></td> 
 	        					<td><input type="text" id="formStartDate" name="healthcareSite.investigatorGroups[${groupIndex }].startDate" value="${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].startDateStr}" class="validate-notEmpty&&DATE"/>
 	        					 <a href="#" id="linkStartDate">
 			                    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>
-			                	</a></td>
+			                	</a><tags:hoverHint keyProp="investigatorGroup.startDate"/></td>
 			                </tr>
 	        				<tr>
 	        					<td align="right"><b>End Date:</b></td>
 	        					<td><input type="text" id="formEndDate" name="healthcareSite.investigatorGroups[${groupIndex }].endDate" value="${newGroup?'':command.healthcareSite.investigatorGroups[groupIndex].endDateStr}" class="validate-DATE"/>
 	        					 <a href="#" id="linkEndDate">
 			                    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="middle"/>
-			                	</a></td>
+			                	</a><tags:hoverHint keyProp="investigatorGroup.endDate"/></td>
 	        				</tr>
 	        			</table>
 	        		</td> 
 	        		<td align="right"><b>Description:</b></td>
 	        		<td><textarea name="healthcareSite.investigatorGroups[${groupIndex }].descriptionText" rows="5" cols="50"
-	        					 value="${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].descriptionText}">${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].descriptionText}</textarea></td>      
+	        					 value="${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].descriptionText}">${newGroup?'': command.healthcareSite.investigatorGroups[groupIndex].descriptionText}</textarea><tags:hoverHint keyProp="investigatorGroup.descriptionText"/></td>      
 	        	</tr>
         	</table>
         		<c:if test="${!newGroup && fn:length(command.healthcareSite.investigatorGroups[groupIndex].siteInvestigatorGroupAffiliations)>0}">
@@ -51,8 +51,8 @@
 				<table width="50%" class="tablecontent">
 					<tr>
 			            <th><span class="required-indicator"></span>Investigator</th>
-			            <th><span class="required-indicator"></span>Start Date</th>
-			            <th>End Date</th>
+			            <th><span class="required-indicator"></span>Start Date<tags:hoverHint keyProp="siteInvestigatorGroupAffiliation.startDate"/></th>
+			            <th>End Date<tags:hoverHint keyProp="siteInvestigatorGroupAffiliation.endDate"/></th>
 	        		</tr>
 				<c:forEach items="${command.healthcareSite.investigatorGroups[groupIndex].siteInvestigatorGroupAffiliations}" var="aff" varStatus="status">
 			        <tr  id="investigatorsTableGroup">
@@ -82,8 +82,8 @@
      <table border="0" id="investigatorsTable" cellspacing="0" class="tablecontent">
         <tr>
             <th><span class="required-indicator"></span>Investigator</th>
-            <th><span class="required-indicator"></span>Start Date</th>
-            <th>End Date</th>
+            <th><span class="required-indicator"></span>Start Date<tags:hoverHint keyProp="siteInvestigatorGroupAffiliation.startDate"/></th>
+            <th>End Date<tags:hoverHint keyProp="siteInvestigatorGroupAffiliation.endDate"/></th>
             <th></th>
         </tr>
 

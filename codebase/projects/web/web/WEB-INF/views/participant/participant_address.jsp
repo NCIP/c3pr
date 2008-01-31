@@ -59,15 +59,15 @@ function fireAction(action, selected){
 			</p>
 		<tr>
 			<td width="150" align="right"><em></em><em></em> <b>${command.contactMechanisms[0].type.displayName }:</b>&nbsp;</td>
-			<td align="left"><form:input path="contactMechanisms[0].value" size="30" />&nbsp;&nbsp;&nbsp;</td>
+			<td align="left"><form:input path="contactMechanisms[0].value" size="30" /><tags:hoverHint keyProp="contactMechanism.email"/></td>
 		</tr>
 		<tr>
 			<td width="150" align="right"><em></em><em></em> <b>${command.contactMechanisms[1].type.displayName }:</b>&nbsp;</td>
-			<td align="left"><form:input path="contactMechanisms[1].value" />&nbsp;&nbsp;&nbsp;</td>
+			<td align="left"><form:input path="contactMechanisms[1].value" /><tags:hoverHint keyProp="contactMechanism.phone"/></td>
 		</tr>
 		<tr>
 			<td width="150" align="right"><em></em><em></em> <b>${command.contactMechanisms[2].type.displayName }:</b>&nbsp;</td>
-			<td align="left"><form:input path="contactMechanisms[2].value" />&nbsp;&nbsp;&nbsp;</td>
+			<td align="left"><form:input path="contactMechanisms[2].value" /><tags:hoverHint keyProp="contactMechanism.fax"/></td>
 		</tr>
 
 	</table>

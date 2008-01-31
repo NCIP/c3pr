@@ -93,6 +93,7 @@
                 </div>
                 <div class="value">
                     <input type="text" name="nciIdentifier" id="nciIdentifier"/>
+                    <tags:hoverHint keyProp="researchStaff.nciIdentifier"/>
                 </div>
             </div>
             <div class="row">
@@ -107,6 +108,7 @@
 					class="autocomplete validate-notEmpty" /> 
 					<input type="button" id="healthcareSite-clear"
                         value="Clear"/>
+                    <tags:hoverHint keyProp="researchStaff.organization"/>
 					<tags:indicator	id="healthcareSite-indicator" />
 				<div id="healthcareSite-choices" class="autocomplete"></div>
                 </div>

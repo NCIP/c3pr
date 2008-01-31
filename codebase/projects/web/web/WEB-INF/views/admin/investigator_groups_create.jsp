@@ -240,7 +240,6 @@ RowManager.addRowInseter(instanceRowInserterProps);
           <br><br>Select a Group<br>
           <select multiple size="1" style="width:400px" id="disease-sub-category">
           </select>
-          
           <div align="right"><input type="button" value="Add Group" onclick="handleAddGroup()"/></div>
 
       </chrome:division>

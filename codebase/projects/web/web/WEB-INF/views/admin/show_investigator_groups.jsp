@@ -11,16 +11,8 @@
 		<table border="0" cellspacing="0" cellpadding="0" class="tablecontent" id="groupsTable"
 			width="50%">
 			<tr>
-	            <th width="40%"scope="col" align="left">Name</th>
-	            <th width="60%"scope="col" align="left">Description</th>
+	            <td width="40%" align="left">${groupId}</td>
 	        </tr>
-			<c:forEach items="${command.healthcareSite.investigatorGroups}"
-				var="invGroup" varStatus="status">
-					<tr id="groupsTable-${treatmentEpochCount.index}">
-						<td align="left">${invGroup.name}
-							</td>
-					</tr>
-			</c:forEach>
 		</table>
 </html>
 

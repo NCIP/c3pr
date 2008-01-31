@@ -67,6 +67,7 @@
                 </div>
                 <div class="value">
                     <input type="text" name="nciIdentifier" id="nciIdentifier"/>
+                    <tags:hoverHint keyProp="organization.nciInstituteCode"/>
                 </div>
             </div>
 

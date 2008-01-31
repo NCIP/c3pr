@@ -81,6 +81,7 @@
 								<input id="healthcareSite-input" size="50" type="text"
 								name="healthcareSite.name"
 								value="${command.healthcareSite.name}" class="autocomplete validate-notEmpty" disabled="true" />
+								<tags:hoverHint keyProp="researchStaff.organization"/>
 							<tags:indicator id="healthcareSite-indicator" />
 							<div id="healthcareSite-choices" class="autocomplete"></div>
                 </c:if>
@@ -91,6 +92,7 @@
 								<input id="healthcareSite-input" size="50" type="text"
 								name="healthcareSite.name"
 								value="${command.healthcareSite.name}" class="autocomplete validate-notEmpty" />
+								<tags:hoverHint keyProp="researchStaff.organization"/>
 							<tags:indicator id="healthcareSite-indicator" />
 							<div id="healthcareSite-choices" class="autocomplete"></div>
                 </c:if>
@@ -139,9 +141,9 @@
             </div>
             <div class="value">
                 <form:input path="nciIdentifier" size="25" cssClass="validate-notEmpty" />
+                <tags:hoverHint keyProp="researchStaff.nciIdentifier"/>
             </div>
         </div>
-
         <div class="row">
             <div class="label required-indicator">
                     ${command.contactMechanisms[0].type.displayName} (Username):
@@ -174,7 +176,7 @@
 </chrome:division>
 
 
-<chrome:division id="staff-details" title="User Role (Minimum One - Check all that apply)">
+<chrome:division id="staff-details" title="* User Role (Minimum One - Check all that apply)">
 	<div id="errorMsg1" style="display:none">
 		<span id='sid1' style='color:#EE3324'>Please select atleast one role.</span><br/> 	
 	</div>

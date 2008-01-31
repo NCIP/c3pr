@@ -83,8 +83,8 @@ function fireAction(action, selected){
 	<table class="tablecontent" width="60%" border="0" cellspacing="0" id="invesitgatorTable"
 		cellpadding="0">
 		<tr>
-			<th class="label required-indicator" scope="col" align="left"><b>Organization</b></th>
-			<th class="label required-indicator" scope="col" align="left"><b>Investigator Status</b></th>
+			<th class="label required-indicator" scope="col" align="left"><b>Organization</b><tags:hoverHint keyProp="healthcareSiteInvestigator.organization"/></th>
+			<th class="label required-indicator" scope="col" align="left"><b>Investigator Status</b><tags:hoverHint keyProp="healthcareSiteInvestigator.statusCode"/></th>
 			<th></th>
 		</tr>
 		<c:forEach items="${command.healthcareSiteInvestigators}" var="hcsInv"
@@ -169,6 +169,7 @@ function fireAction(action, selected){
             </div>
             <div class="value">
                 <form:input path="nciIdentifier" size="25" cssClass="validate-notEmpty" />
+                <tags:hoverHint keyProp="healthcareSiteInvestigator.nciIdentifier"/>
             </div>
         </div>
 

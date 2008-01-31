@@ -45,6 +45,7 @@
         </div>
         <div class="value">
             <form:input size="48" path="name" cssClass="validate-notEmpty"/>
+            <tags:hoverHint keyProp="organization.name"/>
         </div>
     </div>
 
@@ -64,9 +65,11 @@
         <div class="value">
 	        <c:if test="${FLOW == 'EDIT_FLOW'}">
 	            <form:input path="nciInstituteCode" size="20" cssClass="validate-notEmpty" disabled="true"/>
+	            <tags:hoverHint keyProp="organization.nciInstituteCode"/>
 	        </c:if>
 	        <c:if test="${FLOW == 'SAVE_FLOW'}">
                 <form:input path="nciInstituteCode" size="20" cssClass="validate-notEmpty"/>
+                <tags:hoverHint keyProp="organization.nciInstituteCode"/>
 	        </c:if>
         </div>
     </div>

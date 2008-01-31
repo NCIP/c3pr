@@ -136,7 +136,7 @@ function manageIdentifierRadio(element){
 							<option value="">Please Select</option>
 							<form:options items="${administrativeGenderCode}"
 								itemLabel="desc" itemValue="code" />
-						</form:select></div>
+						</form:select> </div> 
 					</div>
 					<div class="row">
 						<div class="label required-indicator">Birth Date:</div>
@@ -149,7 +149,7 @@ function manageIdentifierRadio(element){
 							<option value="">Please Select</option>
 							<form:options items="${ethnicGroupCode}" itemLabel="desc"
 								itemValue="code" />
-						</form:select></div>
+						</form:select><tags:hoverHint keyProp="subject.ethnicGroupCode"/></div>
 					</div>
 					<div class="row">
 						<div class="label required-indicator">Race:</div>
@@ -158,7 +158,7 @@ function manageIdentifierRadio(element){
 							<option value="">Please Select</option>
 							<form:options items="${raceCode}" itemLabel="desc"
 								itemValue="code" />
-						</form:select></div>
+						</form:select><tags:hoverHint keyProp="subject.raceCode"/></div>
 					</div>
 					</div>
 		</chrome:division>
@@ -176,6 +176,7 @@ function manageIdentifierRadio(element){
 								<input id="mrnOrganization-input" size="50" type="text"
 								name="organizationAssignedIdentifiers[0].healthcareSite.name"
 								value="${command.organizationAssignedIdentifiers[0].healthcareSite.name}" class="autocomplete validate-notEmpty" />
+								<tags:hoverHint keyProp="subject.MRN.organization"/>
 								<tags:indicator id="mrnOrganization-indicator" />
 								<div id="mrnOrganization-choices" class="autocomplete"></div>
 							    </div>
@@ -185,6 +186,7 @@ function manageIdentifierRadio(element){
 		                        <div class="value"><input type="text" name="organizationAssignedIdentifiers[0].value" 
 								size="30" maxlength="30"
 								value="${command.organizationAssignedIdentifiers[0].value}" class="validate-notEmpty" />
+								<tags:hoverHint keyProp="subject.MRN.value"/>
 							     <input type="hidden" name="organizationAssignedIdentifiers[0].type"
 								value="MRN"/>
 								<input type="hidden" name="organizationAssignedIdentifiers[0].primaryIndicator" value="true"/></div>
@@ -199,11 +201,11 @@ function manageIdentifierRadio(element){
 					cellspacing="0" cellpadding="0" class="tablecontent">
 					<tr>
 						<th><span
-							class="required-indicator">Assigning Authority</span></th>
+							class="required-indicator">Assigning Authority</span><tags:hoverHint keyProp="identifier.organization"/></th>
 						<th><span class="required-indicator">Identifier
-						Type</span></th>
-						<th><span class="required-indicator">Identifier</span></th>
-						<th>Primary Indicator</th>
+						Type</span><tags:hoverHint keyProp="identifier.type"/></th>
+						<th><span class="required-indicator">Identifier</span><tags:hoverHint keyProp="identifier.value"/></th>
+						<th><span>Primary Indicator</span><tags:hoverHint keyProp="identifier.primary"/></th>
 						<th ></th>
 					</tr>
 					<c:forEach items="${command.organizationAssignedIdentifiers}" begin="1"
@@ -256,11 +258,10 @@ function manageIdentifierRadio(element){
 					class="tablecontent">
 					<tr>
 						<th><span
-							class="required-indicator">System Name</span></th>
-						<th><span class="required-indicator">Identifier
-						Type</span></th>
-						<th><span class="required-indicator">Identifier</span></th>
-						<th>Primary&nbsp;Indicator</th>
+							class="required-indicator">System Name</span><tags:hoverHint keyProp="identifier.systemName"/></th>
+						<th><span class="required-indicator">Identifier Type</span><tags:hoverHint id="1" keyProp="identifier.type"/></th>
+						<th><span class="required-indicator">Identifier</span><tags:hoverHint id="1" keyProp="identifier.value"/></th>
+						<th>Primary&nbsp;Indicator<tags:hoverHint id="1" keyProp="identifier.primary"/></th>
 						<th></th>
 					</tr>
 					<c:forEach items="${command.systemAssignedIdentifiers}"
