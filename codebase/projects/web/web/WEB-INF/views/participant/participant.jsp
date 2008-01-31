@@ -260,8 +260,8 @@ function manageIdentifierRadio(element){
 						<th><span
 							class="required-indicator">System Name</span><tags:hoverHint keyProp="identifier.systemName"/></th>
 						<th><span class="required-indicator">Identifier Type</span><tags:hoverHint id="1" keyProp="identifier.type"/></th>
-						<th><span class="required-indicator">Identifier</span><tags:hoverHint id="1" keyProp="identifier.value"/></th>
-						<th>Primary&nbsp;Indicator<tags:hoverHint id="1" keyProp="identifier.primary"/></th>
+						<th><span class="required-indicator">Identifier</span><tags:hoverHint id="2" keyProp="identifier.value"/></th>
+						<th>Primary&nbsp;Indicator<tags:hoverHint id="3" keyProp="identifier.primary"/></th>
 						<th></th>
 					</tr>
 					<c:forEach items="${command.systemAssignedIdentifiers}"
