@@ -14,7 +14,6 @@
     <script type="text/javascript">
 	Calendar.setup({inputField:"consentVersion", ifFormat:"%", button:"consentVersion-calbutton"});
     
-    
     function blindedRandomization(){
     	var bIndicator=document.getElementById('blindedIndicator');
     	var rIndicator=document.getElementById('randomizedIndicator');
@@ -73,6 +72,12 @@
             if (box.value == 'false') {
                 Effect.CloseDown('randomizationTypeDiv');
                 document.getElementById("randomizationType").className="";
+            }
+        }
+        
+        function manageRandomizationTypeSelectBox(box) {
+            if (box.value == '' && (document.getElementById('randomizedIndicator').value =='true')) {
+                document.getElementById("randomizationType").className="validate-notEmpty";
             }
         }
         
@@ -293,7 +298,7 @@
 		            <div class="label required-indicator">
 		                Randomized:</div>
 		            <div class="value"><form:select path="randomizedIndicator"
-		                                            onchange="manageRandomizedIndicatorSelectBox(this);"
+		                                            onchange="manageRandomizedIndicatorSelectBox(this);" 
 		                                            cssClass="validate-notEmpty"
 		                                            disabled="${command.blindedIndicator == 'true'}" >
 		                <option value="">Please Select</option>
@@ -310,7 +315,7 @@
 
             <div class="row">
                 <div class="label required-indicator">Type:</div>
-                <div class="value"><form:select id="randomizationType" path="randomizationType" disabled="${command.blindedIndicator == 'true'}">
+                <div class="value"><form:select id="randomizationType" path="randomizationType" onchange="manageRandomizationTypeSelectBox(this);"  disabled="${command.blindedIndicator == 'true'}">
                     <form:option label="Please Select" value=""/>
                     <form:option label="Book" value="BOOK"/>
                     <form:option label="Phone Call" value="PHONE_CALL"/>
