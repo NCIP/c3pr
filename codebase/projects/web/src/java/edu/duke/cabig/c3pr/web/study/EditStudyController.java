@@ -4,6 +4,11 @@ import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
+
+import org.acegisecurity.Authentication;
+import org.acegisecurity.GrantedAuthority;
+import org.acegisecurity.context.SecurityContext;
+import org.acegisecurity.context.SecurityContextHolder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.validation.BindException;
@@ -83,7 +88,17 @@ public class EditStudyController extends StudyController<Study> {
         request.setAttribute("flowType", "EDIT_STUDY");
         request.setAttribute("editFlow", "true");
 
-        if (((Study) o).getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.PENDING) {
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication auth = context.getAuthentication();
+        GrantedAuthority[] groups = auth.getAuthorities();
+        boolean isAdmin = false;
+        for(GrantedAuthority ga: groups){
+        	if(ga.getAuthority().endsWith("admin")){
+        		isAdmin = true;
+        	}
+        }
+        
+        if (((Study) o).getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.PENDING && !isAdmin) {
             softDelete = "true";
         }
         request.setAttribute("softDelete", softDelete);

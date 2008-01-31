@@ -45,7 +45,7 @@ public class StudyStratificationTab extends StudyTab {
 		if( (request.getAttribute("amendFlow") != null && request.getAttribute("amendFlow").toString().equals("true")) ||
 			    (request.getAttribute("editFlow") != null && request.getAttribute("editFlow").toString().equals("true")) ) 
     	{
-			if(request.getSession().getAttribute(DISABLE_FORM_STRATIFICATION) != null || !isAdmin){
+			if(request.getSession().getAttribute(DISABLE_FORM_STRATIFICATION) != null && !isAdmin){
 				refdata.put("disableForm", request.getSession().getAttribute(DISABLE_FORM_STRATIFICATION));
 			} else {
 				refdata.put("disableForm", new Boolean(false));

@@ -51,7 +51,7 @@ class StudyDetailsTab extends StudyTab {
 		if (request.getAttribute("amendFlow") != null
 				&& request.getAttribute("amendFlow").toString().equalsIgnoreCase("true")) {
 			//amend-flow: set the disableForm refData for the amend flow.
-			if (request.getSession().getAttribute(DISABLE_FORM_DETAILS) != null) {
+			if (request.getSession().getAttribute(DISABLE_FORM_DETAILS) != null  && !isAdmin) {
 				refdata.put("disableForm", request.getSession().getAttribute(
 						DISABLE_FORM_DETAILS));
 			} else {
@@ -61,7 +61,7 @@ class StudyDetailsTab extends StudyTab {
 		} else if (request.getAttribute("editFlow") != null
 				&& request.getAttribute("editFlow").toString().equalsIgnoreCase("true")){
 			//edit-flow: disable all unless in PENDING STATE.
-			if(!(study.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.PENDING) || !isAdmin){
+			if(!(study.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.PENDING) && !isAdmin){
 				disableAll(request);
 			} else { 
 				//all states other than pending
