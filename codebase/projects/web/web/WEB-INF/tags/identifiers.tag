@@ -65,6 +65,7 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 				<input id="mrnOrganization-input" size="50" type="text"
 				name="organizationAssignedIdentifiers[0].healthcareSite.name" class="autocomplete validate-notEmpty" />
 				<tags:indicator id="mrnOrganization-indicator" />
+				<tags:hoverHint keyProp="subject.MRN.organization"/>
 				<div id="mrnOrganization-choices" class="autocomplete"></div>
 			</td>
 		</tr>
@@ -74,6 +75,7 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 				size="30" maxlength="30" class="validate-notEmpty" />
 			     <input type="hidden" name="organizationAssignedIdentifiers[0].type"
 				value="MRN"/>
+				<tags:hoverHint keyProp="subject.MRN.value"/>
 				<input type="hidden" name="organizationAssignedIdentifiers[0].primaryIndicator" value="true"/>
 			</td>
 		</tr>
@@ -88,11 +90,13 @@ RowManager.addRowInseter(organizationIdentifierRowInserterProps);
 <div id="idSection" style="display:none;">
 <table id="mytable-organizationIdentifier" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 	<tr>
-		<th scope="col" align="left"><b><span class="red">*</span>Assigning Authority</b></th>
-		<th scope="col" align="left"><b><span class="red">*</span>Identifier Type</b></th>
-		<th scope="col" align="left"><b><span class="red">*</span>Identifier</b></th>
-		<th scope="col" align="left"><b>Primary Indicator</b></th>
-		<th class="specalt" scope="col" align="left"></th>
+		<th><span
+			class="required-indicator">Assigning Authority</span><tags:hoverHint keyProp="identifier.organization"/></th>
+		<th><span class="required-indicator">Identifier
+		Type</span><tags:hoverHint keyProp="identifier.type"/></th>
+		<th><span class="required-indicator">Identifier</span><tags:hoverHint keyProp="identifier.value"/></th>
+		<th><span>Primary Indicator</span><tags:hoverHint keyProp="identifier.primary"/></th>
+		<th ></th>
 	</tr>
 </table>
 <div align="right">
