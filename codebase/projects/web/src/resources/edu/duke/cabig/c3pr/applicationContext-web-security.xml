@@ -92,4 +92,15 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                   ref="sitePrivilegeAndObjectIdGenerator"/>
     </bean>
 
+
+    <bean id="domainObjectAuthorizationCheck"
+          class="gov.nih.nci.security.acegi.csm.authorization.DelegatingObjectPrivilegeCSMAuthorizationCheck">
+        <property name="authorizationSwitch" ref="authorizationSwitch"/>
+        <property name="csmAuthorizationCheck" ref="csmGroupAuthorizationCheck"/>
+        <property name="objectIdGenerator"
+                  ref="domainObjectPrivilegeAndObjectIdGenerator"/>
+        <property name="privilegeGenerator"
+                  ref="domainObjectPrivilegeAndObjectIdGenerator"/>
+    </bean>
+
 </beans>

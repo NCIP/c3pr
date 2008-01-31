@@ -342,10 +342,12 @@
 
 
     <!--Should be in appContext-security and applied thru aop-->
-    <bean id="sitePrivilegeAndObjectIdGenerator" class="edu.duke.cabig.c3pr.security.SitePrivilegeAndObjectIdGenerator">
+     <bean id="domainObjectPrivilegeAndObjectIdGenerator" class="edu.duke.cabig.c3pr.security.DomainObjectPrivilegeAndObjectIdGenerator">
         <property name="accessPrivilege" ref="ACCESS_PRIVILEGE"/>
         <property name="pathSeperator" value="."/>
     </bean>
+
+    <bean id="sitePrivilegeAndObjectIdGenerator" class="edu.duke.cabig.c3pr.security.SitePrivilegeAndObjectIdGenerator"/>
 
     <!--Utilities-->
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
