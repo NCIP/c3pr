@@ -101,12 +101,17 @@
 						['Temporarily Closed To Accrual And Treatment','Temporarily Closed To Accrual And Treatment'],
 						['Temporarily Closed To Accrual','Temporarily Closed To Accrual']]"></c:set>
             <td>
-                <tags:inPlaceSelect
+               <tags:inPlaceSelect
                         value="${command.coordinatingCenterStudyStatus.code}"
                         path="changedCoordinatingCenterStudyStatus"
                         commanSepOptVal="${commanSepOptVal}"/>
-                &nbsp; <input type="button" value="Change Status"
-                              onclick="editor_changedCoordinatingCenterStudyStatus.enterEditMode('click')"/></td>
+
+                <csmauthz:accesscontrol domainObject="${command}" hasPrivileges="UPDATE"
+                                        authorizationCheckName="domainObjectAuthorizationCheck">
+                    &nbsp; <input type="button" value="Change Status"
+                              onclick="editor_changedCoordinatingCenterStudyStatus.enterEditMode('click')"/>
+                </csmauthz:accesscontrol>
+            </td>
         </tr>
         <tr>
             <td class="alt" align="left"><b>Type</b></td>
