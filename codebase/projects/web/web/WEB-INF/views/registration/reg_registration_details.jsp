@@ -91,16 +91,16 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 	<tr><td colspan="2">&nbsp;</td></tr>
 	<tr>
 		<td class="label" width="50%">Informed Consent Signed Date:</td>
-		<td><tags:dateInput path="informedConsentSignedDate" /><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="informedConsentSignedDate"/></td>
+		<td><tags:dateInput path="informedConsentSignedDate" /><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.informedConsentFormSignedDate"/></td>
 	</tr>
 	<tr>
 		<td class="label">Current Consent Version is <em>${command.studySite.study.consentVersion}</em>:</td>
 		<td><input type="checkbox" name="currentVersionIndicator" value="true" onclick="setVersion(this);" 
-				<c:if test="${!empty command.informedConsentVersion}"> checked </c:if>/><tags:hoverHint keyProp="currentVersionIndicator"/></td>
+				<c:if test="${!empty command.informedConsentVersion}"> checked </c:if>/><tags:hoverHint keyProp="studySubject.informedConsentSignedVersion"/></td>
 	</tr>
 	<tr>
 		<td class="label" width="50%">Registration Start Date:</td>
-		<td><tags:dateInput path="startDate" /><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="registration.startDate"/></td>
+		<td><tags:dateInput path="startDate" /><em> (mm/dd/yyyy)</em><tags:hoverHint keyProp="studySubject.startDate"/></td>
 	</tr>
 	<tr>
 		<td class="label" width="50%"><em></em>Enrolling Physician:</td>
@@ -121,7 +121,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 		No active physician found
 		</c:otherwise>
 		</c:choose>
-		<tags:hoverHint keyProp="treatingPhysician"/>
+		<tags:hoverHint keyProp="studySubject.treatingPhysician"/>
 		</td>
 	</tr>
 	<tr>
@@ -136,7 +136,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 				<c:set var="diseaseStyle" value="display: none;"></c:set>			 
 			</c:if>
 			<form:input id="otherDisease" path="diseaseHistory.otherPrimaryDiseaseCode" cssStyle="${diseaseStyle}"/>
-			<tags:hoverHint keyProp="otherDisease"/>
+			<tags:hoverHint keyProp="studySubject.otherDisease"/>
 		<td>
 	</tr>
 	<tr>
@@ -147,7 +147,7 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 			<input type="button" id="diseaseSite-clear" value="Clear" onclick="$('diseaseSite-hidden').value='';"/>
 			<tags:indicator id="diseaseSite-indicator"/>
 			<div id="diseaseSite-choices" class="autocomplete"></div>
-			<tags:hoverHint keyProp="diseaseSite"/>
+			<tags:hoverHint keyProp="studySubject.diseaseSite"/>
 		</td>
 		
 	</tr>

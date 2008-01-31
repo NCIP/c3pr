@@ -64,6 +64,7 @@ function markAsAnswered(id){
 							<td colspan=2>
 								<div id="WaiveEligibility" <c:if test="${command.eligibilityIndicator }">style="display:none;"</c:if>>
 								<form:textarea path="eligibilityWaiverReasonText" rows="5" cols="50" />
+								<tags:hoverHint keyProp="studySubject.eligibilityWaiverReasonText"/>
 								</div>
 							</td>
 						</tr>
