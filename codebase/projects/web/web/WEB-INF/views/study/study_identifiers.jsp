@@ -167,7 +167,7 @@ function manageIdentifierRadio(element){
 				<tr>
 					<th><span class="required-indicator">System Name</span><tags:hoverHint keyProp="study.systemAssignedIdentifier.systemName"/></th>
 					<th><span class="required-indicator">Identifier Type</span><tags:hoverHint keyProp="study.systemAssignedIdentifier.identifierType"/></th>
-					<th><span class="required-indicator">Identifier</span><tags:hoverHint keyProp="study.coordinatingcenter.identifier"/></th>
+					<th><span class="required-indicator">Identifier</span><tags:hoverHint id="study.systemAssignedIdentifier.identifier" keyProp="study.coordinatingcenter.identifier"/></th>
 					<th>Primary Indicator<tags:hoverHint keyProp="study.systemAssignedIdentifier.primaryIndicator"/></th>
 					<th></th>
 				</tr>
