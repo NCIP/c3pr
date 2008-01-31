@@ -7,6 +7,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.acegisecurity.Authentication;
+import org.acegisecurity.GrantedAuthority;
+import org.acegisecurity.context.SecurityContext;
+import org.acegisecurity.context.SecurityContextHolder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.validation.Errors;
@@ -177,5 +181,18 @@ public abstract class StudyTab extends InPlaceEditableTab<Study> {
 
 	public void setStudyService(StudyService studyService) {
 		this.studyService = studyService;
+	}
+	
+	public boolean isAdmin(){
+		SecurityContext context = SecurityContextHolder.getContext();
+        Authentication auth = context.getAuthentication();
+        GrantedAuthority[] groups = auth.getAuthorities();
+        
+        for(GrantedAuthority ga: groups){
+        	if(ga.getAuthority().endsWith("admin")){
+        		return true;
+        	}
+        }
+        return false;
 	}
 }

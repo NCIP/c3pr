@@ -14,6 +14,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.acegisecurity.Authentication;
+import org.acegisecurity.GrantedAuthority;
+import org.acegisecurity.context.SecurityContext;
+import org.acegisecurity.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
 
 /**
@@ -41,6 +45,8 @@ class StudyDetailsTab extends StudyTab {
 		addConfigMapToRefdata(refdata, "typeRefData");
 		addConfigMapToRefdata(refdata, "coordinatingCenters");
 		addConfigMapToRefdata(refdata, "yesNo");
+		
+        boolean isAdmin = isAdmin();
 
 		if (request.getAttribute("amendFlow") != null
 				&& request.getAttribute("amendFlow").toString().equalsIgnoreCase("true")) {
@@ -55,7 +61,7 @@ class StudyDetailsTab extends StudyTab {
 		} else if (request.getAttribute("editFlow") != null
 				&& request.getAttribute("editFlow").toString().equalsIgnoreCase("true")){
 			//edit-flow: disable all unless in PENDING STATE.
-			if(!(study.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.PENDING)){
+			if(!(study.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.PENDING) || !isAdmin){
 				disableAll(request);
 			} else { 
 				//all states other than pending
@@ -63,7 +69,7 @@ class StudyDetailsTab extends StudyTab {
 				refdata.put("mandatory", "true");
 			}
 			//set the disableForm refData for the edit flow.
-			if (request.getSession().getAttribute(DISABLE_FORM_DETAILS) != null) {
+			if (request.getSession().getAttribute(DISABLE_FORM_DETAILS) != null && !isAdmin) {
 				refdata.put("disableForm", request.getSession().getAttribute(
 						DISABLE_FORM_DETAILS));
 			} else {

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -32,6 +33,8 @@ public class StudyRandomizationTab extends StudyTab {
 	public Map<String, Object> referenceData(HttpServletRequest request, Study study) {
 		Map<String, Object> refdata = super.referenceData(study);
 		String flowType="";
+		boolean isAdmin = isAdmin();
+		
 	   	 if(getFlow().getName().equals("Create Study")){
 	   		 flowType = "CREATE_STUDY";
 	   	 } else if (getFlow().getName().equals("Edit Study")){
@@ -50,7 +53,7 @@ public class StudyRandomizationTab extends StudyTab {
 		if( (request.getAttribute("amendFlow") != null && request.getAttribute("amendFlow").toString().equals("true")) ||
 			    (request.getAttribute("editFlow") != null && request.getAttribute("editFlow").toString().equals("true")) )  
     	{
-			if(request.getSession().getAttribute(DISABLE_FORM_RANDOMIZATION) != null){
+			if(request.getSession().getAttribute(DISABLE_FORM_RANDOMIZATION) != null || !isAdmin){
 				refdata.put("disableForm", request.getSession().getAttribute(DISABLE_FORM_RANDOMIZATION));
 			} else {
 				refdata.put("disableForm", new Boolean(false));
@@ -87,10 +90,14 @@ public class StudyRandomizationTab extends StudyTab {
         	 String index = request.getParameter("index").toString();
         	 Study study = (Study)(commandObj);
         	 
-             Object viewData = bookRandomizationAjaxFacade.getTable(new HashMap<String, List>(), study.getFile(), index, request, flowType);             
-             bookRandomizationEntries[Integer.parseInt(index)] = viewData.toString();
-             request.setAttribute("bookRandomizationEntries", bookRandomizationEntries);             
-             map.put(getFreeTextModelName(), viewData.toString());             
+             Object viewData = bookRandomizationAjaxFacade.getTable(new HashMap<String, List>(), study.getFile(), index, request, flowType);   
+             if(StringUtils.isEmpty(viewData.toString())){
+            	 map.put(getFreeTextModelName(), "Error while parsing file. Please try again.");
+             } else {
+            	 bookRandomizationEntries[Integer.parseInt(index)] = viewData.toString();
+                 request.setAttribute("bookRandomizationEntries", bookRandomizationEntries);             
+                 map.put(getFreeTextModelName(), viewData.toString());
+             }                          
          } catch(Exception e ){
         	 log.error(e.getMessage());
          }

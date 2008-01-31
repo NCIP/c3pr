@@ -22,11 +22,12 @@ public class StudyNotificationTab extends StudyTab {
 	public Map referenceData(HttpServletRequest request, Study study) {
         Map<String, Object> refdata = super.referenceData(study); 
         addConfigMapToRefdata(refdata, "notificationPersonnelRoleRefData");
+        boolean isAdmin = isAdmin();
         
         if( (request.getAttribute("amendFlow") != null && request.getAttribute("amendFlow").toString().equals("true")) ||
     		    (request.getAttribute("editFlow") != null && request.getAttribute("editFlow").toString().equals("true")) ) 
     		{
-    			if(request.getSession().getAttribute(DISABLE_FORM_NOTIFICATION) != null){
+    			if(request.getSession().getAttribute(DISABLE_FORM_NOTIFICATION) != null || !isAdmin){
     				refdata.put("disableForm", request.getSession().getAttribute(DISABLE_FORM_NOTIFICATION));
     			} else {
     				refdata.put("disableForm", new Boolean(false));

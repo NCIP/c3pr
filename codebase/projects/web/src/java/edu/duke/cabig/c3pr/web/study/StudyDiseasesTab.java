@@ -34,10 +34,12 @@ class StudyDiseasesTab extends StudyTab {
     @Override
 	public Map referenceData(HttpServletRequest request, Study study) {
 		Map<String, Object> refdata = super.referenceData(study);
+		boolean isAdmin = isAdmin();
+		
 		if( (request.getAttribute("amendFlow") != null && request.getAttribute("amendFlow").toString().equals("true")) ||
 			    (request.getAttribute("editFlow") != null && request.getAttribute("editFlow").toString().equals("true")) )  
     	{
-			if(request.getSession().getAttribute(DISABLE_FORM_DISEASES) != null){
+			if(request.getSession().getAttribute(DISABLE_FORM_DISEASES) != null || !isAdmin){
 				refdata.put("disableForm", request.getSession().getAttribute(DISABLE_FORM_DISEASES));
 			} else {
 				refdata.put("disableForm", new Boolean(false));

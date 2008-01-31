@@ -37,10 +37,12 @@ public class StudyDesignTab extends StudyTab {
 		Map<String, Object> refdata = super.referenceData(study);
 		refdata.put("currentOperation", getConfigurationProperty().getMap().get("inclusion"));
 		addConfigMapToRefdata(refdata, "yesNo");
+		boolean isAdmin = isAdmin();
+		
 		if( (request.getAttribute("amendFlow") != null && request.getAttribute("amendFlow").toString().equals("true")) ||
 		    (request.getAttribute("editFlow") != null && request.getAttribute("editFlow").toString().equals("true")) ) 
 		{
-			if(request.getSession().getAttribute(DISABLE_FORM_EPOCH_AND_ARMS) != null){
+			if(request.getSession().getAttribute(DISABLE_FORM_EPOCH_AND_ARMS) != null || !isAdmin){
 				refdata.put("disableForm", request.getSession().getAttribute(DISABLE_FORM_EPOCH_AND_ARMS));
 			} else {
 				refdata.put("disableForm", new Boolean(false));
