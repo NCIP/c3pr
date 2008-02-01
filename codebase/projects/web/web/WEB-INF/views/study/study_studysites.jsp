@@ -223,14 +223,16 @@ RowManager.addRowInseter(instanceRowInserterProps);
         </td>
     </tr>
 </table>
+<div align="right">
+<input id="addEpoch" type="button"
+               value="Add Study Site"
+               onclick="javascript:RowManager.addRow(instanceRowInserterProps);"/>
+</div>
  </c:otherwise>
   </c:choose>
     	</jsp:attribute>
 
     	 <jsp:attribute name="localButtons">
-        <input id="addEpoch" type="button"
-               value="Add Study Site"
-               onclick="javascript:RowManager.addRow(instanceRowInserterProps);"/>
     </jsp:attribute>
 
 </tags:tabForm>
