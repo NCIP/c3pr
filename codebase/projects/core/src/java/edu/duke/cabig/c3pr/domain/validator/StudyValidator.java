@@ -7,8 +7,10 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
+import org.springframework.dao.DataAccessException;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -27,6 +29,7 @@ import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.tools.Configuration;
@@ -37,6 +40,7 @@ public class StudyValidator implements Validator {
 	private EpochValidator epochValidator;
 	private StudyDao studyDao;
     private MessageSource c3prErrorMessages;
+    private Logger log = Logger.getLogger(StudyValidator.class);
 
 	public boolean supports(Class clazz) {
 		return Study.class.isAssignableFrom(clazz);
@@ -76,10 +80,10 @@ public class StudyValidator implements Validator {
 			Set<OrganizationAssignedIdentifier> uniqueOrgIdentifiers = new TreeSet<OrganizationAssignedIdentifier>();
 			uniqueOrgIdentifiers.addAll(allOrganizationAssigedIdentitiers);
 			if(allOrganizationAssigedIdentitiers.size()>uniqueOrgIdentifiers.size()){
-				errors.reject("tempProperty",getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.ORGANIZATION_ASSIGNED_IDENTIFIER.ERROR"),null,null));
+				errors.rejectValue("organizationAssignedIdentifiers",new Integer(getCode("C3PR.STUDY.DUPLICATE.ORGANIZATION_ASSIGNED_IDENTIFIER.ERROR")).toString(),getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.ORGANIZATION_ASSIGNED_IDENTIFIER.ERROR"),null,null));
 			}
-		} finally {
-			//TODO
+		} catch (Exception ex){
+			log.debug("Error while validating study  organization identifiers");
 		}
 		List<SystemAssignedIdentifier> allSystemAssigedIdentitiers = study.getSystemAssignedIdentifiers();
 		try {
@@ -92,11 +96,11 @@ public class StudyValidator implements Validator {
 			Set<SystemAssignedIdentifier> uniqueSysIdentifiers = new TreeSet<SystemAssignedIdentifier>();
 			uniqueSysIdentifiers.addAll(allSystemAssigedIdentitiers);
 			if(allSystemAssigedIdentitiers.size()>uniqueSysIdentifiers.size()){
-				errors.reject("tempProperty",getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.SYSTEM_ASSIGNED_IDENTIFIER.ERROR"),null,null));
+				errors.rejectValue("systemAssignedIdentifiers",new Integer(getCode("C3PR.STUDY.DUPLICATE.SYSTEM_ASSIGNED_IDENTIFIER.ERROR")).toString(),getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.SYSTEM_ASSIGNED_IDENTIFIER.ERROR"),null,null));
 			}
 			
-		} finally {
-			//TODO
+		} catch (Exception ex){
+			log.debug("error while validating study system identifiers");
 		}
 	}
 	
@@ -132,10 +136,10 @@ public class StudyValidator implements Validator {
 			Set<StudySite> uniqueStudySites = new TreeSet<StudySite>();
 			uniqueStudySites.addAll(allStudySites);
 			if(allStudySites.size()>uniqueStudySites.size()){
-				errors.reject("tempProperty",getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.STUDY_SITE.ERROR"),null,null));
+				errors.rejectValue("studySites",new Integer(getCode("C3PR.STUDY.DUPLICATE.STUDY_SITE.ERROR")).toString(),getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.STUDY_SITE.ERROR"),null,null));
 			}
-		} finally {
-			//TODO
+		} catch(Exception ex) {
+			log.debug("error while validating study sites");
 		}
 	}
 	
@@ -158,10 +162,10 @@ public class StudyValidator implements Validator {
 			}
 			uniqueStudyInvestigators.addAll(notNullInvestigatorsList);
 			if(notNullInvestigatorsList.size()>uniqueStudyInvestigators.size()){
-				errors.reject("tempProperty",getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.STUDY.INVESTIGATOR.ROLE.ERROR"),null,null));
+				errors.rejectValue("studyOrganizations[0].studyInvestigators",new Integer(getCode("C3PR.STUDY.DUPLICATE.STUDY.INVESTIGATOR.ROLE.ERROR")).toString(),getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.STUDY.INVESTIGATOR.ROLE.ERROR"),null,null));
 			}
-		} finally {
-			//TODO
+		} catch(Exception ex) {
+			log.debug("error while validating study investigators");
 		}
 	}
 	
@@ -184,10 +188,10 @@ public class StudyValidator implements Validator {
 			}
 			uniqueStudyPersonnel.addAll(notNullPersonnelList);
 			if(notNullPersonnelList.size()>uniqueStudyPersonnel.size()){
-				errors.reject("tempProperty",getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.STUDY.PERSON.ROLE.ERROR"),null,null));
+				errors.rejectValue("studyOrganizations[0].studyPersonnel",new Integer(getCode("C3PR.STUDY.DUPLICATE.STUDY.PERSON.ROLE.ERROR")).toString(),getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.STUDY.PERSON.ROLE.ERROR"),null,null));
 			}
-		} finally {
-			//TODO
+		} catch(Exception ex) {
+			log.debug("error while validating study personnel");
 		}
 	}
 
@@ -196,20 +200,29 @@ public class StudyValidator implements Validator {
 		Study study = (Study) target;
 		List<Epoch> allEpochs = study.getEpochs();
 		try {
-			for (int epochIndex=0;epochIndex<allEpochs.size();epochIndex++) {
-				errors.pushNestedPath("epochs["+epochIndex+"]");
-				ValidationUtils.invokeValidator(this.epochValidator, allEpochs.get(epochIndex),
-						errors);
-				errors.popNestedPath();
-			}
 			Set<Epoch> uniqueEpochs = new TreeSet<Epoch>();
 			uniqueEpochs.addAll(allEpochs);
 			if (allEpochs.size() > uniqueEpochs.size()) {
-				errors.reject("tempProperty",getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.EPOCH.ERROR"),null,null));
+				errors.rejectValue("epochs",new Integer(getCode("C3PR.STUDY.DUPLICATE.EPOCH.ERROR")).toString(),getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.EPOCH.ERROR"),null,null));
 			}
 			
-		} finally {
-					//TODO
+		} catch(Exception ex) {
+				log.debug("error while validating epochs");
+		}
+	}
+	
+	public void validateTreatmentEpochs(Object target, Errors errors) {
+		Study study = (Study) target;
+		List<TreatmentEpoch> allTreatmentEpochs = study.getTreatmentEpochs();
+		try {
+			for (int epochIndex=0;epochIndex<allTreatmentEpochs.size();epochIndex++) {
+				errors.pushNestedPath("treatmentEpochs["+epochIndex+"]");
+				ValidationUtils.invokeValidator(this.epochValidator, allTreatmentEpochs.get(epochIndex),
+						errors);
+				errors.popNestedPath();
+			}
+		} catch(Exception ex) {
+				log.debug("error while validating epochs");
 		}
 	}
 	
@@ -220,11 +233,11 @@ public class StudyValidator implements Validator {
 			Set<StudyDisease> uniqueDiseases = new TreeSet<StudyDisease>();
 			uniqueDiseases.addAll(allDiseases);
 			if (allDiseases.size() > uniqueDiseases.size()) {
-				errors.reject("tempProperty",getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.DISEASE.ERROR"),null,null));
+				errors.rejectValue("studyDiseases",new Integer(getCode("C3PR.STUDY.DUPLICATE.DISEASE.ERROR")).toString(),getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.DISEASE.ERROR"),null,null));
 			}
 			
-		} finally {
-					//TODO
+		} catch(Exception ex) {
+				 log.debug("error while validating study diseases");
 		}
 	}
 
@@ -233,13 +246,17 @@ public class StudyValidator implements Validator {
 		Study study = (Study) target;
 		OrganizationAssignedIdentifier coCenterIdentifier = study.getCoordinatingCenterAssignedIdentifier();
 		
-		if ((coCenterIdentifier!=null)&&(coCenterIdentifier.getHealthcareSite()!=null)){
-			List<OrganizationAssignedIdentifier> coCenterIdentifiers = studyDao.getCoordinatingCenterIdentifiersWithValue(coCenterIdentifier.getValue(),coCenterIdentifier.getHealthcareSite());
-			if (coCenterIdentifiers.size() > 0){
-				if ((study.getId()==null)||(coCenterIdentifiers.size()>1)){
-					errors.reject("tempProperty",getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.STUDY.COORDINATING.CENTER.IDENTIFIER.ERROR"),null,null));
+		try {
+			if ((coCenterIdentifier!=null)&&(coCenterIdentifier.getHealthcareSite()!=null)){
+				List<OrganizationAssignedIdentifier> coCenterIdentifiers = studyDao.getCoordinatingCenterIdentifiersWithValue(coCenterIdentifier.getValue(),coCenterIdentifier.getHealthcareSite());
+				if (coCenterIdentifiers.size() > 0){
+					if ((study.getId()==null)||(coCenterIdentifiers.size()>1)){
+						errors.rejectValue("coordinatingCenterAssignedIdentifier","C3PR.STUDY.DUPLICATE.STUDY.COORDINATING.CENTER.IDENTIFIER.ERROR",getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.STUDY.COORDINATING.CENTER.IDENTIFIER.ERROR"),null,null));
+					}
 				}
 			}
+		} catch (DataAccessException e) {
+			e.printStackTrace();
 		}
 		
 	}
@@ -249,13 +266,17 @@ public class StudyValidator implements Validator {
 		Study study = (Study) target;
 		OrganizationAssignedIdentifier funSponIdentifier = study.getFundingSponsorAssignedIdentifier();
 		
-		if ((funSponIdentifier!=null)&&(funSponIdentifier.getHealthcareSite()!=null)){
-			List<OrganizationAssignedIdentifier> funSponIdentifiers = studyDao.getFundingSponsorIdentifiersWithValue(funSponIdentifier.getValue(),funSponIdentifier.getHealthcareSite());
-			if (funSponIdentifiers.size() > 0){
-				if ((study.getId()==null)||(funSponIdentifiers.size()>1)){
-					errors.reject("tempProperty",getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.STUDY.FUNDING.SPONSOR.IDENTIFIER.ERROR"),null,null));
+		try {
+			if ((funSponIdentifier!=null)&&(funSponIdentifier.getHealthcareSite()!=null)){
+				List<OrganizationAssignedIdentifier> funSponIdentifiers = studyDao.getFundingSponsorIdentifiersWithValue(funSponIdentifier.getValue(),funSponIdentifier.getHealthcareSite());
+				if (funSponIdentifiers.size() > 0){
+					if ((study.getId()==null)||(funSponIdentifiers.size()>1)){
+						errors.rejectValue("fundingSponsorAssignedIdentifier",new Integer(getCode("C3PR.STUDY.DUPLICATE.STUDY.FUNDING.SPONSOR.IDENTIFIER.ERROR")).toString(),getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.STUDY.FUNDING.SPONSOR.IDENTIFIER.ERROR"),null,null));
+					}
 				}
 			}
+		} catch (DataAccessException e) {
+			e.printStackTrace();
 		}
 		
 	}

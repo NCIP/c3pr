@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.apache.log4j.Logger;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -16,6 +17,7 @@ import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 public class EpochValidator implements Validator {
 	private ArmValidator armValidator;
 	private StudyValidator studyValidator;
+	private Logger log = Logger.getLogger(EpochValidator.class);
 
 	public void setStudyValidator(StudyValidator studyValidator) {
 		this.studyValidator = studyValidator;
@@ -34,8 +36,7 @@ public class EpochValidator implements Validator {
 	}
 
 	public void validateArms(Object target, Errors errors) {
-		Epoch epoch = (Epoch) target;
-		if (epoch instanceof TreatmentEpoch) {
+		TreatmentEpoch epoch = (TreatmentEpoch) target;
 			List<Arm> allArms = ((TreatmentEpoch) epoch).getArms();
 
 			try {
@@ -50,13 +51,12 @@ public class EpochValidator implements Validator {
 				Set uniqueArms = new TreeSet<Arm>();
 				uniqueArms.addAll(allArms);
 				if (allArms.size() > uniqueArms.size()) {
-					errors.reject("tempProperty",studyValidator.getMessageFromCode(studyValidator.getCode("C3PR.STUDY.DUPLICATE.ARM.ERROR"),null,null));
+					errors.rejectValue("arms",new Integer(studyValidator.getCode("C3PR.STUDY.DUPLICATE.ARM.ERROR")).toString(),studyValidator.getMessageFromCode(studyValidator.getCode("C3PR.STUDY.DUPLICATE.ARM.ERROR"),null,null));
 				}
 
-			} finally {
-				
+			} catch(Exception ex) {
+				log.debug("error while validating arms");
 			}
-		}
 	}
 
 	// TODO add arm validator logic
