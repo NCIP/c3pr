@@ -140,7 +140,7 @@ public class StudyOverviewTab extends StudyTab {
                 study.setCoordinatingCenterStudyStatus(studyService.evaluateCoordinatingCenterStudyStatus(study));
             }
         } catch (Exception e) {
-            errors.reject("tempProperty", e.getMessage());
+            errors.rejectValue("coordinatingCenterStudyStatus","dummyCode", e.getMessage());
         }
     }
 
