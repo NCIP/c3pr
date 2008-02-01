@@ -12,10 +12,11 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import edu.duke.cabig.c3pr.dao.C3PRBaseDao;
+import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
 import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 
-public abstract class SimpleFormAjaxableController<C extends C3PRUser, A extends C3PRBaseDao<C>> extends SimpleFormController{
+public abstract class SimpleFormAjaxableController<C extends AbstractMutableDeletableDomainObject, A extends C3PRBaseDao<C>> extends SimpleFormController{
 	
 	private InPlaceEditableTab<C> page;
 	
