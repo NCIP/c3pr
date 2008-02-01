@@ -16,7 +16,7 @@
 </head>
 
 <body>
-<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" formName="studySiteForm">
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" formName="studySiteForm" displayErrors="false">
 
     <jsp:attribute name="singleFields">
     <c:choose>
@@ -171,7 +171,7 @@ var instanceRowInserterProps = {
 RowManager.addRowInseter(instanceRowInserterProps);
 </script>
         
-<tags:errors path="*" />
+<tags:errors path="studySites" />
 
 <table border="0" cellspacing="0" cellpadding="0">
     <tr>

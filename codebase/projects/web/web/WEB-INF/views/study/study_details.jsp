@@ -328,7 +328,7 @@
 </chrome:division>
 
 <chrome:division title="Coordinating Center">
-<tags:errors path="*"/> 
+<tags:errors path="coordinatingCenterAssignedIdentifier"/> 
 
          <div id="coordinatingCenter">
             	<div class="leftpanel">
@@ -388,7 +388,7 @@
 </chrome:division>
 
 <chrome:division title="Funding Sponsor">
-<tags:errors path="*"/>
+<tags:errors path="fundingSponsorAssignedIdentifier"/>
 
    <div id="fundingSponsor">
      <div class="leftpanel">

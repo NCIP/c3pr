@@ -73,9 +73,9 @@ function manageIdentifierRadio(element){
 </head>
 <body>
 <tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}"
-	formName="studyIdentifiersForm">
+	formName="studyIdentifiersForm" displayErrors="false">
 	<jsp:attribute name="singleFields">
-		
+	<tags:errors path="organizationAssignedIdentifiers"/> 	
 	<br>
 	<table width="100%"><tr><td>
 		<chrome:division title="Organization Assigned Identifiers">
@@ -162,6 +162,8 @@ function manageIdentifierRadio(element){
 				</div>
 
 		</chrome:division>
+		
+		<tags:errors path="systemAssignedIdentifiers"/> 	
 		<chrome:division title="System Assigned Identifiers">
 			<table id="systemIdentifier" class="tablecontent">
 				<tr>

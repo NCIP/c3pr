@@ -66,7 +66,11 @@
 </head>
 
 <body>
-<tags:formPanelBox tab="${tab}" flow="${flow}" formName="studyDesignForm">
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}"
+	formName="studyDesignForm" displayErrors="false">
+	<jsp:attribute name="singleFields">
+	
+	<tags:errors path="epochs"/> 
 
 <div><input type="hidden" name="_action" value=""> <input
         type="hidden" name="_selectedEpoch" value=""> <input type="hidden"
@@ -79,7 +83,7 @@
     </tr>
     <c:forEach items="${command.treatmentEpochs}" var="treatmentEpoch"
                varStatus="treatmentEpochCount">
-
+		
         <tr id="treatmentEpoch-${treatmentEpochCount.index}">
             <script>
                 RowManager.getNestedRowInserter(treatmentEpochRowInserterProps,${treatmentEpochCount.index}).updateIndex(${fn:length(command.treatmentEpochs[treatmentEpochCount.index].arms)});
@@ -136,6 +140,7 @@
                             </table>
                         </td>
                         <td width="50%" valign="top">
+                        <tags:errors path="treatmentEpochs[${treatmentEpochCount.index}].arms"/>
                             <table  id="arm"
                                     class="tablecontent">
                                 <tr>
@@ -286,7 +291,8 @@
     <br>
     </div>
 
-</tags:formPanelBox>
+</jsp:attribute>
+</tags:tabForm>
 <div id="dummy-treatmentEpoch" style="display:none"></div>
 
 <div id="dummy-nonTreatmentEpoch" style="display:none"></div>

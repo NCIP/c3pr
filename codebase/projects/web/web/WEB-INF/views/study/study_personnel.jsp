@@ -93,8 +93,9 @@ RowManager.addRowInseter(instanceRowInserterProps);
 </head>
 <body>
 
-<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" formName="form">
+<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" formName="form" displayErrors="false">
 <jsp:attribute name="singleFields">
+<tags:errors path="studyOrganizations[0].studyPersonnel"/> 
 <c:choose>
 	<c:when test="${fn:length(command.studyOrganizations) == 0}">
         <tr>
