@@ -91,6 +91,7 @@ public class StudyDesignTab extends StudyTab {
 		// TODO Auto-generated method stub
 		super.validate(study, errors);
 		this.studyValidator.validateStudyDesign(study, errors);
+		this.studyValidator.validateTreatmentEpochs(study, errors);
 	}
 
 	public EpochValidator getEpochValidator() {
