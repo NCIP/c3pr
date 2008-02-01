@@ -88,7 +88,7 @@ public class StudyOverviewTab extends StudyTab {
             } else if (property.startsWith("changedSiteStudyStartDate")) {
 
                 try {
-                    Date startDate = new SimpleDateFormat("mm/dd/yyyy").parse(value);
+                    Date startDate = new SimpleDateFormat("MM/dd/yyyy").parse(value);
                     command.getStudySites().get(studySiteIndex).setStartDate(startDate);
                     retValue += command.getStudySites().get(studySiteIndex).getStartDateStr();
                 } catch (ParseException e) {
@@ -98,7 +98,7 @@ public class StudyOverviewTab extends StudyTab {
 
             } else if (property.startsWith("changedSiteStudyIrbApprovalDate")) {
                 try {
-                    Date irbApprovalDate = new SimpleDateFormat("mm/dd/yyyy").parse(value);
+                    Date irbApprovalDate = new SimpleDateFormat("MM/dd/yyyy").parse(value);
                     command.getStudySites().get(studySiteIndex).setIrbApprovalDate(irbApprovalDate);
                     retValue += command.getStudySites().get(studySiteIndex).getIrbApprovalDateStr();
                 } catch (ParseException e) {
