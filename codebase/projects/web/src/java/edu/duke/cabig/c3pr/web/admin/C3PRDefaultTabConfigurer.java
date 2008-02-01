@@ -38,8 +38,13 @@ public class C3PRDefaultTabConfigurer implements TabConfigurer, ApplicationConte
         this.applicationContext = applicationContext;
     }
 
-	public void injectDependencies(Flow<?> arg0) {
-		// TODO Auto-generated method stub
+	public void injectDependencies(Flow<?> flow) {
+		 AutowireCapableBeanFactory autowireer = getBeanFactory();
+	        for (Tab<?> tab : flow.getTabs()) {
+	            autowireer.autowireBeanProperties(tab,
+	                AutowireCapableBeanFactory.AUTOWIRE_BY_NAME,
+	                false /* Not all settable properties are expected to be in the context */);
+	        }
 		
 	}
 }
