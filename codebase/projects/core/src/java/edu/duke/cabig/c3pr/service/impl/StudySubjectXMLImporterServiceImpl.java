@@ -14,6 +14,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.acegisecurity.AccessDeniedException;
 import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
+import org.springframework.transaction.annotation.Transactional;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -26,7 +27,6 @@ import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
-import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.exception.StudyValidationException;
@@ -70,6 +70,7 @@ public class StudySubjectXMLImporterServiceImpl implements StudySubjectXMLImport
      * @return
      * @throws Exception
      */
+    @Transactional
     public List<StudySubject> importStudySubjects(InputStream xmlStream) throws C3PRCodedException {
         List<StudySubject> studySubjectList = null;
         try {
