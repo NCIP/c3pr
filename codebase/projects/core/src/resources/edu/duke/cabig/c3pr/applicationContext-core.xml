@@ -116,7 +116,7 @@
                 <value>edu.duke.cabig.c3pr.domain.PhoneCallRandomization</value>
                 <value>edu.duke.cabig.c3pr.domain.StratificationCriterionAnswerCombination</value>
                 <value>edu.duke.cabig.c3pr.domain.StudyAmendment</value>
-                <value>gov.nih.nci.cabig.ctms.tools.configuration.ConfigurationEntry</value>
+                <value>gov.nih.nci.cabig.ctms.tools.configuration.DefaultConfigurationEntry</value>
                 <value>edu.duke.cabig.c3pr.domain.Notification</value>
                 <value>edu.duke.cabig.c3pr.domain.Recipient</value>
                 <value>edu.duke.cabig.c3pr.domain.EmailBasedRecipient</value>
