@@ -131,8 +131,9 @@ function acCreate(mode) {
     })
       Event.observe(mode.basename + "-clear", "click", function() {
 	$(mode.basename + "-selected").hide()
-	$(mode.basename).value = ""
 	$(mode.basename + "-input").value = ""
+	$(mode.basename + "-hidden").value = ""
+	
     })
 }
 
