@@ -49,7 +49,7 @@ public class StudySubjectXMLFileImportAjaxFacade {
 		Collection<StudySubject> studySubjects = null;
 		studySubjects = studySubjectXMLImporterService
 				.importStudySubjects(xMLFile.getInputStream());
-		return build(model, studySubjects, "Imported StudySubjects", action)
+		return build(model, studySubjects, "Imported Registrations", action)
 				.toString();
 	}
 
@@ -89,6 +89,12 @@ public class StudySubjectXMLFileImportAjaxFacade {
 		Row row = model.getRowInstance();
 		row.setHighlightRow(Boolean.TRUE);
 		model.addRow(row);
+		
+		Column columnRegId = model.getColumnInstance();
+		columnRegId.setTitle("Registration Id");
+		columnRegId.setProperty("id");
+		columnRegId.setCell((RegistrationLinkDisplayCell.class).getName());
+		model.addColumn(columnRegId);
 
 		Column columnTitle = model.getColumnInstance();
 		columnTitle.setTitle("Study Short Title");
