@@ -79,6 +79,26 @@
 
     </target>
 
+    <target name="prepareIntroduceService" depends="prepare"
+            description="Copy required caGrid jars">
+
+        <for list="${projects.list}" parallel="false" param="project.name" trim="true">
+            <sequential>
+                <!--copy introduce jars to the lib folders-->
+                <resolveDependencies extdir="${projects.dir}/@{project.name}">
+                    <artifact refid="cagrid-introduce.jars"/>
+                </resolveDependencies>
+
+                <copy todir="${projects.dir}/@{project.name}/lib">
+                    <fileset dir="${ext.lib.dir}">
+                        <include name="spring*.jar"/>
+                    </fileset>
+                </copy>
+            </sequential>
+        </for>
+    </target>
+
+
     <target name="build-StudyConsumer" depends="prepareIntroduceService">
         <ant dir="${projects.dir}/StudyConsumer" inheritall="false"
              antfile="build.xml" target="all"/>
@@ -111,28 +131,16 @@
             <sequential>
                 <echo message="Cleaning project @{project.name}."/>
                 <delete dir="${basedir}/@{project.name}/ext"/>
+
+                <!--clean out the introduce jars that we copied from share-->
+                <delete includeemptydirs="true">
+                    <fileset dir="${basedir}/@{project.name}/lib" includes="**/*.jar"/>
+                </delete>
+
                 <ant dir="${basedir}/@{project.name}" inheritAll="false" antfile="build.xml" target="clean"/>
             </sequential>
         </for>
     </target>
-
-    <target name="prepareIntroduceService" depends="prepare"
-            description="Copy required caGrid jars">
-     
-        <for list="${projects.list}" parallel="false" param="project.name" trim="true">
-            <sequential>
-                <resolveDependencies extdir="${projects.dir}/@{project.name}/ext">
-                    <artifact refid="cagrid-introduce.jars"/>
-                </resolveDependencies>
-                <copy todir="${projects.dir}/@{project.name}/ext/lib">
-                    <fileset dir="${ext.lib.dir}">
-                        <include name="spring*.jar"/>
-                    </fileset>
-                </copy>
-            </sequential>
-        </for>
-    </target>
-
 
     <!--default target to support main build-->
     <target name="all" depends="prepareIntroduceService" description="Default target to build all sub projects within JBI">
