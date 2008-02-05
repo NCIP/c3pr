@@ -10,6 +10,7 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 
 import edu.duke.cabig.c3pr.dao.C3PRBaseDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
 import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
@@ -24,7 +25,7 @@ import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.SimpleFormAjaxableControl
  * Time: 7:11:37 PM
  * To change this template use File | Settings | File Templates.
  */
-public abstract class AbstractCreateC3PRUserController<X extends C3PRUser, D extends C3PRBaseDao<X>> extends SimpleFormAjaxableController<X,D> {
+public abstract class AbstractCreateC3PRUserController<X extends C3PRUser,D extends C3PRBaseDao<X>> extends SimpleFormAjaxableController<X,X,D> {
 
     private HealthcareSiteDao healthcareSiteDao;
     private ConfigurationProperty configurationProperty;
