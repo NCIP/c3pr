@@ -24,8 +24,12 @@
     <property name="project.jarfile" value="${jar.dir}/${project.name}-${project.version}.jar"/>
     <property name="lib.dir" value="${basedir}/lib"/>
     <property name="conf.dir" value="${basedir}/conf"/>
-    <property name="war.file" location="${build.dir}/c3prv2.war"/>
+
     <property name="webapp.name" value="c3pr"/>
+
+    <property name="war.dir" value="${build.dir}"/>
+    <property name="war.file" value="${webapp.name}.war"/>
+
 
     <!--ext dirs-->
     <property name="ext.dir" value="${basedir}/ext"/>
@@ -124,6 +128,11 @@
         <mkdir dir="${jar.dir}"/>
         <mkdir dir="${test.classes.dir}"/>
         <mkdir dir="${webinf.lib.dir}"/>
+
+        <!--timestamp property-->
+        <tstamp>
+            <format property="build.timestamp" pattern="yyyy-MM-dd HH:mm:ss"/>
+        </tstamp>
     </target>
 
     <target name="resources" depends="prepare">
@@ -165,6 +174,8 @@
             <filterset>
                 <filter token="iteration_number" value="${iteration_number}"/>
                 <filter token="application_name" value="${application_name}"/>
+                <filter token="timestamp" value="${build.timestamp}"/>
+                <filter token="username" value="${user.name}"/>
             </filterset>
             <fileset dir="${src.resources.dir}">
                 <include name="**/*.*"/>
@@ -229,7 +240,7 @@
     <!-- Creates the war file                                           -->
     <!-- ============================================================== -->
     <target name="war" depends="jar" description="Builds the war files">
-        <war destfile="${war.file}" webxml="${web.dir}/WEB-INF/web.xml">
+        <war destfile="${war.dir}/${war.file}" webxml="${web.dir}/WEB-INF/web.xml">
             <webinf dir="${web.dir}/WEB-INF">
                 <include name="**/*"/>
                 <exclude name="web.xml"/>
@@ -253,7 +264,7 @@
     </target>
 
     <target name="deploy-war" description="Will deploy a pre-built war file to Tomcat">
-        <copy file="${war.file}" todir="${deploy.path}"/>
+        <copy file="${war.dir}/${war.file}" todir="${deploy.path}"/>
     </target>
 
 
