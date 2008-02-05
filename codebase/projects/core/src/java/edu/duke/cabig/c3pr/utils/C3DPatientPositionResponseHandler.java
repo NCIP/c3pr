@@ -10,6 +10,7 @@ import gov.nih.nci.caxchange.Response;
 import gov.nih.nci.caxchange.TargetResponseMessage;
 import gov.nih.nci.common.exception.XMLUtilityException;
 import org.apache.log4j.Logger;
+import org.apache.axis.message.MessageElement;
 import org.springframework.beans.factory.annotation.Required;
 
 import java.io.StringReader;
@@ -26,6 +27,7 @@ import java.io.StringReader;
 public class C3DPatientPositionResponseHandler implements CaXchangeMessageResponseHandler {
 
     public static final String C3D_SERVICE_IDENTIFIER = "C3D";
+    public static final String REGISTRATION_MESSAGE_ELEMENT_NAME = "registration";
 
     Logger log = Logger.getLogger(C3DPatientPositionResponseHandler.class);
     private XmlMarshaller marshaller;
@@ -33,29 +35,39 @@ public class C3DPatientPositionResponseHandler implements CaXchangeMessageRespon
 
 
     public void handleMessageResponse(String string, Response response) {
-        log.debug("Looking for c3d identifier");
+        log.debug("Will look for c3d identifier in response message");
 
         for (TargetResponseMessage tResponse : response.getTargetResponse()) {
 
             if (tResponse.getTargetServiceIdentifier().indexOf(C3D_SERVICE_IDENTIFIER) > -1) {
                 log.debug("Found c3d response. Processing...");
                 MessagePayload payload = tResponse.getTargetBusinessMessage();
-                StudySubject c3dSubject;
-                try {
-                    c3dSubject = (StudySubject) marshaller.fromXML(new StringReader(payload.toString()));
-                    for (SystemAssignedIdentifier sId : c3dSubject.getSystemAssignedIdentifiers()) {
-                        if (sId.getSystemName().toUpperCase().indexOf(C3D_SERVICE_IDENTIFIER) > -1) {
-                            log.debug("Found c3d identifier.processing");
-                            subjectService.assignC3DIdentifier(c3dSubject, sId.getValue());
+
+                MessageElement[] elems = payload.get_any();
+                for(MessageElement elem : elems){
+                    if(REGISTRATION_MESSAGE_ELEMENT_NAME.equalsIgnoreCase(elem.getTagName())){
+
+                        log.debug("Found Registration element in c3d response. Processing....");
+
+                        StudySubject c3dSubject;
+                        try {
+                            c3dSubject = (StudySubject) marshaller.fromXML(new StringReader(elem.toString()));
+                            for (SystemAssignedIdentifier sId : c3dSubject.getSystemAssignedIdentifiers()) {
+                                if (sId.getSystemName().toUpperCase().indexOf(C3D_SERVICE_IDENTIFIER) > -1) {
+                                    log.debug("Found c3d identifier.processing");
+                                    subjectService.assignC3DIdentifier(c3dSubject, sId.getValue());
+                                }
+                            }
+                            ;
+
+                        } catch (XMLUtilityException e) {
+                            log.error("Could not deserialize c3d response." + e.getMessage());
                         }
                     }
-                    ;
-
-                } catch (XMLUtilityException e) {
-                    log.error("Could not deserialize c3d response." + e.getMessage());
                 }
-            }
 
+
+            }
         }
     }
 
