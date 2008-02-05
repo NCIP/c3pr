@@ -204,16 +204,16 @@
                             value="${command.studySites[status.index].siteStudyStatus.code}"
                             path="changedSiteStudyStatus_${status.index}"
                             commanSepOptVal="${commanSepOptValSite}"/>
-                    &nbsp;</td>
+                    </td>
                 <td class="alt" align="left">${studySite.roleCode}</td>
-                <td>
+                <td class="alt" align="left">
                     <tags:inPlaceEdit value="${studySite.startDateStr}" path="changedSiteStudyStartDate_${status.index}"
                                       required="true"/>
-                    &nbsp;</td>
-                <td>
+                    </td>
+                <td class="alt" align="left">
                     <tags:inPlaceEdit value="${studySite.irbApprovalDateStr}"
                                       path="changedSiteStudyIrbApprovalDate_${status.index}" required="true"/>
-                    &nbsp;</td>
+                    </td>
                 <td><input type="button" value="Edit" onclick="activateInPlaceEditing(eArray_${status.index})"/>
                     <script>
                         eArray_${status.index} = new Array();
