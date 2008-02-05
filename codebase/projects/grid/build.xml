@@ -79,7 +79,7 @@
 
     </target>
 
-    <target name="prepareIntroduceService" depends="prepare"
+      <target name="prepareIntroduceService" depends="prepare"
             description="Copy required caGrid jars">
 
         <for list="${projects.list}" parallel="false" param="project.name" trim="true">
@@ -89,7 +89,7 @@
                     <artifact refid="cagrid-introduce.jars"/>
                 </resolveDependencies>
 
-                <copy todir="${projects.dir}/@{project.name}/lib">
+                <copy todir="${projects.dir}/@{project.name}/ext/lib">
                     <fileset dir="${ext.lib.dir}">
                         <include name="spring*.jar"/>
                     </fileset>
