@@ -11,8 +11,6 @@
 <script type="text/javascript" src="/c3pr/js/CalendarPopup.js"></script>
 <chrome:division title="Group">
 <form:form id="groupForm">
-<div id="errorsDiv">
-</div>
 	<c:if test="${!newGroup}">
 		<input type="hidden" name="groupId" id="groupId" value="${command.healthcareSite.investigatorGroups[groupIndex].id }"/>
 	</c:if>
@@ -64,8 +62,8 @@
 			               ${aff.startDateStr }
 			            </td>
 			            <td>
-	               			 <tags:inPlaceEdit value="${command.healthcareSite.investigatorGroups[groupIndex].siteInvestigatorGroupAffiliations[status.index].endDateStr}"
-	                        path="changedCoordinatingCenterStudyStatus_${ status.index}"/>
+	               			 <tags:customInPlaceEdit value="${command.healthcareSite.investigatorGroups[groupIndex].siteInvestigatorGroupAffiliations[status.index].endDateStr}"
+	                        path="changedSiteAffiliationEndDate_${status.index}" healthcareSite="${command.healthcareSite.id}" groupIndex="${groupIndex}"/>
 	                		&nbsp;
 	                   </td>
 	                   </c:if>
