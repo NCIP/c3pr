@@ -273,20 +273,19 @@
         <property name="commandClass"
                   value="edu.duke.cabig.c3pr.web.admin.InvestigatorGroupsCommand"/>
         <property name="formView" value="admin/asynchronous/group"/>
-   		<property name="successView" value="admin/investigator_groups_create"/> 
+   		<property name="successView" value="admin/asynchronous/group"/> 
         <property name="sessionForm" value="true"/>
         <property name="bindOnNewForm" value="true"/>
-  <!--  <property name="validator">
-            <ref bean="investigatorGroupsValidator"/>
-        </property> -->
     </bean>
-    <bean name="/admin/createInvestigatorGroups" class="edu.duke.cabig.c3pr.web.admin.CreateInvestigatorGroupsController">
+    <bean name="/admin/createInvestigatorGroups" id="createInvestigatorGroups" lazy-init="true" class="edu.duke.cabig.c3pr.web.admin.CreateInvestigatorGroupsController"
+    autowire="byName">
     	<property name="commandClass"
                   value="edu.duke.cabig.c3pr.web.admin.InvestigatorGroupsCommand"/>
     	<property name="formView" value="admin/investigator_groups_create" />
     	<property name="successView" value="admin/investigator_groups_create"/> 
-   	<property name="page">
-        	<bean class="edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.InPlaceEditableTab" autowire="byType" />
+    	<property name="sessionForm" value="true"/>
+   		<property name="page">
+        	<bean class="edu.duke.cabig.c3pr.web.admin.InvestigatorsGroupsTab" autowire="byType" />
         </property>
     </bean>
     
