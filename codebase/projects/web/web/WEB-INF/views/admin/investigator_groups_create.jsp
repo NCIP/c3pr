@@ -158,8 +158,11 @@ RowManager.addRowInseter(instanceRowInserterProps);
 		new Element.show("savingIndicator");
 		new Ajax.Request($('groupForm').action, {method:'post', asynchronous:true, parameters:Form.serialize('groupForm'),  evalScripts:true,
 																	onSuccess:function(t)
-																		{ 	
+																		{ 	updateGroups($(sponsorSiteAutocompleterProps.basename+'-hidden').value, t.responseText.split("/*")[0], true);
+																					new Element.show("savedIndicator");
 																			new Element.hide("savingIndicator")
+																			if(t.responseText.split("/*")[1] == 'no'){
+																			}
 																			if(t.responseText.split("/*")[1] == 'yes'){
 																				for(count=0;count<t.responseText.split("/*")[2];count++){
 																					error = t.responseText.split("/*")[4+2*count];
@@ -169,14 +172,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 																					}
 																				}
 																				
-																			} else if(t.responseText.split("/*")[1] == 'no'){
-																					e1 = document.getElementById("errorsDiv");
-																					if(e1!=null){
-																						e1.innerHTML='';
-																					}
-																					new Element.show("savedIndicator");
-																					updateGroups($(sponsorSiteAutocompleterProps.basename+'-hidden').value, t.responseText.split("/*")[0], true);
-																			}
+																			} 
 																		}
 															});
 								 return false;
@@ -243,6 +239,8 @@ RowManager.addRowInseter(instanceRowInserterProps);
           <div align="right"><input type="button" value="Add Group" onclick="handleAddGroup()"/></div>
 
       </chrome:division>
+<div id="errorsDiv">
+</div>
 <div id="groupDisplay"/>
 </tags:panelBox></div>
 </body>
