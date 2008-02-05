@@ -16,7 +16,7 @@ import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
 import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 
-public abstract class SimpleFormAjaxableController<C extends AbstractMutableDeletableDomainObject, A extends C3PRBaseDao<C>> extends SimpleFormController{
+public abstract class SimpleFormAjaxableController<C extends AbstractMutableDeletableDomainObject,D extends AbstractMutableDeletableDomainObject, A extends C3PRBaseDao<D>> extends SimpleFormController{
 	
 	private InPlaceEditableTab<C> page;
 	
@@ -38,6 +38,7 @@ public abstract class SimpleFormAjaxableController<C extends AbstractMutableDele
              HttpServletResponse response, Object command, BindException errors) throws Exception {
     	// TODO Auto-generated method stub
 		if(isAjaxRequest(request)){
+			request.getParameter("_asynchronous");
     		ModelAndView modelAndView =page.postProcessAsynchronous(request, (C)command, errors);
    			//setAjaxModelAndView(request, modelAndView);
    	        if (!errors.hasErrors() && shouldSave(request, (C)command)) {
