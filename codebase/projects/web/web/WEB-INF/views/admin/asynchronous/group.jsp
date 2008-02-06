@@ -80,8 +80,8 @@
      <table border="0" id="investigatorsTable" cellspacing="0" class="tablecontent">
         <tr>
             <th><span class="required-indicator"></span>Investigator</th>
-            <th><span class="required-indicator"></span>Start Date<tags:hoverHint keyProp="siteInvestigatorGroupAffiliation.startDate"/></th>
-            <th>End Date<tags:hoverHint keyProp="siteInvestigatorGroupAffiliation.endDate"/></th>
+            <th><span class="required-indicator"></span>Start Date<tags:hoverHint id="1" keyProp="siteInvestigatorGroupAffiliation.startDate"/></th>
+            <th>End Date<tags:hoverHint id="2" keyProp="siteInvestigatorGroupAffiliation.endDate"/></th>
             <th></th>
         </tr>
 
