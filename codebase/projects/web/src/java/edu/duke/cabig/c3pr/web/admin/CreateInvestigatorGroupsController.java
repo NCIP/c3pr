@@ -178,7 +178,7 @@ public class CreateInvestigatorGroupsController extends SimpleFormController{
 	
 	public void validateInvestigatorGroup(HealthcareSite healthcareSite, InvestigatorGroup investigatorGroup, Errors errors,Boolean newGroup) {
 		if ((investigatorGroup.getStartDate()!=null && investigatorGroup.getEndDate()!=null && investigatorGroup.getStartDate().after(investigatorGroup.getEndDate()))) {
-			errors.reject("tempProperty", "/*End Date of the group cannot be earlier than the start Date/*");
+			errors.reject("tempProperty", "/*End date of the group cannot be earlier than the start date/*");
 		}
 		if ( newGroup){
 			List<InvestigatorGroup> allGroups = healthcareSite.getInvestigatorGroups();
@@ -196,7 +196,7 @@ public class CreateInvestigatorGroupsController extends SimpleFormController{
 				errors.reject("tempProperty", "/*Start date of the investigator group affiliation cannot be earlier than the start date of the investigator group/*");
 			}
 			if (siteInvGrAffiliation.getStartDate()!=null && siteInvGrAffiliation.getEndDate()!=null && siteInvGrAffiliation.getStartDate().after(siteInvGrAffiliation.getEndDate())){
-				errors.reject("tempProperty", "/*End date of the investigator group affiliation cannot be earlier than the start Date/*");
+				errors.reject("tempProperty", "/*End date of the investigator group affiliation cannot be earlier than the start date/*");
 			}
 		} 
 		List<SiteInvestigatorGroupAffiliation> allAffiliations = investigatorGroup.getSiteInvestigatorGroupAffiliations();
