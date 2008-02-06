@@ -133,6 +133,11 @@ RowManager.addRowInseter(instanceRowInserterProps);
 		new Ajax.Updater('groupDisplay', 'getGroup', {method:"get", asynchronous:true, evalScripts:true, onComplete:function(){ new Effect.Highlight('groupDisplay');}, 
 		    												parameters: { decorator:"nullDecorator", healthcareSite: $(sponsorSiteAutocompleterProps.basename+"-hidden").value}
 		    											});
+		  e1 = document.getElementById("errorsDiv");
+	    	if(e1!=null){
+				e1.innerHTML='';
+			}  											
+		    											
 		} else {
 				$('flashMessage').show()
 				new Effect.Highlight('flashMessage');
