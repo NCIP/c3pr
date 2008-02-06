@@ -31,7 +31,7 @@ public class C3DPatientPositionResponseHandler implements CaXchangeMessageRespon
 
     Logger log = Logger.getLogger(C3DPatientPositionResponseHandler.class);
     private XmlMarshaller marshaller;
-    private StudySubjectService subjectService;
+    private StudySubjectService studySubjectService;
 
 
     public void handleMessageResponse(String string, Response response) {
@@ -45,7 +45,7 @@ public class C3DPatientPositionResponseHandler implements CaXchangeMessageRespon
 
                 MessageElement[] elems = payload.get_any();
                 for(MessageElement elem : elems){
-                    if(REGISTRATION_MESSAGE_ELEMENT_NAME.equalsIgnoreCase(elem.getTagName())){
+                    if(REGISTRATION_MESSAGE_ELEMENT_NAME.equalsIgnoreCase(elem.getName())){
 
                         log.debug("Found Registration element in c3d response. Processing....");
 
@@ -55,7 +55,7 @@ public class C3DPatientPositionResponseHandler implements CaXchangeMessageRespon
                             for (SystemAssignedIdentifier sId : c3dSubject.getSystemAssignedIdentifiers()) {
                                 if (sId.getSystemName().toUpperCase().indexOf(C3D_SERVICE_IDENTIFIER) > -1) {
                                     log.debug("Found c3d identifier.processing");
-                                    subjectService.assignC3DIdentifier(c3dSubject, sId.getValue());
+                                    studySubjectService.assignC3DIdentifier(c3dSubject, sId.getValue());
                                 }
                             }
                             ;
@@ -71,22 +71,24 @@ public class C3DPatientPositionResponseHandler implements CaXchangeMessageRespon
         }
     }
 
+    @Required
     public XmlMarshaller getMarshaller() {
         return marshaller;
     }
 
-    @Required
+
     public void setMarshaller(XmlMarshaller marshaller) {
         this.marshaller = marshaller;
     }
 
-    public StudySubjectService getSubjectService() {
-        return subjectService;
+     @Required
+    public StudySubjectService getStudySubjectService() {
+        return studySubjectService;
     }
 
-    @Required
-    public void setSubjectService(StudySubjectService subjectService) {
-        this.subjectService = subjectService;
+
+    public void setStudySubjectService(StudySubjectService studySubjectService) {
+        this.studySubjectService = studySubjectService;
     }
 
 }
