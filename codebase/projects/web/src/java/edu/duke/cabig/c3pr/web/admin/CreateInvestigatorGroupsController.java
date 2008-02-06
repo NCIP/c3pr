@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.web.admin;
 
+import java.io.PrintWriter;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -37,16 +39,18 @@ import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.ControllerTools;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.InPlaceEditableTab;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.SimpleFormAjaxableController;
 import edu.duke.cabig.c3pr.web.beans.DefaultObjectPropertyReader;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 
-public class CreateInvestigatorGroupsController extends SimpleFormAjaxableController<InvestigatorGroupsCommand,HealthcareSite, HealthcareSiteDao>{
+public class CreateInvestigatorGroupsController extends SimpleFormController{
 	
 	InvestigatorGroupDao investigatorGroupDao;
 	HealthcareSiteDao healthcareSiteDao;
 	private HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
 	private Logger log = Logger.getLogger(CreateInvestigatorGroupsController.class);
+	private InPlaceEditableTab<InvestigatorGroupsCommand> page;
 
 	public CreateInvestigatorGroupsController() {
 		super();
@@ -103,7 +107,22 @@ public class CreateInvestigatorGroupsController extends SimpleFormAjaxableContro
 	
 	@Override
 	protected ModelAndView processFormSubmission(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
-		InvestigatorGroupsCommand investigatorGroupsCommand=(InvestigatorGroupsCommand)command;
+		
+		if(isAjaxRequest(request)){
+			request.getParameter("_asynchronous");
+    		ModelAndView modelAndView =page.postProcessAsynchronous(request, (InvestigatorGroupsCommand)command, errors);
+   			//setAjaxModelAndView(request, modelAndView);
+   	        if (!errors.hasErrors() && shouldSave(request, (InvestigatorGroupsCommand)command)) {
+   	        	command = save((InvestigatorGroupsCommand)command, errors);
+   	        }
+   	        request.setAttribute(getFormSessionAttributeName(), command);
+   	        if(isAjaxResponseFreeText(modelAndView)){
+				respondAjaxFreeText(modelAndView, response);
+				return null;
+			}   	        
+   	        return modelAndView;
+	}		InvestigatorGroupsCommand investigatorGroupsCommand=(InvestigatorGroupsCommand)command;
+		
 		int id;
 		if(WebUtils.hasSubmitParameter(request, "groupId")){
 			id=Integer.parseInt(request.getParameter("groupId"));
@@ -120,22 +139,18 @@ public class CreateInvestigatorGroupsController extends SimpleFormAjaxableContro
 				response.getWriter().close();
 			}
 			else {
+
 				healthcareSiteDao.save(investigatorGroupsCommand.getHealthcareSite());
 				response.getWriter().println(id);
 				response.getWriter().append("/*");
 				response.getWriter().append("no");
 				response.getWriter().close();
-			}
+		}
 		}
 		
 		return null;
 	}
 	
-	@Override
-	protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object command, BindException errors) throws Exception {
-		super.onSubmit(request, response, command, errors);
-		return null;
-	}
 	
 	@Override
 	protected void onBindAndValidate(HttpServletRequest request, Object command, BindException errors) throws Exception {
@@ -193,22 +208,89 @@ public class CreateInvestigatorGroupsController extends SimpleFormAjaxableContro
 						}
 		}
 	
-	@Override
 	protected HealthcareSiteDao getDao() {
 		return healthcareSiteDao;
 	}
 
-	@Override
 	protected InvestigatorGroupsCommand getPrimaryDomainObject(InvestigatorGroupsCommand command) {
 		return command;
 	}
 	
-	@Override
 	protected InvestigatorGroupsCommand save(InvestigatorGroupsCommand command, BindException errors) {
 		this.healthcareSiteDao.save(command.getHealthcareSite());
 		return command;
 	}
 	
+	public InPlaceEditableTab<InvestigatorGroupsCommand> getPage() {
+		return page;
+	}
+	
+	public void setPage(InPlaceEditableTab<InvestigatorGroupsCommand> page) {
+		this.page = page;
+	}
+	
+	protected ModelAndView onSynchronousSubmit(HttpServletRequest request,
+            HttpServletResponse response, Object command, BindException errors) throws Exception{
+		if (getSuccessView() == null) {
+			 throw new ServletException("successView isn't set");
+		}
+		return new ModelAndView(getSuccessView(), errors.getModel());
+	}
+	
+	 protected boolean isAjaxRequest(HttpServletRequest request){
+	    	if(StringUtils.getBlankIfNull(request.getParameter(getAjaxRequestParamName())).equalsIgnoreCase("true"))
+	    		return true;
+	    	return false;
+	    }
+	    
+	    protected void setAjaxModelAndView(HttpServletRequest request, ModelAndView modelAndView){
+	    	request.setAttribute(getAjaxModelAndViewAttr(), modelAndView);
+	    }
+	    
+	    protected ModelAndView getAjaxModelAndView(HttpServletRequest request){
+	    	return (ModelAndView)request.getAttribute(getAjaxModelAndViewAttr());
+	    }
+	    
+	    protected boolean isAjaxResponseFreeText(ModelAndView modelAndView){
+	    	if(StringUtils.getBlankIfNull(modelAndView.getViewName()).equals("")){
+	    		return true;
+	    	}
+	    	return false;
+	    }
+	    
+	    protected void respondAjaxFreeText(ModelAndView modelAndView, HttpServletResponse response)throws Exception{
+	    	PrintWriter pr=response.getWriter();
+	    	pr.println(modelAndView.getModel().get(getFreeTextModelName()));
+	    	pr.flush();
+	    }
+	    
+	    protected String getAjaxRequestParamName(){
+	    	return "_asynchronous";
+	    }
+	    
+	    protected String getAjaxModelAndViewAttr(){
+	    	return "async_model_and_view";
+	    }
+
+	    protected String getFreeTextModelName(){
+	    	return "free_text";
+	    }
+	    
+	    protected ModelAndView postProcessAsynchronous(HttpServletRequest request,InvestigatorGroupsCommand command, Errors error) throws Exception{
+	    	return new ModelAndView(getAjaxViewName(request));
+	    }
+	    
+		protected String getAjaxViewName(HttpServletRequest request){
+			return request.getParameter(getAjaxViewParamName());
+		}
+
+		protected String getAjaxViewParamName(){
+			return "_asyncViewName";
+		}
+		
+		protected boolean shouldSave(HttpServletRequest request, InvestigatorGroupsCommand command){
+			return true;
+		}
 	
 }
 	
