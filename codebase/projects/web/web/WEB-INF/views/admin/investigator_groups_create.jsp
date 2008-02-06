@@ -162,6 +162,10 @@ RowManager.addRowInseter(instanceRowInserterProps);
 																					new Element.show("savedIndicator");
 																			new Element.hide("savingIndicator")
 																			if(t.responseText.split("/*")[1] == 'no'){
+																			e1 = document.getElementById("errorsDiv");
+																			if(e1!=null){
+																				e1.innerHTML='';
+																			}
 																			}
 																			if(t.responseText.split("/*")[1] == 'yes'){
 																				for(count=0;count<t.responseText.split("/*")[2];count++){
