@@ -132,11 +132,14 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 				<form:options items="${command.studySite.study.studyDiseases}" itemLabel="diseaseTerm.term" itemValue="id"/>
 				<option value="">Other</option>
 			</form:select>
-			<c:if test="${empty command.diseaseHistory.otherPrimaryDiseaseCode }">
-				<c:set var="diseaseStyle" value="display: none;"></c:set>			 
+			<tags:hoverHint keyProp="studySubject.primaryDisease"/>
+			<c:if test="${empty command.diseaseHistory.otherPrimaryDiseaseCode}">
+				<c:set var="diseaseStyle" value="display:none;"></c:set>			 
 			</c:if>
-			<form:input id="otherDisease" path="diseaseHistory.otherPrimaryDiseaseCode" cssStyle="${diseaseStyle}"/>
-			<tags:hoverHint keyProp="studySubject.otherDisease"/>
+			<span id="otherDisease" style="${diseaseStyle}">
+				<form:input id="otherDisease" path="diseaseHistory.otherPrimaryDiseaseCode" />
+				<tags:hoverHint keyProp="studySubject.otherDisease"/>
+			</span>
 		<td>
 	</tr>
 	<tr>
