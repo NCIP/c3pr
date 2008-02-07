@@ -1,1 +1,0 @@
-This little wiki is using Radeox markup. Please see http://www.radeox.org for help.
