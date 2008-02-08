@@ -178,6 +178,7 @@
             <artifact refid="globus.jars"/>
             <artifact refid="cagrid-introduce.jars"/>
             <artifact refid="caXchange.jars"/>
+            <artifact refid="acegi.jars"/>
         </resolveDependencies>
         <ant dir="${projects.dir}/esb-client" inheritAll="false" antfile="build.xml" target="all"/>
     </target>
