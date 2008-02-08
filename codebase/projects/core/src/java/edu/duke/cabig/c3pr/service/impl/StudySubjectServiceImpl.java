@@ -337,9 +337,11 @@ public class StudySubjectServiceImpl extends CCTSWorkflowServiceImpl
 		this.hostedMode = hostedMode;
 	}
 
-	public void assignC3DIdentifier(StudySubject studySubject, String c3dIdentifierValue) {
-		studySubject.setC3DIdentifier(c3dIdentifierValue);
-		studySubjectDao.save(studySubject);
+   @Transactional
+    public void assignC3DIdentifier(StudySubject studySubject, String c3dIdentifierValue) {
+        StudySubject loadedSubject = studySubjectDao.getByGridId(studySubject.getGridId());
+        loadedSubject.setC3DIdentifier(c3dIdentifierValue);
+		studySubjectDao.save(loadedSubject);
 	}
 
 	public void assignCoOrdinatingCenterIdentifier(String studySubjectGridId, String identifierValue) {
