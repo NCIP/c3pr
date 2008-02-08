@@ -11,6 +11,10 @@ import org.globus.gsi.GlobusCredential;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.acegisecurity.context.SecurityContext;
+import org.acegisecurity.context.SecurityContextHolder;
+import org.acegisecurity.context.SecurityContextImpl;
+import org.acegisecurity.Authentication;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -133,7 +137,7 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
         if (messageWorkflowCallback != null || messageResponseHandlers.size() > 0) {
             log.debug("Will track response from caXchange");
             try {
-                FutureTask asyncTask = new AsynchronousResponseRetreiver(new SynchronousResponseProcessor(responseRef));
+                FutureTask asyncTask = new AsynchronousResponseRetreiver(new SynchronousResponseProcessor(responseRef),SecurityContextHolder.getContext().getAuthentication());
                 //ToDo make this like a global service not single thread executor
                 ExecutorService es = Executors.newSingleThreadExecutor();
                 es.submit(asyncTask);
@@ -188,8 +192,11 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
 
     class AsynchronousResponseRetreiver extends FutureTask {
 
-        public AsynchronousResponseRetreiver(Callable callable) {
+        Authentication auth;
+
+        public AsynchronousResponseRetreiver(Callable callable, Authentication auth) {
             super(callable);
+            this.auth = auth;
         }
 
 
@@ -202,6 +209,11 @@ public class CaXchangeMessageBroadcasterImpl implements CCTSMessageBroadcaster, 
                     log.debug(response.getResponse());
                     String objectId = response.getResponseMetadata().getExternalIdentifier();
                     log.debug("Received response from caXchange for externalId" + objectId);
+
+                    log.debug("Setting authentication object in SecurityContext.");
+                    SecurityContext ctx = new SecurityContextImpl();
+                    ctx.setAuthentication(this.auth);
+                    SecurityContextHolder.setContext(ctx);
 
                     if (response.getResponse().getResponseStatus().equals(Statuses.SUCCESS)) {
                         log.debug("Received delivery confirmation from caXchange");
