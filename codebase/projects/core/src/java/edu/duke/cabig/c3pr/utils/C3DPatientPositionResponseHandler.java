@@ -55,7 +55,11 @@ public class C3DPatientPositionResponseHandler implements CaXchangeMessageRespon
                             for (SystemAssignedIdentifier sId : c3dSubject.getSystemAssignedIdentifiers()) {
                                 if (sId.getSystemName().toUpperCase().indexOf(C3D_SERVICE_IDENTIFIER) > -1) {
                                     log.debug("Found c3d identifier.processing");
-                                    studySubjectService.assignC3DIdentifier(c3dSubject, sId.getValue());
+                                    try {
+                                        studySubjectService.assignC3DIdentifier(c3dSubject, sId.getValue());
+                                    } catch (Exception e) {
+                                        log.error("Could not assign identifier." + e.getMessage());
+                                    }
                                 }
                             }
                             ;
