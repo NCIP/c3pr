@@ -99,6 +99,7 @@
             <property name="basedir" value="${base.codebase.dir}"/>
             <property name="ext.tomcat.dir" value="${tomcat.home}"/>
             <property name="env.CATALINA_HOME" value="${tomcat.home}"/>
+            <property name="offline.installer" value="true"/>
         </ant>
 
         <!--copy c3pr.properties to $CATALINA_HOME/conf-->
@@ -123,6 +124,7 @@
              inheritall="false" target="build-grid">
             <property name="basedir" value="${base.codebase.dir}"/>
             <property name="ext.tomcat.dir" value="${tomcat.home}"/>
+            <property name="offline.installer" value="true"/>
         </ant>
     </target>
 
@@ -130,6 +132,7 @@
         <ant dir="${base.codebase.dir}" antfile="antfiles/build.xml"
              inheritall="false" target="deployGlobus">
             <property name="ext.tomcat.dir" value="${tomcat.home}"/>
+            <property name="offline.installer" value="true"/>
         </ant>
     </target>
 
@@ -138,6 +141,7 @@
              inheritall="false" target="deploy-grid-C3PRStudyConsumer">
             <property name="basedir" value="${base.codebase.dir}"/>
             <property name="ext.tomcat.dir" value="${tomcat.home}"/>
+            <property name="offline.installer" value="true"/>
         </ant>
     </target>
 
@@ -146,18 +150,10 @@
              inheritall="false" target="deploy-grid-RegistrationConsumer">
             <property name="basedir" value="${base.codebase.dir}"/>
             <property name="ext.tomcat.dir" value="${tomcat.home}"/>
+            <property name="offline.installer" value="true"/>
         </ant>
     </target>
 
-    <!--create/update datbase-->
-    <!--rem: build.properties is already copied-->
-    <target name="database.migrate">
-        <ant dir="${c3pr.core.dir}"
-             inheritall="false"
-             target="bering-migrate">
-
-        </ant>
-    </target>
 
     <target name="deploy-codebase">
         <echo message="Installing source code"/>
