@@ -17,8 +17,10 @@
     <artifact:remoteRepository id="ibiblio.repository" url="http://mirrors.ibiblio.org/pub/mirrors/maven2"/>
 
 
-    <target name="resolve-ctms-dependencies"
+    <target name="resolve-ctms-dependencies" unless="offline.installer"
             description="Get CTMSI commons dependencies">
+        <echo message="Getting CTMSI dependencies"/>
+        
         <!--clean out previous artifacts-->
         <delete dir="${ctms.commons.dir}" failonerror="true"/>
         <mkdir dir="${ctms.commons.dir}"/>
