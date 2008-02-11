@@ -61,7 +61,6 @@ public class Configuration extends DatabaseBackedConfiguration {
 	public static final ConfigurationProperty<String> OUTGOING_MAIL_AUTH
     = PROPERTIES.add(new ConfigurationProperty.Text("outgoingMailAuth"));
 
-    @Override
     public ConfigurationProperties getProperties() {
         return PROPERTIES;
     }
