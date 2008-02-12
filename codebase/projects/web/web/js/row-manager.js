@@ -72,7 +72,7 @@ var RowManager = {
 					}else{
 						flagDel=inserter.shouldDelete(inserter,deletionIndex)
 						if(!flagDel)
-							return false;
+							return false
 						inserter.preProcessRowDeletion(inserter,deletionIndex)
 						inserter.handleRowRemoval(deletionIndex,hashCode)
 						inserter.postProcessRowDeletion(inserter,deletionIndex)
@@ -97,7 +97,7 @@ var RowManager = {
 								}
 							},
 	registerRowInserter: function(rowInserter){
-								clone=Object.clone(AbstractRowInserterProps);
+								clone=Object.clone(AbstractRowInserterProps)
 								Object.extend(clone,rowInserter)
 								Object.extend(rowInserter,clone)
 								rowInserter.init()
@@ -159,7 +159,7 @@ var AbstractRowInserterProps = {
 	deleteMsgPrefix:"",
 	reset: function(index){
 					this.initialIndex=index
-					this.init();
+					this.init()
 				},
 	updateIndex: function(index){
 						this.localIndex=index
@@ -189,7 +189,7 @@ var AbstractRowInserterProps = {
 							return elementString
 						},
 	getTableString: function(){
-							tableString= "'"+this.add_row_division_id+"'";
+							tableString= "'"+this.add_row_division_id+"'"
 							if(this.havingParentRowInserter()){
 								tableString+=" in '"+this.parent_row_inserter.getColumnDivisionID(this.parent_row_index)+"'"
 							}
@@ -309,7 +309,7 @@ var AbstractRowInserterProps = {
 	onLoadInitialize: function(object){
 							if(this.softDelete){
 								for(localInd=0 ; localInd<this.initialIndex ; localInd++)
-									new Element.descendants(object.getColumnDivisionElement(localInd)).each(function(e){e.disabled="true";})
+									new Element.descendants(object.getColumnDivisionElement(localInd)).each(function(e){e.disabled="true"})
 							}							
 						},    						
     getNestedRowInserter: function(index){
@@ -343,7 +343,7 @@ var AbstractRowInserterProps = {
 							if(RowManager.debug)
 								deletionMessage="<b>(deleted upon request)</b>"
 							//new Element.descendants(this.getColumnDivisionElement(index)).each(function(e){e.style.backgroundColor="red";})
-							new Element.descendants(this.getColumnDivisionElement(index)).each(function(e){e.style.background="white url('../../images/redStripes.jpg') repeat";})
+							new Element.descendants(this.getColumnDivisionElement(index)).each(function(e){e.style.background="white url('../../images/redStripes.jpg') repeat"})
 							//this.getColumnDivisionElement(index).style.background="url(/images/redStripes.jpg) repeat"
 							RowManager.log(logString+"</div>")
     						RowManager.log("------------------------<br>")							
@@ -365,7 +365,7 @@ var AbstractRowInserterProps = {
 							$('rowDeletionForm').collection.value=this.replaceParentIndexes(this.path)
 							$('rowDeletionForm').deleteIndex.value=index
 							$('rowDeletionForm').deleteHashCode.value=hashCode
-							parameterString="decorator=nullDecorator&_asynchronous=true&_asyncMethodName=deleteRow&"+Form.serialize('rowDeletionForm');
+							parameterString="decorator=nullDecorator&_asynchronous=true&_asyncMethodName=deleteRow&"+Form.serialize('rowDeletionForm')
 							if(this.softDelete)
 								parameterString="softDelete=true&"+parameterString
 							new Ajax.Request($('rowDeletionForm').action, 
@@ -449,17 +449,17 @@ var AbstractRowInserterProps = {
 									if(element.id!=null){
 										idLocal=element.id
 										element.id=element.id.gsub(this.getRegEx(),function(matches){
-																				return matches[1]+"["+parseInt(matches[2]-1)+"]";
+																				return matches[1]+"["+parseInt(matches[2]-1)+"]"
 																			}
 																	)
 									}
 									if(element.name!=null){
 										nameLocal=element.name
 										element.name=element.name.gsub(this.getRegEx(),function(matches){
-																				return matches[1]+"["+parseInt(matches[2]-1)+"]";
+																				return matches[1]+"["+parseInt(matches[2]-1)+"]"
 																			}
 																	)
 									}
 									return "element: ["+idLocal+"] of type ["+element.type+"] and name ["+nameLocal+"]<br>"
-								},
+								}
 	}
