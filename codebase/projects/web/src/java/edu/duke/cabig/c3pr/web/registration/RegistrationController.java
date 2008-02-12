@@ -16,6 +16,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.util.WebUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
@@ -122,6 +123,8 @@ public abstract class RegistrationController<C extends StudySubject> extends Aut
 
     @Override
     protected boolean shouldSave(HttpServletRequest request, C command, Tab<C> tab) {
+    	if(WebUtils.hasSubmitParameter(request, "dontSave"))
+    		return false;
         if (getPrimaryDomainObject(command) == null)
             return false;
         return getPrimaryDomainObject(command).getId() != null;
