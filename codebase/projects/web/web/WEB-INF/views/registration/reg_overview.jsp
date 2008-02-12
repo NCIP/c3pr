@@ -59,7 +59,7 @@
 
         <tags:tabMethod method="broadcastRegistration"
        viewName="/ajax/broadcast_res" onComplete="onBroadcastComplete"
-       divElement="'broadcastResponse'" formName="'tabMethodForm'"/>
+       divElement="'broadcastResponse'" formName="'tabMethodForm'"params="dontSave=true"/>
         }
 
         function onBroadcastComplete() {
