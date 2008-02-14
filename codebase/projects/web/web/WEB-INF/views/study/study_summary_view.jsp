@@ -81,8 +81,8 @@
         <tr>
             <td class="alt" align="left"><b>Target Accrual Number</b></td>
             <td class="alt" align="left">
-            <tags:inPlaceEdit value="${command.targetAccrualNumber}" path="changedTargetAccrualNumber_${status.index}"
-                              required="true"/>
+                <tags:inPlaceEdit value="${command.targetAccrualNumber}" path="changedTargetAccrualNumber_${status.index}"
+                                  required="true"/>
             </td>
         </tr>
         <tr>
@@ -101,7 +101,7 @@
 						['Temporarily Closed To Accrual And Treatment','Temporarily Closed To Accrual And Treatment'],
 						['Temporarily Closed To Accrual','Temporarily Closed To Accrual']]"></c:set>
             <td>
-               <tags:inPlaceSelect
+                <tags:inPlaceSelect
                         value="${command.coordinatingCenterStudyStatus.code}"
                         path="changedCoordinatingCenterStudyStatus"
                         commanSepOptVal="${commanSepOptVal}"/>
@@ -109,7 +109,7 @@
                 <csmauthz:accesscontrol domainObject="${command}" hasPrivileges="UPDATE"
                                         authorizationCheckName="domainObjectAuthorizationCheck">
                     &nbsp; <input type="button" value="Change Status"
-                              onclick="editor_changedCoordinatingCenterStudyStatus.enterEditMode('click')"/>
+                                  onclick="editor_changedCoordinatingCenterStudyStatus.enterEditMode('click')"/>
                 </csmauthz:accesscontrol>
             </td>
         </tr>
@@ -204,16 +204,16 @@
                             value="${command.studySites[status.index].siteStudyStatus.code}"
                             path="changedSiteStudyStatus_${status.index}"
                             commanSepOptVal="${commanSepOptValSite}"/>
-                    </td>
+                </td>
                 <td class="alt" align="left">${studySite.roleCode}</td>
                 <td class="alt" align="left">
                     <tags:inPlaceEdit value="${studySite.startDateStr}" path="changedSiteStudyStartDate_${status.index}"
                                       required="true"/>
-                    </td>
+                </td>
                 <td class="alt" align="left">
                     <tags:inPlaceEdit value="${studySite.irbApprovalDateStr}"
                                       path="changedSiteStudyIrbApprovalDate_${status.index}" required="true"/>
-                    </td>
+                </td>
                 <td><input type="button" value="Edit" onclick="activateInPlaceEditing(eArray_${status.index})"/>
                     <script>
                         eArray_${status.index} = new Array();
@@ -410,25 +410,30 @@
 </chrome:division>
 </div>
 
-<chrome:division title="CCTS Workflow">
-    <div class="content">
-        <div class="row">
-            <div class="label">
-                Broadcast Status:
-            </div>
+<c:if test="${command.dataEntryStatus.code == 'Complete'}">
+    <chrome:division title="CCTS Workflow">
+        <div class="content">
+            <div class="row">
+                <div class="label">
+                    Broadcast Status:
+                </div>
 
-            <div class="value">
+                <div class="value">
                 <span id="broadcastResponse">
                         ${command.cctsWorkflowStatus.displayName}
                 </span>
-                <input type="button" id="broadcastStatusBtn" value="Refresh"
-                       onclick="getBroadcastStatus()"/>
-                <input type="button" id="broadcastBtn" value="Broadcast"
-                       onclick="doSendMessageToESB()"/>
+                    <input type="button" id="broadcastStatusBtn" value="Refresh"
+                           onclick="getBroadcastStatus()"/>
+
+
+                    <input type="button" id="broadcastBtn" value="Broadcast"
+                           onclick="doSendMessageToESB()"/>
+                </div>
             </div>
         </div>
-    </div>
-</chrome:division>
+    </chrome:division>
+</c:if>
+
 
 <%--Optionally display edit mode buttons--%>
 <c:if test="${not empty editAuthorizationTask}">
@@ -445,9 +450,9 @@
 
 
                     <input type="button" value="Amend Study" id="amendButtonDisplayDiv"
-                            <c:if test="${command.coordinatingCenterStudyStatus != 'ACTIVE' &&
+                           <c:if test="${command.coordinatingCenterStudyStatus != 'ACTIVE' &&
   							command.coordinatingCenterStudyStatus != 'AMENDMENT_PENDING'}">style="display:none"
-                            </c:if>
+                    </c:if>
                            onclick="document.location='../study/amendStudy?studyId=${command.id}'"/>
 
                 </csmauthz:accesscontrol> </span></div>
@@ -456,7 +461,7 @@
 </c:if>
 <br/>
 <div align="right">
-	<input type="button" value="Print" onClick="javascript:C3PR.printElement('printable');"/>
+    <input type="button" value="Print" onClick="javascript:C3PR.printElement('printable');"/>
 </div>
 </chrome:box>
 
