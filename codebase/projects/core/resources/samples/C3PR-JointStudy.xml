@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<study xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain" gridId="816b5383-897e-4555-a9eb-de20efa95ac6" version="7">
+<blindedIndicator>false</blindedIndicator>
+<multiInstitutionIndicator>true</multiInstitutionIndicator>
+<randomizedIndicator>false</randomizedIndicator>
+<shortTitleText>test design page</shortTitleText>
+<longTitleText>long title</longTitleText>
+<descriptionText></descriptionText>
+<precisText></precisText>
+<phaseCode>Phase I Trial</phaseCode>
+<consentVersion>1.0</consentVersion>
+<dataEntryStatus>COMPLETE</dataEntryStatus>
+<coordinatingCenterStudyStatus>ACTIVE</coordinatingCenterStudyStatus>
+<type>Diagnostic</type>
+<targetAccrualNumber>10</targetAccrualNumber>
+<organizationAssignedIdentifier>
+<type>Coordinating Center Identifier</type>
+<value>2391</value>
+<primaryIndicator>true</primaryIndicator>
+<healthcareSite gridId="NCI GRID ID">
+<name>Warren Grant Magnuson Clinical Center</name>
+<address>
+<streetAddress>10 Center Drive Bldg 10</streetAddress>
+<city>Bethesda</city>
+<stateCode>MD</stateCode>
+<postalCode>20892</postalCode>
+<countryCode>USA</countryCode>
+</address>
+<nciInstituteCode>Warren</nciInstituteCode>
+</healthcareSite>
+</organizationAssignedIdentifier>
+<treatmentEpoch gridId="47cd6f16-9352-4eeb-8d11-7e74474cafa9">
+<name>epoch</name>
+<descriptionText></descriptionText>
+<arm gridId="2ff24847-5b9c-4037-8f48-62756cb49f98">
+<name>Arm A</name>
+<descriptionText></descriptionText>
+<targetAccrualNumber>300</targetAccrualNumber>
+</arm>
+<stratificationCriteria>
+<questionText>acwef</questionText>
+<permissibleAnswer><permissibleAnswer>cfa</permissibleAnswer></permissibleAnswer>
+<permissibleAnswer><permissibleAnswer>sdv</permissibleAnswer></permissibleAnswer>
+</stratificationCriteria>
+</treatmentEpoch>
+<studyCoordinatingCenter gridId="227cc3dc-b40a-415d-81f0-23601df55978">
+<healthcareSite gridId="NCI GRID ID">
+<name>Warren Grant Magnuson Clinical Center</name>
+<address>
+<streetAddress>10 Center Drive Bldg 10</streetAddress>
+<city>Bethesda</city>
+<stateCode>MD</stateCode>
+<postalCode>20892</postalCode>
+<countryCode>USA</countryCode>
+</address>
+<nciInstituteCode>Warren</nciInstituteCode>
+</healthcareSite>
+<studyInvestigator>
+<roleCode>Principal Investigator</roleCode>
+<statusCode>Active</statusCode>
+<healthcareSiteInvestigator>
+<investigator>
+<nciIdentifier>1000091</nciIdentifier>
+<fullName>Hillary Clinton</fullName>
+</investigator>
+</healthcareSiteInvestigator>
+</studyInvestigator>
+</studyCoordinatingCenter>
+<studySite gridId="8ab5acd1-cf1e-4813-8765-56a5edfbace9">
+<healthcareSite>
+<name>North Central Cancer Treatment Group</name>
+<address>
+<streetAddress>200 First Street SW</streetAddress>
+<city>Rochester</city>
+<stateCode>MN</stateCode>
+<postalCode>55905</postalCode>
+<countryCode>USA</countryCode>
+</address>
+<nciInstituteCode>NCCTG</nciInstituteCode>
+</healthcareSite>
+<irbApprovalDate>2008-02-07</irbApprovalDate>
+<roleCode>Affiliate Site</roleCode>
+<startDate>2008-02-06</startDate>
+</studySite>
+<studySite gridId="1f6f71b1-7abd-45ee-bf5f-30ae1eef9aba">
+<healthcareSite gridId="DUKE GRID ID">
+<name>Duke University Comprehensive Cancer Center (Duke) (Duke) (Duke) (Duke)</name>
+<address>
+<streetAddress>512 South Magnum Street Suite 400</streetAddress>
+<city>Durham</city>
+<stateCode>NC</stateCode>
+<postalCode>27710</postalCode>
+<countryCode>USA</countryCode>
+</address>
+<nciInstituteCode>Duke</nciInstituteCode>
+</healthcareSite>
+<irbApprovalDate>2008-02-06</irbApprovalDate>
+<roleCode>Affiliate Site</roleCode>
+<startDate>2008-02-06</startDate>
+</studySite>
+</study>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
