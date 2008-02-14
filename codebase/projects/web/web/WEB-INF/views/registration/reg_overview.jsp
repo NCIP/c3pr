@@ -326,7 +326,7 @@
             <tr>
                 <td>${sysIdentifier.systemName}</td>
                 <td>${sysIdentifier.type}</td>
-                <td>${orgIsysIdentifierdentifier.value}</td>
+                <td>${sysIdentifier.value}</td>
                 <td>${sysIdentifier.primaryIndicator}
                     <form:radiobutton value="true" cssClass="identifierRadios"
                                       path="command.systemAssignedIdentifiers[${status.index}].primaryIndicator"/></td>
