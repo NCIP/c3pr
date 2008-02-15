@@ -56,9 +56,7 @@ public class StudyValidator implements Validator {
 	public void validateStudy(Object target, Errors errors) {
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "longTitleText",
 				"required", "required field");
-		ValidationUtils.rejectIfEmpty(errors, "status", "required",
-				"required field");
-		ValidationUtils.rejectIfEmpty(errors, "sponsorCode", "required",
+		ValidationUtils.rejectIfEmpty(errors, "coordinatingCenterStudyStatus", "required",
 				"required field");
 		ValidationUtils.rejectIfEmpty(errors, "phaseCode", "required",
 				"required field");
@@ -83,7 +81,7 @@ public class StudyValidator implements Validator {
 				errors.rejectValue("organizationAssignedIdentifiers",new Integer(getCode("C3PR.STUDY.DUPLICATE.ORGANIZATION_ASSIGNED_IDENTIFIER.ERROR")).toString(),getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.ORGANIZATION_ASSIGNED_IDENTIFIER.ERROR"),null,null));
 			}
 		} catch (Exception ex){
-			log.debug("Error while validating study  organization identifiers");
+			log.debug(ex.getMessage());
 		}
 		List<SystemAssignedIdentifier> allSystemAssigedIdentitiers = study.getSystemAssignedIdentifiers();
 		try {
@@ -100,7 +98,7 @@ public class StudyValidator implements Validator {
 			}
 			
 		} catch (Exception ex){
-			log.debug("error while validating study system identifiers");
+			log.debug(ex.getMessage());
 		}
 	}
 	
@@ -139,7 +137,7 @@ public class StudyValidator implements Validator {
 				errors.rejectValue("studySites",new Integer(getCode("C3PR.STUDY.DUPLICATE.STUDY_SITE.ERROR")).toString(),getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.STUDY_SITE.ERROR"),null,null));
 			}
 		} catch(Exception ex) {
-			log.debug("error while validating study sites");
+			log.debug(ex.getMessage());
 		}
 	}
 	
@@ -165,7 +163,7 @@ public class StudyValidator implements Validator {
 				errors.rejectValue("studyOrganizations[0].studyInvestigators",new Integer(getCode("C3PR.STUDY.DUPLICATE.STUDY.INVESTIGATOR.ROLE.ERROR")).toString(),getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.STUDY.INVESTIGATOR.ROLE.ERROR"),null,null));
 			}
 		} catch(Exception ex) {
-			log.debug("error while validating study investigators");
+			log.debug(ex.getMessage());
 		}
 	}
 	
@@ -191,7 +189,7 @@ public class StudyValidator implements Validator {
 				errors.rejectValue("studyOrganizations[0].studyPersonnel",new Integer(getCode("C3PR.STUDY.DUPLICATE.STUDY.PERSON.ROLE.ERROR")).toString(),getMessageFromCode(getCode("C3PR.STUDY.DUPLICATE.STUDY.PERSON.ROLE.ERROR"),null,null));
 			}
 		} catch(Exception ex) {
-			log.debug("error while validating study personnel");
+			log.debug(ex.getMessage());
 		}
 	}
 
@@ -207,7 +205,7 @@ public class StudyValidator implements Validator {
 			}
 			
 		} catch(Exception ex) {
-				log.debug("error while validating epochs");
+				log.debug(ex.getMessage());
 		}
 	}
 	
@@ -222,7 +220,7 @@ public class StudyValidator implements Validator {
 				errors.popNestedPath();
 			}
 		} catch(Exception ex) {
-				log.debug("error while validating epochs");
+				log.debug(ex.getMessage());
 		}
 	}
 	
@@ -237,7 +235,7 @@ public class StudyValidator implements Validator {
 			}
 			
 		} catch(Exception ex) {
-				 log.debug("error while validating study diseases");
+				 log.debug(ex.getMessage());
 		}
 	}
 
