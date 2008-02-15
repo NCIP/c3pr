@@ -25,4 +25,11 @@ public class DiseaseTermDao extends GridIdentifiableDao<DiseaseTerm> {
         		new Object[] { parentId });
     }
     
+    /*
+     * Primarily created for Generating test reports.
+     */
+    @SuppressWarnings("unchecked")
+    public List<DiseaseTerm> getByCtepTerm(String ctepTerm){
+    	return getHibernateTemplate().find("from DiseaseTerm dt where dt.ctepTerm =?",ctepTerm);
+    }
 }

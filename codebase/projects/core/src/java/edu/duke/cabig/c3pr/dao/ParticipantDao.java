@@ -125,6 +125,15 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements 
 	 * @return
 	 * @throws DataAccessException
 	 */
+	public List<Participant> getByFirstName(String name) throws DataAccessException {
+		return getHibernateTemplate().find("from Participant p where p.firstName = ?", name);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @throws DataAccessException
+	 */
 	public List<OrganizationAssignedIdentifier> getSubjectIdentifiersWithMRN(String MRN,  HealthcareSite site) throws DataAccessException {
 		List<OrganizationAssignedIdentifier> orgAssignedIdentifiers = (List<OrganizationAssignedIdentifier>) getHibernateTemplate().
                 find("from Identifier I where I.type='MRN' and I.healthcareSite = ?",site);

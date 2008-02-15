@@ -143,6 +143,8 @@
 
     <STUDY_DISEASES id="1000" version="1" study_id="1000" disease_term_id="1000" lead_disease="1"
                     retired_indicator="false"/>
+    <STUDY_DISEASES id="1001" version="1" study_id="1000" disease_term_id="1001" lead_disease="1"
+                    retired_indicator="false"/>
 
     <DISEASE_HISTORY id="1000" version="1" retired_indicator="false"/>
 

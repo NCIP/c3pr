@@ -51,10 +51,10 @@
     <RESEARCH_STAFF id="1002" version="1" first_name="Research Benjamin" last_name="Staff3" hcs_id="1001" retired_indicator = "false" />    
     <RESEARCH_STAFF id="1003" version="1" first_name="Research JFK" last_name="Staff4" hcs_id="1001" retired_indicator = "false" />
     
-    <INVESTIGATORS id="1000" version="1" first_name="Investigator Bill" last_name="Staff1" retired_indicator = "false" />
-    <INVESTIGATORS id="1001" version="1" first_name="Investigator George" last_name="Staff2" retired_indicator = "false" />
-    <INVESTIGATORS id="1002" version="1" first_name="Investigator Benjamin" last_name="Staff3" retired_indicator = "false" />
-    <INVESTIGATORS id="1003" version="1" first_name="Investigator JFK" last_name="Staff4" retired_indicator = "false" />
+    <INVESTIGATORS id="1000" version="1" first_name="Bill" last_name="Murphy" retired_indicator = "false" />
+    <INVESTIGATORS id="1001" version="1" first_name="George" last_name="Claire" retired_indicator = "false" />
+    <INVESTIGATORS id="1002" version="1" first_name="Benjamin" last_name="Douglas" retired_indicator = "false" />
+    <INVESTIGATORS id="1003" version="1" first_name="John" last_name="Muster" retired_indicator = "false" />
     
     <HC_SITE_INVESTIGATORS id="1000" version="1" status_code="ACTIVE" status_date="01-01-2000" inv_id="1000" hcs_id="1000" retired_indicator = "false" />
     <HC_SITE_INVESTIGATORS id="1001" version="1" status_code="ACTIVE" status_date="01-01-2000" inv_id="1001" hcs_id="1000" retired_indicator = "false" />

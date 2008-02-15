@@ -9,9 +9,19 @@ import static edu.duke.cabig.c3pr.C3PRUseCase.CREATE_LOCAL_REGISTERATION;
 import static edu.duke.cabig.c3pr.C3PRUseCase.UPDATE_REGISTERATION_STATUS;
 import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringReader;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
+import org.jdom.output.Format;
+import org.jdom.output.SAXOutputter;
+import org.jdom.output.XMLOutputter;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
@@ -38,6 +48,8 @@ import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 import edu.duke.cabig.c3pr.utils.StringUtils;
+import edu.duke.cabig.c3pr.xml.XmlMarshaller;
+import gov.nih.nci.common.exception.XMLUtilityException;
 
 /**
  * JUnit Tests for ParticipantDao
@@ -54,6 +66,8 @@ public class StudySubjectDaoTest extends DaoTestCase {
     private StudySubjectDao studySubjectDao;
     private ScheduledEpochDao scheduledEpochDao;
     private HealthcareSiteDao healthcareSiteDao;
+    private XmlMarshaller xmlUtility;
+    private XmlMarshaller xmlUtilityStudy;
     
     @Override
     protected void setUp() throws Exception {
@@ -67,7 +81,62 @@ public class StudySubjectDaoTest extends DaoTestCase {
         scheduledEpochDao= (ScheduledEpochDao) getApplicationContext().getBean("scheduledEpochDao");
         studyDao=(StudyDao) getApplicationContext().getBean("studyDao");
         healthcareSiteDao=(HealthcareSiteDao) getApplicationContext().getBean("healthcareSiteDao");
+        xmlUtility = new XmlMarshaller((String) getApplicationContext().getBean("ccts-registration-castorMapping"));
+        xmlUtilityStudy = new XmlMarshaller((String) getApplicationContext().getBean("ccts-study-castorMapping"));
     }
+    
+    /*
+     * 
+     */
+    public void testForReport(){
+    	//Fetch the subject with firstName Rudolph
+    	List<Participant> participantList = dao.getByFirstName("Rudolph");
+    	Participant participant = participantList.get(0);
+    	try {
+            String outputFileName = "C:\\TestReport.txt";
+
+            // Create FileReader Object
+            FileWriter outputFileReader  = new FileWriter(outputFileName);
+            PrintWriter outputStream  = new PrintWriter(outputFileReader);
+            outputStream.println("+---------- Auto generated report based on data retrieved from the c3pr database. ----------+");
+            outputStream.println("");
+            outputStream.println("");
+            outputStream.println("--- Retrieving the participant ---");
+            outputStream.println("Name: "+participant.getFullName());
+            outputStream.println("Gender: "+participant.getAdministrativeGenderCode());
+            outputStream.println("Race: "+participant.getRaceCode());
+            outputStream.println("Address: " +participant.getAddress().getStreetAddress() + " "
+            		+participant.getAddress().getCity()+ " "
+            		+participant.getAddress().getStateCode()+ " "
+            		+participant.getAddress().getCountryCode());
+            outputStream.println("");
+            outputStream.println("");
+            outputStream.println("--- Retrieving the Registration details for the selected participant. ---");
+            outputStream.println("--- Participant has "+participant.getStudySubjects().size()+" Registration(s). ---");
+            outputStream.println("");
+            
+            StudySubject ss = null;        	
+            for(int i=0;i<participant.getStudySubjects().size();i++){
+            	//fetch all registrations for Rudolph.
+            	ss = studySubjectDao.getById(participant.getStudySubjects().get(i).getId());
+            	outputStream.println("Registration: " + i); 
+            	try{
+            		String xml = xmlUtility.toXML(ss);
+            		String newXml=new XMLOutputter(Format.getPrettyFormat()).outputString(new SAXBuilder().build(new StringReader(xml)));
+            		outputStream.println(newXml); 
+            	}catch(XMLUtilityException xue){
+            		log.error(xue.getMessage());
+            	}catch (JDOMException je){
+            		log.error(je.getMessage());
+            	}
+            }
+            outputStream.close();
+        } catch (IOException e) {
+            System.out.println("IOException:");
+            e.printStackTrace();
+        }
+    }
+    
     
 	/*
 	 * Test for the advanced search for studies(reporting use case).

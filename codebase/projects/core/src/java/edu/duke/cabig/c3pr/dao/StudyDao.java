@@ -24,6 +24,7 @@ import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.StratumGroup;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyDisease;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
@@ -278,6 +279,14 @@ public class StudyDao extends GridIdentifiableDao<Study>
         return getHibernateTemplate().find("select a from Study s join s.studyOrganizations so " +
                 "join so.studySubjects a where s.id = ? ", studyId);
     }
+    
+    /*
+     * Primarily created for Generating test reports.
+     */
+    public List<StudyDisease> getByDiseaseTermId(Integer dTermId){
+    	return getHibernateTemplate().find("from StudyDisease sd where sd.diseaseTerm.id = ?", dTermId);
+    }
+    
 
     @Transactional (readOnly = false)
     public void reassociate(Study s) {

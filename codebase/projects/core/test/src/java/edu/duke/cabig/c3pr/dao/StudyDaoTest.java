@@ -9,10 +9,19 @@ import static edu.duke.cabig.c3pr.C3PRUseCase.UPDATE_STUDY;
 import static edu.duke.cabig.c3pr.C3PRUseCase.VERIFY_SUBJECT;
 import static edu.nwu.bioinformatics.commons.testing.CoreTestCase.assertContains;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+
+import org.jdom.JDOMException;
+import org.jdom.input.SAXBuilder;
+import org.jdom.output.Format;
+import org.jdom.output.XMLOutputter;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.domain.Address;
@@ -32,6 +41,7 @@ import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.NonTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.Notification;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Randomization;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.RoleBasedRecipient;
@@ -51,9 +61,11 @@ import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 import edu.duke.cabig.c3pr.utils.SecurityContextTestUtils;
+import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
+import gov.nih.nci.common.exception.XMLUtilityException;
 
 /**
  * JUnit Tests for StudyDao
@@ -85,6 +97,55 @@ public class StudyDaoTest extends DaoTestCase {
 	private DiseaseCategoryDao diseaseCategoryDao = (DiseaseCategoryDao) getApplicationContext()
 			.getBean("diseaseCategoryDao");
 
+    private XmlMarshaller xmlUtility;
+    
+    @Override
+    protected void setUp() throws Exception {
+    	super.setUp();
+        xmlUtility = new XmlMarshaller((String) getApplicationContext().getBean("ccts-study-castorMapping"));
+    }
+	
+	public void testForReport(){
+		
+    	try {
+            String outputFileName = "C:\\TestReportStudy.txt";
+
+            // Create FileReader Object
+            FileWriter outputFileReader  = new FileWriter(outputFileName);
+            PrintWriter outputStream  = new PrintWriter(outputFileReader);
+            outputStream.println("+---------- Auto generated report based on data retrieved from the c3pr database. ----------+");
+            outputStream.println("");
+            outputStream.println("");
+            outputStream.println("--- Retrieving the details for a Disease Term. ---");
+            List<DiseaseTerm> dTermList = diseaseTermDao.getByCtepTerm("AIDS-related cervical cancer");
+    		//display disease term data and now fetch studies with this disease term
+            outputStream.println("Ctep Term: "+dTermList.get(0).getCtepTerm());
+            outputStream.println("Disease Category Name: "+dTermList.get(0).getCategory().getName());
+            outputStream.println("Term: "+dTermList.get(0).getTerm());
+            
+    		List<StudyDisease> sdList = dao.getByDiseaseTermId(dTermList.get(0).getId());
+        	Study study = dao.getById(sdList.get(0).getStudy().getId());
+        	outputStream.println("");
+        	outputStream.println("--- Retrieving the details for a Study. ---");
+            
+        	try{
+        		String xml = xmlUtility.toXML(study);
+        		String newXml=new XMLOutputter(Format.getPrettyFormat()).outputString(new SAXBuilder().build(new StringReader(xml)));
+        		outputStream.println(newXml); 
+        	}catch(XMLUtilityException xue){
+        		log.error(xue.getMessage());
+        	}catch (JDOMException je){
+        		log.error(je.getMessage());
+        	}       	
+        	
+            outputStream.close();
+        } catch (IOException e) {
+            System.out.println("IOException:");
+            e.printStackTrace();
+        }
+    }
+    
+	
 /* Test the where retired indicator clause for inclusionCriteria.
 */
 	public void testWhereAndWhere() throws Exception{
