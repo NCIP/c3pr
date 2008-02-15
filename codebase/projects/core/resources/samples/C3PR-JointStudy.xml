@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<study xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain" gridId="816b5383-897e-4555-a9eb-de20efa95ac6" version="7">
+<study xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain">
 <blindedIndicator>false</blindedIndicator>
 <multiInstitutionIndicator>true</multiInstitutionIndicator>
 <randomizedIndicator>false</randomizedIndicator>
@@ -15,9 +15,9 @@
 <targetAccrualNumber>10</targetAccrualNumber>
 <organizationAssignedIdentifier>
 <type>Coordinating Center Identifier</type>
-<value>2391</value>
+<value>warren-239341</value>
 <primaryIndicator>true</primaryIndicator>
-<healthcareSite gridId="NCI GRID ID">
+<healthcareSite>
 <name>Warren Grant Magnuson Clinical Center</name>
 <address>
 <streetAddress>10 Center Drive Bldg 10</streetAddress>
@@ -29,10 +29,10 @@
 <nciInstituteCode>Warren</nciInstituteCode>
 </healthcareSite>
 </organizationAssignedIdentifier>
-<treatmentEpoch gridId="47cd6f16-9352-4eeb-8d11-7e74474cafa9">
+<treatmentEpoch>
 <name>epoch</name>
 <descriptionText></descriptionText>
-<arm gridId="2ff24847-5b9c-4037-8f48-62756cb49f98">
+<arm>
 <name>Arm A</name>
 <descriptionText></descriptionText>
 <targetAccrualNumber>300</targetAccrualNumber>
@@ -43,8 +43,8 @@
 <permissibleAnswer><permissibleAnswer>sdv</permissibleAnswer></permissibleAnswer>
 </stratificationCriteria>
 </treatmentEpoch>
-<studyCoordinatingCenter gridId="227cc3dc-b40a-415d-81f0-23601df55978">
-<healthcareSite gridId="NCI GRID ID">
+<studyCoordinatingCenter>
+<healthcareSite>
 <name>Warren Grant Magnuson Clinical Center</name>
 <address>
 <streetAddress>10 Center Drive Bldg 10</streetAddress>
@@ -66,7 +66,7 @@
 </healthcareSiteInvestigator>
 </studyInvestigator>
 </studyCoordinatingCenter>
-<studySite gridId="8ab5acd1-cf1e-4813-8765-56a5edfbace9">
+<studySite>
 <healthcareSite>
 <name>North Central Cancer Treatment Group</name>
 <address>
@@ -81,9 +81,10 @@
 <irbApprovalDate>2008-02-07</irbApprovalDate>
 <roleCode>Affiliate Site</roleCode>
 <startDate>2008-02-06</startDate>
+<siteStudyStatus>ACTIVE</siteStudyStatus>
 </studySite>
-<studySite gridId="1f6f71b1-7abd-45ee-bf5f-30ae1eef9aba">
-<healthcareSite gridId="DUKE GRID ID">
+<studySite>
+<healthcareSite>
 <name>Duke University Comprehensive Cancer Center (Duke) (Duke) (Duke) (Duke)</name>
 <address>
 <streetAddress>512 South Magnum Street Suite 400</streetAddress>
@@ -97,6 +98,7 @@
 <irbApprovalDate>2008-02-06</irbApprovalDate>
 <roleCode>Affiliate Site</roleCode>
 <startDate>2008-02-06</startDate>
+<siteStudyStatus>ACTIVE</siteStudyStatus>
 </studySite>
 </study>
 

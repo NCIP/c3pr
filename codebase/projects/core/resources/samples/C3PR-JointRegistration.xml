@@ -15,7 +15,7 @@
         <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="CDR000007829" 
         xsi:type="OrganizationAssignedIdentifierType">						
             <type>Coordinating Center Identifier</type>						<!-- Type of 'Coordinating Center Identifier' is mandatory-->
-            <value>2391</value>									<!-- The study with this cooridnating center identifier has to be in 'ACTIVE' status-->
+            <value>warren-239341</value>									<!-- The study with this cooridnating center identifier has to be in 'ACTIVE' status-->
             <primaryIndicator>true</primaryIndicator>
             <healthcareSite>									<!-- Healthcare Site is mandatory for the identifier-->
                 <nciInstituteCode>Warren</nciInstituteCode>					<!-- This Institute code should already exist in the database -->
@@ -32,8 +32,8 @@
         </identifier>
     </studyRef>
     <participant>
-        <firstName>Geoge44</firstName>							<!-- First Name is mandatory for the participant-->
-        <lastName>Elliot44</lastName>							<!-- Last Name is mandatory for the participant-->
+        <firstName>George1</firstName>							<!-- First Name is mandatory for the participant-->
+        <lastName>Elliot1</lastName>							<!-- Last Name is mandatory for the participant-->
         <address/>
         <administrativeGenderCode> Male </administrativeGenderCode>			<!-- Gender is mandatory for the participant-->
         <birthDate>1971-01-01</birthDate>						<!-- Birth Date is mandatory for the participant-->
@@ -42,7 +42,7 @@
         <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="CDR000007829"
             xsi:type="OrganizationAssignedIdentifierType">						<!-- Identifier of type MRN is mandatory-->
             <type>MRN</type>
-            <value>mrn0044</value>									<!-- Participant with this MRN should not already exist in the database-->
+            <value>mrn1</value>									<!-- Participant with this MRN should not already exist in the database-->
             <primaryIndicator>true</primaryIndicator>
             <healthcareSite>										<!-- Healthcare Site is mandatory for the identifier-->
                 <nciInstituteCode>Duke</nciInstituteCode>						<!-- This Institute code should already exist in the database -->
@@ -83,7 +83,7 @@
         <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="CDR000007829" 
         xsi:type="OrganizationAssignedIdentifierType">						
             <type>Coordinating Center Identifier</type>						<!-- Type of 'Coordinating Center Identifier' is mandatory-->
-            <value>2391</value>									<!-- The study with this cooridnating center identifier has to be in 'ACTIVE' status-->
+            <value>warren-239341</value>									<!-- The study with this cooridnating center identifier has to be in 'ACTIVE' status-->
             <primaryIndicator>true</primaryIndicator>
             <healthcareSite>									<!-- Healthcare Site is mandatory for the identifier-->
                 <nciInstituteCode>Warren</nciInstituteCode>					<!-- This Institute code should already exist in the database -->
@@ -100,8 +100,8 @@
         </identifier>
     </studyRef>
     <participant>
-        <firstName>Geoge45</firstName>							<!-- First Name is mandatory for the participant-->
-        <lastName>Elliot45</lastName>							<!-- Last Name is mandatory for the participant-->
+        <firstName>George2</firstName>							<!-- First Name is mandatory for the participant-->
+        <lastName>Elliot2</lastName>							<!-- Last Name is mandatory for the participant-->
         <address/>
         <administrativeGenderCode> Male </administrativeGenderCode>			<!-- Gender is mandatory for the participant-->
         <birthDate>1971-01-01</birthDate>						<!-- Birth Date is mandatory for the participant-->
@@ -110,7 +110,7 @@
         <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="CDR000007829"
             xsi:type="OrganizationAssignedIdentifierType">						<!-- Identifier of type MRN is mandatory-->
             <type>MRN</type>
-            <value>mrn0045</value>									<!-- Participant with this MRN should not already exist in the database-->
+            <value>mrn2</value>									<!-- Participant with this MRN should not already exist in the database-->
             <primaryIndicator>true</primaryIndicator>
             <healthcareSite>										<!-- Healthcare Site is mandatory for the identifier-->
                 <nciInstituteCode>Duke</nciInstituteCode>						<!-- This Institute code should already exist in the database -->
@@ -152,7 +152,7 @@
         <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="CDR000007829" 
         xsi:type="OrganizationAssignedIdentifierType">						
             <type>Coordinating Center Identifier</type>						<!-- Type of 'Coordinating Center Identifier' is mandatory-->
-            <value>2391</value>									<!-- The study with this cooridnating center identifier has to be in 'ACTIVE' status-->
+            <value>warren-239341</value>									<!-- The study with this cooridnating center identifier has to be in 'ACTIVE' status-->
             <primaryIndicator>true</primaryIndicator>
             <healthcareSite>									<!-- Healthcare Site is mandatory for the identifier-->
                 <nciInstituteCode>Warren</nciInstituteCode>					<!-- This Institute code should already exist in the database -->
@@ -169,8 +169,8 @@
         </identifier>
     </studyRef>
     <participant>
-        <firstName>Geoge46</firstName>							<!-- First Name is mandatory for the participant-->
-        <lastName>Elliot46</lastName>							<!-- Last Name is mandatory for the participant-->
+        <firstName>George3</firstName>							<!-- First Name is mandatory for the participant-->
+        <lastName>Elliot3</lastName>							<!-- Last Name is mandatory for the participant-->
         <address/>
         <administrativeGenderCode> Male </administrativeGenderCode>			<!-- Gender is mandatory for the participant-->
         <birthDate>1971-01-01</birthDate>						<!-- Birth Date is mandatory for the participant-->
@@ -179,7 +179,7 @@
         <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="CDR000007829"
             xsi:type="OrganizationAssignedIdentifierType">						<!-- Identifier of type MRN is mandatory-->
             <type>MRN</type>
-            <value>mrn0046</value>									<!-- Participant with this MRN should not already exist in the database-->
+            <value>mrn3</value>									<!-- Participant with this MRN should not already exist in the database-->
             <primaryIndicator>true</primaryIndicator>
             <healthcareSite>										<!-- Healthcare Site is mandatory for the identifier-->
                 <nciInstituteCode>Duke</nciInstituteCode>						<!-- This Institute code should already exist in the database -->
@@ -220,7 +220,7 @@
         <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="CDR000007829" 
         xsi:type="OrganizationAssignedIdentifierType">						
             <type>Coordinating Center Identifier</type>						<!-- Type of 'Coordinating Center Identifier' is mandatory-->
-            <value>2391</value>									<!-- The study with this cooridnating center identifier has to be in 'ACTIVE' status-->
+            <value>warren-239341</value>									<!-- The study with this cooridnating center identifier has to be in 'ACTIVE' status-->
             <primaryIndicator>true</primaryIndicator>
             <healthcareSite>									<!-- Healthcare Site is mandatory for the identifier-->
                 <nciInstituteCode>Warren</nciInstituteCode>					<!-- This Institute code should already exist in the database -->
@@ -237,8 +237,8 @@
         </identifier>
     </studyRef>
     <participant>
-        <firstName>Geoge47</firstName>							<!-- First Name is mandatory for the participant-->
-        <lastName>Elliot47</lastName>							<!-- Last Name is mandatory for the participant-->
+        <firstName>George4</firstName>							<!-- First Name is mandatory for the participant-->
+        <lastName>Elliot4</lastName>							<!-- Last Name is mandatory for the participant-->
         <address/>
         <administrativeGenderCode> Male </administrativeGenderCode>			<!-- Gender is mandatory for the participant-->
         <birthDate>1971-01-01</birthDate>						<!-- Birth Date is mandatory for the participant-->
@@ -247,7 +247,7 @@
         <identifier xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" type="CDR000007829"
             xsi:type="OrganizationAssignedIdentifierType">						<!-- Identifier of type MRN is mandatory-->
             <type>MRN</type>
-            <value>mrn0047</value>									<!-- Participant with this MRN should not already exist in the database-->
+            <value>mrn4</value>									<!-- Participant with this MRN should not already exist in the database-->
             <primaryIndicator>true</primaryIndicator>
             <healthcareSite>										<!-- Healthcare Site is mandatory for the identifier-->
                 <nciInstituteCode>Duke</nciInstituteCode>						<!-- This Institute code should already exist in the database -->
