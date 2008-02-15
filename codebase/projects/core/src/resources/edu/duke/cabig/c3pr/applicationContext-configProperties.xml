@@ -286,10 +286,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                             <property name="code" value="SI" />
                             <property name="desc" value="Affiliate Site" />
                         </bean>    
-                      	<bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="CO" />
-                            <property name="desc" value="Coordinating Site" />
-                        </bean>                                           
                      </list>
                 </entry>    
                 
@@ -478,9 +474,17 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                             <property name="desc" value="Registrar" />
                         </bean>   
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="SC" />
-                            <property name="desc" value="Study Coordinator" />
-                        </bean>                    
+                            <property name="code" value="StCo" />
+                            <property name="desc" value="Study coordinator" />
+                        </bean> 
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="SiCo" />
+                            <property name="desc" value="Site coordinator" />
+                        </bean>   
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="Ad" />
+                            <property name="desc" value="C3pr admin" />
+                        </bean>                     
                		</list>
                	</entry>
                	<entry key="studyPersonnelStatusRefData">
