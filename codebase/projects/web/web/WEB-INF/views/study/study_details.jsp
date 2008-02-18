@@ -277,7 +277,7 @@
          <div class="row">
              <div class="label required-indicator">Consent Version/Date:</div>
              <div class="value">
-             <tags:dateInput path="consentVersion" /><em> (mm/dd/yyyy)</em>
+             <tags:dateInput path="consentVersion" validateDate="false"/><em> (mm/dd/yyyy)</em>
              <tags:hoverHint keyProp="study.consentVersion"/></div>
          </div>
         
