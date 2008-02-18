@@ -207,17 +207,14 @@
             </div>
         </div>
         <div class="row">
-            <div class="label">Amendment Date :</div>
+            <div class="label">Amendment Date:</div>
             <div class="value">
-                <input type="text" name="studyAmendments[${amendmentSize}].amendmentDate" id="amendmentDate" class="date" />                
-                <a href="#" id="studyAmendments[${amendmentSize}].amendmentDate-calbutton">
-				    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="middle" />
-				</a>
+            	<tags:dateInput path="studyAmendments[${amendmentSize}].amendmentDate"/>
             </div>
         </div>
 
         <div class="row">
-            <div class="label">Comments :</div>
+            <div class="label">Comments:</div>
             <div class="value">
                 <textarea name="studyAmendments[${amendmentSize}].comments" rows="2" cols="44"></textarea>
             </div>
