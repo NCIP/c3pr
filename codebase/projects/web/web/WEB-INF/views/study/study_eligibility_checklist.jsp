@@ -118,10 +118,6 @@
             </script>
 
             <tags:minimizablePanelBox	title="${epoch.name}"	boxId="${epoch.name}">
-            	<table border="0" width="100%" id="table1" cellspacing="5">
-                    <tr>
-                        <td valign="top">
-                            <p>                            
                             <chrome:division title="Inclusion Criteria" minimize="true" divIdToBeMinimized="inclusionCriteria-${epochCount.index}">
                             <div id="inclusionCriteria-${epochCount.index}">
                             <table width="100%">
@@ -159,10 +155,6 @@
                             </table>
                             </div>
                             </chrome:division>
-                            </td>
-                        </tr>
-                    	<tr>
-                        <td valign="top">
                             <chrome:division title="Exclusion Criteria" minimize="true" divIdToBeMinimized="exclusionCriteria-${epochCount.index}">
                             <div id="exclusionCriteria-${epochCount.index}">
                              <table width="100%"><tr><td>  
@@ -199,11 +191,7 @@
                                 
                             </div>
                             </chrome:division></td>                            
-                    </tr>
-                    <tr><td>
                     	<span id="instructions">&nbsp;&nbsp;*N/A - Allow not applicable answer.</span>
-                    </td></tr>
-                </table>
                 
             </tags:minimizablePanelBox>
         </c:if>
