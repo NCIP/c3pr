@@ -1,6 +1,5 @@
 package edu.duke.cabig.c3pr.web.registration;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,17 +9,10 @@ import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
-import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
-import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
-import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.StudySubject;
-import edu.duke.cabig.c3pr.exception.C3PRBaseException;
-import edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl;
 import edu.duke.cabig.c3pr.web.registration.tabs.AssignArmTab;
-import edu.duke.cabig.c3pr.web.registration.tabs.DiseasesDetailsTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EligibilityCriteriaTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EnrollmentDetailsTab;
-import edu.duke.cabig.c3pr.web.registration.tabs.RandomizationTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.ReviewSubmitTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.SearchStudySubjectTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.StratificationTab;
