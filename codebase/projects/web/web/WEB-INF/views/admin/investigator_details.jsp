@@ -188,7 +188,7 @@ function fireAction(action, selected){
             </div>
             <div class="value">
                 <form:input size="25"
-                            path="contactMechanisms[1].value" cssClass="validate-US_PHONE_NO" />
+                            path="contactMechanisms[1].value" cssClass="validate-US_PHONE_NO&&MAXLENGTH<10>&&NUMERIC" />
 
             </div>
         </div>
@@ -198,7 +198,7 @@ function fireAction(action, selected){
             </div>
             <div class="value">
                 <form:input size="25"
-                            path="contactMechanisms[2].value" cssClass="validate-US_PHONE_NO" />
+                            path="contactMechanisms[2].value" cssClass="validate-US_PHONE_NO&&MAXLENGTH<10>&&NUMERIC" />
             </div>
         </div>
     </div>

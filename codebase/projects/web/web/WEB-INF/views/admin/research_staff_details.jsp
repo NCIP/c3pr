@@ -19,9 +19,14 @@
 		var groups_2 = document.getElementById("groups_2");
 		var groups_3 = document.getElementById("groups_3");
 		
-		if(groups_0.checked == true || groups_1.checked == true || groups_2.checked == true || groups_3.checked == true){
-			return true;
-		} else {
+		if(continurSubmission == true){
+			if(groups_0.checked == true || groups_1.checked == true || groups_2.checked == true || groups_3.checked == true){
+				return true;
+			} else {
+			error.style.display = "";
+			return false;
+		}
+		}else {
 			error.style.display = "";
 			return false;
 		}
@@ -150,7 +155,7 @@
             </div>
             <div class="value">
                 <form:input size="30"
-                            path="contactMechanisms[0].value" cssClass="validate-EMAIL" />
+                            path="contactMechanisms[0].value" cssClass="validate-notEmpty&&EMAIL" />
             </div>
         </div>
         <div class="row">
@@ -159,7 +164,7 @@
             </div>
             <div class="value">
                 <form:input size="25"
-                            path="contactMechanisms[1].value" />
+                            path="contactMechanisms[1].value" cssClass="validate-US_PHONE_NO&&MINLENGTH<10>&&MAXLENGTH<10>&&NUMERIC" />
 
             </div>
         </div>
@@ -169,7 +174,7 @@
             </div>
             <div class="value">
                 <form:input size="25"
-                            path="contactMechanisms[2].value" />
+                            path="contactMechanisms[2].value" cssClass="validate-US_PHONE_NO&&MINLENGTH<10>&&MAXLENGTH<10>&&NUMERIC" />
             </div>
         </div>
     </div>
