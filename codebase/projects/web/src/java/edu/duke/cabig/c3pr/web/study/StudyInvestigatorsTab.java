@@ -57,50 +57,59 @@ class StudyInvestigatorsTab extends StudyTab {
     
     @Override
     public void postProcess(HttpServletRequest httpServletRequest, Study study, Errors errors) {
-
-        String selected = httpServletRequest.getParameter("_selected");
-        String action = httpServletRequest.getParameter("_actionx");
-        Object selectedSite = httpServletRequest.getParameter("_selectedSite");
-        StudyOrganization so = null;
-        
-    	//get the StudyOrganization to which we will add/remove investigator.
-        List<StudyOrganization> soList = study.getStudyOrganizations();
-        if( selectedSite != null && !selectedSite.toString().equals("")){
-        	selectedSite = httpServletRequest.getParameter("_selectedSite").toString();
-        	so = soList.get(new Integer(selectedSite.toString()).intValue());
-        }        
     	
-    	if ("siteChange".equals(action)) {
-            httpServletRequest.getSession().setAttribute("_selectedSite", selectedSite);
-            return;
-        }
-
-        if ("addStudyDisease".equals(action) && so != null) {        	
-            String[] invIds = so.getStudyInvestigatorIds();
-            if(invIds.length > 0){
-            	HealthcareSiteInvestigator inv = null;
-	            log.debug("Study InvestigatorIds Size : " + so.getStudyInvestigatorIds().length);
-	            for (String invId : invIds) {
-	                log.debug("Investigator Id : " + invId);
-	                StudyInvestigator sInv = new StudyInvestigator();
-	                inv = healthcareSiteInvestigatorDao.getById(new Integer(invId).intValue());
-	                if(inv != null){
-	                	inv.getStudyInvestigators().add(sInv);
-	                	sInv.setHealthcareSiteInvestigator(inv);
-	                	sInv.setRoleCode("Site Investigator");
-	                	sInv.setStatusCode("Active");
-	                	sInv.setStudyOrganization(so);
-	                	so.getStudyInvestigators().add(sInv);
-	                }else{
-	                	log.error("StudyInvestigatorTab - postProcess(): healthcareSiteInvestigatorDao.getById() returned null");
-	                }	                
-	            }            	
-            }
-            return;
-        } else if ("removeStudyDisease".equals(action) && so != null) {
-            so.getStudyInvestigators().remove(Integer.parseInt(selected));
-            return;
-        }
+	        String selected = httpServletRequest.getParameter("_selected");
+	        String action = httpServletRequest.getParameter("_actionx");
+	        Object selectedSite = httpServletRequest.getParameter("_selectedSite");
+	        StudyOrganization so = null;
+	        
+	    	//get the StudyOrganization to which we will add/remove investigator.
+	        List<StudyOrganization> soList = study.getStudyOrganizations();
+	        if( selectedSite != null && !selectedSite.toString().equals("")){
+	        	selectedSite = httpServletRequest.getParameter("_selectedSite").toString();
+	        	so = soList.get(new Integer(selectedSite.toString()).intValue());
+	        }     
+	        
+	        if (!errors.hasErrors()) {
+		    	
+		    	if ("siteChange".equals(action)) {
+		            httpServletRequest.getSession().setAttribute("_selectedSite", selectedSite);
+		            return;
+		        }
+		
+		        if ("addStudyDisease".equals(action) && so != null) {        	
+		            String[] invIds = so.getStudyInvestigatorIds();
+		            if(invIds.length > 0){
+		            	HealthcareSiteInvestigator inv = null;
+			            log.debug("Study InvestigatorIds Size : " + so.getStudyInvestigatorIds().length);
+			            for (String invId : invIds) {
+			                log.debug("Investigator Id : " + invId);
+			                StudyInvestigator sInv = new StudyInvestigator();
+			                inv = healthcareSiteInvestigatorDao.getById(new Integer(invId).intValue());
+			                if(inv != null){
+			                	inv.getStudyInvestigators().add(sInv);
+			                	sInv.setHealthcareSiteInvestigator(inv);
+			                	sInv.setRoleCode("Site Investigator");
+			                	sInv.setStatusCode("Active");
+			                	sInv.setStudyOrganization(so);
+			                	so.getStudyInvestigators().add(sInv);
+			                	studyValidator.validateStudyInvestigators(study, errors);
+			                	if(errors.hasErrors()){
+			                		so.getStudyInvestigators().remove(sInv);
+			                	}
+			                }else{
+			                	log.error("StudyInvestigatorTab - postProcess(): healthcareSiteInvestigatorDao.getById() returned null");
+			                }	                
+			            }            	
+		            }
+		            return;
+		        }
+	        }
+	        
+	        if ("removeStudyDisease".equals(action) && so != null) {
+	            so.getStudyInvestigators().remove(Integer.parseInt(selected));
+	            return;
+	        }
     }
 
 	public StudyValidator getStudyValidator() {

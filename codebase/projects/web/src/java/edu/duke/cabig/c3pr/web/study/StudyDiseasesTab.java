@@ -61,17 +61,25 @@ class StudyDiseasesTab extends StudyTab {
 
         String selected = httpServletRequest.getParameter("_selected");
         String action = httpServletRequest.getParameter("_actionx");
+        
+        if(!errors.hasErrors()) {
 
-        if ("addStudyDisease".equals(action)) {
-            String[] diseases = study.getDiseaseTermIds();
-            log.debug("Study Diseases Size : " + study.getStudyDiseases().size());
-            for (String diseaseId : diseases) {
-                log.debug("Disease Id : " + diseaseId);
-                StudyDisease studyDisease = new StudyDisease();
-                studyDisease.setDiseaseTerm(diseaseTermDao.getById(Integer.parseInt(diseaseId)));
-                study.addStudyDisease(studyDisease);
-            }
-        } else if ("removeStudyDisease".equals(action)) {
+	        if ("addStudyDisease".equals(action)) {
+	            String[] diseases = study.getDiseaseTermIds();
+	            log.debug("Study Diseases Size : " + study.getStudyDiseases().size());
+	            for (String diseaseId : diseases) {
+	                log.debug("Disease Id : " + diseaseId);
+	                StudyDisease studyDisease = new StudyDisease();
+	                studyDisease.setDiseaseTerm(diseaseTermDao.getById(Integer.parseInt(diseaseId)));
+	                study.addStudyDisease(studyDisease);
+	                studyValidator.validateStudyDiseases(study, errors);
+                	if(errors.hasErrors()){
+                		study.getStudyDiseases().remove(studyDisease);
+                	}
+	            }
+	        } 
+        }
+        if ("removeStudyDisease".equals(action)) {
             study.getStudyDiseases().remove(Integer.parseInt(selected));
         }
     }
