@@ -77,7 +77,6 @@ function manageIdentifierRadio(element){
 	<jsp:attribute name="singleFields">
 	<tags:errors path="organizationAssignedIdentifiers"/> 	
 	<br>
-	<table width="100%"><tr><td>
 		<chrome:division title="Organization Assigned Identifiers">
 		
 			<table id="organizationIdentifier" class="tablecontent">
@@ -207,7 +206,6 @@ function manageIdentifierRadio(element){
 				</div>
 
 		</chrome:division>
-</td></tr></table>
 	
 	</jsp:attribute>
 
