@@ -179,7 +179,7 @@ function fireAction(action, selected){
             </div>
             <div class="value">
                 <form:input size="30"
-                            path="contactMechanisms[0].value" cssClass="validate-EMAIL" />
+                            path="contactMechanisms[0].value" cssClass="validate-notEmpty&&EMAIL" />
             </div>
         </div>
         <div class="row">
@@ -188,7 +188,7 @@ function fireAction(action, selected){
             </div>
             <div class="value">
                 <form:input size="25"
-                            path="contactMechanisms[1].value" />
+                            path="contactMechanisms[1].value" cssClass="validate-US_PHONE_NO" />
 
             </div>
         </div>
@@ -198,7 +198,7 @@ function fireAction(action, selected){
             </div>
             <div class="value">
                 <form:input size="25"
-                            path="contactMechanisms[2].value" />
+                            path="contactMechanisms[2].value" cssClass="validate-US_PHONE_NO" />
             </div>
         </div>
     </div>
@@ -228,7 +228,7 @@ function fireAction(action, selected){
 		<td class="alt"><select
 			id="healthcareSiteInvestigators[PAGE.ROW.INDEX].statusCode"
 			name="healthcareSiteInvestigators[PAGE.ROW.INDEX].statusCode"
-			cssClass="validate-notEmpty">
+			class="validate-notEmpty">
 			<option value="">Please Select</option>
 			<c:forEach items="${studySiteStatusRefData}" var="siteRef">
 				<option value="${siteRef.code}">${siteRef.desc }</option>
