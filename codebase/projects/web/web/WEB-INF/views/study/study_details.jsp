@@ -12,7 +12,6 @@
     <tags:includeScriptaculous />
     <tags:dwrJavascriptLink objects="StudyAjaxFacade" />
     <script type="text/javascript">
-	Calendar.setup({inputField:"consentVersion", ifFormat:"%", button:"consentVersion-calbutton"});
     
     function blindedRandomization(){
     	var bIndicator=document.getElementById('blindedIndicator');
@@ -116,7 +115,7 @@
 			}
 		}
 		
-		var piCoCenterAutocompleterProps = {
+		<%--var piCoCenterAutocompleterProps = {
             basename: "piCoCenter",
             populator: function(autocompleter, text) {
                 StudyAjaxFacade.matchHealthcareSites(text,function(values) {
@@ -132,7 +131,7 @@
 	    							$(hiddenField).value=selectedChoice.id;
 	    							$(hiddenField1).value=selectedChoice.id;
 			}
-		}
+		}--%>
        
         var principalInvestigatorAutocompleterProps = {
             basename: "investigator0",
@@ -152,7 +151,7 @@
         
         AutocompleterManager.addAutocompleter(coCenterAutocompleterProps);
         AutocompleterManager.addAutocompleter(sponsorSiteAutocompleterProps);
-        AutocompleterManager.addAutocompleter(piCoCenterAutocompleterProps);
+        <%--AutocompleterManager.addAutocompleter(piCoCenterAutocompleterProps);--%>
 	    AutocompleterManager.addAutocompleter(principalInvestigatorAutocompleterProps);
 
 
@@ -175,7 +174,6 @@
                                            maxlength="30" cssClass="validate-notEmpty" />
             <tags:hoverHint keyProp="study.shortTitleText"/>
             </div>
-            
         </div>
 
         <div class="row">
@@ -276,18 +274,12 @@
             </c:otherwise>
          </c:choose>
 
-        <div id="consentVersion">
-            <div class="row">
-                <div class="label required-indicator">Consent Version/Date:</div>
-                <div class="value">
-                
-                <form:input id="consentVersion" path="consentVersion" cssClass="date"/>
-				<a href="#" id="consentVersion-calbutton">
-				    <img src="<chrome:imageUrl name="b-calendar.gif"/>" alt="Calendar" width="17" height="16" border="0" align="absmiddle" />
-				</a>
-                <tags:hoverHint keyProp="study.consentVersion"/></div>
-            </div>
-        </div>
+         <div class="row">
+             <div class="label required-indicator">Consent Version/Date:</div>
+             <div class="value">
+             <tags:dateInput path="consentVersion" /><em> (mm/dd/yyyy)</em>
+             <tags:hoverHint keyProp="study.consentVersion"/></div>
+         </div>
         
     </div>
 </chrome:division>
