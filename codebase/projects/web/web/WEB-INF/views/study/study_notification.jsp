@@ -61,7 +61,7 @@
 				<tr id="notification-${nStatus.index}">
 					<td><form:input size="5"
 						path="notifications[${nStatus.index}].threshold"
-						cssClass="validate-notEmpty" /></td>
+						cssClass="validate-notEmpty&&NUMERIC" /></td>
 					<td>
 					<table class="tablecontent" id="table1" width="50%">
 						<tr>
@@ -75,7 +75,7 @@
 							<tr id="table1-${emailStatus.index}">
 								<td class="alt"><form:input
 									path="notifications[${nStatus.index }].emailBasedRecipient[${emailStatus.index}].emailAddress"
-									size="30" cssClass="validate-notEmpty" /></td>
+									size="30" cssClass="validate-notEmpty&&EMAIL" /></td>
 								<td class="alt"><a
 									href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}),${emailStatus.index},${email.hashCode});">
 								<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
@@ -95,7 +95,7 @@
 							items="${command.notifications[nStatus.index].roleBasedRecipient}">
 							<tr id="table2-${roleStatus.index}">
 								<td class="alt"><form:select
-									path="notifications[${nStatus.index }].roleBasedRecipient[${roleStatus.index}].role">
+									path="notifications[${nStatus.index }].roleBasedRecipient[${roleStatus.index}].role" cssClass="validate-notEmpty">
 									<option value="">Please Select</option>
 									<form:options items="${notificationPersonnelRoleRefData}"
 										itemLabel="desc" itemValue="desc" />
@@ -127,7 +127,7 @@
 	<tr>
 		<td><input type="text" size="5"
 			name="notifications[PAGE.ROW.INDEX].threshold"
-			class="validate-notEmpty" /></td>
+			class="validate-notEmpty&&NUMERIC" /></td>
 		<td>
 		<table class="tablecontent" id="table1" width="50%">
 			<tr>
@@ -161,7 +161,7 @@
 	<tr>
 		<td class="alt"><input type="text"
 			name="notifications[PAGE.ROW.INDEX].emailBasedRecipient[NESTED.PAGE.ROW.INDEX].emailAddress"
-			size="30" class="validate-notEmpty" /></td>
+			size="30" class="validate-notEmpty&&EMAIL" /></td>
 		<td class="alt"><a
 			href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(notificationRowInserterProps,PAGE.ROW.INDEX),NESTED.PAGE.ROW.INDEX,-1);">
 		<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
@@ -174,7 +174,7 @@
 	<tr>
 		<td class="alt"><select
 			id="notifications[PAGE.ROW.INDEX].roleBasedRecipient[SECONDARY.NESTED.PAGE.ROW.INDEX].role"
-			name="notifications[PAGE.ROW.INDEX].roleBasedRecipient[SECONDARY.NESTED.PAGE.ROW.INDEX].role">
+			name="notifications[PAGE.ROW.INDEX].roleBasedRecipient[SECONDARY.NESTED.PAGE.ROW.INDEX].role" class="validate-notEmpty">
 			<option value="">Please Select</option>
 			<c:forEach items="${notificationPersonnelRoleRefData}" var="role">
 				<option value="${role.desc}">${role.desc}</option>
