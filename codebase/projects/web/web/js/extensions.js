@@ -1,6 +1,6 @@
 Ajax.InPlaceCollectionEditor.prototype.__createEditField = Ajax.InPlaceCollectionEditor.prototype.createEditField;
 Ajax.InPlaceCollectionEditor.prototype.__onSubmit = Ajax.InPlaceCollectionEditor.prototype.onSubmit;
-Ajax.InPlaceCollectionEditor.prototype = Object.extend(Ajax.InPlaceCollectionEditor.prototype, {
+Object.extend(Ajax.InPlaceCollectionEditor.prototype, {
     createEditField: function() {
         if (this.options.callback) { var callbackSet = this.options.callback };
         this.__createEditField();
@@ -16,7 +16,7 @@ Ajax.InPlaceCollectionEditor.prototype = Object.extend(Ajax.InPlaceCollectionEdi
 		}else{
         	this.__onSubmit();
         }
-    },
+    }
     
 });
 
@@ -34,7 +34,7 @@ Ajax.InPlaceEditor.prototype = Object.extend(Ajax.InPlaceEditor.prototype, {
 		}else{
         	this.__onSubmit();
         }
-    },
+    }
 });
 
 //InPlaceCollectionEditor extension that adds a cancel button .
@@ -50,7 +50,7 @@ Ajax.InPlaceCollectionEditor.prototype = Object.extend(Ajax.InPlaceCollectionEdi
 	      cancelButton.className = 'editor_ok_button';
 	      this.form.appendChild(cancelButton);
         }
-    },
+    }
 });
 
 //InPlaceEditor extension that adds a cancel button .
@@ -66,7 +66,7 @@ Ajax.InPlaceEditor.prototype = Object.extend(Ajax.InPlaceEditor.prototype, {
 	      cancelButton.className = 'editor_ok_button';
 	      this.form.appendChild(cancelButton);
         }
-    },
+    }
 });
 
 Autocompleter.Base.prototype.__onBlur = Autocompleter.Base.prototype.onBlur;
@@ -87,7 +87,7 @@ Autocompleter.Base.prototype = Object.extend(Autocompleter.Base.prototype, {
 		}
 				
 		this.__onBlur();
-	},
+	}
 });
 
 Autocompleter.Base.prototype.__onKeyPress = Autocompleter.Base.prototype.onKeyPress;
@@ -139,7 +139,7 @@ Autocompleter.Base.prototype = Object.extend(Autocompleter.Base.prototype, {
 	    if(this.observer) clearTimeout(this.observer);
 	      this.observer = 
 	        setTimeout(this.onObserverEvent.bind(this), this.options.frequency*1000);
-	  },
+	  }
 });
 
 
