@@ -34,6 +34,7 @@ import edu.duke.cabig.c3pr.dao.OrganizationDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudyPersonnelDao;
+import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.DiseaseCategory;
 import edu.duke.cabig.c3pr.domain.DiseaseTerm;
@@ -45,6 +46,7 @@ import edu.duke.cabig.c3pr.domain.SiteInvestigatorGroupAffiliation;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import edu.duke.cabig.c3pr.service.PersonnelService;
 
 /**
  * @author Priyatam
@@ -60,6 +62,7 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
 	private HealthcareSiteDao healthcareSiteDao;
 	private InvestigatorGroupDao investigatorGroupDao;
 	private InvestigatorDao investigatorDao;
+	private PersonnelService personnelSerivice;
 	
 	private static Log log = LogFactory.getLog(StudyAjaxFacade.class);
 
@@ -243,18 +246,14 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
 		List<HealthcareSiteInvestigator> reducedInv = new ArrayList<HealthcareSiteInvestigator>(
 				inv.size());
 		for (HealthcareSiteInvestigator hcInv : inv) {
-			// creating a new temp HSI and calling build reduced twice as
-			// Arrays.aslist doesnt understand
-			// the dot operator (in other words...something like inv.firstName
-			// doesnt work)
-			// Also calling build reduced with specific params instead of the
-			// whole HSI object to prevent
-			// hibernate from retrieving every nested object.
-			HealthcareSiteInvestigator temp;
-			temp = buildReduced(hcInv, Arrays.asList("id"));
-			temp.setInvestigator(buildReduced(hcInv.getInvestigator(), Arrays
-					.asList("firstName", "lastName", "maidenName")));
-			reducedInv.add(temp);
+			
+			if(hcInv.getStatusCode().equals("AC")){
+				HealthcareSiteInvestigator temp;
+				temp = buildReduced(hcInv, Arrays.asList("id"));
+				temp.setInvestigator(buildReduced(hcInv.getInvestigator(), Arrays
+						.asList("firstName", "lastName", "maidenName")));
+				reducedInv.add(temp);
+			}
 
 		}
 
@@ -293,6 +292,18 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
 		}
 
 		return reducedStaffCol;
+	}
+	
+	
+	public List<String> matchResearchStaffRoles(String id,
+			HttpServletRequest request) throws Exception {
+		List<C3PRUserGroupType> groups = new ArrayList<C3PRUserGroupType>();
+		groups = personnelSerivice.getGroups(researchStaffDao.getById(Integer.parseInt(id)));
+		List<String> reducedGroups = new ArrayList<String>();
+		for (int i=0;i<groups.size();i++) {
+			reducedGroups.add(groups.get(i).getDisplayName());
+		}
+		return reducedGroups;
 	}
 
 	public List<DiseaseCategory> matchDiseaseCategories(String text,
@@ -493,6 +504,10 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
 
 	public void setInvestigatorDao(InvestigatorDao investigatorDao) {
 		this.investigatorDao = investigatorDao;
+	}
+
+	public void setPersonnelSerivice(PersonnelService personnelSerivice) {
+		this.personnelSerivice = personnelSerivice;
 	}
 
 }
