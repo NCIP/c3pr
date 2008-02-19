@@ -107,6 +107,7 @@ Event.observe(window, "load", function() {
                         </td>
                         <td>
                             <form:input id="studySites[0].targetAccrualNumber" path="studySites[0].targetAccrualNumber" 
+                            	cssClass="validate-NUMERIC"
                              />
                         </td>
                         
@@ -211,7 +212,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
                         <td>
                             <tags:dateInput path="studySites[${status.index}].irbApprovalDate"/>
                         </td>
-                        <td> <form:input path="studySites[${status.index}].targetAccrualNumber"/>
+                        <td> <form:input path="studySites[${status.index}].targetAccrualNumber" cssClass="validate-NUMERIC"/>
             			</td>  
                         <td><a
                                 href="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index},${site.hashCode});"><img
@@ -274,7 +275,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 			<td>
                 <input id="studySites[PAGE.ROW.INDEX].targetAccrualNumber"
                        name="studySites[PAGE.ROW.INDEX].targetAccrualNumber"
-                       type="text"/>
+                       type="text" class="validate-NUMERIC"/>
             </td>            
             <td>
                 <a
