@@ -1,3 +1,4 @@
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="commons" uri="http://bioinformatics.northwestern.edu/taglibs/commons"%>
@@ -50,10 +51,12 @@
     <form:form action="${action}" cssClass="standard">
         <c:forEach items="${command.conf}" var="entry" varStatus="status">
             <div class="row">
-                <div class="label">
-                    <form:label path="conf[${entry.key}].value">${entry.value.property.name}</form:label>
-                </div>
-                <div class="value">
+            <table>
+            <tr><td width="30%">
+                    <b><form:label path="conf[${entry.key}].value">${entry.value.property.name}</form:label>
+                    <tags:hoverHint keyProp="study.configure.${entry.key}" id="${beanPath}${status.index}" /></b>
+				</td>
+				<td>
                     <c:set var="beanPath">conf[${entry.key}].value</c:set>
                     <c:choose>
                         <c:when test="${entry.value.property.controlType == 'boolean'}">
@@ -63,15 +66,15 @@
                             </div>
                         </c:when>
                         <c:when test="${entry.value.property.controlType == 'text'}">
-                            <div><form:input path="${beanPath}"/></div>
+                            <form:input path="${beanPath}" size="80"/>
                         </c:when>
                         <c:otherwise>
                             <div>Unimplemented control type ${entry.value.controlType} for ${beanPath}</div>
                         </c:otherwise>
-                    </c:choose>
-                    <p class="description">${entry.value.property.description}</p>
-                    <c:if test="${not empty entry.value.default}"><p class="description">(Default: ${entry.value.default})</p></c:if>
-                </div>
+                    </c:choose>                    
+                 </td>
+              </tr>
+              </table>
             </div>
         </c:forEach>
         <div class="row submit">
