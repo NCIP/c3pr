@@ -98,7 +98,7 @@
 									path="notifications[${nStatus.index }].roleBasedRecipient[${roleStatus.index}].role" cssClass="validate-notEmpty">
 									<option value="">Please Select</option>
 									<form:options items="${notificationPersonnelRoleRefData}"
-										itemLabel="desc" itemValue="desc" />
+										itemLabel="desc" itemValue="code" />
 								</form:select>
 								<td class="alt"><a
 									href="javascript:RowManager.deleteRow(RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}),${roleStatus.index},${role.hashCode});">
