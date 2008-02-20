@@ -262,13 +262,16 @@ public class StudySubjectServiceImpl extends CCTSWorkflowServiceImpl
 						studySubject=studySubjectDao.getById(id);
 					}else{
 						studySubjectDao.save(studySubject);
-						this.notificationEmailer.sendEmail(studySubject);
+						
 					}
 					try {
+						this.notificationEmailer.sendEmail(studySubject);
 						broadcastMessage(studySubject);
 					} catch (C3PRCodedException e) {
-						e.printStackTrace();
+						logger.error(e.getMessage());
 						studySubject.setCctsWorkflowStatus(CCTSWorkflowStatusType.MESSAGE_SEND_FAILED);
+					} catch(Exception e){
+						logger.error(e.getMessage());
 					}
 				}else{
 					studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.UNREGISTERED);
