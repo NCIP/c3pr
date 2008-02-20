@@ -17,7 +17,7 @@
 		localClassString="#Study .header h2";
 		element=$$(localClassString)[0];
 		new Element.update(element,message);
-		pulsateFlag?new Effect.Pulsate(element):null;
+		pulsateFlag?(!is_ie?new Effect.Pulsate(element):null):null;
 	}
 	
     function navRollOver(obj, state) {
