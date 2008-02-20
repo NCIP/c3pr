@@ -1,4 +1,4 @@
-package edu.duke.cabig.c3pr.aspects;
+package edu.duke.cabig.c3pr.utils;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -31,16 +31,14 @@ import edu.duke.cabig.c3pr.service.impl.PersonnelServiceImpl;
  * Date: Nov 30, 2007
  */
 @Aspect
-public class StudyTargetAccrualNotificationEmailAspect {
+public class StudyTargetAccrualNotificationEmail {
 
     private MailSender mailSender;
     private SimpleMailMessage accountCreatedTemplateMessage;
     PersonnelServiceImpl personnelServiceImpl;
 
-    private Logger log = Logger.getLogger(StudyTargetAccrualNotificationEmailAspect.class);
+    private Logger log = Logger.getLogger(StudyTargetAccrualNotificationEmail.class);
 
-    @AfterReturning("execution(* edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl.registerSubject(..))" +
-                    " && args(studySubject)")
     public void sendEmail(StudySubject studySubject){
     	
     	Study study = studySubject.getStudySite().getStudy();

@@ -38,9 +38,10 @@ import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.StringUtils;
+import edu.duke.cabig.c3pr.utils.StudyTargetAccrualNotificationEmail;
 
 /**
- * @author Kulasekaran, Ramakrishna
+ * @author Kruttik
  * @version 1.0
  *
  */
@@ -57,6 +58,12 @@ public class StudySubjectServiceImpl extends CCTSWorkflowServiceImpl
     private final String prtIdentifierTypeValueStr = "MRN";
     private StudyService studyService;
     private ParticipantService participantService;
+    private StudyTargetAccrualNotificationEmail notificationEmailer;
+    
+	public void setNotificationEmailer(
+			StudyTargetAccrualNotificationEmail studyTargetAccrualNotificationEmail) {
+		this.notificationEmailer = studyTargetAccrualNotificationEmail;
+	}
 
 	public StratumGroupDao getStratumGroupDao() {
 		return stratumGroupDao;
@@ -255,6 +262,7 @@ public class StudySubjectServiceImpl extends CCTSWorkflowServiceImpl
 						studySubject=studySubjectDao.getById(id);
 					}else{
 						studySubjectDao.save(studySubject);
+						this.notificationEmailer.sendEmail(studySubject);
 					}
 					try {
 						broadcastMessage(studySubject);

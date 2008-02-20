@@ -360,7 +360,7 @@
 
     <bean id="confirmationEmailer" class="edu.duke.cabig.c3pr.aspects.UserEmailConfirmationAspect"
           autowire="byType"/>
-    <bean id="notificationEmailer" class="edu.duke.cabig.c3pr.aspects.StudyTargetAccrualNotificationEmailAspect"
+    <bean id="notificationEmailer" class="edu.duke.cabig.c3pr.utils.StudyTargetAccrualNotificationEmail"
           autowire="byType"/>
 
     <!-- this is a template message that we can pre-load with default state -->
