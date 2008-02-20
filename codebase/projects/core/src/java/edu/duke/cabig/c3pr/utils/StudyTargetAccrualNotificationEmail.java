@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSender;
@@ -19,8 +18,8 @@ import edu.duke.cabig.c3pr.domain.Notification;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.RoleBasedRecipient;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
-import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
@@ -39,6 +38,11 @@ public class StudyTargetAccrualNotificationEmail {
 
     private Logger log = Logger.getLogger(StudyTargetAccrualNotificationEmail.class);
 
+    /**
+     * This method is reponsible for figuring out the email address from notifications and sending out
+     * the notificatino email using Javamail.
+     * @param studySubject
+     */
     public void sendEmail(StudySubject studySubject){
     	
     	Study study = studySubject.getStudySite().getStudy();
@@ -89,26 +93,29 @@ public class StudyTargetAccrualNotificationEmail {
     	List <StudyOrganization> studyOrgList = study.getStudyOrganizations();
     	List <String> returnList = new ArrayList<String>();
     	List <C3PRUserGroupType> groupList = null;
-    	
+    	List <ResearchStaff> rStaffList = null;
     	for (StudyOrganization so : studyOrgList){
-    		for(StudyPersonnel sp : so.getStudyPersonnel()){
-    			try {
-    				groupList = personnelServiceImpl.getGroups(sp.getResearchStaff());
-    			} catch(C3PRBaseException e){
-    				log.error("StudyTargetAccrualNotificationAspect - personnelServiceImpl.getGroups():FAILED");
-    				log.error(e.getMessage());
-    			}
-    			/*
-    			 * Handle the investigator code seperately
-    			 */
-	    		if(groupList != null){
-    				for(C3PRUserGroupType group : groupList){
-	    				if(group.getCode().equalsIgnoreCase(rr.getRole())){
-	    					returnList.addAll(getEmailAddressesFromResearchStaff(sp.getResearchStaff()));
-	    				}
-	    			}
-	    		}
-    		}    		
+    		if(so instanceof StudyCoordinatingCenter){
+    			rStaffList = so.getHealthcareSite().getResearchStaffs();
+    			
+    			for(ResearchStaff rs : rStaffList){
+        			try {
+        				groupList = personnelServiceImpl.getGroups(rs);
+        			} catch(C3PRBaseException e){
+        				log.error("StudyTargetAccrualNotificationAspect - personnelServiceImpl.getGroups():FAILED");
+        				log.error(e.getMessage());
+        			}
+        			/* Handle the investigator code seperately */
+    	    		if(groupList != null){
+        				for(C3PRUserGroupType group : groupList){
+    	    				if(group.getCode().equalsIgnoreCase(rr.getRole())){
+    	    					returnList.addAll(getEmailAddressesFromResearchStaff(rs));
+    	    				}
+    	    			}
+    	    		}
+        		}
+    		}
+    		    		
     	}    	
     	return returnList;
      }
