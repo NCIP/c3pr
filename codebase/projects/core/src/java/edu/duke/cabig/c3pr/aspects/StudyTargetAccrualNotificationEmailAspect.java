@@ -19,6 +19,7 @@ import edu.duke.cabig.c3pr.domain.Notification;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.RoleBasedRecipient;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudyPersonnel;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
@@ -68,10 +69,10 @@ public class StudyTargetAccrualNotificationEmailAspect {
 
     }
     
-    //This method generates a list of emails by getting the emailaddresses from all the
-    //email based Recepients and Role based Recepients for a given Notification.
-    //The role based recepient only has the role String...the corresponding personnel in that role for that study 
-    //have to be retrieved and their email addresses have to be addded to the finalList.
+    /**This method generates a list of emails by getting the emailaddresses from all the
+    email based Recepients and Role based Recepients for a given Notification.
+    The role based recepient only has the role String...the corresponding personnel in that role for that study 
+    have to be retrieved and their email addresses have to be addded to the finalList.*/
     public List<String> generateEmailList(Study study, Notification nf){
     	
     	List<String> finalList = new ArrayList<String>();
@@ -87,18 +88,21 @@ public class StudyTargetAccrualNotificationEmailAspect {
     }
     
     public List<String> getEmailsFromRoleBasedRecipient(Study study, RoleBasedRecipient rr){
-    	List <StudySite> studySiteList = study.getStudySites();
+    	List <StudyOrganization> studyOrgList = study.getStudyOrganizations();
     	List <String> returnList = new ArrayList<String>();
     	List <C3PRUserGroupType> groupList = null;
     	
-    	for (StudySite ss : studySiteList){
-    		for(StudyPersonnel sp : ss.getStudyPersonnel()){
+    	for (StudyOrganization so : studyOrgList){
+    		for(StudyPersonnel sp : so.getStudyPersonnel()){
     			try {
     				groupList = personnelServiceImpl.getGroups(sp.getResearchStaff());
     			} catch(C3PRBaseException e){
     				log.error("StudyTargetAccrualNotificationAspect - personnelServiceImpl.getGroups():FAILED");
     				log.error(e.getMessage());
     			}
+    			/*
+    			 * Handle the investigator code seperately
+    			 */
 	    		if(groupList != null){
     				for(C3PRUserGroupType group : groupList){
 	    				if(group.getCode().equalsIgnoreCase(rr.getRole())){
@@ -123,8 +127,10 @@ public class StudyTargetAccrualNotificationEmailAspect {
     }
     
 
-    //This method calculates the total number of subjects assigned to a study
-    //by iterating through all the sites that are in the study.
+    /**
+     * This method calculates the total number of subjects assigned to a study
+       by iterating through all the sites that are in the study.   
+     */
     public int calculateTotalAccrual(Study study){
     	List<StudySite> studySitesList = study.getStudySites();
     	int totalAccrual = 0;
