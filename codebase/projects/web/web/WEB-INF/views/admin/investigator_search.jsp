@@ -64,6 +64,8 @@
                 <div class="value">
                     <input type="text" name="firstName" id="firstName"/>
                 </div>
+            </div>
+            <div class=row>
                 <div class="label">
                     Last Name:
                 </div>
