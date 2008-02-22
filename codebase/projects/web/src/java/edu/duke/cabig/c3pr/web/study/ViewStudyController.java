@@ -89,13 +89,13 @@ public class ViewStudyController extends StudyController<Study> {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication auth = context.getAuthentication();
         GrantedAuthority[] groups = auth.getAuthorities();
-        boolean isRegistrar = false;
+        boolean isRegistrarOnly = true;
         for(GrantedAuthority ga: groups){
-        	if(ga.getAuthority().endsWith("strar")){
-        		isRegistrar = true;
+        	if(ga.getAuthority().endsWith("admin") || ga.getAuthority().endsWith("ordinator")){
+        		isRegistrarOnly = false;
         	}
         }
-        refdata.put("isRegistrar", isRegistrar);
+        refdata.put("isRegistrar", isRegistrarOnly);
         refdata.put("editAuthorizationTask", editTask);
         return refdata;
     }
