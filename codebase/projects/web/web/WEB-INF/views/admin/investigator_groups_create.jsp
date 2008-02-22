@@ -190,8 +190,11 @@ RowManager.addRowInseter(instanceRowInserterProps);
 		$("healthcareSite-input").value="";
 		$("healthcareSite-hidden").value="";
 		$("disease-sub-category").options.length=0;
-			
-			new Element.update($("groupDisplay"),'');
+		e1 = document.getElementById("errorsDiv");
+		if(e1!=null){
+			e1.innerHTML='';
+		}
+		new Element.update($("groupDisplay"),'');
 	}
 </script>
 <script type="text/javascript" src="/c3pr/js/CalendarPopup.js"></script>	
