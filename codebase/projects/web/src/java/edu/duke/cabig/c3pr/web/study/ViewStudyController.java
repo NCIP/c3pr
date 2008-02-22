@@ -6,6 +6,11 @@ import edu.duke.cabig.c3pr.utils.web.navigation.Task;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
+
+import org.acegisecurity.Authentication;
+import org.acegisecurity.GrantedAuthority;
+import org.acegisecurity.context.SecurityContext;
+import org.acegisecurity.context.SecurityContextHolder;
 import org.springframework.validation.BindException;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
@@ -81,6 +86,16 @@ public class ViewStudyController extends StudyController<Study> {
      */
     protected Map referenceData(HttpServletRequest httpServletRequest, Object o, Errors errors, int i) throws Exception {
         Map<String, Object> refdata = super.referenceData(httpServletRequest, o, errors, i);    //To change body of overridden methods use File | Settings | File Templates.
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication auth = context.getAuthentication();
+        GrantedAuthority[] groups = auth.getAuthorities();
+        boolean isRegistrar = false;
+        for(GrantedAuthority ga: groups){
+        	if(ga.getAuthority().endsWith("strar")){
+        		isRegistrar = true;
+        	}
+        }
+        refdata.put("isRegistrar", isRegistrar);
         refdata.put("editAuthorizationTask", editTask);
         return refdata;
     }
