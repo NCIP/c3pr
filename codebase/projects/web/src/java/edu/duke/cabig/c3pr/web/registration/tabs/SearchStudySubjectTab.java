@@ -129,7 +129,11 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject>{
 			scheduledEpoch=new ScheduledNonTreatmentEpoch();
 		}
 		scheduledEpoch.setEpoch(epoch);
-		command.getScheduledEpochs().add(0,scheduledEpoch);
+		if(command.getScheduledEpochs().size()==0)
+			command.getScheduledEpochs().add(0,scheduledEpoch);
+		else{
+			command.getScheduledEpochs().set(0,scheduledEpoch);
+		}
 		buildCommandObject(command);
 	}
 
