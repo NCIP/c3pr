@@ -81,7 +81,7 @@
         <tr>
             <td class="alt" align="left"><b>Target Accrual Number</b></td>
             <td class="alt" align="left">
-                <tags:inPlaceEdit value="${command.targetAccrualNumber}" path="changedTargetAccrualNumber_${status.index}"
+                <tags:inPlaceEdit value="${command.targetAccrualNumber}" path="changedTargetAccrualNumber"
                                   required="true"/>
             </td>
         </tr>
@@ -105,12 +105,17 @@
                         value="${command.coordinatingCenterStudyStatus.code}"
                         path="changedCoordinatingCenterStudyStatus"
                         commanSepOptVal="${commanSepOptVal}"/>
-
                 <csmauthz:accesscontrol domainObject="${command}" hasPrivileges="UPDATE"
                                         authorizationCheckName="domainObjectAuthorizationCheck">
                     &nbsp; <input type="button" value="Change Status"
                                   onclick="editor_changedCoordinatingCenterStudyStatus.enterEditMode('click')"/>
                 </csmauthz:accesscontrol>
+                <c:if test="${isRegistrar}">
+	                 <script type="text/javascript">
+	                 				  editor_changedTargetAccrualNumber.dispose();
+	                 				  editor_changedCoordinatingCenterStudyStatus.dispose();
+	                 </script>
+                </c:if>
             </td>
         </tr>
         <tr>
