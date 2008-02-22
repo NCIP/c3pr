@@ -75,6 +75,7 @@ ul.tabs li {
     float: left;
     margin: 0;
     padding: 0;
+
 }
 
 /**** SECTION TABS */
@@ -85,7 +86,7 @@ ul.tabs li {
     left: 131px;
     background: url( ../images/chrome/section_L1.gif ) no-repeat top left;
     padding-left: 1px;
-    font-size: .85em;
+    font-size: 10px;
 }
 
 #sections li {
@@ -298,6 +299,10 @@ ul.tabs li {
     clear: both;
 }
 
+.division h3{
+    font-size: 11px;
+}
+
 /**** REUSABLE PAGE ELEMENTS/CLASSES */
 
 .error input {
@@ -355,11 +360,12 @@ div.row div.label, div.row div.value {
 }
 
 div.row div.label {
-    font-weight: bold;
+    font-weight: normal;
     float: left;
     margin-left: 0.5em;
     text-align: right; /* default width; pages might override */
-    width: 10em;
+    width: 14em;
+    line-height: 2.2em;
 }
 
 div.row div.value {

@@ -16,6 +16,8 @@
   line-height: 14px;
   border: 0 solid #000;
   border-right-width: 1px;
+      font-family: tahoma;
+    font-size: 10px;
 }
 
 #workflow-tabs li.selected {

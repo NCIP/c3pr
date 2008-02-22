@@ -12,7 +12,7 @@
     </script>
     <style type="text/css">
         .box {
-            width: 30em;
+            width: 35em;
             margin: 0 auto;
         }
         .submit {
