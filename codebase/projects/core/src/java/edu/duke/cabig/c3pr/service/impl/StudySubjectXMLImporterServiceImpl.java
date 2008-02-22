@@ -168,8 +168,7 @@ public class StudySubjectXMLImporterServiceImpl implements StudySubjectXMLImport
     	if(StringUtils.getBlankIfNull(participant.getFirstName()).equals("")
     			|| StringUtils.getBlankIfNull(participant.getLastName()).equals("")
     			|| participant.getBirthDate()==null
-    			|| StringUtils.getBlankIfNull(participant.getAdministrativeGenderCode()).equals("")
-    			|| !(participant.getAdministrativeGenderCode().equalsIgnoreCase("Male")||participant.getAdministrativeGenderCode().equalsIgnoreCase("Female")))
+    			|| StringUtils.getBlankIfNull(participant.getAdministrativeGenderCode()).equals(""))
     		return false;
     	return true;
     }
