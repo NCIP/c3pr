@@ -475,15 +475,15 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                         </bean>   
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="StCo" />
-                            <property name="desc" value="Study coordinator" />
+                            <property name="desc" value="Study Coordinator" />
                         </bean> 
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="SiCo" />
-                            <property name="desc" value="Site coordinator" />
+                            <property name="desc" value="Site Coordinator" />
                         </bean>   
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
                             <property name="code" value="Ad" />
-                            <property name="desc" value="C3pr admin" />
+                            <property name="desc" value="C3pr Admin" />
                         </bean>                     
                		</list>
                	</entry>
