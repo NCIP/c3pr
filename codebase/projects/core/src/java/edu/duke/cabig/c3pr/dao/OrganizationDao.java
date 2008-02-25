@@ -41,7 +41,6 @@ public class OrganizationDao extends GridIdentifiableDao<HealthcareSite> impleme
 	 
    public List<HealthcareSite> searchByExample(HealthcareSite hcs, boolean isWildCard) {
         List<HealthcareSite> result = new ArrayList<HealthcareSite>();
-
         Example example = Example.create(hcs).excludeZeroes().ignoreCase();
         try {
             Criteria orgCriteria = getSession().createCriteria(Organization.class);
@@ -52,7 +51,11 @@ public class OrganizationDao extends GridIdentifiableDao<HealthcareSite> impleme
             {
                 example.enableLike(MatchMode.ANYWHERE);
                 orgCriteria.add(example);
-                result =  orgCriteria.list();
+                if(orgCriteria.list().size()> 30){
+                	result =  orgCriteria.list().subList(0, 30);
+                } else {
+                	result =  orgCriteria.list();
+                }
             }else{
             	result =  orgCriteria.add(example).list();
             }
