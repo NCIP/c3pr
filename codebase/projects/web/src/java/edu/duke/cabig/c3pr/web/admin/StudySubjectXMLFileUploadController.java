@@ -49,16 +49,16 @@ public class StudySubjectXMLFileUploadController  extends SimpleFormController {
 		String fileName="importRegistration-output-"+new Date().getTime()+".xml";
 		File outputXMLFile=new File(filePath+System.getProperty("file.separator")+fileName);
 		outputXMLFile.createNewFile();
-		Collection<StudySubject> studySubjects = studySubjectXMLImporterService
-				.importStudySubjects(xMLFile.getInputStream(), outputXMLFile);
         try {
+        	Collection<StudySubject> studySubjects = studySubjectXMLImporterService
+			.importStudySubjects(xMLFile.getInputStream(), outputXMLFile);
             Object viewData = studySubjectXMLFileAjaxFacade.getTable(null,httpServletRequest, studySubjects);
             httpServletRequest.setAttribute("registrations", viewData);
             httpServletRequest.setAttribute("filePath", fileName);
         } catch (Exception e1) {
         	e1.printStackTrace();
             log.debug("Uploaded file contains invalid registration");
-            errors.reject("Could not import Studies",e1.getMessage());
+            errors.reject("Could not import registrations",e1.getMessage());
         }
 
         return new ModelAndView(this.getSuccessView(), errors.getModel());
