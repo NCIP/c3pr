@@ -1,9 +1,16 @@
 package edu.duke.cabig.c3pr.web.admin;
 
 
+import java.io.File;
+import java.util.Collection;
+import java.util.Date;
+
+import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.service.StudySubjectXMLImporterService;
 import edu.duke.cabig.c3pr.web.ajax.StudySubjectXMLFileImportAjaxFacade;
 import edu.duke.cabig.c3pr.web.ajax.StudyXMLFileImportAjaxFacade;
 import edu.duke.cabig.c3pr.web.ajax.BaseStudyAjaxFacade;
+import edu.duke.cabig.c3pr.web.beans.FileBean;
 import gov.nih.nci.common.exception.XMLUtilityException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -26,19 +33,28 @@ public class StudySubjectXMLFileUploadController  extends SimpleFormController {
 
     private static Log log = LogFactory.getLog(StudySubjectXMLFileUploadController.class);
     private StudySubjectXMLFileImportAjaxFacade studySubjectXMLFileAjaxFacade;
+    private StudySubjectXMLImporterService studySubjectXMLImporterService;
     
     public StudySubjectXMLFileUploadController() {
          setBindOnNewForm(true);
     }
 
     @Override
-    protected ModelAndView onSubmit(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, BindException errors) throws Exception {
+    protected ModelAndView onSubmit(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object command, BindException errors) throws Exception {
         //save it to session
-        httpServletRequest.getSession().setAttribute(getFormSessionAttributeName(),o);
-
+        FileBean xMLFile= (FileBean)command;
+		String filePath=System.getenv("CATALINA_HOME")+System.getProperty("file.separator")+"conf"+System.getProperty("file.separator")+"c3pr";
+		File outputXMLDir=new File(filePath);		
+		outputXMLDir.mkdirs();
+		String fileName="importRegistration-output-"+new Date().getTime()+".xml";
+		File outputXMLFile=new File(filePath+System.getProperty("file.separator")+fileName);
+		outputXMLFile.createNewFile();
+		Collection<StudySubject> studySubjects = studySubjectXMLImporterService
+				.importStudySubjects(xMLFile.getInputStream(), outputXMLFile);
         try {
-            Object viewData = studySubjectXMLFileAjaxFacade.getTable(null,httpServletRequest);
+            Object viewData = studySubjectXMLFileAjaxFacade.getTable(null,httpServletRequest, studySubjects);
             httpServletRequest.setAttribute("registrations", viewData);
+            httpServletRequest.setAttribute("filePath", fileName);
         } catch (Exception e1) {
         	e1.printStackTrace();
             log.debug("Uploaded file contains invalid registration");
@@ -64,6 +80,11 @@ public class StudySubjectXMLFileUploadController  extends SimpleFormController {
 	public void setStudySubjectXMLFileAjaxFacade(
 			StudySubjectXMLFileImportAjaxFacade studySubjectXMLFileAjaxFacade) {
 		this.studySubjectXMLFileAjaxFacade = studySubjectXMLFileAjaxFacade;
+	}
+
+	public void setStudySubjectXMLImporterService(
+			StudySubjectXMLImporterService studySubjectXMLImporterService) {
+		this.studySubjectXMLImporterService = studySubjectXMLImporterService;
 	}
 
 }

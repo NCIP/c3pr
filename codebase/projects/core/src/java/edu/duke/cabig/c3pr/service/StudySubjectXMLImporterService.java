@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.service;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.StudyValidationException;
+import edu.duke.cabig.c3pr.utils.ImportErrors;
 
 /**
  * User: kherm
@@ -20,7 +22,7 @@ import edu.duke.cabig.c3pr.exception.StudyValidationException;
 @Transactional(readOnly = false, rollbackFor = C3PRCodedException.class,
         noRollbackFor = C3PRBaseRuntimeException.class)
 public interface StudySubjectXMLImporterService {
-    List<StudySubject> importStudySubjects(InputStream xmlStream) throws C3PRCodedException;
+    List<StudySubject> importStudySubjects(InputStream xmlStream, File importXMLResult) throws C3PRCodedException;
 
     public StudySubject importStudySubject(StudySubject studySubject) throws C3PRCodedException;
     

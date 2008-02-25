@@ -102,6 +102,11 @@
             autowire="byName">
     </bean>
 
+	<bean name="/admin/downloadC3PRResource" id="downloadC3PRResource"
+            lazy-init="true" class="edu.duke.cabig.c3pr.web.ResourceDownloadController"
+            autowire="byName">
+    </bean>
+    
     <bean name="/registration/searchEpoch" id="searchEpochController"
           lazy-init="true" class="edu.duke.cabig.c3pr.web.SearchEpochController"
           autowire="byName">

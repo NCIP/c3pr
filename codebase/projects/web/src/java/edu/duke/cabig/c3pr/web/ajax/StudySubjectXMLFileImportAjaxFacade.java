@@ -1,6 +1,8 @@
 package edu.duke.cabig.c3pr.web.ajax;
 
+import java.io.File;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +21,7 @@ import org.springframework.web.HttpSessionRequiredException;
 
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.service.StudySubjectXMLImporterService;
+import edu.duke.cabig.c3pr.utils.ImportErrors;
 import edu.duke.cabig.c3pr.web.beans.FileBean;
 
 /**
@@ -27,15 +30,12 @@ import edu.duke.cabig.c3pr.web.beans.FileBean;
  */
 public class StudySubjectXMLFileImportAjaxFacade {
 
-	private StudySubjectXMLImporterService studySubjectXMLImporterService;
-
 	private static Log log = LogFactory
 			.getLog(StudySubjectXMLFileImportAjaxFacade.class);
 
-	public String getTable(Map parameterMap, HttpServletRequest request)
+	public String getTable(Map parameterMap, HttpServletRequest request, Collection<StudySubject> studySubjects)
 			throws Exception {
 
-		FileBean xMLFile = (FileBean) getCommandOnly(request);
 		Context context = null;
 		if (parameterMap == null) {
 			context = new HttpServletRequestContext(request);
@@ -46,32 +46,13 @@ public class StudySubjectXMLFileImportAjaxFacade {
 		TableModel model = new TableModelImpl(context);
 		String action = "/pages/admin/importStudy";
 
-		Collection<StudySubject> studySubjects = null;
-		studySubjects = studySubjectXMLImporterService
-				.importStudySubjects(xMLFile.getInputStream());
+		
+		
 		return build(model, studySubjects, "Imported Registrations", action)
 				.toString();
 	}
 
-	private Object getCommandOnly(HttpServletRequest request) throws Exception {
-		HttpSession session = request.getSession(false);
-		if (session == null) {
-			throw new HttpSessionRequiredException(
-					"Must have session when trying to bind (in session-form mode)");
-		}
-		String formAttrName = "edu.duke.cabig.c3pr.web.admin.StudySubjectXMLFileUploadController.FORM.command";
-		Object sessionFormObject = session.getAttribute(formAttrName);
-
-		return sessionFormObject;
-	}
-
-	public void setStudySubjectXMLImporterService(
-			StudySubjectXMLImporterService studySubjectXMLImporterService) {
-		this.studySubjectXMLImporterService = studySubjectXMLImporterService;
-	}
-
-	protected Object build(TableModel model, Collection studySubjects, String title,
-			String action) throws Exception {
+	protected Object build(TableModel model, Collection studySubjects, String title, String action) throws Exception {
 
 		Table table = model.getTableInstance();
 		table.setTitle(title);
