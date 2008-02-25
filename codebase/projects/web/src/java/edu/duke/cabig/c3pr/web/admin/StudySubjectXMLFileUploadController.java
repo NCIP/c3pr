@@ -58,7 +58,7 @@ public class StudySubjectXMLFileUploadController  extends SimpleFormController {
         } catch (Exception e1) {
         	e1.printStackTrace();
             log.debug("Uploaded file contains invalid registration");
-            errors.reject("Could not import registrations",e1.getMessage());
+            errors.reject("Could not import registrations"+e1.getMessage());
         }
 
         return new ModelAndView(this.getSuccessView(), errors.getModel());
