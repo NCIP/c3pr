@@ -11,7 +11,7 @@
         <parameter name="loadOnStartup" value="true" />
         <parameter name="securityMetadata" value="ETC-PATH/StudyConsumer-security-metadata.xml" />
         <!--ccts addition-->
-        <parameter name="springClasspathExpression" value="classpath:applicationContext-grid.xml" />
+        <parameter name="springClasspathExpression" value="classpath:applicationContext-studyConsumer-grid.xml" />
         <parameter name="studyConsumerBeanName" value="studyConsumer" />
     </service>
     <typeMapping name="AggregatorContent" qname="aggr:AggregatorContent" type="java:org.globus.mds.aggregator.types.AggregatorContent" serializer="org.apache.axis.encoding.ser.BeanSerializerFactory" deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory" encodingStyle="" />
