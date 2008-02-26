@@ -13,20 +13,8 @@
     <property name="lib.dir" value="${basedir}/lib"/>
     <property name="ext.dir" value="${basedir}/ext"/>
     <property name="ext.lib.dir" value="${ext.dir}/lib"/>
-    <property name="ext.test.dir" value="${ext.dir}/test"/>
-    <property name="ext.test.lib.dir" value="${ext.test.dir}/lib"/>
 
     <property name="ext.globus.dir" value="${env.GLOBUS_LOCATION}"/>
-    <property name="test.dir" value="${basedir}/test"/>
-    <property name="test.src.dir" value="${test.dir}/src"/>
-    <property name="test.build.dir" value="${build.dir}/test"/>
-    <property name="test.classes.dir" value="${test.build.dir}/classes"/>
-    <property name="test.lib.dir" value="${test.dir}/lib"/>
-    <property name="test.logs.dir" location="${test.dir}/logs"/>
-    <property name="test.resources.dir" location="${test.dir}/resources"/>
-    <property name="test.report.dir" value="${test.dir}/report"/>
-    <property name="test.jar.dir" value="${test.build.dir}/jars"/>
-    <property name="test.jar.name" value="${project.name}-test.jar"/>
 
     <property name="webapp.name" value="wsrf"/>
     <property name="tomcat.deploy.dir" value="${env.CATALINA_HOME}/webapps/${webapp.name}/WEB-INF/lib"/>
@@ -42,26 +30,6 @@
         <fileset dir="${ext.lib.dir}">
             <include name="*.jar"/>
         </fileset>
-    </path>
-
-    <path id="test.compile.cp">
-        <path refid="compile.cp"/>
-        <fileset dir="${test.lib.dir}">
-            <include name="*.jar"/>
-        </fileset>
-        <fileset dir="${ext.globus.dir}/lib">
-            <include name="*.jar"/>
-        </fileset>
-        <pathelement location="${build.classes.dir}"/>
-        <fileset dir="${ext.test.lib.dir}">
-            <include name="*.jar"/>
-        </fileset>
-    </path>
-
-    <path id="test.run.cp">
-        <path refid="test.compile.cp"/>
-        <pathelement location="${test.resources.dir}"/>
-        <pathelement location="${test.classes.dir}"/>
     </path>
 
 
@@ -83,29 +51,11 @@
         </copy>
     </target>
 
-    <target name="compileTests" depends="compile">
-        <mkdir dir="${test.build.dir}"/>
-        <mkdir dir="${test.classes.dir}"/>
-
-        <javac srcdir="${test.src.dir}" destdir="${test.classes.dir}" debug="true">
-            <classpath refid="test.compile.cp"/>
-        </javac>
-        <copy todir="${test.classes.dir}">
-	        <fileset dir="${test.resources.dir}">
-	            <include name="**/*.xml"/>
-	        </fileset>
-        </copy>
-    </target>
-
     <target name="jar" depends="compile">
         <mkdir dir="${build.jar.dir}"/>
         <jar basedir="${build.classes.dir}" jarfile="${build.jar.dir}/${jar.name}"/>
     </target>
 
-    <target name="jarTests" depends="compileTests">
-        <mkdir dir="${test.jar.dir}"/>
-        <jar basedir="${test.classes.dir}" jarfile="${test.jar.dir}/${test.jar.name}"/>
-    </target>
 
 
     <target name="deployTomcat" depends="jar">
@@ -132,10 +82,8 @@
 
     <target name="clean">
         <delete dir="${build.dir}"/>
-
-        <delete dir="${test.build.dir}"/>
     </target>
 
-    <target name="all" depends="jar,jarTests" description="Builds the project"/>
+    <target name="all" depends="jar" description="Builds the project"/>
 
 </project>
