@@ -104,6 +104,16 @@
              antfile="build.xml" target="all"/>
     </target>
 
+    <target name="build-C3PRStudyConsumer" depends="prepare">
+        <resolveDependencies extdir="${projects.dir}/C3PRStudyConsumer/ext">
+            <artifact refid="study.consumer.grid.service"/>
+        </resolveDependencies>
+
+        <ant dir="${projects.dir}/C3PRStudyConsumer" inheritall="false"
+             antfile="build.xml" target="all"/>
+    </target>
+
+
     <target name="build-RegistrationConsumer" depends="prepareIntroduceService">
         <ant dir="${projects.dir}/RegistrationConsumer" inheritall="false"
              antfile="build.xml" target="all"/>
@@ -118,14 +128,6 @@
              antfile="build.xml" target="all"/>
     </target>
 
-    <target name="build-StudyConsumerImpl" depends="prepare">
-        <resolveDependencies extdir="${projects.dir}/C3PRStudyConsumer/ext">
-            <artifact refid="study.consumer.grid.service"/>
-        </resolveDependencies>
-
-        <ant dir="${projects.dir}/C3PRStudyConsumer" inheritall="false"
-             antfile="build.xml" target="all"/>
-    </target>
 
     <target name="clean" description="Clean the project">
         <delete dir="${build.dir}"/>
@@ -170,7 +172,7 @@
          grid service. Skeleton service is implemented by individual
          ctmsi applications.
     -->
-    <target name="deploySkeletonRegistrationGridService" depends="prepareIntroduceService"
+    <target name="deploySkeletonRegistrationGridService" depends="all"
             description="Deploys the Registration Consumer Grid service Skeleton">
 
         <!--override tomcat env variable to write out to temp location-->
@@ -205,7 +207,7 @@
            grid service. Skeleton service is implemented by individual
            ctmsi applications.
       -->
-    <target name="deploySkeletonStudyGridService" depends="prepareIntroduceService"
+    <target name="deploySkeletonStudyGridService" depends="all"
             description="Deploys the Study Consumer Grid service Skeleton">
 
         <!--override tomcat env variable to write out to temp location-->

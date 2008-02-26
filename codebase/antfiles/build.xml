@@ -412,13 +412,13 @@
     </target>
 
 
-    <target name="deploy-grid-RegistrationConsumer" depends="prepare,checkGlobus,checkTomcat"
+    <target name="deploy-grid-RegistrationConsumer" depends="prepare-grid,checkGlobus,checkTomcat"
             description="Will deploy the RegistrationConsumer grid service">
         <ant dir="${projects.dir}/grid" antfile="build.xml" inheritall="false"
              target="deployTomcat-RegistrationConsumer"/>
     </target>
 
-    <target name="deploy-grid-StudyConsumer" depends="prepare,checkGlobus,checkTomcat"
+    <target name="deploy-grid-StudyConsumer" depends="prepare-grid,checkGlobus,checkTomcat"
             description="Will deploy the RegistrationConsumer grid service">
         <ant dir="${projects.dir}/grid" antfile="build.xml" inheritall="false"
              target="deployTomcat-StudyConsumer"/>
