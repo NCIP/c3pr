@@ -21,7 +21,6 @@ import org.springframework.web.HttpSessionRequiredException;
 
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.service.StudySubjectXMLImporterService;
-import edu.duke.cabig.c3pr.utils.ImportErrors;
 import edu.duke.cabig.c3pr.web.beans.FileBean;
 
 /**

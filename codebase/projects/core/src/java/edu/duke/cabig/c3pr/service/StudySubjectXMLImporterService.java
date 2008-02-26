@@ -12,7 +12,6 @@ import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.StudyValidationException;
-import edu.duke.cabig.c3pr.utils.ImportErrors;
 
 /**
  * User: kherm
