@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+        "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+    <import resource="classpath*:edu/duke/cabig/c3pr/applicationContext-config.xml"/>
+    <import resource="classpath*:edu/duke/cabig/c3pr/applicationContext-core.xml"/>
+    <import resource="classpath*:edu/duke/cabig/c3pr/applicationContext-core-db.xml"/>
+    <import resource="classpath*:edu/duke/cabig/c3pr/applicationContext-csm.xml"/>
+
+    <bean id="studyConsumer" class="edu.duke.cabig.c3pr.grid.service.C3PRStudyConsumer"
+            autowire="byName">
+        <property name="studyMarshaller">
+            <bean name="studyMarshaller" class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
+                <property name="mappingFile" ref="ccts-study-castorMapping"/>
+            </bean>
+        </property>
+    </bean>
+
+</beans>
