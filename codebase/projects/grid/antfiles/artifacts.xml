@@ -22,11 +22,22 @@
             </fileset>
         </artifact>
 
+         <artifact track="main" type="jars" id="study.consumer.grid.service">
+            <antcall target="build-StudyConsumer"/>
+            <fileset dir="${projects.dir}/StudyConsumer/build/lib">
+                <include name="*.jar" />
+            </fileset>
+            <fileset dir="${projects.dir}/StudyConsumer/lib">
+                <include name="*.jar" />
+            </fileset>
+        </artifact>
+
           <artifact track="main" type="jars" id="cagrid-introduce.jars">
             <fileset dir="${share.dir}/cagrid/introduce/lib">
                 <include name="*.jar" />
             </fileset>
         </artifact>
+
     </target>
 
 </project>

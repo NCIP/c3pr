@@ -79,7 +79,7 @@
 
     </target>
 
-      <target name="prepareIntroduceService" depends="prepare"
+    <target name="prepareIntroduceService" depends="prepare"
             description="Copy required caGrid jars">
 
         <for list="${projects.list}" parallel="false" param="project.name" trim="true">
@@ -118,7 +118,11 @@
              antfile="build.xml" target="all"/>
     </target>
 
-    <target name="build-C3PRStudyConsumer" depends="prepare">
+    <target name="build-StudyConsumerImpl" depends="prepare">
+        <resolveDependencies extdir="${projects.dir}/C3PRStudyConsumer/ext">
+            <artifact refid="study.consumer.grid.service"/>
+        </resolveDependencies>
+
         <ant dir="${projects.dir}/C3PRStudyConsumer" inheritall="false"
              antfile="build.xml" target="all"/>
     </target>
@@ -217,14 +221,11 @@
     <!--will deploy the C3PRStudyConsumer grid service
        for c3prv2 application
     -->
-    <target name="deployTomcat-C3PRStudyConsumer" depends="all"
+    <target name="deployTomcat-StudyConsumer" depends="deploySkeletonStudyGridService"
             description="Deploys the c3pr Study Consumer grid service Implementation">
 
-        <ant dir="${projects.dir}/C3PRStudyConsumer" antfile="build.xml" inheritall="false" target="deployTomcat"/>
-        <!--copy the ext folder-->
-        <copy todir="${tomcat.wsrf.home}/WEB-INF/lib" overwrite="true">
-            <fileset refid="ext.lib.jars"/>
-        </copy>
+        <ant dir="${projects.dir}/C3PRStudyConsumer" antfile="build.xml" 
+             inheritall="false" target="deployTomcat"/>
 
         <echo message="============================================================================="/>
         <echo message="======Study Consumer Grid service deployed to ${tomcat.home}" />

@@ -3,7 +3,7 @@
 
     <!--default value will be overriden by build.properties-->
     <property file="${antfiles.dir}/build.properties"/>
-    <property name="ctmsi.commons.version" value="0.8-SNAPSHOT"/>
+    <property name="ctmsi.commons.version" value="0.8"/>
 
     <property name="antfiles.lib.dir" value="${antfiles.dir}/lib"/>
     <property name="ctms.commons.dir" value="${share.dir}/ctms-commons"/>
