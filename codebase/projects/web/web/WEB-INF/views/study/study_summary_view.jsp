@@ -219,13 +219,24 @@
                     <tags:inPlaceEdit value="${studySite.irbApprovalDateStr}"
                                       path="changedSiteStudyIrbApprovalDate_${status.index}" required="true"/>
                 </td>
-                <td><input type="button" value="Edit" onclick="activateInPlaceEditing(eArray_${status.index})"/>
+                <td>
+	                <csmauthz:accesscontrol domainObject="${command}" hasPrivileges="UPDATE"
+	                                        authorizationCheckName="domainObjectAuthorizationCheck">
+	                    &nbsp; <input type="button" value="Edit" onclick="activateInPlaceEditing(eArray_${status.index})"/>
+	                </csmauthz:accesscontrol>
                     <script>
                         eArray_${status.index} = new Array();
                         eArray_${status.index}.push(editor_changedSiteStudyStatus_${status.index});
                         eArray_${status.index}.push(editor_changedSiteStudyStartDate_${status.index});
                         eArray_${status.index}.push(editor_changedSiteStudyIrbApprovalDate_${status.index});
                     </script>
+                    <c:if test="${isRegistrar}">
+	                 <script type="text/javascript">
+	                 				  editor_changedSiteStudyStatus_${status.index}.dispose();
+	                 				  editor_changedSiteStudyStartDate_${status.index}.dispose();
+	                 				  editor_changedSiteStudyIrbApprovalDate_${status.index}.dispose();
+	                 </script>
+                </c:if>
                 </td>
             </tr>
         </c:forEach>
