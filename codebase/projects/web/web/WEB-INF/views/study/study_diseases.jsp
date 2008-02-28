@@ -220,6 +220,11 @@ function populateSelectsOnLoad()
     }
 }
 
+function handleClear(){
+	$("disease-sub-category").options.length=0;
+	$("disease-term").options.length=0;
+}
+
 Event.observe(window, "load", function() {
     $('disease-sel').style.display = 'none';
     $('disease-sel-hidden').style.display = 'none';
@@ -262,7 +267,7 @@ Event.observe(window, "load", function() {
             <tags:hoverHint keyProp="study.diseaseCategoryAsText"/>
             <tags:indicator id="disease-indicator"/>
             <div id="disease-choices" class="autocomplete"></div>
-            <input type="button" id="disease-clear" value="Clear"/>
+            <input type="button" id="disease-clear" value="Clear" onClick="handleClear()"/>
 
             <p id="disease-selected" style="display: none"></p>
 
