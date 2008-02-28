@@ -106,7 +106,7 @@ Event.observe(window, "load", function() {
                             <tags:dateInput path="studySites[0].irbApprovalDate"/>
                         </td>
                         <td>
-                            <form:input id="studySites[0].targetAccrualNumber" path="studySites[0].targetAccrualNumber" 
+                            <form:input id="studySites[0].targetAccrualNumber" path="studySites[0].targetAccrualNumber" maxlength="6"
                             	cssClass="validate-NUMERIC"
                              />
                         </td>
@@ -212,7 +212,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
                         <td>
                             <tags:dateInput path="studySites[${status.index}].irbApprovalDate"/>
                         </td>
-                        <td> <form:input path="studySites[${status.index}].targetAccrualNumber" cssClass="validate-NUMERIC"/>
+                        <td> <form:input path="studySites[${status.index}].targetAccrualNumber" maxlength="6" cssClass="validate-NUMERIC"/>
             			</td>  
                         <td><a
                                 href="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index},${site.hashCode});"><img
@@ -274,7 +274,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
             </td>
 			<td>
                 <input id="studySites[PAGE.ROW.INDEX].targetAccrualNumber"
-                       name="studySites[PAGE.ROW.INDEX].targetAccrualNumber"
+                       name="studySites[PAGE.ROW.INDEX].targetAccrualNumber" maxlength="6"
                        type="text" class="validate-NUMERIC"/>
             </td>            
             <td>
