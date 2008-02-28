@@ -120,7 +120,7 @@
                                         <span class="required-indicator"><b>Order:</b></span>
                                         
                                     </td>
-                                    <td><form:input path="treatmentEpochs[${treatmentEpochCount.index}].epochOrder" size="5"
+                                    <td><form:input path="treatmentEpochs[${treatmentEpochCount.index}].epochOrder" size="5" maxlength="1"
                                                cssClass="validate-notEmpty&&numeric" />
                                         <tags:hoverHint id="study.treatmentEpoch.epochorder-${treatmentEpochCount.index}" keyProp="study.treatmentEpoch.epochOrder"/></td>
                                 </tr>
@@ -164,7 +164,7 @@
                       					 rows="3" cols="20" /></td>
                                         <td valign="top"><form:input
                                                 path="treatmentEpochs[${treatmentEpochCount.index}].arms[${statusArms.index}].targetAccrualNumber"
-                                                size="6" maxlength="8" cssClass="validate-numeric" /></td>
+                                                size="6" maxlength="6" cssClass="validate-numeric" /></td>
                                         <td valign="top">
                                         	<a href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(treatmentEpochRowInserterProps,${treatmentEpochCount.index}),${statusArms.index },${arm.hashCode});">
                                         	<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
@@ -217,7 +217,7 @@
                                 <div class="label">
                                     <span class="required-indicator">Order:</span>
                                     </div>
-                                <div class="value"><form:input size="5"
+                                <div class="value"><form:input size="5" maxlength="1"
                                                           path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].epochOrder"
                                                           cssClass="validate-notEmpty&&numeric" />
                                 <tags:hoverHint id="study.nonTreatmentEpoch.epochOrder-${nonTreatmentEpochCount.index}" keyProp="study.nonTreatmentEpoch.epochOrder"/></div>
@@ -244,7 +244,7 @@
                                 <div class="label">Accrual Ceiling:</div>
                                 <div class="value"><form:input
                                         path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].accrualCeiling"
-                                        size="12" maxlength="10" cssClass="validate-numeric" />
+                                        size="12" maxlength="5" cssClass="validate-numeric" />
                                         <tags:hoverHint id="study.nonTreatmentEpoch.accrualCeiling-${nonTreatmentEpochCount.index}" keyProp="study.nonTreatmentEpoch.accrualCeiling"/></div>
                             </div>
                             </div>
@@ -330,7 +330,7 @@
                                         
                                     </td>
                                     <td><input type="text"
-                                               name="treatmentEpochs[PAGE.ROW.INDEX].epochOrder" size="5"
+                                               name="treatmentEpochs[PAGE.ROW.INDEX].epochOrder" size="5" maxlength="1"
                                                class="validate-notEmpty&&numeric" /><tags:hoverHint id="study.treatmentEpoch.epochOrder-PAGE.ROW.INDEX" keyProp="study.treatmentEpoch.epochOrder"/></td>
                                 </tr>
                                  <c:if test="${command.randomizedIndicator== true}">
@@ -380,7 +380,7 @@
                        rows="3" cols="20"></textarea></td>
             <td valign="top"><input type="text"
                        name="treatmentEpochs[PAGE.ROW.INDEX].arms[NESTED.PAGE.ROW.INDEX].targetAccrualNumber"
-                       size="6" maxlength="8" class="validate-numeric" /></td>
+                       size="6" maxlength="6" class="validate-numeric" /></td>
             <td valign="top"><a
                     href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(treatmentEpochRowInserterProps,PAGE.ROW.INDEX),NESTED.PAGE.ROW.INDEX,-1);"><img
                     src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
@@ -420,7 +420,7 @@
                                 <div class="label">
                                     <span class="required-indicator">Order:</span>
                                     </div>
-                                <div class="value"><input type="text" size="5"
+                                <div class="value"><input type="text" size="5" maxlength="1"
                                                           name="nonTreatmentEpochs[PAGE.ROW.INDEX].epochOrder"
                                                           class="validate-notEmpty&&numeric" />
                                 <tags:hoverHint id="study.nonTreatmentEpoch.epochOrder-PAGE.ROW.INDEX" keyProp="study.nonTreatmentEpoch.epochOrder"/></div>
@@ -446,7 +446,7 @@
                                 <div class="value"><input type="text"
                                                           id="nonTreatmentEpochs[PAGE.ROW.INDEX].accrualCeiling"
                                                           name="nonTreatmentEpochs[PAGE.ROW.INDEX].accrualCeiling" size="12"
-                                                          maxlength="10" class="validate-numeric" />
+                                                          maxlength="5" class="validate-numeric" />
                                 <tags:hoverHint id="study.nonTreatmentEpoch.accrualCeiling-PAGE.ROW.INDEX" keyProp="study.nonTreatmentEpoch.accrualCeiling"/></div>
                             </div>
                             </div>
