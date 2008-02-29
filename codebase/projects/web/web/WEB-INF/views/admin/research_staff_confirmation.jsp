@@ -32,7 +32,7 @@
                 </c:if>
                 <c:if test="${FLOW == 'SAVE_FLOW'}">
                 	<div class="row">
-                	 	<h2><font color="green">Research Staff member successfully updated.</font></h2>
+                	 	<h2><font color="green">Research Staff member successfully created.</font></h2>
 	                </div>
                 </c:if>
                 
