@@ -139,7 +139,7 @@
                 <delete dir="${basedir}/@{project.name}/ext"/>
 
                 <!--clean out the introduce jars that we copied from share-->
-                <delete includeemptydirs="true">
+                <delete includeemptydirs="true" failonerror="false">
                     <fileset dir="${basedir}/@{project.name}/lib" includes="**/*.jar"/>
                 </delete>
 
