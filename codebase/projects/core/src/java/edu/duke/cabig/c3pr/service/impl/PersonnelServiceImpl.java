@@ -86,12 +86,21 @@ public class PersonnelServiceImpl implements PersonnelService {
     }
 
     public void merge(ResearchStaff staff) throws C3PRBaseException {
-        try {
-            User csmUser = getCSMUser(staff);
-            save(staff, csmUser);
-        } catch (CSObjectNotFoundException e) {
-            new C3PRBaseException("Could not save Research staff" + e.getMessage());
-        }
+    	 try {
+             User csmUser = getCSMUser(staff);
+             save(staff, csmUser);
+         } catch (CSObjectNotFoundException e) {
+             new C3PRBaseException("Could not save Research staff" + e.getMessage());
+         }
+         try {
+             User csmUser = getCSMUser(staff);
+             csmUser.setOrganization(staff.getHealthcareSite().getNciInstituteCode());
+             assignUserToGroup(csmUser, siteObjectIdGenerator.generateId(staff.getHealthcareSite()));
+             log.debug("Successfully assigned user to organization group" + siteObjectIdGenerator.generateId(staff.getHealthcareSite()));
+         } catch (CSObjectNotFoundException e) {
+             new C3PRBaseException("Could not assign user to organization group.");
+         }
+
     }
 
     /*
