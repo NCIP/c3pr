@@ -103,7 +103,7 @@ function compareDates(date1,dateformat1,date2,dateformat2) {
 //   the format of the input date should be mm/dd/yyyy
 //
 function compareDateWithToday(inputDate){
-	dateFormat="mm/dd/yyyy";
+	dateFormat="MM/dd/yyyy";
 	today=new Date();
 	month=new String(today.getMonth()+1);
 	month=month.length==1?("0"+month):month;
