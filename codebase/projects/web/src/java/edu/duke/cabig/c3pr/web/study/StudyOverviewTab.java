@@ -6,6 +6,11 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.service.StudyService;
+
+import org.acegisecurity.Authentication;
+import org.acegisecurity.GrantedAuthority;
+import org.acegisecurity.context.SecurityContext;
+import org.acegisecurity.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -78,9 +83,14 @@ public class StudyOverviewTab extends StudyTab {
                 try {
                     studyService.setSiteStudyStatus(command, command.getStudySites().get(studySiteIndex), statusObject);
                 } catch (C3PRCodedException e) {
-                    // TODO Auto-generated catch block
+                	if ((command.getStudySites().get(studySiteIndex).getSiteStudyStatus() == SiteStudyStatus.CLOSED_TO_ACCRUAL
+                			|| command.getStudySites().get(studySiteIndex).getSiteStudyStatus() == SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT) && statusObject == SiteStudyStatus.ACTIVE
+    	            	 && isAdmin()){
+                		command.getStudySites().get(studySiteIndex).setSiteStudyStatus(SiteStudyStatus.ACTIVE);
+                	} else {
                     retValue = "<script>alert('" + e.getMessage() + "')</script>";
                     // e.printStackTrace();
+                	}
                 } finally {
                     retValue += command.getStudySites().get(studySiteIndex).getSiteStudyStatus().getCode();
                 }
@@ -116,8 +126,16 @@ public class StudyOverviewTab extends StudyTab {
                 //this callback is used to dynamically display/hide the amend study button
                 retValue = "<script>statusChangeCallback('" + command.getCoordinatingCenterStudyStatus().getCode() + "')</script>";
             } catch (C3PRCodedException e) {
+            	// case when the user has an admin role and he/she can change the study status to Active even when the study is closed to accrual
+            	// or closed to accrual and treatment.
+            	if ((command.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL 
+            			|| command.getCoordinatingCenterStudyStatus() == CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT) && statusObject == CoordinatingCenterStudyStatus.ACTIVE
+	            	 && isAdmin()){
+	            		command.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+            	} else {
                 retValue = "<script>alert('" + e.getMessage() + "')</script>";
                 // e.printStackTrace();
+            	}
             } finally {
                 retValue += command.getCoordinatingCenterStudyStatus().getCode();
             }
@@ -131,6 +149,19 @@ public class StudyOverviewTab extends StudyTab {
         return new ModelAndView("", map);
     }
 
+    public boolean isAdmin(){
+    	
+    	SecurityContext context = SecurityContextHolder.getContext();
+        Authentication auth = context.getAuthentication();
+        GrantedAuthority[] groups = auth.getAuthorities();
+        boolean isAdmin = false;
+        for(GrantedAuthority ga: groups){
+        	if(ga.getAuthority().endsWith("admin")){
+        		isAdmin = true;
+        	}
+        }
+        return isAdmin;
+    }
     @Override
     public void validate(Study study, Errors errors) {
         super.validate(study, errors);
@@ -159,6 +190,4 @@ public class StudyOverviewTab extends StudyTab {
     public void setStudyService(StudyService studyService) {
         this.studyService = studyService;
     }
-
-
 }
