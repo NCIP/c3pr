@@ -86,10 +86,10 @@ class StudyDetailsTab extends StudyTab {
 	}
 
 	@Override
-	public void postProcess(HttpServletRequest request, Study study,
+	public void postProcessOnValidation(HttpServletRequest request, Study study,
 			Errors errors) {
 		// TODO Auto-generated method stub
-		super.postProcess(request, study, errors);
+		super.postProcessOnValidation(request, study, errors);
 		if (request.getParameter("deletedSponsor") != null) {
 			if (study.getFundingSponsorIdentifierIndex() != -1) {
 				study.getOrganizationAssignedIdentifiers().remove(

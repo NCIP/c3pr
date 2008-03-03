@@ -57,7 +57,7 @@ class StudyEligibilityChecklistTab extends StudyTab {
 	}
     
     @Override
-    public void postProcess(HttpServletRequest httpServletRequest, Study study, Errors errors) {
+    public void postProcessOnValidation(HttpServletRequest httpServletRequest, Study study, Errors errors) {
     	Object obj = httpServletRequest.getParameter("name"); 
     	if( obj != null){    		
     		try {

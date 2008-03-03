@@ -57,7 +57,7 @@ class StudyDiseasesTab extends StudyTab {
 	}
 
     @Override
-    public void postProcess(HttpServletRequest httpServletRequest, Study study, Errors errors) {
+    public void postProcessOnValidation(HttpServletRequest httpServletRequest, Study study, Errors errors) {
 
         String selected = httpServletRequest.getParameter("_selected");
         String action = httpServletRequest.getParameter("_actionx");

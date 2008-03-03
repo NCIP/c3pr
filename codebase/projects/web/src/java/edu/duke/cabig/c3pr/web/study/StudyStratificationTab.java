@@ -204,9 +204,9 @@ public class StudyStratificationTab extends StudyTab {
 
 
     @Override
-    public void postProcess(HttpServletRequest req, Study study, Errors errors) {
+    public void postProcessOnValidation(HttpServletRequest req, Study study, Errors errors) {
     	int epochCountIndex = -1;
-    	super.postProcess(req, study, errors);
+    	super.postProcessOnValidation(req, study, errors);
     	if(req.getParameter("epochCountIndex") != null && !req.getParameter("generateGroups").toString().equalsIgnoreCase("false")){
     		epochCountIndex = Integer.parseInt(req.getParameter("generateGroups"));
     		generateStratumGroups(req, study, errors, epochCountIndex);

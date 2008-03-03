@@ -64,7 +64,7 @@ public class StudyRandomizationTab extends StudyTab {
 	
 	
      @Override
-     public void postProcess(HttpServletRequest req, Study study, Errors errors) {    	
+     public void postProcessOnValidation(HttpServletRequest req, Study study, Errors errors) {    	
     	 if(study.getRandomizationType() != null && study.getRandomizationType().equals(RandomizationType.BOOK)){
     		 parseFile(req, study, errors);
     	 }    	 

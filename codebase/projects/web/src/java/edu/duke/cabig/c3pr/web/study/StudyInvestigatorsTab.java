@@ -56,7 +56,7 @@ class StudyInvestigatorsTab extends StudyTab {
 	}
     
     @Override
-    public void postProcess(HttpServletRequest httpServletRequest, Study study, Errors errors) {
+    public void postProcessOnValidation(HttpServletRequest httpServletRequest, Study study, Errors errors) {
     	
 	        String selected = httpServletRequest.getParameter("_selected");
 	        String action = httpServletRequest.getParameter("_actionx");
@@ -98,7 +98,7 @@ class StudyInvestigatorsTab extends StudyTab {
 			                		so.getStudyInvestigators().remove(sInv);
 			                	}
 			                }else{
-			                	log.error("StudyInvestigatorTab - postProcess(): healthcareSiteInvestigatorDao.getById() returned null");
+			                	log.error("StudyInvestigatorTab - postProcessOnValidation(): healthcareSiteInvestigatorDao.getById() returned null");
 			                }	                
 			            }            	
 		            }

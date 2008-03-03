@@ -34,7 +34,7 @@ public class StudyAmendmentTab extends StudyTab {
 	}
 	
 	@Override
-	public void postProcess(HttpServletRequest request, Study study,
+	public void postProcessOnValidation(HttpServletRequest request, Study study,
 			Errors errors) {
 		
 		int size = study.getStudyAmendments().size();

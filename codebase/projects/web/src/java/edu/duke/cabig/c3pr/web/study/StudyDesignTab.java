@@ -80,7 +80,7 @@ public class StudyDesignTab extends StudyTab {
     
 	
 	@Override
-	public void postProcess(HttpServletRequest httpServletRequest, Study study,
+	public void postProcessOnValidation(HttpServletRequest httpServletRequest, Study study,
 			Errors errors) {
 		updateRandomization(study);
 	}

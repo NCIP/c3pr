@@ -38,8 +38,8 @@ public class StudyNotificationTab extends StudyTab {
     }
     
     @Override
-    public void postProcess(HttpServletRequest httpServletRequest, Study study, Errors errors) {
-    	super.postProcess(httpServletRequest, study, errors);
+    public void postProcessOnValidation(HttpServletRequest httpServletRequest, Study study, Errors errors) {
+    	super.postProcessOnValidation(httpServletRequest, study, errors);
     }
     
 }
