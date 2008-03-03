@@ -501,7 +501,7 @@ public class StudyServiceImpl extends CCTSWorkflowServiceImpl implements StudySe
                     || ((currentStatus) == (CoordinatingCenterStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT))) {
                 if ((study.getId() != null)) {
                 	throw getExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.STATUS_NEEDS_TO_BE_ACTIVE_FIRST.CODE")
-                            , new String[]{currentStatus.getDisplayName()});
+                            , new String[]{newCoordinatingCenterStatus.getDisplayName()});
                 }
                 return false;
             }
