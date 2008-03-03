@@ -46,7 +46,7 @@ class StudyPersonnelTab extends StudyTab {
 	}
 
     @Override
-    public void postProcess(HttpServletRequest httpServletRequest, Study study, Errors errors) {
+    public void postProcessOnValidation(HttpServletRequest httpServletRequest, Study study, Errors errors) {
         if ("siteChange".equals(httpServletRequest.getParameter("_action"))) {
             httpServletRequest.getSession().setAttribute("selectedSite", httpServletRequest.getParameter("_selectedSite"));
         }
