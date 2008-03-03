@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.web.study;
 
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
@@ -40,8 +41,8 @@ public class EditStudyController extends StudyController<Study> {
         super(s);
         setBindOnNewForm(true);
     }
-
-    /**
+    
+	/**
      * Create a nested object graph that Create Study Design needs
      *
      * @param request - HttpServletRequest
@@ -49,6 +50,7 @@ public class EditStudyController extends StudyController<Study> {
      */
     protected Object formBackingObject(HttpServletRequest request) throws ServletException {
         Study study = studyDao.getById(Integer.parseInt(request.getParameter("studyId")));
+    //    studyDao.initialize(study);
         if (study != null) {
             log.debug("Retrieving Study Details for Id: " + study.getId());
         }
@@ -119,12 +121,13 @@ public class EditStudyController extends StudyController<Study> {
 
     @Override
     protected Object currentFormObject(HttpServletRequest request, Object sessionFormObject) throws Exception {
-        if (sessionFormObject != null) {
-            getDao().reassociate((Study) sessionFormObject);
-            getDao().refresh((Study) sessionFormObject);
+        	if(((Study)sessionFormObject).getId()!=null){
+        		Study study = studyDao.getById(((Study)sessionFormObject).getId());
+        		 studyDao.initialize(study);
+        		 return study;
         }
 
-        return sessionFormObject;
+       throw new C3PRCodedException(-1,"Unable to retrieve study");
     }
 
     /* (non-Javadoc)
