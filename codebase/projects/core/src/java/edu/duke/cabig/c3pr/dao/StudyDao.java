@@ -51,6 +51,14 @@ public class StudyDao extends GridIdentifiableDao<Study>
     public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
 		this.healthcareSiteDao = healthcareSiteDao;
 	}
+    
+    public void detach(Study study){
+    	getHibernateTemplate().evict(study);
+    }
+    
+    public void clear(){
+    	getHibernateTemplate().clear();
+    }
 
 	@Override
     public Class<Study> domainClass() {
