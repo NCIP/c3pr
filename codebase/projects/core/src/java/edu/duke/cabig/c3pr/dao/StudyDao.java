@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.Notification;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.StratumGroup;
@@ -148,12 +149,19 @@ public class StudyDao extends GridIdentifiableDao<Study>
     	getHibernateTemplate().initialize(study.getStudyOrganizations());
     	getHibernateTemplate().initialize(study.getIdentifiers());
     	getHibernateTemplate().initialize(study.getNotificationsInternal());
+    	for (Notification notification : study.getNotificationsInternal()) {
+			if (notification != null) {
+				getHibernateTemplate().initialize(notification.getEmailBasedRecipientInternal());
+				getHibernateTemplate().initialize(notification.getRoleBasedRecipientInternal());
+			}
+		}
+    	
     	 for(StudyOrganization studyOrganization: study.getStudyOrganizations()){
 			if (studyOrganization!=null) {
 				getHibernateTemplate().initialize(
-						studyOrganization.getStudyInvestigators());
+						studyOrganization.getStudyInvestigatorsInternal());
 				getHibernateTemplate().initialize(
-						studyOrganization.getStudyPersonnel());
+						studyOrganization.getStudyPersonnelInternal());
 			}	    	
     	}
     }
