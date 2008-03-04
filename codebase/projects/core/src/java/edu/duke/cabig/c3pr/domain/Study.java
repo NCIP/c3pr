@@ -478,6 +478,7 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
     @JoinColumn(name = "stu_id", nullable=false)
     @Cascade(value = {CascadeType.ALL, CascadeType.DELETE_ORPHAN})
     @Where(clause = "retired_indicator  = 'false'")
+    @OrderBy("id")
     public List<Notification> getNotificationsInternal() {
         return lazyListHelper.getInternalList(Notification.class);
     }
