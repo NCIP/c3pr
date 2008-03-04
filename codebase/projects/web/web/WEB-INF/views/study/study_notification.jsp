@@ -77,7 +77,7 @@
 									path="notifications[${nStatus.index }].emailBasedRecipient[${emailStatus.index}].emailAddress"
 									size="30" cssClass="validate-notEmpty&&EMAIL" /></td>
 								<td class="alt"><a
-									href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}),${emailStatus.index},${email.hashCode});">
+									href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(notificationRowInserterProps,${nStatus.index}),${emailStatus.index},'${email.id==null?'HC#':'ID#'}${email.id==null?email.hashCode:email.id}');">
 								<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 							</tr>
 						</c:forEach>
@@ -101,14 +101,14 @@
 										itemLabel="desc" itemValue="code" />
 								</form:select>
 								<td class="alt"><a
-									href="javascript:RowManager.deleteRow(RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}),${roleStatus.index},${role.hashCode});">
+									href="javascript:RowManager.deleteRow(RowManager.getSecondaryNestedRowInserter(notificationRowInserterProps,${nStatus.index}),${roleStatus.index},'${role.id==null?'HC#':'ID#'}${role.id==null?role.hashCode:role.id}');">
 								<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 							</tr>
 						</c:forEach>
 					</table>
 					</td>
 					<td class="alt"><a
-						href="javascript:RowManager.deleteRow(notificationRowInserterProps,${nStatus.index},${notification.hashCode});">
+						href="javascript:RowManager.deleteRow(notificationRowInserterProps,${nStatus.index},'${notification.id==null?'HC#':'ID#'}${notification.id==null?notification.hashCode:notification.id}');">
 					<img src="<tags:imageUrl name="checkno.gif"/>" border="0"
 						alt="Delete"></a></td>
 				</tr>
@@ -177,7 +177,7 @@
 			name="notifications[PAGE.ROW.INDEX].roleBasedRecipient[SECONDARY.NESTED.PAGE.ROW.INDEX].role" class="validate-notEmpty">
 			<option value="">Please Select</option>
 			<c:forEach items="${notificationPersonnelRoleRefData}" var="role">
-				<option value="${role.desc}">${role.desc}</option>
+				<option value="${role.code}">${role.desc}</option>
 			</c:forEach>
 		</select></td>
 		<td class="alt"><a

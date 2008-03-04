@@ -138,7 +138,7 @@
 		                                        <td><form:checkbox
 		                                                path="epochs[${epochCount.index }].inclusionEligibilityCriteria[${status.index}].notApplicableIndicator"/>
 		                                        </td>
-		                                        <td><a href="javascript:RowManager.deleteRow(instanceInclusionRow_${epochCount.index},${status.index},${ieCrit.hashCode});"><img
+		                                        <td><a href="javascript:RowManager.deleteRow(instanceInclusionRow_${epochCount.index},${status.index},'${ieCrit.id==null?'HC#':'ID#'}${ieCrit.id==null?ieCrit.hashCode:ieCrit.id}');"><img
 		                                                src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 		                                    </tr>		                                    
 		                                </c:forEach>
@@ -173,7 +173,7 @@
                                             <td><form:checkbox
                                                     path="epochs[${epochCount.index }].exclusionEligibilityCriteria[${status.index}].notApplicableIndicator" />
                                             </td>
-                                            <td><a href="javascript:RowManager.deleteRow(instanceExclusionRow_${epochCount.index},${status.index},${eeCrit.hashCode});">
+                                            <td><a href="javascript:RowManager.deleteRow(instanceExclusionRow_${epochCount.index},${status.index},'${eeCrit.id==null?'HC#':'ID#'}${eeCrit.id==null?eeCrit.hashCode:eeCrit.id}');">
                                             	<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
                                         </tr>
                                     </c:forEach>

@@ -157,7 +157,7 @@
 											</c:when>
 											<c:otherwise>
 												<td class="alt"><a
-													href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},${status.index}),${statusAns.index },${answer.hashCode});">
+													href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(stratRowInserterProps_${epochCount.index},${status.index}),${statusAns.index },'${answer.id==null?'HC#':'ID#'}${answer.id==null?answer.hashCode:answer.id}');">
 												<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 											</c:otherwise>
 										</c:choose>
@@ -166,7 +166,7 @@
 							</table>
 						</td>
 						<td class="alt"><a
-							href="javascript:RowManager.deleteRow(stratRowInserterProps_${epochCount.index},${status.index},${strat.hashCode});">
+							href="javascript:RowManager.deleteRow(stratRowInserterProps_${epochCount.index},${status.index},'${strat.id==null?'HC#':'ID#'}${strat.id==null?strat.hashCode:strat.id}');">
 						<img src="<tags:imageUrl name="checkno.gif"/>" border="0"
 							alt="Delete"></a></td>
 					</tr>
@@ -220,7 +220,7 @@
 								<td width="70%">${stratumGroup.answerCombinations}</td>
 								<!-- <td>${stratumGroup.stratumGroupNumber}</td> -->
 								<td width="5%">
-								<a href="javascript:RowManager.deleteRow(stratumGroupRowInserter_${epochCount.index},${statusStratumGroup.index},${stratumGroup.hashCode});">
+								<a href="javascript:RowManager.deleteRow(stratumGroupRowInserter_${epochCount.index},${statusStratumGroup.index},'${stratumGroup.id==null?'HC#':'ID#'}${stratumGroup.id==null?stratumGroup.hashCode:stratumGroup.id}');">
 									<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
 									
 								</td>					

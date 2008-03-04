@@ -182,7 +182,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
                     <form:options items="${studyPersonnelStatusRefData}" itemLabel="desc" itemValue="desc"/>
                 </form:select></td>
            <td>
-                    <a href="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index},${sPersonnel.hashCode});"><img
+                    <a href="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index},'${sPersonnel.id==null?'HC#':'ID#'}${sPersonnel.id==null?sPersonnel.hashCode:sPersonnel.id}');"><img
                             src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a></td>
         </tr>
     </c:forEach>

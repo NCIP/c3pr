@@ -142,7 +142,7 @@ function manageIdentifierRadio(element){
 							value="${command.organizationAssignedIdentifiers[organizationStatus.index].primaryIndicator }" class="${!handleDifferently?'identifierRadios':''}" onclick="manageIdentifierRadio(this);"/>
 							<form:hidden path="organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator"/></td>
 						<td><a
-							href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,${organizationStatus.index},${orgIdentifier.hashCode});"><img
+							href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,${organizationStatus.index},'${orgIdentifier.id==null?'HC#':'ID#'}${orgIdentifier.id==null?orgIdentifier.hashCode:orgIdentifier.id}');"><img
 							src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 					</tr>
 					<c:if test="${handleDifferently}">
@@ -172,7 +172,7 @@ function manageIdentifierRadio(element){
 					<th>Primary Indicator<tags:hoverHint keyProp="study.systemAssignedIdentifier.primaryIndicator"/></th>
 					<th></th>
 				</tr>
-				<c:forEach items="${command.systemAssignedIdentifiers}" var="sysIdentifer"
+				<c:forEach items="${command.systemAssignedIdentifiers}" var="sysIdentifier"
 					varStatus="status">
 					<tr id="systemIdentifier-${status.index}">
 						<td><form:input
@@ -192,7 +192,7 @@ function manageIdentifierRadio(element){
 							value="${command.systemAssignedIdentifiers[status.index].primaryIndicator }" class="identifierRadios" onclick="manageIdentifierRadio(this);"/>
 							<form:hidden path="systemAssignedIdentifiers[${status.index}].primaryIndicator"/></td>
 						<td><a
-							href="javascript:RowManager.deleteRow(systemIdentifierRowInserterProps,${status.index},${sysIdentifer.hashCode});"><img
+							href="javascript:RowManager.deleteRow(systemIdentifierRowInserterProps,${status.index},'${sysIdentifier.id==null?'HC#':'ID#'}${sysIdentifier.id==null?sysIdentifier.hashCode:sysIdentifier.id}');"><img
 							src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 					</tr>
 				</c:forEach>

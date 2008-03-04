@@ -92,7 +92,7 @@
             <td><chrome:minimizableBox  id="treatmentEpochBox-${treatmentEpochCount.index}"
                                         title="Treatment Epoch"
                                         isDeletable="true"
-                                        onDelete="RowManager.deleteRow(treatmentEpochRowInserterProps,${treatmentEpochCount.index},${treatmentEpoch.hashCode})">
+                                        onDelete="RowManager.deleteRow(treatmentEpochRowInserterProps,${treatmentEpochCount.index},'${treatmentEpoch.id==null?'HC#':'ID#'}${treatmentEpoch.id==null?treatmentEpoch.hashCode:treatmentEpoch.id}')">
 
                 <table>
                     <tr align="center">
@@ -166,7 +166,7 @@
                                                 path="treatmentEpochs[${treatmentEpochCount.index}].arms[${statusArms.index}].targetAccrualNumber"
                                                 size="6" maxlength="6" cssClass="validate-numeric" /></td>
                                         <td valign="top">
-                                        	<a href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(treatmentEpochRowInserterProps,${treatmentEpochCount.index}),${statusArms.index },${arm.hashCode});">
+                                        	<a href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(treatmentEpochRowInserterProps,${treatmentEpochCount.index}),${statusArms.index },'${arm.id==null?'HC#':'ID#'}${arm.id==null?arm.hashCode:arm.id}');">
                                         	<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
                                         </td>
                                     </tr>
@@ -192,7 +192,7 @@
 
             <td><chrome:minimizableBox id="NonTreatmentEpochBox-${nonTreatmentEpochCount.index}" title="Non-Treatment Epoch"
                                      isDeletable="true"
-                                     onDelete="RowManager.deleteRow(nonTreatmentEpochRowInserterProps,${nonTreatmentEpochCount.index},${nonTreatmentEpoch.hashCode})">
+                                     onDelete="RowManager.deleteRow(nonTreatmentEpochRowInserterProps,${nonTreatmentEpochCount.index},'${nonTreatmentEpoch.id==null?'HC#':'ID#'}${nonTreatmentEpoch.id==null?nonTreatmentEpoch.hashCode:nonTreatmentEpoch.id}')">
                 <table width="100%" border="0">
                     <tr><td>
                         <div class="leftpanel">

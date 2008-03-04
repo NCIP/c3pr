@@ -215,7 +215,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
                         <td> <form:input path="studySites[${status.index}].targetAccrualNumber" maxlength="6" cssClass="validate-NUMERIC"/>
             			</td>  
                         <td><a
-                                href="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index},${site.hashCode});"><img
+                                href="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index},'${site.id==null?'HC#':'ID#'}${site.id==null?site.hashCode:site.id}');"><img
                                 src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 
                     </tr>
