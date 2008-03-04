@@ -79,14 +79,14 @@ public class BookRandomizationAjaxFacade {
 			        		parseBookRandomization(bookRandomizations, tEpoch);
 			        	} catch(Exception e){
 			        		log.error("Error while calling parseBookRandomization: " +e.getMessage());
-			        		return "";
+			        		return "<br/><div class='error'>Error while parsing uploaded content.</div>";
 			        	}
 			        	
 			        	validatePositions(((BookRandomization)tEpoch.getRandomization()).getBookRandomizationEntry());
 			        } else {
 			        	log.error("Invalid epoch Index");
 			        }
-	        	}	    	
+	        	}
 		        
 	        	if(tEpoch != null){
 	        		List <BookRandomizationEntry>breList = ((BookRandomization)tEpoch.getRandomization()).getBookRandomizationEntry();
@@ -158,27 +158,28 @@ public class BookRandomizationAjaxFacade {
 		    	StratumGroup sGroup;
 		    	while(outer.hasMoreElements()){			    			    		
 		    		entry = outer.nextToken();
-		    		entries = entry.split(",");
-	    			
-		    		//find the stratum group with this id and set it here even if its null		    		
-	    			sGroup = getStratumGroupByNumber(tEpoch, entries[0].trim());
-	    			bookRandomizationEntry.setStratumGroup(sGroup);
-		    		//set the position
-	    			Integer position = null;
-	    			try{
-	    				position = Integer.valueOf(entries[1].trim());
-	    	    	}catch(NumberFormatException nfe){
-	    	    		log.debug("Illegal Position Entered.");	    	    		
-	    	    	}
-	    			bookRandomizationEntry.setPosition(position);		    		
-	    			//find the arm with this id and set it here even if its null
-	    			//Empty stratum groups with negetive stratum Group Numbers and arms are checked for while generating the table and 
-	    			//replaced with a string "Invalid Entry" so the user can see which entries are incorrect.
-		    		arm = getArmByName(tEpoch, entries[2].trim());
-		    		bookRandomizationEntry.setArm(arm);
-	    			//we add the entry to the list	
-	    			breList.add(bookRandomizationEntry);	    					    				
-	    			bookRandomizationEntry = new BookRandomizationEntry();
+		    		if(entry.trim().length() > 0){
+			    		entries = entry.split(",");
+			    		//find the stratum group with this id and set it here even if its null		    		
+		    			sGroup = getStratumGroupByNumber(tEpoch, entries[0].trim());
+		    			bookRandomizationEntry.setStratumGroup(sGroup);
+			    		//set the position
+		    			Integer position = null;
+		    			try{
+		    				position = Integer.valueOf(entries[1].trim());
+		    	    	}catch(NumberFormatException nfe){
+		    	    		log.debug("Illegal Position Entered.");	    	    		
+		    	    	}
+		    			bookRandomizationEntry.setPosition(position);		    		
+		    			//find the arm with this id and set it here even if its null
+		    			//Empty stratum groups with negetive stratum Group Numbers and arms are checked for while generating the table and 
+		    			//replaced with a string "Invalid Entry" so the user can see which entries are incorrect.
+			    		arm = getArmByName(tEpoch, entries[2].trim());
+			    		bookRandomizationEntry.setArm(arm);
+		    			//we add the entry to the list	
+		    			breList.add(bookRandomizationEntry);	    					    				
+		    			bookRandomizationEntry = new BookRandomizationEntry();
+		    		}
 		    	}
 		    	//In order to ensure that we do not re-generate results in cases where the user may click the button twice,
 		   	    //we clear the entries in the randomization every time and generate fresh results.
