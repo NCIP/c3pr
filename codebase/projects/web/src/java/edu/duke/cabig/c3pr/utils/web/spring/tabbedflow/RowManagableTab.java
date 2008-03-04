@@ -12,6 +12,7 @@ import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
 import edu.duke.cabig.c3pr.web.beans.DefaultObjectPropertyReader;
+import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 
 /**
  * @author Rhett Sutphin
@@ -54,19 +55,37 @@ public abstract class RowManagableTab<C> extends ReflexiveAjaxableTab<C>{
 	public ModelAndView deleteRow(HttpServletRequest request, Object command, Errors error)throws Exception{
 		String listPath=request.getParameter(getCollectionParamName());
 		List col= (List) new DefaultObjectPropertyReader(command, listPath).getPropertyValueFromPath();
-		int hashCode=Integer.parseInt(request.getParameter(getDeleteHashCodeParamName()));
 		Integer index=null;
-		for(int i=0 ; i<col.size() ; i++){
-			if(col.get(i).hashCode()==hashCode){
-				index=i;
-				break;
+		
+		String deletionIdStr = request.getParameter(getDeleteHashCodeParamName());
+		if(deletionIdStr.startsWith("ID#")){
+			deletionIdStr = deletionIdStr.substring(3);
+			int id = Integer.parseInt(deletionIdStr);
+			for(int i=0 ; i<col.size() ; i++){
+				AbstractMutableDomainObject amdo;
+				if(col.get(i) instanceof AbstractMutableDomainObject){
+					amdo = (AbstractMutableDomainObject)col.get(i);
+					if(amdo.getId()==id){
+						index=i;
+						break;
+					}
+				}
+			}
+		} else if(deletionIdStr.startsWith("HC#")){
+			deletionIdStr = deletionIdStr.substring(3);			
+			int hashCode=Integer.parseInt(deletionIdStr);
+			for(int i=0 ; i<col.size() ; i++){
+				if(col.get(i).hashCode()==hashCode){
+					index=i;
+					break;
+				}
 			}
 		}
 		
 		Map<String, String> map=new HashMap<String, String>();
 		if(this.shouldDelete(request, command, error)){
 			if(index == null){
-				map.put(getFreeTextModelName(), "Unmatched hashCode="+hashCode);
+				map.put(getFreeTextModelName(), "Unmatched hashCode/Id");
 			}else {
 				col.remove(index.intValue());
 	      		map.put(getFreeTextModelName(), "deletedIndex="+request.getParameter(getDeleteIndexParamName())+"||hashCode="+request.getParameter(getDeleteHashCodeParamName())+"||");
@@ -75,8 +94,7 @@ public abstract class RowManagableTab<C> extends ReflexiveAjaxableTab<C>{
 			//Enabling the retitred_indicator
 	      	AbstractMutableDeletableDomainObject obj=(AbstractMutableDeletableDomainObject)col.get(index);
 	      	obj.setRetiredIndicatorAsTrue();
-		}
-		
+		}		
 		
 		return new ModelAndView("", map);
 	}
