@@ -330,7 +330,7 @@ var AbstractRowInserterProps = {
    	handleRowRemoval: function(index,hashCode){ 
    	  						this.removeRowFromDisplay(index)	
    							if(index<this.initialIndex || this.callRemoveFromCommand){
-   								if(hashCode != -1){
+   								if(hashCode != "-1"){
    									this.removeFromCommand(index,hashCode)   								
    								}
    							}
