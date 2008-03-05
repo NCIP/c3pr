@@ -79,22 +79,22 @@ public class BookRandomizationAjaxFacade {
 			        		parseBookRandomization(bookRandomizations, tEpoch);
 			        	} catch(Exception e){
 			        		log.error("Error while calling parseBookRandomization: " +e.getMessage());
-			        		return "<br/><div class='error'>Error while parsing uploaded content.</div>";
+			        		return "<br/><div class='error'>Incorrect format. Please try again.</div>";
 			        	}
 			        	
-			        	validatePositions(((BookRandomization)tEpoch.getRandomization()).getBookRandomizationEntry());
+			        	validatePositions(((BookRandomization)tEpoch.getRandomization()).getBookRandomizationEntry());			        	
 			        } else {
 			        	log.error("Invalid epoch Index");
 			        }
 	        	}
 		        
 	        	if(tEpoch != null){
-	        		List <BookRandomizationEntry>breList = ((BookRandomization)tEpoch.getRandomization()).getBookRandomizationEntry();
-	        		try {
+	        		List <BookRandomizationEntry>breList = ((BookRandomization)tEpoch.getRandomization()).getBookRandomizationEntry();	        	
+        			try {
 	        			return build(model, breList, "Book Randomization :"+selectedEpoch, action, flowType).toString();
 	        		} catch (Exception e) {
 			            log.error(e.getMessage());
-			        }
+			        }        		
 	        	}		        
 	        }
 	        return "";
@@ -140,13 +140,7 @@ public class BookRandomizationAjaxFacade {
 	    		//we do not create a new instance of bookRandomization, we use the existing instance which was created in StudyDesignTab.java
 	    		//based on the randomizationType selected on the study_details page.
 	    		Randomization randomization = tEpoch.getRandomization();
-	    		BookRandomization bRandomization;
-	    		if(randomization == null){
-	    			bRandomization = new BookRandomization();
-	    			tEpoch.setRandomization(bRandomization);
-	    		} else {
-	    			bRandomization = (BookRandomization)randomization;
-	    		}
+	    		BookRandomization bRandomization = new BookRandomization();	    		
 	    		
 	    		BookRandomizationEntry bookRandomizationEntry = new BookRandomizationEntry();
 	    		ArrayList <BookRandomizationEntry>breList = new ArrayList<BookRandomizationEntry>();
@@ -185,7 +179,17 @@ public class BookRandomizationAjaxFacade {
 		   	    //we clear the entries in the randomization every time and generate fresh results.
 		    	bRandomization.getBookRandomizationEntry().clear();
 		    	bRandomization.getBookRandomizationEntry().addAll(breList);
-		    	tEpoch.setRandomization(bRandomization);
+		    	
+		    	if(randomization == null){
+	    			tEpoch.setRandomization(bRandomization);
+	    		} else if(breList != null && breList.size()>0 ){
+	    			//bRandomization = (BookRandomization)randomization;
+	    			
+	    			//ensuring the cascade doesnt re-save the book Entries
+	    			tEpoch.setRandomization(null);
+	    			tEpoch.setRandomization(bRandomization);
+	    		}		    	
+		    	
 	    	} catch(Exception e){
 	    		log.error("parseBookRandomizatrion Failed");
 	    		log.error(e.getMessage());
