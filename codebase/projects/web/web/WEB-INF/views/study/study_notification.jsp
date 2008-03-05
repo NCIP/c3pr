@@ -60,7 +60,7 @@
                 </script>
 				<tr id="notification-${nStatus.index}">
 					<td><form:input size="5"
-						path="notifications[${nStatus.index}].threshold"
+						path="notifications[${nStatus.index}].threshold" maxlength="6"
 						cssClass="validate-notEmpty&&NUMERIC" /></td>
 					<td>
 					<table class="tablecontent" id="table1" width="50%">
@@ -126,7 +126,7 @@
 <table>
 	<tr>
 		<td><input type="text" size="5"
-			name="notifications[PAGE.ROW.INDEX].threshold"
+			name="notifications[PAGE.ROW.INDEX].threshold" maxlength="6"
 			class="validate-notEmpty&&NUMERIC" /></td>
 		<td>
 		<table class="tablecontent" id="table1" width="50%">
