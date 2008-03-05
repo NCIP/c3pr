@@ -92,7 +92,7 @@ public class StudyRandomizationTab extends StudyTab {
         	 
              Object viewData = bookRandomizationAjaxFacade.getTable(new HashMap<String, List>(), study.getFile(), index, request, flowType);   
              if(StringUtils.isEmpty(viewData.toString())){
-            	 map.put(getFreeTextModelName(), "Error while parsing file. Please try again.");
+            	 map.put(getFreeTextModelName(), "<div><b>Incorrect format. Please try again.</b></div>");
              } else {
             	 bookRandomizationEntries[Integer.parseInt(index)] = viewData.toString();
                  request.setAttribute("bookRandomizationEntries", bookRandomizationEntries);             
