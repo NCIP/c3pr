@@ -84,7 +84,7 @@ var registrationAutocompleterProps = {
     { 
     	if(document.getElementById("subjectOption").value=='N'|| document.getElementById("subjectOption").value=='F')
     	
-		return (obj.lastName +" "+ (obj.middleName==null?'':obj.middleName)+" "+obj.firstName)
+		return (obj.lastName +", "+ ((obj.middleName==null||obj.middleName=='')?'':(obj.middleName+", "))+obj.firstName)
 		
 		else if(document.getElementById("subjectOption").value=='Identifier'){
 		return obj.value}
@@ -178,6 +178,7 @@ function manageSearchTypeMessage(message){
 }
 
 function submitPage(){
+	document.getElementById("selected-id").value =  document.getElementById("registration-hidden").value;
 	document.getElementById("searchForm").submit();
 }
 
@@ -187,6 +188,10 @@ function submitPage(){
 <body>
 <chrome:search title="Search">
 	<form:form id="searchForm" name="searchForm" method="post">
+	
+	<div>
+		<input type="hidden" name="selected-id" id="selected-id" value=""/>
+	</div>
 
 		<table border="0" id="table1" cellspacing="0" cellpadding="0"
 			width="100%">
