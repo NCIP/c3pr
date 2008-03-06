@@ -294,14 +294,21 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
 		return reducedStaffCol;
 	}
 	
-	
 	public List<String> matchResearchStaffRoles(String id,
 			HttpServletRequest request) throws Exception {
 		List<C3PRUserGroupType> groups = new ArrayList<C3PRUserGroupType>();
 		groups = personnelSerivice.getGroups(researchStaffDao.getById(Integer.parseInt(id)));
 		List<String> reducedGroups = new ArrayList<String>();
 		for (int i=0;i<groups.size();i++) {
-			reducedGroups.add(groups.get(i).getDisplayName());
+			if (groups.get(i).getDisplayName().equals("Study coordinator")){
+				reducedGroups.add("Study Coordinator");
+			}else if (groups.get(i).getDisplayName().equals("Site coordinator")){
+				reducedGroups.add("Site Coordinator");
+			}else if (groups.get(i).getDisplayName().equals("C3pr admin")){
+				reducedGroups.add("C3pr Admin");
+			}else {
+				reducedGroups.add(groups.get(i).getDisplayName());
+			}
 		}
 		return reducedGroups;
 	}
@@ -378,7 +385,7 @@ public class StudyAjaxFacade extends BaseStudyAjaxFacade {
 				healthcareSites.size());
 		for (HealthcareSite healthcareSite : healthcareSites) {
 			reducedHealthcareSites.add(buildReduced(healthcareSite, Arrays
-					.asList("id", "name")));
+					.asList("id", "name","nciInstituteCode")));
 		}
 		return reducedHealthcareSites;
 
