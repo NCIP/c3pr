@@ -140,7 +140,7 @@ function manageIdentifierRadio(element){
 					</div>
 					<div class="row">
 						<div class="label required-indicator">Birth Date:</div>
-						<div class="value"><form:input path="birthDate" cssClass="validate-date" /> (mm/dd/yyyy)&nbsp;</div>
+						<div class="value"><form:input path="birthDate" cssClass="validate-notEmpty&&DATE" /> (mm/dd/yyyy)&nbsp;</div>
 					</div>
 					<div class="row">
 						<div class="label required-indicator">Ethnicity:</div>
