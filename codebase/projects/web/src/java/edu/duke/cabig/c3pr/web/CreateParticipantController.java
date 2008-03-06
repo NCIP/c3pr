@@ -1,29 +1,9 @@
 package edu.duke.cabig.c3pr.web;
 
-import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
-import edu.duke.cabig.c3pr.dao.ParticipantDao;
-import edu.duke.cabig.c3pr.domain.*;
-import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
-import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
-import edu.duke.cabig.c3pr.utils.Lov;
-import edu.duke.cabig.c3pr.utils.StringUtils;
-import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
-import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
-import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AutomaticSaveAjaxableFormController;
-import edu.duke.cabig.c3pr.web.participant.ParticipantAddressAndContactInfoTab;
-import edu.duke.cabig.c3pr.web.participant.ParticipantDetailsTab;
-import edu.duke.cabig.c3pr.web.participant.ParticipantSubmitTab;
-import gov.nih.nci.cabig.ctms.web.tabs.AbstractTabbedFlowFormController;
-import gov.nih.nci.cabig.ctms.web.tabs.AutomaticSaveFlowFormController;
-import gov.nih.nci.cabig.ctms.web.tabs.Flow;
-import gov.nih.nci.cabig.ctms.web.tabs.Tab;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,9 +12,25 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.BindException;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
+
+import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.dao.ParticipantDao;
+import edu.duke.cabig.c3pr.domain.ContactMechanism;
+import edu.duke.cabig.c3pr.domain.ContactMechanismType;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
+import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
+import edu.duke.cabig.c3pr.utils.StringUtils;
+import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
+import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AutomaticSaveAjaxableFormController;
+import edu.duke.cabig.c3pr.web.participant.ParticipantAddressAndContactInfoTab;
+import edu.duke.cabig.c3pr.web.participant.ParticipantDetailsTab;
+import edu.duke.cabig.c3pr.web.participant.ParticipantSubmitTab;
+import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 
 
 /**
@@ -75,12 +71,8 @@ AutomaticSaveAjaxableFormController<C, Participant, ParticipantDao> {
 	}
 
 	@Override
-	protected Object formBackingObject(HttpServletRequest request)
-			throws Exception {
-
-		// FIXME: small hack
-		Participant participant = (Participant) super
-				.formBackingObject(request);
+	protected Object formBackingObject(HttpServletRequest request)throws Exception {
+		Participant participant = (Participant) super.formBackingObject(request);
 		participant = createParticipantWithContacts(participant);
 		return participant;
 	}
@@ -106,8 +98,7 @@ AutomaticSaveAjaxableFormController<C, Participant, ParticipantDao> {
 	}
 
 	@Override
-	protected void initBinder(HttpServletRequest req,
-			ServletRequestDataBinder binder) throws Exception {
+	protected void initBinder(HttpServletRequest req,ServletRequestDataBinder binder) throws Exception {
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(
 				new SimpleDateFormat("MM/dd/yyyy"), true));
 		binder.registerCustomEditor(HealthcareSite.class,
@@ -118,16 +109,12 @@ AutomaticSaveAjaxableFormController<C, Participant, ParticipantDao> {
     }
 
 	@Override
-	protected void onBind(HttpServletRequest request, Object command,
-			BindException errors) throws Exception {
-		// TODO Auto-generated method stub
+	protected void onBind(HttpServletRequest request, Object command,BindException errors) throws Exception {
 		super.onBind(request, command, errors);
-		//new RowManager().handleRowDeletion(request, command);
 	}
 
 	@Override
-	protected ModelAndView processFinish(HttpServletRequest request,
-			HttpServletResponse response, Object oCommand, BindException errors)
+	protected ModelAndView processFinish(HttpServletRequest request,HttpServletResponse response, Object oCommand, BindException errors)
 			throws Exception {
 		Participant command = (Participant) oCommand;
 
