@@ -196,6 +196,7 @@ function isValidEmail(address) {
 // Check that an email address has the form something@something.something
 // This is a stricter standard than RFC 821 (?) which allows addresses like postmaster@localhost
 function isValidEmailStrict(address) {
+   if (address==null || address == '')  return true;
    if (isValidEmail(address) == false) return false;
    var domain = address.substring(address.indexOf('@') + 1);
    if (domain.indexOf('.') == -1) return false;
@@ -205,6 +206,7 @@ function isValidEmailStrict(address) {
 
 // Check that a US zip code is valid
 function isValidZipcode(zipcode) {
+   if (zipcode==null || zipcode == '')  return true;
    zipcode = removeSpaces(zipcode);
    if (!(zipcode.length == 5 || zipcode.length == 9 || zipcode.length == 10)) return false;
    if ((zipcode.length == 5 || zipcode.length == 9) && !isNumeric(zipcode)) return false;
