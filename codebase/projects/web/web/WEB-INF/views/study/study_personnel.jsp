@@ -62,10 +62,22 @@
         valueSelector: function(obj) {
             return obj.fullName
         },
-          afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
+          afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {	
     								hiddenField=inputElement.id.split("-")[0]+"-hidden";
 	    							$(hiddenField).value=selectedChoice.id;
-								}
+	    							 StudyAjaxFacade.matchResearchStaffRoles(selectedChoice.id,function(groups) {
+	    							 var selString = "studyOrganizations["+${selectedSite}+"].studyPersonnel["+inputElement.id.split('-')[0][inputElement.id.split('-')[0].length-1]+"].roleCode";
+	    							 var sel = $(selString);
+	    							 sel.options.length = 1;
+						       		 if(groups!=null && groups.length > 0){
+								       	    groups.each(function(cat) {
+								            var opt = new Option(cat, cat)
+								            sel.options.add(opt)
+								        	})
+										}
+										
+   									 })
+    						}
     }
     
   var instanceRowInserterProps = {
@@ -110,7 +122,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 <div>
     <input type="hidden" name="_action" value="">
     <input type="hidden" name="_selected" value="">
-    <input type="hidden" name="_selectedSite" value="">
+    <input type="hidden" name="_selectedSite" id="_selectedSite" value="">
     <input type="hidden" name="_selectedPersonnel" value="">
 </div>
 
@@ -254,9 +266,6 @@ RowManager.addRowInseter(instanceRowInserterProps);
                         name="studyOrganizations[${selected_site}].studyPersonnel[PAGE.ROW.INDEX].roleCode"
                         class="validate-notEmpty">
                     <option value="">Please Select</option>
-                    <c:forEach items="${studyPersonnelRoleRefData}" var="role">
-                        <option value="${role.desc}">${role.desc}</option>
-                    </c:forEach>
                 </select>
             </td>
             <td>
