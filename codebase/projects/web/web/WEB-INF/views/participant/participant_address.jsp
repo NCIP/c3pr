@@ -29,7 +29,7 @@ function fireAction(action, selected){
 	<jsp:attribute name="singleFields">
 	<input type="hidden" name="_action" value="">
 	<input type="hidden" name="_selected" value="">
-	<p id="instructions">Address<br>
+	<p id="instructions"><b>Address</b><br>
 			</p>
 	<table width="80%" border="0" cellspacing="1" cellpadding="1" id="table1">
 		<tr>
@@ -55,7 +55,7 @@ function fireAction(action, selected){
 	<hr align="left" width="95%">
 	<table border="0" width="60%" cellspacing="1" cellpadding="1">
 		<tr>
-			<p id="instructions">Contact Information<br>
+			<p id="instructions"><b>Contact Information</b><br>
 			</p>
 		<tr>
 			<td width="150" align="right"><em></em><em></em> <b>${command.contactMechanisms[0].type.displayName }:</b>&nbsp;</td>
@@ -63,11 +63,11 @@ function fireAction(action, selected){
 		</tr>
 		<tr>
 			<td width="150" align="right"><em></em><em></em> <b>${command.contactMechanisms[1].type.displayName }:</b>&nbsp;</td>
-			<td align="left"><form:input path="contactMechanisms[1].value" /><tags:hoverHint keyProp="contactMechanism.phone"/></td>
+			<td align="left"><form:input path="contactMechanisms[1].value" /><tags:hoverHint keyProp="contactMechanism.phone"/> e.g. 7035600296</td>
 		</tr>
 		<tr>
 			<td width="150" align="right"><em></em><em></em> <b>${command.contactMechanisms[2].type.displayName }:</b>&nbsp;</td>
-			<td align="left"><form:input path="contactMechanisms[2].value" /><tags:hoverHint keyProp="contactMechanism.fax"/></td>
+			<td align="left"><form:input path="contactMechanisms[2].value" /><tags:hoverHint keyProp="contactMechanism.fax"/> e.g. 7035600296</td>
 		</tr>
 
 	</table>
