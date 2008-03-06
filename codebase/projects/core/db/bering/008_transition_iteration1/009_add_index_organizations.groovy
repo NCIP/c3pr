@@ -4,6 +4,6 @@ class AddIndexOrganizations extends edu.northwestern.bioinformatics.bering.Migra
 	}
 
 	void down(){
-				execute("drop index organizations_idx");
+		execute("drop index organizations_idx");
 	}
 }
