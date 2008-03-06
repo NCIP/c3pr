@@ -61,16 +61,18 @@ public class SearchRegistrationController extends SimpleFormController {
 			throws Exception {
 
 		SearchRegistrationCommand searchRegistrationCommand = (SearchRegistrationCommand) oCommand;
-		StudySubject registration = new StudySubject();
+		StudySubject registration = new StudySubject(true);
 		String text = searchRegistrationCommand.getSearchText();
 		String type = searchRegistrationCommand.getSearchType();
 		List<StudySubject> registrations = new ArrayList<StudySubject>();
 		log.debug(" Search string is :" + text);
 		if (request.getParameter("select").equals("Subject")) {
-			Participant participant = new Participant();
+			Integer participantId = null;
+			Participant participant = new Participant(); 
 			if (request.getParameter("subjectOption").equals("N") ||request.getParameter("subjectOption").equals("F") ){
-				participant.setLastName(text.split(" ")[0]);
-				participant.setFirstName(text.split(" ")[text.split(" ").length-1]);
+				 if(request.getParameter("selected-id")!=null && !(request.getParameter("selected-id").equals(""))) {
+					 	participantId = Integer.parseInt(request.getParameter("selected-id"));
+					 }
 			} else {
 				OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
 				orgIdentifier.setValue(text);
@@ -80,26 +82,29 @@ public class SearchRegistrationController extends SimpleFormController {
 				participant.addIdentifier(sysIdentifier);
 			} 
 			
-			List<Participant> participants = participantDao
-					.searchByExample(participant);
-			Set<Participant> participantSet = new TreeSet<Participant>();
-	    	participantSet.addAll(participants);
-	    	List<Participant> uniqueParticipants = new ArrayList<Participant>();
-	    	uniqueParticipants.addAll(participantSet);
-			for (Participant partVar : uniqueParticipants) {
-				registrations = partVar.getStudySubjects();
+			if (participantId ==null) {
+				List<Participant> participants = participantDao
+						.searchByExample(participant);
+				Set<Participant> participantSet = new TreeSet<Participant>();
+				participantSet.addAll(participants);
+				List<Participant> uniqueParticipants = new ArrayList<Participant>();
+				uniqueParticipants.addAll(participantSet);
+				for (Participant partVar : uniqueParticipants) {
+					registrations = partVar.getStudySubjects();
+				}
+			} else	{
+				registrations = participantDao.getById(participantId).getStudySubjects();
 			}
 		} else if (request.getParameter("select").equals("Study")) {
 			Study study = new Study(true);
+			Integer studyId = null;
+			
 			if (request.getParameter("studyOption").equals("shortTitle")) {
-				study.setShortTitleText(text);
-
-			} else if (request.getParameter("studyOption").equals("longTitle")) {
-				study.setLongTitleText(text);
-
-			} else if (request.getParameter("studyOption").equals("status")) {
-				study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
-			} else {
+							if(request.getParameter("selected-id")!=null && !(request.getParameter("selected-id").equals(""))) {
+			 	studyId = Integer.parseInt(request.getParameter("selected-id"));
+			 }
+			}
+			 else {
 				OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier();
 				orgIdentifier.setValue(text);
 				study.addIdentifier(orgIdentifier);
@@ -108,13 +113,23 @@ public class SearchRegistrationController extends SimpleFormController {
 				study.addIdentifier(sysIdentifier);
 			}
 
-			List<Study> studies = studyDao.searchByExample(study, true);
-			Set<Study> studySet = new TreeSet<Study>();
-	    	List<Study> uniqueStudies = new ArrayList<Study>();
-	    	studySet.addAll(studies);
-	    	uniqueStudies.addAll(studySet);
-	    	for (Study studyVar : uniqueStudies) {
-				for (StudySite studySite : studyVar.getStudySites()) {
+			if (studyId==null) {
+				List<Study> studies = studyDao.searchByExample(study, true);
+				Set<Study> studySet = new TreeSet<Study>();
+				List<Study> uniqueStudies = new ArrayList<Study>();
+				studySet.addAll(studies);
+				uniqueStudies.addAll(studySet);
+				for (Study studyVar : uniqueStudies) {
+					for (StudySite studySite : studyVar.getStudySites()) {
+						for (StudySubject studySubject : studySite
+								.getStudySubjects()) {
+							registrations.add(studySubject);
+						}
+					}
+				}
+			} else {
+				study = studyDao.getById(studyId);
+				for (StudySite studySite : study.getStudySites()) {
 					for (StudySubject studySubject : studySite
 							.getStudySubjects()) {
 						registrations.add(studySubject);
