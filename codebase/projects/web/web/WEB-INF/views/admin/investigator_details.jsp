@@ -112,10 +112,10 @@ function fireAction(action, selected){
 					
 				<c:choose>
 					<c:when test="${(status.index == 0) || (not empty hcsInv.id)}">
-					</c:when>
+					</c:when>																			
 					<c:otherwise>
 						<td class="alt"><a
-						href="javascript:RowManager.deleteRow(investigatorAutocompleterProps,${status.index},${command.healthcareSiteInvestigators[status.index].hashCode});"><img
+						href="javascript:RowManager.deleteRow(investigatorAutocompleterProps,${status.index},'${hcsInv.id==null?'HC#':'ID#'}${hcsInv.id==null?hcsInv.hashCode:hcsInv.id}');"><img
 						src="<tags:imageUrl name="checkno.gif"/>"></a></td>
 					</c:otherwise>
 				</c:choose>
