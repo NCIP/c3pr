@@ -240,7 +240,7 @@ function manageIdentifierRadio(element){
 							value="${command.organizationAssignedIdentifiers[organizationStatus.index].primaryIndicator}" class="identifierRadios" onclick="manageIdentifierRadio(this);"/>
 							<form:hidden path="organizationAssignedIdentifiers[${organizationStatus.index}].primaryIndicator"/></td>
 							<td class="alt"><a
-								href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,${organizationStatus.index},${orgId.hashCode});"><img
+								href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,${organizationStatus.index},'${orgId.id==null?'HC#':'ID#'}${orgId.id==null?orgId.hashCode:orgId.id}');"><img
 								src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 						</tr>
 					</c:forEach>
@@ -284,7 +284,7 @@ function manageIdentifierRadio(element){
 							value="${command.systemAssignedIdentifiers[status.index].primaryIndicator}" class="identifierRadios" onclick="manageIdentifierRadio(this);"/>
 							<form:hidden path="systemAssignedIdentifiers[${status.index}].primaryIndicator"/></td>
 							<td class="alt"><a
-								href="javascript:RowManager.deleteRow(systemIdentifierRowInserterProps,${status.index},${sysId.hashCode});"><img
+								href="javascript:RowManager.deleteRow(systemIdentifierRowInserterProps,${status.index},'${sysId.id==null?'HC#':'ID#'}${sysId.id==null?sysId.hashCode:sysId.id}');"><img
 								src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 						</tr>
 					</c:forEach>
