@@ -35,6 +35,7 @@ import edu.duke.cabig.c3pr.web.participant.ParticipantAddressAndContactInfoTab;
 import edu.duke.cabig.c3pr.web.participant.ParticipantSummaryTab;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.ObjectGraphBasedEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
+import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AutomaticSaveAjaxableFormController;
 
 import edu.duke.cabig.c3pr.web.beans.DefaultObjectPropertyReader;
 import gov.nih.nci.cabig.ctms.web.tabs.AbstractTabbedFlowFormController;
@@ -47,7 +48,7 @@ import gov.nih.nci.cabig.ctms.web.tabs.Tab;
  * 
  */
 public class EditParticipantController<C extends Participant> extends
-		AutomaticSaveFlowFormController<C, Participant, ParticipantDao> {
+		AutomaticSaveAjaxableFormController<C, Participant, ParticipantDao> {
 
 	private static Log log = LogFactory.getLog(EditParticipantController.class);
 
@@ -155,69 +156,11 @@ public class EditParticipantController<C extends Participant> extends
         if (sessionFormObject != null) {
         	Participant participant = (Participant) sessionFormObject;
             getDao().reassociate((Participant) sessionFormObject);
+            getDao().refresh((Participant) sessionFormObject);
         }
 
         return sessionFormObject;
     }
-
-	@Override
-	protected void postProcessPage(HttpServletRequest request, Object Command,
-			Errors errors, int page) {
-		Participant participant = (Participant) Command;
-
-		if ("update".equals(request.getParameter("_action"))) {
-			try {
-				log.debug(" -- Updating Subject--");
-				participantDao.save(participant);
-			} catch (RuntimeException e) {
-				log.debug("--Error while updating Subject--");
-				e.printStackTrace();
-			}
-		}
-
-	}
-
-	@Override
-	protected void onBind(HttpServletRequest request, Object command,
-			BindException errors) throws Exception {
-		// TODO Auto-generated method stub
-		super.onBind(request, command, errors);
-		handleRowDeletion(request, command);
-	}
-
-	public void handleRowDeletion(HttpServletRequest request, Object command)
-			throws Exception {
-		Enumeration enumeration = request.getParameterNames();
-		Hashtable<String, List<Integer>> table = new Hashtable<String, List<Integer>>();
-		while (enumeration.hasMoreElements()) {
-			String param = (String) enumeration.nextElement();
-			if (param.startsWith("_deletedRow-")) {
-				String[] params = param.split("-");
-				if (table.get(params[1]) == null)
-					table.put(params[1], new ArrayList<Integer>());
-				table.get(params[1]).add(new Integer(params[2]));
-			}
-		}
-		deleteRows(command, table);
-	}
-
-	public void deleteRows(Object command,
-			Hashtable<String, List<Integer>> table) throws Exception {
-		Enumeration<String> e = table.keys();
-		while (e.hasMoreElements()) {
-			String path = e.nextElement();
-			List col = (List) new DefaultObjectPropertyReader(command, path)
-					.getPropertyValueFromPath();
-			List<Integer> rowNums = table.get(path);
-			List temp = new ArrayList();
-			for (int i = 0; i < col.size(); i++) {
-				if (!rowNums.contains(new Integer(i)))
-					temp.add(col.get(i));
-			}
-			col.removeAll(col);
-			col.addAll(temp);
-		}
-	}
 
 	@Override
 	protected ModelAndView processFinish(HttpServletRequest request,
