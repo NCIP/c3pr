@@ -118,15 +118,6 @@ AutomaticSaveAjaxableFormController<C, Participant, ParticipantDao> {
 			throws Exception {
 		Participant command = (Participant) oCommand;
 
-		Iterator<ContactMechanism> cMIterator = command.getContactMechanisms()
-				.iterator();
-		StringUtils strUtil = new StringUtils();
-		while (cMIterator.hasNext()) {
-			ContactMechanism contactMechanism = cMIterator.next();
-			if (strUtil.isBlank(contactMechanism.getValue()))
-				cMIterator.remove();
-		}
-
 		participantDao.save(command);
 
 		ModelAndView modelAndView = null;
