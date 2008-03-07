@@ -1,31 +1,32 @@
 package edu.duke.cabig.c3pr.web.ajax;
 
+import java.util.Collection;
+
 import org.extremecomponents.table.bean.Column;
 import org.extremecomponents.table.bean.Row;
 import org.extremecomponents.table.bean.Table;
 import org.extremecomponents.table.core.TableModel;
 
-import java.util.Collection;
-
 /**
  * User: kherm
- *
+ * 
  * @author kherm manav.kher@semanticbits.com
  */
 public class BaseStudyAjaxFacade {
 
     /**
      * Method to build extremecomponents table
-     *
+     * 
      * @param model
      * @param studies
      * @param title
-     * @param action  custom action if any
+     * @param action
+     *            custom action if any
      * @return
      * @throws Exception
      */
-    protected Object build(TableModel model, Collection studies,
-                           String title, String action) throws Exception {
+    protected Object build(TableModel model, Collection studies, String title, String action)
+                    throws Exception {
 
         Table table = model.getTableInstance();
         table.setTitle(title);
@@ -63,7 +64,6 @@ public class BaseStudyAjaxFacade {
         columnStatus.setProperty("coordinatingCenterStudyStatus.code");
         model.addColumn(columnStatus);
 
-        
         return model.assemble();
     }
 }

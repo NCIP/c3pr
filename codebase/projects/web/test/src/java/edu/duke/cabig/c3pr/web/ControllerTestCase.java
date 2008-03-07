@@ -11,8 +11,10 @@ import org.springframework.validation.FieldError;
  */
 public abstract class ControllerTestCase extends WebTestCase {
     protected static void assertNoBindingErrorsFor(String fieldName, Map<String, Object> model) {
-        BindingResult result = (BindingResult) model.get(BindingResult.MODEL_KEY_PREFIX + "command");
+        BindingResult result = (BindingResult) model
+                        .get(BindingResult.MODEL_KEY_PREFIX + "command");
         List<FieldError> fieldErrors = result.getFieldErrors(fieldName);
-        assertEquals("There were errors for field " + fieldName + ": " + fieldErrors, 0, fieldErrors.size());
+        assertEquals("There were errors for field " + fieldName + ": " + fieldErrors, 0,
+                        fieldErrors.size());
     }
 }

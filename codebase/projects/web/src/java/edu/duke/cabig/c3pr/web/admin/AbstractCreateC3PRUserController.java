@@ -10,7 +10,6 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 
 import edu.duke.cabig.c3pr.dao.C3PRBaseDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
-import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
 import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
@@ -19,37 +18,31 @@ import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.SimpleFormAjaxableController;
 
 /**
- * Created by IntelliJ IDEA.
- * User: kherm
- * Date: Sep 7, 2007
- * Time: 7:11:37 PM
- * To change this template use File | Settings | File Templates.
+ * Created by IntelliJ IDEA. User: kherm Date: Sep 7, 2007 Time: 7:11:37 PM To change this template
+ * use File | Settings | File Templates.
  */
-public abstract class AbstractCreateC3PRUserController<X extends C3PRUser,D extends C3PRBaseDao<X>> extends SimpleFormAjaxableController<X,X,D> {
+public abstract class AbstractCreateC3PRUserController<X extends C3PRUser, D extends C3PRBaseDao<X>>
+                extends SimpleFormAjaxableController<X, X, D> {
 
     private HealthcareSiteDao healthcareSiteDao;
-    private ConfigurationProperty configurationProperty;
 
+    private ConfigurationProperty configurationProperty;
 
     protected Map<String, Object> referenceData(HttpServletRequest request) {
 
         Map<String, Object> configMap = configurationProperty.getMap();
         Map<String, Object> refdata = new HashMap<String, Object>();
-        refdata.put("studySiteStatusRefData", configMap
-                .get("studySiteStatusRefData"));
+        refdata.put("studySiteStatusRefData", configMap.get("studySiteStatusRefData"));
         refdata.put("healthcareSites", healthcareSiteDao.getAll());
         return refdata;
     }
 
-    protected void initBinder(HttpServletRequest request,
-                              ServletRequestDataBinder binder) throws Exception {
+    protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder)
+                    throws Exception {
         super.initBinder(request, binder);
-        binder.registerCustomEditor(Date.class, ControllerTools
-                .getDateEditor(true));
-        binder.registerCustomEditor(HealthcareSite.class, new CustomDaoEditor(
-                healthcareSiteDao));
+        binder.registerCustomEditor(Date.class, ControllerTools.getDateEditor(true));
+        binder.registerCustomEditor(HealthcareSite.class, new CustomDaoEditor(healthcareSiteDao));
     }
-
 
     public HealthcareSiteDao getHealthcareSiteDao() {
         return healthcareSiteDao;

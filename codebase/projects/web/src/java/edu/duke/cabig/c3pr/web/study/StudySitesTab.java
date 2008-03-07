@@ -10,15 +10,12 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 
 /**
- * Created by IntelliJ IDEA.
- * User: kherm
- * Date: Jun 15, 2007
- * Time: 1:39:34 PM
- * To change this template use File | Settings | File Templates.
+ * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 1:39:34 PM To change this template
+ * use File | Settings | File Templates.
  */
 class StudySitesTab extends StudyTab {
-	
-	private StudyValidator studyValidator;
+
+    private StudyValidator studyValidator;
 
     public StudySitesTab() {
         super("Sites", "Sites", "study/study_studysites");
@@ -31,58 +28,34 @@ class StudySitesTab extends StudyTab {
         addConfigMapToRefdata(refdata, "studySiteRoleCodeRefData");
         refdata.put("healthCareSites", getHealthcareSiteDao().getAll());
         boolean isAdmin = isAdmin();
-        
-        if( (request.getAttribute("amendFlow") != null && request.getAttribute("amendFlow").toString().equals("true")) ||
-    		    (request.getAttribute("editFlow") != null && request.getAttribute("editFlow").toString().equals("true")) )  
-    	{
-        	if(request.getSession().getAttribute(DISABLE_FORM_SITES) != null && !isAdmin){
-				refdata.put("disableForm", request.getSession().getAttribute(DISABLE_FORM_SITES));
-			} else {
-				refdata.put("disableForm", new Boolean(false));
-			}
-    	}
+
+        if ((request.getAttribute("amendFlow") != null && request.getAttribute("amendFlow")
+                        .toString().equals("true"))
+                        || (request.getAttribute("editFlow") != null && request.getAttribute(
+                                        "editFlow").toString().equals("true"))) {
+            if (request.getSession().getAttribute(DISABLE_FORM_SITES) != null && !isAdmin) {
+                refdata.put("disableForm", request.getSession().getAttribute(DISABLE_FORM_SITES));
+            }
+            else {
+                refdata.put("disableForm", new Boolean(false));
+            }
+        }
         return refdata;
 
     }
-    
+
     @Override
-	public void validate(Study study, Errors errors) {
-		// TODO Auto-generated method stub
-		super.validate(study, errors);
-		this.studyValidator.validateStudySites(study, errors);
-	}
+    public void validate(Study study, Errors errors) {
+        super.validate(study, errors);
+        this.studyValidator.validateStudySites(study, errors);
+    }
 
-	public StudyValidator getStudyValidator() {
-		return studyValidator;
-	}
+    public StudyValidator getStudyValidator() {
+        return studyValidator;
+    }
 
-	public void setStudyValidator(StudyValidator studyValidator) {
-		this.studyValidator = studyValidator;
-	}
-    
-
-	/*@Override
-	public void postProcess(HttpServletRequest request, Study study,
-			Errors errors) {
-		try {
-			studyService.setSiteStudyStatuses(study);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
-	public StudyService getStudyService() {
-		return studyService;
-	}
-
-	public void setStudyService(StudyService studyService) {
-		this.studyService = studyService;
-	}*/
+    public void setStudyValidator(StudyValidator studyValidator) {
+        this.studyValidator = studyValidator;
+    }
 
 }
-
-
-
-    
-

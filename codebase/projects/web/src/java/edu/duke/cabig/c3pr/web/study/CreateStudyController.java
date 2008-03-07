@@ -1,24 +1,25 @@
 package edu.duke.cabig.c3pr.web.study;
 
-import edu.duke.cabig.c3pr.domain.Study;
-import gov.nih.nci.cabig.ctms.web.tabs.Flow;
-import org.springframework.validation.BindException;
-import org.springframework.validation.Errors;
-import org.springframework.web.servlet.ModelAndView;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
+
+import org.springframework.validation.BindException;
+import org.springframework.validation.Errors;
+import org.springframework.web.servlet.ModelAndView;
+
+import edu.duke.cabig.c3pr.domain.Study;
+import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 
 /**
- * Controller class to handle the work flow in the Creation of a Study Design
- * This uses AbstractWizardController to implement tabbed workflow
- *
+ * Controller class to handle the work flow in the Creation of a Study Design This uses
+ * AbstractWizardController to implement tabbed workflow
+ * 
  * @author Priyatam
  */
 public class CreateStudyController<C extends Study> extends StudyController<C> {
-
 
     public CreateStudyController() {
         super("Create Study");
@@ -27,8 +28,9 @@ public class CreateStudyController<C extends Study> extends StudyController<C> {
 
     /**
      * Create a nested object graph that Create Study Design needs
-     *
-     * @param request - HttpServletRequest
+     * 
+     * @param request -
+     *            HttpServletRequest
      * @throws ServletException
      */
     protected Object formBackingObject(HttpServletRequest request) throws ServletException {
@@ -37,8 +39,9 @@ public class CreateStudyController<C extends Study> extends StudyController<C> {
 
     /**
      * Layout Tabs
-     *
-     * @param request - flow the Flow object
+     * 
+     * @param request -
+     *            flow the Flow object
      */
     protected void layoutTabs(Flow flow) {
         flow.addTab(new StudyDetailsTab());
@@ -56,8 +59,8 @@ public class CreateStudyController<C extends Study> extends StudyController<C> {
     }
 
     @Override
-    protected void postProcessPage(HttpServletRequest request, Object command, Errors errors, int page) throws Exception {
-        // TODO Auto-generated method stub
+    protected void postProcessPage(HttpServletRequest request, Object command, Errors errors,
+                    int page) throws Exception {
         Study study = (Study) command;
         super.postProcessPage(request, command, errors, page);
         studyService.setStatuses(study, false);
@@ -65,32 +68,37 @@ public class CreateStudyController<C extends Study> extends StudyController<C> {
 
     @Override
     protected Map referenceData(HttpServletRequest request, int arg1) throws Exception {
-        // TODO Auto-generated method stub
         request.setAttribute("flowType", "CREATE_STUDY");
         return super.referenceData(request, arg1);
     }
 
     @Override
     protected boolean suppressValidation(HttpServletRequest request, Object study) {
-        if (request.getParameter("_finish") != null && request.getParameter("_finish").equals("true") && request.getParameter("_activate") != null && request.getParameter("_activate").equals("false")) {
+        if (request.getParameter("_finish") != null
+                        && request.getParameter("_finish").equals("true")
+                        && request.getParameter("_activate") != null
+                        && request.getParameter("_activate").equals("false")) {
             return true;
         }
         return false;
     }
 
-    /* (non-Javadoc)
-      * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#processFinish
-      * (javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
-      * java.lang.Object, org.springframework.validation.BindException)
-      */
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#processFinish
+     *      (javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse,
+     *      java.lang.Object, org.springframework.validation.BindException)
+     */
     @Override
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
-                                         Object command, BindException errors) throws Exception {
+                    Object command, BindException errors) throws Exception {
         Study study = (Study) command;
         studyService.merge(study);
-//        studyService.save(study);
-        response.sendRedirect("confirm?trimmedShortTitleText=" + study.getTrimmedShortTitleText() + "&primaryIdentifier="
-                + study.getPrimaryIdentifier() + "&coordinatingCenterStudyStatusCode=" + study.getCoordinatingCenterStudyStatus().getCode() + "&type=confirm");
+        response.sendRedirect("confirm?trimmedShortTitleText=" + study.getTrimmedShortTitleText()
+                        + "&primaryIdentifier=" + study.getPrimaryIdentifier()
+                        + "&coordinatingCenterStudyStatusCode="
+                        + study.getCoordinatingCenterStudyStatus().getCode() + "&type=confirm");
         return null;
 
     }

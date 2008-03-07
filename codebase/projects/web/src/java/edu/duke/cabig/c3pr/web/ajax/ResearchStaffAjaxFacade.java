@@ -15,82 +15,82 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.web.HttpSessionRequiredException;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
-import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 
-	/**
-	 * @author Priyatam
-	 */
-	public class ResearchStaffAjaxFacade {
-	    private HealthcareSiteDao healthcareSiteDao;
+/**
+ * @author Priyatam
+ */
+public class ResearchStaffAjaxFacade {
+    private HealthcareSiteDao healthcareSiteDao;
 
-	    private static Log log = LogFactory.getLog(ResearchStaffAjaxFacade.class);
+    private static Log log = LogFactory.getLog(ResearchStaffAjaxFacade.class);
 
-	    @SuppressWarnings("unchecked")
-	    private <T> T buildReduced(T src, List<String> properties) {
-	        T dst = null;
-	        try {
-	            // it doesn't seem like this cast should be necessary
-	            dst = (T) src.getClass().newInstance();
-	        } catch (InstantiationException e) {
-	            throw new RuntimeException("Failed to instantiate " + src.getClass().getName(), e);
-	        } catch (IllegalAccessException e) {
-	            throw new RuntimeException("Failed to instantiate " + src.getClass().getName(), e);
-	        }
+    @SuppressWarnings("unchecked")
+    private <T> T buildReduced(T src, List<String> properties) {
+        T dst = null;
+        try {
+            // it doesn't seem like this cast should be necessary
+            dst = (T) src.getClass().newInstance();
+        }
+        catch (InstantiationException e) {
+            throw new RuntimeException("Failed to instantiate " + src.getClass().getName(), e);
+        }
+        catch (IllegalAccessException e) {
+            throw new RuntimeException("Failed to instantiate " + src.getClass().getName(), e);
+        }
 
-	        BeanWrapper source = new BeanWrapperImpl(src);
-	        BeanWrapper destination = new BeanWrapperImpl(dst);
-	        for (String property : properties) {
-	            destination.setPropertyValue(
-	                    property,
-	                    source.getPropertyValue(property)
-	            );
-	        }
-	        return dst;
-	    }
+        BeanWrapper source = new BeanWrapperImpl(src);
+        BeanWrapper destination = new BeanWrapperImpl(dst);
+        for (String property : properties) {
+            destination.setPropertyValue(property, source.getPropertyValue(property));
+        }
+        return dst;
+    }
 
-	   public List<HealthcareSite> matchHealthcareSites(String text) throws Exception {
-	    	
-	    	 List<HealthcareSite> healthcareSites = healthcareSiteDao.getBySubnames(extractSubnames(text));
+    public List<HealthcareSite> matchHealthcareSites(String text) throws Exception {
 
-			List<HealthcareSite> reducedHealthcareSites = new ArrayList<HealthcareSite>(
-					healthcareSites.size());
-			for (HealthcareSite healthcareSite : healthcareSites) {
-				reducedHealthcareSites.add(buildReduced(healthcareSite, Arrays.asList(
-						"id", "name","nciInstituteCode")));
-			}
-			return reducedHealthcareSites;
+        List<HealthcareSite> healthcareSites = healthcareSiteDao
+                        .getBySubnames(extractSubnames(text));
 
-		}
+        List<HealthcareSite> reducedHealthcareSites = new ArrayList<HealthcareSite>(healthcareSites
+                        .size());
+        for (HealthcareSite healthcareSite : healthcareSites) {
+            reducedHealthcareSites.add(buildReduced(healthcareSite, Arrays.asList("id", "name",
+                            "nciInstituteCode")));
+        }
+        return reducedHealthcareSites;
 
-	    private final Object getCommandOnly(HttpServletRequest request) throws Exception {
-	        HttpSession session = request.getSession(false);
-	        if (session == null) {
-	            throw new HttpSessionRequiredException("Must have session when trying to bind (in session-form mode)");
-	        }
-	        String formAttrName = getFormSessionAttributeName();
-	        Object sessionFormObject = session.getAttribute(formAttrName);
+    }
 
-	        return sessionFormObject;
-	    }
-	    
-	    ////// CONFIGURATION
+    private final Object getCommandOnly(HttpServletRequest request) throws Exception {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            throw new HttpSessionRequiredException(
+                            "Must have session when trying to bind (in session-form mode)");
+        }
+        String formAttrName = getFormSessionAttributeName();
+        Object sessionFormObject = session.getAttribute(formAttrName);
 
-	    @Required
-	    private String getFormSessionAttributeName() {
-	        return "edu.duke.cabig.c3pr.web.admin.CreateResearchStaffController.FORM.command";
-	    }
+        return sessionFormObject;
+    }
 
-	    private String[] extractSubnames(String text) {
-	        return text.split("\\s+");
-	    }
+    // //// CONFIGURATION
 
-		public HealthcareSiteDao getHealthcareSiteDao() {
-			return healthcareSiteDao;
-		}
+    @Required
+    private String getFormSessionAttributeName() {
+        return "edu.duke.cabig.c3pr.web.admin.CreateResearchStaffController.FORM.command";
+    }
 
-		public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
-			this.healthcareSiteDao = healthcareSiteDao;
-		}
+    private String[] extractSubnames(String text) {
+        return text.split("\\s+");
+    }
+
+    public HealthcareSiteDao getHealthcareSiteDao() {
+        return healthcareSiteDao;
+    }
+
+    public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
+        this.healthcareSiteDao = healthcareSiteDao;
+    }
 
 }

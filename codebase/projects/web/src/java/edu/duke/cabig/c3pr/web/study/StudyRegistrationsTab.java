@@ -6,11 +6,8 @@ import edu.duke.cabig.c3pr.domain.Study;
 import java.util.Map;
 
 /**
- * Created by IntelliJ IDEA.
- * User: kherm
- * Date: Jun 15, 2007
- * Time: 3:32:32 PM
- * To change this template use File | Settings | File Templates.
+ * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 3:32:32 PM To change this template
+ * use File | Settings | File Templates.
  */
 class StudyRegistrationsTab extends StudyTab {
 
@@ -23,7 +20,8 @@ class StudyRegistrationsTab extends StudyTab {
     @Override
     public Map<String, Object> referenceData(Study study) {
         Map<String, Object> refdata = super.referenceData(study);
-        refdata.put("participantAssignments", this.getStudyDao().getStudySubjectsForStudy(study.getId()));
+        refdata.put("participantAssignments", this.getStudyDao().getStudySubjectsForStudy(
+                        study.getId()));
 
         return refdata;
     }

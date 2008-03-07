@@ -1,8 +1,19 @@
 package edu.duke.cabig.c3pr.web.study;
 
-import static edu.duke.cabig.c3pr.C3PRUseCase.*;
-import edu.duke.cabig.c3pr.C3PRUseCases;
+import static edu.duke.cabig.c3pr.C3PRUseCase.CREATE_STUDY;
+import static org.easymock.EasyMock.expect;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.easymock.EasyMock;
+import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.servlet.ModelAndView;
+
+import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
@@ -10,47 +21,42 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import gov.nih.nci.cabig.ctms.web.tabs.StaticTabConfigurer;
-import org.easymock.EasyMock;
-import static org.easymock.EasyMock.expect;
-import org.springframework.web.bind.ServletRequestDataBinder;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * @author kherm manav.kher@semanticbits.com
  */
-@C3PRUseCases({ CREATE_STUDY })
+@C3PRUseCases( { CREATE_STUDY })
 public class CreateStudyControllerTest extends AbstractStudyControllerTest {
 
     private edu.duke.cabig.c3pr.web.study.CreateStudyController controller;
-    private HealthCareSiteDaoMock healthcareSiteDao;
-    private HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
-    private ResearchStaffDao researchStaffDao;
-    private StudyValidator studyValidator;
-    private ConfigurationProperty configProperty;
 
+    private HealthCareSiteDaoMock healthcareSiteDao;
+
+    private HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
+
+    private ResearchStaffDao researchStaffDao;
+
+    private StudyValidator studyValidator;
+
+    private ConfigurationProperty configProperty;
 
     protected void setUp() throws Exception {
         super.setUp();
-
 
         configProperty = registerMockFor(ConfigurationProperty.class);
         EasyMock.expect(configProperty.getMap()).andReturn(Collections.emptyMap()).anyTimes();
 
         controller = new CreateStudyController() {
             @Override
-            protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
-                //do nothing
+            protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder)
+                            throws Exception {
+                // do nothing
             }
         };
 
         controller.setStudyDao(studyDao);
 
-        //setup controller
+        // setup controller
         healthcareSiteDao = registerMockFor(HealthCareSiteDaoMock.class);
         controller.setHealthcareSiteDao(healthcareSiteDao);
         healthcareSiteInvestigatorDao = registerDaoMockFor(HealthcareSiteInvestigatorDao.class);
@@ -67,7 +73,6 @@ public class CreateStudyControllerTest extends AbstractStudyControllerTest {
         controller.setTabConfigurer(tabConfigurer);
     }
 
-
     public void testViewOnGoodSubmit() throws Exception {
         replayMocks();
         ModelAndView mv = controller.handleRequest(request, response);
@@ -78,7 +83,6 @@ public class CreateStudyControllerTest extends AbstractStudyControllerTest {
     public void testPostAndReturnCommand() throws Exception {
         request.setMethod("POST");
         expect(studyService.merge(command)).andReturn(null);
-       
 
         replayMocks();
         ModelAndView mv = controller.processFinish(request, response, command, errors);

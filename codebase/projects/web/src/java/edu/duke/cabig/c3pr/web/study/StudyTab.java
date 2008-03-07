@@ -1,6 +1,5 @@
 package edu.duke.cabig.c3pr.web.study;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -14,16 +13,13 @@ import org.acegisecurity.context.SecurityContextHolder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.validation.Errors;
-import org.springframework.web.servlet.ModelAndView;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.CalloutRandomization;
 import edu.duke.cabig.c3pr.domain.PhoneCallRandomization;
-import edu.duke.cabig.c3pr.domain.Randomization;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
-import edu.duke.cabig.c3pr.domain.StratumGroup;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 import edu.duke.cabig.c3pr.service.StudyService;
@@ -31,105 +27,106 @@ import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.InPlaceEditableTab;
 
 /**
- * Created by IntelliJ IDEA.
- * User: kherm
- * Date: Jun 14, 2007
- * Time: 12:43:28 PM
- * To change this template use File | Settings | File Templates.
+ * Created by IntelliJ IDEA. User: kherm Date: Jun 14, 2007 Time: 12:43:28 PM To change this
+ * template use File | Settings | File Templates.
  */
 public abstract class StudyTab extends InPlaceEditableTab<Study> {
     protected ConfigurationProperty configurationProperty;
+
     private HealthcareSiteDao healthcareSiteDao;
+
     protected StudyService studyService;
+
     private StudyDao studyDao;
-    
+
     protected static final Log log = LogFactory.getLog(StudyTab.class);
-    
-//    public static final String DISABLE_FORM_DESIGN = "DISABLE_FORM_DESIGN";
+
+    // public static final String DISABLE_FORM_DESIGN = "DISABLE_FORM_DESIGN";
     public static final String DISABLE_FORM_DETAILS = "DISABLE_FORM_DETAILS";
+
     public static final String DISABLE_FORM_EPOCH_AND_ARMS = "DISABLE_FORM_EPOCH_AND_ARMS";
+
     public static final String DISABLE_FORM_ELIGIBILITY = "DISABLE_FORM_ELIGIBILITY";
+
     public static final String DISABLE_FORM_STRATIFICATION = "DISABLE_FORM_STRATIFICATION";
+
     public static final String DISABLE_FORM_RANDOMIZATION = "DISABLE_FORM_RANDOMIZATION";
+
     public static final String DISABLE_FORM_DISEASES = "DISABLE_FORM_DISEASES";
+
     public static final String DISABLE_FORM_SITES = "DISABLE_FORM_SITES";
+
     public static final String DISABLE_FORM_IDENTIFIERS = "DISABLE_FORM_IDENTIFIERS";
+
     public static final String DISABLE_FORM_NOTIFICATION = "DISABLE_FORM_NOTIFICATION";
-//    public static final String DISABLE_FORM_INVESTIGATORS = "DISABLE_FORM_INVESTIGATORS";
-//    public static final String DISABLE_FORM_PERSONNEL = "DISABLE_FORM_PERSONNEL";
-    
-    public StudyTab(){
-    	
+
+    // public static final String DISABLE_FORM_INVESTIGATORS = "DISABLE_FORM_INVESTIGATORS";
+    // public static final String DISABLE_FORM_PERSONNEL = "DISABLE_FORM_PERSONNEL";
+
+    public StudyTab() {
+
     }
-    
+
     public StudyTab(String longTitle, String shortTitle, String viewName) {
         super(longTitle, shortTitle, viewName);
     }
-    
+
     /*
-     * This method sets the study.randomizationIndicator, study.RandomizationType 
-     * and epoch.randomization nased on teh values selected. This can be called from 
-     * both the details and the design tab. 
+     * This method sets the study.randomizationIndicator, study.RandomizationType and
+     * epoch.randomization nased on teh values selected. This can be called from both the details
+     * and the design tab.
      */
-    public void updateRandomization(Study study){
-    	if(study.getBlindedIndicator()){
-			study.setRandomizedIndicator(true);
-			study.setRandomizationType(RandomizationType.PHONE_CALL);
-		} 
-		
-		if(!study.getRandomizedIndicator()){
-			study.setRandomizationType(null);
-//			if(study.getEpochs() instanceof List){
-//				List epochList = study.getEpochs();
-//				Epoch epoch;
-//				TreatmentEpoch tEpoch;
-//				Iterator iter = epochList.iterator();
-//				while(iter.hasNext()){
-//					epoch = (Epoch)iter.next();
-//					if(epoch instanceof TreatmentEpoch){
-//						tEpoch = (TreatmentEpoch)epoch;
-//						tEpoch.setRandomization(null);
-//					}
-//				}
-//			}
-		}
-//    	Instantiating the appropriate randomization class and setting it in the epoch.
-		if(study.getEpochs() instanceof List){
-			List epochList = study.getTreatmentEpochs();
-			TreatmentEpoch tEpoch;
-			Iterator iter = epochList.iterator();
-			while(iter.hasNext()){
-					tEpoch = (TreatmentEpoch)iter.next();
-					if(study.getRandomizedIndicator() && study.getRandomizationType() != null && 
-							tEpoch.getRandomizedIndicator() != null && tEpoch.getRandomizedIndicator()){
-						if(study.getRandomizationType().equals(RandomizationType.BOOK)){
-							if(tEpoch.getRandomization() instanceof BookRandomization){
-								//do nothing. This happens if nothing is chnaged during the edit flow
-							} else {
-								tEpoch.setRandomization(new BookRandomization());
-							}														
-				    	}
-						if(study.getRandomizationType().equals(RandomizationType.CALL_OUT)){
-							if(tEpoch.getRandomization() instanceof CalloutRandomization){
-								//do nothing. This happens if nothing is chnaged during the edit flow
-							} else {
-								tEpoch.setRandomization(new CalloutRandomization());
-							}
-				    	}
-						if(study.getRandomizationType().equals(RandomizationType.PHONE_CALL)){
-							if(tEpoch.getRandomization() instanceof PhoneCallRandomization){
-								//do nothing. This happens if nothing is chnaged during the edit flow
-							} else {
-								tEpoch.setRandomization(new PhoneCallRandomization());
-							}
-				    	}
-					} else {
-						tEpoch.setRandomization(null);
-					}
-			}
-		}
+    public void updateRandomization(Study study) {
+        if (study.getBlindedIndicator()) {
+            study.setRandomizedIndicator(true);
+            study.setRandomizationType(RandomizationType.PHONE_CALL);
+        }
+
+        if (!study.getRandomizedIndicator()) {
+            study.setRandomizationType(null);
+        }
+        // Instantiating the appropriate randomization class and setting it in the epoch.
+        if (study.getEpochs() instanceof List) {
+            List epochList = study.getTreatmentEpochs();
+            TreatmentEpoch tEpoch;
+            Iterator iter = epochList.iterator();
+            while (iter.hasNext()) {
+                tEpoch = (TreatmentEpoch) iter.next();
+                if (study.getRandomizedIndicator() && study.getRandomizationType() != null
+                                && tEpoch.getRandomizedIndicator() != null
+                                && tEpoch.getRandomizedIndicator()) {
+                    if (study.getRandomizationType().equals(RandomizationType.BOOK)) {
+                        if (tEpoch.getRandomization() instanceof BookRandomization) {
+                            // do nothing. This happens if nothing is chnaged during the edit flow
+                        }
+                        else {
+                            tEpoch.setRandomization(new BookRandomization());
+                        }
+                    }
+                    if (study.getRandomizationType().equals(RandomizationType.CALL_OUT)) {
+                        if (tEpoch.getRandomization() instanceof CalloutRandomization) {
+                            // do nothing. This happens if nothing is chnaged during the edit flow
+                        }
+                        else {
+                            tEpoch.setRandomization(new CalloutRandomization());
+                        }
+                    }
+                    if (study.getRandomizationType().equals(RandomizationType.PHONE_CALL)) {
+                        if (tEpoch.getRandomization() instanceof PhoneCallRandomization) {
+                            // do nothing. This happens if nothing is chnaged during the edit flow
+                        }
+                        else {
+                            tEpoch.setRandomization(new PhoneCallRandomization());
+                        }
+                    }
+                }
+                else {
+                    tEpoch.setRandomization(null);
+                }
+            }
+        }
     }
-    
+
     public ConfigurationProperty getConfigurationProperty() {
         return configurationProperty;
     }
@@ -149,68 +146,65 @@ public abstract class StudyTab extends InPlaceEditableTab<Study> {
     public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
         this.healthcareSiteDao = healthcareSiteDao;
     }
-    
-    public void disableAll(HttpServletRequest request){
-    	request.getSession().setAttribute(DISABLE_FORM_DETAILS, new Boolean(true));
-    	request.getSession().setAttribute(DISABLE_FORM_EPOCH_AND_ARMS, new Boolean(true));
-    	request.getSession().setAttribute(DISABLE_FORM_ELIGIBILITY, new Boolean(true));
-    	request.getSession().setAttribute(DISABLE_FORM_STRATIFICATION, new Boolean(true));
-    	request.getSession().setAttribute(DISABLE_FORM_RANDOMIZATION, new Boolean(true));
-    	request.getSession().setAttribute(DISABLE_FORM_DISEASES, new Boolean(true));
-    	request.getSession().setAttribute(DISABLE_FORM_SITES, new Boolean(true));
-    	request.getSession().setAttribute(DISABLE_FORM_NOTIFICATION, new Boolean(true));
-//    	request.getSession().setAttribute(DISABLE_FORM_INVESTIGATORS, new Boolean(true));
-//    	request.getSession().setAttribute(DISABLE_FORM_PERSONNEL, new Boolean(true));
-    }
-    
-    
-    public void enableAll(HttpServletRequest request){
-    	request.getSession().setAttribute(DISABLE_FORM_DETAILS, new Boolean(false));
-    	request.getSession().setAttribute(DISABLE_FORM_EPOCH_AND_ARMS, new Boolean(false));
-    	request.getSession().setAttribute(DISABLE_FORM_ELIGIBILITY, new Boolean(false));
-    	request.getSession().setAttribute(DISABLE_FORM_STRATIFICATION, new Boolean(false));
-    	request.getSession().setAttribute(DISABLE_FORM_RANDOMIZATION, new Boolean(false));
-    	request.getSession().setAttribute(DISABLE_FORM_DISEASES, new Boolean(false));
-    	request.getSession().setAttribute(DISABLE_FORM_SITES, new Boolean(false));
-    	request.getSession().setAttribute(DISABLE_FORM_NOTIFICATION, new Boolean(false));
-//    	request.getSession().setAttribute(DISABLE_FORM_INVESTIGATORS, new Boolean(false));
-//    	request.getSession().setAttribute(DISABLE_FORM_PERSONNEL, new Boolean(false));
+
+    public void disableAll(HttpServletRequest request) {
+        request.getSession().setAttribute(DISABLE_FORM_DETAILS, new Boolean(true));
+        request.getSession().setAttribute(DISABLE_FORM_EPOCH_AND_ARMS, new Boolean(true));
+        request.getSession().setAttribute(DISABLE_FORM_ELIGIBILITY, new Boolean(true));
+        request.getSession().setAttribute(DISABLE_FORM_STRATIFICATION, new Boolean(true));
+        request.getSession().setAttribute(DISABLE_FORM_RANDOMIZATION, new Boolean(true));
+        request.getSession().setAttribute(DISABLE_FORM_DISEASES, new Boolean(true));
+        request.getSession().setAttribute(DISABLE_FORM_SITES, new Boolean(true));
+        request.getSession().setAttribute(DISABLE_FORM_NOTIFICATION, new Boolean(true));
     }
 
-	public StudyService getStudyService() {
-		return studyService;
-	}
+    public void enableAll(HttpServletRequest request) {
+        request.getSession().setAttribute(DISABLE_FORM_DETAILS, new Boolean(false));
+        request.getSession().setAttribute(DISABLE_FORM_EPOCH_AND_ARMS, new Boolean(false));
+        request.getSession().setAttribute(DISABLE_FORM_ELIGIBILITY, new Boolean(false));
+        request.getSession().setAttribute(DISABLE_FORM_STRATIFICATION, new Boolean(false));
+        request.getSession().setAttribute(DISABLE_FORM_RANDOMIZATION, new Boolean(false));
+        request.getSession().setAttribute(DISABLE_FORM_DISEASES, new Boolean(false));
+        request.getSession().setAttribute(DISABLE_FORM_SITES, new Boolean(false));
+        request.getSession().setAttribute(DISABLE_FORM_NOTIFICATION, new Boolean(false));
+    }
 
-	public void setStudyService(StudyService studyService) {
-		this.studyService = studyService;
-	}
-	
-	public boolean isAdmin(){
-		SecurityContext context = SecurityContextHolder.getContext();
+    public StudyService getStudyService() {
+        return studyService;
+    }
+
+    public void setStudyService(StudyService studyService) {
+        this.studyService = studyService;
+    }
+
+    public boolean isAdmin() {
+        SecurityContext context = SecurityContextHolder.getContext();
         Authentication auth = context.getAuthentication();
         GrantedAuthority[] groups = auth.getAuthorities();
-        
-        for(GrantedAuthority ga: groups){
-        	if(ga.getAuthority().endsWith("admin")){
-        		return true;
-        	}
+
+        for (GrantedAuthority ga : groups) {
+            if (ga.getAuthority().endsWith("admin")) {
+                return true;
+            }
         }
         return false;
-	}
-	@Override
-	public final void postProcess(HttpServletRequest request, Study study, Errors errors) {
-		// TODO Auto-generated method stub
-		if(errors.hasErrors()){
-			studyDao.clear();
-		}
-		postProcessOnValidation(request, study, errors);
-	}
+    }
 
-	public void postProcessOnValidation(HttpServletRequest request, Study study, Errors errors){
-		
-	}
-	public void setStudyDao(StudyDao studyDao) {
-		this.studyDao = studyDao;
-	}
+    @Override
+    public final void postProcess(HttpServletRequest request, Study study, Errors errors) {
+        // TODO Auto-generated method stub
+        if (errors.hasErrors()) {
+            studyDao.clear();
+        }
+        postProcessOnValidation(request, study, errors);
+    }
+
+    public void postProcessOnValidation(HttpServletRequest request, Study study, Errors errors) {
+
+    }
+
+    public void setStudyDao(StudyDao studyDao) {
+        this.studyDao = studyDao;
+    }
 
 }

@@ -1,8 +1,14 @@
-
 package edu.duke.cabig.c3pr.web.ajax;
 
-import edu.duke.cabig.c3pr.dao.StudySubjectDao;
-import edu.duke.cabig.c3pr.domain.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.extremecomponents.table.bean.Column;
@@ -15,13 +21,12 @@ import org.extremecomponents.table.core.TableConstants;
 import org.extremecomponents.table.core.TableModel;
 import org.extremecomponents.table.core.TableModelImpl;
 
-import javax.servlet.http.HttpServletRequest;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import edu.duke.cabig.c3pr.dao.StudySubjectDao;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 
 /**
  * @author Priyatam
@@ -29,9 +34,10 @@ import java.util.Map;
 public class CreateReportFacade {
 
     private static Log log = LogFactory.getLog(CreateReportFacade.class);
-    private StudySubjectDao studySubjectDao;
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
+    private StudySubjectDao studySubjectDao;
+
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
     public Object build(TableModel model, Collection studySubjects) throws Exception {
 
@@ -59,12 +65,6 @@ public class CreateReportFacade {
         Row row = model.getRowInstance();
         row.setHighlightRow(Boolean.TRUE);
         model.addRow(row);
-
-//        Column columnPrimaryIdentifier = model.getColumnInstance();
-//        columnPrimaryIdentifier.setTitle("Registration Identifier");
-//        columnPrimaryIdentifier.setProperty("primaryIdentifier");
-//        columnPrimaryIdentifier.setCell((ViewRegistrationLinkCustomCell.class).getName());
-//        model.addColumn(columnPrimaryIdentifier);
 
         Column columnShortTitle = model.getColumnInstance();
         columnShortTitle.setTitle("Study Short Title");
@@ -113,11 +113,6 @@ public class CreateReportFacade {
     public String getTable(Map parameterMap, String[] params, HttpServletRequest request) {
 
         Study study = new Study();
-//		Identifier id = new Identifier();
-//		if(studyId != null && studyId != ""){
-//			id.setValue(studyId);
-//			study.addIdentifier(id);
-//		}
         String studyShortTitle = "";
         String studyCoordinatingSiteId = "";
         String siteName = "";
@@ -191,7 +186,8 @@ public class CreateReportFacade {
             if (rEndDate != null && !rEndDate.equals("")) {
                 regEndDate = simpleDateFormat.parse(rEndDate);
             }
-        } catch (ParseException pr) {
+        }
+        catch (ParseException pr) {
             log.error("DateFormat Exception in CreateReportFacade");
         }
 
@@ -199,25 +195,27 @@ public class CreateReportFacade {
         studySubject.setStudySite(studySite);
         studySubject.setParticipant(participant);
 
-        List<StudySubject> registrationResults = studySubjectDao.advancedSearch(studySubject, regStartDate, regEndDate, studyCoordinatingSiteId);
+        List<StudySubject> registrationResults = studySubjectDao.advancedSearch(studySubject,
+                        regStartDate, regEndDate, studyCoordinatingSiteId);
 
         Context context = null;
         if (parameterMap == null) {
             context = new HttpServletRequestContext(request);
-        } else {
+        }
+        else {
             context = new HttpServletRequestContext(request, parameterMap);
         }
 
         TableModel model = new TableModelImpl(context);
         try {
             return build(model, registrationResults).toString();
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
 
         return "";
     }
-
 
     public StudySubjectDao getRegistrationDao() {
         return studySubjectDao;
@@ -226,6 +224,5 @@ public class CreateReportFacade {
     public void setRegistrationDao(StudySubjectDao studySubjectDao) {
         this.studySubjectDao = studySubjectDao;
     }
-
 
 }

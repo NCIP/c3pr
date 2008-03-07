@@ -1,26 +1,21 @@
 package edu.duke.cabig.c3pr.web.study;
 
-import edu.duke.cabig.c3pr.domain.Identifier;
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
-import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.validation.Errors;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 
 /**
- * Created by IntelliJ IDEA.
- * User: kherm
- * Date: Jun 15, 2007
- * Time: 12:51:05 PM
- * To change this template use File | Settings | File Templates.
+ * Created by IntelliJ IDEA. User: kherm Date: Jun 15, 2007 Time: 12:51:05 PM To change this
+ * template use File | Settings | File Templates.
  */
 class StudyIdentifiersTab extends StudyTab {
-	
-	private StudyValidator studyValidator;
 
+    private StudyValidator studyValidator;
 
     public StudyIdentifiersTab() {
         super("Identifiers", "Identifiers", "study/study_identifiers");
@@ -31,22 +26,21 @@ class StudyIdentifiersTab extends StudyTab {
         Map<String, Object> refdata = super.referenceData();
         addConfigMapToRefdata(refdata, "identifiersTypeRefData");
         refdata.put("identifiersSourceRefData", getHealthcareSiteDao().getAll());
-	    return refdata;
+        return refdata;
     }
 
-	@Override
-	public void validate(Study study, Errors errors) {
-		// TODO Auto-generated method stub
-		super.validate(study, errors);
-		this.studyValidator.validateStudyIdentifiers(study, errors);
-		
-	}
+    @Override
+    public void validate(Study study, Errors errors) {
+        super.validate(study, errors);
+        this.studyValidator.validateStudyIdentifiers(study, errors);
 
-	public StudyValidator getStudyValidator() {
-		return studyValidator;
-	}
+    }
 
-	public void setStudyValidator(StudyValidator studyValidator) {
-		this.studyValidator = studyValidator;
-	}
+    public StudyValidator getStudyValidator() {
+        return studyValidator;
+    }
+
+    public void setStudyValidator(StudyValidator studyValidator) {
+        this.studyValidator = studyValidator;
+    }
 }

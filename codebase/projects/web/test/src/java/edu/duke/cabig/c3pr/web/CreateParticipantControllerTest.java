@@ -23,95 +23,80 @@ import edu.duke.cabig.c3pr.utils.Lov;
 
 public class CreateParticipantControllerTest extends ControllerTestCase {
 
-	private CreateParticipantController controller = new CreateParticipantController();
+    private CreateParticipantController controller = new CreateParticipantController();
 
-	private ParticipantDao participantDao;
+    private ParticipantDao participantDao;
 
-	private HealthCareSiteDaoMock healthcareSiteDao;
+    private HealthCareSiteDaoMock healthcareSiteDao;
 
-	private ParticipantValidator participantValidator;
+    private ParticipantValidator participantValidator;
 
-	private ConfigurationProperty configurationProperty;
+    private ConfigurationProperty configurationProperty;
 
-	private ApplicationContext context;
-	
-	private Participant participant;
+    private ApplicationContext context;
 
-	protected void setUp() throws Exception {
-		super.setUp();
-		context = ContextTools.createDeployedApplicationContext();
-		participant = registerMockFor(Participant.class);
-		participantDao = registerMockFor(ParticipantDao.class);
-		controller.setParticipantDao(participantDao);
-		healthcareSiteDao = registerMockFor(HealthCareSiteDaoMock.class);
-		controller.setHealthcareSiteDao(healthcareSiteDao);
-		participantValidator = registerMockFor(ParticipantValidator.class);
-		controller.setParticipantValidator(participantValidator);
-		configurationProperty = registerMockFor(ConfigurationProperty.class);
-		controller.setConfigurationProperty(new ConfigurationProperty());
-		configurationProperty = (ConfigurationProperty) context
-				.getBean("configurationProperty");
+    private Participant participant;
 
-	}
+    protected void setUp() throws Exception {
+        super.setUp();
+        context = ContextTools.createDeployedApplicationContext();
+        participant = registerMockFor(Participant.class);
+        participantDao = registerMockFor(ParticipantDao.class);
+        controller.setParticipantDao(participantDao);
+        healthcareSiteDao = registerMockFor(HealthCareSiteDaoMock.class);
+        controller.setHealthcareSiteDao(healthcareSiteDao);
+        participantValidator = registerMockFor(ParticipantValidator.class);
+        controller.setParticipantValidator(participantValidator);
+        configurationProperty = registerMockFor(ConfigurationProperty.class);
+        controller.setConfigurationProperty(new ConfigurationProperty());
+        configurationProperty = (ConfigurationProperty) context.getBean("configurationProperty");
 
-	public void testReferenceData() throws Exception {
-		
-		/*controller.setConfigurationProperty(configurationProperty);
-		Map<String, Object> refdata = controller.getFlow().getTab(0).referenceData(participant);
-		List<Lov> genders = (List<Lov>) refdata.get("administrativeGenderCode");
-		System.out.println(" Size of ref data : " + refdata.size());
-		Iterator<Lov> genderIter = genders.iterator();
-		Lov gender;
-		while (genderIter.hasNext()) {
-			gender = genderIter.next();
-			if (gender.getCode() == "Male") {
-				assertEquals("Genders missing or wrong", "Male", gender
-						.getDesc());
+    }
 
-			}
-		}*/
+    public void testReferenceData() throws Exception {
 
-	}
+        controller.setConfigurationProperty(configurationProperty);
+        Map<String, Object> refdata = controller.getFlow().getTab(0).referenceData(participant);
+        List<Lov> genders = (List<Lov>) refdata.get("administrativeGenderCode");
+        System.out.println(" Size of ref data : " + refdata.size());
+        Iterator<Lov> genderIter = genders.iterator();
+        Lov gender;
+        while (genderIter.hasNext()) {
+            gender = genderIter.next();
+            if (gender.getCode() == "Male") {
+                assertEquals("Genders missing or wrong", "Male", gender.getDesc());
 
-	public void testViewOnGet() throws Exception {
-		//request.setMethod("GET");
-		//ModelAndView mv = controller.handleRequest(request, response);
-		//assertEquals("participant/participant", mv.getViewName());
-	}
+            }
+        }
 
-	public void testViewOnGoodSubmit() throws Exception {
-/*		request.addParameter("firstName", "John");
-		request.addParameter("lastName", "Doe");
-		request.addParameter("birthDate", "02/11/1967");
-		request.addParameter("administrativeGenderCode", "Male");
-		request.addParameter("ethnicGroupCode", "Non Hispanic or Latino");
-		request.addParameter("raceCode", "Not Reported");
-		request.setParameter("_target1", "");
+    }
 
-		ModelAndView mv = controller.handleRequest(request, response);
-		assertEquals("participant/participant", mv.getViewName());*/
+    public void testViewOnGet() throws Exception {
+        request.setMethod("GET");
+        ModelAndView mv = controller.handleRequest(request, response);
+        assertEquals("participant/participant", mv.getViewName());
+    }
 
-	}
+    public void testViewOnGoodSubmit() throws Exception {
+        request.addParameter("firstName", "John");
+        request.addParameter("lastName", "Doe");
+        request.addParameter("birthDate", "02/11/1967");
+        request.addParameter("administrativeGenderCode", "Male");
+        request.addParameter("ethnicGroupCode", "Non Hispanic or Latino");
+        request.addParameter("raceCode", "Not Reported");
+        request.setParameter("_target1", "");
 
-	/*
-	 * private Participant postAndReturnCommand() throws Exception {
-	 * request.setMethod("POST"); participantDao.save((new Participant())
-	 * notNull()); expectLastCall().atLeastOnce().asStub();
-	 * 
-	 * replayMocks(); ModelAndView mv = controller.handleRequest(request,
-	 * response); verifyMocks();
-	 * 
-	 * Object command = mv.getModel().get("command"); assertNotNull("Command not
-	 * present in model: " + mv.getModel(), command); return (Participant)
-	 * command; }
-	 */
+        ModelAndView mv = controller.handleRequest(request, response);
+        assertEquals("participant/participant", mv.getViewName());
 
-	public class HealthCareSiteDaoMock extends HealthcareSiteDao {
+    }
 
-		public List<HealthcareSite> getAll() {
-			List list = new ArrayList();
-			list = healthcareSiteDao.getAll();
-			return list;
-		}
-	}
+    public class HealthCareSiteDaoMock extends HealthcareSiteDao {
+
+        public List<HealthcareSite> getAll() {
+            List list = new ArrayList();
+            list = healthcareSiteDao.getAll();
+            return list;
+        }
+    }
 }

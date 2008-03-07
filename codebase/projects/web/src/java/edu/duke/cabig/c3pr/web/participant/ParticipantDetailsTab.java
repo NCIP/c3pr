@@ -11,50 +11,44 @@ import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
 import edu.duke.cabig.c3pr.utils.Lov;
 
 public class ParticipantDetailsTab extends ParticipantTab {
-	
-	private ParticipantValidator participantValidator;
 
-	public ParticipantDetailsTab() {
-		super("Details", "Details", "participant/participant");
-	}
+    private ParticipantValidator participantValidator;
 
-	public Map<String, Object> referenceData() {
-		Map<String, List<Lov>> configMap = configurationProperty
-				.getMap();
+    public ParticipantDetailsTab() {
+        super("Details", "Details", "participant/participant");
+    }
 
-		Map<String, Object> refdata = new HashMap<String, Object>();
+    public Map<String, Object> referenceData() {
+        Map<String, List<Lov>> configMap = configurationProperty.getMap();
 
-		refdata.put("administrativeGenderCode", configMap
-				.get("administrativeGenderCode"));
-		refdata
-				.put("ethnicGroupCode", configMap
-						.get("ethnicGroupCode"));
-		refdata.put("raceCode", configMap.get("raceCode"));
-		refdata.put("source", healthcareSiteDao.getAll());
-		refdata.put("searchTypeRefData", configMap
-				.get("participantSearchType"));
-		refdata.put("identifiersTypeRefData", configMap
-				.get("participantIdentifiersType"));
-		refdata.put("mandatory", "true");
-		;
+        Map<String, Object> refdata = new HashMap<String, Object>();
 
-		return refdata;
-	}
+        refdata.put("administrativeGenderCode", configMap.get("administrativeGenderCode"));
+        refdata.put("ethnicGroupCode", configMap.get("ethnicGroupCode"));
+        refdata.put("raceCode", configMap.get("raceCode"));
+        refdata.put("source", healthcareSiteDao.getAll());
+        refdata.put("searchTypeRefData", configMap.get("participantSearchType"));
+        refdata.put("identifiersTypeRefData", configMap.get("participantIdentifiersType"));
+        refdata.put("mandatory", "true");
+        ;
 
-	@Override
-	public void validate(Participant participant, Errors errors) {
-		// TODO Auto-generated method stub
-		super.validate(participant, errors);
-		participantValidator.validateParticipantMRN(participant,errors);
-		
-	}
+        return refdata;
+    }
 
-	public ParticipantValidator getParticipantValidator() {
-		return participantValidator;
-	}
+    @Override
+    public void validate(Participant participant, Errors errors) {
+        // TODO Auto-generated method stub
+        super.validate(participant, errors);
+        participantValidator.validateParticipantMRN(participant, errors);
 
-	public void setParticipantValidator(ParticipantValidator participantValidator) {
-		this.participantValidator = participantValidator;
-	}
+    }
+
+    public ParticipantValidator getParticipantValidator() {
+        return participantValidator;
+    }
+
+    public void setParticipantValidator(ParticipantValidator participantValidator) {
+        this.participantValidator = participantValidator;
+    }
 
 }

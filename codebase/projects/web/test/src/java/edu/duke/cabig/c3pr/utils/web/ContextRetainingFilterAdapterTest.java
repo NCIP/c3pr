@@ -14,12 +14,14 @@ import edu.duke.cabig.c3pr.web.WebTestCase;
 
 /**
  * This unit test validates teh ContextRetainingFilterAdapter.
+ * 
  * @testType unit
  * @author Rhett Sutphin
  */
-/* TODO: much of this class is shared with PSC.  Refactor into a shared library. */
+/* TODO: much of this class is shared with PSC. Refactor into a shared library. */
 public class ContextRetainingFilterAdapterTest extends WebTestCase {
-    private ContextRetainingFilterAdapter adapter = new ContextRetainingFilterAdapter() { };
+    private ContextRetainingFilterAdapter adapter = new ContextRetainingFilterAdapter() {
+    };
 
     public void testServletContextRetained() throws Exception {
         expectRetainServletContext();
@@ -31,9 +33,11 @@ public class ContextRetainingFilterAdapterTest extends WebTestCase {
         expectRetainServletContext();
         WebApplicationContext applicationContext = createMock(WebApplicationContext.class);
         replay(applicationContext);
-        servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, applicationContext);
+        servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE,
+                        applicationContext);
 
-        assertSame("Application context not correct", applicationContext, adapter.getApplicationContext());
+        assertSame("Application context not correct", applicationContext, adapter
+                        .getApplicationContext());
         verify(applicationContext);
     }
 
@@ -42,7 +46,8 @@ public class ContextRetainingFilterAdapterTest extends WebTestCase {
         try {
             adapter.getApplicationContext();
             fail("Exception not thrown");
-        } catch (IllegalStateException iae) {
+        }
+        catch (IllegalStateException iae) {
             // good
         }
     }

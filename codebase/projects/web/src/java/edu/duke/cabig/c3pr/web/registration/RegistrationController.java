@@ -29,10 +29,10 @@ import java.util.Map;
  * @author Ramakrishna
  */
 
-public abstract class RegistrationController<C extends StudySubject> extends AutomaticSaveAjaxableFormController<C, StudySubject, StudySubjectDao> {
+public abstract class RegistrationController<C extends StudySubject> extends
+                AutomaticSaveAjaxableFormController<C, StudySubject, StudySubjectDao> {
 
-    private static Log log = LogFactory
-            .getLog(RegistrationController.class);
+    private static Log log = LogFactory.getLog(RegistrationController.class);
 
     protected ParticipantDao participantDao;
 
@@ -64,32 +64,25 @@ public abstract class RegistrationController<C extends StudySubject> extends Aut
         return scheduledEpochDao;
     }
 
-
     public void setScheduledEpochDao(ScheduledEpochDao scheduledEpochDao) {
         this.scheduledEpochDao = scheduledEpochDao;
     }
-
 
     public StratificationCriterionAnswerDao getStratificationAnswerDao() {
         return stratificationAnswerDao;
     }
 
-
-    public void setStratificationAnswerDao(
-            StratificationCriterionAnswerDao stratificationAnswerDao) {
+    public void setStratificationAnswerDao(StratificationCriterionAnswerDao stratificationAnswerDao) {
         this.stratificationAnswerDao = stratificationAnswerDao;
     }
-
 
     public StudySubjectDao getStudySubjectDao() {
         return studySubjectDao;
     }
 
-
     public void setStudySubjectDao(StudySubjectDao studySubjectDao) {
         this.studySubjectDao = studySubjectDao;
     }
-
 
     public void setStudySubjectService(StudySubjectService studySubjectService) {
         this.studySubjectService = studySubjectService;
@@ -102,17 +95,19 @@ public abstract class RegistrationController<C extends StudySubject> extends Aut
     }
 
     @Override
-    protected Object currentFormObject(HttpServletRequest request, Object sessionFormObject) throws Exception {
-        // TODO Auto-generated method stub
+    protected Object currentFormObject(HttpServletRequest request, Object sessionFormObject)
+                    throws Exception {
         StudySubject command = (StudySubject) sessionFormObject;
         if (command != null) {
             if (command.getId() != null) {
                 return getDao().merge(command);
-            } else if (command.getScheduledEpoch() != null && command.getScheduledEpoch().getEpoch() != null) {
+            }
+            else if (command.getScheduledEpoch() != null
+                            && command.getScheduledEpoch().getEpoch() != null) {
                 epochDao.reassociate(command.getScheduledEpoch().getEpoch());
             }
-            if (command.getParticipant() != null)
-                getParticipantDao().reassociate(command.getParticipant());
+            if (command.getParticipant() != null) getParticipantDao().reassociate(
+                            command.getParticipant());
             if (command.getStudySite() != null) {
                 getStudySiteDao().reassociate(command.getStudySite());
                 getStudyDao().reassociate(command.getStudySite().getStudy());
@@ -123,10 +118,8 @@ public abstract class RegistrationController<C extends StudySubject> extends Aut
 
     @Override
     protected boolean shouldSave(HttpServletRequest request, C command, Tab<C> tab) {
-    	if(WebUtils.hasSubmitParameter(request, "dontSave"))
-    		return false;
-        if (getPrimaryDomainObject(command) == null)
-            return false;
+        if (WebUtils.hasSubmitParameter(request, "dontSave")) return false;
+        if (getPrimaryDomainObject(command) == null) return false;
         return getPrimaryDomainObject(command).getId() != null;
     }
 
@@ -149,18 +142,19 @@ public abstract class RegistrationController<C extends StudySubject> extends Aut
     }
 
     /*
-      * (non-Javadoc)
-      *
-      * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
-      */
+     * (non-Javadoc)
+     * 
+     * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
+     */
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
         StudySubject studySubject = null;
         if ((request.getParameter("registrationId") != null)
-                && (request.getParameter("registrationId") != "")) {
+                        && (request.getParameter("registrationId") != "")) {
             studySubject = studySubjectDao.getById(Integer.parseInt(request
-                    .getParameter("registrationId")), true);
-        } else {
+                            .getParameter("registrationId")), true);
+        }
+        else {
             studySubject = new StudySubject();
             log.debug("------------Command set to new Command------------------");
         }
@@ -171,8 +165,7 @@ public abstract class RegistrationController<C extends StudySubject> extends Aut
         studySubjectDao.save(registration);
     }
 
-    protected void handleIdentifierAction(StudySubject registration, String action,
-                                          String selected) {
+    protected void handleIdentifierAction(StudySubject registration, String action, String selected) {
         if ("addIdentifier".equals(action)) {
             log.debug("Requested Add Identifier");
             SystemAssignedIdentifier id = new SystemAssignedIdentifier();
@@ -180,73 +173,64 @@ public abstract class RegistrationController<C extends StudySubject> extends Aut
             id.setType("<enter value>");
             id.setValue("<enter value>");
             registration.addIdentifier(id);
-        } else if ("removeIdentifier".equals(action)) {
+        }
+        else if ("removeIdentifier".equals(action)) {
             log.debug("Requested Remove Identifier");
             registration.getIdentifiers().remove(Integer.parseInt(selected));
         }
     }
 
     @Override
-    protected Map<String, Object> referenceData(
-            HttpServletRequest httpServletRequest, int page) throws Exception {
+    protected Map<String, Object> referenceData(HttpServletRequest httpServletRequest, int page)
+                    throws Exception {
         // Currently the static data is a hack, once DB design is approved for
         // an LOV this will be
         // replaced with LOVDao to get the static data from individual tables
         Map<String, Object> refdata = new HashMap<String, Object>();
         Map<String, List<Lov>> configMap = configurationProperty.getMap();
-        refdata
-                .put("searchTypeRefData", configMap
-                        .get("participantSearchType"));
-        refdata.put("identifiersTypeRefData", configMap
-                .get("participantIdentifiersType"));
+        refdata.put("searchTypeRefData", configMap.get("participantSearchType"));
+        refdata.put("identifiersTypeRefData", configMap.get("participantIdentifiersType"));
 
         return refdata;
     }
 
     @Override
-    protected void initBinder(HttpServletRequest request,
-                              ServletRequestDataBinder binder) throws Exception {
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(
-                new SimpleDateFormat("MM/dd/yyyy"), true));
-        binder.registerCustomEditor(HealthcareSite.class, new CustomDaoEditor(
-                healthcareSiteDao));
-        binder.registerCustomEditor(StudySite.class, new CustomDaoEditor(
-                studySiteDao));
-        binder.registerCustomEditor(EligibilityCriteria.class, new CustomDaoEditor(
-                studySiteDao));
-        binder.registerCustomEditor(Participant.class, new CustomDaoEditor(
-                participantDao));
-        binder.registerCustomEditor(AnatomicSite.class, new CustomDaoEditor(
-                anatomicSiteDao));
-        binder.registerCustomEditor(Arm.class, new CustomDaoEditor(
-                armDao));
-        binder.registerCustomEditor(Epoch.class, new CustomDaoEditor(
-                epochDao));
-        binder.registerCustomEditor(StratificationCriterionPermissibleAnswer.class, new CustomDaoEditor(
-                stratificationAnswerDao));
+    protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder)
+                    throws Exception {
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat(
+                        "MM/dd/yyyy"), true));
+        binder.registerCustomEditor(HealthcareSite.class, new CustomDaoEditor(healthcareSiteDao));
+        binder.registerCustomEditor(StudySite.class, new CustomDaoEditor(studySiteDao));
+        binder.registerCustomEditor(EligibilityCriteria.class, new CustomDaoEditor(studySiteDao));
+        binder.registerCustomEditor(Participant.class, new CustomDaoEditor(participantDao));
+        binder.registerCustomEditor(AnatomicSite.class, new CustomDaoEditor(anatomicSiteDao));
+        binder.registerCustomEditor(Arm.class, new CustomDaoEditor(armDao));
+        binder.registerCustomEditor(Epoch.class, new CustomDaoEditor(epochDao));
+        binder.registerCustomEditor(StratificationCriterionPermissibleAnswer.class,
+                        new CustomDaoEditor(stratificationAnswerDao));
         Object command = binder.getTarget();
-/*		binder.registerCustomEditor(StudyInvestigator.class, new ObjectGraphBasedEditor(
-				command,"studySite.studyInvestigators"));
-*/
-        binder.registerCustomEditor(StudyDisease.class, new ObjectGraphBasedEditor(
-                command, "studySite.study.studyDiseases"));
+        binder.registerCustomEditor(StudyDisease.class, new ObjectGraphBasedEditor(command,
+                        "studySite.study.studyDiseases"));
         binder.registerCustomEditor(StudyInvestigator.class, new CustomDaoEditor(
-                studyInvestigatorDao));
-        binder.registerCustomEditor(ScheduledEpoch.class, new CustomDaoEditor(
-                scheduledEpochDao));
-        binder.registerCustomEditor(RandomizationType.class, new EnumByNameEditor(RandomizationType.class));
-        binder.registerCustomEditor(RegistrationDataEntryStatus.class, new EnumByNameEditor(RegistrationDataEntryStatus.class));
-        binder.registerCustomEditor(RegistrationWorkFlowStatus.class, new EnumByNameEditor(RegistrationWorkFlowStatus.class));
-        binder.registerCustomEditor(ScheduledEpochDataEntryStatus.class, new EnumByNameEditor(ScheduledEpochDataEntryStatus.class));
-        binder.registerCustomEditor(ScheduledEpochWorkFlowStatus.class, new EnumByNameEditor(ScheduledEpochWorkFlowStatus.class));
+                        studyInvestigatorDao));
+        binder.registerCustomEditor(ScheduledEpoch.class, new CustomDaoEditor(scheduledEpochDao));
+        binder.registerCustomEditor(RandomizationType.class, new EnumByNameEditor(
+                        RandomizationType.class));
+        binder.registerCustomEditor(RegistrationDataEntryStatus.class, new EnumByNameEditor(
+                        RegistrationDataEntryStatus.class));
+        binder.registerCustomEditor(RegistrationWorkFlowStatus.class, new EnumByNameEditor(
+                        RegistrationWorkFlowStatus.class));
+        binder.registerCustomEditor(ScheduledEpochDataEntryStatus.class, new EnumByNameEditor(
+                        ScheduledEpochDataEntryStatus.class));
+        binder.registerCustomEditor(ScheduledEpochWorkFlowStatus.class, new EnumByNameEditor(
+                        ScheduledEpochWorkFlowStatus.class));
     }
 
     public ConfigurationProperty getConfigurationProperty() {
         return configurationProperty;
     }
 
-    public void setConfigurationProperty(
-            ConfigurationProperty configurationProperty) {
+    public void setConfigurationProperty(ConfigurationProperty configurationProperty) {
         this.configurationProperty = configurationProperty;
     }
 
@@ -306,21 +290,17 @@ public abstract class RegistrationController<C extends StudySubject> extends Aut
         this.anatomicSiteDao = anatomicSiteDao;
     }
 
-
     public EpochDao getEpochDao() {
         return epochDao;
     }
-
 
     public void setEpochDao(EpochDao epochDao) {
         this.epochDao = epochDao;
     }
 
-
     public StudyDao getStudyDao() {
         return studyDao;
     }
-
 
     public void setStudyDao(StudyDao studyDao) {
         this.studyDao = studyDao;

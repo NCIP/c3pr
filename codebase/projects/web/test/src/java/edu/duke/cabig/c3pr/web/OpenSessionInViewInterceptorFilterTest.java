@@ -25,6 +25,7 @@ import edu.duke.cabig.c3pr.utils.web.OpenSessionInViewInterceptorFilter;
 
 /**
  * This unit test validates the OpenSessionInViewInterceptorFilter
+ * 
  * @testType unit
  * @author Rhett Sutphin
  */
@@ -32,16 +33,21 @@ public class OpenSessionInViewInterceptorFilterTest extends ControllerTestCase {
     private static final String BEAN_NAME = "interceptor";
 
     private OpenSessionInViewInterceptorFilter filter;
+
     private ApplicationContext applicationContext;
+
     private OpenSessionInViewInterceptor interceptor;
+
     private FilterChain filterChain;
+
     private WebRequestMatcher webRequestMatcher = new WebRequestMatcher();
 
     protected void setUp() throws Exception {
         super.setUp();
         applicationContext = registerMockFor(WebApplicationContext.class);
         interceptor = registerMockFor(OpenSessionInViewInterceptor.class);
-        servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, applicationContext);
+        servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE,
+                        applicationContext);
         expect(applicationContext.getBean(BEAN_NAME)).andReturn(interceptor);
         filterChain = registerMockFor(FilterChain.class);
         // put a parameter on request for use by WebRequestMatcher
@@ -74,7 +80,8 @@ public class OpenSessionInViewInterceptorFilterTest extends ControllerTestCase {
         try {
             doFilter();
             fail("Exception not propagated");
-        } catch (ServletException se) {
+        }
+        catch (ServletException se) {
             assertEquals(exception, se);
         }
     }
@@ -91,7 +98,8 @@ public class OpenSessionInViewInterceptorFilterTest extends ControllerTestCase {
         try {
             doFilter();
             fail("Exception not propagated");
-        } catch (DataAccessException dae) {
+        }
+        catch (DataAccessException dae) {
             assertEquals(exception, dae);
         }
     }

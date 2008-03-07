@@ -26,11 +26,10 @@ import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.web.ajax.CreateReportFacade;
-
 
 /*
  * @author Vinay Gangoli 
@@ -39,208 +38,196 @@ import edu.duke.cabig.c3pr.web.ajax.CreateReportFacade;
  */
 public class CreateReportController extends SimpleFormController {
 
-	private static Log log = LogFactory.getLog(CreateReportController.class);
-	private StudySubjectDao studySubjectDao;
-	private ConfigurationProperty configurationProperty;
-	private ReportCommand reportCommand;
-	SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
-	
-	public ConfigurationProperty getConfigurationProperty() {
-		return configurationProperty;
-	}
+    private static Log log = LogFactory.getLog(CreateReportController.class);
 
+    private StudySubjectDao studySubjectDao;
 
-	public void setConfigurationProperty(ConfigurationProperty configurationProperty) {
-		this.configurationProperty = configurationProperty;
-	}
+    private ConfigurationProperty configurationProperty;
 
-	@Override
-	protected void initBinder(HttpServletRequest request,
-			ServletRequestDataBinder binder) throws Exception {
-		super.initBinder(request, binder);	
+    private ReportCommand reportCommand;
 
-		binder.registerCustomEditor(Date.class, new CustomDateEditor(
-				new SimpleDateFormat("MM/dd/yyyy"), true));
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
-//		Enumeration en=request.getParameterNames();
-		
-		if(request.getMethod().equals(METHOD_GET))
-		{
-			CreateReportFacade studyFacade = new CreateReportFacade();
-			Context context = null;
-			context = new HttpServletRequestContext(request);
-        
-			TableModel model = new TableModelImpl(context);
-			Object viewData = null;
-			try {
-				viewData = studyFacade.build(model, null);	          
-			} catch (Exception e) {
-				e.printStackTrace();
-			}		
-			request.setAttribute("assembler", viewData);
-		} 		
-	}
-	
-	
-	protected Map<String, Object> referenceData(HttpServletRequest request) {
+    public ConfigurationProperty getConfigurationProperty() {
+        return configurationProperty;
+    }
 
-		Map<String, Object> configMap = configurationProperty.getMap();
-		Map<String, Object> refdata = new HashMap<String, Object>();
-		
-		refdata.put("administrativeGenderCode", configMap.get("administrativeGenderCode"));
-		refdata.put("ethnicGroupCode", configMap.get("ethnicGroupCode"));
-		refdata.put("raceCode", configMap.get("raceCode"));
+    public void setConfigurationProperty(ConfigurationProperty configurationProperty) {
+        this.configurationProperty = configurationProperty;
+    }
 
-		return refdata;
-	}
-	
-//	@Override
-//	protected Object formBackingObject(HttpServletRequest request) throws ServletException {	
-//		SearchStudyCommand sCommand = new SearchStudyCommand();
-//		sCommand.addSearchCriterion(new SearchCommand());
-//		return sCommand;
-//	}	
+    @Override
+    protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder)
+                    throws Exception {
+        super.initBinder(request, binder);
 
-	@Override
-	protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object oCommand,
-			BindException errors) throws Exception
-	{		
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat(
+                        "MM/dd/yyyy"), true));
 
-		CreateReportFacade reportFacade = new CreateReportFacade();
-		Context context = null;
-		context = new HttpServletRequestContext(request);
+        if (request.getMethod().equals(METHOD_GET)) {
+            CreateReportFacade studyFacade = new CreateReportFacade();
+            Context context = null;
+            context = new HttpServletRequestContext(request);
 
-		Study study = new Study();    
-		TableModel model = new TableModelImpl(context);
-		String [] params = reportCommand.getParams();
-		String studyShortTitle = "";
-		String studyCoordinatingSiteId = "";
-		String siteName = "";
-		String siteNciId = "";
-		String rStartDate = "";
-		String rEndDate = "";
-		String birthDate = "";
-		String raceCode = "";
-		
-		Map map = errors.getModel();
-		map.put("raceCode", getConfigurationProperty().getMap().get("raceCode"));  
-    	ModelAndView modelAndView= new ModelAndView(getSuccessView(), map);
-    	if(params == null){
-    		return modelAndView;
-    	}
-    	
-		if(params[0] != null && params[0].length() > 0){
-			studyShortTitle = params[0].toString();
-		}
-		
-		if(params[1] != null && params[1].length() > 0){
-			studyCoordinatingSiteId = params[1].toString();
-		}
-		
-		if(params[2] != null && params[2].length() > 0){
-			siteName = params[2].toString();
-		}
-		
-		if(params[3] != null && params[3].length() > 0){
-			siteNciId = params[3].toString();
-		}
-		
-		if(params[4] != null && params[4].length() > 0){
-			rStartDate = params[4].toString();
-		}
-		
-		if(params[5] != null && params[5].length() > 0){
-			rEndDate = params[5].toString();
-		}
-		
-		if(params[6] != null && params[6].length() > 0){
-			birthDate = params[6].toString();
-		}
-		
-		if(params[7] != null && params[7].length() > 0){
-			raceCode = params[7].toString();
-		}
-	
-		if(studyShortTitle  != null && studyShortTitle != ""){
-			study.setShortTitleText(studyShortTitle);
-		}
-		
-		HealthcareSite hcs = new HealthcareSite();
-		if(siteName != null && siteName != ""){
-			hcs.setName(siteName);
-		}
-		
-		if(siteNciId  != null && siteNciId != ""){
-			hcs.setNciInstituteCode(siteNciId);
-		}
-		
-		StudySite studySite = new StudySite();
+            TableModel model = new TableModelImpl(context);
+            Object viewData = null;
+            try {
+                viewData = studyFacade.build(model, null);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+            request.setAttribute("assembler", viewData);
+        }
+    }
+
+    protected Map<String, Object> referenceData(HttpServletRequest request) {
+
+        Map<String, Object> configMap = configurationProperty.getMap();
+        Map<String, Object> refdata = new HashMap<String, Object>();
+
+        refdata.put("administrativeGenderCode", configMap.get("administrativeGenderCode"));
+        refdata.put("ethnicGroupCode", configMap.get("ethnicGroupCode"));
+        refdata.put("raceCode", configMap.get("raceCode"));
+
+        return refdata;
+    }
+
+    @Override
+    protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response,
+                    Object oCommand, BindException errors) throws Exception {
+
+        CreateReportFacade reportFacade = new CreateReportFacade();
+        Context context = null;
+        context = new HttpServletRequestContext(request);
+
+        Study study = new Study();
+        TableModel model = new TableModelImpl(context);
+        String[] params = reportCommand.getParams();
+        String studyShortTitle = "";
+        String studyCoordinatingSiteId = "";
+        String siteName = "";
+        String siteNciId = "";
+        String rStartDate = "";
+        String rEndDate = "";
+        String birthDate = "";
+        String raceCode = "";
+
+        Map map = errors.getModel();
+        map.put("raceCode", getConfigurationProperty().getMap().get("raceCode"));
+        ModelAndView modelAndView = new ModelAndView(getSuccessView(), map);
+        if (params == null) {
+            return modelAndView;
+        }
+
+        if (params[0] != null && params[0].length() > 0) {
+            studyShortTitle = params[0].toString();
+        }
+
+        if (params[1] != null && params[1].length() > 0) {
+            studyCoordinatingSiteId = params[1].toString();
+        }
+
+        if (params[2] != null && params[2].length() > 0) {
+            siteName = params[2].toString();
+        }
+
+        if (params[3] != null && params[3].length() > 0) {
+            siteNciId = params[3].toString();
+        }
+
+        if (params[4] != null && params[4].length() > 0) {
+            rStartDate = params[4].toString();
+        }
+
+        if (params[5] != null && params[5].length() > 0) {
+            rEndDate = params[5].toString();
+        }
+
+        if (params[6] != null && params[6].length() > 0) {
+            birthDate = params[6].toString();
+        }
+
+        if (params[7] != null && params[7].length() > 0) {
+            raceCode = params[7].toString();
+        }
+
+        if (studyShortTitle != null && studyShortTitle != "") {
+            study.setShortTitleText(studyShortTitle);
+        }
+
+        HealthcareSite hcs = new HealthcareSite();
+        if (siteName != null && siteName != "") {
+            hcs.setName(siteName);
+        }
+
+        if (siteNciId != null && siteNciId != "") {
+            hcs.setNciInstituteCode(siteNciId);
+        }
+
+        StudySite studySite = new StudySite();
         studySite.setStudy(study);
         studySite.setHealthcareSite(hcs);
-        
+
         Participant participant = new Participant();
         participant.setRaceCode(raceCode);
-        
+
         Date regStartDate = null;
         Date regEndDate = null;
-        try{
-        	if(birthDate != null && !birthDate.equals("")){
-        		participant.setBirthDate(simpleDateFormat.parse(birthDate));
-        	}
-			if(rStartDate != null && !rStartDate.equals("")){
-				regStartDate = simpleDateFormat.parse(rStartDate);    		
-			}
-			if(rEndDate != null && !rEndDate.equals("")){
-				regEndDate = simpleDateFormat.parse(rEndDate);
-			}
-        } catch(ParseException pr){
-        	log.error("DateFormat Exception in CreateReportController");
+        try {
+            if (birthDate != null && !birthDate.equals("")) {
+                participant.setBirthDate(simpleDateFormat.parse(birthDate));
+            }
+            if (rStartDate != null && !rStartDate.equals("")) {
+                regStartDate = simpleDateFormat.parse(rStartDate);
+            }
+            if (rEndDate != null && !rEndDate.equals("")) {
+                regEndDate = simpleDateFormat.parse(rEndDate);
+            }
         }
-        
+        catch (ParseException pr) {
+            log.error("DateFormat Exception in CreateReportController");
+        }
+
         StudySubject studySubject = new StudySubject();
         studySubject.setStudySite(studySite);
         studySubject.setParticipant(participant);
-		List<StudySubject> registrationResults = studySubjectDao.advancedSearch(studySubject, regStartDate, regEndDate, studyCoordinatingSiteId);
-		Object viewData = null;
-		try {
-			viewData = reportFacade.build(model, registrationResults);
-//	        viewData = reportFacade.build(model, null);  
-		} catch (Exception e) {
-			e.printStackTrace();
-		} 			
-		request.setAttribute("assembler", viewData);		
-		
-		
-    	return modelAndView;
-	}			
+        List<StudySubject> registrationResults = studySubjectDao.advancedSearch(studySubject,
+                        regStartDate, regEndDate, studyCoordinatingSiteId);
+        Object viewData = null;
+        try {
+            viewData = reportFacade.build(model, registrationResults);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        request.setAttribute("assembler", viewData);
 
-	public StudySubjectDao getRegistrationDao() {
-		return studySubjectDao;
-	}
+        return modelAndView;
+    }
 
-	public void setRegistrationDao(StudySubjectDao studySubjectDao) {
-		this.studySubjectDao = studySubjectDao;
-	}
+    public StudySubjectDao getRegistrationDao() {
+        return studySubjectDao;
+    }
 
+    public void setRegistrationDao(StudySubjectDao studySubjectDao) {
+        this.studySubjectDao = studySubjectDao;
+    }
 
-	public ReportCommand getReportCommand() {
-		return reportCommand;
-	}
+    public ReportCommand getReportCommand() {
+        return reportCommand;
+    }
 
+    public void setReportCommand(ReportCommand reportCommand) {
+        this.reportCommand = reportCommand;
+    }
 
-	public void setReportCommand(ReportCommand reportCommand) {
-		this.reportCommand = reportCommand;
-	}
+    public StudySubjectDao getStudySubjectDao() {
+        return studySubjectDao;
+    }
 
+    public void setStudySubjectDao(StudySubjectDao studySubjectDao) {
+        this.studySubjectDao = studySubjectDao;
+    }
 
-	public StudySubjectDao getStudySubjectDao() {
-		return studySubjectDao;
-	}
-
-
-	public void setStudySubjectDao(StudySubjectDao studySubjectDao) {
-		this.studySubjectDao = studySubjectDao;
-	}
-   	
-	
 }

@@ -7,7 +7,7 @@ import gov.nih.nci.cabig.ctms.domain.DomainObject;
 
 /**
  * A {@link java.beans.PropertyEditor} that supports binding domain objects by their IDs
- *
+ * 
  * @author Rhett Sutphin
  */
 public class CustomDaoEditor extends PropertyEditorSupport {
@@ -20,7 +20,8 @@ public class CustomDaoEditor extends PropertyEditorSupport {
     @Override
     public void setValue(Object value) {
         if (value != null && !(dao.domainClass().isAssignableFrom(value.getClass()))) {
-            throw new IllegalArgumentException("This editor only handles instances of " + dao.domainClass().getName());
+            throw new IllegalArgumentException("This editor only handles instances of "
+                            + dao.domainClass().getName());
         }
         setValue((DomainObject) value);
     }
@@ -35,21 +36,22 @@ public class CustomDaoEditor extends PropertyEditorSupport {
     @Override
     public String getAsText() {
         DomainObject domainObj = (DomainObject) getValue();
-        if (domainObj == null) 
-            return null;
-        return domainObj.getId().toString();        
+        if (domainObj == null) return null;
+        return domainObj.getId().toString();
     }
 
     @Override
     public void setAsText(String text) throws IllegalArgumentException {
         DomainObject newValue;
-        if (text == null||text.equals("")) {
+        if (text == null || text.equals("")) {
             newValue = null;
-        } else {
+        }
+        else {
             Integer id = new Integer(text);
             newValue = dao.getById(id);
             if (newValue == null) {
-                throw new IllegalArgumentException("There is no " + dao.domainClass().getSimpleName() + " with id=" + id);
+                throw new IllegalArgumentException("There is no "
+                                + dao.domainClass().getSimpleName() + " with id=" + id);
             }
         }
         setValue(newValue);

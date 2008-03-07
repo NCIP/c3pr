@@ -24,16 +24,18 @@ import edu.duke.cabig.c3pr.domain.ResearchStaff;
 
 public class SearchResearchStaffAjaxFacade {
     private static Log log = LogFactory.getLog(SearchResearchStaffAjaxFacade.class);
+
     private ResearchStaffDao researchStaffDao;
+
     private HealthcareSiteDao healthcareSiteDao;
-    
+
     public Object build(TableModel model, Collection rStaffResults) throws Exception {
 
         Table table = model.getTableInstance();
         table.setAutoIncludeParameters(false);
         table.setTableId("assembler");
         table.setItems(rStaffResults);
-        table.setAction(model.getContext().getContextPath() + "/pages/admin/createResearchStaff"); 
+        table.setAction(model.getContext().getContextPath() + "/pages/admin/createResearchStaff");
         table.setTitle("Research Staff");
         table.setShowPagination(false);
         table.setOnInvokeAction("buildTable('assembler')");
@@ -51,7 +53,7 @@ public class SearchResearchStaffAjaxFacade {
         columnName.setProperty("fullName");
         columnName.setCell((ResearchStaffLinkDisplayCell.class).getName());
         model.addColumn(columnName);
-        
+
         Column columnSite = model.getColumnInstance();
         columnSite.setTitle("Site");
         columnSite.setProperty("healthcareSite.name");
@@ -65,57 +67,60 @@ public class SearchResearchStaffAjaxFacade {
         return model.assemble();
     }
 
-    public String getTable(Map<String, List> parameterMap, String[] params, HttpServletRequest request) {
+    public String getTable(Map<String, List> parameterMap, String[] params,
+                    HttpServletRequest request) {
 
-    	ResearchStaff rStaff = new ResearchStaff();
-    	if(!StringUtils.isEmpty(params[0])){
-    		rStaff.setFirstName(params[0]);
-    	}
-        if(!StringUtils.isEmpty(params[1])){
-        	rStaff.setLastName(params[1]);
+        ResearchStaff rStaff = new ResearchStaff();
+        if (!StringUtils.isEmpty(params[0])) {
+            rStaff.setFirstName(params[0]);
         }
-        if(!StringUtils.isEmpty(params[2])){
-        	rStaff.setNciIdentifier(params[2]);
+        if (!StringUtils.isEmpty(params[1])) {
+            rStaff.setLastName(params[1]);
         }
-        if(!StringUtils.isEmpty(params[3])){
-        	HealthcareSite healthcareSite= healthcareSiteDao.getById(Integer.parseInt(params[3]));
-        	rStaff.setHealthcareSite(healthcareSite);
+        if (!StringUtils.isEmpty(params[2])) {
+            rStaff.setNciIdentifier(params[2]);
         }
-        
+        if (!StringUtils.isEmpty(params[3])) {
+            HealthcareSite healthcareSite = healthcareSiteDao.getById(Integer.parseInt(params[3]));
+            rStaff.setHealthcareSite(healthcareSite);
+        }
+
         List<ResearchStaff> rStaffResults = researchStaffDao.searchByExample(rStaff, true);
 
         Context context = null;
         if (parameterMap == null) {
             context = new HttpServletRequestContext(request);
-        } else {
+        }
+        else {
             context = new HttpServletRequestContext(request, parameterMap);
         }
 
         TableModel model = new TableModelImpl(context);
         try {
             return build(model, rStaffResults).toString();
-        } catch (Exception e) {
-        	log.error("Exception caught in SearchresearchStaffAjaxFacade");
+        }
+        catch (Exception e) {
+            log.error("Exception caught in SearchresearchStaffAjaxFacade");
             e.printStackTrace();
         }
 
         return "";
     }
 
-	public ResearchStaffDao getResearchStaffDao() {
-		return researchStaffDao;
-	}
+    public ResearchStaffDao getResearchStaffDao() {
+        return researchStaffDao;
+    }
 
-	public void setResearchStaffDao(ResearchStaffDao researchStaffDao) {
-		this.researchStaffDao = researchStaffDao;
-	}
+    public void setResearchStaffDao(ResearchStaffDao researchStaffDao) {
+        this.researchStaffDao = researchStaffDao;
+    }
 
-	public HealthcareSiteDao getHealthcareSiteDao() {
-		return healthcareSiteDao;
-	}
+    public HealthcareSiteDao getHealthcareSiteDao() {
+        return healthcareSiteDao;
+    }
 
-	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
-		this.healthcareSiteDao = healthcareSiteDao;
-	}
+    public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
+        this.healthcareSiteDao = healthcareSiteDao;
+    }
 
 }

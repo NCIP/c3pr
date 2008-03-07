@@ -1,16 +1,17 @@
 package edu.duke.cabig.c3pr.web.admin;
 
-import edu.duke.cabig.c3pr.tools.Configuration;
-import gov.nih.nci.cabig.ctms.tools.configuration.ConfigurationProperty;
-
 import java.util.Map;
 import java.util.TreeMap;
+
+import edu.duke.cabig.c3pr.tools.Configuration;
+import gov.nih.nci.cabig.ctms.tools.configuration.ConfigurationProperty;
 
 /**
  * @author Rhett Sutphin
  */
 public class ConfigurationCommand {
     private Configuration configuration;
+
     private Map<String, BoundProperty<?>> conf;
 
     public ConfigurationCommand(Configuration configuration) {

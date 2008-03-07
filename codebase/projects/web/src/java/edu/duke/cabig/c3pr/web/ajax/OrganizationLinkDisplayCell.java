@@ -8,18 +8,19 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 
 public class OrganizationLinkDisplayCell extends AbstractCell {
 
-	 
     @Override
     protected String getCellValue(final TableModel model, final Column column) {
-    	  HealthcareSite organization = (HealthcareSite) model.getCurrentRowBean();
-          String cellValue = column.getValueAsString();
-          String link = model.getContext().getContextPath() + "/pages/admin/createOrganization?nciIdentifier=";
-          //String jsCall = "javascript:$('nciIdentifier').value="+organization.getNciInstituteCode()+";${'searchForm'}.submit();";
-          if (organization != null) {
-                cellValue = "<a href=\"" + link + organization.getNciInstituteCode() + "\">" + cellValue + "</a>";
-          }
-          return cellValue;
+        HealthcareSite organization = (HealthcareSite) model.getCurrentRowBean();
+        String cellValue = column.getValueAsString();
+        String link = model.getContext().getContextPath()
+                        + "/pages/admin/createOrganization?nciIdentifier=";
+        // String jsCall =
+        // "javascript:$('nciIdentifier').value="+organization.getNciInstituteCode()+";${'searchForm'}.submit();";
+        if (organization != null) {
+            cellValue = "<a href=\"" + link + organization.getNciInstituteCode() + "\">"
+                            + cellValue + "</a>";
+        }
+        return cellValue;
     }
 
 }
-

@@ -22,15 +22,16 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 
 public class SearchOrganizationAjaxFacade {
     private static Log log = LogFactory.getLog(SearchOrganizationAjaxFacade.class);
+
     private OrganizationDao organizationDao;
-    
+
     public Object build(TableModel model, Collection studies) throws Exception {
 
         Table table = model.getTableInstance();
         table.setAutoIncludeParameters(false);
         table.setTableId("assembler");
         table.setItems(studies);
-        table.setAction(model.getContext().getContextPath() + "/pages/admin/createOrganization"); 
+        table.setAction(model.getContext().getContextPath() + "/pages/admin/createOrganization");
         table.setTitle("Organizations");
         table.setShowPagination(true);
         table.setRowsDisplayed(15);
@@ -58,41 +59,44 @@ public class SearchOrganizationAjaxFacade {
         return model.assemble();
     }
 
-    public String getTable(Map<String, List> parameterMap, String[] params, HttpServletRequest request) {
+    public String getTable(Map<String, List> parameterMap, String[] params,
+                    HttpServletRequest request) {
 
-    	HealthcareSite hcs = new HealthcareSite();
-    	if(!StringUtils.isEmpty(params[0])){
-    		hcs.setName(params[0]);
-    	}
-        if(!StringUtils.isEmpty(params[1])){
-        	hcs.setNciInstituteCode(params[1]);
+        HealthcareSite hcs = new HealthcareSite();
+        if (!StringUtils.isEmpty(params[0])) {
+            hcs.setName(params[0]);
+        }
+        if (!StringUtils.isEmpty(params[1])) {
+            hcs.setNciInstituteCode(params[1]);
         }
         List<HealthcareSite> orgResults = organizationDao.searchByExample(hcs, true);
 
         Context context = null;
         if (parameterMap == null) {
             context = new HttpServletRequestContext(request);
-        } else {
+        }
+        else {
             context = new HttpServletRequestContext(request, parameterMap);
         }
 
         TableModel model = new TableModelImpl(context);
         try {
             return build(model, orgResults).toString();
-        } catch (Exception e) {
-        	log.error("Exception caught in SearchOrganizationFacade");
+        }
+        catch (Exception e) {
+            log.error("Exception caught in SearchOrganizationFacade");
             e.printStackTrace();
         }
 
         return "";
     }
 
-	public OrganizationDao getOrganizationDao() {
-		return organizationDao;
-	}
+    public OrganizationDao getOrganizationDao() {
+        return organizationDao;
+    }
 
-	public void setOrganizationDao(OrganizationDao organizationDao) {
-		this.organizationDao = organizationDao;
-	}
+    public void setOrganizationDao(OrganizationDao organizationDao) {
+        this.organizationDao = organizationDao;
+    }
 
 }

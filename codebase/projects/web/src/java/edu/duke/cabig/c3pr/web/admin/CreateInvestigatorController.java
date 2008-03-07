@@ -1,43 +1,45 @@
 package edu.duke.cabig.c3pr.web.admin;
 
-import edu.duke.cabig.c3pr.dao.C3PRBaseDao;
-import edu.duke.cabig.c3pr.dao.InvestigatorDao;
-import edu.duke.cabig.c3pr.domain.C3PRUser;
-import edu.duke.cabig.c3pr.domain.ContactMechanism;
-import edu.duke.cabig.c3pr.domain.ContactMechanismType;
-import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
-import edu.duke.cabig.c3pr.domain.Investigator;
-import edu.duke.cabig.c3pr.domain.SiteInvestigatorGroupAffiliation;
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyInvestigator;
-import edu.duke.cabig.c3pr.exception.C3PRBaseException;
-import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
-import edu.duke.cabig.c3pr.service.PersonnelService;
-import edu.duke.cabig.c3pr.utils.StringUtils;
-import edu.duke.cabig.c3pr.web.beans.DefaultObjectPropertyReader;
-import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
-import gov.nih.nci.cabig.ctms.domain.MutableDomainObject;
-import gov.nih.nci.cabig.ctms.web.tabs.Tab;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.Map;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.springframework.validation.BindException;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.*;
+import edu.duke.cabig.c3pr.dao.C3PRBaseDao;
+import edu.duke.cabig.c3pr.dao.InvestigatorDao;
+import edu.duke.cabig.c3pr.domain.ContactMechanism;
+import edu.duke.cabig.c3pr.domain.ContactMechanismType;
+import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
+import edu.duke.cabig.c3pr.domain.Investigator;
+import edu.duke.cabig.c3pr.domain.SiteInvestigatorGroupAffiliation;
+import edu.duke.cabig.c3pr.domain.StudyInvestigator;
+import edu.duke.cabig.c3pr.exception.C3PRBaseException;
+import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
+import edu.duke.cabig.c3pr.service.PersonnelService;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 
 /**
  * @author Ramakrishna
  * @author kherm
  */
-public class CreateInvestigatorController<C extends Investigator> extends AbstractCreateC3PRUserController<C, C3PRBaseDao<C>> {
+public class CreateInvestigatorController<C extends Investigator> extends
+                AbstractCreateC3PRUserController<C, C3PRBaseDao<C>> {
 
     private PersonnelService personnelService;
+
     private InvestigatorDao investigatorDao;
+
     private String EDIT_FLOW = "EDIT_FLOW";
+
     private String SAVE_FLOW = "SAVE_FLOW";
+
     private String FLOW = "FLOW";
 
     private Logger log = Logger.getLogger(CreateInvestigatorController.class);
@@ -45,21 +47,20 @@ public class CreateInvestigatorController<C extends Investigator> extends Abstra
     public CreateInvestigatorController() {
     }
 
-
     /**
-     * Create a nested object graph that Create Investigator Design needs
-     * Incase the flow is coming from search...we get the id and get the corresponding investigator obj.
-     *
+     * Create a nested object graph that Create Investigator Design needs Incase the flow is coming
+     * from search...we get the id and get the corresponding investigator obj.
+     * 
      * @param request -
-     *                HttpServletRequest
+     *            HttpServletRequest
      * @throws ServletException
      */
-    protected Object formBackingObject(HttpServletRequest request)
-            throws ServletException {
+    protected Object formBackingObject(HttpServletRequest request) throws ServletException {
         Investigator inv;
         if (request.getParameter("id") != null && request.getParameter("id") != "") {
             log.info(" Request URl  is:" + request.getRequestURL().toString());
-            inv = investigatorDao.getLoadedInvestigatorById(Integer.parseInt(request.getParameter("id")));
+            inv = investigatorDao.getLoadedInvestigatorById(Integer.parseInt(request
+                            .getParameter("id")));
             int cmSize = inv.getContactMechanisms().size();
             if (cmSize == 0) {
                 inv = createInvestigatorWithContacts(inv);
@@ -80,68 +81,61 @@ public class CreateInvestigatorController<C extends Investigator> extends Abstra
             }
             request.getSession().setAttribute(FLOW, EDIT_FLOW);
             log.info(" Investigator's ID is:" + inv.getId());
-        } else {
+        }
+        else {
             inv = createInvestigatorWithDesign();
             request.getSession().setAttribute(FLOW, SAVE_FLOW);
         }
         return inv;
     }
-    
+
     @Override
     protected boolean shouldSave(HttpServletRequest request, Investigator command) {
         return true;
     }
-    
-
-    /*
-    * (non-Javadoc)
-    *
-    * @see org.springframework.web.servlet.mvc.AbstractWizardFormController#processFinish
-    *      (javax.servlet.http.HttpServletRequest,
-    *      javax.servlet.http.HttpServletResponse, java.lang.Object,
-    *      org.springframework.validation.BindException)
-    */
 
     @Override
     protected ModelAndView onSynchronousSubmit(HttpServletRequest request,
-                                                 HttpServletResponse response, Object command, BindException errors)
-            throws Exception {
+                    HttpServletResponse response, Object command, BindException errors)
+                    throws Exception {
 
         Investigator inv = (Investigator) command;
 
-        Iterator<ContactMechanism> cMIterator = inv.getContactMechanisms()
-                .iterator();
+        Iterator<ContactMechanism> cMIterator = inv.getContactMechanisms().iterator();
         StringUtils strUtil = new StringUtils();
         while (cMIterator.hasNext()) {
             ContactMechanism contactMechanism = cMIterator.next();
-            if (strUtil.isBlank(contactMechanism.getValue()))
-                cMIterator.remove();
+            if (strUtil.isBlank(contactMechanism.getValue())) cMIterator.remove();
         }
 
         try {
             if (request.getSession().getAttribute(FLOW).equals(SAVE_FLOW)) {
                 personnelService.save(inv);
-            } else { 
-	            	for(HealthcareSiteInvestigator hcsInv:inv.getHealthcareSiteInvestigators()){
-		            	if(hcsInv.getStatusCode()!=null && !hcsInv.getStatusCode().equals("AC")){
-		            		for(SiteInvestigatorGroupAffiliation sInvGrAff: hcsInv.getSiteInvestigatorGroupAffiliations()){
-		            			sInvGrAff.setEndDate(new Date());
-		            		}
-		            		for(StudyInvestigator studyInv:hcsInv.getStudyInvestigators()){
-		            			studyInv.setEndDate(new Date());
-		            		}
-		            	}
-	            	}
-            	
-            	
+            }
+            else {
+                for (HealthcareSiteInvestigator hcsInv : inv.getHealthcareSiteInvestigators()) {
+                    if (hcsInv.getStatusCode() != null && !hcsInv.getStatusCode().equals("AC")) {
+                        for (SiteInvestigatorGroupAffiliation sInvGrAff : hcsInv
+                                        .getSiteInvestigatorGroupAffiliations()) {
+                            sInvGrAff.setEndDate(new Date());
+                        }
+                        for (StudyInvestigator studyInv : hcsInv.getStudyInvestigators()) {
+                            studyInv.setEndDate(new Date());
+                        }
+                    }
+                }
+
                 personnelService.merge(inv);
             }
 
-        } catch (C3PRBaseException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (C3PRBaseRuntimeException e) {
+        }
+        catch (C3PRBaseException e) {
+            e.printStackTrace(); // To change body of catch statement use File | Settings | File
+                                    // Templates.
+        }
+        catch (C3PRBaseRuntimeException e) {
             if (e.getRootCause().getMessage().contains("MailException")) {
-                //no problem
+                // no problem
                 log.info("Error saving Research staff.Probably failed to send email", e);
             }
         }
@@ -150,7 +144,6 @@ public class CreateInvestigatorController<C extends Investigator> extends Abstra
         ModelAndView mv = new ModelAndView(getSuccessView(), map);
         return mv;
     }
-
 
     private Investigator createInvestigatorWithDesign() {
 
@@ -184,26 +177,22 @@ public class CreateInvestigatorController<C extends Investigator> extends Abstra
         this.personnelService = personnelService;
     }
 
-
     public InvestigatorDao getInvestigatorDao() {
         return investigatorDao;
     }
-
 
     public void setInvestigatorDao(InvestigatorDao investigatorDao) {
         this.investigatorDao = investigatorDao;
     }
 
+    @Override
+    protected C3PRBaseDao getDao() {
+        return this.investigatorDao;
+    }
 
-	@Override
-	protected C3PRBaseDao getDao() {
-		return this.investigatorDao;
-	}
+    @Override
+    protected C getPrimaryDomainObject(C command) {
+        return command;
+    }
 
-
-	@Override
-	protected C getPrimaryDomainObject(C command) {
-		return command;
-	}
-	
 }

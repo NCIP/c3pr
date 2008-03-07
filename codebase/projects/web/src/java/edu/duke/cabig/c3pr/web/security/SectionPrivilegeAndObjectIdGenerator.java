@@ -4,19 +4,16 @@ import edu.duke.cabig.c3pr.utils.web.navigation.Section;
 import gov.nih.nci.security.acegi.csm.authorization.AbstractPrivilegeAndObjectIdGenerator;
 
 /**
- * Created by IntelliJ IDEA.
- * User: kherm
- * Date: Apr 23, 2007
- * Time: 5:39:24 PM
- * To change this template use File | Settings | File Templates.
+ * Created by IntelliJ IDEA. User: kherm Date: Apr 23, 2007 Time: 5:39:24 PM To change this template
+ * use File | Settings | File Templates.
  */
 public class SectionPrivilegeAndObjectIdGenerator extends AbstractPrivilegeAndObjectIdGenerator {
 
-	protected String getKeyValue(Object object){
-		return ((Section)object).getMainUrl();
-	}
+    protected String getKeyValue(Object object) {
+        return ((Section) object).getMainUrl();
+    }
 
-	protected boolean supports(Object object){
-		return object instanceof Section;
-	}
+    protected boolean supports(Object object) {
+        return object instanceof Section;
+    }
 }

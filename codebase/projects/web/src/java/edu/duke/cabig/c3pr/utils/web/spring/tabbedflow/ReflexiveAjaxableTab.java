@@ -15,13 +15,15 @@ import java.lang.reflect.Method;
 public abstract class ReflexiveAjaxableTab<C> extends AjaxableTab<C> {
 
     protected Class[] paramTypes;
+
     Logger log = Logger.getLogger(ReflexiveAjaxableTab.class);
 
     public ReflexiveAjaxableTab() {
     }
 
     public ReflexiveAjaxableTab(String longTitle, String shortTitle, String viewName) {
-        this(longTitle, shortTitle, viewName, new Class[]{HttpServletRequest.class, Object.class, Errors.class});
+        this(longTitle, shortTitle, viewName, new Class[] { HttpServletRequest.class, Object.class,
+                Errors.class });
     }
 
     public ReflexiveAjaxableTab(String longTitle, String shortTitle, String viewName, Class[] params) {
@@ -29,10 +31,12 @@ public abstract class ReflexiveAjaxableTab<C> extends AjaxableTab<C> {
         this.paramTypes = params;
     }
 
-    public ModelAndView postProcessAsynchronous(HttpServletRequest request, C command, Errors error) throws Exception {
+    public ModelAndView postProcessAsynchronous(HttpServletRequest request, C command, Errors error)
+                    throws Exception {
         if (methodInvocationRequest(request)) {
             Method method = getMethod(this, getMethodName(request));
-            return (ModelAndView) new CustomMethodInvocater(this, method, new Object[]{request, command, error}).invoke();
+            return (ModelAndView) new CustomMethodInvocater(this, method, new Object[] { request,
+                    command, error }).invoke();
         }
         return super.postProcessAsynchronous(request, command, error);
     }

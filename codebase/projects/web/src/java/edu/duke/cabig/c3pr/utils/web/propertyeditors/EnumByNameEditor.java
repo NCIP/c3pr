@@ -18,7 +18,8 @@ public class EnumByNameEditor<E extends Enum<E>> extends PropertyEditorSupport {
     public void setAsText(String text) throws IllegalArgumentException {
         if (text == null || StringUtils.isBlank(text)) {
             setValue(null);
-        } else {
+        }
+        else {
             setValue(Enum.valueOf(enumClass, text));
         }
     }
@@ -29,7 +30,8 @@ public class EnumByNameEditor<E extends Enum<E>> extends PropertyEditorSupport {
         Enum<E> v = (Enum<E>) getValue();
         if (v == null) {
             return null;
-        } else {
+        }
+        else {
             return v.name();
         }
     }

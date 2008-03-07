@@ -1,9 +1,12 @@
 package edu.duke.cabig.c3pr.web.study;
 
-import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
-import edu.duke.cabig.c3pr.domain.Study;
-import gov.nih.nci.cabig.ctms.web.tabs.Flow;
-import gov.nih.nci.cabig.ctms.web.tabs.Tab;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Map;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.acegisecurity.Authentication;
 import org.acegisecurity.GrantedAuthority;
@@ -19,15 +22,11 @@ import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Map;
+import edu.duke.cabig.c3pr.domain.Study;
+import gov.nih.nci.cabig.ctms.web.tabs.Flow;
+import gov.nih.nci.cabig.ctms.web.tabs.Tab;
 
 public class AmendStudyController extends StudyController<Study> {
-
 
     protected static final Log log = LogFactory.getLog(AmendStudyController.class);
 
@@ -43,24 +42,23 @@ public class AmendStudyController extends StudyController<Study> {
 
     @Override
     protected Map referenceData(HttpServletRequest request, int arg1) throws Exception {
-        // TODO Auto-generated method stub
         request.setAttribute("flowType", "AMEND_STUDY");
         request.setAttribute("amendFlow", "true");
-        
+
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication auth = context.getAuthentication();
         GrantedAuthority[] groups = auth.getAuthorities();
         boolean isAdmin = false;
-        for(GrantedAuthority ga: groups){
-        	if(ga.getAuthority().endsWith("admin")){
-        		isAdmin = true;
-        	}
+        for (GrantedAuthority ga : groups) {
+            if (ga.getAuthority().endsWith("admin")) {
+                isAdmin = true;
+            }
         }
-        
+
         if (!isAdmin) {
-        	request.setAttribute("softDelete", "true");
+            request.setAttribute("softDelete", "true");
         }
-        
+
         return super.referenceData(request, arg1);
     }
 
@@ -83,12 +81,13 @@ public class AmendStudyController extends StudyController<Study> {
     }
 
     @Override
-    protected void initBinder(HttpServletRequest req,
-                              ServletRequestDataBinder binder) throws Exception {
+    protected void initBinder(HttpServletRequest req, ServletRequestDataBinder binder)
+                    throws Exception {
         super.initBinder(req, binder);
-        binder.registerCustomEditor(Date.class, new CustomDateEditor(
-                new SimpleDateFormat("MM/dd/yyyy"), true));
-        binder.registerCustomEditor(Boolean.class, "epochAndArmsIndicator", new CustomBooleanEditor(false));
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat(
+                        "MM/dd/yyyy"), true));
+        binder.registerCustomEditor(Boolean.class, "epochAndArmsIndicator",
+                        new CustomBooleanEditor(false));
     }
 
     protected Object formBackingObject(HttpServletRequest request) throws ServletException {
@@ -103,11 +102,10 @@ public class AmendStudyController extends StudyController<Study> {
 
     @Override
     protected boolean shouldSave(HttpServletRequest request, Study command, Tab<Study> tab) {
-//    	return true;
         return super.shouldSave(request, command, tab)
-                && (request.getParameter("_action") == null || "".equals(request.getParameter("_action")));
+                        && (request.getParameter("_action") == null || "".equals(request
+                                        .getParameter("_action")));
     }
-
 
     @Override
     protected boolean isSummaryEnabled() {
@@ -115,7 +113,8 @@ public class AmendStudyController extends StudyController<Study> {
     }
 
     @Override
-    protected Object currentFormObject(HttpServletRequest request, Object sessionFormObject) throws Exception {
+    protected Object currentFormObject(HttpServletRequest request, Object sessionFormObject)
+                    throws Exception {
         if (sessionFormObject != null) {
             getDao().reassociate((Study) sessionFormObject);
             getDao().refresh((Study) sessionFormObject);
@@ -124,17 +123,16 @@ public class AmendStudyController extends StudyController<Study> {
     }
 
     @Override
-    protected ModelAndView processFinish(
-            HttpServletRequest request, HttpServletResponse response, Object command, BindException errors
-    ) throws Exception {
+    protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
+                    Object command, BindException errors) throws Exception {
         // Redirect to Search page
         ModelAndView modelAndView = new ModelAndView(new RedirectView("searchStudy"));
         return modelAndView;
     }
 
     @Override
-    protected void postProcessPage(HttpServletRequest request, Object command, Errors errors, int page) throws Exception {
-        // TODO Auto-generated method stub
+    protected void postProcessPage(HttpServletRequest request, Object command, Errors errors,
+                    int page) throws Exception {
         super.postProcessPage(request, command, errors, page);
     }
 

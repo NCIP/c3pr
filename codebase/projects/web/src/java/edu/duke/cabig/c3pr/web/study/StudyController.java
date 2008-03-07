@@ -32,25 +32,32 @@ import edu.duke.cabig.c3pr.utils.web.propertyeditors.NullIdDaoBasedEditor;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.AutomaticSaveAjaxableFormController;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 
-
 /**
  * Base Controller class to handle the basic work flow in the Creation / Updation of a Study Design
  * This uses AbstractTabbedFlowFormController to implement tabbed workflow
- *
+ * 
  * @author Priyatam
  * @author kherm
  */
-public abstract class StudyController<C extends Study> extends AutomaticSaveAjaxableFormController<C, Study, StudyDao> {
+public abstract class StudyController<C extends Study> extends
+                AutomaticSaveAjaxableFormController<C, Study, StudyDao> {
     protected static final Log log = LogFactory.getLog(StudyController.class);
-    //private RowManager rowManager;
+
+    // private RowManager rowManager;
     protected StudyService studyService;
+
     protected StudyDao studyDao;
+
     protected HealthcareSiteDao healthcareSiteDao;
+
     protected HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
+
     protected ResearchStaffDao researchStaffDao;
+
     private DiseaseTermDao diseaseTermDao;
 
     protected StudyValidator studyValidator;
+
     protected static List<HealthcareSite> healthcareSites;
 
     public StudyController(String title) {
@@ -58,9 +65,7 @@ public abstract class StudyController<C extends Study> extends AutomaticSaveAjax
         Flow<C> flow = new Flow<C>(title);
         layoutTabs(flow);
         setFlow(flow);
-        //rowManager = new RowManager();
     }
-    
 
     @Override
     protected Study getPrimaryDomainObject(C command) {
@@ -73,43 +78,47 @@ public abstract class StudyController<C extends Study> extends AutomaticSaveAjax
     }
 
     @Override
-    protected void onBind(HttpServletRequest request, Object command, BindException errors) throws Exception {
-        // TODO Auto-generated method stub
+    protected void onBind(HttpServletRequest request, Object command, BindException errors)
+                    throws Exception {
         super.onBind(request, command, errors);
-//        handleRowDeletion(request, command);
-        //rowManager.handleRowDeletion(request, command);
     }
+
     /**
      * Template method to let the subclass decide the order of tab
      */
     protected abstract void layoutTabs(Flow flow);
 
     @Override
-    protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
+    protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder)
+                    throws Exception {
         super.initBinder(request, binder);
         binder.registerCustomEditor(Date.class, ControllerTools.getDateEditor(false));
-        binder.registerCustomEditor(healthcareSiteDao.domainClass(),
-                new CustomDaoEditor(healthcareSiteDao));
+        binder.registerCustomEditor(healthcareSiteDao.domainClass(), new CustomDaoEditor(
+                        healthcareSiteDao));
         binder.registerCustomEditor(healthcareSiteInvestigatorDao.domainClass(),
-                new NullIdDaoBasedEditor(healthcareSiteInvestigatorDao));
-        binder.registerCustomEditor(researchStaffDao.domainClass(),
-                new NullIdDaoBasedEditor(researchStaffDao));
-        binder.registerCustomEditor(RandomizationType.class, new EnumByNameEditor(RandomizationType.class));
-        binder.registerCustomEditor(CoordinatingCenterStudyStatus.class, new EnumByNameEditor(CoordinatingCenterStudyStatus.class));
-        binder.registerCustomEditor(SiteStudyStatus.class, new EnumByNameEditor(SiteStudyStatus.class));
-        binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class,true));
+                        new NullIdDaoBasedEditor(healthcareSiteInvestigatorDao));
+        binder.registerCustomEditor(researchStaffDao.domainClass(), new NullIdDaoBasedEditor(
+                        researchStaffDao));
+        binder.registerCustomEditor(RandomizationType.class, new EnumByNameEditor(
+                        RandomizationType.class));
+        binder.registerCustomEditor(CoordinatingCenterStudyStatus.class, new EnumByNameEditor(
+                        CoordinatingCenterStudyStatus.class));
+        binder.registerCustomEditor(SiteStudyStatus.class, new EnumByNameEditor(
+                        SiteStudyStatus.class));
+        binder.registerCustomEditor(Integer.class, new CustomNumberEditor(Integer.class, true));
         binder.registerCustomEditor(String.class, "file", new StringMultipartFileEditor());
-        binder.registerCustomEditor(byte[].class, "criteriaFile", new ByteArrayMultipartFileEditor());
+        binder.registerCustomEditor(byte[].class, "criteriaFile",
+                        new ByteArrayMultipartFileEditor());
     }
 
     @Override
     protected String getFormSessionAttributeName(HttpServletRequest httpServletRequest) {
-        return super.getFormSessionAttributeName(httpServletRequest);    //To change body of overridden methods use File | Settings | File Templates.
+        return super.getFormSessionAttributeName(httpServletRequest);
     }
 
     /**
      * Override this in sub controller if summary is needed
-     *
+     * 
      * @return
      */
     protected boolean isSummaryEnabled() {
@@ -119,7 +128,6 @@ public abstract class StudyController<C extends Study> extends AutomaticSaveAjax
     protected Study createDefaultStudyWithDesign() {
         return new Study();
     }
-
 
     public StudyService getStudyService() {
         return studyService;
@@ -149,7 +157,8 @@ public abstract class StudyController<C extends Study> extends AutomaticSaveAjax
         return healthcareSiteInvestigatorDao;
     }
 
-    public void setHealthcareSiteInvestigatorDao(HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao) {
+    public void setHealthcareSiteInvestigatorDao(
+                    HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao) {
         this.healthcareSiteInvestigatorDao = healthcareSiteInvestigatorDao;
     }
 
@@ -176,7 +185,6 @@ public abstract class StudyController<C extends Study> extends AutomaticSaveAjax
     public void setStudyValidator(StudyValidator studyValidator) {
         this.studyValidator = studyValidator;
     }
-
 
     public static List<HealthcareSite> getHealthcareSites() {
         return healthcareSites;

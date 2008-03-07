@@ -12,13 +12,16 @@ import edu.duke.cabig.c3pr.utils.web.spring.ControllerUrlResolver;
  */
 public class Section {
     private List<String> pathMappings = new LinkedList<String>();
+
     private String displayName;
+
     private String mainController;
+
     private List<Task> tasks = new LinkedList<Task>();
 
     private ControllerUrlResolver urlResolver;
 
-    ////// LOGIC
+    // //// LOGIC
 
     public String getMainUrl() {
         return urlResolver.resolve(getMainController()).getUrl(true);
@@ -32,7 +35,7 @@ public class Section {
         pathMappings.add(singleMapping);
     }
 
-    ////// BEAN PROPERTIES
+    // //// BEAN PROPERTIES
 
     public List<String> getPathMappings() {
         return pathMappings;
@@ -73,10 +76,10 @@ public class Section {
         this.urlResolver = urlResolver;
     }
 
-    ////// OBJECT METHODS
+    // //// OBJECT METHODS
 
     public String toString() {
         return new StringBuilder(getClass().getSimpleName()).append('[').append(getDisplayName())
-            .append(']').toString();
+                        .append(']').toString();
     }
 }

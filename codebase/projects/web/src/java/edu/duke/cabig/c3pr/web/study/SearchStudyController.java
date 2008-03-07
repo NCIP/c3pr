@@ -26,20 +26,21 @@ import edu.duke.cabig.c3pr.web.ajax.StudyAjaxFacade;
 public class SearchStudyController extends SimpleFormController {
 
     private static Log log = LogFactory.getLog(SearchStudyController.class);
-    private ConfigurationProperty configurationProperty;
-    private StudyDao studyDao;
-    private StudyAjaxFacade studyAjaxFacade;
 
+    private ConfigurationProperty configurationProperty;
+
+    private StudyDao studyDao;
+
+    private StudyAjaxFacade studyAjaxFacade;
 
     @Override
     protected boolean isFormSubmission(HttpServletRequest request) {
-        // TODO Auto-generated method stub
-        if (request.getParameter("test") != null)
-            return true;
+        if (request.getParameter("test") != null) return true;
         return super.isFormSubmission(request);
     }
 
-    protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response, Object oCommand, BindException errors) throws Exception {
+    protected ModelAndView onSubmit(HttpServletRequest request, HttpServletResponse response,
+                    Object oCommand, BindException errors) throws Exception {
         SearchCommand searchStudyCommand = (SearchCommand) oCommand;
         Study study = new Study(true);
         String type = searchStudyCommand.getSearchType();
@@ -51,20 +52,22 @@ public class SearchStudyController extends SimpleFormController {
             SystemAssignedIdentifier id = new SystemAssignedIdentifier();
             id.setValue(searchtext);
             study.addIdentifier(id);
-        } else if ("shortTitle".equals(type)){
+        }
+        else if ("shortTitle".equals(type)) {
             study.setShortTitleText(searchtext);
-        } 
+        }
 
-        if(WebUtils.hasSubmitParameter(request, "activeOnly")){
-        	if(request.getParameter("activeOnly").toString().equalsIgnoreCase("true")){
-        		study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
-        	}
+        if (WebUtils.hasSubmitParameter(request, "activeOnly")) {
+            if (request.getParameter("activeOnly").toString().equalsIgnoreCase("true")) {
+                study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+            }
         }
         List<Study> studies = null;
-        if ("status".equals(type)){
-        	studies = studyDao.searchByExample(study,searchtext,true);
-        } else{
-        	 studies = studyDao.searchByExample(study,true);
+        if ("status".equals(type)) {
+            studies = studyDao.searchByExample(study, searchtext, true);
+        }
+        else {
+            studies = studyDao.searchByExample(study, true);
         }
         log.debug("Search results size " + studies.size());
         Map<String, List<Lov>> configMap = configurationProperty.getMap();
@@ -74,8 +77,8 @@ public class SearchStudyController extends SimpleFormController {
         map.put("searchTypeRefData", configMap.get("studySearchType"));
         Object viewData = studyAjaxFacade.getTableForExport(map, request);
         request.setAttribute("studies", viewData);
-        if(WebUtils.hasSubmitParameter(request, "async")){
-        	return new ModelAndView("/registration/studyResultsAsync",map);
+        if (WebUtils.hasSubmitParameter(request, "async")) {
+            return new ModelAndView("/registration/studyResultsAsync", map);
         }
         ModelAndView modelAndView = new ModelAndView(getSuccessView(), map);
         return modelAndView;

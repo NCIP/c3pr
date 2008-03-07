@@ -18,37 +18,32 @@ public class RowManager {
             String param = (String) enumeration.nextElement();
             if (param.startsWith("_deletedRow-")) {
                 String[] params = param.split("-");
-                if (table.get(params[1]) == null)
-                    table.put(params[1], new ArrayList<Integer>());
+                if (table.get(params[1]) == null) table.put(params[1], new ArrayList<Integer>());
                 table.get(params[1]).add(new Integer(params[2]));
             }
         }
         deleteRows(command, table);
     }
 
-    private void deleteRows(Object command, Hashtable<String, List<Integer>> table) throws Exception {
+    private void deleteRows(Object command, Hashtable<String, List<Integer>> table)
+                    throws Exception {
         Enumeration<String> e = table.keys();
         while (e.hasMoreElements()) {
             String path = e.nextElement();
             List col;
-			try {
-				col = (List) new DefaultObjectPropertyReader(command, path).getPropertyValueFromPath();
-			} catch (Exception e1) {
-				e1.printStackTrace();
-				continue;
-			}
-			
+            try {
+                col = (List) new DefaultObjectPropertyReader(command, path)
+                                .getPropertyValueFromPath();
+            }
+            catch (Exception e1) {
+                e1.printStackTrace();
+                continue;
+            }
+
             List<Integer> rowNums = table.get(path);
             Collections.sort(rowNums);
-            for(int i=rowNums.size()-1 ; i>=0 ; i--)
-            	col.remove(rowNums.get(i).intValue());
-/*            List temp = new ArrayList();
-            for (int i = 0; i < col.size(); i++) {
-                if (!rowNums.contains(new Integer(i)))
-                    temp.add(col.get(i));
-            }
-            col.removeAll(col);
-            col.addAll(temp);
-*/        }
+            for (int i = rowNums.size() - 1; i >= 0; i--)
+                col.remove(rowNums.get(i).intValue());
+        }
     }
 }

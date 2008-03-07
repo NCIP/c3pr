@@ -11,7 +11,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.BindException;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
@@ -35,133 +34,130 @@ import gov.nih.nci.cabig.ctms.web.tabs.Tab;
  * 
  */
 public class ViewParticipantController<C extends Participant> extends
-		AutomaticSaveFlowFormController<C, Participant, ParticipantDao> {
+                AutomaticSaveFlowFormController<C, Participant, ParticipantDao> {
 
-	private static Log log = LogFactory.getLog(ViewParticipantController.class);
+    private static Log log = LogFactory.getLog(ViewParticipantController.class);
 
-	private ParticipantDao participantDao;
+    private ParticipantDao participantDao;
 
-	private HealthcareSiteDao healthcareSiteDao;
+    private HealthcareSiteDao healthcareSiteDao;
 
-	protected ConfigurationProperty configurationProperty;
+    protected ConfigurationProperty configurationProperty;
 
-	public ViewParticipantController() {
-		setCommandClass(Participant.class);
-		Flow<C> flow = new Flow<C>("View Subject");
-		layoutTabs(flow);
-		setFlow(flow);
-		setBindOnNewForm(true);
-	}
+    public ViewParticipantController() {
+        setCommandClass(Participant.class);
+        Flow<C> flow = new Flow<C>("View Subject");
+        layoutTabs(flow);
+        setFlow(flow);
+        setBindOnNewForm(true);
+    }
 
-	protected void layoutTabs(Flow flow) {
-		flow.addTab(new ParticipantSummaryTab());
-		flow.addTab(new ParticipantRegistrationsTab());
-	}
+    protected void layoutTabs(Flow flow) {
+        flow.addTab(new ParticipantSummaryTab());
+        flow.addTab(new ParticipantRegistrationsTab());
+    }
 
-	@Override
-	protected ParticipantDao getDao() {
-		return participantDao;
-	}
+    @Override
+    protected ParticipantDao getDao() {
+        return participantDao;
+    }
 
-	@Override
-	protected Participant getPrimaryDomainObject(C command) {
-		return command;
-	}
+    @Override
+    protected Participant getPrimaryDomainObject(C command) {
+        return command;
+    }
 
-	protected boolean shouldSave(HttpServletRequest request,
-			Participant command, Tab<Participant> tab) {
-		return false;
+    protected boolean shouldSave(HttpServletRequest request, Participant command,
+                    Tab<Participant> tab) {
+        return false;
 
-	}
+    }
 
-	/**
-	 * Override this in sub controller if summary is needed
-	 * 
-	 * @return
-	 */
-	protected boolean isSummaryEnabled() {
-		return false;
-	}
+    /**
+     * Override this in sub controller if summary is needed
+     * 
+     * @return
+     */
+    protected boolean isSummaryEnabled() {
+        return false;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
-	 */
-	@Override
-	protected Object formBackingObject(HttpServletRequest request)
-			throws Exception {
-		Participant participant = null;
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.springframework.web.servlet.mvc.AbstractFormController#formBackingObject(javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    protected Object formBackingObject(HttpServletRequest request) throws Exception {
+        Participant participant = null;
 
-		if (request.getParameter("participantId") != null) {
-			participant = participantDao.getById(Integer.parseInt(request
-					.getParameter("participantId")), true);
-			log.debug(" Participant's ID is:" + participant.getId());
-		}
+        if (request.getParameter("participantId") != null) {
+            participant = participantDao.getById(Integer.parseInt(request
+                            .getParameter("participantId")), true);
+            log.debug(" Participant's ID is:" + participant.getId());
+        }
 
-		return participant;
-	}
+        return participant;
+    }
 
-	protected void initBinder(HttpServletRequest req,
-			ServletRequestDataBinder binder) throws Exception {
-		super.initBinder(req, binder);
-		binder.registerCustomEditor(Date.class, new CustomDateEditor(
-				new SimpleDateFormat("MM/dd/yyyy"), true));
-		binder.registerCustomEditor(HealthcareSite.class, new CustomDaoEditor(
-				healthcareSiteDao));
-		binder.registerCustomEditor(ContactMechanismType.class,
-				new EnumByNameEditor(ContactMechanismType.class));
-	}
+    protected void initBinder(HttpServletRequest req, ServletRequestDataBinder binder)
+                    throws Exception {
+        super.initBinder(req, binder);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat(
+                        "MM/dd/yyyy"), true));
+        binder.registerCustomEditor(HealthcareSite.class, new CustomDaoEditor(healthcareSiteDao));
+        binder.registerCustomEditor(ContactMechanismType.class, new EnumByNameEditor(
+                        ContactMechanismType.class));
+    }
 
-	@Override
-	protected Object currentFormObject(HttpServletRequest request,
-			Object sessionFormObject) throws Exception {
-		if (sessionFormObject != null) {
-			Participant participant = (Participant) sessionFormObject;
-			getDao().reassociate((Participant) sessionFormObject);
-		}
+    @Override
+    protected Object currentFormObject(HttpServletRequest request, Object sessionFormObject)
+                    throws Exception {
+        if (sessionFormObject != null) {
+            Participant participant = (Participant) sessionFormObject;
+            getDao().reassociate((Participant) sessionFormObject);
+        }
 
-		return sessionFormObject;
-	}
-	
-	@Override
-	protected Map referenceData(HttpServletRequest request, int page) throws Exception {
-		request.setAttribute("flowType", "VIEW_SUBJECT");
-		return super.referenceData(request, page);
-	}
+        return sessionFormObject;
+    }
 
-	@Override
-	protected ModelAndView processFinish(HttpServletRequest request,
-			HttpServletResponse response, Object oCommand, BindException errors)
-			throws Exception {
-		Participant participant = (Participant) oCommand;
-		ModelAndView modelAndView = new ModelAndView(new RedirectView("editParticipant?participantId=" + participant.getId()));
-		return modelAndView;
-	}
+    @Override
+    protected Map referenceData(HttpServletRequest request, int page) throws Exception {
+        request.setAttribute("flowType", "VIEW_SUBJECT");
+        return super.referenceData(request, page);
+    }
 
-	public HealthcareSiteDao getHealthcareSiteDao() {
-		return healthcareSiteDao;
-	}
+    @Override
+    protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
+                    Object oCommand, BindException errors) throws Exception {
+        Participant participant = (Participant) oCommand;
+        ModelAndView modelAndView = new ModelAndView(new RedirectView(
+                        "editParticipant?participantId=" + participant.getId()));
+        return modelAndView;
+    }
 
-	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
-		this.healthcareSiteDao = healthcareSiteDao;
-	}
+    public HealthcareSiteDao getHealthcareSiteDao() {
+        return healthcareSiteDao;
+    }
 
-	public ParticipantDao getParticipantDao() {
-		return participantDao;
-	}
+    public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
+        this.healthcareSiteDao = healthcareSiteDao;
+    }
 
-	public void setParticipantDao(ParticipantDao participantDao) {
-		this.participantDao = participantDao;
-	}
+    public ParticipantDao getParticipantDao() {
+        return participantDao;
+    }
 
-	public ConfigurationProperty getConfigurationProperty() {
-		return configurationProperty;
-	}
+    public void setParticipantDao(ParticipantDao participantDao) {
+        this.participantDao = participantDao;
+    }
 
-	public void setConfigurationProperty(
-			ConfigurationProperty configurationProperty) {
-		this.configurationProperty = configurationProperty;
-	}
+    public ConfigurationProperty getConfigurationProperty() {
+        return configurationProperty;
+    }
+
+    public void setConfigurationProperty(ConfigurationProperty configurationProperty) {
+        this.configurationProperty = configurationProperty;
+    }
 
 }
