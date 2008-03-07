@@ -7,7 +7,6 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
-import org.hibernate.LockMode;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
@@ -20,14 +19,13 @@ import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.emory.mathcs.backport.java.util.Collections;
-import edu.nwu.bioinformatics.commons.CollectionUtils;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 
 /**
  * @author Priyatam, kulasekaran
  */
+@Transactional(readOnly = true)
 public class ParticipantDao extends GridIdentifiableDao<Participant> implements MutableDomainObjectDao<Participant>{
 
 	private List<String> SUBSTRING_MATCH_PROPERTIES = Arrays.asList("lastName");
@@ -134,6 +132,7 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements 
 	 * @return
 	 * @throws DataAccessException
 	 */
+	@Transactional(readOnly = false)
 	public List<OrganizationAssignedIdentifier> getSubjectIdentifiersWithMRN(String MRN,  HealthcareSite site) throws DataAccessException {
 		List<OrganizationAssignedIdentifier> orgAssignedIdentifiers = (List<OrganizationAssignedIdentifier>) getHibernateTemplate().
                 find("from Identifier I where I.type='MRN' and I.healthcareSite = ?",site);
@@ -199,12 +198,19 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements 
 		return findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES,
 				EXACT_MATCH_PROPERTIES);
 	}
+	
+	@Transactional (readOnly = false)
 	public void reassociate(Participant p) {
-        getHibernateTemplate().lock(p,LockMode.NONE);
+		getHibernateTemplate().update(p);
+      //  getHibernateTemplate().lock(p,LockMode.NONE);
      }
 
+	@Transactional (readOnly = false)
 	public void save(Participant obj) {
 		getHibernateTemplate().saveOrUpdate(obj);
 	}
-	
+	@Transactional (readOnly = false)
+    public Participant merge(Participant participant) {
+        return (Participant)getHibernateTemplate().merge(participant);
+    }
 }
