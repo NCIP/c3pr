@@ -1,7 +1,8 @@
 package edu.duke.cabig.c3pr.esb.impl;
 
-import edu.duke.cabig.c3pr.esb.DelegatedCredential;
 import org.globus.gsi.GlobusCredential;
+
+import edu.duke.cabig.c3pr.esb.DelegatedCredential;
 
 /**
  * Created by IntelliJ IDEA.

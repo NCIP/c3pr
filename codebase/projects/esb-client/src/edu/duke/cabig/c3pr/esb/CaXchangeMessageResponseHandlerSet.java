@@ -1,8 +1,8 @@
 package edu.duke.cabig.c3pr.esb;
 
-import gov.nih.nci.caxchange.Response;
-
 import java.util.HashSet;
+
+import gov.nih.nci.caxchange.Response;
 
 /**
  * Created by IntelliJ IDEA.

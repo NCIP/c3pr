@@ -1,23 +1,33 @@
 package edu.duke.cabig.c3pr.esb.impl;
 
+import org.apache.log4j.Logger;
+
+import java.util.Vector;
+
+import javax.jms.ConnectionFactory;
+import javax.jms.Destination;
+
 import edu.duke.cabig.c3pr.esb.BroadcastException;
 import edu.duke.cabig.c3pr.esb.JmsService;
 import edu.duke.cabig.c3pr.esb.MessageBroadcastService;
 import edu.duke.cabig.c3pr.esb.MessageResponseRetreiverService;
 
-import javax.jms.ConnectionFactory;
-import javax.jms.Destination;
-import java.util.Vector;
-
 
 public class MessageBroadcastServiceImpl extends JmsService implements MessageBroadcastService, MessageResponseRetreiverService {
+    /**
+     * Logger for this class
+     */
+    private static final Logger logger = Logger.getLogger(MessageBroadcastServiceImpl.class);
 
     public void broadcast(String message) throws BroadcastException {
-        // TODO Auto-generated method stub
         if (!isProvider()) {
-            System.out.println("no send queue provided ");
+            if (logger.isDebugEnabled()) {
+                logger.debug("broadcast(String) - no send queue provided ");
+            }
         } else {
-            System.out.println("calling sendJms method...");
+            if (logger.isDebugEnabled()) {
+                logger.debug("broadcast(String) - calling sendJms method...");
+            }
             sendJms(message);
         }
     }
@@ -28,9 +38,10 @@ public class MessageBroadcastServiceImpl extends JmsService implements MessageBr
     }
 
     public Vector getBroadcastStatus() {
-        // TODO Auto-generated method stub
         if (!isConsumer()) {
-            System.out.println("no recieve queue provided ");
+            if (logger.isDebugEnabled()) {
+                logger.debug("getBroadcastStatus() - no recieve queue provided ");
+            }
         }
         return messages;
     }

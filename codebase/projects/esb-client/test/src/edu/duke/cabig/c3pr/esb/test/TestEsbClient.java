@@ -1,14 +1,15 @@
 package edu.duke.cabig.c3pr.esb.test;
 
-import edu.duke.cabig.c3pr.esb.BroadcastException;
-import edu.duke.cabig.c3pr.esb.impl.MessageBroadcastServiceImpl;
-import org.apache.activemq.ActiveMQConnectionFactory;
-import org.apache.activemq.command.ActiveMQQueue;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.Vector;
+
+import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.activemq.command.ActiveMQQueue;
+
+import edu.duke.cabig.c3pr.esb.BroadcastException;
+import edu.duke.cabig.c3pr.esb.impl.MessageBroadcastServiceImpl;
 
 public class TestEsbClient {
     //	public static String brokerUrl="tcp://10.10.10.2:61616";
@@ -66,16 +67,12 @@ public class TestEsbClient {
 
 
             } catch (BroadcastException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
             } catch (Exception e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             } finally {
                 try {
                     esbClient.close();
                 } catch (BroadcastException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }

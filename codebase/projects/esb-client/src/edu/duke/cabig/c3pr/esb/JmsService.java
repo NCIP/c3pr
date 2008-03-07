@@ -1,7 +1,17 @@
 package edu.duke.cabig.c3pr.esb;
 
-import javax.jms.*;
 import java.util.Vector;
+
+import javax.jms.Connection;
+import javax.jms.ConnectionFactory;
+import javax.jms.Destination;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.MessageConsumer;
+import javax.jms.MessageListener;
+import javax.jms.MessageProducer;
+import javax.jms.Session;
+import javax.jms.TextMessage;
 
 
 public class JmsService implements MessageListener {
@@ -37,13 +47,11 @@ public class JmsService implements MessageListener {
         try {
             connection.close();
         } catch (JMSException e) {
-            // TODO Auto-generated catch block
             throw new BroadcastException(e.getMessage(), e);
         }
     }
 
     public void onMessage(Message msg) {
-        // TODO Auto-generated method stub
         System.out.println("jms recieved..");
         TextMessage message = null;
         if (msg instanceof TextMessage) {
@@ -53,7 +61,6 @@ public class JmsService implements MessageListener {
                 System.out.println(message.getText());
                 messages.add(message.getText());
             } catch (JMSException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         } else {
