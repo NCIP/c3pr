@@ -17,6 +17,7 @@ import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Where;
 
 import edu.duke.cabig.c3pr.utils.DateUtil;
 import edu.duke.cabig.c3pr.utils.ProjectedList;
@@ -62,6 +63,7 @@ public class Participant extends Person implements Comparable<Participant> {
 	@OneToMany(fetch = FetchType.LAZY)
 	@Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
 	@JoinColumn(name = "PRT_ID")
+	@Where(clause = "retired_indicator  = 'false'")
 	@OrderBy
 	public List<Identifier> getIdentifiers() {
 		return identifiers;
