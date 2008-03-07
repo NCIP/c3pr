@@ -9,8 +9,8 @@ import edu.duke.cabig.c3pr.utils.Lov;
 public class ParticipantAddressAndContactInfoTab extends ParticipantTab {
 	
 		public ParticipantAddressAndContactInfoTab() {
-			super("Address & Contact Info",
-					"Address & Contact Info", "participant/participant_address");
+			super("Address & Contact Information",
+					"Address & Contact Information", "participant/participant_address");
 		}
 
 		public Map<String, Object> referenceData() {
