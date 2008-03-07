@@ -107,35 +107,6 @@ public class EditParticipantController<C extends Participant> extends
 			log.debug(" Participant's ID is:" + participant.getId());
 		}
 
-		boolean contactMechanismEmailPresent = false, contactMechanismPhonePresent = false, contactMechanismFaxPresent = false;
-		for (ContactMechanism contactMechanism : participant
-				.getContactMechanisms()) {
-			if (contactMechanism.getType().equals(ContactMechanismType.EMAIL))
-				contactMechanismEmailPresent = true;
-
-			if (contactMechanism.getType().equals(ContactMechanismType.PHONE))
-				contactMechanismPhonePresent = true;
-
-			if (contactMechanism.getType().equals(ContactMechanismType.Fax))
-				contactMechanismFaxPresent = true;
-
-		}
-		if (!contactMechanismEmailPresent) {
-			ContactMechanism contactMechanismEmail = new ContactMechanism();
-			contactMechanismEmail.setType(ContactMechanismType.EMAIL);
-			participant.getContactMechanisms().add(0, contactMechanismEmail);
-		}
-		if (!contactMechanismPhonePresent) {
-			ContactMechanism contactMechanismPhone = new ContactMechanism();
-			contactMechanismPhone.setType(ContactMechanismType.PHONE);
-			participant.getContactMechanisms().add(1, contactMechanismPhone);
-		}
-		if (!contactMechanismFaxPresent) {
-			ContactMechanism contactMechanismFax = new ContactMechanism();
-			contactMechanismFax.setType(ContactMechanismType.Fax);
-			participant.getContactMechanisms().add(2, contactMechanismFax);
-		}
-
 		return participant;
 	}
 
@@ -167,15 +138,6 @@ public class EditParticipantController<C extends Participant> extends
 			HttpServletResponse response, Object oCommand, BindException errors)
 			throws Exception {
 		Participant participant = (Participant) oCommand;
-		Iterator<ContactMechanism> cMIterator = participant
-				.getContactMechanisms().iterator();
-		StringUtils strUtil = new StringUtils();
-		while (cMIterator.hasNext()) {
-			ContactMechanism contactMechanism = cMIterator.next();
-			if (strUtil.isBlank(contactMechanism.getValue()))
-				cMIterator.remove();
-		}
-
 		participantDao.save(participant);
 		ModelAndView modelAndView = new ModelAndView(new RedirectView(
 				"searchparticipant.do"));
