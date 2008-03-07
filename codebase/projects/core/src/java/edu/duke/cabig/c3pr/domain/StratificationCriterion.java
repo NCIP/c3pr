@@ -1,9 +1,5 @@
 package edu.duke.cabig.c3pr.domain;
 
-import edu.duke.cabig.c3pr.utils.StringUtils;
-import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
-import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
-
 import java.util.Iterator;
 import java.util.List;
 
@@ -21,162 +17,138 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Where;
 
+import edu.duke.cabig.c3pr.utils.StringUtils;
+import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
+
 /**
  * @author Priyatam
  */
 @Entity
-@Table (name = "strat_criteria")
-@GenericGenerator(name="id-generator", strategy = "native",
-    parameters = {
-        @Parameter(name="sequence", value="strat_criteria_ID_SEQ")
-    }
-)
-public class StratificationCriterion extends AbstractMutableDeletableDomainObject implements Comparable<StratificationCriterion> {
+@Table(name = "strat_criteria")
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "strat_criteria_ID_SEQ") })
+public class StratificationCriterion extends AbstractMutableDeletableDomainObject implements
+                Comparable<StratificationCriterion> {
 
-	private LazyListHelper lazyListHelper;
-	private Integer questionNumber=new Integer(0);
+    private LazyListHelper lazyListHelper;
+
+    private Integer questionNumber = new Integer(0);
+
     private String questionText;
-       
+
     public StratificationCriterion() {
-    	lazyListHelper=new LazyListHelper();
-    	this.questionNumber=new Integer(0);
-    	lazyListHelper.add(StratificationCriterionPermissibleAnswer.class,new InstantiateFactory<StratificationCriterionPermissibleAnswer>(
-    			StratificationCriterionPermissibleAnswer.class));
-	}
-    /// LOGIC
+        lazyListHelper = new LazyListHelper();
+        this.questionNumber = new Integer(0);
+        lazyListHelper.add(StratificationCriterionPermissibleAnswer.class,
+                        new InstantiateFactory<StratificationCriterionPermissibleAnswer>(
+                                        StratificationCriterionPermissibleAnswer.class));
+    }
+
+    // / LOGIC
 
     @Override
-	@Transient
-	public void setRetiredIndicatorAsTrue(){
-		super.setRetiredIndicatorAsTrue();
-		List<StratificationCriterionPermissibleAnswer> scpaList = this.getPermissibleAnswers();
-		StratificationCriterionPermissibleAnswer scpa;
-		Iterator scpaIter = scpaList.iterator();
-		while(scpaIter.hasNext()){
-			scpa = (StratificationCriterionPermissibleAnswer)scpaIter.next();
-			scpa.setRetiredIndicatorAsTrue();
-		}
-	}
-    
-	public void addPermissibleAnswer(StratificationCriterionPermissibleAnswer answer){
-		getPermissibleAnswers().add(answer);
-//		answer.setStratificationCriterion(this);
-	}
-	
-	public void removePermissibleAnswer(StratificationCriterionPermissibleAnswer answer){
-		getPermissibleAnswers().remove(answer);
-	}
-	
+    @Transient
+    public void setRetiredIndicatorAsTrue() {
+        super.setRetiredIndicatorAsTrue();
+        List<StratificationCriterionPermissibleAnswer> scpaList = this.getPermissibleAnswers();
+        StratificationCriterionPermissibleAnswer scpa;
+        Iterator scpaIter = scpaList.iterator();
+        while (scpaIter.hasNext()) {
+            scpa = (StratificationCriterionPermissibleAnswer) scpaIter.next();
+            scpa.setRetiredIndicatorAsTrue();
+        }
+    }
 
-	@Transient
-	public String getTrimmedQuestionText() {		
-		return StringUtils.getTrimmedText(questionText, 40);
-	}
-    
-    /// BEAN PROPERTIES
-	public int compareTo(StratificationCriterion o) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+    public void addPermissibleAnswer(StratificationCriterionPermissibleAnswer answer) {
+        getPermissibleAnswers().add(answer);
+        // answer.setStratificationCriterion(this);
+    }
 
-	public Integer getQuestionNumber() {
-		return questionNumber;
-	}
+    public void removePermissibleAnswer(StratificationCriterionPermissibleAnswer answer) {
+        getPermissibleAnswers().remove(answer);
+    }
 
-	public void setQuestionNumber(Integer questionNumber) {
-		this.questionNumber = questionNumber;
-	}
+    @Transient
+    public String getTrimmedQuestionText() {
+        return StringUtils.getTrimmedText(questionText, 40);
+    }
 
-	public String getQuestionText() {
-		return questionText;
-	}
+    // / BEAN PROPERTIES
+    public int compareTo(StratificationCriterion o) {
+        return 0;
+    }
 
-	public void setQuestionText(String questionText) {
-		this.questionText = questionText;
-	}
+    public Integer getQuestionNumber() {
+        return questionNumber;
+    }
 
-	@OneToMany (fetch=FetchType.LAZY)
-	@JoinColumn(name="str_cri_id", nullable=false)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+    public void setQuestionNumber(Integer questionNumber) {
+        this.questionNumber = questionNumber;
+    }
+
+    public String getQuestionText() {
+        return questionText;
+    }
+
+    public void setQuestionText(String questionText) {
+        this.questionText = questionText;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "str_cri_id", nullable = false)
+    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     @Where(clause = "retired_indicator = 'false'")
-	public List<StratificationCriterionPermissibleAnswer> getPermissibleAnswersInternal() {
-		return lazyListHelper.getInternalList(StratificationCriterionPermissibleAnswer.class);
-	}
+    public List<StratificationCriterionPermissibleAnswer> getPermissibleAnswersInternal() {
+        return lazyListHelper.getInternalList(StratificationCriterionPermissibleAnswer.class);
+    }
 
-	public void setPermissibleAnswers(
-			List<StratificationCriterionPermissibleAnswer> permissibleAnswers) {
-		lazyListHelper.setInternalList(StratificationCriterionPermissibleAnswer.class, permissibleAnswers);
-	}
+    public void setPermissibleAnswers(
+                    List<StratificationCriterionPermissibleAnswer> permissibleAnswers) {
+        lazyListHelper.setInternalList(StratificationCriterionPermissibleAnswer.class,
+                        permissibleAnswers);
+    }
 
-	@Transient
-	public List<StratificationCriterionPermissibleAnswer> getPermissibleAnswers() {
-		return lazyListHelper.getLazyList(StratificationCriterionPermissibleAnswer.class);
-	}
+    @Transient
+    public List<StratificationCriterionPermissibleAnswer> getPermissibleAnswers() {
+        return lazyListHelper.getLazyList(StratificationCriterionPermissibleAnswer.class);
+    }
 
-	public void setPermissibleAnswersInternal(
-			List<StratificationCriterionPermissibleAnswer> permissibleAnswers) {
-		lazyListHelper.setInternalList(StratificationCriterionPermissibleAnswer.class, permissibleAnswers);
-	}
-	
-/*	@OneToMany (fetch=FetchType.LAZY)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})	
-    @JoinColumn(name = "sc_id")
-	public List<StratificationCriterionAnswerCombination> getStratificationCriterionAnswerCombinationInternal() {
-		return lazyListHelper.getInternalList(StratificationCriterionAnswerCombination.class);
-	}
+    public void setPermissibleAnswersInternal(
+                    List<StratificationCriterionPermissibleAnswer> permissibleAnswers) {
+        lazyListHelper.setInternalList(StratificationCriterionPermissibleAnswer.class,
+                        permissibleAnswers);
+    }
 
-	public void setStratificationCriterionAnswerCombinationInternal(
-			List<StratificationCriterionAnswerCombination> combinationAnswers) {
-		lazyListHelper.setInternalList(StratificationCriterionAnswerCombination.class, combinationAnswers);
-	}
-	
-	@Transient
-	public List<StratificationCriterionAnswerCombination> getStratificationCriterionAnswerCombination() {
-		return lazyListHelper.getLazyList(StratificationCriterionAnswerCombination.class);
-	}
+    @Override
+    public int hashCode() {
+        final int PRIME = 31;
+        int result = super.hashCode();
+        for (StratificationCriterionPermissibleAnswer scpa : getPermissibleAnswers()) {
+            result = PRIME * result + ((scpa == null) ? 0 : scpa.getPermissibleAnswer().hashCode());
+        }
+        result = PRIME * result + ((questionNumber == null) ? 0 : questionNumber.hashCode());
+        result = PRIME * result + ((questionText == null) ? 0 : questionText.hashCode());
+        return result;
+    }
 
-	public void setStratificationCriterionAnswerCombination(
-			List<StratificationCriterionAnswerCombination> combinationAnswers) {
-		
-	}*/
-
-	@Override
-	public int hashCode() {
-		final int PRIME = 31;
-		int result = super.hashCode();
-		for(StratificationCriterionPermissibleAnswer scpa: getPermissibleAnswers()){
-			result = PRIME * result + ((scpa == null) ? 0 : scpa.getPermissibleAnswer().hashCode());
-		}		
-		result = PRIME * result + ((questionNumber == null) ? 0 : questionNumber.hashCode());
-		result = PRIME * result + ((questionText == null) ? 0 : questionText.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		final StratificationCriterion other = (StratificationCriterion) obj;
-		if (getPermissibleAnswers() == null) {
-			if (other.getPermissibleAnswers() != null)
-				return false;
-		} else if (!getPermissibleAnswers().equals(other.getPermissibleAnswers()))
-			return false;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!super.equals(obj)) return false;
+        if (getClass() != obj.getClass()) return false;
+        final StratificationCriterion other = (StratificationCriterion) obj;
+        if (getPermissibleAnswers() == null) {
+            if (other.getPermissibleAnswers() != null) return false;
+        }
+        else if (!getPermissibleAnswers().equals(other.getPermissibleAnswers())) return false;
         if (questionNumber == null) {
-            if (other.questionText != null)
-				return false;
-       } else if (!questionNumber.equals(other.questionNumber))
-        	return false;
-		if (questionText == null) {
-			if (other.questionText != null)
-				return false;
-		} else if (!questionText.equals(other.questionText))
-			return false;
-		return true;
-	}
-		
+            if (other.questionText != null) return false;
+        }
+        else if (!questionNumber.equals(other.questionNumber)) return false;
+        if (questionText == null) {
+            if (other.questionText != null) return false;
+        }
+        else if (!questionText.equals(other.questionText)) return false;
+        return true;
+    }
+
 }

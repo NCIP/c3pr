@@ -1,9 +1,6 @@
 package edu.duke.cabig.c3pr.domain;
 
-import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
-
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -16,27 +13,26 @@ import org.hibernate.annotations.Parameter;
  * @author Ram Chilukuri, Priyatam
  */
 @Entity
-@Table (name = "arms")
-@GenericGenerator(name="id-generator", strategy = "native",
-        parameters = {
-        @Parameter(name="sequence", value="ARMS_ID_SEQ")
-                }
-)
+@Table(name = "arms")
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "ARMS_ID_SEQ") })
 public class Arm extends AbstractMutableDeletableDomainObject implements Comparable<Arm> {
 
     private TreatmentEpoch treatmentEpoch;
+
     private String name;
+
     private String descriptionText;
+
     private Integer targetAccrualNumber;
 
-    /// LOGIC
+    // / LOGIC
 
     @Override
     @Transient
-    public void setRetiredIndicatorAsTrue(){
-    	super.setRetiredIndicatorAsTrue();  
+    public void setRetiredIndicatorAsTrue() {
+        super.setRetiredIndicatorAsTrue();
     }
-    
+
     @Transient
     public String getQualifiedName() {
         StringBuilder sb = new StringBuilder();
@@ -47,8 +43,7 @@ public class Arm extends AbstractMutableDeletableDomainObject implements Compara
         return sb.toString();
     }
 
-    /// BEAN PROPERTIES
-
+    // / BEAN PROPERTIES
 
     public String getName() {
         return name;
@@ -57,7 +52,6 @@ public class Arm extends AbstractMutableDeletableDomainObject implements Compara
     public void setName(String name) {
         this.name = name;
     }
-
 
     public String getDescriptionText() {
         return descriptionText;
@@ -70,7 +64,7 @@ public class Arm extends AbstractMutableDeletableDomainObject implements Compara
     // This is annotated this way so that the IndexColumn in the parent
     // will work with the bidirectional mapping
     @ManyToOne
-    @JoinColumn(name="eph_id")
+    @JoinColumn(name = "eph_id")
     public TreatmentEpoch getTreatmentEpoch() {
         return treatmentEpoch;
     }
@@ -78,7 +72,6 @@ public class Arm extends AbstractMutableDeletableDomainObject implements Compara
     public void setTreatmentEpoch(TreatmentEpoch epoch) {
         this.treatmentEpoch = epoch;
     }
-
 
     public void setTargetAccrualNumber(Integer targetAccrualNumber) {
         this.targetAccrualNumber = targetAccrualNumber;
@@ -89,8 +82,8 @@ public class Arm extends AbstractMutableDeletableDomainObject implements Compara
     }
 
     public int compareTo(Arm o) {
-    	if (this.equals(o)) return 0;
-		else return 1;
+        if (this.equals(o)) return 0;
+        else return 1;
     }
 
     @Override
@@ -104,16 +97,13 @@ public class Arm extends AbstractMutableDeletableDomainObject implements Compara
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-       if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (getClass() != obj.getClass()) return false;
         final Arm other = (Arm) obj;
         if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equalsIgnoreCase(other.name))
-            return false;
+            if (other.name != null) return false;
+        }
+        else if (!name.equalsIgnoreCase(other.name)) return false;
         return true;
     }
 }

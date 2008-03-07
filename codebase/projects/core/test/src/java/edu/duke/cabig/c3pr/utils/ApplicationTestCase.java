@@ -21,10 +21,12 @@ import edu.nwu.bioinformatics.commons.testing.CoreTestCase;
 
 /**
  * Base TestCase for the entire Application
+ * 
  * @author Priyatam
  */
 public abstract class ApplicationTestCase extends CoreTestCase {
     private static ApplicationContext applicationContext = null;
+
     protected Set<Object> mocks = new HashSet<Object>();
 
     public static ApplicationContext getDeployedCoreApplicationContext() {
@@ -35,7 +37,7 @@ public abstract class ApplicationTestCase extends CoreTestCase {
             return applicationContext;
         }
     }
-    
+
     public static ApplicationContext getDeployedApplicationContext() {
         synchronized (ApplicationTestCase.class) {
             if (applicationContext == null) {
@@ -45,7 +47,7 @@ public abstract class ApplicationTestCase extends CoreTestCase {
         }
     }
 
-    ////// MOCK REGISTRATION AND HANDLING
+    // //// MOCK REGISTRATION AND HANDLING
     protected <T> T registerMockFor(Class<T> forClass) {
         return registered(EasyMock.createMock(forClass));
     }
@@ -54,7 +56,7 @@ public abstract class ApplicationTestCase extends CoreTestCase {
         return registered(EasyMock.createMock(forClass, methodsToMock));
     }
 
-   protected <T extends C3PRBaseDao> T registerDaoMockFor(Class<T> forClass) {
+    protected <T extends C3PRBaseDao> T registerDaoMockFor(Class<T> forClass) {
         List<Method> methods = new LinkedList<Method>(Arrays.asList(forClass.getMethods()));
         for (Iterator<Method> iterator = methods.iterator(); iterator.hasNext();) {
             Method method = iterator.next();
@@ -63,18 +65,21 @@ public abstract class ApplicationTestCase extends CoreTestCase {
             }
         }
         return registerMockFor(forClass, methods.toArray(new Method[methods.size()]));
-    } 
+    }
 
     protected void replayMocks() {
-        for (Object mock : mocks) EasyMock.replay(mock);
+        for (Object mock : mocks)
+            EasyMock.replay(mock);
     }
 
     protected void verifyMocks() {
-        for (Object mock : mocks) EasyMock.verify(mock);
+        for (Object mock : mocks)
+            EasyMock.verify(mock);
     }
 
     protected void resetMocks() {
-        for (Object mock : mocks) EasyMock.reset(mock);
+        for (Object mock : mocks)
+            EasyMock.reset(mock);
     }
 
     private <T> T registered(T mock) {
@@ -92,17 +97,21 @@ public abstract class ApplicationTestCase extends CoreTestCase {
      */
     private static class PropertyMatcher<T> implements IArgumentMatcher {
         private T template;
+
         private Map<String, Object> templateProperties;
 
         public PropertyMatcher(T template) {
             this.template = template;
             try {
                 templateProperties = PropertyUtils.describe(template);
-            } catch (IllegalAccessException e) {
+            }
+            catch (IllegalAccessException e) {
                 throw new RuntimeException(e);
-            } catch (InvocationTargetException e) {
+            }
+            catch (InvocationTargetException e) {
                 throw new RuntimeException(e);
-            } catch (NoSuchMethodException e) {
+            }
+            catch (NoSuchMethodException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -115,14 +124,18 @@ public abstract class ApplicationTestCase extends CoreTestCase {
                     Object templProp = entry.getValue();
                     if (!ComparisonUtils.nullSafeEquals(templProp, argProp)) {
                         throw new AssertionError("Argument's " + entry.getKey()
-                            + " property doesn't match template's: " + templProp + " != " + argProp);
+                                        + " property doesn't match template's: " + templProp
+                                        + " != " + argProp);
                     }
                 }
-            } catch (IllegalAccessException e) {
+            }
+            catch (IllegalAccessException e) {
                 throw new RuntimeException(e);
-            } catch (InvocationTargetException e) {
+            }
+            catch (InvocationTargetException e) {
                 throw new RuntimeException(e);
-            } catch (NoSuchMethodException e) {
+            }
+            catch (NoSuchMethodException e) {
                 throw new RuntimeException(e);
             }
 

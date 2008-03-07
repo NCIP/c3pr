@@ -1,7 +1,5 @@
 package edu.duke.cabig.c3pr.domain;
 
-import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
-
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -17,60 +15,60 @@ import org.hibernate.annotations.Parameter;
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "SCHEDULED_ARMS_ID_seq") })
 public class ScheduledArm extends AbstractMutableDeletableDomainObject {
 
-	private Date startDate;
+    private Date startDate;
 
-	private Boolean eligibilityIndicator;
+    private Boolean eligibilityIndicator;
 
-	private String eligibilityWaiverReasonText;
+    private String eligibilityWaiverReasonText;
 
-	private Arm arm;
-	
-	private String kitNumber;
+    private Arm arm;
 
-	public ScheduledArm() {
-		this.startDate=new Date();
-		this.eligibilityIndicator=Boolean.TRUE;
-	}
+    private String kitNumber;
 
-	@ManyToOne
-	@JoinColumn (name="ARM_ID")
-	public Arm getArm() {
-		return arm;
-	}
+    public ScheduledArm() {
+        this.startDate = new Date();
+        this.eligibilityIndicator = Boolean.TRUE;
+    }
 
-	public void setArm(Arm arm) {
-		this.arm = arm;
-	}
+    @ManyToOne
+    @JoinColumn(name = "ARM_ID")
+    public Arm getArm() {
+        return arm;
+    }
 
-	public Boolean getEligibilityIndicator() {
-		return eligibilityIndicator;
-	}
+    public void setArm(Arm arm) {
+        this.arm = arm;
+    }
 
-	public void setEligibilityIndicator(Boolean eligibilityIndicator) {
-		this.eligibilityIndicator = eligibilityIndicator;
-	}
+    public Boolean getEligibilityIndicator() {
+        return eligibilityIndicator;
+    }
 
-	public Date getStartDate() {
-		return startDate;
-	}
+    public void setEligibilityIndicator(Boolean eligibilityIndicator) {
+        this.eligibilityIndicator = eligibilityIndicator;
+    }
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
+    public Date getStartDate() {
+        return startDate;
+    }
 
-	public String getEligibilityWaiverReasonText() {
-		return eligibilityWaiverReasonText;
-	}
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
 
-	public void setEligibilityWaiverReasonText(String eligibilityWaiverReasonText) {
-		this.eligibilityWaiverReasonText = eligibilityWaiverReasonText;
-	}
+    public String getEligibilityWaiverReasonText() {
+        return eligibilityWaiverReasonText;
+    }
 
-	public String getKitNumber() {
-		return kitNumber;
-	}
+    public void setEligibilityWaiverReasonText(String eligibilityWaiverReasonText) {
+        this.eligibilityWaiverReasonText = eligibilityWaiverReasonText;
+    }
 
-	public void setKitNumber(String kitNumber) {
-		this.kitNumber = kitNumber;
-	}
+    public String getKitNumber() {
+        return kitNumber;
+    }
+
+    public void setKitNumber(String kitNumber) {
+        this.kitNumber = kitNumber;
+    }
 }

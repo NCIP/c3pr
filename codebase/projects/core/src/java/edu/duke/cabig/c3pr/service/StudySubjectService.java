@@ -13,10 +13,12 @@ public interface StudySubjectService extends CCTSWorkflowService {
 
     /**
      * Search using a sample. Populate a Participant object
-     *
-     * @param StudySubject object
+     * 
+     * @param StudySubject
+     *                object
      * @return List of Participant objects based on the sample participant object
-     * @throws Runtime exception
+     * @throws Runtime
+     *                 exception
      */
     public StudySubject createRegistration(StudySubject studySubject) throws C3PRCodedException;
 
@@ -24,7 +26,8 @@ public interface StudySubjectService extends CCTSWorkflowService {
 
     public RegistrationDataEntryStatus evaluateRegistrationDataEntryStatus(StudySubject studySubject);
 
-    public ScheduledEpochDataEntryStatus evaluateScheduledEpochDataEntryStatus(StudySubject studySubject);
+    public ScheduledEpochDataEntryStatus evaluateScheduledEpochDataEntryStatus(
+                    StudySubject studySubject);
 
     public boolean canRandomize(StudySubject studySubject);
 
@@ -44,10 +47,11 @@ public interface StudySubjectService extends CCTSWorkflowService {
 
     public boolean requiresCoordinatingCenterApproval(StudySubject studySubject);
 
-    public StudySubject processAffliateSiteRegistrationRequest(StudySubject studySubject) throws C3PRCodedException;
+    public StudySubject processAffliateSiteRegistrationRequest(StudySubject studySubject)
+                    throws C3PRCodedException;
 
     public void sendRegistrationRequest(StudySubject studySubject) throws C3PRCodedException;
 
-    public StudySubject buildStudySubject(StudySubject deserializedStudySubject) throws C3PRCodedException;
+    public StudySubject buildStudySubject(StudySubject deserializedStudySubject)
+                    throws C3PRCodedException;
 }
-

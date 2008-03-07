@@ -1,8 +1,5 @@
 package edu.duke.cabig.c3pr.domain;
 
-import edu.duke.cabig.c3pr.utils.StringUtils;
-import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,13 +13,14 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
+import edu.duke.cabig.c3pr.utils.StringUtils;
 
 /**
- * @author Ram Chilukuri
- *         Kulasekaran
+ * @author Ram Chilukuri Kulasekaran
  */
 @MappedSuperclass
-public abstract class Organization extends AbstractMutableDeletableDomainObject implements Comparable<HealthcareSite> {
+public abstract class Organization extends AbstractMutableDeletableDomainObject implements
+                Comparable<HealthcareSite> {
 
     private String name;
 
@@ -33,9 +31,8 @@ public abstract class Organization extends AbstractMutableDeletableDomainObject 
     private String trimmedName;
 
     private List<StudyOrganization> studyOrganizations = new ArrayList<StudyOrganization>();
+
     private List<OrganizationAssignedIdentifier> identifiers = new ArrayList<OrganizationAssignedIdentifier>();
-
-
 
     public Organization() {
         address = new Address();
@@ -81,12 +78,11 @@ public abstract class Organization extends AbstractMutableDeletableDomainObject 
         this.identifiers = identifiers;
     }
 
-    @OneToOne(cascade={javax.persistence.CascadeType.ALL}, optional=false)
-    @JoinColumn(name="ADDRESS_ID" ,nullable=false)
+    @OneToOne(cascade = { javax.persistence.CascadeType.ALL }, optional = false)
+    @JoinColumn(name = "ADDRESS_ID", nullable = false)
     public Address getAddress() {
         return address;
     }
-
 
     public void setAddress(Address address) {
         this.address = address;
@@ -96,44 +92,32 @@ public abstract class Organization extends AbstractMutableDeletableDomainObject 
     public String getTrimmedName() {
         return StringUtils.getTrimmedText(name, 25);
     }
-    
+
     public int compareTo(HealthcareSite o) {
-		if (this.equals((HealthcareSite)o))
-			return 0;
+        if (this.equals((HealthcareSite) o)) return 0;
 
-		return 1;
-	}
+        return 1;
+    }
 
-/*    public int compareTo(Object o) {
-		if (this.equals((Organization)o))
-			return 0;
+    @Override
+    public int hashCode() {
+        final int PRIME = 31;
+        int result = 1;
+        result = PRIME * result + ((name == null) ? 0 : name.hashCode());
+        return result;
+    }
 
-		return 1;
-	}*/
-
-	@Override
-	public int hashCode() {
-		final int PRIME = 31;
-		int result = 1;
-		result = PRIME * result + ((name == null) ? 0 : name.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		final Organization other = (Organization) obj;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
+        final Organization other = (Organization) obj;
+        if (name == null) {
+            if (other.name != null) return false;
+        }
+        else if (!name.equals(other.name)) return false;
+        return true;
+    }
 
 }

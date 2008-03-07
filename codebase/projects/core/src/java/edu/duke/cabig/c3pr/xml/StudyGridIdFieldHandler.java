@@ -1,20 +1,17 @@
 package edu.duke.cabig.c3pr.xml;
 
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudySite;
-import edu.duke.cabig.c3pr.domain.StudySubject;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.ValidityException;
 
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudySubject;
+
 /**
- * Created by IntelliJ IDEA.
- * User: kherm
- * Date: Mar 19, 2007
- * Time: 12:29:31 AM
- * To change this template use File | Settings | File Templates.
+ * Created by IntelliJ IDEA. User: kherm Date: Mar 19, 2007 Time: 12:29:31 AM To change this
+ * template use File | Settings | File Templates.
  */
 public class StudyGridIdFieldHandler implements FieldHandler {
-
 
     public Object getValue(Object object) throws IllegalStateException {
         StudySubject registration = (StudySubject) object;
@@ -25,8 +22,9 @@ public class StudyGridIdFieldHandler implements FieldHandler {
         return study.getGridId();
     }
 
-    public void setValue(Object object, Object value) throws IllegalStateException, IllegalArgumentException {
-       StudySubject registration = (StudySubject) object;
+    public void setValue(Object object, Object value) throws IllegalStateException,
+                    IllegalArgumentException {
+        StudySubject registration = (StudySubject) object;
         StudySite studySite = registration.getStudySite();
         if (studySite == null) {
             studySite = new StudySite();
@@ -53,6 +51,7 @@ public class StudyGridIdFieldHandler implements FieldHandler {
     }
 
     public Object newInstance(Object object) throws IllegalStateException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null; // To change body of implemented methods use File | Settings | File
+                        // Templates.
     }
 }

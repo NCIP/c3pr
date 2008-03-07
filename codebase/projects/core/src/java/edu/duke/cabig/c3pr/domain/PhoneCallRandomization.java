@@ -8,19 +8,19 @@ import javax.persistence.Transient;
 @DiscriminatorValue(value = "PR")
 public class PhoneCallRandomization extends Randomization {
 
-	private String phoneNumber;
+    private String phoneNumber;
 
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 
-	@Override
-	@Transient
-	public void setRetiredIndicatorAsTrue(){
-		super.setRetiredIndicatorAsTrue();
-	}
+    @Override
+    @Transient
+    public void setRetiredIndicatorAsTrue() {
+        super.setRetiredIndicatorAsTrue();
+    }
 }

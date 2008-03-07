@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
-import edu.duke.cabig.c3pr.domain.Participant;
 import edu.emory.mathcs.backport.java.util.Collections;
 import edu.nwu.bioinformatics.commons.CollectionUtils;
 
@@ -24,10 +23,10 @@ public class HealthcareSiteDao extends GridIdentifiableDao<HealthcareSite> {
     }
 
     /*
-      * Returns all HealthcarSite objects
-      * (non-Javadoc)
-      * @see edu.duke.cabig.c3pr.dao.HealthcareSiteDao#getAll()
-      */
+     * Returns all HealthcarSite objects (non-Javadoc)
+     * 
+     * @see edu.duke.cabig.c3pr.dao.HealthcareSiteDao#getAll()
+     */
     public List<HealthcareSite> getAll() {
         return getHibernateTemplate().find("from HealthcareSite");
     }
@@ -36,17 +35,12 @@ public class HealthcareSiteDao extends GridIdentifiableDao<HealthcareSite> {
 
         SUBSTRING_MATCH_PROPERTIES = Arrays.asList("name");
 
-        return findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES,
-                EXACT_MATCH_PROPERTIES);
+        return findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
     }
 
-    public HealthcareSite getByNciInstituteCode(String nciInstituteCode){
-        return CollectionUtils.firstElement((List<HealthcareSite>) getHibernateTemplate().
-                find("from HealthcareSite h where h.nciInstituteCode = ?", nciInstituteCode)
-        );
+    public HealthcareSite getByNciInstituteCode(String nciInstituteCode) {
+        return CollectionUtils.firstElement((List<HealthcareSite>) getHibernateTemplate().find(
+                        "from HealthcareSite h where h.nciInstituteCode = ?", nciInstituteCode));
     }
-
 
 }
-
-

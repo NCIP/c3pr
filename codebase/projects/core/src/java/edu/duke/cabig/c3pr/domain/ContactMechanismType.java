@@ -1,21 +1,17 @@
 package edu.duke.cabig.c3pr.domain;
 
+import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.getByClassAndCode;
+import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.register;
+import static gov.nih.nci.cabig.ctms.domain.EnumHelper.sentenceCasedName;
 import gov.nih.nci.cabig.ctms.domain.CodedEnum;
-import static gov.nih.nci.cabig.ctms.domain.CodedEnumHelper.*;
 
 /**
- * Created by IntelliJ IDEA.
- * User: kherm
- * Date: Aug 27, 2007
- * Time: 12:23:36 PM
- * To change this template use File | Settings | File Templates.
+ * Created by IntelliJ IDEA. User: kherm Date: Aug 27, 2007 Time: 12:23:36 PM To change this
+ * template use File | Settings | File Templates.
  */
 public enum ContactMechanismType implements CodedEnum<String> {
 
-    PHONE("Phone"),
-    EMAIL("Email"),
-    Fax("Fax")
-    ;
+    PHONE("Phone"), EMAIL("Email"), Fax("Fax");
 
     private String code;
 
@@ -23,7 +19,6 @@ public enum ContactMechanismType implements CodedEnum<String> {
         this.code = code;
         register(this);
     }
-
 
     public String getCode() {
         return code;
@@ -33,10 +28,8 @@ public enum ContactMechanismType implements CodedEnum<String> {
         return getByClassAndCode(ContactMechanismType.class, code);
     }
 
-
-    public String getDisplayName(){
+    public String getDisplayName() {
         return sentenceCasedName(this);
     }
-
 
 }

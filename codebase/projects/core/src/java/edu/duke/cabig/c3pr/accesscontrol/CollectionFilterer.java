@@ -15,38 +15,40 @@ package edu.duke.cabig.c3pr.accesscontrol;
  * limitations under the License.
  */
 
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * A filter used to filter Collections.
- *
+ * 
  * @author Ben Alex
  * @author Paulo Neves
  * @version $Id: CollectionFilterer.java 1807 2007-05-10 02:25:15Z vishalpuri $
  */
 class CollectionFilterer implements Filterer {
-    //~ Static fields/initializers =====================================================================================
+    // ~ Static fields/initializers
+    // =====================================================================================
 
     protected static final Log logger = LogFactory.getLog(CollectionFilterer.class);
 
-    //~ Instance fields ================================================================================================
+    // ~ Instance fields
+    // ================================================================================================
 
     private Collection collection;
 
     // collectionIter offers significant performance optimisations (as
     // per acegisecurity-developer mailing list conversation 19/5/05)
     private Iterator collectionIter;
+
     private Set removeList;
 
-    //~ Constructors ===================================================================================================
+    // ~ Constructors
+    // ===================================================================================================
 
     CollectionFilterer(Collection collection) {
         this.collection = collection;
@@ -61,10 +63,11 @@ class CollectionFilterer implements Filterer {
         removeList = new HashSet();
     }
 
-    //~ Methods ========================================================================================================
+    // ~ Methods
+    // ========================================================================================================
 
     /**
-     *
+     * 
      * @see org.acegisecurity.afterinvocation.Filterer#getFilteredObject()
      */
     public Object getFilteredObject() {
@@ -78,15 +81,15 @@ class CollectionFilterer implements Filterer {
         }
 
         if (logger.isDebugEnabled()) {
-            logger.debug("Original collection contained " + originalSize + " elements; now contains "
-                + collection.size() + " elements");
+            logger.debug("Original collection contained " + originalSize
+                            + " elements; now contains " + collection.size() + " elements");
         }
 
         return collection;
     }
 
     /**
-     *
+     * 
      * @see org.acegisecurity.afterinvocation.Filterer#iterator()
      */
     public Iterator iterator() {
@@ -96,7 +99,7 @@ class CollectionFilterer implements Filterer {
     }
 
     /**
-     *
+     * 
      * @see org.acegisecurity.afterinvocation.Filterer#remove(java.lang.Object)
      */
     public void remove(Object object) {

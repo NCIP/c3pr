@@ -1,21 +1,37 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.apache.commons.collections15.functors.InstantiateFactory;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Where;
+
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.utils.DateUtil;
 import edu.duke.cabig.c3pr.utils.ProjectedList;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 import gov.nih.nci.cabig.ctms.domain.DomainObjectTools;
-import org.apache.commons.collections15.functors.InstantiateFactory;
-import org.hibernate.annotations.*;
-import org.hibernate.annotations.CascadeType;
-
-import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.OrderBy;
-import javax.persistence.Table;
-import java.text.ParseException;
-import java.util.*;
-
 
 /**
  * @author Ram Chilukuri
@@ -23,53 +39,81 @@ import java.util.*;
 
 @Entity
 @Table(name = "STUDY_SUBJECTS")
-@GenericGenerator(name = "id-generator", strategy = "native",
-        parameters = {
-        @Parameter(name = "sequence", value = "STUDY_SUBJECTS_ID_SEQ")
-                }
-)
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "STUDY_SUBJECTS_ID_SEQ") })
 public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
     private LazyListHelper lazyListHelper;
-    private List<ScheduledEpoch> scheduledEpochs = new ArrayList<ScheduledEpoch>();
-    private String name;
-    private String offStudyReasonText;
-    private Date offStudyDate;
-    private StudySite studySite;
-    private Participant participant;
-    private Date startDate;
-    private Date informedConsentSignedDate;
-    private String informedConsentVersion;
-    private String primaryIdentifier;
-    private StudyInvestigator treatingPhysician;
-    private String otherTreatingPhysician;
-    private RegistrationDataEntryStatus regDataEntryStatus;
-    private RegistrationWorkFlowStatus regWorkflowStatus;
-    private DiseaseHistory diseaseHistory;
-    private List<Identifier> identifiers;
-    private Integer stratumGroupNumber;
 
+    private List<ScheduledEpoch> scheduledEpochs = new ArrayList<ScheduledEpoch>();
+
+    private String name;
+
+    private String offStudyReasonText;
+
+    private Date offStudyDate;
+
+    private StudySite studySite;
+
+    private Participant participant;
+
+    private Date startDate;
+
+    private Date informedConsentSignedDate;
+
+    private String informedConsentVersion;
+
+    private String primaryIdentifier;
+
+    private StudyInvestigator treatingPhysician;
+
+    private String otherTreatingPhysician;
+
+    private RegistrationDataEntryStatus regDataEntryStatus;
+
+    private RegistrationWorkFlowStatus regWorkflowStatus;
+
+    private DiseaseHistory diseaseHistory;
+
+    private List<Identifier> identifiers;
+
+    private Integer stratumGroupNumber;
 
     public StudySubject() {
         lazyListHelper = new LazyListHelper();
-        lazyListHelper.add(ScheduledTreatmentEpoch.class, new InstantiateFactory<ScheduledTreatmentEpoch>(ScheduledTreatmentEpoch.class));
-        lazyListHelper.add(ScheduledNonTreatmentEpoch.class, new InstantiateFactory<ScheduledNonTreatmentEpoch>(ScheduledNonTreatmentEpoch.class));
+        lazyListHelper.add(ScheduledTreatmentEpoch.class,
+                        new InstantiateFactory<ScheduledTreatmentEpoch>(
+                                        ScheduledTreatmentEpoch.class));
+        lazyListHelper.add(ScheduledNonTreatmentEpoch.class,
+                        new InstantiateFactory<ScheduledNonTreatmentEpoch>(
+                                        ScheduledNonTreatmentEpoch.class));
         this.startDate = new Date();
         this.primaryIdentifier = "SysGen";
         this.regDataEntryStatus = RegistrationDataEntryStatus.INCOMPLETE;
         this.regWorkflowStatus = RegistrationWorkFlowStatus.UNREGISTERED;
-        lazyListHelper.add(OrganizationAssignedIdentifier.class, new ParameterizedInstantiateFactory<OrganizationAssignedIdentifier>(OrganizationAssignedIdentifier.class));
-        lazyListHelper.add(SystemAssignedIdentifier.class, new ParameterizedInstantiateFactory<SystemAssignedIdentifier>(SystemAssignedIdentifier.class));
+        lazyListHelper.add(OrganizationAssignedIdentifier.class,
+                        new ParameterizedInstantiateFactory<OrganizationAssignedIdentifier>(
+                                        OrganizationAssignedIdentifier.class));
+        lazyListHelper.add(SystemAssignedIdentifier.class,
+                        new ParameterizedInstantiateFactory<SystemAssignedIdentifier>(
+                                        SystemAssignedIdentifier.class));
         setIdentifiers(new ArrayList<Identifier>());
-        //   mandatory, so that the lazy-projected list is managed properly.
+        // mandatory, so that the lazy-projected list is managed properly.
     }
 
-    /// BEAN PROPERTIES
+    // / BEAN PROPERTIES
     public StudySubject(boolean forExample) {
         lazyListHelper = new LazyListHelper();
-        lazyListHelper.add(ScheduledTreatmentEpoch.class, new InstantiateFactory<ScheduledTreatmentEpoch>(ScheduledTreatmentEpoch.class));
-        lazyListHelper.add(ScheduledNonTreatmentEpoch.class, new InstantiateFactory<ScheduledNonTreatmentEpoch>(ScheduledNonTreatmentEpoch.class));
-        lazyListHelper.add(OrganizationAssignedIdentifier.class, new ParameterizedInstantiateFactory<OrganizationAssignedIdentifier>(OrganizationAssignedIdentifier.class));
-        lazyListHelper.add(SystemAssignedIdentifier.class, new ParameterizedInstantiateFactory<SystemAssignedIdentifier>(SystemAssignedIdentifier.class));
+        lazyListHelper.add(ScheduledTreatmentEpoch.class,
+                        new InstantiateFactory<ScheduledTreatmentEpoch>(
+                                        ScheduledTreatmentEpoch.class));
+        lazyListHelper.add(ScheduledNonTreatmentEpoch.class,
+                        new InstantiateFactory<ScheduledNonTreatmentEpoch>(
+                                        ScheduledNonTreatmentEpoch.class));
+        lazyListHelper.add(OrganizationAssignedIdentifier.class,
+                        new ParameterizedInstantiateFactory<OrganizationAssignedIdentifier>(
+                                        OrganizationAssignedIdentifier.class));
+        lazyListHelper.add(SystemAssignedIdentifier.class,
+                        new ParameterizedInstantiateFactory<SystemAssignedIdentifier>(
+                                        SystemAssignedIdentifier.class));
         setIdentifiers(new ArrayList<Identifier>());
         if (!forExample) {
             this.startDate = new Date();
@@ -78,7 +122,7 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
     }
 
     @OneToMany
-    @Cascade({CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+    @Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     @JoinColumn(name = "SPA_ID", nullable = false)
     public List<ScheduledEpoch> getScheduledEpochs() {
         return scheduledEpochs;
@@ -86,8 +130,12 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
 
     private void setScheduledEpochs(List<ScheduledEpoch> scheduledEpochs) {
         this.scheduledEpochs = scheduledEpochs;
-        lazyListHelper.setInternalList(ScheduledTreatmentEpoch.class, new ProjectedList<ScheduledTreatmentEpoch>(this.scheduledEpochs, ScheduledTreatmentEpoch.class));
-        lazyListHelper.setInternalList(ScheduledNonTreatmentEpoch.class, new ProjectedList<ScheduledNonTreatmentEpoch>(this.scheduledEpochs, ScheduledNonTreatmentEpoch.class));
+        lazyListHelper.setInternalList(ScheduledTreatmentEpoch.class,
+                        new ProjectedList<ScheduledTreatmentEpoch>(this.scheduledEpochs,
+                                        ScheduledTreatmentEpoch.class));
+        lazyListHelper.setInternalList(ScheduledNonTreatmentEpoch.class,
+                        new ProjectedList<ScheduledNonTreatmentEpoch>(this.scheduledEpochs,
+                                        ScheduledNonTreatmentEpoch.class));
     }
 
     @Transient
@@ -123,8 +171,7 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
         List<ScheduledEpoch> tempList = new ArrayList<ScheduledEpoch>();
         tempList.addAll(getScheduledEpochs());
         Collections.sort(tempList);
-        if (tempList.size() == 0)
-            return null;
+        if (tempList.size() == 0) return null;
         return tempList.get(tempList.size() - 1);
     }
 
@@ -142,8 +189,7 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
 
     @Transient
     public DiseaseHistory getDiseaseHistory() {
-        if (this.diseaseHistory == null)
-            this.diseaseHistory = new DiseaseHistory();
+        if (this.diseaseHistory == null) this.diseaseHistory = new DiseaseHistory();
         return diseaseHistory;
     }
 
@@ -152,7 +198,7 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
     }
 
     @OneToOne
-    @Cascade({CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+    @Cascade( { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     @JoinColumn(name = "DISEASE_HISTORY_ID")
     public DiseaseHistory getDiseaseHistoryInternal() {
         return diseaseHistory;
@@ -168,7 +214,7 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
 
     @ManyToOne
     @JoinColumn(name = "STO_ID", nullable = false)
-    @Cascade({CascadeType.LOCK})
+    @Cascade( { CascadeType.LOCK })
     public StudySite getStudySite() {
         return studySite;
     }
@@ -179,7 +225,7 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
 
     @ManyToOne
     @JoinColumn(name = "PRT_ID", nullable = false)
-    @Cascade({CascadeType.LOCK})
+    @Cascade( { CascadeType.LOCK })
     public Participant getParticipant() {
         return participant;
     }
@@ -207,10 +253,8 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
 
         final StudySubject that = (StudySubject) o;
 
-        if (startDate != null ? !startDate.equals(that.startDate) : that.startDate != null)
-            return false;
-        if (studySite != null ? !studySite.equals(that.studySite) : that.studySite != null)
-            return false;
+        if (startDate != null ? !startDate.equals(that.startDate) : that.startDate != null) return false;
+        if (studySite != null ? !studySite.equals(that.studySite) : that.studySite != null) return false;
         // Participant#equals calls this method, so we can't use it here
         if (!DomainObjectTools.equalById(participant, that.participant)) return false;
 
@@ -230,14 +274,15 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
     public String getInformedConsentSignedDateStr() {
         if (informedConsentSignedDate == null) {
             return "";
-        } else if (informedConsentSignedDate.equals("")) {
+        }
+        else if (informedConsentSignedDate.equals("")) {
             return "";
         }
         try {
             return DateUtil.formatDate(informedConsentSignedDate, "MM/dd/yyyy");
         }
         catch (ParseException e) {
-            //do nothing
+            // do nothing
         }
         return null;
     }
@@ -246,20 +291,21 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
     public String getStartDateStr() {
         if (startDate == null) {
             return "";
-        } else if (startDate.equals("")) {
+        }
+        else if (startDate.equals("")) {
             return "";
         }
         try {
             return DateUtil.formatDate(startDate, "MM/dd/yyyy");
         }
         catch (ParseException e) {
-            //do nothing
+            // do nothing
         }
         return "";
     }
 
     @OneToMany
-    @Cascade({CascadeType.MERGE, CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+    @Cascade( { CascadeType.MERGE, CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     @JoinColumn(name = "SPA_ID")
     @Where(clause = "retired_indicator  = 'false'")
     @OrderBy
@@ -269,20 +315,22 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
 
     private void setIdentifiers(List<Identifier> identifiers) {
         this.identifiers = identifiers;
-        //initialize projected list for OrganizationAssigned and SystemAssignedIdentifier
+        // initialize projected list for OrganizationAssigned and SystemAssignedIdentifier
         lazyListHelper.setInternalList(OrganizationAssignedIdentifier.class,
-                new ProjectedList<OrganizationAssignedIdentifier>(this.identifiers, OrganizationAssignedIdentifier.class));
+                        new ProjectedList<OrganizationAssignedIdentifier>(this.identifiers,
+                                        OrganizationAssignedIdentifier.class));
         lazyListHelper.setInternalList(SystemAssignedIdentifier.class,
-                new ProjectedList<SystemAssignedIdentifier>(this.identifiers, SystemAssignedIdentifier.class));
+                        new ProjectedList<SystemAssignedIdentifier>(this.identifiers,
+                                        SystemAssignedIdentifier.class));
     }
-
 
     @Transient
     public List<SystemAssignedIdentifier> getSystemAssignedIdentifiers() {
         return lazyListHelper.getLazyList(SystemAssignedIdentifier.class);
     }
 
-    public void setSystemAssignedIdentifiers(List<SystemAssignedIdentifier> systemAssignedIdentifiers) {
+    public void setSystemAssignedIdentifiers(
+                    List<SystemAssignedIdentifier> systemAssignedIdentifiers) {
         // do nothing
     }
 
@@ -291,17 +339,17 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
         return lazyListHelper.getLazyList(OrganizationAssignedIdentifier.class);
     }
 
-    public void setOrganizationAssignedIdentifiers(List<OrganizationAssignedIdentifier> organizationAssignedIdentifiers) {
+    public void setOrganizationAssignedIdentifiers(
+                    List<OrganizationAssignedIdentifier> organizationAssignedIdentifiers) {
         // do nothing
     }
 
-
     public void addIdentifier(Identifier identifier) {
-    	 getIdentifiers().add(identifier);
+        getIdentifiers().add(identifier);
     }
 
     public void removeIdentifier(Identifier identifier) {
-    	 getIdentifiers().remove(identifier);
+        getIdentifiers().remove(identifier);
     }
 
     @Transient
@@ -353,8 +401,8 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
 
     @Transient
     public String getTreatingPhysicianFullName() {
-        if (getTreatingPhysician() != null)
-            return getTreatingPhysician().getHealthcareSiteInvestigator().getInvestigator().getFullName();
+        if (getTreatingPhysician() != null) return getTreatingPhysician()
+                        .getHealthcareSiteInvestigator().getInvestigator().getFullName();
         return getOtherTreatingPhysician();
     }
 
@@ -367,8 +415,7 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
         return regWorkflowStatus;
     }
 
-    public void setRegWorkflowStatus(
-            RegistrationWorkFlowStatus registrationWorkFlowStatus) {
+    public void setRegWorkflowStatus(RegistrationWorkFlowStatus registrationWorkFlowStatus) {
         this.regWorkflowStatus = registrationWorkFlowStatus;
     }
 
@@ -377,8 +424,7 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
         return regDataEntryStatus;
     }
 
-    public void setRegDataEntryStatus(
-            RegistrationDataEntryStatus registrationDataEntryStatus) {
+    public void setRegDataEntryStatus(RegistrationDataEntryStatus registrationDataEntryStatus) {
         this.regDataEntryStatus = registrationDataEntryStatus;
     }
 
@@ -386,47 +432,54 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
     public StratumGroup getStratumGroup() throws C3PRBaseException {
         StratumGroup stratumGroup = null;
         if (this.stratumGroupNumber != null) {
-            stratumGroup = ((ScheduledTreatmentEpoch) getScheduledEpoch()).getTreatmentEpoch().getStratumGroupByNumber(this.stratumGroupNumber);
-        } else {
-            List<SubjectStratificationAnswer> ssaList = ((ScheduledTreatmentEpoch) getScheduledEpoch()).getSubjectStratificationAnswers();
+            stratumGroup = ((ScheduledTreatmentEpoch) getScheduledEpoch()).getTreatmentEpoch()
+                            .getStratumGroupByNumber(this.stratumGroupNumber);
+        }
+        else {
+            List<SubjectStratificationAnswer> ssaList = ((ScheduledTreatmentEpoch) getScheduledEpoch())
+                            .getSubjectStratificationAnswers();
             if (ssaList != null) {
                 Iterator iter = ssaList.iterator();
                 List<StratificationCriterionAnswerCombination> scacList = new ArrayList<StratificationCriterionAnswerCombination>();
                 while (iter.hasNext()) {
-                    scacList.add(new StratificationCriterionAnswerCombination((SubjectStratificationAnswer) iter.next()));
+                    scacList.add(new StratificationCriterionAnswerCombination(
+                                    (SubjectStratificationAnswer) iter.next()));
                 }
-                stratumGroup = ((ScheduledTreatmentEpoch) getScheduledEpoch()).getTreatmentEpoch().getStratumGroupForAnsCombination(scacList);
+                stratumGroup = ((ScheduledTreatmentEpoch) getScheduledEpoch()).getTreatmentEpoch()
+                                .getStratumGroupForAnsCombination(scacList);
             }
         }
         if (stratumGroup == null) {
-            throw new C3PRBaseException("No startum group found. Maybe the answer combination does not have a valid startum group");
+            throw new C3PRBaseException(
+                            "No startum group found. Maybe the answer combination does not have a valid startum group");
         }
         return stratumGroup;
     }
 
     @Transient
     public String getDataEntryStatusString() {
-        return this.regDataEntryStatus == RegistrationDataEntryStatus.COMPLETE && this.getScheduledEpoch().getScEpochDataEntryStatus() == ScheduledEpochDataEntryStatus.COMPLETE ? "Complete" : "Incomplete";
+        return this.regDataEntryStatus == RegistrationDataEntryStatus.COMPLETE
+                        && this.getScheduledEpoch().getScEpochDataEntryStatus() == ScheduledEpochDataEntryStatus.COMPLETE ? "Complete"
+                        : "Incomplete";
     }
 
     @Transient
     public String getCoOrdinatingCenterIdentifier() {
-        if (getOrganizationAssignedIdentifiers().size() == 0)
-            return null;
+        if (getOrganizationAssignedIdentifiers().size() == 0) return null;
         return getOrganizationAssignedIdentifiers().get(0).getValue();
     }
 
     public void setCoOrdinatingCenterIdentifier(String value) {
         OrganizationAssignedIdentifier identifier = getOrganizationAssignedIdentifiers().get(0);
-        identifier.setHealthcareSite(this.getStudySite().getStudy().getStudyCoordinatingCenters().get(0).getHealthcareSite());
+        identifier.setHealthcareSite(this.getStudySite().getStudy().getStudyCoordinatingCenters()
+                        .get(0).getHealthcareSite());
         identifier.setType("Coordinating Center Identifier");
         identifier.setValue(value);
     }
 
     @Transient
     public String getC3DIdentifier() {
-        if (getSystemAssignedIdentifiers().size() == 0)
-            return null;
+        if (getSystemAssignedIdentifiers().size() == 0) return null;
         return getSystemAssignedIdentifiers().get(0).getValue();
     }
 

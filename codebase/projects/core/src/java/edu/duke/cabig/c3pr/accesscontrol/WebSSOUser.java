@@ -6,28 +6,28 @@ import org.acegisecurity.userdetails.UserDetails;
 import org.globus.gsi.GlobusCredential;
 
 /**
- * Created by IntelliJ IDEA.
- * User: kherm
- * Date: Dec 11, 2007
- * Time: 9:58:53 PM
- * To change this template use File | Settings | File Templates.
+ * Created by IntelliJ IDEA. User: kherm Date: Dec 11, 2007 Time: 9:58:53 PM To change this template
+ * use File | Settings | File Templates.
  */
 public class WebSSOUser extends User {
 
     private String gridId;
+
     private String delegatedEPR;
+
     private String firstName;
+
     private String lastName;
+
     private GlobusCredential gridCredential;
 
-
-    public WebSSOUser(String string, String string1, boolean b, boolean b1, boolean b2, boolean b3, GrantedAuthority[] grantedAuthorities) throws IllegalArgumentException {
+    public WebSSOUser(String string, String string1, boolean b, boolean b1, boolean b2, boolean b3,
+                    GrantedAuthority[] grantedAuthorities) throws IllegalArgumentException {
         super(string, string1, b, b1, b2, b3, grantedAuthorities);
     }
 
     public WebSSOUser(UserDetails user) {
-        this(user.getUsername(), user.getPassword(), true, true, true, true,
-                user.getAuthorities());
+        this(user.getUsername(), user.getPassword(), true, true, true, true, user.getAuthorities());
     }
 
     public String getGridId() {
@@ -38,7 +38,6 @@ public class WebSSOUser extends User {
         this.gridId = gridId;
     }
 
-
     public String getDelegatedEPR() {
         return delegatedEPR;
     }
@@ -46,7 +45,6 @@ public class WebSSOUser extends User {
     public void setDelegatedEPR(String delegatedEPR) {
         this.delegatedEPR = delegatedEPR;
     }
-
 
     public String getFirstName() {
         return firstName;
@@ -63,7 +61,6 @@ public class WebSSOUser extends User {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
 
     public GlobusCredential getGridCredential() {
         return gridCredential;

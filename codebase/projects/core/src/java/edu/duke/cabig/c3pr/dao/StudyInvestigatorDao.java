@@ -9,10 +9,10 @@ import edu.duke.cabig.c3pr.domain.StudyInvestigator;
  * @author Priyatam
  */
 public class StudyInvestigatorDao extends GridIdentifiableDao<StudyInvestigator> {
-	
-	private static Log log = LogFactory.getLog(StudyInvestigatorDao.class);
-	
-	public Class<StudyInvestigator> domainClass() {
-	        return StudyInvestigator.class;
-	 }
+
+    private static Log log = LogFactory.getLog(StudyInvestigatorDao.class);
+
+    public Class<StudyInvestigator> domainClass() {
+        return StudyInvestigator.class;
+    }
 }

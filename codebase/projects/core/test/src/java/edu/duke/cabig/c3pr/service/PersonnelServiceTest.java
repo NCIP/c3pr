@@ -9,23 +9,20 @@ import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.utils.MasqueradingDaoTestCase;
 
-
 /**
- * Created by IntelliJ IDEA.
- * User: kherm
- * Date: Aug 26, 2007
- * Time: 12:33:44 PM
- * To change this template use File | Settings | File Templates.
+ * Created by IntelliJ IDEA. User: kherm Date: Aug 26, 2007 Time: 12:33:44 PM To change this
+ * template use File | Settings | File Templates.
  */
-@C3PRUseCases({CREATE_RESEARCH_STAFF, CREATE_STUDY_INVESTIGATOR})
+@C3PRUseCases( { CREATE_RESEARCH_STAFF, CREATE_STUDY_INVESTIGATOR })
 public class PersonnelServiceTest extends MasqueradingDaoTestCase<HealthcareSiteInvestigatorDao> {
 
-    private PersonnelService
-            service;
+    private PersonnelService service;
+
     Investigator inv;
 
     protected void setUp() throws Exception {
-        super.setUp();    //To change body of overridden methods use File | Settings | File Templates.
+        super.setUp(); // To change body of overridden methods use File | Settings | File
+                        // Templates.
         service = (PersonnelService) getApplicationContext().getBean("personnelService");
 
         inv = new Investigator();
@@ -38,7 +35,6 @@ public class PersonnelServiceTest extends MasqueradingDaoTestCase<HealthcareSite
 
         inv.addContactMechanism(cm);
 
-
     }
 
     public void testCreateUser() throws Exception {
@@ -46,10 +42,9 @@ public class PersonnelServiceTest extends MasqueradingDaoTestCase<HealthcareSite
 
     }
 
-
     /**
      * What dao class is the test trying to Masquerade
-     *
+     * 
      * @return
      */
     public Class<HealthcareSiteInvestigatorDao> getMasqueradingDaoClassName() {

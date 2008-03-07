@@ -1,6 +1,5 @@
 package edu.duke.cabig.c3pr.utils;
 
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -10,19 +9,24 @@ import java.util.StringTokenizer;
 
 import edu.nwu.bioinformatics.commons.DateUtils;
 
-public class DateUtil extends DateUtils{
+public class DateUtil extends DateUtils {
     // ========================= CLASS CONSTANTS ============================
 
     // constants to specify display formats for the dates.
     public static final String DISPLAY_DATE_FORMAT = "MM/dd/yyyy";
-    public static final String DISPLAY_DATE_TIME_FORMAT =
-        "Day mm/dd/yyyy HH:MM:SS EDT";
+
+    public static final String DISPLAY_DATE_TIME_FORMAT = "Day mm/dd/yyyy HH:MM:SS EDT";
+
     public static final String JDBC_DATE_ESCAPE_FORMAT = "yyyy-MM-dd";
+
     private static final String DISPLAY_DATE_DELIMITER = "/";
+
     private static final String JDBC_DATE_DELIMITER = "-";
+
     private static final String ZONE = "EDT";
-    private static String[] nameOfDay =
-        { "0 no day", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
+
+    private static String[] nameOfDay = { "0 no day", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri",
+            "Sat" };
 
     private static final String DEFAULT_DATE_FORMAT = "MM/dd/yyyy hh:mm:ss am";
 
@@ -35,8 +39,10 @@ public class DateUtil extends DateUtils{
 
     /**
      * converts a java.util.Date to java.sql.Date
-     * @param  utilDate      java.util.Date
-     * @return sqlDate       java.sql.Date
+     * 
+     * @param utilDate
+     *                java.util.Date
+     * @return sqlDate java.sql.Date
      */
     public static java.sql.Date getSqlDate(java.util.Date utilDate) {
         return new java.sql.Date(utilDate.getTime());
@@ -44,8 +50,10 @@ public class DateUtil extends DateUtils{
 
     /**
      * converts a java.util.Date to java.sql.Timestamp
-     * @param  utilDate      java.util.Date
-     * @return sqlTimestamp       java.sql.Timestamp
+     * 
+     * @param utilDate
+     *                java.util.Date
+     * @return sqlTimestamp java.sql.Timestamp
      */
     public static java.sql.Timestamp getTimestamp(java.util.Date utilDate) {
         return new java.sql.Timestamp(utilDate.getTime());
@@ -53,8 +61,10 @@ public class DateUtil extends DateUtils{
 
     /**
      * converts a java.Sql.Date to java.util.Date
-     * @param  SqlDate      java.sql.Date
-     * @return utilDate       java.util.Date
+     * 
+     * @param SqlDate
+     *                java.sql.Date
+     * @return utilDate java.util.Date
      */
     public static java.util.Date getUtilDate(java.sql.Date sqlDate) {
         return new java.util.Date(sqlDate.getTime());
@@ -62,8 +72,10 @@ public class DateUtil extends DateUtils{
 
     /**
      * converts a java.sql.Timestamp to java.util.Date
-     * @param  sqlTimestamp       java.sql.Timestamp
-     * @return utilDate           java.util.Date
+     * 
+     * @param sqlTimestamp
+     *                java.sql.Timestamp
+     * @return utilDate java.util.Date
      */
     public static java.util.Date getUtilDate(java.sql.Timestamp timestamp) {
         return new java.util.Date(timestamp.getTime());
@@ -71,25 +83,24 @@ public class DateUtil extends DateUtils{
 
     /**
      * converts a String to java.sql.Date
-     * @param  dateAsString      date in the form of a string
-     * @param  format            format of the date string
-     * @rerurn date              java.sql.Date, null if format is not one of the formats
-     *                           specified in DateUtil class
+     * 
+     * @param dateAsString
+     *                date in the form of a string
+     * @param format
+     *                format of the date string
+     * @rerurn date java.sql.Date, null if format is not one of the formats specified in DateUtil
+     *         class
      */
-    public static java.sql.Date getSqlDateFromString(
-        String dateAsString,
-        String format) {
+    public static java.sql.Date getSqlDateFromString(String dateAsString, String format) {
         // date string of the form "mm/dd/yyyy"
-    	
+
         if (DISPLAY_DATE_FORMAT.equalsIgnoreCase(format)) {
-            StringTokenizer dateAsTokens =
-                new StringTokenizer(dateAsString, DISPLAY_DATE_DELIMITER);
+            StringTokenizer dateAsTokens = new StringTokenizer(dateAsString, DISPLAY_DATE_DELIMITER);
             String month = dateAsTokens.nextToken();
             String date = dateAsTokens.nextToken();
             String year = dateAsTokens.nextToken();
 
-            dateAsString =
-                year + JDBC_DATE_DELIMITER + month + JDBC_DATE_DELIMITER + date;
+            dateAsString = year + JDBC_DATE_DELIMITER + month + JDBC_DATE_DELIMITER + date;
             return java.sql.Date.valueOf(dateAsString);
         }
         // date string of the form "yyyy-mm-dd"
@@ -104,30 +115,27 @@ public class DateUtil extends DateUtils{
 
     /**
      * converts a String to java.util.Date
-     * @param  dateAsString      date in the form of a string
-     * @param  format            format of the date string
-     * @rerurn date              java.util.Date, null if format is not one of the formats
-     *                           specified in DateUtil class
+     * 
+     * @param dateAsString
+     *                date in the form of a string
+     * @param format
+     *                format of the date string
+     * @rerurn date java.util.Date, null if format is not one of the formats specified in DateUtil
+     *         class
      */
-    public static java.util.Date getUtilDateFromString(
-        String dateAsString,
-        String format) {
+    public static java.util.Date getUtilDateFromString(String dateAsString, String format) {
         // date string of the form "mm/dd/yyyy"
         if (DISPLAY_DATE_FORMAT.equalsIgnoreCase(format)) {
-            StringTokenizer dateAsTokens =
-                new StringTokenizer(dateAsString, DISPLAY_DATE_DELIMITER);
+            StringTokenizer dateAsTokens = new StringTokenizer(dateAsString, DISPLAY_DATE_DELIMITER);
             String month = dateAsTokens.nextToken();
             String date = dateAsTokens.nextToken();
             String year = dateAsTokens.nextToken();
 
             Calendar calendar = Calendar.getInstance();
             calendar.clear();
-            calendar
-                .set(
-                    Integer.valueOf(year).intValue(),
-                    (Integer.valueOf(month).intValue() - 1),
+            calendar.set(Integer.valueOf(year).intValue(), (Integer.valueOf(month).intValue() - 1),
             // month in calendar 1-11
-            Integer.valueOf(date).intValue());
+                            Integer.valueOf(date).intValue());
             return calendar.getTime();
         }
         // date string of the form "yyyy-mm-dd"
@@ -143,8 +151,11 @@ public class DateUtil extends DateUtils{
 
     /**
      * converts a java.sql.Date string with appropriate format
-     * @param  sqlDate      java.sql.Date
-     * @param  format       specifying the output format for the return string
+     * 
+     * @param sqlDate
+     *                java.sql.Date
+     * @param format
+     *                specifying the output format for the return string
      * @return formatted string
      */
     public static String toString(java.sql.Date sqlDate, String format) {
@@ -152,10 +163,8 @@ public class DateUtil extends DateUtils{
         if (DISPLAY_DATE_FORMAT.equalsIgnoreCase(format)) {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(sqlDate);
-            return getDateAsString(
-                calendar.get(Calendar.MONTH) + 1,
-                calendar.get(Calendar.DATE),
-                calendar.get(Calendar.YEAR));
+            return getDateAsString(calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DATE),
+                            calendar.get(Calendar.YEAR));
         }
         // convert Date to String of the form "mm/dd/yyyy HH:MM"
         else if (DISPLAY_DATE_TIME_FORMAT.equals(format)) {
@@ -177,8 +186,11 @@ public class DateUtil extends DateUtils{
 
     /**
      * converts a java.util.Date string with appropriate format
-     * @param  utilDate      java.util.Date
-     * @param  format       specifying the output format for the return string
+     * 
+     * @param utilDate
+     *                java.util.Date
+     * @param format
+     *                specifying the output format for the return string
      * @return formatted string if utilDate is not null
      */
     public static String toString(java.util.Date utilDate, String format) {
@@ -191,10 +203,8 @@ public class DateUtil extends DateUtils{
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(utilDate);
 
-            return getDateAsString(
-                calendar.get(Calendar.MONTH) + 1,
-                calendar.get(Calendar.DATE),
-                calendar.get(Calendar.YEAR));
+            return getDateAsString(calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DATE),
+                            calendar.get(Calendar.YEAR));
         }
         // convert Date to String of the form "mm/dd/yyyy HH:MM"
         else if (DISPLAY_DATE_TIME_FORMAT.equals(format)) {
@@ -220,13 +230,15 @@ public class DateUtil extends DateUtils{
 
         if (month > 9) {
             dateAsString.append(month);
-        } else {
+        }
+        else {
             dateAsString.append("0" + month);
         }
         dateAsString.append(DISPLAY_DATE_DELIMITER);
         if (date > 9) {
             dateAsString.append(date);
-        } else {
+        }
+        else {
             dateAsString.append("0" + date);
         }
         dateAsString.append(DISPLAY_DATE_DELIMITER).append(year);
@@ -238,56 +250,45 @@ public class DateUtil extends DateUtils{
     // into Wed 10/02/2002 13:25:46 EDT format
     private static String getDateTimeStringFromCalendar(Calendar calendar) {
         String dateString = nameOfDay[calendar.get(Calendar.DAY_OF_WEEK)] + " ";
-        dateString
-            += getDateAsString(
-                calendar.get(Calendar.MONTH) + 1,
-                calendar.get(Calendar.DATE),
-                calendar.get(Calendar.YEAR));
-        dateString
-            += (" "
-                + calendar.get(Calendar.HOUR_OF_DAY)
-                + ":"
-                + calendar.get(Calendar.MINUTE)
-                + ":"
-                + calendar.get(calendar.SECOND)
-                + " "
-                + ZONE);
+        dateString += getDateAsString(calendar.get(Calendar.MONTH) + 1,
+                        calendar.get(Calendar.DATE), calendar.get(Calendar.YEAR));
+        dateString += (" " + calendar.get(Calendar.HOUR_OF_DAY) + ":"
+                        + calendar.get(Calendar.MINUTE) + ":" + calendar.get(calendar.SECOND) + " " + ZONE);
         return dateString;
     }
 
-    public static String getDateForLetter()
-    {
-      GregorianCalendar todaysDate = new GregorianCalendar();
-      int year = todaysDate.get(Calendar.YEAR);
-      int month = todaysDate.get(Calendar.MONTH);
-      int day = todaysDate.get(Calendar.DAY_OF_MONTH);
+    public static String getDateForLetter() {
+        GregorianCalendar todaysDate = new GregorianCalendar();
+        int year = todaysDate.get(Calendar.YEAR);
+        int month = todaysDate.get(Calendar.MONTH);
+        int day = todaysDate.get(Calendar.DAY_OF_MONTH);
 
-      return months[month]+" "+day+","+year;
+        return months[month] + " " + day + "," + year;
     }
-   public static String getCurrentDate(String formatStr)
-    {
-   		//This is temporary fix, lot of places in the code the dateformat is coded as mm/dd/yyyy instead of MM/dd/yyyy.
-   		if("mm/dd/yyyy".equals(formatStr)){
-   			formatStr = DISPLAY_DATE_FORMAT;
-   		}
-   		
+
+    public static String getCurrentDate(String formatStr) {
+        // This is temporary fix, lot of places in the code the dateformat is coded as mm/dd/yyyy
+        // instead of MM/dd/yyyy.
+        if ("mm/dd/yyyy".equals(formatStr)) {
+            formatStr = DISPLAY_DATE_FORMAT;
+        }
+
         Date d = new Date();
-        SimpleDateFormat formatter   = new SimpleDateFormat (formatStr);
+        SimpleDateFormat formatter = new SimpleDateFormat(formatStr);
         Date currentDate = new Date();
         return formatter.format(currentDate);
     }
-    public static String getFormattedDate(String formatStr,Date d)
-    {
-        SimpleDateFormat formatter   = new SimpleDateFormat (formatStr);
+
+    public static String getFormattedDate(String formatStr, Date d) {
+        SimpleDateFormat formatter = new SimpleDateFormat(formatStr);
         Date currentDate = new Date();
         return formatter.format(d);
     }
-    
-    public static final String formatDate(Date date, String toFormat)
-    	throws ParseException
-    {   
-    	return new SimpleDateFormat(toFormat).format(date);
+
+    public static final String formatDate(Date date, String toFormat) throws ParseException {
+        return new SimpleDateFormat(toFormat).format(date);
     }
-    
-    private static String[] months = {"Jan","Feb","March","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
+
+    private static String[] months = { "Jan", "Feb", "March", "Apr", "May", "Jun", "Jul", "Aug",
+            "Sep", "Oct", "Nov", "Dec" };
 }

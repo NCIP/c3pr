@@ -1,5 +1,8 @@
 package edu.duke.cabig.c3pr.service.impl;
 
+import org.apache.log4j.Logger;
+import org.springframework.context.MessageSource;
+
 import edu.duke.cabig.c3pr.dao.GridIdentifiableDao;
 import edu.duke.cabig.c3pr.domain.CCTSAbstractMutableDeletableDomainObject;
 import edu.duke.cabig.c3pr.domain.CCTSWorkflowStatusType;
@@ -12,26 +15,27 @@ import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.DefaultCCTSMessageWorkflowCallbackFactory;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 import gov.nih.nci.common.exception.XMLUtilityException;
-import org.apache.log4j.Logger;
-import org.springframework.context.MessageSource;
 
 /**
- * Created by IntelliJ IDEA.
- * User: kherm
- * Date: Dec 6, 2007
- * Time: 4:01:40 PM
- * To change this template use File | Settings | File Templates.
+ * Created by IntelliJ IDEA. User: kherm Date: Dec 6, 2007 Time: 4:01:40 PM To change this template
+ * use File | Settings | File Templates.
  */
 public class CCTSWorkflowServiceImpl implements CCTSWorkflowService {
 
     private Logger log = Logger.getLogger(CCTSWorkflowService.class);
 
     private GridIdentifiableDao dao;
+
     private edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster messageBroadcaster;
+
     private XmlMarshaller xmlUtility;
+
     private DefaultCCTSMessageWorkflowCallbackFactory cctsMessageWorkflowCallbackFactory;
+
     private C3PRExceptionHelper exceptionHelper;
+
     private Configuration configuration;
+
     private MessageSource c3prErrorMessages;
 
     public MessageSource getC3prErrorMessages() {
@@ -54,20 +58,26 @@ public class CCTSWorkflowServiceImpl implements CCTSWorkflowService {
         this.exceptionHelper = exceptionHelper;
     }
 
-    public CCTSWorkflowStatusType getCCTSWofkflowStatus(CCTSAbstractMutableDeletableDomainObject cctsObject) {
-        CCTSAbstractMutableDeletableDomainObject loadedCCTSObject = (CCTSAbstractMutableDeletableDomainObject) dao.getByGridId(cctsObject);
+    public CCTSWorkflowStatusType getCCTSWofkflowStatus(
+                    CCTSAbstractMutableDeletableDomainObject cctsObject) {
+        CCTSAbstractMutableDeletableDomainObject loadedCCTSObject = (CCTSAbstractMutableDeletableDomainObject) dao
+                        .getByGridId(cctsObject);
         return loadedCCTSObject.getCctsWorkflowStatus();
     }
 
-    public void broadcastMessage(CCTSAbstractMutableDeletableDomainObject cctsObject) throws C3PRCodedException {
+    public void broadcastMessage(CCTSAbstractMutableDeletableDomainObject cctsObject)
+                    throws C3PRCodedException {
         if (getIsBroadcastEnable().equalsIgnoreCase("true")) {
-            messageBroadcaster.setNotificationHandler(cctsMessageWorkflowCallbackFactory.createWorkflowCallback(cctsObject));
+            messageBroadcaster.setNotificationHandler(cctsMessageWorkflowCallbackFactory
+                            .createWorkflowCallback(cctsObject));
             String xml = "";
             try {
                 xml = xmlUtility.toXML(cctsObject);
-            } catch (XMLUtilityException e) {
+            }
+            catch (XMLUtilityException e) {
                 e.printStackTrace();
-                throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.BROADCAST.XML_ERROR"), e);
+                throw this.exceptionHelper.getException(
+                                getCode("C3PR.EXCEPTION.REGISTRATION.BROADCAST.XML_ERROR"), e);
             }
             if (log.isDebugEnabled()) {
                 log.debug(" - XML for Registration"); //$NON-NLS-1$
@@ -76,28 +86,20 @@ public class CCTSWorkflowServiceImpl implements CCTSWorkflowService {
                 log.debug(" - " + xml); //$NON-NLS-1$
             }
             try {
-                //messageBroadcaster.initialize();
+                // messageBroadcaster.initialize();
                 messageBroadcaster.broadcast(xml, cctsObject.getGridId());
-            } catch (BroadcastException e) {
+            }
+            catch (BroadcastException e) {
                 e.printStackTrace();
-                throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.BROADCAST.SEND_ERROR"), e);
+                throw this.exceptionHelper.getException(
+                                getCode("C3PR.EXCEPTION.REGISTRATION.BROADCAST.SEND_ERROR"), e);
             }
-        } else {
-            throw this.exceptionHelper.getException(getCode("C3PR.EXCEPTION.REGISTRATION.BROADCAST.DISABLED"));
         }
-        /*if (broadcastEnable) {
-            messageBroadcaster.setNotificationHandler(cctsMessageWorkflowCallbackFactory.createWorkflowCallback(cctsObject));
-            try {
-                messageBroadcaster.broadcast(xmlUtility.toXML(cctsObject), cctsObject.getGridId());
-            } catch (Exception e) {
-                log.error("Could not send message to ESB", e);
-                throw new C3PRBaseException("Could not send message to ESB");
-            }
-        } else {
-            throw new C3PRBaseException("ESB Broadcast is turned off");
-        }*/
+        else {
+            throw this.exceptionHelper
+                            .getException(getCode("C3PR.EXCEPTION.REGISTRATION.BROADCAST.DISABLED"));
+        }
     }
-
 
     public GridIdentifiableDao getDao() {
         return dao;
@@ -127,7 +129,8 @@ public class CCTSWorkflowServiceImpl implements CCTSWorkflowService {
         return cctsMessageWorkflowCallbackFactory;
     }
 
-    public void setCctsMessageWorkflowCallbackFactory(DefaultCCTSMessageWorkflowCallbackFactory cctsMessageWorkflowCallbackFactory) {
+    public void setCctsMessageWorkflowCallbackFactory(
+                    DefaultCCTSMessageWorkflowCallbackFactory cctsMessageWorkflowCallbackFactory) {
         this.cctsMessageWorkflowCallbackFactory = cctsMessageWorkflowCallbackFactory;
     }
 

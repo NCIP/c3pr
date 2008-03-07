@@ -1,7 +1,5 @@
 package edu.duke.cabig.c3pr.accesscontrol;
 
-
-
 /* Copyright 2004, 2005, 2006 Acegi Technology Pty Limited
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,36 +15,37 @@ package edu.duke.cabig.c3pr.accesscontrol;
  * limitations under the License.
  */
 
-
-import org.apache.commons.collections.iterators.ArrayIterator;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import java.lang.reflect.Array;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.apache.commons.collections.iterators.ArrayIterator;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * A filter used to filter arrays.
- *
+ * 
  * @author Ben Alex
  * @author Paulo Neves
  * @version $Id: ArrayFilterer.java 1784 2007-02-24 21:00:24Z luke_t $
  */
 class ArrayFilterer implements Filterer {
-    //~ Static fields/initializers =====================================================================================
+    // ~ Static fields/initializers
+    // =====================================================================================
 
-    protected static final Log logger =
-            LogFactory.getLog(ArrayFilterer.class);
+    protected static final Log logger = LogFactory.getLog(ArrayFilterer.class);
 
-    //~ Instance fields ================================================================================================
+    // ~ Instance fields
+    // ================================================================================================
 
     private Set removeList;
+
     private Object[] list;
 
-    //~ Constructors ===================================================================================================
+    // ~ Constructors
+    // ===================================================================================================
 
     ArrayFilterer(Object[] list) {
         this.list = list;
@@ -57,17 +56,19 @@ class ArrayFilterer implements Filterer {
         removeList = new HashSet();
     }
 
-    //~ Methods ========================================================================================================
+    // ~ Methods
+    // ========================================================================================================
 
     /**
-     *
+     * 
      * @see org.acegisecurity.afterinvocation.Filterer#getFilteredObject()
      */
     public Object getFilteredObject() {
         // Recreate an array of same type and filter the removed objects.
         int originalSize = list.length;
         int sizeOfResultingList = originalSize - removeList.size();
-        Object[] filtered = (Object[]) Array.newInstance(list.getClass().getComponentType(), sizeOfResultingList);
+        Object[] filtered = (Object[]) Array.newInstance(list.getClass().getComponentType(),
+                        sizeOfResultingList);
 
         for (int i = 0, j = 0; i < list.length; i++) {
             Object object = list[i];
@@ -79,15 +80,15 @@ class ArrayFilterer implements Filterer {
         }
 
         if (logger.isDebugEnabled()) {
-            logger.debug("Original array contained " + originalSize + " elements; now contains " + sizeOfResultingList
-                + " elements");
+            logger.debug("Original array contained " + originalSize + " elements; now contains "
+                            + sizeOfResultingList + " elements");
         }
 
         return filtered;
     }
 
     /**
-     *
+     * 
      * @see org.acegisecurity.afterinvocation.Filterer#iterator()
      */
     public Iterator iterator() {
@@ -95,7 +96,7 @@ class ArrayFilterer implements Filterer {
     }
 
     /**
-     *
+     * 
      * @see org.acegisecurity.afterinvocation.Filterer#remove(java.lang.Object)
      */
     public void remove(Object object) {

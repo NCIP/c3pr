@@ -8,19 +8,19 @@ import javax.persistence.Transient;
 @DiscriminatorValue(value = "RR")
 public class RoleBasedRecipient extends Recipient {
 
-	private String role;
+    private String role;
 
-	public String getRole() {
-		return role;
-	}
-	
-	public void setRole(String role) {
-		this.role = role;
-	}
+    public String getRole() {
+        return role;
+    }
 
-	@Override
-	@Transient
-	public void setRetiredIndicatorAsTrue(){
-		super.setRetiredIndicatorAsTrue();
-	}
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    @Override
+    @Transient
+    public void setRetiredIndicatorAsTrue() {
+        super.setRetiredIndicatorAsTrue();
+    }
 }

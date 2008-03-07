@@ -1,7 +1,5 @@
 package edu.duke.cabig.c3pr.domain;
 
-import edu.duke.cabig.c3pr.domain.AbstractMutableDeletableDomainObject;
-
 import java.util.Date;
 
 import javax.persistence.DiscriminatorColumn;
@@ -27,106 +25,104 @@ import org.hibernate.annotations.Parameter;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "SCHEDULED_EPOCHS_ID_SEQ") })
-public abstract class ScheduledEpoch extends AbstractMutableDeletableDomainObject implements Comparable<ScheduledEpoch>{
+public abstract class ScheduledEpoch extends AbstractMutableDeletableDomainObject implements
+                Comparable<ScheduledEpoch> {
 
-	private Epoch epoch;
+    private Epoch epoch;
 
-	private Date startDate;
-	
-	private ScheduledEpochDataEntryStatus scEpochDataEntryStatus;
-	
-	private ScheduledEpochWorkFlowStatus scEpochWorkflowStatus;
-	
-	private String disapprovalReasonText;
+    private Date startDate;
 
-	public String getDisapprovalReasonText() {
-		return disapprovalReasonText;
-	}
+    private ScheduledEpochDataEntryStatus scEpochDataEntryStatus;
 
-	public ScheduledEpoch() {
-		this.startDate=new Date();
-		this.scEpochWorkflowStatus=ScheduledEpochWorkFlowStatus.UNAPPROVED;
-	}
+    private ScheduledEpochWorkFlowStatus scEpochWorkflowStatus;
 
-	public ScheduledEpoch(boolean forExample) {
-		if(!forExample){
-			this.startDate=new Date();
-			this.scEpochWorkflowStatus=ScheduledEpochWorkFlowStatus.UNAPPROVED;
-		}
-	}
+    private String disapprovalReasonText;
 
-	public void setDisapprovalReasonText(String disapprovalReasonText) {
-		this.disapprovalReasonText = disapprovalReasonText;
-	}
+    public String getDisapprovalReasonText() {
+        return disapprovalReasonText;
+    }
 
-	@Enumerated(EnumType.STRING)
-	public ScheduledEpochDataEntryStatus getScEpochDataEntryStatus() {
-		return scEpochDataEntryStatus;
-	}
+    public ScheduledEpoch() {
+        this.startDate = new Date();
+        this.scEpochWorkflowStatus = ScheduledEpochWorkFlowStatus.UNAPPROVED;
+    }
 
-	public void setScEpochDataEntryStatus(
-			ScheduledEpochDataEntryStatus scheduledEpochDataEntryStatus) {
-		this.scEpochDataEntryStatus = scheduledEpochDataEntryStatus;
-	}
+    public ScheduledEpoch(boolean forExample) {
+        if (!forExample) {
+            this.startDate = new Date();
+            this.scEpochWorkflowStatus = ScheduledEpochWorkFlowStatus.UNAPPROVED;
+        }
+    }
 
-	@Enumerated(EnumType.STRING)
-	public ScheduledEpochWorkFlowStatus getScEpochWorkflowStatus() {
-		return scEpochWorkflowStatus;
-	}
+    public void setDisapprovalReasonText(String disapprovalReasonText) {
+        this.disapprovalReasonText = disapprovalReasonText;
+    }
 
-	public void setScEpochWorkflowStatus(
-			ScheduledEpochWorkFlowStatus scheduledEpochWorkFlowStatus) {
-		this.scEpochWorkflowStatus = scheduledEpochWorkFlowStatus;
-	}
+    @Enumerated(EnumType.STRING)
+    public ScheduledEpochDataEntryStatus getScEpochDataEntryStatus() {
+        return scEpochDataEntryStatus;
+    }
 
-	@ManyToOne
-	@JoinColumn(name = "eph_id")
-	public Epoch getEpoch() {
-		return epoch;
-	}
+    public void setScEpochDataEntryStatus(
+                    ScheduledEpochDataEntryStatus scheduledEpochDataEntryStatus) {
+        this.scEpochDataEntryStatus = scheduledEpochDataEntryStatus;
+    }
 
-	public void setEpoch(Epoch epoch) {
-		this.epoch = epoch;
-	}
+    @Enumerated(EnumType.STRING)
+    public ScheduledEpochWorkFlowStatus getScEpochWorkflowStatus() {
+        return scEpochWorkflowStatus;
+    }
 
-	public Date getStartDate() {
-		return startDate;
-	}
+    public void setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus scheduledEpochWorkFlowStatus) {
+        this.scEpochWorkflowStatus = scheduledEpochWorkFlowStatus;
+    }
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-	
-	/*
-	 * @Override public int hashCode() { final int PRIME = 31; int result =
-	 * super.hashCode(); result = PRIME * result + ((arms == null) ? 0 :
-	 * arms.hashCode()); result = PRIME * result + ((name == null) ? 0 :
-	 * name.hashCode()); return result; }
-	 * 
-	 * @Override public boolean equals(Object obj) { if (this == obj) return
-	 * true; if (!super.equals(obj)) return false; if (getClass() !=
-	 * obj.getClass()) return false; final Epoch other = (Epoch) obj; if (arms ==
-	 * null) { if (other.arms != null) return false; } else if
-	 * (!arms.equals(other.arms)) return false; if (name == null) { if
-	 * (other.name != null) return false; } else if (!name.equals(other.name))
-	 * return false; return true; }
-	 */
+    @ManyToOne
+    @JoinColumn(name = "eph_id")
+    public Epoch getEpoch() {
+        return epoch;
+    }
 
-	public int compareTo(ScheduledEpoch scheduledEpoch) {
-		return this.startDate.compareTo(scheduledEpoch.getStartDate());
-	}
-	
-	@Transient
-	public boolean getRequiresArm(){
-		return this.getEpoch().getRequiresArm();
-	}
-	
-	@Transient
-	public boolean isReserving(){
-		return this.getEpoch().isReserving();
-	}
-	@Transient
-	public boolean getRequiresRandomization(){
-		return this.getEpoch().getRequiresRandomization();
-	}
+    public void setEpoch(Epoch epoch) {
+        this.epoch = epoch;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    /*
+     * @Override public int hashCode() { final int PRIME = 31; int result = super.hashCode(); result =
+     * PRIME * result + ((arms == null) ? 0 : arms.hashCode()); result = PRIME * result + ((name ==
+     * null) ? 0 : name.hashCode()); return result; }
+     * 
+     * @Override public boolean equals(Object obj) { if (this == obj) return true; if
+     * (!super.equals(obj)) return false; if (getClass() != obj.getClass()) return false; final
+     * Epoch other = (Epoch) obj; if (arms == null) { if (other.arms != null) return false; } else
+     * if (!arms.equals(other.arms)) return false; if (name == null) { if (other.name != null)
+     * return false; } else if (!name.equals(other.name)) return false; return true; }
+     */
+
+    public int compareTo(ScheduledEpoch scheduledEpoch) {
+        return this.startDate.compareTo(scheduledEpoch.getStartDate());
+    }
+
+    @Transient
+    public boolean getRequiresArm() {
+        return this.getEpoch().getRequiresArm();
+    }
+
+    @Transient
+    public boolean isReserving() {
+        return this.getEpoch().isReserving();
+    }
+
+    @Transient
+    public boolean getRequiresRandomization() {
+        return this.getEpoch().getRequiresRandomization();
+    }
 }

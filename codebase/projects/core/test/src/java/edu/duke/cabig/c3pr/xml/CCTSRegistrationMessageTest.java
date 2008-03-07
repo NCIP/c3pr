@@ -5,20 +5,19 @@ import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.utils.MasqueradingDaoTestCase;
 
 /**
- * Created by IntelliJ IDEA.
- * User: kherm
- * Date: Sep 19, 2007
- * Time: 2:34:51 PM
- * To change this template use File | Settings | File Templates.
+ * Created by IntelliJ IDEA. User: kherm Date: Sep 19, 2007 Time: 2:34:51 PM To change this template
+ * use File | Settings | File Templates.
  */
 public class CCTSRegistrationMessageTest extends MasqueradingDaoTestCase<StudySubjectDao> {
 
     XmlMarshaller marshaller;
 
     protected void setUp() throws Exception {
-        super.setUp();    //To change body of overridden methods use File | Settings | File Templates.
+        super.setUp(); // To change body of overridden methods use File | Settings | File
+                        // Templates.
         marshaller = (XmlMarshaller) getApplicationContext().getBean("xmlUtility");
-        marshaller.setMappingFile((String) getApplicationContext().getBean("ccts-registration-castorMapping"));
+        marshaller.setMappingFile((String) getApplicationContext().getBean(
+                        "ccts-registration-castorMapping"));
     }
 
     public void testSerialization() throws Exception {
@@ -27,16 +26,13 @@ public class CCTSRegistrationMessageTest extends MasqueradingDaoTestCase<StudySu
         }
     }
 
-
     /**
      * What dao class is the test trying to Masquerade
-     *
+     * 
      * @return
      */
     public Class getMasqueradingDaoClassName() {
         return StudySubjectDao.class;
     }
 
-
 }
- 

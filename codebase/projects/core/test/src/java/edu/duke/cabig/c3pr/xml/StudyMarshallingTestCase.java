@@ -1,10 +1,6 @@
 package edu.duke.cabig.c3pr.xml;
 
-
 import static edu.duke.cabig.c3pr.C3PRUseCase.EXPORT_STUDY;
-import edu.duke.cabig.c3pr.C3PRUseCases;
-import edu.duke.cabig.c3pr.domain.*;
-import gov.nih.nci.common.exception.XMLUtilityException;
 
 import java.io.ByteArrayInputStream;
 import java.io.Reader;
@@ -13,62 +9,69 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import edu.duke.cabig.c3pr.C3PRUseCases;
+import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
+import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyDataEntryStatus;
+import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
+import gov.nih.nci.common.exception.XMLUtilityException;
+
 /**
  * Test serialization for the Study object
- *
- * @testType unit
- * <p/>
- * Created by IntelliJ IDEA.
- * User: kherm
- * Date: May 11, 2007
- * Time: 11:30:03 AM
- * To change this template use File | Settings | File Templates.
+ * 
+ * @testType unit <p/> Created by IntelliJ IDEA. User: kherm Date: May 11, 2007 Time: 11:30:03 AM To
+ *           change this template use File | Settings | File Templates.
  */
 @C3PRUseCases(EXPORT_STUDY)
 public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
 
     String marshalledStudy;
 
-
     /**
      * @throws Exception
      * @Before
      */
     protected void setUp() throws Exception {
-        super.setUp();    //To change body of overridden methods use File | Settings | File Templates.
+        super.setUp(); // To change body of overridden methods use File | Settings | File
+                        // Templates.
     }
-
 
     /**
      * @throws Throwable
      * @Test main test method. Runs methods in a sequence.
      */
     public void testSerializationDeserializationTest() {
-        //have to be run in order
+        // have to be run in order
         studySerializationTest();
         schemaValidationTest();
         studyDeserializationTest();
     }
-
 
     private void studySerializationTest() {
         try {
             marshalledStudy = getMarshaller().toXML(createDummyStudy(studyGridId));
             System.out.println(marshalledStudy);
             assertNotNull(marshalledStudy);
-        } catch (XMLUtilityException e) {
+        }
+        catch (XMLUtilityException e) {
             fail(e.getMessage());
         }
     }
 
     /**
-     * Tests if the message generated can be validated
-     * against the schema
+     * Tests if the message generated can be validated against the schema
      */
     private void schemaValidationTest() {
 
         try {
-            //validate the marshalled message
+            // validate the marshalled message
             byte[] messageBytes = marshalledStudy.getBytes();
             parser.parse(new ByteArrayInputStream(messageBytes), new MyHandler());
         }
@@ -76,7 +79,6 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
             fail(x.getMessage());
         }
     }
-
 
     private void studyDeserializationTest() {
         Reader messageReader = new StringReader(marshalledStudy);
@@ -86,14 +88,14 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
             assertNotNull(unmarshalledStudy);
 
             assertEquals(unmarshalledStudy.getGridId(), studyGridId);
-// we never set this so it should be null
+            // we never set this so it should be null
             assertNull(unmarshalledStudy.getDiseaseCategoryAsText());
-        } catch (XMLUtilityException e) {
+        }
+        catch (XMLUtilityException e) {
             fail(e.getMessage());
         }
 
     }
-
 
     private List<InclusionEligibilityCriteria> getInclusionEligibilityCriterias() {
         List<InclusionEligibilityCriteria> criterias = new ArrayList<InclusionEligibilityCriteria>();
@@ -123,10 +125,9 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
         return criterias;
     }
 
-
     /**
      * Will create a dummy study for the provided gridId
-     *
+     * 
      * @param gridId
      * @return
      */
@@ -186,6 +187,5 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
         ans.setPermissibleAnswer("it is valid");
         return studyObject;
     }
-
 
 }

@@ -19,24 +19,25 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
  * @author Priyatam
  */
 @Entity
-@Table (name="investigators")
-@GenericGenerator(name="id-generator", strategy = "native",
-    parameters = {
-        @Parameter(name="sequence", value="investigators_id_seq")
-    }
-)
-//@AssociationOverride( name="contactMechanisms", joinColumns= @JoinColumn(name="INV_ID") )
+@Table(name = "investigators")
+@GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "investigators_id_seq") })
+// @AssociationOverride( name="contactMechanisms", joinColumns= @JoinColumn(name="INV_ID") )
 public class Investigator extends C3PRUser {
     private String nciIdentifier;
+
     private LazyListHelper lazyListHelper;
+
     private String fullName;
-    
+
     // business methods
-    	   	    
+
     public Investigator() {
-    	lazyListHelper=new LazyListHelper();
-    	lazyListHelper.add(HealthcareSiteInvestigator.class, new BiDirectionalInstantiateFactory<HealthcareSiteInvestigator>(HealthcareSiteInvestigator.class,this));
-	}
+        lazyListHelper = new LazyListHelper();
+        lazyListHelper.add(HealthcareSiteInvestigator.class,
+                        new BiDirectionalInstantiateFactory<HealthcareSiteInvestigator>(
+                                        HealthcareSiteInvestigator.class, this));
+    }
+
     @Transient
     public String getLastFirst() {
         StringBuilder name = new StringBuilder();
@@ -49,8 +50,8 @@ public class Investigator extends C3PRUser {
             name.append(getFirstName());
         }
         return name.toString();
-    }  
-    
+    }
+
     @Transient
     public String getFullName() {
         StringBuilder name = new StringBuilder();
@@ -64,79 +65,75 @@ public class Investigator extends C3PRUser {
         }
         return name.toString();
     }
-    
+
     public void addHealthcareSiteInvestigator(HealthcareSiteInvestigator hcsi) {
-    	hcsi.setInvestigator(this);
-    	lazyListHelper.getLazyList(HealthcareSiteInvestigator.class).add(hcsi);
-    }    
-    	
-	@OneToMany (mappedBy = "investigator")    
-    @Cascade (value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
-	public List<HealthcareSiteInvestigator> getHealthcareSiteInvestigatorsInternal() {
-		return lazyListHelper.getInternalList(HealthcareSiteInvestigator.class);
-	}
+        hcsi.setInvestigator(this);
+        lazyListHelper.getLazyList(HealthcareSiteInvestigator.class).add(hcsi);
+    }
 
-	@Transient
-	public List<HealthcareSiteInvestigator> getHealthcareSiteInvestigators() {
-		return lazyListHelper.getLazyList(HealthcareSiteInvestigator.class);
-	}
-	
-	public void setHealthcareSiteInvestigators(List<HealthcareSiteInvestigator>	healthcareSiteInvestigators) {
-	}
-	public void setHealthcareSiteInvestigatorsInternal(List<HealthcareSiteInvestigator> 
-		healthcareSiteInvestigators) {
-		lazyListHelper.setInternalList(HealthcareSiteInvestigator.class, healthcareSiteInvestigators);
-	}
+    @OneToMany(mappedBy = "investigator")
+    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    public List<HealthcareSiteInvestigator> getHealthcareSiteInvestigatorsInternal() {
+        return lazyListHelper.getInternalList(HealthcareSiteInvestigator.class);
+    }
 
-	public String getNciIdentifier() {
-		return nciIdentifier;
-	}
+    @Transient
+    public List<HealthcareSiteInvestigator> getHealthcareSiteInvestigators() {
+        return lazyListHelper.getLazyList(HealthcareSiteInvestigator.class);
+    }
 
-	public void setNciIdentifier(String nciIdentifier) {
-		this.nciIdentifier = nciIdentifier;
-	}	
-	
-	@OneToMany
-	@Cascade(value={CascadeType.ALL, CascadeType.DELETE_ORPHAN})
-	@JoinColumn(name="INV_ID")
-	public List<ContactMechanism> getContactMechanisms()
-	{
-		return contactMechanisms;
-	}
-	
-	public void setContactMechanisms(List<ContactMechanism> contactMechanisms)
-	{
-		this.contactMechanisms = contactMechanisms;
-	}
-	
-	public int compareTo(Object o) {
-		if (this.equals((Investigator)o)) return 0;
-		else return 1;
-	}
-		
-	@Override
-	public int hashCode() {
-		final int PRIME = 31;
-	//	int result = super.hashCode();
-		int result = 1;
-		result = PRIME * result + ((nciIdentifier == null) ? 0 : nciIdentifier.hashCode());
-		return result;
-	}
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		/*if (!super.equals(obj))
-			return false;*/
-		if (getClass() != obj.getClass())
-			return false;
-		final Investigator other = (Investigator) obj;
-		if (nciIdentifier == null) {
-			if (other.nciIdentifier != null)
-				return false;
-		} else if (!nciIdentifier.equalsIgnoreCase(other.nciIdentifier))
-			return false;
-		return true;
-	}
-   
+    public void setHealthcareSiteInvestigators(
+                    List<HealthcareSiteInvestigator> healthcareSiteInvestigators) {
+    }
+
+    public void setHealthcareSiteInvestigatorsInternal(
+                    List<HealthcareSiteInvestigator> healthcareSiteInvestigators) {
+        lazyListHelper.setInternalList(HealthcareSiteInvestigator.class,
+                        healthcareSiteInvestigators);
+    }
+
+    public String getNciIdentifier() {
+        return nciIdentifier;
+    }
+
+    public void setNciIdentifier(String nciIdentifier) {
+        this.nciIdentifier = nciIdentifier;
+    }
+
+    @OneToMany
+    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
+    @JoinColumn(name = "INV_ID")
+    public List<ContactMechanism> getContactMechanisms() {
+        return contactMechanisms;
+    }
+
+    public void setContactMechanisms(List<ContactMechanism> contactMechanisms) {
+        this.contactMechanisms = contactMechanisms;
+    }
+
+    public int compareTo(Object o) {
+        if (this.equals((Investigator) o)) return 0;
+        else return 1;
+    }
+
+    @Override
+    public int hashCode() {
+        final int PRIME = 31;
+        int result = 1;
+        result = PRIME * result + ((nciIdentifier == null) ? 0 : nciIdentifier.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (getClass() != obj.getClass()) return false;
+        final Investigator other = (Investigator) obj;
+        if (nciIdentifier == null) {
+            if (other.nciIdentifier != null) return false;
+        }
+        else if (!nciIdentifier.equalsIgnoreCase(other.nciIdentifier)) return false;
+        return true;
+    }
+
 }

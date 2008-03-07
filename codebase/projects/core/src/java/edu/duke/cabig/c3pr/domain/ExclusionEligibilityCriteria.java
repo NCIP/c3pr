@@ -10,9 +10,8 @@ import javax.persistence.Entity;
 @DiscriminatorValue(value = "E")
 public class ExclusionEligibilityCriteria extends EligibilityCriteria {
 
-	public ExclusionEligibilityCriteria() {
-		setQuestionNumber(new Integer(0));
-		// TODO Auto-generated constructor stub
-	}
-	
+    public ExclusionEligibilityCriteria() {
+        setQuestionNumber(new Integer(0));
+    }
+
 }

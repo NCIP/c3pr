@@ -9,8 +9,7 @@ import javax.persistence.Entity;
 @Entity
 @DiscriminatorValue(value = "I")
 public class InclusionEligibilityCriteria extends EligibilityCriteria {
-	public InclusionEligibilityCriteria() {
-		setQuestionNumber(new Integer(0));
-		// TODO Auto-generated constructor stub
-	}
+    public InclusionEligibilityCriteria() {
+        setQuestionNumber(new Integer(0));
+    }
 }

@@ -20,48 +20,50 @@ import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 @Entity
 @DiscriminatorValue(value = "BR")
 public class BookRandomization extends Randomization {
-	
-	private LazyListHelper lazyListHelper;
 
-	public BookRandomization(){
-		lazyListHelper = new LazyListHelper();
-		lazyListHelper.add(BookRandomizationEntry.class,
-				new InstantiateFactory<BookRandomizationEntry>(BookRandomizationEntry.class));
-	}
+    private LazyListHelper lazyListHelper;
 
-	@OneToMany (fetch=FetchType.LAZY)
-	@JoinColumn(name = "rndm_id", nullable=false)
-    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+    public BookRandomization() {
+        lazyListHelper = new LazyListHelper();
+        lazyListHelper
+                        .add(BookRandomizationEntry.class,
+                                        new InstantiateFactory<BookRandomizationEntry>(
+                                                        BookRandomizationEntry.class));
+    }
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "rndm_id", nullable = false)
+    @Cascade(value = { CascadeType.ALL, CascadeType.DELETE_ORPHAN })
     @OrderBy("stratumGroup, position")
-	public List<BookRandomizationEntry> getBookRandomizationEntryInternal() {
-		return lazyListHelper.getInternalList(BookRandomizationEntry.class);
-	}
+    public List<BookRandomizationEntry> getBookRandomizationEntryInternal() {
+        return lazyListHelper.getInternalList(BookRandomizationEntry.class);
+    }
 
-	public void setBookRandomizationEntryInternal(
-			List<BookRandomizationEntry> bookRandomizationEntry) {
-		lazyListHelper.setInternalList(BookRandomizationEntry.class, bookRandomizationEntry);
-	}
-	
-	@Transient
-	public List<BookRandomizationEntry> getBookRandomizationEntry() {
-		return lazyListHelper.getLazyList(BookRandomizationEntry.class);
-	}
+    public void setBookRandomizationEntryInternal(
+                    List<BookRandomizationEntry> bookRandomizationEntry) {
+        lazyListHelper.setInternalList(BookRandomizationEntry.class, bookRandomizationEntry);
+    }
 
-	public void setBookRandomizationEntry(
-			List<BookRandomizationEntry> bookRandomizationEntry) {
-	}
-	
-	@Override
-	@Transient
-	public void setRetiredIndicatorAsTrue(){
-		super.setRetiredIndicatorAsTrue();
-		List<BookRandomizationEntry> breList = this.getBookRandomizationEntry();;
-		BookRandomizationEntry bre;
-		Iterator breIter = breList.iterator();
-		while(breIter.hasNext()){
-			bre = (BookRandomizationEntry)breIter.next();
-			bre.setRetiredIndicatorAsTrue();
-		}		
-	}
+    @Transient
+    public List<BookRandomizationEntry> getBookRandomizationEntry() {
+        return lazyListHelper.getLazyList(BookRandomizationEntry.class);
+    }
+
+    public void setBookRandomizationEntry(List<BookRandomizationEntry> bookRandomizationEntry) {
+    }
+
+    @Override
+    @Transient
+    public void setRetiredIndicatorAsTrue() {
+        super.setRetiredIndicatorAsTrue();
+        List<BookRandomizationEntry> breList = this.getBookRandomizationEntry();
+        ;
+        BookRandomizationEntry bre;
+        Iterator breIter = breList.iterator();
+        while (breIter.hasNext()) {
+            bre = (BookRandomizationEntry) breIter.next();
+            bre.setRetiredIndicatorAsTrue();
+        }
+    }
 
 }

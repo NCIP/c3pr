@@ -21,55 +21,57 @@ import edu.duke.cabig.c3pr.domain.StudyDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 
 public class StudyCreationHelper {
-	public Study getMultiSiteRandomizedStudy(RandomizationType randomizationType)throws Exception{
-		Study study=buildBasicStudy(true, randomizationType);
-		TreatmentEpoch epoch=getTreatmentEpochWithArm();
+    public Study getMultiSiteRandomizedStudy(RandomizationType randomizationType) throws Exception {
+        Study study = buildBasicStudy(true, randomizationType);
+        TreatmentEpoch epoch = getTreatmentEpochWithArm();
         addRandomization(randomizationType, epoch);
         study.addEpoch(epoch);
-		return study;
-	}
-	
-	public Study getMultiSiteNonRandomizedStudy(Boolean reserving, Boolean enrolling){
-		Study study=buildBasicStudy(true, null);
-		NonTreatmentEpoch epoch=new NonTreatmentEpoch();
-		epoch.setName("screening");
-		epoch.setReservationIndicator(reserving);
-		epoch.setEnrollmentIndicator(enrolling);
+        return study;
+    }
+
+    public Study getMultiSiteNonRandomizedStudy(Boolean reserving, Boolean enrolling) {
+        Study study = buildBasicStudy(true, null);
+        NonTreatmentEpoch epoch = new NonTreatmentEpoch();
+        epoch.setName("screening");
+        epoch.setReservationIndicator(reserving);
+        epoch.setEnrollmentIndicator(enrolling);
         study.addEpoch(epoch);
-		return study;
-	}
-	
-	public Study getMultiSiteNonRandomizedWithArmStudy(){
-		Study study=buildBasicStudy(true, null);
-		TreatmentEpoch epoch=getTreatmentEpochWithArm();
+        return study;
+    }
+
+    public Study getMultiSiteNonRandomizedWithArmStudy() {
+        Study study = buildBasicStudy(true, null);
+        TreatmentEpoch epoch = getTreatmentEpochWithArm();
         study.addEpoch(epoch);
-		return study;
-	}
-	
-	public Study getLocalRandomizedStudy(RandomizationType randomizationType)throws Exception{
-		Study study=buildBasicStudy(false, randomizationType);
-		TreatmentEpoch epoch=getTreatmentEpochWithArm();
+        return study;
+    }
+
+    public Study getLocalRandomizedStudy(RandomizationType randomizationType) throws Exception {
+        Study study = buildBasicStudy(false, randomizationType);
+        TreatmentEpoch epoch = getTreatmentEpochWithArm();
         addRandomization(randomizationType, epoch);
         study.addEpoch(epoch);
-		return study;
-	}
-	public Study getLocalNonRandomizedStudy(Boolean reserving, Boolean enrolling){
-		Study study=buildBasicStudy(false, null);
-		NonTreatmentEpoch epoch=new NonTreatmentEpoch();
-		epoch.setName("screening");
-		epoch.setReservationIndicator(reserving);
-		epoch.setEnrollmentIndicator(enrolling);
+        return study;
+    }
+
+    public Study getLocalNonRandomizedStudy(Boolean reserving, Boolean enrolling) {
+        Study study = buildBasicStudy(false, null);
+        NonTreatmentEpoch epoch = new NonTreatmentEpoch();
+        epoch.setName("screening");
+        epoch.setReservationIndicator(reserving);
+        epoch.setEnrollmentIndicator(enrolling);
         study.addEpoch(epoch);
-		return study;
-	}
-	public Study getLocalNonRandomizedWithArmStudy(){
-		Study study=buildBasicStudy(false, null);
-		TreatmentEpoch epoch=getTreatmentEpochWithArm();
+        return study;
+    }
+
+    public Study getLocalNonRandomizedWithArmStudy() {
+        Study study = buildBasicStudy(false, null);
+        TreatmentEpoch epoch = getTreatmentEpochWithArm();
         study.addEpoch(epoch);
-		return study;
-	}
-	
-	private TreatmentEpoch getTreatmentEpochWithArm(){
+        return study;
+    }
+
+    private TreatmentEpoch getTreatmentEpochWithArm() {
         Arm armA = new Arm();
         armA.setName("A");
 
@@ -81,7 +83,8 @@ public class StudyCreationHelper {
         epoch.setName("epoch1");
         epoch.setRandomizedIndicator(false);
         return epoch;
-	}
+    }
+
     private ArrayList<StratumGroup> buildStratumGroupWithScac() {
         StratificationCriterionAnswerCombination scac = new StratificationCriterionAnswerCombination();
         List<StratificationCriterionAnswerCombination> scacList = new ArrayList<StratificationCriterionAnswerCombination>();
@@ -137,39 +140,39 @@ public class StudyCreationHelper {
         study.setLongTitleText("LongTitleText1");
         study.setPhaseCode("PhaseCode1");
         study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
-		study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
+        study.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
         study.setTargetAccrualNumber(150);
         study.setType("Type");
         study.setMultiInstitutionIndicator(multiSite);
-        if(randomizationType!=null){
-        	study.setRandomizedIndicator(Boolean.TRUE);
-        	study.setRandomizationType(randomizationType);
-        }else{
-        	study.setRandomizedIndicator(Boolean.FALSE);
+        if (randomizationType != null) {
+            study.setRandomizedIndicator(Boolean.TRUE);
+            study.setRandomizationType(randomizationType);
+        }
+        else {
+            study.setRandomizedIndicator(Boolean.FALSE);
         }
         return study;
     }
 
-    private void addRandomization(RandomizationType randomizationType, TreatmentEpoch epoch)throws Exception{
-    	epoch.setRandomizedIndicator(true);
-    	if(randomizationType==RandomizationType.BOOK)
-			addBookRandomization(epoch);
-		else if(randomizationType==RandomizationType.CALL_OUT)
-			addCalloutRandomization(epoch);
-		else if(randomizationType==RandomizationType.PHONE_CALL)
-			addPhoneCallRandomization(epoch);
-		else{
-			throw new Exception("Invalid Randomization Type");
-		}
+    private void addRandomization(RandomizationType randomizationType, TreatmentEpoch epoch)
+                    throws Exception {
+        epoch.setRandomizedIndicator(true);
+        if (randomizationType == RandomizationType.BOOK) addBookRandomization(epoch);
+        else if (randomizationType == RandomizationType.CALL_OUT) addCalloutRandomization(epoch);
+        else if (randomizationType == RandomizationType.PHONE_CALL) addPhoneCallRandomization(epoch);
+        else {
+            throw new Exception("Invalid Randomization Type");
+        }
     }
-    private void addCalloutRandomization(TreatmentEpoch epoch){
-    	Randomization cRandomization = new CalloutRandomization();
+
+    private void addCalloutRandomization(TreatmentEpoch epoch) {
+        Randomization cRandomization = new CalloutRandomization();
         ((CalloutRandomization) cRandomization).setCalloutUrl("trialUrl.com");
         epoch.setRandomization(cRandomization);
     }
-    
-    private void addBookRandomization(TreatmentEpoch epoch){
-    	BookRandomization bRandomization = new BookRandomization();
+
+    private void addBookRandomization(TreatmentEpoch epoch) {
+        BookRandomization bRandomization = new BookRandomization();
         BookRandomizationEntry bre = new BookRandomizationEntry();
         bre.setPosition(0);
         //
@@ -184,16 +187,16 @@ public class StudyCreationHelper {
         addStratumGroupToEpoch(epoch);
         bre.setStratumGroup(epoch.getStratumGroups().get(0));
         epoch.getStratumGroups().get(0).getBookRandomizationEntry().add(bre);
-        
+
         List<BookRandomizationEntry> breList = new ArrayList<BookRandomizationEntry>();
         breList.add(bre);
 
         bRandomization.getBookRandomizationEntry().addAll(breList);
         epoch.setRandomization(bRandomization);
     }
-    
-    private void addPhoneCallRandomization(TreatmentEpoch epoch){
-    	Randomization pRandomization = new PhoneCallRandomization();
+
+    private void addPhoneCallRandomization(TreatmentEpoch epoch) {
+        Randomization pRandomization = new PhoneCallRandomization();
         ((PhoneCallRandomization) pRandomization).setPhoneNumber("777 777 7777");
         epoch.setRandomization(pRandomization);
     }

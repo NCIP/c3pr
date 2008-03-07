@@ -1,34 +1,28 @@
 package edu.duke.cabig.c3pr.service;
 
+import java.util.List;
+
+import org.springframework.transaction.annotation.Transactional;
+
 import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
 import edu.duke.cabig.c3pr.domain.Investigator;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 /**
- * Service to handle C3PR Users management
- * <p/>
- * Created by IntelliJ IDEA.
- * User: kherm
- * Date: Aug 24, 2007
- * Time: 9:41:56 AM
- * To change this template use File | Settings | File Templates.
+ * Service to handle C3PR Users management <p/> Created by IntelliJ IDEA. User: kherm Date: Aug 24,
+ * 2007 Time: 9:41:56 AM To change this template use File | Settings | File Templates.
  */
-@Transactional(readOnly = false, rollbackFor = C3PRBaseException.class,
-        noRollbackFor = C3PRBaseRuntimeException.class)
+@Transactional(readOnly = false, rollbackFor = C3PRBaseException.class, noRollbackFor = C3PRBaseRuntimeException.class)
 public interface PersonnelService {
-
 
     public void save(Investigator user) throws C3PRBaseException;
 
     /**
      * Will save Research Staff and add appropriate data into CSM
-     *
+     * 
      * @param staff
      * @throws C3PRBaseException
      * @throws C3PRBaseRuntimeException
@@ -37,7 +31,7 @@ public interface PersonnelService {
 
     /**
      * Used to update Investigator domain object
-     *
+     * 
      * @param user
      * @throws C3PRBaseException
      */
@@ -45,7 +39,7 @@ public interface PersonnelService {
 
     /**
      * Used to update ResearchStaff domain object
-     *
+     * 
      * @param staff
      * @throws C3PRBaseException
      */
@@ -53,12 +47,11 @@ public interface PersonnelService {
 
     /**
      * Get a list of csm groups for the user
-     *
+     * 
      * @param user
      * @return
      * @throws C3PRBaseException
      */
     public List<C3PRUserGroupType> getGroups(C3PRUser user) throws C3PRBaseException;
-
 
 }

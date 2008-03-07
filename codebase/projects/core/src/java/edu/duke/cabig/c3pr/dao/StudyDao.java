@@ -36,32 +36,33 @@ import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 
 /**
  * Hibernate implementation of StudyDao
+ * 
  * @author Priyatam
  */
 @Transactional(readOnly = true)
-public class StudyDao extends GridIdentifiableDao<Study>
-        implements MutableDomainObjectDao<Study> {
+public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomainObjectDao<Study> {
 
-    private static final List<String> SUBSTRING_MATCH_PROPERTIES
-            = Arrays.asList("shortTitleText");
-    private static final List<String> EXACT_MATCH_PROPERTIES
-            = Collections.emptyList();
+    private static final List<String> SUBSTRING_MATCH_PROPERTIES = Arrays.asList("shortTitleText");
+
+    private static final List<String> EXACT_MATCH_PROPERTIES = Collections.emptyList();
+
     private static Log log = LogFactory.getLog(StudyDao.class);
+
     private HealthcareSiteDao healthcareSiteDao;
 
     public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
-		this.healthcareSiteDao = healthcareSiteDao;
-	}
-    
-    public void detach(Study study){
-    	getHibernateTemplate().evict(study);
-    }
-    
-    public void clear(){
-    	getHibernateTemplate().clear();
+        this.healthcareSiteDao = healthcareSiteDao;
     }
 
-	@Override
+    public void detach(Study study) {
+        getHibernateTemplate().evict(study);
+    }
+
+    public void clear() {
+        getHibernateTemplate().clear();
+    }
+
+    @Override
     public Class<Study> domainClass() {
         return Study.class;
     }
@@ -75,113 +76,105 @@ public class StudyDao extends GridIdentifiableDao<Study>
         Criteria criteria = getSession().createCriteria(domainClass());
         criteria = criteria.createCriteria("identifiers");
 
-        if(identifier.getType() != null) {
+        if (identifier.getType() != null) {
             criteria.add(Restrictions.eq("type", identifier.getType()));
         }
 
-        if(identifier.getSystemName() != null) {
+        if (identifier.getSystemName() != null) {
             criteria.add(Restrictions.eq("systemName", identifier.getSystemName()));
         }
 
-        if(identifier.getValue() != null) {
+        if (identifier.getValue() != null) {
             criteria.add(Restrictions.eq("value", identifier.getValue()));
         }
         return (Study) CollectionUtils.firstElement(criteria.list());
     }
-    
+
     @SuppressWarnings("unchecked")
     public List<Study> searchByOrgIdentifier(OrganizationAssignedIdentifier id) {
-    	return (List<Study>) getHibernateTemplate().find("select S from Study S, Identifier I where I.healthcareSite.id=?" +
-    			" and I.value=? and I.type=? and I=any elements(S.identifiers)",new Object[]{id.getHealthcareSite().getId(),id.getValue(),id.getType()});
-    }
-    @Transactional (readOnly = false)
-    public Study merge(Study study) {
-        return (Study)getHibernateTemplate().merge(study);
+        return (List<Study>) getHibernateTemplate()
+                        .find(
+                                        "select S from Study S, Identifier I where I.healthcareSite.id=?"
+                                                        + " and I.value=? and I.type=? and I=any elements(S.identifiers)",
+                                        new Object[] { id.getHealthcareSite().getId(),
+                                                id.getValue(), id.getType() });
     }
 
-    @Transactional (readOnly = false)
+    @Transactional(readOnly = false)
+    public Study merge(Study study) {
+        return (Study) getHibernateTemplate().merge(study);
+    }
+
+    @Transactional(readOnly = false)
     public void save(Study study) {
         getHibernateTemplate().saveOrUpdate(study);
     }
-    
-    @Transactional (readOnly = false)
-    public void initialize(Study study) throws DataAccessException {
-    	getHibernateTemplate().initialize(study.getEpochs());
-    	for(Epoch epoch: study.getEpochs()){
-			if (epoch instanceof TreatmentEpoch) {
-				TreatmentEpoch treatmentEpoch = (TreatmentEpoch)epoch;
-				if (treatmentEpoch != null) {
-					getHibernateTemplate().initialize(
-							treatmentEpoch.getArmsInternal());
-					getHibernateTemplate().initialize(
-							treatmentEpoch
-									.getExclusionEligibilityCriteriaInternal());
-					getHibernateTemplate().initialize(
-							treatmentEpoch
-									.getInclusionEligibilityCriteriaInternal());
-					getHibernateTemplate().initialize(
-							treatmentEpoch.getStratificationCriteriaInternal());
-					for (StratificationCriterion stratficationCriterion : treatmentEpoch
-							.getStratificationCriteriaInternal()) {
-						if (stratficationCriterion != null) {
-							getHibernateTemplate().initialize(
-									stratficationCriterion
-											.getPermissibleAnswersInternal());
-						}
-					}
-					getHibernateTemplate().initialize(
-							treatmentEpoch.getStratumGroupsInternal());
-					for (StratumGroup stratumGroup : treatmentEpoch
-							.getStratumGroupsInternal()) {
 
-						if (stratumGroup != null) {
-							getHibernateTemplate()
-									.initialize(
-											stratumGroup
-													.getBookRandomizationEntryInternal());
-						}
-					}
-				}
-			}    		
-     	}
-    	getHibernateTemplate().initialize(study.getStudyAmendmentsInternal());
-    	getHibernateTemplate().initialize(study.getStudyDiseases());
-    	getHibernateTemplate().initialize(study.getStudyOrganizations());
-    	getHibernateTemplate().initialize(study.getIdentifiers());
-    	getHibernateTemplate().initialize(study.getNotificationsInternal());
-    	for (Notification notification : study.getNotificationsInternal()) {
-			if (notification != null) {
-				getHibernateTemplate().initialize(notification.getEmailBasedRecipientInternal());
-				getHibernateTemplate().initialize(notification.getRoleBasedRecipientInternal());
-			}
-		}
-    	
-    	 for(StudyOrganization studyOrganization: study.getStudyOrganizations()){
-			if (studyOrganization!=null) {
-				getHibernateTemplate().initialize(
-						studyOrganization.getStudyInvestigatorsInternal());
-				getHibernateTemplate().initialize(
-						studyOrganization.getStudyPersonnelInternal());
-			}	    	
-    	}
+    @Transactional(readOnly = false)
+    public void initialize(Study study) throws DataAccessException {
+        getHibernateTemplate().initialize(study.getEpochs());
+        for (Epoch epoch : study.getEpochs()) {
+            if (epoch instanceof TreatmentEpoch) {
+                TreatmentEpoch treatmentEpoch = (TreatmentEpoch) epoch;
+                if (treatmentEpoch != null) {
+                    getHibernateTemplate().initialize(treatmentEpoch.getArmsInternal());
+                    getHibernateTemplate().initialize(
+                                    treatmentEpoch.getExclusionEligibilityCriteriaInternal());
+                    getHibernateTemplate().initialize(
+                                    treatmentEpoch.getInclusionEligibilityCriteriaInternal());
+                    getHibernateTemplate().initialize(
+                                    treatmentEpoch.getStratificationCriteriaInternal());
+                    for (StratificationCriterion stratficationCriterion : treatmentEpoch
+                                    .getStratificationCriteriaInternal()) {
+                        if (stratficationCriterion != null) {
+                            getHibernateTemplate().initialize(
+                                            stratficationCriterion.getPermissibleAnswersInternal());
+                        }
+                    }
+                    getHibernateTemplate().initialize(treatmentEpoch.getStratumGroupsInternal());
+                    for (StratumGroup stratumGroup : treatmentEpoch.getStratumGroupsInternal()) {
+
+                        if (stratumGroup != null) {
+                            getHibernateTemplate().initialize(
+                                            stratumGroup.getBookRandomizationEntryInternal());
+                        }
+                    }
+                }
+            }
+        }
+        getHibernateTemplate().initialize(study.getStudyAmendmentsInternal());
+        getHibernateTemplate().initialize(study.getStudyDiseases());
+        getHibernateTemplate().initialize(study.getStudyOrganizations());
+        getHibernateTemplate().initialize(study.getIdentifiers());
+        getHibernateTemplate().initialize(study.getNotificationsInternal());
+        for (Notification notification : study.getNotificationsInternal()) {
+            if (notification != null) {
+                getHibernateTemplate().initialize(notification.getEmailBasedRecipientInternal());
+                getHibernateTemplate().initialize(notification.getRoleBasedRecipientInternal());
+            }
+        }
+
+        for (StudyOrganization studyOrganization : study.getStudyOrganizations()) {
+            if (studyOrganization != null) {
+                getHibernateTemplate()
+                                .initialize(studyOrganization.getStudyInvestigatorsInternal());
+                getHibernateTemplate().initialize(studyOrganization.getStudyPersonnelInternal());
+            }
+        }
     }
 
     public List<Study> getBySubnames(String[] subnames) {
-        return findBySubname(subnames,
-                SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
+        return findBySubname(subnames, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
     }
 
-
     /*
-      * Searches based on an example object. Typical usage from your service class: -
-      * If you want to search based on diseaseCode, monitorCode,
-      * <li><code>Study study = new Study();</li></code>
-      * <li>code>study.setDiseaseCode("diseaseCode");</li></code>
-      * <li>code>study.setDMonitorCode("monitorCode");</li></code>
-      * <li>code>studyDao.searchByExample(study)</li></code>
-      * @return list of matching study objects based on your sample study object
-      */
-  
+     * Searches based on an example object. Typical usage from your service class: - If you want to
+     * search based on diseaseCode, monitorCode, <li><code>Study study = new Study();</li></code>
+     * <li>code>study.setDiseaseCode("diseaseCode");</li></code> <li>code>study.setDMonitorCode("monitorCode");</li></code>
+     * <li>code>studyDao.searchByExample(study)</li></code> @return list of matching study
+     * objects based on your sample study object
+     */
+
     @Transactional(readOnly = true)
     public List<Study> searchByExample(Study study, boolean isWildCard) {
         List<Study> result = new ArrayList<Study>();
@@ -191,76 +184,94 @@ public class StudyDao extends GridIdentifiableDao<Study>
             Criteria studyCriteria = getSession().createCriteria(Study.class);
             studyCriteria.addOrder(Order.asc("shortTitleText"));
             studyCriteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
-            
-            if (isWildCard)
-            {
+
+            if (isWildCard) {
                 example.excludeProperty("doNotUse").enableLike(MatchMode.ANYWHERE);
                 studyCriteria.add(example);
                 if (study.getIdentifiers().size() > 1) {
-                    studyCriteria.createCriteria("identifiers")
-                            .add(Restrictions.ilike("value", "%" + study.getIdentifiers().get(0)
-                                    .getValue() + "%")) .add(Restrictions.ilike("value", "%" + study.getIdentifiers().get(1)
-                                            .getValue() + "%"));
-                } else  if (study.getIdentifiers().size() > 0) {
-                    studyCriteria.createCriteria("identifiers")
-                    .add(Restrictions.ilike("value", "%" + study.getIdentifiers().get(0)
-                            .getValue() + "%"));
-        }
-                result =  studyCriteria.list();
+                    studyCriteria.createCriteria("identifiers").add(
+                                    Restrictions.ilike("value", "%"
+                                                    + study.getIdentifiers().get(0).getValue()
+                                                    + "%")).add(
+                                    Restrictions.ilike("value", "%"
+                                                    + study.getIdentifiers().get(1).getValue()
+                                                    + "%"));
+                }
+                else if (study.getIdentifiers().size() > 0) {
+                    studyCriteria.createCriteria("identifiers").add(
+                                    Restrictions.ilike("value", "%"
+                                                    + study.getIdentifiers().get(0).getValue()
+                                                    + "%"));
+                }
+                result = studyCriteria.list();
             }
-            result =  studyCriteria.add(example).list();
-        } catch (DataAccessResourceFailureException e) {
+            result = studyCriteria.add(example).list();
+        }
+        catch (DataAccessResourceFailureException e) {
             log.error(e.getMessage());
-        } catch (IllegalStateException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (HibernateException e) {
+        }
+        catch (IllegalStateException e) {
+            e.printStackTrace(); // To change body of catch statement use File | Settings | File
+                                    // Templates.
+        }
+        catch (HibernateException e) {
             log.error(e.getMessage());
         }
         return result;
     }
-    
+
     @Transactional(readOnly = true)
-    public List<Study> searchByExample(Study study,String searchText, boolean isWildCard) {
-    	
+    public List<Study> searchByExample(Study study, String searchText, boolean isWildCard) {
+
         List<Study> result = new ArrayList<Study>();
-        if(isWildCard){
-        	result = (List<Study>)getHibernateTemplate().find("from Study where status like '%" +  searchText.toUpperCase() + "%'");
+        if (isWildCard) {
+            result = (List<Study>) getHibernateTemplate().find(
+                            "from Study where status like '%" + searchText.toUpperCase() + "%'");
         }
         else {
-        	result = (List<Study>)getHibernateTemplate().find("from Study where status like '?", searchText.toUpperCase());
+            result = (List<Study>) getHibernateTemplate().find("from Study where status like '?",
+                            searchText.toUpperCase());
         }
         return result;
     }
-    
-    @Transactional(readOnly = false)
-    public List<OrganizationAssignedIdentifier> getCoordinatingCenterIdentifiersWithValue(String coordinatingCetnerIdentifierValue,  HealthcareSite site) throws DataAccessException {
-		List<OrganizationAssignedIdentifier> orgAssignedIdentifiers = (List<OrganizationAssignedIdentifier>) getHibernateTemplate().
-                find("from Identifier I where I.type='Coordinating Center Identifier' and I.healthcareSite = ?",site);
-		List<OrganizationAssignedIdentifier> ccIdentifiers = new ArrayList<OrganizationAssignedIdentifier>();
-		for(OrganizationAssignedIdentifier studyIdent:orgAssignedIdentifiers){
-			if (studyIdent.getValue().equalsIgnoreCase(coordinatingCetnerIdentifierValue)){
-				ccIdentifiers.add(studyIdent);
-			}
-		}
-		return ccIdentifiers;
-	}
-	
-	@Transactional(readOnly = false)
-    public List<OrganizationAssignedIdentifier> getFundingSponsorIdentifiersWithValue(String fundingSponsorIdentifierValue,  HealthcareSite site) throws DataAccessException {
-		List<OrganizationAssignedIdentifier> orgAssignedIdentifiers = (List<OrganizationAssignedIdentifier>) getHibernateTemplate().
-                find("from Identifier I where I.type='Protocol Authority Identifier' and I.healthcareSite = ?",site);
-		List<OrganizationAssignedIdentifier> fsIdentifiers = new ArrayList<OrganizationAssignedIdentifier>();
-		for(OrganizationAssignedIdentifier subIdent:orgAssignedIdentifiers){
-			if (subIdent.getValue().equalsIgnoreCase(fundingSponsorIdentifierValue)){
-				fsIdentifiers.add(subIdent);
-			}
-		}
-		return fsIdentifiers;
-	}
 
+    @Transactional(readOnly = false)
+    public List<OrganizationAssignedIdentifier> getCoordinatingCenterIdentifiersWithValue(
+                    String coordinatingCetnerIdentifierValue, HealthcareSite site)
+                    throws DataAccessException {
+        List<OrganizationAssignedIdentifier> orgAssignedIdentifiers = (List<OrganizationAssignedIdentifier>) getHibernateTemplate()
+                        .find(
+                                        "from Identifier I where I.type='Coordinating Center Identifier' and I.healthcareSite = ?",
+                                        site);
+        List<OrganizationAssignedIdentifier> ccIdentifiers = new ArrayList<OrganizationAssignedIdentifier>();
+        for (OrganizationAssignedIdentifier studyIdent : orgAssignedIdentifiers) {
+            if (studyIdent.getValue().equalsIgnoreCase(coordinatingCetnerIdentifierValue)) {
+                ccIdentifiers.add(studyIdent);
+            }
+        }
+        return ccIdentifiers;
+    }
+
+    @Transactional(readOnly = false)
+    public List<OrganizationAssignedIdentifier> getFundingSponsorIdentifiersWithValue(
+                    String fundingSponsorIdentifierValue, HealthcareSite site)
+                    throws DataAccessException {
+        List<OrganizationAssignedIdentifier> orgAssignedIdentifiers = (List<OrganizationAssignedIdentifier>) getHibernateTemplate()
+                        .find(
+                                        "from Identifier I where I.type='Protocol Authority Identifier' and I.healthcareSite = ?",
+                                        site);
+        List<OrganizationAssignedIdentifier> fsIdentifiers = new ArrayList<OrganizationAssignedIdentifier>();
+        for (OrganizationAssignedIdentifier subIdent : orgAssignedIdentifiers) {
+            if (subIdent.getValue().equalsIgnoreCase(fundingSponsorIdentifierValue)) {
+                fsIdentifiers.add(subIdent);
+            }
+        }
+        return fsIdentifiers;
+    }
 
     /**
      * Default Search without a Wildchar
+     * 
      * @param study
      * @return Search Results
      */
@@ -270,46 +281,53 @@ public class StudyDao extends GridIdentifiableDao<Study>
 
     /**
      * Returns all study objects
+     * 
      * @return list of study objects
      */
-    public List<Study> getAll(){
+    public List<Study> getAll() {
         return getHibernateTemplate().find("from Study");
     }
 
     /**
      * Get all Arms associated with all of this study's epochs
-     * @param studyId the study id
+     * 
+     * @param studyId
+     *                the study id
      * @return list of Arm objects given a study id
      */
     public List<Arm> getArmsForStudy(Integer studyId) {
-        return getHibernateTemplate().find("select a from Study s join s.epochs e join e.arms a " +
-                "where s.id = ?", studyId);
+        return getHibernateTemplate().find(
+                        "select a from Study s join s.epochs e join e.arms a " + "where s.id = ?",
+                        studyId);
     }
 
     /**
      * Get all Assignments associated with the given study
-     * @param studyId the study id
+     * 
+     * @param studyId
+     *                the study id
      * @return list of StudySubjects
      */
     public List<StudySubject> getStudySubjectsForStudy(Integer studyId) {
-        return getHibernateTemplate().find("select a from Study s join s.studyOrganizations so " +
-                "join so.studySubjects a where s.id = ? ", studyId);
+        return getHibernateTemplate().find(
+                        "select a from Study s join s.studyOrganizations so "
+                                        + "join so.studySubjects a where s.id = ? ", studyId);
     }
-    
+
     /*
      * Primarily created for Generating test reports.
      */
-    public List<StudyDisease> getByDiseaseTermId(Integer dTermId){
-    	return getHibernateTemplate().find("from StudyDisease sd where sd.diseaseTerm.id = ?", dTermId);
+    public List<StudyDisease> getByDiseaseTermId(Integer dTermId) {
+        return getHibernateTemplate().find("from StudyDisease sd where sd.diseaseTerm.id = ?",
+                        dTermId);
     }
-    
 
-    @Transactional (readOnly = false)
+    @Transactional(readOnly = false)
     public void reassociate(Study s) {
         getHibernateTemplate().update(s);
     }
-    
-    @Transactional (readOnly = false)
+
+    @Transactional(readOnly = false)
     public void refresh(Study s) {
         getHibernateTemplate().refresh(s);
     }

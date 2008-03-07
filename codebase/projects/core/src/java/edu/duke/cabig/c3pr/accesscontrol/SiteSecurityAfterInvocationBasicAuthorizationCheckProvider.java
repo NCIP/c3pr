@@ -3,6 +3,9 @@ package edu.duke.cabig.c3pr.accesscontrol;
 import gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject;
 import gov.nih.nci.security.acegi.csm.authorization.CSMAuthorizationCheck;
 import gov.nih.nci.security.constants.Constants;
+
+import java.util.LinkedHashMap;
+
 import org.acegisecurity.AccessDeniedException;
 import org.acegisecurity.Authentication;
 import org.acegisecurity.ConfigAttribute;
@@ -10,26 +13,27 @@ import org.acegisecurity.ConfigAttributeDefinition;
 import org.acegisecurity.afterinvocation.AfterInvocationProvider;
 import org.apache.log4j.Logger;
 
-import java.util.LinkedHashMap;
-
 /**
- * Created by IntelliJ IDEA.
- * User: kherm
- * Date: Sep 24, 2007
- * Time: 3:27:52 PM
- * To change this template use File | Settings | File Templates.
+ * Created by IntelliJ IDEA. User: kherm Date: Sep 24, 2007 Time: 3:27:52 PM To change this template
+ * use File | Settings | File Templates.
  */
-public class SiteSecurityAfterInvocationBasicAuthorizationCheckProvider implements AfterInvocationProvider {
+public class SiteSecurityAfterInvocationBasicAuthorizationCheckProvider implements
+                AfterInvocationProvider {
 
-    private String accessPrivilege = Constants.CSM_ACCESS_PRIVILEGE; //default
+    private String accessPrivilege = Constants.CSM_ACCESS_PRIVILEGE; // default
+
     private String processConfigAttribute;
+
     private LinkedHashMap domainObjectSiteSecurityAuhthorizationCheckProvidersMap;
+
     private Class processDomainObjectClass = AbstractMutableDomainObject.class;
 
-    private Logger log = Logger.getLogger(SiteSecurityAfterInvocationCollectionFilteringProvider.class);
+    private Logger log = Logger
+                    .getLogger(SiteSecurityAfterInvocationCollectionFilteringProvider.class);
 
-
-    public Object decide(Authentication authentication, Object object, ConfigAttributeDefinition configAttributeDefinition, Object returnedObject) throws AccessDeniedException {
+    public Object decide(Authentication authentication, Object object,
+                    ConfigAttributeDefinition configAttributeDefinition, Object returnedObject)
+                    throws AccessDeniedException {
 
         if (returnedObject == null) {
             if (log.isDebugEnabled()) {
@@ -49,27 +53,31 @@ public class SiteSecurityAfterInvocationBasicAuthorizationCheckProvider implemen
             return returnedObject;
         }
 
-        if(!domainObjectSiteSecurityAuhthorizationCheckProvidersMap.containsKey(returnedObject.getClass().getName())){
-            log.warn("Slipping Authorization. No appropriate CSMAuthorizationCheck object found for object type: " +  returnedObject.getClass().getName());
+        if (!domainObjectSiteSecurityAuhthorizationCheckProvidersMap.containsKey(returnedObject
+                        .getClass().getName())) {
+            log
+                            .warn("Slipping Authorization. No appropriate CSMAuthorizationCheck object found for object type: "
+                                            + returnedObject.getClass().getName());
             return returnedObject;
         }
 
-        CSMAuthorizationCheck auth =  (CSMAuthorizationCheck)domainObjectSiteSecurityAuhthorizationCheckProvidersMap.get(returnedObject.getClass().getName());
-        boolean hasPermission = auth.checkAuthorization(authentication,accessPrivilege,returnedObject);
+        CSMAuthorizationCheck auth = (CSMAuthorizationCheck) domainObjectSiteSecurityAuhthorizationCheckProvidersMap
+                        .get(returnedObject.getClass().getName());
+        boolean hasPermission = auth.checkAuthorization(authentication, accessPrivilege,
+                        returnedObject);
 
         if (hasPermission) {
             return returnedObject;
-        } else {
+        }
+        else {
             if (log.isDebugEnabled()) {
                 log.debug("Denying access");
             }
 
             throw new AccessDeniedException(
-                    "User does not have permission to view to this Study Site"
-            );
+                            "User does not have permission to view to this Study Site");
         }
     }
-
 
     public String getAccessPrivilege() {
         return accessPrivilege;
@@ -79,7 +87,7 @@ public class SiteSecurityAfterInvocationBasicAuthorizationCheckProvider implemen
         this.accessPrivilege = accessPrivilege;
     }
 
-    public Class getProcessDomainObjectClass(){
+    public Class getProcessDomainObjectClass() {
         return processDomainObjectClass;
     }
 
@@ -90,7 +98,6 @@ public class SiteSecurityAfterInvocationBasicAuthorizationCheckProvider implemen
     public boolean supports(Class aClass) {
         return true;
     }
-
 
     public String getProcessConfigAttribute() {
         return processConfigAttribute;
@@ -104,7 +111,8 @@ public class SiteSecurityAfterInvocationBasicAuthorizationCheckProvider implemen
         return domainObjectSiteSecurityAuhthorizationCheckProvidersMap;
     }
 
-    public void setDomainObjectSiteSecurityAuhthorizationCheckProvidersMap(LinkedHashMap domainObjectSiteSecurityAuhthorizationCheckProvidersMap) {
+    public void setDomainObjectSiteSecurityAuhthorizationCheckProvidersMap(
+                    LinkedHashMap domainObjectSiteSecurityAuhthorizationCheckProvidersMap) {
         this.domainObjectSiteSecurityAuhthorizationCheckProvidersMap = domainObjectSiteSecurityAuhthorizationCheckProvidersMap;
     }
 }

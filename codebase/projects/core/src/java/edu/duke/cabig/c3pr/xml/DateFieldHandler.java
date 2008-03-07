@@ -1,17 +1,14 @@
 package edu.duke.cabig.c3pr.xml;
 
-import org.exolab.castor.mapping.GeneralizedFieldHandler;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.exolab.castor.mapping.GeneralizedFieldHandler;
+
 /**
- * Created by IntelliJ IDEA.
- * User: kherm
- * Date: Mar 18, 2007
- * Time: 8:53:53 PM
- * To change this template use File | Settings | File Templates.
+ * Created by IntelliJ IDEA. User: kherm Date: Mar 18, 2007 Time: 8:53:53 PM To change this template
+ * use File | Settings | File Templates.
  */
 public class DateFieldHandler extends GeneralizedFieldHandler {
 

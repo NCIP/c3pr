@@ -1,6 +1,9 @@
 package edu.duke.cabig.c3pr.service;
 
 import static edu.duke.cabig.c3pr.C3PRUseCase.IMPORT_STUDY;
+
+import java.util.List;
+
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -10,36 +13,30 @@ import edu.duke.cabig.c3pr.utils.MasqueradingDaoTestCase;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 
-import java.util.List;
-
 /**
- * Created by IntelliJ IDEA.
- * User: kherm
- * Date: Jun 4, 2007
- * Time: 2:33:16 PM
- * To change this template use File | Settings | File Templates.
+ * Created by IntelliJ IDEA. User: kherm Date: Jun 4, 2007 Time: 2:33:16 PM To change this template
+ * use File | Settings | File Templates.
  */
-@C3PRUseCases({IMPORT_STUDY})
+@C3PRUseCases( { IMPORT_STUDY })
 public class StudyXMLImporterTestCase extends MasqueradingDaoTestCase<StudyDao> {
-
 
     private StudyXMLImporterServiceImpl studyImporter;
 
     XmlMarshaller marshaller;
 
     protected void setUp() throws Exception {
-        super.setUp();    //To change body of overridden methods use File | Settings | File Templates.
+        super.setUp(); // To change body of overridden methods use File | Settings | File
+                        // Templates.
         marshaller = new XmlMarshaller();
-        studyImporter = (StudyXMLImporterServiceImpl) getApplicationContext().getBean("studyXMLImporterService");
+        studyImporter = (StudyXMLImporterServiceImpl) getApplicationContext().getBean(
+                        "studyXMLImporterService");
     }
-
 
     public void testStudyValidation() throws Exception {
         Study study = getDao().getById(1000);
 
         studyImporter.validate(study);
     }
-
 
     public void testGetStudies() throws Exception {
         for (int i = 1000; i < 1003; i++) {
@@ -56,7 +53,8 @@ public class StudyXMLImporterTestCase extends MasqueradingDaoTestCase<StudyDao> 
 
             for (Study loadedStudy : studies) {
                 assertNotNull(loadedStudy);
-                assertEquals(loadedStudy.getStudyOrganizations().size(), study.getStudyOrganizations().size());
+                assertEquals(loadedStudy.getStudyOrganizations().size(), study
+                                .getStudyOrganizations().size());
 
                 for (StudyOrganization organization : loadedStudy.getStudyOrganizations()) {
                     assertNotNull(organization.getHealthcareSite());
@@ -65,10 +63,9 @@ public class StudyXMLImporterTestCase extends MasqueradingDaoTestCase<StudyDao> 
         }
     }
 
-
     /**
      * What dao class is the test trying to Masquerade
-     *
+     * 
      * @return
      */
     public Class<StudyDao> getMasqueradingDaoClassName() {
@@ -83,7 +80,6 @@ public class StudyXMLImporterTestCase extends MasqueradingDaoTestCase<StudyDao> 
         this.studyImporter = studyImporter;
     }
 
-
     public XmlMarshaller getMarshaller() {
         return marshaller;
     }
@@ -91,6 +87,5 @@ public class StudyXMLImporterTestCase extends MasqueradingDaoTestCase<StudyDao> 
     public void setMarshaller(XmlMarshaller marshaller) {
         this.marshaller = marshaller;
     }
-
 
 }

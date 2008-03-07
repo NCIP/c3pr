@@ -8,20 +8,20 @@ import javax.persistence.Transient;
 @DiscriminatorValue(value = "CR")
 public class CalloutRandomization extends Randomization {
 
-	private String calloutUrl;
+    private String calloutUrl;
 
-	public String getCalloutUrl() {
-		return calloutUrl;
-	}
+    public String getCalloutUrl() {
+        return calloutUrl;
+    }
 
-	public void setCalloutUrl(String calloutUrl) {
-		this.calloutUrl = calloutUrl;
-	}
-	
-	@Override
-	@Transient
-	public void setRetiredIndicatorAsTrue(){
-		super.setRetiredIndicatorAsTrue();
-	}
-	
+    public void setCalloutUrl(String calloutUrl) {
+        this.calloutUrl = calloutUrl;
+    }
+
+    @Override
+    @Transient
+    public void setRetiredIndicatorAsTrue() {
+        super.setRetiredIndicatorAsTrue();
+    }
+
 }

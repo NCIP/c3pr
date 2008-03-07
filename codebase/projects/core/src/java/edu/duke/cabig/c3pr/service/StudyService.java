@@ -1,29 +1,40 @@
 package edu.duke.cabig.c3pr.service;
 
-import edu.duke.cabig.c3pr.domain.*;
-import edu.duke.cabig.c3pr.exception.C3PRCodedException;
-
 import java.util.Date;
 import java.util.List;
 
+import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
+import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudyDataEntryStatus;
+import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.exception.C3PRCodedException;
+
 /**
  * Interface for Services on Study related domain object
- *
+ * 
  * @author priyatam
  */
 public interface StudyService extends CCTSWorkflowService {
 
     /**
      * Saves a study object
-     *
-     * @param study the study object
-     * @throws Exception runtime exception object
+     * 
+     * @param study
+     *                the study object
+     * @throws Exception
+     *                 runtime exception object
      */
     public void save(Study study) throws C3PRCodedException;
 
     public StudyDataEntryStatus evaluateDataEntryStatus(Study study) throws C3PRCodedException;
 
-    public CoordinatingCenterStudyStatus evaluateCoordinatingCenterStudyStatus(Study study) throws C3PRCodedException;
+    public CoordinatingCenterStudyStatus evaluateCoordinatingCenterStudyStatus(Study study)
+                    throws C3PRCodedException;
 
     public SiteStudyStatus evaluateSiteStudyStatus(StudySite studySite) throws C3PRCodedException;
 
@@ -33,9 +44,11 @@ public interface StudyService extends CCTSWorkflowService {
 
     public Study setStatuses(Study study, boolean throwException) throws C3PRCodedException;
 
-    public Study setStatuses(Study study, CoordinatingCenterStudyStatus status) throws C3PRCodedException;
+    public Study setStatuses(Study study, CoordinatingCenterStudyStatus status)
+                    throws C3PRCodedException;
 
-    public Study setSiteStudyStatus(Study study, StudySite studySite, SiteStudyStatus status) throws C3PRCodedException;
+    public Study setSiteStudyStatus(Study study, StudySite studySite, SiteStudyStatus status)
+                    throws C3PRCodedException;
 
     public Study merge(Study study);
 
@@ -43,7 +56,8 @@ public interface StudyService extends CCTSWorkflowService {
 
     public Study reassociate(Study study);
 
-    public List<Study> searchByCoOrdinatingCenterId(OrganizationAssignedIdentifier identifier) throws C3PRCodedException;
+    public List<Study> searchByCoOrdinatingCenterId(OrganizationAssignedIdentifier identifier)
+                    throws C3PRCodedException;
 
     /**
      * @param study
@@ -52,7 +66,6 @@ public interface StudyService extends CCTSWorkflowService {
      * @return StudySubject
      */
     public StudySubject assignParticipant(Study study, Participant participant,
-                                          HealthcareSite site, Date enrollmentDate);
-
+                    HealthcareSite site, Date enrollmentDate);
 
 }

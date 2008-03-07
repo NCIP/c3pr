@@ -20,18 +20,20 @@ import edu.emory.mathcs.backport.java.util.Collections;
 
 /**
  * Hibernate implementation of StudySiteDao
+ * 
  * @see edu.duke.cabig.c3pr.dao.StudySiteDao
  * @author Priyatam
  */
 public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 
     private static Log log = LogFactory.getLog(InvestigatorDao.class);
-    private static final List<String> SUBSTRING_MATCH_PROPERTIES
-            = Arrays.asList("firstName", "lastName");
-    private static final List<String> EXACT_MATCH_PROPERTIES
-            = Collections.emptyList();
-    private static final List<Object> EXTRA_PARAMS
-            = Collections.emptyList();
+
+    private static final List<String> SUBSTRING_MATCH_PROPERTIES = Arrays.asList("firstName",
+                    "lastName");
+
+    private static final List<String> EXACT_MATCH_PROPERTIES = Collections.emptyList();
+
+    private static final List<Object> EXTRA_PARAMS = Collections.emptyList();
 
     @Override
     public Class<ResearchStaff> domainClass() {
@@ -39,15 +41,15 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
     }
 
     /*
-      * Returns all ResearchStaff objects
-      */
+     * Returns all ResearchStaff objects
+     */
     public List<ResearchStaff> getAll() {
         return getHibernateTemplate().find("from ResearchStaff");
     }
 
     public List<ResearchStaff> getBySubnames(String[] subnames, int healthcareSite) {
-        return findBySubname(subnames,"o.healthcareSite.id = '"+healthcareSite+"'",EXTRA_PARAMS,
-                SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
+        return findBySubname(subnames, "o.healthcareSite.id = '" + healthcareSite + "'",
+                        EXTRA_PARAMS, SUBSTRING_MATCH_PROPERTIES, EXACT_MATCH_PROPERTIES);
     }
 
     public List<ResearchStaff> searchByExample(ResearchStaff staff, boolean isWildCard) {
@@ -59,43 +61,46 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
             criteria.addOrder(Order.asc("nciIdentifier"));
             criteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
 
-            if (isWildCard)
-            {
+            if (isWildCard) {
                 example.enableLike(MatchMode.ANYWHERE);
                 criteria.add(example);
                 if (staff.getHealthcareSite() != null) {
-                	criteria.createCriteria("healthcareSite")
-                            .add(Restrictions.ilike("name", "%" + staff.getHealthcareSite().getName() + "%"
-                                   ));
+                    criteria.createCriteria("healthcareSite").add(
+                                    Restrictions.ilike("name", "%"
+                                                    + staff.getHealthcareSite().getName() + "%"));
                 }
-                
-                result =  criteria.list();
-            }else{
-                result =  criteria.add(example).list();
+
+                result = criteria.list();
+            }
+            else {
+                result = criteria.add(example).list();
             }
 
-        } catch (DataAccessResourceFailureException e) {
+        }
+        catch (DataAccessResourceFailureException e) {
             log.error(e.getMessage());
-        } catch (IllegalStateException e) {
+        }
+        catch (IllegalStateException e) {
             e.printStackTrace();
-        } catch (HibernateException e) {
+        }
+        catch (HibernateException e) {
             log.error(e.getMessage());
         }
         return result;
     }
 
-    
-
-    public ResearchStaff getByNciIdentifier(String nciIdentifier){
+    public ResearchStaff getByNciIdentifier(String nciIdentifier) {
         ResearchStaff result = null;
 
         ResearchStaff staff = new ResearchStaff();
         staff.setNciIdentifier(nciIdentifier);
 
         try {
-            result = searchByExample(staff,false).get(0);
-        } catch (Exception e) {
-            log.debug("User with nciIdentifier " + nciIdentifier + " does not exist. Returning null");
+            result = searchByExample(staff, false).get(0);
+        }
+        catch (Exception e) {
+            log.debug("User with nciIdentifier " + nciIdentifier
+                            + " does not exist. Returning null");
         }
 
         return result;

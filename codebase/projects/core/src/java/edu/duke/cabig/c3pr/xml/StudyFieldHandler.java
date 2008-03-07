@@ -1,28 +1,21 @@
 package edu.duke.cabig.c3pr.xml;
 
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudySite;
-import edu.duke.cabig.c3pr.domain.StudySubject;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.ValidityException;
 
+import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.StudySite;
+import edu.duke.cabig.c3pr.domain.StudySubject;
+
 /**
- * To handle the studysite field in StudySubject
- * object
- * <p/>
- * Created by IntelliJ IDEA.
- * User: kherm
- * Date: Mar 18, 2007
- * Time: 7:32:20 PM
- * To change this template use File | Settings | File Templates.
+ * To handle the studysite field in StudySubject object <p/> Created by IntelliJ IDEA. User: kherm
+ * Date: Mar 18, 2007 Time: 7:32:20 PM To change this template use File | Settings | File Templates.
  */
 public class StudyFieldHandler implements FieldHandler {
-
 
     public StudyFieldHandler() {
         super();
     }
-
 
     public Object getValue(Object object) throws IllegalStateException {
         StudySubject registration = (StudySubject) object;
@@ -33,16 +26,17 @@ public class StudyFieldHandler implements FieldHandler {
         return study;
     }
 
-    public void setValue(Object object, Object value) throws IllegalStateException, IllegalArgumentException {
+    public void setValue(Object object, Object value) throws IllegalStateException,
+                    IllegalArgumentException {
         StudySubject registration = (StudySubject) object;
         StudySite site = registration.getStudySite();
         if (site == null) {
             site = new StudySite();
             registration.setStudySite(site);
         }
-        //if already assigned study
-        if(site.getStudy()!=null){
-            ((Study)value).setGridId(site.getStudy().getGridId());
+        // if already assigned study
+        if (site.getStudy() != null) {
+            ((Study) value).setGridId(site.getStudy().getGridId());
         }
         site.setStudy((Study) value);
     }
@@ -53,14 +47,14 @@ public class StudyFieldHandler implements FieldHandler {
     }
 
     public Object newInstance(Object object) throws IllegalStateException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null; // To change body of implemented methods use File | Settings | File
+                        // Templates.
     }
-
 
     /**
      * @deprecated
      */
     public void checkValidity(Object object) throws ValidityException, IllegalStateException {
-        //do nothing
+        // do nothing
     }
 }

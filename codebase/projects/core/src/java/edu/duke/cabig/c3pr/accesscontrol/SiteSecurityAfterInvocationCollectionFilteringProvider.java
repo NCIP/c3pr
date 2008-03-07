@@ -3,6 +3,11 @@ package edu.duke.cabig.c3pr.accesscontrol;
 import gov.nih.nci.cabig.ctms.domain.MutableDomainObject;
 import gov.nih.nci.security.acegi.csm.authorization.CSMAuthorizationCheck;
 import gov.nih.nci.security.constants.Constants;
+
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+
 import org.acegisecurity.AccessDeniedException;
 import org.acegisecurity.Authentication;
 import org.acegisecurity.ConfigAttribute;
@@ -10,33 +15,28 @@ import org.acegisecurity.ConfigAttributeDefinition;
 import org.acegisecurity.afterinvocation.AfterInvocationProvider;
 import org.apache.log4j.Logger;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-
 /**
- * Will filter collection of c3pr domain objects
- * based on Site permissions.
- * <p/>
- * <p/>
- * Created by IntelliJ IDEA.
- * User: kherm
- * Date: Sep 9, 2007
- * Time: 5:46:31 PM
- * To change this template use File | Settings | File Templates.
+ * Will filter collection of c3pr domain objects based on Site permissions. <p/> <p/> Created by
+ * IntelliJ IDEA. User: kherm Date: Sep 9, 2007 Time: 5:46:31 PM To change this template use File |
+ * Settings | File Templates.
  */
-public class SiteSecurityAfterInvocationCollectionFilteringProvider implements AfterInvocationProvider {
+public class SiteSecurityAfterInvocationCollectionFilteringProvider implements
+                AfterInvocationProvider {
 
     private String accessPrivilege = Constants.CSM_ACCESS_PRIVILEGE;
 
     private String processConfigAttribute;
+
     private LinkedHashMap domainObjectSiteSecurityAuhthorizationCheckProvidersMap;
+
     private Class processDomainObjectClass = MutableDomainObject.class;
 
-    private Logger log = Logger.getLogger(SiteSecurityAfterInvocationCollectionFilteringProvider.class);
+    private Logger log = Logger
+                    .getLogger(SiteSecurityAfterInvocationCollectionFilteringProvider.class);
 
-    public Object decide(Authentication authentication, Object object, ConfigAttributeDefinition configAttributeDefinition,
-                         Object returnedObject) throws AccessDeniedException {
+    public Object decide(Authentication authentication, Object object,
+                    ConfigAttributeDefinition configAttributeDefinition, Object returnedObject)
+                    throws AccessDeniedException {
 
         if (returnedObject == null) {
             if (log.isDebugEnabled()) {
@@ -51,10 +51,12 @@ public class SiteSecurityAfterInvocationCollectionFilteringProvider implements A
         if (returnedObject instanceof Collection) {
             Collection collection = (Collection) returnedObject;
             filterer = new CollectionFilterer(collection);
-        } else if (returnedObject.getClass().isArray()) {
+        }
+        else if (returnedObject.getClass().isArray()) {
             Object[] array = (Object[]) returnedObject;
             filterer = new ArrayFilterer(array);
-        } else {
+        }
+        else {
             if (log.isDebugEnabled()) {
                 log.debug("Return object is not a collection, skipping");
             }
@@ -70,17 +72,26 @@ public class SiteSecurityAfterInvocationCollectionFilteringProvider implements A
 
             boolean hasPermission = false;
 
-            if (domainObject == null || !getProcessDomainObjectClass().isAssignableFrom(domainObject.getClass())) {
+            if (domainObject == null
+                            || !getProcessDomainObjectClass().isAssignableFrom(
+                                            domainObject.getClass())) {
                 log.debug("Unsupported domain object in collection. Skipping authorization check");
                 hasPermission = true;
-            } else {
+            }
+            else {
 
-                if (!domainObjectSiteSecurityAuhthorizationCheckProvidersMap.containsKey(domainObject.getClass().getName())) {
-                    log.warn("Skipping Authorization. No appropriate CSMAuthorizationCheck object found for object type: " + returnedObject.getClass().getName());
+                if (!domainObjectSiteSecurityAuhthorizationCheckProvidersMap
+                                .containsKey(domainObject.getClass().getName())) {
+                    log
+                                    .warn("Skipping Authorization. No appropriate CSMAuthorizationCheck object found for object type: "
+                                                    + returnedObject.getClass().getName());
                     hasPermission = true;
-                } else {
-                    CSMAuthorizationCheck auth = (CSMAuthorizationCheck) domainObjectSiteSecurityAuhthorizationCheckProvidersMap.get(domainObject.getClass().getName());
-                    hasPermission = auth.checkAuthorization(authentication, accessPrivilege, domainObject);
+                }
+                else {
+                    CSMAuthorizationCheck auth = (CSMAuthorizationCheck) domainObjectSiteSecurityAuhthorizationCheckProvidersMap
+                                    .get(domainObject.getClass().getName());
+                    hasPermission = auth.checkAuthorization(authentication, accessPrivilege,
+                                    domainObject);
                 }
             }
 
@@ -100,7 +111,6 @@ public class SiteSecurityAfterInvocationCollectionFilteringProvider implements A
         return processDomainObjectClass;
     }
 
-
     public String getAccessPrivilege() {
         return accessPrivilege;
     }
@@ -117,7 +127,6 @@ public class SiteSecurityAfterInvocationCollectionFilteringProvider implements A
         return true;
     }
 
-
     public String getProcessConfigAttribute() {
         return processConfigAttribute;
     }
@@ -126,12 +135,12 @@ public class SiteSecurityAfterInvocationCollectionFilteringProvider implements A
         this.processConfigAttribute = processConfigAttribute;
     }
 
-
     public LinkedHashMap getDomainObjectSiteSecurityAuhthorizationCheckProvidersMap() {
         return domainObjectSiteSecurityAuhthorizationCheckProvidersMap;
     }
 
-    public void setDomainObjectSiteSecurityAuhthorizationCheckProvidersMap(LinkedHashMap domainObjectSiteSecurityAuhthorizationCheckProvidersMap) {
+    public void setDomainObjectSiteSecurityAuhthorizationCheckProvidersMap(
+                    LinkedHashMap domainObjectSiteSecurityAuhthorizationCheckProvidersMap) {
         this.domainObjectSiteSecurityAuhthorizationCheckProvidersMap = domainObjectSiteSecurityAuhthorizationCheckProvidersMap;
     }
 }

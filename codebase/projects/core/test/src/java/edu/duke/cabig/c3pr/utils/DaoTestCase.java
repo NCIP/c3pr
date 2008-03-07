@@ -1,9 +1,15 @@
 package edu.duke.cabig.c3pr.utils;
 
-import edu.nwu.bioinformatics.commons.StringUtils;
-import edu.nwu.bioinformatics.commons.testing.DbTestCase;
-import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
-import gov.nih.nci.cabig.ctms.domain.DomainObject;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.sql.DataSource;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dbunit.database.DatabaseConnection;
@@ -18,30 +24,30 @@ import org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 
-import javax.sql.DataSource;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import edu.nwu.bioinformatics.commons.StringUtils;
+import edu.nwu.bioinformatics.commons.testing.DbTestCase;
+import gov.nih.nci.cabig.ctms.audit.domain.DataAuditInfo;
+import gov.nih.nci.cabig.ctms.domain.DomainObject;
 
 /**
  * Base Dao Test Case for all dao level test cases
- *
+ * 
  * @author Rhett Sutphin, Priyatam
  */
 public abstract class DaoTestCase extends DbTestCase {
     protected final Log log = LogFactory.getLog(getClass());
 
     protected MockHttpServletRequest request = new MockHttpServletRequest();
+
     protected MockHttpServletResponse response = new MockHttpServletResponse();
+
     protected WebRequest webRequest = new ServletWebRequest(request);
+
     private boolean shouldFlush = true;
 
-    public static final DataAuditInfo INFO=new DataAuditInfo("user","127.0.0.0",DateUtil.createDate(2004,Calendar.NOVEMBER,2), "c3pr/study");
-    
+    public static final DataAuditInfo INFO = new DataAuditInfo("user", "127.0.0.0", DateUtil
+                    .createDate(2004, Calendar.NOVEMBER, 2), "c3pr/study");
+
     protected void setUp() throws Exception {
         super.setUp();
         SecurityContextTestUtils.switchToSuperuser();
@@ -60,10 +66,12 @@ public abstract class DaoTestCase extends DbTestCase {
         setUp();
         try {
             runTest();
-        } catch (Throwable throwable) {
+        }
+        catch (Throwable throwable) {
             shouldFlush = false;
             throw throwable;
-        } finally {
+        }
+        finally {
             tearDown();
         }
     }
@@ -90,8 +98,6 @@ public abstract class DaoTestCase extends DbTestCase {
                         while (t != null) {
                             System.out.println("*************Cause: " + t);
                             t = t.getCause();
-                            // procees to the next exception
-                            //  exception = ((SQLGrammarException)exception).get
                         }
 
                     }
@@ -108,7 +114,8 @@ public abstract class DaoTestCase extends DbTestCase {
     }
 
     private OpenSessionInViewInterceptor findOpenSessionInViewInterceptor() {
-        return (OpenSessionInViewInterceptor) getApplicationContext().getBean("openSessionInViewInterceptor");
+        return (OpenSessionInViewInterceptor) getApplicationContext().getBean(
+                        "openSessionInViewInterceptor");
     }
 
     protected DataSource getDataSource() {
@@ -116,54 +123,45 @@ public abstract class DaoTestCase extends DbTestCase {
     }
 
     protected IDatabaseConnection getConnection() throws Exception {
-        DatabaseConnection databaseConnection = new DatabaseConnection(getDataSource().getConnection(), getSchema());
-        databaseConnection.getConfig().setProperty("http://www.dbunit.org/properties/datatypeFactory", createDataTypeFactory());
+        DatabaseConnection databaseConnection = new DatabaseConnection(getDataSource()
+                        .getConnection(), getSchema());
+        databaseConnection.getConfig()
+                        .setProperty("http://www.dbunit.org/properties/datatypeFactory",
+                                        createDataTypeFactory());
         return databaseConnection;
     }
 
     /**
-     * For Oracle typically it is "C3PR_DEV" (note- upper case). For Postgres - "public".
-     * Dont forget to override this depending on your database
-     *
+     * For Oracle typically it is "C3PR_DEV" (note- upper case). For Postgres - "public". Dont
+     * forget to override this depending on your database
+     * 
      * @return
      */
     protected String getSchema() {
         return "public";
     }
 
-    // Note - Comment of uncomment this based on the DB you are testing against.
-    // By default, it is DELETE_ALL. Other options are DELETE, REFRESH
-//    protected DatabaseOperation getSetUpOperation() throws Exception
-//	{
-//	    return DatabaseOperation.DELETE_ALL;
-//	}
-//    
-//    protected DatabaseOperation getTearDownOperation() throws Exception {
-//        return DatabaseOperation.DELETE_ALL;
-//    }
-
-    //
     public ApplicationContext getApplicationContext() {
         return ApplicationTestCase.getDeployedCoreApplicationContext();
     }
 
     protected final void dumpResults(String sql) {
-        List<Map<String, String>> rows = new JdbcTemplate(getDataSource()).query(
-                sql,
-                new ColumnMapRowMapper() {
-                    protected Object getColumnValue(ResultSet rs, int index) throws SQLException {
-                        Object value = super.getColumnValue(rs, index);
-                        return value == null ? "null" : value.toString();
-                    }
-                }
-        );
+        List<Map<String, String>> rows = new JdbcTemplate(getDataSource()).query(sql,
+                        new ColumnMapRowMapper() {
+                            protected Object getColumnValue(ResultSet rs, int index)
+                                            throws SQLException {
+                                Object value = super.getColumnValue(rs, index);
+                                return value == null ? "null" : value.toString();
+                            }
+                        });
         StringBuffer dump = new StringBuffer(sql).append('\n');
         if (rows.size() > 0) {
             Map<String, Integer> colWidths = new HashMap<String, Integer>();
             for (String colName : rows.get(0).keySet()) {
                 colWidths.put(colName, colName.length());
                 for (Map<String, String> row : rows) {
-                    colWidths.put(colName, Math.max(colWidths.get(colName), row.get(colName).length()));
+                    colWidths.put(colName, Math.max(colWidths.get(colName), row.get(colName)
+                                    .length()));
                 }
             }
 
@@ -175,13 +173,15 @@ public abstract class DaoTestCase extends DbTestCase {
 
             for (Map<String, String> row : rows) {
                 for (String colName : row.keySet()) {
-                    StringUtils.appendWithPadding(row.get(colName), colWidths.get(colName), false, dump);
+                    StringUtils.appendWithPadding(row.get(colName), colWidths.get(colName), false,
+                                    dump);
                     dump.append(" | ");
                 }
                 dump.append('\n');
             }
         }
-        dump.append("  ").append(rows.size()).append(" row").append(rows.size() != 1 ? "s\n" : "\n");
+        dump.append("  ").append(rows.size()).append(" row")
+                        .append(rows.size() != 1 ? "s\n" : "\n");
 
         System.out.print(dump);
     }
