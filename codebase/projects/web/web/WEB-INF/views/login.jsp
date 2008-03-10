@@ -5,10 +5,6 @@
 <html>
 <head>
     <script type="text/javascript">
-        function login(role){
-            document.forms['loginForm'].j_password.value=role;
-            document.forms['loginForm'].j_username.value=role;
-        }
     </script>
     <style type="text/css">
         .box {
@@ -50,12 +46,6 @@
         <div class="row">
             <div class="submit">
                 <input type="submit" value="Log in"/>
-            </div>
-        </div>
-
-        <div class="row">
-            <div>
-                <a href="javascript:login('c3pr_admin')">Log in as Admin</a>
             </div>
         </div>
     </form>
