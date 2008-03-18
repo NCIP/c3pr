@@ -421,4 +421,39 @@
     <!-- Builds from scratch                                                -->
     <!-- ============================================================== -->
     <target name="all" description="Builds the entire application" depends="clean,jar,jar-tests"/>
+    <!-- ============================================================== -->
+    <!-- Clover properties                                              -->
+    <!-- ============================================================== -->
+
+    <target name="checkClover" depends="setClover">
+        <condition property="clover.not.found">
+            <or>
+                <not>
+                    <isset property="clover_home"/>
+                </not>
+                <equals arg1="${clover_home}" arg2=""/>
+            </or>
+        </condition>
+        <fail message="Clover home directory is not set in either CLOVER_HOME " if="clover.not.found"/>
+    </target>
+    <target name="setClover" if="env.CLOVER_HOME">
+        <property name="clover_home" value="${env.CLOVER_HOME}"/>
+    </target>
+
+    <taskdef resource="cloverlib.xml" classpath="${clover.jar}"/>
+
+
+    <target name="with.clover" depends="checkClover">
+        <clover-setup/>
+    </target>
+
+    <target name="clover.html" depends="checkClover">
+        <clover-html-report outdir="clover_core"
+                            title="My Project"/>
+    </target>
+    <target name="clover.log">
+        <clover-log/>
+    </target>
+    <!-- ============================================================== -->
+
 </project>
