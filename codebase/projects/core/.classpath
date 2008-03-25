@@ -49,12 +49,8 @@
 	<classpathentry kind="lib" path="ext/lib/cglib-nodep-2.1_3.jar"/>
 	<classpathentry kind="lib" path="ext/lib/commons-lang-2.3.jar"/>
 	<classpathentry kind="lib" path="ext/lib/csmapi-3.2.1-ctms00.jar"/>
-	<classpathentry kind="lib" path="ext/lib/ctms-commons-base-0.5.jar"/>
-	<classpathentry kind="lib" path="ext/lib/ctms-commons-core-0.5.jar"/>
-	<classpathentry kind="lib" path="ext/lib/ctms-commons-lang-0.5.jar"/>
 	<classpathentry kind="lib" path="ext/lib/spring.jar"/>
 	<classpathentry kind="lib" path="ext/compile/lib/c3pr-management-1.0.jar"/>
-	<classpathentry kind="lib" path="ext/lib/acegi-csm-0.5.jar"/>
 	<classpathentry kind="lib" path="ext/lib/acegi-security-1.0.3.jar"/>
 	<classpathentry kind="lib" path="ext/lib/acegi-security-cas-1.0.3.jar"/>
 	<classpathentry kind="lib" path="ext/lib/jdom-1.0.jar"/>
@@ -124,5 +120,9 @@
 	<classpathentry kind="lib" path="ext/test/lib/spring-mock.jar"/>
 	<classpathentry kind="lib" path="ext/lib/clm-3.2.1-ctms00.jar"/>
 	<classpathentry kind="lib" path="ext/lib/bering-0.6.1.jar"/>
+	<classpathentry kind="lib" path="ext/lib/acegi-csm-0.8.jar"/>
+	<classpathentry kind="lib" path="ext/lib/ctms-commons-base-0.8.jar"/>
+	<classpathentry kind="lib" path="ext/lib/ctms-commons-core-0.8.jar"/>
+	<classpathentry kind="lib" path="ext/lib/ctms-commons-lang-0.8.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
