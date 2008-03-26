@@ -20,10 +20,6 @@ public interface StudySubjectXMLImporterService {
     List<StudySubject> importStudySubjects(InputStream xmlStream, File importXMLResult)
                     throws C3PRCodedException;
 
-    public StudySubject importStudySubject(StudySubject studySubject) throws C3PRCodedException;
-
-    public StudySubject importStudySubject(String registrationXml) throws C3PRCodedException;
-
-    void validate(StudySubject studySubject) throws C3PRCodedException;
+        public StudySubject importStudySubject(String registrationXml) throws C3PRCodedException;
 
 }

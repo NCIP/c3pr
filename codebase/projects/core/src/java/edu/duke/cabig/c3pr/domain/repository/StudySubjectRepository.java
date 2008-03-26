@@ -1,7 +1,5 @@
 package edu.duke.cabig.c3pr.domain.repository;
 
-import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
-import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
@@ -21,4 +19,7 @@ public interface StudySubjectRepository {
     throws C3PRCodedException;
     
     public StudySubject doRandomization(StudySubject studySubject) throws C3PRBaseException;
+    
+    public StudySubject importStudySubject(StudySubject deserialedStudySubject)
+	throws C3PRCodedException;
 }

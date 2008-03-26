@@ -21,6 +21,7 @@ import org.hibernate.annotations.Where;
 
 import edu.duke.cabig.c3pr.utils.DateUtil;
 import edu.duke.cabig.c3pr.utils.ProjectedList;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
 /**
@@ -34,7 +35,7 @@ public class Participant extends Person implements Comparable<Participant> {
 
     private Date birthDate;
 
-    private String birthDateStr;
+//    private String birthDateStr;
 
     private String administrativeGenderCode;
 
@@ -254,4 +255,20 @@ public class Participant extends Person implements Comparable<Participant> {
 
     public void setPrimaryIdentifier(String primaryIdentifier) {
     }
+    
+    /**
+     * Runs basic validation on the Participant object.
+     * Moved here from the service during the refactoring effort.
+     * @param participant
+     * @return
+     */
+    public boolean validateParticipant() {
+        if (StringUtils.getBlankIfNull(this.getFirstName()).equals("")
+                        || StringUtils.getBlankIfNull(this.getLastName()).equals("")
+                        || this.getBirthDate() == null
+                        || StringUtils.getBlankIfNull(this.getAdministrativeGenderCode())
+                                        .equals("")) return false;
+        return true;
+    }
+    
 }

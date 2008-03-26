@@ -17,20 +17,11 @@ import org.jdom.output.XMLOutputter;
 import org.springframework.context.MessageSource;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.duke.cabig.c3pr.dao.ParticipantDao;
-import edu.duke.cabig.c3pr.dao.StudySubjectDao;
-import edu.duke.cabig.c3pr.domain.Participant;
-import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
-import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
-import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
-import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
-import edu.duke.cabig.c3pr.exception.StudyValidationException;
-import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.service.StudySubjectXMLImporterService;
-import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
 import gov.nih.nci.common.exception.XMLUtilityException;
 
@@ -45,17 +36,13 @@ import gov.nih.nci.common.exception.XMLUtilityException;
 
 public class StudySubjectXMLImporterServiceImpl implements StudySubjectXMLImporterService {
 
-    private StudySubjectDao studySubjectDao;
-
     private C3PRExceptionHelper exceptionHelper;
 
     private MessageSource c3prErrorMessages;
 
-    private ParticipantDao participantDao;
-
-    private StudySubjectService studySubjectService;
-
     private XmlMarshaller marshaller;
+    
+    private StudySubjectRepository studySubjectRepository;
 
     private Logger log = Logger.getLogger(StudySubjectXMLImporterServiceImpl.class.getName());
 
@@ -117,87 +104,12 @@ public class StudySubjectXMLImporterServiceImpl implements StudySubjectXMLImport
             throw this.exceptionHelper.getException(
                             getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.ERROR_UNMARSHALLING"), e);
         }
-        this.validate(studySubject);
-        return importStudySubject(studySubject);
+//        this.validate(studySubject);
+        return studySubjectRepository.importStudySubject(studySubject);
     }
 
-    public StudySubject importStudySubject(StudySubject deserialedStudySubject)
-                    throws C3PRCodedException {
-        StudySubject studySubject = studySubjectService.buildStudySubject(deserialedStudySubject);
-        if (studySubject.getParticipant().getId() != null) {
-            StudySubject exampleSS = new StudySubject(true);
-            exampleSS.setParticipant(studySubject.getParticipant());
-            exampleSS.setStudySite(studySubject.getStudySite());
-            List<StudySubject> registrations = studySubjectDao
-                            .searchBySubjectAndStudySite(exampleSS);
-            if (registrations.size() > 0) {
-                throw this.exceptionHelper
-                                .getException(getCode("C3PR.EXCEPTION.REGISTRATION.STUDYSUBJECTS_ALREADY_EXISTS.CODE"));
-            }
-        }
-        else {
-            if (validateParticipant(studySubject.getParticipant())) participantDao
-                            .save(studySubject.getParticipant());
-            else {
-                throw this.exceptionHelper
-                                .getException(getCode("C3PR.EXCEPTION.REGISTRATION.SUBJECTS_INVALID_DETAILS.CODE"));
-            }
-        }
-        if (studySubject.getScheduledEpoch().getEpoch().getRequiresArm()) {
-            ScheduledTreatmentEpoch scheduledTreatmentEpoch = (ScheduledTreatmentEpoch) studySubject
-                            .getScheduledEpoch();
-            if (scheduledTreatmentEpoch.getScheduledArm() == null
-                            || scheduledTreatmentEpoch.getScheduledArm().getArm() == null
-                            || scheduledTreatmentEpoch.getScheduledArm().getArm().getId() == null) throw this.exceptionHelper
-                            .getException(getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.REQUIRED.ARM.NOTFOUND.CODE"));
-        }
-        studySubject.setRegDataEntryStatus(studySubjectService
-                        .evaluateRegistrationDataEntryStatus(studySubject));
-        studySubject.getScheduledEpoch().setScEpochDataEntryStatus(
-                        studySubjectService.evaluateScheduledEpochDataEntryStatus(studySubject));
-        if (studySubject.getRegDataEntryStatus() == RegistrationDataEntryStatus.INCOMPLETE) {
-            throw this.exceptionHelper
-                            .getException(getCode("C3PR.EXCEPTION.REGISTRATION.DATA_ENTRY_INCOMPLETE.CODE"));
-        }
-        if (studySubject.getScheduledEpoch().getScEpochDataEntryStatus() == ScheduledEpochDataEntryStatus.INCOMPLETE) {
-            throw this.exceptionHelper
-                            .getException(getCode("C3PR.EXCEPTION.REGISTRATION.SCHEDULEDEPOCH.DATA_ENTRY_INCOMPLETE.CODE"));
-        }
-        if (studySubject.getScheduledEpoch().isReserving()) {
-            studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.RESERVED);
-        }
-        else if (studySubject.getScheduledEpoch().getEpoch().isEnrolling()) {
-            studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED);
-        }
-        else {
-            studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.UNREGISTERED);
-        }
-        studySubjectDao.save(studySubject);
-        log.debug("Registration saved with grid ID" + studySubject.getGridId());
-        return studySubject;
-    }
-
-    public boolean validateParticipant(Participant participant) {
-        if (StringUtils.getBlankIfNull(participant.getFirstName()).equals("")
-                        || StringUtils.getBlankIfNull(participant.getLastName()).equals("")
-                        || participant.getBirthDate() == null
-                        || StringUtils.getBlankIfNull(participant.getAdministrativeGenderCode())
-                                        .equals("")) return false;
-        return true;
-    }
-
-    /**
-     * Validate a study against a set of validation rules
-     * 
-     * @param study
-     * @throws StudyValidationException
-     */
-    public void validate(StudySubject studySubject) throws C3PRCodedException {
-
-    }
-
+    
     // setters for spring
-
     public XmlMarshaller getMarshaller() {
         return marshaller;
     }
@@ -218,15 +130,13 @@ public class StudySubjectXMLImporterServiceImpl implements StudySubjectXMLImport
         return Integer.parseInt(this.c3prErrorMessages.getMessage(errortypeString, null, null));
     }
 
-    public void setStudySubjectDao(StudySubjectDao studySubjectDao) {
-        this.studySubjectDao = studySubjectDao;
-    }
+	public StudySubjectRepository getStudySubjectRepository() {
+		return studySubjectRepository;
+	}
 
-    public void setStudySubjectService(StudySubjectService studySubjectService) {
-        this.studySubjectService = studySubjectService;
-    }
+	public void setStudySubjectRepository(
+			StudySubjectRepository studySubjectRepository) {
+		this.studySubjectRepository = studySubjectRepository;
+	}
 
-    public void setParticipantDao(ParticipantDao participantDao) {
-        this.participantDao = participantDao;
-    }
 }

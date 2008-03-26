@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.domain.repository.impl;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +13,7 @@ import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.NonTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
+import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
@@ -23,6 +25,7 @@ import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
+import edu.duke.cabig.c3pr.service.impl.StudySubjectXMLImporterServiceImpl;
 
 public class StudySubjectRepositoryImpl implements StudySubjectRepository{
 
@@ -39,6 +42,8 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository{
     private C3PRExceptionHelper exceptionHelper;
 
     private MessageSource c3prErrorMessages;
+    
+    private Logger log = Logger.getLogger(StudySubjectXMLImporterServiceImpl.class.getName());
 
     
     public void assignC3DIdentifier(StudySubject studySubject, String c3dIdentifierValue) {
@@ -155,6 +160,74 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository{
         }
         return studySubject;
     }
+    
+    /**
+     * Saves the Imported StudySubject to the database.
+     * Moved it from the service as a part of the refactoring effort.
+     * @param deserialedStudySubject
+     * @return
+     * @throws C3PRCodedException
+     */
+    public StudySubject importStudySubject(StudySubject deserialedStudySubject)
+			throws C3PRCodedException {
+		StudySubject studySubject = studySubjectService
+				.buildStudySubject(deserialedStudySubject);
+		if (studySubject.getParticipant().getId() != null) {
+			StudySubject exampleSS = new StudySubject(true);
+			exampleSS.setParticipant(studySubject.getParticipant());
+			exampleSS.setStudySite(studySubject.getStudySite());
+			List<StudySubject> registrations = studySubjectDao
+					.searchBySubjectAndStudySite(exampleSS);
+			if (registrations.size() > 0) {
+				throw this.exceptionHelper
+						.getException(getCode("C3PR.EXCEPTION.REGISTRATION.STUDYSUBJECTS_ALREADY_EXISTS.CODE"));
+			}
+		} else {
+			if (studySubject.getParticipant().validateParticipant())
+				participantDao.save(studySubject.getParticipant());
+			else {
+				throw this.exceptionHelper
+						.getException(getCode("C3PR.EXCEPTION.REGISTRATION.SUBJECTS_INVALID_DETAILS.CODE"));
+			}
+		}
+		if (studySubject.getScheduledEpoch().getEpoch().getRequiresArm()) {
+			ScheduledTreatmentEpoch scheduledTreatmentEpoch = (ScheduledTreatmentEpoch) studySubject
+					.getScheduledEpoch();
+			if (scheduledTreatmentEpoch.getScheduledArm() == null
+					|| scheduledTreatmentEpoch.getScheduledArm().getArm() == null
+					|| scheduledTreatmentEpoch.getScheduledArm().getArm()
+							.getId() == null)
+				throw this.exceptionHelper
+						.getException(getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.REQUIRED.ARM.NOTFOUND.CODE"));
+		}
+		studySubject.setRegDataEntryStatus(studySubjectService
+				.evaluateRegistrationDataEntryStatus(studySubject));
+		studySubject.getScheduledEpoch().setScEpochDataEntryStatus(
+				studySubjectService
+						.evaluateScheduledEpochDataEntryStatus(studySubject));
+		if (studySubject.getRegDataEntryStatus() == RegistrationDataEntryStatus.INCOMPLETE) {
+			throw this.exceptionHelper
+					.getException(getCode("C3PR.EXCEPTION.REGISTRATION.DATA_ENTRY_INCOMPLETE.CODE"));
+		}
+		if (studySubject.getScheduledEpoch().getScEpochDataEntryStatus() == ScheduledEpochDataEntryStatus.INCOMPLETE) {
+			throw this.exceptionHelper
+					.getException(getCode("C3PR.EXCEPTION.REGISTRATION.SCHEDULEDEPOCH.DATA_ENTRY_INCOMPLETE.CODE"));
+		}
+		if (studySubject.getScheduledEpoch().isReserving()) {
+			studySubject
+					.setRegWorkflowStatus(RegistrationWorkFlowStatus.RESERVED);
+		} else if (studySubject.getScheduledEpoch().getEpoch().isEnrolling()) {
+			studySubject
+					.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED);
+		} else {
+			studySubject
+					.setRegWorkflowStatus(RegistrationWorkFlowStatus.UNREGISTERED);
+		}
+		studySubjectDao.save(studySubject);
+		log.debug("Registration saved with grid ID" + studySubject.getGridId());
+		return studySubject;
+	}
+    
     
     public void setStudySubjectDao(StudySubjectDao studySubjectDao) {
         this.studySubjectDao = studySubjectDao;

@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
-import edu.duke.cabig.c3pr.exception.StudyValidationException;
 
 /**
  * User: kherm
@@ -19,8 +18,7 @@ import edu.duke.cabig.c3pr.exception.StudyValidationException;
 public interface StudyXMLImporterService {
     List<Study> importStudies(InputStream xmlStream) throws C3PRBaseRuntimeException;
 
-    public void importStudy(Study study) throws Exception;
-
-    void validate(Study study) throws StudyValidationException;
+//    public void importStudy(Study study) throws Exception;
+//    void validate(Study study) throws StudyValidationException;
 
 }
