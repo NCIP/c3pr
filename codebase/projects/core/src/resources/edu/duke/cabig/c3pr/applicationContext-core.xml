@@ -344,6 +344,9 @@
 	<bean id="studyRepository" lazy-init="true" class="edu.duke.cabig.c3pr.domain.repository.impl.StudyRepositoryImpl"
           autowire="byName"/>
           
+    <bean id="studySubjectRepository" lazy-init="true" class="edu.duke.cabig.c3pr.domain.repository.impl.StudySubjectRepositoryImpl"
+          autowire="byName"/>
+          
           
           
 
