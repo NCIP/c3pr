@@ -94,5 +94,8 @@
 	<classpathentry kind="lib" path="ext/lib/xercesImpl.jar"/>
 	<classpathentry kind="lib" path="ext/lib/xml-apis.jar"/>
 	<classpathentry kind="lib" path="ext/lib/xmlsec.jar"/>
+	<classpathentry kind="lib" path="ext/lib/acegi-security-1.0.3.jar"/>
+	<classpathentry kind="lib" path="ext/lib/acegi-security-cas-1.0.3.jar"/>
+	<classpathentry kind="lib" path="ext/lib/acegi-security-tiger-1.0.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
