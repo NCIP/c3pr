@@ -339,7 +339,13 @@
             <value>19</value>
         </property>
     </bean>
-
+    
+    <!-- Repositories -->
+	<bean id="studyRepository" lazy-init="true" class="edu.duke.cabig.c3pr.domain.repository.impl.StudyRepositoryImpl"
+          autowire="byName"/>
+          
+          
+          
 
     <!--Should be in appContext-security and applied thru aop-->
      <bean id="domainObjectPrivilegeAndObjectIdGenerator" class="edu.duke.cabig.c3pr.security.DomainObjectPrivilegeAndObjectIdGenerator">
