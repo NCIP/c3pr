@@ -180,4 +180,34 @@ public class ScheduledTreatmentEpoch extends ScheduledEpoch {
     public ScheduledArm removeScheduledArm() {
         return getScheduledArms().remove(getScheduledArms().size() - 1);
     }
+
+    @Override
+    public ScheduledEpochDataEntryStatus evaluateScheduledEpochDataEntryStatus(Integer stratumGroupNumber) {
+        if (!this.evaluateStratificationIndicator(stratumGroupNumber)) {
+            return ScheduledEpochDataEntryStatus.INCOMPLETE;
+        }
+        if (!this.getEligibilityIndicator()) {
+            return ScheduledEpochDataEntryStatus.INCOMPLETE;
+        }
+        if (this.getRequiresArm()
+                        && !this.getRequiresRandomization()
+                        && (this.getScheduledArm() == null || this
+                                        .getScheduledArm().getArm() == null)) {
+            return ScheduledEpochDataEntryStatus.INCOMPLETE;
+        }
+
+        return ScheduledEpochDataEntryStatus.COMPLETE;
+    }
+    
+    private boolean evaluateStratificationIndicator(Integer stratumGroupNumber) {
+        if (stratumGroupNumber!=null) return true;
+        List<SubjectStratificationAnswer> answers = this
+                        .getSubjectStratificationAnswers();
+        for (SubjectStratificationAnswer subjectStratificationAnswer : answers) {
+            if (subjectStratificationAnswer.getStratificationCriterionAnswer() == null) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

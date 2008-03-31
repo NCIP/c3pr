@@ -125,4 +125,6 @@ public abstract class ScheduledEpoch extends AbstractMutableDeletableDomainObjec
     public boolean getRequiresRandomization() {
         return this.getEpoch().getRequiresRandomization();
     }
+    
+    public abstract ScheduledEpochDataEntryStatus evaluateScheduledEpochDataEntryStatus(Integer stratumGroupNumber);
 }

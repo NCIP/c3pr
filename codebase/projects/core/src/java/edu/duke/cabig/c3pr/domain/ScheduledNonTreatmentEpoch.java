@@ -25,4 +25,10 @@ public class ScheduledNonTreatmentEpoch extends ScheduledEpoch {
         setEpoch(nonTeatmentEpoch);
     }
 
+    @Override
+    public ScheduledEpochDataEntryStatus evaluateScheduledEpochDataEntryStatus(Integer stratumGroupNumber) {
+        // TODO Auto-generated method stub
+        return ScheduledEpochDataEntryStatus.COMPLETE;
+    }
+
 }
