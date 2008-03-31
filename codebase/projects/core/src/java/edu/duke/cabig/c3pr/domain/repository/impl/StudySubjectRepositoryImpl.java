@@ -12,14 +12,17 @@ import edu.duke.cabig.c3pr.dao.StratumGroupDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.NonTreatmentEpoch;
+import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
+import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledNonTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.factory.StudySubjectFactory;
 import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
@@ -42,6 +45,8 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository{
     private C3PRExceptionHelper exceptionHelper;
 
     private MessageSource c3prErrorMessages;
+    
+    private StudySubjectFactory studySubjectFactory;
     
     private Logger log = Logger.getLogger(StudySubjectXMLImporterServiceImpl.class.getName());
 
@@ -79,7 +84,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository{
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(
                         studySubject.evaluateScheduledEpochDataEntryStatus());
         // evaluate status
-        if (studySubject.isCreatable()) {
+        if (studySubject.isDataEntryComplete()) {
             studySubjectService.manageSchEpochWorkFlow(studySubject, false, false, false);
             studySubjectService.manageRegWorkFlow(studySubject);
         }
@@ -88,7 +93,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository{
     }
 
     @Transactional
-    public StudySubject registerSubject(StudySubject studySubject) throws C3PRCodedException {
+    public StudySubject register(StudySubject studySubject) throws C3PRCodedException {
         studySubject.setRegDataEntryStatus(studySubject.evaluateRegistrationDataEntryStatus());
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(
                         studySubject.evaluateScheduledEpochDataEntryStatus());
@@ -161,6 +166,49 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository{
         return studySubject;
     }
     
+    public void doLocalRegistration(StudySubject studySubject, boolean randomize, boolean affiliateSiteRequest) throws C3PRCodedException{
+        ScheduledEpoch scheduledEpoch = studySubject.getScheduledEpoch();
+        if (studySubject.getScheduledEpoch().getRequiresRandomization()) {
+            if (randomize) {
+                try {
+                    this.doRandomization(studySubject);
+                }
+                catch (Exception e) {
+                    throw exceptionHelper
+                                    .getException(
+                                                    getCode("C3PR.EXCEPTION.REGISTRATION.RANDOMIZATION.CODE"),
+                                                    e);
+                }
+                if (((ScheduledTreatmentEpoch) studySubject.getScheduledEpoch())
+                                .getScheduledArm() == null) {
+                    scheduledEpoch
+                                    .setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.UNAPPROVED);
+                    if (affiliateSiteRequest
+                                    && studySubject.getStudySite().getStudy()
+                                                    .getRandomizationType() != RandomizationType.PHONE_CALL) {
+                        throw exceptionHelper
+                                        .getException(
+                                                        getCode("C3PR.EXCEPTION.REGISTRATION.CANNOT_ASSIGN_ARM.CODE"));
+                    }
+                }
+                else {
+                    // logic for accrual ceiling check
+                    scheduledEpoch
+                                    .setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
+                }
+            }
+            else {
+                scheduledEpoch
+                                .setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.UNAPPROVED);
+            }
+        }
+        else {
+            // logic for accrual ceiling check
+            scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
+        }
+        this.save(studySubject);
+    }
+    
     /**
      * Saves the Imported StudySubject to the database.
      * Moved it from the service as a part of the refactoring effort.
@@ -170,7 +218,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository{
      */
     public StudySubject importStudySubject(StudySubject deserialedStudySubject)
 			throws C3PRCodedException {
-		StudySubject studySubject = studySubjectService
+		StudySubject studySubject = studySubjectFactory
 				.buildStudySubject(deserialedStudySubject);
 		if (studySubject.getParticipant().getId() != null) {
 			StudySubject exampleSS = new StudySubject(true);
@@ -200,11 +248,11 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository{
 				throw this.exceptionHelper
 						.getException(getCode("C3PR.EXCEPTION.REGISTRATION.IMPORT.REQUIRED.ARM.NOTFOUND.CODE"));
 		}
-		studySubject.setRegDataEntryStatus(studySubjectService
-				.evaluateRegistrationDataEntryStatus(studySubject));
+		studySubject.setRegDataEntryStatus(studySubject
+				.evaluateRegistrationDataEntryStatus());
 		studySubject.getScheduledEpoch().setScEpochDataEntryStatus(
-				studySubjectService
-						.evaluateScheduledEpochDataEntryStatus(studySubject));
+		                studySubject
+						.evaluateScheduledEpochDataEntryStatus());
 		if (studySubject.getRegDataEntryStatus() == RegistrationDataEntryStatus.INCOMPLETE) {
 			throw this.exceptionHelper
 					.getException(getCode("C3PR.EXCEPTION.REGISTRATION.DATA_ENTRY_INCOMPLETE.CODE"));
@@ -261,4 +309,15 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository{
         return Integer.parseInt(this.c3prErrorMessages.getMessage(errortypeString, null, null));
     }
 
+    public StudySubject save(StudySubject studySubject) {
+        studySubject.updateDataEntryStatus();
+        if(studySubject.getId()==null)
+            return studySubjectDao.merge(studySubject);
+        studySubjectDao.save(studySubject);
+        return studySubject;
+    }
+
+    public void setStudySubjectFactory(StudySubjectFactory studySubjectFactory) {
+        this.studySubjectFactory = studySubjectFactory;
+    }
 }
