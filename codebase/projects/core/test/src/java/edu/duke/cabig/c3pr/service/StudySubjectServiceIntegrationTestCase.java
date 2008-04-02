@@ -66,28 +66,23 @@ public class StudySubjectServiceIntegrationTestCase extends DaoTestCase {
     
   //---------------------Local study Registration Tests-----------------------------
     public void testRegisterLocalRegistrationNonRandomizedNonTreatmentStudy() throws Exception{
-        studySubject = persistedStudySubjectCreator.getLocalNonRandomizedStudySubject(true, true, false);
+        studySubject = persistedStudySubjectCreator.getLocalNonRandomizedStudySubject(true, false, false);
         persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
-        studySubject.setInformedConsentSignedDate(new Date());
-        studySubject.setInformedConsentVersion("1.0");
+        persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         Integer id=studySubjectService.register(studySubject).getId();
         assertNotNull("Id should not be null", id);
         interruptSession();
         studySubject=studySubjectDao.getById(id);
         assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.APPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
-        assertEquals("Wrong Registration WorkFlow Status", RegistrationWorkFlowStatus.REGISTERED,
+        assertEquals("Wrong Registration WorkFlow Status", RegistrationWorkFlowStatus.RESERVED,
                         studySubject.getRegWorkflowStatus());
     }
     
     public void testRegisterLocalRegistrationNonRandomizedTreatmentStudyWithArm() throws Exception{
         studySubject=persistedStudySubjectCreator.getLocalNonRandomizedWithArmStudySubject(false);
         persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
-        studySubject.setInformedConsentSignedDate(new Date());
-        studySubject.setInformedConsentVersion("1.0");
-        persistedStudySubjectCreator.buildCommandObject(studySubject);
-        persistedStudySubjectCreator.bindEligibility(studySubject);
-        persistedStudySubjectCreator.bindStratification(studySubject);
-        persistedStudySubjectCreator.bindArm(studySubject);
+        persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
+        persistedStudySubjectCreator.completeScheduledEpochDataEntry(studySubject);
         Integer id=studySubjectService.register(studySubject).getId();
         assertNotNull("Id should not be null", id);
         interruptSession();
@@ -100,8 +95,7 @@ public class StudySubjectServiceIntegrationTestCase extends DaoTestCase {
     public void testRegisterLocalRegistrationRandomizedStudyArmNotAssigned() throws Exception{
         studySubject=persistedStudySubjectCreator.getLocalRandomizedStudySubject(RandomizationType.PHONE_CALL, false);
         persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
-        studySubject.setInformedConsentSignedDate(new Date());
-        studySubject.setInformedConsentVersion("1.0");
+        persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.buildCommandObject(studySubject);
         persistedStudySubjectCreator.bindEligibility(studySubject);
         persistedStudySubjectCreator.bindStratification(studySubject);
@@ -120,13 +114,8 @@ public class StudySubjectServiceIntegrationTestCase extends DaoTestCase {
     public void testRegisterLocalRegistrationRandomizedStudyArmAssignedPhoneCall() throws Exception{
         studySubject=persistedStudySubjectCreator.getLocalRandomizedStudySubject(RandomizationType.PHONE_CALL, false);
         persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
-        studySubject.setInformedConsentSignedDate(new Date());
-        studySubject.setInformedConsentVersion("1.0");
-        persistedStudySubjectCreator.buildCommandObject(studySubject);
-        persistedStudySubjectCreator.bindEligibility(studySubject);
-        persistedStudySubjectCreator.bindStratification(studySubject);
-        persistedStudySubjectCreator.bindRandomization(studySubject);
-        studySubjectDao.save(studySubject);
+        persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
+        persistedStudySubjectCreator.completeScheduledEpochDataEntry(studySubject);
         Integer id=studySubjectService.register(studySubject).getId();
         assertNotNull("Id should not be null", id);
         interruptSession();
@@ -139,8 +128,7 @@ public class StudySubjectServiceIntegrationTestCase extends DaoTestCase {
     public void testRegisterLocalRegistrationRandomizedStudyBookStratumGroupAbsent() throws Exception{
         studySubject=persistedStudySubjectCreator.getLocalRandomizedStudySubject(RandomizationType.BOOK, false);
         persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
-        studySubject.setInformedConsentSignedDate(new Date());
-        studySubject.setInformedConsentVersion("1.0");
+        persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.buildCommandObject(studySubject);
         persistedStudySubjectCreator.bindEligibility(studySubject);
         persistedStudySubjectCreator.bindStratificationInvalid(studySubject);
@@ -159,150 +147,142 @@ public class StudySubjectServiceIntegrationTestCase extends DaoTestCase {
     public void testRegisterLocalRegistrationRandomizedStudyBookStratumGroupPresent() throws Exception{
         studySubject=persistedStudySubjectCreator.getLocalRandomizedStudySubject(RandomizationType.BOOK, false);
         persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
-        studySubject.setInformedConsentSignedDate(new Date());
-        studySubject.setInformedConsentVersion("1.0");
-        persistedStudySubjectCreator.buildCommandObject(studySubject);
-        persistedStudySubjectCreator.bindEligibility(studySubject);
-        persistedStudySubjectCreator.bindStratification(studySubject);
+        persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
+        persistedStudySubjectCreator.completeScheduledEpochDataEntry(studySubject);
         Integer id=studySubjectService.register(studySubject).getId();
         assertNotNull("Id should not be null", id);
         interruptSession();
         studySubject=studySubjectDao.getById(id);
         assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.APPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong Registration WorkFlow Status", RegistrationWorkFlowStatus.REGISTERED,
+                        studySubject.getRegWorkflowStatus());
     }
     
     public void testRegisterLocalRegistrationRandomizedStudyBookStratumGroupNumberPresent() throws Exception{
         studySubject=persistedStudySubjectCreator.getLocalRandomizedStudySubject(RandomizationType.BOOK, false);
         persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
-        studySubject.setInformedConsentSignedDate(new Date());
-        studySubject.setInformedConsentVersion("1.0");
-        persistedStudySubjectCreator.buildCommandObject(studySubject);
-        persistedStudySubjectCreator.bindEligibility(studySubject);
-        persistedStudySubjectCreator.bindStratificationInvalid(studySubject);
+        persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
+        persistedStudySubjectCreator.completeScheduledEpochDataEntry(studySubject);
         studySubject.setStratumGroupNumber(0);
         Integer id=studySubjectService.register(studySubject).getId();
         assertNotNull("Id should not be null", id);
         interruptSession();
         studySubject=studySubjectDao.getById(id);
         assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.APPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong Registration WorkFlow Status", RegistrationWorkFlowStatus.REGISTERED,
+                        studySubject.getRegWorkflowStatus());
     }
     
     //---------------------MultiSite Study Registration Tests-----------------------------
     
     public void testRegisterMultiSiteRegistrationNonRandomizedNonTreatmentStudy() throws Exception{
-        studySubject = persistedStudySubjectCreator.getLocalNonRandomizedStudySubject(true, true, false);
+        studySubjectService.setHostedMode(false);
+        studySubject = persistedStudySubjectCreator.getMultiSiteNonRandomizedStudySubject(false, true, false);
         persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
-        studySubject.setInformedConsentSignedDate(new Date());
-        studySubject.setInformedConsentVersion("1.0");
+        persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         Integer id=studySubjectService.register(studySubject).getId();
         assertNotNull("Id should not be null", id);
         interruptSession();
         studySubject=studySubjectDao.getById(id);
-        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.APPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.PENDING, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong Registration WorkFlow Status", RegistrationWorkFlowStatus.PENDING,
+                        studySubject.getRegWorkflowStatus());
     }
     
-    public void testRegisterLocaMultiSitestrationNonRandomizedTreatmentStudyWithArm() throws Exception{
+    public void testRegisterMultiSitestrationNonRandomizedTreatmentStudyWithArm() throws Exception{
+        studySubjectService.setHostedMode(false);
         studySubject=persistedStudySubjectCreator.getMultiSiteNonRandomizedWithArmStudySubject(false);
         persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
-        studySubject.setInformedConsentSignedDate(new Date());
-        studySubject.setInformedConsentVersion("1.0");
-        persistedStudySubjectCreator.buildCommandObject(studySubject);
-        persistedStudySubjectCreator.bindEligibility(studySubject);
-        persistedStudySubjectCreator.bindStratification(studySubject);
-        persistedStudySubjectCreator.bindArm(studySubject);
+        persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
+        persistedStudySubjectCreator.completeScheduledEpochDataEntry(studySubject);
         Integer id=studySubjectService.register(studySubject).getId();
         assertNotNull("Id should not be null", id);
         interruptSession();
         studySubject=studySubjectDao.getById(id);
-        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.APPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.PENDING, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong Registration WorkFlow Status", RegistrationWorkFlowStatus.PENDING,
+                        studySubject.getRegWorkflowStatus());
     }
     
     public void testRegisterMultiSiteRegistrationRandomizedStudyArmNotAssigned() throws Exception{
+        studySubjectService.setHostedMode(false);
         studySubject=persistedStudySubjectCreator.getMultiSiteRandomizedStudySubject(RandomizationType.PHONE_CALL, false);
         persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
-        studySubject.setInformedConsentSignedDate(new Date());
-        studySubject.setInformedConsentVersion("1.0");
+        persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.buildCommandObject(studySubject);
         persistedStudySubjectCreator.bindEligibility(studySubject);
         persistedStudySubjectCreator.bindStratification(studySubject);
-        try {
-            studySubjectService.register(studySubject);
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            assertTrue("Wrong Exception", e.getCause() instanceof C3PRCodedException);
-            assertEquals("Wrong exception mesage", 200, ((C3PRCodedException)e.getCause()).getExceptionCode());
-            return;
-        }
-        assertFalse("Should have thrown exception",true);
+        Integer id=studySubjectService.register(studySubject).getId();
+        assertNotNull("Id should not be null", id);
+        interruptSession();
+        studySubject=studySubjectDao.getById(id);
+        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.PENDING, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong Registration WorkFlow Status", RegistrationWorkFlowStatus.PENDING,
+                        studySubject.getRegWorkflowStatus());
     }
     
     public void testRegisterMultiSiteRegistrationRandomizedStudyArmAssignedPhoneCall() throws Exception{
+        studySubjectService.setHostedMode(false);
         studySubject=persistedStudySubjectCreator.getMultiSiteRandomizedStudySubject(RandomizationType.PHONE_CALL, false);
         persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
-        studySubject.setInformedConsentSignedDate(new Date());
-        studySubject.setInformedConsentVersion("1.0");
-        persistedStudySubjectCreator.buildCommandObject(studySubject);
-        persistedStudySubjectCreator.bindEligibility(studySubject);
-        persistedStudySubjectCreator.bindStratification(studySubject);
-        persistedStudySubjectCreator.bindRandomization(studySubject);
+        persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
+        persistedStudySubjectCreator.completeScheduledEpochDataEntry(studySubject);
         studySubjectDao.save(studySubject);
         Integer id=studySubjectService.register(studySubject).getId();
         assertNotNull("Id should not be null", id);
         interruptSession();
         studySubject=studySubjectDao.getById(id);
-        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.APPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.PENDING, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong Registration WorkFlow Status", RegistrationWorkFlowStatus.PENDING,
+                        studySubject.getRegWorkflowStatus());
     }
     
     public void testRegisterMultiSiteRegistrationRandomizedStudyBookStratumGroupAbsent() throws Exception{
+        studySubjectService.setHostedMode(false);
         studySubject=persistedStudySubjectCreator.getMultiSiteRandomizedStudySubject(RandomizationType.BOOK, false);
         persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
-        studySubject.setInformedConsentSignedDate(new Date());
-        studySubject.setInformedConsentVersion("1.0");
+        persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.buildCommandObject(studySubject);
         persistedStudySubjectCreator.bindEligibility(studySubject);
         persistedStudySubjectCreator.bindStratificationInvalid(studySubject);
-        try {
-            studySubjectService.register(studySubject);
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            assertTrue("Wrong Exception", e.getCause() instanceof C3PRCodedException);
-            assertEquals("Wrong exception mesage", 202, ((C3PRCodedException)e.getCause()).getExceptionCode());
-            return;
-        }
-        assertFalse("Should have thrown exception",true);
-    }
-    
-    public void testRegisterMultiSiteRegistrationRandomizedStudyBookStratumGroupPresent() throws Exception{
-        studySubject=persistedStudySubjectCreator.getMultiSiteRandomizedStudySubject(RandomizationType.BOOK, false);
-        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
-        studySubject.setInformedConsentSignedDate(new Date());
-        studySubject.setInformedConsentVersion("1.0");
-        persistedStudySubjectCreator.buildCommandObject(studySubject);
-        persistedStudySubjectCreator.bindEligibility(studySubject);
-        persistedStudySubjectCreator.bindStratification(studySubject);
         Integer id=studySubjectService.register(studySubject).getId();
         assertNotNull("Id should not be null", id);
         interruptSession();
         studySubject=studySubjectDao.getById(id);
-        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.APPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.PENDING, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong Registration WorkFlow Status", RegistrationWorkFlowStatus.PENDING,
+                        studySubject.getRegWorkflowStatus());
+    }
+    
+    public void testRegisterMultiSiteRegistrationRandomizedStudyBookStratumGroupPresent() throws Exception{
+        studySubjectService.setHostedMode(false);
+        studySubject=persistedStudySubjectCreator.getMultiSiteRandomizedStudySubject(RandomizationType.BOOK, false);
+        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
+        persistedStudySubjectCreator.completeScheduledEpochDataEntry(studySubject);
+        Integer id=studySubjectService.register(studySubject).getId();
+        assertNotNull("Id should not be null", id);
+        interruptSession();
+        studySubject=studySubjectDao.getById(id);
+        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.PENDING, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong Registration WorkFlow Status", RegistrationWorkFlowStatus.PENDING,
+                        studySubject.getRegWorkflowStatus());
     }
     
     public void testRegisterMultiSiteRegistrationRandomizedStudyBookStratumGroupNumberPresent() throws Exception{
+        studySubjectService.setHostedMode(false);
         studySubject=persistedStudySubjectCreator.getMultiSiteRandomizedStudySubject(RandomizationType.BOOK, false);
         persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
-        studySubject.setInformedConsentSignedDate(new Date());
-        studySubject.setInformedConsentVersion("1.0");
-        persistedStudySubjectCreator.buildCommandObject(studySubject);
-        persistedStudySubjectCreator.bindEligibility(studySubject);
-        persistedStudySubjectCreator.bindStratificationInvalid(studySubject);
+        persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
+        persistedStudySubjectCreator.completeScheduledEpochDataEntry(studySubject);
         studySubject.setStratumGroupNumber(0);
         Integer id=studySubjectService.register(studySubject).getId();
         assertNotNull("Id should not be null", id);
         interruptSession();
         studySubject=studySubjectDao.getById(id);
-        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.APPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.PENDING, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong Registration WorkFlow Status", RegistrationWorkFlowStatus.PENDING,
+                        studySubject.getRegWorkflowStatus());
     }
 
 }

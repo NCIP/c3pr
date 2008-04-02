@@ -1,0 +1,73 @@
+<dataset>
+      
+    <STUDIES id="1100" version="1" blinded_indicator="true" long_title_text="long_title_text" multi_institution_indicator="true"
+   	phase_code="Ph" randomized_indicator="true" short_title_text="short_title_text" target_accrual_number="123" type="ty"
+    description_text="description" precis_text="precis_text" status="ACTIVE" data_entry_status="COMPLETE" />
+   
+	<ADDRESSES id="1100" version="1" street_address="12359 sunrise valley drive" city="Reston" state_code="VA" postal_code="20191" country_code="USA" />
+  
+    <ORGANIZATIONS id="1100" version="1" name="duke healthcare" description_text="duke healthcare" address_id="1100" nci_institute_code="code" />
+
+    <ORGANIZATIONS id="1000" version="1" name="duke healthcare" description_text="duke healthcare" address_id="1100" nci_institute_code="duke nci code" />    
+
+    <STUDY_ORGANIZATIONS id="1100" version="1" irb_approval_date="01-01-2000" role_code="role" site_study_status="ACTIVE" start_date="01-01-2001" end_date="01-01-2002" study_id="1100"
+    hcs_id="1100" type="SST"/>
+
+	<STUDY_ORGANIZATIONS id="1101" version="1" irb_approval_date="01-01-2000" role_code="role" site_study_status="ACTIVE" start_date="01-01-2001" end_date="01-01-2002" study_id="1100"
+    hcs_id="1100" type="SCC"/>
+    
+    <RANDOMIZATIONS id="1100" version="1" dtype="BR"/>        
+
+    <EPOCHS id="1100" version="1" name="Treatment1000" description_text="treatement desc" stu_id="1100" type="TREATMENT"/>
+    
+    <ARMS id="1100" version="1" name="Arm 1000" description_text="Arm 1000 desc" target_accrual_number="1000" eph_id="1100" />
+        
+    <RESEARCH_STAFF id="1100" version="1" first_name="Research Bill" last_name="Staff2" hcs_id="1100"/>
+    
+    <INVESTIGATORS id="1100" version="1" first_name="Investigator Bill" last_name="Staff1"/>
+    
+    <HC_SITE_INVESTIGATORS id="1100" version="1" status_code="ACTIVE" status_date="01-01-2000" inv_id="1100" hcs_id="1100"/>
+    
+    <STUDY_INVESTIGATORS id="1100" version="1" hsi_id="1100" sto_id="1100" start_date="01-01-2000" end_date="01-01-2000" role_code="role1" status_code="Active"/>
+    
+    <DISEASE_CATEGORIES id="1100" version="1" name="AIDS-related Human Papillomavirus"/>
+    
+    <DISEASE_TERMS id="1100" version="1" term="AIDS-related anal cancer" ctep_term="AIDS-related anal cancer" category_id="1" medra_code="10065860"/>
+   
+    <STUDY_DISEASES id="1100" version="1" study_id="1100" disease_term_id="1000" lead_disease="1"/>
+    
+    <ELIGIBILITY_CRITERIA id="1100" version="1" question_number="1" eph_id="1100" question_text="inclusion question 1" dtype="I"/>
+    
+    <STRAT_CRITERIA id="1100" version="1" question_text="question" eph_id="1100" question_number="1"/>
+    
+    <STRAT_CRI_PER_ANS id="1100" version="1" permissible_answer="answer" str_cri_id="1100"/>  
+     
+    <STRATUM_GROUPS id="1100" version="1" current_position="1" stratum_group_number="8" epochs_id="1100" />
+    
+    <BOOK_RNDM_ENTRY id="1100" version="1" position="1" str_grp_id="1100" arms_id="1100" rndm_id="1100" />             
+
+   	<PARTICIPANTS id="1000" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="M" race_code="White" add_id="1100" grid_id="AAAAA11111GridID"/>
+   	<PARTICIPANTS id="1100" version="1" first_name="Rudolph" last_name="Clooney" birth_date="01-01-2000" administrative_gender_code="M" race_code="White" add_id="1100" grid_id="OTHERGRIDID"/>   	
+
+    <ANATOMIC_SITES id="1100" version="1" name="Skin" category="skin" />     
+
+    <DISEASE_HISTORY id="1100" version="1"/>
+
+    <STUDY_SUBJECTS reg_workflow_status="INVALID" reg_data_entry_status="INCOMPLETE" id="1100" version="1" start_date="01-01-2000" informed_consent_signed_date="01-01-2000" prt_id="1100" sto_id="1100" sti_id="1100" grid_id="1100"/>
+
+    <SCHEDULED_EPOCHS id="1100" version="1" start_date="01-01-2000" eligibility_indicator="true" ELIGIBILITY_WAIVER_REASON_TEXT="reason" spa_id="1100" type="TREATMENT" eph_id="1100" sc_epoch_workflow_status="UNAPPROVED" sc_epoch_data_entry_status="INCOMPLETE"/>  
+
+	<SUBJECT_STRAT_ANS id="1100" version="1" sceph_id="1100" str_cri_id="1100"/>
+	
+	<SUBJECT_ELIGIBILITY_ANS id="1100" version="1" sceph_id="1100" elgct_id="1100"/>
+	
+    <SCHEDULED_ARMS id="1100" version="1" start_date="01-01-2000" eligibility_indicator="true" arm_id="1100" SCEPH_ID="1100" />  
+
+    <STRAT_CRI_ANS_CMB id="1000" version="1" />
+	
+	<STUDY_AMENDMENTS/>
+
+    <IDENTIFIERS id="1100" version="1" value="nci" type="local" system_name="nci" dtype="SAI" stu_id="1100"/>
+    <IDENTIFIERS id="1000" version="1" value="MRN-AAACCCBB" type="MRN" hcs_id="1000" dtype="OAI" prt_id="1000"/>
+</dataset>
+
