@@ -57,9 +57,10 @@ public abstract class DaoTestCase extends DbTestCase {
 
     protected void tearDown() throws Exception {
         // endSession();
-        super.tearDown();
         SecurityContextTestUtils.switchToNobody();
         DataAuditInfo.setLocal(null);
+        endSession();
+        super.tearDown();
     }
 
     public void runBare() throws Throwable {
