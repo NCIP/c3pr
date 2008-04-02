@@ -32,10 +32,6 @@ public class C3DPatientPositionResponseHandler implements CaXchangeMessageRespon
 
     private StudySubjectRepository studySubjectRepository;
 
-    public void setStudySubjectRepository(StudySubjectRepository studySubjectRepository) {
-        this.studySubjectRepository = studySubjectRepository;
-    }
-
     public void handleMessageResponse(String string, Response response) {
         log.debug("Will look for c3d identifier in response message");
 
@@ -89,6 +85,10 @@ public class C3DPatientPositionResponseHandler implements CaXchangeMessageRespon
 
     public void setMarshaller(XmlMarshaller marshaller) {
         this.marshaller = marshaller;
+    }
+
+    public void setStudySubjectRepositoryNew(StudySubjectRepository studySubjectRepository) {
+        this.studySubjectRepository = studySubjectRepository;
     }
 
 }

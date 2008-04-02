@@ -269,7 +269,7 @@
     <target name="bering-migrate" description="migrate database schema"
             depends="prepare-bering">
 
-
+		<echo>${datasource.username}</echo>
         <migrate classpathRef="bering.classpath"
                  driver="${datasource.driver}"
                  dialect="${bering.dialect}"
@@ -409,9 +409,6 @@
             * In ${catalina.home}/conf/catalina.properties, add two lines:
             gov.nih.nci.security.configFile=${tomcat.security.dir}/ApplicationSecurityConfig.xml
             java.security.auth.login.config=${tomcat.security.dir}/csm_jaas.config
-
-            * Execute ${basedir}/tools/csm/DataLoadPostgresCSMUser.sql
-            against your target database (${datasource.url}).
             ========= END ==========
             ===== MANUAL STEPS =====
         </echo>

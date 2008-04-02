@@ -530,6 +530,7 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
         return this.getScheduledEpoch().evaluateScheduledEpochDataEntryStatus(this.stratumGroupNumber);
     }
     
+    @Transient
     public boolean isStudySite(String nciCode) {
         return this.getStudySite().getHealthcareSite().getNciInstituteCode().equals(nciCode);
     }
@@ -538,6 +539,7 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
     /**
      * Data Entry is considered complete if both Registrations and Scheduled Epoch data entry status are complete
      */
+    @Transient
     public boolean isDataEntryComplete() {
         if (this.getRegDataEntryStatus() == RegistrationDataEntryStatus.COMPLETE
                         && this.getScheduledEpoch().getScEpochDataEntryStatus() == ScheduledEpochDataEntryStatus.COMPLETE) {
@@ -555,6 +557,7 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
      * This methods computes if a a study subject instance is registerable which is true
      * if the data entry is complete, not alrerady registered and the epoch is enrolling 
      */
+    @Transient
     public boolean isRegisterable() {
         if (this.isDataEntryComplete()
                         && this.getRegWorkflowStatus() != RegistrationWorkFlowStatus.REGISTERED
@@ -574,7 +577,7 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
                         && this.getScheduledEpoch().getEpoch().isEnrolling();
     }
     
-    
+    @Transient
     public boolean isCoOrdinatingCenter(String nciCode) {
         return this.getStudySite().getStudy().getStudyCoordinatingCenters().get(0)
                         .getHealthcareSite().getNciInstituteCode()

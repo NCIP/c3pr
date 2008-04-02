@@ -10,6 +10,7 @@ import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.PhoneCallRandomization;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
@@ -29,6 +30,15 @@ import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 public class StudySubjectCreatorHelper {
     
     private StudyCreationHelper studyCreationHelper = new StudyCreationHelper();
+    
+    public Participant createNewParticipant(){
+        Participant participant=new Participant();
+        participant.setFirstName("firstName");
+        participant.setLastName("lastName");
+        participant.setAdministrativeGenderCode("M");
+        participant.setBirthDate(new java.util.Date());
+        return participant;
+    }
     
     public Study getMultiSiteRandomizedStudy(RandomizationType randomizationType,
                     boolean makeStudysiteCoCenter) throws Exception {
@@ -186,9 +196,10 @@ public class StudySubjectCreatorHelper {
         }
     }
 
-    public void bindRandomization(Object command, RandomizationType randomizationType) {
+    public void bindRandomization(Object command) {
+        StudySubject studySubject = (StudySubject) command;
+        RandomizationType randomizationType=studySubject.getStudySite().getStudy().getRandomizationType();
         if (randomizationType == RandomizationType.PHONE_CALL) {
-            StudySubject studySubject = (StudySubject) command;
             ScheduledTreatmentEpoch scheduledEpoch = ((ScheduledTreatmentEpoch) studySubject
                             .getScheduledEpoch());
             scheduledEpoch.addScheduledArm(new ScheduledArm());
@@ -198,6 +209,11 @@ public class StudySubjectCreatorHelper {
         }
     }
 
+    public void bindArm(StudySubject studySubject){
+        ScheduledArm scheduledArm = new ScheduledArm();
+        scheduledArm.setArm(((TreatmentEpoch)studySubject.getScheduledEpoch().getEpoch()).getArms().get(0));
+        ((ScheduledTreatmentEpoch) studySubject.getScheduledEpoch()).addScheduledArm(scheduledArm);
+    }
     public boolean evaluateEligibilityIndicator(StudySubject studySubject) {
         boolean flag = true;
         List<SubjectEligibilityAnswer> answers = ((ScheduledTreatmentEpoch) studySubject
@@ -299,5 +315,20 @@ public class StudySubjectCreatorHelper {
         StudyCoordinatingCenter stC = study.getStudyCoordinatingCenters().get(0);
         stC.setStudy(study);
         stC.setHealthcareSite(healthcaresite);
+    }
+    
+    public void completeRegistrationDataEntry(StudySubject studySubject){
+        studySubject.setInformedConsentSignedDate(new Date());
+        studySubject.setInformedConsentVersion("1.0");
+    }
+    
+    public void completeScheduledEpochDataEntry(StudySubject studySubject){
+        buildCommandObject(studySubject);
+        bindEligibility(studySubject);
+        bindStratification(studySubject);
+        if(studySubject.getScheduledEpoch().getRequiresRandomization())
+            bindRandomization(studySubject);
+        else if(studySubject.getScheduledEpoch().getRequiresArm())
+            bindArm(studySubject);
     }
 }

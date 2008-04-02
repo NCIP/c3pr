@@ -130,13 +130,8 @@ public class StudySubjectXMLImporterServiceImpl implements StudySubjectXMLImport
         return Integer.parseInt(this.c3prErrorMessages.getMessage(errortypeString, null, null));
     }
 
-	public StudySubjectRepository getStudySubjectRepository() {
-		return studySubjectRepository;
-	}
-
-	public void setStudySubjectRepository(
-			StudySubjectRepository studySubjectRepository) {
-		this.studySubjectRepository = studySubjectRepository;
-	}
+    public void setStudySubjectRepositoryNew(StudySubjectRepository studySubjectRepository) {
+        this.studySubjectRepository = studySubjectRepository;
+    }
 
 }

@@ -16,8 +16,8 @@
           class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="locations">
             <list>
-                <value>classpath:context/c3pr.properties</value>
-                <value>file:@catalina.home@/conf/c3pr.properties</value>
+            	<value>classpath:context/c3pr.properties</value>
+            	<value>file:@catalina.home@/conf/c3pr.properties</value>
             </list>
         </property>
         <property name="ignoreResourceNotFound" value="true"/>

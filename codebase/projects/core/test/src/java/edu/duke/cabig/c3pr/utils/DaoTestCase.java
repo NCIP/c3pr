@@ -85,27 +85,28 @@ public abstract class DaoTestCase extends DbTestCase {
     private void endSession() {
         log.info("--    ending DaoTestCase interceptor session --");
         OpenSessionInViewInterceptor interceptor = findOpenSessionInViewInterceptor();
-        if (shouldFlush) {
-            try {
+        try {
+            if (shouldFlush) {
                 interceptor.postHandle(webRequest, null);
             }
-            catch (Exception exception) {
-                if (exception instanceof HibernateJdbcException) {
-                    if (exception != null) {
-                        System.out.println(exception); // Log the exception
-                        // Get cause if present
-                        Throwable t = ((HibernateJdbcException) exception).getRootCause();
+        }catch (RuntimeException exception) {
+            if (exception instanceof HibernateJdbcException) {
+                if (exception != null) {
+                    System.out.println(exception); // Log the exception
+                    // Get cause if present
+                    Throwable t = ((HibernateJdbcException) exception).getRootCause();
 
-                        while (t != null) {
-                            System.out.println("*************Cause: " + t);
-                            t = t.getCause();
-                        }
-
+                    while (t != null) {
+                        System.out.println("*************Cause: " + t);
+                        t = t.getCause();
                     }
+
                 }
             }
+            throw exception;
+        }finally{
+            interceptor.afterCompletion(webRequest, null);
         }
-        interceptor.afterCompletion(webRequest, null);
     }
 
     protected void interruptSession() {
