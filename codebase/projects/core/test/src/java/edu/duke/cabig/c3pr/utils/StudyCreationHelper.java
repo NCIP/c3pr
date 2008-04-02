@@ -64,9 +64,18 @@ public class StudyCreationHelper {
         return study;
     }
 
-    public Study getLocalNonRandomizedWithArmStudy() {
+    public Study getLocalNonRandomizedTratmentWithArmStudy() {
         Study study = buildBasicStudy(false, null);
         TreatmentEpoch epoch = getTreatmentEpochWithArm();
+        epoch.setRandomizedIndicator(false);
+        study.addEpoch(epoch);
+        return study;
+    }
+    
+    public Study getLocalNonRandomizedTratmentWithoutArmStudy() {
+        Study study = buildBasicStudy(false, null);
+        TreatmentEpoch epoch = new TreatmentEpoch();
+        epoch.setName("epoch1");
         study.addEpoch(epoch);
         return study;
     }

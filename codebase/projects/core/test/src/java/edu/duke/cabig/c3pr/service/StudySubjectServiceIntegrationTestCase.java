@@ -1,32 +1,17 @@
 package edu.duke.cabig.c3pr.service;
 
-import java.util.Date;
-
 import org.easymock.classextension.EasyMock;
 
-import edu.duke.cabig.c3pr.AbstractTestCase;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
-import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
-import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
-import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
-import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
-import edu.duke.cabig.c3pr.domain.ScheduledNonTreatmentEpoch;
-import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
-import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
-import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
-import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.DaoTestCase;
 import edu.duke.cabig.c3pr.utils.PersistedStudySubjectCreator;
-import edu.duke.cabig.c3pr.utils.StudySubjectCreatorHelper;
-import edu.duke.cabig.c3pr.utils.StudyTargetAccrualNotificationEmail;
 
 public class StudySubjectServiceIntegrationTestCase extends DaoTestCase {
     
@@ -51,7 +36,7 @@ public class StudySubjectServiceIntegrationTestCase extends DaoTestCase {
      * Registration Data Entry Status: Complete
      */
     public void testRegisterIncompleteDataEntry() throws Exception {
-        studySubject=persistedStudySubjectCreator.getLocalNonRandomizedWithArmStudySubject(false);
+        studySubject=persistedStudySubjectCreator.getLocalNonRandomizedTrestmentWithArmStudySubject(false);
         persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         Integer id=studySubjectService.register(studySubject).getId();
@@ -65,7 +50,7 @@ public class StudySubjectServiceIntegrationTestCase extends DaoTestCase {
     }
     
   //---------------------Local study Registration Tests-----------------------------
-    public void testRegisterLocalRegistrationNonRandomizedNonTreatmentStudy() throws Exception{
+    public void testRegisterLocalRegistrationNonRandomizedNonTreatmentReservingStudy() throws Exception{
         studySubject = persistedStudySubjectCreator.getLocalNonRandomizedStudySubject(true, false, false);
         persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
@@ -78,8 +63,64 @@ public class StudySubjectServiceIntegrationTestCase extends DaoTestCase {
                         studySubject.getRegWorkflowStatus());
     }
     
+    public void testRegisterLocalRegistrationNonRandomizedNonTreatmentEnrollingStudy() throws Exception{
+        studySubject = persistedStudySubjectCreator.getLocalNonRandomizedStudySubject(false, true, false);
+        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
+        Integer id=studySubjectService.register(studySubject).getId();
+        assertNotNull("Id should not be null", id);
+        interruptSession();
+        studySubject=studySubjectDao.getById(id);
+        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.APPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong Registration WorkFlow Status", RegistrationWorkFlowStatus.REGISTERED,
+                        studySubject.getRegWorkflowStatus());
+    }
+    
+    public void testRegisterLocalRegistrationNonRandomizedNonTreatmentStudy() throws Exception{
+        studySubject = persistedStudySubjectCreator.getLocalNonRandomizedStudySubject(false, false, false);
+        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
+        Integer id=studySubjectService.register(studySubject).getId();
+        assertNotNull("Id should not be null", id);
+        interruptSession();
+        studySubject=studySubjectDao.getById(id);
+        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.APPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong Registration WorkFlow Status", RegistrationWorkFlowStatus.UNREGISTERED,
+                        studySubject.getRegWorkflowStatus());
+    }
+    
     public void testRegisterLocalRegistrationNonRandomizedTreatmentStudyWithArm() throws Exception{
-        studySubject=persistedStudySubjectCreator.getLocalNonRandomizedWithArmStudySubject(false);
+        studySubject=persistedStudySubjectCreator.getLocalNonRandomizedTrestmentWithArmStudySubject(false);
+        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
+        persistedStudySubjectCreator.completeScheduledEpochDataEntry(studySubject);
+        Integer id=studySubjectService.register(studySubject).getId();
+        assertNotNull("Id should not be null", id);
+        interruptSession();
+        studySubject=studySubjectDao.getById(id);
+        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.APPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong Registration WorkFlow Status", RegistrationWorkFlowStatus.REGISTERED,
+                        studySubject.getRegWorkflowStatus());
+    }
+    
+    public void testRegisterLocalRegistrationNonRandomizedTreatmentStudyWithArmNotAssignd() throws Exception{
+        studySubject=persistedStudySubjectCreator.getLocalNonRandomizedTrestmentWithArmStudySubject(false);
+        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
+        persistedStudySubjectCreator.buildCommandObject(studySubject);
+        persistedStudySubjectCreator.bindEligibility(studySubject);
+        persistedStudySubjectCreator.bindStratification(studySubject);
+        Integer id=studySubjectService.register(studySubject).getId();
+        assertNotNull("Id should not be null", id);
+        interruptSession();
+        studySubject=studySubjectDao.getById(id);
+        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.UNAPPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong Registration WorkFlow Status", RegistrationWorkFlowStatus.UNREGISTERED,
+                        studySubject.getRegWorkflowStatus());
+    }
+    
+    public void testRegisterLocalRegistrationNonRandomizedTreatmentStudyWithoutArm() throws Exception{
+        studySubject=persistedStudySubjectCreator.getLocalNonRandomizedTrestmentWithoutArmStudySubject(false);
         persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
         persistedStudySubjectCreator.completeScheduledEpochDataEntry(studySubject);
@@ -283,6 +324,26 @@ public class StudySubjectServiceIntegrationTestCase extends DaoTestCase {
         assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.PENDING, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
         assertEquals("Wrong Registration WorkFlow Status", RegistrationWorkFlowStatus.PENDING,
                         studySubject.getRegWorkflowStatus());
+    }
+    
+    public void testRegisterMultiSiteRegistrationEnrollingStudyAtCoordinatingCenter() throws Exception{
+        studySubjectService.setHostedMode(false);
+        Configuration configuration=EasyMock.createMock(Configuration.class);
+        ((StudySubjectServiceImpl)studySubjectService).setConfiguration(configuration);
+        studySubject = persistedStudySubjectCreator.getMultiSiteNonRandomizedStudySubject(false, true, false);
+        persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
+        persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
+        EasyMock.expect(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE)).andReturn("NCI northwestern");
+        EasyMock.expect(configuration.get(Configuration.ESB_ENABLE)).andReturn("false");
+        EasyMock.replay(configuration);
+        Integer id=studySubjectService.register(studySubject).getId();
+        assertNotNull("Id should not be null", id);
+        interruptSession();
+        studySubject=studySubjectDao.getById(id);
+        assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.APPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong Registration WorkFlow Status", RegistrationWorkFlowStatus.REGISTERED,
+                        studySubject.getRegWorkflowStatus());
+        EasyMock.verify(configuration);
     }
 
 }

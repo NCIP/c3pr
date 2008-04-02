@@ -75,7 +75,7 @@ public class StudySubjectCreatorHelper {
     }
 
     public Study getLocalNonRandomizedWithArmStudy(boolean makeStudysiteCoCenter) {
-        Study study = studyCreationHelper.getLocalNonRandomizedWithArmStudy();
+        Study study = studyCreationHelper.getLocalNonRandomizedTratmentWithArmStudy();
         addStudySiteAndCoCenter(study, makeStudysiteCoCenter);
         return study;
     }
@@ -114,11 +114,18 @@ public class StudySubjectCreatorHelper {
         return study.getStudySites().get(0);
     }
 
-    public StudySite getLocalNonRandomizedWithArmStudySite(boolean makeStudysiteCoCenter) {
-        Study study = studyCreationHelper.getLocalNonRandomizedWithArmStudy();
+    public StudySite getLocalNonRandomizedTreatmentWithArmStudySite(boolean makeStudysiteCoCenter) {
+        Study study = studyCreationHelper.getLocalNonRandomizedTratmentWithArmStudy();
         addStudySiteAndCoCenter(study, makeStudysiteCoCenter);
         return study.getStudySites().get(0);
     }
+    
+    public StudySite getLocalNonRandomizedTreatmentWithoutArmStudySite(boolean makeStudysiteCoCenter) {
+        Study study = studyCreationHelper.getLocalNonRandomizedTratmentWithoutArmStudy();
+        addStudySiteAndCoCenter(study, makeStudysiteCoCenter);
+        return study.getStudySites().get(0);
+    }
+    
     public void buildCommandObject(StudySubject studySubject) {
         if (studySubject.getIfTreatmentScheduledEpoch()) {
             ScheduledTreatmentEpoch scheduledTreatmentEpoch = (ScheduledTreatmentEpoch) studySubject
@@ -210,6 +217,8 @@ public class StudySubjectCreatorHelper {
     }
 
     public void bindArm(StudySubject studySubject){
+        if(!studySubject.getScheduledEpoch().getRequiresArm())
+            return;
         ScheduledArm scheduledArm = new ScheduledArm();
         scheduledArm.setArm(((TreatmentEpoch)studySubject.getScheduledEpoch().getEpoch()).getArms().get(0));
         ((ScheduledTreatmentEpoch) studySubject.getScheduledEpoch()).addScheduledArm(scheduledArm);
@@ -294,6 +303,7 @@ public class StudySubjectCreatorHelper {
         healthcaresite.setAddress(address);
         healthcaresite.setName("Northwestern Memorial Hospital");
         healthcaresite.setDescriptionText("NU healthcare");
+        healthcaresite.setNciInstituteCode("NU healthcare");
         studySite.setHealthcareSite(healthcaresite);
         studySite.setStudy(study);
         study.getStudySites().add(studySite);

@@ -116,7 +116,7 @@ public class StudySubjectRepositoryIntegrationTestCase extends DaoTestCase {
     }
     
     public void testDoLocalRegistrationNonRandomizedTreatmentStudyWithArm() throws Exception{
-        studySubject=persistedStudySubjectCreator.getLocalNonRandomizedWithArmStudySubject(false);
+        studySubject=persistedStudySubjectCreator.getLocalNonRandomizedTrestmentWithArmStudySubject(false);
         persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
         studySubject.setInformedConsentSignedDate(new Date());
         studySubject.setInformedConsentVersion("1.0");

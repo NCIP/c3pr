@@ -7,7 +7,6 @@ import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.dao.StudySiteDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
-import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
 import edu.duke.cabig.c3pr.domain.StudySubject;
@@ -39,7 +38,7 @@ public class PersistedStudySubjectCreator extends StudySubjectCreatorHelper {
     }
     
     public StudySubject getPersistedLocalNonRandomizedWithArmStudySubject(boolean makeStudysiteCoCenter) {
-        studySubject.setStudySite(getLocalNonRandomizedWithArmStudySite( makeStudysiteCoCenter));
+        studySubject.setStudySite(getLocalNonRandomizedTreatmentWithArmStudySite( makeStudysiteCoCenter));
         prepareToPersistNewStudySubject(studySubject);
         studySubjectDao.save(studySubject);
         return studySubject;
@@ -92,8 +91,14 @@ public class PersistedStudySubjectCreator extends StudySubjectCreatorHelper {
         return studySubject;
     }
     
-    public StudySubject getLocalNonRandomizedWithArmStudySubject(boolean makeStudysiteCoCenter) {
-        studySubject.setStudySite(getLocalNonRandomizedWithArmStudySite( makeStudysiteCoCenter));
+    public StudySubject getLocalNonRandomizedTrestmentWithArmStudySubject(boolean makeStudysiteCoCenter) {
+        studySubject.setStudySite(getLocalNonRandomizedTreatmentWithArmStudySite( makeStudysiteCoCenter));
+        prepareToPersistNewStudySubject(studySubject);
+        return studySubject;
+    }
+    
+    public StudySubject getLocalNonRandomizedTrestmentWithoutArmStudySubject(boolean makeStudysiteCoCenter) {
+        studySubject.setStudySite(getLocalNonRandomizedTreatmentWithoutArmStudySite( makeStudysiteCoCenter));
         prepareToPersistNewStudySubject(studySubject);
         return studySubject;
     }

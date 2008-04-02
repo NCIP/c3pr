@@ -242,7 +242,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
     }
     
     public void testDoLocalRegistrationNonRndomizedTreatmentStudyWithArm() throws Exception{
-        studySubject.setStudySite(studySubjectCreatorHelper.getLocalNonRandomizedWithArmStudySite(false));
+        studySubject.setStudySite(studySubjectCreatorHelper.getLocalNonRandomizedTreatmentWithArmStudySite(false));
         studySubjectCreatorHelper.addScheduledEpochFromStudyEpochs(studySubject);
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
         studySubject.setInformedConsentSignedDate(new Date());

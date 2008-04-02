@@ -711,7 +711,7 @@ public class StudySubjectXMLImporterServiceTestCase extends DaoTestCase {
     }
 
     private Study getLocalNonRandomizedWithArmStudy(boolean makeStudysiteCoCenter) {
-        Study study = studyCreationHelper.getLocalNonRandomizedWithArmStudy();
+        Study study = studyCreationHelper.getLocalNonRandomizedTratmentWithArmStudy();
         return addStudySiteCoCenterAndSave(study, makeStudysiteCoCenter);
     }
 
