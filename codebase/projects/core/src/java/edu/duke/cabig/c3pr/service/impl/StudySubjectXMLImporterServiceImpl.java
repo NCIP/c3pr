@@ -134,4 +134,8 @@ public class StudySubjectXMLImporterServiceImpl implements StudySubjectXMLImport
         this.studySubjectRepository = studySubjectRepository;
     }
 
+    public void setStudySubjectRepository(StudySubjectRepository studySubjectRepository) {
+        this.studySubjectRepository = studySubjectRepository;
+    }
+
 }

@@ -17,9 +17,9 @@ import edu.duke.cabig.c3pr.exception.C3PRCodedException;
  */
 @Transactional(readOnly = false, rollbackFor = C3PRCodedException.class, noRollbackFor = C3PRBaseRuntimeException.class)
 public interface StudySubjectXMLImporterService {
-    List<StudySubject> importStudySubjects(InputStream xmlStream, File importXMLResult)
+    public List<StudySubject> importStudySubjects(InputStream xmlStream, File importXMLResult)
                     throws C3PRCodedException;
-
-        public StudySubject importStudySubject(String registrationXml) throws C3PRCodedException;
+    public StudySubject importStudySubject(String registrationXml) throws C3PRCodedException;
+    
 
 }

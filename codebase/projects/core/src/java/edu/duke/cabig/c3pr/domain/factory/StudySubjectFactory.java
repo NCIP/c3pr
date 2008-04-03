@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.springframework.context.MessageSource;
 
+import edu.duke.cabig.c3pr.dao.ParticipantDao;
+import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.Epoch;
@@ -42,13 +44,44 @@ public class StudySubjectFactory {
     private StudyService studyService;
 
     private ParticipantService participantService;
+    
+    private StudySubjectDao studySubjectDao;
+    
+    private ParticipantDao participantDao;
+
+    public void setParticipantDao(ParticipantDao participantDao) {
+        this.participantDao = participantDao;
+    }
+
+    public void setStudySubjectDao(StudySubjectDao studySubjectDao) {
+        this.studySubjectDao = studySubjectDao;
+    }
 
     public StudySubject buildStudySubject(StudySubject deserializedStudySubject)
                     throws C3PRCodedException {
         StudySubject built = new StudySubject();
-        Participant participant = buildParticipant(deserializedStudySubject.getParticipant());
         StudySite studySite = buildStudySite(deserializedStudySubject.getStudySite(),
                         buildStudy(deserializedStudySubject.getStudySite().getStudy()));
+        Participant participant = buildParticipant(deserializedStudySubject.getParticipant());
+        if (participant.getId() != null) {
+            StudySubject exampleSS = new StudySubject(true);
+            exampleSS.setParticipant(participant);
+            exampleSS.setStudySite(studySite);
+            List<StudySubject> registrations = studySubjectDao
+                            .searchBySubjectAndStudySite(exampleSS);
+            if (registrations.size() > 0) {
+                throw this.exceptionHelper
+                                .getException(getCode("C3PR.EXCEPTION.REGISTRATION.STUDYSUBJECTS_ALREADY_EXISTS.CODE"));
+            }
+        }
+        else {
+            if (participant.validateParticipant()) participantDao
+                            .save(participant);
+            else {
+                throw this.exceptionHelper
+                                .getException(getCode("C3PR.EXCEPTION.REGISTRATION.SUBJECTS_INVALID_DETAILS.CODE"));
+            }
+        }
         built.setStudySite(studySite);
         built.setParticipant(participant);
         Epoch epoch = buildEpoch(studySite.getStudy().getEpochs(), deserializedStudySubject

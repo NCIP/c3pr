@@ -347,7 +347,8 @@
     <bean id="studySubjectRepository" lazy-init="true" class="edu.duke.cabig.c3pr.domain.repository.impl.StudySubjectRepositoryImpl"
           autowire="byName"/>
           
-    
+    <!-- Factories -->
+    <bean id="studySubjectFactory" class="edu.duke.cabig.c3pr.domain.factory.StudySubjectFactory" autowire="byName"/>
           
 
     <!--Should be in appContext-security and applied thru aop-->

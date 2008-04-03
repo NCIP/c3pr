@@ -21,8 +21,13 @@ public class StratumGroupFieldHandler implements FieldHandler {
         }
         catch (Exception e) {
             log.warn(e);
+            log.debug("returning stratum group number..");
+            if(registration.getStratumGroupNumber()==null){
+                log.debug("no startum group number found..");
+                return null;
+            }
+            return registration.getStratumGroupNumber();
         }
-        return null;
     }
 
     public void setValue(Object object, Object value) throws IllegalStateException,

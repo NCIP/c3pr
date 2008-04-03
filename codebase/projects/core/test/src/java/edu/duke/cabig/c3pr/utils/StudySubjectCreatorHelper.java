@@ -9,7 +9,9 @@ import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.ExclusionEligibilityCriteria;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.InclusionEligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.PhoneCallRandomization;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
@@ -17,6 +19,7 @@ import edu.duke.cabig.c3pr.domain.ScheduledArm;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.ScheduledNonTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.ScheduledTreatmentEpoch;
+import edu.duke.cabig.c3pr.domain.SiteStudyStatus;
 import edu.duke.cabig.c3pr.domain.StratificationCriterion;
 import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.Study;
@@ -160,6 +163,7 @@ public class StudySubjectCreatorHelper {
 
     public void bindEligibility(Object command) {
         StudySubject studySubject = (StudySubject) command;
+        if(!studySubject.getIfTreatmentScheduledEpoch()) return;
         List<SubjectEligibilityAnswer> subList = ((ScheduledTreatmentEpoch) studySubject
                         .getScheduledEpoch()).getSubjectEligibilityAnswers();
         for (SubjectEligibilityAnswer subjectEligibilityAnswer : subList) {
@@ -176,6 +180,7 @@ public class StudySubjectCreatorHelper {
 
     public void bindStratification(Object command) {
         StudySubject studySubject = (StudySubject) command;
+        if(!studySubject.getIfTreatmentScheduledEpoch()) return;
         List<SubjectStratificationAnswer> subList1 = ((ScheduledTreatmentEpoch) studySubject
                         .getScheduledEpoch()).getSubjectStratificationAnswers();
         for (SubjectStratificationAnswer subjectStratificationAnswer : subList1) {
@@ -188,6 +193,7 @@ public class StudySubjectCreatorHelper {
 
     public void bindStratificationInvalid(Object command) {
         StudySubject studySubject = (StudySubject) command;
+        if(!studySubject.getIfTreatmentScheduledEpoch()) return;
         List<SubjectStratificationAnswer> subList1 = ((ScheduledTreatmentEpoch) studySubject
                         .getScheduledEpoch()).getSubjectStratificationAnswers();
         for (SubjectStratificationAnswer subjectStratificationAnswer : subList1) {
@@ -305,26 +311,30 @@ public class StudySubjectCreatorHelper {
         healthcaresite.setDescriptionText("NU healthcare");
         healthcaresite.setNciInstituteCode("NU healthcare");
         studySite.setHealthcareSite(healthcaresite);
+        studySite.setSiteStudyStatus(SiteStudyStatus.ACTIVE);
         studySite.setStudy(study);
         study.getStudySites().add(studySite);
 
-        healthcaresite = new HealthcareSite();
-        address = new Address();
-        address.setCity("Chicago");
-        address.setCountryCode("USA");
-        address.setPostalCode("83929");
-        address.setStateCode("IL");
-        address.setStreetAddress("123 Lake Shore Dr");
-
-        healthcaresite.setAddress(address);
-        healthcaresite.setName("Northwestern Memorial Hospital");
-        healthcaresite.setDescriptionText("NU healthcare");
-        if (makeStudysiteCoCenter) healthcaresite.setNciInstituteCode(studySite
-                        .getHealthcareSite().getNciInstituteCode());
-        else healthcaresite.setNciInstituteCode("NCI northwestern");
         StudyCoordinatingCenter stC = study.getStudyCoordinatingCenters().get(0);
         stC.setStudy(study);
-        stC.setHealthcareSite(healthcaresite);
+        if (makeStudysiteCoCenter){
+            stC.setHealthcareSite(healthcaresite);
+        }else{
+            healthcaresite = new HealthcareSite();
+            address = new Address();
+            address.setCity("Charlotte");
+            address.setCountryCode("USA");
+            address.setPostalCode("12123");
+            address.setStateCode("NC");
+            address.setStreetAddress("A imperial building");
+    
+            healthcaresite.setAddress(address);
+            healthcaresite.setName("Duke");
+            healthcaresite.setDescriptionText("DUKE healthcare");
+            healthcaresite.setNciInstituteCode("DUKE NCI");
+            stC.setHealthcareSite(healthcaresite);
+        }
+        addIdentifierToStudy(study);
     }
     
     public void completeRegistrationDataEntry(StudySubject studySubject){
@@ -340,5 +350,31 @@ public class StudySubjectCreatorHelper {
             bindRandomization(studySubject);
         else if(studySubject.getScheduledEpoch().getRequiresArm())
             bindArm(studySubject);
+    }
+    
+    public void forceAssignArm(StudySubject studySubject) {
+        ScheduledTreatmentEpoch scheduledEpoch = ((ScheduledTreatmentEpoch) studySubject
+                        .getScheduledEpoch());
+        scheduledEpoch.addScheduledArm(new ScheduledArm());
+        ScheduledArm scheduledArm = scheduledEpoch.getScheduledArm();
+        scheduledArm.setArm(((TreatmentEpoch) scheduledEpoch.getTreatmentEpoch()).getArms().get(0));
+    }
+    
+    public void addIdentifierToStudy(Study study){
+        List<OrganizationAssignedIdentifier> studyIdentifiers=study.getOrganizationAssignedIdentifiers();
+        OrganizationAssignedIdentifier identifier=studyIdentifiers.get(studyIdentifiers.size());
+        identifier.setHealthcareSite(study.getStudyCoordinatingCenters().get(0).getHealthcareSite());
+        identifier.setValue("test id");
+        identifier.setType("Coordinating Center Identifier");
+        identifier.setPrimaryIndicator(true);
+    }
+    
+    public void addMRNIdentifierToSubject(Participant participant, HealthcareSite healthcareSite){
+        List<OrganizationAssignedIdentifier> prtIdentifiers=participant.getOrganizationAssignedIdentifiers();
+        OrganizationAssignedIdentifier identifier=prtIdentifiers.get(prtIdentifiers.size());
+        identifier.setHealthcareSite(healthcareSite);
+        identifier.setValue("test id"+Math.random());
+        identifier.setType("MRN");
+        identifier.setPrimaryIndicator(true);
     }
 }

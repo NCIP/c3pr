@@ -76,12 +76,12 @@ public class PersistedStudySubjectCreator extends StudySubjectCreatorHelper {
     }
     
     public void prepareToPersistNewStudySubject(StudySubject studySubject){
-        studySubject.setParticipant(createNewParticipant());
-        participantDao.save(studySubject.getParticipant());
         for(StudyOrganization studyOrganization:studySubject.getStudySite().getStudy().getStudyOrganizations())
             healthcareSiteDao.save(studyOrganization.getHealthcareSite());
         studyDao.save(studySubject.getStudySite().getStudy());
-        //studySiteDao.save(studySubject.getStudySite());
+        studySubject.setParticipant(createNewParticipant());
+        addMRNIdentifierToSubject(studySubject.getParticipant(), studySubject.getStudySite().getHealthcareSite());
+        participantDao.save(studySubject.getParticipant());
     }
     
     public StudySubject getLocalNonRandomizedStudySubject(Boolean reserving, Boolean enrolling,

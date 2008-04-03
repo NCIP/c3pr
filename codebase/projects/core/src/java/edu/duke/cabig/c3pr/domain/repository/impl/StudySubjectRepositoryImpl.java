@@ -28,11 +28,10 @@ import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.service.impl.StudySubjectXMLImporterServiceImpl;
 
+@Transactional
 public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 
     private StudySubjectDao studySubjectDao;
-
-    private ParticipantDao participantDao;
 
     private EpochDao epochDao;
 
@@ -99,7 +98,6 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
         }
     }
 
-    @Transactional
     public StudySubject doLocalRegistration(StudySubject studySubject) throws C3PRCodedException {
         studySubject.updateDataEntryStatus();
         if (!studySubject.isDataEntryComplete()) return studySubject;
@@ -174,10 +172,6 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 
     public void setStudySubjectDao(StudySubjectDao studySubjectDao) {
         this.studySubjectDao = studySubjectDao;
-    }
-
-    public void setParticipantDao(ParticipantDao participantDao) {
-        this.participantDao = participantDao;
     }
 
     public void setEpochDao(EpochDao epochDao) {

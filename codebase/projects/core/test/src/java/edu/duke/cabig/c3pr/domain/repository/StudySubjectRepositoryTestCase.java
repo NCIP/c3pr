@@ -38,8 +38,6 @@ import edu.duke.cabig.c3pr.utils.StudySubjectCreatorHelper;
 public class StudySubjectRepositoryTestCase extends AbstractTestCase {
     private StudySubjectDao studySubjectDao;
 
-    private ParticipantDao participantDao;
-
     private EpochDao epochDao;
 
     private StratumGroupDao stratumGroupDao;
@@ -60,7 +58,6 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         studySubjectDao=registerDaoMockFor(StudySubjectDao.class);
-        participantDao=registerDaoMockFor(ParticipantDao.class);
         epochDao=registerDaoMockFor(EpochDao.class);
         stratumGroupDao=registerDaoMockFor(StratumGroupDao.class);
         studySubjectFactory=registerMockFor(StudySubjectFactory.class);
@@ -70,7 +67,6 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         studySubjectRepositoryImpl.setC3prErrorMessages(c3prErrorMessages);
         studySubjectRepositoryImpl.setEpochDao(epochDao);
         studySubjectRepositoryImpl.setExceptionHelper(exceptionHelper);
-        studySubjectRepositoryImpl.setParticipantDao(participantDao);
         studySubjectRepositoryImpl.setStratumGroupDao(stratumGroupDao);
         studySubjectRepositoryImpl.setStudySubjectDao(studySubjectDao);
         studySubjectRepositoryImpl.setStudySubjectFactory(studySubjectFactory);
