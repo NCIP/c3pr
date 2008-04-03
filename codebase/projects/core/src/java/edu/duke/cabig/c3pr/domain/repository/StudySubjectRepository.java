@@ -12,9 +12,6 @@ public interface StudySubjectRepository {
 
     public boolean isEpochAccrualCeilingReached(int epochId);
     
-    public void prepareStudySubjectForAffliateSiteRegistration(StudySubject studySubject)
-    throws C3PRCodedException;
-    
     /**
      * @param studySubject
      * @return

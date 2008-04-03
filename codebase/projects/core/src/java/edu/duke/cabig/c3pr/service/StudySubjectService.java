@@ -1,7 +1,5 @@
 package edu.duke.cabig.c3pr.service;
 
-import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
-import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 

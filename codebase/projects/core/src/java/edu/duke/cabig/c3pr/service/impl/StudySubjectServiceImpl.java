@@ -1,9 +1,6 @@
 package edu.duke.cabig.c3pr.service.impl;
 
-import java.util.List;
-
 import org.apache.log4j.Logger;
-import org.springframework.context.MessageSource;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.duke.cabig.c3pr.domain.CCTSWorkflowStatusType;
@@ -13,9 +10,9 @@ import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.factory.StudySubjectFactory;
 import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
-import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.StudyTargetAccrualNotificationEmail;
@@ -35,6 +32,12 @@ public class StudySubjectServiceImpl extends CCTSWorkflowServiceImpl implements 
     
     private StudySubjectRepository studySubjectRepository;
     
+    private StudySubjectFactory studySubjectFactory;
+    
+    public void setStudySubjectFactory(StudySubjectFactory studySubjectFactory) {
+        this.studySubjectFactory = studySubjectFactory;
+    }
+
     public void setNotificationEmailer(
                     StudyTargetAccrualNotificationEmail studyTargetAccrualNotificationEmail) {
         this.notificationEmailer = studyTargetAccrualNotificationEmail;
@@ -122,9 +125,9 @@ public class StudySubjectServiceImpl extends CCTSWorkflowServiceImpl implements 
     }
     
     @Transactional
-    public StudySubject processAffliateSiteRegistrationRequest(StudySubject studySubject)
+    public StudySubject processAffliateSiteRegistrationRequest(StudySubject deserialisedStudySubject)
                     throws C3PRCodedException {
-        studySubjectRepository.prepareStudySubjectForAffliateSiteRegistration(studySubject);
+        StudySubject studySubject = studySubjectFactory.buildStudySubject(deserialisedStudySubject);
         studySubject.updateDataEntryStatus();
         if (studySubject.getRegDataEntryStatus() == RegistrationDataEntryStatus.INCOMPLETE) {
             throw getExceptionHelper().getException(
@@ -135,8 +138,7 @@ public class StudySubjectServiceImpl extends CCTSWorkflowServiceImpl implements 
                             .getException(
                                             getCode("C3PR.EXCEPTION.REGISTRATION.SCHEDULEDEPOCH.DATA_ENTRY_INCOMPLETE.CODE"));
         }
-        this.register(studySubject);
-        return studySubjectRepository.save(studySubject);
+        return this.register(studySubject);
     }
     
     public void sendRegistrationRequest(StudySubject studySubject) {
