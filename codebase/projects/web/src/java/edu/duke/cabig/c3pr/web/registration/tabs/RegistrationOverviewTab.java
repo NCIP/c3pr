@@ -80,7 +80,7 @@ public class RegistrationOverviewTab<C extends StudySubject> extends Registratio
         map.put("armAssigned", armAssigned);
         map.put("armAssignedLabel", armAssignedLabel);
         map.put("requiresMultiSite", studySubjectService
-                        .requiresCoordinatingCenterApproval(studySubject));
+                        .requiresExternalApprovalForRegistration(studySubject));
         addAppUrls(map);
         return map;
     }

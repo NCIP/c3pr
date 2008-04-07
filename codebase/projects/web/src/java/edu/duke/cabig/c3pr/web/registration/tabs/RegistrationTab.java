@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.web.registration.tabs;
 
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.InPlaceEditableTab;
@@ -14,6 +15,13 @@ public abstract class RegistrationTab<C extends StudySubject> extends InPlaceEdi
     protected ConfigurationProperty configurationProperty;
 
     protected StudySubjectService studySubjectService;
+    
+    protected StudySubjectRepository studySubjectRepository;
+    
+
+    public void setStudySubjectRepository(StudySubjectRepository studySubjectRepository) {
+        this.studySubjectRepository = studySubjectRepository;
+    }
 
     public void setStudySubjectService(StudySubjectService studySubjectService) {
         this.studySubjectService = studySubjectService;

@@ -199,7 +199,7 @@ public class SearchStudySubjectTab extends RegistrationTab<StudySubject> {
         Map<String, Boolean> map = new HashMap<String, Boolean>();
         int id = Integer.parseInt(request.getParameter("epochId"));
         map.put("alertForCeiling",
-                        new Boolean(studySubjectService.isEpochAccrualCeilingReached(id)));
+                        new Boolean(studySubjectRepository.isEpochAccrualCeilingReached(id)));
         return new ModelAndView(getAjaxViewName(request), map);
     }
 

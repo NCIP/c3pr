@@ -48,7 +48,7 @@ public class ManageEpochTab<C extends StudySubject> extends RegistrationTab<C> {
         map.put("requiresRandomization", new Boolean(false));
         map.put("isCurrentScheduledEpoch", new Boolean(false));
         map.put("requiresArm", new Boolean(false));
-        map.put("acrrualCeilingReached", new Boolean(studySubjectService
+        map.put("acrrualCeilingReached", new Boolean(studySubjectRepository
                         .isEpochAccrualCeilingReached(id)));
         if (epoch instanceof TreatmentEpoch) {
             map.put("epochType", "Treatment");

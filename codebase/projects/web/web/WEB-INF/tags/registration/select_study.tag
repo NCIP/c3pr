@@ -35,7 +35,11 @@
 		new Effect.SlideDown(resultDiv);;
 	}
 	
-	function postProcessStudySelection(id, siteName, studyName, identifier){
+	function postProcessStudySelection(isActive, id, siteName, studyName, identifier){
+		if(!isActive){
+			alert("Study is not active at "+siteName);
+			return;
+		}
 		document.getElementById("studySite").value = id;
 		var url = "../registration/searchEpoch?studySiteId="+id;
 		new Ajax.Updater('epochResults',url, {onSuccess:callbackEpoch, onFailure:callbackEpochFail});

@@ -80,7 +80,7 @@ public class ManageRegistrationController<C extends StudySubject> extends Regist
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
                     Object command, BindException errors) throws Exception {
         StudySubject studySubject = createNewScheduledEpochSubject(request, command, errors);
-        studySubject = studySubjectService.createRegistration(studySubject);
+        studySubject = studySubjectService.register(studySubject);
         if (logger.isDebugEnabled()) {
             logger
                             .debug("processFinish(HttpServletRequest, HttpServletResponse, Object, BindException) - registration service call over"); //$NON-NLS-1$

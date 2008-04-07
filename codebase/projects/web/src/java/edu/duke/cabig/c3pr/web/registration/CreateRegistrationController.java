@@ -68,11 +68,7 @@ public class CreateRegistrationController<C extends StudySubject> extends Regist
         StudySubject studySubject = (StudySubject) command;
         super.postProcessPage(request, command, errors, page);
         if (studySubject.getScheduledEpoch() != null) {
-            studySubject.setRegDataEntryStatus(this.studySubjectService
-                            .evaluateRegistrationDataEntryStatus(studySubject));
-            studySubject.getScheduledEpoch().setScEpochDataEntryStatus(
-                            this.studySubjectService
-                                            .evaluateScheduledEpochDataEntryStatus(studySubject));
+            studySubject.updateDataEntryStatus();
         }
     }
 
@@ -80,7 +76,7 @@ public class CreateRegistrationController<C extends StudySubject> extends Regist
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
                     Object command, BindException errors) throws Exception {
         StudySubject studySubject = (StudySubject) command;
-        studySubject = studySubjectService.createRegistration(studySubject);
+        studySubject = studySubjectService.register(studySubject);
         if (logger.isDebugEnabled()) {
             logger
                             .debug("processFinish(HttpServletRequest, HttpServletResponse, Object, BindException) - registration service call over"); //$NON-NLS-1$

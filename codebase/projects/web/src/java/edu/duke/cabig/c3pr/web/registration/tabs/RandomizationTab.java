@@ -18,7 +18,7 @@ public class RandomizationTab extends RegistrationTab<StudySubject> {
     @Override
     public Map<String, Object> referenceData(StudySubject command) {
         Map ref = new HashMap();
-        ref.put("canRandomize", this.studySubjectService.canRandomize(command));
+        ref.put("canRandomize", command.canRandomize());
         return ref;
     }
 

@@ -82,8 +82,7 @@ public class RegistrationConfirmAndRandomizeController extends SimpleFormControl
         }
         map.put("actionRequired", actionRequired);
         map.put("actionLabel", actionLabel);
-        map.put("requiresMultiSite", studySubjectService
-                        .requiresCoordinatingCenterApproval(studySubject));
+        map.put("requiresMultiSite", studySubjectService.requiresExternalApprovalForRegistration(studySubject));
         addAppUrls(map);
         return map;
     }
@@ -104,9 +103,9 @@ public class RegistrationConfirmAndRandomizeController extends SimpleFormControl
         Map map = new HashMap();
         map.put("actionRequired", false);
         try {
-            studySubject = studySubjectService.registerSubject(studySubject);
+            studySubject = studySubjectService.register(studySubject);
         }
-        catch (C3PRBaseException e) {
+        catch (Exception e) {
             map.put("registrationException", e);
             return new ModelAndView(getSuccessView(), map);
 

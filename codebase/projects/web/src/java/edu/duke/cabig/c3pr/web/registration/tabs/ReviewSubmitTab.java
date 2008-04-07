@@ -19,14 +19,14 @@ public class ReviewSubmitTab extends RegistrationTab<StudySubject> {
     @Override
     public Map referenceData(StudySubject command) {
         Map<String, Boolean> map = new HashMap<String, Boolean>();
-        map.put("registerable", isRegisterable(command));
+        map.put("registerable", isRegisterableOnPage(command));
         return map;
     }
 
-    public boolean isRegisterable(StudySubject studySubject) {
-        return this.studySubjectService.isRegisterable(studySubject)
-                        && studySubject.getScheduledEpoch().getEpoch().isEnrolling()
-                        && !studySubject.getScheduledEpoch().getRequiresRandomization();
+    public boolean isRegisterableOnPage(StudySubject studySubject) {
+        return studySubject.isRegisterable()
+                        && !studySubject.getScheduledEpoch().getRequiresRandomization()
+                        && !studySubjectService.requiresExternalApprovalForRegistration(studySubject);
     }
 
 }
