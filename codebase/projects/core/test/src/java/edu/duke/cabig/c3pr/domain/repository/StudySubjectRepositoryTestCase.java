@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
+import org.apache.log4j.Logger;
 import org.easymock.classextension.EasyMock;
 import org.springframework.context.MessageSource;
 
@@ -15,6 +16,7 @@ import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.NonTreatmentEpoch;
+import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
@@ -28,17 +30,19 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.factory.StudySubjectFactory;
 import edu.duke.cabig.c3pr.domain.repository.impl.StudySubjectRepositoryImpl;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
-import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.utils.StudySubjectCreatorHelper;
 
 public class StudySubjectRepositoryTestCase extends AbstractTestCase {
     private StudySubjectDao studySubjectDao;
 
     private EpochDao epochDao;
+    
+    private ParticipantDao participantDao;
 
     private StratumGroupDao stratumGroupDao;
     
@@ -54,12 +58,15 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
     
     private StudySubjectCreatorHelper studySubjectCreatorHelper;
     
+    private Logger log = Logger.getLogger(StudySubjectRepositoryTestCase.class.getName());
+    
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         studySubjectDao=registerDaoMockFor(StudySubjectDao.class);
         epochDao=registerDaoMockFor(EpochDao.class);
         stratumGroupDao=registerDaoMockFor(StratumGroupDao.class);
+        participantDao=registerDaoMockFor(ParticipantDao.class); 
         studySubjectFactory=registerMockFor(StudySubjectFactory.class);
         exceptionHelper=registerMockFor(C3PRExceptionHelper.class);
         c3prErrorMessages=registerMockFor(MessageSource.class);
@@ -389,4 +396,92 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         assertEquals("Wrong Scheduled Epoch Status", ScheduledEpochWorkFlowStatus.APPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
         verifyMocks();
     }
+    
+    public void testImportStudySubjectLocalNonRandomizedWithArm() {
+    	StudySubject deserializedStudySubject = new StudySubject();    	
+    	deserializedStudySubject.setStudySite(studySubjectCreatorHelper.getLocalNonRandomizedTreatmentWithArmStudySite(true));
+    	deserializedStudySubject.setParticipant(buildParticipant());
+    	deserializedStudySubject.getScheduledEpochs().add(buildScheduledTreatmentEpoch());
+    	deserializedStudySubject.setInformedConsentSignedDate(new Date());
+    	deserializedStudySubject.setInformedConsentVersion("ver-001");
+    	deserializedStudySubject.setStratumGroupNumber(10);
+    	
+    	try  {
+    		EasyMock.expect(studySubjectFactory.buildStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
+    	} catch(C3PRCodedException cce){
+    		log.error("studySubjectFactory.buildStudySubject() threw exception");
+    	}
+//        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite(new StudySubject(true))).andReturn(new ArrayList<StudySubject>());
+        participantDao.save(deserializedStudySubject.getParticipant());
+        studySubjectDao.save(deserializedStudySubject);
+        replayMocks();
+        
+        try{
+        	StudySubject studySubject = studySubjectRepository.importStudySubject(deserializedStudySubject);            
+        } catch(C3PRCodedException e){
+        	assertFalse("C3PRCodedException thrown", false);
+        }
+        verifyMocks();
+    }
+    
+    public void testImportStudySubjectMultiSiteNonRandomizedWithArm() {
+    	StudySubject deserializedStudySubject = new StudySubject();    	
+    	deserializedStudySubject.setStudySite(studySubjectCreatorHelper.getMultiSiteNonRandomizedWithArmStudySite(true));
+    	deserializedStudySubject.setParticipant(buildParticipant());
+    	deserializedStudySubject.getScheduledEpochs().add(buildScheduledTreatmentEpoch());
+    	deserializedStudySubject.setInformedConsentSignedDate(new Date());
+    	deserializedStudySubject.setInformedConsentVersion("ver-001");
+    	deserializedStudySubject.setStratumGroupNumber(11);
+    	
+    	try  {
+    		EasyMock.expect(studySubjectFactory.buildStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
+    	} catch(C3PRCodedException cce){
+    		log.error("studySubjectFactory.buildStudySubject() threw exception");
+    	}
+//        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite(new StudySubject(true))).andReturn(new ArrayList<StudySubject>());
+        participantDao.save(deserializedStudySubject.getParticipant());
+        studySubjectDao.save(deserializedStudySubject);
+        replayMocks();
+        try{
+        	StudySubject studySubject = studySubjectRepository.importStudySubject(deserializedStudySubject);            
+        } catch(C3PRCodedException e){
+        	assertFalse("C3PRCodedException thrown", false);
+        }
+        verifyMocks();
+    }
+    
+    public ScheduledEpoch buildScheduledTreatmentEpoch(){
+    	ScheduledTreatmentEpoch scheduledTreatmentEpoch = new ScheduledTreatmentEpoch();
+    	ScheduledArm scheduledArm = new ScheduledArm();
+    	TreatmentEpoch treatmentEpoch = new TreatmentEpoch();
+    	treatmentEpoch.setName("Treatmen Epoch 1");
+    	Arm arm = new Arm();
+    	arm.setId(001);
+    	arm.setTreatmentEpoch(treatmentEpoch);
+    	scheduledArm.setArm(arm);
+    	
+    	scheduledTreatmentEpoch.getScheduledArms().add(scheduledArm);
+    	scheduledTreatmentEpoch.setEpoch(treatmentEpoch);
+    	scheduledTreatmentEpoch.setEligibilityIndicator(true);
+    	
+    	return scheduledTreatmentEpoch;
+    }
+
+    public Participant buildParticipant(){
+    	Participant participant = new Participant();
+    	participant.setFirstName("Johnny");
+    	participant.setLastName("Cash");
+    	participant.setBirthDate(new Date());
+    	participant.setAdministrativeGenderCode("Male");
+    	return participant;    	
+    }
+
+	public StudySubjectCreatorHelper getStudySubjectCreatorHelper() {
+		return studySubjectCreatorHelper;
+	}
+
+	public void setStudySubjectCreatorHelper(
+			StudySubjectCreatorHelper studySubjectCreatorHelper) {
+		this.studySubjectCreatorHelper = studySubjectCreatorHelper;
+	}
 }
