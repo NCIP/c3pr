@@ -156,12 +156,12 @@ public class StudySubjectServiceImpl extends CCTSWorkflowServiceImpl implements 
         return getConfiguration().get(Configuration.LOCAL_NCI_INSTITUTE_CODE);
     }
 
-    private boolean requiresExternalApprovalForRegistration(StudySubject studySubject){
-        return studySubject.requiresCoordinatingCenterApproval()
-        && !studySubject.isCoOrdinatingCenter(getLocalInstanceNCICode()) && !isHostedMode();
-    }
-
     public void setStudySubjectRepository(StudySubjectRepository studySubjectRepository) {
         this.studySubjectRepository = studySubjectRepository;
+    }
+
+    public boolean requiresExternalApprovalForRegistration(StudySubject studySubject) {
+        return studySubject.requiresCoordinatingCenterApproval()
+        && !studySubject.isCoOrdinatingCenter(getLocalInstanceNCICode()) && !isHostedMode();
     }
 }

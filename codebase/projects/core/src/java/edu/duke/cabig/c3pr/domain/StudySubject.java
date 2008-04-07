@@ -548,9 +548,9 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
         return false;
     }
     
-    public boolean canRandomize(StudySubject studySubject) {
-        return studySubject.getRegDataEntryStatus() == RegistrationDataEntryStatus.COMPLETE
-                        && studySubject.getScheduledEpoch().getScEpochDataEntryStatus() == ScheduledEpochDataEntryStatus.COMPLETE;
+    public boolean canRandomize() {
+        return regDataEntryStatus == RegistrationDataEntryStatus.COMPLETE
+                        && getScheduledEpoch().getScEpochDataEntryStatus() == ScheduledEpochDataEntryStatus.COMPLETE;
     }
     
     /**

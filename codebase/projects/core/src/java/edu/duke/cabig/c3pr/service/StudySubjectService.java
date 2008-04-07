@@ -27,4 +27,6 @@ public interface StudySubjectService extends CCTSWorkflowService {
     
     public StudySubject processAffliateSiteRegistrationRequest(StudySubject studySubject)
     throws C3PRCodedException;
+    
+    public boolean requiresExternalApprovalForRegistration(StudySubject studySubject);
 }
