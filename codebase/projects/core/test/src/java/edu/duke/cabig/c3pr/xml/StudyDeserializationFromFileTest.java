@@ -38,7 +38,7 @@ public class StudyDeserializationFromFileTest extends MasqueradingDaoTestCase<St
         InputStream studyXMLin = getClass().getResourceAsStream("SampleStudy.xml");
         StringBuffer buf = Utils.inputStreamToStringBuffer(studyXMLin);
         Study study = (Study) marshaller.fromXML(new StringReader(buf.toString()));
-        importService.importStudy(study);
+        //importService.importStudy(study);
 
     }
 
