@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.domain.repository.impl;
 
 import org.apache.log4j.Logger;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
@@ -18,6 +19,7 @@ import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.exception.StudyValidationException;
 import edu.duke.cabig.c3pr.service.impl.StudyXMLImporterServiceImpl;
 
+
 public class StudyRepositoryImpl implements StudyRepository {
 	
 	private StudyDao studyDao;
@@ -30,6 +32,7 @@ public class StudyRepositoryImpl implements StudyRepository {
     
     private Logger log = Logger.getLogger(StudyXMLImporterServiceImpl.class.getName());
 
+    @Transactional(readOnly = false)
     public void buildAndSave(Study study) throws Exception {
 
         // load study orgs from db Not to be imported
