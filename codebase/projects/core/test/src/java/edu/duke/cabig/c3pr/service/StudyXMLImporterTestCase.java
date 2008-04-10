@@ -32,11 +32,11 @@ public class StudyXMLImporterTestCase extends MasqueradingDaoTestCase<StudyDao> 
                         "studyXMLImporterService");
     }
 
-    public void testStudyValidation() throws Exception {
-        Study study = getDao().getById(1000);
-
-        //studyImporter.validate(study);
-    }
+//    public void testStudyValidation() throws Exception {
+//        Study study = getDao().getById(1000);
+//
+//        studyImporter.validate(study);
+//    }
 
     public void testGetStudies() throws Exception {
         for (int i = 1000; i < 1003; i++) {
