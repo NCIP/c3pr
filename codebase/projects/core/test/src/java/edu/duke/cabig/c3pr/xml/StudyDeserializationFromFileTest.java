@@ -9,6 +9,7 @@ import java.io.StringReader;
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.repository.impl.StudyRepositoryImpl;
 import edu.duke.cabig.c3pr.service.StudyXMLImporterService;
 import edu.duke.cabig.c3pr.utils.MasqueradingDaoTestCase;
 import gov.nih.nci.cagrid.common.Utils;
@@ -22,6 +23,8 @@ public class StudyDeserializationFromFileTest extends MasqueradingDaoTestCase<St
     XmlMarshaller marshaller;
 
     StudyDao dao;
+    private StudyRepositoryImpl studyRepositoryImpl;
+    
 
     StudyXMLImporterService importService;
 
@@ -38,7 +41,7 @@ public class StudyDeserializationFromFileTest extends MasqueradingDaoTestCase<St
         InputStream studyXMLin = getClass().getResourceAsStream("SampleStudy.xml");
         StringBuffer buf = Utils.inputStreamToStringBuffer(studyXMLin);
         Study study = (Study) marshaller.fromXML(new StringReader(buf.toString()));
-        //importService.importStudy(study);
+        studyRepositoryImpl.buildAndSave(study);
 
     }
 
@@ -50,5 +53,13 @@ public class StudyDeserializationFromFileTest extends MasqueradingDaoTestCase<St
     public Class getMasqueradingDaoClassName() {
         return StudyDao.class;
     }
+
+	public StudyRepositoryImpl getStudyRepositoryImpl() {
+		return studyRepositoryImpl;
+	}
+
+	public void setStudyRepositoryImpl(StudyRepositoryImpl studyRepositoryImpl) {
+		this.studyRepositoryImpl = studyRepositoryImpl;
+	}
 
 }
