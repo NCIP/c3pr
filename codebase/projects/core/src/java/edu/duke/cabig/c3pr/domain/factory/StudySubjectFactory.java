@@ -22,6 +22,7 @@ import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
+import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.service.ParticipantService;
@@ -44,6 +45,8 @@ public class StudySubjectFactory {
     private StudyService studyService;
 
     private ParticipantService participantService;
+    
+    private StudyRepository studyRepository;
     
     private StudySubjectDao studySubjectDao;
     
@@ -146,7 +149,7 @@ public class StudySubjectFactory {
                         .getOrganizationAssignedIdentifiers()) {
             if (organizationAssignedIdentifier.getType().equals(this.identifierTypeValueStr)) {
                 identifier = organizationAssignedIdentifier;
-                studies = studyService.searchByCoOrdinatingCenterId(organizationAssignedIdentifier);
+                studies = studyRepository.searchByCoOrdinatingCenterId(organizationAssignedIdentifier);
                 break;
             }
         }
@@ -297,4 +300,8 @@ public class StudySubjectFactory {
     public void setParticipantService(ParticipantService participantService) {
         this.participantService = participantService;
     }
+
+	public void setStudyRepository(StudyRepository studyRepository) {
+		this.studyRepository = studyRepository;
+	}
 }
