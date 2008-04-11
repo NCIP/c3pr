@@ -80,15 +80,15 @@ public class StudyOverviewTab extends StudyTab {
 
                 SiteStudyStatus statusObject = SiteStudyStatus.getByCode(value);
                 try {
-                    studyService.setSiteStudyStatus(command, command.getStudySites().get(
-                                    studySiteIndex), statusObject);
+                    command.getStudySites().get(
+                                    studySiteIndex).setWorkFlowSiteStudyStatus(statusObject);
                 }
                 catch (C3PRCodedException e) {
                     if ((command.getStudySites().get(studySiteIndex).getSiteStudyStatus() == SiteStudyStatus.CLOSED_TO_ACCRUAL || command
                                     .getStudySites().get(studySiteIndex).getSiteStudyStatus() == SiteStudyStatus.CLOSED_TO_ACCRUAL_AND_TREATMENT)
                                     && statusObject == SiteStudyStatus.ACTIVE && isAdmin()) {
-                        command.getStudySites().get(studySiteIndex).setSiteStudyStatus(
-                                        SiteStudyStatus.ACTIVE);
+							command.getStudySites().get(studySiteIndex).setSiteStudyStatus(
+							                SiteStudyStatus.ACTIVE);
                     }
                     else {
                         retValue = "<script>alert('" + e.getMessage() + "')</script>";
@@ -129,7 +129,7 @@ public class StudyOverviewTab extends StudyTab {
                             .getByCode(value);
 
             try {
-                studyService.setStatuses(command, statusObject);
+                command.setStatuses(statusObject);
                 // adding a callback incase the status change is successful
                 // this callback is used to dynamically display/hide the amend study button
                 retValue = "<script>statusChangeCallback('"
@@ -183,10 +183,9 @@ public class StudyOverviewTab extends StudyTab {
     public void validate(Study study, Errors errors) {
         super.validate(study, errors);
         try {
-            studyService.setDataEntryStatus(study, true);
+            study.setDataEntryStatus(true);
             if (study.getId() == null) {
-                study.setCoordinatingCenterStudyStatus(studyService
-                                .evaluateCoordinatingCenterStudyStatus(study));
+                study.setCoordinatingCenterStudyStatus(study.evaluateCoordinatingCenterStudyStatus());
             }
         }
         catch (Exception e) {

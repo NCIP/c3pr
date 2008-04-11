@@ -63,7 +63,7 @@ public class CreateStudyController<C extends Study> extends StudyController<C> {
                     int page) throws Exception {
         Study study = (Study) command;
         super.postProcessPage(request, command, errors, page);
-        studyService.setStatuses(study, false);
+        study.setStatuses( false);
     }
 
     @Override
