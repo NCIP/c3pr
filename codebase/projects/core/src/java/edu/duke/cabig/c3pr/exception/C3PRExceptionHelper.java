@@ -13,7 +13,10 @@ public class C3PRExceptionHelper {
 
     private static MessageSource errorMessages;
 
-    public C3PRExceptionHelper(MessageSource errorMessages){
+    public C3PRExceptionHelper() {
+	}
+
+	public C3PRExceptionHelper(MessageSource errorMessages){
         this.errorMessages=errorMessages;
     }
     
