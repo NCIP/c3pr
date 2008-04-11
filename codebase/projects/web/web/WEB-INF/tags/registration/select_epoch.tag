@@ -26,7 +26,7 @@
 		epochId=id;
 		epochName=name;
 		epochType=type;
-		displayEpochMessage("Select an epoch", false);
+		displayEpochMessage("<img align='absmiddle' src='/c3pr/images/indicator.white.gif'/>Processing..", false);
 		<tags:tabMethod method="checkEpochAccrualCeiling" viewName="/registration/asynchronous/checkCeiling" divElement="'epochAccrualCeilingResponse'" javaScriptParam="'epochId='+id"  formName="'accrualForm'"/>
 	}
 	function minimizeEpochBox(){
