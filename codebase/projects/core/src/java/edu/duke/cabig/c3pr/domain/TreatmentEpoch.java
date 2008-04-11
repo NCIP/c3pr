@@ -16,6 +16,12 @@ import org.apache.commons.collections15.functors.InstantiateFactory;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Where;
+import org.springframework.context.MessageSource;
+import org.springframework.context.support.ResourceBundleMessageSource;
+
+import edu.duke.cabig.c3pr.exception.C3PRCodedException;
+import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 
 import gov.nih.nci.cabig.ctms.collections.LazyListHelper;
 
@@ -29,9 +35,21 @@ public class TreatmentEpoch extends Epoch {
     private Boolean randomizedIndicator = false;
 
     private ParameterizedInstantiateFactory<EligibilityCriteria> eligibilityFactory;
+    
+    private C3PRExceptionHelper c3PRExceptionHelper;
+	
+	private MessageSource c3prErrorMessages;
+
 
     // / LOGIC
     public TreatmentEpoch() {
+    	ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
+		resourceBundleMessageSource.setBasename("error_messages_multisite");
+		ResourceBundleMessageSource resourceBundleMessageSource1 = new ResourceBundleMessageSource();
+		resourceBundleMessageSource1.setBasename("error_messages_c3pr");
+		resourceBundleMessageSource1.setParentMessageSource(resourceBundleMessageSource);
+		this.c3prErrorMessages = resourceBundleMessageSource1;
+		this.c3PRExceptionHelper = new C3PRExceptionHelper(c3prErrorMessages);
         lazyListHelper = new LazyListHelper();
         lazyListHelper.add(StratificationCriterion.class,
                         new InstantiateFactory<StratificationCriterion>(
@@ -375,4 +393,169 @@ public class TreatmentEpoch extends Epoch {
     public boolean getRequiresRandomization() {
         return this.randomizedIndicator;
     }
+    
+    public boolean evaluateStatus(TreatmentEpoch treatmentEpoch) throws C3PRCodedException{
+    	if (!evaluateStratificationDataEntryStatus())
+    		return false;
+    	if (this.getStudy().getRandomizedIndicator()) {
+			if (!evaluateRandomizationDataEntryStatus(this.getStudy())) {
+				return false;
+			}
+		}
+    	if (!evaluateRandomizationDataEntryStatus(this.getStudy()))
+    		return false;
+        if (treatmentEpoch.getRandomizedIndicator()) {
+            if ((treatmentEpoch.getArms().size() < 2)
+                            || (!treatmentEpoch.hasStratumGroups())
+                            || (treatmentEpoch.getRandomization() == null)) {
+                if (treatmentEpoch.getArms().size() < 2) {
+                    throw getC3PRExceptionHelper()
+                                    .getException(
+                                                    getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.ATLEAST_2_ARMS_FOR_RANDOMIZED_EPOCH.CODE"),
+                                                    new String[] { treatmentEpoch.getName() });
+                }
+                if (!treatmentEpoch.hasStratumGroups()) {
+                    throw getC3PRExceptionHelper()
+                                    .getException(
+                                                    getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATIFICATION_CRITERIA_OR_STRATUM_GROUPS_FOR_RANDOMIZED_EPOCH.CODE"),
+                                                    new String[] { treatmentEpoch.getName() });
+                }
+                
+                if (treatmentEpoch.getRandomization() == null) {
+                    throw getC3PRExceptionHelper()
+                                    .getException(
+                                                    getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.RANDOMIZATION_FOR_RANDOMIZED_EPOCH.CODE"),
+                                                    new String[] { treatmentEpoch.getName() });
+                }
+                
+                if (!evaluateEligibilityDataEntryStatus())
+                	return false;
+                
+            }
+        }
+    	
+    	return true;
+    }
+    
+    public boolean evaluateStratificationDataEntryStatus() throws C3PRCodedException{
+    	if (this.hasStratification()) {
+            if (!this.hasStratumGroups()) {
+                throw getC3PRExceptionHelper()
+                                .getException(
+                                                getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATUM_GROUPS_FOR_TREATMENT_EPOCH.CODE"),
+                                                new String[] { this.getName() });
+            }
+        }
+    	
+    	 if (this.getRandomizedIndicator() == Boolean.TRUE) {
+             if (!this.hasStratification() || !this.hasStratumGroups()) {
+                 throw getC3PRExceptionHelper()
+                                 .getException(
+                                                 getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATIFICATION_CRITERIA_OR_STRATUM_GROUPS_FOR_RANDOMIZED_EPOCH.CODE"),
+                                                 new String[] { this.getName() });
+             }
+         }
+    	
+    	return true;
+    	
+    }
+    
+
+    public boolean evaluateRandomizationDataEntryStatus(Study study)
+                    throws C3PRCodedException {
+
+        if (study.getRandomizedIndicator()) {
+            if (!study.hasRandomizedEpoch()) {
+                throw getC3PRExceptionHelper()
+                                .getException(
+                                                getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.RANDOMIZED_EPOCH_FOR_RANDOMIZED_STUDY.CODE"));
+            }
+        }
+
+        if (study.getRandomizationType() == (RandomizationType.BOOK)) {
+            for (TreatmentEpoch treatmentEpoch : study.getTreatmentEpochs()) {
+                if (treatmentEpoch.getRandomizedIndicator()) {
+                    if (treatmentEpoch.hasBookRandomizationEntry()) {
+                        if (!treatmentEpoch.hasStratumGroups()) {
+                            throw getC3PRExceptionHelper()
+                                            .getException(
+                                                            getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATIFICATION_CRITERIA_OR_STRATUM_GROUPS_FOR_RANDOMIZED_EPOCH.CODE"),
+                                                            new String[] { treatmentEpoch.getName() });
+                        }
+                    }
+                    else {
+                        throw getC3PRExceptionHelper()
+                                        .getException(
+                                                        getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.BOOK_ENTRIES_FOR_BOOK_RANDOMIZED_EPOCH.CODE"),
+                                                        new String[] { treatmentEpoch.getName() });
+                    }
+                }
+            }
+        }
+
+        if (study.getRandomizationType() == (RandomizationType.PHONE_CALL)) {
+            for (TreatmentEpoch treatmentEpoch : study.getTreatmentEpochs()) {
+                Randomization randomization = treatmentEpoch.getRandomization();
+                if (randomization instanceof PhoneCallRandomization) {
+                    if (StringUtils.isBlank(((PhoneCallRandomization) randomization)
+                                    .getPhoneNumber())) {
+                        throw getC3PRExceptionHelper()
+                                        .getException(
+                                                        getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.PHONE_NUMBER_FOR_PHONE_CALL_RANDOMIZED_EPOCH.CODE"),
+                                                        new String[] { treatmentEpoch.getName() });
+                    }
+                }
+            }
+        }
+
+        if (study.getRandomizationType() == (RandomizationType.CALL_OUT)) {
+            for (TreatmentEpoch treatmentEpoch : study.getTreatmentEpochs()) {
+                Randomization randomization = treatmentEpoch.getRandomization();
+                if (randomization instanceof CalloutRandomization) {
+                    if (StringUtils.isBlank(((CalloutRandomization) randomization).getCalloutUrl())) {
+                        throw getC3PRExceptionHelper()
+                                        .getException(
+                                                        getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.CALL_OUT_URL_FOR_CALL_OUT_RANDOMIZED_EPOCH.CODE"),
+                                                        new String[] { treatmentEpoch.getName() });
+                    }
+                }
+            }
+        }
+
+        return true;
+
+    }
+    
+
+    public boolean evaluateEligibilityDataEntryStatus()
+                    throws C3PRCodedException {
+
+         //Default returns true unless more information is obtained 
+        
+        return true;
+
+    }
+    
+    @Transient
+    public int getCode(String errortypeString) {
+        return Integer.parseInt(this.c3prErrorMessages.getMessage(errortypeString, null, null));
+    }
+
+    @Transient
+	public C3PRExceptionHelper getC3PRExceptionHelper() {
+		return c3PRExceptionHelper;
+	}
+
+	public void setExceptionHelper(C3PRExceptionHelper c3PRExceptionHelper) {
+		this.c3PRExceptionHelper = c3PRExceptionHelper;
+	}
+	
+	@Transient
+	public MessageSource getC3prErrorMessages() {
+		return c3prErrorMessages;
+	}
+
+	public void setC3prErrorMessages(MessageSource errorMessages) {
+		c3prErrorMessages = errorMessages;
+	}
 }
