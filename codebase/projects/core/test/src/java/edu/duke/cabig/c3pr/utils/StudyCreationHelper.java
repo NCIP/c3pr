@@ -1,13 +1,20 @@
 package edu.duke.cabig.c3pr.utils;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
+import edu.duke.cabig.c3pr.domain.Address;
 import edu.duke.cabig.c3pr.domain.Arm;
 import edu.duke.cabig.c3pr.domain.BookRandomization;
 import edu.duke.cabig.c3pr.domain.BookRandomizationEntry;
 import edu.duke.cabig.c3pr.domain.CalloutRandomization;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
+import edu.duke.cabig.c3pr.domain.EligibilityCriteria;
+import edu.duke.cabig.c3pr.domain.Epoch;
+import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.HealthcareSiteInvestigator;
 import edu.duke.cabig.c3pr.domain.NonTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.PhoneCallRandomization;
 import edu.duke.cabig.c3pr.domain.Randomization;
@@ -18,9 +25,11 @@ import edu.duke.cabig.c3pr.domain.StratificationCriterionPermissibleAnswer;
 import edu.duke.cabig.c3pr.domain.StratumGroup;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyDataEntryStatus;
+import edu.duke.cabig.c3pr.domain.StudySite;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
 
 public class StudyCreationHelper {
+	private  HealthcareSiteDao healthcareSitedao;
     public Study getMultiSiteRandomizedStudy(RandomizationType randomizationType) throws Exception {
         Study study = buildBasicStudy(true, randomizationType);
         TreatmentEpoch epoch = getTreatmentEpochWithArm();
@@ -209,4 +218,87 @@ public class StudyCreationHelper {
         ((PhoneCallRandomization) pRandomization).setPhoneNumber("777 777 7777");
         epoch.setRandomization(pRandomization);
     }
+    
+    public Study createBasicStudy() {
+    	
+    	Study study = new Study();
+        study.setPrecisText("New study");
+        study.setShortTitleText("ShortTitleText");
+        study.setLongTitleText("LongTitleText");
+        study.setPhaseCode("PhaseCode");
+        study.setRandomizedIndicator(new Boolean(false));
+        study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
+        study.setDataEntryStatus(StudyDataEntryStatus.INCOMPLETE);
+        study.setTargetAccrualNumber(150);
+        study.setType("Type");
+        study.setMultiInstitutionIndicator(Boolean.TRUE);
+
+        return study;
+    }
+    
+ public Study addStudySiteAndNonRandomizedTreatmentEpochToBasicStudy(Study study) {
+    	
+        study.addStudySite(new StudySite());
+        TreatmentEpoch treatmentEpoch = new TreatmentEpoch();
+        study.addEpoch(treatmentEpoch);
+        
+        return study;
+    }
+ 
+ public Study addStudySiteAndRandomizedTreatmentEpochToBasicStudy(Study study) {
+ 	
+     study.addStudySite(new StudySite());
+     TreatmentEpoch treatmentEpoch = new TreatmentEpoch();
+     treatmentEpoch.setName("Treatment Epoch1");
+     treatmentEpoch.setRandomizedIndicator(new Boolean(true));
+     study.addEpoch(treatmentEpoch);
+     
+     return study;
+ }
+ 
+ public Study addStudySiteAndRandomizedTreatmentEpochWith2ArmsToBasicStudy(Study study) {
+	 	
+     study.addStudySite(new StudySite());
+     TreatmentEpoch treatmentEpoch = new TreatmentEpoch();
+     treatmentEpoch.setName("Treatment Epoch1");
+     Arm arm1 = new Arm();
+     arm1.setName("arm1");
+     treatmentEpoch.addArm(arm1);
+     Arm arm2 = new Arm();
+     arm2.setName("arm2");
+     treatmentEpoch.addArm(arm2);
+     treatmentEpoch.setRandomizedIndicator(new Boolean(true));
+     study.addEpoch(treatmentEpoch);
+     
+     return study;
+ }
+ 
+ public Study addStudySiteRandomizedTreatmentEpochWith2ArmsAndStratumGroupsToBasicStudy(Study study) {
+	 	
+     study.addStudySite(new StudySite());
+     TreatmentEpoch treatmentEpoch = new TreatmentEpoch();
+     treatmentEpoch.setName("Treatment Epoch1");
+     Arm arm1 = new Arm();
+     arm1.setName("arm1");
+     treatmentEpoch.addArm(arm1);
+     Arm arm2 = new Arm();
+     arm2.setName("arm2");
+     treatmentEpoch.addArm(arm2);
+     addStratumGroupToEpoch(treatmentEpoch);
+     treatmentEpoch.setRandomizedIndicator(new Boolean(true));
+     study.addEpoch(treatmentEpoch);
+     
+     return study;
+ }
+ 
+ public Study addStudySiteRandomizedTreatmentEpochWith2ArmsStratumGroupsAndRandomizationToBasicStudy(Study study){
+	 
+	addStudySiteRandomizedTreatmentEpochWith2ArmsAndStratumGroupsToBasicStudy(study);
+	 addPhoneCallRandomization(study.getTreatmentEpochs().get(0));
+     return study;
+ }
+
+	public void setHealthcareSitedao(HealthcareSiteDao healthcareSitedao) {
+		this.healthcareSitedao = healthcareSitedao;
+	}
 }
