@@ -1362,5 +1362,4 @@ public class StudyDaoTest extends DaoTestCase {
         assertEquals("Wrong Epoch order", "Treatment1001", study.getEpochs().get(4).getName());
         assertEquals("Wrong Epoch order", "Treatment1002", study.getEpochs().get(5).getName());
     }
-
 }
