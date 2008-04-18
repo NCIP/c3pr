@@ -45,7 +45,13 @@ function submitlinksPage(){
 		</tr>
 		<tr>
 			<td valign="top" width="35%" align="right"><b>Races(s):&nbsp;</b></td>
-			<td valign="bottom" align="left">${command.raceCode}</td>
+			<td valign="bottom" align="left">
+				<c:forEach items="${command.raceCodes}" var="raceCode">
+		            <div class="row">
+		                <div class="left">${raceCode.displayName}</div>
+		            </div>
+		        </c:forEach>
+	        </td>
 		</tr>
 		<tr>
 			<td valign="top" width="35%" align="right"><b>Primary

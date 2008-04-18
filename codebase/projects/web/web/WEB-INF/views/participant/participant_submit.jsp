@@ -62,8 +62,16 @@ function updateTargetPage(target){
 					<td class="alt" align="left">${command.ethnicGroupCode}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b>Race<b></td>
-					<td class="alt" align="left">${command.raceCode}</td>
+					<td class="alt" align="left"><b>Races<b></td>
+					<td class="alt" align="left">
+						<c:forEach items="${command.raceCodes}" var="raceCode">
+				            <div class="row">
+				                <div class="left">
+				                        ${raceCode.displayName}
+				                </div>
+				            </div>
+				        </c:forEach>
+					</td>
 				</tr>
 			</table>
 			

@@ -36,7 +36,13 @@
 					<td>${participant.MRN.value}</a></td>
 					<td><c:if test="${! empty participant.MRN}">${participant.MRN.healthcareSite.name}</c:if></a></td>
 					<td>${participant.administrativeGenderCode}</td>
-					<td>${participant.raceCode}</td>
+					<td>
+						<c:forEach items="${participant.raceCodes}" var="raceCode">
+				            <div class="row">
+				                <div class="left">${raceCode.displayName}</div>
+				            </div>
+			        	</c:forEach>
+		        	</td>
 					<td>${participant.birthDateStr}</td>
 				</tr>
 			</c:forEach>

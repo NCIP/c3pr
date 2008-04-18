@@ -93,6 +93,17 @@
 	}  	
 	
 	ValidationManager.submitPostProcess= function(formElement, flag){
+		flag=false;
+		for(i=1 ; i<8 ; i++){
+			if($('raceCodes'+i).checked){
+				flag=true;
+				break;
+			}
+		}
+		if(!flag){
+			ValidationManager.showError($("raceCodes"), "required")	
+			return false;
+		}
 		if(formElement.name == 'createSubForm'){
 			//for the create subject form we make an ajax submit and return false to avoid the html submit
 			if(flag){
@@ -199,9 +210,9 @@
 	<input type="hidden" name="async" id="async" value="async">
 	<div class="division " id="single-fields" >
     <div class="content">
-		<table width="60%" border="0" cellspacing="0" cellpadding="0" id="details">
+		<table width="70%" border="0" cellspacing="0" cellpadding="0" id="details">
 			<tr>
-				<td width="50%" valign="top">
+				<td width="40%" valign="top">
 					<table width="100%" border="0" cellspacing="1" cellpadding="1"
 						id="table1">
 						<tr>
@@ -221,11 +232,7 @@
 						<tr>
 							<td align="right"><b>Maiden Name:</b>&nbsp;</td>
 							<td align="left"><input id="maidenName" name="maidenName" type="text" value=""/>&nbsp;&nbsp;&nbsp;</td>
-						</tr>					
-					</table>
-				</td>
-				<td width="50%" valign="top">
-					<table width="100%" border="0" cellspacing="1" cellpadding="1" id="table1">
+						</tr>
 						<tr>
 						<td align="right"><span class="required-indicator"><b>Gender:</b></span>&nbsp;</td>
 							<td align="left">
@@ -238,7 +245,11 @@
 									</c:forEach>
 								</select>		
 							</td>
-						</tr>
+						</tr>					
+					</table>
+				</td>
+				<td width="60%" valign="top">
+					<table width="100%" border="0" cellspacing="1" cellpadding="1" id="table1">
 						<tr>
 							<td align="right"><span class="required-indicator"><b>Birth Date:</b></span>&nbsp;</td>
 							<td align="left"><input id="birthDate" name="birthDate" type="text" value="" class="validate-notEmpty"/>&nbsp;(mm/dd/yyyy)&nbsp;&nbsp;<span
@@ -259,18 +270,17 @@
 							</td>
 						</tr>
 						<tr>
-							<td align="right"><span class="required-indicator"><b>Race(s):</b></span>&nbsp;</td>
+							<td align="right"><span class="required-indicator"><b>Race(s):</b></span>&nbsp;<br><tags:hoverHint keyProp="subject.raceCode"/></td>
 							<td align="left">
-								<select id="raceCode" name="raceCode" class="validate-notEmpty">
-										<option value="">Please select</option>
-									<c:forEach items="${raceCode}" var="raceCode" varStatus="loop">
-									<c:if test="${!empty raceCode.desc}">
-										<option value="${raceCode.code}">${raceCode.desc}</option>
-									</c:if>									
-									</c:forEach>
-								</select>
-								<tags:hoverHint keyProp="subject.raceCode"/>		
+								<input id="raceCodes1" name="raceCodes" type="checkbox" value="Asian"/> Asian
+                                <input id="raceCodes2" name="raceCodes" type="checkbox" value="Black_or_African_American"/> Black or African American
+                                <br><input id="raceCodes3" name="raceCodes" type="checkbox" value="White"/> White
+								<input id="raceCodes4" name="raceCodes" type="checkbox" value="American_Indian_or_Alaska_Native"/> American Indian or Alaska Native
+								<br><input id="raceCodes5" name="raceCodes" type="checkbox" value="Native_Hawaiin_or_Pacific_Islander"/> Native Hawaiin or Pacific Islander
+								<br><input id="raceCodes6" name="raceCodes" type="checkbox" value="Not_Reported"/> Not Reported
+								<input id="raceCodes7" name="raceCodes" type="checkbox" value="Unknown"/> Unknown
 							</td>
+							<td  align="left" id="raceCodes" style="display:inline" />
 						</tr>
 					</table>
 				</td>

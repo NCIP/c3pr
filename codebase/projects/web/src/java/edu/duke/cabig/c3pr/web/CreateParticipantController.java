@@ -20,6 +20,8 @@ import edu.duke.cabig.c3pr.domain.ContactMechanism;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.RaceCode;
+import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.validator.ParticipantValidator;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
@@ -101,6 +103,8 @@ public class CreateParticipantController<C extends Participant> extends
         binder.registerCustomEditor(HealthcareSite.class, new CustomDaoEditor(healthcareSiteDao));
         binder.registerCustomEditor(ContactMechanismType.class, new EnumByNameEditor(
                         ContactMechanismType.class));
+        binder.registerCustomEditor(RaceCode.class, new EnumByNameEditor(
+                RaceCode.class));
 
     }
 

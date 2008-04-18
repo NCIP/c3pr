@@ -29,7 +29,7 @@ function buildTable(form) {
 	var regStartDate = document.getElementById("regStartDate").value;
 	var regEndDate = document.getElementById("regEndDate").value;
 	var birthDate = document.getElementById("birthDate").value;
-	var raceCode = document.getElementById("raceCode").value;
+	var raceCodes = document.getElementById("raceCode").value;
 	
 	params[0] = studyShortTitle;
 	params[1] = studyCoordinatingSite;
@@ -38,7 +38,7 @@ function buildTable(form) {
 	params[4] = regStartDate;	
 	params[5] = regEndDate;		
 	params[6] = birthDate;	
-	params[7] = raceCode;	
+	params[7] = raceCodes;	
 
 	reportCommand.setParams(params);			
 	createReport.getTable(parameterMap, params, showTable);		
@@ -46,6 +46,22 @@ function buildTable(form) {
 
 function showTable(table) {
 	document.getElementById('tableDiv').innerHTML=table;
+}
+
+ValidationManager.submitPostProcess= function(formElement, flag){	
+	if(formElement.id="command"){
+		flag=false;
+		for(i=1 ; i<8 ; i++){
+			if($('raceCodes'+i).checked){
+				flag=true;
+				break;
+			}
+		}
+		if(!flag){
+			ValidationManager.showError($("raceCodes"), "required")	
+			return false;
+		}
+	}
 }
   
 </script>
@@ -127,11 +143,22 @@ function showTable(table) {
 						<b>DOB</b><tags:dateInput path="birthDate"/>
 					</div>
 				</td>
-				<td align="left"><b>Race</b> &nbsp;
-					<form:select path="raceCode">
-						<option value="">Please Select</option>
-						<form:options items="${raceCode}" itemLabel="desc" itemValue="code" />
-					</form:select>
+				<td align="left"><b>Races</b> &nbsp;
+					<div class="value"><div id="raceCodes" style="display:inline">
+					  	<form:checkbox path="raceCodes" value="Asian"/> Asian
+					  	<form:checkbox path="raceCodes" value="Black_or_African_American"/> Black or African American
+					</div>
+					<div class="value">
+					  	<form:checkbox path="raceCodes" value="White"/> White
+					  	<form:checkbox path="raceCodes" value="American_Indian_or_Alaska_Native"/> American Indian or Alaska Native
+					</div>
+					<div class="value">
+					  	<form:checkbox path="raceCodes" value="Native_Hawaiin_or_Pacific_Islander"/> Native Hawaiin or Pacific Islander
+					</div>
+					<div class="value">
+					  	<form:checkbox path="raceCodes" value="Not_Reported"/> Not Reported
+					  	<form:checkbox path="raceCodes" value="Unknown"/> Unknown
+					</div>
 				</td>
         	</tr>    	
         	</table>        	

@@ -61,7 +61,13 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 	</tr>
 	<tr>
 		<td align="left"><b>Race</b></td>
-		<td>${command.participant.raceCode}</td>
+		<td>
+			<c:forEach items="${command.participant.raceCodes}" var="raceCode">
+	            <div class="row">
+	                <div class="left">${raceCode.displayName}</div>
+	            </div>
+	        </c:forEach>
+		</td>
 		</tr>
 	</table>
 	</chrome:division>

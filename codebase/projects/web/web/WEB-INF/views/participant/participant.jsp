@@ -83,10 +83,24 @@ ValidationManager.submitPostProcess= function(formElement, flag){
 		return flag;
 	if(!flag)
 		return false;
-	if(compareDateWithToday($('birthDate').value)==0)
-		return true;
-	alert("Birth Date cannot be greater than today's date");
-	return false;
+		
+	if(formElement.id="command"){
+		flag=false;
+		for(i=1 ; i<8 ; i++){
+			if($('raceCodes'+i).checked){
+				flag=true;
+				break;
+			}
+		}
+		if(!flag){
+			ValidationManager.showError($("raceCodes"), "required")	
+			return false;
+		}
+		if(compareDateWithToday($('birthDate').value)==0)
+			return true;
+		alert("Birth Date cannot be greater than today's date");
+		return false;
+	}
 }
 function manageIdentifierRadio(element){
 		$$("form .identifierRadios").each(function(e)
@@ -127,8 +141,6 @@ function manageIdentifierRadio(element){
 						<div class="label">Maiden Name:</div>
 						<div class="value"><form:input path="maidenName" /></div>
 					</div>
-				</div>
-				<div class="rightpanel">
 					<div class="row">
 						<div class="label required-indicator">Gender:</div>
 						<div class="value"><form:select path="administrativeGenderCode"
@@ -136,8 +148,11 @@ function manageIdentifierRadio(element){
 							<option value="">Please Select</option>
 							<form:options items="${administrativeGenderCode}"
 								itemLabel="desc" itemValue="code" />
-						</form:select> </div> 
+							</form:select> 
+						</div> 
 					</div>
+				</div>
+				<div class="rightpanel">
 					<div class="row">
 						<div class="label required-indicator">Birth Date:</div>
 						<div class="value"><form:input path="birthDate" cssClass="validate-notEmpty&&DATE" /> (mm/dd/yyyy)&nbsp;</div>
@@ -152,15 +167,26 @@ function manageIdentifierRadio(element){
 						</form:select><tags:hoverHint keyProp="subject.ethnicGroupCode"/></div>
 					</div>
 					<div class="row">
-						<div class="label required-indicator">Race:</div>
-						<div class="value"><form:select path="raceCode"
-							cssClass="validate-notEmpty">
-							<option value="">Please Select</option>
-							<form:options items="${raceCode}" itemLabel="desc"
-								itemValue="code" />
-						</form:select><tags:hoverHint keyProp="subject.raceCode"/></div>
+						<div class="label required-indicator">Races: </div>
+							<div class="value"><div id="raceCodes" style="display:inline">
+							  	<form:checkbox path="raceCodes" value="Asian"/> Asian
+							  	<form:checkbox path="raceCodes" value="Black_or_African_American"/> Black or African American</div>
+							</div>
+							<div class="value">
+							  	<form:checkbox path="raceCodes" value="White"/> White
+							  	<form:checkbox path="raceCodes" value="American_Indian_or_Alaska_Native"/> American Indian or Alaska Native
+							</div>
+							<div class="label"><tags:hoverHint keyProp="subject.raceCode"/> </div>
+							<div class="value">
+							  	<form:checkbox path="raceCodes" value="Native_Hawaiin_or_Pacific_Islander"/> Native Hawaiin or Pacific Islander
+							</div>
+							<div class="value">
+							  	<form:checkbox path="raceCodes" value="Not_Reported"/> Not Reported
+							  	<form:checkbox path="raceCodes" value="Unknown"/> Unknown
+							</div>
 					</div>
-					</div>
+					
+				</div>
 		</chrome:division>
 		
 		<chrome:division title="MRN">

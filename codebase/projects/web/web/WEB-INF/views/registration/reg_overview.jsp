@@ -114,8 +114,14 @@
             <td>${command.participant.ethnicGroupCode}</td>
         </tr>
         <tr>
-            <td class="label">Race</td>
-            <td>${command.participant.raceCode}</td>
+            <td class="label">Race(s)</td>
+            <td>
+            	<c:forEach items="${command.participant.raceCodes}" var="raceCode">
+		            <div class="row">
+		                <div class="left">${raceCode.displayName}</div>
+		            </div>
+		        </c:forEach>
+		    </td>
         </tr>
     </table>
 </chrome:division>
