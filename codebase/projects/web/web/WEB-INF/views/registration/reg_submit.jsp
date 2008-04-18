@@ -60,7 +60,7 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 		<td>${command.participant.ethnicGroupCode}</td>
 	</tr>
 	<tr>
-		<td align="left"><b>Race</b></td>
+		<td align="left"><b>Race(s)</b></td>
 		<td>
 			<c:forEach items="${command.participant.raceCodes}" var="raceCode">
 	            <div class="row">
@@ -152,9 +152,9 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 	</chrome:division>
 	<chrome:division id="enrollment" title="Enrollment Details">
 	<table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
-		<tr>
-			<td align="left"><b>Registration Start Date</b></td>
-			<td><tags:requiredFieldEmptyIndicator value='${command.startDateStr }' workflow='registration'/></td>
+	<tr>
+		<td align="left"><b>Registration Start Date</b></td>
+		<td><tags:requiredFieldEmptyIndicator value='${command.startDateStr }' workflow='registration'/></td>
 	</tr>
 	<tr>
 		<td align="left" width="35%"><b>Informed Consent Signed Date</b></td>
@@ -175,7 +175,12 @@ ValidationManager.submitPostProcess= function(formElement, continueSubmission){
 	<tr>
 		<td align="left"><b>Primary Disease Site</b></td>
 		<td>${command.diseaseHistory.primaryDiseaseSiteStr }</td>
-		</tr>
+	</tr>
+	<tr>
+		<td align="left"><b>Payment Method</b></td>
+		<td>${command.paymentMethod}</td>
+	</tr>
+	
 	</table>
 	</chrome:division>
 	<c:if test="${command.ifTreatmentScheduledEpoch}">

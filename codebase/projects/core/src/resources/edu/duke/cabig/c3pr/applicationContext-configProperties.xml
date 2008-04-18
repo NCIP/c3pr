@@ -525,6 +525,61 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                         </bean>                   
                		</list>
                	</entry>
+          	    <entry key="paymentMethods">
+                    <list>
+                      	<bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="Private Insurance" />
+                            <property name="desc" value="Private Insurance" />
+                        </bean>   
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="Medicare" />
+                            <property name="desc" value="Medicare" />
+                        </bean>  
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="Medicare And Private Insurance" />
+                            <property name="desc" value="Medicare And Private Insurance" />
+                        </bean>   
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="Medicaid" />
+                            <property name="desc" value="Medicaid" />
+                        </bean>  
+                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="Medicaid And Medicare" />
+                            <property name="desc" value="Medicaid And Medicare" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="Self Pay (No Insurance)" />
+                            <property name="desc" value="Self Pay (No Insurance)" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="No Means Of Payment (No Insurance)" />
+                            <property name="desc" value="No Means Of Payment (No Insurance)" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="Military Sponsored" />
+                            <property name="desc" value="Military Sponsored" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="Veterans Sponsored" />
+                            <property name="desc" value="Veterans Sponsored" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="Military Or Veterans Sponsored Nos" />
+                            <property name="desc" value="Military Or Veterans Sponsored Nos" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="Other" />
+                            <property name="desc" value="Other" />
+                        </bean>
+                        <bean class="edu.duke.cabig.c3pr.utils.Lov">
+                            <property name="code" value="Unknown" />
+                            <property name="desc" value="Unknown" />
+                        </bean>
+               		</list>
+               	</entry>
+               	
+               	
+               	
             </map>
         </property>                      
     </bean>

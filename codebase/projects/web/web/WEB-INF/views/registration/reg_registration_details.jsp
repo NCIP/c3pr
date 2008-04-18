@@ -152,7 +152,16 @@ ValidationManager.submitPostProcess=function(formElement, flag){
 			<div id="diseaseSite-choices" class="autocomplete"></div>
 			<tags:hoverHint keyProp="studySubject.diseaseSite"/>
 		</td>
-		
+	</tr>
+	<tr>
+		<td class="label" width="40%">Payment Method:</td>
+		<td>
+			<form:select id="paymentMethod" path="paymentMethod" onchange="manageField(this);">
+				<option value="">Please Select</option>
+				<form:options items="${paymentMethods}" itemLabel="desc" itemValue="code"/>
+			</form:select>
+			<tags:hoverHint keyProp="studySubject.primaryDisease"/>
+		</td>
 	</tr>
 </table>
 

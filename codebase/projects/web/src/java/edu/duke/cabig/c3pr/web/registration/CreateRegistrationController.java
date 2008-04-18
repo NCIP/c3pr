@@ -1,5 +1,9 @@
 package edu.duke.cabig.c3pr.web.registration;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.utils.Lov;
 import edu.duke.cabig.c3pr.web.registration.tabs.AssignArmTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EligibilityCriteriaTab;
 import edu.duke.cabig.c3pr.web.registration.tabs.EnrollmentDetailsTab;
@@ -70,6 +75,18 @@ public class CreateRegistrationController<C extends StudySubject> extends Regist
         if (studySubject.getScheduledEpoch() != null) {
             studySubject.updateDataEntryStatus();
         }
+    }
+    
+    @Override
+    protected Map<String, Object> referenceData(HttpServletRequest httpServletRequest, int page)
+                    throws Exception {
+        // Currently the static data is a hack, once DB design is approved for
+        // an LOV this will be
+        // replaced with LOVDao to get the static data from individual tables
+        Map<String, Object> refdata = new HashMap<String, Object>();
+        Map<String, List<Lov>> configMap = configurationProperty.getMap();
+        refdata.put("paymentMethods", configMap.get("paymentMethods"));
+        return refdata;
     }
 
     @Override

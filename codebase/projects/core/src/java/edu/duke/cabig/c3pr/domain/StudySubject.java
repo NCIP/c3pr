@@ -81,6 +81,8 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
     private List<Identifier> identifiers;
 
     private Integer stratumGroupNumber;
+    
+    private String paymentMethod;
 
     public StudySubject() {
         lazyListHelper = new LazyListHelper();
@@ -589,4 +591,12 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
         this.getScheduledEpoch().setScEpochDataEntryStatus(
                         this.evaluateScheduledEpochDataEntryStatus());
     }
+
+	public String getPaymentMethod() {
+		return paymentMethod;
+	}
+
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
 }

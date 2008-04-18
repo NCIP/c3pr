@@ -294,6 +294,10 @@
             <td class="label">Primary Disease Site</td>
             <td>${command.diseaseHistory.primaryDiseaseSiteStr }</td>
         </tr>
+        <tr>
+        <td class="label">Payment Method</td>
+            <td>${command.paymentMethod}</td>
+        </tr>
     </table>
     <c:if test="${command.regWorkflowStatus!='OFF_STUDY'}"><br>
 
@@ -458,7 +462,7 @@
 		<tr>
 			<td align="left"><a
 				href="javascript:accessApp('${caaersBaseUrl }','_caaers');">
-			<b>Adverse Event Reporting</a> </b></td>
+			<b>Adverse Event Reporting</b></a> </td>
 		</tr>
 		<tr>
 			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
@@ -471,7 +475,7 @@
 		<tr>
 			<td align="left"><a
 				href="javascript:accessApp('${pscBaseUrl }','_psc');">
-			<b>Study Calendar</a></b></td>
+			<b>Study Calendar</b></a></td>
 		</tr>
 		<tr>
 			<td><img src="<tags:imageUrl name="spacer.gif"/>" width="1"
@@ -484,7 +488,7 @@
 		<tr>
 			<td align="left"><a
 				href="javascript:accessApp('${c3dBaseUrl }','_c3d');">
-			<b>Clinical Database</a></b></td>
+			<b>Clinical Database</b></a></td>
 		</tr>
 		</c:if>
 	</table>
