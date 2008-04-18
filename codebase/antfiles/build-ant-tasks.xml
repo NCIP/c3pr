@@ -2,7 +2,7 @@
 <project name="c3prv2 custom ant tasks" basedir="." default="">
 
     <property name="management.dir" location="${antfiles.dir}/management"/>
-    <property name="management.src.dir" location="${management.dir}/src"/>
+    <property name="management.src.dir" location="${antfiles.dir}/src/java"/>
     <property name="management.build.dir" location="${management.dir}/build"/>
     <property name="management.classes.dir" location="${management.build.dir}/classes"/>
     <property name="management.jar.dir" location="${management.build.dir}/jars"/>

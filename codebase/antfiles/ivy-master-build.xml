@@ -1,0 +1,137 @@
+
+<project name="c3pr-master-build"  xmlns:ivy="antlib:org.apache.ivy.ant">
+    <property file="build.properties" />
+	<property file="c3pr-ivy.properties" />
+    <import file="${basedir}/common.xml"/>
+	<property name="projects.dir" value="${basedir}/../projects" />
+	
+	<!-- ==================================================================
+		target : buildlist
+	====================================================================== -->
+  	<target name="buildlist" depends="load-ivy" unless="buildlist.done" description="Will find the correct order of build dependency"> 
+    	<ivy:buildlist reference="build-path">
+    		<fileset file="${basedir}/ivy-build.xml" />
+      		<fileset file="${projects.dir}/esb-client/ivy-build.xml" />
+    		<fileset file="${projects.dir}/core/ivy-build.xml" />
+    		<fileset file="${projects.dir}/web/ivy-build.xml" />
+    	</ivy:buildlist>
+  		<property name="buildlist.done" value="true" />
+  		<echo message="buildList : ${build-path}" />
+  	</target>
+	
+	<!-- ==================================================================
+		target : publish-all
+	====================================================================== -->
+  	<target name="publish-all" depends="buildlist, clean-all" 
+  			description="compile, jar and publish all projects in the right order, publishes them into local repository">
+   		 <subant target="publish-local" buildpathref="build-path" />
+  	</target>
+	
+	<!-- ==================================================================
+		target : release-all
+	====================================================================== -->
+	<target name="release-all" depends="buildlist" 
+	  			description="compile, jar and publish all projects in the right order, then releases it to Shared Repository">
+	   	<subant target="publish" buildpathref="build-path" />
+	</target>
+	
+	<!-- ==================================================================
+		target : resolve-all
+	====================================================================== -->
+   <target name="resolve-all" depends="buildlist" 
+   		description="Will call the resolve target on each of the module">
+   		<subant target="resolve" buildpathref="build-path" />
+   </target>
+	
+	<!-- ==================================================================
+		target : clean-all
+	====================================================================== -->
+  <target name="clean-all" depends="buildlist" description="clean all projects">
+    <subant target="clean" buildpathref="build-path" />
+  </target>
+	
+	<!-- ==================================================================
+		target : clean
+	====================================================================== -->
+  <target name="clean" depends="clean-all, clean-repo" 
+  			description="clean delete repository, and all projects" />
+	
+	<target name="clean-repo" description="cleans the local repository">
+		<delete dir="${local.repo.dir}"/>
+	</target>
+	
+	<!-- ==================================================================
+		target : clean-cache
+	====================================================================== -->
+	<target name="clean-cache" depends="load-ivy" description="Cleans the ivy cache">
+		<ivy:cleancache/>
+	</target>
+	<!-- ==========================================================
+		target : migrate
+		This will delegate the call to caaers-core:migrate, this is added
+		to do migrate and build as a single job using hudson. 
+	=============================================================-->
+	<target name="migrate">
+		<subant target="migrate" buildpath="${projects.dir}/core/ivy-build.xml" />
+	</target>
+
+	<!--- =================================================================================
+		target : javadoc
+	======================================================================================= -->
+    <target name="javadoc" description="Compile the Javadoc API documentation to javadoc dir">
+        <mkdir dir="${javadoc.dir}"/>
+        <javadoc
+        	classpathref="lib.path.id"
+        	destdir="${javadoc.dir}"
+        	use="true"
+        	protected="true"
+        	version="true"
+        	windowtitle="C3PR API Documentation"
+        	Overview="${javadoc.dir}/package.html"
+        	doctitle="C3PR API Documentation"
+        	link="${sun.javadoc.link}">
+        	<packageset dir="${basedir}" defaultexcludes="yes" >
+   				<include name="**/main/java/**/*"/>
+		    </packageset>
+        </javadoc>
+
+
+    </target>
+
+	 <!--Does a local build. For Developers use only -->
+    <target name="deploy-webapp-local"
+            description="Builds all c3pr modules and deploys webapp on your web/web local">
+    	<subant target="publish-local" buildpath="${projects.dir}/esb-client/ivy-build.xml">
+    		<property name="skip.test" value="true"></property>
+    	</subant>
+    	<subant target="publish-local" buildpath="${projects.dir}/core/ivy-build.xml">
+       		<property name="skip.test" value="true"></property>
+    	</subant>
+    	<subant target="deployLocal" buildpath="${projects.dir}/web/ivy-build.xml" >
+    		<property name="skip.test" value="true"></property>
+    	</subant>
+    </target>
+	
+    <target name="deploy-webapp"
+            description="Builds all c3pr modules and deploys webapp on your web/web local">
+    	<subant target="publish-local" buildpath="${projects.dir}/esb-client/ivy-build.xml">
+    		<property name="skip.test" value="true"></property>
+    	</subant>
+    	<subant target="publish-local" buildpath="${projects.dir}/core/ivy-build.xml">
+       		<property name="skip.test" value="true"></property>
+    	</subant>
+    	<subant target="deploy" buildpath="${projects.dir}/web/ivy-build.xml" >
+    		<property name="skip.test" value="true"></property>
+    	</subant>
+    </target>
+	
+	<!-- ==========================================================
+		target : migrate
+		This will delegate the call to caaers-core:migrate, this is added
+		to do migrate and build as a single job using hudson. 
+	=============================================================-->
+	<target name="tomcat.security">
+		<subant target="tomcat.security" buildpath="${projects.dir}/core/ivy-build.xml" />
+	</target>
+	
+</project>
