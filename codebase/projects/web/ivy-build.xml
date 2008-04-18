@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="c3pr-web" default="compile" xmlns:ivy="antlib:org.apache.ivy.ant">
+	<property name="parent.dir" value="${basedir}/.." />
+	<property name="antfiles.dir" location="${parent.dir}/../antfiles"/>
+	<property file="${antfiles.dir}/build.properties" />
+	<property file="${antfiles.dir}/c3pr-ivy.properties" />
+	<import file="${antfiles.dir}/common.xml"/>
+	
+	<!--Web Dirs-->
+	<property name="web.dir" location="${basedir}/web"/>
+    <property name="webinf.dir" value="${web.dir}/WEB-INF"/>
+    <property name="webinfviews.dir" value="${web.dir}/WEB-INF/views"/>
+    <property name="webinf.lib.dir" value="${webinf.dir}/lib"/>
+    <property name="webinf.classes.dir" value="${webinf.dir}/classes"/>
+	
+	<property name="webapp.name" value="c3pr"/>
+
+    <property name="war.dir" value="${dist.dir}/war"/>
+    <property name="war.file" value="${application_name}.war"/>
+	
+	<target name="module-specific-flow" description="Copy resources into classpath">
+		<!--timestamp property-->
+        <tstamp>
+            <format property="build.timestamp" pattern="yyyy-MM-dd HH:mm:ss"/>
+        </tstamp>
+        <!--Unix works for all environments -->
+        <pathconvert targetos="unix" property="catalina.home.unix">
+            <path location="${catalina.home}"/>
+        </pathconvert>
+
+        <!-- copy log4j -->
+		<copy file="${antfiles.dir}/c3pr-log4j.properties"
+              tofile="${webinf.dir}/log4j.properties"
+              overwrite="true"
+              filtering="true">
+            <filterset>
+                <filter token="catalina.home" value="${catalina.home.unix}"/>
+                <filter token="log4j.filename" value="${log4j.filename}"/>
+            </filterset>
+        </copy>
+
+        <!--copy the spring app context files-->
+		<copy todir="${classes.dir}" filtering="true" overwrite="true">
+            <filterset>
+                <filter token="iteration_number" value="${iteration_number}"/>
+                <filter token="application_name" value="${application_name}"/>
+                <filter token="timestamp" value="${build.timestamp}"/>
+                <filter token="username" value="${user.name}"/>
+            </filterset>
+            <fileset dir="${main.src.resources}">
+                <include name="**/*.*"/>
+            </fileset>
+        </copy>
+    </target>
+
+	<!-- ============================================================== -->
+    <!-- Creates the war file                                           -->
+    <!-- ============================================================== -->
+    <target name="war" depends="jar" description="Builds the war files">
+        <war destfile="${war.dir}/${war.file}" webxml="${web.dir}/WEB-INF/web.xml">
+            <webinf dir="${web.dir}/WEB-INF">
+                <include name="**/*"/>
+                <exclude name="web.xml"/>
+                <exclude name="lib"/>
+            </webinf>
+            <fileset dir="${web.dir}">
+                <include name="**/*"/>
+                <exclude name="WEB-INF/**"/>
+            </fileset>
+            <lib file="${ant.project.name}.jar"/>
+            <!--<lib dir="${lib.dir}">
+                <include name="**/*.jar"/>
+            </lib>-->
+            <lib dir="${web.dir}/WEB-INF/lib">
+                <include name="**/*.jar"/>
+            </lib>
+            <manifest>
+                <attribute name="Built-By" value="${user.name}"/>
+            </manifest>
+        </war>
+    </target>
+
+    <target name="deploy-war" description="Will deploy a pre-built war file to Tomcat">
+        <copy file="${war.dir}/${war.file}" todir="${deploy.path}"/>
+    </target>
+
+	<target name="deploy-prebuilt" description="Deploys a prebuild webapp">
+        <copy todir="${webinf.lib.dir}" preservelastmodified="true">
+            <fileset dir="${lib.dir}">
+                <include name="**/*.jar"/>
+                <exclude name="cog-jglobus.jar"/>
+            </fileset>
+            <fileset dir="${dist.dir}">
+                <include name="**/*.jar"/>
+                <exclude name="*-tests*.jar"/>
+            </fileset>
+        </copy>
+
+        <!--copy jglobus to $CATALINA_HOME/common-->
+        <copy todir="${catalina.home}/common/lib" overwrite="false">
+            <fileset dir="${lib.dir}">
+                <include name="cog-jglobus.jar"/>
+            </fileset>
+        </copy>
+    </target>
+
+	<target name="deployLocal" depends="clean, jar,deploy-prebuilt" description="Deploy web application to local folders">
+    </target>
+	
+	<!-- ====================================================================== -->
+    <!-- Deploys the webapp (note:- only web + core projects )in Catalina_home  -->
+    <!-- ====================================================================== -->
+    <target name="deploy" depends="deployLocal" description="Deploy web application to tomcat">
+        <copy todir="${deploy.path}/${webapp.name}" preservelastmodified="true">
+            <fileset dir="${web.dir}"/>
+        </copy>
+    </target>
+
+    <target name="copy-views" description="Explicitly copy the views folder ">
+        <copy todir="${deploy.path}/${webapp.name}/WEB-INF/views/" preservelastmodified="true">
+            <fileset dir="${webinfviews.dir}"/>
+        </copy>
+    </target>
+	
+	<!-- ============================================================== -->
+    <!-- Cleans up generated stuff                                      -->
+    <!-- ============================================================== -->
+    <target name="clean" depends="clean-classes, clean-classes-test, clean-generated-src, clean-dist, clean-lib, clean-lib-test, clean-test-results, clean-test-reports" description="Removes generated files.">
+        <delete dir="${webinf.lib.dir}"/>
+        <delete dir="${webinf.classes.dir}"/>
+    </target>
+</project>
