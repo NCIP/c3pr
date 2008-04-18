@@ -93,6 +93,9 @@
 	}  	
 	
 	ValidationManager.submitPostProcess= function(formElement, flag){
+		
+		if(formElement.name == 'createSubForm'){
+			//for the create subject form we make an ajax submit and return false to avoid the html submit
 		flag=false;
 		for(i=1 ; i<8 ; i++){
 			if($('raceCodes'+i).checked){
@@ -104,12 +107,10 @@
 			ValidationManager.showError($("raceCodes"), "required")	
 			return false;
 		}
-		if(formElement.name == 'createSubForm'){
-			//for the create subject form we make an ajax submit and return false to avoid the html submit
-			if(flag){
-				new Ajax.Updater('temp','../participant/createParticipant', {method:'post', postBody:Form.serialize('createSubForm'),onSuccess:handlerFunc, onFailure:handlerFail});
-			}
-			return false;
+		if(flag){
+			new Ajax.Updater('temp','../participant/createParticipant', {method:'post', postBody:Form.serialize('createSubForm'),onSuccess:handlerFunc, onFailure:handlerFail});
+		}
+		return false;
 		}else{
 			//for all other forms(i.e. the main form on select_study_or_subject) we return true to ensure the html submit
 			return flag;
