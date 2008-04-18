@@ -93,14 +93,17 @@
             <path location="${tomcat.home}/webapps"/>
         </pathconvert>
 
-        <ant dir="${base.codebase.dir}" antfile="antfiles/build.xml"
+    	<!-- Refactoring code for ivy migration 
+        -->
+    	<!--<ant dir="${base.codebase.dir}" antfile="antfiles/build.xml"
              inheritall="false" target="deploy-webapp">
             <property name="deploy.path" value="${tomcat.webapp.dir}"/>
             <property name="basedir" value="${base.codebase.dir}"/>
             <property name="ext.tomcat.dir" value="${tomcat.home}"/>
             <property name="env.CATALINA_HOME" value="${tomcat.home}"/>
         </ant>
-
+		-->
+    	<subant target="deploy-webapp" buildpath="${base.codebase.dir}/antfiles/ivy-master-build.xml" />
 
         <!--copy c3pr.properties to $CATALINA_HOME/conf-->
         <copy file="${basedir}/ant.install.properties"
@@ -111,11 +114,13 @@
 
     <!--will only be run if deploy-webapp has been run-->
     <target name="tomcat.security">
-        <ant dir="${c3pr.core.dir}"
+        <!--<ant dir="${c3pr.core.dir}"
              inheritall="false"
              target="tomcat.security">
             <property name="catalina.home" value="${tomcat.home}"/>
         </ant>
+        -->
+    	<subant target="tomcat.security" buildpath="${c3pr.core.dir}/ivy-build.xml" />
     </target>
 
     <target name="build-grid">
@@ -153,11 +158,12 @@
     <!--create/update datbase-->
     <!--rem: build.properties is already copied-->
     <target name="database.migrate">
-        <ant dir="${c3pr.core.dir}"
+        <!--<ant dir="${c3pr.core.dir}"
              inheritall="false"
              target="bering-migrate">
 
-        </ant>
+        </ant>-->
+    	<subant target="migrate" buildpath="${base.codebase.dir}/antfiles/ivy-master-build.xml" />
     </target>
 
     <target name="deploy-codebase">
