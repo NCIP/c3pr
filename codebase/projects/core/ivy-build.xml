@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="c3pr-core" default="compile" xmlns:ivy="antlib:org.apache.ivy.ant">
+	<property name="parent.dir" value="${basedir}/.." />
+	<property name="antfiles.dir" location="${parent.dir}/../antfiles"/>
+	<property file="${antfiles.dir}/build.properties" />
+	<property file="${antfiles.dir}/c3pr-ivy.properties" />
+	<import file="${antfiles.dir}/common.xml"/>
+	
+	<!--db dir-->
+	<property name="db.scripts.basedir" value="db"/>
+	<property name="db.scripts.dir" value="${basedir}/${db.scripts.basedir}"/>
+	<property name="bering.migration.dir" value="${db.scripts.dir}/bering"/>
+	<property name="oracle.db.script.dir" value="${db.scripts.dir}/oracle"/>
+    <property name="postgresql.db.script.dir" value="${db.scripts.dir}/PostGreSQL"/>
+    <property name="oracle.csm.db.scripts.dir" value="${oracle.db.script.dir}/csm"/>
+    <property name="postgresql.csm.db.scripts.dir" value="${postgresql.db.script.dir}/csm"/>
+	
+	<!--CSM Tomcat dirs-->
+	<property name="conf.dir" value="${basedir}/conf/"/>
+	<property name="csm.conf.dir" value="${conf.dir}/csm"/>
+	
+	<target name="module-specific-test-flow" description="Copy resources into classpath">
+
+			<property name="build.context.dir" location="${test.classes.dir}/context"/>
+	        <!--copy the properties file-->
+	        <copy file="${antfiles.dir}/build.properties"
+	              tofile="${build.context.dir}/c3pr.properties.file"/>
+
+	        <!--Unix works for all environments -->
+	        <pathconvert targetos="unix" property="catalina.home.unix">
+	            <path location="${catalina.home}"/>
+	        </pathconvert>
+
+	        <!-- copy log4j -->
+	        <copy file="${antfiles.dir}/c3pr-log4j.properties"
+	              tofile="${test.classes.dir}/log4j.properties"
+	              overwrite="true"
+	              filtering="true">
+	            <filterset>
+	                <filter token="catalina.home" value="${catalina.home.unix}"/>
+	                <filter token="log4j.filename" value="${log4j.filename}"/>
+	            </filterset>
+	        </copy>
+
+	        <!--copy the castor mapping file-->
+	        <copy todir="${test.classes.dir}" filtering="true" overwrite="true">
+	            <filterset>
+	                <filter token="catalina.home" value="${catalina.home.unix}"/>
+	                <filter token="user.home" value="${user.home}"/>
+	            </filterset>
+	            <fileset dir="${main.src.resources}">
+	                <include name="**/*.*"/>
+	            </fileset>
+	            <fileset dir="${resources.dir}">
+	                <include name="*-castor-mapping.xml"/>
+	            </fileset>
+	            <fileset dir="${resources.dir}/xsd">
+	                <include name="c3pr-domain.xsd"/>
+	            </fileset>
+	        	<fileset dir="${resources.dir}/samples">
+	                <include name="*.xml"/>
+	            </fileset>
+	        </copy>
+
+	    </target>
+	
+	<target name="module-specific-flow" description="Copy resources into classpath">
+
+		<property name="build.context.dir" location="${classes.dir}/context"/>
+        <!--copy the properties file-->
+        <copy file="${antfiles.dir}/build.properties"
+              tofile="${build.context.dir}/c3pr.properties.file"/>
+
+        <!--Unix works for all environments -->
+        <pathconvert targetos="unix" property="catalina.home.unix">
+            <path location="${catalina.home}"/>
+        </pathconvert>
+
+        <!-- copy log4j -->
+        <copy file="${antfiles.dir}/c3pr-log4j.properties"
+              tofile="${classes.dir}/log4j.properties"
+              overwrite="true"
+              filtering="true">
+            <filterset>
+                <filter token="catalina.home" value="${catalina.home.unix}"/>
+                <filter token="log4j.filename" value="${log4j.filename}"/>
+            </filterset>
+        </copy>
+
+        <!--copy the castor mapping file-->
+        <copy todir="${classes.dir}" filtering="true" overwrite="true">
+            <filterset>
+                <filter token="catalina.home" value="${catalina.home.unix}"/>
+                <filter token="user.home" value="${user.home}"/>
+            </filterset>
+            <fileset dir="${main.src.resources}">
+                <include name="**/*.*"/>
+            </fileset>
+            <fileset dir="${resources.dir}">
+                <include name="*-castor-mapping.xml"/>
+            </fileset>
+            <fileset dir="${resources.dir}/xsd">
+                <include name="c3pr-domain.xsd"/>
+            </fileset>
+        	<fileset dir="${resources.dir}/samples">
+                <include name="*.xml"/>
+            </fileset>
+        </copy>
+
+        <!--copy bering migrate scripts-->
+        <copy todir="${classes.dir}/${db.scripts.basedir}" overwrite="true">
+            <fileset dir="${db.scripts.dir}"/>
+        </copy>
+    </target>
+
+	<target name="sourceProperties">
+        <property file="${catalina.home}/conf/c3pr.properties"/>
+        <property file="${user.home}/.c3pr/c3pr.properties"/>
+    </target>
+	
+	
+	<!-- ============================================================== -->
+    <!-- Bering migration task                                          -->
+    <!-- ============================================================== -->
+	<target name="migrate" description="does bering migration" depends="resolve,prepare-bering">
+        <migrate classpathRef="main.classpath"
+				 driver="${datasource.driver}"
+                 dialect="${bering.dialect}"
+                 url="${datasource.url}"
+                 userid="${datasource.username}"
+                 password="${datasource.password}"
+        		 migrationsdir="${bering.migration.dir}" />
+		<echo message="bering.dialect : ${bering.dialect}" />
+	</target>
+	
+    <target name="prepare-bering" depends="sourceProperties">
+
+        <!--Taskdef. Has to be done inside since classpath is ext-->
+    	<taskdef resource="edu/northwestern/bioinformatics/bering/antlib.xml" classpathref="main.classpath"/>
+
+        <property name="oracle.keyword" value="Oracle"/>
+        <property name="postgresql.keyword" value="PostgreSQLDialect"/>
+
+        <condition property="bering.dialect" value="edu.northwestern.bioinformatics.bering.dialect.PostgreSQL">
+            <contains string="${datasource.dialect}" substring="${postgresql.keyword}"/>
+        </condition>
+
+        <condition property="bering.dialect" value="edu.northwestern.bioinformatics.bering.dialect.Oracle">
+            <contains string="${datasource.dialect}" substring="${oracle.keyword}"/>
+        </condition>
+
+    </target>
+
+
+    <target name="insert-static-data" depends="prepare-bering"
+            description="Will insert static date into the database">
+
+        <sql driver="${datasource.driver}"
+             url="${datasource.url}"
+             userid="${datasource.username}"
+             password="${datasource.password}"
+             classpathref="run.classpath"
+             rdbms="oracle">
+            <transaction src="${oracle.db.script.dir}/static-data.sql"/>
+        </sql>
+
+        <sql driver="${datasource.driver}"
+             url="${datasource.url}"
+             userid="${datasource.username}"
+             password="${datasource.password}"
+             classpathref="run.classpath"
+             rdbms="postgres">
+            <transaction src="${postgresql.db.script.dir}/static-data.sql"/>
+        </sql>
+
+    </target>
+
+    <target name="delete-static-data" depends="prepare-bering"
+            description="Will insert static date into the database">
+
+        <sql driver="${datasource.driver}"
+             url="${datasource.url}"
+             userid="${datasource.username}"
+             password="${datasource.password}"
+             classpathref="run.classpath"
+             rdbms="oracle">
+            <transaction src="${oracle.db.script.dir}/static-data-delete.sql"/>
+        </sql>
+
+        <sql driver="${datasource.driver}"
+             url="${datasource.url}"
+             userid="${datasource.username}"
+             password="${datasource.password}"
+             classpathref="run.classpath"
+             rdbms="postgres">
+            <transaction src="${postgresql.db.script.dir}/static-data-delete.sql"/>
+        </sql>
+
+    </target>
+
+
+    <target name="tomcat.security" depends="sourceProperties"
+            description="Automatically copies global (CSM/UPT) configuration files to Tomcat.">
+        <fail message="Could not locate Tomcat.  Please set the catalina.home property (-Dcatalina.home=/path/to/tomcat).">
+            <condition>
+                <not>
+                    <isset property="catalina.home"/>
+                </not>
+            </condition>
+        </fail>
+
+        <property name="catalina.home" value="PLEASE SET catalina.home EXTERNALLY"/>
+        <echo>Configuring CSM and UPT for the Tomcat instance in ${catalina.home}</echo>
+        <property name="tomcat.security.dir" value="${catalina.home}/conf/cabig"/>
+
+        <!-- default UPT dialect to same as SC's, if not already set -->
+        <property name="datasource.dialect.upt" value="${datasource.dialect}"/>
+        <mkdir dir="${tomcat.security.dir}"/>
+        <copy todir="${tomcat.security.dir}" overwrite="true">
+            <filterset>
+                <filter token="tomcat.security.dir" value="${tomcat.security.dir}"/>
+                <filter token="datasource.username" value="${datasource.username}"/>
+                <filter token="datasource.password" value="${datasource.password}"/>
+                <filter token="datasource.url" value='${datasource.url}'/>
+                <filter token="datasource.driver" value="${datasource.driver}"/>
+                <filter token="datasource.dialect.upt" value="${datasource.dialect}"/>
+                <filter token="csm.context.name" value="${csm.context.name}"/>
+            </filterset>
+            <fileset dir="${csm.conf.dir}">
+                <include name="ApplicationSecurityConfig.xml"/>
+                <include name="hibernate.cfg.xml"/>
+                <include name="csm_jaas.config"/>
+            </fileset>
+        </copy>
+
+        <copy file="${tomcat.security.dir}/hibernate.cfg.xml"
+              tofile="${tomcat.security.dir}/${csm.context.name}.hibernate.cfg.xml"/>
+        <delete file="${tomcat.security.dir}/hibernate.cfg.xml"/>
+
+        <echo taskname="todo">
+            ===== MANUAL STEPS =====
+            ========================
+            The automatic portion of the security setup is complete. If you have not
+            done so already, please perform the following manual actions.
+
+            * In ${catalina.home}/conf/catalina.properties, add two lines:
+            gov.nih.nci.security.configFile=${tomcat.security.dir}/ApplicationSecurityConfig.xml
+            java.security.auth.login.config=${tomcat.security.dir}/csm_jaas.config
+            ========= END ==========
+            ===== MANUAL STEPS =====
+        </echo>
+    </target>
+
+</project>
