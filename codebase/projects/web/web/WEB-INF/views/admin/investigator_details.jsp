@@ -78,7 +78,7 @@ function fireAction(action, selected){
 	<input type="hidden" name="_selected" value="">
 	<input type="hidden" name="_finish" value="true">
 
-	<tags:errors path="*" />
+	
 <chrome:division id="site" title="Organization">
 	<table class="tablecontent" width="60%" border="0" cellspacing="0" id="invesitgatorTable"
 		cellpadding="0">

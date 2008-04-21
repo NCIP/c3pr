@@ -267,10 +267,12 @@
         <property name="formView" value="admin/investigator_details"/>
         <property name="successView" value="admin/investigator_confirmation"/>
         <property name="sessionForm" value="true"/>
+        <property name="validator" ref="investigatorValidator"></property>
         <property name="page">
         	<bean class="edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.InPlaceEditableTab" autowire="byType" />
         </property>
     </bean>
+    <bean id="investigatorValidator" class="edu.duke.cabig.c3pr.domain.validator.InvestigatorValidator" autowire="byName"></bean>
     <bean name="/admin/getGroup"
           id="createInvestigatorGroupsController" lazy-init="true"
           class="edu.duke.cabig.c3pr.web.admin.CreateInvestigatorGroupsController"
