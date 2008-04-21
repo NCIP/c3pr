@@ -147,7 +147,7 @@
 		<mkdir dir="${classes.dir}" />
 		<mkdir dir="${test.classes.dir}" />
 		<mkdir dir="${dist.dir}" />
-		<mkdir dir="${generated.src.dir}" />
+		<!--<mkdir dir="${generated.src.dir}" />-->
 		<property name="no.init" value="true" />
 	</target>
 	
@@ -229,7 +229,7 @@
     <target name="compile" depends="clean,resolve" description="--> compile the project">
     	<echo message="Executing in ${ant.project.name}" />
     	<copy-resources src="${main.src.resources}" dest="${classes.dir}" filter="true"/>
-    	<javac srcdir="${generated.src.dir}" destdir="${classes.dir}" classpathref="main.classpath" debug="true" source="1.5" target="1.5"/>
+    	<!--<javac srcdir="${generated.src.dir}" destdir="${classes.dir}" classpathref="main.classpath" debug="true" source="1.5" target="1.5"/>-->
         <javac srcdir="${main.src}" destdir="${classes.dir}" classpathref="main.classpath" debug="true" source="1.5" target="1.5"/>
     </target>
 
@@ -384,7 +384,7 @@
     <!-- ================================= 
           target: publish-local              
          ================================= -->
-    <target name="publish-local" depends="clean-dist, init, local-version, jar, jar-test, debug-info,test-report" 
+    <target name="publish-local" depends="clean-dist, init, local-version, jar, jar-test, debug-info" 
     	description="--> publish this project in the local ivy repository">
     	<echo message="Executing in ${ant.project.name}" />
     	<ivy:publish artifactspattern="${dist.dir}/[artifact].[ext]" 
@@ -467,7 +467,7 @@
     <!-- ================================= 
           target: clean              
          ================================= -->
-    <target name="clean" depends="clean-classes, clean-classes-test, clean-generated-src, clean-dist, clean-lib, clean-lib-test, clean-test-results, clean-test-reports" 
+    <target name="clean" depends="clean-classes, clean-classes-test, clean-dist, clean-lib, clean-lib-test, clean-test-results, clean-test-reports" 
     	description="--> clean the project" />
 	
 	<!-- ============================================================== 
