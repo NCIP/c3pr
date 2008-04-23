@@ -75,13 +75,14 @@ public class StudyXMLFileUploadController extends SimpleFormController {
             httpServletRequest.setAttribute("filePath", fileName);
         }
         catch (XMLUtilityException e1) {
-            log.debug("Uploaded file contains invalid study");
+            log.debug("Uploaded file contains invalid studies");
             errors.reject("Could not import Studies", e1.getMessage());
         }
         catch(Exception e1){
         	e1.printStackTrace();
         	log.debug("Uploaded file contains invalid studies");
             errors.reject("Could not import studies" + e1.getMessage());
+            errors.reject("Root Cause is" + e1.getLocalizedMessage());
         }
 
         return new ModelAndView(this.getSuccessView(), errors.getModel());
