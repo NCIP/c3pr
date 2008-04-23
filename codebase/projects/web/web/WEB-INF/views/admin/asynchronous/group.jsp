@@ -59,7 +59,9 @@
 			                ${aff.healthcareSiteInvestigator.investigator.fullName }
 			            </td>
 			            <td>
-			               ${aff.startDateStr }
+			            	<tags:customInPlaceEdit value="${command.healthcareSite.investigatorGroups[groupIndex].siteInvestigatorGroupAffiliations[status.index].startDateStr}"
+	                        path="changedSiteAffiliationStartDate_${status.index}" healthcareSite="${command.healthcareSite.id}" groupIndex="${groupIndex}"/>
+	                		&nbsp;
 			            </td>
 			            <td>
 	               			 <tags:customInPlaceEdit value="${command.healthcareSite.investigatorGroups[groupIndex].siteInvestigatorGroupAffiliations[status.index].endDateStr}"

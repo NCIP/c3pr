@@ -63,6 +63,26 @@ public class InvestigatorsGroupsTab<C> extends InPlaceEditableTab<C> {
                 retValue += currentEndDate;
             }
         }
+        if (property.startsWith("changedSiteAffiliationStartDate")) {
+            int siteAffiliationIndex = Integer.parseInt(property.split("_")[1]);
+            Date currentStartDate = investigatorGroupsCommand.getHealthcareSite()
+                            .getInvestigatorGroups().get(groupIndex)
+                            .getSiteInvestigatorGroupAffiliations().get(siteAffiliationIndex)
+                            .getStartDate();
+            try {
+                Date targetStartDate = new SimpleDateFormat("MM/dd/yyyy").parse(value);
+                investigatorGroupsCommand.getHealthcareSite().getInvestigatorGroups().get(
+                                groupIndex).getSiteInvestigatorGroupAffiliations().get(
+                                siteAffiliationIndex).setStartDate(targetStartDate);
+                retValue += investigatorGroupsCommand.getHealthcareSite().getInvestigatorGroups()
+                                .get(groupIndex).getSiteInvestigatorGroupAffiliations().get(
+                                                siteAffiliationIndex).getStartDateStr();
+            }
+            catch (ParseException e) {
+                e.printStackTrace();
+                retValue += currentStartDate;
+            }
+        }
         map.put(getFreeTextModelName(), retValue);
         return new ModelAndView("", map);
     }

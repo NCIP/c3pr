@@ -30,6 +30,10 @@ public class HealthcareSiteDao extends GridIdentifiableDao<HealthcareSite> {
     public List<HealthcareSite> getAll() {
         return getHibernateTemplate().find("from HealthcareSite");
     }
+    
+    public void clear() {
+        getHibernateTemplate().clear();
+    }
 
     public List<HealthcareSite> getBySubnames(String[] subnames) {
 

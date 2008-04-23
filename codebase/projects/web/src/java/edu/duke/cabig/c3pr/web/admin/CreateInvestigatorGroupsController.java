@@ -3,10 +3,10 @@ package edu.duke.cabig.c3pr.web.admin;
 import java.io.PrintWriter;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +18,6 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
-import org.springframework.web.util.WebUtils;
 
 import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.HealthcareSiteInvestigatorDao;
@@ -34,301 +33,264 @@ import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.InPlaceEditableTab;
 
 public class CreateInvestigatorGroupsController extends SimpleFormController {
 
-    InvestigatorGroupDao investigatorGroupDao;
+	InvestigatorGroupDao investigatorGroupDao;
 
-    HealthcareSiteDao healthcareSiteDao;
+	HealthcareSiteDao healthcareSiteDao;
 
-    private HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
+	private HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
 
-    private Logger log = Logger.getLogger(CreateInvestigatorGroupsController.class);
+	private Logger log = Logger.getLogger(CreateInvestigatorGroupsController.class);
 
-    private InPlaceEditableTab<InvestigatorGroupsCommand> page;
+	private InPlaceEditableTab<InvestigatorGroupsCommand> page;
 
-    public CreateInvestigatorGroupsController() {
-        super();
-    }
+	public CreateInvestigatorGroupsController() {
+		super();
+	}
 
-    public HealthcareSiteInvestigatorDao getHealthcareSiteInvestigatorDao() {
-        return healthcareSiteInvestigatorDao;
-    }
+	public HealthcareSiteInvestigatorDao getHealthcareSiteInvestigatorDao() {
+		return healthcareSiteInvestigatorDao;
+	}
 
-    public void setHealthcareSiteInvestigatorDao(
-                    HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao) {
-        this.healthcareSiteInvestigatorDao = healthcareSiteInvestigatorDao;
-    }
+	public void setHealthcareSiteInvestigatorDao(
+			HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao) {
+		this.healthcareSiteInvestigatorDao = healthcareSiteInvestigatorDao;
+	}
 
-    public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
-        this.healthcareSiteDao = healthcareSiteDao;
-    }
+	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
+		this.healthcareSiteDao = healthcareSiteDao;
+	}
 
-    public void setInvestigatorGroupDao(InvestigatorGroupDao investigatorGroupDao) {
-        this.investigatorGroupDao = investigatorGroupDao;
-    }
+	public void setInvestigatorGroupDao(InvestigatorGroupDao investigatorGroupDao) {
+		this.investigatorGroupDao = investigatorGroupDao;
+	}
 
-    @Override
-    protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder)
-                    throws Exception {
-        super.initBinder(request, binder);
-        binder.registerCustomEditor(Date.class, ControllerTools.getDateEditor(true));
-        binder.registerCustomEditor(HealthcareSite.class, new CustomDaoEditor(healthcareSiteDao));
-        binder.registerCustomEditor(HealthcareSiteInvestigator.class, new CustomDaoEditor(
-                        healthcareSiteInvestigatorDao));
-    }
+	@Override
+	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder)
+	throws Exception {
+		super.initBinder(request, binder);
+		binder.registerCustomEditor(Date.class, ControllerTools.getDateEditor(false));
+		binder.registerCustomEditor(HealthcareSite.class, new CustomDaoEditor(healthcareSiteDao));
+		binder.registerCustomEditor(HealthcareSiteInvestigator.class, new CustomDaoEditor(
+				healthcareSiteInvestigatorDao));
+	}
 
-    @Override
-    protected Map referenceData(HttpServletRequest request, Object command, Errors error)
-                    throws Exception {
-        Map map = new HashMap();
-        InvestigatorGroupsCommand investigatorGroupsCommand = (InvestigatorGroupsCommand) command;
-        if (investigatorGroupsCommand.getHealthcareSite() != null) {
-            if (investigatorGroupsCommand.getHealthcareSite().getId() != null
-                            && request.getParameter("groupId") != ""
-                            && request.getParameter("groupId") != null) {
-                for (int i = 0; i < investigatorGroupsCommand.getHealthcareSite()
-                                .getInvestigatorGroups().size(); i++) {
-                    if (investigatorGroupsCommand.getHealthcareSite().getInvestigatorGroups()
-                                    .get(i).getId().equals(
-                                                    Integer.parseInt(request
-                                                                    .getParameter("groupId")))) {
-                        map.put("groupIndex", i);
-                        map.put("newGroup", new Boolean(false));
-                        return map;
-                    }
-                }
-            }
-            map.put("groupIndex", investigatorGroupsCommand.getHealthcareSite()
-                            .getInvestigatorGroups().size());
-            map.put("newGroup", new Boolean(true));
-        }
-        return map;
-    }
+	@Override
+	protected Map referenceData(HttpServletRequest request, Object command, Errors error) throws Exception {
+		Map map = new HashMap();
+		InvestigatorGroupsCommand investigatorGroupsCommand = (InvestigatorGroupsCommand) command;
+		HealthcareSite healthcareSite = investigatorGroupsCommand.getHealthcareSite() ;
+		if ( healthcareSite != null) {
+			String sGroupId = request.getParameter("groupId") ;
+			if (healthcareSite.getId() != null && !StringUtils.isBlank(sGroupId)) {
+				List<InvestigatorGroup> investigatorGroups = healthcareSite.getInvestigatorGroups() ; 
+				for (InvestigatorGroup investigatorGroup : investigatorGroups) {
+					if (investigatorGroup.getId().equals(Integer.parseInt(sGroupId))) {
+						map.put("groupIndex", investigatorGroups.indexOf(investigatorGroup));
+						map.put("newGroup", new Boolean(false));
+						return map;
+					}
+				}
+			}else{
+				map.put("groupIndex", healthcareSite.getInvestigatorGroups().size());
+				map.put("newGroup", new Boolean(true));
+			}
+		}
+		return map;
+	}
 
-    @Override
-    protected Object formBackingObject(HttpServletRequest request) throws Exception {
-        // this.c3PRDefaultTabConfigurer.injectDependencies(this.getPage());
-        return super.formBackingObject(request);
-    }
+	@Override
+	protected Object formBackingObject(HttpServletRequest request) throws Exception {
+		// this.c3PRDefaultTabConfigurer.injectDependencies(this.getPage());
+		return super.formBackingObject(request);
+	}
 
-    @Override
-    protected ModelAndView processFormSubmission(HttpServletRequest request,
-                    HttpServletResponse response, Object command, BindException errors)
-                    throws Exception {
+	@Override
+	protected ModelAndView processFormSubmission(HttpServletRequest request,
+			HttpServletResponse response, Object command, BindException errors)
+	throws Exception {
 
-        if (isAjaxRequest(request)) {
-            request.getParameter("_asynchronous");
-            ModelAndView modelAndView = page.postProcessAsynchronous(request,
-                            (InvestigatorGroupsCommand) command, errors);
-            // setAjaxModelAndView(request, modelAndView);
-            if (!errors.hasErrors() && shouldSave(request, (InvestigatorGroupsCommand) command)) {
-                command = save((InvestigatorGroupsCommand) command, errors);
-            }
-            request.setAttribute(getFormSessionAttributeName(), command);
-            if (isAjaxResponseFreeText(modelAndView)) {
-                respondAjaxFreeText(modelAndView, response);
-                return null;
-            }
-            return modelAndView;
-        }
-        InvestigatorGroupsCommand investigatorGroupsCommand = (InvestigatorGroupsCommand) command;
+		if (isAjaxRequest(request)) {
+			request.getParameter("_asynchronous");
+			ModelAndView modelAndView = page.postProcessAsynchronous(request,
+					(InvestigatorGroupsCommand) command, errors);
+			// setAjaxModelAndView(request, modelAndView);
+			if (!errors.hasErrors() && shouldSave(request, (InvestigatorGroupsCommand) command)) {
+				command = save((InvestigatorGroupsCommand) command, errors);
+			}
+			request.setAttribute(getFormSessionAttributeName(), command);
+			if (isAjaxResponseFreeText(modelAndView)) {
+				respondAjaxFreeText(modelAndView, response);
+				return null;
+			}
+			return modelAndView;
+		}
 
-        int id;
-        if (WebUtils.hasSubmitParameter(request, "groupId")) {
-            id = Integer.parseInt(request.getParameter("groupId"));
-            log.debug("groupId:" + id);
+		if (errors.hasErrors()) {
+			healthcareSiteDao.clear();
+			response.getWriter().append("/*");
+			response.getWriter().append("yes");
+			response.getWriter().append("/*");
+			response.getWriter().println(errors.getErrorCount());
+			response.getWriter().append("/*");
+			response.getWriter().append(errors.getMessage());
+			response.getWriter().close();
+		}
+		else {
+			InvestigatorGroupsCommand investigatorGroupsCommand = (InvestigatorGroupsCommand) command;
+			healthcareSiteDao.save(investigatorGroupsCommand.getHealthcareSite());
+			response.getWriter().append("/*");
+			response.getWriter().append("no");
+			response.getWriter().close();
+		}
+		return null;
+	}
 
-            if (errors.hasErrors()) {
-                response.getWriter().println(id);
-                response.getWriter().append("/*");
-                response.getWriter().append("yes");
-                response.getWriter().append("/*");
-                response.getWriter().println(errors.getErrorCount());
-                response.getWriter().append("/*");
-                response.getWriter().append(errors.getMessage());
-                response.getWriter().close();
-            }
-            else {
+	@Override
+	protected void onBindAndValidate(HttpServletRequest request, Object command,
+			BindException errors) throws Exception {
+		super.onBindAndValidate(request, command, errors);
+		InvestigatorGroupsCommand investigatorGroupsCommand = (InvestigatorGroupsCommand) command ;
+		HealthcareSite healthCareSite = investigatorGroupsCommand.getHealthcareSite() ;
+		if (healthCareSite != null && healthCareSite.getId() != null) {
+			List<InvestigatorGroup> investigatorGroups = healthCareSite.getInvestigatorGroups() ;
+			for (InvestigatorGroup investigatorGroup : investigatorGroups ) {
+				String sGroupId = request.getParameter("groupId") ; 
+				if(StringUtils.isBlank(sGroupId)){
+					validateInvestigatorGroup(healthCareSite, investigatorGroup, errors, true);
+					validateSiteInvestigatorGroupAffiliations(investigatorGroup, errors);
+				}else if(investigatorGroup.getId() != null  && !StringUtils.isBlank(sGroupId) && investigatorGroup.getId().equals(Integer.parseInt(sGroupId))){
+					validateInvestigatorGroup(healthCareSite, investigatorGroup, errors, false);
+					validateSiteInvestigatorGroupAffiliations(investigatorGroup, errors);
+				}
+			}
+		}
+	}
 
-                healthcareSiteDao.save(investigatorGroupsCommand.getHealthcareSite());
-                response.getWriter().println(id);
-                response.getWriter().append("/*");
-                response.getWriter().append("no");
-                response.getWriter().close();
-            }
-        }
+	public void validateInvestigatorGroup(HealthcareSite healthcareSite,
+			InvestigatorGroup investigatorGroup, Errors errors, Boolean newGroup) {
+		if ((investigatorGroup.getStartDate() != null && investigatorGroup.getEndDate() != null && investigatorGroup
+				.getStartDate().after(investigatorGroup.getEndDate()))) {
+			errors.reject("tempProperty",
+			"/*End date of the group cannot be earlier than the start date/*");
+		}
+		if (newGroup) {
+			List<InvestigatorGroup> allGroups = healthcareSite.getInvestigatorGroups();
+			Set<InvestigatorGroup> uniqueGroups = new HashSet<InvestigatorGroup>();
+			uniqueGroups.addAll(allGroups);
+			if (allGroups.size() > uniqueGroups.size()) {
+				errors.reject("tempProperty", "/*Investigator Group already exists/*");
+			}
+		}
+	}
 
-        return null;
-    }
+	public void validateSiteInvestigatorGroupAffiliations(InvestigatorGroup investigatorGroup, Errors errors) {
+		for (SiteInvestigatorGroupAffiliation siteInvGrAffiliation : investigatorGroup.getSiteInvestigatorGroupAffiliations()) {
+			if (siteInvGrAffiliation.getStartDate() != null && investigatorGroup.getStartDate() != null 
+					&& siteInvGrAffiliation.getStartDate().before(investigatorGroup.getStartDate())) {
+				errors.reject("tempProperty",
+				"/*Start date of the investigator group affiliation cannot be earlier than the start date of the investigator group/*");
+			}
+			if (siteInvGrAffiliation.getStartDate() != null && siteInvGrAffiliation.getEndDate() != null
+					&& siteInvGrAffiliation.getStartDate().after(siteInvGrAffiliation.getEndDate())) {
+				errors.reject("tempProperty",
+				"/*End date of the investigator group affiliation cannot be earlier than the start date/*");
+			}
+		}
+		List<SiteInvestigatorGroupAffiliation> allAffiliations = investigatorGroup.getSiteInvestigatorGroupAffiliations();
+		Set uniqueAffiliations = new HashSet<SiteInvestigatorGroupAffiliation>();
+		uniqueAffiliations.addAll(allAffiliations);
+		if (allAffiliations.size() > uniqueAffiliations.size()) {
+			errors.reject("tempProperty", "/*Investigator already affiliated to the group/*");
+		}
+	}
+	
 
-    @Override
-    protected void onBindAndValidate(HttpServletRequest request, Object command,
-                    BindException errors) throws Exception {
-        int id;
-        super.onBindAndValidate(request, command, errors);
-        if (((InvestigatorGroupsCommand) command).getHealthcareSite() != null) {
-            if (((InvestigatorGroupsCommand) command).getHealthcareSite().getId() != null
-                            && WebUtils.hasSubmitParameter(request, "groupId")) {
-                for (int i = 0; i < ((InvestigatorGroupsCommand) command).getHealthcareSite()
-                                .getInvestigatorGroups().size(); i++) {
-                    if (((InvestigatorGroupsCommand) command).getHealthcareSite()
-                                    .getInvestigatorGroups().get(i).getId().equals(
-                                                    Integer.parseInt(request
-                                                                    .getParameter("groupId")))) {
-                        InvestigatorGroup investigatorGroup = ((InvestigatorGroupsCommand) command)
-                                        .getHealthcareSite().getInvestigatorGroups().get(i);
-                        if (request.getParameter("newGroup") != null
-                                        && request.getParameter("newGroup").equals("true")) {
-                            validateInvestigatorGroup(((InvestigatorGroupsCommand) command)
-                                            .getHealthcareSite(), investigatorGroup, errors, true);
-                        }
-                        else {
-                            validateInvestigatorGroup(((InvestigatorGroupsCommand) command)
-                                            .getHealthcareSite(), investigatorGroup, errors, false);
-                        }
+	protected HealthcareSiteDao getDao() {
+		return healthcareSiteDao;
+	}
 
-                        validateSiteInvestigatorGroupAffiliations(
-                                        ((InvestigatorGroupsCommand) command).getHealthcareSite()
-                                                        .getInvestigatorGroups().get(i), errors);
+	protected InvestigatorGroupsCommand getPrimaryDomainObject(InvestigatorGroupsCommand command) {
+		return command;
+	}
 
-                    }
-                }
-            }
-        }
-    }
+	protected InvestigatorGroupsCommand save(InvestigatorGroupsCommand command, BindException errors) {
+		this.healthcareSiteDao.save(command.getHealthcareSite());
+		return command;
+	}
 
-    public void validateInvestigatorGroup(HealthcareSite healthcareSite,
-                    InvestigatorGroup investigatorGroup, Errors errors, Boolean newGroup) {
-        if ((investigatorGroup.getStartDate() != null && investigatorGroup.getEndDate() != null && investigatorGroup
-                        .getStartDate().after(investigatorGroup.getEndDate()))) {
-            errors.reject("tempProperty",
-                            "/*End date of the group cannot be earlier than the start date/*");
-        }
-        if (newGroup) {
-            List<InvestigatorGroup> allGroups = healthcareSite.getInvestigatorGroups();
-            Set uniqueGroups = new TreeSet<InvestigatorGroup>();
-            uniqueGroups.addAll(allGroups);
-            if (allGroups.size() > uniqueGroups.size()) {
-                errors.reject("tempProperty", "/*Investigator Group already exists/*");
-            }
-        }
-    }
+	public InPlaceEditableTab<InvestigatorGroupsCommand> getPage() {
+		return page;
+	}
 
-    public void validateSiteInvestigatorGroupAffiliations(InvestigatorGroup investigatorGroup,
-                    Errors errors) {
-        for (SiteInvestigatorGroupAffiliation siteInvGrAffiliation : investigatorGroup
-                        .getSiteInvestigatorGroupAffiliations()) {
-            if (siteInvGrAffiliation.getStartDate() != null
-                            && investigatorGroup.getStartDate() != null
-                            && siteInvGrAffiliation.getStartDate().before(
-                                            investigatorGroup.getStartDate())) {
-                errors
-                                .reject(
-                                                "tempProperty",
-                                                "/*Start date of the investigator group affiliation cannot be earlier than the start date of the investigator group/*");
-            }
-            if (siteInvGrAffiliation.getStartDate() != null
-                            && siteInvGrAffiliation.getEndDate() != null
-                            && siteInvGrAffiliation.getStartDate().after(
-                                            siteInvGrAffiliation.getEndDate())) {
-                errors
-                                .reject("tempProperty",
-                                                "/*End date of the investigator group affiliation cannot be earlier than the start date/*");
-            }
-        }
-        List<SiteInvestigatorGroupAffiliation> allAffiliations = investigatorGroup
-                        .getSiteInvestigatorGroupAffiliations();
+	public void setPage(InPlaceEditableTab<InvestigatorGroupsCommand> page) {
+		this.page = page;
+	}
 
-        Set uniqueAffiliations = new TreeSet<SiteInvestigatorGroupAffiliation>();
-        uniqueAffiliations.addAll(allAffiliations);
-        if (allAffiliations.size() > uniqueAffiliations.size()) {
-            errors.reject("tempProperty", "/*Investigator already affiliated to the group/*");
-        }
-    }
+	protected ModelAndView onSynchronousSubmit(HttpServletRequest request,
+			HttpServletResponse response, Object command, BindException errors)
+	throws Exception {
+		if (getSuccessView() == null) {
+			throw new ServletException("successView isn't set");
+		}
+		return new ModelAndView(getSuccessView(), errors.getModel());
+	}
 
-    protected HealthcareSiteDao getDao() {
-        return healthcareSiteDao;
-    }
+	protected boolean isAjaxRequest(HttpServletRequest request) {
+		if ("true".equalsIgnoreCase(request.getParameter(getAjaxRequestParamName()))){
+			return true;
+		}
+		return false;
+	}
 
-    protected InvestigatorGroupsCommand getPrimaryDomainObject(InvestigatorGroupsCommand command) {
-        return command;
-    }
+	protected void setAjaxModelAndView(HttpServletRequest request, ModelAndView modelAndView) {
+		request.setAttribute(getAjaxModelAndViewAttr(), modelAndView);
+	}
 
-    protected InvestigatorGroupsCommand save(InvestigatorGroupsCommand command, BindException errors) {
-        this.healthcareSiteDao.save(command.getHealthcareSite());
-        return command;
-    }
+	protected ModelAndView getAjaxModelAndView(HttpServletRequest request) {
+		return (ModelAndView) request.getAttribute(getAjaxModelAndViewAttr());
+	}
 
-    public InPlaceEditableTab<InvestigatorGroupsCommand> getPage() {
-        return page;
-    }
+	protected boolean isAjaxResponseFreeText(ModelAndView modelAndView) {
+		if (StringUtils.isBlank(modelAndView.getViewName())) {
+			return true;
+		}
+		return false;
+	}
 
-    public void setPage(InPlaceEditableTab<InvestigatorGroupsCommand> page) {
-        this.page = page;
-    }
+	protected void respondAjaxFreeText(ModelAndView modelAndView, HttpServletResponse response)
+	throws Exception {
+		PrintWriter pr = response.getWriter();
+		pr.println(modelAndView.getModel().get(getFreeTextModelName()));
+		pr.flush();
+	}
 
-    protected ModelAndView onSynchronousSubmit(HttpServletRequest request,
-                    HttpServletResponse response, Object command, BindException errors)
-                    throws Exception {
-        if (getSuccessView() == null) {
-            throw new ServletException("successView isn't set");
-        }
-        return new ModelAndView(getSuccessView(), errors.getModel());
-    }
+	protected String getAjaxRequestParamName() {
+		return "_asynchronous";
+	}
 
-    protected boolean isAjaxRequest(HttpServletRequest request) {
-        if (StringUtils.getBlankIfNull(request.getParameter(getAjaxRequestParamName()))
-                        .equalsIgnoreCase("true")) return true;
-        return false;
-    }
+	protected String getAjaxModelAndViewAttr() {
+		return "async_model_and_view";
+	}
 
-    protected void setAjaxModelAndView(HttpServletRequest request, ModelAndView modelAndView) {
-        request.setAttribute(getAjaxModelAndViewAttr(), modelAndView);
-    }
+	protected String getFreeTextModelName() {
+		return "free_text";
+	}
 
-    protected ModelAndView getAjaxModelAndView(HttpServletRequest request) {
-        return (ModelAndView) request.getAttribute(getAjaxModelAndViewAttr());
-    }
+	protected ModelAndView postProcessAsynchronous(HttpServletRequest request,
+			InvestigatorGroupsCommand command, Errors error) throws Exception {
+		return new ModelAndView(getAjaxViewName(request));
+	}
 
-    protected boolean isAjaxResponseFreeText(ModelAndView modelAndView) {
-        if (StringUtils.getBlankIfNull(modelAndView.getViewName()).equals("")) {
-            return true;
-        }
-        return false;
-    }
+	protected String getAjaxViewName(HttpServletRequest request) {
+		return request.getParameter(getAjaxViewParamName());
+	}
 
-    protected void respondAjaxFreeText(ModelAndView modelAndView, HttpServletResponse response)
-                    throws Exception {
-        PrintWriter pr = response.getWriter();
-        pr.println(modelAndView.getModel().get(getFreeTextModelName()));
-        pr.flush();
-    }
+	protected String getAjaxViewParamName() {
+		return "_asyncViewName";
+	}
 
-    protected String getAjaxRequestParamName() {
-        return "_asynchronous";
-    }
-
-    protected String getAjaxModelAndViewAttr() {
-        return "async_model_and_view";
-    }
-
-    protected String getFreeTextModelName() {
-        return "free_text";
-    }
-
-    protected ModelAndView postProcessAsynchronous(HttpServletRequest request,
-                    InvestigatorGroupsCommand command, Errors error) throws Exception {
-        return new ModelAndView(getAjaxViewName(request));
-    }
-
-    protected String getAjaxViewName(HttpServletRequest request) {
-        return request.getParameter(getAjaxViewParamName());
-    }
-
-    protected String getAjaxViewParamName() {
-        return "_asyncViewName";
-    }
-
-    protected boolean shouldSave(HttpServletRequest request, InvestigatorGroupsCommand command) {
-        return true;
-    }
+	protected boolean shouldSave(HttpServletRequest request, InvestigatorGroupsCommand command) {
+		return true;
+	}
 
 }
