@@ -28,6 +28,7 @@ import edu.duke.cabig.c3pr.exception.StudyValidationException;
 import edu.duke.cabig.c3pr.service.impl.StudyXMLImporterServiceImpl;
 
 
+@Transactional
 public class StudyRepositoryImpl implements StudyRepository {
 	
 	private StudyDao studyDao;
@@ -36,7 +37,7 @@ public class StudyRepositoryImpl implements StudyRepository {
 
     private InvestigatorDao investigatorDao;
 
-    private HealthcareSiteInvestigatorDao healthcareInvestigatorDao;
+    private HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao;
     
     private Logger log = Logger.getLogger(StudyXMLImporterServiceImpl.class.getName());
     
@@ -64,10 +65,12 @@ public class StudyRepositoryImpl implements StudyRepository {
             HealthcareSite loadedSite = healthcareSiteDao.getByNciInstituteCode(organization
                             .getHealthcareSite().getNciInstituteCode());
             if (loadedSite == null) {
-                throw new C3PRBaseRuntimeException(
-                                "Could not load HealthcareSite from database for given NCI Institute code"
-                                                + organization.getHealthcareSite()
-                                                                .getNciInstituteCode());
+            	throw getC3PRExceptionHelper()
+				.getException(
+						getCode("C3PR.EXCEPTION.STUDY.INVALID.HEALTHCARESITE_IDENTIFIER.CODE"),
+						new String[] {
+							organization
+                            .getHealthcareSite().getNciInstituteCode()});
             }
             organization.setHealthcareSite(loadedSite);
 
@@ -77,20 +80,23 @@ public class StudyRepositoryImpl implements StudyRepository {
                 Investigator loadedInv = investigatorDao.getByNciInstituteCode(inv
                                 .getNciIdentifier());
                 if (loadedInv == null) {
-                    throw new C3PRBaseRuntimeException(
-                                    "Could not load Investigator from database for given NCI Identifier "
-                                                    + inv.getNciIdentifier());
-
+                     	throw getC3PRExceptionHelper()
+         				.getException(
+         						getCode("C3PR.EXCEPTION.STUDY.INVALID.NCI_IDENTIFIER.CODE"),
+         						new String[] {
+         							inv
+                                    .getNciIdentifier()});
                 }
-                HealthcareSiteInvestigator loadedSiteInv = healthcareInvestigatorDao
+                HealthcareSiteInvestigator loadedSiteInv = healthcareSiteInvestigatorDao
                                 .getSiteInvestigator(loadedSite, loadedInv);
 
                 if (loadedSiteInv == null) {
-                    throw new C3PRBaseRuntimeException(
-                                    "Could not load HealthcareSiteInvestigator. No Investigator:"
-                                                    + loadedInv.getNciIdentifier()
-                                                    + " exists for HealthcareSite:"
-                                                    + loadedSite.getNciInstituteCode());
+                     	throw getC3PRExceptionHelper()
+         				.getException(
+         						getCode("C3PR.EXCEPTION.REGISTRATION.INVALID.HEALTHCARESITE_IDENTIFIER.CODE"),
+         						new String[] {
+         							loadedSite.getName(),
+         							loadedInv.getFullName()});
                 }
                 sInv.setHealthcareSiteInvestigator(loadedSiteInv);
                 sInv.setSiteInvestigator(loadedSiteInv);
@@ -117,11 +123,19 @@ public class StudyRepositoryImpl implements StudyRepository {
      */
     public void validate(Study study) throws StudyValidationException {
         // make sure grid id exists
-        if (study.getGridId() != null) {
-            if (studyDao.getByGridId(study.getGridId()) != null) {
+        if (study.getId() != null) {
+            if (studyDao.getById(study.getId()) != null) {
                 throw new StudyValidationException("Study exists");
             }
         }
+        
+        if ((study.getCoordinatingCenterAssignedIdentifier()==null)){
+        	throw new StudyValidationException("Coordinating Center identifier is required");
+        } 
+        
+      /*  else if (studyDao.getCoordinatingCenterIdentifiersWithValue(study.getCoordinatingCenterAssignedIdentifier().getValue(), study.getCoordinatingCenterAssignedIdentifier().getHealthcareSite()).size()>0) {
+                throw new StudyValidationException("Study exists");
+            }*/
 
         for (StudyOrganization organization : study.getStudyOrganizations()) {
             if (healthcareSiteDao.getByNciInstituteCode(organization.getHealthcareSite()
@@ -141,7 +155,7 @@ public class StudyRepositoryImpl implements StudyRepository {
 		if (healthcareSite == null) {
 			throw getC3PRExceptionHelper()
 					.getException(
-							getCode("C3PR.EXCEPTION.REGISTRATION.INVALID.HEALTHCARESITE_IDENTIFIER.CODE"),
+							getCode("C3PR.EXCEPTION.STUDY.INVALID.HEALTHCARESITE_IDENTIFIER.CODE"),
 							new String[] {
 									identifier.getHealthcareSite()
 											.getNciInstituteCode(),
@@ -151,34 +165,12 @@ public class StudyRepositoryImpl implements StudyRepository {
 		return studyDao.searchByOrgIdentifier(identifier);
 	}
 
-
-	public HealthcareSiteInvestigatorDao getHealthcareInvestigatorDao() {
-		return healthcareInvestigatorDao;
-	}
-
-	public void setHealthcareInvestigatorDao(
-			HealthcareSiteInvestigatorDao healthcareInvestigatorDao) {
-		this.healthcareInvestigatorDao = healthcareInvestigatorDao;
-	}
-
-	public HealthcareSiteDao getHealthcareSiteDao() {
-		return healthcareSiteDao;
-	}
-
 	public void setHealthcareSiteDao(HealthcareSiteDao healthcareSiteDao) {
 		this.healthcareSiteDao = healthcareSiteDao;
 	}
 
-	public InvestigatorDao getInvestigatorDao() {
-		return investigatorDao;
-	}
-
 	public void setInvestigatorDao(InvestigatorDao investigatorDao) {
 		this.investigatorDao = investigatorDao;
-	}
-
-	public StudyDao getStudyDao() {
-		return studyDao;
 	}
 
 	public void setStudyDao(StudyDao studyDao) {
@@ -206,6 +198,11 @@ public class StudyRepositoryImpl implements StudyRepository {
 	
 	public void setC3prErrorMessages(MessageSource errorMessages) {
 		c3prErrorMessages = errorMessages;
+	}
+
+	public void setHealthcareSiteInvestigatorDao(
+			HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao) {
+		this.healthcareSiteInvestigatorDao = healthcareSiteInvestigatorDao;
 	}
 
 }
