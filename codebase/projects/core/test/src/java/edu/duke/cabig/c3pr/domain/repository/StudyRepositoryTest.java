@@ -39,7 +39,7 @@ public class StudyRepositoryTest extends AbstractTestCase {
     	studyRepositoryImpl.setStudyDao(studyDao);
     	studyRepositoryImpl.setHealthcareSiteDao(healthcareSiteDao);
     	studyRepositoryImpl.setInvestigatorDao(investigatorDao);
-    	studyRepositoryImpl.setHealthcareSiteInvestigatorDao(healthcareSiteInvestigatorDao);
+    	studyRepositoryImpl.setHealthcareInvestigatorDao(healthcareSiteInvestigatorDao);
     }
 
     public void testBuildAndSave() {
