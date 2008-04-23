@@ -1,5 +1,11 @@
 package edu.duke.cabig.c3pr.web.report;
 
+import java.util.List;
+
+import javax.persistence.Transient;
+
+import edu.duke.cabig.c3pr.domain.RaceCode;
+
 /**
  * @author Vinay Gangoli
  */
@@ -23,6 +29,8 @@ public class ReportCommand {
 
     private String raceCode; // param[7]
 
+    private List<RaceCode> raceCodes;
+    
     private String[] params;
 
     public String getSiteName() {
@@ -96,4 +104,13 @@ public class ReportCommand {
     public void setParams(String[] params) {
         this.params = params;
     }
+
+    @Transient
+	public List<RaceCode> getRaceCodes() {
+		return raceCodes;
+	}
+
+	public void setRaceCodes(List<RaceCode> raceCodes) {
+		this.raceCodes = raceCodes;
+	}
 }
