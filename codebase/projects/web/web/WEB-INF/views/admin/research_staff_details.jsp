@@ -69,7 +69,6 @@
 
 <jsp:attribute name="singleFields">
 <input type="hidden" name="_finish" value="true">
-<tags:errors path="*" />
 
 <chrome:division id="site" title="Organization">
     <div class="leftpanel">
