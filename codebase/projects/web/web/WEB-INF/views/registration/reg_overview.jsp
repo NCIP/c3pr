@@ -280,7 +280,7 @@
                 &nbsp;</td>
         </tr>
         <tr>
-            <td width="35%" class="label">Coordinating Center Identifier</td>
+            <td width="35%" class="label">Registration Identifier</td>
             <td>
                 <tags:inPlaceEdit value="${command.coOrdinatingCenterIdentifier}" path="coOrdinatingCenterIdentifier"
                                   required="true"/>
