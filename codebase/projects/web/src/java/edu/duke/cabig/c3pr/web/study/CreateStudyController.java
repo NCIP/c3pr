@@ -61,8 +61,8 @@ public class CreateStudyController<C extends Study> extends StudyController<C> {
     @Override
     protected void postProcessPage(HttpServletRequest request, Object command, Errors errors,
                     int page) throws Exception {
-        Study study = (Study) command;
         super.postProcessPage(request, command, errors, page);
+        Study study = (Study) command;
         study.setStatuses( false);
     }
 
