@@ -60,6 +60,15 @@
                    <tags:downloadClasspathResource filename="C3PR-SampleStudy.xml" label="Sample XML File"/>
                 </div>
             </div>
+            
+            <c:if test="${!empty filePath}">
+			<div class="row">
+                <div class="value">
+                   <tags:downloadResource filename="${filePath}" label="Output XML File"/>
+                   &nbsp;<tags:hoverHint keyProp="upload.registration.downloadOutput"/>
+                </div>
+            </div>
+            </c:if>
 
 
             <div class="row">
