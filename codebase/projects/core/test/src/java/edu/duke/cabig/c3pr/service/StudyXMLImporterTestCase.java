@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.service;
 
 import static edu.duke.cabig.c3pr.C3PRUseCase.IMPORT_STUDY;
 
+import java.io.File;
 import java.util.List;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
@@ -44,9 +45,10 @@ public class StudyXMLImporterTestCase extends MasqueradingDaoTestCase<StudyDao> 
             String xmlStudy = marshaller.toXML(study);
 
             System.out.println(xmlStudy);
-            studyImporter.importStudies(StringUtils.getInputStream(xmlStudy));
+            File outputXMLFile = new File("");
+            studyImporter.importStudies(StringUtils.getInputStream(xmlStudy),outputXMLFile);
 
-            List<Study> studies = studyImporter.importStudies(StringUtils.getInputStream(xmlStudy));
+            List<Study> studies = studyImporter.importStudies(StringUtils.getInputStream(xmlStudy),outputXMLFile);
 
             assertNotNull(studies);
             assertTrue(studies.size() > 0);
