@@ -9,7 +9,7 @@ import edu.duke.cabig.c3pr.exception.StudyValidationException;
 
 public interface StudyRepository {
 
-	public void buildAndSave(Study study) throws Exception;
+	public void buildAndSave(Study study) throws C3PRCodedException;
 	
 	public void validate(Study study) throws StudyValidationException;
 	
