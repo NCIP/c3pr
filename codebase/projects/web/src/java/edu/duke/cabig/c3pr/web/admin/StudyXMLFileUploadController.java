@@ -1,6 +1,8 @@
 package edu.duke.cabig.c3pr.web.admin;
 
+import java.io.File;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -44,13 +46,20 @@ public class StudyXMLFileUploadController extends SimpleFormController {
                     HttpServletResponse httpServletResponse, Object o, BindException errors)
                     throws Exception {
         // save it to session
+    	String filePath = System.getenv("CATALINA_HOME") + System.getProperty("file.separator")
+		        + "conf" + System.getProperty("file.separator") + "c3pr";
+		File outputXMLDir = new File(filePath);
+		outputXMLDir.mkdirs();
+		String fileName = "importStudy-output-" + new Date().getTime() + ".xml";
+    	File outputXMLFile = new File(filePath + System.getProperty("file.separator") + fileName);
+        outputXMLFile.createNewFile();
 
         try {
             FileBean studyXMLFile = (FileBean) o;
             Collection<Study> studies = studyXMLImporterService.importStudies(studyXMLFile
-                            .getInputStream());
+                            .getInputStream(),outputXMLFile);
 
-            log.debug("Stroring imported studies into session for display in table");
+            log.debug("Storing imported studies into session for display in table");
             httpServletRequest.getSession().setAttribute(getFormSessionAttributeName(),
                             XMLFileUtils.getFilteredCopy(studies));
 
@@ -63,10 +72,16 @@ public class StudyXMLFileUploadController extends SimpleFormController {
             }
 
             httpServletRequest.setAttribute("studies", validStudies);
+            httpServletRequest.setAttribute("filePath", fileName);
         }
         catch (XMLUtilityException e1) {
             log.debug("Uploaded file contains invalid study");
             errors.reject("Could not import Studies", e1.getMessage());
+        }
+        catch(Exception e1){
+        	e1.printStackTrace();
+        	log.debug("Uploaded file contains invalid studies");
+            errors.reject("Could not import studies" + e1.getMessage());
         }
 
         return new ModelAndView(this.getSuccessView(), errors.getModel());
