@@ -67,7 +67,6 @@ public class StudyTestCase extends AbstractTestCase{
 			basicStudy.evaluateDataEntryStatus();
 			fail("Should have thrown C3PRCodedException");
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertEquals("Exception should have been of type C3PRCodedException",true, e instanceof C3PRCodedException); 
 		}
 		verifyMocks();
@@ -84,7 +83,6 @@ public class StudyTestCase extends AbstractTestCase{
 			basicStudy.evaluateDataEntryStatus();
 			fail("Should have thrown C3PRCodedException");
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertEquals("Exception should have been of type C3PRCodedException",true, e instanceof C3PRCodedException); 
 		}
 		verifyMocks();
@@ -101,7 +99,6 @@ public class StudyTestCase extends AbstractTestCase{
 			basicStudy.evaluateDataEntryStatus();
 			fail("Should have thrown C3PRCodedException");
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertEquals("Exception should have been of type C3PRCodedException",true, e instanceof C3PRCodedException); 
 		}
 		verifyMocks();
@@ -118,7 +115,6 @@ public class StudyTestCase extends AbstractTestCase{
 			basicStudy.evaluateDataEntryStatus();
 			fail("Should have thrown C3PRCodedException");
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertEquals("Exception should have been of type C3PRCodedException",true, e instanceof C3PRCodedException); 
 		}
 		verifyMocks();
@@ -138,16 +134,23 @@ public class StudyTestCase extends AbstractTestCase{
 		verifyMocks();
 	}
 	
-	public void testDataEntryStatusCompleteCase3() throws Exception {
-		Study study = new Study();
-		Study study1 = studyCreationHelper.createBasicStudy();
+	public void testSiteStudyStatusPendingCase1() throws Exception {
+		studyCreationHelper.addStudySiteAndNonRandomizedTreatmentEpochToBasicStudy(basicStudy);
+		basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
+		assertEquals("Site study status should evaluate to Pending",SiteStudyStatus.PENDING,basicStudy.getStudySites().get(0).evaluateSiteStudyStatus());
 		
 	}
 	
-	public void testDataEntryStatusCompleteCase4() throws Exception {
-		Study study = new Study();
-		Study study1 = studyCreationHelper.createBasicStudy();
-		
+	public void testSiteStudyStatusActiveCase1() throws Exception {
+		studyCreationHelper.addStudySiteRandomizedTreatmentEpochWith2ArmsStratumGroupsAndRandomizationToBasicStudy(basicStudy);
+		basicStudy.setCoordinatingCenterStudyStatus(basicStudy.evaluateCoordinatingCenterStudyStatus());
+		try {
+			basicStudy.getStudySites().get(0).evaluateSiteStudyStatus();
+		} catch (Exception e) {
+			assertEquals("Exception should have been of type C3PRCodedException",true, e instanceof C3PRCodedException); 
+		}
+		assertEquals("Study status should evaluate to Active",CoordinatingCenterStudyStatus.ACTIVE,basicStudy.getCoordinatingCenterStudyStatus());
+		assertEquals("Site Study status should evaluate to Active",SiteStudyStatus.ACTIVE,basicStudy.getStudySites().get(0).evaluateSiteStudyStatus());
 	}
 	
 	public void testChangeCoordinatingStatusPendingToActiveCase1() throws Exception {
