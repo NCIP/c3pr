@@ -62,38 +62,6 @@
     </script>
 </head>
 <body>
-
-	<tags:minimizablePanelBox title="Upload Criteria" boxId="criteria">
-		<br/>	
-			<form:form method="post" id="eligibilityForm_${epochCount.index}" enctype="multipart/form-data">	
-			<table border="0" width="50%" id="table0" cellspacing="5">
-           		<tr><td width="35%" align="right" class="required-indicator">
-				          <b>Select Treatment Epoch:</b>	
-				     </td>
-				     <td width="65%">		                
-	                    <select name="name" class="validate-notEmpty">
-	                    	<option value="">Please Select</option>
-	                     	<c:forEach items="${command.epochs}" var="epoch" varStatus="epochCount">
-		                      	<c:if test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
-							  		<option value="${epoch.name}">${epoch.name}</option>
-							  	</c:if>	
-						 	</c:forEach>
-						</select>				            
-					 </td>
-				</tr>
-				<tr><td width="35%" align="right">
-			            <b>Select caDSR File to Import:</b>	
-				     </td>
-				     <td>		                
-	                    <input type="file" name="criteriaFile" />
-	                    <input type='submit' value='Upload'/>
-	                    <tags:hoverHint keyProp="study.criteriafile"/>		           
-					 </td>
-				</tr>
-			</table>
-			</form:form>
-	</tags:minimizablePanelBox>
-
     <form:form method="post" name="form">
     <tags:tabFields tab="${tab}"/>
     <c:forEach items="${command.epochs}" var="epoch" varStatus="epochCount">
@@ -241,5 +209,36 @@
         </div>
     </c:if>
 </c:forEach>
+
+	<tags:minimizablePanelBox title="Upload Criteria" boxId="criteria">
+		<br/>	
+			<form:form method="post" id="eligibilityForm_${epochCount.index}" enctype="multipart/form-data">	
+			<table border="0" width="50%" id="table0" cellspacing="5">
+           		<tr><td width="35%" align="right" class="required-indicator">
+				          <b>Select Treatment Epoch:</b>	
+				     </td>
+				     <td width="65%">		                
+	                    <select name="name" class="validate-notEmpty">
+	                    	<option value="">Please Select</option>
+	                     	<c:forEach items="${command.epochs}" var="epoch" varStatus="epochCount">
+		                      	<c:if test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
+							  		<option value="${epoch.name}">${epoch.name}</option>
+							  	</c:if>	
+						 	</c:forEach>
+						</select>				            
+					 </td>
+				</tr>
+				<tr><td width="35%" align="right">
+			            <b>Select caDSR File to Import:</b>	
+				     </td>
+				     <td>		                
+	                    <input type="file" name="criteriaFile" />
+	                    <input type='submit' value='Upload'/>
+	                    <tags:hoverHint keyProp="study.criteriafile"/>		           
+					 </td>
+				</tr>
+			</table>
+			</form:form>
+	</tags:minimizablePanelBox>
 </body>
 </html>
