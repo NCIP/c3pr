@@ -57,7 +57,7 @@ public class StudyRepositoryImpl implements StudyRepository {
 	}
 
 	@Transactional(readOnly = false)
-    public void buildAndSave(Study study) throws Exception {
+    public void buildAndSave(Study study) throws C3PRCodedException {
 
         // load study orgs from db Not to be imported
         for (StudyOrganization organization : study.getStudyOrganizations()) {
