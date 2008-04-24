@@ -1,4 +1,3 @@
-
 <project name="c3pr-master-build"  xmlns:ivy="antlib:org.apache.ivy.ant">
     <property file="build.properties" />
 	<property file="c3pr-ivy.properties" />
@@ -22,7 +21,7 @@
 	<!-- ==================================================================
 		target : publish-all
 	====================================================================== -->
-  	<target name="publish-all" depends="buildlist, clean-all" 
+  	<target name="publish-all" depends="buildlist, clean" 
   			description="compile, jar and publish all projects in the right order, publishes them into local repository">
    		 <subant target="publish-local" buildpathref="build-path" />
   	</target>
@@ -68,11 +67,20 @@
 	</target>
 	<!-- ==========================================================
 		target : migrate
-		This will delegate the call to caaers-core:migrate, this is added
+		This will delegate the call to c3pr-core:migrate, this is added
 		to do migrate and build as a single job using hudson. 
 	=============================================================-->
 	<target name="migrate">
 		<subant target="migrate" buildpath="${projects.dir}/core/ivy-build.xml" />
+	</target>
+
+	<!-- ==========================================================
+		target : migrate-test
+		This will delegate the call to c3pr-core:migrate-test, this is added
+		to do migrate and build as a single job using hudson. 
+	=============================================================-->
+	<target name="migrate-test">
+		<subant target="migrate-test" buildpath="${projects.dir}/core/ivy-build.xml" />
 	</target>
 
 	<!--- =================================================================================
@@ -99,39 +107,35 @@
     </target>
 
 	 <!--Does a local build. For Developers use only -->
-    <target name="deploy-webapp-local"
+    <target name="deploy-webapp-local" depends="build-core"
             description="Builds all c3pr modules and deploys webapp on your web/web local">
-    	<subant target="publish-local" buildpath="${projects.dir}/esb-client/ivy-build.xml">
-    		<property name="skip.test" value="true"></property>
-    	</subant>
-    	<subant target="publish-local" buildpath="${projects.dir}/core/ivy-build.xml">
-       		<property name="skip.test" value="true"></property>
-    	</subant>
     	<subant target="deployLocal" buildpath="${projects.dir}/web/ivy-build.xml" >
     		<property name="skip.test" value="true"></property>
     	</subant>
     </target>
 	
-    <target name="deploy-webapp"
+    <target name="deploy-webapp" depends="build-core"
             description="Builds all c3pr modules and deploys webapp on your web/web local">
-    	<subant target="publish-local" buildpath="${projects.dir}/esb-client/ivy-build.xml">
-    		<property name="skip.test" value="true"></property>
-    	</subant>
-    	<subant target="publish-local" buildpath="${projects.dir}/core/ivy-build.xml">
-       		<property name="skip.test" value="true"></property>
-    	</subant>
     	<subant target="deploy" buildpath="${projects.dir}/web/ivy-build.xml" >
     		<property name="skip.test" value="true"></property>
     	</subant>
     </target>
 	
 	<!-- ==========================================================
-		target : migrate
-		This will delegate the call to caaers-core:migrate, this is added
-		to do migrate and build as a single job using hudson. 
+		target : tomcat.security
+		This will delegate the call to c3pr-core:tomcat.security.
 	=============================================================-->
 	<target name="tomcat.security">
 		<subant target="tomcat.security" buildpath="${projects.dir}/core/ivy-build.xml" />
 	</target>
 	
+	<target name="build-core" depends="clean-repo"
+            description="Builds all c3pr modules that core depends on and create the core jar">
+    	<subant target="publish-local" buildpath="${projects.dir}/esb-client/ivy-build.xml">
+    		<property name="skip.test" value="true"></property>
+    	</subant>
+		<subant target="publish-local" buildpath="${projects.dir}/core/ivy-build.xml">
+    		<property name="skip.test" value="true"></property>
+    	</subant>
+    </target>
 </project>
