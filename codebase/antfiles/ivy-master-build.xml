@@ -131,6 +131,9 @@
 	
 	<target name="build-core" depends="clean-repo"
             description="Builds all c3pr modules that core depends on and create the core jar">
+		<subant target="publish-local" buildpath="${basedir}/ivy-build.xml">
+    		<property name="skip.test" value="true"></property>
+    	</subant>
     	<subant target="publish-local" buildpath="${projects.dir}/esb-client/ivy-build.xml">
     		<property name="skip.test" value="true"></property>
     	</subant>
@@ -138,4 +141,5 @@
     		<property name="skip.test" value="true"></property>
     	</subant>
     </target>
+
 </project>
