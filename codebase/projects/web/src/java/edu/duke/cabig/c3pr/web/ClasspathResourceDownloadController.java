@@ -1,8 +1,6 @@
 package edu.duke.cabig.c3pr.web;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.ByteArrayInputStream;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -27,37 +25,31 @@ public class ClasspathResourceDownloadController implements Controller {
 
         String file = null;
         String fileName = null;
-        File uFile = null;
-        int fSize = 0;
+        ByteArrayInputStream inputStream = null;
         try {
             file = request.getParameter("file");
             fileName = file.substring(file.lastIndexOf("/") + 1);
-
-            uFile = new File(Thread.currentThread().getContextClassLoader().getResource(file)
-                            .getFile());
-            fSize = (int) uFile.length();
+            inputStream = (ByteArrayInputStream) Thread.currentThread().getContextClassLoader().getResourceAsStream(file);
         }
         catch (NullPointerException e) {
             throw new Exception("File not found. Please check path " + file);
         }
 
-        if (fSize > 0) {
-
-            BufferedInputStream in = new BufferedInputStream(new FileInputStream(uFile));
+        if (inputStream != null ) {
+        	int size = inputStream.available() ;
             String mimetype = servletContext.getMimeType(file);
-
-            response.setBufferSize(fSize);
+            response.setBufferSize(size);
             response.setContentType(mimetype);
             response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
-            response.setContentLength(fSize);
+            response.setContentLength(size);
 
             // for IE
             response.setHeader("Cache-Control", "no-cache");
             response.setHeader("Pragma", "no-cache");
             response.setDateHeader("Expires", 0);
 
-            FileCopyUtils.copy(in, response.getOutputStream());
-            in.close();
+            FileCopyUtils.copy(inputStream, response.getOutputStream());
+            inputStream.close();
             response.getOutputStream().flush();
             response.getOutputStream().close();
         }
