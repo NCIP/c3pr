@@ -107,7 +107,7 @@
 
         <!--copy c3pr.properties to $CATALINA_HOME/conf-->
         <copy file="${basedir}/ant.install.properties"
-              tofile="${tomcat.home}/conf/c3pr.properties"
+              tofile="${tomcat.home}/conf/c3pr/c3pr.properties"
                 />
 
     </target>
