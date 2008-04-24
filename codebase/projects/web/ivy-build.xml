@@ -14,7 +14,8 @@
     <property name="webinf.classes.dir" value="${webinf.dir}/classes"/>
 	
 	<property name="webapp.name" value="c3pr"/>
-
+	<property name="deploy.path" value="${catalina.home}/webapps"/>
+	
     <property name="war.dir" value="${dist.dir}/war"/>
     <property name="war.file" value="${application_name}.war"/>
 	
