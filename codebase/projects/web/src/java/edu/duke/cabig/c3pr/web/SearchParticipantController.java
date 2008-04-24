@@ -46,7 +46,7 @@ public class SearchParticipantController extends SimpleFormController {
                     Object oCommand, BindException errors) throws Exception {
         SearchCommand searchParticipantCommand = (SearchCommand) oCommand;
         Participant participant = new Participant();
-        String text = searchParticipantCommand.getSearchText();
+        String text = searchParticipantCommand.getSearchText().trim();
         String type = searchParticipantCommand.getSearchType();
         Map<String, List<Lov>> configMap = configurationProperty.getMap();
 
