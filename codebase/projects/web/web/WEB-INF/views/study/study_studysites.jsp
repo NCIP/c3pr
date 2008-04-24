@@ -107,7 +107,7 @@ Event.observe(window, "load", function() {
                         </td>
                         <td>
                             <form:input id="studySites[0].targetAccrualNumber" path="studySites[0].targetAccrualNumber" maxlength="6"
-                            	cssClass="validate-NUMERIC"
+                            	cssClass="validate-NUMERIC&&NONZERO_NUMERIC"
                              />
                         </td>
                         

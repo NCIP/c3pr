@@ -206,7 +206,7 @@
         <div class="row">
             <div class="label required-indicator">Target Accrual:</div>
             <div class="value"><form:input path="targetAccrualNumber" size="10" maxlength="6"
-                                           cssClass="validate-notEmpty&&numeric" />
+                                           cssClass="validate-notEmpty&&numeric&&nonzero_numeric" />
             <tags:hoverHint keyProp="study.targetAccrualNumber"/></div>
         </div>
 

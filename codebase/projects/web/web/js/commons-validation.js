@@ -35,6 +35,13 @@ function validateFields(formFields) {
             continue;
          }
          
+         // non zero numeric
+         if (isNonZeroNumeric(element.value, true) == false) {
+            ValidationManager.showError(element,element.nonzeroError);
+            validForm=false;
+            continue;
+         }
+         
          // pattern (credit card number, email address, zip or postal code, alphanumeric, numeric)
          if (element.pattern) {
             if ( ( (element.pattern.toLowerCase() == 'visa' || element.pattern.toLowerCase() == 'mastercard' || element.pattern.toLowerCase() == 'american express' || element.pattern.toLowerCase() == 'diners club' || element.pattern.toLowerCase() == 'discover' || element.pattern.toLowerCase() == 'enroute' || element.pattern.toLowerCase() == 'jcb' || element.pattern.toLowerCase() == 'credit card') && isValidCreditCard(element.value, element.pattern) == false) ||
@@ -277,6 +284,12 @@ function isNumeric(string, ignoreWhiteSpace) {
    return true;
 }
 
+function isNonZeroNumeric(string, ignoreWhiteSpace) {
+      if(ignoreWhiteSpace && string == '0'){
+      	return false ;
+      } 
+   return true;
+}
 // Check that a string contains only numbers
 function isCorrectDate(string) {
    DEFAULT_DATE_FORMAT="MM/dd/yyyy";

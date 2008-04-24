@@ -33,6 +33,7 @@
 // Zip or Postal    | ZIP_POSTAL_CODE    | <[input].... type=.... class=validate-ZIP_POSTAL_CODE
 // US Phone No.     | US_PHONE_NO        | <[input].... type=.... class=validate-US_PHONE_NO
 // Alphanumeric     | ALPHANUMERIC       | <[input].... type=.... class=validate-ALPHANUMERIC
+// Non Zero Numeric | NONZERO_NUMERIC   | <[input].... type=.... class=validate-NONZERO_NUMERIC
 // Numeric          | NUMERIC            | <[input].... type=.... class=validate-NUMERIC
 // Alphabetic       | ALPHABETIC         | <[input].... type=.... class=validate-ALPHABETIC
 // date             | DATE               | <[input].... type=.... class=validate-DATE[(<format>)]
@@ -74,6 +75,7 @@ var ValidationManager = {
 	ERROR_MSG_MINLENGTH:"too short",
 	ERROR_MSG_MAXLENGTH:"too long",
 	ERROR_MSG_PHONE:"invalid phone number",
+	ERROR_MSG_NONZERO_VALUE:"enter value more then zero",
 
 	validateForm: function(submit){
 		formVar=submit?Event.element(submit):this
@@ -134,6 +136,8 @@ var ValidationManager = {
 				element.maxlength = parseInt(validationType.substr(9))
 				element.maxlengthError = ValidationManager.ERROR_MSG_MAXLENGTH
 										
+			}else if(validationType.toUpperCase().indexOf('NONZERO_NUMERIC')==0){
+				element.nonzeroError = ValidationManager.ERROR_MSG_NONZERO_VALUE
 			}else {
 				element.pattern = validationType
 				element.patternError = ValidationManager.ERROR_MSG_PATTERN

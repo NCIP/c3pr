@@ -164,7 +164,7 @@
                       					 rows="3" cols="20" /></td>
                                         <td valign="top"><form:input
                                                 path="treatmentEpochs[${treatmentEpochCount.index}].arms[${statusArms.index}].targetAccrualNumber"
-                                                size="6" maxlength="6" cssClass="validate-numeric" /></td>
+                                                size="6" maxlength="6" cssClass="validate-numeric&&nonzero_numeric" /></td>
                                         <td valign="top">
                                         	<a href="javascript:RowManager.deleteRow(RowManager.getNestedRowInserter(treatmentEpochRowInserterProps,${treatmentEpochCount.index}),${statusArms.index },'${arm.id==null?'HC#':'ID#'}${arm.id==null?arm.hashCode:arm.id}');">
                                         	<img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
@@ -244,7 +244,7 @@
                                 <div class="label">Accrual Ceiling:</div>
                                 <div class="value"><form:input
                                         path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].accrualCeiling"
-                                        size="12" maxlength="5" cssClass="validate-numeric" />
+                                        size="12" maxlength="5" cssClass="validate-numeric&&nonzero_numeric" />
                                         <tags:hoverHint id="study.nonTreatmentEpoch.accrualCeiling-${nonTreatmentEpochCount.index}" keyProp="study.nonTreatmentEpoch.accrualCeiling"/></div>
                             </div>
                             </div>
@@ -446,7 +446,7 @@
                                 <div class="value"><input type="text"
                                                           id="nonTreatmentEpochs[PAGE.ROW.INDEX].accrualCeiling"
                                                           name="nonTreatmentEpochs[PAGE.ROW.INDEX].accrualCeiling" size="12"
-                                                          maxlength="5" class="validate-numeric" />
+                                                          maxlength="5" class="validate-numeric&&nonzero_numeric" />
                                 <tags:hoverHint id="study.nonTreatmentEpoch.accrualCeiling-PAGE.ROW.INDEX" keyProp="study.nonTreatmentEpoch.accrualCeiling"/></div>
                             </div>
                             </div>
