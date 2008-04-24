@@ -19,58 +19,14 @@
 	<property name="conf.dir" value="${basedir}/conf/"/>
 	<property name="csm.conf.dir" value="${conf.dir}/csm"/>
 	
-	<target name="module-specific-test-flow" description="Copy resources into classpath">
-
-			<property name="build.context.dir" location="${test.classes.dir}/context"/>
-	        <!--copy the properties file-->
-	        <copy file="${antfiles.dir}/build.properties"
-	              tofile="${build.context.dir}/c3pr.properties.file"/>
-
-	        <!--Unix works for all environments -->
-	        <pathconvert targetos="unix" property="catalina.home.unix">
-	            <path location="${catalina.home}"/>
-	        </pathconvert>
-
-	        <!-- copy log4j -->
-	        <copy file="${antfiles.dir}/c3pr-log4j.properties"
-	              tofile="${test.classes.dir}/log4j.properties"
-	              overwrite="true"
-	              filtering="true">
-	            <filterset>
-	                <filter token="catalina.home" value="${catalina.home.unix}"/>
-	                <filter token="log4j.filename" value="${log4j.filename}"/>
-	            </filterset>
-	        </copy>
-
-	        <!--copy the castor mapping file-->
-	        <copy todir="${test.classes.dir}" filtering="true" overwrite="true">
-	            <filterset>
-	                <filter token="catalina.home" value="${catalina.home.unix}"/>
-	                <filter token="user.home" value="${user.home}"/>
-	            </filterset>
-	            <fileset dir="${main.src.resources}">
-	                <include name="**/*.*"/>
-	            </fileset>
-	            <fileset dir="${resources.dir}">
-	                <include name="*-castor-mapping.xml"/>
-	            </fileset>
-	            <fileset dir="${resources.dir}/xsd">
-	                <include name="c3pr-domain.xsd"/>
-	            </fileset>
-	        	<fileset dir="${resources.dir}/samples">
-	                <include name="*.xml"/>
-	            </fileset>
-	        </copy>
-
-	    </target>
-	
-	<target name="module-specific-flow" description="Copy resources into classpath">
+	<target name="module-specific-flow" depends="find-datasource" description="Copy resources into classpath">
 
 		<property name="build.context.dir" location="${classes.dir}/context"/>
         <!--copy the properties file-->
-        <copy file="${antfiles.dir}/build.properties"
-              tofile="${build.context.dir}/c3pr.properties.file"/>
-
+    	<copy file="${dsFile}"
+    	              tofile="${build.context.dir}/datasource.properties" overwrite="true"/>
+		<copy file="${antfiles.dir}/build.properties"
+		              tofile="${build.context.dir}/c3pr.properties" overwrite="true"/>
         <!--Unix works for all environments -->
         <pathconvert targetos="unix" property="catalina.home.unix">
             <path location="${catalina.home}"/>
@@ -113,12 +69,21 @@
         </copy>
     </target>
 
-	<target name="sourceProperties">
-        <property file="${catalina.home}/conf/c3pr.properties"/>
-        <property file="${user.home}/.c3pr/c3pr.properties"/>
-    </target>
-	
-	
+	<!-- ========================================================================
+		target: load-datasource
+			Will check the datsource properties identified by -Ddb=xxx, in USER_HOME/.caaers/ 
+			if not available there, it will search in /etc/caaers/
+	============================================================================= -->
+	<target name="find-datasource" unless="dsFile.located" description="Loads the datasource properties">
+		<echo message="databaseConfigurationName : ${databaseConfigurationName}" />
+		<property name="dsFileName" value="${databaseConfigurationName}.properties"/>
+		<echo message="databaseConfiguration file name : ${dsFileName}" />
+		<condition property="dsFile" value="${catalina.home}/conf/${dsFileName}" 
+				   else="${antfiles.dir}/${dsFileName}">
+			<available file="${catalina.home}/conf/${dsFileName}" />
+		</condition>
+		<property name="dsFile.located" value="true"/>
+	</target>
 	<!-- ============================================================== -->
     <!-- Bering migration task                                          -->
     <!-- ============================================================== -->
@@ -133,8 +98,9 @@
 		<echo message="bering.dialect : ${bering.dialect}" />
 	</target>
 	
-    <target name="prepare-bering" depends="sourceProperties">
-
+    <target name="prepare-bering" depends="find-datasource">
+        <property file="${dsFile}"/>
+		<echo message="Datasource File : ${dsFile}" />
         <!--Taskdef. Has to be done inside since classpath is ext-->
     	<taskdef resource="edu/northwestern/bioinformatics/bering/antlib.xml" classpathref="main.classpath"/>
 
@@ -150,7 +116,6 @@
         </condition>
 
     </target>
-
 
     <target name="insert-static-data" depends="prepare-bering"
             description="Will insert static date into the database">
@@ -199,7 +164,7 @@
     </target>
 
 
-    <target name="tomcat.security" depends="sourceProperties"
+    <target name="tomcat.security" depends="find-datasource"
             description="Automatically copies global (CSM/UPT) configuration files to Tomcat.">
         <fail message="Could not locate Tomcat.  Please set the catalina.home property (-Dcatalina.home=/path/to/tomcat).">
             <condition>
@@ -208,7 +173,8 @@
                 </not>
             </condition>
         </fail>
-
+    	<property file="${dsFile}"/>
+		<echo message="Datasource File : ${dsFile}" />
         <property name="catalina.home" value="PLEASE SET catalina.home EXTERNALLY"/>
         <echo>Configuring CSM and UPT for the Tomcat instance in ${catalina.home}</echo>
         <property name="tomcat.security.dir" value="${catalina.home}/conf/cabig"/>
