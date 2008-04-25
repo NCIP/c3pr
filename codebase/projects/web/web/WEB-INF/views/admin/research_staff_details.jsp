@@ -161,7 +161,7 @@
             </div>
             <div class="value">
                 <form:input size="25"
-                            path="contactMechanisms[1].value" cssClass="validate-US_PHONE_NO&&MINLENGTH<10>&&MAXLENGTH<10>&&NUMERIC" /> e.g. 7035600296
+                            path="contactMechanisms[1].value" cssClass="validate-US_PHONE_NO" /> e.g. 7035600296 or 703-560-0296
 
             </div>
         </div>
@@ -171,7 +171,7 @@
             </div>
             <div class="value">
                 <form:input size="25"
-                            path="contactMechanisms[2].value" cssClass="validate-US_PHONE_NO&&MINLENGTH<10>&&MAXLENGTH<10>&&NUMERIC" /> e.g. 7035600296
+                            path="contactMechanisms[2].value" cssClass="validate-US_PHONE_NO" /> e.g. 7035600296 or 703-560-0296
             </div>
         </div>
     </div>

@@ -64,11 +64,11 @@ function fireAction(action, selected){
 		</tr>
 		<tr>
 			<td width="150" align="right"><em></em><em></em> <b>${command.contactMechanisms[1].type.displayName }:</b>&nbsp;</td>
-			<td align="left"><form:input path="contactMechanisms[1].value"  cssClass="validate-US_PHONE_NO"/><tags:hoverHint keyProp="contactMechanism.phone"/> e.g. 7035600296</td>
+			<td align="left"><form:input path="contactMechanisms[1].value"  cssClass="validate-US_PHONE_NO"/><tags:hoverHint keyProp="contactMechanism.phone"/> e.g. 7035600296 or 703-560-0296</td>
 		</tr>
 		<tr>
 			<td width="150" align="right"><em></em><em></em> <b>${command.contactMechanisms[2].type.displayName }:</b>&nbsp;</td>
-			<td align="left"><form:input path="contactMechanisms[2].value" cssClass="validate-US_PHONE_NO"/><tags:hoverHint keyProp="contactMechanism.fax"/> e.g. 7035600296</td>
+			<td align="left"><form:input path="contactMechanisms[2].value" cssClass="validate-US_PHONE_NO"/><tags:hoverHint keyProp="contactMechanism.fax"/> e.g. 7035600296 or 703-560-0296</td>
 		</tr>
 
 	</table>
