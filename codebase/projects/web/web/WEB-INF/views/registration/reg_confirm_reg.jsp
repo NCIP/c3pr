@@ -132,7 +132,7 @@ function accessApp(url,targetWindow){
 		</tr>
 		<tr>
 			<td align="left"><b>Registration Date</b></td>
-			<td>${command.startDate }</td>
+			<td>${command.startDateStr }</td>
 		</tr>
 		<tr>
 			<td align="left"><b>Enrolling Physician</b></td>
