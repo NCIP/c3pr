@@ -13,15 +13,7 @@
 function navRollOver(obj, state) {
   document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';
 }
-function markAsAnswered(id){
-	selectBox='scheduledEpoch.subjectStratificationAnswers['+id+'].stratificationCriterionAnswer';
-	tick='tick-'+id;
-	if(document.getElementById(selectBox).value==''){
-		document.getElementById(tick).style.display='none';
-	}else{
-		document.getElementById(tick).style.display='block';
-	}
-}
+
 </script>
 </head>
 <body>
@@ -34,22 +26,16 @@ function markAsAnswered(id){
 	<c:otherwise>
 	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
 		<tr>
-			<td>&nbsp;</td>
 			<th align="left"><b>Criteria</b></th>
 			<th align="left"><b>Answers</b></th>
 		</tr>
 		<c:forEach var="criteria" varStatus="status" items="${command.scheduledEpoch.subjectStratificationAnswers}">
 			<tr>
-				<td width="5%">
-					<div id="tick-${status.index }" <c:if test="${criteria.stratificationCriterionAnswer==null||criteria.stratificationCriterionAnswer=='' }">style="display:none;"</c:if>>
-						<img src="<tags:imageUrl name="checkbox.gif"/>" border="0" alt="answered" height="20" width="20">												
-					</div>
-				</td>
 				<td >
 					${criteria.stratificationCriterion.questionText}
 				</td>
 				<td width="15%">
-					<form:select path="scheduledEpoch.subjectStratificationAnswers[${status.index}].stratificationCriterionAnswer" onchange="markAsAnswered('${status.index }')">
+					<form:select path="scheduledEpoch.subjectStratificationAnswers[${status.index}].stratificationCriterionAnswer" >
 					<option value="">Please select</option>
 					<c:forEach items="${criteria.stratificationCriterion.permissibleAnswers}" var="option">
 						<option value="${option.id }" <c:if test="${option.id== command.scheduledEpoch.subjectStratificationAnswers[status.index].stratificationCriterionAnswer.id}">selected</c:if>>${option.permissibleAnswer }</option>
