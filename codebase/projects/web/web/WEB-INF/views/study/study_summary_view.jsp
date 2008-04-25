@@ -83,6 +83,11 @@
             <td class="alt" align="left">
                 <tags:inPlaceEdit value="${command.targetAccrualNumber}" path="changedTargetAccrualNumber"
                                   required="true"/>
+                       <csmauthz:accesscontrol domainObject="${command}" hasPrivileges="UPDATE"
+                            authorizationCheckName="domainObjectAuthorizationCheck">
+        					&nbsp; <input type="button" value="Edit"
+                      					onclick="editor_changedTargetAccrualNumber.enterEditMode('click')"/>
+    				   </csmauthz:accesscontrol>
             </td>
         </tr>
         <tr>
