@@ -587,4 +587,12 @@
     	</useCaseTraceabilityReport>
     </target>
 
+	<target name="debug-database-info" description="Echoes database information">
+			<echo message="datasource.url=${datasource.url}" />
+			<echo message="datasource.username=${datasource.username}" />
+			<echo message="datasource.password = ${datasource.password}" />
+			<echo message="datasource.driver = ${datasource.driver}" />
+			<echo message="datasource.dialect = ${datasource.dialect}" />
+			<echo message="databaseConfigurationName = ${databaseConfigurationName}" />
+	</target>
 </project>

@@ -125,11 +125,11 @@
 		target : tomcat.security
 		This will delegate the call to c3pr-core:tomcat.security.
 	=============================================================-->
-	<target name="tomcat.security">
+	<target name="tomcat.security" depends="debug-database-info">
 		<subant target="tomcat.security" buildpath="${projects.dir}/core/ivy-build.xml" />
 	</target>
 	
-	<target name="build-core" depends="clean-repo"
+	<target name="build-core" depends="clean-repo, debug-database-info"
             description="Builds all c3pr modules that core depends on and create the core jar">
 		<subant target="publish-local" buildpath="${basedir}/ivy-build.xml">
     		<property name="skip.test" value="true"></property>
