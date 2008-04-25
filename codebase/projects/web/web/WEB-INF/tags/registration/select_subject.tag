@@ -68,6 +68,16 @@
 		}		
 	}
 	
+	function toggleAddressSection(){
+	 var el = document.getElementById('addressSection');
+		if ( el.style.display != 'none' ) {
+			new Effect.BlindUp(el);
+		}
+		else {
+			new Effect.BlindDown(el);
+		}
+	}
+	
 	var handlerFail = function(t) {
 		alert("handlerFail: Subject Creation Failed. Please Try Again");
 	}
@@ -295,7 +305,7 @@
 		
 		<!--start of address section
 		<p id="instructions"><a href="#" onclick="toggleAddressSection()">Address & Contact Info</a></p>-->
-		<chrome:division title="<a href='javascript:return;'>Address & Contact Info</a>" minimize="true" divIdToBeMinimized="addressSection">
+		<chrome:division title="<a href='javascript:toggleAddressSection();'>Address & Contact Info</a>" minimize="true" divIdToBeMinimized="addressSection">
 		<div id="addressSection" style="display:none;">
 		<div class="division " id="single-fields" >
 
