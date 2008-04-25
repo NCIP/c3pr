@@ -208,8 +208,8 @@
     <table width="50%" border="0" cellspacing="0" cellpadding="0" class="tablecontent">
         <tr>
             <td class="label">Registration Start Date</td>
-            <td>
-                <tags:inPlaceEdit value="${command.startDate }" path="startDate" required="true"/>
+            <td> 
+            <tags:inPlaceEdit value="${command.startDateStr }" path="startDate" required="true"/>
             </td>
         </tr>
         <tr>
