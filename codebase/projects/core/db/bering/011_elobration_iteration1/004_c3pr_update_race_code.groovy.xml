@@ -3,14 +3,14 @@ class updateRaceCode extends edu.northwestern.bioinformatics.bering.Migration {
     void up() {
         execute("UPDATE participants SET race_code = 'Black_or_African_American' WHERE race_code = 'Black or African American'");
     	execute("UPDATE participants SET race_code = 'American_Indian_or_Alaska_Native' WHERE race_code = 'American Indian or Alaska Native'");
-    	execute("UPDATE participants SET race_code = 'Native_Hawaiin_or_Pacific_Islander' WHERE race_code = 'Native Hawaiin or Pacific Islander'");
+    	execute("UPDATE participants SET race_code = 'Native_Hawaiian_or_Pacific_Islander' WHERE race_code = 'Native Hawaiian or Pacific Islander'");
     	execute("UPDATE participants SET race_code = 'Not_Reported' WHERE race_code = 'Not Reported'");
    	 }
 
     void down() {
    		execute("UPDATE participants SET race_code = 'Black or African American' WHERE race_code = 'Black_or_African_American'");
     	execute("UPDATE participants SET race_code = 'American Indian or Alaska Native' WHERE race_code = 'American_Indian_or_Alaska_Native'");
-    	execute("UPDATE participants SET race_code = 'Native Hawaiin or Pacific Islander' WHERE race_code = 'Native_Hawaiin_or_Pacific_Islander'");
+    	execute("UPDATE participants SET race_code = 'Native Hawaiian or Pacific Islander' WHERE race_code = 'Native_Hawaiian_or_Pacific_Islander'");
     	execute("UPDATE participants SET race_code = 'Not Reported' WHERE race_code = 'Not_Reported'");
    	 }
 }

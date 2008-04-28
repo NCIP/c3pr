@@ -178,7 +178,7 @@ function manageIdentifierRadio(element){
 							</div>
 							<div class="label"><tags:hoverHint keyProp="subject.raceCode"/> </div>
 							<div class="value">
-							  	<form:checkbox path="raceCodes" value="Native_Hawaiin_or_Pacific_Islander"/> Native Hawaiin or Pacific Islander
+							  	<form:checkbox path="raceCodes" value="Native_Hawaiian_or_Pacific_Islander"/> Native Hawaiian or Pacific Islander
 							</div>
 							<div class="value">
 							  	<form:checkbox path="raceCodes" value="Not_Reported"/> Not Reported

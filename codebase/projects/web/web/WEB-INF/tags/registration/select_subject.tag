@@ -287,7 +287,7 @@
                                 <input id="raceCodes2" name="raceCodes" type="checkbox" value="Black_or_African_American"/> Black or African American
                                 <br><input id="raceCodes3" name="raceCodes" type="checkbox" value="White"/> White
 								<input id="raceCodes4" name="raceCodes" type="checkbox" value="American_Indian_or_Alaska_Native"/> American Indian or Alaska Native
-								<br><input id="raceCodes5" name="raceCodes" type="checkbox" value="Native_Hawaiin_or_Pacific_Islander"/> Native Hawaiin or Pacific Islander
+								<br><input id="raceCodes5" name="raceCodes" type="checkbox" value="Native_Hawaiian_or_Pacific_Islander"/> Native Hawaiin or Pacific Islander
 								<br><input id="raceCodes6" name="raceCodes" type="checkbox" value="Not_Reported"/> Not Reported
 								<input id="raceCodes7" name="raceCodes" type="checkbox" value="Unknown"/> Unknown
 							</td>

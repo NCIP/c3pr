@@ -382,7 +382,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                             <property name="desc" value="American Indian or Alaska Native" />
                         </bean>
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">
-                            <property name="code" value="Native_Hawaiin_or_Pacific_Islander" />
+                            <property name="code" value="Native_Hawaiian_or_Pacific_Islander" />
                             <property name="desc" value="Native Hawaiian or Pacific Islander" />
                         </bean>
                         <bean class="edu.duke.cabig.c3pr.utils.Lov">

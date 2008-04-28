@@ -11,7 +11,7 @@ public enum RaceCode implements CodedEnum<String> {
 	White("White"),
 	Black_or_African_American("Black or African American"),
 	American_Indian_or_Alaska_Native("American Indian or Alaska Native"),
-	Native_Hawaiin_or_Pacific_Islander("Native Hawaiin or Pacific Islander"),
+	Native_Hawaiian_or_Pacific_Islander("Native Hawaiian or Pacific Islander"),
 	Not_Reported("Not Reported"),
 	Unknown("Unknown");
 	
