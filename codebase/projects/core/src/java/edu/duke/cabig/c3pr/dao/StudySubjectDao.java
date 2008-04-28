@@ -97,8 +97,8 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         }
         if (registration.getParticipant().getRaceCode() != null
                         && !registration.getParticipant().getRaceCode().equals("")) {
-            participantCriteria.add(Expression.eq("raceCode", registration.getParticipant()
-                            .getRaceCode()));
+            participantCriteria.add(Expression.ilike("raceCode", "%" + registration.getParticipant()
+                            .getRaceCode() + "%" )  );
         }
 
         if (ccId != null && !ccId.equals("")) {
