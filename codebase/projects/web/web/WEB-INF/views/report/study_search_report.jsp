@@ -39,6 +39,14 @@ function buildTable(form) {
 	createStudyReport.getTable(parameterMap, params, showTable);		
 }
 
+function clearScreen() {		
+	document.getElementById("studyShortTitle").value='';
+	document.getElementById("studyIdentifier").value='';
+	document.getElementById("participantIdentifier").value='';
+	document.getElementById("firstName").value='';
+	document.getElementById("lastName").value='';
+}
+
 function showTable(table) {
 	document.getElementById('tableDiv').innerHTML=table;
 }
@@ -106,6 +114,7 @@ function showTable(table) {
 
 	<div class="row" align="center">
 	    <input class='ibutton' type='button' onclick="buildTable('searchForm');" value='Search'  title='Search Study'/>
+	    <input class='ibutton' type='button' onclick="clearScreen();" value='Clear' />
 	</div>
 <br />
 </form:form>
