@@ -115,8 +115,8 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
             }
             if (((ScheduledTreatmentEpoch) studySubject.getScheduledEpoch()).getScheduledArm() == null) {
                 scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.UNAPPROVED);
-                throw exceptionHelper
-                                .getException(getCode("C3PR.EXCEPTION.REGISTRATION.CANNOT_ASSIGN_ARM.CODE"));
+               /* throw exceptionHelper
+                                .getException(getCode("C3PR.EXCEPTION.REGISTRATION.CANNOT_ASSIGN_ARM.CODE"));*/
             }
             else {
                 // logic for accrual ceiling check
@@ -229,5 +229,4 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 	public void setParticipantDao(ParticipantDao participantDao) {
 		this.participantDao = participantDao;
 	}
-
 }
