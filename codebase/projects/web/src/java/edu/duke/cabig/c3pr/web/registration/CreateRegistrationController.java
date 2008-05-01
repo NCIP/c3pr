@@ -93,11 +93,20 @@ public class CreateRegistrationController<C extends StudySubject> extends Regist
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
                     Object command, BindException errors) throws Exception {
         StudySubject studySubject = (StudySubject) command;
-        studySubject = studySubjectService.register(studySubject);
+        if(isRegisterableOnPage(studySubject))
+            studySubjectService.register(studySubject);
+        else
+            studySubjectRepository.save(studySubject);
         if (logger.isDebugEnabled()) {
             logger
                             .debug("processFinish(HttpServletRequest, HttpServletResponse, Object, BindException) - registration service call over"); //$NON-NLS-1$
         }
         return new ModelAndView("redirect:confirm?registrationId=" + studySubject.getId());
+    }
+    
+    private boolean isRegisterableOnPage(StudySubject studySubject) {
+        return studySubject.isRegisterable()
+                        && !studySubject.getScheduledEpoch().getRequiresRandomization()
+                        && !studySubjectService.requiresExternalApprovalForRegistration(studySubject);
     }
 }

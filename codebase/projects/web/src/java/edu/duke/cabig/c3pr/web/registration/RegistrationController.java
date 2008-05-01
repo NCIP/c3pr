@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.web.registration;
 
 import edu.duke.cabig.c3pr.dao.*;
 import edu.duke.cabig.c3pr.domain.*;
+import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.Lov;
@@ -59,6 +60,12 @@ public abstract class RegistrationController<C extends StudySubject> extends
     protected ScheduledEpochDao scheduledEpochDao;
 
     protected StudyDao studyDao;
+
+    protected StudySubjectRepository studySubjectRepository;
+    
+    public void setStudySubjectRepository(StudySubjectRepository studySubjectRepository) {
+        this.studySubjectRepository = studySubjectRepository;
+    }
 
     public ScheduledEpochDao getScheduledEpochDao() {
         return scheduledEpochDao;
