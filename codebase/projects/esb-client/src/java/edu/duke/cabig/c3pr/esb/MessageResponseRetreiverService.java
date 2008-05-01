@@ -11,6 +11,9 @@ import java.util.Vector;
  */
 public interface MessageResponseRetreiverService {
 
-    public Vector getBroadcastStatus();
-
+    /*
+     * This method can be used to retrieve the responses
+     */
+    public Vector getResponses();
+    
 }

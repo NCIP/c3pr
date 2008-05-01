@@ -37,7 +37,7 @@ public class MessageBroadcastServiceImpl extends JmsService implements MessageBr
         broadcast(message, DUMMY_ID);
     }
 
-    public Vector getBroadcastStatus() {
+    public Vector getResponses() {
         if (!isConsumer()) {
             if (logger.isDebugEnabled()) {
                 logger.debug("getBroadcastStatus() - no recieve queue provided ");
