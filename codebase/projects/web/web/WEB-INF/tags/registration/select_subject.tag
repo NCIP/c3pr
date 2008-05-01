@@ -106,14 +106,14 @@
 		
 		if(formElement.name == 'createSubForm'){
 			//for the create subject form we make an ajax submit and return false to avoid the html submit
-		flag=false;
+			var raceCodeFlag=false;
 		for(i=1 ; i<8 ; i++){
 			if($('raceCodes'+i).checked){
-				flag=true;
+				raceCodeFlag=true;
 				break;
 			}
 		}
-		if(!flag){
+		if(!raceCodeFlag){
 			ValidationManager.showError($("raceCodes"), "required")	
 			return false;
 		}
