@@ -5,13 +5,15 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.Vector;
 
+import junit.framework.TestCase;
+
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.activemq.command.ActiveMQQueue;
 
 import edu.duke.cabig.c3pr.esb.BroadcastException;
 import edu.duke.cabig.c3pr.esb.impl.MessageBroadcastServiceImpl;
 
-public class TestEsbClient {
+public class TestEsbClient extends TestCase{
     //	public static String brokerUrl="tcp://10.10.10.2:61616";
     public static String brokerUrl = "tcp://localhost:61616";
     public static String sendQueue = "registration-message.inputQueue";
@@ -53,7 +55,7 @@ public class TestEsbClient {
                 System.out.println("Sleeping for" + sleep);
                 Thread.sleep(sleep);
                 System.out.println("out of sleep..");
-                Vector result = esbClient.getBroadcastStatus();
+                Vector result = esbClient.getResponses();
                 if (result != null) {
                     for (int i = 0; i < result.size(); i++) {
                         String msg = (String) result.get(i);
@@ -79,5 +81,9 @@ public class TestEsbClient {
         } else {
             usage();
         }
+    }
+    
+    public void testDummy(){
+        assertTrue(true);
     }
 }
