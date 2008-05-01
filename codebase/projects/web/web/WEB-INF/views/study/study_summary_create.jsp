@@ -70,6 +70,10 @@ document.getElementById("command").submit();
             <td class="alt" align="left"><b>Blinded</b></td>
             <td class="alt" align="left">${command.blindedIndicator=="true"?"Yes":"No"}</td>
         </tr>
+          <tr>
+            <td class="alt" align="left"><b>Consent Version/Date</b></td>
+            <td class="alt" align="left">${command.consentVersion}</td>
+        </tr>
         <tr>
             <td class="alt" align="left"><b>Randomized</b></td>
             <td class="alt" align="left">${command.randomizedIndicator=="true"?"Yes":"No"}</td>
