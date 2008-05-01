@@ -1,6 +1,9 @@
 package edu.duke.cabig.c3pr.domain.repository.impl;
 
+import java.util.Iterator;
 import java.util.List;
+
+import javax.persistence.Transient;
 
 import org.apache.log4j.Logger;
 import org.springframework.context.MessageSource;
@@ -10,6 +13,9 @@ import edu.duke.cabig.c3pr.dao.EpochDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.dao.StratumGroupDao;
 import edu.duke.cabig.c3pr.dao.StudySubjectDao;
+import edu.duke.cabig.c3pr.domain.Arm;
+import edu.duke.cabig.c3pr.domain.BookRandomization;
+import edu.duke.cabig.c3pr.domain.BookRandomizationEntry;
 import edu.duke.cabig.c3pr.domain.Epoch;
 import edu.duke.cabig.c3pr.domain.NonTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
@@ -93,10 +99,17 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
     private void doBookRandomization(StudySubject studySubject) throws C3PRBaseException {
         ScheduledArm sa = new ScheduledArm();
         ScheduledTreatmentEpoch ste = (ScheduledTreatmentEpoch) studySubject.getScheduledEpoch();
-        sa.setArm(studySubject.getStratumGroup().getNextArm());
-        if (sa.getArm() != null) {
-            ste.addScheduledArm(sa);
-            stratumGroupDao.merge(studySubject.getStratumGroup());
+        if (studySubject.getStudySite().getStudy().getStratificationIndicator()){
+	        	sa.setArm(studySubject.getStratumGroup().getNextArm());
+	        if (sa.getArm() != null) {
+	            ste.addScheduledArm(sa);
+	            stratumGroupDao.merge(studySubject.getStratumGroup());
+	        }
+        } else {
+        	sa.setArm(getNextArmForUnstratifiedStudy(studySubject));
+	        if (sa.getArm() != null) {
+	            ste.addScheduledArm(sa);
+	        }
         }
     }
 
@@ -190,6 +203,34 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 		return studySubject;
 	}
     
+    @Transient
+    public Arm getNextArmForUnstratifiedStudy(StudySubject studySubject) throws C3PRBaseException {
+	  Arm arm = null;
+	  	if (studySubject.getScheduledEpoch() instanceof ScheduledTreatmentEpoch){
+	  		if (((ScheduledTreatmentEpoch)studySubject.getScheduledEpoch()).getTreatmentEpoch().hasBookRandomizationEntry()){
+	  			Iterator<BookRandomizationEntry> iter = ((BookRandomization)((ScheduledTreatmentEpoch)studySubject.getScheduledEpoch()).getTreatmentEpoch().getRandomization()).getBookRandomizationEntry().iterator();
+	  			BookRandomizationEntry breTemp;
+		        
+		        while (iter.hasNext()) {
+		            breTemp = iter.next();
+		            if (breTemp.getPosition().equals(((ScheduledTreatmentEpoch)studySubject.getScheduledEpoch()).getCurrentPosition())) {
+		                synchronized (this) {
+		                	((ScheduledTreatmentEpoch)studySubject.getScheduledEpoch()).setCurrentPosition(breTemp.getPosition()+1);
+		                    arm = breTemp.getArm();
+		                    break;
+		                }
+		            }
+		        }
+	  		}
+	  	}
+        
+        if (arm == null) {
+            throw new C3PRBaseException(
+                            "No Arm avalable for this Treatment Epoch. Maybe the Randomization Book is exhausted");
+        }
+        return arm;
+    }
+    
     
     public void setStudySubjectDao(StudySubjectDao studySubjectDao) {
         this.studySubjectDao = studySubjectDao;
@@ -229,4 +270,5 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 	public void setParticipantDao(ParticipantDao participantDao) {
 		this.participantDao = participantDao;
 	}
+	
 }
