@@ -394,7 +394,7 @@ public class TreatmentEpoch extends Epoch {
         return this.randomizedIndicator;
     }
     
-    public boolean evaluateStatus(TreatmentEpoch treatmentEpoch) throws C3PRCodedException{
+    public boolean evaluateStatus() throws C3PRCodedException{
     	if (!evaluateStratificationDataEntryStatus())
     		return false;
     	if (this.getStudy().getRandomizedIndicator()) {
@@ -404,28 +404,31 @@ public class TreatmentEpoch extends Epoch {
 		}
     	if (!evaluateRandomizationDataEntryStatus(this.getStudy()))
     		return false;
-        if (treatmentEpoch.getRandomizedIndicator()) {
-            if ((treatmentEpoch.getArms().size() < 2)
-                            || (!treatmentEpoch.hasStratumGroups())
-                            || (treatmentEpoch.getRandomization() == null)) {
-                if (treatmentEpoch.getArms().size() < 2) {
+        if (this.getRandomizedIndicator()) {
+            if ((this.getArms().size() < 2)
+                            || (!this.hasStratumGroups())
+                            || (this.getRandomization() == null)) {
+                if (this.getArms().size() < 2) {
                     throw getC3PRExceptionHelper()
                                     .getException(
                                                     getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.ATLEAST_2_ARMS_FOR_RANDOMIZED_EPOCH.CODE"),
-                                                    new String[] { treatmentEpoch.getName() });
-                }
-                if (!treatmentEpoch.hasStratumGroups()) {
-                    throw getC3PRExceptionHelper()
-                                    .getException(
-                                                    getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATIFICATION_CRITERIA_OR_STRATUM_GROUPS_FOR_RANDOMIZED_EPOCH.CODE"),
-                                                    new String[] { treatmentEpoch.getName() });
+                                                    new String[] { this.getName() });
                 }
                 
-                if (treatmentEpoch.getRandomization() == null) {
+                if(getStudy().getStratificationIndicator()){
+	                if (!this.hasStratumGroups()) {
+	                    throw getC3PRExceptionHelper()
+	                                    .getException(
+	                                                    getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATIFICATION_CRITERIA_OR_STRATUM_GROUPS_FOR_RANDOMIZED_EPOCH.CODE"),
+	                                                    new String[] { this.getName() });
+	                }
+                }
+                
+                if (this.getRandomization() == null) {
                     throw getC3PRExceptionHelper()
                                     .getException(
                                                     getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.RANDOMIZATION_FOR_RANDOMIZED_EPOCH.CODE"),
-                                                    new String[] { treatmentEpoch.getName() });
+                                                    new String[] { this.getName() });
                 }
                 
                 if (!evaluateEligibilityDataEntryStatus())
@@ -448,12 +451,14 @@ public class TreatmentEpoch extends Epoch {
         }
     	
     	 if (this.getRandomizedIndicator() == Boolean.TRUE) {
-             if (!this.hasStratification() || !this.hasStratumGroups()) {
-                 throw getC3PRExceptionHelper()
-                                 .getException(
-                                                 getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATIFICATION_CRITERIA_OR_STRATUM_GROUPS_FOR_RANDOMIZED_EPOCH.CODE"),
-                                                 new String[] { this.getName() });
-             }
+    		 if(this.getStudy().getStratificationIndicator()){
+	             if (!this.hasStratification() || !this.hasStratumGroups()) {
+	                 throw getC3PRExceptionHelper()
+	                                 .getException(
+	                                                 getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATIFICATION_CRITERIA_OR_STRATUM_GROUPS_FOR_RANDOMIZED_EPOCH.CODE"),
+	                                                 new String[] { this.getName() });
+	             }
+    		 }
          }
     	
     	return true;
@@ -476,12 +481,14 @@ public class TreatmentEpoch extends Epoch {
             for (TreatmentEpoch treatmentEpoch : study.getTreatmentEpochs()) {
                 if (treatmentEpoch.getRandomizedIndicator()) {
                     if (treatmentEpoch.hasBookRandomizationEntry()) {
-                        if (!treatmentEpoch.hasStratumGroups()) {
-                            throw getC3PRExceptionHelper()
-                                            .getException(
-                                                            getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATIFICATION_CRITERIA_OR_STRATUM_GROUPS_FOR_RANDOMIZED_EPOCH.CODE"),
-                                                            new String[] { treatmentEpoch.getName() });
-                        }
+                    	if (study.getStratificationIndicator()){
+	                        if (!treatmentEpoch.hasStratumGroups()) {
+	                            throw getC3PRExceptionHelper()
+	                                            .getException(
+	                                                            getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATIFICATION_CRITERIA_OR_STRATUM_GROUPS_FOR_RANDOMIZED_EPOCH.CODE"),
+	                                                            new String[] { treatmentEpoch.getName() });
+	                        }
+                    	}
                     }
                     else {
                         throw getC3PRExceptionHelper()

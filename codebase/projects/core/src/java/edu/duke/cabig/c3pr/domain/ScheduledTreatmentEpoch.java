@@ -23,6 +23,8 @@ public class ScheduledTreatmentEpoch extends ScheduledEpoch {
     private String eligibilityWaiverReasonText;
 
     private Boolean eligibilityIndicator;
+    
+    private Integer currentPosition;
 
     // / LOGIC
     public ScheduledTreatmentEpoch() {
@@ -38,6 +40,7 @@ public class ScheduledTreatmentEpoch extends ScheduledEpoch {
                         ScheduledArm.class));
         eligibilityIndicator = false;
         setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.INCOMPLETE);
+        currentPosition = new Integer(0);
     }
 
     public ScheduledTreatmentEpoch(boolean forExample) {
@@ -210,4 +213,12 @@ public class ScheduledTreatmentEpoch extends ScheduledEpoch {
         }
         return true;
     }
+
+	public Integer getCurrentPosition() {
+		return currentPosition;
+	}
+
+	public void setCurrentPosition(Integer currentPosition) {
+		this.currentPosition = currentPosition;
+	}
 }

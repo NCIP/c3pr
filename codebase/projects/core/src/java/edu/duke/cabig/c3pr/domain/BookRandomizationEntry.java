@@ -35,7 +35,7 @@ public class BookRandomizationEntry extends AbstractMutableDeletableDomainObject
     }
 
     @ManyToOne
-    @JoinColumn(name = "str_grp_id", nullable = false)
+    @JoinColumn(name = "str_grp_id", nullable = true)
     @Cascade(value = { CascadeType.SAVE_UPDATE, CascadeType.MERGE })
     @OrderBy("stratumGroupNumber")
     public StratumGroup getStratumGroup() {

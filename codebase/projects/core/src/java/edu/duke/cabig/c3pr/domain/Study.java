@@ -62,6 +62,8 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 	private Boolean multiInstitutionIndicator;
 
 	private Boolean randomizedIndicator;
+	
+	private Boolean stratificationIndicator;
 
 	private String shortTitleText;
 
@@ -125,7 +127,7 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 		this.c3PRExceptionHelper = new C3PRExceptionHelper(c3prErrorMessages);
 		blindedIndicator = false;
 		multiInstitutionIndicator = false;
-		multiInstitutionIndicator = false;
+		stratificationIndicator = true;
 		dataEntryStatus = StudyDataEntryStatus.INCOMPLETE;
 
 		lazyListHelper = new LazyListHelper();
@@ -218,7 +220,7 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 		if (!forSearchByExample) {
 			blindedIndicator = false;
 			multiInstitutionIndicator = false;
-			multiInstitutionIndicator = false;
+			stratificationIndicator = true;
 		}
 
 	}
@@ -991,6 +993,14 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 			return StudyDataEntryStatus.INCOMPLETE;
 		}
 		
+    	if(this.getRandomizedIndicator()||(this.getStratificationIndicator())){
+    		 if (!(this.getTreatmentEpochs().size() > 0)){
+    			 throw getC3PRExceptionHelper()
+					.getException(
+							getCode("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.TREATMENT_EPOCH.CODE"));
+    		 }
+    	}
+		
 		if (this.getTreatmentEpochs().size() > 0) {
 			if (!evaluateTreatmentEpochDataEntryStatus())
 				return StudyDataEntryStatus.INCOMPLETE;
@@ -1151,7 +1161,7 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
                     throws C3PRCodedException {
         if (this.getTreatmentEpochs().size() > 0) {
             for (TreatmentEpoch treatmentEpoch : this.getTreatmentEpochs()) {
-           if (!treatmentEpoch.evaluateStatus(treatmentEpoch))
+           if (!treatmentEpoch.evaluateStatus())
            return false;
             }
         }
@@ -1176,6 +1186,14 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 
 	public void setC3prErrorMessages(MessageSource errorMessages) {
 		c3prErrorMessages = errorMessages;
+	}
+
+	public Boolean getStratificationIndicator() {
+		return stratificationIndicator;
+	}
+
+	public void setStratificationIndicator(Boolean stratificationIndicator) {
+		this.stratificationIndicator = stratificationIndicator;
 	}
 
 }
