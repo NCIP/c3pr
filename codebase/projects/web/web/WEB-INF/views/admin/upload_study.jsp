@@ -65,7 +65,7 @@
 			<div class="row">
                 <div class="value">
                    <tags:downloadResource filename="${filePath}" label="Output XML File"/>
-                   &nbsp;<tags:hoverHint keyProp="upload.registration.downloadOutput"/>
+                   &nbsp;<tags:hoverHint keyProp="upload.study.downloadOutput"/>
                 </div>
             </div>
             </c:if>
