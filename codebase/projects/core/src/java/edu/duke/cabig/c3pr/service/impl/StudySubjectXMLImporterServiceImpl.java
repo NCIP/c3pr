@@ -64,6 +64,12 @@ public class StudySubjectXMLImporterServiceImpl implements StudySubjectXMLImport
         try {
             studySubjectList = new ArrayList<StudySubject>();
             document = new SAXBuilder().build(xmlStream);
+            if(!document.getRootElement().getName().equalsIgnoreCase("registrations")){
+                document.addContent(new Comment("Error while importing: Missing root element tag 'registrations'. Make sure the top level xml tg is 'registrations'"));
+                new XMLOutputter(Format.getPrettyFormat()).output(document, new FileWriter(
+                                importXMLResult));
+                return studySubjectList;
+            }
             List<Element> elements = document
                             .getRootElement()
                             .getChildren(
