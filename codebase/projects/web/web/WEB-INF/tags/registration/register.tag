@@ -42,8 +42,11 @@ function submitRandomization(){
 				<strong><fmt:message key="REGISTRATION.RANDOMIZATION.PHONE_CALL"/></strong>
 				<tr>
 				<td class="labelR">Phone Number:</td><td>${registration.scheduledEpoch.epoch.randomization.phoneNumber}</td>
-				</tr><tr>
+				</tr>
+				<tr>
+				<c:if test="${registration.studySite.study.stratificationIndicator}">
 				<td class="labelR">Stratum Group:</td><td> ${registration.stratumGroup}</td>
+				</c:if>
 				<tr>
 				<c:choose>
 					<c:when test="${registration.studySite.study.blindedIndicator}">
