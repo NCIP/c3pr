@@ -86,15 +86,24 @@ public class BookRandomizationAjaxFacade {
             if (!StringUtils.isEmpty(bookRandomizations)) {
                 if (tEpoch != null) {
                     try {
-                        parseBookRandomization(bookRandomizations, tEpoch);
+                    	if (study.getStratificationIndicator()){
+                    		parseBookRandomization(bookRandomizations, tEpoch);
+                    	}else {
+                    		parseBookRandomizationWithoutStratification(bookRandomizations, tEpoch);
+                    	}
                     }
                     catch (Exception e) {
                         log.error("Error while calling parseBookRandomization: " + e.getMessage());
                         return "<br/><div class='error'>Incorrect format. Please try again.</div>";
                     }
-
-                    validatePositions(((BookRandomization) tEpoch.getRandomization())
+                    if (study.getStratificationIndicator()){
+                    	validatePositions(((BookRandomization) tEpoch.getRandomization())
                                     .getBookRandomizationEntry());
+                    }else {
+                    	validatePositionsWithoutStratification(((BookRandomization) tEpoch.getRandomization())
+                                .getBookRandomizationEntry());
+                    }
+                    
                 }
                 else {
                     log.error("Invalid epoch Index");
@@ -105,8 +114,13 @@ public class BookRandomizationAjaxFacade {
                 List<BookRandomizationEntry> breList = ((BookRandomization) tEpoch
                                 .getRandomization()).getBookRandomizationEntry();
                 try {
-                    return build(model, breList, "Book Randomization :" + selectedEpoch, action,
+                	if (study.getStratificationIndicator()){
+                		return build(model, breList, "Book Randomization :" + selectedEpoch, action,
                                     flowType).toString();
+                	}else {
+                		return buildWithoutStratification(model, breList, "Book Randomization :" + selectedEpoch, action,
+                                flowType).toString();
+                	}
                 }
                 catch (Exception e) {
                     log.error(e.getMessage());
@@ -134,6 +148,24 @@ public class BookRandomizationAjaxFacade {
                 i = 0;
             }
             strGroupNumber = bre.getStratumGroup().getStratumGroupNumber().intValue();
+            if (bre.getPosition() != null && bre.getPosition().intValue() != i) {
+                bre.setPosition(null);
+            }
+            ++i;
+        }
+    }
+    
+    /*
+     * This method goes through the positions and ensures that they start with 0 and increment by 1
+     * for every stratum group number. if any incorrect number is found it is replaced by null. the
+     * buildTable replaces blank string with "Invalid Entry".
+     */
+    void validatePositionsWithoutStratification(List<BookRandomizationEntry> breList) {
+        Iterator iter = breList.iterator();
+        BookRandomizationEntry bre;
+        int i = 0;
+        while (iter.hasNext()) {
+            bre = (BookRandomizationEntry) iter.next();
             if (bre.getPosition() != null && bre.getPosition().intValue() != i) {
                 bre.setPosition(null);
             }
@@ -216,6 +248,77 @@ public class BookRandomizationAjaxFacade {
             throw e;
         }
     }
+    
+    private void parseBookRandomizationWithoutStratification(String bookRandomizations, TreatmentEpoch tEpoch)
+    throws Exception {
+
+		try {
+		// we do not create a new instance of bookRandomization, we use the existing instance
+		// which was created in StudyDesignTab.java
+		// based on the randomizationType selected on the study_details page.
+		Randomization randomization = tEpoch.getRandomization();
+		BookRandomization bRandomization = new BookRandomization();
+		
+		BookRandomizationEntry bookRandomizationEntry = new BookRandomizationEntry();
+		ArrayList<BookRandomizationEntry> breList = new ArrayList<BookRandomizationEntry>();
+		
+		StringTokenizer outer = new StringTokenizer(bookRandomizations, "\n");
+		String entry;
+		String[] entries;
+		Arm arm;
+	//	StratumGroup sGroup;
+		while (outer.hasMoreElements()) {
+		entry = outer.nextToken();
+		if (entry.trim().length() > 0) {
+		    entries = entry.split(",");
+		    // find the stratum group with this id and set it here even if its null
+	//	    sGroup = getStratumGroupByNumber(tEpoch, entries[0].trim());
+	//	    bookRandomizationEntry.setStratumGroup(sGroup);
+		    // set the position
+		    Integer position = null;
+		    try {
+		        position = Integer.valueOf(entries[0].trim());
+		    }
+		    catch (NumberFormatException nfe) {
+		        log.debug("Illegal Position Entered.");
+		    }
+		    bookRandomizationEntry.setPosition(position);
+		    // find the arm with this id and set it here even if its null
+		    // Empty stratum groups with negetive stratum Group Numbers and arms are checked
+		    // for while generating the table and
+		    // replaced with a string "Invalid Entry" so the user can see which entries are
+		    // incorrect.
+		    arm = getArmByName(tEpoch, entries[1].trim());
+		    bookRandomizationEntry.setArm(arm);
+		    // we add the entry to the list
+		    breList.add(bookRandomizationEntry);
+		    bookRandomizationEntry = new BookRandomizationEntry();
+		}
+		}
+		// In order to ensure that we do not re-generate results in cases where the user may
+		// click the button twice,
+		// we clear the entries in the randomization every time and generate fresh results.
+		bRandomization.getBookRandomizationEntry().clear();
+		bRandomization.getBookRandomizationEntry().addAll(breList);
+		
+		if (randomization == null) {
+		tEpoch.setRandomization(bRandomization);
+		}
+		else if (breList != null && breList.size() > 0) {
+		// bRandomization = (BookRandomization)randomization;
+		
+		// ensuring the cascade doesnt re-save the book Entries
+		tEpoch.setRandomization(null);
+		tEpoch.setRandomization(bRandomization);
+		}
+		
+		}
+		catch (Exception e) {
+		log.error("parseBookRandomizatrion Failed");
+		log.error(e.getMessage());
+		throw e;
+		}
+		}
 
     /*
      * Takes the treatementEpoch and arm.name and returns the arm (from that epoch)which has that
@@ -299,6 +402,51 @@ public class BookRandomizationAjaxFacade {
         columnStratumGroupNumber.setTitle("Stratum Group Number");
         columnStratumGroupNumber.setCell((BookRandomizationCustomCell.class).getName());
         model.addColumn(columnStratumGroupNumber);
+
+        Column columnPosition = model.getColumnInstance();
+        columnPosition.setProperty("position");
+        columnPosition.setCell((BookRandomizationCustomCell.class).getName());
+        columnPosition.setTitle("Position");
+        model.addColumn(columnPosition);
+
+        Column columnArm = model.getColumnInstance();
+        columnArm.setProperty("arm.name");
+        columnArm.setTitle("Arm Name");
+        columnArm.setCell((BookRandomizationCustomCell.class).getName());
+        model.addColumn(columnArm);
+
+        return model.assemble();
+    }
+    
+    /*
+     * This is the method that has all the extreme Table API calls.It is set to display 11 rowqs at
+     * a time. Also the onclick method call is set to uploadBook() and pagination is enabled. We use
+     * the BookRandomizationCustomCell to check for null arms/groups and add the "invalid entry"
+     * string in such cases.
+     */
+    public Object buildWithoutStratification(TableModel model, Collection bookRandomizationEntries, String title,
+                    String action, String flowType) throws Exception {
+
+        String index = title.substring(title.indexOf(":") + 1);
+        String tableId = "bookRandomizationEntries" + index;
+        Table table = model.getTableInstance();
+        table.setTitle("Randomization Book");
+        table.setAutoIncludeParameters(true);
+        table.setAction(model.getContext().getContextPath() + action);
+        table.setTableId(tableId);
+        table.setItems(bookRandomizationEntries);
+        table
+                        .setOnInvokeAction("uploadBook('" + tableId + "', '" + index + "','"
+                                        + flowType + "')");
+        table.setShowPagination(true);
+        table.setFilterable(false);
+        table.setImagePath(model.getContext().getContextPath() + "/images/table/*.gif");
+        table.setRowsDisplayed(15);
+        model.addTable(table);
+
+        Row row = model.getRowInstance();
+        row.setHighlightRow(Boolean.TRUE);
+        model.addRow(row);
 
         Column columnPosition = model.getColumnInstance();
         columnPosition.setProperty("position");
