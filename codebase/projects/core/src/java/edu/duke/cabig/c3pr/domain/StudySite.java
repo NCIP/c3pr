@@ -228,6 +228,15 @@ public class StudySite extends StudyOrganization implements
 			GregorianCalendar calendar = new GregorianCalendar();
 			calendar.setTime(currentDate);
 			calendar.add(calendar.YEAR, -1);
+			String allowedOldDate = "" ;
+			String todayDate = "" ;
+			
+			try{
+				allowedOldDate  = DateUtil.formatDate(calendar.getTime(), "MM/dd/yyyy");
+				todayDate  = DateUtil.formatDate(currentDate, "MM/dd/yyyy");
+			}catch(Exception e){
+				
+			}
 			if (this.getIrbApprovalDate() == null ) {
 				if( this.getId() != null ){
 					throw getC3PRExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.MISSING.IRB_APPROVAL_DATE.CODE"),
@@ -238,14 +247,14 @@ public class StudySite extends StudyOrganization implements
 			if ( this.getIrbApprovalDate().after(currentDate)){
 				if ((this.getId() != null)) {
 					throw getC3PRExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.INVALID.IRB_APPROVAL_DATE.CODE"),
-									new String[] { this.getHealthcareSite().getName(), currentDate.toString() });
+									new String[] { this.getHealthcareSite().getName(), todayDate});
 				}
 				return SiteStudyStatus.PENDING;
 			}
 			if (this.getIrbApprovalDate().before(calendar.getTime())){
 				if ((this.getId() != null)) {
 					throw getC3PRExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.EXPIRED.IRB_APPROVAL_DATE.CODE"),
-									new String[] { this.getHealthcareSite().getName(), (calendar.getTime()).toString() });
+									new String[] { this.getHealthcareSite().getName(), allowedOldDate });
 				}
 				return SiteStudyStatus.PENDING;
 			}
