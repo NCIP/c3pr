@@ -128,13 +128,8 @@
 	}
 	
 	function searchStudy(){
-
-		if($("searchSubjectText").value != null && $("searchSubjectText").value != ""){
 			new Element.show('searchSubjectInd');
 			new Ajax.Updater('subjectSearchResults','../registration/searchParticipant', {method:'post', postBody:Form.serialize('searchSubjectForm'), onSuccess:callbackSubject, onFailure:callbackSubjectFail});	
-		} else {
-			ValidationManager.showError($("searchSubjectText"), "required");
-		}		
 	}
 </script>
 
@@ -173,9 +168,9 @@
                 </div>		
             </div>
             <div class="row">
-                <div class="label"><span class="required-indicator">Search Criteria:</span></div>
+                <div class="label"><span class="label">Search Criteria:</span></div>
                 <div class="value">
-                	<input id="searchSubjectText" name="searchText" type="text" value="" size="25" class="validate-notEmpty" />
+                	<input id="searchSubjectText" name="searchText" type="text" value="" size="25" class="value" />
                 	<input type="button" value="Search" 
                 	onclick="searchStudy()"/>
                 	<img id="searchSubjectInd" src="<tags:imageUrl name="indicator.white.gif"/>"

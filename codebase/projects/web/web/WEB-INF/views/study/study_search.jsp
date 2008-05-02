@@ -54,11 +54,11 @@
                 </div>
             </div>
             <div class="row">
-                <div class="label required-indicator">
+                <div class="label">
                     Search Criteria:
                 </div>
                 <div class="value">
-                    <form:input path="searchText" cssClass="validate-notEmpty"/>
+                    <form:input path="searchText" cssClass="value"/>
                 </div>
             </div>
 

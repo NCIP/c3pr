@@ -223,10 +223,10 @@ function submitPage(){
 				</tr>
 
 				<tr>
-					<td width="20%" valign="top" align="right"><span class="required-indicator"><b>Search Criteria:</b></span>&nbsp;</td>
+					<td width="20%" valign="top" align="right"><span class="label"><b>Search Criteria:</b></span>&nbsp;</td>
 					<td colspan="2"><input type="hidden" id="registration-hidden" /> <input
 						id="registration-input" size="52" type="text" name="searchText"
-						class="autocomplete validate-notEmpty" /> <tags:indicator
+						class="autocomplete" /> <tags:indicator
 						id="registration-indicator" />
 					<div id="registration-choices" class="autocomplete"></div>
 					<p id="registration-selected" style="display: none">You've selected

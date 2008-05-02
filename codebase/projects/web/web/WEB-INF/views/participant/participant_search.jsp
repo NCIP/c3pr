@@ -42,8 +42,8 @@ function submitPage(){
 								</form:select></td>
 							</tr>
 							<tr>
-								<td align="right"><span class="required-indicator"><b>Search Criteria:</b></span></td>
-								<td align="left"><form:input path="searchText" cssClass="validate-notEmpty"/></td>
+								<td align="right"><span class="label"><b>Search Criteria:</b></span></td>
+								<td align="left"><form:input path="searchText" cssClass="value"/></td>
 							</tr>
 							<tr>
 								<td></td>
