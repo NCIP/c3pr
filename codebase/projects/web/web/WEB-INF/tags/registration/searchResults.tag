@@ -45,6 +45,8 @@ function submitLocalForm(formName, regId ,schEphId){
 					Last Name</b></td>
 					<td class="tableHeader">Subject <br>
 					Primary Identifier</td>
+					<td class="tableHeader">Subject <br>
+					Medical Record Number</td>
 					<td class="tableHeader">Site</td>
 					<td class="tableHeader">Registration <br>
 					Status</td>
@@ -79,6 +81,7 @@ function submitLocalForm(formName, regId ,schEphId){
 					<td>${registration.studySite.study.primaryIdentifier}</td>
 					<td>${registration.participant.lastName}</td>
 					<td>${registration.participant.primaryIdentifier}</td>
+					<td>${registration.participant.MRN.value}</td>
 					<td>${registration.studySite.healthcareSite.name}</td>
 					<td>${registration.regWorkflowStatus.code}</td>
 					<td>${registration.startDateStr}</td>

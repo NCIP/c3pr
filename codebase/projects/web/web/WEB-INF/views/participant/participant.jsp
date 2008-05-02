@@ -208,7 +208,7 @@ function manageIdentifierRadio(element){
 							    </div>
                     </div>
                     <div class="row">
-		                        <div class="label required-indicator">Identifier:</div>
+		                        <div class="label required-indicator">Medical Record Number:</div>
 		                        <div class="value"><input type="text" name="organizationAssignedIdentifiers[0].value" 
 								size="30" maxlength="30"
 								value="${command.organizationAssignedIdentifiers[0].value}" class="validate-notEmpty" />
