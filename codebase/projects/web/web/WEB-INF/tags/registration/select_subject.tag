@@ -127,7 +127,7 @@
 		}		
 	}
 	
-	function searchStudy(){
+	function searchParticipant(){
 			new Element.show('searchSubjectInd');
 			new Ajax.Updater('subjectSearchResults','../registration/searchParticipant', {method:'post', postBody:Form.serialize('searchSubjectForm'), onSuccess:callbackSubject, onFailure:callbackSubjectFail});	
 	}
@@ -172,7 +172,7 @@
                 <div class="value">
                 	<input id="searchSubjectText" name="searchText" type="text" value="" size="25" class="value" />
                 	<input type="button" value="Search" 
-                	onclick="searchStudy()"/>
+                	onclick="searchParticipant()"/>
                 	<img id="searchSubjectInd" src="<tags:imageUrl name="indicator.white.gif"/>"
 								alt="Indicator" align="absmiddle">
 					<script>new Element.hide('searchSubjectInd');</script>
