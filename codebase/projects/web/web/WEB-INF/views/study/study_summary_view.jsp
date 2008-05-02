@@ -145,6 +145,10 @@
             <td class="alt" align="left">${command.consentVersion}</td>
         </tr>
         <tr>
+            <td class="alt" align="left"><b>Stratified</b></td>
+            <td class="alt" align="left">${command.stratificationIndicator=="true"?"Yes":"No"}</td>
+        </tr>
+        <tr>
             <td class="alt" align="left"><b>Randomized</b></td>
             <td class="alt" align="left">${command.randomizedIndicator=="true"?"Yes":"No"}</td>
         </tr>
