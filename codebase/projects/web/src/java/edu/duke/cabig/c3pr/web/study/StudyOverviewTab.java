@@ -91,7 +91,7 @@ public class StudyOverviewTab extends StudyTab {
 							                SiteStudyStatus.ACTIVE);
                     }
                     else {
-                        retValue = "<script>alert('" + e.getMessage() + "')</script>";
+                        retValue = "<script>alert('" + e.getCodedExceptionMesssage() + "')</script>";
                     }
                 }
                 finally {
