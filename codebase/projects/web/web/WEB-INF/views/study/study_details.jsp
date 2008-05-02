@@ -284,7 +284,7 @@
     </div>
 </chrome:division>
 
-<<chrome:division title="Stratification & Randomization">
+<chrome:division title="Stratification & Randomization">
     <div class="leftpanel">
     
     		<div class="row">
