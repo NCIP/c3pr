@@ -284,8 +284,18 @@
     </div>
 </chrome:division>
 
-<chrome:division title="Randomization">
+<<chrome:division title="Stratification & Randomization">
     <div class="leftpanel">
+    
+    		<div class="row">
+         		<div class="label required-indicator">Stratification:</div>	
+         		<div class="value"><form:select path="stratificationIndicator" cssClass="validate-notEmpty">
+         		<option value="">Please Select</option>
+         		<form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
+         		</form:select>
+         		</div>
+         	</div>
+         	
 	        <div class="row">
 		            <div class="label required-indicator">
 		                Randomized:</div>
