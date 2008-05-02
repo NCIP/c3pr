@@ -228,16 +228,24 @@ public class StudySite extends StudyOrganization implements
 			GregorianCalendar calendar = new GregorianCalendar();
 			calendar.setTime(currentDate);
 			calendar.add(calendar.YEAR, -1);
-			if (((this.getIrbApprovalDate()) == null)
-					|| (this.getIrbApprovalDate().after(currentDate))
-					|| (this.getIrbApprovalDate().before(calendar
-							.getTime()))) {
+			if (this.getIrbApprovalDate() == null ) {
+				if( this.getId() != null ){
+					throw getC3PRExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.MISSING.IRB_APPROVAL_DATE.CODE"),
+							new String[] { this.getHealthcareSite().getName() });
+				}
+				return SiteStudyStatus.PENDING;
+			}
+			if ( this.getIrbApprovalDate().after(currentDate)){
 				if ((this.getId() != null)) {
-					throw getC3PRExceptionHelper()
-							.getException(
-									getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.MISSING.INVALID.EXPIRED.IRB_APPROVAL_DATE.CODE"),
-									new String[] { this
-											.getHealthcareSite().getName() });
+					throw getC3PRExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.INVALID.IRB_APPROVAL_DATE.CODE"),
+									new String[] { this.getHealthcareSite().getName(), currentDate.toString() });
+				}
+				return SiteStudyStatus.PENDING;
+			}
+			if (this.getIrbApprovalDate().before(calendar.getTime())){
+				if ((this.getId() != null)) {
+					throw getC3PRExceptionHelper().getException(getCode("C3PR.EXCEPTION.STUDY.STUDYSITE.EXPIRED.IRB_APPROVAL_DATE.CODE"),
+									new String[] { this.getHealthcareSite().getName(), (calendar.getTime()).toString() });
 				}
 				return SiteStudyStatus.PENDING;
 			}
