@@ -70,6 +70,7 @@
 		<input type="hidden" id="_selectedAnswer" name="_selectedAnswer" value="">
 		<input type="hidden" id="generateGroups" name="generateGroups" value="false"/>
 	</div>
+	<c:if test="${command.stratificationIndicator}">
 	<c:forEach items="${command.treatmentEpochs}" var="epoch"
 		varStatus="epochCount">
 		<script>
@@ -241,11 +242,13 @@
 			</chrome:division>
 		</tags:minimizablePanelBox>
 	</c:forEach>
+	</c:if>
 	<div id="dummyDiv" style="display:none">
 	</div>
 	<input type="hidden" name="flowType" value="${flowType}">
 	<tags:tabControls tab="${tab}" flow="${flow}" localButtons="${localButtons}" willSave="${willSave}" />
 </form:form>
+
 
 <c:forEach items="${command.treatmentEpochs}" var="epoch"
 	varStatus="epochCount">
