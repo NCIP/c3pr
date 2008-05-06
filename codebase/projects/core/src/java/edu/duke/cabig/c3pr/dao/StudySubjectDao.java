@@ -86,8 +86,11 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
 
         // registration criteria
         if (startDate != null && endDate != null) {
-            registrationCriteria.add(Expression.between("informedConsentSignedDate", startDate,
-                            endDate));
+            registrationCriteria.add(Expression.between("informedConsentSignedDate", startDate, endDate));
+        }else if(startDate != null){
+        	registrationCriteria.add(Expression.ge("informedConsentSignedDate", startDate));
+        }else if(endDate != null){
+        	registrationCriteria.add(Expression.le("informedConsentSignedDate", endDate));
         }
 
         // participant/subject criteria
