@@ -196,7 +196,7 @@
         </tr>
         <tr>
             <td class="label">Enrolling</td>
-            <td>${!command.ifTreatmentScheduledEpoch?studySubject.scheduledEpoch.epoch.enrollmentIndicator:'True'}</td>
+            <td>${!command.ifTreatmentScheduledEpoch?(command.scheduledEpoch.epoch.enrollmentIndicator?'Yes':'No'):'Yes'}</td>
         </tr>
         <tr>
             <td class="label">Epoch Status</td>
