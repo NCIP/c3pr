@@ -258,7 +258,7 @@
 					<table width="100%" border="0" cellspacing="1" cellpadding="1" id="table1">
 						<tr>
 							<td align="right"><span class="required-indicator"><b>Birth Date:</b></span>&nbsp;</td>
-							<td align="left"><input id="birthDate" name="birthDate" type="text" value="" class="validate-notEmpty"/>&nbsp;(mm/dd/yyyy)&nbsp;&nbsp;<span
+							<td align="left"><input id="birthDate" name="birthDate" type="text" value="" class="validate-notEmpty&&DATE"/>&nbsp;(mm/dd/yyyy)&nbsp;&nbsp;<span
 								class="red"></span></td>
 						</tr>
 						<tr>
