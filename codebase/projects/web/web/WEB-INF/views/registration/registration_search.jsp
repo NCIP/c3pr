@@ -228,9 +228,7 @@ function submitPage(){
 						id="registration-input" size="52" type="text" name="searchText"
 						class="autocomplete" /> <tags:indicator
 						id="registration-indicator" />
-					<div id="registration-choices" class="autocomplete"></div>
-					<p id="registration-selected" style="display: none">You've selected
-					<span id="registration-selected-name"></span>.</p>
+					
 					</td>
 				</tr>
 				<tr>
