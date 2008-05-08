@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Create C3PRV3 Installer Build" default="build-installer" xmlns:ivy="antlib:org.apache.ivy.ant">
+	<property name="parent.dir" value="${basedir}/.." />
+	<property name="antfiles.dir" location="${parent.dir}/../antfiles"/>
+	<property file="${antfiles.dir}/build.properties" />
+	<property file="${antfiles.dir}/c3pr-ivy.properties" />
+	<import file="${antfiles.dir}/common.xml"/>
+	
+	<!-- Information -->
+	    <property name="project.name" value="c3prv2-installer"/>
+	    <property name="ant.lib.version" value=""/>
+
+
+	    <property name="ext.dir" value="${basedir}/ext"/>
+	    <property name="ext.resources.dir" value="${ext.dir}/resources"/>
+	    <property name="build.jar.dir" value="${build.dir}/jars"/>
+
+
+	    <property name="c3prv2.installer.dir" value="${basedir}/c3prv2-installer"/>
+	    <property name="c3prv2.installer.artifact" value="${build.jar.dir}/${project.name}-${c3pr.version}.jar"/>
+	    <property name="c3prv2.offline.installer.artifact"
+	              value="${build.jar.dir}/${project.name}-offline-${c3pr.version}.jar"/>
+	    <property name="c3prv2.online.installer.artifact"
+	              value="${build.jar.dir}/${project.name}-online-${c3pr.version}.jar"/>
+
+	    <property name="resources.dir" value="${basedir}/resources"/>
+	    <property name="software.dir" value="${resources.dir}/software"/>
+
+	    <!--Test dirs-->
+	    <property name="test.ext.dir" value="${ext.dir}/test"/>
+	    <property name="test.ext.lib.dir" value="${test.ext.dir}/lib"/>
+
+	    <property name="test.dir" value="${basedir}/test"/>
+	    <property name="test.src.dir" value="${test.dir}/src"/>
+	    <property name="test.src.java.dir" value="${test.src.dir}/java"/>
+	    <property name="test.classes.dir" value="${build.dir}/classes-test"/>
+	    <property name="test.jar.name" value="${build.jar.dir}/${project.name}-tests-${c3pr.version}.jar"/>
+	    <property name="test.logs.dir" value="${test.dir}/logs"/>
+
+	    <property name="antinstall.config.filename" value="antinstall-config.xml"/>
+	    <property name="antinstall.config.filename.input" value="antinstall-config.xml.input"/>
+
+	    <import file="antfiles/build-test.xml"/>
+
+
+	    <path id="build.classpath">
+	        <fileset dir="${basedir}/lib">
+	            <include name="ant-installer-ext.jar"/>
+	            <include name="ant-installer.jar"/>
+	        </fileset>
+	    	<fileset dir="${lib.dir}">
+	            <include name="*.jar"/>
+	        </fileset>
+	    </path>
+	    <path id="test.override.classpath">
+	        <path refid="build.classpath"/>
+	        <pathelement location="${c3prv2.installer.dir}"/>
+	        <fileset dir="${basedir}/antlib">
+	            <include name="**/*.jar"/>
+	        </fileset>
+	        <fileset dir="${dist.dir}">
+	            <include name="**/*.jar"/>
+	        </fileset>
+	        <fileset dir="${test.lib.dir}">
+	            <include name="*.jar"/>
+	        </fileset>
+	    </path>
+
+	    <target name="prepare" depends="resolve">
+	        <mkdir dir="${test.classes.dir}"/>
+	        <mkdir dir="${build.jar.dir}"/>
+	        <copy
+	                file="${c3prv2.installer.dir}/${antinstall.config.filename.input}"
+	                tofile="${c3prv2.installer.dir}/${antinstall.config.filename}"
+	                overwrite="true">
+	            <filterset>
+	                <filter token="application_name" value="${application_name}"/>
+	                <filter token="iteration_number" value="${iteration_number}"/>
+	                <filter token="ctmsi.commons.version" value="${ctmsi.commons.version}"/>
+	                <filter token="csm.context.name" value="${csm.context.name}"/>
+	            </filterset>
+
+	        </copy>
+	    </target>
+
+
+	    <!-- ================================================================= -->
+	    <!-- Builds the offline version of installer                        -->
+	    <!-- ============================================================== -->
+	    <target name="build-offline-installer"
+	            depends="prepare"
+	            description="Builds c3prv2 self extracting installer">
+	    	<taskdef
+	    		            name="installer"
+	    		            classname="org.tp23.antinstaller.taskdefs.Installer"
+	    		            classpathref="build.classpath"/>
+
+	        <installer file="${c3prv2.offline.installer.artifact}" compress="true"
+	                   extractType="NonExtractor"
+	                   installConfig="${c3prv2.installer.dir}/${antinstall.config.filename}"
+	                   buildFile="${c3prv2.installer.dir}/build-offline.xml"
+	                   antInstallLib="${basedir}/lib"
+	                   antLib="${basedir}/antlib${ant.lib.version}"
+	                   icons="eclipse">
+	            <fileset dir="${ext.dir}">
+	                <include name="*.zip"/>
+	            </fileset>
+	            <fileset dir="${basedir}" includes="resources/*"/>
+	            <!--include bundled software -->
+	            <fileset dir="${software.dir}" includes="*"/>
+	            <fileset dir="${c3prv2.installer.dir}" includes="*.properties"/>
+	        </installer>
+
+	    </target>
+
+	    <!-- ============================================================== -->
+	    <!-- Builds the online(default) version of installer                -->
+	    <!-- ============================================================== -->
+	    <target name="build-installer"
+	            depends="prepare"
+	            description="Builds c3prv2 self extracting installer">
+	    	<taskdef
+	    		            name="installer"
+	    		            classname="org.tp23.antinstaller.taskdefs.Installer"
+	    		            classpathref="build.classpath"/>
+	        <installer file="${c3prv2.online.installer.artifact}" compress="true"
+	                   extractType="NonExtractor"
+	                   installConfig="${c3prv2.installer.dir}/${antinstall.config.filename}"
+	                   buildFile="${c3prv2.installer.dir}/build-online.xml"
+	                   antInstallLib="${basedir}/lib"
+	                   antLib="${basedir}/antlib${ant.lib.version}"
+	                   icons="eclipse">
+	            <fileset dir="${basedir}" includes="resources/*"/>
+	            <fileset dir="${c3prv2.installer.dir}" includes="*.properties"/>
+	        </installer>
+
+	    </target>
+
+
+	    <!--runs the installer-->
+	    <target name="run-installer" description="Will run a previously built installer">
+	        <available property="offline.installer"
+	                   file="${c3prv2.offline.installer.artifact}"/>
+
+
+	        <available property="online.installer"
+	                   file="${c3prv2.online.installer.artifact}"/>
+
+	        <echo message="${offline.installer}"/>
+	        <echo message="${online.installer}"/>
+
+	        <antcall target="run-offline-installer">
+	        </antcall>
+
+	        <antcall target="run-online-installer">
+	        </antcall>
+
+	    </target>
+
+	    <target name="run-offline-installer" if="offline.installer">
+	        <echo message="running offline installer"/>
+	        <java jar="${c3prv2.offline.installer.artifact}" fork="true"/>
+	    </target>
+
+	    <target name="run-online-installer" if="online.installer">
+	        <echo message="running online installer"/>
+	        <java jar="${c3prv2.online.installer.artifact}" fork="true"/>
+
+	    </target>
+
+	    <target name="clean">
+	        <delete dir="${build.dir}"/>
+	        <delete dir="${test.logs.dir}"/>
+	        <delete dir="${test.logs.dir}"/>
+	        <delete file="${c3prv2.installer.dir}/${antinstall.config.filename}"/>
+	    </target>
+
+	    <!-- ============================================================== -->
+	    <!-- Compile the tests                                             -->
+	    <!-- ============================================================== -->
+	    <target name="compile-tests" depends="prepare">
+	        <javac srcdir="${test.src.java.dir}"
+	               classpathref="test.override.classpath"
+	               destdir="${test.classes.dir}"
+	               debug="on"/>
+	    </target>
+
+	    <!-- ============================================================== -->
+	    <!-- Creates the test jar files                                          -->
+	    <!-- ============================================================== -->
+	    <target name="jar-tests" depends="compile-tests" description="Builds the Jar Files">
+	        <jar jarfile="${test.jar.name}"
+	             basedir="${test.classes.dir}">
+	            <manifest>
+	                <attribute name="Built-By" value="${user.name}"/>
+	            </manifest>
+	        </jar>
+	    </target>
+
+
+</project>

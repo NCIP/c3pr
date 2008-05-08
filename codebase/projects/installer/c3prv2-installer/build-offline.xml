@@ -104,7 +104,11 @@
             <property name="offline.installer" value="true"/>
         </ant>
 		-->
-    	<subant target="deploy-webapp" buildpath="${base.codebase.dir}/antfiles/ivy-master-build.xml" />
+    	<!--<subant target="deploy-webapp" buildpath="${base.codebase.dir}/antfiles/ivy-master-build.xml"/>-->
+		<!--<subant buildpath="${base.codebase.dir}/antfiles/ivy-master-build.xml" target="deploy-webapp" inheritall="false"/>-->
+		<ant dir="${base.codebase.dir}/antfiles" antfile="${base.codebase.dir}/antfiles/ivy-master-build.xml" target="deploy-webapp" inheritall="false">
+			<property name="env.CATALINA_HOME" value="${tomcat.home}"/>
+		</ant>
 
         <!--copy c3pr.properties to $CATALINA_HOME/conf-->
         <copy file="${basedir}/ant.install.properties"
@@ -120,7 +124,8 @@
              target="tomcat.security">
             <property name="catalina.home" value="${tomcat.home}"/>
         </ant>-->
-    	<subant target="tomcat.security" buildpath="${c3pr.core.dir}/ivy-build.xml" />
+    	<!--<subant target="tomcat.security" buildpath="${c3pr.core.dir}/ivy-build.xml" />-->
+    	<ant dir="${base.codebase.dir}/antfiles" antfile="${base.codebase.dir}/antfiles/ivy-master-build.xml" target="tomcat.security"/>
     </target>
 
 
