@@ -81,7 +81,7 @@ class StudyDetailsTab extends StudyTab {
     @Override
     public void postProcessOnValidation(HttpServletRequest request, Study study, Errors errors) {
         super.postProcessOnValidation(request, study, errors);
-        if (request.getParameter("deletedSponsor") != null) {
+        if (request.getParameter("deletedSponsor") != null && request.getParameter("deletedSponsor").equals("delete")) {
             if (study.getFundingSponsorIdentifierIndex() != -1) {
                 study.getOrganizationAssignedIdentifiers().remove(
                                 study.getFundingSponsorIdentifierIndex());
@@ -90,7 +90,7 @@ class StudyDetailsTab extends StudyTab {
                 study.getStudyFundingSponsors().remove(0);
             }
         }
-        else if (request.getParameter("deletedSponsorIdentifier") != null) {
+        else if (request.getParameter("deletedSponsorIdentifier") != null && request.getParameter("deletedSponsorIdentifier").equals("delete")) {
             if (study.getFundingSponsorIdentifierIndex() != -1) {
                 study.getOrganizationAssignedIdentifiers().remove(
                                 study.getFundingSponsorIdentifierIndex());
