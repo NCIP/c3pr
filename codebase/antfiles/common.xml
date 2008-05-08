@@ -526,6 +526,7 @@
 			<echo message="${ant.file.common}" />
 			<echo message="db = ${db}" />
 			<echo message="databaseConfigurationName = ${databaseConfigurationName}" />
+			<echo message="catalina.home = ${catalina.home}" />
 	</target>
 	
 	<!-- ================================= 
