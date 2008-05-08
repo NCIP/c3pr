@@ -85,7 +85,7 @@ function toggleImage(id){
 									pageContext.setAttribute("yearOld",yearOld);
 								%>
 								<c:set var="expiredIrb" value="${site.irbApprovalDate.time le yearOld.timeInMillis}"></c:set>
-								<c:set var="javLink" value="postProcessStudySelection('${site.id}','${site.healthcareSite.name}','${study.shortTitleText}','${study.identifiers[0].type}'+' - '+ '${study.identifiers[0].value}')"/>
+								<c:set var="javLink" value="postProcessStudySelection(${study.studySites[0].siteStudyStatus.code=='Active'},'${site.id}','${site.healthcareSite.name}','${study.shortTitleText}','${study.identifiers[0].type}'+' - '+ '${study.identifiers[0].value}')"/>
 								<c:if test="${expiredIrb}">
 									<c:set var="javLink" value="alert('The IRB approval date for this site has expired. Its more than an year old');"/>
 								</c:if>
