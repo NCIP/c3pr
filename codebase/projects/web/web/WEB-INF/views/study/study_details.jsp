@@ -51,13 +51,18 @@
                	if(document.getElementById('randomizedIndicator').value =='false'){
                	new Element.update('randomizationTypeDiv','');
                	};
-                 if((box1==null)||box1.value == '')
-                 	new Element.update('fundingSponsor',"<input type='hidden' name='deletedSponsor'/>");
+                 if((box1==null)||box1.value == '') {
+	                 document.getElementById('healthcareSite-input').name="abcd";
+	                 document.getElementById('healthcareSite-hidden').name="xyz1";
+	                 document.getElementById('healthcareSite-hidden1').name="abcdxw";
+	                 document.getElementById('fundingSponsorIdentifier').name="xyz1ab";
+	                 document.getElementById('deletedSponsor').value="delete";
+                 }
                  else{
-             	   box2=document.getElementById('organizationAssignedIdentifiers[${sponIndex==0?1:sponIndex}].value');
-	                 if ((box2==null)||box2.value == '') {
-	                     new Element.update('fundingSponId',"<input type='hidden' name='deletedSponsorIdentifier'/>");
-	                 }
+             	   	box2=document.getElementById('fundingSponsorIdentifier');
+	                if ((box2==null)||box2.value == '') {
+	                   document.getElementById('deletedSponsorIdentifier').value="delete";
+	             }
 	             }
              }
              return continueSubmission;
@@ -161,6 +166,12 @@
 <%-- Can't use tags:tabForm b/c there are two boxes in the form --%>
 <form:form method="post" name="studyDetails" cssClass="standard">
 <tags:tabFields tab="${tab}" />
+
+<div>
+    <input type="hidden" name="deletedSponsor" id="deletedSponsor" value=""/>
+    <div>
+    <input type="hidden" name="deletedSponsorIdentifier" id="deletedSponsorIdentifier" value=""/>
+</div>
 
 <chrome:box title="${tab.shortTitle}">
 
@@ -288,11 +299,12 @@
     <div class="leftpanel">
     
     		<div class="row">
-         		<div class="label required-indicator">Stratification:</div>	
+         		<div class="label required-indicator">Stratified:</div>	
          		<div class="value"><form:select path="stratificationIndicator" cssClass="validate-notEmpty">
          		<option value="">Please Select</option>
          		<form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
          		</form:select>
+         		<tags:hoverHint keyProp="study.stratifiedIndicator"/>
          		</div>
          	</div>
          	
@@ -417,7 +429,7 @@
             	<div id="fundingSponId">
 	            	<input type="text" name="organizationAssignedIdentifiers[${sponIndex==0?1:sponIndex}].value" size="30"
 						maxlength="30" value="${command.fundingSponsorIdentifierIndex==-1?'':command.organizationAssignedIdentifiers[sponIndex==0?1:sponIndex].value}"
-						id="organizationAssignedIdentifiers[${sponIndex==0?1:sponIndex}].value" />
+						id="fundingSponsorIdentifier" />
 					<input type="hidden" id="healthcareSite-hidden1"
 	                    name="organizationAssignedIdentifiers[${sponIndex==0?1:sponIndex}].healthcareSite"
 	                    value="${command.fundingSponsorIdentifierIndex==-1?'':command.organizationAssignedIdentifiers[sponIndex==0?1:sponIndex].healthcareSite.id}" />
