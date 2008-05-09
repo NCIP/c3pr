@@ -9,7 +9,7 @@ import java.io.StringReader;
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Study;
-import edu.duke.cabig.c3pr.domain.repository.impl.StudyRepositoryImpl;
+import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.service.StudyXMLImporterService;
 import edu.duke.cabig.c3pr.utils.MasqueradingDaoTestCase;
 import gov.nih.nci.cagrid.common.Utils;
@@ -23,7 +23,7 @@ public class StudyDeserializationFromFileTest extends MasqueradingDaoTestCase<St
     XmlMarshaller marshaller;
 
     StudyDao dao;
-    private StudyRepositoryImpl studyRepositoryImpl;
+    private StudyRepository studyRepository;
     
 
     StudyXMLImporterService importService;
@@ -34,14 +34,14 @@ public class StudyDeserializationFromFileTest extends MasqueradingDaoTestCase<St
         marshaller = (XmlMarshaller) getApplicationContext().getBean("xmlUtility");
         importService = (StudyXMLImporterService) getApplicationContext().getBean(
                         "studyXMLImporterService");
-
+        studyRepository = (StudyRepository) getApplicationContext().getBean("studyRepository");
     }
 
     public void testStudyImport() throws Exception {
         InputStream studyXMLin = getClass().getResourceAsStream("SampleStudy.xml");
         StringBuffer buf = Utils.inputStreamToStringBuffer(studyXMLin);
         Study study = (Study) marshaller.fromXML(new StringReader(buf.toString()));
-        studyRepositoryImpl.buildAndSave(study);
+        studyRepository.buildAndSave(study);
 
     }
 
@@ -54,12 +54,12 @@ public class StudyDeserializationFromFileTest extends MasqueradingDaoTestCase<St
         return StudyDao.class;
     }
 
-	public StudyRepositoryImpl getStudyRepositoryImpl() {
-		return studyRepositoryImpl;
+	public StudyRepository getStudyRepositoryImpl() {
+		return studyRepository;
 	}
 
-	public void setStudyRepositoryImpl(StudyRepositoryImpl studyRepositoryImpl) {
-		this.studyRepositoryImpl = studyRepositoryImpl;
+	public void setStudyRepository(StudyRepository studyRepository) {
+		this.studyRepository = studyRepository;
 	}
 
 }
