@@ -77,6 +77,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         studySubjectRepositoryImpl.setStratumGroupDao(stratumGroupDao);
         studySubjectRepositoryImpl.setStudySubjectDao(studySubjectDao);
         studySubjectRepositoryImpl.setStudySubjectFactory(studySubjectFactory);
+        studySubjectRepositoryImpl.setParticipantDao(participantDao);
         studySubjectRepository=studySubjectRepositoryImpl;
         studySubject=new StudySubject();
         studySubjectCreatorHelper=new StudySubjectCreatorHelper();
