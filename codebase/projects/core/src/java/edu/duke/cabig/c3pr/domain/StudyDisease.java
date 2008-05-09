@@ -63,31 +63,43 @@ public class StudyDisease extends AbstractMutableDeletableDomainObject implement
         this.leadDisease = leadDisease;
     }
 
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        final StudyDisease that = (StudyDisease) o;
-
-        if (study != null ? !study.equals(that.study) : that.study != null) return false;
-        if (diseaseTerm != null ? !diseaseTerm.getId().equals(that.diseaseTerm.getId())
-                        : that.diseaseTerm != null) return false;
-
-        return true;
-    }
-
-    public int hashCode() {
-        int result;
-        result = (diseaseTerm != null ? diseaseTerm.hashCode() : 0);
-        result = 29 * result + (study != null ? study.hashCode() : 0);
-        return result;
-    }
-
     public int compareTo(StudyDisease o) {
         if (this.equals(o)) {
             return 0;
         }
         else return 1;
     }
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((diseaseTerm == null) ? 0 : diseaseTerm.hashCode());
+		result = prime * result + ((study == null) ? 0 : study.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final StudyDisease other = (StudyDisease) obj;
+		if (diseaseTerm == null) {
+			if (other.diseaseTerm != null)
+				return false;
+		} else if (!diseaseTerm.equals(other.diseaseTerm))
+			return false;
+		if (study == null) {
+			if (other.study != null)
+				return false;
+		} else if (!study.equals(other.study))
+			return false;
+		return true;
+	}
 
 }
