@@ -359,8 +359,11 @@
         <property name="pathSeperator" value="."/>
     </bean>
 
-    <bean id="sitePrivilegeAndObjectIdGenerator" class="edu.duke.cabig.c3pr.security.SitePrivilegeAndObjectIdGenerator"/>
-
+     <bean id="sitePrivilegeAndObjectIdGenerator" class="edu.duke.cabig.c3pr.security.SitePrivilegeAndObjectIdGenerator">
+    	<property name="accessPrivilege" ref="ACCESS_PRIVILEGE"/>
+        <property name="pathSeperator" value="."/>
+    </bean>
+    
     <!--Utilities-->
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="${outgoingMailServer}"/>
