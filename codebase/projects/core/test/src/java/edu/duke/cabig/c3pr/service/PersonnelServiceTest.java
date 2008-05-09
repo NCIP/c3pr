@@ -37,6 +37,11 @@ public class PersonnelServiceTest extends MasqueradingDaoTestCase<HealthcareSite
 
     }
 
+    @Override
+    protected void tearDown() throws Exception {
+    	inv.getContactMechanisms().remove(0);
+    	super.tearDown();
+    }
     public void testCreateUser() throws Exception {
         service.save(inv);
 
