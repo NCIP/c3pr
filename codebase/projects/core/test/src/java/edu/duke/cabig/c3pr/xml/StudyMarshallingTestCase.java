@@ -139,11 +139,11 @@ public class StudyMarshallingTestCase extends AbstractXMLMarshalling {
         studyObject.setRandomizedIndicator(new Boolean(boolValue));
         studyObject.setMultiInstitutionIndicator(new Boolean(boolValue));
         studyObject.setLongTitleText(strValue);
-        studyObject.setPhaseCode("I");
+        studyObject.setPhaseCode("Phase 0 Trial");
         studyObject.setPrecisText(strValue);
         studyObject.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
         studyObject.setDataEntryStatus(StudyDataEntryStatus.COMPLETE);
-        studyObject.setType(strValue);
+        studyObject.setType("Diagnostic");
         studyObject.setTargetAccrualNumber(intValue);
         studyObject.setVersion(intValue);
 
