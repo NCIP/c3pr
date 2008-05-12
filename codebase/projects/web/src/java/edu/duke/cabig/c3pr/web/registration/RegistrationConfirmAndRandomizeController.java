@@ -67,6 +67,12 @@ public class RegistrationConfirmAndRandomizeController extends SimpleFormControl
         Map map = buildMap(studySubject);
         boolean actionRequired = false;
         String actionLabel = "";
+        
+    // Added the below two lines as a fix for actionRequired coming out to be true for reserving epoch with data entry complete
+        if(studySubject.isDataEntryComplete() && !studySubject.getScheduledEpoch().getRequiresRandomization()){
+        	studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
+        }
+        	
         if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.UNAPPROVED
                         && studySubject.getRegDataEntryStatus() == RegistrationDataEntryStatus.COMPLETE
                         && studySubject.getScheduledEpoch().getScEpochDataEntryStatus() == ScheduledEpochDataEntryStatus.COMPLETE) {
