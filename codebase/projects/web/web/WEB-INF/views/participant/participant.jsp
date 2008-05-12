@@ -168,22 +168,24 @@ function manageIdentifierRadio(element){
 					</div>
 					<div class="row">
 						<div class="label required-indicator">Races: </div>
-							<div class="value"><div id="raceCodes" style="display:inline">
-							  	<form:checkbox path="raceCodes" value="Asian"/> Asian
-							  	<form:checkbox path="raceCodes" value="Black_or_African_American"/> Black or African American</div>
-							</div>
-							<div class="value">
-							  	<form:checkbox path="raceCodes" value="White"/> White
-							  	<form:checkbox path="raceCodes" value="American_Indian_or_Alaska_Native"/> American Indian or Alaska Native
-							</div>
-							<div class="label"><tags:hoverHint keyProp="subject.raceCode"/> </div>
-							<div class="value">
-							  	<form:checkbox path="raceCodes" value="Native_Hawaiian_or_Pacific_Islander"/> Native Hawaiian or Pacific Islander
-							</div>
-							<div class="value">
-							  	<form:checkbox path="raceCodes" value="Not_Reported"/> Not Reported
-							  	<form:checkbox path="raceCodes" value="Unknown"/> Unknown
-							</div>
+						<table>
+						<tr><td><div id="raceCodes" style="display:inline"><form:checkbox path="raceCodes" value="Asian"/> Asian</div></td>
+							<td><div id="raceCodes" style="display:inline"><form:checkbox path="raceCodes" value="Black_or_African_American"/> Black or African American</div></td>
+							<td><tags:hoverHint keyProp="subject.raceCode"/></td>
+						</tr>
+						<tr><td><div id="raceCodes" style="display:inline"><form:checkbox path="raceCodes" value="White"/> White</div></td>
+							<td><div id="raceCodes" style="display:inline"><form:checkbox path="raceCodes" value="American_Indian_or_Alaska_Native"/> American Indian or Alaska Native</div></td>
+							<td></td>
+						</tr>
+						<tr><td colspan=2><div id="raceCodes" style="display:inline"><form:checkbox path="raceCodes" value="Native_Hawaiian_or_Pacific_Islander"/> Native Hawaiian or Pacific Islander</div></td>
+							
+							<td></td>
+						</tr>
+						<tr><td><div id="raceCodes" style="display:inline"><form:checkbox path="raceCodes" value="Not_Reported"/> Not Reported</div></td>
+							<td><div id="raceCodes" style="display:inline"><form:checkbox path="raceCodes" value="Unknown"/> Unknown</div></td>
+							<td> </td>
+						</tr>
+						</table>
 					</div>
 					
 				</div>
