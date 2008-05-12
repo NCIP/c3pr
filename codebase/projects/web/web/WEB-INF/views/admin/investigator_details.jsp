@@ -198,7 +198,7 @@ function fireAction(action, selected){
             </div>
             <div class="value">
                 <form:input size="25"
-                            path="contactMechanisms[2].value" cssClass="validate-US_PHONE_NO" /> e.g. 7035600296 or or 703-560-0296
+                            path="contactMechanisms[2].value" cssClass="validate-US_PHONE_NO" /> e.g. 7035600296 or 703-560-0296
             </div>
         </div>
     </div>
