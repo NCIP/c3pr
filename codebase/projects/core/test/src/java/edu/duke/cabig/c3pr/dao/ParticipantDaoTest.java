@@ -192,16 +192,16 @@ public class ParticipantDaoTest extends DaoTestCase {
         Participant participant = new Participant();
         participant.setLastName("Barry");
         participant.setFirstName("Bonds");
+        participant.setRaceCode("Asian");
         participant.setAdministrativeGenderCode("Male");
         Date birthDate = new Date();
         participant.setBirthDate(birthDate);
-        OrganizationAssignedIdentifier systemIdentifier = new OrganizationAssignedIdentifier();
-        HealthcareSite healthcareSite = new HealthcareSite();
-        healthcareSite.setName("Local HealthcareSite Name");
-        systemIdentifier.setHealthcareSite(healthcareSite);
-        systemIdentifier.setValue("Identifier Value");
-        systemIdentifier.setType("MRN");
-        participant.addIdentifier(systemIdentifier);
+        OrganizationAssignedIdentifier orgAssignedIdentifier = new OrganizationAssignedIdentifier();
+        HealthcareSite healthcareSite = healthcareSiteDao.getById(1001);
+        orgAssignedIdentifier.setHealthcareSite(healthcareSite);
+        orgAssignedIdentifier.setValue("Identifier Value");
+        orgAssignedIdentifier.setType("MRN");
+        participant.addIdentifier(orgAssignedIdentifier);
 
         dao.save(participant);
 
@@ -210,7 +210,7 @@ public class ParticipantDaoTest extends DaoTestCase {
         Participant savedParticipant = dao.getById(participant.getId());
         assertEquals("Identifier Value", savedParticipant.getOrganizationAssignedIdentifiers().get(
                         0).getValue());
-        assertEquals("Local HealthcareSite Name", savedParticipant
+        assertEquals("duke healthcare", savedParticipant
                         .getOrganizationAssignedIdentifiers().get(0).getHealthcareSite().getName());
     }
 

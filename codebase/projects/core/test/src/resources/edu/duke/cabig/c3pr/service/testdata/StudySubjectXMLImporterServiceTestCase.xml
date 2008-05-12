@@ -64,6 +64,6 @@
 	
 	<STUDY_AMENDMENTS/>
 
-    <IDENTIFIERS id="1100" version="1" value="nci" type="local" system_name="nci" dtype="SAI"/>
+    <IDENTIFIERS id="1100" version="1" value="nci" type="Coordinating Center Identifier" system_name="nci" dtype="SAI"/>
 </dataset>
 

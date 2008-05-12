@@ -368,13 +368,16 @@ public class EpochDaoTest extends ContextDaoTestCase<EpochDao> {
 
             epoch.setName("Treatment");
             epoch.setDescriptionText("descriptionText");
-            epoch.setStudy(loadedStudy);
+          /*  epoch.setStudy(loadedStudy);
+            getDao().save(epoch);*/
+        try{
+            loadedStudy.addEpoch(epoch);
+            fail("it should fail because we have epoch with same name in the database");
+        }catch(Exception e){
+        }
 
-            getDao().save(epoch);
+        interruptSession();
 
-            savedId = epoch.getId();
-
-            interruptSession();
         }
 
     }
