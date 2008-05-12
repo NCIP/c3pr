@@ -43,17 +43,14 @@ public class StudyXMLImporterTestCase extends MasqueradingDaoTestCase<StudyDao> 
     public void testGetStudies() throws Exception {
         for (int i = 1000; i < 1003; i++) {
             Study study = getDao().getById(i);
-            String xmlStudy = marshaller.toXML(study);
-            String[] test = xmlStudy.split(">", 2);
-            String studyXml = test[0] + "><studies>" + test[1] + "</studies> ";  
+            String[] xmlStudy = (marshaller.toXML(study)).split(">", 2);
+            String studyXml = xmlStudy[0] + "><studies>" + xmlStudy[1] + "</studies> ";  
             
-//            xmlStudy.replace( "?>".toCharArray(), "?><studies>".toCharArray()) ;
-//            xmlStudy = xmlStudy + "</studies>" ;
-            System.out.println(xmlStudy);
+            System.out.println(studyXml);
             File outputXMLFile = new File("dummyOutput.xml");
             studyImporter.importStudies(StringUtils.getInputStream(studyXml),outputXMLFile);
 
-            List<Study> studies = studyImporter.importStudies(StringUtils.getInputStream(xmlStudy),outputXMLFile);
+            List<Study> studies = studyImporter.importStudies(StringUtils.getInputStream(studyXml),outputXMLFile);
 
             assertNotNull(studies);
             assertTrue(studies.size() > 0);
