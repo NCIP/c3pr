@@ -17,20 +17,20 @@ import gov.nih.nci.security.UserProvisioningManager;
 
 public class PersonnelServiceTestCase extends AbstractAnnotationAwareTransactionalTests {
 
-    private PersonnelService service;
+    private PersonnelService personnelService;
 
-    private UserProvisioningManager upm;
+    private UserProvisioningManager csmUserProvisioningManager;
 
-    private OrganizationService orgService;
+    private OrganizationService organizationService ;
 
     String strValue;
 
     private ContactMechanism email;
 
-    private ResearchStaff staff;
+    private ResearchStaff researchStaff ;
 
     public PersonnelServiceTestCase() {
-        setAutowireMode(AUTOWIRE_BY_TYPE);
+        setAutowireMode(AUTOWIRE_BY_NAME);
         strValue = "test" + String.valueOf(Math.random()).substring(0, 5);
     }
 
@@ -40,29 +40,29 @@ public class PersonnelServiceTestCase extends AbstractAnnotationAwareTransaction
         site.setNciInstituteCode(strValue);
         site.setName(strValue);
         site.setDescriptionText(strValue);
-        orgService.save(site);
+        organizationService.save(site);
 
         // now save the research staff
-        staff = new ResearchStaff();
-        staff.setHealthcareSite(site);
-        staff.setNciIdentifier("test-user");
-        staff.setFirstName("test");
-        staff.setLastName("user");
+        researchStaff = new ResearchStaff();
+        researchStaff.setHealthcareSite(site);
+        researchStaff.setNciIdentifier("test-user");
+        researchStaff.setFirstName("test");
+        researchStaff.setLastName("user");
         email = new ContactMechanism();
         email.setType(ContactMechanismType.EMAIL);
         email.setValue("test-user@test.org");
-        staff.addContactMechanism(email);
-        service.save(staff);
+        researchStaff.addContactMechanism(email);
+        personnelService.save(researchStaff);
 
         // now change the staff details
-        staff.setFirstName("changed");
-        staff.removeContactMechanism(email);
+        researchStaff.setFirstName("changed");
+        researchStaff.removeContactMechanism(email);
         email.setValue("changed");
-        staff.addContactMechanism(email);
-        staff.setNciIdentifier("changed");
-        service.merge(staff);
+        researchStaff.addContactMechanism(email);
+        researchStaff.setNciIdentifier("changed");
+        personnelService.merge(researchStaff);
 
-        assertNotNull(service.getGroups(staff));
+        assertNotNull(personnelService.getGroups(researchStaff));
     }
 
     protected void onTearDownAfterTransaction() throws Exception {
@@ -81,27 +81,29 @@ public class PersonnelServiceTestCase extends AbstractAnnotationAwareTransaction
         return (ConfigurableApplicationContext) ContextTools.createDeployedApplicationContext();
     }
 
-    public OrganizationService getOrgService() {
-        return orgService;
-    }
+	public PersonnelService getPersonnelService() {
+		return personnelService;
+	}
 
-    public void setOrgService(OrganizationService orgService) {
-        this.orgService = orgService;
-    }
+	public void setPersonnelService(PersonnelService personnelService) {
+		this.personnelService = personnelService;
+	}
 
-    public PersonnelService getService() {
-        return service;
-    }
+	public UserProvisioningManager getCsmUserProvisioningManager() {
+		return csmUserProvisioningManager;
+	}
 
-    public void setService(PersonnelService service) {
-        this.service = service;
-    }
+	public void setCsmUserProvisioningManager(
+			UserProvisioningManager csmUserProvisioningManager) {
+		this.csmUserProvisioningManager = csmUserProvisioningManager;
+	}
 
-    public UserProvisioningManager getUpm() {
-        return upm;
-    }
+	public OrganizationService getOrganizationService() {
+		return organizationService;
+	}
 
-    public void setUpm(UserProvisioningManager upm) {
-        this.upm = upm;
-    }
+	public void setOrganizationService(OrganizationService organizationService) {
+		this.organizationService = organizationService;
+	}
+
 }
