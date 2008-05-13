@@ -490,9 +490,9 @@
 				<fileset dir="${test.classes.dir}">
 					<include name="${testPattern}" />
 					<exclude name="edu/duke/cabig/**/Abstract*Test*.class"/>
-					
+					<exclude name="edu/duke/cabig/c3pr/domain/TestObject$MockableDao.class"/>
 				</fileset>
-			</batchtest>
+			</batchtest>c3pr.domain.TestObject$MockableDao
 		</junit>
 	</target>
 	
