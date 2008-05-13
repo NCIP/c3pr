@@ -477,12 +477,6 @@
 	<condition property="testPattern" value="**/${test}.class" else="edu/duke/cabig/**/*Test*.class">
 		<isset property="test"/>
 	</condition>
-	<condition property="testPatternExclude1" value="edu/duke/cabig/**/Abstract*Test*.class">
-			<isset property="test"/>
-	</condition>
-	<condition property="testPatternExclude2" value="edu/duke/cabig/**/TestObject*.class">
-				<isset property="test"/>
-	</condition>
 	<target name="test" if="run.test" depends="clean-test-results" description="Runs the testcases">
 		<echo message="Executing in ${ant.project.name}" />
 		<echo message="Test results dir: ${test.results.dir}, with pattern ${testPattern} and classes from ${test.classes.dir}" />
@@ -495,8 +489,6 @@
 			<batchtest fork="yes" todir="${test.results.dir}">
 				<fileset dir="${test.classes.dir}">
 					<include name="${testPattern}" />
-					<exclude name="${testPatternExclude1}" />
-					<exclude name="${testPatternExclude2}" />
 				</fileset>
 			</batchtest>
 		</junit>
