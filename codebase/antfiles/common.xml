@@ -489,9 +489,6 @@
 			<batchtest fork="yes" todir="${test.results.dir}">
 				<fileset dir="${test.classes.dir}">
 					<include name="${testPattern}" />
-					<exclude name="edu/duke/cabig/**/Abstract*Test*.class"/>
-					<exclude name="edu/duke/cabig/**/TestObject*.class"/>
-					<exclude name="edu/duke/cabig/**/AplicationTestCase*.class"/>
 				</fileset>
 			</batchtest>
 		</junit>
