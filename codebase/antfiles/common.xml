@@ -474,7 +474,7 @@
 		target: test. If no Db property is given, the test target will set db
 		as test-postgres                                                
 	============================================================== -->
-	<condition property="testPattern" value="**/${test}.class" else="edu/duke/cabig/**/*Test.class">
+	<condition property="testPattern" value="**/${test}.class" else="edu/duke/cabig/**/*Test*.class">
 		<isset property="test"/>
 	</condition>
 	<target name="test" if="run.test" depends="clean-test-results" description="Runs the testcases">
