@@ -569,6 +569,15 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
         return false;
     }
 
+    @Transient
+    public boolean isReservable() {
+        if (this.isDataEntryComplete()
+                        && this.getRegWorkflowStatus() != RegistrationWorkFlowStatus.REGISTERED
+                        && this.getScheduledEpoch().getEpoch().isReserving()) {
+            return true;
+        }
+        return false;
+    }
     
     /**
      * Computes if co-ordinating center needs to approve a record for successful registration. which is true
