@@ -6,6 +6,7 @@ import org.extremecomponents.table.core.TableModel;
 import org.extremecomponents.table.view.html.ColumnBuilder;
 import org.extremecomponents.util.HtmlBuilder;
 
+import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 
 /**
@@ -15,24 +16,32 @@ import edu.duke.cabig.c3pr.domain.StudySubject;
  */
 public class ViewRegistrationLinkCustomCell extends AbstractCell {
 
-    public static final String VIEW_STUDY_URL = "/pages/registration/manageRegistration";
+    public static final String VIEW_REG_URL = "/c3pr/pages/registration/manageRegistration?registrationId=";
 
     @Override
     public String getHtmlDisplay(TableModel tableModel, Column column) {
         StudySubject studySubject = (StudySubject) tableModel.getCurrentRowBean();
 
+        setRowOnClick(tableModel, studySubject);
+        
         CustomHtmlBuilder html = new CustomHtmlBuilder();
         ColumnBuilder columnBuilder = new ColumnBuilder(html, column);
         columnBuilder.tdStart();
-        html.a(tableModel.getContext().getContextPath() + VIEW_STUDY_URL, "registrationId",
-                        studySubject.getId().toString());
-        html.close();
+//        html.a(tableModel.getContext().getContextPath() + VIEW_STUDY_URL, "registrationId",
+//                        studySubject.getId().toString());
+//        html.close();
         columnBuilder.tdBody(column.getValueAsString());
-        html.aEnd();
+//        html.aEnd();
         columnBuilder.tdEnd();
         return html.toString();
     }
 
+    public void setRowOnClick(TableModel tableModel, StudySubject studySubject){    	
+    	String url = "document.location='" + VIEW_REG_URL + studySubject.getId().toString() + "'";
+    	tableModel.getRowHandler().getRow().setOnclick(url);
+    	tableModel.getRowHandler().getRow().setStyle("cursor:pointer");        
+    }
+    
     @Override
     public String getExportDisplay(TableModel model, Column column) {
         return column.getPropertyValueAsString();

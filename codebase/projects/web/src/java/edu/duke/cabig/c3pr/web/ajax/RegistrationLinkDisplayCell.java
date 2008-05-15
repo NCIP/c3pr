@@ -8,16 +8,27 @@ import edu.duke.cabig.c3pr.domain.StudySubject;
 
 public class RegistrationLinkDisplayCell extends AbstractCell {
 
+	public static final String VIEW_REG_URL = "/c3pr/pages/registration/manageRegistration?registrationId=";
+
     @Override
     protected String getCellValue(final TableModel model, final Column column) {
-        StudySubject ss = (StudySubject) model.getCurrentRowBean();
+        StudySubject studySubject = (StudySubject) model.getCurrentRowBean();
         String cellValue = column.getValueAsString();
-        String link = model.getContext().getContextPath()
+        setRowOnClick(model, studySubject);
+        
+        /*String link = model.getContext().getContextPath()
                         + "/pages/registration/manageRegistration?registrationId=";
         if (ss != null) {
             cellValue = "<a href=\"" + link + ss.getId() + "\">" + cellValue + "</a>";
-        }
+        }*/
         return cellValue;
     }
+
+    public void setRowOnClick(TableModel tableModel, StudySubject studySubject){    	
+    	String url = "document.location='" + VIEW_REG_URL + studySubject.getId().toString() + "'";
+    	tableModel.getRowHandler().getRow().setOnclick(url);
+    	tableModel.getRowHandler().getRow().setStyle("cursor:pointer");        
+    }
+    
 
 }
