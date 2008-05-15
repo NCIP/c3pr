@@ -15,20 +15,24 @@ import edu.duke.cabig.c3pr.domain.Study;
  */
 public class ViewStudyLinkCustomCell extends AbstractCell {
 
-    public static final String VIEW_STUDY_URL = "/pages/study/viewStudy";
+    public static final String VIEW_STUDY_URL = "/c3pr/pages/study/viewStudy?studyId=";
 
     @Override
     public String getHtmlDisplay(TableModel tableModel, Column column) {
         Study study = (Study) tableModel.getCurrentRowBean();
-
         CustomHtmlBuilder html = new CustomHtmlBuilder();
+
+        setRowOnClick(tableModel, study);
+        
         ColumnBuilder columnBuilder = new ColumnBuilder(html, column);
         columnBuilder.tdStart();
-        html.a(tableModel.getContext().getContextPath() + VIEW_STUDY_URL, "studyId", study.getId()
-                        .toString());
-        html.close();
+//		Call the html.a() method if you want only one cell to be a hyperlink.
+//      This is now replaced with the setRowOnClick() above which makes the entire row clickable  
+
+//      html.a(tableModel.getContext().getContextPath() + VIEW_STUDY_URL, "studyId", study.getId().toString());
+//      html.close();
         columnBuilder.tdBody(column.getValueAsString());
-        html.aEnd();
+//      html.aEnd();
         columnBuilder.tdEnd();
         return html.toString();
     }
@@ -42,6 +46,13 @@ public class ViewStudyLinkCustomCell extends AbstractCell {
         return column.getValueAsString();
     }
 
+    public void setRowOnClick(TableModel tableModel, Study study){    	
+    	String url = "document.location='" + VIEW_STUDY_URL + study.getId().toString() + "'";
+    	tableModel.getRowHandler().getRow().setOnclick(url);
+    	tableModel.getRowHandler().getRow().setStyle("cursor:pointer");        
+    }
+    
+    
     private class CustomHtmlBuilder extends HtmlBuilder {
 
         public HtmlBuilder a(String href, String paramName, String paramValue) {
@@ -56,7 +67,6 @@ public class ViewStudyLinkCustomCell extends AbstractCell {
             return this;
 
         }
-
     }
 
 }
