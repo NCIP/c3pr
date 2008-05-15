@@ -13,7 +13,7 @@ import org.extremecomponents.table.core.TableModel;
  * @author kherm manav.kher@semanticbits.com
  */
 public class BaseStudyAjaxFacade {
-
+	
     /**
      * Method to build extremecomponents table
      * 
@@ -27,7 +27,7 @@ public class BaseStudyAjaxFacade {
      */
     protected Object build(TableModel model, Collection studies, String title, String action)
                     throws Exception {
-
+   	
         Table table = model.getTableInstance();
         table.setTitle(title);
 
