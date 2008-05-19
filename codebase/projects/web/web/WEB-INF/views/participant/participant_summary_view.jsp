@@ -38,19 +38,19 @@ function updateTargetPage(target){
 		<chrome:division id="subject-details" title="Basic Details">
 			<table class="tablecontent" width="60%">
 				<tr>
-					<td width="35%" class="alt" align="left"><b>First Name<b></td>
+					<td width="35%" class="alt" align="left"><b>First Name</b></td>
 					<td class="alt" align="left">${command.firstName}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b>Last Name<b></td>
+					<td class="alt" align="left"><b>Last Name</b></td>
 					<td class="alt" align="left">${command.lastName}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b>Middle Name<b></td>
+					<td class="alt" align="left"><b>Middle Name</b></td>
 					<td class="alt" align="left">${command.middleName}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b>Maiden Name<b></td>
+					<td class="alt" align="left"><b>Maiden Name</b></td>
 					<td class="alt" align="left">${command.maidenName}</td>
 				</tr>
 				<tr>
@@ -62,11 +62,11 @@ function updateTargetPage(target){
 					<td class="alt" align="left">${command.birthDateStr}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b>Ethnicity<b></td>
+					<td class="alt" align="left"><b>Ethnicity</b></td>
 					<td class="alt" align="left">${command.ethnicGroupCode}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b>Races<b></td>
+					<td class="alt" align="left"><b>Races</b></td>
 						<td class="alt" align="left">
 						<c:forEach items="${command.raceCodes}" var="raceCode">
 				            <div class="row">
@@ -83,11 +83,11 @@ function updateTargetPage(target){
 		<chrome:division title="Address">
 			<table class="tablecontent" width="60%">
 				<tr>
-					<td width="35%" class="alt" align="left"><b>Street Address<b></td>
+					<td width="35%" class="alt" align="left"><b>Street Address</b></td>
 					<td class="alt" align="left">${command.address.streetAddress}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b>City<b></td>
+					<td class="alt" align="left"><b>City</b></td>
 					<td class="alt" align="left">${command.address.city}</td>
 				</tr>
 				<tr>
@@ -99,7 +99,7 @@ function updateTargetPage(target){
 					<td class="alt" align="left">${command.address.countryCode}</td>
 				</tr>
 				<tr>
-					<td class="alt" align="left"><b>Zip<b></td>
+					<td class="alt" align="left"><b>Zip</b></td>
 					<td class="alt" align="left">${command.address.postalCode}</td>
 				</tr>
 			</table>

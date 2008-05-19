@@ -425,7 +425,7 @@
                 <table border="0" cellspacing="0" cellpadding="0" class="tablecontent" width="50%">
                     <tr>
                         <th width="35%" scope="col" align="left">Strata</th>
-                        <th scope="col" align="left"><b>Answer</th>
+                        <th scope="col" align="left"><b>Answer</b></th>
                     </tr>
                     <c:forEach items="${command.scheduledEpoch.subjectStratificationAnswers}" var="criteria">
                         <tr class="results">

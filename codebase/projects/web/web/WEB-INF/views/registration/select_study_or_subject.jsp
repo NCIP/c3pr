@@ -14,6 +14,29 @@
 	function getPage(s){
 		parent.window.location="reg_patient_search.htm";
 	}
+
+//-----------------------------------------------------------------------------------------------------
+    function catchKey(evt) {
+
+        if (evt.keyCode == 13) {
+
+            if (evt.target.id == "searchSubjectText") {
+                searchParticipant();
+            }
+
+            if (evt.target.id == "searchText") {
+                searchStudy();
+            }
+
+            return false;
+            
+        };
+
+    }
+
+//-----------------------------------------------------------------------------------------------------
+    document.onkeypress = catchKey;
+
 </script>
 <style type="text/css">
         .labelR { text-align: right; padding: 4px;  font-weight: bold;}
