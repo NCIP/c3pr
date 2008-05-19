@@ -21,7 +21,7 @@ import edu.duke.cabig.c3pr.utils.StudyCreationHelper;
 
 public class StudyRepositoryTest extends AbstractTestCase {
 	
-	private StudyRepositoryImpl studyRepositoryImpl;
+    private StudyRepositoryImpl studyRepositoryImpl;
     private StudyDao studyDao;
     private HealthcareSiteDao healthcareSiteDao;
     private InvestigatorDao investigatorDao;

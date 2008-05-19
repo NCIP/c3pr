@@ -3,6 +3,7 @@ package edu.duke.cabig.c3pr.domain.repository;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.easymock.classextension.EasyMock;
@@ -19,6 +20,7 @@ import edu.duke.cabig.c3pr.domain.NonTreatmentEpoch;
 import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
+import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledArm;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
@@ -439,7 +441,6 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
     	} catch(C3PRCodedException cce){
     		log.error("studySubjectFactory.buildStudySubject() threw exception");
     	}
-//        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite(new StudySubject(true))).andReturn(new ArrayList<StudySubject>());
         participantDao.save(deserializedStudySubject.getParticipant());
         studySubjectDao.save(deserializedStudySubject);
         replayMocks();
@@ -448,6 +449,326 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         } catch(C3PRCodedException e){
         	assertFalse("C3PRCodedException thrown", false);
         }
+        verifyMocks();
+    }
+    
+    public void testUpdateLocalRegistrationNoParticipantFound() {
+        StudySubject deserializedStudySubject = new StudySubject();     
+        deserializedStudySubject.setStudySite(studySubjectCreatorHelper.getMultiSiteNonRandomizedWithArmStudySite(true));
+        deserializedStudySubject.setParticipant(buildParticipant());
+        deserializedStudySubject.getScheduledEpochs().add(buildScheduledTreatmentEpoch());
+        try  {
+                EasyMock.expect(studySubjectFactory.buildStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
+        } catch(C3PRCodedException cce){
+                log.error("studySubjectFactory.buildStudySubject() threw exception");
+        }
+        replayMocks();
+        try{
+            studySubjectRepository.updateLocalRegistration(deserializedStudySubject);            
+        } catch(RuntimeException e){
+            e.printStackTrace();
+            assertTrue(true);
+            verifyMocks();
+            return;
+        }
+        assertTrue("Exception expected", false);
+    }
+    
+    public void testUpdateLocalRegistrationNoRegistrationFound() {
+        StudySubject deserializedStudySubject = new StudySubject();     
+        deserializedStudySubject.setStudySite(studySubjectCreatorHelper.getMultiSiteNonRandomizedWithArmStudySite(true));
+        deserializedStudySubject.setParticipant(buildParticipant());
+        deserializedStudySubject.getParticipant().setId(0);
+        deserializedStudySubject.getScheduledEpochs().add(buildScheduledTreatmentEpoch());
+        try  {
+                EasyMock.expect(studySubjectFactory.buildStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
+        } catch(C3PRCodedException cce){
+                log.error("studySubjectFactory.buildStudySubject() threw exception");
+        }
+        StudySubject exampleSS = new StudySubject(true);
+        exampleSS.setParticipant(deserializedStudySubject.getParticipant());
+        exampleSS.setStudySite(deserializedStudySubject.getStudySite());
+        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite(exampleSS)).andReturn(new ArrayList<StudySubject>());
+        replayMocks();
+        try{
+            studySubjectRepository.updateLocalRegistration(deserializedStudySubject);            
+        } catch(RuntimeException e){
+            e.printStackTrace();
+            assertTrue(true);
+            verifyMocks();
+            return;
+        }
+        assertTrue("Exception expected", false);
+    }
+    
+    public void testUpdateLocalRegistrationMultipleRegistrationsFound() {
+        StudySubject deserializedStudySubject = new StudySubject();     
+        deserializedStudySubject.setStudySite(studySubjectCreatorHelper.getMultiSiteNonRandomizedWithArmStudySite(true));
+        deserializedStudySubject.setParticipant(buildParticipant());
+        deserializedStudySubject.getParticipant().setId(0);
+        deserializedStudySubject.getScheduledEpochs().add(buildScheduledTreatmentEpoch());
+        try  {
+                EasyMock.expect(studySubjectFactory.buildStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
+        } catch(C3PRCodedException cce){
+                log.error("studySubjectFactory.buildStudySubject() threw exception");
+        }
+        StudySubject exampleSS = new StudySubject(true);
+        exampleSS.setParticipant(deserializedStudySubject.getParticipant());
+        exampleSS.setStudySite(deserializedStudySubject.getStudySite());
+        List<StudySubject> regs=new ArrayList<StudySubject>();
+        regs.add(new StudySubject());
+        regs.add(new StudySubject());
+        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite(exampleSS)).andReturn(regs);
+        replayMocks();
+        try{
+            studySubjectRepository.updateLocalRegistration(deserializedStudySubject);            
+        } catch(RuntimeException e){
+            e.printStackTrace();
+            assertTrue(true);
+            verifyMocks();
+            return;
+        }
+        assertTrue("Exception expected", false);
+    }
+    
+    public void testUpdateLocalRegistrationErrorBuildingRegistration() {
+        StudySubject deserializedStudySubject = new StudySubject();     
+        deserializedStudySubject.setStudySite(studySubjectCreatorHelper.getMultiSiteNonRandomizedWithArmStudySite(true));
+        deserializedStudySubject.setParticipant(buildParticipant());
+        deserializedStudySubject.getParticipant().setId(0);
+        deserializedStudySubject.getScheduledEpochs().add(buildScheduledTreatmentEpoch());
+        try  {
+                EasyMock.expect(studySubjectFactory.buildStudySubject(deserializedStudySubject)).andThrow(new C3PRCodedException(0,"Error"));
+        } catch(C3PRCodedException cce){
+                log.error("studySubjectFactory.buildStudySubject() threw exception");
+        }
+        replayMocks();
+        try{
+            studySubjectRepository.updateLocalRegistration(deserializedStudySubject);            
+        } catch(RuntimeException e){
+            e.printStackTrace();
+            assertTrue(true);
+            verifyMocks();
+            return;
+        }
+        assertTrue("Exception expected", false);
+    }
+    
+    public void testUpdateLocalRegistrationNotPendingRegistration() {
+        StudySubject deserializedStudySubject = new StudySubject();     
+        deserializedStudySubject.setStudySite(studySubjectCreatorHelper.getMultiSiteNonRandomizedWithArmStudySite(true));
+        deserializedStudySubject.setParticipant(buildParticipant());
+        deserializedStudySubject.getParticipant().setId(0);
+        deserializedStudySubject.getScheduledEpochs().add(buildScheduledTreatmentEpoch());
+        deserializedStudySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
+        try  {
+                EasyMock.expect(studySubjectFactory.buildStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
+        } catch(C3PRCodedException cce){
+                log.error("studySubjectFactory.buildStudySubject() threw exception");
+        }
+        StudySubject exampleSS = new StudySubject(true);
+        exampleSS.setParticipant(deserializedStudySubject.getParticipant());
+        exampleSS.setStudySite(deserializedStudySubject.getStudySite());
+        List<StudySubject> regs=new ArrayList<StudySubject>();
+        regs.add(deserializedStudySubject);
+        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite(exampleSS)).andReturn(regs);
+        replayMocks();
+        try{
+            studySubjectRepository.updateLocalRegistration(deserializedStudySubject);            
+        } catch(RuntimeException e){
+            e.printStackTrace();
+            assertTrue(true);
+            verifyMocks();
+            return;
+        }
+        assertTrue("Exception expected", false);
+    }
+    
+    public void testUpdateLocalRegistrationUnapprovedSchEpoch() {
+        StudySubject deserializedStudySubject = new StudySubject();
+        deserializedStudySubject.addScheduledEpoch(new ScheduledTreatmentEpoch());
+        deserializedStudySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.UNAPPROVED);
+        deserializedStudySubject.setParticipant(buildParticipant());
+        deserializedStudySubject.getParticipant().setId(0);
+        studySubject.setStudySite(studySubjectCreatorHelper.getMultiSiteNonRandomizedWithArmStudySite(true));
+        studySubject.setParticipant(buildParticipant());
+        studySubject.getParticipant().setId(0);
+        studySubject.getScheduledEpochs().add(buildScheduledTreatmentEpoch());
+        studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING);
+        try  {
+                EasyMock.expect(studySubjectFactory.buildStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
+        } catch(C3PRCodedException cce){
+                log.error("studySubjectFactory.buildStudySubject() threw exception");
+        }
+        StudySubject exampleSS = new StudySubject(true);
+        exampleSS.setParticipant(deserializedStudySubject.getParticipant());
+        exampleSS.setStudySite(deserializedStudySubject.getStudySite());
+        List<StudySubject> regs=new ArrayList<StudySubject>();
+        regs.add(studySubject);
+        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite(exampleSS)).andReturn(regs);
+        studySubjectDao.save(studySubject);
+        replayMocks();
+        studySubjectRepository.updateLocalRegistration(deserializedStudySubject);            
+        assertEquals("Wrong SchduledEpoch Workflow status", ScheduledEpochWorkFlowStatus.DISAPPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong Registration Workflow status", RegistrationWorkFlowStatus.DISAPPROVED, studySubject.getRegWorkflowStatus());
+        assertEquals("Wrong error message","Registration was not approved by co-ordinating center. No error message was provided.", studySubject.getScheduledEpoch().getDisapprovalReasonText());
+        verifyMocks();
+    }
+    
+    public void testUpdateLocalRegistrationUnapprovedSchEpochErrorProvided() {
+        StudySubject deserializedStudySubject = new StudySubject();
+        deserializedStudySubject.addScheduledEpoch(new ScheduledTreatmentEpoch());
+        deserializedStudySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.UNAPPROVED);
+        deserializedStudySubject.setParticipant(buildParticipant());
+        deserializedStudySubject.getParticipant().setId(0);
+        deserializedStudySubject.getScheduledEpoch().setDisapprovalReasonText("Error provided by Co-ordinating center.");
+        studySubject.setStudySite(studySubjectCreatorHelper.getMultiSiteNonRandomizedWithArmStudySite(true));
+        studySubject.setParticipant(buildParticipant());
+        studySubject.getParticipant().setId(0);
+        studySubject.getScheduledEpochs().add(buildScheduledTreatmentEpoch());
+        studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING);
+        try  {
+                EasyMock.expect(studySubjectFactory.buildStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
+        } catch(C3PRCodedException cce){
+                log.error("studySubjectFactory.buildStudySubject() threw exception");
+        }
+        StudySubject exampleSS = new StudySubject(true);
+        exampleSS.setParticipant(deserializedStudySubject.getParticipant());
+        exampleSS.setStudySite(deserializedStudySubject.getStudySite());
+        List<StudySubject> regs=new ArrayList<StudySubject>();
+        regs.add(studySubject);
+        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite(exampleSS)).andReturn(regs);
+        studySubjectDao.save(studySubject);
+        replayMocks();
+        studySubjectRepository.updateLocalRegistration(deserializedStudySubject);            
+        assertEquals("Wrong SchduledEpoch Workflow status", ScheduledEpochWorkFlowStatus.DISAPPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong Registration Workflow status", RegistrationWorkFlowStatus.DISAPPROVED, studySubject.getRegWorkflowStatus());
+        System.out.println(studySubject.getScheduledEpoch().getDisapprovalReasonText());
+        verifyMocks();
+    }
+    
+    public void testUpdateLocalRegistrationUnapprovedSchEpochErrorNotProvided() {
+        StudySubject deserializedStudySubject = new StudySubject();
+        deserializedStudySubject.addScheduledEpoch(new ScheduledTreatmentEpoch());
+        deserializedStudySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.UNAPPROVED);
+        deserializedStudySubject.setParticipant(buildParticipant());
+        deserializedStudySubject.getParticipant().setId(0);
+        studySubject.setStudySite(studySubjectCreatorHelper.getMultiSiteNonRandomizedWithArmStudySite(true));
+        studySubject.setParticipant(buildParticipant());
+        studySubject.getParticipant().setId(0);
+        studySubject.getScheduledEpochs().add(buildScheduledTreatmentEpoch());
+        studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING);
+        try  {
+                EasyMock.expect(studySubjectFactory.buildStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
+        } catch(C3PRCodedException cce){
+                log.error("studySubjectFactory.buildStudySubject() threw exception");
+        }
+        StudySubject exampleSS = new StudySubject(true);
+        exampleSS.setParticipant(deserializedStudySubject.getParticipant());
+        exampleSS.setStudySite(deserializedStudySubject.getStudySite());
+        List<StudySubject> regs=new ArrayList<StudySubject>();
+        regs.add(studySubject);
+        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite(exampleSS)).andReturn(regs);
+        studySubjectDao.save(studySubject);
+        replayMocks();
+        studySubjectRepository.updateLocalRegistration(deserializedStudySubject);            
+        assertEquals("Wrong SchduledEpoch Workflow status", ScheduledEpochWorkFlowStatus.DISAPPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong Registration Workflow status", RegistrationWorkFlowStatus.DISAPPROVED, studySubject.getRegWorkflowStatus());
+        System.out.println(studySubject.getScheduledEpoch().getDisapprovalReasonText());
+        verifyMocks();
+    }
+    
+    public void testUpdateLocalRegistrationApprovedRandomizedArmNotProvided() throws Exception{
+        StudySubject deserializedStudySubject = new StudySubject();
+        deserializedStudySubject.setStudySite(studySubjectCreatorHelper.getMultiSiteRandomizedStudySite(RandomizationType.BOOK, false));
+        studySubjectCreatorHelper.addScheduledEpochFromStudyEpochs(deserializedStudySubject);
+        deserializedStudySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
+        deserializedStudySubject.setParticipant(buildParticipant());
+        deserializedStudySubject.getParticipant().setId(0);
+        studySubject.setParticipant(buildParticipant());
+        studySubject.getParticipant().setId(0);
+        studySubject.setStudySite(studySubjectCreatorHelper.getMultiSiteRandomizedStudySite(RandomizationType.BOOK, false));
+        studySubjectCreatorHelper.addScheduledEpochFromStudyEpochs(studySubject);
+        studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING);
+        try  {
+                EasyMock.expect(studySubjectFactory.buildStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
+        } catch(C3PRCodedException cce){
+                log.error("studySubjectFactory.buildStudySubject() threw exception");
+        }
+        StudySubject exampleSS = new StudySubject(true);
+        exampleSS.setParticipant(deserializedStudySubject.getParticipant());
+        exampleSS.setStudySite(deserializedStudySubject.getStudySite());
+        List<StudySubject> regs=new ArrayList<StudySubject>();
+        regs.add(studySubject);
+        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite(exampleSS)).andReturn(regs);
+        studySubjectDao.save(studySubject);
+        replayMocks();
+        studySubjectRepository.updateLocalRegistration(deserializedStudySubject);            
+        assertEquals("Wrong SchduledEpoch Workflow status", ScheduledEpochWorkFlowStatus.DISAPPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        assertEquals("Wrong Registration Workflow status", RegistrationWorkFlowStatus.DISAPPROVED, studySubject.getRegWorkflowStatus());
+        System.out.println(studySubject.getScheduledEpoch().getDisapprovalReasonText());
+        verifyMocks();
+    }
+    
+    public void testUpdateLocalRegistrationApprovedRandomizedArmAssigned() throws Exception{
+        StudySubject deserializedStudySubject = new StudySubject();
+        deserializedStudySubject.setStudySite(studySubjectCreatorHelper.getMultiSiteRandomizedStudySite(RandomizationType.PHONE_CALL, false));
+        studySubjectCreatorHelper.addScheduledEpochFromStudyEpochs(deserializedStudySubject);
+        deserializedStudySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
+        deserializedStudySubject.setParticipant(buildParticipant());
+        deserializedStudySubject.getParticipant().setId(0);
+        studySubjectCreatorHelper.bindRandomization(deserializedStudySubject);
+        studySubject.setParticipant(buildParticipant());
+        studySubject.getParticipant().setId(0);
+        studySubject.setStudySite(studySubjectCreatorHelper.getMultiSiteRandomizedStudySite(RandomizationType.BOOK, false));
+        studySubjectCreatorHelper.addScheduledEpochFromStudyEpochs(studySubject);
+        studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING);
+        try  {
+                EasyMock.expect(studySubjectFactory.buildStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
+        } catch(C3PRCodedException cce){
+                log.error("studySubjectFactory.buildStudySubject() threw exception");
+        }
+        StudySubject exampleSS = new StudySubject(true);
+        exampleSS.setParticipant(deserializedStudySubject.getParticipant());
+        exampleSS.setStudySite(deserializedStudySubject.getStudySite());
+        List<StudySubject> regs=new ArrayList<StudySubject>();
+        regs.add(studySubject);
+        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite(exampleSS)).andReturn(regs);
+        studySubjectDao.save(studySubject);
+        replayMocks();
+        studySubjectRepository.updateLocalRegistration(deserializedStudySubject);            
+        assertEquals("Wrong SchduledEpoch Workflow status", ScheduledEpochWorkFlowStatus.APPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
+        verifyMocks();
+    }
+    
+    public void testUpdateLocalRegistrationApprovedNonRandomized() throws Exception{
+        StudySubject deserializedStudySubject = new StudySubject();
+        deserializedStudySubject.setStudySite(studySubjectCreatorHelper.getMultiSiteNonRandomizedWithArmStudySite(false));
+        studySubjectCreatorHelper.addScheduledEpochFromStudyEpochs(deserializedStudySubject);
+        deserializedStudySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
+        deserializedStudySubject.setParticipant(buildParticipant());
+        deserializedStudySubject.getParticipant().setId(0);
+        studySubject.setParticipant(buildParticipant());
+        studySubject.getParticipant().setId(0);
+        studySubject.setStudySite(studySubjectCreatorHelper.getMultiSiteNonRandomizedWithArmStudySite(false));
+        studySubjectCreatorHelper.addScheduledEpochFromStudyEpochs(studySubject);
+        studySubjectCreatorHelper.bindArm(studySubject);
+        studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING);
+        try  {
+                EasyMock.expect(studySubjectFactory.buildStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
+        } catch(C3PRCodedException cce){
+                log.error("studySubjectFactory.buildStudySubject() threw exception");
+        }
+        StudySubject exampleSS = new StudySubject(true);
+        exampleSS.setParticipant(deserializedStudySubject.getParticipant());
+        exampleSS.setStudySite(deserializedStudySubject.getStudySite());
+        List<StudySubject> regs=new ArrayList<StudySubject>();
+        regs.add(studySubject);
+        EasyMock.expect(studySubjectDao.searchBySubjectAndStudySite(exampleSS)).andReturn(regs);
+        studySubjectDao.save(studySubject);
+        replayMocks();
+        studySubjectRepository.updateLocalRegistration(deserializedStudySubject);            
+        assertEquals("Wrong SchduledEpoch Workflow status", ScheduledEpochWorkFlowStatus.APPROVED, studySubject.getScheduledEpoch().getScEpochWorkflowStatus());
         verifyMocks();
     }
     

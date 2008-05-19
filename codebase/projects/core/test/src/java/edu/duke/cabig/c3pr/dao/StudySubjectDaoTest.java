@@ -107,7 +107,7 @@ public class StudySubjectDaoTest extends DaoTestCase {
         List<Participant> participantList = dao.getByFirstName("Rudolph");
         Participant participant = participantList.get(0);
         try {
-            String outputFileName = "C:\\TestReport.txt";
+            String outputFileName = "TestReport.txt";
 
             // Create FileReader Object
             FileWriter outputFileReader = new FileWriter(outputFileName);

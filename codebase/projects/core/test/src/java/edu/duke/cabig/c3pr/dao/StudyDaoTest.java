@@ -103,7 +103,7 @@ public class StudyDaoTest extends DaoTestCase {
     public void testForReport() {
 
         try {
-            String outputFileName = "C:\\TestReportStudy.txt";
+            String outputFileName = "TestReportStudy.txt";
 
             // Create FileReader Object
             FileWriter outputFileReader = new FileWriter(outputFileName);
