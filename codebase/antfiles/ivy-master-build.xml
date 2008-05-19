@@ -111,9 +111,10 @@
 	 <!--Does a local build. For Developers use only -->
     <target name="deploy-webapp-local" depends="build-core"
             description="Builds all c3pr modules and deploys webapp on your web/web local">
-    	<subant target="deployLocal" buildpath="${projects.dir}/web/ivy-build.xml" >
-    		<property name="skip.test" value="true"></property>
-    	</subant>
+    	<ant target="deployLocal" antfile="${projects.dir}/web/ivy-build.xml" dir="${projects.dir}/web" inheritall="false">
+			<property name="env.skip.test" value="true"></property>
+			<property name="env.CATALINA_HOME" value="${env.CATALINA_HOME}"/>
+    	</ant>
     </target>
 	
     <target name="deploy-webapp" depends="build-core"

@@ -596,4 +596,9 @@
 			<echo message="datasource.dialect = ${datasource.dialect}" />
 			<echo message="databaseConfigurationName = ${databaseConfigurationName}" />
 	</target>
+	
+	<target name="debug-tomcat" description="Echoes tomcat information">
+			<echo message="env.CATALINA_HOME=${env.CATALINA_HOME}" />
+			<echo message="catalina.home=${catalina.home}" />
+	</target>
 </project>
