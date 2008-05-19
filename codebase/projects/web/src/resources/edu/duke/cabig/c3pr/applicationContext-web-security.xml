@@ -59,6 +59,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <entry key="/pages/participant/confirmCreateParticipant" value="edu.duke.cabig.c3pr.domain.Participant:CREATE"/>
 
         <entry key="/pages/admin/configure" value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
+        <entry key="/pages/admin/searchInvestigator" value="edu.duke.cabig.c3pr.domain.Investigator:CREATE"/>
         <entry key="/pages/report/createReport" value="edu.duke.cabig.c3pr.domain.Registration:READ"/>
         <entry key="/pages/report/createStudyReport" value="edu.duke.cabig.c3pr.domain.Study:READ"/>
     </util:map>
