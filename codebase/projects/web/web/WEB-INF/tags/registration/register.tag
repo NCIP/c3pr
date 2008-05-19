@@ -32,7 +32,7 @@ function submitRandomization(){
 		<c:choose>
 		<c:when test="${requiresMultiSite}">
 			<strong>Subject ${newRegistration?"registration":"transfer"} requires co-ordinationg 
-			center approval. <c:if test="${registration.scheduledEpoch.requiresArm}">Arm assignment would take place at co-ordinating center.</c:if> <strong>
+			center approval. <c:if test="${registration.scheduledEpoch.requiresRandomization}">Arm assignment would take place at co-ordinating center.</c:if> <strong>
 			<br>
 			Please click on the button to send registration request. 
 		</c:when>
@@ -72,7 +72,7 @@ function submitRandomization(){
 		</c:otherwise>
 		</c:choose>
 		</strong>
-		<div style="float:right;"><input type="button" value="${actionLabel}" onClick="submitRandomization();"/></div>
+		<div align="right"><input type="button" value="${actionLabel}" onClick="submitRandomization();"/></div>
 		<br>
 		
 	</form>

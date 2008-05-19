@@ -51,11 +51,11 @@
         }
 
 
-        function doSendMessageToESB() {
-            $('broadcastResponse').innerHTML = 'Sending Message...';
+      function doSendMessageToESB() {
+          $('broadcastResponse').innerHTML = 'Sending Message...';
 
-            $('viewDetails').disable('broadcastBtn');
-            $('viewDetails').disable('broadcastStatusBtn');
+          $('viewDetails').disable('broadcastBtn');
+          $('viewDetails').disable('broadcastStatusBtn');
 
         <tags:tabMethod method="broadcastRegistration"
        viewName="/ajax/broadcast_res" onComplete="onBroadcastComplete"
@@ -66,6 +66,21 @@
             $('viewDetails').enable('broadcastBtn');
             $('viewDetails').enable('broadcastStatusBtn');
         }
+        
+        function doMultiSiteBroadcast() {
+          $('multiSiteResponse').innerHTML = 'Sending Message...';
+
+          $('multisiteDetails').disable('broadcastMultiSiteBtn');
+
+        <tags:tabMethod method="broadcastMultiSiteRegistration"
+       viewName="/ajax/broadcast_multisite_res" onComplete="onMultiSiteBroadcastComplete"
+       divElement="'multiSiteResponse'" formName="'tabMethodForm'"params="dontSave=true"/>
+        }
+
+        function onMultiSiteBroadcastComplete() {
+            $('multisiteDetails').enable('broadcastMultiSiteBtn');
+        }
+        
 		function accessApp(url,targetWindow){
 			$('hotlinksForm').target=targetWindow;
 			$('hotlinksForm').action=url;
@@ -492,6 +507,32 @@
 		</tr>
 		</c:if>
 	</table>
+</c:if>
+
+<%--<c:if test='${(command.multisiteWorkflowStatus=="MESSAGE_SEND_FAILED" || command.multisiteWorkflowStatus=="MESSAGE_REPLY_FAILED") && multisiteEnable}'>--%>
+<c:if test='${command.scheduledEpoch.scEpochWorkflowStatus=="PENDING" && multisiteEnable}'>
+    <chrome:division title="MultiSite Workflow">
+        <form:form id="multisiteDetails" name="multisiteDetails">
+            <div class="content">
+                <div class="row">
+                    <div class="label">
+                        Broadcast Status:
+                    </div>
+
+                    <div class="value">
+                        <span id="multiSiteResponse">
+                                ${command.multisiteWorkflowStatus.displayName}
+                        </span>
+                        <c:if test='${command.multisiteWorkflowStatus.code=="MESSAGE_SEND_FAILED" || command.multisiteWorkflowStatus.code=="MESSAGE_REPLY_FAILED"}'>
+                        	<c:set var="multiSiteLabel" value='${command.multisiteWorkflowStatus.code=="MESSAGE_SEND_FAILED"?"Send request":"Send Response"}' />
+	                        <input type="button" id="broadcastMultiSiteBtn" value="${multiSiteLabel }"
+	                               onclick="doMultiSiteBroadcast();"/>
+                        </c:if>
+                    </div>
+                </div>
+            </div>
+        </form:form>
+    </chrome:division>
 </c:if>
 
 <div align="right">
