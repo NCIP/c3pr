@@ -182,6 +182,11 @@ function submitPage(){
 	document.getElementById("searchForm").submit();
 }
 
+// after the POST, comboboxes lose their visibility states which is set on client side only,
+// that's why this method should be called everytime after the page loads. 
+Event.observe(window, "load", function() {
+    manageSelectBox($('select'));    
+})
 
 </script>
 </head>
@@ -199,35 +204,38 @@ function submitPage(){
 			<table border="0">
 				<tr>
 					<td width="20%" valign="top" align="right"><b>Search By:</b></td>
-					<td align="right" width="15%"><select name="select" id="select"
-						onChange="manageSelectBox(this);">
-						<option value="Subject">Subject</option>
-						<option value="Study">Study</option>
-						<option value="Id">Registration Identifier</option>
-					</select></td>
+					<td align="right" width="15%">
+                        <form:select id="select" path="select" onchange="manageSelectBox(this);">
+                            <form:option value="Subject" label="Subject" />
+                            <form:option value="Study" label="Study" />
+                            <form:option value="Id" label="Registration Identifier" />
+                        </form:select>
+                       </td>
 
 					<td align="left">
-					<div name="SubjectSearch" id="SubjectSearch"><select
-						name="subjectOption" id="subjectOption">
-						<c:forEach items="${searchTypeRefDataPrt}" var="option">
-							<option value="${option.code }">${option.desc }</option>
-						</c:forEach>
-					</select></div>
-					<div name="StudySearch" id="StudySearch" style="display:none;"><select
-						name="studyOption" id="studyOption">
-						<c:forEach items="${searchTypeRefDataStudy}" var="option">
-							<option value="${option.code }">${option.desc }</option>
-						</c:forEach>
-					</select></div>
+                        <div name="SubjectSearch" id="SubjectSearch">
+                            <form:select path="subjectOption" id="subjectOption">
+                            <c:forEach items="${searchTypeRefDataPrt}" var="option">
+                                <form:option value="${option.code}" label="${option.desc}" />
+                            </c:forEach>
+                            </form:select>
+                        </div>
+
+                        <div name="StudySearch" id="StudySearch" style="display:none;">
+                            <form:select path="studyOption" id="studyOption">
+                            <c:forEach items="${searchTypeRefDataStudy}" var="option">
+                                <form:option value="${option.code }" label="${option.desc}" />
+                            </c:forEach>
+                            </form:select>
+                        </div>
 					</td>
 				</tr>
 
 				<tr>
 					<td width="20%" valign="top" align="right"><span class="label"><b>Search Criteria:</b></span>&nbsp;</td>
-					<td colspan="2"><input type="hidden" id="registration-hidden" /> <input
-						id="registration-input" size="52" type="text" name="searchText"
-						class="autocomplete" /> <tags:indicator
-						id="registration-indicator" />
+					<td colspan="2"><input type="hidden" id="registration-hidden" />
+                        <form:input id="registration-input" path="searchText" cssClass="autocomplete" size="52"/>
+                        <tags:indicator id="registration-indicator" />
 					<div id="registration-choices" class="autocomplete"></div>
 					<p id="registration-selected" style="display: none">You've selected
 					<span id="registration-selected-name"></span>.</p>
