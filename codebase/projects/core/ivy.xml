@@ -79,7 +79,6 @@
         	<dependency org="gov.nih.nci.caxchange" name="caXchangeRequestProcessor-common" rev="1.0" /> 
         	<dependency org="gov.nih.nci.caxchange" name="caXchangeRequestProcessor-stubs" rev="1.0" />
         	<dependency org="gov.nih.nci.caxchange" name="caXchangeRequestProcessor-client" rev="1.0" />
-        	<dependency org="gov.nih.nci" name="c3pr-esb-client" rev="1.0" />
         	<dependency org="gov.nih.nci.cagrid" name="cagrid-cds-client" rev="1.2" />
         	<dependency org="gov.nih.nci.cagrid" name="cagrid-cds-common" rev="1.2" />
         	<dependency org="gov.nih.nci.cagrid" name="cagrid-cds-stubs" rev="1.2" />
@@ -105,7 +104,8 @@
         	<dependency org="javax.mail" name="mail" rev="1.4" />
         	<dependency org="javax.activation" name="activation" rev="1.1" />
         	
-        	<!-- compile only dependencies -->
+    		<!-- compile only dependencies -->
+        	<dependency org="javax.servlet" name="jstl" rev="1.1.2" conf="build->default(*)" />
 <!--
         	<dependency org="ant" name="ant" rev="1.6.5" conf="core"/>
 -->        	
