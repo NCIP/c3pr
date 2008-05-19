@@ -33,6 +33,7 @@ import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.service.impl.StudySubjectXMLImporterServiceImpl;
+import edu.duke.cabig.c3pr.utils.StringUtils;
 
 @Transactional
 public class StudySubjectRepositoryImpl implements StudySubjectRepository {
@@ -156,21 +157,21 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 			throws C3PRCodedException {
 		StudySubject studySubject = studySubjectFactory.buildStudySubject(deserialedStudySubject);
 		if (studySubject.getParticipant().getId() != null) {
-			StudySubject exampleSS = new StudySubject(true);
-			exampleSS.setParticipant(studySubject.getParticipant());
-			exampleSS.setStudySite(studySubject.getStudySite());
-			List<StudySubject> registrations = studySubjectDao.searchBySubjectAndStudySite(exampleSS);
-			if (registrations.size() > 0) {
-				throw this.exceptionHelper
-						.getException(getCode("C3PR.EXCEPTION.REGISTRATION.STUDYSUBJECTS_ALREADY_EXISTS.CODE"));
-			}
+		    StudySubject exampleSS = new StudySubject(true);
+		    exampleSS.setParticipant(studySubject.getParticipant());
+		    exampleSS.setStudySite(studySubject.getStudySite());
+		    List<StudySubject> registrations = studySubjectDao.searchBySubjectAndStudySite(exampleSS);
+		    if (registrations.size() > 0) {
+		        throw this.exceptionHelper
+		        .getException(getCode("C3PR.EXCEPTION.REGISTRATION.STUDYSUBJECTS_ALREADY_EXISTS.CODE"));
+		    }
 		} else {
-			if (studySubject.getParticipant().validateParticipant())
-				participantDao.save(studySubject.getParticipant());
-			else {
-				throw this.exceptionHelper
-						.getException(getCode("C3PR.EXCEPTION.REGISTRATION.SUBJECTS_INVALID_DETAILS.CODE"));
-			}
+		    if (studySubject.getParticipant().validateParticipant())
+		        participantDao.save(studySubject.getParticipant());
+		    else {
+		        throw this.exceptionHelper
+		        .getException(getCode("C3PR.EXCEPTION.REGISTRATION.SUBJECTS_INVALID_DETAILS.CODE"));
+		    }
 		}
 		if (studySubject.getScheduledEpoch().getEpoch().getRequiresArm()) {
 			ScheduledTreatmentEpoch scheduledTreatmentEpoch = (ScheduledTreatmentEpoch) studySubject
@@ -262,13 +263,68 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
         studySubjectDao.save(studySubject);
         return studySubject;
     }
-
+    
     public void setStudySubjectFactory(StudySubjectFactory studySubjectFactory) {
         this.studySubjectFactory = studySubjectFactory;
     }
 
-	public void setParticipantDao(ParticipantDao participantDao) {
-		this.participantDao = participantDao;
-	}
+    public void setParticipantDao(ParticipantDao participantDao) {
+	this.participantDao = participantDao;
+    }
+
+    public StudySubject updateLocalRegistration(StudySubject updatedStudySubject) {
+        StudySubject referencedStudySubject=null;
+        StudySubject studySubject=null;
+        try {
+            referencedStudySubject=studySubjectFactory.buildReferencedStudySubject(updatedStudySubject);
+        }
+        catch (C3PRCodedException e) {
+            throw new RuntimeException(e);
+        }
+        if (referencedStudySubject.getParticipant().getId() != null) {
+            List<StudySubject> registrations = findRegistrations(referencedStudySubject);
+            if (registrations.size() == 1) {
+                studySubject=registrations.get(0);
+            }
+        }
+        if(studySubject==null){
+            throw new RuntimeException("Error finding reistration record in database.");
+        }
+        if(studySubject.getScheduledEpoch().getScEpochWorkflowStatus()!=ScheduledEpochWorkFlowStatus.PENDING){
+            throw new RuntimeException("Schedule epoch not in pending status.");
+        }
+        ScheduledEpoch scheduledEpoch = studySubject.getScheduledEpoch();
+        if(referencedStudySubject.getScheduledEpoch().getScEpochWorkflowStatus()!=ScheduledEpochWorkFlowStatus.APPROVED){
+            String disapprovalReason="";
+            if(StringUtils.getBlankIfNull(referencedStudySubject.getScheduledEpoch().getDisapprovalReasonText()).equals(""))
+                disapprovalReason="Registration was not approved by co-ordinating center. No error message was provided.";
+            else
+                disapprovalReason=updatedStudySubject.getScheduledEpoch().getDisapprovalReasonText();
+            studySubject.disapprove(disapprovalReason);
+        }else{
+            if (studySubject.getScheduledEpoch().getRequiresRandomization()) {
+                if (((ScheduledTreatmentEpoch) referencedStudySubject.getScheduledEpoch()).getScheduledArm() == null) {
+                    studySubject.disapprove("Registration was approved by co-ordinating center. However no arm was assigned.");
+                }
+                else {
+                    ScheduledArm assignedScheduledArm=((ScheduledTreatmentEpoch)referencedStudySubject.getScheduledEpoch()).getScheduledArm();
+                    ((ScheduledTreatmentEpoch)scheduledEpoch).getScheduledArms().add(0,assignedScheduledArm);
+                    scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
+                }
+            }
+            else {
+                // logic for accrual ceiling check
+                scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
+            }
+        }
+        return this.save(studySubject);
+    }
+
+    public List<StudySubject> findRegistrations(StudySubject exampleStudySubject) {
+        StudySubject exampleSS = new StudySubject(true);
+        exampleSS.setParticipant(exampleStudySubject.getParticipant());
+        exampleSS.setStudySite(exampleStudySubject.getStudySite());
+        return studySubjectDao.searchBySubjectAndStudySite(exampleSS);
+    }
 	
 }

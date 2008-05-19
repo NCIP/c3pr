@@ -27,6 +27,9 @@ public class Configuration extends DatabaseBackedConfiguration {
 
     public static final ConfigurationProperty<String> ESB_ENABLE = PROPERTIES
                     .add(new ConfigurationProperty.Text("esbEnable"));
+    
+    public static final ConfigurationProperty<String> MULTISITE_ENABLE = PROPERTIES
+                    .add(new ConfigurationProperty.Text("multisiteEnable"));
 
     public static final ConfigurationProperty<String> CCTS_WEBSSO_BASE_URL = PROPERTIES
                     .add(new ConfigurationProperty.Text("ccts.websso.base_url"));

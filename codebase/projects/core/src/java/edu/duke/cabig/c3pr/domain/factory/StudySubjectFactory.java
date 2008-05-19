@@ -33,23 +33,23 @@ public class StudySubjectFactory {
      * Logger for this class
      */
     private static final Logger logger = Logger.getLogger(StudySubjectFactory.class);
-    
+
     private C3PRExceptionHelper exceptionHelper;
 
     private MessageSource c3prErrorMessages;
-    
+
     private final String identifierTypeValueStr = "Coordinating Center Identifier";
 
     private final String prtIdentifierTypeValueStr = "MRN";
-    
+
     private StudyService studyService;
 
     private ParticipantService participantService;
-    
+
     private StudyRepository studyRepository;
-    
+
     private StudySubjectDao studySubjectDao;
-    
+
     private ParticipantDao participantDao;
 
     public void setParticipantDao(ParticipantDao participantDao) {
@@ -78,8 +78,7 @@ public class StudySubjectFactory {
             }
         }
         else {
-            if (participant.validateParticipant()) participantDao
-                            .save(participant);
+            if (participant.validateParticipant()) participantDao.save(participant);
             else {
                 throw this.exceptionHelper
                                 .getException(getCode("C3PR.EXCEPTION.REGISTRATION.SUBJECTS_INVALID_DETAILS.CODE"));
@@ -96,10 +95,27 @@ public class StudySubjectFactory {
         return built;
     }
 
-    private Participant buildParticipant(Participant participant) throws C3PRCodedException {
+    public StudySubject buildReferencedStudySubject(StudySubject deserializedStudySubject)
+                    throws C3PRCodedException {
+        StudySubject built = new StudySubject();
+        StudySite studySite = buildStudySite(deserializedStudySubject.getStudySite(),
+                        buildStudy(deserializedStudySubject.getStudySite().getStudy()));
+        Participant participant = buildParticipant(deserializedStudySubject.getParticipant());
+        built.setStudySite(studySite);
+        built.setParticipant(participant);
+        Epoch epoch = buildEpoch(studySite.getStudy().getEpochs(), deserializedStudySubject
+                        .getScheduledEpoch());
+        ScheduledEpoch scheduledEpoch = buildScheduledEpoch(deserializedStudySubject
+                        .getScheduledEpoch(), epoch);
+        built.getScheduledEpochs().add(0, scheduledEpoch);
+        fillStudySubjectDetails(built, deserializedStudySubject);
+        return built;
+    }
+
+    public Participant buildParticipant(Participant participant) throws C3PRCodedException {
         if (participant.getIdentifiers() == null || participant.getIdentifiers().size() == 0) {
-            throw exceptionHelper.getException(
-                            getCode("C3PR.EXCEPTION.REGISTRATION.MISSING.SUBJECT_IDENTIFIER.CODE"));
+            throw exceptionHelper
+                            .getException(getCode("C3PR.EXCEPTION.REGISTRATION.MISSING.SUBJECT_IDENTIFIER.CODE"));
         }
         for (OrganizationAssignedIdentifier organizationAssignedIdentifier : participant
                         .getOrganizationAssignedIdentifiers()) {
@@ -138,10 +154,10 @@ public class StudySubjectFactory {
         return participant;
     }
 
-    private Study buildStudy(Study study) throws C3PRCodedException {
+    public Study buildStudy(Study study) throws C3PRCodedException {
         if (study.getIdentifiers() == null || study.getIdentifiers().size() == 0) {
-            throw exceptionHelper.getException(
-                            getCode("C3PR.EXCEPTION.REGISTRATION.MISSING.STUDY_IDENTIFIER.CODE"));
+            throw exceptionHelper
+                            .getException(getCode("C3PR.EXCEPTION.REGISTRATION.MISSING.STUDY_IDENTIFIER.CODE"));
         }
         List<Study> studies = null;
         OrganizationAssignedIdentifier identifier = null;
@@ -149,14 +165,14 @@ public class StudySubjectFactory {
                         .getOrganizationAssignedIdentifiers()) {
             if (organizationAssignedIdentifier.getType().equals(this.identifierTypeValueStr)) {
                 identifier = organizationAssignedIdentifier;
-                studies = studyRepository.searchByCoOrdinatingCenterId(organizationAssignedIdentifier);
+                studies = studyRepository
+                                .searchByCoOrdinatingCenterId(organizationAssignedIdentifier);
                 break;
             }
         }
         if (identifier == null) {
             throw exceptionHelper
-                            .getException(
-                                            getCode("C3PR.EXCEPTION.REGISTRATION.MISSING.STUDY_COORDINATING_IDENTIFIER.CODE"));
+                            .getException(getCode("C3PR.EXCEPTION.REGISTRATION.MISSING.STUDY_COORDINATING_IDENTIFIER.CODE"));
         }
         if (studies == null) {
             throw exceptionHelper
@@ -187,14 +203,14 @@ public class StudySubjectFactory {
         }
         if (studies.get(0).getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.ACTIVE) {
             throw exceptionHelper.getException(
-                            getCode("C3PR.EXCEPTION.REGISTRATION.STUDY_NOT_ACTIVE"),
-                            new String[] { identifier.getHealthcareSite().getNciInstituteCode(),
+                            getCode("C3PR.EXCEPTION.REGISTRATION.STUDY_NOT_ACTIVE"), new String[] {
+                                    identifier.getHealthcareSite().getNciInstituteCode(),
                                     identifier.getValue() });
         }
         return studies.get(0);
     }
 
-    private StudySite buildStudySite(StudySite studySite, Study study) throws C3PRCodedException {
+    public StudySite buildStudySite(StudySite studySite, Study study) throws C3PRCodedException {
         for (StudySite temp : study.getStudySites()) {
             if (temp.getHealthcareSite().getNciInstituteCode().equals(
                             studySite.getHealthcareSite().getNciInstituteCode())) {
@@ -269,7 +285,7 @@ public class StudySubjectFactory {
             scheduledEpoch = new ScheduledNonTreatmentEpoch();
         }
         scheduledEpoch.setEpoch(epoch);
-        scheduledEpoch.setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
+        scheduledEpoch.setScEpochWorkflowStatus(source.getScEpochWorkflowStatus());
         return scheduledEpoch;
     }
 
@@ -279,8 +295,10 @@ public class StudySubjectFactory {
         studySubject.setStartDate(source.getStartDate());
         studySubject.setStratumGroupNumber(source.getStratumGroupNumber());
         studySubject.getIdentifiers().addAll(source.getIdentifiers());
+        studySubject.setCctsWorkflowStatus(source.getCctsWorkflowStatus());
+        studySubject.setMultisiteWorkflowStatus(source.getMultisiteWorkflowStatus());
     }
-    
+
     private int getCode(String errortypeString) {
         return Integer.parseInt(this.c3prErrorMessages.getMessage(errortypeString, null, null));
     }
@@ -301,7 +319,7 @@ public class StudySubjectFactory {
         this.participantService = participantService;
     }
 
-	public void setStudyRepository(StudyRepository studyRepository) {
-		this.studyRepository = studyRepository;
-	}
+    public void setStudyRepository(StudyRepository studyRepository) {
+        this.studyRepository = studyRepository;
+    }
 }

@@ -1,5 +1,7 @@
 package edu.duke.cabig.c3pr.domain.repository;
 
+import java.util.List;
+
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
@@ -23,6 +25,11 @@ public interface StudySubjectRepository {
     
     public StudySubject doLocalRegistration(StudySubject studySubject) throws C3PRCodedException;
     
+    public StudySubject updateLocalRegistration(StudySubject studySubject);
+    
     public StudySubject importStudySubject(StudySubject deserialedStudySubject)
 	throws C3PRCodedException;
+    
+    public List<StudySubject> findRegistrations(StudySubject exampleStudySubject);
+    
 }

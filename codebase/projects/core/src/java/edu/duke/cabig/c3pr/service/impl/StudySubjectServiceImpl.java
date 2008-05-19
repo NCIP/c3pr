@@ -1,9 +1,12 @@
 package edu.duke.cabig.c3pr.service.impl;
 
+import java.io.StringReader;
+
 import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.duke.cabig.c3pr.domain.CCTSWorkflowStatusType;
+import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.RegistrationWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpoch;
@@ -12,10 +15,13 @@ import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.factory.StudySubjectFactory;
 import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
+import edu.duke.cabig.c3pr.esb.BroadcastException;
+import edu.duke.cabig.c3pr.esb.MessageBroadcastService;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.StudyTargetAccrualNotificationEmail;
+import gov.nih.nci.common.exception.XMLUtilityException;
 
 /**
  * @author Kruttik
@@ -109,6 +115,15 @@ public class StudySubjectServiceImpl extends CCTSWorkflowServiceImpl implements 
                      // TODO throw a C3PRCodedUncheckedException
                         throw new RuntimeException(e);
                     }
+                    try{
+                        if(studySubject.requiresAffiliateSiteResponse()){
+                            sendRegistrationResponse(studySubject);
+                        }
+                    }catch(RuntimeException e){
+                        logger.error(e.getMessage());
+                        studySubject
+                                        .setMultisiteWorkflowStatus(CCTSWorkflowStatusType.MESSAGE_REPLY_FAILED);
+                    }
                 }
                 else {
                     studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.UNREGISTERED);
@@ -124,26 +139,50 @@ public class StudySubjectServiceImpl extends CCTSWorkflowServiceImpl implements 
         return studySubjectRepository.save(studySubject);
     }
     
-    @Transactional
-    public StudySubject processAffliateSiteRegistrationRequest(StudySubject deserialisedStudySubject)
-                    throws C3PRCodedException {
-        StudySubject studySubject = studySubjectFactory.buildStudySubject(deserialisedStudySubject);
-        studySubject.updateDataEntryStatus();
-        if (studySubject.getRegDataEntryStatus() == RegistrationDataEntryStatus.INCOMPLETE) {
-            throw getExceptionHelper().getException(
-                            getCode("C3PR.EXCEPTION.REGISTRATION.DATA_ENTRY_INCOMPLETE.CODE"));
+    public void processAffliateSiteRegistrationRequest(StudySubject deserialisedStudySubject) {
+        StudySubject studySubject=null;;
+        try {
+            studySubject = studySubjectFactory.buildStudySubject(deserialisedStudySubject);
+            studySubject.updateDataEntryStatus();
+            if (studySubject.getRegDataEntryStatus() == RegistrationDataEntryStatus.INCOMPLETE) {
+                throw getExceptionHelper().getException(
+                                getCode("C3PR.EXCEPTION.REGISTRATION.DATA_ENTRY_INCOMPLETE.CODE"));
+            }
+            if (studySubject.getScheduledEpoch().getScEpochDataEntryStatus() == ScheduledEpochDataEntryStatus.INCOMPLETE) {
+                throw getExceptionHelper()
+                                .getException(
+                                                getCode("C3PR.EXCEPTION.REGISTRATION.SCHEDULEDEPOCH.DATA_ENTRY_INCOMPLETE.CODE"));
+            }
+            studySubjectRepository.save(studySubject);
         }
-        if (studySubject.getScheduledEpoch().getScEpochDataEntryStatus() == ScheduledEpochDataEntryStatus.INCOMPLETE) {
-            throw getExceptionHelper()
-                            .getException(
-                                            getCode("C3PR.EXCEPTION.REGISTRATION.SCHEDULEDEPOCH.DATA_ENTRY_INCOMPLETE.CODE"));
+        catch (C3PRCodedException e) {
+            logger.error(e);
+            deserialisedStudySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.DISAPPROVED);
+            deserialisedStudySubject.setDisapprovalReasonText(e.getCodedExceptionMesssage());
+            sendRegistrationResponse(deserialisedStudySubject);
+            return;
         }
-        return this.register(studySubject);
+        if(!studySubject.getScheduledEpoch().getRequiresRandomization()||(studySubject.getScheduledEpoch().getRequiresRandomization() 
+                        && studySubject.getStudySite().getStudy().getRandomizationType()==RandomizationType.BOOK)){
+            try {
+                this.register(studySubject);
+            }
+            catch (RuntimeException e) {
+                logger.error(e);
+                studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.DISAPPROVED);
+                studySubject.setDisapprovalReasonText(e.getMessage());
+                studySubjectRepository.save(studySubject);
+                sendRegistrationResponse(studySubject);
+                return;
+            }
+        }
     }
     
-    public void sendRegistrationRequest(StudySubject studySubject) {
+    public void processCoOrdinatingCenterResponse(StudySubject deserializedStudySubject) {
+        StudySubject studySubject=studySubjectRepository.updateLocalRegistration(deserializedStudySubject);
+        this.updateRegistrationStatus(studySubject);
     }
-
+    
     public boolean isHostedMode() {
         return hostedMode;
     }
@@ -164,4 +203,5 @@ public class StudySubjectServiceImpl extends CCTSWorkflowServiceImpl implements 
         return studySubject.requiresCoordinatingCenterApproval()
         && !studySubject.isCoOrdinatingCenter(getLocalInstanceNCICode()) && !isHostedMode();
     }
+
 }

@@ -6,11 +6,14 @@ import org.springframework.context.MessageSource;
 import edu.duke.cabig.c3pr.dao.GridIdentifiableDao;
 import edu.duke.cabig.c3pr.domain.CCTSAbstractMutableDeletableDomainObject;
 import edu.duke.cabig.c3pr.domain.CCTSWorkflowStatusType;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.esb.BroadcastException;
 import edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster;
+import edu.duke.cabig.c3pr.esb.MessageBroadcastService;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.service.CCTSWorkflowService;
+import edu.duke.cabig.c3pr.service.MultiSiteWorkflowService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.DefaultCCTSMessageWorkflowCallbackFactory;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
@@ -20,7 +23,7 @@ import gov.nih.nci.common.exception.XMLUtilityException;
  * Created by IntelliJ IDEA. User: kherm Date: Dec 6, 2007 Time: 4:01:40 PM To change this template
  * use File | Settings | File Templates.
  */
-public class CCTSWorkflowServiceImpl implements CCTSWorkflowService {
+public class CCTSWorkflowServiceImpl implements CCTSWorkflowService, MultiSiteWorkflowService {
 
     private Logger log = Logger.getLogger(CCTSWorkflowService.class);
 
@@ -37,6 +40,19 @@ public class CCTSWorkflowServiceImpl implements CCTSWorkflowService {
     private Configuration configuration;
 
     private MessageSource c3prErrorMessages;
+    
+    private MessageBroadcastService jmsCoOrdinatingCenterBroadcaster;
+    
+    private MessageBroadcastService jmsAffiliateSiteBroadcaster;
+
+    public void setJmsCoOrdinatingCenterBroadcaster(
+                    MessageBroadcastService jmsCoOrdinatingCenterBroadcaster) {
+        this.jmsCoOrdinatingCenterBroadcaster = jmsCoOrdinatingCenterBroadcaster;
+    }
+
+    public void setJmsAffiliateSiteBroadcaster(MessageBroadcastService jmsAffiliateSiteBroadcaster) {
+        this.jmsAffiliateSiteBroadcaster = jmsAffiliateSiteBroadcaster;
+    }
 
     public MessageSource getC3prErrorMessages() {
         return c3prErrorMessages;
@@ -135,9 +151,13 @@ public class CCTSWorkflowServiceImpl implements CCTSWorkflowService {
     }
 
     public String getIsBroadcastEnable() {
-        return this.configuration.get(this.configuration.ESB_ENABLE);
+        return this.configuration.get(Configuration.ESB_ENABLE);
     }
 
+    public String getIsMultiSiteEnable() {
+        return this.configuration.get(Configuration.MULTISITE_ENABLE);
+    }
+    
     public int getCode(String errortypeString) {
         return Integer.parseInt(this.c3prErrorMessages.getMessage(errortypeString, null, null));
     }
@@ -146,4 +166,37 @@ public class CCTSWorkflowServiceImpl implements CCTSWorkflowService {
         return exceptionHelper;
     }
 
+    public CCTSWorkflowStatusType getMultiSiteWofkflowStatus(
+                    CCTSAbstractMutableDeletableDomainObject cctsObject) {
+        CCTSAbstractMutableDeletableDomainObject loadedCCTSObject = (CCTSAbstractMutableDeletableDomainObject) dao
+        .getByGridId(cctsObject);
+        return loadedCCTSObject.getMultisiteWorkflowStatus();
+    }
+
+    public void sendRegistrationRequest(StudySubject studySubject) {
+        try {
+            jmsCoOrdinatingCenterBroadcaster.broadcast(getXmlUtility().toXML(studySubject));
+            studySubject.setMultisiteWorkflowStatus(CCTSWorkflowStatusType.MESSAGE_SEND_CONFIRMED);
+        }
+        catch (Exception e) {
+            studySubject.setMultisiteWorkflowStatus(CCTSWorkflowStatusType.MESSAGE_SEND_FAILED);
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void sendRegistrationResponse(StudySubject studySubject) {
+        if (getIsMultiSiteEnable().equalsIgnoreCase("true")) {
+            try {
+                jmsAffiliateSiteBroadcaster.broadcast(getXmlUtility().toXML(studySubject));
+                studySubject.setMultisiteWorkflowStatus(CCTSWorkflowStatusType.MESSAGE_REPLY_CONFIRMED);
+            }
+            catch (Exception e) {
+                studySubject.setMultisiteWorkflowStatus(CCTSWorkflowStatusType.MESSAGE_REPLY_FAILED);
+                throw new RuntimeException(e);
+            }
+        }else {
+            throw new RuntimeException(this.exceptionHelper
+            .getException(getCode("C3PR.EXCEPTION.REGISTRATION.MULTISITE.DISABLED")));
+        }
+    }
 }

@@ -1,13 +1,14 @@
 package edu.duke.cabig.c3pr.service;
 
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.esb.MessageResponseHandler;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 
 /**
  * @author Kulasekaran,Ramakrishna
  * @version 1.0
  */
-public interface StudySubjectService extends CCTSWorkflowService {
+public interface StudySubjectService extends CCTSWorkflowService, MultiSiteWorkflowService {
 
     /**
      * Search using a sample. Populate a Participant object
@@ -21,12 +22,11 @@ public interface StudySubjectService extends CCTSWorkflowService {
 
     public void setHostedMode(boolean hostedMode);
 
-    public void sendRegistrationRequest(StudySubject studySubject) throws C3PRCodedException;
-
     public StudySubject register(StudySubject studySubject);
     
-    public StudySubject processAffliateSiteRegistrationRequest(StudySubject studySubject)
-    throws C3PRCodedException;
+    public void processAffliateSiteRegistrationRequest(StudySubject studySubject);
+    
+    public void processCoOrdinatingCenterResponse(StudySubject deserializedStudySubject);
     
     public boolean requiresExternalApprovalForRegistration(StudySubject studySubject);
 }

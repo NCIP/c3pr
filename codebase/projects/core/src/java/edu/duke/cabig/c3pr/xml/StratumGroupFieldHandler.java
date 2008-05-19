@@ -26,7 +26,7 @@ public class StratumGroupFieldHandler implements FieldHandler {
                 log.debug("no startum group number found..");
                 return null;
             }
-            return registration.getStratumGroupNumber();
+            return registration.getStratumGroupNumber()==null?null:registration.getStratumGroupNumber().toString();
         }
     }
 
