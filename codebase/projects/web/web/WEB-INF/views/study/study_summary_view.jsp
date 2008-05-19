@@ -82,7 +82,7 @@
             <td class="alt" align="left"><b>Target Accrual Number</b></td>
             <td class="alt" align="left">
                 <tags:inPlaceEdit value="${command.targetAccrualNumber}" path="changedTargetAccrualNumber"
-                                  required="true"/>
+                                  validations="validate-notEmpty"/>
                        <csmauthz:accesscontrol domainObject="${command}" hasPrivileges="UPDATE"
                             authorizationCheckName="domainObjectAuthorizationCheck">
         					&nbsp; <input type="button" value="Edit"
@@ -226,11 +226,11 @@
                 <td class="alt" align="left">${studySite.roleCode}</td>
                 <td class="alt" align="left">
                     <tags:inPlaceEdit value="${studySite.startDateStr}" path="changedSiteStudyStartDate_${status.index}"
-                                      required="true"/>
+                                      validations="validate-notEmpty&&DATE"/>
                 </td>
                 <td class="alt" align="left">
                     <tags:inPlaceEdit value="${studySite.irbApprovalDateStr}"
-                                      path="changedSiteStudyIrbApprovalDate_${status.index}" required="true"/>
+                                      path="changedSiteStudyIrbApprovalDate_${status.index}" validations="validate-notEmpty&&DATE"/>
                 </td>
                 <td>
 	                <csmauthz:accesscontrol domainObject="${command}" hasPrivileges="UPDATE"

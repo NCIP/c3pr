@@ -224,7 +224,7 @@
         <tr>
             <td class="label">Registration Start Date</td>
             <td> 
-            <tags:inPlaceEdit value="${command.startDateStr }" path="startDate" required="true"/>
+            <tags:inPlaceEdit value="${command.startDateStr }" path="startDate" validations="validate-notEmpty&&DATE"/>
             </td>
         </tr>
         <tr>
@@ -243,7 +243,7 @@
                                        cssClass="validate-notEmpty"></form:textarea>
                         <br /><br />
                         Date: &nbsp;&nbsp;&nbsp;
-                        <tags:dateInput path="offStudyDate" cssClass="validate-notEmpty"/>
+                        <tags:dateInput path="offStudyDate" cssClass="validate-notEmpty&&DATE"/>
                         <em> (mm/dd/yyyy)</em><br /><br />
                         <c:if test="${command.regWorkflowStatus!='OFF_STUDY'}"><input type="submit" value="ok"/>
                             <input type="button" value="cancel" onclick="new Effect.SlideUp('OffStudyStatus')"/></c:if>
@@ -266,14 +266,14 @@
             <td class="label">Informed Consent Signed Date</td>
             <td>
                 <tags:inPlaceEdit value="${command.informedConsentSignedDateStr }" path="informedConsentSignedDate"
-                                  required="true"/>
+                                  validations="validate-notEmpty&&DATE"/>
             </td>
         </tr>
         <tr>
             <td class="label">Informed Consent Version</td>
             <td>
                 <tags:inPlaceEdit value="${command.informedConsentVersion}" path="informedConsentVersion"
-                                  required="true"/>
+                                  validations="validate-notEmpty"/>
             </td>
         </tr>
         <tr>
@@ -298,7 +298,7 @@
             <td width="35%" class="label">Registration Identifier</td>
             <td>
                 <tags:inPlaceEdit value="${command.coOrdinatingCenterIdentifier}" path="coOrdinatingCenterIdentifier"
-                                  required="true"/>
+                                  validations="validate-notEmpty"/>
                 &nbsp;</td>
         </tr>
         <tr>
