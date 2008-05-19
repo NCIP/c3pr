@@ -277,6 +277,28 @@
           class="edu.duke.cabig.c3pr.dao.StratificationCriterionAnswerDao" autowire="byName"/>
     <bean id="stratumGroupDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StratumGroupDao" autowire="byName"/>
 
+	<!-- Multisite Request Handlers -->
+    <bean id="affiliateSiteRequestHandler" class="edu.duke.cabig.c3pr.utils.AffiliateSiteRequestHandler">
+    	<property name="studySubjectService" ref="studySubjectService"></property>
+    	<property name="xmlUtility">
+            <bean class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
+                <property name="mappingFile" ref="ccts-registration-castorMapping"/>
+            </bean>
+        </property>
+        <property name="openSessionInViewInterceptor" ref="openSessionInViewInterceptor"/>
+    </bean>
+    
+    <bean id="coOrdinatingCenterResponseHandler" class="edu.duke.cabig.c3pr.utils.CoOrdinatingCenterResponseHandler">
+    	<property name="studySubjectService" ref="studySubjectService">
+    	</property>
+		<property name="xmlUtility">
+            <bean class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
+                <property name="mappingFile" ref="ccts-registration-castorMapping"/>
+            </bean>
+        </property>
+        <property name="openSessionInViewInterceptor" ref="openSessionInViewInterceptor"/>
+    </bean>
+    
     <!-- Services -->
     <bean id="cctsWorkflowService" class="edu.duke.cabig.c3pr.service.impl.CCTSWorkflowServiceImpl"
           abstract="true" autowire="byType">

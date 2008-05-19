@@ -28,17 +28,17 @@
     <aop:aspectj-autoproxy/>
     <aop:spring-configured/>
 
-    <aop:config>
+    <!-- <aop:config> -->
         <!-- pointcuts -->
-        <aop:pointcut id="daoMethodPointcut"
+        <!--<aop:pointcut id="daoMethodPointcut"
                       expression="execution(public void edu.duke.cabig.c3pr.dao.C3PRBaseDao+.save(gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject+)) ||
                       execution(public void edu.duke.cabig.c3pr.dao.C3PRBaseDao+.merge(gov.nih.nci.cabig.ctms.domain.AbstractMutableDomainObject+))||
                       execution(public * edu.duke.cabig.c3pr.dao.C3PRBaseDao+.search*(..))||
                       execution(public * edu.duke.cabig.c3pr.dao.C3PRBaseDao+.get*(..))
-                      "/>
+                      "/>-->
 
         <!-- aspects -->
-        <aop:aspect id="daoSaveOrUpdateSecurityInterceptorAspect"
+        <!--<aop:aspect id="daoSaveOrUpdateSecurityInterceptorAspect"
                     ref="daoSecurityInterceptorAspectBean">
             <aop:around pointcut-ref="daoMethodPointcut"
                         method="advise"/>
@@ -46,7 +46,7 @@
 
         </aop:aspect>
     </aop:config>
-
+-->
 
     <bean id="daoSecurityInterceptorAspectBean"
           class="gov.nih.nci.security.acegi.csm.aop.SecurityInterceptorAspect">
