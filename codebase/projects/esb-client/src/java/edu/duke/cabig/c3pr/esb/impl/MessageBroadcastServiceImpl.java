@@ -1,11 +1,8 @@
 package edu.duke.cabig.c3pr.esb.impl;
 
-import org.apache.log4j.Logger;
-
 import java.util.Vector;
 
-import javax.jms.ConnectionFactory;
-import javax.jms.Destination;
+import org.apache.log4j.Logger;
 
 import edu.duke.cabig.c3pr.esb.BroadcastException;
 import edu.duke.cabig.c3pr.esb.JmsService;
@@ -44,18 +41,6 @@ public class MessageBroadcastServiceImpl extends JmsService implements MessageBr
             }
         }
         return messages;
-    }
-
-    public void setConnectionFactory(ConnectionFactory connectionFactory) {
-        this.connectionFactory = connectionFactory;
-    }
-
-    public void setRecvQueue(Destination recvQueue) {
-        this.recvQueue = recvQueue;
-    }
-
-    public void setSendQueue(Destination sendQueue) {
-        this.sendQueue = sendQueue;
     }
 
 }
