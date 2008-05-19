@@ -220,6 +220,7 @@
             <xs:element name="stratumGroup" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="offStudyReasonText" type="xs:string" minOccurs="0" maxOccurs="1"/>
             <xs:element name="offStudyDate" type="xs:string" minOccurs="0" maxOccurs="1"/>
+            <xs:element name="disapprovalReasonText" type="xs:string" minOccurs="0" maxOccurs="1"/>
         </xs:sequence>
         <xs:attribute name="gridId" type="xs:string"/>
     </xs:complexType>
@@ -243,6 +244,14 @@
         </xs:restriction>
     </xs:simpleType>
 
+	<xs:simpleType name="ScheduledEpochWorkFlowStatusType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="UNAPPROVED"/>
+            <xs:enumeration value="PENDING"/>
+            <xs:enumeration value="DISAPPROVED"/>
+            <xs:enumeration value="APPROVED"/>
+        </xs:restriction>
+    </xs:simpleType>
     <xs:complexType name="StratumGroupType">
         <xs:sequence>
             <xs:element name="gridId" type="xs:string" minOccurs="0"/>
@@ -253,6 +262,9 @@
         <xs:sequence>
             <xs:element name="startDate" type="xs:date" minOccurs="1" maxOccurs="1"/>
             <xs:element ref="epoch" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="scEpochWorkflowStatus" type="ScheduledEpochWorkFlowStatusType" minOccurs="0"
+                        maxOccurs="1"/>
+            <xs:element name="disapprovalReasonText" type="xs:string" minOccurs="0" maxOccurs="1"/>
         </xs:sequence>
         <xs:attribute name="gridId" type="xs:string"/>
     </xs:complexType>
