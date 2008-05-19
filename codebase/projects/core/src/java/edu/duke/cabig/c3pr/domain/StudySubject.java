@@ -83,6 +83,8 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
     private Integer stratumGroupNumber;
     
     private String paymentMethod;
+    
+    private String disapprovalReasonText;
 
     public StudySubject() {
         lazyListHelper = new LazyListHelper();
@@ -245,6 +247,14 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
         this.informedConsentSignedDate = informedConsentSignedDate;
     }
 
+    public String getDisapprovalReasonText() {
+        return disapprovalReasonText;
+    }
+
+    public void setDisapprovalReasonText(String disapprovalReasonText) {
+        this.disapprovalReasonText = disapprovalReasonText;
+    }
+    
     public Date getStartDate() {
         return startDate;
     }
@@ -601,11 +611,26 @@ public class StudySubject extends CCTSAbstractMutableDeletableDomainObject {
                         this.evaluateScheduledEpochDataEntryStatus());
     }
 
-	public String getPaymentMethod() {
-		return paymentMethod;
-	}
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
 
-	public void setPaymentMethod(String paymentMethod) {
-		this.paymentMethod = paymentMethod;
-	}
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+	
+    public void disapprove(String disapprovalReasonText){
+        if(this.regWorkflowStatus!=RegistrationWorkFlowStatus.REGISTERED){
+            this.regWorkflowStatus=RegistrationWorkFlowStatus.DISAPPROVED;
+            this.disapprovalReasonText=disapprovalReasonText;
+        }
+        getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.DISAPPROVED);
+        getScheduledEpoch().setDisapprovalReasonText(disapprovalReasonText);
+    }
+    
+    public boolean requiresAffiliateSiteResponse(){
+        if(this.getMultisiteWorkflowStatus()==CCTSWorkflowStatusType.MESSAGE_RECIEVED)
+            return true;
+        return false;
+    }
 }
