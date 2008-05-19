@@ -98,6 +98,7 @@
 
 			<!-- CTMS commons dependencies -->
 			<dependency org="gov.nih.nci.cabig.ctms" name="ctms-commons-web" rev="${ctmsi.commons.version}" transitive="false"/>
+			<dependency org="gov.nih.nci.cabig.ctms" name="ctms-commons-testing-uctrace" rev="${ctmsi.commons.version}" />
 			
 			<!-- Test/Runtime dependencies -->
 			<dependency org="dbunit" name="dbunit" rev="2.1" conf="build->default;test->default"/>
@@ -108,6 +109,8 @@
         	<dependency org="org.easymock" name="easymockclassextension" rev="2.2.1" conf="test->default" />
         	<dependency org="junit" name="junit" rev="3.8.1" conf="test->default"/>
 			<dependency org="gov.nih.nci.cabig.ctms" name="ctms-commons-testing-all" rev="0.8" conf="test->default"/>
+			<dependency org="edu.duke.cabig.c3pr" name="c3pr-core" rev="latest.integration" 
+				conf="test"/>
 
 			<!-- Web specific dependencies -->
 			<dependency org="org.directwebremoting" name="dwr" rev="2.0.rc2" />
