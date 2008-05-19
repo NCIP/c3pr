@@ -14,6 +14,8 @@ public class CCTSAbstractMutableDeletableDomainObject extends AbstractMutableDel
 
     private CCTSWorkflowStatusType cctsWorkflowStatus;
 
+    private CCTSWorkflowStatusType multisiteWorkflowStatus;
+    
     private boolean importErrorFlag;
 
     private String importErrorString;
@@ -59,5 +61,14 @@ public class CCTSAbstractMutableDeletableDomainObject extends AbstractMutableDel
     public void setImportErrorString(String importErrorString) {
         setImportErrorFlag(true);
         this.importErrorString = importErrorString;
+    }
+
+    @Enumerated(EnumType.STRING)
+    public CCTSWorkflowStatusType getMultisiteWorkflowStatus() {
+        return multisiteWorkflowStatus;
+    }
+
+    public void setMultisiteWorkflowStatus(CCTSWorkflowStatusType multisiteWorkflowStatus) {
+        this.multisiteWorkflowStatus = multisiteWorkflowStatus;
     }
 }
