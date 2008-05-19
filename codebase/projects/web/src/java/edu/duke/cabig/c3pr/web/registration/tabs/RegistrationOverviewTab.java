@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
+import edu.duke.cabig.c3pr.domain.CCTSWorkflowStatusType;
 import edu.duke.cabig.c3pr.domain.RegistrationDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochDataEntryStatus;
 import edu.duke.cabig.c3pr.domain.ScheduledEpochWorkFlowStatus;
@@ -81,6 +82,7 @@ public class RegistrationOverviewTab<C extends StudySubject> extends Registratio
         map.put("armAssignedLabel", armAssignedLabel);
         map.put("requiresMultiSite", studySubjectService
                         .requiresExternalApprovalForRegistration(studySubject));
+        map.put("multisiteEnable", new Boolean(this.configuration.get(Configuration.MULTISITE_ENABLE)));
         addAppUrls(map);
         return map;
     }
@@ -110,6 +112,26 @@ public class RegistrationOverviewTab<C extends StudySubject> extends Registratio
         catch (C3PRCodedException e) {
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("responseMessage", e.getMessage());
+            return new ModelAndView(getAjaxViewName(request), map);
+        }
+    }
+    
+    public ModelAndView broadcastMultiSiteRegistration(HttpServletRequest request, Object commandObj,
+                    Errors error) {
+        C command = (C) commandObj;
+        String responseMessage = null;
+        try {
+            if(command.getMultisiteWorkflowStatus()==CCTSWorkflowStatusType.MESSAGE_SEND_FAILED)
+                this.studySubjectService.sendRegistrationRequest(command);
+            else
+                this.studySubjectService.sendRegistrationResponse(command);
+            responseMessage = studySubjectService.getMultiSiteWofkflowStatus(command).getDisplayName();
+        }
+        catch (Exception e) {
+            responseMessage=e.getMessage();
+        }finally{
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("responseMessage", responseMessage);
             return new ModelAndView(getAjaxViewName(request), map);
         }
     }
