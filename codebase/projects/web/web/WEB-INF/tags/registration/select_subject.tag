@@ -114,6 +114,7 @@
 			}
 		}
 		if(!raceCodeFlag){
+			ValidationManager.removeError($("raceCodes"))
 			ValidationManager.showError($("raceCodes"), "required")	
 			return false;
 		}
