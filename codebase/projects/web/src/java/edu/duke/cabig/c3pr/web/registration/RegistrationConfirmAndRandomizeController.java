@@ -68,8 +68,7 @@ public class RegistrationConfirmAndRandomizeController extends SimpleFormControl
         boolean actionRequired = false;
         String actionLabel = "";
           if (studySubject.getScheduledEpoch().getScEpochWorkflowStatus() == ScheduledEpochWorkFlowStatus.UNAPPROVED
-                        && studySubject.getRegDataEntryStatus() == RegistrationDataEntryStatus.COMPLETE
-                        && studySubject.getScheduledEpoch().getScEpochDataEntryStatus() == ScheduledEpochDataEntryStatus.COMPLETE) {
+                        && studySubject.isDataEntryComplete()) {
             actionRequired = true;
             if (studySubject.getRegWorkflowStatus() != RegistrationWorkFlowStatus.REGISTERED) {
                 if (studySubject.getScheduledEpoch().getEpoch().isEnrolling()) actionLabel = "Register";

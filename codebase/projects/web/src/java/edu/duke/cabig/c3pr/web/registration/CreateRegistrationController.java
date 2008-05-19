@@ -105,7 +105,7 @@ public class CreateRegistrationController<C extends StudySubject> extends Regist
     }
     
     private boolean isRegisterableOnPage(StudySubject studySubject) {
-        return (studySubject.isRegisterable() || studySubject.isReservable())
+        return studySubject.isDataEntryComplete()
                         && !studySubject.getScheduledEpoch().getRequiresRandomization()
                         && !studySubjectService.requiresExternalApprovalForRegistration(studySubject);
     }
