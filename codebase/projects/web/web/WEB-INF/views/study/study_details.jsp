@@ -47,7 +47,7 @@
 
         ValidationManager.submitPostProcess= function(formElement, continueSubmission){
            if(formElement.id="command"){
-                 box1=document.getElementById('healthcareSite-input');
+                 box1=document.getElementById('healthcareSite-hidden');
                	if(document.getElementById('randomizedIndicator').value =='false'){
                	new Element.update('randomizationTypeDiv','');
                	};
@@ -56,10 +56,11 @@
 	                 document.getElementById('healthcareSite-hidden').name="xyz1";
 	                 document.getElementById('healthcareSite-hidden1').name="abcdxw";
 	                 document.getElementById('fundingSponsorIdentifier').name="xyz1ab";
+	                 document.getElementById('fundingSponIdentifierType').name="xyzwe";
 	                 document.getElementById('deletedSponsor').value="delete";
                  }
                  else{
-             	   	box2=document.getElementById('fundingSponsorIdentifier');
+             	   	box2=document.getElementById('healthcareSite-hidden1');
 	                if ((box2==null)||box2.value == '') {
 	                   document.getElementById('deletedSponsorIdentifier').value="delete";
 	             }
@@ -434,7 +435,7 @@
 	                    name="organizationAssignedIdentifiers[${sponIndex==0?1:sponIndex}].healthcareSite"
 	                    value="${command.fundingSponsorIdentifierIndex==-1?'':command.organizationAssignedIdentifiers[sponIndex==0?1:sponIndex].healthcareSite.id}" />
 					<input type="hidden" 
-						name="organizationAssignedIdentifiers[${sponIndex==0?1:sponIndex}].type" value="Protocol Authority Identifier" />
+						name="organizationAssignedIdentifiers[${sponIndex==0?1:sponIndex}].type" id="fundingSponIdentifierType" value="Protocol Authority Identifier" />
 					<tags:hoverHint keyProp="study.fundingsponsor.identifier"/>
 				</div>
 			</div>
