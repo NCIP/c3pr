@@ -333,7 +333,7 @@ public class StudySubjectServiceIntegrationTestCase extends DaoTestCase {
         studySubject = persistedStudySubjectCreator.getMultiSiteNonRandomizedStudySubject(false, true, false);
         persistedStudySubjectCreator.addScheduledEpochFromStudyEpochs(studySubject);
         persistedStudySubjectCreator.completeRegistrationDataEntry(studySubject);
-        EasyMock.expect(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE)).andReturn("NCI northwestern");
+        EasyMock.expect(configuration.get(Configuration.LOCAL_NCI_INSTITUTE_CODE)).andReturn("DUKE NCI");
         EasyMock.expect(configuration.get(Configuration.ESB_ENABLE)).andReturn("false");
         EasyMock.replay(configuration);
         Integer id=studySubjectService.register(studySubject).getId();
