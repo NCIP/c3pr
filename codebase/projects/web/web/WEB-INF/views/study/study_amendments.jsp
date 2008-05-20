@@ -108,10 +108,16 @@
 
 <c:choose>
 <c:when test="${command.coordinatingCenterStudyStatus == 'AMENDMENT_PENDING'}">
-	<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" title="New Amendment" >
-	<jsp:attribute name="singleFields">
-		<input type="hidden" name="_action" value="_action"/>
+
+	
+	<form:form name="myform" cssClass="standard">
+	<tags:tabFields tab="${tab}"/>
+
+		<input type="hidden" name="_actionx" value="_actionx"/>
+		<input type="hidden" id="_selected" name="_selected" value=""/>
+		<input type="hidden" id="_selectedSite" name="_selectedSite" value=""/>
 		<br/>
+		<chrome:box title="New Amendment">
 		<chrome:division id="study-details" title="Basic Details">
 		<div class="row">
 			<div id="errorMsg1" style="display:none">
@@ -182,16 +188,22 @@
 		</a>
         </div>               
         </chrome:division>
-	</jsp:attribute>
-	</tags:tabForm>	
+        </chrome:box>
+<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}"/>  
+</form:form>
 </c:when>
 
 <c:otherwise>
 <c:set var="amendmentSize" value="${fn:length(command.studyAmendments)}" scope="request" />
 
-	<tags:tabForm tab="${tab}" flow="${flow}" willSave="${willSave}" title="New Amendment" >
-	<jsp:attribute name="singleFields">
-		<input type="hidden" name="_action" value="_action"/>
+	<form:form name="myform" cssClass="standard">
+	<tags:tabFields tab="${tab}"/>
+
+		<input type="hidden" name="_actionx" value="_actionx"/>
+		<input type="hidden" id="_selected" name="_selected" value=""/>
+		<input type="hidden" id="_selectedSite" name="_selectedSite" value=""/>
+		<br/>
+		<chrome:box title="New Amendment">
 		
 		<chrome:division id="study-details" title="Basic Details">
 		<div class="row">
@@ -259,8 +271,9 @@
 		</a>
         </div>       
         </chrome:division>
-	</jsp:attribute>
-	</tags:tabForm>	
+	</chrome:box>
+<tags:tabControls tab="${tab}" flow="${flow}" willSave="${willSave}"/>  
+</form:form>
 </c:otherwise>
 </c:choose>
 
