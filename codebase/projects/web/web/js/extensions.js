@@ -7,7 +7,7 @@ Object.extend(Ajax.InPlaceCollectionEditor.prototype, {
         if (callbackSet) { this.options.callback = callbackSet;    };
     },
     onSubmit: function(){
-		if(this.options.validations!=null){
+		if(this.options.validations!=null && this.options.validations!=''){
 			this.editField.className=this.editField.className + " "+this.options.validations;
 			ValidationManager.removeError(this.editField);
 			var fields=new Array();
@@ -31,7 +31,7 @@ Object.extend(Ajax.InPlaceCollectionEditor.prototype, {
 Ajax.InPlaceEditor.prototype.__onSubmit = Ajax.InPlaceEditor.prototype.onSubmit;
 Ajax.InPlaceEditor.prototype = Object.extend(Ajax.InPlaceEditor.prototype, {
     onSubmit: function(){
-		if(this.options.validations!=null){
+		if(this.options.validations!=null && this.options.validations!=''){
 			this.editField.className=this.editField.className + " "+this.options.validations;
 			ValidationManager.removeError(this.editField);
 			var fields=new Array();
