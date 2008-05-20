@@ -3,7 +3,6 @@ package edu.duke.cabig.c3pr.service;
 import java.util.Date;
 
 import org.easymock.classextension.EasyMock;
-import org.springframework.aop.interceptor.JamonPerformanceMonitorInterceptor;
 import org.springframework.context.MessageSource;
 
 import edu.duke.cabig.c3pr.AbstractTestCase;
@@ -24,7 +23,6 @@ import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.factory.StudySubjectFactory;
 import edu.duke.cabig.c3pr.domain.repository.StudySubjectRepository;
 import edu.duke.cabig.c3pr.esb.MessageBroadcastService;
-import edu.duke.cabig.c3pr.esb.impl.MessageBroadcastServiceImpl;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.exception.C3PRExceptionHelper;
 import edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl;
@@ -32,7 +30,6 @@ import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.StudySubjectCreatorHelper;
 import edu.duke.cabig.c3pr.utils.StudyTargetAccrualNotificationEmail;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
-import gov.nih.nci.common.util.XMLUtility;
 
 public class StudySubjectServiceUnitTestCase extends AbstractTestCase {
     
@@ -261,11 +258,14 @@ public class StudySubjectServiceUnitTestCase extends AbstractTestCase {
     }
     
     public void testProcessAffiliateSiteRequestRegDataEntryIncomplete() throws Exception{
+        studySubject.setStudySite(studySubjectCreatorHelper.getLocalNonRandomizedStudySite(false, false, false));
+        studySubjectCreatorHelper.addScheduledEpochFromStudyEpochs(studySubject);
         EasyMock.expect(studySubjectFactory.buildStudySubject(studySubject)).andReturn(studySubject);
         jmsAffiliateSiteBroadcaster.broadcast("Some xml");
         EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.REGISTRATION.DATA_ENTRY_INCOMPLETE.CODE", null, null)).andReturn("1");
         EasyMock.expect(exceptionHelper.getException(1)).andReturn(new C3PRCodedException(1, "Error"));
         EasyMock.expect(xmlMarshaller.toXML(studySubject)).andReturn("Some xml");
+        EasyMock.expect(configuration.get(Configuration.MULTISITE_ENABLE)).andReturn("true");
         replayMocks();
         studySubjectService.processAffliateSiteRegistrationRequest(studySubject);
         assertEquals("Wrong workflow status", RegistrationWorkFlowStatus.DISAPPROVED, studySubject.getRegWorkflowStatus());
@@ -274,13 +274,16 @@ public class StudySubjectServiceUnitTestCase extends AbstractTestCase {
     }
     
     public void testProcessAffiliateSiteRequestSchDataEntryIncomplete() throws Exception{
-        studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
+        studySubject.setStudySite(studySubjectCreatorHelper.getLocalNonRandomizedStudySite(false, false, false));
+        studySubjectCreatorHelper.addScheduledEpochFromStudyEpochs(studySubject);
+        studySubjectCreatorHelper.addEnrollmentDetails(studySubject);
         studySubject.addScheduledEpoch(new ScheduledTreatmentEpoch());
         EasyMock.expect(studySubjectFactory.buildStudySubject(studySubject)).andReturn(studySubject);
         jmsAffiliateSiteBroadcaster.broadcast("Some xml");
         EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.REGISTRATION.SCHEDULEDEPOCH.DATA_ENTRY_INCOMPLETE.CODE", null, null)).andReturn("1");
         EasyMock.expect(exceptionHelper.getException(1)).andReturn(new C3PRCodedException(1, "Error"));
         EasyMock.expect(xmlMarshaller.toXML(studySubject)).andReturn("Some xml");
+        EasyMock.expect(configuration.get(Configuration.MULTISITE_ENABLE)).andReturn("true");
         replayMocks();
         studySubjectService.processAffliateSiteRegistrationRequest(studySubject);
         assertEquals("Wrong workflow status", RegistrationWorkFlowStatus.DISAPPROVED, studySubject.getRegWorkflowStatus());
