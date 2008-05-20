@@ -5,7 +5,7 @@
 <%@attribute name="title" required="true"%>
 <%@attribute name="id" required="true"%>
 <%@attribute name="url"%>
-<%@attribute name="helpIconUrl"%>
+<%@attribute name="helpUrl"%>
 <%@attribute name="display"%>
 <%@attribute name="cssClass"%>
 <%@attribute name="style"%>
@@ -81,7 +81,7 @@
                     </c:if>
                 </div>
             </td>
-            <td align="right" width="10"><chrome:helpIconUrl helpIconUrl="${helpIconUrl}"/></td>
+            <td align="right" width="10"><chrome:helpIconUrl helpUrl="${helpUrl}"/></td>
         </tr>
         </table>
     </div></div></div>

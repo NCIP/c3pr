@@ -6,7 +6,7 @@
 <%@attribute name="id"%>
 <%@attribute name="cssClass"%>
 <%@attribute name="style"%>
-<%@attribute name="helpIconUrl"%>
+<%@attribute name="helpUrl"%>
 <%-- If this attribute is true, the provided contents will be wrapped in a .content div.
      Use it if the box will only need one content div -- i.e., it doesn't contain any
      chrome:divisions with titles. --%>
@@ -19,7 +19,7 @@
         <table width="100%" cellpadding="0" cellspacing="0" border="0">
             <tr>
                 <td align="left"><h2>${title}</h2></td>
-                <td align="right" style="padding:6px 8px 4px 8px;"><chrome:helpIconUrl helpIconUrl="${helpIconUrl}"/></td>
+                <td align="right" style="padding:6px 8px 4px 8px;"><chrome:helpIconUrl helpUrl="${helpUrl}"/></td>
             </tr>
         </table>
     </div></div></div>
