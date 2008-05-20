@@ -58,7 +58,7 @@ public class ManageEpochTab<C extends StudySubject> extends RegistrationTab<C> {
             if (((TreatmentEpoch) epoch).getStratificationCriteria().size() > 0) {
                 map.put("requiresStratification", new Boolean(true));
             }
-            if (command.getStudySite().getStudy().getRandomizedIndicator().equals("true")) {
+            if (epoch.getRequiresRandomization()) {
                 map.put("requiresRandomization", new Boolean(true));
             }
             if (((TreatmentEpoch) epoch).getArms().size() > 0) {
