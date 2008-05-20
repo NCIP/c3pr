@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.domain.validator;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -242,9 +243,9 @@ public class StudyValidator implements Validator {
     public void validateStudyDiseases(Object target, Errors errors) {
         Study study = (Study) target;
         List<StudyDisease> allDiseases = study.getStudyDiseases();
+        Set<StudyDisease> uniqueDiseases = new HashSet<StudyDisease>();
+        uniqueDiseases.addAll(allDiseases);
         try {
-            Set<StudyDisease> uniqueDiseases = new TreeSet<StudyDisease>();
-            uniqueDiseases.addAll(allDiseases);
             if (allDiseases.size() > uniqueDiseases.size()) {
                 errors.rejectValue("studyDiseases", new Integer(
                                 getCode("C3PR.STUDY.DUPLICATE.DISEASE.ERROR")).toString(),
