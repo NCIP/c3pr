@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import edu.duke.cabig.c3pr.domain.StudySubject;
+import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.service.StudySubjectXMLImporterService;
 import edu.duke.cabig.c3pr.web.ajax.StudySubjectXMLFileImportAjaxFacade;
 import edu.duke.cabig.c3pr.web.beans.FileBean;
@@ -60,10 +61,15 @@ public class StudySubjectXMLFileUploadController extends SimpleFormController {
             httpServletRequest.setAttribute("registrations", viewData);
             httpServletRequest.setAttribute("filePath", fileName);
         }
+        catch (C3PRCodedException e1) {
+            e1.printStackTrace();
+            log.debug("Uploaded file contains invalid registration");
+            errors.reject("Could not import registrations " + e1.getCodedExceptionMesssage());
+        }
         catch (Exception e1) {
             e1.printStackTrace();
             log.debug("Uploaded file contains invalid registration");
-            errors.reject("Could not import registrations" + e1.getMessage());
+            errors.reject("Could not import registrations " + e1.getMessage());
         }
 
         return new ModelAndView(this.getSuccessView(), errors.getModel());
