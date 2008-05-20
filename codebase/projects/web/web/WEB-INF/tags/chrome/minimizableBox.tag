@@ -1,9 +1,11 @@
 <%-- TODO: support for inner tabs (needs uniform controller support first) --%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@attribute name="title" required="true"%>
 <%@attribute name="id" required="true"%>
 <%@attribute name="url"%>
+<%@attribute name="helpIconUrl"%>
 <%@attribute name="display"%>
 <%@attribute name="cssClass"%>
 <%@attribute name="style"%>
@@ -58,7 +60,7 @@
 
     <!-- header -->
     <div class="header"><div class="background-L"><div class="background-R">
-        <table width="100%"><tr>
+        <table width="100%" border="0"><tr>
             <td>
                 <h2>${title}</h2>
             </td>
@@ -79,6 +81,7 @@
                     </c:if>
                 </div>
             </td>
+            <td align="right" width="10"><chrome:helpIconUrl helpIconUrl="${helpIconUrl}"/></td>
         </tr>
         </table>
     </div></div></div>

@@ -1,10 +1,12 @@
 <%-- TODO: support for inner tabs (needs uniform controller support first) --%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags"%>
+<%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
 <%@attribute name="title"%>
 <%@attribute name="id"%>
 <%@attribute name="cssClass"%>
 <%@attribute name="style"%>
+<%@attribute name="helpIconUrl"%>
 <%-- If this attribute is true, the provided contents will be wrapped in a .content div.
      Use it if the box will only need one content div -- i.e., it doesn't contain any
      chrome:divisions with titles. --%>
@@ -14,7 +16,12 @@
 
     <!-- header -->
     <div class="header"><div class="background-L"><div class="background-R">
-      <h2>${title}</h2>
+        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+            <tr>
+                <td align="left"><h2>${title}</h2></td>
+                <td align="right" style="padding:6px 8px 4px 8px;"><chrome:helpIconUrl helpIconUrl="${helpIconUrl}"/></td>
+            </tr>
+        </table>
     </div></div></div>
     <!-- end header -->
 
