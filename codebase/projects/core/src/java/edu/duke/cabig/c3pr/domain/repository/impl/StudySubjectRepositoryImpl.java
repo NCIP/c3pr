@@ -192,6 +192,7 @@ public class StudySubjectRepositoryImpl implements StudySubjectRepository {
 			throw this.exceptionHelper
 					.getException(getCode("C3PR.EXCEPTION.REGISTRATION.SCHEDULEDEPOCH.DATA_ENTRY_INCOMPLETE.CODE"));
 		}
+		studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
 		if (studySubject.getScheduledEpoch().isReserving()) {
 			studySubject.setRegWorkflowStatus(RegistrationWorkFlowStatus.RESERVED);
 		} else if (studySubject.getScheduledEpoch().getEpoch().isEnrolling()) {
