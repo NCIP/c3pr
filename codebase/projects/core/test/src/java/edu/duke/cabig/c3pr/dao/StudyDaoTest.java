@@ -1038,6 +1038,9 @@ public class StudyDaoTest extends DaoTestCase {
                                 "edu.duke.cabig.c3pr.domain.NonTreatmentEpoch", newEpoch.getClass()
                                                 .getName());
             }
+            assertEquals("Wrong epoch name", "Test Non Treatment Epoch",
+                            ((NonTreatmentEpoch) newNonTreatmentEpochs.get(1))
+                                            .getName());
             assertEquals("Wrong enrollment indicator", Boolean.FALSE,
                             ((NonTreatmentEpoch) newNonTreatmentEpochs.get(1))
                                             .getEnrollmentIndicator());
