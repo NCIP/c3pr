@@ -457,8 +457,9 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         deserializedStudySubject.setStudySite(studySubjectCreatorHelper.getMultiSiteNonRandomizedWithArmStudySite(true));
         deserializedStudySubject.setParticipant(buildParticipant());
         deserializedStudySubject.getScheduledEpochs().add(buildScheduledTreatmentEpoch());
+        System.out.println("Calling...");
         try  {
-                EasyMock.expect(studySubjectFactory.buildStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
+                EasyMock.expect(studySubjectFactory.buildReferencedStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
         } catch(C3PRCodedException cce){
                 log.error("studySubjectFactory.buildStudySubject() threw exception");
         }
@@ -481,7 +482,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         deserializedStudySubject.getParticipant().setId(0);
         deserializedStudySubject.getScheduledEpochs().add(buildScheduledTreatmentEpoch());
         try  {
-                EasyMock.expect(studySubjectFactory.buildStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
+                EasyMock.expect(studySubjectFactory.buildReferencedStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
         } catch(C3PRCodedException cce){
                 log.error("studySubjectFactory.buildStudySubject() threw exception");
         }
@@ -508,7 +509,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         deserializedStudySubject.getParticipant().setId(0);
         deserializedStudySubject.getScheduledEpochs().add(buildScheduledTreatmentEpoch());
         try  {
-                EasyMock.expect(studySubjectFactory.buildStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
+                EasyMock.expect(studySubjectFactory.buildReferencedStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
         } catch(C3PRCodedException cce){
                 log.error("studySubjectFactory.buildStudySubject() threw exception");
         }
@@ -538,7 +539,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         deserializedStudySubject.getParticipant().setId(0);
         deserializedStudySubject.getScheduledEpochs().add(buildScheduledTreatmentEpoch());
         try  {
-                EasyMock.expect(studySubjectFactory.buildStudySubject(deserializedStudySubject)).andThrow(new C3PRCodedException(0,"Error"));
+                EasyMock.expect(studySubjectFactory.buildReferencedStudySubject(deserializedStudySubject)).andThrow(new C3PRCodedException(0,"Error"));
         } catch(C3PRCodedException cce){
                 log.error("studySubjectFactory.buildStudySubject() threw exception");
         }
@@ -562,7 +563,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         deserializedStudySubject.getScheduledEpochs().add(buildScheduledTreatmentEpoch());
         deserializedStudySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.APPROVED);
         try  {
-                EasyMock.expect(studySubjectFactory.buildStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
+                EasyMock.expect(studySubjectFactory.buildReferencedStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
         } catch(C3PRCodedException cce){
                 log.error("studySubjectFactory.buildStudySubject() threw exception");
         }
@@ -596,7 +597,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         studySubject.getScheduledEpochs().add(buildScheduledTreatmentEpoch());
         studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING);
         try  {
-                EasyMock.expect(studySubjectFactory.buildStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
+                EasyMock.expect(studySubjectFactory.buildReferencedStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
         } catch(C3PRCodedException cce){
                 log.error("studySubjectFactory.buildStudySubject() threw exception");
         }
@@ -628,7 +629,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         studySubject.getScheduledEpochs().add(buildScheduledTreatmentEpoch());
         studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING);
         try  {
-                EasyMock.expect(studySubjectFactory.buildStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
+                EasyMock.expect(studySubjectFactory.buildReferencedStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
         } catch(C3PRCodedException cce){
                 log.error("studySubjectFactory.buildStudySubject() threw exception");
         }
@@ -659,7 +660,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         studySubject.getScheduledEpochs().add(buildScheduledTreatmentEpoch());
         studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING);
         try  {
-                EasyMock.expect(studySubjectFactory.buildStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
+                EasyMock.expect(studySubjectFactory.buildReferencedStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
         } catch(C3PRCodedException cce){
                 log.error("studySubjectFactory.buildStudySubject() threw exception");
         }
@@ -691,7 +692,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         studySubjectCreatorHelper.addScheduledEpochFromStudyEpochs(studySubject);
         studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING);
         try  {
-                EasyMock.expect(studySubjectFactory.buildStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
+                EasyMock.expect(studySubjectFactory.buildReferencedStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
         } catch(C3PRCodedException cce){
                 log.error("studySubjectFactory.buildStudySubject() threw exception");
         }
@@ -724,7 +725,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         studySubjectCreatorHelper.addScheduledEpochFromStudyEpochs(studySubject);
         studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING);
         try  {
-                EasyMock.expect(studySubjectFactory.buildStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
+                EasyMock.expect(studySubjectFactory.buildReferencedStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
         } catch(C3PRCodedException cce){
                 log.error("studySubjectFactory.buildStudySubject() threw exception");
         }
@@ -755,7 +756,7 @@ public class StudySubjectRepositoryTestCase extends AbstractTestCase {
         studySubjectCreatorHelper.bindArm(studySubject);
         studySubject.getScheduledEpoch().setScEpochWorkflowStatus(ScheduledEpochWorkFlowStatus.PENDING);
         try  {
-                EasyMock.expect(studySubjectFactory.buildStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
+                EasyMock.expect(studySubjectFactory.buildReferencedStudySubject(deserializedStudySubject)).andReturn(deserializedStudySubject);
         } catch(C3PRCodedException cce){
                 log.error("studySubjectFactory.buildStudySubject() threw exception");
         }
