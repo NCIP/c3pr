@@ -216,12 +216,22 @@
     </target>
   
     <!-- ========================================================== 
-          target: report              
+          target: report  outdated            
     	============================================================ -->
-    <target name="report" depends="resolve" description="--> generates a report of dependencies">
+    <target name="report-old" depends="resolve" description="--> generates a report of dependencies">
     	<echo message="Executing in ${ant.project.name}" />
-        <ivy:report todir="${build.dir}"/>
+        <ivy:report todir="${build.dir}" />
     </target>
+	
+	<!-- ========================================================== 
+	          target: report updated
+	      ============================================================ -->
+	   <target name="report" depends="resolve" description="--> generates a report of dependencies">
+	     <echo message="Executing in ${ant.project.name}" />
+	     <mkdir dir="${build.dir}/dependency-reports"/>
+	     <ivy:report todir="${build.dir}/dependency-reports" settingsRef="c3pr.ivy.instance" graph="true"/>
+	   </target>
+
     
     <!-- =============================================================== 
           target: compile              
