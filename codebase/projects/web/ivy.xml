@@ -87,6 +87,7 @@
         	
         	<dependency org="javax.mail" name="mail" rev="1.4" />
         	<dependency org="javax.activation" name="activation" rev="1.1" />
+        	<dependency org="net.jawr" name="jawr" rev="2.1" />
         	
         	<!-- compile only dependencies -->
         	<dependency org="javax.servlet" name="jstl" rev="1.1.2" conf="build->default(*)" />
