@@ -15,10 +15,26 @@
         }
 
 
+
+
+
+
+
+
+
+
         function getBroadcastStatus() {
 
             $('viewDetails').disable('broadcastBtn');
             $('viewDetails').disable('broadcastStatusBtn');
+
+
+
+
+
+
+
+
 
         <tags:tabMethod method="getMessageBroadcastStatus" onComplete="onBroadcastComplete"
             viewName="/ajax/broadcast_res" divElement="'broadcastResponse'"
@@ -39,6 +55,14 @@
 
         function onBroadcastComplete() {
             $('viewDetails').enable('broadcastBtn');
+
+
+
+
+
+
+
+            
             $('viewDetails').enable('broadcastStatusBtn');
         }
 
@@ -161,39 +185,97 @@
 </chrome:division>
 <br>
 
-<chrome:division title="Identifiers">
-    <h4>Organization Assigned Identifiers</h4>
-    <br>
+<chrome:division title="Epochs &amp; Arms">
     <table class="tablecontent" width="60%">
         <tr>
-            <th width="50%" scope="col" align="left">Assigning Authority</th>
-            <th width="35%" scope="col" align="left">Identifier Type</th>
-            <th scope="col" align="left">Identifier</th>
-        </tr>
-        <c:forEach items="${command.organizationAssignedIdentifiers}"
-                   var="orgIdentifier">
-            <tr class="results">
-                <td class="alt" align="left">${orgIdentifier.healthcareSite.name}</td>
-                <td class="alt" align="left">${orgIdentifier.type}</td>
-                <td class="alt" align="left">${orgIdentifier.value}</td>
+            <th width="50%"><b>Epochs</b></th>
+            <th><b>Arms</b>
+        </th></tr>
+        <c:forEach items="${command.epochs}" var="epoch">
+            <tr>
+                <td class="alt">${epoch.name}</td>
+                <td>
+                    <c:if test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
+                        <table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
+                            <tr>
+                                <th><b>Name</b></th>
+                                <th><b>Target Accrual No</b>
+                            </th></tr>
+                            <tr>
+                                <c:forEach items="${epoch.arms}" var="arm">
+                            <tr>
+                                <td>${arm.name}</td>
+                                <td>${arm.targetAccrualNumber}</td>
+                            </tr>
+                            </c:forEach>
+                        </tr></table>
+                    </c:if>
+                </td>
+
             </tr>
         </c:forEach>
     </table>
-    <br>
-    <h4>System Assigned Identifiers</h4>
-    <br>
+</chrome:division><chrome:division title="Stratification Factors">
     <table class="tablecontent" width="60%">
         <tr>
-            <th width="50%" scope="col" align="left">System Name</th>
-            <th width="35%" scope="col" align="left">Identifier Type</th>
-            <th scope="col" align="left">Identifier</th>
+            <th width="50%" scope="col" align="left"><b>Strata</b></th>
+            <th scope="col" align="left"><b>Permissible Answers</b></th>
         </tr>
-        <c:forEach items="${command.systemAssignedIdentifiers}"
-                   var="identifier">
+        <c:forEach items="${command.epochs}" var="epoch">
+            <c:if test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
+                <c:forEach items="${epoch.stratificationCriteria}" var="strat">
+                    <tr>
+                        <td class="alt">${strat.questionText}</td>
+                        <td class="alt">
+
+
+
+
+
+
+
+                        
+                            <table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
+                                <c:forEach items="${strat.permissibleAnswers}" var="ans">
+                                    <tr>
+                                        <td>${ans.permissibleAnswer}</td>
+                                    </tr>
+                                </c:forEach>
+                            </table>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </c:if>
+        </c:forEach>
+    </table>
+</chrome:division><chrome:division title="Stratum Groups">
+    <table class="tablecontent" width="60%">
+        <tr>
+            <th width="50%" scope="col" align="left"><b>Stratum Group Number</b></th>
+            <th scope="col" align="left"><b>Answer Combination</b></th>
+
+        </tr>
+        <c:forEach items="${command.epochs}" var="epoch">
+            <c:if test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
+                <c:forEach items="${epoch.stratumGroups}" var="stratGrp">
+                    <tr>
+                        <td class="alt">${stratGrp.stratumGroupNumber}</td>
+                        <td class="alt">${stratGrp.answerCombinations}</td>
+                    </tr>
+                </c:forEach>
+            </c:if>
+        </c:forEach>
+    </table>
+</chrome:division><chrome:division title="Diseases">
+    <table class="tablecontent" width="60%">
+        <tr>
+            <th width="50%" scope="col" align="left"><b>Disease Term</b></th>
+            <th scope="col" align="left"><b>Primary</b></th>
+        </tr>
+        <c:forEach items="${command.studyDiseases}" var="studyDisease" varStatus="status">
             <tr class="results">
-                <td class="alt" align="left">${identifier.systemName}</td>
-                <td class="alt" align="left">${identifier.type}</td>
-                <td class="alt" align="left">${identifier.value}</td>
+                <td class="alt">${studyDisease.diseaseTerm.ctepTerm}</td>
+                <td class="alt">${studyDiseases[status.index].leadDisease}</td>
             </tr>
         </c:forEach>
     </table>
@@ -256,7 +338,41 @@
     </table>
 </chrome:division>
 
-<chrome:division title="Investigators">
+<chrome:division title="Identifiers">
+    <h4>Organization Assigned Identifiers</h4>
+    <br>
+    <table class="tablecontent" width="60%">
+        <tr>
+            <th width="50%" scope="col" align="left">Assigning Authority</th>
+            <th width="35%" scope="col" align="left">Identifier Type</th>
+            <th scope="col" align="left">Identifier</th>
+        </tr>
+        <c:forEach items="${command.organizationAssignedIdentifiers}" var="orgIdentifier">
+            <tr class="results">
+                <td class="alt" align="left">${orgIdentifier.healthcareSite.name}</td>
+                <td class="alt" align="left">${orgIdentifier.type}</td>
+                <td class="alt" align="left">${orgIdentifier.value}</td>
+            </tr>
+        </c:forEach>
+    </table>
+    <br>
+    <h4>System Assigned Identifiers</h4>
+    <br>
+    <table class="tablecontent" width="60%">
+        <tr>
+            <th width="50%" scope="col" align="left">System Name</th>
+            <th width="35%" scope="col" align="left">Identifier Type</th>
+            <th scope="col" align="left">Identifier</th>
+        </tr>
+        <c:forEach items="${command.systemAssignedIdentifiers}" var="identifier">
+            <tr class="results">
+                <td class="alt" align="left">${identifier.systemName}</td>
+                <td class="alt" align="left">${identifier.type}</td>
+                <td class="alt" align="left">${identifier.value}</td>
+            </tr>
+        </c:forEach>
+    </table>
+</chrome:division><chrome:division title="Investigators">
     <table class="tablecontent" width="60%">
         <tr>
             <th width="20%" scope="col" align="left">Name</th>
@@ -304,106 +420,6 @@
     </table>
 </chrome:division>
 
-<chrome:division title="Stratification Factors">
-    <table class="tablecontent" width="60%">
-        <tr>
-            <th width="50%" scope="col" align="left"><b>Strata</b></th>
-            <th scope="col" align="left"><b>Permissible Answers</b></th>
-        </tr>
-        <c:forEach items="${command.epochs}" var="epoch">
-            <c:if
-                    test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
-                <c:forEach items="${epoch.stratificationCriteria}" var="strat">
-                    <tr>
-                        <td class="alt">${strat.questionText}</td>
-                        <td class="alt">
-                            <table border="0" cellspacing="0" cellpadding="0"
-                                   class="tablecontent">
-                                <c:forEach items="${strat.permissibleAnswers}" var="ans">
-                                    <tr>
-                                        <td>${ans.permissibleAnswer}</td>
-                                    </tr>
-                                </c:forEach>
-                            </table>
-                        </td>
-                    </tr>
-                </c:forEach>
-            </c:if>
-        </c:forEach>
-    </table>
-</chrome:division>
-
-<chrome:division title="Stratum Groups">
-    <table class="tablecontent" width="60%">
-        <tr>
-            <th width="50%" scope="col" align="left"><b>Stratum Group Number</b></th>
-            <th scope="col" align="left"><b>Answer Combination</b></th>
-
-        </tr>
-        <c:forEach items="${command.epochs}" var="epoch">
-            <c:if
-                    test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
-                <c:forEach items="${epoch.stratumGroups}" var="stratGrp">
-                    <tr>
-                        <td class="alt">${stratGrp.stratumGroupNumber}</td>
-                        <td class="alt">${stratGrp.answerCombinations}</td>
-                    </tr>
-                </c:forEach>
-            </c:if>
-        </c:forEach>
-    </table>
-</chrome:division>
-
-<chrome:division title="Diseases">
-    <table class="tablecontent" width="60%">
-        <tr>
-            <th width="50%" scope="col" align="left"><b>Disease Term</b></th>
-            <th scope="col" align="left"><b>Primary</b></th>
-        </tr>
-        <c:forEach items="${command.studyDiseases}" var="studyDisease"
-                   varStatus="status">
-            <tr class="results">
-                <td class="alt">${studyDisease.diseaseTerm.ctepTerm}</td>
-                <td class="alt">${studyDiseases[status.index].leadDisease}</td>
-            </tr>
-        </c:forEach>
-    </table>
-</chrome:division>
-
-<chrome:division title="Epochs & Arms">
-    <table class="tablecontent" width="60%">
-        <tr>
-            <th width="50%"><b>Epochs</b></th>
-            <th><b>Arms</b>
-        </tr>
-        <c:forEach items="${command.epochs}" var="epoch">
-            <tr>
-                <td class="alt">${epoch.name}</td>
-                <td>
-                    <c:if
-                            test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
-                        <table border="0" cellspacing="0" cellpadding="0"
-                               class="tablecontent">
-                            <tr>
-                                <th><b>Name</b></th>
-                                <th><b>Target Accrual No</b>
-                            </tr>
-                            <tr>
-                                <c:forEach items="${epoch.arms}" var="arm">
-                            <tr>
-                                <td>${arm.name}</td>
-                                <td>${arm.targetAccrualNumber}</td>
-                            </tr>
-                            </c:forEach>
-                        </table>
-                    </c:if>
-                </td>
-
-            </tr>
-        </c:forEach>
-    </table>
-</chrome:division>
-
 <chrome:division title="Amendments">
     <table class="tablecontent" width="60%">
         <tr>
@@ -441,7 +457,7 @@
 
 <c:if test="${command.dataEntryStatus.code == 'Complete'}">
     <chrome:division title="CCTS Workflow">
-        <div class="content">
+        <div class="content">command
             <div class="row">
                 <div class="label">
                     Broadcast Status:

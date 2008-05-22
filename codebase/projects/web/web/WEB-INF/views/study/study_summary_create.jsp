@@ -85,6 +85,105 @@ document.getElementById("command").submit();
     </table>
 </chrome:division>
 
+<chrome:division title="Epochs & Arms">
+    <table class="tablecontent" width="60%">
+        <tr>
+            <th width="50%"><b>Epochs</b></th>
+            <th><b>Arms</b>
+        </tr>
+        <c:forEach items="${command.epochs}" var="epoch">
+            <tr>
+                <td>${epoch.name}</td>
+                <td>
+                    <c:if
+                            test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
+                        <table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
+                            <tr>
+                                <th><b>Name</b></th>
+                                <th><b>Target Accrual No.</b>
+                            </tr>
+                            <tr>
+                                <c:forEach items="${epoch.arms}" var="arm">
+                            <tr>
+                                <td>${arm.name}</td>
+                                <td>${arm.targetAccrualNumber}</td>
+                            </tr>
+                            </c:forEach>
+                        </table>
+                    </c:if>
+                </td>
+            </tr>
+        </c:forEach>
+    </table>
+</chrome:division>
+
+<chrome:division title="Stratification Factors">
+    <table class="tablecontent" width="60%">
+        <tr>
+            <th width="50%" scope="col" align="left"><b>Strata</b></th>
+            <th scope="col" align="left"><b>Permissible Answers</b></th>
+
+        </tr>
+        <c:forEach items="${command.epochs}" var="epoch">
+            <c:if
+                    test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
+                <c:forEach items="${epoch.stratificationCriteria}" var="strat">
+                    <tr>
+                        <td class="alt">${strat.questionText}</td>
+                        <td class="alt">
+                            <table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
+                                <c:forEach items="${strat.permissibleAnswers}" var="ans">
+                                    <tr>
+                                        <td class="alt" align="left">${ans.permissibleAnswer}</td>
+                                    </tr>
+                                </c:forEach>
+                            </table>
+                        </td>
+                    </tr>
+                </c:forEach>
+            </c:if>
+        </c:forEach>
+    </table>
+</chrome:division>
+
+<chrome:division title="Stratum Groups">
+    <table class="tablecontent" width="60%">
+        <tr>
+            <th width="50%" scope="col" align="left"><b>Stratum Group Number</b></th>
+            <th scope="col" align="left"><b>Answer Combination</b></th>
+
+        </tr>
+        <c:forEach items="${command.epochs}" var="epoch">
+            <c:if
+                    test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
+                <c:forEach items="${epoch.stratumGroups}" var="stratGrp">
+                    <tr>
+                        <td class="alt">${stratGrp.stratumGroupNumber}</td>
+                        <td class="alt">
+                            ${stratGrp.answerCombinations}
+                        </td>
+                    </tr>
+                </c:forEach>
+            </c:if>
+        </c:forEach>
+    </table>
+</chrome:division>
+
+<chrome:division title="Diseases">
+    <table class="tablecontent" width="60%">
+        <tr>
+            <th width="50%" scope="col" align="left"><b>Disease Term</b></th>
+            <th scope="col" align="left"><b>Primary</b></th>
+        </tr>
+        <c:forEach items="${command.studyDiseases}" var="studyDisease" varStatus="status">
+            <tr class="results">
+                <td class="alt">${studyDisease.diseaseTerm.ctepTerm}</td>
+                <td class="alt">${studyDiseases[status.index].leadDisease}</td>
+            </tr>
+        </c:forEach>
+    </table>
+</chrome:division>
+
 <chrome:division title="Sites">
     <table class="tablecontent" width="60%">
         <tr>
@@ -184,105 +283,6 @@ document.getElementById("command").submit();
                     <td class="alt">${studyPersonnel.studyOrganization.healthcareSite.name}</td>
                 </tr>
             </c:forEach>
-        </c:forEach>
-    </table>
-</chrome:division>
-
-<chrome:division title="Stratification Factors">
-    <table class="tablecontent" width="60%">
-        <tr>
-            <th width="50%" scope="col" align="left"><b>Strata</b></th>
-            <th scope="col" align="left"><b>Permissible Answers</b></th>
-
-        </tr>
-        <c:forEach items="${command.epochs}" var="epoch">
-            <c:if
-                    test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
-                <c:forEach items="${epoch.stratificationCriteria}" var="strat">
-                    <tr>
-                        <td class="alt">${strat.questionText}</td>
-                        <td class="alt">
-                            <table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
-                                <c:forEach items="${strat.permissibleAnswers}" var="ans">
-                                    <tr>
-                                        <td class="alt" align="left">${ans.permissibleAnswer}</td>
-                                    </tr>
-                                </c:forEach>
-                            </table>
-                        </td>
-                    </tr>
-                </c:forEach>
-            </c:if>
-        </c:forEach>
-    </table>
-</chrome:division>
-
-<chrome:division title="Stratum Groups">
-    <table class="tablecontent" width="60%">
-        <tr>
-            <th width="50%" scope="col" align="left"><b>Stratum Group Number</b></th>
-            <th scope="col" align="left"><b>Answer Combination</b></th>
-
-        </tr>
-        <c:forEach items="${command.epochs}" var="epoch">
-            <c:if
-                    test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
-                <c:forEach items="${epoch.stratumGroups}" var="stratGrp">
-                    <tr>
-                        <td class="alt">${stratGrp.stratumGroupNumber}</td>
-                        <td class="alt">
-                            ${stratGrp.answerCombinations}
-                        </td>
-                    </tr>
-                </c:forEach>
-            </c:if>
-        </c:forEach>
-    </table>
-</chrome:division>
-
-<chrome:division title="Diseases">
-    <table class="tablecontent" width="60%">
-        <tr>
-            <th width="50%" scope="col" align="left"><b>Disease Term</b></th>
-            <th scope="col" align="left"><b>Primary</b></th>
-        </tr>
-        <c:forEach items="${command.studyDiseases}" var="studyDisease" varStatus="status">
-            <tr class="results">
-                <td class="alt">${studyDisease.diseaseTerm.ctepTerm}</td>
-                <td class="alt">${studyDiseases[status.index].leadDisease}</td>
-            </tr>
-        </c:forEach>
-    </table>
-</chrome:division>
-
-<chrome:division title="Epochs & Arms">
-    <table class="tablecontent" width="60%">
-        <tr>
-            <th width="50%"><b>Epochs</b></th>
-            <th><b>Arms</b>
-        </tr>
-        <c:forEach items="${command.epochs}" var="epoch">
-            <tr>
-                <td>${epoch.name}</td>
-                <td>
-                    <c:if
-                            test="${epoch.class.name=='edu.duke.cabig.c3pr.domain.TreatmentEpoch'}">
-                        <table border="0" cellspacing="0" cellpadding="0" class="tablecontent">
-                            <tr>
-                                <th><b>Name</b></th>
-                                <th><b>Target Accrual No.</b>
-                            </tr>
-                            <tr>
-                                <c:forEach items="${epoch.arms}" var="arm">
-                            <tr>
-                                <td>${arm.name}</td>
-                                <td>${arm.targetAccrualNumber}</td>
-                            </tr>
-                            </c:forEach>
-                        </table>
-                    </c:if>
-                </td>
-            </tr>
         </c:forEach>
     </table>
 </chrome:division>
