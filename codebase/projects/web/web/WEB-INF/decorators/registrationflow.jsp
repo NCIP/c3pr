@@ -17,7 +17,6 @@
     <title>C3PRV2</title>
 
     <tags:include/>
-    <tags:stylesheetLink name="tabbedflow"/>
     <tags:javascriptLink name="tabbedflow"/>
     <decorator:head/>
     <style type="text/css">

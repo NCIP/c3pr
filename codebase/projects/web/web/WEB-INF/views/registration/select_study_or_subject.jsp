@@ -4,9 +4,11 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib uri="http://jawr.net/tags" prefix="jwr" %>
 
 <html>
 <head>
+    <jwr:style src="/css/subtabbedflow.css" />
 <script>						    
 	function navRollOver(obj, state) {
 	  document.getElementById(obj).className = (state == 'on') ? 'resultsOver' : 'results';

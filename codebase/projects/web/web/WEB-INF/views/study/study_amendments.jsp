@@ -8,7 +8,6 @@
 
 <html>
 <head>
-<tags:stylesheetLink name="tabbedflow" />
 <tags:javascriptLink name="tabbedflow" />
 <tags:includeScriptaculous />
 <script>

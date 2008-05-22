@@ -3,8 +3,8 @@
 <%@ taglib prefix="studyTags" tagdir="/WEB-INF/tags/study" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<tags:stylesheetLink name="subtabbedflow"/>
-<script>
+
+<script type="text/javascript">
 		function minimizeSubjectBox(msg){
 		PanelCombo('SubjectBox');
 		displaySubjectMessage(msg,true);

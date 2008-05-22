@@ -12,7 +12,7 @@
 <style type="text/css">
         .label { width: 12em; text-align: right; padding: 4px; }
 </style>
-<tags:stylesheetLink name="tabbedflow" />
+
 <tags:javascriptLink name="tabbedflow" />
 <tags:includeScriptaculous />
 <tags:dwrJavascriptLink objects="registrationDetails" />

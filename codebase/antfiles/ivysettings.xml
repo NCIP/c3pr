@@ -45,7 +45,7 @@
             <ibiblio name="openqa" m2compatible="true"
                             root="http://archiva.openqa.org/repository/releases/" changingPattern=".*SNAPSHOT"/>
 
-            
+			<ibiblio name="download-java-net" m2compatible="true" root="http://download.java.net/maven/2" changingPattern=".*SNAPSHOT" />            
         </chain>
 		
 	</resolvers>

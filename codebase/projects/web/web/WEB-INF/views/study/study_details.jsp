@@ -7,7 +7,6 @@
 <html>
 <head>
 	<c:set var="sponIndex" value="${command.fundingSponsorIdentifierIndex==-1?fn:length(command.organizationAssignedIdentifiers):command.fundingSponsorIdentifierIndex}"></c:set>
-    <tags:stylesheetLink name="tabbedflow" />
     <tags:javascriptLink name="tabbedflow" />
     <tags:includeScriptaculous />
     <tags:dwrJavascriptLink objects="StudyAjaxFacade" />

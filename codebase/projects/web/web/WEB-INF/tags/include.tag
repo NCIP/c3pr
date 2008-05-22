@@ -1,6 +1,8 @@
+<%@ taglib uri="http://jawr.net/tags" prefix="jwr" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
 <%--stylesheets--%>
+<%--
 <tags:stylesheetLink name="common"/>
 <tags:stylesheetLink name="styles"/>
 <tags:stylesheetLink name="common-search"/>
@@ -12,8 +14,12 @@
 <tags:parsedStylesheetLink name="tables"/>
 <tags:stylesheetLink name="tabbedflow"/>
 <tags:stylesheetLink name="hint"/>
+--%>
+
+<jwr:style src="/csslib/c3pr.css" />
+
 <!--[if IE]>
-<tags:stylesheetLink name="ie"/>
+<jwr:style src="/csslib/ie.css" />
 <![endif]-->
 
 
