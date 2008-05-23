@@ -420,22 +420,7 @@
     </table>
 </chrome:division>
 
-<chrome:division title="Amendments">
-    <table class="tablecontent" width="60%">
-        <tr>
-            <th width="15%" scope="col" align="left">Version #</th>
-            <th width="30%" scope="col" align="left">Amendment Date</th>
-            <th width="55%" scope="col" align="left">Comments</th>
-        </tr>
-        <c:forEach items="${command.studyAmendments}" var="amendment">
-            <tr class="results">
-                <td class="alt" align="left">${amendment.amendmentVersion}</td>
-                <td class="alt" align="left">${amendment.amendmentDateStr}</td>
-                <td class="alt" align="left">${amendment.comments}</td>
-            </tr>
-        </c:forEach>
-    </table>
-</chrome:division>
+
 
 <chrome:division title="Notifications">
     <table class="tablecontent" width="60%">
@@ -453,11 +438,28 @@
         </c:forEach>
     </table>
 </chrome:division>
+
+<chrome:division title="Amendments">
+    <table class="tablecontent" width="60%">
+        <tr>
+            <th width="15%" scope="col" align="left">Version #</th>
+            <th width="30%" scope="col" align="left">Amendment Date</th>
+            <th width="55%" scope="col" align="left">Comments</th>
+        </tr>
+        <c:forEach items="${command.studyAmendments}" var="amendment">
+            <tr class="results">
+                <td class="alt" align="left">${amendment.amendmentVersion}</td>
+                <td class="alt" align="left">${amendment.amendmentDateStr}</td>
+                <td class="alt" align="left">${amendment.comments}</td>
+            </tr>
+        </c:forEach>
+    </table>
+</chrome:division>
 </div>
 
 <c:if test="${command.dataEntryStatus.code == 'Complete'}">
     <chrome:division title="CCTS Workflow">
-        <div class="content">command
+        <div class="content">
             <div class="row">
                 <div class="label">
                     Broadcast Status:
