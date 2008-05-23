@@ -498,7 +498,7 @@
 			<formatter type="xml" />
 			<batchtest fork="yes" todir="${test.results.dir}">
 				<fileset dir="${test.classes.dir}">
-					<exclude name="edu/duke/cabig/**/AbstractTestCase.class"/>
+					<exclude name="edu/duke/cabig/**/Abstract*.class"/>
 					<include name="${testPattern}" />
 					<exclude name="edu/duke/cabig/**/*Abstract*Test*.class"/>
 					<exclude name="edu/duke/cabig/**/*TestObject*.class"/>
