@@ -8,7 +8,7 @@ import edu.duke.cabig.c3pr.utils.MasqueradingDaoTestCase;
  * Created by IntelliJ IDEA. User: kherm Date: Sep 19, 2007 Time: 2:34:51 PM To change this template
  * use File | Settings | File Templates.
  */
-public class CCTSRegistrationMessageTest extends MasqueradingDaoTestCase<StudySubjectDao> {
+public class XCCTSRegistrationMessageTest extends MasqueradingDaoTestCase<StudySubjectDao> {
 
     XmlMarshaller marshaller;
 
