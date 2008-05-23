@@ -15,7 +15,7 @@
 <tags:stylesheetLink name="tabbedflow"/>
 <tags:stylesheetLink name="hint"/>
 --%>
-
+<tags:parsedStylesheetLink name="tables"/>
 <jwr:style src="/csslib/c3pr.css" />
 
 <!--[if IE]>
