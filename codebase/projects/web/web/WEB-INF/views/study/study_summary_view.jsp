@@ -275,7 +275,7 @@
         <c:forEach items="${command.studyDiseases}" var="studyDisease" varStatus="status">
             <tr class="results">
                 <td class="alt">${studyDisease.diseaseTerm.ctepTerm}</td>
-                <td class="alt">${studyDiseases[status.index].leadDisease}</td>
+                <td class="alt">${studyDisease.leadDisease=="true"?"Yes":"No"}</td>
             </tr>
         </c:forEach>
     </table>
