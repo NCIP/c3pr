@@ -6,10 +6,7 @@
 
 <html>
 <head>
-    <script type="text/javascript" src="<c:url value="/js/extremecomponents.js"/>"></script>
-        
    <tags:dwrJavascriptLink objects="StudyAjaxFacade"/>
-
 
     <script type="text/javascript">
         function buildTable(form) {

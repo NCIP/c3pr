@@ -6,8 +6,6 @@
 
 <html>
 <head>
-   <script type="text/javascript" src="<c:url value="/js/extremecomponents.js"/>"></script>  
-    <tags:includeScriptaculous />       
    <tags:dwrJavascriptLink objects="SearchResearchStaffAjaxFacade"/>
     <tags:dwrJavascriptLink objects="OrganizationAjaxFacade"/>
    <style type="text/css">

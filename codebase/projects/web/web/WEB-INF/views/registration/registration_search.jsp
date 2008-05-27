@@ -6,6 +6,7 @@
 <%@ taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
 <%@ taglib prefix="registrationTags" tagdir="/WEB-INF/tags/registration"%>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
+<%@ taglib uri="http://jawr.net/tags" prefix="jwr" %>
 
 <html>
 <head>
@@ -13,8 +14,7 @@
         .label { width: 12em; text-align: right; padding: 4px; }
 </style>
 
-<tags:javascriptLink name="tabbedflow" />
-<tags:includeScriptaculous />
+<jwr:script src="/js/tabbedflow.js" />
 <tags:dwrJavascriptLink objects="registrationDetails" />
 
 <script>

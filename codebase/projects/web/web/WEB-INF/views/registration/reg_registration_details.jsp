@@ -6,10 +6,12 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://jawr.net/tags" prefix="jwr" %>
+        
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<script type="text/javascript" src="/c3pr/js/CalendarPopup.js"></script>
+
 <tags:dwrJavascriptLink objects="anatomicDiseaseSite" />
 <script>
 function manageField(box){

@@ -6,7 +6,6 @@
 
 <html>
 <head>
-   <script type="text/javascript" src="<c:url value="/js/extremecomponents.js"/>"></script>        
    <tags:dwrJavascriptLink objects="SearchOrganizationAjaxFacade"/>
    <style type="text/css">
         div.content {

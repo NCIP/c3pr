@@ -6,9 +6,10 @@
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs"%>
+<%@ taglib uri="http://jawr.net/tags" prefix="jwr" %>
 
-<tags:javascriptLink name="tabbedflow"/>
-<tags:includeScriptaculous/>
+<jwr:script src="js/tabbedflow.js" />
+
 <tags:dwrJavascriptLink objects="createStudy"/>
 
 <script>

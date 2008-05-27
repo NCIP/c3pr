@@ -9,7 +9,7 @@
         .test { width: 100%;}
 </style>
 <tags:dwrJavascriptLink objects="BookRandomizationAjaxFacade"/>
-<script type="text/javascript" src="<c:url value="/js/extremecomponents.js"/>"></script>
+
 <script>
 	var globalIndex;
 

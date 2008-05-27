@@ -5,11 +5,12 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
 <%@taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib uri="http://jawr.net/tags" prefix="jwr" %>
 
 <html>
 <head>
-<tags:javascriptLink name="tabbedflow" />
-<tags:includeScriptaculous />
+<jwr:script src="/js/tabbedflow.js" />
+
 <script>
 	Calendar.setup({inputField:"consentVersionx", ifFormat:"%", button:"consentVersionx-calbutton"});
     Calendar.setup({inputField:"consentVersiony", ifFormat:"%", button:"consentVersiony-calbutton"});

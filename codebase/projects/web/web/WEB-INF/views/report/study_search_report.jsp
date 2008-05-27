@@ -13,7 +13,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 
 <title>${tab.longTitle}</title>
-<script type="text/javascript" src="<c:url value="/js/extremecomponents.js"/>"></script>
 <tags:dwrJavascriptLink objects="createStudyReport"/>
 <tags:dwrJavascriptLink objects="studyReportCommand"/>
 

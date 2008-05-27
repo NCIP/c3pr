@@ -4,7 +4,6 @@
 <%@ taglib prefix="studyTags" tagdir="/WEB-INF/tags/study" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@taglib prefix="registrationTags" tagdir="/WEB-INF/tags/registration" %>
-<script type="text/javascript" src="<c:url value="/js/extremecomponents.js"/>"></script>
 
 <script type="text/javascript">
 

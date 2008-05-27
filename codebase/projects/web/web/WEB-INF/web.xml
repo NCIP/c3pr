@@ -88,8 +88,19 @@
         <url-pattern>/dwr/*</url-pattern>
     </servlet-mapping>
 
+<!-- JAWR config start -->
 
-    
+    <servlet>
+        <servlet-name>JavascriptServlet</servlet-name>
+        <servlet-class>net.jawr.web.servlet.JawrServlet</servlet-class>
+
+        <init-param>
+            <param-name>configLocation</param-name>
+            <param-value>/jawr.properties</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
     <servlet>
         <servlet-name>CSSServlet</servlet-name>
         <servlet-class>net.jawr.web.servlet.JawrServlet</servlet-class>
@@ -107,11 +118,16 @@
     </servlet>
 
     <servlet-mapping>
+        <servlet-name>JavascriptServlet</servlet-name>
+        <url-pattern>*.js</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
         <servlet-name>CSSServlet</servlet-name>
         <url-pattern>*.css</url-pattern>
     </servlet-mapping>
 
-    
+    <!-- JAWR config end -->
 
     <filter>
         <filter-name>BeansInRequestFilter</filter-name>

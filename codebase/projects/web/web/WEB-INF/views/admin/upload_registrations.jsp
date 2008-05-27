@@ -8,7 +8,6 @@
 <html>
 <head>
     <title>${tab.longTitle}</title>
-    <script type="text/javascript" src="<c:url value="/js/extremecomponents.js"/>"></script>
     <tags:dwrJavascriptLink objects="StudySubjectXMLFileImportAjaxFacade"/>
 
 

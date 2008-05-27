@@ -9,6 +9,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome"%>
+<%@ taglib uri="http://jawr.net/tags" prefix="jwr" %>
 
 <html>
 <head>
@@ -17,7 +18,8 @@
     <title>C3PRV2</title>
 
     <tags:include/>
-    <tags:javascriptLink name="tabbedflow"/>
+    <jwr:script src="/js/tabbedflow.js" />
+    
     <decorator:head/>
 </head>
 

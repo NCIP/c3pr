@@ -3,7 +3,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="studyTags" tagdir="/WEB-INF/tags/study" %>
 <%@ taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
-<script type="text/javascript" src="<c:url value="/js/extremecomponents.js"/>"></script>
+
 <tags:dwrJavascriptLink objects="searchStudyController"/>
 
 <script type="text/javascript">
