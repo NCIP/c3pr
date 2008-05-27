@@ -98,7 +98,7 @@
 		<echo message="bering.dialect : ${bering.dialect}" />
 	</target>
 	
-	<target name="drop-and-create-existing-database" description="drop the database and create new database" depends="find-datasource">
+	<target name="drop-and-create-existing-database" description="drop the database and create new database" depends="resolve, find-datasource">
 		<property file="${dsFile}"/>    
 		<echo message="${datasource.driver}"/>    
 		<echo message="${datasource.url}"/>    
