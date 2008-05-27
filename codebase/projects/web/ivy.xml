@@ -42,6 +42,8 @@
         	<dependency org="org.springframework" name="spring" rev="2.0.7" force="true"/>
         	<dependency org="org.springframework" name="spring-aspects" rev="2.0.7" force="true" />
         	<dependency org="org.springframework" name="spring-mock" rev="2.0.7" force="true" />
+        	
+        	<dependency org="cobertura" name="cobertura" rev="1.8" />
 
         	<dependency org="commons-collections" name="commons-collections" rev="3.2" />
         	<dependency org="commons-lang" name="commons-lang" rev="2.3" />
