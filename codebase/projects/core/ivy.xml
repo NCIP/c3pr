@@ -45,6 +45,8 @@
 			<dependency org="handle" name="handlerservice" rev="1.5.0" />
 			<dependency org="commons-configuration" name="commons-configuration" rev="1.5" />
 
+			<dependency org="cobertura" name="cobertura" rev="1.8" />
+		
         	<dependency org="org.springframework" name="spring" rev="2.0.7" force="true"/>
         	<dependency org="org.springframework" name="spring-aspects" rev="2.0.7" force="true" />
         	<dependency org="org.springframework" name="spring-mock" rev="2.0.7" force="true" />
