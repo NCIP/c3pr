@@ -98,6 +98,21 @@
 		<echo message="bering.dialect : ${bering.dialect}" />
 	</target>
 	
+	<target name="drop-and-create-existing-database" description="drop the database and create new database" depends="find-datasource">
+		<property file="${dsFile}"/>    
+		<echo message="${datasource.driver}"/>    
+		<echo message="${datasource.url}"/>    
+		<echo message="${datasource.username}"/>    
+		<echo message="${datasource.password}"/>  
+		<echo message="${db.scripts.dir}"/>  
+		<sql driver="${datasource.driver}" userid="${datasource.username}" password="${datasource.password}" url="jdbc:postgresql://localhost:5432/postgres"  
+			classpathref="main.classpath" onerror="abort" autocommit="true">
+			DROP DATABASE IF EXISTS ${datasource.schema} ;
+			CREATE DATABASE ${datasource.schema};
+		</sql>
+	</target>
+		
+	
     <target name="prepare-bering" depends="find-datasource">
         <property file="${dsFile}"/>
 		<echo message="Datasource File : ${dsFile}" />
