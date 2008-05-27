@@ -10,7 +10,7 @@
         <img src="<chrome:imageUrl name="c3pr.gif"/>" alt="Cancer Clinical Centralized Patient Registry">
 
         <div id="login-action">
-            <a href="<c:url value="/j_acegi_logout"/>">Log out</a>
+            <a href="http://gforge.nci.nih.gov/frs/download.php/3493/wfu_signoff_on_end_user_guide.doc">Help</a>&nbsp;<a>|</a>&nbsp;<a href="<c:url value="/j_acegi_logout"/>">Log out</a>
         </div>
 
 

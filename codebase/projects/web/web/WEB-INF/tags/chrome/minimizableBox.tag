@@ -81,7 +81,7 @@
                     </c:if>
                 </div>
             </td>
-            <td align="right" width="10"><chrome:helpIconUrl helpUrl="${helpUrl}"/></td>
+            <td align="right" width="10"></td>
         </tr>
         </table>
     </div></div></div>

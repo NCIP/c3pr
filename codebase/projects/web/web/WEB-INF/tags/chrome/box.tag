@@ -19,7 +19,7 @@
         <table width="100%" cellpadding="0" cellspacing="0" border="0">
             <tr>
                 <td align="left"><h2>${title}</h2></td>
-                <td align="right" style="padding:6px 8px 4px 8px;"><chrome:helpIconUrl helpUrl="${helpUrl}"/></td>
+                <td align="right" style="padding:6px 8px 4px 8px;"></td>
             </tr>
         </table>
     </div></div></div>
