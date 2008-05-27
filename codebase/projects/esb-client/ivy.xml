@@ -54,6 +54,8 @@
 		<dependency org="org.springframework" name="spring-webmvc"
 			rev="2.0.2" force="true" />
 
+		<dependency org="cobertura" name="cobertura" rev="1.8" />
+		
 		<dependency org="commons-collections" name="commons-collections"
 			rev="3.2" />
 		<dependency org="commons-lang" name="commons-lang" rev="2.3" />
