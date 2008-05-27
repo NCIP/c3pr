@@ -77,6 +77,16 @@
 	</target>
 
 	<!-- ==========================================================
+			target : drop-and-create-existing-database
+			This will drop the existing database and create a new database by deligating call to c3pr-core:drop-and-create-existing-database, this is added
+			as a single job using hudson. 
+		=============================================================-->
+		<target name="drop-and-create-existing-database">
+			<subant target="drop-and-create-existing-database" buildpath="${projects.dir}/core/ivy-build.xml" />
+		</target>
+
+	
+	<!-- ==========================================================
 		target : migrate-test
 		This will delegate the call to c3pr-core:migrate-test, this is added
 		to do migrate and build as a single job using hudson. 
