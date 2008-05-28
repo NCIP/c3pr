@@ -38,24 +38,24 @@ public class CCTSCaXchangeBroadcasterTester extends MasqueradingDaoTestCase<Stud
                         "c3pr-xml-castorMapping"));
     }
 
-//    public void testCaXchangeMessageSender() throws Exception {
-//        for (StudySubject subject : getDao().getAll()) {
-//            messageBroadcaster.setNotificationHandler(cctsMessageWorkflowCallbackFactory
-//                            .createWorkflowCallback(subject));
-//            String message = marshaller.toXML(subject);
-//            System.out.println(message);
-//            Document messageDOM = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(
-//                            new InputSource(new StringReader(message)));
-//            StringWriter stringOut = new StringWriter();
-//            OutputFormat format = new OutputFormat(messageDOM);
-//            XMLSerializer serial = new XMLSerializer(stringOut, format);
-//            serial.serialize(messageDOM);
-//            // Display the XML
-//            System.out.println(stringOut.toString());
-//            System.out.println(messageDOM.getDocumentElement().toString());
-//            messageBroadcaster.broadcast(message);
-//        }
-//    }
+    public void testCaXchangeMessageSender() throws Exception {
+        for (StudySubject subject : getDao().getAll()) {
+            messageBroadcaster.setNotificationHandler(cctsMessageWorkflowCallbackFactory
+                            .createWorkflowCallback(subject));
+            String message = marshaller.toXML(subject);
+            System.out.println(message);
+            Document messageDOM = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(
+                            new InputSource(new StringReader(message)));
+            StringWriter stringOut = new StringWriter();
+            OutputFormat format = new OutputFormat(messageDOM);
+            XMLSerializer serial = new XMLSerializer(stringOut, format);
+            serial.serialize(messageDOM);
+            // Display the XML
+            System.out.println(stringOut.toString());
+            System.out.println(messageDOM.getDocumentElement().toString());
+            messageBroadcaster.broadcast(message);
+        }
+    }
 
     /**
      * What dao class is the test trying to Masquerade

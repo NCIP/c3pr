@@ -551,6 +551,7 @@
 						<exclude name="edu/duke/cabig/**/ApplicationTestCase*.class"/>
 						<exclude name="edu/duke/cabig/**/*DaoTestCase*.class"/>
 						<exclude name="edu/duke/cabig/**/SecurityContextTestUtils.class"/>
+						<exclude name="edu/duke/cabig/**/CCTSCaXchangeBroadcasterTester.class"/>
 					</fileset>
 				</batchtest>
 			</junit>
