@@ -292,7 +292,7 @@ function isNonZeroNumeric(string, ignoreWhiteSpace) {
 }
 // Check that a string contains only numbers
 function isCorrectDate(string) {
-   DEFAULT_DATE_FORMAT="MM/dd/yyyy";
+   DEFAULT_DATE_FORMAT="M/d/yyyy";
    if(string=="")
    	return true;
    string=trimWhitespace(string);

@@ -4,7 +4,6 @@ import static edu.duke.cabig.c3pr.C3PRUseCase.IMPORT_STUDY;
 
 import java.io.File;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import edu.duke.cabig.c3pr.C3PRUseCases;
 import edu.duke.cabig.c3pr.dao.StudyDao;
@@ -48,7 +47,6 @@ public class StudyXMLImporterTestCase extends MasqueradingDaoTestCase<StudyDao> 
             
             System.out.println(studyXml);
             File outputXMLFile = new File("dummyOutput.xml");
-            studyImporter.importStudies(StringUtils.getInputStream(studyXml),outputXMLFile);
 
             List<Study> studies = studyImporter.importStudies(StringUtils.getInputStream(studyXml),outputXMLFile);
 
