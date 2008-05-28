@@ -58,11 +58,12 @@ public class ResearchStaffDaoTest extends ContextDaoTestCase<ResearchStaffDao> {
         rs2.setHealthcareSite(site);
 
         getDao().save(rs2);
-        interruptSession();
-
-        int savedId2 = rs2.getId();
-        ResearchStaff loadedRS2 = getDao().getById(savedId2);
-
+        try{
+        	interruptSessionForceNewSession();
+        	fail("it should fail because of duplicate data entry");
+        }catch(Exception e){
+        	assertTrue(true) ;
+        }
     }
 
     /**

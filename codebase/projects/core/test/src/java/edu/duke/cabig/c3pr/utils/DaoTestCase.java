@@ -114,6 +114,15 @@ public abstract class DaoTestCase extends DbTestCase {
         log.info("-- interrupted DaoTestCase session --");
         beginSession();
     }
+    
+    protected void interruptSessionForceNewSession() {
+        try{
+        	endSession();
+        }finally{
+	        log.info("-- interrupted DaoTestCase session --");
+	        beginSession();
+        }
+    }
 
     private OpenSessionInViewInterceptor findOpenSessionInViewInterceptor() {
         return (OpenSessionInViewInterceptor) getApplicationContext().getBean(
