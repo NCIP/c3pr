@@ -6,7 +6,6 @@ import org.extremecomponents.table.core.TableModel;
 import org.extremecomponents.table.view.html.ColumnBuilder;
 import org.extremecomponents.util.HtmlBuilder;
 
-import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudySubject;
 
 /**
@@ -16,7 +15,7 @@ import edu.duke.cabig.c3pr.domain.StudySubject;
  */
 public class ViewRegistrationLinkCustomCell extends AbstractCell {
 
-    public static final String VIEW_REG_URL = "/c3pr/pages/registration/manageRegistration?registrationId=";
+    public static final String VIEW_REG_URL = "manageRegistration?registrationId=";
 
     @Override
     public String getHtmlDisplay(TableModel tableModel, Column column) {

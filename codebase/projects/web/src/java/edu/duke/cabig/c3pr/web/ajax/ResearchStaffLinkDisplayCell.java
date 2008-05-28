@@ -8,7 +8,7 @@ import edu.duke.cabig.c3pr.domain.ResearchStaff;
 
 public class ResearchStaffLinkDisplayCell extends AbstractCell {
 
-	public static final String VIEW_RSTAFF_URL= "/c3pr/pages/admin/createResearchStaff?id=";
+	public static final String VIEW_RSTAFF_URL= "createResearchStaff?id=";
     
     @Override
     protected String getCellValue(final TableModel model, final Column column) {

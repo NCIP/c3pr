@@ -8,7 +8,7 @@ import edu.duke.cabig.c3pr.domain.Investigator;
 
 public class InvestigatorLinkDisplayCell extends AbstractCell {
 
-	public static final String VIEW_INVESTIGATOR_URL= "/c3pr/pages/admin/createInvestigator?id=";
+	public static final String VIEW_INVESTIGATOR_URL= "createInvestigator?id=";
     @Override
     protected String getCellValue(final TableModel model, final Column column) {
         Investigator inv = (Investigator) model.getCurrentRowBean();

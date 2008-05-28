@@ -15,7 +15,7 @@ import edu.duke.cabig.c3pr.domain.Study;
  */
 public class ViewStudyLinkCustomCell extends AbstractCell {
 
-    public static final String VIEW_STUDY_URL = "/c3pr/pages/study/viewStudy?studyId=";
+    public static final String VIEW_STUDY_URL = "viewStudy?studyId=";
 
     @Override
     public String getHtmlDisplay(TableModel tableModel, Column column) {

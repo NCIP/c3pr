@@ -8,7 +8,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 
 public class OrganizationLinkDisplayCell extends AbstractCell {
 
-	public static final String VIEW_ORG_URL= "/c3pr/pages/admin/createOrganization?nciIdentifier=";
+	public static final String VIEW_ORG_URL= "createOrganization?nciIdentifier=";
     
     @Override
     protected String getCellValue(final TableModel model, final Column column) {

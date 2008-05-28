@@ -8,7 +8,7 @@ import edu.duke.cabig.c3pr.domain.StudySubject;
 
 public class RegistrationLinkDisplayCell extends AbstractCell {
 
-	public static final String VIEW_REG_URL = "/c3pr/pages/registration/manageRegistration?registrationId=";
+	public static final String VIEW_REG_URL = "manageRegistration?registrationId=";
 
     @Override
     protected String getCellValue(final TableModel model, final Column column) {
