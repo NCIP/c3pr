@@ -544,14 +544,17 @@
 				<formatter type="xml" />
 				<batchtest fork="yes" todir="${test.results.dir}">
 					<fileset dir="${test.classes.dir}">
-						<exclude name="edu/duke/cabig/**/AbstractTestCase.class"/>
 						<include name="${testPattern}" />
+						<exclude name="edu/duke/cabig/**/AbstractTestCase.class"/>
 						<exclude name="edu/duke/cabig/**/*Abstract*Test*.class"/>
 						<exclude name="edu/duke/cabig/**/*TestObject*.class"/>
 						<exclude name="edu/duke/cabig/**/ApplicationTestCase*.class"/>
 						<exclude name="edu/duke/cabig/**/*DaoTestCase*.class"/>
 						<exclude name="edu/duke/cabig/**/SecurityContextTestUtils.class"/>
 						<exclude name="edu/duke/cabig/**/CCTSCaXchangeBroadcasterTester.class"/>
+						<exclude name="edu/duke/cabig/**/*$*.class"/>
+						<exclude name="edu/duke/cabig/**/ControllerTestCase.class"/>
+						<exclude name="edu/duke/cabig/**/WebTestCase.class"/>
 					</fileset>
 				</batchtest>
 			</junit>
