@@ -3,6 +3,7 @@
     <property file="build.properties" />
 	<property file="c3pr-ivy.properties" />
     <import file="${basedir}/common.xml"/>
+	<import file="${basedir}/build-utilities.xml"/>
 	<property name="projects.dir" value="${basedir}/../projects" />
 	
 	
@@ -145,7 +146,7 @@
 		</ant>
 	</target>
 	
-	<target name="build-core" depends="clean-repo, debug-database-info"
+	<target name="build-core" depends="clean-repo"
             description="Builds all c3pr modules that core depends on and create the core jar">
 		<ant target="publish-local" antfile="${basedir}/ivy-build.xml" inheritall="false">
     		<property name="env.skip.test" value="true"></property>
@@ -158,7 +159,39 @@
     	</ant>
     </target>
 	
+	<!-- =============================================================== -->
+    <!-- c3pr Protocol Ingestion Grid Service                            -->
+    <!-- =============================================================== -->
+    <target name="build-grid" depends="build-core"
+            description="Builds the c3p3 Registration Consumer grid node">
+        <ant dir="${projects.dir}/grid" inheritAll="false" antfile="ivy-build.xml" target="build-grid"/>
+    </target>
 
+	<target name="deploy-grid-RegistrationConsumer" depends="checkGlobus,checkTomcat"
+            description="Will deploy the RegistrationConsumer grid service">
+        <ant dir="${projects.dir}/grid" antfile="ivy-build.xml" inheritall="false"
+             target="deployTomcat-RegistrationConsumer"/>
+    </target>
+
+    <target name="deploy-grid-StudyConsumer" depends="checkGlobus,checkTomcat"
+            description="Will deploy the RegistrationConsumer grid service">
+        <ant dir="${projects.dir}/grid" antfile="ivy-build.xml" inheritall="false"
+             target="deployTomcat-StudyConsumer"/>
+    </target>
+
+    <target name="deploySkeletonRegistrationGridService" depends="checkGlobus,checkTomcat"
+            description="Will deploy the Skeleton RegistrationConsumer grid service">
+        <ant dir="${projects.dir}/grid" antfile="ivy-build.xml" inheritall="false"
+             target="deploySkeletonRegistrationGridService"/>
+    </target>
+
+    <target name="deploySkeletonStudyGridService" depends="checkGlobus,checkTomcat"
+            description="Will deploy the Skeleton RegistrationConsumer grid service">
+        <ant dir="${projects.dir}/grid" antfile="ivy-build.xml" inheritall="false"
+             target="deploySkeletonStudyGridService"/>
+    </target>
+
+	
 	<!-- ==========================================================
 		target : Installer targets
 	=============================================================-->
@@ -179,14 +212,19 @@
     <!-- =============================================================== -->
     <target name="prepareInstallerForRelease" depends="clean">
         <property name="project.archive" value="c3prv2-installpack.zip"/>
-        <mkdir dir="${projects.dir}/installer/ext"/>
-        <zip destfile="${projects.dir}/installer/ext/${project.archive}">
+    	<delete dir="${projects.dir}/installer/installpack"/>
+        <mkdir dir="${projects.dir}/installer/installpack"/>
+        <zip destfile="${projects.dir}/installer/installpack/${project.archive}">
             <zipfileset dir="${basedir}" prefix="antfiles"/>
             <zipfileset dir="${projects.dir}/core" prefix="projects/core"/>
             <zipfileset dir="${projects.dir}/web" prefix="projects/web"/>
             <zipfileset dir="${projects.dir}/esb-client" prefix="projects/esb-client"/>
-            <zipfileset dir="${projects.dir}/grid" prefix="projects/grid"/>
-            <zipfileset dir="${projects.dir}/../share" prefix="share"/>
+            <!--<zipfileset dir="${projects.dir}/grid" prefix="projects/grid"/>
+            <zipfileset dir="${projects.dir}/../share" prefix="share"/>-->
+        </zip>
+        <zip destfile="${projects.dir}/installer/installpack/ivy2.zip">
+            <zipfileset dir="${ivy.cache}" prefix="c3pr-cache"/>
+        	<zipfileset dir="${ivy.jar.dir}" prefix="ivy-jars"/>
         </zip>
     </target>
 
@@ -196,7 +234,7 @@
    <target name="report-all" depends="buildlist" description="--> Generate report of all the project dependencies">
      <subant target="report" buildpathref="build-path" />
    </target>
-
+ 
 	<!-- ================================= 
 	      target: cobertura coverage report            
 	     ================================= -->	

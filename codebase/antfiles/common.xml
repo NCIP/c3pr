@@ -490,7 +490,7 @@
 		<delete includeemptydirs="true" dir="${test.reports.dir}" />
 	</target>
 	
-	<!-- ================================= 
+    <!-- ================================= 
           target: clean              
          ================================= -->
 	<target name="clean" depends="clean-classes, clean-classes-test, clean-dist, clean-lib, clean-lib-test, clean-test-results, clean-test-reports, clean-cobertura-instruments,clean-cobertura-dir" description="--> clean the project" />
@@ -530,35 +530,36 @@
 		<isset property="test"/>
 	</condition>
 	<target name="test" if="run.test" depends="clean-test-results, corbetura-init" description="Runs the testcases">
-			<echo message="Executing in ${ant.project.name}" />
-			<echo message="Test results dir: ${test.results.dir}, with pattern ${testPattern} and classes from ${test.classes.dir}" />
-			<mkdir dir="${test.results.dir}" />
-			<junit printsummary="yes" errorproperty="test.failed" failureproperty="test.failed" showoutput="true" fork="true" forkmode="once" timeout="600000">
+		<echo message="Executing in ${ant.project.name}" />
+		<echo message="Test results dir: ${test.results.dir}, with pattern ${testPattern} and classes from ${test.classes.dir}" />
+		<mkdir dir="${test.results.dir}" />
+		<junit printsummary="yes" errorproperty="test.failed" failureproperty="test.failed" 
+			showoutput="true" fork="true" forkmode="once" timeout="600000" >
 
-				<classpath location="${instrumented.classes.dir}" />
-				<classpath refid="test.run.classpath" />
-
-				<sysproperty key="net.sourceforge.cobertura.datafile" file="${cobertura.report.dir}/cobertura.ser" />
-
-				<formatter type="plain" />
-				<formatter type="xml" />
-				<batchtest fork="yes" todir="${test.results.dir}">
-					<fileset dir="${test.classes.dir}">
-						<include name="${testPattern}" />
-						<exclude name="edu/duke/cabig/**/AbstractTestCase.class"/>
-						<exclude name="edu/duke/cabig/**/*Abstract*Test*.class"/>
-						<exclude name="edu/duke/cabig/**/*TestObject*.class"/>
-						<exclude name="edu/duke/cabig/**/ApplicationTestCase*.class"/>
-						<exclude name="edu/duke/cabig/**/*DaoTestCase*.class"/>
-						<exclude name="edu/duke/cabig/**/SecurityContextTestUtils.class"/>
-						<exclude name="edu/duke/cabig/**/CCTSCaXchangeBroadcasterTester.class"/>
-						<exclude name="edu/duke/cabig/**/*$*.class"/>
-						<exclude name="edu/duke/cabig/**/ControllerTestCase.class"/>
-						<exclude name="edu/duke/cabig/**/WebTestCase.class"/>
-					</fileset>
-				</batchtest>
-			</junit>
-		</target>
+			<classpath location="${instrumented.classes.dir}" />
+			<classpath refid="test.run.classpath" />
+			
+			<sysproperty key="net.sourceforge.cobertura.datafile" file="${cobertura.report.dir}/cobertura.ser" />
+			
+			<formatter type="plain"/>
+			<formatter type="xml" />
+			<batchtest fork="yes" todir="${test.results.dir}">
+				<fileset dir="${test.classes.dir}">
+					<include name="${testPattern}" />
+					<exclude name="edu/duke/cabig/**/*Abstract*Test*.class"/>
+					<exclude name="edu/duke/cabig/**/*TestObject*.class"/>
+					<exclude name="edu/duke/cabig/**/ApplicationTestCase*.class"/>
+					<exclude name="edu/duke/cabig/**/*DaoTestCase*.class"/>
+					<exclude name="edu/duke/cabig/**/SecurityContextTestUtils.class"/>
+					<exclude name="edu/duke/cabig/**/CCTSCaXchangeBroadcasterTester.class"/>
+					<exclude name="edu/duke/cabig/**/CCTSCaXchangeBroadcasterTester.class"/>
+					<exclude name="edu/duke/cabig/**/*$*.class"/>
+					<exclude name="edu/duke/cabig/**/ControllerTestCase.class"/>
+					<exclude name="edu/duke/cabig/**/WebTestCase.class"/>		
+				</fileset>
+			</batchtest>
+		</junit>
+	</target>
 	
 	<!-- ============================================================== 
 				target: cobertura-report                                                

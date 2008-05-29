@@ -3,7 +3,7 @@
 <!-- ================================================================= -->
 <!-- C3PR master build file                                          -->
 <!-- ================================================================= -->
-<project name="c3pr-2.0" default="all" basedir="..\">
+<project name="c3pr-2.0" basedir="..\">
     <!-- Give user the chance to override properties -->
     <property environment="env"/>
     <!-- import master build properties -->
@@ -32,12 +32,12 @@
 
     <!-- import other ant scripts -->
     <import file="${antfiles.dir}/build-artifacts.xml"/>
-    <import file="${antfiles.dir}/build-test.xml"/>
+    <!--<import file="${antfiles.dir}/build-test.xml"/>
     <import file="${antfiles.dir}/build-reports.xml"/>
-    <import file="${antfiles.dir}/build-codedrop.xml"/>
+    <import file="${antfiles.dir}/build-codedrop.xml"/>-->
     <import file="${antfiles.dir}/build-utilities.xml"/>
     <import file="${antfiles.dir}/build-ant-tasks.xml"/>
-    <import file="${antfiles.dir}/build-ctmsi-commons.xml"/>
+    <!--<import file="${antfiles.dir}/build-ctmsi-commons.xml"/>-->
 
 
     <!-- ================================================================================ -->
@@ -75,168 +75,6 @@
         </java>
     </target>
 
-    <!-- =============================================================== -->
-    <!-- CORE                                                             -->
-    <!-- =============================================================== -->
-    <target name="build-core" depends="prepare"
-            description="Builds the core project (Services, dao, domain">
-        <resolveDependencies extdir="${projects.dir}/core/ext">
-            <artifact refid="common.test.jars"/>
-            <artifact refid="ctms-commons.jars"/>
-            <artifact refid="ant-contrib.jars"/>
-            <artifact refid="cacore.jars"/>
-            <artifact refid="c3pr.esb-client.jars"/>
-            <artifact refid="c3pr.management.jars"/>
-
-            <!-- get third party shared jars -->
-            <artifact refid="cagrid.jars"/>
-            <artifact refid="cagrid-introduce.jars"/>
-            <artifact refid="collections-generic"/>
-            <artifact refid="jboss-j2ee.jars"/>
-            <artifact refid="bering.jars"/>
-            <artifact refid="spring.jars"/>
-            <artifact refid="hibernate.jars"/>
-            <artifact refid="log4j.jars"/>
-            <artifact refid="commons-io.jars"/>
-            <artifact refid="commons-logging.jars"/>
-            <artifact refid="dom4j.jars"/>
-            <artifact refid="antlr.jars"/>
-            <artifact refid="net-handle.jars"/>
-            <artifact refid="xerces.jars"/>
-            <artifact refid="xercesImpl.jars"/>
-
-            <!--security jars-->
-            <artifact refid="acegi.jars"/>
-            <artifact refid="ehcache.jars"/>
-
-            <!--property files-->
-            <artifact refid="c3pr.log4j.properties"/>
-            <artifact refid="c3pr.build.properties"/>
-        </resolveDependencies>
-
-        <ant dir="${projects.dir}/core" inheritAll="false" antfile="build.xml" target="all"/>
-    </target>
-
-    <!-- =============================================================== -->
-    <!-- WEB                                                             -->
-    <!-- =============================================================== -->
-    <target name="build-web" depends="prepare" description="Builds the web project">
-        <resolveDependencies extdir="${projects.dir}/web/ext">
-            <artifact refid="common.test.jars"/>
-            <artifact refid="ctms-commons.jars"/>
-            <artifact refid="c3pr.core.jars"/>
-            <artifact refid="c3pr.core.lib.jars"/>
-            <artifact refid="c3pr.management.jars"/>
-
-            <!-- get third party shared jars -->
-            <artifact refid="jboss-j2ee.jars"/>
-            <artifact refid="spring.jars"/>
-            <artifact refid="hibernate.jars"/>
-            <artifact refid="log4j.jars"/>
-            <artifact refid="commons-logging.jars"/>
-            <artifact refid="commons-logging.jars"/>
-            <artifact refid="dom4j.jars"/>
-            <artifact refid="antlr.jars"/>
-            <artifact refid="net-handle.jars"/>
-            <artifact refid="xerces.jars"/>
-            <artifact refid="xercesImpl.jars"/>
-            <artifact refid="c3pr.build.properties"/>
-            <artifact refid="c3pr.core.test.jars"/>
-
-            <artifact refid="jdom.jars"/>
-            <artifact refid="dom4j.jars"/>
-            <artifact refid="extremeComponents.jars"/>
-
-            <!--property files-->
-            <artifact refid="c3pr.log4j.properties"/>
-            <artifact refid="c3pr.build.properties"/>
-
-            <!--xsd and xml sample files-->
-            <artifact refid="c3pr-domain.xsd"/>
-            <artifact refid="c3pr-xml-samples"/>
-        </resolveDependencies>
-        <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="all"/>
-    </target>
-
-    <!--Does a local build. For Developers use only -->
-    <target name="deploy-webapp-local" depends="build-web"
-            description="Deploys webapp on your web/web local">
-        <ant dir="${projects.dir}/web" inheritall="false" target="deployLocal"/>
-    </target>
-
-
-    <!-- =============================================================== -->
-    <!-- c3pr ESB client service                                         -->
-    <!-- =============================================================== -->
-    <target name="build-esb-client" depends="prepare,checkGlobus" description="Builds the esb-client">
-        <resolveDependencies extdir="${projects.dir}/esb-client/ext">
-            <artifact refid="activemq.jars"/>
-            <artifact refid="commons-logging.jars"/>
-            <artifact refid="jdom.jars"/>
-            <artifact refid="log4j.jars"/>
-            <artifact refid="jboss-j2ee.jars"/>
-            <artifact refid="globus.jars"/>
-            <artifact refid="cagrid-introduce.jars"/>
-            <artifact refid="caXchange.jars"/>
-            <artifact refid="acegi.jars"/>
-        </resolveDependencies>
-        <ant dir="${projects.dir}/esb-client" inheritAll="false" antfile="build.xml" target="all"/>
-    </target>
-
-    <target name="prepare-grid" depends="prepare">
-        <resolveDependencies extdir="${projects.dir}/grid/ext">
-            <artifact refid="ant-contrib.jars"/>
-            <artifact refid="c3pr.core.jars"/>
-            <artifact refid="c3pr.core.lib.jars"/>
-            <artifact refid="c3pr.management.jars"/>
-
-            <!-- get third party shared jars -->
-            <artifact refid="jboss-j2ee.jars"/>
-            <artifact refid="spring.jars"/>
-            <artifact refid="hibernate.jars"/>
-            <artifact refid="log4j.jars"/>
-            <artifact refid="commons-logging.jars"/>
-            <artifact refid="dom4j.jars"/>
-            <artifact refid="antlr.jars"/>
-            <artifact refid="net-handle.jars"/>
-            <artifact refid="xerces.jars"/>
-            <artifact refid="xercesImpl.jars"/>
-            <artifact refid="c3pr.build.properties"/>
-            <artifact refid="c3pr.core.test.jars"/>
-            <artifact refid="common.test.jars"/>
-        </resolveDependencies>
-    </target>
-
-    <target name="prepareIntroduceServices" depends="prepare-grid"
-            description="Prepare all Introduce generated services">
-        <ant antfile="build.xml" dir="${projects.dir}/grid" inheritall="false"
-             target="prepareIntroduceService">
-
-        </ant>
-    </target>
-
-    <!-- =============================================================== -->
-    <!-- c3pr Protocol Ingestion Grid Service                            -->
-    <!-- =============================================================== -->
-    <target name="build-grid" depends="prepare-grid"
-            description="Builds the c3p3 Registration Consumer grid node">
-        <ant dir="${projects.dir}/grid" inheritAll="false" antfile="build.xml" target="all"/>
-    </target>
-
-
-    <!-- =============================================================== -->
-    <!-- c3pr Installer  project                                    -->
-    <!-- =============================================================== -->
-    <target name="build-installer" depends="prepare"
-            description="Builds the installer project">
-        <resolveDependencies extdir="${projects.dir}/installer/ext">
-            <artifact refid="common.test.jars"/>
-            <!--build properties-->
-            <artifact refid="c3pr.build.properties"/>
-        </resolveDependencies>
-        <ant dir="${projects.dir}/installer" inheritAll="false" target="all"/>
-    </target>
-
 
     <!-- =============================================================== -->
     <!-- c3pr JBI Integration project                                    -->
@@ -250,99 +88,6 @@
             <artifact refid="c3pr.grid.jars"/>
         </resolveDependencies>
         <ant dir="${projects.dir}/servicemix" inheritAll="false" antfile="build.xml" target="all"/>
-    </target>
-
-    <!-- =============================================================== -->
-    <!-- TEST-SYSTEM                                                     -->
-    <!-- =============================================================== -->
-    <target name="build-test-system" depends="prepare" description="Builds the test-system project">
-        <resolveDependencies extdir="${projects.dir}/test-system/ext">
-            <artifact refid="common.test.jars"/>
-            <artifact refid="c3pr.web.jars"/>
-            <artifact refid="c3pr.esb-client.jars"/>
-        </resolveDependencies>
-        <ant dir="${projects.dir}/test-system" inheritAll="false" antfile="build.xml" target="all"/>
-    </target>
-
-    <!-- ============================================================== -->
-    <!-- Cleans up generated stuff                                      -->
-    <!-- ============================================================== -->
-    <target name="clean" depends="prepare" description="Cleans all projects.">
-        <for list="${projects.list}" parallel="true" param="project.name" trim="true">
-            <sequential>
-                <echo message="Cleaning project @{project.name}."/>
-                <delete dir="${projects.dir}/@{project.name}/ext"/>
-                <ant dir="${projects.dir}/@{project.name}" inheritAll="false" antfile="build.xml"
-                     target="clean"/>
-            </sequential>
-        </for>
-
-        <delete failonerror="false">
-            <fileset dir="${junit.results.dir}">
-                <include name="*"/>
-            </fileset>
-        </delete>
-
-    </target>
-
-    <target name="createOrUpdateDatabase" description="create or update the Database using bering">
-        <ant dir="${projects.dir}/core" inheritall="false" target="bering-migrate"/>
-    </target>
-
-    <target name="createOrUpdateDatabaseForTests"
-            description="create or update the Database using bering to run tests">
-        <ant dir="${projects.dir}/core" inheritall="false" target="bering-migrate-test"/>
-    </target>
-
-
-    <!-- =============================================================== -->
-    <!-- create target to create a release of Installer  project          -->
-    <!-- =============================================================== -->
-    <target name="prepareInstallerForRelease" depends="clean">
-        <property name="project.archive" value="c3prv2-installpack.zip"/>
-        <mkdir dir="${projects.dir}/installer/ext"/>
-        <zip destfile="${projects.dir}/installer/ext/${project.archive}">
-            <zipfileset dir="${antfiles.dir}" prefix="antfiles"/>
-            <zipfileset dir="${projects.dir}/core" prefix="projects/core"/>
-            <zipfileset dir="${projects.dir}/web" prefix="projects/web"/>
-            <zipfileset dir="${projects.dir}/esb-client" prefix="projects/esb-client"/>
-            <zipfileset dir="${projects.dir}/grid" prefix="projects/grid"/>
-            <zipfileset dir="${share.dir}" prefix="share"/>
-        </zip>
-
-        <resolveDependencies extdir="${projects.dir}/installer/ext">
-            <artifact refid="common.test.jars"/>
-            <!--c3pr properties file-->
-            <artifact refid="c3pr.build.properties"/>
-        </resolveDependencies>
-
-    </target>
-
-    <target name="create-online-installer" depends="prepareInstallerForRelease"
-            description="Builds the installer project">
-        <ant dir="${projects.dir}/installer" inheritAll="false" target="all"/>
-    </target>
-
-
-    <target name="create-offline-installer" depends="prepareInstallerForRelease"
-            description="Builds the offline version of the installer">
-        <ant dir="${projects.dir}/installer" inheritAll="false" target="build-offline-installer"/>
-    </target>
-
-
-    <!--Update code from CVS. For developer use only-->
-    <target name="cvsUpdate" description="Updates code from CVS. For developers use only">
-        <!-- Assumes PKI setup for the following account-->
-        <property name="c3prv2.cvs.root"
-                  value=":ext:kherm@cbiocvs2.nci.nih.gov:/share/content/gforge/c3prv2"/>
-
-        <cvs cvsroot="${c3prv2.cvs.root}" command="update -PAd" cvsrsh="ssh" quiet="false"
-             failonerror="true" dest="${basedir}"/>
-    </target>
-
-
-    <target name="run-installer" description="Runs a previously built installer">
-        <ant dir="${projects.dir}/installer" target="run-installer" inheritall="false"/>
     </target>
 
     <!-- ============================================================== -->
@@ -392,88 +137,6 @@
     </target>
 
 
-    <!-- ============================================================== -->
-    <!-- Builds the projects                                            -->
-    <!-- ============================================================== -->
-    <target name="build" depends="prepare" description="Builds all projects.">
-        <for list="${projects.list}" parallel="false" param="project.name" trim="true">
-            <sequential>
-                <echo message="Building project @{project.name}."/>
-                <runtarget target="build-@{project.name}"/>
-                <echo message="Built project @{project.name}."/>
-            </sequential>
-        </for>
-    </target>
-
-    <target name="tomcat.security" depends="checkTomcat" description="Configure CSM">
-        <ant dir="${projects.dir}/core" inheritall="false" target="tomcat.security">
-            <property name="catalina.home" value="${ext.tomcat.dir}"/>
-        </ant>
-    </target>
-
-
-    <target name="deploy-grid-RegistrationConsumer" depends="prepare-grid,checkGlobus,checkTomcat"
-            description="Will deploy the RegistrationConsumer grid service">
-        <ant dir="${projects.dir}/grid" antfile="build.xml" inheritall="false"
-             target="deployTomcat-RegistrationConsumer"/>
-    </target>
-
-    <target name="deploy-grid-StudyConsumer" depends="prepare-grid,checkGlobus,checkTomcat"
-            description="Will deploy the RegistrationConsumer grid service">
-        <ant dir="${projects.dir}/grid" antfile="build.xml" inheritall="false"
-             target="deployTomcat-StudyConsumer"/>
-    </target>
-
-    <target name="deploySkeletonRegistrationGridService" depends="prepare-grid,checkGlobus,checkTomcat"
-            description="Will deploy the Skeleton RegistrationConsumer grid service">
-        <ant dir="${projects.dir}/grid" antfile="build.xml" inheritall="false"
-             target="deploySkeletonRegistrationGridService"/>
-    </target>
-
-    <target name="deploySkeletonStudyGridService" depends="prepare-grid,checkGlobus,checkTomcat"
-            description="Will deploy the Skeleton RegistrationConsumer grid service">
-        <ant dir="${projects.dir}/grid" antfile="build.xml" inheritall="false"
-             target="deploySkeletonStudyGridService"/>
-    </target>
-
-
-    <!-- ====================================================================== -->
-    <!-- Deploys the webapp (note:- only web + core projects )in Catalina_home  -->
-    <!-- ====================================================================== -->
-    <target name="deploy-webapp" depends="checkTomcat,build-web"
-            description="Deploy web application to tomcat">
-        <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="deploy">
-            <property name="catalina.home" value="${ext.tomcat.dir}"/>
-        </ant>
-    </target>
-
-    <!-- ====================================================================== -->
-    <!-- UnDeploys the webapp (note:- only web + core projects )in CATALINA_HOME  -->
-    <!-- ====================================================================== -->
-    <target name="undeploy-webapp" depends="checkTomcat" description="undeploys the c3pr webapp">
-        <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="undeploy-web">
-            <property name="catalina.home" value="${ext.tomcat.dir}"/>
-        </ant>
-    </target>
-
-    <!-- ====================================================================== -->
-    <!-- UnDeploys the webapp (note:- only web + core projects )in CATALINA_HOME  -->
-    <!-- ====================================================================== -->
-    <target name="war" depends="checkTomcat,build-web"
-            description="Will build the c3prv2 war archive in the current directory">
-        <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="war">
-            <property name="war.file" value="${project.war.archive}"/>
-        </ant>
-    </target>
-
-    <target name="deploy-war"
-            description="Will build and deploy the c3prv2 war archive in the tomcat">
-        <ant dir="${projects.dir}/web" inheritAll="false" antfile="build.xml" target="deploy-war">
-            <property name="war.file" value="${project.war.archive}"/>
-        </ant>
-    </target>
-
-
     <target name="deployESB" depends="build-servicemix"
             description="Will build and deploy and make ready the ctms esb engine (servicemix)">
 
@@ -509,9 +172,4 @@
         <echo message=""/>
 
     </target>
-    <!-- ============================================================== -->
-    <!-- Builds C3PR  from scratch                                     -->
-    <!-- ============================================================== -->
-    <target name="all" depends="clean, build" description="Cleans and builds all the projects."/>
-
 </project>
