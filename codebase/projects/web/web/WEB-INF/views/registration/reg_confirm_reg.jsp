@@ -20,6 +20,11 @@ function accessApp(url,targetWindow){
 	$('hotlinksForm').action=url;
 	$('hotlinksForm').submit();
 }
+function submitLocalForm(formName, regId ,schEphId){
+	registrationElement=formName+'_registrationId';
+	$(registrationElement).value=regId;
+	$(formName).submit();
+}
 </script>
 </head>
 <body>
@@ -177,6 +182,14 @@ function accessApp(url,targetWindow){
 		</tr>
 		</c:if>
 	</table>
+	</c:if>
+	<c:if test="${command.dataEntryStatusString!='Incomplete'}">
+		<div align="right">
+			<form id="manage" name="manage" action="../registration/manageRegistration" method="get">
+				<input type="hidden" name="registrationId" value="${command.id }"/>
+				<input type="submit" value="Manage this registration"/>
+			</form>
+		</div>
 	</c:if>
 </tags:panelBox>
 <form id="hotlinksForm" action="" method="get">
