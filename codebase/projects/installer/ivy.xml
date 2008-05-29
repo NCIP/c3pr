@@ -32,6 +32,7 @@
         <dependencies  defaultconfmapping="build->master(*);runtime->runtime(*),master(*);dist->master(*),runtime(default);distGrid->master(*),runtime(default)"  >
 
         	<dependency org="org.springframework" name="spring-mock" rev="2.0.7" force="true" />
+        	<dependency org="ant-contrib" name="ant-contrib" rev="1.0b2" force="true" />
         	
 			<!-- Test only dependencies -->
 			<dependency org="org.springframework" name="spring-mock" rev="2.0.7" force="true" conf="test->default" />        	

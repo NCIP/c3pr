@@ -11,8 +11,7 @@
 	    <property name="ant.lib.version" value=""/>
 
 
-	    <property name="ext.dir" value="${basedir}/ext"/>
-	    <property name="ext.resources.dir" value="${ext.dir}/resources"/>
+	    <property name="ext.dir" value="${basedir}/installpack"/>
 	    <property name="build.jar.dir" value="${build.dir}/jars"/>
 
 
@@ -27,8 +26,6 @@
 	    <property name="software.dir" value="${resources.dir}/software"/>
 
 	    <!--Test dirs-->
-	    <property name="test.ext.dir" value="${ext.dir}/test"/>
-	    <property name="test.ext.lib.dir" value="${test.ext.dir}/lib"/>
 
 	    <property name="test.dir" value="${basedir}/test"/>
 	    <property name="test.src.dir" value="${test.dir}/src"/>
@@ -69,6 +66,9 @@
 	    <target name="prepare" depends="resolve">
 	        <mkdir dir="${test.classes.dir}"/>
 	        <mkdir dir="${build.jar.dir}"/>
+	    	<copy todir="${ext.dir}">
+	    		<fileset dir="${lib.dir}" includes="ant-contrib*.jar"/>
+	    	</copy>
 	        <copy
 	                file="${c3prv2.installer.dir}/${antinstall.config.filename.input}"
 	                tofile="${c3prv2.installer.dir}/${antinstall.config.filename}"
@@ -102,9 +102,7 @@
 	                   antInstallLib="${basedir}/lib"
 	                   antLib="${basedir}/antlib${ant.lib.version}"
 	                   icons="eclipse">
-	            <fileset dir="${ext.dir}">
-	                <include name="*.zip"/>
-	            </fileset>
+	            <fileset dir="${ext.dir}"/>
 	            <fileset dir="${basedir}" includes="resources/*"/>
 	            <!--include bundled software -->
 	            <fileset dir="${software.dir}" includes="*"/>
