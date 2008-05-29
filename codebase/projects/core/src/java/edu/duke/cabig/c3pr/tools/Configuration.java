@@ -24,6 +24,9 @@ public class Configuration extends DatabaseBackedConfiguration {
 
     public static final ConfigurationProperty<String> ESB_URL = PROPERTIES
                     .add(new ConfigurationProperty.Text("esbUrl"));
+    
+    public static final ConfigurationProperty<String> MULTISITE_ESB_URL = PROPERTIES
+                    .add(new ConfigurationProperty.Text("jms.brokerUrl"));
 
     public static final ConfigurationProperty<String> ESB_ENABLE = PROPERTIES
                     .add(new ConfigurationProperty.Text("esbEnable"));
