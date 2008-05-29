@@ -107,7 +107,7 @@ This is the install config for c3prv2 installer
         <comment displayText="Note:Source code will be installed in ${install.dir}/codebase"/>
 
         <comment displayText=""/>
-        <target
+        <!--<target
                 displayText="C3PRV2 Study Consumer Grid Service"
                 target="deploy-grid-C3PRStudyConsumer"
                 defaultValue="false"
@@ -117,7 +117,7 @@ This is the install config for c3prv2 installer
                 target="deploy-grid-C3PRStudyConsumer"
                 defaultValue="false"
                 />
-        <comment displayText="Globus/caGrid should be deployed prior to deploying the grid services."/>
+        <comment displayText="Globus/caGrid should be deployed prior to deploying the grid services."/>-->
 
     </page>
 

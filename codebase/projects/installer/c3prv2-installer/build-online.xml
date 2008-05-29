@@ -125,7 +125,9 @@
         </ant>
         -->
     	<!--<subant target="tomcat.security" buildpath="${c3pr.core.dir}/ivy-build.xml" />-->
-    	<ant dir="${base.codebase.dir}/antfiles" antfile="${base.codebase.dir}/antfiles/ivy-master-build.xml" target="tomcat.security"/>
+    	<ant dir="${base.codebase.dir}/antfiles" antfile="${base.codebase.dir}/antfiles/ivy-master-build.xml" target="tomcat.security">
+    		<property name="env.CATALINA_HOME" value="${tomcat.home}"/>
+    	</ant>
     </target>
 
     <target name="build-grid">

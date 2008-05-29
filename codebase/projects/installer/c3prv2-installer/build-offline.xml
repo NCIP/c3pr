@@ -7,6 +7,7 @@
     <property name="installer.properties" value="installer.properties"/>
 
     <property name="c3prv2.install.artifact" value="c3prv2-installpack.zip"/>
+	<property name="ivy2.install.artifact" value="ivy2.zip"/>
     <property name="ext.dir" value="${basedir}/ext"/>
 
     <!--properties from the GUI installer-->
@@ -15,7 +16,6 @@
 
     <!--c3pr src folders-->
     <property name="c3pr.core.dir" value="${base.codebase.dir}/projects/core"/>
-
 
     <target name="prepare">
         <unzip src="${antinstaller.jar}" dest="${basedir}"
@@ -32,6 +32,8 @@
                overwrite="true">
             <patternset>
                 <include name="${c3prv2.install.artifact}"/>
+            	<include name="${ivy2.install.artifact}"/>
+            	<include name="ant-contrib*.jar"/>
             </patternset>
         </unzip>
 
@@ -41,6 +43,35 @@
         <unzip src="${basedir}/${c3prv2.install.artifact}"
                dest="${base.codebase.dir}"
                overwrite="true"/>
+    	
+    	<property file="${base.codebase.dir}/antfiles/c3pr-ivy.properties" />
+    	<mkdir dir="${basedir}/ivy2-files"/>
+    	<unzip src="${basedir}/${ivy2.install.artifact}"
+    		    			    	               dest="${basedir}/ivy2-files"
+    		    			    	               overwrite="true"/>
+    	<taskdef name="if" classname="net.sf.antcontrib.logic.IfTask">
+    		<classpath>
+    		   	<fileset dir="${basedir}" includes="ant-contrib*.jar"/>
+    		</classpath>
+    	</taskdef>
+    	<if>
+    		<available file="${ivy.jar.file}" />
+    		<then>
+    			<echo message="ivy already present"/>		
+    		</then>
+    		<else>
+    			<echo message="ivy not present. creating ivy home."/>
+    			<mkdir dir="${ivy.jar.dir}"/>
+    			<copy todir="${ivy.jar.dir}">
+    				<fileset dir="${basedir}/ivy2-files/ivy-jars"></fileset>
+    			</copy>
+    		</else>
+    	</if>
+    	<echo message="copying c3pr-cache...."/>
+    	<mkdir dir="${ivy.cache}"/>
+    	<copy todir="${ivy.cache}" overwrite="false">
+    		<fileset dir="${basedir}/ivy2-files/c3pr-cache"></fileset>
+    	</copy>
 
         <!--override build.properties with installers-->
         <copy file="${basedir}/ant.install.properties"
@@ -125,7 +156,9 @@
             <property name="catalina.home" value="${tomcat.home}"/>
         </ant>-->
     	<!--<subant target="tomcat.security" buildpath="${c3pr.core.dir}/ivy-build.xml" />-->
-    	<ant dir="${base.codebase.dir}/antfiles" antfile="${base.codebase.dir}/antfiles/ivy-master-build.xml" target="tomcat.security"/>
+    	<ant dir="${base.codebase.dir}/antfiles" antfile="${base.codebase.dir}/antfiles/ivy-master-build.xml" target="tomcat.security">
+    		<property name="env.CATALINA_HOME" value="${tomcat.home}"/>
+    	</ant>
     </target>
 
 
