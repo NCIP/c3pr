@@ -1,13 +1,12 @@
 package edu.duke.cabig.c3pr.utils.web.spring.tabbedflow;
 
-import edu.duke.cabig.c3pr.utils.web.CustomMethodInvocater;
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
-
-import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.Method;
 
 /**
  * @author Rhett Sutphin
@@ -34,9 +33,7 @@ public abstract class ReflexiveAjaxableTab<C> extends AjaxableTab<C> {
     public ModelAndView postProcessAsynchronous(HttpServletRequest request, C command, Errors error)
                     throws Exception {
         if (methodInvocationRequest(request)) {
-            Method method = getMethod(this, getMethodName(request));
-            return (ModelAndView) new CustomMethodInvocater(this, method, new Object[] { request,
-                    command, error }).invoke();
+            return (ModelAndView)ReflectionUtils.invokeMethod(ReflectionUtils.findMethod(this.getClass(), getMethodName(request), paramTypes), this, new Object[] { request, command, error } ); 
         }
         return super.postProcessAsynchronous(request, command, error);
     }
@@ -54,11 +51,5 @@ public abstract class ReflexiveAjaxableTab<C> extends AjaxableTab<C> {
 
     public String getMethodName(HttpServletRequest request) {
         return (String) request.getParameter(getAJAXMethodInvAttrName());
-    }
-
-    protected Method getMethod(Object obj, String methodName) throws Exception {
-        for (Method m : obj.getClass().getMethods())
-            log.debug("Found Method:" + m);
-        return obj.getClass().getMethod(methodName, paramTypes);
     }
 }

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
@@ -23,9 +24,9 @@ public abstract class RowManagableTab<C> extends ReflexiveAjaxableTab<C> {
         return "softDelete";
     }
 
-    protected String getDeleteIndexParamName() {
-        return "deleteIndex";
-    }
+//    protected String getDeleteIndexParamName() {
+//        return "deleteIndex";
+//    }
 
     protected String getDeleteHashCodeParamName() {
         return "deleteHashCode";
@@ -57,8 +58,9 @@ public abstract class RowManagableTab<C> extends ReflexiveAjaxableTab<C> {
     public ModelAndView deleteRow(HttpServletRequest request, Object command, Errors error)
                     throws Exception {
         String listPath = request.getParameter(getCollectionParamName());
-        List col = (List) new DefaultObjectPropertyReader(command, listPath)
-                        .getPropertyValueFromPath();
+//        List col = (List) new DefaultObjectPropertyReader(command, listPath)
+//                        .getPropertyValueFromPath();
+        List col=(List)new BeanWrapperImpl(command).getPropertyValue(listPath);
         Integer index = null;
 
         String deletionIdStr = request.getParameter(getDeleteHashCodeParamName());
@@ -86,18 +88,17 @@ public abstract class RowManagableTab<C> extends ReflexiveAjaxableTab<C> {
                 }
             }
         }
-
         Map<String, String> map = new HashMap<String, String>();
+        if (index == null) {
+            map.put(getFreeTextModelName(), "Unmatched hashCode/Id");
+            return new ModelAndView("", map);
+        }
+        
         if (this.shouldDelete(request, command, error)) {
-            if (index == null) {
-                map.put(getFreeTextModelName(), "Unmatched hashCode/Id");
-            }
-            else {
-                col.remove(index.intValue());
-                map.put(getFreeTextModelName(), "deletedIndex="
-                                + request.getParameter(getDeleteIndexParamName()) + "||hashCode="
-                                + request.getParameter(getDeleteHashCodeParamName()) + "||");
-            }
+            col.remove(index.intValue());
+            map.put(getFreeTextModelName(), "deletedIndex="
+                            + index + "||hashCode="
+                            + deletionIdStr + "||");
         }
         else {
             // Enabling the retitred_indicator
