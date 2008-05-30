@@ -41,6 +41,7 @@ function submitLocalForm(formName, regId ,schEphId){
 <tags:panelBox title="Confirmation Message" boxId="ConfMessage">
 
 <br/>
+
 	<!-- newRegistration: ${newRegistration}<br>
 	reg_registered :${reg_registered }<br>
 	reg_nonenrolled:${reg_nonenrolled }<br>
