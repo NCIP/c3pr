@@ -279,7 +279,7 @@
                     <div class="value"><form:select path="multiInstitutionIndicator"
                                                    cssClass="validate-notEmpty" >
                         <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
-                        <option value="" selected="selected">Please Select</option>
+                        <option value="">Please Select</option>
                     </form:select> <tags:hoverHint keyProp="study.multiInstitutionIndicator"/></div>
                 </div>
             </c:otherwise>
