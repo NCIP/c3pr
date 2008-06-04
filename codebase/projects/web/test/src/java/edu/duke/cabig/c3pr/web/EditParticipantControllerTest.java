@@ -14,6 +14,7 @@ import edu.duke.cabig.c3pr.domain.Participant;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.ContextTools;
 import edu.duke.cabig.c3pr.utils.Lov;
+import edu.duke.cabig.c3pr.web.participant.ParticipantTab;
 
 /**
  * @author Ramakrishna
@@ -44,6 +45,8 @@ public class EditParticipantControllerTest extends ControllerTestCase {
         configurationProperty = registerMockFor(ConfigurationProperty.class);
         controller.setConfigurationProperty(new ConfigurationProperty());
         configurationProperty = (ConfigurationProperty) context.getBean("configurationProperty");
+        ((ParticipantTab)controller.getFlow().getTab(0)).setConfigurationProperty(configurationProperty);
+        ((ParticipantTab)controller.getFlow().getTab(0)).setHealthcareSiteDao(healthcareSiteDao);
     }
 
     public void testReferenceData() throws Exception {
