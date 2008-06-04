@@ -165,15 +165,15 @@ public class StudyOverviewTab extends StudyTab {
         return new ModelAndView("", map);
     }
 
-    public boolean isAdmin() {
+    public Boolean isAdmin() {
 
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication auth = context.getAuthentication();
         GrantedAuthority[] groups = auth.getAuthorities();
-        boolean isAdmin = false;
+        Boolean isAdmin = new Boolean(false);
         for (GrantedAuthority ga : groups) {
             if (ga.getAuthority().endsWith("admin")) {
-                isAdmin = true;
+                isAdmin = Boolean.TRUE;
             }
         }
         return isAdmin;
