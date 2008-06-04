@@ -110,7 +110,7 @@ public class BookRandomizationAjaxFacade {
                 }
             }
 
-            if (tEpoch != null) {
+            if (tEpoch != null && tEpoch.getRandomization()!=null) {
                 List<BookRandomizationEntry> breList = ((BookRandomization) tEpoch
                                 .getRandomization()).getBookRandomizationEntry();
                 try {
