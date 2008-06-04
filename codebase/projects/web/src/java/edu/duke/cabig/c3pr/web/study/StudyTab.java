@@ -177,17 +177,20 @@ public abstract class StudyTab extends InPlaceEditableTab<Study> {
         this.studyService = studyService;
     }
 
-    public boolean isAdmin() {
+    public Boolean isAdmin() {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication auth = context.getAuthentication();
-        GrantedAuthority[] groups = auth.getAuthorities();
-
-        for (GrantedAuthority ga : groups) {
-            if (ga.getAuthority().endsWith("admin")) {
-                return true;
-            }
+        if (auth!=null){
+	        GrantedAuthority[] groups = auth.getAuthorities();
+	        for (GrantedAuthority ga : groups) {
+	            if (ga.getAuthority().endsWith("admin")) {
+	                return new Boolean(true);
+	            }
+	        }
         }
-        return false;
+
+       
+        return new Boolean(false);
     }
 
     @Override
