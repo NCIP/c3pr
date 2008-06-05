@@ -26,7 +26,7 @@
          <publications>
     		<artifact name="${ivy.module}" conf="publish" type="jar" ext="jar"/>
     		<artifact name="${ivy.module}-tests" conf="test" type="jar" ext="jar" />
-    		<artifact name="c3pr" type="war" conf="publish" />
+    		<!--<artifact name="c3pr" type="war" conf="publish" />-->
   		</publications>
        
        
