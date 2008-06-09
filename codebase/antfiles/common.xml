@@ -23,6 +23,10 @@
 		<available file="${ivy.jar.dir}/jsch-0.1.31.jar" />
 	</condition>
 	
+	<condition property="ant.contrib.available">
+		<available file="${lib.dir}/ant-contrib-1.0b2.jar" />
+	</condition>
+	
 	
 	<!-- ===================================================================
 		copy-resources : This task, copy files from source to destination, with filtering on
@@ -116,8 +120,6 @@
 		<pathelement path="${test.classes.dir}" />
 	</path>
 	
-	
-	
 	<!-- refers to project root dir -->
 	<dirname file="${ant.file.common}" property="proj.root.dir"/>
 	<property name="local.repo.dir" value="${proj.root.dir}/../repository" />
@@ -156,8 +158,8 @@
 		target : download-jsch
 	====================================================== -->
 	<target name="download-jsch" unless="jsch.available">
-		<echo message="Downloading jsch....." />
-		<get src="${ivy.sftp.remote}" dest="${ivy.jar.dir}/jsch-0.1.31.jar" verbose="true" usetimestamp="true"/>
+		<echo message="Downloading jsch....." />		
+			<get src="${ivy.sftp.remote}" dest="${ivy.jar.dir}/jsch-0.1.31.jar" verbose="true" usetimestamp="true" unless="${ant.contrib.available}"/>
 	</target>
 	
 	<!-- ====================================================
@@ -169,6 +171,16 @@
 		<echo message="Downloading IVY....." />
 		<get src="${ivy.jar.location}" dest="${ivy.jar.file}" usetimestamp="true"/>
 	</target>
+	
+	<!-- ==================================================
+		target : download-ant-contrib
+		It does not download unless a newer version is available
+	====================================================== -->
+	<target name="download-ant-contrib" unless="ant.contrib.available">
+		<echo message="Downloading ant-contrib....." />
+		<get src="${ant-contrib.jar.location}" dest="${lib.dir}/ant-contrib-1.0b2.jar" verbose="true" usetimestamp="true"/>
+	</target>
+	
 	<!-- ====================================================
 		target: load-ivy         
             This target is not necessary if you put ivy.jar in your ant lib directory
@@ -269,6 +281,14 @@
 	<target name="clean-cobertura-instruments" description="--> clean the cobertura instruments classes dir">
 		<echo message="Executing in ${ant.project.name}" />
 		<delete includeemptydirs="true" dir="${instrumented.classes.dir}" />
+	</target>
+	
+	<!-- ================================= 
+          target: clean-checkstyle-dir             
+         ================================= -->
+	<target name="clean-checkstyle-dir" description="--> clean the checkstyle dir">
+		<echo message="Executing in ${ant.project.name}" />
+		<delete includeemptydirs="true" dir="${checkstyle.dir}" />
 	</target>
 	
 	<!-- =====================================================================
@@ -500,12 +520,6 @@
 				target: corbetura-init                                                
 			============================================================== -->
 		<target name="corbetura-init" if="run.test" depends="clean-cobertura-dir">
-			<!--
-					cobertura-instrument=net.sourceforge.cobertura.ant.InstrumentTask
-					cobertura-merge=net.sourceforge.cobertura.ant.MergeTask
-					cobertura-report=net.sourceforge.cobertura.ant.ReportTask
-					cobertura-check=net.sourceforge.cobertura.ant.CheckTask
-					-->
 			<mkdir dir="${cobertura.report.dir}" />
 			<mkdir dir="${cobertura.report.dir}/xmlreport" />
 			<taskdef resource="tasks.properties">
@@ -522,6 +536,15 @@
 			</cobertura-instrument>
 		</target>
 
+	<!-- ============================================================== 
+			target: checkstyle-init                                                
+		============================================================== -->
+	<target name="checkstyle-init" depends="clean-checkstyle-dir">
+		<mkdir dir="${checkstyle.dir}" />
+		<mkdir dir="${checkstyle.dir}/xmlreport" />
+			
+        <taskdef resource="checkstyletask.properties" classpathref="main.classpath" />
+    </target>
 	<!-- ============================================================== 
 		target: test. If no Db property is given, the test target will set db
 		as test-postgres                                                
@@ -675,4 +698,19 @@
 			<echo message="env.CATALINA_HOME=${env.CATALINA_HOME}" />
 			<echo message="catalina.home=${catalina.home}" />
 	</target>
+	
+	<!-- CheckStyle for individual projects - accepts project as a param-->
+	<target name="run-report-style" depends="checkstyle-init" description="Check the style for a single project." >
+		<property name="antfiles.dir" location="${basedir}/../../codebase/antfiles" />		    	
+		<checkstyle config="${antfiles.dir}/c3pr_checks.xml" failOnViolation="false">
+            <fileset dir="src" includes="**/*.java"/>
+            <formatter type="plain" toFile="${checkstyle.dir}/${project}.txt"/>
+            <formatter type="xml" toFile="${checkstyle.dir}/${project}.xml"/>
+        </checkstyle>
+		<xslt in="${checkstyle.dir}/${project}.xml" out="${checkstyle.dir}/${project}.html"
+              style="${antfiles.dir}/checkstyle.xsl">
+            <param name="${project}" expression="${project}"/>
+        </xslt>
+    </target>
+	
 </project>

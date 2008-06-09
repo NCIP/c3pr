@@ -39,6 +39,7 @@
 		<!-- <dependency org="net.sourceforge" name="cobertura"
 			rev="1.8.6" /> -->
 		<dependency org="cobertura" name="cobertura" rev="1.8" />
+		<dependency org="checkstyle" name="checkstyle" rev="4.4" />
 		<!-- CTMS commons dependencies -->
 		<dependency org="gov.nih.nci.cabig.ctms"
 			name="ctms-commons-base" rev="${ctmsi.commons.version}" transitive="false" />

@@ -5,7 +5,7 @@
     <import file="${basedir}/common.xml"/>
 	<import file="${basedir}/build-utilities.xml"/>
 	<property name="projects.dir" value="${basedir}/../projects" />
-	
+	<property name="reportable.projects.list" value="core,web" />
 	
 	<!-- ==================================================================
 		target : buildlist
@@ -242,7 +242,7 @@
     	<ivy:resolve inline="true" organisation="cobertura" module="cobertura" revision="1.8" />
     	<ivy:cachepath organisation="cobertura" module="cobertura" revision="1.8" inline="true" pathid="cobertura.classpath"/>
     	<mkdir dir="${cobertura.report.dir}" />
-    	<taskdef  resource="tasks.properties" classpathref="cobertura.classpath" />
+    	<taskdef resource="tasks.properties" classpathref="cobertura.classpath" />
     	<cobertura-merge datafile="${cobertura.report.dir}/cobertura.ser">
     		<fileset dir="." includes="**/cobertura.ser" />
 		</cobertura-merge>
@@ -256,4 +256,33 @@
     	    </fileset>
     	</cobertura-report>
 	</target>
+	
+	<!-- =============================================================== -->
+    <!-- Call check-style for each project log results                   -->
+    <!-- =============================================================== -->
+    <target name="reports-style" depends="load-ivy, download-ant-contrib" description="Check the style of all the projects.">
+		<mkdir dir="${checkstyle.dir}"/>
+        <taskdef resource="checkstyletask.properties"  classpathref="main.classpath" />
+		<taskdef resource="net/sf/antcontrib/antlib.xml">
+            <classpath>
+                <pathelement location="${lib.dir}/ant-contrib-1.0b2.jar"/>
+            </classpath>
+        </taskdef>
+	
+        <!-- call run-report-style for each project or call checkstyle directly -->
+        <for list="${reportable.projects.list}" parallel="false" param="project.name" trim="true">
+            <sequential>
+                <echo message="Reporting style for project @{project.name}." />
+                <antcall target="run-report-style">
+                    <param name="project" value="@{project.name}"/>
+                </antcall>
+            </sequential>
+        </for>
+	
+		<echo>================================================================</echo>
+    	<echo>CheckStyle Report available at </echo>
+    	<echo>${checkstyle.dir}</echo>
+    	<echo>================================================================</echo>
+    </target>
+	
 </project>
