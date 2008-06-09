@@ -260,7 +260,7 @@
 	<!-- =============================================================== -->
     <!-- Call check-style for each project log results                   -->
     <!-- =============================================================== -->
-    <target name="reports-style" depends="load-ivy, download-ant-contrib" description="Check the style of all the projects.">
+    <target name="reports-style" depends="resolve, download-ant-contrib" description="Check the style of all the projects.">
 		<mkdir dir="${checkstyle.dir}"/>
         <taskdef resource="checkstyletask.properties"  classpathref="main.classpath" />
 		<taskdef resource="net/sf/antcontrib/antlib.xml">
