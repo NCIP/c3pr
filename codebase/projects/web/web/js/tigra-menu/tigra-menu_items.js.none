@@ -1,0 +1,33 @@
+// items structure
+// each item is the array of one or more properties:
+// [text, link, settings, subitems ...]
+// use the builder to export errors free structure if you experience problems with the syntax
+
+var MENU_ITEMS = [
+
+        ['Registration', 'http://www.usa.gov', null,
+            ['Search Registration', null, null],
+            ['Create Registration', null, null]
+        ],
+        ['Studies', 'http://www.usa.gov', null,
+            ['Search Study', null, null],
+            ['Create Study', null, null]
+        ],
+        ['Subjects', 'http://www.usa.gov', null,
+            ['Search Subject', null, null],
+            ['Create Subject', null, null]
+        ],
+        ['Administration', 'http://www.usa.gov', null,
+            ['Investigator', null, null],
+            ['Research Staff', null, null],
+            ['Organization', null, null],
+            ['Import Study', null, null],
+            ['Import Registration', null, null],
+            ['Configure C3PR', null, null]
+        ],
+        ['Advanced Search', 'http://www.usa.gov', null,
+            ['Search Registration', null, null],
+            ['Search Study', null, null]
+        ]
+];
+
