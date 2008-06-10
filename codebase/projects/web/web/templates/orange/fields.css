@@ -3,7 +3,7 @@ input[type=button], input[type=submit], input[type=reset] {
     font-family: Verdana;
     color: black;
     background-color: #f5f6f1;
-    border: 2px outset #003d73;
+    border: 2px outset #c36f14;
     font-family: Verdana, Arial, Helvetica, sans-serif;
     margin-left: 2pt;
     vertical-align: middle;
@@ -18,7 +18,7 @@ input, label, select, textarea {
 }
 
 input[type=text], input[type=password], select, textarea {
-  border-color : #809eba;
+  border-color : #f89223;
   border-style : solid;
   border-width : 1px;
   padding: 2px;
@@ -32,7 +32,7 @@ input[disabled], select[disabled], textarea[disabled] {
 }
 
 input[type=file] {
-  border-color : #809eba;
+  border-color : #f89223;
   border-style : dotted;
   border-width : 1px;
 }
