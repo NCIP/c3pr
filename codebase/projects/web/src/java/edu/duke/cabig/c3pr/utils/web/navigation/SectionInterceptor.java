@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.utils.web.navigation;
 
 import java.util.List;
+import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -8,6 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.util.UrlPathHelper;
+import edu.duke.cabig.c3pr.tools.Configuration;
+import gov.nih.nci.cabig.ctms.tools.configuration.ConfigurationProperty;
+import gov.nih.nci.cabig.ctms.tools.configuration.ConfigurationPropertyEditor;
 
 /**
  * @author Rhett Sutphin, Priyatam
@@ -21,6 +25,12 @@ public class SectionInterceptor extends HandlerInterceptorAdapter {
 
     private AntPathMatcher pathMatcher = new AntPathMatcher();
 
+    private Configuration configuration;
+
+    public void setConfiguration(Configuration configuration) {
+        this.configuration = configuration;
+    }
+
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
                     Object handler) throws Exception {
         String controllerPath = urlPathHelper.getPathWithinServletMapping(request);
@@ -30,6 +40,9 @@ public class SectionInterceptor extends HandlerInterceptorAdapter {
         request.setAttribute(prefix("currentSection"), current);
         request.setAttribute(prefix("currentTask"), currentTask);
         request.setAttribute(prefix("sections"), getSections());
+
+        request.setAttribute("skinName", configuration.getMap().get("skinPath").toString());
+
         return true;
     }
 
