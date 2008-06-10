@@ -5,6 +5,7 @@
     <import file="${basedir}/common.xml"/>
 	<import file="${basedir}/build-utilities.xml"/>
 	<property name="projects.dir" value="${basedir}/../projects" />
+	<!-- List of modules that need checkstyle reporting done -->
 	<property name="reportable.projects.list" value="core,web" />
 	
 	<!-- ==================================================================

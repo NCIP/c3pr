@@ -173,8 +173,8 @@
 	</target>
 	
 	<!-- ==================================================
-		target : download-ant-contrib
-		It does not download unless a newer version is available
+		target : download-ant-contrib Its only called by reports-style in ivy-master-build
+		It does not download if ant.contrib.available is set to true
 	====================================================== -->
 	<target name="download-ant-contrib" unless="ant.contrib.available">
 		<echo message="Downloading ant-contrib....." />
