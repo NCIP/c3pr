@@ -79,6 +79,9 @@ public class Configuration extends DatabaseBackedConfiguration {
     public static final ConfigurationProperty<String> OUTGOING_MAIL_AUTH = PROPERTIES
                     .add(new ConfigurationProperty.Text("outgoingMailAuth"));
 
+    public static final ConfigurationProperty<String> SKIN_PATH = PROPERTIES
+                    .add(new ConfigurationProperty.Text("skinPath"));
+
     public ConfigurationProperties getProperties() {
         return PROPERTIES;
     }
