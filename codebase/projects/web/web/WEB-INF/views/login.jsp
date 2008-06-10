@@ -51,8 +51,5 @@
     </form>
 </chrome:box>
 
-
-
-
 </body>
 </html>

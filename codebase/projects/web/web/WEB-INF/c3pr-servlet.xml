@@ -351,7 +351,8 @@
 
 
     <bean id="sectionInterceptor"
-          class="edu.duke.cabig.c3pr.utils.web.navigation.SectionInterceptor">
+          class="edu.duke.cabig.c3pr.utils.web.navigation.SectionInterceptor" autowire="byName">
+        
         <property name="sections">
             <list>
                 <bean
@@ -420,15 +421,63 @@
                             <bean
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
                                     autowire="byType" p:displayName="Investigator"
-                                    p:linkName="searchInvestigatorController"/>
+                                    p:linkName="searchInvestigatorController">
+
+                                    <property name="subTasks">
+                                        <list>
+                                                <bean class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+                                                        autowire="byType"
+                                                        p:displayName="Search Investigator"
+                                                        p:linkName="searchInvestigatorController"/>
+                                                <bean class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+                                                        autowire="byType"
+                                                        p:displayName="Create Investigator"
+                                                        p:linkName="createInvestigatorController"/>
+                                                <bean class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+                                                        autowire="autodetect"
+                                                        p:displayName="Investigator Groups"
+                                                        p:linkName="createInvestigatorGroups"/>
+                                        </list>
+                                    </property>
+
+                            </bean>
                             <bean
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
                                     autowire="byType" p:displayName="Research Staff"
-                                    p:linkName="searchResearchStaffController"/>
+                                    p:linkName="searchResearchStaffController">
+                                
+                                <property name="subTasks">
+                                    <list>
+                                            <bean class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+                                                    autowire="byType"
+                                                    p:displayName="Search Research Staff"
+                                                    p:linkName="searchResearchStaffController"/>
+                                            <bean class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+                                                    autowire="byType"
+                                                    p:displayName="Create Research Staff"
+                                                    p:linkName="createResearchStaffController"/>
+                                    </list>
+                                </property>
+
+                            </bean>
                             <bean
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
                                     autowire="byType" p:displayName="Organization"
-                                    p:linkName="searchOrganizationController"/>
+                                    p:linkName="searchOrganizationController">
+                                <property name="subTasks">
+                                    <list>
+                                            <bean class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+                                                    autowire="byType"
+                                                    p:displayName="Search Organization"
+                                                    p:linkName="searchOrganizationController"/>
+                                            <bean class="edu.duke.cabig.c3pr.utils.web.navigation.SubTask"
+                                                    autowire="byType"
+                                                    p:displayName="Create Organization"
+                                                    p:linkName="createOrganizationController"/>
+                                    </list>
+                                </property>
+                                
+                            </bean>
                             <bean
                                     class="edu.duke.cabig.c3pr.utils.web.navigation.Task"
                                     autowire="byType" p:displayName="Import Study"

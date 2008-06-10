@@ -1,8 +1,7 @@
 <%-- This is the standard tabbedFlow decorator for respective C3PR pages --%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
-<%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator"
-           prefix="decorator" %>
+<%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="decorator" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="tabs" tagdir="/WEB-INF/tags/tabs" %>
 <%@ taglib prefix="layout" tagdir="/WEB-INF/tags/layout" %>
@@ -17,16 +16,17 @@
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <title>C3PRV2</title>
 
-    <tags:include/>
+    <tags:include />
     <jwr:script src="/js/tabbedflow.js" />
     <decorator:head/>
+
     <style type="text/css">
         .label { width: 20em; text-align: right; padding: 2px;}
 	</style>
 </head>
 
 <body>
-<layout:header/>
+<layout:header2/>
 <c:set var="studySubject" value="${command}" scope="request"/>
 <div class="tabpane">
 <c:choose>

@@ -27,9 +27,13 @@
         <property name="viewName"><value>internal-welcome</value></property>
     </bean>
 
-    <bean name="/login" id="loginController"
-          class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+    <bean name="/login" id="loginController" class="edu.duke.cabig.c3pr.web.LoginController" autowire="byName">
         <property name="viewName"><value>login</value></property>
+    </bean>
+
+    <bean name="/skin" id="skinController" class="edu.duke.cabig.c3pr.web.SkinController" autowire="byName">
+        <property name="configuration" ref="configuration" />
+        <property name="commandClass" value="edu.duke.cabig.c3pr.web.admin.ConfigurationCommand"/>
     </bean>
 
     <bean name="/css/*"

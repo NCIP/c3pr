@@ -10,19 +10,6 @@
     <title>Confirmation</title>
 </head>
 <body>
-<div class="tabpane">
-  <ul id="workflow-tabs" class="tabs autoclear">
-    <li class="tab"><div>
-        <a href="../admin/searchInvestigator">Search Investigator</a>
-    </div></li>
-    <li class="tab selected"><div>
-        <a href="../admin/createInvestigator">Create Investigator</a>
-    </div></li>
-     <li class="tab"><div>
-        <a href="../admin/createInvestigatorGroups">Investigator Groups</a>
-    </div></li>
-  </ul>
-</div>
 
 <div id="main">
 <br/>

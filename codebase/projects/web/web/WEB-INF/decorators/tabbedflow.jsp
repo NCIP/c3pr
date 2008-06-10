@@ -17,14 +17,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
     <title>C3PRV2</title>
 
-    <tags:include/>
+    <tags:include />
     <jwr:script src="/js/tabbedflow.js" />
-    
     <decorator:head/>
 </head>
 
 <body>
-<layout:header/>
+<layout:header2/>
 
 <div class="tabpane">
     <chrome:workflowTabs tab="${tab}" flow="${flow}"/>
@@ -49,19 +48,22 @@
         </div>
     </chrome:body>
 
-
     <form:form id="flowredirect">
         <input type="hidden" name="_target${tab.targetNumber}" id="flowredirect-target"/>
         <input type="hidden" name="_page${tab.number}"/>
     </form:form>
 
 </div>
+
 <tags:jsLogs debug="false"/>
 <tags:enableRowDeletion/>
 <tags:tabMethodForm/>
+
 <layout:footer/>
+
 <c:if test="${!empty disableForm && disableForm}">
 <tags:disableForm/>
 </c:if>
+
 </body>
 </html>

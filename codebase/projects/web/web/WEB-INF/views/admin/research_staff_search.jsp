@@ -49,16 +49,6 @@
 </head>
 <!-- MAIN BODY STARTS HERE -->
 <body>
-<div class="tabpane">
-  <ul id="workflow-tabs" class="tabs autoclear">
-    <li class="tab selected"><div>
-        <a href="../admin/searchResearchStaff">Search Research Staff</a>
-    </div></li>
-    <li class="tab"><div>
-        <a href="../admin/createResearchStaff">Create Research Staff</a>
-    </div></li>
-  </ul>
-</div>
 
 <div id="main">
 <br />

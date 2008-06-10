@@ -30,16 +30,6 @@
 </head>
 <!-- MAIN BODY STARTS HERE -->
 <body>
-<div class="tabpane">
-  <ul id="workflow-tabs" class="tabs autoclear">
-    <li class="tab selected"><div>
-        <a href="../admin/searchOrganization">Search Organization</a>
-    </div></li>
-    <li class="tab"><div>
-        <a href="../admin/createOrganization">Create Organization</a>
-    </div></li>
-  </ul>
-</div>
 
 <div id="main">
 <br />
