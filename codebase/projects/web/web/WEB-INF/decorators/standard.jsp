@@ -29,9 +29,10 @@
     <decorator:body/>
 </chrome:body>
 
- <layout:footer/>
-<tags:jsLogs debug="false"/>
-<tags:enableRowDeletion/>
-<tags:tabMethodForm/>
+    <layout:footer/>
+
+    <tags:jsLogs debug="false"/>
+    <tags:enableRowDeletion/>
+    <tags:tabMethodForm/>
 </body>
 </html>

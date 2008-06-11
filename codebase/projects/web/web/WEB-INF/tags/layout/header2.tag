@@ -12,7 +12,7 @@
     <tr height="48px" class="headLane2">
         <td align="left"><div id="logo"></div></td>
         <td align="left" width="100%"><div id="headerTitle1"><div id="headerTitle2">Duke University</div></div></td>
-        <td align="left" width="150px" nowrap=""><div id="login-action"><a href="http://gforge.nci.nih.gov/frs/download.php/3493/wfu_signoff_on_end_user_guide.doc">Help</a>&nbsp;<a>|</a>&nbsp;<a href="<c:url value="/j_acegi_logout"/>">Log out</a><a>&nbsp;|</a>&nbsp;<a href="<c:url value='/public/skin' />" id="changeSkin">Change skin</a></div></td>
+        <td align="left" width="150px" nowrap=""><div id="login-action"><a href="http://gforge.nci.nih.gov/frs/download.php/3493/wfu_signoff_on_end_user_guide.doc">Help</a>&nbsp;<a>|</a>&nbsp;<a <%-- href="<c:url value='/public/skin' />"--%> id="changeSkin" style="cursor:pointer;">Change skin</a>&nbsp;<a>|</a>&nbsp;<a href="<c:url value="/j_acegi_logout"/>">Log out</a>&nbsp;</div></td>
     </tr>
     </table>
     <div id="menuLaneCenter"><div id="menuLaneRight"><div id="menuLaneLeft"></div></div></div>
@@ -85,10 +85,56 @@
 <script>
 
     Event.observe(window, "load", function() {
+
     $('changeSkin').observe('click', function(event) {
-//          alert('Not implemented yet !!!');
+            Lightview.show({
+              href: "/c3pr/public/skin",
+              rel: 'ajax',
+              title: ':: C3PR Project::',
+              caption: "Pick up the skin please...",
+              options: {
+              autosize: false,
+              width: 850,
+              height:600,
+              ajax: {
+                    onComplete: function() {
+                        // alert('QQQ');
+                        $('submitAJAXForm').observe('click', postSubmitSkinForm);
+                    }
+                }
+              }
+            });
     });
 })
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function postSubmitSkinForm() {
+    var action = document.forms[0].action;
+    var value = getSelectedValue();
+
+    var url = action + "?conf['skinPath'].value=" + value;
+//    alert(url);
+//    return;
+    
+    new Ajax.Request(url, {
+      method: 'post',
+      onSuccess: function(transport) {
+          Lightview.hide();
+          setTimeout('reloadPage()', 500);
+      }
+    });
+}
+
+function reloadPage() {
+    location.reload(true);
+}
+    
+function getSelectedValue() {
+    if ($('rdBLUE').checked) return ('blue');
+    if ($('rdGREEN').checked) return ('green');
+    if ($('rdORANGE').checked) return ('orange');
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 </script>
 
