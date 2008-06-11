@@ -60,7 +60,7 @@
 
     <!-- header -->
     <div class="header"><div class="background-L"><div class="background-R">
-        <table width="100%" border="0"><tr>
+        <table width="100%" border="0" cellpadding="0" cellspacing="0"><tr>
             <td>
                 <h2>${title}</h2>
             </td>
@@ -72,7 +72,7 @@
 			<c:otherwise>PanelCombo('${id }');</c:otherwise>
 		</c:choose>
 				"><img id="${id }-image" src="<tags:imageUrl name="${display=='false'||!empty url?'maximize':'minimize' }.gif"/>"
-           border="0" alt="toggle button"></a>
+           border="0" alt="toggle button" height="14"></a>&nbsp;&nbsp;
                     <c:if test="${isDeletable}">
                     	<c:if test="${empty onDelete}"><c:set var="onDelete" value="onDelete('${id }')"></c:set></c:if>
                         <a href="javascript:${onDelete}">
@@ -81,7 +81,6 @@
                     </c:if>
                 </div>
             </td>
-            <td align="right" width="10"></td>
         </tr>
         </table>
     </div></div></div>
