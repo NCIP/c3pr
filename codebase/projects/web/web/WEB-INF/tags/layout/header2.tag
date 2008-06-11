@@ -56,29 +56,15 @@
        new menu (MENU_ITEMS, MENU_TPL);
     </script>
 
-    <div class="background-R">
+    <style>
+    </style>
 
-        <%--
-        <div id="taskbar">
-            <c:if test="${not empty currentSection.tasks}">
-               	<span width="80%" style="float:left;">
-                Tasks:
-                <c:forEach items="${currentSection.tasks}" var="task">
-                    <csmauthz:accesscontrol domainObject="${task}" authorizationCheckName="taskAuthorizationCheck">
-                        <c:choose>
-                            <c:when test="${task == currentTask}">
-                                <a href="<c:url value="${task.url}"/>" id="current">${task.displayName}</a>
-                            </c:when>
-                            <c:otherwise>
-                                <a href="<c:url value="${task.url}"/>">${task.displayName}</a>
-                            </c:otherwise>
-                        </c:choose>
-                    </csmauthz:accesscontrol>
-                </c:forEach>
-                </span>
-            </c:if>
-        </div>
-        --%>
+    <div id="nav" class="background-R">
+        C3PR&nbsp;&nbsp;&raquo;&nbsp;&nbsp;</a><a href="<c:url value="/pages/dashboard"/>">Home Page</a>
+        <c:if test="${currentSection != null}">
+            &nbsp;&raquo;&nbsp;<a href="<c:url value="${currentSection.mainUrl}" />"><c:out value="${currentSection.displayName}"/></a>
+            &nbsp;&raquo;&nbsp;<a href="<c:url value="${currentTask.url}" />"><c:out value="${currentTask.displayName}"/>
+        </c:if>
     </div>
 </div>
 <!-- end header -->
