@@ -159,7 +159,7 @@
 	====================================================== -->
 	<target name="download-jsch" unless="jsch.available">
 		<echo message="Downloading jsch....." />		
-			<get src="${ivy.sftp.remote}" dest="${ivy.jar.dir}/jsch-0.1.31.jar" verbose="true" usetimestamp="true" unless="${ant.contrib.available}"/>
+			<get src="${ivy.sftp.remote}" dest="${ivy.jar.dir}/jsch-0.1.31.jar" verbose="true" usetimestamp="true" />
 	</target>
 	
 	<!-- ====================================================
