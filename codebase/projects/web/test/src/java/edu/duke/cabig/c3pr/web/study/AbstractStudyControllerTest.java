@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.web.study;
 
 import edu.duke.cabig.c3pr.dao.StudyDao;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.service.StudyService;
 import edu.duke.cabig.c3pr.web.ControllerTestCase;
 
@@ -15,7 +16,7 @@ public class AbstractStudyControllerTest extends ControllerTestCase {
 
     protected StudyDao studyDao;
 
-    protected StudyService studyService;
+    protected StudyRepository studyRepository;
 
     @Override
     protected void setUp() throws Exception {
@@ -23,7 +24,7 @@ public class AbstractStudyControllerTest extends ControllerTestCase {
                         // Templates.
         command = registerMockFor(Study.class);
         studyDao = registerDaoMockFor(StudyDao.class);
-        studyService = registerMockFor(StudyService.class);
+        studyRepository = registerMockFor(StudyRepository.class);
 
     }
 

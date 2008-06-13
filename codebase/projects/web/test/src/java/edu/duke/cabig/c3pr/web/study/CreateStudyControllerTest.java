@@ -20,6 +20,7 @@ import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.domain.CoordinatingCenterStudyStatus;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.domain.validator.StudyValidator;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
@@ -69,7 +70,7 @@ public class CreateStudyControllerTest extends AbstractStudyControllerTest {
         controller.setHealthcareSiteInvestigatorDao(healthcareSiteInvestigatorDao);
         researchStaffDao = registerDaoMockFor(ResearchStaffDao.class);
         controller.setResearchStaffDao(researchStaffDao);
-        controller.setStudyService(studyService);
+        controller.setStudyRepository(studyRepository);
         studyValidator = registerMockFor(StudyValidator.class);
         controller.setStudyValidator(studyValidator);
         StaticTabConfigurer tabConfigurer = new StaticTabConfigurer(healthcareSiteDao);
@@ -91,7 +92,7 @@ public class CreateStudyControllerTest extends AbstractStudyControllerTest {
     	expect(command.getTrimmedShortTitleText()).andReturn("Short Title");
     	expect(command.getPrimaryIdentifier()).andReturn("PrimaryId-121");
     	expect(command.getCoordinatingCenterStudyStatus()).andReturn(CoordinatingCenterStudyStatus.ACTIVE);
-        expect(studyService.merge(command)).andReturn(null);
+        expect(studyRepository.merge(command)).andReturn(null);
         replayMocks();
         ModelAndView mv = controller.processFinish(request, response, command, errors);
         assertNull("Command not present in model: ", mv);
