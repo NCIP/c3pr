@@ -154,8 +154,8 @@ public class StudyStratificationTab extends StudyTab {
                             || (request.getAttribute("editFlow") != null && request.getAttribute(
                                             "editFlow").toString().equals("true"))) {
                 if (study != null) {
-                    getStudyService().reassociate(study);
-                    getStudyService().refresh(study);
+                    getStudyRepository().reassociate(study);
+                    getStudyRepository().refresh(study);
                 }
             }
             message = "Generate stratum groups again.";
