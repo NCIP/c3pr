@@ -22,7 +22,7 @@ import edu.duke.cabig.c3pr.domain.PhoneCallRandomization;
 import edu.duke.cabig.c3pr.domain.RandomizationType;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.TreatmentEpoch;
-import edu.duke.cabig.c3pr.service.StudyService;
+import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.web.spring.tabbedflow.InPlaceEditableTab;
 
@@ -35,7 +35,7 @@ public abstract class StudyTab extends InPlaceEditableTab<Study> {
 
     private HealthcareSiteDao healthcareSiteDao;
 
-    protected StudyService studyService;
+    protected StudyRepository studyRepository;
 
     private StudyDao studyDao;
 
@@ -169,14 +169,6 @@ public abstract class StudyTab extends InPlaceEditableTab<Study> {
         request.getSession().setAttribute(DISABLE_FORM_NOTIFICATION, new Boolean(false));
     }
 
-    public StudyService getStudyService() {
-        return studyService;
-    }
-
-    public void setStudyService(StudyService studyService) {
-        this.studyService = studyService;
-    }
-
     public Boolean isAdmin() {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication auth = context.getAuthentication();
@@ -209,5 +201,13 @@ public abstract class StudyTab extends InPlaceEditableTab<Study> {
     public void setStudyDao(StudyDao studyDao) {
         this.studyDao = studyDao;
     }
+
+	public StudyRepository getStudyRepository() {
+		return studyRepository;
+	}
+
+	public void setStudyRepository(StudyRepository studyRepository) {
+		this.studyRepository = studyRepository;
+	}
 
 }
