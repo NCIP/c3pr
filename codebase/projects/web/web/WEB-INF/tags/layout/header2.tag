@@ -60,10 +60,10 @@
     </style>
 
     <div id="nav" class="background-R">
-        C3PR&nbsp;&nbsp;&raquo;&nbsp;&nbsp;</a><a href="<c:url value="/pages/dashboard"/>">Home Page</a>
+        C3PR&nbsp;&nbsp;&raquo;&nbsp;&nbsp;<a href="<c:url value="/pages/dashboard"/>">Home Page</a>
         <c:if test="${currentSection != null}">
             &nbsp;&raquo;&nbsp;<a href="<c:url value="${currentSection.mainUrl}" />"><c:out value="${currentSection.displayName}"/></a>
-            &nbsp;&raquo;&nbsp;<a href="<c:url value="${currentTask.url}" />"><c:out value="${currentTask.displayName}"/>
+            &nbsp;&raquo;&nbsp;<a href="<c:url value="${currentTask.url}" />"><c:out value="${currentTask.displayName}"/></a>
         </c:if>
     </div>
 </div>
@@ -124,4 +124,14 @@ function getSelectedValue() {
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 </script>
 
-<%--<c:out value="skinName" />--%>
+<style type="text/css">
+    div.ssmItems a:link		{color:black; text-decoration:none; font-size:11px;}
+    div.ssmItems a:hover	{color:black; text-decoration:none; font-size:11px; padding-left: 3pt;}
+    div.ssmItems a:active	{color:black; text-decoration:none; font-size:11px;}
+    div.ssmItems a:visited	{color:black; text-decoration:none; font-size:11px;}
+</style>
+
+<%--
+<script src="<c:url value="/js/sidebar/ssm.js2" />"></script>
+<script src="<c:url value="/js/sidebar/ssmItems.js2" />"></script>
+--%>

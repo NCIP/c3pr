@@ -63,6 +63,9 @@
                 <prop key="/registration/searchStudy">
                     searchStudyController
                 </prop>
+                <prop key="/dashboard">
+                    dashboardController
+                </prop>
             </props>
         </property>
     </bean>
@@ -512,6 +515,10 @@
                 </bean>
             </list>
         </property>
+    </bean>
+
+    <bean name="/dashboard" id="dashboardController" class="edu.duke.cabig.c3pr.web.DashboardController">
+        <property name="viewName"><value>dashboard</value></property>
     </bean>
 
     <!-- <bean id="exceptionResolver"

@@ -23,13 +23,29 @@ C3PR.tabbedFlowMandatoryPage = function(click) {
 
 
 Event.observe(window, "load", function() {
-     $$("li.tab a").each(function(a) {
+
+/*
+    $$("li.tab a").each(function(a) {
         Event.observe(a, "click", C3PR.tabbedFlowSelectPage)
     })
-     $$("li.tab.mandatory a").each(function(a) {
-         Event.stopObserving(a, "click", C3PR.tabbedFlowSelectPage)
+*/
+
+    $$("div.ssmItems a").each(function(a) {
+        Event.observe(a, "click", C3PR.tabbedFlowSelectPage)
+    })
+
+    $$("div.ssmItems.mandatory a").each(function(a) {
+        Event.stopObserving(a, "click", C3PR.tabbedFlowSelectPage)
         Event.observe(a, "click", C3PR.tabbedFlowMandatoryPage)
     })
-       if ($("flow-prev")) Event.observe("flow-prev", "click", C3PR.tabbedFlowUpdateTarget)
+
+/*
+    $$("li.tab.mandatory a").each(function(a) {
+        Event.stopObserving(a, "click", C3PR.tabbedFlowSelectPage)
+        Event.observe(a, "click", C3PR.tabbedFlowMandatoryPage)
+    })
+*/
+
+    if ($("flow-prev")) Event.observe("flow-prev", "click", C3PR.tabbedFlowUpdateTarget)
     if ($("flow-update")) Event.observe("flow-update", "click", C3PR.tabbedFlowUpdateTarget)
 })
