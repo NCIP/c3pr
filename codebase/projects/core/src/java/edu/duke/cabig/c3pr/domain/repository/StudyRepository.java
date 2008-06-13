@@ -14,4 +14,12 @@ public interface StudyRepository {
 	public void validate(Study study) throws StudyValidationException;
 	
 	public List<Study> searchByCoOrdinatingCenterId(OrganizationAssignedIdentifier identifier) throws C3PRCodedException;
+	
+	public void save(Study study) throws C3PRCodedException;
+	
+    public Study merge(Study study);
+
+    public void refresh(Study study);
+
+    public void reassociate(Study study);
 }
