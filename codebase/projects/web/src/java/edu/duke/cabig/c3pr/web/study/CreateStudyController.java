@@ -11,6 +11,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import gov.nih.nci.cabig.ctms.web.tabs.Flow;
 
 /**
@@ -25,6 +26,8 @@ public class CreateStudyController<C extends Study> extends StudyController<C> {
         super("Create Study");
         setBindOnNewForm(true);
     }
+    
+    private StudyRepository studyRepository;
 
     /**
      * Create a nested object graph that Create Study Design needs
@@ -94,7 +97,7 @@ public class CreateStudyController<C extends Study> extends StudyController<C> {
     protected ModelAndView processFinish(HttpServletRequest request, HttpServletResponse response,
                     Object command, BindException errors) throws Exception {
         Study study = (Study) command;
-        studyService.merge(study);
+        studyRepository.merge(study);
         response.sendRedirect("confirm?trimmedShortTitleText=" + study.getTrimmedShortTitleText()
                         + "&primaryIdentifier=" + study.getPrimaryIdentifier()
                         + "&coordinatingCenterStudyStatusCode="
@@ -102,5 +105,9 @@ public class CreateStudyController<C extends Study> extends StudyController<C> {
         return null;
 
     }
+
+	public void setStudyRepository(StudyRepository studyRepository) {
+		this.studyRepository = studyRepository;
+	}
 
 }
