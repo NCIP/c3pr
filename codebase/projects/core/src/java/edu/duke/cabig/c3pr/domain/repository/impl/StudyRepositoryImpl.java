@@ -20,6 +20,7 @@ import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Study;
 import edu.duke.cabig.c3pr.domain.StudyInvestigator;
 import edu.duke.cabig.c3pr.domain.StudyOrganization;
+import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.domain.repository.StudyRepository;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
@@ -56,7 +57,16 @@ public class StudyRepositoryImpl implements StudyRepository {
 		this.c3prErrorMessages = resourceBundleMessageSource1;
 		this.c3PRExceptionHelper = new C3PRExceptionHelper(c3prErrorMessages);
 	}
-
+    
+    public void save(Study study) throws C3PRCodedException {
+        // TODO call ESB to broadcast protocol, POC
+        studyDao.save(study);
+    }
+    
+    public Study merge(Study study) {
+        return studyDao.merge(study);
+    }
+    
 	@Transactional(readOnly = false)
     public void buildAndSave(Study study) throws C3PRCodedException {
 
@@ -203,6 +213,14 @@ public class StudyRepositoryImpl implements StudyRepository {
 	public void setHealthcareSiteInvestigatorDao(
 			HealthcareSiteInvestigatorDao healthcareSiteInvestigatorDao) {
 		this.healthcareSiteInvestigatorDao = healthcareSiteInvestigatorDao;
+	}
+
+	public void reassociate(Study study) {
+		studyDao.reassociate(study);
+	}
+
+	public void refresh(Study study) {
+			studyDao.refresh(study);
 	}
 
 }
