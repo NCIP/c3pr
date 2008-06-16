@@ -123,6 +123,7 @@
                 <value>edu.duke.cabig.c3pr.domain.RoleBasedRecipient</value>
              	<value>edu.duke.cabig.c3pr.domain.InvestigatorGroup</value>
                 <value>edu.duke.cabig.c3pr.domain.SiteInvestigatorGroupAffiliation</value>
+                <value>edu.duke.cabig.c3pr.domain.passwordpolicy.PasswordPolicy</value>
             </list>
         </property>
         <property name="entityInterceptor">
@@ -138,6 +139,8 @@
 
     <bean id="configuration" parent="daoTemplate"
       class="edu.duke.cabig.c3pr.tools.Configuration"/>
+      
+    
 
 	<!-- Auditing related beans definition start here-->
 
@@ -243,6 +246,9 @@
     <tx:annotation-driven proxy-target-class="true"/>
 
     <!-- Daos -->
+    <bean id="passwordPolicyDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.passwordpolicy.PasswordPolicyDao" autowire="byName">
+    </bean>
+    <bean id="userDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.UserDao"/>
     <bean id="studyDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudyDao">
     </bean>
     <bean id="studySubjectDao" parent="daoTemplate" class="edu.duke.cabig.c3pr.dao.StudySubjectDao" autowire="byName"/>
@@ -314,7 +320,7 @@
             </bean>
         </property>
     </bean>
-
+    
     <bean id="participantService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.ParticipantServiceImpl"
           autowire="byName"/>
     <bean id="studySubjectService" lazy-init="true" class="edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl"
@@ -364,6 +370,17 @@
         </property>
     </bean>
     
+    <bean id="passwordManagerService" class="edu.duke.cabig.c3pr.service.impl.passwordpolicy.PasswordManagerServiceImpl" autowire="byName"/>
+	<bean id="passwordPolicyService" class="edu.duke.cabig.c3pr.service.impl.passwordpolicy.PasswordPolicyServiceImpl" autowire="byName"/>
+	<bean id="csmUserRepository" class="edu.duke.cabig.c3pr.domain.repository.impl.CSMUserRepositoryImpl"
+          lazy-init="true" autowire="byType">
+        <property name="mailSender" ref="mailSender"/>
+        <property name="accountCreatedTemplateMessage" ref="accountCreatedTemplateMessage"/>
+        <property name="userProvisioningManager" ref="csmUserProvisioningManager"/>
+        <property name="siteObjectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
+        <property name="userDao" ref="userDao"/>
+        <property name="researchStaffDao" ref="researchStaffDao"/>
+    </bean>
     <!-- Repositories -->
 	<bean id="studyRepository" lazy-init="true" class="edu.duke.cabig.c3pr.domain.repository.impl.StudyRepositoryImpl"
           autowire="byName"/>

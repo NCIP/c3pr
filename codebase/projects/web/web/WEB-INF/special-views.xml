@@ -13,5 +13,9 @@
         <property name="contextRelative"><value>true</value></property>
         <property name="url"><value>/pages/admin/configure</value></property>
     </bean>
+    <bean id="redirectToPasswordPolicyConfiguration" class="org.springframework.web.servlet.view.RedirectView">
+        <property name="contextRelative"><value>true</value></property>
+        <property name="url"><value>/pages/admin/password_policy_configure</value></property>
+    </bean>
     
 </beans>

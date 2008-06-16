@@ -19,6 +19,10 @@
 	        </list>
         </property>
     </bean>
+    
+     <bean name="/admin/password_policy_configure" id="passwordPolicyConfigurationController" autowire="byName"
+					class="edu.duke.cabig.c3pr.web.admin.PasswordPolicyConfigurationController">
+				</bean>
 
     <bean id="noCacheTemplate" abstract="true">
         <property name="cacheSeconds" value="0"/>
@@ -491,7 +495,10 @@
                                     p:linkName="studySubjectXMLFileUploadController"/>
 							<bean 
 	                            	class="edu.duke.cabig.c3pr.utils.web.navigation.Task" autowire="byType"
-	                                p:displayName="Configure C3PR" p:linkName="configurationController"/>                            
+	                                p:displayName="Configure C3PR" p:linkName="configurationController"/>  
+	                       	  <bean 
+	                            	class="edu.duke.cabig.c3pr.utils.web.navigation.Task" autowire="byType"
+	                                p:displayName="Configure Password Policy" p:linkName="passwordPolicyConfigurationController"/>                          
                         </list>
                     </property>
                 </bean>

@@ -1,5 +1,6 @@
 package edu.duke.cabig.c3pr.domain;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,19 +22,19 @@ import org.hibernate.annotations.Parameter;
 @Entity
 @Table(name = "research_staff")
 @GenericGenerator(name = "id-generator", strategy = "native", parameters = { @Parameter(name = "sequence", value = "research_staff_id_seq") })
-public class ResearchStaff extends C3PRUser {
+public class ResearchStaff extends User {
 
     private List<StudyPersonnel> studyPersonnels = new ArrayList<StudyPersonnel>();
 
     private String nciIdentifier;
-
+    
     private String fullName;
 
     private HealthcareSite healthcareSite;
-
     // / LOGIC ~
 
-    @Transient
+
+	@Transient
     public String getLastFirst() {
         StringBuilder name = new StringBuilder();
         boolean hasFirstName = getFirstName() != null;

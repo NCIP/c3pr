@@ -101,7 +101,20 @@
         <entry key="execution(* edu.duke.cabig.c3pr.dao.StudySubjectDao.advancedStudySearch(..))"
                value="edu.duke.cabig.c3pr.domain.Study:READ"/>
 
+	
+	
+	
+		<entry key="execution(* save(edu.duke.cabig.c3pr.domain.passwordpolicy.PasswordPolicy))"
+               value="edu.duke.cabig.c3pr.domain.passwordpolicy.PasswordPolicy:UPDATE"/>
+               
+        <entry key="execution(* save(edu.duke.cabig.c3pr.domain.passwordpolicy.PasswordPolicy))"
+               value="edu.duke.cabig.c3pr.domain.passwordpolicy.PasswordPolicy:CREATE"/>
+               
+        <entry key="execution(* edu.duke.cabig.c3pr.dao.passwordpolicy.PasswordPolicyDao.*(..))"
+               value="edu.duke.cabig.c3pr.domain.passwordpolicy.PasswordPolicy:CREATE"/>
 
+		
+		
     </util:map>
 
     <bean id="joinPointPrivilegeAndObjectIdGenerator"

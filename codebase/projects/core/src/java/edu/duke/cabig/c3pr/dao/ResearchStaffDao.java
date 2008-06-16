@@ -1,22 +1,27 @@
 package edu.duke.cabig.c3pr.dao;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
+import org.hibernate.Session;
 import org.hibernate.criterion.CriteriaSpecification;
 import org.hibernate.criterion.Example;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.orm.hibernate3.HibernateCallback;
 
+import edu.duke.cabig.c3pr.dao.query.ResearchStaffQuery;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
-import edu.emory.mathcs.backport.java.util.Collections;
 
 /**
  * Hibernate implementation of StudySiteDao
@@ -105,5 +110,28 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
 
         return result;
     }
+    
+    @SuppressWarnings( { "unchecked" })
+    public List<ResearchStaff> searchResearchStaff(final ResearchStaffQuery query) {
+        String queryString = query.getQueryString();
+        log.debug("::: " + queryString.toString());
+        return (List<ResearchStaff>) getHibernateTemplate().execute(new HibernateCallback() {
+
+            public Object doInHibernate(final Session session) throws HibernateException,
+                            SQLException {
+                org.hibernate.Query hiberanteQuery = session.createQuery(query.getQueryString());
+                Map<String, Object> queryParameterMap = query.getParameterMap();
+                for (String key : queryParameterMap.keySet()) {
+                    Object value = queryParameterMap.get(key);
+                    hiberanteQuery.setParameter(key, value);
+
+                }
+                return hiberanteQuery.list();
+            }
+
+        });
+
+    }
+
 
 }
