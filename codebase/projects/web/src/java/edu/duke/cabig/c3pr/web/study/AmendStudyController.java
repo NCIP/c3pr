@@ -54,6 +54,7 @@ public class AmendStudyController extends StudyController<Study> {
                 isAdmin = "true";
             }
         }
+        request.setAttribute("softDelete", "true");
         request.setAttribute("isAdmin", isAdmin);
         return super.referenceData(request, arg1);
     }
