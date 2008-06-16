@@ -1,5 +1,10 @@
 package edu.duke.cabig.c3pr.utils;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -7,6 +12,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.sql.DataSource;
 
@@ -148,10 +154,22 @@ public abstract class DaoTestCase extends DbTestCase {
      * 
      * @return
      */
-    protected String getSchema() {
-        return "public";
+    protected static String getSchema() {
+    	URL url =  ClassLoader.getSystemResource("context/datasource.properties");
+    	Properties p = new Properties();
+    	try {
+			p.load(new FileInputStream(new File(url.getFile())));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    	return p.getProperty("datasource.schema");
     }
-
+    
+    public static void main(String args[]){
+    	DaoTestCase.getSchema();
+    }
     public ApplicationContext getApplicationContext() {
         return ApplicationTestCase.getDeployedCoreApplicationContext();
     }
