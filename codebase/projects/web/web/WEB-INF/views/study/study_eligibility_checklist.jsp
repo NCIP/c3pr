@@ -102,6 +102,7 @@
                     skeleton_row_division_id: "dummy-inclusionRow-${epochCount.index}",
                     initialIndex: ${fn:length(command.epochs[epochCount.index].inclusionEligibilityCriteria)},
                     softDelete: ${softDelete == 'true'},
+                    isAdmin: ${isAdmin == 'true'},
                     path: "epochs[${epochCount.index }].inclusionEligibilityCriteria"
                 };
                 var instanceExclusionRow_${epochCount.index} = {
@@ -109,6 +110,7 @@
                     skeleton_row_division_id: "dummy-exclusionRow-${epochCount.index}",
                     initialIndex: ${fn:length(command.epochs[epochCount.index].exclusionEligibilityCriteria)},
 					softDelete: ${softDelete == 'true'},
+					isAdmin: ${isAdmin == 'true'},
                     path: "epochs[${epochCount.index }].exclusionEligibilityCriteria"
                 };
                 RowManager.addRowInseter(instanceInclusionRow_${epochCount.index});

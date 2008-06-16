@@ -39,6 +39,7 @@
             skeleton_row_division_id: "dummy-arm",
             initialIndex: ${fn:length(command.treatmentEpochs[treatmentEpochCount.index].arms)},
             softDelete: ${softDelete == 'true'},
+            isAdmin: ${isAdmin == 'true'},
             row_index_indicator: "NESTED.PAGE.ROW.INDEX",
             deleteMsgPrefix: "Book Randomization Entries(if any) for this Treatment Epoch will be deleted.",
             path: "treatmentEpochs[PAGE.ROW.INDEX].arms"
@@ -49,6 +50,7 @@
             skeleton_row_division_id: "dummy-treatmentEpoch",
             initialIndex: ${fn:length(command.treatmentEpochs)},
             softDelete: ${softDelete == 'true'},
+            isAdmin: ${isAdmin == 'true'},
             path: "treatmentEpochs"
         };
         var nonTreatmentEpochRowInserterProps= {
@@ -56,6 +58,7 @@
             skeleton_row_division_id: "dummy-nonTreatmentEpoch",
             initialIndex: ${fn:length(command.nonTreatmentEpochs)},
             softDelete: ${softDelete == 'true'},
+            isAdmin: ${isAdmin == 'true'},
             path: "nonTreatmentEpochs"
         };
         RowManager.addRowInseter(treatmentEpochRowInserterProps);

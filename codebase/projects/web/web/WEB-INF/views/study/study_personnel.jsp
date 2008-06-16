@@ -85,6 +85,7 @@
        skeleton_row_division_id: "dummy-row",
        initialIndex: ${fn:length(command.studyOrganizations[selected_site].studyPersonnel)},   /* this is the initial count of the rows when the page is loaded  */
        softDelete: ${softDelete == 'true'},
+       isAdmin: ${isAdmin == 'true'},
 	   path: "studyOrganizations[${selected_site}].studyPersonnel",                            /* this is the path of the collection that holds the rows  */
        postProcessRowInsertion: function(object){
         clonedRowInserter=Object.clone(personnelAutocompleterProps);
@@ -98,8 +99,6 @@
     }
 };
 RowManager.addRowInseter(instanceRowInserterProps); 
-
-
 
 </script>
 </head>

@@ -38,6 +38,7 @@ var systemIdentifierRowInserterProps = {
     skeleton_row_division_id: "dummy-row-systemIdentifier",
     initialIndex: ${fn:length(command.systemAssignedIdentifiers)},                            /* this is the initial count of the rows when the page is loaded  */
     softDelete: ${softDelete == 'true'},
+    isAdmin: ${isAdmin == 'true'},
     path: "systemAssignedIdentifiers"                               /* this is the path of the collection that holds the rows  */
 };
 var organizationIdentifierRowInserterProps = {
@@ -46,6 +47,7 @@ var organizationIdentifierRowInserterProps = {
        initialIndex: ${fn:length(command.organizationAssignedIdentifiers)},                            /* this is the initial count of the rows when the page is loaded  */
        path: "organizationAssignedIdentifiers",                               /* this is the path of the collection that holds the rows  */
        softDelete: ${softDelete == 'true'},
+       isAdmin: ${isAdmin == 'true'},
        postProcessRowInsertion: function(object){
 	       clonedRowInserter=Object.clone(healthcareSiteAutocompleterProps);
 		   clonedRowInserter.basename=clonedRowInserter.basename+object.localIndex;

@@ -139,6 +139,7 @@ var instanceRowInserterProps = {
     skeleton_row_division_id: "dummy-row",
     initialIndex: ${fn:length(command.studySites)},
     softDelete: ${softDelete == 'true'},
+    isAdmin: ${isAdmin == 'true'},
     path: "studySites",
     postProcessRowInsertion: function(object){
         inputDateElementLocal="studySites["+object.localIndex+"].startDate";

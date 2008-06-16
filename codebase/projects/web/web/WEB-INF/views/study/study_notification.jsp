@@ -11,6 +11,7 @@
                 skeleton_row_division_id: "dummy-roleRow",
                 initialIndex: ${fn:length(command.notifications[nStatus.index].roleBasedRecipient)},
                 softDelete: ${softDelete == 'true'},
+                isAdmin: ${isAdmin == 'true'},
                 row_index_indicator: "SECONDARY.NESTED.PAGE.ROW.INDEX",
                 path: "notifications[PAGE.ROW.INDEX].roleBasedRecipient"
            };
@@ -19,6 +20,7 @@
                 skeleton_row_division_id: "dummy-emailRow",
                 initialIndex: ${fn:length(command.notifications[nStatus.index].emailBasedRecipient)},
                 softDelete: ${softDelete == 'true'},
+                isAdmin: ${isAdmin == 'true'},
                 row_index_indicator: "NESTED.PAGE.ROW.INDEX",
                 path: "notifications[PAGE.ROW.INDEX].emailBasedRecipient"
             };
@@ -29,6 +31,7 @@
                 skeleton_row_division_id: "dummy-notification",
                 initialIndex: ${fn:length(command.notifications)},
                 softDelete: ${softDelete == 'true'},
+                isAdmin: ${isAdmin == 'true'},
                 path: "notifications"
             };
             RowManager.addRowInseter(notificationRowInserterProps);
