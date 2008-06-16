@@ -80,25 +80,25 @@ public class EditStudyController extends StudyController<Study> {
                     throws Exception {
         // TODO Auto-generated method stub
 
-        String softDelete = "false";
+    	String softDelete = "false";
         request.setAttribute("flowType", "EDIT_STUDY");
         request.setAttribute("editFlow", "true");
 
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication auth = context.getAuthentication();
         GrantedAuthority[] groups = auth.getAuthorities();
-        boolean isAdmin = false;
+        String isAdmin = "false";
         for (GrantedAuthority ga : groups) {
             if (ga.getAuthority().endsWith("admin")) {
-                isAdmin = true;
+                isAdmin = "true";
             }
         }
 
-        if (((Study) o).getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.PENDING
-                        && !isAdmin) {
+        if (((Study) o).getCoordinatingCenterStudyStatus() != CoordinatingCenterStudyStatus.PENDING) {
             softDelete = "true";
         }
         request.setAttribute("softDelete", softDelete);
+        request.setAttribute("isAdmin", isAdmin);
         return super.referenceData(request, o, e, arg1);
     }
 
