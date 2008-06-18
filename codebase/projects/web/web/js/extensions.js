@@ -49,7 +49,7 @@ Ajax.InPlaceEditor.prototype = Object.extend(Ajax.InPlaceEditor.prototype, {
     }
 });
 
-//InPlaceCollectionEditor extension that adds a cancel button .
+/*//InPlaceCollectionEditor extension that adds a cancel button .
 Ajax.InPlaceCollectionEditor.prototype.__createForm = Ajax.InPlaceCollectionEditor.prototype.createForm;
 Ajax.InPlaceCollectionEditor.prototype = Object.extend(Ajax.InPlaceCollectionEditor.prototype, {
     createForm: function(){
@@ -80,7 +80,7 @@ Ajax.InPlaceEditor.prototype = Object.extend(Ajax.InPlaceEditor.prototype, {
         }
     }
 });
-
+*/
 Autocompleter.Base.prototype.__onBlur = Autocompleter.Base.prototype.onBlur;
 Autocompleter.Base.prototype = Object.extend(Autocompleter.Base.prototype, {
 	onBlur: function(){
