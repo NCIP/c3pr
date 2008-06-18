@@ -131,7 +131,7 @@ function buildMenu(n, headerName) {
 
     // header
     document.write("<tr><td class=\"ssmItems\" style='background:url(../../images/sidebar/header.gif); padding-left:7px; border-right:1px " + menuBGColor + " solid; height:18px;'><b>" + headerName + "</b></td><tr>");
-    document.write("<tr><td bgcolor='#d9b58e' style='border:1px " + menuBGColor + " solid;' valign='top'>");
+    document.write("<tr><td bgcolor='" + linkBGColor + "' style='border:1px " + menuBGColor + " solid;' valign='top'>");
 
     document.write('<table border="0" cellpadding="0" cellspacing="0" width="' + (menuWidth-2) + '">');
 

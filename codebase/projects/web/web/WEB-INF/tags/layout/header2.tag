@@ -1,6 +1,6 @@
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="csmauthz" uri="http://csm.ncicb.nci.nih.gov/authz" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="csmauthz" uri="http://csm.ncicb.nci.nih.gov/authz" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <div id="header">
@@ -56,16 +56,22 @@
        new menu (MENU_ITEMS, MENU_TPL);
     </script>
 
-    <style>
-    </style>
 
+<csmauthz:accesscontrol domainObject="${task}" authorizationCheckName="taskAuthorizationCheck">
     <div id="nav" class="background-R">
-        C3PR&nbsp;&nbsp;&raquo;&nbsp;&nbsp;<a href="<c:url value="/pages/dashboard"/>">Home Page</a>
+        C3PR&nbsp;&nbsp;&raquo;&nbsp;&nbsp;<a href="<c:url value="/public/dashboard"/>">Home Page</a>
         <c:if test="${currentSection != null}">
             &nbsp;&raquo;&nbsp;<a href="<c:url value="${currentSection.mainUrl}" />"><c:out value="${currentSection.displayName}"/></a>
-            &nbsp;&raquo;&nbsp;<a href="<c:url value="${currentTask.url}" />"><c:out value="${currentTask.displayName}"/></a>
+            <c:if test="${currentTask != null}">
+                &nbsp;&raquo;&nbsp;<a href="<c:url value="${currentTask.url}" />"><c:out value="${currentTask.displayName}"/></a>
+            </c:if>
+        </c:if>
+        <c:if test="${tab != null}">
+            &nbsp;&raquo;&nbsp;<a href="#"><c:out value="${tab.longTitle}"/></a>
         </c:if>
     </div>
+</csmauthz:accesscontrol>
+
 </div>
 <!-- end header -->
 <script>
