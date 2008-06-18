@@ -2,6 +2,7 @@
     <decorator name="standard" page="standard.jsp">
         <pattern>/pages/*</pattern>
         <pattern>/public/*</pattern>
+        <pattern>/public/user/*</pattern>
         <pattern>/accessDenied.jsp</pattern>
         <pattern>/pages/registration/searchRegistration</pattern>
         <pattern>/pages/participant/searchParticipant</pattern>

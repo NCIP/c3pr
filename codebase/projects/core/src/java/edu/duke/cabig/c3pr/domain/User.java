@@ -24,11 +24,11 @@ import edu.duke.cabig.c3pr.annotations.UniqueEmailAddressForResearchStaff;
 @MappedSuperclass
 public abstract class User extends C3PRUser{
 		    
-    private String emailAddress;
-
-    private String phoneNumber;
-
-    private String faxNumber;
+//    private String emailAddress;
+//
+//    private String phoneNumber;
+//
+//    private String faxNumber;
 
     private String salt;
 
@@ -47,30 +47,30 @@ public abstract class User extends C3PRUser{
         passwordHistory = new ArrayList<String>();
     }
     
-    @UniqueEmailAddressForResearchStaff(message = "Email address already exits in database..!")
-    public String getEmailAddress() {
-        return emailAddress;
-    }
-
-    public String getFaxNumber() {
-        return faxNumber;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(final String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public void setEmailAddress(final String emailAddress) {
-        this.emailAddress = emailAddress;
-    }
-
-    public void setFaxNumber(final String faxNumber) {
-        this.faxNumber = faxNumber;
-    }
+//    @UniqueEmailAddressForResearchStaff(message = "Email address already exits in database..!")
+//    public String getEmailAddress() {
+//        return emailAddress;
+//    }
+//
+//    public String getFaxNumber() {
+//        return faxNumber;
+//    }
+//
+//    public String getPhoneNumber() {
+//        return phoneNumber;
+//    }
+//
+//    public void setPhoneNumber(final String phoneNumber) {
+//        this.phoneNumber = phoneNumber;
+//    }
+//
+//    public void setEmailAddress(final String emailAddress) {
+//        this.emailAddress = emailAddress;
+//    }
+//
+//    public void setFaxNumber(final String faxNumber) {
+//        this.faxNumber = faxNumber;
+//    }
 
     /* begin password stuff */
 
@@ -148,29 +148,29 @@ public abstract class User extends C3PRUser{
 
     /* end password stuff */
 
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//
+//        User user = (User) o;
+//
+//        if (emailAddress != null ? !emailAddress.equals(user.emailAddress)
+//                        : user.emailAddress != null) return false;
+//        if (faxNumber != null ? !faxNumber.equals(user.faxNumber) : user.faxNumber != null) return false;
+//        if (super.getLoginId() != null ? !super.getLoginId().equals(user.getLoginId()) : user.getLoginId()!= null) return false;
+//        if (phoneNumber != null ? !phoneNumber.equals(user.phoneNumber) : user.phoneNumber != null) return false;
+//
+//        return true;
+//    }
 
-        User user = (User) o;
-
-        if (emailAddress != null ? !emailAddress.equals(user.emailAddress)
-                        : user.emailAddress != null) return false;
-        if (faxNumber != null ? !faxNumber.equals(user.faxNumber) : user.faxNumber != null) return false;
-        if (super.getLoginId() != null ? !super.getLoginId().equals(user.getLoginId()) : user.getLoginId()!= null) return false;
-        if (phoneNumber != null ? !phoneNumber.equals(user.phoneNumber) : user.phoneNumber != null) return false;
-
-        return true;
-    }
-
-    public int hashCode() {
-        int result;
-        result = (super.getLoginId() != null ? super.getLoginId().hashCode() : 0);
-        result = 31 * result + (emailAddress != null ? emailAddress.hashCode() : 0);
-        result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
-        result = 31 * result + (faxNumber != null ? faxNumber.hashCode() : 0);
-        return result;
-    }
+//    public int hashCode() {
+//        int result;
+//        result = (super.getLoginId() != null ? super.getLoginId().hashCode() : 0);
+//        result = 31 * result + (emailAddress != null ? emailAddress.hashCode() : 0);
+//        result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
+//        result = 31 * result + (faxNumber != null ? faxNumber.hashCode() : 0);
+//        return result;
+//    }
 
     // @OneToMany(targetEntity = UserGroup.class,)
     // @Transient

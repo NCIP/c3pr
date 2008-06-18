@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.web.user;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
@@ -10,6 +11,7 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
 import edu.duke.cabig.c3pr.service.passwordpolicy.PasswordManagerService;
 import edu.duke.cabig.c3pr.service.passwordpolicy.PasswordPolicyService;
+import edu.duke.cabig.c3pr.tools.Configuration;
 
 /**
  * @author Jared Flatow
@@ -20,8 +22,18 @@ public class ChangePasswordController extends SimpleFormController {
 
     private PasswordPolicyService passwordPolicyService;
 
+    private Configuration configuration;
+
+    protected ModelAndView handleRequestInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+        httpServletRequest.setAttribute("skinName", configuration.getMap().get("skinPath").toString());
+        return super.handleRequestInternal(httpServletRequest, httpServletResponse);    //To change body of overridden methods use File | Settings | File Templates.
+    }
+
+    public void setConfiguration(Configuration configuration) {
+        this.configuration = configuration;
+    }
+    
     public ChangePasswordController() {
-        setFormView("user/changePassword");
         setBindOnNewForm(true);
     }
 

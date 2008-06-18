@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.web.user;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.validation.BindException;
@@ -9,6 +10,7 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 
 import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
 import edu.duke.cabig.c3pr.service.passwordpolicy.PasswordManagerService;
+import edu.duke.cabig.c3pr.tools.Configuration;
 
 /**
  * @author Jared Flatow
@@ -22,7 +24,6 @@ public class ResetPasswordController extends SimpleFormController {
     private String emailPretext, emailPosttext;
 
     public ResetPasswordController() {
-        setFormView("user/resetPassword");
         setBindOnNewForm(true);
         initEmailText();
     }
@@ -36,7 +37,7 @@ public class ResetPasswordController extends SimpleFormController {
     protected ModelAndView onSubmit(Object command, BindException errors) throws Exception {
         UserName userName = (UserName) command;
         String token = passwordManagerService.requestToken(userName.getUserName());
-        csmUserRepository.sendUserEmail(userName.getUserName(), "Reset caAERS Password", emailPretext
+        csmUserRepository.sendUserEmail(userName.getUserName(), "Reset C3PR Password", emailPretext
                 + userName.getURL() + "&token=" + token + emailPosttext);
         return new ModelAndView("user/emailSent");
     }
@@ -51,18 +52,28 @@ public class ResetPasswordController extends SimpleFormController {
                 + "\n";
         emailPosttext = "\n"
                 + "\n"
-                + "Enter a new password for yourself once you get there. After you choose a new password, you can log into caAERS using the new password.\n"
+                + "Enter a new password for yourself once you get there. After you choose a new password, you can log into C3PR using the new password.\n"
                 + "\n"
                 + "\n"
                 + "Regards,\n"
-                + "The caAERS Notification System.\n"
+                + "The C3PR Notification System.\n"
                 + "\n"
                 + "(Note: If you did not request a new password, please disregard this message.)";
     }
-
+    private Configuration configuration;
+    
+    public void setConfiguration(Configuration configuration) {
+        this.configuration = configuration;
+    }
+    
     @Required
     public void setPasswordManagerService(PasswordManagerService passwordManagerService) {
         this.passwordManagerService = passwordManagerService;
+    }
+    
+    protected ModelAndView handleRequestInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+        httpServletRequest.setAttribute("skinName", configuration.getMap().get("skinPath").toString());
+        return super.handleRequestInternal(httpServletRequest, httpServletResponse);    //To change body of overridden methods use File | Settings | File Templates.
     }
 
     @Required

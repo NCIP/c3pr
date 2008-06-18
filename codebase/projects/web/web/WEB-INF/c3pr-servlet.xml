@@ -22,8 +22,10 @@
     
      <bean name="/admin/password_policy_configure" id="passwordPolicyConfigurationController" autowire="byName"
 					class="edu.duke.cabig.c3pr.web.admin.PasswordPolicyConfigurationController">
-				</bean>
-
+	 </bean>
+	
+	
+	  
     <bean id="noCacheTemplate" abstract="true">
         <property name="cacheSeconds" value="0"/>
     </bean>

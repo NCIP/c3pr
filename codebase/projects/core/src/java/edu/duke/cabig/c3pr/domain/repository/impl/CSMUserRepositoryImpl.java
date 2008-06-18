@@ -16,6 +16,8 @@ import gov.nih.nci.security.acegi.csm.authorization.CSMObjectIdGenerator;
 import edu.duke.cabig.c3pr.dao.ResearchStaffDao;
 import edu.duke.cabig.c3pr.dao.UserDao;
 import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
+import edu.duke.cabig.c3pr.domain.ContactMechanism;
+import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.ResearchStaff;
 import edu.duke.cabig.c3pr.domain.User;
 import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
@@ -40,7 +42,7 @@ public class CSMUserRepositoryImpl implements CSMUserRepository {
 	public void createOrUpdateCSMUserAndGroupsForResearchStaff(final ResearchStaff researchStaff, String changeURL) {
 		gov.nih.nci.security.authorization.domainobjects.User csmUser;
 		/* this should be done by a validator */
-		if (researchStaff.getEmailAddress() == null) {
+		if (getEmailAddress(researchStaff) == null) {
 			throw new C3PRBaseRuntimeException("Email address is required");
 		} else if (researchStaff.getId() == null) {
 			csmUser = createCSMUserForResearchStaff(researchStaff, changeURL);
@@ -62,10 +64,10 @@ public class CSMUserRepositoryImpl implements CSMUserRepository {
 	}
 
 	private void copyUserToCSMUser(User user, gov.nih.nci.security.authorization.domainobjects.User csmUser) {
-		String emailId = user.getEmailAddress();
+		String emailId = getEmailAddress(user);
 		csmUser.setLoginName(emailId);
 		csmUser.setEmailId(emailId);
-		csmUser.setPhoneNumber(user.getPhoneNumber());
+		csmUser.setPhoneNumber(getPhoneNumber(user));
 		csmUser.setFirstName(user.getFirstName());
 		csmUser.setLastName(user.getLastName());
 		// psc does not use these
@@ -75,7 +77,7 @@ public class CSMUserRepositoryImpl implements CSMUserRepository {
 
 	private gov.nih.nci.security.authorization.domainobjects.User createCSMUserForResearchStaff(final ResearchStaff researchStaff, String changeURL) {
 		// assumes research staff id is null
-		String emailId = researchStaff.getEmailAddress();
+		String emailId = getEmailAddress(researchStaff);
 		gov.nih.nci.security.authorization.domainobjects.User csmUser;
 		try {
 			getCSMUserByName(emailId);
@@ -99,7 +101,7 @@ public class CSMUserRepositoryImpl implements CSMUserRepository {
 	}
 
 	private gov.nih.nci.security.authorization.domainobjects.User updateCSMUserForResearchStaff(final ResearchStaff researchStaff) {
-		String emailId = researchStaff.getEmailAddress();
+		String emailId = getEmailAddress(researchStaff);
 		gov.nih.nci.security.authorization.domainobjects.User csmUser = getCSMUserByName(emailId);
 		copyUserToCSMUser(researchStaff, csmUser);
 		saveCSMUser(csmUser);
@@ -189,7 +191,7 @@ public class CSMUserRepositoryImpl implements CSMUserRepository {
 	public void sendUserEmail(String userName, String subject, String text) {
 		try {
 			SimpleMailMessage message = new SimpleMailMessage();
-			message.setTo(getUserByName(userName).getEmailAddress());
+			message.setTo(getEmailAddress(getUserByName(userName)));
 			message.setSubject(subject);
 			message.setText(text);
 			mailSender.send(message);
@@ -205,7 +207,24 @@ public class CSMUserRepositoryImpl implements CSMUserRepository {
 			throw new C3PRBaseRuntimeException("not able to encrypt string");
 		}
 	}
-
+	
+	private String getEmailAddress(User user){
+		for (ContactMechanism cm : user.getContactMechanisms()) {
+            if (cm.getType().equals(ContactMechanismType.EMAIL)) {
+                return cm.getValue();
+            }
+        }
+		return null;
+	}
+	
+	private String getPhoneNumber(User user){
+		for (ContactMechanism cm : user.getContactMechanisms()) {
+            if (cm.getType().equals(ContactMechanismType.PHONE)) {
+                return cm.getValue();
+            }
+        }
+		return null;
+	}
 	// end
 
 	@Required
