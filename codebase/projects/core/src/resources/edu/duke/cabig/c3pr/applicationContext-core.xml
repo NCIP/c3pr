@@ -372,7 +372,10 @@
     
     <bean id="passwordManagerService" class="edu.duke.cabig.c3pr.service.impl.passwordpolicy.PasswordManagerServiceImpl" autowire="byName"/>
 	<bean id="passwordPolicyService" class="edu.duke.cabig.c3pr.service.impl.passwordpolicy.PasswordPolicyServiceImpl" autowire="byName"/>
-	<bean id="csmUserRepository" class="edu.duke.cabig.c3pr.domain.repository.impl.CSMUserRepositoryImpl"
+	
+    <!-- Repositories -->
+    
+    <bean id="csmUserRepository" class="edu.duke.cabig.c3pr.domain.repository.impl.CSMUserRepositoryImpl"
           lazy-init="true" autowire="byType">
         <property name="mailSender" ref="mailSender"/>
         <property name="accountCreatedTemplateMessage" ref="accountCreatedTemplateMessage"/>
@@ -381,7 +384,7 @@
         <property name="userDao" ref="userDao"/>
         <property name="researchStaffDao" ref="researchStaffDao"/>
     </bean>
-    <!-- Repositories -->
+    
 	<bean id="studyRepository" lazy-init="true" class="edu.duke.cabig.c3pr.domain.repository.impl.StudyRepositoryImpl"
           autowire="byName"/>
           
