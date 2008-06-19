@@ -50,6 +50,10 @@
         <property name="commandClass" value="edu.duke.cabig.c3pr.web.admin.ConfigurationCommand"/>
     </bean>
 
+    <bean name="/dashboard" id="dashboardController" class="edu.duke.cabig.c3pr.web.DashboardController" autowire="byName">
+        <property name="viewName"><value>dashboard</value></property>
+    </bean>
+    
     <bean name="/css/*"
           class="org.springframework.web.servlet.mvc.UrlFilenameViewController">
         <property name="prefix"><value>css/</value></property>
