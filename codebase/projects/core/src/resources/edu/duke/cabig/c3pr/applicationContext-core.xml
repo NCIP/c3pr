@@ -385,11 +385,7 @@
           
     <bean id="studySubjectRepository" lazy-init="true" class="edu.duke.cabig.c3pr.domain.repository.impl.StudySubjectRepositoryImpl"
           autowire="byName"/>
-          
-    <bean id="csmUserRepository" class="edu.duke.cabig.c3pr.domain.repository.impl.CSMUserRepositoryImpl"
-	
-    <!-- Repositories -->
-    
+
     <bean id="csmUserRepository" class="edu.duke.cabig.c3pr.domain.repository.impl.CSMUserRepositoryImpl"
           lazy-init="true" autowire="byType">
         <property name="mailSender" ref="mailSender"/>
@@ -398,15 +394,10 @@
         <property name="siteObjectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
         <property name="userDao" ref="userDao"/>
         <property name="researchStaffDao" ref="researchStaffDao"/>
-    </bean>      
-    
     </bean>
-    
-	<bean id="studyRepository" lazy-init="true" class="edu.duke.cabig.c3pr.domain.repository.impl.StudyRepositoryImpl"
-          autowire="byName"/>
           
-    <bean id="studySubjectRepository" lazy-init="true" class="edu.duke.cabig.c3pr.domain.repository.impl.StudySubjectRepositoryImpl"
-          autowire="byName"/>
+    <!-- Repositories -->
+
           
     <!-- Factories -->
     <bean id="studySubjectFactory" class="edu.duke.cabig.c3pr.domain.factory.StudySubjectFactory" autowire="byName"/>
