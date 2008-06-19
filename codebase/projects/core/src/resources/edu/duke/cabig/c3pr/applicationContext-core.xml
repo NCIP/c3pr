@@ -179,7 +179,8 @@
 		<property name="interceptors">
 			<list>
 				<ref local="gridIdentifierInterceptor"/>
-				<!-- <ref local="auditInterceptor"/> -->
+				<ref local="notificationInterceptor"/>
+				<!--<ref local="auditInterceptor"/> -->
 			</list>
 		</property>
 	</bean>
@@ -202,11 +203,14 @@
             <ref local="auditSessionFactory"/>
         </property>
     </bean>
-    <!-- auditing beans definition end here -->
+    										
 
+    <!-- auditing beans definition end here -->
     <bean id="gridIdentifierInterceptor" class="edu.duke.cabig.c3pr.utils.GridIdentifierInterceptor"
           autowire="byName"/>
-
+          
+    <bean id="notificationInterceptor" class="edu.duke.cabig.c3pr.infrastructure.interceptor.NotificationInterceptor" 
+    	autowire="byName"/>
 
     <bean id="hibernateTemplate"
           class="org.springframework.orm.hibernate3.HibernateTemplate">
@@ -373,6 +377,17 @@
     <bean id="passwordManagerService" class="edu.duke.cabig.c3pr.service.impl.passwordpolicy.PasswordManagerServiceImpl" autowire="byName"/>
 	<bean id="passwordPolicyService" class="edu.duke.cabig.c3pr.service.impl.passwordpolicy.PasswordPolicyServiceImpl" autowire="byName"/>
 	
+	<bean id="rulesDelegationService" class="edu.duke.cabig.c3pr.service.impl.RulesDelegationServiceImpl" autowire="byName"/>
+	
+    <!-- Repositories -->
+	<bean id="studyRepository" lazy-init="true" class="edu.duke.cabig.c3pr.domain.repository.impl.StudyRepositoryImpl"
+          autowire="byName"/>
+          
+    <bean id="studySubjectRepository" lazy-init="true" class="edu.duke.cabig.c3pr.domain.repository.impl.StudySubjectRepositoryImpl"
+          autowire="byName"/>
+          
+    <bean id="csmUserRepository" class="edu.duke.cabig.c3pr.domain.repository.impl.CSMUserRepositoryImpl"
+	
     <!-- Repositories -->
     
     <bean id="csmUserRepository" class="edu.duke.cabig.c3pr.domain.repository.impl.CSMUserRepositoryImpl"
@@ -383,6 +398,8 @@
         <property name="siteObjectIdGenerator" ref="sitePrivilegeAndObjectIdGenerator"/>
         <property name="userDao" ref="userDao"/>
         <property name="researchStaffDao" ref="researchStaffDao"/>
+    </bean>      
+    
     </bean>
     
 	<bean id="studyRepository" lazy-init="true" class="edu.duke.cabig.c3pr.domain.repository.impl.StudyRepositoryImpl"
