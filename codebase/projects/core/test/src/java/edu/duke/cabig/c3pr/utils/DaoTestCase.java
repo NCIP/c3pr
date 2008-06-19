@@ -164,7 +164,7 @@ public abstract class DaoTestCase extends DbTestCase {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-    	return p.getProperty("datasource.schema");
+    	return p.getProperty("datasource.testschema");
     }
     
     public static void main(String args[]){
