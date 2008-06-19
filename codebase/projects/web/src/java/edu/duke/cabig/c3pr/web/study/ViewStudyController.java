@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import edu.duke.cabig.c3pr.domain.Study;
+import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.utils.StringUtils;
 import edu.duke.cabig.c3pr.utils.web.navigation.Task;
 import edu.duke.cabig.c3pr.xml.XmlMarshaller;
@@ -67,11 +68,21 @@ public class ViewStudyController extends StudyController<Study> {
     @Override
     protected Object currentFormObject(HttpServletRequest request, Object sessionFormObject)
                     throws Exception {
-        if (sessionFormObject != null) {
+    	
+    	if (((Study) sessionFormObject).getId() != null) {
+            Study study = studyDao.getById(((Study) sessionFormObject).getId());
+            studyDao.initialize(study);
+            return study;
+        }
+
+        throw new C3PRCodedException(-1, "Unable to retrieve study");
+
+        /*removed during the creation of hibernate interceptor
+         * if (sessionFormObject != null) {
             getDao().reassociate((Study) sessionFormObject);
         }
 
-        return sessionFormObject;
+        return sessionFormObject;*/
     }
 
     @Override
