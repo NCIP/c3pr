@@ -539,11 +539,8 @@
 	<!-- ============================================================== 
 			target: checkstyle-init                                                
 		============================================================== -->
-	<target name="checkstyle-init" depends="clean-checkstyle-dir">
-		<mkdir dir="${checkstyle.dir}" />
-		<mkdir dir="${checkstyle.dir}/xmlreport" />
-			
-        <taskdef resource="checkstyletask.properties" classpathref="main.classpath" />
+	<target name="checkstyle-init" depends="clean-checkstyle-dir">		
+		<mkdir dir="${basedir}/build/checkstyle-report" />			
     </target>
 	<!-- ============================================================== 
 		target: test. If no Db property is given, the test target will set db
@@ -701,16 +698,22 @@
 	
 	<!-- CheckStyle for individual projects - accepts project as a param-->
 	<target name="run-report-style" depends="checkstyle-init" description="Check the style for a single project." >
-		<property name="antfiles.dir" location="${basedir}/../../codebase/antfiles" />		    	
+
 		<checkstyle config="${antfiles.dir}/c3pr_checks.xml" failOnViolation="false">
             <fileset dir="src" includes="**/*.java"/>
-            <formatter type="plain" toFile="${checkstyle.dir}/${project}.txt"/>
-            <formatter type="xml" toFile="${checkstyle.dir}/${project}.xml"/>
+            <formatter type="plain" toFile="${basedir}/build/checkstyle-report/${project}.txt"/>
+            <formatter type="xml" toFile="${basedir}/build/checkstyle-report/${project}.xml"/>
         </checkstyle>
-		<xslt in="${checkstyle.dir}/${project}.xml" out="${checkstyle.dir}/${project}.html"
+		<xslt in="${basedir}/build/checkstyle-report/${project}.xml" 
+		      out="${basedir}/build/checkstyle-report/${project}.html"
               style="${antfiles.dir}/checkstyle.xsl">
-            <param name="${project}" expression="${project}"/>
+            <param name="project" expression="${project}"/>
         </xslt>
+		
+		<echo>================================================================</echo>
+    	<echo>CheckStyle Report available at </echo>
+    	<echo>${basedir}/build/checkstyle-report</echo>
+    	<echo>================================================================</echo>
     </target>
 	
 </project>

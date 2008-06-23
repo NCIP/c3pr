@@ -7,6 +7,10 @@
 	<property name="projects.dir" value="${basedir}/../projects" />
 	<!-- List of modules that need checkstyle reporting done -->
 	<property name="reportable.projects.list" value="core,web" />
+	<condition property="ivy.available">
+			<available file="${ivy.jar.file}" />
+	</condition>
+	
 	
 	<!-- ==================================================================
 		target : buildlist
@@ -262,7 +266,6 @@
     <!-- Call check-style for each project log results                   -->
     <!-- =============================================================== -->
     <target name="reports-style" depends="resolve, download-ant-contrib" description="Check the style of all the projects.">
-		<mkdir dir="${checkstyle.dir}"/>
         <taskdef resource="checkstyletask.properties"  classpathref="main.classpath" />
 		<taskdef resource="net/sf/antcontrib/antlib.xml">
             <classpath>
@@ -274,16 +277,27 @@
         <for list="${reportable.projects.list}" parallel="false" param="project.name" trim="true">
             <sequential>
                 <echo message="Reporting style for project @{project.name}." />
-                <antcall target="run-report-style">
-                    <param name="project" value="@{project.name}"/>
-                </antcall>
+	
+				<mkdir dir="${basedir}/../../codebase/projects/@{project.name}/build/checkstyle-report" />
+            	<property name="antfiles.dir" location="${basedir}/../../codebase/antfiles" />
+            					
+    			<checkstyle config="${antfiles.dir}/c3pr_checks.xml" failOnViolation="false">
+    	            <fileset dir="src" includes="**/*.java"/>
+    	            <formatter type="plain" toFile="${basedir}/../../codebase/projects/@{project.name}/build/checkstyle-report/@{project.name}.txt"/>
+    	            <formatter type="xml" toFile="${basedir}/../../codebase/projects/@{project.name}/build/checkstyle-report/@{project.name}.xml"/>
+    	        </checkstyle>
+    			<xslt in="${basedir}/../../codebase/projects/@{project.name}/build/checkstyle-report/@{project.name}.xml" 
+    		      out="${basedir}/../../codebase/projects/@{project.name}/build/checkstyle-report/@{project.name}.html"
+    	              style="${antfiles.dir}/checkstyle.xsl">
+    	            <param name="project" expression="@{project.name}"/>
+    	        </xslt>
+    			
+    			<echo>================================================================</echo>
+    	    	<echo>CheckStyle Report available at </echo>
+    	    	<echo>${basedir}/../../codebase/projects/@{project.name}/build/checkstyle-report</echo>
+    	    	<echo>================================================================</echo>	
             </sequential>
-        </for>
-	
-		<echo>================================================================</echo>
-    	<echo>CheckStyle Report available at </echo>
-    	<echo>${checkstyle.dir}</echo>
-    	<echo>================================================================</echo>
+        </for>		
     </target>
-	
+    	
 </project>
