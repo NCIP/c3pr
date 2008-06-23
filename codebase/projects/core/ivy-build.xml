@@ -230,5 +230,17 @@
             ===== MANUAL STEPS =====
         </echo>
     </target>
+	
+	<!-- =============================================================== -->
+    <!-- Call check-style for core project                 -->
+    <!-- =============================================================== -->
+    <target name="reports-style-core" depends="resolve" description="Check the style of Core.">
+		<taskdef resource="checkstyletask.properties" classpathref="main.classpath" />	
+			
+        <echo message="Reporting style for project core." />
+        <antcall target="run-report-style">
+            <param name="project" value="core"/>
+        </antcall>
+    </target>
 
 </project>
