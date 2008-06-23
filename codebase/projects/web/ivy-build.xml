@@ -131,4 +131,16 @@
         <delete dir="${webinf.lib.dir}"/>
         <delete dir="${webinf.classes.dir}"/>
     </target>
+	
+	<!-- =============================================================== -->
+    <!-- Call check-style for Web project                 -->
+    <!-- =============================================================== -->
+    <target name="reports-style-web" depends="resolve" description="Check the style of web.">
+		<taskdef resource="checkstyletask.properties" classpathref="main.classpath" />	
+			
+        <echo message="Reporting style for project Web." />
+        <antcall target="run-report-style">
+            <param name="project" value="web"/>
+        </antcall>	
+    </target>
 </project>
