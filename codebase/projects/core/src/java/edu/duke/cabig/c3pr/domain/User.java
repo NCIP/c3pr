@@ -74,7 +74,7 @@ public abstract class User extends C3PRUser{
 
     @Column(name = "salt")
     public String getSalt() {
-        return salt ; // == null ? "" : salt;
+        return salt == null ? "" : salt;
     }
 
     public void setSalt(String salt) {
@@ -105,7 +105,7 @@ public abstract class User extends C3PRUser{
 
     @Column(name = "password_last_set")
     public Timestamp getPasswordLastSet() {
-        return passwordLastSet ; // == null ? new Timestamp(0) : passwordLastSet;
+        return passwordLastSet == null ? new Timestamp(0) : passwordLastSet;
     }
 
     public void setPasswordLastSet(Timestamp passwordLastSet) {
