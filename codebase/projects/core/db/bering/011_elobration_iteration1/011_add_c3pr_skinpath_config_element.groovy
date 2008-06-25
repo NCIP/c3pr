@@ -4,6 +4,6 @@ class AddMultisiteConfigDefaultProperty extends edu.northwestern.bioinformatics.
 	}
 
 	void down(){
-
+         delete('configuration', [ key:"skinPath" ])
 	}
 }
