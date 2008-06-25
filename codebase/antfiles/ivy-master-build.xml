@@ -255,7 +255,7 @@
     	<echo>Code Coverage Report available at </echo>
     	<echo>${cobertura.report.dir}/index.html</echo>
     	<echo>================================================================</echo>
-    	<cobertura-report format="html" destdir="${cobertura.report.dir}"  datafile="${cobertura.report.dir}/cobertura.ser" >
+    	<cobertura-report format="xml" destdir="${cobertura.report.dir}"  datafile="${cobertura.report.dir}/cobertura.ser" >
     	    <fileset dir=".">
     	        <include name="**/src/main/java/**/*.java" />
     	    </fileset>
