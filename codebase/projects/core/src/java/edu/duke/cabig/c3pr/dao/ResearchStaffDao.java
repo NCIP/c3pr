@@ -61,6 +61,8 @@ public class ResearchStaffDao extends GridIdentifiableDao<ResearchStaff> {
         List<ResearchStaff> result = new ArrayList<ResearchStaff>();
 
         Example example = Example.create(staff).excludeZeroes().ignoreCase();
+        example.excludeProperty("salt");
+        example.excludeProperty("passwordLastSet");
         try {
             Criteria criteria = getSession().createCriteria(ResearchStaff.class);
             criteria.addOrder(Order.asc("nciIdentifier"));
