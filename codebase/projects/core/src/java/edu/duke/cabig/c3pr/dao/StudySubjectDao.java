@@ -174,7 +174,7 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
      * @param registration
      * @return
      */
-    public List<StudySubject> searchByExample(StudySubject registration, boolean isWildCard) {
+    public List<StudySubject> searchByExample(StudySubject registration, boolean isWildCard,  int maxResults) {
         List<StudySubject> result = new ArrayList<StudySubject>();
 
         Example example = Example.create(registration).excludeZeroes().ignoreCase();
@@ -185,6 +185,9 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
             if (isWildCard) {
                 example.excludeProperty("doNotUse").enableLike(MatchMode.ANYWHERE);
                 studySubjectCriteria.add(example);
+
+                if (maxResults > 0) studySubjectCriteria.setMaxResults(maxResults);
+
                 if (registration.getIdentifiers().size() > 1) {
                     studySubjectCriteria.createCriteria("identifiers").add(
                                     Restrictions.ilike("value", "%"
@@ -255,8 +258,8 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
         return getHibernateTemplate().find("from StudySubject");
     }
 
-    public List<StudySubject> searchByExample(StudySubject registration) {
-        return searchByExample(registration, true);
+    public List<StudySubject> searchByExample(StudySubject registration,  int maxResults) {
+        return searchByExample(registration, true, maxResults);
     }
 
     public StudySubject getById(int id, boolean withIdentifiers) {
@@ -306,6 +309,14 @@ public class StudySubjectDao extends GridIdentifiableDao<StudySubject> implement
 
     public StudySubject merge(StudySubject obj) {
         return (StudySubject) getHibernateTemplate().merge(obj);
+    }
+
+    public List<StudySubject> searchByExample(StudySubject ss) {
+        return searchByExample(ss, false, 0);
+    }
+
+    public List<StudySubject> searchByExample(StudySubject ss, boolean isWildCard) {
+        return searchByExample(ss, isWildCard, 0);
     }
 
 }

@@ -241,25 +241,17 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                   ref="authenticationManager"/>
         <property name="accessDecisionManager">
             <bean class="org.acegisecurity.vote.AffirmativeBased">
-                <property name="allowIfAllAbstainDecisions"
-                          value="false"/>
+                <property name="allowIfAllAbstainDecisions" value="false"/>
                 <property name="decisionVoters">
-
                     <list>
-                        <bean
-                                class="gov.nih.nci.security.acegi.csm.vote.AuthorizationSwitchVoter">
-                            <property name="authorizationSwitch"
-                                      ref="authorizationSwitch"/>
+                        <bean class="gov.nih.nci.security.acegi.csm.vote.AuthorizationSwitchVoter">
+                            <property name="authorizationSwitch" ref="authorizationSwitch"/>
                         </bean>
-
-                        <bean
-                                class="gov.nih.nci.security.acegi.csm.vote.CSMAuthorizationCheckVoter">
-                            <property name="processConfigAttribute"
-                                      value="CSM_FILTER_CHECK"/>
-                            <property name="authorizationCheck"
-                                      ref="filterAuthorizationCheck"/>
+                        <bean class="gov.nih.nci.security.acegi.csm.vote.CSMAuthorizationCheckVoter">
+                            <property name="processConfigAttribute" value="CSM_FILTER_CHECK"/>
+                            <property name="authorizationCheck" ref="filterAuthorizationCheck"/>
                         </bean>
-
+                        <bean class="org.acegisecurity.vote.AuthenticatedVoter" />
                     </list>
                 </property>
             </bean>
@@ -267,8 +259,9 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <property name="objectDefinitionSource">
             <value>
                 CONVERT_URL_TO_LOWERCASE_BEFORE_COMPARISON
+                /pages/dashboard=IS_AUTHENTICATED_REMEMBERED
                 \A/pages/.*\Z=CSM_FILTER_CHECK
-            </value>
+               </value>
 
         </property>
     </bean>

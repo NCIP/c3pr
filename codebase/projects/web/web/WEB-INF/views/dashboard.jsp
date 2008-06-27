@@ -3,6 +3,7 @@
 <%@taglib prefix="chrome" tagdir="/WEB-INF/tags/chrome" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib uri="http://jawr.net/tags" prefix="jwr" %>
 
 <%--
   User: ion
@@ -10,11 +11,15 @@
   Time: 10:54:45 AM
 --%>
 
-
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
     <title>Dashboard</title>
+
+    <c:set var="bgcolorSelected" value="#cccccc"/>
+    <c:set var="bgcolorAlternate" value="#eeeeee"/>
+    <c:set var="bgcolor" value="#ffffff"/>
+
 </head>
 <body>
 
@@ -32,7 +37,7 @@
                     </c:forEach>
                 </tr>
                 </table>
-            
+
         </chrome:box>
         <chrome:box title="C3PR Notifications" autopad="true">
             _CONTENT_
@@ -43,13 +48,75 @@
     </td>
     <td valign="top">
         <chrome:box title="Incomplete Registrations - Most Recent" autopad="true">
-            _CONTENT_
+            <c:if test="${uRegistrations != null && fn:length(uRegistrations) > 0}">
+                <table width="100%" cellspacing="1" cellpadding="2">
+                    <tr bgcolor="${bgcolorAlternate}">
+                        <td width="40%"><b>Subject Name</b></td>
+                        <td width="35%"><b>Study Short Title</b></td>
+                        <td width="25%"><b>Last Updated by</b></td>
+                    </tr>
+                    <c:forEach var="registration" items="${uRegistrations}" varStatus="status">
+
+                        <c:if test="${status.count % 2 == 1}"><c:set var="bg" value="${bgcolor}"/></c:if>
+                        <c:if test="${status.count % 2 == 0}"><c:set var="bg" value="${bgcolorAlternate}"/></c:if>
+
+                        <chrome:tr bgcolor="${bg}" bgcolorSelected="${bgcolorSelected}" rowNumber="${status.count}">
+                            <chrome:td bgcolor="${bg}"><a href="<c:url value="/pages/participant/viewParticipant?participantId=${registration.id}" />"><c:out value="${registration.participant.firstName} ${registration.participant.lastName}" /></a></chrome:td>
+                            <chrome:td bgcolor="${bg}"><c:out value="${registration.studySite.study.shortTitleText}" /></chrome:td>
+                            <chrome:td bgcolor="${bg}">C</chrome:td>
+                        </chrome:tr>
+
+                    </c:forEach>
+                </table>
+            </c:if>
         </chrome:box>
         <chrome:box title="Pending Studies - Most Recent" autopad="true">
-            _CONTENT_
+            <c:if test="${pStudies != null && fn:length(pStudies) > 0}">
+            <%--FOUND <c:out value="${fn:length(pStudies)}" />--%>
+                <table width="100%" cellspacing="1" cellpadding="2">
+                    <tr bgcolor="${bgcolorAlternate}">
+                        <td width="40%"><b>Short Title</b></td>
+                        <td width="35%"><b>Coordinating Center</b></td>
+                        <td width="25%"><b>Last Updated by</b></td>
+                    </tr>
+                    <c:forEach var="study" items="${pStudies}" varStatus="status">
+
+                        <c:if test="${status.count % 2 == 1}"><c:set var="bg" value="${bgcolor}"/></c:if>
+                        <c:if test="${status.count % 2 == 0}"><c:set var="bg" value="${bgcolorAlternate}"/></c:if>
+
+                        <chrome:tr bgcolor="${bg}" bgcolorSelected="${bgcolorSelected}" rowNumber="${status.count}">
+                            <chrome:td bgcolor="${bg}"><a href="<c:url value="/pages/study/viewStudy?studyId=${study.id}" />"><c:out value="${study.shortTitleText}" /></a></chrome:td>
+                            <chrome:td bgcolor="${bg}"><c:out value="${study.studyCoordinatingCenters[0].healthcareSite.name}" /></chrome:td>
+                            <chrome:td bgcolor="${bg}">c</chrome:td>
+                        </chrome:tr>
+
+                    </c:forEach>
+                </table>
+            </c:if>
         </chrome:box>
         <chrome:box title="Most Active Studies" autopad="true">
-            _CONTENT_
+            <c:if test="${aStudies != null && fn:length(aStudies) > 0}">
+            <%--FOUND <c:out value="${fn:length(pStudies)}" />--%>
+                <table width="100%" cellspacing="1" cellpadding="2">
+                    <tr bgcolor="${bgcolorAlternate}">
+                        <td width="40%"><b>Short Title</b></td>
+                        <td width="35%"><b>Coordinating Center</b></td>
+                        <td width="25%"><b>Accrual w/in Last Week</b></td>
+                    </tr>
+                    <c:forEach var="study" items="${aStudies}" varStatus="status">
+
+                        <c:if test="${status.count % 2 == 1}"><c:set var="bg" value="${bgcolor}"/></c:if>
+                        <c:if test="${status.count % 2 == 0}"><c:set var="bg" value="${bgcolorAlternate}"/></c:if>
+
+                        <chrome:tr bgcolor="${bg}" bgcolorSelected="${bgcolorSelected}" rowNumber="${status.count}">
+                            <chrome:td bgcolor="${bg}"><a href="<c:url value="/pages/study/viewStudy?studyId=${study.id}" />"><c:out value="${study.shortTitleText}" /></a></chrome:td>
+                            <chrome:td bgcolor="${bg}"><c:out value="${study.studyCoordinatingCenters[0].healthcareSite.name}" /></chrome:td>
+                            <chrome:td bgcolor="${bg}">${study.acrrualsWithinLastWeek}</chrome:td>
+                        </chrome:tr>
+
+                    </c:forEach>
+                </table>
+            </c:if>
         </chrome:box>
     </td>
 </tr>

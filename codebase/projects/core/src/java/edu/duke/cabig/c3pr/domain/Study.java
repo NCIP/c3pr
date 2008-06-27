@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 
@@ -116,7 +115,10 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 	
 	private MessageSource c3prErrorMessages;
 
-	public Study() {
+    @Transient
+    private int acrrualsWithinLastWeek;  
+
+    public Study() {
 		
 		ResourceBundleMessageSource resourceBundleMessageSource = new ResourceBundleMessageSource();
 		resourceBundleMessageSource.setBasename("error_messages_multisite");
@@ -1196,4 +1198,12 @@ public class Study extends CCTSAbstractMutableDeletableDomainObject implements
 		this.stratificationIndicator = stratificationIndicator;
 	}
 
+    @Transient
+    public int getAcrrualsWithinLastWeek() {
+        return this.acrrualsWithinLastWeek;
+    }
+
+    public void setAcrrualsWithinLastWeek(int acrrualsWithinLastWeek) {
+        this.acrrualsWithinLastWeek = acrrualsWithinLastWeek;
+    }
 }

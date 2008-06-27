@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.service.impl;
 
 import java.io.StringReader;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +22,7 @@ import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 import edu.duke.cabig.c3pr.service.StudySubjectService;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.StudyTargetAccrualNotificationEmail;
+import edu.duke.cabig.c3pr.dao.StudySubjectDao;
 import gov.nih.nci.common.exception.XMLUtilityException;
 
 /**
@@ -31,7 +33,8 @@ import gov.nih.nci.common.exception.XMLUtilityException;
 public class StudySubjectServiceImpl extends CCTSWorkflowServiceImpl implements StudySubjectService {
 
     private static final Logger logger = Logger.getLogger(StudySubjectServiceImpl.class);
-
+    private StudySubjectDao studySubjectDao;
+    
     private boolean hostedMode = true;
 
     private StudyTargetAccrualNotificationEmail notificationEmailer;
@@ -204,4 +207,12 @@ public class StudySubjectServiceImpl extends CCTSWorkflowServiceImpl implements 
         && !studySubject.isCoOrdinatingCenter(getLocalInstanceNCICode()) && !isHostedMode();
     }
 
+    public void setStudySubjectDao(StudySubjectDao studySubjectDao) {
+        this.studySubjectDao = studySubjectDao;
+    }
+
+    public List<StudySubject> searchByExample(StudySubject ss, int maxResults) {
+        return studySubjectDao.searchByExample(ss, maxResults);
+    }
+    
 }

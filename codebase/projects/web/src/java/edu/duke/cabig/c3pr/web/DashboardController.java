@@ -15,9 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.utils.web.PropertyWrapper;
 import edu.duke.cabig.c3pr.domain.repository.CSMUserRepository;
+import edu.duke.cabig.c3pr.domain.*;
+import edu.duke.cabig.c3pr.service.impl.StudyServiceImpl;
+import edu.duke.cabig.c3pr.service.impl.StudySubjectServiceImpl;
 
 import java.util.*;
-import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
@@ -31,7 +33,11 @@ public class DashboardController extends ParameterizableViewController {
     protected static final Log log = LogFactory.getLog(DashboardController.class);
     private Configuration configuration;
     private String filename;
-    
+    private StudyServiceImpl studyService;
+    private StudySubjectServiceImpl studySubjectService;
+
+    public static final int MAX_RESULTS = 5;
+
     CSMUserRepository csmUserRepository;
 
     public void setCsmUserRepository(CSMUserRepository csmUserRepository) {
@@ -48,7 +54,6 @@ public class DashboardController extends ParameterizableViewController {
         filename = "default.links.properties";
 
         for (GrantedAuthority ga : groups) {
-            System.out.println("ga: " + ga.getAuthority());
             if (DashboardController.class.getClassLoader().getResource(ga.getAuthority() + ".links.properties") != null) {
                 filename = ga.getAuthority() + ".links.properties";
                 log.debug("Found rolebased links file: " + filename);
@@ -58,7 +63,6 @@ public class DashboardController extends ParameterizableViewController {
 
 //        filename = "default.links.property";
         Properties p = new Properties();
-        System.out.println("Filename: " + filename);                         
         try {
             p.load(DashboardController.class.getClassLoader().getResourceAsStream(filename));
             log.debug("The links file has " + p.keySet().size() + " elements.");
@@ -67,15 +71,46 @@ public class DashboardController extends ParameterizableViewController {
             log.error("Error while trying to read the property file: [" + filename + "]");
         }
 
-/*
-        List l = new ArrayList(p.keySet());
-        Collections.sort(l);
-*/
+        Study study = new Study(true);
+        study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
+        List<Study> studies = studyService.searchByExample(study, MAX_RESULTS);
+        log.debug("Pending studies found: " + studies.size());
+        httpServletRequest.setAttribute("pStudies", studies);
+
+        study.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.ACTIVE);
+        studies = studyService.searchByExample(study, MAX_RESULTS);
+        log.debug("Active studies found: " + studies.size());
+
+        // computing 7 days back
+        Calendar cal = Calendar.getInstance();
+        Date endDate = new Date(System.currentTimeMillis());
+        cal.setTime(endDate);
+        cal.roll(Calendar.DATE, -6);
+        Date startDate = new Date(cal.getTime().getTime());
+
+        for (Study st: studies) {
+            st.setAcrrualsWithinLastWeek(studyService.countAcrrualsByDate(st, startDate, endDate));
+        }
+        httpServletRequest.setAttribute("aStudies", studies);
+
+        StudySubject ss= new StudySubject(true);
+        // ss.setRegWorkflowStatus(RegistrationWorkFlowStatus.REGISTERED);
+        List<StudySubject> registrations = studySubjectService.searchByExample(ss, MAX_RESULTS);
+        log.debug("Unregistred Registrations found: " + registrations.size());
+        httpServletRequest.setAttribute("uRegistrations", registrations);
 
         return super.handleRequestInternal(httpServletRequest, httpServletResponse);
     }
 
     public void setConfiguration(Configuration configuration) {
         this.configuration = configuration;
+    }
+
+    public void setStudyService(StudyServiceImpl studyService) {
+        this.studyService = studyService;
+    }
+
+    public void setStudySubjectService(StudySubjectServiceImpl studySubjectService) {
+        this.studySubjectService = studySubjectService;
     }
 }

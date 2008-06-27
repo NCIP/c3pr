@@ -361,6 +361,9 @@
         
         <property name="sections">
             <list>
+                <bean class="edu.duke.cabig.c3pr.utils.web.navigation.Section" autowire="byType" p:displayName="Dashboard" p:mainController="dashboardController">
+                    <property name="pathMapping" value="/dashboard/**"/>
+                </bean>
                 <bean
                         class="edu.duke.cabig.c3pr.utils.web.navigation.Section"
                         autowire="byType" p:displayName="Registration"
@@ -536,4 +539,9 @@
             </props>
         </property>
     </bean>-->
+
+    <bean name="/dashboard" id="dashboardController" class="edu.duke.cabig.c3pr.web.DashboardController" autowire="byName">
+        <property name="viewName"><value>dashboard</value></property>
+    </bean>
+    
 </beans>

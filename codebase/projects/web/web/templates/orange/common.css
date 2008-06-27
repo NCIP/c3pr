@@ -406,20 +406,19 @@ ul.tabs li {
 /** B O X    B O R D E R S    end **/
 
 
-
 .box .interior {
-    margin: 0 8px 0 7px;
-    padding: 8px 0;
+    margin: 0px 2px 0px 2px;
+    padding: 2px 0 6px 1px;
     min-height: 28px;
 }
 
 .box.tabbed .interior {
-    padding-top: 0;
 }
 
 .box .content {
-    padding: 8px;
+    padding: 0px 5px 0px 0px;
 }
+
 
 .box h3 {
     position: relative;

@@ -17,8 +17,6 @@
     </table>
     <div id="menuLaneCenter"><div id="menuLaneRight"><div id="menuLaneLeft"></div></div></div>
 
-
-
 <%--
         <ul id="sections" class="tabs">
             <c:forEach items="${sections}" var="section">
@@ -59,7 +57,7 @@
 
 <csmauthz:accesscontrol domainObject="${task}" authorizationCheckName="taskAuthorizationCheck">
     <div id="nav" class="background-R">
-        C3PR&nbsp;&nbsp;&raquo;&nbsp;&nbsp;<a href="<c:url value="/public/dashboard"/>">Home Page</a>
+        C3PR&nbsp;&nbsp;&raquo;&nbsp;&nbsp;<a href="<c:url value="/pages/dashboard"/>">Home Page</a>
         <c:if test="${currentSection != null}">
             &nbsp;&raquo;&nbsp;<a href="<c:url value="${currentSection.mainUrl}" />"><c:out value="${currentSection.displayName}"/></a>
             <c:if test="${currentTask != null}">

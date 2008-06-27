@@ -4,6 +4,8 @@ import edu.duke.cabig.c3pr.domain.StudySubject;
 import edu.duke.cabig.c3pr.esb.MessageResponseHandler;
 import edu.duke.cabig.c3pr.exception.C3PRCodedException;
 
+import java.util.List;
+
 /**
  * @author Kulasekaran,Ramakrishna
  * @version 1.0
@@ -29,4 +31,6 @@ public interface StudySubjectService extends CCTSWorkflowService, MultiSiteWorkf
     public void processCoOrdinatingCenterResponse(StudySubject deserializedStudySubject);
     
     public boolean requiresExternalApprovalForRegistration(StudySubject studySubject);
+
+    public List<StudySubject> searchByExample(StudySubject ss, int maxResults);
 }

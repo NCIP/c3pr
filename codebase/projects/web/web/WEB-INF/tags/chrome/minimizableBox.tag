@@ -64,7 +64,7 @@
             <td>
                 <h2>${title}</h2>
             </td>
-            <td align="right">
+            <td align="right" style="padding-right: 5px;">
                 <div id="${id }-image-div">
                     <a href="javascript:
 		<c:choose>
@@ -84,13 +84,13 @@
     <!-- end header -->
 
     <!-- inner border -->
-    <div class="border-T"><div class="border-L"><div class="border-R"><div class="border-B"><div class="border-TL"><div class="border-TR"><div class="border-BL"><div class="border-BR">
+    <div class="border-T"><div class="border-L"><div class="border-R"><div class="border-B"><div class="border-BL"><div class="border-BR">
         <div id="${id }-interior" class="interior">
             <c:if test="${autopad}"><div class="content"></c:if>
             <jsp:doBody/>
             <c:if test="${autopad}"></div></c:if>
         </div>
-    </div></div></div></div></div></div></div></div>
+    </div></div></div></div></div></div>
     <!-- end inner border -->
 </div>
 <!-- end box -->

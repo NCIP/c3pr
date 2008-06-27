@@ -3,16 +3,13 @@ package edu.duke.cabig.c3pr.dao;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Date;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-import org.hibernate.criterion.CriteriaSpecification;
-import org.hibernate.criterion.Example;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.*;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.transaction.annotation.Transactional;
@@ -177,6 +174,11 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
 
     @Transactional(readOnly = true)
     public List<Study> searchByExample(Study study, boolean isWildCard) {
+        return searchByExample(study, isWildCard, 0);    
+    }
+
+    @Transactional(readOnly = true)
+    public List<Study> searchByExample(Study study, boolean isWildCard, int maxResults) {
         List<Study> result = new ArrayList<Study>();
 
         Example example = Example.create(study).excludeZeroes().ignoreCase();
@@ -184,6 +186,8 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
             Criteria studyCriteria = getSession().createCriteria(Study.class);
             studyCriteria.addOrder(Order.asc("shortTitleText"));
             studyCriteria.setResultTransformer(CriteriaSpecification.DISTINCT_ROOT_ENTITY);
+
+            if (maxResults > 0) studyCriteria.setMaxResults(maxResults);
 
             if (isWildCard) {
                 example.excludeProperty("doNotUse").enableLike(MatchMode.ANYWHERE);
@@ -276,7 +280,22 @@ public class StudyDao extends GridIdentifiableDao<Study> implements MutableDomai
      * @return Search Results
      */
     public List<Study> searchByExample(Study study) {
-        return searchByExample(study, false);
+        return searchByExample(study, false, 0);
+    }
+
+    public List<Study> searchByExample(Study study, int maxResults) {
+        return searchByExample(study, false, maxResults);
+    }
+
+    public int countAcrrualsByDate(Study study, Date startDate, Date endDate) {
+        Criteria regCriteria = getHibernateTemplate().getSessionFactory().getCurrentSession().createCriteria(StudySubject.class);
+        Criteria studySiteCriteria = regCriteria.createCriteria("studySite");
+        Criteria studyCriteria = studySiteCriteria.createCriteria("study");
+
+        regCriteria.add(Expression.between("startDate", startDate, endDate));
+        studyCriteria.add(Restrictions.eq("id", study.getId()));
+
+        return regCriteria.list().size();
     }
 
     /**
