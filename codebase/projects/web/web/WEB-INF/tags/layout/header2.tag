@@ -2,6 +2,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="csmauthz" uri="http://csm.ncicb.nci.nih.gov/authz" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <div id="header">
 
@@ -11,7 +12,7 @@
     </tr>
     <tr height="48px" class="headLane2">
         <td align="left"><div id="logo"></div></td>
-        <td align="left" width="100%"><div id="headerTitle1"><div id="headerTitle2">Duke University</div></div></td>
+        <td align="left" width="100%"><div id="headerTitle1"><div id="headerTitle2"><c:out value="${siteName}" /></div></div></td>
         <td align="left" width="150px" nowrap=""><div id="login-action"><a href="http://gforge.nci.nih.gov/frs/download.php/3493/wfu_signoff_on_end_user_guide.doc">Help</a>&nbsp;<a>|</a>&nbsp;<a <%-- href="<c:url value='/public/skin' />"--%> id="changeSkin" style="cursor:pointer;">Change skin</a>&nbsp;<a>|</a>&nbsp;<a href="<c:url value="/j_acegi_logout"/>">Log out</a>&nbsp;</div></td>
     </tr>
     </table>
@@ -29,6 +30,28 @@
         </ul>
 --%>
 
+    <style>
+
+<%--
+        <c:set var="i" value="-2" />
+        <c:forEach items="${sections}" var="section">
+                        <c:set var="i" value="${i + 1}" />
+                        <c:out value="#e0_${i}o {background-color: green; ${section.displayName};}" />
+                        <c:forEach items="${section.tasks}" var="task">
+                                <c:set var="i" value="${i + 1}" />
+                                <c:if test="${fn:length(task.subTasks) > 0}">
+                                    <c:url var="pic" value="/images/menu_arrow.gif" />
+                                    <c:out value="#e0_${i}i {background-color: red;   background-image: url(${pic}); ${task.displayName}; }" />
+                                </c:if>
+                                <c:forEach items="${task.subTasks}" var="subtask">
+                                    <c:set var="i" value="${i + 1}" />
+                                    <c:out value="#e0_${i}i {background-color: yellow; ${subtask.displayName};}" />
+                                </c:forEach>
+                        </c:forEach>
+        </c:forEach>
+--%>
+
+    </style>
 
     <script language="JavaScript">
             var MENU_ITEMS = [
@@ -37,7 +60,14 @@
                         ['<c:out value="${section.displayName}" />', '<c:url value="${section.mainUrl}"/>', null,
                                 <c:forEach items="${section.tasks}" var="task">
                                     <csmauthz:accesscontrol domainObject="${task}" authorizationCheckName="taskAuthorizationCheck">
-                                       ['<c:out value="${task.displayName}" />', '<c:url value="${task.url}"/>', null,
+
+
+                            <c:set var="name" value="${task.displayName}" />
+                            <c:if test="${fn:length(task.subTasks) > 0}">
+                                <c:set var="name" value="${task.displayName} » " />
+                            </c:if>
+
+                                       ['<c:out value="${name}" />', '<c:url value="${task.url}"/>', null,
                                            <c:forEach items="${task.subTasks}" var="subtask">
                                                 ['<c:out value="${subtask.displayName}" />', '<c:url value="${subtask.url}"/>'],
                                            </c:forEach>
@@ -78,7 +108,7 @@
 
     $('changeSkin').observe('click', function(event) {
             Lightview.show({
-              href: "/c3pr/public/skin",
+              href: "<c:url value='/public/skin' />",
               rel: 'ajax',
               title: ':: C3PR Project::',
               caption: "Pick up the skin please...",

@@ -21,6 +21,24 @@
     <tags:include/>
 
     <decorator:head/>
+
+<style>
+    .selectobject {
+        background-color: #F6F6F6;
+        border: 1px dotted #CCC;
+        cursor: pointer;
+        float: left;
+        margin: 2px;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .selectobject:hover {
+        border: 1px solid #CCC;
+        background-color: #E9E9E9;
+    }
+</style>
+    
 </head>
 
 <body>

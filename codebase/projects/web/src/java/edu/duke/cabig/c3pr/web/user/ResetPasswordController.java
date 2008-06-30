@@ -63,17 +63,12 @@ public class ResetPasswordController extends SimpleFormController {
     }
     private Configuration configuration;
     
-    public void setConfiguration(Configuration configuration) {
-        this.configuration = configuration;
-    }
-    
     @Required
     public void setPasswordManagerService(PasswordManagerService passwordManagerService) {
         this.passwordManagerService = passwordManagerService;
     }
     
     protected ModelAndView handleRequestInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
-        httpServletRequest.setAttribute("skinName", configuration.getMap().get("skinPath").toString());
         return super.handleRequestInternal(httpServletRequest, httpServletResponse);    //To change body of overridden methods use File | Settings | File Templates.
     }
 

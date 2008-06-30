@@ -27,12 +27,7 @@ public class SectionInterceptor extends HandlerInterceptorAdapter {
 
     private Configuration configuration;
 
-    public void setConfiguration(Configuration configuration) {
-        this.configuration = configuration;
-    }
-
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
-                    Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String controllerPath = urlPathHelper.getPathWithinServletMapping(request);
         Section current = findSection(controllerPath);
         Task currentTask = findTask(current, controllerPath);
@@ -40,8 +35,6 @@ public class SectionInterceptor extends HandlerInterceptorAdapter {
         request.setAttribute(prefix("currentSection"), current);
         request.setAttribute(prefix("currentTask"), currentTask);
         request.setAttribute(prefix("sections"), getSections());
-
-        request.setAttribute("skinName", configuration.getMap().get("skinPath").toString());
 
         return true;
     }

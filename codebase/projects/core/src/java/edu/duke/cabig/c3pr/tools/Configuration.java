@@ -82,6 +82,9 @@ public class Configuration extends DatabaseBackedConfiguration {
     public static final ConfigurationProperty<String> SKIN_PATH = PROPERTIES
                     .add(new ConfigurationProperty.Text("skinPath"));
 
+    public static final ConfigurationProperty<String> SITE_NAME = PROPERTIES
+                    .add(new ConfigurationProperty.Text("siteName"));
+
     public ConfigurationProperties getProperties() {
         return PROPERTIES;
     }

@@ -33,6 +33,7 @@ public class SkinController extends org.springframework.web.servlet.mvc.SimpleFo
 
     @Override
     protected ModelAndView onSubmit(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, BindException e) throws Exception {
+        httpServletRequest.getSession().getServletContext().setAttribute("skinName", configuration.getMap().get("skinPath"));
         return new ModelAndView("redirect:skin");
     }
 

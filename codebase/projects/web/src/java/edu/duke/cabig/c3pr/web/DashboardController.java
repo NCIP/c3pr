@@ -45,7 +45,6 @@ public class DashboardController extends ParameterizableViewController {
     }
 
     protected ModelAndView handleRequestInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
-        httpServletRequest.setAttribute("skinName", configuration.getMap().get("skinPath").toString());
 
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication auth = context.getAuthentication();
@@ -100,10 +99,6 @@ public class DashboardController extends ParameterizableViewController {
         httpServletRequest.setAttribute("uRegistrations", registrations);
 
         return super.handleRequestInternal(httpServletRequest, httpServletResponse);
-    }
-
-    public void setConfiguration(Configuration configuration) {
-        this.configuration = configuration;
     }
 
     public void setStudyService(StudyServiceImpl studyService) {
