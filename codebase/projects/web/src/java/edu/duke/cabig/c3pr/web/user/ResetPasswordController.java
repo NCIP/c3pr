@@ -39,6 +39,7 @@ public class ResetPasswordController extends SimpleFormController {
         String token = passwordManagerService.requestToken(userName.getUserName());
         csmUserRepository.sendUserEmail(userName.getUserName(), "Reset C3PR Password", emailPretext
                 + userName.getURL() + "&token=" + token + emailPosttext);
+        System.out.println("########### URL ############### " + userName.getURL() + "&token=" + token);
         return new ModelAndView("user/emailSent");
     }
 
