@@ -24,6 +24,7 @@ public class ConfigurationController extends SimpleFormController {
 
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
+        request.getSession().getServletContext().setAttribute("siteName", configuration.getMap().get("siteName"));
         return new ConfigurationCommand(configuration);
     }
 
