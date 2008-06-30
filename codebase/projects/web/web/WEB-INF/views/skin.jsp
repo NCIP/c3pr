@@ -20,7 +20,6 @@
     <title>C3PR - DASHBOARD</title>
     <tags:include/>
 
-    <jwr:style src="/csslib/blue.css" />
     <decorator:head/>
 </head>
 
