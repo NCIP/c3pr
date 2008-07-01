@@ -156,7 +156,7 @@ function buildMenu(n, headerName) {
 
 
             if (i != n) linkBGColorAdapted = linkBGColor;
-            else linkBGColorAdapted = "#cdcfd1";
+            else linkBGColorAdapted = linkBGColorSelected;
 
             if (!ssmItems[i][2]) ssmItems[i][2] = linkTarget;
             document.write('<TD style="padding:2px;" BGCOLOR="' + linkBGColorAdapted + '" onmouseover="bgColor=\'' + linkOverBGColor + '\'" onmouseout="bgColor=\'' + linkBGColorAdapted + '\'" WIDTH="' + ssmItems[i][5] + 'px" COLSPAN="' + ssmItems[i][3] + '"><ILAYER><LAYER onmouseover="bgColor=\'' + linkOverBGColor + '\'" onmouseout="bgColor=\'' + linkBGColorAdapted + '\'" WIDTH="100%" ALIGN="' + linkAlign + '"><DIV CLASS="ssmItems ' + ssmItems[i][2] + '" ALIGN="' + linkAlign + '"><FONT face="' + linkFontFamily + '">&nbsp;<A HREF="' + ssmItems[i][1] + '" class="tab' + i + '">' + (i==n ? "<b>" :"") + ssmItems[i][0] + (i==n ? "</b>" :"") + '</DIV></LAYER></ILAYER></TD>')
