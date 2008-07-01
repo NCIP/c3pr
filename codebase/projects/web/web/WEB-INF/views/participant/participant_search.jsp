@@ -29,8 +29,8 @@ function submitPage(){
 				<table width="50%" border="0" cellpadding="0" cellspacing="0"
 					id="table1">
 					<tr valign="top">
-						<td width="15%"><img src="<tags:imageUrl name="Patient.gif"/>"
-							alt="Subject Search" width="100" height="100" align="absmiddle"></td>
+						<td><%--<img src="<tags:imageUrl name="Patient.gif"/>"
+							alt="Subject Search" width="100" height="100" align="absmiddle">--%></td>
 						<td width="85%">
 						<table width="100%" border="0" cellspacing="5" cellpadding="0"
 							id="table1">

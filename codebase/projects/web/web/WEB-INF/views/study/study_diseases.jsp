@@ -258,8 +258,7 @@ Event.observe(window, "load", function() {
             <input type="hidden" name="_selected" value="">
         </div>
 
-        <chrome:division title="Disease" id="disease">
-        	<tags:errors path="studyDiseases"/> 
+        	<tags:errors path="studyDiseases"/>
             Search for a Disease Category<br>
             
             <input type="hidden" id="disease-hidden"/>
@@ -285,7 +284,7 @@ Event.observe(window, "load", function() {
             </select> <form:select id="disease-sel-hidden" size="1"
                                    path="diseaseTermIds">
         </form:select>
-        </chrome:division>		
+        
     </chrome:box>
 	</td>
 	

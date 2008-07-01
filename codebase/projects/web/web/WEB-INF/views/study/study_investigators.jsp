@@ -289,7 +289,6 @@ and the controller gets the selected index via the hidden variable _selectedSite
 			            
 			            <form:select id="disease-sel-hidden" size="1" path="studyOrganizations[${selected_site}].studyInvestigatorIds" />
 			        <br/>
-			        <br/>
 	               </div>	        
 			    </chrome:box>
 			</td>
@@ -298,7 +297,7 @@ and the controller gets the selected index via the hidden variable _selectedSite
 	        </td>
 			<td valign="top" width="45%">
 			    <chrome:box title="${command.studyOrganizations[selected_site].healthcareSite.name}" id="diseases">
-			        <br/><br/>
+			        <br/>
 			        <c:choose>
 			            <c:when test="${fn:length(command.studyOrganizations[selected_site].studyInvestigators) == 0}">
 			                No Investigators Selected

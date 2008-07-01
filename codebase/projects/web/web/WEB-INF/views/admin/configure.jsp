@@ -50,6 +50,9 @@
     <c:url value="/pages/admin/configure" var="action"/>
     <form:form action="${action}" cssClass="standard">
         <c:forEach items="${command.conf}" var="entry" varStatus="status">
+
+            <c:if test="${entry.key != 'skinPath'}">
+
             <div class="row">
             <table>
             <tr><td width="30%">
@@ -76,6 +79,9 @@
               </tr>
               </table>
             </div>
+
+            </c:if>
+
         </c:forEach>
         <div class="row submit">
             <input type="submit" value="Save"/>

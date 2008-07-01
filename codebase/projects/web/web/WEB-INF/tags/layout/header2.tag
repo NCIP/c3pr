@@ -13,7 +13,15 @@
     <tr height="48px" class="headLane2">
         <td align="left"><div id="logo"></div></td>
         <td align="left" width="100%"><div id="headerTitle1"><div id="headerTitle2"><c:out value="${siteName}" /></div></div></td>
-        <td align="left" width="150px" nowrap=""><div id="login-action"><a href="http://gforge.nci.nih.gov/frs/download.php/3493/wfu_signoff_on_end_user_guide.doc">Help</a>&nbsp;<a>|</a>&nbsp;<a <%-- href="<c:url value='/public/skin' />"--%> id="changeSkin" style="cursor:pointer;">Change skin</a>&nbsp;<a>|</a>&nbsp;<a href="<c:url value="/j_acegi_logout"/>">Log out</a>&nbsp;</div></td>
+        <td align="left" width="150px" nowrap="">
+            <table border="0" cellpadding="1" cellspacing="1">
+                <tr>
+                    <td align="right" valign="bottom"><div id="welcome-user">Welcome <b>John Doe</b> [Administrator]</div>
+                    <td rowspan="2"><img src="${siteName}">
+                </tr>
+                <tr><td align="right" valign="top"><div id="login-action"><a href="http://gforge.nci.nih.gov/frs/download.php/3493/wfu_signoff_on_end_user_guide.doc">Help</a>&nbsp;<a>|</a>&nbsp;<a <%-- href="<c:url value='/public/skin' />"--%> id="changeSkin" style="cursor:pointer;">Change skin</a>&nbsp;<a>|</a>&nbsp;<a href="<c:url value="/j_acegi_logout"/>">Log out</a>&nbsp;</div></tr>
+            </table>
+        </td>
     </tr>
     </table>
     <div id="menuLaneCenter"><div id="menuLaneRight"><div id="menuLaneLeft"></div></div></div>

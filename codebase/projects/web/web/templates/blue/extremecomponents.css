@@ -109,7 +109,7 @@
 	padding-bottom: 2px;
 	padding-left: 3px;
 	vertical-align: middle;
-	font-family: arial, verdana, helvetica, sans-serif;
+	font-family: verdana, arial, helvetica, sans-serif;
 	font-size: 11px;
 }
 
@@ -123,7 +123,7 @@
 
 .eXtremeTable .highlight td {
 	color: black;
-    font-family: arial, verdana, helvetica, sans-serif;
+    font-family: verdana, arial, helvetica, sans-serif;
     font-size: 11px;
 	padding-top: 2px;
 	padding-right: 3px;
@@ -144,7 +144,7 @@
 
 .eXtremeTable .toolbar {
 	background-color: #F4F4F4;
-	font-family: arial, verdana, helvetica, sans-serif;
+	font-family: verdana, arial, helvetica, sans-serif;
 	font-size: 9px;
 	margin-right: 1px;
 	border-right: 1px solid silver;

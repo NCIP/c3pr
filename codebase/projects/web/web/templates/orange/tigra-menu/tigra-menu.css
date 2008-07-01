@@ -37,11 +37,12 @@
 /* level 1 inner */
 .m0l1iout, .m0l1iover {
 	font-family: Verdana, Arial;
-    font-weight: bold;
+    font-weight: normal;
     font-size: 10px;
 	text-decoration: none;
-    text-align: center;
+    text-align: left;
 	padding-top: 3px;
+	padding-left: 2px;
 	color: black;
     height: 16px;
     background: #ccc; /*url("../images/menuLaneCenter.jpg") repeat-x; */
@@ -76,12 +77,13 @@
 /* level 2 inner */
 .m0l2iout, .m0l2iover {
 	font-family: Verdana, Arial;
-    font-weight: bold;
+    font-weight: normal;
     font-size: 10px;
 	text-decoration: none;
-    text-align: center;
+    text-align: left;
 	padding-top: 3px;
-	color: black;
+    padding-left: 2px;
+    color: black;
     height: 16px;
     background: #ccc; /*url("../images/menuLaneCenter.jpg") repeat-x; */
     cursor: pointer;

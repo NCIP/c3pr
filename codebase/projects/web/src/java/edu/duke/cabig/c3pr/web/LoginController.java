@@ -16,8 +16,6 @@ import edu.duke.cabig.c3pr.tools.Configuration;
 
 public class LoginController extends ParameterizableViewController {
 
-     private Configuration configuration;
-
     protected ModelAndView handleRequestInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
         return super.handleRequestInternal(httpServletRequest, httpServletResponse);    //To change body of overridden methods use File | Settings | File Templates.
     }

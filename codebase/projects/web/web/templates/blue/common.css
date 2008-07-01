@@ -5,7 +5,7 @@ body {
     padding: 0px;
     font-size: 11px;
     color: #000000;
-    font-family: Arial, Verdana, Helvetica, sans-serif;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
     background: #fff;
 }
 
@@ -55,12 +55,15 @@ body {
     /*margin-right: 10px;*/
 }
 
-#login-action {
+#login-action, #welcome-user {
+/*
     position: absolute;
     top: 0;
     right: 0;
-    padding: 6px 10px 0 20px;
+*/
+    /*padding: 6px 10px 0 20px;*/
     font-size: 0.85em;
+    color: #FFFFFF;
 }
 
 #login-action a {
@@ -285,8 +288,9 @@ ul.tabs li {
 #main {
     background: url( ../images/chrome/main_BG.gif ) repeat-x top;
     margin: 0;
-    padding: 5px 5px 5px 5px;
+    padding: 15px 15px 15px 15px;
     clear: both;
+    /*border : 1px blue dotted;*/
 }
 
 #flash-message {
@@ -315,7 +319,7 @@ ul.tabs li {
    the total should be something less than 100%. */
 .pane {
     float: left;
-    margin: 0 14px 12px 0;
+    margin: 0 5px 5px 5px;
 }
 
 .rightpanel {
