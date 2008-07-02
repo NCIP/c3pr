@@ -415,12 +415,19 @@
     </bean>
     
     <!--Utilities-->
-    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <property name="host" value="${outgoingMailServer}"/>
-        <property name="port" value="${outgoingMailServerPort}"/>
-        <property name="password" value="${outgoingMailPassword}"/>
-        <property name="username" value="${outgoingMailUsername}"/>
-        <property name="javaMailProperties" value="${outgoingMailAuth}" />
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"> 
+    	<property name="host" value="smtp.gmail.com" /> 
+    	<property name="port" value="465" /> 
+    	<property name="username" value="c3prproject@gmail.com" /> 
+    	<property name="password" value="semanticbits" /> 
+    	<property name="protocol" value="smtps" /> 
+    	<property name="javaMailProperties"> 
+    	<props> 
+    		<prop key="mail.smtps.auth">true</prop> 
+    		<prop key="mail.smtps.starttls.enable">true</prop> 
+    		<prop key="mail.smtps.debug">true</prop> 
+    	</props> 
+    	</property> 
     </bean>
 
     <bean id="confirmationEmailer" class="edu.duke.cabig.c3pr.aspects.UserEmailConfirmationAspect"
