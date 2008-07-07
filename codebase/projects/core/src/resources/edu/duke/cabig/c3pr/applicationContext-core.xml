@@ -295,6 +295,11 @@
                 <property name="mappingFile" ref="ccts-registration-castorMapping"/>
             </bean>
         </property>
+        <property name="cctsXmlUtility">
+            <bean class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
+                <property name="mappingFile" ref="multisite-registration-castorMapping"/>
+            </bean>
+        </property>
         <property name="openSessionInViewInterceptor" ref="openSessionInViewInterceptor"/>
     </bean>
     
