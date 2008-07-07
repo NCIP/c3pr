@@ -92,8 +92,16 @@ Autocompleter.Base = Class.create({
   },
 
   show: function() {
-    if(Element.getStyle(this.update, 'display')=='none') this.options.onShow(this.element, this.update);
-    if(!this.iefix && 
+      try {
+          if (Element.getStyle(this.update, 'display') == 'none') this.options.onShow(this.element, this.update);
+      }
+      catch(e) {
+          this.options.onShow(this.element, this.update);
+      }
+
+    //    if(Element.getStyle(this.update, 'display')=='none') this.options.onShow(this.element, this.update);
+
+    if(!this.iefix &&
       (Prototype.Browser.IE) &&
       (Element.getStyle(this.update, 'position')=='absolute')) {
       new Insertion.After(this.update, 
