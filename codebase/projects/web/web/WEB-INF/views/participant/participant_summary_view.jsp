@@ -31,9 +31,8 @@ function updateTargetPage(target){
 <form:form>
 	<tags:tabFields tab="${tab}" />
 
-	<chrome:box title="Subject Summary" autopad="true">
-		<div><input type="hidden" name="_finish" value="true" /> <input
-			type="hidden" name="_action" value=""></div>
+	<chrome:box title="Subject Summary">
+		<div><input type="hidden" name="_finish" value="true" /> <input type="hidden" name="_action" value=""></div>
 		<div id="printable">
 		<chrome:division id="subject-details" title="Basic Details">
 			<table class="tablecontent" width="60%">
@@ -171,7 +170,7 @@ function updateTargetPage(target){
 		</div>
 		</c:if>
 
-
+        </div>
 	</chrome:box>
 </form:form>
 </body>

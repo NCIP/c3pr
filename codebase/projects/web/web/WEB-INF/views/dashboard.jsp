@@ -62,7 +62,7 @@
                         <chrome:tr bgcolor="${bg}" bgcolorSelected="${bgcolorSelected}" rowNumber="${status.count}">
                             <chrome:td bgcolor="${bg}"><a href="<c:url value="/pages/participant/viewParticipant?participantId=${registration.id}" />"><c:out value="${registration.participant.firstName} ${registration.participant.lastName}" /></a></chrome:td>
                             <chrome:td bgcolor="${bg}"><c:out value="${registration.studySite.study.shortTitleText}" /></chrome:td>
-                            <chrome:td bgcolor="${bg}">C</chrome:td>
+                            <chrome:td bgcolor="${bg}">placeHolder 1</chrome:td>
                         </chrome:tr>
 
                     </c:forEach>
@@ -86,7 +86,7 @@
                         <chrome:tr bgcolor="${bg}" bgcolorSelected="${bgcolorSelected}" rowNumber="${status.count}">
                             <chrome:td bgcolor="${bg}"><a href="<c:url value="/pages/study/viewStudy?studyId=${study.id}" />"><c:out value="${study.shortTitleText}" /></a></chrome:td>
                             <chrome:td bgcolor="${bg}"><c:out value="${study.studyCoordinatingCenters[0].healthcareSite.name}" /></chrome:td>
-                            <chrome:td bgcolor="${bg}">c</chrome:td>
+                            <chrome:td bgcolor="${bg}">placeHolder 2</chrome:td>
                         </chrome:tr>
 
                     </c:forEach>
