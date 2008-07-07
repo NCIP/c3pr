@@ -199,15 +199,6 @@
             <bind-xml name="epoch" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
-        <field name="scEpochWorkflowStatus" type="string"
-               handler="edu.duke.cabig.c3pr.xml.ScEpochWorkFlowStatusFieldHandler">
-            <bind-xml name="scEpochWorkflowStatus" node="element"
-                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        </field>
-        <field name="disapprovalReasonText" type="string">
-            <bind-xml name="disapprovalReasonText" node="element"
-                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        </field>
     </class>
 
     <class name="edu.duke.cabig.c3pr.domain.ScheduledNonTreatmentEpoch"
@@ -305,10 +296,6 @@
         </field>
         <field name="stratumGroup" type="string" handler="edu.duke.cabig.c3pr.xml.StratumGroupFieldHandler">
             <bind-xml name="stratumGroup" node="element"
-                      xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
-        </field>
-        <field name="disapprovalReasonText" type="string">
-            <bind-xml name="disapprovalReasonText" node="element"
                       xmlns="gme://ccts.cabig/1.0/gov.nih.nci.cabig.ccts.domain"/>
         </field>
     </class>
