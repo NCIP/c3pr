@@ -51,6 +51,14 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <property name="privilegeGenerator" ref="taskPrivilegeAndObjectIdGenerator"/>
     </bean>
 
+    <bean id="loginAuthorizationCheck"
+          class="edu.duke.cabig.c3pr.accesscontrol.LoginAuthorizationCheck">
+    </bean>
+    
+    <bean id="logoutAuthorizationCheck"
+          class="edu.duke.cabig.c3pr.accesscontrol.LogoutAuthorizationCheck">
+    </bean>
+
     <util:map id="sectionObjectPrivilegeMap">
         <entry key="/pages/registration/searchRegistration" value="edu.duke.cabig.c3pr.domain.Registration:READ"/>
         <entry key="/pages/registration/registrationDetails" value="edu.duke.cabig.c3pr.domain.Registration:READ"/>

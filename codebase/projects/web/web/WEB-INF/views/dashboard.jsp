@@ -23,11 +23,10 @@
 </head>
 <body>
 
-<div id="main">
 <table width="100%" border="0">
 <tr>
     <td valign="top" width="33%" style="background:url(../../images/chrome/li_item.jpg);">
-        <chrome:box title="Frequently Used Shortcuts" autopad="true">
+        <chrome:box title="Frequently Used Shortcuts">
 
                 <table width=100% cellspacing="0" cellpadding="0" border="0">
                 <tr><td>
@@ -39,15 +38,15 @@
                 </table>
 
         </chrome:box>
-        <chrome:box title="C3PR Notifications" autopad="true">
+        <chrome:box title="C3PR Notifications">
             _CONTENT_
         </chrome:box>
-        <chrome:box title="C3PR Development Notes" autopad="true">
+        <chrome:box title="C3PR Development Notes">
             _CONTENT_
         </chrome:box>
     </td>
     <td valign="top">
-        <chrome:box title="Incomplete Registrations - Most Recent" autopad="true">
+        <chrome:box title="Incomplete Registrations - Most Recent">
             <c:if test="${uRegistrations != null && fn:length(uRegistrations) > 0}">
                 <table width="100%" cellspacing="1" cellpadding="2">
                     <tr bgcolor="${bgcolorAlternate}">
@@ -70,7 +69,7 @@
                 </table>
             </c:if>
         </chrome:box>
-        <chrome:box title="Pending Studies - Most Recent" autopad="true">
+        <chrome:box title="Pending Studies - Most Recent">
             <c:if test="${pStudies != null && fn:length(pStudies) > 0}">
             <%--FOUND <c:out value="${fn:length(pStudies)}" />--%>
                 <table width="100%" cellspacing="1" cellpadding="2">
@@ -94,7 +93,7 @@
                 </table>
             </c:if>
         </chrome:box>
-        <chrome:box title="Most Active Studies" autopad="true">
+        <chrome:box title="Most Active Studies">
             <c:if test="${aStudies != null && fn:length(aStudies) > 0}">
             <%--FOUND <c:out value="${fn:length(pStudies)}" />--%>
                 <table width="100%" cellspacing="1" cellpadding="2">
@@ -121,7 +120,6 @@
     </td>
 </tr>
 </table>
-</div>
 
 </body>
 </html>

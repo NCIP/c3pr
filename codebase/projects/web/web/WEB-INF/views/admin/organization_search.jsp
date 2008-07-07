@@ -32,7 +32,6 @@
 <body>
 
 <div id="main">
-<br />
 <chrome:search title="Search">
 
     <form name="searchForm" id="searchForm" method="post">

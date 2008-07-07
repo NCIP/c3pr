@@ -54,7 +54,6 @@
 <body>
 
 <div id="main">
-<br/>
 <tags:tabForm tab="${tab}" flow="${flow}" title="Research Staff" formName="researchStaffForm">
 
 <jsp:attribute name="singleFields">

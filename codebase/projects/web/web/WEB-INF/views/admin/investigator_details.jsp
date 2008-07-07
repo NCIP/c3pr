@@ -58,7 +58,7 @@ function fireAction(action, selected){
 <body>
 
 <div id="main">
-<br />
+
 <tags:basicFormPanelBox tab="${tab}" flow="${flow}" title="Investigator"
 	action="createInvestigator">
 	<input type="hidden" name="_action" value="">

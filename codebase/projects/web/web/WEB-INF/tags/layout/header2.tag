@@ -13,13 +13,23 @@
     <tr height="48px" class="headLane2">
         <td align="left"><div id="logo"></div></td>
         <td align="left" width="100%"><div id="headerTitle1"><div id="headerTitle2"><c:out value="${siteName}" /></div></div></td>
-        <td align="left" width="150px" nowrap="">
-            <table border="0" cellpadding="1" cellspacing="1">
+        <td align="left" width="250px">
+            <table border="0" cellpadding="1" cellspacing="1" width="250px">
                 <tr>
-                    <td align="right" valign="bottom"><div id="welcome-user">Welcome <b>John Doe</b> [Administrator]</div>
-                    <td rowspan="2"><img src="${siteName}">
+                    <td align="right" valign="bottom">
+                        <c:if test="${userObject != null}">
+                            <div id="welcome-user">Welcome<b> <c:out value="${userObject.firstName} ${userObject.lastName}" /></b> [Role name]</div>
+                       </c:if>
+                    <td rowspan="2" align="right" width="1px"><img src="${siteName}">
                 </tr>
-                <tr><td align="right" valign="top"><div id="login-action"><a href="http://gforge.nci.nih.gov/frs/download.php/3493/wfu_signoff_on_end_user_guide.doc">Help</a>&nbsp;<a>|</a>&nbsp;<a <%-- href="<c:url value='/public/skin' />"--%> id="changeSkin" style="cursor:pointer;">Change skin</a>&nbsp;<a>|</a>&nbsp;<a href="<c:url value="/j_acegi_logout"/>">Log out</a>&nbsp;</div></tr>
+                <tr>
+                    <td align="right" valign="top">
+                        <div id="login-action">
+                            <csmauthz:accesscontrol domainObject="NOT_NULL_OBJECT" authorizationCheckName="loginAuthorizationCheck"><a href="http://gforge.nci.nih.gov/frs/download.php/3493/wfu_signoff_on_end_user_guide.doc">Help</a>&nbsp;<a>|</a>&nbsp;<a id="changeSkin" style="cursor:pointer;">Change skin</a>&nbsp;<a>|</a>&nbsp;<a href="<c:url value="/j_acegi_logout"/>">Log out</a></csmauthz:accesscontrol>
+                            <csmauthz:accesscontrol domainObject="NOT_NULL_OBJECT" authorizationCheckName="logoutAuthorizationCheck"><a href="<c:url value="/public/login"/>">Log in</a></csmauthz:accesscontrol>
+                        </div>
+                    </td>
+                </tr>
             </table>
         </td>
     </tr>
@@ -93,7 +103,8 @@
     </script>
 
 
-<csmauthz:accesscontrol domainObject="${task}" authorizationCheckName="taskAuthorizationCheck">
+   <csmauthz:accesscontrol domainObject="NOT_NULL_OBJECT" authorizationCheckName="loginAuthorizationCheck">
+
     <div id="nav" class="background-R">
         C3PR&nbsp;&nbsp;&raquo;&nbsp;&nbsp;<a href="<c:url value="/pages/dashboard"/>">Home Page</a>
         <c:if test="${currentSection != null}">
@@ -105,8 +116,8 @@
         <c:if test="${tab != null}">
             &nbsp;&raquo;&nbsp;<a href="#"><c:out value="${tab.longTitle}"/></a>
         </c:if>
-    </div>
-</csmauthz:accesscontrol>
+   </div>
+   </csmauthz:accesscontrol>
 
 </div>
 <!-- end header -->

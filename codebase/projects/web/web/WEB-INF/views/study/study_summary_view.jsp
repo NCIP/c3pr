@@ -87,7 +87,7 @@
 <body>
 <form:form id="viewDetails" name="viewDetails">
 <tags:tabFields tab="${tab}"/>
-<chrome:box title="Study Summary" autopad="true">
+<chrome:box title="Study Summary">
 <div><input type="hidden" name="_finish" value="true"/> <input
         type="hidden" name="_action" value=""></div>
 

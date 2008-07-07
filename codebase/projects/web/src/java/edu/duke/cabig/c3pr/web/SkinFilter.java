@@ -4,11 +4,26 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationContext;
 import org.springframework.beans.BeansException;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.acegisecurity.context.SecurityContext;
+import org.acegisecurity.context.SecurityContextHolder;
+import org.acegisecurity.Authentication;
+import org.acegisecurity.GrantedAuthority;
 
 import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Set;
+import java.util.Iterator;
+import java.util.List;
 
 import edu.duke.cabig.c3pr.tools.Configuration;
+import edu.duke.cabig.c3pr.service.impl.PersonnelServiceImpl;
+import edu.duke.cabig.c3pr.domain.repository.impl.CSMUserRepositoryImpl;
+import edu.duke.cabig.c3pr.domain.C3PRUser;
+import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
+import edu.duke.cabig.c3pr.exception.C3PRBaseException;
+import gov.nih.nci.security.authorization.domainobjects.Group;
+
 /**
  * Created by IntelliJ IDEA.
  * User: ion
@@ -29,6 +44,18 @@ public class SkinFilter implements Filter, ApplicationContextAware {
     }
 
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+
+        if (((HttpServletRequest)servletRequest).getSession().getAttribute("userObject") == null) {
+
+            PersonnelServiceImpl ps = (PersonnelServiceImpl)WebApplicationContextUtils.getRequiredWebApplicationContext(filterConfig.getServletContext()).getBean("personnelService");
+            SecurityContext context = SecurityContextHolder.getContext();
+            Authentication auth = context.getAuthentication();
+
+            if (auth != null) {
+                gov.nih.nci.security.authorization.domainobjects.User user = ps.getCSMUserByUsername(auth.getName());
+                ((HttpServletRequest)servletRequest).getSession().setAttribute("userObject", user);
+           }
+        }
 
         if (filterConfig.getServletContext().getAttribute("skinName") == null) {
             Configuration configuration = (Configuration)WebApplicationContextUtils.getRequiredWebApplicationContext(filterConfig.getServletContext()).getBean("configuration");

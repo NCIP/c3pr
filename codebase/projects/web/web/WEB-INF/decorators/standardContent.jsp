@@ -20,14 +20,18 @@
 </head>
 
 <body>
-<layout:header2/>
+
+    <layout:header2/>
+
 <div id="content">
-<c:set var="__decorator_title"><decorator:title/></c:set>
-<decorator:body/>
+    <c:set var="__decorator_title"><decorator:title/></c:set>
+    <decorator:body/>
 </div>
- <layout:footer/>
-<tags:jsLogs debug="false"/>
-<tags:enableRowDeletion/>
-<tags:tabMethodForm/>
+
+    <layout:footer/>
+    <tags:jsLogs debug="false"/>
+    <tags:enableRowDeletion/>
+    <tags:tabMethodForm/>
+
 </body>
 </html>

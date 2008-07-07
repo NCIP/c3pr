@@ -151,6 +151,10 @@ public class PersonnelServiceImpl implements PersonnelService {
         return userProvisioningManager.getUserById(user.getLoginId());
     }
 
+    public User getCSMUserByUsername(String userName) {
+        return userProvisioningManager.getUser(userName);
+    }
+
     public List<C3PRUserGroupType> getGroups(C3PRUser user) throws C3PRBaseException {
         List<C3PRUserGroupType> groups = new ArrayList<C3PRUserGroupType>();
 

@@ -24,6 +24,7 @@
 <layout:header2/>
 
 <c:set var="__decorator_title"><decorator:title/></c:set>
+
 <chrome:body title="${__decorator_title}">
     <chrome:flashMessage/>
     <decorator:body/>
@@ -34,5 +35,6 @@
     <tags:jsLogs debug="false"/>
     <tags:enableRowDeletion/>
     <tags:tabMethodForm/>
+
 </body>
 </html>

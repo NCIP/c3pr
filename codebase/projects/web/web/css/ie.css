@@ -1,7 +1,7 @@
 body {
   /* Have to use _all_ relative units 
      for the browser font setting to work on IE6. */
-  font-size: 80%; 
+  /*font-size: 80%; */
 }
 
 /* Force hasLayout */

@@ -12,7 +12,6 @@
 <body>
 
 <div id="main">
-<br/>
 <chrome:box title="Confirmation" autopad="true">
                 <div class="content">
                   <c:if test="${FLOW == 'EDIT_FLOW'}">

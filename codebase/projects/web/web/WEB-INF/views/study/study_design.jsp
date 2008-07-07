@@ -79,8 +79,7 @@
         type="hidden" name="_selectedEpoch" value=""> <input type="hidden"
                                                              name="_selectedArm" value=""></div>
 
-<table border="0" cellspacing="0" cellpadding="0" id="treatmentEpoch"
-       width="100%">
+<table border="0" cellspacing="0" cellpadding="0" id="treatmentEpoch" width="100%">
     <tr>
         <td></td>
     </tr>
@@ -100,32 +99,25 @@
                 <table>
                     <tr align="center">
                         <td width="50%" valign="top">
-                            <table>
+                            <table border="0">
                                 <tr>
-                                    <td align="right">
-                                        <span class="required-indicator"><b>Name:</b></span>
+                                    <td align="right"><span class="required-indicator"><b>Name:</b></span></td>
+                                    <td align="left"><form:input path="treatmentEpochs[${treatmentEpochCount.index}].name" size="43" cssClass="validate-notEmpty" />
+                                        <tags:hoverHint id="study.treatmentEpoch.name-${treatmentEpochCount.index}" keyProp="study.treatmentEpoch.name"/>
                                     </td>
-                                        
-                                    <td align="left"><form:input
-                                            path="treatmentEpochs[${treatmentEpochCount.index}].name"
-                                            size="43" cssClass="validate-notEmpty" />
-                                        <tags:hoverHint id="study.treatmentEpoch.name-${treatmentEpochCount.index}" keyProp="study.treatmentEpoch.name"/></td>
                                 </tr>
                                 <tr>
                                     <td align="right"><b>Description:</b></td>
-                                    <td><form:textarea
+                                    <td align="left"><form:textarea
                                             path="treatmentEpochs[${treatmentEpochCount.index}].descriptionText"
                                             rows="5" cols="40" />
                                         <tags:hoverHint id="study.treatmentEpoch.description-${treatmentEpochCount.index}" keyProp="study.treatmentEpoch.description"/></td>
                                 </tr>
                                  <tr>
-                                    <td align="right">
-                                        <span class="required-indicator"><b>Order:</b></span>
-                                        
+                                    <td align="right"><span class="required-indicator"><b>Order:</b></span></td>
+                                    <td align="left"><form:input path="treatmentEpochs[${treatmentEpochCount.index}].epochOrder" size="5" maxlength="1" cssClass="validate-notEmpty&&numeric" />
+                                        <tags:hoverHint id="study.treatmentEpoch.epochorder-${treatmentEpochCount.index}" keyProp="study.treatmentEpoch.epochOrder"/>
                                     </td>
-                                    <td><form:input path="treatmentEpochs[${treatmentEpochCount.index}].epochOrder" size="5" maxlength="1"
-                                               cssClass="validate-notEmpty&&numeric" />
-                                        <tags:hoverHint id="study.treatmentEpoch.epochorder-${treatmentEpochCount.index}" keyProp="study.treatmentEpoch.epochOrder"/></td>
                                 </tr>
                                 <c:if test="${command.randomizedIndicator== true}">
                                  <tr>
@@ -200,12 +192,8 @@
                     <tr><td>
                         <div class="leftpanel">
                             <div class="row">
-                                <div class="label">
-                                    <span class="required-indicator">Name:</span>
-                                    </div>
-                                <div class="value"><form:input
-                                        path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].name"
-                                        size="41" cssClass="validate-notEmpty" />
+                                <div class="label"><span class="required-indicator">Name:</span></div>
+                                <div class="value"><form:input path="nonTreatmentEpochs[${nonTreatmentEpochCount.index}].name" size="41" cssClass="validate-notEmpty" />
                                 <tags:hoverHint id="study.nonTreatmentEpoch.name-${nonTreatmentEpochCount.index}" keyProp="study.nonTreatmentEpoch.name"/>
                                 </div>
                             </div>

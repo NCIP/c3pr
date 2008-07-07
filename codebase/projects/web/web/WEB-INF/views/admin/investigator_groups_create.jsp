@@ -201,7 +201,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
 </head>
 <body>
 
-<div id="main"><br />
+<div id="main">
 
 <tags:panelBox title="Investigator Groups">
 		<div>

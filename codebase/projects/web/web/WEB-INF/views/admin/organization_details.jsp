@@ -17,7 +17,6 @@
 <body>
 
 <div id="main">
-<br />
 
 <tags:tabForm tab="${tab}" flow="${flow}" title="Organization" formName="createOrganization">
 

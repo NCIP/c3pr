@@ -9,5 +9,5 @@
 <jwr:script src="/jslib/js${skinName}.js" />
 
 <!--[if IE]>
-<jwr:style src="/csslib/ie.css" />
+<%--<jwr:style src="/csslib/ie.css" />--%>
 <![endif]-->

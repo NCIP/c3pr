@@ -4,12 +4,11 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.duke.cabig.c3pr.domain.C3PRUser;
-import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
-import edu.duke.cabig.c3pr.domain.Investigator;
-import edu.duke.cabig.c3pr.domain.ResearchStaff;
+import gov.nih.nci.security.authorization.domainobjects.*;
+import gov.nih.nci.security.authorization.domainobjects.User;
 import edu.duke.cabig.c3pr.exception.C3PRBaseException;
 import edu.duke.cabig.c3pr.exception.C3PRBaseRuntimeException;
+import edu.duke.cabig.c3pr.domain.*;
 
 /**
  * Service to handle C3PR Users management <p/> Created by IntelliJ IDEA. User: kherm Date: Aug 24,
@@ -53,5 +52,7 @@ public interface PersonnelService {
      * @throws C3PRBaseException
      */
     public List<C3PRUserGroupType> getGroups(C3PRUser user) throws C3PRBaseException;
+
+    public User getCSMUserByUsername(String userName);
 
 }

@@ -286,11 +286,10 @@ ul.tabs li {
 /**** PAGE CONTENT BOXES */
 
 #main {
-    background: url( ../images/chrome/main_BG.gif ) repeat-x top;
-    margin: 0;
-    padding: 15px 15px 15px 15px;
+    margin: 18px;
+    padding: 0px 0px 0px 0px;
     clear: both;
-    /*border : 1px blue dotted;*/
+    /*border : 1px red dotted;*/
 }
 
 #flash-message {
@@ -318,8 +317,11 @@ ul.tabs li {
    if there's more than one in a page;
    the total should be something less than 100%. */
 .pane {
-    float: left;
-    margin: 0 5px 5px 5px;
+    /*float: left;*/
+    margin: 0px;
+    padding: 0px 0px 0px 0px;
+    clear: both;
+    /*border: 1px green dotted;*/
 }
 
 .rightpanel {
@@ -415,7 +417,7 @@ ul.tabs li {
 
 .box .interior {
     margin: 0px 2px 0px 2px;
-    padding: 2px 0 6px 1px;
+    padding: 2px 5px 6px 1px;
     min-height: 28px;
 }
 

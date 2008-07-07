@@ -167,11 +167,8 @@
 <form:form method="post" name="studyDetails" cssClass="standard">
 <tags:tabFields tab="${tab}" />
 
-<div>
-    <input type="hidden" name="deletedSponsor" id="deletedSponsor" value=""/>
-    <div>
-    <input type="hidden" name="deletedSponsorIdentifier" id="deletedSponsorIdentifier" value=""/>
-</div>
+<input type="hidden" name="deletedSponsor" id="deletedSponsor" value=""/>
+<input type="hidden" name="deletedSponsorIdentifier" id="deletedSponsorIdentifier" value=""/>
 
 <chrome:box title="${tab.shortTitle}">
 

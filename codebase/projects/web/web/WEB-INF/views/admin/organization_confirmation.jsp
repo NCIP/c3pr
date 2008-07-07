@@ -10,7 +10,6 @@
 <body>
 
 	<div id="main">
-	<br />
 		<chrome:box title="Confirmation" autopad="true">
                	<div class="row" >
                     <h2><font color="green">Organization successfully created.</font></h2>
