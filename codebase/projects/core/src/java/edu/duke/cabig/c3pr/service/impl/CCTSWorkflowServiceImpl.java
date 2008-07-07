@@ -32,6 +32,8 @@ public class CCTSWorkflowServiceImpl implements CCTSWorkflowService, MultiSiteWo
     private edu.duke.cabig.c3pr.esb.CCTSMessageBroadcaster messageBroadcaster;
 
     private XmlMarshaller xmlUtility;
+    
+    private XmlMarshaller cctsXmlUtility;
 
     private DefaultCCTSMessageWorkflowCallbackFactory cctsMessageWorkflowCallbackFactory;
 
@@ -175,7 +177,7 @@ public class CCTSWorkflowServiceImpl implements CCTSWorkflowService, MultiSiteWo
 
     public void sendRegistrationRequest(StudySubject studySubject) {
         try {
-            jmsCoOrdinatingCenterBroadcaster.broadcast(getXmlUtility().toXML(studySubject));
+            jmsCoOrdinatingCenterBroadcaster.broadcast(getCctsXmlUtility().toXML(studySubject));
             studySubject.setMultisiteWorkflowStatus(CCTSWorkflowStatusType.MESSAGE_SEND_CONFIRMED);
         }
         catch (Exception e) {
@@ -187,7 +189,7 @@ public class CCTSWorkflowServiceImpl implements CCTSWorkflowService, MultiSiteWo
     public void sendRegistrationResponse(StudySubject studySubject) {
         if (getIsMultiSiteEnable().equalsIgnoreCase("true")) {
             try {
-                jmsAffiliateSiteBroadcaster.broadcast(getXmlUtility().toXML(studySubject));
+                jmsAffiliateSiteBroadcaster.broadcast(getCctsXmlUtility().toXML(studySubject));
                 studySubject.setMultisiteWorkflowStatus(CCTSWorkflowStatusType.MESSAGE_REPLY_CONFIRMED);
             }
             catch (Exception e) {
@@ -198,5 +200,13 @@ public class CCTSWorkflowServiceImpl implements CCTSWorkflowService, MultiSiteWo
             throw new RuntimeException(this.exceptionHelper
             .getException(getCode("C3PR.EXCEPTION.REGISTRATION.MULTISITE.DISABLED")));
         }
+    }
+
+    public XmlMarshaller getCctsXmlUtility() {
+        return cctsXmlUtility;
+    }
+
+    public void setCctsXmlUtility(XmlMarshaller cctsXmlUtility) {
+        this.cctsXmlUtility = cctsXmlUtility;
     }
 }
