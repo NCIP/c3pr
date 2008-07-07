@@ -37,7 +37,7 @@ function submitRandomization(){
 			Please click on the button to send registration request. 
 		</c:when>
 		<c:otherwise>
-			<table border="0" cellspacing="0" cellpadding="0" id="table1">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
 			<c:if test="${registration.studySite.study.randomizationType.name == 'PHONE_CALL'}">
 				<strong><fmt:message key="REGISTRATION.RANDOMIZATION.PHONE_CALL"/></strong>
 				<tr>
