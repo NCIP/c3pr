@@ -23,6 +23,9 @@
         <constructor-arg value="ccts-registration-castor-mapping.xml"/>
     </bean>
 
+	<bean id="multisite-registration-castorMapping" class="java.lang.String">
+        <constructor-arg value="multisite-registration-castorMapping.xml"/>
+    </bean>
 
     <!--Transaction support-->
     <bean id="transactionManager"
@@ -292,11 +295,6 @@
     	<property name="studySubjectService" ref="studySubjectService"></property>
     	<property name="xmlUtility">
             <bean class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
-                <property name="mappingFile" ref="ccts-registration-castorMapping"/>
-            </bean>
-        </property>
-        <property name="cctsXmlUtility">
-            <bean class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
                 <property name="mappingFile" ref="multisite-registration-castorMapping"/>
             </bean>
         </property>
@@ -308,7 +306,7 @@
     	</property>
 		<property name="xmlUtility">
             <bean class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
-                <property name="mappingFile" ref="ccts-registration-castorMapping"/>
+                <property name="mappingFile" ref="multisite-registration-castorMapping"/>
             </bean>
         </property>
         <property name="openSessionInViewInterceptor" ref="openSessionInViewInterceptor"/>
@@ -340,6 +338,11 @@
         <property name="xmlUtility">
             <bean class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
                 <property name="mappingFile" ref="ccts-registration-castorMapping"/>
+            </bean>
+        </property>
+        <property name="cctsXmlUtility">
+            <bean class="edu.duke.cabig.c3pr.xml.XmlMarshaller">
+                <property name="mappingFile" ref="multisite-registration-castorMapping"/>
             </bean>
         </property>
     </bean>
