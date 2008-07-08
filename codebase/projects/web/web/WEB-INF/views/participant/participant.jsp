@@ -10,7 +10,7 @@
 <html>
 <head>
 <link href="calendar-blue.css" rel="stylesheet" type="text/css" />
-<tags:includeScriptaculous />
+<%--<tags:includeScriptaculous />--%>
 <tags:dwrJavascriptLink objects="ParticipantAjaxFacade" />
 <script language="JavaScript" type="text/JavaScript">
 var healthcareSiteAutocompleterProps = {

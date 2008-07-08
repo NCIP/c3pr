@@ -8,7 +8,7 @@
 
 <html>
 <head>
-<tags:includeScriptaculous />
+<%--<tags:includeScriptaculous />--%>
 <tags:dwrJavascriptLink objects="ResearchStaffAjaxFacade" />
 <script language="JavaScript" type="text/JavaScript">
 	ValidationManager.submitPostProcess= function(formElement, continurSubmission){

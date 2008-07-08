@@ -8,7 +8,7 @@
 
 <html>
 <head>
-<tags:includeScriptaculous />
+<%--<tags:includeScriptaculous />--%>
 <tags:dwrJavascriptLink objects="StudyAjaxFacade" />
 <script language="JavaScript" type="text/JavaScript">
 var healthcareSiteAutocompleterProps = {

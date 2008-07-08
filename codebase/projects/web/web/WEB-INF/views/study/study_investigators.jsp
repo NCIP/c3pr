@@ -14,7 +14,7 @@
 	<c:set var="selected_site" value="${selectedSite}"/>
 </c:if>
 <head>
-<tags:includeScriptaculous/>
+<%--<tags:includeScriptaculous/>--%>
 <tags:dwrJavascriptLink objects="StudyAjaxFacade"/>
 
 <title>${tab.longTitle}</title>

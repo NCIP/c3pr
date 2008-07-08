@@ -10,7 +10,7 @@
 
 <html>
 <head>
-<tags:includeScriptaculous />
+<%--<tags:includeScriptaculous />--%>
 <tags:dwrJavascriptLink objects="StudyAjaxFacade" />
 
 </head>

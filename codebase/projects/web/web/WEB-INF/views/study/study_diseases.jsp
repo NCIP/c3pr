@@ -11,7 +11,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <title>${tab.longTitle}</title>
 
-<tags:includeScriptaculous/>
+<%--<tags:includeScriptaculous/>--%>
 <tags:dwrJavascriptLink objects="StudyAjaxFacade"/>
 <script type="text/javascript">
 

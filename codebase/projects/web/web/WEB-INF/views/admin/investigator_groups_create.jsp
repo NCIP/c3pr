@@ -17,7 +17,7 @@
             padding: 5px 15px;
         }
  </style>
-<tags:includeScriptaculous />
+<%--<tags:includeScriptaculous />--%>
 <tags:dwrJavascriptLink objects="OrganizationAjaxFacade" />
 <script language="JavaScript" type="text/JavaScript">
   var sponsorSiteAutocompleterProps = {

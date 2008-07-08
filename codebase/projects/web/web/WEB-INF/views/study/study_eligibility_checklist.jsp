@@ -8,7 +8,7 @@
 
 <html>
 <head>
-    <tags:includeScriptaculous />
+    <%--<tags:includeScriptaculous />--%>
     <tags:dwrJavascriptLink objects="StudyAjaxFacade" />
 
     <title>${tab.longTitle}</title>

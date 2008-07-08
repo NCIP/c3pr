@@ -22,7 +22,7 @@
         padding: 4px;
     }
 </style>
-<tags:includeScriptaculous/>
+
 <tags:dwrJavascriptLink objects="StudyAjaxFacade"/>
 
 <title>${tab.longTitle}</title>
@@ -62,12 +62,21 @@
         valueSelector: function(obj) {
             return obj.fullName
         },
-          afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {	
+          afterUpdateElement: function(inputElement, selectedElement, selectedChoice) {
     								hiddenField=inputElement.id.split("-")[0]+"-hidden";
 	    							$(hiddenField).value=selectedChoice.id;
 	    							 StudyAjaxFacade.matchResearchStaffRoles(selectedChoice.id,function(groups) {
-	    							 var selString = "studyOrganizations["+${selectedSite}+"].studyPersonnel["+inputElement.id.split('-')[0][inputElement.id.split('-')[0].length-1]+"].roleCode";
-	    							 var sel = $(selString);
+
+                                         // Example: personnel99-input
+                                         var selSubString = inputElement.id.split('-')[0];
+
+                                         // getting the first number from the string
+                                         // Example: personnel99
+                                         var r = selSubString.match(/[\d]+/g);
+                                         
+                                     var selString = "studyOrganizations["+${selectedSite}+"].studyPersonnel[" + r[0] + "].roleCode";
+
+                                     var sel = $(selString);
 	    							 sel.options.length = 1;
 						       		 if(groups!=null && groups.length > 0){
 								       	    groups.each(function(cat) {
@@ -171,30 +180,24 @@ RowManager.addRowInseter(instanceRowInserterProps);
     <c:forEach varStatus="status" items="${command.studyOrganizations[selected_site].studyPersonnel}" var="sPersonnel">
         <tr id="studyPersonnelTable-${status.index}">
             <td>
-                <form:hidden id="personnel${status.index}-hidden"
-                             path="studyOrganizations[${selected_site}].studyPersonnel[${status.index}].researchStaff"/>
-                <input type="text" class="autocomplete validate-notEmpty" id="personnel${status.index}-input" size="30"
-                       value="${command.studyOrganizations[selected_site].studyPersonnel[status.index].researchStaff.fullName}"
-                       class="autocomplete"/>
+                <form:hidden id="personnel${status.index}-hidden" path="studyOrganizations[${selected_site}].studyPersonnel[${status.index}].researchStaff"/>
+                <input type="text" class="autocomplete validate-notEmpty" id="personnel${status.index}-input" size="30" value="${command.studyOrganizations[selected_site].studyPersonnel[status.index].researchStaff.fullName}" class="autocomplete"/>
                 <input type="button" id="personnel${status.index}-clear" value="Clear"/>
                 <tags:indicator id="personnel${status.index}-indicator"/>
                 <div id="personnel${status.index}-choices" class="autocomplete"></div>
             </td>
             <td>
-                <form:select path="studyOrganizations[${selected_site}].studyPersonnel[${status.index}].roleCode"
-                             cssClass="validate-notEmpty">
-                    <option value="">Please Select</option>
-                    <form:options items="${studyPersonnelRoleRefData}" itemLabel="desc" itemValue="desc"/>
-                </form:select></td>
+                <form:select path="studyOrganizations[${selected_site}].studyPersonnel[${status.index}].roleCode" cssClass="validate-notEmpty">
+                    <option value="">Please Select</option><form:options items="${studyPersonnelRoleRefData}" itemLabel="desc" itemValue="desc"/>
+                </form:select>
+            </td>
             <td>
-                <form:select path="studyOrganizations[${selected_site}].studyPersonnel[${status.index}].statusCode"
-                             cssClass="validate-notEmpty">
+                <form:select path="studyOrganizations[${selected_site}].studyPersonnel[${status.index}].statusCode" cssClass="validate-notEmpty">
                     <option value="">Please Select</option>
                     <form:options items="${studyPersonnelStatusRefData}" itemLabel="desc" itemValue="desc"/>
-                </form:select></td>
-           <td>
-                    <a href="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index},'${sPersonnel.id==null?'HC#':'ID#'}${sPersonnel.id==null?sPersonnel.hashCode:sPersonnel.id}');"><img
-                            src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a></td>
+                </form:select>
+            </td>
+           <td><a href="javascript:RowManager.deleteRow(instanceRowInserterProps,${status.index},'${sPersonnel.id==null?'HC#':'ID#'}${sPersonnel.id==null?sPersonnel.hashCode:sPersonnel.id}');"><img src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a></td>
         </tr>
     </c:forEach>
 </table>
@@ -208,8 +211,7 @@ RowManager.addRowInseter(instanceRowInserterProps);
             <c:forEach var="studySite" varStatus="status" items="${command.studyOrganizations}">
                 <tr>
                     <td>
-                        <a onclick="javascript:chooseSitesfromSummary(${status.index});"
-                           title="click here to edit personnel assigned to study"> <font size="2">
+                        <a onclick="javascript:chooseSitesfromSummary(${status.index});" title="click here to edit personnel assigned to study"> <font size="2">
                             <b> ${studySite.healthcareSite.name}<c:if test="${studySite.class eq 'class edu.duke.cabig.c3pr.domain.StudyCoordinatingCenter' }"> (Coordinating Center) </c:if>
                             <c:if test="${studySite.class eq 'class edu.duke.cabig.c3pr.domain.StudyFundingSponsor' }"> (Funding Sponsor) </c:if> <c:if test="${studySite.class eq 'class edu.duke.cabig.c3pr.domain.StudySite' }"> (Site) </c:if> </b> </font> </a>
                     </td>
@@ -251,35 +253,26 @@ RowManager.addRowInseter(instanceRowInserterProps);
     <table>
         <tr id="studyPersonnelTable-PAGE.ROW.INDEX">
             <td>
-                <input type="hidden" id="personnelPAGE.ROW.INDEX-hidden"
-                       name="studyOrganizations[${selected_site}].studyPersonnel[PAGE.ROW.INDEX].researchStaff"
-                       value="studyOrganizations[${selected_site}].studyPersonnel[PAGE.ROW.INDEX].researchStaff"/>
-                <input type="text" class="autocomplete validate-notEmpty" id="personnelPAGE.ROW.INDEX-input" size="30"
-                       value="${command.studyOrganizations[selected_site].studyPersonnel[PAGE.ROW.INDEX].researchStaff.fullName}"/>
+                <input type="hidden" id="personnelPAGE.ROW.INDEX-hidden" name="studyOrganizations[${selected_site}].studyPersonnel[PAGE.ROW.INDEX].researchStaff" value="studyOrganizations[${selected_site}].studyPersonnel[PAGE.ROW.INDEX].researchStaff"/>
+                <input type="text" class="autocomplete validate-notEmpty" id="personnelPAGE.ROW.INDEX-input" size="30" value="${command.studyOrganizations[selected_site].studyPersonnel[PAGE.ROW.INDEX].researchStaff.fullName}"/>
                 <input type="button" id="personnelPAGE.ROW.INDEX-clear" value="Clear"/>
                 <tags:indicator id="personnelPAGE.ROW.INDEX-indicator"/>
-                <div id="personnelPAGE.ROW.INDEX-choices" class="autocomplete"></div>
+                <div id="personnelPAGE.ROW.INDEX-choices" class="autocomplete" style="display:block;"></div>
             </td>
             <td>
-                <select id="studyOrganizations[${selected_site}].studyPersonnel[PAGE.ROW.INDEX].roleCode"
-                        name="studyOrganizations[${selected_site}].studyPersonnel[PAGE.ROW.INDEX].roleCode"
-                        class="validate-notEmpty">
+                <select id="studyOrganizations[${selected_site}].studyPersonnel[PAGE.ROW.INDEX].roleCode" name="studyOrganizations[${selected_site}].studyPersonnel[PAGE.ROW.INDEX].roleCode" class="validate-notEmpty">
                     <option value="">Please Select</option>
                 </select>
             </td>
             <td>
-                <select id="studyOrganizations[${selected_site}].studyPersonnel[PAGE.ROW.INDEX].statusCode"
-                        name="studyOrganizations[${selected_site}].studyPersonnel[PAGE.ROW.INDEX].statusCode"
-                        class="validate-notEmpty">
+                <select id="studyOrganizations[${selected_site}].studyPersonnel[PAGE.ROW.INDEX].statusCode" name="studyOrganizations[${selected_site}].studyPersonnel[PAGE.ROW.INDEX].statusCode" class="validate-notEmpty">
                     <option value="">Please Select</option>
                     <c:forEach items="${studyPersonnelStatusRefData}" var="status">
                         <option value="${status.desc}">${status.desc}</option>
                     </c:forEach>
                 </select>
             </td>
-            <td>
-                <a href="javascript:RowManager.deleteRow(instanceRowInserterProps,PAGE.ROW.INDEX, -1);"><img
-                        src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a></td>
+            <td><a href="javascript:RowManager.deleteRow(instanceRowInserterProps,PAGE.ROW.INDEX, -1);"><img src="<tags:imageUrl name="checkno.gif"/>" border="0" alt="delete"></a></td>
         </tr>
         
     </table>
