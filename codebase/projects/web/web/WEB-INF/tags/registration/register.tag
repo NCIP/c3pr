@@ -38,13 +38,11 @@ function submitRandomization(){
 		</c:when>
 		<c:otherwise>
 
-            <c:if test="${registration.studySite.study.randomizationType.name == 'PHONE_CALL'}">
-                <strong><fmt:message key="REGISTRATION.RANDOMIZATION.PHONE_CALL"/></strong>
-            </c:if>
-
             <table width="100%" border="0" cellspacing="0" cellpadding="0" id="table1">
             <c:if test="${registration.studySite.study.randomizationType.name == 'PHONE_CALL'}">
-                <tr><td align="left" colspan="2"></td></tr>
+                <tr><td align="left" colspan="2">
+                    <strong><fmt:message key="REGISTRATION.RANDOMIZATION.PHONE_CALL"/></strong>
+                </td></tr>
 				<tr><td class="labelR" width="150">Phone Number:</td><td >${registration.scheduledEpoch.epoch.randomization.phoneNumber}</td></tr>
 				<tr>
 				<c:if test="${registration.studySite.study.stratificationIndicator}">
