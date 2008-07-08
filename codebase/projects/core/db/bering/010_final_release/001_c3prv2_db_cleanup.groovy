@@ -3,7 +3,7 @@ class CleanC3prv2DB extends edu.northwestern.bioinformatics.bering.Migration {
         if (databaseMatches('oracle')) {
             external("../../oracle/static-data-delete.sql")
         } else if (databaseMatches('postgresql')){
-            external("../../PostGreSQL/static-data-delete-try.sql")
+            external("../../PostGreSQL/static-data-delete.sql")
         }
     }
 
