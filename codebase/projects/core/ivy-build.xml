@@ -78,7 +78,7 @@
 		<echo message="databaseConfigurationName : ${databaseConfigurationName}" />
 		<property name="dsFileName" value="${databaseConfigurationName}.properties"/>
 		<echo message="databaseConfiguration file name : ${dsFileName}" />
-		<condition property="dsFile" value="${catalina.home}/conf/${dsFileName}" 
+		<condition property="dsFile" value="${catalina.home}/conf/c3pr/${dsFileName}" 
 				   else="${antfiles.dir}/${dsFileName}">
 			<available file="${catalina.home}/conf/${dsFileName}" />
 		</condition>
