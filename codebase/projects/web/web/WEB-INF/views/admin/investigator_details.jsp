@@ -59,13 +59,11 @@ function fireAction(action, selected){
 
 <div id="main">
 
-<tags:basicFormPanelBox tab="${tab}" flow="${flow}" title="Investigator"
-	action="createInvestigator">
+<tags:basicFormPanelBox tab="${tab}" flow="${flow}" title="Investigator" action="createInvestigator">
 	<input type="hidden" name="_action" value="">
 	<input type="hidden" name="_selected" value="">
 	<input type="hidden" name="_finish" value="true">
 
-	
 <chrome:division id="site" title="Organization">
 	<table class="tablecontent" width="60%" border="0" cellspacing="0" id="invesitgatorTable"
 		cellpadding="0">
@@ -190,43 +188,37 @@ function fireAction(action, selected){
         </div>
     </div>
 </chrome:division>
-</div>
-<br>
-			
+
 <div id="dispButton"
 		<c:if test="${param.type == 'confirm'}">style="display:none"</c:if>><tags:tabControls />
 </div>
 </tags:basicFormPanelBox>
+
 <div id="dummy-row" style="display: none;">
 <table>
 	<tr>
-		<td class="alt"><input type="hidden"
-					id="healthcareSitePAGE.ROW.INDEX-hidden"
-					name="healthcareSiteInvestigators[PAGE.ROW.INDEX].healthcareSite" />
-					<input class="autocomplete validate-notEmpty" type="text"
-						id="healthcareSitePAGE.ROW.INDEX-input" size="50"
-						value="${command.healthcareSiteInvestigators[PAGE.ROW.INDEX].healthcareSite.name}" />
-					<tags:indicator
-						id="healthcareSitePAGE.ROW.INDEX-indicator" />
-					<div id="healthcareSitePAGE.ROW.INDEX-choices"
-						class="autocomplete"></div>
-				</td>
+		<td class="alt">
+            <input type="hidden" id="healthcareSitePAGE.ROW.INDEX-hidden" name="healthcareSiteInvestigators[PAGE.ROW.INDEX].healthcareSite" />
+            <input class="autocomplete validate-notEmpty" type="text" id="healthcareSitePAGE.ROW.INDEX-input" size="50" value="${command.healthcareSiteInvestigators[PAGE.ROW.INDEX].healthcareSite.name}" />
+            <tags:indicator id="healthcareSitePAGE.ROW.INDEX-indicator" />
+            <div id="healthcareSitePAGE.ROW.INDEX-choices" class="autocomplete"></div>
+    	</td>
 	
-		<td class="alt"><select
-			id="healthcareSiteInvestigators[PAGE.ROW.INDEX].statusCode"
-			name="healthcareSiteInvestigators[PAGE.ROW.INDEX].statusCode"
-			class="validate-notEmpty">
+		<td class="alt"><select id="healthcareSiteInvestigators[PAGE.ROW.INDEX].statusCode" name="healthcareSiteInvestigators[PAGE.ROW.INDEX].statusCode" class="validate-notEmpty">
 			<option value="">Please Select</option>
 			<c:forEach items="${studySiteStatusRefData}" var="siteRef">
 				<option value="${siteRef.code}">${siteRef.desc }</option>
 			</c:forEach>
-		</select></td>
-		<td class="tdalt"><a
-			href="javascript:RowManager.deleteRow(investigatorAutocompleterProps,PAGE.ROW.INDEX,-1);"><img
-			src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
+		    </select>
+        </td>
+		<td class="tdalt"><a href="javascript:RowManager.deleteRow(investigatorAutocompleterProps,PAGE.ROW.INDEX,-1);">
+            <img src="<tags:imageUrl name="checkno.gif"/>" border="0"></a>
+        </td>
 	</tr>
 </table>
 </div>
+
 </div>
+
 </body>
 </html>

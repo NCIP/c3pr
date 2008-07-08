@@ -124,12 +124,12 @@
                                     <td align="right">
                                         <span class="required-indicator"><b>Randomized:</b></span>
                                     </td>
-                                    <td><form:select
-                                        path="treatmentEpochs[${treatmentEpochCount.index}].randomizedIndicator"
-                                        cssClass="validate-notEmpty">
-                                   <option value="">Please Select</option>
-                                     <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
-                                </form:select><tags:hoverHint id="study.treatmentEpoch.randomizedIndicator-${treatmentEpochCount.index}" keyProp="study.treatmentEpoch.randomizedIndicator"/></td>
+                                    <td align="left">
+                                        <form:select path="treatmentEpochs[${treatmentEpochCount.index}].randomizedIndicator" cssClass="validate-notEmpty">
+                                            <option value="">Please Select</option>
+                                            <form:options items="${yesNo}" itemLabel="desc" itemValue="code" />
+                                        </form:select><tags:hoverHint id="study.treatmentEpoch.randomizedIndicator-${treatmentEpochCount.index}" keyProp="study.treatmentEpoch.randomizedIndicator"/>
+                                    </td>
                                 </tr>
                                 </c:if>
                             </table>
@@ -327,16 +327,17 @@
                                  <c:if test="${command.randomizedIndicator== true}">
                                  <tr>
                                     <td align="right">
-                                        <span class="required-indicator"><b>Randomized:<b></span>
+                                        <span class="required-indicator"><b>Randomized:</b></span>
                                         
                                     </td>
-                                    <td><select
-                                        name="treatmentEpochs[PAGE.ROW.INDEX].randomizedIndicator" 
-                                        class="validate-notEmpty">
-                                    <option value="">Please Select</option>
-                                    <option value="true" selected="selected">Yes</option>
-                                    <option value="false">No</option>
-                                </select><tags:hoverHint id="study.treatmentEpoch.randomizedIndicator-PAGE.ROW.INDEX" keyProp="study.treatmentEpoch.randomizedIndicator"/></td>
+                                    <td>
+                                        <select name="treatmentEpochs[PAGE.ROW.INDEX].randomizedIndicator" class="validate-notEmpty">
+                                        <option value="">Please Select</option>
+                                        <option value="true" selected="selected">Yes</option>
+                                        <option value="false">No</option>
+                                        </select>
+                                        <tags:hoverHint id="study.treatmentEpoch.randomizedIndicator-PAGE.ROW.INDEX" keyProp="study.treatmentEpoch.randomizedIndicator"/>
+                                    </td>
                                 </tr>
                                 </c:if>
                             </table>
