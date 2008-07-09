@@ -87,21 +87,23 @@ function manageIdentifierRadio(element){
 					<th><span class="required-indicator">Identifier Type</span><tags:hoverHint keyProp="study.healthcareSite.identifierType"/></th>
 					<th><span class="required-indicator">Identifier</span><tags:hoverHint keyProp="study.coordinatingcenter.identifier"/></th>
 					<th>Primary Indicator<tags:hoverHint keyProp="study.healthcareSite.primaryIndicator"/></th>
-					<th></th>
+					<th>&nbsp;</th>
 				</tr>
 				<tr>
 					<td>${command.organizationAssignedIdentifiers[0].healthcareSite.name}</td>
 					<td>${command.organizationAssignedIdentifiers[0].type}</td>
 					<td>${command.organizationAssignedIdentifiers[0].value}</td>
 					<td><input type="radio" class="identifierRadios" value="${command.organizationAssignedIdentifiers[0].primaryIndicator}" id="organizationAssignedIdentifiers[0].primaryIndicator-radio" onclick="manageIdentifierRadio(this);"/></td>
-				</tr>
+                    <td>&nbsp;</td>
+                </tr>
 				<c:if test="${!empty command.fundingSponsorAssignedIdentifier}">
 				<tr>
 					<td>${command.fundingSponsorAssignedIdentifier.healthcareSite.name}</td>
 					<td>${command.fundingSponsorAssignedIdentifier.type}</td>
 					<td>${command.fundingSponsorAssignedIdentifier.value}</td>
 					<td><input type="radio" class="identifierRadios" value="${command.organizationAssignedIdentifiers[command.fundingSponsorIdentifierIndex].primaryIndicator }" id="organizationAssignedIdentifiers[${command.fundingSponsorIdentifierIndex}].primaryIndicator-radio" onclick="manageIdentifierRadio(this);"/></td>
-				</tr>
+                    <td>&nbsp;</td>
+                </tr>
 				</c:if>
 				<c:forEach var="orgIdentifier" items="${command.organizationAssignedIdentifiers}"
 					begin="0" varStatus="organizationStatus">
@@ -147,12 +149,13 @@ function manageIdentifierRadio(element){
 							href="javascript:RowManager.deleteRow(organizationIdentifierRowInserterProps,${organizationStatus.index},'${orgIdentifier.id==null?'HC#':'ID#'}${orgIdentifier.id==null?orgIdentifier.hashCode:orgIdentifier.id}');"><img
 							src="<tags:imageUrl name="checkno.gif"/>" border="0"></a></td>
 					</tr>
-					<c:if test="${handleDifferently}">
+                    <c:if test="${handleDifferently}">
 						<script>new Element.hide("organizationIdentifier-${organizationStatus.index}");</script>
 					</c:if>
 					<c:set var="handleDifferently" value="false"></c:set>
 				</c:forEach>
-			</table>
+                <tr></tr>
+            </table>
 
 			<br>
 			<div align="right">
@@ -259,7 +262,7 @@ function manageIdentifierRadio(element){
 		<input type="button" id="healthcareSitePAGE.ROW.INDEX-clear"
 			value="Clear" /> <tags:indicator
 			id="healthcareSitePAGE.ROW.INDEX-indicator" />
-		<div id="healthcareSitePAGE.ROW.INDEX-choices" class="autocomplete">
+		<div id="healthcareSitePAGE.ROW.INDEX-choices" class="autocomplete" />
 		</td>
 		<td><select id="organizationAssignedIdentifiers[PAGE.ROW.INDEX].type"
 			name="organizationAssignedIdentifiers[PAGE.ROW.INDEX].type"

@@ -21,8 +21,7 @@
 		}
     }     
 </script>
-<div class="division ${cssClass}"
-    <tags:attribute name="id" value="${id}"/> <tags:attribute name="style" value="${style}"/>>
+<div class="division ${cssClass}" <tags:attribute name="id" value="${id}"/> <tags:attribute name="style" value="${style}"/>>
 	<c:choose>
 		<c:when test="${not empty minimize && minimize == 'true' && not empty divIdToBeMinimized}">
 		    <c:if test="${not empty title}">
@@ -35,7 +34,7 @@
 		    </c:if>
 		</c:otherwise>
 	</c:choose>
-    <div class="content">
+    <div style="padding:2px 1px 3px 1px;" class="content">
         <jsp:doBody/>
     </div>
 </div>

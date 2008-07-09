@@ -65,15 +65,14 @@ function fireAction(action, selected){
 	<input type="hidden" name="_finish" value="true">
 
 <chrome:division id="site" title="Organization">
-	<table class="tablecontent" width="60%" border="0" cellspacing="0" id="invesitgatorTable"
-		cellpadding="0">
+	<table class="tablecontent" width="60%" border="0" cellspacing="0" id="invesitgatorTable" cellpadding="0">
 		<tr>
 			<th class="label required-indicator" scope="col" align="left"><b>Organization</b><tags:hoverHint keyProp="healthcareSiteInvestigator.organization"/></th>
 			<th class="label required-indicator" scope="col" align="left"><b>Investigator Status</b><tags:hoverHint keyProp="healthcareSiteInvestigator.statusCode"/></th>
-			<th></th>
+			<th>&nbsp;</th>
 		</tr>
-		<c:forEach items="${command.healthcareSiteInvestigators}" var="hcsInv"
-			varStatus="status">
+
+        <c:forEach items="${command.healthcareSiteInvestigators}" var="hcsInv" varStatus="status">
 			<tr id="invesitgatorTable-${status.index}">
 				<td class="alt"><input type="hidden"
 					id="healthcareSite${status.index}-hidden"
@@ -87,27 +86,24 @@ function fireAction(action, selected){
 					<div id="healthcareSite${status.index}-choices"
 						class="autocomplete"></div>
 				</td>
-					<td class="alt"><form:select
-						path="healthcareSiteInvestigators[${status.index}].statusCode"
-						cssClass="validate-notEmpty">
-						<option value="">Please Select</option>
-						<form:options items="${studySiteStatusRefData}"
-							itemLabel="desc" itemValue="code" />
-					</form:select></td>
-					
-				<c:choose>
-					<c:when test="${(status.index == 0) || (not empty hcsInv.id)}">
-					</c:when>																			
+                <td class="alt">
+                    <form:select path="healthcareSiteInvestigators[${status.index}].statusCode" cssClass="validate-notEmpty">
+                    <option value="">Please Select</option>
+                    <form:options items="${studySiteStatusRefData}" itemLabel="desc" itemValue="code" />
+                    </form:select>
+                </td>
+
+                <c:choose>
+					<c:when test="${(status.index == 0) || (not empty hcsInv.id)}"><td>&nbsp;</td></c:when>
 					<c:otherwise>
-						<td class="alt"><a
-						href="javascript:RowManager.deleteRow(investigatorAutocompleterProps,${status.index},'${hcsInv.id==null?'HC#':'ID#'}${hcsInv.id==null?hcsInv.hashCode:hcsInv.id}');"><img
-						src="<tags:imageUrl name="checkno.gif"/>"></a></td>
+						<td class="alt"><a href="javascript:RowManager.deleteRow(investigatorAutocompleterProps,${status.index},'${hcsInv.id==null?'HC#':'ID#'}${hcsInv.id==null?hcsInv.hashCode:hcsInv.id}');"><img src="<tags:imageUrl name="checkno.gif"/>"></a></td>
 					</c:otherwise>
 				</c:choose>
 					
 			</tr>
 		</c:forEach>
-	</table>
+        
+    </table>
 	<div align="right"><input id="addOrganization" type="button"
 		value="Add Organization"
 		onclick="javascript:RowManager.addRow(investigatorAutocompleterProps);" />
