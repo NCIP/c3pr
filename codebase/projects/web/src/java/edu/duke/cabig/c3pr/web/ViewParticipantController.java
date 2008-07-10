@@ -2,6 +2,7 @@ package edu.duke.cabig.c3pr.web;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +20,9 @@ import edu.duke.cabig.c3pr.dao.HealthcareSiteDao;
 import edu.duke.cabig.c3pr.dao.ParticipantDao;
 import edu.duke.cabig.c3pr.domain.ContactMechanismType;
 import edu.duke.cabig.c3pr.domain.HealthcareSite;
+import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.duke.cabig.c3pr.utils.ConfigurationProperty;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.CustomDaoEditor;
 import edu.duke.cabig.c3pr.utils.web.propertyeditors.EnumByNameEditor;
@@ -41,6 +44,7 @@ public class ViewParticipantController<C extends Participant> extends
     private ParticipantDao participantDao;
 
     private HealthcareSiteDao healthcareSiteDao;
+    
 
     protected ConfigurationProperty configurationProperty;
 
@@ -95,6 +99,48 @@ public class ViewParticipantController<C extends Participant> extends
             participant = participantDao.getById(Integer.parseInt(request
                             .getParameter("participantId")), true);
             log.debug(" Participant's ID is:" + participant.getId());
+        }else {
+        	
+        	List<Participant> participants = null;
+        	String name = null;
+        	if(request.getParameter("name")!=null){
+        		name = request.getParameter("name");
+        	}
+        	
+        	String type = null;
+        	if (request.getParameter("type")!=null){
+        		 type = request.getParameter("type");
+        	}
+        	
+        	String value = null;
+        	if(request.getParameter("value")!=null){
+        		value = request.getParameter("value");
+        	}
+        	
+        	if(request.getParameter("assignedBy")!=null){
+        		String assignedBy = request.getParameter("assignedBy");
+        		if(assignedBy.equals("system")){
+        			SystemAssignedIdentifier sysIdentifier = new SystemAssignedIdentifier();   
+        			sysIdentifier.setSystemName(name);
+        			sysIdentifier.setType(type);
+        			sysIdentifier.setValue(value);
+        			
+                	participants = participantDao.searchBySystemAssignedIdentifier(sysIdentifier);
+        			
+        		}else if(assignedBy.equals("organization")){
+        			OrganizationAssignedIdentifier orgIdentifier = new OrganizationAssignedIdentifier(); 
+        			HealthcareSite healthcareSite= healthcareSiteDao.getByNciInstituteCode(name);
+        			orgIdentifier.setHealthcareSite(healthcareSite);
+        			orgIdentifier.setType(type);
+        			orgIdentifier.setValue(value);
+        			participants = participantDao.searchByOrgIdentifier(orgIdentifier);
+        		}
+        	}
+        	
+        	if (participants.size()> 0){
+        		participant = participants.get(0);
+        		log.debug(" Participant's ID is:" + participant.getId());
+        	}
         }
 
         return participant;
