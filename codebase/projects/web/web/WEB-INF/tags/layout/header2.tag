@@ -121,6 +121,9 @@
 
 </div>
 <!-- end header -->
+
+<csmauthz:accesscontrol domainObject="NOT_NULL_OBJECT" authorizationCheckName="loginAuthorizationCheck">
+
 <script>
 
     if ($('changeSkin')) {
@@ -178,6 +181,8 @@ function getSelectedValue() {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 </script>
+
+</csmauthz:accesscontrol>    
 
 <style type="text/css">
     div.ssmItems a:link		{color:black; text-decoration:none; font-size:11px;}
