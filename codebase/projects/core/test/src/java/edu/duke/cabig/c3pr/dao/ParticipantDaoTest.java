@@ -219,5 +219,37 @@ public class ParticipantDaoTest extends DaoTestCase {
      * 
      * @throws Exception
      */
+    
+    /**
+     * Test for Search Participant with system assigned identifier
+     * 
+     * @throws Exception
+     */
+
+    public void testSearchParticipantWithSystemAssignedIdentifier() throws Exception {
+        SystemAssignedIdentifier systemAssignedIdentifier = new SystemAssignedIdentifier();
+        systemAssignedIdentifier.setSystemName("nci");
+        systemAssignedIdentifier.setType("local");
+        systemAssignedIdentifier.setValue("grid");
+        
+        List<Participant> participants = dao.searchBySystemAssignedIdentifier(systemAssignedIdentifier);
+        assertEquals("Expected to get 1 participant",1, participants.size());
+        
+        SystemAssignedIdentifier systemAssignedIdentifier1 = new SystemAssignedIdentifier();
+        systemAssignedIdentifier1.setSystemName("nci");
+        systemAssignedIdentifier1.setType("local");
+        systemAssignedIdentifier1.setValue("nci");
+        
+        List<Participant> participants1 = dao.searchBySystemAssignedIdentifier(systemAssignedIdentifier1);
+        assertEquals("Expected to get 1 participant",1, participants1.size());
+        
+        SystemAssignedIdentifier systemAssignedIdentifier2 = new SystemAssignedIdentifier();
+        systemAssignedIdentifier2.setSystemName("nci123");
+        systemAssignedIdentifier2.setType("local");
+        systemAssignedIdentifier2.setValue("nci");
+        
+        List<Participant> participants2 = dao.searchBySystemAssignedIdentifier(systemAssignedIdentifier2);
+        assertEquals("Expected to get 0 participant",0, participants2.size());
+    }
 
 }
