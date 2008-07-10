@@ -123,28 +123,30 @@
 <!-- end header -->
 <script>
 
-    Event.observe(window, "load", function() {
+    if ($('changeSkin')) {
+            Event.observe(window, "load", function() {
+                    $('changeSkin').observe('click', function(event) {
+                            Lightview.show({
+                              href: "<c:url value='/public/skin' />",
+                              rel: 'ajax',
+                              title: ':: C3PR Project::',
+                              caption: "Pick up the skin please...",
+                              options: {
+                              autosize: false,
+                              width: 850,
+                              height:600,
+                              ajax: {
+                                    onComplete: function() {
+                                        // alert('QQQ');
+                                        $('submitAJAXForm').observe('click', postSubmitSkinForm);
+                                    }
+                                }
+                              }
+                            });
+                    });
+            })
+    }
 
-    $('changeSkin').observe('click', function(event) {
-            Lightview.show({
-              href: "<c:url value='/public/skin' />",
-              rel: 'ajax',
-              title: ':: C3PR Project::',
-              caption: "Pick up the skin please...",
-              options: {
-              autosize: false,
-              width: 850,
-              height:600,
-              ajax: {
-                    onComplete: function() {
-                        // alert('QQQ');
-                        $('submitAJAXForm').observe('click', postSubmitSkinForm);
-                    }
-                }
-              }
-            });
-    });
-})
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 function postSubmitSkinForm() {
