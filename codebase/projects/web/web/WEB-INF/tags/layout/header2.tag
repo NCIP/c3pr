@@ -12,7 +12,7 @@
     </tr>
     <tr height="48px" class="headLane2">
         <td align="left"><div id="logo"></div></td>
-        <td align="left" width="100%"><div id="headerTitle1"><div id="headerTitle2"><c:out value="${siteName}" /></div></div></td>
+        <td align="left" width="100%"><div id="headerTitle1"><div id="headerTitle2"><c:out value="${instName}" /></div></div></td>
         <td align="left" width="250px">
             <table border="0" cellpadding="1" cellspacing="1" width="250px">
                 <tr>
@@ -20,7 +20,7 @@
                         <c:if test="${userObject != null}">
                             <div id="welcome-user">Welcome<b> <c:out value="${userObject.firstName} ${userObject.lastName}" /></b> [Role name]</div>
                        </c:if>
-                    <td rowspan="2" align="right" width="1px"><img src="${siteName}">
+                    <td rowspan="2" align="right" width="1px"><img src="${siteName}" height="45px">
                 </tr>
                 <tr>
                     <td align="right" valign="top">

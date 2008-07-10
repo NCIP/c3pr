@@ -28,4 +28,6 @@ public interface OrganizationService {
 
     public OrganizationDao getOrganizationDao();
 
+    public String getSiteNameByNciIdentifier(String nciId);
+
 }

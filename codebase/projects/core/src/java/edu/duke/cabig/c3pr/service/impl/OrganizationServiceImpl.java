@@ -155,4 +155,15 @@ public class OrganizationServiceImpl implements OrganizationService {
     public void setCsmApplicationContextName(String csmApplicationContextName) {
         this.csmApplicationContextName = csmApplicationContextName;
     }
+
+    public String getSiteNameByNciIdentifier(String nciId) {
+        if (nciId == null || nciId.trim().equals("")) return "";
+        
+        try {
+            return organizationDao.getByNciIdentifier(nciId).get(0).getName();
+        } catch (Exception e) {
+            log.warn("The site name could not be retrieved by NCI ID Code.");
+            return "";
+        }
+    }
 }

@@ -8,6 +8,7 @@ import org.acegisecurity.context.SecurityContext;
 import org.acegisecurity.context.SecurityContextHolder;
 import org.acegisecurity.Authentication;
 import org.acegisecurity.GrantedAuthority;
+import org.apache.log4j.Logger;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -18,6 +19,7 @@ import java.util.List;
 
 import edu.duke.cabig.c3pr.tools.Configuration;
 import edu.duke.cabig.c3pr.service.impl.PersonnelServiceImpl;
+import edu.duke.cabig.c3pr.service.impl.OrganizationServiceImpl;
 import edu.duke.cabig.c3pr.domain.repository.impl.CSMUserRepositoryImpl;
 import edu.duke.cabig.c3pr.domain.C3PRUser;
 import edu.duke.cabig.c3pr.domain.C3PRUserGroupType;
@@ -34,7 +36,8 @@ import gov.nih.nci.security.authorization.domainobjects.Group;
 public class SkinFilter implements Filter, ApplicationContextAware {
     private FilterConfig filterConfig = null;
     private ApplicationContext applicationContext;
-    
+    private Logger log = Logger.getLogger(SkinFilter.class);
+
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
     }
@@ -65,6 +68,16 @@ public class SkinFilter implements Filter, ApplicationContextAware {
         if (filterConfig.getServletContext().getAttribute("siteName") == null) {
             Configuration configuration = (Configuration)WebApplicationContextUtils.getRequiredWebApplicationContext(filterConfig.getServletContext()).getBean("configuration");
             filterConfig.getServletContext().setAttribute("siteName", configuration.getMap().get("siteName").toString());            
+        }
+
+        if (filterConfig.getServletContext().getAttribute("instName") == null) {
+            OrganizationServiceImpl os = (OrganizationServiceImpl)WebApplicationContextUtils.getRequiredWebApplicationContext(filterConfig.getServletContext()).getBean("organizationService");
+            Configuration configuration = (Configuration)WebApplicationContextUtils.getRequiredWebApplicationContext(filterConfig.getServletContext()).getBean("configuration");
+            try {
+                filterConfig.getServletContext().setAttribute("instName", os.getSiteNameByNciIdentifier(configuration.getMap().get("localNciInstituteCode").toString()));
+            } catch (Exception e) {
+                log.warn("The site name could not be retrieved by NCI ID Code. Check its DB value.");
+            }
         }
 
         filterChain.doFilter(servletRequest, servletResponse);

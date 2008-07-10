@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.web.admin;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.ServletRequestDataBinder;
@@ -24,7 +25,6 @@ public class ConfigurationController extends SimpleFormController {
 
     @Override
     protected Object formBackingObject(HttpServletRequest request) throws Exception {
-        request.getSession().getServletContext().setAttribute("siteName", configuration.getMap().get("siteName"));
         return new ConfigurationCommand(configuration);
     }
 
@@ -39,8 +39,18 @@ public class ConfigurationController extends SimpleFormController {
         }
     }
 
+/*
     @Override
     protected ModelAndView onSubmit(Object command, BindException errors) throws Exception {
+        return new ModelAndView("redirect:configure");
+    }
+*/
+
+    @Override
+    protected ModelAndView onSubmit(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, BindException e) throws Exception {
+        httpServletRequest.getSession().getServletContext().removeAttribute("siteName");
+        httpServletRequest.getSession().getServletContext().removeAttribute("instName");
+
         return new ModelAndView("redirect:configure");
     }
 
