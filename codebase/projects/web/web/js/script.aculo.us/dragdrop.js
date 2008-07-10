@@ -595,15 +595,18 @@ var Sortable = {
   SERIALIZE_RULE: /^[^_\-](?:[A-Za-z0-9\-\_]*)[_](.*)$/,
   
   sortables: { },
-  
-  _findRootElement: function(element) {
-    while (element.tagName.toUpperCase() != "BODY") {  
-      if(element.id && Sortable.sortables[element.id]) return element;
-      element = element.parentNode;
-    }
-  },
 
-  options: function(element) {
+    _findRootElement: function(element) {
+        try {
+            while (element.tagName.toUpperCase() != "BODY") {
+                if (element.id && Sortable.sortables[element.id]) return element;
+                element = element.parentNode;
+            }
+        } catch (e) {
+        }
+    },
+
+    options: function(element) {
     element = Sortable._findRootElement($(element));
     if(!element) return;
     return Sortable.sortables[element.id];
