@@ -18,6 +18,7 @@ import edu.duke.cabig.c3pr.domain.HealthcareSite;
 import edu.duke.cabig.c3pr.domain.Identifier;
 import edu.duke.cabig.c3pr.domain.OrganizationAssignedIdentifier;
 import edu.duke.cabig.c3pr.domain.Participant;
+import edu.duke.cabig.c3pr.domain.SystemAssignedIdentifier;
 import edu.emory.mathcs.backport.java.util.Collections;
 import gov.nih.nci.cabig.ctms.dao.MutableDomainObjectDao;
 
@@ -61,6 +62,7 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
      * @param participant
      * @return
      */
+    
     public List<Participant> searchByExample(Participant participant, boolean isWildCard) {
         Example example = Example.create(participant).excludeZeroes().ignoreCase();
         Criteria participantCriteria = getSession().createCriteria(Participant.class);
@@ -91,12 +93,36 @@ public class ParticipantDao extends GridIdentifiableDao<Participant> implements
 
     @SuppressWarnings("unchecked")
     public List<Participant> searchByOrgIdentifier(OrganizationAssignedIdentifier id) {
+    	
+    	// Doing this check to prevent a SQL GRAMMER Exception when one of the parameters is null or 
+    	// we have to use criteria API or branch the query if there are null values
+    	if(id.getType()!=null && id.getHealthcareSite()!=null && id.getValue()!=null){
         return (List<Participant>) getHibernateTemplate()
                         .find(
                                         "select P from Participant P, Identifier I where I.healthcareSite.id=?"
                                                         + " and I.value=? and I.type=? and I=any elements(P.identifiers)",
                                         new Object[] { id.getHealthcareSite().getId(),
                                                 id.getValue(), id.getType() });
+    	} 
+    	return null;
+    
+    }
+    
+    
+    @SuppressWarnings("unchecked")
+    public List<Participant> searchBySystemAssignedIdentifier(SystemAssignedIdentifier id) {
+    	
+    	// Doing this check to prevent a SQL GRAMMER Exception when one of the parameters is null or 
+    	// we have to use criteria API or branch the query if there are null values
+    	if(id.getType()!=null && id.getSystemName()!=null && id.getValue()!=null){
+        return (List<Participant>) getHibernateTemplate()
+                        .find(
+                                        "select P from Participant P, Identifier I where I.systemName=?"
+                                                        + " and I.value=? and I.type=? and I=any elements(P.identifiers)",
+                                        new Object[] { id.getSystemName(),
+                                                id.getValue(), id.getType() });
+    	} 
+    	return null;
     }
 
     /**
