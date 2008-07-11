@@ -8,7 +8,7 @@
 </head>
 <body>
 <script>
-stratumGroupRowInserter_${epochCountIndex}.initialIndex= ${fn:length(command.treatmentEpochs[epochCountIndex].stratumGroups)};
+stratumGroupRowInserter_${epochCountIndex}.initialIndex= ${fn:length(command.epochs[epochCountIndex].stratumGroups)};
 RowManager.registerRowInserter(stratumGroupRowInserter_${epochCountIndex});
 </script>
 
@@ -19,18 +19,18 @@ RowManager.registerRowInserter(stratumGroupRowInserter_${epochCountIndex});
      <th></th>
  </tr>
 
- <c:forEach var="stratumGroup" varStatus="statusStratumGroup" items="${command.treatmentEpochs[epochCountIndex].stratumGroups}">
+ <c:forEach var="stratumGroup" varStatus="statusStratumGroup" items="${command.epochs[epochCountIndex].stratumGroups}">
      <tr id="stratumGroupTable1_${epochCountIndex}-${statusStratumGroup.index }">
          <td class="alt">
-<!--     <input type="text" id="treatmentEpochs[${epochCountIndex}].stratumGroups[${statusStratumGroup.index}].stratumGroupNumber"
-             name="treatmentEpochs[${epochCountIndex}].stratumGroups[${statusStratumGroup.index}].stratumGroupNumber"
-             value="${command.treatmentEpochs[epochCountIndex].stratumGroups[statusStratumGroup.index].stratumGroupNumber}" size="1" class="validate-notEmpty"/> -->
+<!--     <input type="text" id="epochs[${epochCountIndex}].stratumGroups[${statusStratumGroup.index}].stratumGroupNumber"
+             name="epochs[${epochCountIndex}].stratumGroups[${statusStratumGroup.index}].stratumGroupNumber"
+             value="${command.epochs[epochCountIndex].stratumGroups[statusStratumGroup.index].stratumGroupNumber}" size="1" class="validate-notEmpty"/> -->
              
-             <tags:inPlaceEdit value="${command.treatmentEpochs[epochCountIndex].stratumGroups[statusStratumGroup.index].stratumGroupNumber}"
-             				   path="${command.treatmentEpochs[epochCountIndex].stratumGroups[statusStratumGroup.index].stratumGroupNumber}" />        
+             <tags:inPlaceEdit value="${command.epochs[epochCountIndex].stratumGroups[statusStratumGroup.index].stratumGroupNumber}"
+             				   path="${command.epochs[epochCountIndex].stratumGroups[statusStratumGroup.index].stratumGroupNumber}" />        
                      </td>
          <td class="alt">
-         	${command.treatmentEpochs[epochCountIndex].stratumGroups[statusStratumGroup.index].answerCombinations}
+         	${command.epochs[epochCountIndex].stratumGroups[statusStratumGroup.index].answerCombinations}
              </td>
          <td class="alt"><a
                  href="javascript:RowManager.deleteRow(stratumGroupRowInserter_${epochCountIndex},${statusStratumGroup.index},${stratumGroup.hashCode});">
