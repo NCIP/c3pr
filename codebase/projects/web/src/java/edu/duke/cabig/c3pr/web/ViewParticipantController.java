@@ -1,6 +1,7 @@
 package edu.duke.cabig.c3pr.web;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -101,20 +102,22 @@ public class ViewParticipantController<C extends Participant> extends
             log.debug(" Participant's ID is:" + participant.getId());
         }else {
         	
-        	List<Participant> participants = null;
+        	List<Participant> participants = new ArrayList<Participant>();
         	String name = null;
-        	if(request.getParameter("name")!=null){
-        		name = request.getParameter("name");
+        	if(request.getParameter("systemName")!=null){
+        		name = request.getParameter("systemName");
+        	} else if(request.getParameter("organizationNciId")!=null){
+        		name = request.getParameter("organizationNciId");
         	}
         	
         	String type = null;
-        	if (request.getParameter("type")!=null){
-        		 type = request.getParameter("type");
+        	if (request.getParameter("identifierType")!=null){
+        		 type = request.getParameter("identifierType");
         	}
         	
         	String value = null;
-        	if(request.getParameter("value")!=null){
-        		value = request.getParameter("value");
+        	if(request.getParameter("identifier")!=null){
+        		value = request.getParameter("identifier");
         	}
         	
         	if(request.getParameter("assignedBy")!=null){
