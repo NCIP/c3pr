@@ -58,7 +58,7 @@ public class StudyTestCase extends AbstractTestCase{
 	
 	public void testDataEntryStatusIncompleteCase3() throws Exception {
 		basicStudy.addStudySite(new StudySite());
-		NonTreatmentEpoch nonTreatmentEpoch = new NonTreatmentEpoch();
+		Epoch nonTreatmentEpoch = new Epoch();
 		basicStudy.addEpoch(nonTreatmentEpoch);
 		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.ENROLLING_EPOCH.CODE", null, null)).andReturn("302");
 		EasyMock.expect(c3prExceptionHelper.getException(302)).andReturn(new C3PRCodedException(302, "exception message"));
@@ -74,8 +74,8 @@ public class StudyTestCase extends AbstractTestCase{
 	
 	public void testDataEntryStatusIncompleteCase4() throws Exception {
 		studyCreationHelper.addStudySiteAndRandomizedTreatmentEpochToBasicStudy(basicStudy);
-		basicStudy.getTreatmentEpochs().get(0).setExceptionHelper(c3prExceptionHelper);
-		basicStudy.getTreatmentEpochs().get(0).setC3prErrorMessages(c3prErrorMessages);
+		basicStudy.getEpochs().get(0).setExceptionHelper(c3prExceptionHelper);
+		basicStudy.getEpochs().get(0).setC3prErrorMessages(c3prErrorMessages);
 		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.ATLEAST_2_ARMS_FOR_RANDOMIZED_EPOCH.CODE", null, null)).andReturn("306");
 		EasyMock.expect(c3prExceptionHelper.getException(EasyMock.eq(306),EasyMock.aryEq(new String[]{"Treatment Epoch1"}))).andReturn(new C3PRCodedException(306, "exception message"));
 		replayMocks();	
@@ -90,8 +90,8 @@ public class StudyTestCase extends AbstractTestCase{
 	
 	public void testDataEntryStatusIncompleteCase5() throws Exception {
 		studyCreationHelper.addStudySiteAndRandomizedTreatmentEpochWith2ArmsToBasicStudy(basicStudy);
-		basicStudy.getTreatmentEpochs().get(0).setExceptionHelper(c3prExceptionHelper);
-		basicStudy.getTreatmentEpochs().get(0).setC3prErrorMessages(c3prErrorMessages);
+		basicStudy.getEpochs().get(0).setExceptionHelper(c3prExceptionHelper);
+		basicStudy.getEpochs().get(0).setC3prErrorMessages(c3prErrorMessages);
 		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.STRATIFICATION_CRITERIA_OR_STRATUM_GROUPS_FOR_RANDOMIZED_EPOCH.CODE", null, null)).andReturn("304");
 		EasyMock.expect(c3prExceptionHelper.getException(EasyMock.eq(304),EasyMock.aryEq(new String[]{"Treatment Epoch1"}))).andReturn(new C3PRCodedException(304, "exception message"));
 		replayMocks();	
@@ -106,8 +106,8 @@ public class StudyTestCase extends AbstractTestCase{
 	
 	public void testDataEntryStatusIncompleteCase6() throws Exception {
 		studyCreationHelper.addStudySiteRandomizedTreatmentEpochWith2ArmsAndStratumGroupsToBasicStudy(basicStudy);
-		basicStudy.getTreatmentEpochs().get(0).setExceptionHelper(c3prExceptionHelper);
-		basicStudy.getTreatmentEpochs().get(0).setC3prErrorMessages(c3prErrorMessages);
+		basicStudy.getEpochs().get(0).setExceptionHelper(c3prExceptionHelper);
+		basicStudy.getEpochs().get(0).setC3prErrorMessages(c3prErrorMessages);
 		EasyMock.expect(c3prErrorMessages.getMessage("C3PR.EXCEPTION.STUDY.DATAENTRY.MISSING.RANDOMIZATION_FOR_RANDOMIZED_EPOCH.CODE", null, null)).andReturn("307");
 		EasyMock.expect(c3prExceptionHelper.getException(EasyMock.eq(307),EasyMock.aryEq(new String[]{"Treatment Epoch1"}))).andReturn(new C3PRCodedException(307, "exception message"));
 		replayMocks();	
@@ -121,7 +121,7 @@ public class StudyTestCase extends AbstractTestCase{
 	}
 	
 	public void testDataEntryStatusCompleteCase1() throws Exception {
-		studyCreationHelper.addStudySiteAndNonRandomizedTreatmentEpochToBasicStudy(basicStudy);
+		studyCreationHelper.addStudySiteAndEnrollingEpochToBasicStudy(basicStudy);
 		replayMocks();
 			assertEquals("Data Entry Status should evaluate to Complete",StudyDataEntryStatus.COMPLETE,basicStudy.evaluateDataEntryStatus());
 			verifyMocks();
@@ -130,14 +130,14 @@ public class StudyTestCase extends AbstractTestCase{
 	public void testDataEntryStatusCompleteCase2() throws Exception {
 		studyCreationHelper.addStudySiteRandomizedTreatmentEpochWith2ArmsStratumGroupsAndRandomizationToBasicStudy(basicStudy);
 		replayMocks();	
-		assertEquals("Data Entry Status should evaluate to Complete",StudyDataEntryStatus.COMPLETE,basicStudy.evaluateDataEntryStatus());
+		assertEquals("Wrong Data Entry Status",StudyDataEntryStatus.COMPLETE,basicStudy.evaluateDataEntryStatus());
 		verifyMocks();
 	}
 	
 	public void testSiteStudyStatusPendingCase1() throws Exception {
-		studyCreationHelper.addStudySiteAndNonRandomizedTreatmentEpochToBasicStudy(basicStudy);
+		studyCreationHelper.addStudySiteAndEnrollingEpochToBasicStudy(basicStudy);
 		basicStudy.setCoordinatingCenterStudyStatus(CoordinatingCenterStudyStatus.PENDING);
-		assertEquals("Site study status should evaluate to Pending",SiteStudyStatus.PENDING,basicStudy.getStudySites().get(0).evaluateSiteStudyStatus());
+		assertEquals("Wrong Site study status",SiteStudyStatus.PENDING,basicStudy.getStudySites().get(0).evaluateSiteStudyStatus());
 		
 	}
 	

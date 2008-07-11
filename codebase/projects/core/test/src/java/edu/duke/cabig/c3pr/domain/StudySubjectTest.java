@@ -35,7 +35,7 @@ public class StudySubjectTest extends AbstractTestCase {
      */
     public void testEvaluateEpochDataEntryStatusInComplete1() throws Exception {
         StudySubject studySubject = new StudySubject();
-        ScheduledEpoch scheduledEpochFirst = new ScheduledTreatmentEpoch();
+        ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
         scheduledEpochFirst.setEpoch(studySubjectCreatorHelper.createTestTreatmentEpoch(true));
         studySubject.addScheduledEpoch(scheduledEpochFirst);
         studySubjectCreatorHelper.buildCommandObject(studySubject);
@@ -48,9 +48,9 @@ public class StudySubjectTest extends AbstractTestCase {
      */
     public void testEvaluateEpochDataEntryStatusInComplete2() throws Exception {
         StudySubject studySubject = new StudySubject();
-        ScheduledEpoch scheduledEpochFirst = new ScheduledTreatmentEpoch();
+        ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
         scheduledEpochFirst.setEpoch(studySubjectCreatorHelper.createTestTreatmentEpoch(true));
-        ((TreatmentEpoch) scheduledEpochFirst.getEpoch()).getArms().size();
+        (scheduledEpochFirst.getEpoch()).getArms().size();
         studySubject.addScheduledEpoch(scheduledEpochFirst);
         studySubjectCreatorHelper.buildCommandObject(studySubject);
         studySubjectCreatorHelper.bindEligibility(studySubject);
@@ -64,7 +64,7 @@ public class StudySubjectTest extends AbstractTestCase {
      */
     public void testEvaluateEpochDataEntryStatusInComplete3() throws Exception {
         StudySubject studySubject = new StudySubject();
-        ScheduledEpoch scheduledEpochFirst = new ScheduledTreatmentEpoch();
+        ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
         scheduledEpochFirst.setEpoch(studySubjectCreatorHelper.createTestTreatmentEpoch(false));
         studySubject.addScheduledEpoch(scheduledEpochFirst);
         studySubjectCreatorHelper.buildCommandObject(studySubject);
@@ -79,7 +79,7 @@ public class StudySubjectTest extends AbstractTestCase {
      */
     public void testEvaluateEpochDataEntryStatusComplete1() throws Exception {
         StudySubject studySubject = new StudySubject();
-        ScheduledEpoch scheduledEpochFirst = new ScheduledTreatmentEpoch();
+        ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
         scheduledEpochFirst.setEpoch(studySubjectCreatorHelper.createTestTreatmentEpoch(true));
         studySubject.addScheduledEpoch(scheduledEpochFirst);
         studySubjectCreatorHelper.buildCommandObject(studySubject);
@@ -95,10 +95,10 @@ public class StudySubjectTest extends AbstractTestCase {
      */
     public void testEvaluateEpochDataEntryStatusComplete2() throws Exception {
         StudySubject studySubject = new StudySubject();
-        ScheduledEpoch scheduledEpochFirst = new ScheduledTreatmentEpoch();
+        ScheduledEpoch scheduledEpochFirst = new ScheduledEpoch();
         ScheduledArm scheduledArm = new ScheduledArm();
         scheduledArm.setArm(new Arm());
-        ((ScheduledTreatmentEpoch) scheduledEpochFirst).addScheduledArm(scheduledArm);
+        (scheduledEpochFirst).addScheduledArm(scheduledArm);
         scheduledEpochFirst.setEpoch(studySubjectCreatorHelper.createTestTreatmentEpoch(false));
         studySubject.addScheduledEpoch(scheduledEpochFirst);
         studySubjectCreatorHelper.buildCommandObject(studySubject);
@@ -113,7 +113,11 @@ public class StudySubjectTest extends AbstractTestCase {
      */
     public void testEvaluateEpochDataEntryStatusComplete3() throws Exception {
         StudySubject studySubject = new StudySubject();
-        studySubject.addScheduledEpoch(new ScheduledNonTreatmentEpoch());
+        ScheduledEpoch scheduledEpoch = new ScheduledEpoch();
+        Epoch epoch = new Epoch();
+        scheduledEpoch.setEpoch(epoch);
+        scheduledEpoch.setEligibilityIndicator(true);
+        studySubject.addScheduledEpoch(scheduledEpoch);
         studySubjectCreatorHelper.buildCommandObject(studySubject);
         assertEquals("Wrong Epoch Data Entry Status", ScheduledEpochDataEntryStatus.COMPLETE,
                         studySubject.evaluateScheduledEpochDataEntryStatus());
@@ -122,8 +126,8 @@ public class StudySubjectTest extends AbstractTestCase {
     public void testIsRegisterableTrue(){
         StudySubject studySubject = new StudySubject();
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
-        ScheduledNonTreatmentEpoch sc=new ScheduledNonTreatmentEpoch();
-        NonTreatmentEpoch nt=new NonTreatmentEpoch();
+        ScheduledEpoch sc=new ScheduledEpoch();
+        Epoch nt=new Epoch();
         nt.setEnrollmentIndicator(true);
         sc.setEpoch(nt);
         studySubject.addScheduledEpoch(sc);
@@ -136,8 +140,8 @@ public class StudySubjectTest extends AbstractTestCase {
     public void testIsRegisterableFalse(){
         StudySubject studySubject = new StudySubject();
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
-        ScheduledNonTreatmentEpoch sc=new ScheduledNonTreatmentEpoch();
-        sc.setEpoch(new NonTreatmentEpoch());
+        ScheduledEpoch sc=new ScheduledEpoch();
+        sc.setEpoch(new Epoch());
         studySubject.addScheduledEpoch(sc);
         studySubject.getScheduledEpoch().setScEpochDataEntryStatus(ScheduledEpochDataEntryStatus.COMPLETE);
         assertEquals("Wrong isRegisterable return", false,
@@ -147,8 +151,8 @@ public class StudySubjectTest extends AbstractTestCase {
     public void testRequiresCoordinatingCenterApprovalTrue(){
         StudySubject studySubject = new StudySubject();
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
-        ScheduledNonTreatmentEpoch sc=new ScheduledNonTreatmentEpoch();
-        NonTreatmentEpoch nt=new NonTreatmentEpoch();
+        ScheduledEpoch sc=new ScheduledEpoch();
+        Epoch nt=new Epoch();
         nt.setEnrollmentIndicator(true);
         sc.setEpoch(nt);
         studySubject.addScheduledEpoch(sc);
@@ -163,8 +167,8 @@ public class StudySubjectTest extends AbstractTestCase {
     public void testRequiresCoordinatingCenterApprovalFalse0(){
         StudySubject studySubject = new StudySubject();
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
-        ScheduledNonTreatmentEpoch sc=new ScheduledNonTreatmentEpoch();
-        NonTreatmentEpoch nt=new NonTreatmentEpoch();
+        ScheduledEpoch sc=new ScheduledEpoch();
+        Epoch nt=new Epoch();
         nt.setEnrollmentIndicator(false);
         sc.setEpoch(nt);
         studySubject.addScheduledEpoch(sc);
@@ -179,8 +183,8 @@ public class StudySubjectTest extends AbstractTestCase {
     public void testRequiresCoordinatingCenterApprovalFalse1(){
         StudySubject studySubject = new StudySubject();
         studySubject.setRegDataEntryStatus(RegistrationDataEntryStatus.COMPLETE);
-        ScheduledNonTreatmentEpoch sc=new ScheduledNonTreatmentEpoch();
-        NonTreatmentEpoch nt=new NonTreatmentEpoch();
+        ScheduledEpoch sc=new ScheduledEpoch();
+        Epoch nt=new Epoch();
         nt.setEnrollmentIndicator(true);
         sc.setEpoch(nt);
         studySubject.addScheduledEpoch(sc);
